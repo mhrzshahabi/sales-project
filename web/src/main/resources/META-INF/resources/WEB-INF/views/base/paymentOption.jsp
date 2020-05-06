@@ -129,18 +129,9 @@
 
 
     var DynamicForm_PaymentOption = isc.DynamicForm.create({
-        width: "100%",
-        height: "100%",
-        setMethod: 'POST',
-        align: "center",
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
+        width: 650,
+        height: 100,
         titleWidth: "50",
-        titleAlign: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 2,
         fields:
             [
@@ -164,7 +155,6 @@
     });
 
     var ToolStripButton_PaymentOption_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_PaymentOption_refresh();
@@ -173,7 +163,6 @@
 
     <sec:authorize access="hasAuthority('C_PAYMENT_OPTION')">
     var ToolStripButton_PaymentOption_Add = isc.ToolStripButtonAdd.create({
-        icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
             DynamicForm_PaymentOption.clearValues();
@@ -296,8 +285,12 @@
     });
 
     var HLayout_PaymentOption_IButton = isc.HLayout.create({
-        layoutMargin: 5,
+        width: 650,
+        height: "100%",
+        layoutMargin: 10,
         membersMargin: 5,
+        textAlign: "center",
+        align: "center",
         members: [
             IButton_PaymentOption_Save,
             PaymentOptionCancelBtn
@@ -305,11 +298,22 @@
     });
 
 
+        var VLayout_saveButton_paymentOption = isc.VLayout.create({
+        width: 650,
+        textAlign: "center",
+        align: "center",
+        members: [
+        HLayout_PaymentOption_IButton
+        ]
+    });
+
+
+
+
     var Window_PaymentOption = isc.Window.create(
         {
             title: "<spring:message code='paymentOption.title'/> ",
-            width: 600,
-// height: 200,
+            width: 580,
             autoSize: true,
             autoCenter: true,
             isModal: true,
@@ -322,12 +326,13 @@
             },
             items: [
                 DynamicForm_PaymentOption,
-                HLayout_PaymentOption_IButton
+                VLayout_saveButton_paymentOption
             ]
         });
 
 
     var ListGrid_PaymentOption = isc.ListGrid.create({
+        showFilterEditor: true,
         width: "100%",
         height: "100%",
         dataSource: RestDataSource_PaymentOption,
@@ -345,10 +350,7 @@
                     align: "center"
                 }
             ],
-        sortField: 0,
-        autoFetchData: true,
-        showFilterEditor: true,
-        filterOnKeypress: true
+        autoFetchData: true
     });
     var HLayout_PaymentOption_Grid = isc.HLayout.create({
         width: "100%",

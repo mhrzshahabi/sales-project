@@ -3,6 +3,7 @@ package com.nicico.sales.controller;
 import com.nicico.copper.common.Loggable;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
+import com.nicico.sales.dto.ContractDetailAuditDTO;
 import com.nicico.sales.dto.ContractDetailDTO;
 import com.nicico.sales.iservice.IContractDetailService;
 import com.nicico.sales.model.entities.base.ContractDetail;
@@ -47,8 +48,9 @@ public class ContractDetailRestController {
     @Loggable
     @PutMapping
     public ResponseEntity<ContractDetailDTO.Info> update(@RequestBody ContractDetailDTO.Update request) {
-        ContractDetailDTO.Info info = contractDetailService.findByContractID(request.getContract_id());
-        return new ResponseEntity<>(contractDetailService.update(info.getId(), request), HttpStatus.OK);
+        //ContractDetailDTO.Info info = contractDetailService.findByContractID(request.getContract().getId());
+        //request.setId(info.getId());
+        return new ResponseEntity<>(contractDetailService.update(null, request), HttpStatus.OK);
     }
 
     @Loggable
@@ -78,5 +80,11 @@ public class ContractDetailRestController {
     public ResponseEntity<TotalResponse<ContractDetailDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) throws IOException {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
         return new ResponseEntity<>(contractDetailService.search(nicicoCriteria), HttpStatus.OK);
+    }
+    @Loggable
+    @GetMapping(value = "/audit/spec-list")
+    public ResponseEntity<TotalResponse<ContractDetailAuditDTO.Info>> listAudit(@RequestParam MultiValueMap<String, String> criteria) throws IOException {
+        final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
+        return new ResponseEntity<>(contractDetailService.searchAudit(nicicoCriteria), HttpStatus.OK);
     }
 }

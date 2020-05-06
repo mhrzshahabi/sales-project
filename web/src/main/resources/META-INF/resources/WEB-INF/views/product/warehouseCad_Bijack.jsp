@@ -65,20 +65,13 @@
     var RestDataSource_tozin_IN_WAREHOUSECAD_BIJACK = isc.MyRestDataSource.create({
         fields: [
             {
-                name: "id",
-                title: "id",
-                primaryKey: true,
-                canEdit: false,
-                hidden: true
-            },
-            {
                 name: "source",
                 title: "<spring:message code='Tozin.source'/>",
                 align: "center"
             },
             {
                 name: "tozinId",
-                title: "<spring:message code='Tozin.tozinId'/>",
+                title: "<spring:message code='Tozin.tozinPlantId'/>",
                 align: "center"
             },
             {
@@ -263,7 +256,7 @@
         }, {
             fieldName: "tozinId",
             operator: "contains",
-            value: '3%'
+            value: '3-'
         }, {
             fieldName: "codeKala",
             operator: "equals",
@@ -272,16 +265,15 @@
     };
 
     var ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_BIJACK = isc.ListGrid.create({
+        showFilterEditor: true,
         width: "100%",
         height: "80%",
         modalEditing: true,
         canEdit: true,
         editEvent: "click",
-        // editByCell: true,
         canRemoveRecords: true,
         autoSaveEdits: true,
         deferRemoval: false,
-        // saveLocally: true,
         showGridSummary: true,
         dataSource: RestDataSource_WarehouseCadITEM_IN_WAREHOUSECAD_BIJACK,
         fields: [{
@@ -293,9 +285,19 @@
         }, {
             name: "bundleSerial"
         }, {
-            name: "sheetNo"
+            name: "sheetNo",
+            // validators: [{
+            //     type: "regexp",
+            //     expression: "^[0-9]*$",
+            //     validateOnChange: true
+            // }],
         }, {
-            name: "weightKg"
+            name: "weightKg",
+            // validators: [{
+            //     type: "regexp",
+            //     expression: "^[0-9]*$",
+            //     validateOnChange: true
+            // }],
         }, {
             name: "issueId"
         }, {
@@ -336,13 +338,20 @@
                 }
             });
         },
+
         saveEdits: function () {
+
+            // Doesn't Work Completely. Need to Change
+            <%--if (ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_BIJACK.validateRow(ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_BIJACK.getEditSessionRowNum())) {--%>
+                <%--isc.warn("<spring:message code='warehouseCadItem.tedadCADErrors'/>");--%>
+                <%--return;--%>
+            <%--}--%>
+
             var warehouseCadItemRecord = ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_BIJACK.getEditedRecord(ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_BIJACK.getEditRow());
             if (warehouseCadItemRecord.issueId != undefined) {
                 isc.warn("<spring:message code='bijack.item.inventory'/>");
                 return;
             }
-
             if (warehouseCadItemRecord.bundleSerial != undefined && warehouseCadItemRecord.sheetNo != undefined && warehouseCadItemRecord.weightKg != undefined &&
                 warehouseCadItemRecord.bundleSerial != null && warehouseCadItemRecord.sheetNo != null && warehouseCadItemRecord.weightKg != null) {
 
@@ -381,18 +390,11 @@
         click: "ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_BIJACK.startEditingNew()"
     });
 
-    var DynamicForm_warehouseCAD = isc.DynamicForm.create({
-        setMethod: 'POST',
-        align: "center",
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
+    var DynamicForm_warehouseCAD_Bij = isc.DynamicForm.create({
         titleWidth: "150",
-        titleAlign: "right",
         itemKeyPress (item, keyName, characterValue){
-               if(keyName=="Enter" && DynamicForm_warehouseCAD.getValue("destinationTozinPlantStaticId") !== undefined){
+               if(keyName=="Enter" && DynamicForm_warehouseCAD_Bij.getValue("destinationTozinPlantStaticId") !== undefined){
+
                     var RestDataSource_TozinStatic_BandarAbbas_optionCriteria = {
                             _constructor: "AdvancedCriteria",
                             operator: "and",
@@ -403,27 +405,28 @@
                             },{
                                 fieldName: "codeKala",
                                 operator: "equals",
-                                value: ListGrid_Tozin.getSelectedRecord().codeKala
+                                value: ListGrid_warehouseCAD.getSelectedRecord().materialItem.gdsCode
                             },{
                                 fieldName: "tozinId",
                                 operator: "equals",
-                                value: DynamicForm_warehouseCAD.getValue("destinationTozinPlantStaticId")
+                                value: DynamicForm_warehouseCAD_Bij.getValue("destinationTozinPlantStaticId")
                             }]
                         };
                     RestDataSource_tozin_IN_WAREHOUSECAD_ONWAYPRODUCT.fetchData(RestDataSource_TozinStatic_BandarAbbas_optionCriteria,function(dsResponse, data, dsRequest) {
                             if (data.length==0){
-                                isc.warn("<spring:message code='warehouseCad.addBijackPlanIdIsValid'/>")
-                                DynamicForm_warehouseCAD.clearValue("destinationTozinPlantStaticId")
-                                DynamicForm_warehouseCAD.getField('destinationTozinPlantId').setDisabled(false);
+                                isc.warn("<spring:message code='warehouseCad.addBijackPlanIdIsNotValid'/>")
+                                DynamicForm_warehouseCAD_Bij.clearValue("destinationTozinPlantStaticId")
+                                DynamicForm_warehouseCAD_Bij.getField('destinationTozinPlantId').setDisabled(false);
                             }else{
-                                DynamicForm_warehouseCAD.setValue("destinationUnloadDate", item.getSelectedRecord().tozinDate);
-                                DynamicForm_warehouseCAD.setValue("destinationBundleSum", item.getSelectedRecord().tedad);
-                                DynamicForm_warehouseCAD.setValue("destinationWeight", item.getSelectedRecord().vazn);
+                                DynamicForm_warehouseCAD_Bij.setValue("destinationTozinPlantId",DynamicForm_warehouseCAD_Bij.getValue("destinationTozinPlantStaticId"));
+                                DynamicForm_warehouseCAD_Bij.setValue("destinationUnloadDate", data[0].tozinDate);
+                                DynamicForm_warehouseCAD_Bij.setValue("destinationBundleSum", data[0].tedad);
+                                DynamicForm_warehouseCAD_Bij.setValue("destinationWeight", data[0].vazn);
+                                isc.say("<spring:message code='warehouseCad.addBijackPlanIdIsValid'/>")
                             }
                     })
                 }
             },
-        requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 4,
         fields: [{
             name: "id",
@@ -483,10 +486,10 @@
             width: "100%",
             changed(form, item, value) {
                 if(value==undefined){
-                    DynamicForm_warehouseCAD.getField('destinationTozinPlantId').setDisabled(false);
+                    DynamicForm_warehouseCAD_Bij.getField('destinationTozinPlantId').setDisabled(false);
                 }
                 else{
-                    DynamicForm_warehouseCAD.getField('destinationTozinPlantId').setDisabled(true);
+                    DynamicForm_warehouseCAD_Bij.getField('destinationTozinPlantId').setDisabled(true);
                 }
             }
             },{
@@ -528,14 +531,14 @@
             ],
             changed(form, item, value) {
                 if(value==undefined){
-                    DynamicForm_warehouseCAD.getField('destinationTozinPlantStaticId').setDisabled(false);
+                    DynamicForm_warehouseCAD_Bij.getField('destinationTozinPlantStaticId').setDisabled(false);
                 }
                 else{
-                    DynamicForm_warehouseCAD.getField('destinationTozinPlantStaticId').setDisabled(true);
+                    DynamicForm_warehouseCAD_Bij.getField('destinationTozinPlantStaticId').setDisabled(true);
                 }
-                DynamicForm_warehouseCAD.setValue("destinationUnloadDate", item.getSelectedRecord().tozinDate);
-                DynamicForm_warehouseCAD.setValue("destinationBundleSum", item.getSelectedRecord().tedad);
-                DynamicForm_warehouseCAD.setValue("destinationWeight", item.getSelectedRecord().vazn);
+                DynamicForm_warehouseCAD_Bij.setValue("destinationUnloadDate", item.getSelectedRecord().tozinDate);
+                DynamicForm_warehouseCAD_Bij.setValue("destinationBundleSum", item.getSelectedRecord().tedad);
+                DynamicForm_warehouseCAD_Bij.setValue("destinationWeight", item.getSelectedRecord().vazn);
             }
         }, {
             name: "warehouseYardId",
@@ -688,17 +691,8 @@
         ]
     });
 
-    var DynamicForm_warehouseCAD_Desc = isc.DynamicForm.create({
-        setMethod: 'POST',
-        align: "center",
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
+    var DynamicForm_warehouseCAD_Bij_Desc = isc.DynamicForm.create({
         titleWidth: "200",
-        titleAlign: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>",
         fields: [
             {
                 name: "bijakFirstDescription",
@@ -728,31 +722,27 @@
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
         click: function () {
-            if (DynamicForm_warehouseCAD.getValue("destinationTozinPlantId") == undefined && DynamicForm_warehouseCAD.getValue("destinationTozinPlantStaticId") == undefined) {
+
+            if (DynamicForm_warehouseCAD_Bij.getValue("destinationTozinPlantId") == undefined && DynamicForm_warehouseCAD_Bij.getValue("destinationTozinPlantStaticId") == undefined) {
                 isc.warn("<spring:message code='warehouseCad.tozinBandarAbbasErrors'/>");
-                DynamicForm_warehouseCAD.validate()
+                DynamicForm_warehouseCAD_Bij.validate()
                 return;
             }
 
-            DynamicForm_warehouseCAD.validate();
-            if (DynamicForm_warehouseCAD.hasErrors())
+            DynamicForm_warehouseCAD_Bij.validate();
+            if (DynamicForm_warehouseCAD_Bij.hasErrors())
                 return;
 
-            DynamicForm_warehouseCAD.setValue("materialItemId", ListGrid_warehouseCAD.getSelectedRecord().materialItemId);
-            var data_WarehouseCad = DynamicForm_warehouseCAD.getValues();
-               if(DynamicForm_warehouseCAD.getValue("destinationTozinPlantId") != undefined)
-                        data_WarehouseCad.destinationTozinPlantId = DynamicForm_warehouseCAD.getValue("destinationTozinPlantId")
-                else if(DynamicForm_warehouseCAD.getValue("destinationTozinPlantStaticId")!= undefined){
-                        data_WarehouseCad.destinationTozinPlantId = DynamicForm_warehouseCAD.getValue("destinationTozinPlantStaticId")
+            DynamicForm_warehouseCAD_Bij.setValue("materialItemId", ListGrid_warehouseCAD.getSelectedRecord().materialItemId);
+            var data_WarehouseCad = DynamicForm_warehouseCAD_Bij.getValues();
+               if(DynamicForm_warehouseCAD_Bij.getValue("destinationTozinPlantId") != undefined)
+                        data_WarehouseCad.destinationTozinPlantId = DynamicForm_warehouseCAD_Bij.getValue("destinationTozinPlantId")
+                else if(DynamicForm_warehouseCAD_Bij.getValue("destinationTozinPlantStaticId")!= undefined){
+                        data_WarehouseCad.destinationTozinPlantId = DynamicForm_warehouseCAD_Bij.getValue("destinationTozinPlantStaticId")
                 }
             var warehouseCadItems = [];
 
             ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_BIJACK.selectAllRecords();
-
-            if (ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_BIJACK.data.length == 0) {
-                isc.warn("<spring:message code='bijack.noitems'/>");
-                return;
-            }
 
             ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_BIJACK.getSelectedRecords().forEach(function (element) {
                 if (element.bundleSerial != undefined && element.sheetNo != undefined && element.weightKg != undefined &&
@@ -760,16 +750,11 @@
                     warehouseCadItems.add(JSON.parse(JSON.stringify(element)));
             });
 
-            if (warehouseCadItems.length == 0) {
-                isc.warn("<spring:message code='bijack.noitems'/>");
-                return;
-            }
-
             ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_BIJACK.deselectAllRecords();
 
             data_WarehouseCad.warehouseCadItems = warehouseCadItems;
-            data_WarehouseCad.bijakFirstDescription = DynamicForm_warehouseCAD_Desc.getValue("bijakFirstDescription");
-            data_WarehouseCad.bijakSecondDescription = DynamicForm_warehouseCAD_Desc.getValue("bijakSecondDescription");
+            data_WarehouseCad.bijakFirstDescription = DynamicForm_warehouseCAD_Bij_Desc.getValue("bijakFirstDescription");
+            data_WarehouseCad.bijakSecondDescription = DynamicForm_warehouseCAD_Bij_Desc.getValue("bijakSecondDescription");
 
             var method = "PUT";
             if (data_WarehouseCad.id == null)
@@ -797,19 +782,19 @@
             ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_BIJACK.setData(data);
         });
 
-    DynamicForm_warehouseCAD.clearValues();
-    DynamicForm_warehouseCAD.editRecord(ListGrid_warehouseCAD.getSelectedRecord());
+    DynamicForm_warehouseCAD_Bij.clearValues();
+    DynamicForm_warehouseCAD_Bij.editRecord(ListGrid_warehouseCAD.getSelectedRecord());
 
-    DynamicForm_warehouseCAD.setValue("materialItemId", ListGrid_warehouseCAD.getSelectedRecord().materialItem.gdsName);
-    DynamicForm_warehouseCAD.setValue("plant", ListGrid_warehouseCAD.getSelectedRecord().plant);
-    DynamicForm_warehouseCAD.setValue("warehouseNo", "BandarAbbas");
-    DynamicForm_warehouseCAD.setValue("movementType", ListGrid_warehouseCAD.getSelectedRecord().movementType);
-    DynamicForm_warehouseCAD.setValue("sourceTozinPlantId", ListGrid_warehouseCAD.getSelectedRecord().sourceTozinPlantId);
-    DynamicForm_warehouseCAD.setValue("sourceLoadDate", ListGrid_warehouseCAD.getSelectedRecord().sourceLoadDate);
-    DynamicForm_warehouseCAD.setValue("destinationTozinPlantStaticId", ListGrid_warehouseCAD.getSelectedRecord().destinationTozinPlantId);
-    DynamicForm_warehouseCAD.setValue("containerNo", ListGrid_warehouseCAD.getSelectedRecord().containerNo);
-    DynamicForm_warehouseCAD_Desc.setValue("bijakFirstDescription", ListGrid_warehouseCAD.getSelectedRecord().bijakFirstDescription);
-    DynamicForm_warehouseCAD_Desc.setValue("bijakSecondDescription", ListGrid_warehouseCAD.getSelectedRecord().bijakSecondDescription);
+    DynamicForm_warehouseCAD_Bij.setValue("materialItemId", ListGrid_warehouseCAD.getSelectedRecord().materialItem.gdsName);
+    DynamicForm_warehouseCAD_Bij.setValue("plant", ListGrid_warehouseCAD.getSelectedRecord().plant);
+    DynamicForm_warehouseCAD_Bij.setValue("warehouseNo", "BandarAbbas");
+    DynamicForm_warehouseCAD_Bij.setValue("movementType", ListGrid_warehouseCAD.getSelectedRecord().movementType);
+    DynamicForm_warehouseCAD_Bij.setValue("sourceTozinPlantId", ListGrid_warehouseCAD.getSelectedRecord().sourceTozinPlantId);
+    DynamicForm_warehouseCAD_Bij.setValue("sourceLoadDate", ListGrid_warehouseCAD.getSelectedRecord().sourceLoadDate);
+    DynamicForm_warehouseCAD_Bij.setValue("destinationTozinPlantStaticId", ListGrid_warehouseCAD.getSelectedRecord().destinationTozinPlantId);
+    DynamicForm_warehouseCAD_Bij.setValue("containerNo", ListGrid_warehouseCAD.getSelectedRecord().containerNo);
+    DynamicForm_warehouseCAD_Bij_Desc.setValue("bijakFirstDescription", ListGrid_warehouseCAD.getSelectedRecord().bijakFirstDescription);
+    DynamicForm_warehouseCAD_Bij_Desc.setValue("bijakSecondDescription", ListGrid_warehouseCAD.getSelectedRecord().bijakSecondDescription);
 
     isc.VLayout.create({
         width: 830,
@@ -817,10 +802,10 @@
         padding: 10,
         margin: 10,
         members: [
-            DynamicForm_warehouseCAD,
+            DynamicForm_warehouseCAD_Bij,
             add_bundle_button,
             ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_BIJACK,
-            DynamicForm_warehouseCAD_Desc,
+            DynamicForm_warehouseCAD_Bij_Desc,
             isc.HLayout.create({
                 width: "100%",
                 align: "center",
@@ -833,7 +818,6 @@
                             width: 5,
                         }),
                         isc.IButtonCancel.create({
-                            ID: "warehouseCADEditExitIButton",
                             title: "<spring:message code='global.cancel'/>",
                             width: 100,
                             icon: "pieces/16/icon_delete.png",

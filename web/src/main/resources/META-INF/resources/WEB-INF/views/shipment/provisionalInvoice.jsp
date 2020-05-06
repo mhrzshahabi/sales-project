@@ -282,7 +282,6 @@
                                     httpMethod: "POST",
                                     useSimpleHttp: true,
                                     contentType: "application/json; charset=utf-8",
-                                    showPrompt: true,
                                     serverOutputAsString: false,
                                     callback: function (RpcResponse_o) {
                                         if (RpcResponse_o.data == 'success') {
@@ -338,17 +337,8 @@
     var DynamicForm_ProvisionalInvoice = isc.DynamicForm.create({
         width: "100%",
         height: "100%",
-        setMethod: 'POST',
-        align: "center",
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
         titleWidth: "100",
-        wrapTitle: false,
-        titleAlign: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>",
+        wrapItemTitles : false,
         numCols: 4,
         fields:
             [
@@ -672,7 +662,6 @@
     });
 
     var ToolStripButton_ProvisionalInvoice_Refresh = isc.ToolStripButton.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_ProvisionalInvoice_refresh();
@@ -680,7 +669,6 @@
     });
 
     var ToolStripButton_ProvisionalInvoice_Add = isc.ToolStripButton.create({
-        icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
             DynamicForm_ProvisionalInvoice.clearValues();
@@ -786,7 +774,6 @@
                                 }),
                             isc.IButtonCancel.create(
                                 {
-                                    ID: "provisionalInvoiceEditExitIButton",
                                     title: "<spring:message code='global.cancel'/>",
                                     width: 100,
                                     icon: "pieces/16/icon_delete.png",
@@ -803,6 +790,7 @@
 
     var ListGrid_ProvisionalInvoice = isc.ListGrid.create(
         {
+            showFilterEditor: true,
             width: "100%",
             height: "100%",
             dataSource: RestDataSource_ProvisionalInvoice,
@@ -950,11 +938,7 @@
                     align: "center"
 
                 }],
-            sortField: 0,
-            autoFetchData: true,
-            showFilterEditor: true,
-            filterOnKeypress: true
-
+            autoFetchData: true
         });
 
 

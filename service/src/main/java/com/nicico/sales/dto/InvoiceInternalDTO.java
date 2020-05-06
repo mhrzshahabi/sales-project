@@ -6,8 +6,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
-import java.util.List;
-
 @Getter
 @Setter
 @Accessors(chain = true)
@@ -57,18 +55,5 @@ public class InvoiceInternalDTO {
     @Accessors(chain = true)
     @ApiModel("InvoiceInternalInfo")
     public static class Info extends InvoiceInternalDTO {
-    }
-
-
-    @Getter
-    @Setter
-    @Accessors(chain = true)
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    public static class SpecRs {
-        private List<InvoiceInternalDTO.Info> data;
-        private Integer status;
-        private Integer startRow;
-        private Integer endRow;
-        private Integer totalRows;
     }
 }

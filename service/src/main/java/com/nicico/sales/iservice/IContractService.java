@@ -14,7 +14,7 @@ public interface IContractService {
 
     void writeToWord(String request) throws Exception;
 
-    List<String> readFromWord(String contractNo);
+    List<String> readFromWord(String contractNo,Long contractId,int draftId);
 
     ContractDTO.Info create(ContractDTO.Create request);
 

@@ -413,6 +413,7 @@
 
 
     var ListGrid_ShipmentByWarehouseIssueCons = isc.ListGrid.create({
+        showFilterEditor: true,
         width: "100%",
         height: "100%",
         dataSource: MyRestDataSource_ShipmentByWarehouseIssueCons,
@@ -642,9 +643,6 @@
                 showHover: true
             }
         ],
-        sortField: 0,
-        showFilterEditor: true,
-        filterOnKeypress: true,
         getExpansionComponent: function (record) {
             return getExpandedComponent_ShipmentByWarehouseIssueCons(record)
         }
@@ -659,7 +657,6 @@
     });
 
     var ToolStripButton_ListGrid_ShipmentByWarehouseIssueCons_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_ShipmentByWarehouseIssueCons.invalidateCache();
@@ -804,16 +801,8 @@
     var DynamicForm_WarehouseIssueCons = isc.DynamicForm.create({
         width: 650,
         height: "100%",
-        setMethod: 'POST',
         align: "center",
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
         titleWidth: "150",
-        titleAlign: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 4,
         fields: [{
             name: "id",
@@ -959,7 +948,6 @@
     });
 
     var ToolStripButton_WarehouseIssueCons_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_WarehouseIssueCons_refresh();
@@ -969,7 +957,6 @@
 
     <sec:authorize access="hasAuthority('C_WAREHOUSE_ISSUE_CONS')">
     var ToolStripButton_WarehouseIssueCons_Add = isc.ToolStripButtonAddLarge.create({
-        icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
             var record = ListGrid_ShipmentByWarehouseIssueCons.getSelectedRecord();
@@ -1122,6 +1109,7 @@
 
 
     var ListGrid_WarehouseIssueCons = isc.ListGrid.create({
+        showFilterEditor: true,
         width: "100%",
         height: 200,
         styleName: "listgrid-child",
@@ -1243,10 +1231,7 @@
                 showTitle: false
             },
         ],
-        sortField: 0,
         autoFetchData: false,
-        //showFilterEditor: true,
-        filterOnKeypress: true,
         showRecordComponents: true,
         showRecordComponentsByCell: true,
         createRecordComponent: function (record, colNum) {

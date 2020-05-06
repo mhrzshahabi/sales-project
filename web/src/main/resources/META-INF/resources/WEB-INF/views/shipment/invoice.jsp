@@ -239,7 +239,6 @@
     });
 
     var ToolStripButton_Shipment_InvoiceHeader_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_Shipment_InvoiceHeader.invalidateCache();
@@ -320,6 +319,7 @@
 
 
     var ListGrid_Shipment_InvoiceHeader = isc.ListGrid.create({
+        showFilterEditor: true,
         width: "100%",
         height: "100%",
         dataSource: RestDataSource_Shipment_InvoiceHeader,
@@ -463,9 +463,6 @@
             },
 
         ],
-        sortField: 0,
-        showFilterEditor: true,
-        filterOnKeypress: true,
         getExpansionComponent: function (record) {
             return getExpandedComponent_Invoice(record)
         }
@@ -823,15 +820,9 @@
     var DynamicForm_Invoice = isc.DynamicForm.create({
         width: "100%",
         height: "100%",
-        setMethod: 'POST',
-        align: "center",
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
-        titleWidth: "100", margin: '10px', wrapTitle: false,
-        titleAlign: "right",
+        titleWidth: "100",
+        margin: '10px',
+        wrapTitle: false,
         requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 4,
         fields:
@@ -1152,7 +1143,6 @@
 
     <sec:authorize access="hasAuthority('C_INVOICE')">
     var ToolStripButton_Invoice_Add = isc.ToolStripButtonAdd.create({
-        icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
             var record = ListGrid_Shipment_InvoiceHeader.getSelectedRecord();
@@ -1427,6 +1417,7 @@
             ]
     });
     var ListGrid_Invoice = isc.ListGrid.create({
+        showFilterEditor: true,
         width: "100%",
         height: 200,
         styleName: "listgrid-child",
@@ -1496,10 +1487,7 @@
                     showTitle: false
                 },
             ],
-        sortField: 0,
         autoFetchData: false,
-        //showFilterEditor: true,
-        filterOnKeypress: true,
         showRecordComponents: true,
         showRecordComponentsByCell: true,
         createRecordComponent: function (record, colNum) {
@@ -1559,7 +1547,6 @@
     });
 
     isc.SectionStack.create({
-        ID: "Shipment_InvoiceHeader_Section_Stack",
         sections:
             [
                 {

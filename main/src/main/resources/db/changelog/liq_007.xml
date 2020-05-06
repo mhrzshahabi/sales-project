@@ -1,0 +1,2476 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+    <!--https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&cad=rja&uact=8&ved=2ahUKEwi27NicruznAhVDzaQKHU6oA3gQFjAAegQIARAB&url=http%3A%2F%2Fwww.statvision.com%2Fwebinars%2FCountries%2520of%2520the%2520world.xls&usg=AOvVaw2MwR5nAZwXVOVb2mQ0ygc3 -->
+
+    <changeSet author="MShahabi" id="1778899665544-006">
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">افغانستان</column>
+            <column name="c_NAME_EN">Afghanistan</column>
+
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">آلبانی</column>
+            <column name="c_NAME_EN">Albania</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">الجزایر</column>
+            <column name="c_NAME_EN">Algeria</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">ساموآی آمریکا</column>
+            <column name="c_NAME_EN">American Samoa</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">آندورا</column>
+            <column name="c_NAME_EN">Andorra</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">آنگولا</column>
+            <column name="c_NAME_EN">Angola</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">آنگویلا</column>
+            <column name="c_NAME_EN">Anguilla</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">آنتیگوا و باربودا</column>
+            <column name="c_NAME_EN">Antigua and Barbuda</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">آرژانتین</column>
+            <column name="c_NAME_EN">Argentina</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">ارمنستان</column>
+            <column name="c_NAME_EN">Armenia</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">آروبا</column>
+            <column name="c_NAME_EN">Aruba</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">استرالیا</column>
+            <column name="c_NAME_EN">Australia</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">آذربایجان</column>
+            <column name="c_NAME_EN">Azerbaijan</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">باهاما</column>
+            <column name="c_NAME_EN">Bahamas, The</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">بحرین</column>
+            <column name="c_NAME_EN">Bahrain</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">بنگلادش</column>
+            <column name="c_NAME_EN">Bangladesh</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">باربادوس</column>
+            <column name="c_NAME_EN">Barbados</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">بلاروس</column>
+            <column name="c_NAME_EN">Belarus</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">بلژیک</column>
+            <column name="c_NAME_EN">Belgium</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">بلیز</column>
+            <column name="c_NAME_EN">Belize</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">بنین</column>
+            <column name="c_NAME_EN">Benin</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">برمودا</column>
+            <column name="c_NAME_EN">Bermuda</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">بوتان</column>
+            <column name="c_NAME_EN">Bhutan</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">بولیوی</column>
+            <column name="c_NAME_EN">Bolivia</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">بوسنی و هرزگوین</column>
+            <column name="c_NAME_EN">Bosnia and Herzegovina</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">بوتسوانا</column>
+            <column name="c_NAME_EN">Botswana</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">برزیل</column>
+            <column name="c_NAME_EN">Brazil</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">بریتانیا</column>
+            <column name="c_NAME_EN">British Virgin Is.</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">برونئی</column>
+            <column name="c_NAME_EN">Brunei</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">بلغارستان</column>
+            <column name="c_NAME_EN">Bulgaria</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">بورکینا فاسو</column>
+            <column name="c_NAME_EN">Burkina Faso</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">برمه</column>
+            <column name="c_NAME_EN">Burma</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">بوروندی</column>
+            <column name="c_NAME_EN">Burundi</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">کامبوج</column>
+            <column name="c_NAME_EN">Cambodia</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">کامرون</column>
+            <column name="c_NAME_EN">Cameroon</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">کانادا</column>
+            <column name="c_NAME_EN">Canada</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">کیپ ورد</column>
+            <column name="c_NAME_EN">Cape Verde</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">جزایر کیمن</column>
+            <column name="c_NAME_EN">Cayman Islands</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">جمهوری آفریقای مرکزی</column>
+            <column name="c_NAME_EN">Central African Rep.</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">چاد</column>
+            <column name="c_NAME_EN">Chad</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">شیلی</column>
+            <column name="c_NAME_EN">Chile</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">چین</column>
+            <column name="c_NAME_EN">China</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">کلمبیا</column>
+            <column name="c_NAME_EN">Colombia</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">کومور</column>
+            <column name="c_NAME_EN">Comoros</column>
+        </insert>
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">جمهوری دموکراتیک کنگو</column>
+            <column name="c_NAME_EN">Congo, Repub. of the</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">جزایر کوک</column>
+            <column name="c_NAME_EN">Cook Islands</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">کاستاریکا</column>
+            <column name="c_NAME_EN">Costa Rica</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">ساحل عاج</column>
+            <column name="c_NAME_EN">Cote d'Ivoire</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">کرواسی</column>
+            <column name="c_NAME_EN">Croatia</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">کوبا</column>
+            <column name="c_NAME_EN">Cuba</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">قبرس</column>
+            <column name="c_NAME_EN">Cyprus</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">جمهوری چک</column>
+            <column name="c_NAME_EN">Czech Republic</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">دانمارک</column>
+            <column name="c_NAME_EN">Denmark</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">جیبوتی</column>
+            <column name="c_NAME_EN">Djibouti</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">دومینیکا</column>
+            <column name="c_NAME_EN">Dominica</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">جمهوری دومینیکن</column>
+            <column name="c_NAME_EN">Dominican Republic</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">تیمور شرقی</column>
+            <column name="c_NAME_EN">East Timor</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">اکوادور</column>
+            <column name="c_NAME_EN">Ecuador</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">مصر</column>
+            <column name="c_NAME_EN">Egypt</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">السالوادور</column>
+            <column name="c_NAME_EN">El Salvador</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">گینه استوایی</column>
+            <column name="c_NAME_EN">Equatorial Guinea</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">اریتره</column>
+            <column name="c_NAME_EN">Eritrea</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">استونی</column>
+            <column name="c_NAME_EN">Estonia</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">اتیوپی</column>
+            <column name="c_NAME_EN">Ethiopia</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">جزایر فارو</column>
+            <column name="c_NAME_EN">Faroe Islands</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">فیجی</column>
+            <column name="c_NAME_EN">Fiji</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">فنلاند</column>
+            <column name="c_NAME_EN">Finland</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">فرانسه</column>
+            <column name="c_NAME_EN">France</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">گویان فرانسه</column>
+            <column name="c_NAME_EN">French Guiana</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">پلی‌نزی فرانسه</column>
+            <column name="c_NAME_EN">French Polynesia</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">گابن</column>
+            <column name="c_NAME_EN">Gabon</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">گامبیا</column>
+            <column name="c_NAME_EN">Gambia, The</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">فلسطین</column>
+            <column name="c_NAME_EN">Gaza Strip-Palestine</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">جورجیا</column>
+            <column name="c_NAME_EN">گرجستان</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">آلمان</column>
+            <column name="c_NAME_EN">Germany</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">غنا</column>
+            <column name="c_NAME_EN">Ghana</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">جبل الطارق</column>
+            <column name="c_NAME_EN">Gibraltar</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">یونان</column>
+            <column name="c_NAME_EN">Greece</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">گرینلند</column>
+            <column name="c_NAME_EN">Greenland</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">گرنادا</column>
+            <column name="c_NAME_EN">Grenada</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">گوادلوپ</column>
+            <column name="c_NAME_EN">Guadeloupe</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">گوام</column>
+            <column name="c_NAME_EN">Guam</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">گواتمالا</column>
+            <column name="c_NAME_EN">Guatemala</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">گورنسی</column>
+            <column name="c_NAME_EN">Guernsey</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">گینه</column>
+            <column name="c_NAME_EN">Guinea</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">گینه بیسائو</column>
+            <column name="c_NAME_EN">Guinea-Bissau</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">گویان</column>
+            <column name="c_NAME_EN">Guyana</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">هائیتی</column>
+            <column name="c_NAME_EN">Haiti</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">هندوراس</column>
+            <column name="c_NAME_EN">Honduras</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">هنگ کنگ</column>
+            <column name="c_NAME_EN">Hong Kong</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">مجارستان</column>
+            <column name="c_NAME_EN">Hungary</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">ایسلند</column>
+            <column name="c_NAME_EN">Iceland</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">هندوستان</column>
+            <column name="c_NAME_EN">India</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">اندونزی</column>
+            <column name="c_NAME_EN">Indonesia</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">ایران</column>
+            <column name="c_NAME_EN">Iran</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">عراق</column>
+            <column name="c_NAME_EN">Iraq</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">ایرلند</column>
+            <column name="c_NAME_EN">Ireland</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">جزیره من</column>
+            <column name="c_NAME_EN">Isle of Man</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">اسرائیل</column>
+            <column name="c_NAME_EN">Israel</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">ایتالیا</column>
+            <column name="c_NAME_EN">Italy</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">جامائیکا</column>
+            <column name="c_NAME_EN">Jamaica</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">ژاپن</column>
+            <column name="c_NAME_EN">Japan</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">جرزی</column>
+            <column name="c_NAME_EN">Jersey</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">اردن</column>
+            <column name="c_NAME_EN">Jordan</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">قزاقستان</column>
+            <column name="c_NAME_EN">Kazakhstan</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">کنیا</column>
+            <column name="c_NAME_EN">Kenya</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">کیریباتی</column>
+            <column name="c_NAME_EN">Kiribati</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">کره شمالی</column>
+            <column name="c_NAME_EN">Korea, North</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">کره جنوبی</column>
+            <column name="c_NAME_EN">Korea, South</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">کویت</column>
+            <column name="c_NAME_EN">Kuwait</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">قرقیزستان</column>
+            <column name="c_NAME_EN">Kyrgyzstan</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">لائوس</column>
+            <column name="c_NAME_EN">Laos</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">لتونی</column>
+            <column name="c_NAME_EN">Latvia</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">لبنان</column>
+            <column name="c_NAME_EN">Lebanon</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">لسوتو</column>
+            <column name="c_NAME_EN">Lesotho</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">لیبریا</column>
+            <column name="c_NAME_EN">Liberia</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">لیبی</column>
+            <column name="c_NAME_EN">Libya</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">لیختن اشتاین</column>
+            <column name="c_NAME_EN">Liechtenstein</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">لیتوانی</column>
+            <column name="c_NAME_EN">Lithuania</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">لوکزامبورگ</column>
+            <column name="c_NAME_EN">Luxembourg</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">ماکائو</column>
+            <column name="c_NAME_EN">Macau</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">مقدونیه</column>
+            <column name="c_NAME_EN">Macedonia</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">ماداگاسکار</column>
+            <column name="c_NAME_EN">Madagascar</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">مالاوی</column>
+            <column name="c_NAME_EN">Malawi</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">مالزی</column>
+            <column name="c_NAME_EN">Malaysia</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">مالدیو</column>
+            <column name="c_NAME_EN">Maldives</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">مالی</column>
+            <column name="c_NAME_EN">Mali</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">مالی</column>
+            <column name="c_NAME_EN">Malta</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">جزایر مارشال</column>
+            <column name="c_NAME_EN">Marshall Islands</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">مارتینیک</column>
+            <column name="c_NAME_EN">Martinique</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">موریتانی</column>
+            <column name="c_NAME_EN">Mauritania</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">موریس</column>
+            <column name="c_NAME_EN">Mauritius</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">مایوت</column>
+            <column name="c_NAME_EN">Mayotte</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">مکزیک</column>
+            <column name="c_NAME_EN">Mexico</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">ایالات فدرال میکرونزی</column>
+            <column name="c_NAME_EN">Micronesia, Fed. St.</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">مولداوی</column>
+            <column name="c_NAME_EN">Moldova</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">موناکو</column>
+            <column name="c_NAME_EN">Monaco</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">مغولستان</column>
+            <column name="c_NAME_EN">Mongolia</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">مونتسرات</column>
+            <column name="c_NAME_EN">Montserrat</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">مراکش</column>
+            <column name="c_NAME_EN">Morocco</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">موزامبیک</column>
+            <column name="c_NAME_EN">Mozambique</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">ناميبيا</column>
+            <column name="c_NAME_EN">Namibia</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">نائورو</column>
+            <column name="c_NAME_EN">Nauru</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">نپال</column>
+            <column name="c_NAME_EN">Nepal</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">هلند</column>
+            <column name="c_NAME_EN">Netherlands</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">کالدونیای جدید</column>
+            <column name="c_NAME_EN">New Caledonia</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">نیوزلند</column>
+            <column name="c_NAME_EN">New Zealand</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">نیکاراگوئه</column>
+            <column name="c_NAME_EN">Nicaragua</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">نیجر</column>
+            <column name="c_NAME_EN">Niger</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">نیجریه</column>
+            <column name="c_NAME_EN">Nigeria</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">جزایر ماریانای شمالی</column>
+            <column name="c_NAME_EN">N. Mariana Islands</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">نروژ</column>
+            <column name="c_NAME_EN">Norway</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">عمان</column>
+            <column name="c_NAME_EN">Oman</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">پاکستان</column>
+            <column name="c_NAME_EN">Pakistan</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">پالائو</column>
+            <column name="c_NAME_EN">Palau</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">پاناما</column>
+            <column name="c_NAME_EN">Panama</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">پاپوا گینه نو</column>
+            <column name="c_NAME_EN">Papua New Guinea</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">پاراگوئه</column>
+            <column name="c_NAME_EN">Paraguay</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">پرو</column>
+            <column name="c_NAME_EN">Peru</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">فیلیپین</column>
+            <column name="c_NAME_EN">Philippines</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">لهستان</column>
+            <column name="c_NAME_EN">Poland</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">پرتغال</column>
+            <column name="c_NAME_EN">Portugal</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">پرتوریکو</column>
+            <column name="c_NAME_EN">Puerto Rico</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">قطر</column>
+            <column name="c_NAME_EN">Qatar</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">رئونیون</column>
+            <column name="c_NAME_EN">Reunion</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">رومانی</column>
+            <column name="c_NAME_EN">Romania</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">روسیه</column>
+            <column name="c_NAME_EN">Russia</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">رواندا</column>
+            <column name="c_NAME_EN">Rwanda</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">سنت هلن</column>
+            <column name="c_NAME_EN">Saint Helena</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">سنت کیتس و نویس</column>
+            <column name="c_NAME_EN">Saint Kitts and Nevis</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">سنت لوسیا</column>
+            <column name="c_NAME_EN">Saint Lucia</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">سنت پیر و میکلون</column>
+            <column name="c_NAME_EN">St Pierre and Miquelon</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">سنت وینسنت و گرنادین ها</column>
+            <column name="c_NAME_EN">Saint Vincent and the Grenadines</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">ساموآ</column>
+            <column name="c_NAME_EN">Samoa</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">سان مارینو</column>
+            <column name="c_NAME_EN">San Marino</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">سائوتومه و پرینسیپ</column>
+            <column name="c_NAME_EN">Sao Tome and Principe</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">عربستان صعودی</column>
+            <column name="c_NAME_EN">Saudi Arabia</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">سنگال</column>
+            <column name="c_NAME_EN">Senegal</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">صربستان</column>
+            <column name="c_NAME_EN">Serbia</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">سیشل</column>
+            <column name="c_NAME_EN">Seychelles</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">سیرا لئون</column>
+            <column name="c_NAME_EN">Sierra Leone</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">سنگاپور</column>
+            <column name="c_NAME_EN">Singapore</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">اسلواکی</column>
+            <column name="c_NAME_EN">Slovakia</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">اسلوونی</column>
+            <column name="c_NAME_EN">Slovenia</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">جزایر سلیمان</column>
+            <column name="c_NAME_EN">Solomon Islands</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">سومالی</column>
+            <column name="c_NAME_EN">Somalia</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">آفریقای جنوبی</column>
+            <column name="c_NAME_EN">South Africa</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">اسپانیا</column>
+            <column name="c_NAME_EN">Spain</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">سریلانکا</column>
+            <column name="c_NAME_EN">Sri Lanka</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">سودان</column>
+            <column name="c_NAME_EN">Sudan</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">سورینام</column>
+            <column name="c_NAME_EN">Suriname</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">سوازیلند</column>
+            <column name="c_NAME_EN">Swaziland</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">سوئد</column>
+            <column name="c_NAME_EN">Sweden</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">سوئیس</column>
+            <column name="c_NAME_EN">Switzerland</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">سوریه</column>
+            <column name="c_NAME_EN">Syria</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">تایوان</column>
+            <column name="c_NAME_EN">Taiwan</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">تاجیکستان</column>
+            <column name="c_NAME_EN">Tajikistan</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">تانزانیا</column>
+            <column name="c_NAME_EN">Tanzania</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">تایلند</column>
+            <column name="c_NAME_EN">Thailand</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">توگو</column>
+            <column name="c_NAME_EN">Togo</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">تونگا</column>
+            <column name="c_NAME_EN">Tonga</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">ترینیداد و توباگو</column>
+            <column name="c_NAME_EN">Trinidad and Tobago</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">تونس</column>
+            <column name="c_NAME_EN">Tunisia</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">ترکیه</column>
+            <column name="c_NAME_EN">Turkey</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">ترکمنستان</column>
+            <column name="c_NAME_EN">Turkmenistan</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">جزایر تورکس و کایکوس</column>
+            <column name="c_NAME_EN">Turks and Caicos Is</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">تووالو</column>
+            <column name="c_NAME_EN">Tuvalu</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">اوگاندا</column>
+            <column name="c_NAME_EN">Uganda</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">اوکراین</column>
+            <column name="c_NAME_EN">Ukraine</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">امارات متحده عربی</column>
+            <column name="c_NAME_EN">United Arab Emirates</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">انگلستان</column>
+            <column name="c_NAME_EN">United Kingdom</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">ایالات متحده</column>
+            <column name="c_NAME_EN">United States</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">اروگوئه</column>
+            <column name="c_NAME_EN">Uruguay</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">ازبکستان</column>
+            <column name="c_NAME_EN">Uzbekistan</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">واناتو</column>
+            <column name="c_NAME_EN">Vanuatu</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">ونزوئلا</column>
+            <column name="c_NAME_EN">Venezuela</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">ویتنام</column>
+            <column name="c_NAME_EN">Vietnam</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">جزایر ویرجین</column>
+            <column name="c_NAME_EN">Virgin Islands</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">والیس و فوتونا</column>
+            <column name="c_NAME_EN">Wallis and Futuna</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">بانک غرب</column>
+            <column name="c_NAME_EN">West Bank</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">صحرای غربی</column>
+            <column name="c_NAME_EN">Western Sahara</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">یمن</column>
+            <column name="c_NAME_EN">Yemen</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">زامبیا</column>
+            <column name="c_NAME_EN">Zambia</column>
+        </insert>
+
+        <insert tableName="TBL_COUNTRY">
+            <column name="ID" valueSequenceNext="SEQ_COUNTRY"/>
+            <column name="C_CREATED_BY" value="MShahabi"/>
+            <column name="D_CREATED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="C_LAST_MODIFIED_BY" value="MShahabi"/>
+            <column name="D_LAST_MODIFIED_DATE" value="25-FEB-20 12.22.17.367000000 PM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="c_NAME_FA">زیمبابوه</column>
+            <column name="c_NAME_EN">Zimbabwe</column>
+        </insert>
+
+    </changeSet>
+
+</databaseChangeLog>

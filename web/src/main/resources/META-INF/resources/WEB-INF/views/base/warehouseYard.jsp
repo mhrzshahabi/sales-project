@@ -33,7 +33,6 @@
 
     function ListGrid_WarehouseYard_edit() {
         var record = ListGrid_WarehouseYard.getSelectedRecord();
-
         if (record == null || record.id == null) {
             isc.Dialog.create({
                 message: "<spring:message code='global.grid.record.not.selected'/>",
@@ -140,16 +139,7 @@
     var DynamicForm_WarehouseYard = isc.DynamicForm.create({
         width: 650,
         height: "100%",
-        setMethod: 'POST',
-        align: "center",
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
         titleWidth: "100",
-        titleAlign: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 2,
         fields:
             [
@@ -191,7 +181,6 @@
     });
 
     var ToolStripButton_WarehouseYard_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_WarehouseYard_refresh();
@@ -200,7 +189,6 @@
 
     <sec:authorize access="hasAuthority('C_WAREHOUSE_YARD')">
     var ToolStripButton_WarehouseYard_Add = isc.ToolStripButtonAdd.create({
-        icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
             DynamicForm_WarehouseYard.clearValues();
@@ -297,7 +285,7 @@
 
     var Window_WarehouseYard = isc.Window.create({
         title: "<spring:message code='warehouseCad.warehouseNo'/> ",
-        width: 580,
+        width: 650,
         autoSize: true,
         autoCenter: true,
         isModal: true,
@@ -312,6 +300,9 @@
             [
                 DynamicForm_WarehouseYard,
                 isc.HLayout.create({
+                    layoutMargin: 10,
+                    membersMargin: 5,
+                    align: "center",
                     width: "100%",
                     members:
                         [
@@ -320,7 +311,6 @@
                                 width: 5,
                             }),
                             isc.IButtonCancel.create({
-                                ID: "warehouseYardEditExitIButton",
                                 title: "<spring:message code='global.cancel'/>",
                                 width: 100,
                                 icon: "pieces/16/icon_delete.png",
@@ -335,6 +325,7 @@
     });
 
     var ListGrid_WarehouseYard = isc.ListGrid.create({
+        showFilterEditor: true,
         width: "100%",
         height: "100%",
         dataSource: RestDataSource_WarehouseYard,
@@ -358,10 +349,7 @@
                 },
                 {name: "nameFA", title: "<spring:message code='warehouseCad.yard'/>", width: "10%", align: "center"},
             ],
-        sortField: 0,
-        autoFetchData: true,
-        showFilterEditor: true,
-        filterOnKeypress: true
+        autoFetchData: true
     });
 
     var HLayout_WarehouseYard_Grid = isc.HLayout.create({

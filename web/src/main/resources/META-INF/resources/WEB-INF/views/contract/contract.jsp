@@ -16,9 +16,9 @@ var RestDataSource_Contract = isc.MyRestDataSource.create({
                 {name: "incotermsId", title: "<spring:message code='incoterms.name'/>"},
                 {name: "incoterms.code", title: "<spring:message code='incoterms.name'/>"},
                 {name: "amount", title: "<spring:message code='global.amount'/>"},
-                {name: "sideContractDate", ID: "sideContractDate"},
-                {name: "refinaryCost", ID: "refinaryCost"},
-                {name: "treatCost", ID: "treatCost"},
+              //  {name: "sideContractDate"},
+             //   {name: "refinaryCost"},
+            //    {name: "treatCost"},
                 {name: "material.descl", title: "materialId"}
             ],
         fetchDataURL: "${contextPath}/api/contract/spec-list"
@@ -26,8 +26,8 @@ var RestDataSource_Contract = isc.MyRestDataSource.create({
     var RestDataSource_ContractAudit = isc.MyRestDataSource.create({
         fields:
             [
-                {name: "id", title: "id", primaryKey: true},
-                {name: "rev", title: "rev"},
+                {name: "id.id", title: "id", primaryKey: true},
+                {name: "id.rev", title: "rev"},
                 {name: "revType", title: "revtype"},
                 {name: "contractDate",title: "<spring:message code='contract.contractDate'/>"},
                 {name: "contractNo", title: "<spring:message code='contract.contractNo'/>"},
@@ -36,7 +36,7 @@ var RestDataSource_Contract = isc.MyRestDataSource.create({
                 {name: "lastModifiedBy", title: "lastModifiedBy"},
                 {name: "lastModifiedDate", title: "lastModifiedDate"}
             ],
-        fetchDataURL: "${contextPath}/api/contract/spec-list-audit"
+        fetchDataURL: "${contextPath}/api/contract/audit/spec-list"
     });
 
     var RestDataSource_Contact = isc.MyRestDataSource.create({
@@ -83,6 +83,7 @@ var RestDataSource_Contract = isc.MyRestDataSource.create({
             ],
         fetchDataURL: "${contextPath}/api/unit/spec-list"
     });
+
 
 
 
@@ -210,107 +211,9 @@ var RestDataSource_Contract = isc.MyRestDataSource.create({
         criteria: [{fieldName: "seller", operator: "equals", value: true}]
     };
 
-        var ToolStripButton_Contract_DraftList = isc.ToolStripButtonRefresh.create({
-        title: "Draft",
-        click: function () {
-             var recordContract = ListGrid_Contract.getSelectedRecord();
-                 if (recordContract == null || recordContract.id == null) {
-                                    isc.Dialog.create({
-                                        message: "<spring:message code='global.grid.record.not.selected'/>",
-                                        icon: "[SKIN]ask.png",
-                                        title: "<spring:message code='global.message'/>",
-                                        buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
-                                        buttonClick: function () {
-                                            this.hide();
-                                        }});
-            } else {
-                   var  criteriaContractAudit = {
-                            _constructor: "AdvancedCriteria",
-                            operator: "and",
-                            criteria: [{fieldName: "id.id", operator: "equals", value: recordContract.id}]
-                        };
-                isc.Window.create({
-                            title: "<spring:message code='global.menu.contract.type.contract.DRAFT'/>" +" FOR CONTRACT NO : "+ ListGrid_Contract.getSelectedRecord().contractNo,
-                            width: "50%",
-                            height: "52%",
-                            autoCenter: true,
-                            isModal: true,
-                            showModalMask: true,
-                            align: "center",
-                            autoDraw: true,
-                            closeClick: function () {
-                                this.Super("closeClick", arguments)
-                            },
-                            items: [
-                                 isc.VStack.create({
-                                    autoCenter: true,
-                                    members: [
-                                            isc.ListGrid.create({
-                                                        ID:"ListGrid_ContractDraft",
-                                                        width: "100%",
-                                                        height: "93%",
-                                                        dataSource: RestDataSource_ContractAudit,
-                                                        initialCriteria: criteriaContractAudit,
-                                                        autoFetchData: true,
-                                                        fields:
-                                                            [
-                                                                {name: "id",hidden: true},
-                                                                {name: "rev",hidden: true},
-                                                                {name: "revType",width: "10%",valueMap:{"0": "create","1": "update","2": "delete" }},
-                                                                {name: "contractDate",width: "10%",format: "MMMM yyyy",type:"date"},
-                                                                {name: "createdBy",width: "10%", title: "createdBy"},
-                                                                {name: "createdDate",width: "10%", title: "createdDate"},
-                                                                {name: "lastModifiedBy",width: "10%", title: "lastModifiedBy"},
-                                                                {name: "lastModifiedDate",width: "10%", title: "lastModifiedDate"}
-                                                            ]
-                                                    }),
-                                            isc.HStack.create({
-                                                backgroundColor: "#fe9d2a",
-                                                width: "100%",
-                                                height: "7%",
-                                                autoCenter: true,
-                                                members: [
-                                                        isc.Label.create({
-                                                                    width: "47%",
-                                                            }),
-                                                        isc.ToolStripButtonPrint.create({
-                                                            icon: "[SKIN]/actions/print.png",
-                                                            margin:"5",
-                                                            title: "<spring:message code='global.form.print'/>",
-                                                            autoCenter: true,
-                                                            click: function () {
-                                                                var printSelectID = ListGrid_Contract.getSelectedRecord();
-                                                                var printSelectIDdraft = ListGrid_ContractDraft.getSelectedRecord();
-                                                                if (printSelectIDdraft == null || printSelectIDdraft.id == null) {
-                                                                    isc.Dialog.create({
-                                                                        message: "<spring:message code='global.grid.record.not.selected'/>",
-                                                                        icon: "[SKIN]ask.png",
-                                                                        title: "<spring:message code='global.message'/>",
-                                                                        buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
-                                                                        buttonClick: function () {
-                                                                            this.hide();
-                                                                        }
-                                                                    });
-                                                                }
-                                                                else {
-                                                                    "<spring:url value="/contract/print" var="printUrl"/>";
-                                                                    var recordIdPrint = ListGrid_Contract.getSelectedRecord();
-                                                                    window.open('${printUrl}' + "/" + recordIdPrint.id+ "/" +((printSelectIDdraft.id).rev));
-                                                                }
-                                                            }
-                                                        })
-                                                ]
-                                            })
-                                            ]
-                                })
-                            ]
-                        })
-             }
-        }
-    });
+
 
     var ToolStripButton_Contract_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_Contract_refresh();
@@ -323,9 +226,10 @@ var RestDataSource_Contract = isc.MyRestDataSource.create({
         showRollOverIcon: false,
         showMenuOnRollOver: true,
         disabledCursor: "not-allowed",
-        title: "&nbsp; <spring:message code='global.menu.contract.management'/>",
+        title: "&nbsp <spring:message code='global.menu.contract.management'/> &nbsp",
         showDownIcon: false,
         baseStyle: "contract-menu",
+        menuAlign: "center",
         menu: isc.Menu.create({
             data: [{
                 title: "<spring:message code='salesContractMoButton.title'/>",
@@ -348,8 +252,7 @@ var RestDataSource_Contract = isc.MyRestDataSource.create({
                 }
 
             ]
-        }),
-
+        })
     });
 
     <sec:authorize access="hasAuthority('O_CONTRACT')">
@@ -405,12 +308,13 @@ var RestDataSource_Contract = isc.MyRestDataSource.create({
                 ToolStripButton_Contract_Print,
                 </sec:authorize>
 
+
                 isc.ToolStrip.create({
                     width: "100%",
                     align: "left",
                     border: '0px',
                     members: [
-                        ToolStripButton_Contract_DraftList,ToolStripButton_Contract_Refresh
+                        ToolStripButton_Contract_Refresh
                     ]
                 })
             ]
@@ -443,6 +347,7 @@ var RestDataSource_Contract = isc.MyRestDataSource.create({
 
 
     var ListGrid_Contract = isc.ListGrid.create({
+        showFilterEditor: true,
         width: "100%",
         height: "100%",
         dataSource: RestDataSource_Contract,
@@ -459,14 +364,12 @@ var RestDataSource_Contract = isc.MyRestDataSource.create({
         virtualScrolling: true,
         loadOnExpand: true,
         loaded: false,
-        showFilterEditor: true,
-        filterOnKeypress: true,
         fields:
             [
                 {name: "id", hidden: true},
                 {
                     name: "material.descl",
-                    title: "Type material",
+                    title: "<spring:message code='material.title'/>",
                     hidden: false,
                     width: "5%",
                     align: "center",
@@ -484,7 +387,6 @@ var RestDataSource_Contract = isc.MyRestDataSource.create({
                 {
                     name: "contractDate",
                     title: "<spring:message code='contract.contractDate'/>",
-                    type: 'datetime',
                     width: "7%",
                     align: "center"
                 },
@@ -513,13 +415,6 @@ var RestDataSource_Contract = isc.MyRestDataSource.create({
                     type: 'text',
                     width: "7%",
                     align: "center"
-                },
-                {
-                    name: "prepaid",
-                    title: "<spring:message code='contract.prepaid'/>",
-                    type: 'integer',
-                    required: true,
-                    width: "100"
                 }
             ],
         getExpansionComponent: function (record) {
@@ -585,7 +480,7 @@ var RestDataSource_Contract = isc.MyRestDataSource.create({
         margin: 3,
         backgroundColor: "#6aa6de",
         align: "center",
-        contents: "Concentrate"
+        contents: "Concentrates"
     })
     var VLayout_Contract_Body = isc.VLayout.create({
         width: "100%",

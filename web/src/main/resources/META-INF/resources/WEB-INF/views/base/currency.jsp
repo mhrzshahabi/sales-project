@@ -6,7 +6,6 @@
 
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
-
     var RestDataSource_Currency = isc.MyRestDataSource.create(
         {
             fields: [
@@ -41,11 +40,9 @@
             fetchDataURL: "${contextPath}/api/currency/spec-list"
         });
 
-
     function ListGrid_Currency_refresh() {
         ListGrid_Currency.invalidateCache();
     }
-
 
     function ListGrid_Currency_edit() {
         var record = ListGrid_Currency.getSelectedRecord();
@@ -129,7 +126,6 @@
         }
     }
 
-
     var Menu_ListGrid_Currency = isc.Menu.create(
         {
             width: 150,
@@ -174,20 +170,10 @@
             ]
         });
 
-
     var DynamicForm_Currency = isc.DynamicForm.create({
         width: "100%",
         height: "100%",
-        setMethod: 'POST',
-        align: "center",
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
         titleWidth: "100",
-        titleAlign: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 2,
         fields:
             [
@@ -247,9 +233,7 @@
             ]
     });
 
-
     var ToolStripButton_Currency_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_Currency_refresh();
@@ -258,7 +242,6 @@
 
     <sec:authorize access="hasAuthority('C_CURRENCY')">
     var ToolStripButton_Currency_Add = isc.ToolStripButtonAdd.create({
-        icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
             DynamicForm_Currency.clearValues();
@@ -344,7 +327,7 @@
                         httpMethod: method,
                         data: JSON.stringify(data),
                         callback: function (resp) {
-                            if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                            if (!resp && resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
                                 isc.say("<spring:message code='global.form.request.successful'/>");
                                 ListGrid_Currency_refresh();
                                 Window_Currency.close();
@@ -355,7 +338,6 @@
                     }));
             }
         });
-
 
     var Window_Currency = isc.Window.create(
         {
@@ -375,7 +357,10 @@
                 DynamicForm_Currency,
                 isc.HLayout.create(
                     {
-                        width: "100%",
+                   layoutMargin: 10,
+                    membersMargin: 5,
+                    align: "center",
+                    width: "100%",
                         members: [
                             IButton_Currency_Save,
                             isc.Label.create(
@@ -384,7 +369,6 @@
                                 }),
                             isc.IButtonCancel.create(
                                 {
-                                    ID: "CurrencyEditExitIButton",
                                     title: "<spring:message code='global.cancel'/>",
                                     width: 100,
                                     icon: "pieces/16/icon_delete.png",
@@ -398,9 +382,9 @@
             ]
         });
 
-
     var ListGrid_Currency = isc.ListGrid.create(
         {
+            showFilterEditor: true,
             width: "100%",
             height: "100%",
             dataSource: RestDataSource_Currency,
@@ -436,16 +420,8 @@
                     width: "10%",
                     align: "center"
                 },],
-            sortField: 0,
-            autoFetchData: true,
-            showFilterEditor: true,
-            filterOnKeypress: true,
-            recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
-            updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
-                var record = this.getSelectedRecord();
-            }
+            autoFetchData: true
         });
-
 
     var HLayout_Currency_Grid = isc.HLayout.create(
         {

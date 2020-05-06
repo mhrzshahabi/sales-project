@@ -113,7 +113,6 @@
     });
 
     var ToolStripButton_Shipment_CostHeader_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_Shipment_CostHeader.invalidateCache();
@@ -190,6 +189,7 @@
     }
 
     var ListGrid_Shipment_CostHeader = isc.ListGrid.create({
+        showFilterEditor: true,
         width: "100%",
         height: "100%",
         contextMenu: Menu_ListGrid_Shipment_CostHeader,
@@ -320,9 +320,6 @@
             },
 
         ],
-        sortField: 0,
-        showFilterEditor: true,
-        filterOnKeypress: true,
         getExpansionComponent: function (record) {
             return getExpandedComponent_Shipment_CostHeader(record)
         }
@@ -637,17 +634,8 @@
     var DynamicForm_Cost = isc.DynamicForm.create({
         width: "100%",
         height: "100%",
-        setMethod: 'POST',
-        align: "center",
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
         titleWidth: "120",
-        titleAlign: "right",
         margin: 10,
-        requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 6,
         fields:
             [
@@ -1078,7 +1066,6 @@
 
 
     var ToolStripButton_Cost_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_Cost_refresh();
@@ -1254,7 +1241,6 @@
                                 width: 5,
                             }),
                             isc.IButtonCancel.create({
-                                ID: "costEditExitIButton",
                                 title: "<spring:message code='global.cancel'/>",
                                 width: 100,
                                 icon: "pieces/16/icon_delete.png",
@@ -1269,6 +1255,7 @@
     });
 
     var ListGrid_Cost = isc.ListGrid.create({
+        showFilterEditor: true,
         width: "100%",
         height: 200,
         styleName: "listgrid-child",
@@ -1379,9 +1366,7 @@
                     align: "center",
                 }
             ],
-        sortField: 0,
         autoFetchData: false,
-        filterOnKeypress: true,
         createRecordComponent: function (record, colNum) {
             var fieldName = this.getFieldName(colNum);
             if (fieldName == "editIcon") {
@@ -1443,7 +1428,6 @@
 
 
     isc.SectionStack.create({
-        ID: "Shipment_CostHeader_Section_Stack",
         sections:
             [
                 {

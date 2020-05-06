@@ -18,7 +18,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +28,6 @@ public class InvoiceInternalService implements IInvoiceInternalService {
     private final ModelMapper modelMapper;
     private final InvoiceInternalDAO invoiceInternalDAO;
     private final InvoiceInternalDocumentDAO invoiceInternalDocumentDAO;
-    private final EntityManager entityManager;
 
     @Value("${nicico.apps.accounting}")
     private String accountingAppUrl;
@@ -38,8 +36,6 @@ public class InvoiceInternalService implements IInvoiceInternalService {
     @Transactional(readOnly = true)
     @PreAuthorize("hasAuthority('R_INVOICE_INTERNAL')")
     public InvoiceInternalDTO.Info get(String id) {
-        entityManager.createNativeQuery("alter session set time_zone = 'UTC'").executeUpdate();
-        entityManager.createNativeQuery("alter session set nls_language = 'AMERICAN'").executeUpdate();
         final InvoiceInternal invoiceInternal = invoiceInternalDAO.findById(id)
                 .orElseThrow(() -> new SalesException(SalesException.ErrorType.InvoiceInternalNotFound));
         return modelMapper.map(invoiceInternal, InvoiceInternalDTO.Info.class);
@@ -48,8 +44,6 @@ public class InvoiceInternalService implements IInvoiceInternalService {
     @Transactional(readOnly = true)
     @PreAuthorize("hasAuthority('R_INVOICE_INTERNAL')")
     public List<InvoiceInternalDTO.Info> getIds(List<String> id) {
-        entityManager.createNativeQuery("alter session set time_zone = 'UTC'").executeUpdate();
-        entityManager.createNativeQuery("alter session set nls_language = 'AMERICAN'").executeUpdate();
         final List<InvoiceInternal> allByIds = invoiceInternalDAO.findAllById(id);
         List<InvoiceInternalDTO.Info> invoiceInternalDTOS = new ArrayList<InvoiceInternalDTO.Info>();
         for (InvoiceInternal invoiceInternal : allByIds) {
@@ -63,8 +57,6 @@ public class InvoiceInternalService implements IInvoiceInternalService {
     @Override
     @PreAuthorize("hasAuthority('R_INVOICE_INTERNAL')")
     public List<InvoiceInternalDTO.Info> list() {
-        entityManager.createNativeQuery("alter session set time_zone = 'UTC'").executeUpdate();
-        entityManager.createNativeQuery("alter session set nls_language = 'AMERICAN'").executeUpdate();
         final List<InvoiceInternal> slAll = invoiceInternalDAO.findAll();
         return modelMapper.map(slAll, new TypeToken<List<InvoiceInternalDTO.Info>>() {
         }.getType());
@@ -72,17 +64,15 @@ public class InvoiceInternalService implements IInvoiceInternalService {
 
     @Transactional(readOnly = true)
     @Override
-  @PreAuthorize("hasAuthority('R_INVOICE_INTERNAL')")
+    @PreAuthorize("hasAuthority('R_INVOICE_INTERNAL')")
     public TotalResponse<InvoiceInternalDTO.Info> search(NICICOCriteria criteria) {
-        entityManager.createNativeQuery("alter session set time_zone = 'UTC'").executeUpdate();
-        entityManager.createNativeQuery("alter session set nls_language = 'AMERICAN'").executeUpdate();
         return SearchUtil.search(invoiceInternalDAO, criteria, invoiceInternal -> modelMapper.map(invoiceInternal, InvoiceInternalDTO.Info.class));
     }
 
 
     @Transactional
     @Override
-    public InvoiceInternalDTO.Info sendInternalForm2accounting(String id,String data) {
+    public InvoiceInternalDTO.Info sendInternalForm2accounting(String id, String data) {
         InvoiceInternalDocument invoice = new InvoiceInternalDocument();
         invoice.setInvId(id);
         invoice.setProcessId(data);

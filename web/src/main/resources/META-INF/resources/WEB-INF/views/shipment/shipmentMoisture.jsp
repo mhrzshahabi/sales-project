@@ -612,6 +612,7 @@
 
                                     }) /* dynamic Form */ , ListGrid_ShipmentMoistureItemPaste = isc.ListGrid.create(
                                     {
+                                        showFilterEditor: true,
                                         dataSource: ClientDataSource_ShipmentMoistureItem,
                                         sortDirection: "descending",
                                         width: "100%",
@@ -832,6 +833,7 @@
 
 
     var ListGrid_ShipmentByMoistureHeader = isc.ListGrid.create({
+        showFilterEditor: true,
         width: "100%",
         height: "100%",
         dataSource: MyRestDataSource_ShipmentByMoistureHeader,
@@ -1063,10 +1065,7 @@
         ],
         getExpansionComponent: function (record) {
         return getExpandedComponent_ShipmentByMoistureHeader(record)
-        },
-        sortField: 0,
-        showFilterEditor: true,
-        filterOnKeypress: true
+        }
     });
 
 
@@ -1079,13 +1078,13 @@
     });
 
         var ToolStripButton_ListGrid_ShipmentByMoistureHeader_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
-        title: "<spring:message code='global.form.refresh'/>",
-        click: function () {
-        ListGrid_ShipmentByMoistureHeader.invalidateCache();
-        ListGrid_ShipmentMoistureHeader.setData([]);
-        }
+            title: "<spring:message code='global.form.refresh'/>",
+            click: function () {
+            ListGrid_ShipmentByMoistureHeader.invalidateCache();
+            ListGrid_ShipmentMoistureHeader.setData([]);
+            }
         });
+
         var ToolStrip_Actions_ListGrid_ShipmentByMoistureHeader = isc.ToolStrip.create({
         width: "100%",
         membersMargin: 5,
@@ -1119,14 +1118,6 @@
     var DynamicForm_ShipmentMoistureHeader = isc.DynamicForm.create({
         width: "100%",
         height: "100%",
-        setMethod: 'POST',
-        align: "center",
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>",
         cellPadding: 2,
         numCols: 4,
         fields:
@@ -1405,7 +1396,6 @@
     }
 
     var ToolStripButton_ShipmentMoistureHeader_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_ShipmentMoistureHeader_refresh();
@@ -1494,6 +1484,7 @@
     });
 
     var ListGrid_ShipmentMoistureHeader = isc.ListGrid.create({
+        showFilterEditor: true,
         width: "100%",
         height: 200,
         styleName: "listgrid-child",
@@ -1571,9 +1562,6 @@
             showTitle: false
             }
         ],
-        sortField: 0,
-        showFilterEditor: true,
-        filterOnKeypress: true,
         showRecordComponents: true,
         showRecordComponentsByCell: true,
         createRecordComponent: function (record, colNum) {
@@ -1672,14 +1660,6 @@
     var DynamicForm_ShipmentMoistureItem = isc.DynamicForm.create({
         width: "100%",
         height: "100%",
-        setMethod: 'POST',
-        align: "center",
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>",
         cellPadding: 2,
         numCols: 4,
         fields:
@@ -1901,7 +1881,6 @@
         }
     }
     var ToolStripButton_ShipmentMoistureItem_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_ShipmentMoistureItem_refresh();
@@ -1990,6 +1969,7 @@
     });
 
     var ListGrid_ShipmentMoistureItem = isc.ListGrid.create({
+        showFilterEditor: true,
         width: "100%",
         height: "100%",
         dataSource: MyRestDataSource_ShipmentMoistureItem,
@@ -2050,10 +2030,7 @@
                 }],
                 align: "center"
             },
-        ],
-        sortField: 0,
-        showFilterEditor: true,
-        filterOnKeypress: true
+        ]
     });
     var HLayout_Grid_ShipmentMoistureItem = isc.HLayout.create({
         width: "100%",

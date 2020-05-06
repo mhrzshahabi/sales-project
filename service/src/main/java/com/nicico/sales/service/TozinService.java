@@ -18,13 +18,11 @@ import com.nicico.sales.repository.WarehouseCadDAO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
-import javax.persistence.EntityManager;
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -42,14 +40,11 @@ public class TozinService implements ITozinService {
     private final MaterialItemDAO materialItemDAO;
     private final ModelMapper modelMapper;
     private final ObjectMapper objectMapper;
-    private final EntityManager entityManager;
 
     @Transactional(readOnly = true)
     @Override
     @PreAuthorize("hasAuthority('R_TOZIN')")
     public TotalResponse<TozinDTO.Info> searchTozin(NICICOCriteria criteria) {
-        entityManager.createNativeQuery("alter session set time_zone = 'UTC'").executeUpdate();
-        entityManager.createNativeQuery("alter session set nls_language = 'AMERICAN'").executeUpdate();
         return SearchUtil.search(tozinDAO, criteria, tozin -> modelMapper.map(tozin, TozinDTO.Info.class));
     }
 
@@ -67,7 +62,7 @@ public class TozinService implements ITozinService {
                 log.error("searchTozinOnTheWay error: {}", e.getMessage());
             }
         });
-        MaterialItem materialItem = materialItemDAO.findByGdsCode(new Long(fetchedData.get("codeKala").toString()) );
+        MaterialItem materialItem = materialItemDAO.findByGdsCode(new Long(fetchedData.get("codeKala").toString()));
 
         Set<WarehouseCad> bijacks = warehouseCadDAO.getAllByMaterialItemId(materialItem.getId());
 
@@ -75,7 +70,7 @@ public class TozinService implements ITozinService {
 
         if (tozin.equals("SourceTozin"))
             sourceTozinPlantIds.addAll(bijacks.stream().map(WarehouseCad::getSourceTozinPlantId).collect(Collectors.toList()));
-        else //  "DestTozin"
+        else
             sourceTozinPlantIds.addAll(bijacks.stream().map(WarehouseCad::getDestinationTozinPlantId).collect(Collectors.toList()));
 
         final List<SearchDTO.CriteriaRq> requestCriteriaRqList = new ArrayList<>();
@@ -100,11 +95,16 @@ public class TozinService implements ITozinService {
 
         request.setCriteria(requestCriteriaRq);
 
-        entityManager.createNativeQuery("alter session set time_zone = 'UTC'").executeUpdate();
-        entityManager.createNativeQuery("alter session set nls_language = 'AMERICAN'").executeUpdate();
         final SearchDTO.SearchRs<TozinDTO.Info> response = SearchUtil.search(tozinDAO, request, systemType -> modelMapper.map(systemType, TozinDTO.Info.class));
 
         return mapSearchRs(criteria, response);
     }
 
+
+    @Transactional(readOnly = true)
+    public TozinDTO.Info get(Long id) {
+        final Optional<Tozin> tzById = tozinDAO.findById(id);
+        final Tozin tozin = tzById.orElseThrow(()-> new SalesException(SalesException.ErrorType.TozinNotFound));
+        return modelMapper.map(tozin , TozinDTO.Info.class);
+    }
 }

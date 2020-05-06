@@ -1,0 +1,52 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+    <changeSet author="MShahabi" id="1778899665544-004">
+        <createTable tableName="TBL_INVOICE_SALES">
+
+            <column name="ID" type="NUMBER(19, 0)">
+                <constraints primaryKey="true" primaryKeyName="TBL_INVOICE_SALE_PK"/>
+            </column>
+            <column name="C_CREATED_BY" type="VARCHAR2(255 CHAR)"/>
+            <column name="D_CREATED_DATE" type="TIMESTAMP(6)"/>
+            <column name="C_LAST_MODIFIED_BY" type="VARCHAR2(255 CHAR)"/>
+            <column name="D_LAST_MODIFIED_DATE" type="TIMESTAMP(6)"/>
+            <column name="N_VERSION" type="NUMBER(10, 0)"/>
+            <column name="SERIAL" type="VARCHAR2(255 CHAR)"/>
+            <column name="INVOICE_NO" type="VARCHAR2(255 CHAR)"/>
+            <column name="INVOICE_DATE" type="DATE"/>
+            <column name="DISTRICT" type="VARCHAR2(255 CHAR)"/>
+            <column name="CUSTOMER_ID" type="NUMBER(19, 0)"/>
+            <column name="CUSTOMER_NAME" type="VARCHAR2(255 CHAR)"/>
+            <column name="SALES_TYPE_ID" type="NUMBER(19, 0)"/>
+            <column name="SALES_TYPE_NAME" type="VARCHAR2(255 CHAR)"/>
+            <column name="CURRENCY" type="VARCHAR2(255 CHAR)"/>
+            <column name="CONTAMINATION_TAXES_ID" type="NUMBER(19, 0)"/>
+            <column name="CONTAMINATION_TAXES_NAME" type="VARCHAR2(255 CHAR)"/>
+            <column name="PAYMENT_TYPE_ID" type="NUMBER(19, 0)"/>
+            <column name="PAYMENT_TYPE_NAME" type="VARCHAR2(255 CHAR)"/>
+            <column name="LC_NO_ID" type="NUMBER(19, 0)"/>
+            <column name="LC_NO_NAME" type="VARCHAR2(255 CHAR)"/>
+            <column name="PRE_INVOICE_ID" type="NUMBER(19, 0)"/>
+            <column name="PRE_INVOICE_DATE" type="DATE"/>
+            <column name="ISSUE_ID" type="NUMBER(19, 0)"/>
+            <column name="ISSUE_DATE" type="DATE"/>
+            <column name="OPENING_BANK_ID" type="NUMBER(19, 0)"/>
+            <column name="OPENING_DATE" type="DATE"/>
+            <column name="DEALER_BANK_ID" type="NUMBER(19, 0)"/>
+            <column name="DEALER_BANK_NAME" type="VARCHAR2(255 CHAR)"/>
+            <column name="OTHER_DESCRIPTION" type="VARCHAR2(255 CHAR)"/>
+            <column name="FIRST_CONTRACT_NO" type="VARCHAR2(255 CHAR)"/>
+            <column name="SECOND_CONTRACT_NO" type="VARCHAR2(255 CHAR)"/>
+            <column name="SECOND_CONTRACT_NAME" type="VARCHAR2(255 CHAR)"/>
+
+        </createTable>
+    </changeSet>
+
+    <changeSet author="MShahabi" id="1778899665544-005">
+        <createSequence sequenceName="SEQ_INVOICE_SALES"/>
+    </changeSet>
+
+</databaseChangeLog>

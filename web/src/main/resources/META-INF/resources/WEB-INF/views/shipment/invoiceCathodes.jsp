@@ -134,18 +134,10 @@
     var DynamicForm_Invoice_Cathodes = isc.DynamicForm.create({
         width: "100%",
         height: "100%",
-        setMethod: 'POST',
-        align: "center",
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
         styleName: "invoice-form",
-        errorOrientation: "right",
         margin: 15,
-        titleWidth: "100",wrapTitle: true,
-        titleAlign: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>",
+        titleWidth: "100",
+        wrapItemTitles: true,
         numCols: 12,
         fields:
             [

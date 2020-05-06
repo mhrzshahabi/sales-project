@@ -17,7 +17,7 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ContractShipmentDTO {
 
-    private Long contractId;
+
     private String plan;
     private Long shipmentRow;
     private Long dischargeId;
@@ -26,6 +26,9 @@ public class ContractShipmentDTO {
     private String sendDate;
     private Long duration;
     private Long tolorance;
+    private Long contractId;
+    private Long incotermsShipmentId;
+
 
     @Getter
     @Setter
@@ -33,7 +36,7 @@ public class ContractShipmentDTO {
     @ApiModel("ContractShipmentInfo")
     public static class Info extends ContractShipmentDTO {
         private Long id;
-        private ContractDTO contract;
+
         private PortDTO discharge;
         private Date createdDate;
         private String createdBy;
@@ -57,6 +60,7 @@ public class ContractShipmentDTO {
         @NotNull
         @ApiModelProperty(required = true)
         private Long id;
+        private Boolean deleted;
     }
 
     @Getter
@@ -67,17 +71,5 @@ public class ContractShipmentDTO {
         @NotNull
         @ApiModelProperty(required = true)
         private List<Long> ids;
-    }
-
-    @Getter
-    @Setter
-    @Accessors(chain = true)
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    public static class SpecRs {
-        private List<ContractShipmentDTO.Info> data;
-        private Integer status;
-        private Integer startRow;
-        private Integer endRow;
-        private Integer totalRows;
     }
 }

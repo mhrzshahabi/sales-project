@@ -614,6 +614,7 @@
 
                         }) /* dynamic Form */
                         , ListGrid_ShipmentAssayItemPaste = isc.ListGrid.create({
+                            showFilterEditor: true,
                             dataSource: ClientDataSource_ShipmentAssayItem,
                             sortDirection: "descending",
                             width: "100%",
@@ -799,6 +800,7 @@
         }
 
     var ListGrid_ShipmentByAssayHeader = isc.ListGrid.create({
+        showFilterEditor: true,
         width: "100%",
         height: "100%",
         dataSource: MyRestDataSource_ShipmentByAssayHeader,
@@ -1030,10 +1032,7 @@
         ],
         getExpansionComponent: function (record) {
         return getExpandedComponent_ShipmentByAssayHeader(record)
-        },
-        sortField: 0,
-        showFilterEditor: true,
-        filterOnKeypress: true
+        }
     });
     var HLayout_Grid_ShipmentByAssayHeader = isc.HLayout.create({
         width: "100%",
@@ -1043,7 +1042,6 @@
         ]
     });
         var ToolStripButton_ListGrid_ShipmentByAssayHeader_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
         ListGrid_ShipmentByAssayHeader.invalidateCache();
@@ -1082,14 +1080,7 @@ ToolStrip_Actions_ListGrid_ShipmentByAssayHeader,
     var DynamicForm_ShipmentAssayHeader = isc.DynamicForm.create({
         width: "100%",
         height: "100%",
-        setMethod: 'POST',
-        align: "center", wrapTitle: false,
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>",
+        wrapItemTitles: false,
         cellPadding: 2,
         numCols: 4,
         fields:
@@ -1378,7 +1369,6 @@ ToolStrip_Actions_ListGrid_ShipmentByAssayHeader,
     }
 
     var ToolStripButton_ShipmentAssayHeader_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_ShipmentAssayHeader_refresh();
@@ -1466,6 +1456,7 @@ ToolStrip_Actions_ListGrid_ShipmentByAssayHeader,
     });
 
     var ListGrid_ShipmentAssayHeader = isc.ListGrid.create({
+        showFilterEditor: true,
         width: "100%",
         height: 200,
         styleName: "listgrid-child",
@@ -1566,9 +1557,6 @@ ToolStrip_Actions_ListGrid_ShipmentByAssayHeader,
             showTitle: false
             }
         ],
-        sortField: 0,
-        showFilterEditor: true,
-        filterOnKeypress: true,
         showRecordComponents: true,
         showRecordComponentsByCell: true,
         createRecordComponent: function (record, colNum) {
@@ -1668,14 +1656,6 @@ ToolStrip_Actions_ListGrid_ShipmentByAssayHeader,
     var DynamicForm_ShipmentAssayItem = isc.DynamicForm.create({
         width: "100%",
         height: "100%",
-        setMethod: 'POST',
-        align: "center",
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>",
         cellPadding: 2,
         numCols: 4,
         fields:
@@ -1887,7 +1867,6 @@ ToolStrip_Actions_ListGrid_ShipmentByAssayHeader,
     }
 
     var ToolStripButton_ShipmentAssayItem_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_ShipmentAssayItem_refresh();
@@ -1976,6 +1955,7 @@ ToolStrip_Actions_ListGrid_ShipmentByAssayHeader,
     });
 
     var ListGrid_ShipmentAssayItem = isc.ListGrid.create({
+        showFilterEditor: true,
         width: "100%",
         height: 200,
         dataSource: MyRestDataSource_ShipmentAssayItem,
@@ -2020,9 +2000,7 @@ ToolStrip_Actions_ListGrid_ShipmentByAssayHeader,
                     errorMessage: "<spring:message code='global.form.correctType'/>"
                 }]
             }
-        ],
-        sortField: 0,
-        filterOnKeypress: true
+        ]
     });
     var HLayout_Grid_ShipmentAssayItem = isc.HLayout.create({
         width: "100%",
@@ -2042,7 +2020,6 @@ ToolStrip_Actions_ListGrid_ShipmentByAssayHeader,
     });
 
     isc.SectionStack.create({
-        ID: "ShipmentAssayHeader_Section_Stack",
         sections:
             [
                 {

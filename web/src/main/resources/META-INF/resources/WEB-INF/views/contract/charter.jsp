@@ -130,16 +130,7 @@
         {
             width: 700,
             height: "100%",
-            setMethod: 'POST',
-            align: "center",
-            canSubmit: true,
-            showInlineErrors: true,
-            showErrorText: true,
-            showErrorStyle: true,
-            errorOrientation: "right",
             titleWidth: "100",
-            titleAlign: "right",
-            requiredMessage: "<spring:message code='validator.field.is.required'/>",
             numCols: 2,
             fields: [
                 {
@@ -168,7 +159,6 @@
         });
 
     var ToolStripButton_PaymentOption_Refresh = isc.ToolStripButton.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_PaymentOption_refresh();
@@ -176,7 +166,6 @@
     });
 
     var ToolStripButton_PaymentOption_Add = isc.ToolStripButton.create({
-        icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
             DynamicForm_PaymentOption.clearValues();
@@ -319,6 +308,7 @@
 
     var ListGrid_PaymentOption = isc.ListGrid.create(
         {
+            showFilterEditor: true,
             width: "100%",
             height: "100%",
             dataSource: RestDataSource_PaymentOption_IN_CHARTER,
@@ -341,10 +331,7 @@
                     align: "center"
                 },
             ],
-            sortField: 0,
-            autoFetchData: true,
-            showFilterEditor: true,
-            filterOnKeypress: true
+            autoFetchData: true
         });
 
     var HLayout_PaymentOption_Grid = isc.HLayout.create(

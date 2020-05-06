@@ -16,27 +16,27 @@ import java.util.List;
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class WarehouseCadDTO {
-
-    private String  warehouseNo;
-    private Long    materialItemId;
-    private String  plant;
-    private Double  weightKg;
-    private String  bijackNo;
-    private String  movementType;
-    private Long    warehouseYardId;
-    private String  sourceLoadDate;
-    private String  destinationUnloadDate;
-    private String  containerNo;
-    private String  rahahanPolompNo;
-    private String  herasatPolompNo;
+    private TozinDTO tozinDTO;
+    private String warehouseNo;
+    private Long materialItemId;
+    private String plant;
+    private Double weightKg;
+    private String bijackNo;
+    private String movementType;
+    private Long warehouseYardId;
+    private String sourceLoadDate;
+    private String destinationUnloadDate;
+    private String containerNo;
+    private String rahahanPolompNo;
+    private String herasatPolompNo;
     private Integer sourceBundleSum;
     private Integer destinationBundleSum;
     private Integer sourceSheetSum;
     private Integer destinationSheetSum;
-    private String  sourceTozinPlantId;
-    private String  destinationTozinPlantId;
-    private Double  sourceWeight;
-    private Double  destinationWeight;
+    private String sourceTozinPlantId;
+    private String destinationTozinPlantId;
+    private Double sourceWeight;
+    private Double destinationWeight;
     private Integer sourceSheetSumDelivery;
     private Integer destinationSheetSumDelivery;
     private String bijakFirstDescription;
@@ -58,6 +58,7 @@ public class WarehouseCadDTO {
         private String lastModifiedBy;
         private Integer version;
     }
+
 
     @Getter
     @Setter
@@ -105,17 +106,5 @@ public class WarehouseCadDTO {
         @NotNull
         @ApiModelProperty(required = true)
         private List<Long> ids;
-    }
-
-    @Getter
-    @Setter
-    @Accessors(chain = true)
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    public static class SpecRs {
-        private List<WarehouseCadDTO.Info> data;
-        private Integer status;
-        private Integer startRow;
-        private Integer endRow;
-        private Integer totalRows;
     }
 }

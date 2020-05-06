@@ -13,6 +13,7 @@ import com.nicico.sales.model.entities.base.ContractShipment;
 import com.nicico.sales.model.entities.base.WarehouseLot;
 import com.nicico.sales.repository.*;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.POIXMLDocumentPart;
 import org.apache.poi.POIXMLRelation;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -27,6 +28,8 @@ import org.apache.poi.xwpf.usermodel.*;
 import org.hibernate.envers.AuditReader;
 import org.hibernate.envers.AuditReaderFactory;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.PropertyMap;
+import org.modelmapper.TypeMap;
 import org.modelmapper.TypeToken;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.*;
 import org.springframework.core.env.Environment;
@@ -39,11 +42,11 @@ import javax.persistence.EntityManager;
 import java.io.*;
 import java.math.BigInteger;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 @RequiredArgsConstructor
 @Service
+@Slf4j
 public class ContractService implements IContractService {
 
     private final ContractDAO contractDAO;
@@ -53,12 +56,9 @@ public class ContractService implements IContractService {
     private final WarehouseLotDAO warehouseLotDAO;
     private final ContractShipmentDAO contractShipmentDAO;
     private final PortDAO portDAO;
+    private final IncotermsDAO incotermsDAO;
     private final ContractDetailDAO contractDetailDAO;
-    private final ShipmentContractService shipmentContractService;
-    private final ShipmentContractDAO shipmentContractDAO;
     private final EntityManager entityManager;
-
-    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
     private MyXWPFHtmlDocument myXWPFHtmlDocument;
 
     private static void setHeaderRowforSingleCell(XWPFTableCell cell, String text) {
@@ -238,7 +238,7 @@ public class ContractService implements IContractService {
                         "<body>" + value + "</body>"));
                 printdoc.getDocument().getBody().addNewAltChunk().setId(myXWPFHtmlDocument.getId());
                 runPrintValue.addBreak();
-                XWPFTable tableShipment = printdoc.createTable(contractShipmentDAO.findByContractId(Long.valueOf(contractId)).size() + 1, 8);
+                XWPFTable tableShipment = printdoc.createTable(contractShipmentDAO.findByContractId(Long.valueOf(contractId)).size() + 1, 9);
                 CTTblWidth widthLot = tableShipment.getCTTbl().addNewTblPr().addNewTblW();
                 widthLot.setW(BigInteger.valueOf(10000));
                 setTableAlign(tableShipment, ParagraphAlignment.CENTER);
@@ -250,6 +250,7 @@ public class ContractService implements IContractService {
                 setHeaderRowforSingleCell(tableShipment.getRow(0).getCell(5), "SEND DATE");
                 setHeaderRowforSingleCell(tableShipment.getRow(0).getCell(6), "DURATION");
                 setHeaderRowforSingleCell(tableShipment.getRow(0).getCell(7), "TOLORANCE");
+                setHeaderRowforSingleCell(tableShipment.getRow(0).getCell(8), "INCOTERMS");
 
                 tableShipment.getRow(0).getCell(0).setColor("D9D9D9");
                 tableShipment.getRow(0).getCell(1).setColor("D9D9D9");
@@ -259,6 +260,7 @@ public class ContractService implements IContractService {
                 tableShipment.getRow(0).getCell(5).setColor("D9D9D9");
                 tableShipment.getRow(0).getCell(6).setColor("D9D9D9");
                 tableShipment.getRow(0).getCell(7).setColor("D9D9D9");
+                tableShipment.getRow(0).getCell(8).setColor("D9D9D9");
                 for (int i = 0; i < contractShipmentDAO.findByContractId(Long.valueOf(contractId)).size(); i++) {
                     setHeaderRowforSingleCell(tableShipment.getRow(i + 1).getCell(0), nvl(contractShipmentDAO.findByContractId(Long.valueOf(contractId)).get(i).getPlan()));
                     setHeaderRowforSingleCell(tableShipment.getRow(i + 1).getCell(1), nvl(contractShipmentDAO.findByContractId(Long.valueOf(contractId)).get(i).getShipmentRow() + ""));
@@ -268,6 +270,7 @@ public class ContractService implements IContractService {
                     setHeaderRowforSingleCell(tableShipment.getRow(i + 1).getCell(5), nvl(contractShipmentDAO.findByContractId(Long.valueOf(contractId)).get(i).getSendDate() + ""));
                     setHeaderRowforSingleCell(tableShipment.getRow(i + 1).getCell(6), nvl(contractShipmentDAO.findByContractId(Long.valueOf(contractId)).get(i).getDuration() + ""));
                     setHeaderRowforSingleCell(tableShipment.getRow(i + 1).getCell(7), nvl(contractShipmentDAO.findByContractId(Long.valueOf(contractId)).get(i).getTolorance() + ""));
+                    setHeaderRowforSingleCell(tableShipment.getRow(i + 1).getCell(8), nvl(incotermsDAO.findById(contractShipmentDAO.findByContractId(Long.valueOf(contractId)).get(i).getIncotermsShipmentId()).get().getCode() + ""));
                 }
             } else {
                 myXWPFHtmlDocument = createHtmlDoc(printdoc, key);
@@ -290,7 +293,7 @@ public class ContractService implements IContractService {
             prefixContractWrite = "MoOx_";
             prefixPrintContractWrite = "PrintMoOx_";
         } else {
-            ContractWrite = contractNo;
+            ContractWrite = contractNo.replace("_Cad", "");
             prefixContractWrite = "Cathod_";
             prefixPrintContractWrite = "PrintCathod_";
         }
@@ -299,30 +302,47 @@ public class ContractService implements IContractService {
         if (!directory.exists()) {
             directory.mkdir();
         }
-        OutputStream os = new FileOutputStream(UPLOAD_FILE_DIR + "/contract/" + prefixContractWrite + ContractWrite + ".doc");
-        OutputStream printOs = new FileOutputStream(UPLOAD_FILE_DIR + "/contract/" + prefixPrintContractWrite + ContractWrite + "_" + maxRef + ".doc");
+        OutputStream os = new FileOutputStream(UPLOAD_FILE_DIR + "/contract/" + prefixContractWrite + ContractWrite + "_" + maxRef + ".doc");
+        OutputStream printOs = new FileOutputStream(UPLOAD_FILE_DIR + "/contract/" + prefixPrintContractWrite + ContractWrite + "_" + maxRef + ".docx");
         XWPFParagraph paragraph = doc.createParagraph();
         XWPFRun run = paragraph.createRun();
         //String base64Text = Base64.getEncoder().encodeToString(dataALLArticle.getBytes());
         run.setText(dataALLArticle);
         doc.write(os);
         printdoc.write(printOs);
+        Process process = Runtime.getRuntime().exec("doc2pdf " + UPLOAD_FILE_DIR + "/contract/" + prefixPrintContractWrite + ContractWrite + "_" + maxRef + ".docx");
+        log.info(String.valueOf(process.waitFor()));
     }
 
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     @Override
-    public List<String> readFromWord(String contractNo) {
+    public List<String> readFromWord(String contractNo, Long contractId, int draftId) {
+        AuditReader reader = AuditReaderFactory.get(entityManager);
         String UPLOAD_FILE_DIR = environment.getProperty("nicico.upload.dir");
         List<String> allArticle = new ArrayList<>();
+        int maxRef = 0;
+        if (draftId != 0) {
+            maxRef = draftId;
+        } else {
+            reader.createQuery().forRevisionsOfEntity(Contract.class, true, false).getResultList();
+            List<Number> oldContract = reader.getRevisions(Contract.class, Long.valueOf(contractId));
+            List<Integer> intList = new ArrayList<Integer>(oldContract.size());
+            for (Number i : oldContract) {
+                intList.add((Integer) i);
+            }
+            maxRef = findMax(intList);
+        }
         try {
             InputStream inputstream;
-            if (contractNo.contains("_Conc")) {
-                String contractConc = contractNo.replace("_Conc", "");
-                inputstream = new FileInputStream(UPLOAD_FILE_DIR + "/contract/" + "Conc_" + contractConc.substring(1, contractConc.length() - 1) + ".doc");
+            if (contractNo.contains("Conc")) {
+                String contractConc = contractNo.replace("Conc", "");
+                inputstream = new FileInputStream(UPLOAD_FILE_DIR + "/contract/" + "Conc_" + contractConc + "_" + maxRef + ".doc");
             } else if (contractNo.contains("?Mo")) {
                 String contractMo = contractNo.replace("?Mo", "");
-                inputstream = new FileInputStream(UPLOAD_FILE_DIR + "/contract/" + "Cathod_MO_OX" + contractMo.substring(1, contractMo.length() - 1) + ".doc");
+                inputstream = new FileInputStream(UPLOAD_FILE_DIR + "/contract/" + "Cathod_MO_OX" + contractMo.substring(1, contractMo.length() - 1) + "_" + maxRef + ".doc");
             } else {
-                inputstream = new FileInputStream(UPLOAD_FILE_DIR + "/contract/" + "Cathod_" + contractNo.substring(1, contractNo.length() - 1) + ".doc");
+                String contractCad = contractNo.replace("Cad", "");
+                inputstream = new FileInputStream(UPLOAD_FILE_DIR + "/contract/" + "Cathod_" + contractCad + "_" + maxRef + ".doc");
             }
             allArticle = extractText(inputstream);
         } catch (Exception e) {
@@ -335,8 +355,14 @@ public class ContractService implements IContractService {
     @Override
     @PreAuthorize("hasAuthority('C_CONTRACT')")
     public ContractDTO.Info create(ContractDTO.Create request) {
+        request.getContractDetails().setContract(request);
         final Contract contract = modelMapper.map(request, Contract.class);
-        return save(contract);
+        ContractDTO.Info savedContract = save(contract);
+        request.getContractShipments().forEach(contractShipment -> {
+            contractShipment.setContractId(savedContract.getId());
+            contractShipmentDAO.saveAndFlush(modelMapper.map(contractShipment, ContractShipment.class));
+        });
+        return savedContract;
     }
 
     @Transactional
@@ -347,8 +373,40 @@ public class ContractService implements IContractService {
         final Contract contract = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.ContractNotFound));
 
         Contract updating = new Contract();
+        TypeMap<Contract, Contract> typeMap = modelMapper.getTypeMap(Contract.class, Contract.class);
+        if (typeMap == null) { // if not  already added
+            modelMapper.addMappings(new PropertyMap<Contract, Contract>() {
+                @Override
+                protected void configure() {
+                    skip(destination.getContractShipments());
+                }
+            });
+        }
+
         modelMapper.map(contract, updating);
         modelMapper.map(request, updating);
+
+        //*********** update , create , delete ContractShipments ***********//
+        request.getContractShipments().forEach(contractShipment -> {
+            if (contractShipment.getDeleted() != null && contractShipment.getDeleted())
+                contractShipmentDAO.deleteById(contractShipment.getId());
+            else {
+                contractShipment.setContractId(request.getId());
+                if (contractShipment.getId() == null) {
+                    contractShipmentDAO.saveAndFlush(modelMapper.map(contractShipment, ContractShipment.class));
+                } else {
+                    contract.getContractShipments().forEach(fromDatabase -> {
+                        if (fromDatabase.getId().equals(contractShipment.getId())) {
+                            ContractShipment creation = new ContractShipment();
+                            modelMapper.map(fromDatabase, creation);
+                            modelMapper.map(contractShipment, creation);
+                            contractShipmentDAO.saveAndFlush(creation);
+                        }
+                    });
+                }
+            }
+        });
+
         return save(updating);
     }
 
@@ -499,7 +557,7 @@ public class ContractService implements IContractService {
         if (headerParagraph == null) headerParagraph = header.createParagraph();
         headerParagraph.setAlignment(ParagraphAlignment.CENTER);
         InputStream in = this.getClass().getResourceAsStream("/reports/report-logo/ArmNicico.jpg");
-        run.addPicture(in, Document.PICTURE_TYPE_JPEG, "ArmNicico.jpg", Units.toEMU(510), Units.toEMU(75));
+        run.addPicture(in, org.apache.poi.xwpf.usermodel.Document.PICTURE_TYPE_JPEG, "ArmNicico.jpg", Units.toEMU(510), Units.toEMU(75));
         in.close();
 
         XWPFTable tableNo = printdoc.createTable(1, 2);

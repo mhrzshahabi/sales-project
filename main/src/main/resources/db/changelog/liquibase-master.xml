@@ -10,4 +10,12 @@
 	<include file="classpath:/db/changelog/liq_003.xml"/>
 	<include file="classpath:/db/changelog/liq_004.xml"/>
 	<include file="classpath:/db/changelog/liq_005.xml"/>
+	<include file="classpath:/db/changelog/liq_006.xml"/>
+	<include file="classpath:/db/changelog/liq_007.xml"/>
+	<include file="classpath:/db/changelog/liq_008.xml"/>
+	<include file="classpath:/db/changelog/liq_009.xml"/>
+	<include file="classpath:/db/changelog/liq_010.xml"/>
+	<include file="classpath:/db/changelog/liq_011.xml"/>
+	<include file="classpath:/db/changelog/liq_012.xml"/>
+	<include file="classpath:/db/changelog/liq_013.xml"/>
 </databaseChangeLog>

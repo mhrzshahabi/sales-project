@@ -178,18 +178,9 @@
     var DynamicForm_Groups = isc.DynamicForm.create({
         width: "100%",
         height: "100%",
-        setMethod: 'POST',
-        align: "center",
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
         titleWidth: "100",
-        titleAlign: "right",
         requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 2,
-
         fields: [
             {name: "id", hidden: true,},
             {type: "RowSpacerItem"},
@@ -356,7 +347,6 @@
     }
 
     var ToolStripButton_Groups_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_Groups_refresh();
@@ -365,7 +355,6 @@
 
     <sec:authorize access="hasAuthority('C_GROUPS')">
     var ToolStripButton_Groups_Add = isc.ToolStripButtonAdd.create({
-        icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
             DynamicForm_Groups.clearValues();
@@ -451,6 +440,7 @@
 
     var ListGrid_Groups = isc.ListGrid.create(
         {
+            showFilterEditor: true,
             width: "100%",
             height: "100%",
             dataSource: RestDataSource_Groups,
@@ -476,11 +466,7 @@
                         validateOnChange: true
                     }]
                 },],
-            sortField: 0,
             autoFetchData: true,
-            showFilterEditor: true,
-            filterOnKeypress: true,
-
             recordDoubleClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
             updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
                 var record = this.getSelectedRecord();
@@ -538,7 +524,6 @@
     }
 
     var ToolStripButton_Person_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_Person_GroupEmail_refresh();
@@ -569,6 +554,7 @@
 
     var ListGrid_Person_GroupEmail = isc.ListGrid.create(
         {
+            showFilterEditor: true,
             width: "100%",
             height: "100%",
             dataSource: RestDataSource_Person_GroupEmail,
@@ -635,18 +621,6 @@
                     }]
                 },
                 {
-                    name: "email1",
-                    title: "<spring:message code='person.email1'/>",
-                    type: 'text',
-                    width: "10%"
-                },
-                {
-                    name: "email2",
-                    title: "<spring:message code='person.email2'/>",
-                    type: 'text',
-                    width: "10%"
-                },
-                {
                     name: "phoneNo",
                     title: "<spring:message code='person.phoneNo'/>",
                     type: 'text',
@@ -657,17 +631,8 @@
                     title: "<spring:message code='person.mobileNo'/>",
                     type: 'text',
                     width: "10%"
-                },
-                {
-                    name: "mobileNo1",
-                    title: "<spring:message code='person.mobileNo1'/>",
-                    type: 'text',
-                    width: "10%"
                 }],
-            sortField: 0,
             autoFetchData: true,
-            showFilterEditor: true,
-            filterOnKeypress: true,
             recordDoubleClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
             updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
                 var record = this.getSelectedRecord();
@@ -766,33 +731,24 @@
     var DynamicForm_GroupsPerson = isc.DynamicForm.create({
         width: 700,
         height: "100%",
-        setMethod: 'POST',
-        align: "center",
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
         titleWidth: "100",
-        titleAlign: "right",
         requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 2,
         fields:
             [
                 {name: "id", hidden: true,},
-// {type: "RowSpacerItem"},
             {name: "groupsId", type: "long", hidden: true},
-// {type: "RowSpacerItem"},
             {
                 name: "personId",
                 title: "<spring:message code='person.fullName'/>",
-                type: 'long',
                 width: 500,
                 required: true,
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_Person_GroupEmail,
                 displayField: "fullName",
                 valueField: "id",
+                 type: 'text',
+                 sortField: 1,
                 pickListWidth: 505,
                 pickListHeight: 500,
                 pickListProperties: {showFilterEditor: true},
@@ -879,11 +835,9 @@
 
 
     var GroupPersonHeaderForm = isc.DynamicForm.create({
-        align: "center",
         width: 800,
         height: "100%",
         titleWidth: "100%",
-        titleAlign: "right",
         numCols: 1,
         fields: [
             {name: "id", type: "hidden", title: ""},
@@ -1007,7 +961,6 @@
     }
 
     var ToolStripButton_GroupsPerson_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_GroupsPerson_refresh();
@@ -1015,7 +968,6 @@
     });
 
     var ToolStripButton_GroupsPerson_Add = isc.ToolStripButtonAdd.create({
-        icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
             var record = ListGrid_Groups.getSelectedRecord();
@@ -1100,13 +1052,7 @@
                 name: "groups.groupsName",
                 title: "<spring:message code='groups.groupsName'/>",
                 type: 'text',
-                required: true,
-                width: 400,
-                validators: [
-                {
-                    type:"required",
-                    validateOnChange: true
-                }]
+                width: 400
             },
             {
                 name: "person.id",
@@ -1244,6 +1190,7 @@
 
 
     var ListGrid_GroupsPerson = isc.ListGrid.create({
+        showFilterEditor: true,
         width: "100%",
         height: "100%",
         dataSource: RestDataSource_GroupsPerson,
@@ -1311,16 +1258,10 @@
                 name: "groups.groupsName",
                 title: "<spring:message code='groups.groupsName'/>",
                 type: 'text',
-                required: true,
                 width: "10%",
                 sortNormalizer: function (recordObject) {
                     return recordObject.groups.groupsName;
-                },
-                validators: [
-                {
-                    type:"required",
-                    validateOnChange: true
-                }]
+                }
             },
             {
                 name: "person.id",
@@ -1389,24 +1330,6 @@
                 }]
             },
             {
-                name: "person.email1",
-                title: "<spring:message code='person.email1'/>",
-                type: 'text',
-                width: "10%",
-                sortNormalizer: function (recordObject) {
-                    return recordObject.person.email1;
-                }
-            },
-            {
-                name: "person.email2",
-                title: "<spring:message code='person.email2'/>",
-                type: 'text',
-                width: "10%",
-                sortNormalizer: function (recordObject) {
-                    return recordObject.person.email2;
-                }
-            },
-            {
                 name: "person.webAddress",
                 title: "<spring:message code='person.webAddress'/>",
                 type: 'text',
@@ -1423,30 +1346,10 @@
                 sortNormalizer: function (recordObject) {
                     return recordObject.person.mobileNo;
                 }
-            },
-            {
-                name: "person.mobileNo1",
-                title: "<spring:message code='person.mobileNo1'/>",
-                type: 'text',
-                width: "10%",
-                sortNormalizer: function (recordObject) {
-                    return recordObject.person.mobileNo1;
-                }
-            },
-            {
-                name: "person.mobileNo2",
-                title: "<spring:message code='person.mobileNo2'/>",
-                type: 'text',
-                width: "10%",
-                sortNormalizer: function (recordObject) {
-                    return recordObject.person.mobileNo2;
-                }
             }
         ],
         sortField: 2,
-        autoFetchData: true,
-        showFilterEditor: true,
-        filterOnKeypress: true,
+        autoFetchData: true
     });
     var HLayout_Grid_GroupsPerson = isc.HLayout.create({
         width: "100%",
@@ -1465,7 +1368,6 @@
     });
 
     isc.SectionStack.create({
-        ID: "Groups_Section_Stack",
         sections:
             [
                 {

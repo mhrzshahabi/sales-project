@@ -6,7 +6,7 @@
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
 
     factoryLableHedear("LablePageConc", '<font><b>NATIONAL IRANIAN COPPER INDUSTRIES CO.<b></font>', "100%", "10", 5);
-    factoryLable("lableNameContactConc", '<b><font size=4px>COPPER CONCENTRATE CONTRACT-GIAG/NICICO</font><b>', "100%", '2%', 1);
+    factoryLable("lableNameContactConc", '<b><font size=4px>COPPER CONCENTRATES CONTRACT</font><b>', "100%", '2%', 1);
     factoryLableArticle("lableArticle1Conc", '<b><font size=4px>ARTICLE 1 - DEFINITIONS:</font><b>', "30", 5)
     factoryLableArticle("lableArticle2Conc", '<b><font size=4px>ARTICLE 2 -QUANTITY :</font><b>', "30",5);
     factoryLableArticle("lableArticleSelect", '<b><font size=4px>SELECT ITEMS</font><b>', "25",5);
@@ -19,18 +19,9 @@
     var dynamicForm_ContactConcHeader = isc.DynamicForm.create({
         valuesManager: "contactHeaderConc",
         wrapItemTitles: false,
-        setMethod: 'POST',
         width: "100%",
         height: "100%",
-        align: "left",
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
         titleWidth: "80",
-        titleAlign: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>",
         cellPadding: 2,
         numCols: 4,
         fields: [
@@ -249,19 +240,10 @@
 
     var dynamicForm_ContactConcCustomer = isc.DynamicForm.create({
         valuesManager: "contactHeaderConc",
-        setMethod: 'POST',
         width: "100%",
         height: "100%",
         numCols: 4,
         wrapItemTitles: false,
-        align: "center",
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
-        titleAlign: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>",
         fields: [
             {name: "id", canEdit: false, hidden: true},
             {
@@ -360,16 +342,6 @@
         width: "100%",
         height: "100%",
         numCols: 4,
-        setMethod: 'POST',
-        align: "center",
-        canSubmit: true,
-        showInlineErrors: true,
-        wrapItemTitles: false,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
-        titleAlign: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>",
         fields: [
             {name: "id", canEdit: false, hidden: true},
             {
@@ -479,19 +451,32 @@ isc.DynamicForm.create({
                 startRow: false,
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_Parameters,
-                displayField: "paramValue",
-                valueField: "paramValue",
+                displayField: "paramName",
+                valueField: "paramName",
                 showTitle: false,
                 pickListProperties: {showFilterEditor: true},
                 pickListFields: [
                     {name: "paramName", title: "<spring:message code='parameters.paramName'/>", width: "20%", align: "center"},
-                    {name: "paramType", title: "<spring:message code='parameters.paramType'/>", width: "20%", align: "center"},
-                    {name: "paramValue", title: "<spring:message code='parameters.paramValue'/>", width: "60%", align: "center"}
+                   // {name: "paramType", title: "<spring:message code='parameters.paramType'/>", width: "20%", align: "center"},
+                    {name: "paramValue", title: "<spring:message code='parameters.paramValue'/>", width: "60%", align: "center"},
+                    {
+                    name: "categoryValue",
+                    title: "<spring:message	code='parameters.paramValue.d'/>",
+                    width: "15%",
+                    type: "text",
+                    required: true,
+                    valueMap: {
+                        "1": "Unit",
+                        "2": "Time",
+                        "3": "Financial",
+                        "-2": "BANK REFERENCE"
+                    }
+                    }
                 ],
                 pickListCriteria: {
                     _constructor: 'AdvancedCriteria', operator: "and", criteria: [
-                        {fieldName: "contractId", operator: "equals", value: 2},
-                        {fieldName: "categoryValue", operator: "equals", value: 1}]
+                        {fieldName: "contractId", operator: "equals", value: 3},
+                        ]
                 },
                 width: "1200",
                 height: "30",
@@ -538,30 +523,6 @@ var vlayoutBodyConc = isc.VLayout.create({
         members: [
             isc.HLayout.create({align: "top", members: [dynamicForm_ContactConcHeader]}),
             isc.HLayout.create({height: "50", align: "left", members: [lableNameContactConc]}),
-            isc.HLayout.create({height: "50", align: "left", members: [
-                isc.DynamicForm.create({ID:"dynamicFormConc",items:[{type: "text",name:"materialId",
-                    title: "PLEASE SELECT MATERIAL",align: "left",selectOnFocus: true,wrapTitle: false,required: true,
-                    validators: [
-                    {
-                    type:"required",
-                    validateOnChange: true }],
-                    width: "400",
-                    editorType: "SelectItem",
-                    optionDataSource: RestDataSource_Material,
-                    displayField: "descl",
-                    valueField: "id",
-                    pickListWidth: "400",
-                    pickListHeight: "500",
-                    pickListProperties: {showFilterEditor: true},
-                    pickListFields: [
-                    {name: "id", title: "id", canEdit: false, hidden: true},
-                    {name: "descl", title: "<spring:message code="material.descl"/>", width: "395", align: "center" }
-                    ],
-                    pickListCriteria:{_constructor:'AdvancedCriteria',operator:"and",criteria:[
-                        {fieldName: "descl", operator: "contains", value: "Conc"}]
-                    },
-                    }]})
-            ]}),
             isc.HLayout.create({align: "top", members: [dynamicForm_ContactConcCustomer]}),
             isc.HLayout.create({ID: "dynamicForm1And2Conc", align: "center", members: [dynamicForm1Conc, dynamicForm2Conc]}),
             isc.HLayout.create({align: "center", members: [DynamicForm_ContactConcSeller]}),
@@ -606,7 +567,8 @@ var vlayoutBodyConc = isc.VLayout.create({
                 pickListFields: [
                     {name: "id", title: "id", canEdit: false, hidden: true},
                     {name: "nameEN", width: 245, align: "center"}
-                ]
+                ],changed: function (form, item, value) {
+                }
             },
             {
                 type: "text",
@@ -625,8 +587,8 @@ var vlayoutBodyConc = isc.VLayout.create({
                 title: '<b><font size=2px>(IN</font><b>',
                 valueMap: {
                     "0": "",
-                    "1": "SELLERS",
-                    "2": "BUYER"
+                    "1": "SELLER’S",
+                    "2": "BUYER’S"
                 },
                 changed: function (form, item, value) {
                     dynamicForm_fullArticle02.setValue(dynamicForm_fullArticle02.getValue()+" "+"(IN"+" "+article2Conc.getItem("optional").getDisplayValue(value)+" "+"OPTION) DURING");

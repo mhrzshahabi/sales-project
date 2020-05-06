@@ -346,6 +346,22 @@
       "title": "حذف آیتم های صورتحساب"
     },
     {
+      "code": "R_INVOICE_SALES",
+      "title": "نمایش فاکتور فروش"
+    },
+    {
+      "code": "C_INVOICE_SALES",
+      "title": "ایجاد فاکتور فروش"
+    },
+    {
+      "code": "U_INVOICE_SALES",
+      "title": "به روز رسانی فاکتور فروش"
+    },
+    {
+      "code": "D_INVOICE_SALES",
+      "title": "حذف فاکتور فروش"
+    },
+    {
       "code": "R_INVOICE_INTERNAL",
       "title": "نمایش صورتحساب فروش داخلی"
     },

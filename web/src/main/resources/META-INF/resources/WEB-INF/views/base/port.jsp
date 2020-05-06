@@ -191,17 +191,8 @@
     });
 
     var DynamicForm_Port = isc.DynamicForm.create({
-        width: 700,
         height: "100%",
-        setMethod: 'POST',
-        align: "center",
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
         titleWidth: "100",
-        titleAlign: "right",
         requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 2,
         fields:
@@ -210,7 +201,7 @@
                 {
                     name: "port",
                     title: "<spring:message code='port.port'/>",
-                    width: 450, required: true, length: "4000",
+                    width: 450, required: true, length: "4000", errorOrientation: "bottom",
                     colSpan: 1,
                     titleColSpan: 1,
                     wrapTitle: false,
@@ -265,7 +256,7 @@
                     type: 'long',
                     width: 450,
                     editorType: "SelectItem",
-                    colSpan: 1, required: true,
+                    colSpan: 1, required: true, errorOrientation: "bottom",
                     titleColSpan: 1,
                     optionDataSource: RestDataSource_CountryPort,
                     displayField: "nameFa",
@@ -292,7 +283,6 @@
     });
 
     var ToolStripButton_Port_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_Port_refresh();
@@ -301,7 +291,6 @@
 
     <sec:authorize access="hasAuthority('C_PORT')">
     var ToolStripButton_Port_Add = isc.ToolStripButtonAdd.create({
-        icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
             DynamicForm_Port.clearValues();
@@ -409,18 +398,33 @@
     });
 
     var HLayout_Port_IButton = isc.HLayout.create({
-        layoutMargin: 5,
+        width: 650,
+        height: "100%",
+        layoutMargin: 10,
         membersMargin: 5,
-        width: "100%",
+        textAlign: "center",
+        align: "center",
         members: [
             IButton_Port_Save,
             InstructionCancelBtn
         ]
     });
 
+    var VLayout_saveButton_port = isc.VLayout.create({
+    width: 650,
+    textAlign: "center",
+    align: "center",
+    members: [
+     HLayout_Port_IButton
+    ]
+    });
+
+
+
+
     var Window_Port = isc.Window.create({
+        width:650,
         title: "<spring:message code='port.port'/> ",
-        width: 580,
         autoSize: true,
         autoCenter: true,
         isModal: true,
@@ -434,12 +438,13 @@
         items:
             [
                 DynamicForm_Port,
-                HLayout_Port_IButton
+                VLayout_saveButton_port
             ]
     });
 
     var ListGrid_Port = isc.ListGrid.create(
         {
+            showFilterEditor: true,
             width: "100%",
             height: "100%",
             dataSource: RestDataSource_Port,
@@ -480,12 +485,12 @@
                     name: "country.nameFa",
                     title: "<spring:message code='country'/>",
                     width: "50%",
-                    align: "center"
+                    align: "center",
+                    sortNormalizer: function (recordObject) {
+                        return recordObject.country.nameFa
+                    }
                 }],
-            sortField: 0,
-            autoFetchData: true,
-            showFilterEditor: true,
-            filterOnKeypress: true
+            autoFetchData: true
         });
 
     var HLayout_Port_Grid = isc.HLayout.create({

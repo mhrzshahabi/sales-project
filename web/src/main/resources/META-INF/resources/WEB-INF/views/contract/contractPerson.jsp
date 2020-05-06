@@ -53,13 +53,11 @@
     });
 
     var ListGrid_ContractPerson = isc.ListGrid.create({
+        showFilterEditor: true,
         width: "100%",
         height: "100%",
         dataSource: RestDataSource_ContractPerson,
-        sortField: 0,
-        autoFetchData: true,
-        showFilterEditor: true,
-        filterOnKeypress: true,
+        autoFetchData: true
     });
 
     var HLayout_Grid_ContractPerson = isc.HLayout.create({
@@ -71,7 +69,6 @@
     });
 
     var ToolStripButton_ContractPerson_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_ContractPerson_refresh();
@@ -172,17 +169,9 @@
     }
 
     var DynamicForm_ContractPerson = isc.DynamicForm.create({
-        width:"500",
-        setMethod: 'POST',
-        align: "center",
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "bottom",
+        width:600,
+        height: 100,
         titleWidth: "300",
-        titleAlign: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 2,
         fields: [
             {name: "id", hidden: true},
@@ -286,17 +275,32 @@
     });
 
     var HLayout_ContractPerson_IButton = isc.HLayout.create({
-        width: "100%",
-        layoutMargin: 5,
+        width: 650,
+        height: "100%",
+        layoutMargin: 10,
         membersMargin: 5,
+        textAlign: "center",
+        align: "center",
         members: [
             IButton_ContractPerson_Save,
             ContractPersonCancelBtn
         ]
     });
 
+
+        var VLayout_saveButton_ContractPerson = isc.VLayout.create({
+        width: 650,
+        textAlign: "center",
+        align: "center",
+        members: [
+        HLayout_ContractPerson_IButton
+        ]
+    });
+
+
+
     var Window_ContractPerson = isc.Window.create({
-        width:"200",
+        width:580,
         title: "<spring:message code='contractPerson.title'/>",
         autoSize: true,
         autoCenter: true,
@@ -310,7 +314,7 @@
         },
         items: [
             DynamicForm_ContractPerson,
-            HLayout_ContractPerson_IButton
+            VLayout_saveButton_ContractPerson
         ]
     });
 

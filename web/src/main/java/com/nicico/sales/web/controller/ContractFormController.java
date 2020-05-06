@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.persistence.EntityManager;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,9 +17,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 @RequiredArgsConstructor
 @Controller
@@ -30,7 +26,6 @@ public class ContractFormController {
     private final FileUtil fileUtil;
     private final Environment environment;
     private final ContractService contractService;
-    private final EntityManager entityManager;
 
     @RequestMapping("/showForm")
     public String showContract() {
@@ -42,7 +37,7 @@ public class ContractFormController {
     public void print(HttpServletRequest request, HttpServletResponse response, @PathVariable Long id) throws IOException {
 
         String docName = contractService.printContract(id);
-        docName = docName + ".doc";
+        docName = docName + ".pdf";
         String UPLOAD_FILE_DIR = environment.getProperty("nicico.upload.dir");
         String filePath = UPLOAD_FILE_DIR + File.separator + "contract" + File.separator + docName;
         File downloadFile = new File(filePath);
@@ -74,7 +69,7 @@ public class ContractFormController {
     @RequestMapping("/print/{id}/{idDradf}")
     public void print(HttpServletRequest request, HttpServletResponse response, @PathVariable Long id, @PathVariable Long idDradf) throws IOException {
         String docName = contractService.printContract(id, idDradf);
-        docName = docName + ".doc";
+        docName = docName + ".pdf";
         String UPLOAD_FILE_DIR = environment.getProperty("nicico.upload.dir");
         String filePath = UPLOAD_FILE_DIR + File.separator + "contract" + File.separator + docName;
         File downloadFile = new File(filePath);
@@ -98,15 +93,5 @@ public class ContractFormController {
         outputStream.flush();
         inputStream.close();
         fileUtil.download(docName, response);
-    }
-
-
-    private Integer findMax(List<Integer> list) {
-        if (list == null || list.size() == 0) {
-            return Integer.MIN_VALUE;
-        }
-        List<Integer> sortedlist = new ArrayList<>(list);
-        Collections.sort(sortedlist);
-        return sortedlist.get(sortedlist.size() - 1);
     }
 }

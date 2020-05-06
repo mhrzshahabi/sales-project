@@ -253,4 +253,26 @@ public class WarehouseStockFormController {
         out.flush();
     }
 
+    @RequestMapping("/print/{name}/{type}/{date}")
+    public void print(HttpServletResponse response, @PathVariable String name,
+                      @PathVariable String type, @PathVariable String date) throws SQLException, IOException, JRException {
+        String day = date.substring(0, 4) + "/" + date.substring(4, 6) + "/" + date.substring(6, 8);
+        Map<String, Object> params = new HashMap<>();
+        params.put("dateReport", day);
+        params.put(ConstantVARs.REPORT_TYPE, type);
+        switch (name) {
+            case "Forosh_Bargiri":
+                reportUtil.export("/reports/tozin_forosh_bargiri.jasper", params, response);
+                break;
+            case "Kharid_Konstantere":
+                reportUtil.export("/reports/tozin_kharid_konstantere.jasper", params, response);
+                break;
+            case "Kharid_Zaieat":
+                reportUtil.export("/reports/tozin_kharid_zayeat.jasper", params, response);
+                break;
+            case "beyn_mojtama":
+                reportUtil.export("/reports/tozin_beyn_mojtama.jasper", params, response);
+                break;
+        }
+    }
 }

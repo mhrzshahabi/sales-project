@@ -81,16 +81,4 @@ public class InspectionContractDTO {
         @ApiModelProperty(required = true)
         private List<Long> ids;
     }
-
-    @Getter
-    @Setter
-    @Accessors(chain = true)
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    public static class SpecRs {
-        private List<InspectionContractDTO.Info> data;
-        private Integer status;
-        private Integer startRow;
-        private Integer endRow;
-        private Integer totalRows;
-    }
 }

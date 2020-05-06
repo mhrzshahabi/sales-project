@@ -133,16 +133,7 @@
     var DynamicForm_CurrencyRate = isc.DynamicForm.create({
         width: "100%",
         height: "100%",
-        setMethod: 'POST',
-        align: "center",
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
         titleWidth: "105",
-        titleAlign: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 2,
         fields:
             [
@@ -218,7 +209,6 @@
     });
 
     var ToolStripButton_CurrencyRate_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_CurrencyRate_refresh();
@@ -392,7 +382,10 @@
                 DynamicForm_CurrencyRate,
                 isc.HLayout.create(
                     {
-                        width: "100%",
+                    layoutMargin: 10,
+                    membersMargin: 5,
+                    align: "center",
+                    width: "100%",
                         members: [
                             IButton_CurrencyRate_Save,
                             isc.Label.create(
@@ -401,7 +394,6 @@
                                 }),
                             isc.IButtonCancel.create(
                                 {
-                                    ID: "currencyRateEditExitIButton",
                                     title: "<spring:message code='global.cancel'/>",
                                     width: 100,
                                     icon: "pieces/16/icon_delete.png",
@@ -418,6 +410,7 @@
 
     var ListGrid_CurrencyRate = isc.ListGrid.create(
         {
+            showFilterEditor: true,
             width: "100%",
             height: "100%",
             dataSource: RestDataSource_CurrencyRate,
@@ -464,23 +457,7 @@
                     align: "center",
                     type: 'text'
                 }],
-            sortField: 0,
-            autoFetchData: true,
-            showFilterEditor: true,
-            filterOnKeypress: true,
-            recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
-            updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
-                var record = this.getSelectedRecord();
-                ListGrid_CurrencyRateFeature.fetchData(
-                    {
-                        "currencyRate.id": record.id
-                    }, function (dsResponse, data, dsRequest) {
-                        ListGrid_CurrencyRateFeature.setData(data);
-                    },
-                    {
-                        operationId: "00"
-                    });
-            }
+            autoFetchData: true
         });
 
     var HLayout_CurrencyRate_Grid = isc.HLayout.create(

@@ -302,6 +302,7 @@
     }
 
     var ListGrid_ShipmentByWarehouseIssueCathode = isc.ListGrid.create({
+        showFilterEditor: true,
         width: "100%",
         height: "100%",
         dataSource: MyRestDataSource_ShipmentByWarehouseIssueCathode,
@@ -531,9 +532,6 @@
                 showHover: true
             }
         ],
-        sortField: 0,
-        showFilterEditor: true,
-        filterOnKeypress: true,
         getExpansionComponent: function (record) {
             return getExpandedComponent_ShipmentByWarehouseIssueCathode(record)
         }
@@ -548,7 +546,6 @@
     });
 
     var ToolStripButton_ListGrid_ShipmentByWarehouseIssueCathode_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_ShipmentByWarehouseIssueCathode.invalidateCache();
@@ -718,16 +715,14 @@
             });
 
             var ListGrid_WarehouseCadITEMByWarehouseIssueCathode = isc.ListGrid.create({
+                showFilterEditor: true,
                 width: "100%",
                 height: "100%",
                 dataSource: RestDataSource_WarehouseCadITEMByWarehouseIssueCathode,
-                sortField: 0,
                 canDragRecordsOut: true,
                 dragDataAction: "copy",
                 canReorderRecords: true,
                 autoFetchData: false,
-                showFilterEditor: true,
-                filterOnKeypress: true,
                 fields: [
                     {
                         name: "warehouseCad.bijackNo",
@@ -741,17 +736,15 @@
 
 
             var ListGrid_WarehouseCadITEMByWarehouseIssueCathode_selected = isc.ListGrid.create({
+                showFilterEditor: true,
                 width: "100%",
                 height: "100%",
                 dataSource: ClientDataSource_WarehouseCadITEMByWarehouseIssueCathode,
                 data: ClientData_WarehouseCadITEMByWarehouseIssueCathode,
-                sortField: 0,
                 canReorderRecords: true,
                 canRemoveRecords: true,
                 canAcceptDroppedRecords: true,
-                autoFetchData: false,
-                showFilterEditor: true,
-                filterOnKeypress: true
+                autoFetchData: false
             });
 
             var Window_warehouseIssueCathode_bijak = isc.Window.create({
@@ -889,16 +882,7 @@
     var DynamicForm_WarehouseIssueCathode = isc.DynamicForm.create({
         width: 650,
         height: "100%",
-        setMethod: 'POST',
-        align: "center",
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
         titleWidth: "150",
-        titleAlign: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 2,
         fields:
             [
@@ -1036,7 +1020,6 @@
     });
 
     var ToolStripButton_WarehouseIssueCathode_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_WarehouseIssueCathode_refresh();
@@ -1045,7 +1028,6 @@
 
     <sec:authorize access="hasAuthority('C_WAREHOUSE_ISSUE_CATHODE')">
     var ToolStripButton_WarehouseIssueCathode_Add = isc.ToolStripButtonAddLarge.create({
-        icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
             var record = ListGrid_ShipmentByWarehouseIssueCathode.getSelectedRecord();
@@ -1211,6 +1193,7 @@
     // });
 
     var ListGrid_WarehouseIssueCathode = isc.ListGrid.create({
+        showFilterEditor: true,
         width: "100%",
         height: 200,
         styleName: "listgrid-child",
@@ -1357,10 +1340,7 @@
                     showTitle: false
                 },
             ],
-        sortField: 0,
         autoFetchData: false,
-        // showFilterEditor: true,
-        filterOnKeypress: true,
         showRecordComponents: true,
         showRecordComponentsByCell: true,
         createRecordComponent: function (record, colNum) {

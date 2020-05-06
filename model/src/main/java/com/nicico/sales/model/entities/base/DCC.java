@@ -21,34 +21,34 @@ import javax.persistence.*;
 @Table(name = "TBL_DCC")
 public class DCC extends Auditable {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_DCC")
-	@SequenceGenerator(name = "SEQ_DCC", sequenceName = "SEQ_DCC", allocationSize = 1)
-	@Column(name = "ID")
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_DCC")
+    @SequenceGenerator(name = "SEQ_DCC", sequenceName = "SEQ_DCC", allocationSize = 1)
+    @Column(name = "ID")
+    private Long id;
 
-	@Column(name = "c_TBL_NAME1", length = 100)
-	private String tblName1;
+    @Column(name = "c_TBL_NAME1", length = 100)
+    private String tblName1;
 
-	@Column(name = "n_TBL_ID1", length = 100)
-	private Long tblId1;
+    @Column(name = "n_TBL_ID1", length = 100)
+    private Long tblId1;
 
-	@Column(name = "c_TBL_NAME2", length = 100)
-	private String tblName2;
+    @Column(name = "c_TBL_NAME2", length = 100)
+    private String tblName2;
 
-	@Column(name = "n_TBL_ID2", length = 100)
-	private Long tblId2;
+    @Column(name = "n_TBL_ID2", length = 100)
+    private Long tblId2;
 
-	@Column(name = "c_FILE_NAME", length = 100)
-	private String fileName;
+    @Column(name = "c_FILE_NAME", length = 100)
+    private String fileName;
 
-	@Column(name = "c_FILE_NEW_NAME", length = 100)
-	private String fileNewName;
+    @Column(name = "c_FILE_NEW_NAME", length = 100)
+    private String fileNewName;
 
-	@Column(name = "c_DESCRIPTION", nullable = false, length = 4000)
-	private String description;
+    @Column(name = "c_DESCRIPTION", nullable = false, length = 4000)
+    private String description;
 
-	@Column(name = "c_DOCUMENT_TYPE", length = 60)
-	private String documentType;
+    @Column(name = "c_DOCUMENT_TYPE", length = 60)
+    private String documentType;
 
 }

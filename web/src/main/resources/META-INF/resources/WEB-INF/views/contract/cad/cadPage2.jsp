@@ -70,7 +70,7 @@ var article4_quality = isc.DynamicForm.create({
                 name: "article4_quality1",
                 type: "text",
                 showTitle: true,
-                width: "500",
+                width: "500",keyPressFilter: "[0-9.]",
                 wrap: false,
                 title: "<strong class='cssDynamicForm'>BUNDELS TONNAGE IN MT FOR ELECTROLYTIC COPPER CATHODES</strong>",changed: function (form, item, value) {
                         fullArticle4.setValue("IN BUNDLES OF "+" "+value+" "+" METRIC TONS FOR ELECTROLYTIC COPPER CATHODES AND "+" "+article4_quality.getValue("article4_quality2")+" "+" METRIC TONS FOR(SXEW),EACH STARAPPED FOR SAFE OCEAN TRANSPORTATION");
@@ -80,7 +80,7 @@ var article4_quality = isc.DynamicForm.create({
                 name: "article4_quality2",
                 type: "text",
                 showTitle: true,
-                wrap: false,
+                wrap: false,keyPressFilter: "[0-9.]",
                 width: "500",
                 title: "<strong class='cssDynamicForm'>BUNDELS TONNAGE IN MT FOR SXEW</strong>",changed: function (form, item, value) {
                         fullArticle4.setValue("IN BUNDLES OF "+" "+article4_quality.getValue("article4_quality1")+" "+" METRIC TONS FOR ELECTROLYTIC COPPER CATHODES AND "+" "+value+" "+" METRIC TONS FOR(SXEW),EACH STARAPPED FOR SAFE OCEAN TRANSPORTATION");
@@ -106,19 +106,20 @@ var buttonAddItem=isc.IButton.create({
     click: "ListGrid_ContractItemShipment.startEditingNew()"
 });
 
-    ListGrid_ContractItemShipment = isc.ListGrid.create({
+    isc.ListGrid.create({
+        ID:"ListGrid_ContractItemShipment",
+        showFilterEditor: false,
         width: "100%",
         height: "200",
         modalEditing: true,
         canEdit: true,
         canRemoveRecords: true,
         autoFetchData: false,
-        autoSaveEdits: false,
+        autoSaveEdits: true,
         dataSource: RestDataSource_ContractShipment,
         fields:
             [
                 {name: "id", hidden: true,},
-                {name: "tblContractItem.id", type: "long", hidden: true},
                 {
                     name: "plan",
                     title: "<spring:message code='shipment.plan'/>",
@@ -132,7 +133,11 @@ var buttonAddItem=isc.IButton.create({
                     title: "<spring:message code='contractItem.itemRow'/> ",
                     type: 'text',
                     width: "10%",
-                    align: "center"
+                    align: "center",keyPressFilter: "[0-9.]",
+                    validators: [{
+                        type:"isInteger",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "dischargeId", title: "<spring:message code='port.port'/>", editorType: "SelectItem",
@@ -151,13 +156,17 @@ var buttonAddItem=isc.IButton.create({
                     name: "amount",
                     title: "<spring:message code='global.amount'/>",
                     type: 'float',
-                    width: "10%",
+                    width: "10%",keyPressFilter: "[0-9.]",
                     align: "center",changed: function (form, item, value) {
                        if(ListGrid_ContractItemShipment.getEditRow()==0){
                            amountSet=value;
                            valuesManagerArticle5_quality.setValue("fullArticle5",value+"MT");
                         }
-                }
+                    },
+                    validators: [{
+                        type:"isInteger",
+                        validateOnChange: true
+                    }]
                 },
                 {
                     name: "sendDate",
@@ -183,30 +192,42 @@ var buttonAddItem=isc.IButton.create({
                            valuesManagerArticle5_quality.setValue("fullArticle5",amountSet+"MT"+" "+"+/-"+value+" "+valuesManagerArticle2Cad.getItem("optional").getDisplayValue(valuesManagerArticle2Cad.getValue("optional"))+" "+"PER EACH CALENDER MONTH STARTING FROM"+" "+sendDateSet+" "+"TILL");
                         }
                 }
-                },
+                },{
+                name: "incotermsShipmentId",
+                colSpan: 3,
+                titleColSpan: 1,
+                tabIndex: 6,
+                showTitle: true,
+                showHover: true,
+                showHintInField: true,
+                required: true,
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }],
+                type: 'long',
+                numCols: 4,
+                editorType: "SelectItem",
+                optionDataSource: RestDataSource_Incoterms_InCat,
+                displayField: "code",
+                valueField: "id",
+                pickListWidth: "450",
+                pickListHeight: "500",
+                pickListProperties: {showFilterEditor: true},
+                pickListFields: [
+                    {name: "code", width: 440, align: "center"}
+                ],
+                width: "10%",
+                title: "<strong class='cssDynamicForm'>SHIPMENT TYPE<strong>"
+            },
             ],saveEdits: function () {
-                var ContractItemShipmentRecord = ListGrid_ContractItemShipment.getEditedRecord(ListGrid_ContractItemShipment.getEditRow());
-                if(ListGrid_ContractItemShipment.getSelectedRecord() == null){
-                        return;
-                }else{
-                     var dateSendCad= (ListGrid_ContractItemShipment.getSelectedRecord().sendDate);
-                     ContractItemShipmentRecord.sendDate=moment(dateSendCad).format('L')
-                    isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                        actionURL: "${contextPath}/api/contractShipment/",
-                        httpMethod: "PUT",
-                        data: JSON.stringify(ContractItemShipmentRecord),
-                        callback: function (resp) {
-                            if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
-                                isc.say("<spring:message code='global.form.request.successful'/>");
-                                ListGrid_ContractItemShipment.setData([]);
-                                ListGrid_ContractItemShipment.fetchData(criteriaContractItemShipment);
-                            } else
-                                isc.say(RpcResponse_o.data);
-                        }
-                    }))
+                console.log(ListGrid_ContractItemShipment.validateRow(0));
+            },removeData: function (data) {
+                if(data.deleted){
+                data.deleted = false;
+                return;
                 }
-        },removeData: function (data) {
-            var ContractShipmentId = data.id;
             isc.Dialog.create({
                 message: "<spring:message code='global.grid.record.remove.ask'/>",
                 icon: "[SKIN]ask.png",
@@ -218,20 +239,9 @@ var buttonAddItem=isc.IButton.create({
                 buttonClick: function (button, index) {
                     this.hide();
                     if (index == 0) {
-                        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                            actionURL: "${contextPath}/api/contractShipment/" + ContractShipmentId,
-                            httpMethod: "DELETE",
-                            callback: function (resp) {
-                                if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
-                                    ListGrid_ContractItemShipment.invalidateCache();
-                                    isc.say("<spring:message code='global.grid.record.remove.success'/>");
-                                } else {
-                                    isc.say("<spring:message code='global.grid.record.remove.failed'/>");
-                                        }
+                                         data.deleted = true;
+                                         ListGrid_ContractItemShipment.markSelectionRemoved();
                                     }
-                                })
-                            );
-                        }
                     }
             })
         }
@@ -256,10 +266,15 @@ var article6_quality = isc.DynamicForm.create({
                 name: "incotermsText",
                 type: "text",
                 showTitle: true,
-                disabled: true,
+                disabled: false,
                 defaultValue: "INCOTERMS 2010",
                 width: "500",
                 wrap: false,
+                valueMap:
+                        {
+                            "INCOTERMS 2010": "INCOTERMS 2010",
+                            "INCOTERMS 2020": "INCOTERMS 2020"
+                        },
                 title: "<strong class='cssDynamicForm'>CONTRACT INCOTERMS</strong>",changed: function (form, item, value) {
                 }
             }
@@ -267,12 +282,13 @@ var article6_quality = isc.DynamicForm.create({
                 name: "incotermsId", //article6_number32
                 colSpan: 3,
                 titleColSpan: 1,
+                showIf:"false",
                 tabIndex: 6,
                 showTitle: true,
                 showHover: true,
                 showHintInField: true,
                 hint: "FOB",
-                required: true,
+                required: false,
                 validators: [
                 {
                     type:"required",
@@ -294,8 +310,9 @@ var article6_quality = isc.DynamicForm.create({
                 title: "<strong class='cssDynamicForm'>SHIPMENT TYPE<strong>"
             } , {
                 name: "portByPortSourceId",
+                showIf:"false",
                 editorType: "SelectItem",
-                required: true,
+                required: false,
                 validators: [
                 {
                 type:"required",
@@ -573,7 +590,7 @@ var fullArticle12 = isc.RichTextEditor.create({
 })
 
     isc.VStack.create({
-        ID: "VLayout_PageTwo_Contract",
+        ID: "VLayout_PageTwo_ContractCad",
         width: "100%",
         height: "100%",
         align: "top",

@@ -10,7 +10,6 @@
         ListGrid_Instruction.invalidateCache();
     }
 
-
     function ListGrid_Instruction_edit() {
         var record = ListGrid_Instruction.getSelectedRecord();
 
@@ -36,7 +35,6 @@
             Window_Instruction.show();
         }
     }
-
 
     function ListGrid_Instruction_remove() {
         var record = ListGrid_Instruction.getSelectedRecord();
@@ -96,7 +94,6 @@
         }
     }
 
-
     var Menu_ListGrid_Instruction = isc.Menu.create(
         {
             width: 150,
@@ -141,21 +138,11 @@
             ]
         });
 
-
     var DynamicForm_Instruction = isc.DynamicForm.create(
         {
-            width: "100%",
-            height: "100%",
-            setMethod: 'POST',
-            align: "center",
-            canSubmit: true,
-            showInlineErrors: true,
-            showErrorText: true,
-            showErrorStyle: true,
-            errorOrientation: "right",
+            width: 650,
+            height: 100,
             titleWidth: "100",
-            titleAlign: "right",
-            requiredMessage: "<spring:message code='validator.field.is.required'/>",
             numCols: 2,
             fields: [
                 {
@@ -177,7 +164,7 @@
                     title: "<spring:message code='instruction.titleInstruction'/>",
                     width: 400,
                     align: "center",
-                    required: true,
+                    required: true, errorOrientation: "bottom",
                     length: "4000",
                     validators: [
                     {
@@ -204,10 +191,8 @@
                 }]
         });
 
-
     var ToolStripButton_Instruction_Refresh = isc.ToolStripButtonRefresh.create(
         {
-            icon: "[SKIN]/actions/refresh.png",
             title: "<spring:message code='global.form.refresh'/>",
             click: function () {
                 ListGrid_Instruction_refresh();
@@ -217,7 +202,6 @@
     <sec:authorize access="hasAuthority('C_INSTRUCTION')">
     var ToolStripButton_Instruction_Add = isc.ToolStripButtonAdd.create(
         {
-            icon: "[SKIN]/actions/add.png",
             title: "<spring:message code='global.form.new'/>",
             click: function () {
                 DynamicForm_Instruction.clearValues();
@@ -286,7 +270,6 @@
             ]
         });
 
-
     var RestDataSource_Instruction = isc.MyRestDataSource.create(
         {
             fields: [
@@ -331,19 +314,6 @@
                 DynamicForm_Instruction.setValue("disableDate", DynamicForm_Instruction.getValue("disableDate").toNormalDate("toUSShortDate"));
                 DynamicForm_Instruction.setValue("runDate", DynamicForm_Instruction.getValue("runDate").toNormalDate("toUSShortDate"));
 
-                /*if (d < dRun)
-                {
-                isc.warn("
-
-                <spring:message code='instruction.date.validation'/>",
-{
-title: "
-
-                <spring:message code='dialog_WarnTitle'/>"
-});
-return;
-}*/
-
                 var data = DynamicForm_Instruction.getValues();
                 var methodXXXX = "PUT";
                 if (data.id == null) methodXXXX = "POST";
@@ -365,7 +335,6 @@ return;
             }
         });
 
-
     var InstructionCancelBtn = isc.IButtonCancel.create(
         {
             top: 260,
@@ -379,23 +348,32 @@ return;
             }
         });
 
-
     var HLayout_Instruction_IButton = isc.HLayout.create(
         {
-            layoutMargin: 5,
+            width: 650,
+            height: "100%",
+            layoutMargin: 10,
             membersMargin: 5,
-            width: "100%",
+            textAlign: "center",
+            align: "center",
             members: [
                 IButton_Instruction_Save,
                 InstructionCancelBtn
             ]
         });
 
+        var VLayout_saveButton_instruction = isc.VLayout.create({
+        width: 650,
+        textAlign: "center",
+        align: "center",
+        members: [
+        HLayout_Instruction_IButton
+        ]
+    });
 
     var Window_Instruction = isc.Window.create({
         title: "<spring:message code='instruction.title'/> ",
         width: 580,
-// height: 500,
         autoSize: true,
         autoCenter: true,
         isModal: true,
@@ -409,13 +387,13 @@ return;
         items:
             [
                 DynamicForm_Instruction,
-                HLayout_Instruction_IButton
+                VLayout_saveButton_instruction
             ]
     });
 
-
     var ListGrid_Instruction = isc.ListGrid.create(
         {
+            showFilterEditor: true,
             width: "100%",
             height: "100%",
             dataSource: RestDataSource_Instruction,
@@ -446,13 +424,8 @@ return;
                     width: "20%",
                     align: "center"
                 }],
-            sortField: 0,
-            autoFetchData: true,
-            showFilterEditor: true,
-            filterOnKeypress: true
-
+            autoFetchData: true
         });
-
 
     var HLayout_Instruction_Grid = isc.HLayout.create(
         {
@@ -479,7 +452,6 @@ return;
             loadingMessage: ""
         });
 
-
     isc.HLayout.create(
         {
             width: "100%",
@@ -488,19 +460,23 @@ return;
             layoutTopMargin: 5,
             members: [
                 isc.TabSet.create(
+
                     {
                         tabBarPosition: "top",
                         width: "100%",
                         tabs: [
                             {
                                 title: "<spring:message code='instruction.title'/>",
-                                pane: VLayout_Instruction_Body
+                                pane: VLayout_Instruction_Body ,
+                                name:"ttt",
                             },
                             {
                                 title: "<spring:message code='global.Attachment'/>",
                                 pane: InstructionAttachmentViewLoader,
+                                name: "titleInstruction_ins",
                                 tabSelected: function (form, item, value) {
                                     var record = ListGrid_Instruction.getSelectedRecord();
+
                                     if (record == null || record.id == null) {
                                         isc.Dialog.create(
                                             {
@@ -519,6 +495,8 @@ return;
                                     }
                                     var dccTableId = record.id;
                                     var dccTableName = "TBL_INSTRUCTION";
+                                    var titleInstruction_tab = ListGrid_Instruction.getSelectedRecord().titleInstruction;
+                                     this.setTabTitle("titleInstruction_ins" , titleInstruction_tab);
                                     InstructionAttachmentViewLoader.setViewURL("dcc/showForm/" + dccTableName + "/" + dccTableId)
                                 }
                             }]

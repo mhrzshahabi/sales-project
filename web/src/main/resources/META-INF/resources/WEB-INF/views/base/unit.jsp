@@ -51,38 +51,18 @@
     var DynamicForm_Unit = isc.DynamicForm.create({
         width: "100%",
         height: "100%",
-        setMethod: 'POST',
         align: "center",
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
         titleWidth: "100",
-        titleAlign: "right",
         requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 2,
+
         fields: [{
             name: "id",
             hidden: true, showIf: "false",
         }, {
-            name: "code",
-            title: "<spring:message code='unit.code'/>",
-            type: 'text',
-            required: true,
-            width: 400,
-            keyPressFilter: "[0-9]",
-            length: "15", showIf: "false",
-            validators: [
-            {
-                type:"required",
-                validateOnChange: true
-            }]
-        }, {
             name: "nameFA",
             title: "<spring:message code='unit.nameFa'/>",
             required: true,
-            readonly: true,
             width: 400,
             validators: [
             {
@@ -95,7 +75,6 @@
             type: 'text',
             required: true,
             width: 400,
-            keyPressFilter: "[a-z|A-Z|0-9.]",
             validators: [
             {
                 type:"required",
@@ -105,18 +84,15 @@
             name: "symbol",
             title: "<spring:message code='unit.symbol'/>",
             type: 'text',
+            required: true,
             width: 400
         }, {
             name: "decimalDigit",
             title: "<spring:message code='rate.decimalDigit'/>",
             width: 400,
             keyPressFilter: "[0-4]",
-            length: "1",
-            hint: "<spring:message code='deghat.ashar'/>",
-            showHintInField: true
-        },{
-            type: "RowSpacerItem"
-          }]
+            length: "1"
+        }]
     });
 
     var IButton_Unit_Save = isc.IButtonSave.create({
@@ -160,13 +136,19 @@
         align: "center",
         autoDraw: false,
         dismissOnEscape: true,
+        margin: '10px',
         closeClick: function () {
             this.Super("closeClick", arguments)
         },
         items: [
             DynamicForm_Unit,
             isc.HLayout.create({
-                width: "100%",
+                margin: '10px',
+                padding: 10,
+               layoutMargin: 10,
+               membersMargin: 5,
+               align: "center",
+               width: "100%",
                 members:
                     [
                         IButton_Unit_Save,
@@ -174,7 +156,6 @@
                             width: 5,
                         }),
                         isc.IButtonCancel.create({
-                            ID: "unitEditExitIButton",
                             title: "<spring:message code='global.cancel'/>",
                             width: 100,
                             icon: "pieces/16/icon_delete.png",
@@ -270,7 +251,6 @@
     }
 
     var ToolStripButton_Unit_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_Unit_refresh();
@@ -279,7 +259,6 @@
 
     <sec:authorize access="hasAuthority('C_UNIT')">
     var ToolStripButton_Unit_Add = isc.ToolStripButtonAdd.create({
-        icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
             DynamicForm_Unit.clearValues();
@@ -354,10 +333,6 @@
                     hidden: true
                 },
                 {
-                    name: "code",
-                    title: "<spring:message code='unit.code'/> "
-                },
-                {
                     name: "nameFA",
                     title: "<spring:message code='unit.nameFa'/> "
                 },
@@ -377,6 +352,7 @@
         });
 
     var ListGrid_Unit = isc.ListGrid.create({
+        showFilterEditor: true,
         width: "100%",
         height: "100%",
         dataSource: RestDataSource_Unit,
@@ -387,10 +363,6 @@
             primaryKey: true,
             canEdit: false,
             hidden: true
-        }, {
-            name: "code",
-            title: "<spring:message code='unit.code'/> ",
-            align: "center", showIf: "false",
         }, {
             name: "nameFA",
             title: "<spring:message code='unit.nameFa'/> ",
@@ -408,10 +380,7 @@
             title: "<spring:message code='rate.decimalDigit'/>",
             align: "center"
         }],
-        sortField: 0,
-        autoFetchData: true,
-        showFilterEditor: true,
-        filterOnKeypress: true,
+        autoFetchData: true
     });
 
     var HLayout_Grid_Unit = isc.HLayout.create({

@@ -17,8 +17,6 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ContractDetailDTO {
 
-    private Long id;
-    private Long contract_id;
     private String name_ContactAgentSeller;
     private String phone_ContactAgentSeller;
     private String mobile_ContactAgentSeller;
@@ -196,6 +194,7 @@ public class ContractDetailDTO {
     private String discountUnitEleven;
     private String discountPerfixEleven_1;
 
+
     @Getter
     @Setter
     @Accessors(chain = true)
@@ -214,6 +213,7 @@ public class ContractDetailDTO {
     @Accessors(chain = true)
     @ApiModel("ContractDetailCreateRq")
     public static class Create extends ContractDetailDTO {
+        ContractDTO.Create contract;
     }
 
     @Getter
@@ -224,6 +224,7 @@ public class ContractDetailDTO {
         @NotNull
         @ApiModelProperty(required = true)
         private Long id;
+        ContractDTO.Update contract;
     }
 
     @Getter
@@ -234,17 +235,5 @@ public class ContractDetailDTO {
         @NotNull
         @ApiModelProperty(required = true)
         private List<Long> ids;
-    }
-
-    @Getter
-    @Setter
-    @Accessors(chain = true)
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    public static class SpecRs {
-        private List<ContractDetailDTO.Info> data;
-        private Integer status;
-        private Integer startRow;
-        private Integer endRow;
-        private Integer totalRows;
     }
 }

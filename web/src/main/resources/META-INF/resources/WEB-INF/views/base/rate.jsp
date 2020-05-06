@@ -53,15 +53,9 @@
         {
             width: "100%",
             height: "100%",
-            setMethod: 'POST',
             align: "center",
-            canSubmit: true,
-            showInlineErrors: true,
-            showErrorText: true,
-            showErrorStyle: true,
-            errorOrientation: "right",
             titleWidth: "100",
-            titleAlign: "right",
+            autoDraw: false,
             requiredMessage: "<spring:message code='validator.field.is.required'/>",
             numCols: 2,
 
@@ -116,7 +110,7 @@
                     name: "symbol",
                     title: "<spring:message code='feature.symbol'/>",
                     type: 'text',
-                    width: 300
+                    width: 300 ,
                 },
                 {
                     name: "decimalDigit",
@@ -124,8 +118,6 @@
                     width: 300,
                     keyPressFilter: "[0-4]",
                     length: "1",
-                    hint: "<spring:message code='deghat.ashar.cu'/>",
-                    showHintInField: true,
                     validators: [
                         {
                             type: "isInteger",
@@ -173,6 +165,9 @@
     });
 
 
+
+
+
     var Window_Rate = isc.Window.create({
         title: "<spring:message code='rate.title'/> ",
         width: 580,
@@ -192,7 +187,12 @@
             DynamicForm_Rate,
 
             isc.HLayout.create({
-                width: "100%",
+               margin: '10px',
+                padding: 10,
+               layoutMargin: 10,
+               membersMargin: 5,
+               align: "center",
+               width: "100%",
                 members:
                     [
                         IButton_Rate_Save,
@@ -200,7 +200,6 @@
                             width: 5,
                         }),
                         isc.IButtonCancel.create({
-                            ID: "rateEditExitIButton",
                             title: "<spring:message code='global.cancel'/>",
                             width: 100,
                             icon: "pieces/16/icon_delete.png",
@@ -297,7 +296,6 @@
 
 
     var ToolStripButton_Rate_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_Rate_refresh();
@@ -306,7 +304,6 @@
 
     <sec:authorize access="hasAuthority('C_RATE')">
     var ToolStripButton_Rate_Add = isc.ToolStripButtonAdd.create({
-        icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
             DynamicForm_Rate.clearValues();
@@ -322,6 +319,7 @@
         click: function () {
             DynamicForm_Rate.clearValues();
             ListGrid_Rate_edit();
+
         }
     });
     </sec:authorize>
@@ -406,6 +404,7 @@
 
     var ListGrid_Rate = isc.ListGrid.create(
         {
+            showFilterEditor: true,
             width: "100%",
             height: "100%",
             dataSource: RestDataSource_Rate,
@@ -441,15 +440,11 @@
                 {
                     name: "decimalDigit",
                     title: "<spring:message code='rate.decimalDigit'/>",
-                    align: "center"
+                    align: "center" , showIf: "false",
                 }
 
             ],
-            sortField: 0,
-            autoFetchData: true,
-            showFilterEditor: true,
-            filterOnKeypress: true,
-            startsWithTitle: "tt"
+            autoFetchData: true
         });
 
 

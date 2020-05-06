@@ -268,12 +268,7 @@
             {
                 title: "<spring:message code='global.form.new'/>", icon: "pieces/16/icon_add.png",
                 click: function () {
-                    DynamicForm_Shipment.clearValues();
-                    DynamicForm_Shipment1.clearValues();
-                    DynamicForm_Shipment2.clearValues();
-                    abal.show();
-                    abal.fetchData();
-                    Window_Shipment.animateShow();
+                    ListGrid_Shipment_add();
                 }
             },
             </sec:authorize>
@@ -311,17 +306,8 @@
     var DynamicForm_Shipment = isc.DynamicForm.create({
         width: "100%",
         height: "100%",
-        setMethod: 'POST',
-        align: "center",
         dataSource: RestDataSource_Shipment__SHIPMENT,
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
         titleWidth: "105",
-        titleAlign: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 4,
         fields: [
             {name: "id", hidden: true,},
@@ -335,11 +321,9 @@
                 type: 'long',
                 width: "100%",
                 editorType: "SelectItem",
-                errorOrientation: "bottom",
                 optionDataSource: RestDataSource_pickShipmentItem,
                 displayField: "contractNo",
                 valueField: "cisId",
-                pickListWidth: 680,
                 pickListHeight: "500",
                 required: true,
                 validators: [
@@ -546,17 +530,8 @@
     var DynamicForm_Shipment1 = isc.DynamicForm.create({
         width: "100%",
         height: "100%",
-        setMethod: 'POST',
-        align: "center",
         dataSource: RestDataSource_Shipment__SHIPMENT,
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
-        titleWidth: "100",
-        titleAlign: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>",
+        titleWidth: "125",
         numCols: 4,
         fields: [
             {name: "id", hidden: true,},
@@ -635,7 +610,8 @@
                 valueField: "id",
                 width: "100%",
                 align: "center", colSpan: 4,
-                startRow: true
+                startRow: true,
+                required: true
             },
             {
                 name: "switchPortId",
@@ -652,7 +628,8 @@
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_LoadingPort,
                 displayField: "port",
-                valueField: "id", width: "100%", align: "center", startRow: true , colSpan: 4
+                valueField: "id", width: "100%", align: "center", startRow: true , colSpan: 4,
+                required: true
             },
             {
                 name: "consignee", colSpan: 4,
@@ -707,17 +684,8 @@
     var DynamicForm_Shipment2 = isc.DynamicForm.create({
         width: "100%",
         height: "100%",
-        setMethod: 'POST',
-        align: "center",
         dataSource: RestDataSource_Shipment__SHIPMENT,
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
         titleWidth: "100",
-        titleAlign: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 6,
         fields: [
             {name: "id", hidden: true},
@@ -766,7 +734,6 @@
                 title: "<spring:message code='shipment.freight'/>",
                 type: 'float',
                 required: true,
-                errorOrientation: "bottom",
                 width: "100%",
                 validators: [{
                     type: "isFloat",
@@ -810,7 +777,6 @@
                 title: "<spring:message code='shipment.preFreight'/>",
                 type: 'float',
                 required: true,
-                errorOrientation: "bottom",
                 width: "100%",
                 validators: [{
                     type: "isFloat",
@@ -1158,6 +1124,16 @@
         }
     }
 
+    function ListGrid_Shipment_add(){
+        DynamicForm_Shipment.clearValues();
+        DynamicForm_Shipment1.clearValues();
+        DynamicForm_Shipment2.clearValues();
+        abal.show();
+        abal.fetchData();
+        Shipment_contact_name.setContents("");
+        Window_Shipment.animateShow();
+    }
+
     function ListGrid_Shipment_edit() {
         var record = ListGrid_Shipment.getSelectedRecord();
 
@@ -1172,6 +1148,10 @@
                 }
             });
         } else {
+            DynamicForm_Shipment.clearValues();
+            DynamicForm_Shipment1.clearValues();
+            DynamicForm_Shipment2.clearValues();
+
             DynamicForm_Shipment.editRecord(record);
             DynamicForm_Shipment1.editRecord(record);
             DynamicForm_Shipment2.editRecord(record);
@@ -1186,7 +1166,6 @@
     }
 
     var ToolStripButton_Shipment_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_Shipment_refresh();
@@ -1198,12 +1177,7 @@
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
-            DynamicForm_Shipment.clearValues();
-            DynamicForm_Shipment1.clearValues();
-            DynamicForm_Shipment2.clearValues();
-            abal.show();
-            abal.fetchData();
-            Window_Shipment.animateShow();
+            ListGrid_Shipment_add();
         }
     });
     </sec:authorize>
@@ -1213,9 +1187,6 @@
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
         click: function () {
-            DynamicForm_Shipment.clearValues();
-            DynamicForm_Shipment1.clearValues();
-            DynamicForm_Shipment2.clearValues();
             ListGrid_Shipment_edit();
         }
     });
@@ -1282,6 +1253,7 @@
     hLayoutViewLoader.hide();
 
     var ListGrid_Shipment = isc.ListGrid.create({
+        showFilterEditor: true,
         width: "100%",
         height: "100%",
         dataSource: RestDataSource_Shipment__SHIPMENT,
@@ -1308,7 +1280,10 @@
                 type: 'text',
                 width: "10%",
                 align: "center",
-                showHover: true
+                showHover: true,
+                sortNormalizer: function (recordObject) {
+                    return recordObject.contract.contact.nameFA
+                }
             },
             {name: "contractId", type: 'long', hidden: true},
             {
@@ -1316,14 +1291,20 @@
                 title: "<spring:message code='contract.contractNo'/>",
                 type: 'text',
                 width: "10%",
-                showHover: true
+                showHover: true,
+                sortNormalizer: function (recordObject) {
+                    return recordObject.contract.contractNo
+                }
             },
             {
                 name: "contract.contractDate",
                 title: "<spring:message code='contract.contractDate'/>",
                 type: 'text',
                 width: "10%",
-                showHover: true
+                showHover: true,
+                sortNormalizer: function (recordObject) {
+                    return recordObject.contract.contractDate
+                }
             },
             {
                 name: "materialId",
@@ -1338,7 +1319,10 @@
                 type: 'text',
                 width: "10%",
                 align: "center",
-                showHover: true
+                showHover: true,
+                sortNormalizer: function (recordObject) {
+                    return recordObject.material.descl
+                }
             },
             {
                 name: "material.unit.nameEN",
@@ -1411,7 +1395,10 @@
                 {
                     type:"required",
                     validateOnChange: true
-                }]
+                }],
+                sortNormalizer: function (recordObject) {
+                    return recordObject.portByLoading.port
+                }
             },
             {
                 name: "portByDischarge.port",
@@ -1438,7 +1425,10 @@
                 {
                     type:"required",
                     validateOnChange: true
-                }]
+                }],
+                sortNormalizer: function (recordObject) {
+                    return recordObject.contractShipment.sendDate
+                }
             },
             {
                 name: "createDate",
@@ -1474,7 +1464,10 @@
                 type: 'text',
                 width: "10%",
                 align: "center",
-                showHover: true
+                showHover: true,
+                sortNormalizer: function (recordObject) {
+                    return recordObject.contactByAgent.nameFA
+                }
             },
             {
                 name: "vesselName",
@@ -1508,7 +1501,10 @@
                 {
                     type:"required",
                     validateOnChange: true
-                }]
+                }],
+                sortNormalizer: function (recordObject) {
+                    return recordObject.switchPort.port
+                }
             },
             {
                 name: "status",
@@ -1523,10 +1519,7 @@
                 showHover: true
             }
         ],
-        sortField: 0,
-        filterOnKeypress: true,
         autoFetchData: true,
-        showFilterEditor: true,
         getExpansionComponent: function (record) {
             if (record == null || record.id == null) {
                 isc.Dialog.create({
@@ -1713,6 +1706,7 @@
     });
 
     ListGrid_Person_EmailCC = isc.ListGrid.create({
+        showFilterEditor: true,
         width: "800",
         height: "400",
         dataSource: RestDataSource_Person_EmailCC,
@@ -1750,10 +1744,7 @@
             {name: "email1", title: "<spring:message code='person.email1'/>", type: 'text', width: 150},
             {name: "email2", title: "<spring:message code='person.email2'/>", type: 'text', width: 150}
         ],
-        sortField: 0,
         autoFetchData: true,
-        showFilterEditor: true,
-        filterOnKeypress: true,
         selectionAppearance: "checkbox"
     });
 
@@ -1818,16 +1809,7 @@
         {
             width: "100%",
             height: "100%",
-            setMethod: 'POST',
-            align: "center",
-            canSubmit: true,
-            showInlineErrors: true,
-            showErrorText: true,
-            showErrorStyle: true,
-            errorOrientation: "right",
             titleWidth: "100",
-            titleAlign: "right",
-            requiredMessage: "<spring:message code='validator.field.is.required'/>",
             numCols: 1,
             fields: [
                 {
@@ -1894,7 +1876,6 @@
         });
 
     var ToolStripButton_ShipmentEmail_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_ShipmentEmail_refresh();
@@ -2001,6 +1982,7 @@
     });
 
     var ListGrid_ShipmentEmail = isc.ListGrid.create({
+        showFilterEditor: true,
         width: "100%",
         height: "100%",
         dataSource: RestDataSource_ShipmentEmail,
@@ -2049,10 +2031,7 @@
                     width: "10%"
                 },
             ],
-        sortField: 0,
-        autoFetchData: true,
-        showFilterEditor: true,
-        filterOnKeypress: true
+        autoFetchData: true
     });
 
     var HLayout_ShipmentEmail_Grid = isc.HLayout.create({

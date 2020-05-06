@@ -1,6 +1,8 @@
 package com.nicico.sales.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.nicico.sales.model.entities.base.ContractDetail;
+import com.nicico.sales.model.entities.base.ContractShipment;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -10,6 +12,7 @@ import lombok.experimental.Accessors;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -63,12 +66,11 @@ public class ContractDTO {
     private Integer optional;
     private long contactInspectionId;
     private Double mo_amount;
-    @NotNull
-    @ApiModelProperty(required = true)
     private Long contactId; // contactByBuyerId
     private Long contactByBuyerAgentId;
     private Long contactBySellerId;
     private Long contactBySellerAgentId;
+
 
     @Getter
     @Setter
@@ -109,6 +111,8 @@ public class ContractDTO {
     @Accessors(chain = true)
     @ApiModel("ContractCreateRq")
     public static class Create extends ContractDTO {
+        private ContractDetailDTO.Create contractDetails;
+        private List<ContractShipmentDTO.Create> contractShipments;
     }
 
     @Getter
@@ -119,6 +123,8 @@ public class ContractDTO {
         @NotNull
         @ApiModelProperty(required = true)
         private Long id;
+        private ContractDetailDTO.Update contractDetails;
+        private List<ContractShipmentDTO.Update> contractShipments;
     }
 
     @Getter
@@ -129,17 +135,5 @@ public class ContractDTO {
         @NotNull
         @ApiModelProperty(required = true)
         private List<Long> ids;
-    }
-
-    @Getter
-    @Setter
-    @Accessors(chain = true)
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    public static class SpecRs {
-        private List<ContractDTO.Info> data;
-        private Integer status;
-        private Integer startRow;
-        private Integer endRow;
-        private Integer totalRows;
     }
 }

@@ -405,6 +405,7 @@
 
 
     var ListGrid_PersonByInspectionContract_EmailCC = isc.ListGrid.create({
+        showFilterEditor: true,
         width: "800",
         height: "400",
         dataSource: RestDataSource_PersonByInspectionContract_EmailCC_In_InspectionContract,
@@ -455,10 +456,7 @@
                 width: "10%"
             }
         ],
-        sortField: 0,
         autoFetchData: true,
-        showFilterEditor: true,
-        filterOnKeypress: true,
         selectionAppearance: "checkbox"
     });
 
@@ -591,7 +589,6 @@
         height: "100%",
         layoutMargin: 30,
         membersMargin: 5,
-        ``
         align: "center",
         members: [
             IButton_InspectionContract_Save,
@@ -801,17 +798,9 @@
 
     var DynamicForm_InspectionContract = isc.DynamicForm.create({
         height: "400",
-        setMethod: 'POST',
-        align: "center",
-        canSubmit: true,
-        errorOrientation: "bottom",
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
         titleWidth: "100",
         titleAlign: "center",
         autoFocus: "true",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>",
         fields: [
 
             {
@@ -989,6 +978,7 @@
     });
 
     var ListGrid_InspectionContract = isc.ListGrid.create({
+        showFilterEditor: true,
         width: "100%",
         height: 200,
         styleName: "listgrid-child",
@@ -1049,8 +1039,6 @@
 
 
         ],
-        sortField: 0,
-       filterOnKeypress: true,
         createRecordComponent: function (record, colNum) {
             var fieldName = this.getFieldName(colNum);
             if (fieldName == "removeIcon") {
@@ -1079,6 +1067,7 @@
     ListGrid_InspectionContract.hide();
 
     var ListGrid_Inspection = isc.ListGrid.create({
+        showFilterEditor: true,
         width: "100%",
         height: "100%",
         dataSource: RestDataSource_Inspection,
@@ -1336,9 +1325,6 @@
                 showHover: true
             }
         ],
-        sortField: 0,
-        showFilterEditor: true,
-        filterOnKeypress: false,
         getExpansionComponent: function (record) {
             return getExpandedComponent_Inspection(record)
         }
@@ -1376,7 +1362,6 @@
     });
 
     var ToolStripButton_ListGrid_Inspection_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_Inspection.invalidateCache();

@@ -121,15 +121,7 @@
         {
             width: "100%",
             height: "100%",
-            setMethod: 'POST',
-            align: "center",
-            canSubmit: true,
-            showInlineErrors: true,
-            showErrorText: true,
-            showErrorStyle: true,
-            errorOrientation: "right",
             titleWidth: 200,
-            titleAlign: "right",
             requiredMessage: "<spring:message code='validator.field.is.required'/>",
             numCols: 2,
             fields: [
@@ -168,7 +160,7 @@
                         {
                             type: "isFloat",
                             validateOnExit: true,
-                            required: true,
+                            required: true, errorOrientation: "bottom",
                             stopOnError: true,
                             errorMessage: "<spring:message code='global.form.correctType'/>"
                         }]
@@ -182,7 +174,7 @@
                     validators: [
                         {
                             type: "isFloat",
-                            required: true,
+                            required: true, errorOrientation: "bottom",
                             validateOnExit: true,
                             stopOnError: true,
                             errorMessage: "<spring:message code='global.form.correctType'/>"
@@ -194,7 +186,7 @@
                     width: 430,
                     keyPressFilter: "[0-9.]",
                     length: "15",
-                    required: true,
+                    required: true, errorOrientation: "bottom",
                     validators: [
                         {
                             type: "isFloat",
@@ -255,7 +247,7 @@
                     title: "<spring:message code='LME.LMEDate'/>",
                     width: 430,
                     type: "date",
-                    required: true,
+                    required: true, errorOrientation: "bottom",
                     validators: [
                     {
                         type:"required",
@@ -265,7 +257,6 @@
         });
 
     var ToolStripButton_LME_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_LME_refresh();
@@ -274,7 +265,6 @@
 
     <sec:authorize access="hasAuthority('C_LME')">
     var ToolStripButton_LME_Add = isc.ToolStripButtonAdd.create({
-        icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
             DynamicForm_LME.clearValues();
@@ -427,7 +417,7 @@
 
     var Window_LME = isc.Window.create({
         title: "<spring:message code='LME.title'/> ",
-        width: 700,
+        width: 650,
         autoSize: true,
         autoCenter: true,
         isModal: true,
@@ -442,7 +432,12 @@
             [
                 DynamicForm_LME,
                 isc.HLayout.create({
-                    width: "100%",
+                margin: '10px',
+                padding: 10,
+               layoutMargin: 10,
+               membersMargin: 5,
+               align: "center",
+               width: "100%",
                     members:
                         [
                             IButton_LME_Save,
@@ -450,7 +445,6 @@
                                 width: 5,
                             }),
                             isc.IButtonCancel.create({
-                                ID: "LMEEditExitIButton",
                                 title: "<spring:message code='global.cancel'/>",
                                 width: 100,
                                 icon: "pieces/16/icon_delete.png",
@@ -466,6 +460,7 @@
 
     var ListGrid_LME = isc.ListGrid.create(
         {
+            showFilterEditor: true,
             width: "100%",
             height: "100%",
             dataSource: RestDataSource_LME,
@@ -526,23 +521,7 @@
                     width: "15%",
                     align: "center"
                 }],
-            sortField: 0,
-            autoFetchData: true,
-            showFilterEditor: true,
-            filterOnKeypress: true,
-            recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
-            updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
-                var record = this.getSelectedRecord();
-                ListGrid_LMEFeature.fetchData(
-                    {
-                        "lME.id": record.id
-                    }, function (dsResponse, data, dsRequest) {
-                        ListGrid_LMEFeature.setData(data);
-                    },
-                    {
-                        operationId: "00"
-                    });
-            }
+            autoFetchData: true
         });
 
     var HLayout_LME_Grid = isc.HLayout.create({
@@ -553,7 +532,7 @@
         ]
     });
 
-    var VLayout_LME_Body = isc.VLayout.create({
+    isc.VLayout.create({
         width: "100%",
         height: "100%",
         members: [

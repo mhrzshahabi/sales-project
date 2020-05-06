@@ -361,18 +361,9 @@
         wrapItemTitles: false,
         autoDraw: false,
         autoFocus: "true",
-        setMethod: 'POST',
-        align: "center",
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
         titleWidth: "100",
-        titleAlign: "right",
         numCols: 7,
         membersMargin: '5px',
-        errorOrientation: "bottom",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>", //فیلد اجباری است.
         fields: [{
             name: "id",
             title: "id",
@@ -380,8 +371,6 @@
             canEdit: false,
             hidden: true
         },
-
-
             {
                 colSpan: 2,
                 name: "createDate",
@@ -626,7 +615,6 @@
     });
 
     var ToolStripButton_ShipmentContract_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_ShipmentContract_refresh();
@@ -734,6 +722,7 @@
     });
 
     var ListGrid_ShipmentContract = isc.ListGrid.create({
+        showFilterEditor: true,
         width: "100%",
         height: "100%",
         dataSource: RestDataSource_ShipmentContract_In_ShipmentContract,
@@ -771,9 +760,7 @@
                 },
             ],
         sortField: "id",
-        autoFetchData: true,
-        showFilterEditor: true,
-        filterOnKeypress: true
+        autoFetchData: true
     });
 
 

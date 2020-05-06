@@ -314,19 +314,19 @@
                     ViewLoader_createMoOx
                     ]
             });
-     var ListGrid_contractMo = isc.ListGrid.create({
+                var ListGrid_contractMo = isc.ListGrid.create({
+                        showFilterEditor: true,
                         width: "100%",
                         height: "100%",
                         dataSource: RestDataSource_Contract,
                         initialCriteria: criteriaMo,
-                        showFilterEditor: true,
                         autoFetchData: true,
                         fields:
                         [
                             {name: "id", primaryKey: true, canEdit: false, hidden: true},
                            {
                             name: "material.descl",showTitle:"false",
-                            title: "Type material",
+                            title: "Material",
                             hidden: false,
                             align: "center",hidden: true
                             },
@@ -409,7 +409,7 @@
                                                 }
                                             }))
                                     RestDataSource_contractDetail_list.fetchData(criteria1,function (dsResponse, data, dsRequest) {
-                                    dynamicFormMaterial.setValue("materialId",record.materialId)
+                                    //dynamicFormMaterial.setValue("materialId",record.materialId)
                                     contactHeader.setValue("createDate", record.contractDate)
                                     contactHeader.setValue("contractNo", record.contractNo)
                                     contactHeader.setValue("contactId", record.contactId)
@@ -712,12 +712,12 @@
                                     }}
                             });
                      var ToolStripButton_ContactMO_Refresh = isc.ToolStripButtonRefresh.create({
-                                icon: "[SKIN]/actions/refresh.png",
                                 title: "<spring:message code='global.form.refresh'/>",
                                 click: function () {
                                        ListGrid_contractMo.invalidateCache(criteriaMo);
                                 }
                             });
+
                     var ToolStrip_Actions_ContactMO = isc.ToolStrip.create({
                         width: "100%",
                         height: "100%",
@@ -865,18 +865,9 @@ Window_ContactMo = isc.Window.create({
     var DynamicForm_ContactHeader = isc.DynamicForm.create({
         valuesManager: "contactHeader",
         wrapItemTitles: false,
-        setMethod: 'POST',
         width: "100%",
         height: "100%",
-        align: "left",
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
         titleWidth: "80",
-        titleAlign: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>",
         cellPadding: 2,
         numCols: 4,
         fields: [
@@ -917,20 +908,11 @@ Window_ContactMo = isc.Window.create({
     var dynamicForm3Mo = isc.HLayout.create({align: "center", members: []});
     var dynamicForm4Mo = isc.HLayout.create({align: "center", members: []});
 var DynamicForm_ContactCustomer = isc.DynamicForm.create({
-        setMethod: 'POST',
         valuesManager: "contactHeader",
         width: "100%",
         height: "100%",
         numCols: 4,
         wrapItemTitles: false,
-        align: "center",
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
-        titleAlign: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>",
         fields: [
             {name: "id", canEdit: false, hidden: true},
             {
@@ -1120,16 +1102,7 @@ var DynamicForm_ContactCustomer = isc.DynamicForm.create({
         width: "100%",
         height: "100%",
         numCols: 4,
-        setMethod: 'POST',
-        align: "center",
-        canSubmit: true,
-        showInlineErrors: true,
         wrapItemTitles: false,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
-        titleAlign: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>",
         fields: [
             {name: "id", canEdit: false, hidden: true},
             {
@@ -1342,8 +1315,8 @@ var DynamicForm_ContactMooxParameter_ValueNumber8=isc.DynamicForm.create({
                 ],
                 pickListCriteria: {
                     _constructor: 'AdvancedCriteria', operator: "and", criteria: [
-                        {fieldName: "contractId", operator: "equals", value: 1},
-                        {fieldName: "categoryValue", operator: "equals", value: 1}]
+                        {fieldName: "contractId", operator: "equals", value: 1}
+                        ]
                 },
                 width: "1200",
                 height: "30",
@@ -1519,6 +1492,7 @@ var dynamicForm_fullArticle02MoOx = isc.DynamicForm.create({
         ]
     })
 lotList = isc.ListGrid.create({
+        showFilterEditor: true,
         width: "100%",
         height: "180",
         dataSource: RestDataSource_WarehouseLot,
@@ -1562,7 +1536,7 @@ var vlayoutBodyMo = isc.VLayout.create({
         members: [
             isc.HLayout.create({align: "left", members: [DynamicForm_ContactHeader]}),
             isc.HLayout.create({height: "50", align: "left", members: [lableNameContactMo]}),
-            isc.HLayout.create({height: "50", align: "left", members: [
+            /*isc.HLayout.create({height: "50", align: "left", members: [
                 isc.DynamicForm.create({ID:"dynamicFormMaterial",items:[{type: "text",name:"materialId",
                     title: "PLEASE SELECT MATERIAL",align: "left",selectOnFocus: true,wrapTitle: false,required: true,
                     validators: [
@@ -1585,7 +1559,7 @@ var vlayoutBodyMo = isc.VLayout.create({
                         {fieldName: "descl", operator: "contains", value: "Mol"}]
                     },
                     }]})
-            ]}),
+            ]}),*/
             isc.HLayout.create({align: "left", members: [DynamicForm_ContactCustomer]}),
             isc.HLayout.create({ID: "dynamicForm1And2Mo", align: "center", members: [dynamicForm1Mo, dynamicForm2Mo]}),
             isc.HLayout.create({align: "center", members: [DynamicForm_ContactSeller]}),
@@ -1797,8 +1771,7 @@ var dynamicForm_article3_1 = isc.DynamicForm.create({
                     {name: "paramValue", width: "60%", align: "center"}
                 ], pickListCriteria: {
                     _constructor: 'AdvancedCriteria', operator: "and", criteria: [
-                        {fieldName: "contractId", operator: "equals", value: 1},
-                        {fieldName: "categoryValue", operator: "equals", value: 3}]
+                        {fieldName: "contractId", operator: "equals", value: 1}]
                 },
                 title: "quantity_number17_2"
             }
@@ -2197,6 +2170,7 @@ var dynamicForm_article3_1 = isc.DynamicForm.create({
     })
     ///*//*** to do
 ListGrid_ContractItemShipment = isc.ListGrid.create({
+        showFilterEditor: true,
         width: "100%",
         height: "200",
         modalEditing: true,
@@ -2344,8 +2318,7 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
                     {name: "paramValue", width: "50%", align: "center"}
                 ],
                 pickListCriteria:{_constructor:'AdvancedCriteria',operator:"and",criteria:[
-                    {fieldName: "contractId", operator: "equals", value: 1},
-                    {fieldName:"categoryValue",operator:"equals",value:5}]
+                    {fieldName: "contractId", operator: "equals", value: 1}]
                     },
                 changed: function (form, item, value) {
                     dynamicForm_article5_Note2_number30.setValue("article5_Note1_value", item.getSelectedRecord().paramValue);
@@ -2818,7 +2791,7 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
         ]
     });
 
-    var VLayout_PageTwo_Contract = isc.VLayout.create({
+    var VLayout_PageTwo_ContractMol = isc.VLayout.create({
         width: "100%",
         height: "100%",
         align: "center",
@@ -3369,8 +3342,7 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
                     {name: "paramValue", width: "60%", align: "center"}
                 ], pickListCriteria: {
                     _constructor: 'AdvancedCriteria', operator: "and", criteria: [
-                        {fieldName: "contractId", operator: "equals", value: 1},
-                        {fieldName: "categoryValue", operator: "equals", value: 9}]
+                        {fieldName: "contractId", operator: "equals", value: 1}]
                 },
                 colSpan: 2,
                 title: "article9_number55",
@@ -3404,8 +3376,7 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
                     {name: "paramValue", width: "60%", align: "center"}
                 ], pickListCriteria: {
                     _constructor: 'AdvancedCriteria', operator: "and", criteria: [
-                        {fieldName: "contractId", operator: "equals", value: 1},
-                        {fieldName: "categoryValue", operator: "equals", value: 9}]
+                        {fieldName: "contractId", operator: "equals", value: 1}]
                 },
                 colSpan: 2,
                 title: "article9_ImportantNote",
@@ -3598,7 +3569,7 @@ var contactTabs = isc.TabSet.create({
             },
             {
                 title: "page2", canClose: false,
-                pane: VLayout_PageTwo_Contract
+                pane: VLayout_PageTwo_ContractMol
             },
             {
                 title: "page3", canClose: false,
@@ -3615,13 +3586,13 @@ var IButton_Contact_Save = isc.IButtonSave.create({
         click: function () {
             DynamicForm_ContactHeader.validate();
             DynamicForm_ContactCustomer.validate();
-            dynamicFormMaterial.validate();
+            //dynamicFormMaterial.validate();
             contactHeader.validate();
             dynamicForm_article6_number32_33_34_35.validate();
 
-            if (DynamicForm_ContactHeader.hasErrors()|| DynamicForm_ContactCustomer.hasErrors()||dynamicFormMaterial.hasErrors()||contactHeader.hasErrors()){
+           /* if (DynamicForm_ContactHeader.hasErrors()|| DynamicForm_ContactCustomer.hasErrors()||dynamicFormMaterial.hasErrors()||contactHeader.hasErrors()){
             return;
-            }
+            }*/
             if (dynamicForm_article6_number32_33_34_35.hasErrors()){
             contactTabs.selectTab(1);
             return;
@@ -3664,7 +3635,8 @@ var IButton_Contact_Save = isc.IButtonSave.create({
                     dataSaveAndUpdateContract.pricePeriod=valuesManagerArticle9.getValue("pricePeriod");
                     dataSaveAndUpdateContract.eventPayment=valuesManagerArticle9.getValue("eventPayment");
                     dataSaveAndUpdateContract.contentType=valuesManagerArticle9.getValue("contentType");
-                    dataSaveAndUpdateContract.materialId=dynamicFormMaterial.getValue("materialId");
+                    //dataSaveAndUpdateContract.materialId=dynamicFormMaterial.getValue("materialId");
+                    dataSaveAndUpdateContract.materialId=1;
 
 
 
@@ -3932,8 +3904,7 @@ function manageNote(value, id) {
                         {name: "paramValue", width: "50%", align: "center"}
                     ],
                     pickListCriteria:{_constructor:'AdvancedCriteria',operator:"and",criteria:[
-                        {fieldName: "contractId", operator: "equals", value: 1},
-                        {fieldName:"categoryValue",operator:"equals",value:5}]
+                        {fieldName: "contractId", operator: "equals", value: 1}]
                     },
                     changed: function (form, item, value) {
                         dynamicForm_article5_Note2_number30.setValue("article5_Note1_value" + id, item.getSelectedRecord().paramValue);

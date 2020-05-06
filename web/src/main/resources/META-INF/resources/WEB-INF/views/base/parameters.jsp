@@ -160,16 +160,8 @@
 
     var DynamicForm_Parameters = isc.DynamicForm.create({
         width: 650,
-        height: "100%",
-        setMethod: 'POST',
-        align: "center",
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
+        height: 100,
         titleWidth: "100",
-        titleAlign: "right",
         requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 2,
         fields:
@@ -193,7 +185,7 @@
                     width: 500,
                     type: "select",
                     required: true,
-                    valueMap: {"1": "MOLYBDENUM OXIDE", "2": "CONCENTRATE", "3": "CATHOD"},
+                    valueMap: {"1": "MOLYBDENUM OXIDE", "3": "COPPER CONCENTRATES", "2": "COPPER CATHODES"},
                     validators: [
                     {
                         type:"required",
@@ -207,34 +199,9 @@
                     type: "text",
                     required: true,
                     valueMap: {
-                        "1": "article1",
-                        "2": "article2",
-                        "3": "article3",
-                        "4": "article4",
-                        "5": "article5",
-                        "6": "article6",
-                        "7": "article7",
-                        "8": "article8",
-                        "9": "article9",
-                        "10": "article10",
-                        "11": "article11",
-                        "12": "article12",
-                        "13": "article13",
-                        "14": "article14",
-                        "15": "article15",
-                        "16": "article16",
-                        "17": "article17",
-                        "18": "article18",
-                        "19": "article19",
-                        "20": "article20",
-                        "21": "article21",
-                        "22": "article22",
-                        "23": "article23",
-                        "24": "article24",
-                        "25": "article25",
-                        "26": "article26",
-                        "27": "article27",
-                        "-1": "Another",
+                        "1": "Unit",
+                        "2": "Time",
+                        "3": "Financial",
                         "-2": "BANK REFERENCE"
                     },
                     validators: [
@@ -256,7 +223,6 @@
     });
 
     var ToolStripButton_Parameters_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_Parameters_refresh();
@@ -265,7 +231,6 @@
 
     <sec:authorize access="hasAuthority('C_PARAMETERS')">
     var ToolStripButton_Parameters_Add = isc.ToolStripButtonAdd.create({
-        icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
             DynamicForm_Parameters.clearValues();
@@ -378,14 +343,29 @@
     });
 
     var HLayout_Parameters_IButton = isc.HLayout.create({
-        layoutMargin: 5,
+        width: 650,
+        height: "100%",
+        layoutMargin: 10,
         membersMargin: 5,
-        width: "100%",
+        textAlign: "center",
+        align: "center",
         members: [
             IButton_Parameters_Save,
             ParametersCancelBtn
         ]
     });
+
+
+       var VLayout_saveButton_parameter = isc.VLayout.create({
+        width: 650,
+        textAlign: "center",
+        align: "center",
+        members: [
+        HLayout_Parameters_IButton
+        ]
+    });
+
+
 
     var Window_Parameters = isc.Window.create(
         {
@@ -403,12 +383,13 @@
             },
             items: [
                 DynamicForm_Parameters,
-                HLayout_Parameters_IButton
+                VLayout_saveButton_parameter
             ]
         });
 
     var ListGrid_Parameters = isc.ListGrid.create(
         {
+            showFilterEditor: true,
             width: "100%",
             height: "100%",
             dataSource: RestDataSource_Parameters,
@@ -424,7 +405,7 @@
                 {
                     name: "paramName",
                     title: "<spring:message code='parameters.paramName'/>",
-                    width: "25%",
+                    width: "20%",
                     align: "center"
                 },
 
@@ -433,24 +414,27 @@
                     title: "<spring:message code='parameters.paramValue.c'/>",
                     width: "50%",
                     align: "center"
+                },{
+                    name: "categoryValue",
+                    title: "<spring:message	code='parameters.paramValue.d'/>",
+                    width: "15%",
+                    type: "text",
+                    required: true,
+                    valueMap: {
+                        "1": "Unit",
+                        "2": "Time",
+                        "3": "Financial",
+                        "-2": "BANK REFERENCE"
+                    }
+                },{
+                    name: "contractId",
+                    title: "<spring:message	code='parameters.paramValue'/>",
+                    width: "15%",
+                    type: "select",
+                    required: true,
+                    valueMap: {"1": "MOLYBDENUM OXIDE", "3": "COPPER CONCENTRATES", "2": "COPPER CATHODES"}
                 }],
-            sortField: 0,
-            autoFetchData: true,
-            showFilterEditor: true,
-            filterOnKeypress: true,
-            recordClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
-            updateDetails: function (viewer, record1, recordNum, field, fieldNum, value, rawValue) {
-                var record = this.getSelectedRecord();
-                ListGrid_ParametersFeature.fetchData(
-                    {
-                        "tblParameters.id": record.id
-                    }, function (dsResponse, data, dsRequest) {
-                        ListGrid_ParametersFeature.setData(data);
-                    },
-                    {
-                        operationId: "00"
-                    });
-            }
+            autoFetchData: true
         });
 
     var HLayout_Parameters_Grid = isc.HLayout.create(

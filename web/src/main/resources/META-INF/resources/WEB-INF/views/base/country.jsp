@@ -61,60 +61,6 @@
     }
 
 
-    function ListGrid_Country_remove() {
-        var record = ListGrid_Country.getSelectedRecord();
-        if (record == null || record.id == null) {
-            isc.Dialog.create(
-                {
-                    message: "<spring:message code='global.grid.record.not.selected'/>",
-                    icon: "[SKIN]ask.png",
-                    title: "<spring:message code='global.message'/>",
-                    buttons: [isc.Button.create(
-                        {
-                            title: "<spring:message code='global.ok'/>"
-                        })],
-                    buttonClick: function () {
-                        this.hide();
-                    }
-                });
-        }
-        else {
-            isc.Dialog.create(
-                {
-                    message: "<spring:message code='global.grid.record.remove.ask'/>",
-                    icon: "[SKIN]ask.png",
-                    title: "<spring:message code='global.grid.record.remove.ask.title'/>",
-                    buttons: [isc.IButtonSave.create(
-                        {
-                            title: "<spring:message code = 'global.yes'/>"
-
-                        }), isc.IButtonCancel.create(
-                        {
-                            title: "<spring:message code='global.no'/>"
-                        })],
-                    buttonClick: function (button, index) {
-                        this.hide();
-                        if (index == 0) {
-                            var CountryId = record.id;
-                            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,
-                                {
-                                    actionURL: "${contextPath}/api/country/" + record.id,
-                                    httpMethod: "DELETE",
-                                    callback: function (resp) {
-                                        if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
-                                            ListGrid_Country_refresh();
-                                            isc.say("<spring:message code='global.grid.record.remove.success'/>");
-                                        }
-                                        else {
-                                            isc.say("<spring:message code='global.grid.record.remove.failed'/>");
-                                        }
-                                    }
-                                }));
-                        }
-                    }
-                });
-        }
-    }
 
 
     var Menu_ListGrid_Country = isc.Menu.create({
@@ -156,20 +102,11 @@
         ]
     });
 
-
     var DynamicForm_Country = isc.DynamicForm.create(
         {
             width: 650,
             height: "100%",
-            setMethod: 'POST',
-            align: "center",
-            canSubmit: true,
-            showInlineErrors: true,
-            showErrorText: true,
-            showErrorStyle: true,
-            errorOrientation: "right",
             titleWidth: "100",
-            titleAlign: "right",
             requiredMessage: "<spring:message code='validator.field.is.required'/>",
             numCols: 2,
             fields: [
@@ -216,7 +153,6 @@
                     width: 500,
                     colSpan: 1,
                     required: true,
-                    keyPressFilter: "[a-z|A-Z|0-9.]",
                     titleColSpan: 1,
                     validators: [
                     {
@@ -230,9 +166,7 @@
             ]
         });
 
-
     var ToolStripButton_Country_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_Country_refresh();
@@ -241,7 +175,6 @@
 
     <sec:authorize access="hasAuthority('C_COUNTRY')">
     var ToolStripButton_Country_Add = isc.ToolStripButtonAdd.create({
-        icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
             DynamicForm_Country.clearValues();
@@ -311,6 +244,9 @@
     var IButton_Country_Save = isc.IButtonSave.create(
         {
             top: 260,
+            layoutMargin: 5,
+            membersMargin: 5,
+            width: 120,
             title: "<spring:message code='global.form.save'/>",
             icon: "pieces/16/save.png",
             click: function () {
@@ -327,9 +263,8 @@
                         httpMethod: method,
                         data: JSON.stringify(data),
                         callback: function (resp) {
-                            if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                            if (!resp && resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
                                 isc.say("<spring:message code='global.form.request.successful'/>");
-//resp.setHeader('Cache-Control', 'no-cache');
                                 ListGrid_Country_refresh();
                                 Window_Country.close();
                             }
@@ -353,21 +288,31 @@
     });
 
     var HLayout_Country_IButton = isc.HLayout.create({
-        layoutMargin: 5,
+        width: 650,
+        height: "100%",
+        layoutMargin: 10,
         membersMargin: 5,
-        width: "100%",
+        textAlign: "center",
+        align: "center",
         members: [
             IButton_Country_Save,
             CountryCancelBtn
         ]
     });
 
+    var VLayout_saveButton_country = isc.VLayout.create({
+        width: 650,
+        textAlign: "center",
+        align: "center",
+        members: [
+            HLayout_Country_IButton
+        ]
+    });
 
     var Window_Country = isc.Window.create(
         {
             title: "<spring:message code='country.title'/> ",
             width: 580,
-// height: 500,
             autoSize: true,
             autoCenter: true,
             isModal: true,
@@ -380,13 +325,13 @@
             },
             items: [
                 DynamicForm_Country,
-                HLayout_Country_IButton
+                VLayout_saveButton_country
             ]
         });
 
-
     var ListGrid_Country = isc.ListGrid.create(
         {
+            showFilterEditor: true,
             width: "100%",
             height: "100%",
             dataSource: RestDataSource_Country,
@@ -417,10 +362,7 @@
                     width: "10%",
                     align: "center"
                 },],
-            sortField: 0,
-            autoFetchData: true,
-            showFilterEditor: true,
-            filterOnKeypress: true
+            autoFetchData: true
         });
 
     var HLayout_Country_Grid = isc.HLayout.create(
@@ -440,4 +382,3 @@
                 HLayout_Country_Actions, HLayout_Country_Grid
             ]
         });
-

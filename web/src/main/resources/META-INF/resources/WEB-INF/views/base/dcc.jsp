@@ -28,16 +28,7 @@
     var dccDynamicForm = isc.DynamicForm.create({
         width: "100%",
         height: "100%",
-        setMethod: 'POST',
-        align: "center",
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
         titleWidth: "100",
-        titleAlign: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 2,
         fields:
             [
@@ -335,6 +326,7 @@
         autoCenter: true,
         isModal: true,
         showModalMask: true,
+        canDragReposition: false,
         align: "center",
         autoDraw: false,
         dismissOnEscape: true,
@@ -354,7 +346,6 @@
                                 width: 5,
                             }),
                             isc.IButtonCancel.create({
-                                ID: "rateEditExitIButton",
                                 title: "<spring:message code='global.cancel'/>",
                                 width: 100,
                                 icon: "pieces/16/icon_delete.png",
@@ -374,11 +365,9 @@
         styleName: "listgrid-child",
         dataSource: RestDataSource_Dcc,
         contextMenu: dccMenu,
-        sortField: 0,
         autoFetchData: true,
         initialCriteria: criteria,
         showFilterEditor: false,
-        filterOnKeypress: true,
         showRecordComponents: true,
         showRecordComponentsByCell: true,
         fields:
@@ -461,6 +450,7 @@
             ListGrid_Dcc
         ]
     });
+
     isc.VLayout.create({
         width: "100%",
         height: "100%",

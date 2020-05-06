@@ -7,7 +7,7 @@
     <% DateUtil dateUtil = new DateUtil();%>
 
     factoryLableHedear("LablePageCad", '<font color="#ffffff"><b>NATIONAL IRANIAN COPPER INDUSTRIES CO.<b></font>', "100%", "10", 5);
-    factoryLable("lableNameContactCad", '<b><font size=4px>COPPER CATHODES CONTRACT-GIAG/NICICO</font><b>', "100%", '2%', 1);
+    factoryLable("lableNameContactCad", '<b><font size=4px>COPPER CATHODES CONTRACT</font><b>', "100%", '2%', 1);
     factoryLableArticle("lableArticle1Cad", '<b><font size=4px>ARTICLE 1 - DEFINITIONS:</font><b>', "30", 5)
     factoryLableArticle("lableArticle2Cad", '<b><font size=4px>ARTICLE 2 -QUANTITY :</font><b>', "30",5);
     factoryLableArticle("lableArticleSelectConc", '<b><font size=4px>SELECT ITEMS</font><b>', "25",5);
@@ -20,18 +20,9 @@
     var dynamicForm_ContactCadHeader = isc.DynamicForm.create({
         valuesManager: "contactCadHeader",
         wrapItemTitles: false,
-        setMethod: 'POST',
         width: "100%",
         height: "100%",
-        align: "left",
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
         titleWidth: "80",
-        titleAlign: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>",
         cellPadding: 2,
         numCols: 4,
         fields: [
@@ -251,20 +242,11 @@
     dynamicForm4Cad.addMember("Contact_ContactAgentSellerCad", 4);
 
     var dynamicForm_ContactCadCustomer = isc.DynamicForm.create({
-        setMethod: 'POST',
         valuesManager: "contactCadHeader",
         width: "100%",
         height: "100%",
         numCols: 4,
         wrapItemTitles: false,
-        align: "center",
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
-        titleAlign: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>",
         fields: [
             {name: "id", canEdit: false, hidden: true},
             {
@@ -368,16 +350,6 @@
         width: "100%",
         height: "100%",
         numCols: 4,
-        setMethod: 'POST',
-        align: "center",
-        canSubmit: true,
-        showInlineErrors: true,
-        wrapItemTitles: false,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
-        titleAlign: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>",
         fields: [
             {name: "id", canEdit: false, hidden: true},
             {
@@ -497,13 +469,26 @@ var DynamicForm_ContactParameter_ValueNumber8Cad=isc.DynamicForm.create({
                 pickListProperties: {showFilterEditor: true},
                 pickListFields: [
                     {name: "paramName", title: "<spring:message code='parameters.paramName'/>", width: "20%", align: "center"},
-                    {name: "paramType", title: "<spring:message code='parameters.paramType'/>", width: "20%", align: "center"},
-                    {name: "paramValue", title: "<spring:message code='parameters.paramValue'/>", width: "60%", align: "center"}
+                   // {name: "paramType", title: "<spring:message code='parameters.paramType'/>", width: "20%", align: "center"},
+                    {name: "paramValue", title: "<spring:message code='parameters.paramValue'/>", width: "60%", align: "center"},
+                    {
+                    name: "categoryValue",
+                    title: "<spring:message	code='parameters.paramValue.d'/>",
+                    width: "15%",
+                    type: "text",
+                    required: true,
+                    valueMap: {
+                        "1": "Unit",
+                        "2": "Time",
+                        "3": "Financial",
+                        "-2": "BANK REFERENCE"
+                    }
+                    }
                 ],
                 pickListCriteria: {
                     _constructor: 'AdvancedCriteria', operator: "and", criteria: [
-                        {fieldName: "contractId", operator: "equals", value: 3},
-                        {fieldName: "categoryValue", operator: "equals", value: 1}]
+                        {fieldName: "contractId", operator: "equals", value: 2}
+                        ]
                 },
                 width: "1200",
                 height: "30",
@@ -546,7 +531,7 @@ var vlayoutBodyCad = isc.VLayout.create({
         members: [
             isc.HLayout.create({align: "top", members: [dynamicForm_ContactCadHeader]}),
             isc.HLayout.create({height: "50", align: "left", members: [lableNameContactCad]}),
-            isc.HLayout.create({height: "50", align: "left", members: [
+           /* isc.HLayout.create({height: "50", align: "left", members: [
                 isc.DynamicForm.create({ID:"dynamicFormCath",items:[{type: "text",name:"materialId",
                     title: "PLEASE SELECT MATERIAL",align: "left",selectOnFocus: true,wrapTitle: false,required: true,
                     validators: [
@@ -569,7 +554,7 @@ var vlayoutBodyCad = isc.VLayout.create({
                         {fieldName: "descl", operator: "contains", value: "Cath"}]
                     },
                     }]})
-            ]}),
+            ]}),*/
             isc.HLayout.create({align: "top", members: [dynamicForm_ContactCadCustomer]}),
             isc.HLayout.create({ID: "dynamicForm1And2Cad", align: "center", members: [dynamicForm1Cad, dynamicForm2Cad]}),
             isc.HLayout.create({align: "center", members: [DynamicForm_ContactSeller]}),

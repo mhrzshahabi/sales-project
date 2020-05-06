@@ -2,7 +2,7 @@
     left: 16px;
 }
 .header-logo:before {
-    bottom: -39px;
+    bottom: -28px;
     left: 0px !important;
     content: " ";
     position: absolute;

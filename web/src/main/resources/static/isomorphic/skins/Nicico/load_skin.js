@@ -12,7 +12,8 @@ isc.loadSkin = function (theWindow) {
             print: 'چاپ',
             closeAll: 'بستن همه',
             cancel: 'لغو',
-            save: 'ذخیره'
+            save: 'ذخیره',
+            Draft: 'تاریخچه'
         }
         isc.Page.setSkinDir("[ISOMORPHIC]/skins/Nicico/");
         var cssLoaded = isc.Page.loadStyleSheet("[SKIN]/skin_styles.css", theWindow, "isc.FontLoader.loadCustomFonts()");
@@ -214,6 +215,20 @@ isc.loadSkin = function (theWindow) {
             baseStyle: "toolStripButtonRefresh",
             icon: "[SKIN]/actions/refresh.png",
             title: actions_btn.refresh,
+            autoFit: true,
+            iconSize: 15,
+            height: 17,
+            labelVPad: 0,
+            showTitle: false,
+            showRollOver: true,
+            showDown: true,
+            showDownIcon: true,
+            showSelectedIcon: true,
+        });
+        isc.ClassFactory.defineClass("ToolStripButtonDraft", "Button").addProperties({
+            baseStyle: "toolStripButtonEdit",
+            icon: "[SKIN]/actions/dr.png",
+            title: actions_btn.Draft,
             autoFit: true,
             iconSize: 15,
             height: 17,

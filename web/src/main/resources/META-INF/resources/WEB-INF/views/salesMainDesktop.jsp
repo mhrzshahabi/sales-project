@@ -14,9 +14,9 @@
 
     <link rel="sales icon" href="<spring:url value='/static/img/icon/nicico.png' />"/>
     <link rel="stylesheet" href="<spring:url value='/static/css/smartStyle.css' />"/>
-    <link rel="stylesheet" href="<spring:url value='/static/css/smartStylebutton.css' />"/>
     <link rel="stylesheet" href="<spring:url value='/static/css/calendar.css' />"/>
     <link rel="stylesheet" href='<spring:url value="/static/css/commonStyle.css"/>'/>
+    <link rel="stylesheet" href='<spring:url value="/static/css/OAManagementUsers.css"/>'/>
 
     <script src="<spring:url value='/static/script/js/calendar.js'/>"></script>
     <script src="<spring:url value='/static/script/js/all.js'/>"></script>
@@ -54,16 +54,24 @@
 </form>
 
 <script type="application/javascript">
-
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
     isc.DynamicForm.addProperties({
         requiredTitlePrefix: "<span style='color:#ff0842;font-size:15px; padding-left: 5px;'>*</span>",
+        setMethod: 'POST',
+        canSubmit: true,
+        showInlineErrors: true,
+        showErrorText: true,
+        showErrorStyle: true,
+        errorOrientation: "right",
+        titleAlign: "right",
+        requiredMessage: "<spring:message code='validator.field.is.required'/>",
+
     });
 
     isc.RichTextEditor.addProperties({
-        fontControls: ["fontSizeSelector"],
-    })
+        fontControls: ["fontSizeSelector"]
+    });
 
     isc.defineClass("MyRestDataSource", RestDataSource);
 
@@ -89,7 +97,17 @@
         }
     });
 
-
+    isc.TextItem.addProperties({
+        format: ",##0",
+        selectOnClick: true,
+        hintStyle: "noneStyleFormItem",
+        formatEditorValue(value, record, form, item) {
+            return NumberUtil.format(value, ",0");
+        },
+        keyUp(item, form, keyName) {
+            item.setHint(NumberUtil.format(item.getValue(), ",0"));
+        }
+    });
 
     BaseRPCRequest = {
         httpHeaders: {"Authorization": "Bearer <%= accessToken %>"},
@@ -118,12 +136,11 @@
             if (response.httpResponseCode == 401) { // Unauthorized
                 redirectLogin();
             } else if (response.httpResponseCode == 403) { // Forbidden
-                // nicico.error("Access Denied"); //TODO: I18N message key
                 isc.say(JSON.parse(response.httpResponseText).exception);
             } else if (response.httpResponseCode == 500) {
-                isc.say(JSON.parse(response.httpResponseText).exception + "\nHTTP Response Code is 500");
+                isc.say(JSON.parse(response.httpResponseText).exception + " HTTP Response Code is 500");
             } else if (response.httpResponseCode == 405) {
-                isc.say(JSON.parse(response.httpResponseText).exception + "\nHTTP Response Code is 450");
+                isc.say(JSON.parse(response.httpResponseText).exception + " HTTP Response Code is 450");
             }
             const httpResponse = JSON.parse(response.httpResponseText);
             switch (String(httpResponse.error)) {
@@ -154,6 +171,9 @@
         showPrompt: true,
         allowFilterExpressions: true,
         allowAdvancedCriteria: true,
+        filterOnKeypress: true,
+        formatCellValue: "isc.NumberUtil.format(value, ',0')",
+        canAutoFitFields: false
     });
 
     isc.ToolStripButton.addProperties({
@@ -164,6 +184,7 @@
         disabledCursor: "not-allowed",
         border: "1px solid lightblue"
     });
+
     isc.ToolStripMenuButton.addProperties({
         showDownIcon: false,
         showSelectedIcon: false,
@@ -198,7 +219,7 @@
         if (mainTabSet.tabs != null) {
             for (i = 0; i < mainTabSet.tabs.length; i++) {
 
-                if (title == mainTabSet.getTab(i).title) {
+                if (title == mainTabSet.getTab(i).title || (url.includes("oauth") && mainTabSet.getTab(i).pane.viewURL.includes("oauth"))) {
                     mainTabSet.selectTab(i);
                     flagTabExist = true;
                     break;
@@ -219,11 +240,10 @@
 
         width: 200,
         dynamicContents: true,
-        contents: "<span class='header-label-username'><spring:message code='global.user'/></span>" + ":" +"<span class='header-label-username-span'>${userFullName}</span>" ,
+        contents: "<span class='header-label-username'><spring:message code='global.user'/></span>" + ":" + "<span class='header-label-username-span'>${userFullName}</span>",
     });
 
     logoutButton = isc.IButton.create({
-
         width: "80",
         baseStyle: "header-logout",
         title: "<span><spring:message code='global.exit'/><span>",
@@ -236,7 +256,6 @@
     var languageForm = isc.DynamicForm.create({
         wrapItemTitles: true,
         width: 120,
-        //height: "100%",
         height: 30,
         styleName: "header-change-lng",
         fields: [{
@@ -287,8 +306,6 @@
     }
 
 
-
-
     var languageVLayout = isc.VLayout.create({
         width: "5%",
         align: "center",
@@ -297,23 +314,19 @@
     });
 
 
-
     var toggleSwitch = isc.HTMLFlow.create({
         width: 32,
         height: "100%",
         align: "center",
         styleName: "toggle-switch",
-        contents: "<label class=\"switch-btn\">\n" +
-            "  <input type=\"checkbox\" onchange='onToggleClick(event)'>\n" +
-            "  <span class=\"slider round\"></span>\n" +
-            "</label>"
+        contents: "<div id='switch-btn'><img src='static/img/pinSvg.svg'> </div>"
     });
 
     var languageAndToggleHLayout = isc.HLayout.create({
         width: "5%",
         align: "center",
         defaultLayoutAlign: "left",
-        members: [toggleSwitch,languageVLayout]
+        members: [toggleSwitch, languageVLayout]
     });
 
     var userNameHLayout = isc.HLayout.create({
@@ -339,7 +352,6 @@
     });
 
 
-
     var headerLogo = isc.HTMLFlow.create({
         width: 350,
         height: "100%",
@@ -347,20 +359,13 @@
         contents: "<div class='header-title-right'><div class='header-title-top'><h3><spring:message code='main.salesCompany'/></h3><h4><spring:message code='main.salesName'/></h4></div><div class='header-title-version'><h4><spring:message code='main.salesVersion'/></h4></div><img width='50' height='50' src='static/img/logo-white.svg'/></div>"
     });
 
-    <%--var headerFlow = isc.HTMLFlow.create({--%>
-        <%--width: "10%",--%>
-        <%--height: "100%",--%>
-        <%--styleName: "mainHeaderStyleOnline header-logo-title",--%>
-        <%--contents: "<span><spring:message code='main.salesName'/></span>"--%>
-    <%--});--%>
-
     var headerLayout = isc.HLayout.create({
 
         width: "100%",
-        height: 50,
+        height: 55,
         styleName: "header-top",
         members: [headerLogo,
-          //  headerFlow,
+            //  headerFlow,
             headerExitHLayout
         ],
     });
@@ -550,24 +555,24 @@
     });
 
     /* Start ----------------------help General---------------------------------*/
-        var fillScreenWindow_Main = isc.Window.create({
+    var fillScreenWindow_Main = isc.Window.create({
         placement: "fillScreen",
         autoDraw: false,
         title: "<spring:message code='global.form.help'/>",
         items: [
             isc.HLayout.create({
                 width: "100%",
-                layoutMargin:5,
+                layoutMargin: 5,
                 membersMargin: 10,
                 members: [
                     isc.HTMLPane.create({
-                        ID:"myPane2",
-                        showEdges:true,
-                        contentsURL:"/sales/help/general-sales.html",
-                        contentsType:"page"
+                        ID: "myPane2",
+                        showEdges: true,
+                        contentsURL: "/sales/help/general-sales.html",
+                        contentsType: "page"
                     })
-                    ]
-                })
+                ]
+            })
         ]
     });
 
@@ -577,31 +582,9 @@
     /*----------------------settingTab------------------------*/
     settingTab = isc.ToolStripMenuButton.create({
         title: "&nbsp; <spring:message code='main.settingTab'/>",
-        menu: isc.Menu.create({
-            placement: "none",
-            data: [
-                {
-                    title: "<spring:message code='setting.appRoles'/>",
-                    click: function () {
-                        createTab("<spring:message code='setting.appRoles'/>", "<spring:url value="web/oauth/app-roles/show-form" />", false);
-                    }
-                },
-                {isSeparator: true},
-                {
-                    title: "<spring:message code='setting.groupPermission'/>",
-                    click: function () {
-                        createTab("<spring:message code='setting.groupPermission'/>", "<spring:url value="web/oauth/groups/show-form" />", false);
-                    }
-                },
-                {isSeparator: true},
-                {
-                    title: "<spring:message code='setting.roleUser'/>",
-                    click: function () {
-                        createTab("<spring:message code='setting.roleUser'/>", "<spring:url value="web/oauth/users/show-form" />", false);
-                    }
-                }
-            ]
-        })
+        click: function () {
+            createTab("مدیریت کاربران", "<spring:url value="web/oauth/landing/show-form" />", false);
+        }
     });
 
     /*----------------------contractsTab------------------------*/
@@ -690,33 +673,19 @@
             placement: "none",
             data: [
                 {
-                    title: "<spring:message code='tozin.title'/>",
-                    click: function () {
-                        createTab("<spring:message code='tozin.title'/>", "<spring:url value="/tozin/showForm" />")
-                    }
-                },
-                {isSeparator: true},
-                {
                     title: "<spring:message code='tozin.onWay'/>",
                     click: function () {
                         createTab("<spring:message code='tozin.onWay'/>", "<spring:url value="/tozin/showOnWayProductForm" />")
                     }
 
                 },
-                {isSeparator: true},
-                {
-                    title: "<spring:message code='tozinSales.title'/>",
-                    click: function () {
-                        createTab("<spring:message code='tozinSales.title'/>", "<spring:url value="/tozinSales/showForm" />")
-                    }
-                },
-                {isSeparator: true},
+                /*{isSeparator: true},
                 {
                     title: "<spring:message code='molybdenum.title'/>",
                     click: function () {
                         createTab("<spring:message code='molybdenum.title'/>", "<spring:url value="/warehouseLot/showForm" />")
                     }
-                },
+                },*/
                 {isSeparator: true},
                 {
                     title: "<spring:message code='bijack'/>",
@@ -757,29 +726,27 @@
     });
 
     /*----------------------inspectionTab------------------------*/
-    inspectionTab = isc.ToolStripMenuButton.create({
-        title: "&nbsp; <spring:message code='main.inspectionTab'/>",
-        menu: isc.Menu.create({
-            placement: "none",
-            data: [
-                {
-                    title: "<spring:message code='inspectionMoistureResults.title'/>",
-                    click: function () {
-                        createTab("<spring:message code='inspectionMoisture.title'/>", "<spring:url value="/shipmentMoisture/showForm" />")
-                    }
-                },
-                {isSeparator: true},
-                {
-                    title: "<spring:message code='inspectionAssayResults.title'/>",
-                    click: function () {
-                        createTab("<spring:message code='inspectionAssay.title'/>", "<spring:url value="/shipmentAssay/showForm" />")
-                    }
-                }
-            ]
-        })
-    });
-
-
+    <%--inspectionTab = isc.ToolStripMenuButton.create({--%>
+    <%--title: "&nbsp; <spring:message code='main.inspectionTab'/>",--%>
+    <%--menu: isc.Menu.create({--%>
+    <%--placement: "none",--%>
+    <%--data: [--%>
+    <%--{--%>
+    <%--title: "<spring:message code='inspectionMoistureResults.title'/>",--%>
+    <%--click: function () {--%>
+    <%--createTab("<spring:message code='inspectionMoisture.title'/>", "<spring:url value="/shipmentMoisture/showForm" />")--%>
+    <%--}--%>
+    <%--},--%>
+    <%--{isSeparator: true},--%>
+    <%--{--%>
+    <%--title: "<spring:message code='inspectionAssayResults.title'/>",--%>
+    <%--click: function () {--%>
+    <%--createTab("<spring:message code='inspectionAssay.title'/>", "<spring:url value="/shipmentAssay/showForm" />")--%>
+    <%--}--%>
+    <%--}--%>
+    <%--]--%>
+    <%--})--%>
+    <%--});--%>
 
 
     /*----------------------financialTab------------------------*/
@@ -818,7 +785,14 @@
                     click: function () {
                         createTab("<spring:message code='issuedInternalInvoices.title'/>", "<spring:url value="/invoiceInternal/showForm" />")
                     }
-                }
+                },
+                {isSeparator: true},
+                {
+                    title: "<spring:message code='invoiceSales.title'/>",
+                    click: function () {
+                        createTab("<spring:message code='invoiceSales.title'/>", "<spring:url value="/invoiceSales/showForm" />")
+                    }
+                },
             ]
         })
     });
@@ -827,6 +801,8 @@
     var mainTabSet = isc.TabSet.create({
         tabBarPosition: "top",
         width: "100%",
+        height: "100%",
+        autoDraw: false,
         tabs: [],
         tabBarControls: [
             isc.IButtonClose.create({
@@ -879,56 +855,99 @@
         ]
     });
 
+    var headerAndMenu = isc.VLayout.create({
+        styleName: "header-and-menu",
+        members: [headerLayout, MainDesktopMenuH]
+    })
+
     isc.VLayout.create({
         width: "100%",
         height: "100%",
         backgroundColor: "",
-        members: [headerLayout, MainDesktopMenuH, mainTabSet]
+        members: [headerAndMenu, mainTabSet]
     });
 
-    var checked = null;
-    function onToggleClick (e){
-        checked = e.target.checked;
-        if(checked)
-        {
 
-            headerLayout.setStyleName('header-top toggle-hide');
-            MainDesktopMenuH.setStyleName('main-menu toggle-hide');
-            headerLayout.setVisibility(false);
-            MainDesktopMenuH.setVisibility(false);
+    var toggle = true;
+    headerAndMenu.setStyleName('header-and-menu toggle-show');
+    var switchBtn = document.getElementById('switch-btn');
+    switchBtn.addEventListener('click', function onToggleClick(e) {
+        setTimeout(function () {
+            //switchBtn.classList.remove("fade-in");
+            //switchBtn.classList.remove("fade-out");
+            if (toggle) {
+                switchBtn.firstChild.src = "static/img/unpinSvg.svg";
+                headerAndMenu.setStyleName('header-and-menu toggle-hide')
+                setTimeout(function () {
+                    headerLayout.setVisibility(false);
+                    MainDesktopMenuH.setVisibility(false);
+                }, 300)
 
+            } else {
+                switchBtn.firstChild.src = "static/img/pinSvg.svg";
+                headerAndMenu.setStyleName('header-and-menu toggle-show')
+                setTimeout(function () {
+                    headerLayout.setVisibility(true);
+                    MainDesktopMenuH.setVisibility(true);
+                }, 300)
 
-        }else {
-            headerLayout.setStyleName('header-top toggle-show');
-            MainDesktopMenuH.setStyleName('main-menu toggle-show');
-            headerLayout.setVisibility(true);
-            MainDesktopMenuH.setVisibility(true);
             }
-    }
+            toggle = !toggle;
+        }, 100)
 
-    document.addEventListener("mousemove", function(event){
-        if(event.clientY <= 2)
-        {
-            headerLayout.setStyleName('header-top toggle-show');
-            MainDesktopMenuH.setStyleName('main-menu toggle-show');
-            headerLayout.setVisibility(true);
-            MainDesktopMenuH.setVisibility(true);
 
-        }else  if(event.clientY > 100){
-            if(checked){
-                headerLayout.setStyleName('header-top toggle-hide');
-                MainDesktopMenuH.setStyleName('main-menu toggle-hide');
-                headerLayout.setVisibility(false);
-                MainDesktopMenuH.setVisibility(false);
-            }else{
-                headerLayout.setStyleName('header-top toggle-show');
-                MainDesktopMenuH.setStyleName('main-menu toggle-show');
+        // checked = e.target.checked;
+        // if(checked)
+        // {
+        //
+        // 	headerLayout.setStyleName('header-top toggle-hide')
+        // 	ribbonHLayout.setStyleName('main-menu toggle-hide')
+        // 	headerLayout.setVisibility(false);
+        // 	ribbonHLayout.setVisibility(false);
+        //
+        //
+        // }else {
+        // 	headerLayout.setStyleName('header-top toggle-show')
+        // 	ribbonHLayout.setStyleName('main-menu toggle-show')
+        // 	headerLayout.setVisibility(true);
+        // 	ribbonHLayout.setVisibility(true);
+        // }
+    })
+
+    document.addEventListener("mouseout", function (event) {
+        if (event.clientY <= 10 || event.pageY <= 10) {
+            headerAndMenu.setStyleName('header-and-menu toggle-show')
+            //headerLayout.setStyleName('header-top')
+            //ribbonHLayout.setStyleName('main-menu')
+            setTimeout(function () {
                 headerLayout.setVisibility(true);
                 MainDesktopMenuH.setVisibility(true);
+            }, 100)
+
+        } else if (event.clientY > 100) {
+            if (!toggle) {
+                headerAndMenu.setStyleName('header-and-menu toggle-hide')
+                //headerLayout.setStyleName('header-top')
+                //ribbonHLayout.setStyleName('main-menu')
+                setTimeout(function () {
+                    headerLayout.setVisibility(false);
+                    MainDesktopMenuH.setVisibility(false);
+                }, 300)
+
+            } else {
+                headerAndMenu.setStyleName('header-and-menu toggle-show')
+                //	headerLayout.setStyleName('header-top')
+                //	ribbonHLayout.setStyleName('main-menu')
+                setTimeout(function () {
+                    headerLayout.setVisibility(true);
+                    MainDesktopMenuH.setVisibility(true);
+                }, 100)
+
             }
 
         }
-    });
+    })
+
 
     <sec:authorize access="hasAuthority('R_CURRENCY')">
     {
@@ -953,14 +972,14 @@
     /*Help*/
     isc.HTMLFlow.create({
         textAlign: "center",
-        top:100,
-        contents:"<div id=\"mybutton\">\n" +
-            "<button class=\"glow-on-hover\"><spring:message code='global.form.help'/></button>\n" +
-            "</div>",
-        dynamicContents:true,
-        click:function()
-        {
-            fillScreenWindow_Main .show();
+        top: 100,
+        left: 20,
+        contents: "<div id=\"mybutton\">\n" +
+        "<button class=\"glow-on-hover\"><spring:message code='global.form.help'/></button>\n" +
+        "</div>",
+        dynamicContents: true,
+        click: function () {
+            fillScreenWindow_Main.show();
         }
     });
     /*Help*/

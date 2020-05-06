@@ -123,7 +123,7 @@
     });
 
     isc.ViewLoader.create({
-        ID: "BijackViewLoader",
+        ID: "WarehouseCadViewLoader",
         width: 830,
         height: 800,
         autoDraw: false,
@@ -145,7 +145,7 @@
         },
         items:
             [
-                BijackViewLoader
+                WarehouseCadViewLoader
             ]
     });
 
@@ -173,15 +173,15 @@
             if (record.materialItem.gdsCode == 9 || record.materialItem.gdsCode == 10 || record.materialItem.gdsCode == 11 ||
                 record.materialItem.gdsCode == 114 || record.materialItem.gdsCode == 129 || record.materialItem.gdsCode == 86 ||
                 record.materialItem.gdsCode == 90 || record.materialItem.gdsCode == 95) {
-                BijackViewLoader.setViewURL("warehouseCad/showWarehouseCadForm");
+                WarehouseCadViewLoader.setViewURL("warehouseCad/showWarehouseCadForm");
                 Window_Bijack.show();
             }
             if (record.materialItem.gdsCode == 97) {
-                BijackViewLoader.setViewURL("warehouseCad/showWarehouseMoForm");
+                WarehouseCadViewLoader.setViewURL("warehouseCad/showWarehouseMoForm");
                 Window_Bijack.show();
             }
             if (record.materialItem.gdsCode == 8) {
-                BijackViewLoader.setViewURL("warehouseCad/showWarehouseConcForm");
+                WarehouseCadViewLoader.setViewURL("warehouseCad/showWarehouseConcForm");
                 Window_Bijack.show();
             }
         }
@@ -274,7 +274,6 @@
     });
 
     var ToolStripButton_warehouseCAD_Refresh = isc.ToolStripButtonRefresh.create({
-        icon: "[SKIN]/actions/refresh.png",
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_warehouseCAD_refresh();
@@ -304,7 +303,7 @@
     var excel = isc.DynamicForm.create({
         method: "POST",
         action: "${contextPath}/warehouseCad/print/",
-        canSubmit: true,
+
         autoDraw: true,
         visibility: "hidden",
         target: "_Blank",
@@ -317,13 +316,12 @@
     });
 
     ToolStripButton_WarehouseCAD_Report = isc.ToolStripButtonRefresh.create({
-        ID: "exportButton",
         icon: "[SKIN]/actions/excel-512.png",
         title: "<spring:message code='global.form.export'/>",
         click: function () {
             const fieldsGrid = ListGrid_warehouseCAD.getFields().filter(
                 function (q) {
-                    return q.name.toString().toLowerCase() != 'grouptitle'
+                    return q.name.toString().toLowerCase() != '$74y'
                 });
 
             const fields = fieldsGrid.map(function (f) {
@@ -363,7 +361,7 @@
                 });
             } else {
                 filterEditorCriteria.criteria.forEach(function (key, index) {
-                        criterias.add(key);
+                    criterias.add(key);
                 });
                 filterEditorCriteria.criteria = criterias;
                 const criteria = JSON.stringify(filterEditorCriteria);
@@ -379,19 +377,57 @@
         }
     });
 
+    var pdf = isc.DynamicForm.create({
+        method: "POST",
+        action: "${contextPath}/warehouseCad/Bijack",
+        autoDraw: true,
+        visibility: "hidden",
+        target: "_Blank",
+        fields:
+            [
+                {name: "type"},
+                {name: "mahsool"},
+                {name: "vahed"},
+                {name: "haml"},
+                {name: "criteria"},
+            ]
+    });
+
+    var JasperReport_Pdf = isc.ToolStripButtonRefresh.create({
+        icon: "[SKIN]/actions/pdf.png",
+        title: "<spring:message code='global.form.export.pdf'/>",
+
+        click: function () {
+            let materialId_List_Pdf = DynamicForm_Material_WarehouseCad.getField("materialId").getValueMap();
+            let materialId_Value_Pdf = DynamicForm_Material_WarehouseCad.getValue("materialId");
+            const material = materialId_List_Pdf[materialId_Value_Pdf];
+
+            let Vahed_tolidi_List_Pdf = DynamicForm_Plant_WarehouseCad.getField("type").getValueMap();
+            let Vahed_tolidi_Value_Pdf = DynamicForm_Plant_WarehouseCad.getValue("type");
+            const tolidfrom = Vahed_tolidi_List_Pdf[Vahed_tolidi_Value_Pdf];
+
+            if (materialId_List_Pdf != null && materialId_List_Pdf !== 'undefined') {
+                const filterEditorCriteria = ListGrid_warehouseCAD.getCriteria();
+                const criteria_arr = [];
+                filterEditorCriteria.criteria.forEach(key => criteria_arr.add(key));
+                filterEditorCriteria.criteria = criteria_arr;
+                const criteria = JSON.stringify(filterEditorCriteria);
+                pdf.setValue("criteria", criteria);
+                pdf.setValue("mahsool", material);
+                pdf.setValue("vahed", tolidfrom);
+                pdf.setValue("haml", DynamicForm_MovementType_WarehouseCad.getValue("type"));
+                pdf.setValue("type", "pdf");
+                pdf.submitForm();
+            } else {
+                isc.say("<spring:message code='department.warning.message'/>");
+            }
+        }
+    });
+
     var DynamicForm_Material_WarehouseCad = isc.DynamicForm.create({
         wrapItemTitles: false,
-        setMethod: 'POST',
-        align: "center",
         target: "_Blank",
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
         titleWidth: "200",
-        titleAlign: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 4,
         fields: [{
             name: "materialId",
@@ -400,7 +436,7 @@
             showHover: true,
             autoFetchData: false,
             title: "<spring:message code='contractItem.material'/>",
-            type: 'long',
+            type: 'Long',
             editorType: "SelectItem",
             optionDataSource: RestDataSource_MaterialItem_IN_WAREHOUSECAD,
             displayField: "gdsName",
@@ -411,23 +447,19 @@
             pickListFields: [{
                 name: "gdsName",
                 align: "center"
-            }],
+            },
+            // {
+            //    name: "id",
+            //    hidden: true
+            // }
+            ],
             defaultValue: 11
         }]
     });
 
     var DynamicForm_Plant_WarehouseCad = isc.DynamicForm.create({
         wrapItemTitles: false,
-        setMethod: 'POST',
-        align: "center",
         target: "_Blank",
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
-        titleAlign: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 4,
         fields: [{
             name: "type",
@@ -444,17 +476,8 @@
 
     var DynamicForm_MovementType_WarehouseCad = isc.DynamicForm.create({
         wrapItemTitles: false,
-        setMethod: 'POST',
-        align: "center",
         target: "_Blank",
-        canSubmit: true,
-        showInlineErrors: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        errorOrientation: "right",
         titleWidth: "200",
-        titleAlign: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 4,
         fields: [{
             name: "type",
@@ -468,12 +491,34 @@
         }]
     });
 
+    var bijack_criteria = {
+        _constructor: "AdvancedCriteria",
+        operator: "and",
+        criteria: [
+            {
+                fieldName: "materialItem.gdsCode",
+                operator: "equals",
+                value: DynamicForm_Material_WarehouseCad.getValues().materialId
+            },
+            {
+                fieldName: "plant",
+                operator: "contains",
+                value: DynamicForm_Plant_WarehouseCad.getValues().type
+            },
+            {
+                fieldName: "movementType",
+                operator: "contains",
+                value: DynamicForm_MovementType_WarehouseCad.getValues().type
+            }
+        ]
+    };
+
     var warehouseCAD_searchBtn = isc.IButton.create({
         width: 120,
         title: "<spring:message code='global.search'/>",
         icon: "icon/search.png",
         click: function () {
-            var criteria = {
+            var bijack_criteria = {
                 _constructor: "AdvancedCriteria",
                 operator: "and",
                 criteria: [
@@ -494,10 +539,10 @@
                     }
                 ]
             };
-            ListGrid_warehouseCAD.fetchData(criteria);
+            ListGrid_warehouseCAD.setCriteria(bijack_criteria);
+            ListGrid_warehouseCAD_refresh();
         }
     });
-
 
     var ToolStrip_Actions_warehouseCAD = isc.ToolStrip.create({
         width: "100%",
@@ -519,7 +564,9 @@
                     align: "left",
                     border: '0px',
                     members: [
-                        ToolStripButton_warehouseCAD_Refresh, ToolStripButton_WarehouseCAD_Report
+                        ToolStripButton_warehouseCAD_Refresh,
+                        ToolStripButton_WarehouseCAD_Report,
+                        JasperReport_Pdf
                     ]
                 })
 
@@ -556,9 +603,11 @@
             width: "100%",
             height: "100%",
             dataSource: RestDataSource_WarehouseCad,
+            initialCriteria: bijack_criteria,
             contextMenu: Menu_ListGrid_warehouseCAD,
             styleName: 'expandList',
             autoFetchData: true,
+            useClientFiltering: false,
             alternateRecordStyles: true,
             canExpandRecords: true,
             canExpandMultipleRecords: false,
@@ -609,7 +658,6 @@
                     name: "destinationUnloadDate",
                     width: "16.66%"
                 }],
-            sortField: 0,
             getExpansionComponent: function (record) {
                 if (record == null || record.id == null) {
                     isc.Dialog.create({
