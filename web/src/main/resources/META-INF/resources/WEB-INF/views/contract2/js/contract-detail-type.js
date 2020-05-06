@@ -258,13 +258,14 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
                             return;
 
                         contractDetailTypeTab.window.formUtil.populateData = function (body) {
-                            return body.getData();
+                            return body.getMembers()[2].getData();
                         };
                         contractDetailTypeTab.window.formUtil.validate = function (data) {
-                            let grid = contractDetailTypeTab.window.formUtil.bodyWidget.getObject();
+                            let grid = contractDetailTypeTab.window.formUtil.bodyWidget.getObject().getMembers()[2];
                             return grid.validateAllData();
                         };
                         contractDetailTypeTab.window.formUtil.okCallBack = function (data) {
+
                             let selectedRecord = contractDetailTypeTab.listGrid.param.getSelectedRecord();
                             selectedRecord[contractDetailTypeTab.dynamicForm.paramFields.values.name] = data;
                             if (selectedRecord[contractDetailTypeTab.dynamicForm.paramFields.defaultValue.name] != null) {
@@ -274,11 +275,16 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
 
                                 selectedRecord[contractDetailTypeTab.dynamicForm.paramFields.defaultValue.name] = null;
                             }
-                            contractDetailTypeTab.listGrid.param.refreshRow(contractDetailTypeTab.listGrid.param.getRecordIndex(record));
+                            contractDetailTypeTab.listGrid.param.refreshRow(contractDetailTypeTab.listGrid.param.getRecordIndex(selectedRecord));
                         };
 
+                        let dynamicForm = isc.DynamicForm.nicico.getDefault([Object.assign({
+                            width: "100%",
+                            required: true,
+                            name: "values",
+                            title: "<spring:message code='global.default-value'/>"
+                        }, defaultValueEditorProperties)]);
                         let listGrid = isc.ListGrid.nicico.createListGrid({
-
                             width: "100%",
                             height: "400",
                             sortField: 0,
@@ -288,44 +294,45 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
                             alternateRecordStyles: true,
                             selectionType: "single",
                             sortDirection: "ascending",
-                            canEdit: true,
-                            editEvent: "doubleClick",
                             autoSaveEdits: true,
-                            canRemoveRecords: true,
-                            virtualScrolling: false,
-                            showRecordComponents: true,
-                            showRecordComponentsByCell: true,
-                            recordComponentPoolingMode: "recycle",
-                            listEndEditAction: "next",
-                            gridComponents: ["header", "body", isc.ToolStrip.create({
-
-                                width: "100%",
-                                height: 24,
-                                members: [
-                                    isc.ToolStripButton.create({
-
-                                        icon: "pieces/16/icon_add.png",
-                                        title: "<spring:message code='global.add'/>",
-                                        click: function () {
-
-                                            listGrid.startEditingNew();
-                                        }
-                                    })
-                                ]
-                            })],
-
+                            canRemoveRecords: true
                         }, [Object.assign({
-                            canEdit: true,
                             width: "100%",
-                            required: true,
                             name: "values",
+                            required: true,
                             title: "<spring:message code='contract-detail-type.form.valid-values'/>"
                         }, defaultValueEditorProperties)]);
                         listGrid.setData(record[contractDetailTypeTab.dynamicForm.paramFields.values.name]);
                         contractDetailTypeTab.window.formUtil.showForm(
                             contractDetailTypeTab.window.detailType,
                             "<spring:message code='contract-detail-type.window.param-valid-value.define'/>",
-                            listGrid, '400', '400');
+                            isc.VLayout.create({
+                                width: "100%",
+                                height: "100%",
+                                members: [dynamicForm, isc.ToolStrip.create({
+
+                                    height: 24,
+                                    width: "100%",
+                                    members: [
+                                        isc.ToolStripButton.create({
+
+                                            icon: "pieces/16/icon_add.png",
+                                            title: "<spring:message code='global.add'/>",
+                                            click: function () {
+
+                                                dynamicForm.validate();
+                                                if (dynamicForm.hasErrors())
+                                                    return;
+
+                                                let data = listGrid.getData();
+                                                data.push(dynamicForm.getValues());
+                                                listGrid.setData(data);
+                                                listGrid.redraw();
+                                            }
+                                        })
+                                    ]
+                                }), listGrid]
+                            }), '500');
                     }
                 }
             }),
@@ -359,7 +366,7 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
                         contractDetailTypeTab.window.formUtil.okCallBack = function (data) {
                             let selectedRecord = contractDetailTypeTab.listGrid.param.getSelectedRecord();
                             selectedRecord[contractDetailTypeTab.dynamicForm.paramFields.defaultValue.name] = data[0]['defaultValue'];
-                            contractDetailTypeTab.listGrid.param.refreshRow(contractDetailTypeTab.listGrid.param.getRecordIndex(record));
+                            contractDetailTypeTab.listGrid.param.refreshRow(contractDetailTypeTab.listGrid.param.getRecordIndex(selectedRecord));
                         };
 
                         let dynamicForm = isc.DynamicForm.nicico.getDefault([Object.assign({
