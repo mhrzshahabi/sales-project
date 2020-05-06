@@ -290,7 +290,24 @@
         autoFitFieldText: '<spring:message code="global.grid.autoFitFieldText" />',
         filterUsingText: '<spring:message code="global.grid.filterUsingText" />',
         groupByText: '<spring:message code="global.grid.groupByText" />',
-        freezeFieldText: '<spring:message code="global.grid.freezeFieldText" />'
+        freezeFieldText: '<spring:message code="global.grid.freezeFieldText" />',
+        getAllData: function () {
+
+            let data = [...this.getData()];
+            let allEditRows = this.getAllEditRows();
+            for (let i = 0; i < allEditRows.length; i++)
+                data.push({...this.getEditedRecord(allEditRows[i])});
+
+            return data;
+        },
+        validateAllData: function () {
+
+            for (let i = 0; i < this.getAllData().length; i++)
+                if (!this.validateRecord(i))
+                    return false;
+
+            return true;
+        }
     });
 
     isc.ToolStripButton.addProperties({
@@ -904,66 +921,17 @@
                     click: function () {
                         createTab("<spring:message code='warehouseStock'/>", "<spring:url value="/warehouseStock/showForm" />")
                     }
-                }/*,
+                },
                 {isSeparator: true},
                 {
                     title: "<spring:message code='warehouseStock'/>",
                     click: function () {
                         createTab("باقر<spring:message code='warehouseStock'/>", "<spring:url value="/remittance/showForm" />")
                     }
-                },*/
-
-
-                /*,
-                {isSeparator: true},
-                {
-                    title: "<spring:message code='Shipment.titleWarehouseIssueCathode'/>",
-                    click: function () {
-                        createTab("<spring:message code='Shipment.titleWarehouseIssueCathode'/>", "<spring:url value="/warehouseIssueCathode/showForm" />")
-                    }
-                },
-                {isSeparator: true},
-                {
-                    title: "<spring:message code='Shipment.titleWarehouseIssueCons'/>",
-                    click: function () {
-                        createTab("<spring:message code='Shipment.titleWarehouseIssueCons'/>", "<spring:url value="/warehouseIssueCons/showForm" />")
-                    }
-                },
-                {isSeparator: true},
-                {
-                    title: "<spring:message code='Shipment.titleWarehouseIssueMo'/>",
-                    click: function () {
-                        createTab("<spring:message code='Shipment.titleWarehouseIssueMo'/>", "<spring:url value="/warehouseIssueMo/showForm" />")
-                    }
-                }*/
-
+                }
             ]
         })
     });
-
-    /*----------------------inspectionTab------------------------*/
-    <%--inspectionTab = isc.ToolStripMenuButton.create({--%>
-    <%--title: "&nbsp; <spring:message code='main.inspectionTab'/>",--%>
-    <%--menu: isc.Menu.create({--%>
-    <%--placement: "none",--%>
-    <%--data: [--%>
-    <%--{--%>
-    <%--title: "<spring:message code='inspectionMoistureResults.title'/>",--%>
-    <%--click: function () {--%>
-    <%--createTab("<spring:message code='inspectionMoisture.title'/>", "<spring:url value="/shipmentMoisture/showForm" />")--%>
-    <%--}--%>
-    <%--},--%>
-    <%--{isSeparator: true},--%>
-    <%--{--%>
-    <%--title: "<spring:message code='inspectionAssayResults.title'/>",--%>
-    <%--click: function () {--%>
-    <%--createTab("<spring:message code='inspectionAssay.title'/>", "<spring:url value="/shipmentAssay/showForm" />")--%>
-    <%--}--%>
-    <%--}--%>
-    <%--]--%>
-    <%--})--%>
-    <%--});--%>
-
 
     /*----------------------financialTab------------------------*/
     financialTab = isc.ToolStripMenuButton.create({

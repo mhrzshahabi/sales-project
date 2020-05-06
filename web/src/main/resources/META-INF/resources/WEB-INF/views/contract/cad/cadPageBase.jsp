@@ -411,7 +411,9 @@ function saveListGrid_ContractCadItemShipment() {
             dataEdit.push(JSON.parse(JSON.stringify(element)));
         });
         ListGrid_ContractItemShipment.deselectAllRecords();
-        console.log(dataEdit);
+        if(dataEdit.length>0){
+            dataEdit[dataEdit.length - 1].sendDate = sendDateSet;
+            }
         return dataEdit;
     };
 

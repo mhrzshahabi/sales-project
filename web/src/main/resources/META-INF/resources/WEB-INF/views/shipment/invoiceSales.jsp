@@ -1416,6 +1416,17 @@
             ]
     });
 
+    var criteria1 = {
+            _constructor: "AdvancedCriteria",
+            operator: "and",
+            criteria: [{fieldName: "year", operator: "equals", value: year}]
+    };
+
+    RestDataSource_percentPerYear.fetchData(criteria1, function (dsResponse, data, dsRequest) {
+        legTotal = data[0].legalFees;
+        vatTotal = data[0].vat;
+    });
+
     function updatePrice(){
         var net =(DynamicForm_InvoiceSalesItem.getItem("netAmount")).getValue();
         var unit =(DynamicForm_InvoiceSalesItem.getItem("unitPrice")).getValue();
@@ -1426,22 +1437,13 @@
         var lineAfterDisc = line - disc;
         DynamicForm_InvoiceSalesItem.getItem("linePriceAfterDiscount").setValue(lineAfterDisc);
 
-        var legtotal = DynamicForm_InvoiceSalesItem.getItem("legalFees").getValue();
-        var vatTotal = DynamicForm_InvoiceSalesItem.getItem("vat").getValue();
-        DynamicForm_InvoiceSalesItem.getItem("totalPrice").setValue(lineAfterDisc+legtotal+vatTotal);
+        DynamicForm_InvoiceSalesItem.getItem("legalFees").setValue( line*legTotal );
+        DynamicForm_InvoiceSalesItem.getItem("vat").setValue( line* vatTotal);
 
-        var criteria1 = {
-            _constructor: "AdvancedCriteria",
-            operator: "and",
-            criteria: [{fieldName: "year", operator: "equals", value: year}]
-        };
-        RestDataSource_percentPerYear.fetchData(criteria1, function (dsResponse, data, dsRequest) {
-            var line = (DynamicForm_InvoiceSalesItem.getItem("linePrice")).getValue();
-            var legTotal = line*(data[0].legalFees);
-            var vatTotal = line*(data[0].vat);
-            DynamicForm_InvoiceSalesItem.getItem("legalFees").setValue(legTotal);
-            DynamicForm_InvoiceSalesItem.getItem("vat").setValue(vatTotal);
-        });
+        DynamicForm_InvoiceSalesItem.getItem("totalPrice").setValue(
+            lineAfterDisc+DynamicForm_InvoiceSalesItem.getItem("legalFees").getValue()+
+            DynamicForm_InvoiceSalesItem.getItem("vat").getValue()
+        );
     }
 
     var ToolStripButton_InvoiceSalesItem_Refresh = isc.ToolStripButtonRefresh.create({

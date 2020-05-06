@@ -11,7 +11,6 @@ import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotNull;
 import java.util.Date;
-import java.util.EnumSet;
 import java.util.List;
 
 @Getter
@@ -23,6 +22,8 @@ public class ContractDetailTypeParamDTO {
     private String name;
     private String key;
     private DataType type;
+    private String defaultValue;
+
     private Long contractDetailTypeId;
     
     @Getter

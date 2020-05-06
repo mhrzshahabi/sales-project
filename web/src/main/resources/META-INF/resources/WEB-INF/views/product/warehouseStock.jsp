@@ -144,19 +144,6 @@
     });
     </sec:authorize>
 
-    <sec:authorize access="hasAuthority('O_WAREHOUSE_STOCK')">
-    var ToolStripButton_WarehouseStock_export_Print = isc.ToolStripButtonPrint.create({
-        title: "<spring:message code='WarehouseStock.ReportExport'/>",
-        click: function () {
-            var drs = DynamicForm_WarehouseStock_Tozin.getValue("toDay");
-            var datestringRs = (drs.getFullYear() + "/" + ("0" + (drs.getMonth() + 1)).slice(-2) + "/" + ("0" + drs.getDate()).slice(-2));
-            var toDay = datestringRs.replaceAll("/", "");
-            "<spring:url value="/warehouseStock/print-export" var="printUrl"/>";
-            window.open('${printUrl}' + '/' + toDay);
-        }
-    });
-    </sec:authorize>
-
     var DynamicForm_DailyReport_Tozin = isc.DynamicForm.create({
         width: "200",
         wrapItemTitles: false,
@@ -343,10 +330,6 @@
                 </sec:authorize>
 
                 DynamicForm_WarehouseStock_Tozin,
-
-                <sec:authorize access="hasAuthority('O_WAREHOUSE_STOCK')">
-                ToolStripButton_WarehouseStock_export_Print,
-                </sec:authorize>
 
                 isc.ToolStrip.create({
                     width: "100%",

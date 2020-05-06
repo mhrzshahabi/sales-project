@@ -444,7 +444,7 @@ public class ContractService implements IContractService {
             }
             maxRef = findMax(intList);
             if (contract.getMaterial().getDescl().contains("Mo")) {
-                flag = "PrintMoOx_" + contract.getContractNo() + "_" + maxRef;
+                flag = "PrintMoOx_MO_OX" + contract.getContractNo() + "_" + maxRef;
             } else if (contract.getMaterial().getDescl().contains("Conc")) {
                 flag = "PrintConc_" + contract.getContractNo() + "_" + maxRef;
             } else if (contract.getMaterial().getDescl().contains("Cath")) {

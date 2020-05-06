@@ -224,35 +224,6 @@ public class WarehouseStockFormController {
         out.flush();
     }
 
-    @Loggable
-    @GetMapping(value = {"/print-export/{date}"})
-    public void printExport(HttpServletResponse response, @PathVariable("date") String date)
-            throws Exception {
-        String day = date.substring(0, 4) + "/" + date.substring(4, 6) + "/" + date.substring(6, 8);
-        InputStream stream;
-
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
-        dtf.format(PersianDate.now());
-
-        XSSFWorkbook workbook = new XSSFWorkbook();
-        XSSFFont font = workbook.createFont();
-        font.setFontName("B Nazanin");
-        XWPFDocument doc;
-
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        stream = new ClassPathResource("reports/word/exports.docx").getInputStream();
-        ServletOutputStream out = response.getOutputStream();
-        doc = (XWPFDocument) new XWPFDocument(stream);
-        replacePOI(doc, "header", "خلاصه پرونده های صادراتی سال ");
-        List<Object[]> ll = warehouseStockDAO.export(day);
-        replaceDynamicTable1(doc, ll);
-        response.setHeader("Content-Disposition", "attachment; filename=\"exports.doc\"");
-        response.setContentType("application/vnd.ms-word");
-        doc.write(out);
-        baos.writeTo(out);
-        out.flush();
-    }
-
     @RequestMapping("/print/{name}/{type}/{date}")
     public void print(HttpServletResponse response, @PathVariable String name,
                       @PathVariable String type, @PathVariable String date) throws SQLException, IOException, JRException {

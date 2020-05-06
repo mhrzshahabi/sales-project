@@ -414,7 +414,9 @@
             dataEdit.push(JSON.parse(JSON.stringify(element)));
         });
         ListGrid_ContractConcItemShipment.deselectAllRecords();
-        console.log(dataEdit);
+        if(dataEdit.length>0){
+            dataEdit[dataEdit.length - 1].sendDate = sendDateSetConc;
+            }
         return dataEdit;
     };
 

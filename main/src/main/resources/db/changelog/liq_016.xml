@@ -1,0 +1,24 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <changeSet author="RMazloom" id="1582016166374-261">
+        <dropForeignKeyConstraint baseTableName="TBL_WAREHOUSE_ISSUE_CATHODE" constraintName="WarehouseissueCad2shipment"/>
+        <dropForeignKeyConstraint baseTableName="TBL_WAREHOUSE_ISSUE_CONS" constraintName="Warehouseissuecons2shipment"/>
+        <dropForeignKeyConstraint baseTableName="TBL_WAREHOUSE_ISSUE_MO" constraintName="Warehouseissuemo2lot"/>
+        <dropForeignKeyConstraint baseTableName="TBL_WAREHOUSE_ISSUE_MO" constraintName="Warehouseissuemo2shipment"/>
+
+        <dropTable tableName="TBL_WAREHOUSE_ISSUE_CATHODE"/>
+        <dropTable tableName="TBL_WAREHOUSE_ISSUE_CONS"/>
+        <dropTable tableName="TBL_WAREHOUSE_ISSUE_MO"/>
+    </changeSet>
+
+    <changeSet author="RMazloom" id="1582016166374-262">
+        <dropTable tableName="TBL_SHIPMENT_ASSAY_ITEM"/>
+        <dropTable tableName="TBL_SHIPMENT_ASSAY_HEADER"/>
+        <dropTable tableName="TBL_SHIPMENT_EMAIL"/>
+        <dropTable tableName="TBL_SHIPMENT_MOISTURE_ITEM"/>
+        <dropTable tableName="TBL_SHIPMENT_MOISTURE_HEADER"/>
+    </changeSet>
+
+</databaseChangeLog>
