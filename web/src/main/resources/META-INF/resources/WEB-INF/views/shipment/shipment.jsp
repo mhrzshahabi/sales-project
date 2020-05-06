@@ -1511,7 +1511,7 @@
                 }
             },
             {
-                name: "vesselName",
+                name: "vessel.name",
                 title: "<spring:message code='shipment.vesselName'/>",
                 type: 'text',
                 required: true,
@@ -1521,7 +1521,10 @@
                 {
                     type:"required",
                     validateOnChange: true
-                }]
+                }],
+                sortNormalizer: function (recordObject) {
+                    return recordObject.vessel.name
+                }
             },
             {
                 name: "swb",
