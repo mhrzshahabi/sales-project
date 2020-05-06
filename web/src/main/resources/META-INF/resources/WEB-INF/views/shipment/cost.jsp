@@ -966,7 +966,7 @@
                 },
                 {
                     name: "shippingCostsBetweenAssemblies",
-                    title: "هزینه بین مجامع",
+                    title: "<spring:message code='cost.shippingCostsBetweenAssemblies'/>",
                     type: 'float',
                     required: false,
                     width: "100%",
@@ -978,7 +978,8 @@
                     }]
                 },
                 {
-                    name: "shippingCostsCurrencyBetweenAssemblies", title: "ارز هزینه بین مجامع",
+                    name: "shippingCostsCurrencyBetweenAssemblies",
+                    title: "<spring:message code='cost.shippingCostsBetweenAssembliesCurrency'/>",
                     type: 'text', width: "100%", defaultValue: "USD", valueMap: dollar
                 },
                 {
