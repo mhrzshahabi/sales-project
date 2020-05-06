@@ -75,7 +75,7 @@ body {
 #mybutton {
     position: fixed;
     left: 18px;
-    bottom: -18px;
+    bottom: 0;
     -webkit-transition: all 0.75s ease 0s;
     -moz-transition: all 0.75s ease 0s;
     -o-transition: all 0.75s ease 0s;

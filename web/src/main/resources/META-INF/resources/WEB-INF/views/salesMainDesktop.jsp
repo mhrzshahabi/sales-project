@@ -290,7 +290,24 @@
         autoFitFieldText: '<spring:message code="global.grid.autoFitFieldText" />',
         filterUsingText: '<spring:message code="global.grid.filterUsingText" />',
         groupByText: '<spring:message code="global.grid.groupByText" />',
-        freezeFieldText: '<spring:message code="global.grid.freezeFieldText" />'
+        freezeFieldText: '<spring:message code="global.grid.freezeFieldText" />',
+        getAllData: function () {
+
+            let data = [...this.getData()];
+            let allEditRows = this.getAllEditRows();
+            for (let i = 0; i < allEditRows.length; i++)
+                data.push({...this.getEditedRecord(allEditRows[i])});
+
+            return data;
+        },
+        validateAllData: function () {
+
+            for (let i = 0; i < this.getAllData().length; i++)
+                if (!this.validateRecord(i))
+                    return false;
+
+            return true;
+        }
     });
 
     isc.ToolStripButton.addProperties({
@@ -1194,9 +1211,6 @@
 
     /*Help*/
     isc.HTMLFlow.create({
-        textAlign: "center",
-        top: 100,
-        left: 20,
         contents: "<div id=\"mybutton\">\n" +
             "<button class=\"glow-on-hover\"><spring:message code='global.form.help'/></button>\n" +
             "</div>",

@@ -1,5 +1,6 @@
 package com.nicico.sales.service;
 
+import com.google.gson.Gson;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
 import com.nicico.copper.common.dto.grid.TotalResponse;
@@ -8,12 +9,15 @@ import com.nicico.sales.dto.InvoiceSalesDTO;
 import com.nicico.sales.iservice.IInvoiceSalesService;
 import com.nicico.sales.model.entities.base.InvoiceSales;
 import com.nicico.sales.repository.InvoiceSalesDAO;
+import com.nicico.sales.utility.AccountingTotalResponse;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -26,6 +30,7 @@ public class InvoiceSalesService implements IInvoiceSalesService {
     private final InvoiceSalesDAO invoiceSalesDAO;
     private final ModelMapper modelMapper;
     private final OAuth2RestTemplate restTemplate;
+    private final Gson gson;
 
     @Value("${nicico.apps.accounting}")
     private String accountingAppUrl;
@@ -63,7 +68,13 @@ public class InvoiceSalesService implements IInvoiceSalesService {
             invoiceSales.setInvoiceNo("0");
         else
             invoiceSales.setInvoiceNo(String.valueOf(Integer.parseInt(last.getInvoiceNo()) + 1));
+//        getDetailContactInformation(invoiceSales.getCustomerId());
         return save(invoiceSales);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    void getDetailContactInformation(Long id) {
+        restTemplate.getForEntity("http://localhost:8090/accounting" + "/rest/detail/" + id, String.class);
     }
 
     @Transactional

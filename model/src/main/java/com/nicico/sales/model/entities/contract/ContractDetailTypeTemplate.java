@@ -24,6 +24,10 @@ public class ContractDetailTypeTemplate extends BaseEntity {
     private Long id;
 
     @NotEmpty
+    @Column(name = "C_CODE", nullable = false, length = 200, unique = true)
+    private String code;
+
+    @NotEmpty
     @Column(name = "C_CONTENT", nullable = false)
     private String content;
 

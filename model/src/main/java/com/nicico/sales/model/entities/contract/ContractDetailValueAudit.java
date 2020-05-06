@@ -43,6 +43,9 @@ public class ContractDetailValueAudit extends BaseEntity {
     @Column(name = "C_VALUE", nullable = false)
     private String value;
 
+    @Column(name = "C_COLUMN")
+    private String column;
+
     @NotAudited
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)

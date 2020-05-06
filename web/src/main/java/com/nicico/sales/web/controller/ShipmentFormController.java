@@ -117,8 +117,10 @@ public class ShipmentFormController {
                 String[] loa = shipment.getPortByLoading().getPort().split(",");
                 replacePOI(doc, "loa", loa[0]);
 
-                replacePOI(doc, "disPort",  shipment.getPortByDischarge().getPort());
-                replacePOI(doc, "disCountry", shipment.getPortByDischarge().getCountry().getNameFa());
+                String[] disPort = shipment.getPortByDischarge().getPort().split(",");
+                replacePOI(doc, "dis", disPort[0]);
+
+                replacePOI(doc, "country", shipment.getPortByDischarge().getCountry().getNameFa());
                 replacePOI(doc, "barname", String.valueOf(shipment.getNumberOfBLs()));
                 replacePOI(doc, "dateday", dateday);
 
@@ -151,14 +153,11 @@ public class ShipmentFormController {
 
                 replacePOI(doc, "noContainer", String.valueOf(shipment.getNoContainer()));
                 replacePOI(doc, "loa", shipment.getPortByLoading().getPort());
-
-                replacePOI(doc, "port", " به مقصد " + shipment.getPortByDischarge().getPort());
-
+                replacePOI(doc, "dis", shipment.getPortByDischarge().getPort());
+                replacePOI(doc, "country", shipment.getPortByDischarge().getCountry().getNameFa());
                 replacePOI(doc, "containerType", shipment.getContainerType()  == null ? "50" : shipment.getContainerType() );
                 replacePOI(doc, "blNumbers", shipment.getBlNumbers());
                 replacePOI(doc, "bookingno", "(Booking No." + shipment.getBookingCat() + ")");
-
-
                 replacePOI(doc, "dateday", dateday);
 
 
@@ -190,7 +189,7 @@ public class ShipmentFormController {
                 replacePOI(doc, "country", shipment.getPortByDischarge().getCountry().getNameFa());
                 replacePOI(doc, "disPort", shipment.getPortByDischarge().getPort());
 
-                replacePOI(doc, "date", dateday);
+                replacePOI(doc, "dateday", dateday);
                 List<String> inspector = shipmentService.inspector();
                 for (int i = 0; i < inspector.size(); i++) {
 
@@ -219,6 +218,7 @@ public class ShipmentFormController {
                 replacePOI(doc, "contract_amount", shipment.getAmount().toString());
                 replacePOI(doc, "unitNameFa", shipment.getMaterial().getUnit().getNameFA());
                 replacePOI(doc, "descp", shipment.getMaterial().getDescp());
+                replacePOI(doc, "month", shipment.getMonth());
                 replacePOI(doc, "contract_no", shipment.getContract().getContractNo());
                 replacePOI(doc, "agent", shipment.getContactByAgent().getNameFA());
                 replacePOI(doc, "tolorance", "-/+" + shipment.getContractShipment().getTolorance().toString() + "%");
