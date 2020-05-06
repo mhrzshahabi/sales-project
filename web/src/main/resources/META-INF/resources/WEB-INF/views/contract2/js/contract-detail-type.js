@@ -4,6 +4,8 @@ contractDetailTypeTab.variable.unitUrl = "${contextPath}" + "/api/unit/";
 contractDetailTypeTab.variable.paramUrl = "${contextPath}" + "/api/contract-detail-type-param/";
 contractDetailTypeTab.variable.templateUrl = "${contextPath}" + "/api/contract-detail-type-template/";
 
+contractDetailTypeTab.window.formUtil = new nicico.FormUtil();
+
 //***************************************************** RESTDATASOURCE *************************************************
 
 contractDetailTypeTab.dynamicForm.fields.code = {
@@ -97,8 +99,26 @@ contractDetailTypeTab.dynamicForm.paramFields.unitId = {
 };
 contractDetailTypeTab.dynamicForm.paramFields.defaultValue = {
     width: "50%",
+    hidden: true,
+    canEdit: false,
+    showHover: true,
     name: "defaultValue",
     title: "<spring:message code='global.default-value'/>"
+};
+contractDetailTypeTab.dynamicForm.paramFields.values = {
+    width: "50%",
+    hidden: true,
+    canEdit: false,
+    showHover: true,
+    name: "values",
+    title: "<spring:message code='contract-detail-type.form.valid-values'/>",
+    formatCellValue: function (value, record, rowNum, colNum, grid) {
+
+        if (record == null || record.values == null || record.values.length === 0)
+            return;
+
+        return record.values.map(q => q.values).join(', ');
+    }
 };
 contractDetailTypeTab.dynamicForm.paramFields.contractDetailTypeId = {
     width: "50%",
@@ -182,9 +202,6 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
     width: "100%",
     height: "100%",
     sortField: 0,
-    dataPageSize: 50,
-    fetchDelay: 1000,
-    autoFetchData: true,
     showRowNumbers: true,
     canAutoFitFields: false,
     allowAdvancedCriteria: true,
@@ -196,6 +213,8 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
         contractDetailTypeTab.dynamicForm.paramFields.key,
         contractDetailTypeTab.dynamicForm.paramFields.type,
         contractDetailTypeTab.dynamicForm.paramFields.unitId,
+        contractDetailTypeTab.dynamicForm.paramFields.defaultValue,
+        contractDetailTypeTab.dynamicForm.paramFields.values
     ]),
     canEdit: true,
     editEvent: "doubleClick",
@@ -221,8 +240,8 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
             }),
             isc.ToolStripButton.create({
 
-                icon: "pieces/16/icon_add.png",
-                title: "<spring:message code='contract-detail-type.window.param-value.add'/>",
+                // icon: "pieces/16/icon_add.png",
+                title: "<spring:message code='contract-detail-type.window.param-valid-value.define'/>",
                 click: function () {
 
                     contractDetailTypeTab.listGrid.param.saveAllEdits();
@@ -233,7 +252,126 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
                         contractDetailTypeTab.dialog.notEditable();
                     else {
 
+                        let defaultValueEditorProperties = contractDetailTypeTab.listGrid.param.getDefaultValueEditorProperties(
+                            record[contractDetailTypeTab.dynamicForm.paramFields.type.name]);
+                        if (defaultValueEditorProperties == null)
+                            return;
 
+                        contractDetailTypeTab.window.formUtil.populateData = function (body) {
+                            return body.getData();
+                        };
+                        contractDetailTypeTab.window.formUtil.validate = function (data) {
+                            let grid = contractDetailTypeTab.window.formUtil.bodyWidget.getObject();
+                            return grid.validateAllData();
+                        };
+                        contractDetailTypeTab.window.formUtil.okCallBack = function (data) {
+                            let selectedRecord = contractDetailTypeTab.listGrid.param.getSelectedRecord();
+                            selectedRecord[contractDetailTypeTab.dynamicForm.paramFields.values.name] = data;
+                            if (selectedRecord[contractDetailTypeTab.dynamicForm.paramFields.defaultValue.name] != null) {
+                                contractDetailTypeTab.dialog.say(
+                                    "<spring:message code='contract-detail-type.window.param-default-value.reset'/>",
+                                    "<spring:message code='global.warning'/>");
+
+                                selectedRecord[contractDetailTypeTab.dynamicForm.paramFields.defaultValue.name] = null;
+                            }
+                            contractDetailTypeTab.listGrid.param.refreshRow(contractDetailTypeTab.listGrid.param.getRecordIndex(record));
+                        };
+
+                        let listGrid = isc.ListGrid.nicico.createListGrid({
+
+                            width: "100%",
+                            height: "400",
+                            sortField: 0,
+                            showRowNumbers: true,
+                            canAutoFitFields: false,
+                            allowAdvancedCriteria: true,
+                            alternateRecordStyles: true,
+                            selectionType: "single",
+                            sortDirection: "ascending",
+                            canEdit: true,
+                            editEvent: "doubleClick",
+                            autoSaveEdits: true,
+                            canRemoveRecords: true,
+                            virtualScrolling: false,
+                            showRecordComponents: true,
+                            showRecordComponentsByCell: true,
+                            recordComponentPoolingMode: "recycle",
+                            listEndEditAction: "next",
+                            gridComponents: ["header", "body", isc.ToolStrip.create({
+
+                                width: "100%",
+                                height: 24,
+                                members: [
+                                    isc.ToolStripButton.create({
+
+                                        icon: "pieces/16/icon_add.png",
+                                        title: "<spring:message code='global.add'/>",
+                                        click: function () {
+
+                                            listGrid.startEditingNew();
+                                        }
+                                    })
+                                ]
+                            })],
+
+                        }, [Object.assign({
+                            canEdit: true,
+                            width: "100%",
+                            required: true,
+                            name: "values",
+                            title: "<spring:message code='contract-detail-type.form.valid-values'/>"
+                        }, defaultValueEditorProperties)]);
+                        listGrid.setData(record[contractDetailTypeTab.dynamicForm.paramFields.values.name]);
+                        contractDetailTypeTab.window.formUtil.showForm(
+                            contractDetailTypeTab.window.detailType,
+                            "<spring:message code='contract-detail-type.window.param-valid-value.define'/>",
+                            listGrid, '400', '400');
+                    }
+                }
+            }),
+            isc.ToolStripButton.create({
+
+                // icon: "pieces/16/icon_add.png",
+                title: "<spring:message code='contract-detail-type.window.param-default-value.define'/>",
+                click: function () {
+
+                    contractDetailTypeTab.listGrid.param.saveAllEdits();
+                    let record = contractDetailTypeTab.listGrid.param.getSelectedRecord();
+                    if (record == null)
+                        contractDetailTypeTab.dialog.notSelected();
+                    else if (record.editable === false)
+                        contractDetailTypeTab.dialog.notEditable();
+                    else {
+
+                        let defaultValueEditorProperties = contractDetailTypeTab.listGrid.param.getDefaultValueEditorProperties(
+                            record[contractDetailTypeTab.dynamicForm.paramFields.type.name]);
+                        if (defaultValueEditorProperties == null)
+                            return;
+
+                        contractDetailTypeTab.window.formUtil.populateData = function (body) {
+                            return [body.getValues()];
+                        };
+                        contractDetailTypeTab.window.formUtil.validate = function (data) {
+                            let form = contractDetailTypeTab.window.formUtil.bodyWidget.getObject();
+                            form.validate();
+                            return !form.hasErrors();
+                        };
+                        contractDetailTypeTab.window.formUtil.okCallBack = function (data) {
+                            let selectedRecord = contractDetailTypeTab.listGrid.param.getSelectedRecord();
+                            selectedRecord[contractDetailTypeTab.dynamicForm.paramFields.defaultValue.name] = data[0]['defaultValue'];
+                            contractDetailTypeTab.listGrid.param.refreshRow(contractDetailTypeTab.listGrid.param.getRecordIndex(record));
+                        };
+
+                        let dynamicForm = isc.DynamicForm.nicico.getDefault([Object.assign({
+                            width: "100%",
+                            name: "defaultValue",
+                            title: "<spring:message code='global.default-value'/>"
+                        }, defaultValueEditorProperties)]);
+                        dynamicForm.setValue("defaultValue", record[contractDetailTypeTab.dynamicForm.paramFields.defaultValue.name]);
+                        contractDetailTypeTab.window.formUtil.showForm(
+                            contractDetailTypeTab.window.detailType,
+                            "<spring:message code='contract-detail-type.window.param-default-value.define'/>",
+                            dynamicForm, '400');
                     }
                 }
             }),
@@ -246,18 +384,9 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
                 members: [
                     isc.ToolStripButton.create({
 
-                        icon: "pieces/16/icon_add.png",
+                        icon: "pieces/16/save.png",
                         title: "<spring:message code='global.form.save'/>",
                         click: function () {
-
-                            if (!contractDetailTypeTab.listGrid.param.validateAllData()) {
-
-                                contractDetailTypeTab.dialog.say(
-                                    "<spring:message code='contract-detail-type.window.validation.param'/>",
-                                    "<spring:message code='global.error'/>");
-
-                                return;
-                            }
 
                             contractDetailTypeTab.listGrid.param.saveAllEdits();
                         }
@@ -265,29 +394,67 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
             })
         ]
     })],
-    getEditorProperties: function (editField, editedRecord, rowNum) {
+    cellChanged: function (record, newValue, oldValue, rowNum, colNum, grid) {
 
-        return {
+        if (newValue === oldValue)
+            return;
+        if (record[contractDetailTypeTab.dynamicForm.paramFields.values.name] == null &&
+            record[contractDetailTypeTab.dynamicForm.paramFields.defaultValue.name] == null)
+            return;
 
-            // height: 300,
-            // width: '100%',
-            // required: true,
-            // editorType: "RichTextItem",
-            // defaultValue: this.getDefaultHTMLValue(contractDetailTypeTab.listGrid.param.getAllData()),
-            // keyPress: function () {
-            //
-            //     if (isc.EventHandler.getKey().toLowerCase() === "enter" && !isc.EventHandler.shiftKeyDown()) {
-            //
-            //         contractDetailTypeTab.listGrid.template.endEditing();
-            //         return false;
-            //     }
-            //
-            //     if (this.getValue().replaceAll('<br>', '').replaceAll(' ', '').length === 0)
-            //         this.setValue('');
-            //
-            //     return true;
-            // }
-        };
+        if (grid.fields[colNum].name === contractDetailTypeTab.dynamicForm.paramFields.type.name) {
+
+            contractDetailTypeTab.dialog.say(
+                "<spring:message code='contract-detail-type.window.param-data.reset'/>",
+                "<spring:message code='global.warning'/>");
+            record[contractDetailTypeTab.dynamicForm.paramFields.values.name] = null;
+            record[contractDetailTypeTab.dynamicForm.paramFields.defaultValue.name] = null;
+            contractDetailTypeTab.listGrid.param.refreshRow(contractDetailTypeTab.listGrid.param.getRecordIndex(record));
+        }
+    },
+    getDefaultValueEditorProperties: function (paramType) {
+
+        switch (paramType) {
+            case 'PersianDate':
+                return {
+                    length: 10,
+                    textAlign: "center",
+                    type: 'persianDate',
+                    icons: [persianDatePicker]
+                };
+            case 'GeorgianDate':
+                return {
+                    length: 10,
+                    type: "date",
+                    textAlign: "center",
+                    format: 'DD-MM-YYYY'
+                };
+            case 'Boolean':
+                return {
+                    type: "boolean"
+                };
+            case 'Float':
+            case 'Double':
+                return {
+                    type: "float",
+                    keyPressFilter: "[0-9.]"
+                };
+            case 'Integer':
+            case 'Long':
+                return {
+                    type: "integer",
+                    keyPressFilter: "[0-9]"
+                };
+            case 'String':
+                return {
+                    type: "text",
+                };
+            case 'Column':
+            default:
+                break;
+        }
+
+        return null;
     }
 });
 contractDetailTypeTab.listGrid.template = isc.ListGrid.create({
@@ -295,9 +462,6 @@ contractDetailTypeTab.listGrid.template = isc.ListGrid.create({
     width: "100%",
     height: "100%",
     sortField: 0,
-    dataPageSize: 50,
-    fetchDelay: 1000,
-    autoFetchData: true,
     showRowNumbers: true,
     canAutoFitFields: false,
     allowAdvancedCriteria: true,
@@ -349,18 +513,9 @@ contractDetailTypeTab.listGrid.template = isc.ListGrid.create({
                 members: [
                     isc.ToolStripButton.create({
 
-                        icon: "pieces/16/icon_add.png",
+                        icon: "pieces/16/save.png",
                         title: "<spring:message code='global.form.save'/>",
                         click: function () {
-
-                            if (!contractDetailTypeTab.listGrid.template.validateAllData()) {
-
-                                contractDetailTypeTab.dialog.say(
-                                    "<spring:message code='contract-detail-type.window.validation.template'/>",
-                                    "<spring:message code='global.error'/>");
-
-                                return;
-                            }
 
                             contractDetailTypeTab.listGrid.template.saveAllEdits();
                         }
@@ -371,18 +526,18 @@ contractDetailTypeTab.listGrid.template = isc.ListGrid.create({
     getDefaultHTMLValue: function (params) {
 
         let result = '';
-        let rows = params.filter(q => q.type != 8);
-        let columns = params.filter(q => q.type == 8);
+        let rows = params.filter(q => q[contractDetailTypeTab.dynamicForm.paramFields.type.name] != 8);
+        let columns = params.filter(q => q[contractDetailTypeTab.dynamicForm.paramFields.type.name] == 8);
         if (columns.length === 0) {
 
             for (let i = 0; i < params.length; i++) {
 
-                if (params[i].key == null)
+                if (params[i][contractDetailTypeTab.dynamicForm.paramFields.key.name] == null)
                     continue;
 
                 result += '$';
                 result += '{';
-                result += params[i].key;
+                result += params[i][contractDetailTypeTab.dynamicForm.paramFields.key.name];
                 result += '}<br>';
             }
 
@@ -398,18 +553,18 @@ contractDetailTypeTab.listGrid.template = isc.ListGrid.create({
 
                 if (i === 0)
                     result += j > 0 ?
-                        '<th style="border: 1px solid black;border-collapse: collapse;">' + columns[j - 1].key + '</th>' :
+                        '<th style="border: 1px solid black;border-collapse: collapse;">' + columns[j - 1][contractDetailTypeTab.dynamicForm.paramFields.key.name] + '</th>' :
                         '<th style="border: 1px solid black;border-collapse: collapse;"></th>';
                 else if (j === 0)
-                    result += '<td style="border: 1px solid black;border-collapse: collapse;">' + rows[i - 1].key + '</td>';
+                    result += '<td style="border: 1px solid black;border-collapse: collapse;">' + rows[i - 1][contractDetailTypeTab.dynamicForm.paramFields.key.name] + '</td>';
                 else {
 
                     result += '<td style="border: 1px solid black;border-collapse: collapse;">';
                     result += '$';
                     result += '[';
-                    result += rows[i - 1].key;
+                    result += rows[i - 1][contractDetailTypeTab.dynamicForm.paramFields.key.name];
                     result += ',';
-                    result += columns[j - 1].key;
+                    result += columns[j - 1][contractDetailTypeTab.dynamicForm.paramFields.key.name];
                     result += ']';
                     result += '</td>';
                 }
@@ -456,6 +611,7 @@ contractDetailTypeTab.hLayout.extra = isc.HLayout.create({
 });
 
 contractDetailTypeTab.dynamicForm.detailType = isc.DynamicForm.create({
+
     width: "100%",
     height: "100%",
     align: "center",
@@ -467,7 +623,7 @@ contractDetailTypeTab.dynamicForm.detailType = isc.DynamicForm.create({
     showErrorStyle: true,
     showInlineErrors: true,
     errorOrientation: "bottom",
-    requiredMessage: '<spring:message code="validator.field.is.required" />',
+    requiredMessage: '<spring:message code="validator.field.is.required"/>',
     fields: BaseFormItems.concat([
         contractDetailTypeTab.dynamicForm.fields.code,
         contractDetailTypeTab.dynamicForm.fields.titleFa,
@@ -475,6 +631,7 @@ contractDetailTypeTab.dynamicForm.detailType = isc.DynamicForm.create({
     ], true)
 });
 contractDetailTypeTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
+
     height: "5%",
     width: "100%",
     showEdges: false,
@@ -499,16 +656,16 @@ contractDetailTypeTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
                 contractDetailTypeTab.listGrid.param.saveAllEdits();
                 contractDetailTypeTab.listGrid.template.saveAllEdits();
 
-                var data = contractDetailTypeTab.dynamicForm.detailType.getValues();
+                let data = contractDetailTypeTab.dynamicForm.detailType.getValues();
                 let allParams = contractDetailTypeTab.listGrid.param.getAllData();
                 let allTemplates = contractDetailTypeTab.listGrid.template.getAllData();
 
                 for (let i = 0; i < allParams.length; i++)
-                    allParams[i][contractDetailTypeTab.dynamicForm.paramFields.contractDetailTypeId] = data.id;
+                    allParams[i][contractDetailTypeTab.dynamicForm.paramFields.contractDetailTypeId.name] = data.id;
                 data.params = allParams;
 
                 for (let i = 0; i < allTemplates.length; i++)
-                    allParams[i][contractDetailTypeTab.dynamicForm.templateFields.contractDetailTypeId] = data.id;
+                    allParams[i][contractDetailTypeTab.dynamicForm.templateFields.contractDetailTypeId.name] = data.id;
                 data.templates = allTemplates;
 
                 isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
@@ -588,7 +745,7 @@ contractDetailTypeTab.method.refresh = function () {
 }
 contractDetailTypeTab.method.edit = function () {
 
-    var record = contractDetailTypeTab.listGrid.detailType.getSelectedRecord();
+    let record = contractDetailTypeTab.listGrid.detailType.getSelectedRecord();
     if (record == null || record.id == null)
         contractDetailTypeTab.dialog.notSelected();
     else if (record.editable === false)

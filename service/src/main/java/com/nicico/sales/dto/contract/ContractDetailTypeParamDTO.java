@@ -25,7 +25,9 @@ public class ContractDetailTypeParamDTO {
     private String defaultValue;
 
     private Long contractDetailTypeId;
-    
+
+    private List<ContractDetailTypeParamValueDTO.Info> values;
+
     @Getter
     @Setter
     @Accessors(chain = true)

@@ -6,6 +6,7 @@ import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import java.util.List;
 
 @Getter
 @Setter
@@ -37,9 +38,9 @@ public class ContractDetailType extends BaseEntity {
     @Column(name = "C_TITLE_EN", nullable = false, length = 200, unique = true)
     private String titleEn;
 
-//    @OneToMany(mappedBy = "contractDetailType", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-//    private List<ContractDetailTypeParam> contractDetailTypeParams;
-//
-//    @OneToMany(mappedBy = "contractDetailType", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-//    private List<ContractDetailTypeTemplate> contractDetailTypeTemplates;
+    @OneToMany(mappedBy = "contractDetailType", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    private List<ContractDetailTypeParam> contractDetailTypeParams;
+
+    @OneToMany(mappedBy = "contractDetailType", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    private List<ContractDetailTypeTemplate> contractDetailTypeTemplates;
 }
