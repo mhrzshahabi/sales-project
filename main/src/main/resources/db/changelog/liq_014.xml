@@ -225,7 +225,6 @@
             <column name="C_CODE" type="VARCHAR2(200 CHAR)">
                 <constraints nullable="false"/>
             </column>
-            <column name="C_CONTENT" type="VARCHAR2(255 CHAR)"/>
             <column name="C_TITLE_EN" type="VARCHAR2(200 CHAR)">
                 <constraints nullable="false"/>
             </column>

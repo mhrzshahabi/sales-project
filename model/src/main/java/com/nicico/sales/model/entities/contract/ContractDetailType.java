@@ -27,9 +27,6 @@ public class ContractDetailType extends BaseEntity {
     @Column(name = "C_CODE", nullable = false, length = 200, unique = true)
     private String code;
 
-    @Column(name = "C_CONTENT")
-    private String content;
-
     @NotEmpty
     @Column(name = "C_TITLE_FA", nullable = false, length = 200, unique = true)
     private String titleFa;

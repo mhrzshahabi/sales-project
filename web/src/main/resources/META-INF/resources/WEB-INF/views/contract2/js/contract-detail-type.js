@@ -283,7 +283,11 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
                             required: true,
                             name: "values",
                             title: "<spring:message code='contract-detail-type.form.valid-values'/>"
-                        }, defaultValueEditorProperties)]);
+                        }, defaultValueEditorProperties), {
+                            hidden: true,
+                            defaultValue: record.id,
+                            name: "contractDetailTypeParamId"
+                        }]);
                         let listGrid = isc.ListGrid.nicico.createListGrid({
                             width: "100%",
                             height: "400",
@@ -717,6 +721,30 @@ contractDetailTypeTab.window.detailType = isc.Window.nicico.getDefault(null, isc
 
 //*************************************************** Functions ********************************************************
 
+contractDetailTypeTab.method.add = function () {
+    contractDetailTypeTab.variable.method = "POST";
+    contractDetailTypeTab.listGrid.param.setData([]);
+    contractDetailTypeTab.listGrid.template.setData([]);
+    contractDetailTypeTab.dynamicForm.detailType.clearValues();
+    contractDetailTypeTab.window.detailType.setTitle("<spring:message code='contract-detail-type.window.title.add'/>");
+    contractDetailTypeTab.window.detailType.show();
+};
+contractDetailTypeTab.method.edit = function () {
+
+    let record = contractDetailTypeTab.listGrid.detailType.getSelectedRecord();
+    if (record == null || record.id == null)
+        contractDetailTypeTab.dialog.notSelected();
+    else if (record.editable === false)
+        contractDetailTypeTab.dialog.notEditable();
+    else {
+        contractDetailTypeTab.variable.method = "PUT";
+        contractDetailTypeTab.listGrid.param.setData(record.params);
+        contractDetailTypeTab.listGrid.template.setData(record.templates);
+        contractDetailTypeTab.dynamicForm.detailType.editRecord(JSON.parse(JSON.stringify(record)))
+        contractDetailTypeTab.window.detailType.setTitle("<spring:message code='contract-detail-type.window.title.edit'/>");
+        contractDetailTypeTab.window.detailType.show();
+    }
+};
 contractDetailTypeTab.method.remove = function () {
 
     const record = contractDetailTypeTab.listGrid.detailType.getSelectedRecord();
@@ -741,29 +769,9 @@ contractDetailTypeTab.method.remove = function () {
                 }));
             });
 }
-contractDetailTypeTab.method.add = function () {
-    contractDetailTypeTab.variable.method = "POST";
-    contractDetailTypeTab.dynamicForm.detailType.clearValues();
-    contractDetailTypeTab.window.detailType.setTitle("<spring:message code='contract-detail-type.window.title.add'/>");
-    contractDetailTypeTab.window.detailType.show();
-};
 contractDetailTypeTab.method.refresh = function () {
     contractDetailTypeTab.listGrid.detailType.invalidateCache();
 }
-contractDetailTypeTab.method.edit = function () {
-
-    let record = contractDetailTypeTab.listGrid.detailType.getSelectedRecord();
-    if (record == null || record.id == null)
-        contractDetailTypeTab.dialog.notSelected();
-    else if (record.editable === false)
-        contractDetailTypeTab.dialog.notEditable();
-    else {
-        contractDetailTypeTab.variable.method = "PUT";
-        contractDetailTypeTab.dynamicForm.detailType.editRecord(JSON.parse(JSON.stringify(record)))
-        contractDetailTypeTab.window.detailType.setTitle("<spring:message code='contract-detail-type.window.title.edit'/>");
-        contractDetailTypeTab.window.detailType.show();
-    }
-};
 
 //*************************************************** layout ***********************************************************
 
