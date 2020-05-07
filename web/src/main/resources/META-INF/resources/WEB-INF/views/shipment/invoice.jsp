@@ -979,6 +979,9 @@
             DynamicForm_Invoice.validate();
             if (DynamicForm_Invoice.hasErrors())
                 return;
+            var drs = DynamicForm_Invoice.getValue("invoiceDate");
+            var datestringRs = (drs.getFullYear() + "/" + ("0" + (drs.getMonth() + 1)).slice(-2) + "/" + ("0" + drs.getDate()).slice(-2));
+            DynamicForm_Invoice.setValue("invoiceDate", datestringRs);
             DynamicForm_Invoice.setValue("shipmentId", ListGrid_Shipment_InvoiceHeader.getSelectedRecord().id);
             var data = DynamicForm_Invoice.getValues();
             var method = "PUT";
