@@ -1113,8 +1113,10 @@
                 membersMargin: 20,
                 members: [
                     <%--<sec:authorize access="hasAuthority('C_MATERIAL_ITEM')">--%>
-                    ToolStripButton_InvoiceSalesItem_Add
+                    ToolStripButton_InvoiceSalesItem_Add ,
                     <%--</sec:authorize>--%>
+                    //TODO ADD authorize !important
+                    ToolStripButton_InvoiceSales_Pdf
                 ]
             });
 
@@ -1511,6 +1513,27 @@
     });
     <%--</sec:authorize>--%>
 
+
+    function ToolStripButton_InvoiceSales_Pdf_F() {
+        var rec_id = ListGrid_invoiceSales.getSelectedRecord();
+        if (rec_id == null) {
+            isc.say("<spring:message code='global.grid.record.not.selected'/>");
+        } else {
+            var rowId = ListGrid_invoiceSales.getSelectedRecord().id;
+             window.open("invoiceSales/print/pdf/" + rowId);
+            alert(rowId);
+        }
+    }
+
+var ToolStripButton_InvoiceSales_Pdf = isc.ToolStripButtonPrint.create({
+        title: "<spring:message code='invoiceSales.report.jasper.pdf'/>",
+        icon: "icon/pdf.png",
+        click: function () {
+        ToolStripButton_InvoiceSales_Pdf_F();
+        }
+    });
+
+
     var ToolStrip_Actions_InvoiceSalesItem = isc.ToolStrip.create({
         width: "100%",
         members:
@@ -1544,7 +1567,7 @@
         members:
             [
                 ToolStrip_Actions_InvoiceSalesItem
-            ]
+]
     });
 
     function setCriteria_ListGrid(recordId) {

@@ -426,7 +426,7 @@
                 width: "10%",
                 showHover: true,
                 validators: [{
-                    type:"required",
+                    type: "required",
                     validateOnChange: true
                 }]
             },
@@ -438,7 +438,7 @@
                 width: "10%",
                 showHover: true,
                 validators: [{
-                    type:"required",
+                    type: "required",
                     validateOnChange: true
                 }]
             },
@@ -446,7 +446,7 @@
             {
                 name: "month", title: "<spring:message code='shipment.month'/>",
                 type: 'text', required: true, width: "10%", align: "center", showHover: true,
-                validators: [{ type:"required", validateOnChange: true }]
+                validators: [{type: "required", validateOnChange: true}]
             },
 
             {
@@ -841,7 +841,7 @@
                     required: true,
                     valueMap: {"PROVISIONAL": "PROVISIONAL", "FINAL": "FINAL", "PREPAID": "PREPAID"},
                     validators: [{
-                        type:"required",
+                        type: "required",
                         validateOnChange: true
                     }]
                 },
@@ -865,7 +865,7 @@
                     titleColSpan: 1,
                     wrapTitle: false,
                     validators: [{
-                        type:"required",
+                        type: "required",
                         validateOnChange: true
                     }]
                 },
@@ -878,7 +878,7 @@
                     required: true,
                     width: "100%",
                     validators: [{
-                        type:"required",
+                        type: "required",
                         validateOnChange: true
                     }]
                 },
@@ -899,10 +899,10 @@
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
                     },
-                    {
-                        type:"required",
-                        validateOnChange: true
-                    }]
+                        {
+                            type: "required",
+                            validateOnChange: true
+                        }]
                 },
                 {
                     name: "net",
@@ -917,10 +917,10 @@
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
                     },
-                    {
-                        type:"required",
-                        validateOnChange: true
-                    }]
+                        {
+                            type: "required",
+                            validateOnChange: true
+                        }]
                 },
                 {
                     name: "unitPrice",
@@ -935,10 +935,10 @@
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
                     },
-                    {
-                        type:"required",
-                        validateOnChange: true
-                    }]
+                        {
+                            type: "required",
+                            validateOnChange: true
+                        }]
                 },
                 {
                     name: "unitPriceCurrency",
@@ -965,7 +965,7 @@
                             errorMessage: "<spring:message code='invoice.form.paidPercent.prompt'/>"
                         },
                         {
-                            type:"required",
+                            type: "required",
                             validateOnChange: true
                         }
                     ]
@@ -1020,10 +1020,10 @@
                         stopOnError: true,
                         errorMessage: "<spring:message code='global.form.correctType'/>"
                     },
-                    {
-                        type:"required",
-                        validateOnChange: true
-                    }]
+                        {
+                            type: "required",
+                            validateOnChange: true
+                        }]
                 },
                 {
                     name: "invoiceValueCurrency",
@@ -1234,6 +1234,7 @@
     </sec:authorize>
 
     <sec:authorize access="hasAuthority('O_INVOICE')">
+
     var ToolStripButton_Invoice_excel = isc.ToolStripButtonPrint.create({
         title: "<spring:message code='global.form.print.excel'/>",
         icon: "icon/excel.png",
@@ -1241,6 +1242,7 @@
             ToolStripButton_Invoice_Excel_F();
         }
     });
+
     </sec:authorize>
 
     <sec:authorize access="hasAuthority('O_INVOICE')">
@@ -1609,8 +1611,7 @@
                     return false;
                 }
             }
-        }
-        else {
+        } else {
             alert("Invalid date format!");
 
             return false;
