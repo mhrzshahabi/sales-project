@@ -30,26 +30,26 @@ public class ContractDetailTypeService extends GenericService<ContractDetailType
 
     @Override
     @Transactional
-    @Action(value = ActionType.Create)
+    @Action(ActionType.Create)
     public ContractDetailTypeDTO.Info create(ContractDetailTypeDTO.Create request) {
 
         final ContractDetailType contractDetailType = modelMapper.map(request, ContractDetailType.class);
         validation(contractDetailType, request);
         ContractDetailTypeDTO.Info savedContractDetailType = save(contractDetailType);
 
-        if (request.getTemplates() != null && request.getTemplates().size() > 0) {
+        if (request.getContractDetailTypeTemplates() != null && request.getContractDetailTypeTemplates().size() > 0) {
 
-            final List<ContractDetailTypeTemplateDTO.Create> contractDetailTypeTemplateRqs = modelMapper.map(request.getTemplates(),
+            final List<ContractDetailTypeTemplateDTO.Create> contractDetailTypeTemplateRqs = modelMapper.map(request.getContractDetailTypeTemplates(),
                     new TypeToken<List<ContractDetailTypeTemplateDTO.Create>>() {
                     }.getType());
             contractDetailTypeTemplateRqs.forEach(q -> q.setContractDetailTypeId(savedContractDetailType.getId()));
             List<ContractDetailTypeTemplateDTO.Info> savedContractDetailTypeTemplates = contractDetailTypeTemplateService.createAll(contractDetailTypeTemplateRqs);
-            savedContractDetailType.setTemplates(savedContractDetailTypeTemplates);
+            savedContractDetailType.setContractDetailTypeTemplates(savedContractDetailTypeTemplates);
         }
 
-        if (request.getParams() != null && request.getParams().size() > 0) {
+        if (request.getContractDetailTypeParams() != null && request.getContractDetailTypeParams().size() > 0) {
 
-            final List<ContractDetailTypeParamDTO.Create> contractDetailTypeParamRqs = modelMapper.map(request.getParams(),
+            final List<ContractDetailTypeParamDTO.Create> contractDetailTypeParamRqs = modelMapper.map(request.getContractDetailTypeParams(),
                     new TypeToken<List<ContractDetailTypeParamDTO.Create>>() {
                     }.getType());
             List<ContractDetailTypeParamDTO.Info> savedContractDetailTypeParams = new ArrayList<>();
@@ -58,28 +58,38 @@ public class ContractDetailTypeService extends GenericService<ContractDetailType
                 q.setContractDetailTypeId(savedContractDetailType.getId());
                 ContractDetailTypeParamDTO.Info savedContractDetailTypeParam = contractDetailTypeParamService.create(q);
 
-                if (q.getValues() != null && q.getValues().size() > 0) {
+                if (q.getContractDetailTypeParamValues() != null && q.getContractDetailTypeParamValues().size() > 0) {
 
-                    final List<ContractDetailTypeParamValueDTO.Create> contractDetailTypeParamValueRqs = modelMapper.map(q.getValues(),
+                    final List<ContractDetailTypeParamValueDTO.Create> contractDetailTypeParamValueRqs = modelMapper.map(q.getContractDetailTypeParamValues(),
                             new TypeToken<List<ContractDetailTypeParamValueDTO.Create>>() {
                             }.getType());
                     contractDetailTypeParamValueRqs.forEach(p -> p.setContractDetailTypeParamId(savedContractDetailTypeParam.getId()));
                     List<ContractDetailTypeParamValueDTO.Info> savedContractDetailTypeParamValues = contractDetailTypeParamValueService.createAll(contractDetailTypeParamValueRqs);
-                    savedContractDetailTypeParam.setValues(savedContractDetailTypeParamValues);
+                    savedContractDetailTypeParam.setContractDetailTypeParamValues(savedContractDetailTypeParamValues);
                 }
 
                 savedContractDetailTypeParams.add(savedContractDetailTypeParam);
             });
-            savedContractDetailType.setParams(savedContractDetailTypeParams);
+            savedContractDetailType.setContractDetailTypeParams(savedContractDetailTypeParams);
         }
 
         return savedContractDetailType;
     }
 
     @Override
+    @Transactional
+    @Action(ActionType.Update)
     public ContractDetailTypeDTO.Info update(Long aLong, ContractDetailTypeDTO.Update request) {
 
 
         throw new RuntimeException();
+    }
+
+    @Override
+    @Transactional
+    @Action(ActionType.Delete)
+    public void delete(Long aLong) {
+
+
     }
 }
