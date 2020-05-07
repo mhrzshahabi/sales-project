@@ -129,6 +129,13 @@ contractDetailTypeTab.dynamicForm.paramFields.contractDetailTypeId = {
 };
 
 contractDetailTypeTab.dynamicForm.templateFields = {};
+contractDetailTypeTab.dynamicForm.templateFields.code = {
+    name: "code",
+    width: "50%",
+    required: true,
+    keyPressFilter: "^[A-Za-z|0-9]",
+    title: "<spring:message code='global.code'/>"
+};
 contractDetailTypeTab.dynamicForm.templateFields.content = {
     width: "50%",
     name: "content",
@@ -501,6 +508,7 @@ contractDetailTypeTab.listGrid.template = isc.ListGrid.create({
     selectionType: "single",
     sortDirection: "ascending",
     fields: BaseFormItems.concat([
+        contractDetailTypeTab.dynamicForm.templateFields.code,
         contractDetailTypeTab.dynamicForm.templateFields.content
     ]),
     canEdit: true,
