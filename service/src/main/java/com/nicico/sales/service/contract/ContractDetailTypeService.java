@@ -37,32 +37,41 @@ public class ContractDetailTypeService extends GenericService<ContractDetailType
         validation(contractDetailType, request);
         ContractDetailTypeDTO.Info savedContractDetailType = save(contractDetailType);
 
-        final List<ContractDetailTypeTemplateDTO.Create> contractDetailTypeTemplateRqs = modelMapper.map(request.getTemplates(),
-                new TypeToken<List<ContractDetailTypeTemplateDTO.Create>>() {
-                }.getType());
-        contractDetailTypeTemplateRqs.forEach(q -> q.setContractDetailTypeId(savedContractDetailType.getId()));
-        List<ContractDetailTypeTemplateDTO.Info> savedContractDetailTypeTemplates = contractDetailTypeTemplateService.createAll(contractDetailTypeTemplateRqs);
-        savedContractDetailType.setTemplates(savedContractDetailTypeTemplates);
+        if (request.getTemplates() != null && request.getTemplates().size() > 0) {
 
-        final List<ContractDetailTypeParamDTO.Create> contractDetailTypeParamRqs = modelMapper.map(request.getParams(),
-                new TypeToken<List<ContractDetailTypeParamDTO.Create>>() {
-                }.getType());
-        List<ContractDetailTypeParamDTO.Info> savedContractDetailTypeParams = new ArrayList<>();
-        contractDetailTypeParamRqs.forEach(q -> {
-
-            q.setContractDetailTypeId(savedContractDetailType.getId());
-            ContractDetailTypeParamDTO.Info savedContractDetailTypeParam = contractDetailTypeParamService.create(q);
-
-            final List<ContractDetailTypeParamValueDTO.Create> contractDetailTypeParamValueRqs = modelMapper.map(q.getValues(),
-                    new TypeToken<List<ContractDetailTypeParamValueDTO.Create>>() {
+            final List<ContractDetailTypeTemplateDTO.Create> contractDetailTypeTemplateRqs = modelMapper.map(request.getTemplates(),
+                    new TypeToken<List<ContractDetailTypeTemplateDTO.Create>>() {
                     }.getType());
-            contractDetailTypeParamValueRqs.forEach(p -> p.setContractDetailTypeParamId(savedContractDetailTypeParam.getId()));
-            List<ContractDetailTypeParamValueDTO.Info> savedContractDetailTypeParamValues = contractDetailTypeParamValueService.createAll(contractDetailTypeParamValueRqs);
-            savedContractDetailTypeParam.setValues(savedContractDetailTypeParamValues);
+            contractDetailTypeTemplateRqs.forEach(q -> q.setContractDetailTypeId(savedContractDetailType.getId()));
+            List<ContractDetailTypeTemplateDTO.Info> savedContractDetailTypeTemplates = contractDetailTypeTemplateService.createAll(contractDetailTypeTemplateRqs);
+            savedContractDetailType.setTemplates(savedContractDetailTypeTemplates);
+        }
 
-            savedContractDetailTypeParams.add(savedContractDetailTypeParam);
-        });
-        savedContractDetailType.setParams(savedContractDetailTypeParams);
+        if (request.getParams() != null && request.getParams().size() > 0) {
+
+            final List<ContractDetailTypeParamDTO.Create> contractDetailTypeParamRqs = modelMapper.map(request.getParams(),
+                    new TypeToken<List<ContractDetailTypeParamDTO.Create>>() {
+                    }.getType());
+            List<ContractDetailTypeParamDTO.Info> savedContractDetailTypeParams = new ArrayList<>();
+            contractDetailTypeParamRqs.forEach(q -> {
+
+                q.setContractDetailTypeId(savedContractDetailType.getId());
+                ContractDetailTypeParamDTO.Info savedContractDetailTypeParam = contractDetailTypeParamService.create(q);
+
+                if (q.getValues() != null && q.getValues().size() > 0) {
+
+                    final List<ContractDetailTypeParamValueDTO.Create> contractDetailTypeParamValueRqs = modelMapper.map(q.getValues(),
+                            new TypeToken<List<ContractDetailTypeParamValueDTO.Create>>() {
+                            }.getType());
+                    contractDetailTypeParamValueRqs.forEach(p -> p.setContractDetailTypeParamId(savedContractDetailTypeParam.getId()));
+                    List<ContractDetailTypeParamValueDTO.Info> savedContractDetailTypeParamValues = contractDetailTypeParamValueService.createAll(contractDetailTypeParamValueRqs);
+                    savedContractDetailTypeParam.setValues(savedContractDetailTypeParamValues);
+                }
+
+                savedContractDetailTypeParams.add(savedContractDetailTypeParam);
+            });
+            savedContractDetailType.setParams(savedContractDetailTypeParams);
+        }
 
         return savedContractDetailType;
     }

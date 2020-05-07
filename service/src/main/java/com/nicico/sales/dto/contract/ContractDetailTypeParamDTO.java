@@ -24,6 +24,7 @@ public class ContractDetailTypeParamDTO {
     private DataType type;
     private String defaultValue;
 
+    private Long unitId;
     private Long contractDetailTypeId;
 
     private List<ContractDetailTypeParamValueDTO.Info> values;
