@@ -12,5 +12,5 @@ import java.lang.annotation.Target;
 public @interface Action {
 
     ActionType value();
-    String authorityName() default "";
+    String authority() default "";
 }

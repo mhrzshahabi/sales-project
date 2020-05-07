@@ -21,7 +21,9 @@ public class ContractDetailTypeDTO {
     private String code;
     private String titleFa;
     private String titleEn;
-    private String content;
+
+    private List<ContractDetailTypeParamDTO.Info> params;
+    private List<ContractDetailTypeTemplateDTO.Info> templates;
 
     @Getter
     @Setter
@@ -48,9 +50,6 @@ public class ContractDetailTypeDTO {
     @Accessors(chain = true)
     @ApiModel("ContractDetailTypeCreateRq")
     public static class Create extends ContractDetailTypeDTO {
-
-        private List<ContractDetailTypeParamDTO.Info> params;
-        private List<ContractDetailTypeTemplateDTO.Info> templates;
     }
 
     @Getter
