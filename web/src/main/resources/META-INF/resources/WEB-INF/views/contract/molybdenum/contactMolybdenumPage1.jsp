@@ -7,13 +7,12 @@
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
     <% DateUtil dateUtil = new DateUtil();%>
  var contractIdEdit;
- var Window_ContactMo;
  var VLayout_contactMoOxMain;
  var methodUrl="POST";
+ var sendDateSetMo;
  var lotList;
  var ListGrid_ContractItemShipment;
  var criteriaContractItemShipment;
- var contractDetailID;
  var dynamicForm_article3_Typicall
  function ValuesManager(valueId) {
                 isc.ValuesManager.create({
@@ -47,6 +46,15 @@
             ],
         fetchDataURL: "${contextPath}/api/parameters/spec-list"
     });
+
+var RestDataSource_Incoterms_InMol = isc.MyRestDataSource.create({
+fields:
+    [
+    {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
+    {name: "code", title: "<spring:message code='goods.code'/> "},
+    ],
+    fetchDataURL: "${contextPath}/api/incoterms/spec-list"
+});
 
     var RestDataSource_WarehouseLot = isc.MyRestDataSource.create({
         fields:
@@ -328,8 +336,10 @@
                             icon: "[SKIN]/actions/add.png",
                             title: "<spring:message code='global.form.new'/>",
                             click: function () {
+                                    methodMoHtpp="POST";
+                                    Window_ContactMo.show();
                                     contactHeader.clearValues();
-                                    valuesManagerfullArticleMo.clearValues();
+                                    valuesManagerfullArticleMo.setValue("");
                                     contactHeaderAgent.clearValues();
                                     valuesManagerArticle1.clearValues();
                                     valuesManagerArticle2.clearValues();
@@ -347,6 +357,23 @@
                     });
     </sec:authorize>
 
+var Window_ContactMo = isc.Window.create({
+                title: "<spring:message code='salesContractMoButton.title'/>",
+                width: "100%",
+                height: "100%",
+                autoCenter: true,
+                isModal: true,
+                showModalMask: true,
+                align: "center",
+                autoDraw: false,
+                autoScroller:true,
+                closeClick: function () {
+                this.Super("closeClick", arguments);
+                },
+                items: [
+                ]
+                });
+
     <sec:authorize access="hasAuthority('U_CONTRACT')">
     var ToolStripButton_ContactMo_Edit = isc.ToolStripButtonEdit.create({
                             icon: "[SKIN]/actions/edit.png",
@@ -363,10 +390,14 @@
                                             this.hide();
                                         }});
                             } else {
+                            methodMoHtpp="PUT";
                             contractIdEdit=record.id;
-                            var criteria1={_constructor:"AdvancedCriteria",operator:"and",criteria:[{fieldName:"contract_id",operator:"equals",value:record.id}]};
                             var criterialotList={_constructor:"AdvancedCriteria",operator:"or",criteria:[{fieldName:"contractId",operator:"equals",value:record.id},{fieldName: "used", operator: "equals",value: 0 }]};
-                                    criteriaContractItemShipment={_constructor:"AdvancedCriteria",operator:"and",criteria:[{fieldName:"contractId",operator:"equals",value:record.id}]};
+                            criteriaContractItemShipment = {
+                                        _constructor: "AdvancedCriteria",
+                                        operator: "and",
+                                        criteria: [{fieldName: "contractId", operator: "equals", value: record.id}]
+                                    };
                                     var articleMo=record.contractNo+"?Mo";
                                     isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                                                 actionURL: "${contextPath}/api/contract/readWord",
@@ -385,16 +416,24 @@
                                                                 dynamicForm_fullArticle04.setValue(textMainMo.Article04);
                                                                 dynamicForm_fullArticle05.setValue(textMainMo.Article05);
                                                                 dynamicForm_fullArticle06.setValue(textMainMo.Article06);
-                                                                valuesManagerfullArticleMo.setValue("fullArticle07",textMainMo.Article07);
-                                                                valuesManagerfullArticleMo.setValue("fullArticle08",textMainMo.Article08);
-                                                                valuesManagerfullArticleMo.setValue("fullArticle09",textMainMo.Article09);
+                                                                dynamicForm_fullArticle07.setValue(textMainMo.Article07);
+                                                                dynamicForm_fullArticle08.setValue(textMainMo.Article08);
+                                                                dynamicForm_fullArticle09.setValue(textMainMo.Article09);
                                                                 valuesManagerfullArticleMo.setValue("fullArticle10",textMainMo.Article10);
+                                                                ListGrid_ContractItemShipment.fetchData(criteriaContractItemShipment);
+                                                                lotList.fetchData(criterialotList);
                                                         },200)
                                                     }else{
                                                         isc.say(RpcResponse_o.data);
                                                 }
                                                 }
                                             }))
+                                    var criteria1 = {
+                                                    _constructor: "AdvancedCriteria",
+                                                    operator: "and",
+                                                    criteria: [{fieldName: "contract.id", operator: "equals", value: record.id}]
+                                                };
+                                    setTimeout(function () {
                                     RestDataSource_contractDetail_list.fetchData(criteria1,function (dsResponse, data, dsRequest) {
                                     //dynamicFormMaterial.setValue("materialId",record.materialId)
                                     contactHeader.setValue("createDate", record.contractDate)
@@ -546,11 +585,8 @@
                                     valuesManagerArticle8.setValue("delay",record.delay);
                                     valuesManagerArticle9.setValue("article9_number45",data[0].article9_number45);
                                     valuesManagerArticle10.setValue("article10_number61",data[0].article10_number61);
-                                    contractDetailID = data[0].id;
-                                    })
-                                pageMolibdenAll(1);
-                                ListGrid_ContractItemShipment.fetchData(criteriaContractItemShipment);
-                                lotList.fetchData(criterialotList);
+                                    })}, 300)
+                                    pageMolibdenAll(1);
                             }
                             }});
     </sec:authorize>
@@ -666,27 +702,10 @@ function factoryLableHedear(id, contents, width, height, padding) {
     }
 function pageMolibdenAll(method){
     if(method==0){
-        methodUrl="POST";
+        methodMoHtpp="POST";
         }else{
-        methodUrl="PUT";
+        methodMoHtpp="PUT";
         }
-Window_ContactMo = isc.Window.create({
-                title: "<spring:message code='salesContractMoButton.title'/>",
-                width: "100%",
-                height: "100%",
-                autoCenter: true,
-                isModal: true,
-                showModalMask: true,
-                align: "center",
-                autoDraw: false,
-                autoScroller:true,
-                closeClick: function () {
-                this.Super("closeClick", arguments);
-                },
-                items: [
-
-                ]
-                });
     //START PAGE ONE
     factoryLableHedear("LablePage", '<font><b>NATIONAL IRANIAN COPPER INDUSTRIES CO.<b></font>', "100%", "10", 4)
     factoryLable("lableNameContactMo", '<b><font size=4px>Molybdenum Oxide Contract-BAPCO/NICICO</font><b>', "100%", '2%', 2);
@@ -1192,8 +1211,7 @@ var DynamicForm_ContactMooxParameter_ValueNumber8=isc.DynamicForm.create({
 
     var dynamicFormMoox_fullArticle01 = isc.RichTextEditor.create({
         valuesManager: "valuesManagerfullArticleMo",
-        width: "100%",
-        wrapItemTitles: false,
+        ID:"dynamicFormMoox_fullArticle01ID",
         autoDraw:true,
         height:155,
         overflow:"auto",
@@ -1314,6 +1332,7 @@ var DynamicForm_ContactMooxParameter_ValueNumber8=isc.DynamicForm.create({
     })
 
 var dynamicForm_fullArticle02MoOx = isc.RichTextEditor.create({
+        ID:"dynamicForm_fullArticle02MoOxID",
         valuesManager: "valuesManagerfullArticleMo",
         autoDraw:true,
         height:155,
@@ -1430,6 +1449,7 @@ var vlayoutArticle3 = isc.VLayout.create({
 
 
 var dynamicForm_fullArticle03 = isc.RichTextEditor.create({
+            ID:"dynamicForm_fullArticle03ID",
             valuesManager: "valuesManagerfullArticleMo",
             autoDraw:true,
             height:155,
@@ -1624,6 +1644,7 @@ var dynamicForm_article3_1 = isc.DynamicForm.create({
     })
 
     var dynamicForm_fullArticle04 = isc.RichTextEditor.create({
+                ID:"dynamicForm_fullArticle04ID",
                 valuesManager: "valuesManagerfullArticleMo",
                 autoDraw:true,
                 height:155,
@@ -1722,7 +1743,9 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
                     type: "date",
                     required: false,
                     width: "10%",
-                    wrapTitle: false,
+                    wrapTitle: false,changed: function (form, item, value) {
+                        sendDateSetMo = (value.getFullYear() + "/" + ("0" + (value.getMonth() + 1)).slice(-2) + "/" + ("0" + value.getDate()).slice(-2));
+                    }
                 },
                 {
                     name: "duration",
@@ -1733,33 +1756,42 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
                 },
                 {
                     name: "tolorance", title: "<spring:message code='contractItemShipment.tolorance'/>", type: 'text', width: "10%", align: "center"
+                },{
+                    name: "incotermsShipmentId",
+                    colSpan: 3,
+                    titleColSpan: 1,
+                    tabIndex: 6,
+                    showTitle: true,
+                    showHover: true,
+                    showHintInField: true,
+                    required: true,
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }],
+                    type: 'long',
+                    numCols: 4,
+                    editorType: "SelectItem",
+                    optionDataSource: RestDataSource_Incoterms_InMol,
+                    displayField: "code",
+                    valueField: "id",
+                    pickListWidth: "450",
+                    pickListHeight: "500",
+                    pickListProperties: {showFilterEditor: true},
+                    pickListFields: [
+                        {name: "code", width: 440, align: "center"}
+                    ],
+                    width: "10%",
+                    title: "<strong class='cssDynamicForm'>SHIPMENT TYPE<strong>"
                 },
             ],saveEdits: function () {
-                var ContractItemShipmentRecord = ListGrid_ContractItemShipment.getEditedRecord(ListGrid_ContractItemShipment.getEditRow());
-                if(ListGrid_ContractItemShipment.getSelectedRecord() == null){
-                        return;
-                }else{
-                     var dateSendMol= (ListGrid_ContractItemShipment.getSelectedRecord().sendDate);
-                     ContractItemShipmentRecord.sendDate=moment(dateSendMol).format('L')
-                    isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                        actionURL: "${contextPath}/api/contractShipment/",
-                        httpMethod: "PUT",
-                        data: JSON.stringify(ContractItemShipmentRecord),
-                        callback: function (resp) {
-                            if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
-                                isc.say("<spring:message code='global.form.request.successful'/>.");
-                                ListGrid_ContractItemShipment.setData([]);
-                                ListGrid_ContractItemShipment.fetchData(criteriaContractItemShipment);
-                            } else
-                                isc.say(RpcResponse_o.data);
-                        }
-                    }))
-                }
-
-
-        },removeData: function (data) {
-            var ContractShipmentId = data.id;
-            isc.Dialog.create({
+            },removeData: function (data) {
+            if(data.deleted){
+                data.deleted = false;
+                return;
+              }
+              isc.Dialog.create({
                 message: "<spring:message code='global.grid.record.remove.ask'/>",
                 icon: "[SKIN]ask.png",
                 title: "<spring:message code='global.grid.record.remove.ask.title'/>",
@@ -1770,26 +1802,17 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
                 buttonClick: function (button, index) {
                     this.hide();
                     if (index == 0) {
-                    isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                            actionURL: "${contextPath}/api/contractShipment/" + ContractShipmentId,
-                            httpMethod: "DELETE",
-                            callback: function (resp) {
-                                if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
-                                    ListGrid_ContractItemShipment.invalidateCache();
-                                    isc.say("<spring:message code='global.grid.record.remove.success'/>.");
-                                } else {
-                                    isc.say("<spring:message code='global.grid.record.remove.failed'/>");
-                                }
-                            }
-                         })
-                        )
-                     }}
-                  })
+                                         data.deleted = true;
+                                         ListGrid_ContractItemShipment.markSelectionRemoved();
+                                    }
+                    }
+            })
         }
     });
-    var vlayout_ContractItemShipment = isc.VLayout.create({align: "center", members: [ListGrid_ContractItemShipment]});
 
+    var vlayout_ContractItemShipment = isc.VLayout.create({align: "center", members: [ListGrid_ContractItemShipment]});
     var dynamicForm_fullArticle05 = isc.RichTextEditor.create({
+            ID:"dynamicForm_fullArticle05ID",
             valuesManager: "valuesManagerfullArticleMo",
             autoDraw:true,
             height:155,
@@ -1889,6 +1912,7 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
         ]
     });
     var dynamicForm_fullArticle06 = isc.RichTextEditor.create({
+            ID:"dynamicForm_fullArticle06ID",
             valuesManager: "valuesManagerfullArticleMo",
             autoDraw:true,
             height:155,
@@ -2010,26 +2034,17 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
             {name: "discountValueEleven_2",defaultValue:1.70,title: "",width:"100",showTitle: false,startRow:false}
             ]
     });
-     var dynamicForm_fullArticle07 = isc.DynamicForm.create({
-                valuesManager: "valuesManagerfullArticleMo",
-                height: "20",
-                width: "100%",
-                wrapItemTitles: false,
-                items: [
-                    {
-                        name: "fullArticle07",
-                        disabled: false,
-                        type: "text",
-                        length: 5000,
-                        startRow: true,
-                        showTitle: false,
-                        colSpan: 10,
-                        defaultValue: "PRICE FOR MOLYBDENUM OXIDE WILL BE BASED ON THE PLATT'S METALS WEEK MONTHLY AVERAGE FOR MOLYBDENUM OXIDE, AS PUBLISHED IN MONTHLY REPORT OF PLATT'S METALS WEEK UNDER THE HEADING DEALER OXIDE MIDPOINT/MEAN PER POUND OF MOLYBDENUM CONTENT WITH DISCOUNTS AS BELOW:",
-                        title: "fullArticle07",
-                        width: "*"
-                    }
-                ]
-            })
+    var dynamicForm_fullArticle07 = isc.RichTextEditor.create({
+        ID:"dynamicForm_fullArticle07ID",
+        valuesManager: "valuesManagerfullArticleMo",
+        autoDraw: true,
+        height: 155,
+        overflow: "auto",
+        canDragResize: true,
+        controlGroups: ["fontControls", "formatControls", "styleControls", "colorControls"],
+        value: ""
+    })
+
     var vlayoutArticle7 = isc.VLayout.create({
         width: "100%",
         styleName: "box-shaddow",
@@ -2056,26 +2071,17 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
             }
         ]
     })
-    var dynamicForm_fullArticle08 = isc.DynamicForm.create({
-                valuesManager: "valuesManagerfullArticleMo",
-                height: "20",
-                width: "100%",
-                wrapItemTitles: false,
-                items: [
-                    {
-                        name: "fullArticle08",
-                        disabled: false,
-                        type: "text",
-                        length: 5000,
-                        startRow: true,
-                        showTitle: false,
-                        colSpan: 10,
-                        defaultValue: "QUOTATIONAL PERIOD FOR MOLYBDENUM OXIDE SHALL BE THE AVERAGE OF THE MONTH FOLLOWING MONTH OF ACTUAL SHIPMENT (MOAS+1) FROM THE PORT OF LOADING AS EVIDENCED BY THE B/L DATE.",
-                        title: "fullArticle08",
-                        width: "*"
-                    }
-                ]
-            })
+    var dynamicForm_fullArticle08 = isc.RichTextEditor.create({
+        ID:"dynamicForm_fullArticle08ID",
+        valuesManager: "valuesManagerfullArticle",
+        autoDraw: true,
+        height: 155,
+        overflow: "scroll",
+        canDragResize: true,
+        controlGroups: ["fontControls", "formatControls", "styleControls", "colorControls"],
+        value: ""
+    })
+
     var vlayoutArticle8 = isc.VLayout.create({
         width: "100%",
         height: "50",
@@ -2087,26 +2093,17 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
         ]
     });
 
-    var dynamicForm_fullArticle09 = isc.DynamicForm.create({
-                valuesManager: "valuesManagerfullArticleMo",
-                height: "20",
-                width: "100%",
-                wrapItemTitles: false,
-                items: [
-                    {
-                        name: "fullArticle09",
-                        disabled: false,
-                        type: "text",
-                        length: 5000,
-                        startRow: true,
-                        showTitle: false,
-                        colSpan: 10,
-                        defaultValue: "1.BUYER SHALL PAY BEFORE EACH SHIPMENT 105% (ONE HUNDRED FIVE PERCENT) OF PROFORMA / PROVISIONAL INVOICE VALUE AMOUNT IN EURO OR AED (SELLER'S OPTION), PROMPT NET CASH PAYABLE BY TELEGRAPHIC TRANSFER OR UNDER AN IRREVOCABLE LETTER OF CREDIT AT SIGHT (SELLER'S OPTION) TO A BANK WHICH IS NOMINATED BY SELLER. PROFORMA / PROVISIONAL INVOICE AMOUNT CALCULATED BASED ON PROVISIONAL PRICE WHICH IS AVERAGE OF TWO WEEKS PRICE (LOW , HIGH PRICES) PRIOR DATE OF PROFORMA / PROVISIONAL INVOICE AND FINAL ASSAY.\n2.	THE FINAL BALANCE, IF ANY, BETWEEN THE PROVISIONAL PAYMENT MADE BY BUYER AND THE FINAL VALUE OF THE MATERIAL SHALL BE PAID BY THE OWING PARTY BY TELEGRAPHIC TRANSFER AGAINST SELLER'S PRESENTATION OF FOLLOWING DOCUMENTS WITHIN (5) WORKING DAYS FROM THE DATE OF THE FINAL INVOICE. SELLER'S FINAL INVOICE ISSUED BASED ON FINAL PRICES LESS THE AMOUNT OF PROVISIONAL PAYMENT.",
-                        title: "fullArticle09",
-                        width: "*"
-                    }
-                ]
-            })
+    var dynamicForm_fullArticle09 = isc.RichTextEditor.create({
+        ID:"dynamicForm_fullArticle09ID",
+        valuesManager: "valuesManagerfullArticleMo",
+        autoDraw: true,
+        height: 155,
+        overflow: "auto",
+        canDragResize: true,
+        controlGroups: ["fontControls", "formatControls", "styleControls", "colorControls"],
+        value: ""
+    })
+
     var vlayoutArticle9 = isc.VLayout.create({
         width: "100%",
         styleName: "box-shaddow",
@@ -2134,26 +2131,16 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
         ]
     });
 
-    var dynamicForm_fullArticle10 = isc.DynamicForm.create({
-                valuesManager: "valuesManagerfullArticleMo",
-                height: "20",
-                width: "100%",
-                wrapItemTitles: false,
-                items: [
-                    {
-                        name: "fullArticle10",
-                        disabled: false,
-                        type: "text",
-                        length: 5000,
-                        startRow: true,
-                        showTitle: false,
-                        colSpan: 10,
-                        defaultValue: "-ALL INVOICES SHALL BE ISSUED IN USD.\n-UPON THE POSSIBILITY OF APPLYING THE USD CURRENCY ANY TIME IN THIS CONTRACT, THE PAYMENT SHALL BE IN USD.\n-THE VALUE OF EACH PAYMENT IF SHALL BE CONVERTED FROM USD INTO AED THEREFORE CONVERSION RATE AT THE PREVAILING AVAILABLE RATE SHALL BE 3.67.\n-IN CASE OF EURO, THE VALUE OF EACH INVOICES INCLUDING PROFORMA, PROVISIONAL AND FINAL INVOICES SHALL BE CONVERTED FROM USD INTO EURO THEREFORE CONVERSION RATE WILL BE BASED ON ECB RATE AND UNKNOWN DATE OF WHICH WILL BE AGREED BY BUYER AND SELLER.",
-                        title: "fullArticle10",
-                        width: "*"
-                    }
-                ]
-            })
+    var dynamicForm_fullArticle10 = isc.RichTextEditor.create({
+        ID:"dynamicForm_fullArticle10ID",
+        valuesManager: "valuesManagerfullArticleMo",
+        autoDraw: true,
+        height: 155,
+        overflow: "auto",
+        canDragResize: true,
+        controlGroups: ["fontControls", "formatControls", "styleControls", "colorControls"],
+        value: ""
+    })
     var vlayoutArticle10 = isc.VLayout.create({
         width: "100%",
         height: "50",
@@ -2204,21 +2191,20 @@ var IButton_Contact_Save = isc.IButtonSave.create({
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
         click: function () {
+            ListGrid_ContractItemShipment.getAllEditRows().forEach(function (element) {
+            if(ListGrid_ContractItemShipment.validateRow(element) != true){
+                    ListGrid_ContractItemShipment.validateRow(element);
+                    isc.warn("<spring:message code='main.contractShipment'/>");
+                    return;
+                    }
+                 })
+            var dataSaveAndUpdateContract={};
+            var dataSaveAndUpdateContractDetail={};
             DynamicForm_ContactHeader.validate();
             DynamicForm_ContactCustomer.validate();
-            //dynamicFormMaterial.validate();
             contactHeader.validate();
-            dynamicForm_article6_number32_33_34_35.validate();
-
-           /* if (DynamicForm_ContactHeader.hasErrors()|| DynamicForm_ContactCustomer.hasErrors()||dynamicFormMaterial.hasErrors()||contactHeader.hasErrors()){
-            return;
-            }*/
-            if (dynamicForm_article6_number32_33_34_35.hasErrors()){
-            contactTabs.selectTab(1);
-            return;
-            }
             DynamicForm_ContactHeader.setValue("contractDate", contactHeader.getValues().createDate.toNormalDate("toUSShortDate"));
-            var dataSaveAndUpdateContract={};
+
                     dataSaveAndUpdateContract.contractDate= contactHeader.getValue("contractDate");
                     dataSaveAndUpdateContract.contractNo=contactHeader.getValue("contractNo");
                     dataSaveAndUpdateContract.contactId=contactHeader.getValue("contactId")
@@ -2251,12 +2237,8 @@ var IButton_Contact_Save = isc.IButtonSave.create({
                     dataSaveAndUpdateContract.pricePeriod="";
                     dataSaveAndUpdateContract.eventPayment="";
                     dataSaveAndUpdateContract.contentType="";
-                    //dataSaveAndUpdateContract.materialId=dynamicFormMaterial.getValue("materialId");
                     dataSaveAndUpdateContract.materialId=1;
 
-
-
-            var dataSaveAndUpdateContractDetail={};
                     dataSaveAndUpdateContractDetail.name_ContactAgentSeller=contactHeaderAgent.getValue("name_ContactAgentSeller")
                     dataSaveAndUpdateContractDetail.phone_ContactAgentSeller=contactHeaderAgent.getValue("phone_ContactAgentSeller")
                     dataSaveAndUpdateContractDetail.mobile_ContactAgentSeller=contactHeaderAgent.getValue("mobile_ContactAgentSeller")
@@ -2430,26 +2412,29 @@ var IButton_Contact_Save = isc.IButtonSave.create({
                     dataSaveAndUpdateContractDetail.article10_number59="";
                     dataSaveAndUpdateContractDetail.article10_number60="";
                     dataSaveAndUpdateContractDetail.article10_number61=valuesManagerArticle10.getValue("article10_number61");
-            if(methodUrl=="PUT"){
-                        dataSaveAndUpdateContractDetail.contractNo=contactHeader.getValue("contractNo");
-            }
-            var criteriaContractNoMoOx={_constructor:"AdvancedCriteria",operator:"and",criteria:[{fieldName: "material.descl", operator: "contains", value: "Mol"},{fieldName:"contractNo",operator:"equals",value:contactHeader.getValue("contractNo")}]};
+                    dataSaveAndUpdateContract.contractDetails = dataSaveAndUpdateContractDetail;
+                    dataSaveAndUpdateContract.contractShipments = saveListGrid_ContractItemShipment();
+
+            var criteriaContractNoMoOx={_constructor:"AdvancedCriteria",operator:"and",criteria:[{fieldName: "materialId", operator: "equals", value: 1},
+                                        {fieldName:"contractNo",operator:"equals",value:contactHeader.getValue("contractNo")}]};
             RestDataSource_Contract.fetchData(criteriaContractNoMoOx,function(dsResponse, data, dsRequest) {
             if(data[0]!=undefined){
                 isc.warn("<spring:message code='main.contractsDuplicate'/>");
                }else{
-            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                actionURL: "${contextPath}/api/contract",
-                httpMethod: "POST",
-                data: JSON.stringify(dataSaveAndUpdateContract),
-                callback: function (resp) {
-                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
-                                 saveCotractDetails(dataSaveAndUpdateContractDetail, (JSON.parse(resp.data)).id);
-                    } else
-                        isc.say(RpcResponse_o.data);
-                }
-            }))}
-        })
+                isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+                    actionURL: "${contextPath}/api/contract",
+                    httpMethod: "POST",
+                    data: JSON.stringify(dataSaveAndUpdateContract),
+                    callback: function (resp) {
+                        if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                                     Window_ContactMo.close();
+                                     ListGrid_contractMo.invalidateCache();
+                                     saveValueAllArticlesMoOx((JSON.parse(resp.data)).id);
+                        } else
+                            isc.say(RpcResponse_o.data);
+                    }
+                }))}
+            })
     }});
 
 var contactFormButtonSaveLayout = isc.HStack.create({
@@ -2467,7 +2452,7 @@ var contactFormButtonSaveLayout = isc.HStack.create({
                 icon: "pieces/16/icon_delete.png",
                 orientation: "vertical",
                 click: function () {
-                Window_ContactMo.close();
+                    Window_ContactMo.close();
                 }
                 })
         ]
@@ -2497,67 +2482,22 @@ VLayout_contactMoOxMain=isc.VLayout.create({
 
 }
 /////////////////////////// end function()
-function saveCotractDetails(data, contractID) {
-        data.contract_id = contractID;
-        var allData = data;
-        allData.string_Currency="null";
-        if(methodUrl=="PUT"){
-               // allData.id=contractDetailID;
-        }
-        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-            actionURL: "${contextPath}/api/contractDetail",
-            httpMethod: "POST",
-            data: JSON.stringify(allData),
-            callback: function (resp) {
-                if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
-                    saveValuelotListForADD(contractID);
-                    saveListGrid_ContractItemShipment(contractID);
-                    setTimeout(function(){saveValueAllArticlesMoOx(contractID);},400)
-                    Window_ContactMo.close();
-                    ListGrid_contractMo.invalidateCache();
-                    isc.say("<spring:message code='global.form.request.successful'/>.");
-                } else
-                    isc.say(RpcResponse_o.data);
-            }
-        }))
-    }
 
-function saveListGrid_ContractItemShipment(contractID) {
+function saveListGrid_ContractItemShipment() {
         ListGrid_ContractItemShipment.selectAllRecords();
-        var data_ContractItemShipment = {};
-        var ListGrid_ShipmentItems = [];
-        ListGrid_ContractItemShipment.getSelectedRecords().forEach(function(element) {
-            var dataEditMain=ListGrid_ContractItemShipment.getSelectedRecord(element)
-            dataEditMain.contractId=contractID;
-            //dataEditMain.dischargeId = 11022;
-            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                actionURL: "${contextPath}/api/contractShipment/",
-                httpMethod: "POST",
-                data: JSON.stringify(dataEditMain),
-                callback: function (resp) {
-                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
-                        isc.say("<spring:message code='global.form.request.successful'/>.");
-                    } else
-                        isc.say(RpcResponse_o.data);
-                }
-            }))
-            });
+        var dataEdit = [];
         ListGrid_ContractItemShipment.getAllEditRows().forEach(function (element) {
-            var dataEdit=ListGrid_ContractItemShipment.getEditedRecord(element);
-            dataEdit.contractId=contractID;
-            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                actionURL: "${contextPath}/api/contractShipment/",
-                httpMethod: "POST",
-                data: JSON.stringify(dataEdit),
-                callback: function (resp) {
-                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
-                        isc.say("<spring:message code='global.form.request.successful'/>.");
-                    } else
-                        isc.say(RpcResponse_o.data);
-                }
-            }))
-        })
+            dataEdit.push(ListGrid_ContractItemShipment.getEditedRecord(element));
+            ListGrid_ContractItemShipment.deselectRecord(ListGrid_ContractItemShipment.getRecord(element));
+        });
+        ListGrid_ContractItemShipment.getSelectedRecords().forEach(function (element) {
+            dataEdit.push(JSON.parse(JSON.stringify(element)));
+        });
         ListGrid_ContractItemShipment.deselectAllRecords();
+        if(dataEdit.length>0){
+            dataEdit[dataEdit.length - 1].sendDate = sendDateSetMo;
+            }
+        return dataEdit;
 };
 
 
@@ -2589,16 +2529,16 @@ function saveValuelotListForADD(contractID) {
 
     var dataALLArticleMO = {};
     function saveValueAllArticlesMoOx(contractID) {
-        dataALLArticleMO.Article01 = nvlMo(dynamicFormMoox_fullArticle01.getValue());
-        dataALLArticleMO.Article02 = nvlMo(dynamicForm_fullArticle02MoOx.getValue());
-        dataALLArticleMO.Article03 = nvlMo(dynamicForm_fullArticle03.getValue());
-        dataALLArticleMO.Article04 = nvlMo(dynamicForm_fullArticle04.getValue());
-        dataALLArticleMO.Article05 = nvlMo(dynamicForm_fullArticle05.getValue());
-        dataALLArticleMO.Article06 = nvlMo(dynamicForm_fullArticle06.getValue());
-        dataALLArticleMO.Article07 = nvlMo(valuesManagerfullArticleMo.getValue("fullArticle07"));
-        dataALLArticleMO.Article08 = nvlMo(valuesManagerfullArticleMo.getValue("fullArticle08"));
-        dataALLArticleMO.Article09 = nvlMo(valuesManagerfullArticleMo.getValue("fullArticle09"));
-        dataALLArticleMO.Article10 = nvlMo(valuesManagerfullArticleMo.getValue("fullArticle10"));
+        dataALLArticleMO.Article01 = nvlMo(dynamicFormMoox_fullArticle01ID.getValue());
+        dataALLArticleMO.Article02 = nvlMo(dynamicForm_fullArticle02MoOxID.getValue());
+        dataALLArticleMO.Article03 = nvlMo(dynamicForm_fullArticle03ID.getValue());
+        dataALLArticleMO.Article04 = nvlMo(dynamicForm_fullArticle04ID.getValue());
+        dataALLArticleMO.Article05 = nvlMo(dynamicForm_fullArticle05ID.getValue());
+        dataALLArticleMO.Article06 = nvlMo(dynamicForm_fullArticle06ID.getValue());
+        dataALLArticleMO.Article07 = nvlMo(dynamicForm_fullArticle07ID.getValue());
+        dataALLArticleMO.Article08 = nvlMo(dynamicForm_fullArticle08ID.getValue());
+        dataALLArticleMO.Article09 = nvlMo(dynamicForm_fullArticle09ID.getValue());
+        dataALLArticleMO.Article10 = nvlMo(dynamicForm_fullArticle10ID.getValue());
         dataALLArticleMO.Article11 = "";
         dataALLArticleMO.Article12 = "";
         dataALLArticleMO.contractNo = "MO_OX"+contactHeader.getValue("contractNo");
