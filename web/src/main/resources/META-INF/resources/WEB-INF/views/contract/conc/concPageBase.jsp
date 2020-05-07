@@ -450,13 +450,7 @@
         }))
     }
 
-    function nvlConc(articleIsNotNull) {
-        if (articleIsNotNull == undefined) {
-            return "";
-        } else {
-            return articleIsNotNull;
-        }
-    }
+
 
 
     function clearAdd() {

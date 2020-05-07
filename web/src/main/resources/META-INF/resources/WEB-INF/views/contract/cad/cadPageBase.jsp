@@ -446,10 +446,4 @@ function saveListGrid_ContractCadItemShipment() {
         }))
     }
 
-function nvlCad(articleIsNotNull){
-        if(articleIsNotNull == undefined){
-            return "";
-        }else{
-            return articleIsNotNull;
-        }
-    }
+
