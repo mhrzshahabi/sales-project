@@ -2485,19 +2485,19 @@ VLayout_contactMoOxMain=isc.VLayout.create({
 
 function saveListGrid_ContractItemShipment() {
         ListGrid_ContractItemShipment.selectAllRecords();
-        var dataEdit = [];
+        var dataEditMol = [];
         ListGrid_ContractItemShipment.getAllEditRows().forEach(function (element) {
-            dataEdit.push(ListGrid_ContractItemShipment.getEditedRecord(element));
+            dataEditMol.push(ListGrid_ContractItemShipment.getEditedRecord(element));
+            if(dataEditMol.length>0){
+            dataEditMol[dataEditMol.length - 1].sendDate = (dataEditMol[dataEditMol.length - 1].sendDate.getFullYear() + "/" + ("0" + (dataEditMol[dataEditMol.length - 1].sendDate.getMonth() + 1)).slice(-2) + "/" + ("0" + dataEditMol[dataEditMol.length - 1].sendDate.getDate()).slice(-2));
+            }
             ListGrid_ContractItemShipment.deselectRecord(ListGrid_ContractItemShipment.getRecord(element));
         });
         ListGrid_ContractItemShipment.getSelectedRecords().forEach(function (element) {
-            dataEdit.push(JSON.parse(JSON.stringify(element)));
+            dataEditMol.push(JSON.parse(JSON.stringify(element)));
         });
         ListGrid_ContractItemShipment.deselectAllRecords();
-        if(dataEdit.length>0){
-            dataEdit[dataEdit.length - 1].sendDate = sendDateSetMo;
-            }
-        return dataEdit;
+        return dataEditMol;
 };
 
 

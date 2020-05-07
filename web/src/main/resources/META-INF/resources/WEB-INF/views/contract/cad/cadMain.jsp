@@ -314,18 +314,18 @@ var ListGrid_Cad = isc.ListGrid.create({
                         textMain= JSON.parse(text2.replaceAt(0,'{"').replaceAt(text2.length-1,'}'));
                         setTimeout(function(){
                                 contactCadTabs.selectTab(0);
-                                dynamicFormCad_fullArticle01.setValue(textMain.Article01);
-                                dynamicForm_fullArticle02Cad.setValue(textMain.Article02);
-                                fullArticle3.setValue(textMain.Article03);
-                                fullArticle4.setValue(textMain.Article04);
-                                article5_quality.setValue(textMain.Article05);
-                                fullArticle6.setValue(textMain.Article06);
-                                fullArticle7.setValue(textMain.Article07);
-                                fullArticle8.setValue(textMain.Article08);
-                                fullArticle9.setValue(textMain.Article09);
-                                fullArticle10.setValue(textMain.Article10);
-                                article11_quality.setValue(textMain.Article11);
-                                fullArticle12.setValue(textMain.Article12);
+                                dynamicFormCad_fullArticle01.setValue(nvlCad(textMain.Article01));
+                                dynamicForm_fullArticle02Cad.setValue(nvlCad(textMain.Article02));
+                                fullArticle3.setValue(nvlCad(textMain.Article03));
+                                fullArticle4.setValue(nvlCad(textMain.Article04));
+                                article5_quality.setValue(nvlCad(textMain.Article05));
+                                fullArticle6.setValue(nvlCad(textMain.Article06));
+                                fullArticle7.setValue(nvlCad(textMain.Article07));
+                                fullArticle8.setValue(nvlCad(textMain.Article08));
+                                fullArticle9.setValue(nvlCad(textMain.Article09));
+                                fullArticle10.setValue(nvlCad(textMain.Article10));
+                                article11_quality.setValue(nvlCad(textMain.Article11));
+                                fullArticle12.setValue(nvlCad(textMain.Article12));
                                 ListGrid_ContractItemShipment.fetchData(criteriaContractItemShipment);
                         },300)
                     }else{
@@ -850,5 +850,13 @@ function ListGrid_ContractCad_remove() {
                     }
                 }
             });
+        }
+    }
+
+    function nvlCad(articleIsNotNull){
+        if(articleIsNotNull == undefined){
+            return "";
+        }else{
+            return articleIsNotNull;
         }
     }

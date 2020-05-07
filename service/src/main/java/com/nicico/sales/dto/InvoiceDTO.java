@@ -22,62 +22,25 @@ public class InvoiceDTO {
     private String invoiceDate;
     private String invoiceType;
     private Double net;
-    private Double grass;
+    private Double gross;
     private Double unitPrice;
     private String unitPriceCurrency;
     private Double invoiceValue;
     private String invoiceValueCurrency;
     private Double paidPercent;
     private String paidStatus;
-    private Double Depreciation;
-    private Double otherCost;
     private Double gold;
     private Double silver;
     private Double copper;
     private Double molybdenum;
-    private Double molybdJenumUnitPrice;
+    private Double molybdenumUnitPrice;
     private Double copperUnitPrice;
     private Double silverUnitPrice;
     private Double goldUnitPrice;
-    private Long bolHeaderId;
-    private String priceBase;
-    private Double molybdenumContent;
-    private Double commercialInvoceValue;
-    private Double commercialInvoceValueNet;
-    private Double invoiceValueD;
-    private String rateBase;
-    private Double rate2dollar;
-    private Double invoiceValueUp;
-    private Double copperIns;
-    private Double copperDed;
-    private Double copperCal;
-    private Double silverIns;
-    private Double silverDed;
-    private Double silverOun;
-    private Double silverCal;
-    private Double goldIns;
-    private Double goldDed;
-    private Double goldOun;
-    private Double goldCal;
-    private Double subTotal;
     private Double treatCost;
-    private Double refinaryCostCU;
-    private Double refinaryCostCUPer;
-    private Double refinaryCostCUCal;
-    private Double refinaryCostCUTot;
-    private Double refinaryCostAG;
-    private Double refinaryCostAGPer;
-    private Double refinaryCostAGTot;
-    private Double refinaryCostAU;
-    private Double refinaryCostAUPer;
-    private Double refinaryCostAUTot;
-    private Double subTotalDeduction;
-    private String priceReference;
-    private String priceFunction;
-    private String priceFromDate;
-    private String priceToDate;
-    private Long sellerId;
-    private Long buyerId;
+    private Double refineryCostCU;
+    private Double refineryCostAG;
+    private Double refineryCostAU;
     private String processId;
 
     @Getter
@@ -91,8 +54,6 @@ public class InvoiceDTO {
         private Date lastModifiedDate;
         private String lastModifiedBy;
         private Integer version;
-        private ContactDTO.ContactInfoTuple seller;
-        private ContactDTO.ContactInfoTuple buyer;
     }
 
     @Getter
