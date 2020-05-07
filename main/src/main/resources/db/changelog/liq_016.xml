@@ -79,4 +79,8 @@
     <changeSet author="RMazloom" id="1582016166374-266">
         <createSequence sequenceName="SEQ_INVOICE_ITEM"/>
     </changeSet>
+
+    <changeSet author="RMazloom" id="1582016166374-267">
+        <dropTable tableName="TBL_INVOICE_ITEM"/>
+    </changeSet>
 </databaseChangeLog>
