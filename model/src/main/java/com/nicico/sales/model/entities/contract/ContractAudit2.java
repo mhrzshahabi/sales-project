@@ -1,6 +1,5 @@
 package com.nicico.sales.model.entities.contract;
 
-import com.nicico.sales.model.entities.base.ContractDetail;
 import com.nicico.sales.model.entities.base.Material;
 import com.nicico.sales.model.entities.common.AuditId;
 import com.nicico.sales.model.entities.common.BaseEntity;
@@ -13,7 +12,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
-import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -43,7 +41,7 @@ public class ContractAudit2 extends BaseEntity {
     @Column(name = "D_AFFECT_UP_TO")
     private Date affectUpTo;
 
-    @Column(name = "C_CONTENT")
+    @Column(name = "C_CONTENT", columnDefinition="TEXT")
     private String content;
 
     @Column(name = "C_DESCRIPTION", length = 4000)

@@ -35,9 +35,9 @@ public class ContractDetailType extends BaseEntity {
     @Column(name = "C_TITLE_EN", nullable = false, length = 200, unique = true)
     private String titleEn;
 
-    @OneToMany(mappedBy = "contractDetailType", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "contractDetailType", fetch = FetchType.LAZY)
     private List<ContractDetailTypeParam> contractDetailTypeParams;
 
-    @OneToMany(mappedBy = "contractDetailType", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "contractDetailType", fetch = FetchType.LAZY)
     private List<ContractDetailTypeTemplate> contractDetailTypeTemplates;
 }
