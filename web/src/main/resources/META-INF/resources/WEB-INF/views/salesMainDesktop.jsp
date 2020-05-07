@@ -221,7 +221,7 @@
         }
     });
 
-    isc.TextItem.addProperties({
+    /*isc.TextItem.addProperties({
         format: ",##0",
         selectOnClick: true,
         hintStyle: "noneStyleFormItem",
@@ -234,7 +234,7 @@
 
             item.setHint(NumberUtil.format(item.getValue(), ",0"));
         }
-    });
+    });*/
 
     function redirectLogin() {
         location.href = "<spring:url value='/' />";

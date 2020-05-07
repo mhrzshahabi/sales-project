@@ -430,6 +430,7 @@
     }
 
     function ListGrid_Invoice_refresh() {
+        ListGrid_Invoice.invalidateCache();
         var record = ListGrid_Shipment_InvoiceHeader.getSelectedRecord();
         if (record == null || record.id == null)
             return;
@@ -440,7 +441,7 @@
         };
         ListGrid_Invoice.fetchData(criteria1, function (dsResponse, data, dsRequest) {
             ListGrid_Invoice.setData(data);
-            ListGrid_Invoice.invalidateCache();
+            ListGrid_Invoice.show();
         }, {operationId: "00"});
     }
 
@@ -577,7 +578,6 @@
                     type: 'float',
                     required: true,
                     width: "100%",
-                    keyPressFilter: "[0-9.]",
                     validators: [{
                         type: "isFloat",
                         validateOnChange: true,
@@ -595,7 +595,6 @@
                     type: 'float',
                     required: true,
                     width: "100%",
-                    keyPressFilter: "[0-9.]",
                     validators: [{
                         type: "isFloat",
                         validateOnChange: true,
@@ -613,7 +612,6 @@
                     type: 'float',
                     required: true,
                     width: "100%",
-                    keyPressFilter: "[0-9.]",
                     validators: [{
                         type: "isFloat",
                         validateOnChange: true,
@@ -695,23 +693,11 @@
                     defaultValue: " - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - محتوی - - - - - - - - - - - - - - - - - - - - - - - - -"
                 },
                 {
-                    name: "copperUnitPrice", title: "<spring:message code='invoice.copperUnitPrice'/>",
-                    type: 'float', required: false, width: "204px",
-                    keyPressFilter: "[0-9.]",
-                    validators: [{
-                        type: "isFloat",
-                        validateOnExit: true,
-                        stopOnError: true,
-                        errorMessage: "<spring:message code='global.form.correctType'/>"
-                    }]
-                },
-                {
                     name: "copper",
                     title: "<spring:message code='invoice.copper'/>",
                     type: 'float',
                     required: false,
                     width: "100%",
-                    keyPressFilter: "[0-9.]",
                     validators: [{
                         type: "isFloat",
                         validateOnExit: true,
@@ -720,9 +706,8 @@
                     }]
                 },
                 {
-                    name: "goldUnitPrice", title: "<spring:message code='invoice.goldUnitPrice'/>",
+                    name: "copperUnitPrice", title: "<spring:message code='invoice.copperUnitPrice'/>",
                     type: 'float', required: false, width: "100%",
-                    keyPressFilter: "[0-9.]",
                     validators: [{
                         type: "isFloat",
                         validateOnExit: true,
@@ -736,7 +721,6 @@
                     type: 'float',
                     required: false,
                     width: "100%",
-                    keyPressFilter: "[0-9.]",
                     validators: [{
                         type: "isFloat",
                         validateOnExit: true,
@@ -745,9 +729,8 @@
                     }]
                 },
                 {
-                    name: "silverUnitPrice", title: "<spring:message code='invoice.silverUnitPrice'/>",
+                    name: "goldUnitPrice", title: "<spring:message code='invoice.goldUnitPrice'/>",
                     type: 'float', required: false, width: "100%",
-                    keyPressFilter: "[0-9.]",
                     validators: [{
                         type: "isFloat",
                         validateOnExit: true,
@@ -761,7 +744,6 @@
                     type: 'float',
                     required: false,
                     width: "100%",
-                    keyPressFilter: "[0-9.]",
                     validators: [{
                         type: "isFloat",
                         validateOnExit: true,
@@ -770,9 +752,8 @@
                     }]
                 },
                 {
-                    name: "molybdJenumUnitPrice", title: "<spring:message code='invoice.molybdJenumUnitPrice'/>",
+                    name: "silverUnitPrice", title: "<spring:message code='invoice.silverUnitPrice'/>",
                     type: 'float', required: false, width: "100%",
-                    keyPressFilter: "[0-9.]",
                     validators: [{
                         type: "isFloat",
                         validateOnExit: true,
@@ -786,7 +767,16 @@
                     type: 'float',
                     required: false,
                     width: "100%",
-                    keyPressFilter: "[0-9.]",
+                    validators: [{
+                        type: "isFloat",
+                        validateOnExit: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }]
+                },
+                {
+                    name: "molybdJenumUnitPrice", title: "<spring:message code='invoice.molybdJenumUnitPrice'/>",
+                    type: 'float', required: false, width: "100%",
                     validators: [{
                         type: "isFloat",
                         validateOnExit: true,
