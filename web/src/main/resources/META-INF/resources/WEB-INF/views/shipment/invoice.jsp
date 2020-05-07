@@ -1234,6 +1234,7 @@
     </sec:authorize>
 
     <sec:authorize access="hasAuthority('O_INVOICE')">
+
     var ToolStripButton_Invoice_excel = isc.ToolStripButtonPrint.create({
         title: "<spring:message code='global.form.print.excel'/>",
         icon: "icon/excel.png",
@@ -1241,6 +1242,7 @@
             ToolStripButton_Invoice_Excel_F();
         }
     });
+
     </sec:authorize>
 
     <sec:authorize access="hasAuthority('O_INVOICE')">
