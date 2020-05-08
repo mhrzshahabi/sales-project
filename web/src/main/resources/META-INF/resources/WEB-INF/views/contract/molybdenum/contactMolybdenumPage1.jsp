@@ -8,6 +8,7 @@
     <% DateUtil dateUtil = new DateUtil();%>
  var contractIdEdit;
  var VLayout_contactMoOxMain;
+ var Window_ContactMo;
  var methodUrl="POST";
  var sendDateSetMo;
  var lotList;
@@ -337,7 +338,6 @@ fields:
                             title: "<spring:message code='global.form.new'/>",
                             click: function () {
                                     methodMoHtpp="POST";
-                                    Window_ContactMo.show();
                                     contactHeader.clearValues();
                                     valuesManagerfullArticleMo.setValue("");
                                     contactHeaderAgent.clearValues();
@@ -357,22 +357,6 @@ fields:
                     });
     </sec:authorize>
 
-var Window_ContactMo = isc.Window.create({
-                title: "<spring:message code='salesContractMoButton.title'/>",
-                width: "100%",
-                height: "100%",
-                autoCenter: true,
-                isModal: true,
-                showModalMask: true,
-                align: "center",
-                autoDraw: false,
-                autoScroller:true,
-                closeClick: function () {
-                this.Super("closeClick", arguments);
-                },
-                items: [
-                ]
-                });
 
     <sec:authorize access="hasAuthority('U_CONTRACT')">
     var ToolStripButton_ContactMo_Edit = isc.ToolStripButtonEdit.create({
@@ -398,28 +382,28 @@ var Window_ContactMo = isc.Window.create({
                                         operator: "and",
                                         criteria: [{fieldName: "contractId", operator: "equals", value: record.id}]
                                     };
-                                    var articleMo=record.contractNo+"?Mo";
+                                    var articleMo=record.contractNo+"_?Mo_";
                                     isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                                                 actionURL: "${contextPath}/api/contract/readWord",
                                                 httpMethod: "PUT",
-                                                data: JSON.stringify(articleMo),
+                                                //data: JSON.stringify(articleMo),
+                                                data: (articleMo+record.id),
                                                 callback: function (resp) {
                                                     if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                                                         var textMo = resp.httpResponseText;
                                                         var text2Mo = textMo.replaceAll('","', '","').replaceAll('&?','":"')
                                                         var textMainMo= JSON.parse(text2Mo.replaceAt(0,'{"').replaceAt(text2Mo.length-1,'}'));
                                                         setTimeout(function(){
-                                                               // contactTabs.selectTab(0);
-                                                                dynamicFormMoox_fullArticle01.setValue(textMainMo.Article01);
-                                                                dynamicForm_fullArticle02MoOx.setValue(textMainMo.Article02);
-                                                                dynamicForm_fullArticle03.setValue(textMainMo.Article03);
-                                                                dynamicForm_fullArticle04.setValue(textMainMo.Article04);
-                                                                dynamicForm_fullArticle05.setValue(textMainMo.Article05);
-                                                                dynamicForm_fullArticle06.setValue(textMainMo.Article06);
-                                                                dynamicForm_fullArticle07.setValue(textMainMo.Article07);
-                                                                dynamicForm_fullArticle08.setValue(textMainMo.Article08);
-                                                                dynamicForm_fullArticle09.setValue(textMainMo.Article09);
-                                                                valuesManagerfullArticleMo.setValue("fullArticle10",textMainMo.Article10);
+                                                                dynamicFormMoox_fullArticle01ID.setValue(textMainMo.Article01);
+                                                                dynamicForm_fullArticle02MoOxID.setValue(textMainMo.Article02);
+                                                                dynamicForm_fullArticle03ID.setValue(textMainMo.Article03);
+                                                                dynamicForm_fullArticle04ID.setValue(textMainMo.Article04);
+                                                                dynamicForm_fullArticle05ID.setValue(textMainMo.Article05);
+                                                                dynamicForm_fullArticle06ID.setValue(textMainMo.Article06);
+                                                                dynamicForm_fullArticle07ID.setValue(textMainMo.Article07);
+                                                                dynamicForm_fullArticle08ID.setValue(textMainMo.Article08);
+                                                                dynamicForm_fullArticle09ID.setValue(textMainMo.Article09);
+                                                                dynamicForm_fullArticle10ID.setValue(textMainMo.Article10);
                                                                 ListGrid_ContractItemShipment.fetchData(criteriaContractItemShipment);
                                                                 lotList.fetchData(criterialotList);
                                                         },200)
@@ -706,6 +690,22 @@ function pageMolibdenAll(method){
         }else{
         methodMoHtpp="PUT";
         }
+     Window_ContactMo = isc.Window.create({
+                title: "<spring:message code='salesContractMoButton.title'/>",
+                width: "100%",
+                height: "100%",
+                autoCenter: true,
+                isModal: true,
+                showModalMask: true,
+                align: "center",
+                autoDraw: false,
+                autoScroller:true,
+                closeClick: function () {
+                this.Super("closeClick", arguments);
+                },
+                items: [
+                ]
+                });
     //START PAGE ONE
     factoryLableHedear("LablePage", '<font><b>NATIONAL IRANIAN COPPER INDUSTRIES CO.<b></font>', "100%", "10", 4)
     factoryLable("lableNameContactMo", '<b><font size=4px>Molybdenum Oxide Contract-BAPCO/NICICO</font><b>', "100%", '2%', 2);
