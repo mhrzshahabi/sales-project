@@ -382,6 +382,19 @@ fields:
                                 }
                             })
     </sec:authorize>
+
+  <sec:authorize access="hasAuthority('D_CONTRACT')">
+        var ToolStripButton_ContractMol_Remove = isc.ToolStripButtonRemove.create({
+            align: "left",
+            border: '0px',
+            icon: "[SKIN]/actions/remove.png",
+            title: "<spring:message code='global.form.remove'/>",
+            click: function () {
+                ListGrid_ContractMol_remove();
+            }
+        });
+     </sec:authorize>
+
     <sec:authorize access="hasAuthority('U_CONTRACT')">
     var ToolStripButton_ContactMo_Edit = isc.ToolStripButtonEdit.create({
                             icon: "[SKIN]/actions/edit.png",
@@ -617,6 +630,10 @@ fields:
 
                             <sec:authorize access="hasAuthority('U_CONTRACT')">
                             ToolStripButton_ContactMo_Edit,
+                            </sec:authorize>
+
+                            <sec:authorize access="hasAuthority('U_CONTRACT')">
+                            ToolStripButton_ContractMol_Remove,
                             </sec:authorize>
 
                             <sec:authorize access="hasAuthority('U_CONTRACT')">
@@ -2589,5 +2606,47 @@ function saveValuelotListForADD(contractID) {
             return "";
         }else{
             return articleIsNotNull;
+        }
+    }
+
+    function ListGrid_ContractMol_remove() {
+        var recordMol = ListGrid_contractMo.getSelectedRecord();
+        if (recordMol == null || recordMol.id == null) {
+            isc.Dialog.create({
+                message: "<spring:message code='global.grid.record.not.selected'/>",
+                icon: "[SKIN]ask.png",
+                title: "<spring:message code='global.message'/>",
+                buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
+                buttonClick: function () {
+                    this.hide();
+                }
+            });
+        } else {
+            isc.Dialog.create({
+                message: "<spring:message code='global.grid.record.remove.ask'/>",
+                icon: "[SKIN]ask.png",
+                title: "<spring:message code='global.grid.record.remove.ask.title'/>",
+                buttons: [
+                    isc.Button.create({title: "<spring:message code='global.yes'/>"}),
+                    isc.Button.create({title: "<spring:message code='global.no'/>"})
+                ],
+                buttonClick: function (button, index) {
+                    this.hide();
+                    if (index == 0) {
+                        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+                            actionURL: "${contextPath}/api/contract/" + recordMol.id,
+                            httpMethod: "DELETE",
+                            callback: function (resp) {
+                                if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                                    isc.say("<spring:message code='global.grid.record.remove.success'/>");
+                                    ListGrid_contractMo.invalidateCache();
+                                } else {
+                                    isc.say("<spring:message code='global.grid.record.remove.failed'/>");
+                                }
+                            }
+                        }))
+                    }
+                }
+            });
         }
     }
