@@ -313,12 +313,15 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
                             sortDirection: "ascending",
                             autoSaveEdits: true,
                             canRemoveRecords: true
-                        }, [Object.assign({
+                        }, BaseFormItems.concat([Object.assign({
                             width: "100%",
                             name: "value",
                             required: true,
                             title: "<spring:message code='contract-detail-type.form.valid-value'/>"
-                        }, valuesEditorProperties)]);
+                        }, valuesEditorProperties), {
+                            hidden: true,
+                            name: "contractDetailTypeParamId"
+                        }]));
                         listGrid.setData(record[contractDetailTypeTab.dynamicForm.paramFields.contractDetailTypeParamValues.name]);
                         contractDetailTypeTab.window.formUtil.showForm(
                             contractDetailTypeTab.window.detailType,
