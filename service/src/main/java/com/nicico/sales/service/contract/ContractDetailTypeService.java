@@ -6,7 +6,9 @@ import com.nicico.sales.dto.contract.ContractDetailTypeParamDTO;
 import com.nicico.sales.dto.contract.ContractDetailTypeParamValueDTO;
 import com.nicico.sales.dto.contract.ContractDetailTypeTemplateDTO;
 import com.nicico.sales.enumeration.ActionType;
+import com.nicico.sales.enumeration.ErrorType;
 import com.nicico.sales.exception.NotFoundException;
+import com.nicico.sales.exception.SalesException2;
 import com.nicico.sales.iservice.contract.IContractDetailTypeParamService;
 import com.nicico.sales.iservice.contract.IContractDetailTypeParamValueService;
 import com.nicico.sales.iservice.contract.IContractDetailTypeService;
@@ -18,13 +20,16 @@ import com.nicico.sales.model.entities.contract.ContractDetailTypeTemplate;
 import com.nicico.sales.service.GenericService;
 import com.nicico.sales.utility.UpdateUtil;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import org.modelmapper.TypeToken;
+import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,6 +37,7 @@ import java.util.stream.Collectors;
 public class ContractDetailTypeService extends GenericService<ContractDetailType, Long, ContractDetailTypeDTO.Create, ContractDetailTypeDTO.Info, ContractDetailTypeDTO.Update, ContractDetailTypeDTO.Delete> implements IContractDetailTypeService {
 
     private final UpdateUtil updateUtil;
+    private final ResourceBundleMessageSource messageSource;
     private final IContractDetailTypeParamService contractDetailTypeParamService;
     private final IContractDetailTypeTemplateService contractDetailTypeTemplateService;
     private final IContractDetailTypeParamValueService contractDetailTypeParamValueService;
@@ -85,114 +91,27 @@ public class ContractDetailTypeService extends GenericService<ContractDetailType
     }
 
     @Override
-    @SneakyThrows
     @Transactional
     @Action(value = ActionType.Update)
     public ContractDetailTypeDTO.Info update(Long id, ContractDetailTypeDTO.Update request) {
 
-        //        request.getContractDetailTypeTemplates().forEach(q -> {
-        //            if (q.getId() == null) {
-        //                contractDetailTypeTemplates4Insert.add(modelMapper.map(q, ContractDetailTypeTemplateDTO.Create.class));
-        //            }
-        //            else contractDetailTypeTemplates4Update.add(modelMapper.map(q, ContractDetailTypeTemplateDTO.Update.class));
-        //        });
-        //        List<ContractDetailTypeTemplate> savedContractDetailTypeTemplates = contractDetailType.getContractDetailTypeTemplates();
-        //        contractDetailTypeTemplates4Delete.setIds(savedContractDetailTypeTemplates.stream().
-        //                map(ContractDetailTypeTemplate::getId).
-        //                filter(q ->
-        //                        request.getContractDetailTypeTemplates().stream().
-        //                        noneMatch(p -> p.getId().longValue() == q)).
-        //                collect(Collectors.toList()));
-
         ContractDetailType contractDetailType = repository.findById(id).orElseThrow(() -> new NotFoundException(ContractDetailType.class));
-        List<ContractDetailTypeTemplateDTO.Create> contractDetailTypeTemplates4Insert = new ArrayList<>();
-        List<ContractDetailTypeTemplateDTO.Update> contractDetailTypeTemplates4Update = new ArrayList<>();
-        ContractDetailTypeTemplateDTO.Delete contractDetailTypeTemplates4Delete = new ContractDetailTypeTemplateDTO.Delete();
-        updateUtil.fill(
-                contractDetailType.getContractDetailTypeTemplates(),
-                request.getContractDetailTypeTemplates(),
-                contractDetailTypeTemplates4Insert,
-                contractDetailTypeTemplates4Update,
-                contractDetailTypeTemplates4Delete);
-        if (!contractDetailTypeTemplates4Insert.isEmpty())
-            contractDetailTypeTemplateService.createAll(contractDetailTypeTemplates4Insert);
-        if (!contractDetailTypeTemplates4Update.isEmpty())
-            contractDetailTypeTemplateService.updateAll(contractDetailTypeTemplates4Update);
-        if (!contractDetailTypeTemplates4Delete.getIds().isEmpty())
-            contractDetailTypeTemplateService.deleteAll(contractDetailTypeTemplates4Delete);
 
-        List<ContractDetailTypeParamDTO.Create> contractDetailTypeParams4Insert = new ArrayList<>();
-        List<ContractDetailTypeParamDTO.Update> contractDetailTypeParams4Update = new ArrayList<>();
-        ContractDetailTypeParamDTO.Delete contractDetailTypeParams4Delete = new ContractDetailTypeParamDTO.Delete();
-        updateUtil.fill(
-                contractDetailType.getContractDetailTypeParams(),
-                request.getContractDetailTypeParams(),
-                contractDetailTypeParams4Insert,
-                contractDetailTypeParams4Update,
-                contractDetailTypeParams4Delete);
-        if (!contractDetailTypeParams4Insert.isEmpty()) {
+        try {
 
-            contractDetailTypeParams4Insert.forEach(q -> {
+            updateTemplates(request, contractDetailType);
+            updateParamsAndValues(request, contractDetailType);
+        } catch (IllegalAccessException | InvocationTargetException e) {
 
-                ContractDetailTypeParamDTO.Info savedContractDetailTypeParam = contractDetailTypeParamService.create(q);
-                List<ContractDetailTypeParamValueDTO.Info> contractDetailTypeParamValues = q.getContractDetailTypeParamValues();
-                if (contractDetailTypeParamValues != null && contractDetailTypeParamValues.size() > 0) {
-
-                    contractDetailTypeParamValues.forEach(p -> p.setContractDetailTypeParamId(savedContractDetailTypeParam.getId()));
-                    contractDetailTypeParamValueService.createAll(modelMapper.map(
-                            contractDetailTypeParamValues,
-                            new TypeToken<List<ContractDetailTypeParamValueDTO.Create>>() {
-                            }.getType()));
-                }
-            });
-        }
-        if (!contractDetailTypeParams4Update.isEmpty()) {
-
-            contractDetailTypeParams4Update.forEach(q -> {
-
-                contractDetailTypeParamService.update(q);
-
-                List<ContractDetailTypeParamValueDTO.Create> contractDetailTypeParamValues4Insert = new ArrayList<>();
-                List<ContractDetailTypeParamValueDTO.Update> contractDetailTypeParamValues4Update = new ArrayList<>();
-                ContractDetailTypeParamValueDTO.Delete contractDetailTypeParamValues4Delete = new ContractDetailTypeParamValueDTO.Delete();
-                updateUtil.fill(
-                        contractDetailType.getContractDetailTypeParams().
-                                stream().
-                                filter(p -> p.getId().longValue() == q.getId()).
-                                findFirst().get().getContractDetailTypeParamValues(),
-                        request.getContractDetailTypeParams().
-                                stream().
-                                filter(p -> p.getId().longValue() == q.getId()).
-                                findFirst().get().getContractDetailTypeParamValues(),
-                        contractDetailTypeParamValues4Insert,
-                        contractDetailTypeParamValues4Update,
-                        contractDetailTypeParamValues4Delete);
-                if (!contractDetailTypeParamValues4Insert.isEmpty())
-                    contractDetailTypeParamValueService.createAll(contractDetailTypeParamValues4Insert);
-                if (!contractDetailTypeParamValues4Update.isEmpty())
-                    contractDetailTypeParamValueService.updateAll(contractDetailTypeParamValues4Update);
-                if (!contractDetailTypeParamValues4Delete.getIds().isEmpty())
-                    contractDetailTypeParamValueService.deleteAll(contractDetailTypeParamValues4Delete);
-            });
-        }
-        if (!contractDetailTypeParams4Delete.getIds().isEmpty()) {
-
-            ContractDetailTypeParamValueDTO.Delete contractDetailTypeParamValues4Delete = new ContractDetailTypeParamValueDTO.Delete();
-            contractDetailTypeParamValues4Delete.setIds(contractDetailType.getContractDetailTypeParams().
-                    stream().
-                    filter(q -> contractDetailTypeParams4Delete.getIds().stream().anyMatch(p -> p.longValue() == q.getId())).
-                    flatMap(q -> q.getContractDetailTypeParamValues().stream()).
-                    map(ContractDetailTypeParamValue::getId).
-                    collect(Collectors.toList()));
-
-            contractDetailTypeParamValueService.deleteAll(contractDetailTypeParamValues4Delete);
-            contractDetailTypeParamService.deleteAll(contractDetailTypeParams4Delete);
+            Locale locale = LocaleContextHolder.getLocale();
+            throw new SalesException2(ErrorType.Unknown, "", messageSource.getMessage("contract-detail-type.exception.update", null, locale));
         }
 
         ContractDetailType updating = new ContractDetailType();
         modelMapper.map(contractDetailType, updating);
         modelMapper.map(request, updating);
         validation(updating, request);
+
         return save(updating);
     }
 
@@ -221,5 +140,95 @@ public class ContractDetailTypeService extends GenericService<ContractDetailType
 
         validation(contractDetailType, id);
         repository.delete(contractDetailType);
+    }
+
+    private void updateTemplates(ContractDetailTypeDTO.Update request, ContractDetailType contractDetailType) throws InvocationTargetException, IllegalAccessException {
+
+        List<ContractDetailTypeTemplateDTO.Create> contractDetailTypeTemplates4Insert = new ArrayList<>();
+        List<ContractDetailTypeTemplateDTO.Update> contractDetailTypeTemplates4Update = new ArrayList<>();
+        ContractDetailTypeTemplateDTO.Delete contractDetailTypeTemplates4Delete = new ContractDetailTypeTemplateDTO.Delete();
+        updateUtil.fill(
+                contractDetailType.getContractDetailTypeTemplates(),
+                request.getContractDetailTypeTemplates(),
+                contractDetailTypeTemplates4Insert,
+                contractDetailTypeTemplates4Update,
+                contractDetailTypeTemplates4Delete);
+        if (!contractDetailTypeTemplates4Insert.isEmpty())
+            contractDetailTypeTemplateService.createAll(contractDetailTypeTemplates4Insert);
+        if (!contractDetailTypeTemplates4Update.isEmpty())
+            contractDetailTypeTemplateService.updateAll(contractDetailTypeTemplates4Update);
+        if (!contractDetailTypeTemplates4Delete.getIds().isEmpty())
+            contractDetailTypeTemplateService.deleteAll(contractDetailTypeTemplates4Delete);
+    }
+
+    private void updateParamsAndValues(ContractDetailTypeDTO.Update request, ContractDetailType contractDetailType) throws InvocationTargetException, IllegalAccessException {
+
+        List<ContractDetailTypeParamDTO.Create> contractDetailTypeParams4Insert = new ArrayList<>();
+        List<ContractDetailTypeParamDTO.Update> contractDetailTypeParams4Update = new ArrayList<>();
+        ContractDetailTypeParamDTO.Delete contractDetailTypeParams4Delete = new ContractDetailTypeParamDTO.Delete();
+        updateUtil.fill(
+                contractDetailType.getContractDetailTypeParams(),
+                request.getContractDetailTypeParams(),
+                contractDetailTypeParams4Insert,
+                contractDetailTypeParams4Update,
+                contractDetailTypeParams4Delete);
+        if (!contractDetailTypeParams4Insert.isEmpty()) {
+
+            contractDetailTypeParams4Insert.forEach(q -> {
+
+                ContractDetailTypeParamDTO.Info savedContractDetailTypeParam = contractDetailTypeParamService.create(q);
+                List<ContractDetailTypeParamValueDTO.Info> contractDetailTypeParamValues = q.getContractDetailTypeParamValues();
+                if (contractDetailTypeParamValues != null && contractDetailTypeParamValues.size() > 0) {
+
+                    contractDetailTypeParamValues.forEach(p -> p.setContractDetailTypeParamId(savedContractDetailTypeParam.getId()));
+                    contractDetailTypeParamValueService.createAll(modelMapper.map(
+                            contractDetailTypeParamValues,
+                            new TypeToken<List<ContractDetailTypeParamValueDTO.Create>>() {
+                            }.getType()));
+                }
+            });
+        }
+        if (!contractDetailTypeParams4Update.isEmpty()) {
+
+            for (ContractDetailTypeParamDTO.Update q : contractDetailTypeParams4Update) {
+
+                contractDetailTypeParamService.update(q);
+
+                List<ContractDetailTypeParamValueDTO.Create> contractDetailTypeParamValues4Insert = new ArrayList<>();
+                List<ContractDetailTypeParamValueDTO.Update> contractDetailTypeParamValues4Update = new ArrayList<>();
+                ContractDetailTypeParamValueDTO.Delete contractDetailTypeParamValues4Delete = new ContractDetailTypeParamValueDTO.Delete();
+                updateUtil.fill(
+                        contractDetailType.getContractDetailTypeParams().
+                                stream().
+                                filter(p -> p.getId().longValue() == q.getId()).
+                                findFirst().get().getContractDetailTypeParamValues(),
+                        request.getContractDetailTypeParams().
+                                stream().
+                                filter(p -> p.getId().longValue() == q.getId()).
+                                findFirst().get().getContractDetailTypeParamValues(),
+                        contractDetailTypeParamValues4Insert,
+                        contractDetailTypeParamValues4Update,
+                        contractDetailTypeParamValues4Delete);
+                if (!contractDetailTypeParamValues4Insert.isEmpty())
+                    contractDetailTypeParamValueService.createAll(contractDetailTypeParamValues4Insert);
+                if (!contractDetailTypeParamValues4Update.isEmpty())
+                    contractDetailTypeParamValueService.updateAll(contractDetailTypeParamValues4Update);
+                if (!contractDetailTypeParamValues4Delete.getIds().isEmpty())
+                    contractDetailTypeParamValueService.deleteAll(contractDetailTypeParamValues4Delete);
+            }
+        }
+        if (!contractDetailTypeParams4Delete.getIds().isEmpty()) {
+
+            ContractDetailTypeParamValueDTO.Delete contractDetailTypeParamValues4Delete = new ContractDetailTypeParamValueDTO.Delete();
+            contractDetailTypeParamValues4Delete.setIds(contractDetailType.getContractDetailTypeParams().
+                    stream().
+                    filter(q -> contractDetailTypeParams4Delete.getIds().stream().anyMatch(p -> p.longValue() == q.getId())).
+                    flatMap(q -> q.getContractDetailTypeParamValues().stream()).
+                    map(ContractDetailTypeParamValue::getId).
+                    collect(Collectors.toList()));
+
+            contractDetailTypeParamValueService.deleteAll(contractDetailTypeParamValues4Delete);
+            contractDetailTypeParamService.deleteAll(contractDetailTypeParams4Delete);
+        }
     }
 }

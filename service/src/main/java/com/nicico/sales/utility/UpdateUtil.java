@@ -29,19 +29,13 @@ public class UpdateUtil {
         Class<C> _4InsertType = (Class<C>) ((ParameterizedType) _4Insert.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
         Class<U> _4UpdateType = (Class<U>) ((ParameterizedType) _4Update.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
 
-        request.forEach(q -> {
-            try {
-                if (getIdMethod(q.getClass(), new String[]{"getId", "getCode"}).invoke(q) == null)
-                    _4Insert.add(modelMapper.map(q, _4InsertType));
-                else
-                    _4Update.add(modelMapper.map(q, _4UpdateType));
-            } catch (IllegalAccessException | InvocationTargetException e) {
+        for (R r : request) {
 
-                log.error("Exception", e);
-                e.printStackTrace();
-                throw new SalesException2(ErrorType.Unknown, "id", "شناسه موجودیت یافت نشد.");
-            }
-        });
+            if (getIdMethod(r.getClass(), new String[]{"getId", "getCode"}).invoke(r) == null)
+                _4Insert.add(modelMapper.map(r, _4InsertType));
+            else
+                _4Update.add(modelMapper.map(r, _4UpdateType));
+        }
 
         @NotNull Method savedIdMethod = getIdMethod(savedType, new String[]{"getId", "getCode"});
         @NotNull Method requestIdMethod = getIdMethod(requestType, new String[]{"getId", "getCode"});
