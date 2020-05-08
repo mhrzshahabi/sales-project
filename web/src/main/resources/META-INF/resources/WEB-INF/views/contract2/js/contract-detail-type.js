@@ -59,18 +59,18 @@ contractDetailTypeTab.restDataSource.unit = isc.MyRestDataSource.create({
     fetchDataURL: contractDetailTypeTab.variable.unitUrl + "spec-list"
 });
 contractDetailTypeTab.dynamicForm.paramFields = {};
-contractDetailTypeTab.dynamicForm.paramFields.name = {
-    width: "50%",
-    name: "name",
-    required: true,
-    title: "<spring:message code='global.title'/>"
-};
 contractDetailTypeTab.dynamicForm.paramFields.key = {
     name: "key",
     width: "50%",
     required: true,
     keyPressFilter: "^[A-Za-z|0-9]",
     title: "<spring:message code='global.key'/>"
+};
+contractDetailTypeTab.dynamicForm.paramFields.name = {
+    width: "50%",
+    name: "name",
+    required: true,
+    title: "<spring:message code='global.title'/>"
 };
 contractDetailTypeTab.dynamicForm.paramFields.type = {
     width: "50%",
@@ -171,6 +171,7 @@ contractDetailTypeTab.menu.detailType = isc.Menu.create({
                 contractDetailTypeTab.method.refreshData();
             }
         },
+        // <sec:authorize access="hasAuthority('C_CONTRACT_DETAIL_TYPE')">
         {
             icon: "pieces/16/icon_add.png",
             title: '<spring:message code="global.form.new" />',
@@ -178,6 +179,8 @@ contractDetailTypeTab.menu.detailType = isc.Menu.create({
                 contractDetailTypeTab.method.addData();
             }
         },
+        // </sec:authorize>
+        // <sec:authorize access="hasAuthority('U_CONTRACT_DETAIL_TYPE')">
         {
             icon: "pieces/16/icon_edit.png",
             title: '<spring:message code="global.form.edit" />',
@@ -185,6 +188,8 @@ contractDetailTypeTab.menu.detailType = isc.Menu.create({
                 contractDetailTypeTab.method.editData();
             }
         },
+        // </sec:authorize>
+        // <sec:authorize access="hasAuthority('D_CONTRACT_DETAIL_TYPE')">
         {
             icon: "pieces/16/icon_delete.png",
             title: '<spring:message code="global.form.remove" />',
@@ -192,6 +197,7 @@ contractDetailTypeTab.menu.detailType = isc.Menu.create({
                 contractDetailTypeTab.method.deleteRecord();
             }
         }
+        // </sec:authorize>
     ]
 });
 contractDetailTypeTab.listGrid.detailType = isc.ListGrid.create({
@@ -227,20 +233,25 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
         contractDetailTypeTab.dynamicForm.paramFields.defaultValue,
         contractDetailTypeTab.dynamicForm.paramFields.contractDetailTypeParamValues
     ]),
+    // <sec:authorize access="hasAuthority('U_CONTRACT_DETAIL_TYPE_PARAM')">
     canEdit: true,
     editEvent: "doubleClick",
     autoSaveEdits: false,
-    canRemoveRecords: true,
     virtualScrolling: false,
     showRecordComponents: true,
     showRecordComponentsByCell: true,
     recordComponentPoolingMode: "recycle",
     listEndEditAction: "next",
+    // </sec:authorize>
+    // <sec:authorize access="hasAuthority('D_CONTRACT_DETAIL_TYPE_PARAM')">
+    canRemoveRecords: true,
+    // </sec:authorize>
     gridComponents: ["header", "body", isc.ToolStrip.create({
 
         width: "100%",
         height: 24,
         members: [
+            // <sec:authorize access="hasAuthority('C_CONTRACT_DETAIL_TYPE_PARAM')">
             isc.ToolStripButton.create({
 
                 icon: "pieces/16/icon_add.png",
@@ -249,6 +260,8 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
                     contractDetailTypeTab.listGrid.param.startEditingNew();
                 }
             }),
+            // </sec:authorize>
+            // <sec:authorize access="hasAnyAuthority('C_CONTRACT_DETAIL_TYPE_PARAM_VALUE', 'U_CONTRACT_DETAIL_TYPE_PARAM_VALUE', 'D_CONTRACT_DETAIL_TYPE_PARAM_VALUE')">
             isc.ToolStripButton.create({
 
                 // icon: "pieces/16/icon_add.png",
@@ -311,8 +324,19 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
                             alternateRecordStyles: true,
                             selectionType: "single",
                             sortDirection: "ascending",
-                            autoSaveEdits: true,
+                            // <sec:authorize access="hasAuthority('U_CONTRACT_DETAIL_TYPE_PARAM_VALUE')">
+                            canEdit: true,
+                            editEvent: "doubleClick",
+                            autoSaveEdits: false,
+                            virtualScrolling: false,
+                            showRecordComponents: true,
+                            showRecordComponentsByCell: true,
+                            recordComponentPoolingMode: "recycle",
+                            listEndEditAction: "next",
+                            // </sec:authorize>
+                            // <sec:authorize access="hasAuthority('D_CONTRACT_DETAIL_TYPE_PARAM_VALUE')">
                             canRemoveRecords: true
+                            // </sec:authorize>
                         }, BaseFormItems.concat([Object.assign({
                             width: "100%",
                             name: "value",
@@ -320,6 +344,7 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
                             title: "<spring:message code='contract-detail-type.form.valid-value'/>"
                         }, valuesEditorProperties), {
                             hidden: true,
+                            canEdit: false,
                             name: "contractDetailTypeParamId"
                         }]));
                         listGrid.setData(record[contractDetailTypeTab.dynamicForm.paramFields.contractDetailTypeParamValues.name]);
@@ -334,6 +359,7 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
                                     height: 24,
                                     width: "100%",
                                     members: [
+                                        // <sec:authorize access="hasAuthority('C_CONTRACT_DETAIL_TYPE_PARAM_VALUE')">
                                         isc.ToolStripButton.create({
 
                                             icon: "pieces/16/icon_add.png",
@@ -352,12 +378,15 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
                                                 listGrid.redraw();
                                             }
                                         })
+                                        // </sec:authorize>
                                     ]
                                 }), listGrid]
                             }), '500');
                     }
                 }
             }),
+            // </sec:authorize>
+            // <sec:authorize access="hasAnyAuthority('C_CONTRACT_DETAIL_TYPE_PARAM', 'U_CONTRACT_DETAIL_TYPE_PARAM')">
             isc.ToolStripButton.create({
 
                 // icon: "pieces/16/icon_add.png",
@@ -422,6 +451,8 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
                     }
                 }
             }),
+            // </sec:authorize>
+            // <sec:authorize access="hasAnyAuthority('C_CONTRACT_DETAIL_TYPE_PARAM', 'U_CONTRACT_DETAIL_TYPE_PARAM', 'D_CONTRACT_DETAIL_TYPE_PARAM')">
             isc.ToolStrip.create({
 
                 width: "100%",
@@ -439,6 +470,7 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
                         }
                     })]
             })
+            // </sec:authorize>
         ]
     })],
     cellChanged: function (record, newValue, oldValue, rowNum, colNum, grid) {
@@ -518,20 +550,25 @@ contractDetailTypeTab.listGrid.template = isc.ListGrid.create({
         contractDetailTypeTab.dynamicForm.templateFields.code,
         contractDetailTypeTab.dynamicForm.templateFields.content
     ]),
+    // <sec:authorize access="hasAuthority('U_CONTRACT_DETAIL_TYPE_TEMPLATE')">
     canEdit: true,
     editEvent: "doubleClick",
     autoSaveEdits: false,
-    canRemoveRecords: true,
+    listEndEditAction: "next",
     virtualScrolling: false,
     showRecordComponents: true,
     showRecordComponentsByCell: true,
     recordComponentPoolingMode: "recycle",
-    listEndEditAction: "next",
+    // </sec:authorize>
+    // <sec:authorize access="hasAuthority('D_CONTRACT_DETAIL_TYPE_TEMPLATE')">
+    canRemoveRecords: true,
+    // </sec:authorize>
     gridComponents: ["header", "body", isc.ToolStrip.create({
 
         width: "100%",
         height: 24,
         members: [
+            // <sec:authorize access="hasAuthority('C_CONTRACT_DETAIL_TYPE_TEMPLATE')">
             isc.ToolStripButton.create({
 
                 icon: "pieces/16/icon_add.png",
@@ -551,6 +588,8 @@ contractDetailTypeTab.listGrid.template = isc.ListGrid.create({
                     contractDetailTypeTab.listGrid.template.startEditingNew();
                 }
             }),
+            // </sec:authorize>
+            // <sec:authorize access="hasAnyAuthority('C_CONTRACT_DETAIL_TYPE_TEMPLATE', 'U_CONTRACT_DETAIL_TYPE_TEMPLATE', 'D_CONTRACT_DETAIL_TYPE_TEMPLATE')">
             isc.ToolStrip.create({
 
                 width: "100%",
@@ -568,6 +607,7 @@ contractDetailTypeTab.listGrid.template = isc.ListGrid.create({
                         }
                     })]
             })
+            // </sec:authorize>
         ]
     })],
     getDefaultHTMLValue: function (params) {
@@ -837,25 +877,20 @@ contractDetailTypeTab.method.deleteRecord = function () {
 
 //*************************************************** layout ***********************************************************
 
+contractDetailTypeTab.toolStrip.actions = isc.ToolStrip.create({
+    width: "100%",
+    members: []
+});
+// <sec:authorize access="hasAuthority('C_CONTRACT_DETAIL_TYPE')">
 contractDetailTypeTab.toolStrip.add = isc.ToolStripButtonAdd.create({
     title: "<spring:message code='global.form.new'/>",
     click: function () {
         contractDetailTypeTab.method.addData();
     }
 });
-contractDetailTypeTab.toolStrip.refresh = isc.ToolStripButtonRefresh.create({
-    title: "<spring:message code='global.form.refresh'/>",
-    click: function () {
-        contractDetailTypeTab.method.refreshData();
-    }
-});
-contractDetailTypeTab.toolStrip.remove = isc.ToolStripButtonRemove.create({
-    icon: "[SKIN]/actions/remove.png",
-    title: '<spring:message code="global.form.remove" />',
-    click: function () {
-        contractDetailTypeTab.method.deleteRecord();
-    }
-});
+contractDetailTypeTab.toolStrip.actions.addMember(contractDetailTypeTab.toolStrip.add);
+// </sec:authorize>
+// <sec:authorize access="hasAuthority('U_CONTRACT_DETAIL_TYPE')">
 contractDetailTypeTab.toolStrip.edit = isc.ToolStripButtonEdit.create({
     icon: "[SKIN]/actions/edit.png",
     title: "<spring:message code='global.form.edit'/>",
@@ -863,22 +898,30 @@ contractDetailTypeTab.toolStrip.edit = isc.ToolStripButtonEdit.create({
         contractDetailTypeTab.method.editData();
     }
 });
-contractDetailTypeTab.toolStrip.actions = isc.ToolStrip.create({
-    width: "100%",
-    members: [
-        contractDetailTypeTab.toolStrip.add,
-        contractDetailTypeTab.toolStrip.edit,
-        contractDetailTypeTab.toolStrip.remove,
-        isc.ToolStrip.create({
-            width: "100%",
-            align: "left",
-            border: '0px',
-            members: [
-                contractDetailTypeTab.toolStrip.refresh,
-            ]
-        })
-    ]
+contractDetailTypeTab.toolStrip.actions.addMember(contractDetailTypeTab.toolStrip.edit);
+// </sec:authorize>
+// <sec:authorize access="hasAuthority('D_CONTRACT_DETAIL_TYPE')">
+contractDetailTypeTab.toolStrip.remove = isc.ToolStripButtonRemove.create({
+    icon: "[SKIN]/actions/remove.png",
+    title: '<spring:message code="global.form.remove" />',
+    click: function () {
+        contractDetailTypeTab.method.deleteRecord();
+    }
 });
+contractDetailTypeTab.toolStrip.actions.addMember(contractDetailTypeTab.toolStrip.remove);
+// </sec:authorize>
+contractDetailTypeTab.toolStrip.refresh = isc.ToolStripButtonRefresh.create({
+    title: "<spring:message code='global.form.refresh'/>",
+    click: function () {
+        contractDetailTypeTab.method.refreshData();
+    }
+});
+contractDetailTypeTab.toolStrip.actions.addMember(isc.ToolStrip.create({
+    width: "100%",
+    align: "left",
+    border: '0px',
+    members: [contractDetailTypeTab.toolStrip.refresh]
+}));
 contractDetailTypeTab.vLayout.body = isc.VLayout.create({
 
     width: "100%",
