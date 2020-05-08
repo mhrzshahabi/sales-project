@@ -101,7 +101,7 @@ public class ContractDetailTypeService extends GenericService<ContractDetailType
 
             updateTemplates(request, contractDetailType);
             updateParamsAndValues(request, contractDetailType);
-        } catch (IllegalAccessException | InvocationTargetException e) {
+        } catch (IllegalAccessException | InvocationTargetException | NoSuchFieldException e) {
 
             Locale locale = LocaleContextHolder.getLocale();
             throw new SalesException2(ErrorType.Unknown, "", messageSource.getMessage("contract-detail-type.exception.update", null, locale));
@@ -123,34 +123,42 @@ public class ContractDetailTypeService extends GenericService<ContractDetailType
         ContractDetailType contractDetailType = repository.findById(id).orElseThrow(() -> new NotFoundException(ContractDetailType.class));
 
         ContractDetailTypeParamValueDTO.Delete paramValueDeleteRq = new ContractDetailTypeParamValueDTO.Delete();
+        paramValueDeleteRq.setIds(new ArrayList<>());
         List<ContractDetailTypeParam> contractDetailTypeParams = contractDetailType.getContractDetailTypeParams();
         for (ContractDetailTypeParam q : contractDetailTypeParams)
             paramValueDeleteRq.getIds().addAll(q.getContractDetailTypeParamValues().stream().map(ContractDetailTypeParamValue::getId).collect(Collectors.toList()));
 
-        contractDetailTypeParamValueService.deleteAll(paramValueDeleteRq);
+        if (!paramValueDeleteRq.getIds().isEmpty())
+            contractDetailTypeParamValueService.deleteAll(paramValueDeleteRq);
 
         ContractDetailTypeParamDTO.Delete paramDeleteRq = new ContractDetailTypeParamDTO.Delete();
         paramDeleteRq.setIds(contractDetailTypeParams.stream().map(ContractDetailTypeParam::getId).collect(Collectors.toList()));
-        contractDetailTypeParamService.deleteAll(paramDeleteRq);
+        if (!paramDeleteRq.getIds().isEmpty())
+            contractDetailTypeParamService.deleteAll(paramDeleteRq);
 
         ContractDetailTypeTemplateDTO.Delete templateDeleteRq = new ContractDetailTypeTemplateDTO.Delete();
         List<ContractDetailTypeTemplate> contractDetailTypeTemplates = contractDetailType.getContractDetailTypeTemplates();
         templateDeleteRq.setIds(contractDetailTypeTemplates.stream().map(ContractDetailTypeTemplate::getId).collect(Collectors.toList()));
-        contractDetailTypeTemplateService.deleteAll(templateDeleteRq);
+        if (!templateDeleteRq.getIds().isEmpty())
+            contractDetailTypeTemplateService.deleteAll(templateDeleteRq);
 
         validation(contractDetailType, id);
         repository.delete(contractDetailType);
     }
 
-    private void updateTemplates(ContractDetailTypeDTO.Update request, ContractDetailType contractDetailType) throws InvocationTargetException, IllegalAccessException {
+    private void updateTemplates(ContractDetailTypeDTO.Update request, ContractDetailType contractDetailType) throws InvocationTargetException, IllegalAccessException, NoSuchFieldException {
 
         List<ContractDetailTypeTemplateDTO.Create> contractDetailTypeTemplates4Insert = new ArrayList<>();
         List<ContractDetailTypeTemplateDTO.Update> contractDetailTypeTemplates4Update = new ArrayList<>();
         ContractDetailTypeTemplateDTO.Delete contractDetailTypeTemplates4Delete = new ContractDetailTypeTemplateDTO.Delete();
         updateUtil.fill(
+                ContractDetailTypeTemplate.class,
                 contractDetailType.getContractDetailTypeTemplates(),
+                ContractDetailTypeTemplateDTO.Info.class,
                 request.getContractDetailTypeTemplates(),
+                ContractDetailTypeTemplateDTO.Create.class,
                 contractDetailTypeTemplates4Insert,
+                ContractDetailTypeTemplateDTO.Update.class,
                 contractDetailTypeTemplates4Update,
                 contractDetailTypeTemplates4Delete);
         if (!contractDetailTypeTemplates4Insert.isEmpty())
@@ -161,15 +169,19 @@ public class ContractDetailTypeService extends GenericService<ContractDetailType
             contractDetailTypeTemplateService.deleteAll(contractDetailTypeTemplates4Delete);
     }
 
-    private void updateParamsAndValues(ContractDetailTypeDTO.Update request, ContractDetailType contractDetailType) throws InvocationTargetException, IllegalAccessException {
+    private void updateParamsAndValues(ContractDetailTypeDTO.Update request, ContractDetailType contractDetailType) throws InvocationTargetException, IllegalAccessException, NoSuchFieldException {
 
         List<ContractDetailTypeParamDTO.Create> contractDetailTypeParams4Insert = new ArrayList<>();
         List<ContractDetailTypeParamDTO.Update> contractDetailTypeParams4Update = new ArrayList<>();
         ContractDetailTypeParamDTO.Delete contractDetailTypeParams4Delete = new ContractDetailTypeParamDTO.Delete();
         updateUtil.fill(
+                ContractDetailTypeParam.class,
                 contractDetailType.getContractDetailTypeParams(),
+                ContractDetailTypeParamDTO.Info.class,
                 request.getContractDetailTypeParams(),
+                ContractDetailTypeParamDTO.Create.class,
                 contractDetailTypeParams4Insert,
+                ContractDetailTypeParamDTO.Update.class,
                 contractDetailTypeParams4Update,
                 contractDetailTypeParams4Delete);
         if (!contractDetailTypeParams4Insert.isEmpty()) {
@@ -198,15 +210,19 @@ public class ContractDetailTypeService extends GenericService<ContractDetailType
                 List<ContractDetailTypeParamValueDTO.Update> contractDetailTypeParamValues4Update = new ArrayList<>();
                 ContractDetailTypeParamValueDTO.Delete contractDetailTypeParamValues4Delete = new ContractDetailTypeParamValueDTO.Delete();
                 updateUtil.fill(
+                        ContractDetailTypeParamValue.class,
                         contractDetailType.getContractDetailTypeParams().
                                 stream().
                                 filter(p -> p.getId().longValue() == q.getId()).
                                 findFirst().get().getContractDetailTypeParamValues(),
+                        ContractDetailTypeParamValueDTO.Info.class,
                         request.getContractDetailTypeParams().
                                 stream().
                                 filter(p -> p.getId().longValue() == q.getId()).
                                 findFirst().get().getContractDetailTypeParamValues(),
+                        ContractDetailTypeParamValueDTO.Create.class,
                         contractDetailTypeParamValues4Insert,
+                        ContractDetailTypeParamValueDTO.Update.class,
                         contractDetailTypeParamValues4Update,
                         contractDetailTypeParamValues4Delete);
                 if (!contractDetailTypeParamValues4Insert.isEmpty())
@@ -227,7 +243,8 @@ public class ContractDetailTypeService extends GenericService<ContractDetailType
                     map(ContractDetailTypeParamValue::getId).
                     collect(Collectors.toList()));
 
-            contractDetailTypeParamValueService.deleteAll(contractDetailTypeParamValues4Delete);
+            if (!contractDetailTypeParamValues4Delete.getIds().isEmpty())
+                contractDetailTypeParamValueService.deleteAll(contractDetailTypeParamValues4Delete);
             contractDetailTypeParamService.deleteAll(contractDetailTypeParams4Delete);
         }
     }
