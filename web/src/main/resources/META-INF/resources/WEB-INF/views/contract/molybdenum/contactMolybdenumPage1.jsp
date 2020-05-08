@@ -356,8 +356,32 @@ fields:
                             }
                     });
     </sec:authorize>
-
-
+    <sec:authorize access="hasAuthority('C_CONTRACT')">
+    var ToolStripButton_Contract_PrintMol = isc.ToolStripButtonPrint.create({
+                                icon: "[SKIN]/actions/print.png",
+                                showIf: "true",
+                                title: "<spring:message code='global.form.print'/>",
+                                click: function () {
+                                    var printSelectMolID = ListGrid_contractMo.getSelectedRecord();
+                                    if (printSelectMolID == null || printSelectMolID.id == null) {
+                                        isc.Dialog.create({
+                                            message: "<spring:message code='global.grid.record.not.selected'/>",
+                                            icon: "[SKIN]ask.png",
+                                            title: "<spring:message code='global.message'/>",
+                                            buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
+                                            buttonClick: function () {
+                                                this.hide();
+                                            }
+                                        });
+                                    }
+                                    else {
+                                        "<spring:url value="/contract/print" var="printUrl"/>";
+                                        var recordMolIdPrint = ListGrid_contractMo.getSelectedRecord();
+                                        window.open('${printUrl}' + "/" + recordMolIdPrint.id);
+                                    }
+                                }
+                            })
+    </sec:authorize>
     <sec:authorize access="hasAuthority('U_CONTRACT')">
     var ToolStripButton_ContactMo_Edit = isc.ToolStripButtonEdit.create({
                             icon: "[SKIN]/actions/edit.png",
@@ -593,6 +617,10 @@ fields:
 
                             <sec:authorize access="hasAuthority('U_CONTRACT')">
                             ToolStripButton_ContactMo_Edit,
+                            </sec:authorize>
+
+                            <sec:authorize access="hasAuthority('U_CONTRACT')">
+                            ToolStripButton_Contract_PrintMol,
                             </sec:authorize>
 
                             isc.ToolStrip.create({
