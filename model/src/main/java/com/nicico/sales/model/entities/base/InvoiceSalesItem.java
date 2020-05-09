@@ -33,7 +33,7 @@ public class InvoiceSalesItem extends Auditable {
 
     @Column(name = "NET_AMOUNT")
     private Double netAmount;
-/*start*/
+
     @Column(name = "ORDER_AMOUNT")
     private Long orderAmount;
 
