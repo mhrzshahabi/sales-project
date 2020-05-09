@@ -937,6 +937,23 @@
     },
 
     {
+      "code": "R_CONTRACT_DETAIL_TYPE_PARAM_VALUE",
+      "title": "نمایش مقدار پارامتر نوع جزییات قرارداد"
+    },
+    {
+      "code": "C_CONTRACT_DETAIL_TYPE_PARAM_VALUE",
+      "title": "ایجاد مقدار پارامتر نوع جزییات قرارداد"
+    },
+    {
+      "code": "U_CONTRACT_DETAIL_TYPE_PARAM_VALUE",
+      "title": "به روز رسانی مقدار پارامتر نوع جزییات قرارداد"
+    },
+    {
+      "code": "D_CONTRACT_DETAIL_TYPE_PARAM_VALUE",
+      "title": "حذف مقدار پارامتر نوع جزییات قرارداد"
+    },
+
+    {
       "code": "R_CONTRACT_DETAIL_TYPE_TEMPLATE",
       "title": "نمایش الگوی نوع جزییات قرارداد"
     },

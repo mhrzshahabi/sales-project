@@ -339,7 +339,7 @@ public class ContractService implements IContractService {
                 inputstream = new FileInputStream(UPLOAD_FILE_DIR + "/contract/" + "Conc_" + contractConc + "_" + maxRef + ".doc");
             } else if (contractNo.contains("?Mo")) {
                 String contractMo = contractNo.replace("?Mo", "");
-                inputstream = new FileInputStream(UPLOAD_FILE_DIR + "/contract/" + "Cathod_MO_OX" + contractMo.substring(1, contractMo.length() - 1) + "_" + maxRef + ".doc");
+                inputstream = new FileInputStream(UPLOAD_FILE_DIR + "/contract/" + "MoOx_MO_OX" + contractMo + "_" + maxRef + ".doc");
             } else {
                 String contractCad = contractNo.replace("Cad", "");
                 inputstream = new FileInputStream(UPLOAD_FILE_DIR + "/contract/" + "Cathod_" + contractCad + "_" + maxRef + ".doc");
