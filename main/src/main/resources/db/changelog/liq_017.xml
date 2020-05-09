@@ -37,4 +37,68 @@
                 tableName="TBL_COST"/>
     </changeSet>
 
+
+    <changeSet author="j.azad" id="9778899665544-010">
+        <modifyDataType
+                columnName="ORDER_AMOUNT"
+                newDataType="NUMBER(19, 0)"
+                tableName="TBL_INVOICE_SALES_ITEM"/>
+    </changeSet>
+
+    <changeSet author="j.azad" id="9778899665544-011">
+        <modifyDataType
+                columnName="UNIT_PRICE"
+                newDataType="NUMBER(19, 0)"
+                tableName="TBL_INVOICE_SALES_ITEM"/>
+    </changeSet>
+
+
+    <changeSet author="j.azad" id="9778899665544-012">
+        <modifyDataType
+                columnName="LINE_PRICE"
+                newDataType="NUMBER(19, 0)"
+                tableName="TBL_INVOICE_SALES_ITEM"/>
+    </changeSet>
+
+
+    <changeSet author="j.azad" id="9778899665544-013">
+        <modifyDataType
+                columnName="DISCOUNT"
+                newDataType="NUMBER(19, 0)"
+                tableName="TBL_INVOICE_SALES_ITEM"/>
+    </changeSet>
+
+
+    <changeSet author="j.azad" id="9778899665544-014">
+        <modifyDataType
+                columnName="LINE_PRICE_AFTER_DISCOUNT"
+                newDataType="NUMBER(19, 0)"
+                tableName="TBL_INVOICE_SALES_ITEM"/>
+    </changeSet>
+
+
+    <changeSet author="j.azad" id="9778899665544-015">
+        <modifyDataType
+                columnName="LEGAL_FEES"
+                newDataType="NUMBER(19, 0)"
+                tableName="TBL_INVOICE_SALES_ITEM"/>
+    </changeSet>
+
+
+    <changeSet author="j.azad" id="9778899665544-016">
+        <modifyDataType
+                columnName="VAT"
+                newDataType="NUMBER(19, 0)"
+                tableName="TBL_INVOICE_SALES_ITEM"/>
+    </changeSet>
+
+    <changeSet author="j.azad" id="9778899665544-017">
+        <modifyDataType
+                columnName="TOTAL_PRICE"
+                newDataType="NUMBER(19, 0)"
+                tableName="TBL_INVOICE_SALES_ITEM"/>
+    </changeSet>
+
+
+
 </databaseChangeLog>
