@@ -9,7 +9,7 @@
  var contractIdEdit;
  var VLayout_contactMoOxMain;
  var Window_ContactMo;
- var methodUrl="POST";
+ var methodMoHtpp;
  var sendDateSetMo;
  var lotList;
  var ListGrid_ContractItemShipment;
@@ -431,16 +431,16 @@ fields:
                                                         var text2Mo = textMo.replaceAll('","', '","').replaceAll('&?','":"')
                                                         var textMainMo= JSON.parse(text2Mo.replaceAt(0,'{"').replaceAt(text2Mo.length-1,'}'));
                                                         setTimeout(function(){
-                                                                dynamicFormMoox_fullArticle01ID.setValue(textMainMo.Article01);
-                                                                dynamicForm_fullArticle02MoOxID.setValue(textMainMo.Article02);
-                                                                dynamicForm_fullArticle03ID.setValue(textMainMo.Article03);
-                                                                dynamicForm_fullArticle04ID.setValue(textMainMo.Article04);
-                                                                dynamicForm_fullArticle05ID.setValue(textMainMo.Article05);
-                                                                dynamicForm_fullArticle06ID.setValue(textMainMo.Article06);
-                                                                dynamicForm_fullArticle07ID.setValue(textMainMo.Article07);
-                                                                dynamicForm_fullArticle08ID.setValue(textMainMo.Article08);
-                                                                dynamicForm_fullArticle09ID.setValue(textMainMo.Article09);
-                                                                dynamicForm_fullArticle10ID.setValue(textMainMo.Article10);
+                                                                dynamicFormMoox_fullArticle01ID.setValue(nvlMo(textMainMo.Article01));
+                                                                dynamicForm_fullArticle02MoOxID.setValue(nvlMo(textMainMo.Article02));
+                                                                dynamicForm_fullArticle03ID.setValue(nvlMo(textMainMo.Article03));
+                                                                dynamicForm_fullArticle04ID.setValue(nvlMo(textMainMo.Article04));
+                                                                dynamicForm_fullArticle05ID.setValue(nvlMo(textMainMo.Article05));
+                                                                dynamicForm_fullArticle06ID.setValue(nvlMo(textMainMo.Article06));
+                                                                dynamicForm_fullArticle07ID.setValue(nvlMo(textMainMo.Article07));
+                                                                dynamicForm_fullArticle08ID.setValue(nvlMo(textMainMo.Article08));
+                                                                dynamicForm_fullArticle09ID.setValue(nvlMo(textMainMo.Article09));
+                                                                dynamicForm_fullArticle10ID.setValue(nvlMo(textMainMo.Article10));
                                                                 ListGrid_ContractItemShipment.fetchData(criteriaContractItemShipment);
                                                                 lotList.fetchData(criterialotList);
                                                         },200)
@@ -2243,13 +2243,33 @@ var IButton_Contact_Save = isc.IButtonSave.create({
                     return;
                     }
                  })
+
             var dataSaveAndUpdateContract={};
             var dataSaveAndUpdateContractDetail={};
             DynamicForm_ContactHeader.validate();
             DynamicForm_ContactCustomer.validate();
             contactHeader.validate();
-            DynamicForm_ContactHeader.setValue("contractDate", contactHeader.getValues().createDate.toNormalDate("toUSShortDate"));
-
+            if(methodMoHtpp == "PUT" && methodMoHtpp != "POST"){
+                  dataSaveAndUpdateContract.id=ListGrid_contractMo.getSelectedRecord().id;
+                   var criteriaMolDetail = {
+                        _constructor: "AdvancedCriteria",
+                        operator: "and",
+                        criteria: [{
+                            fieldName: "contract.id",
+                            operator: "equals",
+                            value: ListGrid_contractMo.getSelectedRecord().id
+                        }]
+                    };
+                    RestDataSource_contractDetail_list.fetchData(criteriaMolDetail, function (dsResponse, data, dsRequest) {
+                        dataSaveAndUpdateContractDetail.id = data[0].id;
+                        setContractDetailId(data[0].id);
+                    });
+                    ListGrid_contractMo.invalidateCache();
+            }else{
+                        setContractDetailId("");
+            }
+            function setContractDetailId(contractIDdetail){
+                    DynamicForm_ContactHeader.setValue("contractDate", contactHeader.getValues().createDate.toNormalDate("toUSShortDate"));
                     dataSaveAndUpdateContract.contractDate= contactHeader.getValue("contractDate");
                     dataSaveAndUpdateContract.contractNo=contactHeader.getValue("contractNo");
                     dataSaveAndUpdateContract.contactId=contactHeader.getValue("contactId")
@@ -2283,7 +2303,7 @@ var IButton_Contact_Save = isc.IButtonSave.create({
                     dataSaveAndUpdateContract.eventPayment="";
                     dataSaveAndUpdateContract.contentType="";
                     dataSaveAndUpdateContract.materialId=1;
-
+                    dataSaveAndUpdateContractDetail.id=contractIDdetail;
                     dataSaveAndUpdateContractDetail.name_ContactAgentSeller=contactHeaderAgent.getValue("name_ContactAgentSeller")
                     dataSaveAndUpdateContractDetail.phone_ContactAgentSeller=contactHeaderAgent.getValue("phone_ContactAgentSeller")
                     dataSaveAndUpdateContractDetail.mobile_ContactAgentSeller=contactHeaderAgent.getValue("mobile_ContactAgentSeller")
@@ -2459,16 +2479,9 @@ var IButton_Contact_Save = isc.IButtonSave.create({
                     dataSaveAndUpdateContractDetail.article10_number61=valuesManagerArticle10.getValue("article10_number61");
                     dataSaveAndUpdateContract.contractDetails = dataSaveAndUpdateContractDetail;
                     dataSaveAndUpdateContract.contractShipments = saveListGrid_ContractItemShipment();
-
-            var criteriaContractNoMoOx={_constructor:"AdvancedCriteria",operator:"and",criteria:[{fieldName: "materialId", operator: "equals", value: 1},
-                                        {fieldName:"contractNo",operator:"equals",value:contactHeader.getValue("contractNo")}]};
-            RestDataSource_Contract.fetchData(criteriaContractNoMoOx,function(dsResponse, data, dsRequest) {
-            if(data[0]!=undefined){
-                isc.warn("<spring:message code='main.contractsDuplicate'/>");
-               }else{
-                isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+                isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,{
                     actionURL: "${contextPath}/api/contract",
-                    httpMethod: "POST",
+                    httpMethod: methodMoHtpp,
                     data: JSON.stringify(dataSaveAndUpdateContract),
                     callback: function (resp) {
                         if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
@@ -2478,8 +2491,8 @@ var IButton_Contact_Save = isc.IButtonSave.create({
                         } else
                             isc.say(RpcResponse_o.data);
                     }
-                }))}
-            })
+                }))
+                }
     }});
 
 var contactFormButtonSaveLayout = isc.HStack.create({
@@ -2522,9 +2535,8 @@ VLayout_contactMoOxMain=isc.VLayout.create({
             ]
             })
 
-    Window_ContactMo.addItems([VLayout_contactMoOxMain]);
-    Window_ContactMo.show();
-
+     Window_ContactMo.addItems([VLayout_contactMoOxMain]);
+     Window_ContactMo.show();
 }
 /////////////////////////// end function()
 
@@ -2534,7 +2546,9 @@ function saveListGrid_ContractItemShipment() {
         ListGrid_ContractItemShipment.getAllEditRows().forEach(function (element) {
             dataEditMol.push(ListGrid_ContractItemShipment.getEditedRecord(element));
             if(dataEditMol.length>0){
-            dataEditMol[dataEditMol.length - 1].sendDate = (dataEditMol[dataEditMol.length - 1].sendDate.getFullYear() + "/" + ("0" + (dataEditMol[dataEditMol.length - 1].sendDate.getMonth() + 1)).slice(-2) + "/" + ("0" + dataEditMol[dataEditMol.length - 1].sendDate.getDate()).slice(-2));
+                try {
+                    dataEditMol[dataEditMol.length - 1].sendDate = (dataEditMol[dataEditMol.length - 1].sendDate.getFullYear() + "/" + ("0" + (dataEditMol[dataEditMol.length - 1].sendDate.getMonth() + 1)).slice(-2) + "/" + ("0" + dataEditMol[dataEditMol.length - 1].sendDate.getDate()).slice(-2));
+                    }catch (err) {}
             }
             ListGrid_ContractItemShipment.deselectRecord(ListGrid_ContractItemShipment.getRecord(element));
         });
@@ -2595,6 +2609,7 @@ function saveValuelotListForADD(contractID) {
             callback: function (resp) {
                 if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                     isc.say("<spring:message code='global.form.request.successful'/>.");
+                    Window_ContactMo.close();
                 } else
                     isc.say(RpcResponse_o.data);
             }

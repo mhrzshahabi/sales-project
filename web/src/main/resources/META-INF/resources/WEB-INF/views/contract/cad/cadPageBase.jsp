@@ -406,7 +406,10 @@ function saveListGrid_ContractCadItemShipment() {
         ListGrid_ContractItemShipment.getAllEditRows().forEach(function (element) {
             dataEditCad.push(ListGrid_ContractItemShipment.getEditedRecord(element));
             if(dataEditCad.length>0){
+                   try {
             dataEditCad[dataEditCad.length - 1].sendDate = (dataEditCad[dataEditCad.length - 1].sendDate.getFullYear() + "/" + ("0" + (dataEditCad[dataEditCad.length - 1].sendDate.getMonth() + 1)).slice(-2) + "/" + ("0" + dataEditCad[dataEditCad.length - 1].sendDate.getDate()).slice(-2));
+                       }catch(err){
+                }
             }
             ListGrid_ContractItemShipment.deselectRecord(ListGrid_ContractItemShipment.getRecord(element));
         });
