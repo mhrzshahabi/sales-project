@@ -771,7 +771,7 @@
                 },
 
 
-                <sec:authorize access="hasAnyAuthority('R_CONTRACT')">
+                <sec:authorize access="hasAnyAuthority('R_CONTRACT2')">
                 {isSeparator: true},
                 {
                     title: "<spring:message code='entity.contract'/>",
