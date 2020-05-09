@@ -20,10 +20,12 @@
     <link rel="stylesheet" href='<spring:url value="/static/css/OAManagementUsers.css"/>'/>
 
     <script src="<spring:url value='/static/script/js/calendar.js'/>"></script>
+    <script src="<spring:url value='/static/script/js/jalali-moment.browser.js'/>"></script>
     <script src="<spring:url value='/static/script/js/all.js'/>"></script>
     <script src="<spring:url value='/static/script/js/convertDigitToEnglish.js'/>"></script>
     <script src="<spring:url value='/static/script/js/moment.js'/>"></script>
     <script src="<spring:url value='/static/script/js/jquery.min.js' />"></script>
+    <script src="<spring:url value='/static/script/js/persian-date.min.js' />"></script>
 
     <script>var isomorphicDir = "isomorphic/";</script>
     <script src=isomorphic/system/modules/ISC_Core.js></script>
@@ -57,6 +59,28 @@
 <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
 
 <script type="application/javascript">
+
+    isc.SimpleType.create({
+        name: "persianDate",
+        inheritsFrom: "text",
+        validators: [{
+            type: "custom",
+            errorMessage: "<spring:message code='validator.field.date'/>",
+            condition: "moment.from(value, 'fa', 'YYYY/MM/DD').isValid()"
+        }]
+    });
+    var persianDatePicker = isc.FormItem.getPickerIcon("date", {
+        disableOnReadOnly: false,
+        click: function (form, item, icon) {
+            if (!item.getCanEdit())
+                return;
+            closeCalendarWindow();
+            displayDatePicker(null, item, 'ymd', '/');
+        },
+        blur: function () {
+            closeCalendarWindow();
+        },
+    });
 
     <%@include file="common/ts/CommonUtil.js"%>
     <%@include file="common/ts/PersianDateUtil.js"%>
@@ -166,8 +190,7 @@
         showErrorStyle: true,
         errorOrientation: "right",
         titleAlign: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>",
-
+        requiredMessage: "<spring:message code='validator.field.is.required'/>"
     });
 
     isc.RichTextEditor.addProperties({
@@ -198,13 +221,12 @@
         }
     });
 
-    isc.TextItem.addProperties({
+    /*isc.TextItem.addProperties({
         format: ",##0",
         selectOnClick: true,
         hintStyle: "noneStyleFormItem",
         formatEditorValue(value, record, form, item) {
             if (value === undefined || isNaN(value)) return value;
-            // console.log('value is numbber', value)
             return NumberUtil.format(value, ",0");
         },
         keyUp(item, form, keyName) {
@@ -212,7 +234,7 @@
 
             item.setHint(NumberUtil.format(item.getValue(), ",0"));
         }
-    });
+    });*/
 
     function redirectLogin() {
         location.href = "<spring:url value='/' />";
@@ -229,9 +251,6 @@
             if (response.error == 'invalid_token')
                 isc.warn(response.data);
             console.log("Global RPCManager Error Handler: ", request, response);
-            /*if (response.httpResponseCode == 401) { // Unauthorized
-                redirectLogin();
-            } else*/
             if (response.httpResponseCode == 403) { // Forbidden
                 isc.say(JSON.parse(response.httpResponseText).exception);
             } else if (response.httpResponseCode == 500) {
@@ -335,18 +354,6 @@
             viewURL: url,
             loadingMessage: " <spring:message code='global.loadingMessage'/>"
         });
-
-        // isc.ViewLoader.addMethods({
-        //     handleError: function (rq, rs) {
-        //         console.log("Global ViewLoader Error: ", rq, rs);
-        //         if (rs.httpResponseCode == 403) { // Forbidden
-        //             nicico.error("Access Denied");  //TODO: I18N message key
-        //         } else {
-        //             redirectLogin();
-        //         }
-        //         return false;
-        //     }
-        // });
 
         var flagTabExist = false;
 
@@ -946,20 +953,7 @@
                         var url = new URL(url_string);
                         var lang = url.searchParams.get("lang");
 
-                        if (lang == "fa" || lang == null) {
-                            isc.Dialog.create({
-                                message: "بهتر است از این تب در فرمت انگلیسی استفاده کنید",
-                                icon: "[SKIN]ask.png",
-                                title: "<spring:message code='global.message'/>",
-                                buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
-                                buttonClick: function () {
-                                    this.hide();
-                                }
-                            });
-                            createTab("<spring:message code='issuedInvoices.title'/>", "<spring:url value="/invoice/showForm" />")
-                        } else {
-                            createTab("<spring:message code='issuedInvoices.title'/>", "<spring:url value="/invoice/showForm" />")
-                        }
+                        createTab("<spring:message code='issuedInvoices.title'/>", "<spring:url value="/invoice/showForm" />")
                     }
                 },
                 {isSeparator: true},
@@ -981,9 +975,7 @@
                     click: function () {
                         createTab("<spring:message code='invoiceSales.title'/>", "<spring:url value="/invoice-export/showForm" />")
                     }
-                },
-
-
+                }
             ]
         })
     });

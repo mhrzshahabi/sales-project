@@ -22,8 +22,8 @@ public class ContractDetailTypeFormController {
     @RequestMapping("/show-form")
     public String show(HttpServletRequest request) throws JsonProcessingException {
 
-        Map<Integer, String> dataTypes = new HashMap<>();
-        for (DataType value : DataType.values()) dataTypes.put(value.getId(), value.name());
+        Map<String, String> dataTypes = new HashMap<>();
+        for (DataType value : DataType.values()) dataTypes.put(value.name(), value.name());
         request.setAttribute("Enum_DataType", objectMapper.writeValueAsString(dataTypes));
 
         request.setAttribute("c_entity", SecurityUtil.hasAuthority("C_CONTRACT_DETAIL_TYPE"));

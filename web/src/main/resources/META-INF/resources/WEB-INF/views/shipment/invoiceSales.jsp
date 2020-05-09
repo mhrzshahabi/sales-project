@@ -1521,7 +1521,6 @@
         } else {
             var rowId = ListGrid_invoiceSales.getSelectedRecord().id;
              window.open("invoiceSales/print/pdf/" + rowId);
-            alert(rowId);
         }
     }
 
