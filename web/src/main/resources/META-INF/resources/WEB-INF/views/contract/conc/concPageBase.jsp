@@ -405,17 +405,19 @@
 
     function saveListGrid_ContractConcItemShipment() {
         ListGrid_ContractConcItemShipment.selectAllRecords();
-        var dataEdit = [];
+        var dataEditConc = [];
         ListGrid_ContractConcItemShipment.getAllEditRows().forEach(function (element) {
-            dataEdit.push(ListGrid_ContractConcItemShipment.getEditedRecord(element));
+            dataEditConc.push(ListGrid_ContractConcItemShipment.getEditedRecord(element));
+            if(dataEditConc.length>0){
+            dataEditConc[dataEditConc.length - 1].sendDate = (dataEditConc[dataEditConc.length - 1].sendDate.getFullYear() + "/" + ("0" + (dataEditConc[dataEditConc.length - 1].sendDate.getMonth() + 1)).slice(-2) + "/" + ("0" + dataEditConc[dataEditConc.length - 1].sendDate.getDate()).slice(-2));
+            }
             ListGrid_ContractConcItemShipment.deselectRecord(ListGrid_ContractConcItemShipment.getRecord(element));
         });
         ListGrid_ContractConcItemShipment.getSelectedRecords().forEach(function (element) {
-            dataEdit.push(JSON.parse(JSON.stringify(element)));
-        });
+            dataEditConc.push(JSON.parse(JSON.stringify(element)));
+            });
         ListGrid_ContractConcItemShipment.deselectAllRecords();
-        console.log(dataEdit);
-        return dataEdit;
+        return dataEditConc;
     };
 
     var dataALLArticleConc = {};
@@ -448,13 +450,7 @@
         }))
     }
 
-    function nvlConc(articleIsNotNull) {
-        if (articleIsNotNull == undefined) {
-            return "";
-        } else {
-            return articleIsNotNull;
-        }
-    }
+
 
 
     function clearAdd() {

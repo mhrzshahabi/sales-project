@@ -7,14 +7,15 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum DataType {
 
-    Date(1),
-    Boolean(2),
-    Float(3),
-    Double(4),
-    Integer(5),
-    Long(6),
-    String(7),
-    Column(8);
+    PersianDate(1),
+    GeorgianDate(2),
+    Boolean(3),
+    Float(4),
+    Double(5),
+    Integer(6),
+    Long(7),
+    String(8),
+    Column(9);
 
     private final Integer id;
 }

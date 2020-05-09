@@ -25,9 +25,6 @@ public class SalesException extends NICICOException {
     @RequiredArgsConstructor
     public enum ErrorType implements IErrorCode {
         CathodListNotFound(404),
-        WarehouseIssueConsNotFound(404),
-        WarehouseIssueMoNotFound(404),
-        WarehouseIssueCathodeNotFound(404),
         WarehouseStockNotFound(404),
         MaterialItemNotFound(404),
         WarehouseYardNotFound(404),
@@ -66,12 +63,7 @@ public class SalesException extends NICICOException {
         ProvisionalInvoiceNotFound(404),
         RateNotFound(404),
         ShipmentNotFound(404),
-        ShipmentAssayHeaderNotFound(404),
-        ShipmentAssayItemNotFound(404),
         ShipmentContractNotFound(404),
-        ShipmentEmailNotFound(404),
-        ShipmentMoistureHeaderNotFound(404),
-        ShipmentMoistureItemNotFound(404),
         UnitNotFound(404),
         WarehouseLotNotFound(404),
         CountryNotFound(404),
