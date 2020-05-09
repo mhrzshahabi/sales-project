@@ -1474,6 +1474,7 @@ var vlayoutArticle3 = isc.VLayout.create({
         ID: "VLayout_PageOne_ContractMo",
         width: "100%",
         height: "100%",
+        backgroundColor: "#69fe8a",
         align: "center",
         overflow: "scroll",
         members: [
@@ -1982,6 +1983,7 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
         width: "100%",
         height: "100%",
         align: "center",
+        backgroundColor: "#c0110c",
         overflow: "scroll",
         members: [
             vlayoutArticle3_1,
@@ -2522,9 +2524,8 @@ VLayout_contactMoOxMain=isc.VLayout.create({
             ]
             })
 
-    Window_ContactMo.addItems([VLayout_contactMoOxMain]);
-    Window_ContactMo.show();
-
+     Window_ContactMo.addItems([VLayout_contactMoOxMain]);
+     Window_ContactMo.show();
 }
 /////////////////////////// end function()
 
@@ -2534,7 +2535,9 @@ function saveListGrid_ContractItemShipment() {
         ListGrid_ContractItemShipment.getAllEditRows().forEach(function (element) {
             dataEditMol.push(ListGrid_ContractItemShipment.getEditedRecord(element));
             if(dataEditMol.length>0){
-            dataEditMol[dataEditMol.length - 1].sendDate = (dataEditMol[dataEditMol.length - 1].sendDate.getFullYear() + "/" + ("0" + (dataEditMol[dataEditMol.length - 1].sendDate.getMonth() + 1)).slice(-2) + "/" + ("0" + dataEditMol[dataEditMol.length - 1].sendDate.getDate()).slice(-2));
+                try {
+                    dataEditMol[dataEditMol.length - 1].sendDate = (dataEditMol[dataEditMol.length - 1].sendDate.getFullYear() + "/" + ("0" + (dataEditMol[dataEditMol.length - 1].sendDate.getMonth() + 1)).slice(-2) + "/" + ("0" + dataEditMol[dataEditMol.length - 1].sendDate.getDate()).slice(-2));
+                    }catch (err) {}
             }
             ListGrid_ContractItemShipment.deselectRecord(ListGrid_ContractItemShipment.getRecord(element));
         });
@@ -2595,6 +2598,7 @@ function saveValuelotListForADD(contractID) {
             callback: function (resp) {
                 if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                     isc.say("<spring:message code='global.form.request.successful'/>.");
+                    Window_ContactMo.close();
                 } else
                     isc.say(RpcResponse_o.data);
             }

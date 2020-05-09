@@ -409,7 +409,10 @@
         ListGrid_ContractConcItemShipment.getAllEditRows().forEach(function (element) {
             dataEditConc.push(ListGrid_ContractConcItemShipment.getEditedRecord(element));
             if(dataEditConc.length>0){
-            dataEditConc[dataEditConc.length - 1].sendDate = (dataEditConc[dataEditConc.length - 1].sendDate.getFullYear() + "/" + ("0" + (dataEditConc[dataEditConc.length - 1].sendDate.getMonth() + 1)).slice(-2) + "/" + ("0" + dataEditConc[dataEditConc.length - 1].sendDate.getDate()).slice(-2));
+                try {
+                    dataEditConc[dataEditConc.length - 1].sendDate = (dataEditConc[dataEditConc.length - 1].sendDate.getFullYear() + "/" + ("0" + (dataEditConc[dataEditConc.length - 1].sendDate.getMonth() + 1)).slice(-2) + "/" + ("0" + dataEditConc[dataEditConc.length - 1].sendDate.getDate()).slice(-2));
+                    }catch(err){
+                }
             }
             ListGrid_ContractConcItemShipment.deselectRecord(ListGrid_ContractConcItemShipment.getRecord(element));
         });
@@ -417,6 +420,7 @@
             dataEditConc.push(JSON.parse(JSON.stringify(element)));
             });
         ListGrid_ContractConcItemShipment.deselectAllRecords();
+         alert("khoroj");
         return dataEditConc;
     };
 
