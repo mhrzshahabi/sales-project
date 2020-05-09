@@ -33,7 +33,7 @@ public class AccDepartmentService implements IAccDepartmentService {
     @Override
     public TotalResponse<AccDepartmentDTO.Info> search(NICICOCriteria criteria) {
 
-        ResponseEntity<AccountingTotalResponse> response = restTemplate.getForEntity(accountingAppUrl + "/rest/oa-user-department/oa-user-cansubmit-department/", AccountingTotalResponse.class);
+        ResponseEntity<AccountingTotalResponse> response = restTemplate.getForEntity("http://devapp01.icico.net.ir/accounting" + "/rest/oa-user-department/oa-user-cansubmit-department/", AccountingTotalResponse.class);
 
         AccountingGridResponse accountingGridResponse = response.getBody().getResponse();
 
