@@ -23,8 +23,8 @@ public class Warehouse extends BaseEntity {
     @SequenceGenerator(name = "SEQ_WARH_WAREHOUSE", sequenceName = "SEQ_WARH_WAREHOUSE", allocationSize = 1)
     private Long id;
 
-    @Column(name = "N_LOGISTIC_ID")
-    private Long logisticId;
+    @Column(name = "N_PLANT_ID", nullable = false)
+    private Long plantId;
 
     @OneToMany(mappedBy = "warehouse", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private List<Store> stores;

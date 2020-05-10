@@ -39,7 +39,7 @@ public class Item extends BaseEntity {
     private String description;
 
     @Setter(AccessLevel.NONE)
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "F_DEFAULT_UNIT_ID", insertable = false, updatable = false,
             foreignKey = @ForeignKey(name = "fk_item2unitByunitId"))
     private Unit unit;

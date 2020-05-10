@@ -3,12 +3,12 @@
  <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
  <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
  **/
-function remittance(targetIdValueMap = {}, defaultTargetId = "2555") {
+function remittance(targetIdValueMap = {}) {
     const remittanceTab = {
         Logs: [],
         Vars: {
             Debug: false,
-            Prefix: "remittance-tab",
+            Prefix: "remittance_tab",
             Url: SalesConfigs.Urls.remittanceRest,
             Urls: {},
             Method: "POST",
@@ -26,6 +26,36 @@ function remittance(targetIdValueMap = {}, defaultTargetId = "2555") {
             Authorities: {},
         },
         Methods: {
+            option: {
+                save: function (name, option) {
+                    //option = typeof (option) === 'string' ? JSON.parse(option) : option;
+                    name = name.toString();
+                    const storage_name = 'sales_' + remittanceTab.Vars.Prefix;
+                    let allOptions = window.localStorage.getItem(storage_name);
+                    if (allOptions === null || allOptions === undefined) allOptions = "{}";
+                    allOptions = JSON.parse(allOptions)
+                    if (!Object.keys(allOptions).contains(name) ||
+                        typeof (allOptions[name]) !== typeof (option) ||
+                        typeof (allOptions[name]) !== 'object'
+                    ) allOptions[name] = option
+                    try {
+                        Object.assign(allOptions[name], allOptions[name], option)
+                    } catch (e) {
+                        allOptions[name] = option
+                    }
+                    localStorage.setItem(storage_name, JSON.stringify(allOptions))
+                },
+                get: function (name) {
+                    name = name.toString();
+                    const storage_name = 'sales_' + remittanceTab.Vars.Prefix;
+                    let allOptions = window.localStorage.getItem(storage_name);
+                    if (allOptions === null || allOptions === undefined) return null;
+                    var all = JSON.parse(allOptions);
+                    let result = all;
+                    Object.values(arguments).forEach(k => result = result[k])
+                    return result
+                }
+            },
             JsonRPCManagerRequest: function (props, responseCallBack) {
 
                 if (props == null) return;
@@ -523,7 +553,7 @@ function remittance(targetIdValueMap = {}, defaultTargetId = "2555") {
                 createMainVlayOut(members) {
                     isc.VLayout.create(
                         {
-                            ID: remittanceTab.Vars.Prefix + "v-layout-main",
+                            ID: remittanceTab.Vars.Prefix + "vـlayoutـmain",
                             width: "100%",
                             height: "100%",
                             members: members
@@ -540,20 +570,20 @@ function remittance(targetIdValueMap = {}, defaultTargetId = "2555") {
                         width: "100%",
                         members:
                             [isc.ToolStrip.create({
-                                ID: remittanceTab.Vars.Prefix + "tool-strip-main",
+                                ID: remittanceTab.Vars.Prefix + "toolـstripـmain",
                                 width: "100%",
                                 members:
                                     [
                                         //    <sec:authorize access="hasAuthority('C_PARAMETERS')">
                                         isc.ToolStripButtonAdd.create({
                                             ...remittanceTab.Layouts.ToolStripButtons.new,
-                                            ID: remittanceTab.Vars.Prefix + "tool-strip-button-add",
+                                            ID: remittanceTab.Vars.Prefix + "toolـstripـbuttonـadd",
                                         }),
                                         //  </sec:authorize>
                                         //   <sec:authorize access="hasAuthority('U_PARAMETERS')">
                                         isc.ToolStripButtonEdit.create({
                                             ...remittanceTab.Layouts.ToolStripButtons.edit,
-                                            ID: remittanceTab.Vars.Prefix + "tool-strip-button-edit",
+                                            ID: remittanceTab.Vars.Prefix + "toolـstripـbuttonـedit",
                                         }),
 
                                         ,
@@ -561,7 +591,7 @@ function remittance(targetIdValueMap = {}, defaultTargetId = "2555") {
                                         //    <sec:authorize access="hasAuthority('D_PARAMETERS')">
                                         isc.ToolStripButtonRemove.create({
                                             ...remittanceTab.Layouts.ToolStripButtons.remove,
-                                            ID: remittanceTab.Vars.Prefix + "tool-strip-button-remove",
+                                            ID: remittanceTab.Vars.Prefix + "tool_stripـbuttonـremove",
                                         }),
                                         //    </sec:authorize>
                                         isc.ToolStrip.create({
@@ -571,7 +601,7 @@ function remittance(targetIdValueMap = {}, defaultTargetId = "2555") {
                                             members: [
                                                 isc.ToolStripButtonRefresh.create({
                                                     ...remittanceTab.Layouts.ToolStripButtons.refresh,
-                                                    ID: remittanceTab.Vars.Prefix + "tool-strip-button-refresh",
+                                                    ID: remittanceTab.Vars.Prefix + "tool_strip_button_refresh",
                                                 }),
                                             ]
                                         })
@@ -685,6 +715,7 @@ function remittance(targetIdValueMap = {}, defaultTargetId = "2555") {
         },
         Log: {},
     };
+
     /**********************************************VAR******************************************************************/
     remittanceTab.Layouts.ToolStripButtons.new.click = function () {
         remittanceTab.Layouts.Window.remittance.show()
@@ -703,6 +734,16 @@ function remittance(targetIdValueMap = {}, defaultTargetId = "2555") {
 
         },
         {name: "id", hidden: true},
+        {
+            hidden: false,
+            name: "codeKala",
+            title: "<spring:message code='Tozin.codeKala'/>",
+            align: "center",
+            type: "number",
+            valueMap: {},
+
+
+        },
         {
             name: "tozinId",
             title: "<spring:message code='Tozin.tozinPlantId'/>",
@@ -760,14 +801,6 @@ function remittance(targetIdValueMap = {}, defaultTargetId = "2555") {
 
     ]
     remittanceTab.Fields.tozinExtra = [
-        {
-            hidden: true,
-            name: "codeKala",
-            title: "<spring:message code='Tozin.codeKala'/>",
-            align: "center",
-            type: "text"
-
-        },
         {
             hidden: true,
             name: "carName",
@@ -981,13 +1014,13 @@ function remittance(targetIdValueMap = {}, defaultTargetId = "2555") {
         today = new persianDate().subtract('weeks', 3);
 
         return {
-            ID: remittanceTab.Vars.Prefix + "dynamic-form-contract-item",
+            ID: remittanceTab.Vars.Prefix + "dynamic_form_contract_item",
             name: "tozinId",
             width: "*",
             title: "<spring:message code='shipment.Bol.shipmentContract'/>",
             optionDataSource: isc.MyRestDataSource.create({
                 ...remittanceTab.RestDataSources.onWayProduct
-                , ID: remittanceTab.Vars.Prefix + "rest-data-source-on-way-product"
+                , ID: remittanceTab.Vars.Prefix + "restـdataـsourceـonـwayـproduct"
             }),
             type: "select",
             multiple: true,
@@ -998,28 +1031,35 @@ function remittance(targetIdValueMap = {}, defaultTargetId = "2555") {
             // operator: "startsWith",
             textAlign: "center",
             // editorType: "ComboBoxItem",
-            autoFetchData: true,
+            autoFetchData: false,
             // addUnknownValues: false,
             // cachePickListResults: false,
-            useClientFiltering: false,
+            useClientFiltering: true,
             displayField: "tozinId",
             valueField: "id",
+            colSpan: 2,
             pickListHeight: "500",
-            pickListCriteria: {
-                _constructor: "AdvancedCriteria", operator: "and",
-                criteria: [
-                    {
-                        fieldName: "date", operator: "greaterOrEqual",
-                        value: new persianDate().subtract('weeks', 3).format('YYYYMMDD').toString()
-                    },
-                    {
-                        fieldName: "targetId",
-                        operator: "equals",
-                        value: defaultTargetId
-                    },
-
-                ]
-            },
+            // pickListCriteria: {
+            //     _constructor: "AdvancedCriteria", operator: "and",
+            //     criteria: [
+            //         {
+            //             fieldName: "date", operator: "greaterOrEqual",
+            //             value: new persianDate().subtract('weeks', 3).format('YYYYMMDD').toString()
+            //         },
+            //         {
+            //             fieldName: "targetId",
+            //             operator: "equals",
+            //             value: remittanceTab.Methods.option.get('toWarehouse')
+            //         },
+            //         {
+            //             fieldName: "codeKala",
+            //             operator: "equals",
+            //             value: remittanceTab.Methods.option.get('itemDetail')
+            //         },
+            //
+            //
+            //     ]
+            // },
             pickListProperties: {
                 dataPageSize: 50,
                 showFilterEditor: true,
@@ -1041,13 +1081,13 @@ function remittance(targetIdValueMap = {}, defaultTargetId = "2555") {
     };
     remittanceTab.Fields.lme = function () {
         return {
-            ID: remittanceTab.Vars.Prefix + "dynamic-form-lme-item",
+            ID: remittanceTab.Vars.Prefix + "dynamic_form_lme_item",
             name: "lmeId",
             width: "*",
             title: "<spring:message code='material.price'/>",
             optionDataSource: isc.MyRestDataSource.create({
                 ...remittanceTab.RestDataSources.lme
-                , ID: remittanceTab.Vars.Prefix + "rest-data-source-lme"
+                , ID: remittanceTab.Vars.Prefix + "rest_data_source_lme"
             }),
             displayField: "lmeDate",
             valueField: "id",
@@ -1061,6 +1101,88 @@ function remittance(targetIdValueMap = {}, defaultTargetId = "2555") {
                 // autoFitHeaderHeights:true
             },
             pickListFields: remittanceTab.RestDataSources.lme.fields
+        }
+    };
+    remittanceTab.Fields.itemDetail = function () {
+        return {
+            ID: remittanceTab.Vars.Prefix + "dynamic_form_item_detail",
+            name: "itemDetail",
+            width: "*",
+            title: "نوع کالا",
+            autoFetchData: true,
+            optionDataSource: isc.MyRestDataSource.create({
+                ...remittanceTab.RestDataSources.itemDetail
+                , ID: remittanceTab.Vars.Prefix + "restـdataـsourceـitemـdetail"
+            }),
+            displayField: "name",
+            filterLocally: true,
+            valueField: "id",
+            pickListProperties: {
+                showFilterEditor: true,
+                dataArrived() {
+                    console.log('itemDetail Came', this)
+                    window[remittanceTab.Fields.TozinItem().ID]
+                        .pickList
+                        .getField('codeKala')
+                        .valueMap = (this.data.localData.getValueMap('id', 'name'))
+
+                }
+            },
+            changed(form, item, value) {
+                remittanceTab.Methods.option.save('itemDetail', value);
+            },
+            pickListFields: remittanceTab.RestDataSources.itemDetail.fields
+        }
+    };
+    remittanceTab.Fields.remittanceType = function () {
+        return {
+            ID: remittanceTab.Vars.Prefix + "dynamic_form_remittance_type",
+            name: "itemDetail",
+            width: "*",
+            title: "نوع کالا",
+            autoFetchData: true,
+            optionDataSource: isc.MyRestDataSource.create({
+                ...remittanceTab.RestDataSources.remittanceType
+                , ID: remittanceTab.Vars.Prefix + "restـdataـsource_remittance_type"
+            }),
+            displayField: "name",
+            filterLocally: true,
+            valueField: "id",
+            pickListProperties: {
+                showFilterEditor: true,
+            },
+            changed(form, item, value) {
+            },
+            pickListFields: remittanceTab.RestDataSources.itemDetail.fields
+        }
+    };
+    remittanceTab.Fields.toWarehouse = function () {
+        return {
+            ID: remittanceTab.Vars.Prefix + "dynamic_form_item_to_warehous",
+            name: "toWarehouse",
+            width: "*",
+            title: "به مقصد",
+            autoFetchData: true,
+            optionDataSource: isc.MyRestDataSource.create({
+                ...remittanceTab.RestDataSources.warehouse
+                , ID: remittanceTab.Vars.Prefix + "restـdataـsourceـto_warehouse"
+            }),
+            displayField: "name",
+            filterLocally: true,
+            valueField: "id",
+            pickListProperties: {
+                showFilterEditor: true,
+                dataArrived() {
+                    window[remittanceTab.Fields.TozinItem().ID]
+                        .pickList
+                        .getField('targetId')
+                        .setValueMap(this.data.localData.getValueMap('id', 'item.name'))
+                }
+            },
+            changed(form, item, value) {
+                remittanceTab.Methods.option.save('toWarehouse', value);
+            },
+            pickListFields: remittanceTab.RestDataSources.warehouse.fields
         }
     };
     /**********************************************DATASOURCE***********************************************************/
@@ -1119,17 +1241,92 @@ function remittance(targetIdValueMap = {}, defaultTargetId = "2555") {
             }],
         fetchDataURL: SalesConfigs.Urls.RootUrl + "/api/LME/spec-list"
     };
+    remittanceTab.RestDataSources.itemDetail = {
+        fields: [
+            {
+                name: "id",
+                title: "id",
+                primaryKey: true,
+                canEdit: false,
+                // hidden: true
+            },
+            {
+                name: "item",
+                // primaryKey: true,
+                canEdit: false,
+                hidden: true
+            },
+            {
+                name: "item.name",
+                // primaryKey: true,
+                canEdit: false,
+                // hidden: true
+            },
+            {
+                name: "name",
+                title: "<spring:message code='LME.cuUsdMt'/>",
+                width: 200
+            },
+        ],
+        fetchDataURL: SalesConfigs.Urls.RootUrl + "/api/item-detail/spec-list"
+    };
+    remittanceTab.RestDataSources.remittanceType = {
+        fields: [
+            {
+                name: "id",
+                title: "id",
+                primaryKey: true,
+                canEdit: false,
+                // hidden: true
+            },
+            {
+                name: "name",
+                // primaryKey: true,
+                canEdit: false,
+                hidden: false
+            },
+
+        ],
+        fetchDataURL: SalesConfigs.Urls.RootUrl + "/api/remittance-type/spec-list"
+    };
+    remittanceTab.RestDataSources.warehouse = {
+        fields: [
+            {
+                name: "id",
+                title: "id",
+                primaryKey: true,
+                canEdit: false,
+                // hidden: true
+            },
+            {
+                name: "plantId",
+                title: "plantId",
+                primaryKey: true,
+                canEdit: false,
+                // hidden: true
+            },
+
+            {
+                name: "name",
+                // primaryKey: true,
+                canEdit: false,
+                // hidden: true
+            },
+        ],
+        fetchDataURL: SalesConfigs.Urls.RootUrl + "/api/warehouse/spec-list"
+    };
     /**********************************************LISTGRID*************************************************************/
     /**********************************************DynamicForm**********************************************************/
     remittanceTab.DynamicForms.Forms.main = {
         ID: remittanceTab.Vars.Prefix + "Dynamicform" + "mainForm",
-        numCols: 2,
+        numCols: 4,
         width: .7 * window.innerWidth,
-        colWidths: ["20%", "*"],
+        colWidths: ["10%", "*", "10%", "*"],
         canDragResize: true, resizeFrom: ["L"],
         items: [
+            remittanceTab.Fields.itemDetail(),
+            remittanceTab.Fields.toWarehouse(),
             remittanceTab.Fields.TozinItem(),
-            // remittanceTab.Fields.lme(),
         ]
     };
     /**********************************************LAYOUT******************************************************************/
@@ -1157,4 +1354,7 @@ function remittance(targetIdValueMap = {}, defaultTargetId = "2555") {
     return remittanceTab;
 }
 
-window['remittanceTab'] = remittance(targetIdValueMap);
+remittanceTab = remittance();
+
+window[(remittanceTab.Fields.itemDetail().ID)].setValue(remittanceTab.Methods.option.get('itemDetail'))
+window[(remittanceTab.Fields.toWarehouse().ID)].setValue(remittanceTab.Methods.option.get('toWarehouse'))

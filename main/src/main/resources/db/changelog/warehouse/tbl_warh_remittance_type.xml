@@ -33,5 +33,7 @@
             </column>
         </createTable>
     </changeSet>
-
+    <changeSet id="1588585668985-822124" author="saeb">
+        <sqlFile path="classpath:/db/changelog/warehouse/tbl_warh_remittance_type.sql"/>
+    </changeSet>
 </databaseChangeLog>

@@ -933,14 +933,8 @@
                 {
                     title: "<spring:message code='warehouseStock'/>",
                     click: function () {
-                        fetch(SalesConfigs.Urls.RootUrl + "/api/tozin2/targets  ", {
-                            headers: SalesConfigs.httpHeaders
-                        }).then(
-                            response => response.json().then(
-                                js => {
-                                    window['targetIdValueMap'] = js.getValueMap('TARGETID', 'TARGET');
-                                    createTab("باقر<spring:message code='warehouseStock'/>", "<spring:url value="/remittance/showForm" />")
-                                }));
+                        createTab("باقر<spring:message code='warehouseStock'/>", "<spring:url value="/remittance/showForm" />")
+
                     }
                 }
             ]

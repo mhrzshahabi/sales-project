@@ -1,4 +1,4 @@
-package com.nicico.sales.service.warehous;
+package com.nicico.sales.service.warehouse;
 
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
@@ -9,7 +9,6 @@ import com.nicico.sales.model.entities.warehouse.Tozin2;
 import com.nicico.sales.model.entities.warehouse.TozinId;
 import com.nicico.sales.repository.warehouse.TozinDAO2;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,7 +18,6 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class TozinService2 implements ITozinService2 {
     private final TozinDAO2 tozinDAO;
-    private final ModelMapper modelMapper;
 
     @Override
     public Tozin2 get(TozinId id) {
