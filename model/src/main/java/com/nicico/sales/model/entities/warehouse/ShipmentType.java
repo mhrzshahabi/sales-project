@@ -14,12 +14,12 @@ import javax.validation.constraints.NotNull;
 @Accessors(chain = true)
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
-@Table(name = "TBL_SHIPMENT_TYPE")
+@Table(name = "TBL_WARH_SHIPMENT_TYPE")
 public class ShipmentType extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_SHIPMENT_TYPE")
-    @SequenceGenerator(name = "SEQ_SHIPMENT_TYPE", sequenceName = "SEQ_SHIPMENT_TYPE", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_WARH_SHIPMENT_TYPE")
+    @SequenceGenerator(name = "SEQ_WARH_SHIPMENT_TYPE", sequenceName = "SEQ_WARH_SHIPMENT_TYPE", allocationSize = 1)
     private Long id;
 
     @NotNull

@@ -65,7 +65,7 @@
         <addForeignKeyConstraint baseColumnNames="F_SHIPMENT_TYPE_ID" baseTableName="TBL_WARH_REMITTANCE"
                                  constraintName="fk_remittance2ShipmentTypeByShipmentTypeId" deferrable="false"
                                  initiallyDeferred="false" referencedColumnNames="id"
-                                 referencedTableName="TBL_SHIPMENT_TYPE" validate="true"/>
+                                 referencedTableName="TBL_WARH_SHIPMENT_TYPE" validate="true"/>
     </changeSet>
     <changeSet author="saeb (generated)" id="1587971310555-263">
         <addForeignKeyConstraint baseColumnNames="F_SOURCE_WAREHOUSE_ID" baseTableName="TBL_WARH_REMITTANCE"
@@ -77,7 +77,7 @@
     <!--        <addForeignKeyConstraint baseColumnNames="F_SOURCE_WAREHOUSE_ID" baseTableName="TBL_WARH_REMITTANCE" constraintName="fk_remittance2warehouseAsSourceByWarehouseId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_WARH_WAREHOUSE" validate="true"/>-->
     <!--    </changeSet>-->
     <!--    <changeSet author="saeb (generated)" id="1587974005497-260">-->
-    <!--        <addForeignKeyConstraint baseColumnNames="F_SHIPMENT_TYPE_ID" baseTableName="TBL_WARH_REMITTANCE" constraintName="fk_remittance2ShipmentTypeByShipmentTypeId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_SHIPMENT_TYPE" validate="true"/>-->
+    <!--        <addForeignKeyConstraint baseColumnNames="F_SHIPMENT_TYPE_ID" baseTableName="TBL_WARH_REMITTANCE" constraintName="fk_remittance2ShipmentTypeByShipmentTypeId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_WARH_SHIPMENT_TYPE" validate="true"/>-->
     <!--    </changeSet>-->
     <changeSet author="saeb (generated)" id="1587971310555-251">
         <addForeignKeyConstraint baseColumnNames="F_CONTACT_ID"
@@ -156,4 +156,12 @@
                                  initiallyDeferred="false" referencedColumnNames="id"
                                  referencedTableName="TBL_WARH_ITEM_DETAIL" validate="true"/>
     </changeSet>
+
+
+    <!--    <changeSet author="saeb (generated)" id="1589086856764-244">-->
+    <!--        <addForeignKeyConstraint baseColumnNames="F_SHIPMENT_TYPE_ID" baseTableName="TBL_WARH_REMITTANCE"-->
+    <!--                                 constraintName="fk_remittance2ShipmentTypeByShipmentTypeId" deferrable="false"-->
+    <!--                                 initiallyDeferred="false" referencedColumnNames="id"-->
+    <!--                                 referencedTableName="TBL_WARH_SHIPMENT_TYPE" validate="true"/>-->
+    <!--    </changeSet>-->
 </databaseChangeLog>

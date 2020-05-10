@@ -3,14 +3,13 @@
                    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
 
-    <changeSet author="saeb (generated)" id="1587979503463-208">
-        <createSequence sequenceName="SEQ_SHIPMENT_TYPE"/>
+    <changeSet author="saeb (generated)" id="1589086856764-229">
+        <createSequence sequenceName="SEQ_WARH_SHIPMENT_TYPE"/>
     </changeSet>
-
-    <changeSet author="saeb (generated)" id="1587979503463-222">
-        <createTable tableName="TBL_SHIPMENT_TYPE">
+    <changeSet author="saeb (generated)" id="1589086856764-230">
+        <createTable tableName="TBL_WARH_SHIPMENT_TYPE">
             <column name="id" type="NUMBER(19, 0)">
-                <constraints primaryKey="true" primaryKeyName="TBL_SHIPMENT_TYPEPK"/>
+                <constraints primaryKey="true" primaryKeyName="TBL_WARH_SHIPMENT_TYPEPK"/>
             </column>
             <column name="c_created_by" type="VARCHAR2(255 CHAR)">
                 <constraints nullable="false"/>
@@ -35,6 +34,5 @@
             </column>
         </createTable>
     </changeSet>
-
 
 </databaseChangeLog>
