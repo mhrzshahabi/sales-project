@@ -35,28 +35,28 @@ public class InvoiceSalesItem extends Auditable {
     private Double netAmount;
 
     @Column(name = "ORDER_AMOUNT")
-    private Double orderAmount;
+    private Long orderAmount;
 
     @Column(name = "UNIT_PRICE")
-    private Double unitPrice;
+    private Long unitPrice;
 
     @Column(name = "LINE_PRICE")
-    private Double linePrice;
+    private Long linePrice;
 
     @Column(name = "DISCOUNT")
-    private Double discount;
+    private Long discount;
 
     @Column(name = "LINE_PRICE_AFTER_DISCOUNT")
-    private Double linePriceAfterDiscount;
+    private Long linePriceAfterDiscount;
 
     @Column(name = "LEGAL_FEES")
-    private Double legalFees;
+    private Long legalFees;
 
     @Column(name = "VAT")
-    private Double vat;
+    private Long vat;
 
     @Column(name = "TOTAL_PRICE")
-    private Double totalPrice;
+    private Long totalPrice;
 
     @Column(name = "NOTES")
     private String notes;
