@@ -420,7 +420,6 @@
             dataEditConc.push(JSON.parse(JSON.stringify(element)));
             });
         ListGrid_ContractConcItemShipment.deselectAllRecords();
-         alert("khoroj");
         return dataEditConc;
     };
 
