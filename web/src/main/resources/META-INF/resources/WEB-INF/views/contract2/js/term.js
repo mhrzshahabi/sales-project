@@ -10,12 +10,12 @@ termTab.dynamicForm.fields = BaseFormItems.concat([{
     required: true,
     name: "titleFa",
     title: "<spring:message code='global.title-fa'/>",
-    keyPressFilter: "^[\u0600-\u06FF\uFB8A\u067E\u0686\u06AF\u200C\u200F|0-9]"
+    keyPressFilter: "^[\u0600-\u06FF\uFB8A\u067E\u0686\u06AF\u200C\u200F|0-9 ]"
 }, {
     width: "100%",
     required: true,
     name: "titleEn",
-    keyPressFilter: "^[A-Za-z0-9]",
+    keyPressFilter: "^[A-Za-z0-9 ]",
     title: "<spring:message code='global.title-en'/>"
 }, {
     width: "100%",

@@ -4,11 +4,8 @@ import com.nicico.copper.common.AbstractExceptionHandlerControllerAdvice;
 import com.nicico.copper.common.dto.ErrorResponseDTO;
 import com.nicico.sales.enumeration.ErrorType;
 import com.nicico.sales.exception.*;
-import com.nicico.sales.model.annotation.EntityConstraint;
-import com.nicico.sales.utility.StringFormatUtil;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.exception.ConstraintViolationException;
-import org.reflections.Reflections;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -26,34 +23,17 @@ import java.util.*;
 public class SalesExceptionHandlerControllerAdvice extends AbstractExceptionHandlerControllerAdvice {
 
     private final ResourceBundleMessageSource messageSource;
-    private static final List<EntityConstraint> uniqueConstraintAnnotations = new ArrayList<>();
-
-    static {
-
-        final Reflections reflections = new Reflections("com.nicico.sales.model");
-        Set<Class<?>> allModels = reflections.getTypesAnnotatedWith(EntityConstraint.class);
-        allModels.forEach(item -> uniqueConstraintAnnotations.addAll(Arrays.asList(item.getDeclaredAnnotationsByType(EntityConstraint.class))));
-    }
 
     @Override
     protected Map<String, ErrorResponseDTO.ErrorFieldDTO> getUniqueConstraintErrors() {
 
-        final Locale locale = LocaleContextHolder.getLocale();
-        final Map<String, ErrorResponseDTO.ErrorFieldDTO> uniqueConstraintErrors = new HashMap<>();
-        for (EntityConstraint annotation : uniqueConstraintAnnotations) {
-
-            final String messageKey = StringFormatUtil.makeMessageKey(annotation.constraintType().name(), "-");
-            final String message = messageSource.getMessage("exception." + messageKey + "constraint",
-                    new Object[]{String.join(", ", annotation.constraintFields())}, locale);
-            ErrorResponseDTO.ErrorFieldDTO error = new ErrorResponseDTO.ErrorFieldDTO();
-            error.setField(String.join(",", annotation.constraintFields()));
-            error.setCode(ErrorType.BadRequest.getId().toString());
-            error.setMessage(message);
-
-            uniqueConstraintErrors.put(annotation.constraintName(), error);
-        }
-
-        return uniqueConstraintErrors;
+        Map<String, ErrorResponseDTO.ErrorFieldDTO> errorCodeMap = new HashMap<>();
+        errorCodeMap.put("fk_", new ErrorResponseDTO.ErrorFieldDTO().setCode("DataIntegrityViolation_FK"));
+        errorCodeMap.put("2", new ErrorResponseDTO.ErrorFieldDTO().setCode("DataIntegrityViolation_FK"));
+        errorCodeMap.put("uk_", new ErrorResponseDTO.ErrorFieldDTO().setCode("DataIntegrityViolation_Unique"));
+        errorCodeMap.put("uc_", new ErrorResponseDTO.ErrorFieldDTO().setCode("DataIntegrityViolation_Unique"));
+        errorCodeMap.put("unique", new ErrorResponseDTO.ErrorFieldDTO().setCode("DataIntegrityViolation_Unique"));
+        return errorCodeMap;
     }
 
     private Throwable findBaseException(Throwable exception) {
