@@ -28,11 +28,11 @@ public class ContractDetailType extends BaseEntity {
     private String code;
 
     @NotEmpty
-    @Column(name = "C_TITLE_FA", nullable = false, length = 200, unique = true)
+    @Column(name = "C_TITLE_FA", nullable = false, length = 200)
     private String titleFa;
 
     @NotEmpty
-    @Column(name = "C_TITLE_EN", nullable = false, length = 200, unique = true)
+    @Column(name = "C_TITLE_EN", nullable = false, length = 200)
     private String titleEn;
 
     @OneToMany(mappedBy = "contractDetailType", fetch = FetchType.LAZY)
