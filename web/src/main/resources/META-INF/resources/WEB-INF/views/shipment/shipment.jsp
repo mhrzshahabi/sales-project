@@ -286,7 +286,6 @@
             {name: "contactId", hidden: true,},
             {name: "contractId", hidden: true,},
             {name: "materialId", hidden: true,},
-
             {
                 name: "contractShipmentId", ID: "abal", colSpan: 4,
                 title: "<spring:message code='shipmentContract.list'/>",
@@ -344,7 +343,7 @@
                     }
                 }
             },
-            {name: "createDate", hidden: true,},
+            {name: "createDateHidden", hidden: true,},
             {
                 name: "month", colSpan: 4,
                 title: "<spring:message code='shipment.month'/>", type: 'text', width: "100%"
@@ -363,19 +362,19 @@
                     "December": "December"
                 }
             },
+            {name: "contractDate", hidden: true,},
             {
-                name: "createDate", colSpan: 4,
-                title: "<spring:message code='shipment.createDate'/>",
-                defaultValue: "<%=dateUtil.todayDate()%>",
-                type: 'date',
-                format: 'DD-MM-YYYY',
+                name: "createDate",
+                title: "<spring:message code='contact.date'/>",
+                type: "date",
                 required: true,
-                width: "100%",
                 validators: [
                 {
                     type:"required",
                     validateOnChange: true
-                }]
+                }],
+                width: "90%",
+                wrapTitle: false
             },
             {
                 name: "loadingLetter",
@@ -517,7 +516,8 @@
         fields: [
             {name: "id", hidden: true,},
             {type: "Header", defaultValue: ""},
-            {name: "blDate", hidden: true},
+            {name: "blDateHidden", hidden: true},
+            {name: "swBlDateHidden", hidden: true},
 
             {
                 name: "numberOfBLs", colSpan: 4,
@@ -555,7 +555,6 @@
                 title: "<spring:message code='shipment.blDate'/>",
                 defaultValue: "<%=dateUtil.todayDate()%>",
                 type: 'date',
-                format: 'DD-MM-YYYY',
                 required: true,
                 width: "100%",
                 validators: [
@@ -648,7 +647,7 @@
                 type: 'date',
                 format: 'DD-MM-YYYY',
                 required: true,
-                width: 400 ,
+                width: "100%",
                 validators: [
                 {
                     type:"required",
@@ -909,7 +908,7 @@
             }
             var drs = DynamicForm_Shipment.getValue("createDate");
             var datestringRs = (drs.getFullYear() + "/" + ("0" + (drs.getMonth() + 1)).slice(-2) + "/" + ("0" + drs.getDate()).slice(-2));
-            DynamicForm_Shipment.setValue("createDate", datestringRs);
+            DynamicForm_Shipment.setValue("createDate", DynamicForm_Shipment.getValues().createDate.toNormalDate("toUSShortDate"));
             drs = DynamicForm_Shipment1.getValue("swBlDate");
             datestringRs = (drs.getFullYear() + "/" + ("0" + (drs.getMonth() + 1)).slice(-2) + "/" + ("0" + drs.getDate()).slice(-2));
             DynamicForm_Shipment1.setValue("swBlDate", datestringRs);
@@ -940,8 +939,12 @@
             DynamicForm_Shipment.setValue("dispatch", DynamicForm_Shipment2.getValue("dispatch"));
             DynamicForm_Shipment.setValue("demurrage", DynamicForm_Shipment2.getValue("demurrage"));
             DynamicForm_Shipment.setValue("detention", DynamicForm_Shipment2.getValue("detention"));
+            var allDataShipment=DynamicForm_Shipment.getValues();
+            allDataShipment.createDate=DynamicForm_Shipment.getValues().createDate.toNormalDate("toUSShortDate");
+            allDataShipment.swBlDate=DynamicForm_Shipment.getValues().swBlDate.toNormalDate("toUSShortDate");
+            allDataShipment.blDate=DynamicForm_Shipment.getValues().blDate.toNormalDate("toUSShortDate");
 
-            var dataShipment = Object.assign(DynamicForm_Shipment.getValues());
+            var dataShipment = Object.assign(allDataShipment);
             var methodXXXX = "PUT";
             if ((dataShipment.id == null) || (dataShipment.id == 'undefiend')) methodXXXX = "POST";
             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
@@ -1155,7 +1158,8 @@
             DynamicForm_Shipment.editRecord(record);
             DynamicForm_Shipment1.editRecord(record);
             DynamicForm_Shipment2.editRecord(record);
-            DynamicForm_Shipment.setValue("createDate", new Date(record.createDate));
+
+            DynamicForm_Shipment.setValue("createDate", record.createDate);
             DynamicForm_Shipment1.setValue("swBlDate", new Date(record.swBlDate));
             DynamicForm_Shipment1.setValue("blDate", new Date(record.blDate));
             if (!(record.contract.contact.nameFA == null || record.contract.contact.nameFA == 'undefiend'))
