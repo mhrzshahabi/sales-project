@@ -286,7 +286,6 @@
             {name: "contactId", hidden: true,},
             {name: "contractId", hidden: true,},
             {name: "materialId", hidden: true,},
-
             {
                 name: "contractShipmentId", ID: "abal", colSpan: 4,
                 title: "<spring:message code='shipmentContract.list'/>",
@@ -344,7 +343,7 @@
                     }
                 }
             },
-            {name: "createDate", hidden: true,},
+            {name: "createDateHidden", hidden: true,},
             {
                 name: "month", colSpan: 4,
                 title: "<spring:message code='shipment.month'/>", type: 'text', width: "100%"
@@ -517,7 +516,8 @@
         fields: [
             {name: "id", hidden: true,},
             {type: "Header", defaultValue: ""},
-            {name: "blDate", hidden: true},
+            {name: "blDateHidden", hidden: true},
+            {name: "swBlDateHidden", hidden: true},
 
             {
                 name: "numberOfBLs", colSpan: 4,
@@ -555,7 +555,6 @@
                 title: "<spring:message code='shipment.blDate'/>",
                 defaultValue: "<%=dateUtil.todayDate()%>",
                 type: 'date',
-                format: 'DD-MM-YYYY',
                 required: true,
                 width: "100%",
                 validators: [
@@ -648,7 +647,7 @@
                 type: 'date',
                 format: 'DD-MM-YYYY',
                 required: true,
-                width: 400 ,
+                width: "100%",
                 validators: [
                 {
                     type:"required",
@@ -1155,7 +1154,8 @@
             DynamicForm_Shipment.editRecord(record);
             DynamicForm_Shipment1.editRecord(record);
             DynamicForm_Shipment2.editRecord(record);
-            DynamicForm_Shipment.setValue("createDate", new Date(record.createDate));
+
+            DynamicForm_Shipment.setValue("createDate", record.createDate);
             DynamicForm_Shipment1.setValue("swBlDate", new Date(record.swBlDate));
             DynamicForm_Shipment1.setValue("blDate", new Date(record.blDate));
             if (!(record.contract.contact.nameFA == null || record.contract.contact.nameFA == 'undefiend'))
