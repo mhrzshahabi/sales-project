@@ -1311,6 +1311,7 @@
                     optionDataSource: RestDataSource_MaterialItem_IN_invoiceSales,
                     displayField: "miDetailCode",
                     valueField: "miDetailCode",
+                    required: true,
                     pickListFields: [
                     {
                         name: "miDetailCode"
@@ -1336,6 +1337,7 @@
                     optionDataSource: RestDataSource_Unit_IN_invoiceSales,
                     displayField: "nameFA",
                     valueField: "nameFA",
+                    required: true,
                     pickListFields: [
                     {
                         name: "nameFA"
@@ -1353,6 +1355,7 @@
                     name: "netAmount",
                     title: "<spring:message code='invoiceSalesItem.netAmount'/>",
                     defaultValue: 0,
+                    required: true,
                     changed: function (form, item, value) {
                         updatePrice();
                     }
@@ -1361,6 +1364,7 @@
                     name: "unitPrice",
                     title: "<spring:message code='invoiceSalesItem.unitPrice'/>",
                     defaultValue: 0,
+                    required: true,
                     changed: function () {
                         updatePrice();
                     }
