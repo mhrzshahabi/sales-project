@@ -1350,6 +1350,7 @@
                 {
                     name: "orderAmount",
                     title: "<spring:message code='invoiceSalesItem.orderAmount'/>",
+                    required: true,
                 },
                 {
                     name: "netAmount",
