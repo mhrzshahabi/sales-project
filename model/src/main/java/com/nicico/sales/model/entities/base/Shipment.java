@@ -91,7 +91,7 @@ public class Shipment extends Auditable {
     @Column(name = "MONTH", length = 20)
     private String month;
 
-    @Column(name = "CREATE_DATE", length = 20)
+    @Column(name = "CREATE_DATE")
     private String createDate;
 
     @Column(name = "FILE_NAME", length = 100)
