@@ -1,0 +1,30 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <changeSet author="programmer (generated)" id="9778899665544-001">
+        <addColumn tableName="TBL_INVOICE_SALES">
+            <column name="ADDRESS" type="varchar2(255 CHAR)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="programmer (generated)" id="9778899665544-002">
+        <addColumn tableName="TBL_INVOICE_SALES">
+            <column name="ECONIMICAL_NO" type="varchar2(255 CHAR)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="programmer (generated)" id="9778899665544-003">
+        <addColumn tableName="TBL_INVOICE_SALES">
+            <column name="NATIONAL_NO" type="varchar2(255 CHAR)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="programmer (generated)" id="9778899665544-004">
+        <addColumn tableName="TBL_INVOICE_SALES">
+            <column name="POSTAL_CODE" type="varchar2(255 CHAR)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="programmer (generated)" id="9778899665544-005">
+        <addColumn tableName="TBL_INVOICE_SALES">
+            <column name="TELEPHONE" type="varchar2(255 CHAR)"/>
+        </addColumn>
+    </changeSet>
+</databaseChangeLog>

@@ -248,7 +248,7 @@
                 {
                     name: "contactAccounts"
                 }],
-            fetchDataURL: "${contextPath}/api/contact/spec-list"
+            fetchDataURL: "${contextPath}/api/contact/spec-list-mainContact"
         });
 
     var Menu_ListGrid_Contact = isc.Menu.create(

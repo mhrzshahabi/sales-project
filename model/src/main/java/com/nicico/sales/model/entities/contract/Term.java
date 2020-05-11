@@ -5,7 +5,7 @@ import lombok.*;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotEmpty;
 
 @Getter
 @Setter
@@ -22,11 +22,18 @@ public class Term extends BaseEntity {
     @SequenceGenerator(name = "SEQ_CNTR_TERM", sequenceName = "SEQ_CNTR_TERM", allocationSize = 1)
     private Long id;
 
-    @NotNull
-    @Column(name = "C_TITLE", nullable = false, length = 200)
-    private String title;
+    @NotEmpty
+    @Column(name = "C_CODE", nullable = false, length = 200, unique = true)
+    private String code;
 
-    @NotNull
+    @NotEmpty
+    @Column(name = "C_TITLE_FA", nullable = false, length = 200)
+    private String titleFa;
+
+    @NotEmpty
+    @Column(name = "C_TITLE_EN", nullable = false, length = 200)
+    private String titleEn;
+
     @Column(name = "C_DESCRIPTION", length = 4000)
     private String description;
 }

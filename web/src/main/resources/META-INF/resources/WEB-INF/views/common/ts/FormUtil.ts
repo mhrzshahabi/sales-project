@@ -36,11 +36,11 @@ namespace nicico {
             return data;
         };
 
-        showForm(ownerWindow: isc.Window, title: string, canvas: isc.Canvas): void {
+        showForm(ownerWindow: isc.Window, title: string, canvas: isc.Canvas, width: string = null, height: string = null): void {
 
             this.owner = new ObjectHider(ownerWindow);
             this.bodyWidget = new ObjectHider(canvas);
-            this.createWindow(title, this.getButtonLayout());
+            this.createWindow(title, this.getButtonLayout(), width, height);
             if (ownerWindow != null)
                 ownerWindow.close();
             this.windowWidget.getObject().show();
@@ -77,7 +77,7 @@ namespace nicico {
                         This.owner.getObject().show();
                     This.okCallBack(data);
                 },
-                icon: "pieces/16/approve.png",
+                icon: "pieces/16/save.png",
                 title: '<spring:message code="global.ok" />'
             });
             return isc.HLayout.create({
@@ -92,7 +92,7 @@ namespace nicico {
             });
         }
 
-        public createWindow(title: string, buttonLayout: isc.HLayout): void {
+        public createWindow(title: string, buttonLayout: isc.HLayout, width: string = null, height: string = null): void {
 
             let This = this;
             let vLayout = isc.VLayout.create({
@@ -104,7 +104,7 @@ namespace nicico {
                 ]
             });
             // @ts-ignore
-            This.windowWidget = new ObjectHider(Object.assign(isc.Window.nicico.getDefault(title, [vLayout]), {
+            This.windowWidget = new ObjectHider(Object.assign(isc.Window.nicico.getDefault(title, [vLayout], width, height), {
 
                 closeClick: function () {
                     this.Super("closeClick", arguments);

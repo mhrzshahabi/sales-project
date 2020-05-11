@@ -22,6 +22,5 @@ public class InvoiceNosaDTO {
     @Accessors(chain = true)
     @ApiModel("InvoiceNosaInfo")
     public static class Info extends InvoiceNosaDTO {
-        private Long id;
     }
 }

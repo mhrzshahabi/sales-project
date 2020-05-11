@@ -21,6 +21,7 @@ public class MaterialDTO {
     private String descp;
     private String code;
     private Long unitId;
+    private String mDetailCode;
 
     @Getter
     @Setter

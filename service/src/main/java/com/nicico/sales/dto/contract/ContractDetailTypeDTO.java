@@ -10,7 +10,6 @@ import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotNull;
 import java.util.Date;
-import java.util.EnumSet;
 import java.util.List;
 
 @Getter
@@ -22,6 +21,9 @@ public class ContractDetailTypeDTO {
     private String code;
     private String titleFa;
     private String titleEn;
+
+    private List<ContractDetailTypeParamDTO.Info> contractDetailTypeParams;
+    private List<ContractDetailTypeTemplateDTO.Info> contractDetailTypeTemplates;
 
     @Getter
     @Setter
@@ -40,7 +42,7 @@ public class ContractDetailTypeDTO {
 
         // BaseEntity
         private Boolean editable;
-        private EnumSet<EStatus> eStatus;
+        private List<EStatus> eStatus;
     }
 
     @Getter

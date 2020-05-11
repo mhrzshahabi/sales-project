@@ -5,9 +5,9 @@ import lombok.*;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
-import java.util.List;
 
 @Getter
 @Setter
@@ -24,13 +24,13 @@ public class Incoterm extends BaseEntity {
     @SequenceGenerator(name = "SEQ_CNTR_INCOTERM", sequenceName = "SEQ_CNTR_INCOTERM", allocationSize = 1)
     private Long id;
 
-    @NotNull
+    @NotEmpty
     @Column(name = "C_TITLE", nullable = false, length = 200)
     private String title;
 
     @NotNull
-    @Column(name = "N_VERSION", nullable = false)
-    private Integer version;
+    @Column(name = "N_INCOTERM_VERSION", nullable = false)
+    private Integer incotermVersion;
 
     @Column(name = "D_PUBLISH_DATE")
     private Date publishDate;
@@ -38,9 +38,9 @@ public class Incoterm extends BaseEntity {
     @Column(name = "C_DESCRIPTION", length = 4000)
     private String description;
 
-    @OneToMany(mappedBy = "incoterm", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    private List<IncotermRules> incotermModes;
+//    @OneToMany(mappedBy = "incoterm", fetch = FetchType.LAZY)
+//    private List<IncotermRules> incotermModes;
 
-    @OneToMany(mappedBy = "incoterm", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    private List<IncotermSteps> incotermSteps;
+//    @OneToMany(mappedBy = "incoterm", fetch = FetchType.LAZY)
+//    private List<IncotermSteps> incotermSteps;
 }

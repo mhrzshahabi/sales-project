@@ -358,18 +358,18 @@
                             var text = resp.httpResponseText;
                             var text2 = text.replaceAll('","', '","').replaceAll('&?', '":"')
                             textMain = JSON.parse(text2.replaceAt(0, '{"').replaceAt(text2.length - 1, '}'));
-                            dynamicForm_fullArticle01.setValue(textMain.Article01)
-                            dynamicForm_fullArticle02.setValue(textMain.Article02)
-                            dynamicForm_fullArticleConc03.setValue(textMain.Article03)
-                            dynamicForm_fullArticleConc04.setValue(textMain.Article04)
-                            dynamicForm_fullArticleConc05.setValue(textMain.Article05)
-                            dynamicForm_fullArticleConc06.setValue(textMain.Article06)
-                            dynamicForm_fullArticleConc07.setValue(textMain.Article07)
-                            dynamicForm_fullArticleConc08.setValue(textMain.Article08)
-                            dynamicForm_fullArticleConc09.setValue(textMain.Article09)
-                            dynamicForm_fullArticleConc10.setValue(textMain.Article10)
-                            dynamicForm_fullArticleConc11.setValue(textMain.Article11)
-                            dynamicForm_fullArticleConc12.setValue(textMain.Article12)
+                            dynamicForm_fullArticle01.setValue(nvlConc(textMain.Article01))
+                            dynamicForm_fullArticle02.setValue(nvlConc(textMain.Article02))
+                            dynamicForm_fullArticleConc03.setValue(nvlConc(textMain.Article03))
+                            dynamicForm_fullArticleConc04.setValue(nvlConc(textMain.Article04))
+                            dynamicForm_fullArticleConc05.setValue(nvlConc(textMain.Article05))
+                            dynamicForm_fullArticleConc06.setValue(nvlConc(textMain.Article06))
+                            dynamicForm_fullArticleConc07.setValue(nvlConc(textMain.Article07))
+                            dynamicForm_fullArticleConc08.setValue(nvlConc(textMain.Article08))
+                            dynamicForm_fullArticleConc09.setValue(nvlConc(textMain.Article09))
+                            dynamicForm_fullArticleConc10.setValue(nvlConc(textMain.Article10))
+                            dynamicForm_fullArticleConc11.setValue(nvlConc(textMain.Article11))
+                            dynamicForm_fullArticleConc12.setValue(nvlConc(textMain.Article12))
                             ListGrid_ContractConcItemShipment.fetchData(criteriaContractConcItemShipment)
                         }
                         else {
@@ -801,3 +801,11 @@ function ListGrid_ContractConc_remove() {
             });
         }
     }
+
+    function nvlConc(articleIsNotNull) {
+        if (articleIsNotNull == undefined) {
+            return "";
+        } else {
+            return articleIsNotNull;
+        }
+    };

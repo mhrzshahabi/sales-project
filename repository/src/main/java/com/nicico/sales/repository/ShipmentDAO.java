@@ -13,12 +13,11 @@ import java.util.List;
 @Repository
 public interface ShipmentDAO extends JpaRepository<Shipment, Long>, JpaSpecificationExecutor<Shipment> {
     @Query(value = "            select cs.id cisId,c.c_CONTRACT_NO contractNo,a.C_FULLNAME_EN fullname,cs.amount amount,cs.ADDRESS address,cs.plan plan,cs.SEND_DATE sendDate, " +
-            "                     cs.DURATION duration,a.ID contactID,m.id materialID,c.contract_id contractID,cs.DISCHARGE  dischargeID ,cs.address dischargeAddress,i.CODE " +
+            "                     cs.DURATION duration,a.ID contactID,m.id materialID,c.contract_id contractID,cs.DISCHARGE  dischargeID ,cs.address dischargeAddress " +
             "                     from TBL_CONTRACT_SHIPMENT cs  " +
             "                     join tbl_contract c on c.contract_id=cs.CONTRACT_ID  " +
             "                     join tbl_material m on m.id=c.MATERIAL_ID  " +
             "                     join tbl_contact a on a.ID=c.CONTACT_ID  " +
-            "					  join tbl_incoterms i on c.INCOTERMS_ID = i.ID " +
             "                      where cs.id not in (select  xs.contract_shipment_id from tbl_shipment xs where  xs.contract_shipment_id=cs.id) and cs.DISCHARGE IS NOT NULL" +
             "                      and to_char(sysdate+15,'yyyy/mm/dd') > cs.SEND_DATE   ", nativeQuery = true)
     List<Object[]> pickListShipment();

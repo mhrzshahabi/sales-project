@@ -402,17 +402,22 @@ var VLayout_contactCadMain = isc.VLayout.create({
 
 function saveListGrid_ContractCadItemShipment() {
         ListGrid_ContractItemShipment.selectAllRecords();
-        var dataEdit = [];
+        var dataEditCad = [];
         ListGrid_ContractItemShipment.getAllEditRows().forEach(function (element) {
-            dataEdit.push(ListGrid_ContractItemShipment.getEditedRecord(element));
+            dataEditCad.push(ListGrid_ContractItemShipment.getEditedRecord(element));
+            if(dataEditCad.length>0){
+                   try {
+            dataEditCad[dataEditCad.length - 1].sendDate = (dataEditCad[dataEditCad.length - 1].sendDate.getFullYear() + "/" + ("0" + (dataEditCad[dataEditCad.length - 1].sendDate.getMonth() + 1)).slice(-2) + "/" + ("0" + dataEditCad[dataEditCad.length - 1].sendDate.getDate()).slice(-2));
+                       }catch(err){
+                }
+            }
             ListGrid_ContractItemShipment.deselectRecord(ListGrid_ContractItemShipment.getRecord(element));
         });
         ListGrid_ContractItemShipment.getSelectedRecords().forEach(function (element) {
-            dataEdit.push(JSON.parse(JSON.stringify(element)));
+            dataEditCad.push(JSON.parse(JSON.stringify(element)));
         });
         ListGrid_ContractItemShipment.deselectAllRecords();
-        console.log(dataEdit);
-        return dataEdit;
+        return dataEditCad;
     };
 
     var dataALLArticle = {};
@@ -444,10 +449,4 @@ function saveListGrid_ContractCadItemShipment() {
         }))
     }
 
-function nvlCad(articleIsNotNull){
-        if(articleIsNotNull == undefined){
-            return "";
-        }else{
-            return articleIsNotNull;
-        }
-    }
+

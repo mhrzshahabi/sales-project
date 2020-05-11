@@ -1,4 +1,5 @@
 <%@ page import="com.nicico.copper.common.domain.ConstantVARs" %>
+<%@ page import="com.nicico.copper.core.SecurityUtil" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
@@ -19,10 +20,12 @@
     <link rel="stylesheet" href='<spring:url value="/static/css/OAManagementUsers.css"/>'/>
 
     <script src="<spring:url value='/static/script/js/calendar.js'/>"></script>
+    <script src="<spring:url value='/static/script/js/jalali-moment.browser.js'/>"></script>
     <script src="<spring:url value='/static/script/js/all.js'/>"></script>
     <script src="<spring:url value='/static/script/js/convertDigitToEnglish.js'/>"></script>
     <script src="<spring:url value='/static/script/js/moment.js'/>"></script>
     <script src="<spring:url value='/static/script/js/jquery.min.js' />"></script>
+    <script src="<spring:url value='/static/script/js/persian-date.min.js' />"></script>
 
     <script>var isomorphicDir = "isomorphic/";</script>
     <script src=isomorphic/system/modules/ISC_Core.js></script>
@@ -53,16 +56,39 @@
 <form action="logout" method="get" id="logoutForm">
 </form>
 
+<spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
+
 <script type="application/javascript">
 
+    isc.SimpleType.create({
+        name: "persianDate",
+        inheritsFrom: "text",
+        validators: [{
+            type: "custom",
+            errorMessage: "<spring:message code='validator.field.date'/>",
+            condition: "moment.from(value, 'fa', 'YYYY/MM/DD').isValid()"
+        }]
+    });
+    var persianDatePicker = isc.FormItem.getPickerIcon("date", {
+        disableOnReadOnly: false,
+        click: function (form, item, icon) {
+            if (!item.getCanEdit())
+                return;
+            closeCalendarWindow();
+            displayDatePicker(null, item, 'ymd', '/');
+        },
+        blur: function () {
+            closeCalendarWindow();
+        },
+    });
+
     <%@include file="common/ts/CommonUtil.js"%>
-    <%@include file="common/ts/GeneralTabUtil.js"%>
     <%@include file="common/ts/PersianDateUtil.js"%>
     <%@include file="common/ts/FormUtil.js"%>
     <%@include file="common/ts/FindFormUtil.js"%>
-    <%@include file="common/ts/BasicFormUtil.js"%>
+    <%@include file="common/ts/GeneralTabUtil.js"%>
 
-    BaseRPCRequest = {
+    var BaseRPCRequest = {
         httpHeaders: {"Authorization": "Bearer <%= accessToken %>"},
         useSimpleHttp: true,
         contentType: "application/json; charset=utf-8",
@@ -71,10 +97,87 @@
         willHandleError: false //centralized error handling
     };
 
+    const statusMap = {
+        "Active": "عادی",
+        "DeActive": "حذف شده"
+    };
+
+    const BaseFormItems = {
+
+        concat: function (fields, setBaseItemsHidden = true) {
+
+            let items = [];
+            if (fields.constructor !== Array)
+                return items;
+
+            items.push({...this.formItems[0]});
+            items[0].hidden = setBaseItemsHidden;
+
+            for (let i = 0; i < fields.length; i++)
+                items.push({...fields[i]});
+
+            for (let i = 1; i < this.formItems.length; i++) {
+
+                items.push({...this.formItems[i]});
+                items[items.length - 1].hidden = setBaseItemsHidden;
+            }
+
+            return items;
+        },
+        formItems: [{
+            isBaseItem: true,
+            hidden: true,
+            primaryKey: true,
+            canEdit: false,
+            name: "id",
+            type: "number",
+            width: 75,
+            title: "<spring:message code='global.id'/>"
+        }, {
+            isBaseItem: true,
+            hidden: true,
+            canEdit: false,
+            name: "version",
+            type: "number",
+            width: 70,
+            title: "<spring:message code='global.version'/>"
+        }, {
+            isBaseItem: true,
+            hidden: true,
+            canEdit: false,
+            name: "editable",
+            type: "boolean",
+            width: 60,
+            title: "<spring:message code='global.editable'/>"
+        }, {
+            isBaseItem: true,
+            width: 100,
+            canEdit: false,
+            name: "estatus",
+            type: "number",
+            hidden: true,
+            showHover: true,
+            canSort: false,
+            title: "<spring:message code='global.e-status'/>",
+            hoverHTML(record, value, rowNum, colNum, grid) {
+
+                if (record == null || record.estatus == null || record.estatus.length === 0)
+                    return;
+
+                return record.estatus.map(q => '<div>' + statusMap[q] + '</div>').join();
+            },
+            formatCellValue: function (value, record, rowNum, colNum, grid) {
+
+                if (record == null || record.estatus == null || record.estatus.length === 0)
+                    return;
+
+                return record.estatus.join(', ');
+            }
+        }]
+    };
+
     var salesCommonUtil = new nicico.CommonUtil();
-    var salesFormUtil = new nicico.FormUtil();
-    var salesFindFormUtil = new nicico.FindFormUtil();
-    var salesGeneralTabUtil = new nicico.GeneralTabUtil();
+    var salesPersianDateUtil = new nicico.PersianDateUtil();
 
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
@@ -87,8 +190,7 @@
         showErrorStyle: true,
         errorOrientation: "right",
         titleAlign: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>",
-
+        requiredMessage: "<spring:message code='validator.field.is.required'/>"
     });
 
     isc.RichTextEditor.addProperties({
@@ -119,17 +221,20 @@
         }
     });
 
-    isc.TextItem.addProperties({
+    /*isc.TextItem.addProperties({
         format: ",##0",
         selectOnClick: true,
         hintStyle: "noneStyleFormItem",
         formatEditorValue(value, record, form, item) {
+            if (value === undefined || isNaN(value)) return value;
             return NumberUtil.format(value, ",0");
         },
         keyUp(item, form, keyName) {
+            if (item.getValue() === undefined || isNaN(item.getValue())) return;
+
             item.setHint(NumberUtil.format(item.getValue(), ",0"));
         }
-    });
+    });*/
 
     function redirectLogin() {
         location.href = "<spring:url value='/' />";
@@ -146,9 +251,7 @@
             if (response.error == 'invalid_token')
                 isc.warn(response.data);
             console.log("Global RPCManager Error Handler: ", request, response);
-            /*if (response.httpResponseCode == 401) { // Unauthorized
-                redirectLogin();
-            } else*/ if (response.httpResponseCode == 403) { // Forbidden
+            if (response.httpResponseCode == 403) { // Forbidden
                 isc.say(JSON.parse(response.httpResponseText).exception);
             } else if (response.httpResponseCode == 500) {
                 isc.say(JSON.parse(response.httpResponseText).exception + " HTTP Response Code is 500");
@@ -172,6 +275,11 @@
                 case "FORBIDDEN":
                     isc.warn("<spring:message code='exception.ACCESS_DENIED'/>", {title: "<spring:message code='dialog_WarnTitle'/>"});
                     break;
+                default:
+                    if (!httpResponse.errors) return;
+                    const errorText = httpResponse.errors.map(q => q.message + '<br>').join();
+                    isc.warn(errorText, {title: "<spring:message code='dialog_WarnTitle'/>"});
+                    break;
             }
         }
     });
@@ -179,14 +287,21 @@
     isc.Dialog.SAY_TITLE = "<spring:message code='global.message'/>";
     Page.setAppImgDir("static/img/");
 
+    function formatCellValueNumber(value) {
+        // console.debug("formatCellValueNumber(value) arguments",arguments);
+        if (value === undefined || isNaN(value)) return value;
+        return isc.NumberUtil.format(value, ',0');
+
+    }
+
     isc.ListGrid.addProperties({
-        dataPageSize: 50,
+        dataPageSize: 500,
         showPrompt: true,
         canAutoFitFields: false,
         allowFilterExpressions: true,
         allowAdvancedCriteria: true,
         filterOnKeypress: true,
-        formatCellValue: "isc.NumberUtil.format(value, ',0')",
+        formatCellValue: formatCellValueNumber,
         sortFieldAscendingText: '<spring:message code="global.grid.sortFieldAscendingText" />',
         sortFieldDescendingText: '<spring:message code="global.grid.sortFieldDescendingText" />',
         configureSortText: '<spring:message code="global.grid.configureSortText" />',
@@ -194,7 +309,24 @@
         autoFitFieldText: '<spring:message code="global.grid.autoFitFieldText" />',
         filterUsingText: '<spring:message code="global.grid.filterUsingText" />',
         groupByText: '<spring:message code="global.grid.groupByText" />',
-        freezeFieldText: '<spring:message code="global.grid.freezeFieldText" />'
+        freezeFieldText: '<spring:message code="global.grid.freezeFieldText" />',
+        getAllData: function () {
+
+            let data = [...this.getData()];
+            let allEditRows = this.getAllEditRows();
+            for (let i = 0; i < allEditRows.length; i++)
+                data.push({...this.getEditedRecord(allEditRows[i])});
+
+            return data;
+        },
+        validateAllData: function () {
+
+            for (let i = 0; i < this.getAllData().length; i++)
+                if (!this.validateRecord(i))
+                    return false;
+
+            return true;
+        }
     });
 
     isc.ToolStripButton.addProperties({
@@ -222,18 +354,6 @@
             viewURL: url,
             loadingMessage: " <spring:message code='global.loadingMessage'/>"
         });
-
-        // isc.ViewLoader.addMethods({
-        //     handleError: function (rq, rs) {
-        //         console.log("Global ViewLoader Error: ", rq, rs);
-        //         if (rs.httpResponseCode == 403) { // Forbidden
-        //             nicico.error("Access Denied");  //TODO: I18N message key
-        //         } else {
-        //             redirectLogin();
-        //         }
-        //         return false;
-        //     }
-        // });
 
         var flagTabExist = false;
 
@@ -446,6 +566,11 @@
                             click: function () {
                                 createTab("<spring:message code='port.port'/>", "<spring:url value="/port/showForm" />")
                             }
+                        }, {
+                            title: "<spring:message code='vessel.title'/>",
+                            click: function () {
+                                createTab("<spring:message code='vessel.title'/>", "<spring:url value="/vessel/showForm" />")
+                            }
                         },
 
                         {isSeparator: true},
@@ -644,14 +769,89 @@
                         createTab("<spring:message code='inspectionContract.title'/>", "<spring:url value="/inspectionContract/showForm" />")
                     }
                 },
+
+
+                <sec:authorize access="hasAnyAuthority('R_CONTRACT2')">
+                {isSeparator: true},
+                {
+                    title: "<spring:message code='entity.contract'/>",
+                    click: function () {
+                        createTab("<spring:message code='entity.contract'/>", "<spring:url value="/contract2/show-form" />")
+                    }
+                },
+                </sec:authorize>
+                <sec:authorize access="hasAnyAuthority('R_CONTRACT_TYPE')">
+                {isSeparator: true},
+                {
+                    title: "<spring:message code='entity.contract-type'/>",
+                    click: function () {
+                        createTab("<spring:message code='entity.contract-type'/>", "<spring:url value="/contract-type/show-form" />")
+                    }
+                },
+                </sec:authorize>
+                <sec:authorize access="hasAnyAuthority('R_CONTRACT_DETAIL_TYPE')">
+                {isSeparator: true},
+                {
+                    title: "<spring:message code='entity.contract-detail-type'/>",
+                    click: function () {
+                        createTab("<spring:message code='entity.contract-detail-type'/>", "<spring:url value="/contract-detail-type/show-form" />")
+                    }
+                },
+                </sec:authorize>
+                <sec:authorize access="hasAnyAuthority('R_INCOTERM')">
+                {isSeparator: true},
+                {
+                    title: "<spring:message code='entity.incoterm'/>",
+                    click: function () {
+                        createTab("<spring:message code='entity.incoterm'/>", "<spring:url value="/incoterm/show-form" />")
+                    }
+                },
+                </sec:authorize>
+                <sec:authorize access="hasAnyAuthority('R_INCOTERM_ASPECT')">
+                {isSeparator: true},
+                {
+                    title: "<spring:message code='entity.incoterm-aspect'/>",
+                    click: function () {
+                        createTab("<spring:message code='entity.incoterm-aspect'/>", "<spring:url value="/incoterm-aspect/show-form" />")
+                    }
+                },
+                </sec:authorize>
+                <sec:authorize access="hasAnyAuthority('R_INCOTERM_STEP')">
+                {isSeparator: true},
+                {
+                    title: "<spring:message code='entity.incoterm-step'/>",
+                    click: function () {
+                        createTab("<spring:message code='entity.incoterm-step'/>", "<spring:url value="/incoterm-step/show-form" />")
+                    }
+                },
+                </sec:authorize>
+                <sec:authorize access="hasAnyAuthority('R_INCOTERM_RULE')">
+                {isSeparator: true},
+                {
+                    title: "<spring:message code='entity.incoterm-rule'/>",
+                    click: function () {
+                        createTab("<spring:message code='entity.incoterm-rule'/>", "<spring:url value="/incoterm-rule/show-form" />")
+                    }
+                },
+                </sec:authorize>
+                <sec:authorize access="hasAnyAuthority('R_INCOTERM_PARTY')">
+                {isSeparator: true},
+                {
+                    title: "<spring:message code='entity.incoterm-party'/>",
+                    click: function () {
+                        createTab("<spring:message code='entity.incoterm-party'/>", "<spring:url value="/incoterm-party/show-form" />")
+                    }
+                },
+                </sec:authorize>
+                <sec:authorize access="hasAnyAuthority('R_TERM')">
                 {isSeparator: true},
                 {
                     title: "<spring:message code='entity.term'/>",
                     click: function () {
-                        createTab("<spring:message code='entity.term'/>", "<spring:url value="/term/showForm" />")
+                        createTab("<spring:message code='entity.term'/>", "<spring:url value="/term/show-form" />")
                     }
                 },
-                {isSeparator: true},
+                </sec:authorize>
 
 
                 /*{
@@ -728,55 +928,17 @@
                     click: function () {
                         createTab("<spring:message code='warehouseStock'/>", "<spring:url value="/warehouseStock/showForm" />")
                     }
-                }/*,
-                {isSeparator: true},
-                {
-                    title: "<spring:message code='Shipment.titleWarehouseIssueCathode'/>",
-                    click: function () {
-                        createTab("<spring:message code='Shipment.titleWarehouseIssueCathode'/>", "<spring:url value="/warehouseIssueCathode/showForm" />")
-                    }
                 },
                 {isSeparator: true},
                 {
-                    title: "<spring:message code='Shipment.titleWarehouseIssueCons'/>",
+                    title: "<spring:message code='warehouseStock'/>",
                     click: function () {
-                        createTab("<spring:message code='Shipment.titleWarehouseIssueCons'/>", "<spring:url value="/warehouseIssueCons/showForm" />")
+                        createTab("باقر<spring:message code='warehouseStock'/>", "<spring:url value="/remittance/showForm" />")
                     }
-                },
-                {isSeparator: true},
-                {
-                    title: "<spring:message code='Shipment.titleWarehouseIssueMo'/>",
-                    click: function () {
-                        createTab("<spring:message code='Shipment.titleWarehouseIssueMo'/>", "<spring:url value="/warehouseIssueMo/showForm" />")
-                    }
-                }*/
+                }
             ]
         })
     });
-
-    /*----------------------inspectionTab------------------------*/
-    <%--inspectionTab = isc.ToolStripMenuButton.create({--%>
-    <%--title: "&nbsp; <spring:message code='main.inspectionTab'/>",--%>
-    <%--menu: isc.Menu.create({--%>
-    <%--placement: "none",--%>
-    <%--data: [--%>
-    <%--{--%>
-    <%--title: "<spring:message code='inspectionMoistureResults.title'/>",--%>
-    <%--click: function () {--%>
-    <%--createTab("<spring:message code='inspectionMoisture.title'/>", "<spring:url value="/shipmentMoisture/showForm" />")--%>
-    <%--}--%>
-    <%--},--%>
-    <%--{isSeparator: true},--%>
-    <%--{--%>
-    <%--title: "<spring:message code='inspectionAssayResults.title'/>",--%>
-    <%--click: function () {--%>
-    <%--createTab("<spring:message code='inspectionAssay.title'/>", "<spring:url value="/shipmentAssay/showForm" />")--%>
-    <%--}--%>
-    <%--}--%>
-    <%--]--%>
-    <%--})--%>
-    <%--});--%>
-
 
     /*----------------------financialTab------------------------*/
     financialTab = isc.ToolStripMenuButton.create({
@@ -791,20 +953,7 @@
                         var url = new URL(url_string);
                         var lang = url.searchParams.get("lang");
 
-                        if (lang == "fa" || lang == null) {
-                            isc.Dialog.create({
-                                message: "بهتر است از این تب در فرمت انگلیسی استفاده کنید",
-                                icon: "[SKIN]ask.png",
-                                title: "<spring:message code='global.message'/>",
-                                buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
-                                buttonClick: function () {
-                                    this.hide();
-                                }
-                            });
-                            createTab("<spring:message code='issuedInvoices.title'/>", "<spring:url value="/invoice/showForm" />")
-                        } else {
-                            createTab("<spring:message code='issuedInvoices.title'/>", "<spring:url value="/invoice/showForm" />")
-                        }
+                        createTab("<spring:message code='issuedInvoices.title'/>", "<spring:url value="/invoice/showForm" />")
                     }
                 },
                 {isSeparator: true},
@@ -821,6 +970,12 @@
                         createTab("<spring:message code='invoiceSales.title'/>", "<spring:url value="/invoiceSales/showForm" />")
                     }
                 },
+                {
+                    title: "<spring:message code='invoiceSales.title'/>",
+                    click: function () {
+                        createTab("<spring:message code='invoiceSales.title'/>", "<spring:url value="/invoice-export/showForm" />")
+                    }
+                }
             ]
         })
     });
@@ -999,9 +1154,6 @@
 
     /*Help*/
     isc.HTMLFlow.create({
-        textAlign: "center",
-        top: 100,
-        left: 20,
         contents: "<div id=\"mybutton\">\n" +
             "<button class=\"glow-on-hover\"><spring:message code='global.form.help'/></button>\n" +
             "</div>",
@@ -1011,6 +1163,63 @@
         }
     });
     /*Help*/
+    SalesDocumentUrl = document.URL.split("?")[0].slice(-1) === "/"
+        ? document.URL.split("?")[0].slice(0, -1)
+        : document.URL.split("?")[0];
+    const SalesConfigs = {
+        Urls: {
+            RootUrl: "${contextPath}",
+            InvoiceExportRest: "${contextPath}" + "/rest",
+            remittanceRest: "${contextPath}" + "/rest",
+        },
+        httpHeaders: {"Authorization": "Bearer <%= accessToken %>"},
+        userFullName: '<%= SecurityUtil.getFullName()%>',
+    }
+    isc.FilterBuilder.addProperties({
+
+        getValueFieldProperties: function (type, fieldName, operatorId, itemType) {
+
+            if (this.dataSource == null)
+                return {name: fieldName, type: type, filterOperator: operatorId};
+
+            const field = this.dataSource.getField(fieldName);
+            if (field == null || (field.editorType !== "SelectItem" && field.editorType !== "ComboBoxItem"))
+                return {name: fieldName, type: type, filterOperator: operatorId};
+
+            return {
+                required: true,
+                autoFetchData: false,
+                showFilterEditor: true,
+                multiple: field.multiple,
+                editorType: field.editorType,
+                valueField: field.valueField,
+                displayField: field.displayField,
+                optionDataSource: field.dataSource,
+                pickListFields: [
+                    {
+                        title: '<spring:message code="global.id"/>',
+                        hidden: true,
+                        type: "number",
+                        name: field.valueField
+                    }, {
+                        title: '<spring:message code="global.title"/>',
+                        align: "left",
+                        type: "string",
+                        showHover: true,
+                        hoverWidth: "30%",
+                        name: field.displayField,
+                        hoverHTML: record => record[field.displayField],
+                    }
+                ],
+                pickListProperties: {
+
+                    sortField: 1,
+                    showFilterEditor: true,
+                    sortDirection: "descending"
+                }
+            };
+        }
+    });
 
 </script>
 </body>

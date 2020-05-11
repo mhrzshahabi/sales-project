@@ -22,10 +22,12 @@ var nicico;
                 return data;
             };
         }
-        FormUtil.prototype.showForm = function (ownerWindow, title, canvas) {
+        FormUtil.prototype.showForm = function (ownerWindow, title, canvas, width, height) {
+            if (width === void 0) { width = null; }
+            if (height === void 0) { height = null; }
             this.owner = new nicico.ObjectHider(ownerWindow);
             this.bodyWidget = new nicico.ObjectHider(canvas);
-            this.createWindow(title, this.getButtonLayout());
+            this.createWindow(title, this.getButtonLayout(), width, height);
             if (ownerWindow != null)
                 ownerWindow.close();
             this.windowWidget.getObject().show();
@@ -56,7 +58,7 @@ var nicico;
                         This.owner.getObject().show();
                     This.okCallBack(data);
                 },
-                icon: "pieces/16/approve.png",
+                icon: "pieces/16/save.png",
                 title: '<spring:message code="global.ok" />'
             });
             return isc.HLayout.create({
@@ -69,7 +71,9 @@ var nicico;
                 members: [ok, cancel]
             });
         };
-        FormUtil.prototype.createWindow = function (title, buttonLayout) {
+        FormUtil.prototype.createWindow = function (title, buttonLayout, width, height) {
+            if (width === void 0) { width = null; }
+            if (height === void 0) { height = null; }
             var This = this;
             var vLayout = isc.VLayout.create({
                 width: "100%",
@@ -79,7 +83,7 @@ var nicico;
                 ]
             });
             // @ts-ignore
-            This.windowWidget = new nicico.ObjectHider(Object.assign(isc.Window.nicico.getDefault(title, [vLayout]), {
+            This.windowWidget = new nicico.ObjectHider(Object.assign(isc.Window.nicico.getDefault(title, [vLayout], width, height), {
                 closeClick: function () {
                     this.Super("closeClick", arguments);
                     if (This.owner.getObject() != null)

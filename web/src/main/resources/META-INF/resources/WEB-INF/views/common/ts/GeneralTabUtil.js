@@ -10,6 +10,8 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
+///<reference path="CommonUtil.ts"/>
+///<reference path="FormUtil.ts"/>
 // @ts-ignore
 ///<reference path="../../../../../../static/isomorphic/system/development/smartclient.d.ts" />
 //------------------------------------------ TS References ---------------------------------------//
@@ -39,6 +41,26 @@ var nicico;
     var JSPTabVariableImp = /** @class */ (function () {
         function JSPTabVariableImp() {
             var This = this;
+            This.dynamicForm = {
+                fields: []
+            };
+            This.listGrid = {
+                fields: [],
+                criteria: null
+            };
+            This.log = {};
+            This.tab = {};
+            This.chart = {};
+            This.label = {};
+            This.button = {};
+            This.menu = {};
+            This.toolStrip = {};
+            This.hStack = {};
+            This.vStack = {};
+            This.hLayout = {};
+            This.vLayout = {};
+            This.restDataSource = {};
+            This.window = {};
             This.variable = {
                 url: "",
                 method: null,
@@ -48,10 +70,11 @@ var nicico;
             };
             This.variable.method = "POST";
             // @ts-ignore
-            This.variable.url = nicico.CommonUtil.baseUrl;
+            This.variable.url = "${contextPath}/";
             // @ts-ignore
-            This.variable.httpHeaders = nicico.CommonUtil.httpHeaders;
-            This.variable.contentType = nicico.CommonUtil.contentType;
+            This.variable.httpHeaders = BaseRPCRequest.httpHeaders;
+            // @ts-ignore
+            This.variable.contentType = BaseRPCRequest.contentType;
             This.variable.defaultStylePrefix = "";
             This.method = {
                 delete: null,
@@ -66,7 +89,7 @@ var nicico;
             };
             This.method.transformRequest = function (dsRequest) {
                 // @ts-ignore
-                dsRequest.httpHeaders = nicico.CommonUtil.httpHeaders;
+                dsRequest.httpHeaders = BaseRPCRequest.httpHeaders;
                 return this.Super("transformRequest", arguments);
             };
             This.method.concatObjectsByKey = function (isBoolOperatorAnd) {
@@ -182,6 +205,14 @@ var nicico;
                     rpcRequest.httpHeaders = This.variable.httpHeaders;
                 if (rpcRequest.contentType == null)
                     rpcRequest.contentType = This.variable.contentType;
+                if (rpcRequest.useSimpleHttp == null)
+                    rpcRequest.useSimpleHttp = true;
+                if (rpcRequest.showPrompt == null)
+                    rpcRequest.showPrompt = true;
+                if (rpcRequest.serverOutputAsString == null)
+                    rpcRequest.serverOutputAsString = false;
+                if (rpcRequest.willHandleError == null)
+                    rpcRequest.willHandleError = false;
                 isc.RPCManager.sendRequest(rpcRequest);
             };
             This.method.refresh = function (grid, refreshActionHook) {
@@ -189,24 +220,51 @@ var nicico;
                 if (refreshActionHook != null)
                     refreshActionHook();
             };
-            This.method.newForm = function (form, newActionHook) {
+            This.method.newForm = function (title, grid, form, newActionHook) {
                 This.variable.method = "POST";
                 form.clearValues();
-                var win = form.getParentElements().last();
-                win.show();
+                var formUtil = new nicico.FormUtil();
+                formUtil.validate = function (data) {
+                    form.validate();
+                    return !form.hasErrors();
+                };
+                formUtil.okCallBack = function (data) {
+                    This.method.saveForm(grid, form);
+                };
+                // @ts-ignore
+                var width = form.windowWidth == null ? "50%" : form.windowWidth;
+                // @ts-ignore
+                var height = form.windowHeight;
+                formUtil.showForm(null, title, form, width, height);
+                form.show();
                 if (newActionHook != null)
                     newActionHook();
             };
-            This.method.editForm = function (grid, form, editActionHook) {
+            This.method.editForm = function (title, grid, form, editActionHook) {
                 var record = grid.getSelectedRecord();
                 if (record == null || record["id"] == null)
                     This.dialog.notSelected();
+                // @ts-ignore
+                else if (record.editable == false)
+                    This.dialog.notEditable();
                 else {
                     This.variable.method = "PUT";
                     form.clearValues();
                     form.editRecord(__assign({}, record));
-                    var win = form.getParentElements().last();
-                    win.show();
+                    var formUtil = new nicico.FormUtil();
+                    formUtil.validate = function (data) {
+                        form.validate();
+                        return !form.hasErrors();
+                    };
+                    formUtil.okCallBack = function (data) {
+                        This.method.saveForm(grid, form);
+                    };
+                    // @ts-ignore
+                    var width = form.windowWidth == null ? "50%" : form.windowWidth;
+                    // @ts-ignore
+                    var height = form.windowHeight;
+                    formUtil.showForm(null, title, form, width, height);
+                    form.show();
                     if (editActionHook != null)
                         editActionHook(record);
                 }
@@ -215,6 +273,9 @@ var nicico;
                 var record = grid.getSelectedRecord();
                 if (record == null || record["id"] == null)
                     This.dialog.notSelected();
+                // @ts-ignore
+                else if (record.editable == false)
+                    This.dialog.notEditable();
                 else {
                     This.variable.method = "DELETE";
                     This.dialog.question(function () {
@@ -247,15 +308,15 @@ var nicico;
                 var data = form.getValues();
                 if (getDataActionHook != null)
                     data = getDataActionHook(form, data);
-                var url = This.variable.url + (This.variable.method.toUpperCase() == "POST" ? "" : data["id"]);
                 var rpcRequest = {};
-                rpcRequest.data = data;
-                rpcRequest.actionURL = url;
+                rpcRequest.actionURL = This.variable.url;
+                rpcRequest.data = JSON.stringify(data);
                 This.method.jsonRPCManagerRequest(rpcRequest, function (response) {
                     var win = form.getParentElements().last();
                     This.method.refresh(grid);
                     win.close();
-                    saveActionHook(response);
+                    if (saveActionHook != null)
+                        saveActionHook(response);
                 }, errorActionHook);
             };
             This.dialog = {
@@ -263,8 +324,21 @@ var nicico;
                 say: null,
                 error: null,
                 question: null,
+                notEditable: null,
                 notSelected: null,
                 moreSelected: null
+            };
+            This.dialog.notEditable = function () {
+                isc.Dialog.create({
+                    message: "<spring:message code='global.grid.record.not.editable'/>",
+                    icon: "[SKIN]ask.png",
+                    title: "<spring:message code='global.message'/>",
+                    buttons: [isc.Button.create({ title: "<spring:message code='global.ok'/>" })],
+                    // @ts-ignore
+                    buttonClick: function (button, index) {
+                        this.close();
+                    }
+                });
             };
             This.dialog.notSelected = function () {
                 isc.Dialog.create({

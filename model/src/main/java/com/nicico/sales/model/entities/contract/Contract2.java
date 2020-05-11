@@ -1,7 +1,6 @@
 package com.nicico.sales.model.entities.contract;
 
 import com.nicico.sales.model.Auditable;
-import com.nicico.sales.model.entities.base.ContractDetail;
 import com.nicico.sales.model.entities.base.Material;
 import com.nicico.sales.model.entities.common.BaseEntity;
 import lombok.*;
@@ -47,7 +46,7 @@ public class Contract2 extends BaseEntity {
     @Column(name = "D_AFFECT_UP_TO")
     private Date affectUpTo;
 
-    @Column(name = "C_CONTENT")
+    @Column(name = "C_CONTENT", columnDefinition="TEXT")
     private String content;
 
     @Column(name = "C_DESCRIPTION", length = 4000)
@@ -75,14 +74,14 @@ public class Contract2 extends BaseEntity {
 
     @NotAudited
     @Setter(AccessLevel.NONE)
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "F_PARENT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_contract2contractByParentId"))
     private List<Contract2> appendixContracts;
 
     @Column(name = "F_PARENT_ID")
     private Long parentId;
 
-    @NotAudited
-    @OneToMany(mappedBy = "contract", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    private List<ContractDetail> contractDetails;
+//    @NotAudited
+//    @OneToMany(mappedBy = "contract", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+//    private List<ContractDetail> contractDetails;
 }

@@ -180,12 +180,6 @@
                             window.open("dcc/downloadFile?table=" + "invoice" + "&file=" + record.fileNewName);
                         else if (record.tblName1 != null && record.tblName1 == "TBL_WAREHOUSE_CAD")
                             window.open("dcc/downloadFile?table=" + "warehouse_cad" + "&file=" + record.fileNewName);
-                        else if (record.tblName1 != null && record.tblName1 == "TBL_WAREHOUSE_ISSUE_CATHODE")
-                            window.open("dcc/downloadFile?table=" + "warehouse_issue_cathode" + "&file=" + record.fileNewName);
-                        else if (record.tblName1 != null && record.tblName1 == "TBL_WAREHOUSE_ISSUE_CONS")
-                            window.open("dcc/downloadFile?table=" + "warehouse_issue_cons" + "&file=" + record.fileNewName);
-                        else if (record.tblName1 != null && record.tblName1 == "TBL_WAREHOUSE_ISSUE_MO")
-                            window.open("dcc/downloadFile?table=" + "warehouse_issue_mo" + "&file=" + record.fileNewName);
                     }
                 }
             ]
@@ -275,18 +269,6 @@
                     folder = "warehouse_cad";
                     dccDynamicForm.setValue("folder", "warehouse_cad");
                 }
-                else if (dccTableName != null && dccTableName == 'TBL_WAREHOUSE_ISSUE_CATHODE') {
-                    folder = "warehouse_issue_cathode";
-                    dccDynamicForm.setValue("folder", "warehouse_issue_cathode");
-                }
-                else if (dccTableName != null && dccTableName == 'TBL_WAREHOUSE_ISSUE_CONS') {
-                    folder = "warehouse_issue_cons";
-                    dccDynamicForm.setValue("folder", "warehouse_issue_cons");
-                }
-                else if (dccTableName != null && dccTableName == 'TBL_WAREHOUSE_ISSUE_MO') {
-                    folder = "warehouse_issue_mo";
-                    dccDynamicForm.setValue("folder", "warehouse_issue_mo");
-                }
 
                 var formData = new FormData();
                 formData.append("file", file);
@@ -299,21 +281,17 @@
                 request.setRequestHeader("Authorization", "Bearer " + "<%= (String) session.getAttribute(ConstantVARs.ACCESS_TOKEN) %>");
                 request.setRequestHeader("contentType", "application/json; charset=utf-8");
                 request.send(formData);
-                request.timeout = 1000;
-                request.ontimeout = function () {
-                    isc.warn("<spring:message code='dcc.upload.error.capacity'/>");
-                }
                 request.onreadystatechange = function () {
                     if (request.readyState == XMLHttpRequest.DONE) {
-                        if (request.status == 500)
+                        if (request.status == 0)
+                            isc.warn("<spring:message code='dcc.upload.error.capacity'/>");
+                        else if (request.status == 500)
                             isc.warn("<spring:message code='dcc.upload.error.message'/>");
-                        if (request.status == 200 || request.status == 201) {
+                        else if (request.status == 200 || request.status == 201) {
                             isc.say("<spring:message code='dcc.upload.success.message'/>");
                             ListGrid_Dcc_refresh();
                             dccCreateWindow.close();
                         }
-                        else if (request.responseText != "" && JSON.parse(request.responseText).exceptionClass.includes("MaxUploadSizeExceededException"))
-                            isc.warn("<spring:message code='dcc.upload.error.capacity'/>");
                     }
                 }
             }

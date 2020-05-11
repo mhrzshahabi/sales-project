@@ -1,5 +1,8 @@
 //------------------------------------------ TS References -----------------------------------------
 
+///<reference path="CommonUtil.ts"/>
+///<reference path="FormUtil.ts"/>
+
 // @ts-ignore
 ///<reference path="../../../../../../static/isomorphic/system/development/smartclient.d.ts" />
 
@@ -22,8 +25,8 @@ namespace nicico {
             fetchData(getAllIfExist: boolean, rpcRequest: Partial<isc.RPCRequest>): void,
             jsonRPCManagerRequest(rpcRequest: Partial<isc.RPCRequest>, okActionHook?: any, errorActionHook?: any): void,
             refresh(grid: isc.ListGrid, refreshActionHook?: any),
-            newForm(form: isc.DynamicForm, newActionHook?: any): void,
-            editForm(grid: isc.ListGrid, form: isc.DynamicForm, editActionHook?: any),
+            newForm(title: string, grid: isc.ListGrid, form: isc.DynamicForm, newActionHook?: any): void,
+            editForm(title: string, grid: isc.ListGrid, form: isc.DynamicForm, editActionHook?: any),
             delete(grid: isc.ListGrid, deleteActionHook?: any, errorActionHook?: any),
             saveForm(grid: isc.ListGrid, form: isc.DynamicForm, validationActionHook?: any, getDataActionHook?: any, saveActionHook?: any, errorActionHook?: any)
         };
@@ -32,9 +35,12 @@ namespace nicico {
         label: {};
         button: {};
         menu: {};
-        listGrid: {};
+        listGrid: {
+            criteria: Criteria,
+            fields: Array<isc.ListGridField>
+        };
         toolStrip: {};
-        dynamicForm: { FormItem: {} };
+        dynamicForm: { fields: Array<isc.FormItem> };
         hStack: {};
         vStack: {};
         hLayout: {};
@@ -43,6 +49,7 @@ namespace nicico {
         window: {};
         dialog: {
 
+            notEditable(): void,
             notSelected(): void,
             moreSelected(): void,
             ok(warn?: string): void,
@@ -91,8 +98,8 @@ namespace nicico {
             fetchData(getAllIfExist: boolean, rpcRequest: isc.RPCRequest): void,
             jsonRPCManagerRequest(rpcRequest: isc.RPCRequest, okActionHook?: any, errorActionHook?: any): void,
             refresh(grid: isc.ListGrid, refreshActionHook?: any): void,
-            newForm(form: isc.DynamicForm, newActionHook?: any): void,
-            editForm(grid: isc.ListGrid, form: isc.DynamicForm, editActionHook?: any): void
+            newForm(title: string, grid: isc.ListGrid, form: isc.DynamicForm, newActionHook?: any): void,
+            editForm(title: string, grid: isc.ListGrid, form: isc.DynamicForm, editActionHook?: any): void
             delete(grid: isc.ListGrid, deleteActionHook?: any, errorActionHook?: any): void,
             saveForm(grid: isc.ListGrid, form: isc.DynamicForm, validationActionHook?: any, getDataActionHook?: any, saveActionHook?: any, errorActionHook?: any)
         };
@@ -101,10 +108,13 @@ namespace nicico {
         label: {};
         button: {};
         menu: {};
-        listGrid: {};
+        listGrid: {
+            criteria: Criteria,
+            fields: Array<isc.ListGridField>
+        };
         toolStrip: {};
         dynamicForm: {
-            FormItem: {}
+            fields: Array<isc.FormItem>
         };
         hStack: {};
         vStack: {};
@@ -114,6 +124,7 @@ namespace nicico {
         window: {};
         dialog: {
 
+            notEditable(): void,
             notSelected(): void,
             moreSelected(): void,
             ok(warn ?: string): void,
@@ -125,6 +136,29 @@ namespace nicico {
         constructor() {
 
             let This = this;
+
+            This.dynamicForm = {
+                fields: []
+            };
+            This.listGrid = {
+                fields: [],
+                criteria: null
+            };
+
+            This.log = {};
+            This.tab = {};
+            This.chart = {};
+            This.label = {};
+            This.button = {};
+            This.menu = {};
+            This.toolStrip = {};
+            This.hStack = {};
+            This.vStack = {};
+            This.hLayout = {};
+            This.vLayout = {};
+            This.restDataSource = {};
+            This.window = {};
+
             This.variable = {
 
                 url: "",
@@ -135,10 +169,11 @@ namespace nicico {
             };
             This.variable.method = "POST";
             // @ts-ignore
-            This.variable.url = nicico.CommonUtil.baseUrl;
+            This.variable.url = "${contextPath}/";
             // @ts-ignore
-            This.variable.httpHeaders = nicico.CommonUtil.httpHeaders;
-            This.variable.contentType = nicico.CommonUtil.contentType;
+            This.variable.httpHeaders = BaseRPCRequest.httpHeaders;
+            // @ts-ignore
+            This.variable.contentType = BaseRPCRequest.contentType;
             This.variable.defaultStylePrefix = "";
 
             This.method = {
@@ -157,7 +192,7 @@ namespace nicico {
             This.method.transformRequest = function (dsRequest: isc.DSRequest) {
 
                 // @ts-ignore
-                dsRequest.httpHeaders = nicico.CommonUtil.httpHeaders;
+                dsRequest.httpHeaders = BaseRPCRequest.httpHeaders;
                 return this.Super("transformRequest", arguments);
             };
             This.method.concatObjectsByKey = function (isBoolOperatorAnd, ...objs) {
@@ -283,6 +318,10 @@ namespace nicico {
                 if (rpcRequest.httpMethod == null) rpcRequest.httpMethod = This.variable.method;
                 if (rpcRequest.httpHeaders == null) rpcRequest.httpHeaders = This.variable.httpHeaders;
                 if (rpcRequest.contentType == null) rpcRequest.contentType = This.variable.contentType;
+                if (rpcRequest.useSimpleHttp == null) rpcRequest.useSimpleHttp = true;
+                if (rpcRequest.showPrompt == null) rpcRequest.showPrompt = true;
+                if (rpcRequest.serverOutputAsString == null) rpcRequest.serverOutputAsString = false;
+                if (rpcRequest.willHandleError == null) rpcRequest.willHandleError = false;
 
                 isc.RPCManager.sendRequest(rpcRequest);
             };
@@ -291,21 +330,36 @@ namespace nicico {
                 grid.invalidateCache();
                 if (refreshActionHook != null) refreshActionHook();
             };
-            This.method.newForm = function (form: isc.DynamicForm, newActionHook?: any): void {
+            This.method.newForm = function (title: string, grid: isc.ListGrid, form: isc.DynamicForm, newActionHook?: any): void {
 
                 This.variable.method = "POST";
                 form.clearValues();
 
-                var win = form.getParentElements().last();
-                win.show();
+                let formUtil = new FormUtil();
+                formUtil.validate = function (data) {
+                    form.validate();
+                    return !form.hasErrors();
+                };
+                formUtil.okCallBack = function (data) {
+                    This.method.saveForm(grid, form);
+                };
+                // @ts-ignore
+                let width = form.windowWidth == null ? "50%" : form.windowWidth;
+                // @ts-ignore
+                let height = form.windowHeight;
+                formUtil.showForm(null, title, form, width, height);
+                form.show();
 
                 if (newActionHook != null) newActionHook();
             };
-            This.method.editForm = function (grid: isc.ListGrid, form: isc.DynamicForm, editActionHook?: any): void {
+            This.method.editForm = function (title: string, grid: isc.ListGrid, form: isc.DynamicForm, editActionHook?: any): void {
 
                 let record = grid.getSelectedRecord();
                 if (record == null || record["id"] == null)
                     This.dialog.notSelected();
+                // @ts-ignore
+                else if (record.editable == false)
+                    This.dialog.notEditable();
                 else {
 
                     This.variable.method = "PUT";
@@ -313,8 +367,20 @@ namespace nicico {
                     form.clearValues();
                     form.editRecord({...record});
 
-                    var win = form.getParentElements().last();
-                    win.show();
+                    let formUtil = new FormUtil();
+                    formUtil.validate = function (data) {
+                        form.validate();
+                        return !form.hasErrors();
+                    };
+                    formUtil.okCallBack = function (data) {
+                        This.method.saveForm(grid, form);
+                    };
+                    // @ts-ignore
+                    let width = form.windowWidth == null ? "50%" : form.windowWidth;
+                    // @ts-ignore
+                    let height = form.windowHeight;
+                    formUtil.showForm(null, title, form, width, height);
+                    form.show();
 
                     if (editActionHook != null) editActionHook(record);
                 }
@@ -324,6 +390,9 @@ namespace nicico {
                 let record = grid.getSelectedRecord();
                 if (record == null || record["id"] == null)
                     This.dialog.notSelected();
+                // @ts-ignore
+                else if (record.editable == false)
+                    This.dialog.notEditable();
                 else {
 
                     This.variable.method = "DELETE";
@@ -361,16 +430,14 @@ namespace nicico {
                 let data = form.getValues();
                 if (getDataActionHook != null) data = getDataActionHook(form, data);
 
-                let url = This.variable.url + (This.variable.method.toUpperCase() == "POST" ? "" : data["id"]);
-
                 let rpcRequest = <isc.RPCRequest>{};
-                rpcRequest.data = data;
-                rpcRequest.actionURL = url;
+                rpcRequest.actionURL = This.variable.url;
+                rpcRequest.data = JSON.stringify(data);
                 This.method.jsonRPCManagerRequest(rpcRequest, (response) => {
-                    var win = form.getParentElements().last();
+                    let win = form.getParentElements().last();
                     This.method.refresh(grid);
                     win.close();
-                    saveActionHook(response);
+                    if (saveActionHook != null) saveActionHook(response);
                 }, errorActionHook);
             };
 
@@ -380,8 +447,22 @@ namespace nicico {
                 say: null,
                 error: null,
                 question: null,
+                notEditable: null,
                 notSelected: null,
                 moreSelected: null
+            };
+            This.dialog.notEditable = function () {
+
+                isc.Dialog.create({
+                    message: "<spring:message code='global.grid.record.not.editable'/>",
+                    icon: "[SKIN]ask.png",
+                    title: "<spring:message code='global.message'/>",
+                    buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
+                    // @ts-ignore
+                    buttonClick: function (button, index) {
+                        this.close();
+                    }
+                });
             };
             This.dialog.notSelected = function () {
 

@@ -91,7 +91,7 @@ public class Shipment extends Auditable {
     @Column(name = "MONTH", length = 20)
     private String month;
 
-    @Column(name = "CREATE_DATE", length = 20)
+    @Column(name = "CREATE_DATE")
     private String createDate;
 
     @Column(name = "FILE_NAME", length = 100)
@@ -135,7 +135,7 @@ public class Shipment extends Auditable {
     @Column(name = "BL_DATE", length = 20)
     private String blDate;
 
-    @Column(name = "SW_BL_DATE", length = 20)
+    @Column(name = "SW_BL_DATE")
     private String swBlDate;
 
     @Column(name = "CONSIGNEE", length = 100)
@@ -148,9 +148,6 @@ public class Shipment extends Auditable {
 
     @Column(name = "AGENT")
     private Long contactByAgentId;
-
-    @Column(name = "VESSEL_NAME", length = 500)
-    private String vesselName;
 
     @Column(name = "FREIGHT")
     private Double freight;
@@ -191,5 +188,13 @@ public class Shipment extends Auditable {
 
     @Column(name = "BOOKING_NO_cat")
     private String bookingCat;
+
+    @Setter(AccessLevel.NONE)
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "VESSEL_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "Shipment2vessel"))
+    private Vessel vessel;
+
+    @Column(name = "VESSEL_ID")
+    private Long vesselId;
 
 }

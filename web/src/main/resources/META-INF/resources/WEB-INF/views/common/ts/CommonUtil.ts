@@ -34,11 +34,6 @@ namespace nicico {
 
     export class CommonUtil {
 
-        static baseUrl: "${contextPath}}";
-        // @ts-ignore
-        static httpHeaders: BaseRPCRequest.httpHeaders;
-        static contentType: "application/json; charset=utf-8";
-
         constructor() {
 
             // @ts-ignore
@@ -69,6 +64,7 @@ namespace nicico {
                 listGridProperties.fetchDelay = 1000;
                 listGridProperties.autoFetchData = true;
 
+                listGridProperties.showRowNumbers = true;
                 listGridProperties.showFilterEditor = true;
                 listGridProperties.filterOnKeypress = false;
                 listGridProperties.canAutoFitFields = false;
@@ -77,54 +73,60 @@ namespace nicico {
                 listGridProperties.alternateRecordStyles = true;
 
                 listGridProperties.selectionType = "single";
-                listGridProperties.sortDirection = "descending";
+                listGridProperties.sortDirection = "ascending";
 
-                listGridProperties.groupByText = '<spring=message code="global.grid.groupByText" />';
-                listGridProperties.autoFitAllText = '<spring=message code="global.grid.autoFitAllText" />';
-                listGridProperties.freezeFieldText = '<spring=message code="global.grid.freezeFieldText" />';
-                listGridProperties.filterUsingText = '<spring=message code="global.grid.filterUsingText" />';
-                listGridProperties.autoFitFieldText = '<spring=message code="global.grid.autoFitFieldText" />';
-                listGridProperties.configureSortText = '<spring=message code="global.grid.configureSortText" />';
-                listGridProperties.sortFieldAscendingText = '<spring=message code="global.grid.sortFieldAscendingText" />';
-                listGridProperties.sortFieldDescendingText = '<spring=message code="global.grid.sortFieldDescendingText" />';
+                listGridProperties.groupByText = '<spring:message code="global.grid.groupByText" />';
+                listGridProperties.autoFitAllText = '<spring:message code="global.grid.autoFitAllText" />';
+                listGridProperties.freezeFieldText = '<spring:message code="global.grid.freezeFieldText" />';
+                listGridProperties.filterUsingText = '<spring:message code="global.grid.filterUsingText" />';
+                listGridProperties.autoFitFieldText = '<spring:message code="global.grid.autoFitFieldText" />';
+                listGridProperties.configureSortText = '<spring:message code="global.grid.configureSortText" />';
+                listGridProperties.sortFieldAscendingText = '<spring:message code="global.grid.sortFieldAscendingText" />';
+                listGridProperties.sortFieldDescendingText = '<spring:message code="global.grid.sortFieldDescendingText" />';
 
                 return this.createListGrid(listGridProperties, fields, restDataSource);
             };
             // @ts-ignore
             isc.ListGrid.nicico.createListGrid = function (listGridProperties: Partial<isc.ListGrid>, fields: Array<Partial<isc.ListGridField>>, restDataSource?: isc.RestDataSource): isc.ListGrid {
 
-                let listGrid = isc.ListGrid.create(listGridProperties);
-                listGrid.fields = fields;
-                listGrid.dataSource = restDataSource;
-                return listGrid;
+                // @ts-ignore
+                return isc.ListGrid.create(Object.assign(listGridProperties, {
+                    fields: fields,
+                    dataSource: restDataSource
+
+                }));
             };
 
             // @ts-ignore
             isc.RestDataSource.nicico = {};
             // @ts-ignore
-            isc.RestDataSource.nicico.getDefault = function (fetchDataUrl: string, fields: Array<Partial<isc.DataSourceField>>): isc.RestDataSource {
+            isc.RestDataSource.nicico.getDefault = function (fetchDataUrl: string, fields: Array<Partial<isc.DataSourceField>>, transformRequest: any = null): isc.RestDataSource {
 
                 let restDataSourceProperties: Partial<isc.RestDataSource> = {};
 
                 restDataSourceProperties.jsonPrefix = "";
                 restDataSourceProperties.jsonSuffix = "";
                 restDataSourceProperties.dataFormat = "json";
-                // @ts-ignore
-                restDataSourceProperties.transformRequest = function (dsRequest) {
-
+                if (transformRequest != null)
+                    restDataSourceProperties.transformRequest = transformRequest;
+                else
                     // @ts-ignore
-                    dsRequest.httpHeaders = httpHeaders;
-                    return this.Super("transformRequest", arguments);
-                };
+                    restDataSourceProperties.transformRequest = function (dsRequest) {
+
+                        // @ts-ignore
+                        dsRequest.httpHeaders = BaseRPCRequest.httpHeaders;
+                        return this.Super("transformRequest", arguments);
+                    };
                 return this.createRestDataSource(restDataSourceProperties, fetchDataUrl, fields);
             };
             // @ts-ignore
             isc.RestDataSource.nicico.createRestDataSource = function (restDataSourceProperties: Partial<isc.RestDataSource>, fetchDataUrl: string, fields: Array<Partial<isc.DataSourceField>>): isc.RestDataSource {
 
-                let restDataSource = isc.RestDataSource.create(restDataSourceProperties);
-                restDataSource.fields = fields;
-                restDataSource.fetchDataURL = fetchDataUrl;
-                return restDataSource;
+                // @ts-ignore
+                return isc.RestDataSource.create(Object.assign(restDataSourceProperties, {
+                    fields: fields,
+                    fetchDataURL: fetchDataUrl
+                }));
             };
 
             // @ts-ignore
@@ -168,6 +170,8 @@ namespace nicico {
                 formItemProperties.selectOnFocus = true;
                 formItemProperties.shouldSaveValue = true;
 
+                // @ts-ignore
+                formItemProperties.showInlineErrors = true;
                 formItemProperties.stopOnError = true;
                 formItemProperties.showErrorIcon = true;
                 formItemProperties.showErrorText = true;
@@ -207,6 +211,8 @@ namespace nicico {
                 dynamicFormProperties.canSubmit = true;
                 dynamicFormProperties.wrapItemTitles = false;
 
+                // @ts-ignore
+                dynamicFormProperties.showInlineErrors = true;
                 dynamicFormProperties.stopOnError = true;
                 dynamicFormProperties.showErrorText = true;
                 dynamicFormProperties.showErrorIcons = true;
@@ -214,27 +220,29 @@ namespace nicico {
                 dynamicFormProperties.validateOnExit = true;
                 dynamicFormProperties.showInlineErrors = true;
                 dynamicFormProperties.errorOrientation = "bottom";
-                dynamicFormProperties.requiredMessage = "<spring=message code='validator.field.is.required'/>";
+                dynamicFormProperties.requiredMessage = '<spring:message code="validator.field.is.required"/>';
 
                 return this.createDynamicForm(dynamicFormProperties, fields);
             };
             // @ts-ignore
             isc.DynamicForm.nicico.createDynamicForm = function (dynamicFormProperties: Partial<isc.DynamicForm>, fields: Array<Partial<isc.FormItem>>): isc.DynamicForm {
 
-                let dynamicForm = isc.DynamicForm.create(dynamicFormProperties);
-                dynamicForm.fields = fields;
-                return dynamicForm;
+                // @ts-ignore
+                return isc.DynamicForm.create(Object.assign(dynamicFormProperties, {
+                    fields: fields
+                }));
             };
 
             // @ts-ignore
             isc.Window.nicico = {};
             // @ts-ignore
-            isc.Window.nicico.getDefault = function (title: string, items: Array<isc.Canvas>, id?: string): isc.Window {
+            isc.Window.nicico.getDefault = function (title: string, items: Array<isc.Canvas>, width: string = null, height: string = null, id?: string): isc.Window {
 
                 return isc.Window.create({
 
                     ID: id,
-                    width: "70%",
+                    width: width == null ? "70%" : width,
+                    height: height,
                     align: "center",
                     isModal: true,
                     autoSize: true,
@@ -293,7 +301,7 @@ namespace nicico {
             // @ts-ignore
             isc.FacetChart.nicico.showChart = function (ownerWindow: isc.Window, title: string, chart: isc.FacetChart) {
 
-                var windowWidget = isc.Window.create({
+                let windowWidget = isc.Window.create({
 
                     title: title,
                     width: "50%",

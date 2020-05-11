@@ -11,7 +11,6 @@ import org.hibernate.envers.NotAudited;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.List;
 
 @Getter
 @Setter
@@ -30,7 +29,7 @@ public class ContractDetail2 extends BaseEntity {
     @SequenceGenerator(name = "SEQ_CNTR_CONTRACT_DETAIL", sequenceName = "SEQ_CNTR_CONTRACT_DETAIL", allocationSize = 1)
     private Long id;
 
-    @Column(name = "C_CONTENT")
+    @Column(name = "C_CONTENT", columnDefinition="TEXT")
     private String content;
 
     @NotAudited
@@ -53,7 +52,7 @@ public class ContractDetail2 extends BaseEntity {
     @Column(name = "F_CONTRACT_DETAIL_TYPE_ID", nullable = false)
     private Long contractDetailTypeId;
 
-    @NotAudited
-    @OneToMany(mappedBy = "contractDetail", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    private List<ContractDetailValue> contractDetailValues;
+//    @NotAudited
+//    @OneToMany(mappedBy = "contractDetail", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+//    private List<ContractDetailValue> contractDetailValues;
 }

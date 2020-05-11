@@ -19,7 +19,9 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class IncotermAspectDTO {
 
-    private String title;
+    private String code;
+    private String titleFa;
+    private String titleEn;
     private String description;
 
     @Getter
@@ -39,7 +41,7 @@ public class IncotermAspectDTO {
 
         // BaseEntity
         private Boolean editable;
-        private EnumSet<EStatus> eStatus;
+        private List<EStatus> eStatus;
     }
 
     @Getter

@@ -31,6 +31,7 @@ var nicico;
                 listGridProperties.dataPageSize = 50;
                 listGridProperties.fetchDelay = 1000;
                 listGridProperties.autoFetchData = true;
+                listGridProperties.showRowNumbers = true;
                 listGridProperties.showFilterEditor = true;
                 listGridProperties.filterOnKeypress = false;
                 listGridProperties.canAutoFitFields = false;
@@ -38,46 +39,52 @@ var nicico;
                 listGridProperties.allowAdvancedCriteria = true;
                 listGridProperties.alternateRecordStyles = true;
                 listGridProperties.selectionType = "single";
-                listGridProperties.sortDirection = "descending";
-                listGridProperties.groupByText = '<spring=message code="global.grid.groupByText" />';
-                listGridProperties.autoFitAllText = '<spring=message code="global.grid.autoFitAllText" />';
-                listGridProperties.freezeFieldText = '<spring=message code="global.grid.freezeFieldText" />';
-                listGridProperties.filterUsingText = '<spring=message code="global.grid.filterUsingText" />';
-                listGridProperties.autoFitFieldText = '<spring=message code="global.grid.autoFitFieldText" />';
-                listGridProperties.configureSortText = '<spring=message code="global.grid.configureSortText" />';
-                listGridProperties.sortFieldAscendingText = '<spring=message code="global.grid.sortFieldAscendingText" />';
-                listGridProperties.sortFieldDescendingText = '<spring=message code="global.grid.sortFieldDescendingText" />';
+                listGridProperties.sortDirection = "ascending";
+                listGridProperties.groupByText = '<spring:message code="global.grid.groupByText" />';
+                listGridProperties.autoFitAllText = '<spring:message code="global.grid.autoFitAllText" />';
+                listGridProperties.freezeFieldText = '<spring:message code="global.grid.freezeFieldText" />';
+                listGridProperties.filterUsingText = '<spring:message code="global.grid.filterUsingText" />';
+                listGridProperties.autoFitFieldText = '<spring:message code="global.grid.autoFitFieldText" />';
+                listGridProperties.configureSortText = '<spring:message code="global.grid.configureSortText" />';
+                listGridProperties.sortFieldAscendingText = '<spring:message code="global.grid.sortFieldAscendingText" />';
+                listGridProperties.sortFieldDescendingText = '<spring:message code="global.grid.sortFieldDescendingText" />';
                 return this.createListGrid(listGridProperties, fields, restDataSource);
             };
             // @ts-ignore
             isc.ListGrid.nicico.createListGrid = function (listGridProperties, fields, restDataSource) {
-                var listGrid = isc.ListGrid.create(listGridProperties);
-                listGrid.fields = fields;
-                listGrid.dataSource = restDataSource;
-                return listGrid;
+                // @ts-ignore
+                return isc.ListGrid.create(Object.assign(listGridProperties, {
+                    fields: fields,
+                    dataSource: restDataSource
+                }));
             };
             // @ts-ignore
             isc.RestDataSource.nicico = {};
             // @ts-ignore
-            isc.RestDataSource.nicico.getDefault = function (fetchDataUrl, fields) {
+            isc.RestDataSource.nicico.getDefault = function (fetchDataUrl, fields, transformRequest) {
+                if (transformRequest === void 0) { transformRequest = null; }
                 var restDataSourceProperties = {};
                 restDataSourceProperties.jsonPrefix = "";
                 restDataSourceProperties.jsonSuffix = "";
                 restDataSourceProperties.dataFormat = "json";
-                // @ts-ignore
-                restDataSourceProperties.transformRequest = function (dsRequest) {
+                if (transformRequest != null)
+                    restDataSourceProperties.transformRequest = transformRequest;
+                else
                     // @ts-ignore
-                    dsRequest.httpHeaders = httpHeaders;
-                    return this.Super("transformRequest", arguments);
-                };
+                    restDataSourceProperties.transformRequest = function (dsRequest) {
+                        // @ts-ignore
+                        dsRequest.httpHeaders = BaseRPCRequest.httpHeaders;
+                        return this.Super("transformRequest", arguments);
+                    };
                 return this.createRestDataSource(restDataSourceProperties, fetchDataUrl, fields);
             };
             // @ts-ignore
             isc.RestDataSource.nicico.createRestDataSource = function (restDataSourceProperties, fetchDataUrl, fields) {
-                var restDataSource = isc.RestDataSource.create(restDataSourceProperties);
-                restDataSource.fields = fields;
-                restDataSource.fetchDataURL = fetchDataUrl;
-                return restDataSource;
+                // @ts-ignore
+                return isc.RestDataSource.create(Object.assign(restDataSourceProperties, {
+                    fields: fields,
+                    fetchDataURL: fetchDataUrl
+                }));
             };
             // @ts-ignore
             isc.FormItem.nicico = {};
@@ -114,6 +121,8 @@ var nicico;
                 formItemProperties.wrapTitle = false;
                 formItemProperties.selectOnFocus = true;
                 formItemProperties.shouldSaveValue = true;
+                // @ts-ignore
+                formItemProperties.showInlineErrors = true;
                 formItemProperties.stopOnError = true;
                 formItemProperties.showErrorIcon = true;
                 formItemProperties.showErrorText = true;
@@ -145,6 +154,8 @@ var nicico;
                 dynamicFormProperties.colWidths = ["30%", "70%"];
                 dynamicFormProperties.canSubmit = true;
                 dynamicFormProperties.wrapItemTitles = false;
+                // @ts-ignore
+                dynamicFormProperties.showInlineErrors = true;
                 dynamicFormProperties.stopOnError = true;
                 dynamicFormProperties.showErrorText = true;
                 dynamicFormProperties.showErrorIcons = true;
@@ -152,22 +163,26 @@ var nicico;
                 dynamicFormProperties.validateOnExit = true;
                 dynamicFormProperties.showInlineErrors = true;
                 dynamicFormProperties.errorOrientation = "bottom";
-                dynamicFormProperties.requiredMessage = "<spring=message code='validator.field.is.required'/>";
+                dynamicFormProperties.requiredMessage = '<spring:message code="validator.field.is.required"/>';
                 return this.createDynamicForm(dynamicFormProperties, fields);
             };
             // @ts-ignore
             isc.DynamicForm.nicico.createDynamicForm = function (dynamicFormProperties, fields) {
-                var dynamicForm = isc.DynamicForm.create(dynamicFormProperties);
-                dynamicForm.fields = fields;
-                return dynamicForm;
+                // @ts-ignore
+                return isc.DynamicForm.create(Object.assign(dynamicFormProperties, {
+                    fields: fields
+                }));
             };
             // @ts-ignore
             isc.Window.nicico = {};
             // @ts-ignore
-            isc.Window.nicico.getDefault = function (title, items, id) {
+            isc.Window.nicico.getDefault = function (title, items, width, height, id) {
+                if (width === void 0) { width = null; }
+                if (height === void 0) { height = null; }
                 return isc.Window.create({
                     ID: id,
-                    width: "70%",
+                    width: width == null ? "70%" : width,
+                    height: height,
                     align: "center",
                     isModal: true,
                     autoSize: true,

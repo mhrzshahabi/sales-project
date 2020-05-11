@@ -106,7 +106,7 @@ public class ShipmentFormController {
                 stream = new ClassPathResource("reports/word/Ship_Cat_bulk.docx").getInputStream();
                 ServletOutputStream out = response.getOutputStream();
                 doc = (XWPFDocument) new XWPFDocument(stream);
-                replacePOI(doc, "vessel_name", shipment.getVesselName());
+                replacePOI(doc, "vessel_name", shipment.getVessel().getName());
                 replacePOI(doc, "agent", shipment.getContactByAgent().getNameFA());
                 replacePOI(doc, "contract_amount", shipment.getAmount().toString());
                 replacePOI(doc, "unitNameFa", shipment.getMaterial().getUnit().getNameFA());
@@ -117,11 +117,10 @@ public class ShipmentFormController {
                 String[] loa = shipment.getPortByLoading().getPort().split(",");
                 replacePOI(doc, "loa", loa[0]);
 
-                PortDTO.Info port = shipment.getPortByDischarge();
-                replacePOI(doc, "port", " به مقصد " + port.getPort());
+                String[] disPort = shipment.getPortByDischarge().getPort().split(",");
+                replacePOI(doc, "dis", disPort[0]);
 
-
-                replacePOI(doc, "comp", " به مقصد بندر " + port.getPort() + " در کشور " + port.getCountry().getNameFa());
+                replacePOI(doc, "country", shipment.getPortByDischarge().getCountry().getNameFa());
                 replacePOI(doc, "barname", String.valueOf(shipment.getNumberOfBLs()));
                 replacePOI(doc, "dateday", dateday);
 
@@ -154,14 +153,11 @@ public class ShipmentFormController {
 
                 replacePOI(doc, "noContainer", String.valueOf(shipment.getNoContainer()));
                 replacePOI(doc, "loa", shipment.getPortByLoading().getPort());
-
-                replacePOI(doc, "port", " به مقصد " + shipment.getPortByDischarge().getPort());
-
+                replacePOI(doc, "dis", shipment.getPortByDischarge().getPort());
+                replacePOI(doc, "country", shipment.getPortByDischarge().getCountry().getNameFa());
                 replacePOI(doc, "containerType", shipment.getContainerType()  == null ? "50" : shipment.getContainerType() );
                 replacePOI(doc, "blNumbers", shipment.getBlNumbers());
                 replacePOI(doc, "bookingno", "(Booking No." + shipment.getBookingCat() + ")");
-
-
                 replacePOI(doc, "dateday", dateday);
 
 
@@ -181,21 +177,17 @@ public class ShipmentFormController {
                 doc = (XWPFDocument) new XWPFDocument(stream);
 
                 replacePOI(doc, "tolorance", "-/+" + shipment.getContractShipment().getTolorance().toString() + "%");
-                replacePOI(doc, "vessel_name", shipment.getVesselName());
+                replacePOI(doc, "vessel_name", shipment.getVessel().getName());
                 replacePOI(doc, "contract_amount", shipment.getAmount().toString());
                 replacePOI(doc, "descp", shipment.getMaterial().getDescp());
                 replacePOI(doc, "unitNameFa", shipment.getMaterial().getUnit().getNameFA());
                 replacePOI(doc, "contract_no", shipment.getContract().getContractNo());
+                replacePOI(doc, "buyer", shipment.getContact().getNameFA());
                 replacePOI(doc, "agent", shipment.getContactByAgent().getNameFA());
                 replacePOI(doc, "loa", shipment.getPortByLoading().getPort());
                 replacePOI(doc, "company", shipment.getContact().getNameFA());
-
-
-                String port = shipment.getPortByDischarge().getPort();
-                String country = shipment.getPortByDischarge().getCountry().getNameFa();
-                replacePOI(doc, "port", " به مقصد " + port);
-
-                replacePOI(doc, "comp", " به مقصد بندر " + port + "در کشور " + country);
+                replacePOI(doc, "country", shipment.getPortByDischarge().getCountry().getNameFa());
+                replacePOI(doc, "disPort", shipment.getPortByDischarge().getPort());
 
                 replacePOI(doc, "dateday", dateday);
                 List<String> inspector = shipmentService.inspector();
@@ -226,6 +218,7 @@ public class ShipmentFormController {
                 replacePOI(doc, "contract_amount", shipment.getAmount().toString());
                 replacePOI(doc, "unitNameFa", shipment.getMaterial().getUnit().getNameFA());
                 replacePOI(doc, "descp", shipment.getMaterial().getDescp());
+                replacePOI(doc, "month", shipment.getMonth());
                 replacePOI(doc, "contract_no", shipment.getContract().getContractNo());
                 replacePOI(doc, "agent", shipment.getContactByAgent().getNameFA());
                 replacePOI(doc, "tolorance", "-/+" + shipment.getContractShipment().getTolorance().toString() + "%");

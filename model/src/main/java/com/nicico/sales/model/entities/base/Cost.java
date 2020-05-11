@@ -58,17 +58,26 @@ public class Cost extends Auditable {
     @Column(name = "DEST_INSPEC_CUR", length = 20)
     private String destinationInspectionCurrency;
 
-    @Column(name = "OTHER_COST")
-    private Double otherCost;
+    @Column(name = "CERTIFICATE_ORIGIN_COST")
+    private Double certificateOriginCost;
+
+    @Column(name = "SHIPPING_COSTS_BETWEEN_ASSEMBLIES")
+    private Double shippingCostsBetweenAssemblies;
+
+    @Column(name = "SHIPPING_COSTS_BETWEEN_ASSEMBLIES_CUR", length = 20)
+    private String shippingCostsCurrencyBetweenAssemblies;
 
     @Column(name = "BEFORE_PAID")
     private Double beforePaid;
 
-    @Column(name = "OTHER_COST_CUR", length = 20)
-    private String otherCostCurrency;
+    @Column(name = "CERTIFICATE_ORIGIN_COST_CUR", length = 20)
+    private String certificateOriginCostCurrency;
 
     @Column(name = "SARCHESHMEH_LAB_COST")
-    private Long sarcheshmehLabCost;
+    private Double sarcheshmehLabCost;
+
+    @Column(name = "SARCHESHMEH_LAB_COST_CUR")
+    private String sarcheshmehLabCostCurrency;
 
     @Column(name = "UMPIRE_COST")
     private Double umpireCost;
@@ -123,6 +132,9 @@ public class Cost extends Auditable {
     @Column(name = "POST_COST")
     private Long postCost;
 
+    @Column(name = "POST_COST_CUR")
+    private String postCostCurrency;
+
     @Column(name = "THC_COST")
     private Double thcCost;
 
@@ -137,6 +149,9 @@ public class Cost extends Auditable {
 
     @Column(name = "CONTRACTOR_COST")
     private Double contractorCost;
+
+    @Column(name = "CONTRACTOR_COST_CUR")
+    private String contractorCostCurrency;
 
     @Column(name = "COUNTER_COST")
     private Double counterCost;

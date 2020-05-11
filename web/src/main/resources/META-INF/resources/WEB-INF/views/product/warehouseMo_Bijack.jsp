@@ -652,27 +652,23 @@
         }, {
             name: "materialItemId",
             title: "<spring:message code='contractItem.material'/>",
-            type: 'text',
-            canEdit: false
+            type: 'staticText',
         }, {
             name: "plant",
             title: "<spring:message code='contractItem.plant'/>",
-            type: 'text',
-            canEdit: false
+            type: 'staticText',
         }, {
             name: "warehouseNo",
             title: "<spring:message code='warehouseCad.warehouseNo'/>",
-            type: 'text',
-            canEdit: false
+            type: 'staticText',
         }, {
             name: "movementType",
             title: "<spring:message code='warehouseCad.movementType'/>",
-            type: 'text',
-            canEdit: false
+            type: 'staticText',
         }, {
             name: "sourceTozinPlantId",
             required: true,
-            canEdit: false,
+            type: 'staticText',
             colSpan: 3,
             titleColSpan: 1,
             title: "<spring:message code='warehouseCad.tozinOther'/>",
@@ -778,7 +774,7 @@
             title: "<spring:message code='warehouseCad.containerNo'/>", //شماره کانتینر
             colSpan: 1,
             titleColSpan: 1,
-            canEdit: false
+            type: 'staticText',
         },
 {
             name: "rahahanPolompNo",
@@ -815,27 +811,27 @@
             title: "<spring:message code='warehouseCad.sourceLoadDate'/>", //=تاریخ بارگیری در مبدا
             colSpan: 1,
             titleColSpan: 1,
-            canEdit: false
+            type: 'staticText',
         },
         {
             name: "destinationUnloadDate",
             title: "<spring:message code='warehouseCad.destinationUnloadDate'/>", //تاریخ تخلیه در مقصد
             colSpan: 1,
             titleColSpan: 1,
-            canEdit: false
+            type: 'staticText',
         },
         {
             name: "sourceWeight",
             title: "<spring:message code='warehouseCad.sourceWeight'/>", //وزن مبدا
             colSpan: 1,
             titleColSpan: 1,
-            canEdit: false
+            type: 'staticText',
         }, {
             name: "destinationWeight",
             title: "<spring:message code='warehouseCad.destinationWeight'/>", //وزن مقصد
             colSpan: 1,
             titleColSpan: 1,
-            canEdit: false
+            type: 'staticText',
         },
             {
                 align: "center",

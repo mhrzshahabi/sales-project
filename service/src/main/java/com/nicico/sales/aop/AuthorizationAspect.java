@@ -23,7 +23,7 @@ public class AuthorizationAspect {
     private final AuthorizationUtil authorizationUtil;
 
     @Before(value = "" +
-            "execution(* com.nicico.sales.service.*.*(*)) && " +
+            "execution(* com.nicico.sales.service.*.*(..)) && " +
             "@annotation(com.nicico.sales.annotation.Action) && " +
             "!@annotation(org.springframework.security.access.prepost.PreAuthorize)")
     public void authorize(JoinPoint joinPoint) {
@@ -35,13 +35,13 @@ public class AuthorizationAspect {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Action action = signature.getMethod().getDeclaredAnnotation(Action.class);
 
-        if (StringUtils.isEmpty(action.authorityName())) {
+        if (StringUtils.isEmpty(action.authority())) {
 
             ParameterizedType superClass = (ParameterizedType) target.getClass().getGenericSuperclass();
             Class<?> entityClass = (Class<?>) superClass.getActualTypeArguments()[0];
             String entityName = entityClass.getSimpleName();
             authorizationUtil.checkStandardPermission(entityName, action.value().name());
         } else if (action.value() != ActionType.Unknown)
-            authorizationUtil.checkStandardPermission(action.authorityName());
+            authorizationUtil.checkStandardPermission(action.authority());
     }
 }

@@ -7,14 +7,13 @@
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
     <% DateUtil dateUtil = new DateUtil();%>
  var contractIdEdit;
- var Window_ContactMo;
  var VLayout_contactMoOxMain;
- var imanageNote = 0;
- var methodUrl="POST";
+ var Window_ContactMo;
+ var methodMoHtpp;
+ var sendDateSetMo;
  var lotList;
  var ListGrid_ContractItemShipment;
  var criteriaContractItemShipment;
- var contractDetailID;
  var dynamicForm_article3_Typicall
  function ValuesManager(valueId) {
                 isc.ValuesManager.create({
@@ -48,6 +47,15 @@
             ],
         fetchDataURL: "${contextPath}/api/parameters/spec-list"
     });
+
+var RestDataSource_Incoterms_InMol = isc.MyRestDataSource.create({
+fields:
+    [
+    {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
+    {name: "code", title: "<spring:message code='goods.code'/> "},
+    ],
+    fetchDataURL: "${contextPath}/api/incoterms/spec-list"
+});
 
     var RestDataSource_WarehouseLot = isc.MyRestDataSource.create({
         fields:
@@ -96,18 +104,6 @@
                 {name: "code", title: "<spring:message code='goods.code'/> "},
             ],
         fetchDataURL: "${contextPath}/api/incoterms/spec-list"
-    });
-
-       var RestDataSource_Material = isc.MyRestDataSource.create({
-        fields:
-            [
-                {name: "id", title: "id", primaryKey: true, hidden: true},
-                {name: "code", title: "<spring:message code='goods.code'/> "},
-                {name: "descl"},
-                {name: "unitId"},
-                {name: "unit.nameEN"},
-            ],
-        fetchDataURL: "${contextPath}/api/material/spec-list"
     });
 
     var RestDataSource_Contact_optionCriteria = {
@@ -314,7 +310,7 @@
                     ViewLoader_createMoOx
                     ]
             });
-                var ListGrid_contractMo = isc.ListGrid.create({
+    var ListGrid_contractMo = isc.ListGrid.create({
                         showFilterEditor: true,
                         width: "100%",
                         height: "100%",
@@ -341,8 +337,9 @@
                             icon: "[SKIN]/actions/add.png",
                             title: "<spring:message code='global.form.new'/>",
                             click: function () {
+                                    methodMoHtpp="POST";
                                     contactHeader.clearValues();
-                                    valuesManagerfullArticleMo.clearValues();
+                                    valuesManagerfullArticleMo.setValue("");
                                     contactHeaderAgent.clearValues();
                                     valuesManagerArticle1.clearValues();
                                     valuesManagerArticle2.clearValues();
@@ -359,6 +356,44 @@
                             }
                     });
     </sec:authorize>
+    <sec:authorize access="hasAuthority('C_CONTRACT')">
+    var ToolStripButton_Contract_PrintMol = isc.ToolStripButtonPrint.create({
+                                icon: "[SKIN]/actions/print.png",
+                                showIf: "true",
+                                title: "<spring:message code='global.form.print'/>",
+                                click: function () {
+                                    var printSelectMolID = ListGrid_contractMo.getSelectedRecord();
+                                    if (printSelectMolID == null || printSelectMolID.id == null) {
+                                        isc.Dialog.create({
+                                            message: "<spring:message code='global.grid.record.not.selected'/>",
+                                            icon: "[SKIN]ask.png",
+                                            title: "<spring:message code='global.message'/>",
+                                            buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
+                                            buttonClick: function () {
+                                                this.hide();
+                                            }
+                                        });
+                                    }
+                                    else {
+                                        "<spring:url value="/contract/print" var="printUrl"/>";
+                                        var recordMolIdPrint = ListGrid_contractMo.getSelectedRecord();
+                                        window.open('${printUrl}' + "/" + recordMolIdPrint.id);
+                                    }
+                                }
+                            })
+    </sec:authorize>
+
+  <sec:authorize access="hasAuthority('D_CONTRACT')">
+        var ToolStripButton_ContractMol_Remove = isc.ToolStripButtonRemove.create({
+            align: "left",
+            border: '0px',
+            icon: "[SKIN]/actions/remove.png",
+            title: "<spring:message code='global.form.remove'/>",
+            click: function () {
+                ListGrid_ContractMol_remove();
+            }
+        });
+     </sec:authorize>
 
     <sec:authorize access="hasAuthority('U_CONTRACT')">
     var ToolStripButton_ContactMo_Edit = isc.ToolStripButtonEdit.create({
@@ -376,38 +411,50 @@
                                             this.hide();
                                         }});
                             } else {
+                            methodMoHtpp="PUT";
                             contractIdEdit=record.id;
-                            var criteria1={_constructor:"AdvancedCriteria",operator:"and",criteria:[{fieldName:"contract_id",operator:"equals",value:record.id}]};
                             var criterialotList={_constructor:"AdvancedCriteria",operator:"or",criteria:[{fieldName:"contractId",operator:"equals",value:record.id},{fieldName: "used", operator: "equals",value: 0 }]};
-                                    criteriaContractItemShipment={_constructor:"AdvancedCriteria",operator:"and",criteria:[{fieldName:"contractId",operator:"equals",value:record.id}]};
-                                    var articleMo=record.contractNo+"?Mo";
+                            criteriaContractItemShipment = {
+                                        _constructor: "AdvancedCriteria",
+                                        operator: "and",
+                                        criteria: [{fieldName: "contractId", operator: "equals", value: record.id}]
+                                    };
+                                    var articleMo=record.contractNo+"_?Mo_";
                                     isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                                                 actionURL: "${contextPath}/api/contract/readWord",
                                                 httpMethod: "PUT",
-                                                data: JSON.stringify(articleMo),
+                                                //data: JSON.stringify(articleMo),
+                                                data: (articleMo+record.id),
                                                 callback: function (resp) {
                                                     if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                                                         var textMo = resp.httpResponseText;
                                                         var text2Mo = textMo.replaceAll('","', '","').replaceAll('&?','":"')
                                                         var textMainMo= JSON.parse(text2Mo.replaceAt(0,'{"').replaceAt(text2Mo.length-1,'}'));
                                                         setTimeout(function(){
-                                                               // contactTabs.selectTab(0);
-                                                                valuesManagerfullArticleMo.setValue("fullArticle01",textMainMo.Article01);
-                                                                valuesManagerfullArticleMo.setValue("fullArticle02",textMainMo.Article02);
-                                                                valuesManagerfullArticleMo.setValue("fullArticle03",textMainMo.Article03);
-                                                                valuesManagerfullArticleMo.setValue("fullArticle04",textMainMo.Article04);
-                                                                valuesManagerfullArticleMo.setValue("fullArticle05",textMainMo.Article05);
-                                                                valuesManagerfullArticleMo.setValue("fullArticle06",textMainMo.Article06);
-                                                                valuesManagerfullArticleMo.setValue("fullArticle07",textMainMo.Article07);
-                                                                valuesManagerfullArticleMo.setValue("fullArticle08",textMainMo.Article08);
-                                                                valuesManagerfullArticleMo.setValue("fullArticle09",textMainMo.Article09);
-                                                                valuesManagerfullArticleMo.setValue("fullArticle10",textMainMo.Article10);
+                                                                dynamicFormMoox_fullArticle01ID.setValue(nvlMo(textMainMo.Article01));
+                                                                dynamicForm_fullArticle02MoOxID.setValue(nvlMo(textMainMo.Article02));
+                                                                dynamicForm_fullArticle03ID.setValue(nvlMo(textMainMo.Article03));
+                                                                dynamicForm_fullArticle04ID.setValue(nvlMo(textMainMo.Article04));
+                                                                dynamicForm_fullArticle05ID.setValue(nvlMo(textMainMo.Article05));
+                                                                dynamicForm_fullArticle06ID.setValue(nvlMo(textMainMo.Article06));
+                                                                dynamicForm_fullArticle07ID.setValue(nvlMo(textMainMo.Article07));
+                                                                dynamicForm_fullArticle08ID.setValue(nvlMo(textMainMo.Article08));
+                                                                dynamicForm_fullArticle09ID.setValue(nvlMo(textMainMo.Article09));
+                                                                dynamicForm_fullArticle10ID.setValue(nvlMo(textMainMo.Article10));
+                                                                ListGrid_ContractItemShipment.fetchData(criteriaContractItemShipment);
+                                                                lotList.fetchData(criterialotList);
                                                         },200)
                                                     }else{
                                                         isc.say(RpcResponse_o.data);
                                                 }
                                                 }
                                             }))
+                                    var criteria1 = {
+                                                    _constructor: "AdvancedCriteria",
+                                                    operator: "and",
+                                                    criteria: [{fieldName: "contract.id", operator: "equals", value: record.id}]
+                                                };
+                                    setTimeout(function () {
                                     RestDataSource_contractDetail_list.fetchData(criteria1,function (dsResponse, data, dsRequest) {
                                     //dynamicFormMaterial.setValue("materialId",record.materialId)
                                     contactHeader.setValue("createDate", record.contractDate)
@@ -441,14 +488,6 @@
                                     valuesManagerArticle2.setValue("article2_13_1", data[0].article2_13_1);
                                     valuesManagerArticle2.setValue("responsibleTelerons", data[0].responsibleTelerons);
                                     valuesManagerArticle3.setValue("contactInspectionId",record.contactInspectionId);
-                                    valuesManagerArticle3.setValue("article3_number17",data[0].article3_number17);
-                                    valuesManagerArticle3.setValue("article3_number17_7",data[0].article3_number17_7);
-                                    valuesManagerArticle3.setValue("article3_number17_8",data[0].article3_number17_8);
-                                    valuesManagerArticle3.setValue("article3_number17_9",data[0].article3_number17_9);
-                                    valuesManagerArticle3.setValue("article3_number17_10",data[0].article3_number17_10);
-                                    valuesManagerArticle3.setValue("article3_number17_11",data[0].article3_number17_11);
-                                    valuesManagerArticle3.setValue("article3_number17_12",data[0].article3_number17_12);
-                                    valuesManagerArticle3.setValue("article3_number17_2",data[0].article3_number17_2);
                                     valuesManagerArticle3.setValue("PrefixMolybdenum",data[0].PrefixMolybdenum);
                                     valuesManagerArticle3.setValue("molybdenum",record.molybdenum);
                                     valuesManagerArticle3.setValue("toleranceMO",data[0].toleranceMO);
@@ -478,50 +517,14 @@
                                     valuesManagerArticle3.setValue("toleranceSi",data[0].toleranceSi);
                                     valuesManagerArticle3.setValue("typical_unitSi",data[0].typical_unitSi);
                                     valuesManagerArticle3.setValue("article3_number17_3",data[0].article3_number17_3);
-                                    valuesManagerArticle3.setValue("article3_number17_13",data[0].article3_number17_13);
-                                    valuesManagerArticle3.setValue("article3_number17_4",data[0].article3_number17_4);
-                                    valuesManagerArticle3.setValue("article3_number17_5",data[0].article3_number17_5);
-                                    valuesManagerArticle3.setValue("article3_number17_6",data[0].article3_number17_6);
-                                    valuesManagerArticle4.setValue("article4_number18",data[0].article4_number18);
-                                    valuesManagerArticle4.setValue("amount_number19_1",data[0].amount_number19_1);
                                     valuesManagerArticle4.setValue("mo_amount",record.mo_amount);
-                                    valuesManagerArticle4.setValue("amount_number19_2",data[0].amount_number19_2);
-                                    valuesManagerArticle5.setValue("shipment_number20",data[0].shipment_number20);
                                     valuesManagerArticle5.setValue("timeIssuance",record.timeIssuance);
                                     valuesManagerArticle5.setValue("prefixPayment",record.prefixPayment);
-                                    valuesManagerArticle5.setValue("invoiceType",record.invoiceType);
-                                    valuesManagerArticle5.setValue("article5_number21_6",data[0].article5_number21_6);
-                                    valuesManagerArticle5.setValue("runStartDate",record.runStartDate);
-                                    valuesManagerArticle5.setValue("runTill",record.runTill);
-                                    valuesManagerArticle5.setValue("runEndtDate",record.runEndtDate);
-                                    ///**article5_number26_1
                                     valuesManagerArticle6.setValue("article6_number31",data[0].article6_number31);
-                                    valuesManagerArticle6.setValue("article6_number31_1",data[0].article6_number31_1);
                                     valuesManagerArticle6.setValue("incotermsId",record.incotermsId);
-                                    valuesManagerArticle6.setValue("article6_number32_1",data[0].article6_number32_1);
-                                    valuesManagerArticle6.setValue("portByPortSourceId",record.portByPortSourceId);
-                                    valuesManagerArticle6.setValue("article6_number34",data[0].article6_number34);
                                     valuesManagerArticle6.setValue("incotermsText",record.incotermsText);
                                     valuesManagerArticle6.setValue("article6_Containerized",data[0].article6_Containerized);
-                                    valuesManagerArticle6.setValue("officeSource",record.officeSource);
-                                    valuesManagerArticle6.setValue("article6_Containerized_number36_1",data[0].article6_Containerized_number36_1);
-                                    valuesManagerArticle6.setValue("article6_Containerized_number33",data[0].article6_Containerized_number33);
-                                    valuesManagerArticle6.setValue("article6_Containerized_number37_1",data[0].article6_Containerized_number37_1);
-                                    valuesManagerArticle6.setValue("article6_Containerized_number37_2",data[0].article6_Containerized_number37_2);
-                                    valuesManagerArticle6.setValue("article6_Containerized_number33_1",data[0].article6_Containerized_number33_1);
-                                    valuesManagerArticle6.setValue("article6_Containerized_number37_3",data[0].article6_Containerized_number37_3);
-                                    valuesManagerArticle6.setValue("article6_Containerized_number32",data[0].article6_Containerized_number32);
-                                    valuesManagerArticle6.setValue("article6_Containerized_4",data[0].article6_Containerized_4);
-                                    valuesManagerArticle6.setValue("article6_Containerized_5",data[0].article6_Containerized_5);
                                     valuesManagerArticle7.setValue("article7_number41",data[0].article7_number41);
-                                    valuesManagerArticle7.setValue("article7_number3",data[0].article7_number3);
-                                    valuesManagerArticle7.setValue("article7_number37",data[0].article7_number37);
-                                    valuesManagerArticle7.setValue("priceCalPeriod",record.priceCalPeriod);
-                                    valuesManagerArticle7.setValue("article7_number3_1",data[0].article7_number3_1);
-                                    valuesManagerArticle7.setValue("publishTime",record.publishTime);
-                                    valuesManagerArticle7.setValue("article7_number39_1",data[0].article7_number39_1);
-                                    valuesManagerArticle7.setValue("reportTitle",record.reportTitle);
-                                    valuesManagerArticle7.setValue("article7_number40_2",data[0].article7_number40_2);
                                     valuesManagerArticle7.setValue("discountValueOne",data[0].discountValueOne);
                                     valuesManagerArticle7.setValue("discountFor",data[0].discountFor);
                                     valuesManagerArticle7.setValue("discountValueOne_1",data[0].discountValueOne_1);
@@ -600,125 +603,22 @@
                                     valuesManagerArticle7.setValue("discountPerfixEleven_1",data[0].discountPerfixEleven_1);
                                     valuesManagerArticle7.setValue("discountValueEleven_2",data[0].discountValueEleven_2);
                                     valuesManagerArticle8.setValue("article8_number42",data[0].article8_number42);
-                                    valuesManagerArticle8.setValue("article8_3",data[0].article8_3);
-                                    valuesManagerArticle8.setValue("article8_value",data[0].article8_value);
-                                    valuesManagerArticle8.setValue("article8_number43",data[0].article8_number43);
                                     valuesManagerArticle8.setValue("delay",record.delay);
-                                    valuesManagerArticle8.setValue("article8_number44_1",data[0].article8_number44_1);
                                     valuesManagerArticle9.setValue("article9_number45",data[0].article9_number45);
-                                    valuesManagerArticle9.setValue("prepaid",record.prepaid);
-                                    valuesManagerArticle9.setValue("article9_number22",data[0].article9_number22);
-                                    valuesManagerArticle9.setValue("article9_Englishi_number22",data[0].article9_Englishi_number22);
-                                    valuesManagerArticle9.setValue("article9_number23",data[0].article9_number23);
-                                    valuesManagerArticle9.setValue("prepaidCurrency",record.prepaidCurrency);
-                                    valuesManagerArticle9.setValue("article9_number48",data[0].article9_number48);
-                                    valuesManagerArticle9.setValue("payTime",record.payTime);
-                                    valuesManagerArticle9.setValue("article9_number49_1",data[0].article9_number49_1);
-                                    valuesManagerArticle9.setValue("pricePeriod",record.pricePeriod);
-                                    valuesManagerArticle9.setValue("article9_number51",data[0].article9_number51);
-                                    valuesManagerArticle9.setValue("eventPayment",record.eventPayment);
-                                    valuesManagerArticle9.setValue("contentType",record.contentType);
-                                    valuesManagerArticle9.setValue("article9_number54",data[0].article9_number54);
-                                    valuesManagerArticle9.setValue("article9_number54_1",data[0].article9_number54_1);
-                                    valuesManagerArticle9.setValue("article9_number55",data[0].article9_number55);
-                                    valuesManagerArticle9.setValue("article9_ImportantNote",data[0].article9_ImportantNote);
-                                    valuesManagerArticle10.setValue("article10_number56",data[0].article10_number56);
-                                    valuesManagerArticle10.setValue("article10_number57",data[0].article10_number57);
-                                    valuesManagerArticle10.setValue("article10_number58",data[0].article10_number58);
-                                    valuesManagerArticle10.setValue("article10_number59",data[0].article10_number59);
-                                    valuesManagerArticle10.setValue("article10_number60",data[0].article10_number60);
-                                    valuesManagerArticle10.setValue("article10_number61",data[0].article10_number61)
-                                    contractDetailID = data[0].id;
-                                    })
-                                pageMolibdenAll(1);
-                                ListGrid_ContractItemShipment.fetchData(criteriaContractItemShipment);
-                                lotList.fetchData(criterialotList);
+                                    valuesManagerArticle10.setValue("article10_number61",data[0].article10_number61);
+                                    })}, 300)
+                                    pageMolibdenAll(1);
                             }
                             }});
     </sec:authorize>
-
-                    var ToolStripButton_Contact_Remove= isc.ToolStripButtonRemove.create({
-                            icon: "[SKIN]/actions/remove.png",
-                            showIf: "false",
-                            title: "<spring:message code='global.form.remove'/>",
-                            click: function () {
-                                if (ListGrid_contractMo.getSelectedRecord() == null || ListGrid_contractMo.getSelectedRecord().id == null) {
-                                    isc.Dialog.create({
-                                        message: "<spring:message code='global.grid.record.not.selected'/>",
-                                        icon: "[SKIN]ask.png",
-                                        title: "<spring:message code='global.message'/>",
-                                        buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
-                                        buttonClick: function () {
-                                            this.hide();
-                                        }});
-                                } else{
-                                        isc.Dialog.create({
-                                            message: "<spring:message code='global.grid.record.remove.ask'/>",
-                                            icon: "[SKIN]ask.png",
-                                            title: "<spring:message code='global.grid.record.remove.ask.title'/>",
-                                            buttons: [
-                                                isc.IButtonSave.create({title: "<spring:message code='global.yes'/>"}),
-                                                isc.IButtonCancel.create({title: "<spring:message code='global.no'/>"})
-                                            ],
-                                            buttonClick: function (button, index) {
-                                                this.hide();
-                                                if (index == 0) {
-                                                    var idContractRemove = ListGrid_contractMo.getSelectedRecord().id;
-                                                    var criteriaRemove={_constructor:"AdvancedCriteria",operator:"and",criteria:[{fieldName:"contract_id",operator:"equals",value:idContractRemove}]};
-                                                    RestDataSource_contractDetail_list.fetchData(criteriaRemove,function (dsResponse, data, dsRequest) {
-                                                    if(data==""){
-                                                        isc.RPCManagaler.sendRequest(Object.assign(BaseRPCRequest, {
-                                                                    actionURL: "${contextPath}/api/contract/" + idContractRemove,
-                                                                    httpMethod: "DELETE",
-                                                                    callback: function (resp) {
-                                                                        if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
-                                                                            isc.say("<spring:message code='global.grid.record.remove.success'/>.");
-                                                                            ListGrid_contractMo.invalidateCache();
-                                                                        } else {
-                                                                            isc.say("<spring:message code='global.grid.record.remove.failed'/>");
-                                                                        }
-                                                                      }
-                                                                    }))
-                                                    }else{
-                                                     var contractDetailIDRemove = data[0].id;
-                                                            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                                                                    actionURL: "${contextPath}/api/contractDetail/" + contractDetailIDRemove,
-                                                                    httpMethod: "DELETE",
-                                                                    callback: function (resp) {
-                                                                        if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
-                                                                            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                                                                            actionURL: "${contextPath}/api/contract/" + idContractRemove,
-                                                                            httpMethod: "DELETE",
-                                                                            callback: function (resp) {
-                                                                                if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
-                                                                                    isc.say("<spring:message code='global.grid.record.remove.success'/>.");
-                                                                                    ListGrid_contractMo.invalidateCache();
-                                                                                } else {
-                                                                                    isc.say("<spring:message code='global.grid.record.remove.failed'/>");
-                                                                                }
-                                                                              }
-                                                                            })
-                                                                        )
-                                                                    } else {
-                                                                        isc.say("<spring:message code='global.grid.record.remove.failed'/>");
-                                                                    }
-                                                                    }
-                                                                })
-                                                             )}
-                                                    })
-                                                }
-                                            }
-                                        });
-                                    }}
-                            });
-                     var ToolStripButton_ContactMO_Refresh = isc.ToolStripButtonRefresh.create({
+    var ToolStripButton_ContactMO_Refresh = isc.ToolStripButtonRefresh.create({
                                 title: "<spring:message code='global.form.refresh'/>",
                                 click: function () {
                                        ListGrid_contractMo.invalidateCache(criteriaMo);
                                 }
                             });
 
-                    var ToolStrip_Actions_ContactMO = isc.ToolStrip.create({
+    var ToolStrip_Actions_ContactMO = isc.ToolStrip.create({
                         width: "100%",
                         height: "100%",
                         membersMargin: 5,
@@ -730,6 +630,14 @@
 
                             <sec:authorize access="hasAuthority('U_CONTRACT')">
                             ToolStripButton_ContactMo_Edit,
+                            </sec:authorize>
+
+                            <sec:authorize access="hasAuthority('U_CONTRACT')">
+                            ToolStripButton_ContractMol_Remove,
+                            </sec:authorize>
+
+                            <sec:authorize access="hasAuthority('U_CONTRACT')">
+                            ToolStripButton_Contract_PrintMol,
                             </sec:authorize>
 
                             isc.ToolStrip.create({
@@ -748,7 +656,7 @@
                          ToolStrip_Actions_ContactMO
                         ]
                     });
-             var RestDataSource_Contract = isc.MyRestDataSource.create({
+    var RestDataSource_Contract = isc.MyRestDataSource.create({
              fields:
                 [
                 {name: "id", title: "id", primaryKey: true, hidden: true},
@@ -823,11 +731,11 @@ function factoryLableHedear(id, contents, width, height, padding) {
     }
 function pageMolibdenAll(method){
     if(method==0){
-        methodUrl="POST";
+        methodMoHtpp="POST";
         }else{
-        methodUrl="PUT";
+        methodMoHtpp="PUT";
         }
-Window_ContactMo = isc.Window.create({
+     Window_ContactMo = isc.Window.create({
                 title: "<spring:message code='salesContractMoButton.title'/>",
                 width: "100%",
                 height: "100%",
@@ -841,22 +749,19 @@ Window_ContactMo = isc.Window.create({
                 this.Super("closeClick", arguments);
                 },
                 items: [
-
                 ]
                 });
     //START PAGE ONE
     factoryLableHedear("LablePage", '<font><b>NATIONAL IRANIAN COPPER INDUSTRIES CO.<b></font>', "100%", "10", 4)
     factoryLable("lableNameContactMo", '<b><font size=4px>Molybdenum Oxide Contract-BAPCO/NICICO</font><b>', "100%", '2%', 2);
     factoryLable("lableArticle2Mo", '<b><font size=4px>ARTICLE 2 -QUANTITY :</font><b>', "100%", '2%', 20);
-    factoryLable("lableImportantNote", '<b><font size=2px>IMPORTANT Note :</font><b>', "100%", '4%', 20);
     factoryLableArticle("lableArticle1Mo", '<b><font size=4px>ARTICLE 1 - DEFINITIONS:</font><b>', "30", 5)
-    factoryLableArticle("lableArticle3MO", '<b><font size=4px>Article 3 -QUANTITY</font><b>', "30", 5)
-    factoryLableArticle("lableArticle6Mo", '<b><font size=4px>ARTICLE 6 -</font><b>', "30", 5)
-    factoryLableArticle("lableArticle7Mo", '<b><font size=4px>ARTICLE 7 -</font><b>', '30', 5);
-    factoryLableArticle("lableArticle8Mo", '<b><font size=4px>ARTICLE 8 -</font><b>', '30', 5);
-    factoryLableArticle("lableArticle9Mo", '<b><font size=4px>ARTICLE 9 -</font><b>', '30', 5);
+    factoryLableArticle("lableArticle3MO", '<b><font size=4px>Article 3 - QUANTITY</font><b>', "30", 5)
+    factoryLableArticle("lableArticle6Mo", '<b><font size=4px>ARTICLE 6 - DELIVERY TERMS</font><b>', "30", 5)
+    factoryLableArticle("lableArticle7Mo", '<b><font size=4px>ARTICLE 7 - PRICE</font><b>', '30', 5);
+    factoryLableArticle("lableArticle8Mo", '<b><font size=4px>ARTICLE 8 - OUOTATIONAL PERIOD</font><b>', '30', 5);
+    factoryLableArticle("lableArticle9Mo", '<b><font size=4px>ARTICLE 9 - PAYMENT</font><b>', '30', 5);
     factoryLableArticle("lableArticle10Mo", '<b><font size=4px>ARTICLE 10  - CURRENCY OPTION:</font><b>', '30', 5);
-    factoryLableArticle("lableContainerized", '<b><font size=4px>CONTAINERIZED DELIVERY:</font><b>', "30", 5)
     var lable_article2_1 = isc.Label.create({
         wrap: false,
         padding: 5,
@@ -1310,12 +1215,24 @@ var DynamicForm_ContactMooxParameter_ValueNumber8=isc.DynamicForm.create({
                 pickListProperties: {showFilterEditor: true},
                 pickListFields: [
                     {name: "paramName", title: "<spring:message code='parameters.paramName'/>", width: "20%", align: "center"},
-                    {name: "paramType", title: "<spring:message code='parameters.paramType'/>", width: "20%", align: "center"},
-                    {name: "paramValue", title: "<spring:message code='parameters.paramValue'/>", width: "60%", align: "center"}
+                    {name: "paramValue", title: "<spring:message code='parameters.paramValue'/>", width: "60%", align: "center"},
+                    {
+                    name: "categoryValue",
+                    title: "<spring:message	code='parameters.paramValue.d'/>",
+                    width: "15%",
+                    type: "text",
+                    required: true,
+                    valueMap: {
+                        "1": "Unit",
+                        "2": "Time",
+                        "3": "Financial",
+                        "-2": "BANK REFERENCE"
+                    }
+                    }
                 ],
                 pickListCriteria: {
                     _constructor: 'AdvancedCriteria', operator: "and", criteria: [
-                        {fieldName: "contractId", operator: "equals", value: 1}
+                        {fieldName: "contractId", operator: "equals", value: 2}
                         ]
                 },
                 width: "1200",
@@ -1323,7 +1240,7 @@ var DynamicForm_ContactMooxParameter_ValueNumber8=isc.DynamicForm.create({
                 title: "NAME",
                 changed: function (form, item, value) {
                     DynamicForm_ContactMooxParameter_ValueNumber8.setValue("definitionsOne", item.getSelectedRecord().paramName + "=" + item.getSelectedRecord().paramValue);
-                    dynamicFormMoox_fullArticle01.setValue("fullArticle01",dynamicFormMoox_fullArticle01.getValue("fullArticle01")+"\n"+"-"+DynamicForm_ContactMooxParameter_ValueNumber8.getValue("definitionsOne"))
+                    dynamicFormMoox_fullArticle01.setValue(dynamicFormMoox_fullArticle01.getValue("fullArticle01")+"<br>"+"-"+DynamicForm_ContactMooxParameter_ValueNumber8.getValue("definitionsOne"))
                     DynamicForm_ContactMooxParameter_ValueNumber8.clearValue("definitionsOne");
                     }
             }
@@ -1337,30 +1254,21 @@ var DynamicForm_ContactMooxParameter_ValueNumber8=isc.DynamicForm.create({
         members: [DynamicForm_ContactMooxParameter_ValueNumber8]
     })
 
-    var dynamicFormMoox_fullArticle01 = isc.DynamicForm.create({
+    var dynamicFormMoox_fullArticle01 = isc.RichTextEditor.create({
         valuesManager: "valuesManagerfullArticleMo",
-        height: "50",
-        width: "100%",
-        wrapItemTitles: false,
-        items: [
-            {
-                name: "fullArticle01",
-                disabled: false,
-                type: "text",
-                length: 6000,
-                showTitle: false,
-                colSpan: 2,
-                defaultValue: "",
-                title: "fullArticle01",
-                width: "*",changed: function (form, item, value) {
+        ID:"dynamicFormMoox_fullArticle01ID",
+        autoDraw:true,
+        height:155,
+        overflow:"auto",
+        canDragResize:true,
+        controlGroups:["fontControls", "formatControls", "styleControls", "colorControls"],
+        value:"",changed: function (form, item, value) {
                     if(value==undefined)
-                      dynamicFormMoox_fullArticle01.setValue("fullArticle01","")
+                      dynamicFormMoox_fullArticle01.setValue("")
                     else
-                      dynamicFormMoox_fullArticle01.setValue("fullArticle01",value)
+                      dynamicFormMoox_fullArticle01.setValue(dynamicFormMoox_fullArticle01.getValue())
                     }
-            }
-        ]
-    })
+            })
 
     var article2Mo = isc.DynamicForm.create({
         valuesManager: "valuesManagerArticle2",
@@ -1401,7 +1309,6 @@ var DynamicForm_ContactMooxParameter_ValueNumber8=isc.DynamicForm.create({
                     {name: "id", title: "id", canEdit: false, hidden: true},
                     {name: "nameEN", width: 245, align: "center"}
                 ],changed: function (form, item, value) {
-                    dynamicForm_article3_3.setValue("article3_number17_13",article2Mo.getItem("unitId").getDisplayValue(value));
                 }
             },
             {
@@ -1413,8 +1320,6 @@ var DynamicForm_ContactMooxParameter_ValueNumber8=isc.DynamicForm.create({
                 keyPressFilter: "[0-9.]", //article2_13
                 changed: function (form, item, value) {
                     article2_1.setValue("article2_13_1",value);
-                    dynamicForm_article3_3.setValue("article3_number17_4",value);
-                    dynamicForm_article3.setValue("article3_number17_9", value);
                 }
             },
             {
@@ -1429,7 +1334,6 @@ var DynamicForm_ContactMooxParameter_ValueNumber8=isc.DynamicForm.create({
                 },
                 changed: function (form, item, value) {
                     article2_1.setValue("responsibleTelerons", value);
-                    dynamicForm_article3_3.setValue("article3_number17_5", "(" + article2Mo.getItem("optional").getDisplayValue(value) + " " + "'S OPTION) IN PARTIAL SHIPMENT")
                 }
             },
             {
@@ -1439,7 +1343,7 @@ var DynamicForm_ContactMooxParameter_ValueNumber8=isc.DynamicForm.create({
                 startRow: false,
                 title: '<b><font size=2px>OPTION) PRODUCED IN</font><b>',
                 changed: function (form, item, value) {
-                        valuesManagerfullArticleMo.setValue("fullArticle02",article2Mo.getValue("amount")+" "+"("+article2Mo.getValue("amount_en")+")"+" "+article2Mo.getItem("unitId").getDisplayValue(article2Mo.getValue("unitId"))+" "+article2Mo.getValue("molybdenumTolorance")+" "+"(IN" + article2Mo.getItem("optional").getDisplayValue(article2Mo.getValue("optional")) + " " + "'S OPTION) IN PRODUCED IN"+" "+article2Mo.getValue("plant")+" "+"THE TOLERENCE OF +/-%"+article2Mo.getValue("molybdenumTolorance")+" "+"IN"+" "+article2Mo.getItem("optional").getDisplayValue(article2Mo.getValue("optional"))+" "+"OPTION WILL BE CONSIDRED FOR EACH SHIPMENT QUANTITY.");
+                        dynamicForm_fullArticle02MoOx.setValue(article2Mo.getValue("amount")+" "+"("+article2Mo.getValue("amount_en")+")"+" "+article2Mo.getItem("unitId").getDisplayValue(article2Mo.getValue("unitId"))+" "+article2Mo.getValue("molybdenumTolorance")+" "+"(IN" + article2Mo.getItem("optional").getDisplayValue(article2Mo.getValue("optional")) + " " + "'S OPTION) IN PRODUCED IN"+" "+article2Mo.getValue("plant")+" "+"THE TOLERENCE OF +/-%"+article2Mo.getValue("molybdenumTolorance")+" "+"IN"+" "+article2Mo.getItem("optional").getDisplayValue(article2Mo.getValue("optional"))+" "+"OPTION WILL BE CONSIDRED FOR EACH SHIPMENT QUANTITY.");
                 }
             }
         ]
@@ -1472,24 +1376,15 @@ var DynamicForm_ContactMooxParameter_ValueNumber8=isc.DynamicForm.create({
         ]
     })
 
-var dynamicForm_fullArticle02MoOx = isc.DynamicForm.create({
+var dynamicForm_fullArticle02MoOx = isc.RichTextEditor.create({
+        ID:"dynamicForm_fullArticle02MoOxID",
         valuesManager: "valuesManagerfullArticleMo",
-        height: "50",
-        width: "100%",
-        wrapItemTitles: false,
-        items: [
-            {
-                name: "fullArticle02",
-                disabled: false,
-                type: "text",
-                length: 6000,
-                showTitle: false,
-                colSpan: 2,
-                defaultValue: "",
-                title: "fullArticle02",
-                width: "*"
-            }
-        ]
+        autoDraw:true,
+        height:155,
+        overflow:"scroll",
+        canDragResize:true,
+        controlGroups:["fontControls", "formatControls", "styleControls", "colorControls"],
+        value:""
     })
 lotList = isc.ListGrid.create({
         showFilterEditor: true,
@@ -1536,30 +1431,6 @@ var vlayoutBodyMo = isc.VLayout.create({
         members: [
             isc.HLayout.create({align: "left", members: [DynamicForm_ContactHeader]}),
             isc.HLayout.create({height: "50", align: "left", members: [lableNameContactMo]}),
-            /*isc.HLayout.create({height: "50", align: "left", members: [
-                isc.DynamicForm.create({ID:"dynamicFormMaterial",items:[{type: "text",name:"materialId",
-                    title: "PLEASE SELECT MATERIAL",align: "left",selectOnFocus: true,wrapTitle: false,required: true,
-                    validators: [
-                    {
-                    type:"required",
-                    validateOnChange: true }],
-                    width: "400",
-                    editorType: "SelectItem",
-                    optionDataSource: RestDataSource_Material,
-                    displayField: "descl",
-                    valueField: "id",
-                    pickListWidth: "400",
-                    pickListHeight: "500",
-                    pickListProperties: {showFilterEditor: true},
-                    pickListFields: [
-                    {name: "id", title: "id", canEdit: false, hidden: true},
-                    {name: "descl", title: "<spring:message code="material.descl"/>", width: "395", align: "center"}
-                    ],
-                    pickListCriteria:{_constructor:'AdvancedCriteria',operator:"and",criteria:[
-                        {fieldName: "descl", operator: "contains", value: "Mol"}]
-                    },
-                    }]})
-            ]}),*/
             isc.HLayout.create({align: "left", members: [DynamicForm_ContactCustomer]}),
             isc.HLayout.create({ID: "dynamicForm1And2Mo", align: "center", members: [dynamicForm1Mo, dynamicForm2Mo]}),
             isc.HLayout.create({align: "center", members: [DynamicForm_ContactSeller]}),
@@ -1617,31 +1488,21 @@ var vlayoutArticle3 = isc.VLayout.create({
     //END PAGE ONE
 
     //START PAGE TOW
-    factoryLableHedear("LablePageTwo", '<b>Page 2 of Molybdenum Oxide Contact - BAPCO/NICIO<b>', "100%", "2%", 20)
     factoryLableArticle("lableArticle3Typicall", '<b><font size=4px>TYPICAL ANALYSIS: </font><b>', '5%', 1);
-    factoryLableArticle("lableArticle4", '<b><font size=4px>ARTICLE 4 - </font><b>', '2%', 1);
-    factoryLableArticle("lableArticle5", '<b><font size=4px>ARTICLE 5 - </font><b>', "20", 1)
+    factoryLableArticle("lableArticle4", '<b><font size=4px>ARTICLE 4 - PACKING</font><b>', '2%', 1);
+    factoryLableArticle("lableArticle5", '<b><font size=4px>ARTICLE 5 - SHIPMENT</font><b>', "20", 1)
 
- var dynamicForm_fullArticle03 = isc.DynamicForm.create({
+
+var dynamicForm_fullArticle03 = isc.RichTextEditor.create({
+            ID:"dynamicForm_fullArticle03ID",
             valuesManager: "valuesManagerfullArticleMo",
-            height: "20",
-            width: "100%",
-            wrapItemTitles: false,
-            items: [
-                {
-                    name: "fullArticle03",
-                    disabled: false,
-                    type: "text",
-                    length: 5000,
-                    startRow: true,
-                    showTitle: false,
-                    colSpan: 10,
-                    defaultValue: "MOLYBDENUM OXIDE ASSAYS ARE AS FOLLOWS:\n",
-                    title: "fullArticle03",
-                    width: "*"
-                }
-            ]
-        })
+            autoDraw:true,
+            height:155,
+            overflow:"auto",
+            canDragResize:true,
+            controlGroups:["fontControls", "formatControls", "styleControls", "colorControls"],
+            value:""
+})
 
 var dynamicForm_article3_1 = isc.DynamicForm.create({
         valuesManager: "valuesManagerArticle3",
@@ -1655,9 +1516,9 @@ var dynamicForm_article3_1 = isc.DynamicForm.create({
                 hint: "AHK",
                 width: "400",
                 showHintInField: true,
-                showTitle: false,
+                showTitle: true,
                 required: false,
-                title: "<spring:message code='contact.name'/>",
+                title: "Inspection : ",
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_Contact,
                 displayField: "nameFA",
@@ -1673,111 +1534,11 @@ var dynamicForm_article3_1 = isc.DynamicForm.create({
                     {fieldName: "inspector", operator: "equals", value: 1}]
                     },
                 changed: function (form, item, value) {
-                    dynamicForm_article3.setValue("article3_number17",value);
-                    dynamicForm_article3.setValue("quantity_number17_11", value);
                 }
             }
         ]
     })
 
-    var dynamicForm_article3 = isc.DynamicForm.create({
-        valuesManager: "valuesManagerArticle3",
-        height: "4%",
-        numCols: 12,
-        wrapItemTitles: false,
-        items: [
-            {
-                type: "text",
-                name: "article3_number17",
-                showTitle: false,
-                width: "150",
-                startRow: false,
-                title: ''
-            }, {
-                type: "text",
-                name: "article3_number17_7",
-                showTitle: false,
-                width: "350",
-                startRow: false,
-                title: 'article3_number17_7'
-            }, {
-                type: "text",
-                name: "article3_number17_8",
-                showTitle: true,
-                width: "50",
-                startRow: false,
-                keyPressFilter: "[0-9.]",
-                title: '('
-            }, {
-                type: "text",
-                name: "article3_number17_9",
-                showTitle: true,
-                width: "50",
-                startRow: false, keyPressFilter: "[0-9.]",
-                title: '+/-',
-                textAlign: "left"
-            }, {
-                type: "text",
-                name: "article3_number17_10",
-                showTitle: false,
-                width: "350",
-                defaultValue: "IN SELLER 'S OPTION)WHICH WILL BE PERFORMED AT ",
-                startRow: false,
-                title: 'article3_number17_10'
-            }, {
-                type: "text",
-                name: "article3_number17_11",
-                showTitle: false,
-                width: "50",
-                startRow: false,
-                title: 'quantity_number17_11'
-            }, {
-                type: "text",
-                name: "article3_number17_12",
-                showTitle: false,
-                width: "350",
-                startRow: false,
-                defaultValue: "IS FINAL AND BINDING FOR SETTLEMENT PURPOSES.",
-                title: 'quantity_number17_12'
-            }
-        ]
-    })
-
-    dynamicForm_article3.setValue("quantity_number17_7", "ANALYSIS RESULTS FOR THE REMAINING QUANTITY(");
-
-    var dynamicForm_article3_2 = isc.DynamicForm.create({
-        valuesManager: "valuesManagerArticle3",
-        height: "20",
-        width: "50%",
-        wrapItemTitles: true,
-        items: [
-            {
-                name: "article3_number17_2",
-                type: "text",
-                width: "700",
-                length: 150,
-                showTitle: false,
-                colSpan: 2,
-                required: false,
-                editorType: "SelectItem",
-                optionDataSource: RestDataSource_Parameters,
-                displayField: "paramValue",
-                valueField: "paramValue",
-                pickListWidth: "700",
-                pickListProperties: {showFilterEditor: true},
-                pickListFields: [
-                    {name: "paramName", width: "20%", align: "center"},
-                    {name: "paramType", width: "20%", align: "center"},
-                    {name: "paramValue", width: "60%", align: "center"}
-                ], pickListCriteria: {
-                    _constructor: 'AdvancedCriteria', operator: "and", criteria: [
-                        {fieldName: "contractId", operator: "equals", value: 1}]
-                },
-                title: "quantity_number17_2"
-            }
-        ]
-    })
-    dynamicForm_article3_2.setValue("quantity_number17_2", "'S ANALYSIS RESULTS AS PER ABOVE ASSYS WHICH IS BIENG PERFORMED AT AHK IS FINAL AND BINDING FOR SETTLEMENT PURPOSES.");
     dynamicForm_article3_Typicall = isc.DynamicForm.create({
         valuesManager: "valuesManagerArticle3",
         height: "20",
@@ -1895,90 +1656,13 @@ var dynamicForm_article3_1 = isc.DynamicForm.create({
                 defaultValue: "210",
                 showHintInField: true, keyPressFilter: "[0-9.]",
                 startRow: false,
-                title: '- ',
+                title: '-Typical value: ',
                 changed: function (form, item, value) {
-                    dynamicForm_article3.setValue("article3_number17_8", value);
-                    //dynamicForm_article5_number29_1.setValue("article5_number29_2", value);
-                    dynamicForm_fullArticle03.clearValues();
-                    valuesManagerfullArticleMo.setValue("fullArticle03","\n"+valuesManagerfullArticleMo.getValue("fullArticle03")+value+"MT"+"+/-"+valuesManagerArticle2.getValue("molybdenumTolorance")+"%"+" "+"AS A WHOLE AFTER CONTRACT SETTLEMENT WITH BELOW ANALYSIS AND SIZE DETERMINATION:")//TO DO 13
-                    valuesManagerfullArticleMo.setValue("fullArticle03",valuesManagerfullArticleMo.getValue("fullArticle03")+"\n"+valuesManagerArticle3.getValue("contactInspectionId")+" "
-+"ANALYSIS RESULTS FOR THE REMAINING QUANTITY ("+value+"MT +/-"+article2Mo.getValue("molybdenumTolorance")+"-IN "+article2_1.getItem("responsibleTelerons").getDisplayValue(article2_1.getValue("responsibleTelerons"))+" OPTION) WHICH WILL BE PERFORMED AT "+" "+valuesManagerArticle3.getValue("contactInspectionId")+", IS FINAL AND BINDING FOR SETTLEMENT PURPOSES.");
+                    dynamicForm_fullArticle03.setValue("");
+                    dynamicForm_fullArticle03.setValue("\n"+dynamicForm_fullArticle03.getValue()+value+"MT"+"+/-"+valuesManagerArticle2.getValue("molybdenumTolorance")+"%"+" "+"AS A WHOLE AFTER CONTRACT SETTLEMENT WITH BELOW ANALYSIS AND SIZE DETERMINATION:")//TO DO 13
+                    dynamicForm_fullArticle03.setValue(dynamicForm_fullArticle03.getValue()+"\n"+valuesManagerArticle3.getValue("contactInspectionId")+" "
+                    +"ANALYSIS RESULTS FOR THE REMAINING QUANTITY ("+value+"MT +/-"+article2Mo.getValue("molybdenumTolorance")+"-IN "+article2_1.getItem("responsibleTelerons").getDisplayValue(article2_1.getValue("responsibleTelerons"))+" OPTION) WHICH WILL BE PERFORMED AT "+" "+valuesManagerArticle3.getValue("contactInspectionId")+", IS FINAL AND BINDING FOR SETTLEMENT PURPOSES.");
                 }
-            },{
-                type: "text",
-                name: "article3_number17_13",  ////to do new
-                showTitle: false,
-                length: 100,
-                width: "100",
-                showHintInField: true,
-                startRow: false,
-                title: '',
-            }
-                , {
-                type: "text",
-                name: "article3_number17_4",
-                showTitle: true,
-                length: 100,
-                width: "100",
-                defaultValue: "10",
-                showHintInField: true,
-                startRow: false,
-                title: '+/-', keyPressFilter: "[0-9.]",
-                changed: function (form, item, value) {
-                    dynamicForm_article3.setValue("article3_number17_9", value);
-                    dynamicForm_article5_number29_1.setValue("article5_number29_3", value);
-                }
-            }, {
-                type: "text",
-                name: "article3_number17_5",
-                showTitle: false,
-                width: "500",
-                wrap: false,
-                startRow: false,
-                title: 'quantity_number17_5'
-            },{
-                type: "selectItem",
-                name: "article3_number17_6",
-                showTitle: false,
-                width: "100",
-                default: "TILL",
-                showHintInField: true,
-                startRow: false,
-                title: 'quantity_number17_6',
-                valueMap: {
-                    "AFTER": "AFTER",
-                    "TILL": "TILL",
-                    "BEFORE": "BEFORE"
-                },changed: function (form, item, value) {
-                    dynamicForm_article5_number24_number25_number26.setValue("article5_number26", value);
-                    dynamicForm_article5_number29_1.setValue("article5_number29_5", value);
-                }
-            },
-              {
-                name: "Date",
-                title: "<spring:message code='contact.date'/>",
-                defaultValue: "<%=dateUtil.todayDate()%>",
-                type: "date",
-                format: 'DD-MM-YYYY',
-                required: false,
-                startRow: false,
-                wrapTitle: false,
-                showTitle: false
-            }
-        ]
-    })
-    var dynamicForm_article4_number18 = isc.DynamicForm.create({
-        valuesManager: "valuesManagerArticle4",
-        height: "100%",
-        wrapItemTitles: false,
-        items: [
-            {
-                name: "article4_number18",
-                showTitle: false,
-                defaultValue: "PACKING",
-                width: "100",
-                startRow: false,
-                title: ''
             }
         ]
     })
@@ -1988,70 +1672,31 @@ var dynamicForm_article3_1 = isc.DynamicForm.create({
         numCols: 6,
         wrapItemTitles: false,
         items: [
-            {
-                name: "amount_number19_1",
-                showTitle: false,
-                width: "250",
-                defaultValue: "IN STEEL DRUMS OF ",
-                startRow: false,
-                title: ''
-            }, {
-                name: "mo_amount", //amount_number19
-                showTitle: false,
+          {     name: "mo_amount", //amount_number19
+                showTitle: true,
                 width: "70",
                 defaultValue: "220",
                 keyPressFilter: "[0-9.]",
                 textAlign: "left",
                 showHintInField: true,
                 startRow: false,
-                title: '',changed: function (form, item, value) {
-                dynamicForm_fullArticle04.clearValues();
-                valuesManagerfullArticleMo.setValue("fullArticle04","IN STEEL DRUMS OF "+value+" LITERS, WITH LIDS SECURED BY RINGS ON PALLETS.");
+                title: 'MOLYBDENUM OXIDE VALUE: ',changed: function (form, item, value) {
+                dynamicForm_fullArticle04.setValue("");
+                dynamicForm_fullArticle04.setValue("IN STEEL DRUMS OF "+value+" LITERS, WITH LIDS SECURED BY RINGS ON PALLETS.");
                 }
-            }, {
-                name: "amount_number19_2",
-                showTitle: false,
-                width: "350",
-                defaultValue: " LITERS,WITH LIDS SECURED BY RINGS ON PALLETS.",
-                startRow: false,
-                title: ''
-            }
+          }
         ]
     })
-    var dynamicForm_fullArticle04 = isc.DynamicForm.create({
+
+    var dynamicForm_fullArticle04 = isc.RichTextEditor.create({
+                ID:"dynamicForm_fullArticle04ID",
                 valuesManager: "valuesManagerfullArticleMo",
-                height: "20",
-                width: "100%",
-                wrapItemTitles: false,
-                items: [
-                    {
-                        name: "fullArticle04",
-                        disabled: false,
-                        type: "text",
-                        length: 5000,
-                        startRow: true,
-                        showTitle: false,
-                        colSpan: 10,
-                        defaultValue: "IN STEEL DRUMS OF *** LITERS, WITH LIDS SECURED BY RINGS ON PALLETS.",
-                        title: "fullArticle04",
-                        width: "*"
-                    }
-                ]
-            })
-    var dynamicForm_article5_number20 = isc.DynamicForm.create({
-        valuesManager: "valuesManagerArticle5",
-        height: "20",
-        wrapItemTitles: false,
-        items: [
-            {
-                name: "shipment_number20",
-                showTitle: false,
-                defaultValue: "SHIPMENT",
-                showHintInField: true,
-                width: "100",
-                startRow: false
-            }
-        ]
+                autoDraw:true,
+                height:155,
+                overflow:"auto",
+                canDragResize:true,
+                controlGroups:["fontControls", "formatControls", "styleControls", "colorControls"],
+                value:""
     })
     var dynamicForm_article5_number21 = isc.DynamicForm.create({
         valuesManager: "valuesManagerArticle5",
@@ -2059,47 +1704,15 @@ var dynamicForm_article3_1 = isc.DynamicForm.create({
         numCols: 14,
         wrapItemTitles: false,
         items: [
-            {
-                name: "timeIssuance", //article5_number21
-                showTitle: true,
-                defaultValue: "AFTER RECEIPT",
-                showHintInField: true,
-                width: "150",
-                startRow: false,
-                title: 'SHIPMENT SHALL BE PERFORMED'
-            }, {
-                name: "prefixPayment", //article5_number22
+            {   name: "prefixPayment", //article5_number22
                 showTitle: true,
                 width: "100",
                 defaultValue: "105%",
                 showHintInField: true,
                 startRow: false,
-                title: 'OF',
+                title: 'PAY BEFORE EACH SHIPMENT ',
                 changed: function (form, item, value) {
-                    dynamicForm_article9_number46.setValue("article9_number22", value);
-                    dynamicForm_article9_number46.setValue("article9_Englishi_number22", numberToEnglish(value) + " PERCENT");
-                    dynamicForm_article9_number46_number47_number48_number49.setValue("article9_number22", value);
-                    dynamicForm_article9_number46_number47_number48_number49.setValue("article9_Englishi_number22", value);
                 }
-            }, {
-                name: "invoiceType", //article5_number23
-                showTitle: true,
-                width: "250",
-                defaultValue: "PROFORMA/PROVISIONAL",
-                showHintInField: true,
-                startRow: false,
-                title: 'OF VALUE AMOUNT OF ',
-                changed: function (form, item, value) {
-                    dynamicForm_article9_number46.setValue("article9_number23", value);
-                    dynamicForm_article9_number46_number47_number48_number49.setValue("article9_number23", value);
-                }
-            }, {
-                name: "article5_number21_6",
-                showTitle: false,
-                width: "150",
-                defaultValue: " INVOICE PRIOR EACH",
-                showHintInField: true,
-                startRow: false
             }
         ]
     })
@@ -2109,56 +1722,6 @@ var dynamicForm_article3_1 = isc.DynamicForm.create({
         numCols: 12,
         wrapItemTitles: false,
         items: [
-            {
-                name: "runStartDate", //article5_number24_number25
-                width: "250",
-                title: 'SHIPMENT COMMENCING FROM ',
-                defaultValue: "<%=dateUtil.todayDate()%>",
-                type: "date",
-                format: 'DD-MM-YYYY',
-                required: false,
-                startRow: false,
-                wrapTitle: false,
-                showTitle: true
-            },{
-                name: "runTill", ///article5_number26
-                showTitle: false,
-                width: "170",
-                default: "TILL",
-                showHintInField: true,
-                startRow: false,
-                valueMap: {
-                    "AFTER": "AFTER",
-                    "TILL": "TILL",
-                    "BEFORE": "BEFORE"
-                },
-                title: ''
-            },
-              {
-                name: "runEndtDate",
-                title: "<spring:message code='contact.date'/>",
-                defaultValue: "<%=dateUtil.todayDate()%>",
-                type: "date",
-                format: 'DD-MM-YYYY',
-                required: false,
-                startRow: false,
-                wrapTitle: false,
-                showTitle: false,changed: function (form, item, value) {
-                var darFalseStart=dynamicForm_article5_number24_number25_number26.getValue("runStartDate");
-                var darFalseEnd=dynamicForm_article5_number24_number25_number26.getValue("runEndtDate");
-                var DateStart = (darFalseStart.getFullYear() + "/" + ("0" + (darFalseStart.getMonth() + 1)).slice(-2) + "/" + ("0" + darFalseStart.getDate()).slice(-2));
-                var DateEnd = (darFalseEnd.getFullYear() + "/" + ("0" + (darFalseEnd.getMonth() + 1)).slice(-2) + "/" + ("0" + darFalseEnd.getDate()).slice(-2));
-                    dynamicForm_fullArticle05.setValue("fullArticle05",
-"SHIPMENT SHALL BE PERFORMED "+dynamicForm_article5_number21.getValue("timeIssuance")+" OF "+dynamicForm_article5_number21.getValue("prefixPayment")+" OF VALUE AMOUNT OF "+dynamicForm_article5_number21.getValue("invoiceType")+"" +
-"INVOICE PRIOR EACH SHIPMENT COMMENCING FROM "+DateStart+" "+dynamicForm_article5_number24_number25_number26.getValue("runTill")+" "+DateStart+" AS PER FOLLOWING :");
-                }
-            },{
-                name: "article5_number26_1",
-                width: "200",
-                showTitle: false,
-                defaultValue: "AS PER FOLLOWING:",
-                startRow: false
-            },
             {
                 type: "button",
                 width: 150,
@@ -2225,7 +1788,9 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
                     type: "date",
                     required: false,
                     width: "10%",
-                    wrapTitle: false,
+                    wrapTitle: false,changed: function (form, item, value) {
+                        sendDateSetMo = (value.getFullYear() + "/" + ("0" + (value.getMonth() + 1)).slice(-2) + "/" + ("0" + value.getDate()).slice(-2));
+                    }
                 },
                 {
                     name: "duration",
@@ -2236,33 +1801,42 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
                 },
                 {
                     name: "tolorance", title: "<spring:message code='contractItemShipment.tolorance'/>", type: 'text', width: "10%", align: "center"
+                },{
+                    name: "incotermsShipmentId",
+                    colSpan: 3,
+                    titleColSpan: 1,
+                    tabIndex: 6,
+                    showTitle: true,
+                    showHover: true,
+                    showHintInField: true,
+                    required: true,
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }],
+                    type: 'long',
+                    numCols: 4,
+                    editorType: "SelectItem",
+                    optionDataSource: RestDataSource_Incoterms_InMol,
+                    displayField: "code",
+                    valueField: "id",
+                    pickListWidth: "450",
+                    pickListHeight: "500",
+                    pickListProperties: {showFilterEditor: true},
+                    pickListFields: [
+                        {name: "code", width: 440, align: "center"}
+                    ],
+                    width: "10%",
+                    title: "<strong class='cssDynamicForm'>SHIPMENT TYPE<strong>"
                 },
             ],saveEdits: function () {
-                var ContractItemShipmentRecord = ListGrid_ContractItemShipment.getEditedRecord(ListGrid_ContractItemShipment.getEditRow());
-                if(ListGrid_ContractItemShipment.getSelectedRecord() == null){
-                        return;
-                }else{
-                     var dateSendMol= (ListGrid_ContractItemShipment.getSelectedRecord().sendDate);
-                     ContractItemShipmentRecord.sendDate=moment(dateSendMol).format('L')
-                    isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                        actionURL: "${contextPath}/api/contractShipment/",
-                        httpMethod: "PUT",
-                        data: JSON.stringify(ContractItemShipmentRecord),
-                        callback: function (resp) {
-                            if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
-                                isc.say("<spring:message code='global.form.request.successful'/>.");
-                                ListGrid_ContractItemShipment.setData([]);
-                                ListGrid_ContractItemShipment.fetchData(criteriaContractItemShipment);
-                            } else
-                                isc.say(RpcResponse_o.data);
-                        }
-                    }))
-                }
-
-
-        },removeData: function (data) {
-            var ContractShipmentId = data.id;
-            isc.Dialog.create({
+            },removeData: function (data) {
+            if(data.deleted){
+                data.deleted = false;
+                return;
+              }
+              isc.Dialog.create({
                 message: "<spring:message code='global.grid.record.remove.ask'/>",
                 icon: "[SKIN]ask.png",
                 title: "<spring:message code='global.grid.record.remove.ask.title'/>",
@@ -2273,153 +1847,26 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
                 buttonClick: function (button, index) {
                     this.hide();
                     if (index == 0) {
-                    isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                            actionURL: "${contextPath}/api/contractShipment/" + ContractShipmentId,
-                            httpMethod: "DELETE",
-                            callback: function (resp) {
-                                if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
-                                    ListGrid_ContractItemShipment.invalidateCache();
-                                    isc.say("<spring:message code='global.grid.record.remove.success'/>.");
-                                } else {
-                                    isc.say("<spring:message code='global.grid.record.remove.failed'/>");
-                                }
-                            }
-                         })
-                        )
-                     }}
-                  })
+                                         data.deleted = true;
+                                         ListGrid_ContractItemShipment.markSelectionRemoved();
+                                    }
+                    }
+            })
         }
     });
+
     var vlayout_ContractItemShipment = isc.VLayout.create({align: "center", members: [ListGrid_ContractItemShipment]});
-    var dynamicForm_article5_Note2_number30 = isc.DynamicForm.create({
-        valuesManager: "valuesManagerArticleNote5",
-        height: "20",
-        wrapItemTitles: false,
-        numCols: 2,
-        width: "100%",
-        items: [
-            {
-                type: "Label",
-                name: "article5_Note1_lable",
-                width: "150",
-                height: "25",
-                showTitle: false,
-                wrap: true,
-                editorType: "SelectItem",
-                optionDataSource: RestDataSource_Parameters,
-                displayField: "paramValue",
-                valueField: "paramName",
-                showTitle: false,
-                pickListWidth: "800",
-                pickListProperties: {showFilterEditor: true},
-                pickListFields: [
-                    {name: "paramName", width: "25%", align: "center"},
-                    {name: "paramType", width: "25%", align: "center"},
-                    {name: "paramValue", width: "50%", align: "center"}
-                ],
-                pickListCriteria:{_constructor:'AdvancedCriteria',operator:"and",criteria:[
-                    {fieldName: "contractId", operator: "equals", value: 1}]
-                    },
-                changed: function (form, item, value) {
-                    dynamicForm_article5_Note2_number30.setValue("article5_Note1_value", item.getSelectedRecord().paramValue);
-                },
-                startRow: false,
-                title: ''
-            },
-            {
-                name: "article5_Note1_value",
-                type: "text",
-                length: 3000,
-                showTitle: false,
-                startRow: true,
-                wrap: false,
-                width: "1500",
-                height: "80",
-                defaultValue: "MAXIMUM ONE WEEK AFTER CONTRACT SIGNATURE/STAMP BUYER IS OBLIGED TO INFORM SELLER OF ITS SHIPMENT SCHEDULE FOR THE REMAINING QUANTITY I.E",
-                title: "article5_Note1",
-            },
-                {
-                    name:"button",
-                    type: "button",
-                    width: "10%",
-                    height: "30",
-                    title: "Remove",
-                    startRow: false,
-                    icon: "[SKIN]/actions/remove.png",
-                    click: function(){
-                        dynamicForm_article5_Note2_number30.removeFields(["article5_Note1_lable", "article5_Note1_value","button"])
-                    }
-                    }
-        ]
+    var dynamicForm_fullArticle05 = isc.RichTextEditor.create({
+            ID:"dynamicForm_fullArticle05ID",
+            valuesManager: "valuesManagerfullArticleMo",
+            autoDraw:true,
+            height:155,
+            overflow:"auto",
+            canDragResize:true,
+            controlGroups:["fontControls", "formatControls", "styleControls", "colorControls"],
+            value:""
     })
 
-    isc.HLayout.create({
-        ID: "buttonNote", width: "100%", height: "100%", membersMargin: 20,
-        members: [
-            isc.Label.create({
-                styleName: "buttonHtml buttonHtml1",
-                align: "center",
-                valign: "center",
-                wrap: false,
-                contents: "Add",
-                click: function(){manageNote('Add',imanageNote)}
-            }),
-            isc.Label.create({
-                styleName: "buttonHtml buttonHtml3",
-                align: "center",
-                valign: "center",
-                wrap: false,
-                contents: "Remove",
-                click: function(){manageNote('Remove',imanageNote)}
-            })
-        ]
-    })
-
-    var hlayuotNote = isc.VLayout.create({
-        showIf: "false",
-        height: "30",
-        align: "left",
-        members: [dynamicForm_article5_Note2_number30, buttonNote]
-    })
-    var dynamicForm_fullArticle05 = isc.DynamicForm.create({
-                valuesManager: "valuesManagerfullArticleMo",
-                height: "20",
-                width: "100%",
-                wrapItemTitles: false,
-                items: [
-                    {
-                        name: "fullArticle05",
-                        disabled: false,
-                        type: "text",
-                        length: 5000,
-                        startRow: true,
-                        showTitle: false,
-                        colSpan: 10,
-                        defaultValue: "",
-                        title: "fullArticle05",
-                        width: "*"
-                    }
-                ]
-            })
-    var dynamicForm_article6_number31 = isc.DynamicForm.create({
-        valuesManager: "valuesManagerArticle6",
-        height: "20",
-        numCols: 4,
-        width: "20%",
-        wrapItemTitles: false,
-        padding: 2,
-        items: [
-            {
-                name: "article6_number31",
-                width: "200",
-                showTitle: false,
-                showHintInField: true,
-                defaultValue: "DELIVERY TERMS",
-                startRow: false,
-                title: ''
-            }
-        ]
-    })
     var dynamicForm_article6_number32_33_34_35 = isc.DynamicForm.create({
         valuesManager: "valuesManagerArticle6",
         height: "20",
@@ -2428,22 +1875,15 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
         padding: 2,
         items: [
             {
-                name: "article6_number31_1",
-                width: "470",
-                showTitle: false,
-                defaultValue: "THE MATERIAL SHALL BE DELIVERED BY SELLER TO BUYER ON",
-                startRow: false,
-                title: ''
-            },
-            {
                 name: "incotermsId", //article6_number32
                 colSpan: 3,
                 titleColSpan: 1,
                 width: "200",
                 tabIndex: 6,
-                showTitle: false,
+                showTitle: true,
                 showHover: true,
                 showHintInField: true,
+                title:'FOB',
                 hint: "FOB",
                 required: true,
                 validators: [
@@ -2464,263 +1904,29 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
                     {name: "code", width: 195, align: "center"}
                 ],
                 changed: function (form, item, value) {
-                    dynamicForm_article6_Containerized_3.setValue("article6_Containerized_number32", value);
                 }
-            },
-            {
-                name: "article6_number32_1",
-                width: "100",
-                showTitle: false,
-                defaultValue: "STOWED",
-                startRow: false,
-                title: ''
-            }, {
-                name: "portByPortSourceId", ///article6_number33
-                editorType: "SelectItem",
-                optionDataSource: RestDataSource_Port,
-                displayField: "port",
-                valueField: "id",
-                align: "center",
-                width: "200",
-                showTitle: false,
-                startRow: false,
-                showHintInField: true,
-                hint: "BANDAR ABBAS",
-                title: '',
-                changed: function (form, item, value) {
-                    dynamicForm_article6_Containerized.setValue("article6_Containerized_number33", dynamicForm_article6_number32_33_34_35.getItem("portByPortSourceId").getDisplayValue(value));
-                    dynamicForm_article6_Containerized_2.setValue("article6_Containerized_number33_1", value);
-                }
-            }, {
-                name: "article6_number34",
-                width: "200",
-                showTitle: false,
-                editorType: "SelectItem",
-                optionDataSource: RestDataSource_CountryPort,
-                displayField: "nameEn",
-                valueField: "nameEn",
-                align: "center",
-                showHintInField: true,
-                hint: "IRAN",
-                startRow: false,
-                title: ''
-            }, {
+            },{
                 name: "incotermsText", //article6_number35
                 width: "200",
-                showTitle: false,
+                showTitle: true,
+                title:'INCOTERMS',
                 showHintInField: true,
                 defaultValue: "(INCOTERMS 2010).",
-                startRow: false,
-                title: ''
+                startRow: false
             }
         ]
     })
 
-    var dynamicForm_article6_Containerized = isc.DynamicForm.create({
-        valuesManager: "valuesManagerArticle6",
-        height: "20",
-        numCols: 12,
-        width: "50%",
-        wrapItemTitles: false,
-        padding: 2,
-        items: [
-            {
-                name: "article6_Containerized",
-                type: "text",
-                height: "50",
-                length: 3000,
-                defaultValue: "6.1.BUYER SGALL INTRODUCTE TO SELLER THE FULL PARTICULARS OF THE CONTAINER LINE NOMINATEDTED GIVIN FULL NAME REGISTERED ADDRESS TELEPHONE & FAX NUMBERS AND PERSONS IN CHARGE OF THEIR REPRESENTATIVES IN",
-                showTitle: false,
-                colSpan: 6,
-                title: "article6_Containerized ",
-                width: "*"
-            },
-            , {
-                name: "officeSource", //article6_Containerized_number36
-                width: "100",
-                height: "50",
-                showTitle: false,
-                showHintInField: true,
-                hint: "TEHRAN",
-                startRow: false,
-            }, {
-                name: "article6_Containerized_number36_1",
-                width: "250",
-                height: "50",
-                showTitle: false,
-                defaultValue: "AS WELL AS AT THE PORT OF",
-                startRow: false,
-                title: ''
-            }, {
-                name: "article6_Containerized_number33",
-                editorType: "SelectItem",
-                optionDataSource: RestDataSource_Port,
-                displayField: "port",
-                valueField: "port",
-                align: "center",
-                width: "200",
-                height: "50",
-                showTitle: false,
-                showHintInField: true,
-                hint: "BANDAR ABBAS",
-                startRow: false,
-            }
-        ]
-    })
-    var dynamicForm_article6_Containerized_1 = isc.DynamicForm.create({
-        valuesManager: "valuesManagerArticle6",
-        height: "20",
-        numCols: 12,
-        width: "50%",
-        wrapItemTitles: false,
-        padding: 2,
-        items: [
-            {
-                name: "article6_Containerized_number37_1",
-                type: "text",
-                height: "50",
-                length: 3000,
-                defaultValue: "FOR FURTHER COORDINATIONS.LOCAL AGENTS AT THE LOADPORT SHALL BE ACCESSIBLE DURING FULL PERIOD OF LOAFOMG.IN ADDITION FOR EACH SHIPMENT.",
-                showTitle: false,
-                colSpan: 6,
-                title: "article6_Containerized_number37_1",
-                width: "*"
-            }
-        ]
-    })
-    var dynamicForm_article6_Containerized_2 = isc.DynamicForm.create({
-        valuesManager: "valuesManagerArticle6",
-        height: "20",
-        numCols: 12,
-        width: "50%",
-        wrapItemTitles: false,
-        padding: 2,
-        items: [
-            {
-                name: "article6_Containerized_number37_2",
-                type: "text",
-                height: "50",
-                length: 3000,
-                defaultValue: "6.2.BUYER SHALL INTRODUCT TO SELLER THE NECESSARY ARRANGEMENTS FOR THE CONTAINERS TO BE PROVIDED AND POSITIONED AT THE EXPORT AREA INSIDE THE CONTAINER YARD OF",
-                showTitle: false,
-                colSpan: 6,
-                title: "article6_Containerized_number37_2",
-                width: "*"
-            }, {
-                name: "article6_Containerized_number33_1",
-                editorType: "SelectItem",
-                optionDataSource: RestDataSource_Port,
-                displayField: "port",
-                valueField: "id",
-                align: "center",
-                width: "200",
-                height: "50",
-                showTitle: false,
-                showHintInField: true,
-                hint: "BANDAR ABBAS",
-                startRow: false,
-            }
-        ]
-    })
-    var dynamicForm_article6_Containerized_3 = isc.DynamicForm.create({
-        valuesManager: "valuesManagerArticle6",
-        height: "20",
-        numCols: 12,
-        width: "50%",
-        wrapItemTitles: false,
-        padding: 2,
-        items: [
-            {
-                name: "article6_Containerized_number37_3",
-                type: "text",
-                height: "50",
-                length: 3000,
-                defaultValue: "6.3.HOWEVER,COST OF MOVING THE LOADED CONTAINERS FROM EXPORT AREA TO THE",
-                showTitle: false,
-                colSpan: 6,
-                title: "article6_Containerized_number37_3",
-                width: "*"
-            },
-            {
-                name: "article6_Containerized_number32",
-                colSpan: 3,
-                titleColSpan: 1,
-                width: "200",
-                height: "50",
-                tabIndex: 6,
-                showTitle: false,
-                showHover: true,
-                showHintInField: true,
-                hint: "FOB",
-                required: false,
-                title: "<spring:message code='incoterms.name'/>",
-                type: 'long',
-                numCols: 4,
-                editorType: "SelectItem",
-                optionDataSource: RestDataSource_Incoterms,
-                displayField: "code",
-                valueField: "id",
-                pickListWidth: "200",
-                pickListHeight: "500",
-                pickListProperties: {showFilterEditor: true},
-                pickListFields: [
-                    {name: "code", width: 195, align: "center"}
-                ]
-            }
-        ]
-    })
-    var dynamicForm_article6_Containerized_4 = isc.DynamicForm.create({
-        valuesManager: "valuesManagerArticle6",
-        height: "20",
-        numCols: 12,
-        width: "50%",
-        wrapItemTitles: false,
-        padding: 2,
-        items: [
-            {
-                name: "article6_Containerized_4",
-                type: "text",
-                height: "50",
-                length: 3000,
-                defaultValue: "6.4.AFTER POSITIONING THE REQUIRED EMPTY CONTAINERS BUYER WILL INFORM IMMEDIATELY THE TYPE(20/40FT) AND NUMBER OF CONTAINERS RELEVANT SERIAL NUMBERS TO SELLER.",
-                showTitle: false,
-                colSpan: 6,
-                title: "article6_Containerized_4",
-                width: "*"
-            }
-        ]
-    })
-    var dynamicForm_article6_Containerized_5 = isc.DynamicForm.create({
-        valuesManager: "valuesManagerArticle6",
-        height: "20",
-        numCols: 12,
-        width: "50%",
-        wrapItemTitles: false,
-        padding: 2,
-        items: [
-            {
-                name: "article6_Containerized_5",
-                type: "text",
-                height: "50",
-                length: 3000,
-                defaultValue: "6.5.PRIOR TO STUFFING THE CARGO,NOMINATED INSPECTION COMPANY 'S REPRESENTATIVE IF APPOINTED,OTHER WISE SELLER 'S STAFF WILL CHECK THE CONTAINERS TO APPROVE THEIR FITNESS FOR ACCEPTING THE CARGO.",
-                showTitle: false,
-                colSpan: 6,
-                title: "article6_Containerized_4",
-                width: "*"
-            }
-        ]
-    })
+
     var vlayoutArticle3_1 = isc.VLayout.create({
         width: "100%",
         height: "100%",
         styleName: "box-shaddow",
         members: [
-            isc.HLayout.create({align: "left", members: [dynamicForm_article3_1, dynamicForm_article3_2]}),
+            isc.HLayout.create({align: "left", members: [dynamicForm_article3_1]}),
             isc.HLayout.create({height: "30", align: "left", members: [dynamicForm_article3_3]}),
             isc.HLayout.create({height: "30", align: "left", members: [lableArticle3Typicall]}),
             isc.HLayout.create({height: "30", align: "left", members: [dynamicForm_article3_Typicall]}),
-            isc.HLayout.create({height: "30", align: "left", members: [dynamicForm_article3]}),
             isc.HLayout.create({height: "30",width: "100%",align: "left", members: [dynamicForm_fullArticle03]})
         ]
     });
@@ -2729,7 +1935,7 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
         height: "100%",
         styleName: "box-shaddow",
         members: [
-            isc.HLayout.create({height: "50", align: "left", members: [lableArticle4, dynamicForm_article4_number18]}),
+            isc.HLayout.create({height: "50", align: "left", members: [lableArticle4]}),
             isc.HLayout.create({height: "30", align: "left", members: [dynamicForm_article4_1_number19]}),
             isc.HLayout.create({height: "30", align: "left", members: [dynamicForm_fullArticle04]})
         ]
@@ -2739,7 +1945,7 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
         height: "100%",
         styleName: "box-shaddow",
         members: [
-            isc.HLayout.create({height: "50", align: "left", members: [lableArticle5, dynamicForm_article5_number20]}),
+            isc.HLayout.create({height: "50", align: "left", members: [lableArticle5]}),
             isc.HLayout.create({height: "30", align: "left", members: [dynamicForm_article5_number21]}),
             isc.HLayout.create({
                 height: "30",
@@ -2747,46 +1953,27 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
                 members: [dynamicForm_article5_number24_number25_number26]
             }),
             isc.HLayout.create({height: "30", align: "left", members: [vlayout_ContractItemShipment]}),
-            hlayuotNote,
             dynamicForm_fullArticle05
         ]
     });
+    var dynamicForm_fullArticle06 = isc.RichTextEditor.create({
+            ID:"dynamicForm_fullArticle06ID",
+            valuesManager: "valuesManagerfullArticleMo",
+            autoDraw:true,
+            height:155,
+            overflow:"auto",
+            canDragResize:true,
+            controlGroups:["fontControls", "formatControls", "styleControls", "colorControls"],
+            value:""
+    })
 
-     var dynamicForm_fullArticle06 = isc.DynamicForm.create({
-                valuesManager: "valuesManagerfullArticleMo",
-                height: "150",
-                width: "100%",
-                wrapItemTitles: false,
-                items: [
-                    {
-                        name: "fullArticle06",
-                        disabled: false,
-                        height: "150",
-                        type: "text",
-                        length: 5000,
-                        startRow: true,
-                        showTitle: false,
-                        colSpan: 10,
-                        defaultValue: "THE MATERIAL SHALL BE DELIVERED BY SELLER TO BUYER ON FOB STOWED BANDAR ABBAS, IRAN (INCOTERMS 2010).\n6.1. BUYER SHALL INTRODUCE TO SELLER THE FULL PARTICULARS OF THE CONTAINER LINE NOMINATED, GIVING FULL NAME, REGISTERED ADDRESS, TELEPHONE , FAX NUMBERS, AND PERSONS IN CHARGE OF THEIR REPRESENTATIVES IN TEHRAN AS WELL AS AT THE PORT OF BANDAR ABBAS FOR FURTHER COORDINATIONS. LOCAL AGENTS AT THE LOADPORT SHALL BE ACCESSIBLE DURING FULL PERIOD OF LOADING. IN ADDITION FOR EACH SHIPMENT.\n6.2. BUYER SHALL MAKE THE NECESSARY ARRANGEMENTS FOR THE CONTAINERS TO BE PROVIDED AND POSITIONED AT THE EXPORT AREA INSIDE THE CONTAINER YARD OF BANDAR ABBAS CUSTOM HOUSE WITHOUT ANY CHARGES FOR SELLER.\n6.3. HOWEVER, COST OF MOVING THE LOADED CONTAINERS FROM EXPORT AREA TO THE F.O.B. ARE FOR SELLER'S ACCOUNT.\n6.4. AFTER POSITIONING THE REQUIRED EMPTY CONTAINERS, BUYER WILL INFORM IMMEDIATELY THE TYPE (20/40FT) AND NUMBER OF CONTAINERS, RELEVANT SERIAL NUMBERS TO SELLER.\n6.5. PRIOR TO STUFFING THE CARGO, NOMINATED INSPECTION COMPANY'S REPRESENTATIVE IF APPOINTED, OTHERWISE SELLER'S STAFF WILL CHECK THE CONTAINERS TO APPROVE THEIR FITNESS FOR ACCEPTING THE CARGO.",
-                        title: "fullArticle06",
-                        width: "*"
-                    }
-                ]
-            })
     var vlayoutArticle6 = isc.VLayout.create({
         width: "100%",
         height: "100%",
         styleName: "box-shaddow",
         members: [
-            isc.HLayout.create({height: "50", align: "left", members: [lableArticle6Mo, dynamicForm_article6_number31]}),
+            isc.HLayout.create({height: "50", align: "left", members: [lableArticle6Mo]}),
             isc.HLayout.create({height: "30", align: "left", members: [dynamicForm_article6_number32_33_34_35]}),
-            isc.HLayout.create({height: "50", align: "left", members: [lableContainerized]}),
-            isc.HLayout.create({height: "30", align: "left", members: [dynamicForm_article6_Containerized]}),
-            isc.HLayout.create({height: "30", align: "left", members: [dynamicForm_article6_Containerized_1]}),
-            isc.HLayout.create({height: "30", align: "left", members: [dynamicForm_article6_Containerized_2]}),
-            isc.HLayout.create({height: "30", align: "left", members: [dynamicForm_article6_Containerized_3]}),
-            isc.HLayout.create({height: "30", align: "left", members: [dynamicForm_article6_Containerized_4]}),
-            isc.HLayout.create({height: "30", align: "left", members: [dynamicForm_article6_Containerized_5]}),
             isc.HLayout.create({height: "80", align: "left", members: [dynamicForm_fullArticle06]})
         ]
     });
@@ -2797,7 +1984,6 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
         align: "center",
         overflow: "scroll",
         members: [
-            LablePageTwo,
             vlayoutArticle3_1,
             vlayoutArticle4,
             vlayoutArticle5,
@@ -2807,127 +1993,7 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
     //END PAGE TWO
 
     //START PAGE THREE
-    var dynamicForm_article7_number41 = isc.DynamicForm.create({
-        valuesManager: "valuesManagerArticle7",
-        height: "20",
-        numCols: 2,
-        wrapItemTitles: false,
-        padding: 5,
-        items: [
-            {
-                name: "article7_number41",
-                width: "200",
-                showTitle: false,
-                showHintInField: true,
-                hint: "PRICE",
-                startRow: false,
-                title: ''
-            }
-        ]
-    })
-    var dynamicForm_article7_number3_number37_number38 = isc.DynamicForm.create({
-        valuesManager: "valuesManagerArticle7",
-        height: "20",
-        numCols: 8,
-        wrapItemTitles: false,
-        padding: 3,
-        items: [
-            {
-                name: "article7_number3",
-                width: "200",
-                showTitle: true,
-                startRow: false,
-                defaultValue: "MOLYBDENUM OXIDE",
-                title: 'PRICE FOR',
-                changed: function (form, item, value) {
-                            dynamicForm_article7_number3.setValue("article7_number3_1", value);
-                            dynamicForm_article8_3.setValue("article8_3", value);
-}
-            }, {
-                name: "article7_number37",
-                width: "250",
-                showTitle: true,
-                startRow: false,
-                defaultValue: "PLATTS METALS WEEK",
-                title: 'WILL BE BASED ON THE',
-                changed: function (form, item, value) {
-                    dynamicForm_article7_number39_number40.setValue("article7_number39_1", "OF " + value + "UNDER THE HEADING");
-                }
-            }, {
-                name: "priceCalPeriod", //article7_number38
-                width: "250",
-                showTitle: false,
-                startRow: false,
-                defaultValue: "MONTHLY AVERAGE",
-                title: 'WILL BE BASED ON THE'
-            }, {
-                name: "article7_number3_1",
-                width: "250",
-                showTitle: true,
-                defaultValue: "MOLYBDENUM OXIDE",
-                startRow: false,
-                title: 'FOR'
-            }
-        ]
-    })
 
-    var dynamicForm_article7_number39_number40 = isc.DynamicForm.create({
-        valuesManager: "valuesManagerArticle7",
-        height: "20",
-        numCols: 8,
-        wrapItemTitles: false,
-        padding: 3,
-        items: [
-            {
-                name: "publishTime", //article7_number39
-                width: "200",
-                showTitle: true,
-                startRow: false,
-                defaultValue: "MONTHLY REPORT",
-                title: 'AS PUBLISHED IN '
-            }, {
-                name: "article7_number39_1",
-                width: "350",
-                showTitle: false,
-                startRow: false,
-                defaultValue: "OF PLATTS METALS WEEK THE HEADING ",
-                title: 'article7_number39_1'
-            }, {
-                name: "reportTitle", //article7_number40
-                width: "250",
-                showTitle: false,
-                startRow: false,
-                defaultValue: "DEALER OXIDE MIDPOINT/MEAN",
-                title: 'article7_number40'
-            }, {
-                name: "article7_number40_1",
-                width: "150",
-                showTitle: false,
-                startRow: false,
-                defaultValue: "PER POUND",
-                title: 'article7_number40_1'
-            }
-        ]
-    });
-    var dynamicForm_article7_number40_2 = isc.DynamicForm.create({
-        valuesManager: "valuesManagerArticle7",
-        height: "20",
-        numCols: 2,
-        width: "10%",
-        wrapItemTitles: false,
-        padding: 3,
-        items: [
-            {
-                name: "article7_number40_2",
-                width: "450",
-                height: "40",
-                showTitle: false,
-                defaultValue: "OF MOLYBDENUM CONTENT WITH DISCOUNTS AS BELOW",
-                startRow: false,
-                title: ''
-            }
-        ]
-    });
      var dynamicForm_article7_discount = isc.DynamicForm.create({
         valuesManager: "valuesManagerArticle7",
         height: "20",
@@ -3013,61 +2079,27 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
             {name: "discountValueEleven_2",defaultValue:1.70,title: "",width:"100",showTitle: false,startRow:false}
             ]
     });
-     var dynamicForm_fullArticle07 = isc.DynamicForm.create({
-                valuesManager: "valuesManagerfullArticleMo",
-                height: "20",
-                width: "100%",
-                wrapItemTitles: false,
-                items: [
-                    {
-                        name: "fullArticle07",
-                        disabled: false,
-                        type: "text",
-                        length: 5000,
-                        startRow: true,
-                        showTitle: false,
-                        colSpan: 10,
-                        defaultValue: "PRICE FOR MOLYBDENUM OXIDE WILL BE BASED ON THE PLATT'S METALS WEEK MONTHLY AVERAGE FOR MOLYBDENUM OXIDE, AS PUBLISHED IN MONTHLY REPORT OF PLATT'S METALS WEEK UNDER THE HEADING DEALER OXIDE MIDPOINT/MEAN PER POUND OF MOLYBDENUM CONTENT WITH DISCOUNTS AS BELOW:",
-                        title: "fullArticle07",
-                        width: "*"
-                    }
-                ]
-            })
+    var dynamicForm_fullArticle07 = isc.RichTextEditor.create({
+        ID:"dynamicForm_fullArticle07ID",
+        valuesManager: "valuesManagerfullArticleMo",
+        autoDraw: true,
+        height: 155,
+        overflow: "auto",
+        canDragResize: true,
+        controlGroups: ["fontControls", "formatControls", "styleControls", "colorControls"],
+        value: ""
+    })
+
     var vlayoutArticle7 = isc.VLayout.create({
         width: "100%",
         styleName: "box-shaddow",
         members: [
-            isc.HLayout.create({height: "50", align: "left", members: [lableArticle7Mo, dynamicForm_article7_number41]}),
-            isc.HLayout.create({
-                height: "30",
-                align: "left",
-                members: [dynamicForm_article7_number3_number37_number38]
-            }),
-            isc.HLayout.create({height: "30", align: "left", members: [dynamicForm_article7_number39_number40]}),
-            isc.HLayout.create({height: "30", align: "left", members: [dynamicForm_article7_number40_2]}),
+            isc.HLayout.create({height: "50", align: "left", members: [lableArticle7Mo]}),
             isc.HLayout.create({height: "30", align: "left", members: [dynamicForm_article7_discount]}),
             isc.HLayout.create({height: "30", align: "left", members: [dynamicForm_fullArticle07]})
         ]
     });
 
-    var dynamicForm_article8_number42 = isc.DynamicForm.create({
-        valuesManager: "valuesManagerArticle8",
-        height: "20",
-        numCols: 2,
-        wrapItemTitles: false,
-        padding: 5,
-        items: [
-            {
-                name: "article8_number42",
-                width: "200",
-                showTitle: false,
-                showHintInField: true,
-                hint: "OUOTATIONAL PERIOD",
-                startRow: false,
-                title: ''
-            }
-        ]
-    })
     var dynamicForm_article8_3 = isc.DynamicForm.create({
         valuesManager: "valuesManagerArticle8",
         height: "20",
@@ -3076,353 +2108,52 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
         padding: 5,
         items: [
             {
-                name: "article8_3",
-                width: "200",
-                showTitle: true,
-                startRow: false,
-                title: 'QUOTATIONAL PERIOD FOR'
-            }, {
-                name: "article8_value",
-                width: "450",
-                defaultValue: "MONTH FOLLOWING MONTH OF ACTUAL SHIPMENT",
-                showTitle: true,
-                startRow: false,
-                title: 'SHALL BE THE AVERAGE OF THE '
-            },
-            {
-                name: "article8_number43",
-                width: "80",
-                showTitle: true,
-                startRow: false,
-                title: '('
-            },
-            {
                 name: "delay", //article8_number44
                 width: "80",
                 showTitle: true,
                 startRow: false,
-                title: '+'
-            }, {
-                name: "article8_number44_1",
-                width: "400",
-                defaultValue: "FROM THE PORT OF LOADING AS EVIDENCED BY THE B/L DATE.",
-                showTitle: true,
-                startRow: false,
-                title: ')'
+                title: 'MOAS'
             }
         ]
     })
-    var dynamicForm_fullArticle08 = isc.DynamicForm.create({
-                valuesManager: "valuesManagerfullArticleMo",
-                height: "20",
-                width: "100%",
-                wrapItemTitles: false,
-                items: [
-                    {
-                        name: "fullArticle08",
-                        disabled: false,
-                        type: "text",
-                        length: 5000,
-                        startRow: true,
-                        showTitle: false,
-                        colSpan: 10,
-                        defaultValue: "QUOTATIONAL PERIOD FOR MOLYBDENUM OXIDE SHALL BE THE AVERAGE OF THE MONTH FOLLOWING MONTH OF ACTUAL SHIPMENT (MOAS+1) FROM THE PORT OF LOADING AS EVIDENCED BY THE B/L DATE.",
-                        title: "fullArticle08",
-                        width: "*"
-                    }
-                ]
-            })
+    var dynamicForm_fullArticle08 = isc.RichTextEditor.create({
+        ID:"dynamicForm_fullArticle08ID",
+        valuesManager: "valuesManagerfullArticle",
+        autoDraw: true,
+        height: 155,
+        overflow: "scroll",
+        canDragResize: true,
+        controlGroups: ["fontControls", "formatControls", "styleControls", "colorControls"],
+        value: ""
+    })
+
     var vlayoutArticle8 = isc.VLayout.create({
         width: "100%",
         height: "50",
         styleName: "box-shaddow",
         members: [
-            isc.HLayout.create({height: "30", align: "left", members: [lableArticle8Mo, dynamicForm_article8_number42]}),
+            isc.HLayout.create({height: "30", align: "left", members: [lableArticle8Mo]}),
             isc.HLayout.create({height: "30", align: "left", members: [dynamicForm_article8_3]}),
             isc.HLayout.create({height: "30", align: "left", members: [dynamicForm_fullArticle08]})
         ]
     });
 
-    var dynamicForm_article9_number45 = isc.DynamicForm.create({
-        valuesManager: "valuesManagerArticle9",
-        height: "20",
-        numCols: 2,
-        wrapItemTitles: false,
-        padding: 5,
-        items: [
-            {
-                name: "article9_number45",
-                width: "200",
-                showTitle: false,
-                showHintInField: true,
-                hint: "PAYMENT",
-                startRow: false,
-                title: ''
-            }
-        ]
+    var dynamicForm_fullArticle09 = isc.RichTextEditor.create({
+        ID:"dynamicForm_fullArticle09ID",
+        valuesManager: "valuesManagerfullArticleMo",
+        autoDraw: true,
+        height: 155,
+        overflow: "auto",
+        canDragResize: true,
+        controlGroups: ["fontControls", "formatControls", "styleControls", "colorControls"],
+        value: ""
     })
-    var dynamicForm_article9_number46_number47_number48_number49 = isc.DynamicForm.create({
-        valuesManager: "valuesManagerArticle9",
-        height: "20",
-        numCols: 8,
-        wrapItemTitles: false,
-        padding: 2,
-        items: [
-            {
-                name: "prepaid", //article9_number45_number46
-                showTitle: true,
-                title: '1.BUYER SHALL PAY',
-                showHintInField: true,
-                hint: "BEFORE EACH SHIPMENT",
-                startRow: false
-            },
-            {
-                name: "article9_number22",
-                showTitle: false,
-                showHintInField: true,
-                hint: "105",
-                title: 'article9_number22',
-                startRow: false,
-                changed: function (form, item, value) {
-                    dynamicForm_article9_number46_number47_number48_number49.setValue("article9_Englishi_number22",numberToEnglish(value));
-                }
-            }, {
-                name: "article9_Englishi_number22",
-                disabled: "true",
-                showTitle: false,
-                title: 'article9_Englishi_number22',
-                startRow: false
-            }, {
-                name: "article9_number23",
-                showTitle: true,
-                title: 'OF',
-                startRow: false
-            }, {
-                name: "prepaidCurrency", //article9_number47
-                showTitle: true,
-                editorType: "SelectItem",
-                optionDataSource: RestDataSource_Currency_list,
-                displayField: "nameEn",
-                valueField: "nameEn",
-                pickListProperties: {showFilterEditor: true},
-                pickListFields: [
-                    {name: "nameEn", width: "45%", align: "center"},
-                    {name: "nameFa", width: "45%", align: "center"}
-                ],
-                startRow: false,//TO DO currency
-                title: 'INVOICE VALUE AMOUNT IN'
-            }, {
-                name: "article9_number48",
-                showTitle: true,
-                startRow: false,
-                editorType: "SelectItem",
-                optionDataSource: RestDataSource_Currency_list,
-                autoFetchData: false,
-                displayField: "nameEn",
-                valueField: "nameEn",
-                pickListProperties: {showFilterEditor: true},
-                pickListFields: [
-                    {name: "nameEn", width: "45%", align: "center"},
-                    {name: "nameFa", width: "45%", align: "center"}
-                ],
-                title: 'OF'
-            }, {
-                name: "payTime", ///article9_number48 ///****article9_number49
-                showTitle: false,
-                showHintInField: true,
-                startRow: false,        /// TO DO PAYMENT OPTION
-                hint: 'PROMPT NET CASH PAYABLE BY',
-                valueMap: {
-                    "PROMPT": "PROMPT",
-                    "DAMP": "DAMP"
-                }
-            }, {
-                name: "article9_number49_1",
-                showTitle: true,
-                defaultValue: "IRREVOCABLE LETTER OF CREDIT AT SIGHT",
-                startRow: false,
-                title: 'OR UNDER AN'
-            }
-        ]
-    })
-    var dynamicForm_article9_number50_number51_number52 = isc.DynamicForm.create({
-        valuesManager: "valuesManagerArticle9",
-        height: "20",
-        numCols: 10,
-        wrapItemTitles: false,
-        padding: 5,
-        items: [
-            , {
-                name: "pricePeriod", //article9_number50
-                width: "150",
-                showTitle: true,
-                defaultValue: "",
-                startRow: false,
-                showHintInField: true,
-                title: 'TO A BANK WHICH IS NOMINATED BY SELLER PROFORMA/PROVISIONAL INVOICE AMOUNT CALCULATED BASED ON PROVISIONAL PRICE WHICH IS AVERAGE OF'
-            }, {
-                name: "article9_number51",
-                width: "150",
-                showTitle: true,
-                defaultValue: "PRIOR",
-                startRow: false,
-                showHintInField: true,
-                title: 'PRICE'
-            }, {
-                name: "eventPayment", //article9_number52
-                width: "150",
-                showTitle: false,
-                defaultValue: "",
-                hint: "DATE",
-                startRow: false,
-                showHintInField: true,
-                title: ''
-            }, {
-                name: "contentType", ///article9_number52_1
-                width: "150",
-                showTitle: false,
-                startRow: false,
-                title: '',
-                valueMap: {
-                    "FINAL": "FINAL",
-                    "TYPICAL": "TYPICAL"
-                }
-            }
-        ]
-    })
-    var dynamicForm_article9_number54 = isc.DynamicForm.create({
-        valuesManager: "valuesManagerArticle9",
-        height: "20",
-        numCols: 10,
-        wrapItemTitles: false,
-        padding: 5,
-        items: [
-            {
-                name: "article9_number54",
-                width: "150",
-                showTitle: true,
-                defaultValue: "",
-                startRow: false,
-                hint: "PLATTS",
-                showHintInField: true,
-                title: 'ASSAY OUBLISHED BY'
-            }, {
-                name: "article9_number54_1",
-                width: "600",
-                showTitle: false,
-                defaultValue: "EVERY FRIDAY UNDER HEADING OF WEEKLY AVERAGE MINUS THE APPLICABLE DISCOUNT.",
-                startRow: false
-            }
-        ]
-    });
-    var dynamicForm_article9_number55 = isc.DynamicForm.create({
-        valuesManager: "valuesManagerArticle9",
-        height: "20",
-        width: "10%",
-        numCols: 2,
-        wrapItemTitles: false,
-        padding: 5,
-        items: [
-            {
-                name: "article9_number55",
-                type: "text",
-                height: "100",
-                length: 3000,
-                defaultValue: "",
-                showTitle: false,
-                startRow: false,
-                editorType: "SelectItem",
-                optionDataSource: RestDataSource_Parameters,
-                displayField: "paramValue",
-                valueField: "paramValue",
-                pickListProperties: {showFilterEditor: true},
-                pickListFields: [
-                    {name: "paramName", width: "20%", align: "center"},
-                    {name: "paramType", width: "20%", align: "center"},
-                    {name: "paramValue", width: "60%", align: "center"}
-                ], pickListCriteria: {
-                    _constructor: 'AdvancedCriteria', operator: "and", criteria: [
-                        {fieldName: "contractId", operator: "equals", value: 1}]
-                },
-                colSpan: 2,
-                title: "article9_number55",
-                width: "*"
-            }
-        ]
-    })
-    var dynamicForm_article9_ImportantNote = isc.DynamicForm.create({
-        valuesManager: "valuesManagerArticle9",
-        height: "20",
-        width: "10%",
-        numCols: 2,
-        wrapItemTitles: false,
-        padding: 5,
-        items: [
-            {
-                name: "article9_ImportantNote",
-                type: "text",
-                height: "100",
-                length: 3000,
-                startRow: false,
-                editorType: "SelectItem",
-                optionDataSource: RestDataSource_Parameters,
-                displayField: "paramValue",
-                valueField: "paramValue",
-                showTitle: false,
-                pickListProperties: {showFilterEditor: true},
-                pickListFields: [
-                    {name: "paramName", width: "20%", align: "center"},
-                    {name: "paramType", width: "20%", align: "center"},
-                    {name: "paramValue", width: "60%", align: "center"}
-                ], pickListCriteria: {
-                    _constructor: 'AdvancedCriteria', operator: "and", criteria: [
-                        {fieldName: "contractId", operator: "equals", value: 1}]
-                },
-                colSpan: 2,
-                title: "article9_ImportantNote",
-                width: "*"
-            }
-        ]
-    })
-    var dynamicForm_fullArticle09 = isc.DynamicForm.create({
-                valuesManager: "valuesManagerfullArticleMo",
-                height: "20",
-                width: "100%",
-                wrapItemTitles: false,
-                items: [
-                    {
-                        name: "fullArticle09",
-                        disabled: false,
-                        type: "text",
-                        length: 5000,
-                        startRow: true,
-                        showTitle: false,
-                        colSpan: 10,
-                        defaultValue: "1.BUYER SHALL PAY BEFORE EACH SHIPMENT 105% (ONE HUNDRED FIVE PERCENT) OF PROFORMA / PROVISIONAL INVOICE VALUE AMOUNT IN EURO OR AED (SELLER'S OPTION), PROMPT NET CASH PAYABLE BY TELEGRAPHIC TRANSFER OR UNDER AN IRREVOCABLE LETTER OF CREDIT AT SIGHT (SELLER'S OPTION) TO A BANK WHICH IS NOMINATED BY SELLER. PROFORMA / PROVISIONAL INVOICE AMOUNT CALCULATED BASED ON PROVISIONAL PRICE WHICH IS AVERAGE OF TWO WEEKS PRICE (LOW , HIGH PRICES) PRIOR DATE OF PROFORMA / PROVISIONAL INVOICE AND FINAL ASSAY.\n2.	THE FINAL BALANCE, IF ANY, BETWEEN THE PROVISIONAL PAYMENT MADE BY BUYER AND THE FINAL VALUE OF THE MATERIAL SHALL BE PAID BY THE OWING PARTY BY TELEGRAPHIC TRANSFER AGAINST SELLER'S PRESENTATION OF FOLLOWING DOCUMENTS WITHIN (5) WORKING DAYS FROM THE DATE OF THE FINAL INVOICE. SELLER'S FINAL INVOICE ISSUED BASED ON FINAL PRICES LESS THE AMOUNT OF PROVISIONAL PAYMENT.",
-                        title: "fullArticle09",
-                        width: "*"
-                    }
-                ]
-            })
+
     var vlayoutArticle9 = isc.VLayout.create({
         width: "100%",
         styleName: "box-shaddow",
         members: [
-            isc.HLayout.create({height: "30", align: "left", members: [lableArticle9Mo, dynamicForm_article9_number45]}),
-            isc.HLayout.create({
-                height: "30",
-                align: "left",
-                members: [dynamicForm_article9_number46_number47_number48_number49]
-            }),
-            isc.HLayout.create({
-                height: "30",
-                align: "left",
-                members: [dynamicForm_article9_number50_number51_number52]
-            }),
-            isc.HLayout.create({height: "30", align: "left", members: [dynamicForm_article9_number54]}),
-            isc.HLayout.create({showIf:"false",height: "30", align: "left", members: [dynamicForm_article9_number55]}),
-            isc.HLayout.create({showIf:"false",height: "30", align: "left", members: [lableImportantNote]}),
-            isc.HLayout.create({showIf:"false",height: "30", align: "left", members: [dynamicForm_article9_ImportantNote]}),
+            isc.HLayout.create({height: "10", align: "left", members: [lableArticle9Mo]}),
             isc.HLayout.create({height: "30", align: "left", members: [dynamicForm_fullArticle09]})
         ]
     });
@@ -3435,75 +2166,6 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
         padding: 2,
         items: [
             {
-                name: "article10_number56",
-                width: "150",
-                showTitle: true,
-                defaultValue: "",
-                startRow: false,
-                title: 'PULL DOWN'
-             },
-             {
-                name: "article10_number57",
-                width: "700",
-                showTitle: true,
-                defaultValue: "",
-                startRow: false,
-                editorType: "SelectItem",
-                optionDataSource: RestDataSource_Parameters,
-                displayField: "paramValue",
-                valueField: "paramValue",
-                pickListProperties: {showFilterEditor: true},
-                pickListWidth: "700",
-                pickListFields: [
-                    {name: "paramName", title:"<spring:message code='parameters.paramName'/>", width: "20%", align: "center"},
-                    {name: "paramType", title:"<spring:message code='parameters.paramType'/>", width: "20%", align: "center"},
-                    {name: "paramValue", title:"<spring:message code='parameters.paramValue'/>", width: "60%", align: "center"}
-                ],
-                pickListCriteria:{_constructor:'AdvancedCriteria',operator:"and",criteria:[
-                        {fieldName: "contractId", operator: "equals", value: 1},
-                        {fieldName:"categoryValue",operator:"equals",value:-2}]
-                    },
-                title: 'BANK REFERENCE'
-             },{
-                name: "article10_number58",
-                width: "150",
-                showTitle: true,
-                defaultValue: "",
-                startRow: true,
-                title: 'PULL DOWN'
-             },
-             {
-                name: "article10_number59",
-                width: "700",
-                showTitle: true,
-                defaultValue: "",
-                startRow: false,
-                editorType: "SelectItem",
-                optionDataSource: RestDataSource_Parameters,
-                autoFetchData: false,
-                displayField: "paramValue",
-                valueField: "paramValue",
-                pickListProperties: {showFilterEditor: true},
-                pickListWidth: "700",
-                pickListFields: [
-                    {name: "paramName", title:"<spring:message code='parameters.paramName'/>", width: "20%", align: "center"},
-                    {name: "paramType", title:"<spring:message code='parameters.paramType'/>", width: "20%", align: "center"},
-                    {name: "paramValue", title:"<spring:message code='parameters.paramValue'/>", width: "60%", align: "center"}
-                ],
-                pickListCriteria:{_constructor:'AdvancedCriteria',operator:"and",criteria:[
-                        {fieldName: "contractId", operator: "equals", value: 1},
-                        {fieldName:"categoryValue",operator:"equals",value:-2}]
-                    },
-                title: 'BANK REFERENCE'
-            },{
-                name: "article10_number60",
-                width: "150",
-                type:"date",
-                showTitle: true,
-                defaultValue: "",
-                startRow: true,
-                title: 'EXCHANGE RATE DATE'
-            },{
                 name: "article10_number61",
                 width: "150",
                 showTitle: true,
@@ -3514,26 +2176,16 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
         ]
     });
 
-    var dynamicForm_fullArticle10 = isc.DynamicForm.create({
-                valuesManager: "valuesManagerfullArticleMo",
-                height: "20",
-                width: "100%",
-                wrapItemTitles: false,
-                items: [
-                    {
-                        name: "fullArticle10",
-                        disabled: false,
-                        type: "text",
-                        length: 5000,
-                        startRow: true,
-                        showTitle: false,
-                        colSpan: 10,
-                        defaultValue: "-ALL INVOICES SHALL BE ISSUED IN USD.\n-UPON THE POSSIBILITY OF APPLYING THE USD CURRENCY ANY TIME IN THIS CONTRACT, THE PAYMENT SHALL BE IN USD.\n-THE VALUE OF EACH PAYMENT IF SHALL BE CONVERTED FROM USD INTO AED THEREFORE CONVERSION RATE AT THE PREVAILING AVAILABLE RATE SHALL BE 3.67.\n-IN CASE OF EURO, THE VALUE OF EACH INVOICES INCLUDING PROFORMA, PROVISIONAL AND FINAL INVOICES SHALL BE CONVERTED FROM USD INTO EURO THEREFORE CONVERSION RATE WILL BE BASED ON ECB RATE AND UNKNOWN DATE OF WHICH WILL BE AGREED BY BUYER AND SELLER.",
-                        title: "fullArticle10",
-                        width: "*"
-                    }
-                ]
-            })
+    var dynamicForm_fullArticle10 = isc.RichTextEditor.create({
+        ID:"dynamicForm_fullArticle10ID",
+        valuesManager: "valuesManagerfullArticleMo",
+        autoDraw: true,
+        height: 155,
+        overflow: "auto",
+        canDragResize: true,
+        controlGroups: ["fontControls", "formatControls", "styleControls", "colorControls"],
+        value: ""
+    })
     var vlayoutArticle10 = isc.VLayout.create({
         width: "100%",
         height: "50",
@@ -3584,21 +2236,40 @@ var IButton_Contact_Save = isc.IButtonSave.create({
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
         click: function () {
+            ListGrid_ContractItemShipment.getAllEditRows().forEach(function (element) {
+            if(ListGrid_ContractItemShipment.validateRow(element) != true){
+                    ListGrid_ContractItemShipment.validateRow(element);
+                    isc.warn("<spring:message code='main.contractShipment'/>");
+                    return;
+                    }
+                 })
+
+            var dataSaveAndUpdateContract={};
+            var dataSaveAndUpdateContractDetail={};
             DynamicForm_ContactHeader.validate();
             DynamicForm_ContactCustomer.validate();
-            //dynamicFormMaterial.validate();
             contactHeader.validate();
-            dynamicForm_article6_number32_33_34_35.validate();
-
-           /* if (DynamicForm_ContactHeader.hasErrors()|| DynamicForm_ContactCustomer.hasErrors()||dynamicFormMaterial.hasErrors()||contactHeader.hasErrors()){
-            return;
-            }*/
-            if (dynamicForm_article6_number32_33_34_35.hasErrors()){
-            contactTabs.selectTab(1);
-            return;
+            if(methodMoHtpp == "PUT" && methodMoHtpp != "POST"){
+                  dataSaveAndUpdateContract.id=ListGrid_contractMo.getSelectedRecord().id;
+                   var criteriaMolDetail = {
+                        _constructor: "AdvancedCriteria",
+                        operator: "and",
+                        criteria: [{
+                            fieldName: "contract.id",
+                            operator: "equals",
+                            value: ListGrid_contractMo.getSelectedRecord().id
+                        }]
+                    };
+                    RestDataSource_contractDetail_list.fetchData(criteriaMolDetail, function (dsResponse, data, dsRequest) {
+                        dataSaveAndUpdateContractDetail.id = data[0].id;
+                        setContractDetailId(data[0].id);
+                    });
+                    ListGrid_contractMo.invalidateCache();
+            }else{
+                        setContractDetailId("");
             }
-            DynamicForm_ContactHeader.setValue("contractDate", contactHeader.getValues().createDate.toNormalDate("toUSShortDate"));
-            var dataSaveAndUpdateContract={};
+            function setContractDetailId(contractIDdetail){
+                    DynamicForm_ContactHeader.setValue("contractDate", contactHeader.getValues().createDate.toNormalDate("toUSShortDate"));
                     dataSaveAndUpdateContract.contractDate= contactHeader.getValue("contractDate");
                     dataSaveAndUpdateContract.contractNo=contactHeader.getValue("contractNo");
                     dataSaveAndUpdateContract.contactId=contactHeader.getValue("contactId")
@@ -3617,30 +2288,22 @@ var IButton_Contact_Save = isc.IButtonSave.create({
                     dataSaveAndUpdateContract.mo_amount=valuesManagerArticle4.getValue("mo_amount");
                     dataSaveAndUpdateContract.timeIssuance=valuesManagerArticle5.getValue("timeIssuance");
                     dataSaveAndUpdateContract.prefixPayment=valuesManagerArticle5.getValue("prefixPayment");
-                    dataSaveAndUpdateContract.invoiceType=valuesManagerArticle5.getValue("invoiceType");
-                    dataSaveAndUpdateContract.runStartDate=valuesManagerArticle5.getValue("runStartDate");
-                    dataSaveAndUpdateContract.runTill=valuesManagerArticle5.getValue("runTill");
-                    dataSaveAndUpdateContract.runEndtDate=valuesManagerArticle5.getValue("runEndtDate");
                     dataSaveAndUpdateContract.incotermsId=valuesManagerArticle6.getValue("incotermsId");
-                    dataSaveAndUpdateContract.portByPortSourceId=valuesManagerArticle6.getValue("portByPortSourceId");
+                    dataSaveAndUpdateContract.portByPortSourceId="";
                     dataSaveAndUpdateContract.incotermsText=valuesManagerArticle6.getValue("incotermsText");
-                    dataSaveAndUpdateContract.officeSource=valuesManagerArticle6.getValue("officeSource");
-                    dataSaveAndUpdateContract.priceCalPeriod=valuesManagerArticle7.getValue("priceCalPeriod");
-                    dataSaveAndUpdateContract.publishTime=valuesManagerArticle7.getValue("publishTime");
-                    dataSaveAndUpdateContract.reportTitle=valuesManagerArticle7.getValue("reportTitle");
+                    dataSaveAndUpdateContract.officeSource="";
+                    dataSaveAndUpdateContract.priceCalPeriod="";
+                    dataSaveAndUpdateContract.publishTime="";
+                    dataSaveAndUpdateContract.reportTitle="";
                     dataSaveAndUpdateContract.delay=valuesManagerArticle8.getValue("delay");
-                    dataSaveAndUpdateContract.prepaid=valuesManagerArticle9.getValue("prepaid");
-                    dataSaveAndUpdateContract.prepaidCurrency=valuesManagerArticle9.getValue("prepaidCurrency");
-                    dataSaveAndUpdateContract.payTime=valuesManagerArticle9.getValue("payTime");
-                    dataSaveAndUpdateContract.pricePeriod=valuesManagerArticle9.getValue("pricePeriod");
-                    dataSaveAndUpdateContract.eventPayment=valuesManagerArticle9.getValue("eventPayment");
-                    dataSaveAndUpdateContract.contentType=valuesManagerArticle9.getValue("contentType");
-                    //dataSaveAndUpdateContract.materialId=dynamicFormMaterial.getValue("materialId");
+                    dataSaveAndUpdateContract.prepaid="";
+                    dataSaveAndUpdateContract.prepaidCurrency="";
+                    dataSaveAndUpdateContract.payTime="";
+                    dataSaveAndUpdateContract.pricePeriod="";
+                    dataSaveAndUpdateContract.eventPayment="";
+                    dataSaveAndUpdateContract.contentType="";
                     dataSaveAndUpdateContract.materialId=1;
-
-
-
-            var dataSaveAndUpdateContractDetail={};
+                    dataSaveAndUpdateContractDetail.id=contractIDdetail;
                     dataSaveAndUpdateContractDetail.name_ContactAgentSeller=contactHeaderAgent.getValue("name_ContactAgentSeller")
                     dataSaveAndUpdateContractDetail.phone_ContactAgentSeller=contactHeaderAgent.getValue("phone_ContactAgentSeller")
                     dataSaveAndUpdateContractDetail.mobile_ContactAgentSeller=contactHeaderAgent.getValue("mobile_ContactAgentSeller")
@@ -3659,14 +2322,14 @@ var IButton_Contact_Save = isc.IButtonSave.create({
                     dataSaveAndUpdateContractDetail.address_ContactBuyer=contactHeaderAgent.getValue("address_ContactBuyer")
                     dataSaveAndUpdateContractDetail.article2_13_1=valuesManagerArticle2.getValue("article2_13_1");
                     dataSaveAndUpdateContractDetail.responsibleTelerons=valuesManagerArticle2.getValue("responsibleTelerons");
-                    dataSaveAndUpdateContractDetail.article3_number17=valuesManagerArticle3.getValue("article3_number17");
-                    dataSaveAndUpdateContractDetail.article3_number17_7=valuesManagerArticle3.getValue("article3_number17_7");
-                    dataSaveAndUpdateContractDetail.article3_number17_8=valuesManagerArticle3.getValue("article3_number17_8");
-                    dataSaveAndUpdateContractDetail.article3_number17_9=valuesManagerArticle3.getValue("article3_number17_9");
-                    dataSaveAndUpdateContractDetail.article3_number17_10=valuesManagerArticle3.getValue("article3_number17_10");
-                    dataSaveAndUpdateContractDetail.article3_number17_11=valuesManagerArticle3.getValue("article3_number17_11");
-                    dataSaveAndUpdateContractDetail.article3_number17_12=valuesManagerArticle3.getValue("article3_number17_12");
-                    dataSaveAndUpdateContractDetail.article3_number17_2=valuesManagerArticle3.getValue("article3_number17_2");
+                    dataSaveAndUpdateContractDetail.article3_number17="";
+                    dataSaveAndUpdateContractDetail.article3_number17_7="";
+                    dataSaveAndUpdateContractDetail.article3_number17_8="";
+                    dataSaveAndUpdateContractDetail.article3_number17_9="";
+                    dataSaveAndUpdateContractDetail.article3_number17_10="";
+                    dataSaveAndUpdateContractDetail.article3_number17_11="";
+                    dataSaveAndUpdateContractDetail.article3_number17_12="";
+                    dataSaveAndUpdateContractDetail.article3_number17_2="";
                     dataSaveAndUpdateContractDetail.PrefixMolybdenum=valuesManagerArticle3.getValue("PrefixMolybdenum");
                     dataSaveAndUpdateContractDetail.toleranceMO=valuesManagerArticle3.getValue("toleranceMO");
                     dataSaveAndUpdateContractDetail.typical_unitMO=valuesManagerArticle3.getValue("typical_unitMO");
@@ -3694,35 +2357,36 @@ var IButton_Contact_Save = isc.IButtonSave.create({
                     dataSaveAndUpdateContractDetail.toleranceSi=valuesManagerArticle3.getValue("toleranceSi");
                     dataSaveAndUpdateContractDetail.typical_unitSi=valuesManagerArticle3.getValue("typical_unitSi");
                     dataSaveAndUpdateContractDetail.article3_number17_3=valuesManagerArticle3.getValue("article3_number17_3");
-                    dataSaveAndUpdateContractDetail.article3_number17_13=valuesManagerArticle3.getValue("article3_number17_13");
-                    dataSaveAndUpdateContractDetail.article3_number17_4=valuesManagerArticle3.getValue("article3_number17_4");
-                    dataSaveAndUpdateContractDetail.article3_number17_5=valuesManagerArticle3.getValue("article3_number17_5");
-                    dataSaveAndUpdateContractDetail.article3_number17_6=valuesManagerArticle3.getValue("article3_number17_6");
-                    dataSaveAndUpdateContractDetail.article4_number18=valuesManagerArticle4.getValue("article4_number18");
-                    dataSaveAndUpdateContractDetail.amount_number19_2=valuesManagerArticle4.getValue("amount_number19_2");
-                    dataSaveAndUpdateContractDetail.amount_number19_1=valuesManagerArticle4.getValue("amount_number19_1");
-                    dataSaveAndUpdateContractDetail.shipment_number20=valuesManagerArticle5.getValue("shipment_number20");
-                    dataSaveAndUpdateContractDetail.article5_number21_6=valuesManagerArticle5.getValue("article5_number21_6");
-                    dataSaveAndUpdateContractDetail.article6_number31=valuesManagerArticle6.getValue("article6_number31");
-                    dataSaveAndUpdateContractDetail.article6_number31_1=valuesManagerArticle6.getValue("article6_number31_1");
-                    dataSaveAndUpdateContractDetail.article6_number32_1=valuesManagerArticle6.getValue("article6_number32_1");
-                    dataSaveAndUpdateContractDetail.article6_number34=valuesManagerArticle6.getValue("article6_number34");
-                    dataSaveAndUpdateContractDetail.article6_Containerized=valuesManagerArticle6.getValue("article6_Containerized");
-                    dataSaveAndUpdateContractDetail.article6_Containerized_number36_1=valuesManagerArticle6.getValue("article6_Containerized_number36_1");
-                    dataSaveAndUpdateContractDetail.article6_Containerized_number33=valuesManagerArticle6.getValue("article6_Containerized_number33");
-                    dataSaveAndUpdateContractDetail.article6_Containerized_number37_1=valuesManagerArticle6.getValue("article6_Containerized_number37_1");
-                    dataSaveAndUpdateContractDetail.article6_Containerized_number37_2=valuesManagerArticle6.getValue("article6_Containerized_number37_2");
-                    dataSaveAndUpdateContractDetail.article6_Containerized_number33_1=valuesManagerArticle6.getValue("article6_Containerized_number33_1");
-                    dataSaveAndUpdateContractDetail.article6_Containerized_number37_3=valuesManagerArticle6.getValue("article6_Containerized_number37_3");
-                    dataSaveAndUpdateContractDetail.article6_Containerized_number32=valuesManagerArticle6.getValue("article6_Containerized_number32");
-                    dataSaveAndUpdateContractDetail.article6_Containerized_4=valuesManagerArticle6.getValue("article6_Containerized_4");
-                    dataSaveAndUpdateContractDetail.article6_Containerized_5=valuesManagerArticle6.getValue("article6_Containerized_5");
+                    dataSaveAndUpdateContractDetail.article3_number17_13="";
+                    dataSaveAndUpdateContractDetail.article3_number17_4="";
+                    dataSaveAndUpdateContractDetail.article3_number17_5="";
+                    dataSaveAndUpdateContractDetail.article3_number17_6="";
+                    dataSaveAndUpdateContractDetail.article4_number18=  "";
+                    dataSaveAndUpdateContractDetail.amount_number19_2=  "";
+                    dataSaveAndUpdateContractDetail.amount_number19_1=  "";
+                    dataSaveAndUpdateContractDetail.shipment_number20=  "";
+                    dataSaveAndUpdateContractDetail.article5_number21_6="";
+                    dataSaveAndUpdateContractDetail.article6_number31=  "";
+                    dataSaveAndUpdateContractDetail.article6_number31_1="";
+                    dataSaveAndUpdateContractDetail.article6_number31_1="";
+                    dataSaveAndUpdateContractDetail.article6_number32_1="";
+                    dataSaveAndUpdateContractDetail.article6_number34="";
+                    dataSaveAndUpdateContractDetail.article6_Containerized="";
+                    dataSaveAndUpdateContractDetail.article6_Containerized_number36_1="";
+                    dataSaveAndUpdateContractDetail.article6_Containerized_number33="";
+                    dataSaveAndUpdateContractDetail.article6_Containerized_number37_1="";
+                    dataSaveAndUpdateContractDetail.article6_Containerized_number37_2="";
+                    dataSaveAndUpdateContractDetail.article6_Containerized_number33_1="";
+                    dataSaveAndUpdateContractDetail.article6_Containerized_number37_3="";
+                    dataSaveAndUpdateContractDetail.article6_Containerized_number32="";
+                    dataSaveAndUpdateContractDetail.article6_Containerized_4="";
+                    dataSaveAndUpdateContractDetail.article6_Containerized_5="";
                     dataSaveAndUpdateContractDetail.article7_number41=valuesManagerArticle7.getValue("article7_number41");
-                    dataSaveAndUpdateContractDetail.article7_number3=valuesManagerArticle7.getValue("article7_number3");
-                    dataSaveAndUpdateContractDetail.article7_number37=valuesManagerArticle7.getValue("article7_number37");
-                    dataSaveAndUpdateContractDetail.article7_number3_1=valuesManagerArticle7.getValue("article7_number3_1");
-                    dataSaveAndUpdateContractDetail.article7_number39_1=valuesManagerArticle7.getValue("article7_number39_1");
-                    dataSaveAndUpdateContractDetail.article7_number40_2=valuesManagerArticle7.getValue("article7_number40_2");
+                    dataSaveAndUpdateContractDetail.article7_number3="";
+                    dataSaveAndUpdateContractDetail.article7_number37="";
+                    dataSaveAndUpdateContractDetail.article7_number3_1="";
+                    dataSaveAndUpdateContractDetail.article7_number39_1="";
+                    dataSaveAndUpdateContractDetail.article7_number40_2="";
                     dataSaveAndUpdateContractDetail.discountValueOne=valuesManagerArticle7.getValue("discountValueOne");
                     dataSaveAndUpdateContractDetail.discountFor=valuesManagerArticle7.getValue("discountFor");
                     dataSaveAndUpdateContractDetail.discountValueOne_1=valuesManagerArticle7.getValue("discountValueOne_1");
@@ -3792,47 +2456,43 @@ var IButton_Contact_Save = isc.IButtonSave.create({
                     dataSaveAndUpdateContractDetail.discountPerfixEleven_1=valuesManagerArticle7.getValue("discountPerfixEleven_1");
                     dataSaveAndUpdateContractDetail.discountValueEleven_2=valuesManagerArticle7.getValue("discountValueEleven_2");
                     dataSaveAndUpdateContractDetail.article8_number42=valuesManagerArticle8.getValue("article8_number42");
-                    dataSaveAndUpdateContractDetail.article8_3=valuesManagerArticle8.getValue("article8_3");
-                    dataSaveAndUpdateContractDetail.article8_value=valuesManagerArticle8.getValue("article8_value");
-                    dataSaveAndUpdateContractDetail.article8_number43=valuesManagerArticle8.getValue("article8_number43");
-                    dataSaveAndUpdateContractDetail.article8_number44_1=valuesManagerArticle8.getValue("article8_number44_1");
+                    dataSaveAndUpdateContractDetail.article8_3="";
+                    dataSaveAndUpdateContractDetail.article8_value="";
+                    dataSaveAndUpdateContractDetail.article8_number43="";
+                    dataSaveAndUpdateContractDetail.article8_number44_1="";
                     dataSaveAndUpdateContractDetail.article9_number45=valuesManagerArticle9.getValue("article9_number45");
-                    dataSaveAndUpdateContractDetail.article9_number22=valuesManagerArticle9.getValue("article9_number22");
-                    dataSaveAndUpdateContractDetail.article9_Englishi_number22=valuesManagerArticle9.getValue("article9_Englishi_number22");
-                    dataSaveAndUpdateContractDetail.article9_number23=valuesManagerArticle9.getValue("article9_number23");
-                    dataSaveAndUpdateContractDetail.article9_number48=valuesManagerArticle9.getValue("article9_number48");
-                    dataSaveAndUpdateContractDetail.article9_number49_1=valuesManagerArticle9.getValue("article9_number49_1");
-                    dataSaveAndUpdateContractDetail.article9_number51=valuesManagerArticle9.getValue("article9_number51");
-                    dataSaveAndUpdateContractDetail.article9_number54=valuesManagerArticle9.getValue("article9_number54");
-                    dataSaveAndUpdateContractDetail.article9_number54_1=valuesManagerArticle9.getValue("article9_number54_1");
-                    dataSaveAndUpdateContractDetail.article9_number55=valuesManagerArticle9.getValue("article9_number55");
-                    dataSaveAndUpdateContractDetail.article9_ImportantNote=valuesManagerArticle9.getValue("article9_ImportantNote");
-                    dataSaveAndUpdateContractDetail.article10_number56=valuesManagerArticle10.getValue("article10_number56");
-                    dataSaveAndUpdateContractDetail.article10_number57=valuesManagerArticle10.getValue("article10_number57");
-                    dataSaveAndUpdateContractDetail.article10_number58=valuesManagerArticle10.getValue("article10_number58");
-                    dataSaveAndUpdateContractDetail.article10_number59=valuesManagerArticle10.getValue("article10_number59");
-                    dataSaveAndUpdateContractDetail.article10_number60=valuesManagerArticle10.getValue("article10_number60");
+                    dataSaveAndUpdateContractDetail.article9_number22="";
+                    dataSaveAndUpdateContractDetail.article9_Englishi_number22="";
+                    dataSaveAndUpdateContractDetail.article9_number23="";
+                    dataSaveAndUpdateContractDetail.article9_number48="";
+                    dataSaveAndUpdateContractDetail.article9_number49_1="";
+                    dataSaveAndUpdateContractDetail.article9_number51="";
+                    dataSaveAndUpdateContractDetail.article9_number54="";
+                    dataSaveAndUpdateContractDetail.article9_number54_1="";
+                    dataSaveAndUpdateContractDetail.article9_number55="";
+                    dataSaveAndUpdateContractDetail.article9_ImportantNote="";
+                    dataSaveAndUpdateContractDetail.article10_number56="";
+                    dataSaveAndUpdateContractDetail.article10_number57="";
+                    dataSaveAndUpdateContractDetail.article10_number58="";
+                    dataSaveAndUpdateContractDetail.article10_number59="";
+                    dataSaveAndUpdateContractDetail.article10_number60="";
                     dataSaveAndUpdateContractDetail.article10_number61=valuesManagerArticle10.getValue("article10_number61");
-            if(methodUrl=="PUT"){
-                        dataSaveAndUpdateContractDetail.contractNo=contactHeader.getValue("contractNo");
-            }
-            var criteriaContractNoMoOx={_constructor:"AdvancedCriteria",operator:"and",criteria:[{fieldName: "material.descl", operator: "contains", value: "Mol"},{fieldName:"contractNo",operator:"equals",value:contactHeader.getValue("contractNo")}]};
-            RestDataSource_Contract.fetchData(criteriaContractNoMoOx,function(dsResponse, data, dsRequest) {
-            if(data[0]!=undefined){
-                isc.warn("<spring:message code='main.contractsDuplicate'/>");
-               }else{
-            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                actionURL: "${contextPath}/api/contract",
-                httpMethod: "POST",
-                data: JSON.stringify(dataSaveAndUpdateContract),
-                callback: function (resp) {
-                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
-                                 saveCotractDetails(dataSaveAndUpdateContractDetail, (JSON.parse(resp.data)).id);
-                    } else
-                        isc.say(RpcResponse_o.data);
+                    dataSaveAndUpdateContract.contractDetails = dataSaveAndUpdateContractDetail;
+                    dataSaveAndUpdateContract.contractShipments = saveListGrid_ContractItemShipment();
+                isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,{
+                    actionURL: "${contextPath}/api/contract",
+                    httpMethod: methodMoHtpp,
+                    data: JSON.stringify(dataSaveAndUpdateContract),
+                    callback: function (resp) {
+                        if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                                     Window_ContactMo.close();
+                                     ListGrid_contractMo.invalidateCache();
+                                     saveValueAllArticlesMoOx((JSON.parse(resp.data)).id);
+                        } else
+                            isc.say(RpcResponse_o.data);
+                    }
+                }))
                 }
-            }))}
-        })
     }});
 
 var contactFormButtonSaveLayout = isc.HStack.create({
@@ -3850,7 +2510,7 @@ var contactFormButtonSaveLayout = isc.HStack.create({
                 icon: "pieces/16/icon_delete.png",
                 orientation: "vertical",
                 click: function () {
-                Window_ContactMo.close();
+                    Window_ContactMo.close();
                 }
                 })
         ]
@@ -3875,133 +2535,28 @@ VLayout_contactMoOxMain=isc.VLayout.create({
             ]
             })
 
-    Window_ContactMo.addItems([VLayout_contactMoOxMain]);
-    Window_ContactMo.show();
-
+     Window_ContactMo.addItems([VLayout_contactMoOxMain]);
+     Window_ContactMo.show();
 }
 /////////////////////////// end function()
 
-
-function manageNote(value, id) {
-        if (value == 'Add') {
-            dynamicForm_article5_Note2_number30.addFields([
-                {
-                    type: "Label",
-                    name: "article5_Note1_lable" + id,
-                    width: "150",
-                    height: "40",
-                    wrap: true,
-                    editorType: "SelectItem",
-                    optionDataSource: RestDataSource_Parameters,
-                    displayField: "paramValue",
-                    valueField: "paramName",
-                    showTitle: false,
-                    pickListWidth:"700",
-                    pickListProperties: {showFilterEditor: true},
-                    pickListFields: [
-                        {name: "paramName", width: "25%", align: "center"},
-                        {name: "paramType", width: "25%", align: "center"},
-                        {name: "paramValue", width: "50%", align: "center"}
-                    ],
-                    pickListCriteria:{_constructor:'AdvancedCriteria',operator:"and",criteria:[
-                        {fieldName: "contractId", operator: "equals", value: 1}]
-                    },
-                    changed: function (form, item, value) {
-                        dynamicForm_article5_Note2_number30.setValue("article5_Note1_value" + id, item.getSelectedRecord().paramValue);
-                    },
-                },
-                {
-                    name: "article5_Note1_value" + id,
-                    type: "text",
-                    length: 3000,
-                    showTitle: false,
-                    wrap: false,
-                    startRow: true,
-                    width: "1500",
-                    height: "80",
-                    defaultValue: "MAXIMUM ONE WEEK AFTER CONTRACT SIGNATURE/STAMP BUYER IS OBLIGED TO INFORM SELLER OF ITS SHIPMENT SCHEDULE FOR THE REMAINING QUANTITY I.E",
-                    title: "article5_Note1",
-                },
-                {
-                    name:"button"+id,
-                    type: "button",
-                    width: "10%",
-                    height: "30",
-                    title: "Remove",
-                    startRow: false,
-                    icon: "[SKIN]/actions/remove.png",
-                    click: function(){dynamicForm_article5_Note2_number30.removeFields(["article5_Note1_lable" + id, "article5_Note1_value" + id,"button"+id])}
-                    }
-            ]);
-            i++;
-        } else {
-            --i;
-            dynamicForm_article5_Note2_number30.removeFields(["article5_Note1_lable" + i, "article5_Note1_value" + i,"button"+i]);
-        }
-    }
-
-
-function saveCotractDetails(data, contractID) {
-        data.contract_id = contractID;
-        var allData = data;
-        allData.string_Currency="null";
-        if(methodUrl=="PUT"){
-               // allData.id=contractDetailID;
-        }
-        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-            actionURL: "${contextPath}/api/contractDetail",
-            httpMethod: "POST",
-            data: JSON.stringify(allData),
-            callback: function (resp) {
-                if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
-                    saveValuelotListForADD(contractID);
-                    saveListGrid_ContractItemShipment(contractID);
-                    setTimeout(function(){saveValueAllArticlesMoOx(contractID);},400)
-                    Window_ContactMo.close();
-                    ListGrid_contractMo.invalidateCache();
-                    isc.say("<spring:message code='global.form.request.successful'/>.");
-                } else
-                    isc.say(RpcResponse_o.data);
-            }
-        }))
-    }
-
-function saveListGrid_ContractItemShipment(contractID) {
+function saveListGrid_ContractItemShipment() {
         ListGrid_ContractItemShipment.selectAllRecords();
-        var data_ContractItemShipment = {};
-        var ListGrid_ShipmentItems = [];
-        ListGrid_ContractItemShipment.getSelectedRecords().forEach(function(element) {
-            var dataEditMain=ListGrid_ContractItemShipment.getSelectedRecord(element)
-            dataEditMain.contractId=contractID;
-            //dataEditMain.dischargeId = 11022;
-            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                actionURL: "${contextPath}/api/contractShipment/",
-                httpMethod: "POST",
-                data: JSON.stringify(dataEditMain),
-                callback: function (resp) {
-                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
-                        isc.say("<spring:message code='global.form.request.successful'/>.");
-                    } else
-                        isc.say(RpcResponse_o.data);
-                }
-            }))
-            });
+        var dataEditMol = [];
         ListGrid_ContractItemShipment.getAllEditRows().forEach(function (element) {
-            var dataEdit=ListGrid_ContractItemShipment.getEditedRecord(element);
-            dataEdit.contractId=contractID;
-            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                actionURL: "${contextPath}/api/contractShipment/",
-                httpMethod: "POST",
-                data: JSON.stringify(dataEdit),
-                callback: function (resp) {
-                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
-                        isc.say("<spring:message code='global.form.request.successful'/>.");
-                    } else
-                        isc.say(RpcResponse_o.data);
-                }
-            }))
-        })
+            dataEditMol.push(ListGrid_ContractItemShipment.getEditedRecord(element));
+            if(dataEditMol.length>0){
+                try {
+                    dataEditMol[dataEditMol.length - 1].sendDate = (dataEditMol[dataEditMol.length - 1].sendDate.getFullYear() + "/" + ("0" + (dataEditMol[dataEditMol.length - 1].sendDate.getMonth() + 1)).slice(-2) + "/" + ("0" + dataEditMol[dataEditMol.length - 1].sendDate.getDate()).slice(-2));
+                    }catch (err) {}
+            }
+            ListGrid_ContractItemShipment.deselectRecord(ListGrid_ContractItemShipment.getRecord(element));
+        });
+        ListGrid_ContractItemShipment.getSelectedRecords().forEach(function (element) {
+            dataEditMol.push(JSON.parse(JSON.stringify(element)));
+        });
         ListGrid_ContractItemShipment.deselectAllRecords();
+        return dataEditMol;
 };
 
 
@@ -4033,16 +2588,16 @@ function saveValuelotListForADD(contractID) {
 
     var dataALLArticleMO = {};
     function saveValueAllArticlesMoOx(contractID) {
-        dataALLArticleMO.Article01 = valuesManagerfullArticleMo.getValue("fullArticle01");
-        dataALLArticleMO.Article02 = valuesManagerfullArticleMo.getValue("fullArticle02");
-        dataALLArticleMO.Article03 = valuesManagerfullArticleMo.getValue("fullArticle03");
-        dataALLArticleMO.Article04 = valuesManagerfullArticleMo.getValue("fullArticle04");
-        dataALLArticleMO.Article05 = valuesManagerfullArticleMo.getValue("fullArticle05");
-        dataALLArticleMO.Article06 = valuesManagerfullArticleMo.getValue("fullArticle06");
-        dataALLArticleMO.Article07 = valuesManagerfullArticleMo.getValue("fullArticle07");
-        dataALLArticleMO.Article08 = valuesManagerfullArticleMo.getValue("fullArticle08");
-        dataALLArticleMO.Article09 = valuesManagerfullArticleMo.getValue("fullArticle09");
-        dataALLArticleMO.Article10 = valuesManagerfullArticleMo.getValue("fullArticle10");
+        dataALLArticleMO.Article01 = nvlMo(dynamicFormMoox_fullArticle01ID.getValue());
+        dataALLArticleMO.Article02 = nvlMo(dynamicForm_fullArticle02MoOxID.getValue());
+        dataALLArticleMO.Article03 = nvlMo(dynamicForm_fullArticle03ID.getValue());
+        dataALLArticleMO.Article04 = nvlMo(dynamicForm_fullArticle04ID.getValue());
+        dataALLArticleMO.Article05 = nvlMo(dynamicForm_fullArticle05ID.getValue());
+        dataALLArticleMO.Article06 = nvlMo(dynamicForm_fullArticle06ID.getValue());
+        dataALLArticleMO.Article07 = nvlMo(dynamicForm_fullArticle07ID.getValue());
+        dataALLArticleMO.Article08 = nvlMo(dynamicForm_fullArticle08ID.getValue());
+        dataALLArticleMO.Article09 = nvlMo(dynamicForm_fullArticle09ID.getValue());
+        dataALLArticleMO.Article10 = nvlMo(dynamicForm_fullArticle10ID.getValue());
         dataALLArticleMO.Article11 = "";
         dataALLArticleMO.Article12 = "";
         dataALLArticleMO.contractNo = "MO_OX"+contactHeader.getValue("contractNo");
@@ -4054,8 +2609,59 @@ function saveValuelotListForADD(contractID) {
             callback: function (resp) {
                 if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                     isc.say("<spring:message code='global.form.request.successful'/>.");
+                    Window_ContactMo.close();
                 } else
                     isc.say(RpcResponse_o.data);
             }
         }))
+    }
+
+    function nvlMo(articleIsNotNull){
+        if(articleIsNotNull == undefined){
+            return "";
+        }else{
+            return articleIsNotNull;
+        }
+    }
+
+    function ListGrid_ContractMol_remove() {
+        var recordMol = ListGrid_contractMo.getSelectedRecord();
+        if (recordMol == null || recordMol.id == null) {
+            isc.Dialog.create({
+                message: "<spring:message code='global.grid.record.not.selected'/>",
+                icon: "[SKIN]ask.png",
+                title: "<spring:message code='global.message'/>",
+                buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
+                buttonClick: function () {
+                    this.hide();
+                }
+            });
+        } else {
+            isc.Dialog.create({
+                message: "<spring:message code='global.grid.record.remove.ask'/>",
+                icon: "[SKIN]ask.png",
+                title: "<spring:message code='global.grid.record.remove.ask.title'/>",
+                buttons: [
+                    isc.Button.create({title: "<spring:message code='global.yes'/>"}),
+                    isc.Button.create({title: "<spring:message code='global.no'/>"})
+                ],
+                buttonClick: function (button, index) {
+                    this.hide();
+                    if (index == 0) {
+                        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+                            actionURL: "${contextPath}/api/contract/" + recordMol.id,
+                            httpMethod: "DELETE",
+                            callback: function (resp) {
+                                if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                                    isc.say("<spring:message code='global.grid.record.remove.success'/>");
+                                    ListGrid_contractMo.invalidateCache();
+                                } else {
+                                    isc.say("<spring:message code='global.grid.record.remove.failed'/>");
+                                }
+                            }
+                        }))
+                    }
+                }
+            });
+        }
     }

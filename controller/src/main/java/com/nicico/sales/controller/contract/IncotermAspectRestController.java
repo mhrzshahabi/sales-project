@@ -18,7 +18,7 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(value = "/api/incoterm-aspect-aspect")
+@RequestMapping(value = "/api/incoterm-aspect")
 public class IncotermAspectRestController {
 
     private final IIncotermAspectService incotermAspectService;

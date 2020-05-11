@@ -7,9 +7,11 @@ import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.annotation.Action;
 import com.nicico.sales.enumeration.ActionType;
 import com.nicico.sales.enumeration.ErrorType;
+import com.nicico.sales.exception.NotEditableException;
 import com.nicico.sales.exception.NotFoundException;
 import com.nicico.sales.exception.SalesException2;
 import com.nicico.sales.iservice.IGenericService;
+import com.nicico.sales.model.entities.common.BaseEntity;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -339,11 +341,31 @@ public abstract class GenericService<T, ID extends Serializable, C, R, U, D> imp
     @Override
     public Boolean validation(T entity, Object... request) {
 
-        return null;
+        if (actionType != ActionType.Update && actionType != ActionType.Delete)
+            return null;
+
+        if (!(entity instanceof BaseEntity) || ((BaseEntity) entity).getEditable())
+            return null;
+
+        throw new NotEditableException();
     }
 
     @Override
-    public Boolean validationAll(List<T> entity, Object... request) {
+    public Boolean validationAll(List<T> entities, Object... request) {
+
+        if (actionType != ActionType.UpdateAll && actionType != ActionType.DeleteAll)
+            return null;
+
+        if (entities == null || entities.size() == 0)
+            return null;
+
+        for (Object entity : entities) {
+
+            if (!(entity instanceof BaseEntity) || ((BaseEntity) entity).getEditable())
+                continue;
+
+            throw new NotEditableException();
+        }
 
         return null;
     }
