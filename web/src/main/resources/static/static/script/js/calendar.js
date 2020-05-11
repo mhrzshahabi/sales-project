@@ -32,9 +32,10 @@ function getOffset(el) {
 }
 
 
-function displayDatePicker(aVar, displayBelowThisObject, dtFormat, dtSep) {
+function displayDatePicker(dateFieldID, displayBelowThisObject, dtFormat, dtSep) {
+
     var win = document.defaultView || document.parentWindow;
-    var id = win[displayBelowThisObject.getID()].getElement().id;
+    var id = win[dateFieldID].getElement().id;
     var targetDateField = document.getElementById(id);
 
     // if we weren't told what node to display the datepicker beneath, just display it
@@ -54,15 +55,12 @@ function displayDatePicker(aVar, displayBelowThisObject, dtFormat, dtSep) {
     else
         dateFormat = defaultDateFormat;
 
-    // var x = getOffset(targetDateField).left;
-    // var y = getOffset(targetDateField).top;
-    var x = displayBelowThisObject.getPageLeft();
-    var y = displayBelowThisObject.getPageTop() + displayBelowThisObject.getHeight();
+    var x = getOffset(targetDateField).left;
+    var y = getOffset(targetDateField).top;
 
-    // x -= 200;
-    // y -= 50;
+    x -= 200;
+    y -= 50;
     drawDatePicker(targetDateField, x, y);
-
 }
 
 /**
@@ -151,13 +149,13 @@ function refreshDatePicker(dateFieldID, year, month, day) {
 
     // this is the title bar, which displays the month and the buttons to
     // go back to a previous month or forward to the next month
-    html += "<tr class='dpTitleTR'><td colspan='7' valign='top'><table width='100%' cellspacing='0px' cellpadding='0px'>"
+    html += "<tr class='dpTitleTR'><td colspan='7' valign='center'><table width='100%' cellspacing='0px' cellpadding='0px'>"
     html += TR_title;
-    html += TD_buttons + getButtonCodeYear(dateFieldID, thisDay, -1, "&lt;&lt;") + xTD;// << //
-    html += TD_buttons + getButtonCode(dateFieldID, thisDay, -1, "&lt;") + xTD;// < //
+    html += TD_buttons + getButtonCodeYear(dateFieldID, thisDay, -1, "datepicker_button__next-year") + xTD;// << //
+    html += TD_buttons + getButtonCode(dateFieldID, thisDay, -1, "datepicker_button__next-month") + xTD;// < //
     html += TD_title + DIV_title + monthArrayLong[thisDay[1] - 1] + thisDay[0] + xDIV + xTD;
-    html += TD_buttons + getButtonCode(dateFieldID, thisDay, 1, "&gt;") + xTD;// > //
-    html += TD_buttons + getButtonCodeYear(dateFieldID, thisDay, 1, "&gt;&gt;") + xTD;// >> //
+    html += TD_buttons + getButtonCode(dateFieldID, thisDay, 1, "datepicker_button__prev-month") + xTD;// > //
+    html += TD_buttons + getButtonCodeYear(dateFieldID, thisDay, 1, "datepicker_button__prev-year") + xTD;// >> //
     html += xTR;
     html += "</table></td></tr>"
 
@@ -214,7 +212,7 @@ function refreshDatePicker(dateFieldID, year, month, day) {
     html += "<button class='dpTodayButton' onClick='refreshDatePicker(\"" + dateFieldID + "\", "
         + today[0] + ", " + today[1] + ", " + today[2] + ");'>&#1575;&#1605;&#1585;&#1608;&#1586;</button> ";
 //  html += "<button class='dpTodayButton' onClick='refreshDatePicker(\"" + dateFieldID + "\");'>&#1575;&#1605;&#1585;&#1608;&#1586;</button> ";
-    html += "<button class='dpTodayButton' onClick='updateDateField(\"" + dateFieldID + "\");'>&#1576;&#1587;&#1578;&#1606;</button>";
+    html += "<button class='dpCloseButton' onClick='updateDateField(\"" + dateFieldID + "\");'>&#1576;&#1587;&#1578;&#1606;</button>";
     html += xTD + xTR;
 
     // and finally, close the table
@@ -230,7 +228,7 @@ function refreshDatePicker(dateFieldID, year, month, day) {
  Convenience function for writing the code for the buttons that bring us back or forward
  a month.
  */
-function getButtonCode(dateFieldID, dateVal, adjust, label) {
+function getButtonCode(dateFieldID, dateVal, adjust, className) {
     var newMonth = (dateVal[1] + adjust) % 12;
     var newYear = dateVal[0] + parseInt((dateVal[1] + adjust) / 12);
     if (newMonth < 1) {
@@ -238,16 +236,16 @@ function getButtonCode(dateFieldID, dateVal, adjust, label) {
         newYear += -1;
     }
 
-    return "<button class='dpButton' onClick='refreshDatePicker(\"" + dateFieldID + "\", "
-        + newYear + ", " + newMonth + ");'>" + label + "</button>";
+    return "<button class='datepicker_button "+className+"'  onClick='refreshDatePicker(\"" + dateFieldID + "\", "
+        + newYear + ", " + newMonth + ");'></button>";
 }
 
-function getButtonCodeYear(dateFieldID, dateVal, adjust, label) {
+function getButtonCodeYear(dateFieldID, dateVal, adjust, className) {
     var newMonth = dateVal[1];
     var newYear = (dateVal[0] + adjust);
 
-    return "<button class='dpButton' onClick='refreshDatePicker(\"" + dateFieldID + "\", "
-        + newYear + ", " + newMonth + ");'>" + label + "</button>";
+    return "<button class='datepicker_button "+className+"'  onClick='refreshDatePicker(\"" + dateFieldID + "\", "
+        + newYear + ", " + newMonth + ");'></button>";
 }
 
 /**
@@ -372,9 +370,8 @@ function updateDateField(dateFieldID, dateString) {
 
     var targetDateField = document.getElementById(dateFieldID);
 
-    if (dateString) {
+    if (dateString)
         targetDateField.value = dateString;
-    }
 
     var pickerDiv = document.getElementById(datePickerDivID);
     pickerDiv.style.visibility = "hidden";
@@ -388,32 +385,6 @@ function updateDateField(dateFieldID, dateString) {
     // (note that this will only run if the user actually selected a date from the datepicker)
     if ((dateString) && (typeof (datePickerClosed) == "function"))
         datePickerClosed(targetDateField);
-}
-
-function closeCalendarWindow() {
-    if (document.getElementById(datePickerDivID) !== null) {
-        var pickerDiv = document.getElementById(datePickerDivID);
-        pickerDiv.style.visibility = "hidden";
-        pickerDiv.style.display = "none";
-        adjustiFrame();
-    }
-}
-
-window.onclick = function (event) {
-
-    if (event.target.className != null && (event.target.className == 'dpButton' || event.target.className == 'dpTodayButton'))
-        return;
-    else if (event.target.id == null || event.target.id == '')
-        return;
-    else if (document.getElementById(event.target.id) != null) {
-
-        var windowClickVar = document.getElementById(event.target.id);
-        if (typeof windowClickVar.src == 'undefined' || ((typeof windowClickVar.src !== 'undefined' && windowClickVar.src.substr(windowClickVar.src.length - 8, 8) != "pcal.png")
-            && (typeof windowClickVar.src !== 'undefined' && windowClickVar.src.substr(windowClickVar.src.length - 15, 15) != "date_picker.png"))) {
-            closeCalendarWindow();
-        }
-    } else
-        closeCalendarWindow();
 }
 
 
@@ -910,6 +881,4 @@ function CorrectDate(oldDate) {
         }
     }
 }
-
-
 

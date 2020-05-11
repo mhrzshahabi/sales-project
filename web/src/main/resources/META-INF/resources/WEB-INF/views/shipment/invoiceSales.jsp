@@ -1553,6 +1553,7 @@ var ToolStripButton_InvoiceSales_Pdf = isc.ToolStripButtonPrint.create({
                 <%--<sec:authorize access="hasAuthority('D_MATERIAL_ITEM')">--%>
                 ToolStripButton_InvoiceSalesItem_Remove,
                 <%--</sec:authorize>--%>
+                ToolStripButton_InvoiceSales_Pdf,
 
                 isc.ToolStrip.create({
                     width: "100%",
@@ -1841,8 +1842,8 @@ var ToolStripButton_InvoiceSales_Pdf = isc.ToolStripButtonPrint.create({
         width: "100%",
         height: "100%",
         members: [
-            HLayout_InvoiceSalesItem_Actions,
-            HLayout_InvoiceSalesItem_Grid
+            HLayout_InvoiceSalesItem_Grid,
+            HLayout_InvoiceSalesItem_Actions
         ]
     });
 
