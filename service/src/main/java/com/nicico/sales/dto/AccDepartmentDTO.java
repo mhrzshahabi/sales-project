@@ -22,6 +22,5 @@ public class AccDepartmentDTO {
     @Accessors(chain = true)
     @ApiModel("AccDepartmentInfo")
     public static class Info extends AccDepartmentDTO {
-        private Long id;
     }
 }
