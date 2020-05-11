@@ -176,4 +176,8 @@
         <modifyDataType columnName="SW_BL_DATE" newDataType="varchar2(100 CHAR)" tableName="TBL_SHIPMENT"/>
     </changeSet>
 
+    <changeSet author="MShahabi" id="1778899665544-036">
+        <modifyDataType columnName="CREATE_DATE" newDataType="varchar2(100 CHAR)" tableName="TBL_SHIPMENT"/>
+    </changeSet>
+
 </databaseChangeLog>
