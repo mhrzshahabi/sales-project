@@ -928,14 +928,14 @@
                     click: function () {
                         createTab("<spring:message code='warehouseStock'/>", "<spring:url value="/warehouseStock/showForm" />")
                     }
-                },
+                }/*,
                 {isSeparator: true},
                 {
                     title: "<spring:message code='warehouseStock'/>",
                     click: function () {
                         createTab("باقر<spring:message code='warehouseStock'/>", "<spring:url value="/remittance/showForm" />")
                     }
-                }
+                }*/
             ]
         })
     });
@@ -969,13 +969,13 @@
                     click: function () {
                         createTab("<spring:message code='invoiceSales.title'/>", "<spring:url value="/invoiceSales/showForm" />")
                     }
-                },
+                }/*,
                 {
                     title: "<spring:message code='invoiceSales.title'/>",
                     click: function () {
                         createTab("<spring:message code='invoiceSales.title'/>", "<spring:url value="/invoice-export/showForm" />")
                     }
-                }
+                }*/
             ]
         })
     });
