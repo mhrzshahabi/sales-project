@@ -101,4 +101,5 @@ public class Invoice extends Auditable {
 
     @Column(name = "PROCESS_ID")
     private String processId;
+
 }

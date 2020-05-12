@@ -50,4 +50,12 @@
             </column>
         </createTable>
     </changeSet>
+
+    <changeSet author="saeb (generated)" id="1589261374251-238">
+        <addColumn tableName="TBL_WARH_REMITTANCE_TOZIN">
+            <column name="B_IS_SOURCE_TOZIN" type="number(1, 0)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>

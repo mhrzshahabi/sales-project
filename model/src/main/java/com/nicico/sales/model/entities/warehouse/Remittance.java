@@ -3,6 +3,7 @@ package com.nicico.sales.model.entities.warehouse;
 import com.nicico.sales.model.entities.common.BaseEntity;
 import lombok.*;
 import lombok.experimental.Accessors;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -67,7 +68,6 @@ public class Remittance extends BaseEntity {
     private Long sourceWarehouseId;
 
 
-
     // rahahanPolompNo
     @Column(name = "RAIL_POLOMP_NO")
     private String railPolompNo;
@@ -78,5 +78,14 @@ public class Remittance extends BaseEntity {
 
     @OneToMany(mappedBy = "remittance", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private List<RemittanceDetail> remittanceDetails;
+
+    @OneToMany(mappedBy = "remittance", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @Where(clause = "B_IS_SOURCE_TOZIN = true")
+    private List<RemittanceTozin> sourceRemittanceTozin;
+
+    @OneToMany(mappedBy = "remittance", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @Where(clause = "B_IS_SOURCE_TOZIN = false")
+    private List<RemittanceTozin> destinationRemittanceTozin;
+
 
 }
