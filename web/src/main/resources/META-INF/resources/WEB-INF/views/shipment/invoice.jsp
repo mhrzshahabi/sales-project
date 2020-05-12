@@ -852,7 +852,7 @@
         }
     }
 
-    <sec:authorize access="hasAuthority('O_INVOICE')">
+    <%--<sec:authorize access="hasAuthority('O_INVOICE')">
     var ToolStripButton_Invoice_Pdf = isc.ToolStripButtonPrint.create({
         title: "<spring:message code='global.form.print.pdf'/>",
         icon: "icon/pdf.png",
@@ -860,10 +860,9 @@
             ToolStripButton_Invoice_Pdf_F();
         }
     });
-    </sec:authorize>
+    </sec:authorize>--%>
 
-    <sec:authorize access="hasAuthority('O_INVOICE')">
-
+    <%--<sec:authorize access="hasAuthority('O_INVOICE')">
     var ToolStripButton_Invoice_excel = isc.ToolStripButtonPrint.create({
         title: "<spring:message code='global.form.print.excel'/>",
         icon: "icon/excel.png",
@@ -872,9 +871,9 @@
         }
     });
 
-    </sec:authorize>
+    </sec:authorize>--%>
 
-    <sec:authorize access="hasAuthority('O_INVOICE')">
+    <%--<sec:authorize access="hasAuthority('O_INVOICE')">
     var ToolStripButton_Invoice_html = isc.ToolStripButtonPrint.create({
         title: "<spring:message code='global.form.print.html'/>",
         icon: "icon/html.jpg",
@@ -882,7 +881,7 @@
             ToolStripButton_Invoice_Html_F();
         }
     });
-    </sec:authorize>
+    </sec:authorize>--%>
 
     var ToolStripButton_Invoice_Send2Accounting = isc.ToolStripButton.create({
         title: "<spring:message code='invoice.Send2Accounting'/>", icon: "pieces/512/processDefinition.png",
@@ -949,17 +948,17 @@
                         ToolStripButton_Invoice_Remove,*/
                 ToolStripButton_Invoice_Attachment,
                 ToolStripButton_Invoice_Send2Accounting,
-                <sec:authorize access="hasAuthority('O_INVOICE')">
-                ToolStripButton_Invoice_Pdf,
-                </sec:authorize>
+                <%--<sec:authorize access="hasAuthority('O_INVOICE')">--%>
+                <%--ToolStripButton_Invoice_Pdf,--%>
+                <%--</sec:authorize>--%>
 
-                <sec:authorize access="hasAuthority('O_INVOICE')">
-                ToolStripButton_Invoice_excel,
-                </sec:authorize>
+                <%--<sec:authorize access="hasAuthority('O_INVOICE')">--%>
+                <%--ToolStripButton_Invoice_excel,--%>
+                <%--</sec:authorize>--%>
 
-                <sec:authorize access="hasAuthority('O_INVOICE')">
-                ToolStripButton_Invoice_html,
-                </sec:authorize>
+                <%--<sec:authorize access="hasAuthority('O_INVOICE')">--%>
+                <%--ToolStripButton_Invoice_html,--%>
+                <%--</sec:authorize>--%>
 
             ] //Add Print
     });

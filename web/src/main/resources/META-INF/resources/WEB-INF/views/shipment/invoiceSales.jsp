@@ -1311,6 +1311,7 @@
                     optionDataSource: RestDataSource_MaterialItem_IN_invoiceSales,
                     displayField: "miDetailCode",
                     valueField: "miDetailCode",
+                    required: true,
                     pickListFields: [
                     {
                         name: "miDetailCode"
@@ -1336,6 +1337,7 @@
                     optionDataSource: RestDataSource_Unit_IN_invoiceSales,
                     displayField: "nameFA",
                     valueField: "nameFA",
+                    required: true,
                     pickListFields: [
                     {
                         name: "nameFA"
@@ -1348,11 +1350,13 @@
                 {
                     name: "orderAmount",
                     title: "<spring:message code='invoiceSalesItem.orderAmount'/>",
+                    required: true,
                 },
                 {
                     name: "netAmount",
                     title: "<spring:message code='invoiceSalesItem.netAmount'/>",
                     defaultValue: 0,
+                    required: true,
                     changed: function (form, item, value) {
                         updatePrice();
                     }
@@ -1361,6 +1365,7 @@
                     name: "unitPrice",
                     title: "<spring:message code='invoiceSalesItem.unitPrice'/>",
                     defaultValue: 0,
+                    required: true,
                     changed: function () {
                         updatePrice();
                     }
@@ -1548,6 +1553,7 @@ var ToolStripButton_InvoiceSales_Pdf = isc.ToolStripButtonPrint.create({
                 <%--<sec:authorize access="hasAuthority('D_MATERIAL_ITEM')">--%>
                 ToolStripButton_InvoiceSalesItem_Remove,
                 <%--</sec:authorize>--%>
+                ToolStripButton_InvoiceSales_Pdf,
 
                 isc.ToolStrip.create({
                     width: "100%",
@@ -1836,8 +1842,8 @@ var ToolStripButton_InvoiceSales_Pdf = isc.ToolStripButtonPrint.create({
         width: "100%",
         height: "100%",
         members: [
-            HLayout_InvoiceSalesItem_Actions,
-            HLayout_InvoiceSalesItem_Grid
+            HLayout_InvoiceSalesItem_Grid,
+            HLayout_InvoiceSalesItem_Actions
         ]
     });
 
