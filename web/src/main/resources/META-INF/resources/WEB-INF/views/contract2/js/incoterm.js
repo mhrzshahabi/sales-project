@@ -34,7 +34,6 @@ incotermTab.dynamicForm.fields = BaseFormItems.concat([{
     title: "<spring:message code='global.description'/>",
 }]);
 Object.assign(incotermTab.listGrid.fields, incotermTab.dynamicForm.fields);
-nicico.BasicFormUtil.getDefaultBasicForm(incotermTab, "api/incoterm/");
 
 //***************************************************** GENERALTABVARIABLE *********************************************
 
@@ -188,17 +187,18 @@ incotermTab.listGrid.incotermRule = isc.ListGrid.nicico.getDefault([{
         return record[this.name].map(q => q.titleEn).join(', ');
     }
 }]);
+incotermTab.listGrid.incotermRule.margin = 15;
 incotermTab.dynamicForm.incotermStructure = isc.DynamicForm.nicico.getDefault([{
 
+    width: "100%",
     type: 'long',
     valueField: "id",
-    pickListWidth: "300",
+    pickListWidth: "430",
     pickListHeight: "300",
     name: "incotermStepId",
     displayField: "titleEn",
     editorType: "SelectItem",
-    selectionAppearance: "checkbox",
-    pickListProperties: {showFilterEditor: true},
+    pickListProperties: {showFilterEditor: true, selectionAppearance: "checkbox"},
     pickListFields: [
         {name: "code", align: "center"},
         {name: "titleFa", align: "center"},
@@ -208,9 +208,10 @@ incotermTab.dynamicForm.incotermStructure = isc.DynamicForm.nicico.getDefault([{
     optionDataSource: incotermTab.restDataSource.incotermStep
 }, {
 
+    width: "100%",
     type: 'long',
     valueField: "id",
-    pickListWidth: "300",
+    pickListWidth: "430",
     pickListHeight: "300",
     name: "incotermRuleId",
     displayField: "titleEn",
@@ -225,15 +226,15 @@ incotermTab.dynamicForm.incotermStructure = isc.DynamicForm.nicico.getDefault([{
     optionDataSource: incotermTab.restDataSource.incotermRule
 }, {
 
+    width: "100%",
     type: 'long',
     name: "incotermAspectId",
     valueField: "id",
-    pickListWidth: "300",
+    pickListWidth: "430",
     pickListHeight: "300",
     displayField: "titleEn",
     editorType: "SelectItem",
-    selectionAppearance: "checkbox",
-    pickListProperties: {showFilterEditor: true},
+    pickListProperties: {showFilterEditor: true, selectionAppearance: "checkbox"},
     pickListFields: [
         {name: "code", align: "center"},
         {name: "titleFa", align: "center"},
@@ -243,11 +244,15 @@ incotermTab.dynamicForm.incotermStructure = isc.DynamicForm.nicico.getDefault([{
     optionDataSource: incotermTab.restDataSource.incotermAspect
 }, {
     type: 'ButtonItem',
+    icon: "pieces/16/icon_add.png",
     title: "<spring:message code='global.add'/>",
     click(form, item) {
-        alert("clicked...");
+
+
+
     }
 }]);
+incotermTab.dynamicForm.incotermStructure.margin = 15;
 incotermTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
 
     height: "5%",
@@ -281,23 +286,18 @@ incotermTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
         })
     ]
 });
-incotermTab.window.incoterm = isc.Window.nicico.getDefault(null, isc.VLayout.create({
-    width: "100%",
-    height: "100%",
-    members: [
-        isc.HLayout.create({
+incotermTab.window.incoterm = isc.Window.nicico.getDefault(null, [
+    isc.HLayout.create({
 
-            width: "100%",
-            height: "100%",
-            members: [
-                incotermTab.dynamicForm.incotermStructure,
-                incotermTab.listGrid.incotermRule,
-            ]
-        }),
-        incotermTab.hLayout.saveOrExitHlayout
-    ]
-}), "85%");
-incotermTab.vLayout.main.addMember(incotermTab.window.incoterm);
+        width: "100%",
+        height: "100%",
+        members: [
+            incotermTab.dynamicForm.incotermStructure,
+            incotermTab.listGrid.incotermRule,
+        ]
+    }),
+    incotermTab.hLayout.saveOrExitHlayout
+], "65%");
 
 // incotermTab.dynamicForm.selectIncotermParty = isc.DynamicForm.nicico.getDefault([{
 //
@@ -318,10 +318,82 @@ incotermTab.vLayout.main.addMember(incotermTab.window.incoterm);
 //     optionDataSource: incotermTab.restDataSource.incotermParty
 // }]);
 
+
+/*
+isc.defineClass("CustomCheckboxItem", "CheckboxItem").addProperties({
+    textBoxStyle: "customCheckboxTitle",
+
+    booleanBaseStyle: "customCheckbox",
+    checkedImage: "blank",
+    uncheckedImage: "blank",
+
+    // Don't use spriting when printing because browsers typically default to not printing background
+    // images.
+    printBooleanBaseStyle: "printCustomCheckbox",
+    printCheckedImage: "../inlineExamples/forms/details/checkboxImages/checked.png",
+    printUncheckedImage: "../inlineExamples/forms/details/checkboxImages/unchecked.png",
+
+    // The sprite tiles are 20px x 20px each.
+    valueIconWidth: 20,
+    valueIconHeight: 20,
+
+    valueIconLeftPadding: 5,
+    valueIconRightPadding: 5,
+
+    // We don't have an "unset" appearance, but there are "Disabled", "Over", and "Down" tiles.
+    showUnsetImage: false,
+    showValueIconDisabled: true,
+    showValueIconOver: true,
+    showValueIconDown: true,
+    showValueIconFocused: true
+});
+
+var form = isc.DynamicForm.create({
+    autoDraw: false,
+    width: 300,
+    items: [{
+        name: "shipmentVerified",
+        editorType: "CustomCheckboxItem",
+        title: "Was the shipment verified?",
+        valueMap: {
+            "verified": true,
+            "unverified": false
+        }
+    }]
+});
+
+var button = isc.IButton.create({
+    title: form.isDisabled() ? "Enable Form" : "Disable Form",
+    click : function () {
+        if (form.isDisabled()) {
+            form.enable();
+            this.setTitle("Disable Form");
+        } else {
+            form.disable();
+            this.setTitle("Enable Form");
+        }
+    }
+});
+
+isc.HStack.create({
+    width: "100%",
+    members: [form, button],
+    membersMargin: 20
+});
+
+*/
+
+
+nicico.BasicFormUtil.getDefaultBasicForm(incotermTab, "api/incoterm/");
+
 //*************************************************** Functions ********************************************************
 
 incotermTab.method.newForm = function () {
 
+    incotermTab.listGrid.incotermRule.setData([]);
+    incotermTab.dynamicForm.incotermStructure.clearValues();
+
+    incotermTab.window.incoterm.show();
 };
 incotermTab.method.editForm = function () {
 
