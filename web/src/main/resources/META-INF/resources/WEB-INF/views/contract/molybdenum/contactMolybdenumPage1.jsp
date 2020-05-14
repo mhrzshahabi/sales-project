@@ -1733,7 +1733,7 @@ var dynamicForm_article3_1 = isc.DynamicForm.create({
     })
     ///*//*** to do
 ListGrid_ContractItemShipment = isc.ListGrid.create({
-        showFilterEditor: true,
+        showFilterEditor: false,
         width: "100%",
         height: "200",
         modalEditing: true,

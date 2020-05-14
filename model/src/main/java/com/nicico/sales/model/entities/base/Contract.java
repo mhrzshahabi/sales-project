@@ -327,4 +327,8 @@ public class Contract extends Auditable {
     @JoinColumn(name = "CONTRACT_ID", nullable = false, insertable = false, updatable = false)
     private List<ContractShipment> contractShipments;
 
+    @NotAudited
+    @OneToMany(mappedBy = "contract", fetch = FetchType.LAZY)
+    private List<Shipment> shipments;
+
 }

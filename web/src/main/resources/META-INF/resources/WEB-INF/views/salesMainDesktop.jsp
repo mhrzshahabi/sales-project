@@ -894,6 +894,24 @@
         })
     });
 
+    //-----------------------reporttab
+    reportTab = isc.ToolStripMenuButton.create({
+        title: "&nbsp; گزارشات",
+        menu: isc.Menu.create({
+            placement: "none",
+            data: [
+                {
+                    title: "فروش خارجی",
+                    click: function () {
+                        createTab("فروش خارجی", "<spring:url value="/contract/show-report-form" />")
+                    }
+                },
+
+
+            ]
+        })
+    })
+
 
     /*----------------------productTab------------------------*/
     productTab = isc.ToolStripMenuButton.create({
@@ -1022,6 +1040,7 @@
             financialTab,
             // inspectionTab,
             productTab,
+            reportTab,
             settingTab,
         ]
     });
