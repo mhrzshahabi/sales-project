@@ -2246,9 +2246,15 @@ var IButton_Contact_Save = isc.IButtonSave.create({
 
             var dataSaveAndUpdateContract={};
             var dataSaveAndUpdateContractDetail={};
-            DynamicForm_ContactHeader.validate();
-            DynamicForm_ContactCustomer.validate();
-            contactHeader.validate();
+            if(!DynamicForm_ContactHeader.validate()){
+                return;
+                }
+            if(!DynamicForm_ContactCustomer.validate()){
+                return;
+            }
+            if(!contactHeader.validate()){
+                return;
+            };
             if(methodMoHtpp == "PUT" && methodMoHtpp != "POST"){
                   dataSaveAndUpdateContract.id=ListGrid_contractMo.getSelectedRecord().id;
                    var criteriaMolDetail = {
