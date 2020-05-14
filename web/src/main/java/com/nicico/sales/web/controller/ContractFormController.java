@@ -37,7 +37,7 @@ public class ContractFormController {
     public void print(HttpServletRequest request, HttpServletResponse response, @PathVariable Long id) throws IOException {
 
         String docName = contractService.printContract(id);
-        docName = docName + ".pdf";
+        docName = docName + ".docx";
         String UPLOAD_FILE_DIR = environment.getProperty("nicico.upload.dir");
         String filePath = UPLOAD_FILE_DIR + File.separator + "contract" + File.separator + docName;
         File downloadFile = new File(filePath);
@@ -69,7 +69,7 @@ public class ContractFormController {
     @RequestMapping("/print/{id}/{idDradf}")
     public void print(HttpServletRequest request, HttpServletResponse response, @PathVariable Long id, @PathVariable Long idDradf) throws IOException {
         String docName = contractService.printContract(id, idDradf);
-        docName = docName + ".pdf";
+        docName = docName + ".docx";
         String UPLOAD_FILE_DIR = environment.getProperty("nicico.upload.dir");
         String filePath = UPLOAD_FILE_DIR + File.separator + "contract" + File.separator + docName;
         File downloadFile = new File(filePath);
