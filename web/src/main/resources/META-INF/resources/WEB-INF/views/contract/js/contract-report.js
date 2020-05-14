@@ -107,6 +107,196 @@ function contractReport() {
                 height: "100%",
                 membersMargin: 20,
                 members: [
+                    isc.HLayout.create({
+                        width: "100%",
+                        height: 0.01 * window.innerHeight,
+                        members:
+                            [
+                                isc.ToolStrip.create({
+                                    width: "100%",
+                                    membersMargin: 5,
+                                    members:
+                                        [
+                                            isc.MenuButton.create({
+                                                autoDraw: false,
+                                                title: "<spring:message code='tozin.report.betweenComplexes'/>",
+                                                prompt: "<spring:message code='tozin.report.betweenComplexes.date'/>",
+                                                width: 125,
+                                                menu: isc.Menu.create({
+                                                    width: 150,
+                                                    data: [
+                                                        {
+                                                            title: "<spring:message code='global.form.print.pdf'/>",
+                                                            icon: "icon/pdf.png",
+                                                            click: function () {
+                                                                //   "<spring:url value="/warehouseStock/print/beyn_mojtama/pdf" var="printUrl"/>"
+                                                                window.open('${printUrl}' + '/' + DynamicForm_DailyReport_Tozin.getValue("toDay").replaceAll("/", ""));
+                                                            }
+                                                        },
+                                                        {
+                                                            title: "<spring:message code='global.form.print.excel'/>",
+                                                            icon: "icon/excel.png",
+                                                            click: function () {
+                                                                //   "<spring:url value="/warehouseStock/print/beyn_mojtama/excel" var="printUrl"/>"
+                                                                window.open('${printUrl}' + '/' + DynamicForm_DailyReport_Tozin.getValue("toDay").replaceAll("/", ""));
+                                                            }
+                                                        },
+                                                        {
+                                                            title: "<spring:message code='global.form.print.html'/>",
+                                                            icon: "icon/html.jpg",
+                                                            click: function () {
+                                                                // "<spring:url value="/warehouseStock/print/beyn_mojtama/html" var="printUrl"/>"
+                                                                window.open('${printUrl}' + '/' + DynamicForm_DailyReport_Tozin.getValue("toDay").replaceAll("/", ""));
+                                                            }
+                                                        }
+                                                    ]
+                                                })
+                                            }),
+                                            isc.MenuButton.create({
+                                                autoDraw: false,
+                                                title: "<spring:message code='tozin.report.salesUpload'/>",
+                                                prompt: "<spring:message code='tozin.report.salesUpload.byDate'/>",
+                                                width: 200,
+                                                menu: isc.Menu.create({
+                                                    width: 200,
+                                                    data: [
+                                                        {
+                                                            title: "<spring:message code='global.form.print.pdf'/>",
+                                                            icon: "icon/pdf.png",
+                                                            click: function () {
+                                                                var toDay = DynamicForm_DailyReport_Tozin.getValue("toDay").replaceAll("/", "");
+                                                                // "<spring:url value="/warehouseStock/print/Forosh_Bargiri/pdf" var="printUrl"/>"
+                                                                window.open('${printUrl}' + '/' + toDay);
+                                                            }
+                                                        },
+                                                        {
+                                                            title: "<spring:message code='global.form.print.excel'/>",
+                                                            icon: "icon/excel.png",
+                                                            click: function () {
+                                                                var toDay = DynamicForm_DailyReport_Tozin.getValue("toDay").replaceAll("/", "");
+                                                                // "<spring:url value="/warehouseStock/print/Forosh_Bargiri/excel" var="printUrl"/>"
+                                                                window.open('${printUrl}' + '/' + toDay);
+                                                            }
+                                                        },
+                                                        {
+                                                            title: "<spring:message code='global.form.print.html'/>",
+                                                            icon: "icon/html.jpg",
+                                                            click: function () {
+                                                                var toDay = DynamicForm_DailyReport_Tozin.getValue("toDay").replaceAll("/", "");
+                                                                // "<spring:url value="/warehouseStock/print/Forosh_Bargiri/html" var="printUrl"/>"
+                                                                window.open('${printUrl}' + '/' + toDay);
+                                                            }
+                                                        }
+                                                    ]
+                                                })
+                                            }),
+                                            isc.MenuButton.create({
+                                                autoDraw: false,
+                                                title: "<spring:message code='tozin.report.cons.buy'/>",
+                                                prompt: "<spring:message code='tozin.report.cons.buy.byDate'/>",
+                                                width: 200,
+                                                menu: isc.Menu.create({
+                                                    width: 200,
+                                                    data: [
+                                                        {
+                                                            title: "<spring:message code='global.form.print.pdf'/>",
+                                                            icon: "icon/pdf.png",
+                                                            click: function () {
+                                                                var toDay = DynamicForm_DailyReport_Tozin.getValue("toDay").replaceAll("/", "");
+                                                                // "<spring:url value="/warehouseStock/print/Kharid_Konstantere/pdf" var="printUrl"/>"
+                                                                window.open('${printUrl}' + '/' + toDay);
+                                                            }
+                                                        },
+                                                        {
+                                                            title: "<spring:message code='global.form.print.excel'/>",
+                                                            icon: "icon/excel.png",
+                                                            click: function () {
+                                                                var toDay = DynamicForm_DailyReport_Tozin.getValue("toDay").replaceAll("/", "");
+                                                                // "<spring:url value="/warehouseStock/print/Kharid_Konstantere/excel" var="printUrl"/>"
+                                                                window.open('${printUrl}' + '/' + toDay);
+                                                            }
+                                                        },
+                                                        {
+                                                            title: "<spring:message code='global.form.print.html'/>",
+                                                            icon: "icon/html.jpg",
+                                                            click: function () {
+                                                                var toDay = DynamicForm_DailyReport_Tozin.getValue("toDay").replaceAll("/", "");
+                                                                // "<spring:url value="/warehouseStock/print/Kharid_Konstantere/html" var="printUrl"/>"
+                                                                window.open('${printUrl}' + '/' + toDay);
+                                                            }
+                                                        }
+                                                    ]
+                                                })
+                                            }),
+                                            isc.MenuButton.create({
+                                                autoDraw: false,
+                                                title: "<spring:message code='tozin.report.waste'/>",
+                                                prompt: "<spring:message code='tozin.report.waste.byDate'/>",
+                                                width: 250,
+                                                menu: isc.Menu.create({
+                                                    width: 250,
+                                                    data: [
+                                                        {
+                                                            title: "<spring:message code='global.form.print.pdf'/>",
+                                                            icon: "icon/pdf.png",
+                                                            click: function () {
+                                                                var toDay = DynamicForm_DailyReport_Tozin.getValue("toDay").replaceAll("/", "");
+                                                                // "<spring:url value="/warehouseStock/print/Kharid_Zaieat/pdf" var="printUrl"/>"
+                                                                window.open('${printUrl}' + '/' + toDay);
+                                                            }
+                                                        },
+                                                        {
+                                                            title: "<spring:message code='global.form.print.excel'/>",
+                                                            icon: "icon/excel.png",
+                                                            click: function () {
+                                                                var toDay = DynamicForm_DailyReport_Tozin.getValue("toDay").replaceAll("/", "");
+                                                                // "<spring:url value="/warehouseStock/print/Kharid_Zaieat/excel" var="printUrl"/>"
+                                                                window.open('${printUrl}' + '/' + toDay);
+                                                            }
+                                                        },
+                                                        {
+                                                            title: "<spring:message code='global.form.print.html'/>",
+                                                            icon: "icon/html.jpg",
+                                                            click: function () {
+                                                                var toDay = DynamicForm_DailyReport_Tozin.getValue("toDay").replaceAll("/", "");
+                                                                // "<spring:url value="/warehouseStock/print/Kharid_Zaieat/html" var="printUrl"/>"
+                                                                window.open('${printUrl}' + '/' + toDay);
+                                                            }
+                                                        }
+                                                    ]
+                                                })
+                                            }),
+                                            isc.DynamicForm.create({
+                                                width: "200",
+                                                wrapItemTitles: false,
+                                                // height: "100%",
+                                                action: "report/printDailyReportBandarAbbas",
+                                                target: "_Blank",
+                                                titleWidth: "200",
+                                                numCols: 4,
+                                                fields: [{
+                                                    name: "toDay",
+                                                    ID: "toDayDateTozin",
+                                                    title: "<spring:message code='dailyWarehouse.toDay'/>",
+                                                    type: 'text',
+                                                    align: "center",
+                                                    width: 150,
+                                                    colSpan: 1,
+                                                    titleColSpan: 1,
+                                                    icons: [{
+                                                        src: "pieces/pcal.png",
+                                                        click: function () {
+                                                            displayDatePicker('toDayDateTozin', this, 'ymd', '/');
+                                                        }
+                                                    }],
+                                                    defaultValue: "1398/10/26",
+                                                },]
+                                            }),
+                                        ]
+                                })
+                            ]
+                    }),
+
                     isc.FacetChart.create({
 
                         showDataValues: true,
@@ -121,38 +311,38 @@ function contractReport() {
                         chartType: "Pie"
                     }),
                     isc.ListGrid.create({
-                            groupStartOpen: "first",
-                            groupByField: ['year', "material.descl"],
-                            width: "100%",
-                            height: 0.5 * window.innerHeight,
-                            data: crTab.contract.all,
-                            fields: [
-                                {
-                                    name: "contact.nameEN"
-                                }, {
-                                    name: "year", hidden: true
-                                }, {
-                                    name: "material.descl", hidden: true
-                                },
-                                {
-                                    name: "invoices",
-                                    formatCellValue(value, record, rowNum, colNum, grid) {
-                                        if (record.shipments.length === 0) return 0;
-                                        sum = 0;
-                                        record.shipments.forEach(shipment => {
-                                            if (shipment.invoices.length != 0) {
-                                                shipment.invoices.forEach(
-                                                    invoice => sum = sum + Number(invoice.invoiceValue)
-                                                )
-                                            }
-                                        })
-                                        return sum;
-                                    }
+                        groupStartOpen: "first",
+                        groupByField: ['year', "material.descl"],
+                        width: "100%",
+                        height: 0.5 * window.innerHeight,
+                        data: crTab.contract.all,
+                        fields: [
+                            {
+                                name: "contact.nameEN"
+                            }, {
+                                name: "year", hidden: true
+                            }, {
+                                name: "material.descl", hidden: true
+                            },
+                            {
+                                name: "invoices",
+                                formatCellValue(value, record, rowNum, colNum, grid) {
+                                    if (record.shipments.length === 0) return 0;
+                                    sum = 0;
+                                    record.shipments.forEach(shipment => {
+                                        if (shipment.invoices.length != 0) {
+                                            shipment.invoices.forEach(
+                                                invoice => sum = sum + Number(invoice.invoiceValue)
+                                            )
+                                        }
+                                    })
+                                    return sum;
                                 }
-                            ]
+                            }
+                        ]
 
-                        }
-                    )
+                    })
+                    ,
                 ]
             })
         )

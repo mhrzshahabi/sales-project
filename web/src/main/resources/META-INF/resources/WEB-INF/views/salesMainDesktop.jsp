@@ -906,13 +906,7 @@
                         createTab("فروش خارجی", "<spring:url value="/contract/show-report-form" />")
                     }
                 },
-                {isSeparator: true},
-                {
-                    title: "<spring:message code='warehouseStock'/>",
-                    click: function () {
-                        createTab("<spring:message code='warehouseStock'/>", "<spring:url value="/warehouseStock/showForm" />")
-                    }
-                },
+
 
             ]
         })
@@ -946,7 +940,13 @@
                         createTab("<spring:message code='bijack'/>", "<spring:url value="/warehouseCad/showForm" />")
                     }
                 },
-
+                {isSeparator: true},
+                {
+                    title: "<spring:message code='warehouseStock'/>",
+                    click: function () {
+                        createTab("<spring:message code='warehouseStock'/>", "<spring:url value="/warehouseStock/showForm" />")
+                    }
+                },
                 {isSeparator: true},
 
             ]
