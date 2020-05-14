@@ -22,7 +22,7 @@ var nicico;
             // @ts-ignore
             isc.ListGrid.nicico = {};
             // @ts-ignore
-            isc.ListGrid.nicico.getDefault = function (fields, restDataSource, criteria) {
+            isc.ListGrid.nicico.getDefault = function (fields, restDataSource, criteria, extraProperties) {
                 var listGridProperties = {};
                 listGridProperties.width = "100%";
                 listGridProperties.height = "100%";
@@ -48,7 +48,8 @@ var nicico;
                 listGridProperties.configureSortText = '<spring:message code="global.grid.configureSortText" />';
                 listGridProperties.sortFieldAscendingText = '<spring:message code="global.grid.sortFieldAscendingText" />';
                 listGridProperties.sortFieldDescendingText = '<spring:message code="global.grid.sortFieldDescendingText" />';
-                return this.createListGrid(listGridProperties, fields, restDataSource);
+                // @ts-ignore
+                return this.createListGrid(Object.assign(listGridProperties, extraProperties), fields, restDataSource);
             };
             // @ts-ignore
             isc.ListGrid.nicico.createListGrid = function (listGridProperties, fields, restDataSource) {
