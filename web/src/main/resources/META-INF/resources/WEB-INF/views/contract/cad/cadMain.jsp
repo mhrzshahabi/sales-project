@@ -327,7 +327,7 @@ var ListGrid_Cad = isc.ListGrid.create({
                                 article11_quality.setValue(nvlCad(textMain.Article11));
                                 fullArticle12.setValue(nvlCad(textMain.Article12));
                                 ListGrid_ContractItemShipment.fetchData(criteriaContractItemShipment);
-                        },300)
+                        },350)
                     }else{
                         isc.say(RpcResponse_o.data);
                 }
@@ -372,6 +372,7 @@ var ListGrid_Cad = isc.ListGrid.create({
                         valuesManagerArticle7_quality.setValue("article7_quality1",data[0].article7_number37);
                         valuesManagerArticle8_quality.setValue("article8_quality1",data[0].article8_number43);
                         valuesManagerArticle8_quality.setValue("article8_quality2",data[0].article8_number44_1);
+                        valuesManagerArticle8_quality.setValue("article8_value",data[0].article8_value);
                         valuesManagerArticle10_quality.setValue("article10_number56",data[0].article10_number56);
                         valuesManagerArticle10_quality.setValue("article10_number57",data[0].article10_number57);
                         valuesManagerArticle10_quality.setValue("article10_number58",data[0].article10_number58);

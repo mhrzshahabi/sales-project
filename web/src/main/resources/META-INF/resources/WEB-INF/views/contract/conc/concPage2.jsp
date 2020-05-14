@@ -607,12 +607,6 @@ ListGrid_ContractConcItemShipment = isc.ListGrid.create({
                         align: "center"
                     },
                     {
-                        name: "paramType",
-                        title: "<spring:message code='parameters.paramType'/>",
-                        width: "20%",
-                        align: "center"
-                    },
-                    {
                         name: "paramValue",
                         title: "<spring:message code='parameters.paramValue'/>",
                         width: "60%",
