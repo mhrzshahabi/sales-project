@@ -88,7 +88,9 @@ var contactCadTabs = isc.TabSet.create({
                  })
             var dataSaveAndUpdateContractCad = {};
             var dataSaveAndUpdateContractCadDetail = {};
-            contactCadHeader.validate();
+            if(!contactCadHeader.validate()){
+               return
+            };
             valuesManagerArticle6_quality.validate();
 
 
@@ -311,7 +313,7 @@ var contactCadTabs = isc.TabSet.create({
                 dataSaveAndUpdateContractCadDetail.discountValueEleven_2 = 0;
                 dataSaveAndUpdateContractCadDetail.article8_number42 = "";
                 dataSaveAndUpdateContractCadDetail.article8_3 = "";
-                dataSaveAndUpdateContractCadDetail.article8_value = "";
+                dataSaveAndUpdateContractCadDetail.article8_value = valuesManagerArticle8_quality.getValue("article8_value");
                 dataSaveAndUpdateContractCadDetail.article8_number43 = valuesManagerArticle8_quality.getValue("article8_quality1");
                 dataSaveAndUpdateContractCadDetail.article8_number44_1 = valuesManagerArticle8_quality.getValue("article8_quality2");
                 dataSaveAndUpdateContractCadDetail.article9_number45 = "";
