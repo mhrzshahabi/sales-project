@@ -27,14 +27,6 @@ var RestDataSource_Incoterms_InConc = isc.MyRestDataSource.create({
     factoryLableArticle("lableArticle11", '<b><font size=4px>ARTICLE 11 - Payment</font><b>', "30", 5)
     factoryLableArticle("lableArticle12", '<b><font size=4px>ARTICLE 12 - CURRENCY CONVERSION</font><b>', "30", 5)
 
-    var RestDataSource_Incoterms_InConc = isc.MyRestDataSource.create({
-        fields:
-            [
-                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "code", title: "<spring:message code='goods.code'/> "},
-            ],
-        fetchDataURL: "${contextPath}/api/incoterms/spec-list"
-    });
 
     var dynamicForm_article3Conc = isc.DynamicForm.create({
         valuesManager: "valuesManagerArticle3_conc",
