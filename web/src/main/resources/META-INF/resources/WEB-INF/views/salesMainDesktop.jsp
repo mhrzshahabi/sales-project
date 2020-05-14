@@ -894,6 +894,30 @@
         })
     });
 
+    //-----------------------reporttab
+    reportTab = isc.ToolStripMenuButton.create({
+        title: "&nbsp; گزارشات",
+        menu: isc.Menu.create({
+            placement: "none",
+            data: [
+                {
+                    title: "فروش خارجی",
+                    click: function () {
+                        createTab("فروش خارجی", "<spring:url value="/contract/show-report-form" />")
+                    }
+                },
+                {isSeparator: true},
+                {
+                    title: "<spring:message code='warehouseStock'/>",
+                    click: function () {
+                        createTab("<spring:message code='warehouseStock'/>", "<spring:url value="/warehouseStock/showForm" />")
+                    }
+                },
+
+            ]
+        })
+    })
+
 
     /*----------------------productTab------------------------*/
     productTab = isc.ToolStripMenuButton.create({
@@ -922,20 +946,9 @@
                         createTab("<spring:message code='bijack'/>", "<spring:url value="/warehouseCad/showForm" />")
                     }
                 },
+
                 {isSeparator: true},
-                {
-                    title: "<spring:message code='warehouseStock'/>",
-                    click: function () {
-                        createTab("<spring:message code='warehouseStock'/>", "<spring:url value="/warehouseStock/showForm" />")
-                    }
-                },
-                {isSeparator: true},
-                {
-                    title: "<spring:message code='warehouseStock'/>",
-                    click: function () {
-                        createTab("باقر<spring:message code='warehouseStock'/>", "<spring:url value="/remittance/showForm" />")
-                    }
-                }
+
             ]
         })
     });
@@ -970,12 +983,7 @@
                         createTab("<spring:message code='invoiceSales.title'/>", "<spring:url value="/invoiceSales/showForm" />")
                     }
                 },
-                {
-                    title: "<spring:message code='invoiceSales.title'/>",
-                    click: function () {
-                        createTab("<spring:message code='invoiceSales.title'/>", "<spring:url value="/invoice-export/showForm" />")
-                    }
-                }
+
             ]
         })
     });
@@ -1022,6 +1030,7 @@
             financialTab,
             // inspectionTab,
             productTab,
+            reportTab,
             settingTab,
         ]
     });
