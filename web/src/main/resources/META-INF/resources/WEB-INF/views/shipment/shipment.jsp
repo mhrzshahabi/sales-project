@@ -719,12 +719,7 @@
                         name: "name",
                     },
                     {
-                        name: "type"}],
-                validators: [
-                {
-                    type:"required",
-                    validateOnChange: true
-                }]
+                        name: "type"}]
             },
             {type: "Header", defaultValue: dash},
             {
