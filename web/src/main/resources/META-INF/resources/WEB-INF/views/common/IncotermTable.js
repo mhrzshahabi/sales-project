@@ -9,6 +9,7 @@ incotermTableTab.restDataSource = {};
 //******************************************************* VARIABLES *************************************************-**
 
 incotermTableTab.variable.dataForEdit = null;
+incotermTableTab.variable.url = "${contextPath}" + "/api/g-incoterm/";
 incotermTableTab.variable.termUrl = "${contextPath}" + "/api/term/";
 incotermTableTab.variable.incotermStepUrl = "${contextPath}" + "/api/incoterm-step/";
 incotermTableTab.variable.incotermRuleUrl = "${contextPath}" + "/api/incoterm-rule/";
@@ -335,7 +336,7 @@ incotermTableTab.window.incoterm = isc.Window.nicico.getDefault(null, [
                                 });
                             else {
 
-                                let incotermDetail = incotermTableTab.variable.dataForEdit.filter(q=>
+                                let incotermDetail = incotermTableTab.variable.dataForEdit.filter(q =>
                                     q.incotermStepId === steps[j].id &&
                                     q.incotermRuleId === rules[i].id &&
                                     q.incotermAspectId === aspects[k].id
@@ -345,7 +346,7 @@ incotermTableTab.window.incoterm = isc.Window.nicico.getDefault(null, [
                                     incotermRuleId: rules[i].id,
                                     incotermAspectId: aspects[k].id,
                                     incotermTermId: incotermDetail.termId,
-                                    incotermPartyId: incotermDetail.partyId,
+                                    incotermParties: incotermDetail.incotermParties,
                                 });
                             }
                 }
@@ -447,14 +448,15 @@ isc.IncotermTable.addProperties({
             });
         } else if (field.type.toLowerCase() === "incotermdetail") {
 
-            let incotermDetails = record.incotermDetails.filter(q => q.incotermStepId === field.ref);
+            let incotermDetails = record.incotermDetails.filter(q => q.incotermRuleId === incotermRuleId && q.incotermStepId === field.ref);
             if (incotermDetails == null || incotermDetails.length === 0)
                 return null;
             if (This.parties == null || This.parties.length === 0)
                 return null;
 
             let dynamicForms = [];
-            for (let i = 0; i < This.aspects; i++)
+            for (let i = 0; i < This.aspects; i++) {
+
                 dynamicForms.add(isc.DynamicForm.create({
                     width: "100%",
                     align: "center",
@@ -464,6 +466,7 @@ isc.IncotermTable.addProperties({
                     showErrorText: true,
                     showErrorStyle: true,
                     showInlineErrors: true,
+                    dataSource: incotermDetails.filter(q => q.incotermAspectId === This.aspects[i].id).first(),
                     fields: BaseFormItems.concat([
                         {
                             hidden: true,
@@ -472,14 +475,15 @@ isc.IncotermTable.addProperties({
                         {
                             index: -1,
                             type: "ButtonItem",
-                            name: "incotermPartyId",
+                            name: "incotermParties",
                             required: This.aspects[i].requiredParty,
                             click: function () {
 
                                 this.index = (this.index + 1) % This.parties.length;
                                 let party = This.parties[this.index];
+
                                 this.backgroundColor = party.bgColor;
-                                this.value = party.id;
+                                this.value = [{portion: 100, incotermPartyId: party.id}];
                             }
                         },
                         {
@@ -502,6 +506,15 @@ isc.IncotermTable.addProperties({
                         },
                     ], true)
                 }));
+                let incotermParties = dynamicForms[i].getItem("incotermParties");
+                let incotermPartiesValues = incotermParties.getValue();
+                if (incotermPartiesValues != null && incotermPartiesValues.length === 1) {
+
+                    let party = This.parties.filter(q => q.id === incotermPartiesValues[0].incotermPartyId).first();
+                    incotermParties.index = This.parties.indexOf(party);
+                    incotermParties.backgroundColor = party.bgColor;
+                }
+            }
             return isc.HLayout.create({
                 width: "100",
                 members: [
@@ -531,17 +544,21 @@ isc.IncotermTable.addProperties({
 
 incotermTableTab.method.add = function () {
 
+    incotermTableTab.variable.method = "POST";
     incotermTableTab.dynamicForm.incoterm.clearValues();
     incotermTableTab.listGrid.incotermStep.deselectAllRecords();
     incotermTableTab.listGrid.incotermRule.deselectAllRecords();
     incotermTableTab.listGrid.incotermAspect.deselectAllRecords();
 
+    incotermTableTab.window.incoterm.setTitle("<spring:message code='incoterm.window.title.add'/>");
     incotermTableTab.window.incoterm.show();
 };
 incotermTableTab.method.edit = function (data) {
 
+    incotermTableTab.variable.method = "PUT";
     incotermTableTab.variable.dataForEdit = data.incotermDetails;
     incotermTableTab.dynamicForm.incoterm.editRecord(data.incoterm);
 
+    incotermTableTab.window.incoterm.setTitle("<spring:message code='incoterm.window.title.edit'/>");
     incotermTableTab.window.incoterm.show();
 };

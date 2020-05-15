@@ -22,6 +22,10 @@ public class IncotermParties extends BaseEntity {
     @SequenceGenerator(name = "SEQ_CNTR_INCOTERM_PARTIES", sequenceName = "SEQ_CNTR_INCOTERM_PARTIES", allocationSize = 1)
     private Long id;
 
+    @NotNull
+    @Column(name = "N_PORTION", nullable = false)
+    private Double portion;
+
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "F_INCOTERM_DETAIL_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_incotermParties2incotermDetailByIncotermDetailId"))

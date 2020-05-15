@@ -34,28 +34,30 @@ incotermTab.dynamicForm.fields = BaseFormItems.concat([{
     title: "<spring:message code='global.description'/>",
 }]);
 Object.assign(incotermTab.listGrid.fields, incotermTab.dynamicForm.fields);
-
-//***************************************************** GENERALTABVARIABLE *********************************************
-
-//***************************************************** RESTDATASOURCE *************************************************
-
-//*************************************************** Componnents ******************************************************
-
 nicico.BasicFormUtil.getDefaultBasicForm(incotermTab, "api/g-incoterm/");
 
 //*************************************************** Functions ********************************************************
 
 incotermTab.method.newForm = function () {
 
-    incotermTab.listGrid.incotermStep.deselectAllRecords();
-    incotermTab.listGrid.incotermRule.deselectAllRecords();
-    incotermTab.listGrid.incotermAspect.deselectAllRecords();
-
-    incotermTab.window.incoterm.show();
+    incotermTableTab.method.add();
+    incotermTab.method.refresh(incotermTab.listGrid.main);
 };
 incotermTab.method.editForm = function () {
 
-};
-incotermTab.method.saveForm = function () {
+    let record = incotermTab.listGrid.main.getSelectedRecord();
+    if (record == null || record.id == null)
+        incotermTab.dialog.notSelected();
+    else if (record.editable === false)
+        incotermTab.dialog.notEditable();
+    else {
+        incotermTab.method.jsonRPCManagerRequest({
 
+            method: "GET",
+            url: incotermTab.variable.url + "/pack/" + record.id
+        }, (response) => {
+            incotermTableTab.method.edit(JSON.parse(response.httpResponseText));
+            incotermTab.method.refresh(incotermTab.listGrid.main);
+        });
+    }
 };
