@@ -500,7 +500,6 @@ public class ContractService implements IContractService {
     @Override
     public TotalResponse<ContractDTO.InfoForReport> report(NICICOCriteria nicicoCriteria) {
         return SearchUtil.search(contractDAO, nicicoCriteria, contract -> modelMapper.map(contract, ContractDTO.InfoForReport.class));
-
     }
 
 
