@@ -59,6 +59,7 @@
     }
 
     var DynamicForm_WarehouseStock_Tozin = isc.DynamicForm.create({
+        showIf: false,
         width: "200",
         wrapItemTitles: false,
         height: "100%",
