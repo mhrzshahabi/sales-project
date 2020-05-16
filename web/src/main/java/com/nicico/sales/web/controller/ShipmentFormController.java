@@ -215,7 +215,6 @@ public class ShipmentFormController {
 
                 replacePOI(doc, "dateday", dateday);
 
-
                 replacePOI(doc, "contract_amount", shipment.getAmount().toString());
                 replacePOI(doc, "unitNameFa", shipment.getMaterial().getUnit().getNameFA());
                 replacePOI(doc, "descp", shipment.getMaterial().getDescp());
@@ -224,13 +223,10 @@ public class ShipmentFormController {
                 replacePOI(doc, "contract_no", shipment.getContract().getContractNo());
                 replacePOI(doc, "agent", shipment.getContactByAgent().getNameFA());
 //                replacePOI(doc, "tolorance", "-/+" + shipment.getContractShipment().getTolorance().toString() + "%");
-                replacePOI(doc, "containerType", shipment.getContainerType());
+//                replacePOI(doc, "containertype", shipment.getContainerType());
                 replacePOI(doc, "buyer", shipment.getContact().getNameEN());
-
-//                String[] portw = shipment.getPortByDischarge().getPort().split(",");
                 replacePOI(doc, "disport", shipment.getPortByDischarge().getPort());
                 replacePOI(doc, "country", shipment.getPortByDischarge().getCountry().getNameFa());
-//                replacePOI(doc, "comp", "به مقصد بندر " + portw[0] + "در کشور " + portw[1]);
 
 
                 String shipId = shipment.getContract().getId();
@@ -243,7 +239,6 @@ public class ShipmentFormController {
 
                     replacePOI(doc, "inspector", inspector.get(i));
                 }
-
 
                 if (lotnamelist.size() != 0 && bookingNo.size() != 0) {
                     for (int k = 0; k < lotnamelist.size(); k++) {
