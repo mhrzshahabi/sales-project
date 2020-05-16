@@ -11,6 +11,7 @@ spring:
       ddl-auto: none
     properties:
       hibernate:
+        enable_lazy_load_no_trans: true
         dialect: com.nicico.copper.common.hibernate.CustomOracleDialect
         format_sql: true
         hbm2ddl:

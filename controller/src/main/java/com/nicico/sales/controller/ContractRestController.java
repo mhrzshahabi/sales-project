@@ -89,13 +89,20 @@ public class ContractRestController {
     @Loggable
     @PutMapping(value = "/readWord")
     public ResponseEntity<List<String>> updateValueAllArticles(@RequestBody String contract) {
-        String[] detailContract= contract.split("_");
-        String contractNo=detailContract[0]+detailContract[1];
+        String[] detailContract = contract.split("_");
+        String contractNo = detailContract[0] + detailContract[1];
         long contractId = Long.parseLong(detailContract[2]);
         int draftId = 0;
-        if(detailContract.length>3){
-             draftId = Integer.parseInt(detailContract[3]);
+        if (detailContract.length > 3) {
+            draftId = Integer.parseInt(detailContract[3]);
         }
-        return new ResponseEntity<>(contractService.readFromWord(contractNo,contractId,draftId), HttpStatus.OK);
+        return new ResponseEntity<>(contractService.readFromWord(contractNo, contractId, draftId), HttpStatus.OK);
+    }
+
+    @Loggable
+    @GetMapping(value = "/report-spec-list")
+    public ResponseEntity<TotalResponse<ContractDTO.InfoForReport>> report(@RequestParam MultiValueMap<String, String> criteria) {
+        final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
+        return new ResponseEntity<>(contractService.report(nicicoCriteria), HttpStatus.OK);
     }
 }

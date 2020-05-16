@@ -729,7 +729,7 @@
     settingTab = isc.ToolStripMenuButton.create({
         title: "&nbsp; <spring:message code='main.settingTab'/>",
         click: function () {
-            createTab("مدیریت کاربران", "<spring:url value="web/oauth/landing/show-form" />", false);
+            createTab("<spring:message code='main.settingTab'/>", "<spring:url value="web/oauth/landing/show-form" />", false);
         }
     });
 
@@ -894,6 +894,14 @@
         })
     });
 
+    //-----------------------reporttab
+    reportTab = isc.ToolStripMenuButton.create({
+        title: "&nbsp; <spring:message code='main.reportTab'/>",
+            click: function () {
+                createTab("<spring:message code='main.reportTab'/>", "<spring:url value="/contract/show-report-form" />")
+            }
+    })
+
 
     /*----------------------productTab------------------------*/
     productTab = isc.ToolStripMenuButton.create({
@@ -1022,6 +1030,7 @@
             financialTab,
             // inspectionTab,
             productTab,
+            reportTab,
             settingTab,
         ]
     });

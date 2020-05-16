@@ -100,7 +100,7 @@ public class ShipmentFormController {
         String shiptype = shipment.getShipmentType();
 
 
-        if (description.toLowerCase().contains("cathods") ) {
+        if (description.toLowerCase().contains("cathod") ) {
             if (shiptype.contains("bulk")) {
 
                 stream = new ClassPathResource("reports/word/Ship_Cat_bulk.docx").getInputStream();
