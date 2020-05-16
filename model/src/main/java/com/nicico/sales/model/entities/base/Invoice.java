@@ -25,7 +25,7 @@ public class Invoice extends Auditable {
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "SHIPMENT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "INVOICE2SHIPMENT"))
-    private Shipment Shipment;
+    private Shipment shipment;
 
     @Column(name = "SHIPMENT_ID")
     private Long shipmentId;
@@ -101,5 +101,4 @@ public class Invoice extends Auditable {
 
     @Column(name = "PROCESS_ID")
     private String processId;
-
 }

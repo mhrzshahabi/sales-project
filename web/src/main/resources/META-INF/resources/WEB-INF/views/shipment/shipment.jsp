@@ -362,19 +362,19 @@
                     "December": "December"
                 }
             },
+            {name: "contractDate", hidden: true,},
             {
-                name: "createDate", colSpan: 4,
+                name: "createDate",
                 title: "<spring:message code='shipment.createDate'/>",
-                defaultValue: "<%=dateUtil.todayDate()%>",
-                type: 'date',
-                format: 'DD-MM-YYYY',
+                type: "date",
                 required: true,
-                width: "100%",
                 validators: [
                 {
                     type:"required",
                     validateOnChange: true
-                }]
+                }],
+                width: "90%",
+                wrapTitle: false
             },
             {
                 name: "loadingLetter",
@@ -703,7 +703,6 @@
                 name: "vesselId",
                 colSpan: 4,
                 title: "<spring:message code='vessel.name'/>",
-                required: true,
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_VesselInShipment,
                 type: 'long',
@@ -720,12 +719,7 @@
                         name: "name",
                     },
                     {
-                        name: "type"}],
-                validators: [
-                {
-                    type:"required",
-                    validateOnChange: true
-                }]
+                        name: "type"}]
             },
             {type: "Header", defaultValue: dash},
             {
@@ -908,7 +902,7 @@
             }
             var drs = DynamicForm_Shipment.getValue("createDate");
             var datestringRs = (drs.getFullYear() + "/" + ("0" + (drs.getMonth() + 1)).slice(-2) + "/" + ("0" + drs.getDate()).slice(-2));
-            DynamicForm_Shipment.setValue("createDate", datestringRs);
+            DynamicForm_Shipment.setValue("createDate", DynamicForm_Shipment.getValues().createDate.toNormalDate("toUSShortDate"));
             drs = DynamicForm_Shipment1.getValue("swBlDate");
             datestringRs = (drs.getFullYear() + "/" + ("0" + (drs.getMonth() + 1)).slice(-2) + "/" + ("0" + drs.getDate()).slice(-2));
             DynamicForm_Shipment1.setValue("swBlDate", datestringRs);
@@ -939,8 +933,12 @@
             DynamicForm_Shipment.setValue("dispatch", DynamicForm_Shipment2.getValue("dispatch"));
             DynamicForm_Shipment.setValue("demurrage", DynamicForm_Shipment2.getValue("demurrage"));
             DynamicForm_Shipment.setValue("detention", DynamicForm_Shipment2.getValue("detention"));
+            var allDataShipment=DynamicForm_Shipment.getValues();
+            allDataShipment.createDate=DynamicForm_Shipment.getValues().createDate.toNormalDate("toUSShortDate");
+            allDataShipment.swBlDate=DynamicForm_Shipment.getValues().swBlDate.toNormalDate("toUSShortDate");
+            allDataShipment.blDate=DynamicForm_Shipment.getValues().blDate.toNormalDate("toUSShortDate");
 
-            var dataShipment = Object.assign(DynamicForm_Shipment.getValues());
+            var dataShipment = Object.assign(allDataShipment);
             var methodXXXX = "PUT";
             if ((dataShipment.id == null) || (dataShipment.id == 'undefiend')) methodXXXX = "POST";
             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {

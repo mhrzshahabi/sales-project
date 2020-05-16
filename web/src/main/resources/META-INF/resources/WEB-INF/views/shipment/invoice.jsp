@@ -447,7 +447,6 @@
 
     function ListGrid_Invoice_edit() {
         var record = ListGrid_Invoice.getSelectedRecord();
-
         if (record == null || record.id == null) {
             isc.Dialog.create({
                 message: "<spring:message code='global.grid.record.not.selected'/>",
@@ -852,7 +851,7 @@
         }
     }
 
-    <sec:authorize access="hasAuthority('O_INVOICE')">
+    <%--<sec:authorize access="hasAuthority('O_INVOICE')">
     var ToolStripButton_Invoice_Pdf = isc.ToolStripButtonPrint.create({
         title: "<spring:message code='global.form.print.pdf'/>",
         icon: "icon/pdf.png",
@@ -860,10 +859,9 @@
             ToolStripButton_Invoice_Pdf_F();
         }
     });
-    </sec:authorize>
+    </sec:authorize>--%>
 
-    <sec:authorize access="hasAuthority('O_INVOICE')">
-
+    <%--<sec:authorize access="hasAuthority('O_INVOICE')">
     var ToolStripButton_Invoice_excel = isc.ToolStripButtonPrint.create({
         title: "<spring:message code='global.form.print.excel'/>",
         icon: "icon/excel.png",
@@ -872,9 +870,9 @@
         }
     });
 
-    </sec:authorize>
+    </sec:authorize>--%>
 
-    <sec:authorize access="hasAuthority('O_INVOICE')">
+    <%--<sec:authorize access="hasAuthority('O_INVOICE')">
     var ToolStripButton_Invoice_html = isc.ToolStripButtonPrint.create({
         title: "<spring:message code='global.form.print.html'/>",
         icon: "icon/html.jpg",
@@ -882,7 +880,7 @@
             ToolStripButton_Invoice_Html_F();
         }
     });
-    </sec:authorize>
+    </sec:authorize>--%>
 
     var ToolStripButton_Invoice_Send2Accounting = isc.ToolStripButton.create({
         title: "<spring:message code='invoice.Send2Accounting'/>", icon: "pieces/512/processDefinition.png",
@@ -949,17 +947,17 @@
                         ToolStripButton_Invoice_Remove,*/
                 ToolStripButton_Invoice_Attachment,
                 ToolStripButton_Invoice_Send2Accounting,
-                <sec:authorize access="hasAuthority('O_INVOICE')">
-                ToolStripButton_Invoice_Pdf,
-                </sec:authorize>
+                <%--<sec:authorize access="hasAuthority('O_INVOICE')">--%>
+                <%--ToolStripButton_Invoice_Pdf,--%>
+                <%--</sec:authorize>--%>
 
-                <sec:authorize access="hasAuthority('O_INVOICE')">
-                ToolStripButton_Invoice_excel,
-                </sec:authorize>
+                <%--<sec:authorize access="hasAuthority('O_INVOICE')">--%>
+                <%--ToolStripButton_Invoice_excel,--%>
+                <%--</sec:authorize>--%>
 
-                <sec:authorize access="hasAuthority('O_INVOICE')">
-                ToolStripButton_Invoice_html,
-                </sec:authorize>
+                <%--<sec:authorize access="hasAuthority('O_INVOICE')">--%>
+                <%--ToolStripButton_Invoice_html,--%>
+                <%--</sec:authorize>--%>
 
             ] //Add Print
     });
@@ -979,11 +977,12 @@
             DynamicForm_Invoice.validate();
             if (DynamicForm_Invoice.hasErrors())
                 return;
-            var drs = DynamicForm_Invoice.getValue("invoiceDate");
-            var datestringRs = (drs.getFullYear() + "/" + ("0" + (drs.getMonth() + 1)).slice(-2) + "/" + ("0" + drs.getDate()).slice(-2));
-            DynamicForm_Invoice.setValue("invoiceDate", datestringRs);
+            //var drs = DynamicForm_Invoice.getValue("invoiceDate");
+            //var datestringRs = (drs.getFullYear() + "/" + ("0" + (drs.getMonth() + 1)).slice(-2) + "/" + ("0" + drs.getDate()).slice(-2));
+            //DynamicForm_Invoice.setValue("invoiceDate", datestringRs);
             DynamicForm_Invoice.setValue("shipmentId", ListGrid_Shipment_InvoiceHeader.getSelectedRecord().id);
             var data = DynamicForm_Invoice.getValues();
+            data.invoiceDate=DynamicForm_Invoice.getValues().invoiceDate.toNormalDate("toUSShortDate");
             var method = "PUT";
             if (data.id == null)
                 method = "POST";

@@ -41,6 +41,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import java.io.*;
 import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.util.*;
 
@@ -496,6 +497,11 @@ public class ContractService implements IContractService {
         return SearchUtil.search(contractDAO, criteria, contract -> modelMapper.map(contract, ContractDTO.Info.class));
     }
 
+    @Override
+    public TotalResponse<ContractDTO.InfoForReport> report(NICICOCriteria nicicoCriteria) {
+        return SearchUtil.search(contractDAO, nicicoCriteria, contract -> modelMapper.map(contract, ContractDTO.InfoForReport.class));
+    }
+
 
     private ContractDTO.Info save(Contract contract) {
         final Contract saved = contractDAO.saveAndFlush(contract);
@@ -506,7 +512,7 @@ public class ContractService implements IContractService {
         XWPFDocument doc = new XWPFDocument(in);
         XWPFWordExtractor ex = new XWPFWordExtractor(doc);
         String textAsli = ex.getText();
-        String text = new String(textAsli);
+        String text = textAsli;
         List<String> allArticles = new ArrayList<>();
         int a, b;
         for (int i = 1; i <= 12; i++) {
@@ -726,8 +732,8 @@ public class ContractService implements IContractService {
 
 
     class MyXWPFHtmlDocument extends POIXMLDocumentPart {
-    private String html;
-    private String id;
+        private String html;
+        private final String id;
 
     public MyXWPFHtmlDocument(PackagePart part, String id) throws Exception {
         super(part);
@@ -751,7 +757,7 @@ public class ContractService implements IContractService {
     protected void commit() throws IOException {
         PackagePart part = getPackagePart();
         OutputStream out = part.getOutputStream();
-        Writer writer = new OutputStreamWriter(out, "UTF-8");
+        Writer writer = new OutputStreamWriter(out, StandardCharsets.UTF_8);
         writer.write(html);
         writer.close();
         out.close();

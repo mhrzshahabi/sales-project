@@ -395,7 +395,7 @@ var article8_quality = isc.DynamicForm.create({
                         fullArticle8.setValue("THE QUOTATIONAL PERIOD SHALL BE AVERAGE OF "+" "+article8_quality.getValue("article8_quality1")+" "+" WORKING DAYS FROM "+" "+value+" "+" LME WORKING DAYS PRIOR DATE OF BILL OF LADING TILL "+" "+article8_quality.getValue("article8_quality3")+" "+" LME WORKING DAYS AFTER BILL OF LADING DATA ON FOB BANDAR ABBAS/IRAN BASIS");
                 }
             },{
-                name: "article8_quality3",
+                name: "article8_value",
                 type: "text",
                 showTitle: true,
                 defaultValue: "",
@@ -484,11 +484,10 @@ var article10_quality = isc.DynamicForm.create({
                 pickListWidth: "700",
                 pickListFields: [
                     {name: "paramName", title:"<spring:message code='parameters.paramName'/>", width: "20%", align: "center"},
-                    {name: "paramType", title:"<spring:message code='parameters.paramType'/>", width: "20%", align: "center"},
                     {name: "paramValue", title:"<spring:message code='parameters.paramValue'/>", width: "60%", align: "center"}
                 ],
                 pickListCriteria:{_constructor:'AdvancedCriteria',operator:"and",criteria:[
-                        {fieldName: "contractId", operator: "equals", value: 3},
+                        {fieldName: "contractId", operator: "equals", value: 2},
                         {fieldName:"categoryValue",operator:"equals",value:-2}]
                     },
                 title: "<strong class='cssDynamicForm'>BANK REFERENCE</strong>"
@@ -515,11 +514,10 @@ var article10_quality = isc.DynamicForm.create({
                 pickListWidth: "700",
                 pickListFields: [
                     {name: "paramName", title:"<spring:message code='parameters.paramName'/>", width: "20%", align: "center"},
-                    {name: "paramType", title:"<spring:message code='parameters.paramType'/>", width: "20%", align: "center"},
                     {name: "paramValue", title:"<spring:message code='parameters.paramValue'/>", width: "60%", align: "center"}
                 ],
                 pickListCriteria:{_constructor:'AdvancedCriteria',operator:"and",criteria:[
-                        {fieldName: "contractId", operator: "equals", value: 3},
+                        {fieldName: "contractId", operator: "equals", value: 2},
                         {fieldName:"categoryValue",operator:"equals",value:-2}]
                     },
                 title: "<strong class='cssDynamicForm'>BANK REFERENCE</strong>"

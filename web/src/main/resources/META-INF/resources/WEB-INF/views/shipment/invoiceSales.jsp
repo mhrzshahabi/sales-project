@@ -684,6 +684,7 @@
                 {
                     name: "preInvoiceId",
                     title: "<spring:message code='invoiceSales.preInvoiceId'/>",
+                    keyPressFilter: "[0-9.]"
                 },
                 {
                     name: "preInvoiceDate",
@@ -702,6 +703,7 @@
                     name: "issueId",
                     title: "<spring:message code='invoiceSales.issueId'/>",
                     required: true ,
+                    keyPressFilter: "[0-9.]"
                 },
                 {
                     name: "issueDate",
@@ -1311,6 +1313,7 @@
                     optionDataSource: RestDataSource_MaterialItem_IN_invoiceSales,
                     displayField: "miDetailCode",
                     valueField: "miDetailCode",
+                    required: true,
                     pickListFields: [
                     {
                         name: "miDetailCode"
@@ -1336,6 +1339,7 @@
                     optionDataSource: RestDataSource_Unit_IN_invoiceSales,
                     displayField: "nameFA",
                     valueField: "nameFA",
+                    required: true,
                     pickListFields: [
                     {
                         name: "nameFA"
@@ -1348,11 +1352,27 @@
                 {
                     name: "orderAmount",
                     title: "<spring:message code='invoiceSalesItem.orderAmount'/>",
+                    required: true,
+                    length: "100",
+                    validators: [{
+                        type: "isInteger",
+                        validateOnChange: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }]
                 },
                 {
                     name: "netAmount",
                     title: "<spring:message code='invoiceSalesItem.netAmount'/>",
                     defaultValue: 0,
+                    required: true,
+                    length: "100",
+                    validators: [{
+                        type: "isInteger",
+                        validateOnChange: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }],
                     changed: function (form, item, value) {
                         updatePrice();
                     }
@@ -1361,9 +1381,17 @@
                     name: "unitPrice",
                     title: "<spring:message code='invoiceSalesItem.unitPrice'/>",
                     defaultValue: 0,
+                    required: true,
+                    length: "100",
+                    validators: [{
+                        type: "isInteger",
+                        validateOnChange: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }],
                     changed: function () {
                         updatePrice();
-                    }
+                    },
                 },
                 {
                     name: "linePrice",
@@ -1374,6 +1402,12 @@
                     name: "discount",
                     title: "<spring:message code='invoiceSalesItem.discount'/>",
                     defaultValue: 0,
+                    validators: [{
+                        type: "isInteger",
+                        validateOnChange: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }],
                     changed: function(){
                         updatePrice();
                     }
@@ -1548,6 +1582,7 @@ var ToolStripButton_InvoiceSales_Pdf = isc.ToolStripButtonPrint.create({
                 <%--<sec:authorize access="hasAuthority('D_MATERIAL_ITEM')">--%>
                 ToolStripButton_InvoiceSalesItem_Remove,
                 <%--</sec:authorize>--%>
+                ToolStripButton_InvoiceSales_Pdf,
 
                 isc.ToolStrip.create({
                     width: "100%",
@@ -1836,8 +1871,8 @@ var ToolStripButton_InvoiceSales_Pdf = isc.ToolStripButtonPrint.create({
         width: "100%",
         height: "100%",
         members: [
-            HLayout_InvoiceSalesItem_Actions,
-            HLayout_InvoiceSalesItem_Grid
+            HLayout_InvoiceSalesItem_Grid,
+            HLayout_InvoiceSalesItem_Actions
         ]
     });
 

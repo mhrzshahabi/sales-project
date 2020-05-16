@@ -5,6 +5,7 @@ import com.nicico.sales.dto.PortDTO;
 import com.nicico.sales.dto.ShipmentDTO;
 import com.nicico.sales.iservice.IShipmentService;
 import com.nicico.sales.model.entities.base.Port;
+import com.nicico.sales.model.entities.base.Shipment;
 import lombok.RequiredArgsConstructor;
 import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -100,7 +101,7 @@ public class ShipmentFormController {
         String shiptype = shipment.getShipmentType();
 
 
-        if (description.toLowerCase().contains("cathods") ) {
+        if (description.toLowerCase().contains("cathod") ) {
             if (shiptype.contains("bulk")) {
 
                 stream = new ClassPathResource("reports/word/Ship_Cat_bulk.docx").getInputStream();
@@ -219,16 +220,17 @@ public class ShipmentFormController {
                 replacePOI(doc, "unitNameFa", shipment.getMaterial().getUnit().getNameFA());
                 replacePOI(doc, "descp", shipment.getMaterial().getDescp());
                 replacePOI(doc, "month", shipment.getMonth());
+                replacePOI(doc, "year", shipment.getContractShipment().getSendDate().substring(0,4));
                 replacePOI(doc, "contract_no", shipment.getContract().getContractNo());
                 replacePOI(doc, "agent", shipment.getContactByAgent().getNameFA());
-                replacePOI(doc, "tolorance", "-/+" + shipment.getContractShipment().getTolorance().toString() + "%");
-                replacePOI(doc, "containerType", shipment.getContainerType() + " فوت ");
+//                replacePOI(doc, "tolorance", "-/+" + shipment.getContractShipment().getTolorance().toString() + "%");
+                replacePOI(doc, "containerType", shipment.getContainerType());
                 replacePOI(doc, "buyer", shipment.getContact().getNameEN());
-                replacePOI(doc, "company", shipment.getContactByAgent().getNameEN());
 
-
-                String[] portw = shipment.getPortByDischarge().getPort().split(",");
-                replacePOI(doc, "comp", "به مقصد بندر " + portw[0] + "در کشور " + portw[1]);
+//                String[] portw = shipment.getPortByDischarge().getPort().split(",");
+                replacePOI(doc, "disport", shipment.getPortByDischarge().getPort());
+                replacePOI(doc, "country", shipment.getPortByDischarge().getCountry().getNameFa());
+//                replacePOI(doc, "comp", "به مقصد بندر " + portw[0] + "در کشور " + portw[1]);
 
 
                 String shipId = shipment.getContract().getId();
