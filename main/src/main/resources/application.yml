@@ -13,7 +13,7 @@ spring:
       hibernate:
         enable_lazy_load_no_trans: true
         dialect: com.nicico.copper.common.hibernate.CustomOracleDialect
-        enable_lazy_load_no_trans: true
+#        enable_lazy_load_no_trans: true
         format_sql: true
         hbm2ddl:
           schema_filter_provider: com.nicico.copper.common.hibernate.CustomSchemaFilterProvider

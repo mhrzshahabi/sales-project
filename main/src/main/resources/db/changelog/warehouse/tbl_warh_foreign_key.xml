@@ -25,11 +25,11 @@
                                  initiallyDeferred="false" referencedColumnNames="id"
                                  referencedTableName="TBL_WARH_INVENTORY" validate="true"/>
     </changeSet>
-    <changeSet author="saeb (generated)" id="1587971310555-257">
-        <addForeignKeyConstraint baseColumnNames="F_DEFAULT_UNIT_ID" baseTableName="TBL_WARH_ITEM"
-                                 constraintName="fk_item2unitByunitId" deferrable="false" initiallyDeferred="false"
-                                 referencedColumnNames="ID" referencedTableName="TBL_UNIT" validate="true"/>
-    </changeSet>
+    <!--    <changeSet author="saeb (generated)" id="1587971310555-257">-->
+    <!--        <addForeignKeyConstraint baseColumnNames="F_DEFAULT_UNIT_ID" baseTableName="TBL_WARH_ITEM"-->
+    <!--                                 constraintName="fk_item2unitByunitId" deferrable="false" initiallyDeferred="false"-->
+    <!--                                 referencedColumnNames="ID" referencedTableName="TBL_UNIT" validate="true"/>-->
+    <!--    </changeSet>-->
     <changeSet author="saeb (generated)" id="1587971310555-252">
         <addForeignKeyConstraint baseColumnNames="F_ITEM_RAW_MATERIAL_ID"
                                  baseTableName="TBL_WARH_REMITTANCE_DETAIL_RAW_MATERIAL_VALUE"
@@ -55,12 +55,12 @@
                                  deferrable="false" initiallyDeferred="false" referencedColumnNames="id"
                                  referencedTableName="TBL_WARH_REMITTANCE_DETAIL" validate="true"/>
     </changeSet>
-    <changeSet author="saeb (generated)" id="1587971310555-256">
-        <addForeignKeyConstraint baseColumnNames="F_UNIT_ID" baseTableName="TBL_WARH_INVENTORY_VALUE"
-                                 constraintName="fk_inventoryValue2unitByUnitId" deferrable="false"
-                                 initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_UNIT"
-                                 validate="true"/>
-    </changeSet>
+    <!--    <changeSet author="saeb (generated)" id="1587971310555-256">-->
+    <!--        <addForeignKeyConstraint baseColumnNames="F_UNIT_ID" baseTableName="TBL_WARH_INVENTORY_VALUE"-->
+    <!--                                 constraintName="fk_inventoryValue2unitByUnitId" deferrable="false"-->
+    <!--                                 initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_UNIT"-->
+    <!--                                 validate="true"/>-->
+    <!--    </changeSet>-->
     <changeSet author="saeb (generated)" id="1587971310555-260">
         <addForeignKeyConstraint baseColumnNames="F_SHIPMENT_TYPE_ID" baseTableName="TBL_WARH_REMITTANCE"
                                  constraintName="fk_remittance2ShipmentTypeByShipmentTypeId" deferrable="false"
@@ -79,13 +79,13 @@
     <!--    <changeSet author="saeb (generated)" id="1587974005497-260">-->
     <!--        <addForeignKeyConstraint baseColumnNames="F_SHIPMENT_TYPE_ID" baseTableName="TBL_WARH_REMITTANCE" constraintName="fk_remittance2ShipmentTypeByShipmentTypeId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_WARH_SHIPMENT_TYPE" validate="true"/>-->
     <!--    </changeSet>-->
-    <changeSet author="saeb (generated)" id="1587971310555-251">
-        <addForeignKeyConstraint baseColumnNames="F_CONTACT_ID"
-                                 baseTableName="TBL_WARH_REMITTANCE_DETAIL_RAW_MATERIAL_VALUE"
-                                 constraintName="fk_inventoryRawMaterialValue2contactByContactId" deferrable="false"
-                                 initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_CONTACT"
-                                 validate="true"/>
-    </changeSet>
+    <!--    <changeSet author="saeb (generated)" id="1587971310555-251">-->
+    <!--        <addForeignKeyConstraint baseColumnNames="F_CONTACT_ID"-->
+    <!--                                 baseTableName="TBL_WARH_REMITTANCE_DETAIL_RAW_MATERIAL_VALUE"-->
+    <!--                                 constraintName="fk_inventoryRawMaterialValue2contactByContactId" deferrable="false"-->
+    <!--                                 initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_CONTACT"-->
+    <!--                                 validate="true"/>-->
+    <!--    </changeSet>-->
     <changeSet author="saeb (generated)" id="1587971310555-253">
         <addForeignKeyConstraint baseColumnNames="F_REMITTANCE_DETAIL_ID"
                                  baseTableName="TBL_WARH_REMITTANCE_DETAIL_RAW_MATERIAL_VALUE"
@@ -93,25 +93,25 @@
                                  deferrable="false" initiallyDeferred="false" referencedColumnNames="id"
                                  referencedTableName="TBL_WARH_REMITTANCE_DETAIL" validate="true"/>
     </changeSet>
-    <changeSet author="saeb (generated)" id="1587971310555-254">
-        <addForeignKeyConstraint baseColumnNames="F_UNIT_ID"
-                                 baseTableName="TBL_WARH_REMITTANCE_DETAIL_RAW_MATERIAL_VALUE"
-                                 constraintName="fk_inventoryRawMaterialValue2unitByUnitId" deferrable="false"
-                                 initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_UNIT"
-                                 validate="true"/>
-    </changeSet>
+    <!--    <changeSet author="saeb (generated)" id="1587971310555-254">-->
+    <!--        <addForeignKeyConstraint baseColumnNames="F_UNIT_ID"-->
+    <!--                                 baseTableName="TBL_WARH_REMITTANCE_DETAIL_RAW_MATERIAL_VALUE"-->
+    <!--                                 constraintName="fk_inventoryRawMaterialValue2unitByUnitId" deferrable="false"-->
+    <!--                                 initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_UNIT"-->
+    <!--                                 validate="true"/>-->
+    <!--    </changeSet>-->
     <changeSet author="saeb (generated)" id="1587971310555-266">
         <addForeignKeyConstraint baseColumnNames="F_REMITTANCE_ID" baseTableName="TBL_WARH_REMITTANCE_DETAIL"
                                  constraintName="fk_remittanceDetail2remittanceByRemittanceId" deferrable="false"
                                  initiallyDeferred="false" referencedColumnNames="id"
                                  referencedTableName="TBL_WARH_REMITTANCE" validate="true"/>
     </changeSet>
-    <changeSet author="saeb (generated)" id="1587971310555-267">
-        <addForeignKeyConstraint baseColumnNames="F_UNIT_ID" baseTableName="TBL_WARH_REMITTANCE_DETAIL"
-                                 constraintName="fk_remittanceDetail2unityUnitId" deferrable="false"
-                                 initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_UNIT"
-                                 validate="true"/>
-    </changeSet>
+    <!--    <changeSet author="saeb (generated)" id="1587971310555-267">-->
+    <!--        <addForeignKeyConstraint baseColumnNames="F_UNIT_ID" baseTableName="TBL_WARH_REMITTANCE_DETAIL"-->
+    <!--                                 constraintName="fk_remittanceDetail2unityUnitId" deferrable="false"-->
+    <!--                                 initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_UNIT"-->
+    <!--                                 validate="true"/>-->
+    <!--    </changeSet>-->
     <changeSet author="saeb (generated)" id="1587971310555-268">
         <addForeignKeyConstraint baseColumnNames="F_REMITTANCE_ID" baseTableName="TBL_WARH_REMITTANCE_TOZIN"
                                  constraintName="fk_remittance_tozinl2remittanceByRemittanceId" deferrable="false"
