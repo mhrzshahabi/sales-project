@@ -51,7 +51,7 @@ function contractReport() {
                     contract.shipments.forEach(
                         shipment => {
                             shipment['contract'] = contract
-                            shipment['year'] = shipment['swBlDate'].substring(0, 4);
+                            shipment['year'] = shipment['blDate'].substring(0, 4);
                             crTab.shipment.all.add(shipment)
                             if (crTab.shipment.byYear[shipment['year']] === undefined ||
                                 crTab.shipment.byYear[shipment['year']] === null) {
