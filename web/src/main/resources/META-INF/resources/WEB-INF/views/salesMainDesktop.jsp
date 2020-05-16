@@ -729,7 +729,7 @@
     settingTab = isc.ToolStripMenuButton.create({
         title: "&nbsp; <spring:message code='main.settingTab'/>",
         click: function () {
-            createTab("مدیریت کاربران", "<spring:url value="web/oauth/landing/show-form" />", false);
+            createTab("<spring:message code='main.settingTab'/>", "<spring:url value="web/oauth/landing/show-form" />", false);
         }
     });
 
@@ -894,6 +894,14 @@
         })
     });
 
+    //-----------------------reporttab
+    reportTab = isc.ToolStripMenuButton.create({
+        title: "&nbsp; <spring:message code='main.reportTab'/>",
+            click: function () {
+                createTab("<spring:message code='main.reportTab'/>", "<spring:url value="/contract/show-report-form" />")
+            }
+    })
+
 
     /*----------------------productTab------------------------*/
     productTab = isc.ToolStripMenuButton.create({
@@ -930,12 +938,7 @@
                     }
                 },
                 {isSeparator: true},
-                {
-                    title: "<spring:message code='warehouseStock'/>",
-                    click: function () {
-                        createTab("باقر<spring:message code='warehouseStock'/>", "<spring:url value="/remittance/showForm" />")
-                    }
-                }
+
             ]
         })
     });
@@ -970,12 +973,7 @@
                         createTab("<spring:message code='invoiceSales.title'/>", "<spring:url value="/invoiceSales/showForm" />")
                     }
                 },
-                {
-                    title: "<spring:message code='invoiceSales.title'/>",
-                    click: function () {
-                        createTab("<spring:message code='invoiceSales.title'/>", "<spring:url value="/invoice-export/showForm" />")
-                    }
-                }
+
             ]
         })
     });
@@ -1022,6 +1020,7 @@
             financialTab,
             // inspectionTab,
             productTab,
+            reportTab,
             settingTab,
         ]
     });

@@ -112,4 +112,13 @@ public class ShipmentDTO {
         @ApiModelProperty(required = true)
         private List<Long> ids;
     }
+
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("ShipmentInfoWithContract")
+    public static class InfoWithInvoice extends ShipmentDTO {
+        private List<InvoiceDTO.Info> invoices;
+    }
+
 }

@@ -89,7 +89,9 @@
                  })
             var dataSaveAndUpdateContractConc = {};
             var dataSaveAndUpdateContractConcDetail = {};
-            contactHeaderConc.validate();
+            if(!contactHeaderConc.validate()){
+               return
+            };
             valuesManagerArticle5_DeliveryTermsConc.validate();
             if (valuesManagerArticle5_DeliveryTermsConc.hasErrors()) {
                 contactConcTabs.selectTab(1);

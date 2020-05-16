@@ -1,8 +1,6 @@
 package com.nicico.sales.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.nicico.sales.model.entities.base.ContractDetail;
-import com.nicico.sales.model.entities.base.ContractShipment;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -12,7 +10,6 @@ import lombok.experimental.Accessors;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -136,4 +133,28 @@ public class ContractDTO {
         @ApiModelProperty(required = true)
         private List<Long> ids;
     }
+
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("ContractInfo")
+    public static class InfoForReport extends ContractDTO {
+        private UnitDTO unit;
+        private MaterialDTO material;
+        private Long id;
+        private ContactDTO contact;
+        private List<ShipmentDTO.InfoWithInvoice> shipments;
+        private String year;
+
+        public String getYear() {
+            final String contractDate = this.getContractDate();
+            try {
+                System.out.printf("%s", this.id);
+                return contractDate.substring(contractDate.length() - 4);
+            } catch (Exception e) {
+                return "2020";
+            }
+        }
+    }
+
 }

@@ -365,7 +365,7 @@
             {name: "contractDate", hidden: true,},
             {
                 name: "createDate",
-                title: "<spring:message code='contact.date'/>",
+                title: "<spring:message code='shipment.createDate'/>",
                 type: "date",
                 required: true,
                 validators: [
@@ -703,7 +703,6 @@
                 name: "vesselId",
                 colSpan: 4,
                 title: "<spring:message code='vessel.name'/>",
-                required: true,
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_VesselInShipment,
                 type: 'long',
@@ -720,12 +719,7 @@
                         name: "name",
                     },
                     {
-                        name: "type"}],
-                validators: [
-                {
-                    type:"required",
-                    validateOnChange: true
-                }]
+                        name: "type"}]
             },
             {type: "Header", defaultValue: dash},
             {

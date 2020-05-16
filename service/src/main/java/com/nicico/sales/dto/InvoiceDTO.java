@@ -82,4 +82,5 @@ public class InvoiceDTO {
         @ApiModelProperty(required = true)
         private List<Long> ids;
     }
+
 }
