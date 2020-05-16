@@ -58,28 +58,6 @@
         ListGrid_WarehouseStock.invalidateCache();
     }
 
-    var DynamicForm_WarehouseStock_Tozin = isc.DynamicForm.create({
-        showIf: false,
-        width: "200",
-        wrapItemTitles: false,
-        height: "100%",
-        action: "report/printDailyReportBandarAbbas",
-        target: "_Blank",
-        titleWidth: "200",
-        numCols: 4,
-        fields: [{
-            name: "toDay",
-            title: "",
-            type: 'date',
-            align: "center",
-            width: 150,
-            colSpan: 1,
-            titleColSpan: 1,
-            format: 'YYYY/MM/DD',
-            defaultValue: "2019/12/01",
-        },]
-    });
-
     var Menu_ListGrid_WarehouseStock = isc.Menu.create({
         width: 150,
         data: [
@@ -137,11 +115,11 @@
         title: "<spring:message code='WarehouseStock.Reportoncommitmentsleadingupto'/>",
         visibility: "hidden",
         click: function () {
-            var drs = DynamicForm_WarehouseStock_Tozin.getValue("toDay");
-            var datestringRs = (drs.getFullYear() + "/" + ("0" + (drs.getMonth() + 1)).slice(-2) + "/" + ("0" + drs.getDate()).slice(-2));
-            var toDay = datestringRs.replaceAll("/", "");
-            "<spring:url value="/warehouseStock/print-commitment" var="printUrl"/>";
-            window.open('${printUrl}' + '/' + toDay);
+            // var drs = DynamicForm_WarehouseStock_Tozin.getValue("toDay");
+            // var datestringRs = (drs.getFullYear() + "/" + ("0" + (drs.getMonth() + 1)).slice(-2) + "/" + ("0" + drs.getDate()).slice(-2));
+            // var toDay = datestringRs.replaceAll("/", "");
+            <%--"<spring:url value="/warehouseStock/print-commitment" var="printUrl"/>";--%>
+            <%--window.open('${printUrl}' + '/' + toDay);--%>
         }
     });
     </sec:authorize>
@@ -331,7 +309,7 @@
                 ToolStripButton_WarehouseStock_Print,
                 </sec:authorize>
 
-                DynamicForm_WarehouseStock_Tozin,
+                // DynamicForm_WarehouseStock_Tozin,
 
                 isc.ToolStrip.create({
                     width: "100%",
