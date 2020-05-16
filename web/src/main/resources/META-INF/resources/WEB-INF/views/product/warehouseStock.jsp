@@ -134,6 +134,7 @@
     <sec:authorize access="hasAuthority('O_WAREHOUSE_STOCK')">
     var ToolStripButton_WarehouseStock_Print = isc.ToolStripButtonPrint.create({
         title: "<spring:message code='WarehouseStock.Reportoncommitmentsleadingupto'/>",
+        visibility: "hidden",
         click: function () {
             var drs = DynamicForm_WarehouseStock_Tozin.getValue("toDay");
             var datestringRs = (drs.getFullYear() + "/" + ("0" + (drs.getMonth() + 1)).slice(-2) + "/" + ("0" + drs.getDate()).slice(-2));

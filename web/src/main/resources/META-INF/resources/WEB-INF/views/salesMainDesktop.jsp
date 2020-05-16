@@ -771,7 +771,7 @@
                 },
 
 
-                <sec:authorize access="hasAnyAuthority('R_CONTRACT2')">
+                <%--<sec:authorize access="hasAnyAuthority('R_CONTRACT2')">
                 {isSeparator: true},
                 {
                     title: "<spring:message code='entity.contract'/>",
@@ -851,7 +851,7 @@
                         createTab("<spring:message code='entity.term'/>", "<spring:url value="/term/show-form" />")
                     }
                 },
-                </sec:authorize>
+                </sec:authorize>--%>
 
 
                 /*{
