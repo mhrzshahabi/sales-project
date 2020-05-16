@@ -51,7 +51,7 @@ function contractReport() {
                     contract.shipments.forEach(
                         shipment => {
                             shipment['contract'] = contract
-                            shipment['year'] = shipment['swBlDate'].substring(0, 4);
+                            shipment['year'] = shipment['blDate'].substring(0, 4);
                             crTab.shipment.all.add(shipment)
                             if (crTab.shipment.byYear[shipment['year']] === undefined ||
                                 crTab.shipment.byYear[shipment['year']] === null) {
@@ -267,6 +267,7 @@ function contractReport() {
                                                 })
                                             }),
                                             isc.DynamicForm.create({
+                                                ID: "DynamicForm_DailyReport_Tozin",
                                                 width: "200",
                                                 wrapItemTitles: false,
                                                 // height: "100%",
@@ -336,9 +337,26 @@ function contractReport() {
                                             )
                                         }
                                     })
-                                    return sum;
+                                    sum = sum / Math.pow(10, 6)
+                                    return (Math.round(sum * 100)) / 100;
                                 }
-                            }
+                            },
+                            {
+                                name: "وزن",
+                                formatCellValue(value, record, rowNum, colNum, grid) {
+                                    if (record.shipments.length === 0) return 0;
+                                    sum = 0;
+                                    record.shipments.forEach(shipment => {
+                                        if (shipment.invoices.length != 0) {
+                                            shipment.invoices.forEach(
+                                                invoice => sum = sum + Number(invoice.gross)
+                                            )
+                                        }
+                                    })
+                                    return (Math.round(sum * 100)) / 100
+                                }
+                            },
+
                         ]
 
                     })

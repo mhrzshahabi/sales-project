@@ -684,6 +684,7 @@
                 {
                     name: "preInvoiceId",
                     title: "<spring:message code='invoiceSales.preInvoiceId'/>",
+                    keyPressFilter: "[0-9.]"
                 },
                 {
                     name: "preInvoiceDate",
@@ -702,6 +703,7 @@
                     name: "issueId",
                     title: "<spring:message code='invoiceSales.issueId'/>",
                     required: true ,
+                    keyPressFilter: "[0-9.]"
                 },
                 {
                     name: "issueDate",
@@ -1351,12 +1353,26 @@
                     name: "orderAmount",
                     title: "<spring:message code='invoiceSalesItem.orderAmount'/>",
                     required: true,
+                    length: "100",
+                    validators: [{
+                        type: "isInteger",
+                        validateOnChange: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }]
                 },
                 {
                     name: "netAmount",
                     title: "<spring:message code='invoiceSalesItem.netAmount'/>",
                     defaultValue: 0,
                     required: true,
+                    length: "100",
+                    validators: [{
+                        type: "isInteger",
+                        validateOnChange: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }],
                     changed: function (form, item, value) {
                         updatePrice();
                     }
@@ -1366,9 +1382,16 @@
                     title: "<spring:message code='invoiceSalesItem.unitPrice'/>",
                     defaultValue: 0,
                     required: true,
+                    length: "100",
+                    validators: [{
+                        type: "isInteger",
+                        validateOnChange: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }],
                     changed: function () {
                         updatePrice();
-                    }
+                    },
                 },
                 {
                     name: "linePrice",
@@ -1379,6 +1402,12 @@
                     name: "discount",
                     title: "<spring:message code='invoiceSalesItem.discount'/>",
                     defaultValue: 0,
+                    validators: [{
+                        type: "isInteger",
+                        validateOnChange: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }],
                     changed: function(){
                         updatePrice();
                     }
