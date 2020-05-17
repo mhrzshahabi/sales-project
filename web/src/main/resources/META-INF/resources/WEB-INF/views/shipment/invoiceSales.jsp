@@ -1292,7 +1292,7 @@
     });
 
     var DynamicForm_InvoiceSalesItem = isc.DynamicForm.create({
-        width: 500,
+        width: 700,
         height: "100%",
         titleWidth: "100",
         requiredMessage: "<spring:message code='validator.field.is.required'/>",
@@ -1314,6 +1314,11 @@
                     displayField: "miDetailCode",
                     valueField: "miDetailCode",
                     required: true,
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }],
                     pickListFields: [
                     {
                         name: "miDetailCode"
@@ -1340,6 +1345,11 @@
                     displayField: "nameFA",
                     valueField: "nameFA",
                     required: true,
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }],
                     pickListFields: [
                     {
                         name: "nameFA"
@@ -1347,7 +1357,7 @@
                     {
                         name: "nameEN"
                     }
-                    ],
+                    ]
                 },
                 {
                     name: "orderAmount",
@@ -1506,20 +1516,6 @@
                     }
                 });
             } else {
-                // switch (year) {
-                //     case 2018:
-                //         DynamicForm_InvoiceSalesItem.setValue("legalFees", 201911);
-                //         DynamicForm_InvoiceSalesItem.setValue("vat", 201922);
-                //         break;
-                //     case 2019:
-                //         DynamicForm_InvoiceSalesItem.setValue("legalFees", 201911);
-                //         DynamicForm_InvoiceSalesItem.setValue("vat", 201922);
-                //         break;
-                //     case 2020:
-                //         DynamicForm_InvoiceSalesItem.setValue("legalFees", 202011);
-                //         DynamicForm_InvoiceSalesItem.setValue("vat", 202022);
-                //         break;
-                // }
                 DynamicForm_InvoiceSalesItem.clearValues();
                 DynamicForm_InvoiceSalesItem.setValue("invoiceSalesId", record.id);
                 Window_InvoiceSalesItem.show();
@@ -1679,7 +1675,7 @@ var ToolStripButton_InvoiceSales_Pdf = isc.ToolStripButtonPrint.create({
 
     var Window_InvoiceSalesItem = isc.Window.create({
         title: "<spring:message code='invoiceSalesItem.title'/> ",
-        width: 580,
+        width: 700,
         autoSize: true,
         autoCenter: true,
         isModal: true,
