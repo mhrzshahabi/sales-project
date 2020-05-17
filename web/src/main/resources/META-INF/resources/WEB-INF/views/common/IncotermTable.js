@@ -1,10 +1,4 @@
-var incotermTableTab = {};
-incotermTableTab.window = {};
-incotermTableTab.method = {};
-incotermTableTab.variable = {};
-incotermTableTab.listGrid = {};
-incotermTableTab.dynamicForm = {};
-incotermTableTab.restDataSource = {};
+var incotermTableTab = new nicico.GeneralTabUtil().getDefaultJSPTabVariable();
 
 //******************************************************* VARIABLES *************************************************-**
 
@@ -348,14 +342,50 @@ incotermTableTab.window.incoterm = isc.Window.nicico.getDefault(null, [
                 }
 
                 let formUtil = new FormUtil();
-                formUtil.validate = function (data) {
-
-                };
                 formUtil.okCallBack = function (data) {
+
+                    let hasError = false;
+                    let grid = this.bodyWidth.getObject();
+                    for (let i = 0; i < grid.rules.length; i++)
+                        for (let j = 1; j < grid.getFields().length; j++) {
+
+                            let dynamicFormComponents = grid.getRecordComponent(i, j).members[0].members;
+                            for (let k = 0; k < dynamicFormComponents.length; k++) {
+
+                                dynamicFormComponents[k].validate();
+                                if (dynamicFormComponents[k].hasErrors()) // {
+
+                                    hasError = true;
+                                    // continue;
+                                // }
+                                // data.incotermDetails.add(dynamicFormComponents.getValues());
+                            }
+                        }
+
+                    if (hasError)
+                        return;
+
+                    isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+                        actionURL: incotermTableTab.variable.url,
+                        httpMethod: incotermTableTab.variable.method,
+                        data: JSON.stringify(data),
+                        callback: function (resp) {
+
+                            if (resp.httpResponseCode === 201 || resp.httpResponseCode === 200) {
+                                incotermTableTab.dialog.ok();
+                                incotermTableTab.method.callback();
+                            } else
+                                incotermTableTab.dialog.error(resp);
+                        }
+                    }));
 
                 };
                 formUtil.populateData = function (body) {
 
+                    return {
+                        incoterm: body.incoterm,
+                        incotermDetails: body.data
+                    };
                 };
                 formUtil.showForm(incotermTableTab.window.incoterm, null, isc.IncotermTable.create({
                         data: records,
@@ -363,12 +393,13 @@ incotermTableTab.window.incoterm = isc.Window.nicico.getDefault(null, [
                         rules: rules,
                         aspects: aspects,
                         parties: data,
-                        incoterm: incotermTableTab.dynamicForm.incoterm.getValues()
+                        incoterm: incotermTableTab.dynamicForm.incoterm.getValues(),
+                        newMode: incotermTableTab.variable.dataForEdit == null
                     })
                 );
-            });
 
-            incotermTableTab.variable.dataForEdit = null;
+                incotermTableTab.variable.dataForEdit = null;
+            });
         }
     }),
 ], "75%");
@@ -380,6 +411,7 @@ isc.IncotermTable.addProperties({
     aspects: [],
     parties: [],
     incoterm: {},
+    newMode: true,
     width: 600,
     height: 224,
     canResizeFields: false,
@@ -505,43 +537,7 @@ isc.IncotermTable.addProperties({
                         layoutAlign: "center",
                         src: "pieces/16/icon_edit.png",
                         click: function () {
-/*
 
-
-let data = {
-                                incoterm: This.incoterm,
-                                incotermDetails: []
-                            }
-                            let hasError = false;
-                            let fields = This.getFields();
-                            for (let i = 0; i < This.rules.length; i++)
-                                for (let j = 1; j < fields.length; j++) {
-
-                                let dynamicFormComponents = This.getRecordComponent(i, j).members[0].members;
-                                for (let k = 0; k < dynamicFormComponents.length; k++) {
-
-                                    dynamicFormComponents[k].validate();
-                                    if (dynamicFormComponents[k].hasErrors()) {
-
-                                        hasError = true;
-                                        continue;
-                                    }
-                                    data.incotermDetails.add(dynamicFormComponents.getValues());
-                                }
-                            }
-
-                            let rpcRequest = {};
-                            rpcRequest.data = JSON.stringify(data);
-                            rpcRequest.actionURL = incotermTableTab.variable.url + ;
-                            This.method.jsonRPCManagerRequest(rpcRequest, function (response) {
-                                var win = form.getParentElements().last();
-                                This.method.refresh(grid);
-                                win.close();
-                                if (saveActionHook != null)
-                                    saveActionHook(response);
-                            }, errorActionHook);
-
-*/
                             // TODO
                         }
                     })
@@ -553,8 +549,9 @@ let data = {
     }
 });
 
-incotermTableTab.method.add = function () {
+incotermTableTab.method.add = function (callback) {
 
+    incotermTableTab.method.callback = callback;
     incotermTableTab.variable.method = "POST";
     incotermTableTab.dynamicForm.incoterm.clearValues();
     incotermTableTab.listGrid.incotermStep.deselectAllRecords();
@@ -564,8 +561,9 @@ incotermTableTab.method.add = function () {
     incotermTableTab.window.incoterm.setTitle("<spring:message code='incoterm.window.title.add'/>");
     incotermTableTab.window.incoterm.show();
 };
-incotermTableTab.method.edit = function (data) {
+incotermTableTab.method.edit = function (data, callback) {
 
+    incotermTableTab.method.callback = callback;
     incotermTableTab.variable.method = "PUT";
     incotermTableTab.variable.dataForEdit = data.incotermDetails;
     incotermTableTab.dynamicForm.incoterm.editRecord(data.incoterm);

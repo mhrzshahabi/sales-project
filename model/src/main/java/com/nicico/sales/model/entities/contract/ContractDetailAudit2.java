@@ -25,7 +25,7 @@ public class ContractDetailAudit2 extends BaseEntity {
     @Column(name = "REVTYPE")
     private Long revType;
 
-    @Column(name = "C_CONTENT", columnDefinition="TEXT")
+    @Column(name = "C_CONTENT", columnDefinition = "TEXT")
     private String content;
 
     @NotAudited

@@ -29,7 +29,7 @@ public class ContractDetail2 extends BaseEntity {
     @SequenceGenerator(name = "SEQ_CNTR_CONTRACT_DETAIL", sequenceName = "SEQ_CNTR_CONTRACT_DETAIL", allocationSize = 1)
     private Long id;
 
-    @Column(name = "C_CONTENT", columnDefinition="TEXT")
+    @Column(name = "C_CONTENT", columnDefinition = "TEXT")
     private String content;
 
     @NotAudited

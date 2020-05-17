@@ -40,8 +40,7 @@ nicico.BasicFormUtil.getDefaultBasicForm(incotermTab, "api/g-incoterm/");
 
 incotermTab.method.newForm = function () {
 
-    incotermTableTab.method.add();
-    incotermTab.method.refresh(incotermTab.listGrid.main);
+    incotermTableTab.method.add(() => incotermTab.method.refresh(incotermTab.listGrid.main));
 };
 incotermTab.method.editForm = function () {
 
@@ -53,11 +52,10 @@ incotermTab.method.editForm = function () {
     else {
         incotermTab.method.jsonRPCManagerRequest({
 
-            method: "GET",
-            url: incotermTab.variable.url + "/pack/" + record.id
-        }, (response) => {
-            incotermTableTab.method.edit(JSON.parse(response.httpResponseText));
-            incotermTab.method.refresh(incotermTab.listGrid.main);
-        });
+                method: "GET",
+                url: incotermTab.variable.url + "/pack/" + record.id
+            },
+            response => incotermTableTab.method.edit(JSON.parse(response.httpResponseText),
+                () => incotermTab.method.refresh(incotermTab.listGrid.main)));
     }
 };
