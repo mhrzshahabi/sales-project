@@ -16,19 +16,19 @@ import java.util.List;
 @Setter
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class IncotermRulesDTO {
+public class IncotermPartiesDTO {
 
-    private Long incotermId;
-    private Long incotermRuleId;
+    private Double portion;
+    private Long incotermPartyId;
+    private Long incotermDetailId;
 
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("IncotermRulesInfo")
-    public static class Info extends IncotermRulesDTO {
+    @ApiModel("IncotermPartiesInfo")
+    public static class Info extends IncotermPartiesDTO {
 
         private Long id;
-        private IncotermRuleDTO.Info incotermRule;
 
         // Auditing
         private Date createdDate;
@@ -45,15 +45,15 @@ public class IncotermRulesDTO {
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("IncotermRulesCreateRq")
-    public static class Create extends IncotermRulesDTO {
+    @ApiModel("IncotermPartiesCreateRq")
+    public static class Create extends IncotermPartiesDTO {
     }
 
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("IncotermRulesUpdateRq")
-    public static class Update extends IncotermRulesDTO {
+    @ApiModel("IncotermPartiesUpdateRq")
+    public static class Update extends IncotermPartiesDTO {
 
         @NotNull
         @ApiModelProperty(required = true)
@@ -63,7 +63,7 @@ public class IncotermRulesDTO {
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("IncotermRulesDeleteRq")
+    @ApiModel("IncotermPartiesDeleteRq")
     public static class Delete {
 
         @NotNull

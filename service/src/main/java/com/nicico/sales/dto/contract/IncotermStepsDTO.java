@@ -1,19 +1,15 @@
 package com.nicico.sales.dto.contract;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.nicico.sales.dto.MaterialDTO;
 import com.nicico.sales.model.enumeration.EStatus;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
-import javax.persistence.Column;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
-import java.util.EnumSet;
 import java.util.List;
 
 @Getter
@@ -32,6 +28,7 @@ public class IncotermStepsDTO {
     public static class Info extends IncotermStepsDTO {
 
         private Long id;
+        private IncotermStepDTO.Info incotermStep;
 
         // Auditing
         private Date createdDate;

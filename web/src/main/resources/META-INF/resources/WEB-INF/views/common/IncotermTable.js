@@ -13,7 +13,7 @@ incotermTableTab.variable.incotermAspectUrl = "${contextPath}" + "/api/incoterm-
 //***************************************************** RESTDATASOURCE *************************************************
 
 incotermTableTab.restDataSource.term = isc.MyRestDataSource.create({
-    fields: [
+    fields: BaseFormItems.concat([
         {
             name: "id",
             hidden: true,
@@ -30,52 +30,51 @@ incotermTableTab.restDataSource.term = isc.MyRestDataSource.create({
             name: "titleEn",
             title: "<spring:message code='global.title-en'/>"
         }
-    ],
+    ]),
     fetchDataURL: incotermTableTab.variable.termUrl + "spec-list"
 });
 incotermTableTab.restDataSource.incotermStep = isc.MyRestDataSource.create({
-    fields: [
+    fields: BaseFormItems.concat([
         {
-            name: "id",
-            hidden: true,
-            primaryKey: true,
-            title: "<spring:message code='global.id'/>"
-        }, {
             name: "code",
+            showHover: true,
             title: "<spring:message code='global.code'/>"
-        }, {
+        },
+        {
             name: "titleFa",
-            title: "<spring:message code='global.title-fa'/>",
-        }, {
+            showHover: true,
+            title: "<spring:message code='global.title-fa'/>"
+        },
+        {
             name: "titleEn",
+            showHover: true,
             title: "<spring:message code='global.title-en'/>"
         }
-    ],
+    ]),
     fetchDataURL: incotermTableTab.variable.incotermStepUrl + "spec-list"
 });
 incotermTableTab.restDataSource.incotermRule = isc.MyRestDataSource.create({
-    fields: [
-        {
-            name: "id",
-            hidden: true,
-            primaryKey: true,
-            title: "<spring:message code='global.id'/>"
-        },
+    fields: BaseFormItems.concat([
         {
             name: "code",
+            showHover: true,
             title: "<spring:message code='global.code'/>"
-        }, {
+        },
+        {
             name: "titleFa",
-            title: "<spring:message code='global.title-fa'/>",
-        }, {
+            showHover: true,
+            title: "<spring:message code='global.title-fa'/>"
+        },
+        {
             name: "titleEn",
+            showHover: true,
             title: "<spring:message code='global.title-en'/>"
         }
-    ],
+    ]),
     fetchDataURL: incotermTableTab.variable.incotermRuleUrl + "spec-list"
 });
 incotermTableTab.restDataSource.incotermParty = isc.MyRestDataSource.create({
-    fields: [
+    fields: BaseFormItems.concat([
         {
             name: "id",
             hidden: true,
@@ -91,29 +90,36 @@ incotermTableTab.restDataSource.incotermParty = isc.MyRestDataSource.create({
         }, {
             name: "titleEn",
             title: "<spring:message code='global.title-en'/>"
+        }, {
+            name: "bgColor",
+            title: "<spring:message code='global.bg-color'/>"
         }
-    ],
+    ]),
     fetchDataURL: incotermTableTab.variable.incotermPartyUrl + "spec-list"
 });
 incotermTableTab.restDataSource.incotermAspect = isc.MyRestDataSource.create({
-    fields: [
-        {
-            name: "id",
-            hidden: true,
-            primaryKey: true,
-            title: "<spring:message code='global.id'/>"
-        },
+    fields: BaseFormItems.concat([
         {
             name: "code",
+            showHover: true,
             title: "<spring:message code='global.code'/>"
-        }, {
+        },
+        {
             name: "titleFa",
-            title: "<spring:message code='global.title-fa'/>",
-        }, {
+            showHover: true,
+            title: "<spring:message code='global.title-fa'/>"
+        },
+        {
             name: "titleEn",
+            showHover: true,
             title: "<spring:message code='global.title-en'/>"
+        },
+        {
+            showHover: true,
+            name: "requiredParty",
+            title: "<spring:message code='global.required'/>"
         }
-    ],
+    ]),
     fetchDataURL: incotermTableTab.variable.incotermAspectUrl + "spec-list"
 });
 
@@ -161,25 +167,8 @@ incotermTableTab.dynamicForm.incoterm = isc.DynamicForm.create({
     ], true)
 });
 incotermTableTab.listGrid.incotermStep = isc.ListGrid.nicico.getDefault(
-    BaseFormItems.concat([
-        {
-            name: "code",
-            showHover: true,
-            title: "<spring:message code='global.code'/>"
-        },
-        {
-            name: "titleFa",
-            showHover: true,
-            title: "<spring:message code='global.title-fa'/>"
-        },
-        {
-            name: "titleEn",
-            showHover: true,
-            title: "<spring:message code='global.title-en'/>"
-        }
-    ]),
+    null,
     incotermTableTab.restDataSource.incotermStep, null, {
-        height: 500,
         showFilterEditor: false,
         selectionType: "simple",
         selectionAppearance: "checkbox",
@@ -197,25 +186,8 @@ incotermTableTab.listGrid.incotermStep = isc.ListGrid.nicico.getDefault(
     }
 );
 incotermTableTab.listGrid.incotermRule = isc.ListGrid.nicico.getDefault(
-    BaseFormItems.concat([
-        {
-            name: "code",
-            showHover: true,
-            title: "<spring:message code='global.code'/>"
-        },
-        {
-            name: "titleFa",
-            showHover: true,
-            title: "<spring:message code='global.title-fa'/>"
-        },
-        {
-            name: "titleEn",
-            showHover: true,
-            title: "<spring:message code='global.title-en'/>"
-        }
-    ]),
+    null,
     incotermTableTab.restDataSource.incotermRule, null, {
-        height: 370,
         showFilterEditor: false,
         selectionType: "simple",
         selectionAppearance: "checkbox",
@@ -233,25 +205,9 @@ incotermTableTab.listGrid.incotermRule = isc.ListGrid.nicico.getDefault(
     }
 );
 incotermTableTab.listGrid.incotermAspect = isc.ListGrid.nicico.getDefault(
-    BaseFormItems.concat([
-        {
-            name: "code",
-            showHover: true,
-            title: "<spring:message code='global.code'/>"
-        },
-        {
-            name: "titleFa",
-            showHover: true,
-            title: "<spring:message code='global.title-fa'/>"
-        },
-        {
-            name: "titleEn",
-            showHover: true,
-            title: "<spring:message code='global.title-en'/>"
-        }
-    ]),
+    null,
     incotermTableTab.restDataSource.incotermAspect, null, {
-        height: 120,
+        height: "140",
         showFilterEditor: false,
         selectionType: "simple",
         selectionAppearance: "checkbox",
@@ -273,6 +229,7 @@ incotermTableTab.window.incoterm = isc.Window.nicico.getDefault(null, [
     incotermTableTab.dynamicForm.incoterm,
     isc.HLayout.create({
         width: "100%",
+        height: "600",
         padding: 10,
         membersMargin: 10,
         members: [
@@ -356,7 +313,7 @@ incotermTableTab.window.incoterm = isc.Window.nicico.getDefault(null, [
                                 if (dynamicFormComponents[k].hasErrors()) // {
 
                                     hasError = true;
-                                    // continue;
+                                // continue;
                                 // }
                                 // data.incotermDetails.add(dynamicFormComponents.getValues());
                             }
@@ -419,7 +376,7 @@ isc.IncotermTable.addProperties({
     showRecordComponents: true,
     showRecordComponentsByCell: true,
     recordComponentPoolingMode: "data",
-    gridComponents: ["header", "body", isc.HStack.create({
+    gridComponents: ["header", "body", /*isc.HStack.create({
 
         width: "100%",
         layoutMargin: 10,
@@ -427,7 +384,7 @@ isc.IncotermTable.addProperties({
             contents: q.titleEn,
             backgroundColor: q.bgColor
         })),
-    })],
+    })*/],
     createRecordComponent: function (record, colNum) {
 
         if (record.incotermDetails == null || record.incotermDetails.length === 0)

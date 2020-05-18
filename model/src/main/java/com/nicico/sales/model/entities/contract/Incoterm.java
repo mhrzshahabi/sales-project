@@ -40,7 +40,7 @@ public class Incoterm extends BaseEntity {
     private String description;
 
     @OneToMany(mappedBy = "incoterm", fetch = FetchType.LAZY)
-    private List<IncotermRules> incotermModes;
+    private List<IncotermRules> incotermRules;
 
     @OneToMany(mappedBy = "incoterm", fetch = FetchType.LAZY)
     private List<IncotermSteps> incotermSteps;

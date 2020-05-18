@@ -19,10 +19,10 @@ import java.util.List;
 public class IncotermDetailDTO {
 
     private Long termId;
-    private Long incotermAspectId;
-    private Long contactId;
     private Long incotermStepsId;
     private Long incotermRulesId;
+    private Long incotermAspectId;
+    private List<IncotermPartiesDTO.Info> incotermParties;
 
     @Getter
     @Setter

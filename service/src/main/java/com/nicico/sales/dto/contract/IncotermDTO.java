@@ -10,7 +10,6 @@ import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotNull;
 import java.util.Date;
-import java.util.EnumSet;
 import java.util.List;
 
 @Getter
@@ -20,9 +19,9 @@ import java.util.List;
 public class IncotermDTO {
 
     private String title;
-    private Integer version;
     private Date publishDate;
     private String description;
+    private Integer incotermVersion;
 
     @Getter
     @Setter
@@ -31,6 +30,9 @@ public class IncotermDTO {
     public static class Info extends IncotermDTO {
 
         private Long id;
+
+        private List<IncotermRulesDTO.Info> incotermRules;
+        private List<IncotermStepsDTO.Info> incotermSteps;
 
         // Auditing
         private Date createdDate;
