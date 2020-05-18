@@ -684,6 +684,7 @@
                 {
                     name: "preInvoiceId",
                     title: "<spring:message code='invoiceSales.preInvoiceId'/>",
+                    keyPressFilter: "[0-9.]"
                 },
                 {
                     name: "preInvoiceDate",
@@ -702,6 +703,7 @@
                     name: "issueId",
                     title: "<spring:message code='invoiceSales.issueId'/>",
                     required: true ,
+                    keyPressFilter: "[0-9.]"
                 },
                 {
                     name: "issueDate",
@@ -1290,7 +1292,7 @@
     });
 
     var DynamicForm_InvoiceSalesItem = isc.DynamicForm.create({
-        width: 500,
+        width: 700,
         height: "100%",
         titleWidth: "100",
         requiredMessage: "<spring:message code='validator.field.is.required'/>",
@@ -1312,6 +1314,11 @@
                     displayField: "miDetailCode",
                     valueField: "miDetailCode",
                     required: true,
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }],
                     pickListFields: [
                     {
                         name: "miDetailCode"
@@ -1338,6 +1345,11 @@
                     displayField: "nameFA",
                     valueField: "nameFA",
                     required: true,
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }],
                     pickListFields: [
                     {
                         name: "nameFA"
@@ -1345,18 +1357,32 @@
                     {
                         name: "nameEN"
                     }
-                    ],
+                    ]
                 },
                 {
                     name: "orderAmount",
                     title: "<spring:message code='invoiceSalesItem.orderAmount'/>",
                     required: true,
+                    length: "100",
+                    validators: [{
+                        type: "isInteger",
+                        validateOnChange: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }]
                 },
                 {
                     name: "netAmount",
                     title: "<spring:message code='invoiceSalesItem.netAmount'/>",
                     defaultValue: 0,
                     required: true,
+                    length: "100",
+                    validators: [{
+                        type: "isInteger",
+                        validateOnChange: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }],
                     changed: function (form, item, value) {
                         updatePrice();
                     }
@@ -1366,9 +1392,16 @@
                     title: "<spring:message code='invoiceSalesItem.unitPrice'/>",
                     defaultValue: 0,
                     required: true,
+                    length: "100",
+                    validators: [{
+                        type: "isInteger",
+                        validateOnChange: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }],
                     changed: function () {
                         updatePrice();
-                    }
+                    },
                 },
                 {
                     name: "linePrice",
@@ -1379,6 +1412,12 @@
                     name: "discount",
                     title: "<spring:message code='invoiceSalesItem.discount'/>",
                     defaultValue: 0,
+                    validators: [{
+                        type: "isInteger",
+                        validateOnChange: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    }],
                     changed: function(){
                         updatePrice();
                     }
@@ -1477,20 +1516,6 @@
                     }
                 });
             } else {
-                // switch (year) {
-                //     case 2018:
-                //         DynamicForm_InvoiceSalesItem.setValue("legalFees", 201911);
-                //         DynamicForm_InvoiceSalesItem.setValue("vat", 201922);
-                //         break;
-                //     case 2019:
-                //         DynamicForm_InvoiceSalesItem.setValue("legalFees", 201911);
-                //         DynamicForm_InvoiceSalesItem.setValue("vat", 201922);
-                //         break;
-                //     case 2020:
-                //         DynamicForm_InvoiceSalesItem.setValue("legalFees", 202011);
-                //         DynamicForm_InvoiceSalesItem.setValue("vat", 202022);
-                //         break;
-                // }
                 DynamicForm_InvoiceSalesItem.clearValues();
                 DynamicForm_InvoiceSalesItem.setValue("invoiceSalesId", record.id);
                 Window_InvoiceSalesItem.show();
@@ -1650,7 +1675,7 @@ var ToolStripButton_InvoiceSales_Pdf = isc.ToolStripButtonPrint.create({
 
     var Window_InvoiceSalesItem = isc.Window.create({
         title: "<spring:message code='invoiceSalesItem.title'/> ",
-        width: 580,
+        width: 700,
         autoSize: true,
         autoCenter: true,
         isModal: true,

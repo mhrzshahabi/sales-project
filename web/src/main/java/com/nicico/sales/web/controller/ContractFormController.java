@@ -94,4 +94,9 @@ public class ContractFormController {
         inputStream.close();
         fileUtil.download(docName, response);
     }
+
+    @RequestMapping("/show-report-form")
+    public String showReportContract() {
+        return "contract/contract-report";
+    }
 }

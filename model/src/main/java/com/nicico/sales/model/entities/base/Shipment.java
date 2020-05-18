@@ -3,8 +3,10 @@ package com.nicico.sales.model.entities.base;
 import com.nicico.sales.model.Auditable;
 import lombok.*;
 import lombok.experimental.Accessors;
+import org.hibernate.envers.NotAudited;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -197,4 +199,7 @@ public class Shipment extends Auditable {
     @Column(name = "VESSEL_ID")
     private Long vesselId;
 
+    @NotAudited
+    @OneToMany(mappedBy = "shipment", fetch = FetchType.LAZY)
+    private Set<Invoice> invoices;
 }

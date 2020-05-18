@@ -365,7 +365,8 @@
 
     var HLayout_WarehouseStock_Reports = isc.HLayout.create({
         width: "100%",
-        members:
+visibility:"hidden",
+members:
             [
                 ToolStrip_Reports_WarehouseStock
             ]
