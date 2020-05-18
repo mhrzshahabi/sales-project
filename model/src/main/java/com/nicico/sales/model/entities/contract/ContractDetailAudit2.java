@@ -1,6 +1,5 @@
 package com.nicico.sales.model.entities.contract;
 
-import com.nicico.sales.model.entities.base.Contract;
 import com.nicico.sales.model.entities.common.AuditId;
 import com.nicico.sales.model.entities.common.BaseEntity;
 import lombok.*;
@@ -32,7 +31,7 @@ public class ContractDetailAudit2 extends BaseEntity {
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "F_CONTRACT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_contractDetailAudit2contractByContractId"))
-    private Contract contract;
+    private Contract2 contract;
 
     @NotNull
     @Column(name = "F_CONTRACT_ID", nullable = false)
