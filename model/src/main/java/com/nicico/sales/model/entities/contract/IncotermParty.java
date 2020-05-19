@@ -34,6 +34,10 @@ public class IncotermParty extends BaseEntity {
     @Column(name = "C_TITLE_EN", nullable = false, length = 200)
     private String titleEn;
 
+    @NotEmpty
+    @Column(name = "C_BG_COLOR", nullable = false, length = 200)
+    private String bgColor;
+
     @Column(name = "C_DESCRIPTION", length = 4000)
     private String description;
 }

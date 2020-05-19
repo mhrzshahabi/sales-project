@@ -1,7 +1,6 @@
 package com.nicico.sales.model.entities.contract;
 
 import com.nicico.sales.model.Auditable;
-import com.nicico.sales.model.entities.base.Contract;
 import com.nicico.sales.model.entities.common.BaseEntity;
 import lombok.*;
 import lombok.experimental.Accessors;
@@ -29,14 +28,14 @@ public class ContractDetail2 extends BaseEntity {
     @SequenceGenerator(name = "SEQ_CNTR_CONTRACT_DETAIL", sequenceName = "SEQ_CNTR_CONTRACT_DETAIL", allocationSize = 1)
     private Long id;
 
-    @Column(name = "C_CONTENT", columnDefinition="TEXT")
+    @Column(name = "C_CONTENT", columnDefinition = "TEXT")
     private String content;
 
     @NotAudited
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "F_CONTRACT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_contractDetail2contractByContractId"))
-    private Contract contract;
+    private Contract2 contract;
 
     @NotNull
     @Column(name = "F_CONTRACT_ID", nullable = false)

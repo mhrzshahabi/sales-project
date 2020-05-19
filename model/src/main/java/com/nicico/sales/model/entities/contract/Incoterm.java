@@ -8,6 +8,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -38,9 +39,9 @@ public class Incoterm extends BaseEntity {
     @Column(name = "C_DESCRIPTION", length = 4000)
     private String description;
 
-//    @OneToMany(mappedBy = "incoterm", fetch = FetchType.LAZY)
-//    private List<IncotermRules> incotermModes;
+    @OneToMany(mappedBy = "incoterm", fetch = FetchType.LAZY)
+    private List<IncotermRules> incotermModes;
 
-//    @OneToMany(mappedBy = "incoterm", fetch = FetchType.LAZY)
-//    private List<IncotermSteps> incotermSteps;
+    @OneToMany(mappedBy = "incoterm", fetch = FetchType.LAZY)
+    private List<IncotermSteps> incotermSteps;
 }

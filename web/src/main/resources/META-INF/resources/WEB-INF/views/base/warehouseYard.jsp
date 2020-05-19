@@ -154,7 +154,8 @@
                         {
                             "BandarAbbas": "<spring:message code='global.BandarAbbas'/>",
                             "Sarcheshmeh": "<spring:message code='global.Sarcheshmeh'/>",
-                            "Sungun": "<spring:message code='global.Sungun'/>"
+                            "Sungun": "<spring:message code='global.Sungun'/>" ,
+                            "China": "<spring:message code='global.china'/>"
                         },
                     validators: [
                     {
@@ -344,7 +345,8 @@
                         {
                             "BandarAbbas": "<spring:message code='global.BandarAbbas'/>",
                             "Sarcheshmeh": "<spring:message code='global.Sarcheshmeh'/>",
-                            "Sungun": "<spring:message code='global.Sungun'/>"
+                            "Sungun": "<spring:message code='global.Sungun'/>",
+
                         }
                 },
                 {name: "nameFA", title: "<spring:message code='warehouseCad.yard'/>", width: "10%", align: "center"},
