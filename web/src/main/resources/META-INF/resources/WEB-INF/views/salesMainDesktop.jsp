@@ -669,12 +669,12 @@
                 {isSeparator: true},
 
 
-                {
-                    title: "<spring:message code='dcc.title'/>",
-                    click: function () {
-                        createTab("<spring:message code='dcc.title'/>", "<spring:url value="/dccView/showForm" />")
-                    }
-                },
+                <%--{--%>
+                    <%--title: "<spring:message code='dcc.title'/>",--%>
+                    <%--click: function () {--%>
+                        <%--createTab("<spring:message code='dcc.title'/>", "<spring:url value="/dccView/showForm" />")--%>
+                    <%--}--%>
+                <%--},--%>
                 {isSeparator: true},
 
 
