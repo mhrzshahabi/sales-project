@@ -6,6 +6,7 @@ import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
@@ -33,6 +34,10 @@ public class IncotermAspect extends BaseEntity {
     @NotEmpty
     @Column(name = "C_TITLE_EN", nullable = false, length = 200)
     private String titleEn;
+
+    @NotNull
+    @Column(name = "B_REQUIRED_PARTY", nullable = false)
+    private Boolean requiredParty;
 
     @Column(name = "C_DESCRIPTION", length = 4000)
     private String description;
