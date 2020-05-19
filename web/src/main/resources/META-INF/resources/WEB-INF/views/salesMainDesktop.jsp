@@ -660,12 +660,12 @@
                 {isSeparator: true},
 
 
-                {
-                    title: "<spring:message code='parameters.title'/>",
-                    click: function () {
-                        createTab("<spring:message code='parameters.title'/>", "<spring:url value="/parameters/showForm" />")
-                    }
-                },
+                <%--{--%>
+                <%--    title: "<spring:message code='parameters.title'/>",--%>
+                <%--    click: function () {--%>
+                <%--        createTab("<spring:message code='parameters.title'/>", "<spring:url value="/parameters/showForm" />")--%>
+                <%--    }--%>
+                <%--},--%>
                 {isSeparator: true},
 
 
@@ -686,13 +686,13 @@
                 },
                 {isSeparator: true},
 
-                {
-                    showIf: "false",
-                    title: "<spring:message code='commercialIncoterms.title'/>",
-                    click: function () {
-                        createTab("<spring:message code='commercialIncoterms.title'/>", "<spring:url value="/incoterms/showForm" />")
-                    }
-                }
+                <%--{--%>
+                <%--    showIf: "false",--%>
+                <%--    title: "<spring:message code='commercialIncoterms.title'/>",--%>
+                <%--    click: function () {--%>
+                <%--        createTab("<spring:message code='commercialIncoterms.title'/>", "<spring:url value="/incoterms/showForm" />")--%>
+                <%--    }--%>
+                <%--}--%>
 
             ]
 
