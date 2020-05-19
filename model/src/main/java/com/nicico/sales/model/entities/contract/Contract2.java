@@ -46,7 +46,7 @@ public class Contract2 extends BaseEntity {
     @Column(name = "D_AFFECT_UP_TO")
     private Date affectUpTo;
 
-    @Column(name = "C_CONTENT", columnDefinition="TEXT")
+    @Column(name = "C_CONTENT", columnDefinition = "TEXT")
     private String content;
 
     @Column(name = "C_DESCRIPTION", length = 4000)

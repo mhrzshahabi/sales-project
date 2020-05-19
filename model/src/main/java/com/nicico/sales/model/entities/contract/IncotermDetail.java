@@ -6,6 +6,7 @@ import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Getter
 @Setter
@@ -41,15 +42,6 @@ public class IncotermDetail extends BaseEntity {
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "F_INCOTERM_PARTY_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_incotermDetail2incotermPartyByIncotermPartyId"))
-    private IncotermParty incotermParty;
-
-    @NotNull
-    @Column(name = "F_INCOTERM_PARTY_ID", nullable = false)
-    private Long incotermPartyId;
-
-    @Setter(AccessLevel.NONE)
-    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "F_INCOTERM_STEPS_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_incotermDetail2incotermStepsByIncotermStepsId"))
     private IncotermSteps incotermSteps;
 
@@ -65,4 +57,7 @@ public class IncotermDetail extends BaseEntity {
     @NotNull
     @Column(name = "F_INCOTERM_RULES_ID", nullable = false)
     private Long incotermRulesId;
+
+    @OneToMany(mappedBy = "incotermDetail", fetch = FetchType.LAZY)
+    private List<IncotermParties> incotermParties;
 }

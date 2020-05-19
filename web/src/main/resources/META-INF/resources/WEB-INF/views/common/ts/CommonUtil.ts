@@ -50,7 +50,7 @@ namespace nicico {
             // @ts-ignore
             isc.ListGrid.nicico = {};
             // @ts-ignore
-            isc.ListGrid.nicico.getDefault = function (fields: Array<Partial<isc.ListGridField>>, restDataSource?: isc.RestDataSource, criteria?: Criteria): isc.ListGrid {
+            isc.ListGrid.nicico.getDefault = function (fields: Array<Partial<isc.ListGridField>>, restDataSource?: isc.RestDataSource, criteria?: Criteria, extraProperties: Partial<isc.ListGrid>): isc.ListGrid {
 
                 let listGridProperties: Partial<isc.ListGrid> = {};
 
@@ -84,7 +84,8 @@ namespace nicico {
                 listGridProperties.sortFieldAscendingText = '<spring:message code="global.grid.sortFieldAscendingText" />';
                 listGridProperties.sortFieldDescendingText = '<spring:message code="global.grid.sortFieldDescendingText" />';
 
-                return this.createListGrid(listGridProperties, fields, restDataSource);
+                // @ts-ignore
+                return this.createListGrid(Object.assign(listGridProperties, extraProperties), fields, restDataSource);
             };
             // @ts-ignore
             isc.ListGrid.nicico.createListGrid = function (listGridProperties: Partial<isc.ListGrid>, fields: Array<Partial<isc.ListGridField>>, restDataSource?: isc.RestDataSource): isc.ListGrid {
@@ -93,7 +94,6 @@ namespace nicico {
                 return isc.ListGrid.create(Object.assign(listGridProperties, {
                     fields: fields,
                     dataSource: restDataSource
-
                 }));
             };
 

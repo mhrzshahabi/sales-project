@@ -41,10 +41,10 @@
                     name: "unit.nameEN",
                     title: "<spring:message code='MaterialFeature.unit'/> "
                 },
-                {
-                    name: "mDetailCode",
-                    title: "<spring:message code='material.detailCode'/> "
-                },
+                <%--{--%>
+                    <%--name: "mDetailCode",--%>
+                    <%--title: "<spring:message code='material.detailCode'/> "--%>
+                <%--},--%>
             ],
             fetchDataURL: "${contextPath}/api/material/spec-list"
         });
@@ -307,12 +307,12 @@
                         validateOnChange: true
                     }]
                 },
-                {
-                    name: "mDetailCode",
-                    title: "<spring:message code='material.detailCode'/>",
-                    type: 'text',
-                    width: 400,
-                },
+                <%--{--%>
+                    <%--name: "mDetailCode",--%>
+                    <%--title: "<spring:message code='material.detailCode'/>",--%>
+                    <%--type: 'text',--%>
+                    <%--width: 400,--%>
+                <%--},--%>
                 {
                     name: "unitId",
                     title: "<spring:message code='unit.nameFa'/>",
@@ -417,7 +417,7 @@
     });
 
     var Window_Material = isc.Window.create({
-        title: "<spring:message code='ProductGroup'/> ",
+        title: "<spring:message code='material.title'/> ",
         width: 580,
         autoSize: true,
         autoCenter: true,
@@ -497,7 +497,7 @@
                 {name: "code", title: "<spring:message code='material.code'/>", align: "center", showIf: "false",},
                 {name: "descl", title: "<spring:message code='material.descl'/>", align: "center"},
                 {name: "descp", title: "<spring:message code='material.descp'/>", align: "center"},
-                {name: "mDetailCode", title: "<spring:message code='material.detailCode'/>", align: "center"},
+                <%--{name: "mDetailCode", title: "<spring:message code='material.detailCode'/>", align: "center"},--%>
                 {
                     name: "unit.nameFA", title: "<spring:message code='MaterialFeature.unit.FA'/>", align: "center",
                     sortNormalizer: function (recordObject) {
@@ -909,7 +909,7 @@
     });
 
     var Window_MaterialItem = isc.Window.create({
-        title: "<spring:message code='ProductFeature'/> ",
+        title: "<spring:message code='MaterialItem.title'/> ",
         width: 580,
         autoSize: true,
         autoCenter: true,
