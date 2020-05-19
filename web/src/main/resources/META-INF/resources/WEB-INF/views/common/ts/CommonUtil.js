@@ -27,7 +27,6 @@ var nicico;
                 listGridProperties.width = "100%";
                 listGridProperties.height = "100%";
                 listGridProperties.initialCriteria = criteria;
-                listGridProperties.sortField = 0;
                 listGridProperties.dataPageSize = 50;
                 listGridProperties.fetchDelay = 1000;
                 listGridProperties.autoFetchData = true;

@@ -18,7 +18,7 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(value = "/api/incoterm-contact")
+@RequestMapping(value = "/api/incoterm-detail")
 public class IncotermDetailRestController {
 
     private final IIncotermDetailService incotermDetailService;

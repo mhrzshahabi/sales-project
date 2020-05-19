@@ -59,7 +59,6 @@ namespace nicico {
 
                 listGridProperties.initialCriteria = criteria;
 
-                listGridProperties.sortField = 0;
                 listGridProperties.dataPageSize = 50;
                 listGridProperties.fetchDelay = 1000;
                 listGridProperties.autoFetchData = true;
