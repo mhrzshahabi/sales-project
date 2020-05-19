@@ -595,7 +595,7 @@
             <column name="TOLORANCE" type="NUMBER(19, 0)"/>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1583223193441-136">
+    <!--<changeSet author="Reza (generated)" id="1583223193441-136">
         <addForeignKeyConstraint baseColumnNames="REV" baseTableName="TBL_CONTRACT_SHIPMENT_AUD" constraintName="FKiwccta7aa6oc5gh7hp9k6ht88" deferrable="false" initiallyDeferred="false" referencedColumnNames="REV" referencedTableName="REVINFO" validate="true"/>
-    </changeSet>
+    </changeSet>-->
 </databaseChangeLog>
