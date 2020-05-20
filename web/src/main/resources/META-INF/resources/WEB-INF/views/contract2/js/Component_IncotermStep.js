@@ -28,7 +28,7 @@ isc.defineClass("IncotermStep", isc.HStack).addProperties({
         });
     },
     getStep: function (columnIndex) {
-        this.getComponent(columnIndex).map(q => q.item);
+        this.getComponent(columnIndex).item;
     },
     getStepValues: function () {
         this.getStepComponents().map(q => q.value);
