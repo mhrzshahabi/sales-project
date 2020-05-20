@@ -468,7 +468,7 @@ var article10_quality = isc.DynamicForm.create({
                 showTitle: true,
                 defaultValue: "",
                 startRow: false,
-                title: "<strong class='cssDynamicForm'>PULL DOWN</strong>"
+                title: "<strong class='cssDynamicForm'>Invoicung currency</strong>"
              },
              {
                 name: "article10_number57",
@@ -497,7 +497,7 @@ var article10_quality = isc.DynamicForm.create({
                 showTitle: true,
                 defaultValue: "",
                 startRow: true,
-                title: "<strong class='cssDynamicForm'>PULL DOWN</strong>"
+                title: "<strong class='cssDynamicForm'>currency option</strong>"
              },
              {
                 name: "article10_number59",
