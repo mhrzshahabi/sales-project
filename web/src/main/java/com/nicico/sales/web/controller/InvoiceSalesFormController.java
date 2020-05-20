@@ -28,9 +28,7 @@ import java.util.Map;
 public class InvoiceSalesFormController {
 
     private final ReportUtil reportUtil;
-    private final DateUtil dateUtil;
     private final InvoiceSalesService invoiceSalesService;
-    private final InvoiceSalesItemService invoiceSalesItemService;
     private final InvoiceSalesItemDAO invoiceSalesItemDAO;
     private final NumberConvertor numberConvertor;
 
@@ -61,23 +59,13 @@ public class InvoiceSalesFormController {
         List<InvoiceSalesItem> invoiceSalesItems = invoiceSalesItemDAO.findByInvoiceSalesId(info.getId());
 
         long sum = getSum();
-        for (InvoiceSalesItem invoiceSalesItem : invoiceSalesItems) {
-            sum = getSum(sum, invoiceSalesItem);
-        }
+        for (InvoiceSalesItem invoiceSalesItem : invoiceSalesItems) {sum = getSum(sum, invoiceSalesItem);  }
 
         params.put("sumToString", numberConvertor.toPersianWord(String.valueOf(sum), "ریال"));
         reportUtil.export("/reports/invoiceSales.jasper", params, response);
     }
 
-    private long getSum() {
-        return 0L;
-    }
-
-    private HashMap<String, Object> getParams() {
-        return new HashMap<>();
-    }
-
-    private long getSum(long sum, InvoiceSalesItem invoiceSalesItem) {
-        return sum + invoiceSalesItem.getTotalPrice();
-    }
+    private long getSum() {return 0L;}
+    private HashMap<String, Object> getParams() {return new HashMap<>();}
+    private long getSum(long sum, InvoiceSalesItem invoiceSalesItem) { return sum + invoiceSalesItem.getTotalPrice();}
 }
