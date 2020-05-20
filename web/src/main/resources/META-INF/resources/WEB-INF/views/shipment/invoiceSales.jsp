@@ -1545,12 +1545,13 @@
 
 
     function ToolStripButton_InvoiceSales_Pdf_F() {
-        var rec_id = ListGrid_invoiceSales.getSelectedRecord();
-        if (rec_id == null) {
-            isc.say("<spring:message code='global.grid.record.not.selected'/>");
-        } else {
+           const rec_id = ListGrid_invoiceSales.getSelectedRecord();
+           const rec_da =  ListGrid_InvoiceSalesItem.getSelectedRecord();
+        if (rec_id !=null && rec_da!=null ) {
             var rowId = ListGrid_invoiceSales.getSelectedRecord().id;
-             window.open("invoiceSales/print/pdf/" + rowId);
+            window.open("invoiceSales/print/pdf/" + rowId);
+        } else {
+            isc.say("<spring:message code='global.grid.record.not.selected'/>");
         }
     }
 
