@@ -51,6 +51,9 @@ public class IncotermDTO {
     @Accessors(chain = true)
     @ApiModel("IncotermCreateRq")
     public static class Create extends IncotermDTO {
+
+        private List<Long> incotermStepIds;
+        private List<Long> incotermRuleIds;
     }
 
     @Getter
