@@ -986,7 +986,24 @@
       "code": "D_INCOTERM",
       "title": "حذف اینکوترم"
     },
-    
+
+    {
+      "code": "R_INCOTERM_DETAIL",
+      "title": "نمایش جزییات اینکوترم"
+    },
+    {
+      "code": "C_INCOTERM_DETAIL",
+      "title": "ایجاد جزییات اینکوترم"
+    },
+    {
+      "code": "U_INCOTERM_DETAIL",
+      "title": "به روز رسانی جزییات اینکوترم"
+    },
+    {
+      "code": "D_INCOTERM_DETAIL",
+      "title": "حذف جزییات اینکوترم"
+    },
+
     {
       "code": "R_INCOTERM_ASPECT",
       "title": "نمایش نوع اینکوترم"

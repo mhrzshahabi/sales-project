@@ -65,6 +65,8 @@ public class IncotermDTO {
         @NotNull
         @ApiModelProperty(required = true)
         private Long id;
+        private List<Long> incotermStepIds;
+        private List<Long> incotermRuleIds;
     }
 
     @Getter
