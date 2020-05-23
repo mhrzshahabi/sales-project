@@ -491,7 +491,12 @@
                 {
                     name: "serial",
                     title: "<spring:message code='invoiceSales.serial'/>",
-                    required: true
+                    required: true,
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }],
                 },
                 {
                     name: "invoiceNo",
@@ -521,6 +526,11 @@
                     displayField: "departmentName",
                     valueField: "departmentName",
                     required: true ,
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }],
                     pickListProperties: {
                         showFilterEditor: true
                     },
@@ -544,6 +554,11 @@
                     displayField: "code",
                     valueField: "id",
                     required: true ,
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }],
                     pickListProperties: {
                         showFilterEditor: true
                     },
@@ -582,7 +597,12 @@
                     optionDataSource: RestDataSource_salesType,
                     displayField: "salesType",
                     valueField: "salesType",
-                    required: true ,
+                    required: true,
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }],
                     pickListFields: [
                     {
                         name: "id",
@@ -597,7 +617,12 @@
                 {
                     name: "contaminationTaxesName",
                     title: "<spring:message code='invoiceSales.contaminationTaxesName'/>",
-                    required: true ,
+                    required: true,
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }],
                     valueMap:
                         {
                             "ندارد" : "ندارد",
@@ -613,7 +638,12 @@
                     displayField: "paymentType",
                     valueField: "paymentType",
                     colSpan: 4,
-                    required: true  ,
+                    required: true,
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }],
                     pickListProperties: {
                         showFilterEditor: true
                     },
@@ -650,7 +680,12 @@
                     optionCriteria: optionCriteria__LetterCredit,
                     displayField: "code",
                     valueField: "id",
-                    required: true ,
+                    required: true,
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }],
                     autoFetchData: false,
                     pickListProperties: {
                         showFilterEditor: true
@@ -702,7 +737,12 @@
                 {
                     name: "issueId",
                     title: "<spring:message code='invoiceSales.issueId'/>",
-                    required: true ,
+                    required: true,
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }],
                     keyPressFilter: "[0-9.]"
                 },
                 {
@@ -710,7 +750,7 @@
                     title: "<spring:message code='invoiceSales.issueDate'/>",
                     ID: "issueDateId",
                     type: 'text',
-                    required: true ,
+                    required: true,
                     icons: [{
                         src: "pieces/pcal.png",
                         click: function () {
