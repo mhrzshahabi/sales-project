@@ -51,6 +51,7 @@ incotermTab.restDataSource.incotermRule = isc.MyRestDataSource.create({
 incotermTab.listGrid.incotermStep = isc.ListGrid.nicico.getDefault(
     null,
     incotermTab.restDataSource.incotermStep, null, {
+        canReorderRecords: true,
         showFilterEditor: false,
         selectionType: "simple",
         selectionAppearance: "checkbox"
@@ -59,9 +60,36 @@ incotermTab.listGrid.incotermStep = isc.ListGrid.nicico.getDefault(
 incotermTab.listGrid.incotermRule = isc.ListGrid.nicico.getDefault(
     null,
     incotermTab.restDataSource.incotermRule, null, {
+        canReorderRecords: true,
         showFilterEditor: false,
         selectionType: "simple",
-        selectionAppearance: "checkbox"
+        selectionAppearance: "checkbox",
+        findForm: new nicico.FindFormUtil(),
+        recordDoubleClick: function (viewer, record, recordNum, field, fieldNum, value, rawValue) {
+
+            this.findForm.okCallBack = function (selectedRecords) {
+
+                record.incotermForms = selectedRecords;
+            };
+            this.findForm.showFindFormByRestApiUrl(
+                null, "<spring:message code='incoterm.window.forms.select'/>",
+                record.incotermForms, '<spring:url value="/incoterm-form/spec-list"/>',
+                BaseFormItems.concat([{
+                    name: "code",
+                    title: "<spring:message code='global.code'/>"
+                }, {
+                    name: "title",
+                    title: "<spring:message code='global.title-fa'/>",
+                }, {
+                    name: "order",
+                    type: "integer",
+                    canEdit: true,
+                    validators: [
+                        {type: "integerRange", min: 0, max: 255}
+                    ],
+                    title: "<spring:message code='global.order'/>",
+                }]), null, null, Number.MAX_VALUE);
+        }
     }
 );
 incotermTab.dynamicForm.fields = BaseFormItems.concat([{
@@ -141,23 +169,32 @@ incotermTab.window.incoterm = isc.Window.nicico.getDefault(null, [
 
                     let data = incotermTab.dynamicForm.incoterm.getValues();
                     data.incotermStepIds = steps.map(q => q.id);
-                    data.incotermRuleIds = rules.map(q => q.id);
+                    data.incotermRules = rules.map(q => {
+                        return {
+                            incotermRuleId: q.id,
+                            incotermForms: q.incotermForms ? q.incotermForms.map(p => {
+                                return {
+                                    order: p.order,
+                                    incotermFormId: p.id
+                                };
+                            }) : []
+                        };
+                    });
                     isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                            actionURL: incotermTab.variable.url,
-                            httpMethod: incotermTab.variable.method,
-                            data: JSON.stringify(data),
-                            callback: function (response) {
-                                if (response.httpResponseCode === 200 || response.httpResponseCode === 201) {
-                                    incotermTab.dialog.ok();
-                                    incotermTab.window.incoterm.close();
-                                    incotermTab.method.refresh(incotermTab.listGrid.main);
+                        data: JSON.stringify(data),
+                        actionURL: incotermTab.variable.url,
+                        httpMethod: incotermTab.variable.method,
+                        callback: function (response) {
+                            if (response.httpResponseCode === 200 || response.httpResponseCode === 201) {
+                                incotermTab.dialog.ok();
+                                incotermTab.window.incoterm.close();
+                                incotermTab.method.refresh(incotermTab.listGrid.main);
 
-                                    // TODO => open incoterm detail window
-                                } else
-                                    incotermTab.dialog.error(response);
-                            }
-                        })
-                    );
+                                // TODO => open incoterm detail window
+                            } else
+                                incotermTab.dialog.error(response);
+                        }
+                    }));
                 }
             }),
             isc.IButtonCancel.create({
@@ -186,10 +223,12 @@ incotermTab.method.newForm = function () {
     incotermTab.dynamicForm.incoterm.clearValues();
     incotermTab.listGrid.incotermStep.deselectAllRecords();
     incotermTab.listGrid.incotermRule.deselectAllRecords();
+    incotermTab.listGrid.incotermRule.data.localData.forEach(q => delete q.incotermForms);
 
     incotermTab.listGrid.incotermStep.enable();
     incotermTab.listGrid.incotermRule.enable();
 
+    incotermTab.variable.method = "POST";
     incotermTab.window.incoterm.show();
 };
 incotermTab.method.editForm = function () {
@@ -225,10 +264,12 @@ incotermTab.method.editForm = function () {
                         incotermTab.listGrid.incotermStep.selectRecord(q);
                 });
                 incotermTab.listGrid.incotermRule.deselectAllRecords();
-                ids = record.incotermRules.map(q => q.incotermRuleId);
                 incotermTab.listGrid.incotermRule.data.localData.forEach(q => {
-                    if (ids.contains(q.id))
+                    let rule = record.incotermRules.filter(p => p.incotermRuleId === q.id).first();
+                    if (rule != null) {
                         incotermTab.listGrid.incotermRule.selectRecord(q);
+                        q.incotermForms = rule.incotermForms;
+                    }
                 });
 
                 if (incotermTab.variable.incotermDetails.length !== 0) {
@@ -237,6 +278,7 @@ incotermTab.method.editForm = function () {
                     incotermTab.listGrid.incotermRule.disable();
                 }
 
+                incotermTab.variable.method = "PUT";
                 incotermTab.window.incoterm.show();
             }
         );

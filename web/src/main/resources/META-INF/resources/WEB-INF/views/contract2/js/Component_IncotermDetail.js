@@ -1,121 +1,49 @@
-
-for (let i = 0; i < This.aspects.length; i++) {
-
-    dynamicForms.add(isc.DynamicForm.create({
-        width: "100%",
-        align: "center",
-        titleAlign: "right",
-        margin: 10,
-        canSubmit: true,
-        showErrorText: true,
-        showErrorStyle: true,
-        showInlineErrors: true,
-        // dataSource: incotermDetails.filter(q => q.incotermAspectId === This.aspects[i].id).first(),
-        fields: BaseFormItems.concat([
-            {
-                hidden: true,
-                name: "termId",
-            },
-            {
-                index: -1,
-                type: "ButtonItem",
-                name: "incotermParties",
-                required: This.aspects[i].requiredParty,
-                click: function () {
-
-                    this.index = (this.index + 1) % This.parties.length;
-                    let party = This.parties[this.index];
-
-                    this.backgroundColor = party.bgColor;
-                    this.value = [{portion: 100, incotermPartyId: party.id}];
-                }
-            },
-            {
-                hidden: true,
-                required: true,
-                name: "incotermStepId",
-                defaultValue: field.ref
-            },
-            {
-                hidden: true,
-                required: true,
-                name: "incotermRuleId",
-                defaultValue: incotermRuleId
-            },
-            {
-                hidden: true,
-                required: true,
-                name: "incotermAspectId",
-                defaultValue: This.aspects[i].id
-            },
-        ], true)
-    }));
-    let incotermParties = dynamicForms[i].getItem("incotermParties");
-    let incotermPartiesValues = incotermParties.getValue();
-    if (incotermPartiesValues != null && incotermPartiesValues.length === 1) {
-
-        let party = This.parties.filter(q => q.id === incotermPartiesValues[0].incotermPartyId).first();
-        incotermParties.index = This.parties.indexOf(party);
-        incotermParties.backgroundColor = party.bgColor;
-    }
-}
-
-
 isc.defineClass("IncotermDetail", isc.DynamicForm).addProperties({
     margin: 10,
     align: "center",
-    titleAlign: "right",
     canSubmit: true,
     showErrorText: true,
     showErrorStyle: true,
     showInlineErrors: true,
+    aspect: null,
     dataSource: [],
     fields: BaseFormItems.concat([
         {
             hidden: true,
-            name: "termId",
-        },
-        {
-            index: -1,
-            type: "ButtonItem",
-            name: "incotermParties",
-            required: This.aspects[i].requiredParty,
-            click: function () {
-
-                this.index = (this.index + 1) % This.parties.length;
-                let party = This.parties[this.index];
-
-                this.backgroundColor = party.bgColor;
-                this.value = [{portion: 100, incotermPartyId: party.id}];
-            }
+            required: true,
+            name: "incotermStepsId",
         },
         {
             hidden: true,
             required: true,
-            name: "incotermStepId",
-            defaultValue: field.ref
-        },
-        {
-            hidden: true,
-            required: true,
-            name: "incotermRuleId",
-            defaultValue: incotermRuleId
+            name: "incotermRulesId",
         },
         {
             hidden: true,
             required: true,
             name: "incotermAspectId",
-            defaultValue: This.aspects[i].id
         },
+        {
+            hidden: true,
+            name: "termId",
+        },
+        {
+            name: "incotermParties",
+            editorType: "IncotermParties",
+            required: this.aspect.requiredParty
+        }
     ], true),
     initWidget: function () {
+
+
+        // TODO this.aspect por shavad
         this.Super("initWidget", arguments);
         this.dataSource.forEach((party, index, parties) => {
             this.addMember(
                 isc.Label.create({
                     padding: 6,
                     width: "100%",
-                    autoFit: true,
+                    autoFit: false,
                     autoDraw: false,
                     item: party,
                     colNum: index,
@@ -151,3 +79,51 @@ isc.defineClass("IncotermDetail", isc.DynamicForm).addProperties({
         this.members.get(columnIndex * 2);
     }
 });
+// isc.ClassFactory.defineClass("YesNoMaybeItem", isc.ButtonItem);
+//
+// isc.YesNoMaybeItem.addClassProperties({
+//     dialog:null,
+//     currentEditor:null,
+//
+//     makeDialog : function () {
+//         isc.YesNoMaybeItem.dialog = isc.Dialog.create({
+//             autoDraw:false,
+//             autoCenter:false,
+//             isModal:true,
+//             showHeader:false,
+//             showToolbar:false,
+//             autoSize: true,
+//             width:100,
+//             bodyDefaults:{layoutMargin:10, membersMargin:10},
+//             items:[
+//                 isc.Button.create({title:"YES", click:"isc.YesNoMaybeItem.setValue(this.title)"}),
+//                 isc.Button.create({title:"NO", click:"isc.YesNoMaybeItem.setValue(this.title)"}),
+//                 isc.Button.create({title:"MAYBE", click:"isc.YesNoMaybeItem.setValue(this.title)"})
+//             ]
+//         });
+//     },
+//     showDialog : function (left, top) {alert("ok");
+//         this.dialog.moveTo(left, top);
+//         this.dialog.show();
+//     },
+//     setValue : function (value) {
+//         this.currentEditor.storeValue(value, true);
+//         this.dialog.hide();
+//     }
+// });
+//
+//
+// isc.DynamicForm.create({
+//     ID:"aForm",
+//     left:50, top:50,
+//     fields:[
+//         {name:"decision", title:"Decision", editorType:"YesNoMaybeItem",
+//             click: function (form, item) {alert("clicked");
+//
+//                 if (!isc.YesNoMaybeItem.dialog) isc.YesNoMaybeItem.makeDialog();
+//                 isc.YesNoMaybeItem.currentEditor = this;
+//                 isc.YesNoMaybeItem.showDialog(0,0);
+//             }	}
+//     ]
+// });
+//

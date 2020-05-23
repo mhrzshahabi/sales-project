@@ -6,6 +6,7 @@ import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Getter
 @Setter
@@ -39,4 +40,7 @@ public class IncotermRules extends BaseEntity {
     @NotNull
     @Column(name = "F_INCOTERM_RULE_ID", nullable = false)
     private Long incotermRuleId;
+
+    @OneToMany(mappedBy = "incotermRules", fetch = FetchType.LAZY)
+    private List<IncotermForms> incotermForms;
 }

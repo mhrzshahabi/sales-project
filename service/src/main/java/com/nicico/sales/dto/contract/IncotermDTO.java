@@ -49,11 +49,31 @@ public class IncotermDTO {
     @Getter
     @Setter
     @Accessors(chain = true)
+    @ApiModel("FormTupleRq")
+    public static class FormTuple {
+
+        private Byte order;
+        private Long incotermFormId;
+    }
+
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("RuleTupleRq")
+    public static class RuleTuple {
+
+        private Long incotermRuleId;
+        private List<FormTuple> incotermForms;
+    }
+
+    @Getter
+    @Setter
+    @Accessors(chain = true)
     @ApiModel("IncotermCreateRq")
     public static class Create extends IncotermDTO {
 
         private List<Long> incotermStepIds;
-        private List<Long> incotermRuleIds;
+        private List<RuleTuple> incotermRules;
     }
 
     @Getter
@@ -66,7 +86,7 @@ public class IncotermDTO {
         @ApiModelProperty(required = true)
         private Long id;
         private List<Long> incotermStepIds;
-        private List<Long> incotermRuleIds;
+        private List<RuleTuple> incotermRules;
     }
 
     @Getter

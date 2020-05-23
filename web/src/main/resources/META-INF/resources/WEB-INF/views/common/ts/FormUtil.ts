@@ -46,6 +46,19 @@ namespace nicico {
             this.windowWidget.getObject().show();
         }
 
+        init(ownerWindow: isc.Window, title: string, canvas: isc.Canvas, width: string = null, height: string = null): void {
+
+            this.owner = new ObjectHider(ownerWindow);
+            this.bodyWidget = new ObjectHider(canvas);
+            this.createWindow(title, this.getButtonLayout(), width, height);
+        }
+        justShowForm(): void {
+
+            if (this.owner.getObject() != null)
+                this.owner.getObject().close();
+            this.windowWidget.getObject().show();
+        }
+
         public getButtonLayout(): isc.HLayout {
 
             let This = this;

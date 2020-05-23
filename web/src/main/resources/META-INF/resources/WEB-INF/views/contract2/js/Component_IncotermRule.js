@@ -1,4 +1,4 @@
-isc.defineClass("IncotermRule", isc.VStack).addProperties({
+isc.defineClass("IncotermRules", isc.VStack).addProperties({
     autoDraw: false,
     layoutMargin: 3,
     membersMargin: 2,
@@ -10,14 +10,15 @@ isc.defineClass("IncotermRule", isc.VStack).addProperties({
     aspectDisplayField: "",
     initWidget: function () {
 
+        let This = this;
         this.Super("initWidget", arguments);
-        this.dataSource.forEach((rule, index, rules) => {
+        this.dataSource.forEach((rules, index, rulesList) => {
 
             let aspectLayout = isc.VLayout.create({
                 width: "50%",
                 height: "100%"
             });
-            this.aspectDataSource.forEach((aspect, index2, aspects) => {
+            This.aspectDataSource.forEach((aspect, index2, aspects) => {
                 aspectLayout.addMember(
                     isc.Label.create({
                         padding: 6,
@@ -26,14 +27,14 @@ isc.defineClass("IncotermRule", isc.VStack).addProperties({
                         autoDraw: false,
                         item: aspect,
                         rowNum: index2,
-                        value: aspect[this.aspectValueField],
-                        contents: aspect[this.aspectDisplayField]
+                        value: aspect[This.aspectValueField],
+                        contents: aspect[This.aspectDisplayField]
                     })
                 );
                 if (index2 < aspects.length - 1)
                     aspectLayout.members[index2].contents += "<br>";
             });
-            this.addMember(
+            This.addMember(
                 isc.HLayout.create({
                     width: "100%",
                     members: [
@@ -42,10 +43,10 @@ isc.defineClass("IncotermRule", isc.VStack).addProperties({
                             width: "50%",
                             autoFit: false,
                             autoDraw: false,
-                            item: rule,
+                            item: rules,
                             rowNum: index,
-                            value: rule[this.valueField],
-                            contents: rule[this.displayField]
+                            value: rules[This.valueField],
+                            contents: rules[This.displayField]
                         }),
                         aspectLayout
                     ]
@@ -53,8 +54,8 @@ isc.defineClass("IncotermRule", isc.VStack).addProperties({
             );
         });
     },
-    getRule: function (rowIndex) {
-        this.getRuleComponent(rowIndex).item;
+    getRules: function (rowIndex) {
+        this.getRulesComponent(rowIndex).item;
     },
     getAspects: function (rowIndex) {
         this.getAspectComponents(rowIndex).map(q => q.item);
@@ -62,11 +63,11 @@ isc.defineClass("IncotermRule", isc.VStack).addProperties({
     getAspect: function (rowIndex, aspectRowIndex) {
         this.getAspectComponent(rowIndex, aspectRowIndex).item;
     },
-    getRuleValues: function () {
-        this.getRuleComponents().map(q => q.value);
+    getRulesValues: function () {
+        this.getRulesComponents().map(q => q.value);
     },
-    getRuleValue: function (rowIndex) {
-        this.getRuleComponent(rowIndex).value;
+    getRulesValue: function (rowIndex) {
+        this.getRulesComponent(rowIndex).value;
     },
     getAllAspectValues: function () {
         this.getAllAspectComponents().map(q => q.value);
@@ -83,10 +84,10 @@ isc.defineClass("IncotermRule", isc.VStack).addProperties({
     getComponent: function (rowIndex) {
         this.members.get(rowIndex);
     },
-    getRuleComponents: function () {
+    getRulesComponents: function () {
         this.members.map(q => q.members.get(0));
     },
-    getRuleComponent: function (rowIndex) {
+    getRulesComponent: function (rowIndex) {
         this.members.get(rowIndex).members.get(0);
     },
     getAllAspectComponents: function () {

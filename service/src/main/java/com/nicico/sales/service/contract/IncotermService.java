@@ -5,9 +5,11 @@ import com.nicico.sales.dto.contract.IncotermDTO;
 import com.nicico.sales.enumeration.ActionType;
 import com.nicico.sales.iservice.contract.IIncotermService;
 import com.nicico.sales.model.entities.contract.Incoterm;
+import com.nicico.sales.model.entities.contract.IncotermForms;
 import com.nicico.sales.model.entities.contract.IncotermRules;
 import com.nicico.sales.model.entities.contract.IncotermSteps;
 import com.nicico.sales.repository.contract.IncotermDetailDAO;
+import com.nicico.sales.repository.contract.IncotermFormsDAO;
 import com.nicico.sales.repository.contract.IncotermRulesDAO;
 import com.nicico.sales.repository.contract.IncotermStepsDAO;
 import com.nicico.sales.service.GenericService;
@@ -24,6 +26,7 @@ public class IncotermService extends GenericService<Incoterm, Long, IncotermDTO.
 
     private final IncotermStepsDAO incotermStepsDAO;
     private final IncotermRulesDAO incotermRulesDAO;
+    private final IncotermFormsDAO incotermFormsDAO;
     private final IncotermDetailDAO incotermDetailDAO;
 
     @Override
@@ -36,20 +39,31 @@ public class IncotermService extends GenericService<Incoterm, Long, IncotermDTO.
         List<IncotermSteps> incotermStepsCreateList = new ArrayList<>();
         request.getIncotermStepIds().forEach(item -> {
             IncotermSteps incotermSteps = new IncotermSteps();
-            incotermSteps.setIncotermStepId(item);
-            incotermSteps.setIncotermId(incoterm.getId());
+            incotermSteps.setIncotermStepId(item)
+                    .setIncotermId(incoterm.getId());
             incotermStepsCreateList.add(incotermSteps);
         });
         incotermStepsDAO.saveAll(incotermStepsCreateList);
 
-        List<IncotermRules> incotermRulesCreateList = new ArrayList<>();
-        request.getIncotermRuleIds().forEach(item -> {
+        request.getIncotermRules().forEach(item -> {
             IncotermRules incotermRules = new IncotermRules();
-            incotermRules.setIncotermRuleId(item);
-            incotermRules.setIncotermId(incoterm.getId());
-            incotermRulesCreateList.add(incotermRules);
+            incotermRules.setIncotermId(incoterm.getId())
+                    .setIncotermRuleId(item.getIncotermRuleId());
+            IncotermRules savedIncotermRules = incotermRulesDAO.save(incotermRules);
+
+            if (item.getIncotermForms() == null || item.getIncotermForms().size() == 0)
+                return;
+
+            List<IncotermForms> incotermFormsCreateList = new ArrayList<>();
+            item.getIncotermForms().forEach(formTuple -> {
+                IncotermForms incotermForms = new IncotermForms();
+                incotermForms.setIncotermRulesId(savedIncotermRules.getId()).
+                        setIncotermFormId(formTuple.getIncotermFormId()).
+                        setOrder(formTuple.getOrder());
+                incotermFormsCreateList.add(incotermForms);
+            });
+            incotermFormsDAO.saveAll(incotermFormsCreateList);
         });
-        incotermRulesDAO.saveAll(incotermRulesCreateList);
 
         return incoterm;
     }
@@ -67,21 +81,32 @@ public class IncotermService extends GenericService<Incoterm, Long, IncotermDTO.
             List<IncotermSteps> incotermStepsCreateList = new ArrayList<>();
             request.getIncotermStepIds().forEach(item -> {
                 IncotermSteps incotermSteps = new IncotermSteps();
-                incotermSteps.setIncotermStepId(item);
-                incotermSteps.setIncotermId(incoterm.getId());
+                incotermSteps.setIncotermStepId(item)
+                        .setIncotermId(incoterm.getId());
                 incotermStepsCreateList.add(incotermSteps);
             });
             incotermStepsDAO.saveAll(incotermStepsCreateList);
 
             incotermRulesDAO.deleteAllByIncotermId(id);
-            List<IncotermRules> incotermRulesCreateList = new ArrayList<>();
-            request.getIncotermRuleIds().forEach(item -> {
+            request.getIncotermRules().forEach(item -> {
                 IncotermRules incotermRules = new IncotermRules();
-                incotermRules.setIncotermRuleId(item);
-                incotermRules.setIncotermId(incoterm.getId());
-                incotermRulesCreateList.add(incotermRules);
+                incotermRules.setIncotermId(incoterm.getId())
+                        .setIncotermRuleId(item.getIncotermRuleId());
+                IncotermRules savedIncotermRules = incotermRulesDAO.save(incotermRules);
+
+                if (item.getIncotermForms() == null || item.getIncotermForms().size() == 0)
+                    return;
+
+                List<IncotermForms> incotermFormsCreateList = new ArrayList<>();
+                item.getIncotermForms().forEach(formTuple -> {
+                    IncotermForms incotermForms = new IncotermForms();
+                    incotermForms.setIncotermRulesId(savedIncotermRules.getId()).
+                            setIncotermFormId(formTuple.getIncotermFormId()).
+                            setOrder(formTuple.getOrder());
+                    incotermFormsCreateList.add(incotermForms);
+                });
+                incotermFormsDAO.saveAll(incotermFormsCreateList);
             });
-            incotermRulesDAO.saveAll(incotermRulesCreateList);
         }
 
         return incoterm;

@@ -32,6 +32,18 @@ var nicico;
                 ownerWindow.close();
             this.windowWidget.getObject().show();
         };
+        FormUtil.prototype.init = function (ownerWindow, title, canvas, width, height) {
+            if (width === void 0) { width = null; }
+            if (height === void 0) { height = null; }
+            this.owner = new nicico.ObjectHider(ownerWindow);
+            this.bodyWidget = new nicico.ObjectHider(canvas);
+            this.createWindow(title, this.getButtonLayout(), width, height);
+        };
+        FormUtil.prototype.justShowForm = function () {
+            if (this.owner.getObject() != null)
+                this.owner.getObject().close();
+            this.windowWidget.getObject().show();
+        };
         FormUtil.prototype.getButtonLayout = function () {
             var This = this;
             // @ts-ignore
