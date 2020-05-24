@@ -203,32 +203,34 @@ incotermTab.window.incoterm = isc.Window.nicico.getDefault(null, [
 
                                 let newIncotermId = JSON.parse(response.httpResponseText).id;
                                 incotermTab.method.jsonRPCManagerRequest({
-                                        httpMethod: "GET",
-                                        actionURL: incotermTab.variable.incotermStepsUrl + "spec-list",
-                                        params: {
-                                            criteria: {
-                                                operator: "and",
-                                                criteria: [
-                                                    {fieldName: "incotermId", operator: "equals", value: newIncotermId}
-                                                ]
-                                            }
+                                    httpMethod: "GET",
+                                    actionURL: incotermTab.variable.incotermStepsUrl + "spec-list",
+                                    params: {
+                                        criteria: {
+                                            operator: "and",
+                                            criteria: [
+                                                {fieldName: "incotermId", operator: "equals", value: newIncotermId}
+                                            ]
                                         }
                                     },
-                                    stepsResponse => {
+                                    callback: function (stepsResponse) {
                                         let incotermStepsData = JSON.parse(stepsResponse.httpResponseText).response.data;
                                         incotermTab.method.jsonRPCManagerRequest({
-                                                httpMethod: "GET",
-                                                actionURL: incotermTab.variable.incotermRulesUrl + "spec-list",
-                                                params: {
-                                                    criteria: {
-                                                        operator: "and",
-                                                        criteria: [
-                                                            {fieldName: "incotermId", operator: "equals", value: newIncotermId}
-                                                        ]
-                                                    }
+                                            httpMethod: "GET",
+                                            actionURL: incotermTab.variable.incotermRulesUrl + "spec-list",
+                                            params: {
+                                                criteria: {
+                                                    operator: "and",
+                                                    criteria: [
+                                                        {
+                                                            fieldName: "incotermId",
+                                                            operator: "equals",
+                                                            value: newIncotermId
+                                                        }
+                                                    ]
                                                 }
                                             },
-                                            rulesResponse => {
+                                            callback: function (rulesResponse) {
                                                 let incotermRulesData = JSON.parse(rulesResponse.httpResponseText).response.data;
                                                 isc.Window.nicico.getDefault(null, [isc.IncotermTable.create({
                                                     rulesDataSource: incotermRulesData,
@@ -238,9 +240,9 @@ incotermTab.window.incoterm = isc.Window.nicico.getDefault(null, [
                                                     aspectDataSource: incotermTab.variable.incotermAspectData
                                                 })], "85%", "85%", "IncotermTab_IncotermTable").show();
                                             }
-                                        );
+                                        });
                                     }
-                                );
+                                });
                             } else
                                 incotermTab.dialog.error(response);
                         }
@@ -307,18 +309,17 @@ incotermTab.method.editForm = function () {
     else {
 
         incotermTab.method.jsonRPCManagerRequest({
-                httpMethod: "GET",
-                actionURL: incotermTab.variable.incotermDetailUrl + "spec-list",
-                params: {
-                    criteria: {
-                        operator: "and",
-                        criteria: [
-                            {fieldName: "incotermSteps.incotermId", operator: "equals", value: record.id}
-                        ]
-                    }
+            httpMethod: "GET",
+            actionURL: incotermTab.variable.incotermDetailUrl + "spec-list",
+            params: {
+                criteria: {
+                    operator: "and",
+                    criteria: [
+                        {fieldName: "incotermSteps.incotermId", operator: "equals", value: record.id}
+                    ]
                 }
             },
-            response => {
+            callback: function (response) {
 
                 incotermTab.variable.incotermDetails = JSON.parse(response.httpResponseText).response.data;
 
@@ -367,29 +368,27 @@ incotermTab.method.editForm = function () {
                 incotermTab.variable.method = "PUT";
                 incotermTab.window.incoterm.show();
             }
-        );
+        });
     }
 };
 
 //************************************************* Rest Requests ******************************************************
 
 incotermTab.method.jsonRPCManagerRequest({
-        httpMethod: "GET",
-        actionURL: incotermTab.variable.incotermPartyUrl + "spec-list"
-    },
-    response => {
+    httpMethod: "GET",
+    actionURL: incotermTab.variable.incotermPartyUrl + "spec-list",
+    callback: function (response) {
 
         incotermTab.variable.incotermPartyData = JSON.parse(response.httpResponseText).response.data;
         incotermTab.variable.incotermPartyFetched = true;
     }
-);
+});
 incotermTab.method.jsonRPCManagerRequest({
-        httpMethod: "GET",
-        actionURL: incotermTab.variable.incotermAspectUrl + "spec-list"
-    },
-    response => {
+    httpMethod: "GET",
+    actionURL: incotermTab.variable.incotermAspectUrl + "spec-list",
+    callback: function (response) {
 
         incotermTab.variable.incotermAspectData = JSON.parse(response.httpResponseText).response.data;
         incotermTab.variable.incotermAspectFetched = true;
     }
-);
+});
