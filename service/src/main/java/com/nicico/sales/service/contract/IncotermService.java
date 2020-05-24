@@ -88,6 +88,7 @@ public class IncotermService extends GenericService<Incoterm, Long, IncotermDTO.
             incotermStepsDAO.saveAll(incotermStepsCreateList);
 
             incotermRulesDAO.deleteAllByIncotermId(id);
+            incotermFormsDAO.deleteAllByIncotermId(id);
             request.getIncotermRules().forEach(item -> {
                 IncotermRules incotermRules = new IncotermRules();
                 incotermRules.setIncotermId(incoterm.getId())

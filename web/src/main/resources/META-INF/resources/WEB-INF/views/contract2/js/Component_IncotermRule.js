@@ -8,6 +8,7 @@ isc.defineClass("IncotermRules", isc.VStack).addProperties({
     aspectDataSource: [],
     aspectValueField: "",
     aspectDisplayField: "",
+    findForm: new nicico.FindFormUtil(),
     initWidget: function () {
 
         let This = this;
@@ -46,7 +47,24 @@ isc.defineClass("IncotermRules", isc.VStack).addProperties({
                             item: rules,
                             rowNum: index,
                             value: rules[This.valueField],
-                            contents: rules[This.displayField]
+                            contents: "<u>" + rules[This.displayField] + "</u>",
+                            click: function () {
+
+                                let incotermForms = this.item.incotermForms;
+                                This.findForm.showFindFormByData(
+                                    null, "<spring:message code='incoterm.window.incoterm-forms.show'/>",
+                                    incotermForms, null,
+                                    BaseFormItems.concat([{
+                                        name: "incotermForm.code",
+                                        title: "<spring:message code='global.code'/>"
+                                    }, {
+                                        name: "incotermForm.title",
+                                        title: "<spring:message code='global.title'/>",
+                                    }, {
+                                        name: "order",
+                                        title: "<spring:message code='global.order'/>",
+                                    }]), 0);
+                            }
                         }),
                         aspectLayout
                     ]
@@ -54,49 +72,53 @@ isc.defineClass("IncotermRules", isc.VStack).addProperties({
             );
         });
     },
-    getRules: function (rowIndex) {
-        this.getRulesComponent(rowIndex).item;
+    getRules: function (rulesIndex) {
+        return this.getRulesComponent(rulesIndex).item;
     },
-    getAspects: function (rowIndex) {
-        this.getAspectComponents(rowIndex).map(q => q.item);
+    getAspects: function (rulesIndex) {
+        return this.getAspectComponents(rulesIndex).map(q => q.item);
     },
-    getAspect: function (rowIndex, aspectRowIndex) {
-        this.getAspectComponent(rowIndex, aspectRowIndex).item;
+    getAspect: function (rulesIndex, aspectIndex) {
+        return this.getAspectComponent(rulesIndex, aspectIndex).item;
     },
     getRulesValues: function () {
-        this.getRulesComponents().map(q => q.value);
+        return this.getRulesComponents().map(q => q.value);
     },
-    getRulesValue: function (rowIndex) {
-        this.getRulesComponent(rowIndex).value;
+    getRulesValue: function (rulesIndex) {
+        return this.getRulesComponent(rulesIndex).value;
     },
     getAllAspectValues: function () {
-        this.getAllAspectComponents().map(q => q.value);
+        return this.getAllAspectComponents().map(q => q.value);
     },
-    getAspectValues: function (rowIndex) {
-        this.getAspectComponents(rowIndex).map(q => q.value);
+    getAspectValues: function (rulesIndex) {
+        return this.getAspectComponents(rulesIndex).map(q => q.value);
     },
-    getAspectValue: function (rowIndex, aspectRowIndex) {
-        this.getAspectComponent(rowIndex, aspectRowIndex).value;
+    getAspectValue: function (rulesIndex, aspectIndex) {
+        return this.getAspectComponent(rulesIndex, aspectIndex).value;
     },
     getComponents: function () {
-        this.members;
+        return this.members;
     },
-    getComponent: function (rowIndex) {
-        this.members.get(rowIndex);
+    getComponent: function (rulesIndex) {
+        return this.members.get(rulesIndex);
     },
     getRulesComponents: function () {
-        this.members.map(q => q.members.get(0));
+        return this.members.map(q => q.members.get(0));
     },
-    getRulesComponent: function (rowIndex) {
-        this.members.get(rowIndex).members.get(0);
+    getRulesComponent: function (rulesIndex) {
+        return this.members.get(rulesIndex).members.get(0);
     },
     getAllAspectComponents: function () {
-        this.members.map(q => q.members.get(1).members);
+
+        let result = [];
+        this.members.forEach(q => result.addAll(q.members.get(1).members));
+
+        return result;
     },
-    getAspectComponents: function (rowIndex) {
-        this.members.get(rowIndex).members.get(1).members;
+    getAspectComponents: function (rulesIndex) {
+        return this.members.get(rulesIndex).members.get(1).members;
     },
-    getAspectComponent: function (rowIndex, aspectRowIndex) {
-        this.members.get(rowIndex).members.get(1).members.get(aspectRowIndex);
+    getAspectComponent: function (rulesIndex, aspectIndex) {
+        return this.members.get(rulesIndex).members.get(1).members.get(aspectIndex);
     }
 });

@@ -120,24 +120,24 @@ isc.defineClass("IncotermParty", isc.HStack).addProperties({
         this.partyForm.justShowForm();
     },
     getParty: function (index) {
-        this.getComponent(index).item;
+        return this.getComponent(index).item;
     },
     getPartyValues: function () {
-        this.getPartyComponents().map(q => q.value);
+        return this.getPartyComponents().map(q => q.value);
     },
     getPartyValue: function (index) {
-        this.getPartyComponent(index).value;
+        return this.getPartyComponent(index).value;
     },
     getPartyBgColors: function () {
-        this.getPartyComponents().map(q => q.backgroundColor);
+        return this.getPartyComponents().map(q => q.backgroundColor);
     },
     getPartyBgColor: function (index) {
-        this.getPartyComponent(index).backgroundColor;
+        return this.getPartyComponent(index).backgroundColor;
     },
     getPartyComponents: function () {
-        this.members.filter(q => q.colNum);
+        return this.members.filter(q => q.colNum);
     },
     getPartyComponent: function (index) {
-        this.members.get(index * 2);
+        return this.members.get(index * 2);
     }
 });

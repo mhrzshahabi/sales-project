@@ -28,19 +28,19 @@ isc.defineClass("IncotermSteps", isc.HStack).addProperties({
             );
         });
     },
-    getSteps: function (columnIndex) {
-        this.getComponent(columnIndex).item;
+    getSteps: function (stepsIndex) {
+        return this.getComponent(stepsIndex).item;
     },
     getStepsValues: function () {
-        this.getStepsComponents().map(q => q.value);
+        return this.getStepsComponents().map(q => q.value);
     },
-    getStepsValue: function (columnIndex) {
-        this.getStepsComponent(columnIndex).value;
+    getStepsValue: function (stepsIndex) {
+        return this.getStepsComponent(stepsIndex).value;
     },
     getStepsComponents: function () {
-        this.members.slice(1);
+        return this.members.slice(1);
     },
-    getStepsComponent: function (columnIndex) {
-        this.members.get(columnIndex + 1);
+    getStepsComponent: function (stepsIndex) {
+        return this.members.get(stepsIndex + 1);
     }
 });
