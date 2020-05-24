@@ -28,9 +28,7 @@ import java.util.Map;
 public class InvoiceSalesFormController {
 
     private final ReportUtil reportUtil;
-    private final DateUtil dateUtil;
     private final InvoiceSalesService invoiceSalesService;
-    private final InvoiceSalesItemService invoiceSalesItemService;
     private final InvoiceSalesItemDAO invoiceSalesItemDAO;
     private final NumberConvertor numberConvertor;
 
@@ -41,28 +39,33 @@ public class InvoiceSalesFormController {
 
 
     @Loggable
+
     @RequestMapping("/print/{type}/{rowId}")
     public void ExportToPDF(HttpServletResponse response, @PathVariable String type, @PathVariable Long rowId) throws Exception {
 
         /*Date Today*/
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
         dtf.format(PersianDate.now());
-        String dateroz = PersianDate.now().format(dtf);
+        String today = PersianDate.now().format(dtf);
 
-        Map<String, Object> params = new HashMap<>();
+        Map<String, Object> params = getParams();
 
         /*Set Params*/
         params.put("ID", rowId);
         params.put(ConstantVARs.REPORT_TYPE, type);
-        params.put("datetime", dateroz);
+        params.put("datetime", today);
 
         InvoiceSalesDTO.Info info = invoiceSalesService.get(rowId);
         List<InvoiceSalesItem> invoiceSalesItems = invoiceSalesItemDAO.findByInvoiceSalesId(info.getId());
 
-        Long sum = 0L;
-        for (InvoiceSalesItem invoiceSalesItem : invoiceSalesItems) { sum = sum + invoiceSalesItem.getTotalPrice();}
+        long sum = getSum();
+        for (InvoiceSalesItem invoiceSalesItem : invoiceSalesItems) {sum = getSum(sum, invoiceSalesItem);  }
 
         params.put("sumToString", numberConvertor.toPersianWord(String.valueOf(sum), "ریال"));
         reportUtil.export("/reports/invoiceSales.jasper", params, response);
     }
+
+    private long getSum() {return 0L;}
+    private HashMap<String, Object> getParams() {return new HashMap<>();}
+    private long getSum(long sum, InvoiceSalesItem invoiceSalesItem) { return sum + invoiceSalesItem.getTotalPrice();}
 }

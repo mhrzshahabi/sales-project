@@ -12,6 +12,8 @@ var RestDataSource_Incoterms_InConc = isc.MyRestDataSource.create({
         ],
         fetchDataURL: "${contextPath}/api/incoterms/spec-list"
 });
+
+
     var sendDateSetConc;
     var sendDateSetConcSave;
     factoryLableArticle("lableArticle3", '<b><font size=4px>Article 3 -QUALITY</font><b>', "30", 5);
@@ -530,7 +532,7 @@ ListGrid_ContractConcItemShipment = isc.ListGrid.create({
                 showTitle: true,
                 defaultValue: "",
                 startRow: false,
-                title: "<strong class='cssDynamicForm'>PULL DOWN</strong>"
+                title: "<strong class='cssDynamicForm'>Invoicung currency</strong>"
             },
             {
                 name: "article12_number57",
@@ -576,7 +578,7 @@ ListGrid_ContractConcItemShipment = isc.ListGrid.create({
                 showTitle: true,
                 defaultValue: "",
                 startRow: true,
-                title: "<strong class='cssDynamicForm'>PULL DOWN</strong>"
+                title: "<strong class='cssDynamicForm'>currency option</strong>"
             },
             {
                 name: "article12_number59",
