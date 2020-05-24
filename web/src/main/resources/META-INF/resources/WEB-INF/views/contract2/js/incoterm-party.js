@@ -19,6 +19,12 @@ incotermPartyTab.dynamicForm.fields = BaseFormItems.concat([{
     title: "<spring:message code='global.title-en'/>"
 }, {
     width: "100%",
+    required: true,
+    type: "color",
+    name: "bgColor",
+    title: "<spring:message code='global.bg-color'/>"
+}, {
+    width: "100%",
     editorType: "textArea",
     name: "description",
     title: "<spring:message code='global.description'/>",
