@@ -88,7 +88,7 @@ public class IncotermService extends GenericService<Incoterm, Long, IncotermDTO.
             incotermStepsDAO.saveAll(incotermStepsCreateList);
 
             incotermRulesDAO.deleteAllByIncotermId(id);
-            incotermFormsDAO.deleteAllByIncotermId(id);
+            incotermFormsDAO.deleteAll(incotermFormsDAO.findAllByIncotermId(id));
             request.getIncotermRules().forEach(item -> {
                 IncotermRules incotermRules = new IncotermRules();
                 incotermRules.setIncotermId(incoterm.getId())
@@ -111,5 +111,14 @@ public class IncotermService extends GenericService<Incoterm, Long, IncotermDTO.
         }
 
         return incoterm;
+    }
+
+    @Override
+    @Transactional
+    @Action(ActionType.Delete)
+    public void delete(Long id) {
+
+        super.delete(id);
+        incotermDetailDAO.deleteAll(incotermDetailDAO.findAllByIncotermId(id));
     }
 }

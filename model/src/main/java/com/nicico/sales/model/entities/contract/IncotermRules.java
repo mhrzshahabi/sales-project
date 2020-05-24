@@ -41,6 +41,6 @@ public class IncotermRules extends BaseEntity {
     @Column(name = "F_INCOTERM_RULE_ID", nullable = false)
     private Long incotermRuleId;
 
-    @OneToMany(mappedBy = "incotermRules", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "incotermRules", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<IncotermForms> incotermForms;
 }

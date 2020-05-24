@@ -7,9 +7,11 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface IncotermFormsDAO extends JpaRepository<IncotermForms, Long>, JpaSpecificationExecutor<IncotermForms> {
 
-    @Query("DELETE FROM IncotermForms forms WHERE forms.incotermRules.incotermId =:incotermId")
-    void deleteAllByIncotermId(@Param("incotermId") Long incotermId);
+    @Query("SELECT forms FROM IncotermForms forms WHERE forms.incotermRules.incotermId =:incotermId")
+    List<IncotermForms> findAllByIncotermId(@Param("incotermId") Long incotermId);
 }

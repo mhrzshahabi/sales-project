@@ -39,9 +39,9 @@ public class Incoterm extends BaseEntity {
     @Column(name = "C_DESCRIPTION", length = 4000)
     private String description;
 
-    @OneToMany(mappedBy = "incoterm", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "incoterm", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<IncotermRules> incotermRules;
 
-    @OneToMany(mappedBy = "incoterm", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "incoterm", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<IncotermSteps> incotermSteps;
 }
