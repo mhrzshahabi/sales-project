@@ -7,7 +7,7 @@ isc.defineClass("IncotermSteps", isc.HStack).addProperties({
     valueField: "",
     displayField: "",
     startSpacerWidth: 0,
-    startSpacerContents: "",
+    startSpacerContents: null,
     initWidget: function () {
 
         let This = this;

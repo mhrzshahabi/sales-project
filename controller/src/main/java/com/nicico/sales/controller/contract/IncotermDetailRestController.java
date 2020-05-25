@@ -14,6 +14,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -45,10 +46,26 @@ public class IncotermDetailRestController {
     }
 
     @Loggable
+    @PostMapping("/list")
+    public ResponseEntity<List<IncotermDetailDTO.Info>> createAll(@Validated @RequestBody List<IncotermDetailDTO.Create> requests) {
+
+        return new ResponseEntity<>(incotermDetailService.createAll(requests), HttpStatus.CREATED);
+    }
+
+    @Loggable
     @PutMapping
     public ResponseEntity<IncotermDetailDTO.Info> update(@Validated @RequestBody IncotermDetailDTO.Update request) {
 
         return new ResponseEntity<>(incotermDetailService.update(request.getId(), request), HttpStatus.OK);
+    }
+
+    @Loggable
+    @PutMapping("/list")
+    public ResponseEntity<List<IncotermDetailDTO.Info>> updateAll(@Validated @RequestBody List<IncotermDetailDTO.Update> requests) {
+
+        return new ResponseEntity<>(incotermDetailService.updateAll(
+                requests.stream().map(IncotermDetailDTO.Update::getId).collect(Collectors.toList()),
+                requests), HttpStatus.OK);
     }
 
     @Loggable

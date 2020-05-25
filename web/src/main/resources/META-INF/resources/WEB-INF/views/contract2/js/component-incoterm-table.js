@@ -1,11 +1,8 @@
 isc.defineClass("IncotermTable", isc.VLayout).addProperties({
-    height: "800",
-    width: "100%",
     autoDraw: false,
     layoutMargin: 0,
     membersMargin: 2,
-    title: "",
-    httpMethod: "PUT",
+    title: null,
     dataSource: [],
     rulesDataSource: [],
     stepsDataSource: [],
@@ -16,6 +13,8 @@ isc.defineClass("IncotermTable", isc.VLayout).addProperties({
     incotermPartyComponent: null,
     incotermRuleTableComponent: null,
     initWidget: function () {
+
+        this.width = this.stepsDataSource.length * 103 + 200;
 
         let This = this;
         this.Super("initWidget", arguments);
@@ -93,8 +92,8 @@ isc.defineClass("IncotermTable", isc.VLayout).addProperties({
                         let data = This.incotermRuleTableComponent.getAllDetailValues();
                         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                             data: JSON.stringify(data),
-                            httpMethod: This.httpMethod,
-                            actionURL: "${contextPath}" + "/api/incoterm-detail/",
+                            httpMethod: This.dataSource == null || This.dataSource.length === 0 ? "POST" : "PUT",
+                            actionURL: "${contextPath}" + "/api/incoterm-detail/list",
                             callback: function (response) {
                                 if (response.httpResponseCode === 200 || response.httpResponseCode === 201) {
 
@@ -104,7 +103,8 @@ isc.defineClass("IncotermTable", isc.VLayout).addProperties({
                                 } else
                                     isc.RPCManager.handleError(response);
                             }
-                        }));                    }
+                        }));
+                    }
                 }),
                 isc.IButtonCancel.create({
 

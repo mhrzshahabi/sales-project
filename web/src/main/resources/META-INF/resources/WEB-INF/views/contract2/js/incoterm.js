@@ -95,7 +95,7 @@ incotermTab.listGrid.incotermRule = isc.ListGrid.nicico.getDefault(
                 }, {
                     name: "order",
                     type: "integer",
-                    canEdit: true,
+                    canEdit: selectionCount > 0,
                     validators: [
                         {type: "integerRange", min: 0, max: 255}
                     ],
@@ -271,6 +271,8 @@ incotermTab.method.newForm = function () {
     incotermTab.dynamicForm.incoterm.clearValues();
     incotermTab.listGrid.incotermStep.deselectAllRecords();
     incotermTab.listGrid.incotermRule.deselectAllRecords();
+    incotermTab.listGrid.incotermStep.setSelectionType("simple");
+    incotermTab.listGrid.incotermRule.setSelectionType("simple");
     incotermTab.listGrid.incotermStep.setSelectionAppearance("checkbox");
     incotermTab.listGrid.incotermRule.setSelectionAppearance("checkbox");
     incotermTab.listGrid.incotermStep.data.localData.forEach(q => q.enabled = true);
@@ -320,6 +322,8 @@ incotermTab.method.editForm = function () {
 
                     incotermTab.listGrid.incotermStep.deselectAllRecords();
                     incotermTab.listGrid.incotermRule.deselectAllRecords();
+                    incotermTab.listGrid.incotermStep.setSelectionType("single");
+                    incotermTab.listGrid.incotermRule.setSelectionType("single");
                     incotermTab.listGrid.incotermStep.setSelectionAppearance("rowStyle");
                     incotermTab.listGrid.incotermRule.setSelectionAppearance("rowStyle");
 
@@ -339,6 +343,8 @@ incotermTab.method.editForm = function () {
 
                     incotermTab.listGrid.incotermStep.deselectAllRecords();
                     incotermTab.listGrid.incotermRule.deselectAllRecords();
+                    incotermTab.listGrid.incotermStep.setSelectionType("simple");
+                    incotermTab.listGrid.incotermRule.setSelectionType("simple");
                     incotermTab.listGrid.incotermStep.setSelectionAppearance("checkbox");
                     incotermTab.listGrid.incotermRule.setSelectionAppearance("checkbox");
 
@@ -399,13 +405,12 @@ incotermTab.method.showDetailWindow = function (incotermId, title) {
                     let incotermRulesData = JSON.parse(rulesResponse.httpResponseText).response.data;
                     isc.Window.nicico.getDefault2(null, isc.IncotermTable.create({
                         title: title,
-                        httpMethod: incotermTab.variable.method,
                         rulesDataSource: incotermRulesData,
                         stepsDataSource: incotermStepsData,
                         dataSource: incotermTab.variable.incotermDetails,
                         partyDataSource: incotermTab.variable.incotermPartyData,
                         aspectDataSource: incotermTab.variable.incotermAspectData
-                    }), "80%", null, "IncotermTab_IncotermTable").show();
+                    }), "10%", null, "IncotermTab_IncotermTable").show();
                 }
             });
         }

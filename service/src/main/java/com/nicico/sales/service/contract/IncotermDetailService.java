@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -45,6 +46,16 @@ public class IncotermDetailService extends GenericService<IncotermDetail, Long, 
 
     @Override
     @Transactional
+    @Action(value = ActionType.Create, authority = "" +
+            "hasAuthority('C_INCOTERM_DETAIL') AND " +
+            "hasAuthority('C_INCOTERM_PARTIES')")
+    public List<IncotermDetailDTO.Info> createAll(List<IncotermDetailDTO.Create> requests) {
+
+        return requests.stream().map(this::create).collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
     @Action(value = ActionType.Update, authority = "" +
             "hasAuthority('U_INCOTERM_DETAIL') AND " +
             "hasAuthority('U_INCOTERM_PARTIES')")
@@ -68,12 +79,11 @@ public class IncotermDetailService extends GenericService<IncotermDetail, Long, 
 
     @Override
     @Transactional
-    @Action(value = ActionType.Delete, authority = "" +
-            "hasAuthority('D_INCOTERM_DETAIL') AND " +
-            "hasAuthority('D_INCOTERM_PARTIES')")
-    public void delete(Long id) {
+    @Action(value = ActionType.Update, authority = "" +
+            "hasAuthority('U_INCOTERM_DETAIL') AND " +
+            "hasAuthority('U_INCOTERM_PARTIES')")
+    public List<IncotermDetailDTO.Info> updateAll(List<Long> ids, List<IncotermDetailDTO.Update> requests) {
 
-        super.delete(id);
-        incotermPartiesDAO.deleteAll(incotermPartiesDAO.findAllByIncotermDetailId(id));
+        return requests.stream().map(request -> update(request.getId(), request)).collect(Collectors.toList());
     }
 }
