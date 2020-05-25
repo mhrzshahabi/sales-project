@@ -206,6 +206,30 @@ var nicico;
                 });
             };
             // @ts-ignore
+            isc.Window.nicico.getDefault2 = function (title, layout, width, height, id) {
+                if (width === void 0) { width = null; }
+                if (height === void 0) { height = null; }
+                return isc.Window.create({
+                    ID: id,
+                    width: width == null ? "70%" : width,
+                    height: height,
+                    title: title,
+                    items: [layout],
+                    align: "center",
+                    isModal: true,
+                    autoSize: true,
+                    autoDraw: false,
+                    autoCenter: true,
+                    showModalMask: true,
+                    dismissOnEscape: true,
+                    dismissOnOutsideClick: true,
+                    // @ts-ignore
+                    closeClick: function () {
+                        this.Super("closeClick", arguments);
+                    }
+                });
+            };
+            // @ts-ignore
             isc.FacetChart.nicico = {};
             // @ts-ignore
             isc.FacetChart.nicico.getDefault = function (data, valueProperty, facets, title, defaultChartType, allowedChartTypes, id) {

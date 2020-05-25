@@ -6,7 +6,7 @@ isc.defineClass("IncotermDetail", isc.DynamicForm).addProperties({
     showErrorStyle: true,
     showInlineErrors: true,
     aspect: null,
-    dataSource: null,
+    detailRecord: null,
     fields: BaseFormItems.concat([
         {
             hidden: true,
@@ -30,12 +30,12 @@ isc.defineClass("IncotermDetail", isc.DynamicForm).addProperties({
         {
             name: "incotermParties",
             editorType: "IncotermParties",
-            required: this.aspect.requiredParty
         }
-    ], true)/*,
+    ], true),
     initWidget: function () {
 
+        this.fields.filter(q => q.name === "incotermParties").first().required = this.aspect.requiredParty;
         this.Super("initWidget", arguments);
-        this.editRecord(this.dataSource);
-    }*/
+        this.editRecord(this.detailRecord);
+    }
 });

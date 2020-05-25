@@ -811,15 +811,11 @@ contractDetailTypeTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
     ]
 });
 
-contractDetailTypeTab.window.detailType = isc.Window.nicico.getDefault(null, isc.VLayout.create({
-    width: "100%",
-    height: "100%",
-    members: [
-        contractDetailTypeTab.dynamicForm.detailType,
-        contractDetailTypeTab.hLayout.extra,
-        contractDetailTypeTab.hLayout.saveOrExitHlayout
-    ]
-}), "85%");
+contractDetailTypeTab.window.detailType = isc.Window.nicico.getDefault(null, [
+    contractDetailTypeTab.dynamicForm.detailType,
+    contractDetailTypeTab.hLayout.extra,
+    contractDetailTypeTab.hLayout.saveOrExitHlayout
+], "85%", "75%");
 
 //*************************************************** Functions ********************************************************
 

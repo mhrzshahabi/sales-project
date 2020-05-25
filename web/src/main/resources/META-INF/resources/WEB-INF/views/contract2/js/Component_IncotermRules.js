@@ -29,7 +29,7 @@ isc.defineClass("IncotermRules", isc.VStack).addProperties({
                         item: aspect,
                         rowNum: index2,
                         value: aspect[This.aspectValueField],
-                        contents: aspect[This.aspectDisplayField]
+                        contents: "<b>" + aspect[This.aspectDisplayField] + "</b>"
                     })
                 );
                 if (index2 < aspects.length - 1)
@@ -46,8 +46,8 @@ isc.defineClass("IncotermRules", isc.VStack).addProperties({
                             autoDraw: false,
                             item: rules,
                             rowNum: index,
-                            value: rules[This.valueField],
-                            contents: "<u>" + rules[This.displayField] + "</u>",
+                            value: eval("rules." + This.valueField),
+                            contents: "<u>" + eval("rules." + This.displayField) + "</u>",
                             click: function () {
 
                                 let incotermForms = this.item.incotermForms;

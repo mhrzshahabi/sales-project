@@ -266,6 +266,31 @@ namespace nicico {
                     ]
                 });
             };
+            // @ts-ignore
+            isc.Window.nicico.getDefault2 = function (title: string, layout: isc.Canvas, width: string = null, height: string = null, id?: string): isc.Window {
+
+                return isc.Window.create({
+
+                    ID: id,
+                    width: width == null ? "70%" : width,
+                    height: height,
+                    title: title,
+                    items: [layout],
+                    align: "center",
+                    isModal: true,
+                    autoSize: true,
+                    autoDraw: false,
+                    autoCenter: true,
+                    showModalMask: true,
+                    dismissOnEscape: true,
+                    dismissOnOutsideClick: true,
+                    // @ts-ignore
+                    closeClick: function () {
+
+                        this.Super("closeClick", arguments)
+                    }
+                });
+            };
 
             // @ts-ignore
             isc.FacetChart.nicico = {};

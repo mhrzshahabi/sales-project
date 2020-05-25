@@ -15,37 +15,39 @@ isc.defineClass("IncotermTable", isc.VLayout).addProperties({
         this.Super("initWidget", arguments);
 
         this.addMember(isc.IncotermSteps.create({
+            width: "100%",
+            height: 100,
             startSpacerWidth: 200,
             valueField: "id",
             displayField: "incotermStep.titleEn",
             dataSource: This.stepsDataSource
         }));
-        this.addMember(isc.HLayout.create({
-            width: "100%",
-            members: [
-                isc.IncotermRules.create({
-                    valueField: "id",
-                    aspectValueField: "id",
-                    aspectDisplayField: "titleEn",
-                    displayField: "incotermRule.titleEn",
-                    dataSource: This.rulesDataSource,
-                    aspectDataSource: This.aspectDataSource
-                }),
-                isc.IncotermRuleTable.create({
-                    dataSource: This.dataSource,
-                    stepsDataSource: This.stepsDataSource,
-                    rulesDataSource: This.rulesDataSource,
-                    aspectDataSource: This.aspectDataSource
-                })
-            ]
-        }));
-        this.addMember(isc.IncotermParty.create({
-            valueField: "id",
-            colorField: "bgColor",
-            displayField: "titleEn",
-            memberSpacerWidth: 20,
-            dataSource: This.partyDataSource
-        }));
+        // this.addMember(isc.HLayout.create({
+        //     width: "100%",
+        //     members: [
+        //         isc.IncotermRules.create({
+        //             valueField: "id",
+        //             aspectValueField: "id",
+        //             aspectDisplayField: "titleEn",
+        //             displayField: "incotermRule.titleEn",
+        //             dataSource: This.rulesDataSource,
+        //             aspectDataSource: This.aspectDataSource
+        //         }),
+        //         isc.IncotermRuleTable.create({
+        //             dataSource: This.dataSource,
+        //             stepsDataSource: This.stepsDataSource,
+        //             rulesDataSource: This.rulesDataSource,
+        //             aspectDataSource: This.aspectDataSource
+        //         })
+        //     ]
+        // }));
+        // this.addMember(isc.IncotermParty.create({
+        //     valueField: "id",
+        //     colorField: "bgColor",
+        //     displayField: "titleEn",
+        //     memberSpacerWidth: 20,
+        //     dataSource: This.partyDataSource
+        // }));
         this.addMember(isc.HLayout.create({
 
             height: "5%",

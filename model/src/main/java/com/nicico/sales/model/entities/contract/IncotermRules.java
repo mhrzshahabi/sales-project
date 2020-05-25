@@ -23,6 +23,10 @@ public class IncotermRules extends BaseEntity {
     @SequenceGenerator(name = "SEQ_CNTR_INCOTERM_RULES", sequenceName = "SEQ_CNTR_INCOTERM_RULES", allocationSize = 1)
     private Long id;
 
+    @NotNull
+    @Column(name = "N_ORDER", nullable = false)
+    private Byte order;
+
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "F_INCOTERM_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_incotermRules2incotermByIncotermId"))

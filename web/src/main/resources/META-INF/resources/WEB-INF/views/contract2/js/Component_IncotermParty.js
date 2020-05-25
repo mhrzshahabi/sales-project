@@ -21,8 +21,8 @@ isc.defineClass("IncotermParty", isc.HStack).addProperties({
                     autoDraw: false,
                     item: party,
                     colNum: index,
-                    value: party[This.valueField],
-                    contents: party[This.displayField],
+                    value: eval("party." + This.valueField),
+                    contents: eval("party." + This.displayField),
                     backgroundColor: party[This.colorField]
                 })
             );

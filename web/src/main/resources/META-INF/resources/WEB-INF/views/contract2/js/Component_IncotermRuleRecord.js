@@ -31,7 +31,7 @@ isc.defineClass("IncotermRuleRecord", isc.HStack).addProperties({
                 detailLayout.addMember(isc.IncotermDetail.create({
 
                     aspect: aspect,
-                    dataSource: detail
+                    detailRecord: detail
                 }));
             });
 
@@ -39,13 +39,13 @@ isc.defineClass("IncotermRuleRecord", isc.HStack).addProperties({
         });
     },
     getAllDetailValues: function () {
-        return this.getAllDetailComponents().map(q => q.dataSource);
+        return this.getAllDetailComponents().map(q => q.detailRecord);
     },
     getDetailValues: function (stepsIndex) {
-        return this.getDetailComponents(stepsIndex).map(q => q.dataSource);
+        return this.getDetailComponents(stepsIndex).map(q => q.detailRecord);
     },
     getDetailValue: function (stepsIndex, aspectIndex) {
-        return this.getDetailComponent(stepsIndex, aspectIndex).dataSource;
+        return this.getDetailComponent(stepsIndex, aspectIndex).detailRecord;
     },
     getComponents: function () {
         return this.members;

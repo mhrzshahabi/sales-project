@@ -6,6 +6,7 @@ isc.defineClass("IncotermSteps", isc.HStack).addProperties({
     valueField: "",
     displayField: "",
     startSpacerWidth: 0,
+    border: "1px solid",
     initWidget: function () {
 
         let This = this;
@@ -17,13 +18,15 @@ isc.defineClass("IncotermSteps", isc.HStack).addProperties({
             This.addMember(
                 isc.Label.create({
                     padding: 6,
-                    width: "100%",
+                    width: 100,
+                    height: 100,
                     autoFit: false,
                     autoDraw: false,
                     item: steps,
                     colNum: index,
-                    value: steps[This.valueField],
-                    contents: steps[This.displayField]
+                    align: "center",
+                    value: eval("steps." + This.valueField),
+                    contents: "<b>" + eval("steps." + This.displayField) + "</b>"
                 })
             );
         });
