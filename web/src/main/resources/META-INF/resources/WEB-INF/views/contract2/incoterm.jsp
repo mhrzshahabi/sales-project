@@ -5,12 +5,5 @@
 
 <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
 <%@include file="../common/ts/BasicFormUtil.js"%>
-<%@include file="js/Component_IncotermSteps.js"%>
-<%@include file="js/Component_IncotermRules.js"%>
-<%@include file="js/Component_IncotermParty.js"%>
-<%@include file="js/Component_IncotermParties.js"%>
-<%@include file="js/Component_IncotermDetail.js"%>
-<%@include file="js/Component_IncotermRuleRecord.js"%>
-<%@include file="js/Component_IncotermRuleTable.js"%>
-<%@include file="js/Component_IncotermTable.js"%>
+<%@include file="Component_Incoterm.jsp"%>
 <%@include file="js/incoterm.js"%>

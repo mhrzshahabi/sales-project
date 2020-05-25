@@ -4,13 +4,14 @@ incotermTab.variable.incotermPartyData = [];
 incotermTab.variable.incotermAspectData = [];
 incotermTab.variable.incotermPartyFetched = false;
 incotermTab.variable.incotermAspectFetched = false;
+incotermTab.variable.incotermFormUrl = "${contextPath}" + "/api/incoterm-form/";
 incotermTab.variable.incotermStepUrl = "${contextPath}" + "/api/incoterm-step/";
 incotermTab.variable.incotermRuleUrl = "${contextPath}" + "/api/incoterm-rule/";
-incotermTab.variable.incotermDetailUrl = "${contextPath}" + "/api/incoterm-detail/";
 incotermTab.variable.incotermStepsUrl = "${contextPath}" + "/api/incoterm-steps/";
 incotermTab.variable.incotermRulesUrl = "${contextPath}" + "/api/incoterm-rules/";
 incotermTab.variable.incotermPartyUrl = "${contextPath}" + "/api/incoterm-party/";
 incotermTab.variable.incotermAspectUrl = "${contextPath}" + "/api/incoterm-aspect/";
+incotermTab.variable.incotermDetailUrl = "${contextPath}" + "/api/incoterm-detail/";
 
 //***************************************************** RESTDATASOURCE *************************************************
 
@@ -84,7 +85,7 @@ incotermTab.listGrid.incotermRule = isc.ListGrid.nicico.getDefault(
             };
             this.findForm.showFindFormByRestApiUrl(
                 incotermTab.window.incoterm, "60%", "500", "<spring:message code='incoterm.window.incoterm-forms.select'/>",
-                record.incotermForms, '<spring:url value="/api/incoterm-form/spec-list"/>',
+                record.incotermForms, incotermTab.variable.incotermFormUrl + "spec-list",
                 BaseFormItems.concat([{
                     name: "code",
                     title: "<spring:message code='global.code'/>"

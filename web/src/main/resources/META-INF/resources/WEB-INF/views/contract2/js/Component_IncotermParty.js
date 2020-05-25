@@ -69,7 +69,7 @@ isc.defineClass("IncotermParty", isc.HStack).addProperties({
                         {name: "titleFa"},
                         {name: "titleEn"},
                     ]),
-                    fetchDataURL: '<spring:url value="/api/term/spec-list">'
+                    fetchDataURL: "${contextPath}" + "/api/term/spec-list"
                 })
             }]
         });
