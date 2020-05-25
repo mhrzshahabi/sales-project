@@ -28,16 +28,16 @@ isc.defineClass("IncotermRuleTable", isc.VStack).addProperties({
         });
     },
     getAllDetailValues: function () {
-        return this.getAllDetailComponents().map(q => q.dataSource);
+        return this.getAllDetailComponents().map(q => q.detailRecord);
     },
     getDetailValues: function (ruleTableIndex) {
-        return this.getDetailComponents(ruleTableIndex).map(q => q.dataSource);
+        return this.getDetailComponents(ruleTableIndex).map(q => q.detailRecord);
     },
     getDetailValuesAtSteps: function (ruleTableIndex, stepsIndex) {
-        return this.getDetailComponentsAtSteps(ruleTableIndex, stepsIndex).map(q => q.dataSource);
+        return this.getDetailComponentsAtSteps(ruleTableIndex, stepsIndex).map(q => q.detailRecord);
     },
     getDetailValue: function (ruleTableIndex, stepsIndex, aspectIndex) {
-        return this.getDetailComponent(ruleTableIndex, stepsIndex, aspectIndex).dataSource;
+        return this.getDetailComponent(ruleTableIndex, stepsIndex, aspectIndex).detailRecord;
     },
     getComponents: function () {
         return this.members;
