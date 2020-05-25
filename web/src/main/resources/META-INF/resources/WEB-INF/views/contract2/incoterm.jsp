@@ -5,5 +5,5 @@
 
 <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
 <%@include file="../common/ts/BasicFormUtil.js"%>
-<%@include file="Component_Incoterm.jsp"%>
+<%@include file="component-incoterm.jsp"%>
 <%@include file="js/incoterm.js"%>

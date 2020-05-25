@@ -42,7 +42,7 @@ isc.defineClass("IncotermParty", isc.HStack).addProperties({
                 })
             };
         };
-        this.partyForm.validate = function (data) {console.log(data);
+        this.partyForm.validate = function (data) {
             let sum = data.incotermParties.map(q => Number(q.portion)).sum();
             return sum === 0 || sum === 100;
         };
