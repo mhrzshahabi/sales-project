@@ -83,8 +83,8 @@ incotermTab.listGrid.incotermRule = isc.ListGrid.nicico.getDefault(
                 record.incotermForms = selectedRecords;
             };
             this.findForm.showFindFormByRestApiUrl(
-                null, "<spring:message code='incoterm.window.incoterm-forms.select'/>",
-                record.incotermForms, '<spring:url value="/incoterm-form/spec-list"/>',
+                incotermTab.window.incoterm, "60%", "500", "<spring:message code='incoterm.window.incoterm-forms.select'/>",
+                record.incotermForms, '<spring:url value="/api/incoterm-form/spec-list"/>',
                 BaseFormItems.concat([{
                     name: "code",
                     title: "<spring:message code='global.code'/>"

@@ -108,16 +108,10 @@ namespace nicico {
         public createWindow(title: string, buttonLayout: isc.HLayout, width: string = null, height: string = null): void {
 
             let This = this;
-            let vLayout = isc.VLayout.create({
-
-                width: "100%",
-                members: [
-                    This.bodyWidget.getObject(),
-                    buttonLayout
-                ]
-            });
+            width = width == null ? "50%" : width;
+            height = height == null ? "500" : height;
             // @ts-ignore
-            This.windowWidget = new ObjectHider(Object.assign(isc.Window.nicico.getDefault(title, [vLayout], width, height), {
+            This.windowWidget = new ObjectHider(Object.assign(isc.Window.nicico.getDefault(title, [This.bodyWidget.getObject(), buttonLayout], width, height), {
 
                 closeClick: function () {
                     this.Super("closeClick", arguments);

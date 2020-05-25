@@ -31,7 +31,11 @@ public class IncotermService extends GenericService<Incoterm, Long, IncotermDTO.
 
     @Override
     @Transactional
-    @Action(ActionType.Create)
+    @Action(value = ActionType.Create, authority = "" +
+            "hasAuthority('C_INCOTERM') AND " +
+            "hasAuthority('C_INCOTERM_STEPS') AND " +
+            "hasAuthority('C_INCOTERM_RULES') AND " +
+            "hasAuthority('C_INCOTERM_FORMS')")
     public IncotermDTO.Info create(IncotermDTO.Create request) {
 
         IncotermDTO.Info incoterm = super.create(request);
@@ -70,7 +74,11 @@ public class IncotermService extends GenericService<Incoterm, Long, IncotermDTO.
 
     @Override
     @Transactional
-    @Action(ActionType.Update)
+    @Action(value = ActionType.Update, authority = "" +
+            "hasAuthority('U_INCOTERM') AND " +
+            "hasAuthority('U_INCOTERM_STEPS') AND " +
+            "hasAuthority('U_INCOTERM_RULES') AND " +
+            "hasAuthority('U_INCOTERM_FORMS')")
     public IncotermDTO.Info update(Long id, IncotermDTO.Update request) {
 
         IncotermDTO.Info incoterm = super.update(id, request);
@@ -115,7 +123,13 @@ public class IncotermService extends GenericService<Incoterm, Long, IncotermDTO.
 
     @Override
     @Transactional
-    @Action(ActionType.Delete)
+    @Action(value = ActionType.Delete, authority = "" +
+            "hasAuthority('D_INCOTERM') AND " +
+            "hasAuthority('D_INCOTERM_STEPS') AND " +
+            "hasAuthority('D_INCOTERM_RULES') AND " +
+            "hasAuthority('D_INCOTERM_FORMS') AND " +
+            "hasAuthority('D_INCOTERM_DETAIL') AND " +
+            "hasAuthority('D_INCOTERM_PARTIES')")
     public void delete(Long id) {
 
         super.delete(id);

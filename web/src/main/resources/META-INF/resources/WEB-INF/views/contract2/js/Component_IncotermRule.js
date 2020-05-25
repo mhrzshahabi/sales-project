@@ -52,7 +52,7 @@ isc.defineClass("IncotermRules", isc.VStack).addProperties({
 
                                 let incotermForms = this.item.incotermForms;
                                 This.findForm.showFindFormByData(
-                                    null, "<spring:message code='incoterm.window.incoterm-forms.show'/>",
+                                    null, "400", "400","<spring:message code='incoterm.window.incoterm-forms.show'/>",
                                     incotermForms, null,
                                     BaseFormItems.concat([{
                                         name: "incotermForm.code",

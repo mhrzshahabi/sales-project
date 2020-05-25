@@ -199,7 +199,7 @@ var nicico;
                     items: [
                         isc.VLayout.create({
                             width: "100%",
-                            height: "100%",
+                            height: height,
                             members: items
                         })
                     ]

@@ -33,7 +33,7 @@ namespace nicico {
             return selectedRecords;
         };
 
-        showFindFormByData(ownerWindow: isc.Window, title: string, data: Array<any>, currentData: Array<any>, fields: Array<Partial<isc.ListGridField>>, selectionMultiplicityValue: number = 1): void {
+        showFindFormByData(ownerWindow: isc.Window, width: string, height: string, title: string, data: Array<any>, currentData: Array<any>, fields: Array<Partial<isc.ListGridField>>, selectionMultiplicityValue: number = 1): void {
 
             this.owner = new ObjectHider(ownerWindow);
             this.selectionMultiplicity = new ObjectHider(selectionMultiplicityValue);
@@ -63,18 +63,18 @@ namespace nicico {
                         listGrid.selectRecord(q);
                 });
             }
-            this.createWindow(title, this.getButtonLayout(), listGrid);
+            this.createWindow(title, this.getButtonLayout(), listGrid, width, height);
             if (ownerWindow != null)
                 ownerWindow.close();
             this.windowWidget.getObject().show();
         }
 
-        showFindFormByListGrid(ownerWindow: isc.Window, title: string, currentData: Array<any>, listGrid: isc.ListGrid, selectionMultiplicityValue: number = 1): void {
+        showFindFormByListGrid(ownerWindow: isc.Window, width: string, height: string, title: string, currentData: Array<any>, listGrid: isc.ListGrid, selectionMultiplicityValue: number = 1): void {
 
             this.owner = new ObjectHider(ownerWindow);
             this.selectionMultiplicity = new ObjectHider(selectionMultiplicityValue);
             this.listGridWidget = new ObjectHider(isc.ListGrid.create(listGrid));
-            this.createWindow(title, this.getButtonLayout(), listGrid);
+            this.createWindow(title, this.getButtonLayout(), listGrid, width, height);
             if (currentData != null && currentData.length > 0) {
 
                 // @ts-ignore
@@ -100,29 +100,18 @@ namespace nicico {
             this.windowWidget.getObject().show();
         }
 
-        showFindFormByRestDataSource(ownerWindow: isc.Window, title: string, currentData: Array<any>, restDataSource: isc.RestDataSource, dataArrivedCallback?: any, criteria: Criteria = null, selectionMultiplicityValue: number = 1): void {
+        showFindFormByRestDataSource(ownerWindow: isc.Window, width: string, height: string, title: string, currentData: Array<any>, restDataSource: isc.RestDataSource, dataArrivedCallback?: any, criteria: Criteria = null, selectionMultiplicityValue: number = 1): void {
 
             this.owner = new ObjectHider(ownerWindow);
             this.selectionMultiplicity = new ObjectHider(selectionMultiplicityValue);
             this.createListGrid(isc.RestDataSource.create(restDataSource), criteria, currentData, dataArrivedCallback);
-            this.createWindow(title, this.getButtonLayout(), this.listGridWidget.getObject());
+            this.createWindow(title, this.getButtonLayout(), this.listGridWidget.getObject(), width, height);
             if (ownerWindow != null)
                 ownerWindow.close();
             this.windowWidget.getObject().show();
         }
 
-        showFindFormByRestApiUrl(ownerWindow: isc.Window, title: string, currentData: Array<any>, restApiUrl: string, fields: Array<Partial<isc.DataSourceField>>, dataArrivedCallback?: any, criteria: Criteria = null, selectionMultiplicityValue: number = 1): void {
-
-            this.owner = new ObjectHider(ownerWindow);
-            this.selectionMultiplicity = new ObjectHider(selectionMultiplicityValue);
-            this.createListGrid(this.getRestDataSource(restApiUrl, fields), criteria, currentData, dataArrivedCallback);
-            this.createWindow(title, this.getButtonLayout(), this.listGridWidget.getObject());
-            if (ownerWindow != null)
-                ownerWindow.close();
-            this.windowWidget.getObject().show();
-        }
-
-        showFindFormByRestApiUrl2(ownerWindow: isc.Window, width: string, height: string, title: string, currentData: Array<any>, restApiUrl: string, fields: Array<Partial<isc.DataSourceField>>, dataArrivedCallback?: any, criteria: Criteria = null, selectionMultiplicityValue: number = 1): void {
+        showFindFormByRestApiUrl(ownerWindow: isc.Window, width: string, height: string, title: string, currentData: Array<any>, restApiUrl: string, fields: Array<Partial<isc.DataSourceField>>, dataArrivedCallback?: any, criteria: Criteria = null, selectionMultiplicityValue: number = 1): void {
 
             this.owner = new ObjectHider(ownerWindow);
             this.selectionMultiplicity = new ObjectHider(selectionMultiplicityValue);
@@ -198,9 +187,8 @@ namespace nicico {
 
             let This = this;
             // @ts-ignore
-            This.listGridWidget = new ObjectHider(Object.assign(isc.ListGrid.nicico.getDefault(null, restDataSource, criteria), {
+            This.listGridWidget = new ObjectHider(isc.ListGrid.nicico.getDefault(null, restDataSource, criteria, {
 
-                height: window.innerHeight * .6,
                 // @ts-ignore
                 currentData: currentData,
                 selectionType: (This.selectionMultiplicity.getObject() < 1 ? "none" : (This.selectionMultiplicity.getObject() === 1 ? "single" : "simple")),
@@ -239,21 +227,11 @@ namespace nicico {
         public createWindow(title: string, buttonLayout: isc.HLayout, listGrid: isc.ListGrid, width: string = null, height: string = null): void {
 
             let This = this;
-            let vLayout = isc.VLayout.create({
-
-                width: "100%",
-                members: [
-                    listGrid,
-                    buttonLayout
-                ]
-            });
-
-
+            width = width == null ? "50%" : width;
+            height = height == null ? "500" : height;
             // @ts-ignore
-            This.windowWidget = new ObjectHider(Object.assign(isc.Window.nicico.getDefault(title, [vLayout]), {
+            This.windowWidget = new ObjectHider(Object.assign(isc.Window.nicico.getDefault(title, [listGrid, buttonLayout], width, height), {
 
-                height: height,
-                width: width == null ? "50%" : width,
                 closeClick: function () {
                     this.Super("closeClick", arguments);
                     if (This.owner.getObject() != null)
