@@ -193,7 +193,7 @@ namespace nicico {
                 currentData: currentData,
                 selectionType: (This.selectionMultiplicity.getObject() < 1 ? "none" : (This.selectionMultiplicity.getObject() === 1 ? "single" : "simple")),
                 selectionAppearance: (This.selectionMultiplicity.getObject() > 1 ? "checkbox" : "rowStyle"),
-                sortField: This.selectionMultiplicity.getObject() > 1 ? 1 : 0,
+                sortField: This.selectionMultiplicity.getObject() > 1 ? 2 : 1, // showRowNumbers and selectionAppearance
                 autoSaveEdits: false,
                 validateOnChange: true,
                 dataArrived: function (startRow, endRow) {

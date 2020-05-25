@@ -218,7 +218,7 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
 
     width: "100%",
     height: "100%",
-    sortField: 0,
+    sortField: 1,
     showRowNumbers: true,
     canAutoFitFields: false,
     allowAdvancedCriteria: true,
@@ -317,7 +317,7 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
                         let listGrid = isc.ListGrid.nicico.createListGrid({
                             width: "100%",
                             height: "400",
-                            sortField: 0,
+                            sortField: 1,
                             showRowNumbers: true,
                             canAutoFitFields: false,
                             allowAdvancedCriteria: true,
@@ -539,7 +539,7 @@ contractDetailTypeTab.listGrid.template = isc.ListGrid.create({
 
     width: "100%",
     height: "100%",
-    sortField: 0,
+    sortField: 1,
     showRowNumbers: true,
     canAutoFitFields: false,
     allowAdvancedCriteria: true,
