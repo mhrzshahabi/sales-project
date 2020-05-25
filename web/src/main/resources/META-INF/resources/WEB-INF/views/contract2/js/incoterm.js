@@ -209,8 +209,7 @@ incotermTab.button.save = isc.IButtonSave.create({
                     incotermTab.method.refresh(incotermTab.listGrid.main);
 
                     let incotermData = JSON.parse(response.httpResponseText);
-                    let incotermId = incotermData.id;
-                    incotermTab.method.showDetailWindow(incotermId, incotermData.titleEn);
+                    incotermTab.method.showDetailWindow(incotermData.id, incotermData.titleEn);
                 } else
                     incotermTab.dialog.error(response);
             }
@@ -400,6 +399,7 @@ incotermTab.method.showDetailWindow = function (incotermId, title) {
                     let incotermRulesData = JSON.parse(rulesResponse.httpResponseText).response.data;
                     isc.Window.nicico.getDefault2(null, isc.IncotermTable.create({
                         title: title,
+                        httpMethod: incotermTab.variable.method,
                         rulesDataSource: incotermRulesData,
                         stepsDataSource: incotermStepsData,
                         dataSource: incotermTab.variable.incotermDetails,

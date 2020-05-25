@@ -25,10 +25,10 @@ isc.defineClass("IncotermRuleRecord", isc.HStack).addProperties({
                 if (detail == null)
                     detail = {
                         termId: null,
-                        incotermParties: [],
                         incotermStepsId: steps.id,
                         incotermAspectId: aspect.id,
-                        incotermRulesId: This.incotermRules.id
+                        incotermRulesId: This.incotermRules.id,
+                        incotermParties: [{portion: 100, incotermPartyId: This.incotermPartyComponent.getPartyValue(0)}]
                     };
                 detail.requiredParty = aspect.requiredParty;
                 detailLayout.addMember(isc.IncotermDetail.create({
@@ -36,8 +36,7 @@ isc.defineClass("IncotermRuleRecord", isc.HStack).addProperties({
                     height: "8",
                     width: "100%",
                     detailRecord: detail,
-                    incotermPartyComponent: This.incotermPartyComponent,
-                    backgroundColor: This.incotermPartyComponent.getPartyBgColor(0)
+                    incotermPartyComponent: This.incotermPartyComponent
                 }));
             });
 
