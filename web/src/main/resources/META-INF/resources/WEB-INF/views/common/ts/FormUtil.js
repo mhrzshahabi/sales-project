@@ -89,8 +89,15 @@ var nicico;
             var This = this;
             width = width == null ? "50%" : width;
             height = height == null ? "500" : height;
+            var items = [];
+            if (This.bodyWidget.getObject().constructor === Array)
+                // @ts-ignore
+                items.addAll(This.bodyWidget.getObject());
+            else
+                items.add(This.bodyWidget.getObject());
+            items.add(buttonLayout);
             // @ts-ignore
-            This.windowWidget = new nicico.ObjectHider(Object.assign(isc.Window.nicico.getDefault(title, [This.bodyWidget.getObject(), buttonLayout], width, height), {
+            This.windowWidget = new nicico.ObjectHider(Object.assign(isc.Window.nicico.getDefault(title, items, width, height), {
                 closeClick: function () {
                     this.Super("closeClick", arguments);
                     if (This.owner.getObject() != null)

@@ -1,11 +1,14 @@
 isc.defineClass("IncotermRuleTable", isc.VStack).addProperties({
     autoDraw: false,
-    layoutMargin: 3,
+    layoutMargin: 2,
     membersMargin: 2,
+    border: "1px solid blue",
+    isValid: null,
     dataSource: [],
     stepsDataSource: [],
     rulesDataSource: [],
     aspectDataSource: [],
+    incotermPartyComponent: null,
     initWidget: function () {
 
         let This = this;
@@ -14,10 +17,13 @@ isc.defineClass("IncotermRuleTable", isc.VStack).addProperties({
 
             let details = This.dataSource.filter(q => q.incotermRulesId === rules.id);
             This.addMember(isc.IncotermRuleRecord.create({
+                width: "100%",
+                height: "30",
                 dataSource: details,
                 incotermRules: rules,
                 stepsDataSource: This.stepsDataSource,
                 aspectDataSource: This.aspectDataSource,
+                incotermPartyComponent: This.incotermPartyComponent
             }));
         });
     },
@@ -54,5 +60,18 @@ isc.defineClass("IncotermRuleTable", isc.VStack).addProperties({
     },
     getDetailComponent: function (ruleTableIndex, stepsIndex, aspectIndex) {
         return this.members.get(ruleTableIndex).getDetailComponent(stepsIndex, aspectIndex);
+    },
+    validate: function () {
+
+        this.isValid = true;
+        let allDetailComponents = this.getAllDetailComponents();
+        for (let i = 0; i < allDetailComponents.length; i++)
+            if (!allDetailComponents[i].validate()) {
+
+                this.isValid = false;
+                break;
+            }
+
+        return this.isValid;
     }
 });

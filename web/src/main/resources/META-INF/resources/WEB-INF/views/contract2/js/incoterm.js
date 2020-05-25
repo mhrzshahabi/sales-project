@@ -159,7 +159,7 @@ incotermTab.button.continue = isc.IButtonSave.create({
         if (incotermId != null) {
 
             incotermTab.window.incoterm.close();
-            incotermTab.method.showDetailWindow(incotermId);
+            incotermTab.method.showDetailWindow(incotermId, incotermTab.dynamicForm.incoterm.getValue("titleEn"));
         }
     }
 });
@@ -208,8 +208,9 @@ incotermTab.button.save = isc.IButtonSave.create({
                     incotermTab.window.incoterm.close();
                     incotermTab.method.refresh(incotermTab.listGrid.main);
 
-                    let incotermId = JSON.parse(response.httpResponseText).id;
-                    incotermTab.method.showDetailWindow(incotermId);
+                    let incotermData = JSON.parse(response.httpResponseText);
+                    let incotermId = incotermData.id;
+                    incotermTab.method.showDetailWindow(incotermId, incotermData.titleEn);
                 } else
                     incotermTab.dialog.error(response);
             }
@@ -363,7 +364,7 @@ incotermTab.method.editForm = function () {
         });
     }
 };
-incotermTab.method.showDetailWindow = function (incotermId) {
+incotermTab.method.showDetailWindow = function (incotermId, title) {
 
     incotermTab.method.jsonRPCManagerRequest({
         httpMethod: "GET",
@@ -398,6 +399,7 @@ incotermTab.method.showDetailWindow = function (incotermId) {
                 callback: function (rulesResponse) {
                     let incotermRulesData = JSON.parse(rulesResponse.httpResponseText).response.data;
                     isc.Window.nicico.getDefault2(null, isc.IncotermTable.create({
+                        title: title,
                         rulesDataSource: incotermRulesData,
                         stepsDataSource: incotermStepsData,
                         dataSource: incotermTab.variable.incotermDetails,

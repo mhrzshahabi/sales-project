@@ -16,10 +16,10 @@ namespace nicico {
     export class FormUtil {
 
         private owner: ObjectHider<isc.Window>;
-        private bodyWidget: ObjectHider<isc.Canvas>;
         private windowWidget: ObjectHider<isc.Window>;
+        private bodyWidget: ObjectHider<isc.Canvas | Array<isc.Canvas>>;
 
-        public populateData: any = function (bodyWidget: isc.Canvas) {
+        public populateData: any = function (bodyWidget: isc.Canvas | Array<isc.Canvas>) {
 
             return [];
         };
@@ -36,7 +36,7 @@ namespace nicico {
             return data;
         };
 
-        showForm(ownerWindow: isc.Window, title: string, canvas: isc.Canvas, width: string = null, height: string = null): void {
+        showForm(ownerWindow: isc.Window, title: string, canvas: isc.Canvas | Array<isc.Canvas>, width: string = null, height: string = null): void {
 
             this.owner = new ObjectHider(ownerWindow);
             this.bodyWidget = new ObjectHider(canvas);
@@ -46,12 +46,13 @@ namespace nicico {
             this.windowWidget.getObject().show();
         }
 
-        init(ownerWindow: isc.Window, title: string, canvas: isc.Canvas, width: string = null, height: string = null): void {
+        init(ownerWindow: isc.Window, title: string, canvas: isc.Canvas | Array<isc.Canvas>, width: string = null, height: string = null): void {
 
             this.owner = new ObjectHider(ownerWindow);
             this.bodyWidget = new ObjectHider(canvas);
             this.createWindow(title, this.getButtonLayout(), width, height);
         }
+
         justShowForm(): void {
 
             if (this.owner.getObject() != null)
@@ -110,8 +111,15 @@ namespace nicico {
             let This = this;
             width = width == null ? "50%" : width;
             height = height == null ? "500" : height;
+            let items = [];
+            if (This.bodyWidget.getObject().constructor === Array)
+                // @ts-ignore
+                items.addAll(This.bodyWidget.getObject());
+            else
+                items.add(This.bodyWidget.getObject());
+            items.add(buttonLayout)
             // @ts-ignore
-            This.windowWidget = new ObjectHider(Object.assign(isc.Window.nicico.getDefault(title, [This.bodyWidget.getObject(), buttonLayout], width, height), {
+            This.windowWidget = new ObjectHider(Object.assign(isc.Window.nicico.getDefault(title, items, width, height), {
 
                 closeClick: function () {
                     this.Super("closeClick", arguments);

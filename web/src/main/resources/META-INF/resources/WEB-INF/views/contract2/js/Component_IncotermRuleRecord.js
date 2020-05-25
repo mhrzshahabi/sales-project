@@ -1,11 +1,13 @@
 isc.defineClass("IncotermRuleRecord", isc.HStack).addProperties({
     autoDraw: false,
-    layoutMargin: 3,
+    layoutMargin: 0,
     membersMargin: 2,
+    isValid: null,
     dataSource: [],
     incotermRules: null,
     stepsDataSource: [],
     aspectDataSource: [],
+    incotermPartyComponent: null,
     initWidget: function () {
 
         let This = this;
@@ -13,8 +15,9 @@ isc.defineClass("IncotermRuleRecord", isc.HStack).addProperties({
         this.stepsDataSource.forEach((steps, index, stepsList) => {
 
             let detailLayout = isc.VLayout.create({
-                width: "50%",
-                height: "100%"
+                width: "100",
+                height: "30",
+                membersMargin: 2
             });
             This.aspectDataSource.forEach((aspect, index2, aspects) => {
 
@@ -27,11 +30,14 @@ isc.defineClass("IncotermRuleRecord", isc.HStack).addProperties({
                         incotermAspectId: aspect.id,
                         incotermRulesId: This.incotermRules.id
                     };
-
+                detail.requiredParty = aspect.requiredParty;
                 detailLayout.addMember(isc.IncotermDetail.create({
 
-                    aspect: aspect,
-                    detailRecord: detail
+                    height: "8",
+                    width: "100%",
+                    detailRecord: detail,
+                    incotermPartyComponent: This.incotermPartyComponent,
+                    backgroundColor: This.incotermPartyComponent.getPartyBgColor(0)
                 }));
             });
 
@@ -66,5 +72,19 @@ isc.defineClass("IncotermRuleRecord", isc.HStack).addProperties({
     },
     getDetailComponent: function (stepsIndex, aspectIndex) {
         return this.members.get(stepsIndex).members.get(aspectIndex);
+    },
+    validate: function () {
+
+        this.isValid = true;
+        let allDetailComponents = this.getAllDetailComponents();
+        for (let i = 0; i < allDetailComponents.length; i++)
+            if (!allDetailComponents[i].validate()) {
+
+                this.isValid = false;
+                break;
+            }
+
+        this.setBorder(this.isValid ? "" : "1px solid red");
+        return this.isValid;
     }
 });

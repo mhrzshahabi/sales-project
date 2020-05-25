@@ -1,53 +1,64 @@
 isc.defineClass("IncotermTable", isc.VLayout).addProperties({
-    height: 800,
+    height: "800",
     width: "100%",
     autoDraw: false,
-    layoutMargin: 3,
+    layoutMargin: 0,
     membersMargin: 2,
     dataSource: [],
     rulesDataSource: [],
     stepsDataSource: [],
     aspectDataSource: [],
     partyDataSource: [],
+    title: "",
     initWidget: function () {
 
         let This = this;
         this.Super("initWidget", arguments);
 
         this.addMember(isc.IncotermSteps.create({
+            height: "70",
             width: "100%",
-            height: 100,
-            startSpacerWidth: 200,
+            startSpacerWidth: "200",
+            startSpacerContents: This.title,
             valueField: "id",
             displayField: "incotermStep.titleEn",
             dataSource: This.stepsDataSource
         }));
-        // this.addMember(isc.HLayout.create({
-        //     width: "100%",
-        //     members: [
-        //         isc.IncotermRules.create({
-        //             valueField: "id",
-        //             aspectValueField: "id",
-        //             aspectDisplayField: "titleEn",
-        //             displayField: "incotermRule.titleEn",
-        //             dataSource: This.rulesDataSource,
-        //             aspectDataSource: This.aspectDataSource
-        //         }),
-        //         isc.IncotermRuleTable.create({
-        //             dataSource: This.dataSource,
-        //             stepsDataSource: This.stepsDataSource,
-        //             rulesDataSource: This.rulesDataSource,
-        //             aspectDataSource: This.aspectDataSource
-        //         })
-        //     ]
-        // }));
-        // this.addMember(isc.IncotermParty.create({
-        //     valueField: "id",
-        //     colorField: "bgColor",
-        //     displayField: "titleEn",
-        //     memberSpacerWidth: 20,
-        //     dataSource: This.partyDataSource
-        // }));
+        let incotermPartyComponent = isc.IncotermParty.create({
+            height: "30",
+            width: "100%",
+            valueField: "id",
+            colorField: "bgColor",
+            displayField: "titleEn",
+            memberSpacerWidth: "20",
+            dataSource: This.partyDataSource
+        });
+        this.addMember(isc.HLayout.create({
+            width: "100%",
+            height: This.height - 112,
+            members: [
+                isc.IncotermRules.create({
+                    width: "200",
+                    height: This.height - 112,
+                    valueField: "id",
+                    aspectValueField: "id",
+                    aspectDisplayField: "titleEn",
+                    displayField: "incotermRule.titleEn",
+                    dataSource: This.rulesDataSource,
+                    aspectDataSource: This.aspectDataSource
+                }),
+                isc.IncotermRuleTable.create({
+                    width: "100%",
+                    height: This.height - 112,
+                    dataSource: This.dataSource,
+                    stepsDataSource: This.stepsDataSource,
+                    rulesDataSource: This.rulesDataSource,
+                    aspectDataSource: This.aspectDataSource,
+                    incotermPartyComponent: incotermPartyComponent
+                })
+            ]
+        }));
+        this.addMember(incotermPartyComponent);
         this.addMember(isc.HLayout.create({
 
             height: "5%",

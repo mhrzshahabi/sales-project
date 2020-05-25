@@ -1,7 +1,8 @@
 isc.defineClass("IncotermParty", isc.HStack).addProperties({
     autoDraw: false,
-    layoutMargin: 3,
+    layoutMargin: 0,
     membersMargin: 2,
+    border: "1px solid blue",
     dataSource: [],
     colorField: "",
     valueField: "",
@@ -15,10 +16,12 @@ isc.defineClass("IncotermParty", isc.HStack).addProperties({
         this.dataSource.forEach((party, index, parties) => {
             This.addMember(
                 isc.Label.create({
-                    padding: 6,
-                    width: "100%",
+                    padding: 3,
+                    width: "100",
+                    height: "20",
                     autoFit: false,
                     autoDraw: false,
+                    align: "center",
                     item: party,
                     colNum: index,
                     value: eval("party." + This.valueField),
@@ -33,14 +36,14 @@ isc.defineClass("IncotermParty", isc.HStack).addProperties({
 
         this.partyForm.populateData = function (body) {
             return {
-                termId: body.getMembers()[0].getValue("termId"),
-                incotermParties: body.getMembers()[1].data.localData.filter(q => q.portion).map(q => {
-                    return {incotermPartyId: q.id, portion: q.portion}
+                termId: body[0].getValue("termId"),
+                incotermParties: body[1].data.filter(q => Number(q.portion) > 0).map(q => {
+                    return {incotermPartyId: q.id, portion: Number(q.portion)}
                 })
             };
         };
-        this.partyForm.validate = function (data) {
-            let sum = data.incotermParties.map(q => q.portion).sum();
+        this.partyForm.validate = function (data) {console.log(data);
+            let sum = data.incotermParties.map(q => Number(q.portion)).sum();
             return sum === 0 || sum === 100;
         };
         let dynamicForm = isc.DynamicForm.create({
@@ -89,27 +92,25 @@ isc.defineClass("IncotermParty", isc.HStack).addProperties({
         ], null, null, {showFilterEditor: false});
         this.partyForm.init(
             null, null,
-            isc.VLayout.create({
-                width: "100%",
-                height: "400",
-                members: [
-                    dynamicForm,
-                    grid
-                ]
-            }), '400');
+            [
+                dynamicForm,
+                grid
+            ], '400', "300");
     },
     showPartyForm: function (currentData, okCallback) {
 
         this.partyForm.okCallBack = function (data) {
             okCallback(data);
         };
-        let grid = this.partyForm.bodyWidget.getObject().getMembers()[1];
-        let dynamicForm = this.partyForm.bodyWidget.getObject().getMembers()[0];
+        let grid = this.partyForm.bodyWidget.getObject()[1];
+        let dynamicForm = this.partyForm.bodyWidget.getObject()[0];
         dynamicForm.setValue("termId", currentData.termId);
-        grid.setData([...this.dataSource]);
+        let gridDataSource = [];
+        this.dataSource.forEach(q => gridDataSource.push({...q}));
+        grid.setData(gridDataSource);
         for (let i = 0; i < currentData.incotermParties.length; i++) {
 
-            let incotermParty = grid.data.localData.filter(q => q.id === currentData.incotermParties[i].incotermPartyId).first();
+            let incotermParty = grid.data.filter(q => q.id === currentData.incotermParties[i].incotermPartyId).first();
             if (incotermParty != null) {
 
                 incotermParty.portion = currentData.incotermParties[i].portion;
@@ -120,7 +121,7 @@ isc.defineClass("IncotermParty", isc.HStack).addProperties({
         this.partyForm.justShowForm();
     },
     getParty: function (index) {
-        return this.getComponent(index).item;
+        return this.getPartyComponent(index).item;
     },
     getPartyValues: function () {
         return this.getPartyComponents().map(q => q.value);
