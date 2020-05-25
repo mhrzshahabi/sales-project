@@ -22,7 +22,7 @@ isc.defineClass("IncotermParty", isc.HStack).addProperties({
                     item: party,
                     colNum: index,
                     value: eval("party." + This.valueField),
-                    contents: eval("party." + This.displayField),
+                    contents: "<b>" + eval("party." + This.displayField) + "</b>",
                     backgroundColor: party[This.colorField]
                 })
             );
