@@ -97,16 +97,22 @@ isc.defineClass("IncotermParty", isc.HStack).addProperties({
                 grid
             ], '400', "300");
     },
-    showPartyForm: function (currentData, okCallback) {
+    showPartyForm: function (currentData, okCallback, cancelCallback) {
 
+        this.partyForm.cancelCallBack = function () {
+            if (cancelCallback != null)
+                cancelCallback();
+        };
         this.partyForm.okCallBack = function (data) {
-            okCallback(data);
+            if (okCallback != null)
+                okCallback(data);
         };
         let grid = this.partyForm.bodyWidget.getObject()[1];
         let dynamicForm = this.partyForm.bodyWidget.getObject()[0];
         dynamicForm.setValue("termId", currentData.termId);
         let gridDataSource = [];
         this.dataSource.forEach(q => gridDataSource.push({...q}));
+        grid.setData([]);
         grid.setData(gridDataSource);
         for (let i = 0; i < currentData.incotermParties.length; i++) {
 
