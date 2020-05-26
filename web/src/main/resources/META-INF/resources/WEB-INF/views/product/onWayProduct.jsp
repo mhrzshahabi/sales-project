@@ -589,7 +589,12 @@ value: 'انتينر'
 }
 // ListGrid_Tozin_IN_ONWAYPRODUCT.setCriteria(criteria);
 // ListGrid_Tozin_IN_ONWAYPRODUCT_refresh();
-ListGrid_Tozin_IN_ONWAYPRODUCT.fetchData(criteria)
+RestDataSource_Tozin_IN_ONWAYPRODUCT.fetchData(criteria,function(data,raw_data){
+console.log('fetched data ',arguments)
+ListGrid_Tozin_IN_ONWAYPRODUCT.setData(raw_data)
+}
+)
+// ListGrid_Tozin_IN_ONWAYPRODUCT.fetchData()
 }
 });
 
@@ -666,9 +671,9 @@ onWayProduct_searchBtn
             {
                 fieldName: "carName",
                 operator: "contains",
-                value: 'انتينر'
-            }
-        ]
+value: 'انتينر'
+}
+]
 };
 
 var ListGrid_Tozin_IN_ONWAYPRODUCT = isc.ListGrid.create({
@@ -676,6 +681,9 @@ alternateRecordStyles: true,
 width: "100%",
 height: "100%",
 showRowNumbers:true,
+showFilterEditor:true,
+allowAdvancedCriteria: true,
+filterLocalData:true,
 autoFitMaxRecords: 10,
 dataSource: RestDataSource_Tozin_IN_ONWAYPRODUCT,
 initialCriteria: RestDataSource_TozinInitialCriteria,
@@ -685,17 +693,17 @@ useClientFiltering: false,
 fields: [
 {
 name: "plak",
-title: "<spring:message code='Tozin.plak'/>",
-                align: "center",
-                showHover: true,
-                width: "10%"
-            },
-            {
-                name: "containerId",
-                title: "<spring:message code='Tozin.containerId'/>",
-                align: "center",
-                showHover: true,
-                width: "10%"
+title: "<spring:message code='Tozin.plak.container'/>",
+align: "center",
+showHover: true,
+width: "10%"
+},
+{
+name: "containerId",
+title: "<spring:message code='Tozin.containerId'/>",
+align: "center",
+showHover: true,
+width: "10%"
             },
             {
                 name: "vazn",
@@ -774,4 +782,5 @@ title: "<spring:message code='Tozin.plak'/>",
         members: [
             HLayout_Tozin_Actions, VLayout_Tozin_Grid
         ]
-    });
+});
+//</script>
