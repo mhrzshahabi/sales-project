@@ -28,4 +28,9 @@ public class RemittanceType extends BaseEntity {
 
     @Column(name = "C_DESCRIPTION", length = 1500)
     private String description;
+
+    @Column(name = "C_CONDITION", length = 1500, nullable = true)
+    private String condition;
+
+
 }

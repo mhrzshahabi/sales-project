@@ -1268,6 +1268,12 @@ function remittance(targetIdValueMap = {}) {
                 canEdit: false,
                 hidden: false
             },
+            {
+                name: "condition",
+                // primaryKey: true,
+                canEdit: false,
+                hidden: true
+            },
 
         ],
         fetchDataURL: SalesConfigs.Urls.RootUrl + "/api/remittance-type/spec-list"
