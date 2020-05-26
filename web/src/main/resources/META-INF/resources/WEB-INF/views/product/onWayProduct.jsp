@@ -675,6 +675,7 @@ var ListGrid_Tozin_IN_ONWAYPRODUCT = isc.ListGrid.create({
 alternateRecordStyles: true,
 width: "100%",
 height: "100%",
+showRowNumbers:true,
 autoFitMaxRecords: 10,
 dataSource: RestDataSource_Tozin_IN_ONWAYPRODUCT,
 initialCriteria: RestDataSource_TozinInitialCriteria,
