@@ -1,7 +1,9 @@
 var incotermTab = new nicico.GeneralTabUtil().getDefaultJSPTabVariable();
 incotermTab.variable.incotermDetails = [];
+incotermTab.variable.incotermFormData = [];
 incotermTab.variable.incotermPartyData = [];
 incotermTab.variable.incotermAspectData = [];
+incotermTab.variable.incotermFormFetched = false;
 incotermTab.variable.incotermPartyFetched = false;
 incotermTab.variable.incotermAspectFetched = false;
 incotermTab.variable.incotermFormUrl = "${contextPath}" + "/api/incoterm-form/";
@@ -79,14 +81,23 @@ incotermTab.listGrid.incotermRule = isc.ListGrid.nicico.getDefault(
 
             if (this.selectionAppearance.toLowerCase() !== "checkbox")
                 return;
+            if (!incotermTab.variable.incotermFormFetched) {
 
+                incotermTab.dialog.say("<spring:message code='global.wait.for.loading'/>");
+                return;
+            }
+            if (record.incotermForms == null)
+                record.incotermForms = [];
+            let data = Object.assign(incotermTab.variable.incotermFormData, record.incotermForms.map(q => {
+                return {code: q.incotermForm.code, title: q.incotermForm.title, order: q.order}
+            }));
             this.findForm.okCallBack = function (selectedRecords) {
 
                 record.incotermForms = selectedRecords;
             };
-            this.findForm.showFindFormByRestApiUrl(
+            this.findForm.showFindFormByData(
                 null, "500", "400", "<spring:message code='incoterm.window.incoterm-forms.select'/>",
-                record.incotermForms, incotermTab.variable.incotermFormUrl + "spec-list",
+                data, null,
                 BaseFormItems.concat([{
                     name: "code",
                     title: "<spring:message code='global.code'/>"
@@ -100,12 +111,8 @@ incotermTab.listGrid.incotermRule = isc.ListGrid.nicico.getDefault(
                     validators: [
                         {type: "integerRange", min: 0, max: 255}
                     ],
-                    title: "<spring:message code='global.order'/>",
-                    changed: function (form, item, value) {
-
-                        item.record.order = value;
-                    }
-                }]), null, null, Number.MAX_VALUE);
+                    title: "<spring:message code='global.order'/>"
+                }]), Number.MAX_VALUE);
         }
     }
 );
@@ -440,5 +447,14 @@ incotermTab.method.jsonRPCManagerRequest({
 
         incotermTab.variable.incotermAspectData = JSON.parse(response.httpResponseText).response.data;
         incotermTab.variable.incotermAspectFetched = true;
+    }
+});
+incotermTab.method.jsonRPCManagerRequest({
+    httpMethod: "GET",
+    actionURL: incotermTab.variable.incotermFormUrl + "spec-list",
+    callback: function (response) {
+
+        incotermTab.variable.incotermFormData = JSON.parse(response.httpResponseText).response.data;
+        incotermTab.variable.incotermFormFetched = true;
     }
 });
