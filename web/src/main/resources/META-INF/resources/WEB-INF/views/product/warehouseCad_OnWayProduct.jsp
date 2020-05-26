@@ -552,13 +552,13 @@
             {
                 name: "destinationBundleSum",
                 title: "<spring:message code='warehouseCad.destinationBundleSum'/>",
-                colSpan: 1,
-                titleColSpan: 1,
-                type: "staticText",
-            },
-            {
-                name: "sourceSheetSum",
-                title: "<spring:message code='warehouseCad.sourceSheetSum'/>",
+colSpan: 1,
+titleColSpan: 1,
+// type: "staticText",
+},
+{
+name: "sourceSheetSum",
+title: "<spring:message code='warehouseCad.sourceSheetSum'/>",
                 colSpan: 1,
                 titleColSpan: 1,
                 type: "staticText",
