@@ -987,22 +987,7 @@
       "title": "حذف اینکوترم"
     },
 
-    {
-      "code": "R_INCOTERM_DETAIL",
-      "title": "نمایش جزییات اینکوترم"
-    },
-    {
-      "code": "C_INCOTERM_DETAIL",
-      "title": "ایجاد جزییات اینکوترم"
-    },
-    {
-      "code": "U_INCOTERM_DETAIL",
-      "title": "به روز رسانی جزییات اینکوترم"
-    },
-    {
-      "code": "D_INCOTERM_DETAIL",
-      "title": "حذف جزییات اینکوترم"
-    },
+
 
     {
       "code": "R_INCOTERM_ASPECT",
@@ -1038,39 +1023,7 @@
       "title": "حذف ترم"
     },
 
-    {
-      "code": "R_INCOTERM_FORM",
-      "title": "نمایش فرم فروش اینکوترم"
-    },
-    {
-      "code": "C_INCOTERM_FORM",
-      "title": "ایجاد فرم فروش اینکوترم"
-    },
-    {
-      "code": "U_INCOTERM_FORM",
-      "title": "به روز رسانی فرم فروش اینکوترم"
-    },
-    {
-      "code": "D_INCOTERM_FORM",
-      "title": "حذف فرم فروش اینکوترم"
-    },
 
-    {
-      "code": "R_INCOTERM_FORMS",
-      "title": "نمایش فرم فروش مد جزییات اینکوترم"
-    },
-    {
-      "code": "C_INCOTERM_FORMS",
-      "title": "ایجاد فرم فروش مد جزییات اینکوترم"
-    },
-    {
-      "code": "U_INCOTERM_FORMS",
-      "title": "به روز رسانی فرم فروش مد جزییات اینکوترم"
-    },
-    {
-      "code": "D_INCOTERM_FORMS",
-      "title": "حذف فرم فروش مد جزییات اینکوترم"
-    },
 
     {
       "code": "R_INCOTERM_PARTY",
@@ -1089,22 +1042,7 @@
       "title": "حذف طرف قرارداد در اینکوترم"
     },
 
-    {
-      "code": "R_INCOTERM_PARTIES",
-      "title": "نمایش طرف قرارداد در جزییات اینکوترم"
-    },
-    {
-      "code": "C_INCOTERM_PARTIES",
-      "title": "ایجاد طرف قرارداد در جزییات اینکوترم"
-    },
-    {
-      "code": "U_INCOTERM_PARTIES",
-      "title": "به روز رسانی طرف قرارداد در جزییات اینکوترم"
-    },
-    {
-      "code": "D_INCOTERM_PARTIES",
-      "title": "حذف طرف قرارداد در جزییات اینکوترم"
-    },
+
     
     {
       "code": "R_INCOTERM_STEP",
@@ -1123,22 +1061,7 @@
       "title": "حذف گام اینکوترم"
     },
     
-    {
-      "code": "R_INCOTERM_STEPS",
-      "title": "نمایش گام جزییات اینکوترم"
-    },
-    {
-      "code": "C_INCOTERM_STEPS",
-      "title": "ایجاد گام جزییات اینکوترم"
-    },
-    {
-      "code": "U_INCOTERM_STEPS",
-      "title": "به روز رسانی گام جزییات اینکوترم"
-    },
-    {
-      "code": "D_INCOTERM_STEPS",
-      "title": "حذف گام جزییات اینکوترم"
-    },
+
     
     {
       "code": "R_INCOTERM_RULE",
@@ -1157,22 +1080,7 @@
       "title": "حذف مد اینکوترم"
     },
     
-    {
-      "code": "R_INCOTERM_RULES",
-      "title": "نمایش مد جزییات اینکوترم"
-    },
-    {
-      "code": "C_INCOTERM_RULES",
-      "title": "ایجاد مد جزییات اینکوترم"
-    },
-    {
-      "code": "U_INCOTERM_RULES",
-      "title": "به روز رسانی مد جزییات اینکوترم"
-    },
-    {
-      "code": "D_INCOTERM_RULES",
-      "title": "حذف مد جزییات اینکوترم"
-    },
+
     
     {
       "code": "R_VESSEL",

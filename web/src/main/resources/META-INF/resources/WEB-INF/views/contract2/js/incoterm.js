@@ -101,6 +101,10 @@ incotermTab.listGrid.incotermRule = isc.ListGrid.nicico.getDefault(
                         {type: "integerRange", min: 0, max: 255}
                     ],
                     title: "<spring:message code='global.order'/>",
+                    changed: function (form, item, value) {
+
+                        item.record.order = value;
+                    }
                 }]), null, null, Number.MAX_VALUE);
         }
     }
