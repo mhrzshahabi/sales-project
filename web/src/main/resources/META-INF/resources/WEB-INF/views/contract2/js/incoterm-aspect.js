@@ -19,8 +19,14 @@ incotermAspectTab.dynamicForm.fields = BaseFormItems.concat([{
     title: "<spring:message code='global.title-en'/>"
 }, {
     width: "100%",
-    editorType: "textArea",
+    required: true,
+    type: "boolean",
+    name: "requiredParty",
+    title: "<spring:message code='global.required'/>"
+}, {
+    width: "100%",
     name: "description",
+    editorType: "textArea",
     title: "<spring:message code='global.description'/>",
 }]);
 incotermAspectTab.listGrid.fields = incotermAspectTab.dynamicForm.fields.map(q => {

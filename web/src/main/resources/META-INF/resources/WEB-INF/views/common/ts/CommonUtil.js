@@ -22,12 +22,11 @@ var nicico;
             // @ts-ignore
             isc.ListGrid.nicico = {};
             // @ts-ignore
-            isc.ListGrid.nicico.getDefault = function (fields, restDataSource, criteria) {
+            isc.ListGrid.nicico.getDefault = function (fields, restDataSource, criteria, extraProperties) {
                 var listGridProperties = {};
                 listGridProperties.width = "100%";
                 listGridProperties.height = "100%";
                 listGridProperties.initialCriteria = criteria;
-                listGridProperties.sortField = 0;
                 listGridProperties.dataPageSize = 50;
                 listGridProperties.fetchDelay = 1000;
                 listGridProperties.autoFetchData = true;
@@ -48,7 +47,8 @@ var nicico;
                 listGridProperties.configureSortText = '<spring:message code="global.grid.configureSortText" />';
                 listGridProperties.sortFieldAscendingText = '<spring:message code="global.grid.sortFieldAscendingText" />';
                 listGridProperties.sortFieldDescendingText = '<spring:message code="global.grid.sortFieldDescendingText" />';
-                return this.createListGrid(listGridProperties, fields, restDataSource);
+                // @ts-ignore
+                return this.createListGrid(Object.assign(listGridProperties, extraProperties), fields, restDataSource);
             };
             // @ts-ignore
             isc.ListGrid.nicico.createListGrid = function (listGridProperties, fields, restDataSource) {
@@ -199,10 +199,34 @@ var nicico;
                     items: [
                         isc.VLayout.create({
                             width: "100%",
-                            height: "100%",
+                            height: height,
                             members: items
                         })
                     ]
+                });
+            };
+            // @ts-ignore
+            isc.Window.nicico.getDefault2 = function (title, layout, width, height, id) {
+                if (width === void 0) { width = null; }
+                if (height === void 0) { height = null; }
+                return isc.Window.create({
+                    ID: id,
+                    width: width == null ? "70%" : width,
+                    height: height,
+                    title: title,
+                    items: [layout],
+                    align: "center",
+                    isModal: true,
+                    autoSize: true,
+                    autoDraw: false,
+                    autoCenter: true,
+                    showModalMask: true,
+                    dismissOnEscape: true,
+                    dismissOnOutsideClick: true,
+                    // @ts-ignore
+                    closeClick: function () {
+                        this.Super("closeClick", arguments);
+                    }
                 });
             };
             // @ts-ignore
