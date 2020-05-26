@@ -77,7 +77,8 @@ incotermTab.listGrid.incotermRule = isc.ListGrid.nicico.getDefault(
         findForm: new nicico.FindFormUtil(),
         recordDoubleClick: function (viewer, record, recordNum, field, fieldNum, value, rawValue) {
 
-            let selectionCount = this.selectionAppearance.toLowerCase() === "checkbox" ? Number.MAX_VALUE : 0;
+            if (this.selectionAppearance.toLowerCase() !== "checkbox")
+                return;
 
             this.findForm.okCallBack = function (selectedRecords) {
 
@@ -95,13 +96,12 @@ incotermTab.listGrid.incotermRule = isc.ListGrid.nicico.getDefault(
                 }, {
                     name: "order",
                     type: "integer",
-                    canEdit: selectionCount > 0,
-                    hidden: selectionCount === 0,
+                    canEdit: true,
                     validators: [
                         {type: "integerRange", min: 0, max: 255}
                     ],
                     title: "<spring:message code='global.order'/>",
-                }]), null, null, selectionCount);
+                }]), null, null, Number.MAX_VALUE);
         }
     }
 );
@@ -160,7 +160,7 @@ incotermTab.button.continue = isc.IButtonSave.create({
         if (incotermId != null) {
 
             incotermTab.window.incoterm.close();
-            incotermTab.method.showDetailWindow(incotermId, incotermTab.dynamicForm.incoterm.getValue("titleEn"));
+            incotermTab.method.showDetailWindow(incotermId, incotermTab.dynamicForm.incoterm.getValue("title"));
         }
     }
 });
@@ -210,7 +210,7 @@ incotermTab.button.save = isc.IButtonSave.create({
                     incotermTab.method.refresh(incotermTab.listGrid.main);
 
                     let incotermData = JSON.parse(response.httpResponseText);
-                    incotermTab.method.showDetailWindow(incotermData.id, incotermData.titleEn);
+                    incotermTab.method.showDetailWindow(incotermData.id, incotermData.title);
                 } else
                     incotermTab.dialog.error(response);
             }

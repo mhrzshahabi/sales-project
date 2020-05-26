@@ -30,7 +30,7 @@ public class IncotermRulesDTO {
 
         private Long id;
         private IncotermRuleDTO.Info incotermRule;
-        private List<IncotermFormsDTO> incotermForms;
+        private List<IncotermFormsDTO.Info> incotermForms;
 
         // Auditing
         private Date createdDate;

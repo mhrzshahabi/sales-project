@@ -30,6 +30,8 @@ public class IncotermFormsDTO {
 
         private Long id;
 
+        private IncotermFormDTO.Info incotermForm;
+
         // Auditing
         private Date createdDate;
         private String createdBy;
