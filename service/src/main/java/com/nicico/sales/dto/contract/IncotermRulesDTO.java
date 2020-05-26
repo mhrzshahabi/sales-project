@@ -18,6 +18,7 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class IncotermRulesDTO {
 
+    private Byte order;
     private Long incotermId;
     private Long incotermRuleId;
 
@@ -28,6 +29,8 @@ public class IncotermRulesDTO {
     public static class Info extends IncotermRulesDTO {
 
         private Long id;
+        private IncotermRuleDTO.Info incotermRule;
+        private List<IncotermFormsDTO> incotermForms;
 
         // Auditing
         private Date createdDate;

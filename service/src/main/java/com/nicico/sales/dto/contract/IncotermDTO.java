@@ -10,7 +10,6 @@ import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotNull;
 import java.util.Date;
-import java.util.EnumSet;
 import java.util.List;
 
 @Getter
@@ -20,9 +19,9 @@ import java.util.List;
 public class IncotermDTO {
 
     private String title;
-    private Integer version;
     private Date publishDate;
     private String description;
+    private Integer incotermVersion;
 
     @Getter
     @Setter
@@ -31,6 +30,9 @@ public class IncotermDTO {
     public static class Info extends IncotermDTO {
 
         private Long id;
+
+        private List<IncotermRulesDTO.Info> incotermRules;
+        private List<IncotermStepsDTO.Info> incotermSteps;
 
         // Auditing
         private Date createdDate;
@@ -47,8 +49,42 @@ public class IncotermDTO {
     @Getter
     @Setter
     @Accessors(chain = true)
+    @ApiModel("FormTupleRq")
+    public static class FormTuple {
+
+        private Byte order;
+        private Long incotermFormId;
+    }
+
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("StepTupleRq")
+    public static class StepTuple {
+
+        private Byte order;
+        private Long incotermStepId;
+    }
+
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("RuleTupleRq")
+    public static class RuleTuple {
+
+        private Byte order;
+        private Long incotermRuleId;
+        private List<FormTuple> incotermForms;
+    }
+
+    @Getter
+    @Setter
+    @Accessors(chain = true)
     @ApiModel("IncotermCreateRq")
     public static class Create extends IncotermDTO {
+
+        private List<StepTuple> incotermSteps;
+        private List<RuleTuple> incotermRules;
     }
 
     @Getter
@@ -60,6 +96,8 @@ public class IncotermDTO {
         @NotNull
         @ApiModelProperty(required = true)
         private Long id;
+        private List<StepTuple> incotermSteps;
+        private List<RuleTuple> incotermRules;
     }
 
     @Getter

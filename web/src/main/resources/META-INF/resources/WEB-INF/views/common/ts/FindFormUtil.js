@@ -19,7 +19,7 @@ var nicico;
                 return selectedRecords;
             };
         }
-        FindFormUtil.prototype.showFindFormByData = function (ownerWindow, title, data, currentData, fields, selectionMultiplicityValue) {
+        FindFormUtil.prototype.showFindFormByData = function (ownerWindow, width, height, title, data, currentData, fields, selectionMultiplicityValue) {
             if (selectionMultiplicityValue === void 0) { selectionMultiplicityValue = 1; }
             this.owner = new nicico.ObjectHider(ownerWindow);
             this.selectionMultiplicity = new nicico.ObjectHider(selectionMultiplicityValue);
@@ -47,17 +47,17 @@ var nicico;
                         listGrid.selectRecord(q);
                 });
             }
-            this.createWindow(title, this.getButtonLayout(), listGrid);
+            this.createWindow(title, this.getButtonLayout(), listGrid, width, height);
             if (ownerWindow != null)
                 ownerWindow.close();
             this.windowWidget.getObject().show();
         };
-        FindFormUtil.prototype.showFindFormByListGrid = function (ownerWindow, title, currentData, listGrid, selectionMultiplicityValue) {
+        FindFormUtil.prototype.showFindFormByListGrid = function (ownerWindow, width, height, title, currentData, listGrid, selectionMultiplicityValue) {
             if (selectionMultiplicityValue === void 0) { selectionMultiplicityValue = 1; }
             this.owner = new nicico.ObjectHider(ownerWindow);
             this.selectionMultiplicity = new nicico.ObjectHider(selectionMultiplicityValue);
             this.listGridWidget = new nicico.ObjectHider(isc.ListGrid.create(listGrid));
-            this.createWindow(title, this.getButtonLayout(), listGrid);
+            this.createWindow(title, this.getButtonLayout(), listGrid, width, height);
             if (currentData != null && currentData.length > 0) {
                 // @ts-ignore
                 var primaryKeyField = listGrid.getFields().find(function (p) { return p.primaryKey; });
@@ -81,29 +81,18 @@ var nicico;
                 ownerWindow.close();
             this.windowWidget.getObject().show();
         };
-        FindFormUtil.prototype.showFindFormByRestDataSource = function (ownerWindow, title, currentData, restDataSource, dataArrivedCallback, criteria, selectionMultiplicityValue) {
+        FindFormUtil.prototype.showFindFormByRestDataSource = function (ownerWindow, width, height, title, currentData, restDataSource, dataArrivedCallback, criteria, selectionMultiplicityValue) {
             if (criteria === void 0) { criteria = null; }
             if (selectionMultiplicityValue === void 0) { selectionMultiplicityValue = 1; }
             this.owner = new nicico.ObjectHider(ownerWindow);
             this.selectionMultiplicity = new nicico.ObjectHider(selectionMultiplicityValue);
             this.createListGrid(isc.RestDataSource.create(restDataSource), criteria, currentData, dataArrivedCallback);
-            this.createWindow(title, this.getButtonLayout(), this.listGridWidget.getObject());
+            this.createWindow(title, this.getButtonLayout(), this.listGridWidget.getObject(), width, height);
             if (ownerWindow != null)
                 ownerWindow.close();
             this.windowWidget.getObject().show();
         };
-        FindFormUtil.prototype.showFindFormByRestApiUrl = function (ownerWindow, title, currentData, restApiUrl, fields, dataArrivedCallback, criteria, selectionMultiplicityValue) {
-            if (criteria === void 0) { criteria = null; }
-            if (selectionMultiplicityValue === void 0) { selectionMultiplicityValue = 1; }
-            this.owner = new nicico.ObjectHider(ownerWindow);
-            this.selectionMultiplicity = new nicico.ObjectHider(selectionMultiplicityValue);
-            this.createListGrid(this.getRestDataSource(restApiUrl, fields), criteria, currentData, dataArrivedCallback);
-            this.createWindow(title, this.getButtonLayout(), this.listGridWidget.getObject());
-            if (ownerWindow != null)
-                ownerWindow.close();
-            this.windowWidget.getObject().show();
-        };
-        FindFormUtil.prototype.showFindFormByRestApiUrl2 = function (ownerWindow, width, height, title, currentData, restApiUrl, fields, dataArrivedCallback, criteria, selectionMultiplicityValue) {
+        FindFormUtil.prototype.showFindFormByRestApiUrl = function (ownerWindow, width, height, title, currentData, restApiUrl, fields, dataArrivedCallback, criteria, selectionMultiplicityValue) {
             if (criteria === void 0) { criteria = null; }
             if (selectionMultiplicityValue === void 0) { selectionMultiplicityValue = 1; }
             this.owner = new nicico.ObjectHider(ownerWindow);
@@ -169,13 +158,12 @@ var nicico;
         FindFormUtil.prototype.createListGrid = function (restDataSource, criteria, currentData, dataArrivedCallback) {
             var This = this;
             // @ts-ignore
-            This.listGridWidget = new nicico.ObjectHider(Object.assign(isc.ListGrid.nicico.getDefault(null, restDataSource, criteria), {
-                height: window.innerHeight * .6,
+            This.listGridWidget = new nicico.ObjectHider(isc.ListGrid.nicico.getDefault(null, restDataSource, criteria, {
                 // @ts-ignore
                 currentData: currentData,
                 selectionType: (This.selectionMultiplicity.getObject() < 1 ? "none" : (This.selectionMultiplicity.getObject() === 1 ? "single" : "simple")),
                 selectionAppearance: (This.selectionMultiplicity.getObject() > 1 ? "checkbox" : "rowStyle"),
-                sortField: This.selectionMultiplicity.getObject() > 1 ? 1 : 0,
+                sortField: This.selectionMultiplicity.getObject() > 1 ? 2 : 1,
                 autoSaveEdits: false,
                 validateOnChange: true,
                 dataArrived: function (startRow, endRow) {
@@ -208,17 +196,10 @@ var nicico;
             if (width === void 0) { width = null; }
             if (height === void 0) { height = null; }
             var This = this;
-            var vLayout = isc.VLayout.create({
-                width: "100%",
-                members: [
-                    listGrid,
-                    buttonLayout
-                ]
-            });
+            width = width == null ? "50%" : width;
+            height = height == null ? "500" : height;
             // @ts-ignore
-            This.windowWidget = new nicico.ObjectHider(Object.assign(isc.Window.nicico.getDefault(title, [vLayout]), {
-                height: height,
-                width: width == null ? "50%" : width,
+            This.windowWidget = new nicico.ObjectHider(Object.assign(isc.Window.nicico.getDefault(title, [listGrid, buttonLayout], width, height), {
                 closeClick: function () {
                     this.Super("closeClick", arguments);
                     if (This.owner.getObject() != null)

@@ -22,6 +22,10 @@ public class IncotermSteps extends BaseEntity {
     @SequenceGenerator(name = "SEQ_CNTR_INCOTERM_STEPS", sequenceName = "SEQ_CNTR_INCOTERM_STEPS", allocationSize = 1)
     private Long id;
 
+    @NotNull
+    @Column(name = "N_ORDER", nullable = false)
+    private Byte order;
+
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "F_INCOTERM_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_incotermSteps2incotermByIncotermId"))
