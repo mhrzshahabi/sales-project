@@ -251,27 +251,27 @@
             ID: "toDayDateOnWayProduct",
             title: "<spring:message code='dailyWarehouse.toDay'/>",
             type: 'text',
-            align: "center",
-            width: 130,
-            colSpan: 1,
-            titleColSpan: 1,
-            icons: [{
-                src: "pieces/pcal.png",
-                click: function () {
-                    displayDatePicker('toDayDateOnWayProduct', this, 'ymd', '/');
-                }
-            }],
-            defaultValue: "<%=dateUtil.todayDate()%>"
-        }]
-    });
+align: "center",
+width: 130,
+colSpan: 1,
+titleColSpan: 1,
+icons: [{
+src: "pieces/pcal.png",
+click: function () {
+displayDatePicker('toDayDateOnWayProduct', this, 'ymd', '/');
+}
+}],
+defaultValue: "<%=DateUtil.todayDate()%>"
+}]
+});
 
-    var DynamicForm_DailyReport_Tozin2 = isc.DynamicForm.create({
-        wrapItemTitles: false,
-        target: "_Blank",
-        titleWidth: "200",
-        numCols: 4,
-        fields: [{
-            name: "materialId",
+var DynamicForm_DailyReport_Tozin2 = isc.DynamicForm.create({
+wrapItemTitles: false,
+target: "_Blank",
+titleWidth: "200",
+numCols: 4,
+fields: [{
+name: "materialId",
             colSpan: 3,
             titleColSpan: 1,
             showHover: true,
@@ -577,28 +577,29 @@
                         {
                             fieldName: "target",
                             "operator": "iContains",
-                            "value": "رجا"
-                        },
-                        {
-                            fieldName: "carName",
-                            operator: "contains",
-                            value: 'انتينر'
-                        }
-                    ]
-                };
-            }
-            ListGrid_Tozin_IN_ONWAYPRODUCT.setCriteria(criteria);
-            ListGrid_Tozin_IN_ONWAYPRODUCT_refresh();
-        }
-    });
+"value": "رجا"
+},
+{
+fieldName: "carName",
+operator: "contains",
+value: 'انتينر'
+}
+]
+};
+}
+// ListGrid_Tozin_IN_ONWAYPRODUCT.setCriteria(criteria);
+// ListGrid_Tozin_IN_ONWAYPRODUCT_refresh();
+ListGrid_Tozin_IN_ONWAYPRODUCT.fetchData(criteria)
+}
+});
 
-    var HLayout_onWayProduct_searchBtn = isc.HLayout.create({
-        align: "center",
-        members:
-            [
-                onWayProduct_searchBtn
-            ]
-    });
+var HLayout_onWayProduct_searchBtn = isc.HLayout.create({
+align: "center",
+members:
+[
+onWayProduct_searchBtn
+]
+});
 
     var ToolStrip_Actions_Tozin = isc.ToolStrip.create({
         width: "100%",
@@ -668,22 +669,22 @@
                 value: 'انتينر'
             }
         ]
-    };
+};
 
-    var ListGrid_Tozin_IN_ONWAYPRODUCT = isc.ListGrid.create({
-        alternateRecordStyles: true,
-        width: "100%",
-        height: "100%",
-        autoFitMaxRecords: 10,
-        dataSource: RestDataSource_Tozin_IN_ONWAYPRODUCT,
-        initialCriteria: RestDataSource_TozinInitialCriteria,
-        contextMenu: Menu_ListGrid_OnWayProduct,
-        autoFetchData: true,
-        useClientFiltering: false,
-        fields: [
-            {
-                name: "plak",
-                title: "<spring:message code='Tozin.plak'/>",
+var ListGrid_Tozin_IN_ONWAYPRODUCT = isc.ListGrid.create({
+alternateRecordStyles: true,
+width: "100%",
+height: "100%",
+autoFitMaxRecords: 10,
+dataSource: RestDataSource_Tozin_IN_ONWAYPRODUCT,
+initialCriteria: RestDataSource_TozinInitialCriteria,
+contextMenu: Menu_ListGrid_OnWayProduct,
+autoFetchData: false,
+useClientFiltering: false,
+fields: [
+{
+name: "plak",
+title: "<spring:message code='Tozin.plak'/>",
                 align: "center",
                 showHover: true,
                 width: "10%"
