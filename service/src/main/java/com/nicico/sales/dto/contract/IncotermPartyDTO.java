@@ -21,6 +21,7 @@ public class IncotermPartyDTO {
     private String code;
     private String titleFa;
     private String titleEn;
+    private String bgColor;
     private String description;
 
     @Getter
