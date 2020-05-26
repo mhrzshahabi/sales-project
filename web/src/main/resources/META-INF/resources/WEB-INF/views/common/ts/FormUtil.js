@@ -88,7 +88,6 @@ var nicico;
             if (height === void 0) { height = null; }
             var This = this;
             width = width == null ? "50%" : width;
-            height = height == null ? "500" : height;
             var items = [];
             if (This.bodyWidget.getObject().constructor === Array)
                 // @ts-ignore

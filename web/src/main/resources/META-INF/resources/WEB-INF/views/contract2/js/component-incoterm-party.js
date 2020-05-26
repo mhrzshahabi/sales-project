@@ -107,6 +107,7 @@ isc.defineClass("IncotermParty", isc.HStack).addProperties({
         dynamicForm.setValue("termId", currentData.termId);
         let gridDataSource = [];
         this.dataSource.forEach(q => gridDataSource.push({...q}));
+        grid.setData([]);
         grid.setData(gridDataSource);
         for (let i = 0; i < currentData.incotermParties.length; i++) {
 

@@ -110,7 +110,6 @@ namespace nicico {
 
             let This = this;
             width = width == null ? "50%" : width;
-            height = height == null ? "500" : height;
             let items = [];
             if (This.bodyWidget.getObject().constructor === Array)
                 // @ts-ignore

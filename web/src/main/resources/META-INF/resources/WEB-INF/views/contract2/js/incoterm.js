@@ -84,7 +84,7 @@ incotermTab.listGrid.incotermRule = isc.ListGrid.nicico.getDefault(
                 record.incotermForms = selectedRecords;
             };
             this.findForm.showFindFormByRestApiUrl(
-                incotermTab.window.incoterm, "60%", "500", "<spring:message code='incoterm.window.incoterm-forms.select'/>",
+                null, "500", "400", "<spring:message code='incoterm.window.incoterm-forms.select'/>",
                 record.incotermForms, incotermTab.variable.incotermFormUrl + "spec-list",
                 BaseFormItems.concat([{
                     name: "code",
@@ -96,6 +96,7 @@ incotermTab.listGrid.incotermRule = isc.ListGrid.nicico.getDefault(
                     name: "order",
                     type: "integer",
                     canEdit: selectionCount > 0,
+                    hidden: selectionCount === 0,
                     validators: [
                         {type: "integerRange", min: 0, max: 255}
                     ],
