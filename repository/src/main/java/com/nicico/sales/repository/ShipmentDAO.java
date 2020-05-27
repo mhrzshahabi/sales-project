@@ -13,7 +13,7 @@ import java.util.List;
 @Repository
 public interface ShipmentDAO extends JpaRepository<Shipment, Long>, JpaSpecificationExecutor<Shipment> {
     @Query(value = "            select cs.id cisId,c.c_CONTRACT_NO contractNo,a.C_FULLNAME_EN fullname,cs.amount amount,cs.ADDRESS address,cs.plan plan,cs.SEND_DATE sendDate, " +
-            "                     cs.DURATION duration,a.ID contactID,m.id materialID,c.contract_id contractID,cs.DISCHARGE  dischargeID ,cs.address dischargeAddress " +
+            "                     cs.DURATION duration,a.ID contactID,m.id materialID,m.c_DESCP materialDescp, c.contract_id contractID,cs.DISCHARGE  dischargeID ,cs.address dischargeAddress " +
             "                     from TBL_CONTRACT_SHIPMENT cs  " +
             "                     join tbl_contract c on c.contract_id=cs.CONTRACT_ID  " +
             "                     join tbl_material m on m.id=c.MATERIAL_ID  " +
