@@ -345,35 +345,35 @@ autoFetchData: false,
                     Window_BijackOnWayProduct.show();
                 }
                 if (record.codeKala == 8) {
-                    OnWayProductViewLoader.setViewURL("tozin/showWarehouseConcForm");
-                    Window_BijackOnWayProduct.show();
-                }
-            }
-        }]
-    });
+OnWayProductViewLoader.setViewURL("tozin/showWarehouseConcForm");
+Window_BijackOnWayProduct.show();
+}
+}
+}]
+});
 
-    isc.ViewLoader.create({
-        ID: "OnWayProductViewLoader",
-        width: 830,
-        height: 830,
-        autoDraw: false,
-        loadingMessage: " <spring:message code='global.loadingMessage'/>"
+isc.ViewLoader.create({
+ID: "OnWayProductViewLoader",
+width: 830,
+height: 630,
+autoDraw: false,
+loadingMessage: " <spring:message code='global.loadingMessage'/>"
     });
 
     var Window_BijackOnWayProduct = isc.Window.create({
         title: "<spring:message code='bijack'/> ",
-        width: 830,
-        height: 830,
-        autoSize: true,
-        autoCenter: true,
-        isModal: true,
-        align: "center",
-        autoDraw: false,
-        canDragReposition: false,
-        dismissOnEscape: true,
-        closeClick: function () {
-            this.Super("closeClick", arguments)
-        },
+width: 830,
+height: 630,
+autoSize: true,
+autoCenter: true,
+isModal: true,
+align: "center",
+autoDraw: false,
+canDragReposition: false,
+dismissOnEscape: true,
+closeClick: function () {
+this.Super("closeClick", arguments)
+},
         items: [
             OnWayProductViewLoader
         ]

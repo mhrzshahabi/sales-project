@@ -112,28 +112,28 @@
             width: 250,
             colSpan: 1,
             titleColSpan: 1
-        }, {
-            name: "destinationSheetSum",
-            title: "<spring:message code='warehouseCad.destinationSheetSum'/>",
-            width: 250,
-            colSpan: 1,
-            titleColSpan: 1
-        }],
-        fetchDataURL: "${contextPath}/api/warehouseCad/spec-list"
+}, {
+name: "destinationSheetSum",
+title: "<spring:message code='warehouseCad.destinationSheetSum'/>",
+width: 250,
+colSpan: 1,
+titleColSpan: 1
+}],
+fetchDataURL: "${contextPath}/api/warehouseCad/spec-list"
 });
 
 isc.ViewLoader.create({
 ID: "WarehouseCadViewLoader",
 width: 830,
-// height: 100,
+height: 800,
 autoDraw: false,
 loadingMessage: " <spring:message code='global.loadingMessage'/>"
-    });
+});
 
-    var Window_Bijack = isc.Window.create({
-        title: "<spring:message code='bijack'/> ",
+var Window_Bijack = isc.Window.create({
+title: "<spring:message code='bijack'/> ",
 width: 810,
-// height: 100,
+height: 800,
 autoSize: true,
 autoCenter: true,
 isModal: true,
@@ -144,15 +144,15 @@ dismissOnEscape: true,
 closeClick: function () {
 this.Super("closeClick", arguments)
 },
-        items:
-            [
-                WarehouseCadViewLoader
-            ]
-    });
+items:
+[
+WarehouseCadViewLoader
+]
+});
 
-    function ListGrid_warehouseCAD_refresh() {
-        ListGrid_warehouseCAD.invalidateCache();
-    }
+function ListGrid_warehouseCAD_refresh() {
+ListGrid_warehouseCAD.invalidateCache();
+}
 
     function ListGrid_warehouseCAD_edit() {
         var record = ListGrid_warehouseCAD.getSelectedRecord();
