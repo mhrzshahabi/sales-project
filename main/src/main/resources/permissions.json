@@ -987,6 +987,25 @@
       "title": "حذف اینکوترم"
     },
 
+
+
+    {
+      "code": "R_INCOTERM_ASPECT",
+      "title": "نمایش نوع اینکوترم"
+    },
+    {
+      "code": "C_INCOTERM_ASPECT",
+      "title": "ایجاد نوع اینکوترم"
+    },
+    {
+      "code": "U_INCOTERM_ASPECT",
+      "title": "به روز رسانی نوع اینکوترم"
+    },
+    {
+      "code": "D_INCOTERM_ASPECT",
+      "title": "حذف نوع اینکوترم"
+    },
+
     {
       "code": "R_TERM",
       "title": "نمایش ترم"
@@ -1003,6 +1022,65 @@
       "code": "D_TERM",
       "title": "حذف ترم"
     },
+
+
+
+    {
+      "code": "R_INCOTERM_PARTY",
+      "title": "نمایش طرف قرارداد در اینکوترم"
+    },
+    {
+      "code": "C_INCOTERM_PARTY",
+      "title": "ایجاد طرف قرارداد در اینکوترم"
+    },
+    {
+      "code": "U_INCOTERM_PARTY",
+      "title": "به روز رسانی طرف قرارداد در اینکوترم"
+    },
+    {
+      "code": "D_INCOTERM_PARTY",
+      "title": "حذف طرف قرارداد در اینکوترم"
+    },
+
+
+    
+    {
+      "code": "R_INCOTERM_STEP",
+      "title": "نمایش گام اینکوترم"
+    },
+    {
+      "code": "C_INCOTERM_STEP",
+      "title": "ایجاد گام اینکوترم"
+    },
+    {
+      "code": "U_INCOTERM_STEP",
+      "title": "به روز رسانی گام اینکوترم"
+    },
+    {
+      "code": "D_INCOTERM_STEP",
+      "title": "حذف گام اینکوترم"
+    },
+    
+
+    
+    {
+      "code": "R_INCOTERM_RULE",
+      "title": "نمایش مد اینکوترم"
+    },
+    {
+      "code": "C_INCOTERM_RULE",
+      "title": "ایجاد مد اینکوترم"
+    },
+    {
+      "code": "U_INCOTERM_RULE",
+      "title": "به روز رسانی مد اینکوترم"
+    },
+    {
+      "code": "D_INCOTERM_RULE",
+      "title": "حذف مد اینکوترم"
+    },
+    
+
     
     {
       "code": "R_VESSEL",

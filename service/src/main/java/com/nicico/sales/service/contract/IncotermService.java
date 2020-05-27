@@ -136,7 +136,7 @@ public class IncotermService extends GenericService<Incoterm, Long, IncotermDTO.
             "hasAuthority('D_INCOTERM_PARTIES')")
     public void delete(Long id) {
 
-        super.delete(id);
         incotermDetailDAO.deleteAll(incotermDetailDAO.findAllByIncotermId(id));
+        super.delete(id);
     }
 }
