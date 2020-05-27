@@ -272,10 +272,10 @@ titleWidth: "200",
 numCols: 4,
 fields: [{
 name: "materialId",
-            colSpan: 3,
-            titleColSpan: 1,
-            showHover: true,
-            autoFetchData: false,
+colSpan: 3,
+titleColSpan: 1,
+showHover: true,
+autoFetchData: false,
             title: "<spring:message code='contractItem.material'/>",
             type: 'long',
             editorType: "SelectItem",
@@ -606,9 +606,9 @@ onWayProduct_searchBtn
 ]
 });
 
-    var ToolStrip_Actions_Tozin = isc.ToolStrip.create({
-        width: "100%",
-        membersMargin: 10,
+var ToolStrip_Actions_Tozin = isc.ToolStrip.create({
+width: "100%",
+membersMargin: 10,
         align: "center",
         members: [
             DynamicForm_DailyReport_OnWayProduct,
@@ -666,11 +666,11 @@ onWayProduct_searchBtn
             {
                 fieldName: "target",
                 operator: "iContains",
-                value: "رجا"
-            },
-            {
-                fieldName: "carName",
-                operator: "contains",
+value: "رجا"
+},
+{
+fieldName: "carName",
+operator: "contains",
 value: 'انتينر'
 }
 ]
