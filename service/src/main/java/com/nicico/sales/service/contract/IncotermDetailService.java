@@ -3,6 +3,7 @@ package com.nicico.sales.service.contract;
 import com.nicico.sales.annotation.Action;
 import com.nicico.sales.dto.contract.IncotermDetailDTO;
 import com.nicico.sales.enumeration.ActionType;
+import com.nicico.sales.exception.NotFoundException;
 import com.nicico.sales.iservice.contract.IIncotermDetailService;
 import com.nicico.sales.model.entities.contract.IncotermDetail;
 import com.nicico.sales.model.entities.contract.IncotermParties;
@@ -14,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -61,7 +63,8 @@ public class IncotermDetailService extends GenericService<IncotermDetail, Long, 
             "hasAuthority('U_INCOTERM_PARTIES')")
     public IncotermDetailDTO.Info update(Long id, IncotermDetailDTO.Update request) {
 
-        IncotermDetailDTO.Info incotermDetail = super.update(id, request);
+        final Optional<IncotermDetail> entity = repository.findById(id);
+        final IncotermDetail incotermDetail = entity.orElseThrow(() -> new NotFoundException(IncotermDetail.class));
 
         incotermPartiesDAO.deleteAllByIncotermDetailId(id);
         List<IncotermParties> incotermPartiesCreateList = new ArrayList<>();
@@ -69,12 +72,18 @@ public class IncotermDetailService extends GenericService<IncotermDetail, Long, 
             IncotermParties incotermParties = new IncotermParties();
             incotermParties.setPortion(item.getPortion()).
                     setIncotermPartyId(item.getIncotermPartyId()).
-                    setIncotermDetailId(incotermDetail.getId());
+                    setIncotermDetailId(id);
             incotermPartiesCreateList.add(incotermParties);
         });
-        incotermPartiesDAO.saveAll(incotermPartiesCreateList);
+        List<IncotermParties> savedIncotermParties = incotermPartiesDAO.saveAll(incotermPartiesCreateList);
 
-        return incotermDetail;
+        IncotermDetail updating = new IncotermDetail();
+        modelMapper.map(incotermDetail, updating);
+        modelMapper.map(request, updating);
+        updating.setIncotermParties(savedIncotermParties);
+
+        validation(updating, request);
+        return save(updating);
     }
 
     @Override
