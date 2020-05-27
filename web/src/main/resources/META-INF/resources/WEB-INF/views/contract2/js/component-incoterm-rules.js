@@ -53,6 +53,7 @@ isc.defineClass("IncotermRules", isc.VStack).addProperties({
                             align: "center",
                             item: rules,
                             rowNum: index,
+                            cursor: "hand",
                             value: eval("rules." + This.valueField),
                             contents: "<u>" + eval("rules." + This.displayField) + "</u>",
                             click: function () {

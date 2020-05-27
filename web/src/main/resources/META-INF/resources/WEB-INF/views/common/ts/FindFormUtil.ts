@@ -236,6 +236,7 @@ namespace nicico {
                     this.Super("closeClick", arguments);
                     if (This.owner.getObject() != null)
                         This.owner.getObject().show();
+                    This.cancelCallBack();
                 }
             }));
         }

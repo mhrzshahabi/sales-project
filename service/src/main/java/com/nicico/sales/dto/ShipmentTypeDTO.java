@@ -1,13 +1,12 @@
-package com.nicico.sales.dto.contract;
+package com.nicico.sales.dto;
+
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.nicico.sales.model.enumeration.EStatus;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
@@ -16,47 +15,36 @@ import java.util.List;
 @Setter
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class IncotermRulesDTO {
+public class ShipmentTypeDTO {
 
-    private Byte order;
-    private Long incotermId;
-    private Long incotermRuleId;
+    private String shipmentType;
 
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("IncotermRulesInfo")
-    public static class Info extends IncotermRulesDTO {
-
+    @ApiModel("VesselInfo")
+    public static class Info extends ShipmentTypeDTO {
         private Long id;
-        private IncotermRuleDTO.Info incotermRule;
-        private List<IncotermFormsDTO.Info> incotermForms;
-
-        // Auditing
         private Date createdDate;
         private String createdBy;
         private Date lastModifiedDate;
         private String lastModifiedBy;
         private Integer version;
+    }
 
-        // BaseEntity
-        private Boolean editable;
-        private List<EStatus> eStatus;
+
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("ShipmentTypeRq")
+    public static class Create extends ShipmentTypeDTO {
     }
 
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("IncotermRulesCreateRq")
-    public static class Create extends IncotermRulesDTO {
-    }
-
-    @Getter
-    @Setter
-    @Accessors(chain = true)
-    @ApiModel("IncotermRulesUpdateRq")
-    public static class Update extends IncotermRulesDTO {
-
+    @ApiModel("ShipmentTypeRq")
+    public static class Update extends ShipmentTypeDTO {
         @NotNull
         @ApiModelProperty(required = true)
         private Long id;
@@ -65,11 +53,11 @@ public class IncotermRulesDTO {
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("IncotermRulesDeleteRq")
+    @ApiModel("ShipmentTypeRq")
     public static class Delete {
-
         @NotNull
         @ApiModelProperty(required = true)
         private List<Long> ids;
     }
+
 }
