@@ -1,7 +1,6 @@
 //<%@ page contentType="text/html;charset=UTF-8" %>
 //<%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
-
 // <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
 var RestDataSource_CathodList = isc.MyRestDataSource.create({
@@ -246,11 +245,15 @@ var RestDataSource_Tozin_BandarAbbas_optionCriteria = {
         value: ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().codeKala
     }]
 };
-
+var add_bundle_button = isc.IButton.create({
+    title: "<spring:message code='warehouseCad.addBundle'/>",
+    // width: 150,
+    click: "ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT.startEditingNew()"
+});
 var ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT = isc.ListGrid.create({
     showFilterEditor: true,
-    width: "100%",
-    height: "80%",
+    width: 700,
+    // height: 500,
     modalEditing: true,
     canEdit: true,
     editEvent: "click",
@@ -260,6 +263,8 @@ var ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT = isc.ListGrid.create
     deferRemoval: false,
     saveLocally: true,
     showGridSummary: true,
+    // visibility: 'hidden',
+    // gridComponents: ["header", "body",  ],
     fields: [{
         name: "productLabel",
         title: "<spring:message code='warehouseCadItem.bundleSerial'/>",
@@ -312,11 +317,7 @@ var ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT = isc.ListGrid.create
     }
 });
 
-var add_bundle_button = isc.IButton.create({
-    title: "<spring:message code='warehouseCad.addBundle'/>",
-    width: 150,
-    click: "ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT.startEditingNew()"
-});
+
 
 var DynamicForm_warehouseCAD = isc.DynamicForm.create({
     titleWidth: "150",
@@ -760,24 +761,55 @@ DynamicForm_warehouseCAD.setValue("sourceWeight", ListGrid_Tozin_IN_ONWAYPRODUCT
 
 DynamicForm_warehouseCAD_Desc.setValue("bijakFirstDescription", ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().strSharh2);
 DynamicForm_warehouseCAD_Desc.setValue("bijakSecondDescription", ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().ctrlDescOut);
-
+var bundle_window = isc.Window.create({
+    title: "<spring:message code='contact.title'/>",
+    width: 700,
+    // height: 580,
+    autoSize: true,
+    autoCenter: true,
+    isModal: true,
+    showModalMask: true,
+    align: "center",
+    autoDraw: false,
+    dismissOnEscape: true,
+    visibility: 'hidden',
+    closeClick: function () {
+        this.Super("closeClick", arguments)
+    },
+    items: [isc.HLayout.create({
+        members: [add_bundle_button],
+        height: 10
+    }), ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT]
+})
 isc.VLayout.create({
     width: 830,
-    height: 830,
+    // height: 700,
     padding: 10,
     margin: 10,
     members: [
         DynamicForm_warehouseCAD,
-        add_bundle_button,
-        ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT,
+        // ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT,
         DynamicForm_warehouseCAD_Desc,
         isc.HLayout.create({
             width: "100%",
+            // height:100,
             align: "center",
             margin: 10,
             padding: 20,
             members:
                 [
+                    isc.IButtonSave.create({
+                        title: "<spring:message code='warehouseStock.bundle'/>",
+                        width: 100,
+                        icon: "pieces/16/packages.png",
+                        orientation: "vertical",
+                        click: function () {
+                            bundle_window.show();
+                        }
+                    }),
+                    isc.Label.create({
+                        width: 5,
+                    }),
                     IButton_warehouseCAD_Save,
                     isc.Label.create({
                         width: 5,
@@ -798,9 +830,11 @@ isc.VLayout.create({
                                 }
                             })
                         }
-                    })
+                    }),
                 ]
         })
     ]
 });
+
+
 //<script>
