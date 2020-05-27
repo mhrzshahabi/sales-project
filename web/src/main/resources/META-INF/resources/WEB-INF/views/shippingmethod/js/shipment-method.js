@@ -12,7 +12,7 @@ shipMethodTab.dynamicForm.fields = [{
     title: "<spring:message code='global.title'/>"
 }];
 Object.assign(shipMethodTab.listGrid.fields, shipMethodTab.dynamicForm.fields);
-nicico.BasicFormUtil.getDefaultBasicForm(shipMethodTab, "api/shipmentmethod");
+nicico.BasicFormUtil.getDefaultBasicForm(shipMethodTab, "api/shipmentMethod");
 shipMethodTab.dynamicForm.main = null;
 shipMethodTab.menu.main = null;
 shipMethodTab.listGrid.main.contextMenu = null;
