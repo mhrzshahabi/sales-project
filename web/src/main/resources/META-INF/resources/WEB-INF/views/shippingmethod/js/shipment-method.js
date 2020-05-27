@@ -7,7 +7,7 @@ shipMethodTab.dynamicForm.fields = [{
     title: "<spring:message code='global.id'/>"
 }, {
     width: "10%",
-    name: "shipmethod",
+    name: "shipmentMethod",
     type: 'text',
     title: "<spring:message code='global.title'/>"
 }];

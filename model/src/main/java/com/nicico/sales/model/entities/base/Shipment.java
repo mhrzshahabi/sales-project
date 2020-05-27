@@ -105,6 +105,9 @@ public class Shipment extends Auditable {
     @Column(name = "SHIPMENT_TYPE", length = 100)
     private String shipmentType;
 
+    @Column(name = "SHIPMENT_METHOD", length = 100)
+    private String shipmentMethod;
+
     @Column(name = "LAYCAN", length = 100)
     private String laycan;
 
@@ -172,12 +175,11 @@ public class Shipment extends Auditable {
     @Column(name = "POST_REIGHT_CUR", length = 20)
     private String postFreightCurrency;
 
-    //drum
-    @Column(name = "NO_BARREL", length = 100)
-    private String noBarrel;
+    @Column(name = "NO_BARREL")
+    private Long noBarrel;
 
-    @Column(name = "NO_PALETE", length = 100)
-    private String noPalete;
+    @Column(name = "NO_PALETE")
+    private Long noPalete;
 
     @Column(name = "DEMURRAGE")
     private Double demurrage;
@@ -202,4 +204,16 @@ public class Shipment extends Auditable {
     @NotAudited
     @OneToMany(mappedBy = "shipment", fetch = FetchType.LAZY)
     private Set<Invoice> invoices;
+
+    @Column(name = "GROSS")
+    private Double gross;
+
+    @Column(name = "NET")
+    private Double net;
+
+    @Column(name = "MOISTURE")
+    private Double moisture;
+
+    @Column(name = "VGM")
+    private Double vgm;
 }

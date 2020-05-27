@@ -16,7 +16,7 @@ import java.util.List;
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ShipmentMethodDTO {
-    private String shipmethod;
+    private String shipmentMethod;
 
 
     @Getter
