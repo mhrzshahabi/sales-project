@@ -3,6 +3,7 @@ isc.defineClass("IncotermRules", isc.VStack).addProperties({
     layoutMargin: 2,
     membersMargin: 2,
     border: "1px solid blue",
+    backgroundColor: "lightgray",
     dataSource: [],
     valueField: "",
     displayField: "",
