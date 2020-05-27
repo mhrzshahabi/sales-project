@@ -27,7 +27,7 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(value = "/api/shipmenttype")
+@RequestMapping(value = "/api/shipmentType")
 public class ShipmentTypeRestController {
 
     private final IShipmentTypeService iShipmentTypeService;
