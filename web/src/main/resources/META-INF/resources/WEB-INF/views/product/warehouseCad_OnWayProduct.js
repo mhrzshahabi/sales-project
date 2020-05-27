@@ -252,8 +252,8 @@ var add_bundle_button = isc.IButton.create({
 });
 var ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT = isc.ListGrid.create({
     showFilterEditor: true,
-    width: 700,
-    // height: 500,
+    width: 800,
+    height: 500,
     modalEditing: true,
     canEdit: true,
     editEvent: "click",
