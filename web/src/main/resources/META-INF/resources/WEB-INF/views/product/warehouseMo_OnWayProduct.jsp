@@ -547,101 +547,109 @@
                 layoutAlign: "center",
                 type: "Header",
                 defaultValue: "<spring:message code='warehouseCad.addBijackItem'/>"
-            }
-        ]
-    });
+}
+]
+});
 
 
-    var IButton_warehouseCAD_Save = isc.IButtonSave.create({
-        top: 260,
-        title: "<spring:message code='global.form.save'/>",
-        icon: "pieces/16/save.png",
-        click: function () {
-             if(DynamicForm_warehouseMo.getValue("destinationTozinPlantId")==undefined && DynamicForm_warehouseMo.getValue("destinationTozinPlantStaticId") == undefined){
-                    isc.warn("<spring:message code='warehouseCad.tozinBandarAbbasErrors'/>");
-                    DynamicForm_warehouseMo.validate()
-                    return;
-                }
-             if (ListGrid_WarehouseCadItem.hasErrors()){
-                isc.warn("<spring:message code='warehouseCadItem.tedadMoErrors'/>");
-                    return;
-                }
-            DynamicForm_warehouseMo.validate();
-            if (DynamicForm_warehouseMo.hasErrors())
-                return;
+var IButton_warehouseCAD_Save = isc.IButtonSave.create({
+top: 260,
+title: "<spring:message code='global.form.save'/>",
+icon: "pieces/16/save.png",
+click: function () {
+isc.Dialog.create({
+title:"<spring:message code='global.warning'/>",
+message:"<spring:message code='warehouseCad.warning.save'/>",
+buttons:[isc.Dialog.OK,isc.Dialog.CANCEL],
+okClick() {
+this.close();
+if(DynamicForm_warehouseMo.getValue("destinationTozinPlantId")==undefined && DynamicForm_warehouseMo.getValue("destinationTozinPlantStaticId") == undefined){
+isc.warn("<spring:message code='warehouseCad.tozinBandarAbbasErrors'/>");
+DynamicForm_warehouseMo.validate()
+return;
+}
+if (ListGrid_WarehouseCadItem.hasErrors()){
+isc.warn("<spring:message code='warehouseCadItem.tedadMoErrors'/>");
+return;
+}
+DynamicForm_warehouseMo.validate();
+if (DynamicForm_warehouseMo.hasErrors())
+return;
 
-            DynamicForm_warehouseMo.setValue("materialItemId", ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().codeKala);
-            var data_WarehouseCad = DynamicForm_warehouseMo.getValues();
-                 if(DynamicForm_warehouseMo.getValue("destinationTozinPlantId") != undefined)
-                        data_WarehouseCad.destinationTozinPlantId = DynamicForm_warehouseMo.getValue("destinationTozinPlantId")
-                else if(DynamicForm_warehouseMo.getValue("destinationTozinPlantStaticId")!= undefined){
-                        data_WarehouseCad.destinationTozinPlantId = DynamicForm_warehouseMo.getValue("destinationTozinPlantStaticId")
-                }
-            var warehouseCadItems = [];
+DynamicForm_warehouseMo.setValue("materialItemId", ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().codeKala);
+var data_WarehouseCad = DynamicForm_warehouseMo.getValues();
+if(DynamicForm_warehouseMo.getValue("destinationTozinPlantId") != undefined)
+data_WarehouseCad.destinationTozinPlantId = DynamicForm_warehouseMo.getValue("destinationTozinPlantId")
+else if(DynamicForm_warehouseMo.getValue("destinationTozinPlantStaticId")!= undefined){
+data_WarehouseCad.destinationTozinPlantId = DynamicForm_warehouseMo.getValue("destinationTozinPlantStaticId")
+}
+var warehouseCadItems = [];
 
-            ListGrid_WarehouseCadItem.selectAllRecords();
+ListGrid_WarehouseCadItem.selectAllRecords();
 
-            var notComplete = 0;
-            ListGrid_WarehouseCadItem.getAllEditRows().forEach(function (element) {
-                var record = ListGrid_WarehouseCadItem.getEditedRecord(JSON.parse(JSON.stringify(element)));
-                if (record.lotName != undefined && record.barrelNo != undefined && record.weightKg != undefined &&
-                    record.lotName != null && record.barrelNo != null && record.weightKg != null) {
-                warehouseCadItems.add(record);
-                }
-                else {
-                    notComplete++;
-                }
-                ListGrid_WarehouseCadItem.deselectRecord(ListGrid_WarehouseCadItem.getRecord(element));
-            });
+var notComplete = 0;
+ListGrid_WarehouseCadItem.getAllEditRows().forEach(function (element) {
+var record = ListGrid_WarehouseCadItem.getEditedRecord(JSON.parse(JSON.stringify(element)));
+if (record.lotName != undefined && record.barrelNo != undefined && record.weightKg != undefined &&
+record.lotName != null && record.barrelNo != null && record.weightKg != null) {
+warehouseCadItems.add(record);
+}
+else {
+notComplete++;
+}
+ListGrid_WarehouseCadItem.deselectRecord(ListGrid_WarehouseCadItem.getRecord(element));
+});
 
-            ListGrid_WarehouseCadItem.getSelectedRecords().forEach(function (element) {
-                warehouseCadItems.add(JSON.parse(JSON.stringify(element)));
-            });
+ListGrid_WarehouseCadItem.getSelectedRecords().forEach(function (element) {
+warehouseCadItems.add(JSON.parse(JSON.stringify(element)));
+});
 
-            if (notComplete != 0) {
-                isc.warn("<spring:message code='validator.warehousecaditem.fields.is.required'/>");
-                return;
-            }
+if (notComplete != 0) {
+isc.warn("<spring:message code='validator.warehousecaditem.fields.is.required'/>");
+return;
+}
 
-            if (warehouseCadItems.length == 0) {
-                isc.warn("<spring:message code='bijack.noitems'/>");
-                return;
-            }
-            if (warehouseCadItems.length > 1){
-                isc.warn("<spring:message code='bijack.moreThanOne'/>");
-                return;
-            }
+if (warehouseCadItems.length == 0) {
+isc.warn("<spring:message code='bijack.noitems'/>");
+return;
+}
+if (warehouseCadItems.length > 1){
+isc.warn("<spring:message code='bijack.moreThanOne'/>");
+return;
+}
 
-            ListGrid_WarehouseCadItem.deselectAllRecords();
+ListGrid_WarehouseCadItem.deselectAllRecords();
 
-            data_WarehouseCad.warehouseCadItems = warehouseCadItems;
+data_WarehouseCad.warehouseCadItems = warehouseCadItems;
 
-            var method = "PUT";
-            if (data_WarehouseCad.id == null)
-                method = "POST";
-            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                actionURL: "${contextPath}/api/warehouseCad/",
-                httpMethod: method,
-                data: JSON.stringify(data_WarehouseCad),
-                callback: function (resp) {
-                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
-                        isc.say("<spring:message code='global.form.request.successful'/>");
-                        ListGrid_Tozin_IN_ONWAYPRODUCT_refresh();
-                        Window_BijackOnWayProduct.close();
-                    } else
-                        isc.say(RpcResponse_o.data);
-                }
-            }));
-        }
-    });
+var method = "PUT";
+if (data_WarehouseCad.id == null)
+method = "POST";
+isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+actionURL: "${contextPath}/api/warehouseCad/",
+httpMethod: method,
+data: JSON.stringify(data_WarehouseCad),
+callback: function (resp) {
+if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+isc.say("<spring:message code='global.form.request.successful'/>");
+ListGrid_Tozin_IN_ONWAYPRODUCT_refresh();
+Window_BijackOnWayProduct.close();
+} else
+isc.say(RpcResponse_o.data);
+}
+}));
+}
+})
+}
+});
 
-    ListGrid_WarehouseCadItem.setData([]);
-    DynamicForm_warehouseMo.clearValues();
-    DynamicForm_warehouseMo.setValue("materialItemId", ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().nameKala);
-    DynamicForm_warehouseMo.setValue("plant", ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().source);
-    DynamicForm_warehouseMo.setValue("warehouseNo", "BandarAbbas");
-    DynamicForm_warehouseMo.setValue("movementType", DynamicForm_DailyReport_Tozin4.getValues().type);
-    DynamicForm_warehouseMo.setValue("sourceTozinPlantId", ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().tozinId);
+ListGrid_WarehouseCadItem.setData([]);
+DynamicForm_warehouseMo.clearValues();
+DynamicForm_warehouseMo.setValue("materialItemId", ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().nameKala);
+DynamicForm_warehouseMo.setValue("plant", ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().source);
+DynamicForm_warehouseMo.setValue("warehouseNo", "BandarAbbas");
+DynamicForm_warehouseMo.setValue("movementType", DynamicForm_DailyReport_Tozin4.getValues().type);
+DynamicForm_warehouseMo.setValue("sourceTozinPlantId", ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().tozinId);
     DynamicForm_warehouseMo.setValue("sourceLoadDate", ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().tozinDate);
     DynamicForm_warehouseMo.setValue("containerNo", ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().containerId);
     DynamicForm_warehouseMo.setValue("sourceWeight", ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().vazn);
@@ -662,21 +670,30 @@
                 margin: 10,
                 padding: 20,
                 members: [
-                    IButton_warehouseCAD_Save,
-                    isc.Label.create({
-                        width: 5,
-                    }),
-                    isc.IButtonCancel.create({
-                        title: "<spring:message code='global.cancel'/>",
-                        width: 100,
-                        icon: "pieces/16/icon_delete.png",
-                        orientation: "vertical",
-                        click: function () {
-                            Window_BijackOnWayProduct.close();
-                        }
-                    })
-                ]
-            })
-        ]
-    });
+IButton_warehouseCAD_Save,
+isc.Label.create({
+width: 5,
+}),
+isc.IButtonCancel.create({
+title: "<spring:message code='global.cancel'/>",
+width: 100,
+icon: "pieces/16/icon_delete.png",
+orientation: "vertical",
+click: function () {
+isc.Dialog.create({
+title:"<spring:message code='global.warning'/>",
+message:"<spring:message code='warehouseCad.warning.close'/>",
+buttons:[isc.Dialog.OK,isc.Dialog.CANCEL],
+okClick() {
+Window_BijackOnWayProduct.close();
+this.close();
+}
+})
+}
+})
+]
+})
+]
+});
 
+//</script>

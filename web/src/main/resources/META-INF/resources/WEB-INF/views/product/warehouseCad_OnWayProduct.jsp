@@ -630,101 +630,110 @@ title: "<spring:message code='warehouseCad.sourceSheetSum'/>",
                 width: 650,
                 rowSpan: 2,
                 height: 40,
-                canEdit: false
-            }
-        ]
-    });
+canEdit: false
+}
+]
+});
 
-    var IButton_warehouseCAD_Save = isc.IButtonSave.create({
-        top: 260,
-        title: "<spring:message code='global.form.save'/>",
-        icon: "pieces/16/save.png",
-        click: function () {
-            if (DynamicForm_warehouseCAD.getValue("destinationTozinPlantId") == undefined && DynamicForm_warehouseCAD.getValue("destinationTozinPlantStaticId") == undefined) {
-                isc.warn("<spring:message code='warehouseCad.tozinBandarAbbasErrors'/>");
-                DynamicForm_warehouseCAD.validate();
-                return;
-            }
-            if (ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT.hasErrors()) {
-                isc.warn("<spring:message code='warehouseCadItem.tedadCADErrors'/>");
-                return;
-            }
-            DynamicForm_warehouseCAD.validate();
-            if (DynamicForm_warehouseCAD.hasErrors())
-                return;
-            DynamicForm_warehouseCAD.setValue("materialItemId", ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().codeKala);
-            var data_WarehouseCad = DynamicForm_warehouseCAD.getValues();
-            if (DynamicForm_warehouseCAD.getValue("destinationTozinPlantId") != undefined)
-                data_WarehouseCad.destinationTozinPlantId = DynamicForm_warehouseCAD.getValue("destinationTozinPlantId")
-            else if (DynamicForm_warehouseCAD.getValue("destinationTozinPlantStaticId") != undefined) {
-                data_WarehouseCad.destinationTozinPlantId = DynamicForm_warehouseCAD.getValue("destinationTozinPlantStaticId")
-            }
-            var warehouseCadItems = [];
+var IButton_warehouseCAD_Save = isc.IButtonSave.create({
+top: 260,
+title: "<spring:message code='global.form.save'/>",
+icon: "pieces/16/save.png",
+click: function () {
+isc.Dialog.create({
+title:"<spring:message code='global.warning'/>",
+message:"<spring:message code='warehouseCad.warning.save'/>",
+buttons:[isc.Dialog.OK,isc.Dialog.CANCEL],
+okClick() {
+this.close();
+if (DynamicForm_warehouseCAD.getValue("destinationTozinPlantId") == undefined && DynamicForm_warehouseCAD.getValue("destinationTozinPlantStaticId") == undefined) {
+isc.warn("<spring:message code='warehouseCad.tozinBandarAbbasErrors'/>");
+DynamicForm_warehouseCAD.validate();
+return;
+}
+if (ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT.hasErrors()) {
+isc.warn("<spring:message code='warehouseCadItem.tedadCADErrors'/>");
+return;
+}
+DynamicForm_warehouseCAD.validate();
+if (DynamicForm_warehouseCAD.hasErrors())
+return;
+DynamicForm_warehouseCAD.setValue("materialItemId", ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().codeKala);
+var data_WarehouseCad = DynamicForm_warehouseCAD.getValues();
+if (DynamicForm_warehouseCAD.getValue("destinationTozinPlantId") != undefined)
+data_WarehouseCad.destinationTozinPlantId = DynamicForm_warehouseCAD.getValue("destinationTozinPlantId")
+else if (DynamicForm_warehouseCAD.getValue("destinationTozinPlantStaticId") != undefined) {
+data_WarehouseCad.destinationTozinPlantId = DynamicForm_warehouseCAD.getValue("destinationTozinPlantStaticId")
+}
+var warehouseCadItems = [];
 
-            ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT.selectAllRecords();
-            var notComplete = 0;
-            ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT.getAllEditRows().forEach(function (element) {
-                var record = ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT.getEditedRecord(JSON.parse(JSON.stringify(element)));
-                if (record.productLabel != undefined && record.sheetNumber != undefined && record.wazn != undefined &&
-                    record.productLabel != null && record.sheetNumber != null && record.wazn != null) {
-                    warehouseCadItems.add(record);
-                }
-                else {
-                    notComplete++;
-                }
-                ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT.deselectRecord(ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT.getRecord(element));
-            });
+ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT.selectAllRecords();
+var notComplete = 0;
+ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT.getAllEditRows().forEach(function (element) {
+var record = ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT.getEditedRecord(JSON.parse(JSON.stringify(element)));
+if (record.productLabel != undefined && record.sheetNumber != undefined && record.wazn != undefined &&
+record.productLabel != null && record.sheetNumber != null && record.wazn != null) {
+warehouseCadItems.add(record);
+}
+else {
+notComplete++;
+}
+ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT.deselectRecord(ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT.getRecord(element));
+});
 
-            ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT.getSelectedRecords().forEach(function (element) {
-                warehouseCadItems.add(JSON.parse(JSON.stringify(element)));
-            });
+ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT.getSelectedRecords().forEach(function (element) {
+warehouseCadItems.add(JSON.parse(JSON.stringify(element)));
+});
 
-            if (notComplete != 0) {
-                isc.warn("<spring:message code='validator.warehousecaditem.fields.is.required'/>");
-                return;
-            }
+if (notComplete != 0) {
+isc.warn("<spring:message code='validator.warehousecaditem.fields.is.required'/>");
+return;
+}
 
-            ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT.deselectAllRecords();
+ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT.deselectAllRecords();
 
-            warehouseCadItems.forEach(function (item) {
-                item.bundleSerial = item.productLabel;
-                delete item.productLabel;
-                item.sheetNo = item.sheetNumber;
-                delete item.sheetNumber;
-                item.weightKg = item.wazn;
-                delete item.wazn;
-            });
+warehouseCadItems.forEach(function (item) {
+item.bundleSerial = item.productLabel;
+delete item.productLabel;
+item.sheetNo = item.sheetNumber;
+delete item.sheetNumber;
+item.weightKg = item.wazn;
+delete item.wazn;
+});
 
-            data_WarehouseCad.warehouseCadItems = warehouseCadItems;
-            data_WarehouseCad.bijakFirstDescription = DynamicForm_warehouseCAD_Desc.getValue("bijakFirstDescription");
-            data_WarehouseCad.bijakSecondDescription = DynamicForm_warehouseCAD_Desc.getValue("bijakSecondDescription");
+data_WarehouseCad.warehouseCadItems = warehouseCadItems;
+data_WarehouseCad.bijakFirstDescription = DynamicForm_warehouseCAD_Desc.getValue("bijakFirstDescription");
+data_WarehouseCad.bijakSecondDescription = DynamicForm_warehouseCAD_Desc.getValue("bijakSecondDescription");
 
-            var method = "PUT";
-            if (data_WarehouseCad.id == null)
-                method = "POST";
-            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                    actionURL: "${contextPath}/api/warehouseCad/",
-                    httpMethod: method,
-                    data: JSON.stringify(data_WarehouseCad),
-                    callback: function (resp) {
-                        if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
-                            isc.say("<spring:message code='global.form.request.successful'/>");
-                            ListGrid_Tozin_IN_ONWAYPRODUCT_refresh();
-                            Window_BijackOnWayProduct.close();
-                        } else
-                            isc.say(RpcResponse_o.data);
-                    }
-                })
-            );
-        }
-    });
+var method = "PUT";
+if (data_WarehouseCad.id == null)
+method = "POST";
+isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+actionURL: "${contextPath}/api/warehouseCad/",
+httpMethod: method,
+data: JSON.stringify(data_WarehouseCad),
+callback: function (resp) {
+if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+isc.say("<spring:message code='global.form.request.successful'/>");
+ListGrid_Tozin_IN_ONWAYPRODUCT_refresh();
+Window_BijackOnWayProduct.close();
+} else
+isc.say(RpcResponse_o.data);
+}
+})
+);
+}
+})
 
-    ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT.setData([]);
-    var criteria_cathod = {
-        _constructor: "AdvancedCriteria", operator: "and",
-        criteria: [{
-            fieldName: "tozinId",
-            operator: "equals",
+}
+});
+
+ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT.setData([]);
+var criteria_cathod = {
+_constructor: "AdvancedCriteria", operator: "and",
+criteria: [{
+fieldName: "tozinId",
+operator: "equals",
             value: ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().tozinId
         }]
     };
@@ -773,20 +782,29 @@ title: "<spring:message code='warehouseCad.sourceSheetSum'/>",
                 padding: 20,
                 members:
                     [
-                        IButton_warehouseCAD_Save,
-                        isc.Label.create({
-                            width: 5,
-                        }),
-                        isc.IButtonCancel.create({
-                            title: "<spring:message code='global.cancel'/>",
-                            width: 100,
-                            icon: "pieces/16/icon_delete.png",
-                            orientation: "vertical",
-                            click: function () {
-                                Window_BijackOnWayProduct.close();
-                            }
-                        })
-                    ]
-            })
-        ]
-    });
+IButton_warehouseCAD_Save,
+isc.Label.create({
+width: 5,
+}),
+isc.IButtonCancel.create({
+title: "<spring:message code='global.cancel'/>",
+width: 100,
+icon: "pieces/16/icon_delete.png",
+orientation: "vertical",
+click: function () {
+isc.Dialog.create({
+title:"<spring:message code='global.warning'/>",
+message:"<spring:message code='warehouseCad.warning.close'/>",
+buttons:[isc.Dialog.OK,isc.Dialog.CANCEL],
+okClick() {
+Window_BijackOnWayProduct.close();
+this.close();
+}
+})
+}
+})
+]
+})
+]
+});
+//<script>
