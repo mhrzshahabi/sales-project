@@ -30,11 +30,11 @@ public class ContractShipment extends Auditable {
     @Column(name = "CONTRACT_ID")
     private Long contractId;
 
-    @Column(name = "PLAN", length = 20)
-    private String plan;
+//    @Column(name = "PLAN", length = 20)
+//    private String plan;
 
-    @Column(name = "SHIPMENT_ROW", length = 5)
-    private Long shipmentRow;
+//    @Column(name = "SHIPMENT_ROW", length = 5)
+//    private Long shipmentRow;
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
@@ -45,22 +45,22 @@ public class ContractShipment extends Auditable {
     @Column(name = "DISCHARGE")
     private Long dischargeId;
 
-    @Column(name = "ADDRESS", length = 4000)
-    private String address;
+//    @Column(name = "ADDRESS", length = 4000)
+//    private String address;
 
-    @Column(name = "AMOUNT")
-    private Double amount;
+    @Column(name = "QUANTITY")
+    private Double quantity;
 
     @Column(name = "SEND_DATE", length = 50)
     private String sendDate;
 
-    @Column(name = "DURATION")
-    private Long duration;
+//    @Column(name = "DURATION")
+//    private Long duration;
 
     @Column(name = "TOLORANCE")
     private Long tolorance;
 
-    @Column(name = "INCOTERMS_SHIPMENT_ID")
-    private Long incotermsShipmentId;
+//    @Column(name = "INCOTERMS_SHIPMENT_ID")
+//    private Long incotermsShipmentId;
 
 }

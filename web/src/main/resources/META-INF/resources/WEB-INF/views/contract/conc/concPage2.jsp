@@ -4,14 +4,14 @@
 //<script>
 
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
-var RestDataSource_Incoterms_InConc = isc.MyRestDataSource.create({
-        fields:
-        [
-        {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-        {name: "code", title: "<spring:message code='goods.code'/> "},
-        ],
-        fetchDataURL: "${contextPath}/api/incoterms/spec-list"
-});
+    var RestDataSource_Incoterms_InConc = isc.MyRestDataSource.create({
+            fields:
+            [
+            {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
+            {name: "code", title: "<spring:message code='goods.code'/> "},
+            ],
+            fetchDataURL: "${contextPath}/api/incoterms/spec-list"
+    });
 
 
     var sendDateSetConc;
@@ -173,50 +173,64 @@ ListGrid_ContractConcItemShipment = isc.ListGrid.create({
                 [
                 {name: "id", hidden: true,},
                 {name: "tblContractItem.id", type: "long", hidden: true},
-                {
-                    name: "plan",
-                    title: "<spring:message
-                    code='shipment.plan'/>",
-                    type: 'text',
-                    width: "10%",
-                    valueMap: {"A": "plan A", "B": "plan B", "C": "plan C",},
-                    align: "center"
-                },
-                {
-                    name: "shipmentRow",
-                    title: "<spring:message code='contractItem.itemRow'/> ",
-                    width: "10%",
-                    align: "center",
-                    validators: [{
-                        type:"isInteger",
-                        validateOnChange: true
-                    }]
-                },
+                <%--{--%>
+                    <%--name: "plan",--%>
+                    <%--title: "<spring:message--%>
+                    <%--code='shipment.plan'/>",--%>
+                    <%--type: 'text',--%>
+                    <%--width: "10%",--%>
+                    <%--valueMap: {"A": "plan A", "B": "plan B", "C": "plan C",},--%>
+                    <%--align: "center"--%>
+                <%--},--%>
+                <%--{--%>
+                    <%--name: "shipmentRow",--%>
+                    <%--title: "<spring:message code='contractItem.itemRow'/> ",--%>
+                    <%--width: "10%",--%>
+                    <%--align: "center",--%>
+                    <%--validators: [{--%>
+                        <%--type:"isInteger",--%>
+                        <%--validateOnChange: true--%>
+                    <%--}]--%>
+                <%--},--%>
                 {
                     name: "dischargeId", title: "<spring:message code='port.port'/>", editorType: "SelectItem",
                     optionDataSource: RestDataSource_Port,
                     displayField: "port",
                     valueField: "id", width: "10%", align: "center"
                 },
+                <%--{--%>
+                    <%--name: "address",--%>
+                    <%--title: "<spring:message code='global.address'/>",--%>
+                    <%--type: 'text',--%>
+                    <%--width: "10%",--%>
+                    <%--align: "center"--%>
+                <%--},--%>
                 {
-                    name: "address",
-                    title: "<spring:message code='global.address'/>",
-                    type: 'text',
-                    width: "10%",
-                    align: "center"
-                },
-                {
-                    name: "amount",
-                    title: "<spring:message code='global.amount'/>",
+                    name: "quantity",
+                    title: "<spring:message code='global.quantity'/>",
                     width: "10%",
                     validators: [{
-                        type:"isInteger",
+                        type:"isFloat",
                         validateOnChange: true
                     }],
                     align: "center", changed: function (form, item, value) {
                         if (ListGrid_ContractConcItemShipment.getEditRow() == 0) {
                             amountSet = value;
                             valuesManagerArticle5_quality.setValue("fullArticle5", value + "MT");
+                        }
+                    }
+                },
+                {
+                    name: "tolorance", title: "<spring:message code='contractItemShipment.tolorance'/>",keyPressFilter: "[0-9.]",
+                    validators: [
+                    {
+                        type:"isInteger",
+                        validateOnChange: true,
+                        keyPressFilter: "[0-9.]"
+                    }],
+                     width: "10%", align: "center", changed: function (form, item, value) {
+                        if (ListGrid_ContractConcItemShipment.getEditRow() == 0) {
+                            valuesManagerArticle5_quality.setValue("fullArticle5", amountSet + "MT" + " " + "+/-" + value + " " + valuesManagerArticle2Conc.getItem("optional").getDisplayValue(valuesManagerArticle2Conc.getValue("optional")) + " " + "PER EACH CALENDER MONTH STARTING FROM" + " " + sendDateSetConc + " " + "TILL");
                         }
                     }
                 },
@@ -232,32 +246,19 @@ ListGrid_ContractConcItemShipment = isc.ListGrid.create({
                         sendDateSetConcSave = value;
                     }
                 },
-                {
-                    name: "duration",
-                    title: "<spring:message code='global.duration'/>",
-                    width: "10%",
-                    align: "center",
-                    validators: [
-                    {
-                        type:"isInteger",
-                        validateOnChange: true,
-                        keyPressFilter: "[0-9.]"
-                    }]
-                },
-                {
-                    name: "tolorance", title: "<spring:message code='contractItemShipment.tolorance'/>",keyPressFilter: "[0-9.]",
-                    validators: [
-                    {
-                        type:"isInteger",
-                        validateOnChange: true,
-                        keyPressFilter: "[0-9.]"
-                    }],
-                     width: "10%", align: "center", changed: function (form, item, value) {
-                        if (ListGrid_ContractConcItemShipment.getEditRow() == 0) {
-                            valuesManagerArticle5_quality.setValue("fullArticle5", amountSet + "MT" + " " + "+/-" + value + " " + valuesManagerArticle2Conc.getItem("optional").getDisplayValue(valuesManagerArticle2Conc.getValue("optional")) + " " + "PER EACH CALENDER MONTH STARTING FROM" + " " + sendDateSetConc + " " + "TILL");
-                        }
-                    }
-                },{
+                <%--{--%>
+                    <%--name: "duration",--%>
+                    <%--title: "<spring:message code='global.duration'/>",--%>
+                    <%--width: "10%",--%>
+                    <%--align: "center",--%>
+                    <%--validators: [--%>
+                    <%--{--%>
+                        <%--type:"isInteger",--%>
+                        <%--validateOnChange: true,--%>
+                        <%--keyPressFilter: "[0-9.]"--%>
+                    <%--}]--%>
+                <%--},--%>
+                /*{
                     name: "incotermsShipmentId",
                     colSpan: 3,
                     titleColSpan: 1,
@@ -285,7 +286,7 @@ ListGrid_ContractConcItemShipment = isc.ListGrid.create({
                     ],
                     width: "10%",
                     title: "<strong class='cssDynamicForm'>SHIPMENT TYPE<strong>"
-                },
+                },*/
             ], saveEdits: function () {
             }, removeData: function (data) {
             if(data.deleted){

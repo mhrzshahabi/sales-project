@@ -242,8 +242,11 @@ public class Contract extends Auditable {
     @Column(name = "DELAY")
     private String delay;
 
-    @Column(name = "PLANT")
-    private String plant;
+    @Column(name = "CONTRACT_START")
+    private String contractStart;
+
+    @Column(name = "CONTRACT_END")
+    private String contractEnd;
 
     @Column(name = "OPTIONAL")
     private Integer optional;

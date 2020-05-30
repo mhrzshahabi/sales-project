@@ -18,16 +18,16 @@ import java.util.List;
 public class ContractShipmentDTO {
 
 
-    private String plan;
-    private Long shipmentRow;
+//    private String plan;
+//    private Long shipmentRow;
     private Long dischargeId;
-    private String address;
-    private Double amount;
+//    private String address;
+    private Double quantity;
     private String sendDate;
-    private Long duration;
+//    private Long duration;
     private Long tolorance;
     private Long contractId;
-    private Long incotermsShipmentId;
+//    private Long incotermsShipmentId;
 
 
     @Getter
