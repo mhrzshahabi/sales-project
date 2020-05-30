@@ -358,7 +358,6 @@
                 ],
                 changed: function () {
                     var record = DynamicForm_Shipment.getItem("contractShipmentId").getSelectedRecord();
-                    // Shipment_contact_name.setContents(record.fullname);
                     var d = new Date(record.sendDate);
 
                     DynamicForm_Shipment.setValue("material.descl", record.materialDescp);
@@ -1269,13 +1268,6 @@
             this.Super("closeClick", arguments)
         },
         items: [
-            <%--isc.Label.create({--%>
-                <%--ID: "Shipment_contact_name",--%>
-                <%--title: "<spring:message code='contact.name'/>. ",--%>
-                <%--align: "center",--%>
-                <%--width: "60%",--%>
-                <%--height: 22--%>
-            <%--}),--%>
             shipmentTabs,
             isc.HLayout.create({
                 width: "100%",
@@ -1352,7 +1344,6 @@
         DynamicForm_Shipment2.clearValues();
         abal.show();
         abal.fetchData();
-        // Shipment_contact_name.setContents("");
         Window_Shipment.animateShow();
     }
 
@@ -1378,11 +1369,9 @@
             DynamicForm_Shipment1.editRecord(record);
             DynamicForm_Shipment2.editRecord(record);
 
-            DynamicForm_Shipment.setValue("createDate", record.createDate);
+            DynamicForm_Shipment.setValue("createDate", new Date(record.createDate));
             DynamicForm_Shipment1.setValue("swBlDate", new Date(record.swBlDate));
             DynamicForm_Shipment1.setValue("blDate", new Date(record.blDate));
-            // if (!(record.contract.contact.nameFA == null || record.contract.contact.nameFA == 'undefiend'))
-            //     Shipment_contact_name.setContents(record.contract.contact.nameFA);
             abal.hide();
             Window_Shipment.animateShow();
         }
