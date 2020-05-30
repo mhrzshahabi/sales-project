@@ -128,32 +128,10 @@
         <modifyDataType columnName="LME_DATE" newDataType="TIMESTAMP(6)" tableName="TBL_LME"/>
     </changeSet>
 
-    <changeSet id="9778899665544-018-unit_id" author="saeb">
-        <sql>
-            <![CDATA[
-            update TBL_UNIT set ID= SEQ_UNIT.nextval + 10000 where ID < 10000;
-            insert into TBL_UNIT (ID,C_NAME_FA, C_CREATED_BY,   N_VERSION)
-        select
-        distinct UNIT_KALA as ID,
-        PACKNAME as C_NAME_FA ,
-        'liquibase' as C_CREATED_BY,
-        0 as N_VERSION
-        from n_master.V_TOZINE_CONTENT_M2
-        where V_TOZINE_CONTENT_M2.unit_kala is not null
-        order by V_TOZINE_CONTENT_M2.unit_kala asc;
-        ]]>
-        </sql>
+    <changeSet author="saeb" id="9778899665544-02s1">
+        <dropSequence sequenceName="SEQ_UNIT"/>
     </changeSet>
-
-    <changeSet id="9778899665544-018-target_id" author="saeb">
-        <sql>
-            <![CDATA[
-          insert into TBL_TOZIN_TARGET (TBL_TOZIN_TARGET.targetid,TBL_TOZIN_TARGET.target)
-                select DISTINCT TARGETID,TARGET from n_master.V_TOZINE_CONTENT_M2
-                    where TARGET is not null and TARGETID not in (
-                             select TARGETID from TBL_TOZIN_TARGET
-                                                             ) ;
-        ]]>
-        </sql>
+    <changeSet author="saeb" id="9778899665544-021sss">
+        <createSequence sequenceName="SEQ_UNIT" startValue="100000"/>
     </changeSet>
 </databaseChangeLog>
