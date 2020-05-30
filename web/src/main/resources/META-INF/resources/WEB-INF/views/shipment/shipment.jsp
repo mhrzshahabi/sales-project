@@ -108,18 +108,13 @@
                 {name: "cisId", title: "id", primaryKey: true, canEdit: false, hidden: true},
                 {name: "contractNo", title: "<spring:message code='contract.contractNo'/> "},
                 {name: "fullname", title: "<spring:message code='contact.name'/> "},
-                {name: "amount", title: "<spring:message code='global.amount'/> "},
-                {name: "address", title: "<spring:message code='global.address'/> "},
-                {name: "plan", title: "<spring:message code='shipment.plan'/> "},
+                {name: "quantity", title: "<spring:message code='global.amount'/> "},
                 {name: "sendDate", title: "<spring:message code='global.sendDate'/> "},
-                {name: "duration", title: "<spring:message code='global.duration'/> "},
                 {name: "contactID", title: "contactId"},
                 {name: "contractID", title: "contractID"},
                 {name: "materialDescp", title: "<spring:message code='material.descp'/>"},
                 {name: "materialID", title: "materialId"},
-                {name: "dischargeID", title: "dischargeID"},
-                {name: "dischargeAddress", title: "materialId"},
-                {name: "code", title: "code"},
+                {name: "dischargeID", title: "dischargeID"}
             ],
         fetchDataURL: "${contextPath}/api/shipment/pick-list"
     });
@@ -349,12 +344,12 @@
                         width: "10%",
                         align: "center"
                     },
-                    {name: "amount", width: "10%", align: "center", errorOrientation: "bottom",}, {
+                    {name: "quantity", width: "10%"},
+                    {
                         name: "sendDate",
                         width: "10%",
                         align: "center"
-                    },
-                    {name: "plan", width: "10%", align: "center"},
+                    }
                 ],
                 changed: function () {
                     var record = DynamicForm_Shipment.getItem("contractShipmentId").getSelectedRecord();
