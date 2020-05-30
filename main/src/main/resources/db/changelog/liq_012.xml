@@ -194,4 +194,10 @@
         <modifyDataType tableName="TBL_SHIPMENT" columnName="NO_PALETE" newDataType="NUMBER(19, 0)"/>
     </changeSet>
 
+    <changeSet author="MShahabi" id="1778899665544-041">
+        <modifyDataType tableName="TBL_SHIPMENT" columnName="CREATE_DATE" newDataType="TIMESTAMP(6)"/>
+        <modifyDataType tableName="TBL_SHIPMENT" columnName="BL_DATE" newDataType="TIMESTAMP(6)"/>
+        <modifyDataType tableName="TBL_SHIPMENT" columnName="SW_BL_DATE" newDataType="TIMESTAMP(6)"/>
+    </changeSet>
+
 </databaseChangeLog>
