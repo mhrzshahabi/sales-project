@@ -124,4 +124,9 @@
     </changeSet>
 
 
+    <changeSet author="programmer (generated)" id="9778899665544-018">
+        <modifyDataType columnName="LME_DATE" newDataType="TIMESTAMP(6)" tableName="TBL_LME"/>
+    </changeSet>
+
+
 </databaseChangeLog>
