@@ -144,4 +144,16 @@
         ]]>
         </sql>
     </changeSet>
+
+    <changeSet id="9778899665544-018-target_id" author="saeb">
+        <sql>
+            <![CDATA[
+          insert into TBL_TOZIN_TARGET (TBL_TOZIN_TARGET.targetid,TBL_TOZIN_TARGET.target)
+                select DISTINCT TARGETID,TARGET from n_master.V_TOZINE_CONTENT_M2
+                    where TARGET is not null and TARGETID not in (
+                             select TARGETID from TBL_TOZIN_TARGET
+                                                             ) ;
+        ]]>
+        </sql>
+    </changeSet>
 </databaseChangeLog>
