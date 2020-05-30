@@ -17,7 +17,7 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class LMEDTO {
 
-    private String lmeDate;
+    private Date lmeDate;
     private String cuUsdMt;
     private String goldUsdOunce;
     private String silverUsdOunce;
