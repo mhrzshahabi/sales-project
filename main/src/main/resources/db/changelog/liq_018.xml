@@ -128,5 +128,20 @@
         <modifyDataType columnName="LME_DATE" newDataType="TIMESTAMP(6)" tableName="TBL_LME"/>
     </changeSet>
 
-
+    <changeSet id="9778899665544-018-unit_id" author="saeb">
+        <sql>
+            <![CDATA[
+            update TBL_UNIT set ID= SEQ_UNIT.nextval + 10000 where ID < 10000;
+            insert into TBL_UNIT (ID,C_NAME_FA, C_CREATED_BY,   N_VERSION)
+        select
+        distinct UNIT_KALA as ID,
+        PACKNAME as C_NAME_FA ,
+        'liquibase' as C_CREATED_BY,
+        0 as N_VERSION
+        from n_master.V_TOZINE_CONTENT_M2
+        where V_TOZINE_CONTENT_M2.unit_kala is not null
+        order by V_TOZINE_CONTENT_M2.unit_kala asc;
+        ]]>
+        </sql>
+    </changeSet>
 </databaseChangeLog>
