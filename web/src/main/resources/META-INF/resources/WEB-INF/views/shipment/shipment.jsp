@@ -90,7 +90,7 @@
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
                 {name: "shipmentType", title: "<spring:message code='shipment.type'/>"},
             ],
-        fetchDataURL: "${contextPath}/api/shipmenttype/spec-list"
+        fetchDataURL: "${contextPath}/api/shipmentType/spec-list"
     });
 
     var RestDataSource_ShipmentMethodInShipment = isc.MyRestDataSource.create({
@@ -99,7 +99,7 @@
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
                 {name: "shipmentMethod", title: "<spring:message code='shipment.method'/>"},
             ],
-        fetchDataURL: "${contextPath}/api/shipmentmethod/spec-list"
+        fetchDataURL: "${contextPath}/api/shipmentMethod/spec-list"
     });
 
     var RestDataSource_pickShipmentItem = isc.MyRestDataSource.create({
@@ -170,14 +170,12 @@
                 title: "<spring:message code='shipment.shipmentType'/>",
                 type: 'text',
                 width: 400,
-                valueMap: {"bulk": "bulk", "container": "container"}
             },
             {
                 name: "shipmentMethod",
                 title: "<spring:message code='shipment.shipmentMethod'/>",
                 type: 'text',
                 width: 400,
-                valueMap: {"زمینی": "زمینی", "دریایی": "دریایی"}
             },
             {
                 name: "bookingCat",

@@ -27,7 +27,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/api/shipmentmethod")
+@RequestMapping(value = "/api/shipmentMethod")
 public class ShipmentMethodRestController {
 
     private final IShipmentMethodService iShipmentMethodService;
