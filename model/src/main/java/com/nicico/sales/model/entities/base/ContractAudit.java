@@ -267,9 +267,9 @@ public class ContractAudit {
     @Column(name = "DELAY")
     private String delay;
     @Column(name = "CONTRACT_START")
-    private String contractStart;
+    private Date contractStart;
     @Column(name = "CONTRACT_END")
-    private String contractEnd;
+    private Date contractEnd;
     @Column(name = "OPTIONAL")
     private Integer optional;
     @Column(name = "MO_AMOUNT")

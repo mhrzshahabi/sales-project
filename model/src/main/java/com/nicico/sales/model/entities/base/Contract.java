@@ -9,6 +9,7 @@ import org.hibernate.envers.Audited;
 import org.hibernate.envers.NotAudited;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -243,10 +244,10 @@ public class Contract extends Auditable {
     private String delay;
 
     @Column(name = "CONTRACT_START")
-    private String contractStart;
+    private Date contractStart;
 
     @Column(name = "CONTRACT_END")
-    private String contractEnd;
+    private Date contractEnd;
 
     @Column(name = "OPTIONAL")
     private Integer optional;
