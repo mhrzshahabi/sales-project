@@ -217,8 +217,8 @@
                 {name: "incoterms.code", title: "<spring:message code='incoterms.name'/>"},
                 {name: "amount", title: "<spring:message code='global.amount'/>"},
                 {name: "material.descl", title: "materialId"},
-                {name: "contractStart", title: "contractStart"},
-                {name: "contractEnd", title: "contractEnd"}
+                {name: "contractStart", title: "<spring:message code='contract.contractStart'/>"},
+                {name: "contractEnd", title: "<spring:message code='contract.contractEnd'/>"}
             ],
         // ######@@@@###&&@@###
         fetchDataURL: "${contextPath}/api/contract/spec-list"
@@ -618,6 +618,7 @@
                                                                                 valuesManagerArticle2Conc.setValue("cathodesTolorance", data[0].molybdenumTolorance);
                                                                                 valuesManagerArticle2Conc.setValue("optional", data[0].optional);
                                                                                 valuesManagerArticle2Conc.setValue("contractStart", data[0].contractStart);
+                                                                                valuesManagerArticle2Conc.setValue("contractEnd", data[0].contractEnd);
                                                                                 valuesManagerArticle3_conc.setValue("CU", data[0].copper);
                                                                                 valuesManagerArticle3_conc.setValue("MO", data[0].molybdenum);
                                                                                 valuesManagerArticle3_conc.setValue("unitCu", data[0].timeIssuance);

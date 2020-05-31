@@ -66,7 +66,8 @@ public class ContractAuditDTO {
     private Double molybdenumTolorance;
     private String sideContractNo;
     private String sideContractDate;
-    private String plant;
+    private String contractStart;
+    private String contractEnd;
     private String timeIssuance;
     private String invoiceType;
     private Integer optional;

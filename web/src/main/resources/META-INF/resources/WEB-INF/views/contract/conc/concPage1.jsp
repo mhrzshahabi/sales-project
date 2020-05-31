@@ -601,10 +601,11 @@ var vlayoutBodyConc = isc.VLayout.create({
                 format: 'DD-MM-YYYY',
                 width: "500",
                 startRow: false,
-                title: '<b><font size=2px>OPTION) DURING</font><b>'
+                title: "<spring:message code='contract.contractStart'/>",
             },
             {
                 name: "contractEnd",
+                title: "<spring:message code='contract.contractEnd'/>",
                 type: "date",
                 format: 'DD-MM-YYYY',
                 width: "500",
