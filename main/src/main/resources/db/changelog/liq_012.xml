@@ -217,7 +217,7 @@
                       newColumnName="CONTRACT_START"
                       oldColumnName="PLANT"
                       tableName="TBL_CONTRACT"/>
-    <addColumn tableName="TBL_CONTRACT">
+        <addColumn tableName="TBL_CONTRACT">
             <column name="CONTRACT_END" type="VARCHAR2(255 CHAR)"/>
         </addColumn>
     </changeSet>
@@ -236,9 +236,44 @@
         <dropColumn tableName="TBL_CONTRACT_SHIPMENT_AUD" columnName="DURATION"/>
         <dropColumn tableName="TBL_CONTRACT_SHIPMENT_AUD" columnName="INCOTERMS_SHIPMENT_ID"/>
         <renameColumn columnDataType="FLOAT"
-                newColumnName="QUANTITY"
-                oldColumnName="AMOUNT"
-                tableName="TBL_CONTRACT_SHIPMENT_AUD"/>
+                      newColumnName="QUANTITY"
+                      oldColumnName="AMOUNT"
+                      tableName="TBL_CONTRACT_SHIPMENT_AUD"/>
     </changeSet>
+
+    <changeSet author="MShahabi" id="1778899665544-045">
+        <renameColumn columnDataType="NUMBER(19, 0)"
+                      newColumnName="LOAD_PORT_ID"
+                      oldColumnName="DISCHARGE"
+                      tableName="TBL_CONTRACT_SHIPMENT"/>
+        <addForeignKeyConstraint baseColumnNames="LOAD_PORT_ID"
+                baseTableName="TBL_CONTRACT_SHIPMENT"
+                constraintName="Contractship2loadport"
+                referencedColumnNames="ID"
+                referencedTableName="TBL_PORT"
+                nullable="false"
+                insertable="false"
+                updatable="false"
+            />
+        <renameColumn columnDataType="NUMBER(19, 0)"
+                      newColumnName="LOAD_PORT_ID"
+                      oldColumnName="DISCHARGE"
+                      tableName="TBL_CONTRACT_SHIPMENT_AUD"/>
+        <addForeignKeyConstraint baseColumnNames="LOAD_PORT_ID"
+                baseTableName="TBL_CONTRACT_SHIPMENT_AUD"
+                constraintName="Contractshipaud2loadport"
+                referencedColumnNames="ID"
+                referencedTableName="TBL_PORT"
+                nullable="false"
+                insertable="false"
+                updatable="false"
+            />
+    </changeSet>
+
+    <changeSet author="MShahabi" id="1778899665544-046">
+        <modifyDataType tableName="TBL_CONTRACT_SHIPMENT" columnName="SEND_DATE" newDataType="TIMESTAMP(6)"/>
+        <modifyDataType tableName="TBL_CONTRACT_SHIPMENT_AUD" columnName="SEND_DATE" newDataType="TIMESTAMP(6)"/>
+    </changeSet>
+
 
 </databaseChangeLog>

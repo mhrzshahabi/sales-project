@@ -173,38 +173,16 @@ ListGrid_ContractConcItemShipment = isc.ListGrid.create({
                 [
                 {name: "id", hidden: true,},
                 {name: "tblContractItem.id", type: "long", hidden: true},
-                <%--{--%>
-                    <%--name: "plan",--%>
-                    <%--title: "<spring:message--%>
-                    <%--code='shipment.plan'/>",--%>
-                    <%--type: 'text',--%>
-                    <%--width: "10%",--%>
-                    <%--valueMap: {"A": "plan A", "B": "plan B", "C": "plan C",},--%>
-                    <%--align: "center"--%>
-                <%--},--%>
-                <%--{--%>
-                    <%--name: "shipmentRow",--%>
-                    <%--title: "<spring:message code='contractItem.itemRow'/> ",--%>
-                    <%--width: "10%",--%>
-                    <%--align: "center",--%>
-                    <%--validators: [{--%>
-                        <%--type:"isInteger",--%>
-                        <%--validateOnChange: true--%>
-                    <%--}]--%>
-                <%--},--%>
                 {
-                    name: "dischargeId", title: "<spring:message code='port.port'/>", editorType: "SelectItem",
+                    name: "loadPortId",
+                    title: "<spring:message code='shipment.loading'/>",
+                    editorType: "SelectItem",
                     optionDataSource: RestDataSource_Port,
                     displayField: "port",
-                    valueField: "id", width: "10%", align: "center"
+                    valueField: "id",
+                    width: "10%",
+                    align: "center"
                 },
-                <%--{--%>
-                    <%--name: "address",--%>
-                    <%--title: "<spring:message code='global.address'/>",--%>
-                    <%--type: 'text',--%>
-                    <%--width: "10%",--%>
-                    <%--align: "center"--%>
-                <%--},--%>
                 {
                     name: "quantity",
                     title: "<spring:message code='global.quantity'/>",
@@ -246,47 +224,6 @@ ListGrid_ContractConcItemShipment = isc.ListGrid.create({
                         sendDateSetConcSave = value;
                     }
                 },
-                <%--{--%>
-                    <%--name: "duration",--%>
-                    <%--title: "<spring:message code='global.duration'/>",--%>
-                    <%--width: "10%",--%>
-                    <%--align: "center",--%>
-                    <%--validators: [--%>
-                    <%--{--%>
-                        <%--type:"isInteger",--%>
-                        <%--validateOnChange: true,--%>
-                        <%--keyPressFilter: "[0-9.]"--%>
-                    <%--}]--%>
-                <%--},--%>
-                /*{
-                    name: "incotermsShipmentId",
-                    colSpan: 3,
-                    titleColSpan: 1,
-                    tabIndex: 6,
-                    showTitle: true,
-                    showHover: true,
-                    showHintInField: true,
-                    required: true,
-                    validators: [
-                    {
-                        type:"required",
-                        validateOnChange: true
-                    }],
-                    type: 'long',
-                    numCols: 4,
-                    editorType: "SelectItem",
-                    optionDataSource: RestDataSource_Incoterms_InConc,
-                    displayField: "code",
-                    valueField: "id",
-                    pickListWidth: "450",
-                    pickListHeight: "500",
-                    pickListProperties: {showFilterEditor: true},
-                    pickListFields: [
-                        {name: "code", width: 440, align: "center"}
-                    ],
-                    width: "10%",
-                    title: "<strong class='cssDynamicForm'>SHIPMENT TYPE<strong>"
-                },*/
             ], saveEdits: function () {
             }, removeData: function (data) {
             if(data.deleted){

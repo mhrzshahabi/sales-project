@@ -77,28 +77,18 @@
         fields:
             [
                 {name: "id", hidden: true, primaryKey: true, canEdit: false,},
-                <%--{--%>
-                    <%--name: "shipmentRow",--%>
-                    <%--title: "<spring:message code='contractItem.itemRow'/> ",--%>
-                    <%--type: 'text',--%>
-                    <%--required: true,--%>
-                    <%--width: 400--%>
-                <%--},--%>
                 {
-                    name: "dischargeId",
-                    title: "<spring:message code='port.port'/>",
+                    name: "loadPortId",
+                    title: "<spring:message code='shipment.loading'/>",
                     type: 'text',
                     required: true,
                     width: 400
                 },
-                {name: "discharge.port", title: "<spring:message code='port.port'/>", align: "center"},
-                <%--{--%>
-                    <%--name: "address",--%>
-                    <%--title: "<spring:message code='global.address'/>",--%>
-                    <%--type: 'text',--%>
-                    <%--required: true,--%>
-                    <%--width: 400--%>
-                <%--},--%>
+                {
+                    name: "loadPort.port",
+                    title: "<spring:message code='shipment.loading'/>",
+                    align: "center"
+                },
                 {
                     name: "quantity",
                     title: "<spring:message code='global.quantity'/>",
@@ -109,10 +99,8 @@
                 {
                     name: "sendDate",
                     title: "<spring:message code='global.sendDate'/>",
-                    type: 'text',
                     width: 400,
                 },
-                <%--{name: "duration", title: "<spring:message code='global.duration'/>", type: 'text', width: 400},--%>
             ],
         fetchDataURL: "${contextPath}/api/contractShipment/spec-list"
     });

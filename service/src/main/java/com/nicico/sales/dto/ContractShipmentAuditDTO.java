@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import java.util.Date;
 import java.util.List;
 
@@ -26,15 +28,12 @@ public class ContractShipmentAuditDTO {
     private String createdBy;
     private String lastModifiedBy;
     private Long contractId;
-//    private String plan;
-//    private Long shipmentRow;
-    private Long dischargeId;
-//    private String address;
+    private Long loadPortId;
     private Double quantity;
-    private String sendDate;
-//    private Long duration;
+    @Temporal(TemporalType.TIMESTAMP)
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date sendDate;
     private Long tolorance;
-//    private Long incotermsShipmentId;
 
     @Getter
     @Accessors(chain = true)
