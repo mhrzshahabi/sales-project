@@ -77,13 +77,13 @@
         fields:
             [
                 {name: "id", hidden: true, primaryKey: true, canEdit: false,},
-                {
-                    name: "shipmentRow",
-                    title: "<spring:message code='contractItem.itemRow'/> ",
-                    type: 'text',
-                    required: true,
-                    width: 400
-                },
+                <%--{--%>
+                    <%--name: "shipmentRow",--%>
+                    <%--title: "<spring:message code='contractItem.itemRow'/> ",--%>
+                    <%--type: 'text',--%>
+                    <%--required: true,--%>
+                    <%--width: 400--%>
+                <%--},--%>
                 {
                     name: "dischargeId",
                     title: "<spring:message code='port.port'/>",
@@ -92,16 +92,16 @@
                     width: 400
                 },
                 {name: "discharge.port", title: "<spring:message code='port.port'/>", align: "center"},
+                <%--{--%>
+                    <%--name: "address",--%>
+                    <%--title: "<spring:message code='global.address'/>",--%>
+                    <%--type: 'text',--%>
+                    <%--required: true,--%>
+                    <%--width: 400--%>
+                <%--},--%>
                 {
-                    name: "address",
-                    title: "<spring:message code='global.address'/>",
-                    type: 'text',
-                    required: true,
-                    width: 400
-                },
-                {
-                    name: "amount",
-                    title: "<spring:message code='global.amount'/>",
+                    name: "quantity",
+                    title: "<spring:message code='global.quantity'/>",
                     type: 'float',
                     required: true,
                     width: 400
@@ -112,7 +112,7 @@
                     type: 'text',
                     width: 400,
                 },
-                {name: "duration", title: "<spring:message code='global.duration'/>", type: 'text', width: 400},
+                <%--{name: "duration", title: "<spring:message code='global.duration'/>", type: 'text', width: 400},--%>
             ],
         fetchDataURL: "${contextPath}/api/contractShipment/spec-list"
     });
@@ -216,7 +216,9 @@
                 {name: "incotermsId", title: "<spring:message code='incoterms.name'/>"},
                 {name: "incoterms.code", title: "<spring:message code='incoterms.name'/>"},
                 {name: "amount", title: "<spring:message code='global.amount'/>"},
-                {name: "material.descl", title: "materialId"}
+                {name: "material.descl", title: "materialId"},
+                {name: "contractStart", title: "contractStart"},
+                {name: "contractEnd", title: "contractEnd"}
             ],
         // ######@@@@###&&@@###
         fetchDataURL: "${contextPath}/api/contract/spec-list"
@@ -397,7 +399,8 @@
                         valuesManagerArticle2Conc.setValue("unitId", record.unitId);
                         valuesManagerArticle2Conc.setValue("cathodesTolorance", record.molybdenumTolorance);
                         valuesManagerArticle2Conc.setValue("optional", record.optional);
-                        valuesManagerArticle2Conc.setValue("plant", record.plant);
+                        valuesManagerArticle2Conc.setValue("contractStart", record.contractStart);
+                        valuesManagerArticle2Conc.setValue("contractEnd", record.contractEnd);
                         valuesManagerArticle3_conc.setValue("CU", record.copper);
                         valuesManagerArticle3_conc.setValue("MO", record.molybdenum);
                         valuesManagerArticle3_conc.setValue("unitCu", record.timeIssuance);
@@ -614,7 +617,7 @@
                                                                                 valuesManagerArticle2Conc.setValue("unitId", data[0].unitId);
                                                                                 valuesManagerArticle2Conc.setValue("cathodesTolorance", data[0].molybdenumTolorance);
                                                                                 valuesManagerArticle2Conc.setValue("optional", data[0].optional);
-                                                                                valuesManagerArticle2Conc.setValue("plant", data[0].plant);
+                                                                                valuesManagerArticle2Conc.setValue("contractStart", data[0].contractStart);
                                                                                 valuesManagerArticle3_conc.setValue("CU", data[0].copper);
                                                                                 valuesManagerArticle3_conc.setValue("MO", data[0].molybdenum);
                                                                                 valuesManagerArticle3_conc.setValue("unitCu", data[0].timeIssuance);

@@ -49,10 +49,12 @@
                 message: "<spring:message code='global.grid.record.remove.ask'/>",
                 icon: "[SKIN]ask.png",
                 title: "<spring:message code='global.grid.record.remove.ask.title'/>",
-                buttons: [isc.IButtonSave.create({
+                buttons: [
+                    isc.IButtonSave.create({
                     title: "<spring:message
-		code='global.yes'/>"
-                }), isc.IButtonCancel.create({title: "<spring:message code='global.no'/>"})],
+		            code='global.yes'/>"
+                }),
+                isc.IButtonCancel.create({title: "<spring:message code='global.no'/>"})],
                 buttonClick: function (button, index) {
                     this.hide();
                     if (index == 0) {
@@ -246,8 +248,8 @@
                     name: "lmeDate",
                     title: "<spring:message code='LME.LMEDate'/>",
                     width: 430,
-                    type: "date",
                     required: true, errorOrientation: "bottom",
+                    type: "date",
                     validators: [
                     {
                         type:"required",
@@ -347,6 +349,7 @@
                 {
                     name: "lmeDate",
                     title: "<spring:message code='LME.LMEDate'/>",
+                    type: "text",
                     width: 200
                 },
                 {
@@ -379,6 +382,7 @@
                     title: "<spring:message code='LME.molybdenumUsdLb'/>",
                     width: 200
                 }],
+            dataFormat: "json",
             fetchDataURL: "${contextPath}/api/LME/spec-list"
         });
 
@@ -387,14 +391,9 @@
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
         click: function () {
-            /*ValuesManager_GoodsUnit.validate();*/
             DynamicForm_LME.validate();
             if (DynamicForm_LME.hasErrors())
                 return;
-            var d = DynamicForm_LME.getValue("lmeDate");
-            var datestring = (d.getFullYear() + "/" + ("0" + (d.getMonth() + 1)).slice(-2) + "/" + ("0" + d.getDate()).slice(-2))
-            DynamicForm_LME.setValue("lmeDate", datestring)
-
             var data = DynamicForm_LME.getValues();
             var methodXXXX = "PUT";
             if (data.id == null) methodXXXX = "POST";
@@ -477,6 +476,7 @@
                     name: "lmeDate",
                     title: "<spring:message code='LME.LMEDate'/>",
                     width: "10%",
+                    type: "date",
                     align: "center"
                 },
                 {

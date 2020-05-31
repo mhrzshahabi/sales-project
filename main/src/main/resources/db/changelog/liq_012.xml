@@ -109,40 +109,8 @@
 
     </changeSet>
 
-    <changeSet author="MShahabi" id="1778899665544-025">
-        <createTable tableName="TBL_VESSEL">
-
-            <column name="ID" type="NUMBER(19, 0)">
-                <constraints primaryKey="true" primaryKeyName="TBL_VESSEL_PK"/>
-            </column>
-            <column name="C_CREATED_BY" type="VARCHAR2(255 CHAR)"/>
-            <column name="D_CREATED_DATE" type="TIMESTAMP(6)"/>
-            <column name="C_LAST_MODIFIED_BY" type="VARCHAR2(255 CHAR)"/>
-            <column name="D_LAST_MODIFIED_DATE" type="TIMESTAMP(6)"/>
-            <column name="N_VERSION" type="NUMBER(10, 0)"/>
-            <column name="TYPE" type="VARCHAR2(100 CHAR)"/>
-            <column name="IMO" type="NUMBER(19, 0)"/>
-            <column name="YEAR_OF_BUILd" type="NUMBER(19, 0)"/>
-            <column name="LENGTH" type="FLOAT"/>
-            <column name="BEAM" type="FLOAT"/>
-        </createTable>
-    </changeSet>
-
     <changeSet author="MShahabi" id="1778899665544-026">
         <createSequence sequenceName="SEQ_VESSEL"/>
-    </changeSet>
-
-    <changeSet author="programmer (generated)" id="1778899665544-031">
-        <addColumn tableName="TBL_VESSEL">
-        <column defaultValueNumeric="1" name="N_E_STATUS" type="NUMBER">
-            <constraints nullable="false"/>
-        </column>
-        </addColumn>
-        <addColumn tableName="TBL_VESSEL">
-        <column defaultValueNumeric="1" name="B_EDITABLE" type="NUMBER">
-            <constraints nullable="false"/>
-        </column>
-        </addColumn>
     </changeSet>
 
     <changeSet author="MShahabi" id="1778899665544-032">
@@ -183,5 +151,76 @@
     <changeSet author="MShahabi" id="1778899665544-037">
         <dropColumn tableName="TBL_MATERIAL" columnName="M_DETAIL_CODE"/>
     </changeSet>
+
+    <changeSet author="MShahabi" id="1778899665544-039">
+        <createTable tableName="TBL_VESSEL">
+
+            <column name="ID" type="NUMBER(19, 0)">
+                <constraints primaryKey="true" primaryKeyName="TBL_VESSEL_PK"/>
+            </column>
+            <column name="C_CREATED_BY" type="VARCHAR2(255 CHAR)"/>
+            <column name="D_CREATED_DATE" type="TIMESTAMP(6)"/>
+            <column name="C_LAST_MODIFIED_BY" type="VARCHAR2(255 CHAR)"/>
+            <column name="D_LAST_MODIFIED_DATE" type="TIMESTAMP(6)"/>
+            <column name="N_VERSION" type="NUMBER(10, 0)"/>
+            <column name="VESSEL_NAME" type="VARCHAR2(255 CHAR)"/>
+            <column name="TYPE" type="VARCHAR2(100 CHAR)"/>
+            <column name="IMO" type="NUMBER(19, 0)"/>
+            <column name="YEAR_OF_BUILd" type="NUMBER(19, 0)"/>
+            <column name="LENGTH" type="FLOAT"/>
+            <column name="BEAM" type="FLOAT"/>
+        </createTable>
+        <addColumn tableName="TBL_VESSEL">
+            <column defaultValueNumeric="1" name="N_E_STATUS" type="NUMBER">
+                <constraints nullable="false"/>
+            </column>
+            </addColumn>
+            <addColumn tableName="TBL_VESSEL">
+            <column defaultValueNumeric="1" name="B_EDITABLE" type="NUMBER">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="MShahabi" id="1778899665544-040">
+        <addColumn tableName="TBL_SHIPMENT">
+            <column name="SHIPMENT_METHOD" type="varchar2(100 CHAR)"/>
+            <column name="GROSS" type="FLOAT"/>
+            <column name="NET" type="FLOAT"/>
+            <column name="MOISTURE" type="FLOAT"/>
+            <column name="VGM" type="FLOAT"/>
+        </addColumn>
+        <modifyDataType tableName="TBL_SHIPMENT" columnName="NO_BARREL" newDataType="NUMBER(19, 0)"/>
+        <modifyDataType tableName="TBL_SHIPMENT" columnName="NO_PALETE" newDataType="NUMBER(19, 0)"/>
+    </changeSet>
+
+    <changeSet author="MShahabi" id="1778899665544-041">
+        <modifyDataType tableName="TBL_SHIPMENT" columnName="CREATE_DATE" newDataType="TIMESTAMP(6)"/>
+        <modifyDataType tableName="TBL_SHIPMENT" columnName="BL_DATE" newDataType="TIMESTAMP(6)"/>
+        <modifyDataType tableName="TBL_SHIPMENT" columnName="SW_BL_DATE" newDataType="TIMESTAMP(6)"/>
+    </changeSet>
+
+    <changeSet author="MShahabi" id="1778899665544-042">
+        <dropColumn tableName="TBL_CONTRACT_SHIPMENT" columnName="PLAN"/>
+        <dropColumn tableName="TBL_CONTRACT_SHIPMENT" columnName="SHIPMENT_ROW"/>
+        <dropColumn tableName="TBL_CONTRACT_SHIPMENT" columnName="ADDRESS"/>
+        <dropColumn tableName="TBL_CONTRACT_SHIPMENT" columnName="DURATION"/>
+        <dropColumn tableName="TBL_CONTRACT_SHIPMENT" columnName="INCOTERMS_SHIPMENT_ID"/>
+        <renameColumn columnDataType="FLOAT"
+                newColumnName="QUANTITY"
+                oldColumnName="AMOUNT"
+                tableName="TBL_CONTRACT_SHIPMENT"/>
+    </changeSet>
+
+    <changeSet author="MShahabi" id="1778899665544-043">
+        <renameColumn columnDataType="VARCHAR2(255 CHAR)"
+                      newColumnName="CONTRACT_START"
+                      oldColumnName="PLANT"
+                      tableName="TBL_CONTRACT"/>
+    <addColumn tableName="TBL_CONTRACT">
+            <column name="CONTRACT_END" type="VARCHAR2(255 CHAR)"/>
+        </addColumn>
+    </changeSet>
+
 
 </databaseChangeLog>

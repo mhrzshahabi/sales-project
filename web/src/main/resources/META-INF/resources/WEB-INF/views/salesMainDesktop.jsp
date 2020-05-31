@@ -585,6 +585,8 @@
                     ]
                 },
                 {isSeparator: true},
+
+
                 {
                     title: "<spring:message code='main.baseTab.financial'/>",
                     submenu: [
@@ -675,6 +677,21 @@
                         <%--createTab("<spring:message code='dcc.title'/>", "<spring:url value="/dccView/showForm" />")--%>
                     <%--}--%>
                 <%--},--%>
+
+                {
+                    title: "<spring:message code='shipment.type'/>",
+                    click: function () {
+                        createTab("<spring:message code='shipment.type'/>", "<spring:url value="/shipmenttype/showForm" />")
+                    }
+                },
+                {isSeparator: true},
+
+                {
+                    title: "<spring:message code='shipment.method'/>",
+                    click: function () {
+                        createTab("<spring:message code='shipment.method'/>", "<spring:url value="/shipmentmethod/showForm" />")
+                    }
+                },
                 {isSeparator: true},
 
 
@@ -685,6 +702,11 @@
                     }
                 },
                 {isSeparator: true},
+
+
+
+
+
 
                 <%--{--%>
                 <%--    showIf: "false",--%>

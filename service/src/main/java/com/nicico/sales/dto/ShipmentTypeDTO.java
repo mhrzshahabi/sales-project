@@ -1,16 +1,12 @@
 package com.nicico.sales.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import org.springframework.format.annotation.DateTimeFormat;
-
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
@@ -19,24 +15,15 @@ import java.util.List;
 @Setter
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class LMEDTO {
+public class ShipmentTypeDTO {
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date lmeDate;
-    private String cuUsdMt;
-    private String goldUsdOunce;
-    private String silverUsdOunce;
-    private String seleniumUsdLb;
-    private String platinumUsdOunce;
-    private String palladiumUsdOunce;
-    private String molybdenumUsdLb;
+    private String shipmentType;
 
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("LMEInfo")
-    public static class Info extends LMEDTO {
+    @ApiModel("VesselInfo")
+    public static class Info extends ShipmentTypeDTO {
         private Long id;
         private Date createdDate;
         private String createdBy;
@@ -45,18 +32,19 @@ public class LMEDTO {
         private Integer version;
     }
 
+
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("LMECreateRq")
-    public static class Create extends LMEDTO {
+    @ApiModel("ShipmentTypeRq")
+    public static class Create extends ShipmentTypeDTO {
     }
 
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("LMEUpdateRq")
-    public static class Update extends LMEDTO {
+    @ApiModel("ShipmentTypeRq")
+    public static class Update extends ShipmentTypeDTO {
         @NotNull
         @ApiModelProperty(required = true)
         private Long id;
@@ -65,10 +53,11 @@ public class LMEDTO {
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("LMEDeleteRq")
+    @ApiModel("ShipmentTypeRq")
     public static class Delete {
         @NotNull
         @ApiModelProperty(required = true)
         private List<Long> ids;
     }
+
 }

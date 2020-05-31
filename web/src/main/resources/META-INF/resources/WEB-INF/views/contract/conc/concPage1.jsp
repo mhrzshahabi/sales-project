@@ -592,16 +592,23 @@ var vlayoutBodyConc = isc.VLayout.create({
                 },
                 changed: function (form, item, value) {
                     dynamicForm_fullArticle02.setValue(dynamicForm_fullArticle02.getValue()+" "+"(IN"+" "+article2Conc.getItem("optional").getDisplayValue(value)+" "+"OPTION) DURING");
-                    dynamicForm_fullArticle02.setValue(article2Conc.getValue("amount")+" "+article2Conc.getValue("amount_en")+" "+article2Conc.getItem("unitId").getDisplayValue(article2Conc.getValue("unitId"))+" "+"+/-"+article2Conc.getValue("cathodesTolorance")+"(IN"+article2Conc.getItem("optional").getDisplayValue(article2Conc.getValue("optional"))+" "+article2Conc.getValue("plant"));
+                    dynamicForm_fullArticle02.setValue(article2Conc.getValue("amount")+" "+article2Conc.getValue("amount_en")+" "+article2Conc.getItem("unitId").getDisplayValue(article2Conc.getValue("unitId"))+" "+"+/-"+article2Conc.getValue("cathodesTolorance")+"(IN"+article2Conc.getItem("optional").getDisplayValue(article2Conc.getValue("optional"))+" "+article2Conc.getValue("contractStart"));
                 }
             },
             {
+                name: "contractStart", //article2_15
                 type: "date",
                 format: 'DD-MM-YYYY',
-                name: "plant", //article2_15
                 width: "500",
                 startRow: false,
                 title: '<b><font size=2px>OPTION) DURING</font><b>'
+            },
+            {
+                name: "contractEnd",
+                type: "date",
+                format: 'DD-MM-YYYY',
+                width: "500",
+                startRow: false
             }
         ]
     });
