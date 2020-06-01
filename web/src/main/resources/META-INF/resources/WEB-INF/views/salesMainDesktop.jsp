@@ -706,6 +706,13 @@
 
 
 
+                {
+                    title: "<spring:message code='typical.analysis.mo'/>",
+                    click: function () {
+                        createTab("<spring:message code='typical.analysis.mo'/>", "<spring:url value="/analysisMo/showForm" />")
+                    }
+                },
+                {isSeparator: true},
 
 
                 <%--{--%>
