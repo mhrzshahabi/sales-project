@@ -85,6 +85,7 @@
                 var record = ListGrid_ContractConcItemShipment.getEditedRecord(JSON.parse(JSON.stringify(element)));
                 if (record.sendDate > contractEnd){
                    isc.warn("<spring:message code='contract.shipmentSendDateWarn'/>");
+                   ListGrid_ContractConcItemShipment.validate();
                    return;
                 }
                 if(ListGrid_ContractConcItemShipment.validateRow(element) != true){
