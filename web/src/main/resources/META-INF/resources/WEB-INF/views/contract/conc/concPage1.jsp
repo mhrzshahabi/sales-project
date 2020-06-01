@@ -592,7 +592,7 @@ var vlayoutBodyConc = isc.VLayout.create({
                 },
                 changed: function (form, item, value) {
                     dynamicForm_fullArticle02.setValue(dynamicForm_fullArticle02.getValue()+" "+"(IN"+" "+article2Conc.getItem("optional").getDisplayValue(value)+" "+"OPTION) DURING");
-                    dynamicForm_fullArticle02.setValue(article2Conc.getValue("amount")+" "+article2Conc.getValue("amount_en")+" "+article2Conc.getItem("unitId").getDisplayValue(article2Conc.getValue("unitId"))+" "+"+/-"+article2Conc.getValue("cathodesTolorance")+"(IN"+article2Conc.getItem("optional").getDisplayValue(article2Conc.getValue("optional"))+" "+article2Conc.getValue("contractStart"));
+                    dynamicForm_fullArticle02.setValue(article2Conc.getValue("amount")+" "+article2Conc.getValue("amount_en")+" "+article2Conc.getItem("unitId").getDisplayValue(article2Conc.getValue("unitId"))+" "+"+/-"+article2Conc.getValue("cathodesTolorance")+"(IN"+article2Conc.getItem("optional").getDisplayValue(article2Conc.getValue("optional"))+" "+article2Conc.getValue("contractStart")+" "+article2Conc.getValue("contractEnd"));
                 }
             },
             {

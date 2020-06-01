@@ -80,13 +80,19 @@
         icon: "pieces/16/save.png",
         iconOrientation: "right",
         click: function () {
+            var contractEnd = article2Conc.getValue("contractEnd");
             ListGrid_ContractConcItemShipment.getAllEditRows().forEach(function (element) {
-            if(ListGrid_ContractConcItemShipment.validateRow(element) != true){
+                var record = ListGrid_ContractConcItemShipment.getEditedRecord(JSON.parse(JSON.stringify(element)));
+                if (record.sendDate > contractEnd){
+                   isc.warn("<spring:message code='contract.shipmentSendDateWarn'/>");
+                   return;
+                }
+                if(ListGrid_ContractConcItemShipment.validateRow(element) != true){
                     ListGrid_ContractConcItemShipment.validateRow(element);
                     isc.warn("<spring:message code='main.contractShipment'/>");
                     return;
-                    }
-                 })
+                }
+            })
             var dataSaveAndUpdateContractConc = {};
             var dataSaveAndUpdateContractConcDetail = {};
             if(!contactHeaderConc.validate()){
