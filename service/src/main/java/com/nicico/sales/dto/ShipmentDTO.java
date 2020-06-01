@@ -34,8 +34,9 @@ public class ShipmentDTO {
     private String description;
     private String status;
     private String month;
-    @Temporal(TemporalType.TIMESTAMP)
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    //@Pattern(regexp = "([12]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[12]\\d|3[01]))")
+   // @Temporal(TemporalType.TIMESTAMP)
+    @JsonFormat(pattern="yyyy/MM/dd")
     private Date createDate;
     private String fileName;
     private String newFileName;
