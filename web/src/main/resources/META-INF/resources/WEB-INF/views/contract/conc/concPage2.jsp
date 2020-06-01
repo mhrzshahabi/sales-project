@@ -4,16 +4,22 @@
 //<script>
 
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
-    var RestDataSource_Incoterms_InConc = isc.MyRestDataSource.create({
-            fields:
-            [
-            {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-            {name: "code", title: "<spring:message code='goods.code'/> "},
-            ],
-            fetchDataURL: "${contextPath}/api/incoterms/spec-list"
+    var RestDataSource_Incoterms_InCon = isc.MyRestDataSource.create({
+        fields:
+        [
+        {name: "id", title: "<spring:message code='goods.code'/> "},
+        {name: "incotermRule.code", title: "incotermsRules "},
+        ],
+        fetchDataURL: "${contextPath}/api/incoterm-rules/spec-list"
     });
-
-
+    var RestDataSource_ContractIncoterms_InCon = isc.MyRestDataSource.create({
+        fields:
+        [
+        {name: "id", title: "<spring:message code='goods.code'/> "},
+        {name: "title", title: "incotermsRules "},
+        ],
+        fetchDataURL: "${contextPath}/api/g-incoterm/spec-list"
+    });
     var sendDateSetConc;
     var sendDateSetConcSave;
     factoryLableArticle("lableArticle3", '<b><font size=4px>Article 3 -QUALITY</font><b>', "30", 5);
@@ -29,9 +35,9 @@
     factoryLableArticle("lableArticle11", '<b><font size=4px>ARTICLE 11 - Payment</font><b>', "30", 5)
     factoryLableArticle("lableArticle12", '<b><font size=4px>ARTICLE 12 - CURRENCY CONVERSION</font><b>', "30", 5)
 
-
     var dynamicForm_article3Conc = isc.DynamicForm.create({
         valuesManager: "valuesManagerArticle3_conc",
+        autoDraw: true,
         height: "20",
         numCols: 19,
         items: [
@@ -153,14 +159,17 @@
 
     var buttonAddConcItem = isc.IButton.create({
         title: "Add Item Shipment",
+        autoDraw: true,
         width: 150,
         icon: "[SKIN]/actions/add.png",
         iconOrientation: "right",
         click: "ListGrid_ContractConcItemShipment.startEditingNew()"
     })
 
-ListGrid_ContractConcItemShipment = isc.ListGrid.create({
+    isc.ListGrid.create({
+        ID:"ListGrid_ContractConcItemShipment",
         showFilterEditor: false,
+        autoDraw: true,
         width: "100%",
         height: "200",
         modalEditing: true,
@@ -264,59 +273,79 @@ ListGrid_ContractConcItemShipment = isc.ListGrid.create({
         valuesManager: "valuesManagerArticle5_DeliveryTermsConc",
         height: "20",
         width: "100%",
+        autoDraw: true,
         wrapItemTitles: false,
         items: [
             {
-                name: "incotermsText",
-                type: "text",
-                showTitle: true,
-                disabled: false,
-                defaultValue: "INCOTERMS 2010",
-                width: "500",
-                wrap: false,
-                valueMap:
-                        {
-                            "INCOTERMS 2010": "INCOTERMS 2010",
-                            "INCOTERMS 2020": "INCOTERMS 2020"
-                        },
-                title: "<strong class='cssDynamicForm'>CONTRACT INCOTERMS</strong>",
-                changed: function (form, item, value) {
-                    //article6_quality.setValue("fullArticle6",textTes);
-                }
-            }
-            , {
-                name: "incotermsId", //article6_number32
+                name: "incotermsText", //article6_number32
                 colSpan: 3,
                 titleColSpan: 1,
+                showIf:"true",
                 tabIndex: 6,
-                showIf:"false",
                 showTitle: true,
                 showHover: true,
                 showHintInField: true,
-                hint: "FOB",
                 required: false,
                 validators: [
-                    {
-                        type: "required",
-                        validateOnChange: true
-                    }],
+                {
+                    type:"required",
+                    validateOnChange: true
+                }],
                 type: 'long',
                 numCols: 4,
                 editorType: "SelectItem",
-                optionDataSource: RestDataSource_Incoterms_InConc,
-                displayField: "code",
+                optionDataSource: RestDataSource_ContractIncoterms_InCon,
+                displayField: "title",
                 valueField: "id",
-                pickListWidth: "500",
+                pickListWidth: "450",
                 pickListHeight: "500",
                 pickListProperties: {showFilterEditor: true},
                 pickListFields: [
-                    {name: "code", width: "495", align: "center"}
+                    {name: "id", width: 220, align: "center"},
+                    {name: "title", width: 220, align: "center"}
                 ],
+                changed: function (form, item, value) {
+                    form.clearValue('incotermsId');
+                },
+                width: "500",
+                title: "<strong class='cssDynamicForm'>SHIPMENT TYPE<strong>"
+            }
+            ,{
+                name: "incotermsId", //article6_number32
+                colSpan: 3,
+                titleColSpan: 1,
+                showIf:"true",
+                tabIndex: 6,
+                showTitle: true,
+                showHover: true,
+                showHintInField: true,
+                required: false,
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }],
+                type: 'long',
+                numCols: 4,
+                editorType: "SelectItem",
+                optionDataSource: RestDataSource_Incoterms_InCon,
+                displayField: "incotermRule.code",
+                valueField: "id",
+                pickListWidth: "450",
+                pickListHeight: "500",
+                pickListProperties: {showFilterEditor: true},
+                pickListFields: [
+                    {name: "id", width: 220, align: "center"},
+                    {name: "incotermRule.code", width: 220, align: "center"}
+                ],
+                getPickListFilterCriteria : function () {
+                        return {_constructor:'AdvancedCriteria',operator:"and",criteria:[{fieldName: "incotermId", operator: "equals", value: this.form.getValue("incotermsText")}]}
+                     },
                 width: "500",
                 title: "<strong class='cssDynamicForm'>SHIPMENT TYPE<strong>"
             }, {
                 name: "portByPortSourceId",
-                showIf:"false",
+                showIf:"true",
                 editorType: "SelectItem",
                 required: false,
                 validators: [
@@ -380,6 +409,7 @@ ListGrid_ContractConcItemShipment = isc.ListGrid.create({
         valuesManager: "valuesManagerArticle9_conc",
         height: "20",
         width: "100%",
+        autoDraw: true,
         wrapItemTitles: false,
         items: [
             {
@@ -419,6 +449,7 @@ ListGrid_ContractConcItemShipment = isc.ListGrid.create({
         valuesManager: "valuesManagerArticle10_quality",
         height: "20",
         width: "100%",
+        autoDraw: true,
         wrapItemTitles: false,
         items: [
             {
@@ -458,6 +489,7 @@ ListGrid_ContractConcItemShipment = isc.ListGrid.create({
 
     var article12_qualityConc = isc.DynamicForm.create({
         valuesManager: "valuesManagerArticle12_quality",
+        autoDraw: true,
         height: "20",
         width: "100%",
         numCols: 10,
@@ -580,7 +612,8 @@ ListGrid_ContractConcItemShipment = isc.ListGrid.create({
         value: ""
     })
 
-    var VLayout_PageTwo_ContractConc = isc.VLayout.create({
+isc.VLayout.create({
+        ID: "VLayout_PageTwo_ContractConc",
         width: "100%",
         height: "100%",
         align: "top",

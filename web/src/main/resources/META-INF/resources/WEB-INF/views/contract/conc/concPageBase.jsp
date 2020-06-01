@@ -40,6 +40,7 @@
             ID: id,
             height: height,
             padding: padding,
+            autoDraw: false,
             align: "left",
             valign: "left",
             wrap: false,

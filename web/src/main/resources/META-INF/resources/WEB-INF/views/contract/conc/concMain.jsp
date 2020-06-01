@@ -55,6 +55,20 @@
         fetchDataURL: "${contextPath}/api/unit/spec-list"
     });
 
+     var RestDataSource_Port = isc.MyRestDataSource.create({
+        fields:
+            [
+                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
+                {name: "port", title: "<spring:message code='port.port'/>", width: 200},
+                {name: "beam", title: "<spring:message code='port.port'/>", width: 200},
+                {name: "loa", title: "<spring:message code='port.port'/>", width: 200},
+                {name: "arrival", title: "<spring:message code='port.port'/>", width: 200},
+                {name: "country.nameFa", title: "<spring:message code='country.nameFa'/>", width: 200}
+            ],
+
+        fetchDataURL: "${contextPath}/api/port/spec-list"
+    });
+
     function ValuesManager(valueId) {
         isc.ValuesManager.create({
             ID: valueId
