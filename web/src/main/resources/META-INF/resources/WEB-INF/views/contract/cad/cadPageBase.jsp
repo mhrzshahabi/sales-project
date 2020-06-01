@@ -79,8 +79,15 @@ var contactCadTabs = isc.TabSet.create({
         icon: "pieces/16/save.png",
         iconOrientation: "right",
         click: function () {
+            var contractEnd = article2Cad.getValue("contractEnd");
             ListGrid_ContractItemShipment.getAllEditRows().forEach(function (element) {
-            if(ListGrid_ContractItemShipment.validateRow(element) != true){
+                var record = ListGrid_ContractItemShipment.getEditedRecord(JSON.parse(JSON.stringify(element)));
+                if (record.sendDate > contractEnd){
+                    isc.warn("<spring:message code='contract.shipmentSendDateWarn'/>");
+                    ListGrid_ContractItemShipment.validate();
+                    return;
+                }
+                if(ListGrid_ContractItemShipment.validateRow(element) != true){
                     ListGrid_ContractItemShipment.validateRow(element);
                     isc.warn("<spring:message code='main.contractShipment'/>");
                     return;
@@ -133,7 +140,8 @@ var contactCadTabs = isc.TabSet.create({
                 dataSaveAndUpdateContractCad.unitId = valuesManagerArticle2Cad.getValue("unitId");
                 dataSaveAndUpdateContractCad.molybdenumTolorance = valuesManagerArticle2Cad.getValue("cathodesTolorance");
                 dataSaveAndUpdateContractCad.optional = valuesManagerArticle2Cad.getValue("optional");
-                dataSaveAndUpdateContractCad.plant = valuesManagerArticle3_quality.getValue("plant");
+                dataSaveAndUpdateContractCad.contractStart = valuesManagerArticle2Cad.getValue("contractStart");
+                dataSaveAndUpdateContractCad.contractEnd = valuesManagerArticle2Cad.getValue("contractEnd");
                 dataSaveAndUpdateContractCad.contactInspectionId = 0;
                 dataSaveAndUpdateContractCad.molybdenum = 0;
                 dataSaveAndUpdateContractCad.copper = valuesManagerArticle4_quality.getValue("article4_quality2");
@@ -408,9 +416,9 @@ function saveListGrid_ContractCadItemShipment() {
         ListGrid_ContractItemShipment.getAllEditRows().forEach(function (element) {
             dataEditCad.push(ListGrid_ContractItemShipment.getEditedRecord(element));
             if(dataEditCad.length>0){
-                   try {
-            dataEditCad[dataEditCad.length - 1].sendDate = (dataEditCad[dataEditCad.length - 1].sendDate.getFullYear() + "/" + ("0" + (dataEditCad[dataEditCad.length - 1].sendDate.getMonth() + 1)).slice(-2) + "/" + ("0" + dataEditCad[dataEditCad.length - 1].sendDate.getDate()).slice(-2));
-                       }catch(err){
+               try {
+                    // dataEditCad[dataEditCad.length - 1].sendDate = (dataEditCad[dataEditCad.length - 1].sendDate.getFullYear() + "/" + ("0" + (dataEditCad[dataEditCad.length - 1].sendDate.getMonth() + 1)).slice(-2) + "/" + ("0" + dataEditCad[dataEditCad.length - 1].sendDate.getDate()).slice(-2));
+                   }catch(err){
                 }
             }
             ListGrid_ContractItemShipment.deselectRecord(ListGrid_ContractItemShipment.getRecord(element));
