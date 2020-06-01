@@ -8,7 +8,8 @@
         fields:
         [
         {name: "id", title: "<spring:message code='goods.code'/> "},
-        {name: "incotermRule.code", title: "incotermsRules "},
+        {name: "incotermRule.titleEn", title: "incotermsRules "},
+        {name: "code", title: "code"}
         ],
         fetchDataURL: "${contextPath}/api/incoterm-rules/spec-list"
     });
@@ -277,7 +278,7 @@
         wrapItemTitles: false,
         items: [
             {
-                name: "incotermsText", //article6_number32
+                name: "incotermVersion", //article6_number32
                 colSpan: 3,
                 titleColSpan: 1,
                 showIf:"true",
@@ -329,21 +330,21 @@
                 numCols: 4,
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_Incoterms_InCon,
-                displayField: "incotermRule.code",
+                displayField: "incotermRule.titleEn",
                 valueField: "id",
                 pickListWidth: "450",
                 pickListHeight: "500",
                 pickListProperties: {showFilterEditor: true},
                 pickListFields: [
                     {name: "id", width: 220, align: "center"},
-                    {name: "incotermRule.code", width: 220, align: "center"}
+                    {name: "incotermRule.titleEn", width: 220, align: "center"}
                 ],
                 getPickListFilterCriteria : function () {
                         return {_constructor:'AdvancedCriteria',operator:"and",criteria:[{fieldName: "incotermId", operator: "equals", value: this.form.getValue("incotermsText")}]}
                      },
                 width: "500",
                 title: "<strong class='cssDynamicForm'>SHIPMENT TYPE<strong>"
-            }, {
+                },{
                 name: "portByPortSourceId",
                 showIf:"true",
                 editorType: "SelectItem",

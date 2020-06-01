@@ -270,7 +270,7 @@ var article6_quality = isc.DynamicForm.create({
         wrapItemTitles: false,
         items: [
                {
-                name: "incotermsText", //article6_number32
+                name: "incotermVersion", //article6_number32
                 colSpan: 3,
                 titleColSpan: 1,
                 showIf:"true",

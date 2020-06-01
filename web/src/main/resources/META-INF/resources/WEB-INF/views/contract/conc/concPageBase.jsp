@@ -153,7 +153,7 @@
                             dataSaveAndUpdateContractConc.runEndtDate = "";
                             dataSaveAndUpdateContractConc.incotermsId = valuesManagerArticle5_DeliveryTermsConc.getValue("incotermsId");
                             dataSaveAndUpdateContractConc.portByPortSourceId = valuesManagerArticle5_DeliveryTermsConc.getValue("portByPortSourceId");
-                            dataSaveAndUpdateContractConc.incotermsText = valuesManagerArticle5_DeliveryTermsConc.getValue("incotermsText");
+                            dataSaveAndUpdateContractConc.incotermVersion = valuesManagerArticle5_DeliveryTermsConc.getValue("incotermVersion");
                             dataSaveAndUpdateContractConc.officeSource = "TEHRAN";
                             dataSaveAndUpdateContractConc.priceCalPeriod = "any";
                             dataSaveAndUpdateContractConc.publishTime = "any";

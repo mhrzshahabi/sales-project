@@ -411,7 +411,7 @@
                         valuesManagerArticle9_conc.setValue("RC", record.refinaryCost);
                         article5_ConcDeliveryTerms.setValue("incotermsId", record.incotermsId);
                         article5_ConcDeliveryTerms.setValue("portByPortSourceId", record.portByPortSourceId);
-                        article5_ConcDeliveryTerms.setValue("incotermsText", record.incotermsText);
+                        article5_ConcDeliveryTerms.setValue("incotermVersion", record.incotermVersion);
                         contactHeaderConcAgent.setValue("name_ContactAgentSeller", data[0].name_ContactAgentSeller)
                         contactHeaderConcAgent.setValue("phone_ContactAgentSeller", data[0].phone_ContactAgentSeller)
                         contactHeaderConcAgent.setValue("mobile_ContactAgentSeller", data[0].mobile_ContactAgentSeller)

@@ -537,7 +537,7 @@ fields:
                                     valuesManagerArticle5.setValue("prefixPayment",record.prefixPayment);
                                     valuesManagerArticle6.setValue("article6_number31",data[0].article6_number31);
                                     valuesManagerArticle6.setValue("incotermsId",record.incotermsId);
-                                    valuesManagerArticle6.setValue("incotermsText",record.incotermsText);
+                                    valuesManagerArticle6.setValue("incotermVersion",record.incotermVersion);
                                     valuesManagerArticle6.setValue("article6_Containerized",data[0].article6_Containerized);
                                     valuesManagerArticle7.setValue("article7_number41",data[0].article7_number41);
                                     valuesManagerArticle7.setValue("discountValueOne",data[0].discountValueOne);
@@ -1921,12 +1921,11 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
                 changed: function (form, item, value) {
                 }
             },{
-                name: "incotermsText", //article6_number35
+                name: "incotermVersion", //article6_number35
                 width: "200",
                 showTitle: true,
                 title:'INCOTERMS',
                 showHintInField: true,
-                defaultValue: "(INCOTERMS 2010).",
                 startRow: false
             }
         ]
@@ -2311,7 +2310,7 @@ var IButton_Contact_Save = isc.IButtonSave.create({
                     dataSaveAndUpdateContract.prefixPayment=valuesManagerArticle5.getValue("prefixPayment");
                     dataSaveAndUpdateContract.incotermsId=valuesManagerArticle6.getValue("incotermsId");
                     dataSaveAndUpdateContract.portByPortSourceId="";
-                    dataSaveAndUpdateContract.incotermsText=valuesManagerArticle6.getValue("incotermsText");
+                    dataSaveAndUpdateContract.incotermVersion=valuesManagerArticle6.getValue("incotermVersion");
                     dataSaveAndUpdateContract.officeSource="";
                     dataSaveAndUpdateContract.priceCalPeriod="";
                     dataSaveAndUpdateContract.publishTime="";

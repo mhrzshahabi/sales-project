@@ -23,7 +23,7 @@ public class ContractDTO {
     private String contractNo;
     private String contractDate;
     private String isComplete;
-    private String incotermsText;
+    private Long incotermVersion;
     private String officeSource;
     private String priceCalPeriod;
     private String publishTime;

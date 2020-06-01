@@ -366,7 +366,7 @@ var ListGrid_Cad = isc.ListGrid.create({
                         valuesManagerArticle4_quality.setValue("article4_quality2",record.copper);
                         valuesManagerArticle6_quality.setValue("incotermsId",record.incotermsId);
                         valuesManagerArticle6_quality.setValue("portByPortSourceId",record.portByPortSourceId);
-                        valuesManagerArticle6_quality.setValue("incotermsText",record.incotermsText);
+                        valuesManagerArticle6_quality.setValue("incotermVersion",record.incotermVersion);
                                 //*****************
                         contactCadHeaderCadAgent.setValue("name_ContactAgentSeller", data[0].name_ContactAgentSeller)
                         contactCadHeaderCadAgent.setValue("phone_ContactAgentSeller", data[0].phone_ContactAgentSeller)
