@@ -254,8 +254,8 @@ public class ContractAudit {
     private String LPSeller;
     @Column(name = "DP_SELLER")
     private String DPSeller;
-    @Column(name = "INCOTERMS")
-    private String incotermsText;
+    @Column(name = "INCOTERMS_VERSION")
+    private Long incotermVersion;
     @Column(name = "OFFICE_SOURCE")
     private String officeSource;
     @Column(name = "PUBLISH_TIME")

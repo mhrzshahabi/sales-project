@@ -136,5 +136,13 @@
                 tableName="TBL_CONTRACT"/>
 
     </changeSet>
+    <changeSet author="programmer (generated)" id="9778899665544-020">
+        <modifyDataType columnName="INCOTERMS" newDataType="NUMBER(19,0)" tableName="TBL_CONTRACT_AUD"/>
+         <renameColumn columnDataType="NUMBER(19,0)"
+                newColumnName="INCOTERMS_VERSION"
+                oldColumnName="INCOTERMS"
+                tableName="TBL_CONTRACT_AUD"/>
+
+    </changeSet>
 
 </databaseChangeLog>

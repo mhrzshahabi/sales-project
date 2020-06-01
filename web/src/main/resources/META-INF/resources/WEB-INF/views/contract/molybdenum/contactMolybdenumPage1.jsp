@@ -15,6 +15,15 @@
  var ListGrid_ContractItemShipment;
  var criteriaContractItemShipment;
  var dynamicForm_article3_Typicall
+
+var RestDataSource_ContractIncoterms_InMol = isc.MyRestDataSource.create({
+        fields:
+        [
+        {name: "id", title: "<spring:message code='goods.code'/> "},
+        {name: "title", title: "incotermsRules "},
+        ],
+        fetchDataURL: "${contextPath}/api/g-incoterm/spec-list"
+    });
  function ValuesManager(valueId) {
                 isc.ValuesManager.create({
                 ID: valueId
@@ -64,12 +73,20 @@ var RestDataSource_Contract = isc.MyRestDataSource.create({
     });
 
 var RestDataSource_Incoterms_InMol = isc.MyRestDataSource.create({
-fields:
-    [
-    {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-    {name: "title", title: "<spring:message code='goods.code'/> "},
-    ],
-    fetchDataURL: "${contextPath}/api/g-incoterm/spec-list"
+        fields:
+        [
+        {name: "id", title: "<spring:message code='goods.code'/> "},
+        {name: "incotermRule.titleEn", title: "incotermsRules "},
+        ],
+        fetchDataURL: "${contextPath}/api/incoterm-rules/spec-list"
+});
+var RestDataSource_ContractIncoterms_InMol = isc.MyRestDataSource.create({
+        fields:
+        [
+        {name: "id", title: "<spring:message code='goods.code'/> "},
+        {name: "title", title: "incotermsRules "},
+        ],
+        fetchDataURL: "${contextPath}/api/g-incoterm/spec-list"
 });
 
     var RestDataSource_WarehouseLot = isc.MyRestDataSource.create({
@@ -1889,45 +1906,75 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
         wrapItemTitles: false,
         padding: 2,
         items: [
-            {
-                name: "incotermsId", //article6_number32
+             {
+                name: "incotermVersion", //article6_number32
                 colSpan: 3,
                 titleColSpan: 1,
-                width: "200",
+                showIf:"true",
                 tabIndex: 6,
                 showTitle: true,
                 showHover: true,
                 showHintInField: true,
-                title:'FOB',
-                hint: "FOB",
-                required: true,
+                required: false,
                 validators: [
                 {
-                type:"required",
-                validateOnChange: true }],
-                title: "<spring:message code='incoterms.name'/>",
+                    type:"required",
+                    validateOnChange: true
+                }],
                 type: 'long',
                 numCols: 4,
                 editorType: "SelectItem",
-                optionDataSource: RestDataSource_Incoterms,
-                displayField: "code",
+                optionDataSource: RestDataSource_ContractIncoterms_InMol,
+                displayField: "title",
                 valueField: "id",
-                pickListWidth: "200",
-                pickListHeight: "200",
+                pickListWidth: "450",
+                pickListHeight: "500",
                 pickListProperties: {showFilterEditor: true},
                 pickListFields: [
-                    {name: "code", width: 195, align: "center"}
+                    {name: "id", width: 220, align: "center"},
+                    {name: "title", width: 220, align: "center"}
                 ],
                 changed: function (form, item, value) {
-                }
-            },{
-                name: "incotermVersion", //article6_number35
-                width: "200",
-                showTitle: true,
-                title:'INCOTERMS',
-                showHintInField: true,
-                startRow: false
+                    form.clearValue('incotermsId');
+                },
+                width: "500",
+                title: "<strong class='cssDynamicForm'>INCOTERM VERSION<strong>"
             }
+            ,
+            {
+                name: "incotermsId", //article6_number32
+                colSpan: 3,
+                titleColSpan: 1,
+                showIf:"true",
+                tabIndex: 6,
+                showTitle: true,
+                showHover: true,
+                showHintInField: true,
+                required: false,
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }],
+                type: 'long',
+                numCols: 4,
+                editorType: "SelectItem",
+                optionDataSource: RestDataSource_Incoterms_InMol,
+                displayField: "incotermRule.titleEn",
+                valueField: "id",
+                pickListWidth: "450",
+                pickListHeight: "500",
+                pickListProperties: {showFilterEditor: true},
+                pickListFields: [
+                    {name: "id", width: 220, align: "center"},
+                    {name: "incotermRule.titleEn", width: 220, align: "center"}
+                ],
+                width: "500",
+                title: "<strong class='cssDynamicForm'>INCOTERM<strong>",
+                getPickListFilterCriteria : function () {
+                                        return {_constructor:'AdvancedCriteria',operator:"and",criteria:[{fieldName: "incotermId", operator: "equals", value: this.form.getValue("incotermVersion")}]}
+                                     },
+                }
         ]
     })
 
