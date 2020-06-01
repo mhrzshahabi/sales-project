@@ -340,7 +340,7 @@
                     {name: "incotermRule.titleEn", width: 220, align: "center"}
                 ],
                 getPickListFilterCriteria : function () {
-                        return {_constructor:'AdvancedCriteria',operator:"and",criteria:[{fieldName: "incotermId", operator: "equals", value: this.form.getValue("incotermsText")}]}
+                        return {_constructor:'AdvancedCriteria',operator:"and",criteria:[{fieldName: "incotermId", operator: "equals", value: this.form.getValue("incotermVersion")}]}
                      },
                 width: "500",
                 title: "<strong class='cssDynamicForm'>SHIPMENT TYPE<strong>"
