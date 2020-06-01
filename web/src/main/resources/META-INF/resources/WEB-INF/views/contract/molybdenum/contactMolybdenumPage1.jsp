@@ -1336,19 +1336,13 @@ var DynamicForm_ContactMooxParameter_ValueNumber8=isc.DynamicForm.create({
                 name: "contractStart", //article2_15
                 title: "<spring:message code='contract.contractStart'/>",
                 type: "date",
-                // format: 'DD-MM-YYYY',
                 width: "500",
                 startRow: false,
-                // changed: function (form, item, value) {
-                //         dynamicForm_fullArticle02MoOx.setValue(article2Mo.getValue("amount")+" "+"("+article2Mo.getValue("amount_en")+")"+" "+article2Mo.getItem("unitId").getDisplayValue(article2Mo.getValue("unitId"))+" "+article2Mo.getValue("molybdenumTolorance")+" "+"(IN" + article2Mo.getItem("optional").getDisplayValue(article2Mo.getValue("optional")) + " " + "'S OPTION) IN PRODUCED IN"+" "+article2Mo.getValue("plant")+" "+"THE TOLERENCE OF +/-%"+article2Mo.getValue("molybdenumTolorance")+" "+"IN"+" "+article2Mo.getItem("optional").getDisplayValue(article2Mo.getValue("optional"))+" "+"OPTION WILL BE CONSIDRED FOR EACH SHIPMENT QUANTITY."+
-                //         " "+article2Mo.getValue("contractStart")+" "+article2Mo.getValue("contractEnd"));
-                // }
             },
             {
                 name: "contractEnd",
                 title: "<spring:message code='contract.contractEnd'/>",
                 type: "date",
-                // format: 'DD-MM-YYYY',
                 width: "500",
                 startRow: false
             }

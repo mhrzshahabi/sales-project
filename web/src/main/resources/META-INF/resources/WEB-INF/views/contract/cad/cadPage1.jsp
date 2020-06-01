@@ -634,7 +634,6 @@ var vlayoutBodyCad = isc.VLayout.create({
             {
                 name: "contractStart", //article2_15
                 type: "date",
-                // format: 'DD-MM-YYYY',
                 width: "500",
                 startRow: false,
                 title: "<spring:message code='contract.contractStart'/>",
@@ -643,7 +642,6 @@ var vlayoutBodyCad = isc.VLayout.create({
                 name: "contractEnd",
                 title: "<spring:message code='contract.contractEnd'/>",
                 type: "date",
-                // format: 'DD-MM-YYYY',
                 width: "500",
                 startRow: false
             }
