@@ -128,52 +128,49 @@ var buttonAddItem=isc.IButton.create({
             [
                 {name: "id", hidden: true,},
                 {
-                    name: "plan",
-                    title: "<spring:message code='shipment.plan'/>",
-                    type: 'text',
-                    width: "10%",
-                    valueMap: {"A": "plan A", "B": "plan B", "C": "plan C",},
-                    align: "center"
-                },
-                {
-                    name: "shipmentRow",
-                    title: "<spring:message code='contractItem.itemRow'/> ",
-                    type: 'text',
-                    width: "10%",
-                    align: "center",keyPressFilter: "[0-9.]",
-                    validators: [{
-                        type:"isInteger",
-                        validateOnChange: true
-                    }]
-                },
-                {
-                    name: "dischargeId", title: "<spring:message code='port.port'/>", editorType: "SelectItem",
+                    name: "loadPortId",
+                    title: "<spring:message code='shipment.loading'/>",
+                    editorType: "SelectItem",
                     optionDataSource: RestDataSource_Port,
                     displayField: "port",
-                    valueField: "id", width: "10%", align: "center"
-                },
-                {
-                    name: "address",
-                    title: "<spring:message code='global.address'/>",
-                    type: 'text',
+                    valueField: "id",
                     width: "10%",
                     align: "center"
                 },
                 {
-                    name: "amount",
-                    title: "<spring:message code='global.amount'/>",
-                    type: 'float',
-                    width: "10%",keyPressFilter: "[0-9.]",
-                    align: "center",changed: function (form, item, value) {
+                    name: "quantity",
+                    title: "<spring:message code='global.quantity'/>",
+                    width: "10%",
+                    align: "center",
+                    validators: [{
+                        type:"isFloat",
+                        validateOnChange: true
+                    }],
+                    changed: function (form, item, value) {
                        if(ListGrid_ContractItemShipment.getEditRow()==0){
                            amountSet=value;
                            valuesManagerArticle5_quality.setValue("fullArticle5",value+"MT");
                         }
                     },
-                    validators: [{
+
+                },
+                {
+                    name: "tolorance",
+                    title: "<spring:message code='contractItemShipment.tolorance'/>",
+                    keyPressFilter: "[0-9.]",
+                    width: "10%",
+                    align: "center",
+                    validators: [
+                    {
                         type:"isInteger",
-                        validateOnChange: true
-                    }]
+                        validateOnChange: true,
+                        keyPressFilter: "[0-9.]"
+                    }],
+                    changed: function (form, item, value) {
+                       if(ListGrid_ContractItemShipment.getEditRow()==0){
+                           valuesManagerArticle5_quality.setValue("fullArticle5",amountSet+"MT"+" "+"+/-"+value+" "+valuesManagerArticle2Cad.getItem("optional").getDisplayValue(valuesManagerArticle2Cad.getValue("optional"))+" "+"PER EACH CALENDER MONTH STARTING FROM"+" "+sendDateSet+" "+"TILL");
+                        }
+                }
                 },
                 {
                     name: "sendDate",
@@ -181,53 +178,11 @@ var buttonAddItem=isc.IButton.create({
                     type: "date",
                     required: false,
                     width: "10%",
-                    wrapTitle: false,changed: function (form, item, value) {
+                    wrapTitle: false,
+                    changed: function (form, item, value) {
                         sendDateSet = (value.getFullYear() + "/" + ("0" + (value.getMonth() + 1)).slice(-2) + "/" + ("0" + value.getDate()).slice(-2));
                     }
                 },
-                {
-                    name: "duration",
-                    title: "<spring:message code='global.duration'/>",
-                    type : 'text',
-                    width: "10%",
-                    align: "center"
-                },
-                {
-                name: "tolorance", title: "<spring:message code='contractItemShipment.tolorance'/>",
-                    type: 'text',width: "10%", align: "center",changed: function (form, item, value) {
-                       if(ListGrid_ContractItemShipment.getEditRow()==0){
-                           valuesManagerArticle5_quality.setValue("fullArticle5",amountSet+"MT"+" "+"+/-"+value+" "+valuesManagerArticle2Cad.getItem("optional").getDisplayValue(valuesManagerArticle2Cad.getValue("optional"))+" "+"PER EACH CALENDER MONTH STARTING FROM"+" "+sendDateSet+" "+"TILL");
-                        }
-                }
-                },{
-                name: "incotermsShipmentId",
-                colSpan: 3,
-                titleColSpan: 1,
-                tabIndex: 6,
-                showTitle: true,
-                showHover: true,
-                showHintInField: true,
-                required: true,
-                validators: [
-                {
-                    type:"required",
-                    validateOnChange: true
-                }],
-                type: 'long',
-                numCols: 4,
-                editorType: "SelectItem",
-                optionDataSource: RestDataSource_Incoterms_InCat,
-                displayField: "code",
-                valueField: "id",
-                pickListWidth: "450",
-                pickListHeight: "500",
-                pickListProperties: {showFilterEditor: true},
-                pickListFields: [
-                    {name: "title", width: 440, align: "center"}
-                ],
-                width: "10%",
-                title: "<strong class='cssDynamicForm'>SHIPMENT TYPE<strong>"
-            },
             ],saveEdits: function () {
                 console.log(ListGrid_ContractItemShipment.validateRow(0));
             },removeData: function (data) {

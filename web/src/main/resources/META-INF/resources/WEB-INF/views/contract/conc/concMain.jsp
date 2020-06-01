@@ -131,6 +131,7 @@
             ],
         fetchDataURL: "${contextPath}/api/parameters/spec-list"
     });
+
     var RestDataSource_Contact = isc.MyRestDataSource.create({
         fields: [
             {name: "id", primaryKey: true, canEdit: false, hidden: true},
@@ -222,7 +223,6 @@
                 {name: "contractStart", title: "<spring:message code='contract.contractStart'/>"},
                 {name: "contractEnd", title: "<spring:message code='contract.contractEnd'/>"}
             ],
-        // ######@@@@###&&@@###
         fetchDataURL: "${contextPath}/api/contract/spec-list"
     });
 

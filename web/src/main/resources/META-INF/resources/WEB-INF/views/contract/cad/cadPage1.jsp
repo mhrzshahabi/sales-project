@@ -569,9 +569,9 @@ var vlayoutBodyCad = isc.VLayout.create({
         wrapItemTitles: false,
         items: [
             {
+                name: "amount",
                 type: "number",
                 width: "80",
-                name: "amount",
                 defaultValue: "",
                 title: "",
                 showTitle: false,
@@ -581,9 +581,11 @@ var vlayoutBodyCad = isc.VLayout.create({
                     }
             },
             {
+                name: "amount_en",
+                title: "",
                 type: "text", styleName: "textToLable", width: "200",
-                name: "amount_en", title: "", showTitle: false, disabled: "true"
-            }, ///english,
+                showTitle: false, disabled: "true"
+            },
             {
                 name: "unitId", //article2_number12
                 title: "",
@@ -613,9 +615,9 @@ var vlayoutBodyCad = isc.VLayout.create({
                 }
             },
             {
+                name: "optional", //article2_14
                 type: "text",
                 width: "250",
-                name: "optional", //article2_14
                 startRow: false,
                 title: '<b><font size=2px>(IN</font><b>',
                 defaultValue: 0,
@@ -626,8 +628,24 @@ var vlayoutBodyCad = isc.VLayout.create({
                 },
                 changed: function (form, item, value) {
                     article5_quality.setValue("article5optional",value);
-                    dynamicForm_fullArticle02Cad.setValue(article2Cad.getValue("amount")+" "+article2Cad.getValue("amount_en")+" "+article2Cad.getItem("unitId").getDisplayValue(article2Cad.getValue("unitId"))+" "+article2Cad.getValue("cathodesTolorance")+" "+article2Cad.getItem("optional").getDisplayValue(article2Cad.getValue("optional")));
+                    dynamicForm_fullArticle02Cad.setValue(article2Cad.getValue("amount")+" "+article2Cad.getValue("amount_en")+" "+article2Cad.getItem("unitId").getDisplayValue(article2Cad.getValue("unitId"))+" "+article2Cad.getValue("cathodesTolorance")+" "+article2Cad.getItem("optional").getDisplayValue(article2Cad.getValue("optional"))+" "+article2Cad.getValue("contractStart")+" "+article2Cad.getValue("contractEnd"));
                 }
+            },
+            {
+                name: "contractStart", //article2_15
+                type: "date",
+                // format: 'DD-MM-YYYY',
+                width: "500",
+                startRow: false,
+                title: "<spring:message code='contract.contractStart'/>",
+            },
+            {
+                name: "contractEnd",
+                title: "<spring:message code='contract.contractEnd'/>",
+                type: "date",
+                // format: 'DD-MM-YYYY',
+                width: "500",
+                startRow: false
             }
         ]
     });
