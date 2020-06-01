@@ -5,8 +5,10 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
@@ -15,17 +17,32 @@ import java.util.List;
 @Setter
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ShipmentTypeDTO {
+public class AnalyseMoDTO {
 
-    private String shipmentType;
+    private String lotName;
+
+    private Double mo;
+
+    private Double cu;
+
+    private Double si;
+
+    private Double pb;
+
+    private Double s;
+
+    private Double c;
+
+    private Double p;
+
 
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("VesselInfo")
-    public static class Info extends ShipmentTypeDTO {
-        private Long id;
-        private Date createdDate;
+    @ApiModel("AnalyseProductMOInfo")
+    public static class Info extends AnalyseMoDTO {
+        private Long id ;
+        private Date createDate;
         private String createdBy;
         private Date lastModifiedDate;
         private String lastModifiedBy;
@@ -36,25 +53,28 @@ public class ShipmentTypeDTO {
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("ShipmentTypeCreateRq")
-    public static class Create extends ShipmentTypeDTO {
+    @ApiModel("AnalyseProductMOCreateRq")
+    public static class Create extends AnalyseMoDTO{
+
     }
+
 
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("ShipmentTypeUpdateRq")
-    public static class Update extends ShipmentTypeDTO {
-        @NotNull
+    @ApiModel("AnalyseProductMOUpdateRq")
+    public static class Update extends AnalyseMoDTO{
+        @NonNull
         @ApiModelProperty(required = true)
         private Long id;
     }
 
+
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("ShipmentTypeDeleteRq")
-    public static class Delete {
+    @ApiModel("AnalyseProductMODeleteRq")
+    public static class Delete{
         @NotNull
         @ApiModelProperty(required = true)
         private List<Long> ids;
