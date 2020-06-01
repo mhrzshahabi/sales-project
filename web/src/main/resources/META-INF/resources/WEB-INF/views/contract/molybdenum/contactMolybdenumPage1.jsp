@@ -35,6 +35,21 @@
     ValuesManager("valuesManagerArticle10");
     ValuesManager("valuesManagerfullArticleMo");
 
+var RestDataSource_Contract = isc.MyRestDataSource.create({
+        fields:
+            [
+                {name: "id", title: "id", primaryKey: true, hidden: true},
+                {name: "contractNo", title: "<spring:message code='contract.contractNo'/>"},
+                {name: "contractDate", title: "<spring:message code='contract.contractDate'/>"},
+                {name: "contactId", title: "<spring:message code='contact.name'/> "},
+                {name: "contact.nameFA", title: "<spring:message code='contact.name'/> "},
+                {name: "incotermsId", title: "<spring:message code='incoterms.name'/>"},
+                {name: "incoterms.code", title: "<spring:message code='incoterms.name'/>"},
+                {name: "amount", title: "<spring:message code='global.amount'/>"},
+                {name: "material.descl", title: "materialId"}
+            ],
+        fetchDataURL: "${contextPath}/api/contract/spec-list"
+    });
  var RestDataSource_Parameters = isc.MyRestDataSource.create({
         fields:
             [
@@ -52,9 +67,9 @@ var RestDataSource_Incoterms_InMol = isc.MyRestDataSource.create({
 fields:
     [
     {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-    {name: "code", title: "<spring:message code='goods.code'/> "},
+    {name: "title", title: "<spring:message code='goods.code'/> "},
     ],
-    fetchDataURL: "${contextPath}/api/incoterms/spec-list"
+    fetchDataURL: "${contextPath}/api/g-incoterm/spec-list"
 });
 
     var RestDataSource_WarehouseLot = isc.MyRestDataSource.create({
@@ -522,7 +537,7 @@ fields:
                                     valuesManagerArticle5.setValue("prefixPayment",record.prefixPayment);
                                     valuesManagerArticle6.setValue("article6_number31",data[0].article6_number31);
                                     valuesManagerArticle6.setValue("incotermsId",record.incotermsId);
-                                    valuesManagerArticle6.setValue("incotermsText",record.incotermsText);
+                                    valuesManagerArticle6.setValue("incotermVersion",record.incotermVersion);
                                     valuesManagerArticle6.setValue("article6_Containerized",data[0].article6_Containerized);
                                     valuesManagerArticle7.setValue("article7_number41",data[0].article7_number41);
                                     valuesManagerArticle7.setValue("discountValueOne",data[0].discountValueOne);
@@ -1906,12 +1921,11 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
                 changed: function (form, item, value) {
                 }
             },{
-                name: "incotermsText", //article6_number35
+                name: "incotermVersion", //article6_number35
                 width: "200",
                 showTitle: true,
                 title:'INCOTERMS',
                 showHintInField: true,
-                defaultValue: "(INCOTERMS 2010).",
                 startRow: false
             }
         ]
@@ -2296,7 +2310,7 @@ var IButton_Contact_Save = isc.IButtonSave.create({
                     dataSaveAndUpdateContract.prefixPayment=valuesManagerArticle5.getValue("prefixPayment");
                     dataSaveAndUpdateContract.incotermsId=valuesManagerArticle6.getValue("incotermsId");
                     dataSaveAndUpdateContract.portByPortSourceId="";
-                    dataSaveAndUpdateContract.incotermsText=valuesManagerArticle6.getValue("incotermsText");
+                    dataSaveAndUpdateContract.incotermVersion=valuesManagerArticle6.getValue("incotermVersion");
                     dataSaveAndUpdateContract.officeSource="";
                     dataSaveAndUpdateContract.priceCalPeriod="";
                     dataSaveAndUpdateContract.publishTime="";

@@ -179,22 +179,22 @@
     var salesCommonUtil = new nicico.CommonUtil();
     var salesPersianDateUtil = new nicico.PersianDateUtil();
 
-    <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />;
+    <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
     isc.DynamicForm.addProperties({
         requiredTitlePrefix: "<span style='color:#ff0842;font-size:15px; padding-left: 5px;'>*</span>",
-        setMethod: "POST",
+        setMethod: 'POST',
         canSubmit: true,
         showInlineErrors: true,
         showErrorText: true,
         showErrorStyle: true,
         errorOrientation: "right",
         titleAlign: "right",
-        requiredMessage: "<spring:message code='validator.field.is.required'/>",
+        requiredMessage: "<spring:message code='validator.field.is.required'/>"
     });
 
     isc.RichTextEditor.addProperties({
-        fontControls: ["fontSizeSelector"],
+        fontControls: ["fontSizeSelector"]
     });
 
     isc.defineClass("MyRestDataSource", RestDataSource);
@@ -205,22 +205,36 @@
         jsonPrefix: "",
         transformRequest: function (dsRequest) {
             dsRequest.httpHeaders = {
-                Authorization: "Bearer <%= accessToken %>",
+                "Authorization": "Bearer <%= accessToken %>"
             };
             return this.Super("transformRequest", arguments);
         },
 
         transformResponse: function (dsResponse, dsRequest, data) {
             return this.Super("transformResponse", arguments);
-        },
+        }
     });
 
     isc.SelectItem.addProperties({
         click: function () {
             this.pickList.invalidateCache();
-        },
+        }
     });
 
+    /*isc.TextItem.addProperties({
+        format: ",##0",
+        selectOnClick: true,
+        hintStyle: "noneStyleFormItem",
+        formatEditorValue(value, record, form, item) {
+            if (value === undefined || isNaN(value)) return value;
+            return NumberUtil.format(value, ",0");
+        },
+        keyUp(item, form, keyName) {
+            if (item.getValue() === undefined || isNaN(item.getValue())) return;
+
+            item.setHint(NumberUtil.format(item.getValue(), ",0"));
+        }
+    });*/
 
     function redirectLogin() {
         location.href = "<spring:url value='/' />";
@@ -234,10 +248,10 @@
         promptStyle: "dialog",
         allowCrossDomainCalls: true,
         handleError: function (response, request) {
-            if (response.error == "invalid_token") isc.warn(response.data);
+            if (response.error == 'invalid_token')
+                isc.warn(response.data);
             console.log("Global RPCManager Error Handler: ", request, response);
-            if (response.httpResponseCode == 403) {
-                // Forbidden
+            if (response.httpResponseCode == 403) { // Forbidden
                 isc.say(JSON.parse(response.httpResponseText).exception);
             } else if (response.httpResponseCode == 500) {
                 isc.say(JSON.parse(response.httpResponseText).exception + " HTTP Response Code is 500");
@@ -263,20 +277,21 @@
                     break;
                 default:
                     if (!httpResponse.errors) return;
-                    const errorText = httpResponse.errors.map((q) => q.message + "<br>").join();
+                    const errorText = httpResponse.errors.map(q => q.message + '<br>').join();
                     isc.warn(errorText, {title: "<spring:message code='dialog_WarnTitle'/>"});
                     break;
             }
-        },
+        }
     });
-
 
     isc.Dialog.SAY_TITLE = "<spring:message code='global.message'/>";
     Page.setAppImgDir("static/img/");
 
     function formatCellValueNumber(value) {
+        // console.debug("formatCellValueNumber(value) arguments",arguments);
         if (value === undefined || isNaN(value)) return value;
-        return isc.NumberUtil.format(value, ",0");
+        return isc.NumberUtil.format(value, ',0');
+
     }
 
     isc.ListGrid.addProperties({
@@ -296,17 +311,22 @@
         groupByText: '<spring:message code="global.grid.groupByText" />',
         freezeFieldText: '<spring:message code="global.grid.freezeFieldText" />',
         getAllData: function () {
+
             let data = [...this.getData()];
             let allEditRows = this.getAllEditRows();
-            for (let i = 0; i < allEditRows.length; i++) data.push({...this.getEditedRecord(allEditRows[i])});
+            for (let i = 0; i < allEditRows.length; i++)
+                data.push({...this.getEditedRecord(allEditRows[i])});
 
             return data;
         },
         validateAllData: function () {
-            for (let i = 0; i < this.getAllData().length; i++) if (!this.validateRecord(i)) return false;
+
+            for (let i = 0; i < this.getAllData().length; i++)
+                if (!this.validateRecord(i))
+                    return false;
 
             return true;
-        },
+        }
     });
 
     isc.ToolStripButton.addProperties({
@@ -315,7 +335,7 @@
         showRollOverIcon: false,
         showMenuOnRollOver: true,
         disabledCursor: "not-allowed",
-        border: "1px solid lightblue",
+        border: "1px solid lightblue"
     });
 
     isc.ToolStripMenuButton.addProperties({
@@ -332,30 +352,30 @@
             height: "100%",
             autoDraw: false,
             viewURL: url,
-            loadingMessage: " <spring:message code='global.loadingMessage'/>",
+            loadingMessage: " <spring:message code='global.loadingMessage'/>"
         });
 
         var flagTabExist = false;
 
         if (mainTabSet.tabs != null) {
             for (i = 0; i < mainTabSet.tabs.length; i++) {
+
                 if (title == mainTabSet.getTab(i).title || (url.includes("oauth") && mainTabSet.getTab(i).pane.viewURL.includes("oauth"))) {
                     mainTabSet.selectTab(i);
                     flagTabExist = true;
                     break;
                 }
+
             }
         }
         if (!flagTabExist)
-            mainTabSet.selectTab(
-                mainTabSet.addTab({
+            mainTabSet.selectTab(mainTabSet.addTab({
                     title: title,
                     canClose: true,
-                    pane: localViewLoader,
+                    pane: localViewLoader
                 })
             );
     }
-
 
     var label_Username = isc.Label.create({
 
@@ -379,48 +399,45 @@
         width: 120,
         height: 30,
         styleName: "header-change-lng",
-        fields: [
-            {
-                name: "languageName",
-                showTitle: false,
-                width: 100,
-                height: "100%",
-                type: "select",
-                wrapHintText: false,
-                valueMap: {
-                    fa: "پارسی",
-                    en: "English",
-                },
-                imageURLPrefix: "flags/16/",
-                imageURLSuffix: ".png",
-                valueIcons: {
-                    fa: "fa",
-                    en: "en",
-                },
-                changed: function () {
-                    var newUrl = window.location.href;
-                    var locale = languageForm.getValue("languageName");
-
-                    if (newUrl.indexOf("lang") > 0) {
-                        var regex = new RegExp("lang=[a-zA-Z_]+");
-                        newUrl = newUrl.replace(regex, "lang=" + locale);
-                    } else {
-                        if (newUrl.indexOf("?") > 0) {
-                            if (newUrl.indexOf("#") > 0) {
-                                newUrl = newUrl.replace("#", "&lang=" + locale + "#");
-                            } else {
-                                newUrl += "&lang=" + locale;
-                            }
-                        } else {
-                            newUrl = newUrl + "?lang=" + locale;
-                        }
-                    }
-                    window.location.href = newUrl;
-                },
+        fields: [{
+            name: "languageName",
+            showTitle: false,
+            width: 100,
+            height: "100%",
+            type: "select",
+            wrapHintText: false,
+            valueMap: {
+                "fa": "پارسی",
+                "en": "English"
             },
-        ],
-    });
+            imageURLPrefix: "flags/16/",
+            imageURLSuffix: ".png",
+            valueIcons: {
+                "fa": "fa",
+                "en": "en"
+            },
+            changed: function () {
+                var newUrl = window.location.href;
+                var locale = languageForm.getValue("languageName");
 
+                if (newUrl.indexOf("lang") > 0) {
+                    var regex = new RegExp("lang=[a-zA-Z_]+");
+                    newUrl = newUrl.replace(regex, "lang=" + locale);
+                } else {
+                    if (newUrl.indexOf("?") > 0) {
+                        if (newUrl.indexOf("#") > 0) {
+                            newUrl = newUrl.replace("#", "&lang=" + locale + "#")
+                        } else {
+                            newUrl += "&lang=" + locale;
+                        }
+                    } else {
+                        newUrl = newUrl + "?lang=" + locale;
+                    }
+                }
+                window.location.href = newUrl;
+            }
+        }]
+    });
     languageForm.setValue("languageName", "<c:out value='${pageContext.response.locale}'/>");
 
     if (languageForm.getValue("languageName") == 'fa') {
@@ -645,8 +662,21 @@
                 {isSeparator: true},
 
 
+                <%--{--%>
+                <%--    title: "<spring:message code='parameters.title'/>",--%>
+                <%--    click: function () {--%>
+                <%--        createTab("<spring:message code='parameters.title'/>", "<spring:url value="/parameters/showForm" />")--%>
+                <%--    }--%>
+                <%--},--%>
                 {isSeparator: true},
 
+
+                <%--{--%>
+                    <%--title: "<spring:message code='dcc.title'/>",--%>
+                    <%--click: function () {--%>
+                        <%--createTab("<spring:message code='dcc.title'/>", "<spring:url value="/dccView/showForm" />")--%>
+                    <%--}--%>
+                <%--},--%>
 
                 {
                     title: "<spring:message code='shipment.type'/>",
@@ -674,14 +704,21 @@
                 {isSeparator: true},
 
 
-                {
-                    title: "<spring:message code='typical.analysis.mo'/>",
-                    click: function () {
-                        createTab("<spring:message code='typical.analysis.mo'/>", "<spring:url value="/analysisMo/showForm" />")
-                    }
-                },
-                {isSeparator: true},
+
+
+
+
+                <%--{--%>
+                <%--    showIf: "false",--%>
+                <%--    title: "<spring:message code='commercialIncoterms.title'/>",--%>
+                <%--    click: function () {--%>
+                <%--        createTab("<spring:message code='commercialIncoterms.title'/>", "<spring:url value="/incoterms/showForm" />")--%>
+                <%--    }--%>
+                <%--}--%>
+
             ]
+
+
         }),
     });
 
@@ -719,7 +756,6 @@
     });
 
     /*----------------------contractsTab------------------------*/
-
     contractsTab = isc.ToolStripMenuButton.create({
         title: "&nbsp; <spring:message code='main.contractsTab'/>",
         menu: isc.Menu.create({
@@ -727,26 +763,36 @@
             data: [
                 {
                     title: "<spring:message code='salesContract.title'/>",
-                    click: function () {
-                        var url_string = window.location.href;
-                        var url = new URL(url_string);
-                        var lang = url.searchParams.get("lang");
+                    submenu: [
+                        {
+                            title: "<spring:message code='salesContractAll.title'/>",
+                            click: function () {
+                               enContract();
+                               createTab("<spring:message code='salesContract.title'/>", "<spring:url value="/contract/showForm" />")
+                            }
+                        },{
+                            title: "<spring:message code='salesContractMoButton.title'/>",
+                            click: function () {
+                               enContract();
+                               createTab("<spring:message code='salesContractMoButton.title'/>", "<spring:url value="/contact/contactMolybdenum"/>")
+                            }
+                        }, {
+                            title: "<spring:message code='salesContractConcButton.title'/>",
+                            click: function () {
+                               enContract();
+                               createTab("<spring:message code='main.contractsConcTab'/>", "<spring:url value="/contact/concMain"/>")
+                            }
+                        },
+                        {isSeparator: true},
+                        {
+                            title: "<spring:message code='salesContractCADButton.title'/>",
+                            click: function () {
+                                enContract();
+                                createTab("<spring:message code='main.contractsCadTab'/>", "<spring:url value="/contact/cadMain"/>")
+                            }
+                        },
 
-                        if (lang == "fa" || lang == null) {
-                            isc.Dialog.create({
-                                message: "بهتر است از این تب در فرمت انگلیسی استفاده کنید",
-                                icon: "[SKIN]ask.png",
-                                title: "<spring:message code='global.message'/>",
-                                buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
-                                buttonClick: function () {
-                                    this.hide();
-                                }
-                            });
-                            createTab("<spring:message code='salesContract.title'/>", "<spring:url value="/contract/showForm" />")
-                        } else {
-                            createTab("<spring:message code='salesContract.title'/>", "<spring:url value="/contract/showForm" />")
-                        }
-                    }
+                    ]
                 },
                 {isSeparator: true},
                 {
@@ -847,6 +893,21 @@
                     }
                 },
                 </sec:authorize>
+
+
+                /*{
+                    title: "<spring:message code='charter.title'/>",
+                    click: function () {
+                        createTab("<spring:message code='charter.title'/>", "<spring:url value="/shipmentContract/showForm" />")
+                    }
+                },
+                {isSeparator: true},*/
+                /*{
+                    title: "<spring:message code='contractPerson.title'/>",
+                    click: function () {
+                        createTab("<spring:message code='contractPerson.title'/>", "<spring:url value="/contractPerson/showForm" />")
+                    }
+                }*/
             ]
         })
     });
@@ -877,10 +938,10 @@
     //-----------------------reporttab
     reportTab = isc.ToolStripMenuButton.create({
         title: "&nbsp; <spring:message code='main.reportTab'/>",
-        click: function () {
-            createTab("<spring:message code='main.reportTab'/>", "<spring:url value="/contract/show-report-form" />")
-        }
-    });
+            click: function () {
+                createTab("<spring:message code='main.reportTab'/>", "<spring:url value="/contract/show-report-form" />")
+            }
+    })
 
 
     /*----------------------productTab------------------------*/
@@ -895,6 +956,13 @@
                         createTab("<spring:message code='tozin.onWay'/>", "<spring:url value="/tozin/showOnWayProductForm" />")
                     }
 
+                },
+                {isSeparator: true},
+                {
+                    title: "<spring:message code='molybdenum.title'/>",
+                    click: function () {
+                        createTab("<spring:message code='molybdenum.title'/>", "<spring:url value="/warehouseLot/showForm" />")
+                    }
                 },
                 {isSeparator: true},
                 {
@@ -974,13 +1042,12 @@
                             if (index == 0) {
                                 mainTabSet.removeTabs(mainTabSet.tabs);
                             }
-                        },
+                        }
                     });
-                },
+                }
             }),
-            "tabScroller",
-            "tabPicker",
-        ],
+            "tabScroller", "tabPicker"
+        ]
     });
 
     saleToolStrip = isc.ToolStrip.create({
@@ -996,8 +1063,9 @@
             productTab,
             reportTab,
             settingTab,
-        ],
+        ]
     });
+
 
     var MainDesktopMenuH = isc.HLayout.create({
         width: "100%",
@@ -1005,69 +1073,103 @@
         styleName: "main-menu",
         animateStateChanges: true,
         align: "center",
-        members: [saleToolStrip],
+        members: [
+            saleToolStrip
+        ]
     });
 
     var headerAndMenu = isc.VLayout.create({
         styleName: "header-and-menu",
-        members: [headerLayout, MainDesktopMenuH],
-    });
+        members: [headerLayout, MainDesktopMenuH]
+    })
 
     isc.VLayout.create({
         width: "100%",
         height: "100%",
         backgroundColor: "",
-        members: [headerAndMenu, mainTabSet],
+        members: [headerAndMenu, mainTabSet]
     });
 
+
     var toggle = true;
-    headerAndMenu.setStyleName("header-and-menu toggle-show");
-    var switchBtn = document.getElementById("switch-btn");
-    switchBtn.addEventListener("click", function onToggleClick(e) {
+    headerAndMenu.setStyleName('header-and-menu toggle-show');
+    var switchBtn = document.getElementById('switch-btn');
+    switchBtn.addEventListener('click', function onToggleClick(e) {
         setTimeout(function () {
+            //switchBtn.classList.remove("fade-in");
+            //switchBtn.classList.remove("fade-out");
             if (toggle) {
                 switchBtn.firstChild.src = "static/img/unpinSvg.svg";
-                headerAndMenu.setStyleName("header-and-menu toggle-hide");
+                headerAndMenu.setStyleName('header-and-menu toggle-hide')
                 setTimeout(function () {
                     headerLayout.setVisibility(false);
                     MainDesktopMenuH.setVisibility(false);
-                }, 300);
+                }, 300)
+
             } else {
                 switchBtn.firstChild.src = "static/img/pinSvg.svg";
-                headerAndMenu.setStyleName("header-and-menu toggle-show");
+                headerAndMenu.setStyleName('header-and-menu toggle-show')
                 setTimeout(function () {
                     headerLayout.setVisibility(true);
                     MainDesktopMenuH.setVisibility(true);
-                }, 300);
+                }, 300)
+
             }
             toggle = !toggle;
-        }, 100);
-    });
+        }, 100)
 
+
+        // checked = e.target.checked;
+        // if(checked)
+        // {
+        //
+        // 	headerLayout.setStyleName('header-top toggle-hide')
+        // 	ribbonHLayout.setStyleName('main-menu toggle-hide')
+        // 	headerLayout.setVisibility(false);
+        // 	ribbonHLayout.setVisibility(false);
+        //
+        //
+        // }else {
+        // 	headerLayout.setStyleName('header-top toggle-show')
+        // 	ribbonHLayout.setStyleName('main-menu toggle-show')
+        // 	headerLayout.setVisibility(true);
+        // 	ribbonHLayout.setVisibility(true);
+        // }
+    })
 
     document.addEventListener("mouseout", function (event) {
         if (event.clientY <= 10 || event.pageY <= 10) {
-            headerAndMenu.setStyleName("header-and-menu toggle-show");
+            headerAndMenu.setStyleName('header-and-menu toggle-show')
+            //headerLayout.setStyleName('header-top')
+            //ribbonHLayout.setStyleName('main-menu')
             setTimeout(function () {
                 headerLayout.setVisibility(true);
                 MainDesktopMenuH.setVisibility(true);
-            }, 100);
+            }, 100)
+
         } else if (event.clientY > 100) {
             if (!toggle) {
-                headerAndMenu.setStyleName("header-and-menu toggle-hide");
+                headerAndMenu.setStyleName('header-and-menu toggle-hide')
+                //headerLayout.setStyleName('header-top')
+                //ribbonHLayout.setStyleName('main-menu')
                 setTimeout(function () {
                     headerLayout.setVisibility(false);
                     MainDesktopMenuH.setVisibility(false);
-                }, 300);
+                }, 300)
+
             } else {
-                headerAndMenu.setStyleName("header-and-menu toggle-show");
+                headerAndMenu.setStyleName('header-and-menu toggle-show')
+                //	headerLayout.setStyleName('header-top')
+                //	ribbonHLayout.setStyleName('main-menu')
                 setTimeout(function () {
                     headerLayout.setVisibility(true);
                     MainDesktopMenuH.setVisibility(true);
-                }, 100);
+                }, 100)
+
             }
+
         }
-    });
+    })
 
 
     <sec:authorize access="hasAuthority('R_CURRENCY')">
@@ -1078,7 +1180,7 @@
                 httpMethod: "GET",
                 data: "",
                 callback: function (RpcResponse_o) {
-                    if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+                    if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
                         var data = JSON.parse(RpcResponse_o.data);
                         for (x of data) {
                             dollar[x.nameEn] = x.nameEn;
@@ -1159,6 +1261,22 @@
         }
     });
 
+    function enContract() {
+        var url_string = window.location.href;
+                                var url = new URL(url_string);
+                                var lang = url.searchParams.get("lang");
+
+                                if (lang == "fa" || lang == null) {
+                                    isc.Dialog.create({
+                                        message: "بهتر است از این تب در فرمت انگلیسی استفاده کنید",
+                                        icon: "[SKIN]ask.png",
+                                        title: "<spring:message code='global.message'/>",
+                                        buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
+                                        buttonClick: function () {
+                                            this.hide();
+                                        }
+                                    });
+    }}
 </script>
 </body>
 </html>

@@ -5,6 +5,7 @@ import lombok.*;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -23,7 +24,7 @@ public class LME extends Auditable {
     private Long id;
 
     @Column(name = "LME_DATE")
-    private String lmeDate;
+    private Date lmeDate;
 
     @Column(name = "CU_USD_MT")
     private String cuUsdMt;

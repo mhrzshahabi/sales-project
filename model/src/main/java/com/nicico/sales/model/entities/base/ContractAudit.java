@@ -71,7 +71,8 @@ import java.util.Date;
                 "OPTIONAL," +
                 "DEFINITION_ID," +
                 "PAY_TIME," +
-                "PLANT," +
+                "CONTRACT_START," +
+                "CONTRACT_END," +
                 "PORT_SOURCE_ID," +
                 "PREFIX_PAYMENT," +
                 "PREMIUM," +
@@ -265,8 +266,10 @@ public class ContractAudit {
     private String amount_en;
     @Column(name = "DELAY")
     private String delay;
-    @Column(name = "PLANT")
-    private String plant;
+    @Column(name = "CONTRACT_START")
+    private Date contractStart;
+    @Column(name = "CONTRACT_END")
+    private Date contractEnd;
     @Column(name = "OPTIONAL")
     private Integer optional;
     @Column(name = "MO_AMOUNT")

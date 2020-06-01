@@ -128,5 +128,13 @@
         <modifyDataType columnName="LME_DATE" newDataType="TIMESTAMP(6)" tableName="TBL_LME"/>
     </changeSet>
 
+    <changeSet author="programmer (generated)" id="9778899665544-019">
+        <modifyDataType columnName="INCOTERMS" newDataType="NUMBER(19,0)" tableName="TBL_CONTRACT"/>
+         <renameColumn columnDataType="NUMBER(19,0)"
+                newColumnName="INCOTERMS_VERSION"
+                oldColumnName="INCOTERMS"
+                tableName="TBL_CONTRACT"/>
+
+    </changeSet>
 
 </databaseChangeLog>

@@ -55,6 +55,20 @@
         fetchDataURL: "${contextPath}/api/unit/spec-list"
     });
 
+     var RestDataSource_Port = isc.MyRestDataSource.create({
+        fields:
+            [
+                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
+                {name: "port", title: "<spring:message code='port.port'/>", width: 200},
+                {name: "beam", title: "<spring:message code='port.port'/>", width: 200},
+                {name: "loa", title: "<spring:message code='port.port'/>", width: 200},
+                {name: "arrival", title: "<spring:message code='port.port'/>", width: 200},
+                {name: "country.nameFa", title: "<spring:message code='country.nameFa'/>", width: 200}
+            ],
+
+        fetchDataURL: "${contextPath}/api/port/spec-list"
+    });
+
     function ValuesManager(valueId) {
         isc.ValuesManager.create({
             ID: valueId
@@ -78,30 +92,20 @@
             [
                 {name: "id", hidden: true, primaryKey: true, canEdit: false,},
                 {
-                    name: "shipmentRow",
-                    title: "<spring:message code='contractItem.itemRow'/> ",
+                    name: "loadPortId",
+                    title: "<spring:message code='shipment.loading'/>",
                     type: 'text',
                     required: true,
                     width: 400
                 },
                 {
-                    name: "dischargeId",
-                    title: "<spring:message code='port.port'/>",
-                    type: 'text',
-                    required: true,
-                    width: 400
-                },
-                {name: "discharge.port", title: "<spring:message code='port.port'/>", align: "center"},
-                {
-                    name: "address",
-                    title: "<spring:message code='global.address'/>",
-                    type: 'text',
-                    required: true,
-                    width: 400
+                    name: "loadPort.port",
+                    title: "<spring:message code='shipment.loading'/>",
+                    align: "center"
                 },
                 {
-                    name: "amount",
-                    title: "<spring:message code='global.amount'/>",
+                    name: "quantity",
+                    title: "<spring:message code='global.quantity'/>",
                     type: 'float',
                     required: true,
                     width: 400
@@ -109,10 +113,8 @@
                 {
                     name: "sendDate",
                     title: "<spring:message code='global.sendDate'/>",
-                    type: 'text',
                     width: 400,
                 },
-                {name: "duration", title: "<spring:message code='global.duration'/>", type: 'text', width: 400},
             ],
         fetchDataURL: "${contextPath}/api/contractShipment/spec-list"
     });
@@ -129,6 +131,7 @@
             ],
         fetchDataURL: "${contextPath}/api/parameters/spec-list"
     });
+
     var RestDataSource_Contact = isc.MyRestDataSource.create({
         fields: [
             {name: "id", primaryKey: true, canEdit: false, hidden: true},
@@ -216,9 +219,10 @@
                 {name: "incotermsId", title: "<spring:message code='incoterms.name'/>"},
                 {name: "incoterms.code", title: "<spring:message code='incoterms.name'/>"},
                 {name: "amount", title: "<spring:message code='global.amount'/>"},
-                {name: "material.descl", title: "materialId"}
+                {name: "material.descl", title: "materialId"},
+                {name: "contractStart", title: "<spring:message code='contract.contractStart'/>"},
+                {name: "contractEnd", title: "<spring:message code='contract.contractEnd'/>"}
             ],
-        // ######@@@@###&&@@###
         fetchDataURL: "${contextPath}/api/contract/spec-list"
     });
 
@@ -397,7 +401,8 @@
                         valuesManagerArticle2Conc.setValue("unitId", record.unitId);
                         valuesManagerArticle2Conc.setValue("cathodesTolorance", record.molybdenumTolorance);
                         valuesManagerArticle2Conc.setValue("optional", record.optional);
-                        valuesManagerArticle2Conc.setValue("plant", record.plant);
+                        valuesManagerArticle2Conc.setValue("contractStart", record.contractStart);
+                        valuesManagerArticle2Conc.setValue("contractEnd", record.contractEnd);
                         valuesManagerArticle3_conc.setValue("CU", record.copper);
                         valuesManagerArticle3_conc.setValue("MO", record.molybdenum);
                         valuesManagerArticle3_conc.setValue("unitCu", record.timeIssuance);
@@ -406,7 +411,7 @@
                         valuesManagerArticle9_conc.setValue("RC", record.refinaryCost);
                         article5_ConcDeliveryTerms.setValue("incotermsId", record.incotermsId);
                         article5_ConcDeliveryTerms.setValue("portByPortSourceId", record.portByPortSourceId);
-                        article5_ConcDeliveryTerms.setValue("incotermsText", record.incotermsText);
+                        article5_ConcDeliveryTerms.setValue("incotermVersion", record.incotermVersion);
                         contactHeaderConcAgent.setValue("name_ContactAgentSeller", data[0].name_ContactAgentSeller)
                         contactHeaderConcAgent.setValue("phone_ContactAgentSeller", data[0].phone_ContactAgentSeller)
                         contactHeaderConcAgent.setValue("mobile_ContactAgentSeller", data[0].mobile_ContactAgentSeller)
@@ -614,7 +619,8 @@
                                                                                 valuesManagerArticle2Conc.setValue("unitId", data[0].unitId);
                                                                                 valuesManagerArticle2Conc.setValue("cathodesTolorance", data[0].molybdenumTolorance);
                                                                                 valuesManagerArticle2Conc.setValue("optional", data[0].optional);
-                                                                                valuesManagerArticle2Conc.setValue("plant", data[0].plant);
+                                                                                valuesManagerArticle2Conc.setValue("contractStart", data[0].contractStart);
+                                                                                valuesManagerArticle2Conc.setValue("contractEnd", data[0].contractEnd);
                                                                                 valuesManagerArticle3_conc.setValue("CU", data[0].copper);
                                                                                 valuesManagerArticle3_conc.setValue("MO", data[0].molybdenum);
                                                                                 valuesManagerArticle3_conc.setValue("unitCu", data[0].timeIssuance);

@@ -9,6 +9,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
@@ -66,7 +68,12 @@ public class ContractAuditDTO {
     private Double molybdenumTolorance;
     private String sideContractNo;
     private String sideContractDate;
-    private String plant;
+    @Temporal(TemporalType.TIMESTAMP)
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date contractStart;
+    @Temporal(TemporalType.TIMESTAMP)
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date contractEnd;
     private String timeIssuance;
     private String invoiceType;
     private Integer optional;
