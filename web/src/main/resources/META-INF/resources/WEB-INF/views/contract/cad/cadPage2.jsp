@@ -6,14 +6,21 @@
 
 //<script>
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
-
 var RestDataSource_Incoterms_InCat = isc.MyRestDataSource.create({
         fields:
         [
-        {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-        {name: "code", title: "<spring:message code='goods.code'/> "},
+        {name: "id", title: "<spring:message code='goods.code'/> "},
+        {name: "incotermRule.code", title: "incotermsRules "},
         ],
-        fetchDataURL: "${contextPath}/api/incoterms/spec-list"
+        fetchDataURL: "${contextPath}/api/incoterm-rules/spec-list"
+});
+var RestDataSource_ContractIncoterms_InCat = isc.MyRestDataSource.create({
+        fields:
+        [
+        {name: "id", title: "<spring:message code='goods.code'/> "},
+        {name: "title", title: "incotermsRules "},
+        ],
+        fetchDataURL: "${contextPath}/api/g-incoterm/spec-list"
 });
 
     var imanageNote = 0;
@@ -216,7 +223,7 @@ var buttonAddItem=isc.IButton.create({
                 pickListHeight: "500",
                 pickListProperties: {showFilterEditor: true},
                 pickListFields: [
-                    {name: "code", width: 440, align: "center"}
+                    {name: "title", width: 440, align: "center"}
                 ],
                 width: "10%",
                 title: "<strong class='cssDynamicForm'>SHIPMENT TYPE<strong>"
@@ -262,32 +269,49 @@ var article6_quality = isc.DynamicForm.create({
         width: "100%",
         wrapItemTitles: false,
         items: [
-            {
-                name: "incotermsText",
-                type: "text",
+               {
+                name: "incotermsText", //article6_number32
+                colSpan: 3,
+                titleColSpan: 1,
+                showIf:"true",
+                tabIndex: 6,
                 showTitle: true,
-                disabled: false,
-                defaultValue: "INCOTERMS 2010",
+                showHover: true,
+                showHintInField: true,
+                required: false,
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }],
+                type: 'long',
+                numCols: 4,
+                editorType: "SelectItem",
+                optionDataSource: RestDataSource_ContractIncoterms_InCat,
+                displayField: "title",
+                valueField: "id",
+                pickListWidth: "450",
+                pickListHeight: "500",
+                pickListProperties: {showFilterEditor: true},
+                pickListFields: [
+                    {name: "id", width: 220, align: "center"},
+                    {name: "title", width: 220, align: "center"}
+                ],
+                changed: function (form, item, value) {
+                    form.clearValue('incotermsId');
+                },
                 width: "500",
-                wrap: false,
-                valueMap:
-                        {
-                            "INCOTERMS 2010": "INCOTERMS 2010",
-                            "INCOTERMS 2020": "INCOTERMS 2020"
-                        },
-                title: "<strong class='cssDynamicForm'>CONTRACT INCOTERMS</strong>",changed: function (form, item, value) {
-                }
+                title: "<strong class='cssDynamicForm'>SHIPMENT TYPE<strong>"
             }
             ,{
                 name: "incotermsId", //article6_number32
                 colSpan: 3,
                 titleColSpan: 1,
-                showIf:"false",
+                showIf:"true",
                 tabIndex: 6,
                 showTitle: true,
                 showHover: true,
                 showHintInField: true,
-                hint: "FOB",
                 required: false,
                 validators: [
                 {
@@ -298,19 +322,23 @@ var article6_quality = isc.DynamicForm.create({
                 numCols: 4,
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_Incoterms_InCat,
-                displayField: "code",
+                displayField: "incotermRule.code",
                 valueField: "id",
                 pickListWidth: "450",
                 pickListHeight: "500",
                 pickListProperties: {showFilterEditor: true},
                 pickListFields: [
-                    {name: "code", width: 440, align: "center"}
+                    {name: "id", width: 220, align: "center"},
+                    {name: "incotermRule.code", width: 220, align: "center"}
                 ],
+                getPickListFilterCriteria : function () {
+                        return {_constructor:'AdvancedCriteria',operator:"and",criteria:[{fieldName: "incotermId", operator: "equals", value: this.form.getValue("incotermsText")}]}
+                     },
                 width: "500",
                 title: "<strong class='cssDynamicForm'>SHIPMENT TYPE<strong>"
-            } , {
+            }, {
                 name: "portByPortSourceId",
-                showIf:"false",
+                showIf:"true",
                 editorType: "SelectItem",
                 required: false,
                 validators: [

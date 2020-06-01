@@ -35,6 +35,21 @@
     ValuesManager("valuesManagerArticle10");
     ValuesManager("valuesManagerfullArticleMo");
 
+var RestDataSource_Contract = isc.MyRestDataSource.create({
+        fields:
+            [
+                {name: "id", title: "id", primaryKey: true, hidden: true},
+                {name: "contractNo", title: "<spring:message code='contract.contractNo'/>"},
+                {name: "contractDate", title: "<spring:message code='contract.contractDate'/>"},
+                {name: "contactId", title: "<spring:message code='contact.name'/> "},
+                {name: "contact.nameFA", title: "<spring:message code='contact.name'/> "},
+                {name: "incotermsId", title: "<spring:message code='incoterms.name'/>"},
+                {name: "incoterms.code", title: "<spring:message code='incoterms.name'/>"},
+                {name: "amount", title: "<spring:message code='global.amount'/>"},
+                {name: "material.descl", title: "materialId"}
+            ],
+        fetchDataURL: "${contextPath}/api/contract/spec-list"
+    });
  var RestDataSource_Parameters = isc.MyRestDataSource.create({
         fields:
             [
@@ -52,9 +67,9 @@ var RestDataSource_Incoterms_InMol = isc.MyRestDataSource.create({
 fields:
     [
     {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-    {name: "code", title: "<spring:message code='goods.code'/> "},
+    {name: "title", title: "<spring:message code='goods.code'/> "},
     ],
-    fetchDataURL: "${contextPath}/api/incoterms/spec-list"
+    fetchDataURL: "${contextPath}/api/g-incoterm/spec-list"
 });
 
     var RestDataSource_WarehouseLot = isc.MyRestDataSource.create({
