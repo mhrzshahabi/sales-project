@@ -21,46 +21,46 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping(value = "/api/analysisMo")
-public class AnalyseMoRestController {
+public class AnalysisMoRestController {
 
-    private final IAnalysisMoService iAnalyseMoService;
+    private final IAnalysisMoService iAnalysisMoService;
 
 
     @Loggable
     @GetMapping(value = "/{id}")
     public ResponseEntity<AnalysisMoDTO.Info> get(@PathVariable Long id) {
-        return new ResponseEntity<>(iAnalyseMoService.get(id), HttpStatus.OK);
+        return new ResponseEntity<>(iAnalysisMoService.get(id), HttpStatus.OK);
     }
 
     @Loggable
     @GetMapping(value = "/list")
     public ResponseEntity<List<AnalysisMoDTO.Info>> list() {
-        return new ResponseEntity<>(iAnalyseMoService.list(), HttpStatus.OK);
+        return new ResponseEntity<>(iAnalysisMoService.list(), HttpStatus.OK);
     }
 
     @Loggable
     @PostMapping
     public ResponseEntity<AnalysisMoDTO.Info> create(@Validated @RequestBody AnalysisMoDTO.Create request) {
-        return new ResponseEntity<>(iAnalyseMoService.create(request), HttpStatus.CREATED);
+        return new ResponseEntity<>(iAnalysisMoService.create(request), HttpStatus.CREATED);
     }
 
     @Loggable
     @PutMapping
     public ResponseEntity<AnalysisMoDTO.Info> update(@RequestBody AnalysisMoDTO.Update request) {
-        return new ResponseEntity<>(iAnalyseMoService.update(request.getId(), request), HttpStatus.OK);
+        return new ResponseEntity<>(iAnalysisMoService.update(request.getId(), request), HttpStatus.OK);
     }
 
     @Loggable
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
-        iAnalyseMoService.delete(id);
+        iAnalysisMoService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @Loggable
     @DeleteMapping(value = "/list")
     public ResponseEntity<Void> delete(@Validated @RequestBody AnalysisMoDTO.Delete request) {
-        iAnalyseMoService.deleteAll(request);
+        iAnalysisMoService.deleteAll(request);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -68,7 +68,7 @@ public class AnalyseMoRestController {
     @GetMapping(value = "/spec-list")
     public ResponseEntity<TotalResponse<AnalysisMoDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) throws IOException {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
-        return new ResponseEntity<>(iAnalyseMoService.search(nicicoCriteria), HttpStatus.OK);
+        return new ResponseEntity<>(iAnalysisMoService.search(nicicoCriteria), HttpStatus.OK);
     }
 
 }
