@@ -1,5 +1,5 @@
-var analyseMethodTab = new nicico.GeneralTabUtil().getDefaultJSPTabVariable();
-analyseMethodTab.dynamicForm.fields = [
+var AnalysisMoMethodTab = new nicico.GeneralTabUtil().getDefaultJSPTabVariable();
+AnalysisMoMethodTab.dynamicForm.fields = [
     {
         hidden: true,
         primaryKey: true,
@@ -65,15 +65,15 @@ analyseMethodTab.dynamicForm.fields = [
         title: "<spring:message code='analysis.lotname'/>",
     },
 ];
-Object.assign(analyseMethodTab.listGrid.fields, analyseMethodTab.dynamicForm.fields);
-nicico.BasicFormUtil.getDefaultBasicForm(analyseMethodTab, "api/analyseMo");
-analyseMethodTab.dynamicForm.main = null;
-analyseMethodTab.menu.main = null;
-analyseMethodTab.listGrid.main.contextMenu = null;
-analyseMethodTab.listGrid.main.recordDoubleClick = null;
-analyseMethodTab.toolStrip.main.members.shift();
-analyseMethodTab.toolStrip.main.members.shift();
-analyseMethodTab.toolStrip.main.members.shift();
+Object.assign(AnalysisMoMethodTab.listGrid.fields, AnalysisMoMethodTab.dynamicForm.fields);
+nicico.BasicFormUtil.getDefaultBasicForm(AnalysisMoMethodTab, "api/analysisMo");
+AnalysisMoMethodTab.dynamicForm.main = null;
+AnalysisMoMethodTab.menu.main = null;
+AnalysisMoMethodTab.listGrid.main.contextMenu = null;
+AnalysisMoMethodTab.listGrid.main.recordDoubleClick = null;
+AnalysisMoMethodTab.toolStrip.main.members.shift();
+AnalysisMoMethodTab.toolStrip.main.members.shift();
+AnalysisMoMethodTab.toolStrip.main.members.shift();
 
 
 

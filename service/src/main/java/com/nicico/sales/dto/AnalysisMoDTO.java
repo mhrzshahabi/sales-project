@@ -17,7 +17,7 @@ import java.util.List;
 @Setter
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class AnalyseMoDTO {
+public class AnalysisMoDTO {
 
     private String lotName;
 
@@ -39,8 +39,8 @@ public class AnalyseMoDTO {
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("AnalyseProductMOInfo")
-    public static class Info extends AnalyseMoDTO {
+    @ApiModel("AnalysisMoInfo")
+    public static class Info extends AnalysisMoDTO {
         private Long id ;
         private Date createDate;
         private String createdBy;
@@ -53,8 +53,8 @@ public class AnalyseMoDTO {
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("AnalyseProductMOCreateRq")
-    public static class Create extends AnalyseMoDTO{
+    @ApiModel("AnalysisMoCreateRq")
+    public static class Create extends AnalysisMoDTO {
 
     }
 
@@ -62,8 +62,8 @@ public class AnalyseMoDTO {
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("AnalyseProductMOUpdateRq")
-    public static class Update extends AnalyseMoDTO{
+    @ApiModel("AnalysisMoUpdateRq")
+    public static class Update extends AnalysisMoDTO {
         @NonNull
         @ApiModelProperty(required = true)
         private Long id;
@@ -73,7 +73,7 @@ public class AnalyseMoDTO {
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("AnalyseProductMODeleteRq")
+    @ApiModel("AnalysisMoDeleteRq")
     public static class Delete{
         @NotNull
         @ApiModelProperty(required = true)

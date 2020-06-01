@@ -28,7 +28,7 @@ import javax.persistence.Column;
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
 @Table(name = "TBL_Analyse_Product_MO")
-public class AnalyseMo extends Auditable {
+public class AnalysisMo extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE , generator = "SEQ_Analyse_Product_MO")

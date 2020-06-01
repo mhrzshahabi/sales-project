@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("/analysisMo")
-public class AnalyzeMoFormController {
+public class AnalysisMoFormController {
 
     @RequestMapping("/showForm")
     public String analyzeMethod() {
