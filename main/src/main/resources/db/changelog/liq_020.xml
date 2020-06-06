@@ -18,6 +18,11 @@
     </changeSet>
 
 
+    <changeSet author="j.azad" id="9778899665544-028">
+        <createSequence sequenceName="SEQ_TBL_Invoice_Type"/>
+    </changeSet>
+
+
     <changeSet author="j.azad" id="9778899665544-029">
         <insert tableName="TBL_Invoice_Type">
             <column name="ID" valueSequenceNext="SEQ_TBL_Invoice_Type"/>
@@ -26,7 +31,7 @@
             <column name="C_LAST_MODIFIED_BY" value="j.azad"/>
             <column name="D_LAST_MODIFIED_DATE" value="19-APR-20 11.13.08.350000000 AM"/>
             <column name="N_VERSION" value="0.1"/>
-            <column name="title" type="VARCHAR2(20 CHAR)">Performa</column>
+            <column name="title" type="VARCHAR2(20 CHAR)">PERFORMA</column>
         </insert>
     </changeSet>
 
@@ -39,7 +44,7 @@
             <column name="C_LAST_MODIFIED_BY" value="j.azad"/>
             <column name="D_LAST_MODIFIED_DATE" value="19-APR-20 11.13.08.350000000 AM"/>
             <column name="N_VERSION" value="0.1"/>
-            <column name="title" type="VARCHAR2(20 CHAR)">Provisional</column>
+            <column name="title" type="VARCHAR2(20 CHAR)">PROVISIONAL</column>
         </insert>
     </changeSet>
 
@@ -52,12 +57,8 @@
             <column name="C_LAST_MODIFIED_BY" value="j.azad"/>
             <column name="D_LAST_MODIFIED_DATE" value="19-APR-20 11.13.08.350000000 AM"/>
             <column name="N_VERSION" value="0.1"/>
-            <column name="title" type="VARCHAR2(20 CHAR)">Final</column>
+            <column name="title" type="VARCHAR2(20 CHAR)">FINAL</column>
         </insert>
     </changeSet>
-
-
-
-
 
 </databaseChangeLog>
