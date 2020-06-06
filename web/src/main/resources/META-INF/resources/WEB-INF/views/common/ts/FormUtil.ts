@@ -16,10 +16,10 @@ namespace nicico {
     export class FormUtil {
 
         private owner: ObjectHider<isc.Window>;
-        private bodyWidget: ObjectHider<isc.Canvas>;
         private windowWidget: ObjectHider<isc.Window>;
+        private bodyWidget: ObjectHider<isc.Canvas | Array<isc.Canvas>>;
 
-        public populateData: any = function (bodyWidget: isc.Canvas) {
+        public populateData: any = function (bodyWidget: isc.Canvas | Array<isc.Canvas>) {
 
             return [];
         };
@@ -36,13 +36,27 @@ namespace nicico {
             return data;
         };
 
-        showForm(ownerWindow: isc.Window, title: string, canvas: isc.Canvas, width: string = null, height: string = null): void {
+        showForm(ownerWindow: isc.Window, title: string, canvas: isc.Canvas | Array<isc.Canvas>, width: string = null, height: string = null): void {
 
             this.owner = new ObjectHider(ownerWindow);
             this.bodyWidget = new ObjectHider(canvas);
             this.createWindow(title, this.getButtonLayout(), width, height);
             if (ownerWindow != null)
                 ownerWindow.close();
+            this.windowWidget.getObject().show();
+        }
+
+        init(ownerWindow: isc.Window, title: string, canvas: isc.Canvas | Array<isc.Canvas>, width: string = null, height: string = null): void {
+
+            this.owner = new ObjectHider(ownerWindow);
+            this.bodyWidget = new ObjectHider(canvas);
+            this.createWindow(title, this.getButtonLayout(), width, height);
+        }
+
+        justShowForm(): void {
+
+            if (this.owner.getObject() != null)
+                this.owner.getObject().close();
             this.windowWidget.getObject().show();
         }
 
@@ -95,21 +109,22 @@ namespace nicico {
         public createWindow(title: string, buttonLayout: isc.HLayout, width: string = null, height: string = null): void {
 
             let This = this;
-            let vLayout = isc.VLayout.create({
-
-                width: "100%",
-                members: [
-                    This.bodyWidget.getObject(),
-                    buttonLayout
-                ]
-            });
+            width = width == null ? "50%" : width;
+            let items = [];
+            if (This.bodyWidget.getObject().constructor === Array)
+                // @ts-ignore
+                items.addAll(This.bodyWidget.getObject());
+            else
+                items.add(This.bodyWidget.getObject());
+            items.add(buttonLayout)
             // @ts-ignore
-            This.windowWidget = new ObjectHider(Object.assign(isc.Window.nicico.getDefault(title, [vLayout], width, height), {
+            This.windowWidget = new ObjectHider(Object.assign(isc.Window.nicico.getDefault(title, items, width, height), {
 
                 closeClick: function () {
                     this.Super("closeClick", arguments);
                     if (This.owner.getObject() != null)
                         This.owner.getObject().show();
+                    This.cancelCallBack();
                 }
             }));
         }

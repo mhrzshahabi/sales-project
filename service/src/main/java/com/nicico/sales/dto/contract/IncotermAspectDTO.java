@@ -10,7 +10,6 @@ import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotNull;
 import java.util.Date;
-import java.util.EnumSet;
 import java.util.List;
 
 @Getter
@@ -23,6 +22,7 @@ public class IncotermAspectDTO {
     private String titleFa;
     private String titleEn;
     private String description;
+    private Boolean requiredParty;
 
     @Getter
     @Setter

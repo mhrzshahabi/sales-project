@@ -585,6 +585,8 @@
                     ]
                 },
                 {isSeparator: true},
+
+
                 {
                     title: "<spring:message code='main.baseTab.financial'/>",
                     submenu: [
@@ -660,19 +662,34 @@
                 {isSeparator: true},
 
 
+                <%--{--%>
+                <%--    title: "<spring:message code='parameters.title'/>",--%>
+                <%--    click: function () {--%>
+                <%--        createTab("<spring:message code='parameters.title'/>", "<spring:url value="/parameters/showForm" />")--%>
+                <%--    }--%>
+                <%--},--%>
+                {isSeparator: true},
+
+
+                <%--{--%>
+                    <%--title: "<spring:message code='dcc.title'/>",--%>
+                    <%--click: function () {--%>
+                        <%--createTab("<spring:message code='dcc.title'/>", "<spring:url value="/dccView/showForm" />")--%>
+                    <%--}--%>
+                <%--},--%>
+
                 {
-                    title: "<spring:message code='parameters.title'/>",
+                    title: "<spring:message code='shipment.type'/>",
                     click: function () {
-                        createTab("<spring:message code='parameters.title'/>", "<spring:url value="/parameters/showForm" />")
+                        createTab("<spring:message code='shipment.type'/>", "<spring:url value="/shipmenttype/showForm" />")
                     }
                 },
                 {isSeparator: true},
 
-
                 {
-                    title: "<spring:message code='dcc.title'/>",
+                    title: "<spring:message code='shipment.method'/>",
                     click: function () {
-                        createTab("<spring:message code='dcc.title'/>", "<spring:url value="/dccView/showForm" />")
+                        createTab("<spring:message code='shipment.method'/>", "<spring:url value="/shipmentmethod/showForm" />")
                     }
                 },
                 {isSeparator: true},
@@ -686,13 +703,35 @@
                 },
                 {isSeparator: true},
 
+
+
                 {
-                    showIf: "false",
-                    title: "<spring:message code='commercialIncoterms.title'/>",
+                    title: "<spring:message code='typical.analysis.mo'/>",
                     click: function () {
-                        createTab("<spring:message code='commercialIncoterms.title'/>", "<spring:url value="/incoterms/showForm" />")
+                        createTab("<spring:message code='typical.analysis.mo'/>", "<spring:url value="/analysisMo/showForm" />")
                     }
-                }
+                },
+                {isSeparator: true},
+
+
+
+                {
+                    title: "<spring:message code='Invoice.Type'/>",
+                    click: function () {
+                        createTab("<spring:message code='Invoice.Type'/>", "<spring:url value="/invoiceType/showForm" />")
+                    }
+                },
+                {isSeparator: true},
+
+
+
+                <%--{--%>
+                <%--    showIf: "false",--%>
+                <%--    title: "<spring:message code='commercialIncoterms.title'/>",--%>
+                <%--    click: function () {--%>
+                <%--        createTab("<spring:message code='commercialIncoterms.title'/>", "<spring:url value="/incoterms/showForm" />")--%>
+                <%--    }--%>
+                <%--}--%>
 
             ]
 
@@ -741,26 +780,36 @@
             data: [
                 {
                     title: "<spring:message code='salesContract.title'/>",
-                    click: function () {
-                        var url_string = window.location.href;
-                        var url = new URL(url_string);
-                        var lang = url.searchParams.get("lang");
+                    submenu: [
+                        {
+                            title: "<spring:message code='salesContractAll.title'/>",
+                            click: function () {
+                               enContract();
+                               createTab("<spring:message code='salesContract.title'/>", "<spring:url value="/contract/showForm" />")
+                            }
+                        },{
+                            title: "<spring:message code='salesContractMoButton.title'/>",
+                            click: function () {
+                               enContract();
+                               createTab("<spring:message code='salesContractMoButton.title'/>", "<spring:url value="/contact/contactMolybdenum"/>")
+                            }
+                        }, {
+                            title: "<spring:message code='salesContractConcButton.title'/>",
+                            click: function () {
+                               enContract();
+                               createTab("<spring:message code='main.contractsConcTab'/>", "<spring:url value="/contact/concMain"/>")
+                            }
+                        },
+                        {isSeparator: true},
+                        {
+                            title: "<spring:message code='salesContractCADButton.title'/>",
+                            click: function () {
+                                enContract();
+                                createTab("<spring:message code='main.contractsCadTab'/>", "<spring:url value="/contact/cadMain"/>")
+                            }
+                        },
 
-                        if (lang == "fa" || lang == null) {
-                            isc.Dialog.create({
-                                message: "بهتر است از این تب در فرمت انگلیسی استفاده کنید",
-                                icon: "[SKIN]ask.png",
-                                title: "<spring:message code='global.message'/>",
-                                buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
-                                buttonClick: function () {
-                                    this.hide();
-                                }
-                            });
-                            createTab("<spring:message code='salesContract.title'/>", "<spring:url value="/contract/showForm" />")
-                        } else {
-                            createTab("<spring:message code='salesContract.title'/>", "<spring:url value="/contract/showForm" />")
-                        }
-                    }
+                    ]
                 },
                 {isSeparator: true},
                 {
@@ -771,7 +820,7 @@
                 },
 
 
-                <sec:authorize access="hasAnyAuthority('R_CONTRACT2')">
+                <sec:authorize access="hasAuthority('R_CONTRACT2')">
                 {isSeparator: true},
                 {
                     title: "<spring:message code='entity.contract'/>",
@@ -780,7 +829,7 @@
                     }
                 },
                 </sec:authorize>
-                <sec:authorize access="hasAnyAuthority('R_CONTRACT_TYPE')">
+                <sec:authorize access="hasAuthority('R_CONTRACT_TYPE')">
                 {isSeparator: true},
                 {
                     title: "<spring:message code='entity.contract-type'/>",
@@ -789,7 +838,7 @@
                     }
                 },
                 </sec:authorize>
-                <sec:authorize access="hasAnyAuthority('R_CONTRACT_DETAIL_TYPE')">
+                <sec:authorize access="hasAuthority('R_CONTRACT_DETAIL_TYPE')">
                 {isSeparator: true},
                 {
                     title: "<spring:message code='entity.contract-detail-type'/>",
@@ -798,7 +847,7 @@
                     }
                 },
                 </sec:authorize>
-                <sec:authorize access="hasAnyAuthority('R_INCOTERM')">
+                <sec:authorize access="hasAuthority('R_INCOTERM')">
                 {isSeparator: true},
                 {
                     title: "<spring:message code='entity.incoterm'/>",
@@ -807,7 +856,7 @@
                     }
                 },
                 </sec:authorize>
-                <sec:authorize access="hasAnyAuthority('R_INCOTERM_ASPECT')">
+                <sec:authorize access="hasAuthority('R_INCOTERM_ASPECT')">
                 {isSeparator: true},
                 {
                     title: "<spring:message code='entity.incoterm-aspect'/>",
@@ -816,7 +865,7 @@
                     }
                 },
                 </sec:authorize>
-                <sec:authorize access="hasAnyAuthority('R_INCOTERM_STEP')">
+                <sec:authorize access="hasAuthority('R_INCOTERM_STEP')">
                 {isSeparator: true},
                 {
                     title: "<spring:message code='entity.incoterm-step'/>",
@@ -825,7 +874,7 @@
                     }
                 },
                 </sec:authorize>
-                <sec:authorize access="hasAnyAuthority('R_INCOTERM_RULE')">
+                <sec:authorize access="hasAuthority('R_INCOTERM_RULE')">
                 {isSeparator: true},
                 {
                     title: "<spring:message code='entity.incoterm-rule'/>",
@@ -834,7 +883,16 @@
                     }
                 },
                 </sec:authorize>
-                <sec:authorize access="hasAnyAuthority('R_INCOTERM_PARTY')">
+                <sec:authorize access="hasAuthority('R_INCOTERM_FORM')">
+                {isSeparator: true},
+                {
+                    title: "<spring:message code='entity.incoterm-form'/>",
+                    click: function () {
+                        createTab("<spring:message code='entity.incoterm-form'/>", "<spring:url value="/incoterm-form/show-form" />")
+                    }
+                },
+                </sec:authorize>
+                <sec:authorize access="hasAuthority('R_INCOTERM_PARTY')">
                 {isSeparator: true},
                 {
                     title: "<spring:message code='entity.incoterm-party'/>",
@@ -843,7 +901,7 @@
                     }
                 },
                 </sec:authorize>
-                <sec:authorize access="hasAnyAuthority('R_TERM')">
+                <sec:authorize access="hasAuthority('R_TERM')">
                 {isSeparator: true},
                 {
                     title: "<spring:message code='entity.term'/>",
@@ -916,13 +974,13 @@
                     }
 
                 },
-                /*{isSeparator: true},
+                {isSeparator: true},
                 {
                     title: "<spring:message code='molybdenum.title'/>",
                     click: function () {
                         createTab("<spring:message code='molybdenum.title'/>", "<spring:url value="/warehouseLot/showForm" />")
                     }
-                },*/
+                },
                 {isSeparator: true},
                 {
                     title: "<spring:message code='bijack'/>",
@@ -1230,6 +1288,22 @@
         }
     });
 
+    function enContract() {
+        var url_string = window.location.href;
+                                var url = new URL(url_string);
+                                var lang = url.searchParams.get("lang");
+
+                                if (lang == "fa" || lang == null) {
+                                    isc.Dialog.create({
+                                        message: "بهتر است از این تب در فرمت انگلیسی استفاده کنید",
+                                        icon: "[SKIN]ask.png",
+                                        title: "<spring:message code='global.message'/>",
+                                        buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
+                                        buttonClick: function () {
+                                            this.hide();
+                                        }
+                                    });
+    }}
 </script>
 </body>
 </html>

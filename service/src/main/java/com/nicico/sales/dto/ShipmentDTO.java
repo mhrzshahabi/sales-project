@@ -1,5 +1,6 @@
 package com.nicico.sales.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -7,6 +8,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
@@ -31,7 +34,10 @@ public class ShipmentDTO {
     private String description;
     private String status;
     private String month;
-    private String createDate;
+    //@Pattern(regexp = "([12]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[12]\\d|3[01]))")
+   // @Temporal(TemporalType.TIMESTAMP)
+    @JsonFormat(pattern="yyyy/MM/dd")
+    private Date createDate;
     private String fileName;
     private String newFileName;
     private String shipmentType;
@@ -44,8 +50,12 @@ public class ShipmentDTO {
     private String noBarrel;
     private String loadingLetter;
     private String blNumbers;
-    private String blDate;
-    private String swBlDate;
+    @Temporal(TemporalType.TIMESTAMP)
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date blDate;
+    @Temporal(TemporalType.TIMESTAMP)
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date swBlDate;
     private String consignee;
     private Long contactByAgentId;
     private Double freight;

@@ -230,7 +230,7 @@
                     name: "beam",
                     title: "<spring:message code='port.beam'/>",
                     width: 450,
-                    colSpan: 1,
+                    colSpan: 1, keyPressFilter: "[0-9.]" ,
                     titleColSpan: 1,
                     wrapTitle: false,
                     length: "100"

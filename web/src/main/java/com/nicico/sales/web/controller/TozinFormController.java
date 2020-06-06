@@ -1,6 +1,7 @@
 package com.nicico.sales.web.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nicico.copper.common.Loggable;
 import com.nicico.copper.common.domain.ConstantVARs;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.core.util.report.ReportUtil;
@@ -12,13 +13,11 @@ import com.nicico.sales.utility.SpecListUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.jasperreports.engine.data.JsonDataSource;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
@@ -39,12 +38,7 @@ public class TozinFormController {
     private final ObjectMapper objectMapper;
     private final SpecListUtil specListUtil;
     private final ITozinService iTozinService;
-
-
-    @Autowired
     private final MakeExcelOutputUtil makeExcelOutputUtil;
-
-    @Autowired
     private ReportUtil reportUtil;
 
     @RequestMapping("/showOnWayProductForm")
@@ -67,6 +61,7 @@ public class TozinFormController {
         return "product/warehouseConc_OnWayProduct";
     }
 
+    @Loggable
     @RequestMapping("/print")
     public void ExportToExcel(@RequestParam MultiValueMap<String, String> criteria, HttpServletResponse response) throws Exception {
         List<Object> resp = new ArrayList<>();
@@ -80,14 +75,15 @@ public class TozinFormController {
         makeExcelOutputUtil.makeExcelResponse(bytes, response);
     }
 
+    @Loggable
     @RequestMapping("/report")
     public void ExportThinOnWay(@RequestParam MultiValueMap<String, String> params, HttpServletResponse response) throws Exception {
         Map<String, Object> parameters = new HashMap<>(params);
-        parameters.put("dateaval" ,params.get("dateaval").get(0) );
-        parameters.put("datedovom" , params.get("datedovom").get(0));
-        parameters.put("kala" , params.get("kala").get(0));
-        parameters.put("tolid" , params.get("tolid").get(0));
-        parameters.put("haml" , params.get("haml").get(0));
+        parameters.put("dateaval", params.get("dateaval").get(0));
+        parameters.put("datedovom", params.get("datedovom").get(0));
+        parameters.put("kala", params.get("kala").get(0));
+        parameters.put("tolid", params.get("tolid").get(0));
+        parameters.put("haml", params.get("haml").get(0));
         parameters.put(ConstantVARs.REPORT_TYPE, params.get("type").get(0));
         NICICOCriteria provideNICICOCriteria = specListUtil.provideNICICOCriteria(params, TozinDTO.Info.class);
         List<TozinDTO.Info> data = iTozinService.searchTozin(provideNICICOCriteria).getResponse().getData();

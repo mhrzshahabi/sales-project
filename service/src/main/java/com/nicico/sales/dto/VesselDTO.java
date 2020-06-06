@@ -19,7 +19,7 @@ public class VesselDTO {
 
     private String name;
     private String type;
-    private Long imo;
+    private String imo;
     private Long yearOfBuild;
     private Double length;
     private Double beam;

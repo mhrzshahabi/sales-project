@@ -59,7 +59,6 @@ namespace nicico {
 
                 listGridProperties.initialCriteria = criteria;
 
-                listGridProperties.sortField = 0;
                 listGridProperties.dataPageSize = 50;
                 listGridProperties.fetchDelay = 1000;
                 listGridProperties.autoFetchData = true;
@@ -261,10 +260,35 @@ namespace nicico {
                         isc.VLayout.create({
 
                             width: "100%",
-                            height: "100%",
+                            height: height,
                             members: items
                         })
                     ]
+                });
+            };
+            // @ts-ignore
+            isc.Window.nicico.getDefault2 = function (title: string, layout: isc.Canvas, width: string = null, height: string = null, id?: string): isc.Window {
+
+                return isc.Window.create({
+
+                    ID: id,
+                    width: width == null ? "70%" : width,
+                    height: height,
+                    title: title,
+                    items: [layout],
+                    align: "center",
+                    isModal: true,
+                    autoSize: true,
+                    autoDraw: false,
+                    autoCenter: true,
+                    showModalMask: true,
+                    dismissOnEscape: true,
+                    dismissOnOutsideClick: true,
+                    // @ts-ignore
+                    closeClick: function () {
+
+                        this.Super("closeClick", arguments)
+                    }
                 });
             };
 

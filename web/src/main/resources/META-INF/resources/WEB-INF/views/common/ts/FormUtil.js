@@ -32,6 +32,18 @@ var nicico;
                 ownerWindow.close();
             this.windowWidget.getObject().show();
         };
+        FormUtil.prototype.init = function (ownerWindow, title, canvas, width, height) {
+            if (width === void 0) { width = null; }
+            if (height === void 0) { height = null; }
+            this.owner = new nicico.ObjectHider(ownerWindow);
+            this.bodyWidget = new nicico.ObjectHider(canvas);
+            this.createWindow(title, this.getButtonLayout(), width, height);
+        };
+        FormUtil.prototype.justShowForm = function () {
+            if (this.owner.getObject() != null)
+                this.owner.getObject().close();
+            this.windowWidget.getObject().show();
+        };
         FormUtil.prototype.getButtonLayout = function () {
             var This = this;
             // @ts-ignore
@@ -75,19 +87,21 @@ var nicico;
             if (width === void 0) { width = null; }
             if (height === void 0) { height = null; }
             var This = this;
-            var vLayout = isc.VLayout.create({
-                width: "100%",
-                members: [
-                    This.bodyWidget.getObject(),
-                    buttonLayout
-                ]
-            });
+            width = width == null ? "50%" : width;
+            var items = [];
+            if (This.bodyWidget.getObject().constructor === Array)
+                // @ts-ignore
+                items.addAll(This.bodyWidget.getObject());
+            else
+                items.add(This.bodyWidget.getObject());
+            items.add(buttonLayout);
             // @ts-ignore
-            This.windowWidget = new nicico.ObjectHider(Object.assign(isc.Window.nicico.getDefault(title, [vLayout], width, height), {
+            This.windowWidget = new nicico.ObjectHider(Object.assign(isc.Window.nicico.getDefault(title, items, width, height), {
                 closeClick: function () {
                     this.Super("closeClick", arguments);
                     if (This.owner.getObject() != null)
                         This.owner.getObject().show();
+                    This.cancelCallBack();
                 }
             }));
         };

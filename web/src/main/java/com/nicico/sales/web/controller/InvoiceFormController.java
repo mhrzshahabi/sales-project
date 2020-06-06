@@ -1,5 +1,6 @@
 package com.nicico.sales.web.controller;
 
+import com.nicico.copper.common.Loggable;
 import com.nicico.copper.common.domain.ConstantVARs;
 import com.nicico.copper.core.util.report.ReportUtil;
 import com.nicico.sales.service.InvoiceService;
@@ -27,6 +28,7 @@ public class InvoiceFormController {
         return "shipment/invoice";
     }
 
+    @Loggable
     @RequestMapping("/print/{type}/{rowId}")
     public void printInvoice(HttpServletResponse response, @PathVariable String type, @PathVariable String rowId) throws Exception {
         Map<String, Object> params = new HashMap<>();

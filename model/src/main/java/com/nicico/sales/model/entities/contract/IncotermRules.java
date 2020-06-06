@@ -6,6 +6,7 @@ import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Getter
 @Setter
@@ -21,6 +22,10 @@ public class IncotermRules extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_CNTR_INCOTERM_RULES")
     @SequenceGenerator(name = "SEQ_CNTR_INCOTERM_RULES", sequenceName = "SEQ_CNTR_INCOTERM_RULES", allocationSize = 1)
     private Long id;
+
+    @NotNull
+    @Column(name = "N_ORDER", nullable = false)
+    private Byte order;
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
@@ -39,4 +44,7 @@ public class IncotermRules extends BaseEntity {
     @NotNull
     @Column(name = "F_INCOTERM_RULE_ID", nullable = false)
     private Long incotermRuleId;
+
+    @OneToMany(mappedBy = "incotermRules", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<IncotermForms> incotermForms;
 }

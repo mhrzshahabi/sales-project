@@ -986,7 +986,9 @@
       "code": "D_INCOTERM",
       "title": "حذف اینکوترم"
     },
-    
+
+
+
     {
       "code": "R_INCOTERM_ASPECT",
       "title": "نمایش نوع اینکوترم"
@@ -1003,6 +1005,44 @@
       "code": "D_INCOTERM_ASPECT",
       "title": "حذف نوع اینکوترم"
     },
+
+    {
+      "code": "R_TERM",
+      "title": "نمایش ترم"
+    },
+    {
+      "code": "C_TERM",
+      "title": "ایجاد ترم"
+    },
+    {
+      "code": "U_TERM",
+      "title": "به روز رسانی ترم"
+    },
+    {
+      "code": "D_TERM",
+      "title": "حذف ترم"
+    },
+
+
+
+    {
+      "code": "R_INCOTERM_PARTY",
+      "title": "نمایش طرف قرارداد در اینکوترم"
+    },
+    {
+      "code": "C_INCOTERM_PARTY",
+      "title": "ایجاد طرف قرارداد در اینکوترم"
+    },
+    {
+      "code": "U_INCOTERM_PARTY",
+      "title": "به روز رسانی طرف قرارداد در اینکوترم"
+    },
+    {
+      "code": "D_INCOTERM_PARTY",
+      "title": "حذف طرف قرارداد در اینکوترم"
+    },
+
+
     
     {
       "code": "R_INCOTERM_STEP",
@@ -1021,6 +1061,8 @@
       "title": "حذف گام اینکوترم"
     },
     
+
+    
     {
       "code": "R_INCOTERM_RULE",
       "title": "نمایش مد اینکوترم"
@@ -1037,40 +1079,10 @@
       "code": "D_INCOTERM_RULE",
       "title": "حذف مد اینکوترم"
     },
+    
 
-    {
-      "code": "R_INCOTERM_PARTY",
-      "title": "نمایش طرف قرارداد در اینکوترم"
-    },
-    {
-      "code": "C_INCOTERM_PARTY",
-      "title": "ایجاد طرف قرارداد در اینکوترم"
-    },
-    {
-      "code": "U_INCOTERM_PARTY",
-      "title": "به روز رسانی طرف قرارداد در اینکوترم"
-    },
-    {
-      "code": "D_INCOTERM_PARTY",
-      "title": "حذف طرف قرارداد در اینکوترم"
-    },
     
     {
-      "code": "R_TERM",
-      "title": "نمایش ترم"
-    },
-    {
-      "code": "C_TERM",
-      "title": "ایجاد ترم"
-    },
-    {
-      "code": "U_TERM",
-      "title": "به روز رسانی ترم"
-    },
-    {
-      "code": "D_TERM",
-      "title": "حذف ترم"
-    },{
       "code": "R_VESSEL",
       "title": "نمایش کشتی"
     },
