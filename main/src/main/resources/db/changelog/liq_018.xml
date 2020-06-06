@@ -144,5 +144,4 @@
                 tableName="TBL_CONTRACT_AUD"/>
 
     </changeSet>
-
 </databaseChangeLog>
