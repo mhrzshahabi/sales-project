@@ -36,14 +36,14 @@ public class ShipmentTypeDTO {
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("ShipmentTypeRq")
+    @ApiModel("ShipmentTypeCreateRq")
     public static class Create extends ShipmentTypeDTO {
     }
 
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("ShipmentTypeRq")
+    @ApiModel("ShipmentTypeUpdateRq")
     public static class Update extends ShipmentTypeDTO {
         @NotNull
         @ApiModelProperty(required = true)
@@ -53,7 +53,7 @@ public class ShipmentTypeDTO {
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("ShipmentTypeRq")
+    @ApiModel("ShipmentTypeDeleteRq")
     public static class Delete {
         @NotNull
         @ApiModelProperty(required = true)

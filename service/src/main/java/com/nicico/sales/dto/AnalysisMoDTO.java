@@ -1,15 +1,14 @@
 package com.nicico.sales.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
@@ -18,57 +17,67 @@ import java.util.List;
 @Setter
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ContractShipmentDTO {
+public class AnalysisMoDTO {
 
-    private Long loadPortId;
-    private Double quantity;
-    @Temporal(TemporalType.TIMESTAMP)
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date sendDate;
-    private Long tolorance;
-    private Long contractId;
+    private String lotName;
+
+    private Double mo;
+
+    private Double cu;
+
+    private Double si;
+
+    private Double pb;
+
+    private Double s;
+
+    private Double c;
+
+    private Double p;
 
 
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("ContractShipmentInfo")
-    public static class Info extends ContractShipmentDTO {
-        private Long id;
-
-        private PortDTO loadPort;
-        private Date createdDate;
+    @ApiModel("AnalysisMoInfo")
+    public static class Info extends AnalysisMoDTO {
+        private Long id ;
+        private Date createDate;
         private String createdBy;
         private Date lastModifiedDate;
         private String lastModifiedBy;
         private Integer version;
     }
 
-    @Getter
-    @Setter
-    @Accessors(chain = true)
-    @ApiModel("ContractShipmentCreateRq")
-    public static class Create extends ContractShipmentDTO {
-    }
 
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("ContractShipmentUpdateRq")
-    public static class Update extends ContractShipmentDTO {
-        @NotNull
+    @ApiModel("AnalysisMoCreateRq")
+    public static class Create extends AnalysisMoDTO {
+
+    }
+
+
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("AnalysisMoUpdateRq")
+    public static class Update extends AnalysisMoDTO {
+        @NonNull
         @ApiModelProperty(required = true)
         private Long id;
-        private Boolean deleted;
     }
+
 
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("ContractShipmentDeleteRq")
-    public static class Delete {
+    @ApiModel("AnalysisMoDeleteRq")
+    public static class Delete{
         @NotNull
         @ApiModelProperty(required = true)
         private List<Long> ids;
     }
+
 }

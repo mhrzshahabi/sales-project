@@ -706,6 +706,13 @@
 
 
 
+                {
+                    title: "<spring:message code='typical.analysis.mo'/>",
+                    click: function () {
+                        createTab("<spring:message code='typical.analysis.mo'/>", "<spring:url value="/analysisMo/showForm" />")
+                    }
+                },
+                {isSeparator: true},
 
 
                 <%--{--%>
@@ -763,26 +770,36 @@
             data: [
                 {
                     title: "<spring:message code='salesContract.title'/>",
-                    click: function () {
-                        var url_string = window.location.href;
-                        var url = new URL(url_string);
-                        var lang = url.searchParams.get("lang");
+                    submenu: [
+                        {
+                            title: "<spring:message code='salesContractAll.title'/>",
+                            click: function () {
+                               enContract();
+                               createTab("<spring:message code='salesContract.title'/>", "<spring:url value="/contract/showForm" />")
+                            }
+                        },{
+                            title: "<spring:message code='salesContractMoButton.title'/>",
+                            click: function () {
+                               enContract();
+                               createTab("<spring:message code='salesContractMoButton.title'/>", "<spring:url value="/contact/contactMolybdenum"/>")
+                            }
+                        }, {
+                            title: "<spring:message code='salesContractConcButton.title'/>",
+                            click: function () {
+                               enContract();
+                               createTab("<spring:message code='main.contractsConcTab'/>", "<spring:url value="/contact/concMain"/>")
+                            }
+                        },
+                        {isSeparator: true},
+                        {
+                            title: "<spring:message code='salesContractCADButton.title'/>",
+                            click: function () {
+                                enContract();
+                                createTab("<spring:message code='main.contractsCadTab'/>", "<spring:url value="/contact/cadMain"/>")
+                            }
+                        },
 
-                        if (lang == "fa" || lang == null) {
-                            isc.Dialog.create({
-                                message: "بهتر است از این تب در فرمت انگلیسی استفاده کنید",
-                                icon: "[SKIN]ask.png",
-                                title: "<spring:message code='global.message'/>",
-                                buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
-                                buttonClick: function () {
-                                    this.hide();
-                                }
-                            });
-                            createTab("<spring:message code='salesContract.title'/>", "<spring:url value="/contract/showForm" />")
-                        } else {
-                            createTab("<spring:message code='salesContract.title'/>", "<spring:url value="/contract/showForm" />")
-                        }
-                    }
+                    ]
                 },
                 {isSeparator: true},
                 {
@@ -947,13 +964,13 @@
                     }
 
                 },
-                /*{isSeparator: true},
+                {isSeparator: true},
                 {
                     title: "<spring:message code='molybdenum.title'/>",
                     click: function () {
                         createTab("<spring:message code='molybdenum.title'/>", "<spring:url value="/warehouseLot/showForm" />")
                     }
-                },*/
+                },
                 {isSeparator: true},
                 {
                     title: "<spring:message code='bijack'/>",
@@ -1251,6 +1268,22 @@
         }
     });
 
+    function enContract() {
+        var url_string = window.location.href;
+                                var url = new URL(url_string);
+                                var lang = url.searchParams.get("lang");
+
+                                if (lang == "fa" || lang == null) {
+                                    isc.Dialog.create({
+                                        message: "بهتر است از این تب در فرمت انگلیسی استفاده کنید",
+                                        icon: "[SKIN]ask.png",
+                                        title: "<spring:message code='global.message'/>",
+                                        buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
+                                        buttonClick: function () {
+                                            this.hide();
+                                        }
+                                    });
+    }}
 </script>
 </body>
 </html>
