@@ -705,7 +705,6 @@
 
 
 
-
                 {
                     title: "<spring:message code='typical.analysis.mo'/>",
                     click: function () {
@@ -713,6 +712,17 @@
                     }
                 },
                 {isSeparator: true},
+
+
+
+                {
+                    title: "<spring:message code='Invoice.Type'/>",
+                    click: function () {
+                        createTab("<spring:message code='Invoice.Type'/>", "<spring:url value="/invoiceType/showForm" />")
+                    }
+                },
+                {isSeparator: true},
+
 
 
                 <%--{--%>
