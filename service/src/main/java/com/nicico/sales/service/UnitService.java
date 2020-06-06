@@ -94,4 +94,11 @@ public class UnitService implements IUnitService {
         final Unit saved = unitDAO.saveAndFlush(unit);
         return modelMapper.map(saved, UnitDTO.Info.class);
     }
+
+    @Transactional
+    @Override
+    public void updateUnits() {
+        unitDAO.deleteAllByCreatedByIs("fromView");
+        unitDAO.updateUnitsFromTozinView();
+    }
 }
