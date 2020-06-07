@@ -26,6 +26,7 @@
     <script src="<spring:url value='/static/script/js/moment.js'/>"></script>
     <script src="<spring:url value='/static/script/js/jquery.min.js' />"></script>
     <script src="<spring:url value='/static/script/js/persian-date.min.js' />"></script>
+    <script src="<spring:url value='/static/script/enumJson/unitEnum.js' />"></script>
 
     <script>var isomorphicDir = "isomorphic/";</script>
     <script src=isomorphic/system/modules/ISC_Core.js></script>
