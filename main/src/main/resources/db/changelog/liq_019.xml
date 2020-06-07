@@ -100,7 +100,13 @@
             <column name="C" type="FLOAT(24)">0.01</column>
             <column name="P" type="FLOAT(24)">0.03</column>
         </insert>
+
+
     </changeSet>
 
-
+    <changeSet author="programmer (generated)" id="9778899665544-027">
+        <addColumn tableName="TBL_UNIT">
+            <column name="CATEGORY_VALUE" type="NUMBER(10, 0)"/>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>
