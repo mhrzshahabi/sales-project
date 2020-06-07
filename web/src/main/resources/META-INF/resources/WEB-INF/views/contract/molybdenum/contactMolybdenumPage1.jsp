@@ -712,6 +712,7 @@ var RestDataSource_ContractIncoterms_InMol = isc.MyRestDataSource.create({
                         ID:"VLayout_MoOx_Grid",
                         width: "100%",
                         height: "100%",
+                        overflow: "scroll",
                         members: [
                         HLayout_Actions_ContactMo,
                         ListGrid_contractMo
