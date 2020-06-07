@@ -5,21 +5,6 @@
 //<script>
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
 
-    var RestDataSource_Contract = isc.MyRestDataSource.create({
-        fields:
-            [
-                {name: "id", title: "id", primaryKey: true, hidden: true},
-                {name: "contractNo", title: "<spring:message code='contract.contractNo'/>"},
-                {name: "contractDate", title: "<spring:message code='contract.contractDate'/>"},
-                {name: "contactId", title: "<spring:message code='contact.name'/> "},
-                {name: "contact.nameFA", title: "<spring:message code='contact.name'/> "},
-                {name: "incotermsId", title: "<spring:message code='incoterms.name'/>"},
-                {name: "incoterms.code", title: "<spring:message code='incoterms.name'/>"},
-                {name: "amount", title: "<spring:message code='global.amount'/>"},
-                {name: "material.descl", title: "materialId"}
-            ],
-        fetchDataURL: "${contextPath}/api/contract/spec-list"
-    });
     var criteriaContractItemShipment;
     var methodHtpp="";
     var recordContractNo;
@@ -56,9 +41,9 @@
                 {name: "contractStart", title: "<spring:message code='contract.contractStart'/>"},
                 {name: "contractEnd", title: "<spring:message code='contract.contractEnd'/>"}
             ],
-        // ######@@@@###&&@@###
         fetchDataURL: "${contextPath}/api/contract/spec-list"
     });
+
     var RestDataSource_Parameters = isc.MyRestDataSource.create({
         fields:
             [
