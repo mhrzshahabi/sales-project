@@ -9,7 +9,7 @@ InvoiceTypeTab.dynamicForm.fields = [{
     width: "10%",
     name: "title",
     type: 'text',
-    title: "<spring:message code='global.title'/>"
+    title: "<spring:message code='Invoice.Type'/>"
 }];
 Object.assign(InvoiceTypeTab.listGrid.fields, InvoiceTypeTab.dynamicForm.fields);
 nicico.BasicFormUtil.getDefaultBasicForm(InvoiceTypeTab, "api/invoicetype");
