@@ -609,14 +609,14 @@ onWayProduct_searchBtn
 var ToolStrip_Actions_Tozin = isc.ToolStrip.create({
 width: "100%",
 membersMargin: 10,
-        align: "center",
-        members: [
-            DynamicForm_DailyReport_OnWayProduct,
-            DynamicForm_DailyReport_Tozin1,
-            DynamicForm_DailyReport_Tozin2,
-            DynamicForm_DailyReport_Tozin3,
-            DynamicForm_DailyReport_Tozin4,
-            HLayout_onWayProduct_searchBtn,
+align: "center",
+members: [
+DynamicForm_DailyReport_OnWayProduct,
+DynamicForm_DailyReport_Tozin1,
+DynamicForm_DailyReport_Tozin2,
+DynamicForm_DailyReport_Tozin3,
+DynamicForm_DailyReport_Tozin4,
+HLayout_onWayProduct_searchBtn,
             isc.ToolStrip.create({
                 width: "100%",
                 align: "left",
@@ -626,25 +626,26 @@ membersMargin: 10,
                 ]
             })
 
-        ]
-    });
+]
+});
 
-    var HLayout_Tozin_Actions = isc.HLayout.create({
-        width: "100%",
-        overflow: "auto",
-        height: 56,
-        members:
-            [
-                ToolStrip_Actions_Tozin
-            ]
-    });
+var HLayout_Tozin_Actions = isc.HLayout.create({
+width: "100%",
+overflow: "auto",
+height: 56,
+members:
+[
+ToolStrip_Actions_Tozin,
 
-    var RestDataSource_TozinInitialCriteria = {
-        _constructor: "AdvancedCriteria",
-        operator: "and",
-        criteria: [
-            {
-                fieldName: "tozinDate",
+]
+});
+
+var RestDataSource_TozinInitialCriteria = {
+_constructor: "AdvancedCriteria",
+operator: "and",
+criteria: [
+{
+fieldName: "tozinDate",
                 operator: "greaterOrEqual",
                 value: DynamicForm_DailyReport_OnWayProduct.getValues().fromDay
             },
@@ -770,17 +771,24 @@ width: "10%"
     });
 
     var VLayout_Tozin_Grid = isc.VLayout.create({
-        width: "100%",
-        height: "100%",
-        members: [
-            ListGrid_Tozin_IN_ONWAYPRODUCT
-        ]
-    });
-    isc.VLayout.create({
-        width: "100%",
-        height: "100%",
-        members: [
-            HLayout_Tozin_Actions, VLayout_Tozin_Grid
-        ]
+width: "100%",
+height: "100%",
+members: [
+ListGrid_Tozin_IN_ONWAYPRODUCT
+]
 });
+isc.VLayout.create({
+width: "100%",
+height: "100%",
+members: [
+HLayout_Tozin_Actions,
+isc.FilterBuilder.create({
+dataSource: RestDataSource_Tozin_IN_ONWAYPRODUCT,
+showModeSwitcher:false,
+topOperatorForm:'bracket'
+})
+,VLayout_Tozin_Grid
+]
+});
+//</script>
 //</script>
