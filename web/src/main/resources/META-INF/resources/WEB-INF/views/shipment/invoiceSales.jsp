@@ -1584,9 +1584,10 @@
 
 
     function ToolStripButton_InvoiceSales_Pdf_F() {
-           const rec_id = ListGrid_invoiceSales.getSelectedRecord();
-           const rec_da =  ListGrid_InvoiceSalesItem.getSelectedRecord();
-        if (rec_id !=null && rec_da!=null ) {
+        ListGrid_InvoiceSalesItem.selectAllRecords();
+        var itemsLength = ListGrid_InvoiceSalesItem.getSelectionLength();
+        ListGrid_InvoiceSalesItem.deselectAllRecords();
+        if (itemsLength > 0 ) {
             var rowId = ListGrid_invoiceSales.getSelectedRecord().id;
             window.open("invoiceSales/print/pdf/" + rowId);
         } else {
@@ -1594,14 +1595,13 @@
         }
     }
 
-var ToolStripButton_InvoiceSales_Pdf = isc.ToolStripButtonPrint.create({
+    var ToolStripButton_InvoiceSales_Pdf = isc.ToolStripButtonPrint.create({
         title: "<spring:message code='invoiceSales.report.jasper.pdf'/>",
         icon: "icon/pdf.png",
         click: function () {
-        ToolStripButton_InvoiceSales_Pdf_F();
+            ToolStripButton_InvoiceSales_Pdf_F();
         }
     });
-
 
     var ToolStrip_Actions_InvoiceSalesItem = isc.ToolStrip.create({
         width: "100%",
