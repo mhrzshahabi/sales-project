@@ -1,5 +1,6 @@
 package com.nicico.sales.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -7,6 +8,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
@@ -17,17 +20,13 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ContractShipmentDTO {
 
-
-//    private String plan;
-//    private Long shipmentRow;
-    private Long dischargeId;
-//    private String address;
+    private Long loadPortId;
     private Double quantity;
-    private String sendDate;
-//    private Long duration;
+    @Temporal(TemporalType.TIMESTAMP)
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date sendDate;
     private Long tolorance;
     private Long contractId;
-//    private Long incotermsShipmentId;
 
 
     @Getter
@@ -37,7 +36,7 @@ public class ContractShipmentDTO {
     public static class Info extends ContractShipmentDTO {
         private Long id;
 
-        private PortDTO discharge;
+        private PortDTO loadPort;
         private Date createdDate;
         private String createdBy;
         private Date lastModifiedDate;

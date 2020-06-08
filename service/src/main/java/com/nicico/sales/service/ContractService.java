@@ -263,15 +263,10 @@ public class ContractService implements IContractService {
                 tableShipment.getRow(0).getCell(7).setColor("D9D9D9");
                 tableShipment.getRow(0).getCell(8).setColor("D9D9D9");
                 for (int i = 0; i < contractShipmentDAO.findByContractId(Long.valueOf(contractId)).size(); i++) {
-//                    setHeaderRowforSingleCell(tableShipment.getRow(i + 1).getCell(0), nvl(contractShipmentDAO.findByContractId(Long.valueOf(contractId)).get(i).getPlan()));
-//                    setHeaderRowforSingleCell(tableShipment.getRow(i + 1).getCell(1), nvl(contractShipmentDAO.findByContractId(Long.valueOf(contractId)).get(i).getShipmentRow() + ""));
-                    setHeaderRowforSingleCell(tableShipment.getRow(i + 1).getCell(2), nvl(portDAO.findById(Long.valueOf(contractShipmentDAO.findByContractId(Long.valueOf(contractId)).get(i).getDischargeId())).get().getPort()));
-//                    setHeaderRowforSingleCell(tableShipment.getRow(i + 1).getCell(3), nvl(contractShipmentDAO.findByContractId(Long.valueOf(contractId)).get(i).getAddress() + ""));
+                    setHeaderRowforSingleCell(tableShipment.getRow(i + 1).getCell(2), nvl(portDAO.findById(Long.valueOf(contractShipmentDAO.findByContractId(Long.valueOf(contractId)).get(i).getLoadPortId())).get().getPort()));
                     setHeaderRowforSingleCell(tableShipment.getRow(i + 1).getCell(4), nvl(contractShipmentDAO.findByContractId(Long.valueOf(contractId)).get(i).getQuantity() + ""));
                     setHeaderRowforSingleCell(tableShipment.getRow(i + 1).getCell(5), nvl(contractShipmentDAO.findByContractId(Long.valueOf(contractId)).get(i).getSendDate() + ""));
-//                    setHeaderRowforSingleCell(tableShipment.getRow(i + 1).getCell(6), nvl(contractShipmentDAO.findByContractId(Long.valueOf(contractId)).get(i).getDuration() + ""));
                     setHeaderRowforSingleCell(tableShipment.getRow(i + 1).getCell(7), nvl(contractShipmentDAO.findByContractId(Long.valueOf(contractId)).get(i).getTolorance() + ""));
-//                    setHeaderRowforSingleCell(tableShipment.getRow(i + 1).getCell(8), nvl(incotermsDAO.findById(contractShipmentDAO.findByContractId(Long.valueOf(contractId)).get(i).getIncotermsShipmentId()).get().getCode() + ""));
                 }
             } else {
                 myXWPFHtmlDocument = createHtmlDoc(printdoc, key);
@@ -311,8 +306,8 @@ public class ContractService implements IContractService {
         run.setText(dataALLArticle);
         doc.write(os);
         printdoc.write(printOs);
-//        Process process = Runtime.getRuntime().exec("doc2pdf /contract/"+ prefixPrintContractWrite + ContractWrite + "_" + maxRef + ".docx");
-//        log.info(String.valueOf(process.waitFor()));
+        Process process = Runtime.getRuntime().exec("doc2pdf " + UPLOAD_FILE_DIR + "/contract/" + prefixPrintContractWrite + ContractWrite + "_" + maxRef + ".docx");
+        log.info(String.valueOf(process.waitFor()));
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)

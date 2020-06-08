@@ -31,6 +31,9 @@ public class Unit extends Auditable {
     @Column(name = "c_SYMBOL")
     private String symbol;
 
+    @Column(name = "CATEGORY_VALUE", nullable = false)
+    private Integer categoryValue;
+
     @Column(name = "n_DECIMAL_DIGITS")
     private Long decimalDigit;
 

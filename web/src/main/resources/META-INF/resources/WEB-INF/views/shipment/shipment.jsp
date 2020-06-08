@@ -412,7 +412,6 @@
                 name: "createDate",
                 title: "<spring:message code='shipment.bDate'/>",
                 ID: "createDateId",
-                type: 'text',
                 icons: [{
                 src: "pieces/pcal.png",
                 click: function () {
@@ -421,6 +420,9 @@
                 }],
                 defaultValue: "1399/01/01",
                 required: true,
+                formatCellValue: (value) => {
+                    return new persianDate(value).format('YYYY/MM/DD')
+                },
                 validators: [
                 {
                     type:"required",
@@ -584,14 +586,6 @@
                     validateOnChange: true
                 }]
             },
-            <%--{--%>
-                <%--name: "bookingCat",--%>
-                <%--title: "<spring:message code='shipment.bookingCat'/>",--%>
-                <%--type: 'text',--%>
-                <%--width: "100%",--%>
-                <%--colSpan: 4,--%>
-                <%--showHover: true,--%>
-            <%--},--%>
             {
                 name: "gross", colSpan: 4,
                 title: "<spring:message code='shipment.gross'/>",
@@ -656,25 +650,6 @@
                     }],
                 hidden:true
             },
-            <%--{--%>
-                <%--name: "noBundle",--%>
-                <%--colSpan: 4,--%>
-                <%--title: "<spring:message code='shipment.noBundle'/>",--%>
-                <%--type: 'integer',--%>
-                <%--width: "100%",--%>
-                <%--required: true,--%>
-                <%--validators: [{--%>
-                    <%--type: "isInteger",--%>
-                    <%--validateOnExit: true,--%>
-                    <%--stopOnError: true,--%>
-                    <%--errorMessage: "<spring:message code='global.form.correctType'/>"--%>
-                    <%--},--%>
-                    <%--{--%>
-                    <%--type:"required",--%>
-                    <%--validateOnChange: true--%>
-                    <%--}],--%>
-                <%--defaultValue: 0--%>
-            <%--},--%>
             {
                 name: "noBarrel", colSpan: 4,
                 title: "<spring:message code='shipment.noBarrel'/>",
@@ -711,17 +686,6 @@
                     }],
                 hidden:true
             },
-            <%--{--%>
-                <%--name: "status",--%>
-                <%--colSpan: 4,--%>
-                <%--title: "<spring:message code='shipment.staus'/>",--%>
-                <%--type: 'text',--%>
-                <%--width: "100%",--%>
-                <%--valueMap: {--%>
-                    <%--"Load Ready": "<spring:message code='shipment.loadReady'/>",--%>
-                    <%--"Resource": "<spring:message code='shipment.resource'/>"--%>
-                <%--}--%>
-            <%--}--%>
         ]
     });
 
@@ -1104,7 +1068,7 @@
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
         click: function () {
-            DynamicForm_Shipment.validate();
+           /* DynamicForm_Shipment.validate();
             if (DynamicForm_Shipment.hasErrors()) {
                 shipmentTabs.selectTab(0);
                 return;
@@ -1118,17 +1082,7 @@
             if (DynamicForm_Shipment2.hasErrors()) {
                 shipmentTabs.selectTab(2);
                 return;
-            }
-            var drs = DynamicForm_Shipment.getValue("createDate");
-            var datestringRs = (drs.getFullYear() + "/" + ("0" + (drs.getMonth() + 1)).slice(-2) + "/" + ("0" + drs.getDate()).slice(-2));
-            DynamicForm_Shipment.setValue("createDate", DynamicForm_Shipment.getValues().createDate.toNormalDate("toUSShortDate"));
-            drs = DynamicForm_Shipment1.getValue("swBlDate");
-            datestringRs = (drs.getFullYear() + "/" + ("0" + (drs.getMonth() + 1)).slice(-2) + "/" + ("0" + drs.getDate()).slice(-2));
-            DynamicForm_Shipment1.setValue("swBlDate", datestringRs);
-            drs = DynamicForm_Shipment1.getValue("blDate");
-            datestringRs = (drs.getFullYear() + "/" + ("0" + (drs.getMonth() + 1)).slice(-2) + "/" + ("0" + drs.getDate()).slice(-2));
-            DynamicForm_Shipment1.setValue("blDate", datestringRs);
-
+            }*/
             DynamicForm_Shipment.setValue("numberOfBLs", DynamicForm_Shipment1.getValue("numberOfBLs"));
             DynamicForm_Shipment.setValue("blNumbers", DynamicForm_Shipment1.getValue("blNumbers"));
             DynamicForm_Shipment.setValue("blDate", DynamicForm_Shipment1.getValue("blDate"));
@@ -1153,10 +1107,8 @@
             DynamicForm_Shipment.setValue("demurrage", DynamicForm_Shipment2.getValue("demurrage"));
             DynamicForm_Shipment.setValue("detention", DynamicForm_Shipment2.getValue("detention"));
             var allDataShipment=DynamicForm_Shipment.getValues();
-            allDataShipment.createDate=DynamicForm_Shipment.getValues().createDate.toNormalDate("toUSShortDate");
-            allDataShipment.swBlDate=DynamicForm_Shipment.getValues().swBlDate.toNormalDate("toUSShortDate");
-            allDataShipment.blDate=DynamicForm_Shipment.getValues().blDate.toNormalDate("toUSShortDate");
-
+           // allDataShipment.createDate= new persianDate(DynamicForm_Shipment.getValues().createDate).format('YYYY/MM/DD');
+            allDataShipment.createDate= new Date(DynamicForm_Shipment.getValues().createDate);
             var dataShipment = Object.assign(allDataShipment);
             var methodXXXX = "PUT";
             if ((dataShipment.id == null) || (dataShipment.id == 'undefiend')) methodXXXX = "POST";
@@ -1363,8 +1315,7 @@
             DynamicForm_Shipment.editRecord(record);
             DynamicForm_Shipment1.editRecord(record);
             DynamicForm_Shipment2.editRecord(record);
-
-            DynamicForm_Shipment.setValue("createDate", new Date(record.createDate));
+            DynamicForm_Shipment.setValue("createDate", record.createDate);
             DynamicForm_Shipment1.setValue("swBlDate", new Date(record.swBlDate));
             DynamicForm_Shipment1.setValue("blDate", new Date(record.blDate));
             abal.hide();
@@ -1651,6 +1602,9 @@
                 width: "10%",
                 align: "center",
                 showHover: true,
+                formatCellValue: (value) => {
+                                    return new persianDate(value).format('YYYY/MM/DD')
+                 },
                 validators: [
                 {
                     type:"required",

@@ -1,0 +1,112 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+    <changeSet author="j.azad" id="9778899665544-024">
+        <createTable tableName="TBL_Analyse_Product_MO">
+            <column name="ID" type="NUMBER(19, 0)">
+                <constraints primaryKey="true" primaryKeyName="TBL_Analyse_Product_MO_PK"/>
+            </column>
+            <column name="C_CREATED_BY" type="VARCHAR2(255 CHAR)"/>
+            <column name="D_CREATED_DATE" type="TIMESTAMP(6)"/>
+            <column name="C_LAST_MODIFIED_BY" type="VARCHAR2(255 CHAR)"/>
+            <column name="D_LAST_MODIFIED_DATE" type="TIMESTAMP(6)"/>
+            <column name="N_VERSION" type="NUMBER(10, 0)"/>
+            <column name="LOT_NAME" type="VARCHAR2(20 CHAR)"/>
+            <column name="MO" type="FLOAT(24)"/>
+            <column name="CU" type="FLOAT(24)"/>
+            <column name="SI" type="FLOAT(24)"/>
+            <column name="PB" type="FLOAT(24)"/>
+            <column name="S" type="FLOAT(24)"/>
+            <column name="C" type="FLOAT(24)"/>
+            <column name="P" type="FLOAT(24)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="j.azad" id="9778899665544-025">
+        <createSequence sequenceName="SEQ_Analyse_Product_MO"/>
+    </changeSet>
+
+
+    <changeSet author="j.azad" id="9778899665544-026">
+
+        <insert tableName="TBL_Analyse_Product_MO">
+            <column name="ID" valueSequenceNext="SEQ_Analyse_Product_MO"/>
+            <column name="C_CREATED_BY" value="j.azad"/>
+            <column name="D_CREATED_DATE" value="19-APR-20 11.13.08.350000000 AM"/>
+            <column name="C_LAST_MODIFIED_BY" value="j.azad"/>
+            <column name="D_LAST_MODIFIED_DATE" value="19-APR-20 11.13.08.350000000 AM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="LOT_NAME" type="VARCHAR2(20 CHAR)">E-18</column>
+            <column name="MO" type="FLOAT(24)">62.15</column>
+            <column name="CU" type="FLOAT(24)">1.29</column>
+            <column name="SI" type="FLOAT(24)">0.92</column>
+            <column name="PB" type="FLOAT(24)">0.07</column>
+            <column name="S" type="FLOAT(24)">0.05</column>
+            <column name="C" type="FLOAT(24)">0.02</column>
+            <column name="P" type="FLOAT(24)">0.03</column>
+        </insert>
+
+
+        <insert tableName="TBL_Analyse_Product_MO">
+            <column name="ID" valueSequenceNext="SEQ_Analyse_Product_MO"/>
+            <column name="C_CREATED_BY" value="j.azad"/>
+            <column name="D_CREATED_DATE" value="19-APR-20 11.13.08.350000000 AM"/>
+            <column name="C_LAST_MODIFIED_BY" value="j.azad"/>
+            <column name="D_LAST_MODIFIED_DATE" value="19-APR-20 11.13.08.350000000 AM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="LOT_NAME" type="VARCHAR2(20 CHAR)">E-19</column>
+            <column name="MO" type="FLOAT(24)">62.02</column>
+            <column name="CU" type="FLOAT(24)">1.16</column>
+            <column name="SI" type="FLOAT(24)">0.85</column>
+            <column name="PB" type="FLOAT(24)">0.06</column>
+            <column name="S" type="FLOAT(24)">0.06</column>
+            <column name="C" type="FLOAT(24)">0.01</column>
+            <column name="P" type="FLOAT(24)">0.03</column>
+        </insert>
+
+
+        <insert tableName="TBL_Analyse_Product_MO">
+            <column name="ID" valueSequenceNext="SEQ_Analyse_Product_MO"/>
+            <column name="C_CREATED_BY" value="j.azad"/>
+            <column name="D_CREATED_DATE" value="19-APR-20 11.13.08.350000000 AM"/>
+            <column name="C_LAST_MODIFIED_BY" value="j.azad"/>
+            <column name="D_LAST_MODIFIED_DATE" value="19-APR-20 11.13.08.350000000 AM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="LOT_NAME" type="VARCHAR2(20 CHAR)">E-21</column>
+            <column name="MO" type="FLOAT(24)">61.90</column>
+            <column name="CU" type="FLOAT(24)">1.24</column>
+            <column name="SI" type="FLOAT(24)">0.83</column>
+            <column name="PB" type="FLOAT(24)">0.07</column>
+            <column name="S" type="FLOAT(24)">0.07</column>
+            <column name="C" type="FLOAT(24)">0.01</column>
+            <column name="P" type="FLOAT(24)">0.03</column>
+        </insert>
+
+        <insert tableName="TBL_Analyse_Product_MO">
+            <column name="ID" valueSequenceNext="SEQ_Analyse_Product_MO"/>
+            <column name="C_CREATED_BY" value="j.azad"/>
+            <column name="D_CREATED_DATE" value="19-APR-20 11.13.08.350000000 AM"/>
+            <column name="C_LAST_MODIFIED_BY" value="j.azad"/>
+            <column name="D_LAST_MODIFIED_DATE" value="19-APR-20 11.13.08.350000000 AM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="LOT_NAME" type="VARCHAR2(20 CHAR)">E-22</column>
+            <column name="MO" type="FLOAT(24)">61.84</column>
+            <column name="CU" type="FLOAT(24)">1.32</column>
+            <column name="SI" type="FLOAT(24)">0.83</column>
+            <column name="PB" type="FLOAT(24)">0.07</column>
+            <column name="S" type="FLOAT(24)">0.07</column>
+            <column name="C" type="FLOAT(24)">0.01</column>
+            <column name="P" type="FLOAT(24)">0.03</column>
+        </insert>
+
+
+    </changeSet>
+
+    <changeSet author="programmer (generated)" id="9778899665544-027">
+        <addColumn tableName="TBL_UNIT">
+            <column name="CATEGORY_VALUE" type="NUMBER(10, 0)"/>
+        </addColumn>
+    </changeSet>
+</databaseChangeLog>

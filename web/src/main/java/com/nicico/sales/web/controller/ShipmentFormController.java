@@ -219,7 +219,7 @@ public class ShipmentFormController {
                 replacePOI(doc, "unitNameFa", shipment.getMaterial().getUnit().getNameFA());
                 replacePOI(doc, "descp", shipment.getMaterial().getDescp());
                 replacePOI(doc, "month", shipment.getMonth());
-                replacePOI(doc, "year", shipment.getContractShipment().getSendDate().substring(0,4));
+                replacePOI(doc, "year", shipment.getContractShipment().getSendDate().toString());
                 replacePOI(doc, "contract_no", shipment.getContract().getContractNo());
                 replacePOI(doc, "agent", shipment.getContactByAgent().getNameFA());
 //                replacePOI(doc, "tolorance", "-/+" + shipment.getContractShipment().getTolorance().toString() + "%");

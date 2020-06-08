@@ -38,10 +38,12 @@
                 {name: "sideContractDate", ID: "sideContractDate"},
                 {name: "refinaryCost", ID: "refinaryCost"},
                 {name: "treatCost", ID: "treatCost"},
+                {name: "contractStart", title: "<spring:message code='contract.contractStart'/>"},
+                {name: "contractEnd", title: "<spring:message code='contract.contractEnd'/>"}
             ],
-        // ######@@@@###&&@@###
         fetchDataURL: "${contextPath}/api/contract/spec-list"
     });
+
     var RestDataSource_Parameters = isc.MyRestDataSource.create({
         fields:
             [
@@ -116,30 +118,20 @@
                 {name: "id", hidden: true, primaryKey: true, canEdit: false,},
                 {name: "contractItemId", type: "long", hidden: true},
                 {
-                    name: "shipmentRow",
-                    title: "<spring:message code='contractItem.itemRow'/> ",
+                    name: "loadPortId",
+                    title: "<spring:message code='shipment.loading'/>",
                     type: 'text',
                     required: true,
                     width: 400
                 },
                 {
-                    name: "dischargeId",
-                    title: "<spring:message code='port.port'/>",
-                    type: 'text',
-                    required: true,
-                    width: 400
-                },
-                {name: "discharge.port", title: "<spring:message code='port.port'/>", align: "center"},
-                {
-                    name: "address",
-                    title: "<spring:message code='global.address'/>",
-                    type: 'text',
-                    required: true,
-                    width: 400
+                    name: "loadPort.port",
+                    title: "<spring:message code='shipment.loading'/>",
+                    align: "center"
                 },
                 {
-                    name: "amount",
-                    title: "<spring:message code='global.amount'/>",
+                    name: "quantity",
+                    title: "<spring:message code='global.quantity'/>",
                     type: 'float',
                     required: true,
                     width: 400
@@ -147,10 +139,8 @@
                 {
                     name: "sendDate",
                     title: "<spring:message code='global.sendDate'/>",
-                    type: 'text',
                     width: 400,
                 },
-                {name: "duration", title: "<spring:message code='global.duration'/>", type: 'text', width: 400},
             ],
         fetchDataURL: "${contextPath}/api/contractShipment/spec-list"
     });
@@ -346,12 +336,13 @@ var ListGrid_Cad = isc.ListGrid.create({
                         valuesManagerArticle2Cad.setValue("unitId", record.unitId);
                         valuesManagerArticle2Cad.setValue("molybdenumTolorance", record.molybdenumTolorance);
                         valuesManagerArticle2Cad.setValue("optional", record.optional);
-                        valuesManagerArticle3_quality.setValue("plant", record.plant);
+                        valuesManagerArticle2Cad.setValue("contractStart", record.contractStart);
+                        valuesManagerArticle2Cad.setValue("contractEnd", record.contractEnd);
                         valuesManagerArticle4_quality.setValue("article4_quality1",record.mo_amount);
                         valuesManagerArticle4_quality.setValue("article4_quality2",record.copper);
                         valuesManagerArticle6_quality.setValue("incotermsId",record.incotermsId);
                         valuesManagerArticle6_quality.setValue("portByPortSourceId",record.portByPortSourceId);
-                        valuesManagerArticle6_quality.setValue("incotermsText",record.incotermsText);
+                        valuesManagerArticle6_quality.setValue("incotermVersion",record.incotermVersion);
                                 //*****************
                         contactCadHeaderCadAgent.setValue("name_ContactAgentSeller", data[0].name_ContactAgentSeller)
                         contactCadHeaderCadAgent.setValue("phone_ContactAgentSeller", data[0].phone_ContactAgentSeller)
@@ -637,7 +628,8 @@ function deleteFromContractShipment(id){
                                                                                 valuesManagerArticle2Cad.setValue("unitId", data[0].unitId);
                                                                                 valuesManagerArticle2Cad.setValue("molybdenumTolorance", data[0].molybdenumTolorance);
                                                                                 valuesManagerArticle2Cad.setValue("optional", data[0].optional);
-                                                                                valuesManagerArticle3_quality.setValue("plant", data[0].plant);
+                                                                                valuesManagerArticle2Cad.setValue("contractStart", data[0].contractStart);
+                                                                                valuesManagerArticle2Cad.setValue("contractEnd", data[0].contractEnd);
                                                                                 valuesManagerArticle4_quality.setValue("article4_quality1",data[0].article4_quality1);
                                                                                 valuesManagerArticle4_quality.setValue("article4_quality2",data[0].article4_quality2);
                                                                                 valuesManagerArticle6_quality.setValue("incotermsId",data[0].incotermsId);
@@ -775,9 +767,10 @@ isc.VStack.create({
         ID: "VLayout_ContractCad",
         width: "100%",
         height: "100%",
+        overflow: "scroll",
         members: [
             isc.HLayout.create({height: "4%",members: [ToolStrip_Actions_ContactCad]}),
-            isc.HLayout.create({height: "96%",members: [ListGrid_Cad]})
+            isc.HLayout.create({height: "100%",members: [ListGrid_Cad]})
         ]
     });
 

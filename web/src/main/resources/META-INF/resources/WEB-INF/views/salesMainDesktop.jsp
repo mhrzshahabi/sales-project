@@ -26,6 +26,7 @@
     <script src="<spring:url value='/static/script/js/moment.js'/>"></script>
     <script src="<spring:url value='/static/script/js/jquery.min.js' />"></script>
     <script src="<spring:url value='/static/script/js/persian-date.min.js' />"></script>
+    <script src="<spring:url value='/static/script/enumJson/unitEnum.js' />"></script>
 
     <script>var isomorphicDir = "isomorphic/";</script>
     <script src=isomorphic/system/modules/ISC_Core.js></script>
@@ -654,6 +655,19 @@
 
 
                 {
+                    title: "<spring:message code='typical.analysis'/>",
+                    submenu: [
+                        {
+                            title: "<spring:message code='typical.analysis.mo'/>",
+                            click: function () {
+                                createTab("<spring:message code='typical.analysis.mo'/>", "<spring:url value="/analysisMo/showForm" />")
+                            }
+                        },
+                    ]
+                },
+                {isSeparator: true},
+
+                {
                     title: "<spring:message code='country.title'/>",
                     click: function () {
                         createTab("<spring:message code='country.title'/>", "<spring:url value="/country/showForm" />")
@@ -662,21 +676,6 @@
                 {isSeparator: true},
 
 
-                <%--{--%>
-                <%--    title: "<spring:message code='parameters.title'/>",--%>
-                <%--    click: function () {--%>
-                <%--        createTab("<spring:message code='parameters.title'/>", "<spring:url value="/parameters/showForm" />")--%>
-                <%--    }--%>
-                <%--},--%>
-                {isSeparator: true},
-
-
-                <%--{--%>
-                    <%--title: "<spring:message code='dcc.title'/>",--%>
-                    <%--click: function () {--%>
-                        <%--createTab("<spring:message code='dcc.title'/>", "<spring:url value="/dccView/showForm" />")--%>
-                    <%--}--%>
-                <%--},--%>
 
                 {
                     title: "<spring:message code='shipment.type'/>",
@@ -695,10 +694,20 @@
                 {isSeparator: true},
 
 
+                <%--{--%>
+                <%--    title: "<spring:message code='instruction.title'/>",--%>
+                <%--    click: function () {--%>
+                <%--        createTab("<spring:message code='instruction.title'/>", "<spring:url value="/instruction/showForm" />")--%>
+                <%--    }--%>
+                <%--},--%>
+                <%--{isSeparator: true},--%>
+
+
+
                 {
-                    title: "<spring:message code='instruction.title'/>",
+                    title: "<spring:message code='Invoice.Type'/>",
                     click: function () {
-                        createTab("<spring:message code='instruction.title'/>", "<spring:url value="/instruction/showForm" />")
+                        createTab("<spring:message code='Invoice.Type'/>", "<spring:url value="/invoiceType/showForm" />")
                     }
                 },
                 {isSeparator: true},
@@ -706,15 +715,6 @@
 
 
 
-
-
-                <%--{--%>
-                <%--    showIf: "false",--%>
-                <%--    title: "<spring:message code='commercialIncoterms.title'/>",--%>
-                <%--    click: function () {--%>
-                <%--        createTab("<spring:message code='commercialIncoterms.title'/>", "<spring:url value="/incoterms/showForm" />")--%>
-                <%--    }--%>
-                <%--}--%>
 
             ]
 
@@ -763,26 +763,36 @@
             data: [
                 {
                     title: "<spring:message code='salesContract.title'/>",
-                    click: function () {
-                        var url_string = window.location.href;
-                        var url = new URL(url_string);
-                        var lang = url.searchParams.get("lang");
+                    submenu: [
+                        {
+                            title: "<spring:message code='salesContractAll.title'/>",
+                            click: function () {
+                               enContract();
+                               createTab("<spring:message code='salesContract.title'/>", "<spring:url value="/contract/showForm" />")
+                            }
+                        },{
+                            title: "<spring:message code='salesContractMoButton.title'/>",
+                            click: function () {
+                               enContract();
+                               createTab("<spring:message code='salesContractMoButton.title'/>", "<spring:url value="/contact/contactMolybdenum"/>")
+                            }
+                        }, {
+                            title: "<spring:message code='salesContractConcButton.title'/>",
+                            click: function () {
+                               enContract();
+                               createTab("<spring:message code='main.contractsConcTab'/>", "<spring:url value="/contact/concMain"/>")
+                            }
+                        },
+                        {isSeparator: true},
+                        {
+                            title: "<spring:message code='salesContractCADButton.title'/>",
+                            click: function () {
+                                enContract();
+                                createTab("<spring:message code='main.contractsCadTab'/>", "<spring:url value="/contact/cadMain"/>")
+                            }
+                        },
 
-                        if (lang == "fa" || lang == null) {
-                            isc.Dialog.create({
-                                message: "بهتر است از این تب در فرمت انگلیسی استفاده کنید",
-                                icon: "[SKIN]ask.png",
-                                title: "<spring:message code='global.message'/>",
-                                buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
-                                buttonClick: function () {
-                                    this.hide();
-                                }
-                            });
-                            createTab("<spring:message code='salesContract.title'/>", "<spring:url value="/contract/showForm" />")
-                        } else {
-                            createTab("<spring:message code='salesContract.title'/>", "<spring:url value="/contract/showForm" />")
-                        }
-                    }
+                    ]
                 },
                 {isSeparator: true},
                 {
@@ -946,13 +956,13 @@
                     }
 
                 },
-                /*{isSeparator: true},
+                {isSeparator: true},
                 {
                     title: "<spring:message code='molybdenum.title'/>",
                     click: function () {
                         createTab("<spring:message code='molybdenum.title'/>", "<spring:url value="/warehouseLot/showForm" />")
                     }
-                },*/
+                },
                 {isSeparator: true},
                 {
                     title: "<spring:message code='bijack'/>",
@@ -1260,6 +1270,22 @@
         }
     });
 
+    function enContract() {
+        var url_string = window.location.href;
+                                var url = new URL(url_string);
+                                var lang = url.searchParams.get("lang");
+
+                                if (lang == "fa" || lang == null) {
+                                    isc.Dialog.create({
+                                        message: "بهتر است از این تب در فرمت انگلیسی استفاده کنید",
+                                        icon: "[SKIN]ask.png",
+                                        title: "<spring:message code='global.message'/>",
+                                        buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
+                                        buttonClick: function () {
+                                            this.hide();
+                                        }
+                                    });
+    }}
 </script>
 </body>
 </html>
