@@ -1414,7 +1414,6 @@
                 {
                     name: "netAmount",
                     title: "<spring:message code='invoiceSalesItem.netAmount'/>",
-                    defaultValue: 0,
                     required: true,
                     length: "100",
                     validators: [{
@@ -1430,7 +1429,6 @@
                 {
                     name: "unitPrice",
                     title: "<spring:message code='invoiceSalesItem.unitPrice'/>",
-                    defaultValue: 0,
                     required: true,
                     length: "100",
                     validators: [{
@@ -1452,6 +1450,7 @@
                     name: "discount",
                     title: "<spring:message code='invoiceSalesItem.discount'/>",
                     defaultValue: 0,
+                    showIf: "false",
                     validators: [{
                         type: "isInteger",
                         validateOnChange: true,
@@ -1591,7 +1590,7 @@
             var rowId = ListGrid_invoiceSales.getSelectedRecord().id;
             window.open("invoiceSales/print/pdf/" + rowId);
         } else {
-            isc.say("<spring:message code='global.grid.record.not.selected'/>");
+            isc.say("<spring:message code='invoiceSales.report.record'/>");
         }
     }
 
