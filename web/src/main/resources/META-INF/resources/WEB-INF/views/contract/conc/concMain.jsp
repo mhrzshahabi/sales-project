@@ -760,9 +760,10 @@
         ID: "VLayout_ContractConc",
         width: "100%",
         height: "100%",
+        overflow: "scroll",
         members: [
             isc.HLayout.create({height: "4%", members: [ToolStrip_Actions_ContactConc]}),
-            isc.HLayout.create({height: "96%", members: [ListGrid_Conc]})
+            isc.HLayout.create({height: "100%", members: [ListGrid_Conc]})
         ]
     });
 
