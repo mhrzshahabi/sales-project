@@ -282,5 +282,4 @@
         <modifyDataType tableName="TBL_CONTRACT_AUD" columnName="CONTRACT_END" newDataType="TIMESTAMP(6)"/>
     </changeSet>
 
-
 </databaseChangeLog>
