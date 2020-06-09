@@ -9,13 +9,15 @@ isc.defineClass("componentUnit", isc.VStack).addProperties({
     typeUnitCategory: 0,
     numCols: 4,
     showTitle:true,
+    disabled:false,
+    form:null,
     initWidget: function () {
         this.Super("initWidget", arguments);
         let This = this;
-        isc.DynamicForm.create({
-            ID: "dynamicFormUnit",
+        var form = isc.DynamicForm.create({
             width: 500,
             numCols: This.numCols,
+            disabled:This.disabled,
             wrapItemTitles: false,
             fields: [
                 {
@@ -66,11 +68,10 @@ isc.defineClass("componentUnit", isc.VStack).addProperties({
                     },
                 }]
         });
-        this.addMember(dynamicFormUnit)
     },
     getValue: function () {
-        return dynamicFormUnit.getValues();
-    },
+        return form.getValues();
+    }
 });
 
 
@@ -79,7 +80,8 @@ isc.defineClass("componentUnit", isc.VStack).addProperties({
     titelFieldValue: "meghdarrrrr",
     typeUnitCategory: unitEnumSingel.Time,
     numCols:2,
-    showTitle:false
+    showTitle:true,
+    disabled:false
 })*/
 
 
