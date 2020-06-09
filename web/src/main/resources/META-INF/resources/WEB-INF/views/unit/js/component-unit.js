@@ -8,6 +8,7 @@ isc.defineClass("componentUnit", isc.VStack).addProperties({
     titelFieldValue: "",
     typeUnitCategory: 0,
     numCols: 4,
+    showTitle:true,
     initWidget: function () {
         this.Super("initWidget", arguments);
         let This = this;
@@ -35,6 +36,7 @@ isc.defineClass("componentUnit", isc.VStack).addProperties({
                 }, {
                     type: 'long',
                     name: "unitId",
+                    showTitle: This.showTitle,
                     title: "<spring:message code='unit.title'/>",
                     width: "100%",
                     autoFetchData: false,
@@ -72,11 +74,13 @@ isc.defineClass("componentUnit", isc.VStack).addProperties({
 });
 
 
-/*
-var unitTest = isc.componentUnit.create({
+
+/*var unitTest = isc.componentUnit.create({
     titelFieldValue: "meghdarrrrr",
-    typeUnitCategory: unitEnumSingel.Unit
-})
-*/
+    typeUnitCategory: unitEnumSingel.Time,
+    numCols:2,
+    showTitle:false
+})*/
+
 
 
