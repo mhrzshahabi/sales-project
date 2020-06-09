@@ -137,7 +137,7 @@
                 width: 180
             },
             {
-                name: "contract.contractDate",
+                name: "contractDate.date",
                 title: "<spring:message code='contract.contractDate'/>",
                 type: 'text',
                 width: 180
@@ -233,7 +233,7 @@
                     validateOnChange: true
                 }]
             },
-            {name: "createDate", title: "<spring:message code='shipment.createDate'/>", type: 'text', width: "10%"},
+            {name: "createDate.date", title: "<spring:message code='shipment.createDate'/>", type: 'text', width: "10%"},
             {
                 name: "contactByAgent.nameFA",
                 title: "<spring:message code='shipment.agent'/>",
@@ -409,7 +409,7 @@
             },
             {name: "contractDate", hidden: true,},
             {
-                name: "createDate",
+                name: "createDate.date",
                 title: "<spring:message code='shipment.bDate'/>",
                 ID: "createDateId",
                 icons: [{
@@ -1108,7 +1108,7 @@
             DynamicForm_Shipment.setValue("detention", DynamicForm_Shipment2.getValue("detention"));
             var allDataShipment=DynamicForm_Shipment.getValues();
            // allDataShipment.createDate= new persianDate(DynamicForm_Shipment.getValues().createDate).format('YYYY/MM/DD');
-            allDataShipment.createDate= new Date(DynamicForm_Shipment.getValues().createDate);
+           //allDataShipment.createDate= new Date(DynamicForm_Shipment.getValues().createDate);
             var dataShipment = Object.assign(allDataShipment);
             var methodXXXX = "PUT";
             if ((dataShipment.id == null) || (dataShipment.id == 'undefiend')) methodXXXX = "POST";
@@ -1315,7 +1315,7 @@
             DynamicForm_Shipment.editRecord(record);
             DynamicForm_Shipment1.editRecord(record);
             DynamicForm_Shipment2.editRecord(record);
-            DynamicForm_Shipment.setValue("createDate", record.createDate);
+            DynamicForm_Shipment.setValue("createDate.date", record.createDate.date);
             DynamicForm_Shipment1.setValue("swBlDate", new Date(record.swBlDate));
             DynamicForm_Shipment1.setValue("blDate", new Date(record.blDate));
             abal.hide();
@@ -1595,7 +1595,7 @@
                 }
             },
             {
-                name: "createDate",
+                name: "createDate.date",
                 title: "<spring:message code='global.createDate'/>",
                 type: 'text',
                 required: true,
