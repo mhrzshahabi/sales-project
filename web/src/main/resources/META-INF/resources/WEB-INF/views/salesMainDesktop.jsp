@@ -976,6 +976,16 @@
                 },
                 {isSeparator: true},
                 {
+                    title: "<spring:message code='tozin.between.complex'/>",
+                    click: function () {
+                        createTab("<spring:message code='tozin.between.complex'/>",
+                            "<spring:url value="/tozin/between-complex-transfer" />")
+                    }
+
+                },
+                {isSeparator: true},
+
+                {
                     title: "<spring:message code='molybdenum.title'/>",
                     click: function () {
                         createTab("<spring:message code='molybdenum.title'/>", "<spring:url value="/warehouseLot/showForm" />")

@@ -7,15 +7,13 @@
     <% DateUtil dateUtil = new DateUtil();%>
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
 
-    function ListGrid_Tozin_IN_ONWAYPRODUCT_refresh() {
-        ListGrid_Tozin_IN_ONWAYPRODUCT.invalidateCache();
-    }
+function ListGrid_Tozin_IN_ONWAYPRODUCT_refresh() {ListGrid_Tozin_IN_ONWAYPRODUCT.invalidateCache();}
 
-    var RestDataSource_Tozin_IN_ONWAYPRODUCT = isc.MyRestDataSource.create({
-        fields: [
-            {
-                name: "source",
-                title: "<spring:message code='Tozin.source'/>",
+var RestDataSource_Tozin_IN_ONWAYPRODUCT = isc.MyRestDataSource.create({
+fields: [
+{
+name: "source",
+title: "<spring:message code='Tozin.source'/>",
                 align: "center"
             },
             {
@@ -617,14 +615,14 @@ DynamicForm_DailyReport_Tozin2,
 DynamicForm_DailyReport_Tozin3,
 DynamicForm_DailyReport_Tozin4,
 HLayout_onWayProduct_searchBtn,
-            isc.ToolStrip.create({
-                width: "100%",
-                align: "left",
-                border: '0px',
-                members: [
-                    ToolStripButton_Tozin_Refresh, ToolStripButton_Tozin_Report, Jasper_Pdf
-                ]
-            })
+isc.ToolStrip.create({
+width: "100%",
+align: "left",
+border: '0px',
+members: [
+ToolStripButton_Tozin_Refresh, ToolStripButton_Tozin_Report, Jasper_Pdf
+]
+})
 
 ]
 });
@@ -635,8 +633,7 @@ overflow: "auto",
 height: 56,
 members:
 [
-ToolStrip_Actions_Tozin,
-
+ToolStrip_Actions_Tozin
 ]
 });
 
@@ -646,16 +643,16 @@ operator: "and",
 criteria: [
 {
 fieldName: "tozinDate",
-                operator: "greaterOrEqual",
-                value: DynamicForm_DailyReport_OnWayProduct.getValues().fromDay
-            },
-            {
-                fieldName: "tozinDate",
-                operator: "lessOrEqual",
-                value: DynamicForm_DailyReport_Tozin1.getValues().toDay
-            },
-            {
-                fieldName: "codeKala",
+operator: "greaterOrEqual",
+value: DynamicForm_DailyReport_OnWayProduct.getValues().fromDay
+},
+{
+fieldName: "tozinDate",
+operator: "lessOrEqual",
+value: DynamicForm_DailyReport_Tozin1.getValues().toDay
+},
+{
+fieldName: "codeKala",
                 operator: "equals",
                 value: DynamicForm_DailyReport_Tozin2.getValues().materialId
             },
@@ -766,11 +763,11 @@ width: "10%"
                 showHover: true,
                 width: "10%",
                 title: "<spring:message code='Tozin.tozinDate'/>"
-            }
-        ]
-    });
+}
+]
+});
 
-    var VLayout_Tozin_Grid = isc.VLayout.create({
+var VLayout_Tozin_Grid = isc.VLayout.create({
 width: "100%",
 height: "100%",
 members: [
@@ -781,13 +778,7 @@ isc.VLayout.create({
 width: "100%",
 height: "100%",
 members: [
-HLayout_Tozin_Actions,
-isc.FilterBuilder.create({
-dataSource: RestDataSource_Tozin_IN_ONWAYPRODUCT,
-showModeSwitcher:false,
-topOperatorForm:'bracket'
-})
-,VLayout_Tozin_Grid
+HLayout_Tozin_Actions, VLayout_Tozin_Grid
 ]
 });
 //</script>
