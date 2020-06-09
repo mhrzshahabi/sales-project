@@ -29,6 +29,7 @@ public class ContractDetail2 extends BaseEntity {
     private Long id;
 
     @Column(name = "C_CONTENT", columnDefinition = "TEXT")
+    @Lob
     private String content;
 
     @NotAudited

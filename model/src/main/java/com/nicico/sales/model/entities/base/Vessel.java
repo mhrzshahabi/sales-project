@@ -1,6 +1,7 @@
 package com.nicico.sales.model.entities.base;
 
 import com.nicico.sales.model.entities.common.BaseEntity;
+import io.swagger.models.auth.In;
 import lombok.*;
 import lombok.experimental.Accessors;
 
@@ -29,10 +30,10 @@ public class Vessel extends BaseEntity {
     private String type;
 
     @Column(name = "IMO")
-    private String imo;
+    private Integer imo;
 
     @Column(name = "YEAR_OF_BUILd")
-    private String yearOfBuild;
+    private Integer yearOfBuild;
 
     @Column(name = "LENGTH")
     private Double length;
