@@ -11,7 +11,11 @@
         {name: "incotermRule.titleEn", title: "incotermsRules "},
         {name: "code", title: "code"}
         ],
-        fetchDataURL: "${contextPath}/api/incoterm-rules/spec-list"
+        fetchDataURL: "${contextPath}/api/incoterm-rules/spec-list",
+                    transformResponse: function (dsResponse, dsRequest, data) {
+                    data.response.data.forEach(d=>d['code']=d['incotermRule']['code'])
+                    return this.Super("transformResponse", arguments);
+                    }
     });
     var RestDataSource_ContractIncoterms_InCon = isc.MyRestDataSource.create({
         fields:
@@ -330,7 +334,7 @@
                 numCols: 4,
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_Incoterms_InCon,
-                displayField: "incotermRule.titleEn",
+                displayField: "code",
                 valueField: "id",
                 pickListWidth: "450",
                 pickListHeight: "500",

@@ -8,6 +8,7 @@
 
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
     <% DateUtil dateUtil = new DateUtil();%>
+
  var contractIdEdit;
  var VLayout_contactMoOxMain;
  var Window_ContactMo;
@@ -18,14 +19,6 @@
  var criteriaContractItemShipment;
  var dynamicForm_article3_Typicall
 
-var RestDataSource_ContractIncoterms_InMol = isc.MyRestDataSource.create({
-        fields:
-        [
-        {name: "id", title: "<spring:message code='goods.code'/> "},
-        {name: "title", title: "incotermsRules "},
-        ],
-        fetchDataURL: "${contextPath}/api/g-incoterm/spec-list"
-    });
  function ValuesManager(valueId) {
                 isc.ValuesManager.create({
                 ID: valueId
@@ -86,7 +79,11 @@ var RestDataSource_Incoterms_InMol = isc.MyRestDataSource.create({
         {name: "id", title: "<spring:message code='goods.code'/> "},
         {name: "incotermRule.titleEn", title: "incotermsRules "},
         ],
-        fetchDataURL: "${contextPath}/api/incoterm-rules/spec-list"
+        fetchDataURL: "${contextPath}/api/incoterm-rules/spec-list",
+            transformResponse: function (dsResponse, dsRequest, data) {
+                    data.response.data.forEach(d=>d['code']=d['incotermRule']['code'])
+                    return this.Super("transformResponse", arguments);
+                    }
 });
 var RestDataSource_ContractIncoterms_InMol = isc.MyRestDataSource.create({
         fields:
@@ -137,15 +134,6 @@ var RestDataSource_ContractIncoterms_InMol = isc.MyRestDataSource.create({
         fetchDataURL: "${contextPath}/api/unit/spec-list"
     });
 
-    var RestDataSource_Incoterms = isc.MyRestDataSource.create({
-        fields:
-            [
-                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "code", title: "<spring:message code='goods.code'/> "},
-            ],
-        fetchDataURL: "${contextPath}/api/incoterms/spec-list"
-    });
-
     var RestDataSource_ShipmentContractUsed = {
         _constructor: "AdvancedCriteria",
         operator: "and",
@@ -156,30 +144,6 @@ var RestDataSource_ContractIncoterms_InMol = isc.MyRestDataSource.create({
         operator: "and",
         criteria: [{fieldName: "material.descl", operator: "contains", value: "Mol"}]
     };
-
-       var RestDataSource_ContractPenalty = isc.RestDataSource.create({
-        fields:
-            [
-                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "value", title: "<spring:message code='contractPenalty.value'/>", width: 200},
-                {name: "tblContractItemFeature.tblFeature.nameFA", title: "<spring:message code='contractPenalty.feature'/>", width: 200 },
-                {name: "operation", title: "<spring:message code='contractPenalty.operation'/>", width: 200},
-                {name: "deduction", title: "<spring:message code='contractPenalty.deduction'/>", width: 200}
-            ],
-        fetchDataURL: "${contextPath}/api/contractPenalty/spec-list"
-    });
-
-    var RestDataSource_CountryPort = isc.MyRestDataSource.create({
-        fields:
-            [
-                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "nameFa", title: "<spring:message code='country.nameFa'/>", width: 200},
-                {name: "nameEn", title: "<spring:message code='country.nameEn'/>", width: 200},
-                {name: "isActive", title: "<spring:message code='country.isActive'/>", width: 200}
-            ],
-
-        fetchDataURL: "${contextPath}/api/country/spec-list"
-    });
 
     var RestDataSource_Contact = isc.MyRestDataSource.create({
         fields: [
@@ -236,9 +200,7 @@ var RestDataSource_ContractIncoterms_InMol = isc.MyRestDataSource.create({
 
         fetchDataURL: "${contextPath}/api/port/spec-list"
     });
-    var RestDataSource_Currency_list = isc.MyRestDataSource.create({
-        fetchDataURL: "${contextPath}/api/currency/spec-list"
-    });
+
     var RestDataSource_ContractShipment = isc.MyRestDataSource.create({
         fields:
             [
@@ -277,10 +239,6 @@ var RestDataSource_ContractIncoterms_InMol = isc.MyRestDataSource.create({
             ],
         fetchDataURL: "${contextPath}/api/contractShipment/spec-list"
     });
-
-    var restDataSource_ContractShipmentValid = isc.MyRestDataSource.create({
-        fetchDataURL: "${contextPath}/api/contractShipment/spec-list"
-    })
 
     var RestDataSource_contractDetail_list = isc.MyRestDataSource.create({
         fetchDataURL: "${contextPath}/api/contractDetail/spec-list"
@@ -700,6 +658,7 @@ function factoryLableHedear(id, contents, width, height, padding) {
             ID: id,
             height: height,
             padding: padding,
+            margin:"5px",
             align: "left",
             valign: "left",
             wrap: false,
@@ -731,9 +690,9 @@ function pageMolibdenAll(method){
     //START PAGE ONE
     factoryLableHedear("LablePage", '<font><b>NATIONAL IRANIAN COPPER INDUSTRIES CO.<b></font>', "100%", "10", 4)
     factoryLable("lableNameContactMo", '<b><font size=4px>Molybdenum Oxide Contract-BAPCO/NICICO</font><b>', "100%", '2%', 2);
-    factoryLable("lableArticle2Mo", '<b><font size=4px>ARTICLE 2 -QUANTITY :</font><b>', "100%", '2%', 20);
+    factoryLableArticle("lableArticle2Mo", '<b><font size=4px>ARTICLE 2 - QUANTITY :</font><b>', "30", 5);
     factoryLableArticle("lableArticle1Mo", '<b><font size=4px>ARTICLE 1 - DEFINITIONS:</font><b>', "30", 5)
-    factoryLableArticle("lableArticle3MO", '<b><font size=4px>Article 3 - QUANTITY</font><b>', "30", 5)
+    factoryLableArticle("lableArticle3MO", '<b><font size=4px>ARTICLE 3 - QUANTITY</font><b>', "30", 5)
     factoryLableArticle("lableArticle6Mo", '<b><font size=4px>ARTICLE 6 - DELIVERY TERMS</font><b>', "30", 5)
     factoryLableArticle("lableArticle7Mo", '<b><font size=4px>ARTICLE 7 - PRICE</font><b>', '30', 5);
     factoryLableArticle("lableArticle8Mo", '<b><font size=4px>ARTICLE 8 - OUOTATIONAL PERIOD</font><b>', '30', 5);
@@ -1050,7 +1009,7 @@ var vlayoutArticle2 = isc.VLayout.create({
         height: "30%",
         styleName: "box-shaddow",
         members: [
-            isc.HLayout.create({height: "50", align: "center", members: [lableArticle2Mo]}),
+            isc.HLayout.create({height: "50", align: "left", members: [lableArticle2Mo]}),
             isc.HLayout.create({align: "left", members: [article2Mo]}),
             isc.HLayout.create({align: "left", members: [article2_1, lable_article2_1]}),
             dynamicForm_fullArticle02MoOx
@@ -1084,8 +1043,8 @@ isc.VLayout.create({
 
     //START PAGE TOW
     factoryLableArticle("lableArticle3Typicall", '<b><font size=4px>TYPICAL ANALYSIS: </font><b>', '5%', 1);
-    factoryLableArticle("lableArticle4", '<b><font size=4px>ARTICLE 4 - PACKING</font><b>', '2%', 1);
-    factoryLableArticle("lableArticle5", '<b><font size=4px>ARTICLE 5 - SHIPMENT</font><b>', "20", 1)
+    factoryLableArticle("lableArticle4", '<b><font size=4px>ARTICLE 4 - PACKING</font><b>', "30", 5);
+    factoryLableArticle("lableArticle5", '<b><font size=4px>ARTICLE 5 - SHIPMENT</font><b>',"30", 5)
 
 
 var dynamicForm_fullArticle03 = isc.RichTextEditor.create({
@@ -1480,7 +1439,7 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
                 numCols: 4,
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_Incoterms_InMol,
-                displayField: "incotermRule.titleEn",
+                displayField: "code",
                 valueField: "id",
                 pickListWidth: "450",
                 pickListHeight: "500",
@@ -1492,7 +1451,7 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
                 width: "500",
                 title: "<strong class='cssDynamicForm'>INCOTERM<strong>",
                 getPickListFilterCriteria : function () {
-                                        return {_constructor:'AdvancedCriteria',operator:"and",criteria:[{fieldName: "incotermId", operator: "equals", value: this.form.getValue("incotermVersion")}]}
+                    return {_constructor:'AdvancedCriteria',operator:"and",criteria:[{fieldName: "incotermId", operator: "equals", value: this.form.getValue("incotermVersion")}]}
                                      },
                 }
         ]
@@ -2121,6 +2080,7 @@ VLayout_contactMoOxMain=isc.VLayout.create({
             isModal: true,
             showModalMask: true,
             autoScroller:true,
+            loadingMessage: " <spring:message code='global.loadingMessage'/>",
             closeClick: function () {
             this.Super("closeClick", arguments);
             },
