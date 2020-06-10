@@ -12,7 +12,11 @@ var RestDataSource_Incoterms_InCat = isc.MyRestDataSource.create({
         {name: "id", title: "<spring:message code='goods.code'/> "},
         {name: "incotermRule.titleEn", title: "incotermsRules "},
         ],
-        fetchDataURL: "${contextPath}/api/incoterm-rules/spec-list"
+        fetchDataURL: "${contextPath}/api/incoterm-rules/spec-list",
+            transformResponse: function (dsResponse, dsRequest, data) {
+                    data.response.data.forEach(d=>d['code']=d['incotermRule']['code'])
+                    return this.Super("transformResponse", arguments);
+                    }
 });
 var RestDataSource_ContractIncoterms_InCat = isc.MyRestDataSource.create({
         fields:
@@ -277,7 +281,7 @@ var article6_quality = isc.DynamicForm.create({
                 numCols: 4,
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_Incoterms_InCat,
-                displayField: "incotermRule.titleEn",
+                displayField: "code",
                 valueField: "id",
                 pickListWidth: "450",
                 pickListHeight: "500",
@@ -287,7 +291,8 @@ var article6_quality = isc.DynamicForm.create({
                     {name: "incotermRule.titleEn", width: 220, align: "center"}
                 ],
                 getPickListFilterCriteria : function () {
-                        return {_constructor:'AdvancedCriteria',operator:"and",criteria:[{fieldName: "incotermId", operator: "equals", value: this.form.getValue("incotermVersion")}]}
+                        let criterialotincotermId = {_constructor:'AdvancedCriteria',operator:"and",criteria:[{fieldName: "incotermId", operator: "equals", value: this.form.getValue("incotermVersion")}]};
+                        return criterialotincotermId;
                      },
                 width: "500",
                 title: "<strong class='cssDynamicForm'>SHIPMENT TYPE<strong>"

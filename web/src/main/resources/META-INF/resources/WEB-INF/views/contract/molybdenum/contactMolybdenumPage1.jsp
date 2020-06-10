@@ -8,6 +8,7 @@
 
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
     <% DateUtil dateUtil = new DateUtil();%>
+
  var contractIdEdit;
  var VLayout_contactMoOxMain;
  var Window_ContactMo;
@@ -18,14 +19,6 @@
  var criteriaContractItemShipment;
  var dynamicForm_article3_Typicall
 
-var RestDataSource_ContractIncoterms_InMol = isc.MyRestDataSource.create({
-        fields:
-        [
-        {name: "id", title: "<spring:message code='goods.code'/> "},
-        {name: "title", title: "incotermsRules "},
-        ],
-        fetchDataURL: "${contextPath}/api/g-incoterm/spec-list"
-    });
  function ValuesManager(valueId) {
                 isc.ValuesManager.create({
                 ID: valueId
@@ -86,7 +79,11 @@ var RestDataSource_Incoterms_InMol = isc.MyRestDataSource.create({
         {name: "id", title: "<spring:message code='goods.code'/> "},
         {name: "incotermRule.titleEn", title: "incotermsRules "},
         ],
-        fetchDataURL: "${contextPath}/api/incoterm-rules/spec-list"
+        fetchDataURL: "${contextPath}/api/incoterm-rules/spec-list",
+            transformResponse: function (dsResponse, dsRequest, data) {
+                    data.response.data.forEach(d=>d['code']=d['incotermRule']['code'])
+                    return this.Super("transformResponse", arguments);
+                    }
 });
 var RestDataSource_ContractIncoterms_InMol = isc.MyRestDataSource.create({
         fields:
@@ -137,15 +134,6 @@ var RestDataSource_ContractIncoterms_InMol = isc.MyRestDataSource.create({
         fetchDataURL: "${contextPath}/api/unit/spec-list"
     });
 
-    var RestDataSource_Incoterms = isc.MyRestDataSource.create({
-        fields:
-            [
-                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "code", title: "<spring:message code='goods.code'/> "},
-            ],
-        fetchDataURL: "${contextPath}/api/incoterms/spec-list"
-    });
-
     var RestDataSource_ShipmentContractUsed = {
         _constructor: "AdvancedCriteria",
         operator: "and",
@@ -156,30 +144,6 @@ var RestDataSource_ContractIncoterms_InMol = isc.MyRestDataSource.create({
         operator: "and",
         criteria: [{fieldName: "material.descl", operator: "contains", value: "Mol"}]
     };
-
-       var RestDataSource_ContractPenalty = isc.RestDataSource.create({
-        fields:
-            [
-                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "value", title: "<spring:message code='contractPenalty.value'/>", width: 200},
-                {name: "tblContractItemFeature.tblFeature.nameFA", title: "<spring:message code='contractPenalty.feature'/>", width: 200 },
-                {name: "operation", title: "<spring:message code='contractPenalty.operation'/>", width: 200},
-                {name: "deduction", title: "<spring:message code='contractPenalty.deduction'/>", width: 200}
-            ],
-        fetchDataURL: "${contextPath}/api/contractPenalty/spec-list"
-    });
-
-    var RestDataSource_CountryPort = isc.MyRestDataSource.create({
-        fields:
-            [
-                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "nameFa", title: "<spring:message code='country.nameFa'/>", width: 200},
-                {name: "nameEn", title: "<spring:message code='country.nameEn'/>", width: 200},
-                {name: "isActive", title: "<spring:message code='country.isActive'/>", width: 200}
-            ],
-
-        fetchDataURL: "${contextPath}/api/country/spec-list"
-    });
 
     var RestDataSource_Contact = isc.MyRestDataSource.create({
         fields: [
@@ -236,9 +200,7 @@ var RestDataSource_ContractIncoterms_InMol = isc.MyRestDataSource.create({
 
         fetchDataURL: "${contextPath}/api/port/spec-list"
     });
-    var RestDataSource_Currency_list = isc.MyRestDataSource.create({
-        fetchDataURL: "${contextPath}/api/currency/spec-list"
-    });
+
     var RestDataSource_ContractShipment = isc.MyRestDataSource.create({
         fields:
             [
@@ -277,10 +239,6 @@ var RestDataSource_ContractIncoterms_InMol = isc.MyRestDataSource.create({
             ],
         fetchDataURL: "${contextPath}/api/contractShipment/spec-list"
     });
-
-    var restDataSource_ContractShipmentValid = isc.MyRestDataSource.create({
-        fetchDataURL: "${contextPath}/api/contractShipment/spec-list"
-    })
 
     var RestDataSource_contractDetail_list = isc.MyRestDataSource.create({
         fetchDataURL: "${contextPath}/api/contractDetail/spec-list"
@@ -1480,7 +1438,7 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
                 numCols: 4,
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_Incoterms_InMol,
-                displayField: "incotermRule.titleEn",
+                displayField: "code",
                 valueField: "id",
                 pickListWidth: "450",
                 pickListHeight: "500",
@@ -1492,7 +1450,7 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
                 width: "500",
                 title: "<strong class='cssDynamicForm'>INCOTERM<strong>",
                 getPickListFilterCriteria : function () {
-                                        return {_constructor:'AdvancedCriteria',operator:"and",criteria:[{fieldName: "incotermId", operator: "equals", value: this.form.getValue("incotermVersion")}]}
+                    return {_constructor:'AdvancedCriteria',operator:"and",criteria:[{fieldName: "incotermId", operator: "equals", value: this.form.getValue("incotermVersion")}]}
                                      },
                 }
         ]
@@ -2121,6 +2079,7 @@ VLayout_contactMoOxMain=isc.VLayout.create({
             isModal: true,
             showModalMask: true,
             autoScroller:true,
+            loadingMessage: " <spring:message code='global.loadingMessage'/>",
             closeClick: function () {
             this.Super("closeClick", arguments);
             },
