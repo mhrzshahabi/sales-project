@@ -27,6 +27,7 @@
     <script src="<spring:url value='/static/script/js/jquery.min.js' />"></script>
     <script src="<spring:url value='/static/script/js/persian-date.min.js' />"></script>
     <script src="<spring:url value='/static/script/enumJson/unitEnum.js' />"></script>
+    <script src="<spring:url value='/static/script/enumJson/materialEnum.js' />"></script>
 
     <script>var isomorphicDir = "isomorphic/";</script>
     <script src=isomorphic/system/modules/ISC_Core.js></script>
@@ -708,6 +709,15 @@
                     title: "<spring:message code='Invoice.Type'/>",
                     click: function () {
                         createTab("<spring:message code='Invoice.Type'/>", "<spring:url value="/invoiceType/showForm" />")
+                    }
+                },
+                {isSeparator: true},
+
+
+                {
+                    title: "invoiceComp",
+                    click: function () {
+                        createTab("invoiceComp", "<spring:url value="/invoiceComps/show-form" />")
                     }
                 },
                 {isSeparator: true},
