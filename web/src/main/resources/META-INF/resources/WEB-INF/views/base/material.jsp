@@ -737,6 +737,7 @@
                     }]
                 },
                 {
+                    required: true,
                     name: "miDetailCode",
                     width: "300",
                     title: "<spring:message code='MaterialItem.detailCode'/> ",
