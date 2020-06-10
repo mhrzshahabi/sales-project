@@ -8,13 +8,16 @@ isc.defineClass("componentUnit", isc.VStack).addProperties({
     titelFieldValue: "",
     typeUnitCategory: 0,
     numCols: 4,
+    showTitle:true,
+    disabled:false,
+    form:null,
     initWidget: function () {
         this.Super("initWidget", arguments);
         let This = this;
-        isc.DynamicForm.create({
-            ID: "dynamicFormUnit",
+        form = isc.DynamicForm.create({
             width: 500,
             numCols: This.numCols,
+            disabled:This.disabled,
             wrapItemTitles: false,
             fields: [
                 {
@@ -35,6 +38,7 @@ isc.defineClass("componentUnit", isc.VStack).addProperties({
                 }, {
                     type: 'long',
                     name: "unitId",
+                    showTitle: This.showTitle,
                     title: "<spring:message code='unit.title'/>",
                     width: "100%",
                     autoFetchData: false,
@@ -64,19 +68,25 @@ isc.defineClass("componentUnit", isc.VStack).addProperties({
                     },
                 }]
         });
-        this.addMember(dynamicFormUnit)
+        this.addMember(form);
     },
-    getValue: function () {
-        return dynamicFormUnit.getValues();
+    getValues: function () {
+        return form.getValues();
     },
+    setValues:function(value,unit){
+        if(isInt(value) || isFloat(value)){
+            form.setValue("value",value);
+            form.setValue("unitId",unit)
+        }
+    }
 });
 
+function isFloat(value){
+    return Number(value) === value && value % 1 !== 0;
+}
+function isInt(value){
+    return Number(value) === value && value % 1 === 0;
+}
 
-/*
-var unitTest = isc.componentUnit.create({
-    titelFieldValue: "meghdarrrrr",
-    typeUnitCategory: unitEnumSingel.Unit
-})
-*/
 
 
