@@ -127,8 +127,8 @@ public class Shipment extends Auditable {
     @Column(name = "SWITCH_PORT")
     private Long switchPortId;
 
-    @Column(name = "NO_BUNDLE", length = 100)
-    private String noBundle;
+    @Column(name = "NO_BUNDLE")
+    private Integer noBundle;
 
     @Column(name = "LOADING_LETTER", length = 100)
     private String loadingLetter;
