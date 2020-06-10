@@ -1189,7 +1189,6 @@
     var VLayout_InvoiceSales_Body = isc.VLayout.create({
         width: "100%",
         height: "99%",
-        overflow: "scroll",
         members: [
             HLayout_InvoiceSales_Actions,
             HLayout_InvoiceSales_Grid

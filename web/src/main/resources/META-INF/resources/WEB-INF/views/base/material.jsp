@@ -564,7 +564,6 @@
     var VLayout_Material_Body = isc.VLayout.create({
         width: "100%",
         height: "99%",
-        overflow: "scroll",
         members: [
             HLayout_Material_Actions, HLayout_Material_Grid
         ]

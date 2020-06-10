@@ -618,7 +618,7 @@ var RestDataSource_ContractIncoterms_InMol = isc.MyRestDataSource.create({
                         ID:"VLayout_MoOx_Grid",
                         width: "100%",
                         height: "100%",
-                        overflow: "scroll",
+                        overflow: "auto",
                         members: [
                         HLayout_Actions_ContactMo,
                         ListGrid_contractMo
@@ -1029,7 +1029,7 @@ isc.VLayout.create({
         width: "100%",
         height: "100%",
         align: "center",
-        overflow: "scroll",
+        overflow: "auto",
         members: [
             isc.HStack.create({height: "10",width: "100%",align: "center",members: [LablePage]}),
             vlayoutBodyMo,
@@ -1522,7 +1522,7 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
         width: "100%",
         height: "100%",
         align: "center",
-        overflow: "scroll",
+        overflow: "auto",
         members: [
             vlayoutArticle3_1,
             vlayoutArticle4,
@@ -1661,7 +1661,7 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
         valuesManager: "valuesManagerfullArticle",
         autoDraw: true,
         height: 155,
-        overflow: "scroll",
+        overflow: "auto",
         canDragResize: true,
         controlGroups: ["fontControls", "formatControls", "styleControls", "colorControls"],
         value: ""
@@ -1740,7 +1740,7 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
         width: "100%",
         height: "100%",
         align: "center",
-        overflow: "scroll",
+        overflow: "auto",
         members: [
             vlayoutArticle7,
             vlayoutArticle8,
@@ -2075,7 +2075,7 @@ VLayout_contactMoOxMain=isc.VLayout.create({
             width: "100%",
             height: "100%",
             align: "center",
-            overflow: "scroll",
+            overflow: "auto",
             autoCenter: true,
             isModal: true,
             showModalMask: true,
