@@ -3,7 +3,7 @@ isc.defineClass("invoiceWeight", isc.VLayout).addProperties({
     autoDraw: false,
     align: "center",
     width: "100%",
-    height: "100%",
+    height: "20%",
     material: null,
     backgroundColor: "#f0c85a",
     form: null,
@@ -17,15 +17,6 @@ isc.defineClass("invoiceWeight", isc.VLayout).addProperties({
 
         var This = this;
         this.Super("initWidget", arguments);
-
-        form = isc.DynamicForm.create({
-                margin: 10,
-                width: "100%",
-                canSubmit: true,
-                align: "center",
-                titleAlign: "right",
-                numCols: 2
-                });
 
         switch (this.material) {
             case 0:
@@ -48,13 +39,13 @@ isc.defineClass("invoiceWeight", isc.VLayout).addProperties({
                 });
                 // form.setFields(this.unitComponentGross, this.unitComponentNet, this.unitComponentBundles);
                 this.addMember(isc.VLayout.create({
-                    width: "500",
-                    height: "500",
+                    width: "100%",
+                    height: "100%",
                     membersMargin: 2,
                     members:[
-                        this.unitComponentGross,
-                        this.unitComponentNet,
-                        this.unitComponentBundles,
+                        unitComponentGross,
+                        unitComponentNet,
+                        unitComponentBundles,
                     ]
                 }));
                 break;
@@ -83,9 +74,9 @@ isc.defineClass("invoiceWeight", isc.VLayout).addProperties({
                     height: "500",
                     membersMargin: 2,
                     members: [
-                        this.unitComponentNetWet,
-                        this.unitComponentMoisture,
-                        this.unitComponentNetDry,
+                        unitComponentNetWet,
+                        unitComponentMoisture,
+                        unitComponentNetDry,
                     ]
                 }));
                 break;
@@ -139,5 +130,5 @@ isc.defineClass("invoiceWeight", isc.VLayout).addProperties({
 });
 
 isc.invoiceWeight.create({
-    material: materialCode["Copper Concentrate"]
+    material: materialCode["Copper Cathode"]
 });
