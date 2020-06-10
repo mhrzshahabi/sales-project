@@ -2,6 +2,8 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+
+<%@include file="../js/contact-mol-component.js"%>
 //<script>
 
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
@@ -144,26 +146,6 @@ var RestDataSource_ContractIncoterms_InMol = isc.MyRestDataSource.create({
         fetchDataURL: "${contextPath}/api/incoterms/spec-list"
     });
 
-    var RestDataSource_Contact_optionCriteria = {
-        _constructor: "AdvancedCriteria",
-        operator: "and",
-        criteria: [{fieldName: "seller", operator: "equals", value: true}]
-    };
-    var RestDataSource_ContactBUYER_optionCriteria = {
-        _constructor: "AdvancedCriteria",
-        operator: "and",
-        criteria: [{fieldName: "buyer", operator: "equals", value: true}]
-    };
-    var RestDataSource_ContactAgentBuyer_optionCriteria = {
-        _constructor: "AdvancedCriteria",
-        operator: "and",
-        criteria: [{fieldName: "agentBuyer", operator: "equals", value: true}]
-    };
-    var RestDataSource_ContactAgentSeller_optionCriteria = {
-        _constructor: "AdvancedCriteria",
-        operator: "and",
-        criteria: [{fieldName: "agentSeller", operator: "equals", value: true}]
-    };
     var RestDataSource_ShipmentContractUsed = {
         _constructor: "AdvancedCriteria",
         operator: "and",
@@ -762,6 +744,7 @@ function pageMolibdenAll(method){
         padding: 5,
         contents: '<b><font size=2px>  OPTION WILL BE CONSIDERED FOR EACH SHIPMENT QUANTITY.</font><b>'
     })
+
     var DynamicForm_ContactHeader = isc.DynamicForm.create({
         valuesManager: "contactHeader",
         wrapItemTitles: false,
@@ -803,393 +786,6 @@ function pageMolibdenAll(method){
             }
         ]
     });
-    var dynamicForm1Mo = isc.HLayout.create({align: "center", members: []});
-    var dynamicForm2Mo = isc.HLayout.create({align: "center", members: []});
-    var dynamicForm3Mo = isc.HLayout.create({align: "center", members: []});
-    var dynamicForm4Mo = isc.HLayout.create({align: "center", members: []});
-var DynamicForm_ContactCustomer = isc.DynamicForm.create({
-        valuesManager: "contactHeader",
-        width: "100%",
-        height: "100%",
-        numCols: 4,
-        wrapItemTitles: false,
-        fields: [
-            {name: "id", canEdit: false, hidden: true},
-            {
-                name: "contactId",
-                showHover: true,
-                required: true,
-                validators: [
-                {
-                type:"required",
-                validateOnChange: true }],
-                autoFetchData: false,
-                title: "<spring:message code='contact.commercialRole.buyer'/>",
-                width: "600",
-                editorType: "SelectItem",
-                optionDataSource: RestDataSource_Contact,
-                optionCriteria: RestDataSource_ContactBUYER_optionCriteria,
-                displayField: "nameEN",
-                valueField: "id",
-                pickListWidth: "600",
-                pickListProperties: {showFilterEditor: true},
-                pickListFields: [
-                    {name: "nameFA", width: "45%", align: "center"},
-                    {name: "nameEN", width: "45%", align: "center"},
-                    {name: "code", width: "10%", align: "center", hidden: true}
-                ],
-                changed: function (form, item, value) {
-                    var address = "";
-                    var name = "";
-                    var phone = "";
-                    var mobile = "";
-                    if (item.getSelectedRecord().address != undefined) {
-                        address = item.getSelectedRecord().address;
-                        Contact_ContactBuyer.setValue("address_ContactBuyer", address);
-                    }
-                    if (item.getSelectedRecord().nameEN != undefined) {
-                        name = item.getSelectedRecord().nameEN;
-                        Contact_ContactBuyer.setValue("name_ContactBuyer", name);
-                    }
-                    if (item.getSelectedRecord().phone != undefined) {
-                        phone = item.getSelectedRecord().phone;
-                        Contact_ContactBuyer.setValue("phone_ContactBuyer", phone);
-                    }
-                    if (item.getSelectedRecord().mobile != undefined) {
-                        mobile = item.getSelectedRecord().mobile;
-                        Contact_ContactBuyer.setValue("phone_ContactBuyer", phone);
-                    }
-                }
-            },
-            {
-                name: "contactByBuyerAgentId",
-                showHover: true,
-                autoFetchData: false,
-                title: "<spring:message code='contact.commercialRole.agentBuyer'/>",
-                width:"600",
-                required: false,
-                editorType: "SelectItem",
-                optionDataSource: RestDataSource_Contact,
-                optionCriteria: RestDataSource_ContactAgentBuyer_optionCriteria,
-                displayField: "nameEN",
-                valueField: "id",
-                pickListWidth: "600",
-                pickListProperties: {showFilterEditor: true},
-                pickListFields: [
-                    {name: "nameFA", width: "45%", align: "center"},
-                    {name: "nameEN", width: "45%", align: "center"},
-                    {name: "code", width: "10%", align: "center", hidden: true}
-                ],
-                changed: function (form, item, value) {
-                    var address = "";
-                    var name = "";
-                    var phone = "";
-                    var mobile = "";
-                    if (item.getSelectedRecord().address != undefined) {
-                        address = item.getSelectedRecord().address;
-                        Contact_ContactAgentBuyer.setValue("address_ContactAgentBuyer", address);
-                    }
-                    if (item.getSelectedRecord().nameEN != undefined) {
-                        name = item.getSelectedRecord().nameEN;
-                        Contact_ContactAgentBuyer.setValue("name_ContactAgentBuyer", name);
-                    }
-                    if (item.getSelectedRecord().phone != undefined) {
-                        phone = item.getSelectedRecord().phone;
-                        Contact_ContactAgentBuyer.setValue("phone_ContactAgentBuyer", phone);
-                    }
-                    if (item.getSelectedRecord().mobile != undefined) {
-                        mobile = item.getSelectedRecord().mobile;
-                        Contact_ContactAgentBuyer.setValue("mobile_ContactAgentBuyer", mobile);
-                    }
-                }
-            }
-        ]
-    });
-    isc.DynamicForm.create({
-                                ID: "Contact_ContactBuyer",
-                                valuesManager: "contactHeaderAgent",
-                                height: "20",
-                                width: "50%",
-                                disabled: "true",
-                                wrapItemTitles: true,
-                                items: [
-                                    {
-                                        name: "name_ContactBuyer",
-                                        type: "text",
-                                        length: 250,
-                                        showTitle: true,
-                                        colSpan: 2,
-                                        width: "*",
-                                        title: "NAME"
-                                    }
-                                    , {
-                                        name: "phone_ContactBuyer",
-                                        type: "text",
-                                        length: 100,
-                                        showTitle: true,
-                                        colSpan: 2,
-                                        title: "Phone",
-                                        width: "*"
-                                    }, {
-                                        name: "mobile_ContactBuyer",
-                                        type: "text",
-                                        length: 100,
-                                        showTitle: true,
-                                        colSpan: 2,
-                                        title: "Mobile",
-                                        width: "*"
-                                    },
-                                    {
-                                        name: "address_ContactBuyer",
-                                        type: "text",
-                                        length: 5000,
-                                        showTitle: true,
-                                        colSpan: 2,
-                                        title: "Address",
-                                        width: "*"
-                                    }
-                                ]
-                            })
-    dynamicForm1Mo.addMember("Contact_ContactBuyer",1);
-    isc.DynamicForm.create({
-                                ID: "Contact_ContactAgentBuyer",
-                                valuesManager: "contactHeaderAgent",
-                                height: "20",
-                                width: "50%",
-                                disabled: "true",
-                                wrapItemTitles: true,
-                                items: [
-                                    {
-                                        name: "name_ContactAgentBuyer",
-                                        type: "text",
-                                        length: 250,
-                                        showTitle: true,
-                                        colSpan: 2,
-                                        width: "*",
-                                        title: "NAME"
-                                    }
-                                    , {
-                                        name: "phone_ContactAgentBuyer",
-                                        type: "text",
-                                        length: 100,
-                                        showTitle: true,
-                                        colSpan: 2,
-                                        title: "Phone",
-                                        width: "*"
-                                    }, {
-                                        name: "mobile_ContactAgentBuyer",
-                                        type: "text",
-                                        length: 100,
-                                        showTitle: true,
-                                        colSpan: 2,
-                                        title: "Mobile",
-                                        width: "*"
-                                    },
-                                    {
-                                        name: "address_ContactAgentBuyer",
-                                        type: "text",
-                                        length: 5000,
-                                        showTitle: true,
-                                        colSpan: 2,
-                                        title: "Address",
-                                        width: "*"
-                                    }
-                                ]
-                            })
-    dynamicForm2Mo.addMember("Contact_ContactAgentBuyer",2);
-    var DynamicForm_ContactSeller = isc.DynamicForm.create({
-        valuesManager: "contactHeader",
-        width: "100%",
-        height: "100%",
-        numCols: 4,
-        wrapItemTitles: false,
-        fields: [
-            {name: "id", canEdit: false, hidden: true},
-            {
-                name: "contactBySellerId",
-                numCols: 2,
-                showHover: true,
-                autoFetchData: false,
-                title: "<spring:message code='contact.commercialRole.seller'/>",
-                width: "600",
-                required: true,
-                validators: [
-                {
-                type:"required",
-                validateOnChange: true }],
-                editorType: "SelectItem",
-                optionDataSource: RestDataSource_Contact,
-                optionCriteria: RestDataSource_Contact_optionCriteria,
-                displayField: "nameEN",
-                valueField: "id",
-                pickListWidth: "600",
-                pickListProperties: {showFilterEditor: true},
-                pickListFields: [
-                    {name: "nameFA", width: "45%", align: "center"},
-                    {name: "nameEN", width: "45%", align: "center"},
-                    {name: "code", width: "10%", align: "center", hidden:true }
-                ],
-                changed: function (form, item, value) {
-                    var address = "";
-                    var name = "";
-                    var phone = "";
-                    var mobile = "";
-                    if (item.getSelectedRecord().address != undefined) {
-                        address = item.getSelectedRecord().address;
-                        Contact_ContactSeller.setValue("address_ContactSeller", address);
-                    }
-                    if (item.getSelectedRecord().nameEN != undefined) {
-                        name = item.getSelectedRecord().nameEN;
-                        Contact_ContactSeller.setValue("name_ContactSeller", name);
-                    }
-                    if (item.getSelectedRecord().phone != undefined) {
-                        phone = item.getSelectedRecord().phone;
-                        Contact_ContactSeller.setValue("phone_ContactSeller", phone);
-                    }
-                    if (item.getSelectedRecord().mobile != undefined) {
-                        mobile = item.getSelectedRecord().mobile;
-                        Contact_ContactSeller.setValue("mobile_ContactSeller", mobile);
-                    }
-                }
-            },
-            {
-                name: "contactBySellerAgentId",
-                numCols: 2,
-                showHover: true,
-                autoFetchData: false,
-                title: "<spring:message code='contact.commercialRole.agentSeller'/>",
-                width: "600",
-                required: false,
-                editorType: "SelectItem",
-                optionDataSource: RestDataSource_Contact,
-                optionCriteria: RestDataSource_ContactAgentSeller_optionCriteria,
-                displayField: "nameEN",
-                valueField: "id",
-                pickListWidth: "600",
-                pickListProperties: {showFilterEditor: true},
-                pickListFields: [
-                    {name: "nameFA", width: "45%", align: "center"},
-                    {name: "nameEN", width: "45%", align: "center"},
-                    {name: "code", width: "10%", align: "center", hidden: true}
-                ],
-                changed: function (form, item, value) {
-                    var address = "";
-                    var name = "";
-                    var phone = "";
-                    var mobile = "";
-                    if (item.getSelectedRecord().address != undefined) {
-                        address = item.getSelectedRecord().address;
-                        Contact_ContactAgentSellerMo.setValue("address_ContactAgentSeller", address);
-                    }
-                    if (item.getSelectedRecord().nameEN != undefined) {
-                        name = item.getSelectedRecord().nameEN;
-                        Contact_ContactAgentSellerMo.setValue("name_ContactAgentSeller", name);
-                    }
-                    if (item.getSelectedRecord().phone != undefined) {
-                        phone = item.getSelectedRecord().phone;
-                        Contact_ContactAgentSellerMo.setValue("phone_ContactAgentSeller", phone);
-                    }
-                    if (item.getSelectedRecord().mobile != undefined) {
-                        mobile = item.getSelectedRecord().mobile;
-                        Contact_ContactAgentSellerMo.setValue("mobile_ContactAgentSeller", mobile);
-                    }
-                }
-            }
-        ]
-    });
-
-    isc.DynamicForm.create({
-                                ID: "Contact_ContactSeller",
-                                valuesManager: "contactHeaderAgent",
-                                height: "20",
-                                width: "50%",
-                                disabled: "true",
-                                wrapItemTitles: true,
-                                items: [
-                                    {
-                                        name: "name_ContactSeller",
-                                        type: "text",
-                                        length: 250,
-                                        showTitle: true,
-                                        colSpan: 2,
-                                        width: "*",
-                                        title: "NAME"
-                                    }
-                                    , {
-                                        name: "phone_ContactSeller",
-                                        type: "text",
-                                        length: 100,
-                                        showTitle: true,
-                                        colSpan: 2,
-                                        title: "Phone",
-                                        width: "*"
-                                    }, {
-                                        name: "mobile_ContactSeller",
-                                        type: "text",
-                                        length: 100,
-                                        showTitle: true,
-                                        colSpan: 2,
-                                        title: "Mobile",
-                                        width: "*"
-                                    },
-                                    {
-                                        name: "address_ContactSeller",
-                                        type: "text",
-                                        length: 5000,
-                                        showTitle: true,
-                                        colSpan: 2,
-                                        title: "Address",
-                                        width: "*"
-                                    }
-                                ]
-                            })
-    dynamicForm3Mo.addMember("Contact_ContactSeller",3);
-    isc.DynamicForm.create({
-                                ID: "Contact_ContactAgentSellerMo",
-                                valuesManager: "contactHeaderAgent",
-                                height: "20",
-                                width: "50%",
-                                disabled: "true",
-                                wrapItemTitles: true,
-                                items: [
-                                    {
-                                        name: "name_ContactAgentSeller",
-                                        type: "text",
-                                        length: 250,
-                                        showTitle: true,
-                                        colSpan: 2,
-                                        width: "*",
-                                        title: "NAME"
-                                    }
-                                    , {
-                                        name: "phone_ContactAgentSeller",
-                                        type: "text",
-                                        length: 100,
-                                        showTitle: true,
-                                        colSpan: 2,
-                                        title: "Phone",
-                                        width: "*"
-                                    }, {
-                                        name: "mobile_ContactAgentSeller",
-                                        type: "text",
-                                        length: 100,
-                                        showTitle: true,
-                                        colSpan: 2,
-                                        title: "Mobile",
-                                        width: "*"
-                                    },
-                                    {
-                                        name: "address_ContactAgentSeller",
-                                        type: "text",
-                                        length: 5000,
-                                        showTitle: true,
-                                        colSpan: 2,
-                                        title: "Address",
-                                        width: "*"
-                                    }
-                                ]
-                            })
-     dynamicForm4Mo.addMember("Contact_ContactAgentSellerMo",4);
 
 var DynamicForm_ContactMooxParameter_ValueNumber8=isc.DynamicForm.create({
         valuesManager: "valuesManagerMooXArticle1",
@@ -1425,6 +1021,7 @@ lotList = isc.ListGrid.create({
 
 
 
+
 var vlayoutBodyMo = isc.VLayout.create({
         width: "100%",
         height: "8%",
@@ -1432,10 +1029,7 @@ var vlayoutBodyMo = isc.VLayout.create({
         members: [
             isc.HLayout.create({align: "left", members: [DynamicForm_ContactHeader]}),
             isc.HLayout.create({height: "50", align: "left", members: [lableNameContactMo]}),
-            isc.HLayout.create({align: "left", members: [DynamicForm_ContactCustomer]}),
-            isc.HLayout.create({ID: "dynamicForm1And2Mo", align: "center", members: [dynamicForm1Mo, dynamicForm2Mo]}),
-            isc.HLayout.create({align: "center", members: [DynamicForm_ContactSeller]}),
-            isc.HLayout.create({ID: "dynamicForm3And4Mo", align: "center", members: [dynamicForm3Mo, dynamicForm4Mo]})
+            isc.HLayout.create({height: "50", align: "left", members: [isc.ContactMolComponent.create({})]})
         ]
     });
 var vlayoutArticle1Mo = isc.VLayout.create({
@@ -1471,7 +1065,7 @@ var vlayoutArticle3 = isc.VLayout.create({
             isc.HLayout.create({height: "95%", width: "100%", align: "center", members: [lotList]})
         ]
     });
-    isc.VLayout.create({
+isc.VLayout.create({
         ID: "VLayout_PageOne_ContractMo",
         width: "100%",
         height: "100%",
