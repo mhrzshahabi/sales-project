@@ -128,12 +128,6 @@
         <modifyDataType columnName="LME_DATE" newDataType="TIMESTAMP(6)" tableName="TBL_LME"/>
     </changeSet>
 
-    <changeSet author="saeb" id="9778899665544-02s1">
-        <dropSequence sequenceName="SEQ_UNIT"/>
-    </changeSet>
-    <changeSet author="saeb" id="9778899665544-021sss">
-        <createSequence sequenceName="SEQ_UNIT" startValue="100000"/>
-    </changeSet>
     <changeSet author="programmer (generated)" id="9778899665544-019">
         <modifyDataType columnName="INCOTERMS" newDataType="NUMBER(19,0)" tableName="TBL_CONTRACT"/>
          <renameColumn columnDataType="NUMBER(19,0)"
@@ -142,13 +136,21 @@
                 tableName="TBL_CONTRACT"/>
 
     </changeSet>
-    <changeSet author="programmer (generated)" id="9778899665544-020">
+    <changeSet author="programmer (generated)" id="9788899665544-020">
         <modifyDataType columnName="INCOTERMS" newDataType="NUMBER(19,0)" tableName="TBL_CONTRACT_AUD"/>
          <renameColumn columnDataType="NUMBER(19,0)"
                 newColumnName="INCOTERMS_VERSION"
                 oldColumnName="INCOTERMS"
                 tableName="TBL_CONTRACT_AUD"/>
 
+    </changeSet>
+
+
+    <changeSet author="saeb" id="9778899665544-02s1">
+        <dropSequence sequenceName="SEQ_UNIT"/>
+    </changeSet>
+    <changeSet author="saeb" id="9778899665544-021sss">
+        <createSequence sequenceName="SEQ_UNIT" startValue="100000"/>
     </changeSet>
 
 </databaseChangeLog>

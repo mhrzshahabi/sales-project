@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-
+<%@include file="../js/contact-cad-component.js"%>
 //<script>
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
 
@@ -767,9 +767,10 @@ isc.VStack.create({
         ID: "VLayout_ContractCad",
         width: "100%",
         height: "100%",
+        overflow: "scroll",
         members: [
             isc.HLayout.create({height: "4%",members: [ToolStrip_Actions_ContactCad]}),
-            isc.HLayout.create({height: "96%",members: [ListGrid_Cad]})
+            isc.HLayout.create({height: "100%",members: [ListGrid_Cad]})
         ]
     });
 

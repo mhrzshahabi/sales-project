@@ -92,7 +92,14 @@ ListGrid_Unit_refresh()
             width: 400,
             keyPressFilter: "[0-4]",
             length: "1"
-        }]
+        },{
+                    name: "categoryValue",
+                    title: "<spring:message	code='parameters.paramValue.d'/>",
+                    width: 500,
+                    type: "text",
+                    required: true,
+                    valueMap: getKeyValuesAsMap(unitEnum.types)}
+        ]
     });
 
     var IButton_Unit_Save = isc.IButtonSave.create({
@@ -379,7 +386,12 @@ ToolStripButton_Unit_Refresh,
             name: "nameEN",
             title: "<spring:message code='unit.nameEN'/> ",
             align: "center"
-        }, {
+        },{
+        name: "categoryValue",
+        title: "<spring:message	code='parameters.paramValue.d'/>",
+        required: true,
+        valueMap: getKeyValuesAsMap(unitEnum.types)
+        },{
             name: "symbol",
             title: "<spring:message code='unit.symbol'/>",
             align: "center"

@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-
+<%@include file="../js/contact-con-component.js"%>
 //<script>e
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
 
@@ -760,9 +760,10 @@
         ID: "VLayout_ContractConc",
         width: "100%",
         height: "100%",
+        overflow: "scroll",
         members: [
             isc.HLayout.create({height: "4%", members: [ToolStrip_Actions_ContactConc]}),
-            isc.HLayout.create({height: "96%", members: [ListGrid_Conc]})
+            isc.HLayout.create({height: "100%", members: [ListGrid_Conc]})
         ]
     });
 
