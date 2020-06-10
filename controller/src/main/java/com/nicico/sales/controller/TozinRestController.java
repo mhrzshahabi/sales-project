@@ -4,7 +4,9 @@ import com.nicico.copper.common.Loggable;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.sales.dto.TozinDTO;
+import com.nicico.sales.iservice.ITozinLiteService;
 import com.nicico.sales.iservice.ITozinService;
+import com.nicico.sales.model.entities.base.TozinLite;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class TozinRestController {
 
     private final ITozinService tozinService;
+    private final ITozinLiteService tozinLiteService;
 
 
     @Loggable
@@ -48,5 +51,11 @@ public class TozinRestController {
 
     }
 
+    @Loggable
+    @GetMapping(value = {"/lite/spec-list"})
+    public ResponseEntity<TotalResponse<TozinLite>> searchLite(@RequestParam MultiValueMap<String, String> criteria) {
+        final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
+        return new ResponseEntity<>(tozinLiteService.search(nicicoCriteria), HttpStatus.OK);
+    }
 
 }
