@@ -658,6 +658,7 @@ function factoryLableHedear(id, contents, width, height, padding) {
             ID: id,
             height: height,
             padding: padding,
+            margin:"5px",
             align: "left",
             valign: "left",
             wrap: false,
@@ -689,9 +690,9 @@ function pageMolibdenAll(method){
     //START PAGE ONE
     factoryLableHedear("LablePage", '<font><b>NATIONAL IRANIAN COPPER INDUSTRIES CO.<b></font>', "100%", "10", 4)
     factoryLable("lableNameContactMo", '<b><font size=4px>Molybdenum Oxide Contract-BAPCO/NICICO</font><b>', "100%", '2%', 2);
-    factoryLable("lableArticle2Mo", '<b><font size=4px>ARTICLE 2 -QUANTITY :</font><b>', "100%", '2%', 20);
+    factoryLableArticle("lableArticle2Mo", '<b><font size=4px>ARTICLE 2 - QUANTITY :</font><b>', "30", 5);
     factoryLableArticle("lableArticle1Mo", '<b><font size=4px>ARTICLE 1 - DEFINITIONS:</font><b>', "30", 5)
-    factoryLableArticle("lableArticle3MO", '<b><font size=4px>Article 3 - QUANTITY</font><b>', "30", 5)
+    factoryLableArticle("lableArticle3MO", '<b><font size=4px>ARTICLE 3 - QUANTITY</font><b>', "30", 5)
     factoryLableArticle("lableArticle6Mo", '<b><font size=4px>ARTICLE 6 - DELIVERY TERMS</font><b>', "30", 5)
     factoryLableArticle("lableArticle7Mo", '<b><font size=4px>ARTICLE 7 - PRICE</font><b>', '30', 5);
     factoryLableArticle("lableArticle8Mo", '<b><font size=4px>ARTICLE 8 - OUOTATIONAL PERIOD</font><b>', '30', 5);
@@ -1008,7 +1009,7 @@ var vlayoutArticle2 = isc.VLayout.create({
         height: "30%",
         styleName: "box-shaddow",
         members: [
-            isc.HLayout.create({height: "50", align: "center", members: [lableArticle2Mo]}),
+            isc.HLayout.create({height: "50", align: "left", members: [lableArticle2Mo]}),
             isc.HLayout.create({align: "left", members: [article2Mo]}),
             isc.HLayout.create({align: "left", members: [article2_1, lable_article2_1]}),
             dynamicForm_fullArticle02MoOx
@@ -1042,8 +1043,8 @@ isc.VLayout.create({
 
     //START PAGE TOW
     factoryLableArticle("lableArticle3Typicall", '<b><font size=4px>TYPICAL ANALYSIS: </font><b>', '5%', 1);
-    factoryLableArticle("lableArticle4", '<b><font size=4px>ARTICLE 4 - PACKING</font><b>', '2%', 1);
-    factoryLableArticle("lableArticle5", '<b><font size=4px>ARTICLE 5 - SHIPMENT</font><b>', "20", 1)
+    factoryLableArticle("lableArticle4", '<b><font size=4px>ARTICLE 4 - PACKING</font><b>', "30", 5);
+    factoryLableArticle("lableArticle5", '<b><font size=4px>ARTICLE 5 - SHIPMENT</font><b>',"30", 5)
 
 
 var dynamicForm_fullArticle03 = isc.RichTextEditor.create({
