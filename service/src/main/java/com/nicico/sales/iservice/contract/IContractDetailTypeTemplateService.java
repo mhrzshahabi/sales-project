@@ -13,6 +13,8 @@ public interface IContractDetailTypeTemplateService {
 
     List<ContractDetailTypeTemplateDTO.Info> getAll(List<Long> ids);
 
+    List<ContractDetailTypeTemplateDTO.Info> findByContractDetailType(Long id);
+
     List<ContractDetailTypeTemplateDTO.Info> list();
 
     ContractDetailTypeTemplateDTO.Info create(ContractDetailTypeTemplateDTO.Create request);
