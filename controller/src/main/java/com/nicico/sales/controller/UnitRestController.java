@@ -37,7 +37,7 @@ public class UnitRestController {
     }
 
     @Loggable
-    @GetMapping(value = "/update-units")
+    @GetMapping(value = "/update-all")
     public ResponseEntity<List<UnitDTO.Info>> updateUnits() {
         unitService.updateUnits();
         return new ResponseEntity<>(unitService.list(), HttpStatus.OK);

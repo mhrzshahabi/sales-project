@@ -49,8 +49,8 @@ public class SalesTest {
     @Transactional
     public void updateUnitsFromTozinView() {
         try {
-            unitDAO.deleteAllByCreatedByIs("fromView");
-            unitDAO.updateUnitsFromTozinView();
+//            unitDAO.deleteAllByCreatedByIs("fromView");
+//            unitDAO.updateUnitsFromTozinView();
         } catch (Exception e) {
             e.printStackTrace();
         }
