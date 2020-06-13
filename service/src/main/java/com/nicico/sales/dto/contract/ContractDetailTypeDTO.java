@@ -19,6 +19,7 @@ import java.util.List;
 public class ContractDetailTypeDTO {
 
     private String code;
+    private Long material;
     private String titleFa;
     private String titleEn;
 

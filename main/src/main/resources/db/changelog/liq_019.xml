@@ -109,4 +109,20 @@
             <column name="CATEGORY_VALUE" type="NUMBER(10, 0)"/>
         </addColumn>
     </changeSet>
+
+    <changeSet author="programmer (generated)" id="8778899665544-001">
+        <addColumn tableName="TBL_CNTR_CONTRACT_DETAIL_TYPE">
+            <column name="C_MATERIAL" type="NUMBER(10, 0)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="programmer (generated)" id="8778899665544-002">
+        <addColumn tableName="TBL_CNTR_CONTRACT_DETAIL_TYPE_PARAM">
+            <column name="C_REQUIRED" type="boolean"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="programmer (generated)" id="8778899665544-003">
+        <addColumn tableName="TBL_CNTR_CONTRACT_DETAIL_TYPE_PARAM_VALUE">
+            <column name="C_CONTRACT_NUMBER" type="VARCHAR2(255 CHAR)"/>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>

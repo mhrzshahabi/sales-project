@@ -40,7 +40,6 @@ public class ContractDetailTypeParamRestController {
     @Loggable
     @PostMapping
     public ResponseEntity<ContractDetailTypeParamDTO.Info> create(@Validated @RequestBody ContractDetailTypeParamDTO.Create request) {
-
         return new ResponseEntity<>(contractDetailTypeParamService.create(request), HttpStatus.CREATED);
     }
 
@@ -74,4 +73,11 @@ public class ContractDetailTypeParamRestController {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
         return new ResponseEntity<>(contractDetailTypeParamService.search(nicicoCriteria), HttpStatus.OK);
     }
+
+    @Loggable
+    @GetMapping(value = "/generatorDynamicForm/{id}")
+    public ResponseEntity<List<ContractDetailTypeParamDTO.Info>> generatorDynamicForm(@PathVariable Long id) {
+        return new ResponseEntity<>(contractDetailTypeParamService.findByContractDetailType(id), HttpStatus.OK);
+    }
+
 }

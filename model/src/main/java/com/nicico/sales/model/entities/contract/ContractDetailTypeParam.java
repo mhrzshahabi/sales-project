@@ -41,6 +41,9 @@ public class ContractDetailTypeParam extends BaseEntity {
     @Column(name = "C_DEFAULT_VALUE")
     private String defaultValue;
 
+    @Column(name = "C_REQUIRED")
+    private Boolean required;
+
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "F_UNIT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_contractDetailTypeParam2unitByUnitId"))
