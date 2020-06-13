@@ -72,14 +72,6 @@ isc.defineClass("componentUnit", isc.VStack).addProperties({
         });
         this.addMember(form);
 
-        /*var submit = isc.Button.create({
-            title: "submit",
-            click: function () {
-                console.log(This.getUnitValues());
-            }
-        });
-        this.addMember(submit);*/
-
     },
     getUnitValues: function () {
         return form.getValues();
@@ -99,10 +91,6 @@ function isFloat(value) {
 function isInt(value) {
     return Number(value) === value && value % 1 === 0;
 }
-
-/*isc.componentUnit.create({
-    typeUnitCategory : 1
-});*/
 
 
 
