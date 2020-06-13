@@ -763,14 +763,13 @@ function deleteFromContractShipment(id){
             ]
         });
 
-isc.VStack.create({
+isc.VLayout.create({
         ID: "VLayout_ContractCad",
         width: "100%",
         height: "100%",
-        overflow: "scroll",
         members: [
-            isc.HLayout.create({height: "4%",members: [ToolStrip_Actions_ContactCad]}),
-            isc.HLayout.create({height: "100%",members: [ListGrid_Cad]})
+            isc.HLayout.create({height: "40",members: [ToolStrip_Actions_ContactCad]}),
+            isc.HLayout.create({height: "100%",overflow: "auto",members: [ListGrid_Cad]})
         ]
     });
 

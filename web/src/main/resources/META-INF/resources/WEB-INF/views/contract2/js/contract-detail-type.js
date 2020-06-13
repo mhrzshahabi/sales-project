@@ -15,6 +15,26 @@ contractDetailTypeTab.dynamicForm.fields.code = {
     keyPressFilter: "^[A-Za-z0-9]",
     title: "<spring:message code='global.code'/>"
 };
+contractDetailTypeTab.dynamicForm.fields.material = {
+    name: "material",
+    width: "100%",
+    editorType: "SelectItem",
+    optionDataSource:isc.MyRestDataSource.create({
+        fields:
+            [
+                {name: "id", title: "id", primaryKey: true, hidden: true},
+                {name: "code", title: "<spring:message code='goods.code'/> "},
+                {name: "descl"},
+                {name: "unitId"},
+                {name: "unit.nameEN"},
+            ],
+        fetchDataURL: "${contextPath}/api/material/spec-list"
+    }),
+    displayField: "descl",
+    valueField: "id",
+    required: true,
+    title: "material"
+};
 contractDetailTypeTab.dynamicForm.fields.titleFa = {
     width: "50%",
     name: "titleFa",
@@ -61,26 +81,33 @@ contractDetailTypeTab.restDataSource.unit = isc.MyRestDataSource.create({
 contractDetailTypeTab.dynamicForm.paramFields = {};
 contractDetailTypeTab.dynamicForm.paramFields.key = {
     name: "key",
-    width: "50%",
+    width: "15%",
     required: true,
     keyPressFilter: "^[A-Za-z|0-9]",
     title: "<spring:message code='global.key'/>"
 };
+contractDetailTypeTab.dynamicForm.paramFields.required = {
+    name: "required",
+    type: "Boolean",
+    width: "10%",
+    required: false,
+    title: "Required"
+};
 contractDetailTypeTab.dynamicForm.paramFields.name = {
-    width: "50%",
+    width: "20%",
     name: "name",
     required: true,
     title: "<spring:message code='global.title'/>"
 };
 contractDetailTypeTab.dynamicForm.paramFields.type = {
-    width: "50%",
+    width: "20%",
     name: "type",
     required: true,
     valueMap: JSON.parse('${Enum_DataType}'),
     title: "<spring:message code='global.type'/>"
 };
 contractDetailTypeTab.dynamicForm.paramFields.unitId = {
-    width: "50%",
+    width: "20%",
     type: 'long',
     name: "unitId",
     editorType: "SelectItem",
@@ -98,7 +125,7 @@ contractDetailTypeTab.dynamicForm.paramFields.unitId = {
     optionDataSource: contractDetailTypeTab.restDataSource.unit
 };
 contractDetailTypeTab.dynamicForm.paramFields.defaultValue = {
-    width: "50%",
+    width: "20%",
     hidden: true,
     canEdit: false,
     showHover: true,
@@ -106,7 +133,7 @@ contractDetailTypeTab.dynamicForm.paramFields.defaultValue = {
     title: "<spring:message code='global.default-value'/>"
 };
 contractDetailTypeTab.dynamicForm.paramFields.contractDetailTypeParamValues = {
-    width: "50%",
+    width: "20%",
     hidden: true,
     canEdit: false,
     showHover: true,
@@ -121,7 +148,7 @@ contractDetailTypeTab.dynamicForm.paramFields.contractDetailTypeParamValues = {
     }
 };
 contractDetailTypeTab.dynamicForm.paramFields.contractDetailTypeId = {
-    width: "50%",
+    width: "20%",
     hidden: true,
     required: true,
     name: "contractDetailTypeId",
@@ -153,6 +180,7 @@ contractDetailTypeTab.dynamicForm.templateFields.contractDetailTypeId = {
 contractDetailTypeTab.restDataSource.detailType = isc.MyRestDataSource.create({
     fields: BaseFormItems.concat([
         contractDetailTypeTab.dynamicForm.fields.code,
+        contractDetailTypeTab.dynamicForm.fields.material,
         contractDetailTypeTab.dynamicForm.fields.titleFa,
         contractDetailTypeTab.dynamicForm.fields.titleEn,
     ], false),
@@ -230,6 +258,7 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
         contractDetailTypeTab.dynamicForm.paramFields.key,
         contractDetailTypeTab.dynamicForm.paramFields.type,
         contractDetailTypeTab.dynamicForm.paramFields.unitId,
+        contractDetailTypeTab.dynamicForm.paramFields.required,
         contractDetailTypeTab.dynamicForm.paramFields.defaultValue,
         contractDetailTypeTab.dynamicForm.paramFields.contractDetailTypeParamValues
     ]),
@@ -724,12 +753,11 @@ contractDetailTypeTab.hLayout.extra = isc.HLayout.create({
 });
 
 contractDetailTypeTab.dynamicForm.detailType = isc.DynamicForm.create({
-
     width: "100%",
     height: "100%",
     align: "center",
     titleAlign: "right",
-    numCols: 6,
+    numCols: 8,
     margin: 10,
     canSubmit: true,
     showErrorText: true,
@@ -739,6 +767,7 @@ contractDetailTypeTab.dynamicForm.detailType = isc.DynamicForm.create({
     requiredMessage: '<spring:message code="validator.field.is.required"/>',
     fields: BaseFormItems.concat([
         contractDetailTypeTab.dynamicForm.fields.code,
+        contractDetailTypeTab.dynamicForm.fields.material,
         contractDetailTypeTab.dynamicForm.fields.titleFa,
         contractDetailTypeTab.dynamicForm.fields.titleEn,
     ], true)

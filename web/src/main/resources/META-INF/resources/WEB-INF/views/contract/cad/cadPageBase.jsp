@@ -395,7 +395,7 @@ var VLayout_contactCadMain = isc.VLayout.create({
         width: "100%",
         height: "100%",
         align: "center",
-        overflow: "scroll",
+        overflow: "auto",
         autoCenter: true,
         margin: 10,
         isModal: true,

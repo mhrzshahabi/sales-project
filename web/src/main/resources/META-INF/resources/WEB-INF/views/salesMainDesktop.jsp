@@ -488,7 +488,7 @@
     });
 
     var headerExitHLayout = isc.HLayout.create({
-        width: "80%%",
+        width: "80%",
         height: "100%",
         align: "center",
         styleName: "header-exit",
@@ -574,10 +574,13 @@
                             click: function () {
                                 createTab("<spring:message code='vessel.title'/>", "<spring:url value="/vessel/showForm" />")
                             }
+                        },{
+                            title: "generatorDynamicForm",
+                            click: function () {
+                                createTab("test", "<spring:url value="/generatorDynamicForm/show-form" />")
+                            }
                         },
-
                         {isSeparator: true},
-
                         {
                             title: "<spring:message code='warehouseCad.yard'/>",
                             click: function () {

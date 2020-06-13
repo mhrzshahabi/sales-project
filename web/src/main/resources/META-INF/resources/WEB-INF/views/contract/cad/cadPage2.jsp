@@ -580,7 +580,7 @@ var fullArticle12 = isc.RichTextEditor.create({
         width: "100%",
         height: "100%",
         align: "top",
-        overflow: "scroll",
+        overflow: "auto",
         members: [
             lableArticle3Cad,
             article3_quality,

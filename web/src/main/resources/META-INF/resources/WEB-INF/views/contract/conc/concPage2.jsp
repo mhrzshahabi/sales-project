@@ -403,7 +403,7 @@
         valuesManager: "valuesManagerfullArticle",
         autoDraw: true,
         height: 155,
-        overflow: "scroll",
+        overflow: "auto",
         canDragResize: true,
         controlGroups: ["fontControls", "formatControls", "styleControls", "colorControls"],
         value: ""
@@ -622,7 +622,7 @@ isc.VLayout.create({
         width: "100%",
         height: "100%",
         align: "top",
-        overflow: "scroll",
+        overflow: "auto",
         members: [
             lableArticle3,
             lableArticle3_1,
