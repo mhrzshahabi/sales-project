@@ -2,30 +2,21 @@ isc.defineClass("invoiceAssay", isc.VLayout).addProperties({
     autoFit: false,
     autoDraw: true,
     align: "center",
-    width: "500",
-    height: "500",
+    width: "100%",
+    height: "20%",
     material: null,
     form: null,
-    unitComponent: null,
+    backgroundColor: "#f0c85a",
     unitComponentCopper: null,
     unitComponentSilver: null,
     unitComponentGold: null,
     unitComponentPlatinum: null,
     unitComponentPalladium: null,
     unitComponentSelenium: null,
-    vstack: null,
     initWidget: function () {
 
         var This = this;
         this.Super("initWidget", arguments);
-        form = isc.DynamicForm.create({
-                margin: 10,
-                width: "100%",
-                canSubmit: true,
-                align: "center",
-                titleAlign: "right",
-                numCols: 2
-                });
 
         switch (this.material) {
 
@@ -37,13 +28,14 @@ isc.defineClass("invoiceAssay", isc.VLayout).addProperties({
                     disabled: true
                 });
 
-                // form.setFields(this.unitComponentCopper);
-                vstack = isc.VStack.create({
+                this.addMember(isc.VLayout.create({
                     width: "100%",
                     height: "100%",
-                });
-                vstack.addMember(this.unitComponentCopper);
-                this.addMember(vstack);
+                    membersMargin: 2,
+                    members:[
+                        unitComponentCopper,
+                    ]
+                }));
                 break;
 
             case 1:
@@ -68,17 +60,16 @@ isc.defineClass("invoiceAssay", isc.VLayout).addProperties({
                     // disabled: true
                 });
 
-                // form.setFields(this.unitComponentCopper, this.unitComponentSilver, this.unitComponentGold);
-                vstack = isc.VStack.create({
-                    align: "center",
+                this.addMember(isc.VLayout.create({
                     width: "100%",
                     height: "100%",
-                    // layoutTopMargin: "50"
-                });
-                vstack.addMember(this.unitComponentCopper, 0);
-                vstack.addMember(this.unitComponentSilver, 2);
-                vstack.addMember(this.unitComponentGold, 4);
-                this.addMember(vstack);
+                    membersMargin: 2,
+                    members:[
+                        unitComponentCopper,
+                        unitComponentSilver,
+                        unitComponentGold
+                    ]
+                }));
                 break;
 
             case 4:
@@ -124,37 +115,39 @@ isc.defineClass("invoiceAssay", isc.VLayout).addProperties({
                     disabled: true
                 });
 
-                // form.setFields(this.unitComponentCopper, this.unitComponentSilver, this.unitComponentGold, this.unitComponentPlatinum,
-                //     this.unitComponentPalladium, this.unitComponentSelenium);
                 this.addMember(isc.VLayout.create({
-                    align: "center",
-                    width: "500",
-                    height: "500",
-                    members: [
-                        this.unitComponentCopper,
-                        this.unitComponentSilver,
-                        this.unitComponentGold,
-                        this.unitComponentPlatinum,
-                        this.unitComponentPalladium,
-                        this.unitComponentSelenium,
+                    width: "100%",
+                    height: "100%",
+                    membersMargin: 2,
+                    members:[
+                        unitComponentCopper,
+                        unitComponentSilver,
+                        unitComponentGold,
+                        unitComponentPlatinum,
+                        unitComponentPalladium,
+                        unitComponentSelenium
                     ]
                 }));
                 break;
         }
 
-        /*var submit = isc.Button.create({
+        var submit = isc.Button.create({
             title: "submit",
             click: function () {
-                console.log(This.getValues());
+                console.log(This.getAssayValues());
             }
         });
-        this.addMember(submit);*/
+        this.addMember(submit);
     },
-    getValues: function () {
-        return form.getValues();
+    getAssayValues: function () {
+        var values = [];
+        for (var index=0; index<this.members.get(0).members.length; index++) {
+            values.push(this.members.get(0).members.get(index).getValues());
+        }
+        return values;
     },
-    setValues: function (values) {
-        return form.setValues(values);
+    setAssayValues: function (values) {
+
     }
 });
 
