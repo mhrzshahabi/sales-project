@@ -108,13 +108,13 @@
                 {name: "cisId", title: "id", primaryKey: true, canEdit: false, hidden: true},
                 {name: "contractNo", title: "<spring:message code='contract.contractNo'/> "},
                 {name: "fullname", title: "<spring:message code='contact.name'/> "},
-                {name: "quantity", title: "<spring:message code='global.amount'/> "},
+                {name: "quantity", title: "<spring:message code='global.quantity'/> "},
                 {name: "sendDate", title: "<spring:message code='global.sendDate'/> "},
                 {name: "contactID", title: "contactId"},
                 {name: "contractID", title: "contractID"},
                 {name: "materialDescp", title: "<spring:message code='material.descp'/>"},
                 {name: "materialID", title: "materialId"},
-                {name: "dischargeID", title: "dischargeID"}
+                {name: "loadPortID", title: "<spring:message code='shipment.loading'/>"}
             ],
         fetchDataURL: "${contextPath}/api/shipment/pick-list"
     });
