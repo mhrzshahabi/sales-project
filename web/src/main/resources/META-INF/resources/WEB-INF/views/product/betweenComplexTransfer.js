@@ -13,7 +13,7 @@
 
     function setOnWayProductValueMaps(key, value) {
         onWayProductValueMaps[key] = value;
-        console.log(onWayProductValueMaps)
+        // console.log(onWayProductValueMaps)
         let allOnWayProductValueMapsAreReady = true;
         Object.values(onWayProductValueMaps).forEach(v => {
             if (v.length === 0) {
@@ -25,14 +25,24 @@
 
     const fieldsAllOnWayProductValueMaps = ['goods', 'warehouse', 'unit']
     fieldsAllOnWayProductValueMaps.forEach(value => {
+        SalesBaseParameters.getParameter(value).then(
+            js => {
+                const theName = value.toLowerCase() !== "unit" ? "name" : "nameFA";
+                // console.log(value, theName);
+                setOnWayProductValueMaps(value, js.getValueMap("id", theName));
+            }
+        )
+
+
+        return;
         fetch(SalesConfigs.Urls.RootUrl + "/api/" + value + "/list", {headers: SalesConfigs.httpHeaders})
             .then(
                 response => response.json()
                     .then(
                         js => {
                             const theName = value.toLowerCase() !== "unit" ? "name" : "nameFA";
-                            console.log(value, theName);
-                            setOnWayProductValueMaps(value, js.getValueMap("id", theName))
+                            // console.log(value, theName);
+                            setOnWayProductValueMaps(value, js.getValueMap("id", theName));
                         }
                     )
             )
@@ -64,6 +74,7 @@
                     name: "codeKala",
                     type: "number",
                     valueMap: onWayProductValueMaps.goods,
+                    filterEditorValueMap: onWayProductValueMaps.goods,
                     title: "<spring:message code='Tozin.codeKala'/>",
                     align: "center"
                 },
@@ -136,6 +147,7 @@
                     name: "unitKala",
                     type: "number",
                     valueMap: onWayProductValueMaps.unit,
+                    filterEditorValueMap: onWayProductValueMaps.unit,
                     title: "<spring:message code='Tozin.unitKala'/>",
                     align: "center"
                 },
@@ -175,7 +187,8 @@
                     type: "number",
                     title: "<spring:message code='Tozin.targetId'/>",
                     align: "center",
-                    valueMap: onWayProductValueMaps.warehouse
+                    valueMap: onWayProductValueMaps.warehouse,
+                    filterEditorValueMap: onWayProductValueMaps.warehouse
 
                 },
                 {
@@ -425,6 +438,24 @@
                 ListGrid_Tozin_IN_ONWAYPRODUCT_refresh();
             }
         });
+        const ToolStripButton_Parameters_Refresh = isc.ToolStripButtonRefresh.create({
+            title: "<spring:message code='global.form.refresh'/> پارامترها",
+            click: function () {
+                SalesBaseParameters.getAllParameters(true).then(
+                    res => {
+                        console.log('ToolStripButton_Parameters_Refresh', res);
+                        onWayProductValueMaps['goods'] = res['goods'];
+                        onWayProductValueMaps['unit'] = res['unit'];
+                        onWayProductValueMaps['warehouse'] = res['warehouse'];
+                        ListGrid_Tozin_IN_ONWAYPRODUCT.setFieldValueMap('sourceId', res['warehouse'])
+                        ListGrid_Tozin_IN_ONWAYPRODUCT.setFieldValueMap('targetId', res['warehouse'])
+                        ListGrid_Tozin_IN_ONWAYPRODUCT.setFieldValueMap('codeKala', res['goods'])
+                        ListGrid_Tozin_IN_ONWAYPRODUCT.setFieldValueMap('unitKala', res['unit'])
+                    }
+                );
+            }
+        });
+
 
         const excel = isc.DynamicForm.create({
             method: "POST",
@@ -592,7 +623,7 @@
                     align: "left",
                     border: '0px',
                     members: [
-                        ToolStripButton_Tozin_Refresh, ToolStripButton_Tozin_Report, Jasper_Pdf
+                        ToolStripButton_Parameters_Refresh, ToolStripButton_Tozin_Refresh, ToolStripButton_Tozin_Report, Jasper_Pdf
                     ]
                 })
 
@@ -671,7 +702,7 @@
                         icons: [{
                             src: "pieces/pcal.png",
                             click: function (form, item, icon) {
-                                console.log(form)
+                                // console.log(form)
                                 displayDatePicker(item['ID'], form.getItems()[0], 'ymd', '/');
                             }
                         }],
@@ -712,6 +743,7 @@
                     name: "codeKala",
                     type: "number",
                     valueMap: onWayProductValueMaps.goods,
+                    filterEditorValueMap: onWayProductValueMaps.goods,
                     title: "<spring:message code='Tozin.nameKala'/>",
                     align: "center",
                     showHover: true,
@@ -725,6 +757,8 @@
                     align: "center",
                     showHover: true,
                     valueMap: onWayProductValueMaps.warehouse,
+                    filterEditorValueMap: onWayProductValueMaps.warehouse,
+
                     width: "10%"
                 },
                 {
@@ -735,7 +769,8 @@
                     align: "center",
                     showHover: true,
                     width: "10%",
-                    valueMap: onWayProductValueMaps.warehouse
+                    valueMap: onWayProductValueMaps.warehouse,
+                    filterEditorValueMap: onWayProductValueMaps.warehouse
                 },
                 {
                     name: "haveCode",
@@ -748,6 +783,7 @@
                     name: "unitKala",
                     type: "number",
                     valueMap: onWayProductValueMaps.unit,
+                    filterEditorValueMap: onWayProductValueMaps.unit,
                     title: "<spring:message code='Tozin.packName'/>",
                     align: "center",
                     showHover: true,
