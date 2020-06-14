@@ -6,6 +6,7 @@ isc.defineClass("invoiceTRCRows", isc.VLayout).addProperties({
     height: "15%",
     material: null,
     backgroundColor: "#f0c85a",
+    rowTitle: "",
     unitComponentCol1: null,
     unitComponentCol2: null,
     unitComponentColFinal: null,
@@ -45,6 +46,13 @@ isc.defineClass("invoiceTRCRows", isc.VLayout).addProperties({
                     width: "100%",
                     height: "100%",
                     members: [
+                        isc.Label.create({
+                            padding: 3,
+                            // width: "100",
+                            height: "25%",
+                            align: "center",
+                            contents: This.rowTitle,
+                        }),
                         unitComponentCol1,
                         isc.Label.create({
                             padding: 3,
@@ -68,25 +76,25 @@ isc.defineClass("invoiceTRCRows", isc.VLayout).addProperties({
 
         }
 
-        var submit = isc.Button.create({
-            title: "submit",
-            click: function () {
-                console.log(This.setRowsValues([11,33,55]));
-            }
-        });
-        this.addMember(submit);
+        // var submit = isc.Button.create({
+        //     title: "submit",
+        //     click: function () {
+        //         console.log(This.getTRCRowsValues());
+        //     }
+        // });
+        // this.addMember(submit);
     },
-    getRowsValues: function () {
-        let result = [];
-        result.push(this.members.get(0).members.get(0).getUnitValues());
-        result.push(this.members.get(0).members.get(2).getUnitValues());
-        result.push(this.members.get(0).members.get(4).getUnitValues());
-        return result;
+    getTRCRowsValues: function () {
+        let values = [];
+        values.push(this.members.get(0).members.get(1).getUnitValues());
+        values.push(this.members.get(0).members.get(3).getUnitValues());
+        values.push(this.members.get(0).members.get(5).getUnitValues());
+        return values;
     },
-    setRowsValues: function (values) {
-        this.members.get(0).members.get(0).setUnitValues(values.get(0));
-        this.members.get(0).members.get(2).setUnitValues(values.get(1));
-        this.members.get(0).members.get(4).setUnitValues(values.get(2));
+    setTRCRowsValues: function (values) {
+        this.members.get(0).members.get(1).setUnitValues(values.get(0));
+        this.members.get(0).members.get(3).setUnitValues(values.get(1));
+        this.members.get(0).members.get(5).setUnitValues(values.get(2));
     }
 });
 
