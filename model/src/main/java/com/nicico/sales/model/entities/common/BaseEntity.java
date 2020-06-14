@@ -2,7 +2,6 @@ package com.nicico.sales.model.entities.common;
 
 import com.nicico.sales.model.Auditable;
 import com.nicico.sales.model.enumeration.EStatus;
-import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -32,9 +31,4 @@ public class BaseEntity extends Auditable {
     private List<EStatus> eStatus = new ArrayList<EStatus>() {{
         add(EStatus.Active);
     }};
-
-//    @NotNull
-//    @Setter(AccessLevel.NONE)
-//    @Column(name = "N_E_STATUS", nullable = false, insertable = false, updatable = false)
-//    private Integer eStatusValue;
 }
