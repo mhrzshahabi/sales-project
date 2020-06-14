@@ -29,7 +29,6 @@ public class ContractDetailTypeParamValueDTO {
     public static class Info extends ContractDetailTypeParamValueDTO {
 
         private Long id;
-        private String ContractNumber;
         // Auditing
         private Date createdDate;
         private String createdBy;

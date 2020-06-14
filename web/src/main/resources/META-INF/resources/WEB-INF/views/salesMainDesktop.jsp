@@ -852,7 +852,7 @@
                     }
                 },
                 </sec:authorize>
-                <sec:authorize access="hasAuthority('R_INCOTERM_ASPECT')">
+                <%--<sec:authorize access="hasAuthority('R_INCOTERM_ASPECT')">
                 {isSeparator: true},
                 {
                     title: "<spring:message code='entity.incoterm-aspect'/>",
@@ -878,8 +878,8 @@
                         createTab("<spring:message code='entity.incoterm-rule'/>", "<spring:url value="/incoterm-rule/show-form" />")
                     }
                 },
-                </sec:authorize>
-                <sec:authorize access="hasAuthority('R_INCOTERM_FORM')">
+                </sec:authorize>--%>
+                <%--<sec:authorize access="hasAuthority('R_INCOTERM_FORM')">
                 {isSeparator: true},
                 {
                     title: "<spring:message code='entity.incoterm-form'/>",
@@ -887,8 +887,8 @@
                         createTab("<spring:message code='entity.incoterm-form'/>", "<spring:url value="/incoterm-form/show-form" />")
                     }
                 },
-                </sec:authorize>
-                <sec:authorize access="hasAuthority('R_INCOTERM_PARTY')">
+                </sec:authorize>--%>
+                <%--<sec:authorize access="hasAuthority('R_INCOTERM_PARTY')">
                 {isSeparator: true},
                 {
                     title: "<spring:message code='entity.incoterm-party'/>",
@@ -905,7 +905,7 @@
                         createTab("<spring:message code='entity.term'/>", "<spring:url value="/term/show-form" />")
                     }
                 },
-                </sec:authorize>
+                </sec:authorize>--%>
 
 
                 /*{
