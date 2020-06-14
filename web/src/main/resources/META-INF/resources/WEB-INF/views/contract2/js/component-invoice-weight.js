@@ -6,7 +6,7 @@ isc.defineClass("invoiceWeight", isc.VLayout).addProperties({
     height: "20%",
     material: null,
     backgroundColor: "#f0c85a",
-    form: null,
+    // form: null,
     unitComponentGross: null,
     unitComponentNet: null,
     unitComponentBundles: null,
@@ -70,8 +70,8 @@ isc.defineClass("invoiceWeight", isc.VLayout).addProperties({
                 });
                 // form.setFields(this.unitComponentNetWet, this.unitComponentMoisture, this.unitComponentNetDry);
                 this.addMember(isc.VLayout.create({
-                    width: "500",
-                    height: "500",
+                    width: "100%",
+                    height: "100%",
                     membersMargin: 2,
                     members: [
                         unitComponentNetWet,
@@ -101,13 +101,13 @@ isc.defineClass("invoiceWeight", isc.VLayout).addProperties({
                 });
                 // form.setFields(this.unitComponentNetWet, this.unitComponentMoisture, this.unitComponentNetDry);
                 this.addMember(isc.VLayout.create({
-                    width: "500",
-                    height: "500",
+                    width: "100%",
+                    height: "100%",
                     membersMargin: 2,
                     members: [
-                        this.unitComponentNetWet,
-                        this.unitComponentMoisture,
-                        this.unitComponentNetDry,
+                        unitComponentNetWet,
+                        unitComponentMoisture,
+                        unitComponentNetDry,
                     ]
                 }));
                 break;
@@ -116,19 +116,25 @@ isc.defineClass("invoiceWeight", isc.VLayout).addProperties({
         var submit = isc.Button.create({
             title: "submit",
             click: function () {
-                console.log(This.getValues());
+                console.log(This.getWeightValues());
             }
         });
         this.addMember(submit);
     },
-    getValues: function () {
-        return form.getValues();
+    getWeightValues: function () {
+        let values = [];
+            values.push(this.members.get(0).members.get(0).getUnitValues());
+            values.push(this.members.get(0).members.get(1).getUnitValues());
+            values.push(this.members.get(0).members.get(2).getUnitValues());
+        return values;
     },
-    setValues: function (values) {
-        return form.setValues(values);
+    setWeightValues: function (values) {
+        this.members.get(0).members.get(0).setUnitValues(values.get(0));
+        this.members.get(0).members.get(1).setUnitValues(values.get(1));
+        this.members.get(0).members.get(2).setUnitValues(values.get(2));
     }
 });
 
 isc.invoiceWeight.create({
-    material: materialCode["Copper Cathode"]
+    material: materialCode["Anode Slime"]
 });
