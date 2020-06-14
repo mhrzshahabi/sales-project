@@ -110,7 +110,6 @@ namespace nicico {
 
             let This = this;
             width = width == null ? "50%" : width;
-            height = height == null ? "500" : height;
             let items = [];
             if (This.bodyWidget.getObject().constructor === Array)
                 // @ts-ignore
@@ -125,6 +124,7 @@ namespace nicico {
                     this.Super("closeClick", arguments);
                     if (This.owner.getObject() != null)
                         This.owner.getObject().show();
+                    This.cancelCallBack();
                 }
             }));
         }

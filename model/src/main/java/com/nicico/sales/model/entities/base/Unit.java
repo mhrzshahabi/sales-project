@@ -3,6 +3,7 @@ package com.nicico.sales.model.entities.base;
 import com.nicico.sales.model.Auditable;
 import lombok.*;
 import lombok.experimental.Accessors;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 
@@ -17,8 +18,9 @@ import javax.persistence.*;
 public class Unit extends Auditable {
 
     @Id
+    @GenericGenerator(name = "SEQ_UNIT", strategy = "com.nicico.sales.model.entities.common.IdKeepingSequenceGenerator")
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_UNIT")
-    @SequenceGenerator(name = "SEQ_UNIT", sequenceName = "SEQ_UNIT", allocationSize = 1)
+    @SequenceGenerator(name = "SEQ_UNIT", sequenceName = "SEQ_UNIT", allocationSize = 1, initialValue = 1000000)
     @Column(name = "ID")
     private Long id;
 
@@ -30,6 +32,9 @@ public class Unit extends Auditable {
 
     @Column(name = "c_SYMBOL")
     private String symbol;
+
+    @Column(name = "CATEGORY_VALUE", nullable = false)
+    private Integer categoryValue;
 
     @Column(name = "n_DECIMAL_DIGITS")
     private Long decimalDigit;

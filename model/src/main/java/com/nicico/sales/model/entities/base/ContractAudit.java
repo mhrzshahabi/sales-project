@@ -71,7 +71,8 @@ import java.util.Date;
                 "OPTIONAL," +
                 "DEFINITION_ID," +
                 "PAY_TIME," +
-                "PLANT," +
+                "CONTRACT_START," +
+                "CONTRACT_END," +
                 "PORT_SOURCE_ID," +
                 "PREFIX_PAYMENT," +
                 "PREMIUM," +
@@ -253,8 +254,8 @@ public class ContractAudit {
     private String LPSeller;
     @Column(name = "DP_SELLER")
     private String DPSeller;
-    @Column(name = "INCOTERMS")
-    private String incotermsText;
+    @Column(name = "INCOTERMS_VERSION")
+    private Long incotermVersion;
     @Column(name = "OFFICE_SOURCE")
     private String officeSource;
     @Column(name = "PUBLISH_TIME")
@@ -265,8 +266,10 @@ public class ContractAudit {
     private String amount_en;
     @Column(name = "DELAY")
     private String delay;
-    @Column(name = "PLANT")
-    private String plant;
+    @Column(name = "CONTRACT_START")
+    private Date contractStart;
+    @Column(name = "CONTRACT_END")
+    private Date contractEnd;
     @Column(name = "OPTIONAL")
     private Integer optional;
     @Column(name = "MO_AMOUNT")

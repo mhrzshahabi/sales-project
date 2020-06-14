@@ -3,6 +3,7 @@ isc.defineClass("IncotermRules", isc.VStack).addProperties({
     layoutMargin: 2,
     membersMargin: 2,
     border: "1px solid blue",
+    backgroundColor: "lightgray",
     dataSource: [],
     valueField: "",
     displayField: "",
@@ -53,9 +54,10 @@ isc.defineClass("IncotermRules", isc.VStack).addProperties({
                             align: "center",
                             item: rules,
                             rowNum: index,
+                            cursor: "hand",
                             value: eval("rules." + This.valueField),
                             contents: "<u>" + eval("rules." + This.displayField) + "</u>",
-                            click: function () {
+                            clickTemp: function () {
 
                                 let incotermForms = this.item.incotermForms;
                                 This.findForm.showFindFormByData(

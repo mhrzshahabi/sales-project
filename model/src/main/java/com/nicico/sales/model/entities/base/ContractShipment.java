@@ -8,6 +8,7 @@ import org.hibernate.envers.Audited;
 import org.hibernate.envers.NotAudited;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -30,37 +31,23 @@ public class ContractShipment extends Auditable {
     @Column(name = "CONTRACT_ID")
     private Long contractId;
 
-    @Column(name = "PLAN", length = 20)
-    private String plan;
-
-    @Column(name = "SHIPMENT_ROW", length = 5)
-    private Long shipmentRow;
-
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
     @NotAudited
-    @JoinColumn(name = "DISCHARGE", nullable = false, insertable = false, updatable = false, foreignKey = @ForeignKey(name = "Contractship2dischargeport"))
-    private Port discharge;
+    @JoinColumn(name = "LOAD_PORT_ID", nullable = false, insertable = false, updatable = false, foreignKey = @ForeignKey(name = "Contractship2loadport"))
+    private Port loadPort;
 
-    @Column(name = "DISCHARGE")
-    private Long dischargeId;
+    @Column(name = "LOAD_PORT_ID")
+    private Long loadPortId;
 
-    @Column(name = "ADDRESS", length = 4000)
-    private String address;
+    @Column(name = "QUANTITY")
+    private Double quantity;
 
-    @Column(name = "AMOUNT")
-    private Double amount;
-
-    @Column(name = "SEND_DATE", length = 50)
-    private String sendDate;
-
-    @Column(name = "DURATION")
-    private Long duration;
+    @Column(name = "SEND_DATE")
+    private Date sendDate;
 
     @Column(name = "TOLORANCE")
     private Long tolorance;
 
-    @Column(name = "INCOTERMS_SHIPMENT_ID")
-    private Long incotermsShipmentId;
 
 }

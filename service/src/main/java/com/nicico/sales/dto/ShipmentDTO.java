@@ -1,12 +1,16 @@
 package com.nicico.sales.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.nicico.copper.common.dto.date.DateTimeDTO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
@@ -31,7 +35,6 @@ public class ShipmentDTO {
     private String description;
     private String status;
     private String month;
-    private String createDate;
     private String fileName;
     private String newFileName;
     private String shipmentType;
@@ -44,8 +47,12 @@ public class ShipmentDTO {
     private String noBarrel;
     private String loadingLetter;
     private String blNumbers;
-    private String blDate;
-    private String swBlDate;
+    @Temporal(TemporalType.TIMESTAMP)
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date blDate;
+    @Temporal(TemporalType.TIMESTAMP)
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date swBlDate;
     private String consignee;
     private Long contactByAgentId;
     private Double freight;
@@ -79,7 +86,7 @@ public class ShipmentDTO {
         private MaterialDTO.MaterialTuple material;
         private String containerType;
         private Long id;
-        private Date createdDate;
+        private DateTimeDTO.DateTimeStrRs createDate;
         private String createdBy;
         private Date lastModifiedDate;
         private String lastModifiedBy;
@@ -91,6 +98,7 @@ public class ShipmentDTO {
     @Accessors(chain = true)
     @ApiModel("ShipmentCreateRq")
     public static class Create extends ShipmentDTO {
+        private DateTimeDTO.DateTimeStrRq createDate;
     }
 
     @Getter
@@ -101,6 +109,7 @@ public class ShipmentDTO {
         @NotNull
         @ApiModelProperty(required = true)
         private Long id;
+        private DateTimeDTO.DateTimeStrRq createDate;
     }
 
     @Getter

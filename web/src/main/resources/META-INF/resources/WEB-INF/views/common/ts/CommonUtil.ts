@@ -2,6 +2,7 @@
 
 // @ts-ignore
 ///<reference path="../../../../../../static/isomorphic/system/development/smartclient.d.ts" />
+///<reference path="/home/saeb/Java/smartclient.d.ts />
 
 //------------------------------------------ TS References ---------------------------------------//
 

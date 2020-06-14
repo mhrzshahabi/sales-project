@@ -37,6 +37,13 @@ public class UnitRestController {
     }
 
     @Loggable
+    @GetMapping(value = "/update-all")
+    public ResponseEntity<List<UnitDTO.Info>> updateUnits() {
+        unitService.updateUnits();
+        return new ResponseEntity<>(unitService.list(), HttpStatus.OK);
+    }
+
+    @Loggable
     @PostMapping
     public ResponseEntity<UnitDTO.Info> create(@Validated @RequestBody UnitDTO.Create request) {
         return new ResponseEntity<>(unitService.create(request), HttpStatus.CREATED);

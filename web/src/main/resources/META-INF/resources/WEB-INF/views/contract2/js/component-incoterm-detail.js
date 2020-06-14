@@ -1,14 +1,17 @@
 isc.defineClass("IncotermDetail", isc.Label).addProperties({
     autoFit: false,
     autoDraw: false,
+    cursor: "hand",
     align: "center",
+    shadowOffset: 5,
+    shadowSoftness: 5,
+    shadowColor: "black",
     index: -1,
     isValid: null,
     detailRecord: null,
     incotermPartyComponent: null,
     doubleClickHappend: null,
     click: function () {
-
         this.doubleClickHappend = false;
         let This = this;
         setTimeout(() => {
@@ -33,12 +36,13 @@ isc.defineClass("IncotermDetail", isc.Label).addProperties({
                 return;
             }
 
-            this.doubleClick();
+            this.doubleClickTemp();
         }, 300);
     },
-    doubleClick: function () {
+    doubleClickTemp: function () {
 
         this.doubleClickHappend = true;
+        this.setShowShadow(true);
         if (this.detailRecord == null || this.incotermPartyComponent == null)
             return;
 
@@ -50,6 +54,7 @@ isc.defineClass("IncotermDetail", isc.Label).addProperties({
         };
         let callback = function (data) {
 
+            This.setShowShadow(false);
             This.detailRecord.termId = data.termId;
             This.detailRecord.incotermParties = data.incotermParties;
             if (This.detailRecord.incotermParties == null)
@@ -58,8 +63,7 @@ isc.defineClass("IncotermDetail", isc.Label).addProperties({
 
                 This.index = -1;
                 This.setBackgroundColor("lightgray");
-            }
-            else if (This.detailRecord.incotermParties.length === 1) {
+            } else if (This.detailRecord.incotermParties.length === 1) {
 
                 let index = -1;
                 for (let i = 0; i < This.incotermPartyComponent.dataSource.length; i++)
@@ -80,7 +84,7 @@ isc.defineClass("IncotermDetail", isc.Label).addProperties({
                 This.setBackgroundColor("springgreen");
             }
         }
-        this.incotermPartyComponent.showPartyForm(currentData, callback);
+        this.incotermPartyComponent.showPartyForm(currentData, callback, () => This.setShowShadow(false));
     },
     initWidget: function () {
 
@@ -94,8 +98,7 @@ isc.defineClass("IncotermDetail", isc.Label).addProperties({
 
             this.index = -1;
             this.setBackgroundColor("lightgray");
-        }
-        else if (this.detailRecord.incotermParties.length === 1) {
+        } else if (this.detailRecord.incotermParties.length === 1) {
 
             let index = -1;
             for (let i = 0; i < this.incotermPartyComponent.dataSource.length; i++)

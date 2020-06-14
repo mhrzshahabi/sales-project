@@ -1,7 +1,9 @@
 var incotermTab = new nicico.GeneralTabUtil().getDefaultJSPTabVariable();
 incotermTab.variable.incotermDetails = [];
+incotermTab.variable.incotermFormData = [];
 incotermTab.variable.incotermPartyData = [];
 incotermTab.variable.incotermAspectData = [];
+incotermTab.variable.incotermFormFetched = false;
 incotermTab.variable.incotermPartyFetched = false;
 incotermTab.variable.incotermAspectFetched = false;
 incotermTab.variable.incotermFormUrl = "${contextPath}" + "/api/incoterm-form/";
@@ -75,33 +77,57 @@ incotermTab.listGrid.incotermRule = isc.ListGrid.nicico.getDefault(
         selectionType: "simple",
         selectionAppearance: "checkbox",
         findForm: new nicico.FindFormUtil(),
-        recordDoubleClick: function (viewer, record, recordNum, field, fieldNum, value, rawValue) {
-
-            let selectionCount = this.selectionAppearance.toLowerCase() === "checkbox" ? Number.MAX_VALUE : 0;
-
-            this.findForm.okCallBack = function (selectedRecords) {
-
-                record.incotermForms = selectedRecords;
-            };
-            this.findForm.showFindFormByRestApiUrl(
-                incotermTab.window.incoterm, "60%", "500", "<spring:message code='incoterm.window.incoterm-forms.select'/>",
-                record.incotermForms, incotermTab.variable.incotermFormUrl + "spec-list",
-                BaseFormItems.concat([{
-                    name: "code",
-                    title: "<spring:message code='global.code'/>"
-                }, {
-                    name: "title",
-                    title: "<spring:message code='global.title'/>",
-                }, {
-                    name: "order",
-                    type: "integer",
-                    canEdit: selectionCount > 0,
-                    validators: [
-                        {type: "integerRange", min: 0, max: 255}
-                    ],
-                    title: "<spring:message code='global.order'/>",
-                }]), null, null, selectionCount);
-        }
+        // recordDoubleClick: function (viewer, record, recordNum, field, fieldNum, value, rawValue) {
+        //
+        //     if (this.selectionAppearance.toLowerCase() !== "checkbox")
+        //         return;
+        //     if (!incotermTab.variable.incotermFormFetched ||
+        //         incotermTab.variable.incotermFormData == null ||
+        //         incotermTab.variable.incotermFormData.length === 0) {
+        //
+        //         incotermTab.dialog.say("<spring:message code='global.wait.for.loading'/>");
+        //         return;
+        //     }
+        //     if (record.incotermForms == null)
+        //         record.incotermForms = [];
+        //     let data = [];
+        //     incotermTab.variable.incotermFormData.forEach(item => {
+        //
+        //         data.add({...item, order: 0});
+        //         let forms = record.incotermForms.filter(q => q.incotermFormId === item.id).first();
+        //         if (forms) {
+        //             data.order = forms.order;
+        //             data["_checkBoxField"] = true;
+        //         }
+        //     });
+        //     let This = this;
+        //     this.findForm.okCallBack = function (selectedRecords) {
+        //
+        //         let grid = This.findForm.listGridWidget.getObject();
+        //         grid.saveAllEdits();
+        //         record.incotermForms = grid.getSelectedRecords().map(q => {
+        //             return {order: q.order, incotermFormId: q.id, incotermRulesId: record.id};
+        //         });
+        //     };
+        //     this.findForm.showFindFormByData(
+        //         null, "500", "400", "<spring:message code='incoterm.window.incoterm-forms.select'/>",
+        //         data, null,
+        //         BaseFormItems.concat([{
+        //             name: "code",
+        //             title: "<spring:message code='global.code'/>"
+        //         }, {
+        //             name: "title",
+        //             title: "<spring:message code='global.title'/>",
+        //         }, {
+        //             name: "order",
+        //             type: "integer",
+        //             canEdit: true,
+        //             validators: [
+        //                 {type: "integerRange", min: 0, max: 255}
+        //             ],
+        //             title: "<spring:message code='global.order'/>"
+        //         }]), Number.MAX_VALUE);
+        // }
     }
 );
 incotermTab.dynamicForm.fields = BaseFormItems.concat([{
@@ -133,7 +159,6 @@ incotermTab.dynamicForm.fields = BaseFormItems.concat([{
     title: "<spring:message code='global.description'/>",
 }]);
 incotermTab.dynamicForm.incoterm = isc.DynamicForm.create({
-
     width: "100%",
     align: "center",
     titleAlign: "right",
@@ -159,7 +184,7 @@ incotermTab.button.continue = isc.IButtonSave.create({
         if (incotermId != null) {
 
             incotermTab.window.incoterm.close();
-            incotermTab.method.showDetailWindow(incotermId, incotermTab.dynamicForm.incoterm.getValue("titleEn"));
+            incotermTab.method.showDetailWindow(incotermId, incotermTab.dynamicForm.incoterm.getValue("title"));
         }
     }
 });
@@ -209,7 +234,7 @@ incotermTab.button.save = isc.IButtonSave.create({
                     incotermTab.method.refresh(incotermTab.listGrid.main);
 
                     let incotermData = JSON.parse(response.httpResponseText);
-                    incotermTab.method.showDetailWindow(incotermData.id, incotermData.titleEn);
+                    incotermTab.method.showDetailWindow(incotermData.id, incotermData.title);
                 } else
                     incotermTab.dialog.error(response);
             }
@@ -226,7 +251,7 @@ incotermTab.button.cancel = isc.IButtonCancel.create({
         incotermTab.window.incoterm.close();
     }
 });
-incotermTab.window.incoterm = isc.Window.nicico.getDefault(null, [
+incotermTab.window.incoterm = isc.Window.nicico.getDefault('<spring:message code="entity.incoterm"/>', [
 
     incotermTab.dynamicForm.incoterm,
     isc.HLayout.create({
@@ -350,10 +375,12 @@ incotermTab.method.editForm = function () {
 
                     let ids = record.incotermSteps.map(q => q.incotermStepId);
                     incotermTab.listGrid.incotermStep.data.localData.forEach(q => {
+                        q.enabled = true;
                         if (ids.contains(q.id))
                             incotermTab.listGrid.incotermStep.selectRecord(q);
                     });
                     incotermTab.listGrid.incotermRule.data.localData.forEach(q => {
+                        q.enabled = true;
                         let rule = record.incotermRules.filter(p => p.incotermRuleId === q.id).first();
                         if (rule != null) {
                             incotermTab.listGrid.incotermRule.selectRecord(q);
@@ -403,7 +430,7 @@ incotermTab.method.showDetailWindow = function (incotermId, title) {
                 },
                 callback: function (rulesResponse) {
                     let incotermRulesData = JSON.parse(rulesResponse.httpResponseText).response.data;
-                    isc.Window.nicico.getDefault2(null, isc.IncotermTable.create({
+                    isc.Window.nicico.getDefault2("<spring:message code='entity.incoterm-detail'/>", isc.IncotermTable.create({
                         title: title,
                         rulesDataSource: incotermRulesData,
                         stepsDataSource: incotermStepsData,
@@ -435,5 +462,14 @@ incotermTab.method.jsonRPCManagerRequest({
 
         incotermTab.variable.incotermAspectData = JSON.parse(response.httpResponseText).response.data;
         incotermTab.variable.incotermAspectFetched = true;
+    }
+});
+incotermTab.method.jsonRPCManagerRequest({
+    httpMethod: "GET",
+    actionURL: incotermTab.variable.incotermFormUrl + "spec-list",
+    callback: function (response) {
+
+        incotermTab.variable.incotermFormData = JSON.parse(response.httpResponseText).response.data;
+        incotermTab.variable.incotermFormFetched = true;
     }
 });

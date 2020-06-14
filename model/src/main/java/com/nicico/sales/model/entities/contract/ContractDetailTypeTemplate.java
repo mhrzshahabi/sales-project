@@ -29,6 +29,7 @@ public class ContractDetailTypeTemplate extends BaseEntity {
 
     @NotEmpty
     @Column(name = "C_CONTENT", nullable = false, columnDefinition = "TEXT")
+    @Lob
     private String content;
 
     @Setter(AccessLevel.NONE)

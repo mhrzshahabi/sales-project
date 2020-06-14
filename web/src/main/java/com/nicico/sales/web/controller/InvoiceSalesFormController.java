@@ -41,14 +41,14 @@ public class InvoiceSalesFormController {
     @RequestMapping("/print/{type}/{rowId}")
     public void ExportToPDF(HttpServletResponse response, @PathVariable String type, @PathVariable Long rowId) throws Exception {
 
-        /*Date Today*/
+
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
         dtf.format(PersianDate.now());
         String today = PersianDate.now().format(dtf);
 
         Map<String, Object> params = getParams();
 
-        /*Set Params*/
+
         params.put("ID", rowId);
         params.put(ConstantVARs.REPORT_TYPE, type);
         params.put("datetime", today);

@@ -3,6 +3,7 @@ isc.defineClass("IncotermSteps", isc.HStack).addProperties({
     layoutMargin: 0,
     membersMargin: 2,
     border: "1px solid blue",
+    backgroundColor: "lightgray",
     dataSource: [],
     valueField: "",
     displayField: "",
@@ -12,9 +13,11 @@ isc.defineClass("IncotermSteps", isc.HStack).addProperties({
 
         let This = this;
         this.Super("initWidget", arguments);
-        this.addMember(isc.LayoutSpacer.create({
+        this.addMember(isc.Label.create({
             width: This.startSpacerWidth,
-            contents: This.startSpacerContents
+            contents: "<b><i>" + This.startSpacerContents + "</i></b>",
+            align: "center",
+            backgroundColor: "gray"
         }));
         this.dataSource.forEach((steps, index, stepsList) => {
             This.addMember(
@@ -32,6 +35,11 @@ isc.defineClass("IncotermSteps", isc.HStack).addProperties({
                 })
             );
         });
+    },
+    draw: function () {
+
+        this.Super("draw", arguments);
+        this.members[0].setHeight(this.getVisibleHeight());
     },
     getSteps: function (stepsIndex) {
         return this.getComponent(stepsIndex).item;
