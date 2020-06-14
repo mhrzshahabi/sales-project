@@ -63,19 +63,19 @@ class SalesBaseParameters {
                 await this.fetchAndSave(parameter)
             } else this[parameter] = parameters[parameter];
         }
-        return this[parameter];
+        return await this[parameter];
     }
 
     static async getUnitParameter(updateTable: boolean = false) {
-        await this.getParameter('unit', updateTable)
+        return await this.getParameter('unit', updateTable)
     }
 
     static async getWarehouseParameter(updateTable: boolean = false) {
-        await this.getParameter('warehouse', updateTable)
+        return await this.getParameter('warehouse', updateTable)
     }
 
     static async getGoodsParameter(updateTable: boolean = false) {
-        await this.getParameter('goods', updateTable)
+        return await this.getParameter('goods', updateTable)
     }
 
     public static async getAllParameters(updateTable: boolean = false) {

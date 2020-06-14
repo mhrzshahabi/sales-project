@@ -1310,7 +1310,10 @@
                                             this.hide();
                                         }
                                     });
-    }}
+    }
+    }
+
+    SalesBaseParameters.getAllParameters();
 </script>
 </body>
 </html>
