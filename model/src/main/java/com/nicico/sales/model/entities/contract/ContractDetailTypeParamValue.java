@@ -35,4 +35,5 @@ public class ContractDetailTypeParamValue extends BaseEntity {
     @NotNull
     @Column(name = "F_CONTRACT_DETAIL_TYPE_PARAM_ID", nullable = false)
     private Long contractDetailTypeParamId;
+
 }

@@ -74,4 +74,11 @@ public class ContractDetailTypeTemplateRestController {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
         return new ResponseEntity<>(contractDetailTypeTemplateService.search(nicicoCriteria), HttpStatus.OK);
     }
+
+
+    @Loggable
+    @GetMapping(value = "/generatorRichTextForm/{id}")
+    public ResponseEntity<List<ContractDetailTypeTemplateDTO.Info>> generatorDynamicForm(@PathVariable Long id) {
+        return new ResponseEntity<>(contractDetailTypeTemplateService.findByContractDetailType(id), HttpStatus.OK);
+    }
 }

@@ -2,64 +2,50 @@ isc.defineClass("invoicePrice", isc.VLayout).addProperties({
     autoFit: false,
     autoDraw: false,
     align: "center",
-    width: "500",
-    height: "100",
+    width: "100%",
+    height: "20%",
+    backgroundColor: "#f0c85a",
     material: null,
     form: null,
+    contractMonth: null,
+    contractYear: null,
+    MOAS: null,
     initWidget: function () {
 
         var This = this;
         this.Super("initWidget", arguments);
 
-        var lmeCriteria =  {
-            _constructor: 'AdvancedCriteria',
-            operator: "and",
-            criteria: [{fieldName: "lmeDate", operator: "equals", value: "30-MAY-08 12.00.00.000000000 PM"}]};
-
-
-        var LME_DataSource = isc.MyRestDataSource.create({
-            fields: [
-                {
-                    name: "id",
-                    title: "id",
-                    primaryKey: true,
-                    canEdit: false,
-                    hidden: true
-                },
-                {
-                    name: "cuUsdMt",
-                    // title: "<spring:message code='LME.cuUsdMt'/>",
-                },
-                {
-                    name: "lmeDate",
-                    // title: "<spring:message code='LME.LMEDate'/>",
-                },
-                {
-                    name: "goldUsdOunce",
-                    // title: "<spring:message code='LME.goldUsdOunce'/>",
-                },
-                {
-                    name: "silverUsdOunce",
-                    // title: "<spring:message code='LME.silverUsdOunce'/>",
-                },
-                {
-                    name: "seleniumUsdLb",
-                    // title: "<spring:message code='LME.seleniumUsdLb'/>",
-                },
-                {
-                    name: "platinumUsdOunce",
-                    // title: "<spring:message code='LME.platinumUsdOunce'/>",
-                },
-                {
-                    name: "palladiumUsdOunce",
-                    // title: "<spring:message code='LME.palladiumUsdOunce'/>",
-                },
-                {
-                    name: "molybdenumUsdLb",
-                    // title: "<spring:message code='LME.molybdenumUsdLb'/>",
-                }],
-            fetchDataURL: "${contextPath}/api/LME/spec-list"
+        var LME_YEARMONTH_DataSource = isc.MyRestDataSource.create({
+            fetchDataURL: "${contextPath}/api/LME/yearMonth/"+This.contractYear+"/"+This.contractMonth
         });
+
+        alert("fdsfd")
+
+        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,{
+                                                                actionURL: "${contextPath}/api/LME/yearMonth/"+This.contractYear+"/"+This.contractMonth,
+                                                                httpMethod: "GET",
+                                                                data: "",
+                                                                callback: function (RpcResponse_o) {
+                                                                    var response = JSON.parse(RpcResponse_o.data);
+                                                                    form.getItem("copper").setValue(response[0].cuUsdMt);
+                                                                    form.getItem("silver").setValue(response[0].silverUsdOunce);
+                                                                    form.getItem("gold").setValue(response[0].goldUsdOunce);
+                                                                    form.getItem("platinum").setValue(response[0].platinumUsdOunce);
+                                                                    form.getItem("palladium").setValue(response[0].palladiumUsdOunce);
+                                                                    form.getItem("selenium").setValue(response[0].seleniumUsdLb);
+                                                                }
+                                                            }));
+
+        // LME_YEARMONTH_DataSource.fetchData([],function (dsResponse, data, dsRequest) {
+        //     console.log(data)
+        //     console.log(data[0])
+        //     form.getItem("copper").setValue(data[0].cuUsdMt);
+        //     form.getItem("silver").setValue(data[0].silverUsdOunce);
+        //     form.getItem("gold").setValue(data[0].goldUsdOunce);
+        //     form.getItem("platinum").setValue(data[0].platinumUsdOunce);
+        //     form.getItem("palladium").setValue(data[0].palladiumUsdOunce);
+        //     form.getItem("selenium").setValue(data[0].seleniumUsdLb);
+        // });
 
         switch (this.material) {
 
@@ -71,20 +57,37 @@ isc.defineClass("invoicePrice", isc.VLayout).addProperties({
                 align: "center",
                 titleAlign: "right",
                 numCols: 2,
+                dataSource: LME_YEARMONTH_DataSource,
+                autoFetchData: true,
                 fields: [
+                    // {
+                    //     name: "MOAS",
+                    //     title: "MOAS",
+                    //     showTitle: false,
+                    //     type: "staticText",
+                    //     width: "100%",
+                    //     colSpan: 2,
+                    //     defaultValue: "AVERAGE OF " + this.contractMonth +"th Month of "+ this.contractYear
+                    // },
                     {
                         name: "copper",
                         title: '<spring:message code="component.invoice.price.copper"/>',
                         type: "float",
                         required: true,
-                        dataSource: LME_DataSource,
-                        criteria : lmeCriteria,
-                        defaultValue: 11
-                    }
-                ]
+                    },
+                ],
                 });
-                // console.log(form.getItem("copper"));
-                this.addMember(form);
+                this.addMember(isc.VStack.create({
+                    members: [
+                        isc.Label.create({
+                            // width: "100",
+                            height: "10%",
+                            align: "left",
+                            contents: "<b>" + "AVERAGE OF " + this.contractMonth +"th Month of "+ this.contractYear + "<b>",
+                        }),
+                        form
+                    ]
+                }));
                 break;
 
             case 1:
@@ -101,28 +104,32 @@ isc.defineClass("invoicePrice", isc.VLayout).addProperties({
                         title: '<spring:message code="component.invoice.price.copper"/>',
                         type: "float",
                         required: true,
-                        dataSource: LME_DataSource,
-                        value: LME_DataSource.getValue()
                     },
                     {
                         name: "silver",
                         title: '<spring:message code="component.invoice.price.silver"/>',
                         type: "float",
                         required: true,
-                        dataSource: LME_DataSource,
-                        value: LME_DataSource.getValue()
                     },
                     {
                         name: "gold",
                         title: '<spring:message code="component.invoice.price.gold"/>',
                         type: "float",
                         required: true,
-                        dataSource: LME_DataSource,
-                        value: LME_DataSource.getValue()
                     },
                 ]
                 });
-                this.addMember(form);
+                this.addMember(isc.VStack.create({
+                    members: [
+                        isc.Label.create({
+                            // width: "100",
+                            height: "10%",
+                            align: "left",
+                            contents: "<b>" + "AVERAGE OF " + this.contractMonth +"th Month of "+ this.contractYear + "<b>",
+                        }),
+                        form
+                    ]
+                }));
                 break;
 
             case 4:
@@ -172,27 +179,39 @@ isc.defineClass("invoicePrice", isc.VLayout).addProperties({
                     },
                 ]
                 });
-                this.addMember(form);
+                this.addMember(isc.VStack.create({
+                    members: [
+                        isc.Label.create({
+                            // width: "100",
+                            height: "10%",
+                            align: "left",
+                            contents: "<b>" + "AVERAGE OF " + this.contractMonth +"th Month of "+ this.contractYear + "<b>",
+                        }),
+                        form
+                    ]
+                }));
                 break;
         }
 
         var submit = isc.Button.create({
             title: "submit",
             click: function () {
-                console.log(This.getValues());
+                console.log(This.getPriceValues());
             }
         });
         this.addMember(submit);
 
     },
-    getValues: function () {
+    getPriceValues: function () {
         return  form.getValues();
     },
-    setValues: function (values) {
+    setPriceValues: function (values) {
         return  form.setValues(values);
     },
 });
 
 isc.invoicePrice.create({
-    material: materialCode["Copper Cathode"]
+    material: materialCode["Anode Slime"],
+    contractMonth: Number('01'),
+    contractYear: Number('2000'),
 });

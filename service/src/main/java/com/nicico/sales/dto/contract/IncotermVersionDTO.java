@@ -1,8 +1,6 @@
 package com.nicico.sales.dto.contract;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.nicico.sales.model.enumeration.DataType;
 import com.nicico.sales.model.enumeration.EStatus;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -10,7 +8,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
-import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
@@ -19,29 +16,15 @@ import java.util.List;
 @Setter
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ContractDetailTypeParamDTO {
+public class IncotermVersionDTO {
 
-    @JsonProperty("title")
-    private String name;
-    @JsonProperty("name")
-    private String key;
-    private DataType type;
-    private String defaultValue;
-    private Boolean required;
-
-    @Transient
-    private Integer width = 100;
-
-    private Long unitId;
-    private Long contractDetailTypeId;
-
-    private List<ContractDetailTypeParamValueDTO.Info> contractDetailTypeParamValues;
+    private Integer incotermVersion;
 
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("ContractDetailTypeParamInfo")
-    public static class Info extends ContractDetailTypeParamDTO {
+    @ApiModel("IncotermVersionInfo")
+    public static class Info extends IncotermVersionDTO {
 
         private Long id;
 
@@ -60,15 +43,15 @@ public class ContractDetailTypeParamDTO {
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("ContractDetailTypeParamCreateRq")
-    public static class Create extends ContractDetailTypeParamDTO {
+    @ApiModel("IncotermVersionCreateRq")
+    public static class Create extends IncotermVersionDTO {
     }
 
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("ContractDetailTypeParamUpdateRq")
-    public static class Update extends ContractDetailTypeParamDTO {
+    @ApiModel("IncotermVersionUpdateRq")
+    public static class Update extends IncotermVersionDTO {
 
         @NotNull
         @ApiModelProperty(required = true)
@@ -78,7 +61,7 @@ public class ContractDetailTypeParamDTO {
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("ContractDetailTypeParamDeleteRq")
+    @ApiModel("IncotermVersionDeleteRq")
     public static class Delete {
 
         @NotNull
