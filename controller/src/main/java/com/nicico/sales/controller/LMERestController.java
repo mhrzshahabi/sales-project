@@ -5,6 +5,8 @@ import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.sales.dto.LMEDTO;
 import com.nicico.sales.iservice.ILMEService;
+import com.nicico.sales.model.entities.base.LME;
+import com.nicico.sales.service.LMEService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -67,5 +69,11 @@ public class LMERestController {
     public ResponseEntity<TotalResponse<LMEDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) throws IOException {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
         return new ResponseEntity<>(lMEService.search(nicicoCriteria), HttpStatus.OK);
+    }
+
+    @Loggable
+    @GetMapping(value = "/yearMonth/{year}/{month}")
+    public ResponseEntity<List<LME>> yearMonth(@PathVariable Integer year, @PathVariable Integer month) {
+        return new ResponseEntity<>(lMEService.findAllByLmeMonth(year, month), HttpStatus.OK);
     }
 }
