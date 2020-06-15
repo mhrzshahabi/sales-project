@@ -33,18 +33,34 @@ isc.defineClass("generatorContractPage", isc.HStack).addProperties({
     buttonAllSave:null,
     buttonCreateTemplate:null,
     buttonAllCancel:null,
+    sectionStack:null,
     initWidget: function () {
         var fieldsGeneratorDynamicForm=[];
         this.Super("initWidget", arguments);
         let This = this;
 
-        formRichTextEditor = isc.HTMLFlow.create({
+
+        formHTMLFlow = isc.HTMLFlow.create({
             autoDraw:true,
             height:"100%",
             overflow: "auto",
-            padding:10,
+            padding:5,
             contents:""
             });
+
+        sectionStack = isc.SectionStack.create({
+            visibilityMode: "multiple",
+            width: "100%", height: "100%",
+            border:"3px solid blue",
+            animateSections: true,
+            overflow: "hidden",
+            sections: [
+                {
+                    title: "Contact", expanded: false,items: []
+                },
+                {title: "HTMLFlow", expanded: true, canCollapse: true, items: [ formHTMLFlow ]},
+            ]
+        });
 
         filtersVStack = isc.VStack.create({padding:"10px",autoCenter: true,width: "15%",members: [],border: "1px solid #ECECEB",borderRadius: '5px',
             shadowDepth: 2,
@@ -218,7 +234,7 @@ isc.defineClass("generatorContractPage", isc.HStack).addProperties({
         filtersVStack.addMember(layoutSpacerVStack,3);
         filtersVStack.addMember(isc.HLayout.create({members: [buttonAllSave,buttonAllCancel]}),4);
        // formVStack.addMember(dynamicFormGenerator);
-        formVStack.addMember(formRichTextEditor);
+        formVStack.addMember(sectionStack);
 
         this.addMember(filtersVStack);
         this.addMember(formVStack);
