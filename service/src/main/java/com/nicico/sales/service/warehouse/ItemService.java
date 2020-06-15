@@ -14,11 +14,9 @@ import org.modelmapper.TypeToken;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @RequiredArgsConstructor
 @Service
@@ -31,20 +29,22 @@ public class ItemService implements IItemService {
     @Transactional
     public void updateFromTozinView() {
         List<Object[]> allItemsFromViewForUpdate = dao.itemsForUpdate();
-        Map<Long, String> ItemsFetchedForUpdate = new HashMap<>();
+        Map<Long, String> itemsFetchedForUpdate = new HashMap<>();
         allItemsFromViewForUpdate.stream()
-                .forEach((Object[] u) -> ItemsFetchedForUpdate.put(Long.valueOf(u[0].toString()), u[1].toString()));
-        List<Item> ItemListForUpdate = dao.findAllById(ItemsFetchedForUpdate.keySet());
-        ItemListForUpdate.stream()
-                .forEach(u -> u.setName(ItemsFetchedForUpdate.get(u.getId())));
+                .forEach((Object[] u) -> itemsFetchedForUpdate.put(Long.valueOf(u[0].toString()), u[1].toString()));
+        List<Item> itemListForUpdate = new ArrayList<>();
+        itemListForUpdate.addAll(dao.findAllById(itemsFetchedForUpdate.keySet()));
+        itemListForUpdate.stream()
+                .forEach(u -> u.setName(itemsFetchedForUpdate.get(u.getId())));
         List<Object[]> allItemsFromViewForInsert = dao.itemsForInsert();
-        ItemListForUpdate.addAll(allItemsFromViewForInsert
+        Stream<Item> itemStream = allItemsFromViewForInsert
                 .stream()
                 .map(u -> new Item()
                         .setId(Long.valueOf(u[0].toString()))
-                        .setName(u[1].toString()))
-                .collect(Collectors.toList()));
-        dao.saveAll(ItemListForUpdate);
+                        .setName(u[1].toString()));
+        List<Item> itemList = itemStream.collect(Collectors.toList());
+        itemListForUpdate.addAll(itemList);
+        dao.saveAll(itemListForUpdate);
     }
 
     @Transactional(readOnly = true)

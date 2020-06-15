@@ -21,7 +21,7 @@ public class Warehouse extends BaseEntity {
     @Id
     private Long id;
 
-    @Column(name = "N_PLANT_ID", nullable = true)
+    @Column(name = "N_PLANT_ID")
     private Long plantId;
 
     @OneToMany(mappedBy = "warehouse", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
