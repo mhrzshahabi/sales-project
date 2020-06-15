@@ -36,20 +36,20 @@ public class ForeignInvoice extends BaseEntity {
     private Date date;
 
     @NotNull
-    @Column(name = "N_SUM_UNIT_VALUE", nullable = false, scale = 10, precision = 2)
-    private BigDecimal sumUnitValue;
+    @Column(name = "N_UNIT_PRICE", nullable = false, scale = 10, precision = 2)
+    private BigDecimal unitPrice;
 
     @NotNull
-    @Column(name = "N_SUM_UNIT_Cost", nullable = false, scale = 10, precision = 2)
-    private BigDecimal sumUnitCost;
+    @Column(name = "N_UNIT_COST", nullable = false, scale = 10, precision = 2)
+    private BigDecimal unitCost;
 
     @NotNull
-    @Column(name = "N_SUM_VALUE", nullable = false, scale = 14, precision = 2)
-    private BigDecimal sumValue;
+    @Column(name = "N_SUM_FI_PRICE", nullable = false, scale = 14, precision = 2)
+    private BigDecimal sumFIPrice;
 
     @NotNull
-    @Column(name = "N_SUM_PI_INVOICE", nullable = false, scale = 14, precision = 2)
-    private BigDecimal sumPIValue;
+    @Column(name = "N_SUM_PI_PRICE", nullable = false, scale = 14, precision = 2)
+    private BigDecimal sumPIPrice;
 
     @NotNull
     @Column(name = "N_SUM_PRICE", nullable = false, scale = 14, precision = 2)
@@ -70,63 +70,63 @@ public class ForeignInvoice extends BaseEntity {
 
     // *****************************************************************************************************************
 
-    @Column(name = "ACCOUNTING_ID")
+    @Column(name = "N_ACCOUNTING_ID")
     private Long accountingId;
 
     // *****************************************************************************************************************
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "CONVERSION_REF_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_foreignInvoice2currencyRateByConversionRefId"))
+    @JoinColumn(name = "F_CONVERSION_REF_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_foreignInvoice2currencyRateByConversionRefId"))
     private CurrencyRate conversionRef;
 
     @NotNull
-    @Column(name = "CONVERSION_REF_ID")
+    @Column(name = "F_CONVERSION_REF_ID")
     private Long conversionRefId;
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "CURRENCY_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_foreignInvoice2currencyByCurrencyId"))
+    @JoinColumn(name = "F_CURRENCY_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_foreignInvoice2currencyByCurrencyId"))
     private Currency currency;
 
     @NotNull
-    @Column(name = "CURRENCY_ID")
+    @Column(name = "F_CURRENCY_ID")
     private Long currencyId;
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "MATERIAL_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_foreignInvoice2materialByMaterialId"))
+    @JoinColumn(name = "F_MATERIAL_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_foreignInvoice2materialByMaterialId"))
     private Material material;
 
     @NotNull
-    @Column(name = "MATERIAL_ID")
+    @Column(name = "F_MATERIAL_ID")
     private Long materialId;
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "BUYER_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_foreignInvoice2contactByBuyerId"))
+    @JoinColumn(name = "F_BUYER_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_foreignInvoice2contactByBuyerId"))
     private Contact buyer;
 
     @NotNull
-    @Column(name = "BUYER_ID")
+    @Column(name = "F_BUYER_ID")
     private Long buyerId;
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "INVOICE_TYPE_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_foreignInvoice2invoiceTypeByInvoiceTypeId"))
+    @JoinColumn(name = "F_INVOICE_TYPE_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_foreignInvoice2invoiceTypeByInvoiceTypeId"))
     private InvoiceType invoiceType;
 
     @NotNull
-    @Column(name = "INVOICE_TYPE_ID")
+    @Column(name = "F_INVOICE_TYPE_ID")
     private Long invoiceTypeId;
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "CONTRACT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_foreignInvoice2contractByContractId"))
+    @JoinColumn(name = "F_CONTRACT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_foreignInvoice2contractByContractId"))
     private Contract2 contract;
 
     @NotNull
-    @Column(name = "CONTRACT_ID")
+    @Column(name = "F_CONTRACT_ID")
     private Long contractId;
 
 //    @Setter(AccessLevel.NONE)
