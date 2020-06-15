@@ -13,10 +13,20 @@ isc.defineClass("invoiceAssay", isc.VLayout).addProperties({
     unitComponentPlatinum: null,
     unitComponentPalladium: null,
     unitComponentSelenium: null,
+    invoiceAssayObj: "",
     initWidget: function () {
 
         var This = this;
         this.Super("initWidget", arguments);
+
+        invoiceAssayObj = {
+            assayCopper: 0,
+            assaySilver: 0,
+            assayGold: 0,
+            assayPlatinum: 0,
+            assayPalladium: 0,
+            assaySelenium: 0,
+        };
 
         switch (this.material) {
 
@@ -25,17 +35,10 @@ isc.defineClass("invoiceAssay", isc.VLayout).addProperties({
                     titelFieldValue: '<spring:message code="component.invoice.price.copper"/>:' + "       (Cu)",
                     typeUnitCategory: 1,
                     showTitle: false,
-                    disabled: true
+                    // disabled: true
                 });
 
-                this.addMember(isc.VLayout.create({
-                    width: "100%",
-                    height: "100%",
-                    membersMargin: 2,
-                    members:[
-                        unitComponentCopper,
-                    ]
-                }));
+                this.addMember(unitComponentCopper);
                 break;
 
             case 1:
@@ -60,16 +63,9 @@ isc.defineClass("invoiceAssay", isc.VLayout).addProperties({
                     // disabled: true
                 });
 
-                this.addMember(isc.VLayout.create({
-                    width: "100%",
-                    height: "100%",
-                    membersMargin: 2,
-                    members:[
-                        unitComponentCopper,
-                        unitComponentSilver,
-                        unitComponentGold
-                    ]
-                }));
+                this.addMember(unitComponentCopper);
+                this.addMember(unitComponentSilver);
+                this.addMember(unitComponentGold);
                 break;
 
             case 4:
@@ -77,82 +73,93 @@ isc.defineClass("invoiceAssay", isc.VLayout).addProperties({
                     titelFieldValue: '<spring:message code="component.invoice.price.copper"/>:' + "       (Cu)",
                     typeUnitCategory: 1,
                     showTitle: false,
-                    disabled: true
+                    // disabled: true
                 });
 
                 unitComponentSilver = isc.componentUnit.create({
                     titelFieldValue: '<spring:message code="component.invoice.price.silver"/>:' + "       (Ag)",
                     typeUnitCategory: 1,
                     showTitle: false,
-                    disabled: true
+                    // disabled: true
                 });
 
                 unitComponentGold = isc.componentUnit.create({
                     titelFieldValue: '<spring:message code="component.invoice.price.gold"/>:' + "     (Au)",
                     typeUnitCategory: 1,
                     showTitle: false,
-                    disabled: true
+                    // disabled: true
                 });
 
                 unitComponentPlatinum = isc.componentUnit.create({
                     titelFieldValue: '<spring:message code="component.invoice.price.platinum"/>:' + "       (Pt)",
                     typeUnitCategory: 1,
                     showTitle: false,
-                    disabled: true
+                    // disabled: true
                 });
 
                 unitComponentPalladium = isc.componentUnit.create({
                     titelFieldValue: '<spring:message code="component.invoice.price.palladium"/>:' + "       (Pd)",
                     typeUnitCategory: 1,
                     showTitle: false,
-                    disabled: true
+                    // disabled: true
                 });
 
                 unitComponentSelenium = isc.componentUnit.create({
                     titelFieldValue: '<spring:message code="component.invoice.price.selenium"/>:' + "     (Se)",
                     typeUnitCategory: 1,
                     showTitle: false,
-                    disabled: true
+                    // disabled: true
                 });
 
-                this.addMember(isc.VLayout.create({
-                    width: "100%",
-                    height: "100%",
-                    membersMargin: 2,
-                    members:[
-                        unitComponentCopper,
-                        unitComponentSilver,
-                        unitComponentGold,
-                        unitComponentPlatinum,
-                        unitComponentPalladium,
-                        unitComponentSelenium
-                    ]
-                }));
+                this.addMember(unitComponentCopper);
+                this.addMember(unitComponentSilver);
+                this.addMember(unitComponentGold);
+                this.addMember(unitComponentPlatinum);
+                this.addMember(unitComponentPalladium);
+                this.addMember(unitComponentSelenium);
                 break;
         }
 
-        // var submit = isc.Button.create({
-        //     title: "submit",
-        //     click: function () {
-        //         console.log(This.getAssayValues());
-        //     }
-        // });
-        // this.addMember(submit);
+        var submit = isc.Button.create({
+            title: "submit",
+            click: function () {
+                console.log(This.getAssayValues());
+            }
+        });
+        this.addMember(submit);
     },
     getAssayValues: function () {
-        let values = [];
-        for (var index=0; index<this.members.get(0).members.length; index++){
-            values.push(this.members.get(0).members.get(index).getUnitValues())
+
+        switch (this.material){
+            case 0:
+                invoiceAssayObj.assayCopper = this.members.get(0).getUnitValues();
+                break;
+            case 1:
+                invoiceAssayObj.assayCopper = this.members.get(0).getUnitValues();
+                invoiceAssayObj.assaySilver = this.members.get(1).getUnitValues();
+                invoiceAssayObj.assayGold = this.members.get(2).getUnitValues();
+                break;
+            case 4:
+                invoiceAssayObj.assayCopper = this.members.get(0).getUnitValues();
+                invoiceAssayObj.assaySilver = this.members.get(1).getUnitValues();
+                invoiceAssayObj.assayGold = this.members.get(2).getUnitValues();
+                invoiceAssayObj.assayPlatinum = this.members.get(3).getUnitValues();
+                invoiceAssayObj.assayPalladium = this.members.get(4).getUnitValues();
+                invoiceAssayObj.assaySelenium = this.members.get(5).getUnitValues();
+                break;
         }
-        return values;
+        return  invoiceAssayObj;
     },
     setAssayValues: function (values) {
-        for (var index=0; index<this.members.get(0).members.length; index++){
-            values.push(this.members.get(0).members.get(index).setUnitValues(values.get(index)))
-        }
+        this.members.get(0).members.get(0).setUnitValues(values.get(0));
+        this.members.get(0).members.get(1).setUnitValues(values.get(1));
+        this.members.get(0).members.get(2).setUnitValues(values.get(2));
+        this.members.get(0).members.get(3).setUnitValues(values.get(3));
+        this.members.get(0).members.get(4).setUnitValues(values.get(4));
+        this.members.get(0).members.get(5).setUnitValues(values.get(5));
     }
 });
 
-isc.invoiceAssay.create({
-    material: materialCode["Anode Slime"]
-});
+// isc.invoiceAssay.create({
+//     material: materialCode["Copper Cathode"]
+// });
