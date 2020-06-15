@@ -25,7 +25,8 @@
     <include file="classpath:/db/changelog/liq_018.xml"/>
     <include file="classpath:/db/changelog/liq_019.xml"/>
     <include file="classpath:/db/changelog/liq_020.xml"/>
-    <include file="classpath:/db/changelog/warehouse/tbl_warh_tozin_table.xml"/>
+	<include file="classpath:/db/changelog/liq_021.xml"/>
+	<include file="classpath:/db/changelog/warehouse/tbl_warh_tozin_table.xml"/>
     <include file="classpath:/db/changelog/warehouse/tbl_warh_item.xml"/>
     <include file="classpath:/db/changelog/warehouse/tbl_warh_item_detail.xml"/>
     <include file="classpath:/db/changelog/warehouse/tbl_warh_raw_material.xml"/>
