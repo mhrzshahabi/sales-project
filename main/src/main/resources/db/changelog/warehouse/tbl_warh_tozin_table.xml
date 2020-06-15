@@ -1,0 +1,23 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+    <changeSet author="saeb (generated)" id="1592123918149-397">
+        <createSequence sequenceName="SEQ_WARH_TOZIN"/>
+    </changeSet>
+    <changeSet author="saeb (generated)" id="1592123918149-398">
+        <createTable tableName="TBL_WARH_TOZIN">
+            <column name="id" type="NUMBER(19, 0)">
+                <constraints primaryKey="true" primaryKeyName="TBL_WARH_TOZINPK"/>
+            </column>
+            <column name="CARD_ID" type="VARCHAR2(255 CHAR)"/>
+            <column name="HAVCODE" type="VARCHAR2(255 CHAR)"/>
+            <column name="SOURCEID" type="NUMBER(19, 0)"/>
+            <column name="TARGETID" type="NUMBER(19, 0)"/>
+            <column name="TZN_DATE" type="VARCHAR2(255 CHAR)"/>
+            <column name="TOZINE_ID" type="VARCHAR2(255 CHAR)"/>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>

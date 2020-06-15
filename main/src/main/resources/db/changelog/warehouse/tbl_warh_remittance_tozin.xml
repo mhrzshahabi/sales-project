@@ -1,0 +1,78 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <changeSet author="saeb (generated)" id="1587979503463-218">
+        <createSequence sequenceName="SEQ_WARH_REMITTANCE_TOZIN"/>
+    </changeSet>
+    <changeSet author="saeb (generated)" id="1587971310555-244">
+        <createTable tableName="TBL_WARH_REMITTANCE_TOZIN">
+            <column name="id" type="NUMBER(19, 0)">
+                <constraints primaryKey="true" primaryKeyName="TBL_WARH_REMITTANCE_TOZINPK"/>
+            </column>
+            <column name="c_created_by" type="VARCHAR2(255 CHAR)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="d_created_date" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
+            <column name="d_last_modified_date" type="TIMESTAMP"/>
+            <column name="n_version" type="NUMBER(10, 0)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueNumeric="1" name="N_E_STATUS" type="NUMBER">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueNumeric="0" name="B_EDITABLE" type="NUMBER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="F_REMITTANCE_ID" type="NUMBER(19, 0)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="F_TOZIN_CARD_ID" type="VARCHAR2(255 CHAR)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="F_TOZIN_GDSCODE" type="NUMBER(19, 0)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="F_TOZIN_GDSNAME" type="VARCHAR2(255 CHAR)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="F_TOZIN_ID" type="NUMBER(19, 0)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="F_TOZIN_SOURCEE" type="VARCHAR2(255 CHAR)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="F_TOZIN_TARGET" type="VARCHAR2(255 CHAR)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="saeb (generated)" id="1589261374251-238">
+        <addColumn tableName="TBL_WARH_REMITTANCE_TOZIN">
+            <column name="B_IS_SOURCE_TOZIN" type="number(1, 0)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="saeb (generated)" id="1592123918149-535">
+        <dropColumn columnName="F_TOZIN_CARD_ID" tableName="TBL_WARH_REMITTANCE_TOZIN"/>
+    </changeSet>
+    <changeSet author="saeb (generated)" id="1592123918149-536">
+        <dropColumn columnName="F_TOZIN_GDSCODE" tableName="TBL_WARH_REMITTANCE_TOZIN"/>
+    </changeSet>
+    <changeSet author="saeb (generated)" id="1592123918149-537">
+        <dropColumn columnName="F_TOZIN_GDSNAME" tableName="TBL_WARH_REMITTANCE_TOZIN"/>
+    </changeSet>
+    <changeSet author="saeb (generated)" id="1592123918149-538">
+        <dropColumn columnName="F_TOZIN_SOURCEE" tableName="TBL_WARH_REMITTANCE_TOZIN"/>
+    </changeSet>
+    <changeSet author="saeb (generated)" id="1592123918149-539">
+        <dropColumn columnName="F_TOZIN_TARGET" tableName="TBL_WARH_REMITTANCE_TOZIN"/>
+    </changeSet>
+
+</databaseChangeLog>

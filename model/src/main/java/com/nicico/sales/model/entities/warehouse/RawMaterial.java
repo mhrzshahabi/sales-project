@@ -1,13 +1,11 @@
 package com.nicico.sales.model.entities.warehouse;
 
-import com.nicico.sales.model.Auditable;
 import com.nicico.sales.model.entities.common.BaseEntity;
 import lombok.*;
 import lombok.experimental.Accessors;
-import org.hibernate.envers.AuditOverride;
-import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
@@ -23,4 +21,11 @@ public class RawMaterial extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_WARH_RAW_MATERIAL")
     @SequenceGenerator(name = "SEQ_WARH_RAW_MATERIAL", sequenceName = "SEQ_WARH_RAW_MATERIAL", allocationSize = 1)
     private Long id;
+
+    @NotNull
+    @Column(name = "C_NAME", nullable = false)
+    private String name;
+
+    @Column(name = "C_DESCRIPTION", length = 1500)
+    private String description;
 }

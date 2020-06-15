@@ -32,18 +32,8 @@ public class Inventory extends BaseEntity {
     @Column(name = "F_ITEM_ID", nullable = false)
     private Long itemId;
 
-    @Setter(AccessLevel.NONE)
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "F_WAREHOUSE_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_inventory2warehouseByWarehouseId"))
-    private Warehouse warehouse;
-
-    @NotNull
-    @Column(name = "F_WAREHOUSE_ID", nullable = false)
-    private Long warehouseId;
-
     @OneToMany(mappedBy = "inventory", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    private List<InventoryValue> inventoryValues;
+    private List<RemittanceDetail> remittanceDetails;
 
-    @OneToMany(mappedBy = "inventory", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    private List<InventoryRawMaterial> inventoryRawMaterials;
+
 }

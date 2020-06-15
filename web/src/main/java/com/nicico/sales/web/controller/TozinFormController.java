@@ -46,6 +46,12 @@ public class TozinFormController {
         return "product/onWayProduct";
     }
 
+    @RequestMapping("/between-complex-transfer")
+    public String betweenComplexTransfer() {
+        return "product/betweenComplexTransfer";
+    }
+
+
     @RequestMapping("/showWarehouseCadForm")
     public String showWarehouseCadForm() {
         return "product/warehouseCad_OnWayProduct";
