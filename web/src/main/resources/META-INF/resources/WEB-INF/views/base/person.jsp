@@ -712,6 +712,21 @@
             fetchDataURL: "${contextPath}/api/person/spec-list"
         });
 
+    var personAttachmentViewLoader = isc.ViewLoader.create({
+        autoDraw: false,
+        loadingMessage: ""
+    });
+    var hLayoutViewLoader = isc.HLayout.create({
+        width: "100%",
+        height: 180,
+        align: "center", padding: 5,
+        membersMargin: 20,
+        members: [
+            personAttachmentViewLoader
+        ]
+    });
+    hLayoutViewLoader.hide();
+
     var ListGrid_Person = isc.ListGrid.create(
         {
             showFilterEditor: true,
@@ -719,6 +734,18 @@
             height: "100%",
             dataSource: RestDataSource_Person,
             contextMenu: Menu_ListGrid_Person,
+            styleName: 'expandList',
+            alternateRecordStyles: true,
+            canExpandRecords: true,
+            canExpandMultipleRecords: false,
+            wrapCells: false,
+            showRollOver: false,
+            showRecordComponents: true,
+            showRecordComponentsByCell: true,
+            autoFitExpandField: true,
+            virtualScrolling: true,
+            loadOnExpand: true,
+            loaded: false,
             fields: [
                 {
                     name: "id",
@@ -755,7 +782,6 @@
                     type: 'text',
                     width: "10%",
                 },
-                {name:"file", width:380},
                 {
                     name: "title",hidden: true,
                     title: "<spring:message code='person.title'/>",
@@ -822,7 +848,33 @@
                     type: 'text',
                     width: "10%",
                 },
-            ],
+            ],getExpansionComponent: function (record) {
+            if (record == null || record.id == null) {
+                    isc.Dialog.create({
+                        message: "<spring:message code='global.grid.record.not.selected'/>",
+                        icon: "[SKIN]ask.png",
+                        title: "<spring:message code='global.message'/>",
+                        buttons: [isc.Button.create({
+                            title: "<spring:message code='global.ok'/>"
+                        })],
+                        buttonClick: function () {
+                            this.hide();
+                        }
+                    });
+                    record.id = null;
+                }
+                var dccTableId = record.id;
+                var dccTableName = "TBL_PERSON";
+                personAttachmentViewLoader.setViewURL("dcc/showForm/" + dccTableName + "/" + dccTableId);
+                hLayoutViewLoader.show();
+                var layoutPerson = isc.VLayout.create({
+                    styleName: "expand-layout",
+                    padding: 5,
+                    membersMargin: 10,
+                    members: [hLayoutViewLoader]
+                });
+                return layoutPerson;
+            },
             recordClick: function(viewer, record, recordNum, field, fieldNum, value, rawValue) {
                 formEdit.editSelectedData(listGrid);
                 formView.editSelectedData(listGrid);
