@@ -6,7 +6,6 @@ isc.defineClass("invoiceWeight", isc.VLayout).addProperties({
     height: "20%",
     material: null,
     backgroundColor: "#f0c85a",
-    form: null,
     unitComponentGross: null,
     unitComponentNet: null,
     unitComponentBundles: null,
@@ -37,7 +36,6 @@ isc.defineClass("invoiceWeight", isc.VLayout).addProperties({
                     typeUnitCategory: 1,
                     showTitle: false
                 });
-                // form.setFields(this.unitComponentGross, this.unitComponentNet, this.unitComponentBundles);
                 this.addMember(isc.VLayout.create({
                     width: "100%",
                     height: "100%",
@@ -68,10 +66,9 @@ isc.defineClass("invoiceWeight", isc.VLayout).addProperties({
                     typeUnitCategory: 1,
                     showTitle: false
                 });
-                // form.setFields(this.unitComponentNetWet, this.unitComponentMoisture, this.unitComponentNetDry);
                 this.addMember(isc.VLayout.create({
-                    width: "500",
-                    height: "500",
+                    width: "100%",
+                    height: "100%",
                     membersMargin: 2,
                     members: [
                         unitComponentNetWet,
@@ -99,36 +96,41 @@ isc.defineClass("invoiceWeight", isc.VLayout).addProperties({
                     typeUnitCategory: 1,
                     showTitle: false
                 });
-                // form.setFields(this.unitComponentNetWet, this.unitComponentMoisture, this.unitComponentNetDry);
                 this.addMember(isc.VLayout.create({
-                    width: "500",
-                    height: "500",
+                    width: "100%",
+                    height: "100%",
                     membersMargin: 2,
                     members: [
-                        this.unitComponentNetWet,
-                        this.unitComponentMoisture,
-                        this.unitComponentNetDry,
+                        unitComponentNetWet,
+                        unitComponentMoisture,
+                        unitComponentNetDry,
                     ]
                 }));
                 break;
         }
 
-        var submit = isc.Button.create({
-            title: "submit",
-            click: function () {
-                console.log(This.getValues());
-            }
-        });
-        this.addMember(submit);
+        // var submit = isc.Button.create({
+        //     title: "submit",
+        //     click: function () {
+        //         console.log(This.getWeightValues());
+        //     }
+        // });
+        // this.addMember(submit);
     },
-    getValues: function () {
-        return form.getValues();
+    getWeightValues: function () {
+        let values = [];
+        for (var index=0; index<this.members.get(0).members.length; index++){
+            values.push(this.members.get(0).members.get(index).getUnitValues())
+        }
+        return values;
     },
-    setValues: function (values) {
-        return form.setValues(values);
+    setWeightValues: function (values) {
+        for (var index=0; index<this.members.get(0).members.length; index++){
+            values.push(this.members.get(0).members.get(index).setUnitValues(values.get(index)))
+        }
     }
 });
 
 isc.invoiceWeight.create({
-    material: materialCode["Copper Cathode"]
+    material: materialCode["Anode Slime"]
 });

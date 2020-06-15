@@ -109,4 +109,15 @@
             <column name="CATEGORY_VALUE" type="NUMBER(10, 0)"/>
         </addColumn>
     </changeSet>
+
+    <changeSet author="programmer (generated)" id="8778899665544-001">
+        <addColumn tableName="TBL_CNTR_CONTRACT_DETAIL_TYPE">
+            <column name="C_MATERIAL" type="NUMBER(10, 0)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="programmer (generated)" id="8778899665544-002">
+        <addColumn tableName="TBL_CNTR_CONTRACT_DETAIL_TYPE_PARAM">
+            <column name="C_REQUIRED" type="boolean"/>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>

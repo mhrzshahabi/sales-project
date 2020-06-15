@@ -159,7 +159,6 @@ incotermTab.dynamicForm.fields = BaseFormItems.concat([{
     title: "<spring:message code='global.description'/>",
 }]);
 incotermTab.dynamicForm.incoterm = isc.DynamicForm.create({
-
     width: "100%",
     align: "center",
     titleAlign: "right",
@@ -252,7 +251,7 @@ incotermTab.button.cancel = isc.IButtonCancel.create({
         incotermTab.window.incoterm.close();
     }
 });
-incotermTab.window.incoterm = isc.Window.nicico.getDefault(null, [
+incotermTab.window.incoterm = isc.Window.nicico.getDefault('<spring:message code="entity.incoterm"/>', [
 
     incotermTab.dynamicForm.incoterm,
     isc.HLayout.create({
@@ -431,7 +430,7 @@ incotermTab.method.showDetailWindow = function (incotermId, title) {
                 },
                 callback: function (rulesResponse) {
                     let incotermRulesData = JSON.parse(rulesResponse.httpResponseText).response.data;
-                    isc.Window.nicico.getDefault2(null, isc.IncotermTable.create({
+                    isc.Window.nicico.getDefault2("<spring:message code='entity.incoterm-detail'/>", isc.IncotermTable.create({
                         title: title,
                         rulesDataSource: incotermRulesData,
                         stepsDataSource: incotermStepsData,
