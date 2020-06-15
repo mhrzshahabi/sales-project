@@ -173,12 +173,13 @@
         requiredMessage: "<spring:message code='validator.field.is.required'/>",
         numCols: 2,
         fields: [
-            {name: "id", hidden: true,},
+            {name: "id", hidden: true},
             {
                 name: "contactId",
                 title: "<spring:message code='commercialParty.title'/>",
                 width: 500, wrapTitle: false, required: true, errorOrientation: "bottom",
                 editorType: "SelectItem",
+                hidden: true,
                 type: 'text',
                 sortField: 1,
                 optionDataSource: RestDataSource_Contact,
@@ -221,8 +222,19 @@
                 width: 500,
                 wrapTitle: false
             },
+            { name: "image", type: "imageFile",
+              accept: ".pdf,.docx,.xlsx,.rar,.zip,image/*",
+              multiple: "",
+              hint: "Maximum file size is 5 MiB",
+              title: "<spring:message code='global.Attachment'/> ",
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }]
+            },
             {
-                name: "title",
+                name: "title",hidden: true,
                 title: "<spring:message code='person.title.gender'/>",
                 type: 'text', wrapTitle: false,
                 width: 500,
@@ -233,10 +245,10 @@
                 }
             },
             {
-                name: "email",
+                name: "email",hidden: true,
                 title: "<spring:message code='person.email'/>",
                 type: 'text',
-                required: true, errorOrientation: "bottom",
+                required: false, errorOrientation: "bottom",
                 width: 500,
                 wrapTitle: false,
                 validateOnExit: true,
@@ -254,7 +266,7 @@
                 ]
             },
             {
-                name: "email1",
+                name: "email1",hidden: true,
                 title: "<spring:message code='person.email1'/>",
                 type: 'text',
                 width: 500,
@@ -268,7 +280,7 @@
                 ]
             },
             {
-                name: "email2",
+                name: "email2",hidden: true,
                 title: "<spring:message code='person.email2'/>",
                 type: 'text',
                 width: 500,
@@ -282,7 +294,7 @@
                 ]
             },
             {
-                name: "webAddress",
+                name: "webAddress",hidden: true,
                 title: "<spring:message code='person.webAddress'/>",
                 type: 'text',
                 width: 500,
@@ -292,41 +304,41 @@
                 textAlign: "left"
             },
             {
-                name: "phoneNo", title: "<spring:message code='person.phoneNo'/>", type: 'text', width: 500,
+                name: "phoneNo", title: "<spring:message code='person.phoneNo'/>", type: 'text', width: 500,hidden: true,
                 wrapTitle: false, length: "20", keyPressFilter: "[0-9.+]"
             },
             {
-                name: "faxNo", title: "<spring:message code='person.faxNo'/>", type: 'text', width: 500,
+                name: "faxNo", title: "<spring:message code='person.faxNo'/>", type: 'text', width: 500,hidden: true,
                 wrapTitle: false, length: "20", keyPressFilter: "[0-9.+]"
             },
             {
-                name: "mobileNo", title: "<spring:message code='person.mobileNo'/>", length: "20", type: 'text',
+                name: "mobileNo", title: "<spring:message code='person.mobileNo'/>", length: "20", type: 'text',hidden: true,
                 width: 500, wrapTitle: false, keyPressFilter: "[0-9.+]"
             },
             {
-                name: "mobileNo1", title: "<spring:message code='person.mobileNo1'/>", type: 'text',
+                name: "mobileNo1", title: "<spring:message code='person.mobileNo1'/>", type: 'text',hidden: true,
                 width: 500, wrapTitle: false, length: "20", keyPressFilter: "[0-9.+]", textAlign: "left"
             },
             {
-                name: "mobileNo2", title: "<spring:message code='person.mobileNo2'/>", type: 'text',
+                name: "mobileNo2", title: "<spring:message code='person.mobileNo2'/>", type: 'text',hidden: true,
                 width: 500, wrapTitle: false, length: "20", keyPressFilter: "[0-9.+]"
             },
             {
-                name: "whatsApp",
+                name: "whatsApp",hidden: true,
                 title: "<spring:message code='person.whatsApp'/>",
                 type: 'text',
                 width: 500,
                 wrapTitle: false
             },
             {
-                name: "weChat",
+                name: "weChat",hidden: true,
                 title: "<spring:message code='person.weChat'/>",
                 type: 'text',
                 width: 500,
                 wrapTitle: false
             },
             {
-                name: "address",
+                name: "address",hidden: true,
                 title: "<spring:message code='person.address'/>",
                 type: 'text',
                 width: 500,
@@ -344,13 +356,12 @@
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
         click: function () {
-
-
-            ValuesManager_Person.validate();
+           /* ValuesManager_Person.validate();
             DynamicForm_Person.validate();
             if (DynamicForm_Person.hasErrors()) {
                 return;
-            }
+            }*/
+
             var data = DynamicForm_Person.getValues();
             var method = "PUT";
             if (data.id == null)
@@ -717,7 +728,7 @@
                     hidden: true
                 },
                 {
-                    name: "contact.nameFA",
+                    name: "contact.nameFA",hidden: true,
                     title: "<spring:message code='commercialParty.title'/>",
                     type: 'text',
                     width: "10%",
@@ -744,8 +755,9 @@
                     type: 'text',
                     width: "10%",
                 },
+                {name:"file", width:380},
                 {
-                    name: "title",
+                    name: "title",hidden: true,
                     title: "<spring:message code='person.title'/>",
                     type: 'text',
                     width: "10%",
@@ -757,7 +769,7 @@
                         }
                 },
                 {
-                    name: "email",
+                    name: "email",hidden: true,
                     title: "<spring:message code='person.email'/>",
                     type: 'text',
                     required: true, errorOrientation: "bottom",
@@ -769,49 +781,52 @@
                         }]
                 },
                 {
-                    name: "webAddress",
+                    name: "webAddress",hidden: true,
                     title: "<spring:message code='person.webAddress'/>",
                     type: 'text',
                     width: "10%",
                 },
                 {
-                    name: "phoneNo",
+                    name: "phoneNo",hidden: true,
                     title: "<spring:message code='person.phoneNo'/>",
                     type: 'text',
                     width: "10%",
                 },
                 {
-                    name: "faxNo",
+                    name: "faxNo",hidden: true,
                     title: "<spring:message code='person.faxNo'/>",
                     type: 'text',
                     width: "10%",
                 },
                 {
-                    name: "mobileNo",
+                    name: "mobileNo",hidden: true,
                     title: "<spring:message code='person.mobileNo'/>",
                     type: 'text',
                     width: "10%",
                 },
                 {
-                    name: "whatsApp",
+                    name: "whatsApp",hidden: true,
                     title: "<spring:message code='person.whatsApp'/>",
                     type: 'text',
                     width: "10%",
                 },
                 {
-                    name: "weChat",
+                    name: "weChat",hidden: true,
                     title: "<spring:message code='person.weChat'/>",
                     type: 'text',
                     width: "10%",
                 },
                 {
-                    name: "address",
+                    name: "address",hidden: true,
                     title: "<spring:message code='person.address'/>",
                     type: 'text',
                     width: "10%",
                 },
-
             ],
+            recordClick: function(viewer, record, recordNum, field, fieldNum, value, rawValue) {
+                formEdit.editSelectedData(listGrid);
+                formView.editSelectedData(listGrid);
+            },
             sortField: 2,
             sortDirection: "descending",
             autoFetchData: true

@@ -90,6 +90,11 @@ public class LMEService implements ILMEService {
         return SearchUtil.search(lMEDAO, criteria, lme -> modelMapper.map(lme, LMEDTO.Info.class));
     }
 
+    @Override
+    public List<LME> findAllByLmeMonth(Integer year, Integer month) {
+        return lMEDAO.findAllByLmeMonth(year, month);
+    }
+
     private LMEDTO.Info save(LME lME) {
         final LME saved = lMEDAO.saveAndFlush(lME);
         return modelMapper.map(saved, LMEDTO.Info.class);

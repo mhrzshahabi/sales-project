@@ -38,16 +38,12 @@ isc.defineClass("generatorContractPage", isc.HStack).addProperties({
         this.Super("initWidget", arguments);
         let This = this;
 
-        formRichTextEditor = isc.RichTextEditor.create({
+        formRichTextEditor = isc.HTMLFlow.create({
             autoDraw:true,
             height:"100%",
-            overflow:"scroll",
-            canDragResize:true,
-            canEdit:false,
-            errorOrientation: "bottom",
-            border: "1px solid #ECECEB",borderRadius: '5px',
-            controlGroups:["fontControls", "formatControls", "styleControls", "colorControls"],
-            value:""
+            overflow: "auto",
+            padding:10,
+            contents:""
             });
 
         filtersVStack = isc.VStack.create({padding:"10px",autoCenter: true,width: "15%",members: [],border: "1px solid #ECECEB",borderRadius: '5px',

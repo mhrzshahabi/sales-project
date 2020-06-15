@@ -18,15 +18,19 @@ isc.defineClass("invoiceTRC", isc.VLayout).addProperties({
 
             case 1:
                 invoiceTRCRowsComponentT = isc.invoiceTRCRows.create({
+                    rowTitle: "T/C:",
                     material: This.material
                 });
                 invoiceTRCRowsComponentRCU = isc.invoiceTRCRows.create({
+                    rowTitle: "R/C-CU:",
                     material: This.material
                 });
                 invoiceTRCRowsComponentRSILVER = isc.invoiceTRCRows.create({
+                    rowTitle: "R/C-SILVER:",
                     material: This.material
                 });
                 invoiceTRCRowsComponentRGOLD = isc.invoiceTRCRows.create({
+                    rowTitle: "R/C-GOLD:",
                     material: This.material
                 });
 
@@ -42,27 +46,25 @@ isc.defineClass("invoiceTRC", isc.VLayout).addProperties({
 
         }
 
-        var submit = isc.Button.create({
-            title: "submit",
-            click: function () {
-                console.log(This.getTRCValues());
-            }
-        });
-        this.addMember(submit);
+        // var submit = isc.Button.create({
+        //     title: "submit",
+        //     click: function () {
+        //         console.log(This.getTRCValues());
+        //     }
+        // });
+        // this.addMember(submit);
     },
     getTRCValues: function () {
-        let result = [];
-        result.push(this.members.get(0).members.get(0).getRowsValues());
-        result.push(this.members.get(0).members.get(1).getRowsValues());
-        result.push(this.members.get(0).members.get(2).getRowsValues());
-        result.push(this.members.get(0).members.get(3).getRowsValues());
-        return result;
+        let values = [];
+        for (var index=0; index<this.members.get(0).members.length; index++){
+            values.push(this.members.get(0).members.get(index).getTRCRowsValues())
+        }
+        return values;
     },
     setTRCValues: function (values) {
-        this.members.get(0).members.get(0).setRowsValues(values.get(0));
-        this.members.get(0).members.get(1).setRowsValues(values.get(1));
-        this.members.get(0).members.get(2).setRowsValues(values.get(2));
-        this.members.get(0).members.get(3).setRowsValues(values.get(3));
+        for (var index=0; index<this.members.get(0).members.length; index++){
+            values.push(this.members.get(0).members.get(index).setTRCRowsValues(values.get(index)))
+        }
     }
 });
 
