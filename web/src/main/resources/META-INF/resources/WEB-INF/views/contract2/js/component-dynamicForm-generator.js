@@ -181,11 +181,38 @@ isc.defineClass("generatorContractPage", isc.HStack).addProperties({
                                                                         icon: "pieces/16/save.png",
                                                                         click: function () {
                                                                             dynamicFormGenerator.validate();
-                                                                            for (var i=0 ;dynamicFormGenerator.getValues().length>0;i++){
-                                                                                fieldsGeneratorDynamicForm.valueTest = "1111";
+                                                                            let detail =[];
+                                                                            fieldsGeneratorDynamicForm.forEach(g =>detail.push({"contractDetailId":1,"name":g.title,"key":g.name,"type":g.type,"column":"test","value":g._value}));
+                                                                            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,{
+                                                                                actionURL: "${contextPath}/api/contract-detail-value",
+                                                                                httpMethod: "POST",
+                                                                                data: JSON.stringify(detail),
+                                                                                callback: function (RpcResponse_o) {
+                                                                                    isc.say("<spring:message code='global.form.request.successful'/>");
+                                                                                    windowDynamicFormGenerator.close();
+                                                                                    isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,{
+                                                                                            actionURL: "${contextPath}/api/contract-detail-type-template/generatorRichTextForm/" + typeID,
+                                                                                            httpMethod: "GET",
+                                                                                            data: "",
+                                                                                            callback: function (RpcResponse_o) {
+                                                                                                let keys = [];
+                                                                                                let varForReplace=JSON.parse(RpcResponse_o.data)[0].content;
+                                                                                                for(let k in dynamicFormGenerator.getValues()) keys.push(k);
+                                                                                                let result='';
+                                                                                                for(let i=0;i<keys.length;i++){
+                                                                                                    result += '$';
+                                                                                                    result += '{';
+                                                                                                    result += keys[i];
+                                                                                                    result += '}';
+                                                                                                    varForReplace = varForReplace.replaceAll(result,dynamicFormGenerator.getValue(keys[i]));
+                                                                                                    result='';
+                                                                                                }
+                                                                                                formHTMLFlow.setContents(varForReplace);
+                                                                                            }
+                                                                                        }));
                                                                                 }
-                                                                            console.log(fieldsGeneratorDynamicForm)
-                                                                        }}),
+                                                                            }));
+                                                                    }}),
                                                                     isc.IButtonCancel.create({
                                                                         title: "No",
                                                                         icon: "pieces/16/save.png",
@@ -207,16 +234,8 @@ isc.defineClass("generatorContractPage", isc.HStack).addProperties({
                                                                     fields.forEach(g => fieldsGeneratorDynamicForm.push(g));
                                                                 }
                                                             }));
-                                                        /*isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,{
-                                                                actionURL: "${contextPath}/api/contract-detail-type-template/generatorRichTextForm/" + typeID,
-                                                                httpMethod: "GET",
-                                                                data: "",
-                                                                callback: function (RpcResponse_o) {
-                                                                    let richText = JSON.parse(RpcResponse_o.data);
-                                                                    formRichTextEditor.setValue(richText[0].content);
-                                                                }
-                                                            }));*/
                                             }});
+
         buttonAllSave = isc.IButtonSave.create({
                 title: "<spring:message code='global.form.save'/>",
                 icon: "pieces/16/save.png",
