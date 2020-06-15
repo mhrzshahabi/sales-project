@@ -110,6 +110,58 @@
         </addColumn>
     </changeSet>
 
+
+
+
+    <changeSet author="saeb (generated)" id="1591422232121-374">
+        <createSequence sequenceName="SEQ_WAREHOUSE" startValue="100000"/>
+    </changeSet>
+    <changeSet author="saeb (generated)" id="1591422232121-377">
+        <createTable tableName="TBL_WAREHOUSE">
+            <column name="ID" type="NUMBER(19, 0)">
+                <constraints primaryKey="true" primaryKeyName="TBL_WAREHOUSEPK"/>
+            </column>
+            <column name="c_created_by" type="VARCHAR2(255 CHAR)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="d_created_date" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
+            <column name="d_last_modified_date" type="TIMESTAMP"/>
+            <column name="n_version" type="NUMBER(10, 0)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="DESCRIPTION" type="VARCHAR2(255 CHAR)"/>
+            <column name="NAME" type="VARCHAR2(255 CHAR)"/>
+            <column name="PLANT_ID" type="NUMBER(19, 0)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="saeb (generated)" id="1591434020778-375">
+        <createSequence sequenceName="SEQ_GOODS" startValue="100000"/>
+    </changeSet>
+    <changeSet author="saeb (generated)" id="1591434020778-379">
+        <createTable tableName="TBL_GOODS">
+            <column name="ID" type="NUMBER(19, 0)">
+                <constraints primaryKey="true" primaryKeyName="TBL_GOODSPK"/>
+            </column>
+            <column name="c_created_by" type="VARCHAR2(255 CHAR)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="d_created_date" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
+            <column name="d_last_modified_date" type="TIMESTAMP"/>
+            <column name="n_version" type="NUMBER(10, 0)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="c_NAME_FA" type="VARCHAR2(1000 CHAR)"/>
+        </createTable>
+    </changeSet>
+
+
     <changeSet author="programmer (generated)" id="8778899665544-001">
         <addColumn tableName="TBL_CNTR_CONTRACT_DETAIL_TYPE">
             <column name="C_MATERIAL" type="NUMBER(10, 0)"/>

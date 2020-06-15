@@ -1,11 +1,10 @@
 package com.nicico.sales.model.entities.warehouse;
 
-import com.nicico.sales.model.Auditable;
+import com.nicico.sales.model.entities.base.ShipmentType;
 import com.nicico.sales.model.entities.common.BaseEntity;
 import lombok.*;
 import lombok.experimental.Accessors;
-import org.hibernate.envers.AuditOverride;
-import org.hibernate.envers.Audited;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -26,24 +25,60 @@ public class Remittance extends BaseEntity {
     @SequenceGenerator(name = "SEQ_WARH_REMITTANCE", sequenceName = "SEQ_WARH_REMITTANCE", allocationSize = 1)
     private Long id;
 
-    @Setter(AccessLevel.NONE)
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "F_REMITTANCE_TYPE_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_remittance2remittanceTypeByRemittanceTypeId"))
-    private RemittanceType remittanceType;
-
     @NotNull
-    @Column(name = "F_REMITTANCE_TYPE_ID", nullable = false)
-    private Long remittanceTypeId;
+    @Column(name = "C_CODE", nullable = false)
+    private String code;
+
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "F_DEPOT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_remittance2depotByDepotId"))
-    private Depot depot;
+    @JoinColumn(name = "F_ITEM_DETAIL_ID", insertable = false, updatable = false,
+            foreignKey = @ForeignKey(name = "fk_remittance2itemByItemDetailId"))
+    private ItemDetail itemDetail;
 
     @NotNull
-    @Column(name = "F_DEPOT_ID", nullable = false)
-    private Long depotId;
+    @Column(name = "F_ITEM_DETAIL_ID", nullable = false)
+    private Long itemId;
+
+    @Setter(AccessLevel.NONE)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "F_SHIPMENT_TYPE_ID", insertable = false, updatable = false,
+            foreignKey = @ForeignKey(name = "fk_remittance2ShipmentTypeByShipmentTypeId"))
+    private ShipmentType shipmentType;
+
+    @NotNull
+    @Column(name = "F_SHIPMENT_TYPE_ID", nullable = false)
+    private Long shipmentTypeId;
+
+    @Setter(AccessLevel.NONE)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "F_SOURCE_WAREHOUSE_ID", insertable = false, updatable = false,
+            foreignKey = @ForeignKey(name = "fk_remittance2warehouseAsSourceByWarehouseId"))
+    private Warehouse sourceWarehouse;
+
+    @NotNull
+    @Column(name = "F_SOURCE_WAREHOUSE_ID", nullable = false)
+    private Long sourceWarehouseId;
+
+
+    // rahahanPolompNo
+    @Column(name = "RAIL_POLOMP_NO")
+    private String railPolompNo;
+
+    // herasatPolompNo
+    @Column(name = "SECURITY_POLOMP_NO")
+    private String securityPolompNo;
 
     @OneToMany(mappedBy = "remittance", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private List<RemittanceDetail> remittanceDetails;
+
+    @OneToMany(mappedBy = "remittance", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @Where(clause = "B_IS_SOURCE_TOZIN = true")
+    private List<RemittanceTozin> sourceRemittanceTozin;
+
+    @OneToMany(mappedBy = "remittance", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @Where(clause = "B_IS_SOURCE_TOZIN = false")
+    private List<RemittanceTozin> destinationRemittanceTozin;
+
+
 }

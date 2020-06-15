@@ -89,6 +89,7 @@
     <%@include file="common/ts/FormUtil.js"%>
     <%@include file="common/ts/FindFormUtil.js"%>
     <%@include file="common/ts/GeneralTabUtil.js"%>
+    <%@include file="common/ts/StorageUtil.js"%>
 
     var BaseRPCRequest = {
         httpHeaders: {"Authorization": "Bearer <%= accessToken %>"},
@@ -972,6 +973,16 @@
                 },
                 {isSeparator: true},
                 {
+                    title: "<spring:message code='tozin.between.complex'/>",
+                    click: function () {
+                        createTab("<spring:message code='tozin.between.complex'/>",
+                            "<spring:url value="/tozin/between-complex-transfer" />")
+                    }
+
+                },
+                {isSeparator: true},
+
+                {
                     title: "<spring:message code='molybdenum.title'/>",
                     click: function () {
                         createTab("<spring:message code='molybdenum.title'/>", "<spring:url value="/warehouseLot/showForm" />")
@@ -998,6 +1009,13 @@
                         createTab("باقر<spring:message code='warehouseStock'/>", "<spring:url value="/remittance/showForm" />")
                     }
                 }*/
+                {
+                    title: "<spring:message code='warehouseStock'/>",
+                    click: function () {
+                        createTab("باقر<spring:message code='warehouseStock'/>", "<spring:url value="/remittance/showForm" />")
+
+                    }
+                }
             ]
         })
     });
@@ -1299,7 +1317,10 @@
                                             this.hide();
                                         }
                                     });
-    }}
+    }
+    }
+
+    SalesBaseParameters.getAllParameters();
 </script>
 </body>
 </html>
