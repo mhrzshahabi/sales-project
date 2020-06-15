@@ -118,12 +118,12 @@
                                  initiallyDeferred="false" referencedColumnNames="id"
                                  referencedTableName="TBL_WARH_REMITTANCE" validate="true"/>
     </changeSet>
-    <changeSet author="saeb (generated)" id="1587971310555-262">
-        <addForeignKeyConstraint baseColumnNames="F_REMITTANCE_TYPE_ID" baseTableName="TBL_WARH_REMITTANCE"
-                                 constraintName="fk_remittance2remittanceTypeByRemittanceTypeId" deferrable="false"
-                                 initiallyDeferred="false" referencedColumnNames="id"
-                                 referencedTableName="TBL_WARH_REMITTANCE_TYPE" validate="true"/>
-    </changeSet>
+    <!--    <changeSet author="saeb (generated)" id="1587971310555-262">-->
+    <!--        <addForeignKeyConstraint baseColumnNames="F_REMITTANCE_TYPE_ID" baseTableName="TBL_WARH_REMITTANCE"-->
+    <!--                                 constraintName="fk_remittance2remittanceTypeByRemittanceTypeId" deferrable="false"-->
+    <!--                                 initiallyDeferred="false" referencedColumnNames="id"-->
+    <!--                                 referencedTableName="TBL_WARH_REMITTANCE_TYPE" validate="true"/>-->
+    <!--    </changeSet>-->
     <changeSet author="saeb (generated)" id="1587971310555-269">
         <addForeignKeyConstraint baseColumnNames="F_WAREHOUSE_ID" baseTableName="TBL_WARH_STORE"
                                  constraintName="fk_store2warehouseByWarehouseId" deferrable="false"
@@ -164,4 +164,12 @@
     <!--                                 initiallyDeferred="false" referencedColumnNames="id"-->
     <!--                                 referencedTableName="TBL_WARH_SHIPMENT_TYPE" validate="true"/>-->
     <!--    </changeSet>-->
+
+
+    <changeSet author="saeb (generated)" id="21592123918149-494">
+        <addForeignKeyConstraint baseColumnNames="F_TOZIN_ID" baseTableName="TBL_WARH_REMITTANCE_TOZIN"
+                                 constraintName="fk_remittance_tozin2sourceTozinAsSourceBySourceTozinId"
+                                 deferrable="false" initiallyDeferred="false" referencedColumnNames="id"
+                                 referencedTableName="TBL_WARH_TOZIN" validate="true"/>
+    </changeSet>
 </databaseChangeLog>

@@ -39,7 +39,7 @@
             <column name="F_TOZIN_GDSNAME" type="VARCHAR2(255 CHAR)">
                 <constraints nullable="false"/>
             </column>
-            <column name="F_TOZIN_ID" type="VARCHAR2(255 CHAR)">
+            <column name="F_TOZIN_ID" type="NUMBER(19, 0)">
                 <constraints nullable="false"/>
             </column>
             <column name="F_TOZIN_SOURCEE" type="VARCHAR2(255 CHAR)">
@@ -58,4 +58,21 @@
             </column>
         </addColumn>
     </changeSet>
+
+    <changeSet author="saeb (generated)" id="1592123918149-535">
+        <dropColumn columnName="F_TOZIN_CARD_ID" tableName="TBL_WARH_REMITTANCE_TOZIN"/>
+    </changeSet>
+    <changeSet author="saeb (generated)" id="1592123918149-536">
+        <dropColumn columnName="F_TOZIN_GDSCODE" tableName="TBL_WARH_REMITTANCE_TOZIN"/>
+    </changeSet>
+    <changeSet author="saeb (generated)" id="1592123918149-537">
+        <dropColumn columnName="F_TOZIN_GDSNAME" tableName="TBL_WARH_REMITTANCE_TOZIN"/>
+    </changeSet>
+    <changeSet author="saeb (generated)" id="1592123918149-538">
+        <dropColumn columnName="F_TOZIN_SOURCEE" tableName="TBL_WARH_REMITTANCE_TOZIN"/>
+    </changeSet>
+    <changeSet author="saeb (generated)" id="1592123918149-539">
+        <dropColumn columnName="F_TOZIN_TARGET" tableName="TBL_WARH_REMITTANCE_TOZIN"/>
+    </changeSet>
+
 </databaseChangeLog>

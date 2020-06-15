@@ -3,9 +3,9 @@
                    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
 
-    <changeSet author="saeb (generated)" id="1587971310555-232">
-        <createSequence sequenceName="SEQ_WARH_WAREHOUSE"/>
-    </changeSet>
+    <!--    <changeSet author="saeb (generated)" id="1587971310555-232">-->
+    <!--        <createSequence sequenceName="SEQ_WARH_WAREHOUSE"/>-->
+    <!--    </changeSet>-->
 
     <changeSet author="saeb (generated)" id="1587971310555-247">
         <createTable tableName="TBL_WARH_WAREHOUSE">

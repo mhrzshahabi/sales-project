@@ -2,11 +2,9 @@
 <databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
-    <changeSet author="saeb (generated)" id="1587971310555-224">
-        <createSequence sequenceName="SEQ_WARH_ITEM"/>
-    </changeSet>
 
-    <changeSet author="saeb (generated)" id="1587971310555-238">
+
+<changeSet author="saeb (generated)" id="1587971310555-238">
         <createTable tableName="TBL_WARH_ITEM">
             <column name="id" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_WARH_ITEMPK"/>

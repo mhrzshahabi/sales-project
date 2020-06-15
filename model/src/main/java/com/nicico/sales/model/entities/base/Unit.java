@@ -20,7 +20,7 @@ public class Unit extends Auditable {
     @Id
     @GenericGenerator(name = "SEQ_UNIT", strategy = "com.nicico.sales.model.entities.common.IdKeepingSequenceGenerator")
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_UNIT")
-    @SequenceGenerator(name = "SEQ_UNIT", sequenceName = "SEQ_UNIT", allocationSize = 1, initialValue = 1000000)
+//    @SequenceGenerator(name = "SEQ_UNIT", sequenceName = "SEQ_UNIT", allocationSize = 1, initialValue = 1000000)
     @Column(name = "ID")
     private Long id;
 

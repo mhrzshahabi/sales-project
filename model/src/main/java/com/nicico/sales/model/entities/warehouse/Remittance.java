@@ -1,5 +1,6 @@
 package com.nicico.sales.model.entities.warehouse;
 
+import com.nicico.sales.model.entities.base.ShipmentType;
 import com.nicico.sales.model.entities.common.BaseEntity;
 import lombok.*;
 import lombok.experimental.Accessors;
@@ -28,14 +29,6 @@ public class Remittance extends BaseEntity {
     @Column(name = "C_CODE", nullable = false)
     private String code;
 
-    @Setter(AccessLevel.NONE)
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "F_REMITTANCE_TYPE_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_remittance2remittanceTypeByRemittanceTypeId"))
-    private RemittanceType remittanceType;
-
-    @NotNull
-    @Column(name = "F_REMITTANCE_TYPE_ID", nullable = false)
-    private Long remittanceTypeId;
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
