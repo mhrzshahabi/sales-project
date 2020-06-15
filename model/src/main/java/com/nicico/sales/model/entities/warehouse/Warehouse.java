@@ -19,11 +19,9 @@ import java.util.List;
 public class Warehouse extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_WARH_WAREHOUSE")
-    @SequenceGenerator(name = "SEQ_WARH_WAREHOUSE", sequenceName = "SEQ_WARH_WAREHOUSE", allocationSize = 1)
     private Long id;
 
-    @Column(name = "N_PLANT_ID", nullable = false)
+    @Column(name = "N_PLANT_ID", nullable = true)
     private Long plantId;
 
     @OneToMany(mappedBy = "warehouse", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)

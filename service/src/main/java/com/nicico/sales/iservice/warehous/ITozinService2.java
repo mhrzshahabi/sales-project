@@ -3,27 +3,24 @@ package com.nicico.sales.iservice.warehous;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.copper.common.dto.search.SearchDTO;
-import com.nicico.sales.model.entities.warehouse.Tozin2;
-import com.nicico.sales.model.entities.warehouse.TozinId;
+import com.nicico.sales.model.entities.warehouse.TozinTable;
 
 import java.util.List;
-import java.util.Map;
 
 public interface ITozinService2 {
 
-    Tozin2 get(TozinId id);
+    TozinTable get(Long id);
 
-    Tozin2 getByTozinId(String tozinIdString);
+    TozinTable getByTozinId(String tozinIdString);
 
-    List<Tozin2> getAllById(List<TozinId> ids);
+    List<TozinTable> getAllById(List<Long> ids);
 
-    List<Tozin2> getAllByTozinCode(List<String> TozinCode);
+    List<TozinTable> getAllByTozinCode(List<String> TozinCode);
 
-    List<Tozin2> list();
+    List<TozinTable> list();
 
-    TotalResponse<Tozin2> search(NICICOCriteria request);
+    TotalResponse<TozinTable> search(NICICOCriteria request);
 
-    SearchDTO.SearchRs<Tozin2> search(SearchDTO.SearchRq request);
+    SearchDTO.SearchRs<TozinTable> search(SearchDTO.SearchRq request);
 
-    List<Map> getTargets();
 }

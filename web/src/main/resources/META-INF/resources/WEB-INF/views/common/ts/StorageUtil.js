@@ -39,21 +39,6 @@ class StorageUtil {
 }
 StorageUtil._prefix = 'sales';
 class SalesBaseParameters {
-    static async fetchAndSave(parameter) {
-        try {
-            const rawResponse = await fetch(this.rootUrl + '/api/' + parameter + '/list', { headers: this.httpHeaders });
-            const response = await rawResponse.json();
-            const params = {};
-            params[parameter] = response;
-            StorageUtil.save('parameters', params);
-            this[parameter] = response;
-            return response;
-        }
-        catch (e) {
-            console.error('fetching parameter error', e);
-            return false;
-        }
-    }
     static async getParameter(parameter, updateTable = false) {
         if (updateTable) {
             const dialog = isc.Dialog.create({
@@ -72,16 +57,16 @@ class SalesBaseParameters {
             else
                 this[parameter] = parameters[parameter];
         }
-        return this[parameter];
+        return await this[parameter];
     }
     static async getUnitParameter(updateTable = false) {
-        await this.getParameter('unit', updateTable);
+        return await this.getParameter('unit', updateTable);
     }
     static async getWarehouseParameter(updateTable = false) {
-        await this.getParameter('warehouse', updateTable);
+        return await this.getParameter('warehouse', updateTable);
     }
     static async getGoodsParameter(updateTable = false) {
-        await this.getParameter('goods', updateTable);
+        return await this.getParameter('goods', updateTable);
     }
     static async getAllParameters(updateTable = false) {
         await Promise.all([
@@ -94,6 +79,21 @@ class SalesBaseParameters {
             'unit': this.unit,
             'warehouse': this.warehouse
         };
+    }
+
+    static async fetchAndSave(parameter) {
+        try {
+            const rawResponse = await fetch(this.rootUrl + '/api/' + parameter + '/list', {headers: this.httpHeaders});
+            const response = await rawResponse.json();
+            const params = {};
+            params[parameter] = response;
+            StorageUtil.save('parameters', params);
+            this[parameter] = response;
+            return response;
+        } catch (e) {
+            console.error('fetching parameter error', e);
+            return false;
+        }
     }
 }
 SalesBaseParameters.rootUrl = document.URL.split("?")[0].slice(-1) === "/"

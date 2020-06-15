@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 
 @Slf4j
 @RequiredArgsConstructor
@@ -31,6 +33,13 @@ public class WarehouseController {
     public ResponseEntity<TotalResponse<Warehouse>> search(@RequestParam MultiValueMap<String, String> criteria) {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
         return new ResponseEntity<>(service.search(nicicoCriteria), HttpStatus.OK);
+    }
+
+    @Loggable
+    @GetMapping(value = "/update-all")
+    public ResponseEntity<List<Warehouse>> updateFromTozinView() {
+        service.updateFromTozinView();
+        return new ResponseEntity<>(service.list(), HttpStatus.OK);
     }
 
 
