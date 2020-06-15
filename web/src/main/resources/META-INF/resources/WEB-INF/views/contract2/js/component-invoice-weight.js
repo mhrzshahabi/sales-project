@@ -6,7 +6,6 @@ isc.defineClass("invoiceWeight", isc.VLayout).addProperties({
     height: "20%",
     material: null,
     backgroundColor: "#f0c85a",
-    // form: null,
     unitComponentGross: null,
     unitComponentNet: null,
     unitComponentBundles: null,
@@ -37,7 +36,6 @@ isc.defineClass("invoiceWeight", isc.VLayout).addProperties({
                     typeUnitCategory: 1,
                     showTitle: false
                 });
-                // form.setFields(this.unitComponentGross, this.unitComponentNet, this.unitComponentBundles);
                 this.addMember(isc.VLayout.create({
                     width: "100%",
                     height: "100%",
@@ -68,7 +66,6 @@ isc.defineClass("invoiceWeight", isc.VLayout).addProperties({
                     typeUnitCategory: 1,
                     showTitle: false
                 });
-                // form.setFields(this.unitComponentNetWet, this.unitComponentMoisture, this.unitComponentNetDry);
                 this.addMember(isc.VLayout.create({
                     width: "100%",
                     height: "100%",
@@ -99,7 +96,6 @@ isc.defineClass("invoiceWeight", isc.VLayout).addProperties({
                     typeUnitCategory: 1,
                     showTitle: false
                 });
-                // form.setFields(this.unitComponentNetWet, this.unitComponentMoisture, this.unitComponentNetDry);
                 this.addMember(isc.VLayout.create({
                     width: "100%",
                     height: "100%",
@@ -113,25 +109,25 @@ isc.defineClass("invoiceWeight", isc.VLayout).addProperties({
                 break;
         }
 
-        var submit = isc.Button.create({
-            title: "submit",
-            click: function () {
-                console.log(This.getWeightValues());
-            }
-        });
-        this.addMember(submit);
+        // var submit = isc.Button.create({
+        //     title: "submit",
+        //     click: function () {
+        //         console.log(This.getWeightValues());
+        //     }
+        // });
+        // this.addMember(submit);
     },
     getWeightValues: function () {
         let values = [];
-            values.push(this.members.get(0).members.get(0).getUnitValues());
-            values.push(this.members.get(0).members.get(1).getUnitValues());
-            values.push(this.members.get(0).members.get(2).getUnitValues());
+        for (var index=0; index<this.members.get(0).members.length; index++){
+            values.push(this.members.get(0).members.get(index).getUnitValues())
+        }
         return values;
     },
     setWeightValues: function (values) {
-        this.members.get(0).members.get(0).setUnitValues(values.get(0));
-        this.members.get(0).members.get(1).setUnitValues(values.get(1));
-        this.members.get(0).members.get(2).setUnitValues(values.get(2));
+        for (var index=0; index<this.members.get(0).members.length; index++){
+            values.push(this.members.get(0).members.get(index).setUnitValues(values.get(index)))
+        }
     }
 });
 

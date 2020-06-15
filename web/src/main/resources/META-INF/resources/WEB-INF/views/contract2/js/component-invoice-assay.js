@@ -131,26 +131,28 @@ isc.defineClass("invoiceAssay", isc.VLayout).addProperties({
                 break;
         }
 
-        var submit = isc.Button.create({
-            title: "submit",
-            click: function () {
-                console.log(This.getAssayValues());
-            }
-        });
-        this.addMember(submit);
+        // var submit = isc.Button.create({
+        //     title: "submit",
+        //     click: function () {
+        //         console.log(This.getAssayValues());
+        //     }
+        // });
+        // this.addMember(submit);
     },
     getAssayValues: function () {
-        var values = [];
-        for (var index=0; index<this.members.get(0).members.length; index++) {
-            values.push(this.members.get(0).members.get(index).getValues());
+        let values = [];
+        for (var index=0; index<this.members.get(0).members.length; index++){
+            values.push(this.members.get(0).members.get(index).getUnitValues())
         }
         return values;
     },
     setAssayValues: function (values) {
-
+        for (var index=0; index<this.members.get(0).members.length; index++){
+            values.push(this.members.get(0).members.get(index).setUnitValues(values.get(index)))
+        }
     }
 });
 
 isc.invoiceAssay.create({
-    material: materialCode["Copper Concentrate"]
+    material: materialCode["Anode Slime"]
 });
