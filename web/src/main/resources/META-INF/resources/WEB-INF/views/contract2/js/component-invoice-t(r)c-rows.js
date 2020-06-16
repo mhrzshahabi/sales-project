@@ -10,10 +10,17 @@ isc.defineClass("invoiceTRCRows", isc.VLayout).addProperties({
     unitComponentCol1: null,
     unitComponentCol2: null,
     unitComponentColFinal: null,
+    invoiceTRCRowsObj: "",
     initWidget: function () {
 
         var This = this;
         this.Super("initWidget", arguments);
+
+        invoiceTRCRowsObj = {
+            tRCRowsCol1: 0,
+            tRCRowsCol2: 0,
+            tRCRowsColFinal: 0,
+        };
 
         switch (this.material) {
 
@@ -76,28 +83,17 @@ isc.defineClass("invoiceTRCRows", isc.VLayout).addProperties({
 
         }
 
-        // var submit = isc.Button.create({
-        //     title: "submit",
-        //     click: function () {
-        //         console.log(This.getTRCRowsValues());
-        //     }
-        // });
-        // this.addMember(submit);
     },
     getTRCRowsValues: function () {
-        let values = [];
-        values.push(this.members.get(0).members.get(1).getUnitValues());
-        values.push(this.members.get(0).members.get(3).getUnitValues());
-        values.push(this.members.get(0).members.get(5).getUnitValues());
-        return values;
+        invoiceTRCRowsObj.tRCRowsCol1 = this.members.get(0).members.get(1).getUnitValues();
+        invoiceTRCRowsObj.tRCRowsCol2 = this.members.get(0).members.get(3).getUnitValues();
+        invoiceTRCRowsObj.tRCRowsColFinal = this.members.get(0).members.get(5).getUnitValues();
+        return invoiceTRCRowsObj;
     },
-    setTRCRowsValues: function (values) {
-        this.members.get(0).members.get(1).setUnitValues(values.get(0));
-        this.members.get(0).members.get(3).setUnitValues(values.get(1));
-        this.members.get(0).members.get(5).setUnitValues(values.get(2));
+    setTRCRowsValues: function (data) {
+        this.members.get(0).members.get(1).setUnitValues(data.tRCRowsCol1);
+        this.members.get(0).members.get(3).setUnitValues(data.tRCRowsCol2);
+        this.members.get(0).members.get(5).setUnitValues(data.tRCRowsColFinal);
     }
 });
 
-// isc.invoiceTRCRows.create({
-//     material: materialCode["Copper Concentrate"]
-// });
