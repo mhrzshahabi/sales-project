@@ -5,7 +5,6 @@ isc.defineClass("invoiceAssay", isc.VLayout).addProperties({
     width: "100%",
     height: "20%",
     material: null,
-    form: null,
     backgroundColor: "#f0c85a",
     unitComponentCopper: null,
     unitComponentSilver: null,
@@ -120,13 +119,6 @@ isc.defineClass("invoiceAssay", isc.VLayout).addProperties({
                 break;
         }
 
-        var submit = isc.Button.create({
-            title: "submit",
-            click: function () {
-                console.log(This.getAssayValues());
-            }
-        });
-        this.addMember(submit);
     },
     getAssayValues: function () {
 
@@ -150,16 +142,14 @@ isc.defineClass("invoiceAssay", isc.VLayout).addProperties({
         }
         return  invoiceAssayObj;
     },
-    setAssayValues: function (values) {
-        this.members.get(0).members.get(0).setUnitValues(values.get(0));
-        this.members.get(0).members.get(1).setUnitValues(values.get(1));
-        this.members.get(0).members.get(2).setUnitValues(values.get(2));
-        this.members.get(0).members.get(3).setUnitValues(values.get(3));
-        this.members.get(0).members.get(4).setUnitValues(values.get(4));
-        this.members.get(0).members.get(5).setUnitValues(values.get(5));
+    setAssayValues: function (data) {
+        this.members.get(0).setUnitValues(data.assayCopper);
+        this.members.get(1).setUnitValues(data.assaySilver);
+        this.members.get(2).setUnitValues(data.assayGold);
+        this.members.get(3).setUnitValues(data.assayPlatinum);
+        this.members.get(4).setUnitValues(data.assayPalladium);
+        this.members.get(5).setUnitValues(data.assaySelenium);
+
     }
 });
 
-// isc.invoiceAssay.create({
-//     material: materialCode["Copper Cathode"]
-// });

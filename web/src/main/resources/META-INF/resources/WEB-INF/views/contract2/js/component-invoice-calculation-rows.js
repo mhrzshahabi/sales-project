@@ -196,13 +196,6 @@ isc.defineClass("invoiceCalculationRows", isc.VLayout).addProperties({
                 break;
         }
 
-        // var submit = isc.Button.create({
-        //     title: "submit",
-        //     click: function () {
-        //         console.log(This.getCalRowsValues());
-        //     }
-        // });
-        // this.addMember(submit);
     },
     getCalRowsValues: function () {
 
@@ -227,11 +220,22 @@ isc.defineClass("invoiceCalculationRows", isc.VLayout).addProperties({
 
         return invoiceCalculationRowsObj;
     },
-    setCalRowsValues: function (values) {
+    setCalRowsValues: function (data) {
+        this.members.get(0).setUnitValues(data.calculationRowsAssay);
+        this.members.get(1).setUnitValues(data.calculationRowsDeduc);
 
+        switch (this.isPercent) {
+            case 0:
+                this.members.get(2).members.get(0).setUnitValues(data.calculationRowsFinalCol1);
+                this.members.get(2).members.get(2).setUnitValues(data.calculationRowsFinalCol2);
+                this.members.get(2).members.get(4).setUnitValues(data.calculationRowsFinalCol3);
+                break;
+            case 1:
+                this.members.get(2).members.get(0).setUnitValues(data.calculationRowsNPCol1);
+                this.members.get(2).members.get(2).setUnitValues(data.calculationRowsNPCol2);
+                this.members.get(3).members.get(0).setUnitValues(data.calculationRowsFinalCol1);
+                this.members.get(3).members.get(2).setUnitValues(data.calculationRowsFinalCol2);
+                this.members.get(3).members.get(4).setUnitValues(data.calculationRowsFinalCol3);
+        }
     }
 });
-
-// isc.invoiceCalculationRows.create({
-//     isPercent: 0
-// });

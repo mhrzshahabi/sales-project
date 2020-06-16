@@ -98,13 +98,13 @@ isc.defineClass("invoiceWeight", isc.VLayout).addProperties({
                 break;
         }
 
-        var submit = isc.Button.create({
+        /*var submit = isc.Button.create({
             title: "submit",
             click: function () {
                 console.log(This.getWeightValues());
             }
         });
-        this.addMember(submit);
+        this.addMember(submit);*/
     },
     getWeightValues: function () {
         invoiceWeightObj.weightGW = this.members.get(0).getUnitValues();
@@ -112,13 +112,13 @@ isc.defineClass("invoiceWeight", isc.VLayout).addProperties({
         invoiceWeightObj.weightBM = this.members.get(2).getUnitValues();
         return invoiceWeightObj;
     },
-    setWeightValues: function (values) {
-        this.members.get(0).members.get(0).setUnitValues(values.get(0));
-        this.members.get(0).members.get(1).setUnitValues(values.get(1));
-        this.members.get(0).members.get(2).setUnitValues(values.get(2));
+    setWeightValues: function (data) {
+        this.members.get(0).setUnitValues(data.weightGW);
+        this.members.get(1).setUnitValues(data.weightND);
+        this.members.get(2).setUnitValues(data.weightBM);
     }
 });
 
-/*isc.invoiceWeight.create({
-    material: materialCode["Copper Cathode"]
-});*/
+// isc.invoiceWeight.create({
+//     material: materialCode["Copper Cathode"]
+// });

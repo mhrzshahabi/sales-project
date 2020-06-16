@@ -81,14 +81,6 @@ isc.defineClass("invoiceTRC", isc.VLayout).addProperties({
 
         }
 
-        var submit = isc.Button.create({
-            title: "submit",
-            click: function () {
-                console.log(This.getTRCValues());
-            }
-        });
-        this.addMember(submit);
-
     },
     getTRCValues: function () {
 
@@ -112,15 +104,11 @@ isc.defineClass("invoiceTRC", isc.VLayout).addProperties({
 
         return invoiceTRCObj;
     },
-    setTRCValues: function (values) {
-        this.members.get(0).members.get(0).setTRCRowsValues(values.get(0));
-        this.members.get(0).members.get(1).setTRCRowsValues(values.get(1));
-        this.members.get(0).members.get(2).setTRCRowsValues(values.get(2));
-        this.members.get(0).members.get(3).setTRCRowsValues(values.get(3));
-        this.members.get(0).members.get(4).setTRCRowsValues(values.get(4));
+    setTRCValues: function (data) {
+        this.members.get(0).setTRCRowsValues(data.tRCT);
+        this.members.get(1).setTRCRowsValues(data.tRCRCuAg);
+        this.members.get(2).setTRCRowsValues(data.tRCRSilverAu);
+        this.members.get(3).setTRCRowsValues(data.tRCRGoldPt);
+        this.members.get(4).setTRCRowsValues(data.tRCRPd);
     }
 });
-
-// isc.invoiceTRC.create({
-//     material: 1
-// });

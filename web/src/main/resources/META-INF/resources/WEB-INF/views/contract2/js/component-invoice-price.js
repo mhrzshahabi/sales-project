@@ -164,14 +164,6 @@ isc.defineClass("invoicePrice", isc.VLayout).addProperties({
                 break;
         }
 
-        var submit = isc.Button.create({
-            title: "submit",
-            click: function () {
-                console.log(This.getPriceValues());
-            }
-        });
-        this.addMember(submit);
-
     },
     getPriceValues: function () {
         invoicePriceObj.priceCopper = Number(form.getItem("copper").getValue());
@@ -182,18 +174,18 @@ isc.defineClass("invoicePrice", isc.VLayout).addProperties({
         invoicePriceObj.priceSelenium = Number(form.getItem("selenium").getValue());
         return  invoicePriceObj;
     },
-    setPriceValues: function (values) {
-        form.getItem("copper").setValue(values.get(0));
-        form.getItem("silver").setValue(values.get(1));
-        form.getItem("gold").setValue(values.get(2));
-        form.getItem("platinum").setValue(values.get(3));
-        form.getItem("palladium").setValue(values.get(4));
-        form.getItem("selenium").setValue(values.get(5));
+    setPriceValues: function (data) {
+        form.getItem("copper").setValue(data.priceCopper);
+        form.getItem("silver").setValue(data.priceSilver);
+        form.getItem("gold").setValue(data.priceGold);
+        form.getItem("platinum").setValue(data.pricePlatinum);
+        form.getItem("palladium").setValue(data.pricePalladium);
+        form.getItem("selenium").setValue(data.priceSelenium);
     },
 });
 
-isc.invoicePrice.create({
+/*isc.invoicePrice.create({
     material: materialCode["Copper Concentrate"],
     contractMonth: Number('01'),
     contractYear: Number('2000'),
-});
+});*/

@@ -83,14 +83,6 @@ isc.defineClass("invoiceTRCRows", isc.VLayout).addProperties({
 
         }
 
-        /*var submit = isc.Button.create({
-            title: "submit",
-            click: function () {
-                console.log(This.getTRCRowsValues());
-            }
-        });
-        this.addMember(submit);*/
-
     },
     getTRCRowsValues: function () {
         invoiceTRCRowsObj.tRCRowsCol1 = this.members.get(0).members.get(1).getUnitValues();
@@ -98,13 +90,10 @@ isc.defineClass("invoiceTRCRows", isc.VLayout).addProperties({
         invoiceTRCRowsObj.tRCRowsColFinal = this.members.get(0).members.get(5).getUnitValues();
         return invoiceTRCRowsObj;
     },
-    setTRCRowsValues: function (values) {
-        this.members.get(0).members.get(1).setUnitValues(values.get(0));
-        this.members.get(0).members.get(3).setUnitValues(values.get(1));
-        this.members.get(0).members.get(5).setUnitValues(values.get(2));
+    setTRCRowsValues: function (data) {
+        this.members.get(0).members.get(1).setUnitValues(data.tRCRowsCol1);
+        this.members.get(0).members.get(3).setUnitValues(data.tRCRowsCol2);
+        this.members.get(0).members.get(5).setUnitValues(data.tRCRowsColFinal);
     }
 });
 
-// isc.invoiceTRCRows.create({
-//     material: materialCode["Copper Concentrate"]
-// });

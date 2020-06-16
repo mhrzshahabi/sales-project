@@ -84,13 +84,6 @@ isc.defineClass("invoiceCalculation", isc.VLayout).addProperties({
                 break;
         }
 
-        // var submit = isc.Button.create({
-        //     title: "submit",
-        //     click: function () {
-        //         console.log(This.getCalValues());
-        //     }
-        // });
-        // this.addMember(submit);
     },
     getCalValues: function () {
 
@@ -112,10 +105,12 @@ isc.defineClass("invoiceCalculation", isc.VLayout).addProperties({
         }
         return invoiceCalculationObj;
     },
-    setCalValues: function (values) {
+    setCalValues: function (data) {
+        this.members.get(0).setCalRowsValues(data.calculationCopper);
+        this.members.get(1).setCalRowsValues(data.calculationSilver);
+        this.members.get(2).setCalRowsValues(data.calculationGold);
+        this.members.get(3).setCalRowsValues(data.calculationPlatinum);
+        this.members.get(4).setCalRowsValues(data.calculationPalladium);
+        this.members.get(5).setCalRowsValues(data.calculationSelenium);
     }
 });
-
-// isc.invoiceCalculation.create({
-//     material: 1,
-// });
