@@ -4,7 +4,6 @@ isc.defineClass("invoiceCalculation", isc.VLayout).addProperties({
     align: "center",
     width: "100%",
     height: "100%",
-    backgroundColor: "#f0c85a",
     overflow: "scroll",
     material: null,
     calRowsComponentCopper: null,

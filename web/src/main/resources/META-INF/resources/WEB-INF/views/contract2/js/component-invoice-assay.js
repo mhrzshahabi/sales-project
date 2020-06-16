@@ -5,7 +5,6 @@ isc.defineClass("invoiceAssay", isc.VLayout).addProperties({
     width: "100%",
     height: "20%",
     material: null,
-    backgroundColor: "#f0c85a",
     unitComponentCopper: null,
     unitComponentSilver: null,
     unitComponentGold: null,

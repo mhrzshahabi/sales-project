@@ -4,7 +4,6 @@ isc.defineClass("invoicePrice", isc.VLayout).addProperties({
     align: "center",
     width: "100%",
     height: "20%",
-    backgroundColor: "#f0c85a",
     material: null,
     form: null,
     contractMonth: null,

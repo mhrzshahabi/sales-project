@@ -5,7 +5,6 @@ isc.defineClass("invoiceTRCRows", isc.VLayout).addProperties({
     width: "70%",
     height: "15%",
     material: null,
-    backgroundColor: "#f0c85a",
     rowTitle: "",
     unitComponentCol1: null,
     unitComponentCol2: null,

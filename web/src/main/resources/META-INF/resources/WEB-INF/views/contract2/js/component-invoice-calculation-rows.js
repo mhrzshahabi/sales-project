@@ -4,7 +4,6 @@ isc.defineClass("invoiceCalculationRows", isc.VLayout).addProperties({
     align: "center",
     width: "100%",
     height: "20%",
-    backgroundColor: "#f0c85a",
     isPercent: null,
     unitComponentAssay: null,
     unitComponentDeduc: null,
