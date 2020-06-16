@@ -17,12 +17,12 @@ import javax.validation.constraints.NotNull;
 @Accessors(chain = true)
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
-@Table(name = "TBL_WARH_REMITTANCE_DETAIL_RAW_MATERIAL_VALUE")
+@Table(name = "TBL_WARH_REMITTANCE_DETAIL_ELEMENT_VALUE")
 public class RemittanceDetailRawMaterialValue extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_WARH_REMITTANCE_DETAIL_RAW_MATERIAL_VALUE")
-    @SequenceGenerator(name = "SEQ_WARH_REMITTANCE_DETAIL_RAW_MATERIAL_VALUE", sequenceName = "SEQ_WARH_REMITTANCE_DETAIL_RAW_MATERIAL_VALUE", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_WARH_REMITTANCE_DETAIL_ELEMENT_VALUE")
+    @SequenceGenerator(name = "SEQ_WARH_REMITTANCE_DETAIL_ELEMENT_VALUE", sequenceName = "SEQ_WARH_REMITTANCE_DETAIL_ELEMENT_VALUE", allocationSize = 1)
     private Long id;
 
     @NotEmpty
@@ -31,11 +31,11 @@ public class RemittanceDetailRawMaterialValue extends BaseEntity {
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "F_ITEM_RAW_MATERIAL_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_inventoryRawMaterialValue2itemRawMaterialByInventoryRawMaterialId"))
+    @JoinColumn(name = "F_ITEM_ELEMENT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_inventoryRawMaterialValue2itemRawMaterialByInventoryRawMaterialId"))
     private ItemElement itemElement;
 
     @NotNull
-    @Column(name = "F_ITEM_RAW_MATERIAL_ID", nullable = false)
+    @Column(name = "F_ITEM_ELEMENT_ID", nullable = false)
     private Long itemRawMaterialId;
 
     @Setter(AccessLevel.NONE)
