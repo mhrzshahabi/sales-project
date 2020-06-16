@@ -15,7 +15,7 @@ import javax.validation.constraints.NotNull;
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
 @Table(name = "TBL_WARH_RAW_MATERIAL")
-public class RawMaterial extends BaseEntity {
+public class Element extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_WARH_RAW_MATERIAL")
@@ -26,6 +26,9 @@ public class RawMaterial extends BaseEntity {
     @Column(name = "C_NAME", nullable = false)
     private String name;
 
-    @Column(name = "C_DESCRIPTION", length = 1500)
-    private String description;
+    @Column(name = "B_PAYABLE")
+    private Boolean payable;
+
+    @Column(name = "B_USE_IN_CONTRACT")
+    private Boolean useInContract;
 }

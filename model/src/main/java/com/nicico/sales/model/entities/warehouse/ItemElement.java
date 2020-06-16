@@ -15,7 +15,7 @@ import javax.validation.constraints.NotNull;
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
 @Table(name = "TBL_WARH_ITEM_RAW_MATERIAL")
-public class ItemRawMaterial extends BaseEntity {
+public class ItemElement extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_WARH_ITEM_RAW_MATERIAL")
@@ -35,9 +35,10 @@ public class ItemRawMaterial extends BaseEntity {
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "F_RAW_MATERIAL_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_itemRawMaterial2rawMaterialByRawMaterialId"))
-    private RawMaterial rawMaterial;
+    private Element element;
 
     @NotNull
     @Column(name = "F_RAW_MATERIAL_ID", nullable = false)
     private Long rawMaterialId;
+
 }

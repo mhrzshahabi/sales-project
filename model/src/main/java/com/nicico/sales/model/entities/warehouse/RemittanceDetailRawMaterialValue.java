@@ -32,7 +32,7 @@ public class RemittanceDetailRawMaterialValue extends BaseEntity {
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "F_ITEM_RAW_MATERIAL_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_inventoryRawMaterialValue2itemRawMaterialByInventoryRawMaterialId"))
-    private ItemRawMaterial itemRawMaterial;
+    private ItemElement itemElement;
 
     @NotNull
     @Column(name = "F_ITEM_RAW_MATERIAL_ID", nullable = false)
@@ -56,7 +56,7 @@ public class RemittanceDetailRawMaterialValue extends BaseEntity {
     @Column(name = "F_CONTACT_ID", nullable = false)
     private Long contactId;
 
-     @Setter(AccessLevel.NONE)
+    @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "F_REMITTANCE_DETAIL_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_inventoryRawMaterialValue2remittanceDetailByremittanceDetailId"))
     private RemittanceDetail remittanceDetail;
@@ -64,6 +64,5 @@ public class RemittanceDetailRawMaterialValue extends BaseEntity {
     @NotNull
     @Column(name = "F_REMITTANCE_DETAIL_ID", nullable = false)
     private Long remittanceDetailId;
-
 
 }
