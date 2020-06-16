@@ -13,6 +13,7 @@ incotermTab.variable.incotermStepsUrl = "${contextPath}" + "/api/incoterm-steps/
 incotermTab.variable.incotermRulesUrl = "${contextPath}" + "/api/incoterm-rules/";
 incotermTab.variable.incotermPartyUrl = "${contextPath}" + "/api/incoterm-party/";
 incotermTab.variable.incotermAspectUrl = "${contextPath}" + "/api/incoterm-aspect/";
+incotermTab.variable.incotermVersionUrl = "${contextPath}" + "/api/incoterm-version/";
 incotermTab.variable.incotermDetailUrl = "${contextPath}" + "/api/incoterm-detail/";
 
 //***************************************************** RESTDATASOURCE *************************************************
@@ -135,29 +136,47 @@ incotermTab.dynamicForm.fields = BaseFormItems.concat([{
     width: "100%",
     required: true,
     title: "<spring:message code='global.title'/>"
-}, {
-    width: "100%",
-    required: true,
-    name: "incotermVersion",
-    keyPressFilter: "^[0-9]",
-    title: "<spring:message code='global.version'/>"
-}, {
-    type: "date",
-    width: "100%",
-    required: true,
-    name: "publishDate",
-    title: "<spring:message code='incoterm.form.publish-date'/>",
-    formatCellValue: function (value, record, rowNum, colNum, grid) {
+},
+    {
+        type: 'number',
+        name: "incotermVersionId",
+        title: "<spring:message code='global.version'/>",
+        width: "100%",
+        required: true,
+        autoFetchData: false,
+        editorType: "SelectItem",
+        valueField: "id",
+        displayField: "incotermVersion",
+        pickListHeight: "300",
+        optionDataSource: isc.MyRestDataSource.create({
+            fields: BaseFormItems.concat([
+                {name: "id"},
+                {name: "incotermVersion"}
+            ]),
+            fetchDataURL: incotermTab.variable.incotermVersionUrl + "spec-list"
+        }),
+        pickListFields: [
+            {name: "id", title: '<spring:message code="global.code"/>'},
+            {name: "incotermVersion", title: '<spring:message code="global.version"/>'}
+        ]
+    },
+    {
+        type: "date",
+        width: "100%",
+        required: true,
+        name: "publishDate",
+        title: "<spring:message code='incoterm.form.publish-date'/>",
+        formatCellValue: function (value, record, rowNum, colNum, grid) {
 
-        return new Date(value);
-    }
-}, {
-    colSpan: 6,
-    width: "100%",
-    name: "description",
-    editorType: "textArea",
-    title: "<spring:message code='global.description'/>",
-}]);
+            return new Date(value);
+        }
+    }, {
+        colSpan: 6,
+        width: "100%",
+        name: "description",
+        editorType: "textArea",
+        title: "<spring:message code='global.description'/>",
+    }]);
 incotermTab.dynamicForm.incoterm = isc.DynamicForm.create({
     width: "100%",
     align: "center",
@@ -195,10 +214,13 @@ incotermTab.button.save = isc.IButtonSave.create({
     icon: "pieces/16/save.png",
     title: "<spring:message code='global.form.save'/>",
     click: function () {
-
         incotermTab.dynamicForm.incoterm.validate();
         let steps = incotermTab.listGrid.incotermStep.getData().localData.filter(q => q[incotermTab.listGrid.incotermStep.selection.selectionProperty]);
         let rules = incotermTab.listGrid.incotermRule.getData().localData.filter(q => q[incotermTab.listGrid.incotermRule.selection.selectionProperty]);
+
+        console.log(incotermTab.listGrid.incotermStep.getData().localData)
+        console.log(incotermTab.listGrid.incotermRule.getData().localData)
+
         if (incotermTab.dynamicForm.incoterm.hasErrors() || steps.length === 0 || rules.length === 0) {
 
             isc.say('<spring:message code="incoterm.exception.required-info"/>');
@@ -293,6 +315,7 @@ incotermTab.method.newForm = function () {
 
     incotermTab.variable.incotermDetails = [];
 
+    incotermTab.button.save.show();
     incotermTab.dynamicForm.incoterm.clearValues();
     incotermTab.listGrid.incotermStep.deselectAllRecords();
     incotermTab.listGrid.incotermRule.deselectAllRecords();
@@ -345,6 +368,7 @@ incotermTab.method.editForm = function () {
 
                 if (incotermTab.variable.incotermDetails.length !== 0) {
 
+                    incotermTab.button.save.hide();
                     incotermTab.listGrid.incotermStep.deselectAllRecords();
                     incotermTab.listGrid.incotermRule.deselectAllRecords();
                     incotermTab.listGrid.incotermStep.setSelectionType("single");
@@ -366,6 +390,7 @@ incotermTab.method.editForm = function () {
                     });
                 } else {
 
+                    incotermTab.button.save.show();
                     incotermTab.listGrid.incotermStep.deselectAllRecords();
                     incotermTab.listGrid.incotermRule.deselectAllRecords();
                     incotermTab.listGrid.incotermStep.setSelectionType("simple");
