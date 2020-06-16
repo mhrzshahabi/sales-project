@@ -5,7 +5,7 @@ isc.defineClass("invoiceWeight", isc.VLayout).addProperties({
     width: "100%",
     height: "20%",
     material: null,
-    backgroundColor: "#f0c85a",
+    // backgroundColor: "#f0c85a",
     unitComponentGross: null,
     unitComponentNet: null,
     unitComponentBundles: null,
@@ -119,6 +119,6 @@ isc.defineClass("invoiceWeight", isc.VLayout).addProperties({
     }
 });
 
-// isc.invoiceWeight.create({
-//     material: materialCode["Copper Cathode"]
-// });
+isc.invoiceWeight.create({
+    material: materialCode["Copper Cathode"]
+});
