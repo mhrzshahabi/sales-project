@@ -7,15 +7,13 @@
     <% DateUtil dateUtil = new DateUtil();%>
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
 
-    function ListGrid_Tozin_IN_ONWAYPRODUCT_refresh() {
-        ListGrid_Tozin_IN_ONWAYPRODUCT.invalidateCache();
-    }
+function ListGrid_Tozin_IN_ONWAYPRODUCT_refresh() {ListGrid_Tozin_IN_ONWAYPRODUCT.invalidateCache();}
 
-    var RestDataSource_Tozin_IN_ONWAYPRODUCT = isc.MyRestDataSource.create({
-        fields: [
-            {
-                name: "source",
-                title: "<spring:message code='Tozin.source'/>",
+var RestDataSource_Tozin_IN_ONWAYPRODUCT = isc.MyRestDataSource.create({
+fields: [
+{
+name: "source",
+title: "<spring:message code='Tozin.source'/>",
                 align: "center"
             },
             {
@@ -251,31 +249,31 @@
             ID: "toDayDateOnWayProduct",
             title: "<spring:message code='dailyWarehouse.toDay'/>",
             type: 'text',
-            align: "center",
-            width: 130,
-            colSpan: 1,
-            titleColSpan: 1,
-            icons: [{
-                src: "pieces/pcal.png",
-                click: function () {
-                    displayDatePicker('toDayDateOnWayProduct', this, 'ymd', '/');
-                }
-            }],
-            defaultValue: "<%=dateUtil.todayDate()%>"
-        }]
-    });
+align: "center",
+width: 130,
+colSpan: 1,
+titleColSpan: 1,
+icons: [{
+src: "pieces/pcal.png",
+click: function () {
+displayDatePicker('toDayDateOnWayProduct', this, 'ymd', '/');
+}
+}],
+defaultValue: "<%=DateUtil.todayDate()%>"
+}]
+});
 
-    var DynamicForm_DailyReport_Tozin2 = isc.DynamicForm.create({
-        wrapItemTitles: false,
-        target: "_Blank",
-        titleWidth: "200",
-        numCols: 4,
-        fields: [{
-            name: "materialId",
-            colSpan: 3,
-            titleColSpan: 1,
-            showHover: true,
-            autoFetchData: false,
+var DynamicForm_DailyReport_Tozin2 = isc.DynamicForm.create({
+wrapItemTitles: false,
+target: "_Blank",
+titleWidth: "200",
+numCols: 4,
+fields: [{
+name: "materialId",
+colSpan: 3,
+titleColSpan: 1,
+showHover: true,
+autoFetchData: false,
             title: "<spring:message code='contractItem.material'/>",
             type: 'long',
             editorType: "SelectItem",
@@ -345,35 +343,35 @@
                     Window_BijackOnWayProduct.show();
                 }
                 if (record.codeKala == 8) {
-                    OnWayProductViewLoader.setViewURL("tozin/showWarehouseConcForm");
-                    Window_BijackOnWayProduct.show();
-                }
-            }
-        }]
-    });
+OnWayProductViewLoader.setViewURL("tozin/showWarehouseConcForm");
+Window_BijackOnWayProduct.show();
+}
+}
+}]
+});
 
-    isc.ViewLoader.create({
-        ID: "OnWayProductViewLoader",
-        width: 830,
-        height: 830,
-        autoDraw: false,
-        loadingMessage: " <spring:message code='global.loadingMessage'/>"
+isc.ViewLoader.create({
+ID: "OnWayProductViewLoader",
+width: 830,
+height: 630,
+autoDraw: false,
+loadingMessage: " <spring:message code='global.loadingMessage'/>"
     });
 
     var Window_BijackOnWayProduct = isc.Window.create({
         title: "<spring:message code='bijack'/> ",
-        width: 830,
-        height: 830,
-        autoSize: true,
-        autoCenter: true,
-        isModal: true,
-        align: "center",
-        autoDraw: false,
-        canDragReposition: false,
-        dismissOnEscape: true,
-        closeClick: function () {
-            this.Super("closeClick", arguments)
-        },
+width: 830,
+height: 630,
+autoSize: true,
+autoCenter: true,
+isModal: true,
+align: "center",
+autoDraw: false,
+canDragReposition: false,
+dismissOnEscape: true,
+closeClick: function () {
+this.Super("closeClick", arguments)
+},
         items: [
             OnWayProductViewLoader
         ]
@@ -577,78 +575,84 @@
                         {
                             fieldName: "target",
                             "operator": "iContains",
-                            "value": "رجا"
-                        },
-                        {
-                            fieldName: "carName",
-                            operator: "contains",
-                            value: 'انتينر'
-                        }
-                    ]
-                };
-            }
-            ListGrid_Tozin_IN_ONWAYPRODUCT.setCriteria(criteria);
-            ListGrid_Tozin_IN_ONWAYPRODUCT_refresh();
-        }
-    });
+"value": "رجا"
+},
+{
+fieldName: "carName",
+operator: "contains",
+value: 'انتينر'
+}
+]
+};
+}
+// ListGrid_Tozin_IN_ONWAYPRODUCT.setCriteria(criteria);
+// ListGrid_Tozin_IN_ONWAYPRODUCT_refresh();
+RestDataSource_Tozin_IN_ONWAYPRODUCT.fetchData(criteria,function(data,raw_data){
+console.log('fetched data ',arguments)
+ListGrid_Tozin_IN_ONWAYPRODUCT.setData(raw_data)
+}
+)
+// ListGrid_Tozin_IN_ONWAYPRODUCT.fetchData()
+}
+});
 
-    var HLayout_onWayProduct_searchBtn = isc.HLayout.create({
-        align: "center",
-        members:
-            [
-                onWayProduct_searchBtn
-            ]
-    });
+var HLayout_onWayProduct_searchBtn = isc.HLayout.create({
+align: "center",
+members:
+[
+onWayProduct_searchBtn
+]
+});
 
-    var ToolStrip_Actions_Tozin = isc.ToolStrip.create({
-        width: "100%",
-        membersMargin: 10,
-        align: "center",
-        members: [
-            DynamicForm_DailyReport_OnWayProduct,
-            DynamicForm_DailyReport_Tozin1,
-            DynamicForm_DailyReport_Tozin2,
-            DynamicForm_DailyReport_Tozin3,
-            DynamicForm_DailyReport_Tozin4,
-            HLayout_onWayProduct_searchBtn,
-            isc.ToolStrip.create({
-                width: "100%",
-                align: "left",
-                border: '0px',
-                members: [
-                    ToolStripButton_Tozin_Refresh, ToolStripButton_Tozin_Report, Jasper_Pdf
-                ]
-            })
+var ToolStrip_Actions_Tozin = isc.ToolStrip.create({
+width: "100%",
+membersMargin: 10,
+align: "center",
+members: [
+DynamicForm_DailyReport_OnWayProduct,
+DynamicForm_DailyReport_Tozin1,
+DynamicForm_DailyReport_Tozin2,
+DynamicForm_DailyReport_Tozin3,
+DynamicForm_DailyReport_Tozin4,
+HLayout_onWayProduct_searchBtn,
+isc.ToolStrip.create({
+width: "100%",
+align: "left",
+border: '0px',
+members: [
+ToolStripButton_Tozin_Refresh, ToolStripButton_Tozin_Report, Jasper_Pdf
+]
+})
 
-        ]
-    });
+]
+});
 
-    var HLayout_Tozin_Actions = isc.HLayout.create({
-        width: "100%",
-        overflow: "auto",
-        height: 56,
-        members:
-            [
-                ToolStrip_Actions_Tozin
-            ]
-    });
+var HLayout_Tozin_Actions = isc.HLayout.create({
+width: "100%",
+overflow: "auto",
+height: 56,
+members:
+[
+ToolStrip_Actions_Tozin
+]
+});
 
-    var RestDataSource_TozinInitialCriteria = {
-        _constructor: "AdvancedCriteria",
-        operator: "and",
-        criteria: [
-            {
-                fieldName: "tozinDate",
-                operator: "greaterOrEqual",
-                value: DynamicForm_DailyReport_OnWayProduct.getValues().fromDay
-            },
-            {
-                fieldName: "tozinDate",
-                operator: "lessOrEqual",
-                value: DynamicForm_DailyReport_Tozin1.getValues().toDay
-            },
-            {
-                fieldName: "codeKala",
+var RestDataSource_TozinInitialCriteria = {
+_constructor: "AdvancedCriteria",
+operator: "and",
+criteria: [
+{
+fieldName: "tozinDate",
+operator: "greaterOrEqual",
+value: DynamicForm_DailyReport_OnWayProduct.getValues().fromDay
+},
+{
+fieldName: "tozinDate",
+operator: "lessOrEqual",
+value: DynamicForm_DailyReport_Tozin1.getValues().toDay
+},
+{
+fieldName: "codeKala",
                 operator: "equals",
                 value: DynamicForm_DailyReport_Tozin2.getValues().materialId
             },
@@ -660,40 +664,44 @@
             {
                 fieldName: "target",
                 operator: "iContains",
-                value: "رجا"
-            },
-            {
-                fieldName: "carName",
-                operator: "contains",
-                value: 'انتينر'
-            }
-        ]
-    };
+value: "رجا"
+},
+{
+fieldName: "carName",
+operator: "contains",
+value: 'انتينر'
+}
+]
+};
 
-    var ListGrid_Tozin_IN_ONWAYPRODUCT = isc.ListGrid.create({
-        alternateRecordStyles: true,
-        width: "100%",
-        height: "100%",
-        autoFitMaxRecords: 10,
-        dataSource: RestDataSource_Tozin_IN_ONWAYPRODUCT,
-        initialCriteria: RestDataSource_TozinInitialCriteria,
-        contextMenu: Menu_ListGrid_OnWayProduct,
-        autoFetchData: true,
-        useClientFiltering: false,
-        fields: [
-            {
-                name: "plak",
-                title: "<spring:message code='Tozin.plak'/>",
-                align: "center",
-                showHover: true,
-                width: "10%"
-            },
-            {
-                name: "containerId",
-                title: "<spring:message code='Tozin.containerId'/>",
-                align: "center",
-                showHover: true,
-                width: "10%"
+var ListGrid_Tozin_IN_ONWAYPRODUCT = isc.ListGrid.create({
+alternateRecordStyles: true,
+width: "100%",
+height: "100%",
+showRowNumbers:true,
+showFilterEditor:true,
+allowAdvancedCriteria: true,
+filterLocalData:true,
+autoFitMaxRecords: 10,
+dataSource: RestDataSource_Tozin_IN_ONWAYPRODUCT,
+initialCriteria: RestDataSource_TozinInitialCriteria,
+contextMenu: Menu_ListGrid_OnWayProduct,
+autoFetchData: false,
+useClientFiltering: false,
+fields: [
+{
+name: "plak",
+title: "<spring:message code='Tozin.plak.container'/>",
+align: "center",
+showHover: true,
+width: "10%"
+},
+{
+name: "containerId",
+title: "<spring:message code='Tozin.containerId'/>",
+align: "center",
+showHover: true,
+width: "10%"
             },
             {
                 name: "vazn",
@@ -755,21 +763,23 @@
                 showHover: true,
                 width: "10%",
                 title: "<spring:message code='Tozin.tozinDate'/>"
-            }
-        ]
-    });
+}
+]
+});
 
-    var VLayout_Tozin_Grid = isc.VLayout.create({
-        width: "100%",
-        height: "100%",
-        members: [
-            ListGrid_Tozin_IN_ONWAYPRODUCT
-        ]
-    });
-    isc.VLayout.create({
-        width: "100%",
-        height: "100%",
-        members: [
-            HLayout_Tozin_Actions, VLayout_Tozin_Grid
-        ]
-    });
+var VLayout_Tozin_Grid = isc.VLayout.create({
+width: "100%",
+height: "100%",
+members: [
+ListGrid_Tozin_IN_ONWAYPRODUCT
+]
+});
+isc.VLayout.create({
+width: "100%",
+height: "100%",
+members: [
+HLayout_Tozin_Actions, VLayout_Tozin_Grid
+]
+});
+//</script>
+//</script>

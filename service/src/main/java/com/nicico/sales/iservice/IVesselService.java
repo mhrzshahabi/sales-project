@@ -19,7 +19,7 @@ public interface IVesselService {
 
     void delete(Long id);
 
-    void delete(VesselDTO.Delete request);
+    void deleteAll(VesselDTO.Delete request);
 
     TotalResponse<VesselDTO.Info> search(NICICOCriteria criteria);
 }
