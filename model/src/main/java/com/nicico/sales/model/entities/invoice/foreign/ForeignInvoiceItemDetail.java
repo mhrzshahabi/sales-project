@@ -56,7 +56,7 @@ public class ForeignInvoiceItemDetail extends BaseEntity {
     private ForeignInvoiceItem foreignInvoiceItem;
 
     @NotNull
-    @Column(name = "F_FOREIGN_INVOICE_ITEM_ID")
+    @Column(name = "F_FOREIGN_INVOICE_ITEM_ID", nullable = false)
     private Long foreignInvoiceItemId;
 
     @Setter(AccessLevel.NONE)

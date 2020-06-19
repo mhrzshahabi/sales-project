@@ -64,7 +64,6 @@ public class ForeignInvoice extends BaseEntity {
     @Column(name = "N_CONVERSION_SUM_PRICE", scale = 19, precision = 2)
     private BigDecimal conversionSumPrice;
 
-    @NotEmpty
     @Column(name = "C_CONVERSION_SUM_PRICE_TEXT")
     private String conversionSumPriceText;
 
@@ -80,7 +79,6 @@ public class ForeignInvoice extends BaseEntity {
     @JoinColumn(name = "F_CONVERSION_REF_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_foreignInvoice2currencyRateByConversionRefId"))
     private CurrencyRate conversionRef;
 
-    @NotNull
     @Column(name = "F_CONVERSION_REF_ID")
     private Long conversionRefId;
 
@@ -90,7 +88,7 @@ public class ForeignInvoice extends BaseEntity {
     private Currency currency;
 
     @NotNull
-    @Column(name = "F_CURRENCY_ID")
+    @Column(name = "F_CURRENCY_ID", nullable = false)
     private Long currencyId;
 
     @Setter(AccessLevel.NONE)
@@ -99,7 +97,7 @@ public class ForeignInvoice extends BaseEntity {
     private Material material;
 
     @NotNull
-    @Column(name = "F_MATERIAL_ID")
+    @Column(name = "F_MATERIAL_ID", nullable = false)
     private Long materialId;
 
     @Setter(AccessLevel.NONE)
@@ -108,7 +106,7 @@ public class ForeignInvoice extends BaseEntity {
     private Contact buyer;
 
     @NotNull
-    @Column(name = "F_BUYER_ID")
+    @Column(name = "F_BUYER_ID", nullable = false)
     private Long buyerId;
 
     @Setter(AccessLevel.NONE)
@@ -117,7 +115,7 @@ public class ForeignInvoice extends BaseEntity {
     private InvoiceType invoiceType;
 
     @NotNull
-    @Column(name = "F_INVOICE_TYPE_ID")
+    @Column(name = "F_INVOICE_TYPE_ID", nullable = false)
     private Long invoiceTypeId;
 
     @Setter(AccessLevel.NONE)
@@ -126,7 +124,7 @@ public class ForeignInvoice extends BaseEntity {
     private Contract2 contract;
 
     @NotNull
-    @Column(name = "F_CONTRACT_ID")
+    @Column(name = "F_CONTRACT_ID", nullable = false)
     private Long contractId;
 
 //    @Setter(AccessLevel.NONE)

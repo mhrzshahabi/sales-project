@@ -61,7 +61,6 @@ public class ForeignInvoicePayment extends BaseEntity {
     @JoinColumn(name = "F_CONVERSION_REF_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_foreignInvoicePayment2currencyRateByConversionRefId"))
     private CurrencyRate conversionRef;
 
-    @NotNull
     @Column(name = "F_CONVERSION_REF_ID")
     private Long conversionRefId;
 
@@ -71,7 +70,7 @@ public class ForeignInvoicePayment extends BaseEntity {
     private Currency currency;
 
     @NotNull
-    @Column(name = "F_CURRENCY_ID")
+    @Column(name = "F_CURRENCY_ID", nullable = false)
     private Long currencyId;
 
     @Setter(AccessLevel.NONE)
@@ -80,6 +79,6 @@ public class ForeignInvoicePayment extends BaseEntity {
     private ForeignInvoice foreignInvoice;
 
     @NotNull
-    @Column(name = "F_FOREIGN_INVOICE_ID")
+    @Column(name = "F_FOREIGN_INVOICE_ID", nullable = false)
     private Long foreignInvoiceId;
 }
