@@ -11,11 +11,10 @@ isc.defineClass("componentUnit", isc.VStack).addProperties({
     numCols: 4,
     showTitle: true,
     disabled: false,
-    form: null,
     initWidget: function () {
         this.Super("initWidget", arguments);
         let This = this;
-        form = isc.DynamicForm.create({
+        let form = isc.DynamicForm.create({
             width: 500,
             numCols: This.numCols,
             disabled: This.disabled,
@@ -74,12 +73,13 @@ isc.defineClass("componentUnit", isc.VStack).addProperties({
 
     },
     getUnitValues: function () {
-        return form.getValues();
+        return this.members[0].getValues();
     },
-    setUnitValues: function (value, unit) {
-        if (isInt(value) || isFloat(value)) {
-            form.setValue("value", value);
-            form.setValue("unitId", unit)
+    setUnitValues: function (data) {
+
+        if (isFloat(data.value) || isInt(data.unitId)) {
+            this.members[0].setValue("value", data.value);
+            this.members[0].setValue("unitId", data.unitId)
         }
     }
 });

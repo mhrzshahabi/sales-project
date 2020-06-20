@@ -45,4 +45,5 @@ public class Store extends BaseEntity {
 
     @OneToMany(mappedBy = "store", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private List<Depot> depots;
+
 }

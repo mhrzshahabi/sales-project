@@ -57,5 +57,4 @@ public class Warehouse extends BaseEntity {
 
     @Column(name = "N_FAX_NUMBER")
     private Long fax;
-
 }

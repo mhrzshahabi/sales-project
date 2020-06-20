@@ -14,12 +14,12 @@ import javax.validation.constraints.NotNull;
 @Accessors(chain = true)
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
-@Table(name = "TBL_WARH_ITEM_RAW_MATERIAL")
-public class ItemRawMaterial extends BaseEntity {
+@Table(name = "TBL_WARH_ITEM_ELEMENT")
+public class ItemElement extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_WARH_ITEM_RAW_MATERIAL")
-    @SequenceGenerator(name = "SEQ_WARH_ITEM_RAW_MATERIAL", sequenceName = "SEQ_WARH_ITEM_RAW_MATERIAL", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_WARH_ITEM_ELEMENT")
+    @SequenceGenerator(name = "SEQ_WARH_ITEM_ELEMENT", sequenceName = "SEQ_WARH_ITEM_ELEMENT", allocationSize = 1)
     private Long id;
 
     @Setter(AccessLevel.NONE)
@@ -34,10 +34,12 @@ public class ItemRawMaterial extends BaseEntity {
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "F_RAW_MATERIAL_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_itemRawMaterial2rawMaterialByRawMaterialId"))
-    private RawMaterial rawMaterial;
+    @JoinColumn(name = "F_ELEMENT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_itemRawMaterial2rawMaterialByRawMaterialId"))
+    private Element element;
 
     @NotNull
-    @Column(name = "F_RAW_MATERIAL_ID", nullable = false)
+    @Column(name = "F_ELEMENT_ID", nullable = false)
     private Long rawMaterialId;
+
+
 }

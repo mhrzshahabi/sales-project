@@ -35,5 +35,4 @@ public class Inventory extends BaseEntity {
     @OneToMany(mappedBy = "inventory", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private List<RemittanceDetail> remittanceDetails;
 
-
 }

@@ -58,13 +58,6 @@ public class VesselRestController {
     }
 
     @Loggable
-    @DeleteMapping(value = "/list")
-    public ResponseEntity delete(@Validated @RequestBody VesselDTO.Delete request) {
-        iVesselService.delete(request);
-        return new ResponseEntity(HttpStatus.OK);
-    }
-
-    @Loggable
     @GetMapping(value = "/spec-list")
     public ResponseEntity<TotalResponse<VesselDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) throws IOException {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);

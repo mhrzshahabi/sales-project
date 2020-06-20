@@ -5,5 +5,5 @@
 
 
 <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
-<%@include file="js/component-unit.js"%>
+<%@include file="js/componentUnit.js"%>
 

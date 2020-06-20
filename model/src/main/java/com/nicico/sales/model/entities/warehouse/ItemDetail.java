@@ -41,4 +41,5 @@ public class ItemDetail extends BaseEntity {
     @Column(name = "C_DESCRIPTION", length = 1500)
     private String description;
 
+
 }

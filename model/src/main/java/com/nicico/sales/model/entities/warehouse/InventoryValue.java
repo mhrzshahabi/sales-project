@@ -40,4 +40,5 @@ public class InventoryValue extends BaseEntity {
     @NotNull
     @Column(name = "F_UNIT_ID", nullable = false)
     private Long unitId;
+
 }

@@ -48,9 +48,10 @@ public class Item extends BaseEntity {
     private Long unitId;
 
     @OneToMany(mappedBy = "item", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    private List<ItemRawMaterial> itemRawMaterials;
+    private List<ItemElement> itemElements;
 
     @OneToMany(mappedBy = "item", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private List<ItemDetail> itemDetails;
+
 
 }
