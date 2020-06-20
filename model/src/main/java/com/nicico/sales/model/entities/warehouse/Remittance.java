@@ -29,16 +29,6 @@ public class Remittance extends BaseEntity {
     private String code;
 
 
-    @Setter(AccessLevel.NONE)
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "F_ITEM_DETAIL_ID", insertable = false, updatable = false,
-            foreignKey = @ForeignKey(name = "fk_remittance2itemByItemDetailId"))
-    private ItemDetail itemDetail;
-
-    @NotNull
-    @Column(name = "F_ITEM_DETAIL_ID", nullable = false)
-    private Long itemId;
-
 //    @Setter(AccessLevel.NONE)
 //    @ManyToOne(fetch = FetchType.LAZY)
 //    @JoinColumn(name = "F_SHIPMENT_TYPE_ID", insertable = false, updatable = false,
