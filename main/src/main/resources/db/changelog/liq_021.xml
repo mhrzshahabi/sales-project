@@ -6,7 +6,7 @@
     <changeSet author="Reza Mazloom" id="1111111111111-01">
         <createSequence sequenceName="SEQ_CNTR_INCOTERM_VERSION"/>
     </changeSet>
-    
+
     <changeSet author="Reza Mazloom" id="1111111111111-02">
         <createTable tableName="TBL_CNTR_INCOTERM_VERSION">
             <column name="ID" type="NUMBER(19, 0)">
@@ -45,6 +45,20 @@
             <column name="N_VERSION" value="1"/>
             <column name="N_INCOTERM_VERSION" value="2020"/>
         </insert>
+    </changeSet>
+
+    <changeSet author="karimi" id="TBL_CNTR_INCOTERM_001">
+        <modifyDataType columnName="N_INCOTERM_VERSION" newDataType="NUMBER(19, 0)"  tableName="TBL_CNTR_INCOTERM"/>
+    </changeSet>
+    <changeSet author="karimi" id="TBL_CNTR_INCOTERM_002">
+        <renameColumn tableName="TBL_CNTR_INCOTERM" oldColumnName="N_INCOTERM_VERSION" newColumnName="F_INCOTERM_VERSION_ID" />
+    </changeSet>
+    <changeSet author="karimi" id="TBL_CNTR_INCOTERM_003">
+        <addForeignKeyConstraint baseColumnNames="F_INCOTERM_VERSION_ID" baseTableName="TBL_CNTR_INCOTERM"
+                                 constraintName="fk_incoterm2incotermVersionByIncotermVersionId" deferrable="false"
+                                 initiallyDeferred="false"
+                                 referencedColumnNames="id" referencedTableName="TBL_CNTR_INCOTERM_VERSION"
+                                 validate="true"/>
     </changeSet>
 
 </databaseChangeLog>
