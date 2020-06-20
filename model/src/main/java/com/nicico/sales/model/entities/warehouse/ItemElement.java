@@ -41,4 +41,5 @@ public class ItemElement extends BaseEntity {
     @Column(name = "F_ELEMENT_ID", nullable = false)
     private Long rawMaterialId;
 
+
 }

@@ -37,4 +37,5 @@ public class Depot extends BaseEntity {
     @NotNull
     @Column(name = "F_STORE_ID", nullable = false)
     private Long storeId;
+
 }

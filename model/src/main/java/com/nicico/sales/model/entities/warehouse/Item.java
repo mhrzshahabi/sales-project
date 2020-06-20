@@ -53,4 +53,5 @@ public class Item extends BaseEntity {
     @OneToMany(mappedBy = "item", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private List<ItemDetail> itemDetails;
 
+
 }

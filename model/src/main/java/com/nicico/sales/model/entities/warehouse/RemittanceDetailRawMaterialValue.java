@@ -65,4 +65,5 @@ public class RemittanceDetailRawMaterialValue extends BaseEntity {
     @Column(name = "F_REMITTANCE_DETAIL_ID", nullable = false)
     private Long remittanceDetailId;
 
+
 }

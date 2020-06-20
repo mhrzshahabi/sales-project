@@ -30,4 +30,5 @@ public class TozinTable {
     private Long sourceId;
     @Column(name = "TARGETID")
     private Long targetId;
+
 }

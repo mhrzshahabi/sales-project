@@ -46,4 +46,5 @@ public class RemittanceTozin extends BaseEntity {
     @Column(name = "B_IS_SOURCE_TOZIN", nullable = false)
     private Boolean isSourceTozin;
 
+
 }

@@ -31,4 +31,5 @@ public class Element extends BaseEntity {
 
     @Column(name = "B_USE_IN_CONTRACT")
     private Boolean useInContract;
+
 }
