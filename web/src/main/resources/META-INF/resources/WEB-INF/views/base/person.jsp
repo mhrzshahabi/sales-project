@@ -217,21 +217,11 @@
             {
                 name: "jobTitle",
                 title: "<spring:message code='person.jobTitle'/>",
+                required: true,
                 length: "200",
                 type: 'text',
                 width: 500,
                 wrapTitle: false
-            },
-            { name: "image", type: "imageFile",
-              accept: ".pdf,.docx,.xlsx,.rar,.zip,image/*",
-              multiple: "",
-              hint: "Maximum file size is 5 MiB",
-              title: "<spring:message code='global.Attachment'/> ",
-                validators: [
-                {
-                    type:"required",
-                    validateOnChange: true
-                }]
             },
             {
                 name: "title",hidden: true,
