@@ -170,6 +170,8 @@
                         var record = ListGrid_Dcc.getSelectedRecord();
                         if (record.tblName1 != null && record.tblName1 == "TBL_CONTRACT")
                             window.open("dcc/downloadFile?table=" + "contract" + "&file=" + record.fileNewName);
+                        else if (record.tblName1 != null && record.tblName1 == "TBL_PERSON")
+                            window.open("dcc/downloadFile?table=" + "person" + "&file=" + record.fileNewName);
                         else if (record.tblName1 != null && record.tblName1 == "TBL_CONTACT")
                             window.open("dcc/downloadFile?table=" + "contact" + "&file=" + record.fileNewName);
                         else if (record.tblName1 != null && record.tblName1 == "TBL_INSTRUCTION")
@@ -253,6 +255,10 @@
                 else if (dccTableName != null && dccTableName == 'TBL_CONTRACT') {
                     folder = "contract";
                     dccDynamicForm.setValue("folder", "contract");
+                }
+                else if (dccTableName != null && dccTableName == 'TBL_PERSON') {
+                    folder = "person";
+                    dccDynamicForm.setValue("folder", "person");
                 }
                 else if (dccTableName != null && dccTableName == 'TBL_INSTRUCTION') {
                     folder = "instruction";
