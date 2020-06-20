@@ -23,7 +23,7 @@
         if (allOnWayProductValueMapsAreReady) loadOnWayProduct()
     }
 
-    const fieldsAllOnWayProductValueMaps = ['goods', 'warehouse', 'unit']
+    const fieldsAllOnWayProductValueMaps = ['items', 'warehouse', 'unit']
     fieldsAllOnWayProductValueMaps.forEach(value => {
         SalesBaseParameters.getParameter(value).then(
             js => {

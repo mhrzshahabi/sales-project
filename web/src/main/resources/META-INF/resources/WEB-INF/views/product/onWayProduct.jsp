@@ -3,7 +3,7 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
 //<script>
-
+alert(1)
     <% DateUtil dateUtil = new DateUtil();%>
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
 
