@@ -1019,6 +1019,15 @@
         menu: isc.Menu.create({
             placement: "none",
             data: [
+                <sec:authorize access="hasAuthority('R_FOREIGN_INVOICE')">
+                {
+                    title: "<spring:message code='entity.foreign-invoice'/>",
+                    click: function () {
+                        createTab("<spring:message code='entity.foreign-invoice'/>", "<spring:url value="/foreign-invoice/show-form" />")
+                    }
+                },
+                {isSeparator: true},
+                </sec:authorize>
                 {
                     title: "<spring:message code='issuedInvoices.title'/>",
                     click: function () {
