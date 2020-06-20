@@ -41,7 +41,7 @@
                     width: 400,
                     valueMap: {
                         "letter": "<spring:message code='dcc.letter'/>",
-                        "contract": "<spring:message code='contract.title'/>"
+                         "image": "<spring:message code='dcc.image'/>"
                     },
                     validators: [
                     {
@@ -196,7 +196,8 @@
                 width: 400
                 ,
                 valueMap: {
-                    "letter": "<spring:message code='dcc.letter'/>"
+                    "letter": "<spring:message code='dcc.letter'/>",
+                    "image": "<spring:message code='dcc.image'/>"
                 },
                 validators: [
                 {
@@ -367,7 +368,7 @@
                     ,
                     valueMap: {
                         "letter": "<spring:message code='dcc.letter'/>",
-                        "contract": "<spring:message code='contract.title'/>"
+                        "image": "<spring:message code='dcc.image'/>"
                     },
                     validators: [
                     {

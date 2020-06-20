@@ -3,6 +3,7 @@ package com.nicico.sales.iservice;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.sales.dto.LMEDTO;
+import com.nicico.sales.model.entities.base.LME;
 
 import java.util.List;
 
@@ -21,4 +22,6 @@ public interface ILMEService {
     void delete(LMEDTO.Delete request);
 
     TotalResponse<LMEDTO.Info> search(NICICOCriteria criteria);
+
+    List<LME> findAllByLmeMonth(Integer year, Integer month);
 }

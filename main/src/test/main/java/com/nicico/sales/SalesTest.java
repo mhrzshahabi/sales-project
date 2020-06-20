@@ -5,6 +5,7 @@ import com.nicico.sales.dto.ContractDTO;
 import com.nicico.sales.dto.ShipmentDTO;
 import com.nicico.sales.model.entities.base.Contract;
 import com.nicico.sales.repository.ContractDAO;
+import com.nicico.sales.repository.UnitDAO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.modelmapper.ModelMapper;
@@ -12,6 +13,7 @@ import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.List;
@@ -23,6 +25,9 @@ public class SalesTest {
     ModelMapper mapper;
     @Autowired
     ContractDAO dao;
+    @Autowired
+    UnitDAO unitDAO;
+
 
     @Test
     public void testModel() {
@@ -34,5 +39,24 @@ public class SalesTest {
         final ShipmentDTO.InfoWithInvoice map1 = mapper.map(all.get(0).getShipments().get(0), ShipmentDTO.InfoWithInvoice.class);
         System.out.println(map);
     }
+
+    @Test
+    @Transactional
+    public void updateUnitsFromTozinView() {
+        try {
+//            unitDAO.deleteAllByCreatedByIs("fromView");
+//            unitDAO.updateUnitsFromTozinView();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.printf("bagher");
+    }
+
+//    @Test
+//    @Transactional
+//    public void updateWarehouses() {
+//        warehouseDAO2.updateFromTozinView();
+//    }
+
 
 }

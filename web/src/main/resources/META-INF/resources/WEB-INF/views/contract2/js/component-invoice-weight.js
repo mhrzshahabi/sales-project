@@ -5,18 +5,24 @@ isc.defineClass("invoiceWeight", isc.VLayout).addProperties({
     width: "100%",
     height: "20%",
     material: null,
-    backgroundColor: "#f0c85a",
-    // form: null,
+    // backgroundColor: "#f0c85a",
     unitComponentGross: null,
     unitComponentNet: null,
     unitComponentBundles: null,
     unitComponentNetWet: null,
     unitComponentMoisture: null,
     unitComponentNetDry: null,
+    invoiceWeightObj: "",
     initWidget: function () {
 
         var This = this;
         this.Super("initWidget", arguments);
+
+        invoiceWeightObj = {
+            weightGW: 0,
+            weightND: 0,
+            weightBM: 0,
+        };
 
         switch (this.material) {
             case 0:
@@ -37,17 +43,10 @@ isc.defineClass("invoiceWeight", isc.VLayout).addProperties({
                     typeUnitCategory: 1,
                     showTitle: false
                 });
-                // form.setFields(this.unitComponentGross, this.unitComponentNet, this.unitComponentBundles);
-                this.addMember(isc.VLayout.create({
-                    width: "100%",
-                    height: "100%",
-                    membersMargin: 2,
-                    members:[
-                        unitComponentGross,
-                        unitComponentNet,
-                        unitComponentBundles,
-                    ]
-                }));
+
+                this.addMember(unitComponentGross);
+                this.addMember(unitComponentNet);
+                this.addMember(unitComponentBundles);
                 break;
 
             case 1:
@@ -57,28 +56,21 @@ isc.defineClass("invoiceWeight", isc.VLayout).addProperties({
                     showTitle: false
                 });
 
+                unitComponentNetDry = isc.componentUnit.create({
+                    titelFieldValue: '<spring:message code="component.invoice.weight.netDry"/>',
+                    typeUnitCategory: 1,
+                    showTitle: false
+                });
+
                 unitComponentMoisture = isc.componentUnit.create({
                     titelFieldValue: '<spring:message code="component.invoice.weight.moisture"/>',
                     typeUnitCategory: 1,
                     showTitle: false
                 });
 
-                unitComponentNetDry = isc.componentUnit.create({
-                    titelFieldValue: '<spring:message code="component.invoice.weight.netDry"/>',
-                    typeUnitCategory: 1,
-                    showTitle: false
-                });
-                // form.setFields(this.unitComponentNetWet, this.unitComponentMoisture, this.unitComponentNetDry);
-                this.addMember(isc.VLayout.create({
-                    width: "100%",
-                    height: "100%",
-                    membersMargin: 2,
-                    members: [
-                        unitComponentNetWet,
-                        unitComponentMoisture,
-                        unitComponentNetDry,
-                    ]
-                }));
+                this.addMember(unitComponentNetWet);
+                this.addMember(unitComponentNetDry);
+                this.addMember(unitComponentMoisture);
                 break;
 
             case 4:
@@ -88,53 +80,45 @@ isc.defineClass("invoiceWeight", isc.VLayout).addProperties({
                     showTitle: false
                 });
 
+                unitComponentNetDry = isc.componentUnit.create({
+                    titelFieldValue: '<spring:message code="component.invoice.weight.netDry"/>',
+                    typeUnitCategory: 1,
+                    showTitle: false
+                });
+
                 unitComponentMoisture = isc.componentUnit.create({
                     titelFieldValue: '<spring:message code="component.invoice.weight.moisture"/>',
                     typeUnitCategory: 1,
                     showTitle: false
                 });
 
-                unitComponentNetDry = isc.componentUnit.create({
-                    titelFieldValue: '<spring:message code="component.invoice.weight.netDry"/>',
-                    typeUnitCategory: 1,
-                    showTitle: false
-                });
-                // form.setFields(this.unitComponentNetWet, this.unitComponentMoisture, this.unitComponentNetDry);
-                this.addMember(isc.VLayout.create({
-                    width: "100%",
-                    height: "100%",
-                    membersMargin: 2,
-                    members: [
-                        unitComponentNetWet,
-                        unitComponentMoisture,
-                        unitComponentNetDry,
-                    ]
-                }));
+                this.addMember(unitComponentNetWet);
+                this.addMember(unitComponentNetDry);
+                this.addMember(unitComponentMoisture);
                 break;
         }
 
-        var submit = isc.Button.create({
+        /*var submit = isc.Button.create({
             title: "submit",
             click: function () {
                 console.log(This.getWeightValues());
             }
         });
-        this.addMember(submit);
+        this.addMember(submit);*/
     },
     getWeightValues: function () {
-        let values = [];
-            values.push(this.members.get(0).members.get(0).getUnitValues());
-            values.push(this.members.get(0).members.get(1).getUnitValues());
-            values.push(this.members.get(0).members.get(2).getUnitValues());
-        return values;
+        invoiceWeightObj.weightGW = this.members.get(0).getUnitValues();
+        invoiceWeightObj.weightND = this.members.get(1).getUnitValues();
+        invoiceWeightObj.weightBM = this.members.get(2).getUnitValues();
+        return invoiceWeightObj;
     },
-    setWeightValues: function (values) {
-        this.members.get(0).members.get(0).setUnitValues(values.get(0));
-        this.members.get(0).members.get(1).setUnitValues(values.get(1));
-        this.members.get(0).members.get(2).setUnitValues(values.get(2));
+    setWeightValues: function (data) {
+        this.members.get(0).setUnitValues(data.weightGW);
+        this.members.get(1).setUnitValues(data.weightND);
+        this.members.get(2).setUnitValues(data.weightBM);
     }
 });
 
 isc.invoiceWeight.create({
-    material: materialCode["Anode Slime"]
+    material: materialCode["Copper Cathode"]
 });

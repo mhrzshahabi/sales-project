@@ -5,10 +5,10 @@
 
 <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
 <%@include file="../unit/js/componentUnit.js"%>
-<%--<%@include file="js/component-invoice-weight.js"%>--%>
-<%--<%@include file="js/component-invoice-assay.js"%>--%>
+<%@include file="js/component-invoice-weight.js"%>
+<%@include file="js/component-invoice-assay.js"%>
 <%@include file="js/component-invoice-price.js"%>
-<%--<%@include file="js/component-invoice-t(r)c-rows.js"%>--%>
-<%--<%@include file="js/component-invoice-t(r)c.js"%>--%>
-
-
+<%@include file="js/component-invoice-t(r)c-rows.js"%>
+<%@include file="js/component-invoice-t(r)c.js"%>
+<%@include file="js/component-invoice-calculation-rows.js"%>
+<%@include file="js/component-invoice-calculation.js"%>
