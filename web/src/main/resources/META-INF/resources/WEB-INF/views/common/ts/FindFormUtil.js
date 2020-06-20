@@ -7,10 +7,10 @@
 var nicico;
 (function (nicico) {
     //------------------------------------------ Classes -------------------------------------------
-    var FindFormUtil = /** @class */ (function () {
-        function FindFormUtil() {
+    class FindFormUtil {
+        constructor() {
             this.cancelCallBack = function () {
-                return;
+
             };
             this.validate = function (selectedRecords) {
                 return true;
@@ -19,31 +19,31 @@ var nicico;
                 return selectedRecords;
             };
         }
-        FindFormUtil.prototype.showFindFormByData = function (ownerWindow, width, height, title, data, currentData, fields, selectionMultiplicityValue) {
-            if (selectionMultiplicityValue === void 0) { selectionMultiplicityValue = 1; }
+
+        showFindFormByData(ownerWindow, width, height, title, data, currentData, fields, selectionMultiplicityValue = 1) {
             this.owner = new nicico.ObjectHider(ownerWindow);
             this.selectionMultiplicity = new nicico.ObjectHider(selectionMultiplicityValue);
             this.createListGrid(null, null, null);
-            var listGrid = this.listGridWidget.getObject();
+            let listGrid = this.listGridWidget.getObject();
             listGrid.setData(data);
             listGrid.setFields(fields);
             listGrid.setShowFilterEditor(false);
             if (currentData != null && currentData.length > 0) {
                 // @ts-ignore
-                var primaryKeyField = listGrid.getFields().find(function (p) { return p.primaryKey; });
+                let primaryKeyField = listGrid.getFields().find(p => p.primaryKey);
                 // @ts-ignore
                 if (primaryKeyField == null && listGrid.dataSource != null)
                     // @ts-ignore
-                    primaryKeyField = Object.values(listGrid.dataSource.getFields()).find(function (p) { return p.primaryKey; });
+                    primaryKeyField = Object.values(listGrid.dataSource.getFields()).find(p => p.primaryKey);
                 else
-                    primaryKeyField = { name: 'id' };
-                var primaryKeyName_1 = primaryKeyField.name;
-                var currentdataIds_1 = currentData.map(function (q) { return q[primaryKeyName_1]; });
-                if (currentdataIds_1 == null || currentdataIds_1.length === 0)
+                    primaryKeyField = {name: 'id'};
+                let primaryKeyName = primaryKeyField.name;
+                let currentdataIds = currentData.map(q => q[primaryKeyName]);
+                if (currentdataIds == null || currentdataIds.length === 0)
                     return;
                 // @ts-ignore
-                listGrid.getOriginalData().forEach(function (q) {
-                    if (currentdataIds_1.contains(q[primaryKeyName_1]))
+                listGrid.getOriginalData().forEach(q => {
+                    if (currentdataIds.contains(q[primaryKeyName]))
                         listGrid.selectRecord(q);
                 });
             }
@@ -51,39 +51,38 @@ var nicico;
             if (ownerWindow != null)
                 ownerWindow.close();
             this.windowWidget.getObject().show();
-        };
-        FindFormUtil.prototype.showFindFormByListGrid = function (ownerWindow, width, height, title, currentData, listGrid, selectionMultiplicityValue) {
-            if (selectionMultiplicityValue === void 0) { selectionMultiplicityValue = 1; }
+        }
+
+        showFindFormByListGrid(ownerWindow, width, height, title, currentData, listGrid, selectionMultiplicityValue = 1) {
             this.owner = new nicico.ObjectHider(ownerWindow);
             this.selectionMultiplicity = new nicico.ObjectHider(selectionMultiplicityValue);
             this.listGridWidget = new nicico.ObjectHider(isc.ListGrid.create(listGrid));
             this.createWindow(title, this.getButtonLayout(), listGrid, width, height);
             if (currentData != null && currentData.length > 0) {
                 // @ts-ignore
-                var primaryKeyField = listGrid.getFields().find(function (p) { return p.primaryKey; });
+                let primaryKeyField = listGrid.getFields().find(p => p.primaryKey);
                 // @ts-ignore
                 if (primaryKeyField == null && listGrid.dataSource != null)
                     // @ts-ignore
-                    primaryKeyField = Object.values(listGrid.dataSource.getFields()).find(function (p) { return p.primaryKey; });
+                    primaryKeyField = Object.values(listGrid.dataSource.getFields()).find(p => p.primaryKey);
                 else
-                    primaryKeyField = { name: 'id' };
-                var primaryKeyName_2 = primaryKeyField.name;
-                var currentdataIds_2 = currentData.map(function (q) { return q[primaryKeyName_2]; });
-                if (currentdataIds_2 == null || currentdataIds_2.length === 0)
+                    primaryKeyField = {name: 'id'};
+                let primaryKeyName = primaryKeyField.name;
+                let currentdataIds = currentData.map(q => q[primaryKeyName]);
+                if (currentdataIds == null || currentdataIds.length === 0)
                     return;
                 // @ts-ignore
-                listGrid.getOriginalData().forEach(function (q) {
-                    if (currentdataIds_2.contains(q[primaryKeyName_2]))
+                listGrid.getOriginalData().forEach(q => {
+                    if (currentdataIds.contains(q[primaryKeyName]))
                         listGrid.selectRecord(q);
                 });
             }
             if (ownerWindow != null)
                 ownerWindow.close();
             this.windowWidget.getObject().show();
-        };
-        FindFormUtil.prototype.showFindFormByRestDataSource = function (ownerWindow, width, height, title, currentData, restDataSource, dataArrivedCallback, criteria, selectionMultiplicityValue) {
-            if (criteria === void 0) { criteria = null; }
-            if (selectionMultiplicityValue === void 0) { selectionMultiplicityValue = 1; }
+        }
+
+        showFindFormByRestDataSource(ownerWindow, width, height, title, currentData, restDataSource, dataArrivedCallback, criteria = null, selectionMultiplicityValue = 1) {
             this.owner = new nicico.ObjectHider(ownerWindow);
             this.selectionMultiplicity = new nicico.ObjectHider(selectionMultiplicityValue);
             this.createListGrid(isc.RestDataSource.create(restDataSource), criteria, currentData, dataArrivedCallback);
@@ -91,10 +90,9 @@ var nicico;
             if (ownerWindow != null)
                 ownerWindow.close();
             this.windowWidget.getObject().show();
-        };
-        FindFormUtil.prototype.showFindFormByRestApiUrl = function (ownerWindow, width, height, title, currentData, restApiUrl, fields, dataArrivedCallback, criteria, selectionMultiplicityValue) {
-            if (criteria === void 0) { criteria = null; }
-            if (selectionMultiplicityValue === void 0) { selectionMultiplicityValue = 1; }
+        }
+
+        showFindFormByRestApiUrl(ownerWindow, width, height, title, currentData, restApiUrl, fields, dataArrivedCallback, criteria = null, selectionMultiplicityValue = 1) {
             this.owner = new nicico.ObjectHider(ownerWindow);
             this.selectionMultiplicity = new nicico.ObjectHider(selectionMultiplicityValue);
             this.createListGrid(this.getRestDataSource(restApiUrl, fields), criteria, currentData, dataArrivedCallback);
@@ -102,11 +100,12 @@ var nicico;
             if (ownerWindow != null)
                 ownerWindow.close();
             this.windowWidget.getObject().show();
-        };
-        FindFormUtil.prototype.getButtonLayout = function () {
-            var This = this;
+        }
+
+        getButtonLayout() {
+            let This = this;
             // @ts-ignore
-            var cancel = isc.IButtonCancel.create({
+            let cancel = isc.IButtonCancel.create({
                 // @ts-ignore
                 click: function () {
                     This.windowWidget.getObject().close();
@@ -118,15 +117,14 @@ var nicico;
                 title: '<spring:message code="global.close" />'
             });
             // @ts-ignore
-            var ok = isc.IButtonSave.create({
+            let ok = isc.IButtonSave.create({
                 // @ts-ignore
                 click: function () {
-                    var data = [];
+                    let data = [];
                     if (This.selectionMultiplicity.getObject() === 1) {
                         data.add(This.listGridWidget.getObject().getSelectedRecord());
-                    }
-                    else {
-                        var selectedRecords = This.listGridWidget.getObject().getSelectedRecords();
+                    } else {
+                        let selectedRecords = This.listGridWidget.getObject().getSelectedRecords();
                         data = selectedRecords.slice(0, Math.min(selectedRecords.length, This.selectionMultiplicity.getObject()));
                     }
                     if (!This.validate(data))
@@ -150,13 +148,15 @@ var nicico;
                 showEdges: false,
                 members: [ok, cancel]
             });
-        };
-        FindFormUtil.prototype.getRestDataSource = function (restApiUrl, fields) {
+        }
+
+        getRestDataSource(restApiUrl, fields) {
             // @ts-ignore
             return isc.RestDataSource.nicico.getDefault(restApiUrl, fields);
-        };
-        FindFormUtil.prototype.createListGrid = function (restDataSource, criteria, currentData, dataArrivedCallback) {
-            var This = this;
+        }
+
+        createListGrid(restDataSource, criteria, currentData, dataArrivedCallback) {
+            let This = this;
             // @ts-ignore
             This.listGridWidget = new nicico.ObjectHider(isc.ListGrid.nicico.getDefault(null, restDataSource, criteria, {
                 // @ts-ignore
@@ -167,35 +167,33 @@ var nicico;
                 autoSaveEdits: false,
                 validateOnChange: true,
                 dataArrived: function (startRow, endRow) {
-                    var _this = this;
                     if (this.currentData != null && this.currentData.length > 0) {
                         // @ts-ignore
-                        var primaryKeyField = this.getFields().find(function (p) { return p.primaryKey; });
+                        let primaryKeyField = this.getFields().find(p => p.primaryKey);
                         // @ts-ignore
                         if (primaryKeyField == null && this.dataSource != null)
                             // @ts-ignore
-                            primaryKeyField = Object.values(this.dataSource.getFields()).find(function (p) { return p.primaryKey; });
+                            primaryKeyField = Object.values(this.dataSource.getFields()).find(p => p.primaryKey);
                         else
-                            primaryKeyField = { name: 'id' };
-                        var primaryKeyName_3 = primaryKeyField.name;
-                        var currentDataIds_1 = this.currentData.map(function (q) { return q[primaryKeyName_3]; });
-                        if (currentDataIds_1 == null || currentDataIds_1.length === 0)
+                            primaryKeyField = {name: 'id'};
+                        let primaryKeyName = primaryKeyField.name;
+                        let currentDataIds = this.currentData.map(q => q[primaryKeyName]);
+                        if (currentDataIds == null || currentDataIds.length === 0)
                             return;
                         // @ts-ignore
-                        this.getOriginalData().localData.filter(function (q) { return q; }).forEach(function (q) {
-                            if (currentDataIds_1.contains(q[primaryKeyName_3]))
-                                _this.selectRecord(q);
+                        this.getOriginalData().localData.filter(q => q).forEach(q => {
+                            if (currentDataIds.contains(q[primaryKeyName]))
+                                this.selectRecord(q);
                         });
                     }
                     if (dataArrivedCallback != null)
                         dataArrivedCallback(startRow, endRow);
                 }
             }));
-        };
-        FindFormUtil.prototype.createWindow = function (title, buttonLayout, listGrid, width, height) {
-            if (width === void 0) { width = null; }
-            if (height === void 0) { height = null; }
-            var This = this;
+        }
+
+        createWindow(title, buttonLayout, listGrid, width = null, height = null) {
+            let This = this;
             width = width == null ? "50%" : width;
             height = height == null ? "500" : height;
             // @ts-ignore
@@ -207,9 +205,8 @@ var nicico;
                     This.cancelCallBack();
                 }
             }));
-        };
-        return FindFormUtil;
-    }());
+        }
+    }
     nicico.FindFormUtil = FindFormUtil;
     //------------------------------------------ Classes -----------------------------------------//
 })(nicico || (nicico = {}));

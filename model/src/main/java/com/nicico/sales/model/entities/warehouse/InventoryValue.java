@@ -25,12 +25,12 @@ public class InventoryValue extends BaseEntity {
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "F_INVENTORY_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_inventoryValue2inventoryByInventoryId"))
-    private Inventory inventory;
+    @JoinColumn(name = "F_REMITTANCE_DETAIL_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_inventoryValue2remittanceDetailByRemittanceDetailId"))
+    private RemittanceDetail remittanceDetail;
 
     @NotNull
-    @Column(name = "F_INVENTORY_ID", nullable = false)
-    private Long inventoryId;
+    @Column(name = "F_REMITTANCE_DETAIL_ID", nullable = false)
+    private Long remittanceDetailId;
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
@@ -40,4 +40,5 @@ public class InventoryValue extends BaseEntity {
     @NotNull
     @Column(name = "F_UNIT_ID", nullable = false)
     private Long unitId;
+
 }

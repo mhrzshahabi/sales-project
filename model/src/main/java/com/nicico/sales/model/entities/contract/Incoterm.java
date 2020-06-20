@@ -29,9 +29,13 @@ public class Incoterm extends BaseEntity {
     @Column(name = "C_TITLE", nullable = false, length = 200)
     private String title;
 
-    @NotNull
-    @Column(name = "N_INCOTERM_VERSION", nullable = false)
-    private Integer incotermVersion;
+    @Setter(AccessLevel.NONE)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "F_INCOTERM_VERSION_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_incoterm2incotermVersionByIncotermVersionId"))
+    private IncotermVersion incotermVersion;
+
+    @Column(name = "F_INCOTERM_VERSION_ID")
+    private Long incotermVersionId;
 
     @Column(name = "D_PUBLISH_DATE")
     private Date publishDate;

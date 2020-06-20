@@ -5,9 +5,7 @@ import com.nicico.sales.dto.ContractDTO;
 import com.nicico.sales.dto.ShipmentDTO;
 import com.nicico.sales.model.entities.base.Contract;
 import com.nicico.sales.repository.ContractDAO;
-import com.nicico.sales.repository.GoodsDAO;
 import com.nicico.sales.repository.UnitDAO;
-import com.nicico.sales.repository.WarehouseDAO2;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.modelmapper.ModelMapper;
@@ -29,10 +27,7 @@ public class SalesTest {
     ContractDAO dao;
     @Autowired
     UnitDAO unitDAO;
-    @Autowired
-    WarehouseDAO2 warehouseDAO2;
-    @Autowired
-    GoodsDAO goodsDAO;
+
 
     @Test
     public void testModel() {
@@ -57,17 +52,11 @@ public class SalesTest {
         System.out.printf("bagher");
     }
 
-    @Test
-    @Transactional
-    public void updateWarehouses() {
-        warehouseDAO2.updateFromTozinView();
-    }
-
-    @Test
-    @Transactional
-    public void updateGoods() {
-        goodsDAO.updateFromTozinView();
-    }
+//    @Test
+//    @Transactional
+//    public void updateWarehouses() {
+//        warehouseDAO2.updateFromTozinView();
+//    }
 
 
 }

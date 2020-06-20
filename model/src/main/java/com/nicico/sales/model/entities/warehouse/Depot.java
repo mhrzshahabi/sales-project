@@ -22,6 +22,13 @@ public class Depot extends BaseEntity {
     @SequenceGenerator(name = "SEQ_WARH_DEPOT", sequenceName = "SEQ_WARH_DEPOT", allocationSize = 1)
     private Long id;
 
+    @NotNull
+    @Column(name = "C_NAME", nullable = false)
+    private String name;
+
+    @Column(name = "C_DESCRIPTION")
+    private String description;
+
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "F_STORE_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_depot2storeByStoreId"))
@@ -30,4 +37,5 @@ public class Depot extends BaseEntity {
     @NotNull
     @Column(name = "F_STORE_ID", nullable = false)
     private Long storeId;
+
 }

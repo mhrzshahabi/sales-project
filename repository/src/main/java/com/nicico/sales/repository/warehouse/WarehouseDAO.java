@@ -1,7 +1,6 @@
-package com.nicico.sales.repository;
+package com.nicico.sales.repository.warehouse;
 
-
-import com.nicico.sales.model.entities.base.Warehouse2;
+import com.nicico.sales.model.entities.warehouse.Warehouse;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
@@ -9,9 +8,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface WarehouseDAO2 extends JpaRepository<Warehouse2, Long>, JpaSpecificationExecutor<Warehouse2> {
+public interface WarehouseDAO extends JpaRepository<Warehouse, Long>, JpaSpecificationExecutor<Warehouse> {
     @Modifying
-    @Query(value = "insert into TBL_WAREHOUSE (id,NAME,C_CREATED_BY,D_CREATED_DATE,N_VERSION) " +
+    @Query(value = "insert into TBL_WARH_WAREHOUSE (id,NAME,C_CREATED_BY,D_CREATED_DATE,N_VERSION) " +
             "    (select distinct " +
             "                     m_view.TARGETID as id, " +
             "                     m_view.TARGET as name , " +
