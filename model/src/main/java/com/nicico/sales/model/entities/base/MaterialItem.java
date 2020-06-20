@@ -17,8 +17,8 @@ import javax.persistence.*;
 public class MaterialItem extends Auditable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_MATERIAL_ITEM")
-    @SequenceGenerator(name = "SEQ_MATERIAL_ITEM", sequenceName = "SEQ_MATERIAL_ITEM", allocationSize = 1)
+//    @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_MATERIAL_ITEM")
+//    @SequenceGenerator(name = "SEQ_MATERIAL_ITEM", sequenceName = "SEQ_MATERIAL_ITEM", allocationSize = 1)
     @Column(name = "ID")
     private Long id;
 

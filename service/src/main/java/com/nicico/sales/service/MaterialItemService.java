@@ -7,6 +7,7 @@ import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.MaterialItemDTO;
 import com.nicico.sales.iservice.IMaterialItemService;
 import com.nicico.sales.model.entities.base.MaterialItem;
+import com.nicico.sales.repository.MaterialDAO;
 import com.nicico.sales.repository.MaterialItemDAO;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -15,15 +16,40 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
 public class MaterialItemService implements IMaterialItemService {
 
     private final MaterialItemDAO materialItemDAO;
+    private final MaterialDAO materialDAO;
     private final ModelMapper modelMapper;
+
+    @Override
+    public void updateFromTozinView() {
+        List<Object[]> allItemsFromViewForUpdate = materialItemDAO.itemsForUpdate();
+        Map<Long, String> ItemsFetchedForUpdate = new HashMap<>();
+        allItemsFromViewForUpdate.stream()
+                .forEach((Object[] u) -> ItemsFetchedForUpdate.put(Long.valueOf(u[0].toString()), u[1].toString()));
+        List<MaterialItem> ItemListForUpdate = materialItemDAO.findAllById(ItemsFetchedForUpdate.keySet());
+        ItemListForUpdate.stream()
+                .forEach(u -> u.setGdsName(ItemsFetchedForUpdate.get(u.getId())));
+        List<Object[]> allItemsFromViewForInsert = materialItemDAO.itemsForInsert();
+        ItemListForUpdate.addAll(allItemsFromViewForInsert
+                .stream()
+                .map(u -> new MaterialItem()
+                        .setId(Long.valueOf(u[0].toString()))
+                        .setGdsCode(Long.valueOf(u[0].toString()))
+                        .setGdsName(u[1].toString())
+                )
+                .collect(Collectors.toList()));
+        materialItemDAO.saveAll(ItemListForUpdate);
+    }
 
     @Transactional(readOnly = true)
     @PreAuthorize("hasAuthority('R_MATERIAL_ITEM')")

@@ -75,7 +75,7 @@ class SalesBaseParameters {
     }
 
     static async getGoodsParameter(updateTable: boolean = false) {
-        return await this.getParameter('goods', updateTable)
+        return await this.getParameter('materialItem', updateTable)
     }
 
     public static async getAllParameters(updateTable: boolean = false) {
@@ -85,7 +85,7 @@ class SalesBaseParameters {
             this.getGoodsParameter(updateTable)
         ]);
         return {
-            'goods': this.goods,
+            'materialItem': this.goods,
             'unit': this.unit,
             'warehouse': this.warehouse
         }

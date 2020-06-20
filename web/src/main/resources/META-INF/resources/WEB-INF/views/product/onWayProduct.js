@@ -2,11 +2,14 @@
 // <%@ page contentType="text/html;charset=UTF-8" %>
 // <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 //<script>
-// <% DateUtil dateUtil = new DateUtil();%>
-// <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
 (function () {
     const tozinLiteFields = [
-
+        {
+            name: "date",
+            type: "text",
+            title: "<spring:message code='Tozin.date'/>",
+            align: "center"
+        },
         {
             name: "tozinId",
             showHover: true,
@@ -47,11 +50,6 @@
             width: "10%"
         },
 
-        {
-            name: "date",
-            title: "<spring:message code='Tozin.date'/>",
-            align: "center"
-        },
 
         {
             name: "sourceId",
@@ -65,15 +63,11 @@
         },
 
         {
-            name: "havalehTo",
-            title: "<spring:message code='Tozin.havalehTo'/>",
+            name: "havalehCode",
+            title: "<spring:message code='Tozin.haveCode'/>",
             align: "center"
         },
-        {
-            name: "havalehDate",
-            title: "<spring:message code='Tozin.havalehDate'/>",
-            align: "center"
-        },
+
 
     ];
     const tozinFields = [...tozinLiteFields,
@@ -215,7 +209,13 @@
             name: "tznSharh1",
             title: "<spring:message code='Tozin.isFinal'/>",
             align: "center"
-        }
+        },
+
+        {
+            name: "havalehDate",
+            title: "<spring:message code='Tozin.havalehDate'/>",
+            align: "center"
+        },
 
 
     ]
@@ -226,12 +226,12 @@
 
     const RestDataSource_Tozin_IN_ONWAYPRODUCT = isc.MyRestDataSource.create({
         fields: tozinFields,
-        fetchDataURL: "${contextPath}/api/on-way-product/lite/spec-list"
+        fetchDataURL: "${contextPath}/api/on-way-product/spec-list"
     });
 
     const restDataSource_Tozin_Lite = {
         fields: tozinLiteFields,
-        fetchDataURL: "${contextPath}/api/lite/lite/spec-list"
+        fetchDataURL: "${contextPath}/api/tozin/lite/spec-list"
     };
 
 
@@ -723,12 +723,12 @@
         showRowNumbers: true,
         showFilterEditor: true,
         allowAdvancedCriteria: true,
-        filterLocalData: true,
+        // filterLocalData: true,
         autoFitMaxRecords: 10,
         dataSource: isc.MyRestDataSource.create(restDataSource_Tozin_Lite),
         // initialCriteria: RestDataSource_TozinInitialCriteria,
         contextMenu: Menu_ListGrid_OnWayProduct,
-        autoFetchData: false,
+        autoFetchData: true,
         useClientFiltering: false,
         fields: tozinLiteFields
     });
