@@ -1,7 +1,6 @@
 package com.nicico.sales.model.entities.invoice.foreign;
 
 import com.nicico.sales.model.entities.common.BaseEntity;
-import com.nicico.sales.model.entities.warehouse.ItemRawMaterial;
 import com.nicico.sales.model.enumeration.DeductionType;
 import lombok.*;
 import lombok.experimental.Accessors;
@@ -9,6 +8,8 @@ import lombok.experimental.Accessors;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
+
+//import com.nicico.sales.model.entities.warehouse.ItemRawMaterial;
 
 @Getter
 @Setter
@@ -59,12 +60,12 @@ public class ForeignInvoiceItemDetail extends BaseEntity {
     @Column(name = "F_FOREIGN_INVOICE_ITEM_ID", nullable = false)
     private Long foreignInvoiceItemId;
 
-    @Setter(AccessLevel.NONE)
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "F_ITEM_RAW_MATERIAL_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_foreignInvoiceItemDetail2itemRawMaterialByItemRawMaterialId"))
-    private ItemRawMaterial itemRawMaterial;
-
-    @NotNull
-    @Column(name = "F_ITEM_RAW_MATERIAL_ID", nullable = false)
-    private Long itemRawMaterialId;
+//    @Setter(AccessLevel.NONE)
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "F_ITEM_RAW_MATERIAL_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_foreignInvoiceItemDetail2itemRawMaterialByItemRawMaterialId"))
+//    private ItemRawMaterial itemRawMaterial;
+//
+//    @NotNull
+//    @Column(name = "F_ITEM_RAW_MATERIAL_ID", nullable = false)
+//    private Long itemRawMaterialId;
 }
