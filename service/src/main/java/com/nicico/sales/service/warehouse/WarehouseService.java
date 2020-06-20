@@ -3,7 +3,6 @@ package com.nicico.sales.service.warehouse;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.exception.NotFoundException;
 import com.nicico.sales.iservice.warehous.IWarehouseService;
 import com.nicico.sales.model.entities.warehouse.Warehouse;
@@ -38,8 +37,8 @@ public class WarehouseService implements IWarehouseService {
     }
 
     @Override
-    public SearchDTO.SearchRs<Warehouse> search(SearchDTO.SearchRq request) {
-        return SearchUtil.search(warehouseDAO, request, entity -> entity);
-
+    public void updateFromTozinView() {
+        warehouseDAO.updateFromTozinView();
     }
+
 }

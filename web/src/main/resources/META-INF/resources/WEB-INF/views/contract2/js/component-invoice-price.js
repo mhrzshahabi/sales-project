@@ -4,22 +4,28 @@ isc.defineClass("invoicePrice", isc.VLayout).addProperties({
     align: "center",
     width: "100%",
     height: "20%",
-    backgroundColor: "#f0c85a",
     material: null,
     form: null,
     contractMonth: null,
     contractYear: null,
-    MOAS: null,
+    invoicePriceObj: "",
     initWidget: function () {
 
         var This = this;
         this.Super("initWidget", arguments);
 
+        invoicePriceObj = {
+            priceCopper: 0,
+            priceSilver: 0,
+            priceGold: 0,
+            pricePlatinum: 0,
+            pricePalladium: 0,
+            priceSelenium: 0,
+        };
+
         var LME_YEARMONTH_DataSource = isc.MyRestDataSource.create({
             fetchDataURL: "${contextPath}/api/LME/yearMonth/"+This.contractYear+"/"+This.contractMonth
         });
-
-        alert("fdsfd")
 
         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,{
                                                                 actionURL: "${contextPath}/api/LME/yearMonth/"+This.contractYear+"/"+This.contractMonth,
@@ -36,16 +42,6 @@ isc.defineClass("invoicePrice", isc.VLayout).addProperties({
                                                                 }
                                                             }));
 
-        // LME_YEARMONTH_DataSource.fetchData([],function (dsResponse, data, dsRequest) {
-        //     console.log(data)
-        //     console.log(data[0])
-        //     form.getItem("copper").setValue(data[0].cuUsdMt);
-        //     form.getItem("silver").setValue(data[0].silverUsdOunce);
-        //     form.getItem("gold").setValue(data[0].goldUsdOunce);
-        //     form.getItem("platinum").setValue(data[0].platinumUsdOunce);
-        //     form.getItem("palladium").setValue(data[0].palladiumUsdOunce);
-        //     form.getItem("selenium").setValue(data[0].seleniumUsdLb);
-        // });
 
         switch (this.material) {
 
@@ -57,18 +53,7 @@ isc.defineClass("invoicePrice", isc.VLayout).addProperties({
                 align: "center",
                 titleAlign: "right",
                 numCols: 2,
-                dataSource: LME_YEARMONTH_DataSource,
-                autoFetchData: true,
                 fields: [
-                    // {
-                    //     name: "MOAS",
-                    //     title: "MOAS",
-                    //     showTitle: false,
-                    //     type: "staticText",
-                    //     width: "100%",
-                    //     colSpan: 2,
-                    //     defaultValue: "AVERAGE OF " + this.contractMonth +"th Month of "+ this.contractYear
-                    // },
                     {
                         name: "copper",
                         title: '<spring:message code="component.invoice.price.copper"/>',
@@ -77,17 +62,12 @@ isc.defineClass("invoicePrice", isc.VLayout).addProperties({
                     },
                 ],
                 });
-                this.addMember(isc.VStack.create({
-                    members: [
-                        isc.Label.create({
-                            // width: "100",
-                            height: "10%",
-                            align: "left",
-                            contents: "<b>" + "AVERAGE OF " + this.contractMonth +"th Month of "+ this.contractYear + "<b>",
-                        }),
-                        form
-                    ]
-                }));
+
+                this.addMember(isc.Label.create({
+                                align: "left",
+                                contents: "<b>" + "AVERAGE OF " + this.contractMonth +"th Month of "+ this.contractYear + "<b>",
+                            }));
+                this.addMember(form);
                 break;
 
             case 1:
@@ -119,17 +99,12 @@ isc.defineClass("invoicePrice", isc.VLayout).addProperties({
                     },
                 ]
                 });
-                this.addMember(isc.VStack.create({
-                    members: [
-                        isc.Label.create({
-                            // width: "100",
-                            height: "10%",
-                            align: "left",
-                            contents: "<b>" + "AVERAGE OF " + this.contractMonth +"th Month of "+ this.contractYear + "<b>",
-                        }),
-                        form
-                    ]
-                }));
+
+                this.addMember(isc.Label.create({
+                                align: "left",
+                                contents: "<b>" + "AVERAGE OF " + this.contractMonth +"th Month of "+ this.contractYear + "<b>",
+                            }));
+                this.addMember(form);
                 break;
 
             case 4:
@@ -179,39 +154,37 @@ isc.defineClass("invoicePrice", isc.VLayout).addProperties({
                     },
                 ]
                 });
-                this.addMember(isc.VStack.create({
-                    members: [
-                        isc.Label.create({
-                            // width: "100",
-                            height: "10%",
-                            align: "left",
-                            contents: "<b>" + "AVERAGE OF " + this.contractMonth +"th Month of "+ this.contractYear + "<b>",
-                        }),
-                        form
-                    ]
-                }));
+
+                this.addMember(isc.Label.create({
+                                align: "left",
+                                contents: "<b>" + "AVERAGE OF " + this.contractMonth +"th Month of "+ this.contractYear + "<b>",
+                            }));
+                this.addMember(form);
                 break;
         }
 
-        var submit = isc.Button.create({
-            title: "submit",
-            click: function () {
-                console.log(This.getPriceValues());
-            }
-        });
-        this.addMember(submit);
-
     },
     getPriceValues: function () {
-        return  form.getValues();
+        invoicePriceObj.priceCopper = Number(form.getItem("copper").getValue());
+        invoicePriceObj.priceSilver = Number(form.getItem("silver").getValue());
+        invoicePriceObj.priceGold = Number(form.getItem("gold").getValue());
+        invoicePriceObj.pricePlatinum = Number(form.getItem("platinum").getValue());
+        invoicePriceObj.pricePalladium = Number(form.getItem("palladium").getValue());
+        invoicePriceObj.priceSelenium = Number(form.getItem("selenium").getValue());
+        return  invoicePriceObj;
     },
-    setPriceValues: function (values) {
-        return  form.setValues(values);
+    setPriceValues: function (data) {
+        form.getItem("copper").setValue(data.priceCopper);
+        form.getItem("silver").setValue(data.priceSilver);
+        form.getItem("gold").setValue(data.priceGold);
+        form.getItem("platinum").setValue(data.pricePlatinum);
+        form.getItem("palladium").setValue(data.pricePalladium);
+        form.getItem("selenium").setValue(data.priceSelenium);
     },
 });
 
-isc.invoicePrice.create({
-    material: materialCode["Anode Slime"],
+/*isc.invoicePrice.create({
+    material: materialCode["Copper Concentrate"],
     contractMonth: Number('01'),
     contractYear: Number('2000'),
-});
+});*/

@@ -80,5 +80,4 @@ public class Remittance extends BaseEntity {
     @Where(clause = "B_IS_SOURCE_TOZIN = false")
     private List<RemittanceTozin> destinationRemittanceTozin;
 
-
 }

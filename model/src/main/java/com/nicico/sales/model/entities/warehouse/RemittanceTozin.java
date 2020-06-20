@@ -23,49 +23,15 @@ public class RemittanceTozin extends BaseEntity {
 
     @Setter(AccessLevel.NONE)
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumns({
-            @JoinColumn(name = "F_TOZIN_ID", insertable = false, updatable = false,
-                    referencedColumnName = "TOZINE_ID",
-                    foreignKey = @ForeignKey(name = "fk_remittance_tozin2sourceTozinAsSourceBySourceTozinId")),
-            @JoinColumn(name = "F_TOZIN_SOURCEE", insertable = false, updatable = false,
-                    referencedColumnName = "SOURCEE",
-                    foreignKey = @ForeignKey(name = "fk_remittance_tozin2sourceTozinAsSourceBySource")),
-            @JoinColumn(name = "F_TOZIN_GDSNAME", insertable = false, updatable = false,
-                    referencedColumnName = "GDSNAME",
-                    foreignKey = @ForeignKey(name = "fk_remittance_tozin2sourceTozinAsSourceByGDSNAME")),
-            @JoinColumn(name = "F_TOZIN_GDSCODE", insertable = false, updatable = false,
-                    referencedColumnName = "GDSCODE",
-                    foreignKey = @ForeignKey(name = "fk_remittance_tozin2sourceTozinAsSourceByGDSCODE")),
 
-            @JoinColumn(name = "F_TOZIN_TARGET", insertable = false, updatable = false,
-                    referencedColumnName = "TARGET",
-                    foreignKey = @ForeignKey(name = "fk_remittance_tozin2sourceTozinAsSourceByTARGET")),
-
-            @JoinColumn(name = "F_TOZIN_CARD_ID", insertable = false, updatable = false,
-                    referencedColumnName = "CARD_ID",
-                    foreignKey = @ForeignKey(name = "fk_remittance_tozin2sourceTozinAsSourceByCARD_ID")),
-    })
-
-    private Tozin2 tozin;
+    @JoinColumn(name = "F_TOZIN_ID", insertable = false, updatable = false,
+//                    referencedColumnName = "TOZINE_ID",
+            foreignKey = @ForeignKey(name = "fk_remittance_tozin2sourceTozinAsSourceBySourceTozinId"))
+    private TozinTable tozin;
 
     @NotNull
     @Column(name = "F_TOZIN_ID", nullable = false)
-    private String tozinId;
-    @NotNull
-    @Column(name = "F_TOZIN_SOURCEE", nullable = false)
-    private String tozinSource;
-    @NotNull
-    @Column(name = "F_TOZIN_GDSNAME", nullable = false)
-    private String tozinGdsName;
-    @NotNull
-    @Column(name = "F_TOZIN_GDSCODE", nullable = false)
-    private Long tozinGdsCode;
-    @NotNull
-    @Column(name = "F_TOZIN_TARGET", nullable = false)
-    private String tozinTarget;
-    @NotNull
-    @Column(name = "F_TOZIN_CARD_ID", nullable = false)
-    private String tozinCardId;
+    private Long tozinId;
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
@@ -79,5 +45,6 @@ public class RemittanceTozin extends BaseEntity {
 
     @Column(name = "B_IS_SOURCE_TOZIN", nullable = false)
     private Boolean isSourceTozin;
+
 
 }

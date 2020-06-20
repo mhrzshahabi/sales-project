@@ -94,4 +94,54 @@ public abstract class AllConverters {
             return null;
         }
     }
+
+    // *****************************************************************************************************************
+
+    @Converter(autoApply = true)
+    public static class InspectionRateValueTypeConverter implements AttributeConverter<InspectionRateValueType, Integer> {
+
+        @Override
+        public Integer convertToDatabaseColumn(InspectionRateValueType literal) {
+
+            if (literal == null)
+                return null;
+
+            return literal.getId();
+        }
+
+        @Override
+        public InspectionRateValueType convertToEntityAttribute(Integer integer) {
+
+            for (InspectionRateValueType literal : InspectionRateValueType.values())
+                if (literal.getId().equals(integer))
+                    return literal;
+
+            return null;
+        }
+    }
+
+    // *****************************************************************************************************************
+
+    @Converter(autoApply = true)
+    public static class WeighingTypeConverter implements AttributeConverter<WeighingType, Integer> {
+
+        @Override
+        public Integer convertToDatabaseColumn(WeighingType literal) {
+
+            if (literal == null)
+                return null;
+
+            return literal.getId();
+        }
+
+        @Override
+        public WeighingType convertToEntityAttribute(Integer integer) {
+
+            for (WeighingType literal : WeighingType.values())
+                if (literal.getId().equals(integer))
+                    return literal;
+
+            return null;
+        }
+    }
 }
