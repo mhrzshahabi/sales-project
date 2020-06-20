@@ -58,4 +58,8 @@
     <changeSet id="1588585668s985-822124" author="saeb">
         <sqlFile path="classpath:/db/changelog/warehouse/tbl_warh_warehouse.sql"/>
     </changeSet>
+
+    <changeSet author="saeb (generated)" id="21592123918149-210">
+        <dropNotNullConstraint columnDataType="number(19,0)" columnName="N_PLANT_ID" tableName="TBL_WARH_WAREHOUSE"/>
+    </changeSet>
 </databaseChangeLog>

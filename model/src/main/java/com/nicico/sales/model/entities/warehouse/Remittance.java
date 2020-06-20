@@ -1,6 +1,5 @@
 package com.nicico.sales.model.entities.warehouse;
 
-import com.nicico.sales.model.entities.base.ShipmentType;
 import com.nicico.sales.model.entities.common.BaseEntity;
 import lombok.*;
 import lombok.experimental.Accessors;
@@ -30,31 +29,21 @@ public class Remittance extends BaseEntity {
     private String code;
 
 
-    @Setter(AccessLevel.NONE)
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "F_ITEM_DETAIL_ID", insertable = false, updatable = false,
-            foreignKey = @ForeignKey(name = "fk_remittance2itemByItemDetailId"))
-    private ItemDetail itemDetail;
+//    @Setter(AccessLevel.NONE)
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "F_SHIPMENT_TYPE_ID", insertable = false, updatable = false,
+//            foreignKey = @ForeignKey(name = "fk_remittance2ShipmentTypeByShipmentTypeId"))
+//    private ShipmentType shipmentType;
 
-    @NotNull
-    @Column(name = "F_ITEM_DETAIL_ID", nullable = false)
-    private Long itemId;
+//    @NotNull
+//    @Column(name = "F_SHIPMENT_TYPE_ID", nullable = false)
+//    private Long shipmentTypeId;
 
-    @Setter(AccessLevel.NONE)
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "F_SHIPMENT_TYPE_ID", insertable = false, updatable = false,
-            foreignKey = @ForeignKey(name = "fk_remittance2ShipmentTypeByShipmentTypeId"))
-    private ShipmentType shipmentType;
-
-    @NotNull
-    @Column(name = "F_SHIPMENT_TYPE_ID", nullable = false)
-    private Long shipmentTypeId;
-
-    @Setter(AccessLevel.NONE)
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "F_SOURCE_WAREHOUSE_ID", insertable = false, updatable = false,
-            foreignKey = @ForeignKey(name = "fk_remittance2warehouseAsSourceByWarehouseId"))
-    private Warehouse sourceWarehouse;
+//    @Setter(AccessLevel.NONE)
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "F_SOURCE_WAREHOUSE_ID", insertable = false, updatable = false,
+//            foreignKey = @ForeignKey(name = "fk_remittance2warehouseAsSourceByWarehouseId"))
+//    private Warehouse sourceWarehouse;
 
     @NotNull
     @Column(name = "F_SOURCE_WAREHOUSE_ID", nullable = false)
