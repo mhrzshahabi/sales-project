@@ -1,6 +1,6 @@
 package com.nicico.sales.model.entities.base;
 
-import com.nicico.sales.model.Auditable;
+import com.nicico.sales.model.entities.common.BaseEntity;
 import lombok.*;
 import lombok.experimental.Accessors;
 
@@ -15,7 +15,7 @@ import java.util.Date;
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
 @Table(name = "TBL_LME")
-public class LME extends Auditable {
+public class LME extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_LME")

@@ -1,7 +1,7 @@
 package com.nicico.sales.model.entities.invoice.foreign;
 
 import com.nicico.sales.model.entities.common.BaseEntity;
-import com.nicico.sales.model.entities.warehouse.ItemRawMaterial;
+import com.nicico.sales.model.entities.warehouse.ItemElement;
 import com.nicico.sales.model.enumeration.DeductionType;
 import lombok.*;
 import lombok.experimental.Accessors;
@@ -62,7 +62,7 @@ public class ForeignInvoiceItemDetail extends BaseEntity {
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "F_ITEM_RAW_MATERIAL_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_foreignInvoiceItemDetail2itemRawMaterialByItemRawMaterialId"))
-    private ItemRawMaterial itemRawMaterial;
+    private ItemElement itemRawMaterial;
 
     @NotNull
     @Column(name = "F_ITEM_RAW_MATERIAL_ID", nullable = false)

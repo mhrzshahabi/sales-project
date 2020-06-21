@@ -1,7 +1,7 @@
 package com.nicico.sales.model.enumeration;
 
-        import lombok.Getter;
-        import lombok.RequiredArgsConstructor;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor

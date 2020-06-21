@@ -5,7 +5,7 @@ package com.nicico.sales.model.entities.base;
  * ESTERABEH
  */
 
-import com.nicico.sales.model.Auditable;
+import com.nicico.sales.model.entities.common.BaseEntity;
 import lombok.*;
 import lombok.experimental.Accessors;
 
@@ -19,7 +19,7 @@ import javax.persistence.*;
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
 @Table(name = "TBL_DCC")
-public class DCC extends Auditable {
+public class DCC extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_DCC")

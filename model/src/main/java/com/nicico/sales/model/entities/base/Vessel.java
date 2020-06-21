@@ -1,7 +1,6 @@
 package com.nicico.sales.model.entities.base;
 
 import com.nicico.sales.model.entities.common.BaseEntity;
-import io.swagger.models.auth.In;
 import lombok.*;
 import lombok.experimental.Accessors;
 

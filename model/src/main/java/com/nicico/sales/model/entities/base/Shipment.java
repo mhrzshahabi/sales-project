@@ -1,6 +1,6 @@
 package com.nicico.sales.model.entities.base;
 
-import com.nicico.sales.model.Auditable;
+import com.nicico.sales.model.entities.common.BaseEntity;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.envers.NotAudited;
@@ -17,7 +17,7 @@ import java.util.Set;
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
 @Table(name = "TBL_SHIPMENT")
-public class Shipment extends Auditable {
+public class Shipment extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_SHIPMENT")
