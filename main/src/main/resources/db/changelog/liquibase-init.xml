@@ -1,279 +1,282 @@
 <?xml version="1.1" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
-    <changeSet author="Reza (generated)" id="1592647460005-1">
+    <changeSet author="Reza (generated)" id="1592718665942-1">
         <createSequence sequenceName="SEQ_ASSAY_INSPECTION"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-2">
+    <changeSet author="Reza (generated)" id="1592718665942-2">
         <createSequence sequenceName="SEQ_Analyse_Product_MO"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-3">
+    <changeSet author="Reza (generated)" id="1592718665942-3">
         <createSequence sequenceName="SEQ_BANK"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-4">
+    <changeSet author="Reza (generated)" id="1592718665942-4">
         <createSequence sequenceName="SEQ_CNTR_CONTRACT"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-5">
+    <changeSet author="Reza (generated)" id="1592718665942-5">
         <createSequence sequenceName="SEQ_CNTR_CONTRACT_CONTACT"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-6">
+    <changeSet author="Reza (generated)" id="1592718665942-6">
         <createSequence sequenceName="SEQ_CNTR_CONTRACT_DETAIL"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-7">
+    <changeSet author="Reza (generated)" id="1592718665942-7">
         <createSequence sequenceName="SEQ_CNTR_CONTRACT_DETAIL_TYPE"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-8">
+    <changeSet author="Reza (generated)" id="1592718665942-8">
         <createSequence sequenceName="SEQ_CNTR_CONTRACT_DETAIL_TYPE_PARAM"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-9">
+    <changeSet author="Reza (generated)" id="1592718665942-9">
         <createSequence sequenceName="SEQ_CNTR_CONTRACT_DETAIL_TYPE_PARAM_VALUE"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-10">
+    <changeSet author="Reza (generated)" id="1592718665942-10">
         <createSequence sequenceName="SEQ_CNTR_CONTRACT_DETAIL_TYPE_TEMPLATE"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-11">
+    <changeSet author="Reza (generated)" id="1592718665942-11">
         <createSequence sequenceName="SEQ_CNTR_CONTRACT_DETAIL_VALUE"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-12">
+    <changeSet author="Reza (generated)" id="1592718665942-12">
         <createSequence sequenceName="SEQ_CNTR_CONTRACT_TYPE"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-13">
+    <changeSet author="Reza (generated)" id="1592718665942-13">
         <createSequence sequenceName="SEQ_CNTR_INCOTERM"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-14">
+    <changeSet author="Reza (generated)" id="1592718665942-14">
         <createSequence sequenceName="SEQ_CNTR_INCOTERM_ASPECT"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-15">
+    <changeSet author="Reza (generated)" id="1592718665942-15">
         <createSequence sequenceName="SEQ_CNTR_INCOTERM_DETAIL"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-16">
+    <changeSet author="Reza (generated)" id="1592718665942-16">
         <createSequence sequenceName="SEQ_CNTR_INCOTERM_FORM"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-17">
+    <changeSet author="Reza (generated)" id="1592718665942-17">
         <createSequence sequenceName="SEQ_CNTR_INCOTERM_FORMS"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-18">
+    <changeSet author="Reza (generated)" id="1592718665942-18">
         <createSequence sequenceName="SEQ_CNTR_INCOTERM_PARTIES"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-19">
+    <changeSet author="Reza (generated)" id="1592718665942-19">
         <createSequence sequenceName="SEQ_CNTR_INCOTERM_PARTY"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-20">
+    <changeSet author="Reza (generated)" id="1592718665942-20">
         <createSequence sequenceName="SEQ_CNTR_INCOTERM_RULE"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-21">
+    <changeSet author="Reza (generated)" id="1592718665942-21">
         <createSequence sequenceName="SEQ_CNTR_INCOTERM_RULES"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-22">
+    <changeSet author="Reza (generated)" id="1592718665942-22">
         <createSequence sequenceName="SEQ_CNTR_INCOTERM_STEP"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-23">
+    <changeSet author="Reza (generated)" id="1592718665942-23">
         <createSequence sequenceName="SEQ_CNTR_INCOTERM_STEPS"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-24">
+    <changeSet author="Reza (generated)" id="1592718665942-24">
         <createSequence sequenceName="SEQ_CNTR_INCOTERM_VERSION"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-25">
+    <changeSet author="Reza (generated)" id="1592718665942-25">
         <createSequence sequenceName="SEQ_CNTR_TERM"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-26">
+    <changeSet author="Reza (generated)" id="1592718665942-26">
         <createSequence sequenceName="SEQ_CONTACT"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-27">
+    <changeSet author="Reza (generated)" id="1592718665942-27">
         <createSequence sequenceName="SEQ_CONTACT_ACCOUNT"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-28">
+    <changeSet author="Reza (generated)" id="1592718665942-28">
         <createSequence sequenceName="SEQ_CONTRACT"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-29">
+    <changeSet author="Reza (generated)" id="1592718665942-29">
         <createSequence sequenceName="SEQ_CONTRACT_CURRENCY"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-30">
+    <changeSet author="Reza (generated)" id="1592718665942-30">
         <createSequence sequenceName="SEQ_CONTRACT_DETAIL"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-31">
+    <changeSet author="Reza (generated)" id="1592718665942-31">
         <createSequence sequenceName="SEQ_CONTRACT_PENALTY"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-32">
+    <changeSet author="Reza (generated)" id="1592718665942-32">
         <createSequence sequenceName="SEQ_CONTRACT_PERSON"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-33">
+    <changeSet author="Reza (generated)" id="1592718665942-33">
         <createSequence sequenceName="SEQ_CONTRACT_SHIPMENT"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-34">
+    <changeSet author="Reza (generated)" id="1592718665942-34">
         <createSequence sequenceName="SEQ_COST"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-35">
+    <changeSet author="Reza (generated)" id="1592718665942-35">
         <createSequence sequenceName="SEQ_COUNTRY"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-36">
+    <changeSet author="Reza (generated)" id="1592718665942-36">
         <createSequence sequenceName="SEQ_CURRENCY"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-37">
+    <changeSet author="Reza (generated)" id="1592718665942-37">
         <createSequence sequenceName="SEQ_CURRENCY_RATE"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-38">
+    <changeSet author="Reza (generated)" id="1592718665942-38">
         <createSequence sequenceName="SEQ_DCC"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-39">
+    <changeSet author="Reza (generated)" id="1592718665942-39">
         <createSequence sequenceName="SEQ_FEATURE"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-40">
+    <changeSet author="Reza (generated)" id="1592718665942-40">
         <createSequence sequenceName="SEQ_FOREIGN_INVOICE"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-41">
+    <changeSet author="Reza (generated)" id="1592718665942-41">
         <createSequence sequenceName="SEQ_FOREIGN_INVOICE_ITEM"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-42">
+    <changeSet author="Reza (generated)" id="1592718665942-42">
         <createSequence sequenceName="SEQ_FOREIGN_INVOICE_ITEM_DETAIL"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-43">
+    <changeSet author="Reza (generated)" id="1592718665942-43">
         <createSequence sequenceName="SEQ_FOREIGN_INVOICE_PAYMENT"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-44">
+    <changeSet author="Reza (generated)" id="1592718665942-44">
         <createSequence sequenceName="SEQ_GLOSSARY"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-45">
+    <changeSet author="Reza (generated)" id="1592718665942-45">
         <createSequence sequenceName="SEQ_GOODS"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-46">
+    <changeSet author="Reza (generated)" id="1592718665942-46">
         <createSequence sequenceName="SEQ_GROUPS"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-47">
+    <changeSet author="Reza (generated)" id="1592718665942-47">
         <createSequence sequenceName="SEQ_GROUPS_PERSON"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-48">
+    <changeSet author="Reza (generated)" id="1592718665942-48">
         <createSequence sequenceName="SEQ_INCOTERMS"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-49">
+    <changeSet author="Reza (generated)" id="1592718665942-49">
         <createSequence sequenceName="SEQ_INSPECTION_CONTRACT"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-50">
+    <changeSet author="Reza (generated)" id="1592718665942-50">
         <createSequence sequenceName="SEQ_INSPECTION_REPORT"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-51">
+    <changeSet author="Reza (generated)" id="1592718665942-51">
         <createSequence sequenceName="SEQ_INSTRUCTION"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-52">
+    <changeSet author="Reza (generated)" id="1592718665942-52">
         <createSequence sequenceName="SEQ_INVOICE_FOREIGN"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-53">
+    <changeSet author="Reza (generated)" id="1592718665942-53">
         <createSequence sequenceName="SEQ_INVOICE_SALES"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-54">
+    <changeSet author="Reza (generated)" id="1592718665942-54">
         <createSequence sequenceName="SEQ_INVOICE_SALES_ITEM"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-55">
+    <changeSet author="Reza (generated)" id="1592718665942-55">
         <createSequence sequenceName="SEQ_LME"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-56">
+    <changeSet author="Reza (generated)" id="1592718665942-56">
         <createSequence sequenceName="SEQ_MATERIAL"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-57">
+    <changeSet author="Reza (generated)" id="1592718665942-57">
         <createSequence sequenceName="SEQ_MATERIAL_FEATURE"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-58">
+    <changeSet author="Reza (generated)" id="1592718665942-58">
         <createSequence sequenceName="SEQ_MATERIAL_ITEM"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-59">
+    <changeSet author="Reza (generated)" id="1592718665942-59">
         <createSequence sequenceName="SEQ_PARAMETER"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-60">
+    <changeSet author="Reza (generated)" id="1592718665942-60">
         <createSequence sequenceName="SEQ_PAYMENT_OPTION"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-61">
+    <changeSet author="Reza (generated)" id="1592718665942-61">
         <createSequence sequenceName="SEQ_PAYMENT_TYPE"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-62">
+    <changeSet author="Reza (generated)" id="1592718665942-62">
         <createSequence sequenceName="SEQ_PERCENT_PER_YEAR"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-63">
+    <changeSet author="Reza (generated)" id="1592718665942-63">
         <createSequence sequenceName="SEQ_PERSON"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-64">
+    <changeSet author="Reza (generated)" id="1592718665942-64">
         <createSequence sequenceName="SEQ_PORT"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-65">
+    <changeSet author="Reza (generated)" id="1592718665942-65">
         <createSequence sequenceName="SEQ_RATE"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-66">
+    <changeSet author="Reza (generated)" id="1592718665942-66">
         <createSequence sequenceName="SEQ_SALES_TYPE"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-67">
+    <changeSet author="Reza (generated)" id="1592718665942-67">
         <createSequence sequenceName="SEQ_SHIPMENT"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-68">
+    <changeSet author="Reza (generated)" id="1592718665942-68">
         <createSequence sequenceName="SEQ_SHIPMENT_CONTRACT"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-69">
+    <changeSet author="Reza (generated)" id="1592718665942-69">
         <createSequence sequenceName="SEQ_Shipment_Method"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-70">
+    <changeSet author="Reza (generated)" id="1592718665942-70">
         <createSequence sequenceName="SEQ_Shipment_Type"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-71">
+    <changeSet author="Reza (generated)" id="1592718665942-71">
         <createSequence sequenceName="SEQ_TBL_Invoice_Type"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-72">
+    <changeSet author="Reza (generated)" id="1592718665942-72">
+        <createSequence sequenceName="SEQ_TBL_TYPICAL_ASSAY"/>
+    </changeSet>
+    <changeSet author="Reza (generated)" id="1592718665942-73">
         <createSequence sequenceName="SEQ_UNIT"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-73">
+    <changeSet author="Reza (generated)" id="1592718665942-74">
         <createSequence sequenceName="SEQ_VESSEL"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-74">
+    <changeSet author="Reza (generated)" id="1592718665942-75">
         <createSequence sequenceName="SEQ_WAREHOUSE_CAD"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-75">
+    <changeSet author="Reza (generated)" id="1592718665942-76">
         <createSequence sequenceName="SEQ_WAREHOUSE_CAD_ITEM"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-76">
+    <changeSet author="Reza (generated)" id="1592718665942-77">
         <createSequence sequenceName="SEQ_WAREHOUSE_LOT"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-77">
+    <changeSet author="Reza (generated)" id="1592718665942-78">
         <createSequence sequenceName="SEQ_WAREHOUSE_STOCK"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-78">
+    <changeSet author="Reza (generated)" id="1592718665942-79">
         <createSequence sequenceName="SEQ_WAREHOUSE_YARD"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-79">
+    <changeSet author="Reza (generated)" id="1592718665942-80">
         <createSequence sequenceName="SEQ_WARH_DEPOT"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-80">
+    <changeSet author="Reza (generated)" id="1592718665942-81">
         <createSequence sequenceName="SEQ_WARH_ELEMENT"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-81">
+    <changeSet author="Reza (generated)" id="1592718665942-82">
         <createSequence sequenceName="SEQ_WARH_INVENTORY"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-82">
+    <changeSet author="Reza (generated)" id="1592718665942-83">
         <createSequence sequenceName="SEQ_WARH_INVENTORY_VALUE"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-83">
+    <changeSet author="Reza (generated)" id="1592718665942-84">
         <createSequence sequenceName="SEQ_WARH_ITEM_ELEMENT"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-84">
+    <changeSet author="Reza (generated)" id="1592718665942-85">
         <createSequence sequenceName="SEQ_WARH_REMITTANCE"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-85">
+    <changeSet author="Reza (generated)" id="1592718665942-86">
         <createSequence sequenceName="SEQ_WARH_REMITTANCE_DETAIL"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-86">
+    <changeSet author="Reza (generated)" id="1592718665942-87">
         <createSequence sequenceName="SEQ_WARH_REMITTANCE_TOZIN"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-87">
+    <changeSet author="Reza (generated)" id="1592718665942-88">
         <createSequence sequenceName="SEQ_WARH_STORE"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-88">
+    <changeSet author="Reza (generated)" id="1592718665942-89">
         <createSequence sequenceName="SEQ_WARH_TOZIN"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-89">
+    <changeSet author="Reza (generated)" id="1592718665942-90">
         <createSequence sequenceName="SEQ_WEIGHING_INSPECTION"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-90">
+    <changeSet author="Reza (generated)" id="1592718665942-91">
         <createSequence sequenceName="hibernate_sequence"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-91">
+    <changeSet author="Reza (generated)" id="1592718665942-92">
         <createSequence sequenceName="seq_invoice_internal_document"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-92">
+    <changeSet author="Reza (generated)" id="1592718665942-93">
         <createTable tableName="REVINFO">
             <column autoIncrement="true" name="REV" type="NUMBER(10, 0)">
                 <constraints primaryKey="true" primaryKeyName="REVINFOPK"/>
@@ -281,7 +284,7 @@
             <column name="REVTSTMP" type="NUMBER(19, 0)"/>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-93">
+    <changeSet author="Reza (generated)" id="1592718665942-94">
         <createTable tableName="TBL_ASSAY_INSPECTION">
             <column name="id" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_ASSAY_INSPECTIONPK"/>
@@ -315,7 +318,7 @@
             <column name="N_VALUE" type="NUMBER(5, 10)"/>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-94">
+    <changeSet author="Reza (generated)" id="1592718665942-95">
         <createTable tableName="TBL_Analyse_Product_MO">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_Analyse_Product_MOPK"/>
@@ -349,7 +352,7 @@
             <column name="SI" type="FLOAT(24)"/>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-95">
+    <changeSet author="Reza (generated)" id="1592718665942-96">
         <createTable tableName="TBL_BANK">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_BANKPK"/>
@@ -378,7 +381,7 @@
             <column name="c_NAME_EN" type="VARCHAR2(1000 CHAR)"/>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-96">
+    <changeSet author="Reza (generated)" id="1592718665942-97">
         <createTable tableName="TBL_CNTR_CONTRACT">
             <column name="id" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_CNTR_CONTRACTPK"/>
@@ -419,7 +422,7 @@
             <column name="F_PARENT_ID" type="NUMBER(19, 0)"/>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-97">
+    <changeSet author="Reza (generated)" id="1592718665942-98">
         <createTable tableName="TBL_CNTR_CONTRACT_AUD">
             <column name="id" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_CNTR_CONTRACT_AUDPK"/>
@@ -443,7 +446,7 @@
             <column name="F_PARENT_ID" type="NUMBER(19, 0)"/>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-98">
+    <changeSet author="Reza (generated)" id="1592718665942-99">
         <createTable tableName="TBL_CNTR_CONTRACT_CONTACT">
             <column name="id" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_CNTR_CONTRACT_CONTACTPK"/>
@@ -473,7 +476,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-99">
+    <changeSet author="Reza (generated)" id="1592718665942-100">
         <createTable tableName="TBL_CNTR_CONTRACT_DETAIL">
             <column name="id" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_CNTR_CONTRACT_DETAILPK"/>
@@ -504,7 +507,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-100">
+    <changeSet author="Reza (generated)" id="1592718665942-101">
         <createTable tableName="TBL_CNTR_CONTRACT_DETAIL_AUD">
             <column name="id" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_CNTR_CONTRACT_DETAIL_AUDPK"/>
@@ -522,7 +525,7 @@
             <column name="F_CONTRACT_ID" type="NUMBER(19, 0)"/>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-101">
+    <changeSet author="Reza (generated)" id="1592718665942-102">
         <createTable tableName="TBL_CNTR_CONTRACT_DETAIL_TYPE">
             <column name="id" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_CNTR_CONTRACT_DETAIL_TYPEPK"/>
@@ -558,7 +561,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-102">
+    <changeSet author="Reza (generated)" id="1592718665942-103">
         <createTable tableName="TBL_CNTR_CONTRACT_DETAIL_TYPE_PARAM">
             <column name="id" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_CNTR_CONTRACT_DETAIL_TYPE_PARAMPK"/>
@@ -597,7 +600,7 @@
             <column name="F_UNIT_ID" type="NUMBER(19, 0)"/>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-103">
+    <changeSet author="Reza (generated)" id="1592718665942-104">
         <createTable tableName="TBL_CNTR_CONTRACT_DETAIL_TYPE_PARAM_VALUE">
             <column name="id" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_CNTR_CONTRACT_DETAIL_TYPE_PARAM_VALUEPK"/>
@@ -627,7 +630,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-104">
+    <changeSet author="Reza (generated)" id="1592718665942-105">
         <createTable tableName="TBL_CNTR_CONTRACT_DETAIL_TYPE_TEMPLATE">
             <column name="id" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_CNTR_CONTRACT_DETAIL_TYPE_TEMPLATEPK"/>
@@ -660,7 +663,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-105">
+    <changeSet author="Reza (generated)" id="1592718665942-106">
         <createTable tableName="TBL_CNTR_CONTRACT_DETAIL_VALUE">
             <column name="id" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_CNTR_CONTRACT_DETAIL_VALUEPK"/>
@@ -701,7 +704,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-106">
+    <changeSet author="Reza (generated)" id="1592718665942-107">
         <createTable tableName="TBL_CNTR_CONTRACT_DETAIL_VALUE_AUD">
             <column name="id" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_CNTR_CONTRACT_DETAIL_VALUE_AUDPK"/>
@@ -723,7 +726,7 @@
             <column name="C_VALUE" type="VARCHAR2(255 CHAR)"/>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-107">
+    <changeSet author="Reza (generated)" id="1592718665942-108">
         <createTable tableName="TBL_CNTR_CONTRACT_TYPE">
             <column name="id" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_CNTR_CONTRACT_TYPEPK"/>
@@ -757,7 +760,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-108">
+    <changeSet author="Reza (generated)" id="1592718665942-109">
         <createTable tableName="TBL_CNTR_INCOTERM">
             <column name="id" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_CNTR_INCOTERMPK"/>
@@ -787,7 +790,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-109">
+    <changeSet author="Reza (generated)" id="1592718665942-110">
         <createTable tableName="TBL_CNTR_INCOTERM_ASPECT">
             <column name="id" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_CNTR_INCOTERM_ASPECTPK"/>
@@ -824,7 +827,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-110">
+    <changeSet author="Reza (generated)" id="1592718665942-111">
         <createTable tableName="TBL_CNTR_INCOTERM_DETAIL">
             <column name="id" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_CNTR_INCOTERM_DETAILPK"/>
@@ -858,7 +861,7 @@
             <column name="F_TERM_ID" type="NUMBER(19, 0)"/>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-111">
+    <changeSet author="Reza (generated)" id="1592718665942-112">
         <createTable tableName="TBL_CNTR_INCOTERM_FORM">
             <column name="id" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_CNTR_INCOTERM_FORMPK"/>
@@ -888,7 +891,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-112">
+    <changeSet author="Reza (generated)" id="1592718665942-113">
         <createTable tableName="TBL_CNTR_INCOTERM_FORMS">
             <column name="id" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_CNTR_INCOTERM_FORMSPK"/>
@@ -919,7 +922,7 @@
             <column name="N_ORDER" type="NUMBER(3, 0)"/>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-113">
+    <changeSet author="Reza (generated)" id="1592718665942-114">
         <createTable tableName="TBL_CNTR_INCOTERM_PARTIES">
             <column name="id" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_CNTR_INCOTERM_PARTIESPK"/>
@@ -952,7 +955,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-114">
+    <changeSet author="Reza (generated)" id="1592718665942-115">
         <createTable tableName="TBL_CNTR_INCOTERM_PARTY">
             <column name="id" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_CNTR_INCOTERM_PARTYPK"/>
@@ -989,7 +992,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-115">
+    <changeSet author="Reza (generated)" id="1592718665942-116">
         <createTable tableName="TBL_CNTR_INCOTERM_RULE">
             <column name="id" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_CNTR_INCOTERM_RULEPK"/>
@@ -1023,7 +1026,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-116">
+    <changeSet author="Reza (generated)" id="1592718665942-117">
         <createTable tableName="TBL_CNTR_INCOTERM_RULES">
             <column name="id" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_CNTR_INCOTERM_RULESPK"/>
@@ -1056,7 +1059,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-117">
+    <changeSet author="Reza (generated)" id="1592718665942-118">
         <createTable tableName="TBL_CNTR_INCOTERM_STEP">
             <column name="id" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_CNTR_INCOTERM_STEPPK"/>
@@ -1090,7 +1093,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-118">
+    <changeSet author="Reza (generated)" id="1592718665942-119">
         <createTable tableName="TBL_CNTR_INCOTERM_STEPS">
             <column name="id" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_CNTR_INCOTERM_STEPSPK"/>
@@ -1123,7 +1126,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-119">
+    <changeSet author="Reza (generated)" id="1592718665942-120">
         <createTable tableName="TBL_CNTR_INCOTERM_VERSION">
             <column name="id" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_CNTR_INCOTERM_VERSIONPK"/>
@@ -1150,7 +1153,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-120">
+    <changeSet author="Reza (generated)" id="1592718665942-121">
         <createTable tableName="TBL_CNTR_TERM">
             <column name="id" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_CNTR_TERMPK"/>
@@ -1184,7 +1187,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-121">
+    <changeSet author="Reza (generated)" id="1592718665942-122">
         <createTable tableName="TBL_CONTACT">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_CONTACTPK"/>
@@ -1241,7 +1244,7 @@
             <column name="C_WEBSITE" type="VARCHAR2(100 CHAR)"/>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-122">
+    <changeSet author="Reza (generated)" id="1592718665942-123">
         <createTable tableName="TBL_CONTACT_ACCOUNT">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_CONTACT_ACCOUNTPK"/>
@@ -1278,7 +1281,7 @@
             <column name="b_STATUS" type="NUMBER(1, 0)"/>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-123">
+    <changeSet author="Reza (generated)" id="1592718665942-124">
         <createTable tableName="TBL_CONTRACT">
             <column name="CONTRACT_ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_CONTRACTPK"/>
@@ -1385,7 +1388,7 @@
             <column name="WEIGHING_LP" type="NUMBER(1, 0)"/>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-124">
+    <changeSet author="Reza (generated)" id="1592718665942-125">
         <createTable tableName="TBL_CONTRACT_AUD">
             <column name="CONTRACT_ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_CONTRACT_AUDPK"/>
@@ -1477,7 +1480,7 @@
             <column name="WEIGHING_LP" type="NUMBER(1, 0)"/>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-125">
+    <changeSet author="Reza (generated)" id="1592718665942-126">
         <createTable tableName="TBL_CONTRACT_CURRENCY">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_CONTRACT_CURRENCYPK"/>
@@ -1505,7 +1508,7 @@
             <column name="REFRENCE" type="VARCHAR2(255 CHAR)"/>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-126">
+    <changeSet author="Reza (generated)" id="1592718665942-127">
         <createTable tableName="TBL_CONTRACT_DETAIL">
             <column name="id" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_CONTRACT_DETAILPK"/>
@@ -1703,7 +1706,7 @@
             <column name="CONTRACT_ID" type="NUMBER(19, 0)"/>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-127">
+    <changeSet author="Reza (generated)" id="1592718665942-128">
         <createTable tableName="TBL_CONTRACT_DETAIL_AUD">
             <column name="id" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_CONTRACT_DETAIL_AUDPK"/>
@@ -1892,7 +1895,7 @@
             <column name="CONTRACT_ID" type="NUMBER(19, 0)"/>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-128">
+    <changeSet author="Reza (generated)" id="1592718665942-129">
         <createTable tableName="TBL_CONTRACT_PENALTY">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_CONTRACT_PENALTYPK"/>
@@ -1919,7 +1922,7 @@
             <column name="VALUE" type="FLOAT(24)"/>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-129">
+    <changeSet author="Reza (generated)" id="1592718665942-130">
         <createTable tableName="TBL_CONTRACT_PERSON">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_CONTRACT_PERSONPK"/>
@@ -1946,7 +1949,7 @@
             <column name="STATUS" type="VARCHAR2(255 CHAR)"/>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-130">
+    <changeSet author="Reza (generated)" id="1592718665942-131">
         <createTable tableName="TBL_CONTRACT_SHIPMENT">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_CONTRACT_SHIPMENTPK"/>
@@ -1975,7 +1978,7 @@
             <column name="TOLORANCE" type="NUMBER(19, 0)"/>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-131">
+    <changeSet author="Reza (generated)" id="1592718665942-132">
         <createTable tableName="TBL_CONTRACT_SHIPMENT_AUD">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_CONTRACT_SHIPMENT_AUDPK"/>
@@ -1995,7 +1998,7 @@
             <column name="TOLORANCE" type="NUMBER(19, 0)"/>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-132">
+    <changeSet author="Reza (generated)" id="1592718665942-133">
         <createTable tableName="TBL_COST">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_COSTPK"/>
@@ -2059,7 +2062,7 @@
             <column name="UMPIRE_COST_CUR" type="VARCHAR2(20 CHAR)"/>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-133">
+    <changeSet author="Reza (generated)" id="1592718665942-134">
         <createTable tableName="TBL_COUNTRY">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_COUNTRYPK"/>
@@ -2089,7 +2092,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-134">
+    <changeSet author="Reza (generated)" id="1592718665942-135">
         <createTable tableName="TBL_CURRENCY">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_CURRENCYPK"/>
@@ -2116,7 +2119,7 @@
             <column name="c_SYMBOL" type="VARCHAR2(20 CHAR)"/>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-135">
+    <changeSet author="Reza (generated)" id="1592718665942-136">
         <createTable tableName="TBL_CURRENCY_RATE">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_CURRENCY_RATEPK"/>
@@ -2145,7 +2148,7 @@
             <column name="c_RMB_USD" type="VARCHAR2(100 CHAR)"/>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-136">
+    <changeSet author="Reza (generated)" id="1592718665942-137">
         <createTable tableName="TBL_DCC">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_DCCPK"/>
@@ -2179,7 +2182,7 @@
             <column name="c_TBL_NAME2" type="VARCHAR2(100 CHAR)"/>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-137">
+    <changeSet author="Reza (generated)" id="1592718665942-138">
         <createTable tableName="TBL_FEATURE">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_FEATUREPK"/>
@@ -2211,7 +2214,7 @@
             <column name="SYMBOL" type="VARCHAR2(255 CHAR)"/>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-138">
+    <changeSet author="Reza (generated)" id="1592718665942-139">
         <createTable tableName="TBL_FOREIGN_INVOICE">
             <column name="id" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_FOREIGN_INVOICEPK"/>
@@ -2277,7 +2280,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-139">
+    <changeSet author="Reza (generated)" id="1592718665942-140">
         <createTable tableName="TBL_FOREIGN_INVOICE_ITEM">
             <column name="id" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_FOREIGN_INVOICE_ITEMPK"/>
@@ -2320,7 +2323,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-140">
+    <changeSet author="Reza (generated)" id="1592718665942-141">
         <createTable tableName="TBL_FOREIGN_INVOICE_ITEM_DETAIL">
             <column name="id" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_FOREIGN_INVOICE_ITEM_DETAILPK"/>
@@ -2354,14 +2357,14 @@
             <column name="F_FOREIGN_INVOICE_ITEM_ID" type="NUMBER(19, 0)">
                 <constraints nullable="false"/>
             </column>
-            <column name="F_ITEM_RAW_MATERIAL_ID" type="NUMBER(19, 0)">
+            <column name="F_MATERIAL_ELEMENT_ID" type="NUMBER(19, 0)">
                 <constraints nullable="false"/>
             </column>
             <column name="N_RC_BASE_PRICE" type="NUMBER(2, 10)"/>
             <column name="N_RC_PRICE" type="NUMBER(2, 10)"/>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-141">
+    <changeSet author="Reza (generated)" id="1592718665942-142">
         <createTable tableName="TBL_FOREIGN_INVOICE_PAYMENT">
             <column name="id" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_FOREIGN_INVOICE_PAYMENTPK"/>
@@ -2406,7 +2409,7 @@
             <column name="B_IS_POSITIVE" type="NUMBER(1, 0)"/>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-142">
+    <changeSet author="Reza (generated)" id="1592718665942-143">
         <createTable tableName="TBL_GLOSSARY">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_GLOSSARYPK"/>
@@ -2436,7 +2439,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-143">
+    <changeSet author="Reza (generated)" id="1592718665942-144">
         <createTable tableName="TBL_GOODS">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_GOODSPK"/>
@@ -2461,7 +2464,7 @@
             <column name="c_NAME_FA" type="VARCHAR2(1000 CHAR)"/>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-144">
+    <changeSet author="Reza (generated)" id="1592718665942-145">
         <createTable tableName="TBL_GROUPS">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_GROUPSPK"/>
@@ -2488,7 +2491,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-145">
+    <changeSet author="Reza (generated)" id="1592718665942-146">
         <createTable tableName="TBL_GROUPS_PERSON">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_GROUPS_PERSONPK"/>
@@ -2515,7 +2518,7 @@
             <column name="PERSON_ID" type="NUMBER(19, 0)"/>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-146">
+    <changeSet author="Reza (generated)" id="1592718665942-147">
         <createTable tableName="TBL_INCOTERMS">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_INCOTERMSPK"/>
@@ -2555,7 +2558,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-147">
+    <changeSet author="Reza (generated)" id="1592718665942-148">
         <createTable tableName="TBL_INSPECTION_CONTRACT">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_INSPECTION_CONTRACTPK"/>
@@ -2597,7 +2600,7 @@
             <column name="VESSEL_NAME" type="VARCHAR2(1000 CHAR)"/>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-148">
+    <changeSet author="Reza (generated)" id="1592718665942-149">
         <createTable tableName="TBL_INSPECTION_REPORT">
             <column name="id" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_INSPECTION_REPORTPK"/>
@@ -2635,7 +2638,7 @@
             <column name="F_SELLER_ID" type="NUMBER(19, 0)"/>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-149">
+    <changeSet author="Reza (generated)" id="1592718665942-150">
         <createTable tableName="TBL_INSTRUCTION">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_INSTRUCTIONPK"/>
@@ -2668,7 +2671,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-150">
+    <changeSet author="Reza (generated)" id="1592718665942-151">
         <createTable tableName="TBL_INVOICEINTERNALDOCUMENT">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_INVOICEINTERNALDOCUMENTPK"/>
@@ -2694,7 +2697,7 @@
             <column name="PROCESSID" type="VARCHAR2(255 CHAR)"/>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-151">
+    <changeSet author="Reza (generated)" id="1592718665942-152">
         <createTable tableName="TBL_INVOICE_FOREIGN">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_INVOICE_FOREIGNPK"/>
@@ -2743,7 +2746,7 @@
             <column name="UNIT_PRICE_CUR" type="VARCHAR2(255 CHAR)"/>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-152">
+    <changeSet author="Reza (generated)" id="1592718665942-153">
         <createTable tableName="TBL_INVOICE_SALES">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_INVOICE_SALESPK"/>
@@ -2791,7 +2794,7 @@
             <column name="TELEPHONE" type="VARCHAR2(255 CHAR)"/>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-153">
+    <changeSet author="Reza (generated)" id="1592718665942-154">
         <createTable tableName="TBL_INVOICE_SALES_ITEM">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_INVOICE_SALES_ITEMPK"/>
@@ -2830,7 +2833,7 @@
             <column name="VAT" type="NUMBER(19, 0)"/>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-154">
+    <changeSet author="Reza (generated)" id="1592718665942-155">
         <createTable tableName="TBL_Invoice_Type">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_Invoice_TypePK"/>
@@ -2857,7 +2860,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-155">
+    <changeSet author="Reza (generated)" id="1592718665942-156">
         <createTable tableName="TBL_LME">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_LMEPK"/>
@@ -2889,7 +2892,7 @@
             <column name="SILVER_USD_OUNCE" type="VARCHAR2(255 CHAR)"/>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-156">
+    <changeSet author="Reza (generated)" id="1592718665942-157">
         <createTable tableName="TBL_MATERIAL">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_MATERIALPK"/>
@@ -2926,7 +2929,7 @@
             <column name="UNIT_ID" type="NUMBER(19, 0)"/>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-157">
+    <changeSet author="Reza (generated)" id="1592718665942-158">
         <createTable tableName="TBL_MATERIAL_FEATURE">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_MATERIAL_FEATUREPK"/>
@@ -2966,7 +2969,7 @@
             <column name="TREAT_COST" type="FLOAT(24)"/>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-158">
+    <changeSet author="Reza (generated)" id="1592718665942-159">
         <createTable tableName="TBL_MATERIAL_ITEM">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_MATERIAL_ITEMPK"/>
@@ -2994,7 +2997,7 @@
             <column name="MI_DETAIL_CODE" type="VARCHAR2(255 CHAR)"/>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-159">
+    <changeSet author="Reza (generated)" id="1592718665942-160">
         <createTable tableName="TBL_PARAMETER">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_PARAMETERPK"/>
@@ -3030,7 +3033,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-160">
+    <changeSet author="Reza (generated)" id="1592718665942-161">
         <createTable tableName="TBL_PAYMENT_OPTION">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_PAYMENT_OPTIONPK"/>
@@ -3055,7 +3058,7 @@
             <column name="NAME_PAY" type="VARCHAR2(255 CHAR)"/>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-161">
+    <changeSet author="Reza (generated)" id="1592718665942-162">
         <createTable tableName="TBL_PAYMENT_TYPE">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_PAYMENT_TYPEPK"/>
@@ -3082,7 +3085,7 @@
             <column name="PAYMENT_TYPE" type="VARCHAR2(255 CHAR)"/>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-162">
+    <changeSet author="Reza (generated)" id="1592718665942-163">
         <createTable tableName="TBL_PERCENT_PER_YEAR">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_PERCENT_PER_YEARPK"/>
@@ -3109,7 +3112,7 @@
             <column name="YEAR" type="NUMBER(19, 0)"/>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-163">
+    <changeSet author="Reza (generated)" id="1592718665942-164">
         <createTable tableName="TBL_PERSON">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_PERSONPK"/>
@@ -3153,7 +3156,7 @@
             <column name="WHATSAPP" type="VARCHAR2(200 CHAR)"/>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-164">
+    <changeSet author="Reza (generated)" id="1592718665942-165">
         <createTable tableName="TBL_PORT">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_PORTPK"/>
@@ -3182,7 +3185,7 @@
             <column name="c_PORT" type="VARCHAR2(4000 CHAR)"/>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-165">
+    <changeSet author="Reza (generated)" id="1592718665942-166">
         <createTable tableName="TBL_RATE">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_RATEPK"/>
@@ -3214,7 +3217,7 @@
             <column name="SYMBOL" type="VARCHAR2(255 CHAR)"/>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-166">
+    <changeSet author="Reza (generated)" id="1592718665942-167">
         <createTable tableName="TBL_SALES_TYPE">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_SALES_TYPEPK"/>
@@ -3239,7 +3242,7 @@
             <column name="SALES_TYPE" type="VARCHAR2(255 CHAR)"/>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-167">
+    <changeSet author="Reza (generated)" id="1592718665942-168">
         <createTable tableName="TBL_SHIPMENT">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_SHIPMENTPK"/>
@@ -3313,7 +3316,7 @@
             <column name="VGM" type="FLOAT(24)"/>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-168">
+    <changeSet author="Reza (generated)" id="1592718665942-169">
         <createTable tableName="TBL_SHIPMENT_CONTRACT">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_SHIPMENT_CONTRACTPK"/>
@@ -3367,7 +3370,7 @@
             <column name="YEAR_OF_BUILT" type="VARCHAR2(20 CHAR)"/>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-169">
+    <changeSet author="Reza (generated)" id="1592718665942-170">
         <createTable tableName="TBL_Shipment_Method">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_Shipment_MethodPK"/>
@@ -3394,7 +3397,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-170">
+    <changeSet author="Reza (generated)" id="1592718665942-171">
         <createTable tableName="TBL_Shipment_Type">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_Shipment_TypePK"/>
@@ -3421,7 +3424,37 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-171">
+    <changeSet author="Reza (generated)" id="1592718665942-172">
+        <createTable tableName="TBL_TYPICAL_ASSAY">
+            <column name="ID" type="NUMBER(19, 0)">
+                <constraints primaryKey="true" primaryKeyName="TBL_TYPICAL_ASSAYPK"/>
+            </column>
+            <column name="c_created_by" type="VARCHAR2(255 CHAR)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="d_created_date" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
+            <column name="d_last_modified_date" type="TIMESTAMP"/>
+            <column name="n_version" type="NUMBER(10, 0)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="F_MATERIAL_ELEMENT_ID" type="NUMBER(19, 0)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="N_MAX_VALUE" type="NUMBER(5, 10)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="N_MIN_VALUE" type="NUMBER(5, 10)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="F_UNIT_ID" type="NUMBER(19, 0)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Reza (generated)" id="1592718665942-173">
         <createTable tableName="TBL_UNIT">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_UNITPK"/>
@@ -3456,7 +3489,7 @@
             <column name="c_SYMBOL" type="VARCHAR2(255 CHAR)"/>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-172">
+    <changeSet author="Reza (generated)" id="1592718665942-174">
         <createTable tableName="TBL_VESSEL">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_VESSELPK"/>
@@ -3486,7 +3519,7 @@
             <column name="YEAR_OF_BUILd" type="NUMBER(10, 0)"/>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-173">
+    <changeSet author="Reza (generated)" id="1592718665942-175">
         <createTable tableName="TBL_WAREHOUSE_CAD">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_WAREHOUSE_CADPK"/>
@@ -3536,7 +3569,7 @@
             <column name="WEIGHT_KG" type="FLOAT(24)"/>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-174">
+    <changeSet author="Reza (generated)" id="1592718665942-176">
         <createTable tableName="TBL_WAREHOUSE_CAD_ITEM">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_WAREHOUSE_CAD_ITEMPK"/>
@@ -3568,7 +3601,7 @@
             <column name="WEIGHT_KG" type="FLOAT(24)"/>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-175">
+    <changeSet author="Reza (generated)" id="1592718665942-177">
         <createTable tableName="TBL_WAREHOUSE_LOT">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_WAREHOUSE_LOTPK"/>
@@ -3623,7 +3656,7 @@
             <column name="WEIGHT_KG" type="FLOAT(24)"/>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-176">
+    <changeSet author="Reza (generated)" id="1592718665942-178">
         <createTable tableName="TBL_WAREHOUSE_STOCK">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_WAREHOUSE_STOCKPK"/>
@@ -3656,7 +3689,7 @@
             <column name="YARD_ID" type="NUMBER(19, 0)"/>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-177">
+    <changeSet author="Reza (generated)" id="1592718665942-179">
         <createTable tableName="TBL_WAREHOUSE_YARD">
             <column name="ID" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_WAREHOUSE_YARDPK"/>
@@ -3684,7 +3717,7 @@
             <column name="WAREHOUSE_NO" type="VARCHAR2(20 CHAR)"/>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-178">
+    <changeSet author="Reza (generated)" id="1592718665942-180">
         <createTable tableName="TBL_WARH_DEPOT">
             <column name="id" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_WARH_DEPOTPK"/>
@@ -3715,7 +3748,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-179">
+    <changeSet author="Reza (generated)" id="1592718665942-181">
         <createTable tableName="TBL_WARH_ELEMENT">
             <column name="id" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_WARH_ELEMENTPK"/>
@@ -3744,7 +3777,7 @@
             <column name="B_USE_IN_CONTRACT" type="NUMBER(1, 0)"/>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-180">
+    <changeSet author="Reza (generated)" id="1592718665942-182">
         <createTable tableName="TBL_WARH_INVENTORY">
             <column name="id" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_WARH_INVENTORYPK"/>
@@ -3771,7 +3804,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-181">
+    <changeSet author="Reza (generated)" id="1592718665942-183">
         <createTable tableName="TBL_WARH_INVENTORY_VALUE">
             <column name="id" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_WARH_INVENTORY_VALUEPK"/>
@@ -3801,7 +3834,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-182">
+    <changeSet author="Reza (generated)" id="1592718665942-184">
         <createTable tableName="TBL_WARH_ITEM_ELEMENT">
             <column name="id" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_WARH_ITEM_ELEMENTPK"/>
@@ -3823,15 +3856,15 @@
             <column defaultValueNumeric="1" name="B_EDITABLE" type="NUMBER">
                 <constraints nullable="false"/>
             </column>
-            <column name="F_ITEM_ID" type="NUMBER(19, 0)">
+            <column name="F_ELEMENT_ID" type="NUMBER(19, 0)">
                 <constraints nullable="false"/>
             </column>
-            <column name="F_ELEMENT_ID" type="NUMBER(19, 0)">
+            <column name="F_MATERIAL_ITEM_ID" type="NUMBER(19, 0)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-183">
+    <changeSet author="Reza (generated)" id="1592718665942-185">
         <createTable tableName="TBL_WARH_REMITTANCE">
             <column name="id" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_WARH_REMITTANCEPK"/>
@@ -3863,7 +3896,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-184">
+    <changeSet author="Reza (generated)" id="1592718665942-186">
         <createTable tableName="TBL_WARH_REMITTANCE_DETAIL">
             <column name="id" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_WARH_REMITTANCE_DETAILPK"/>
@@ -3901,7 +3934,7 @@
             <column name="N_VALUE" type="NUMBER(19, 0)"/>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-185">
+    <changeSet author="Reza (generated)" id="1592718665942-187">
         <createTable tableName="TBL_WARH_REMITTANCE_TOZIN">
             <column name="id" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_WARH_REMITTANCE_TOZINPK"/>
@@ -3934,7 +3967,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-186">
+    <changeSet author="Reza (generated)" id="1592718665942-188">
         <createTable tableName="TBL_WARH_STORE">
             <column name="id" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_WARH_STOREPK"/>
@@ -3965,7 +3998,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-187">
+    <changeSet author="Reza (generated)" id="1592718665942-189">
         <createTable tableName="TBL_WARH_TOZIN">
             <column name="id" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_WARH_TOZINPK"/>
@@ -3978,7 +4011,7 @@
             <column name="TOZINE_ID" type="VARCHAR2(255 CHAR)"/>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-188">
+    <changeSet author="Reza (generated)" id="1592718665942-190">
         <createTable tableName="TBL_WARH_WAREHOUSE">
             <column name="id" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_WARH_WAREHOUSEPK"/>
@@ -4015,7 +4048,7 @@
             <column name="C_STATE" type="VARCHAR2(255 CHAR)"/>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-189">
+    <changeSet author="Reza (generated)" id="1592718665942-191">
         <createTable tableName="TBL_WEIGHING_INSPECTION">
             <column name="id" type="NUMBER(19, 0)">
                 <constraints primaryKey="true" primaryKeyName="TBL_WEIGHING_INSPECTIONPK"/>
@@ -4045,441 +4078,447 @@
             <column name="N_WEIGHT_N_D" type="NUMBER(5, 10)"/>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-190">
+    <changeSet author="Reza (generated)" id="1592718665942-192">
         <addUniqueConstraint columnNames="BIJACK_NO" constraintName="BIJACK_NO_UNIQUE" tableName="TBL_WAREHOUSE_CAD"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-191">
+    <changeSet author="Reza (generated)" id="1592718665942-193">
         <addUniqueConstraint columnNames="CONTRACT_ID, PERSON_ID" constraintName="CONTRACT_ID_PERSON_ID_UNIQUE" tableName="TBL_CONTRACT_PERSON"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-192">
+    <changeSet author="Reza (generated)" id="1592718665942-194">
         <addUniqueConstraint columnNames="GROUPS_ID, PERSON_ID" constraintName="GROUPS_ID_PERSON_ID_UNIQUE" tableName="TBL_GROUPS_PERSON"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-193">
+    <changeSet author="Reza (generated)" id="1592718665942-195">
         <addUniqueConstraint columnNames="NO" constraintName="SHIPMENTCONTRACT_NO_UNIQUE" tableName="TBL_SHIPMENT_CONTRACT"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-194">
+    <changeSet author="Reza (generated)" id="1592718665942-196">
         <addUniqueConstraint columnNames="C_NO" constraintName="UC_TBL_CNTR_CONTRACTC_NO_COL" tableName="TBL_CNTR_CONTRACT"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-195">
+    <changeSet author="Reza (generated)" id="1592718665942-197">
         <addUniqueConstraint columnNames="C_CODE" constraintName="UC_TBL_CNTR_CONTRACT_DETAIL_TYPEC_CODE_COL" tableName="TBL_CNTR_CONTRACT_DETAIL_TYPE"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-196">
+    <changeSet author="Reza (generated)" id="1592718665942-198">
         <addUniqueConstraint columnNames="C_MATERIAL" constraintName="UC_TBL_CNTR_CONTRACT_DETAIL_TYPEC_MATERIAL_COL" tableName="TBL_CNTR_CONTRACT_DETAIL_TYPE"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-197">
+    <changeSet author="Reza (generated)" id="1592718665942-199">
         <addUniqueConstraint columnNames="C_KEY" constraintName="UC_TBL_CNTR_CONTRACT_DETAIL_TYPE_PARAMC_KEY_COL" tableName="TBL_CNTR_CONTRACT_DETAIL_TYPE_PARAM"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-198">
+    <changeSet author="Reza (generated)" id="1592718665942-200">
         <addUniqueConstraint columnNames="C_CODE" constraintName="UC_TBL_CNTR_CONTRACT_DETAIL_TYPE_TEMPLATEC_CODE_COL" tableName="TBL_CNTR_CONTRACT_DETAIL_TYPE_TEMPLATE"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-199">
+    <changeSet author="Reza (generated)" id="1592718665942-201">
         <addUniqueConstraint columnNames="C_CODE" constraintName="UC_TBL_CNTR_CONTRACT_TYPEC_CODE_COL" tableName="TBL_CNTR_CONTRACT_TYPE"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-200">
+    <changeSet author="Reza (generated)" id="1592718665942-202">
         <addUniqueConstraint columnNames="C_CODE" constraintName="UC_TBL_CNTR_INCOTERM_ASPECTC_CODE_COL" tableName="TBL_CNTR_INCOTERM_ASPECT"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-201">
+    <changeSet author="Reza (generated)" id="1592718665942-203">
         <addUniqueConstraint columnNames="C_CODE" constraintName="UC_TBL_CNTR_INCOTERM_FORMC_CODE_COL" tableName="TBL_CNTR_INCOTERM_FORM"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-202">
+    <changeSet author="Reza (generated)" id="1592718665942-204">
         <addUniqueConstraint columnNames="C_CODE" constraintName="UC_TBL_CNTR_INCOTERM_PARTYC_CODE_COL" tableName="TBL_CNTR_INCOTERM_PARTY"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-203">
+    <changeSet author="Reza (generated)" id="1592718665942-205">
         <addUniqueConstraint columnNames="C_CODE" constraintName="UC_TBL_CNTR_INCOTERM_RULEC_CODE_COL" tableName="TBL_CNTR_INCOTERM_RULE"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-204">
+    <changeSet author="Reza (generated)" id="1592718665942-206">
         <addUniqueConstraint columnNames="C_CODE" constraintName="UC_TBL_CNTR_INCOTERM_STEPC_CODE_COL" tableName="TBL_CNTR_INCOTERM_STEP"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-205">
+    <changeSet author="Reza (generated)" id="1592718665942-207">
         <addUniqueConstraint columnNames="N_INCOTERM_VERSION" constraintName="UC_TBL_CNTR_INCOTERM_VERSIONN_INCOTERM_VERSION_COL" tableName="TBL_CNTR_INCOTERM_VERSION"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-206">
+    <changeSet author="Reza (generated)" id="1592718665942-208">
         <addUniqueConstraint columnNames="C_CODE" constraintName="UC_TBL_CNTR_TERMC_CODE_COL" tableName="TBL_CNTR_TERM"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-207">
+    <changeSet author="Reza (generated)" id="1592718665942-209">
         <createIndex indexName="WAREHOUSECADITEM_IDX_ISSUEID" tableName="TBL_WAREHOUSE_CAD_ITEM">
             <column name="ISSUE_ID"/>
         </createIndex>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-208">
+    <changeSet author="Reza (generated)" id="1592718665942-210">
         <addForeignKeyConstraint baseColumnNames="BANK_ID" baseTableName="TBL_CONTACT_ACCOUNT" constraintName="ContactAccount2bank" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_BANK" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-209">
+    <changeSet author="Reza (generated)" id="1592718665942-211">
         <addForeignKeyConstraint baseColumnNames="INCOTERMS_ID" baseTableName="TBL_CONTRACT" constraintName="Contract2incoterm" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_INCOTERMS" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-210">
+    <changeSet author="Reza (generated)" id="1592718665942-212">
         <addForeignKeyConstraint baseColumnNames="DEFINITION_ID" baseTableName="TBL_CONTRACT" constraintName="Contract2parmtrByDefinitin" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_PARAMETER" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-211">
+    <changeSet author="Reza (generated)" id="1592718665942-213">
         <addForeignKeyConstraint baseColumnNames="CURRENCY_ID" baseTableName="TBL_CONTRACT_CURRENCY" constraintName="ContractCurrency2CURRENCY" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_CURRENCY" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-212">
+    <changeSet author="Reza (generated)" id="1592718665942-214">
         <addForeignKeyConstraint baseColumnNames="CONTRACT_ID" baseTableName="TBL_CONTRACT_CURRENCY" constraintName="ContractCurrency2contract" deferrable="false" initiallyDeferred="false" referencedColumnNames="CONTRACT_ID" referencedTableName="TBL_CONTRACT" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-213">
+    <changeSet author="Reza (generated)" id="1592718665942-215">
         <addForeignKeyConstraint baseColumnNames="LOAD_PORT_ID" baseTableName="TBL_CONTRACT_SHIPMENT" constraintName="Contractship2loadport" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_PORT" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-214">
+    <changeSet author="Reza (generated)" id="1592718665942-216">
         <addForeignKeyConstraint baseColumnNames="SOURCE_INSPECTOR_ID" baseTableName="TBL_COST" constraintName="Cost2contactinspector_S" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_CONTACT" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-215">
+    <changeSet author="Reza (generated)" id="1592718665942-217">
         <addForeignKeyConstraint baseColumnNames="DEST_INSPECTOR_ID" baseTableName="TBL_COST" constraintName="Cost2contactinspector_d" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_CONTACT" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-216">
+    <changeSet author="Reza (generated)" id="1592718665942-218">
         <addForeignKeyConstraint baseColumnNames="INSURANCE_ID" baseTableName="TBL_COST" constraintName="Cost2contactinsurance" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_CONTACT" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-217">
+    <changeSet author="Reza (generated)" id="1592718665942-219">
         <addForeignKeyConstraint baseColumnNames="SHIPMENT_ID" baseTableName="TBL_COST" constraintName="Cost2shipment" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_SHIPMENT" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-218">
+    <changeSet author="Reza (generated)" id="1592718665942-220">
         <addForeignKeyConstraint baseColumnNames="REV" baseTableName="TBL_CNTR_CONTRACT_DETAIL_AUD" constraintName="FK3rqhl6uoh73l9c1u0bg6q9aop" deferrable="false" initiallyDeferred="false" referencedColumnNames="REV" referencedTableName="REVINFO" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-219">
+    <changeSet author="Reza (generated)" id="1592718665942-221">
         <addForeignKeyConstraint baseColumnNames="CHARTERER" baseTableName="TBL_SHIPMENT_CONTRACT" constraintName="FK4xohstl6fiurx9kg14groh0rm" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_CONTACT" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-220">
+    <changeSet author="Reza (generated)" id="1592718665942-222">
         <addForeignKeyConstraint baseColumnNames="FLAG" baseTableName="TBL_SHIPMENT_CONTRACT" constraintName="FK8aamg0oec7de935x13fms3num" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_COUNTRY" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-221">
+    <changeSet author="Reza (generated)" id="1592718665942-223">
         <addForeignKeyConstraint baseColumnNames="CONTRACT_ID" baseTableName="TBL_CONTRACT_PERSON" constraintName="FK_CONTRACT" deferrable="false" initiallyDeferred="false" referencedColumnNames="CONTRACT_ID" referencedTableName="TBL_CONTRACT" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-222">
+    <changeSet author="Reza (generated)" id="1592718665942-224">
         <addForeignKeyConstraint baseColumnNames="PERSON_ID" baseTableName="TBL_CONTRACT_PERSON" constraintName="FK_PERSON" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_PERSON" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-223">
+    <changeSet author="Reza (generated)" id="1592718665942-225">
         <addForeignKeyConstraint baseColumnNames="REV" baseTableName="TBL_CNTR_CONTRACT_AUD" constraintName="FKgp90wlyf9emq36lrt7thvelgd" deferrable="false" initiallyDeferred="false" referencedColumnNames="REV" referencedTableName="REVINFO" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-224">
+    <changeSet author="Reza (generated)" id="1592718665942-226">
         <addForeignKeyConstraint baseColumnNames="CNT_ID" baseTableName="TBL_CONTACT_ACCOUNT" constraintName="FKh5t6obexbeiq2n981irskoxsn" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_CONTACT" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-225">
+    <changeSet author="Reza (generated)" id="1592718665942-227">
         <addForeignKeyConstraint baseColumnNames="REV" baseTableName="TBL_CONTRACT_DETAIL_AUD" constraintName="FKh92jkixaa0x6m9nko06gl91yn" deferrable="false" initiallyDeferred="false" referencedColumnNames="REV" referencedTableName="REVINFO" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-226">
+    <changeSet author="Reza (generated)" id="1592718665942-228">
         <addForeignKeyConstraint baseColumnNames="OWNERS" baseTableName="TBL_SHIPMENT_CONTRACT" constraintName="FKigp8cmkv5m6jjoqxpg7wejcr4" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_CONTACT" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-227">
+    <changeSet author="Reza (generated)" id="1592718665942-229">
         <addForeignKeyConstraint baseColumnNames="REV" baseTableName="TBL_CONTRACT_SHIPMENT_AUD" constraintName="FKiwccta7aa6oc5gh7hp9k6ht88" deferrable="false" initiallyDeferred="false" referencedColumnNames="REV" referencedTableName="REVINFO" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-228">
+    <changeSet author="Reza (generated)" id="1592718665942-230">
         <addForeignKeyConstraint baseColumnNames="REV" baseTableName="TBL_CONTRACT_AUD" constraintName="FKlm8xyddachsbk86ovfnfau1t2" deferrable="false" initiallyDeferred="false" referencedColumnNames="REV" referencedTableName="REVINFO" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-229">
+    <changeSet author="Reza (generated)" id="1592718665942-231">
         <addForeignKeyConstraint baseColumnNames="CHAIN_OF_OWNERS" baseTableName="TBL_SHIPMENT_CONTRACT" constraintName="FKm0y3k5vdqcgp4li7qte3s345x" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_CONTACT" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-230">
+    <changeSet author="Reza (generated)" id="1592718665942-232">
         <addForeignKeyConstraint baseColumnNames="CONTRACT_ID" baseTableName="TBL_CONTRACT_SHIPMENT" constraintName="FKmoqdke1sbkylfdc0tbwdnuda1" deferrable="false" initiallyDeferred="false" referencedColumnNames="CONTRACT_ID" referencedTableName="TBL_CONTRACT" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-231">
+    <changeSet author="Reza (generated)" id="1592718665942-233">
         <addForeignKeyConstraint baseColumnNames="REV" baseTableName="TBL_CNTR_CONTRACT_DETAIL_VALUE_AUD" constraintName="FKo4kt2qio99xibn42mqrxs1c8c" deferrable="false" initiallyDeferred="false" referencedColumnNames="REV" referencedTableName="REVINFO" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-232">
+    <changeSet author="Reza (generated)" id="1592718665942-234">
         <addForeignKeyConstraint baseColumnNames="CONTRACT_ID" baseTableName="TBL_CONTRACT_DETAIL" constraintName="FKremcwd3olj5ibvom82b44xkjf" deferrable="false" initiallyDeferred="false" referencedColumnNames="CONTRACT_ID" referencedTableName="TBL_CONTRACT" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-233">
+    <changeSet author="Reza (generated)" id="1592718665942-235">
         <addForeignKeyConstraint baseColumnNames="SHIPMENT_ID" baseTableName="TBL_INVOICE_FOREIGN" constraintName="INVOICE2SHIPMENT" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_SHIPMENT" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-234">
+    <changeSet author="Reza (generated)" id="1592718665942-236">
         <addForeignKeyConstraint baseColumnNames="VESSEL_ID" baseTableName="TBL_SHIPMENT" constraintName="Shipment2vessel" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_VESSEL" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-235">
+    <changeSet author="Reza (generated)" id="1592718665942-237">
         <addForeignKeyConstraint baseColumnNames="WAREHOUSE_CAD_ID" baseTableName="TBL_WAREHOUSE_CAD_ITEM" constraintName="WAREHOUSECADITEM2w_c_header" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_WAREHOUSE_CAD" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-236">
+    <changeSet author="Reza (generated)" id="1592718665942-238">
         <addForeignKeyConstraint baseColumnNames="MATERIAL_ITEM_ID" baseTableName="TBL_WAREHOUSE_CAD" constraintName="WarehouseCad2material_itm" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_MATERIAL_ITEM" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-237">
+    <changeSet author="Reza (generated)" id="1592718665942-239">
         <addForeignKeyConstraint baseColumnNames="YARD_ID" baseTableName="TBL_WAREHOUSE_CAD" constraintName="WarehouseCad2yard" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_WAREHOUSE_YARD" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-238">
+    <changeSet author="Reza (generated)" id="1592718665942-240">
         <addForeignKeyConstraint baseColumnNames="WAREHOUSECADITEM_ID" baseTableName="TBL_WAREHOUSE_LOT" constraintName="WarehouseLot2CadItem" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_WAREHOUSE_CAD_ITEM" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-239">
+    <changeSet author="Reza (generated)" id="1592718665942-241">
         <addForeignKeyConstraint baseColumnNames="CONTRACT_ID" baseTableName="TBL_WAREHOUSE_LOT" constraintName="WarehouseLot2Contract" deferrable="false" initiallyDeferred="false" referencedColumnNames="CONTRACT_ID" referencedTableName="TBL_CONTRACT" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-240">
+    <changeSet author="Reza (generated)" id="1592718665942-242">
         <addForeignKeyConstraint baseColumnNames="MATERIAL_ITEM_ID" baseTableName="TBL_WAREHOUSE_STOCK" constraintName="WarehouseStock2matherialitem" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_MATERIAL_ITEM" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-241">
+    <changeSet author="Reza (generated)" id="1592718665942-243">
         <addForeignKeyConstraint baseColumnNames="YARD_ID" baseTableName="TBL_WAREHOUSE_STOCK" constraintName="WarehouseStock2yard" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_WAREHOUSE_YARD" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-242">
+    <changeSet author="Reza (generated)" id="1592718665942-244">
         <addForeignKeyConstraint baseColumnNames="MATERIAL_ID" baseTableName="TBL_WAREHOUSE_LOT" constraintName="Warehouselot2material" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_MATERIAL" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-243">
+    <changeSet author="Reza (generated)" id="1592718665942-245">
         <addForeignKeyConstraint baseColumnNames="COUNTRY_ID" baseTableName="TBL_BANK" constraintName="bank2Country" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_COUNTRY" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-244">
+    <changeSet author="Reza (generated)" id="1592718665942-246">
         <addForeignKeyConstraint baseColumnNames="COUNTRY_ID" baseTableName="TBL_CONTACT" constraintName="contact2Country" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_COUNTRY" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-245">
+    <changeSet author="Reza (generated)" id="1592718665942-247">
         <addForeignKeyConstraint baseColumnNames="C_DEFAULT_BANK_ID" baseTableName="TBL_CONTACT" constraintName="contact2bank" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_BANK" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-246">
+    <changeSet author="Reza (generated)" id="1592718665942-248">
         <addForeignKeyConstraint baseColumnNames="PORT_SOURCE_ID" baseTableName="TBL_CONTRACT" constraintName="contract2PortBySourcePortId" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_PORT" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-247">
+    <changeSet author="Reza (generated)" id="1592718665942-249">
         <addForeignKeyConstraint baseColumnNames="CONTACT_ID" baseTableName="TBL_CONTRACT" constraintName="contract2contactByBuyer" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_CONTACT" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-248">
+    <changeSet author="Reza (generated)" id="1592718665942-250">
         <addForeignKeyConstraint baseColumnNames="BUYER_AGENT_ID" baseTableName="TBL_CONTRACT" constraintName="contract2contactByBuyerAgent" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_CONTACT" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-249">
+    <changeSet author="Reza (generated)" id="1592718665942-251">
         <addForeignKeyConstraint baseColumnNames="SELLER_ID" baseTableName="TBL_CONTRACT" constraintName="contract2contactBySeller" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_CONTACT" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-250">
+    <changeSet author="Reza (generated)" id="1592718665942-252">
         <addForeignKeyConstraint baseColumnNames="SELLER_AGENT_ID" baseTableName="TBL_CONTRACT" constraintName="contract2contactBySellerAgent" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_CONTACT" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-251">
+    <changeSet author="Reza (generated)" id="1592718665942-253">
         <addForeignKeyConstraint baseColumnNames="MATERIAL_ID" baseTableName="TBL_CONTRACT" constraintName="contract2materialByMaterialId" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_MATERIAL" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-252">
+    <changeSet author="Reza (generated)" id="1592718665942-254">
         <addForeignKeyConstraint baseColumnNames="UNIT_ID" baseTableName="TBL_CONTRACT" constraintName="contract2unitByUnitId" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_UNIT" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-253">
+    <changeSet author="Reza (generated)" id="1592718665942-255">
         <addForeignKeyConstraint baseColumnNames="F_REMITTANCE_DETAIL_ID" baseTableName="TBL_ASSAY_INSPECTION" constraintName="fk_AssayInspection2RemittanceDetailByRemittanceDetailId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_WARH_REMITTANCE_DETAIL" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-254">
+    <changeSet author="Reza (generated)" id="1592718665942-256">
         <addForeignKeyConstraint baseColumnNames="F_INSPECTION_REPORT_ID" baseTableName="TBL_ASSAY_INSPECTION" constraintName="fk_AssayInspection2inspectionReportByInspectionReportId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_INSPECTION_REPORT" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-255">
+    <changeSet author="Reza (generated)" id="1592718665942-257">
         <addForeignKeyConstraint baseColumnNames="F_ITEM_ELEMENT_ID" baseTableName="TBL_ASSAY_INSPECTION" constraintName="fk_AssayInspection2itemElementByItemElementId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_WARH_ITEM_ELEMENT" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-256">
+    <changeSet author="Reza (generated)" id="1592718665942-258">
         <addForeignKeyConstraint baseColumnNames="F_PARENT_ID" baseTableName="TBL_CNTR_CONTRACT" constraintName="fk_contract2contractByParentId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_CNTR_CONTRACT" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-257">
+    <changeSet author="Reza (generated)" id="1592718665942-259">
         <addForeignKeyConstraint baseColumnNames="F_CONTRACT_TYPE_ID" baseTableName="TBL_CNTR_CONTRACT" constraintName="fk_contract2contractTypeByContractTypeId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_CNTR_CONTRACT_TYPE" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-258">
+    <changeSet author="Reza (generated)" id="1592718665942-260">
         <addForeignKeyConstraint baseColumnNames="F_MATERIAL_ID" baseTableName="TBL_CNTR_CONTRACT" constraintName="fk_contract2materialByMaterialId" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_MATERIAL" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-259">
+    <changeSet author="Reza (generated)" id="1592718665942-261">
         <addForeignKeyConstraint baseColumnNames="F_CONTACT_ID" baseTableName="TBL_CNTR_CONTRACT_CONTACT" constraintName="fk_contractContact2contactByContactId" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_CONTACT" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-260">
+    <changeSet author="Reza (generated)" id="1592718665942-262">
         <addForeignKeyConstraint baseColumnNames="F_CONTRACT_ID" baseTableName="TBL_CNTR_CONTRACT_CONTACT" constraintName="fk_contractContact2contractByContractId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_CNTR_CONTRACT" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-261">
+    <changeSet author="Reza (generated)" id="1592718665942-263">
         <addForeignKeyConstraint baseColumnNames="F_CONTRACT_ID" baseTableName="TBL_CNTR_CONTRACT_DETAIL" constraintName="fk_contractDetail2contractByContractId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_CNTR_CONTRACT" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-262">
+    <changeSet author="Reza (generated)" id="1592718665942-264">
         <addForeignKeyConstraint baseColumnNames="F_CONTRACT_DETAIL_TYPE_ID" baseTableName="TBL_CNTR_CONTRACT_DETAIL" constraintName="fk_contractDetail2contractDetailTypeByContractDetailTypeId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_CNTR_CONTRACT_DETAIL_TYPE" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-263">
+    <changeSet author="Reza (generated)" id="1592718665942-265">
         <addForeignKeyConstraint baseColumnNames="F_CONTRACT_DETAIL_TYPE_ID" baseTableName="TBL_CNTR_CONTRACT_DETAIL_TYPE_PARAM" constraintName="fk_contractDetailTypeParam2contractDetailTypeByContractDetailTypeId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_CNTR_CONTRACT_DETAIL_TYPE" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-264">
+    <changeSet author="Reza (generated)" id="1592718665942-266">
         <addForeignKeyConstraint baseColumnNames="F_UNIT_ID" baseTableName="TBL_CNTR_CONTRACT_DETAIL_TYPE_PARAM" constraintName="fk_contractDetailTypeParam2unitByUnitId" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_UNIT" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-265">
+    <changeSet author="Reza (generated)" id="1592718665942-267">
         <addForeignKeyConstraint baseColumnNames="F_CONTRACT_DETAIL_TYPE_PARAM_ID" baseTableName="TBL_CNTR_CONTRACT_DETAIL_TYPE_PARAM_VALUE" constraintName="fk_contractDetailTypeParamValue2contractDetailTypeParamByContractDetailTypeParamId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_CNTR_CONTRACT_DETAIL_TYPE_PARAM" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-266">
+    <changeSet author="Reza (generated)" id="1592718665942-268">
         <addForeignKeyConstraint baseColumnNames="F_CONTRACT_DETAIL_TYPE_ID" baseTableName="TBL_CNTR_CONTRACT_DETAIL_TYPE_TEMPLATE" constraintName="fk_contractDetailTypeTemplate2contractDetailTypeByContractDetailTypeId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_CNTR_CONTRACT_DETAIL_TYPE" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-267">
+    <changeSet author="Reza (generated)" id="1592718665942-269">
         <addForeignKeyConstraint baseColumnNames="F_CONTRACT_DETAIL_ID" baseTableName="TBL_CNTR_CONTRACT_DETAIL_VALUE" constraintName="fk_contractDetailValue2contractDetailByContractDetailId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_CNTR_CONTRACT_DETAIL" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-268">
+    <changeSet author="Reza (generated)" id="1592718665942-270">
         <addForeignKeyConstraint baseColumnNames="F_UNIT_ID" baseTableName="TBL_CNTR_CONTRACT_DETAIL_VALUE" constraintName="fk_contractDetailValue2unitByUnitId" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_UNIT" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-269">
+    <changeSet author="Reza (generated)" id="1592718665942-271">
         <addForeignKeyConstraint baseColumnNames="F_STORE_ID" baseTableName="TBL_WARH_DEPOT" constraintName="fk_depot2storeByStoreId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_WARH_STORE" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-270">
+    <changeSet author="Reza (generated)" id="1592718665942-272">
         <addForeignKeyConstraint baseColumnNames="F_BUYER_ID" baseTableName="TBL_FOREIGN_INVOICE" constraintName="fk_foreignInvoice2contactByBuyerId" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_CONTACT" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-271">
+    <changeSet author="Reza (generated)" id="1592718665942-273">
         <addForeignKeyConstraint baseColumnNames="F_CONTRACT_ID" baseTableName="TBL_FOREIGN_INVOICE" constraintName="fk_foreignInvoice2contractByContractId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_CNTR_CONTRACT" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-272">
+    <changeSet author="Reza (generated)" id="1592718665942-274">
         <addForeignKeyConstraint baseColumnNames="F_CURRENCY_ID" baseTableName="TBL_FOREIGN_INVOICE" constraintName="fk_foreignInvoice2currencyByCurrencyId" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_CURRENCY" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-273">
+    <changeSet author="Reza (generated)" id="1592718665942-275">
         <addForeignKeyConstraint baseColumnNames="F_CONVERSION_REF_ID" baseTableName="TBL_FOREIGN_INVOICE" constraintName="fk_foreignInvoice2currencyRateByConversionRefId" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_CURRENCY_RATE" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-274">
+    <changeSet author="Reza (generated)" id="1592718665942-276">
         <addForeignKeyConstraint baseColumnNames="F_INVOICE_TYPE_ID" baseTableName="TBL_FOREIGN_INVOICE" constraintName="fk_foreignInvoice2invoiceTypeByInvoiceTypeId" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_Invoice_Type" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-275">
+    <changeSet author="Reza (generated)" id="1592718665942-277">
         <addForeignKeyConstraint baseColumnNames="F_MATERIAL_ID" baseTableName="TBL_FOREIGN_INVOICE" constraintName="fk_foreignInvoice2materialByMaterialId" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_MATERIAL" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-276">
+    <changeSet author="Reza (generated)" id="1592718665942-278">
         <addForeignKeyConstraint baseColumnNames="F_FOREIGN_INVOICE_ID" baseTableName="TBL_FOREIGN_INVOICE_ITEM" constraintName="fk_foreignInvoiceItem2foreignInvoiceByForeignInvoiceId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_FOREIGN_INVOICE" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-277">
+    <changeSet author="Reza (generated)" id="1592718665942-279">
         <addForeignKeyConstraint baseColumnNames="F_REMITTANCE_DETAIL_ID" baseTableName="TBL_FOREIGN_INVOICE_ITEM" constraintName="fk_foreignInvoiceItem2remittanceDetailByRemittanceDetailId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_WARH_REMITTANCE_DETAIL" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-278">
+    <changeSet author="Reza (generated)" id="1592718665942-280">
         <addForeignKeyConstraint baseColumnNames="F_FOREIGN_INVOICE_ITEM_ID" baseTableName="TBL_FOREIGN_INVOICE_ITEM_DETAIL" constraintName="fk_foreignInvoiceItemDetail2foreignInvoiceItemByForeignInvoiceItemId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_FOREIGN_INVOICE_ITEM" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-279">
-        <addForeignKeyConstraint baseColumnNames="F_ITEM_RAW_MATERIAL_ID" baseTableName="TBL_FOREIGN_INVOICE_ITEM_DETAIL" constraintName="fk_foreignInvoiceItemDetail2itemRawMaterialByItemRawMaterialId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_WARH_ITEM_ELEMENT" validate="true"/>
+    <changeSet author="Reza (generated)" id="1592718665942-281">
+        <addForeignKeyConstraint baseColumnNames="F_MATERIAL_ELEMENT_ID" baseTableName="TBL_FOREIGN_INVOICE_ITEM_DETAIL" constraintName="fk_foreignInvoiceItemDetail2materialElementByMaterialElementId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_WARH_ITEM_ELEMENT" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-280">
+    <changeSet author="Reza (generated)" id="1592718665942-282">
         <addForeignKeyConstraint baseColumnNames="F_CURRENCY_ID" baseTableName="TBL_FOREIGN_INVOICE_PAYMENT" constraintName="fk_foreignInvoicePayment2currencyByCurrencyId" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_CURRENCY" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-281">
+    <changeSet author="Reza (generated)" id="1592718665942-283">
         <addForeignKeyConstraint baseColumnNames="F_CONVERSION_REF_ID" baseTableName="TBL_FOREIGN_INVOICE_PAYMENT" constraintName="fk_foreignInvoicePayment2currencyRateByConversionRefId" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_CURRENCY_RATE" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-282">
+    <changeSet author="Reza (generated)" id="1592718665942-284">
         <addForeignKeyConstraint baseColumnNames="F_FOREIGN_INVOICE_ID" baseTableName="TBL_FOREIGN_INVOICE_PAYMENT" constraintName="fk_foreignInvoicePayment2foreignInvoiceByForeignInvoiceId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_FOREIGN_INVOICE" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-283">
+    <changeSet author="Reza (generated)" id="1592718665942-285">
         <addForeignKeyConstraint baseColumnNames="F_INCOTERM_VERSION_ID" baseTableName="TBL_CNTR_INCOTERM" constraintName="fk_incoterm2incotermVersionByIncotermVersionId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_CNTR_INCOTERM_VERSION" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-284">
+    <changeSet author="Reza (generated)" id="1592718665942-286">
         <addForeignKeyConstraint baseColumnNames="F_INCOTERM_ASPECT_ID" baseTableName="TBL_CNTR_INCOTERM_DETAIL" constraintName="fk_incotermDetail2incotermAspectByIncotermAspectId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_CNTR_INCOTERM_ASPECT" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-285">
+    <changeSet author="Reza (generated)" id="1592718665942-287">
         <addForeignKeyConstraint baseColumnNames="F_INCOTERM_RULES_ID" baseTableName="TBL_CNTR_INCOTERM_DETAIL" constraintName="fk_incotermDetail2incotermRulesByIncotermRulesId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_CNTR_INCOTERM_RULES" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-286">
+    <changeSet author="Reza (generated)" id="1592718665942-288">
         <addForeignKeyConstraint baseColumnNames="F_INCOTERM_STEPS_ID" baseTableName="TBL_CNTR_INCOTERM_DETAIL" constraintName="fk_incotermDetail2incotermStepsByIncotermStepsId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_CNTR_INCOTERM_STEPS" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-287">
+    <changeSet author="Reza (generated)" id="1592718665942-289">
         <addForeignKeyConstraint baseColumnNames="F_TERM_ID" baseTableName="TBL_CNTR_INCOTERM_DETAIL" constraintName="fk_incotermDetail2termByTermId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_CNTR_TERM" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-288">
+    <changeSet author="Reza (generated)" id="1592718665942-290">
         <addForeignKeyConstraint baseColumnNames="F_INCOTERM_FORM_ID" baseTableName="TBL_CNTR_INCOTERM_FORMS" constraintName="fk_incotermForms2incotermFormByIncotermFormId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_CNTR_INCOTERM_FORM" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-289">
+    <changeSet author="Reza (generated)" id="1592718665942-291">
         <addForeignKeyConstraint baseColumnNames="F_INCOTERM_RULES_ID" baseTableName="TBL_CNTR_INCOTERM_FORMS" constraintName="fk_incotermForms2incotermRulesByIncotermRulesId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_CNTR_INCOTERM_RULES" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-290">
+    <changeSet author="Reza (generated)" id="1592718665942-292">
         <addForeignKeyConstraint baseColumnNames="F_INCOTERM_DETAIL_ID" baseTableName="TBL_CNTR_INCOTERM_PARTIES" constraintName="fk_incotermParties2incotermDetailByIncotermDetailId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_CNTR_INCOTERM_DETAIL" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-291">
+    <changeSet author="Reza (generated)" id="1592718665942-293">
         <addForeignKeyConstraint baseColumnNames="F_INCOTERM_PARTY_ID" baseTableName="TBL_CNTR_INCOTERM_PARTIES" constraintName="fk_incotermParties2incotermPartyByIncotermPartyId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_CNTR_INCOTERM_PARTY" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-292">
+    <changeSet author="Reza (generated)" id="1592718665942-294">
         <addForeignKeyConstraint baseColumnNames="F_INCOTERM_ID" baseTableName="TBL_CNTR_INCOTERM_RULES" constraintName="fk_incotermRules2incotermByIncotermId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_CNTR_INCOTERM" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-293">
+    <changeSet author="Reza (generated)" id="1592718665942-295">
         <addForeignKeyConstraint baseColumnNames="F_INCOTERM_RULE_ID" baseTableName="TBL_CNTR_INCOTERM_RULES" constraintName="fk_incotermRules2incotermRuleByIncotermRuleId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_CNTR_INCOTERM_RULE" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-294">
+    <changeSet author="Reza (generated)" id="1592718665942-296">
         <addForeignKeyConstraint baseColumnNames="F_INCOTERM_ID" baseTableName="TBL_CNTR_INCOTERM_STEPS" constraintName="fk_incotermSteps2incotermByIncotermId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_CNTR_INCOTERM" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-295">
+    <changeSet author="Reza (generated)" id="1592718665942-297">
         <addForeignKeyConstraint baseColumnNames="F_INCOTERM_STEP_ID" baseTableName="TBL_CNTR_INCOTERM_STEPS" constraintName="fk_incotermSteps2incotermStepByIncotermStepId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_CNTR_INCOTERM_STEP" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-296">
+    <changeSet author="Reza (generated)" id="1592718665942-298">
         <addForeignKeyConstraint baseColumnNames="F_INSPECTOR_ID" baseTableName="TBL_INSPECTION_REPORT" constraintName="fk_inspectionReport2ContactByInspectorId" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_CONTACT" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-297">
+    <changeSet author="Reza (generated)" id="1592718665942-299">
         <addForeignKeyConstraint baseColumnNames="F_REMITTANCE_DETAIL_ID" baseTableName="TBL_INSPECTION_REPORT" constraintName="fk_inspectionReport2RemittanceDetailByRemittanceDetailId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_WARH_REMITTANCE_DETAIL" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-298">
+    <changeSet author="Reza (generated)" id="1592718665942-300">
         <addForeignKeyConstraint baseColumnNames="F_BUYER_ID" baseTableName="TBL_INSPECTION_REPORT" constraintName="fk_inspectionReport2contactByBuyerId" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_CONTACT" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-299">
+    <changeSet author="Reza (generated)" id="1592718665942-301">
         <addForeignKeyConstraint baseColumnNames="F_SELLER_ID" baseTableName="TBL_INSPECTION_REPORT" constraintName="fk_inspectionReport2contactBySellerId" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_CONTACT" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-300">
+    <changeSet author="Reza (generated)" id="1592718665942-302">
         <addForeignKeyConstraint baseColumnNames="F_CURRENCY_ID" baseTableName="TBL_INSPECTION_REPORT" constraintName="fk_inspectionReport2currencyByCurrencyId" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_CURRENCY" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-301">
+    <changeSet author="Reza (generated)" id="1592718665942-303">
         <addForeignKeyConstraint baseColumnNames="F_ITEM_ID" baseTableName="TBL_WARH_INVENTORY" constraintName="fk_inventory2itemByItemId" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_MATERIAL_ITEM" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-302">
+    <changeSet author="Reza (generated)" id="1592718665942-304">
         <addForeignKeyConstraint baseColumnNames="F_REMITTANCE_DETAIL_ID" baseTableName="TBL_WARH_INVENTORY_VALUE" constraintName="fk_inventoryValue2remittanceDetailByRemittanceDetailId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_WARH_REMITTANCE_DETAIL" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-303">
+    <changeSet author="Reza (generated)" id="1592718665942-305">
         <addForeignKeyConstraint baseColumnNames="F_UNIT_ID" baseTableName="TBL_WARH_INVENTORY_VALUE" constraintName="fk_inventoryValue2unitByUnitId" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_UNIT" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-304">
-        <addForeignKeyConstraint baseColumnNames="F_ITEM_ID" baseTableName="TBL_WARH_ITEM_ELEMENT" constraintName="fk_itemRawMaterial2ItemByItemId" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_MATERIAL_ITEM" validate="true"/>
+    <changeSet author="Reza (generated)" id="1592718665942-306">
+        <addForeignKeyConstraint baseColumnNames="F_ELEMENT_ID" baseTableName="TBL_WARH_ITEM_ELEMENT" constraintName="fk_itemElement2elementByElementId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_WARH_ELEMENT" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-305">
-        <addForeignKeyConstraint baseColumnNames="F_ELEMENT_ID" baseTableName="TBL_WARH_ITEM_ELEMENT" constraintName="fk_itemRawMaterial2rawMaterialByRawMaterialId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_WARH_ELEMENT" validate="true"/>
+    <changeSet author="Reza (generated)" id="1592718665942-307">
+        <addForeignKeyConstraint baseColumnNames="F_MATERIAL_ITEM_ID" baseTableName="TBL_WARH_ITEM_ELEMENT" constraintName="fk_materialElement2ItemByItemId" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_MATERIAL_ITEM" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-306">
+    <changeSet author="Reza (generated)" id="1592718665942-308">
         <addForeignKeyConstraint baseColumnNames="F_DEPOT_ID" baseTableName="TBL_WARH_REMITTANCE_DETAIL" constraintName="fk_remittanceDetail2depotByDepotId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_WARH_DEPOT" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-307">
+    <changeSet author="Reza (generated)" id="1592718665942-309">
         <addForeignKeyConstraint baseColumnNames="F_INVENTORY_ID" baseTableName="TBL_WARH_REMITTANCE_DETAIL" constraintName="fk_remittanceDetail2inventoryByInventoryId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_WARH_INVENTORY" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-308">
+    <changeSet author="Reza (generated)" id="1592718665942-310">
         <addForeignKeyConstraint baseColumnNames="F_REMITTANCE_ID" baseTableName="TBL_WARH_REMITTANCE_DETAIL" constraintName="fk_remittanceDetail2remittanceByRemittanceId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_WARH_REMITTANCE" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-309">
+    <changeSet author="Reza (generated)" id="1592718665942-311">
         <addForeignKeyConstraint baseColumnNames="F_UNIT_ID" baseTableName="TBL_WARH_REMITTANCE_DETAIL" constraintName="fk_remittanceDetail2unityUnitId" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_UNIT" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-310">
+    <changeSet author="Reza (generated)" id="1592718665942-312">
         <addForeignKeyConstraint baseColumnNames="F_TOZIN_ID" baseTableName="TBL_WARH_REMITTANCE_TOZIN" constraintName="fk_remittance_tozin2sourceTozinAsSourceBySourceTozinId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_WARH_TOZIN" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-311">
+    <changeSet author="Reza (generated)" id="1592718665942-313">
         <addForeignKeyConstraint baseColumnNames="F_REMITTANCE_ID" baseTableName="TBL_WARH_REMITTANCE_TOZIN" constraintName="fk_remittance_tozinl2remittanceByRemittanceId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_WARH_REMITTANCE" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-312">
+    <changeSet author="Reza (generated)" id="1592718665942-314">
         <addForeignKeyConstraint baseColumnNames="F_WAREHOUSE_ID" baseTableName="TBL_WARH_STORE" constraintName="fk_store2warehouseByWarehouseId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_WARH_WAREHOUSE" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-313">
+    <changeSet author="Reza (generated)" id="1592718665942-315">
+        <addForeignKeyConstraint baseColumnNames="F_MATERIAL_ELEMENT_ID" baseTableName="TBL_TYPICAL_ASSAY" constraintName="fk_typicalAssay2materialElementByMaterialElementId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_WARH_ITEM_ELEMENT" validate="true"/>
+    </changeSet>
+    <changeSet author="Reza (generated)" id="1592718665942-316">
+        <addForeignKeyConstraint baseColumnNames="F_UNIT_ID" baseTableName="TBL_TYPICAL_ASSAY" constraintName="fk_typicalAssay2unitByUnitId" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_UNIT" validate="true"/>
+    </changeSet>
+    <changeSet author="Reza (generated)" id="1592718665942-317">
         <addForeignKeyConstraint baseColumnNames="F_INSPECTION_REPORT_ID" baseTableName="TBL_WEIGHING_INSPECTION" constraintName="fk_weighingInspection2inspectionReportByInspectionReportId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_INSPECTION_REPORT" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-314">
+    <changeSet author="Reza (generated)" id="1592718665942-318">
         <addForeignKeyConstraint baseColumnNames="GROUPS_ID" baseTableName="TBL_GROUPS_PERSON" constraintName="groupprs2group" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_GROUPS" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-315">
+    <changeSet author="Reza (generated)" id="1592718665942-319">
         <addForeignKeyConstraint baseColumnNames="PERSON_ID" baseTableName="TBL_GROUPS_PERSON" constraintName="groupprs2prs" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_PERSON" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-316">
+    <changeSet author="Reza (generated)" id="1592718665942-320">
         <addForeignKeyConstraint baseColumnNames="INSPECTION_CONTACT_ID" baseTableName="TBL_INSPECTION_CONTRACT" constraintName="insp_cont2inspectorcontact" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_CONTACT" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-317">
+    <changeSet author="Reza (generated)" id="1592718665942-321">
         <addForeignKeyConstraint baseColumnNames="SHIPMENT_CONTRACT_ID" baseTableName="TBL_INSPECTION_CONTRACT" constraintName="insp_cont2shipcontract" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_SHIPMENT_CONTRACT" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-318">
+    <changeSet author="Reza (generated)" id="1592718665942-322">
         <addForeignKeyConstraint baseColumnNames="SHIPMENT_ID" baseTableName="TBL_INSPECTION_CONTRACT" constraintName="insp_cont2shipment" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_SHIPMENT" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-319">
+    <changeSet author="Reza (generated)" id="1592718665942-323">
         <addForeignKeyConstraint baseColumnNames="INVOICE_SALES_ID" baseTableName="TBL_INVOICE_SALES_ITEM" constraintName="invoicesales_itm2invoicesales" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_INVOICE_SALES" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-320">
+    <changeSet author="Reza (generated)" id="1592718665942-324">
         <addForeignKeyConstraint baseColumnNames="UNIT_ID" baseTableName="TBL_MATERIAL" constraintName="material2unit" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_UNIT" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-321">
+    <changeSet author="Reza (generated)" id="1592718665942-325">
         <addForeignKeyConstraint baseColumnNames="FEATURE_ID" baseTableName="TBL_MATERIAL_FEATURE" constraintName="material_fea2feature" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_FEATURE" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-322">
+    <changeSet author="Reza (generated)" id="1592718665942-326">
         <addForeignKeyConstraint baseColumnNames="MATERIAL_ID" baseTableName="TBL_MATERIAL_FEATURE" constraintName="material_fea2material" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_MATERIAL" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-323">
+    <changeSet author="Reza (generated)" id="1592718665942-327">
         <addForeignKeyConstraint baseColumnNames="RATE_ID" baseTableName="TBL_MATERIAL_FEATURE" constraintName="material_fea2rate" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_RATE" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-324">
+    <changeSet author="Reza (generated)" id="1592718665942-328">
         <addForeignKeyConstraint baseColumnNames="MATERIAL_ID" baseTableName="TBL_MATERIAL_ITEM" constraintName="material_itm2material" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_MATERIAL" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-325">
+    <changeSet author="Reza (generated)" id="1592718665942-329">
         <addForeignKeyConstraint baseColumnNames="CONTACT_ID" baseTableName="TBL_PERSON" constraintName="person2contact" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_CONTACT" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-326">
+    <changeSet author="Reza (generated)" id="1592718665942-330">
         <addForeignKeyConstraint baseColumnNames="COUNTRY_ID" baseTableName="TBL_PORT" constraintName="port2country" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_COUNTRY" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-327">
+    <changeSet author="Reza (generated)" id="1592718665942-331">
         <addForeignKeyConstraint baseColumnNames="CONTACT_ID" baseTableName="TBL_SHIPMENT" constraintName="shipmnt2Contactbybuyer" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_CONTACT" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-328">
+    <changeSet author="Reza (generated)" id="1592718665942-332">
         <addForeignKeyConstraint baseColumnNames="AGENT" baseTableName="TBL_SHIPMENT" constraintName="shipmnt2contactAgent" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_CONTACT" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-329">
+    <changeSet author="Reza (generated)" id="1592718665942-333">
         <addForeignKeyConstraint baseColumnNames="CONTRACT_ID" baseTableName="TBL_SHIPMENT" constraintName="shipmnt2contract" deferrable="false" initiallyDeferred="false" referencedColumnNames="CONTRACT_ID" referencedTableName="TBL_CONTRACT" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-330">
+    <changeSet author="Reza (generated)" id="1592718665942-334">
         <addForeignKeyConstraint baseColumnNames="CONTRACT_SHIPMENT_ID" baseTableName="TBL_SHIPMENT" constraintName="shipmnt2contractShipment" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_CONTRACT_SHIPMENT" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-331">
+    <changeSet author="Reza (generated)" id="1592718665942-335">
         <addForeignKeyConstraint baseColumnNames="MATERIAL_ID" baseTableName="TBL_SHIPMENT" constraintName="shipmnt2material" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_MATERIAL" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-332">
+    <changeSet author="Reza (generated)" id="1592718665942-336">
         <addForeignKeyConstraint baseColumnNames="LOADING" baseTableName="TBL_SHIPMENT" constraintName="shipmnt2portByLoading" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_PORT" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-333">
+    <changeSet author="Reza (generated)" id="1592718665942-337">
         <addForeignKeyConstraint baseColumnNames="DISCHARGE" baseTableName="TBL_SHIPMENT" constraintName="shipmnt2portBydisch" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_PORT" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592647460005-334">
+    <changeSet author="Reza (generated)" id="1592718665942-338">
         <addForeignKeyConstraint baseColumnNames="SWITCH_PORT" baseTableName="TBL_SHIPMENT" constraintName="shipmnt2portBysw" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_PORT" validate="true"/>
     </changeSet>
 </databaseChangeLog>
