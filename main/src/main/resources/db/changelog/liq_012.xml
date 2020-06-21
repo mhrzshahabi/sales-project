@@ -282,4 +282,20 @@
         <modifyDataType tableName="TBL_CONTRACT_AUD" columnName="CONTRACT_END" newDataType="TIMESTAMP(6)"/>
     </changeSet>
 
+    <!--<changeSet author="MShahabi" id="1778899665544-048">-->
+        <!--<renameColumn columnDataType="NUMBER(19, 0)"-->
+                      <!--newColumnName="F_MATERIAL_ID"-->
+                      <!--oldColumnName="F_ITEM_ID"-->
+                      <!--tableName="TBL_WARH_ITEM_ELEMENT"/>-->
+        <!--<addForeignKeyConstraint baseColumnNames="F_MATERIAL_ID"-->
+                <!--baseTableName="TBL_WARH_ITEM_ELEMENT"-->
+                <!--constraintName="fk_itemElement2Material"-->
+                <!--referencedColumnNames="ID"-->
+                <!--referencedTableName="TBL_MATERIAL"-->
+                <!--nullable="false"-->
+                <!--insertable="false"-->
+                <!--updatable="false"-->
+            <!--/>-->
+    <!--</changeSet>-->
+
 </databaseChangeLog>

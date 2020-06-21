@@ -22,7 +22,7 @@ public class Store extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_WARH_STORE")
     @SequenceGenerator(name = "SEQ_WARH_STORE", sequenceName = "SEQ_WARH_STORE", allocationSize = 1)
     private Long id;
-
+//
 //    @NotNull
 //    @Column(name = "C_CODE", nullable = false)
 //    private String code;

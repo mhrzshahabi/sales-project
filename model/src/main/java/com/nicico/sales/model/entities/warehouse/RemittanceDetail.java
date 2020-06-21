@@ -60,14 +60,20 @@ public class RemittanceDetail extends BaseEntity {
     @JoinColumn(name = "F_DEPOT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_remittanceDetail2depotByDepotId"))
     private Depot depot;
 
-    @NotNull
-    @Column(name = "F_DEPOT_ID", nullable = false)
+    //    @NotNull
+    @Column(name = "F_DEPOT_ID", nullable = true)
     private Long depotId;
+
+
+    //    @NotNull
+    @Column(name = "N_VALUE", nullable = true)
+    private Long value;
+
 
     @OneToMany(mappedBy = "remittanceDetail", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private List<InventoryValue> inventoryValues;
 //
 //    @OneToMany(mappedBy = "remittanceDetail", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-//    private List<ItemRawMaterial> itemRawMaterials;
+//    private List<ItemElement> itemElements;
 
 }

@@ -294,7 +294,6 @@
         // console.debug("formatCellValueNumber(value) arguments",arguments);
         if (value === undefined || isNaN(value)) return value;
         return isc.NumberUtil.format(value, ',0');
-
     }
 
     isc.ListGrid.addProperties({
@@ -368,7 +367,6 @@
                     flagTabExist = true;
                     break;
                 }
-
             }
         }
         if (!flagTabExist)
@@ -381,7 +379,6 @@
     }
 
     var label_Username = isc.Label.create({
-
         width: 200,
         dynamicContents: true,
         contents: "<span class='header-label-username'><spring:message code='global.user'/></span>" + ":" + "<span class='header-label-username-span'>${userFullName}</span>",
@@ -717,19 +714,6 @@
                 },
                 {isSeparator: true},
 
-
-                {
-                    title: "invoiceComp",
-                    click: function () {
-                        createTab("invoiceComp", "<spring:url value="/invoiceComps/show-form" />")
-                    }
-                },
-                {isSeparator: true},
-
-
-
-
-
             ]
 
 
@@ -907,8 +891,13 @@
                     }
                 },
                 </sec:authorize>--%>
-
-
+                {isSeparator: true},
+                {
+                    title: "<spring:message code='inspectionReport.title'/>",
+                    click: function () {
+                        createTab("<spring:message code='inspectionReport.title'/>", "<spring:url value="/inspectionReport/show-form" />")
+                    }
+                }
                 /*{
                     title: "<spring:message code='charter.title'/>",
                     click: function () {
@@ -944,7 +933,7 @@
                     click: function () {
                         createTab("<spring:message code='shipmentCost.title'/>", "<spring:url value="/cost/showForm" />")
                     }
-                }
+                },
             ]
         })
     });
@@ -1019,6 +1008,15 @@
         menu: isc.Menu.create({
             placement: "none",
             data: [
+                <sec:authorize access="hasAuthority('R_FOREIGN_INVOICE')">
+                {
+                    title: "<spring:message code='entity.foreign-invoice'/>",
+                    click: function () {
+                        createTab("<spring:message code='entity.foreign-invoice'/>", "<spring:url value="/foreign-invoice/show-form" />")
+                    }
+                },
+                {isSeparator: true},
+                </sec:authorize>
                 {
                     title: "<spring:message code='issuedInvoices.title'/>",
                     click: function () {

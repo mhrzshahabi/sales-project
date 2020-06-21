@@ -60,9 +60,9 @@
 
     <!--    <changeSet id="1589955d955956-376sd" author="saeb (generated)">-->
     <!--        <sql>-->
-    <!--            UPDATE SALESLOCAL.TBL_WARH_REMITTANCE_TYPE SET C_CONDITION = 'load' WHERE ID = 1;-->
-    <!--            UPDATE SALESLOCAL.TBL_WARH_REMITTANCE_TYPE SET C_CONDITION = 'onload' WHERE ID = 2;-->
-    <!--            UPDATE SALESLOCAL.TBL_WARH_REMITTANCE_TYPE SET C_CONDITION = 'onload' WHERE ID = 3;-->
+    <!--            UPDATE TBL_WARH_REMITTANCE_TYPE SET C_CONDITION = 'load' WHERE ID = 1;-->
+    <!--            UPDATE TBL_WARH_REMITTANCE_TYPE SET C_CONDITION = 'onload' WHERE ID = 2;-->
+    <!--            UPDATE TBL_WARH_REMITTANCE_TYPE SET C_CONDITION = 'onload' WHERE ID = 3;-->
     <!--        </sql>-->
     <!--    </changeSet>-->
 </databaseChangeLog>

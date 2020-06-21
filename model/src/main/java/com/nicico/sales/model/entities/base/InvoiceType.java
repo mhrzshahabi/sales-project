@@ -1,20 +1,11 @@
 package com.nicico.sales.model.entities.base;
 
 
-import com.nicico.sales.model.Auditable;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.Getter;
-import lombok.EqualsAndHashCode;
+import com.nicico.sales.model.entities.common.BaseEntity;
+import lombok.*;
 import lombok.experimental.Accessors;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.Id;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Column;
+
+import javax.persistence.*;
 
 @Getter
 @Setter
@@ -23,16 +14,16 @@ import javax.persistence.Column;
 @Accessors(chain = true)
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
-@Table( name = "TBL_Invoice_Type")
-public class InvoiceType extends Auditable {
+@Table(name = "TBL_Invoice_Type")
+public class InvoiceType extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE , generator = "SEQ_TBL_Invoice_Type")
-    @SequenceGenerator(name = "SEQ_TBL_Invoice_Type" , sequenceName = "SEQ_TBL_Invoice_Type" , allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_TBL_Invoice_Type")
+    @SequenceGenerator(name = "SEQ_TBL_Invoice_Type", sequenceName = "SEQ_TBL_Invoice_Type", allocationSize = 1)
     @Column(name = "ID")
     private Long id;
 
-    @Column(name = "TITLE" , nullable = false , length = 80)
+    @Column(name = "TITLE", nullable = false, length = 80)
     private String title;
 
 

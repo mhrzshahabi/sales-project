@@ -1,6 +1,7 @@
 package com.nicico.sales.model.entities.base;
 
 import com.nicico.sales.model.Auditable;
+import com.nicico.sales.model.entities.common.BaseEntity;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.envers.AuditOverride;
@@ -18,7 +19,7 @@ import javax.persistence.*;
 @AuditOverride(forClass = Auditable.class)
 @Entity
 @Table(name = "TBL_CONTRACT_DETAIL")
-public class ContractDetail extends Auditable {
+public class ContractDetail extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_CONTRACT_DETAIL")
