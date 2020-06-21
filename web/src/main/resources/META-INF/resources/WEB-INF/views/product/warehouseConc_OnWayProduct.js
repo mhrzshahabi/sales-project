@@ -518,13 +518,13 @@
                     title: "<spring:message code='warehouseCad.sourceWeight'/>", //وزن مبدا
                     colSpan: 1,
                     titleColSpan: 1,
-                    type: "staticText",
+                    type: "text",
                 }, {
                     name: "destinationWeight",
                     title: "<spring:message code='warehouseCad.destinationWeight'/>", //وزن مقصد
                     colSpan: 1,
                     titleColSpan: 1,
-                    type: "staticText",
+                    type: "text",
                 },
                 {
                     align: "center",
@@ -637,7 +637,7 @@
         DynamicForm_warehouseConc.setValue("warehouseNo", "BandarAbbas");
         DynamicForm_warehouseConc.setValue("movementType", isNaN(ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord()['containerNo3']) ? 'جاده‌ای' : 'ریلی');
         DynamicForm_warehouseConc.setValue("sourceTozinPlantId", ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().tozinId);
-        DynamicForm_warehouseConc.setValue("sourceLoadDate", ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().tozinDate);
+        DynamicForm_warehouseConc.setValue("sourceLoadDate", ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().date);
         DynamicForm_warehouseConc.setValue("containerNo", ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().containerId);
         DynamicForm_warehouseConc.setValue("sourceWeight", ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().vazn);
         var bundle_window = isc.Window.create({
