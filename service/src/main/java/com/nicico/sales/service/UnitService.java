@@ -15,10 +15,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -105,13 +102,16 @@ public class UnitService implements IUnitService {
         Map<Long, String> unitsFetchedForUpdate = new HashMap<>();
         allUnitsFromViewForUpdate.stream()
                 .forEach((Object[] u) -> unitsFetchedForUpdate.put(Long.valueOf(u[0].toString()), u[1].toString()));
-        List<Unit> unitListForUpdate = unitDAO.findAllById(unitsFetchedForUpdate.keySet());
+        List<Unit> unitListForUpdate = new ArrayList<>();
+        unitListForUpdate.addAll(unitDAO.findAllById(unitsFetchedForUpdate.keySet()));
         unitListForUpdate.stream()
                 .forEach(u -> u.setNameFA(unitsFetchedForUpdate.get(u.getId())));
         List<Object[]> allUnitsFromViewForInsert = unitDAO.getAllUnitsFromViewForInsert();
         unitListForUpdate.addAll(allUnitsFromViewForInsert
                 .stream()
                 .map(u -> new Unit()
+                        .setCategoryValue(0)
+                        .setNameEN(u[1].toString())
                         .setId(Long.valueOf(u[0].toString()))
                         .setNameFA(u[1].toString()))
                 .collect(Collectors.toList()));

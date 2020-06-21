@@ -16,10 +16,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -36,11 +33,12 @@ public class MaterialItemService implements IMaterialItemService {
         Map<Long, String> ItemsFetchedForUpdate = new HashMap<>();
         allItemsFromViewForUpdate.stream()
                 .forEach((Object[] u) -> ItemsFetchedForUpdate.put(Long.valueOf(u[0].toString()), u[1].toString()));
-        List<MaterialItem> ItemListForUpdate = materialItemDAO.findAllById(ItemsFetchedForUpdate.keySet());
-        ItemListForUpdate.stream()
+        List<MaterialItem> materialItems = new ArrayList<>();
+        materialItems.addAll(materialItemDAO.findAllById(ItemsFetchedForUpdate.keySet()));
+        materialItems.stream()
                 .forEach(u -> u.setGdsName(ItemsFetchedForUpdate.get(u.getId())));
         List<Object[]> allItemsFromViewForInsert = materialItemDAO.itemsForInsert();
-        ItemListForUpdate.addAll(allItemsFromViewForInsert
+        materialItems.addAll(allItemsFromViewForInsert
                 .stream()
                 .map(u -> new MaterialItem()
                         .setId(Long.valueOf(u[0].toString()))
@@ -48,7 +46,7 @@ public class MaterialItemService implements IMaterialItemService {
                         .setGdsName(u[1].toString())
                 )
                 .collect(Collectors.toList()));
-        materialItemDAO.saveAll(ItemListForUpdate);
+        materialItemDAO.saveAll(materialItems);
     }
 
     @Transactional(readOnly = true)

@@ -59,28 +59,31 @@ class SalesBaseParameters {
         }
         return await this[parameter];
     }
+
     static async getUnitParameter(updateTable = false) {
         return await this.getParameter('unit', updateTable);
     }
+
     static async getWarehouseParameter(updateTable = false) {
         return await this.getParameter('warehouse', updateTable);
     }
-    static async getGoodsParameter(updateTable = false) {
-        return await this.getParameter('goods', updateTable);
+
+    static async getMaterialItemParameter(updateTable = false) {
+        return await this.getParameter('materialItem', updateTable);
     }
+
     static async getAllParameters(updateTable = false) {
         await Promise.all([
             this.getUnitParameter(updateTable),
             this.getWarehouseParameter(updateTable),
-            this.getGoodsParameter(updateTable)
+            this.getMaterialItemParameter(updateTable)
         ]);
         return {
-            'goods': this.goods,
+            'materialItem': this.materialItem,
             'unit': this.unit,
             'warehouse': this.warehouse
         };
     }
-
     static async fetchAndSave(parameter) {
         try {
             const rawResponse = await fetch(this.rootUrl + '/api/' + parameter + '/list', {headers: this.httpHeaders});

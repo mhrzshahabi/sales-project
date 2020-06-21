@@ -46,7 +46,7 @@ class SalesBaseParameters {
     public static httpHeaders = {"Authorization": "Bearer <%= accessToken %>"};
     private static unit;
     private static warehouse;
-    private static goods;
+    private static materialItem;
 
     static async getParameter(parameter: string, updateTable: boolean = false) {
         if (updateTable) {
@@ -74,7 +74,7 @@ class SalesBaseParameters {
         return await this.getParameter('warehouse', updateTable)
     }
 
-    static async getGoodsParameter(updateTable: boolean = false) {
+    static async getMaterialItemParameter(updateTable: boolean = false) {
         return await this.getParameter('materialItem', updateTable)
     }
 
@@ -82,10 +82,10 @@ class SalesBaseParameters {
         await Promise.all([
             this.getUnitParameter(updateTable),
             this.getWarehouseParameter(updateTable),
-            this.getGoodsParameter(updateTable)
+            this.getMaterialItemParameter(updateTable)
         ]);
         return {
-            'materialItem': this.goods,
+            'materialItem': this.materialItem,
             'unit': this.unit,
             'warehouse': this.warehouse
         }
