@@ -16,7 +16,7 @@ import javax.validation.constraints.NotNull;
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
 @Table(name = "TBL_WARH_ITEM_ELEMENT")
-public class ItemElement extends BaseEntity {
+public class MaterialElement extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_WARH_ITEM_ELEMENT")
@@ -25,22 +25,22 @@ public class ItemElement extends BaseEntity {
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "F_ITEM_ID", insertable = false, updatable = false,
-            foreignKey = @ForeignKey(name = "fk_itemRawMaterial2ItemByItemId"))
-    private MaterialItem item;
+    @JoinColumn(name = "F_MATERIAL_ITEM_ID", insertable = false, updatable = false,
+            foreignKey = @ForeignKey(name = "fk_materialElement2ItemByItemId"))
+    private MaterialItem materialItem;
 
     @NotNull
-    @Column(name = "F_ITEM_ID", nullable = false)
-    private Long itemId;
+    @Column(name = "F_MATERIAL_ITEM_ID", nullable = false)
+    private Long materialItemId;
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "F_ELEMENT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_itemRawMaterial2rawMaterialByRawMaterialId"))
+    @JoinColumn(name = "F_ELEMENT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_itemElement2elementByElementId"))
     private Element element;
 
     @NotNull
     @Column(name = "F_ELEMENT_ID", nullable = false)
-    private Long rawMaterialId;
+    private Long elementId;
 
 
 }

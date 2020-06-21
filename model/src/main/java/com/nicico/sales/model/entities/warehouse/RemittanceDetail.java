@@ -74,6 +74,6 @@ public class RemittanceDetail extends BaseEntity {
     private List<InventoryValue> inventoryValues;
 //
 //    @OneToMany(mappedBy = "remittanceDetail", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-//    private List<ItemRawMaterial> itemRawMaterials;
+//    private List<ItemElement> itemElements;
 
 }
