@@ -74,6 +74,7 @@ public class SalesException extends NICICOException {
         InvoiceSalesNotFound(404),
         InvoiceSalesItemNotFound(404),
         VesselNotFound(404),
+        InspectionReportNotFound(404),
         AccessDenied(403);
 
         private final Integer httpStatusCode;

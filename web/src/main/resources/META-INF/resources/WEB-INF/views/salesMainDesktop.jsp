@@ -318,6 +318,7 @@
             let allEditRows = this.getAllEditRows();
             for (let i = 0; i < allEditRows.length; i++)
                 data.push({...this.getEditedRecord(allEditRows[i])});
+
             return data;
         },
         validateAllData: function () {
@@ -325,6 +326,7 @@
             for (let i = 0; i < this.getAllData().length; i++)
                 if (!this.validateRecord(i))
                     return false;
+
             return true;
         }
     });
@@ -499,6 +501,7 @@
     });
 
     var headerLayout = isc.HLayout.create({
+
         width: "100%",
         height: 55,
         styleName: "header-top",
@@ -514,6 +517,7 @@
         menu: isc.Menu.create({
             placement: "none",
             data: [
+
 
                 {
                     title: "<spring:message code='main.baseTab.Business'/>",
@@ -547,9 +551,11 @@
 
                     ]
 
+
                 },
 
                 {isSeparator: true},
+
 
                 {
                     title: "<spring:message code='main.baseTab.test'/>",
@@ -582,6 +588,7 @@
                     ]
                 },
                 {isSeparator: true},
+
 
                 {
                     title: "<spring:message code='main.baseTab.financial'/>",
@@ -650,12 +657,26 @@
 
 
                 {
+                    title: "<spring:message code='typical.analysis'/>",
+                    submenu: [
+                        {
+                            title: "<spring:message code='typical.analysis.mo'/>",
+                            click: function () {
+                                createTab("<spring:message code='typical.analysis.mo'/>", "<spring:url value="/analysisMo/showForm" />")
+                            }
+                        },
+                    ]
+                },
+                {isSeparator: true},
+
+                {
                     title: "<spring:message code='country.title'/>",
                     click: function () {
                         createTab("<spring:message code='country.title'/>", "<spring:url value="/country/showForm" />")
                     }
                 },
                 {isSeparator: true},
+
 
 
                 {
@@ -683,6 +704,8 @@
                 <%--},--%>
                 <%--{isSeparator: true},--%>
 
+
+
                 {
                     title: "<spring:message code='Invoice.Type'/>",
                     click: function () {
@@ -691,15 +714,8 @@
                 },
                 {isSeparator: true},
 
-                {
-                    title: "invoiceComp",
-                    click: function () {
-                        createTab("invoiceComp", "<spring:url value="/invoiceComps/show-form" />")
-                    }
-                },
-                {isSeparator: true},
-
             ]
+
 
         }),
     });
@@ -727,6 +743,7 @@
     });
 
     /*End --------------------------help General----------------------------*/
+
 
     /*----------------------settingTab------------------------*/
     settingTab = isc.ToolStripMenuButton.create({
@@ -782,6 +799,7 @@
                         createTab("<spring:message code='inspectionContract.title'/>", "<spring:url value="/inspectionContract/showForm" />")
                     }
                 },
+
 
                 <sec:authorize access="hasAuthority('R_CONTRACT2')">
                 {isSeparator: true},
@@ -873,7 +891,13 @@
                     }
                 },
                 </sec:authorize>--%>
-
+                {isSeparator: true},
+                {
+                    title: "<spring:message code='inspectionReport.title'/>",
+                    click: function () {
+                        createTab("<spring:message code='inspectionReport.title'/>", "<spring:url value="/inspectionReport/show-form" />")
+                    }
+                }
                 /*{
                     title: "<spring:message code='charter.title'/>",
                     click: function () {
@@ -909,7 +933,7 @@
                     click: function () {
                         createTab("<spring:message code='shipmentCost.title'/>", "<spring:url value="/cost/showForm" />")
                     }
-                }
+                },
             ]
         })
     });
@@ -921,6 +945,7 @@
                 createTab("<spring:message code='main.reportTab'/>", "<spring:url value="/contract/show-report-form" />")
             }
     })
+
 
     /*----------------------productTab------------------------*/
     productTab = isc.ToolStripMenuButton.create({
@@ -998,6 +1023,7 @@
                         var url_string = window.location.href;
                         var url = new URL(url_string);
                         var lang = url.searchParams.get("lang");
+
                         createTab("<spring:message code='issuedInvoices.title'/>", "<spring:url value="/invoice/showForm" />")
                     }
                 },
@@ -1014,13 +1040,13 @@
                     click: function () {
                         createTab("<spring:message code='invoiceSales.title'/>", "<spring:url value="/invoiceSales/showForm" />")
                     }
-                },
-                <%--{--%>
-                <%--    title: "<spring:message code='invoiceSales.title'/>",--%>
-                <%--    click: function () {--%>
-                <%--        createTab("<spring:message code='invoiceSales.title'/>", "<spring:url value="/invoice-export/showForm" />")--%>
-                <%--    }--%>
-                <%--}--%>
+                }/*,
+                {
+                    title: "<spring:message code='invoiceSales.title'/>",
+                    click: function () {
+                        createTab("<spring:message code='invoiceSales.title'/>", "<spring:url value="/invoice-export/showForm" />")
+                    }
+                }*/
             ]
         })
     });
@@ -1059,6 +1085,7 @@
     saleToolStrip = isc.ToolStrip.create({
         align: "center",
         membersMargin: 20,
+
         members: [
             baseTab,
             contractsTab,
@@ -1123,6 +1150,7 @@
             toggle = !toggle;
         }, 100)
 
+
         // checked = e.target.checked;
         // if(checked)
         // {
@@ -1174,6 +1202,7 @@
 
         }
     })
+
 
     <sec:authorize access="hasAuthority('R_CURRENCY')">
     {
@@ -1266,22 +1295,21 @@
 
     function enContract() {
         var url_string = window.location.href;
-        var url = new URL(url_string);
-        var lang = url.searchParams.get("lang");
+                                var url = new URL(url_string);
+                                var lang = url.searchParams.get("lang");
 
-        if (lang == "fa" || lang == null) {
-            isc.Dialog.create({
-                message: "بهتر است از این تب در فرمت انگلیسی استفاده کنید",
-                icon: "[SKIN]ask.png",
-                title: "<spring:message code='global.message'/>",
-                buttons: [isc.Button.create({ title: "<spring:message code='global.ok'/>" })],
-                buttonClick: function () {
-                    this.hide();
-                },
-            });
-        }
+                                if (lang == "fa" || lang == null) {
+                                    isc.Dialog.create({
+                                        message: "بهتر است از این تب در فرمت انگلیسی استفاده کنید",
+                                        icon: "[SKIN]ask.png",
+                                        title: "<spring:message code='global.message'/>",
+                                        buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
+                                        buttonClick: function () {
+                                            this.hide();
+                                        }
+                                    });
     }
-
+    }
 
     SalesBaseParameters.getAllParameters();
 </script>

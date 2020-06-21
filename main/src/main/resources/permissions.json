@@ -1259,5 +1259,63 @@
       "title": "حذف کشتی"
     }
 
+
+
+    /*{
+      "code": "R_INSPECTION_REPORT",
+      "title": "نمایش گزارش بازرسی"
+    },
+    {
+      "code": "C_INSPECTION_REPORT",
+      "title": "ایجاد گزارش بازرسی"
+    },
+    {
+      "code": "U_INSPECTION_REPORT",
+      "title": "به روز رسانی گزارش بازرسی"
+    },
+    {
+      "code": "D_INSPECTION_REPORT",
+      "title": "حذف گزارش بازرسی"
+    },
+
+
+
+    {
+      "code": "R_ASSAY_INSPECTION",
+      "title": "نمایش بازرسی محتوا"
+    },
+    {
+      "code": "C_ASSAY_INSPECTION",
+      "title": "ایجاد بازرسی محتوا"
+    },
+    {
+      "code": "U_ASSAY_INSPECTION",
+      "title": "به روز رسانی بازرسی محتوا"
+    },
+    {
+      "code": "D_ASSAY_INSPECTION",
+      "title": "حذف بازرسی محتوا"
+    },
+
+
+
+    {
+      "code": "R_WEIGHT_INSPECTION",
+      "title": "نمایش بازرسی وزن"
+    },
+    {
+      "code": "C_WEIGHT_INSPECTION",
+      "title": "ایجاد بازرسی وزن"
+    },
+    {
+      "code": "U_WEIGHT_INSPECTION",
+      "title": "به روز رسانی بازرسی وزن"
+    },
+    {
+      "code": "D_WEIGHT_INSPECTION",
+      "title": "حذف بازرسی وزن"
+    }*/
+
+
   ]
 }
