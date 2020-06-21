@@ -73,31 +73,6 @@ public abstract class AllConverters {
     // *****************************************************************************************************************
 
     @Converter(autoApply = true)
-    public static class DeductionTypeConverter implements AttributeConverter<DeductionType, Integer> {
-
-        @Override
-        public Integer convertToDatabaseColumn(DeductionType literal) {
-
-            if (literal == null)
-                return null;
-
-            return literal.getId();
-        }
-
-        @Override
-        public DeductionType convertToEntityAttribute(Integer integer) {
-
-            for (DeductionType literal : DeductionType.values())
-                if (literal.getId().equals(integer))
-                    return literal;
-
-            return null;
-        }
-    }
-
-    // *****************************************************************************************************************
-
-    @Converter(autoApply = true)
     public static class InspectionRateValueTypeConverter implements AttributeConverter<InspectionRateValueType, Integer> {
 
         @Override
@@ -138,6 +113,31 @@ public abstract class AllConverters {
         public WeighingType convertToEntityAttribute(Integer integer) {
 
             for (WeighingType literal : WeighingType.values())
+                if (literal.getId().equals(integer))
+                    return literal;
+
+            return null;
+        }
+    }
+
+    // *****************************************************************************************************************
+
+    @Converter(autoApply = true)
+    public static class DeductionTypeConverter implements AttributeConverter<DeductionType, Integer> {
+
+        @Override
+        public Integer convertToDatabaseColumn(DeductionType literal) {
+
+            if (literal == null)
+                return null;
+
+            return literal.getId();
+        }
+
+        @Override
+        public DeductionType convertToEntityAttribute(Integer integer) {
+
+            for (DeductionType literal : DeductionType.values())
                 if (literal.getId().equals(integer))
                     return literal;
 

@@ -10,6 +10,7 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -17,30 +18,18 @@ import java.util.List;
 @Setter
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class AnalysisMoDTO {
+public class TypicalAssayDTO {
 
-    private String lotName;
-
-    private Double mo;
-
-    private Double cu;
-
-    private Double si;
-
-    private Double pb;
-
-    private Double s;
-
-    private Double c;
-
-    private Double p;
-
+    private BigDecimal minValue;
+    private BigDecimal maxValue;
+    private Long unitId;
+    private Long itemElementId;
 
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("AnalysisMoInfo")
-    public static class Info extends AnalysisMoDTO {
+    @ApiModel("TypicalAssayInfo")
+    public static class Info extends TypicalAssayDTO {
         private Long id ;
         private Date createDate;
         private String createdBy;
@@ -49,35 +38,31 @@ public class AnalysisMoDTO {
         private Integer version;
     }
 
-
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("AnalysisMoCreateRq")
-    public static class Create extends AnalysisMoDTO {
+    @ApiModel("TypicalAssayCreateRq")
+    public static class Create extends TypicalAssayDTO {
 
     }
 
-
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("AnalysisMoUpdateRq")
-    public static class Update extends AnalysisMoDTO {
+    @ApiModel("TypicalAssayUpdateRq")
+    public static class Update extends TypicalAssayDTO {
         @NonNull
         @ApiModelProperty(required = true)
         private Long id;
     }
 
-
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("AnalysisMoDeleteRq")
+    @ApiModel("TypicalAssayDeleteRq")
     public static class Delete{
         @NotNull
         @ApiModelProperty(required = true)
         private List<Long> ids;
     }
-
 }

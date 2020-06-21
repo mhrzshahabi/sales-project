@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface RawMaterialDAO extends JpaRepository<Element, Long>, JpaSpecificationExecutor<Element> {
+public interface ElementDAO extends JpaRepository<Element, Long>, JpaSpecificationExecutor<Element> {
 
 }

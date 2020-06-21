@@ -1,5 +1,6 @@
 package com.nicico.sales.model.entities.warehouse;
 
+import com.nicico.sales.model.entities.base.MaterialItem;
 import com.nicico.sales.model.entities.common.BaseEntity;
 import lombok.*;
 import lombok.experimental.Accessors;
@@ -26,7 +27,7 @@ public class Inventory extends BaseEntity {
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "F_ITEM_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_inventory2itemByItemId"))
-    private Item item;
+    private MaterialItem item;
 
     @NotNull
     @Column(name = "F_ITEM_ID", nullable = false)
