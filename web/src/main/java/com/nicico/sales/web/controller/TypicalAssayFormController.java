@@ -7,12 +7,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @RequiredArgsConstructor
 @Controller
-@RequestMapping("/analysisMo")
-public class AnalysisMoFormController {
+@RequestMapping("/typicalAssay")
+public class TypicalAssayFormController {
 
     @RequestMapping("/showForm")
-    public String analyzeMethod() {
-        return "analysisMo/analysisMo";
+    public String typicalAssayMethod() {
+        return "";
     }
 
 }
