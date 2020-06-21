@@ -699,7 +699,7 @@ function pageMolibdenAll(method){
     factoryLable("lableNameContactMo", '<b><font size=4px>Molybdenum Oxide Contract-BAPCO/NICICO</font><b>', "100%", '2%', 2);
     factoryLableArticle("lableArticle2Mo", '<b><font size=4px>ARTICLE 2 - QUANTITY :</font><b>', "30", 5);
     factoryLableArticle("lableArticle1Mo", '<b><font size=4px>ARTICLE 1 - DEFINITIONS:</font><b>', "30", 5)
-    factoryLableArticle("lableArticle3MO", '<b><font size=4px>ARTICLE 3 - QUANTITY</font><b>', "30", 5)
+    factoryLableArticle("lableArticle3MO", '<b><font size=4px>ARTICLE 3 - QUALITY</font><b>', "30", 5)
     factoryLableArticle("lableArticle6Mo", '<b><font size=4px>ARTICLE 6 - DELIVERY TERMS</font><b>', "30", 5)
     factoryLableArticle("lableArticle7Mo", '<b><font size=4px>ARTICLE 7 - PRICE</font><b>', '30', 5);
     factoryLableArticle("lableArticle8Mo", '<b><font size=4px>ARTICLE 8 - OUOTATIONAL PERIOD</font><b>', '30', 5);

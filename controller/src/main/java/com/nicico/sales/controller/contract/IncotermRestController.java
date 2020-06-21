@@ -71,7 +71,7 @@ public class IncotermRestController {
     @GetMapping(value = "/spec-list")
     public ResponseEntity<TotalResponse<IncotermDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) {
 
-        final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
+        final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria); // todo incoterm chack ..........
         return new ResponseEntity<>(incotermService.search(nicicoCriteria), HttpStatus.OK);
     }
 }
