@@ -1,19 +1,10 @@
 package com.nicico.sales.model.entities.base;
 
 
-import com.nicico.sales.model.Auditable;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.Id;
-import javax.persistence.GeneratedValue;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.GenerationType;
-import javax.persistence.Column;
+import com.nicico.sales.model.entities.common.BaseEntity;
+import lombok.*;
+
+import javax.persistence.*;
 
 
 @Getter
@@ -23,7 +14,7 @@ import javax.persistence.Column;
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
 @Table(name = "TBL_Shipment_Type")
-public class ShipmentType extends Auditable {
+public class ShipmentType extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_Shipment_Type")

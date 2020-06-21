@@ -1,23 +1,11 @@
 package com.nicico.sales.model.entities.base;
 
 
-
-
-
-import com.nicico.sales.model.Auditable;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.Getter;
-import lombok.EqualsAndHashCode;
+import com.nicico.sales.model.entities.common.BaseEntity;
+import lombok.*;
 import lombok.experimental.Accessors;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.Id;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Column;
+
+import javax.persistence.*;
 
 
 @Getter
@@ -28,16 +16,16 @@ import javax.persistence.Column;
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
 @Table(name = "TBL_Analyse_Product_MO")
-public class AnalysisMo extends Auditable {
+public class AnalysisMo extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE , generator = "SEQ_Analyse_Product_MO")
-    @SequenceGenerator(name = "SEQ_Analyse_Product_MO" , sequenceName = "SEQ_Analyse_Product_MO" , allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_Analyse_Product_MO")
+    @SequenceGenerator(name = "SEQ_Analyse_Product_MO", sequenceName = "SEQ_Analyse_Product_MO", allocationSize = 1)
     @Column(name = "ID")
     private Long id;
 
 
-    @Column(name = "LOT_NAME" , nullable = false , length = 40)
+    @Column(name = "LOT_NAME", nullable = false, length = 40)
     private String lotName;
 
     @Column(name = "MO")

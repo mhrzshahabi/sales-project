@@ -1,6 +1,6 @@
 package com.nicico.sales.model.entities.base;
 
-import com.nicico.sales.model.Auditable;
+import com.nicico.sales.model.entities.common.BaseEntity;
 import lombok.*;
 import lombok.experimental.Accessors;
 
@@ -16,7 +16,7 @@ import javax.persistence.*;
 @Table(name = "TBL_WAREHOUSE_CAD_ITEM", indexes = {
         @Index(columnList = "ISSUE_ID", name = "WAREHOUSECADITEM_IDX_ISSUEID")
 })
-public class WarehouseCadItem extends Auditable {
+public class WarehouseCadItem extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_WAREHOUSE_CAD_ITEM")

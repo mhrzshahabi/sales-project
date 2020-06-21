@@ -2,7 +2,7 @@ package com.nicico.sales.model.entities.base;
 
 import com.nicico.sales.model.Auditable;
 import com.nicico.sales.model.entities.common.BaseEntity;
-import com.nicico.sales.model.entities.warehouse.ItemElement;
+import com.nicico.sales.model.entities.warehouse.MaterialElement;
 import com.nicico.sales.model.entities.warehouse.RemittanceDetail;
 import lombok.*;
 import lombok.experimental.Accessors;
@@ -52,7 +52,7 @@ public class AssayInspection extends BaseEntity {
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "F_ITEM_ELEMENT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_AssayInspection2itemElementByItemElementId"))
-    private ItemElement itemElement;
+    private MaterialElement materialElement;
 
     @NotNull
     @Column(name = "F_ITEM_ELEMENT_ID", nullable = false)
