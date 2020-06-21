@@ -40,6 +40,7 @@
     ValuesManager("valuesManagerfullArticleMo");
 
 var RestDataSource_Contract = isc.MyRestDataSource.create({
+autoFetchData: false,
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, hidden: true},
@@ -61,6 +62,7 @@ var RestDataSource_Contract = isc.MyRestDataSource.create({
     });
 
  var RestDataSource_Parameters = isc.MyRestDataSource.create({
+        autoFetchData: false,
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
@@ -74,6 +76,8 @@ var RestDataSource_Contract = isc.MyRestDataSource.create({
     });
 
 var RestDataSource_Incoterms_InMol = isc.MyRestDataSource.create({
+
+autoFetchData: false,
         fields:
         [
         {name: "id", title: "<spring:message code='goods.code'/> "},
@@ -95,6 +99,7 @@ var RestDataSource_ContractIncoterms_InMol = isc.MyRestDataSource.create({
 });
 
     var RestDataSource_WarehouseLot = isc.MyRestDataSource.create({
+autoFetchData: false,
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
@@ -122,6 +127,7 @@ var RestDataSource_ContractIncoterms_InMol = isc.MyRestDataSource.create({
     });
 
     var RestDataSource_Unit = isc.MyRestDataSource.create({
+autoFetchData: false,
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
@@ -146,6 +152,7 @@ var RestDataSource_ContractIncoterms_InMol = isc.MyRestDataSource.create({
     };
 
     var RestDataSource_Contact = isc.MyRestDataSource.create({
+autoFetchData: false,
         fields: [
             {name: "id", primaryKey: true, canEdit: false, hidden: true},
             {name: "code", title: "<spring:message code='contact.code'/>"},
@@ -751,10 +758,12 @@ var DynamicForm_ContactMooxParameter_ValueNumber8=isc.DynamicForm.create({
         height: "20",
         width: "100%",
         wrapItemTitles: true,
+        autoFetchData: false,
         numCols: 4,
         items: [
             {
                 name: "definitionsOne",
+                autoFetchData: false,
                 length: 5000,
                 startRow: false,
                 editorType: "SelectItem",

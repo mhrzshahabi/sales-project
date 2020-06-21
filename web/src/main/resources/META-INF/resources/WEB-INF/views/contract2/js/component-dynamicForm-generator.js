@@ -1,3 +1,79 @@
+var RestDataSource_Material= isc.MyRestDataSource.create({
+    fields:
+        [
+            {name: "id", title: "id", primaryKey: true, hidden: true},
+            {name: "code", title: "<spring:message code='goods.code'/> "},
+            {name: "descl"},
+            {name: "unitId"},
+            {name: "unit.nameEN"},
+        ],
+    fetchDataURL: "${contextPath}/api/material/spec-list"
+})
+
+var RestDataSource_Contact = isc.MyRestDataSource.create({
+    fields: [
+        {name: "id", primaryKey: true, canEdit: false, hidden: true},
+        {name: "code", title: "<spring:message code='contact.code'/>"},
+        {name: "nameFA", title: "<spring:message code='contact.nameFa'/>"},
+        {name: "nameEN", title: "<spring:message code='contact.nameEn'/>"},
+        {name: "phone", title: "<spring:message code='contact.phone'/>"},
+        {name: "mobile", title: "<spring:message code='contact.mobile'/>"},
+        {name: "fax", title: "<spring:message code='contact.fax'/>"},
+        {name: "address", title: "<spring:message code='contact.address'/>"},
+        {name: "webSite", title: "<spring:message code='contact.webSite'/>"},
+        {name: "email", title: "<spring:message code='contact.email'/>"},
+        {
+            name: "type",
+            title: "<spring:message code='contact.type'/>",
+            valueMap: {
+                "true": "<spring:message code='contact.type.real'/>",
+                "false": "<spring:message code='contact.type.legal'/>"
+            }
+        },
+        {name: "nationalCode", title: "<spring:message code='contact.nationalCode'/>"},
+        {name: "economicalCode", title: "<spring:message code='contact.economicalCode'/>"},
+        {name: "bankAccount", title: "<spring:message code='contact.bankAccount'/>"},
+        {name: "bankShaba", title: "<spring:message code='contact.bankShaba'/>"},
+        {name: "bankSwift", title: "<spring:message code='contact.bankShaba'/>"},
+        {name: "ceoPassportNo"},
+        {name: "ceo"},
+        {name: "commercialRole"},
+        {
+            name: "status",
+            title: "<spring:message code='contact.status'/>",
+            valueMap: {"true": "<spring:message code='enabled'/>", "false": "<spring:message code='disabled'/>"}
+        },
+        {name: "tradeMark"},
+        {name: "commercialRegistration"},
+        {name: "branchName"},
+        {name: "countryId", title: "<spring:message code='country.nameFa'/>", type: 'long'},
+        {name: "country.nameFa", title: "<spring:message code='country.nameFa'/>"},
+        {name: "contactAccounts"}
+    ],
+    fetchDataURL: "${contextPath}/api/contact/spec-list"
+});
+
+var RestDataSource_ContactBUYER_optionCriteria = {
+    _constructor: "AdvancedCriteria",
+    operator: "and",
+    criteria: [{fieldName: "buyer", operator: "equals", value: true}]
+};
+var RestDataSource_ContactAgentBuyer_optionCriteria = {
+    _constructor: "AdvancedCriteria",
+    operator: "and",
+    criteria: [{fieldName: "agentBuyer", operator: "equals", value: true}]
+};
+var RestDataSource_ContactAgentSeller_optionCriteria = {
+    _constructor: "AdvancedCriteria",
+    operator: "and",
+    criteria: [{fieldName: "agentSeller", operator: "equals", value: true}]
+};
+var RestDataSource_Contact_optionCriteria = {
+    _constructor: "AdvancedCriteria",
+    operator: "and",
+    criteria: [{fieldName: "seller", operator: "equals", value: true}]
+};
+//*************************************
 var dataSourceDetailType = isc.MyRestDataSource.create({
     fields: [{
             name: "id",
@@ -42,7 +118,6 @@ isc.defineClass("generatorContractPage", isc.HStack).addProperties({
 
         formHTMLFlow = isc.HTMLFlow.create({
             autoDraw:true,
-            height:"100%",
             overflow: "auto",
             padding:5,
             contents:""
@@ -50,21 +125,36 @@ isc.defineClass("generatorContractPage", isc.HStack).addProperties({
 
         sectionStack = isc.SectionStack.create({
             visibilityMode: "multiple",
-            width: "100%", height: "100%",
-            border:"3px solid blue",
+            width: "100%",
+            height: "100%",
+            border:"1px solid blue",
             animateSections: true,
             overflow: "hidden",
             sections: [
                 {
-                    title: "Contact", expanded: false,items: []
+                    title: "Contact", expanded: true,items: [
+
+                        isc.headerContractPage.create({
+                            disabled: true
+                        })
+
+                    ]
                 },
                 {title: "HTMLFlow", expanded: true, canCollapse: true, items: [ formHTMLFlow ]},
             ]
         });
 
-        filtersVStack = isc.VStack.create({padding:"10px",autoCenter: true,width: "15%",members: [],border: "1px solid #ECECEB",borderRadius: '5px',
+        filtersVStack = isc.VStack.create({
+            backgroundColor: "#d9f7ff",
+            padding:"10px",
+            autoCenter: true,
+            width: "15%",
+            members: [],
+            border: "1px solid #ECECEB",
+            borderRadius: '5px',
             shadowDepth: 2,
-            showShadow: true,});
+            showShadow: true,
+        });
         layoutSpacerVStack1 = isc.LayoutSpacer.create({height: "1%"});
         layoutSpacerVStack = isc.LayoutSpacer.create({height: "78%"});
         formVStack = isc.VStack.create({width: "85%",height:"100%",members: []});
@@ -77,26 +167,6 @@ isc.defineClass("generatorContractPage", isc.HStack).addProperties({
             wrapItemTitles: false,
             fields: [
                 {
-                    name: "material",
-                    editorType: "SelectItem",
-                    type: 'SelectItem',
-                    autoFetchData: false,
-                    optionDataSource: isc.MyRestDataSource.create({
-                        fields:
-                            [
-                                {name: "id", title: "id", primaryKey: true, hidden: true},
-                                {name: "code", title: "<spring:message code='goods.code'/> "},
-                                {name: "descl"},
-                                {name: "unitId"},
-                                {name: "unit.nameEN"},
-                            ],
-                        fetchDataURL: "${contextPath}/api/material/spec-list"
-                    }),
-                    displayField: "descl",
-                    valueField: "id",
-                    required: true,
-                    title: "Material"
-                },{
                     name: "titleEn",
                     type: 'SelectItem',
                     showTitle: true,
@@ -121,7 +191,7 @@ isc.defineClass("generatorContractPage", isc.HStack).addProperties({
                             criteria: [{
                                 fieldName: "material",
                                 operator: "equals",
-                                value: this.form.getValue("material")
+                                value: dynamicForm_ContactHeader.getValue("material")
                             }]
                         };
                         return criterialotTitleEnId;
