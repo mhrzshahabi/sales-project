@@ -993,9 +993,9 @@
                 },
                 {isSeparator: true},
                 {
-                    title: "<spring:message code='warehouseStock'/>",
+                    title: "بیجک ورودی خروجی",
                     click: function () {
-                        createTab("باقر<spring:message code='warehouseStock'/>", "<spring:url value="/remittance/showForm" />")
+                        createTab("بیجک ورودی خروجی", "<spring:url value="/remittance/showForm" />")
                     }
                 },
             ]

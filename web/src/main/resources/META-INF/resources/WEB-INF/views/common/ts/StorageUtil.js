@@ -59,19 +59,15 @@ class SalesBaseParameters {
         }
         return await this[parameter];
     }
-
     static async getUnitParameter(updateTable = false) {
         return await this.getParameter('unit', updateTable);
     }
-
     static async getWarehouseParameter(updateTable = false) {
         return await this.getParameter('warehouse', updateTable);
     }
-
     static async getMaterialItemParameter(updateTable = false) {
         return await this.getParameter('materialItem', updateTable);
     }
-
     static async getAllParameters(updateTable = false) {
         await Promise.all([
             this.getUnitParameter(updateTable),

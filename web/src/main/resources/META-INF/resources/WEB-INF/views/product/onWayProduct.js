@@ -251,7 +251,6 @@ function mainOnWayProduct(valueMapsPromise) {
     ]
 
 
-
     const RestDataSource_Tozin_IN_ONWAYPRODUCT = isc.MyRestDataSource.create({
         fields: tozinFields,
         fetchDataURL: "${contextPath}/api/on-way-product/spec-list"
@@ -414,12 +413,10 @@ function mainOnWayProduct(valueMapsPromise) {
 
                     OnWayProductViewLoader.setViewURL("tozin/showWarehouseCadForm");
                     Window_BijackOnWayProduct.show();
-                }
-                if (record.codeKala == 97 || record.codeKala == 100) {
+                } else if (record.codeKala == 97 || record.codeKala == 100) {
                     OnWayProductViewLoader.setViewURL("tozin/showWarehouseMoForm");
                     Window_BijackOnWayProduct.show();
-                }
-                if (record.codeKala == 8) {
+                } else if (record.codeKala == 8) {
                     OnWayProductViewLoader.setViewURL("tozin/showWarehouseConcForm");
                     Window_BijackOnWayProduct.show();
                 } else {
