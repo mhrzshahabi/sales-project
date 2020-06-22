@@ -86,10 +86,15 @@ function mainOnWayProduct(valueMapsPromise) {
         {
             name: "targetId",
             type: "number",
-            filterEditorProperties: {editorType: "comboBox"},
+            filterEditorProperties: {
+                editorType: "comboBox",
+                type: "number",
+                defaultValue: 2555
+            },
+            filterOperator: "equals",
             valueMap: valueMapsPromise['warehouse'].getValueMap("id", "name"),
             title: "<spring:message code='Tozin.targetId'/>",
-            align: "center"
+            align: "center",
         },
 
         {
