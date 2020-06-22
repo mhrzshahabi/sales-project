@@ -1003,12 +1003,12 @@
                     }
                 },
                 {isSeparator: true},
-                {
-                    title: "بیجک ورودی خروجی",
-                    click: function () {
-                        createTab("بیجک ورودی خروجی", "<spring:url value="/remittance/showForm" />")
-                    }
-                },
+                <%--{   visibility:"hidden",--%>
+                <%--    title: "بیجک ورودی خروجی",--%>
+                <%--    click: function () {--%>
+                <%--        createTab("بیجک ورودی خروجی", "<spring:url value="/remittance/showForm" />")--%>
+                <%--    }--%>
+                <%--},--%>
             ]
         })
     });
