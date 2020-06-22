@@ -61,7 +61,7 @@
 <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
 
 <script type="application/javascript">
-
+    persianDate.localType = 'en';
     isc.SimpleType.create({
         name: "persianDate",
         inheritsFrom: "text",

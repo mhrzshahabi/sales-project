@@ -13,7 +13,7 @@ function mainOnWayProduct(valueMapsPromise) {
             name: "date",
             type: "text",
             filterEditorProperties: {
-                // defaultValue: new persianDate().toLocale('en').subtract('d', 14).format('YYYYMMDD'),
+                defaultValue: new persianDate().subtract('d', 14).format('YYYYMMDD'),
                 parseEditorValue: function (value, record, form, item) {
                     return value.replace(/\//g, '');
                 },
@@ -89,7 +89,11 @@ function mainOnWayProduct(valueMapsPromise) {
             filterEditorProperties: {
                 editorType: "comboBox",
                 type: "number",
-                defaultValue: 2555
+                defaultValue: StorageUtil.get('on_way_product_defaultTargetId')
+            },
+            parseEditorValue: function (value, record, form, item) {
+                StorageUtil.save('on_way_product_defaultTargetId', value)
+                return value;
             },
             filterOperator: "equals",
             valueMap: valueMapsPromise['warehouse'].getValueMap("id", "name"),
