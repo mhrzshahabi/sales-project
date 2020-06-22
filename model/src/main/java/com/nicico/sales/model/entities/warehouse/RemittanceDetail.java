@@ -18,7 +18,7 @@ import java.util.List;
 @Entity
 @Table(name = "TBL_WARH_REMITTANCE_DETAIL")
 public class RemittanceDetail extends BaseEntity {
-
+        //todo Article 3 molybdenum....
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_WARH_REMITTANCE_DETAIL")
     @SequenceGenerator(name = "SEQ_WARH_REMITTANCE_DETAIL", sequenceName = "SEQ_WARH_REMITTANCE_DETAIL", allocationSize = 1)

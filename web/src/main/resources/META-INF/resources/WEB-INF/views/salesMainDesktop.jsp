@@ -576,6 +576,11 @@
                             click: function () {
                                 createTab("test", "<spring:url value="/generatorDynamicForm/show-form" />")
                             }
+                        },{
+                            title: "headerContractForm",
+                            click: function () {
+                                createTab("headerContractForm", "<spring:url value="/generatorDynamicForm/show-header" />")
+                            }
                         },
                         {isSeparator: true},
                         {
@@ -678,7 +683,13 @@
                 {isSeparator: true},
 
 
-
+                 {
+                    title: "<spring:message code='parameters.title'/>",
+                    click: function () {
+                        createTab("<spring:message code='parameters.title'/>", "<spring:url value="/parameters/showForm" />")
+                    }
+                },
+                {isSeparator: true},
                 {
                     title: "<spring:message code='shipment.type'/>",
                     click: function () {
