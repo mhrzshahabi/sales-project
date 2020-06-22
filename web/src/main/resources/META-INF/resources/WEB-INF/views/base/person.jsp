@@ -177,7 +177,8 @@
             {
                 name: "contactId",
                 title: "<spring:message code='commercialParty.title'/>",
-                width: 500, wrapTitle: false, required: true, errorOrientation: "bottom",
+                width: 500, wrapTitle: false,
+                errorOrientation: "bottom",
                 editorType: "SelectItem",
                 hidden: true,
                 type: 'text',
@@ -206,7 +207,9 @@
                 name: "fullName",
                 title: "<spring:message code='person.fullName'/>",
                 type: 'text', wrapTitle: false,
-                required: true, length: "200", errorOrientation: "bottom",
+                required: true,
+                length: "200",
+                errorOrientation: "bottom",
                 width: 500,
                 validators: [
                     {
@@ -758,7 +761,8 @@
                     name: "fullName",
                     title: "<spring:message code='person.fullName'/>",
                     type: 'text',
-                    required: true, errorOrientation: "bottom",
+                    required: true,
+                    errorOrientation: "bottom",
                     width: "10%",
                     validators: [
                         {
@@ -788,7 +792,7 @@
                     name: "email",hidden: true,
                     title: "<spring:message code='person.email'/>",
                     type: 'text',
-                    required: true, errorOrientation: "bottom",
+                    errorOrientation: "bottom",
                     width: "10%",
                     validators: [
                         {
