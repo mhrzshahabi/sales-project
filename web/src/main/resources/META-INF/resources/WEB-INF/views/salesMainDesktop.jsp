@@ -571,16 +571,6 @@
                             click: function () {
                                 createTab("<spring:message code='vessel.title'/>", "<spring:url value="/vessel/showForm" />")
                             }
-                        },{
-                            title: "generatorDynamicForm",
-                            click: function () {
-                                createTab("test", "<spring:url value="/generatorDynamicForm/show-form" />")
-                            }
-                        },{
-                            title: "headerContractForm",
-                            click: function () {
-                                createTab("headerContractForm", "<spring:url value="/generatorDynamicForm/show-header" />")
-                            }
                         },
                         {isSeparator: true},
                         {
