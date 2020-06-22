@@ -1257,11 +1257,11 @@
     {
       "code": "D_VESSEL",
       "title": "حذف کشتی"
-    }
+    },
 
 
 
-    /*{
+    {
       "code": "R_INSPECTION_REPORT",
       "title": "نمایش گزارش بازرسی"
     },
@@ -1314,7 +1314,7 @@
     {
       "code": "D_WEIGHT_INSPECTION",
       "title": "حذف بازرسی وزن"
-    }*/
+    }
 
 
   ]
