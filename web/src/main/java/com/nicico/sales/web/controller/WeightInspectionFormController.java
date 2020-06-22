@@ -12,12 +12,13 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/weightInspection")
 public class WeightInspectionFormController {
 
-    @RequestMapping("/showForm")
+    @RequestMapping("/show-form")
     public String showTerm(HttpServletRequest request) {
 
         request.setAttribute("c_entity", SecurityUtil.hasAuthority("C_WEIGHT_INSPECTION"));
         request.setAttribute("u_entity", SecurityUtil.hasAuthority("U_WEIGHT_INSPECTION"));
         request.setAttribute("d_entity", SecurityUtil.hasAuthority("D_WEIGHT_INSPECTION"));
+
         return "weightInspection/weightInspection";
     }
 }
