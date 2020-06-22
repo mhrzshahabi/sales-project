@@ -36,7 +36,9 @@ public class MaterialItemService implements IMaterialItemService {
         List<MaterialItem> materialItems = new ArrayList<>();
         materialItems.addAll(materialItemDAO.findAllById(ItemsFetchedForUpdate.keySet()));
         materialItems.stream()
-                .forEach(u -> u.setGdsName(ItemsFetchedForUpdate.get(u.getId())));
+                .forEach(u -> u.setGdsName(ItemsFetchedForUpdate.get(u.getId()))
+                        .setGdsCode(u.getId())
+                );
         List<Object[]> allItemsFromViewForInsert = materialItemDAO.itemsForInsert();
         materialItems.addAll(allItemsFromViewForInsert
                 .stream()
