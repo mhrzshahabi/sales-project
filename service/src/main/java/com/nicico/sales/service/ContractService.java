@@ -10,7 +10,6 @@ import com.nicico.sales.iservice.IContractService;
 import com.nicico.sales.model.entities.base.Contract;
 import com.nicico.sales.model.entities.base.ContractDetail;
 import com.nicico.sales.model.entities.base.ContractShipment;
-import com.nicico.sales.model.entities.base.WarehouseLot;
 import com.nicico.sales.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -54,7 +53,6 @@ public class ContractService implements IContractService {
     private final ContactDAO contactDAO;
     private final ModelMapper modelMapper;
     private final Environment environment;
-    private final WarehouseLotDAO warehouseLotDAO;
     private final ContractShipmentDAO contractShipmentDAO;
     private final PortDAO portDAO;
     private final IncotermsDAO incotermsDAO;
@@ -114,7 +112,6 @@ public class ContractService implements IContractService {
         Map<String, Object> map = mapper.readValue(request, Map.class);
         String contractNo = map.get("contractNo") + "";
         Integer contractId = (Integer) map.get("contractId");
-        List<WarehouseLot> listsFromHouseLot = warehouseLotDAO.findByContractId(Long.valueOf(contractId));
         printOnePage(printdoc, contractId);
         reader.createQuery().forRevisionsOfEntity(Contract.class, true, false).getResultList();
         List<Number> oldContract = reader.getRevisions(Contract.class, Long.valueOf(contractId));
@@ -197,8 +194,8 @@ public class ContractService implements IContractService {
             }
             runPrint.setUnderline(UnderlinePatterns.SINGLE);
             runPrint.addBreak();
-            if (key.equals("Article03") && listsFromHouseLot.size() > 0) {
-                XWPFTable tableLot = printdoc.createTable(listsFromHouseLot.size() + 1, 9);
+            if (key.equals("Article03")) {
+                XWPFTable tableLot = printdoc.createTable(1, 9);
                 CTTblWidth widthLot = tableLot.getCTTbl().addNewTblPr().addNewTblW();
                 widthLot.setW(BigInteger.valueOf(10000));
                 setTableAlign(tableLot, ParagraphAlignment.CENTER);
@@ -222,7 +219,7 @@ public class ContractService implements IContractService {
                 tableLot.getRow(0).getCell(7).setColor("D9D9D9");
                 tableLot.getRow(0).getCell(8).setColor("D9D9D9");
 
-                for (int i = 0; i < listsFromHouseLot.size(); i++) {
+                /*for (int i = 0; i < listsFromHouseLot.size(); i++) {
                     setHeaderRowforSingleCell(tableLot.getRow(i + 1).getCell(0), nvl(listsFromHouseLot.get(i).getPlant()));
                     setHeaderRowforSingleCell(tableLot.getRow(i + 1).getCell(1), nvl(listsFromHouseLot.get(i).getLotName()));
                     setHeaderRowforSingleCell(tableLot.getRow(i + 1).getCell(2), nvl(listsFromHouseLot.get(i).getMo() + ""));
@@ -232,7 +229,7 @@ public class ContractService implements IContractService {
                     setHeaderRowforSingleCell(tableLot.getRow(i + 1).getCell(6), nvl(listsFromHouseLot.get(i).getMo() + ""));
                     setHeaderRowforSingleCell(tableLot.getRow(i + 1).getCell(7), nvl(listsFromHouseLot.get(i).getMo() + ""));
                     setHeaderRowforSingleCell(tableLot.getRow(i + 1).getCell(8), nvl(listsFromHouseLot.get(i).getMo() + ""));
-                }
+                }*/
             } else if (key.equals(flag) && contractShipmentDAO.findByContractId(Long.valueOf(contractId)).size() > 0) {
                 myXWPFHtmlDocument = createHtmlDoc(printdoc, key);
                 myXWPFHtmlDocument.setHtml(myXWPFHtmlDocument.getHtml().replace("<body></body>",
