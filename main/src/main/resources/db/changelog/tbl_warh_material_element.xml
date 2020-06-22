@@ -1,0 +1,11 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <changeSet author="saeb" id="saeb_003">
+        <renameTable
+                newTableName="TBL_WARH_MATERIAL_ELEMENT"
+                oldTableName="TBL_WARH_ITEM_ELEMENT"
+        />
+    </changeSet>
+</databaseChangeLog>

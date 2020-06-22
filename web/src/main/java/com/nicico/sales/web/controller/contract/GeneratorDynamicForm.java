@@ -15,6 +15,11 @@ public class GeneratorDynamicForm {
         return "contract2/Component-dynamicForm-generator";
     }
 
+    @RequestMapping("/show-header")
+    public String showHeader(HttpServletRequest request) {
+        return "contract2/Component-header-contract";
+    }
+
 }
 
 
