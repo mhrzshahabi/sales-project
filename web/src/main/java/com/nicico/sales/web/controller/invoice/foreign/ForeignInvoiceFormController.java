@@ -16,20 +16,20 @@ public class ForeignInvoiceFormController {
     public String show(HttpServletRequest request) {
 
         request.setAttribute("c_entity", SecurityChecker.check("" +
-                "hasAuthority('C_FOREIGNINVOICE') AND " +
-                "hasAuthority('C_FOREIGNINVOICEITEM') AND " +
-                "hasAuthority('C_FOREIGNINVOICEITEMDETAIL') AND " +
-                "hasAuthority('C_FOREIGNINVOICEPAYMENT')"));
+                "hasAuthority('C_FOREIGN_INVOICE') AND " +
+                "hasAuthority('C_FOREIGN_INVOICE_ITEM') AND " +
+                "hasAuthority('C_FOREIGN_INVOICE_ITEM_DETAIL') AND " +
+                "hasAuthority('C_FOREIGN_INVOICE_PAYMENT')"));
         request.setAttribute("u_entity", SecurityChecker.check("" +
-                "hasAuthority('U_FOREIGNINVOICE') AND " +
-                "hasAuthority('U_FOREIGNINVOICEITEM') AND " +
-                "hasAuthority('U_FOREIGNINVOICEITEMDETAIL') AND " +
-                "hasAuthority('U_FOREIGNINVOICEPAYMENT')"));
+                "hasAuthority('U_FOREIGN_INVOICE') AND " +
+                "hasAuthority('U_FOREIGN_INVOICE_ITEM') AND " +
+                "hasAuthority('U_FOREIGN_INVOICE_ITEM_DETAIL') AND " +
+                "hasAuthority('U_FOREIGN_INVOICE_PAYMENT')"));
         request.setAttribute("d_entity", SecurityChecker.check("" +
-                "hasAuthority('D_FOREIGNINVOICE') AND " +
-                "hasAuthority('D_FOREIGNINVOICEITEM') AND " +
-                "hasAuthority('D_FOREIGNINVOICEITEMDETAIL') AND " +
-                "hasAuthority('D_FOREIGNINVOICEPAYMENT')"));
+                "hasAuthority('D_FOREIGN_INVOICE') AND " +
+                "hasAuthority('D_FOREIGN_INVOICE_ITEM') AND " +
+                "hasAuthority('D_FOREIGN_INVOICE_ITEM_DETAIL') AND " +
+                "hasAuthority('D_FOREIGN_INVOICE_PAYMENT')"));
         return "contract2/incoterm";
     }
 }

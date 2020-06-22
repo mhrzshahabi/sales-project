@@ -127,14 +127,14 @@ public class ForeignInvoice extends BaseEntity {
     @Column(name = "F_CONTRACT_ID", nullable = false)
     private Long contractId;
 
-//    @Setter(AccessLevel.NONE)
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "EMPLOYEE_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_foreignInvoice2employeeByCreatorId"))
-//    private Employee creator;
-//
-//    @NotNull
-//    @Column(name = "EMPLOYEE_ID")
-//    private Long creatorId;
+    @Setter(AccessLevel.NONE)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "PERSON_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_foreignInvoice2employeeByCreatorId"))
+    private Person creator;
+
+    @NotNull
+    @Column(name = "PERSON_ID")
+    private Long creatorId;
 
     // *****************************************************************************************************************
 
