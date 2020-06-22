@@ -15,7 +15,7 @@ import javax.validation.constraints.NotNull;
 @Accessors(chain = true)
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
-@Table(name = "TBL_WARH_ITEM_ELEMENT")
+@Table(name = "TBL_WARH_MATERIAL_ELEMENT")
 public class MaterialElement extends BaseEntity {
 
     @Id
