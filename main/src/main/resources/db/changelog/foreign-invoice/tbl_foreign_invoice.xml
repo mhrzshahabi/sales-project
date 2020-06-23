@@ -15,4 +15,20 @@
                                  initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_PERSON"
                                  validate="true"/>
     </changeSet>
+
+    <!-- Change F_MATERIAL_ID to F_MATERIAL_ITEM_ID -->
+    <changeSet author="karimi (generated)" id="1592910204690-232">
+        <addColumn tableName="TBL_FOREIGN_INVOICE">
+            <column name="F_MATERIAL_ITEM_ID" type="number(19, 0)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="karimi (generated)" id="1592910204690-233">
+        <addForeignKeyConstraint baseColumnNames="F_MATERIAL_ITEM_ID" baseTableName="TBL_FOREIGN_INVOICE" constraintName="fk_foreignInvoice2materialItemByMaterialItemId" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_MATERIAL_ITEM" validate="true"/>
+    </changeSet>
+    <changeSet author="karimi (generated)" id="1592910204690-234">
+        <dropForeignKeyConstraint baseTableName="TBL_FOREIGN_INVOICE" constraintName="FK_FOREIGNINVOICE2MATERIALBYMATERIALID"/>
+    </changeSet>
+
 </databaseChangeLog>

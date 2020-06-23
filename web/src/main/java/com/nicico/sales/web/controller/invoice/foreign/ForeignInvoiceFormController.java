@@ -30,6 +30,6 @@ public class ForeignInvoiceFormController {
                 "hasAuthority('D_FOREIGN_INVOICE_ITEM') AND " +
                 "hasAuthority('D_FOREIGN_INVOICE_ITEM_DETAIL') AND " +
                 "hasAuthority('D_FOREIGN_INVOICE_PAYMENT')"));
-        return "contract2/incoterm";
+        return "invoice/foreign/foreign-invoice";
     }
 }
