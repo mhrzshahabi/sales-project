@@ -6,6 +6,7 @@ import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
 
@@ -33,7 +34,8 @@ public class Incoterm extends BaseEntity {
     @JoinColumn(name = "F_INCOTERM_VERSION_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_incoterm2incotermVersionByIncotermVersionId"))
     private IncotermVersion incotermVersion;
 
-    @Column(name = "F_INCOTERM_VERSION_ID")
+    @NotNull
+    @Column(name = "F_INCOTERM_VERSION_ID", nullable = false)
     private Long incotermVersionId;
 
     @Column(name = "D_PUBLISH_DATE")

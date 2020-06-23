@@ -988,6 +988,23 @@
     },
 
     {
+      "code": "R_INCOTERM_VERSION",
+      "title": "نمایش نسخه اینکوترم"
+    },
+    {
+      "code": "C_INCOTERM_VERSION",
+      "title": "ایجاد نسخه اینکوترم"
+    },
+    {
+      "code": "U_INCOTERM_VERSION",
+      "title": "به روز رسانی نسخه اینکوترم"
+    },
+    {
+      "code": "D_INCOTERM_VERSION",
+      "title": "حذف نسخه اینکوترم"
+    },
+
+    {
       "code": "R_INCOTERM_DETAIL",
       "title": "نمایش جزییات اینکوترم"
     },

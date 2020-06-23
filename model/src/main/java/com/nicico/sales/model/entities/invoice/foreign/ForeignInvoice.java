@@ -93,12 +93,12 @@ public class ForeignInvoice extends BaseEntity {
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "F_MATERIAL_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_foreignInvoice2materialByMaterialId"))
-    private Material material;
+    @JoinColumn(name = "F_MATERIAL_ITEM_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_foreignInvoice2materialItemByMaterialItemId"))
+    private MaterialItem materialItem;
 
     @NotNull
-    @Column(name = "F_MATERIAL_ID", nullable = false)
-    private Long materialId;
+    @Column(name = "F_MATERIAL_ITEM_ID", nullable = false)
+    private Long materialItemId;
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
@@ -127,14 +127,14 @@ public class ForeignInvoice extends BaseEntity {
     @Column(name = "F_CONTRACT_ID", nullable = false)
     private Long contractId;
 
-//    @Setter(AccessLevel.NONE)
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "EMPLOYEE_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_foreignInvoice2employeeByCreatorId"))
-//    private Employee creator;
-//
-//    @NotNull
-//    @Column(name = "EMPLOYEE_ID")
-//    private Long creatorId;
+    @Setter(AccessLevel.NONE)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "PERSON_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_foreignInvoice2employeeByCreatorId"))
+    private Person creator;
+
+    @NotNull
+    @Column(name = "PERSON_ID")
+    private Long creatorId;
 
     // *****************************************************************************************************************
 
