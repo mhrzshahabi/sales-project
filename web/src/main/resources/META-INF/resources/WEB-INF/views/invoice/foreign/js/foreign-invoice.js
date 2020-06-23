@@ -90,18 +90,137 @@ foreignInvoiceTab.listGrid.fields = BaseFormItems.concat([
 foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
     /* Foreign Invoice */
     {
+        required: true,
+        name: "date",
+        section: "base-data",
+        type: "persianDate",
+        title: "<spring:message code='foreign-invoice.form.date'/>"
+    },
+    {
+        required: true,
+        name: "invoiceType.title",
+        title: "<spring:message code='foreign-invoice.form.invoice-type'/>"
+    },
+    {
+        required: true,
+        type: "integer",
+        section: "base-data",
+        name: "invoiceTypeId",
+        editorType: "SelectItem",
+        width: "100%",
+        valueField: "id",
+        displayField: "title",
+        optionDataSource: isc.MyRestDataSource.create({
+            fields: [
+                {name: "id", primaryKey: true, hidden: true, title: "<spring:message code='global.id'/>"},
+                {name: "title", title: "<spring:message code='global.title'/>"},
+            ],
+            fetchDataURL: foreignInvoiceTab.variable.invoiceTypeUrl + "spec-list"
+        }),
+        title: "<spring:message code='foreign-invoice.form.invoice-type'/>"
+    },
+    {
+        required: true,
+        name: "contract.no",
+        title: "<spring:message code='foreign-invoice.form.contract'/>"
+    },
+    {
+        required: true,
+        type: "integer",
+        editorType: "SelectItem",
+        name: "contractId",
+        section: "base-data",
+        width: "100%",
+        valueField: "id",
+        displayField: "no",
+        optionDataSource: isc.MyRestDataSource.create({
+            fields: [
+                {name: "id", primaryKey: true, hidden: true, title: "<spring:message code='global.id'/>"},
+                {name: "no", title: "<spring:message code='foreign-invoice.form.contract'/>"},
+                {name: "description", title: "<spring:message code='global.description'/>"},
+            ],
+            fetchDataURL: foreignInvoiceTab.variable.contractUrl + "spec-list"
+        }),
+        title: "<spring:message code='foreign-invoice.form.contract'/>"
+    },
+    {
+        required: true,
+        readonly: true,
+        editorType: "staticText",
+        name: "materialItem.gdsName",
+        title: "<spring:message code='foreign-invoice.form.material-item'/>"
+    },
+    {
+        required: true,
+        type: "integer",
+        readonly: true,
+        section: "base-data",
+        name: "materialItemId",
+        editorType: "SelectItem",
+        width: "100%",
+        valueField: "id",
+        displayField: "gdsName",
+        optionDataSource: isc.MyRestDataSource.create({
+            fields: [
+                {name: "id", primaryKey: true, hidden: true, title: "<spring:message code='global.id'/>"},
+                {name: "gdsName", title: "<spring:message code='global.title'/>"},
+            ],
+            fetchDataURL: foreignInvoiceTab.variable.materialItemUrl + "spec-list"
+        }),
+        title: "<spring:message code='foreign-invoice.form.material-item'/>"
+    },
+    {
+        required: true,
+        name: "currency.nameEN",
+        title: "<spring:message code='foreign-invoice.form.currency'/>"
+    },
+    {
+        required: true,
+        type: "integer",
+        section: "base-data",
+        name: "currencyId",
+        editorType: "SelectItem",
+        width: "100%",
+        valueField: "id",
+        displayField: "nameEn",
+        optionDataSource: isc.MyRestDataSource.create({
+            fields: [
+                {name: "id", primaryKey: true, hidden: true, title: "<spring:message code='global.id'/>"},
+                {name: "nameEn", title: "<spring:message code='global.title'/>"},
+            ],
+            fetchDataURL: foreignInvoiceTab.variable.currencyUrl + "spec-list"
+        }),
+        title: "<spring:message code='foreign-invoice.form.currency'/>"
+    },
+    {
+        required: true,
+        name: "creator.fullName",
+        title: "<spring:message code='foreign-invoice.form.creator'/>"
+    },
+    {
+        required: true,
+        type: "integer",
+        editorType: "SelectItem",
+        name: "creatorId",
+        section: "base-data",
+        width: "100%",
+        valueField: "id",
+        displayField: "fullName",
+        optionDataSource: isc.MyRestDataSource.create({
+            fields: [
+                {name: "id", primaryKey: true, hidden: true, title: "<spring:message code='global.id'/>"},
+                {name: "fullName", title: "<spring:message code='global.name'/>"},
+            ],
+            fetchDataURL: foreignInvoiceTab.variable.personUrl + "spec-list"
+        }),
+        title: "<spring:message code='foreign-invoice.form.creator'/>"
+    },
+    {
         name: "no",
         section: "base-data",
         readonly: true,
         editorType: "staticText",
         title: "<spring:message code='foreign-invoice.form.no'/>"
-    },
-    {
-        required: true,
-        name: "date",
-        section: "base-data",
-        editorType: "persianDate",
-        title: "<spring:message code='foreign-invoice.form.date'/>"
     },
     {
         required: true,
@@ -155,7 +274,7 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
         readonly: true,
         section: "base-data",
         name: "conversionDate",
-        editorType: "persianDate",
+        type: "persianDate",
         title: "<spring:message code='foreign-invoice.form.conversion-date'/>"
     },
     {
@@ -188,55 +307,6 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
     },
     {
         required: true,
-        name: "currency.nameEN",
-        title: "<spring:message code='foreign-invoice.form.currency'/>"
-    },
-    {
-        required: true,
-        type: "integer",
-        section: "base-data",
-        name: "currencyId",
-        editorType: "SelectItem",
-        width: "100%",
-        valueField: "id",
-        displayField: "nameEn",
-        optionDataSource: isc.MyRestDataSource.create({
-            fields: [
-                {name: "id", primaryKey: true, hidden: true, title: "<spring:message code='global.id'/>"},
-                {name: "nameEn", title: "<spring:message code='global.title'/>"},
-            ],
-            fetchDataURL: foreignInvoiceTab.variable.currencyUrl + "spec-list"
-        }),
-        title: "<spring:message code='foreign-invoice.form.currency'/>"
-    },
-    {
-        required: true,
-        readonly: true,
-        editorType: "staticText",
-        name: "materialItem.gdsName",
-        title: "<spring:message code='foreign-invoice.form.material-item'/>"
-    },
-    {
-        required: true,
-        type: "integer",
-        readonly: true,
-        section: "base-data",
-        name: "materialItemId",
-        editorType: "SelectItem",
-        width: "100%",
-        valueField: "id",
-        displayField: "gdsName",
-        optionDataSource: isc.MyRestDataSource.create({
-            fields: [
-                {name: "id", primaryKey: true, hidden: true, title: "<spring:message code='global.id'/>"},
-                {name: "gdsName", title: "<spring:message code='global.title'/>"},
-            ],
-            fetchDataURL: foreignInvoiceTab.variable.materialItemUrl + "spec-list"
-        }),
-        title: "<spring:message code='foreign-invoice.form.material-item'/>"
-    },
-    {
-        required: true,
         readonly: true,
         editorType: "staticText",
         name: "buyer.nameEN",
@@ -250,76 +320,6 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
         section: "base-data",
         name: "buyerId",
         title: "<spring:message code='foreign-invoice.form.buyer'/>"
-    },
-    {
-        required: true,
-        name: "invoiceType.title",
-        title: "<spring:message code='foreign-invoice.form.invoice-type'/>"
-    },
-    {
-        required: true,
-        type: "integer",
-        section: "base-data",
-        name: "invoiceTypeId",
-        editorType: "SelectItem",
-        width: "100%",
-        valueField: "id",
-        displayField: "title",
-        optionDataSource: isc.MyRestDataSource.create({
-            fields: [
-                {name: "id", primaryKey: true, hidden: true, title: "<spring:message code='global.id'/>"},
-                {name: "title", title: "<spring:message code='global.title'/>"},
-            ],
-            fetchDataURL: foreignInvoiceTab.variable.invoiceTypeUrl + "spec-list"
-        }),
-        title: "<spring:message code='foreign-invoice.form.invoice-type'/>"
-    },
-    {
-        required: true,
-        name: "contract.no",
-        title: "<spring:message code='foreign-invoice.form.contract'/>"
-    },
-    {
-        required: true,
-        type: "integer",
-        editorType: "SelectItem",
-        name: "contractId",
-        section: "base-data",
-        width: "100%",
-        valueField: "id",
-        displayField: "no",
-        optionDataSource: isc.MyRestDataSource.create({
-            fields: [
-                {name: "id", primaryKey: true, hidden: true, title: "<spring:message code='global.id'/>"},
-                {name: "no", title: "<spring:message code='foreign-invoice.form.contract'/>"},
-                {name: "description", title: "<spring:message code='global.description'/>"},
-            ],
-            fetchDataURL: foreignInvoiceTab.variable.contractUrl + "spec-list"
-        }),
-        title: "<spring:message code='foreign-invoice.form.contract'/>"
-    },
-    {
-        required: true,
-        name: "creator.fullName",
-        title: "<spring:message code='foreign-invoice.form.creator'/>"
-    },
-    {
-        required: true,
-        type: "integer",
-        editorType: "SelectItem",
-        name: "creatorId",
-        section: "base-data",
-        width: "100%",
-        valueField: "id",
-        displayField: "fullName",
-        optionDataSource: isc.MyRestDataSource.create({
-            fields: [
-                {name: "id", primaryKey: true, hidden: true, title: "<spring:message code='global.id'/>"},
-                {name: "fullName", title: "<spring:message code='global.name'/>"},
-            ],
-            fetchDataURL: foreignInvoiceTab.variable.personUrl + "spec-list"
-        }),
-        title: "<spring:message code='foreign-invoice.form.creator'/>"
     }
 ]);
 
@@ -383,7 +383,7 @@ foreignInvoiceTab.window.main = isc.Window.nicico.getDefault('<spring:message co
             foreignInvoiceTab.button.cancel,
         ]
     })
-], "60%");
+], "40%");
 
 nicico.BasicFormUtil.getDefaultBasicForm(foreignInvoiceTab, "api/foreign-invoice/");
 
