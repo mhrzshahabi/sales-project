@@ -12,12 +12,13 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/inspectionReport")
 public class InspectionReportFormController {
 
-    @RequestMapping("/showForm")
+    @RequestMapping("/show-form")
     public String showTerm(HttpServletRequest request) {
 
-//        request.setAttribute("c_entity", SecurityUtil.hasAuthority("C_INSPECTION_REPORT"));
-//        request.setAttribute("u_entity", SecurityUtil.hasAuthority("U_INSPECTION_REPORT"));
-//        request.setAttribute("d_entity", SecurityUtil.hasAuthority("D_INSPECTION_REPORT"));
+        request.setAttribute("c_entity", SecurityUtil.hasAuthority("C_INSPECTION_REPORT"));
+        request.setAttribute("u_entity", SecurityUtil.hasAuthority("U_INSPECTION_REPORT"));
+        request.setAttribute("d_entity", SecurityUtil.hasAuthority("D_INSPECTION_REPORT"));
+
         return "inspectionReport/inspectionReport";
     }
 }

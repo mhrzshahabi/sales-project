@@ -12,12 +12,13 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/assayInspection")
 public class AssayInspectionFormController {
 
-    @RequestMapping("/showForm")
+    @RequestMapping("/show-form")
     public String showTerm(HttpServletRequest request) {
 
         request.setAttribute("c_entity", SecurityUtil.hasAuthority("C_ASSAY_INSPECTION"));
         request.setAttribute("u_entity", SecurityUtil.hasAuthority("U_ASSAY_INSPECTION"));
         request.setAttribute("d_entity", SecurityUtil.hasAuthority("D_ASSAY_INSPECTION"));
+
         return "assayInspection/assayInspection";
     }
 }

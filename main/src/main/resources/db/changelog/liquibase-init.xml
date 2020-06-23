@@ -3,9 +3,6 @@
     <changeSet author="Reza (generated)" id="1592718665942-1">
         <createSequence sequenceName="SEQ_ASSAY_INSPECTION"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592718665942-2">
-        <createSequence sequenceName="SEQ_Analyse_Product_MO"/>
-    </changeSet>
     <changeSet author="Reza (generated)" id="1592718665942-3">
         <createSequence sequenceName="SEQ_BANK"/>
     </changeSet>
@@ -316,40 +313,6 @@
                 <constraints nullable="false"/>
             </column>
             <column name="N_VALUE" type="NUMBER(5, 10)"/>
-        </createTable>
-    </changeSet>
-    <changeSet author="Reza (generated)" id="1592718665942-95">
-        <createTable tableName="TBL_Analyse_Product_MO">
-            <column name="ID" type="NUMBER(19, 0)">
-                <constraints primaryKey="true" primaryKeyName="TBL_Analyse_Product_MOPK"/>
-            </column>
-            <column name="c_created_by" type="VARCHAR2(255 CHAR)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="d_created_date" type="TIMESTAMP">
-                <constraints nullable="false"/>
-            </column>
-            <column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
-            <column name="d_last_modified_date" type="TIMESTAMP"/>
-            <column name="n_version" type="NUMBER(10, 0)">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="1" name="N_E_STATUS" type="NUMBER">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="1" name="B_EDITABLE" type="NUMBER">
-                <constraints nullable="false"/>
-            </column>
-            <column name="C" type="FLOAT(24)"/>
-            <column name="CU" type="FLOAT(24)"/>
-            <column name="LOT_NAME" type="VARCHAR2(40 CHAR)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="MO" type="FLOAT(24)"/>
-            <column name="P" type="FLOAT(24)"/>
-            <column name="PB" type="FLOAT(24)"/>
-            <column name="S" type="FLOAT(24)"/>
-            <column name="SI" type="FLOAT(24)"/>
         </createTable>
     </changeSet>
     <changeSet author="Reza (generated)" id="1592718665942-96">

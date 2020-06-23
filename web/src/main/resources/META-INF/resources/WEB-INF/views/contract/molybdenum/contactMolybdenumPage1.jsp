@@ -5,7 +5,7 @@
 
 <%@include file="../js/contact-mol-component.js"%>
 //<script>
-
+var textHelpMol="";
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
     <% DateUtil dateUtil = new DateUtil();%>
 
@@ -75,30 +75,22 @@ autoFetchData: false,
         fetchDataURL: "${contextPath}/api/parameters/spec-list"
     });
 
-var RestDataSource_Incoterms_InMol = isc.MyRestDataSource.create({
-
-autoFetchData: false,
+var RestDataSource_ContractIncoterms_InMol = isc.MyRestDataSource.create({
+        autoFetchData: false,
         fields:
-        [
-        {name: "id", title: "<spring:message code='goods.code'/> "},
-        {name: "incotermRule.titleEn", title: "incotermsRules "},
-        ],
-        fetchDataURL: "${contextPath}/api/incoterm-rules/spec-list",
-            transformResponse: function (dsResponse, dsRequest, data) {
-                    data.response.data.forEach(d=>d['code']=d['incotermRule']['code'])
+                [
+                {name: "id", title: "<spring:message code='goods.code'/> "},
+                {name: "incotermVersion.incotermVersion", title: "incotermsRules "},
+                {name: "code", title: "code"}
+                ],
+        fetchDataURL: "${contextPath}/api/g-incoterm/spec-list",transformResponse: function (dsResponse, dsRequest, data) {
+                       data.response.data.forEach(d=>d['incotermVersionName']=d['incotermVersion']['incotermVersion'])
+                       data.response.data.forEach(d=>d['incotermVersionID']=d['incotermVersion']['id'])
                     return this.Super("transformResponse", arguments);
                     }
-});
-var RestDataSource_ContractIncoterms_InMol = isc.MyRestDataSource.create({
-        fields:
-        [
-        {name: "id", title: "<spring:message code='goods.code'/> "},
-        {name: "title", title: "incotermsRules "},
-        ],
-        fetchDataURL: "${contextPath}/api/g-incoterm/spec-list"
-});
+    });
 
-    var RestDataSource_WarehouseLot = isc.MyRestDataSource.create({
+var RestDataSource_WarehouseLot = isc.MyRestDataSource.create({
 autoFetchData: false,
         fields:
             [
@@ -195,6 +187,7 @@ autoFetchData: false,
         fetchDataURL: "${contextPath}/api/contact/spec-list"
     });
     var RestDataSource_Port = isc.MyRestDataSource.create({
+        autoFetchData: false,
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
@@ -209,6 +202,7 @@ autoFetchData: false,
     });
 
     var RestDataSource_ContractShipment = isc.MyRestDataSource.create({
+        autoFetchData: false,
         fields:
             [
                 {name: "id", hidden: true, primaryKey: true, canEdit: false,},
@@ -248,6 +242,7 @@ autoFetchData: false,
     });
 
     var RestDataSource_contractDetail_list = isc.MyRestDataSource.create({
+        autoFetchData: false,
         fetchDataURL: "${contextPath}/api/contractDetail/spec-list"
     });
 
@@ -858,6 +853,7 @@ var DynamicForm_ContactMooxParameter_ValueNumber8=isc.DynamicForm.create({
                 type: 'long',
                 width: "250",
                 editorType: "SelectItem",
+                autoFetchData: false,
                 optionDataSource: RestDataSource_Unit,
                 displayField: "nameEN",
                 valueField: "id",
@@ -1313,6 +1309,7 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
                     name: "loadPortId",
                     title: "<spring:message code='shipment.loading'/>",
                     editorType: "SelectItem",
+                    autoFetchData: false,
                     optionDataSource: RestDataSource_Port,
                     displayField: "port",
                     valueField: "id",
@@ -1413,17 +1410,19 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
                 numCols: 4,
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_ContractIncoterms_InMol,
-                displayField: "title",
-                valueField: "id",
-                pickListWidth: "450",
+                autoFetchData: false,
+                displayField: "incotermVersionName",
+                valueField: "incotermVersionID",
+                pickListWidth: "499",
                 pickListHeight: "500",
                 pickListProperties: {showFilterEditor: true},
                 pickListFields: [
-                    {name: "id", width: 220, align: "center"},
-                    {name: "title", width: 220, align: "center"}
+                    {name: "incotermVersionName", width: "100%", align: "center"}
                 ],
-                changed: function (form, item, value) {
-                    form.clearValue('incotermsId');
+                changed: function(form, item, value) {
+                            form.getField('incotermsId').setDisabled(!value);
+                            form.clearValue('incotermsId');
+                            textHelpMol="";
                 },
                 width: "500",
                 title: "<strong class='cssDynamicForm'>INCOTERM VERSION<strong>"
@@ -1431,6 +1430,7 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
             ,
             {
                 name: "incotermsId", //article6_number32
+                disabled: true,
                 colSpan: 3,
                 titleColSpan: 1,
                 showIf:"true",
@@ -1447,21 +1447,34 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
                 type: 'long',
                 numCols: 4,
                 editorType: "SelectItem",
-                optionDataSource: RestDataSource_Incoterms_InMol,
-                displayField: "code",
+                optionDataSource: RestDataSource_ContractIncoterms_InMol,
+                autoFetchData: false,
+                displayField: "title",
                 valueField: "id",
-                pickListWidth: "450",
+                pickListWidth: "499",
                 pickListHeight: "500",
                 pickListProperties: {showFilterEditor: true},
                 pickListFields: [
-                    {name: "id", width: 220, align: "center"},
-                    {name: "incotermRule.titleEn", width: 220, align: "center"}
+                    {name: "title",align: "center",width: "100%",title:"incoterm title"}
                 ],
-                width: "500",
-                title: "<strong class='cssDynamicForm'>INCOTERM<strong>",
                 getPickListFilterCriteria : function () {
-                    return {_constructor:'AdvancedCriteria',operator:"and",criteria:[{fieldName: "incotermId", operator: "equals", value: this.form.getValue("incotermVersion")}]}
-                                     },
+                        return {_constructor:'AdvancedCriteria',operator:"and",criteria:[{fieldName: "incotermVersion.id", operator: "equals", value: this.form.getValue("incotermVersion")}]}
+                },
+                changed:function(form, item, value){
+                RestDataSource_ContractIncoterms_InMol.fetchData({_constructor:'AdvancedCriteria',operator:"and",criteria:[{fieldName: "id", operator: "equals", value: value}]},function (dsResponse, data, dsRequest) {
+                            for (let i=0;i<data[0].incotermRules.length;i++){
+                                 textHelpMol += ("<b>CODE : </b>"+data[0].incotermRules[i].incotermRule.code +" "+"<b>TITLE : </b>"+data[0].incotermRules[i].incotermRule.titleEn)+"<br>";
+                            }
+                        });
+                },
+                width: "500",
+                title: "<strong class='cssDynamicForm'>INCOTERM RULES<strong>",
+                icons: [{
+                        src: "[SKIN]/actions/help.png",
+                        click: function(){
+                            isc.say("<br><b>INCOTERM RULES: </b><br>"+textHelpMol)
+                        }
+                     }]
                 }
         ]
     })
