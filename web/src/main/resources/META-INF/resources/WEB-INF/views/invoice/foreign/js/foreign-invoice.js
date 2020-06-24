@@ -212,15 +212,6 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
                 form.setValue("toCurrencyId", null);
                 form.setValue("conversionRefId", null);
             }
-            console.log("123", form.getField("conversionRefId").pickList)
-            form.getField("conversionRefId").pickList.setFilterEditorCriteria({
-                operator: "and",
-                criteria: [
-                    {fieldName: "date", operator: "iContains", value: form.getValue("date")},
-                    {fieldName: "from", operator: "iContains", value: form.getValue("currencyId")},
-                    {fieldName: "to", operator: "iContains", value: form.getValue("toCurrencyId")}
-                ]
-            });
         }
     },
     {
@@ -250,25 +241,27 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
         editorType: "SelectItem",
         valueField: "id",
         displayField: "reference",
+        autoFetchData: false,
         pickListWidth: 370,
         pickListHeight: 300,
         pickListProperties: {
+            autoFetchData: false,
             showFilterEditor: true
         },
         pickListFields: [
             {name: "id", primaryKey: true, hidden: true, title: "<spring:message code='global.id'/>"},
             {name: "reference", title: "<spring:message code='foreign-invoice.form.conversion-ref'/>"},
             {name: "date", title: "<spring:message code='global.date'/>"},
-            {name: "from", title: "<spring:message code='global.from'/>"},
-            {name: "to", title: "<spring:message code='global.to'/>"},
+            {name: "fromCurrency", title: "<spring:message code='global.from'/>"},
+            {name: "toCurrency", title: "<spring:message code='global.to'/>"},
         ],
         optionDataSource: isc.MyRestDataSource.create({
             fields: [
                 {name: "id", primaryKey: true, hidden: true, title: "<spring:message code='global.id'/>"},
                 {name: "reference", title: "<spring:message code='foreign-invoice.form.conversion-ref'/>"},
                 {name: "date", title: "<spring:message code='global.date'/>"},
-                {name: "from", title: "<spring:message code='global.from'/>"},
-                {name: "to", title: "<spring:message code='global.to'/>"},
+                {name: "fromCurrency", title: "<spring:message code='global.from'/>"},
+                {name: "toCurrency", title: "<spring:message code='global.to'/>"},
             ],
             fetchDataURL: foreignInvoiceTab.variable.conversionRefUrl + "spec-list"
         }),
