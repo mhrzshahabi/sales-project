@@ -63,17 +63,4 @@ public class RemittanceDetail extends BaseEntity {
     //    @NotNull
     @Column(name = "F_DEPOT_ID", nullable = true)
     private Long depotId;
-
-
-    //    @NotNull
-    @Column(name = "N_VALUE", nullable = true)
-    private Long value;
-
-
-    @OneToMany(mappedBy = "remittanceDetail", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    private List<InventoryValue> inventoryValues;
-//
-//    @OneToMany(mappedBy = "remittanceDetail", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-//    private List<ItemElement> itemElements;
-
 }

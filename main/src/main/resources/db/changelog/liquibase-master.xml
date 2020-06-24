@@ -9,6 +9,9 @@
 	<include file="classpath:/db/changelog/tbl_assay_inspection.xml"/>
 	<include file="classpath:/db/changelog/tbl_person.xml"/>
 	<include file="classpath:/db/changelog/foreign-invoice/tbl_foreign_invoice.xml"/>
+	<include file="classpath:/db/changelog/tbl_warh_inventory.xml"/>
+	<!--<include file="classpath:/db/changelog/tbl_warh_inventory_detail.xml"/>-->
+	<!--<include file="classpath:/db/changelog/tbl_warh_remittance.xml"/>-->
 	<!--	<include file="classpath:/db/changelog/view_tozin.xml"/>-->
 	<include file="classpath:/db/changelog/tbl_assay_inspection.xml"/>
 	<!--	<include file="classpath:/db/changelog/view_tozin_m.xml"/>-->
