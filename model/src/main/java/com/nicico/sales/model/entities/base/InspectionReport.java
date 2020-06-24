@@ -49,14 +49,14 @@ public class InspectionReport extends BaseEntity {
     @Column(name = "D_ISSUE_DATE")
     private Date IssueDate;
 
-    @Setter(AccessLevel.NONE)
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "F_REMITTANCE_DETAIL_ID", nullable = false, insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_inspectionReport2RemittanceDetailByRemittanceDetailId"))
-    private RemittanceDetail remittanceDetail;
-
-    @NotNull
-    @Column(name = "F_REMITTANCE_DETAIL_ID", nullable = false)
-    private Long remittanceDetailId;
+//    @Setter(AccessLevel.NONE)
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "F_REMITTANCE_DETAIL_ID", nullable = false, insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_inspectionReport2RemittanceDetailByRemittanceDetailId"))
+//    private RemittanceDetail remittanceDetail;
+//
+//    @NotNull
+//    @Column(name = "F_REMITTANCE_DETAIL_ID", nullable = false)
+//    private Long remittanceDetailId;
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
