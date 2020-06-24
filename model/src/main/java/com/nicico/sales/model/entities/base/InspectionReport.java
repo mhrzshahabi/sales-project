@@ -3,6 +3,7 @@ package com.nicico.sales.model.entities.base;
 
 import com.nicico.sales.model.Auditable;
 import com.nicico.sales.model.entities.common.BaseEntity;
+import com.nicico.sales.model.entities.warehouse.Inventory;
 import com.nicico.sales.model.entities.warehouse.RemittanceDetail;
 import com.nicico.sales.model.enumeration.InspectionRateValueType;
 import lombok.*;
@@ -49,14 +50,14 @@ public class InspectionReport extends BaseEntity {
     @Column(name = "D_ISSUE_DATE")
     private Date IssueDate;
 
-//    @Setter(AccessLevel.NONE)
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "F_REMITTANCE_DETAIL_ID", nullable = false, insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_inspectionReport2RemittanceDetailByRemittanceDetailId"))
-//    private RemittanceDetail remittanceDetail;
-//
-//    @NotNull
-//    @Column(name = "F_REMITTANCE_DETAIL_ID", nullable = false)
-//    private Long remittanceDetailId;
+    @Setter(AccessLevel.NONE)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "F_INVENTORY_ID", nullable = false, insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_inspectionReport2inventoryByInventoryId"))
+    private Inventory inventory;
+
+    @NotNull
+    @Column(name = "F_INVENTORY_ID", nullable = false)
+    private Long InventoryId;
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
