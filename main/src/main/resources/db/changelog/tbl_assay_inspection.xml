@@ -7,9 +7,16 @@
             <column name="C_LAB_NAME" type="varchar2(255 CHAR)"/>
         </addColumn>
     </changeSet>
+
     <changeSet author="MShahabi" id="1592814189336-240">
         <addColumn tableName="TBL_ASSAY_INSPECTION">
             <column name="C_LAB_PLACE" type="varchar2(255 CHAR)"/>
         </addColumn>
     </changeSet>
+
+    <changeSet author="MShahabi" id="1799887766554-001">
+        <dropForeignKeyConstraint baseTableName="TBL_ASSAY_INSPECTION" constraintName="FK_ASSAYINSPECTION2REMITTANCEDETAILBYREMITTANCEDETAILID"/>
+        <dropColumn columnName="F_REMITTANCE_DETAIL_ID" tableName="TBL_ASSAY_INSPECTION"/>
+    </changeSet>
+
 </databaseChangeLog>
