@@ -5,7 +5,7 @@ import lombok.*;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
@@ -22,7 +22,7 @@ public class IncotermVersion extends BaseEntity {
     @SequenceGenerator(name = "SEQ_CNTR_INCOTERM_VERSION", sequenceName = "SEQ_CNTR_INCOTERM_VERSION", allocationSize = 1)
     private Long id;
 
-    @NotEmpty
+    @NotNull
     @Column(name = "N_INCOTERM_VERSION", nullable = false, unique = true)
     private Integer incotermVersion;
 
