@@ -238,7 +238,8 @@
                 }
             },
             {
-                name: "email",hidden: true,
+                name: "email",
+                hidden: true,
                 title: "<spring:message code='person.email'/>",
                 type: 'text',
                 required: false, errorOrientation: "bottom",
@@ -349,11 +350,11 @@
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
         click: function () {
-           /* ValuesManager_Person.validate();
+            ValuesManager_Person.validate();
             DynamicForm_Person.validate();
             if (DynamicForm_Person.hasErrors()) {
                 return;
-            }*/
+            }
 
             var data = DynamicForm_Person.getValues();
             var method = "PUT";

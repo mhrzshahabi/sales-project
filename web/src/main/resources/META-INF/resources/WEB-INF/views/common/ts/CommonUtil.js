@@ -9,8 +9,8 @@ var nicico;
     //----------------------------------------- Interfaces -----------------------------------------
     //----------------------------------------- Interfaces ---------------------------------------//
     //------------------------------------------ Classes -------------------------------------------
-    class CommonUtil {
-        constructor() {
+    var CommonUtil = /** @class */ (function () {
+        function CommonUtil() {
             // @ts-ignore
             isc.Canvas.tag = null;
             // @ts-ignore
@@ -24,7 +24,7 @@ var nicico;
             isc.ListGrid.nicico = {};
             // @ts-ignore
             isc.ListGrid.nicico.getDefault = function (fields, restDataSource, criteria, extraProperties) {
-                let listGridProperties = {};
+                var listGridProperties = {};
                 listGridProperties.width = "100%";
                 listGridProperties.height = "100%";
                 listGridProperties.initialCriteria = criteria;
@@ -62,8 +62,9 @@ var nicico;
             // @ts-ignore
             isc.RestDataSource.nicico = {};
             // @ts-ignore
-            isc.RestDataSource.nicico.getDefault = function (fetchDataUrl, fields, transformRequest = null) {
-                let restDataSourceProperties = {};
+            isc.RestDataSource.nicico.getDefault = function (fetchDataUrl, fields, transformRequest) {
+                if (transformRequest === void 0) { transformRequest = null; }
+                var restDataSourceProperties = {};
                 restDataSourceProperties.jsonPrefix = "";
                 restDataSourceProperties.jsonSuffix = "";
                 restDataSourceProperties.dataFormat = "json";
@@ -89,8 +90,9 @@ var nicico;
             // @ts-ignore
             isc.FormItem.nicico = {};
             // @ts-ignore
-            isc.FormItem.nicico.getDefaultProperties = function (name, title, type, editorType, required = true, readonly, validators, id) {
-                let formItemProperties = {};
+            isc.FormItem.nicico.getDefaultProperties = function (name, title, type, editorType, required, readonly, validators, id) {
+                if (required === void 0) { required = true; }
+                var formItemProperties = {};
                 formItemProperties.ID = id;
                 formItemProperties.name = name;
                 formItemProperties.type = type;
@@ -142,7 +144,7 @@ var nicico;
             isc.DynamicForm.nicico = {};
             // @ts-ignore
             isc.DynamicForm.nicico.getDefault = function (fields, id) {
-                let dynamicFormProperties = {};
+                var dynamicFormProperties = {};
                 dynamicFormProperties.ID = id;
                 dynamicFormProperties.numCols = 2;
                 dynamicFormProperties.margin = 10;
@@ -175,7 +177,9 @@ var nicico;
             // @ts-ignore
             isc.Window.nicico = {};
             // @ts-ignore
-            isc.Window.nicico.getDefault = function (title, items, width = null, height = null, id) {
+            isc.Window.nicico.getDefault = function (title, items, width, height, id) {
+                if (width === void 0) { width = null; }
+                if (height === void 0) { height = null; }
                 return isc.Window.create({
                     ID: id,
                     width: width == null ? "70%" : width,
@@ -203,7 +207,9 @@ var nicico;
                 });
             };
             // @ts-ignore
-            isc.Window.nicico.getDefault2 = function (title, layout, width = null, height = null, id) {
+            isc.Window.nicico.getDefault2 = function (title, layout, width, height, id) {
+                if (width === void 0) { width = null; }
+                if (height === void 0) { height = null; }
                 return isc.Window.create({
                     ID: id,
                     width: width == null ? "70%" : width,
@@ -254,7 +260,7 @@ var nicico;
             };
             // @ts-ignore
             isc.FacetChart.nicico.showChart = function (ownerWindow, title, chart) {
-                let windowWidget = isc.Window.create({
+                var windowWidget = isc.Window.create({
                     title: title,
                     width: "50%",
                     // @ts-ignore
@@ -281,12 +287,12 @@ var nicico;
             };
             // @ts-ignore
             Array.prototype.distinct = function () {
-                return this.filter((value, index, self) => self.indexOf(value) === index);
+                return this.filter(function (value, index, self) { return self.indexOf(value) === index; });
             };
             // @ts-ignore
             Array.prototype.weakDistinct = function () {
-                return this.filter((value, index, self) => {
-                    for (let i = 0; i < index; i++)
+                return this.filter(function (value, index, self) {
+                    for (var i = 0; i < index; i++)
                         if (self[i] === value)
                             return false;
                     return true;
@@ -297,7 +303,7 @@ var nicico;
                 if (key == null || this == null || this.length === 0)
                     return {};
                 return this.reduce(function (group, current) {
-                    let groupData = eval("current." + key);
+                    var groupData = eval("current." + key);
                     (group[groupData] = group[groupData] || []).push(current);
                     return group;
                 }, {});
@@ -306,23 +312,21 @@ var nicico;
             Array.prototype.sumByField = function (key) {
                 if (key == null || this == null || this.length === 0)
                     return NaN;
-                return this.map(q => q[key]).sum();
+                return this.map(function (q) { return q[key]; }).sum();
             };
         }
-    }
-
+        return CommonUtil;
+    }());
     nicico.CommonUtil = CommonUtil;
-
-    class ObjectHider {
-        constructor(hider) {
+    var ObjectHider = /** @class */ (function () {
+        function ObjectHider(hider) {
             this._hider = hider;
         }
-
-        getObject() {
+        ObjectHider.prototype.getObject = function () {
             return this._hider;
-        }
-    }
-
+        };
+        return ObjectHider;
+    }());
     nicico.ObjectHider = ObjectHider;
     //------------------------------------------ Classes -----------------------------------------//
 })(nicico || (nicico = {}));

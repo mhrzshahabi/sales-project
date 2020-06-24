@@ -3,9 +3,6 @@
     <changeSet author="Reza (generated)" id="1592718665942-1">
         <createSequence sequenceName="SEQ_ASSAY_INSPECTION"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592718665942-2">
-        <createSequence sequenceName="SEQ_Analyse_Product_MO"/>
-    </changeSet>
     <changeSet author="Reza (generated)" id="1592718665942-3">
         <createSequence sequenceName="SEQ_BANK"/>
     </changeSet>
@@ -128,9 +125,6 @@
     </changeSet>
     <changeSet author="Reza (generated)" id="1592718665942-43">
         <createSequence sequenceName="SEQ_FOREIGN_INVOICE_PAYMENT"/>
-    </changeSet>
-    <changeSet author="Reza (generated)" id="1592718665942-44">
-        <createSequence sequenceName="SEQ_GLOSSARY"/>
     </changeSet>
     <changeSet author="Reza (generated)" id="1592718665942-45">
         <createSequence sequenceName="SEQ_GOODS"/>
@@ -316,40 +310,6 @@
                 <constraints nullable="false"/>
             </column>
             <column name="N_VALUE" type="NUMBER(5, 10)"/>
-        </createTable>
-    </changeSet>
-    <changeSet author="Reza (generated)" id="1592718665942-95">
-        <createTable tableName="TBL_Analyse_Product_MO">
-            <column name="ID" type="NUMBER(19, 0)">
-                <constraints primaryKey="true" primaryKeyName="TBL_Analyse_Product_MOPK"/>
-            </column>
-            <column name="c_created_by" type="VARCHAR2(255 CHAR)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="d_created_date" type="TIMESTAMP">
-                <constraints nullable="false"/>
-            </column>
-            <column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
-            <column name="d_last_modified_date" type="TIMESTAMP"/>
-            <column name="n_version" type="NUMBER(10, 0)">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="1" name="N_E_STATUS" type="NUMBER">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="1" name="B_EDITABLE" type="NUMBER">
-                <constraints nullable="false"/>
-            </column>
-            <column name="C" type="FLOAT(24)"/>
-            <column name="CU" type="FLOAT(24)"/>
-            <column name="LOT_NAME" type="VARCHAR2(40 CHAR)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="MO" type="FLOAT(24)"/>
-            <column name="P" type="FLOAT(24)"/>
-            <column name="PB" type="FLOAT(24)"/>
-            <column name="S" type="FLOAT(24)"/>
-            <column name="SI" type="FLOAT(24)"/>
         </createTable>
     </changeSet>
     <changeSet author="Reza (generated)" id="1592718665942-96">
@@ -2409,36 +2369,6 @@
             <column name="B_IS_POSITIVE" type="NUMBER(1, 0)"/>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592718665942-143">
-        <createTable tableName="TBL_GLOSSARY">
-            <column name="ID" type="NUMBER(19, 0)">
-                <constraints primaryKey="true" primaryKeyName="TBL_GLOSSARYPK"/>
-            </column>
-            <column name="c_created_by" type="VARCHAR2(255 CHAR)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="d_created_date" type="TIMESTAMP">
-                <constraints nullable="false"/>
-            </column>
-            <column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
-            <column name="d_last_modified_date" type="TIMESTAMP"/>
-            <column name="n_version" type="NUMBER(10, 0)">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="1" name="N_E_STATUS" type="NUMBER">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="1" name="B_EDITABLE" type="NUMBER">
-                <constraints nullable="false"/>
-            </column>
-            <column name="MEANING" type="VARCHAR2(200 CHAR)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="SUMMARY" type="VARCHAR2(20 CHAR)">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-    </changeSet>
     <changeSet author="Reza (generated)" id="1592718665942-144">
         <createTable tableName="TBL_GOODS">
             <column name="ID" type="NUMBER(19, 0)">
@@ -4224,20 +4154,11 @@
     <changeSet author="Reza (generated)" id="1592718665942-239">
         <addForeignKeyConstraint baseColumnNames="YARD_ID" baseTableName="TBL_WAREHOUSE_CAD" constraintName="WarehouseCad2yard" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_WAREHOUSE_YARD" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592718665942-240">
-        <addForeignKeyConstraint baseColumnNames="WAREHOUSECADITEM_ID" baseTableName="TBL_WAREHOUSE_LOT" constraintName="WarehouseLot2CadItem" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_WAREHOUSE_CAD_ITEM" validate="true"/>
-    </changeSet>
-    <changeSet author="Reza (generated)" id="1592718665942-241">
-        <addForeignKeyConstraint baseColumnNames="CONTRACT_ID" baseTableName="TBL_WAREHOUSE_LOT" constraintName="WarehouseLot2Contract" deferrable="false" initiallyDeferred="false" referencedColumnNames="CONTRACT_ID" referencedTableName="TBL_CONTRACT" validate="true"/>
-    </changeSet>
     <changeSet author="Reza (generated)" id="1592718665942-242">
         <addForeignKeyConstraint baseColumnNames="MATERIAL_ITEM_ID" baseTableName="TBL_WAREHOUSE_STOCK" constraintName="WarehouseStock2matherialitem" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_MATERIAL_ITEM" validate="true"/>
     </changeSet>
     <changeSet author="Reza (generated)" id="1592718665942-243">
         <addForeignKeyConstraint baseColumnNames="YARD_ID" baseTableName="TBL_WAREHOUSE_STOCK" constraintName="WarehouseStock2yard" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_WAREHOUSE_YARD" validate="true"/>
-    </changeSet>
-    <changeSet author="Reza (generated)" id="1592718665942-244">
-        <addForeignKeyConstraint baseColumnNames="MATERIAL_ID" baseTableName="TBL_WAREHOUSE_LOT" constraintName="Warehouselot2material" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_MATERIAL" validate="true"/>
     </changeSet>
     <changeSet author="Reza (generated)" id="1592718665942-245">
         <addForeignKeyConstraint baseColumnNames="COUNTRY_ID" baseTableName="TBL_BANK" constraintName="bank2Country" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_COUNTRY" validate="true"/>

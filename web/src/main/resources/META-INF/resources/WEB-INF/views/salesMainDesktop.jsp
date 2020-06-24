@@ -550,17 +550,11 @@
                         {isSeparator: true},
 
                     ]
-
-
                 },
-
                 {isSeparator: true},
-
-
                 {
                     title: "<spring:message code='main.baseTab.test'/>",
                     submenu: [
-
                         {
                             title: "<spring:message code='port.port'/>",
                             click: function () {
@@ -583,8 +577,6 @@
                     ]
                 },
                 {isSeparator: true},
-
-
                 {
                     title: "<spring:message code='main.baseTab.financial'/>",
                     submenu: [
@@ -640,8 +632,6 @@
                     ]
                 },
                 {isSeparator: true},
-
-
                 {
                     title: "<spring:message code='material.title'/>",
                     click: function () {
@@ -649,21 +639,6 @@
                     }
                 },
                 {isSeparator: true},
-
-
-                {
-                    title: "<spring:message code='typical.analysis'/>",
-                    submenu: [
-                        {
-                            title: "<spring:message code='typical.analysis.mo'/>",
-                            click: function () {
-                                createTab("<spring:message code='typical.analysis.mo'/>", "<spring:url value="/analysisMo/showForm" />")
-                            }
-                        },
-                    ]
-                },
-                {isSeparator: true},
-
                 {
                     title: "<spring:message code='country.title'/>",
                     click: function () {
@@ -696,7 +671,6 @@
                 },
                 {isSeparator: true},
 
-
                 <%--{--%>
                 <%--    title: "<spring:message code='instruction.title'/>",--%>
                 <%--    click: function () {--%>
@@ -705,19 +679,13 @@
                 <%--},--%>
                 <%--{isSeparator: true},--%>
 
-
-
                 {
                     title: "<spring:message code='Invoice.Type'/>",
                     click: function () {
                         createTab("<spring:message code='Invoice.Type'/>", "<spring:url value="/invoiceType/showForm" />")
                     }
-                },
-                {isSeparator: true},
-
+                }
             ]
-
-
         }),
     });
 
