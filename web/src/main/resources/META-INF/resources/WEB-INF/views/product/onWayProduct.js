@@ -1,200 +1,275 @@
 // <%@ page import="com.nicico.copper.common.util.date.DateUtil" %>
 // <%@ page contentType="text/html;charset=UTF-8" %>
 // <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
-
 //<script>
 
-// <% DateUtil dateUtil = new DateUtil();%>
-// <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
+function ListGrid_Tozin_IN_ONWAYPRODUCT_refresh() {
+    ListGrid_Tozin_IN_ONWAYPRODUCT.invalidateCache();
+}
 
-(function () {
-    function ListGrid_Tozin_IN_ONWAYPRODUCT_refresh() {
-        ListGrid_Tozin_IN_ONWAYPRODUCT.invalidateCache();
-    }
+function mainOnWayProduct(valueMapsPromise) {
+    const tozinLiteFields = [
+        {
+            name: "date",
+            type: "text",
+            filterEditorProperties: {
+                defaultValue: new persianDate().subtract('d', 14).format('YYYYMMDD'),
+                parseEditorValue: function (value, record, form, item) {
+                    return value.replace(/\//g, '');
+                },
+                icons: [{
+                    src: "pieces/pcal.png",
+                    click: function (form, item, icon) {
+                        // console.log(form)
+                        displayDatePicker(item['ID'], form.getItems()[0], 'ymd', '/');
+                    }
+                }],
+            },
+            filterOperator: "greaterOrEqual",
+            title: "<spring:message code='Tozin.date'/>",
+            align: "center"
+        },
+        {
+            name: "tozinId",
+            showHover: true,
+            width: "10%",
+            title: "<spring:message code='Tozin.tozinPlantId'/>"
+        },
+        {
+            name: "driverName",
+            showHover: true,
+            width: "10%",
+            title: "<spring:message code='Tozin.driver'/>"
+        },
+        {
+            name: "codeKala",
+            type: "number",
+            filterEditorProperties: {editorType: "comboBox"},
+            valueMap: valueMapsPromise['materialItem'].getValueMap("id", "gdsName"),
+            title: "<spring:message code='Tozin.codeKala'/>",
+            align: "center"
+        },
+        {
+            name: "plak",
+            title: "<spring:message code='Tozin.plak.container'/>",
+            align: "center",
+            showHover: true,
+            width: "10%"
+        },
+        {
+            name: "containerNo1",
+            title: "<spring:message code='Tozin.containerNo1'/>",
+            align: "center"
+        },
+        {
+            name: "containerNo3",
+            type: "number",
+            title: "<spring:message code='Tozin.containerNo3'/>",
+            align: "center",
+            // alwaysShowOperatorIcon:true,
+        },
+        {
+            name: "vazn",
+            title: "<spring:message code='Tozin.vazn'/>",
+            align: "center",
+            showHover: true,
+            width: "10%"
+        },
+        {
+            name: "sourceId",
+            type: "number",
+            filterEditorProperties: {editorType: "comboBox"},
+            valueMap: valueMapsPromise['warehouse'].getValueMap("id", "name"),
+            title: "<spring:message code='Tozin.sourceId'/>",
+            align: "center"
+        },
+        {
+            name: "targetId",
+            type: "number",
+            filterEditorProperties: {
+                editorType: "comboBox",
+                type: "number",
+                defaultValue: StorageUtil.get('on_way_product_defaultTargetId')
+            },
+            parseEditorValue: function (value, record, form, item) {
+                StorageUtil.save('on_way_product_defaultTargetId', value)
+                return value;
+            },
+            filterOperator: "equals",
+            valueMap: valueMapsPromise['warehouse'].getValueMap("id", "name"),
+            title: "<spring:message code='Tozin.targetId'/>",
+            align: "center",
+        },
+
+        {
+            name: "havalehCode",
+            title: "<spring:message code='Tozin.haveCode'/>",
+            align: "center"
+        },
+
+
+    ];
+    const tozinFields = [...tozinLiteFields,
+
+        {
+            name: "source",
+            title: "<spring:message code='Tozin.source'/>",
+            align: "center",
+            showHover: true,
+            width: "10%"
+        },
+        {
+            name: "nameKala",
+            title: "<spring:message code='Tozin.nameKala'/>",
+            align: "center",
+            showHover: true,
+            width: "10%"
+        },
+        {
+            name: "target",
+            title: "<spring:message code='Tozin.target'/>",
+            align: "center",
+            showHover: true,
+            width: "10%"
+        },
+        {
+            name: "cardId",
+            title: "<spring:message code='Tozin.cardId'/>",
+            align: "center"
+        },
+        {
+            name: "carName",
+            title: "<spring:message code='Tozin.carName'/>",
+            align: "center"
+        },
+        {
+            name: "containerId",
+            title: "<spring:message code='Tozin.containerId'/>",
+            align: "center",
+            showHover: true,
+            width: "10%"
+        },
+        {
+            name: "containerName",
+            title: "<spring:message code='Tozin.containerName'/>",
+            align: "center"
+        },
+        {
+            name: "vazn1",
+            title: "<spring:message code='Tozin.vazn1'/>",
+            align: "center"
+        },
+        {
+            name: "vazn2",
+            title: "<spring:message code='Tozin.vazn2'/>",
+            align: "center"
+        },
+        {
+            name: "condition",
+            title: "<spring:message code='Tozin.condition'/>",
+            align: "center"
+        },
+        {
+            name: "tedad",
+            title: "<spring:message code='Tozin.tedad'/>",
+            align: "center",
+            showHover: true,
+            width: "10%"
+        },
+        {
+            name: "unitKala",
+            title: "<spring:message code='Tozin.unitKala'/>",
+            align: "center"
+        },
+        {
+            name: "packName",
+            title: "<spring:message code='Tozin.packName'/>",
+            align: "center",
+            showHover: true,
+            width: "10%"
+        },
+        {
+            name: "haveCode",
+            title: "<spring:message code='Tozin.haveCode'/>",
+            align: "center",
+            showHover: true,
+            width: "10%"
+        },
+        {
+            name: "tozinDate",
+            showHover: true,
+            width: "10%",
+            title: "<spring:message code='Tozin.tozinDate'/>"
+        },
+        {
+            name: "tozinTime",
+            title: "<spring:message code='Tozin.tozinTime'/>",
+            align: "center"
+        },
+        {
+            name: "havalehName",
+            title: "<spring:message code='Tozin.havalehName'/>",
+            align: "center"
+        },
+        {
+            name: "havalehFrom",
+            title: "<spring:message code='Tozin.havalehFrom'/>",
+            align: "center"
+        },
+        {
+            name: "carNo1",
+            title: "<spring:message code='Tozin.carNo1'/>",
+            align: "center"
+        },
+        {
+            name: "carNo3",
+            title: "<spring:message code='Tozin.carNo3'/>",
+            align: "center"
+        },
+        {
+            name: "isFinal",
+            title: "<spring:message code='Tozin.isFinal'/>",
+            align: "center"
+        },
+        {
+            name: "ctrlDescOut",
+            title: "<spring:message code='Tozin.isFinal'/>",
+            align: "center"
+        },
+        {
+            name: "tznSharh2",
+            title: "<spring:message code='Tozin.isFinal'/>",
+            align: "center"
+        }, {
+            name: "strSharh2",
+            title: "<spring:message code='Tozin.isFinal'/>",
+            align: "center"
+        }, {
+            name: "tznSharh1",
+            title: "<spring:message code='Tozin.isFinal'/>",
+            align: "center"
+        },
+
+        {
+            name: "havalehDate",
+            title: "<spring:message code='Tozin.havalehDate'/>",
+            align: "center"
+        },
+
+
+    ]
+
 
     const RestDataSource_Tozin_IN_ONWAYPRODUCT = isc.MyRestDataSource.create({
-        fields: [
-            {
-                name: "source",
-                title: "<spring:message code='Tozin.source'/>",
-                align: "center"
-            },
-            {
-                name: "tozinId",
-                title: "<spring:message code='Tozin.tozinPlantId'/>",
-                align: "center"
-            },
-            {
-                name: "nameKala",
-                title: "<spring:message code='Tozin.nameKala'/>",
-                align: "center"
-            },
-            {
-                name: "codeKala",
-                title: "<spring:message code='Tozin.codeKala'/>",
-                align: "center"
-            },
-            {
-                name: "target",
-                title: "<spring:message code='Tozin.target'/>",
-                align: "center"
-            },
-            {
-                name: "cardId",
-                title: "<spring:message code='Tozin.cardId'/>",
-                align: "center"
-            },
-            {
-                name: "plak",
-                title: "<spring:message code='Tozin.plak'/>",
-                align: "center"
-            },
-            {
-                name: "carName",
-                title: "<spring:message code='Tozin.carName'/>",
-                align: "center"
-            },
-            {
-                name: "containerId",
-                title: "<spring:message code='Tozin.containerId'/>",
-                align: "center"
-            },
-            {
-                name: "containerNo1",
-                title: "<spring:message code='Tozin.containerNo1'/>",
-                align: "center"
-            },
-            {
-                name: "containerNo3",
-                title: "<spring:message code='Tozin.containerNo3'/>",
-                align: "center"
-            },
-            {
-                name: "containerName",
-                title: "<spring:message code='Tozin.containerName'/>",
-                align: "center"
-            },
-            {
-                name: "vazn1",
-                title: "<spring:message code='Tozin.vazn1'/>",
-                align: "center"
-            },
-            {
-                name: "vazn2",
-                title: "<spring:message code='Tozin.vazn2'/>",
-                align: "center"
-            },
-            {
-                name: "condition",
-                title: "<spring:message code='Tozin.condition'/>",
-                align: "center"
-            },
-            {
-                name: "vazn",
-                title: "<spring:message code='Tozin.vazn'/>",
-                align: "center"
-            },
-            {
-                name: "tedad",
-                title: "<spring:message code='Tozin.tedad'/>",
-                align: "center"
-            },
-            {
-                name: "unitKala",
-                title: "<spring:message code='Tozin.unitKala'/>",
-                align: "center"
-            },
-            {
-                name: "packName",
-                title: "<spring:message code='Tozin.packName'/>",
-                align: "center"
-            },
-            {
-                name: "haveCode",
-                title: "<spring:message code='Tozin.haveCode'/>",
-                align: "center"
-            },
-            {
-                name: "date",
-                title: "<spring:message code='Tozin.date'/>",
-                align: "center"
-            },
-            {
-                name: "tozinDate",
-                title: "<spring:message code='Tozin.tozinDate'/>",
-                align: "center"
-            },
-            {
-                name: "tozinTime",
-                title: "<spring:message code='Tozin.tozinTime'/>",
-                align: "center"
-            },
-            {
-                name: "sourceId",
-                title: "<spring:message code='Tozin.sourceId'/>",
-                align: "center"
-            },
-            {
-                name: "targetId",
-                title: "<spring:message code='Tozin.targetId'/>",
-                align: "center"
-            },
-            {
-                name: "havalehName",
-                title: "<spring:message code='Tozin.havalehName'/>",
-                align: "center"
-            },
-            {
-                name: "havalehFrom",
-                title: "<spring:message code='Tozin.havalehFrom'/>",
-                align: "center"
-            },
-            {
-                name: "havalehTo",
-                title: "<spring:message code='Tozin.havalehTo'/>",
-                align: "center"
-            },
-            {
-                name: "havalehDate",
-                title: "<spring:message code='Tozin.havalehDate'/>",
-                align: "center"
-            },
-            {
-                name: "carNo1",
-                title: "<spring:message code='Tozin.carNo1'/>",
-                align: "center"
-            },
-            {
-                name: "carNo3",
-                title: "<spring:message code='Tozin.carNo3'/>",
-                align: "center"
-            },
-            {
-                name: "isFinal",
-                title: "<spring:message code='Tozin.isFinal'/>",
-                align: "center"
-            },
-            {
-                name: "ctrlDescOut",
-                title: "<spring:message code='Tozin.isFinal'/>",
-                align: "center"
-            },
-            {
-                name: "tznSharh2",
-                title: "<spring:message code='Tozin.isFinal'/>",
-                align: "center"
-            }, {
-                name: "strSharh2",
-                title: "<spring:message code='Tozin.isFinal'/>",
-                align: "center"
-            }, {
-                name: "tznSharh1",
-                title: "<spring:message code='Tozin.isFinal'/>",
-                align: "center"
-            }
-        ],
-        fetchDataURL: "${contextPath}/api/tozin/on-way-product/spec-list"
+        fields: tozinFields,
+        fetchDataURL: "${contextPath}/api/on-way-product/spec-list"
     });
+
+    const restDataSource_Tozin_Lite = {
+        fields: tozinLiteFields,
+        fetchDataURL: "${contextPath}/api/tozin/lite/spec-list"
+    };
+
 
     const RestDataSource_MaterialItem_IN_ONWAYPRODUCT = isc.MyRestDataSource.create({
         fields: [
@@ -221,6 +296,7 @@
     const DynamicForm_DailyReport_OnWayProduct = isc.DynamicForm.create({
         wrapItemTitles: false,
         target: "_Blank",
+        visibility: "hidden",
         numCols: 4,
         fields: [{
             name: "fromDay",
@@ -246,6 +322,7 @@
         action: "report/printDailyReportBandarAbbas",
         target: "_Blank",
         titleWidth: "200",
+        visibility: "hidden",
         numCols: 4,
         fields: [{
             name: "toDay",
@@ -268,6 +345,7 @@
 
     const DynamicForm_DailyReport_Tozin2 = isc.DynamicForm.create({
         wrapItemTitles: false,
+        visibility: "hidden",
         target: "_Blank",
         titleWidth: "200",
         numCols: 4,
@@ -298,6 +376,7 @@
         wrapItemTitles: false,
         target: "_Blank",
         numCols: 4,
+        visibility: "hidden",
         fields: [{
             name: "type",
             title: "<spring:message code='dailyWarehouse.plant'/>",
@@ -314,6 +393,7 @@
     const DynamicForm_DailyReport_Tozin4 = isc.DynamicForm.create({
         wrapItemTitles: false,
         target: "_Blank",
+        visibility: "hidden",
         titleWidth: "200",
         numCols: 4,
         fields: [{
@@ -338,16 +418,18 @@
                 if (record.codeKala == 9 || record.codeKala == 10 || record.codeKala == 11 ||
                     record.codeKala == 114 || record.codeKala == 129 || record.codeKala == 86 ||
                     record.codeKala == 90 || record.codeKala == 95) {
+
+
                     OnWayProductViewLoader.setViewURL("tozin/showWarehouseCadForm");
                     Window_BijackOnWayProduct.show();
-                }
-                if (record.codeKala == 97 || record.codeKala == 100) {
+                } else if (record.codeKala == 97 || record.codeKala == 100) {
                     OnWayProductViewLoader.setViewURL("tozin/showWarehouseMoForm");
                     Window_BijackOnWayProduct.show();
-                }
-                if (record.codeKala == 8) {
+                } else if (record.codeKala == 8) {
                     OnWayProductViewLoader.setViewURL("tozin/showWarehouseConcForm");
                     Window_BijackOnWayProduct.show();
+                } else {
+                    isc.Dialog.create({message: "به توزین درخواستی نمی‌شه بیجک زد"})
                 }
             }
         }]
@@ -363,6 +445,7 @@
 
     const Window_BijackOnWayProduct = isc.Window.create({
         title: "<spring:message code='bijack'/> ",
+        ID: "Window_BijackOnWayProduct",
         width: 830,
         height: 630,
         autoSize: true,
@@ -510,92 +593,7 @@
         title: "<spring:message code='global.search'/>",
         icon: "icon/search.png",
         click: function () {
-            let criteria;
-            if (DynamicForm_DailyReport_Tozin4.getValues().type == 'جاده ای') {
-                criteria = {
-                    _constructor: "AdvancedCriteria",
-                    operator: "and",
-                    criteria: [
-                        {
-                            fieldName: "tozinDate",
-                            operator: "greaterOrEqual",
-                            value: DynamicForm_DailyReport_OnWayProduct.getValues().fromDay
-                        },
-                        {
-                            fieldName: "tozinDate",
-                            operator: "lessOrEqual",
-                            value: DynamicForm_DailyReport_Tozin1.getValues().toDay
-                        },
-                        {
-                            fieldName: "codeKala",
-                            operator: "equals",
-                            value: DynamicForm_DailyReport_Tozin2.getValues().materialId
-                        },
-                        {
-                            fieldName: "tozinId",
-                            operator: "contains",
-                            value: DynamicForm_DailyReport_Tozin3.getValues().type
-                        },
-                        {
-                            fieldName: "target",
-                            "operator": "iContains",
-                            "value": "رجا"
-                        },
-                        {
-                            fieldName: "carName",
-                            operator: "notContains",
-                            value: 'انتينر'
-                        }
-                    ]
-                };
-            }
-
-            if (DynamicForm_DailyReport_Tozin4.getValues().type == 'ریلی') {
-                criteria = {
-                    _constructor: "AdvancedCriteria",
-                    operator: "and",
-                    criteria: [
-                        {
-                            fieldName: "tozinDate",
-                            operator: "greaterOrEqual",
-                            value: DynamicForm_DailyReport_OnWayProduct.getValues().fromDay
-                        },
-                        {
-                            fieldName: "tozinDate",
-                            operator: "lessOrEqual",
-                            value: DynamicForm_DailyReport_Tozin1.getValues().toDay
-                        },
-                        {
-                            fieldName: "codeKala",
-                            operator: "equals",
-                            value: DynamicForm_DailyReport_Tozin2.getValues().materialId
-                        },
-                        {
-                            fieldName: "tozinId",
-                            operator: "contains",
-                            value: DynamicForm_DailyReport_Tozin3.getValues().type
-                        },
-                        {
-                            fieldName: "target",
-                            "operator": "iContains",
-                            "value": "رجا"
-                        },
-                        {
-                            fieldName: "carName",
-                            operator: "contains",
-                            value: 'انتينر'
-                        }
-                    ]
-                };
-            }
-// ListGrid_Tozin_IN_ONWAYPRODUCT.setCriteria(criteria);
-// ListGrid_Tozin_IN_ONWAYPRODUCT_refresh();
-            RestDataSource_Tozin_IN_ONWAYPRODUCT.fetchData(criteria, function (data, raw_data) {
-                    console.log('fetched data ', arguments)
-                    ListGrid_Tozin_IN_ONWAYPRODUCT.setData(raw_data)
-                }
-            )
-// ListGrid_Tozin_IN_ONWAYPRODUCT.fetchData()
+            ListGrid_Tozin_IN_ONWAYPRODUCT.fetchData(ListGrid_Tozin_IN_ONWAYPRODUCT.getFilterEditorCriteria())
         }
     });
 
@@ -612,17 +610,21 @@
         membersMargin: 10,
         align: "center",
         members: [
-            DynamicForm_DailyReport_OnWayProduct,
-            DynamicForm_DailyReport_Tozin1,
-            DynamicForm_DailyReport_Tozin2,
-            DynamicForm_DailyReport_Tozin3,
-            DynamicForm_DailyReport_Tozin4,
             HLayout_onWayProduct_searchBtn,
             isc.ToolStrip.create({
                 width: "100%",
                 align: "left",
                 border: '0px',
                 members: [
+                    isc.ToolStripButtonRefresh.create({
+                        title: "<spring:message code='global.form.refresh'/> پارامترها",
+                        click: function () {
+                            SalesBaseParameters.getAllParameters(true).then(
+                                res => {
+                                }
+                            );
+                        }
+                    }),
                     ToolStripButton_Tozin_Refresh, ToolStripButton_Tozin_Report, Jasper_Pdf
                 ]
             })
@@ -639,135 +641,24 @@
                 ToolStrip_Actions_Tozin
             ]
     });
-
-    const RestDataSource_TozinInitialCriteria = {
-        _constructor: "AdvancedCriteria",
-        operator: "and",
-        criteria: [
-            {
-                fieldName: "tozinDate",
-                operator: "greaterOrEqual",
-                value: DynamicForm_DailyReport_OnWayProduct.getValues().fromDay
-            },
-            {
-                fieldName: "tozinDate",
-                operator: "lessOrEqual",
-                value: DynamicForm_DailyReport_Tozin1.getValues().toDay
-            },
-            {
-                fieldName: "codeKala",
-                operator: "equals",
-                value: DynamicForm_DailyReport_Tozin2.getValues().materialId
-            },
-            {
-                fieldName: "tozinId",
-                operator: "contains",
-                value: DynamicForm_DailyReport_Tozin3.getValues().type
-            },
-            {
-                fieldName: "target",
-                operator: "iContains",
-                value: "رجا"
-            },
-            {
-                fieldName: "carName",
-                operator: "contains",
-                value: 'انتينر'
-            }
-        ]
-    };
-
     const ListGrid_Tozin_IN_ONWAYPRODUCT = isc.ListGrid.create({
+        ID: "ListGrid_Tozin_IN_ONWAYPRODUCT",
         alternateRecordStyles: true,
         width: "100%",
         height: "100%",
         showRowNumbers: true,
         showFilterEditor: true,
         allowAdvancedCriteria: true,
-        filterLocalData: true,
+        filterOnKeypress: false,
+        sortField: 'date',
+        // filterLocalData: true,
         autoFitMaxRecords: 10,
-        dataSource: RestDataSource_Tozin_IN_ONWAYPRODUCT,
-        initialCriteria: RestDataSource_TozinInitialCriteria,
+        dataSource: isc.MyRestDataSource.create(restDataSource_Tozin_Lite),
+        // initialCriteria: RestDataSource_TozinInitialCriteria,
         contextMenu: Menu_ListGrid_OnWayProduct,
         autoFetchData: false,
         useClientFiltering: false,
-        fields: [
-            {
-                name: "plak",
-                title: "<spring:message code='Tozin.plak.container'/>",
-                align: "center",
-                showHover: true,
-                width: "10%"
-            },
-            {
-                name: "containerId",
-                title: "<spring:message code='Tozin.containerId'/>",
-                align: "center",
-                showHover: true,
-                width: "10%"
-            },
-            {
-                name: "vazn",
-                title: "<spring:message code='Tozin.vazn'/>",
-                align: "center",
-                showHover: true,
-                width: "10%"
-            },
-            {
-                name: "tedad",
-                title: "<spring:message code='Tozin.tedad'/>",
-                align: "center",
-                showHover: true,
-                width: "10%"
-            },
-            {
-                name: "nameKala",
-                title: "<spring:message code='Tozin.nameKala'/>",
-                align: "center",
-                showHover: true,
-                width: "10%"
-            },
-            {
-                name: "source",
-                title: "<spring:message code='Tozin.source'/>",
-                align: "center",
-                showHover: true,
-                width: "10%"
-            },
-            {
-                name: "target",
-                title: "<spring:message code='Tozin.target'/>",
-                align: "center",
-                showHover: true,
-                width: "10%"
-            },
-            {
-                name: "haveCode",
-                title: "<spring:message code='Tozin.haveCode'/>",
-                align: "center",
-                showHover: true,
-                width: "10%"
-            },
-            {
-                name: "packName",
-                title: "<spring:message code='Tozin.packName'/>",
-                align: "center",
-                showHover: true,
-                width: "10%"
-            },
-            {
-                name: "tozinId",
-                showHover: true,
-                width: "10%",
-                title: "<spring:message code='Tozin.tozinPlantId'/>"
-            },
-            {
-                name: "tozinDate",
-                showHover: true,
-                width: "10%",
-                title: "<spring:message code='Tozin.tozinDate'/>"
-            }
-        ]
+        fields: tozinLiteFields
     });
 
     const VLayout_Tozin_Grid = isc.VLayout.create({
@@ -777,13 +668,20 @@
             ListGrid_Tozin_IN_ONWAYPRODUCT
         ]
     });
-    isc.VLayout.create({
-        width: "100%",
-        height: "100%",
-        members: [
-            HLayout_Tozin_Actions, VLayout_Tozin_Grid
-        ]
-    });
+    mainTabSet.getTab(mainTabSet.selectedTab).setPane(
+        isc.VLayout.create({
+            width: "100%",
+            height: "100%",
+            members: [
+                HLayout_Tozin_Actions, VLayout_Tozin_Grid
+            ]
+        }));
 
-})()
+}
+
+SalesBaseParameters.getAllParameters().then(
+    valueMapsPromise => {
+        mainOnWayProduct(valueMapsPromise)
+    }
+)
 //</script>
