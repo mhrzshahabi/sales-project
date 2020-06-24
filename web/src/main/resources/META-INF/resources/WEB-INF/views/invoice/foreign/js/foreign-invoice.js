@@ -143,10 +143,6 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
                 value: selectedRecord.materialId
             });
             materialItemIdField.enable();
-
-            let buyer = selectedRecord.contractContacts.filter(q => q.contact.buyer).first().contact;
-            form.setValue("buyerId", buyer.id);
-            form.setValue("buyer.nameEN", buyer.nameEN);
         }
     },
     {
@@ -186,7 +182,11 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
             ],
             fetchDataURL: foreignInvoiceTab.variable.currencyUrl + "spec-list"
         }),
-        title: "<spring:message code='foreign-invoice.form.currency'/>"
+        title: "<spring:message code='foreign-invoice.form.currency'/>",
+        changed: function (form, item, value) {
+
+            form.setValue("toCurrencyId", null);
+        }
     },
     {
         colSpan: 6,
@@ -203,7 +203,25 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
             ],
             fetchDataURL: foreignInvoiceTab.variable.currencyUrl + "spec-list"
         }),
-        title: "<spring:message code='foreign-invoice.form.to.currency'/>"
+        title: "<spring:message code='foreign-invoice.form.to.currency'/>",
+        changed: function (form, item, value) {
+
+            if (!value || !form.getValue("currencyId")) return;
+            if (form.getValue("currencyId") === form.getValue("toCurrencyId")) {
+
+                form.setValue("toCurrencyId", null);
+                form.setValue("conversionRefId", null);
+            }
+            console.log("123", form.getField("conversionRefId").pickList)
+            form.getField("conversionRefId").pickList.setFilterEditorCriteria({
+                operator: "and",
+                criteria: [
+                    {fieldName: "date", operator: "iContains", value: form.getValue("date")},
+                    {fieldName: "from", operator: "iContains", value: form.getValue("currencyId")},
+                    {fieldName: "to", operator: "iContains", value: form.getValue("toCurrencyId")}
+                ]
+            });
+        }
     },
     {
         colSpan: 6,
@@ -226,23 +244,35 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
     {
         colSpan: 6,
         readonly: true,
+        width: "100%",
         type: "integer",
         name: "conversionRefId",
         editorType: "SelectItem",
-        width: "100%",
         valueField: "id",
         displayField: "reference",
+        pickListWidth: 370,
+        pickListHeight: 300,
+        pickListProperties: {
+            showFilterEditor: true
+        },
+        pickListFields: [
+            {name: "id", primaryKey: true, hidden: true, title: "<spring:message code='global.id'/>"},
+            {name: "reference", title: "<spring:message code='foreign-invoice.form.conversion-ref'/>"},
+            {name: "date", title: "<spring:message code='global.date'/>"},
+            {name: "from", title: "<spring:message code='global.from'/>"},
+            {name: "to", title: "<spring:message code='global.to'/>"},
+        ],
         optionDataSource: isc.MyRestDataSource.create({
             fields: [
                 {name: "id", primaryKey: true, hidden: true, title: "<spring:message code='global.id'/>"},
-                {name: "date", title: "<spring:message code='global.date'/>"},
                 {name: "reference", title: "<spring:message code='foreign-invoice.form.conversion-ref'/>"},
+                {name: "date", title: "<spring:message code='global.date'/>"},
                 {name: "from", title: "<spring:message code='global.from'/>"},
                 {name: "to", title: "<spring:message code='global.to'/>"},
             ],
             fetchDataURL: foreignInvoiceTab.variable.conversionRefUrl + "spec-list"
         }),
-        title: "<spring:message code='foreign-invoice.form.conversion-ref'/>",
+        title: "<spring:message code='foreign-invoice.form.conversion-ref'/>"
     }
 ]);
 
