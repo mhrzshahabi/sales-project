@@ -750,9 +750,18 @@ RestDataSource_CathodList.fetchData(criteria_cathod,
 DynamicForm_warehouseCAD.clearValues();
 
 DynamicForm_warehouseCAD.setValue("materialItemId", ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().nameKala);
-DynamicForm_warehouseCAD.setValue("plant", ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().source);
+SalesBaseParameters.getWarehouseParameter().then(
+    p => {
+        const source = p.find(pp => {
+            return pp.id === ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord()['sourceId']
+        })
+        console.log(source, 'source')
+        DynamicForm_warehouseCAD.setValue("plant", source['name']);
+
+    }
+);
 DynamicForm_warehouseCAD.setValue("warehouseNo", "BandarAbbas");
-DynamicForm_warehouseCAD.setValue("movementType", DynamicForm_DailyReport_Tozin4.getValues().type);
+DynamicForm_warehouseCAD.setValue("movementType", isNaN(ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord()['containerNo3']) ? 'جاده‌ای' : 'ریلی');
 DynamicForm_warehouseCAD.setValue("sourceTozinPlantId", ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().tozinId);
 DynamicForm_warehouseCAD.setValue("sourceLoadDate", ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().tozinDate);
 DynamicForm_warehouseCAD.setValue("containerNo", ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().containerId);

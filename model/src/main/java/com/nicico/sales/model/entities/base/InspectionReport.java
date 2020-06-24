@@ -91,4 +91,6 @@ public class InspectionReport extends BaseEntity {
     @Column(name = "F_CURRENCY_ID", nullable = false)
     private Long currencyId;
 
+    //  private List<BillLading billLadings;
+
 }

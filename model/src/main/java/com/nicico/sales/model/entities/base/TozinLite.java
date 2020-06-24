@@ -15,12 +15,8 @@ import javax.persistence.Id;
 @AllArgsConstructor
 @Entity
 @Immutable
-@Subselect("select * from n_master.V_TOZINE_CONTENT_M2")
+@Subselect("select * from n_master.V_TOZINE_CONTENT_M3")
 public class TozinLite {
-    @Column(name = "CARNO1")
-    private String carNo1;
-    @Column(name = "CARNO3")
-    private String carNo3;
     @Column(name = "PLAK")
     private String plak;
     @Column(name = "CONTENER_NO1")
@@ -32,12 +28,8 @@ public class TozinLite {
     private String tozinId;
     @Column(name = "WAZN")
     private Long vazn;
-    @Column(name = "TEDAD")
-    private Long tedad;
-    @Column(name = "UNIT_KALA")
-    private Long unitKala;
     @Column(name = "HAVCODE")
-    private Long havalehCode;
+    private String havalehCode;
     @Column(name = "DAT")
     private Long date;
     @Column(name = "GDSCODE")

@@ -7,6 +7,8 @@ import com.nicico.sales.dto.MaterialItemDTO;
 import java.util.List;
 
 public interface IMaterialItemService {
+    void updateFromTozinView();
+
 
     MaterialItemDTO.Info get(Long id);
 
