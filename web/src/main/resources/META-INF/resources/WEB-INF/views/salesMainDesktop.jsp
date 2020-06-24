@@ -61,7 +61,7 @@
 <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
 
 <script type="application/javascript">
-
+    persianDate.localType = 'en';
     isc.SimpleType.create({
         name: "persianDate",
         inheritsFrom: "text",
@@ -939,6 +939,14 @@
 
                 },
                 {isSeparator: true},
+
+                {
+                    title: "<spring:message code='molybdenum.title'/>",
+                    click: function () {
+                        createTab("<spring:message code='molybdenum.title'/>", "<spring:url value="/warehouseLot/showForm" />")
+                    }
+                },
+                {isSeparator: true},
                 {
                     title: "<spring:message code='bijack'/>",
                     click: function () {
@@ -953,12 +961,12 @@
                     }
                 },
                 {isSeparator: true},
-                {
-                    title: "<spring:message code='warehouseStock'/>",
-                    click: function () {
-                        createTab("باقر<spring:message code='warehouseStock'/>", "<spring:url value="/remittance/showForm" />")
-                    }
-                }
+                <%--{   visibility:"hidden",--%>
+                <%--    title: "بیجک ورودی خروجی",--%>
+                <%--    click: function () {--%>
+                <%--        createTab("بیجک ورودی خروجی", "<spring:url value="/remittance/showForm" />")--%>
+                <%--    }--%>
+                <%--},--%>
             ]
         })
     });

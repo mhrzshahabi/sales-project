@@ -5,50 +5,10 @@
 //<spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
 
 (function () {
-    const onWayProductValueMaps = {
-        goods: [],
-        warehouse: [],
-        unit: []
-    }
 
-    function setOnWayProductValueMaps(key, value) {
-        onWayProductValueMaps[key] = value;
-        // console.log(onWayProductValueMaps)
-        let allOnWayProductValueMapsAreReady = true;
-        Object.values(onWayProductValueMaps).forEach(v => {
-            if (v.length === 0) {
-                allOnWayProductValueMapsAreReady = false
-            }
-        })
-        if (allOnWayProductValueMapsAreReady) loadOnWayProduct()
-    }
+    SalesBaseParameters.getAllParameters().then(all => loadOnWayProduct(all))
 
-    const fieldsAllOnWayProductValueMaps = ['goods', 'warehouse', 'unit']
-    fieldsAllOnWayProductValueMaps.forEach(value => {
-        SalesBaseParameters.getParameter(value).then(
-            js => {
-                const theName = value.toLowerCase() !== "unit" ? "name" : "nameFA";
-                // console.log(value, theName);
-                setOnWayProductValueMaps(value, js.getValueMap("id", theName));
-            }
-        )
-
-
-        return;
-        fetch(SalesConfigs.Urls.RootUrl + "/api/" + value + "/list", {headers: SalesConfigs.httpHeaders})
-            .then(
-                response => response.json()
-                    .then(
-                        js => {
-                            const theName = value.toLowerCase() !== "unit" ? "name" : "nameFA";
-                            // console.log(value, theName);
-                            setOnWayProductValueMaps(value, js.getValueMap("id", theName));
-                        }
-                    )
-            )
-    })
-
-    function loadOnWayProduct() {
+    function loadOnWayProduct(paramaters) {
         function ListGrid_Tozin_IN_ONWAYPRODUCT_refresh() {
             ListGrid_Tozin_IN_ONWAYPRODUCT.invalidateCache();
         }
@@ -73,8 +33,8 @@
                 {
                     name: "codeKala",
                     type: "number",
-                    valueMap: onWayProductValueMaps.goods,
-                    filterEditorValueMap: onWayProductValueMaps.goods,
+                    // valueMap: onWayProductValueMaps.goods,
+                    // filterEditorValueMap: onWayProductValueMaps.goods,
                     title: "<spring:message code='Tozin.codeKala'/>",
                     align: "center"
                 },
@@ -146,8 +106,8 @@
                 {
                     name: "unitKala",
                     type: "number",
-                    valueMap: onWayProductValueMaps.unit,
-                    filterEditorValueMap: onWayProductValueMaps.unit,
+                    // valueMap: onWayProductValueMaps.unit,
+                    // filterEditorValueMap: onWayProductValueMaps.unit,
                     title: "<spring:message code='Tozin.unitKala'/>",
                     align: "center"
                 },
@@ -187,8 +147,8 @@
                     type: "number",
                     title: "<spring:message code='Tozin.targetId'/>",
                     align: "center",
-                    valueMap: onWayProductValueMaps.warehouse,
-                    filterEditorValueMap: onWayProductValueMaps.warehouse
+                    // valueMap: onWayProductValueMaps.warehouse,
+                    // filterEditorValueMap: onWayProductValueMaps.warehouse
 
                 },
                 {
@@ -259,6 +219,7 @@
                 {
                     name: "gdsCode",
                     title: "<spring:message code='goods.code'/> "
+
                 },
                 {
                     name: "gdsName"
@@ -443,14 +404,7 @@
             click: function () {
                 SalesBaseParameters.getAllParameters(true).then(
                     res => {
-                        console.log('ToolStripButton_Parameters_Refresh', res);
-                        onWayProductValueMaps['goods'] = res['goods'];
-                        onWayProductValueMaps['unit'] = res['unit'];
-                        onWayProductValueMaps['warehouse'] = res['warehouse'];
-                        ListGrid_Tozin_IN_ONWAYPRODUCT.setFieldValueMap('sourceId', res['warehouse'])
-                        ListGrid_Tozin_IN_ONWAYPRODUCT.setFieldValueMap('targetId', res['warehouse'])
-                        ListGrid_Tozin_IN_ONWAYPRODUCT.setFieldValueMap('codeKala', res['goods'])
-                        ListGrid_Tozin_IN_ONWAYPRODUCT.setFieldValueMap('unitKala', res['unit'])
+
                     }
                 );
             }
@@ -742,8 +696,8 @@
                 {
                     name: "codeKala",
                     type: "number",
-                    valueMap: onWayProductValueMaps.goods,
-                    filterEditorValueMap: onWayProductValueMaps.goods,
+                    valueMap: paramaters.materialItem.getValueMap('id', 'name'),
+                    // filterEditorValueMap: onWayProductValueMaps.goods,
                     title: "<spring:message code='Tozin.nameKala'/>",
                     align: "center",
                     showHover: true,
@@ -756,10 +710,10 @@
                     title: "<spring:message code='Tozin.source'/>",
                     align: "center",
                     showHover: true,
-                    valueMap: onWayProductValueMaps.warehouse,
-                    filterEditorValueMap: onWayProductValueMaps.warehouse,
+                    valueMap: paramaters.warehouse.getValueMap('id', 'name'),
+                    // filterEditorValueMap: onWayProductValueMaps.warehouse,
+                    width: "10%",
 
-                    width: "10%"
                 },
                 {
                     name: "targetId",
@@ -769,8 +723,8 @@
                     align: "center",
                     showHover: true,
                     width: "10%",
-                    valueMap: onWayProductValueMaps.warehouse,
-                    filterEditorValueMap: onWayProductValueMaps.warehouse
+                    valueMap: paramaters.warehouse.getValueMap('id', 'name'),
+                    // filterEditorValueMap: onWayProductValueMaps.warehouse
                 },
                 {
                     name: "haveCode",
@@ -782,8 +736,8 @@
                 {
                     name: "unitKala",
                     type: "number",
-                    valueMap: onWayProductValueMaps.unit,
-                    filterEditorValueMap: onWayProductValueMaps.unit,
+                    valueMap: paramaters.unit.getValueMap('id', 'nameFA'),
+                    // filterEditorValueMap: onWayProductValueMaps.unit,
                     title: "<spring:message code='Tozin.packName'/>",
                     align: "center",
                     showHover: true,

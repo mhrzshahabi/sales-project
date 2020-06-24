@@ -42,5 +42,11 @@ public class WarehouseController {
         return new ResponseEntity<>(service.list(), HttpStatus.OK);
     }
 
+    @Loggable
+    @GetMapping(value = "/list")
+    public ResponseEntity<List<Warehouse>> list() {
+        return new ResponseEntity<>(service.list(), HttpStatus.OK);
+    }
+
 
 }
