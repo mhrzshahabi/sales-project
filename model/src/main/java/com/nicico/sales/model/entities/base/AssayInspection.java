@@ -58,4 +58,10 @@ public class AssayInspection extends BaseEntity {
     @Column(name = "F_ITEM_ELEMENT_ID", nullable = false)
     private Long itemElementId;
 
+    @Column(name = "C_LAB_NAME")
+    private String LabName;
+
+    @Column(name = "C_LAB_PLACE")
+    private String LabPlace;
+
 }
