@@ -14,8 +14,17 @@ import java.util.Set;
 @Accessors(chain = true)
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
-@Table(name = "TBL_CONTACT")
+@Table(name = "TBL_CONTACT",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = {"C_PHONE " , "b_SELLER" , "b_BUYER" , "b_TRANSPORTER" , "b_SHIPPER" , "b_INSPECTOR" , "b_INSURANCER" , "b_AGENT_BUYER" , "b_AGENT_SELLER" , "COUNTRY_ID"}, name = Contact.UNIQUE_List_Person) ,
+                @UniqueConstraint(columnNames = {"C_ECONOMICAL_CODE"}, name = Contact.UNIQUE_C_ECONOMICAL_CODE) ,
+
+        })
 public class Contact extends BaseEntity {
+
+    public static final String UNIQUE_List_Person = "UNIQUE_List_Person";
+    public static final String UNIQUE_C_ECONOMICAL_CODE = "UNIQUE_C_ECONOMICAL_CODE";
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_CONTACT")
