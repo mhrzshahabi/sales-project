@@ -20,9 +20,7 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class InventoryDTO extends BaseEntity {
 
-    private MaterialItem materialItem;
     private Long materialItemId;
-    private List<RemittanceDetail> remittanceDetails;
     private String label;
 
 
@@ -31,6 +29,8 @@ public class InventoryDTO extends BaseEntity {
     @Accessors(chain = true)
     public static class Info extends InventoryDTO {
         private Long id;
+        private MaterialItemDTO.Info materialItem;
+        private List<RemittanceDetailDTO.Info> remittanceDetails;
         // Auditing
         private Date createdDate;
         private String createdBy;
