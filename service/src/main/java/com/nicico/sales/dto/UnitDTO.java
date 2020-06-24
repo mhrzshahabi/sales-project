@@ -19,6 +19,7 @@ public class UnitDTO {
 
     private String nameFA;
     private String nameEN;
+    private Integer categoryValue;
     private String symbol;
     private Long decimalDigit;
 

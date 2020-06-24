@@ -12,11 +12,6 @@
     factoryLableArticle("lableArticle2Cad", '<b><font size=4px>ARTICLE 2 -QUANTITY :</font><b>', "30",5);
     factoryLableArticle("lableArticleSelectConc", '<b><font size=4px>SELECT ITEMS</font><b>', "25",5);
 
-    var dynamicForm1Cad = isc.HLayout.create({align: "center", members: []});
-    var dynamicForm2Cad = isc.HLayout.create({align: "center", members: []});
-    var dynamicForm3Cad = isc.HLayout.create({align: "center", members: []});
-    var dynamicForm4Cad = isc.HLayout.create({align: "center", members: []});
-
     var dynamicForm_ContactCadHeader = isc.DynamicForm.create({
         valuesManager: "contactCadHeader",
         wrapItemTitles: false,
@@ -56,396 +51,6 @@
                 readonly: true,
                 width: "90%",
                 wrapTitle: false
-            }
-        ]
-    });
-
-    var Contact_ContactCadBuyer = isc.DynamicForm.create({
-        valuesManager: "contactCadHeaderCadAgent",
-        height: "20",
-        width: "50%",
-        disabled: "true",
-        wrapItemTitles: true,
-        items: [
-            {
-                name: "name_ContactBuyer",
-                type: "text",
-                length: 250,
-                showTitle: true,
-                colSpan: 2,
-                width: "*",
-                title: "NAME"
-            }
-            , {
-                name: "phone_ContactBuyer",
-                type: "text",
-                length: 100,
-                showTitle: true,
-                colSpan: 2,
-                title: "Phone",
-                width: "*"
-            }, {
-                name: "mobile_ContactBuyer",
-                type: "text",
-                length: 100,
-                showTitle: true,
-                colSpan: 2,
-                title: "Mobile",
-                width: "*"
-            },
-            {
-                name: "address_ContactBuyer",
-                type: "text",
-                length: 5000,
-                showTitle: true,
-                colSpan: 2,
-                title: "Address",
-                width: "*"
-            }
-        ]
-    })
-    dynamicForm1Cad.addMember("Contact_ContactCadBuyer", 1);
-    var Contact_ContactCadAgentBuyer = isc.DynamicForm.create({
-        valuesManager: "contactCadHeaderCadAgent",
-        height: "20",
-        width: "50%",
-        disabled: "true",
-        wrapItemTitles: true,
-        items: [
-            {
-                name: "name_ContactAgentBuyer",
-                type: "text",
-                length: 250,
-                showTitle: true,
-                colSpan: 2,
-                width: "*",
-                title: "NAME"
-            }
-            , {
-                name: "phone_ContactAgentBuyer",
-                type: "text",
-                length: 100,
-                showTitle: true,
-                colSpan: 2,
-                title: "Phone",
-                width: "*"
-            }, {
-                name: "mobile_ContactAgentBuyer",
-                type: "text",
-                length: 100,
-                showTitle: true,
-                colSpan: 2,
-                title: "Mobile",
-                width: "*"
-            },
-            {
-                name: "address_ContactAgentBuyer",
-                type: "text",
-                length: 5000,
-                showTitle: true,
-                colSpan: 2,
-                title: "Address",
-                width: "*"
-            }
-        ]
-    })
-    dynamicForm2Cad.addMember("Contact_ContactCadAgentBuyer", 2);
-    var Contact_ContactCadSeller = isc.DynamicForm.create({
-        valuesManager: "contactCadHeaderCadAgent",
-        height: "20",
-        width: "50%",
-        disabled: "true",
-        wrapItemTitles: true,
-        items: [
-            {
-                name: "name_ContactSeller",
-                type: "text",
-                length: 250,
-                showTitle: true,
-                colSpan: 2,
-                width: "*",
-                title: "NAME"
-            }
-            , {
-                name: "phone_ContactSeller",
-                type: "text",
-                length: 100,
-                showTitle: true,
-                colSpan: 2,
-                title: "Phone",
-                width: "*"
-            }, {
-                name: "mobile_ContactSeller",
-                type: "text",
-                length: 100,
-                showTitle: true,
-                colSpan: 2,
-                title: "Mobile",
-                width: "*"
-            },
-            {
-                name: "address_ContactSeller",
-                type: "text",
-                length: 5000,
-                showTitle: true,
-                colSpan: 2,
-                title: "Address",
-                width: "*"
-            }
-        ]
-    })
-    dynamicForm3Cad.addMember("Contact_ContactCadSeller", 3);
-    var Contact_ContactAgentSellerCad = isc.DynamicForm.create({
-        valuesManager: "contactCadHeaderCadAgent",
-        height: "20",
-        width: "50%",
-        disabled: "true",
-        wrapItemTitles: true,
-        items: [
-            {
-                name: "name_ContactAgentSeller",
-                type: "text",
-                length: 250,
-                showTitle: true,
-                colSpan: 2,
-                width: "*",
-                title: "NAME"
-            }
-            , {
-                name: "phone_ContactAgentSeller",
-                type: "text",
-                length: 100,
-                showTitle: true,
-                colSpan: 2,
-                title: "Phone",
-                width: "*"
-            }, {
-                name: "mobile_ContactAgentSeller",
-                type: "text",
-                length: 100,
-                showTitle: true,
-                colSpan: 2,
-                title: "Mobile",
-                width: "*"
-            },
-            {
-                name: "address_ContactAgentSeller",
-                type: "text",
-                length: 5000,
-                showTitle: true,
-                colSpan: 2,
-                title: "Address",
-                width: "*"
-            }
-        ]
-    })
-    dynamicForm4Cad.addMember("Contact_ContactAgentSellerCad", 4);
-
-    var dynamicForm_ContactCadCustomer = isc.DynamicForm.create({
-        valuesManager: "contactCadHeader",
-        width: "100%",
-        height: "100%",
-        numCols: 4,
-        wrapItemTitles: false,
-        fields: [
-            {name: "id", canEdit: false, hidden: true},
-            {
-                name: "contactId",
-                showHover: true,
-                required: true,
-                validators: [
-                {
-                    type:"required",
-                    validateOnChange: true
-                }],
-                autoFetchData: false,
-                title: "<spring:message code='contact.commercialRole.buyer'/>",
-                width: "600",
-                editorType: "SelectItem",
-                optionDataSource: RestDataSource_Contact,
-                displayField: "nameFA",
-                valueField: "id",
-                pickListWidth: "600",
-                pickListProperties: {showFilterEditor: true},
-                pickListFields: [
-                    {name: "nameFA", width: "45%", align: "center"},
-                    {name: "nameEN", width: "45%", align: "center"},
-                    {name: "code", width: "10%", align: "center", hidden: true}
-                ],
-                pickListCriteria:{_constructor:'AdvancedCriteria',operator:"and",criteria:[
-                        {fieldName: "buyer", operator: "equals", value: true}]
-                    },
-                changed: function (form, item, value) {
-                    var address = "";
-                    var name = "";
-                    var phone = "";
-                    var mobile = "";
-                    if (item.getSelectedRecord().address != undefined) {
-                        address = item.getSelectedRecord().address;
-                        Contact_ContactCadBuyer.setValue("address_ContactBuyer", address);
-                    }
-                    if (item.getSelectedRecord().nameEN != undefined) {
-                        name = item.getSelectedRecord().nameEN;
-                        Contact_ContactCadBuyer.setValue("name_ContactBuyer", name);
-                    }
-                    if (item.getSelectedRecord().phone != undefined) {
-                        phone = item.getSelectedRecord().phone;
-                        Contact_ContactCadBuyer.setValue("phone_ContactBuyer", phone);
-                    }
-                    if (item.getSelectedRecord().mobile != undefined) {
-                        mobile = item.getSelectedRecord().mobile;
-                        Contact_ContactCadBuyer.setValue("phone_ContactBuyer", phone);
-                    }
-                }
-            },
-            {
-                name: "contactByBuyerAgentId",
-                showHover: true,
-                autoFetchData: false,
-                title: "<spring:message code='contact.commercialRole.agentBuyer'/>",
-                width:"600",
-                required: false,
-                editorType: "SelectItem",
-                optionDataSource: RestDataSource_Contact,
-                displayField: "nameFA",
-                valueField: "id",
-                pickListWidth: "600",
-                pickListProperties: {showFilterEditor: true},
-                pickListFields: [
-                    {name: "nameFA", width: "45%", align: "center"},
-                    {name: "nameEN", width: "45%", align: "center"},
-                    {name: "code", width: "10%", align: "center", hidden: true}
-                ],
-                pickListCriteria:{_constructor:'AdvancedCriteria',operator:"and",criteria:[
-                        {fieldName: "agentBuyer", operator: "equals", value: true}]
-                    },
-                changed: function (form, item, value) {
-                    var address = "";
-                    var name = "";
-                    var phone = "";
-                    var mobile = "";
-                    if (item.getSelectedRecord().address != undefined) {
-                        address = item.getSelectedRecord().address;
-                        Contact_ContactCadAgentBuyer.setValue("address_ContactAgentBuyer", address);
-                    }
-                    if (item.getSelectedRecord().nameEN != undefined) {
-                        name = item.getSelectedRecord().nameEN;
-                        Contact_ContactCadAgentBuyer.setValue("name_ContactAgentBuyer", name);
-                    }
-                    if (item.getSelectedRecord().phone != undefined) {
-                        phone = item.getSelectedRecord().phone;
-                        Contact_ContactCadAgentBuyer.setValue("phone_ContactAgentBuyer", phone);
-                    }
-                    if (item.getSelectedRecord().mobile != undefined) {
-                        mobile = item.getSelectedRecord().mobile;
-                        Contact_ContactCadAgentBuyer.setValue("mobile_ContactAgentBuyer", mobile);
-                    }
-                }
-            }
-        ]
-    });
-
-    var DynamicForm_ContactSeller = isc.DynamicForm.create({
-        valuesManager: "contactCadHeader",
-        width: "100%",
-        height: "100%",
-        numCols: 4,
-        fields: [
-            {name: "id", canEdit: false, hidden: true},
-            {
-                name: "contactBySellerId",
-                numCols: 2,
-                showHover: true,
-                autoFetchData: false,
-                title: "<spring:message code='contact.commercialRole.seller'/>",
-                width: "600",
-                required: true,
-                validators: [
-                {
-                    type:"required",
-                    validateOnChange: true
-                }],
-                editorType: "SelectItem",
-                optionDataSource: RestDataSource_Contact,
-                displayField: "nameFA",
-                valueField: "id",
-                pickListWidth: "600",
-                pickListProperties: {showFilterEditor: true},
-                pickListFields: [
-                    {name: "nameFA", width: "45%", align: "center"},
-                    {name: "nameEN", width: "45%", align: "center"},
-                    {name: "code", width: "10%", align: "center", hidden: true}
-                ],
-                pickListCriteria:{_constructor:'AdvancedCriteria',operator:"and",criteria:[
-                        {fieldName: "seller", operator: "equals", value: true}]
-                    },
-                changed: function (form, item, value) {
-                    var address = "";
-                    var name = "";
-                    var phone = "";
-                    var mobile = "";
-                    if (item.getSelectedRecord().address != undefined) {
-                        address = item.getSelectedRecord().address;
-                        Contact_ContactCadSeller.setValue("address_ContactSeller", address);
-                    }
-                    if (item.getSelectedRecord().nameEN != undefined) {
-                        name = item.getSelectedRecord().nameEN;
-                        Contact_ContactCadSeller.setValue("name_ContactSeller", name);
-                    }
-                    if (item.getSelectedRecord().phone != undefined) {
-                        phone = item.getSelectedRecord().phone;
-                        Contact_ContactCadSeller.setValue("phone_ContactSeller", phone);
-                    }
-                    if (item.getSelectedRecord().mobile != undefined) {
-                        mobile = item.getSelectedRecord().mobile;
-                        Contact_ContactCadSeller.setValue("mobile_ContactSeller", mobile);
-                    }
-                }
-            },
-            {
-                name: "contactBySellerAgentId",
-                numCols: 2,
-                showHover: true,
-                autoFetchData: false,
-                title: "<spring:message code='contact.commercialRole.agentSeller'/>",
-                width: "600",
-                required: false,
-                editorType: "SelectItem",
-                optionDataSource: RestDataSource_Contact,
-                displayField: "nameFA",
-                valueField: "id",
-                pickListWidth: "600",
-                pickListProperties: {showFilterEditor: true},
-                pickListFields: [
-                    {name: "nameFA", width: "45%", align: "center"},
-                    {name: "nameEN", width: "45%", align: "center"},
-                    {name: "code", width: "10%", align: "center", hidden: true}
-                ],
-                pickListCriteria:{_constructor:'AdvancedCriteria',operator:"and",criteria:[
-                        {fieldName: "agentSeller", operator: "equals", value: true}]
-                    },
-                changed: function (form, item, value) {
-                    var address = "";
-                    var name = "";
-                    var phone = "";
-                    var mobile = "";
-                    if (item.getSelectedRecord().address != undefined) {
-                        address = item.getSelectedRecord().address;
-                        Contact_ContactAgentSellerCad.setValue("address_ContactAgentSeller", address);
-                    }
-                    if (item.getSelectedRecord().nameEN != undefined) {
-                        name = item.getSelectedRecord().nameEN;
-                        Contact_ContactAgentSellerCad.setValue("name_ContactAgentSeller", name);
-                    }
-                    if (item.getSelectedRecord().phone != undefined) {
-                        phone = item.getSelectedRecord().phone;
-                        Contact_ContactAgentSellerCad.setValue("phone_ContactAgentSeller", phone);
-                    }
-                    if (item.getSelectedRecord().mobile != undefined) {
-                        mobile = item.getSelectedRecord().mobile;
-                        Contact_ContactAgentSellerCad.setValue("mobile_ContactAgentSeller", mobile);
-                    }
-                }
             }
         ]
     });
@@ -531,34 +136,7 @@ var vlayoutBodyCad = isc.VLayout.create({
         members: [
             isc.HLayout.create({align: "top", members: [dynamicForm_ContactCadHeader]}),
             isc.HLayout.create({height: "50", align: "left", members: [lableNameContactCad]}),
-           /* isc.HLayout.create({height: "50", align: "left", members: [
-                isc.DynamicForm.create({ID:"dynamicFormCath",items:[{type: "text",name:"materialId",
-                    title: "PLEASE SELECT MATERIAL",align: "left",selectOnFocus: true,wrapTitle: false,required: true,
-                    validators: [
-                    {
-                    type:"required",
-                    validateOnChange: true }],
-                    width: "400",
-                    editorType: "SelectItem",
-                    optionDataSource: RestDataSource_Material,
-                    displayField: "descl",
-                    valueField: "id",
-                    pickListWidth: "400",
-                    pickListHeight: "500",
-                    pickListProperties: {showFilterEditor: true},
-                    pickListFields: [
-                    {name: "id", title: "id", canEdit: false, hidden: true},
-                    {name: "descl", title: "<spring:message code="material.descl"/>", width: "395", align: "center"}
-                    ],
-                    pickListCriteria:{_constructor:'AdvancedCriteria',operator:"and",criteria:[
-                        {fieldName: "descl", operator: "contains", value: "Cath"}]
-                    },
-                    }]})
-            ]}),*/
-            isc.HLayout.create({align: "top", members: [dynamicForm_ContactCadCustomer]}),
-            isc.HLayout.create({ID: "dynamicForm1And2Cad", align: "center", members: [dynamicForm1Cad, dynamicForm2Cad]}),
-            isc.HLayout.create({align: "center", members: [DynamicForm_ContactSeller]}),
-            isc.HLayout.create({ID: "dynamicForm3And4Cad", align: "center", members: [dynamicForm3Cad, dynamicForm4Cad]})
+            isc.HLayout.create({height: "50", align: "left", members: [isc.ContactCadComponent.create({})]})
         ]
     });
 
@@ -569,9 +147,9 @@ var vlayoutBodyCad = isc.VLayout.create({
         wrapItemTitles: false,
         items: [
             {
+                name: "amount",
                 type: "number",
                 width: "80",
-                name: "amount",
                 defaultValue: "",
                 title: "",
                 showTitle: false,
@@ -581,9 +159,11 @@ var vlayoutBodyCad = isc.VLayout.create({
                     }
             },
             {
+                name: "amount_en",
+                title: "",
                 type: "text", styleName: "textToLable", width: "200",
-                name: "amount_en", title: "", showTitle: false, disabled: "true"
-            }, ///english,
+                showTitle: false, disabled: "true"
+            },
             {
                 name: "unitId", //article2_number12
                 title: "",
@@ -613,9 +193,9 @@ var vlayoutBodyCad = isc.VLayout.create({
                 }
             },
             {
+                name: "optional", //article2_14
                 type: "text",
                 width: "250",
-                name: "optional", //article2_14
                 startRow: false,
                 title: '<b><font size=2px>(IN</font><b>',
                 defaultValue: 0,
@@ -626,8 +206,22 @@ var vlayoutBodyCad = isc.VLayout.create({
                 },
                 changed: function (form, item, value) {
                     article5_quality.setValue("article5optional",value);
-                    dynamicForm_fullArticle02Cad.setValue(article2Cad.getValue("amount")+" "+article2Cad.getValue("amount_en")+" "+article2Cad.getItem("unitId").getDisplayValue(article2Cad.getValue("unitId"))+" "+article2Cad.getValue("cathodesTolorance")+" "+article2Cad.getItem("optional").getDisplayValue(article2Cad.getValue("optional")));
+                    dynamicForm_fullArticle02Cad.setValue(article2Cad.getValue("amount")+" "+article2Cad.getValue("amount_en")+" "+article2Cad.getItem("unitId").getDisplayValue(article2Cad.getValue("unitId"))+" "+article2Cad.getValue("cathodesTolorance")+" "+article2Cad.getItem("optional").getDisplayValue(article2Cad.getValue("optional"))+" "+article2Cad.getValue("contractStart")+" "+article2Cad.getValue("contractEnd"));
                 }
+            },
+            {
+                name: "contractStart", //article2_15
+                type: "date",
+                width: "500",
+                startRow: false,
+                title: "<spring:message code='contract.contractStart'/>",
+            },
+            {
+                name: "contractEnd",
+                title: "<spring:message code='contract.contractEnd'/>",
+                type: "date",
+                width: "500",
+                startRow: false
             }
         ]
     });
@@ -646,7 +240,7 @@ isc.VLayout.create({
         width: "100%",
         height: "100%",
         align: "top",
-        overflow: "scroll",
+        overflow: "auto",
         members: [
             LablePageCad,
             vlayoutBodyCad,

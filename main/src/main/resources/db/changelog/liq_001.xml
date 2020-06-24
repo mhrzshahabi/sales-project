@@ -2408,4 +2408,11 @@
                                  initiallyDeferred="false" referencedColumnNames="ID"
                                  referencedTableName="TBL_SHIPMENT_MOISTURE_HEADER" validate="true"/>
     </changeSet>
+
+    <changeSet author="j.azad" id="1578893517121-182">
+        <addColumn tableName="TBL_MATERIAL">
+            <column name="C_ABBREVIATION" type="varchar2(255 CHAR)"/>
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>

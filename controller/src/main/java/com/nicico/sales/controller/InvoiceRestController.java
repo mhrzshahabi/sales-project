@@ -6,7 +6,6 @@ import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.copper.core.util.report.ReportUtil;
 import com.nicico.sales.dto.InvoiceDTO;
-import com.nicico.sales.iservice.IInvoiceMolybdenumService;
 import com.nicico.sales.iservice.IInvoiceService;
 import com.nicico.sales.iservice.IShipmentService;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +32,6 @@ public class InvoiceRestController {
 
     private final IInvoiceService invoiceService;
     private final IShipmentService shipmentService;
-    private final IInvoiceMolybdenumService invoiceMolybdenumService;
     private final ReportUtil reportUtil;
 
     @Loggable
@@ -66,13 +64,6 @@ public class InvoiceRestController {
     @PutMapping
     public ResponseEntity<InvoiceDTO.Info> update(@RequestBody InvoiceDTO.Update request) {
         return new ResponseEntity<>(invoiceService.update(request.getId(), request), HttpStatus.OK);
-    }
-
-    @Loggable
-    @PutMapping(value = "/molybdenum")
-    public ResponseEntity<Void> molybdenum(@RequestBody String data) throws IOException {
-        invoiceMolybdenumService.molybdenum(data);
-        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @Loggable

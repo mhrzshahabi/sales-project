@@ -41,6 +41,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import java.io.*;
 import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.util.*;
 
@@ -262,15 +263,10 @@ public class ContractService implements IContractService {
                 tableShipment.getRow(0).getCell(7).setColor("D9D9D9");
                 tableShipment.getRow(0).getCell(8).setColor("D9D9D9");
                 for (int i = 0; i < contractShipmentDAO.findByContractId(Long.valueOf(contractId)).size(); i++) {
-                    setHeaderRowforSingleCell(tableShipment.getRow(i + 1).getCell(0), nvl(contractShipmentDAO.findByContractId(Long.valueOf(contractId)).get(i).getPlan()));
-                    setHeaderRowforSingleCell(tableShipment.getRow(i + 1).getCell(1), nvl(contractShipmentDAO.findByContractId(Long.valueOf(contractId)).get(i).getShipmentRow() + ""));
-                    setHeaderRowforSingleCell(tableShipment.getRow(i + 1).getCell(2), nvl(portDAO.findById(Long.valueOf(contractShipmentDAO.findByContractId(Long.valueOf(contractId)).get(i).getDischargeId())).get().getPort()));
-                    setHeaderRowforSingleCell(tableShipment.getRow(i + 1).getCell(3), nvl(contractShipmentDAO.findByContractId(Long.valueOf(contractId)).get(i).getAddress() + ""));
-                    setHeaderRowforSingleCell(tableShipment.getRow(i + 1).getCell(4), nvl(contractShipmentDAO.findByContractId(Long.valueOf(contractId)).get(i).getAmount() + ""));
+                    setHeaderRowforSingleCell(tableShipment.getRow(i + 1).getCell(2), nvl(portDAO.findById(Long.valueOf(contractShipmentDAO.findByContractId(Long.valueOf(contractId)).get(i).getLoadPortId())).get().getPort()));
+                    setHeaderRowforSingleCell(tableShipment.getRow(i + 1).getCell(4), nvl(contractShipmentDAO.findByContractId(Long.valueOf(contractId)).get(i).getQuantity() + ""));
                     setHeaderRowforSingleCell(tableShipment.getRow(i + 1).getCell(5), nvl(contractShipmentDAO.findByContractId(Long.valueOf(contractId)).get(i).getSendDate() + ""));
-                    setHeaderRowforSingleCell(tableShipment.getRow(i + 1).getCell(6), nvl(contractShipmentDAO.findByContractId(Long.valueOf(contractId)).get(i).getDuration() + ""));
                     setHeaderRowforSingleCell(tableShipment.getRow(i + 1).getCell(7), nvl(contractShipmentDAO.findByContractId(Long.valueOf(contractId)).get(i).getTolorance() + ""));
-                    setHeaderRowforSingleCell(tableShipment.getRow(i + 1).getCell(8), nvl(incotermsDAO.findById(contractShipmentDAO.findByContractId(Long.valueOf(contractId)).get(i).getIncotermsShipmentId()).get().getCode() + ""));
                 }
             } else {
                 myXWPFHtmlDocument = createHtmlDoc(printdoc, key);
@@ -339,7 +335,7 @@ public class ContractService implements IContractService {
                 inputstream = new FileInputStream(UPLOAD_FILE_DIR + "/contract/" + "Conc_" + contractConc + "_" + maxRef + ".doc");
             } else if (contractNo.contains("?Mo")) {
                 String contractMo = contractNo.replace("?Mo", "");
-                inputstream = new FileInputStream(UPLOAD_FILE_DIR + "/contract/" + "Cathod_MO_OX" + contractMo.substring(1, contractMo.length() - 1) + "_" + maxRef + ".doc");
+                inputstream = new FileInputStream(UPLOAD_FILE_DIR + "/contract/" + "MoOx_MO_OX" + contractMo + "_" + maxRef + ".doc");
             } else {
                 String contractCad = contractNo.replace("Cad", "");
                 inputstream = new FileInputStream(UPLOAD_FILE_DIR + "/contract/" + "Cathod_" + contractCad + "_" + maxRef + ".doc");
@@ -444,7 +440,7 @@ public class ContractService implements IContractService {
             }
             maxRef = findMax(intList);
             if (contract.getMaterial().getDescl().contains("Mo")) {
-                flag = "PrintMoOx_" + contract.getContractNo() + "_" + maxRef;
+                flag = "PrintMoOx_MO_OX" + contract.getContractNo() + "_" + maxRef;
             } else if (contract.getMaterial().getDescl().contains("Conc")) {
                 flag = "PrintConc_" + contract.getContractNo() + "_" + maxRef;
             } else if (contract.getMaterial().getDescl().contains("Cath")) {
@@ -496,6 +492,11 @@ public class ContractService implements IContractService {
         return SearchUtil.search(contractDAO, criteria, contract -> modelMapper.map(contract, ContractDTO.Info.class));
     }
 
+    @Override
+    public TotalResponse<ContractDTO.InfoForReport> report(NICICOCriteria nicicoCriteria) {
+        return SearchUtil.search(contractDAO, nicicoCriteria, contract -> modelMapper.map(contract, ContractDTO.InfoForReport.class));
+    }
+
 
     private ContractDTO.Info save(Contract contract) {
         final Contract saved = contractDAO.saveAndFlush(contract);
@@ -506,7 +507,7 @@ public class ContractService implements IContractService {
         XWPFDocument doc = new XWPFDocument(in);
         XWPFWordExtractor ex = new XWPFWordExtractor(doc);
         String textAsli = ex.getText();
-        String text = new String(textAsli);
+        String text = textAsli;
         List<String> allArticles = new ArrayList<>();
         int a, b;
         for (int i = 1; i <= 12; i++) {
@@ -725,9 +726,9 @@ public class ContractService implements IContractService {
 }
 
 
-class MyXWPFHtmlDocument extends POIXMLDocumentPart {
-    private String html;
-    private String id;
+    class MyXWPFHtmlDocument extends POIXMLDocumentPart {
+        private String html;
+        private final String id;
 
     public MyXWPFHtmlDocument(PackagePart part, String id) throws Exception {
         super(part);
@@ -751,7 +752,7 @@ class MyXWPFHtmlDocument extends POIXMLDocumentPart {
     protected void commit() throws IOException {
         PackagePart part = getPackagePart();
         OutputStream out = part.getOutputStream();
-        Writer writer = new OutputStreamWriter(out, "UTF-8");
+        Writer writer = new OutputStreamWriter(out, StandardCharsets.UTF_8);
         writer.write(html);
         writer.close();
         out.close();
@@ -759,13 +760,14 @@ class MyXWPFHtmlDocument extends POIXMLDocumentPart {
 }
 
 //the XWPFRelation for /word/htmlDoc#.html
-final class XWPFHtmlRelation extends POIXMLRelation {
+    final class XWPFHtmlRelation extends POIXMLRelation {
     public XWPFHtmlRelation() {
         super(
                 "text/html",
                 "http://schemas.openxmlformats.org/officeDocument/2006/relationships/aFChunk",
                 "/word/htmlDoc#.html");
     }
+
 
 
 }

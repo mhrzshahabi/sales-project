@@ -1,18 +1,18 @@
 package com.nicico.sales.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.nicico.sales.model.entities.base.ContractDetail;
-import com.nicico.sales.model.entities.base.ContractShipment;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -23,7 +23,7 @@ public class ContractDTO {
     private String contractNo;
     private String contractDate;
     private String isComplete;
-    private String incotermsText;
+    private Long incotermVersion;
     private String officeSource;
     private String priceCalPeriod;
     private String publishTime;
@@ -60,7 +60,12 @@ public class ContractDTO {
     private Double molybdenumTolorance;
     private String sideContractNo;
     private String sideContractDate;
-    private String plant;
+    @Temporal(TemporalType.TIMESTAMP)
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date contractStart;
+    @Temporal(TemporalType.TIMESTAMP)
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date contractEnd;
     private String timeIssuance;
     private String invoiceType;
     private Integer optional;
@@ -136,4 +141,28 @@ public class ContractDTO {
         @ApiModelProperty(required = true)
         private List<Long> ids;
     }
+
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("ContractInfo")
+    public static class InfoForReport extends ContractDTO {
+        private UnitDTO unit;
+        private MaterialDTO material;
+        private Long id;
+        private ContactDTO contact;
+        private List<ShipmentDTO.InfoWithInvoice> shipments;
+        private String year;
+
+        public String getYear() {
+            final String contractDate = this.getContractDate();
+            try {
+                System.out.printf("%s", this.id);
+                return contractDate.substring(contractDate.length() - 4);
+            } catch (Exception e) {
+                return "2020";
+            }
+        }
+    }
+
 }

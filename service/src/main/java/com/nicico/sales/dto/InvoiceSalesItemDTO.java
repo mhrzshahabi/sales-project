@@ -11,6 +11,7 @@ import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
 
+
 @Getter
 @Setter
 @Accessors(chain = true)
@@ -21,15 +22,15 @@ public class InvoiceSalesItemDTO {
     private String productCode;
     private String productName;
     private String unitName;
-    private Double netAmount;
-    private Double orderAmount;
-    private Double unitPrice;
-    private Double linePrice;
-    private Double discount;
-    private Double linePriceAfterDiscount;
-    private Double legalFees;
-    private Double vat;
-    private Double totalPrice;
+    private Long netAmount;
+    private Long orderAmount;
+    private Long unitPrice;
+    private Long linePrice;
+    private Long discount;
+    private Long linePriceAfterDiscount;
+    private Long legalFees;
+    private Long vat;
+    private Long totalPrice;
     private String notes;
     private String explain;
     private Long invoiceSalesId;

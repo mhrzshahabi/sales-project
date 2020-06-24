@@ -10,8 +10,6 @@
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
 
     var contractId;
-    var RestDataSource_ContractPerson;
-    var ListGrid_Person_EmailCC;
 
     var RestDataSource_Contact__SHIPMENT = isc.MyRestDataSource.create({
         fields:
@@ -23,7 +21,6 @@
                 {name: "commertialRole"},
                 {name: "phone", title: "<spring:message code='contact.phone'/>"},
                 {name: "mobile", title: "<spring:message code='contact.mobile'/>"},
-                {name: "email", title: "<spring:message code='contact.email'/>"},
                 {
                     name: "type", title: "<spring:message code='contact.type'/>",
                     valueMap: {
@@ -62,23 +59,62 @@
         fetchDataURL: "${contextPath}/api/port/spec-list"
     });
 
+    var RestDataSource_VesselInShipment = isc.MyRestDataSource.create({
+        fields:
+            [
+                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
+                {name: "name", title: "<spring:message code='vessel.name'/>"},
+                {name: "type", title: "<spring:message code='vessel.type'/>"},
+                {name: "imo", title: "<spring:message code='vessel.imo'/>"},
+                {name: "yearOfBuild", title: "<spring:message code='vessel.year.of.build'/>"},
+                {name: "length", title: "<spring:message code='vessel.length'/>"},
+                {name: "beam", title: "<spring:message code='vessel.beam'/>"}
+            ],
+
+        fetchDataURL: "${contextPath}/api/vessel/spec-list"
+    });
+
+    var RestDataSource_UnitInShipment = isc.MyRestDataSource.create({
+        fields:
+            [
+                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
+                {name: "nameFA", title: "<spring:message code='unit.nameFa'/>"},
+                {name: "nameEN", title: "<spring:message code='unit.nameEN'/>"},
+            ],
+        fetchDataURL: "${contextPath}/api/unit/spec-list"
+    });
+
+    var RestDataSource_ShipmentTypeInShipment = isc.MyRestDataSource.create({
+        fields:
+            [
+                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
+                {name: "shipmentType", title: "<spring:message code='shipment.type'/>"},
+            ],
+        fetchDataURL: "${contextPath}/api/shipmentType/spec-list"
+    });
+
+    var RestDataSource_ShipmentMethodInShipment = isc.MyRestDataSource.create({
+        fields:
+            [
+                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
+                {name: "shipmentMethod", title: "<spring:message code='shipment.method'/>"},
+            ],
+        fetchDataURL: "${contextPath}/api/shipmentMethod/spec-list"
+    });
+
     var RestDataSource_pickShipmentItem = isc.MyRestDataSource.create({
         fields:
             [
                 {name: "cisId", title: "id", primaryKey: true, canEdit: false, hidden: true},
                 {name: "contractNo", title: "<spring:message code='contract.contractNo'/> "},
                 {name: "fullname", title: "<spring:message code='contact.name'/> "},
-                {name: "amount", title: "<spring:message code='global.amount'/> "},
-                {name: "address", title: "<spring:message code='global.address'/> "},
-                {name: "plan", title: "<spring:message code='shipment.plan'/> "},
+                {name: "quantity", title: "<spring:message code='global.quantity'/> "},
                 {name: "sendDate", title: "<spring:message code='global.sendDate'/> "},
-                {name: "duration", title: "<spring:message code='global.duration'/> "},
                 {name: "contactID", title: "contactId"},
                 {name: "contractID", title: "contractID"},
+                {name: "materialDescp", title: "<spring:message code='material.descp'/>"},
                 {name: "materialID", title: "materialId"},
-                {name: "dischargeID", title: "dischargeID"},
-                {name: "dischargeAddress", title: "materialId"},
-                {name: "code", title: "code"}
+                {name: "loadPortID", title: "<spring:message code='shipment.loading'/>"}
             ],
         fetchDataURL: "${contextPath}/api/shipment/pick-list"
     });
@@ -101,7 +137,7 @@
                 width: 180
             },
             {
-                name: "contract.contractDate",
+                name: "contractDate.date",
                 title: "<spring:message code='contract.contractDate'/>",
                 type: 'text',
                 width: 180
@@ -111,7 +147,12 @@
             {name: "material.unit.nameEN", title: "<spring:message code='unit.nameEN'/>", type: 'text'},
             {name: "amount", title: "<spring:message code='global.amount'/>", type: 'float'},
             {name: "noContainer", title: "<spring:message code='shipment.noContainer'/>", type: 'integer'},
-            {name: "noPalete", title: "<spring:message code='shipment.noContainer'/>", type: 'integer'},
+            {name: "noPalete", title: "<spring:message code='shipment.noPalete'/>", type: 'integer'},
+            {name: "noBarrel", title: "<spring:message code='shipment.noBarrel'/>", type: 'integer'},
+            {name: "gross", title: "<spring:message code='shipment.gross'/>"},
+            {name: "net", title: "<spring:message code='shipment.net'/>"},
+            {name: "moisture", title: "<spring:message code='shipment.moisture'/>"},
+            {name: "vgm", title: "<spring:message code='shipment.vgm'/>"},
             {
                 name: "laycan",
                 title: "<spring:message code='shipmentContract.laycanStart'/>",
@@ -124,7 +165,12 @@
                 title: "<spring:message code='shipment.shipmentType'/>",
                 type: 'text',
                 width: 400,
-                valueMap: {"bulk": "bulk", "container": "container"}
+            },
+            {
+                name: "shipmentMethod",
+                title: "<spring:message code='shipment.shipmentMethod'/>",
+                type: 'text',
+                width: 400,
             },
             {
                 name: "bookingCat",
@@ -187,7 +233,7 @@
                     validateOnChange: true
                 }]
             },
-            {name: "createDate", title: "<spring:message code='shipment.createDate'/>", type: 'text', width: "10%"},
+            {name: "createDate.date", title: "<spring:message code='shipment.createDate'/>", type: 'text', width: "10%"},
             {
                 name: "contactByAgent.nameFA",
                 title: "<spring:message code='shipment.agent'/>",
@@ -197,52 +243,12 @@
                 showHover: true
             },
             {
-                name: "vesselName",
-                title: "<spring:message code='shipment.vesselName'/>",
+                name: "vessel.name",
+                title: "<spring:message code='vessel.name'/>",
                 type: 'text',
-                required: true,
-                width: "10%",
-                showHover: true,
-                validators: [
-                {
-                    type:"required",
-                    validateOnChange: true
-                }]
             }
         ],
         fetchDataURL: "${contextPath}/api/shipment/spec-list"
-    });
-
-    var RestDataSource_Person_EmailCC = isc.MyRestDataSource.create({
-        fields: [
-            {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-            {name: "contactId"},
-            {name: "contact.nameFA"},
-            {
-                name: "fullName",
-                title: "<spring:message code='person.fullName'/>",
-                type: 'text',
-                required: true,
-                width: 400,
-                validators: [
-                {
-                    type:"required",
-                    validateOnChange: true
-                }]
-            },
-            {name: "jobTitle", title: "<spring:message code='person.jobTitle'/>", type: 'text', width: 400},
-            {
-                name: "title", title: "<spring:message code='person.title'/>", type: 'text', width: 400, valueMap: {
-                    "MR": "<spring:message code='global.MR'/>",
-                    "MIS": "<spring:message code='global.MIS'/>", "MRS": "<spring:message code='global.MRS'/>",
-                }
-            },
-            {name: "email", title: "<spring:message code='person.email'/>", type: 'text', required: true,
-                validators: [{ type:"required", validateOnChange: true }], width: 400},
-            {name: "email1", title: "<spring:message code='person.email1'/>", type: 'text', width: 400},
-            {name: "email2", title: "<spring:message code='person.email2'/>", type: 'text', width: 400}
-        ],
-        fetchDataURL: "${contextPath}/api/person/spec-list"
     });
 
     function check_Shipment_Print() {
@@ -307,14 +313,13 @@
         width: "100%",
         height: "100%",
         dataSource: RestDataSource_Shipment__SHIPMENT,
-        titleWidth: "105",
+        titleWidth: "170",
         numCols: 4,
         fields: [
-            {name: "id", hidden: true,},
-            {name: "contactId", hidden: true,},
+            {name: "id", hidden: true},
+            {name: "contactId", hidden: true},
             {name: "contractId", hidden: true,},
             {name: "materialId", hidden: true,},
-
             {
                 name: "contractShipmentId", ID: "abal", colSpan: 4,
                 title: "<spring:message code='shipmentContract.list'/>",
@@ -339,21 +344,22 @@
                         width: "10%",
                         align: "center"
                     },
-                    {name: "amount", width: "10%", align: "center", errorOrientation: "bottom",}, {
+                    {name: "quantity", width: "10%"},
+                    {
                         name: "sendDate",
                         width: "10%",
                         align: "center"
-                    },
-                    {name: "plan", width: "10%", align: "center"}
+                    }
                 ],
                 changed: function () {
                     var record = DynamicForm_Shipment.getItem("contractShipmentId").getSelectedRecord();
-                    Shipment_contact_name.setContents(record.fullname);
                     var d = new Date(record.sendDate);
-                    DynamicForm_Shipment.setValue("createDate", d);
+
+                    DynamicForm_Shipment.setValue("material.descl", record.materialDescp);
+                    DynamicForm_Shipment.setValue("contract.contact.nameFA", record.fullname);
+
                     DynamicForm_Shipment.setValue("amount", record.amount);
                     DynamicForm_Shipment1.setValue("dischargeAddress", record.address);
-
                     DynamicForm_Shipment.setValue("contactId", record.contactID);
                     DynamicForm_Shipment.setValue("materialId", record.materialID);
                     DynamicForm_Shipment.setValue("contractNo", record.contractNo);
@@ -372,7 +378,17 @@
                     }
                 }
             },
-            {name: "createDate", hidden: true,},
+            {
+                name:"contract.contact.nameFA",
+                title: "<spring:message code='contact.name'/>",
+                type: "staticText"
+            },
+            {
+                name:"material.descl",
+                title: "<spring:message code='material.title'/>",
+                type: "staticText"
+            },
+            {name: "createDateHidden", hidden: true,},
             {
                 name: "month", colSpan: 4,
                 title: "<spring:message code='shipment.month'/>", type: 'text', width: "100%"
@@ -391,19 +407,27 @@
                     "December": "December"
                 }
             },
+            {name: "contractDate", hidden: true,},
             {
-                name: "createDate", colSpan: 4,
-                title: "<spring:message code='shipment.createDate'/>",
-                defaultValue: "<%=dateUtil.todayDate()%>",
-                type: 'date',
-                format: 'DD-MM-YYYY',
+                name: "createDate.date",
+                title: "<spring:message code='shipment.bDate'/>",
+                ID: "createDateId",
+                icons: [{
+                src: "pieces/pcal.png",
+                click: function () {
+                    displayDatePicker('createDateId', this, 'ymd', '/');
+                }
+                }],
+                defaultValue: "1399/01/01",
                 required: true,
-                width: "100%",
+                formatCellValue: (value) => {
+                    return new persianDate(value).format('YYYY/MM/DD')
+                },
                 validators: [
                 {
                     type:"required",
                     validateOnChange: true
-                }]
+                }],
             },
             {
                 name: "loadingLetter",
@@ -420,7 +444,7 @@
                 }]
             },
             {
-                name: "amount", colSpan: 4,
+                name: "amount",
                 title: "<spring:message code='global.amount'/>",
                 type: 'float',
                 required: true,
@@ -438,91 +462,230 @@
                 }]
             },
             {
-                name: "shipmentType", colSpan: 4, title: "<spring:message code='shipment.shipmentType'/>",
-                type: 'text', width: "100%", valueMap: {"bulk": "bulk", "container": "container"}, required: true,
-                validators: [{ type:"required", validateOnChange: true }]
-            },
-
-            {
-                name: "bookingCat",
-                title: "<spring:message code='shipment.bookingCat'/>",
-                type: 'text',
+                name: "material.unit.nameEN",
+                title: "<spring:message code='unit.title'/>",
                 width: "100%",
-                colSpan: 4,
-                showHover: true,
-                hint: "<spring:message code='shipment.bookingMol.hint'/>",
-                showHintInField: true,
-
+                editorType: "SelectItem",
+                optionDataSource: RestDataSource_UnitInShipment,
+                displayField: "nameFA",
+                valueField: "nameEN",
+                pickListHeight: "500",
+                required: true,
+                validators: [
+                {
+                type:"required",
+                validateOnChange: true
+                }],
+                pickListProperties: {showFilterEditor: true},
+                pickListFields: [
+                    {
+                        name: "nameFA",
+                        width: "10%",
+                        align: "center"
+                        },
+                    {
+                        name: "nameEN",
+                        width: "10%",
+                        align: "center"
+                    }
+                ],
             },
-
             {
-                hint: "<spring:message code='shipment.bookingCat.hint'/>",
-                showHintInField: true,
+                name: "shipmentType",
+                colSpan: 4,
+                title: "<spring:message code='shipment.shipmentType'/>",
+                width: "100%",
+                editorType: "SelectItem",
+                optionDataSource: RestDataSource_ShipmentTypeInShipment,
+                pickListHeight: "500",
+                // valueMap: {"bulk": "bulk", "container": "container"},
+                required: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }],
+                changed: function (form, item, value){
+                    if (value.contains("فله")) {
+                        if (DynamicForm_Shipment.getItem("material.descl").getValue()=="کاتد"){
+                                form.getItem("gross").show();
+                                form.getItem("net").show();
+                                form.getItem("moisture").hide();
+                                form.getItem("vgm").show();
+                                form.getItem("noContainer").show();
+                                form.getItem("noBarrel").hide();
+                                form.getItem("noPalete").hide();
+                            }
+                            if(DynamicForm_Shipment.getItem("material.descl").getValue()=="کنسانتره"){
+                                form.getItem("gross").show();
+                                form.getItem("net").show();
+                                form.getItem("moisture").show();
+                                form.getItem("vgm").hide();
+                                form.getItem("noContainer").hide();
+                                form.getItem("noBarrel").hide();
+                                form.getItem("noPalete").hide();
+                            }
+                            if (DynamicForm_Shipment.getItem("material.descl").getValue()=="اکسید مولیبدن"){
+                                form.getItem("gross").hide();
+                                form.getItem("net").hide();
+                                form.getItem("moisture").hide();
+                                form.getItem("vgm").hide();
+                                form.getItem("noContainer").hide();
+                                form.getItem("noBarrel").hide();
+                                form.getItem("noPalete").hide();
+                            }
+                    } else if (value.contains("انتینری")) {
+                        if (DynamicForm_Shipment.getItem("material.descl").getValue()=="کاتد"){
+                                form.getItem("gross").show();
+                                form.getItem("net").show();
+                                form.getItem("moisture").hide();
+                                form.getItem("vgm").show();
+                                form.getItem("noContainer").show();
+                                form.getItem("noBarrel").hide();
+                                form.getItem("noPalete").hide();
+                            }
+                            if (DynamicForm_Shipment.getItem("material.descl").getValue()=="کنسانتره"){
+                                form.getItem("gross").show();
+                                form.getItem("net").show();
+                                form.getItem("moisture").hide();
+                                form.getItem("vgm").hide();
+                                form.getItem("noContainer").show();
+                                form.getItem("noBarrel").show();
+                                form.getItem("noPalete").show();
+                            }
+                            if (DynamicForm_Shipment.getItem("material.descl").getValue()=="اکسید مولیبدن"){
+                                form.getItem("gross").show();
+                                form.getItem("net").show();
+                                form.getItem("moisture").hide();
+                                form.getItem("vgm").hide();
+                                form.getItem("noContainer").show();
+                                form.getItem("noBarrel").show();
+                                form.getItem("noPalete").show();
+                            }
+                    } else if (value.contains("پالت")){
+                             form.getItem("gross").hide();
+                             form.getItem("net").hide();
+                             form.getItem("moisture").hide();
+                             form.getItem("vgm").hide();
+                             form.getItem("noContainer").hide();
+                             form.getItem("noBarrel").hide();
+                             form.getItem("noPalete").hide();
+                    }
+                }
+            },
+            {
+                name: "shipmentMethod",
+                colSpan: 4,
+                title: "<spring:message code='shipment.shipmentMethod'/>",
+                width: "100%",
+                editorType: "SelectItem",
+                optionDataSource: RestDataSource_ShipmentMethodInShipment,
+                pickListHeight: "500",
+                required: true,
+                validators: [{
+                    type:"required",
+                    validateOnChange: true
+                }]
+            },
+            {
+                name: "gross", colSpan: 4,
+                title: "<spring:message code='shipment.gross'/>",
+                required: true,
+                width: "100%",
+                validators: [{
+                        type:"required",
+                        validateOnChange: true
+                    }],
+                hidden:true
+            },
+            {
+                name: "net", colSpan: 4,
+                title: "<spring:message code='shipment.net'/>",
+                required: true,
+                width: "100%",
+                validators: [{
+                        type:"required",
+                        validateOnChange: true
+                    }],
+                hidden:true
+            },
+            {
+                name: "moisture", colSpan: 4,
+                title: "<spring:message code='shipment.moisture'/>",
+                required: true,
+                width: "100%",
+                validators: [{
+                        type:"required",
+                        validateOnChange: true
+                    }],
+                hidden:true
+            },
+            {
+                name: "vgm", colSpan: 4,
+                title: "<spring:message code='shipment.vgm'/>",
+                required: true,
+                width: "100%",
+                validators: [{
+                        type:"required",
+                        validateOnChange: true
+                    }],
+                hidden:true
+            },
+            {
                 name: "noContainer",
                 colSpan: 4,
                 title: "<spring:message code='shipment.noContainer'/>",
                 type: 'integer',
                 width: "100%",
                 keyPressFilter: "[0-9.]",
+                required: true,
                 validators: [{
-                    type: "isInteger",
-                    validateOnExit: true,
-                    stopOnError: true,
-                    errorMessage: "<spring:message code='global.form.correctType'/>"
-                }]
-            },
-            {
-                hint: "<spring:message code='shipment.bookingCat.hint'/>",
-                showHintInField: true,
-                name: "noBundle", colSpan: 4,
-                title: "<spring:message code='shipment.noBundle'/>",
-                type: 'integer',
-                required: false,
-                width: "100%",
-                validators: [{
-                    type: "isInteger",
-                    validateOnExit: true,
-                    stopOnError: true,
-                    errorMessage: "<spring:message code='global.form.correctType'/>"
-                }]
-            },
-            {
-                name: "noPalete", colSpan: 4,
-                title: "<spring:message code='shipment.noPalette'/>",
-                type: 'integer',
-                required: false,
-                width: "100%",
-                validators: [{
-                    type: "isInteger",
-                    validateOnExit: true,
-                    stopOnError: true,
-                    errorMessage: "<spring:message code='global.form.correctType'/>"
-                }]
+                        type: "isInteger",
+                        validateOnChange: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    },
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }],
+                hidden:true
             },
             {
                 name: "noBarrel", colSpan: 4,
                 title: "<spring:message code='shipment.noBarrel'/>",
                 type: 'integer',
-                required: false,
+                required: true,
                 width: "100%",
                 validators: [{
                     type: "isInteger",
-                    validateOnExit: true,
+                    validateOnChange: true,
                     stopOnError: true,
                     errorMessage: "<spring:message code='global.form.correctType'/>"
-                }]
+                },
+                {
+                    type:"required",
+                    validateOnChange: true
+                }],
+                hidden:true
             },
             {
-                name: "status",
-                colSpan: 4,
-                title: "<spring:message code='shipment.staus'/>",
-                type: 'text',
+                name: "noPalete", colSpan: 4,
+                title: "<spring:message code='shipment.noPalette'/>",
+                type: 'integer',
                 width: "100%",
-                valueMap: {
-                    "Load Ready": "<spring:message code='shipment.loadReady'/>",
-                    "Resource": "<spring:message code='shipment.resource'/>"
-                }
-            }
+                required: true,
+                validators: [{
+                        type: "isInteger",
+                        validateOnChange: true,
+                        stopOnError: true,
+                        errorMessage: "<spring:message code='global.form.correctType'/>"
+                    },
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }],
+                hidden:true
+            },
         ]
     });
 
@@ -531,12 +694,13 @@
         width: "100%",
         height: "100%",
         dataSource: RestDataSource_Shipment__SHIPMENT,
-        titleWidth: "125",
+        titleWidth: "130",
         numCols: 4,
         fields: [
             {name: "id", hidden: true,},
             {type: "Header", defaultValue: ""},
-            {name: "blDate", hidden: true},
+            {name: "blDateHidden", hidden: true},
+            {name: "swBlDateHidden", hidden: true},
 
             {
                 name: "numberOfBLs", colSpan: 4,
@@ -569,6 +733,57 @@
                 }]
 
             },
+             {
+                name: "blDate", colSpan: 4,
+                title: "<spring:message code='shipment.blDate'/>",
+                defaultValue: "<%=dateUtil.todayDate()%>",
+                type: 'date',
+                required: true,
+                width: "100%",
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }]
+            },{
+                name: "portByLoadingId",
+                title: "<spring:message code='shipment.loading'/>",
+                editorType: "SelectItem",
+                optionDataSource: RestDataSource_LoadingPort,
+                displayField: "port",
+                valueField: "id",
+                width: "100%",
+                align: "center", colSpan: 4,
+                startRow: true,
+                required: true
+            }
+            ,
+            {
+                name: "portByDischargeId",
+                title: "<spring:message code='shipment.discharge'/>",
+                editorType: "SelectItem",
+                optionDataSource: RestDataSource_LoadingPort,
+                displayField: "port",
+                valueField: "id", width: "100%", align: "center", startRow: true , colSpan: 4,
+                required: true
+            },{
+                name: "consignee", colSpan: 4,
+                title: "<spring:message code='shipment.consignee'/>",
+                type: 'text',
+                required: true,
+                width: "100%", startRow: true,
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }]
+            },
+             {
+                align: "center",
+                layoutAlign: "center",
+                type: "Header",
+                defaultValue: "<spring:message code='shipment.SW.Details'/>"
+            },
             {
                 name: "swb",
                 colSpan: 4,
@@ -582,38 +797,17 @@
                             form.getItem("swBlDate").show();
                             form.getItem("switchPortId").show();
                             form.getItem("switchBl").show();
+                            form.getItem("swBlDate").show();
                             break;
                         case "No":
                             form.getItem("swBlDate").hide();
                             form.getItem("switchPortId").hide();
                             form.getItem("switchBl").hide();
+                            form.getItem("swBlDate").hide();
                             break;
                     }
                 }
-            },
-            {name: "swBlDate", hidden: true},
-
-
-            {
-                name: "switchBl",
-                title: "<spring:message code='shipment.switchBl'/>",
-                type: 'text',
-                startRow: true , width: "100%" , colSpan: 4
-
-            },
-            {
-                name: "portByLoadingId",
-                title: "<spring:message code='shipment.loading'/>",
-                editorType: "SelectItem",
-                optionDataSource: RestDataSource_LoadingPort,
-                displayField: "port",
-                valueField: "id",
-                width: "100%",
-                align: "center", colSpan: 4,
-                startRow: true,
-                required: true
-            },
-            {
+            },{
                 name: "switchPortId",
                 title: "<spring:message code='port.switchPort'/>",
                 editorType: "SelectItem",
@@ -623,43 +817,15 @@
                 startRow: true ,colSpan: 4,
             },
             {
-                name: "portByDischargeId",
-                title: "<spring:message code='shipment.discharge'/>",
-                editorType: "SelectItem",
-                optionDataSource: RestDataSource_LoadingPort,
-                displayField: "port",
-                valueField: "id", width: "100%", align: "center", startRow: true , colSpan: 4,
-                required: true
-            },
-            {
-                name: "consignee", colSpan: 4,
-                title: "<spring:message code='shipment.consignee'/>",
+                name: "switchBl",
+                title: "<spring:message code='shipment.switchBl'/>",
                 type: 'text',
-                required: true,
-                width: "100%", startRow: true,
-                validators: [
-                {
-                    type:"required",
-                    validateOnChange: true
-                }]
+                startRow: true , width: "100%" , colSpan: 4
+
             },
             {
                 name: "swBlDate",
                 title: "<spring:message code='shipment.swBlDate'/>",
-                defaultValue: "<%=dateUtil.todayDate()%>",
-                type: 'date',
-                format: 'DD-MM-YYYY',
-                required: true,
-                width: 400 ,
-                validators: [
-                {
-                    type:"required",
-                    validateOnChange: true
-                }]
-            },
-                {
-                name: "blDate", colSpan: 4,
-                title: "<spring:message code='shipment.blDate'/>",
                 defaultValue: "<%=dateUtil.todayDate()%>",
                 type: 'date',
                 format: 'DD-MM-YYYY',
@@ -670,9 +836,7 @@
                     type:"required",
                     validateOnChange: true
                 }]
-            },
-
-
+            }
         ]
     });
     var RestDataSource_Contact_optionCriteria__SHIPMENT = {
@@ -718,16 +882,28 @@
                     validateOnChange: true
                 }]
             },
-
-
             {
-                required: true,
-                name: "vesselName", colSpan: 4,
-                title: "<spring:message code='shipment.vesselName'/>",
-                type: 'text',
-                width: 400
+                name: "vesselId",
+                colSpan: 4,
+                title: "<spring:message code='vessel.name'/>",
+                editorType: "SelectItem",
+                optionDataSource: RestDataSource_VesselInShipment,
+                type: 'long',
+                width: 400,
+                displayField: "name",
+                valueField: "id",
+                pickListWidth: 400,
+                pickListHeight: "500",
+                pickListProperties: {
+                    showFilterEditor: true
+                },
+                pickListFields: [
+                    {
+                        name: "name",
+                    },
+                    {
+                        name: "type"}]
             },
-
             {type: "Header", defaultValue: dash},
             {
                 name: "freight", colSpan: 1,
@@ -892,7 +1068,7 @@
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
         click: function () {
-            DynamicForm_Shipment.validate();
+           DynamicForm_Shipment.validate();
             if (DynamicForm_Shipment.hasErrors()) {
                 shipmentTabs.selectTab(0);
                 return;
@@ -907,16 +1083,6 @@
                 shipmentTabs.selectTab(2);
                 return;
             }
-            var drs = DynamicForm_Shipment.getValue("createDate");
-            var datestringRs = (drs.getFullYear() + "/" + ("0" + (drs.getMonth() + 1)).slice(-2) + "/" + ("0" + drs.getDate()).slice(-2));
-            DynamicForm_Shipment.setValue("createDate", datestringRs);
-            drs = DynamicForm_Shipment1.getValue("swBlDate");
-            datestringRs = (drs.getFullYear() + "/" + ("0" + (drs.getMonth() + 1)).slice(-2) + "/" + ("0" + drs.getDate()).slice(-2));
-            DynamicForm_Shipment1.setValue("swBlDate", datestringRs);
-            drs = DynamicForm_Shipment1.getValue("blDate");
-            datestringRs = (drs.getFullYear() + "/" + ("0" + (drs.getMonth() + 1)).slice(-2) + "/" + ("0" + drs.getDate()).slice(-2));
-            DynamicForm_Shipment1.setValue("blDate", datestringRs);
-
             DynamicForm_Shipment.setValue("numberOfBLs", DynamicForm_Shipment1.getValue("numberOfBLs"));
             DynamicForm_Shipment.setValue("blNumbers", DynamicForm_Shipment1.getValue("blNumbers"));
             DynamicForm_Shipment.setValue("blDate", DynamicForm_Shipment1.getValue("blDate"));
@@ -929,7 +1095,7 @@
             DynamicForm_Shipment.setValue("consignee", DynamicForm_Shipment1.getValue("consignee"));
             DynamicForm_Shipment.setValue("contactByAgentId", DynamicForm_Shipment2.getValue("contactByAgentId"));
             DynamicForm_Shipment.setValue("Header", DynamicForm_Shipment2.getValue("Header"));
-            DynamicForm_Shipment.setValue("vesselName", DynamicForm_Shipment2.getValue("vesselName"));
+            DynamicForm_Shipment.setValue("vesselId", DynamicForm_Shipment2.getValue("vesselId"));
             DynamicForm_Shipment.setValue("freight", DynamicForm_Shipment2.getValue("freight"));
             DynamicForm_Shipment.setValue("totalFreight", DynamicForm_Shipment2.getValue("totalFreight"));
             DynamicForm_Shipment.setValue("freightCurrency", DynamicForm_Shipment2.getValue("freightCurrency"));
@@ -940,8 +1106,8 @@
             DynamicForm_Shipment.setValue("dispatch", DynamicForm_Shipment2.getValue("dispatch"));
             DynamicForm_Shipment.setValue("demurrage", DynamicForm_Shipment2.getValue("demurrage"));
             DynamicForm_Shipment.setValue("detention", DynamicForm_Shipment2.getValue("detention"));
-
-            var dataShipment = Object.assign(DynamicForm_Shipment.getValues());
+            var allDataShipment=DynamicForm_Shipment.getValues();
+            var dataShipment = Object.assign(allDataShipment);
             var methodXXXX = "PUT";
             if ((dataShipment.id == null) || (dataShipment.id == 'undefiend')) methodXXXX = "POST";
             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
@@ -1047,13 +1213,6 @@
             this.Super("closeClick", arguments)
         },
         items: [
-            isc.Label.create({
-                ID: "Shipment_contact_name",
-                title: "<spring:message code='contact.name'/>. ",
-                align: "center",
-                width: "60%",
-                height: 22
-            }),
             shipmentTabs,
             isc.HLayout.create({
                 width: "100%",
@@ -1130,7 +1289,6 @@
         DynamicForm_Shipment2.clearValues();
         abal.show();
         abal.fetchData();
-        Shipment_contact_name.setContents("");
         Window_Shipment.animateShow();
     }
 
@@ -1155,11 +1313,9 @@
             DynamicForm_Shipment.editRecord(record);
             DynamicForm_Shipment1.editRecord(record);
             DynamicForm_Shipment2.editRecord(record);
-            DynamicForm_Shipment.setValue("createDate", new Date(record.createDate));
+            DynamicForm_Shipment.setValue("createDate.date", record.createDate.date);
             DynamicForm_Shipment1.setValue("swBlDate", new Date(record.swBlDate));
             DynamicForm_Shipment1.setValue("blDate", new Date(record.blDate));
-            if (!(record.contract.contact.nameFA == null || record.contract.contact.nameFA == 'undefiend'))
-                Shipment_contact_name.setContents(record.contract.contact.nameFA);
             abal.hide();
             Window_Shipment.animateShow();
         }
@@ -1330,7 +1486,10 @@
                 type: 'text',
                 width: "10%",
                 align: "center",
-                showHover: true
+                showHover: true,
+                sortNormalizer: function (recordObject) {
+                    return recordObject.material.unit.nameEN
+                }
             },
             {
                 name: "amount",
@@ -1391,14 +1550,14 @@
                 required: true,
                 width: "10%",
                 showHover: true,
+                sortNormalizer: function (recordObject) {
+                    return recordObject.portByLoading.port
+                },
                 validators: [
                 {
                     type:"required",
                     validateOnChange: true
                 }],
-                sortNormalizer: function (recordObject) {
-                    return recordObject.portByLoading.port
-                }
             },
             {
                 name: "portByDischarge.port",
@@ -1407,6 +1566,9 @@
                 required: true,
                 width: "10%",
                 showHover: true,
+                sortNormalizer: function (recordObject) {
+                    return recordObject.portByDischarge.port
+                },
                 validators: [
                 {
                     type:"required",
@@ -1431,13 +1593,16 @@
                 }
             },
             {
-                name: "createDate",
+                name: "createDate.date",
                 title: "<spring:message code='global.createDate'/>",
                 type: 'text',
                 required: true,
                 width: "10%",
                 align: "center",
                 showHover: true,
+                formatCellValue: (value) => {
+                                    return new persianDate(value).format('YYYY/MM/DD')
+                 },
                 validators: [
                 {
                     type:"required",
@@ -1470,7 +1635,7 @@
                 }
             },
             {
-                name: "vesselName",
+                name: "vessel.name",
                 title: "<spring:message code='shipment.vesselName'/>",
                 type: 'text',
                 required: true,
@@ -1480,7 +1645,10 @@
                 {
                     type:"required",
                     validateOnChange: true
-                }]
+                }],
+                sortNormalizer: function (recordObject) {
+                    return recordObject.vessel.name
+                }
             },
             {
                 name: "swb",
@@ -1497,14 +1665,14 @@
                 required: true,
                 width: "10%",
                 showHover: true,
+                sortNormalizer: function (recordObject) {
+                    return recordObject.switchPort.port
+                },
                 validators: [
                 {
                     type:"required",
                     validateOnChange: true
                 }],
-                sortNormalizer: function (recordObject) {
-                    return recordObject.switchPort.port
-                }
             },
             {
                 name: "status",
@@ -1537,7 +1705,7 @@
             }
             var dccTableId = record.id;
             var dccTableName = "TBL_SHIPMENT";
-            ShipmentAttachmentViewLoader.setViewURL("dcc/showForm/" + dccTableName + "/" + dccTableId)
+            ShipmentAttachmentViewLoader.setViewURL("dcc/showForm/" + dccTableName + "/" + dccTableId);
             hLayoutViewLoader.show();
             var layoutShipment = isc.VLayout.create({
                 styleName: "expand-layout",
@@ -1565,492 +1733,6 @@
         ]
     });
 
-    RestDataSource_ContractPerson = isc.MyRestDataSource.create({
-        fields:
-            [
-                {name: "emailCC", title: "CC", primaryKey: true, canEdit: false, hidden: true}
-            ],
-        fetchDataURL: "${contextPath}/api/contractPerson/spec-list"
-    });
-
-    //************************************Email*********************************************
-    var RestDataSource_ShipmentEmail = isc.MyRestDataSource.create({
-        fields:
-            [
-                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "shipmentId", title: "<spring:message code='contact.name'/>", align: "center", hidden: true},
-                {
-                    name: "shipment.contact.nameEN",
-                    title: "<spring:message code='contact.name'/>",
-                    align: "center",
-                    width: "10%"
-                },
-                {
-                    name: "emailType",
-                    title: "<spring:message code='shipment.emailType'/>",
-                    align: "center",
-                    width: "10%"
-                },
-                {
-                    name: "emailSubject",
-                    title: "<spring:message code='global.emailSubject'/>",
-                    align: "center",
-                    width: "10%"
-                },
-                {name: "emailTo", title: "<spring:message code='global.emailTo'/>", align: "center", width: "10%"},
-                {name: "emailCC", title: "<spring:message code='global.emailCC'/>", align: "center", width: "10%"},
-                {name: "emailBody", title: "<spring:message code='global.emailBody'/>", align: "center", width: "10%"},
-                {
-                    name: "emailRespond",
-                    title: "<spring:message code='global.emailRespond'/>",
-                    align: "center",
-                    width: "10%"
-                },
-                {
-                    name: "createUser",
-                    title: "<spring:message code='global.createUser'/>",
-                    align: "center",
-                    width: "10%"
-                },
-                {
-                    name: "createDate",
-                    title: "<spring:message code='global.createDate'/>",
-                    align: "center",
-                    width: "10%"
-                },
-            ],
-        fetchDataURL: "${contextPath}/api/shipmentEmail/spec-list"
-    });
-
-    var IButton_ShipmentEmail_Save = isc.IButton.create({
-        top: 260,
-        title: "<spring:message code='shipment.email.createAndSend'/>",
-        icon: "pieces/16/save.png",
-        click: function () {
-            DynamicForm_ShipmentEmail.validate();
-            if (DynamicForm_ShipmentEmail.hasErrors())
-                return;
-
-            var data = DynamicForm_ShipmentEmail.getValues();
-            var methodXXXX = "PUT";
-            if (data.id == null) methodXXXX = "POST";
-            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                    actionURL: "${contextPath}/api/shipmentEmail/",
-                    httpMethod: methodXXXX,
-                    data: JSON.stringify(data),
-                    callback: function (RpcResponse_o) {
-                        if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
-                            isc.say("<spring:message code='global.form.request.successful'/>");
-                            ListGrid_ShipmentEmail_refresh();
-                            Window_ShipmentEmail.close();
-                        } else
-                            isc.say(RpcResponse_o.data);
-                    }
-                })
-            );
-        }
-    });
-
-    function ListGrid_ShipmentEmail_refresh() {
-        ListGrid_ShipmentEmail.invalidateCache();
-        var record = ListGrid_Shipment.getSelectedRecord();
-        if (record == null || record.id == null)
-            return;
-        var criteria1 = {
-            _constructor: "AdvancedCriteria",
-            operator: "and",
-            criteria: [{fieldName: "shipmentId", operator: "equals", value: record.id}]
-        };
-        ListGrid_ShipmentEmail.fetchData(criteria1, function (dsResponse, data, dsRequest) {
-            ListGrid_ShipmentEmail.setData(data);
-        });
-
-    }
-
-    function ListGrid_ShipmentEmail_edit() {
-        var record = ListGrid_ShipmentEmail.getSelectedRecord();
-        if (record == null || record.id == null) {
-            isc.Dialog.create({
-                message: "<spring:message code='global.grid.record.not.selected'/>",
-                icon: "[SKIN]ask.png",
-                title: "<spring:message code='global.message'/>",
-                buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
-                buttonClick: function () {
-                    this.hide();
-                }
-            });
-        } else {
-            DynamicForm_ShipmentEmail.editRecord(record);
-            Window_ShipmentEmail.show();
-        }
-    }
-
-    var Menu_ListGrid_ShipmentEmail = isc.Menu.create({
-        width: 150,
-        data:
-            [
-                {
-                    title: "<spring:message code='global.form.refresh'/>", icon: "pieces/16/refresh.png",
-                    click: function () {
-                        DynamicForm_ShipmentEmail.clearValues();
-                        Window_ShipmentEmail.show();
-                    }
-                },
-                {
-                    title: "<spring:message code='shipment.email.saveRespond'/>", icon: "pieces/16/icon_edit.png",
-                    click: function () {
-                        ListGrid_ShipmentEmail_edit();
-                    }
-                }
-            ]
-    });
-
-    ListGrid_Person_EmailCC = isc.ListGrid.create({
-        showFilterEditor: true,
-        width: "800",
-        height: "400",
-        dataSource: RestDataSource_Person_EmailCC,
-        fields: [
-            {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-            {
-                name: "contact.nameFA",
-                title: "<spring:message code='contact.name'/>",
-                type: 'long',
-                width: 120,
-                align: "center"
-            },
-            {
-                name: "fullName",
-                title: "<spring:message code='person.fullName'/>",
-                type: 'text',
-                required: true,
-                width: 150,
-                validators: [
-                {
-                    type:"required",
-                    validateOnChange: true
-                }]
-            },
-            {
-                name: "title", title: "<spring:message code='person.title'/>", type: 'text', width: 150,
-                valueMap: {
-                    "MR": "<spring:message code='global.MR'/>",
-                    "MIS": "<spring:message code='global.MIS'/>",
-                    "MRS": "<spring:message code='global.MRS'/>"
-                }
-            },
-            {name: "email", title: "<spring:message code='person.email'/>", type: 'text', required: true,
-                validators: [{ type:"required", validateOnChange: true }], width: 150},
-            {name: "email1", title: "<spring:message code='person.email1'/>", type: 'text', width: 150},
-            {name: "email2", title: "<spring:message code='person.email2'/>", type: 'text', width: 150}
-        ],
-        autoFetchData: true,
-        selectionAppearance: "checkbox"
-    });
-
-    var Window_ShipmentEmailCC = isc.Window.create({
-        title: "<spring:message code='person.title'/> ",
-        width: "800",
-        height: "700",
-        autoSize: true,
-        autoCenter: true,
-        isModal: true,
-        showModalMask: true,
-        align: "center",
-        autoDraw: false,
-        dismissOnEscape: true,
-        closeClick: function () {
-            this.Super("closeClick", arguments)
-        },
-        items:
-            [
-                isc.VLayout.create({
-                    width: "100%",
-                    height: "100%",
-                    members:
-                        [
-                            ListGrid_Person_EmailCC,
-                            isc.Button.create({
-                                title: "<spring:message code='global.ok'/>",
-                                click: function () {
-                                    var selectedPerson = ListGrid_Person_EmailCC.getSelection();
-                                    if (selectedPerson.length == 0) {
-                                        Window_ShipmentEmailCC.close();
-                                        return;
-                                    }
-                                    var persons = "";
-                                    var oldPersons;
-                                    var check = false;
-                                    if (typeof (DynamicForm_ShipmentEmail.getValue("emailCC")) != 'undefined' && DynamicForm_ShipmentEmail.getValue("emailCC") != null) {
-                                        persons = DynamicForm_ShipmentEmail.getValue("emailCC");
-                                        oldPersons = persons.split(",");
-                                        check = true;
-                                    }
-                                    for (i = 0; i < selectedPerson.length; i++) {
-                                        notIn = true;
-                                        if (check)
-                                            for (j = 0; j < oldPersons.size(); j++)
-                                                if (oldPersons[j] == selectedPerson[i].email)
-                                                    notIn = false;
-                                        if (notIn)
-                                            persons = (persons == "" ? persons : persons + ",") + selectedPerson[i].email;
-                                    }
-                                    DynamicForm_ShipmentEmail.setValue("emailCC", persons);
-                                    Window_ShipmentEmailCC.close();
-                                }
-                            })
-                        ]
-                })
-
-            ]
-    });
-
-    var DynamicForm_ShipmentEmail = isc.DynamicForm.create(
-        {
-            width: "100%",
-            height: "100%",
-            titleWidth: "100",
-            numCols: 1,
-            fields: [
-                {
-                    name: "id",
-                    title: "id",
-                    primaryKey: true,
-                    canEdit: false,
-                    hidden: true
-                },
-                {
-                    name: "shipmentId",
-                    title: "<spring:message code='contact.name'/>",
-                    align: "center",
-                    hidden: true
-                },
-                {
-                    name: "emailType",
-                    title: "<spring:message code='shipment.emailType'/>",
-                    align: "center",
-                    width: "700"
-                },
-                {
-                    name: "emailSubject",
-                    title: "<spring:message code='global.emailSubject'/>",
-                    align: "center",
-                    width: "700"
-                },
-                {
-                    name: "emailTo",
-                    title: "<spring:message code='global.emailTo'/>",
-                    type: 'text',
-                    width: 700
-                },
-                {
-                    name: "emailCC",
-                    title: "<spring:message code='global.emailCC'/>",
-                    width: 700,
-                    type: "text",
-                    icons: [
-                        {
-                            src: "icon/search.png",
-                            click: function (form, item) {
-                                Window_ShipmentEmailCC.show();
-
-                            }
-                        }]
-                },
-                {
-                    name: "emailBody",
-                    title: "<spring:message code='global.emailBody'/>",
-                    align: "center",
-                    width: "700",
-                    type: "textArea",
-                    height: 200
-                },
-                {
-                    name: "emailRespond",
-                    title: "<spring:message code='global.emailRespond'/>",
-                    align: "center",
-                    width: "700",
-                    type: "textArea",
-                    height: 200
-                }]
-        });
-
-    var ToolStripButton_ShipmentEmail_Refresh = isc.ToolStripButtonRefresh.create({
-        title: "<spring:message code='global.form.refresh'/>",
-        click: function () {
-            ListGrid_ShipmentEmail_refresh();
-        }
-    });
-
-    var ToolStripButton_ShipmentEmail_Add = isc.ToolStripButtonAdd.create({
-        icon: "[SKIN]/actions/add.png",
-        title: "<spring:message code='shipment.email.createAndSend'/>",
-        click: function () {
-            var record = ListGrid_Shipment.getSelectedRecord();
-            if (record == null || record.id == null) {
-                isc.Dialog.create({
-                    message: "<spring:message code='global.grid.record.not.selected'/>",
-                    icon: "[SKIN]ask.png",
-                    title: "<spring:message code='global.message'/>",
-                    buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
-                    buttonClick: function () {
-                        this.hide();
-                    }
-                });
-            } else {
-                var contractNo = record.contract.contractNo;
-                DynamicForm_ShipmentEmail.clearValues();
-                DynamicForm_ShipmentEmail.setValue("shipmentId", record.id);
-                DynamicForm_ShipmentEmail.setValue("emailType", record.status);
-                DynamicForm_ShipmentEmail.setValue("emailSubject", "Cnt." + contractNo + "-" + record.month + "Quota-" + record.material.descl + "-NICICO/" + record.contract.contact.nameFA + "===" + record.status);
-                DynamicForm_ShipmentEmail.setValue("emailBody", ",Dear Sir/Sirs \n According to our settled contract No." + contractNo
-                    + ",please kindly note that " + record.amount + " " + record.material.unit.nameEN
-                    + " " + record.material.descl + " for " + record.month + " quota is load ready at " + record.portByLoading.port
-                    + "\n .Please kindly confirm enabling us to do the needful \n\n Best Regards \n Signature"
-                );
-                var criteria1 = {
-                    _constructor: "AdvancedCriteria",
-                    operator: "and",
-                    criteria: [{fieldName: "contractId", operator: "equals", value: contractId}]
-                };
-                RestDataSource_ContractPerson.fetchData(criteria1, function (dsResponse, data, dsRequest) {
-                    DynamicForm_ShipmentEmail.setValue("emailCC", data[0].emailCC);
-                });
-                var criteria1 = {
-                    _constructor: "AdvancedCriteria",
-                    operator: "and",
-                    criteria: [{fieldName: "id", operator: "equals", value: record.contract.contact.id}]
-                };
-                RestDataSource_Contact__SHIPMENT.fetchData(criteria1, function (dsResponse, data, dsRequest) {
-                    DynamicForm_ShipmentEmail.setValue("emailTo", data[0].email);
-                });
-                Window_ShipmentEmail.show();
-            }
-        }
-    });
-
-    var ToolStripButton_ShipmentEmail_Edit = isc.ToolStripButtonEdit.create({
-        icon: "[SKIN]/actions/edit.png",
-        title: "<spring:message code='shipment.email.saveRespond'/>",
-        click: function () {
-            ListGrid_ShipmentEmail_edit();
-        }
-    });
-
-    var ToolStrip_Actions_ShipmentEmail = isc.ToolStrip.create({
-        width: "100%",
-        members:
-            [
-                ToolStripButton_ShipmentEmail_Add,
-                ToolStripButton_ShipmentEmail_Edit,
-                isc.ToolStrip.create({
-                    width: "100%",
-                    align: "left",
-                    border: '0px',
-                    members: [
-                        ToolStripButton_ShipmentEmail_Refresh,
-                    ]
-                })
-            ]
-    });
-
-    var HLayout_ShipmentEmail_Actions = isc.HLayout.create({
-        width: "100%",
-        members:
-            [
-                ToolStrip_Actions_ShipmentEmail
-            ]
-    });
-
-    var Window_ShipmentEmail = isc.Window.create({
-        title: "<spring:message code='global.email'/> ",
-        width: "800",
-        autoSize: true,
-        autoCenter: true,
-        isModal: true,
-        showModalMask: true,
-        align: "center",
-        autoDraw: false,
-        dismissOnEscape: true,
-        closeClick: function () {
-            this.Super("closeClick", arguments)
-        },
-        items:
-            [
-                DynamicForm_ShipmentEmail, IButton_ShipmentEmail_Save
-            ]
-    });
-
-    var ListGrid_ShipmentEmail = isc.ListGrid.create({
-        showFilterEditor: true,
-        width: "100%",
-        height: "100%",
-        dataSource: RestDataSource_ShipmentEmail,
-        contextMenu: Menu_ListGrid_ShipmentEmail,
-        fields:
-            [
-                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "shipmentId", title: "<spring:message code='contact.name'/>", align: "center", hidden: true},
-                {
-                    name: "shipment.contract.contact.nameFA",
-                    title: "<spring:message code='contact.name'/>",
-                    align: "center",
-                    width: "10%"
-                },
-                {
-                    name: "emailType",
-                    title: "<spring:message code='shipment.emailType'/>",
-                    align: "center",
-                    width: "10%"
-                },
-                {
-                    name: "emailSubject",
-                    title: "<spring:message code='global.emailSubject'/>",
-                    align: "center",
-                    width: "10%"
-                },
-                {name: "emailTo", title: "<spring:message code='global.emailTo'/>", align: "center", width: "10%"},
-                {name: "emailCC", title: "<spring:message code='global.emailCC'/>", align: "center", width: "10%"},
-                {name: "emailBody", title: "<spring:message code='global.emailBody'/>", align: "center", width: "10%"},
-                {
-                    name: "emailRespond",
-                    title: "<spring:message code='global.emailRespond'/>",
-                    align: "center",
-                    width: "10%"
-                },
-                {
-                    name: "createUser",
-                    title: "<spring:message code='global.createUser'/>",
-                    align: "center",
-                    width: "10%"
-                },
-                {
-                    name: "createDate",
-                    title: "<spring:message code='global.createDate'/>",
-                    align: "center",
-                    width: "10%"
-                },
-            ],
-        autoFetchData: true
-    });
-
-    var HLayout_ShipmentEmail_Grid = isc.HLayout.create({
-        width: "100%",
-        height: "100%",
-        members: [
-            ListGrid_ShipmentEmail
-        ]
-    });
-
-    var VLayout_ShipmentEmail_Body = isc.VLayout.create({
-        width: "100%",
-        height: "100%",
-        members:
-            [
-                HLayout_ShipmentEmail_Actions, HLayout_ShipmentEmail_Grid
-            ]
-    });
-
     isc.HLayout.create(
         {
             width: "100%",
@@ -2063,12 +1745,6 @@
                         items: VLayout_Body_Shipment,
                         showHeader: false,
                         expanded: true
-                    },
-                        {
-                            title: "<spring:message code='global.email'/>",
-                            items: VLayout_ShipmentEmail_Body,
-                            expanded: true,
-                            hidden: true
                         }
                     ],
                     visibilityMode: "multiple",

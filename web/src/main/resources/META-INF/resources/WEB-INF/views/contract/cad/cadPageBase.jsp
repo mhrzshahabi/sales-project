@@ -79,8 +79,15 @@ var contactCadTabs = isc.TabSet.create({
         icon: "pieces/16/save.png",
         iconOrientation: "right",
         click: function () {
+            var contractEnd = article2Cad.getValue("contractEnd");
             ListGrid_ContractItemShipment.getAllEditRows().forEach(function (element) {
-            if(ListGrid_ContractItemShipment.validateRow(element) != true){
+                var record = ListGrid_ContractItemShipment.getEditedRecord(JSON.parse(JSON.stringify(element)));
+                if (record.sendDate > contractEnd){
+                    isc.warn("<spring:message code='contract.shipmentSendDateWarn'/>");
+                    ListGrid_ContractItemShipment.validate();
+                    return;
+                }
+                if(ListGrid_ContractItemShipment.validateRow(element) != true){
                     ListGrid_ContractItemShipment.validateRow(element);
                     isc.warn("<spring:message code='main.contractShipment'/>");
                     return;
@@ -88,7 +95,9 @@ var contactCadTabs = isc.TabSet.create({
                  })
             var dataSaveAndUpdateContractCad = {};
             var dataSaveAndUpdateContractCadDetail = {};
-            contactCadHeader.validate();
+            if(!contactCadHeader.validate()){
+               return
+            };
             valuesManagerArticle6_quality.validate();
 
 
@@ -131,7 +140,8 @@ var contactCadTabs = isc.TabSet.create({
                 dataSaveAndUpdateContractCad.unitId = valuesManagerArticle2Cad.getValue("unitId");
                 dataSaveAndUpdateContractCad.molybdenumTolorance = valuesManagerArticle2Cad.getValue("cathodesTolorance");
                 dataSaveAndUpdateContractCad.optional = valuesManagerArticle2Cad.getValue("optional");
-                dataSaveAndUpdateContractCad.plant = valuesManagerArticle3_quality.getValue("plant");
+                dataSaveAndUpdateContractCad.contractStart = valuesManagerArticle2Cad.getValue("contractStart");
+                dataSaveAndUpdateContractCad.contractEnd = valuesManagerArticle2Cad.getValue("contractEnd");
                 dataSaveAndUpdateContractCad.contactInspectionId = 0;
                 dataSaveAndUpdateContractCad.molybdenum = 0;
                 dataSaveAndUpdateContractCad.copper = valuesManagerArticle4_quality.getValue("article4_quality2");
@@ -144,7 +154,7 @@ var contactCadTabs = isc.TabSet.create({
                 dataSaveAndUpdateContractCad.runEndtDate = "";
                 dataSaveAndUpdateContractCad.incotermsId = valuesManagerArticle6_quality.getValue("incotermsId");
                 dataSaveAndUpdateContractCad.portByPortSourceId = valuesManagerArticle6_quality.getValue("portByPortSourceId");
-                dataSaveAndUpdateContractCad.incotermsText = valuesManagerArticle6_quality.getValue("incotermsText");
+                dataSaveAndUpdateContractCad.incotermVersion = valuesManagerArticle6_quality.getValue("incotermVersion");
                 dataSaveAndUpdateContractCad.officeSource = "TEHRAN";
                 dataSaveAndUpdateContractCad.priceCalPeriod = "any";
                 dataSaveAndUpdateContractCad.publishTime = "any";
@@ -311,7 +321,7 @@ var contactCadTabs = isc.TabSet.create({
                 dataSaveAndUpdateContractCadDetail.discountValueEleven_2 = 0;
                 dataSaveAndUpdateContractCadDetail.article8_number42 = "";
                 dataSaveAndUpdateContractCadDetail.article8_3 = "";
-                dataSaveAndUpdateContractCadDetail.article8_value = "";
+                dataSaveAndUpdateContractCadDetail.article8_value = valuesManagerArticle8_quality.getValue("article8_value");
                 dataSaveAndUpdateContractCadDetail.article8_number43 = valuesManagerArticle8_quality.getValue("article8_quality1");
                 dataSaveAndUpdateContractCadDetail.article8_number44_1 = valuesManagerArticle8_quality.getValue("article8_quality2");
                 dataSaveAndUpdateContractCadDetail.article9_number45 = "";
@@ -385,7 +395,7 @@ var VLayout_contactCadMain = isc.VLayout.create({
         width: "100%",
         height: "100%",
         align: "center",
-        overflow: "scroll",
+        overflow: "auto",
         autoCenter: true,
         margin: 10,
         isModal: true,
@@ -402,17 +412,22 @@ var VLayout_contactCadMain = isc.VLayout.create({
 
 function saveListGrid_ContractCadItemShipment() {
         ListGrid_ContractItemShipment.selectAllRecords();
-        var dataEdit = [];
+        var dataEditCad = [];
         ListGrid_ContractItemShipment.getAllEditRows().forEach(function (element) {
-            dataEdit.push(ListGrid_ContractItemShipment.getEditedRecord(element));
+            dataEditCad.push(ListGrid_ContractItemShipment.getEditedRecord(element));
+            if(dataEditCad.length>0){
+               try {
+                    // dataEditCad[dataEditCad.length - 1].sendDate = (dataEditCad[dataEditCad.length - 1].sendDate.getFullYear() + "/" + ("0" + (dataEditCad[dataEditCad.length - 1].sendDate.getMonth() + 1)).slice(-2) + "/" + ("0" + dataEditCad[dataEditCad.length - 1].sendDate.getDate()).slice(-2));
+                   }catch(err){
+                }
+            }
             ListGrid_ContractItemShipment.deselectRecord(ListGrid_ContractItemShipment.getRecord(element));
         });
         ListGrid_ContractItemShipment.getSelectedRecords().forEach(function (element) {
-            dataEdit.push(JSON.parse(JSON.stringify(element)));
+            dataEditCad.push(JSON.parse(JSON.stringify(element)));
         });
         ListGrid_ContractItemShipment.deselectAllRecords();
-        console.log(dataEdit);
-        return dataEdit;
+        return dataEditCad;
     };
 
     var dataALLArticle = {};
@@ -444,10 +459,4 @@ function saveListGrid_ContractCadItemShipment() {
         }))
     }
 
-function nvlCad(articleIsNotNull){
-        if(articleIsNotNull == undefined){
-            return "";
-        }else{
-            return articleIsNotNull;
-        }
-    }
+

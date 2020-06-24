@@ -6,14 +6,25 @@
 
 //<script>
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
-
 var RestDataSource_Incoterms_InCat = isc.MyRestDataSource.create({
         fields:
         [
-        {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-        {name: "code", title: "<spring:message code='goods.code'/> "},
+        {name: "id", title: "<spring:message code='goods.code'/> "},
+        {name: "incotermRule.titleEn", title: "incotermsRules "},
         ],
-        fetchDataURL: "${contextPath}/api/incoterms/spec-list"
+        fetchDataURL: "${contextPath}/api/incoterm-rules/spec-list",
+            transformResponse: function (dsResponse, dsRequest, data) {
+                    data.response.data.forEach(d=>d['code']=d['incotermRule']['code'])
+                    return this.Super("transformResponse", arguments);
+                    }
+});
+var RestDataSource_ContractIncoterms_InCat = isc.MyRestDataSource.create({
+        fields:
+        [
+        {name: "id", title: "<spring:message code='goods.code'/> "},
+        {name: "title", title: "incotermsRules "},
+        ],
+        fetchDataURL: "${contextPath}/api/g-incoterm/spec-list"
 });
 
     var imanageNote = 0;
@@ -121,52 +132,49 @@ var buttonAddItem=isc.IButton.create({
             [
                 {name: "id", hidden: true,},
                 {
-                    name: "plan",
-                    title: "<spring:message code='shipment.plan'/>",
-                    type: 'text',
-                    width: "10%",
-                    valueMap: {"A": "plan A", "B": "plan B", "C": "plan C",},
-                    align: "center"
-                },
-                {
-                    name: "shipmentRow",
-                    title: "<spring:message code='contractItem.itemRow'/> ",
-                    type: 'text',
-                    width: "10%",
-                    align: "center",keyPressFilter: "[0-9.]",
-                    validators: [{
-                        type:"isInteger",
-                        validateOnChange: true
-                    }]
-                },
-                {
-                    name: "dischargeId", title: "<spring:message code='port.port'/>", editorType: "SelectItem",
+                    name: "loadPortId",
+                    title: "<spring:message code='shipment.loading'/>",
+                    editorType: "SelectItem",
                     optionDataSource: RestDataSource_Port,
                     displayField: "port",
-                    valueField: "id", width: "10%", align: "center"
-                },
-                {
-                    name: "address",
-                    title: "<spring:message code='global.address'/>",
-                    type: 'text',
+                    valueField: "id",
                     width: "10%",
                     align: "center"
                 },
                 {
-                    name: "amount",
-                    title: "<spring:message code='global.amount'/>",
-                    type: 'float',
-                    width: "10%",keyPressFilter: "[0-9.]",
-                    align: "center",changed: function (form, item, value) {
+                    name: "quantity",
+                    title: "<spring:message code='global.quantity'/>",
+                    width: "10%",
+                    align: "center",
+                    validators: [{
+                        type:"isFloat",
+                        validateOnChange: true
+                    }],
+                    changed: function (form, item, value) {
                        if(ListGrid_ContractItemShipment.getEditRow()==0){
                            amountSet=value;
                            valuesManagerArticle5_quality.setValue("fullArticle5",value+"MT");
                         }
                     },
-                    validators: [{
+
+                },
+                {
+                    name: "tolorance",
+                    title: "<spring:message code='contractItemShipment.tolorance'/>",
+                    keyPressFilter: "[0-9.]",
+                    width: "10%",
+                    align: "center",
+                    validators: [
+                    {
                         type:"isInteger",
-                        validateOnChange: true
-                    }]
+                        validateOnChange: true,
+                        keyPressFilter: "[0-9.]"
+                    }],
+                    changed: function (form, item, value) {
+                       if(ListGrid_ContractItemShipment.getEditRow()==0){
+                           valuesManagerArticle5_quality.setValue("fullArticle5",amountSet+"MT"+" "+"+/-"+value+" "+valuesManagerArticle2Cad.getItem("optional").getDisplayValue(valuesManagerArticle2Cad.getValue("optional"))+" "+"PER EACH CALENDER MONTH STARTING FROM"+" "+sendDateSet+" "+"TILL");
+                        }
+                }
                 },
                 {
                     name: "sendDate",
@@ -174,53 +182,11 @@ var buttonAddItem=isc.IButton.create({
                     type: "date",
                     required: false,
                     width: "10%",
-                    wrapTitle: false,changed: function (form, item, value) {
+                    wrapTitle: false,
+                    changed: function (form, item, value) {
                         sendDateSet = (value.getFullYear() + "/" + ("0" + (value.getMonth() + 1)).slice(-2) + "/" + ("0" + value.getDate()).slice(-2));
                     }
                 },
-                {
-                    name: "duration",
-                    title: "<spring:message code='global.duration'/>",
-                    type : 'text',
-                    width: "10%",
-                    align: "center"
-                },
-                {
-                name: "tolorance", title: "<spring:message code='contractItemShipment.tolorance'/>",
-                    type: 'text',width: "10%", align: "center",changed: function (form, item, value) {
-                       if(ListGrid_ContractItemShipment.getEditRow()==0){
-                           valuesManagerArticle5_quality.setValue("fullArticle5",amountSet+"MT"+" "+"+/-"+value+" "+valuesManagerArticle2Cad.getItem("optional").getDisplayValue(valuesManagerArticle2Cad.getValue("optional"))+" "+"PER EACH CALENDER MONTH STARTING FROM"+" "+sendDateSet+" "+"TILL");
-                        }
-                }
-                },{
-                name: "incotermsShipmentId",
-                colSpan: 3,
-                titleColSpan: 1,
-                tabIndex: 6,
-                showTitle: true,
-                showHover: true,
-                showHintInField: true,
-                required: true,
-                validators: [
-                {
-                    type:"required",
-                    validateOnChange: true
-                }],
-                type: 'long',
-                numCols: 4,
-                editorType: "SelectItem",
-                optionDataSource: RestDataSource_Incoterms_InCat,
-                displayField: "code",
-                valueField: "id",
-                pickListWidth: "450",
-                pickListHeight: "500",
-                pickListProperties: {showFilterEditor: true},
-                pickListFields: [
-                    {name: "code", width: 440, align: "center"}
-                ],
-                width: "10%",
-                title: "<strong class='cssDynamicForm'>SHIPMENT TYPE<strong>"
-            },
             ],saveEdits: function () {
                 console.log(ListGrid_ContractItemShipment.validateRow(0));
             },removeData: function (data) {
@@ -262,32 +228,49 @@ var article6_quality = isc.DynamicForm.create({
         width: "100%",
         wrapItemTitles: false,
         items: [
-            {
-                name: "incotermsText",
-                type: "text",
+               {
+                name: "incotermVersion", //article6_number32
+                colSpan: 3,
+                titleColSpan: 1,
+                showIf:"true",
+                tabIndex: 6,
                 showTitle: true,
-                disabled: false,
-                defaultValue: "INCOTERMS 2010",
+                showHover: true,
+                showHintInField: true,
+                required: false,
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }],
+                type: 'long',
+                numCols: 4,
+                editorType: "SelectItem",
+                optionDataSource: RestDataSource_ContractIncoterms_InCat,
+                displayField: "title",
+                valueField: "id",
+                pickListWidth: "450",
+                pickListHeight: "500",
+                pickListProperties: {showFilterEditor: true},
+                pickListFields: [
+                    {name: "id", width: 220, align: "center"},
+                    {name: "title", width: 220, align: "center"}
+                ],
+                changed: function (form, item, value) {
+                    form.clearValue('incotermsId');
+                },
                 width: "500",
-                wrap: false,
-                valueMap:
-                        {
-                            "INCOTERMS 2010": "INCOTERMS 2010",
-                            "INCOTERMS 2020": "INCOTERMS 2020"
-                        },
-                title: "<strong class='cssDynamicForm'>CONTRACT INCOTERMS</strong>",changed: function (form, item, value) {
-                }
+                title: "<strong class='cssDynamicForm'>SHIPMENT TYPE<strong>"
             }
             ,{
                 name: "incotermsId", //article6_number32
                 colSpan: 3,
                 titleColSpan: 1,
-                showIf:"false",
+                showIf:"true",
                 tabIndex: 6,
                 showTitle: true,
                 showHover: true,
                 showHintInField: true,
-                hint: "FOB",
                 required: false,
                 validators: [
                 {
@@ -304,13 +287,18 @@ var article6_quality = isc.DynamicForm.create({
                 pickListHeight: "500",
                 pickListProperties: {showFilterEditor: true},
                 pickListFields: [
-                    {name: "code", width: 440, align: "center"}
+                    {name: "id", width: 220, align: "center"},
+                    {name: "incotermRule.titleEn", width: 220, align: "center"}
                 ],
+                getPickListFilterCriteria : function () {
+                        let criterialotincotermId = {_constructor:'AdvancedCriteria',operator:"and",criteria:[{fieldName: "incotermId", operator: "equals", value: this.form.getValue("incotermVersion")}]};
+                        return criterialotincotermId;
+                     },
                 width: "500",
                 title: "<strong class='cssDynamicForm'>SHIPMENT TYPE<strong>"
-            } , {
+            }, {
                 name: "portByPortSourceId",
-                showIf:"false",
+                showIf:"true",
                 editorType: "SelectItem",
                 required: false,
                 validators: [
@@ -395,7 +383,7 @@ var article8_quality = isc.DynamicForm.create({
                         fullArticle8.setValue("THE QUOTATIONAL PERIOD SHALL BE AVERAGE OF "+" "+article8_quality.getValue("article8_quality1")+" "+" WORKING DAYS FROM "+" "+value+" "+" LME WORKING DAYS PRIOR DATE OF BILL OF LADING TILL "+" "+article8_quality.getValue("article8_quality3")+" "+" LME WORKING DAYS AFTER BILL OF LADING DATA ON FOB BANDAR ABBAS/IRAN BASIS");
                 }
             },{
-                name: "article8_quality3",
+                name: "article8_value",
                 type: "text",
                 showTitle: true,
                 defaultValue: "",
@@ -468,7 +456,7 @@ var article10_quality = isc.DynamicForm.create({
                 showTitle: true,
                 defaultValue: "",
                 startRow: false,
-                title: "<strong class='cssDynamicForm'>PULL DOWN</strong>"
+                title: "<strong class='cssDynamicForm'>Invoicung currency</strong>"
              },
              {
                 name: "article10_number57",
@@ -484,11 +472,10 @@ var article10_quality = isc.DynamicForm.create({
                 pickListWidth: "700",
                 pickListFields: [
                     {name: "paramName", title:"<spring:message code='parameters.paramName'/>", width: "20%", align: "center"},
-                    {name: "paramType", title:"<spring:message code='parameters.paramType'/>", width: "20%", align: "center"},
                     {name: "paramValue", title:"<spring:message code='parameters.paramValue'/>", width: "60%", align: "center"}
                 ],
                 pickListCriteria:{_constructor:'AdvancedCriteria',operator:"and",criteria:[
-                        {fieldName: "contractId", operator: "equals", value: 3},
+                        {fieldName: "contractId", operator: "equals", value: 2},
                         {fieldName:"categoryValue",operator:"equals",value:-2}]
                     },
                 title: "<strong class='cssDynamicForm'>BANK REFERENCE</strong>"
@@ -498,7 +485,7 @@ var article10_quality = isc.DynamicForm.create({
                 showTitle: true,
                 defaultValue: "",
                 startRow: true,
-                title: "<strong class='cssDynamicForm'>PULL DOWN</strong>"
+                title: "<strong class='cssDynamicForm'>currency option</strong>"
              },
              {
                 name: "article10_number59",
@@ -515,11 +502,10 @@ var article10_quality = isc.DynamicForm.create({
                 pickListWidth: "700",
                 pickListFields: [
                     {name: "paramName", title:"<spring:message code='parameters.paramName'/>", width: "20%", align: "center"},
-                    {name: "paramType", title:"<spring:message code='parameters.paramType'/>", width: "20%", align: "center"},
                     {name: "paramValue", title:"<spring:message code='parameters.paramValue'/>", width: "60%", align: "center"}
                 ],
                 pickListCriteria:{_constructor:'AdvancedCriteria',operator:"and",criteria:[
-                        {fieldName: "contractId", operator: "equals", value: 3},
+                        {fieldName: "contractId", operator: "equals", value: 2},
                         {fieldName:"categoryValue",operator:"equals",value:-2}]
                     },
                 title: "<strong class='cssDynamicForm'>BANK REFERENCE</strong>"
@@ -594,7 +580,7 @@ var fullArticle12 = isc.RichTextEditor.create({
         width: "100%",
         height: "100%",
         align: "top",
-        overflow: "scroll",
+        overflow: "auto",
         members: [
             lableArticle3Cad,
             article3_quality,

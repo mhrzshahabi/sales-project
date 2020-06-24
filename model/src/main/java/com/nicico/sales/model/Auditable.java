@@ -21,6 +21,7 @@ import java.util.Date;
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
 public abstract class Auditable {
+
     @CreatedDate
     @Column(name = "d_created_date", nullable = false, updatable = false)
     private Date createdDate;

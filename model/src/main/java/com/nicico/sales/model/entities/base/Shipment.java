@@ -3,8 +3,11 @@ package com.nicico.sales.model.entities.base;
 import com.nicico.sales.model.Auditable;
 import lombok.*;
 import lombok.experimental.Accessors;
+import org.hibernate.envers.NotAudited;
 
 import javax.persistence.*;
+import java.util.Date;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -91,8 +94,9 @@ public class Shipment extends Auditable {
     @Column(name = "MONTH", length = 20)
     private String month;
 
-    @Column(name = "CREATE_DATE", length = 20)
-    private String createDate;
+    @Column(name = "CREATE_DATE")
+    private Date createDate;
+//    private String createDate;
 
     @Column(name = "FILE_NAME", length = 100)
     private String fileName;
@@ -102,6 +106,9 @@ public class Shipment extends Auditable {
 
     @Column(name = "SHIPMENT_TYPE", length = 100)
     private String shipmentType;
+
+    @Column(name = "SHIPMENT_METHOD", length = 100)
+    private String shipmentMethod;
 
     @Column(name = "LAYCAN", length = 100)
     private String laycan;
@@ -121,7 +128,7 @@ public class Shipment extends Auditable {
     private Long switchPortId;
 
     @Column(name = "NO_BUNDLE", length = 100)
-    private String noBundle;
+    private Integer noBundle;
 
     @Column(name = "LOADING_LETTER", length = 100)
     private String loadingLetter;
@@ -133,10 +140,12 @@ public class Shipment extends Auditable {
     private long numberOfBLs;
 
     @Column(name = "BL_DATE", length = 20)
-    private String blDate;
+    private Date blDate;
+//    private String blDate;
 
-    @Column(name = "SW_BL_DATE", length = 20)
-    private String swBlDate;
+    @Column(name = "SW_BL_DATE")
+    private Date swBlDate;
+//    private String swBlDate;
 
     @Column(name = "CONSIGNEE", length = 100)
     private String consignee;
@@ -148,9 +157,6 @@ public class Shipment extends Auditable {
 
     @Column(name = "AGENT")
     private Long contactByAgentId;
-
-    @Column(name = "VESSEL_NAME", length = 500)
-    private String vesselName;
 
     @Column(name = "FREIGHT")
     private Double freight;
@@ -173,12 +179,11 @@ public class Shipment extends Auditable {
     @Column(name = "POST_REIGHT_CUR", length = 20)
     private String postFreightCurrency;
 
-    //drum
-    @Column(name = "NO_BARREL", length = 100)
-    private String noBarrel;
+    @Column(name = "NO_BARREL")
+    private Long noBarrel;
 
-    @Column(name = "NO_PALETE", length = 100)
-    private String noPalete;
+    @Column(name = "NO_PALETE")
+    private Long noPalete;
 
     @Column(name = "DEMURRAGE")
     private Double demurrage;
@@ -192,4 +197,27 @@ public class Shipment extends Auditable {
     @Column(name = "BOOKING_NO_cat")
     private String bookingCat;
 
+    @Setter(AccessLevel.NONE)
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "VESSEL_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "Shipment2vessel"))
+    private Vessel vessel;
+
+    @Column(name = "VESSEL_ID")
+    private Long vesselId;
+
+    @NotAudited
+    @OneToMany(mappedBy = "shipment", fetch = FetchType.LAZY)
+    private Set<Invoice> invoices;
+
+    @Column(name = "GROSS")
+    private Double gross;
+
+    @Column(name = "NET")
+    private Double net;
+
+    @Column(name = "MOISTURE")
+    private Double moisture;
+
+    @Column(name = "VGM")
+    private Double vgm;
 }

@@ -40,6 +40,7 @@
             ID: id,
             height: height,
             padding: padding,
+            autoDraw: false,
             align: "left",
             valign: "left",
             wrap: false,
@@ -80,16 +81,25 @@
         icon: "pieces/16/save.png",
         iconOrientation: "right",
         click: function () {
+            var contractEnd = article2Conc.getValue("contractEnd");
             ListGrid_ContractConcItemShipment.getAllEditRows().forEach(function (element) {
-            if(ListGrid_ContractConcItemShipment.validateRow(element) != true){
+                var record = ListGrid_ContractConcItemShipment.getEditedRecord(JSON.parse(JSON.stringify(element)));
+                if (record.sendDate > contractEnd){
+                   isc.warn("<spring:message code='contract.shipmentSendDateWarn'/>");
+                   ListGrid_ContractConcItemShipment.validate();
+                   return;
+                }
+                if(ListGrid_ContractConcItemShipment.validateRow(element) != true){
                     ListGrid_ContractConcItemShipment.validateRow(element);
                     isc.warn("<spring:message code='main.contractShipment'/>");
                     return;
-                    }
-                 })
+                }
+            })
             var dataSaveAndUpdateContractConc = {};
             var dataSaveAndUpdateContractConcDetail = {};
-            contactHeaderConc.validate();
+            if(!contactHeaderConc.validate()){
+               return
+            };
             valuesManagerArticle5_DeliveryTermsConc.validate();
             if (valuesManagerArticle5_DeliveryTermsConc.hasErrors()) {
                 contactConcTabs.selectTab(1);
@@ -129,7 +139,8 @@
                             dataSaveAndUpdateContractConc.unitId = valuesManagerArticle2Conc.getValue("unitId");
                             dataSaveAndUpdateContractConc.molybdenumTolorance = valuesManagerArticle2Conc.getValue("cathodesTolorance");
                             dataSaveAndUpdateContractConc.optional = valuesManagerArticle2Conc.getValue("optional");
-                            dataSaveAndUpdateContractConc.plant = valuesManagerArticle2Conc.getValue("plant");
+                            dataSaveAndUpdateContractConc.contractStart = valuesManagerArticle2Conc.getValue("contractStart");
+                            dataSaveAndUpdateContractConc.contractEnd = valuesManagerArticle2Conc.getValue("contractEnd");
                             dataSaveAndUpdateContractConc.contactInspectionId = 0;
                             dataSaveAndUpdateContractConc.molybdenum = valuesManagerArticle3_conc.getValue("MO");
                             dataSaveAndUpdateContractConc.copper = valuesManagerArticle3_conc.getValue("CU");
@@ -142,7 +153,7 @@
                             dataSaveAndUpdateContractConc.runEndtDate = "";
                             dataSaveAndUpdateContractConc.incotermsId = valuesManagerArticle5_DeliveryTermsConc.getValue("incotermsId");
                             dataSaveAndUpdateContractConc.portByPortSourceId = valuesManagerArticle5_DeliveryTermsConc.getValue("portByPortSourceId");
-                            dataSaveAndUpdateContractConc.incotermsText = valuesManagerArticle5_DeliveryTermsConc.getValue("incotermsText");
+                            dataSaveAndUpdateContractConc.incotermVersion = valuesManagerArticle5_DeliveryTermsConc.getValue("incotermVersion");
                             dataSaveAndUpdateContractConc.officeSource = "TEHRAN";
                             dataSaveAndUpdateContractConc.priceCalPeriod = "any";
                             dataSaveAndUpdateContractConc.publishTime = "any";
@@ -158,7 +169,6 @@
                             dataSaveAndUpdateContractConc.materialId = 3;
                             dataSaveAndUpdateContractConc.treatCost = valuesManagerArticle9_conc.getValue("TC");
                             dataSaveAndUpdateContractConc.refinaryCost = valuesManagerArticle9_conc.getValue("RC");
-
                             dataSaveAndUpdateContractConcDetail.name_ContactAgentSeller = contactHeaderConcAgent.getValue("name_ContactAgentSeller")
                             dataSaveAndUpdateContractConcDetail.phone_ContactAgentSeller = contactHeaderConcAgent.getValue("phone_ContactAgentSeller")
                             dataSaveAndUpdateContractConcDetail.mobile_ContactAgentSeller = contactHeaderConcAgent.getValue("mobile_ContactAgentSeller")
@@ -388,7 +398,7 @@
         width: "100%",
         height: "100%",
         align: "center",
-        overflow: "scroll",
+        overflow: "auto",
         autoCenter: true,
         isModal: true,
         showModalMask: true,
@@ -405,17 +415,22 @@
 
     function saveListGrid_ContractConcItemShipment() {
         ListGrid_ContractConcItemShipment.selectAllRecords();
-        var dataEdit = [];
+        var dataEditConc = [];
         ListGrid_ContractConcItemShipment.getAllEditRows().forEach(function (element) {
-            dataEdit.push(ListGrid_ContractConcItemShipment.getEditedRecord(element));
+            dataEditConc.push(ListGrid_ContractConcItemShipment.getEditedRecord(element));
+            if(dataEditConc.length>0){
+                try {
+                   // dataEditConc[dataEditConc.length - 1].sendDate = (dataEditConc[dataEditConc.length - 1].sendDate.getFullYear() + "/" + ("0" + (dataEditConc[dataEditConc.length - 1].sendDate.getMonth() + 1)).slice(-2) + "/" + ("0" + dataEditConc[dataEditConc.length - 1].sendDate.getDate()).slice(-2));
+                    }catch(err){
+                }
+            }
             ListGrid_ContractConcItemShipment.deselectRecord(ListGrid_ContractConcItemShipment.getRecord(element));
         });
         ListGrid_ContractConcItemShipment.getSelectedRecords().forEach(function (element) {
-            dataEdit.push(JSON.parse(JSON.stringify(element)));
-        });
+            dataEditConc.push(JSON.parse(JSON.stringify(element)));
+            });
         ListGrid_ContractConcItemShipment.deselectAllRecords();
-        console.log(dataEdit);
-        return dataEdit;
+        return dataEditConc;
     };
 
     var dataALLArticleConc = {};
@@ -448,13 +463,7 @@
         }))
     }
 
-    function nvlConc(articleIsNotNull) {
-        if (articleIsNotNull == undefined) {
-            return "";
-        } else {
-            return articleIsNotNull;
-        }
-    }
+
 
 
     function clearAdd() {

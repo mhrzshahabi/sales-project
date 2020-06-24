@@ -864,6 +864,239 @@
     {
       "code": "D_WAREHOUSE_YARD",
       "title": "حذف یارد انبار"
+    },
+
+
+
+    {
+      "code": "R_CONTRACT_TYPE",
+      "title": "نمایش نوع قرارداد"
+    },
+    {
+      "code": "C_CONTRACT_TYPE",
+      "title": "ایجاد نوع قرارداد"
+    },
+    {
+      "code": "U_CONTRACT_TYPE",
+      "title": "به روز رسانی نوع قرارداد"
+    },
+    {
+      "code": "D_CONTRACT_TYPE",
+      "title": "حذف نوع قرارداد"
+    },
+
+    {
+      "code": "R_CONTRACT2",
+      "title": "نمایش قرارداد"
+    },
+    {
+      "code": "C_CONTRACT2",
+      "title": "ایجاد قرارداد"
+    },
+    {
+      "code": "U_CONTRACT2",
+      "title": "به روز رسانی قرارداد"
+    },
+    {
+      "code": "D_CONTRACT2",
+      "title": "حذف قرارداد"
+    },
+    
+    {
+      "code": "R_CONTRACT_DETAIL_TYPE",
+      "title": "نمایش نوع جزییات قرارداد"
+    },
+    {
+      "code": "C_CONTRACT_DETAIL_TYPE",
+      "title": "ایجاد نوع جزییات قرارداد"
+    },
+    {
+      "code": "U_CONTRACT_DETAIL_TYPE",
+      "title": "به روز رسانی نوع جزییات قرارداد"
+    },
+    {
+      "code": "D_CONTRACT_DETAIL_TYPE",
+      "title": "حذف نوع جزییات قرارداد"
+    },
+
+    {
+      "code": "R_CONTRACT_DETAIL_TYPE_PARAM",
+      "title": "نمایش پارامتر نوع جزییات قرارداد"
+    },
+    {
+      "code": "C_CONTRACT_DETAIL_TYPE_PARAM",
+      "title": "ایجاد پارامتر نوع جزییات قرارداد"
+    },
+    {
+      "code": "U_CONTRACT_DETAIL_TYPE_PARAM",
+      "title": "به روز رسانی پارامتر نوع جزییات قرارداد"
+    },
+    {
+      "code": "D_CONTRACT_DETAIL_TYPE_PARAM",
+      "title": "حذف پارامتر نوع جزییات قرارداد"
+    },
+
+    {
+      "code": "R_CONTRACT_DETAIL_TYPE_PARAM_VALUE",
+      "title": "نمایش مقدار پارامتر نوع جزییات قرارداد"
+    },
+    {
+      "code": "C_CONTRACT_DETAIL_TYPE_PARAM_VALUE",
+      "title": "ایجاد مقدار پارامتر نوع جزییات قرارداد"
+    },
+    {
+      "code": "U_CONTRACT_DETAIL_TYPE_PARAM_VALUE",
+      "title": "به روز رسانی مقدار پارامتر نوع جزییات قرارداد"
+    },
+    {
+      "code": "D_CONTRACT_DETAIL_TYPE_PARAM_VALUE",
+      "title": "حذف مقدار پارامتر نوع جزییات قرارداد"
+    },
+
+    {
+      "code": "R_CONTRACT_DETAIL_TYPE_TEMPLATE",
+      "title": "نمایش الگوی نوع جزییات قرارداد"
+    },
+    {
+      "code": "C_CONTRACT_DETAIL_TYPE_TEMPLATE",
+      "title": "ایجاد الگوی نوع جزییات قرارداد"
+    },
+    {
+      "code": "U_CONTRACT_DETAIL_TYPE_TEMPLATE",
+      "title": "به روز رسانی الگوی نوع جزییات قرارداد"
+    },
+    {
+      "code": "D_CONTRACT_DETAIL_TYPE_TEMPLATE",
+      "title": "حذف الگوی نوع جزییات قرارداد"
+    },
+    
+    {
+      "code": "R_INCOTERM",
+      "title": "نمایش اینکوترم"
+    },
+    {
+      "code": "C_INCOTERM",
+      "title": "ایجاد اینکوترم"
+    },
+    {
+      "code": "U_INCOTERM",
+      "title": "به روز رسانی اینکوترم"
+    },
+    {
+      "code": "D_INCOTERM",
+      "title": "حذف اینکوترم"
+    },
+
+
+
+    {
+      "code": "R_INCOTERM_ASPECT",
+      "title": "نمایش نوع اینکوترم"
+    },
+    {
+      "code": "C_INCOTERM_ASPECT",
+      "title": "ایجاد نوع اینکوترم"
+    },
+    {
+      "code": "U_INCOTERM_ASPECT",
+      "title": "به روز رسانی نوع اینکوترم"
+    },
+    {
+      "code": "D_INCOTERM_ASPECT",
+      "title": "حذف نوع اینکوترم"
+    },
+
+    {
+      "code": "R_TERM",
+      "title": "نمایش ترم"
+    },
+    {
+      "code": "C_TERM",
+      "title": "ایجاد ترم"
+    },
+    {
+      "code": "U_TERM",
+      "title": "به روز رسانی ترم"
+    },
+    {
+      "code": "D_TERM",
+      "title": "حذف ترم"
+    },
+
+
+
+    {
+      "code": "R_INCOTERM_PARTY",
+      "title": "نمایش طرف قرارداد در اینکوترم"
+    },
+    {
+      "code": "C_INCOTERM_PARTY",
+      "title": "ایجاد طرف قرارداد در اینکوترم"
+    },
+    {
+      "code": "U_INCOTERM_PARTY",
+      "title": "به روز رسانی طرف قرارداد در اینکوترم"
+    },
+    {
+      "code": "D_INCOTERM_PARTY",
+      "title": "حذف طرف قرارداد در اینکوترم"
+    },
+
+
+    
+    {
+      "code": "R_INCOTERM_STEP",
+      "title": "نمایش گام اینکوترم"
+    },
+    {
+      "code": "C_INCOTERM_STEP",
+      "title": "ایجاد گام اینکوترم"
+    },
+    {
+      "code": "U_INCOTERM_STEP",
+      "title": "به روز رسانی گام اینکوترم"
+    },
+    {
+      "code": "D_INCOTERM_STEP",
+      "title": "حذف گام اینکوترم"
+    },
+    
+
+    
+    {
+      "code": "R_INCOTERM_RULE",
+      "title": "نمایش مد اینکوترم"
+    },
+    {
+      "code": "C_INCOTERM_RULE",
+      "title": "ایجاد مد اینکوترم"
+    },
+    {
+      "code": "U_INCOTERM_RULE",
+      "title": "به روز رسانی مد اینکوترم"
+    },
+    {
+      "code": "D_INCOTERM_RULE",
+      "title": "حذف مد اینکوترم"
+    },
+    
+
+    
+    {
+      "code": "R_VESSEL",
+      "title": "نمایش کشتی"
+    },
+    {
+      "code": "C_VESSEL",
+      "title": "ایجاد کشتی"
+    },
+    {
+      "code": "U_VESSEL",
+      "title": "به روز رسانی کشتی"
+    },
+    {
+      "code": "D_VESSEL",
+      "title": "حذف کشتی"
     }
 
   ]

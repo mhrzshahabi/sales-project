@@ -112,46 +112,47 @@
             width: 250,
             colSpan: 1,
             titleColSpan: 1
-        }, {
-            name: "destinationSheetSum",
-            title: "<spring:message code='warehouseCad.destinationSheetSum'/>",
-            width: 250,
-            colSpan: 1,
-            titleColSpan: 1
-        }],
-        fetchDataURL: "${contextPath}/api/warehouseCad/spec-list"
-    });
+}, {
+name: "destinationSheetSum",
+title: "<spring:message code='warehouseCad.destinationSheetSum'/>",
+width: 250,
+colSpan: 1,
+titleColSpan: 1
+}],
+fetchDataURL: "${contextPath}/api/warehouseCad/spec-list"
+});
 
-    isc.ViewLoader.create({
-        ID: "WarehouseCadViewLoader",
-        width: 830,
-        height: 800,
-        autoDraw: false,
-        loadingMessage: " <spring:message code='global.loadingMessage'/>"
-    });
+isc.ViewLoader.create({
+ID: "WarehouseCadViewLoader",
+width: 830,
+height: 800,
+autoDraw: false,
+loadingMessage: " <spring:message code='global.loadingMessage'/>"
+});
 
-    var Window_Bijack = isc.Window.create({
-        title: "<spring:message code='bijack'/> ",
-        width: 810,
-        height: 800,
-        autoSize: true,
-        autoCenter: true,
-        isModal: true,
-        align: "center",
-        autoDraw: false,
-        dismissOnEscape: true,
-        closeClick: function () {
-            this.Super("closeClick", arguments)
-        },
-        items:
-            [
-                WarehouseCadViewLoader
-            ]
-    });
+var Window_Bijack = isc.Window.create({
+title: "<spring:message code='bijack'/> ",
+width: 810,
+height: 800,
+autoSize: true,
+autoCenter: true,
+isModal: true,
+align: "center",
+autoDraw: false,
+canDragReposition: false,
+dismissOnEscape: true,
+closeClick: function () {
+this.Super("closeClick", arguments)
+},
+items:
+[
+WarehouseCadViewLoader
+]
+});
 
-    function ListGrid_warehouseCAD_refresh() {
-        ListGrid_warehouseCAD.invalidateCache();
-    }
+function ListGrid_warehouseCAD_refresh() {
+ListGrid_warehouseCAD.invalidateCache();
+}
 
     function ListGrid_warehouseCAD_edit() {
         var record = ListGrid_warehouseCAD.getSelectedRecord();
@@ -317,7 +318,7 @@
 
     ToolStripButton_WarehouseCAD_Report = isc.ToolStripButtonRefresh.create({
         icon: "[SKIN]/actions/excel-512.png",
-        title: "<spring:message code='global.form.export'/>",
+        title: "<spring:message code='global.form.export.excel'/>",
         click: function () {
             const fieldsGrid = ListGrid_warehouseCAD.getFields().filter(
                 function (q) {
@@ -409,8 +410,10 @@
             if (materialId_List_Pdf != null && materialId_List_Pdf !== 'undefined') {
                 const filterEditorCriteria = ListGrid_warehouseCAD.getCriteria();
                 const criteria_arr = [];
-                filterEditorCriteria.criteria.forEach(key => criteria_arr.add(key));
-                filterEditorCriteria.criteria = criteria_arr;
+                if(Object.keys(filterEditorCriteria).length != 0){
+                    filterEditorCriteria.criteria.forEach(key => criteria_arr.add(key));
+                    filterEditorCriteria.criteria = criteria_arr;
+                }
                 const criteria = JSON.stringify(filterEditorCriteria);
                 pdf.setValue("criteria", criteria);
                 pdf.setValue("mahsool", material);
@@ -603,7 +606,7 @@
             width: "100%",
             height: "100%",
             dataSource: RestDataSource_WarehouseCad,
-            initialCriteria: bijack_criteria,
+            // initialCriteria: bijack_criteria,
             contextMenu: Menu_ListGrid_warehouseCAD,
             styleName: 'expandList',
             autoFetchData: true,
@@ -725,3 +728,4 @@
                 })
             ]
         });
+//</script>

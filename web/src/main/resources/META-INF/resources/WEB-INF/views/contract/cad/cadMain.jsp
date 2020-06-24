@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-
+<%@include file="../js/contact-cad-component.js"%>
 //<script>
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
 
@@ -38,10 +38,12 @@
                 {name: "sideContractDate", ID: "sideContractDate"},
                 {name: "refinaryCost", ID: "refinaryCost"},
                 {name: "treatCost", ID: "treatCost"},
+                {name: "contractStart", title: "<spring:message code='contract.contractStart'/>"},
+                {name: "contractEnd", title: "<spring:message code='contract.contractEnd'/>"}
             ],
-        // ######@@@@###&&@@###
         fetchDataURL: "${contextPath}/api/contract/spec-list"
     });
+
     var RestDataSource_Parameters = isc.MyRestDataSource.create({
         fields:
             [
@@ -116,30 +118,20 @@
                 {name: "id", hidden: true, primaryKey: true, canEdit: false,},
                 {name: "contractItemId", type: "long", hidden: true},
                 {
-                    name: "shipmentRow",
-                    title: "<spring:message code='contractItem.itemRow'/> ",
+                    name: "loadPortId",
+                    title: "<spring:message code='shipment.loading'/>",
                     type: 'text',
                     required: true,
                     width: 400
                 },
                 {
-                    name: "dischargeId",
-                    title: "<spring:message code='port.port'/>",
-                    type: 'text',
-                    required: true,
-                    width: 400
-                },
-                {name: "discharge.port", title: "<spring:message code='port.port'/>", align: "center"},
-                {
-                    name: "address",
-                    title: "<spring:message code='global.address'/>",
-                    type: 'text',
-                    required: true,
-                    width: 400
+                    name: "loadPort.port",
+                    title: "<spring:message code='shipment.loading'/>",
+                    align: "center"
                 },
                 {
-                    name: "amount",
-                    title: "<spring:message code='global.amount'/>",
+                    name: "quantity",
+                    title: "<spring:message code='global.quantity'/>",
                     type: 'float',
                     required: true,
                     width: 400
@@ -147,10 +139,8 @@
                 {
                     name: "sendDate",
                     title: "<spring:message code='global.sendDate'/>",
-                    type: 'text',
                     width: 400,
                 },
-                {name: "duration", title: "<spring:message code='global.duration'/>", type: 'text', width: 400},
             ],
         fetchDataURL: "${contextPath}/api/contractShipment/spec-list"
     });
@@ -314,20 +304,20 @@ var ListGrid_Cad = isc.ListGrid.create({
                         textMain= JSON.parse(text2.replaceAt(0,'{"').replaceAt(text2.length-1,'}'));
                         setTimeout(function(){
                                 contactCadTabs.selectTab(0);
-                                dynamicFormCad_fullArticle01.setValue(textMain.Article01);
-                                dynamicForm_fullArticle02Cad.setValue(textMain.Article02);
-                                fullArticle3.setValue(textMain.Article03);
-                                fullArticle4.setValue(textMain.Article04);
-                                article5_quality.setValue(textMain.Article05);
-                                fullArticle6.setValue(textMain.Article06);
-                                fullArticle7.setValue(textMain.Article07);
-                                fullArticle8.setValue(textMain.Article08);
-                                fullArticle9.setValue(textMain.Article09);
-                                fullArticle10.setValue(textMain.Article10);
-                                article11_quality.setValue(textMain.Article11);
-                                fullArticle12.setValue(textMain.Article12);
+                                dynamicFormCad_fullArticle01.setValue(nvlCad(textMain.Article01));
+                                dynamicForm_fullArticle02Cad.setValue(nvlCad(textMain.Article02));
+                                fullArticle3.setValue(nvlCad(textMain.Article03));
+                                fullArticle4.setValue(nvlCad(textMain.Article04));
+                                article5_quality.setValue(nvlCad(textMain.Article05));
+                                fullArticle6.setValue(nvlCad(textMain.Article06));
+                                fullArticle7.setValue(nvlCad(textMain.Article07));
+                                fullArticle8.setValue(nvlCad(textMain.Article08));
+                                fullArticle9.setValue(nvlCad(textMain.Article09));
+                                fullArticle10.setValue(nvlCad(textMain.Article10));
+                                article11_quality.setValue(nvlCad(textMain.Article11));
+                                fullArticle12.setValue(nvlCad(textMain.Article12));
                                 ListGrid_ContractItemShipment.fetchData(criteriaContractItemShipment);
-                        },300)
+                        },350)
                     }else{
                         isc.say(RpcResponse_o.data);
                 }
@@ -346,12 +336,13 @@ var ListGrid_Cad = isc.ListGrid.create({
                         valuesManagerArticle2Cad.setValue("unitId", record.unitId);
                         valuesManagerArticle2Cad.setValue("molybdenumTolorance", record.molybdenumTolorance);
                         valuesManagerArticle2Cad.setValue("optional", record.optional);
-                        valuesManagerArticle3_quality.setValue("plant", record.plant);
+                        valuesManagerArticle2Cad.setValue("contractStart", record.contractStart);
+                        valuesManagerArticle2Cad.setValue("contractEnd", record.contractEnd);
                         valuesManagerArticle4_quality.setValue("article4_quality1",record.mo_amount);
                         valuesManagerArticle4_quality.setValue("article4_quality2",record.copper);
                         valuesManagerArticle6_quality.setValue("incotermsId",record.incotermsId);
                         valuesManagerArticle6_quality.setValue("portByPortSourceId",record.portByPortSourceId);
-                        valuesManagerArticle6_quality.setValue("incotermsText",record.incotermsText);
+                        valuesManagerArticle6_quality.setValue("incotermVersion",record.incotermVersion);
                                 //*****************
                         contactCadHeaderCadAgent.setValue("name_ContactAgentSeller", data[0].name_ContactAgentSeller)
                         contactCadHeaderCadAgent.setValue("phone_ContactAgentSeller", data[0].phone_ContactAgentSeller)
@@ -372,6 +363,7 @@ var ListGrid_Cad = isc.ListGrid.create({
                         valuesManagerArticle7_quality.setValue("article7_quality1",data[0].article7_number37);
                         valuesManagerArticle8_quality.setValue("article8_quality1",data[0].article8_number43);
                         valuesManagerArticle8_quality.setValue("article8_quality2",data[0].article8_number44_1);
+                        valuesManagerArticle8_quality.setValue("article8_value",data[0].article8_value);
                         valuesManagerArticle10_quality.setValue("article10_number56",data[0].article10_number56);
                         valuesManagerArticle10_quality.setValue("article10_number57",data[0].article10_number57);
                         valuesManagerArticle10_quality.setValue("article10_number58",data[0].article10_number58);
@@ -636,7 +628,8 @@ function deleteFromContractShipment(id){
                                                                                 valuesManagerArticle2Cad.setValue("unitId", data[0].unitId);
                                                                                 valuesManagerArticle2Cad.setValue("molybdenumTolorance", data[0].molybdenumTolorance);
                                                                                 valuesManagerArticle2Cad.setValue("optional", data[0].optional);
-                                                                                valuesManagerArticle3_quality.setValue("plant", data[0].plant);
+                                                                                valuesManagerArticle2Cad.setValue("contractStart", data[0].contractStart);
+                                                                                valuesManagerArticle2Cad.setValue("contractEnd", data[0].contractEnd);
                                                                                 valuesManagerArticle4_quality.setValue("article4_quality1",data[0].article4_quality1);
                                                                                 valuesManagerArticle4_quality.setValue("article4_quality2",data[0].article4_quality2);
                                                                                 valuesManagerArticle6_quality.setValue("incotermsId",data[0].incotermsId);
@@ -770,13 +763,13 @@ function deleteFromContractShipment(id){
             ]
         });
 
-isc.VStack.create({
+isc.VLayout.create({
         ID: "VLayout_ContractCad",
         width: "100%",
         height: "100%",
         members: [
-            isc.HLayout.create({height: "4%",members: [ToolStrip_Actions_ContactCad]}),
-            isc.HLayout.create({height: "96%",members: [ListGrid_Cad]})
+            isc.HLayout.create({height: "40",members: [ToolStrip_Actions_ContactCad]}),
+            isc.HLayout.create({height: "100%",overflow: "auto",members: [ListGrid_Cad]})
         ]
     });
 
@@ -850,5 +843,13 @@ function ListGrid_ContractCad_remove() {
                     }
                 }
             });
+        }
+    }
+
+    function nvlCad(articleIsNotNull){
+        if(articleIsNotNull == undefined){
+            return "";
+        }else{
+            return articleIsNotNull;
         }
     }

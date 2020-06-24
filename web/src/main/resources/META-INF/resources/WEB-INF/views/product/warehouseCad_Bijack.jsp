@@ -341,12 +341,6 @@
 
         saveEdits: function () {
 
-            // Doesn't Work Completely. Need to Change
-            <%--if (ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_BIJACK.validateRow(ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_BIJACK.getEditSessionRowNum())) {--%>
-                <%--isc.warn("<spring:message code='warehouseCadItem.tedadCADErrors'/>");--%>
-                <%--return;--%>
-            <%--}--%>
-
             var warehouseCadItemRecord = ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_BIJACK.getEditedRecord(ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_BIJACK.getEditRow());
             if (warehouseCadItemRecord.issueId != undefined) {
                 isc.warn("<spring:message code='bijack.item.inventory'/>");
@@ -437,35 +431,26 @@
         }, {
             name: "bijackNo",
             title: "<spring:message code='warehouseCad.bijackNo'/>",
-            type: 'text',
-            required: true,
-            validators: [{
-                type:"required",
-                validateOnChange: true
-            }]
+            type: 'staticText',
         }, {
             name: "materialItemId",
             title: "<spring:message code='contractItem.material'/>",
-            type: 'text',
-            canEdit: false
+            type: 'staticText',
         }, {
             name: "plant",
             title: "<spring:message code='contractItem.plant'/>",
-            type: 'text',
-            canEdit: false
+            type: 'staticText',
         }, {
             name: "warehouseNo",
             title: "<spring:message code='warehouseCad.warehouseNo'/>",
-            type: 'text',
-            canEdit: false
+            type: 'staticText',
         }, {
             name: "movementType",
             title: "<spring:message code='warehouseCad.movementType'/>",
-            type: 'text',
-            canEdit: false
+            type: 'staticText',
         }, {
             name: "sourceTozinPlantId",
-            canEdit: false,
+            type: 'staticText',
             colSpan: 3,
             titleColSpan: 1,
             title: "<spring:message code='warehouseCad.tozinOther'/>",
@@ -477,7 +462,7 @@
                 defaultValue: "<spring:message code='warehouseCad.addBijackPlanIdExact'/>"
             },{
             name: "destinationTozinPlantStaticId",
-            disabled: false,
+            disabled: true,
             colSpan: 3,
             titleColSpan: 1,
             showHover: true,
@@ -499,7 +484,7 @@
                 defaultValue: "<spring:message code='warehouseCad.addBijackPlanId'/>"
             },{
             name: "destinationTozinPlantId",
-            required: true,
+            disabled: true,
             validators: [{
                 type:"required",
                 validateOnChange: true
@@ -578,7 +563,7 @@
                 title: "<spring:message code='warehouseCad.containerNo'/>",
                 colSpan: 1,
                 titleColSpan: 1,
-                canEdit: false
+                type: 'staticText',
             },
             {
                 name: "rahahanPolompNo",
@@ -616,7 +601,7 @@
                 title: "<spring:message code='warehouseCad.sourceLoadDate'/>", //=تاریخ بارگیری در مبدا
                 colSpan: 1,
                 titleColSpan: 1,
-                canEdit: false
+                type: 'staticText',
             },
 
             {
@@ -624,35 +609,35 @@
                 title: "<spring:message code='warehouseCad.destinationUnloadDate'/>", //تاریخ تخلیه در مقصد
                 colSpan: 1,
                 titleColSpan: 1,
-                canEdit: false
+                type: 'staticText',
             },
             {
                 name: "sourceBundleSum",
                 title: "<spring:message code='warehouseCad.sourceBundleSum'/>",
                 colSpan: 1,
                 titleColSpan: 1,
-                canEdit: false
+                type: 'staticText',
             },
             {
                 name: "destinationBundleSum",
                 title: "<spring:message code='warehouseCad.destinationBundleSum'/>",
                 colSpan: 1,
                 titleColSpan: 1,
-                canEdit: false
+                type: 'staticText',
             },
             {
                 name: "sourceSheetSum",
                 title: "<spring:message code='warehouseCad.sourceSheetSum'/>",
                 colSpan: 1,
                 titleColSpan: 1,
-                canEdit: false
+                type: 'staticText',
             },
             {
                 name: "destinationSheetSum",
                 title: "<spring:message code='warehouseCad.destinationSheetSum'/>",
                 colSpan: 1,
                 titleColSpan: 1,
-                canEdit: false
+                type: 'staticText',
             },
             {
                 name: "sourceWeight",
@@ -660,7 +645,7 @@
                 colSpan: 1,
                 titleColSpan: 1,
                 keyPressFilter: "[0-9]",
-                canEdit: false
+                type: 'staticText',
             },
             {
                 name: "destinationWeight",
@@ -668,7 +653,7 @@
                 colSpan: 1,
                 titleColSpan: 1,
                 keyPressFilter: "[0-9]",
-                canEdit: false
+                type: 'staticText',
             },
             {
                 name: "sourceSheetSumDelivery",
