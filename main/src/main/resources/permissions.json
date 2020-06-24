@@ -1331,6 +1331,24 @@
     {
       "code": "D_WEIGHT_INSPECTION",
       "title": "حذف بازرسی وزن"
+    },
+
+
+    {
+      "code": "R_INVOICE_TYPE",
+      "title": "نمایش نوع صورتحساب"
+    },
+    {
+      "code": "C_INVOICE_TYPE",
+      "title": "ایجاد نوع صورتحساب"
+    },
+    {
+      "code": "U_INVOICE_TYPE",
+      "title": "به روز رسانی نوع صورتحساب"
+    },
+    {
+      "code": "D_INVOICE_TYPE",
+      "title": "حذف نوع صورتحساب"
     }
 
 

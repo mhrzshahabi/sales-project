@@ -3,8 +3,9 @@ var foreignInvoiceTab = new nicico.GeneralTabUtil().getDefaultJSPTabVariable();
 foreignInvoiceTab.variable.personUrl = "${contextPath}" + "/api/person/";
 foreignInvoiceTab.variable.currencyUrl = "${contextPath}" + "/api/currency/";
 foreignInvoiceTab.variable.contractUrl = "${contextPath}" + "/api/g-contract/";
-foreignInvoiceTab.variable.invoiceTypeUrl = "${contextPath}" + "/api/invoice-type/";
+foreignInvoiceTab.variable.invoiceTypeUrl = "${contextPath}" + "/api/invoicetype/";
 foreignInvoiceTab.variable.materialItemUrl = "${contextPath}" + "/api/materialItem/";
+foreignInvoiceTab.variable.conversionRefUrl = "${contextPath}" + "/api/currencyRate/";
 foreignInvoiceTab.variable.foreignInvoiceUrl = "${contextPath}" + "/api/foreign-invoice/";
 foreignInvoiceTab.variable.foreignInvoiceItemUrl = "${contextPath}" + "/api/foreign-invoice-item/";
 foreignInvoiceTab.variable.foreignInvoicePaymentUrl = "${contextPath}" + "/api/foreign-invoice-payment/";
@@ -135,12 +136,17 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
         changed: function (form, item, value) {
 
             let materialItemIdField = form.getField("materialItemId");
+            let selectedRecord = item.getSelectedRecord();
             materialItemIdField.setOptionCriteria({
                 fieldName: "materialId",
                 operator: "equals",
-                value: item.getSelectedRecord().materialId
+                value: selectedRecord.materialId
             });
-            materialItemIdField.optionDataSource.fetchData();
+            materialItemIdField.enable();
+
+            let buyer = selectedRecord.contractContacts.filter(q => q.contact.buyer).first().contact;
+            form.setValue("buyerId", buyer.id);
+            form.setValue("buyer.nameEN", buyer.nameEN);
         }
     },
     {
@@ -184,10 +190,27 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
     },
     {
         colSpan: 6,
+        type: "integer",
+        name: "toCurrencyId",
+        editorType: "SelectItem",
+        width: "100%",
+        valueField: "id",
+        displayField: "nameEn",
+        optionDataSource: isc.MyRestDataSource.create({
+            fields: [
+                {name: "id", primaryKey: true, hidden: true, title: "<spring:message code='global.id'/>"},
+                {name: "nameEn", title: "<spring:message code='global.title'/>"},
+            ],
+            fetchDataURL: foreignInvoiceTab.variable.currencyUrl + "spec-list"
+        }),
+        title: "<spring:message code='foreign-invoice.form.to.currency'/>"
+    },
+    {
+        colSpan: 6,
         required: true,
         type: "integer",
-        editorType: "SelectItem",
         name: "creatorId",
+        editorType: "SelectItem",
         width: "100%",
         valueField: "id",
         displayField: "fullName",
@@ -202,43 +225,24 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
     },
     {
         colSpan: 6,
-        name: "no",
         readonly: true,
-        editorType: "staticText",
-        title: "<spring:message code='foreign-invoice.form.no'/>"
-    },
-    {
-        colSpan: 6,
-        readonly: true,
-        type: "float",
-        name: "conversionRate",
-        editorType: "staticText",
-        title: "<spring:message code='foreign-invoice.form.conversion-rate'/>"
-    },
-    {
-        colSpan: 6,
-        readonly: true,
-        name: "conversionDate",
-        type: "date",
-        editorType: "staticText",
-        title: "<spring:message code='foreign-invoice.form.conversion-date'/>"
-    },
-    {
-        colSpan: 6,
         type: "integer",
-        readonly: true,
-        editorType: "staticText",
         name: "conversionRefId",
-        title: "<spring:message code='foreign-invoice.form.conversion-ref'/>"
-    },
-    {
-        colSpan: 6,
-        required: true,
-        type: "integer",
-        readonly: true,
-        editorType: "staticText",
-        name: "buyerId",
-        title: "<spring:message code='foreign-invoice.form.buyer'/>"
+        editorType: "SelectItem",
+        width: "100%",
+        valueField: "id",
+        displayField: "reference",
+        optionDataSource: isc.MyRestDataSource.create({
+            fields: [
+                {name: "id", primaryKey: true, hidden: true, title: "<spring:message code='global.id'/>"},
+                {name: "date", title: "<spring:message code='global.date'/>"},
+                {name: "reference", title: "<spring:message code='foreign-invoice.form.conversion-ref'/>"},
+                {name: "from", title: "<spring:message code='global.from'/>"},
+                {name: "to", title: "<spring:message code='global.to'/>"},
+            ],
+            fetchDataURL: foreignInvoiceTab.variable.conversionRefUrl + "spec-list"
+        }),
+        title: "<spring:message code='foreign-invoice.form.conversion-ref'/>",
     }
 ]);
 
@@ -259,6 +263,20 @@ foreignInvoiceTab.restDataSource.foreignInvoiceItemDetail = isc.MyRestDataSource
 
 //******************************************************* COMPONENTS ***************************************************
 
+foreignInvoiceTab.dynamicForm.main = isc.DynamicForm.create({
+    width: "100%",
+    align: "center",
+    titleAlign: "right",
+    numCols: 6,
+    margin: 10,
+    canSubmit: true,
+    showErrorText: true,
+    showErrorStyle: true,
+    showInlineErrors: true,
+    errorOrientation: "bottom",
+    fields: foreignInvoiceTab.dynamicForm.fields,
+    requiredMessage: '<spring:message code="validator.field.is.required"/>'
+});
 foreignInvoiceTab.button.save = isc.IButtonSave.create({
 
     margin: 10,
