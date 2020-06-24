@@ -6,9 +6,11 @@
 				   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
 	<include file="classpath:/db/changelog/liquibase-init.xml"/>
 	<include file="classpath:/db/changelog/tbl_warh_material_element.xml"/>
-	<include file="classpath:/db/changelog/tbl_assay_inspection.xml"/>
 	<include file="classpath:/db/changelog/tbl_person.xml"/>
+	<include file="classpath:/db/changelog/foreign-invoice/tbl_foreign_invoice.xml"/>
 	<!--	<include file="classpath:/db/changelog/view_tozin.xml"/>-->
+	<include file="classpath:/db/changelog/tbl_assay_inspection.xml"/>
+	<include file="classpath:/db/changelog/tbl_inspection_report.xml"/>
 	<!--	<include file="classpath:/db/changelog/view_tozin_m.xml"/>-->
 	<!--	<include file="classpath:/db/changelog/view_tozin_s.xml"/>-->
 	<!--	<include file="classpath:/db/changelog/view_frosh.xml"/>-->

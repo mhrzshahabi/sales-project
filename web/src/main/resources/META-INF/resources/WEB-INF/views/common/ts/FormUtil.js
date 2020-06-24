@@ -7,13 +7,13 @@
 var nicico;
 (function (nicico) {
     //------------------------------------------ Classes -------------------------------------------
-    class FormUtil {
-        constructor() {
+    var FormUtil = /** @class */ (function () {
+        function FormUtil() {
             this.populateData = function (bodyWidget) {
                 return [];
             };
             this.cancelCallBack = function () {
-
+                return;
             };
             this.validate = function (data) {
                 return true;
@@ -22,32 +22,32 @@ var nicico;
                 return data;
             };
         }
-
-        showForm(ownerWindow, title, canvas, width = null, height = null) {
+        FormUtil.prototype.showForm = function (ownerWindow, title, canvas, width, height) {
+            if (width === void 0) { width = null; }
+            if (height === void 0) { height = null; }
             this.owner = new nicico.ObjectHider(ownerWindow);
             this.bodyWidget = new nicico.ObjectHider(canvas);
             this.createWindow(title, this.getButtonLayout(), width, height);
             if (ownerWindow != null)
                 ownerWindow.close();
             this.windowWidget.getObject().show();
-        }
-
-        init(ownerWindow, title, canvas, width = null, height = null) {
+        };
+        FormUtil.prototype.init = function (ownerWindow, title, canvas, width, height) {
+            if (width === void 0) { width = null; }
+            if (height === void 0) { height = null; }
             this.owner = new nicico.ObjectHider(ownerWindow);
             this.bodyWidget = new nicico.ObjectHider(canvas);
             this.createWindow(title, this.getButtonLayout(), width, height);
-        }
-
-        justShowForm() {
+        };
+        FormUtil.prototype.justShowForm = function () {
             if (this.owner.getObject() != null)
                 this.owner.getObject().close();
             this.windowWidget.getObject().show();
-        }
-
-        getButtonLayout() {
-            let This = this;
+        };
+        FormUtil.prototype.getButtonLayout = function () {
+            var This = this;
             // @ts-ignore
-            let cancel = isc.IButtonCancel.create({
+            var cancel = isc.IButtonCancel.create({
                 // @ts-ignore
                 click: function () {
                     This.windowWidget.getObject().close();
@@ -59,10 +59,10 @@ var nicico;
                 title: '<spring:message code="global.close" />'
             });
             // @ts-ignore
-            let ok = isc.IButtonSave.create({
+            var ok = isc.IButtonSave.create({
                 // @ts-ignore
                 click: function () {
-                    let data = This.populateData(This.bodyWidget.getObject());
+                    var data = This.populateData(This.bodyWidget.getObject());
                     if (!This.validate(data))
                         return;
                     This.windowWidget.getObject().close();
@@ -82,12 +82,13 @@ var nicico;
                 showEdges: false,
                 members: [ok, cancel]
             });
-        }
-
-        createWindow(title, buttonLayout, width = null, height = null) {
-            let This = this;
+        };
+        FormUtil.prototype.createWindow = function (title, buttonLayout, width, height) {
+            if (width === void 0) { width = null; }
+            if (height === void 0) { height = null; }
+            var This = this;
             width = width == null ? "50%" : width;
-            let items = [];
+            var items = [];
             if (This.bodyWidget.getObject().constructor === Array)
                 // @ts-ignore
                 items.addAll(This.bodyWidget.getObject());
@@ -103,8 +104,9 @@ var nicico;
                     This.cancelCallBack();
                 }
             }));
-        }
-    }
+        };
+        return FormUtil;
+    }());
     nicico.FormUtil = FormUtil;
     //------------------------------------------ Classes -----------------------------------------//
 })(nicico || (nicico = {}));

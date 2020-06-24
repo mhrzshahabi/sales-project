@@ -42,15 +42,6 @@ public class AssayInspection extends BaseEntity {
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "F_REMITTANCE_DETAIL_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_AssayInspection2RemittanceDetailByRemittanceDetailId"))
-    private RemittanceDetail remittanceDetail;
-
-    @NotNull
-    @Column(name = "F_REMITTANCE_DETAIL_ID", nullable = false)
-    private Long remittanceDetailId;
-
-    @Setter(AccessLevel.NONE)
-    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "F_ITEM_ELEMENT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_AssayInspection2itemElementByItemElementId"))
     private MaterialElement materialElement;
 
