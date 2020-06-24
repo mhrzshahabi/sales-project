@@ -62,6 +62,15 @@ class SalesBaseParameters {
     static async getUnitParameter(updateTable = false) {
         return await this.getParameter('unit', updateTable);
     }
+    static getSavedWarehouseParameter() {
+        return this.warehouse;
+    }
+    static getSavedUnitParameter() {
+        return this.unit;
+    }
+    static getSavedMaterialItemParameter() {
+        return this.materialItem;
+    }
     static async getWarehouseParameter(updateTable = false) {
         return await this.getParameter('warehouse', updateTable);
     }
@@ -82,14 +91,15 @@ class SalesBaseParameters {
     }
     static async fetchAndSave(parameter) {
         try {
-            const rawResponse = await fetch(this.rootUrl + '/api/' + parameter + '/list', {headers: this.httpHeaders});
+            const rawResponse = await fetch(this.rootUrl + '/api/' + parameter + '/list', { headers: this.httpHeaders });
             const response = await rawResponse.json();
             const params = {};
             params[parameter] = response;
             StorageUtil.save('parameters', params);
             this[parameter] = response;
             return response;
-        } catch (e) {
+        }
+        catch (e) {
             console.error('fetching parameter error', e);
             return false;
         }

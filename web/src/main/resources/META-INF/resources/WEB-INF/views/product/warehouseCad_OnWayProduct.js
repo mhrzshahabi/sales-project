@@ -1,8 +1,6 @@
 //<%@ page contentType="text/html;charset=UTF-8" %>
 //<%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
-
 // <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
-
 var RestDataSource_CathodList = isc.MyRestDataSource.create({
     fields: [
         {name: "storeId"},
@@ -16,7 +14,6 @@ var RestDataSource_CathodList = isc.MyRestDataSource.create({
     ],
     fetchDataURL: "${contextPath}/api/cathodList/spec-list"
 });
-
 var RestDataSource_WarehouseYard_IN_WAREHOUSECAD_ONWAYPRODUCT = isc.MyRestDataSource.create({
     fields: [
         {
@@ -43,7 +40,6 @@ var RestDataSource_WarehouseYard_IN_WAREHOUSECAD_ONWAYPRODUCT = isc.MyRestDataSo
     ],
     fetchDataURL: "${contextPath}/api/warehouseYard/spec-list"
 });
-
 var RestDataSource_tozin_IN_WAREHOUSECAD_ONWAYPRODUCT = isc.MyRestDataSource.create({
     fields: [
         {
@@ -227,17 +223,25 @@ var RestDataSource_tozin_IN_WAREHOUSECAD_ONWAYPRODUCT = isc.MyRestDataSource.cre
     ],
     fetchDataURL: "${contextPath}/api/tozin/search-tozin"
 });
-
 var RestDataSource_Tozin_BandarAbbas_optionCriteria = {
     _constructor: "AdvancedCriteria",
     operator: "and",
+    _sortBy: '-date',
     criteria: [{
         fieldName: "target",
         operator: "iContains",
         value: "رجا"
     }, {
+        fieldName: "sourceId",
+        operator: "equals",
+        value: ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().sourceId
+    }, {
+        fieldName: "date",
+        operator: "greaterOrEqual",
+        value: ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().date
+    }, {
         fieldName: "tozinId",
-        operator: "contains",
+        operator: "iStartsWith",
         value: '3-'
     }, {
         fieldName: "codeKala",
@@ -316,9 +320,6 @@ var ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT = isc.ListGrid.create
         });
     }
 });
-
-
-
 var DynamicForm_warehouseCAD = isc.DynamicForm.create({
     titleWidth: "150",
     numCols: 4,
@@ -362,7 +363,8 @@ var DynamicForm_warehouseCAD = isc.DynamicForm.create({
             primaryKey: true,
             canEdit: false,
             hidden: true
-        }, {
+        },
+        {
             name: "bijackNo",
             title: "<spring:message code='warehouseCad.bijackNo'/>",
             type: 'text',
@@ -371,37 +373,46 @@ var DynamicForm_warehouseCAD = isc.DynamicForm.create({
                 type: "required",
                 validateOnChange: true
             }]
-        }, {
+        },
+        {
             name: "materialItemId",
             title: "<spring:message code='contractItem.material'/>",
             type: 'staticText',
-        }, {
+        },
+        {
             name: "plant",
             title: "<spring:message code='contractItem.plant'/>",
             type: 'staticText',
-        }, {
+        },
+        {
             name: "warehouseNo",
             title: "<spring:message code='warehouseCad.warehouseNo'/>",
             type: 'staticText',
-        }, {
+        },
+        {
             name: "movementType",
             title: "<spring:message code='warehouseCad.movementType'/>",
             type: 'staticText',
-        }, {
+        },
+        {
             name: "sourceTozinPlantId",
             type: 'staticText',
             colSpan: 3,
             titleColSpan: 1,
             title: "<spring:message code='warehouseCad.tozinOther'/>",
             width: "100%"
-        }, {
+        },
+        /**  {
             align: "center",
             layoutAlign: "center",
             type: "Header",
             defaultValue: "<spring:message code='warehouseCad.addBijackPlanIdExact'/>"
-        }, {
+        },
+         {
             name: "destinationTozinPlantStaticId",
             disabled: false,
+            multiple: true,
+            multipleValueSeparator: ',',
             colSpan: 3,
             titleColSpan: 1,
             showHover: true,
@@ -415,12 +426,14 @@ var DynamicForm_warehouseCAD = isc.DynamicForm.create({
                     DynamicForm_warehouseCAD.getField('destinationTozinPlantId').setDisabled(true);
                 }
             }
-        }, {
+        },
+         {
             align: "center",
             layoutAlign: "center",
             type: "Header",
             defaultValue: "<spring:message code='warehouseCad.addBijackPlanId'/>"
-        }, {
+        },
+         {
             name: "destinationTozinPlantId",
             colSpan: 3,
             titleColSpan: 1,
@@ -456,7 +469,24 @@ var DynamicForm_warehouseCAD = isc.DynamicForm.create({
                 DynamicForm_warehouseCAD.setValue("destinationBundleSum", item.getSelectedRecord().tedad);
                 DynamicForm_warehouseCAD.setValue("destinationWeight", item.getSelectedRecord().vazn);
             }
-        }, {
+        },
+         **/
+        {
+            name: 'destinationTozinPlantId',
+            title: "<spring:message code='warehouseCad.tozinBandarAbbas'/>",
+            layoutStyle: "flow",
+            editorType: "MultiComboBoxItem",
+            addUnknownValues: true,
+            displayField: "tozinId",
+            valueField: "tozinId",
+            icons: [{
+                src: "pieces/16/icon_add.png",
+                click() {
+                    windowDestinationTozinList.show()
+                }
+            }]
+        },
+        {
             name: "warehouseYardId",
             required: true,
             validators: [{
@@ -604,7 +634,6 @@ var DynamicForm_warehouseCAD = isc.DynamicForm.create({
         }
     ]
 });
-
 var DynamicForm_warehouseCAD_Desc = isc.DynamicForm.create({
     titleWidth: "200",
     fields: [
@@ -632,7 +661,6 @@ var DynamicForm_warehouseCAD_Desc = isc.DynamicForm.create({
         }
     ]
 });
-
 var IButton_warehouseCAD_Save = isc.IButtonSave.create({
     top: 260,
     title: "<spring:message code='global.form.save'/>",
@@ -724,50 +752,46 @@ var IButton_warehouseCAD_Save = isc.IButtonSave.create({
 
     }
 });
-
 ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT.setData([]);
 var criteria_cathod = {
-    _constructor: "AdvancedCriteria", operator: "and",
-    criteria: [{
-        fieldName: "tozinId",
-        operator: "equals",
-        value: ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().tozinId
-    }]
+    _constructor: "AdvancedCriteria", operator: "or",
+    criteria: ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecords().map(r => {
+        return {
+            fieldName: "tozinId",
+            operator: "equals",
+            value: r.tozinId
+        }
+    })
 };
-
-RestDataSource_CathodList.fetchData(criteria_cathod,
-    function (dsResponse, data, dsRequest) {
-        data.forEach(function (item) {
-            delete item.storeId;
-            delete item.tozinId;
-            delete item.productId;
-            delete item.packingTypeId;
-            delete item.gdsCode;
-        });
-        ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT.setData(data);
+RestDataSource_CathodList.fetchData(criteria_cathod, function (dsResponse, data, dsRequest) {
+    data.forEach(function (item) {
+        delete item.storeId;
+        delete item.tozinId;
+        delete item.productId;
+        delete item.packingTypeId;
+        delete item.gdsCode;
     });
+    ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT.setData(data);
+    const totalSheetNumber = data.map(d => d.sheetNumber).reduce((i, j) => i + j);
+    DynamicForm_warehouseCAD.setValue("sourceSheetSum", totalSheetNumber);
 
+});
 DynamicForm_warehouseCAD.clearValues();
-
 DynamicForm_warehouseCAD.setValue("materialItemId", ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().nameKala);
-SalesBaseParameters.getWarehouseParameter().then(
-    p => {
-        const source = p.find(pp => {
-            return pp.id === ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord()['sourceId']
-        })
-        console.log(source, 'source')
-        DynamicForm_warehouseCAD.setValue("plant", source['name']);
+SalesBaseParameters.getWarehouseParameter().then(p => {
+    const source = p.find(pp => {
+        return pp.id === ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord()['sourceId']
+    })
+    // console.log(source, 'source')
+    DynamicForm_warehouseCAD.setValue("plant", source['name']);
 
-    }
-);
+});
 DynamicForm_warehouseCAD.setValue("warehouseNo", "BandarAbbas");
 DynamicForm_warehouseCAD.setValue("movementType", isNaN(ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord()['containerNo3']) ? 'جاده‌ای' : 'ریلی');
 DynamicForm_warehouseCAD.setValue("sourceTozinPlantId", ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().tozinId);
-DynamicForm_warehouseCAD.setValue("sourceLoadDate", ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().tozinDate);
+DynamicForm_warehouseCAD.setValue("sourceLoadDate", ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().date);
 DynamicForm_warehouseCAD.setValue("containerNo", ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().containerId);
-DynamicForm_warehouseCAD.setValue("sourceBundleSum", ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().tedad);
-DynamicForm_warehouseCAD.setValue("sourceWeight", ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().vazn);
-
+// DynamicForm_warehouseCAD.setValue("sourceBundleSum", ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().tedad);
 DynamicForm_warehouseCAD_Desc.setValue("bijakFirstDescription", ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().strSharh2);
 DynamicForm_warehouseCAD_Desc.setValue("bijakSecondDescription", ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().ctrlDescOut);
 var bundle_window = isc.Window.create({
@@ -783,6 +807,12 @@ var bundle_window = isc.Window.create({
     dismissOnEscape: true,
     visibility: 'hidden',
     closeClick: function () {
+        const bundleData = ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT.getAllData();
+        DynamicForm_warehouseCAD.setValue("destinationBundleSum", bundleData.length);
+        DynamicForm_warehouseCAD.setValue("destinationSheetSum",
+            bundleData
+                .map(b => b.sheetNumber)
+                .reduce((i, j) => i + j));
         this.Super("closeClick", arguments)
     },
     items: [isc.HLayout.create({
@@ -790,6 +820,29 @@ var bundle_window = isc.Window.create({
         height: 10
     }), ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT]
 })
+
+const windowDestinationTozinList = (function () {
+    const win = isc.Window.create({
+        title: "<spring:message code='contact.title'/>",
+        // width: 700,
+        // height: 580,
+        autoSize: true,
+        autoCenter: true,
+        isModal: true,
+        showModalMask: true,
+        align: "center",
+        autoDraw: false,
+        dismissOnEscape: true,
+        visibility: 'hidden',
+        closeClick: function () {
+            this.Super("closeClick", arguments)
+        },
+        items: [isc.ListGrid.create({
+            fields: [...tozinLiteFieldsG,],
+        })]
+    });
+    return window[win.getID()];
+})()
 isc.VLayout.create({
     width: 830,
     // height: 700,
@@ -845,5 +898,37 @@ isc.VLayout.create({
     ]
 });
 
+const detailedSelectedTozinCriterias = ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecords().map(t => {
+    return "criteria=" + encodeURIComponent(JSON.stringify(
+        {
+            "fieldName": "tozinId",
+            "operator": "equals",
+            "_constructor": "AdvancedCriteria",
+            "value": t.tozinId
+        }))
+})
+fetch(SalesConfigs.Urls.RootUrl + '/api/tozin/spec-list?operator=or&' + detailedSelectedTozinCriterias.join('&'),
+    {headers: SalesConfigs.httpHeaders}).then(r => {
+    r.json().then(j => {
+        if (j && j.response && j.response.data && j.response.data.length > 0) {
+            const data = j.response.data;
+            const vazn = data.map(m => m.vazn).reduce((i, j) => i + j);
+            const tedad = data.map(m => m.tedad).reduce((i, j) => i + j);
+            const minDate = data.map(m => m.date).reduce((i, j) => Number(i) <= Number(j) ? Number(i) : Number(j));
+            DynamicForm_warehouseCAD.setValue("sourceWeight", vazn);
+            DynamicForm_warehouseCAD.setValue("sourceBundleSum", tedad);
+            console.log(minDate, vazn, j, data)
+        }
+    })
+});
+
+fetch(SalesConfigs.Urls.RootUrl + '/api/tozin/spec-list?operator=or&' + detailedSelectedTozinCriterias.join('&'),
+    {headers: SalesConfigs.httpHeaders}).then(r => {
+    r.json().then(j => {
+        if (j && j.response && j.response.data && j.response.data.length > 0) {
+
+        }
+    })
+});
 
 //<script>

@@ -14,8 +14,10 @@ function mainOnWayProduct(valueMapsPromise) {
             type: "text",
             filterEditorProperties: {
                 defaultValue: new persianDate().subtract('d', 14).format('YYYYMMDD'),
+                keyPressFilter: "[0-9/]",
                 parseEditorValue: function (value, record, form, item) {
-                    return value.replace(/\//g, '');
+                    if (value === undefined || value == null || value === '') return value;
+                    return value.replace(/\//g, '').padEnd(8, "01");
                 },
                 icons: [{
                     src: "pieces/pcal.png",
@@ -45,7 +47,7 @@ function mainOnWayProduct(valueMapsPromise) {
             name: "codeKala",
             type: "number",
             filterEditorProperties: {editorType: "comboBox"},
-            valueMap: valueMapsPromise['materialItem'].getValueMap("id", "gdsName"),
+            valueMap: {11: 'كاتد صادراتي', 8: 'كنسانتره مس ', 97: 'اكسيد موليبدن'},
             title: "<spring:message code='Tozin.codeKala'/>",
             align: "center"
         },
@@ -257,14 +259,13 @@ function mainOnWayProduct(valueMapsPromise) {
         },
 
 
-    ]
-
-
+    ];
+    window['tozinLiteFieldsG'] = Object.assign([], [...tozinLiteFields]);
+    window['tozinFieldsG'] = Object.assign([], [...tozinFields]);
     const RestDataSource_Tozin_IN_ONWAYPRODUCT = isc.MyRestDataSource.create({
         fields: tozinFields,
         fetchDataURL: "${contextPath}/api/on-way-product/spec-list"
     });
-
     const restDataSource_Tozin_Lite = {
         fields: tozinLiteFields,
         fetchDataURL: "${contextPath}/api/tozin/lite/spec-list"
@@ -593,7 +594,9 @@ function mainOnWayProduct(valueMapsPromise) {
         title: "<spring:message code='global.search'/>",
         icon: "icon/search.png",
         click: function () {
-            ListGrid_Tozin_IN_ONWAYPRODUCT.fetchData(ListGrid_Tozin_IN_ONWAYPRODUCT.getFilterEditorCriteria())
+            const filterEditorCriteria = ListGrid_Tozin_IN_ONWAYPRODUCT.getFilterEditorCriteria();
+            // filterEditorCriteria.criteria.add({"fieldName":"tozinId","operator":"iNotStartsWith","value":"3-"})
+            ListGrid_Tozin_IN_ONWAYPRODUCT.fetchData(filterEditorCriteria)
         }
     });
 
@@ -651,6 +654,18 @@ function mainOnWayProduct(valueMapsPromise) {
         allowAdvancedCriteria: true,
         filterOnKeypress: false,
         sortField: 'date',
+        initialCriteria: {
+            _constructor: "AdvancedCriteria",
+            operator: "and",
+            criteria: [
+                {"fieldName": "tozinId", "operator": "iNotStartsWith", "value": "3-"}
+            ]
+        },
+        filterData(criteria, callback, requestProperties) {
+            criteria.criteria.add({"fieldName": "tozinId", "operator": "iNotStartsWith", "value": "3-"})
+            return this.Super("filterData", arguments)
+
+        },
         // filterLocalData: true,
         autoFitMaxRecords: 10,
         dataSource: isc.MyRestDataSource.create(restDataSource_Tozin_Lite),
