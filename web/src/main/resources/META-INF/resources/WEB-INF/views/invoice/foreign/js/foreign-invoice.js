@@ -90,10 +90,11 @@ foreignInvoiceTab.listGrid.fields = BaseFormItems.concat([
 foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
     /* Foreign Invoice */
     {
+        colSpan: 6,
         required: true,
         name: "date",
         section: "base-data",
-        type: "persianDate",
+        type: "date",
         title: "<spring:message code='foreign-invoice.form.date'/>"
     },
     {
@@ -102,6 +103,7 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
         title: "<spring:message code='foreign-invoice.form.invoice-type'/>"
     },
     {
+        colSpan: 6,
         required: true,
         type: "integer",
         section: "base-data",
@@ -125,6 +127,7 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
         title: "<spring:message code='foreign-invoice.form.contract'/>"
     },
     {
+        colSpan: 6,
         required: true,
         type: "integer",
         editorType: "SelectItem",
@@ -141,7 +144,13 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
             ],
             fetchDataURL: foreignInvoiceTab.variable.contractUrl + "spec-list"
         }),
-        title: "<spring:message code='foreign-invoice.form.contract'/>"
+        title: "<spring:message code='foreign-invoice.form.contract'/>",
+        changed: function (form, item, value) {
+
+            let materialItemIdField = form.getField("materialItemId");
+            materialItemIdField.setOptionCriteria({fieldName: "materialId", operator: "equals", value: item.getSelectedRecord().materialId});
+            materialItemIdField.optionDataSource.fetchData();
+        }
     },
     {
         required: true,
@@ -151,9 +160,12 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
         title: "<spring:message code='foreign-invoice.form.material-item'/>"
     },
     {
+        colSpan: 6,
         required: true,
         type: "integer",
         readonly: true,
+        disabled: true,
+        autoFetchData: false,
         section: "base-data",
         name: "materialItemId",
         editorType: "SelectItem",
@@ -175,6 +187,7 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
         title: "<spring:message code='foreign-invoice.form.currency'/>"
     },
     {
+        colSpan: 6,
         required: true,
         type: "integer",
         section: "base-data",
@@ -198,6 +211,7 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
         title: "<spring:message code='foreign-invoice.form.creator'/>"
     },
     {
+        colSpan: 6,
         required: true,
         type: "integer",
         editorType: "SelectItem",
@@ -216,6 +230,7 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
         title: "<spring:message code='foreign-invoice.form.creator'/>"
     },
     {
+        colSpan: 6,
         name: "no",
         section: "base-data",
         readonly: true,
@@ -263,6 +278,7 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
         title: "<spring:message code='foreign-invoice.form.sum-price'/>"
     },
     {
+        colSpan: 6,
         readonly: true,
         type: "float",
         section: "base-data",
@@ -271,10 +287,12 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
         title: "<spring:message code='foreign-invoice.form.conversion-rate'/>"
     },
     {
+        colSpan: 6,
         readonly: true,
         section: "base-data",
         name: "conversionDate",
-        type: "persianDate",
+        type: "date",
+        editorType: "staticText",
         title: "<spring:message code='foreign-invoice.form.conversion-date'/>"
     },
     {
@@ -298,6 +316,7 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
         title: "<spring:message code='foreign-invoice.form.accounting.id'/>"
     },
     {
+        colSpan: 6,
         type: "integer",
         readonly: true,
         section: "base-data",
@@ -313,6 +332,7 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
         title: "<spring:message code='foreign-invoice.form.buyer'/>"
     },
     {
+        colSpan: 6,
         required: true,
         type: "integer",
         readonly: true,
@@ -383,7 +403,7 @@ foreignInvoiceTab.window.main = isc.Window.nicico.getDefault('<spring:message co
             foreignInvoiceTab.button.cancel,
         ]
     })
-], "40%");
+], "500");
 
 nicico.BasicFormUtil.getDefaultBasicForm(foreignInvoiceTab, "api/foreign-invoice/");
 

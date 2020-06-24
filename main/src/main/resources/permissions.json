@@ -886,19 +886,19 @@
     },
 
     {
-      "code": "R_CONTRACT2",
+      "code": "R_CONTRACT_2",
       "title": "نمایش قرارداد"
     },
     {
-      "code": "C_CONTRACT2",
+      "code": "C_CONTRACT_2",
       "title": "ایجاد قرارداد"
     },
     {
-      "code": "U_CONTRACT2",
+      "code": "U_CONTRACT_2",
       "title": "به روز رسانی قرارداد"
     },
     {
-      "code": "D_CONTRACT2",
+      "code": "D_CONTRACT_2",
       "title": "حذف قرارداد"
     },
     
