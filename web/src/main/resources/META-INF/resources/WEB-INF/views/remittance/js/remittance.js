@@ -551,7 +551,7 @@ function remittance(targetIdValueMap = {}) {
         Layouts: {
             Vlayouts: {
                 createMainVlayOut(members) {
-                    isc.VLayout.create(
+                    return isc.VLayout.create(
                         {
                             ID: remittanceTab.Vars.Prefix + "vـlayoutـmain",
                             width: "100%",
@@ -720,8 +720,6 @@ function remittance(targetIdValueMap = {}) {
         remittanceTab.Layouts.Window.remittance.show()
     };
     //*********************************************METHOD***************************************************************
-
-
     //*********************************************FIELD****************************************************************
     remittanceTab.Fields.tozinMain = [
         {
@@ -729,8 +727,7 @@ function remittance(targetIdValueMap = {}) {
             name: "sourceId",
             title: "<spring:message code='Tozin.sourceId'/>",
             align: "center",
-            type: "text"
-
+            type: "text",
         },
         {
             // hidden: true,
@@ -760,13 +757,6 @@ function remittance(targetIdValueMap = {}) {
             type: "text"
         },
         {
-            name: "source",
-            title: "<spring:message code='Tozin.source'/>",
-            align: "center",
-            type: "text"
-
-        },
-        {
             name: "nameKala",
             title: "<spring:message code='Tozin.nameKala'/>",
             align: "center",
@@ -774,7 +764,6 @@ function remittance(targetIdValueMap = {}) {
 
 
         },
-
         {
             hidden: true,
             name: "cardId",
@@ -802,6 +791,13 @@ function remittance(targetIdValueMap = {}) {
         {
             name: "target",
             title: "<spring:message code='Tozin.target'/>",
+            align: "center",
+            type: "text"
+
+        },
+        {
+            name: "source",
+            title: "<spring:message code='Tozin.source'/>",
             align: "center",
             type: "text"
 
@@ -925,8 +921,6 @@ function remittance(targetIdValueMap = {}) {
             type: "text"
 
         },
-
-
         {
             name: "havalehName",
             title: "<spring:message code='Tozin.havalehName'/>",
@@ -1222,61 +1216,7 @@ function remittance(targetIdValueMap = {}) {
     //*********************************************DATASOURCE***********************************************************
     remittanceTab.RestDataSources.onWayProduct = {
         fields: [...remittanceTab.Fields.tozinMain, ...remittanceTab.Fields.tozinExtra],
-        fetchDataURL: SalesConfigs.Urls.RootUrl + "/api/tozin2/on-way-product/spec-list"
-    };
-    remittanceTab.RestDataSources.itemDetail = {
-        fields: [
-            {
-                name: "id",
-                title: "id",
-                primaryKey: true,
-                canEdit: false,
-                // hidden: true
-            },
-            {
-                name: "item",
-                // primaryKey: true,
-                canEdit: false,
-                hidden: true
-            },
-            {
-                name: "item.name",
-                // primaryKey: true,
-                canEdit: false,
-                // hidden: true
-            },
-            {
-                name: "name",
-                title: "<spring:message code='LME.cuUsdMt'/>",
-                width: 200
-            },
-        ],
-        fetchDataURL: SalesConfigs.Urls.RootUrl + "/api/item-detail/spec-list"
-    };
-    remittanceTab.RestDataSources.remittanceType = {
-        fields: [
-            {
-                name: "id",
-                title: "id",
-                primaryKey: true,
-                canEdit: false,
-                // hidden: true
-            },
-            {
-                name: "name",
-                // primaryKey: true,
-                canEdit: false,
-                hidden: false
-            },
-            {
-                name: "condition",
-                // primaryKey: true,
-                canEdit: false,
-                hidden: true
-            },
-
-        ],
-        fetchDataURL: SalesConfigs.Urls.RootUrl + "/api/remittance-type/spec-list"
+        fetchDataURL: SalesConfigs.Urls.RootUrl + "/api/tozin/lite/spec-list"
     };
     remittanceTab.RestDataSources.warehouse = {
         fields: [
@@ -1287,13 +1227,7 @@ function remittance(targetIdValueMap = {}) {
                 canEdit: false,
                 // hidden: true
             },
-            {
-                name: "plantId",
-                title: "plantId",
-                primaryKey: true,
-                canEdit: false,
-                // hidden: true
-            },
+
 
             {
                 name: "name",
@@ -1305,6 +1239,7 @@ function remittance(targetIdValueMap = {}) {
         fetchDataURL: SalesConfigs.Urls.RootUrl + "/api/warehouse/spec-list"
     };
     //*********************************************LISTGRID*************************************************************
+
     remittanceTab.Grids.onWayProduct = function () {
         return {
             ID: remittanceTab.Vars.Prefix + "listgrid_onway_product",
@@ -1349,8 +1284,6 @@ function remittance(targetIdValueMap = {}) {
         colWidths: ["10%", "*", "10%", "*"],
         canDragResize: true, resizeFrom: ["L"],
         items: [
-            remittanceTab.Fields.remittanceType(),
-            remittanceTab.Fields.itemDetail(),
             remittanceTab.Fields.toWarehouse(),
             remittanceTab.Fields.sourceTozin(),
             remittanceTab.Fields.destinationTozin(),
@@ -1409,12 +1342,13 @@ function remittance(targetIdValueMap = {}) {
             ]
         });
     //******************************************************************************************************************
-    remittanceTab.Layouts.Vlayouts.createMainVlayOut([remittanceTab.Layouts.ToolStrips.createMainToolStrip()]);
+    mainTabSet.getTab(mainTabSet.selectedTab).setPane(
+        remittanceTab.Layouts.Vlayouts.createMainVlayOut([remittanceTab.Layouts.ToolStrips.createMainToolStrip()])
+    )
     return remittanceTab;
 }
 
-remittanceTab = remittance();
-
-window[(remittanceTab.Fields.itemDetail().ID)].setValue(remittanceTab.Methods.option.get('itemDetail'))
-window[(remittanceTab.Fields.remittanceType().ID)].setValue(remittanceTab.Methods.option.get('remittanceType'))
-window[(remittanceTab.Fields.toWarehouse().ID)].setValue(remittanceTab.Methods.option.get('toWarehouse'))
+let remittanceTab;
+SalesBaseParameters.getAllParameters().then(a => {
+    remittanceTab = remittance(a);
+});
