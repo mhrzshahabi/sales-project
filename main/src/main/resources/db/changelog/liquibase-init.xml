@@ -2142,38 +2142,6 @@
             <column name="c_TBL_NAME2" type="VARCHAR2(100 CHAR)"/>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592718665942-138">
-        <createTable tableName="TBL_FEATURE">
-            <column name="ID" type="NUMBER(19, 0)">
-                <constraints primaryKey="true" primaryKeyName="TBL_FEATUREPK"/>
-            </column>
-            <column name="c_created_by" type="VARCHAR2(255 CHAR)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="d_created_date" type="TIMESTAMP">
-                <constraints nullable="false"/>
-            </column>
-            <column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
-            <column name="d_last_modified_date" type="TIMESTAMP"/>
-            <column name="n_version" type="NUMBER(10, 0)">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="1" name="N_E_STATUS" type="NUMBER">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="1" name="B_EDITABLE" type="NUMBER">
-                <constraints nullable="false"/>
-            </column>
-            <column name="DECIMAL_DIGITS" type="NUMBER(19, 0)"/>
-            <column name="NAME_EN" type="VARCHAR2(200 CHAR)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="NAME_FA" type="VARCHAR2(200 CHAR)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="SYMBOL" type="VARCHAR2(255 CHAR)"/>
-        </createTable>
-    </changeSet>
     <changeSet author="Reza (generated)" id="1592718665942-139">
         <createTable tableName="TBL_FOREIGN_INVOICE">
             <column name="id" type="NUMBER(19, 0)">
@@ -4399,9 +4367,6 @@
     </changeSet>
     <changeSet author="Reza (generated)" id="1592718665942-324">
         <addForeignKeyConstraint baseColumnNames="UNIT_ID" baseTableName="TBL_MATERIAL" constraintName="material2unit" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_UNIT" validate="true"/>
-    </changeSet>
-    <changeSet author="Reza (generated)" id="1592718665942-325">
-        <addForeignKeyConstraint baseColumnNames="FEATURE_ID" baseTableName="TBL_MATERIAL_FEATURE" constraintName="material_fea2feature" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_FEATURE" validate="true"/>
     </changeSet>
     <changeSet author="Reza (generated)" id="1592718665942-326">
         <addForeignKeyConstraint baseColumnNames="MATERIAL_ID" baseTableName="TBL_MATERIAL_FEATURE" constraintName="material_fea2material" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_MATERIAL" validate="true"/>
