@@ -98,25 +98,25 @@ public class Shipment extends BaseEntity {
     private Date createDate;
 //    private String createDate;
 
-    @Column(name = "FILE_NAME", length = 100)
+    @Column(name = "FILE_NAME")
     private String fileName;
 
-    @Column(name = "NEW_FILE_NAME", length = 100)
+    @Column(name = "NEW_FILE_NAME")
     private String newFileName;
 
-    @Column(name = "SHIPMENT_TYPE", length = 100)
+    @Column(name = "SHIPMENT_TYPE")
     private String shipmentType;
 
-    @Column(name = "SHIPMENT_METHOD", length = 100)
+    @Column(name = "SHIPMENT_METHOD")
     private String shipmentMethod;
 
-    @Column(name = "LAYCAN", length = 100)
+    @Column(name = "LAYCAN")
     private String laycan;
 
     @Column(name = "SWITCH_BL_NUMBERS", length = 4000)
     private String switchBl;
 
-    @Column(name = "SWB", length = 100)
+    @Column(name = "SWB")
     private String swb;
 
     @Setter(AccessLevel.NONE)
@@ -127,10 +127,10 @@ public class Shipment extends BaseEntity {
     @Column(name = "SWITCH_PORT")
     private Long switchPortId;
 
-    @Column(name = "NO_BUNDLE", length = 100)
+    @Column(name = "NO_BUNDLE")
     private Integer noBundle;
 
-    @Column(name = "LOADING_LETTER", length = 100)
+    @Column(name = "LOADING_LETTER")
     private String loadingLetter;
 
     @Column(name = "BL_NUMBERS", length = 4000)
@@ -147,7 +147,7 @@ public class Shipment extends BaseEntity {
     private Date swBlDate;
 //    private String swBlDate;
 
-    @Column(name = "CONSIGNEE", length = 100)
+    @Column(name = "CONSIGNEE")
     private String consignee;
 
     @Setter(AccessLevel.NONE)

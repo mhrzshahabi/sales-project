@@ -27,10 +27,10 @@ public class Currency extends BaseEntity {
     @Column(name = "ID")
     private Long id;
 
-    @Column(name = "c_NAME_FA", length = 100)
+    @Column(name = "c_NAME_FA")
     private String nameFa;
 
-    @Column(name = "c_NAME_EN", length = 100)
+    @Column(name = "c_NAME_EN")
     private String nameEn;
 
     @Column(name = "c_SYMBOL", length = 20)

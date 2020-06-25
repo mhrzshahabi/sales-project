@@ -25,10 +25,10 @@ public class Instruction extends BaseEntity {
     @Column(name = "TITLE_Instruction", nullable = false, length = 4000)
     private String titleInstruction;
 
-    @Column(name = "DISABLE_DATE", nullable = false, length = 200)
+    @Column(name = "DISABLE_DATE", nullable = false)
     private String disableDate;
 
-    @Column(name = "RUN_DATE", nullable = false, length = 200)
+    @Column(name = "RUN_DATE", nullable = false)
     private String runDate;
 
 }

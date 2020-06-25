@@ -30,10 +30,10 @@ public class Person extends BaseEntity {
     @Column(name = "CONTACT_ID")
     private Long contactId;
 
-    @Column(name = "FULL_NAME", nullable = false, length = 200)
+    @Column(name = "FULL_NAME", nullable = false)
     private String fullName;
 
-    @Column(name = "JOB_TITLE", length = 200)
+    @Column(name = "JOB_TITLE")
     private String jobTitle;
 
     @Column(name = "TITLE", length = 20)
@@ -42,19 +42,19 @@ public class Person extends BaseEntity {
     @Column(name = "EMAIL",length = 200)
     private String email;
 
-    @Column(name = "EMAIL1", length = 200)
+    @Column(name = "EMAIL1")
     private String email1;
 
-    @Column(name = "EMAIL2", length = 200)
+    @Column(name = "EMAIL2")
     private String email2;
 
-    @Column(name = "WEB_ADDRESS", length = 200)
+    @Column(name = "WEB_ADDRESS")
     private String webAddress;
 
-    @Column(name = "PHONE_NO", length = 200)
+    @Column(name = "PHONE_NO")
     private String phoneNo;
 
-    @Column(name = "FAX_NO", length = 200)
+    @Column(name = "FAX_NO")
     private String faxNo;
 
     @Column(name = "MOBILE_NO", length = 20)
@@ -66,10 +66,10 @@ public class Person extends BaseEntity {
     @Column(name = "MOBILE_NO2", length = 20)
     private String mobileNo2;
 
-    @Column(name = "WHATSAPP", length = 200)
+    @Column(name = "WHATSAPP")
     private String whatsApp;
 
-    @Column(name = "WECHAT", length = 200)
+    @Column(name = "WECHAT")
     private String weChat;
 
     @Column(name = "ADDRESS", length = 1000)

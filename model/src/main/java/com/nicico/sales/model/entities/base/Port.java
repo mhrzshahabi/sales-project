@@ -36,13 +36,13 @@ public class Port extends BaseEntity {
     @Column(name = "c_PORT", length = 4000)
     private String port;
 
-    @Column(name = "c_LOA", length = 100)
+    @Column(name = "c_LOA")
     private String loa;
 
-    @Column(name = "c_BEAM", length = 100)
+    @Column(name = "c_BEAM")
     private String beam;
 
-    @Column(name = "c_ARRIVAL", length = 100)
+    @Column(name = "c_ARRIVAL")
     private String arrival;
 
 }

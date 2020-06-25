@@ -22,7 +22,7 @@ public class ShipmentMethod extends BaseEntity {
     @Column(name = "ID")
     private Long id;
 
-    @Column(name = "Ship_Method", nullable = false, length = 200)
+    @Column(name = "Ship_Method", nullable = false)
     private String shipmentMethod;
 
 

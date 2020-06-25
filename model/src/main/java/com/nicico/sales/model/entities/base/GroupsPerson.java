@@ -38,7 +38,7 @@ public class GroupsPerson extends BaseEntity {
     @Column(name = "PERSON_ID")
     private Long personId;
 
-    @Column(name = "REMARK", length = 200)
+    @Column(name = "REMARK")
     private String desc;
 
 }

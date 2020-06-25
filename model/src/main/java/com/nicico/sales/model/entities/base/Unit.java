@@ -24,19 +24,13 @@ public class Unit extends BaseEntity {
     @Column(name = "ID")
     private Long id;
 
-    @Column(name = "c_NAME_FA", nullable = false, length = 200)
+    @Column(name = "c_NAME_FA", nullable = false)
     private String nameFA;
 
-    @Column(name = "c_NAME_EN", nullable = false, length = 200)
+    @Column(name = "c_NAME_EN", nullable = false)
     private String nameEN;
 
     @Column(name = "c_SYMBOL")
     private String symbol;
-
-    @Column(name = "CATEGORY_VALUE", nullable = false)
-    private Integer categoryValue;
-
-    @Column(name = "n_DECIMAL_DIGITS")
-    private Long decimalDigit;
 
 }
