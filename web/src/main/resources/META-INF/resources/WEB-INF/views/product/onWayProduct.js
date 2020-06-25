@@ -260,8 +260,6 @@ function mainOnWayProduct(valueMapsPromise) {
 
 
     ];
-    window['tozinLiteFieldsG'] = Object.assign([], [...tozinLiteFields]);
-    window['tozinFieldsG'] = Object.assign([], [...tozinFields]);
     const RestDataSource_Tozin_IN_ONWAYPRODUCT = isc.MyRestDataSource.create({
         fields: tozinFields,
         fetchDataURL: "${contextPath}/api/on-way-product/spec-list"

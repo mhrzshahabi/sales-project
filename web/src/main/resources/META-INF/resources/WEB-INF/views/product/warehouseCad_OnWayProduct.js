@@ -323,7 +323,8 @@ var ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT = isc.ListGrid.create
 var DynamicForm_warehouseCAD = isc.DynamicForm.create({
     titleWidth: "150",
     numCols: 4,
-    itemKeyPress(item, keyName, characterValue) {
+    /***
+     itemKeyPress(item, keyName, characterValue) {
         if (keyName == "Enter" && DynamicForm_warehouseCAD.getValue("destinationTozinPlantStaticId") !== undefined) {
             var RestDataSource_TozinStatic_BandarAbbas_optionCriteria = {
                 _constructor: "AdvancedCriteria",
@@ -356,6 +357,7 @@ var DynamicForm_warehouseCAD = isc.DynamicForm.create({
             })
         }
     },
+     */
     fields: [
         {
             name: "id",
@@ -389,12 +391,12 @@ var DynamicForm_warehouseCAD = isc.DynamicForm.create({
             title: "<spring:message code='warehouseCad.warehouseNo'/>",
             type: 'staticText',
         },
-        {
+        /** {
             name: "movementType",
             title: "<spring:message code='warehouseCad.movementType'/>",
             type: 'staticText',
         },
-        {
+         {
             name: "sourceTozinPlantId",
             type: 'staticText',
             colSpan: 3,
@@ -402,7 +404,7 @@ var DynamicForm_warehouseCAD = isc.DynamicForm.create({
             title: "<spring:message code='warehouseCad.tozinOther'/>",
             width: "100%"
         },
-        /**  {
+         {
             align: "center",
             layoutAlign: "center",
             type: "Header",
@@ -470,22 +472,25 @@ var DynamicForm_warehouseCAD = isc.DynamicForm.create({
                 DynamicForm_warehouseCAD.setValue("destinationWeight", item.getSelectedRecord().vazn);
             }
         },
-         **/
-        {
+         {
+            name: "sourceLoadDate",
+            title: "<spring:message code='warehouseCad.sourceLoadDate'/>", //=تاریخ بارگیری در مبدا
+            colSpan: 1,
+            titleColSpan: 1,
+            type: "staticText",
+        },
+
+         {
             name: 'destinationTozinPlantId',
             title: "<spring:message code='warehouseCad.tozinBandarAbbas'/>",
             layoutStyle: "flow",
             editorType: "MultiComboBoxItem",
-            addUnknownValues: true,
+            addUnknownValues: false,
             displayField: "tozinId",
             valueField: "tozinId",
-            icons: [{
-                src: "pieces/16/icon_add.png",
-                click() {
-                    windowDestinationTozinList.show()
-                }
-            }]
+
         },
+         **/
         {
             name: "warehouseYardId",
             required: true,
@@ -556,13 +561,7 @@ var DynamicForm_warehouseCAD = isc.DynamicForm.create({
             wrapTitle: false,
             width: 90,
         },
-        {
-            name: "sourceLoadDate",
-            title: "<spring:message code='warehouseCad.sourceLoadDate'/>", //=تاریخ بارگیری در مبدا
-            colSpan: 1,
-            titleColSpan: 1,
-            type: "staticText",
-        },
+
         {
             name: "destinationUnloadDate",
             title: "<spring:message code='warehouseCad.destinationUnloadDate'/>", //تاریخ تخلیه در مقصد
@@ -753,9 +752,10 @@ var IButton_warehouseCAD_Save = isc.IButtonSave.create({
     }
 });
 ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT.setData([]);
+const selectedSourceTozins = ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecords();
 var criteria_cathod = {
     _constructor: "AdvancedCriteria", operator: "or",
-    criteria: ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecords().map(r => {
+    criteria: selectedSourceTozins.map(r => {
         return {
             fieldName: "tozinId",
             operator: "equals",
@@ -787,9 +787,9 @@ SalesBaseParameters.getWarehouseParameter().then(p => {
 
 });
 DynamicForm_warehouseCAD.setValue("warehouseNo", "BandarAbbas");
-DynamicForm_warehouseCAD.setValue("movementType", isNaN(ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord()['containerNo3']) ? 'جاده‌ای' : 'ریلی');
+// DynamicForm_warehouseCAD.setValue("movementType", isNaN(ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord()['containerNo3']) ? 'جاده‌ای' : 'ریلی');
 DynamicForm_warehouseCAD.setValue("sourceTozinPlantId", ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().tozinId);
-DynamicForm_warehouseCAD.setValue("sourceLoadDate", ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().date);
+// DynamicForm_warehouseCAD.setValue("sourceLoadDate", ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().date);
 DynamicForm_warehouseCAD.setValue("containerNo", ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().containerId);
 // DynamicForm_warehouseCAD.setValue("sourceBundleSum", ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().tedad);
 DynamicForm_warehouseCAD_Desc.setValue("bijakFirstDescription", ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().strSharh2);
@@ -822,10 +822,136 @@ var bundle_window = isc.Window.create({
 })
 
 const windowDestinationTozinList = (function () {
+    const valueMapsPromise = SalesBaseParameters.getAllSavedParameter();
+    const tozinLiteFields = [
+        {
+            name: "date",
+            type: "text",
+            filterEditorProperties: {
+                keyPressFilter: "[0-9/]",
+                parseEditorValue: function (value, record, form, item) {
+                    if (value === undefined || value == null || value === '') return value;
+                    return value.replace(/\//g, '');//.padEnd(8, "01");
+                },
+                icons: [{
+                    src: "pieces/pcal.png",
+                    click: function (form, item, icon) {
+                        // console.log(form)
+                        displayDatePicker(item['ID'], form.getItems()[0], 'ymd', '/');
+                    }
+                }],
+            },
+            filterOperator: "iContains",
+            title: "<spring:message code='Tozin.date'/>",
+            align: "center",
+            formatCellValue(value, record, rowNum, colNum, grid) {
+                return value
+            }
+        },
+        {
+            name: "tozinId",
+            showHover: true,
+            width: "10%",
+            title: "<spring:message code='Tozin.tozinPlantId'/>"
+        },
+        {
+            name: "driverName",
+            showHover: true,
+            title: "<spring:message code='Tozin.driver'/>"
+        },
+        {
+            name: "codeKala",
+            type: "number",
+            filterEditorProperties: {editorType: "comboBox"},
+            valueMap: {11: 'كاتد صادراتي', 8: 'كنسانتره مس ', 97: 'اكسيد موليبدن'},
+            title: "<spring:message code='Tozin.codeKala'/>",
+            align: "center",
+            hidden: true,
+        },
+        {
+            name: "plak",
+            title: "<spring:message code='Tozin.plak.container'/>",
+            align: "center",
+            showHover: true,
+        },
+        {
+            name: "containerNo1",
+            title: "<spring:message code='Tozin.containerNo1'/>",
+            align: "center",
+            hidden: true,
+        },
+        {
+            name: "containerNo3",
+            type: "number",
+            title: "<spring:message code='Tozin.containerNo3'/>",
+            align: "center",
+            hidden: true
+            // alwaysShowOperatorIcon:true,
+        },
+        {
+            name: "vazn",
+            title: "<spring:message code='Tozin.vazn'/>",
+            align: "center",
+            showHover: true,
+        },
+        {
+            name: "sourceId",
+            type: "number",
+            filterEditorProperties: {editorType: "comboBox"},
+            valueMap: valueMapsPromise['warehouse'].getValueMap("id", "name"),
+            title: "<spring:message code='Tozin.sourceId'/>",
+            align: "center"
+        },
+        {
+            name: "targetId",
+            type: "number",
+            hidden: true,
+            filterEditorProperties: {
+                editorType: "comboBox",
+                type: "number",
+                defaultValue: StorageUtil.get('on_way_product_defaultTargetId')
+            },
+            parseEditorValue: function (value, record, form, item) {
+                StorageUtil.save('on_way_product_defaultTargetId', value)
+                return value;
+            },
+            filterOperator: "equals",
+            valueMap: valueMapsPromise['warehouse'].getValueMap("id", "name"),
+            title: "<spring:message code='Tozin.targetId'/>",
+            align: "center",
+        },
+        {
+            name: "havalehCode",
+            title: "<spring:message code='Tozin.haveCode'/>",
+            align: "center",
+            hidden: true
+        },
+    ];
+    const datasource = isc.DataSource.create({
+        fields: tozinLiteFields
+    });
+    const gridConfigs = {
+        showRowNumbers: true,
+        showFilterEditor: true,
+        allowAdvancedCriteria: true,
+        filterOnKeypress: true,
+        autoFitHeaderHeights: true,
+        headerHeight: 50,
+        selectionType: "multiple",
+        filterLocalData: true,
+        wrapCells: true,
+        wrapHeaderTitles: true,
+        useClientFiltering: true,
+        width: "100%",
+        height: 570,
+        dataSource: datasource,
+        fields: [...tozinLiteFields,],
+    };
+    const grid = isc.ListGrid.create(gridConfigs);
     const win = isc.Window.create({
         title: "<spring:message code='contact.title'/>",
-        // width: 700,
-        // height: 580,
+        width: 700,
+        height: 580,
         autoSize: true,
         autoCenter: true,
         isModal: true,
@@ -837,12 +963,121 @@ const windowDestinationTozinList = (function () {
         closeClick: function () {
             this.Super("closeClick", arguments)
         },
-        items: [isc.ListGrid.create({
-            fields: [...tozinLiteFieldsG,],
-        })]
+        items: [grid]
     });
-    return window[win.getID()];
+    const returnVar = {
+        w: win.getID(),
+        g: grid.getID(),
+        gc: gridConfigs,
+        ds: datasource.getID(),
+    };
+    console.log(returnVar);
+    return returnVar;
 })()
+const listGridSetDestTozinHarasatPolomp = (function () {
+
+        const grid_source = isc.ListGrid.create({
+            ...windowDestinationTozinList['gc'],
+            canEdit: true,
+            autoSaveEdits: false,
+            // height: "",
+            editEvent: 'click',
+            fields: [...windowDestinationTozinList['gc']['fields'].map(c => {
+                return {...c, canEdit: false}
+            }),
+                {
+                    name: "destTozinId",
+                    title: 'توزین مقصد',
+                    canFilter: false,
+                    editable: true,
+                    editorType: "comboBox",
+                    editorProperties: {
+                        icons: [{
+                            src: "pieces/16/icon_add.png",
+                            click() {
+                                window[windowDestinationTozinList['w']].show()
+                            }
+                        }]
+                    },
+                    editorExit(editCompletionEvent, record, newValue, rowNum, colNum, grid) {
+                        const valueMap = Object.keys(grid.getFieldByName("destTozinId").valueMap);
+                        if (newValue === undefined || newValue === null || newValue === '' || valueMap.contains(newValue)) {
+                            record['destTozinId'] = newValue;
+                            return true
+                        } else {
+                            isc.warn('شماره توزین اشتباه است');
+                            // grid.startEditing(rowNum,colNum,true)
+                            return false;
+
+                        }
+
+                    }
+                    // valueMap: window[windowDestinationTozinList['g']].getData().getValueMap('tozinId', 'tozinId')
+                },
+                {
+                    name: "harasatId",
+                    canFilter: false,
+                    title: 'شماره پلمپ حراست',
+                    editable: true,
+                    /* editorExit (editCompletionEvent, record, newValue, rowNum, colNum, grid){
+                         if(newValue===undefined || newValue === null || newValue === ''){
+                             isc.warn('شماره پلمپ حراست خالی می‌باشد');
+                             // grid.startEditing(rowNum,colNum,true)
+                             return false;
+                         }
+                        return true;
+
+                     }*/
+
+                },
+                {
+                    name: "rahAhanId",
+                    title: 'شماره پلمپ راه‌آهن',
+                    editable: true,
+                    canFilter: false,
+
+
+                    /* editorExit (editCompletionEvent, record, newValue, rowNum, colNum, grid){
+                         if(newValue===undefined || newValue === null || newValue === ''){
+                             isc.warn('شماره پلمپ حراست خالی می‌باشد');
+                             // grid.startEditing(rowNum,colNum,true)
+                             return false;
+                         }
+                        return true;
+
+                     }*/
+
+                },
+
+            ]
+        });
+        const w = isc.Window.create({
+            title: "<spring:message code='contact.title'/>",
+            width: window.outerHeight,
+            height: 580,
+            autoSize: true,
+            autoCenter: true,
+            isModal: true,
+            showModalMask: true,
+            align: "center",
+            autoDraw: false,
+            dismissOnEscape: true,
+            visibility: 'hidden',
+            closeClick: function () {
+                this.Super("closeClick", arguments)
+            },
+            items: [
+                grid_source,
+                // grid_destinetion,
+            ]
+        })
+        return {
+            w: w.getID(),
+            gs: grid_source.getID(),
+        }
+    }
+)()
+console.log('listGridSetDestTozinHarasatPolomp', listGridSetDestTozinHarasatPolomp)
 isc.VLayout.create({
     width: 830,
     // height: 700,
@@ -893,12 +1128,24 @@ isc.VLayout.create({
                             })
                         }
                     }),
+                    isc.IButtonCancel.create({
+                        title: "مقایسه توزین‌ها",
+                        width: 100,
+                        icon: "pieces/16/icon_delete.png",
+                        orientation: "vertical",
+                        click: function () {
+                            const w = listGridSetDestTozinHarasatPolomp['w'];
+                            const grid_source = listGridSetDestTozinHarasatPolomp['gs'];
+                            window[grid_source].setData(ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecords());
+                            window[w].show()
+                        }
+                    }),
                 ]
         })
     ]
 });
 
-const detailedSelectedTozinCriterias = ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecords().map(t => {
+const detailedSelectedTozinCriterias = selectedSourceTozins.map(t => {
     return "criteria=" + encodeURIComponent(JSON.stringify(
         {
             "fieldName": "tozinId",
@@ -907,6 +1154,7 @@ const detailedSelectedTozinCriterias = ListGrid_Tozin_IN_ONWAYPRODUCT.getSelecte
             "value": t.tozinId
         }))
 })
+
 fetch(SalesConfigs.Urls.RootUrl + '/api/tozin/spec-list?operator=or&' + detailedSelectedTozinCriterias.join('&'),
     {headers: SalesConfigs.httpHeaders}).then(r => {
     r.json().then(j => {
@@ -922,6 +1170,27 @@ fetch(SalesConfigs.Urls.RootUrl + '/api/tozin/spec-list?operator=or&' + detailed
     })
 });
 
+
+const destinationTozinCriteria = {
+    operator: "and",
+    criteria: [
+        {
+            fieldName: "date",
+            operator: "greaterOrEqual",
+            value: selectedSourceTozins.map(s => s.date).reduce((i, j) => Number(i) <= Number(j) ? i : j)
+        },
+        {
+            fieldName: "tozinId",
+            operator: "iStartsWith",
+            value: "3-"
+        },
+        {
+            fieldName: "codeKala",
+            operator: "equals",
+            value: selectedSourceTozins[0]['codeKala']
+        },
+    ]
+}
 fetch(SalesConfigs.Urls.RootUrl + '/api/tozin/spec-list?operator=or&' + detailedSelectedTozinCriterias.join('&'),
     {headers: SalesConfigs.httpHeaders}).then(r => {
     r.json().then(j => {
@@ -930,5 +1199,28 @@ fetch(SalesConfigs.Urls.RootUrl + '/api/tozin/spec-list?operator=or&' + detailed
         }
     })
 });
+
+fetch(SalesConfigs.Urls.RootUrl + '/api/tozin/lite/spec-list?operator=and&' + destinationTozinCriteria
+    .criteria
+    .map(
+        c => "criteria=" + JSON.stringify(c)
+    ).join('&'),
+    {headers: SalesConfigs.httpHeaders}).then(r => {
+    r.json().then(j => {
+        console.log('destinationTozinCriteria', j, windowDestinationTozinList);
+        if (j && j.response && j.response.data && j.response.data.length > 0) {
+            // window[windowDestinationTozinList['w']].show();
+            const grid = windowDestinationTozinList['g'];
+            const ds = windowDestinationTozinList['ds'];
+            window[grid].setData(j.response.data);
+            // const dsObject = window[ds];
+            // dsObject.addData(j.response.data);
+            // DynamicForm_warehouseCAD.getItem('destinationTozinPlantId').setOptionDataSource(dsObject);
+            // DynamicForm_warehouseCAD.getItem('destinationTozinPlantId').setValueMap(j.response.data.getValueMap('tozinId', 'tozinId'));
+            window[listGridSetDestTozinHarasatPolomp['gs']].setValueMap('destTozinId', j.response.data.getValueMap('tozinId', 'tozinId'))
+        }
+    })
+});
+
 
 //<script>
