@@ -228,11 +228,7 @@ public class ShipmentFormController {
                 replacePOI(doc, "disport", shipment.getPortByDischarge().getPort());
                 replacePOI(doc, "country", shipment.getPortByDischarge().getCountry().getNameFa());
 
-
                 String shipId = shipment.getContract().getId();
-                List<String> lotnamelist = shipmentService.findLotname(shipId);
-                List<String> bookingNo = shipmentService.findbooking(shipId);
-
 
                 List<String> inspector = shipmentService.inspector();
                 for (int i = 0; i < inspector.size(); i++) {
@@ -240,26 +236,7 @@ public class ShipmentFormController {
                     replacePOI(doc, "inspector", inspector.get(i));
                 }
 
-                if (lotnamelist.size() != 0 && bookingNo.size() != 0) {
-                    for (int k = 0; k < lotnamelist.size(); k++) {
-                        for (int m = 0; m < k; m++) {
-                            replacePOI(doc, "lot", lotnamelist.get(k) + " & " + lotnamelist.get(m));
-
-                        }
-                    }
-                    for (int j = 0; j < bookingNo.size(); j++) {
-                        for (int u = 0; u < j; u++) {
-                            replacePOI(doc, "booking", lotnamelist.get(1) + "->  " + bookingNo.get(j) + "    " + lotnamelist.get(0) + " -> " + bookingNo.get(u));
-                        }
-
-                    }
-
-                }
-
-                int sizelotnamelist = lotnamelist.size();
-                replacePOI(doc, "ola", String.valueOf(sizelotnamelist));
                 replacePOI(doc, "nocont", shipment.getNoContainer().toString());
-
 
                 response.setHeader("Content-Disposition", "attachment; filename=\"Molybdenum Oxide.doc\"");
                 response.setContentType("application/vnd.ms-word");

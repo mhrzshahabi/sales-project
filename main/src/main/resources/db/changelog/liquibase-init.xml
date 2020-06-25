@@ -2337,31 +2337,6 @@
             <column name="B_IS_POSITIVE" type="NUMBER(1, 0)"/>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592718665942-144">
-        <createTable tableName="TBL_GOODS">
-            <column name="ID" type="NUMBER(19, 0)">
-                <constraints primaryKey="true" primaryKeyName="TBL_GOODSPK"/>
-            </column>
-            <column name="c_created_by" type="VARCHAR2(255 CHAR)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="d_created_date" type="TIMESTAMP">
-                <constraints nullable="false"/>
-            </column>
-            <column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
-            <column name="d_last_modified_date" type="TIMESTAMP"/>
-            <column name="n_version" type="NUMBER(10, 0)">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="1" name="N_E_STATUS" type="NUMBER">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="1" name="B_EDITABLE" type="NUMBER">
-                <constraints nullable="false"/>
-            </column>
-            <column name="c_NAME_FA" type="VARCHAR2(1000 CHAR)"/>
-        </createTable>
-    </changeSet>
     <changeSet author="Reza (generated)" id="1592718665942-145">
         <createTable tableName="TBL_GROUPS">
             <column name="ID" type="NUMBER(19, 0)">
@@ -2827,46 +2802,6 @@
             <column name="UNIT_ID" type="NUMBER(19, 0)"/>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592718665942-158">
-        <createTable tableName="TBL_MATERIAL_FEATURE">
-            <column name="ID" type="NUMBER(19, 0)">
-                <constraints primaryKey="true" primaryKeyName="TBL_MATERIAL_FEATUREPK"/>
-            </column>
-            <column name="c_created_by" type="VARCHAR2(255 CHAR)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="d_created_date" type="TIMESTAMP">
-                <constraints nullable="false"/>
-            </column>
-            <column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
-            <column name="d_last_modified_date" type="TIMESTAMP"/>
-            <column name="n_version" type="NUMBER(10, 0)">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="1" name="N_E_STATUS" type="NUMBER">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="1" name="B_EDITABLE" type="NUMBER">
-                <constraints nullable="false"/>
-            </column>
-            <column name="AVG_VALUE" type="FLOAT(24)"/>
-            <column name="FEATURE_ID" type="NUMBER(19, 0)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="FEATURE_ROW" type="NUMBER(19, 0)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="MATERIAL_ID" type="NUMBER(19, 0)"/>
-            <column name="MAX_VALUE" type="FLOAT(24)"/>
-            <column name="MIN_VALUE" type="FLOAT(24)"/>
-            <column name="PAYABLE_IF_GRATER" type="FLOAT(24)"/>
-            <column name="PAYMENT_PERCENT" type="FLOAT(24)"/>
-            <column name="RATE_ID" type="NUMBER(19, 0)"/>
-            <column name="REFINERY_COST" type="FLOAT(24)"/>
-            <column name="TOLORANCE" type="FLOAT(24)"/>
-            <column name="TREAT_COST" type="FLOAT(24)"/>
-        </createTable>
-    </changeSet>
     <changeSet author="Reza (generated)" id="1592718665942-159">
         <createTable tableName="TBL_MATERIAL_ITEM">
             <column name="ID" type="NUMBER(19, 0)">
@@ -3081,38 +3016,6 @@
             <column name="COUNTRY_ID" type="NUMBER(19, 0)"/>
             <column name="c_LOA" type="VARCHAR2(100 CHAR)"/>
             <column name="c_PORT" type="VARCHAR2(4000 CHAR)"/>
-        </createTable>
-    </changeSet>
-    <changeSet author="Reza (generated)" id="1592718665942-166">
-        <createTable tableName="TBL_RATE">
-            <column name="ID" type="NUMBER(19, 0)">
-                <constraints primaryKey="true" primaryKeyName="TBL_RATEPK"/>
-            </column>
-            <column name="c_created_by" type="VARCHAR2(255 CHAR)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="d_created_date" type="TIMESTAMP">
-                <constraints nullable="false"/>
-            </column>
-            <column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
-            <column name="d_last_modified_date" type="TIMESTAMP"/>
-            <column name="n_version" type="NUMBER(10, 0)">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="1" name="N_E_STATUS" type="NUMBER">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="1" name="B_EDITABLE" type="NUMBER">
-                <constraints nullable="false"/>
-            </column>
-            <column name="DECIMAL_DIGITS" type="NUMBER(19, 0)"/>
-            <column name="NAME_EN" type="VARCHAR2(200 CHAR)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="NAME_FA" type="VARCHAR2(200 CHAR)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="SYMBOL" type="VARCHAR2(255 CHAR)"/>
         </createTable>
     </changeSet>
     <changeSet author="Reza (generated)" id="1592718665942-167">
@@ -3496,61 +3399,6 @@
             <column name="LOT_NAME" type="VARCHAR2(255 CHAR)"/>
             <column name="SHEET_NO" type="NUMBER(19, 0)"/>
             <column name="WAREHOUSE_CAD_ID" type="NUMBER(19, 0)"/>
-            <column name="WEIGHT_KG" type="FLOAT(24)"/>
-        </createTable>
-    </changeSet>
-    <changeSet author="Reza (generated)" id="1592718665942-177">
-        <createTable tableName="TBL_WAREHOUSE_LOT">
-            <column name="ID" type="NUMBER(19, 0)">
-                <constraints primaryKey="true" primaryKeyName="TBL_WAREHOUSE_LOTPK"/>
-            </column>
-            <column name="c_created_by" type="VARCHAR2(255 CHAR)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="d_created_date" type="TIMESTAMP">
-                <constraints nullable="false"/>
-            </column>
-            <column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
-            <column name="d_last_modified_date" type="TIMESTAMP"/>
-            <column name="n_version" type="NUMBER(10, 0)">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="1" name="N_E_STATUS" type="NUMBER">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="1" name="B_EDITABLE" type="NUMBER">
-                <constraints nullable="false"/>
-            </column>
-            <column name="AG" type="FLOAT(24)"/>
-            <column name="AU" type="FLOAT(24)"/>
-            <column name="BOOKING_NO" type="VARCHAR2(255 CHAR)"/>
-            <column name="C" type="FLOAT(24)"/>
-            <column name="CONTRACT_ID" type="NUMBER(19, 0)"/>
-            <column name="CU" type="FLOAT(24)"/>
-            <column name="DMT" type="FLOAT(24)"/>
-            <column name="GROSS_WEIGHT" type="FLOAT(24)"/>
-            <column name="LOT_NAME" type="VARCHAR2(20 CHAR)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="MATERIAL_ID" type="NUMBER(19, 0)"/>
-            <column name="MO" type="FLOAT(24)"/>
-            <column name="P" type="VARCHAR2(255 CHAR)"/>
-            <column name="PB" type="FLOAT(24)"/>
-            <column name="PLANT" type="VARCHAR2(100 CHAR)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="S" type="FLOAT(24)"/>
-            <column name="SI" type="FLOAT(24)"/>
-            <column name="SIZE1" type="VARCHAR2(20 CHAR)"/>
-            <column name="SIZE1_VALUE" type="FLOAT(24)"/>
-            <column name="SIZE2" type="VARCHAR2(20 CHAR)"/>
-            <column name="SIZE2_VALUE" type="FLOAT(24)"/>
-            <column name="TYPICAL" type="VARCHAR2(20 CHAR)"/>
-            <column name="USED" type="NUMBER(1, 0)"/>
-            <column name="WAREHOUSECADITEM_ID" type="NUMBER(19, 0)"/>
-            <column name="c_WAREHOUSE_NO" type="VARCHAR2(20 CHAR)">
-                <constraints nullable="false"/>
-            </column>
             <column name="WEIGHT_KG" type="FLOAT(24)"/>
         </createTable>
     </changeSet>
@@ -4367,12 +4215,6 @@
     </changeSet>
     <changeSet author="Reza (generated)" id="1592718665942-324">
         <addForeignKeyConstraint baseColumnNames="UNIT_ID" baseTableName="TBL_MATERIAL" constraintName="material2unit" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_UNIT" validate="true"/>
-    </changeSet>
-    <changeSet author="Reza (generated)" id="1592718665942-326">
-        <addForeignKeyConstraint baseColumnNames="MATERIAL_ID" baseTableName="TBL_MATERIAL_FEATURE" constraintName="material_fea2material" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_MATERIAL" validate="true"/>
-    </changeSet>
-    <changeSet author="Reza (generated)" id="1592718665942-327">
-        <addForeignKeyConstraint baseColumnNames="RATE_ID" baseTableName="TBL_MATERIAL_FEATURE" constraintName="material_fea2rate" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_RATE" validate="true"/>
     </changeSet>
     <changeSet author="Reza (generated)" id="1592718665942-328">
         <addForeignKeyConstraint baseColumnNames="MATERIAL_ID" baseTableName="TBL_MATERIAL_ITEM" constraintName="material_itm2material" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_MATERIAL" validate="true"/>
