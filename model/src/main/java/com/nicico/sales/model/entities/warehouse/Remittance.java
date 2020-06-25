@@ -28,28 +28,6 @@ public class Remittance extends BaseEntity {
     @Column(name = "C_CODE", nullable = false)
     private String code;
 
-
-//    @Setter(AccessLevel.NONE)
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "F_SHIPMENT_TYPE_ID", insertable = false, updatable = false,
-//            foreignKey = @ForeignKey(name = "fk_remittance2ShipmentTypeByShipmentTypeId"))
-//    private ShipmentType shipmentType;
-
-//    @NotNull
-//    @Column(name = "F_SHIPMENT_TYPE_ID", nullable = false)
-//    private Long shipmentTypeId;
-
-//    @Setter(AccessLevel.NONE)
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "F_SOURCE_WAREHOUSE_ID", insertable = false, updatable = false,
-//            foreignKey = @ForeignKey(name = "fk_remittance2warehouseAsSourceByWarehouseId"))
-//    private Warehouse sourceWarehouse;
-
-    @NotNull
-    @Column(name = "F_SOURCE_WAREHOUSE_ID", nullable = false)
-    private Long sourceWarehouseId;
-
-
     // rahahanPolompNo
     @Column(name = "RAIL_POLOMP_NO")
     private String railPolompNo;

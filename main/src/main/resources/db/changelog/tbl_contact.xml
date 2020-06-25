@@ -1,0 +1,63 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <changeSet author="j.azad" id="J.AZAD-001">
+        <addColumn tableName="TBL_CONTACT_ACCOUNT">
+            <column name="C_BANK_ACCOUNT" type="varchar2(200 CHAR)"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="j.azad" id="J.AZAD-002">
+        <addUniqueConstraint columnNames="C_BANK_ACCOUNT" constraintName="UNIQUE_C_BANK_ACCOUNT"
+                             tableName="TBL_CONTACT_ACCOUNT"/>
+    </changeSet>
+    <changeSet author="j.azad" id="J.AZAD-003">
+        <addUniqueConstraint columnNames="C_ECONOMICAL_CODE" constraintName="UNIQUE_C_ECONOMICAL_CODE"
+                             tableName="TBL_CONTACT"/>
+    </changeSet>
+    <changeSet author="j.azad" id="J.AZAD-004">
+        <addUniqueConstraint
+                columnNames="C_PHONE, b_SELLER, b_BUYER, b_TRANSPORTER, b_SHIPPER, b_INSPECTOR, b_INSURANCER, b_AGENT_BUYER, b_AGENT_SELLER, COUNTRY_ID"
+                constraintName="UNIQUE_List_Person" tableName="TBL_CONTACT"/>
+    </changeSet>
+
+    <changeSet author="j.azad" id="J.AZAD-005">
+        <dropColumn columnName="C_BANKACCOUNT" tableName="TBL_CONTACT_ACCOUNT"/>
+    </changeSet>
+
+    <changeSet author="j.azad" id="J.AZAD-006">
+        <dropForeignKeyConstraint baseTableName="TBL_CONTACT_ACCOUNT" constraintName="ContactAccount2bank"/>
+        <addForeignKeyConstraint baseColumnNames="BANK_ID" baseTableName="TBL_CONTACT_ACCOUNT"
+                                 constraintName="ContactAccount2bank" referencedColumnNames="ID"
+                                 referencedTableName="TBL_BANK"/>
+    </changeSet>
+
+
+    <changeSet author="j.azad" id="J.AZAD-007">
+        <dropForeignKeyConstraint baseTableName="TBL_CONTACT_ACCOUNT" constraintName="FKh5t6obexbeiq2n981irskoxsn"/>
+        <addForeignKeyConstraint baseColumnNames="CNT_ID" baseTableName="TBL_CONTACT_ACCOUNT"
+                                 constraintName="FKh5t6obexbeiq2n981irskoxsn" referencedColumnNames="ID"
+                                 referencedTableName="TBL_CONTACT"/>
+    </changeSet>
+
+
+    <changeSet author="j.azad" id="J.AZAD-008">
+        <dropForeignKeyConstraint baseTableName="TBL_BANK" constraintName="bank2Country"/>
+        <addForeignKeyConstraint baseColumnNames="COUNTRY_ID" baseTableName="TBL_BANK" constraintName="bank2Country"
+                                 referencedColumnNames="ID" referencedTableName="TBL_COUNTRY"/>
+    </changeSet>
+    <changeSet author="j.azad" id="J.AZAD-009">
+        <dropForeignKeyConstraint baseTableName="TBL_CONTACT" constraintName="contact2Country"/>
+        <addForeignKeyConstraint baseColumnNames="COUNTRY_ID" baseTableName="TBL_CONTACT"
+                                 constraintName="contact2Country" referencedColumnNames="ID"
+                                 referencedTableName="TBL_COUNTRY"/>
+    </changeSet>
+    <changeSet author="j.azad" id="J.AZAD-010">
+        <dropForeignKeyConstraint baseTableName="TBL_CONTACT" constraintName="contact2bank"/>
+        <addForeignKeyConstraint baseColumnNames="C_DEFAULT_BANK_ID" baseTableName="TBL_CONTACT"
+                                 constraintName="contact2bank" referencedColumnNames="ID"
+                                 referencedTableName="TBL_BANK"/>
+    </changeSet>
+
+</databaseChangeLog>

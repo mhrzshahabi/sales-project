@@ -26,14 +26,16 @@ public class Inventory extends BaseEntity {
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "F_ITEM_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_inventory2itemByItemId"))
-    private MaterialItem item;
+    @JoinColumn(name = "F_MATERIAL_ITEM_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_inventory2itemByItemId"))
+    private MaterialItem materialItem;
 
     @NotNull
-    @Column(name = "F_ITEM_ID", nullable = false)
-    private Long itemId;
+    @Column(name = "F_MATERIAL_ITEM_ID", nullable = false)
+    private Long materialItemId;
 
     @OneToMany(mappedBy = "inventory", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private List<RemittanceDetail> remittanceDetails;
 
+    @Column(name = "C_LABEL", nullable = false)
+    private String label;
 }

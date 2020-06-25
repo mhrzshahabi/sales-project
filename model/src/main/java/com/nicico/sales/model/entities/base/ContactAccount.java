@@ -13,8 +13,13 @@ import javax.persistence.*;
 @Accessors(chain = true)
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
-@Table(name = "TBL_CONTACT_ACCOUNT")
+@Table(name = "TBL_CONTACT_ACCOUNT",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = {"C_BANK_ACCOUNT"}, name = ContactAccount.UNIQUE_C_BANK_ACCOUNT ) ,
+        })
 public class ContactAccount extends BaseEntity {
+
+    public static final String UNIQUE_C_BANK_ACCOUNT = "UNIQUE_C_BANK_ACCOUNT";
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_CONTACT_ACCOUNT")
@@ -35,7 +40,7 @@ public class ContactAccount extends BaseEntity {
     @Column(name = "C_BANKCODE", nullable = false, length = 100)
     private String code;
 
-    @Column(name = "C_BANKACCOUNT", length = 200)
+    @Column(name = "C_BANK_ACCOUNT", length = 200)
     private String bankAccount;
 
     @Column(name = "C_BANK_SHABA", length = 100)
