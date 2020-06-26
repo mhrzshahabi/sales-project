@@ -653,37 +653,6 @@
                     click: function () {
                         createTab("<spring:message code='parameters.title'/>", "<spring:url value="/parameters/showForm" />")
                     }
-                },
-                {isSeparator: true},
-                {
-                    title: "<spring:message code='shipment.type'/>",
-                    click: function () {
-                        createTab("<spring:message code='shipment.type'/>", "<spring:url value="/shipmenttype/showForm" />")
-                    }
-                },
-                {isSeparator: true},
-
-                {
-                    title: "<spring:message code='shipment.method'/>",
-                    click: function () {
-                        createTab("<spring:message code='shipment.method'/>", "<spring:url value="/shipmentmethod/showForm" />")
-                    }
-                },
-                {isSeparator: true},
-
-                <%--{--%>
-                <%--    title: "<spring:message code='instruction.title'/>",--%>
-                <%--    click: function () {--%>
-                <%--        createTab("<spring:message code='instruction.title'/>", "<spring:url value="/instruction/showForm" />")--%>
-                <%--    }--%>
-                <%--},--%>
-                <%--{isSeparator: true},--%>
-
-                {
-                    title: "<spring:message code='Invoice.Type'/>",
-                    click: function () {
-                        createTab("<spring:message code='Invoice.Type'/>", "<spring:url value="/invoiceType/showForm" />")
-                    }
                 }
             ]
         }),
@@ -710,9 +679,6 @@
             })
         ]
     });
-
-    /*End --------------------------help General----------------------------*/
-
 
     /*----------------------settingTab------------------------*/
     settingTab = isc.ToolStripMenuButton.create({

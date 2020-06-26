@@ -65,10 +65,10 @@ public class ShipmentContract extends BaseEntity {
     @Column(name = "LAYCAN_END", length = 20)
     private String laycanEnd;
 
-    @Column(name = "LOADING_RATE", length = 100)
+    @Column(name = "LOADING_RATE")
     private String loadingRate;
 
-    @Column(name = "DISCHARGE_RATE", length = 100)
+    @Column(name = "DISCHARGE_RATE")
     private String dischargeRate;
 
     @Column(name = "DEMURRAGE")
@@ -98,34 +98,34 @@ public class ShipmentContract extends BaseEntity {
     @Column(name = "IMO_NO", length = 20)
     private String imoNo;
 
-    @Column(name = "OFFICIAL_NO", length = 100)
+    @Column(name = "OFFICIAL_NO")
     private Integer officialNo;
 
-    @Column(name = "LOA", length = 100)
+    @Column(name = "LOA")
     private String loa;
 
-    @Column(name = "BEAM", length = 100)
+    @Column(name = "BEAM")
     private String beam;
 
-    @Column(name = "CRANES", length = 100)
+    @Column(name = "CRANES")
     private String cranes;
 
-    @Column(name = "HOLDS", length = 100)
+    @Column(name = "HOLDS")
     private String holds;
 
-    @Column(name = "HATCH", length = 100)
+    @Column(name = "HATCH")
     private String hatch;
 
-    @Column(name = "CLASS_TYPE", length = 100)
+    @Column(name = "CLASS_TYPE")
     private String classType;
 
-    @Column(name = "WEIGHING_METHODES", length = 100)
+    @Column(name = "WEIGHING_METHODES")
     private String weighingMethodes;
 
-    @Column(name = "SHIP_FLAG", length = 100)
+    @Column(name = "SHIP_FLAG")
     private String shipFlag;
 
-    @Column(name = "CREATE_DATE", length = 100)
+    @Column(name = "CREATE_DATE")
     private String createDate;
 
 }

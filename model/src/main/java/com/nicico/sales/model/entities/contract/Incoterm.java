@@ -26,7 +26,7 @@ public class Incoterm extends BaseEntity {
     private Long id;
 
     @NotEmpty
-    @Column(name = "C_TITLE", nullable = false, length = 200)
+    @Column(name = "C_TITLE", nullable = false)
     private String title;
 
     @Setter(AccessLevel.NONE)

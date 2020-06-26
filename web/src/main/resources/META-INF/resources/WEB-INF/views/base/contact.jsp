@@ -537,8 +537,7 @@
                     colSpan: 3,
                     titleColSpan: 1,
                     keyPressFilter: "[0-9.]",
-                    wrapTitle: false  ,
-                    required : true
+                    wrapTitle: false
                 },
                 {
                     name: "status",

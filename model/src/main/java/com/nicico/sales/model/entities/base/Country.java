@@ -22,10 +22,10 @@ public class Country extends BaseEntity {
     @Column(name = "ID")
     private Long id;
 
-    @Column(name = "c_NAME_FA", nullable = false, length = 200)
+    @Column(name = "c_NAME_FA", nullable = false)
     private String nameFa;
 
-    @Column(name = "c_NAME_EN", nullable = false, length = 200)
+    @Column(name = "c_NAME_EN", nullable = false)
     private String nameEn;
 
 }

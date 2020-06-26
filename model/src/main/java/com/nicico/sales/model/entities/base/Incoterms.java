@@ -22,7 +22,7 @@ public class Incoterms extends BaseEntity {
     @Column(name = "ID")
     private Long id;
 
-    @Column(name = "CODE", nullable = false, length = 100)
+    @Column(name = "CODE", nullable = false)
     private String code;
 
     @Column(name = "WORKS", nullable = false, length = 10)

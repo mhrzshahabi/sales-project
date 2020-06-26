@@ -110,7 +110,6 @@ public class UnitService implements IUnitService {
         unitListForUpdate.addAll(allUnitsFromViewForInsert
                 .stream()
                 .map(u -> new Unit()
-                        .setCategoryValue(0)
                         .setNameEN(u[1].toString())
                         .setId(Long.valueOf(u[0].toString()))
                         .setNameFA(u[1].toString()))

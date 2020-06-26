@@ -103,25 +103,6 @@ public class ShipmentService implements IShipmentService {
 
     @Override
     @PreAuthorize("hasAuthority('O_SHIPMENT')")
-    public List<String> findLotname(String id) {
-        return shipmentDAO.findLotname(id);
-    }
-
-
-    @Override
-    @PreAuthorize("hasAuthority('O_SHIPMENT')")
-    public List<String> findbooking(String id) {
-        return shipmentDAO.findbooking(id);
-    }
-
-    @Override
-    @PreAuthorize("hasAuthority('O_SHIPMENT')")
-    public List<String> cname() {
-        return shipmentDAO.cname();
-    }
-
-    @Override
-    @PreAuthorize("hasAuthority('O_SHIPMENT')")
     public List<String> inspector() {
         return shipmentDAO.inspector();
     }

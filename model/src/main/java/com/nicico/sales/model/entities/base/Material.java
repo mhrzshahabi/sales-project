@@ -39,7 +39,7 @@ public class Material extends BaseEntity {
     @Column(name = "UNIT_ID")
     private Long unitId;
 
-    @Column(name = "C_ABBREVIATION", nullable = false, length = 100)
+    @Column(name = "C_ABBREVIATION", nullable = false)
     private String abbreviation;
 
 

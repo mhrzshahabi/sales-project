@@ -25,7 +25,7 @@ public class InspectionReportDTO {
     private Long inspectorId;
     private String inspectionPlace;
     private Date IssueDate;
-    private Long remittanceDetailId;
+    private Long InventoryId;
     private Long sellerId;
     private Long buyerId;
     private BigDecimal inspectionRateValue;
@@ -40,7 +40,7 @@ public class InspectionReportDTO {
 
         private Long id;
         private ContactDTO.Info inspector;
-        private RemittanceDetailDTO.Info remittanceDetail;
+        private InventoryDTO.Info inventory;
         private ContactDTO.Info seller;
         private ContactDTO.Info buyer;
         private CurrencyDTO.Info currency;
