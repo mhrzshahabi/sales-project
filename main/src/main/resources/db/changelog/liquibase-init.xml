@@ -3,6 +3,9 @@
     <changeSet author="Reza (generated)" id="1592718665942-1">
         <createSequence sequenceName="SEQ_ASSAY_INSPECTION"/>
     </changeSet>
+    <changeSet author="Reza (generated)" id="1592718665942-2">
+        <createSequence sequenceName="HIBERNATE_SEQUENCE"/>
+    </changeSet>
     <changeSet author="Reza (generated)" id="1592718665942-3">
         <createSequence sequenceName="SEQ_BANK"/>
     </changeSet>
