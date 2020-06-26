@@ -9,6 +9,7 @@
 	<include file="classpath:/db/changelog/tbl_assay_inspection.xml"/>
 	<include file="classpath:/db/changelog/tbl_inspection_report.xml"/>
 	<include file="classpath:/db/changelog/tbl_person.xml"/>
+	<include file="classpath:/db/changelog/tbl_unit.xml"/>
 	<include file="classpath:/db/changelog/foreign-invoice/tbl_foreign_invoice.xml"/>
 	<include file="classpath:/db/changelog/tbl_contact.xml"/>
 	<include file="classpath:/db/changelog/tbl_warh_inventory.xml"/>
