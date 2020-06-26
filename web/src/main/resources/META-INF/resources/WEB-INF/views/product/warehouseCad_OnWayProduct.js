@@ -325,7 +325,7 @@ var ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT = isc.ListGrid.create
     }
 });
 var DynamicForm_warehouseCAD = isc.DynamicForm.create({
-    titleWidth: "150",
+    // titleWidth: "150",
     numCols: 4,
     errorOrientation: "bottom",
     /***
@@ -583,28 +583,28 @@ var DynamicForm_warehouseCAD = isc.DynamicForm.create({
         },
         {
             name: "sourceBundleSum",
-            title: "<spring:message code='warehouseCad.sourceBundleSum'/>",
+            title: "تعداد بسته(باندل، لات، ... ) مبدا",
             colSpan: 1,
             titleColSpan: 1,
             type: "staticText",
         },
         {
             name: "destinationBundleSum",
-            title: "<spring:message code='warehouseCad.destinationBundleSum'/>",
+            title: "تعداد بسته(باندل، لات، ... ) مقصد",
             colSpan: 1,
             titleColSpan: 1,
 // type: "staticText",
         },
         {
             name: "sourceSheetSum",
-            title: "<spring:message code='warehouseCad.sourceSheetSum'/>",
+            title: "مجموع تعداد واحد(بشکه، ورق، ... ) مبدا",
             colSpan: 1,
             titleColSpan: 1,
             type: "staticText",
         },
         {
             name: "destinationSheetSum",
-            title: "<spring:message code='warehouseCad.destinationSheetSum'/>",
+            title: "مجموع تعداد واحد(بشکه، ورق، ... ) مبدا",
             colSpan: 1,
             titleColSpan: 1,
             type: "staticText",
