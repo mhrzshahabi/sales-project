@@ -102,14 +102,11 @@ function mainOnWayProduct(valueMapsPromise) {
             title: "<spring:message code='Tozin.targetId'/>",
             align: "center",
         },
-
         {
             name: "havalehCode",
             title: "<spring:message code='Tozin.haveCode'/>",
             align: "center"
         },
-
-
     ];
     const tozinFields = [...tozinLiteFields,
 
@@ -268,8 +265,6 @@ function mainOnWayProduct(valueMapsPromise) {
         fields: tozinLiteFields,
         fetchDataURL: "${contextPath}/api/tozin/lite/spec-list"
     };
-
-
     const RestDataSource_MaterialItem_IN_ONWAYPRODUCT = isc.MyRestDataSource.create({
         fields: [
             {
@@ -291,7 +286,6 @@ function mainOnWayProduct(valueMapsPromise) {
         ],
         fetchDataURL: "${contextPath}/api/materialItem/spec-list"
     });
-
     const DynamicForm_DailyReport_OnWayProduct = isc.DynamicForm.create({
         wrapItemTitles: false,
         target: "_Blank",
@@ -315,7 +309,6 @@ function mainOnWayProduct(valueMapsPromise) {
             defaultValue: "1399/01/01"
         }]
     });
-
     const DynamicForm_DailyReport_Tozin1 = isc.DynamicForm.create({
         wrapItemTitles: false,
         action: "report/printDailyReportBandarAbbas",
@@ -341,7 +334,6 @@ function mainOnWayProduct(valueMapsPromise) {
             defaultValue: "<%=DateUtil.todayDate()%>"
         }]
     });
-
     const DynamicForm_DailyReport_Tozin2 = isc.DynamicForm.create({
         wrapItemTitles: false,
         visibility: "hidden",
@@ -370,7 +362,6 @@ function mainOnWayProduct(valueMapsPromise) {
             defaultValue: 11
         }]
     });
-
     const DynamicForm_DailyReport_Tozin3 = isc.DynamicForm.create({
         wrapItemTitles: false,
         target: "_Blank",
@@ -388,7 +379,6 @@ function mainOnWayProduct(valueMapsPromise) {
             defaultValue: "1-"
         }]
     });
-
     const DynamicForm_DailyReport_Tozin4 = isc.DynamicForm.create({
         wrapItemTitles: false,
         target: "_Blank",
@@ -406,19 +396,20 @@ function mainOnWayProduct(valueMapsPromise) {
             defaultValue: "ریلی"
         },]
     });
-
     const Menu_ListGrid_OnWayProduct = isc.Menu.create({
         width: 150,
         data: [{
             title: "<spring:message code='bijack'/>",
             icon: "product/warehouses.png",
             click: function () {
-                const record = ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord();
+                OnWayProductViewLoader.setViewURL("tozin/showWarehouseCadForm");
+                Window_BijackOnWayProduct.show();
+
+                /*
+                                const record = ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord();
                 if (record.codeKala == 9 || record.codeKala == 10 || record.codeKala == 11 ||
                     record.codeKala == 114 || record.codeKala == 129 || record.codeKala == 86 ||
                     record.codeKala == 90 || record.codeKala == 95) {
-
-
                     OnWayProductViewLoader.setViewURL("tozin/showWarehouseCadForm");
                     Window_BijackOnWayProduct.show();
                 } else if (record.codeKala == 97 || record.codeKala == 100) {
@@ -427,13 +418,15 @@ function mainOnWayProduct(valueMapsPromise) {
                 } else if (record.codeKala == 8) {
                     OnWayProductViewLoader.setViewURL("tozin/showWarehouseConcForm");
                     Window_BijackOnWayProduct.show();
-                } else {
-                    isc.Dialog.create({message: "به توزین درخواستی نمی‌شه بیجک زد"})
                 }
+                 */
+
+                // else {
+                //     isc.Dialog.create({message: "به توزین درخواستی نمی‌شه بیجک زد"})
+                // }
             }
         }]
     });
-
     isc.ViewLoader.create({
         ID: "OnWayProductViewLoader",
         width: 830,
@@ -441,7 +434,6 @@ function mainOnWayProduct(valueMapsPromise) {
         autoDraw: false,
         loadingMessage: " <spring:message code='global.loadingMessage'/>"
     });
-
     const Window_BijackOnWayProduct = isc.Window.create({
         title: "<spring:message code='bijack'/> ",
         ID: "Window_BijackOnWayProduct",

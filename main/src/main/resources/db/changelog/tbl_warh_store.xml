@@ -1,0 +1,12 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <changeSet author="saeb" id="saeb_00ddddd5">
+        <sql>
+            INSERT INTO TBL_WARH_STORE (ID, C_CREATED_BY, D_CREATED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            C_DESCRIPTION, C_NAME, F_WAREHOUSE_ID) VALUES (-2555, 'saeb', TO_TIMESTAMP('2020-06-25 07:38:16.000000',
+            'YYYY-MM-DD HH24:MI:SS.FF6'), 0, 1, 1, null, 'اسكله شهيد رجائي ', 2555)
+        </sql>
+    </changeSet>
+</databaseChangeLog>

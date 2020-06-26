@@ -1,7 +1,19 @@
 //<%@ page contentType="text/html;charset=UTF-8" %>
 //<%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 // <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
-var RestDataSource_CathodList = isc.MyRestDataSource.create({
+async function onWayProductFetch(classUrl, operator = "and", criteria = []) {
+    const response = await fetch('/sales/api/'
+        + classUrl + '/spec-list?_startRow=0&_endRow=1000&operator=' + operator + '&' +
+        criteria.map(c => 'criteria=' + encodeURIComponent(JSON.stringify(c))).join('&'),
+        {headers: SalesConfigs.httpHeaders});
+    // if(response.status>=200 && response.status<300) {
+    const json = await response.json();
+    return json
+    // }
+    // return response
+}
+
+const RestDataSource_CathodList = isc.MyRestDataSource.create({
     fields: [
         {name: "storeId"},
         {name: "tozinId"},
@@ -24,21 +36,13 @@ var RestDataSource_WarehouseYard_IN_WAREHOUSECAD_ONWAYPRODUCT = isc.MyRestDataSo
             hidden: true
         },
         {
-            name: "nameFA",
+            name: "name",
             title: "<spring:message code='warehouseCad.yard'/>",
             width: "25%",
         },
-        {
-            name: "nameEN",
-            title: "<spring:message code='warehouseCad.yard'/>",
-            width: "25%"
-        },
-        {
-            name: "warehouseNo",
-            title: "<spring:message code='warehouseCadItem.description'/>"
-        }
+
     ],
-    fetchDataURL: "${contextPath}/api/warehouseYard/spec-list"
+    fetchDataURL: "${contextPath}/api/depot/spec-list"
 });
 var RestDataSource_tozin_IN_WAREHOUSECAD_ONWAYPRODUCT = isc.MyRestDataSource.create({
     fields: [
@@ -323,6 +327,7 @@ var ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT = isc.ListGrid.create
 var DynamicForm_warehouseCAD = isc.DynamicForm.create({
     titleWidth: "150",
     numCols: 4,
+    errorOrientation: "bottom",
     /***
      itemKeyPress(item, keyName, characterValue) {
         if (keyName == "Enter" && DynamicForm_warehouseCAD.getValue("destinationTozinPlantStaticId") !== undefined) {
@@ -494,36 +499,43 @@ var DynamicForm_warehouseCAD = isc.DynamicForm.create({
         {
             name: "warehouseYardId",
             required: true,
-            validators: [{
-                type: "required",
-                validateOnChange: true
-            }],
+            // validators: [{
+            //     type: "required",
+            //     validateOnChange: true
+            // }],
             colSpan: 1,
             titleColSpan: 1,
             showHover: true,
-            autoFetchData: false,
+            autoFetchData: true,
+            defaultValue: StorageUtil.get('onWayProduct_yardId'),
             title: "<spring:message code='warehouseCad.yard'/>",
-            type: 'string',
-            editorType: "SelectItem",
+            // type: 'string',
+            // editorType: "SelectItem",
             optionDataSource: RestDataSource_WarehouseYard_IN_WAREHOUSECAD_ONWAYPRODUCT,
-            displayField: "nameFA",
+            displayField: "name",
             valueField: "id",
-            pickListWidth: "215",
-            pickListHeight: "215",
+            // pickListWidth: "215",
+            // pickListHeight: "215",
             pickListProperties: {
-                showFilterEditor: true,
-                filterOnKeypress: false
+                recordClick(pickList, record) {
+                    StorageUtil.save('onWayProduct_yardId', record.id);
+                    return this.Super("recordClick", arguments);
+                }
             },
-            pickListFields: [{
-                name: "nameFA"
-            }],
+            // pickListFields: [{
+            //     name: "name"
+            // }],
+            /*
             changed: function (form, item, value) {
                 if (!item.getDisplayValue(value).includes("کاتد")) {
                     isc.warn("<spring:message code='warehouseYard.alert'/>");
                     form.getItem("warehouseYardId").setValue("");
                 }
             }
+
+             */
         },
+        /*
         {
             name: "containerNo",
             title: "<spring:message code='warehouseCad.containerNo'/>",
@@ -543,6 +555,14 @@ var DynamicForm_warehouseCAD = isc.DynamicForm.create({
             colSpan: 1,
             titleColSpan: 1
         },
+         {
+            name: "destinationUnloadDate",
+            title: "<spring:message code='warehouseCad.destinationUnloadDate'/>", //تاریخ تخلیه در مقصد
+            colSpan: 1,
+            titleColSpan: 1,
+            type: "staticText",
+        },
+        */
         {
             align: "center",
             layoutAlign: "center",
@@ -560,14 +580,6 @@ var DynamicForm_warehouseCAD = isc.DynamicForm.create({
             title: "<b><spring:message code='bijack.title.destination.left'/></b>",
             wrapTitle: false,
             width: 90,
-        },
-
-        {
-            name: "destinationUnloadDate",
-            title: "<spring:message code='warehouseCad.destinationUnloadDate'/>", //تاریخ تخلیه در مقصد
-            colSpan: 1,
-            titleColSpan: 1,
-            type: "staticText",
         },
         {
             name: "sourceBundleSum",
@@ -683,7 +695,8 @@ var IButton_warehouseCAD_Save = isc.IButtonSave.create({
                 DynamicForm_warehouseCAD.validate();
                 if (DynamicForm_warehouseCAD.hasErrors())
                     return;
-                DynamicForm_warehouseCAD.setValue("materialItemId", ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().codeKala);
+                DynamicForm_warehouseCAD.setValue("materialItemId",
+                    ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().codeKala);
                 var data_WarehouseCad = DynamicForm_warehouseCAD.getValues();
                 if (DynamicForm_warehouseCAD.getValue("destinationTozinPlantId") != undefined)
                     data_WarehouseCad.destinationTozinPlantId = DynamicForm_warehouseCAD.getValue("destinationTozinPlantId")
@@ -753,31 +766,24 @@ var IButton_warehouseCAD_Save = isc.IButtonSave.create({
 });
 ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT.setData([]);
 const selectedSourceTozins = ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecords();
-var criteria_cathod = {
-    _constructor: "AdvancedCriteria", operator: "or",
-    criteria: selectedSourceTozins.map(r => {
-        return {
-            fieldName: "tozinId",
-            operator: "equals",
-            value: r.tozinId
-        }
-    })
-};
-RestDataSource_CathodList.fetchData(criteria_cathod, function (dsResponse, data, dsRequest) {
-    data.forEach(function (item) {
-        delete item.storeId;
-        delete item.tozinId;
-        delete item.productId;
-        delete item.packingTypeId;
-        delete item.gdsCode;
-    });
-    ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT.setData(data);
-    const totalSheetNumber = data.map(d => d.sheetNumber).reduce((i, j) => i + j);
-    DynamicForm_warehouseCAD.setValue("sourceSheetSum", totalSheetNumber);
-
-});
+// RestDataSource_CathodList.fetchData(criteria_cathod, function (dsResponse, data, dsRequest) {
+//     // data.forEach(function (item) {
+//     //     delete item.storeId;
+//     //     delete item.tozinId;
+//     //     delete item.productId;
+//     //     delete item.packingTypeId;
+//     //     delete item.gdsCode;
+//     // });
+//     ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT.setData(data);
+//     const totalSheetNumber = data.map(d => d.sheetNumber).reduce((i, j) => i + j);
+//     DynamicForm_warehouseCAD.setValue("sourceSheetSum", totalSheetNumber);
+//
+// });
 DynamicForm_warehouseCAD.clearValues();
-DynamicForm_warehouseCAD.setValue("materialItemId", ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().nameKala);
+DynamicForm_warehouseCAD.setValue("materialItemId",
+    SalesBaseParameters
+        .getSavedMaterialItemParameter()
+        .find(m => m.id === ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().codeKala).gdsName);
 SalesBaseParameters.getWarehouseParameter().then(p => {
     const source = p.find(pp => {
         return pp.id === ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord()['sourceId']
@@ -794,7 +800,7 @@ DynamicForm_warehouseCAD.setValue("containerNo", ListGrid_Tozin_IN_ONWAYPRODUCT.
 // DynamicForm_warehouseCAD.setValue("sourceBundleSum", ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().tedad);
 DynamicForm_warehouseCAD_Desc.setValue("bijakFirstDescription", ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().strSharh2);
 DynamicForm_warehouseCAD_Desc.setValue("bijakSecondDescription", ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().ctrlDescOut);
-var bundle_window = isc.Window.create({
+const bundle_window = isc.Window.create({
     title: "<spring:message code='contact.title'/>",
     width: 700,
     // height: 580,
@@ -808,19 +814,20 @@ var bundle_window = isc.Window.create({
     visibility: 'hidden',
     closeClick: function () {
         const bundleData = ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT.getAllData();
-        DynamicForm_warehouseCAD.setValue("destinationBundleSum", bundleData.length);
-        DynamicForm_warehouseCAD.setValue("destinationSheetSum",
-            bundleData
-                .map(b => b.sheetNumber)
-                .reduce((i, j) => i + j));
-        this.Super("closeClick", arguments)
+        if (bundleData !== undefined && bundleData !== null && bundleData.length > 0) {
+            DynamicForm_warehouseCAD.setValue("destinationBundleSum", bundleData.length);
+            DynamicForm_warehouseCAD.setValue("destinationSheetSum",
+                bundleData
+                    .map(b => b.sheetNumber)
+                    .reduce((i, j) => i + j));
+        }
+        return this.Super("closeClick", arguments)
     },
     items: [isc.HLayout.create({
         members: [add_bundle_button],
         height: 10
     }), ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT]
 })
-
 const windowDestinationTozinList = (function () {
     const valueMapsPromise = SalesBaseParameters.getAllSavedParameter();
     const tozinLiteFields = [
@@ -947,7 +954,24 @@ const windowDestinationTozinList = (function () {
         dataSource: datasource,
         fields: [...tozinLiteFields,],
     };
-    const grid = isc.ListGrid.create(gridConfigs);
+    const recordDoubleClick = {
+        recordDoubleClick(viewer, record, recordNum, field, fieldNum, value, rawValue) {
+            const grid = window[listGridSetDestTozinHarasatPolompForSelectedTozin['gs']];
+            const sourceTozinId = grid.getSelectedRecord()['tozinId'];
+            const gridData = grid.getData();
+            gridData.find((d, i) => {
+                if (d['tozinId'] === sourceTozinId) {
+                    grid.setEditValue(i, 'destTozinId', record['tozinId'])
+                    // console.log('found selected record in listGridSetDestTozinHarasatPolompForSelectedTozin ',d,record)
+                }
+                return d['tozinId'] === sourceTozinId;
+            })
+            // console.log('found selected record in listGridSetDestTozinHarasatPolompForSelectedTozin ',gridData)
+            // grid.setData(gridData)
+            win.hide();
+        }
+    }
+    const grid = isc.ListGrid.create({...recordDoubleClick, ...gridConfigs});
     const win = isc.Window.create({
         title: "<spring:message code='contact.title'/>",
         width: 700,
@@ -971,25 +995,61 @@ const windowDestinationTozinList = (function () {
         gc: gridConfigs,
         ds: datasource.getID(),
     };
-    console.log(returnVar);
+    //console.log(returnVar);
     return returnVar;
 })()
-const listGridSetDestTozinHarasatPolomp = (function () {
+const listGridSetDestTozinHarasatPolompForSelectedTozin = (function () {
 
         const grid_source = isc.ListGrid.create({
             ...windowDestinationTozinList['gc'],
             canEdit: true,
             autoSaveEdits: false,
+            showFilterEditor: false,
             // height: "",
             editEvent: 'click',
             fields: [...windowDestinationTozinList['gc']['fields'].map(c => {
                 return {...c, canEdit: false}
             }),
                 {
+                    name: "pkgNum_source",
+                    canFilter: false,
+                    title: 'بسته(لات، باندل، ...) مبدا',
+                    canEdit: false
+                },
+                {
+                    name: "sheetNumber_source",
+                    canFilter: false,
+                    title: 'تعداد(ورق، بشکه، ...) مبدا',
+                    canEdit: false
+                },
+                {
+                    name: "pkgNum_destination",
+                    canFilter: false,
+                    editorProperties: {
+                        type: 'number',
+                        required: 'true',
+                        keyPressFilter: "[0-9]",
+                    },
+                    title: 'بسته(لات، باندل، ...) مقصد',
+                    // canEdit: false
+                },
+                {
+                    name: "sheetNumber_destination",
+                    editorProperties: {
+                        type: 'number',
+                        required: 'true',
+                        keyPressFilter: "[0-9]",
+                    },
+                    canFilter: false,
+                    title: 'تعداد(ورق، بشکه، ...) مقصد',
+                    // canEdit: false
+                },
+
+                {
                     name: "destTozinId",
                     title: 'توزین مقصد',
                     canFilter: false,
-                    editable: true,
+                    required: true,
                     editorType: "comboBox",
                     editorProperties: {
                         icons: [{
@@ -1018,7 +1078,6 @@ const listGridSetDestTozinHarasatPolomp = (function () {
                     name: "harasatId",
                     canFilter: false,
                     title: 'شماره پلمپ حراست',
-                    editable: true,
                     /* editorExit (editCompletionEvent, record, newValue, rowNum, colNum, grid){
                          if(newValue===undefined || newValue === null || newValue === ''){
                              isc.warn('شماره پلمپ حراست خالی می‌باشد');
@@ -1033,7 +1092,6 @@ const listGridSetDestTozinHarasatPolomp = (function () {
                 {
                     name: "rahAhanId",
                     title: 'شماره پلمپ راه‌آهن',
-                    editable: true,
                     canFilter: false,
 
 
@@ -1077,7 +1135,7 @@ const listGridSetDestTozinHarasatPolomp = (function () {
         }
     }
 )()
-console.log('listGridSetDestTozinHarasatPolomp', listGridSetDestTozinHarasatPolomp)
+//console.log('listGridSetDestTozinHarasatPolompForSelectedTozin', listGridSetDestTozinHarasatPolompForSelectedTozin)
 isc.VLayout.create({
     width: 830,
     // height: 700,
@@ -1134,9 +1192,8 @@ isc.VLayout.create({
                         icon: "pieces/16/icon_delete.png",
                         orientation: "vertical",
                         click: function () {
-                            const w = listGridSetDestTozinHarasatPolomp['w'];
-                            const grid_source = listGridSetDestTozinHarasatPolomp['gs'];
-                            window[grid_source].setData(ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecords());
+                            const w = listGridSetDestTozinHarasatPolompForSelectedTozin['w'];
+                            const grid_source = listGridSetDestTozinHarasatPolompForSelectedTozin['gs'];
                             window[w].show()
                         }
                     }),
@@ -1144,33 +1201,6 @@ isc.VLayout.create({
         })
     ]
 });
-
-const detailedSelectedTozinCriterias = selectedSourceTozins.map(t => {
-    return "criteria=" + encodeURIComponent(JSON.stringify(
-        {
-            "fieldName": "tozinId",
-            "operator": "equals",
-            "_constructor": "AdvancedCriteria",
-            "value": t.tozinId
-        }))
-})
-
-fetch(SalesConfigs.Urls.RootUrl + '/api/tozin/spec-list?operator=or&' + detailedSelectedTozinCriterias.join('&'),
-    {headers: SalesConfigs.httpHeaders}).then(r => {
-    r.json().then(j => {
-        if (j && j.response && j.response.data && j.response.data.length > 0) {
-            const data = j.response.data;
-            const vazn = data.map(m => m.vazn).reduce((i, j) => i + j);
-            const tedad = data.map(m => m.tedad).reduce((i, j) => i + j);
-            const minDate = data.map(m => m.date).reduce((i, j) => Number(i) <= Number(j) ? Number(i) : Number(j));
-            DynamicForm_warehouseCAD.setValue("sourceWeight", vazn);
-            DynamicForm_warehouseCAD.setValue("sourceBundleSum", tedad);
-            console.log(minDate, vazn, j, data)
-        }
-    })
-});
-
-
 const destinationTozinCriteria = {
     operator: "and",
     criteria: [
@@ -1191,36 +1221,90 @@ const destinationTozinCriteria = {
         },
     ]
 }
-fetch(SalesConfigs.Urls.RootUrl + '/api/tozin/spec-list?operator=or&' + detailedSelectedTozinCriterias.join('&'),
-    {headers: SalesConfigs.httpHeaders}).then(r => {
-    r.json().then(j => {
-        if (j && j.response && j.response.data && j.response.data.length > 0) {
-
+const criteria_cathod = {
+    _constructor: "AdvancedCriteria", operator: "or",
+    criteria: selectedSourceTozins.map(r => {
+        return {
+            fieldName: "tozinId",
+            operator: "equals",
+            value: r.tozinId
         }
     })
-});
+};
+onWayProductFetch('tozin', 'and', destinationTozinCriteria.criteria).then(tozin => {
+    if (tozin && tozin.response && tozin.response.data && tozin.response.data.length > 0) {
+        // console.log('tozin',tozin);
+        const grid = windowDestinationTozinList['g'];
+        // const ds = windowDestinationTozinList['ds'];
+        const tozinData = tozin.response.data;
+        window[listGridSetDestTozinHarasatPolompForSelectedTozin['gs']]
+            .setValueMap('destTozinId', tozinData.getValueMap('tozinId', 'tozinId'))
+        window[grid].setData(tozinData);
+    }
+})
+onWayProductFetch('cathodList', 'or', criteria_cathod.criteria).then(tozinPackagesData => {
+    if (tozinPackagesData && tozinPackagesData.response && tozinPackagesData.response.data && tozinPackagesData.response.data.length > 0) {
+        // console.log('tozinPackagesData',tozinPackagesData);
+        const pkgs = tozinPackagesData.response.data;
+        const totalSheetNumber = pkgs.map(d => d.sheetNumber).reduce((i, j) => i + j);
+        ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT.setData(pkgs);
+        DynamicForm_warehouseCAD.setValue("sourceSheetSum", totalSheetNumber);
+        const grid_string = listGridSetDestTozinHarasatPolompForSelectedTozin['gs'];
+        const grid = window[grid_string];
+        const selectedTozinList = ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecords();
+        const updatedSelectedTozinList = selectedTozinList.map(
+            tz => {
+                const pkg_update = {
+                    sheetNumber_source: null,
+                    sheetNumber_destination: null,
+                    pkgNum_source: 0,
+                    pkgNum_destination: 0,
+                }
+                const packages = pkgs.filter(pkg => pkg['tozinId'] === tz['tozinId'])
+                console.log(packages)
+                if (packages.length > 0) {
+                    pkg_update['sheetNumber_source'] = packages.map(p => Number(p.sheetNumber)).reduce((i, j) => i + j);
+                    pkg_update['sheetNumber_destination'] = packages.map(p => Number(p.sheetNumber)).reduce((i, j) => i + j);
+                    pkg_update['pkgNum_source'] = packages.length;
+                    pkg_update['pkgNum_destination'] = packages.length;
+                }
+                return {...pkg_update, ...tz}
+            }
+        )
+        grid.setData(updatedSelectedTozinList)
+    } else if (tozinPackagesData && tozinPackagesData.response && tozinPackagesData.response.data && tozinPackagesData.response.data.length === 0) {
 
-fetch(SalesConfigs.Urls.RootUrl + '/api/tozin/lite/spec-list?operator=and&' + destinationTozinCriteria
-    .criteria
-    .map(
-        c => "criteria=" + JSON.stringify(c)
-    ).join('&'),
-    {headers: SalesConfigs.httpHeaders}).then(r => {
-    r.json().then(j => {
-        console.log('destinationTozinCriteria', j, windowDestinationTozinList);
-        if (j && j.response && j.response.data && j.response.data.length > 0) {
-            // window[windowDestinationTozinList['w']].show();
-            const grid = windowDestinationTozinList['g'];
-            const ds = windowDestinationTozinList['ds'];
-            window[grid].setData(j.response.data);
-            // const dsObject = window[ds];
-            // dsObject.addData(j.response.data);
-            // DynamicForm_warehouseCAD.getItem('destinationTozinPlantId').setOptionDataSource(dsObject);
-            // DynamicForm_warehouseCAD.getItem('destinationTozinPlantId').setValueMap(j.response.data.getValueMap('tozinId', 'tozinId'));
-            window[listGridSetDestTozinHarasatPolomp['gs']].setValueMap('destTozinId', j.response.data.getValueMap('tozinId', 'tozinId'))
+    }
+})
+
+function createPackageForTozin() {
+    const selected_tozin_list = ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecords();
+    console.log('selected_tozin_list', selected_tozin_list)
+    /*
+    * codeKala: 11
+    containerNo1: "***696ع41"
+    containerNo3: 45
+    date: "13990325"
+    driverName: ". شركت آسيا سير ارس"
+    havalehCode: "1-43388"
+    plak: "2080027 * "
+    sourceId: 1000
+    targetId: 2555
+    tozinId: "1-1681324"
+    vazn: 21900*/
+    return selected_tozin_list.map(tz => {
+        return {
+            gdsCode: tz['codeKala'],
+            packingTypeId: 2,
+            productId: "1-486389",
+            productLabel: "1399CSM5747",
+            sheetNumber: 18,
+            storeId: "1-686971",
+            tozinId: "1-1681324",
+            wazn: 2411,
         }
     })
-});
+}
 
-
+console.log(windowDestinationTozinList)
 //<script>
