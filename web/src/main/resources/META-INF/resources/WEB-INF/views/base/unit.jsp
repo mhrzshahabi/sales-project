@@ -86,19 +86,7 @@ ListGrid_Unit_refresh()
             type: 'text',
             required: true,
             width: 400
-        }, {
-            name: "decimalDigit",
-            title: "<spring:message code='rate.decimalDigit'/>",
-            width: 400,
-            keyPressFilter: "[0-4]",
-            length: "1"
-        },{
-                    name: "categoryValue",
-                    title: "<spring:message	code='parameters.paramValue.d'/>",
-                    width: 500,
-                    type: "text",
-                    required: true,
-                    valueMap: getKeyValuesAsMap(unitEnum.types)}
+        }
         ]
     });
 
@@ -358,10 +346,6 @@ ToolStripButton_Unit_Refresh,
                 {
                     name: "symbol",
                     title: "<spring:message code='unit.symbol'/>"
-                },
-                {
-                    name: "decimalDigit",
-                    title: "<spring:message code='rate.decimalDigit'/>"
                 }],
             fetchDataURL: "${contextPath}/api/unit/spec-list"
         });
@@ -387,17 +371,8 @@ ToolStripButton_Unit_Refresh,
             title: "<spring:message code='unit.nameEN'/> ",
             align: "center"
         },{
-        name: "categoryValue",
-        title: "<spring:message	code='parameters.paramValue.d'/>",
-        required: true,
-        valueMap: getKeyValuesAsMap(unitEnum.types)
-        },{
             name: "symbol",
             title: "<spring:message code='unit.symbol'/>",
-            align: "center"
-        }, {
-            name: "decimalDigit",
-            title: "<spring:message code='rate.decimalDigit'/>",
             align: "center"
         }],
         autoFetchData: true

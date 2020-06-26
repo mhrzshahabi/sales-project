@@ -67,11 +67,7 @@ var RestDataSource_Material = isc.MyRestDataSource.create({
         {
             name: "symbol",
             title: "<spring:message code='unit.symbol'/>",
-        },
-        {
-            name: "decimalDigit",
-            title: "<spring:message code='rate.decimalDigit'/>",
-        },
+        }
     ],
     fetchDataURL: "${contextPath}/api/unit/spec-list",
 });
@@ -312,7 +308,7 @@ var DynamicForm_Material = isc.DynamicForm.create({
         },
         {
             name: "unitId",
-            title: "<spring:message code='unit.nameFa'/>",
+            title: "<spring:message code='unit.title'/>",
             type: "long",
             width: 400,
             editorType: "SelectItem",

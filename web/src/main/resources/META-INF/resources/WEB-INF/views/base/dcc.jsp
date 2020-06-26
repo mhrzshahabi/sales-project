@@ -174,8 +174,6 @@
                             window.open("dcc/downloadFile?table=" + "person" + "&file=" + record.fileNewName);
                         else if (record.tblName1 != null && record.tblName1 == "TBL_CONTACT")
                             window.open("dcc/downloadFile?table=" + "contact" + "&file=" + record.fileNewName);
-                        else if (record.tblName1 != null && record.tblName1 == "TBL_INSTRUCTION")
-                            window.open("dcc/downloadFile?table=" + "instruction" + "&file=" + record.fileNewName);
                         else if (record.tblName1 != null && record.tblName1 == "TBL_SHIPMENT")
                             window.open("dcc/downloadFile?table=" + "shipment" + "&file=" + record.fileNewName);
                         else if (record.tblName1 != null && record.tblName1 == "TBL_INVOICE")
@@ -259,10 +257,6 @@
                 else if (dccTableName != null && dccTableName == 'TBL_PERSON') {
                     folder = "person";
                     dccDynamicForm.setValue("folder", "person");
-                }
-                else if (dccTableName != null && dccTableName == 'TBL_INSTRUCTION') {
-                    folder = "instruction";
-                    dccDynamicForm.setValue("folder", "instruction");
                 }
                 else if (dccTableName != null && dccTableName == 'TBL_SHIPMENT') {
                     folder = "shipment";

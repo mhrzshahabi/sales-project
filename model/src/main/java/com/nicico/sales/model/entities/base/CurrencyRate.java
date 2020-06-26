@@ -27,19 +27,19 @@ public class CurrencyRate extends BaseEntity {
     @Column(name = "ID")
     private Long id;
 
-    @Column(name = "C_DATE", length = 100)
+    @Column(name = "C_DATE")
     private String curDate;
 
-    @Column(name = "c_IRR_USD", length = 100)
+    @Column(name = "c_IRR_USD")
     private String irrUsd;
 
-    @Column(name = "c_EUR_USD", length = 100)
+    @Column(name = "c_EUR_USD")
     private String eurUsd;
 
-    @Column(name = "c_AED_USD", length = 100)
+    @Column(name = "c_AED_USD")
     private String aedUsd;
 
-    @Column(name = "c_RMB_USD", length = 100)
+    @Column(name = "c_RMB_USD")
     private String rmbUsd;
 
 }

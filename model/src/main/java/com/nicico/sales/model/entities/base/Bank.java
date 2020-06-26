@@ -31,7 +31,7 @@ public class Bank extends BaseEntity {
     @Column(name = "c_ADDRESS", length = 1000)
     private String address;
 
-    @Column(name = "c_CORE_BRANCH", length = 100)
+    @Column(name = "c_CORE_BRANCH")
     private String coreBranch;
 
     @Setter(AccessLevel.NONE)

@@ -33,7 +33,7 @@ public class Contract2 extends BaseEntity {
     private Long id;
 
     @NotEmpty
-    @Column(name = "C_NO", nullable = false, length = 200, unique = true)
+    @Column(name = "C_NO", nullable = false, unique = true)
     private String no;
 
     @Column(name = "D_DATE")

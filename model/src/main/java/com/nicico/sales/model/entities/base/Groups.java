@@ -22,7 +22,7 @@ public class Groups extends BaseEntity {
     @Column(name = "ID")
     private Long id;
 
-    @Column(name = "GROUPS_NAME", nullable = false, length = 200)
+    @Column(name = "GROUPS_NAME", nullable = false)
     private String groupsName;
 
 }

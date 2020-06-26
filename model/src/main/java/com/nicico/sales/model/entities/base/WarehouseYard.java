@@ -25,7 +25,7 @@ public class WarehouseYard extends BaseEntity {
     @Column(name = "WAREHOUSE_NO", length = 20)
     private String warehouseNo;
 
-    @Column(name = "c_NAME_FA", nullable = false, length = 200)
+    @Column(name = "c_NAME_FA", nullable = false)
     private String nameFA;
 
 }

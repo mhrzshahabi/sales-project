@@ -22,7 +22,7 @@ import java.math.BigDecimal;
 public class TypicalAssay extends Auditable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_TBL_TYPICAL_ASSAY")
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_TBL_TYPICAL_ASSAY")
     @SequenceGenerator(name = "SEQ_TBL_TYPICAL_ASSAY", sequenceName = "SEQ_TBL_TYPICAL_ASSAY", allocationSize = 1)
     @Column(name = "ID")
     private Long id;
