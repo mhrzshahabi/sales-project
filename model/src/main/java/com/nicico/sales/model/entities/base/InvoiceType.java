@@ -18,7 +18,7 @@ import javax.persistence.*;
 public class InvoiceType extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_TBL_Invoice_Type")
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_TBL_Invoice_Type")
     @SequenceGenerator(name = "SEQ_TBL_Invoice_Type", sequenceName = "SEQ_TBL_Invoice_Type", allocationSize = 1)
     @Column(name = "ID")
     private Long id;

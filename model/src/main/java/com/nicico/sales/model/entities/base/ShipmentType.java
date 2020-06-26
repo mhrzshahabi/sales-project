@@ -17,7 +17,7 @@ import javax.persistence.*;
 public class ShipmentType extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_Shipment_Type")
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_Shipment_Type")
     @SequenceGenerator(name = "SEQ_Shipment_Type", sequenceName = "SEQ_Shipment_Type", allocationSize = 1)
     @Column(name = "ID")
     private Long id;

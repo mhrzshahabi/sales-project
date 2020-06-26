@@ -111,9 +111,6 @@
     <changeSet author="Reza (generated)" id="1592718665942-38">
         <createSequence sequenceName="SEQ_DCC"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592718665942-39">
-        <createSequence sequenceName="SEQ_FEATURE"/>
-    </changeSet>
     <changeSet author="Reza (generated)" id="1592718665942-40">
         <createSequence sequenceName="SEQ_FOREIGN_INVOICE"/>
     </changeSet>
@@ -125,9 +122,6 @@
     </changeSet>
     <changeSet author="Reza (generated)" id="1592718665942-43">
         <createSequence sequenceName="SEQ_FOREIGN_INVOICE_PAYMENT"/>
-    </changeSet>
-    <changeSet author="Reza (generated)" id="1592718665942-45">
-        <createSequence sequenceName="SEQ_GOODS"/>
     </changeSet>
     <changeSet author="Reza (generated)" id="1592718665942-46">
         <createSequence sequenceName="SEQ_GROUPS"/>
@@ -162,9 +156,6 @@
     <changeSet author="Reza (generated)" id="1592718665942-56">
         <createSequence sequenceName="SEQ_MATERIAL"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592718665942-57">
-        <createSequence sequenceName="SEQ_MATERIAL_FEATURE"/>
-    </changeSet>
     <changeSet author="Reza (generated)" id="1592718665942-58">
         <createSequence sequenceName="SEQ_MATERIAL_ITEM"/>
     </changeSet>
@@ -185,9 +176,6 @@
     </changeSet>
     <changeSet author="Reza (generated)" id="1592718665942-64">
         <createSequence sequenceName="SEQ_PORT"/>
-    </changeSet>
-    <changeSet author="Reza (generated)" id="1592718665942-65">
-        <createSequence sequenceName="SEQ_RATE"/>
     </changeSet>
     <changeSet author="Reza (generated)" id="1592718665942-66">
         <createSequence sequenceName="SEQ_SALES_TYPE"/>
@@ -221,9 +209,6 @@
     </changeSet>
     <changeSet author="Reza (generated)" id="1592718665942-76">
         <createSequence sequenceName="SEQ_WAREHOUSE_CAD_ITEM"/>
-    </changeSet>
-    <changeSet author="Reza (generated)" id="1592718665942-77">
-        <createSequence sequenceName="SEQ_WAREHOUSE_LOT"/>
     </changeSet>
     <changeSet author="Reza (generated)" id="1592718665942-78">
         <createSequence sequenceName="SEQ_WAREHOUSE_STOCK"/>
@@ -263,9 +248,6 @@
     </changeSet>
     <changeSet author="Reza (generated)" id="1592718665942-90">
         <createSequence sequenceName="SEQ_WEIGHING_INSPECTION"/>
-    </changeSet>
-    <changeSet author="Reza (generated)" id="1592718665942-91">
-        <createSequence sequenceName="hibernate_sequence"/>
     </changeSet>
     <changeSet author="Reza (generated)" id="1592718665942-92">
         <createSequence sequenceName="seq_invoice_internal_document"/>
