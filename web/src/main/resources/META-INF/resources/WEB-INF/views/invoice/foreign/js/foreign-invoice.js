@@ -3,10 +3,10 @@ var foreignInvoiceTab = new nicico.GeneralTabUtil().getDefaultJSPTabVariable();
 foreignInvoiceTab.window.invoice = new nicico.FormUtil();
 foreignInvoiceTab.window.selectBillLading = new nicico.FindFormUtil();
 
+foreignInvoiceTab.variable.contractUrl = __contract.url;
 foreignInvoiceTab.variable.personUrl = "${contextPath}" + "/api/person/";
 foreignInvoiceTab.variable.shipmentUrl = "${contextPath}" + "/api/shipment/";
 foreignInvoiceTab.variable.currencyUrl = "${contextPath}" + "/api/currency/";
-foreignInvoiceTab.variable.contractUrl = "${contextPath}" + "/api/g-contract/";
 foreignInvoiceTab.variable.invoiceTypeUrl = "${contextPath}" + "/api/invoicetype/";
 foreignInvoiceTab.variable.materialItemUrl = "${contextPath}" + "/api/materialItem/";
 foreignInvoiceTab.variable.conversionRefUrl = "${contextPath}" + "/api/currencyRate/";
@@ -83,7 +83,7 @@ foreignInvoiceTab.listGrid.fields = BaseFormItems.concat([
         width: "100%",
         required: true,
         showHover: true,
-        name: "contract.no",
+        name: __contract.nameOfNumberProperty,
         title: "<spring:message code='foreign-invoice.form.contract'/>"
     },
     {
@@ -311,18 +311,18 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
 
 //***************************************************** RESTDATASOURCE *************************************************
 
-foreignInvoiceTab.restDataSource.foreignInvoiceItem = isc.MyRestDataSource.create({
-    fields: BaseFormItems.concat([]),
-    fetchDataURL: foreignInvoiceTab.variable.foreignInvoiceItemUrl + "spec-list"
-});
-foreignInvoiceTab.restDataSource.foreignInvoicePayment = isc.MyRestDataSource.create({
-    fields: BaseFormItems.concat([]),
-    fetchDataURL: foreignInvoiceTab.variable.foreignInvoicePaymentUrl + "spec-list"
-});
-foreignInvoiceTab.restDataSource.foreignInvoiceItemDetail = isc.MyRestDataSource.create({
-    fields: BaseFormItems.concat([]),
-    fetchDataURL: foreignInvoiceTab.variable.foreignInvoiceItemDetailUrl + "spec-list"
-});
+// foreignInvoiceTab.restDataSource.foreignInvoiceItem = isc.MyRestDataSource.create({
+//     fields: BaseFormItems.concat([]),
+//     fetchDataURL: foreignInvoiceTab.variable.foreignInvoiceItemUrl + "spec-list"
+// });
+// foreignInvoiceTab.restDataSource.foreignInvoicePayment = isc.MyRestDataSource.create({
+//     fields: BaseFormItems.concat([]),
+//     fetchDataURL: foreignInvoiceTab.variable.foreignInvoicePaymentUrl + "spec-list"
+// });
+// foreignInvoiceTab.restDataSource.foreignInvoiceItemDetail = isc.MyRestDataSource.create({
+//     fields: BaseFormItems.concat([]),
+//     fetchDataURL: foreignInvoiceTab.variable.foreignInvoiceItemDetailUrl + "spec-list"
+// });
 
 //******************************************************* COMPONENTS ***************************************************
 
@@ -357,13 +357,6 @@ foreignInvoiceTab.button.save = isc.IButtonSave.create({
 
         foreignInvoiceTab.window.main.close();
         foreignInvoiceTab.window.invoice.justShowForm();
-
-        // foreignInvoiceTab.method.jsonRPCManagerRequest({
-        //
-        //     callback: function (response) {
-        //
-        //     }
-        // });
     }
 });
 foreignInvoiceTab.button.cancel = isc.IButtonCancel.create({
@@ -422,6 +415,8 @@ foreignInvoiceTab.window.main = isc.Window.nicico.getDefault('<spring:message co
 
 foreignInvoiceTab.tab.pane = {};
 
+foreignInvoiceTab.dynamicForm.payment = {};
+foreignInvoiceTab.dynamicForm.payment.fields = BaseFormItems.concat([]);
 foreignInvoiceTab.dynamicForm.payment = isc.DynamicForm.create({
 
     width: "100%",
@@ -447,10 +442,113 @@ foreignInvoiceTab.tab.pane.payment = isc.VLayout.create({
     members: [foreignInvoiceTab.dynamicForm.payment]
 });
 
-foreignInvoiceTab.tab.pane.deduction = {};
-foreignInvoiceTab.tab.pane.baseValues = {};
-foreignInvoiceTab.tab.pane.calculation = {};
-foreignInvoiceTab.tab.pane.contractInfo = {};
+foreignInvoiceTab.dynamicForm.deduction = {};
+foreignInvoiceTab.dynamicForm.deduction.fields = BaseFormItems.concat([]);
+foreignInvoiceTab.dynamicForm.deduction = isc.DynamicForm.create({
+
+    width: "100%",
+    align: "center",
+    titleAlign: "right",
+    margin: 10,
+    canSubmit: true,
+    showErrorText: true,
+    showErrorStyle: true,
+    showInlineErrors: true,
+    errorOrientation: "bottom",
+    fields: this.fields,
+    valuesManager: foreignInvoiceTab.dynamicForm.valuesManager,
+    requiredMessage: '<spring:message code="validator.field.is.required"/>'
+});
+foreignInvoiceTab.tab.pane.deduction = isc.VLayout.create({
+
+    align: "top",
+    width: "100%",
+    showEdges: false,
+    layoutMargin: 10,
+    membersMargin: 5,
+    members: [foreignInvoiceTab.dynamicForm.deduction]
+});
+
+foreignInvoiceTab.dynamicForm.baseValues = {};
+foreignInvoiceTab.dynamicForm.baseValues.fields = BaseFormItems.concat([]);
+foreignInvoiceTab.dynamicForm.baseValues = isc.DynamicForm.create({
+
+    width: "100%",
+    align: "center",
+    titleAlign: "right",
+    margin: 10,
+    canSubmit: true,
+    showErrorText: true,
+    showErrorStyle: true,
+    showInlineErrors: true,
+    errorOrientation: "bottom",
+    fields: this.fields,
+    valuesManager: foreignInvoiceTab.dynamicForm.valuesManager,
+    requiredMessage: '<spring:message code="validator.field.is.required"/>'
+});
+foreignInvoiceTab.tab.pane.baseValues = isc.VLayout.create({
+
+    align: "top",
+    width: "100%",
+    showEdges: false,
+    layoutMargin: 10,
+    membersMargin: 5,
+    members: [foreignInvoiceTab.dynamicForm.baseValues]
+});
+
+foreignInvoiceTab.dynamicForm.calculation = {};
+foreignInvoiceTab.dynamicForm.calculation.fields = BaseFormItems.concat([]);
+foreignInvoiceTab.dynamicForm.calculation = isc.DynamicForm.create({
+
+    width: "100%",
+    align: "center",
+    titleAlign: "right",
+    margin: 10,
+    canSubmit: true,
+    showErrorText: true,
+    showErrorStyle: true,
+    showInlineErrors: true,
+    errorOrientation: "bottom",
+    fields: this.fields,
+    valuesManager: foreignInvoiceTab.dynamicForm.valuesManager,
+    requiredMessage: '<spring:message code="validator.field.is.required"/>'
+});
+foreignInvoiceTab.tab.pane.calculation = isc.VLayout.create({
+
+    align: "top",
+    width: "100%",
+    showEdges: false,
+    layoutMargin: 10,
+    membersMargin: 5,
+    members: [foreignInvoiceTab.dynamicForm.calculation]
+});
+
+foreignInvoiceTab.dynamicForm.contractInfo = {};
+foreignInvoiceTab.dynamicForm.contractInfo.fields = BaseFormItems.concat([]);
+foreignInvoiceTab.dynamicForm.contractInfo = isc.DynamicForm.create({
+
+    width: "100%",
+    align: "center",
+    titleAlign: "right",
+    margin: 10,
+    canSubmit: true,
+    showErrorText: true,
+    showErrorStyle: true,
+    showInlineErrors: true,
+    errorOrientation: "bottom",
+    fields: this.fields,
+    valuesManager: foreignInvoiceTab.dynamicForm.valuesManager,
+    requiredMessage: '<spring:message code="validator.field.is.required"/>'
+});
+foreignInvoiceTab.tab.pane.contractInfo = isc.VLayout.create({
+
+    align: "top",
+    width: "100%",
+    showEdges: false,
+    layoutMargin: 10,
+    membersMargin: 5,
+    members: [foreignInvoiceTab.dynamicForm.contractInfo]
+});
 
 foreignInvoiceTab.tab.invoice = isc.TabSet.create({
 
@@ -492,27 +590,31 @@ foreignInvoiceTab.tab.invoice = isc.TabSet.create({
 });
 
 foreignInvoiceTab.window.invoice.validate = function (data) {
+
+    foreignInvoiceTab.dynamicForm.valuesManager.validate();
+    return !foreignInvoiceTab.dynamicForm.valuesManager.hasErrors();
 };
 foreignInvoiceTab.window.invoice.okCallBack = function (data) {
-};
-foreignInvoiceTab.window.invoice.cancelCallBack = function () {
+
+    foreignInvoiceTab.method.jsonRPCManagerRequest({
+        data: data
+    });
 };
 foreignInvoiceTab.window.invoice.populateData = function (bodyWidget) {
+
+    foreignInvoiceTab.dynamicForm.valuesManager.getValues();
 };
-foreignInvoiceTab.window.invoice.init(
-    null,
-    '<spring:message code="entity.foreign-invoice"/>',
-    foreignInvoiceTab.tab.invoice, "80%"
-);
+foreignInvoiceTab.window.invoice.init(null, '<spring:message code="entity.foreign-invoice"/>', foreignInvoiceTab.tab.invoice, "80%");
 
 nicico.BasicFormUtil.getDefaultBasicForm(foreignInvoiceTab, "api/foreign-invoice/");
+foreignInvoiceTab.dynamicForm.main = null;
 
 //*************************************************** Functions ********************************************************
 
 foreignInvoiceTab.method.newForm = function () {
 
     foreignInvoiceTab.variable.method = "POST";
-    foreignInvoiceTab.dynamicForm.baseData.clearValues();
+    foreignInvoiceTab.dynamicForm.valuesManager.clearValues();
     foreignInvoiceTab.window.main.show();
 };
 foreignInvoiceTab.method.editForm = function () {
@@ -525,8 +627,8 @@ foreignInvoiceTab.method.editForm = function () {
     else {
 
         foreignInvoiceTab.variable.method = "PUT";
-        foreignInvoiceTab.dynamicForm.baseData.clearValues();
-        foreignInvoiceTab.dynamicForm.baseData.editRecord(record);
+        foreignInvoiceTab.dynamicForm.valuesManager.clearValues();
+        foreignInvoiceTab.dynamicForm.valuesManager.editRecord(record);
         foreignInvoiceTab.window.main.show();
     }
 };
