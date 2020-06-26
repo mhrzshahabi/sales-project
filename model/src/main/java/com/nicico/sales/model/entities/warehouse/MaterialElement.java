@@ -19,8 +19,8 @@ import javax.validation.constraints.NotNull;
 public class MaterialElement extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_WARH_ITEM_ELEMENT")
-    @SequenceGenerator(name = "SEQ_WARH_ITEM_ELEMENT", sequenceName = "SEQ_WARH_ITEM_ELEMENT", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_WARH_MATERIAL_ELEMENT")
+    @SequenceGenerator(name = "SEQ_WARH_MATERIAL_ELEMENT", sequenceName = "SEQ_WARH_MATERIAL_ELEMENT", allocationSize = 1)
     private Long id;
 
     @Setter(AccessLevel.NONE)

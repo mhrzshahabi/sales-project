@@ -114,7 +114,7 @@ var RestDataSource_AssayInspecRest = isc.MyRestDataSource.create({
             title: "<spring:message code='assayInspection.materialElement'/>"
         },
         {
-            name: "itemElementId",
+            name: "materialElementId",
             title: "<spring:message code='assayInspection.materialElement'/>"
         },
         {
@@ -530,7 +530,7 @@ var assayInspectionObj = {
     currencyId: "",
     value: "",
     inspectionReportId: "",
-    itemElementId: "",
+    materialElementId: "",
     LabName: "",
     LabPlace: "",
 };
@@ -598,7 +598,7 @@ var assayPane = isc.VLayout.create({
                     required: true
                 },
                 {
-                    name: "itemElementId",
+                    name: "materialElementId",
                     required: true
                 }
             ],
@@ -680,7 +680,7 @@ inspectionReportTab.window.inspecReport.populateData = function(bodyWidget) {
     // tabSets (Assay)
     assayInspectionObj.value = bodyWidget.members.get(2).tabs.get(1).pane.members.get(0).getItem("value").getValue();
     assayInspectionObj.inspectionReportId = bodyWidget.members.get(2).tabs.get(1).pane.members.get(0).getItem("inspectionReportId").getValue();
-    assayInspectionObj.itemElementId = bodyWidget.members.get(2).tabs.get(1).pane.members.get(0).getItem("itemElementId").getValue();
+    assayInspectionObj.materialElementId = bodyWidget.members.get(2).tabs.get(1).pane.members.get(0).getItem("materialElementId").getValue();
     assayInspectionObj.LabName = bodyWidget.members.get(2).tabs.get(1).pane.members.get(0).getItem("LabName").getValue();
     assayInspectionObj.LabPlace = bodyWidget.members.get(2).tabs.get(1).pane.members.get(0).getItem("LabPlace").getValue();
 };

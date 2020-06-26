@@ -588,13 +588,6 @@
                         },
                         {isSeparator: true},
                         {
-                            title: "<spring:message code='rate.title'/>",
-                            click: function () {
-                                createTab("<spring:message code='rate.title'/>", "<spring:url value="/rate/showForm" />")
-                            }
-                        },
-                        {isSeparator: true},
-                        {
                             title: "<spring:message code='exchangeRate.title'/>",
                             click: function () {
                                 createTab("<spring:message code='exchangeRate.title'/>", "<spring:url value="/currencyRate/showForm" />")
@@ -615,14 +608,6 @@
                             }
                         },
                         {isSeparator: true},
-                        {
-                            title: "<spring:message code='paymentOption.title'/>",
-                            click: function () {
-                                createTab("<spring:message code='paymentOption.title'/>", "<spring:url value="/paymentOption/showForm" />")
-                            }
-                        },
-                        {isSeparator: true},
-
                         {
                             title: "<spring:message code='LME.title'/>",
                             click: function () {
@@ -646,8 +631,6 @@
                     }
                 },
                 {isSeparator: true},
-
-
                  {
                     title: "<spring:message code='parameters.title'/>",
                     click: function () {
@@ -723,8 +706,7 @@
                                 enContract();
                                 createTab("<spring:message code='main.contractsCadTab'/>", "<spring:url value="/contact/cadMain"/>")
                             }
-                        },
-
+                        }
                     ]
                 },
                 {isSeparator: true},
@@ -734,7 +716,6 @@
                         createTab("<spring:message code='inspectionContract.title'/>", "<spring:url value="/inspectionContract/showForm" />")
                     }
                 },
-
 
                 <sec:authorize access="hasAuthority('R_CONTRACT2')">
                 {isSeparator: true},
@@ -825,27 +806,20 @@
                         createTab("<spring:message code='entity.term'/>", "<spring:url value="/term/show-form" />")
                     }
                 },
-                </sec:authorize>--%>
-                {isSeparator: true},
+                </sec:authorize>--%>,
                 {
-                    title: "<spring:message code='inspectionReport.title'/>",
-                    click: function () {
-                        createTab("<spring:message code='inspectionReport.title'/>", "<spring:url value="/inspectionReport/show-form" />")
-                    }
-                }
-                /*{
                     title: "<spring:message code='charter.title'/>",
                     click: function () {
                         createTab("<spring:message code='charter.title'/>", "<spring:url value="/shipmentContract/showForm" />")
                     }
                 },
-                {isSeparator: true},*/
-                /*{
+                {isSeparator: true},
+                {
                     title: "<spring:message code='contractPerson.title'/>",
                     click: function () {
                         createTab("<spring:message code='contractPerson.title'/>", "<spring:url value="/contractPerson/showForm" />")
                     }
-                }*/
+                }
             ]
         })
     });
@@ -868,7 +842,7 @@
                     click: function () {
                         createTab("<spring:message code='shipmentCost.title'/>", "<spring:url value="/cost/showForm" />")
                     }
-                },
+                }
             ]
         })
     });
@@ -880,7 +854,6 @@
                 createTab("<spring:message code='main.reportTab'/>", "<spring:url value="/contract/show-report-form" />")
             }
     })
-
 
     /*----------------------productTab------------------------*/
     productTab = isc.ToolStripMenuButton.create({
@@ -903,14 +876,6 @@
                             "<spring:url value="/tozin/between-complex-transfer" />")
                     }
 
-                },
-                {isSeparator: true},
-
-                {
-                    title: "<spring:message code='molybdenum.title'/>",
-                    click: function () {
-                        createTab("<spring:message code='molybdenum.title'/>", "<spring:url value="/warehouseLot/showForm" />")
-                    }
                 },
                 {isSeparator: true},
                 {

@@ -1349,8 +1349,41 @@
     {
       "code": "D_INVOICE_TYPE",
       "title": "حذف نوع صورتحساب"
-    }
+    },
 
+    {
+      "code": "R_SHIPMENT_TYPE",
+      "title": "نمایش نوع حمل"
+    },
+    {
+      "code": "C_SHIPMENT_TYPE",
+      "title": "ایجاد نوع حمل"
+    },
+    {
+      "code": "U_SHIPMENT_TYPE",
+      "title": "به روز رسانی نوع حمل"
+    },
+    {
+      "code": "D_SHIPMENT_TYPE",
+      "title": "حذف نوع حمل"
+    },
+
+    {
+      "code": "R_SHIPMENT_METHOD",
+      "title": "نمایش روش حمل"
+    },
+    {
+      "code": "C_SHIPMENT_METHOD",
+      "title": "ایجاد روش حمل"
+    },
+    {
+      "code": "U_SHIPMENT_METHOD",
+      "title": "به روز رسانی روش حمل"
+    },
+    {
+      "code": "D_SHIPMENT_METHOD",
+      "title": "حذف روش حمل"
+    }
 
   ]
 }

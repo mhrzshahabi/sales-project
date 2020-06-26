@@ -14,6 +14,8 @@
 	<include file="classpath:/db/changelog/tbl_warh_inventory.xml"/>
 	<include file="classpath:/db/changelog/tbl_warh_store.xml"/>
 	<include file="classpath:/db/changelog/tbl_warh_depot.xml"/>
+	<include file="classpath:/db/changelog/tbl_material_element.xml"/>
+	<!--<include file="classpath:/db/changelog/tbl_warh_inventory_detail.xml"/>-->
 	<!--<include file="classpath:/db/changelog/tbl_warh_remittance.xml"/>-->
 	<!--	<include file="classpath:/db/changelog/view_tozin.xml"/>-->
 	<!--	<include file="classpath:/db/changelog/view_tozin_m.xml"/>-->

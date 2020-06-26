@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface DCCDAO extends JpaRepository<DCC, Long>, JpaSpecificationExecutor<DCC> {
-    @Query(value = "SELECT SEQ_IMAGE_NUMBER.nextval FROM dual ", nativeQuery = true)
+    @Query(value = "SELECT SEQ_DCC.nextval FROM dual ", nativeQuery = true)
     Long findNextImageNumber();
 }
