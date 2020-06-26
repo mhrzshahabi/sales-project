@@ -709,14 +709,6 @@
                         }
                     ]
                 },
-                {isSeparator: true},
-                {
-                    title: "<spring:message code='inspectionContract.title'/>",
-                    click: function () {
-                        createTab("<spring:message code='inspectionContract.title'/>", "<spring:url value="/inspectionContract/showForm" />")
-                    }
-                },
-
                 <sec:authorize access="hasAuthority('R_CONTRACT2')">
                 {isSeparator: true},
                 {
@@ -806,7 +798,8 @@
                         createTab("<spring:message code='entity.term'/>", "<spring:url value="/term/show-form" />")
                     }
                 },
-                </sec:authorize>--%>,
+                </sec:authorize>--%>
+                {isSeparator: true},
                 {
                     title: "<spring:message code='charter.title'/>",
                     click: function () {
