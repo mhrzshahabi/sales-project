@@ -12,6 +12,7 @@
 	<include file="classpath:/db/changelog/foreign-invoice/tbl_foreign_invoice.xml"/>
 	<include file="classpath:/db/changelog/tbl_contact.xml"/>
 	<include file="classpath:/db/changelog/tbl_warh_inventory.xml"/>
+	<include file="classpath:/db/changelog/tbl_material_element.xml"/>
 	<!--<include file="classpath:/db/changelog/tbl_warh_inventory_detail.xml"/>-->
 	<!--<include file="classpath:/db/changelog/tbl_warh_remittance.xml"/>-->
 	<!--	<include file="classpath:/db/changelog/view_tozin.xml"/>-->

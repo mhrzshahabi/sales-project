@@ -132,14 +132,8 @@
     <changeSet author="Reza (generated)" id="1592718665942-48">
         <createSequence sequenceName="SEQ_INCOTERMS"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592718665942-49">
-        <createSequence sequenceName="SEQ_INSPECTION_CONTRACT"/>
-    </changeSet>
     <changeSet author="Reza (generated)" id="1592718665942-50">
         <createSequence sequenceName="SEQ_INSPECTION_REPORT"/>
-    </changeSet>
-    <changeSet author="Reza (generated)" id="1592718665942-51">
-        <createSequence sequenceName="SEQ_INSTRUCTION"/>
     </changeSet>
     <changeSet author="Reza (generated)" id="1592718665942-52">
         <createSequence sequenceName="SEQ_INVOICE_FOREIGN"/>
@@ -161,9 +155,6 @@
     </changeSet>
     <changeSet author="Reza (generated)" id="1592718665942-59">
         <createSequence sequenceName="SEQ_PARAMETER"/>
-    </changeSet>
-    <changeSet author="Reza (generated)" id="1592718665942-60">
-        <createSequence sequenceName="SEQ_PAYMENT_OPTION"/>
     </changeSet>
     <changeSet author="Reza (generated)" id="1592718665942-61">
         <createSequence sequenceName="SEQ_PAYMENT_TYPE"/>
@@ -2413,48 +2404,6 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592718665942-148">
-        <createTable tableName="TBL_INSPECTION_CONTRACT">
-            <column name="ID" type="NUMBER(19, 0)">
-                <constraints primaryKey="true" primaryKeyName="TBL_INSPECTION_CONTRACTPK"/>
-            </column>
-            <column name="c_created_by" type="VARCHAR2(255 CHAR)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="d_created_date" type="TIMESTAMP">
-                <constraints nullable="false"/>
-            </column>
-            <column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
-            <column name="d_last_modified_date" type="TIMESTAMP"/>
-            <column name="n_version" type="NUMBER(10, 0)">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="1" name="N_E_STATUS" type="NUMBER">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="1" name="B_EDITABLE" type="NUMBER">
-                <constraints nullable="false"/>
-            </column>
-            <column name="CLOSE_DATE" type="VARCHAR2(20 CHAR)"/>
-            <column name="INSPECTION_CONTACT_ID" type="NUMBER(19, 0)"/>
-            <column name="CREATE_DATE" type="VARCHAR2(50 CHAR)"/>
-            <column name="CREATE_USER" type="NUMBER(19, 0)"/>
-            <column name="DESCRIPTION" type="VARCHAR2(1000 CHAR)"/>
-            <column name="EMAIL_BODY" type="VARCHAR2(4000 CHAR)"/>
-            <column name="EMAIL_CC" type="VARCHAR2(1000 CHAR)"/>
-            <column name="EMAIL_RESPOND" type="VARCHAR2(4000 CHAR)"/>
-            <column name="EMAIL_SUBJECT" type="VARCHAR2(1000 CHAR)"/>
-            <column name="EMAIL_TO" type="VARCHAR2(1000 CHAR)"/>
-            <column name="EMAIL_TYPE" type="VARCHAR2(20 CHAR)"/>
-            <column name="MOISTURE_DETERMINATION" type="NUMBER(1, 0)"/>
-            <column name="SAMPLING" type="NUMBER(1, 0)"/>
-            <column name="SHIPMENT_CONTRACT_ID" type="NUMBER(19, 0)"/>
-            <column name="SHIPMENT_ID" type="NUMBER(19, 0)"/>
-            <column name="STATUS" type="VARCHAR2(20 CHAR)"/>
-            <column name="SUPERVISER_WEIGHING" type="NUMBER(1, 0)"/>
-            <column name="VESSEL_NAME" type="VARCHAR2(1000 CHAR)"/>
-        </createTable>
-    </changeSet>
     <changeSet author="Reza (generated)" id="1592718665942-149">
         <createTable tableName="TBL_INSPECTION_REPORT">
             <column name="id" type="NUMBER(19, 0)">
@@ -2491,39 +2440,6 @@
                 <constraints nullable="false"/>
             </column>
             <column name="F_SELLER_ID" type="NUMBER(19, 0)"/>
-        </createTable>
-    </changeSet>
-    <changeSet author="Reza (generated)" id="1592718665942-150">
-        <createTable tableName="TBL_INSTRUCTION">
-            <column name="ID" type="NUMBER(19, 0)">
-                <constraints primaryKey="true" primaryKeyName="TBL_INSTRUCTIONPK"/>
-            </column>
-            <column name="c_created_by" type="VARCHAR2(255 CHAR)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="d_created_date" type="TIMESTAMP">
-                <constraints nullable="false"/>
-            </column>
-            <column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
-            <column name="d_last_modified_date" type="TIMESTAMP"/>
-            <column name="n_version" type="NUMBER(10, 0)">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="1" name="N_E_STATUS" type="NUMBER">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="1" name="B_EDITABLE" type="NUMBER">
-                <constraints nullable="false"/>
-            </column>
-            <column name="DISABLE_DATE" type="VARCHAR2(200 CHAR)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="RUN_DATE" type="VARCHAR2(200 CHAR)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="TITLE_Instruction" type="VARCHAR2(4000 CHAR)">
-                <constraints nullable="false"/>
-            </column>
         </createTable>
     </changeSet>
     <changeSet author="Reza (generated)" id="1592718665942-151">
@@ -2846,31 +2762,6 @@
             <column name="PARAM_Value" type="VARCHAR2(255 CHAR)">
                 <constraints nullable="false"/>
             </column>
-        </createTable>
-    </changeSet>
-    <changeSet author="Reza (generated)" id="1592718665942-161">
-        <createTable tableName="TBL_PAYMENT_OPTION">
-            <column name="ID" type="NUMBER(19, 0)">
-                <constraints primaryKey="true" primaryKeyName="TBL_PAYMENT_OPTIONPK"/>
-            </column>
-            <column name="c_created_by" type="VARCHAR2(255 CHAR)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="d_created_date" type="TIMESTAMP">
-                <constraints nullable="false"/>
-            </column>
-            <column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
-            <column name="d_last_modified_date" type="TIMESTAMP"/>
-            <column name="n_version" type="NUMBER(10, 0)">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="1" name="N_E_STATUS" type="NUMBER">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="1" name="B_EDITABLE" type="NUMBER">
-                <constraints nullable="false"/>
-            </column>
-            <column name="NAME_PAY" type="VARCHAR2(255 CHAR)"/>
         </createTable>
     </changeSet>
     <changeSet author="Reza (generated)" id="1592718665942-162">
@@ -4182,15 +4073,6 @@
     </changeSet>
     <changeSet author="Reza (generated)" id="1592718665942-319">
         <addForeignKeyConstraint baseColumnNames="PERSON_ID" baseTableName="TBL_GROUPS_PERSON" constraintName="groupprs2prs" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_PERSON" validate="true"/>
-    </changeSet>
-    <changeSet author="Reza (generated)" id="1592718665942-320">
-        <addForeignKeyConstraint baseColumnNames="INSPECTION_CONTACT_ID" baseTableName="TBL_INSPECTION_CONTRACT" constraintName="insp_cont2inspectorcontact" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_CONTACT" validate="true"/>
-    </changeSet>
-    <changeSet author="Reza (generated)" id="1592718665942-321">
-        <addForeignKeyConstraint baseColumnNames="SHIPMENT_CONTRACT_ID" baseTableName="TBL_INSPECTION_CONTRACT" constraintName="insp_cont2shipcontract" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_SHIPMENT_CONTRACT" validate="true"/>
-    </changeSet>
-    <changeSet author="Reza (generated)" id="1592718665942-322">
-        <addForeignKeyConstraint baseColumnNames="SHIPMENT_ID" baseTableName="TBL_INSPECTION_CONTRACT" constraintName="insp_cont2shipment" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_SHIPMENT" validate="true"/>
     </changeSet>
     <changeSet author="Reza (generated)" id="1592718665942-323">
         <addForeignKeyConstraint baseColumnNames="INVOICE_SALES_ID" baseTableName="TBL_INVOICE_SALES_ITEM" constraintName="invoicesales_itm2invoicesales" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_INVOICE_SALES" validate="true"/>

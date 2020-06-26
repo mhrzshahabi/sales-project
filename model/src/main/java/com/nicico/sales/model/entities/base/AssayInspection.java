@@ -42,12 +42,12 @@ public class AssayInspection extends BaseEntity {
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "F_ITEM_ELEMENT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_AssayInspection2itemElementByItemElementId"))
+    @JoinColumn(name = "F_MATERIAL_ELEMENT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_AssayInspection2materialElementByMaterialElementId"))
     private MaterialElement materialElement;
 
     @NotNull
-    @Column(name = "F_ITEM_ELEMENT_ID", nullable = false)
-    private Long itemElementId;
+    @Column(name = "F_MATERIAL_ELEMENT_ID", nullable = false)
+    private Long materialElementId;
 
     @Column(name = "C_LAB_NAME")
     private String LabName;

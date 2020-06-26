@@ -23,7 +23,7 @@ public class TypicalAssayDTO {
     private BigDecimal minValue;
     private BigDecimal maxValue;
     private Long unitId;
-    private Long itemElementId;
+    private Long materialElementId;
 
     @Getter
     @Setter
