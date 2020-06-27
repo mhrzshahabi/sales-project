@@ -13,6 +13,29 @@ function giveMeAName() {
 }
 
 function onWayProductCreateRemittance() {
+    function updateDestinationPackageTedadWeight() {
+        const grid = window[listGridSetDestTozinHarasatPolompForSelectedTozin['gs']];
+        console.log('listGridSetDestTozinHarasatPolompForSelectedTozin', grid);
+        const sums = {
+            totalPkg: 0,
+            tedad: 0,
+            vazn: 0
+        }
+        grid.getData().forEach(
+            d => {
+                if (d['destTozin']) sums['vazn'] += d['destTozin']['vazn'];
+                const pkgs = d['packages'];
+                if (pkgs && pkgs.length > 0) {
+                    sums['totalPkg'] += pkgs.length;
+                    sums['tedad'] += pkgs.map(p => Number(p['tedad'])).reduce((i, j) => i + j);
+                }
+
+            }
+        )
+        DynamicForm_warehouseCAD.setValue('destinationWeight', (sums['vazn'] / 1000).toString());
+        DynamicForm_warehouseCAD.setValue('destinationSheetSum', sums['tedad']);
+        DynamicForm_warehouseCAD.setValue('destinationBundleSum', sums['totalPkg']);
+    }
 
     const RestDataSource_WarehouseYard_IN_WAREHOUSECAD_ONWAYPRODUCT = isc.MyRestDataSource.create({
         fields: [
@@ -70,7 +93,6 @@ function onWayProductCreateRemittance() {
                 title: "<spring:message code='warehouseCad.warehouseNo'/>",
                 type: 'staticText',
             },
-
             {
                 name: "warehouseYardId",
                 required: true,
@@ -127,12 +149,6 @@ function onWayProductCreateRemittance() {
                 }
             },
             {
-                align: "center",
-                layoutAlign: "center",
-                type: "Header",
-                defaultValue: "<spring:message code='bijack.title.destination.center'/>"
-            },
-            {
                 type: "staticText",
                 title: "<b><spring:message code='bijack.title.destination.right'/></b>",
                 wrapTitle: true,
@@ -156,7 +172,7 @@ function onWayProductCreateRemittance() {
                 title: "تعداد بسته(باندل، لات، ... ) مقصد",
                 colSpan: 1,
                 titleColSpan: 1,
-// type: "staticText",
+                type: "staticText",
             },
             {
                 name: "sourceSheetSum",
@@ -189,49 +205,12 @@ function onWayProductCreateRemittance() {
                 type: "staticText",
             },
             {
-                name: "sourceSheetSumDelivery",
-                title: "<spring:message code='warehouseCad.SheetNumber.Source'/>",
-                colSpan: 1,
-                titleColSpan: 1
-            },
-            {
-                name: "destinationSheetSumDelivery",
-                title: "<spring:message code='warehouseCad.SheetNumber.Destination'/>",
-                colSpan: 1,
-                titleColSpan: 1
-            },
-            {
-                align: "center",
-                layoutAlign: "center",
-                type: "Header",
-                defaultValue: "<spring:message code='warehouseCad.addBijackItem'/>"
-            }
-        ]
-    });
-    const DynamicForm_warehouseCAD_Desc = isc.DynamicForm.create({
-        titleWidth: "200",
-        fields: [
-            {
-                name: "bijakFirstDescription",
-                title: "<spring:message code='warehouseCad.bijakFirstDescription'/>",
-                type: "textarea",
-                orientation: "right",
-                length: 255,
-                width: 650,
-                rowSpan: 2,
-                height: 40,
-                canEdit: false
-            },
-            {
-                name: "bijakSecondDescription",
-                title: "<spring:message code='warehouseCad.bijakSecondDescription'/>",
-                type: "textarea",
-                orientation: "right",
-                length: 255,
-                width: 650,
-                rowSpan: 2,
-                height: 40,
-                canEdit: false
+                name: 'remmitanceDescription',
+                width: "100%",
+                height: 80,
+                editorType: "TextAreaItem",
+                title: 'شرح بیجک',
+                colSpan: 4
             }
         ]
     });
@@ -240,94 +219,85 @@ function onWayProductCreateRemittance() {
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
         click: function () {
+            function dialog(message, okClick = function () {
+            }, title = 'اطلاعات ناقص') {
+                isc.Dialog.create({
+                    title: title,
+                    message: message,
+                    buttons: [isc.Dialog.OK, isc.Dialog.CANCEL],
+                    okClick() {
+                        this.close();
+                        if (typeof (okClick) === 'function') okClick();
+                    }
+                })
+            }
+
             isc.Dialog.create({
                 title: "<spring:message code='global.warning'/>",
                 message: "<spring:message code='warehouseCad.warning.save'/>",
                 buttons: [isc.Dialog.OK, isc.Dialog.CANCEL],
                 okClick() {
                     this.close();
-                    if (DynamicForm_warehouseCAD.getValue("destinationTozinPlantId") == undefined && DynamicForm_warehouseCAD.getValue("destinationTozinPlantStaticId") == undefined) {
-                        isc.warn("<spring:message code='warehouseCad.tozinBandarAbbasErrors'/>");
-                        DynamicForm_warehouseCAD.validate();
-                        return;
-                    }
-                    if (ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT.hasErrors()) {
-                        isc.warn("<spring:message code='warehouseCadItem.tedadCADErrors'/>");
-                        return;
-                    }
-                    DynamicForm_warehouseCAD.validate();
-                    if (DynamicForm_warehouseCAD.hasErrors())
-                        return;
-                    DynamicForm_warehouseCAD.setValue("materialItemId",
-                        ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().codeKala);
-                    var data_WarehouseCad = DynamicForm_warehouseCAD.getValues();
-                    if (DynamicForm_warehouseCAD.getValue("destinationTozinPlantId") != undefined)
-                        data_WarehouseCad.destinationTozinPlantId = DynamicForm_warehouseCAD.getValue("destinationTozinPlantId")
-                    else if (DynamicForm_warehouseCAD.getValue("destinationTozinPlantStaticId") != undefined) {
-                        data_WarehouseCad.destinationTozinPlantId = DynamicForm_warehouseCAD.getValue("destinationTozinPlantStaticId")
-                    }
-                    var warehouseCadItems = [];
-
-                    ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT.selectAllRecords();
-                    var notComplete = 0;
-                    ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT.getAllEditRows().forEach(function (element) {
-                        var record = ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT.getEditedRecord(JSON.parse(JSON.stringify(element)));
-                        if (record.productLabel != undefined && record.sheetNumber != undefined && record.wazn != undefined &&
-                            record.productLabel != null && record.sheetNumber != null && record.wazn != null) {
-                            warehouseCadItems.add(record);
-                        } else {
-                            notComplete++;
+                    if (!DynamicForm_warehouseCAD.validate()) return;
+                    const grid = window[listGridSetDestTozinHarasatPolompForSelectedTozin['gs']]
+                    const remittanceDetail = grid.getData();
+                    const recordWithoutDestTozinId = remittanceDetail.find(d => {
+                        if (!d['destTozinId']) {
+                            return true
                         }
-                        ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT.deselectRecord(ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT.getRecord(element));
-                    });
-
-                    ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT.getSelectedRecords().forEach(function (element) {
-                        warehouseCadItems.add(JSON.parse(JSON.stringify(element)));
-                    });
-
-                    if (notComplete != 0) {
-                        isc.warn("<spring:message code='validator.warehousecaditem.fields.is.required'/>");
-                        return;
-                    }
-
-                    ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT.deselectAllRecords();
-
-                    warehouseCadItems.forEach(function (item) {
-                        item.bundleSerial = item.productLabel;
-                        delete item.productLabel;
-                        item.sheetNo = item.sheetNumber;
-                        delete item.sheetNumber;
-                        item.weightKg = item.wazn;
-                        delete item.wazn;
-                    });
-
-                    data_WarehouseCad.warehouseCadItems = warehouseCadItems;
-                    data_WarehouseCad.bijakFirstDescription = DynamicForm_warehouseCAD_Desc.getValue("bijakFirstDescription");
-                    data_WarehouseCad.bijakSecondDescription = DynamicForm_warehouseCAD_Desc.getValue("bijakSecondDescription");
-
-                    var method = "PUT";
-                    if (data_WarehouseCad.id == null)
-                        method = "POST";
-                    isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                            actionURL: "${contextPath}/api/warehouseCad/",
-                            httpMethod: method,
-                            data: JSON.stringify(data_WarehouseCad),
-                            callback: function (resp) {
-                                if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
-                                    isc.say("<spring:message code='global.form.request.successful'/>");
-                                    ListGrid_Tozin_IN_ONWAYPRODUCT_refresh();
-                                    Window_BijackOnWayProduct.close();
-                                } else
-                                    isc.say(RpcResponse_o.data);
+                        return false
+                    })
+                    if (recordWithoutDestTozinId) {
+                        isc.Dialog.create({
+                            title: 'توزین مقصد ناقص',
+                            message: 'به‌همه توزین‌های ورودی،توزین خروجی تعریف نشده.',
+                            buttons: [isc.Dialog.OK, isc.Dialog.CANCEL],
+                            okClick() {
+                                this.close();
+                                const rowNum = grid.getRecordIndex(recordWithoutDestTozinId);
+                                grid.startEditing(rowNum);
+                                window[listGridSetDestTozinHarasatPolompForSelectedTozin['w']].show()
                             }
                         })
-                    );
+                        return;
+                    }
+                    const withoutPkg = remittanceDetail.find(tz => {
+                        if (!tz['packages'] || tz['packages'].length === 0) return true;
+                        return false
+                    })
+                    if (withoutPkg) return dialog('اطلاعات بسته ورودی به درسی ثبت نشده', function () {
+                        grid.expandRecord(withoutPkg);
+                        window[listGridSetDestTozinHarasatPolompForSelectedTozin['w']].show()
+                    })
+                    const withoutTedad = remittanceDetail.find(tz => {
+                        const pkg = tz['packages'].find(p => {
+                            if (!p.tedad || isNaN(p.tedad) || p.tedad < 1) {
+                                return true
+                            }
+                            return false;
+                        })
+                        if (pkg) return true;
+                        return false
+                    })
+                    if (withoutTedad) return dialog('نعداد بسته عدد بزرگتر از صفر نیست', function () {
+                        grid.expandRecord(withoutTedad);
+                        window[listGridSetDestTozinHarasatPolompForSelectedTozin['w']].show()
+                    })
+                    fetch('api/remittance', {
+                        headers: SalesConfigs.httpHeaders,
+                        method: "POST",
+                        body: JSON.stringify({
+                            remittance: DynamicForm_warehouseCAD.getValues(),
+                            remittanceDetail: remittanceDetail
+                        })
+                    }).then(r => {
+                        console.log(r)
+                    })
                 }
             })
 
         }
     });
-    // ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT.setData([]);
     const selectedSourceTozins = ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecords();
     DynamicForm_warehouseCAD.clearValues();
     DynamicForm_warehouseCAD.setValue("materialItemId",
@@ -348,8 +318,6 @@ function onWayProductCreateRemittance() {
 
     DynamicForm_warehouseCAD.setValue("containerNo", ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().containerId);
 
-    DynamicForm_warehouseCAD_Desc.setValue("bijakFirstDescription", ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().strSharh2);
-    DynamicForm_warehouseCAD_Desc.setValue("bijakSecondDescription", ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().ctrlDescOut);
     const windowDestinationTozinList = (function () {
         const datasource = isc.DataSource.create({
             fields: tozinLiteFields
@@ -482,6 +450,7 @@ function onWayProductCreateRemittance() {
                                     editorExit(editCompletionEvent, recordg, newValue, rowNum, colNum, grid) {
                                         // record['packages'].find(p => p.uid === recordg.uid)['tedad'] = Number(newValue)
                                         updateRecord('tedad', newValue, recordg);
+                                        return true;
                                     },
                                     editorProperties: {
                                         keyPressFilter: "[0-9]",
@@ -531,6 +500,7 @@ function onWayProductCreateRemittance() {
 
                                     }
                                 });
+
                             }
                         });
                         const add_bundle_button = isc.IButton.create({
@@ -562,7 +532,38 @@ function onWayProductCreateRemittance() {
                 showFilterEditor: false,
                 // height: "",
                 editEvent: 'click',
+                getCellHoverComponent: function (record, rowNum, colNum) {
+                    const tozinId = grid_source.getFields()[colNum].name === 'destTozinId' ? record['destTozinId'] : record['tozinId']
+                    if (!tozinId) return false;
+                    this.rowHoverComponent = isc.DetailViewer.create({
+                        dataSource: isc.MyRestDataSource.create({
+                            fields: tozinFields,
+                            fetchDataURL: 'api/tozin/spec-list'
+                        }),
+                        width: 250
+                    });
+
+                    this.rowHoverComponent.fetchData({
+                        criteria: {
+                            fieldName: "tozinId",
+                            operator: "equals",
+                            value: tozinId
+                        }
+                    }, null, {showPrompt: false});
+
+                    return this.rowHoverComponent;
+                },
                 fields: [...windowDestinationTozinList['gc']['fields'].map(c => {
+                    if (c.name == 'tozinId') {
+                        return {
+                            name: "tozinId",
+                            showHover: true,
+                            width: "10%",
+                            title: "<spring:message code='Tozin.tozinPlantId'/>",
+                            showHoverComponents: true,
+                            canEdit: false,
+                        }
+                    }
                     return {...c, canEdit: false}
                 }),
                     {
@@ -710,6 +711,11 @@ function onWayProductCreateRemittance() {
                 dismissOnEscape: true,
                 visibility: 'hidden',
                 closeClick: function () {
+                    try {
+                        updateDestinationPackageTedadWeight()
+                    } catch (e) {
+                        console.error('updateDestinationPackageTedadWeight() on close', e);
+                    }
                     this.Super("closeClick", arguments)
                 },
                 items: [
@@ -757,8 +763,6 @@ function onWayProductCreateRemittance() {
                 margin: 10,
                 members: [
                     DynamicForm_warehouseCAD,
-                    // ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT,
-                    DynamicForm_warehouseCAD_Desc,
                     isc.HLayout.create({
                         width: "100%",
                         // height:100,
@@ -845,28 +849,31 @@ function onWayProductCreateRemittance() {
         onWayProductFetch('tozin/lite', 'and', destinationTozinCriteria.criteria),
     ])
         .then(([tozin, tozinLite]) => {
-            if (tozin && tozin.response && tozin.response.data && tozin.response.data.length > 0) {
-                const tozinData = tozin.response.data
-                // console.log('tozin',tozin);
-                const grid = windowDestinationTozinList['g'];
-                // const ds = windowDestinationTozinList['ds'];
-                window[listGridSetDestTozinHarasatPolompForSelectedTozin['gs']]
-                    .setValueMap('destTozinId', tozinData.getValueMap('tozinId', 'tozinId'))
-                if (tozinLite && tozinLite.response && tozinLite.response.data && tozinLite.response.data.length > 0) {
-                    const tozinLiteData = tozinLite.response.data;
-                    tozinData.forEach(tz => {
-                        try {
-                            const fnd = tozinLiteData.find(tzl => tz['tozinId'] === tzl['tozinId']);
-                            tz['driverName'] = fnd['driverName']
-                        } catch (e) {
-                            tz['driverName'] = ''
-                        }
-                    })
+                if (tozin && tozin.response && tozin.response.data && tozin.response.data.length > 0) {
+                    const tozinData = tozin.response.data
+                    // console.log('tozin',tozin);
+                    const grid = windowDestinationTozinList['g'];
+                    // const ds = windowDestinationTozinList['ds'];
+                    window[listGridSetDestTozinHarasatPolompForSelectedTozin['gs']]
+                        .setValueMap('destTozinId', tozinData.getValueMap('tozinId', 'tozinId'))
+                    if (tozinLite && tozinLite.response && tozinLite.response.data && tozinLite.response.data.length > 0) {
+                        const tozinLiteData = tozinLite.response.data;
+                        tozinData.forEach(tz => {
+                            try {
+                                const fnd = tozinLiteData.find(tzl => tz['tozinId'] === tzl['tozinId']);
+                                tz['driverName'] = fnd['driverName']
+                            } catch (e) {
+                                tz['driverName'] = ''
+                            }
+                        })
+                    }
+                    console.log(grid, 'all available dest')
+                    window[grid].setData(tozinData);
                 }
-                console.log(grid, 'all available dest')
-                window[grid].setData(tozinData);
+                updateDestinationPackageTedadWeight()
+
             }
-        })
+        )
     Promise.all([
         onWayProductFetch('tozin', 'or', ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecords()
             .map(tz => {
@@ -880,6 +887,9 @@ function onWayProductCreateRemittance() {
             const grid = window[grid_string];
             const selected_records = ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecords();
             const tzn_data = tozin.response.data;
+            const vazn = (tzn_data.map(t => t.vazn).reduce((i, j) => j + i) / 1000).toString();
+            DynamicForm_warehouseCAD.setValue('sourceWeight',
+                vazn);
             const packageSample = {
                 uid: giveMeAName(),
                 label: giveMeAName(),
@@ -905,11 +915,32 @@ function onWayProductCreateRemittance() {
             })
             // console.log('selectedTozinList',selectedTozinList)
             grid.setData(selectedTozinList)
+            DynamicForm_warehouseCAD.setValue('sourceBundleSum', 0)
+
             if (tozinPackagesData && tozinPackagesData.response && tozinPackagesData.response.data && tozinPackagesData.response.data.length > 0) {
                 const pkgs = tozinPackagesData.response.data;
-                const totalSheetNumber = pkgs.map(d => d.sheetNumber).reduce((i, j) => i + j);
-                // ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT.setData(pkgs);
-                DynamicForm_warehouseCAD.setValue("sourceSheetSum", totalSheetNumber);
+                DynamicForm_warehouseCAD.setValue('sourceBundleSum', pkgs.length);
+                let sourceSheetSum = 0;
+                try {
+                    sourceSheetSum = pkgs.map(p => Number(p['sheetNumber'])).reduce((i, j) => i + j);
+                    DynamicForm_warehouseCAD.setValue('sourceSheetSum', sourceSheetSum)
+                } catch (e) {
+                    console.error('sourceBundleSum', e);
+                }
+                /*
+                * gdsCode: 177
+                packingTypeId: 2
+                productId: "1-486756"
+                productLabel: "1399CSM5869"
+                sheetNumber: 18
+                storeId: "1-687472"
+                tozinId: "1-1682691"
+                wazn: 2176
+                * */
+
+                // const totalSheetNumber = pkgs.map(d => d.sheetNumber).reduce((i, j) => i + j);
+                // // ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT.setData(pkgs);
+                // DynamicForm_warehouseCAD.setValue("sourceSheetSum", totalSheetNumber);
 
                 // const selectedTozinList = ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecords();
                 const updatedSelectedTozinList = selectedTozinList.map(
@@ -947,6 +978,8 @@ function onWayProductCreateRemittance() {
 
         }
         packages_button.enable();
+        updateDestinationPackageTedadWeight()
+
     })
     DynamicForm_warehouseCAD.getItem('warehouseYardId').setOptionDataSource(RestDataSource_WarehouseYard_IN_WAREHOUSECAD_ONWAYPRODUCT)
 }
