@@ -12,7 +12,7 @@
 
     <changeSet author="Saeb" id="saeb_00unit1">
         <sql>
-            INSERT INTO SALESLOCAL.TBL_UNIT
+            INSERT INTO TBL_UNIT
             (ID, C_CREATED_BY, D_CREATED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE, C_NAME_EN, C_NAME_FA)
             VALUES
             (-1, 'liquibase', current_timestamp , 0, default, default, 'تن', 'تن' )
