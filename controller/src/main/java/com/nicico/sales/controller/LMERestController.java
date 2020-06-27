@@ -15,9 +15,9 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -74,14 +74,14 @@ public class LMERestController {
 
     @Loggable
     @GetMapping(value = "/get-base-price")
-    public ResponseEntity<Double> getBasePrice(@RequestParam(value = "params") Map<String, String> params) {
+    public ResponseEntity<BigDecimal> getBasePrice(@RequestParam(value = "params") Map<String, String> params) {
 
         Integer year = Integer.valueOf(params.get("year"));
         Integer month = Integer.valueOf(params.get("month"));
         Long elementId = Long.valueOf(params.get("elementId"));
 
         List<LME> prices = lMEService.getAllPrices(year, month, elementId);
-        Double averagePrice = prices.stream().collect(Collectors.averagingDouble(price -> price.getPrice()));
+        BigDecimal averagePrice = prices.stream().map(LME::getPrice).reduce(BigDecimal.ZERO, BigDecimal::add).divideToIntegralValue(BigDecimal.valueOf(prices.size()));
 
         return new ResponseEntity<>(averagePrice, HttpStatus.OK);
     }
