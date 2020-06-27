@@ -1383,6 +1383,22 @@
     {
       "code": "D_SHIPMENT_METHOD",
       "title": "حذف روش حمل"
+    },
+    {
+      "code": "R_INVENTORY",
+      "title": "نمایش موجودیت انبار"
+    },
+    {
+      "code": "C_INVENTORY",
+      "title": "ایجاد موجودیت انبار"
+    },
+    {
+      "code": "U_INVENTORY",
+      "title": "به روز رسانی موجودیت انبار"
+    },
+    {
+      "code": "D_INVENTORY",
+      "title": "حذف موجودیت انبار"
     }
 
   ]

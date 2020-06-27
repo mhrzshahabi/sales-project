@@ -74,4 +74,12 @@ public class InventoryRestController {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
         return new ResponseEntity<>(iinventoryService.search(nicicoCriteria), HttpStatus.OK);
     }
+
+    @Loggable
+    @GetMapping(value = "/get-all-inventories-by-warehouse")
+    public ResponseEntity<TotalResponse<InventoryDTO.Info>> getAllInventoriesByWarehouse(@RequestParam MultiValueMap<String, String> criteria) {
+
+        final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
+        return new ResponseEntity<>(iinventoryService.getAllInventoriesByWarehouse(nicicoCriteria), HttpStatus.OK);
+    }
 }
