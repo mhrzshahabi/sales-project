@@ -33,5 +33,7 @@ public interface IinventoryService {
 
     TotalResponse<InventoryDTO.Info> search(NICICOCriteria request);
 
+    TotalResponse<InventoryDTO.Info> getAllInventoriesByWarehouse(NICICOCriteria request);
+
     SearchDTO.SearchRs<InventoryDTO.Info> search(SearchDTO.SearchRq request);
 }

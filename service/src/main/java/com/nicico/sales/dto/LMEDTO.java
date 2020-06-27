@@ -2,6 +2,8 @@ package com.nicico.sales.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.nicico.sales.model.entities.warehouse.Element;
+import com.nicico.sales.model.enumeration.PriceBaseReference;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -12,6 +14,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -24,19 +27,17 @@ public class LMEDTO {
     @Temporal(TemporalType.TIMESTAMP)
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date lmeDate;
-    private String cuUsdMt;
-    private String goldUsdOunce;
-    private String silverUsdOunce;
-    private String seleniumUsdLb;
-    private String platinumUsdOunce;
-    private String palladiumUsdOunce;
-    private String molybdenumUsdLb;
+    private Long elementId;
+    private PriceBaseReference priceBaseReference;
+    private BigDecimal price;
 
     @Getter
     @Setter
     @Accessors(chain = true)
     @ApiModel("LMEInfo")
     public static class Info extends LMEDTO {
+        private ElementDTO.Info element;
+
         private Long id;
         private Date createdDate;
         private String createdBy;

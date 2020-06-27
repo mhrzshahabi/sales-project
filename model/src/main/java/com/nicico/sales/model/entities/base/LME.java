@@ -1,10 +1,13 @@
 package com.nicico.sales.model.entities.base;
 
 import com.nicico.sales.model.entities.common.BaseEntity;
+import com.nicico.sales.model.entities.warehouse.Element;
+import com.nicico.sales.model.enumeration.PriceBaseReference;
 import lombok.*;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.Date;
 
 @Getter
@@ -14,7 +17,8 @@ import java.util.Date;
 @Accessors(chain = true)
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
-@Table(name = "TBL_LME")
+@Table(name = "TBL_LME", uniqueConstraints = @UniqueConstraint(name = "element_priceBaseReference_lmeDate_UNIQUE",
+        columnNames = {"F_ELEMENT_ID", "N_PRICE_BASE_REFERENCE", "D_LME_DATE"}))
 public class LME extends BaseEntity {
 
     @Id
@@ -23,28 +27,20 @@ public class LME extends BaseEntity {
     @Column(name = "ID")
     private Long id;
 
-    @Column(name = "LME_DATE")
+    @Column(name = "D_LME_DATE")
     private Date lmeDate;
 
-    @Column(name = "CU_USD_MT")
-    private String cuUsdMt;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "F_ELEMENT_ID", nullable = false, insertable = false, updatable = false, foreignKey = @ForeignKey(name = "LME2ElementByElementId"))
+    private Element element;
 
-    @Column(name = "GOLD_USD_OUNCE")
-    private String goldUsdOunce;
+    @Column(name = "F_ELEMENT_ID")
+    private Long elementId;
 
-    @Column(name = "SILVER_USD_OUNCE")
-    private String silverUsdOunce;
+    @Column(name = "N_PRICE_BASE_REFERENCE")
+    private PriceBaseReference priceBaseReference;
 
-    @Column(name = "SELENIUM_USD_IB")
-    private String seleniumUsdLb;
-
-    @Column(name = "PLATINUM_USD_OUNCE")
-    private String platinumUsdOunce;
-
-    @Column(name = "PALLADIUM_USD_OUNCE")
-    private String palladiumUsdOunce;
-
-    @Column(name = "MOLYBDENUM_USD_LB")
-    private String molybdenumUsdLb;
+    @Column(name = "N_PRICE", precision = 5, scale = 10)
+    private BigDecimal price;
 
 }
