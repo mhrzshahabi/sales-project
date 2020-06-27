@@ -609,9 +609,9 @@
                         },
                         {isSeparator: true},
                         {
-                            title: "<spring:message code='LME.title'/>",
+                            title: "<spring:message code='priceBase.title'/>",
                             click: function () {
-                                createTab("<spring:message code='LME.title'/>", "<spring:url value="/LME/showForm" />")
+                                createTab("<spring:message code='priceBase.title'/>", "<spring:url value="/price-base/showForm" />")
                             }
                         },
                     ]

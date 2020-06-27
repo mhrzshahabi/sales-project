@@ -4,11 +4,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/LME")
-public class LMEFormController {
+@RequestMapping("/price-base")
+public class PriceBaseFormController {
 
     @RequestMapping("/showForm")
-    public String showLME() {
-        return "base/LME";
+    public String showPriceBase() {
+        return "priceBase/priceBase";
     }
 }

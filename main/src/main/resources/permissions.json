@@ -418,22 +418,6 @@
       "title": "خروجی صورتحساب"
     },
     {
-      "code": "R_LME",
-      "title": "نمایش LME"
-    },
-    {
-      "code": "C_LME",
-      "title": "ایجاد LME"
-    },
-    {
-      "code": "U_LME",
-      "title": "به روز رسانی LME"
-    },
-    {
-      "code": "D_LME",
-      "title": "حذف LME"
-    },
-    {
       "code": "R_MATERIAL_FEATURE",
       "title": "نمایش محتوای محصول"
     },
@@ -1399,6 +1383,22 @@
     {
       "code": "D_INVENTORY",
       "title": "حذف موجودیت انبار"
+    },
+    {
+      "code": "R_PRICE_BASE",
+      "title": "نمایش قیمت پایه"
+    },
+    {
+      "code": "C_PRICE_BASE",
+      "title": "ایجاد قیمت پایه"
+    },
+    {
+      "code": "U_PRICE_BASE",
+      "title": "به روز رسانی قیمت پایه"
+    },
+    {
+      "code": "D_PRICE_BASE",
+      "title": "حذف قیمت پایه"
     }
 
   ]
