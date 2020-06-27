@@ -147,9 +147,6 @@
     <changeSet author="Reza (generated)" id="1592718665942-54">
         <createSequence sequenceName="SEQ_INVOICE_SALES_ITEM"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592718665942-55">
-        <createSequence sequenceName="SEQ_LME"/>
-    </changeSet>
     <changeSet author="Reza (generated)" id="1592718665942-56">
         <createSequence sequenceName="SEQ_MATERIAL"/>
     </changeSet>
@@ -219,9 +216,6 @@
     <changeSet author="Reza (generated)" id="1592718665942-82">
         <createSequence sequenceName="SEQ_WARH_INVENTORY"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592718665942-83">
-        <createSequence sequenceName="SEQ_WARH_INVENTORY_VALUE"/>
-    </changeSet>
     <changeSet author="Reza (generated)" id="1592718665942-84">
         <createSequence sequenceName="SEQ_WARH_ITEM_ELEMENT"/>
     </changeSet>
@@ -230,9 +224,6 @@
     </changeSet>
     <changeSet author="Reza (generated)" id="1592718665942-86">
         <createSequence sequenceName="SEQ_WARH_REMITTANCE_DETAIL"/>
-    </changeSet>
-    <changeSet author="Reza (generated)" id="1592718665942-87">
-        <createSequence sequenceName="SEQ_WARH_REMITTANCE_TOZIN"/>
     </changeSet>
     <changeSet author="Reza (generated)" id="1592718665942-88">
         <createSequence sequenceName="SEQ_WARH_STORE"/>
@@ -2632,38 +2623,6 @@
             <column name="TITLE" type="VARCHAR2(80 CHAR)">
                 <constraints nullable="false"/>
             </column>
-        </createTable>
-    </changeSet>
-    <changeSet author="Reza (generated)" id="1592718665942-156">
-        <createTable tableName="TBL_LME">
-            <column name="ID" type="NUMBER(19, 0)">
-                <constraints primaryKey="true" primaryKeyName="TBL_LMEPK"/>
-            </column>
-            <column name="c_created_by" type="VARCHAR2(255 CHAR)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="d_created_date" type="TIMESTAMP">
-                <constraints nullable="false"/>
-            </column>
-            <column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
-            <column name="d_last_modified_date" type="TIMESTAMP"/>
-            <column name="n_version" type="NUMBER(10, 0)">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="1" name="N_E_STATUS" type="NUMBER">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="1" name="B_EDITABLE" type="NUMBER">
-                <constraints nullable="false"/>
-            </column>
-            <column name="CU_USD_MT" type="VARCHAR2(255 CHAR)"/>
-            <column name="GOLD_USD_OUNCE" type="VARCHAR2(255 CHAR)"/>
-            <column name="LME_DATE" type="TIMESTAMP"/>
-            <column name="MOLYBDENUM_USD_LB" type="VARCHAR2(255 CHAR)"/>
-            <column name="PALLADIUM_USD_OUNCE" type="VARCHAR2(255 CHAR)"/>
-            <column name="PLATINUM_USD_OUNCE" type="VARCHAR2(255 CHAR)"/>
-            <column name="SELENIUM_USD_IB" type="VARCHAR2(255 CHAR)"/>
-            <column name="SILVER_USD_OUNCE" type="VARCHAR2(255 CHAR)"/>
         </createTable>
     </changeSet>
     <changeSet author="Reza (generated)" id="1592718665942-157">

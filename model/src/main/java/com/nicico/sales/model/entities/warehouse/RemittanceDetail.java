@@ -7,7 +7,6 @@ import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.List;
 
 @Getter
 @Setter
@@ -18,7 +17,7 @@ import java.util.List;
 @Entity
 @Table(name = "TBL_WARH_REMITTANCE_DETAIL")
 public class RemittanceDetail extends BaseEntity {
-        //todo Article 3 molybdenum....
+    //todo Article 3 molybdenum....
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_WARH_REMITTANCE_DETAIL")
     @SequenceGenerator(name = "SEQ_WARH_REMITTANCE_DETAIL", sequenceName = "SEQ_WARH_REMITTANCE_DETAIL", allocationSize = 1)
@@ -63,4 +62,10 @@ public class RemittanceDetail extends BaseEntity {
     //    @NotNull
     @Column(name = "F_DEPOT_ID", nullable = true)
     private Long depotId;
+
+    //    @NotNull
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "F_TOZINE_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_remittanceTozin2tozinTableTozineId"))
+    private TozinTable tozineId;
+
 }

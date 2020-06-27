@@ -2,16 +2,17 @@ package com.nicico.sales.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.nicico.sales.model.enumeration.PriceBaseReference;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -19,24 +20,22 @@ import java.util.List;
 @Setter
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class LMEDTO {
+public class PriceBaseDTO {
 
     @Temporal(TemporalType.TIMESTAMP)
     @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date lmeDate;
-    private String cuUsdMt;
-    private String goldUsdOunce;
-    private String silverUsdOunce;
-    private String seleniumUsdLb;
-    private String platinumUsdOunce;
-    private String palladiumUsdOunce;
-    private String molybdenumUsdLb;
+    private Date priceDate;
+    private Long elementId;
+    private PriceBaseReference priceBaseReference;
+    private BigDecimal price;
 
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("LMEInfo")
-    public static class Info extends LMEDTO {
+    @ApiModel("PriceBaseInfo")
+    public static class Info extends PriceBaseDTO {
+        private ElementDTO.Info element;
+
         private Long id;
         private Date createdDate;
         private String createdBy;
@@ -48,15 +47,15 @@ public class LMEDTO {
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("LMECreateRq")
-    public static class Create extends LMEDTO {
+    @ApiModel("PriceBaseCreateRq")
+    public static class Create extends PriceBaseDTO {
     }
 
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("LMEUpdateRq")
-    public static class Update extends LMEDTO {
+    @ApiModel("PriceBaseUpdateRq")
+    public static class Update extends PriceBaseDTO {
         @NotNull
         @ApiModelProperty(required = true)
         private Long id;
@@ -65,7 +64,7 @@ public class LMEDTO {
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("LMEDeleteRq")
+    @ApiModel("PriceBaseDeleteRq")
     public static class Delete {
         @NotNull
         @ApiModelProperty(required = true)
