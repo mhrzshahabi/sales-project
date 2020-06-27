@@ -2,9 +2,7 @@
 <databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
-    <changeSet author="abouzar" id="abouzar_003">
-                 <dropColumn tableName="TBL_WARH_REMITTANCE" columnName="shipmentType"/>
-                 <dropColumn tableName="TBL_WARH_REMITTANCE" columnName="shipmentTypeId"/>
-                 <dropColumn tableName="TBL_WARH_REMITTANCE" columnName="sourceWarehouse"/>
+    <changeSet author="abouzar" id="abouzar_006">
+                 <dropColumn tableName="TBL_WARH_REMITTANCE" columnName="F_SOURCE_WAREHOUSE_ID"/>
     </changeSet>
 </databaseChangeLog>
