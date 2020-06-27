@@ -1399,6 +1399,22 @@
     {
       "code": "D_PRICE_BASE",
       "title": "حذف قیمت پایه"
+    },
+    {
+      "code": "R_ELEMENT",
+      "title": "نمایش عنصر"
+    },
+    {
+      "code": "C_ELEMENT",
+      "title": "ایجاد عنصر"
+    },
+    {
+      "code": "U_ELEMENT",
+      "title": "به روز رسانی عنصر"
+    },
+    {
+      "code": "D_ELEMENT",
+      "title": "حذف عنصر"
     }
 
   ]
