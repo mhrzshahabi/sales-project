@@ -3426,36 +3426,6 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592718665942-183">
-        <createTable tableName="TBL_WARH_INVENTORY_VALUE">
-            <column name="id" type="NUMBER(19, 0)">
-                <constraints primaryKey="true" primaryKeyName="TBL_WARH_INVENTORY_VALUEPK"/>
-            </column>
-            <column name="c_created_by" type="VARCHAR2(255 CHAR)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="d_created_date" type="TIMESTAMP">
-                <constraints nullable="false"/>
-            </column>
-            <column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
-            <column name="d_last_modified_date" type="TIMESTAMP"/>
-            <column name="n_version" type="NUMBER(10, 0)">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="1" name="N_E_STATUS" type="NUMBER">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="1" name="B_EDITABLE" type="NUMBER">
-                <constraints nullable="false"/>
-            </column>
-            <column name="F_REMITTANCE_DETAIL_ID" type="NUMBER(19, 0)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="F_UNIT_ID" type="NUMBER(19, 0)">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-    </changeSet>
     <changeSet author="Reza (generated)" id="1592718665942-184">
         <createTable tableName="TBL_WARH_ITEM_ELEMENT">
             <column name="id" type="NUMBER(19, 0)">
@@ -3554,39 +3524,6 @@
                 <constraints nullable="false"/>
             </column>
             <column name="N_VALUE" type="NUMBER(19, 0)"/>
-        </createTable>
-    </changeSet>
-    <changeSet author="Reza (generated)" id="1592718665942-187">
-        <createTable tableName="TBL_WARH_REMITTANCE_TOZIN">
-            <column name="id" type="NUMBER(19, 0)">
-                <constraints primaryKey="true" primaryKeyName="TBL_WARH_REMITTANCE_TOZINPK"/>
-            </column>
-            <column name="c_created_by" type="VARCHAR2(255 CHAR)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="d_created_date" type="TIMESTAMP">
-                <constraints nullable="false"/>
-            </column>
-            <column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
-            <column name="d_last_modified_date" type="TIMESTAMP"/>
-            <column name="n_version" type="NUMBER(10, 0)">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="1" name="N_E_STATUS" type="NUMBER">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="1" name="B_EDITABLE" type="NUMBER">
-                <constraints nullable="false"/>
-            </column>
-            <column name="B_IS_SOURCE_TOZIN" type="NUMBER(1, 0)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="F_REMITTANCE_ID" type="NUMBER(19, 0)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="F_TOZIN_ID" type="NUMBER(19, 0)">
-                <constraints nullable="false"/>
-            </column>
         </createTable>
     </changeSet>
     <changeSet author="Reza (generated)" id="1592718665942-188">
@@ -4029,12 +3966,6 @@
     <changeSet author="Reza (generated)" id="1592718665942-303">
         <addForeignKeyConstraint baseColumnNames="F_ITEM_ID" baseTableName="TBL_WARH_INVENTORY" constraintName="fk_inventory2itemByItemId" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_MATERIAL_ITEM" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592718665942-304">
-        <addForeignKeyConstraint baseColumnNames="F_REMITTANCE_DETAIL_ID" baseTableName="TBL_WARH_INVENTORY_VALUE" constraintName="fk_inventoryValue2remittanceDetailByRemittanceDetailId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_WARH_REMITTANCE_DETAIL" validate="true"/>
-    </changeSet>
-    <changeSet author="Reza (generated)" id="1592718665942-305">
-        <addForeignKeyConstraint baseColumnNames="F_UNIT_ID" baseTableName="TBL_WARH_INVENTORY_VALUE" constraintName="fk_inventoryValue2unitByUnitId" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_UNIT" validate="true"/>
-    </changeSet>
     <changeSet author="Reza (generated)" id="1592718665942-306">
         <addForeignKeyConstraint baseColumnNames="F_ELEMENT_ID" baseTableName="TBL_WARH_ITEM_ELEMENT" constraintName="fk_itemElement2elementByElementId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_WARH_ELEMENT" validate="true"/>
     </changeSet>
@@ -4052,12 +3983,6 @@
     </changeSet>
     <changeSet author="Reza (generated)" id="1592718665942-311">
         <addForeignKeyConstraint baseColumnNames="F_UNIT_ID" baseTableName="TBL_WARH_REMITTANCE_DETAIL" constraintName="fk_remittanceDetail2unityUnitId" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_UNIT" validate="true"/>
-    </changeSet>
-    <changeSet author="Reza (generated)" id="1592718665942-312">
-        <addForeignKeyConstraint baseColumnNames="F_TOZIN_ID" baseTableName="TBL_WARH_REMITTANCE_TOZIN" constraintName="fk_remittance_tozin2sourceTozinAsSourceBySourceTozinId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_WARH_TOZIN" validate="true"/>
-    </changeSet>
-    <changeSet author="Reza (generated)" id="1592718665942-313">
-        <addForeignKeyConstraint baseColumnNames="F_REMITTANCE_ID" baseTableName="TBL_WARH_REMITTANCE_TOZIN" constraintName="fk_remittance_tozinl2remittanceByRemittanceId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_WARH_REMITTANCE" validate="true"/>
     </changeSet>
     <changeSet author="Reza (generated)" id="1592718665942-314">
         <addForeignKeyConstraint baseColumnNames="F_WAREHOUSE_ID" baseTableName="TBL_WARH_STORE" constraintName="fk_store2warehouseByWarehouseId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_WARH_WAREHOUSE" validate="true"/>

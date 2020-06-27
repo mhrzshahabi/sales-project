@@ -24,9 +24,6 @@ public class RemittanceDTO {
     private String railPolompNo;
     private String securityPolompNo;
     private List<RemittanceDetailDTO> remittanceDetails;
-    private List<RemittanceTozinDTO> sourceRemittanceTozin;
-    private List<RemittanceTozinDTO> destinationRemittanceTozin;
-
 
     @Getter
     @Setter
@@ -36,7 +33,6 @@ public class RemittanceDTO {
 
         private Long id;
         private MaterialItemDTO.Info materialItem;
-
 
 
         // Auditing
