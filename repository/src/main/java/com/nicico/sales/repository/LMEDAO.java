@@ -13,6 +13,6 @@ import java.util.List;
 @Repository
 public interface LMEDAO extends JpaRepository<LME, Long>, JpaSpecificationExecutor<LME> {
 
-    @Query("SELECT l FROM LME l WHERE YEAR(l.lmeDate) =:year AND MONTH(l.lmeDate) =:month")
-    List<LME> findAllByLmeMonth(@Param("year") Integer year, @Param("month") Integer month);
+    @Query("SELECT l FROM LME l WHERE YEAR(l.lmeDate) =:year AND MONTH(l.lmeDate) =:month AND elementId =:elementId")
+    List<LME> getAllPrices(@Param("year") Integer year, @Param("month") Integer month, @Param("elementId") Long elementId);
 }

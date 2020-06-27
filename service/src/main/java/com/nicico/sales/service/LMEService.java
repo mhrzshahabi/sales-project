@@ -91,8 +91,8 @@ public class LMEService implements ILMEService {
     }
 
     @Override
-    public List<LME> findAllByLmeMonth(Integer year, Integer month) {
-        return lMEDAO.findAllByLmeMonth(year, month);
+    public List<LME> getAllPrices(Integer year, Integer month, Long elementId) {
+        return lMEDAO.getAllPrices(year, month, elementId);
     }
 
     private LMEDTO.Info save(LME lME) {

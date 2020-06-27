@@ -6,7 +6,6 @@ import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.sales.dto.LMEDTO;
 import com.nicico.sales.iservice.ILMEService;
 import com.nicico.sales.model.entities.base.LME;
-import com.nicico.sales.service.LMEService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -17,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -72,8 +73,16 @@ public class LMERestController {
     }
 
     @Loggable
-    @GetMapping(value = "/yearMonth/{year}/{month}")
-    public ResponseEntity<List<LME>> yearMonth(@PathVariable Integer year, @PathVariable Integer month) {
-        return new ResponseEntity<>(lMEService.findAllByLmeMonth(year, month), HttpStatus.OK);
+    @GetMapping(value = "/get-base-price")
+    public ResponseEntity<Double> getBasePrice(@RequestParam(value = "params") Map<String, String> params) {
+
+        Integer year = Integer.valueOf(params.get("year"));
+        Integer month = Integer.valueOf(params.get("month"));
+        Long elementId = Long.valueOf(params.get("elementId"));
+
+        List<LME> prices = lMEService.getAllPrices(year, month, elementId);
+        Double averagePrice = prices.stream().collect(Collectors.averagingDouble(price -> price.getPrice()));
+
+        return new ResponseEntity<>(averagePrice, HttpStatus.OK);
     }
 }

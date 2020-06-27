@@ -1,4 +1,4 @@
-isc.defineClass("invoiceWeight", isc.VLayout).addProperties({
+isc.defineClass("InvoiceBaseWeight", isc.VLayout).addProperties({
     autoFit: false,
     autoDraw: false,
     align: "center",
@@ -119,6 +119,6 @@ isc.defineClass("invoiceWeight", isc.VLayout).addProperties({
     }
 });
 
-isc.invoiceWeight.create({
+isc.InvoiceBaseWeight.create({
     material: materialCode["Copper Cathode"]
 });

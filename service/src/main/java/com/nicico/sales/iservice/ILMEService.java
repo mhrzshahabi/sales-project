@@ -23,5 +23,5 @@ public interface ILMEService {
 
     TotalResponse<LMEDTO.Info> search(NICICOCriteria criteria);
 
-    List<LME> findAllByLmeMonth(Integer year, Integer month);
+    List<LME> getAllPrices(Integer year, Integer month, Long elementId);
 }

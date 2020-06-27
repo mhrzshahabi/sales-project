@@ -1,4 +1,4 @@
-isc.defineClass("invoiceAssay", isc.VLayout).addProperties({
+isc.defineClass("InvoiceBaseAssay", isc.VLayout).addProperties({
     autoFit: false,
     autoDraw: true,
     align: "center",
