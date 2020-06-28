@@ -49,7 +49,7 @@ public class SalesException extends NICICOException {
         GroupsNotFound(404),
         GroupsPersonNotFound(404),
         IncotermsNotFound(404),
-        LMENotFound(404),
+        PriceBaseNotFound(404),
         MaterialNotFound(404),
         ParametersNotFound(404),
         PersonNotFound(404),

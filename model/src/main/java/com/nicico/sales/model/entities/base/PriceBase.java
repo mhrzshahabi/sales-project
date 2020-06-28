@@ -17,21 +17,21 @@ import java.util.Date;
 @Accessors(chain = true)
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
-@Table(name = "TBL_LME", uniqueConstraints = @UniqueConstraint(name = "element_priceBaseReference_lmeDate_UNIQUE",
-        columnNames = {"F_ELEMENT_ID", "N_PRICE_BASE_REFERENCE", "D_LME_DATE"}))
-public class LME extends BaseEntity {
+@Table(name = "TBL_PRICE_BASE", uniqueConstraints = @UniqueConstraint(name = "element_priceBaseReference_priceDate_UNIQUE",
+        columnNames = {"F_ELEMENT_ID", "N_PRICE_BASE_REFERENCE", "D_PRICE_DATE"}))
+public class PriceBase extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_LME")
-    @SequenceGenerator(name = "SEQ_LME", sequenceName = "SEQ_LME", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_PRICE_BASE")
+    @SequenceGenerator(name = "SEQ_PRICE_BASE", sequenceName = "SEQ_PRICE_BASE", allocationSize = 1)
     @Column(name = "ID")
     private Long id;
 
-    @Column(name = "D_LME_DATE")
-    private Date lmeDate;
+    @Column(name = "D_PRICE_DATE")
+    private Date priceDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "F_ELEMENT_ID", nullable = false, insertable = false, updatable = false, foreignKey = @ForeignKey(name = "LME2ElementByElementId"))
+    @JoinColumn(name = "F_ELEMENT_ID", nullable = false, insertable = false, updatable = false, foreignKey = @ForeignKey(name = "PriceBase2ElementByElementId"))
     private Element element;
 
     @Column(name = "F_ELEMENT_ID")

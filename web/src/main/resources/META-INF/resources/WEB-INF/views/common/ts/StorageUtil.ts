@@ -70,6 +70,26 @@ class SalesBaseParameters {
         return await this.getParameter('unit', updateTable)
     }
 
+    static getSavedWarehouseParameter() {
+        return this.warehouse;
+    }
+
+    static getSavedUnitParameter() {
+        return this.unit
+    }
+
+    static getSavedMaterialItemParameter() {
+        return this.materialItem
+    }
+
+    static getAllSavedParameter() {
+        return {
+            'materialItel': this.materialItem,
+            'unit': this.unit,
+            'warehouse': this.warehouse
+        }
+    }
+
     static async getWarehouseParameter(updateTable: boolean = false) {
         return await this.getParameter('warehouse', updateTable)
     }

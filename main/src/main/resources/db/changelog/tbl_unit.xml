@@ -2,8 +2,22 @@
 <databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+
     <changeSet author="Reza Mazloom" id="mazloom_001">
-       <dropColumn tableName="TBL_UNIT" columnName="CATEGORY_VALUE"/>
-       <dropColumn tableName="TBL_UNIT" columnName="n_DECIMAL_DIGITS"/>
+        <dropColumn tableName="TBL_UNIT" columnName="CATEGORY_VALUE"/>
+        <dropColumn tableName="TBL_UNIT" columnName="n_DECIMAL_DIGITS"/>
     </changeSet>
+
+
+    <changeSet author="Saeb" id="saeb_00unit1">
+        <sql>
+            INSERT INTO TBL_UNIT
+            (ID, C_CREATED_BY, D_CREATED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE, C_NAME_EN, C_NAME_FA)
+            VALUES
+            (-1, 'liquibase', current_timestamp , 0, default, default, 'تن', 'تن' )
+        </sql>
+    </changeSet>
+
+
 </databaseChangeLog>
