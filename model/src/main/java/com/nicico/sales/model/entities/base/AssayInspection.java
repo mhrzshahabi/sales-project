@@ -3,7 +3,6 @@ package com.nicico.sales.model.entities.base;
 import com.nicico.sales.model.Auditable;
 import com.nicico.sales.model.entities.common.BaseEntity;
 import com.nicico.sales.model.entities.warehouse.MaterialElement;
-import com.nicico.sales.model.entities.warehouse.RemittanceDetail;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.envers.AuditOverride;
@@ -28,7 +27,7 @@ public class AssayInspection extends BaseEntity {
     @SequenceGenerator(name = "SEQ_ASSAY_INSPECTION", sequenceName = "SEQ_ASSAY_INSPECTION", allocationSize = 1)
     private Long id;
 
-    @Column(name = "N_VALUE", scale = 10, precision = 5)
+    @Column(name = "N_VALUE", scale = 5, precision = 10)
     private BigDecimal value;
 
     @Setter(AccessLevel.NONE)

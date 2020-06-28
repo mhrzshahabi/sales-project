@@ -4,7 +4,6 @@ package com.nicico.sales.model.entities.base;
 import com.nicico.sales.model.Auditable;
 import com.nicico.sales.model.entities.common.BaseEntity;
 import com.nicico.sales.model.entities.warehouse.Inventory;
-import com.nicico.sales.model.entities.warehouse.RemittanceDetail;
 import com.nicico.sales.model.enumeration.InspectionRateValueType;
 import lombok.*;
 import lombok.experimental.Accessors;
@@ -77,7 +76,7 @@ public class InspectionReport extends BaseEntity {
     @Column(name = "F_BUYER_ID")
     private Long buyerId;
 
-    @Column(name = "N_INSPECTION_RATE_VALUE", scale = 10, precision = 5)
+    @Column(name = "N_INSPECTION_RATE_VALUE", scale = 5, precision = 10)
     private BigDecimal inspectionRateValue;
 
     @Column(name = "N_INSPECTION_RATE_VALUE_TYPE")

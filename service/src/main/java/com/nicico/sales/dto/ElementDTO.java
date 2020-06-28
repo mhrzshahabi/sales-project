@@ -9,6 +9,7 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -30,7 +31,6 @@ public class ElementDTO {
 
         private Long id;
 
-
         // Auditing
         private Date createdDate;
         private String createdBy;
@@ -41,6 +41,16 @@ public class ElementDTO {
         // BaseEntity
         private Boolean editable;
         private List<EStatus> eStatus;
+    }
+
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("BasePrice")
+    public static class PriceBase extends ElementDTO {
+
+        private Long id;
+        private BigDecimal price;
     }
 
     @Getter
