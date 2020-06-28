@@ -63,9 +63,35 @@ public class RemittanceDetail extends BaseEntity {
     @Column(name = "F_DEPOT_ID", nullable = true)
     private Long depotId;
 
-    //    @NotNull
+    @NotNull
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "F_TOZINE_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_remittanceTozin2tozinTableTozineId"))
-    private TozinTable tozineId;
+    @JoinColumn(name = "F_SOURCE_TOZINE_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_remittanceSource2tozinTableTozineId"))
+    private TozinTable sourceTozin;
+
+    @NotNull
+    @Column(name = "F_SOURCE_TOZINE_ID", nullable = false)
+    private Long sourceTozinId;
+
+    @NotNull
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "F_DESTINATION_TOZINE_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_remittanceTozinDest2tozinTableTozineId"))
+    private TozinTable destinationTozin;
+
+    @NotNull
+    @Column(name = "F_DESTINATION_TOZINE_ID", nullable = false)
+    private Long destinationTozinId;
+
+
+    @Column(name = "RAIL_POLOMP_NO")
+    private String railPolompNo;
+    @Column(name = "SECURITY_POLOMP_NO")
+    private String securityPolompNo;
+
+
+    @Column(name = "C_DESCRIPTION", length = 1000)
+    private String description;
+
+    @Column(name = "N_WEIGHT")
+    private Long weight;
 
 }
