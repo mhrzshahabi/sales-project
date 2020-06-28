@@ -11,10 +11,9 @@
 	<include file="classpath:/db/changelog/tbl_inspection_report.xml"/>
 	<include file="classpath:/db/changelog/tbl_person.xml"/>
 	<include file="classpath:/db/changelog/tbl_unit.xml"/>
-	<include file="classpath:/db/changelog/foreign-invoice/tbl_foreign_invoice.xml"/>
+	<include file="classpath:/db/changelog/tbl_foreign_invoice.xml"/>
 	<include file="classpath:/db/changelog/tbl_contact.xml"/>
 	<include file="classpath:/db/changelog/tbl_warh_inventory.xml"/>
-	<include file="classpath:/db/changelog/tbl_material_element.xml"/>
 	<include file="classpath:/db/changelog/tbl_warh_remittance.xml"/>
 	<include file="classpath:/db/changelog/tbl_warh_remittance_detail.xml"/>
 	<include file="classpath:/db/changelog/tbl_price_base.xml"/>
