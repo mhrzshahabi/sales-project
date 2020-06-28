@@ -32,7 +32,7 @@ public class InspectionReport extends BaseEntity {
     private Long id;
 
     @Column(name = "C_INSPECTION_NO")
-    private String InspectionNO;
+    private String inspectionNO;
 
     @NotAudited
     @Setter(AccessLevel.NONE)
@@ -47,16 +47,16 @@ public class InspectionReport extends BaseEntity {
     private String inspectionPlace;
 
     @Column(name = "D_ISSUE_DATE")
-    private Date IssueDate;
+    private Date issueDate;
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "F_INVENTORY_ID", nullable = false, insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_inspectionReport2inventoryByInventoryId"))
+    @JoinColumn(name = "F_INVENTORY_ID", nullable = false, insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_inspectionReport2nventoryByInventoryId"))
     private Inventory inventory;
 
     @NotNull
     @Column(name = "F_INVENTORY_ID", nullable = false)
-    private Long InventoryId;
+    private Long inventoryId;
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
