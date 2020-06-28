@@ -23,8 +23,9 @@ public class AssayInspectionDTO {
 
     private BigDecimal value;
     private Long inspectionReportId;
-    private Long remittanceDetailId;
     private Long materialElementId;
+    private String labName;
+    private String labPlace;
 
     @Getter
     @Setter
@@ -34,7 +35,6 @@ public class AssayInspectionDTO {
 
         private Long id;
         private InspectionReportDTO.Info inspectionReport;
-        private RemittanceDetailDTO.Info remittanceDetail;
         private MaterialElementDTO.Info materialElement;
 
 

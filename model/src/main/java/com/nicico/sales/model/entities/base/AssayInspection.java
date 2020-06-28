@@ -49,9 +49,9 @@ public class AssayInspection extends BaseEntity {
     private Long materialElementId;
 
     @Column(name = "C_LAB_NAME")
-    private String LabName;
+    private String labName;
 
     @Column(name = "C_LAB_PLACE")
-    private String LabPlace;
+    private String labPlace;
 
 }

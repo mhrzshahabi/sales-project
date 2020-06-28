@@ -41,4 +41,8 @@
         <addForeignKeyConstraint baseColumnNames="F_ELEMENT_ID" baseTableName="TBL_PRICE_BASE" constraintName="PriceBase2ElementByElementId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_WARH_ELEMENT" validate="true"/>
     </changeSet>
 
+    <changeSet id="MShahabi" author="1799887766554-007">
+        <modifyDataType columnName="N_PRICE" newDataType="NUMBER(10, 5)" tableName="TBL_PRICE_BASE"/>
+    </changeSet>
+
 </databaseChangeLog>

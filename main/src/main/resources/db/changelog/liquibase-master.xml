@@ -7,6 +7,7 @@
 	<include file="classpath:/db/changelog/liquibase-init.xml"/>
 	<include file="classpath:/db/changelog/tbl_warh_material_element.xml"/>
 	<include file="classpath:/db/changelog/tbl_assay_inspection.xml"/>
+	<include file="classpath:/db/changelog/tbl_weighting_inspection.xml"/>
 	<include file="classpath:/db/changelog/tbl_inspection_report.xml"/>
 	<include file="classpath:/db/changelog/tbl_person.xml"/>
 	<include file="classpath:/db/changelog/tbl_unit.xml"/>
@@ -17,6 +18,8 @@
 	<include file="classpath:/db/changelog/tbl_warh_remittance.xml"/>
 	<include file="classpath:/db/changelog/tbl_warh_remittance_detail.xml"/>
 	<include file="classpath:/db/changelog/tbl_price_base.xml"/>
+	<include file="classpath:/db/changelog/tbl_warh_tozin.xml"/>
+	<include file="classpath:/db/changelog/tbl_typical_assay.xml"/>
 	<!--	<include file="classpath:/db/changelog/view_tozin.xml"/>-->
 	<!--	<include file="classpath:/db/changelog/view_tozin_m.xml"/>-->
 	<!--	<include file="classpath:/db/changelog/view_tozin_s.xml"/>-->
