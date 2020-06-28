@@ -39,8 +39,8 @@ public class InspectionReportDTO {
     public static class Info extends InspectionReportDTO {
 
         private Long id;
-        private WeightInspectionDTO.Info weightInspections;
-        private AssayInspectionDTO.Info assayInspections;
+        private WeightInspectionDTO.Info weightInspection;
+        private AssayInspectionDTO.Info assayInspection;
         private ContactDTO.Info inspector;
         private InventoryDTO.Info inventory;
         private ContactDTO.Info seller;

@@ -89,10 +89,10 @@ var RestDataSource_WeightInspecRest = isc.MyRestDataSource.create({
         {
             name: "inspectionReport",
         },
-        {
-            name: "inspectionReportId",
-            title: "<spring:message code='weightInspection.inspectionReportId'/>"
-        },
+        // {
+        //     name: "inspectionReportId",
+        //     title: "<spring:message code='weightInspection.inspectionReportId'/>"
+        // },
     ],
     fetchDataURL: "${contextPath}/api/weightInspection/spec-list"
 });
@@ -128,10 +128,10 @@ var RestDataSource_AssayInspecRest = isc.MyRestDataSource.create({
         {
             name: "inspectionReport",
         },
-        {
-            name: "inspectionReportId",
-            title: "<spring:message code='assayInspection.inspectionReportId'/>"
-        },
+        // {
+        //     name: "inspectionReportId",
+        //     title: "<spring:message code='assayInspection.inspectionReportId'/>"
+        // },
     ],
     fetchDataURL: "${contextPath}/api/assayInspection/spec-list"
 });
@@ -572,12 +572,12 @@ var weightInspectionObj = {
     weighingType: "",
     weightGW: "",
     weightND: "",
-    // inspectionReportId: ""
+    inspectionReportId: ""
 };
 
 var assayInspectionObj = {
     value: "",
-    // inspectionReportId: "",
+    inspectionReportId: "",
     materialElementId: "",
     labName: "",
     labPlace: ""
@@ -609,10 +609,6 @@ var WeightPane = isc.VLayout.create({
                 {
                     name: "weightND",
                     required: true
-                },
-                {
-                    name: "inspectionReportId",
-                    // required: true
                 }
             ]
         }),
@@ -640,10 +636,6 @@ var assayPane = isc.VLayout.create({
                 },
                 {
                     name: "labPlace"
-                },
-                {
-                    name: "inspectionReportId",
-                    // required: true
                 },
                 {
                     name: "materialElementId",
@@ -698,7 +690,7 @@ inspectionReportTab.window.inspecReport.populateData = function(bodyWidget) {
     // if (bodyWidget.members.get(2).tabs.get(1).pane.members.get(0).hasErrors())
     //     return;
 
-    // inspectionReport for Weight
+    // inspectionReport
     inspectionReportObj.inspectionNO = bodyWidget.members.get(1).getItem("inspectionNO").getValue();
     inspectionReportObj.inspectorId = bodyWidget.members.get(1).getItem("inspector").getValue();
     inspectionReportObj.inspectionPlace = bodyWidget.members.get(1).getItem("inspectionPlace").getValue();
@@ -709,25 +701,16 @@ inspectionReportTab.window.inspecReport.populateData = function(bodyWidget) {
     inspectionReportObj.inspectionRateValue = bodyWidget.members.get(1).getItem("inspectionRateValue").getValue();
     inspectionReportObj.inspectionRateValueType = bodyWidget.members.get(1).getItem("inspectionRateValueType").getValue();
     inspectionReportObj.currencyId = bodyWidget.members.get(1).getItem("currencyId").getValue();
-    // inspectionReport for Assay
-    /*assayInspectionObj.inspectionNO = bodyWidget.members.get(1).getItem("inspectionNO").getValue();
-    assayInspectionObj.inspectorId = bodyWidget.members.get(1).getItem("inspector").getValue();
-    assayInspectionObj.inspectionPlace = bodyWidget.members.get(1).getItem("inspectionPlace").getValue();
-    assayInspectionObj.issueDate = bodyWidget.members.get(1).getItem("issueDate").getValue();
-    assayInspectionObj.inventoryId = bodyWidget.members.get(1).getItem("inventoryId").getValue();
-    assayInspectionObj.sellerId = bodyWidget.members.get(1).getItem("sellerId").getValue();
-    assayInspectionObj.buyerId = bodyWidget.members.get(1).getItem("buyerId").getValue();
-    assayInspectionObj.inspectionRateValue = bodyWidget.members.get(1).getItem("inspectionRateValue").getValue();
-    assayInspectionObj.inspectionRateValueType = bodyWidget.members.get(1).getItem("inspectionRateValueType").getValue();
-    assayInspectionObj.currencyId = bodyWidget.members.get(1).getItem("currencyId").getValue();*/
+
     // tabSets (Weight)
     weightInspectionObj.weighingType = bodyWidget.members.get(2).tabs.get(0).pane.members.get(0).getItem("weighingType.id").getValue();
     weightInspectionObj.weightGW = bodyWidget.members.get(2).tabs.get(0).pane.members.get(0).getItem("weightGW").getValue();
     weightInspectionObj.weightND = bodyWidget.members.get(2).tabs.get(0).pane.members.get(0).getItem("weightND").getValue();
-    // weightInspectionObj.inspectionReportId = bodyWidget.members.get(2).tabs.get(0).pane.members.get(0).getItem("inspectionReportId").getValue();
+    weightInspectionObj.inspectionReportId = "";
+
     // tabSets (Assay)
     assayInspectionObj.value = bodyWidget.members.get(2).tabs.get(1).pane.members.get(0).getItem("value").getValue();
-    // assayInspectionObj.inspectionReportId = bodyWidget.members.get(2).tabs.get(1).pane.members.get(0).getItem("inspectionReportId").getValue();
+    assayInspectionObj.inspectionReportId = "";
     assayInspectionObj.materialElementId = bodyWidget.members.get(2).tabs.get(1).pane.members.get(0).getItem("materialElementId").getValue();
     assayInspectionObj.labName = bodyWidget.members.get(2).tabs.get(1).pane.members.get(0).getItem("labName").getValue();
     assayInspectionObj.labPlace = bodyWidget.members.get(2).tabs.get(1).pane.members.get(0).getItem("labPlace").getValue();
@@ -742,12 +725,11 @@ inspectionReportTab.window.inspecReport.populateData = function(bodyWidget) {
 
 inspectionReportTab.window.inspecReport.okCallBack = function(data) {
 
-    if (weightInspectionObj.weightGW != null){
         alert("weight")
         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                 actionURL: "${contextPath}/api/inspectionReport/weight",
                 httpMethod: "POST",
-                data: JSON.stringify(weightInspectionObj),
+                data: JSON.stringify(inspectionReportObj),
                 callback: function (resp) {
                     if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                         isc.say("<spring:message code='global.form.request.successful'/>");
@@ -758,25 +740,6 @@ inspectionReportTab.window.inspecReport.okCallBack = function(data) {
                 }
             })
         );
-        alert("end");
-    }
-    /*if (data.value != null){
-        alert("assay")
-        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                actionURL: "${contextPath}/api/assayInspection/",
-                httpMethod: "POST",
-                data: JSON.stringify(data),
-                callback: function (resp) {
-                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
-                        isc.say("<spring:message code='global.form.request.successful'/>");
-                        inspectionReportTab.listGrid.main.refresh();
-                        inspectionReportTab.window.inspecReport.close();
-                    } else
-                        isc.say(RpcResponse_o.data);
-                }
-            })
-        );
-    }*/
 };
 
 
