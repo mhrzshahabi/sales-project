@@ -69,4 +69,129 @@ public abstract class AllConverters {
             return null;
         }
     }
+
+    // *****************************************************************************************************************
+
+    @Converter(autoApply = true)
+    public static class InspectionRateValueTypeConverter implements AttributeConverter<InspectionRateValueType, Integer> {
+
+        @Override
+        public Integer convertToDatabaseColumn(InspectionRateValueType literal) {
+
+            if (literal == null)
+                return null;
+
+            return literal.getId();
+        }
+
+        @Override
+        public InspectionRateValueType convertToEntityAttribute(Integer integer) {
+
+            for (InspectionRateValueType literal : InspectionRateValueType.values())
+                if (literal.getId().equals(integer))
+                    return literal;
+
+            return null;
+        }
+    }
+
+    // *****************************************************************************************************************
+
+    @Converter(autoApply = true)
+    public static class WeighingTypeConverter implements AttributeConverter<WeighingType, Integer> {
+
+        @Override
+        public Integer convertToDatabaseColumn(WeighingType literal) {
+
+            if (literal == null)
+                return null;
+
+            return literal.getId();
+        }
+
+        @Override
+        public WeighingType convertToEntityAttribute(Integer integer) {
+
+            for (WeighingType literal : WeighingType.values())
+                if (literal.getId().equals(integer))
+                    return literal;
+
+            return null;
+        }
+    }
+
+    // *****************************************************************************************************************
+
+    @Converter(autoApply = true)
+    public static class DeductionTypeConverter implements AttributeConverter<DeductionType, Integer> {
+
+        @Override
+        public Integer convertToDatabaseColumn(DeductionType literal) {
+
+            if (literal == null)
+                return null;
+
+            return literal.getId();
+        }
+
+        @Override
+        public DeductionType convertToEntityAttribute(Integer integer) {
+
+            for (DeductionType literal : DeductionType.values())
+                if (literal.getId().equals(integer))
+                    return literal;
+
+            return null;
+        }
+    }
+
+    // *****************************************************************************************************************
+
+    @Converter(autoApply = true)
+    public static class PriceBaseReferenceConverter implements AttributeConverter<PriceBaseReference, Integer> {
+
+        @Override
+        public Integer convertToDatabaseColumn(PriceBaseReference literal) {
+
+            if (literal == null)
+                return null;
+
+            return literal.getId();
+        }
+
+        @Override
+        public PriceBaseReference convertToEntityAttribute(Integer integer) {
+
+            for (PriceBaseReference literal : PriceBaseReference.values())
+                if (literal.getId().equals(integer))
+                    return literal;
+
+            return null;
+        }
+    }
+
+    // *****************************************************************************************************************
+
+    @Converter(autoApply = true)
+    public static class RateReferenceConverter implements AttributeConverter<RateReference, Integer> {
+
+        @Override
+        public Integer convertToDatabaseColumn(RateReference literal) {
+
+            if (literal == null)
+                return null;
+
+            return literal.getId();
+        }
+
+        @Override
+        public RateReference convertToEntityAttribute(Integer integer) {
+
+            for (RateReference literal : RateReference.values())
+                if (literal.getId().equals(integer))
+                    return literal;
+
+            return null;
+        }
+    }
 }

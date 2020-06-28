@@ -20,7 +20,8 @@ public class MaterialDTO {
     private String descl;
     private String descp;
     private String code;
-    private Long unitId;
+    private Long   unitId;
+    private String abbreviation;
 
     @Getter
     @Setter

@@ -1,6 +1,6 @@
 package com.nicico.sales.model.entities.base;
 
-import com.nicico.sales.model.Auditable;
+import com.nicico.sales.model.entities.common.BaseEntity;
 import lombok.*;
 import lombok.experimental.Accessors;
 
@@ -14,7 +14,7 @@ import javax.persistence.*;
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
 @Table(name = "TBL_MATERIAL")
-public class Material extends Auditable {
+public class Material extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_MATERIAL")
@@ -39,7 +39,8 @@ public class Material extends Auditable {
     @Column(name = "UNIT_ID")
     private Long unitId;
 
-//    @Column(name = "M_DETAIL_CODE")
-//    private String mDetailCode;
+    @Column(name = "C_ABBREVIATION", nullable = false)
+    private String abbreviation;
+
 
 }

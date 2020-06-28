@@ -62,22 +62,22 @@ import javax.persistence.Id;
 )
 public class InvoiceInternal {
     @Id
-    @Column(name = "INV_ID", length = 100)
+    @Column(name = "INV_ID")
     private String id;
 
-    @Column(name = "LCID", length = 100)
+    @Column(name = "LCID")
     private String lcId;
 
-    @Column(name = "HAVALEHID", length = 100)
+    @Column(name = "HAVALEHID")
     private String havalehId;
 
     @Column(name = "INV_DATE", length = 30)
     private String invDate;
 
-    @Column(name = "BUYERID", length = 100)
+    @Column(name = "BUYERID")
     private String buyerId;
 
-    @Column(name = "CUSTOMERID", length = 100)
+    @Column(name = "CUSTOMERID")
     private String customerId;
 
     @Column(name = "GOODSID", precision = 10)
@@ -119,40 +119,40 @@ public class InvoiceInternal {
     @Column(name = "HAVEALAYANDEGI", precision = 10)
     private Long haveAlayandegi;
 
-    @Column(name = "CODENOSAALAYANDEGI", length = 100)
+    @Column(name = "CODENOSAALAYANDEGI")
     private String codeNosaAlayandegi;
 
-    @Column(name = "MARKAZHAZINEHALAYANDEGI", length = 100)
+    @Column(name = "MARKAZHAZINEHALAYANDEGI")
     private String markazHazineAlayandegi;
 
     @Column(name = "HAVEMALEYATE", precision = 10)
     private Long haveMalyat;
 
-    @Column(name = "CODENOSAMALYATE", length = 100)
+    @Column(name = "CODENOSAMALYATE")
     private String codeNosaMalyat;
 
-    @Column(name = "MARKAZHAZINEHMALYATE", length = 100)
+    @Column(name = "MARKAZHAZINEHMALYATE")
     private String markazHazineMalyat;
 
-    @Column(name = "CODENOSABANK", length = 100)
+    @Column(name = "CODENOSABANK")
     private String codeNosaBank;
 
-    @Column(name = "CODENOSACUSTOMER", length = 100)
+    @Column(name = "CODENOSACUSTOMER")
     private String codeNosaCustomer;
 
-    @Column(name = "CODEETEBARENOSACUSTOMER", length = 100)
+    @Column(name = "CODEETEBARENOSACUSTOMER")
     private String codeEtebarNosaCustomer;
 
-    @Column(name = "CODEMARKAZHAZINEHCUSTOMER", length = 100)
+    @Column(name = "CODEMARKAZHAZINEHCUSTOMER")
     private String codeMarkazHazineCustomer;
 
-    @Column(name = "CODEMARKAZHAZINEHLC", length = 100)
+    @Column(name = "CODEMARKAZHAZINEHLC")
     private String codeMarkazHazineHlc;
 
-    @Column(name = "CODENOSAMAHSOL", length = 100)
+    @Column(name = "CODENOSAMAHSOL")
     private String codeNosaMahsol;
 
-    @Column(name = "CODEMARKAZHAZINEHMAHSOL", length = 100)
+    @Column(name = "CODEMARKAZHAZINEHMAHSOL")
     private String codeMarkazHazineMahsol;
 
     @Column(name = "BANKGROUPDESC", length = 500)
@@ -164,16 +164,16 @@ public class InvoiceInternal {
     @Column(name = "GDSNAME", length = 1000)
     private String gdsName;
 
-    @Column(name = "GRUPGOODSNOSA", length = 100)
+    @Column(name = "GRUPGOODSNOSA")
     private String groupGoodsNosa;
 
     @Column(name = "GRUPGOODNAME", length = 1000)
     private String groupGoodName;
 
-    @Column(name = "LC_DATESARRESED", length = 100)
+    @Column(name = "LC_DATESARRESED")
     private String lcDateSarReceid;
 
-    @Column(name = "CUST_CODENOSA", length = 100)
+    @Column(name = "CUST_CODENOSA")
     private String codeTafsiliNosa;
 
 

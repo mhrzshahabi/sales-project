@@ -1,0 +1,12 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <changeSet author="saeb" id="saeb_00dddfdd5">
+        <sql>
+            INSERT INTO TBL_WARH_DEPOT
+            (ID, C_CREATED_BY, D_CREATED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE, C_NAME, F_STORE_ID)
+            VALUES (-2555, 'liqubase', CURRENT_TIMESTAMP, 0, default, default, 'اسكله شهيد رجائي ', -2555)
+        </sql>
+    </changeSet>
+</databaseChangeLog>

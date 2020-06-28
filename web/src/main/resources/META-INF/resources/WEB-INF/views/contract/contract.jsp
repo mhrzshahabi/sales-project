@@ -498,7 +498,8 @@ var RestDataSource_Contract = isc.MyRestDataSource.create({
         ]
     });
 
-    //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+    //$$$$
+
     var RestDataSource_Port = isc.MyRestDataSource.create({
         fields:
             [

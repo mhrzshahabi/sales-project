@@ -1,6 +1,6 @@
 package com.nicico.sales.model.entities.base;
 
-import com.nicico.sales.model.Auditable;
+import com.nicico.sales.model.entities.common.BaseEntity;
 import lombok.*;
 import lombok.experimental.Accessors;
 
@@ -14,7 +14,7 @@ import javax.persistence.*;
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
 @Table(name = "TBL_INVOICE_SALES_ITEM")
-public class InvoiceSalesItem extends Auditable {
+public class InvoiceSalesItem extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_INVOICE_SALES_ITEM")
@@ -71,8 +71,6 @@ public class InvoiceSalesItem extends Auditable {
 
     @Column(name = "INVOICE_SALES_ID")
     private Long invoiceSalesId;
-
-
 
 
 }

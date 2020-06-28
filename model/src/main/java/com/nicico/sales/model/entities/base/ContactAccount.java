@@ -1,6 +1,6 @@
 package com.nicico.sales.model.entities.base;
 
-import com.nicico.sales.model.Auditable;
+import com.nicico.sales.model.entities.common.BaseEntity;
 import lombok.*;
 import lombok.experimental.Accessors;
 
@@ -13,8 +13,13 @@ import javax.persistence.*;
 @Accessors(chain = true)
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
-@Table(name = "TBL_CONTACT_ACCOUNT")
-public class ContactAccount extends Auditable {
+@Table(name = "TBL_CONTACT_ACCOUNT",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = {"C_BANK_ACCOUNT"}, name = ContactAccount.UNIQUE_C_BANK_ACCOUNT ) ,
+        })
+public class ContactAccount extends BaseEntity {
+
+    public static final String UNIQUE_C_BANK_ACCOUNT = "UNIQUE_C_BANK_ACCOUNT";
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_CONTACT_ACCOUNT")
@@ -32,19 +37,19 @@ public class ContactAccount extends Auditable {
     @Column(name = "BANK_ID")
     private Long bankId;
 
-    @Column(name = "C_BANKCODE", nullable = false, length = 100)
+    @Column(name = "C_BANKCODE", nullable = false)
     private String code;
 
-    @Column(name = "C_BANKACCOUNT", length = 200)
+    @Column(name = "C_BANK_ACCOUNT")
     private String bankAccount;
 
-    @Column(name = "C_BANK_SHABA", length = 100)
+    @Column(name = "C_BANK_SHABA")
     private String bankShaba;
 
-    @Column(name = "C_DEFAULT_BANK_SWIFT", length = 100)
+    @Column(name = "C_DEFAULT_BANK_SWIFT")
     private String bankSwift;
 
-    @Column(name = "C_ACCOUNT_OWNER", length = 200)
+    @Column(name = "C_ACCOUNT_OWNER")
     private String accountOwner;
 
     @Column(name = "b_STATUS")

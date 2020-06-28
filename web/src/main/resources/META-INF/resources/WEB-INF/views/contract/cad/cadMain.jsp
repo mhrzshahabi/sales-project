@@ -9,10 +9,12 @@
     var methodHtpp="";
     var recordContractNo;
     var RestDataSource_contractDetail_list = isc.MyRestDataSource.create({
+        autoFetchData: false,
         fetchDataURL: "${contextPath}/api/contractDetail/spec-list"
     });
 
     var RestDataSource_Material = isc.MyRestDataSource.create({
+        autoFetchData: false,
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, hidden: true},
@@ -25,6 +27,7 @@
     });
 
     var RestDataSource_Contract = isc.MyRestDataSource.create({
+        autoFetchData: false,
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, hidden: true},
@@ -45,6 +48,7 @@
     });
 
     var RestDataSource_Parameters = isc.MyRestDataSource.create({
+        autoFetchData: false,
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
@@ -763,14 +767,13 @@ function deleteFromContractShipment(id){
             ]
         });
 
-isc.VStack.create({
+isc.VLayout.create({
         ID: "VLayout_ContractCad",
         width: "100%",
         height: "100%",
-        overflow: "scroll",
         members: [
-            isc.HLayout.create({height: "4%",members: [ToolStrip_Actions_ContactCad]}),
-            isc.HLayout.create({height: "100%",members: [ListGrid_Cad]})
+            isc.HLayout.create({height: "40",members: [ToolStrip_Actions_ContactCad]}),
+            isc.HLayout.create({height: "100%",overflow: "auto",members: [ListGrid_Cad]})
         ]
     });
 

@@ -33,7 +33,7 @@ public class Contract2 extends BaseEntity {
     private Long id;
 
     @NotEmpty
-    @Column(name = "C_NO", nullable = false, length = 200, unique = true)
+    @Column(name = "C_NO", nullable = false, unique = true)
     private String no;
 
     @Column(name = "D_DATE")
@@ -81,6 +81,10 @@ public class Contract2 extends BaseEntity {
 
     @Column(name = "F_PARENT_ID")
     private Long parentId;
+
+    @NotAudited
+    @OneToMany(mappedBy = "contract", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<ContractContact> contractContacts;
 
 //    @NotAudited
 //    @OneToMany(mappedBy = "contract", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)

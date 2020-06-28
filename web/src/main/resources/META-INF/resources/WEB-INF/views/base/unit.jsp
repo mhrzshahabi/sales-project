@@ -13,8 +13,8 @@
             {
                 title: "<spring:message code='global.form.refresh'/>", icon: "pieces/16/refresh.png",
                 click: function () {
-                    ListGrid_Unit_refresh();
-                }
+ListGrid_Unit_refresh()
+}
             },
             <sec:authorize access="hasAuthority('C_UNIT')">
             {
@@ -86,19 +86,7 @@
             type: 'text',
             required: true,
             width: 400
-        }, {
-            name: "decimalDigit",
-            title: "<spring:message code='rate.decimalDigit'/>",
-            width: 400,
-            keyPressFilter: "[0-4]",
-            length: "1"
-        },{
-                    name: "categoryValue",
-                    title: "<spring:message	code='parameters.paramValue.d'/>",
-                    width: 500,
-                    type: "text",
-                    required: true,
-                    valueMap: getKeyValuesAsMap(unitEnum.types)}
+        }
         ]
     });
 
@@ -253,26 +241,33 @@
             });
         } else {
             DynamicForm_Unit.editRecord(record);
-            Window_Unit.show();
-        }
-    }
+Window_Unit.show();
+}
+}
 
-    var ToolStripButton_Unit_Refresh = isc.ToolStripButtonRefresh.create({
-        title: "<spring:message code='global.form.refresh'/>",
-        click: function () {
-            ListGrid_Unit_refresh();
-        }
-    });
+var ToolStripButton_Unit_Refresh = isc.ToolStripButtonRefresh.create({
+title: "<spring:message code='global.form.refresh'/>",
+click: function () {
+ListGrid_Unit_refresh();
+}
+});
+var ToolStripButton_Unit_Refresh_from_view = isc.ToolStripButtonRefresh.create({
+title: "<spring:message code='global.form.refresh.from.tozin.view'/>",
+click: function () {
+fetch(SalesConfigs.Urls.RootUrl + '/api/unit/update-units',{headers:SalesConfigs.httpHeaders})
+.finally( ()=>ListGrid_Unit_refresh())
+}
+});
 
-    <sec:authorize access="hasAuthority('C_UNIT')">
+<sec:authorize access="hasAuthority('C_UNIT')">
     var ToolStripButton_Unit_Add = isc.ToolStripButtonAdd.create({
-        title: "<spring:message code='global.form.new'/>",
-        click: function () {
-            DynamicForm_Unit.clearValues();
-            Window_Unit.show();
-        }
+    title: "<spring:message code='global.form.new'/>",
+    click: function () {
+    DynamicForm_Unit.clearValues();
+    Window_Unit.show();
+    }
     });
-    </sec:authorize>
+</sec:authorize>
 
     <sec:authorize access="hasAuthority('U_UNIT')">
     var ToolStripButton_Unit_Edit = isc.ToolStripButtonEdit.create({
@@ -315,7 +310,8 @@
                 align: "left",
                 border: '0px',
                 members: [
-                    ToolStripButton_Unit_Refresh,
+ToolStripButton_Unit_Refresh_from_view,
+ToolStripButton_Unit_Refresh,
                 ]
             })
 
@@ -350,10 +346,6 @@
                 {
                     name: "symbol",
                     title: "<spring:message code='unit.symbol'/>"
-                },
-                {
-                    name: "decimalDigit",
-                    title: "<spring:message code='rate.decimalDigit'/>"
                 }],
             fetchDataURL: "${contextPath}/api/unit/spec-list"
         });
@@ -379,17 +371,8 @@
             title: "<spring:message code='unit.nameEN'/> ",
             align: "center"
         },{
-        name: "categoryValue",
-        title: "<spring:message	code='parameters.paramValue.d'/>",
-        required: true,
-        valueMap: getKeyValuesAsMap(unitEnum.types)
-        },{
             name: "symbol",
             title: "<spring:message code='unit.symbol'/>",
-            align: "center"
-        }, {
-            name: "decimalDigit",
-            title: "<spring:message code='rate.decimalDigit'/>",
             align: "center"
         }],
         autoFetchData: true
@@ -409,4 +392,5 @@
         members: [
             HLayout_Actions_Unit, HLayout_Grid_Unit
         ]
-    });
+});
+//</script>

@@ -6,23 +6,24 @@ isc.defineClass("componentUnit", isc.VStack).addProperties({
     membersMargin: 2,
     border: "0px solid blue",
     titelFieldValue: "",
+    showTitleFieldValue: true,
     typeUnitCategory: 0,
     numCols: 4,
-    showTitle:true,
-    disabled:false,
-    form:null,
+    showTitle: true,
+    disabled: false,
     initWidget: function () {
         this.Super("initWidget", arguments);
         let This = this;
-        form = isc.DynamicForm.create({
+        let form = isc.DynamicForm.create({
             width: 500,
             numCols: This.numCols,
-            disabled:This.disabled,
+            disabled: This.disabled,
             wrapItemTitles: false,
             fields: [
                 {
                     name: "value",
                     title: This.titelFieldValue,
+                    showTitle: This.showTitleFieldValue,
                     width: "100%",
                     type: 'float',
                     wrap: false,
@@ -69,22 +70,25 @@ isc.defineClass("componentUnit", isc.VStack).addProperties({
                 }]
         });
         this.addMember(form);
+
     },
-    getValues: function () {
-        return form.getValues();
+    getUnitValues: function () {
+        return this.members[0].getValues();
     },
-    setValues:function(value,unit){
-        if(isInt(value) || isFloat(value)){
-            form.setValue("value",value);
-            form.setValue("unitId",unit)
+    setUnitValues: function (data) {
+
+        if (isFloat(data.value) || isInt(data.unitId)) {
+            this.members[0].setValue("value", data.value);
+            this.members[0].setValue("unitId", data.unitId)
         }
     }
 });
 
-function isFloat(value){
+function isFloat(value) {
     return Number(value) === value && value % 1 !== 0;
 }
-function isInt(value){
+
+function isInt(value) {
     return Number(value) === value && value % 1 === 0;
 }
 

@@ -1,6 +1,6 @@
 package com.nicico.sales.model.entities.base;
 
-import com.nicico.sales.model.Auditable;
+import com.nicico.sales.model.entities.common.BaseEntity;
 import lombok.*;
 import lombok.experimental.Accessors;
 
@@ -14,7 +14,7 @@ import javax.persistence.*;
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
 @Table(name = "TBL_BANK")
-public class Bank extends Auditable {
+public class Bank extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_BANK")
@@ -31,7 +31,7 @@ public class Bank extends Auditable {
     @Column(name = "c_ADDRESS", length = 1000)
     private String address;
 
-    @Column(name = "c_CORE_BRANCH", length = 100)
+    @Column(name = "c_CORE_BRANCH")
     private String coreBranch;
 
     @Setter(AccessLevel.NONE)

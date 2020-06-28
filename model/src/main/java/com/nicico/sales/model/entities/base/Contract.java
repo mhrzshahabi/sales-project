@@ -1,6 +1,7 @@
 package com.nicico.sales.model.entities.base;
 
 import com.nicico.sales.model.Auditable;
+import com.nicico.sales.model.entities.common.BaseEntity;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.Cascade;
@@ -22,7 +23,7 @@ import java.util.List;
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
 @Table(name = "TBL_CONTRACT")
-public class Contract extends Auditable {
+public class Contract extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_CONTRACT")
@@ -30,22 +31,22 @@ public class Contract extends Auditable {
     @Column(name = "CONTRACT_ID")
     private Long id;
 
-    @Column(name = "C_ADDENDUM", length = 200)
+    @Column(name = "C_ADDENDUM")
     private String addendum;
 
     @Column(name = "C_ADDENDUM_DESC", length = 1000)
     private String addendumDesc;
 
-    @Column(name = "C_ADDENDUM_DATE", length = 50)
+    @Column(name = "C_ADDENDUM_DATE")
     private String addendumDate;
 
-    @Column(name = "C_CONTRACT_NO", nullable = false, length = 200)
+    @Column(name = "C_CONTRACT_NO", nullable = false)
     private String contractNo;
 
-    @Column(name = "C_CONTRACT_DATE", length = 50)
+    @Column(name = "C_CONTRACT_DATE")
     private String contractDate;
 
-    @Column(name = "C_SIDE_CONTRACT_NO", length = 200)
+    @Column(name = "C_SIDE_CONTRACT_NO")
     private String sideContractNo;
 
     @Column(name = "C_SIDE_CONTRACT_DATE", length = 50)

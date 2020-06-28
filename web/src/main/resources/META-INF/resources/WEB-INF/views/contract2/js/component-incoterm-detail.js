@@ -12,7 +12,6 @@ isc.defineClass("IncotermDetail", isc.Label).addProperties({
     incotermPartyComponent: null,
     doubleClickHappend: null,
     click: function () {
-
         this.doubleClickHappend = false;
         let This = this;
         setTimeout(() => {
@@ -37,10 +36,10 @@ isc.defineClass("IncotermDetail", isc.Label).addProperties({
                 return;
             }
 
-            this.doubleClick();
+            this.doubleClickTemp();
         }, 300);
     },
-    doubleClick: function () {
+    doubleClickTemp: function () {
 
         this.doubleClickHappend = true;
         this.setShowShadow(true);

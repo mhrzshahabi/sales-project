@@ -24,11 +24,5 @@ public interface IShipmentService {
 
     List<Object[]> pickListShipment();
 
-    List<String> findLotname(String id);
-
-    List<String> findbooking(String id);
-
-    List<String> cname();
-
     List<String> inspector();
 }

@@ -1,19 +1,10 @@
 package com.nicico.sales.model.entities.base;
 
-import com.nicico.sales.model.Auditable;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.Getter;
-import lombok.EqualsAndHashCode;
+import com.nicico.sales.model.entities.common.BaseEntity;
+import lombok.*;
 import lombok.experimental.Accessors;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.Id;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Column;
+
+import javax.persistence.*;
 
 @Getter
 @Setter
@@ -23,15 +14,15 @@ import javax.persistence.Column;
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
 @Table(name = "TBL_Shipment_Method")
-public class ShipmentMethod extends Auditable {
+public class ShipmentMethod extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_Shipment_Method")
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_Shipment_Method")
     @SequenceGenerator(name = "SEQ_Shipment_Method", sequenceName = "SEQ_Shipment_Method", allocationSize = 1)
     @Column(name = "ID")
     private Long id;
 
-    @Column(name = "Ship_Method", nullable = false, length = 200)
+    @Column(name = "Ship_Method", nullable = false)
     private String shipmentMethod;
 
 

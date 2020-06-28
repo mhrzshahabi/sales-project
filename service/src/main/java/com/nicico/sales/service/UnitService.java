@@ -15,8 +15,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -93,5 +93,27 @@ public class UnitService implements IUnitService {
     private UnitDTO.Info save(Unit unit) {
         final Unit saved = unitDAO.saveAndFlush(unit);
         return modelMapper.map(saved, UnitDTO.Info.class);
+    }
+
+    @Transactional
+    @Override
+    public void updateUnits() {
+        List<Object[]> allUnitsFromViewForUpdate = unitDAO.getAllUnitsFromViewForUpdate();
+        Map<Long, String> unitsFetchedForUpdate = new HashMap<>();
+        allUnitsFromViewForUpdate.stream()
+                .forEach((Object[] u) -> unitsFetchedForUpdate.put(Long.valueOf(u[0].toString()), u[1].toString()));
+        List<Unit> unitListForUpdate = new ArrayList<>();
+        unitListForUpdate.addAll(unitDAO.findAllById(unitsFetchedForUpdate.keySet()));
+        unitListForUpdate.stream()
+                .forEach(u -> u.setNameFA(unitsFetchedForUpdate.get(u.getId())));
+        List<Object[]> allUnitsFromViewForInsert = unitDAO.getAllUnitsFromViewForInsert();
+        unitListForUpdate.addAll(allUnitsFromViewForInsert
+                .stream()
+                .map(u -> new Unit()
+                        .setNameEN(u[1].toString())
+                        .setId(Long.valueOf(u[0].toString()))
+                        .setNameFA(u[1].toString()))
+                .collect(Collectors.toList()));
+        unitDAO.saveAll(unitListForUpdate);
     }
 }

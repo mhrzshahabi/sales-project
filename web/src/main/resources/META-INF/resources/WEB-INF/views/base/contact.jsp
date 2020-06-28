@@ -299,13 +299,17 @@
 
     var DynamicForm_Contact_GeneralInfo = isc.DynamicForm.create(
         {
+            overflow:"hidden",
+            autoScroller: false,
             valuesManager: ValuesManager_Contact,
-            width: "100%",
-            height: "100%",
-            titleWidth: "100",
             requiredMessage: "<spring:message code='validator.field.is.required'/>",
             cellPadding: 2,
             numCols: 4,
+            width: "100%",
+            height: "100%",
+            layoutMargin: 4,
+            membersMargin: 4,
+            align: "center",
             fields: [
                 {
                     name: "id",
@@ -349,19 +353,15 @@
                     hidden: true
                 },
                 {
+
                     name: "nameFA",
                     title: "<spring:message code='contact.nameFa'/>",
                     required: true,
-                    readonly: true,
                     width: 300,
                     colSpan: 3,
                     titleColSpan: 1,
                     wrapTitle: false,
                     hint: "Persian/فارسی",
-                    validators: [{
-                        type: "required",
-                        validateOnChange: true
-                    }]
                 },
                 {
                     required: true,
@@ -373,11 +373,6 @@
                     titleColSpan: 1,
                     hint: "Latin",
                     wrapTitle: false,
-                    validators: [
-                        {
-                            type: "required",
-                            validateOnChange: true
-                        }]
                 },
                 {
                     name: "tradeMark",
@@ -428,11 +423,16 @@
                     wrapTitle: false,
                 },
                 {
-                    autoCenter: true,
-                    align: "center",
+                    required: true,
                     type: "Header",
-                    defaultValue: "--- <spring:message code='contact.role'/> --- ",
-
+                    defaultValue: " ",
+                    redrawOnChange:true,
+                    mask: "required", hint:"<p style='color: black ; left: 386% ; white-space: pre; position: relative; top:5px;'><b style='color:red;'>*</b><spring:message code='contact.role'/></p>" ,
+                },
+                 {
+                    ID:"check_box_alert",
+                    hidden:true,
+                    type: "staticText",
                 },
                 {
 
@@ -528,7 +528,7 @@
                     width: 200,
                     keyPressFilter: "[0-9.]",
                     wrapTitle: false,
-                    textAlign: "left"
+                    textAlign: "left" ,
                 },
                 {
                     name: "economicalCode",
@@ -553,7 +553,7 @@
                             "true": "<spring:message code='global.table.enabled'/>",
                             "false": "<spring:message code='global.table.disabled'/>"
                         }
-                }
+                } ,
             ]
         });
 
@@ -570,17 +570,12 @@
                 title: "<spring:message code='contact.phone'/>",
                 width: 500,
                 wrapTitle: false,
-                validators: [
-                    {
-                        type: "required",
-                        validateOnChange: true
-                    }]
             },
             {
                 name: "mobile",
                 title: "<spring:message code='contact.mobile'/>",
                 width: 500,
-                wrapTitle: false
+                wrapTitle: false ,
             },
             {
                 name: "fax",
@@ -658,48 +653,43 @@
         ]
     });
 
-    function saveContact() {
-        let Val_seller = DynamicForm_Contact_GeneralInfo.getValue("seller");
-        let Val_buyer = DynamicForm_Contact_GeneralInfo.getValue("buyer");
-        let Val_agentSeller = DynamicForm_Contact_GeneralInfo.getValue("agentSeller");
-        let Val_agentBuyer = DynamicForm_Contact_GeneralInfo.getValue("agentBuyer");
-        let Val_transporter = DynamicForm_Contact_GeneralInfo.getValue("transporter");
-        let Val_shipper = DynamicForm_Contact_GeneralInfo.getValue("shipper");
-        let Val_inspector = DynamicForm_Contact_GeneralInfo.getValue("inspector");
-        let Val_insurancer = DynamicForm_Contact_GeneralInfo.getValue("insurancer");
-        let Val_all = [Val_seller, Val_buyer, Val_agentSeller, Val_agentBuyer, Val_transporter, Val_shipper, Val_inspector, Val_insurancer].values();
-        if (ValuesManager_Contact != null) {
-            ValuesManager_Contact.validate();
-            if (DynamicForm_Contact_GeneralInfo.hasErrors())
-                contactTabs.selectTab(0);
-            else if (DynamicForm_Contact_Connection.hasErrors())
-                contactTabs.selectTab(1);
-            else {
-                for (let chap of Val_all) {
-                    if (chap == true) {
-                        var contactData = Object.assign(ValuesManager_Contact.getValues());
-                        var httpMethod = "PUT";
-                        if (contactData.id == null)
-                            httpMethod = "POST";
-                        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                            actionURL: "${contextPath}/api/contact",
-                            httpMethod: httpMethod,
-                            data: JSON.stringify(contactData),
-                            callback: function (RpcResponse_o) {
-                                if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
-                                    ListGrid_Contact.invalidateCache();
-                                    isc.say("<spring:message code='global.form.request.successful'/>");
-                                    Window_Contact.close();
-                                }
-                            }
-                        }));
-                    } else {
-                        isc.say("<spring:message code='global.form.request.checkbox'/>");
-                    }
+var contactHttpMethod = "POST";
+function saveContact() {
+            const values=DynamicForm_Contact_GeneralInfo.getValues();
+            const bools = ['seller','buyer','agentSeller','agentBuyer','transporter','shipper','inspector','insurancer'];
+            const selectedBool = bools.find(a=>values[a]);
+            let selectedBoolValid = true;
+            if (selectedBool === undefined || selectedBool === null){
+                isc.say("<spring:message code='global.form.request.checkbox'/>");
+                selectedBoolValid = false;
                 }
-            }
+        if (ValuesManager_Contact != null) {
+        ValuesManager_Contact.validate();
+        if (DynamicForm_Contact_GeneralInfo.hasErrors() || !selectedBoolValid) {
+            contactTabs.selectTab(0);
+        }
+        else if (DynamicForm_Contact_Connection.hasErrors()) {
+            contactTabs.selectTab(1);
+        } else {
+            check_box_alert.hide();
+            var contactData = Object.assign(ValuesManager_Contact.getValues());
+            isc.RPCManager.sendRequest(
+                Object.assign(BaseRPCRequest, {
+                    actionURL: "${contextPath}/api/contact",
+                    httpMethod: contactHttpMethod,
+                    data: JSON.stringify(contactData),
+                    callback: function (RpcResponse_o) {
+                        if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+                            ListGrid_Contact.invalidateCache();
+                            isc.say("<spring:message code='global.form.request.successful'/>");
+                            Window_Contact.close();
+                        }
+                    },
+                })
+            );
         }
     }
+}
 
     function clearContactForms() {
         DynamicForm_Contact_GeneralInfo.clearValues();
@@ -710,6 +700,7 @@
         top: 260,
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
+        autoFit: false,
         click: function () {
             saveContact();
         }
@@ -762,8 +753,6 @@
     function ListGrid_Contact_refresh() {
         ListGrid_Contact.invalidateCache();
     }
-
-
     function ListGrid_Contact_remove() {
         var record = ListGrid_Contact.getSelectedRecord();
         if (record == null || record.id == null) {
@@ -820,7 +809,8 @@
     }
 
     function ListGrid_Contact_edit() {
-        var record = ListGrid_Contact.getSelectedRecord();
+    check_box_alert.hide();
+    var record = ListGrid_Contact.getSelectedRecord();
 
         if (record == null || record.id == null) {
             isc.Dialog.create(
@@ -842,7 +832,6 @@
             DynamicForm_Contact_GeneralInfo.editRecord(record);
             DynamicForm_Contact_Connection.editRecord(record);
             Window_Contact.animateShow();
-
         }
     }
 
@@ -857,6 +846,7 @@
     var ToolStripButton_Contact_Add = isc.ToolStripButtonAdd.create({
         title: "<spring:message code='global.form.new'/>",
         click: function () {
+         contactHttpMethod = "POST";
             clearContactForms();
             Window_Contact.animateShow();
         }
@@ -868,7 +858,8 @@
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
         click: function () {
-            ListGrid_Contact_edit();
+         contactHttpMethod = "PUT";
+        ListGrid_Contact_edit();
         }
     });
     </sec:authorize>
@@ -1000,7 +991,8 @@
                 type: "staticText",
                 title: "<spring:message code='contact.nationalCode'/>",
                 wrapTitle: false,
-                width: 100
+                width: 100 ,
+
             },
             {
                 name: "economicalCode",
@@ -1132,24 +1124,20 @@
               required: true,
               width: 300,
               colSpan: "2",
-              format: "",
-              validators: [{
-                  type: "required",
-                  validateOnChange: true
-              }]
+             validators: [
+                    {
+                        type: "regexp",
+                        expression: "^(?:IR)(?=.{24}$)[0-9]*$",
+                        validateOnChange: true,
+                    }
+                ]
           },
           {
               name: "bankSwift",
               title: "<spring:message code='contactAccount.bankSwift'/>",
-              type: 'text',
               required: true,
               width: 300,
               colSpan: "2",
-              format: "",
-              validators: [{
-                  type: "required",
-                  validateOnChange: true
-              }]
           },
           {
               name: "accountOwner",
@@ -1180,9 +1168,7 @@
       ]
   });
 
-
-
- var ContactAccount_EditDynamicForm = isc.DynamicForm.create(
+    var ContactAccount_EditDynamicForm = isc.DynamicForm.create(
         {
             width: "100%",
             numCols: 2,
@@ -1288,11 +1274,6 @@
                     required: true,
                     width: 300,
                     colSpan: "2",
-                    validators: [
-                        {
-                            type: "required",
-                            validateOnChange: true
-                        }]
                 },
                 {
                     name: "accountOwner",
@@ -1672,7 +1653,7 @@
             virtualScrolling: true,
             loadOnExpand: true,
             loaded: false,
-contextMenu: Menu_ListGrid_Contact,
+            contextMenu: Menu_ListGrid_Contact,
             fields: [
                 {
                     name: "id",

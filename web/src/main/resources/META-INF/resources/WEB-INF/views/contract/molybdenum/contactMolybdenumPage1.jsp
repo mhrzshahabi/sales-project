@@ -5,9 +5,10 @@
 
 <%@include file="../js/contact-mol-component.js"%>
 //<script>
-
+var textHelpMol="";
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
     <% DateUtil dateUtil = new DateUtil();%>
+
  var contractIdEdit;
  var VLayout_contactMoOxMain;
  var Window_ContactMo;
@@ -18,14 +19,6 @@
  var criteriaContractItemShipment;
  var dynamicForm_article3_Typicall
 
-var RestDataSource_ContractIncoterms_InMol = isc.MyRestDataSource.create({
-        fields:
-        [
-        {name: "id", title: "<spring:message code='goods.code'/> "},
-        {name: "title", title: "incotermsRules "},
-        ],
-        fetchDataURL: "${contextPath}/api/g-incoterm/spec-list"
-    });
  function ValuesManager(valueId) {
                 isc.ValuesManager.create({
                 ID: valueId
@@ -47,6 +40,7 @@ var RestDataSource_ContractIncoterms_InMol = isc.MyRestDataSource.create({
     ValuesManager("valuesManagerfullArticleMo");
 
 var RestDataSource_Contract = isc.MyRestDataSource.create({
+autoFetchData: false,
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, hidden: true},
@@ -68,6 +62,7 @@ var RestDataSource_Contract = isc.MyRestDataSource.create({
     });
 
  var RestDataSource_Parameters = isc.MyRestDataSource.create({
+        autoFetchData: false,
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
@@ -80,24 +75,23 @@ var RestDataSource_Contract = isc.MyRestDataSource.create({
         fetchDataURL: "${contextPath}/api/parameters/spec-list"
     });
 
-var RestDataSource_Incoterms_InMol = isc.MyRestDataSource.create({
-        fields:
-        [
-        {name: "id", title: "<spring:message code='goods.code'/> "},
-        {name: "incotermRule.titleEn", title: "incotermsRules "},
-        ],
-        fetchDataURL: "${contextPath}/api/incoterm-rules/spec-list"
-});
 var RestDataSource_ContractIncoterms_InMol = isc.MyRestDataSource.create({
+        autoFetchData: false,
         fields:
-        [
-        {name: "id", title: "<spring:message code='goods.code'/> "},
-        {name: "title", title: "incotermsRules "},
-        ],
-        fetchDataURL: "${contextPath}/api/g-incoterm/spec-list"
-});
+                [
+                {name: "id", title: "<spring:message code='goods.code'/> "},
+                {name: "incotermVersion.incotermVersion", title: "incotermsRules "},
+                {name: "code", title: "code"}
+                ],
+        fetchDataURL: "${contextPath}/api/g-incoterm/spec-list",transformResponse: function (dsResponse, dsRequest, data) {
+                       data.response.data.forEach(d=>d['incotermVersionName']=d['incotermVersion']['incotermVersion'])
+                       data.response.data.forEach(d=>d['incotermVersionID']=d['incotermVersion']['id'])
+                    return this.Super("transformResponse", arguments);
+                    }
+    });
 
-    var RestDataSource_WarehouseLot = isc.MyRestDataSource.create({
+var RestDataSource_WarehouseLot = isc.MyRestDataSource.create({
+autoFetchData: false,
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
@@ -125,6 +119,7 @@ var RestDataSource_ContractIncoterms_InMol = isc.MyRestDataSource.create({
     });
 
     var RestDataSource_Unit = isc.MyRestDataSource.create({
+autoFetchData: false,
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
@@ -135,15 +130,6 @@ var RestDataSource_ContractIncoterms_InMol = isc.MyRestDataSource.create({
                 {name: "decimalDigit", title: "<spring:message code='rate.decimalDigit'/>"}
             ],
         fetchDataURL: "${contextPath}/api/unit/spec-list"
-    });
-
-    var RestDataSource_Incoterms = isc.MyRestDataSource.create({
-        fields:
-            [
-                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "code", title: "<spring:message code='goods.code'/> "},
-            ],
-        fetchDataURL: "${contextPath}/api/incoterms/spec-list"
     });
 
     var RestDataSource_ShipmentContractUsed = {
@@ -157,31 +143,8 @@ var RestDataSource_ContractIncoterms_InMol = isc.MyRestDataSource.create({
         criteria: [{fieldName: "material.descl", operator: "contains", value: "Mol"}]
     };
 
-       var RestDataSource_ContractPenalty = isc.RestDataSource.create({
-        fields:
-            [
-                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "value", title: "<spring:message code='contractPenalty.value'/>", width: 200},
-                {name: "tblContractItemFeature.tblFeature.nameFA", title: "<spring:message code='contractPenalty.feature'/>", width: 200 },
-                {name: "operation", title: "<spring:message code='contractPenalty.operation'/>", width: 200},
-                {name: "deduction", title: "<spring:message code='contractPenalty.deduction'/>", width: 200}
-            ],
-        fetchDataURL: "${contextPath}/api/contractPenalty/spec-list"
-    });
-
-    var RestDataSource_CountryPort = isc.MyRestDataSource.create({
-        fields:
-            [
-                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "nameFa", title: "<spring:message code='country.nameFa'/>", width: 200},
-                {name: "nameEn", title: "<spring:message code='country.nameEn'/>", width: 200},
-                {name: "isActive", title: "<spring:message code='country.isActive'/>", width: 200}
-            ],
-
-        fetchDataURL: "${contextPath}/api/country/spec-list"
-    });
-
     var RestDataSource_Contact = isc.MyRestDataSource.create({
+autoFetchData: false,
         fields: [
             {name: "id", primaryKey: true, canEdit: false, hidden: true},
             {name: "code", title: "<spring:message code='contact.code'/>"},
@@ -224,6 +187,7 @@ var RestDataSource_ContractIncoterms_InMol = isc.MyRestDataSource.create({
         fetchDataURL: "${contextPath}/api/contact/spec-list"
     });
     var RestDataSource_Port = isc.MyRestDataSource.create({
+        autoFetchData: false,
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
@@ -236,10 +200,9 @@ var RestDataSource_ContractIncoterms_InMol = isc.MyRestDataSource.create({
 
         fetchDataURL: "${contextPath}/api/port/spec-list"
     });
-    var RestDataSource_Currency_list = isc.MyRestDataSource.create({
-        fetchDataURL: "${contextPath}/api/currency/spec-list"
-    });
+
     var RestDataSource_ContractShipment = isc.MyRestDataSource.create({
+        autoFetchData: false,
         fields:
             [
                 {name: "id", hidden: true, primaryKey: true, canEdit: false,},
@@ -278,11 +241,8 @@ var RestDataSource_ContractIncoterms_InMol = isc.MyRestDataSource.create({
         fetchDataURL: "${contextPath}/api/contractShipment/spec-list"
     });
 
-    var restDataSource_ContractShipmentValid = isc.MyRestDataSource.create({
-        fetchDataURL: "${contextPath}/api/contractShipment/spec-list"
-    })
-
     var RestDataSource_contractDetail_list = isc.MyRestDataSource.create({
+        autoFetchData: false,
         fetchDataURL: "${contextPath}/api/contractDetail/spec-list"
     });
 
@@ -660,7 +620,7 @@ var RestDataSource_ContractIncoterms_InMol = isc.MyRestDataSource.create({
                         ID:"VLayout_MoOx_Grid",
                         width: "100%",
                         height: "100%",
-                        overflow: "scroll",
+                        overflow: "auto",
                         members: [
                         HLayout_Actions_ContactMo,
                         ListGrid_contractMo
@@ -700,6 +660,7 @@ function factoryLableHedear(id, contents, width, height, padding) {
             ID: id,
             height: height,
             padding: padding,
+            margin:"5px",
             align: "left",
             valign: "left",
             wrap: false,
@@ -731,9 +692,9 @@ function pageMolibdenAll(method){
     //START PAGE ONE
     factoryLableHedear("LablePage", '<font><b>NATIONAL IRANIAN COPPER INDUSTRIES CO.<b></font>', "100%", "10", 4)
     factoryLable("lableNameContactMo", '<b><font size=4px>Molybdenum Oxide Contract-BAPCO/NICICO</font><b>', "100%", '2%', 2);
-    factoryLable("lableArticle2Mo", '<b><font size=4px>ARTICLE 2 -QUANTITY :</font><b>', "100%", '2%', 20);
+    factoryLableArticle("lableArticle2Mo", '<b><font size=4px>ARTICLE 2 - QUANTITY :</font><b>', "30", 5);
     factoryLableArticle("lableArticle1Mo", '<b><font size=4px>ARTICLE 1 - DEFINITIONS:</font><b>', "30", 5)
-    factoryLableArticle("lableArticle3MO", '<b><font size=4px>Article 3 - QUANTITY</font><b>', "30", 5)
+    factoryLableArticle("lableArticle3MO", '<b><font size=4px>ARTICLE 3 - QUALITY</font><b>', "30", 5)
     factoryLableArticle("lableArticle6Mo", '<b><font size=4px>ARTICLE 6 - DELIVERY TERMS</font><b>', "30", 5)
     factoryLableArticle("lableArticle7Mo", '<b><font size=4px>ARTICLE 7 - PRICE</font><b>', '30', 5);
     factoryLableArticle("lableArticle8Mo", '<b><font size=4px>ARTICLE 8 - OUOTATIONAL PERIOD</font><b>', '30', 5);
@@ -792,10 +753,12 @@ var DynamicForm_ContactMooxParameter_ValueNumber8=isc.DynamicForm.create({
         height: "20",
         width: "100%",
         wrapItemTitles: true,
+        autoFetchData: false,
         numCols: 4,
         items: [
             {
                 name: "definitionsOne",
+                autoFetchData: false,
                 length: 5000,
                 startRow: false,
                 editorType: "SelectItem",
@@ -890,6 +853,7 @@ var DynamicForm_ContactMooxParameter_ValueNumber8=isc.DynamicForm.create({
                 type: 'long',
                 width: "250",
                 editorType: "SelectItem",
+                autoFetchData: false,
                 optionDataSource: RestDataSource_Unit,
                 displayField: "nameEN",
                 valueField: "id",
@@ -1050,7 +1014,7 @@ var vlayoutArticle2 = isc.VLayout.create({
         height: "30%",
         styleName: "box-shaddow",
         members: [
-            isc.HLayout.create({height: "50", align: "center", members: [lableArticle2Mo]}),
+            isc.HLayout.create({height: "50", align: "left", members: [lableArticle2Mo]}),
             isc.HLayout.create({align: "left", members: [article2Mo]}),
             isc.HLayout.create({align: "left", members: [article2_1, lable_article2_1]}),
             dynamicForm_fullArticle02MoOx
@@ -1070,7 +1034,7 @@ isc.VLayout.create({
         width: "100%",
         height: "100%",
         align: "center",
-        overflow: "scroll",
+        overflow: "auto",
         members: [
             isc.HStack.create({height: "10",width: "100%",align: "center",members: [LablePage]}),
             vlayoutBodyMo,
@@ -1084,8 +1048,8 @@ isc.VLayout.create({
 
     //START PAGE TOW
     factoryLableArticle("lableArticle3Typicall", '<b><font size=4px>TYPICAL ANALYSIS: </font><b>', '5%', 1);
-    factoryLableArticle("lableArticle4", '<b><font size=4px>ARTICLE 4 - PACKING</font><b>', '2%', 1);
-    factoryLableArticle("lableArticle5", '<b><font size=4px>ARTICLE 5 - SHIPMENT</font><b>', "20", 1)
+    factoryLableArticle("lableArticle4", '<b><font size=4px>ARTICLE 4 - PACKING</font><b>', "30", 5);
+    factoryLableArticle("lableArticle5", '<b><font size=4px>ARTICLE 5 - SHIPMENT</font><b>',"30", 5)
 
 
 var dynamicForm_fullArticle03 = isc.RichTextEditor.create({
@@ -1345,6 +1309,7 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
                     name: "loadPortId",
                     title: "<spring:message code='shipment.loading'/>",
                     editorType: "SelectItem",
+                    autoFetchData: false,
                     optionDataSource: RestDataSource_Port,
                     displayField: "port",
                     valueField: "id",
@@ -1445,17 +1410,19 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
                 numCols: 4,
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_ContractIncoterms_InMol,
-                displayField: "title",
-                valueField: "id",
-                pickListWidth: "450",
+                autoFetchData: false,
+                displayField: "incotermVersionName",
+                valueField: "incotermVersionID",
+                pickListWidth: "499",
                 pickListHeight: "500",
                 pickListProperties: {showFilterEditor: true},
                 pickListFields: [
-                    {name: "id", width: 220, align: "center"},
-                    {name: "title", width: 220, align: "center"}
+                    {name: "incotermVersionName", width: "100%", align: "center"}
                 ],
-                changed: function (form, item, value) {
-                    form.clearValue('incotermsId');
+                changed: function(form, item, value) {
+                            form.getField('incotermsId').setDisabled(!value);
+                            form.clearValue('incotermsId');
+                            textHelpMol="";
                 },
                 width: "500",
                 title: "<strong class='cssDynamicForm'>INCOTERM VERSION<strong>"
@@ -1463,6 +1430,7 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
             ,
             {
                 name: "incotermsId", //article6_number32
+                disabled: true,
                 colSpan: 3,
                 titleColSpan: 1,
                 showIf:"true",
@@ -1479,21 +1447,34 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
                 type: 'long',
                 numCols: 4,
                 editorType: "SelectItem",
-                optionDataSource: RestDataSource_Incoterms_InMol,
-                displayField: "incotermRule.titleEn",
+                optionDataSource: RestDataSource_ContractIncoterms_InMol,
+                autoFetchData: false,
+                displayField: "title",
                 valueField: "id",
-                pickListWidth: "450",
+                pickListWidth: "499",
                 pickListHeight: "500",
                 pickListProperties: {showFilterEditor: true},
                 pickListFields: [
-                    {name: "id", width: 220, align: "center"},
-                    {name: "incotermRule.titleEn", width: 220, align: "center"}
+                    {name: "title",align: "center",width: "100%",title:"incoterm title"}
                 ],
-                width: "500",
-                title: "<strong class='cssDynamicForm'>INCOTERM<strong>",
                 getPickListFilterCriteria : function () {
-                                        return {_constructor:'AdvancedCriteria',operator:"and",criteria:[{fieldName: "incotermId", operator: "equals", value: this.form.getValue("incotermVersion")}]}
-                                     },
+                        return {_constructor:'AdvancedCriteria',operator:"and",criteria:[{fieldName: "incotermVersion.id", operator: "equals", value: this.form.getValue("incotermVersion")}]}
+                },
+                changed:function(form, item, value){
+                RestDataSource_ContractIncoterms_InMol.fetchData({_constructor:'AdvancedCriteria',operator:"and",criteria:[{fieldName: "id", operator: "equals", value: value}]},function (dsResponse, data, dsRequest) {
+                            for (let i=0;i<data[0].incotermRules.length;i++){
+                                 textHelpMol += ("<b>CODE : </b>"+data[0].incotermRules[i].incotermRule.code +" "+"<b>TITLE : </b>"+data[0].incotermRules[i].incotermRule.titleEn)+"<br>";
+                            }
+                        });
+                },
+                width: "500",
+                title: "<strong class='cssDynamicForm'>INCOTERM RULES<strong>",
+                icons: [{
+                        src: "[SKIN]/actions/help.png",
+                        click: function(){
+                            isc.say("<br><b>INCOTERM RULES: </b><br>"+textHelpMol)
+                        }
+                     }]
                 }
         ]
     })
@@ -1563,7 +1544,7 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
         width: "100%",
         height: "100%",
         align: "center",
-        overflow: "scroll",
+        overflow: "auto",
         members: [
             vlayoutArticle3_1,
             vlayoutArticle4,
@@ -1702,7 +1683,7 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
         valuesManager: "valuesManagerfullArticle",
         autoDraw: true,
         height: 155,
-        overflow: "scroll",
+        overflow: "auto",
         canDragResize: true,
         controlGroups: ["fontControls", "formatControls", "styleControls", "colorControls"],
         value: ""
@@ -1781,7 +1762,7 @@ ListGrid_ContractItemShipment = isc.ListGrid.create({
         width: "100%",
         height: "100%",
         align: "center",
-        overflow: "scroll",
+        overflow: "auto",
         members: [
             vlayoutArticle7,
             vlayoutArticle8,
@@ -2116,11 +2097,12 @@ VLayout_contactMoOxMain=isc.VLayout.create({
             width: "100%",
             height: "100%",
             align: "center",
-            overflow: "scroll",
+            overflow: "auto",
             autoCenter: true,
             isModal: true,
             showModalMask: true,
             autoScroller:true,
+            loadingMessage: " <spring:message code='global.loadingMessage'/>",
             closeClick: function () {
             this.Super("closeClick", arguments);
             },

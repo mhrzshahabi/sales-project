@@ -24,15 +24,15 @@ public class IncotermAspect extends BaseEntity {
     private Long id;
 
     @NotEmpty
-    @Column(name = "C_CODE", nullable = false, length = 200, unique = true)
+    @Column(name = "C_CODE", nullable = false, unique = true)
     private String code;
 
     @NotEmpty
-    @Column(name = "C_TITLE_FA", nullable = false, length = 200)
+    @Column(name = "C_TITLE_FA", nullable = false)
     private String titleFa;
 
     @NotEmpty
-    @Column(name = "C_TITLE_EN", nullable = false, length = 200)
+    @Column(name = "C_TITLE_EN", nullable = false)
     private String titleEn;
 
     @NotNull
