@@ -14,6 +14,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
 
 
@@ -24,36 +25,36 @@ import java.util.List;
 
 public class PriceBaseRestController {
 
-    private final IPriceBaseService iPriceBaseService;
+    private final IPriceBaseService priceBaseService;
 
     @Loggable
     @GetMapping(value = "/{id}")
     public ResponseEntity<PriceBaseDTO.Info> get(@PathVariable Long id) {
-        return new ResponseEntity<>(iPriceBaseService.get(id), HttpStatus.OK);
+        return new ResponseEntity<>(priceBaseService.get(id), HttpStatus.OK);
     }
 
     @Loggable
     @GetMapping(value = "/list")
     public ResponseEntity<List<PriceBaseDTO.Info>> list() {
-        return new ResponseEntity<>(iPriceBaseService.list(), HttpStatus.OK);
+        return new ResponseEntity<>(priceBaseService.list(), HttpStatus.OK);
     }
 
     @Loggable
     @PostMapping
     public ResponseEntity<PriceBaseDTO.Info> create(@Validated @RequestBody PriceBaseDTO.Create request) {
-        return new ResponseEntity<>(iPriceBaseService.create(request), HttpStatus.CREATED);
+        return new ResponseEntity<>(priceBaseService.create(request), HttpStatus.CREATED);
     }
 
     @Loggable
     @PutMapping
     public ResponseEntity<PriceBaseDTO.Info> update(@RequestBody PriceBaseDTO.Update request) {
-        return new ResponseEntity<>(iPriceBaseService.update(request.getId(), request), HttpStatus.OK);
+        return new ResponseEntity<>(priceBaseService.update(request.getId(), request), HttpStatus.OK);
     }
 
     @Loggable
     @DeleteMapping(value = "/{id}")
     public ResponseEntity delete(@PathVariable Long id) {
-        iPriceBaseService.delete(id);
+        priceBaseService.delete(id);
         return new ResponseEntity(HttpStatus.OK);
     }
 
@@ -61,6 +62,13 @@ public class PriceBaseRestController {
     @GetMapping(value = "/spec-list")
     public ResponseEntity<TotalResponse<PriceBaseDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) throws IOException {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
-        return new ResponseEntity<>(iPriceBaseService.search(nicicoCriteria), HttpStatus.OK);
+        return new ResponseEntity<>(priceBaseService.search(nicicoCriteria), HttpStatus.OK);
+    }
+
+    @Loggable
+    @GetMapping(value = "/get-base-price")
+    public ResponseEntity<BigDecimal> getBasePrice(@RequestParam Integer year, @RequestParam Integer month, @RequestParam Long elementId) {
+
+        return new ResponseEntity<>(priceBaseService.calculateElementPrice(year, month, elementId), HttpStatus.OK);
     }
 }

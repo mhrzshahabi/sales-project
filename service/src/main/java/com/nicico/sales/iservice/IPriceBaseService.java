@@ -3,8 +3,8 @@ package com.nicico.sales.iservice;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.sales.dto.PriceBaseDTO;
-import com.nicico.sales.model.entities.base.PriceBase;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public interface IPriceBaseService {
@@ -23,5 +23,5 @@ public interface IPriceBaseService {
 
     TotalResponse<PriceBaseDTO.Info> search(NICICOCriteria criteria);
 
-    List<PriceBase> findAllByPriceBaseMonth(Integer year, Integer month);
+    BigDecimal calculateElementPrice(Integer year, Integer month, Long elementId);
 }
