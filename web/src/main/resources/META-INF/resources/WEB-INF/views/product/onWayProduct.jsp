@@ -5,5 +5,6 @@
 //<script>
     <% DateUtil dateUtil = new DateUtil();%>
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
+<%@include file="on-way-product-create-remmitance.js" %>
 <%@include file="onWayProduct.js" %>
 //</script>

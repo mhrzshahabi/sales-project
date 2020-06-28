@@ -1,10 +1,5 @@
 package com.nicico.sales.model.entities.base;
 
-
-/**
- * ESTERABEH
- */
-
 import com.nicico.sales.model.entities.common.BaseEntity;
 import lombok.*;
 import lombok.experimental.Accessors;

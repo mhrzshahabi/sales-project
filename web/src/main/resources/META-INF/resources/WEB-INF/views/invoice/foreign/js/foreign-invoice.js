@@ -8,7 +8,6 @@ foreignInvoiceTab.variable.personUrl = "${contextPath}" + "/api/person/";
 foreignInvoiceTab.variable.shipmentUrl = "${contextPath}" + "/api/shipment/";
 foreignInvoiceTab.variable.currencyUrl = "${contextPath}" + "/api/currency/";
 foreignInvoiceTab.variable.invoiceTypeUrl = "${contextPath}" + "/api/invoicetype/";
-foreignInvoiceTab.variable.materialItemUrl = "${contextPath}" + "/api/materialItem/";
 foreignInvoiceTab.variable.conversionRefUrl = "${contextPath}" + "/api/currencyRate/";
 foreignInvoiceTab.variable.foreignInvoiceUrl = "${contextPath}" + "/api/foreign-invoice/";
 foreignInvoiceTab.variable.foreignInvoiceItemUrl = "${contextPath}" + "/api/foreign-invoice-item/";
@@ -51,13 +50,6 @@ foreignInvoiceTab.listGrid.fields = BaseFormItems.concat([
         showHover: true,
         name: "accountingId",
         title: "<spring:message code='foreign-invoice.form.accounting-id'/>"
-    },
-    {
-        width: "100%",
-        required: true,
-        showHover: true,
-        name: "materialItem.gdsName",
-        title: "<spring:message code='foreign-invoice.form.material-item'/>"
     },
     {
         width: "100%",
@@ -139,15 +131,7 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
         title: "<spring:message code='foreign-invoice.form.contract'/>",
         changed: function (form, item, value) {
 
-            let materialItemIdField = form.getField("materialItemId");
             let selectedRecord = item.getSelectedRecord();
-            materialItemIdField.setOptionCriteria({
-                fieldName: "materialId",
-                operator: "equals",
-                value: selectedRecord.materialId
-            });
-            materialItemIdField.enable();
-
             let shipmentIdField = form.getField("shipmentId");
             shipmentIdField.setOptionCriteria({
                 fieldName: "contractId",
@@ -156,24 +140,6 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
             });
             shipmentIdField.enable();
         }
-    },
-    {
-        width: "100%",
-        type: "integer",
-        required: true,
-        disabled: true,
-        name: "materialItemId",
-        editorType: "SelectItem",
-        valueField: "id",
-        displayField: "gdsName",
-        optionDataSource: isc.MyRestDataSource.create({
-            fields: [
-                {name: "id", primaryKey: true, hidden: true, title: "<spring:message code='global.id'/>"},
-                {name: "gdsName", title: "<spring:message code='global.title'/>"},
-            ],
-            fetchDataURL: foreignInvoiceTab.variable.materialItemUrl + "spec-list"
-        }),
-        title: "<spring:message code='foreign-invoice.form.material-item'/>"
     },
     {
         required: true,
@@ -360,21 +326,30 @@ foreignInvoiceTab.button.save = isc.IButtonSave.create({
         foreignInvoiceTab.dynamicForm.valuesManager.setValue(
             'contract',
             foreignInvoiceTab.dynamicForm.baseData.getField('contractId').getSelectedRecord());
-        foreignInvoiceTab.dynamicForm.valuesManager.setValue(
-            'materialItem',
-            foreignInvoiceTab.dynamicForm.baseData.getField('materialItemId').getSelectedRecord());
 
-        foreignInvoiceTab.method.addTab(isc.BaseInvoiceInfo.create({
+        foreignInvoiceTab.method.addTab(isc.InvoiceBaseInfo.create({
 
             invoiceNo: foreignInvoiceTab.dynamicForm.valuesManager.getValue('no'),
             invoiceDate: foreignInvoiceTab.dynamicForm.valuesManager.getValue('date'),
             contract: foreignInvoiceTab.dynamicForm.valuesManager.getValue('contract'),
             billLadings: [],//foreignInvoiceTab.dynamicForm.valuesManager.getValue('billLadings'),
             invoiceType: foreignInvoiceTab.dynamicForm.valuesManager.getValue('invoiceType'),
-            materialItem: foreignInvoiceTab.dynamicForm.valuesManager.getValue('materialItem'),
-            buyer: __contract.getBuyer(foreignInvoiceTab.dynamicForm.valuesManager.getValue('contract'))
         }), '<spring:message code="foreign-invoice.form.tab.contract-info"/>');
-        foreignInvoiceTab.method.addTab( null ,'<spring:message code="foreign-invoice.form.tab.contract-info"/>');
+
+        if (__contract.getMaterial(foreignInvoiceTab.dynamicForm.valuesManager.getValue('contract')).id === 1) {
+
+            // foreignInvoiceTab.method.addTab(isc.InvoiceCalculation.create({
+            //
+            // }), '<spring:message code="foreign-invoice.form.tab.calculation"/>');
+        } else {
+
+            foreignInvoiceTab.method.addTab(isc.InvoiceBaseValues.create({
+
+            }), '<spring:message code="foreign-invoice.form.tab.base-values"/>');
+            // foreignInvoiceTab.method.addTab(isc.InvoiceCalculation.create({}), '<spring:message code="foreign-invoice.form.tab.calculation"/>');
+            // foreignInvoiceTab.method.addTab(isc.InvoiceDeduction.create({}), '<spring:message code="foreign-invoice.form.tab.deduction"/>');
+            // foreignInvoiceTab.method.addTab(isc.InvoicePayment.create({}), '<spring:message code="foreign-invoice.form.tab.payment"/>');
+        }
 
         foreignInvoiceTab.window.main.close();
         foreignInvoiceTab.variable.invoiceForm.justShowForm();
