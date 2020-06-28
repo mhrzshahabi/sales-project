@@ -32,10 +32,10 @@ public class WeightInspection extends BaseEntity {
     @Column(name = "N_WEIGHING_TYPE")
     private WeighingType weighingType;
 
-    @Column(name = "N_WEIGHT_G_W", scale = 10, precision = 5)
+    @Column(name = "N_WEIGHT_G_W", scale = 5, precision = 10)
     private BigDecimal weightGW;
 
-    @Column(name = "N_WEIGHT_N_D", scale = 10, precision = 5)
+    @Column(name = "N_WEIGHT_N_D", scale = 5, precision = 10)
     private BigDecimal weightND;
 
     @Setter(AccessLevel.NONE)

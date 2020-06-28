@@ -14,5 +14,5 @@ import java.util.List;
 public interface PriceBaseDAO extends JpaRepository<PriceBase, Long>, JpaSpecificationExecutor<PriceBase> {
 
     @Query("SELECT p FROM PriceBase p WHERE YEAR(p.priceDate) =:year AND MONTH(p.priceDate) =:month AND p.elementId =:elementId")
-    List<PriceBase> getAllPrices(@Param("year") Integer year, @Param("month") Integer month, Long elementId);
+    List<PriceBase> getAllPrices(@Param("year") Integer year, @Param("month") Integer month, @Param("elementId") Long elementId);
 }

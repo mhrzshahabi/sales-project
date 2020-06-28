@@ -30,4 +30,8 @@
                                  referencedColumnNames="ID"/>
     </changeSet>
 
+    <changeSet id="MShahabi" author="1799887766554-004">
+        <modifyDataType columnName="N_VALUE" newDataType="NUMBER(10, 5)" tableName="TBL_ASSAY_INSPECTION"/>
+    </changeSet>
+
 </databaseChangeLog>

@@ -415,7 +415,7 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
     {
         name: "inspectionRateValueType",
         title: "<spring:message code='inspectionReport.inspectionRateValueType'/>",
-        required: true,
+        // required: true,
         valueMap: {
             0: "ManPerDay",
             1: "PerTon"

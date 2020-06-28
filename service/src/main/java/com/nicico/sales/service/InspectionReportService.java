@@ -33,7 +33,7 @@ public class InspectionReportService extends GenericService<InspectionReport, Lo
         return save(inspectionReport);
 
         /*IncotermDTO.Info incoterm = super.create(request);
-
+as
         List<IncotermSteps> incotermStepsCreateList = new ArrayList<>();
         request.getIncotermSteps().forEach(item -> {
             IncotermSteps incotermSteps = new IncotermSteps();
