@@ -134,6 +134,7 @@ function onWayProductCreateRemittance() {
             },
             {
                 name: "unit",
+                type: "number",
                 title: "واحدشمارهش بسته کالا(ورق،بشکه،تن،..)",
                 valueMap: SalesBaseParameters.getSavedUnitParameter().getValueMap('id', 'nameFA'),
                 defaultValue: StorageUtil.get('DynamicForm_warehouseCAD_owp' + ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord()['codeKala'].toString()),
@@ -283,13 +284,27 @@ function onWayProductCreateRemittance() {
                         grid.expandRecord(withoutTedad);
                         window[listGridSetDestTozinHarasatPolompForSelectedTozin['w']].show()
                     })
+                    const dataForSave = {
+                        remittance: DynamicForm_warehouseCAD.getValues(),
+                        inventories: []
+                    };
+                    remittanceDetail.forEach(a => {
+                        a.packages.forEach(b => {
+                            const inventory = {...b};
+                            inventory['unit'] = Number(dataForSave.remittance['unit']);
+                            inventory['tozindIdDestination'] = {...a['destTozin']};
+                            inventory['tozindIdSource'] = {...a};
+                            delete inventory['tozindIdSource']['packages'];
+                            delete inventory['tozindIdSource']['destTozin'];
+                            delete inventory['tozindIdSource']['destTozinId'];
+                            dataForSave.inventories.add(inventory);
+                        })
+                    })
+                    console.log('data for send', dataForSave)
                     fetch('api/remittance', {
                         headers: SalesConfigs.httpHeaders,
                         method: "POST",
-                        body: JSON.stringify({
-                            remittance: DynamicForm_warehouseCAD.getValues(),
-                            remittanceDetail: remittanceDetail
-                        })
+                        body: JSON.stringify(dataForSave)
                     }).then(r => {
                         console.log(r)
                     })
@@ -531,7 +546,7 @@ function onWayProductCreateRemittance() {
                 autoSaveEdits: false,
                 showFilterEditor: false,
                 // height: "",
-                editEvent: 'click',
+                editEvent: 'doubleClick',
                 getCellHoverComponent: function (record, rowNum, colNum) {
                     const tozinId = grid_source.getFields()[colNum].name === 'destTozinId' ? record['destTozinId'] : record['tozinId']
                     if (!tozinId) return false;
