@@ -62,19 +62,15 @@ class SalesBaseParameters {
     static async getUnitParameter(updateTable = false) {
         return await this.getParameter('unit', updateTable);
     }
-
     static getSavedWarehouseParameter() {
         return this.warehouse;
     }
-
     static getSavedUnitParameter() {
         return this.unit;
     }
-
     static getSavedMaterialItemParameter() {
         return this.materialItem;
     }
-
     static getAllSavedParameter() {
         return {
             'materialItel': this.materialItem,
@@ -82,15 +78,12 @@ class SalesBaseParameters {
             'warehouse': this.warehouse
         };
     }
-
     static async getWarehouseParameter(updateTable = false) {
         return await this.getParameter('warehouse', updateTable);
     }
-
     static async getMaterialItemParameter(updateTable = false) {
         return await this.getParameter('materialItem', updateTable);
     }
-
     static async getAllParameters(updateTable = false) {
         await Promise.all([
             this.getUnitParameter(updateTable),
