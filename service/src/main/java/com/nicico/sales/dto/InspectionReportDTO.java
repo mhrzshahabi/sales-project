@@ -66,8 +66,8 @@ public class InspectionReportDTO {
     @ApiModel("InspectionReportCreateRq")
     public static class Create extends InspectionReportDTO {
 
-        private WeightInspectionDTO.Create weightInspection;
-        private AssayInspectionDTO.Create assayInspection;
+        private WeightInspectionDTO.Info weightInspection;
+        private AssayInspectionDTO.Info assayInspection;
 
     }
 
