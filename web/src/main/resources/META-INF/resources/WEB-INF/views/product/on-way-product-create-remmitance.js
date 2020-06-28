@@ -69,7 +69,7 @@ function onWayProductCreateRemittance() {
                 hidden: true
             },
             {
-                name: "bijackNo",
+                name: "code",
                 title: "<spring:message code='warehouseCad.bijackNo'/>",
                 type: 'text',
                 required: true,
@@ -94,7 +94,7 @@ function onWayProductCreateRemittance() {
                 type: 'staticText',
             },
             {
-                name: "warehouseYardId",
+                name: "depotId",
                 required: true,
                 // validators: [{
                 //     type: "required",
@@ -104,33 +104,17 @@ function onWayProductCreateRemittance() {
                 titleColSpan: 1,
                 showHover: true,
                 autoFetchData: false,
-                defaultValue: StorageUtil.get('onWayProduct_yardId'),
+                defaultValue: StorageUtil.get('onWayProduct_depotId'),
                 title: "<spring:message code='warehouseCad.yard'/>",
-                // type: 'string',
-                // editorType: "SelectItem",
-                // optionDataSource: RestDataSource_WarehouseYard_IN_WAREHOUSECAD_ONWAYPRODUCT,
                 displayField: "name",
                 valueField: "id",
-                // pickListWidth: "215",
-                // pickListHeight: "215",
                 pickListProperties: {
                     recordClick(pickList, record) {
-                        StorageUtil.save('onWayProduct_yardId', record.id);
+                        StorageUtil.save('onWayProduct_depotId', record.id);
                         return this.Super("recordClick", arguments);
                     }
                 },
-                // pickListFields: [{
-                //     name: "name"
-                // }],
-                /*
-                changed: function (form, item, value) {
-                    if (!item.getDisplayValue(value).includes("کاتد")) {
-                        isc.warn("<spring:message code='warehouseYard.alert'/>");
-                        form.getItem("warehouseYardId").setValue("");
-                    }
-                }
 
-                 */
             },
             {
                 name: "unit",
@@ -206,7 +190,7 @@ function onWayProductCreateRemittance() {
                 type: "staticText",
             },
             {
-                name: 'remmitanceDescription',
+                name: 'description',
                 width: "100%",
                 height: 80,
                 editorType: "TextAreaItem",
@@ -286,18 +270,29 @@ function onWayProductCreateRemittance() {
                     })
                     const dataForSave = {
                         remittance: DynamicForm_warehouseCAD.getValues(),
-                        inventories: []
+                        remittanceDetails: []
                     };
                     remittanceDetail.forEach(a => {
                         a.packages.forEach(b => {
-                            const inventory = {...b};
-                            inventory['unit'] = Number(dataForSave.remittance['unit']);
-                            inventory['tozindIdDestination'] = {...a['destTozin']};
-                            inventory['tozindIdSource'] = {...a};
-                            delete inventory['tozindIdSource']['packages'];
-                            delete inventory['tozindIdSource']['destTozin'];
-                            delete inventory['tozindIdSource']['destTozinId'];
-                            dataForSave.inventories.add(inventory);
+                            const inventory = {...b, materialItemId: a['codeKala']};
+                            const remittanceDetail = {inventory: inventory,}
+                            if (!b['description']) remittanceDetail['description'] = null;
+                            else {
+                                remittanceDetail['description'] = inventory['description'];
+                                delete inventory['description'];
+                            }
+                            remittanceDetail['unitId'] = Number(dataForSave.remittance['unit']);
+                            remittanceDetail['amount'] = Number(inventory['tedad']);
+                            remittanceDetail['weight'] = Number(inventory['wazn']);
+                            remittanceDetail['depotId'] = Number(dataForSave.remittance['depotId']);
+                            remittanceDetail['destinationTozin'] = {...a['destTozin']};
+                            remittanceDetail['sourceTozin'] = {...a};
+                            delete remittanceDetail['sourceTozin']['packages'];
+                            delete remittanceDetail['sourceTozin']['destTozin'];
+                            delete remittanceDetail['sourceTozin']['destTozinId'];
+                            delete inventory['tedad'];
+                            delete inventory['wazn'];
+                            dataForSave.remittanceDetails.add(remittanceDetail);
                         })
                     })
                     console.log('data for send', dataForSave)
@@ -680,7 +675,7 @@ function onWayProductCreateRemittance() {
                         // valueMap: window[windowDestinationTozinList['g']].getData().getValueMap('tozinId', 'tozinId')
                     },
                     {
-                        name: "harasatId",
+                        name: "securityPolompNo",
                         canFilter: false,
                         title: 'شماره پلمپ حراست',
                         /* editorExit (editCompletionEvent, record, newValue, rowNum, colNum, grid){
@@ -695,7 +690,7 @@ function onWayProductCreateRemittance() {
 
                     },
                     {
-                        name: "rahAhanId",
+                        name: "railPolompNo",
                         title: 'شماره پلمپ راه‌آهن',
                         canFilter: false,
 
@@ -996,5 +991,5 @@ function onWayProductCreateRemittance() {
         updateDestinationPackageTedadWeight()
 
     })
-    DynamicForm_warehouseCAD.getItem('warehouseYardId').setOptionDataSource(RestDataSource_WarehouseYard_IN_WAREHOUSECAD_ONWAYPRODUCT)
+    DynamicForm_warehouseCAD.getItem('depotId').setOptionDataSource(RestDataSource_WarehouseYard_IN_WAREHOUSECAD_ONWAYPRODUCT)
 }
