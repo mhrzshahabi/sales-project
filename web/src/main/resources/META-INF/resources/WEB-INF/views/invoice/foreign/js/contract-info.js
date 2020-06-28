@@ -24,3 +24,7 @@ __contract.getContractMonth = function (contract) {
 
     return 2;
 };
+__contract.getFinalPriceBaseText = function (contract) {
+
+    return 'AVERAGE MAY 2017 (MOAS+2)';
+};

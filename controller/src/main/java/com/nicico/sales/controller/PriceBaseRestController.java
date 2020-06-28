@@ -3,6 +3,7 @@ package com.nicico.sales.controller;
 import com.nicico.copper.common.Loggable;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
+import com.nicico.sales.dto.ElementDTO;
 import com.nicico.sales.dto.PriceBaseDTO;
 import com.nicico.sales.iservice.IPriceBaseService;
 import lombok.RequiredArgsConstructor;
@@ -14,9 +15,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.List;
-
 
 @Slf4j
 @RequiredArgsConstructor
@@ -67,8 +66,8 @@ public class PriceBaseRestController {
 
     @Loggable
     @GetMapping(value = "/get-base-price")
-    public ResponseEntity<BigDecimal> getBasePrice(@RequestParam Integer year, @RequestParam Integer month, @RequestParam Long elementId) {
+    public ResponseEntity<List<ElementDTO.PriceBase>> getBasePrice(@RequestParam Integer year, @RequestParam Integer month, @RequestParam Long materialId) {
 
-        return new ResponseEntity<>(priceBaseService.calculateElementPrice(year, month, elementId), HttpStatus.OK);
+        return new ResponseEntity<>(priceBaseService.getElementBasePrice(year, month, materialId), HttpStatus.OK);
     }
 }
