@@ -26,26 +26,26 @@ public class ForeignInvoiceItemDetail extends BaseEntity {
     private Long id;
 
     @NotNull
-    @Column(name = "N_ASSAY", nullable = false, scale = 12, precision = 5)
+    @Column(name = "N_ASSAY", nullable = false, scale = 5, precision = 12)
     private BigDecimal assay;
 
     @NotNull
-    @Column(name = "N_BASE_PRICE", nullable = false, scale = 10, precision = 2)
+    @Column(name = "N_BASE_PRICE", nullable = false, scale = 2, precision = 10)
     private BigDecimal basePrice;
 
-    @Column(name = "N_RC_PRICE", scale = 10, precision = 2)
+    @Column(name = "N_RC_PRICE", scale = 2, precision = 10)
     private BigDecimal rcPrice;
 
-    @Column(name = "N_RC_BASE_PRICE", scale = 10, precision = 2)
+    @Column(name = "N_RC_BASE_PRICE", scale = 2, precision = 10)
     private BigDecimal rcBasePrice;
 
     @Column(name = "N_DEDUCTION_TYPE")
     private DeductionType deductionType;
 
-    @Column(name = "N_DEDUCTION_VALUE", scale = 12, precision = 5)
+    @Column(name = "N_DEDUCTION_VALUE", scale = 5, precision = 12)
     private BigDecimal deductionValue;
 
-    @Column(name = "N_DEDUCTION_PRICE", scale = 10, precision = 2)
+    @Column(name = "N_DEDUCTION_PRICE", scale = 2, precision = 10)
     private BigDecimal deductionPrice;
 
     // *****************************************************************************************************************

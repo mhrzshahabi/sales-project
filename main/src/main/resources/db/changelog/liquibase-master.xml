@@ -25,4 +25,8 @@
 	<!--	<include file="classpath:/db/changelog/view_frosh.xml"/>-->
 	<!--	<include file="classpath:/db/changelog/view_kharid.xml"/>-->
 	<!--	<include file="classpath:/db/changelog/view_zayeat.xml"/>-->
+	<include file="classpath:/db/changelog/modify-data-types/tbl_foreign_invoice.xml"/>
+	<include file="classpath:/db/changelog/modify-data-types/tbl_foreign_invoice_item.xml"/>
+	<include file="classpath:/db/changelog/modify-data-types/tbl_foreign_invoice_payment.xml"/>
+	<include file="classpath:/db/changelog/modify-data-types/tbl_foreign_invoice_item_detail.xml"/>
 </databaseChangeLog>
