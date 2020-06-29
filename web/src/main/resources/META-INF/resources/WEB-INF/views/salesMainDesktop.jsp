@@ -91,6 +91,12 @@
     <%@include file="common/ts/GeneralTabUtil.js"%>
     <%@include file="common/ts/StorageUtil.js"%>
 
+    var ImportantIDs = {
+
+        MOLYBDENUM_OXIDE: 1,
+        COPPER_CATHOD: 2,
+        COPPER_CONCENTRATES: 3
+    }
     var BaseRPCRequest = {
         httpHeaders: {"Authorization": "Bearer <%= accessToken %>"},
         useSimpleHttp: true,

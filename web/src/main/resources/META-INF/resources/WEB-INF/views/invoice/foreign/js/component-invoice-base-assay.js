@@ -29,9 +29,9 @@ isc.defineClass("InvoiceBaseAssay", isc.VLayout).addProperties({
         switch (this.material) {
 
             case 0:
-                unitComponentCopper = isc.componentUnit.create({
-                    titelFieldValue: '<spring:message code="component.invoice.price.copper"/>:' + "       (Cu)",
-                    typeUnitCategory: 1,
+                unitComponentCopper = isc.Unit.create({
+                    fieldValueTitle: '<spring:message code="component.invoice.price.copper"/>:' + "       (Cu)",
+                    unitCategory: 1,
                     showTitle: false,
                     // disabled: true
                 });
@@ -40,23 +40,23 @@ isc.defineClass("InvoiceBaseAssay", isc.VLayout).addProperties({
                 break;
 
             case 1:
-                unitComponentCopper = isc.componentUnit.create({
-                    titelFieldValue: '<spring:message code="component.invoice.price.copper"/>:' + "       (Cu)",
-                    typeUnitCategory: 1,
+                unitComponentCopper = isc.Unit.create({
+                    fieldValueTitle: '<spring:message code="component.invoice.price.copper"/>:' + "       (Cu)",
+                    unitCategory: 1,
                     showTitle: false,
                     // disabled: true
                 });
 
-                unitComponentSilver = isc.componentUnit.create({
-                    titelFieldValue: '<spring:message code="component.invoice.price.silver"/>:' + "       (Ag)",
-                    typeUnitCategory: 1,
+                unitComponentSilver = isc.Unit.create({
+                    fieldValueTitle: '<spring:message code="component.invoice.price.silver"/>:' + "       (Ag)",
+                    unitCategory: 1,
                     showTitle: false,
                     // disabled: true
                 });
 
-                unitComponentGold = isc.componentUnit.create({
-                    titelFieldValue: '<spring:message code="component.invoice.price.gold"/>:' + "     (Au)",
-                    typeUnitCategory: 1,
+                unitComponentGold = isc.Unit.create({
+                    fieldValueTitle: '<spring:message code="component.invoice.price.gold"/>:' + "     (Au)",
+                    unitCategory: 1,
                     showTitle: false,
                     // disabled: true
                 });
@@ -67,44 +67,44 @@ isc.defineClass("InvoiceBaseAssay", isc.VLayout).addProperties({
                 break;
 
             case 4:
-                unitComponentCopper = isc.componentUnit.create({
-                    titelFieldValue: '<spring:message code="component.invoice.price.copper"/>:' + "       (Cu)",
-                    typeUnitCategory: 1,
+                unitComponentCopper = isc.Unit.create({
+                    fieldValueTitle: '<spring:message code="component.invoice.price.copper"/>:' + "       (Cu)",
+                    unitCategory: 1,
                     showTitle: false,
                     // disabled: true
                 });
 
-                unitComponentSilver = isc.componentUnit.create({
-                    titelFieldValue: '<spring:message code="component.invoice.price.silver"/>:' + "       (Ag)",
-                    typeUnitCategory: 1,
+                unitComponentSilver = isc.Unit.create({
+                    fieldValueTitle: '<spring:message code="component.invoice.price.silver"/>:' + "       (Ag)",
+                    unitCategory: 1,
                     showTitle: false,
                     // disabled: true
                 });
 
-                unitComponentGold = isc.componentUnit.create({
-                    titelFieldValue: '<spring:message code="component.invoice.price.gold"/>:' + "     (Au)",
-                    typeUnitCategory: 1,
+                unitComponentGold = isc.Unit.create({
+                    fieldValueTitle: '<spring:message code="component.invoice.price.gold"/>:' + "     (Au)",
+                    unitCategory: 1,
                     showTitle: false,
                     // disabled: true
                 });
 
-                unitComponentPlatinum = isc.componentUnit.create({
-                    titelFieldValue: '<spring:message code="component.invoice.price.platinum"/>:' + "       (Pt)",
-                    typeUnitCategory: 1,
+                unitComponentPlatinum = isc.Unit.create({
+                    fieldValueTitle: '<spring:message code="component.invoice.price.platinum"/>:' + "       (Pt)",
+                    unitCategory: 1,
                     showTitle: false,
                     // disabled: true
                 });
 
-                unitComponentPalladium = isc.componentUnit.create({
-                    titelFieldValue: '<spring:message code="component.invoice.price.palladium"/>:' + "       (Pd)",
-                    typeUnitCategory: 1,
+                unitComponentPalladium = isc.Unit.create({
+                    fieldValueTitle: '<spring:message code="component.invoice.price.palladium"/>:' + "       (Pd)",
+                    unitCategory: 1,
                     showTitle: false,
                     // disabled: true
                 });
 
-                unitComponentSelenium = isc.componentUnit.create({
-                    titelFieldValue: '<spring:message code="component.invoice.price.selenium"/>:' + "     (Se)",
-                    typeUnitCategory: 1,
+                unitComponentSelenium = isc.Unit.create({
+                    fieldValueTitle: '<spring:message code="component.invoice.price.selenium"/>:' + "     (Se)",
+                    unitCategory: 1,
                     showTitle: false,
                     // disabled: true
                 });

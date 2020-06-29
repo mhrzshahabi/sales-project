@@ -153,7 +153,7 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
         pickListWidth: 370,
         pickListHeight: 300,
         pickListProperties: {
-            showFilterEditor: true
+            showFilterEditor: false
         },
         pickListFields: [
             {name: "id", primaryKey: true, hidden: true, title: "<spring:message code='global.id'/>"},
@@ -336,7 +336,7 @@ foreignInvoiceTab.button.save = isc.IButtonSave.create({
             invoiceType: foreignInvoiceTab.dynamicForm.valuesManager.getValue('invoiceType'),
         }), '<spring:message code="foreign-invoice.form.tab.contract-info"/>');
 
-        if (__contract.getMaterial(foreignInvoiceTab.dynamicForm.valuesManager.getValue('contract')).id === 1) {
+        if (__contract.getMaterial(foreignInvoiceTab.dynamicForm.valuesManager.getValue('contract')).id === ImportantIDs.MOLYBDENUM_OXIDE) {
 
             // foreignInvoiceTab.method.addTab(isc.InvoiceCalculation.create({
             //
@@ -345,6 +345,7 @@ foreignInvoiceTab.button.save = isc.IButtonSave.create({
 
             foreignInvoiceTab.method.addTab(isc.InvoiceBaseValues.create({
 
+                contract: foreignInvoiceTab.dynamicForm.valuesManager.getValue("contract")
             }), '<spring:message code="foreign-invoice.form.tab.base-values"/>');
             // foreignInvoiceTab.method.addTab(isc.InvoiceCalculation.create({}), '<spring:message code="foreign-invoice.form.tab.calculation"/>');
             // foreignInvoiceTab.method.addTab(isc.InvoiceDeduction.create({}), '<spring:message code="foreign-invoice.form.tab.deduction"/>');
@@ -464,7 +465,7 @@ foreignInvoiceTab.variable.invoiceForm.populateData = function (bodyWidget) {
 
     foreignInvoiceTab.dynamicForm.valuesManager.getValues();
 };
-foreignInvoiceTab.variable.invoiceForm.init(null, '<spring:message code="entity.foreign-invoice"/>', foreignInvoiceTab.tab.invoice, "80%");
+foreignInvoiceTab.variable.invoiceForm.init(null, '<spring:message code="entity.foreign-invoice"/>', foreignInvoiceTab.tab.invoice, "50%");
 
 nicico.BasicFormUtil.getDefaultBasicForm(foreignInvoiceTab, "api/foreign-invoice/");
 foreignInvoiceTab.dynamicForm.main = null;

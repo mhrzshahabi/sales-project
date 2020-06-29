@@ -23,5 +23,5 @@ public interface IPriceBaseService {
 
     TotalResponse<PriceBaseDTO.Info> search(NICICOCriteria criteria);
 
-    List<ElementDTO.PriceBase> getElementBasePrice(Integer year, Integer month, Long materialId);
+    List<ElementDTO.PriceBase> getElementBasePrices(Integer year, Integer month, Long materialId);
 }

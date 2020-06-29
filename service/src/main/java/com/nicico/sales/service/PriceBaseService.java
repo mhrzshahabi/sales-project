@@ -24,7 +24,7 @@ public class PriceBaseService extends GenericService<com.nicico.sales.model.enti
     private final MaterialElementDAO materialElementDAO;
 
     @Override
-    public List<ElementDTO.PriceBase> getElementBasePrice(Integer year, Integer month, Long materialId) {
+    public List<ElementDTO.PriceBase> getElementBasePrices(Integer year, Integer month, Long materialId) {
 
         List<MaterialElement> materialElements = materialElementDAO.findAllByMaterialId(materialId);
         List<Long> elementIds = materialElements.stream().map(MaterialElement::getElementId).collect(Collectors.toList());

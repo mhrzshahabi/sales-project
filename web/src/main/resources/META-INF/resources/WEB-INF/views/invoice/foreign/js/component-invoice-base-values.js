@@ -7,11 +7,20 @@ isc.defineClass("InvoiceBaseValues", isc.VLayout).addProperties({
     showEdges: false,
     layoutMargin: 2,
     membersMargin: 2,
+    contract: null,
     initWidget: function () {
 
         this.Super("initWidget", arguments);
-        this.addMember(isc.InvoiceBasePrice.create({}));
-        this.addMember(isc.InvoiceBaseAssay.create({}));
-        this.addMember(isc.InvoiceBaseWeight.create({}));
+
+        let This = this;
+        this.addMember(isc.InvoiceBasePrice.create({
+            contract: This.contract
+        }));
+        // this.addMember(isc.InvoiceBaseAssay.create({
+        //
+        // }));
+        // this.addMember(isc.InvoiceBaseWeight.create({
+        //
+        // }));
     }
 });
