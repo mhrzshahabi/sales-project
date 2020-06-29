@@ -2,8 +2,10 @@
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
-    <changeSet author="Reza Mazloom" id="mazloom_004">
-        <renameSequence newSequenceName="SEQ_WARH_MATERIAL_ELEMENT" oldSequenceName="SEQ_WARH_ITEM_ELEMENT"/>
+
+    <changeSet id="MShahabi" author="1799887766554-005">
+        <modifyDataType columnName="N_WEIGHT_G_W" newDataType="NUMBER(10, 5)" tableName="TBL_WEIGHING_INSPECTION"/>
+        <modifyDataType columnName="N_WEIGHT_N_D" newDataType="NUMBER(10, 5)" tableName="TBL_WEIGHING_INSPECTION"/>
     </changeSet>
 
 </databaseChangeLog>

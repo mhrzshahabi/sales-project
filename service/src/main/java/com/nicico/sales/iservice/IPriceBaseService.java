@@ -2,8 +2,8 @@ package com.nicico.sales.iservice;
 
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
+import com.nicico.sales.dto.ElementDTO;
 import com.nicico.sales.dto.PriceBaseDTO;
-import com.nicico.sales.model.entities.base.PriceBase;
 
 import java.util.List;
 
@@ -23,5 +23,5 @@ public interface IPriceBaseService {
 
     TotalResponse<PriceBaseDTO.Info> search(NICICOCriteria criteria);
 
-    List<PriceBase> findAllByPriceBaseMonth(Integer year, Integer month);
+    List<ElementDTO.PriceBase> getElementBasePrice(Integer year, Integer month, Long materialId);
 }
