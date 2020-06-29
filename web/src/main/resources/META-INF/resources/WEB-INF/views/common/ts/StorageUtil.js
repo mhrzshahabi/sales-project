@@ -17,25 +17,41 @@ class StorageUtil {
             allOptions[name] = option;
         try {
             Object.assign(allOptions[name], allOptions[name], option);
-        }
-        catch (e) {
+        } catch (e) {
             allOptions[name] = option;
         }
         localStorage.setItem(storage_name, JSON.stringify(allOptions));
     }
     ;
-    static get(name) {
-        name = name.toString();
+
+    static get(...args) {
         const storage_name = this._prefix;
         let allOptions = localStorage.getItem(storage_name);
         if (allOptions === null || allOptions === undefined)
             return null;
         const all = JSON.parse(allOptions);
         let result = all;
-        Object.values(arguments).forEach(k => result = result[k]);
+        args.forEach(k => result = result[k]);
         return result;
     }
     ;
+
+    static delete(...args) {
+        const storage_name = this._prefix;
+        let allOptions = localStorage.getItem(storage_name);
+        if (allOptions === null || allOptions === undefined)
+            return true;
+        const all = JSON.parse(allOptions);
+        try {
+            const forEval = 'delete all["' + args.join('"]["') + '"]';
+            eval(forEval);
+            localStorage.setItem(storage_name, JSON.stringify(all));
+            return true;
+        } catch (e) {
+            console.error('storageUtil delete error', e);
+            return false;
+        }
+    }
 }
 StorageUtil._prefix = 'sales';
 class SalesBaseParameters {
@@ -73,7 +89,7 @@ class SalesBaseParameters {
     }
     static getAllSavedParameter() {
         return {
-            'materialItel': this.materialItem,
+            'materialItem': this.materialItem,
             'unit': this.unit,
             'warehouse': this.warehouse
         };
@@ -105,11 +121,23 @@ class SalesBaseParameters {
             StorageUtil.save('parameters', params);
             this[parameter] = response;
             return response;
-        }
-        catch (e) {
+        } catch (e) {
             console.error('fetching parameter error', e);
             return false;
         }
+    }
+
+    static async deleteAllSavedParametersAndFetchAgain() {
+        StorageUtil.delete('parameters');
+        delete this.warehouse;
+        delete this.unit;
+        delete this.materialItem;
+        await this.getAllParameters();
+        return {
+            unit: this.unit,
+            warehouse: this.warehouse,
+            materialItem: this.materialItem
+        };
     }
 }
 SalesBaseParameters.rootUrl = document.URL.split("?")[0].slice(-1) === "/"
