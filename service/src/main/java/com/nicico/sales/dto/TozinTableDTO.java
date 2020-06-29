@@ -36,8 +36,7 @@ public class TozinTableDTO {
     @Setter
     @Accessors(chain = true)
     @ApiModel("TozinTableInfo")
-    public static class Info extends TozinTableDTO {
-
+    public static class InfoWithoutRemittanceDetail extends TozinTableDTO {
         private Long id;
 
 
@@ -51,6 +50,14 @@ public class TozinTableDTO {
         // BaseEntity
         private Boolean editable;
         private List<EStatus> eStatus;
+    }
+
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("TozinTableInfo")
+    public static class Info extends TozinTableDTO.InfoWithoutRemittanceDetail {
+        private RemittanceDetailDTO.Info remittanceDetail;
     }
 
     @Getter
