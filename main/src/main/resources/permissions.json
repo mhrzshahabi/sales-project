@@ -1415,6 +1415,23 @@
     {
       "code": "D_ELEMENT",
       "title": "حذف عنصر"
+    },
+
+    {
+      "code": "R_MATERIAL_ELEMENT",
+      "title": "نمایش عنصر محصول"
+    },
+    {
+      "code": "C_MATERIAL_ELEMENT",
+      "title": "ایجاد عنصر محصول"
+    },
+    {
+      "code": "U_MATERIAL_ELEMENT",
+      "title": "به روز رسانی عنصر محصول"
+    },
+    {
+      "code": "D_MATERIAL_ELEMENT",
+      "title": "حذف عنصر محصول"
     }
 
   ]
