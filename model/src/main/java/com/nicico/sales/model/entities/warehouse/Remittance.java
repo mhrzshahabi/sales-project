@@ -24,7 +24,7 @@ public class Remittance extends BaseEntity {
     private Long id;
 
     @NotNull
-    @Column(name = "C_CODE", nullable = false)
+    @Column(name = "C_CODE", nullable = false, unique = true)
     private String code;
 
     @OneToMany(mappedBy = "remittance", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)

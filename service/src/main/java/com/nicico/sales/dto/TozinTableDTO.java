@@ -24,6 +24,12 @@ public class TozinTableDTO {
     private String tozinDate;
     private Long sourceId;
     private Long targetId;
+    private Boolean isInView = true;
+    private Long vazn;
+    private String date;
+    private String ctrlDescOut;
+    private String plak;
+    private String driverName;
 
 
     @Getter

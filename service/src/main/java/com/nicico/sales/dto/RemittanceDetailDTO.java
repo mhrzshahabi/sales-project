@@ -1,9 +1,7 @@
 package com.nicico.sales.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.nicico.sales.model.entities.warehouse.RemittanceDetail;
 import com.nicico.sales.model.enumeration.EStatus;
-import com.nicico.sales.model.enumeration.InspectionRateValueType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -11,7 +9,6 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotNull;
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -24,6 +21,11 @@ public class RemittanceDetailDTO {
     private Long amount;
     private Long unitId;
     private Long remittanceId;
+    private Long depotId;
+    private String railPolompNo;
+    private String securityPolompNo;
+    private Long weight;
+
 
     @Getter
     @Setter
@@ -76,5 +78,22 @@ public class RemittanceDetailDTO {
         @NotNull
         @ApiModelProperty(required = true)
         private List<Long> ids;
+    }
+
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    public static class WithInventory extends RemittanceDetailDTO {
+        InventoryDTO.Create inventory;
+        TozinTableDTO.Create sourceTozin;
+        TozinTableDTO.Create destinationTozin;
+    }
+
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    public static class WithRemittanceAndInventory {
+        private RemittanceDTO.Create remittance;
+        private List<RemittanceDetailDTO.WithInventory> remittanceDetails;
     }
 }

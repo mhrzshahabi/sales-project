@@ -272,6 +272,8 @@ function onWayProductCreateRemittance() {
                         remittance: DynamicForm_warehouseCAD.getValues(),
                         remittanceDetails: []
                     };
+
+
                     remittanceDetail.forEach(a => {
                         a.packages.forEach(b => {
                             const inventory = {...b, materialItemId: a['codeKala']};
@@ -287,6 +289,8 @@ function onWayProductCreateRemittance() {
                             remittanceDetail['depotId'] = Number(dataForSave.remittance['depotId']);
                             remittanceDetail['destinationTozin'] = {...a['destTozin']};
                             remittanceDetail['sourceTozin'] = {...a};
+                            if (a['railPolompNo']) remittanceDetail['railPolompNo'] = a['railPolompNo'];
+                            if (a['securityPolompNo']) remittanceDetail['securityPolompNo'] = a['securityPolompNo'];
                             delete remittanceDetail['sourceTozin']['packages'];
                             delete remittanceDetail['sourceTozin']['destTozin'];
                             delete remittanceDetail['sourceTozin']['destTozinId'];
@@ -296,12 +300,18 @@ function onWayProductCreateRemittance() {
                         })
                     })
                     console.log('data for send', dataForSave)
-                    fetch('api/remittance', {
-                        headers: SalesConfigs.httpHeaders,
+                    fetch('api/remittance-detail/batch', {
+                        headers: {...SalesConfigs.httpHeaders, "content-type": "application/json;charset=UTF-8",},
                         method: "POST",
                         body: JSON.stringify(dataForSave)
                     }).then(r => {
-                        console.log(r)
+                        console.log('saved response', r)
+                        if (r.status === 201) {
+                            isc.say('عملیات با موفقیت انجام شد', () => {
+                                windowRemittance.hide()
+                            })
+                        }
+                        r.json().then(j => console.log('saved json response', j))
                     })
                 }
             })
@@ -663,7 +673,7 @@ function onWayProductCreateRemittance() {
                             const destTozin = grid_available_tozins.getData().find(g => g['tozinId'] === newValue);
                             if (newValue !== undefined && newValue !== null && newValue !== '' && destTozin) {
                                 record['destTozin'] = destTozin;
-                                console.log('updated destination Id', record, grid);
+                                // console.log('updated destination Id', record, grid);
                                 record['destTozinId'] = newValue;
                                 return true
                             } else {
@@ -678,22 +688,22 @@ function onWayProductCreateRemittance() {
                         name: "securityPolompNo",
                         canFilter: false,
                         title: 'شماره پلمپ حراست',
-                        /* editorExit (editCompletionEvent, record, newValue, rowNum, colNum, grid){
-                             if(newValue===undefined || newValue === null || newValue === ''){
-                                 isc.warn('شماره پلمپ حراست خالی می‌باشد');
-                                 // grid.startEditing(rowNum,colNum,true)
-                                 return false;
-                             }
+                        editorExit(editCompletionEvent, record, newValue, rowNum, colNum, grid) {
+                            record['securityPolompNo'] = newValue;
                             return true;
 
-                         }*/
+                        }
 
                     },
                     {
                         name: "railPolompNo",
                         title: 'شماره پلمپ راه‌آهن',
                         canFilter: false,
+                        editorExit(editCompletionEvent, record, newValue, rowNum, colNum, grid) {
+                            record['railPolompNo'] = newValue;
+                            return true;
 
+                        }
 
                         /* editorExit (editCompletionEvent, record, newValue, rowNum, colNum, grid){
                              if(newValue===undefined || newValue === null || newValue === ''){
@@ -750,7 +760,7 @@ function onWayProductCreateRemittance() {
             window[w].show()
         }
     });
-    isc.Window.create({
+    const windowRemittance = isc.Window.create({
         title: "<spring:message code='bijack'/> ",
         ID: "Window_BijackOnWayProduct",
         width: 1000,
@@ -811,7 +821,8 @@ function onWayProductCreateRemittance() {
                     })
                 ]
             })]
-    }).show();
+    });
+    windowRemittance.show();
     const destinationTozinCriteria = {
         operator: "and",
         criteria: [
