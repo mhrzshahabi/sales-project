@@ -23,7 +23,6 @@ class StorageUtil {
         localStorage.setItem(storage_name, JSON.stringify(allOptions));
     }
     ;
-
     static get(...args) {
         const storage_name = this._prefix;
         let allOptions = localStorage.getItem(storage_name);
@@ -35,7 +34,6 @@ class StorageUtil {
         return result;
     }
     ;
-
     static delete(...args) {
         const storage_name = this._prefix;
         let allOptions = localStorage.getItem(storage_name);
@@ -114,7 +112,7 @@ class SalesBaseParameters {
     }
     static async fetchAndSave(parameter) {
         try {
-            const rawResponse = await fetch(this.rootUrl + '/api/' + parameter + '/list', { headers: this.httpHeaders });
+            const rawResponse = await fetch(this.rootUrl + '/api/' + parameter + '/list', {headers: this.httpHeaders});
             const response = await rawResponse.json();
             const params = {};
             params[parameter] = response;
@@ -126,7 +124,6 @@ class SalesBaseParameters {
             return false;
         }
     }
-
     static async deleteAllSavedParametersAndFetchAgain() {
         StorageUtil.delete('parameters');
         delete this.warehouse;
