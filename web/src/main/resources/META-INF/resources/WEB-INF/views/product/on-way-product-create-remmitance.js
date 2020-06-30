@@ -318,9 +318,17 @@ function onWayProductCreateRemittance() {
                             isc.say('عملیات با موفقیت انجام شد', () => {
                                 windowRemittance.hide()
                             })
+                        } else {
+
+                            isc.say('مشکل در ذخیره اطلاعات. آیا اطلاعات تکرای فرستاده شده؟ شماره بیجک،توزین مبدا، توزین مقصد')
+
                         }
                         r.json().then(j => console.log('saved json response', j))
-                    })
+                    }).catch(
+                        reject => {
+                            isc.say('مشکل ارتباط')
+                        }
+                    )
                 }
             })
 
