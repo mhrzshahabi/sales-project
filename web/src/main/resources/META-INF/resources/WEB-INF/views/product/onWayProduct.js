@@ -40,7 +40,7 @@ const tozinLiteFields = [
     {
         name: "codeKala",
         type: "number",
-        filterEditorProperties: {editorType: "comboBox"},
+        // filterEditorProperties: {editorType: "comboBox"},
         valueMap: {11: 'كاتد صادراتي', 8: 'كنسانتره مس ', 97: 'اكسيد موليبدن'},
         title: "<spring:message code='Tozin.codeKala'/>",
         parseEditorValue: function (value, record, form, item) {
@@ -78,29 +78,44 @@ const tozinLiteFields = [
     {
         name: "sourceId",
         type: "number",
-        filterEditorProperties: {editorType: "comboBox"},
+        // filterEditorProperties: {editorType: "comboBox"},
         parseEditorValue: function (value, record, form, item) {
             StorageUtil.save('on_way_product_defaultSourceId', value)
             return value;
         },
         valueMap: SalesBaseParameters.getSavedWarehouseParameter().getValueMap("id", "name"),
+        valueMap: {
+            2421: 'ايستگاه قطار تبريز',
+            1540: 'مجتمع مس شهربابك -ميدوك ',
+            1541: 'مجتمع مس سونگون ',
+            1000: 'مجتمع مس سرچشمه',
+            1021: 'مجتمع مس شهربابك - خاتون آباد ',
+            2509: 'شركت هاي خصوصي وتابع ',
+            2555: 'اسكله شهيد رجائي ',
+        },
         title: "<spring:message code='Tozin.sourceId'/>",
         align: "center"
     },
     {
         name: "targetId",
         type: "number",
-        filterEditorProperties: {
-            editorType: "comboBox",
-            type: "number",
-            // defaultValue: StorageUtil.get('on_way_product_defaultTargetId')
-        },
+        // filterEditorProperties: {
+        //     editorType: "comboBox",
+        //     type: "number",
+        //     // defaultValue: StorageUtil.get('on_way_product_defaultTargetId')
+        // },
         parseEditorValue: function (value, record, form, item) {
             StorageUtil.save('on_way_product_defaultTargetId', value)
             return value;
         },
         filterOperator: "equals",
         valueMap: SalesBaseParameters.getSavedWarehouseParameter().getValueMap("id", "name"),
+
+        valueMap: {
+            2320: 'بندر شهيد رجايي، روبروي اسكله شانزده ،محوطه فلزات آلياژي شركت تايد واتر',
+            2340: 'بندر شهيد رجايي ، انبار كالا شماره 20',
+            2555: 'اسكله شهيد رجائي ',
+        },
         title: "<spring:message code='Tozin.targetId'/>",
         align: "center",
     },
