@@ -45,4 +45,26 @@
         <modifyDataType columnName="N_PRICE" newDataType="NUMBER(10, 5)" tableName="TBL_PRICE_BASE"/>
     </changeSet>
 
+    <!-- Add foreign key to TBL_UNIT and TBL_CURRENCY -->
+    <changeSet author="karimi (generated)" id="1593491220577-228">
+        <addColumn tableName="TBL_PRICE_BASE">
+            <column name="F_CURRENCY_ID" type="number(19, 0)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="karimi (generated)" id="1593491220577-229">
+        <addColumn tableName="TBL_PRICE_BASE">
+            <column name="F_UNIT_ID" type="number(19, 0)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="karimi (generated)" id="1593491220577-230">
+        <addForeignKeyConstraint baseColumnNames="F_CURRENCY_ID" baseTableName="TBL_PRICE_BASE" constraintName="fk_priceBase2CurrencyByCurrencyId" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_CURRENCY" validate="true"/>
+    </changeSet>
+    <changeSet author="karimi (generated)" id="1593491220577-231">
+        <addForeignKeyConstraint baseColumnNames="F_UNIT_ID" baseTableName="TBL_PRICE_BASE" constraintName="fk_priceBase2UnitByUnitId" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_UNIT" validate="true"/>
+    </changeSet>
+
 </databaseChangeLog>

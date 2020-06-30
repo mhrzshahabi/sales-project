@@ -8,8 +8,12 @@ isc.defineClass("Unit", isc.DynamicForm).addProperties({
     fieldValueTitle: "",
     disabledUnitField: false,
     disabledValueField: false,
-    showUnitFieldTitle: true,
+    disabledCurrencyField: false,
     showValueFieldTitle: true,
+    showUnitFieldTitle: false,
+    showCurrencyFieldTitle: false,
+    showUnitField: true,
+    showCurrencyField: true,
     initWidget: function () {
 
         this.Super("initWidget", arguments);
@@ -37,10 +41,41 @@ isc.defineClass("Unit", isc.DynamicForm).addProperties({
             type: 'long',
             width: "100%",
             autoFetchData: false,
+            name: "currencyId",
+            valueField: "id",
+            displayField: "symbol",
+            editorType: "SelectItem",
+            visible: This.showUnitField,
+            disabled: This.disabledCurrencyField,
+            showTitle: This.showCurrencyFieldTitle,
+            title: "<spring:message code='currency.title'/>",
+            pickListWidth: "400",
+            pickListHeight: "300",
+            optionDataSource: isc.MyRestDataSource.create({
+                fields: BaseFormItems.concat([
+                    {name: "id"},
+                    {name: "nameFa"},
+                    {name: "nameEn"},
+                    {name: "symbol"}
+                ]),
+                fetchDataURL: "${contextPath}" + "/api/currency/spec-list"
+            }),
+            pickListFields: [
+                {name: "id", title: "<spring:message code='global.id'/>"},
+                {name: "nameFa", title: "<spring:message code='currency.name.fa'/>"},
+                {name: "nameEn", title: "<spring:message code='currency.name.en'/>"},
+                {name: "symbol", title: "<spring:message code='currency.symbol'/>"}
+            ]
+        });
+        this.addField({
+            type: 'long',
+            width: "100%",
+            autoFetchData: false,
             name: "unitId",
             valueField: "id",
             displayField: "nameEN",
             editorType: "SelectItem",
+            visible: This.showCurrencyField,
             disabled: This.disabledUnitField,
             showTitle: This.showUnitFieldTitle,
             title: "<spring:message code='unit.title'/>",
@@ -76,10 +111,16 @@ isc.defineClass("Unit", isc.DynamicForm).addProperties({
     getUnitId: function () {
         this.getValue("unitId");
     },
+    getCurrencyId: function () {
+        this.getValue("currencyId");
+    },
     setValue: function (value) {
         this.setValue("value", value);
     },
     setUnitId: function (unitId) {
         this.setValue("unitId", unitId);
+    },
+    setCurrencyId: function (currencyId) {
+        this.setValue("currencyId", currencyId);
     }
 });

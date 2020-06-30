@@ -1,7 +1,6 @@
 package com.nicico.sales.service;
 
 import com.nicico.sales.dto.ElementDTO;
-import com.nicico.sales.dto.PriceBaseDTO;
 import com.nicico.sales.iservice.IPriceBaseService;
 import com.nicico.sales.model.entities.base.PriceBase;
 import com.nicico.sales.model.entities.warehouse.MaterialElement;
@@ -19,25 +18,28 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
-public class PriceBaseService extends GenericService<com.nicico.sales.model.entities.base.PriceBase, Long, PriceBaseDTO.Create, PriceBaseDTO.Info, PriceBaseDTO.Update, PriceBaseDTO.Delete> implements IPriceBaseService {
+public class PriceBaseService extends GenericService<com.nicico.sales.model.entities.base.PriceBase, Long, com.nicico.sales.dto.PriceBaseDTO.Create, com.nicico.sales.dto.PriceBaseDTO.Info, com.nicico.sales.dto.PriceBaseDTO.Update, com.nicico.sales.dto.PriceBaseDTO.Delete> implements IPriceBaseService {
 
     private final MaterialElementDAO materialElementDAO;
 
     @Override
-    public List<ElementDTO.PriceBase> getElementBasePrices(Integer year, Integer month, Long materialId) {
+    public List<ElementDTO.ElementPriceBaseDTO> getElementBasePrices(Integer year, Integer month, Long materialId) {
 
         List<MaterialElement> materialElements = materialElementDAO.findAllByMaterialId(materialId);
         List<Long> elementIds = materialElements.stream().map(MaterialElement::getElementId).collect(Collectors.toList());
 
         List<PriceBase> prices = ((PriceBaseDAO) repository).getAllPricesByElements(year, month, elementIds);
-        Collection<ElementDTO.PriceBase> groups = prices.stream().collect(Collectors.groupingBy(PriceBase::getElementId, Collectors.collectingAndThen(Collectors.toList(), q -> {
+        Collection<ElementDTO.ElementPriceBaseDTO> groups = prices.stream().collect(Collectors.groupingBy(PriceBase::getElementId, Collectors.collectingAndThen(Collectors.toList(), q -> {
 
             if (q.size() == 0)
-                return new ElementDTO.PriceBase();
+                return new ElementDTO.ElementPriceBaseDTO();
 
             BigDecimal averagePrice = q.stream().map(PriceBase::getPrice).reduce(BigDecimal.ZERO, BigDecimal::add).divide(BigDecimal.valueOf(q.size()), RoundingMode.HALF_EVEN);
-            ElementDTO.PriceBase result = modelMapper.map(q.get(0).getElement(), ElementDTO.PriceBase.class);
+            ElementDTO.ElementPriceBaseDTO result = modelMapper.map(q.get(0).getElement(), ElementDTO.ElementPriceBaseDTO.class);
             result.setPrice(averagePrice);
+            result.setUnit(q.get(0).getUnit());
+            result.setCurrency(q.get(0).getCurrency());
+
             return result;
         }))).values();
 

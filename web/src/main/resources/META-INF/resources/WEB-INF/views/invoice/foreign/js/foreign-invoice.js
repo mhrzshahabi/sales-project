@@ -326,6 +326,9 @@ foreignInvoiceTab.button.save = isc.IButtonSave.create({
         foreignInvoiceTab.dynamicForm.valuesManager.setValue(
             'contract',
             foreignInvoiceTab.dynamicForm.baseData.getField('contractId').getSelectedRecord());
+        foreignInvoiceTab.dynamicForm.valuesManager.setValue(
+            'shipment',
+            foreignInvoiceTab.dynamicForm.baseData.getField('shipmentId').getSelectedRecord());
 
         foreignInvoiceTab.method.addTab(isc.InvoiceBaseInfo.create({
 
@@ -336,7 +339,7 @@ foreignInvoiceTab.button.save = isc.IButtonSave.create({
             invoiceType: foreignInvoiceTab.dynamicForm.valuesManager.getValue('invoiceType'),
         }), '<spring:message code="foreign-invoice.form.tab.contract-info"/>');
 
-        if (__contract.getMaterial(foreignInvoiceTab.dynamicForm.valuesManager.getValue('contract')).id === ImportantIDs.MOLYBDENUM_OXIDE) {
+        if (__contract.getMaterial(foreignInvoiceTab.dynamicForm.valuesManager.getValue('contract')).id === ImportantIDs.material.MOLYBDENUM_OXIDE) {
 
             // foreignInvoiceTab.method.addTab(isc.InvoiceCalculation.create({
             //
@@ -345,7 +348,9 @@ foreignInvoiceTab.button.save = isc.IButtonSave.create({
 
             foreignInvoiceTab.method.addTab(isc.InvoiceBaseValues.create({
 
-                contract: foreignInvoiceTab.dynamicForm.valuesManager.getValue("contract")
+                contract: foreignInvoiceTab.dynamicForm.valuesManager.getValue("contract"),
+                shipment: foreignInvoiceTab.dynamicForm.valuesManager.getValue("shipment"),
+                invoiceType: foreignInvoiceTab.dynamicForm.valuesManager.getValue("invoiceType")
             }), '<spring:message code="foreign-invoice.form.tab.base-values"/>');
             // foreignInvoiceTab.method.addTab(isc.InvoiceCalculation.create({}), '<spring:message code="foreign-invoice.form.tab.calculation"/>');
             // foreignInvoiceTab.method.addTab(isc.InvoiceDeduction.create({}), '<spring:message code="foreign-invoice.form.tab.deduction"/>');
@@ -414,7 +419,7 @@ foreignInvoiceTab.window.main = isc.Window.nicico.getDefault('<spring:message co
 foreignInvoiceTab.tab.invoice = isc.TabSet.create({
 
     width: "100%",
-    height: "800",
+    height: "500",
     autoDraw: true,
     showEdges: false,
     edgeMarginSize: 3,

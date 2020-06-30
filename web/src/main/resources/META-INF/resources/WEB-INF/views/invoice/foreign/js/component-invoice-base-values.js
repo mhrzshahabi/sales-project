@@ -8,19 +8,29 @@ isc.defineClass("InvoiceBaseValues", isc.VLayout).addProperties({
     layoutMargin: 2,
     membersMargin: 2,
     contract: null,
+    shipment: null,
+    invoiceType: null,
     initWidget: function () {
 
         this.Super("initWidget", arguments);
 
         let This = this;
-        this.addMember(isc.InvoiceBasePrice.create({
-            contract: This.contract
-        }));
-        // this.addMember(isc.InvoiceBaseAssay.create({
-        //
-        // }));
-        // this.addMember(isc.InvoiceBaseWeight.create({
-        //
-        // }));
+
+        if (this.invoiceType.id === ImportantIDs.invoiceType.FINAL) {
+
+            this.addMember(isc.InvoiceBasePrice.create({
+
+                contract: This.contract,
+                shipment: This.shipment
+            }));
+            // this.addMember(isc.InvoiceBaseAssay.create({
+            //
+            // }));
+            // this.addMember(isc.InvoiceBaseWeight.create({
+            //
+            // }));
+        } else {
+
+        }
     }
 });

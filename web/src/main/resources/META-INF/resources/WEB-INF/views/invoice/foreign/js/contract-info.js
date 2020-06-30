@@ -21,8 +21,13 @@ __contract.getContractYear = function (contract) {
     // Year of MOAS+x
     return 2020;
 };
-__contract.getContractMonth = function (contract) {
+__contract.getContractMOASValue = function (contract) {
 
-    // Month of MOAS+x
-    return 5 + 2;
+    // Month of actual shipment plus
+    return 2;
+};
+__contract.getShipmentMonthNo = function (shipment) {
+
+    // Month of actual shipment plus
+    return DateUtil.getMonthNames().indexOf(shipment.month) + 1;
 };

@@ -92,10 +92,16 @@
     <%@include file="common/ts/StorageUtil.js"%>
 
     var ImportantIDs = {
-
-        MOLYBDENUM_OXIDE: 1,
-        COPPER_CATHOD: 2,
-        COPPER_CONCENTRATES: 3
+        material: {
+            MOLYBDENUM_OXIDE: 1,
+            COPPER_CATHOD: 2,
+            COPPER_CONCENTRATES: 3
+        },
+        invoiceType: {
+            PERFORMA: 1,
+            PROVISIONAL: 2,
+            FINAL: 3
+        }
     }
     var BaseRPCRequest = {
         httpHeaders: {"Authorization": "Bearer <%= accessToken %>"},
