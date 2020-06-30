@@ -394,9 +394,9 @@ function mainOnWayProduct() {
             pdf.setValue("criteria", criteria);
             pdf.setValue("type", "pdf");
 
-
-            pdf.setValue("dateaval", ListGrid_Tozin_IN_ONWAYPRODUCT.getFilterEditorCriteria()
-                .criteria.find(c => c.fieldName === 'date').value);
+            const dateaval = ListGrid_Tozin_IN_ONWAYPRODUCT.getFilterEditorCriteria().criteria.find(c => c.fieldName === 'date').value
+            pdf.setValue("dateaval", (dateaval.substr(0, 4)
+                + "/" + dateaval.substr(4, 2) + "/" + dateaval.substr(-2)));
             pdf.setValue("datedovom", new persianDate().format('YYYY/MM/DD'));
             pdf.setValue("kala", SalesBaseParameters.getSavedMaterialItemParameter().find(
                 sp => sp.id === ListGrid_Tozin_IN_ONWAYPRODUCT.getFilterEditorCriteria()
@@ -404,7 +404,7 @@ function mainOnWayProduct() {
             )['gdsName']);
             pdf.setValue("tolid", SalesBaseParameters.getSavedWarehouseParameter().find(
                 sp => sp.id === ListGrid_Tozin_IN_ONWAYPRODUCT.getFilterEditorCriteria()
-                    .criteria.find(c => c.fieldName === 'targetId').value
+                    .criteria.find(c => c.fieldName === 'sourceId').value
             )['name']);
 
             console.log(pdf.getValues());
