@@ -1230,7 +1230,9 @@
         }
     }
 
-    SalesBaseParameters.getAllParameters();
+
+    SalesBaseParameters.deleteAllSavedParametersAndFetchAgain();
+
 </script>
 </body>
 </html>
