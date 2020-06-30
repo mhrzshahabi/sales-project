@@ -446,6 +446,7 @@ function mainOnWayProduct() {
                 members: [
                     isc.ToolStripButtonRefresh.create({
                         title: "<spring:message code='global.form.refresh'/> پارامترها",
+                        visibility: "hidden",
                         click: function () {
                             SalesBaseParameters.getAllParameters(true).then(
                                 res => {
