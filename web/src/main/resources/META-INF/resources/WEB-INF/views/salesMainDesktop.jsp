@@ -1163,7 +1163,7 @@
             InvoiceExportRest: "${contextPath}" + "/rest",
             remittanceRest: "${contextPath}" + "/rest",
         },
-        httpHeaders: {"Authorization": "Bearer <%= accessToken %>"},
+        httpHeaders: {"Authorization": "Bearer <%= accessToken %>", "content-type": "application/json"},
         userFullName: '<%= SecurityUtil.getFullName()%>',
     }
     isc.FilterBuilder.addProperties({

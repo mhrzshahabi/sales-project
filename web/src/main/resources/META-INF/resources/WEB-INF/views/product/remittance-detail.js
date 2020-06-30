@@ -295,6 +295,7 @@ const rdTab = {
             fetch(url, {
                 method: method,
                 headers: httpHeaders,
+
                 body: data,
             }).then(response => {
                 defaultResponse(response);
@@ -638,9 +639,48 @@ const rdTab = {
     Log: {},
 };
 ////////////////////////////////////////////////////////METHODS/////////////////////////////////////////////////////////
-rdTab.Methods.RemittanceRecordDoubleClick = function (viewer, record, recordNum, field, fieldNum, value, rawValue) {
-    rdTab.DynamicForms.Forms.Remittance.obj.setValues(record.remittance);
-    rdTab.Layouts.Window.Remittance.show();
+rdTab.Methods.RecordDoubleClick = function (url, items, recordString, viewer, record, recordNum, field, fieldNum, value, rawValue) {
+    let form;
+    const window1 = isc.Window.create({
+        width: .2 * window.innerWidth,
+        height: .2 * window.innerHeight,
+        autoSize: true,
+        autoCenter: true,
+        isModal: true,
+        align: "center",
+        autoDraw: false,
+        canDragReposition: false,
+        dismissOnEscape: true,
+
+    });
+    window1.setMembers(
+        [isc.VLayout.create({
+            members: [
+                form = isc.DynamicForm.create({
+                    items: items,
+                }),
+                rdTab.Methods.HlayoutSaveOrExit(function () {
+                    const values = form.getValues();
+                    rdTab.Methods.Save(values,
+                        url,
+                        () => {
+                            rdTab.Grids.RemittanceDetailLG.obj.invalidateCache();
+                            window1.close()
+                        }
+                    )
+                }, window1)
+            ]
+        })]
+    );
+    if (recordString) form.setValues(record[recordString]);
+    else form.setValues(record);
+    window1.show();
+}
+rdTab.Methods.RecordDoubleClickRD = function () {
+    rdTab.Methods.RecordDoubleClick("api/remittance-detail", rdTab.Fields.RemittanceDetailFields.map(t => {
+        if (t.name !== 'id') t.hidden = false;
+        return t;
+    }), null, ...arguments)
 }
 ////////////////////////////////////////////////////////FIELDS//////////////////////////////////////////////////////////
 rdTab.Fields.RemittanceDetailFields = [
@@ -652,86 +692,132 @@ rdTab.Fields.RemittanceDetailFields = [
         valueMap: SalesBaseParameters.getSavedUnitParameter().getValueMap('id', 'nameFA'),
         type: "number",
         title: "واحد",
+        recordDoubleClick: rdTab.Methods.RecordDoubleClickRD,
+
 
     },
     {
         name: "amount",
         title: "تعداد محصول",
+        recordDoubleClick: rdTab.Methods.RecordDoubleClickRD,
+
+
     },
     {
         name: "weight",
         title: "وزن",
+        recordDoubleClick: rdTab.Methods.RecordDoubleClickRD,
+
+
     },
     {
         name: "securityPolompNo",
         title: "پلمپ حراست",
+        recordDoubleClick: rdTab.Methods.RecordDoubleClickRD,
+
+
     },
     {
         name: "railPolompNo",
         title: "پلمپ راه‌آهن",
+        recordDoubleClick: rdTab.Methods.RecordDoubleClickRD,
+
+
     },
     {
         name: "description",
         title: "توضیحات",
+        recordDoubleClick: rdTab.Methods.RecordDoubleClickRD,
+
+
     },
 ];
 rdTab.Fields.RemittanceDetailFullFields = [
     {
         name: "remittance.code", title: "شماره بیجک"
-        , recordDoubleClick: rdTab.Methods.RemittanceRecordDoubleClick
+        , recordDoubleClick: function (viewer, record, recordNum, field, fieldNum, value, rawValue) {
+            rdTab.Methods.RecordDoubleClick('api/remittance', rdTab.Fields.Remittance, "remittance",
+                viewer, record, recordNum, field, fieldNum, value, rawValue)
+        }
     },
     ...rdTab.Fields.RemittanceDetailFields,
     {
         name: "remittance.description",
         title: "توضیحات بیجک",
+        recordDoubleClick() {
+            rdTab.Methods.RecordDoubleClick("api/remittance", rdTab.Fields.Remittance, 'remittance', ...arguments)
+        }
+
     },
     {
         name: "sourceTozin.tozinId",
         title: "توزین مبدا",
+        recordDoubleClick: rdTab.Methods.RecordDoubleClickRD,
+
     },
     {
         name: "destinationTozin.tozinId",
         title: "توزین مقصد",
+        recordDoubleClick: rdTab.Methods.RecordDoubleClickRD,
+
     },
     {
         name: "inventory.label",
         title: "سریال محصول",
+        recordDoubleClick: function (viewer, record, recordNum, field, fieldNum, value, rawValue) {
+            rdTab.Methods.RecordDoubleClick('api/inventory', rdTab.Fields.Inventory, "inventory",
+                viewer, record, recordNum, field, fieldNum, value, rawValue)
+        }
     },
     {
         name: "inventory.materialItem.id",
         valueMap: SalesBaseParameters.getSavedMaterialItemParameter().getValueMap("id", "gdsName"),
         type: "number",
         title: "محصول",
+        recordDoubleClick: function (viewer, record, recordNum, field, fieldNum, value, rawValue) {
+            rdTab.Methods.RecordDoubleClick('api/inventory', rdTab.Fields.Inventory, "inventory",
+                viewer, record, recordNum, field, fieldNum, value, rawValue)
+        }
+
 
     },
     {
         name: "destinationTozin.sourceId",
         valueMap: SalesBaseParameters.getSavedWarehouseParameter().getValueMap("id", "name"),
         title: "مبدا",
+        recordDoubleClick: rdTab.Methods.RecordDoubleClickRD,
+
 
     },
     {
         name: "destinationTozin.date",
         title: "تاریخ توزین مقصد",
+        recordDoubleClick: rdTab.Methods.RecordDoubleClickRD,
+
 
     },
     {
         name: "destinationTozin.targetId",
         valueMap: SalesBaseParameters.getSavedWarehouseParameter().getValueMap("id", "name"),
         title: "مقصد",
+        recordDoubleClick: rdTab.Methods.RecordDoubleClickRD,
+
 
     },
 ];
 rdTab.Fields.Remittance = [
-
     {name: 'code', title: "شماره بیجک"},
     {name: 'description', title: "شرح"},
     {name: 'id', title: "شناسه", hidden: true,},
 ];
 rdTab.Fields.Inventory = [
-    {fieldName: 'materialItemId', title: 'محصول'},
-    {fieldName: 'label', title: 'سریال محصول'},
-    {fieldName: 'id', title: 'شناسه'},
+    {
+        name: 'materialItemId',
+        valueMap: SalesBaseParameters.getSavedMaterialItemParameter().getValueMap("id", "gdsName")
+        , title: 'محصول'
+    },
+    {name: 'label', title: 'سریال محصول'},
+    {name: 'id', title: 'شناسه', hidden: true,},
 ];
 ////////////////////////////////////////////////////////DS//////////////////////////////////////////////////////////////
 rdTab.RestDataSources.RemittanceDetailDS = {
@@ -754,39 +840,11 @@ rdTab.Grids.RemittanceDetailLG = {
     allowAdvancedCriteria: true,
     groupByField: "remittance.code",
     dataSource: rdTab.RestDataSources.RemittanceDetailDS,
-    autoFetchData: true
+    autoFetchData: true,
 }
-
-
 ////////////////////////////////////////////////////////ToolStripButton/////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////COMPONENT HOLDERS///////////////////////////////////////////////
-rdTab.Layouts.Window.Remittance = isc.Window.create({
-    width: .2 * window.innerWidth,
-    height: .2 * window.innerHeight,
-    autoSize: true,
-    autoCenter: true,
-    isModal: true,
-    align: "center",
-    autoDraw: false,
-    canDragReposition: false,
-    dismissOnEscape: true,
-    members: [isc.VLayout.create({
-        members: [
-            rdTab.DynamicForms.Forms.Remittance.obj = isc.DynamicForm.create(rdTab.DynamicForms.Forms.Remittance),
-            rdTab.Methods.HlayoutSaveOrExit(function () {
-                const values = rdTab.DynamicForms.Forms.Remittance.obj.getValues();
-                console.log('values ', values);
-                rdTab.Methods.Save(values,
-                    "sales/api/remittance",
-                    () => {
-                        console.log(arguments)
-                    }
-                )
-            }, rdTab.Layouts.Window.Remittance)
-        ]
-    })]
-});
 isc.VLayout.create({
     members: [
         isc.ToolStrip.create({
@@ -796,10 +854,9 @@ isc.VLayout.create({
                     align: "left",
                     border: '0px',
                     members: [
-
                         isc.ToolStripButtonRefresh.create({
                             click() {
-                                window[rdTab.Grids.RemittanceDetailLG['ID']].invalidateCache()
+                                rdTab.Grids.RemittanceDetailLG.obj.invalidateCache()
                             }
                         })
                     ]
@@ -812,5 +869,4 @@ isc.VLayout.create({
         })
     ]
 })
-rdTab.Layouts.Window.Remittance.hide();
-console.log("rdTab = ", rdTab);
+console.debug("rdTab = ", rdTab);
