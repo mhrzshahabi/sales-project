@@ -28,8 +28,8 @@ import java.util.Map;
 
 @RequiredArgsConstructor
 @Controller
-@RequestMapping("/warehouseCad")
-public class WarehouseCadFormController {
+@RequestMapping("/remittance-detail")
+public class RemittanceDetailFormController {
 
     private final SpecListUtil specListUtil;
     private final IWarehouseCadService iWarehouseCadService;
@@ -40,7 +40,7 @@ public class WarehouseCadFormController {
 
     @RequestMapping("/showForm")
     public String showWarehouseCad() {
-        return "product/warehouseCad";
+        return "product/remittance-detail";
     }
 
     @RequestMapping("/showWarehouseCadForm")

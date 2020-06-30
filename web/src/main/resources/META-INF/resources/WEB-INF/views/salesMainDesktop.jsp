@@ -900,7 +900,7 @@
                 {
                     title: "<spring:message code='bijack'/>",
                     click: function () {
-                        createTab("<spring:message code='bijack'/>", "<spring:url value="/warehouseCad/showForm" />")
+                        createTab("<spring:message code='bijack'/>", "<spring:url value="/remittance-detail/showForm" />")
                     }
                 },
                 {isSeparator: true},
