@@ -588,9 +588,9 @@
                         },
                         {isSeparator: true},
                         {
-                            title: "<spring:message code='exchangeRate.title'/>",
+                            title: "<spring:message code='currencyRate.title'/>",
                             click: function () {
-                                createTab("<spring:message code='exchangeRate.title'/>", "<spring:url value="/currencyRate/showForm" />")
+                                createTab("<spring:message code='currencyRate.title'/>", "<spring:url value="/currencyRate/showForm" />")
                             }
                         },
                         {isSeparator: true},
