@@ -24,10 +24,9 @@ public class InventoryDTO {
     @Getter
     @Setter
     @Accessors(chain = true)
-    public static class Info extends InventoryDTO {
+    public static class InfoWithoutRemittanceDetail extends InventoryDTO {
         private Long id;
         private MaterialItemDTO.Info materialItem;
-        private List<RemittanceDetailDTO.Info> remittanceDetails;
         // Auditing
         private Date createdDate;
         private String createdBy;
@@ -37,6 +36,14 @@ public class InventoryDTO {
         // BaseEntity
         private Boolean editable;
         private List<EStatus> eStatus;
+    }
+
+
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    public static class Info extends InventoryDTO.InfoWithoutRemittanceDetail {
+        private List<RemittanceDetailDTO.Info> remittanceDetails;
     }
 
 

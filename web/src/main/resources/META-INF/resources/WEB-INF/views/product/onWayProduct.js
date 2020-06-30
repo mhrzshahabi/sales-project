@@ -421,6 +421,7 @@ function mainOnWayProduct() {
         icon: "icon/search.png",
         click: function () {
             const filterEditorCriteria = ListGrid_Tozin_IN_ONWAYPRODUCT.getFilterEditorCriteria();
+            filterEditorCriteria.criteria.add({"fieldName": "tozinId", "operator": "iNotStartsWith", "value": "3-"})
             ListGrid_Tozin_IN_ONWAYPRODUCT.fetchData(filterEditorCriteria)
         }
     });

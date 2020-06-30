@@ -25,6 +25,7 @@ public class RemittanceDetailDTO {
     private String railPolompNo;
     private String securityPolompNo;
     private Long weight;
+    private String description;
 
 
     @Getter
@@ -35,6 +36,10 @@ public class RemittanceDetailDTO {
 
         private Long id;
         private UnitDTO.Info unit;
+        private RemittanceDTO.InfoWithoutRemittanceDetail remittance;
+        private TozinTableDTO.InfoWithoutRemittanceDetail sourceTozin;
+        private TozinTableDTO.InfoWithoutRemittanceDetail destinationTozin;
+        private InventoryDTO.InfoWithoutRemittanceDetail inventory;
 //        private Remittance remittance;
 
 

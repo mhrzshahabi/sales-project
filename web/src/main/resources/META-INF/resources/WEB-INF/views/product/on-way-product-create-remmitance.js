@@ -857,16 +857,16 @@ function onWayProductCreateRemittance() {
                 operator: "equals",
                 value: selectedSourceTozins[0]['codeKala']
             },
-            {
-                fieldName: "sourceId",
-                operator: "equals",
-                value: selectedSourceTozins[0]['sourceId']
-            },
-            {
-                fieldName: "targetId",
-                operator: "equals",
-                value: selectedSourceTozins[0]['targetId']
-            },
+            // {
+            //     fieldName: "sourceId",
+            //     operator: "equals",
+            //     value: selectedSourceTozins[0]['sourceId']
+            // },
+            // {
+            //     fieldName: "targetId",
+            //     operator: "equals",
+            //     value: selectedSourceTozins[0]['targetId']
+            // },
 
         ]
     }
