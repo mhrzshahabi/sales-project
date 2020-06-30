@@ -21,7 +21,6 @@ public class MaterialElementDTO {
     private Long materialId;
     private Long elementId;
 
-
     @Getter
     @Setter
     @Accessors(chain = true)
@@ -31,7 +30,6 @@ public class MaterialElementDTO {
         private Long id;
         private MaterialDTO.Info material;
         private ElementDTO.Info element;
-
 
         // Auditing
         private Date createdDate;

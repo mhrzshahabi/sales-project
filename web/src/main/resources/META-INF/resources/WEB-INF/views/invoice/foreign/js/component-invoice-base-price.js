@@ -16,11 +16,16 @@ isc.defineClass("InvoiceBasePrice", isc.VLayout).addProperties({
         let This = this;
         let contartYear = __contract.getContractYear(This.contract);
         let contartMonth = __contract.getContractMonth(This.contract);
+        let finalPriceBaseText = __contract.getFinalPriceBaseText(This.contract);
 
         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-            params: "",
+            params: {
+                year: contartYear,
+                month: contartMonth,
+                materialId: __contract.getMaterial(This.contract).id
+            },
             httpMethod: "GET",
-            actionURL: "${contextPath}/api/LME/get-base-price",
+            actionURL: "${contextPath}/api/price-base/get-base-price",
             callback: function (resp) {
 
                 let response = JSON.parse(resp.data);

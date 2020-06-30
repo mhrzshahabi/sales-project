@@ -3,6 +3,17 @@
                    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
     <changeSet author="abouzar" id="abouzar_006">
-                 <dropColumn tableName="TBL_WARH_REMITTANCE" columnName="F_SOURCE_WAREHOUSE_ID"/>
+        <dropColumn tableName="TBL_WARH_REMITTANCE" columnName="F_SOURCE_WAREHOUSE_ID"/>
+    </changeSet>
+    <changeSet author="saeb (generated)" id="saeb1593328809743-226">
+        <addColumn tableName="TBL_WARH_REMITTANCE">
+            <column name="C_DESCRIPTION" type="varchar2(1000 CHAR)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="saeb (generated)" id="saeb1593328809743-263">
+        <dropColumn columnName="RAIL_POLOMP_NO" tableName="TBL_WARH_REMITTANCE"/>
+    </changeSet>
+    <changeSet author="saeb (generated)" id="saeb1593328809743-264">
+        <dropColumn columnName="SECURITY_POLOMP_NO" tableName="TBL_WARH_REMITTANCE"/>
     </changeSet>
 </databaseChangeLog>

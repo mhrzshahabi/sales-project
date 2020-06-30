@@ -3,6 +3,7 @@ package com.nicico.sales.controller;
 import com.nicico.copper.common.Loggable;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
+import com.nicico.sales.dto.ElementDTO;
 import com.nicico.sales.dto.PriceBaseDTO;
 import com.nicico.sales.iservice.IPriceBaseService;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.util.List;
 
-
 @Slf4j
 @RequiredArgsConstructor
 @RestController
@@ -24,36 +24,36 @@ import java.util.List;
 
 public class PriceBaseRestController {
 
-    private final IPriceBaseService iPriceBaseService;
+    private final IPriceBaseService priceBaseService;
 
     @Loggable
     @GetMapping(value = "/{id}")
     public ResponseEntity<PriceBaseDTO.Info> get(@PathVariable Long id) {
-        return new ResponseEntity<>(iPriceBaseService.get(id), HttpStatus.OK);
+        return new ResponseEntity<>(priceBaseService.get(id), HttpStatus.OK);
     }
 
     @Loggable
     @GetMapping(value = "/list")
     public ResponseEntity<List<PriceBaseDTO.Info>> list() {
-        return new ResponseEntity<>(iPriceBaseService.list(), HttpStatus.OK);
+        return new ResponseEntity<>(priceBaseService.list(), HttpStatus.OK);
     }
 
     @Loggable
     @PostMapping
     public ResponseEntity<PriceBaseDTO.Info> create(@Validated @RequestBody PriceBaseDTO.Create request) {
-        return new ResponseEntity<>(iPriceBaseService.create(request), HttpStatus.CREATED);
+        return new ResponseEntity<>(priceBaseService.create(request), HttpStatus.CREATED);
     }
 
     @Loggable
     @PutMapping
     public ResponseEntity<PriceBaseDTO.Info> update(@RequestBody PriceBaseDTO.Update request) {
-        return new ResponseEntity<>(iPriceBaseService.update(request.getId(), request), HttpStatus.OK);
+        return new ResponseEntity<>(priceBaseService.update(request.getId(), request), HttpStatus.OK);
     }
 
     @Loggable
     @DeleteMapping(value = "/{id}")
     public ResponseEntity delete(@PathVariable Long id) {
-        iPriceBaseService.delete(id);
+        priceBaseService.delete(id);
         return new ResponseEntity(HttpStatus.OK);
     }
 
@@ -61,6 +61,13 @@ public class PriceBaseRestController {
     @GetMapping(value = "/spec-list")
     public ResponseEntity<TotalResponse<PriceBaseDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) throws IOException {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
-        return new ResponseEntity<>(iPriceBaseService.search(nicicoCriteria), HttpStatus.OK);
+        return new ResponseEntity<>(priceBaseService.search(nicicoCriteria), HttpStatus.OK);
+    }
+
+    @Loggable
+    @GetMapping(value = "/get-base-price")
+    public ResponseEntity<List<ElementDTO.PriceBase>> getBasePrice(@RequestParam Integer year, @RequestParam Integer month, @RequestParam Long materialId) {
+
+        return new ResponseEntity<>(priceBaseService.getElementBasePrice(year, month, materialId), HttpStatus.OK);
     }
 }

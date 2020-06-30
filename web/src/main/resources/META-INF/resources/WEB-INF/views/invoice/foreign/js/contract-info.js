@@ -2,6 +2,7 @@ let __contract = {};
 
 __contract.nameOfNumberProperty = "no";
 __contract.url = "${contextPath}" + "/api/g-contract/";
+
 __contract.getBuyer = function (contract) {
 
     // contract.contractContacts.filter(q => q.buyer).first()
@@ -9,20 +10,21 @@ __contract.getBuyer = function (contract) {
 };
 __contract.getMaterial = function (contract) {
 
-    return contract.material;
+    return {descl: "CATHOD KHOSHGELE"};
 };
 __contract.getDeliveryTerm = function (contract) {
 
-    // contract.contractContacts.filter(q => q.buyer).first()
     return {rule: "FOB", version: "2010"};
 };
 __contract.getContractYear = function (contract) {
 
-    // contract.contractContacts.filter(q => q.buyer).first()
     return 2020;
 };
 __contract.getContractMonth = function (contract) {
 
-    // contract.contractContacts.filter(q => q.buyer).first()
     return 2;
+};
+__contract.getFinalPriceBaseText = function (contract) {
+
+    return 'AVERAGE MAY 2017 (MOAS+2)';
 };

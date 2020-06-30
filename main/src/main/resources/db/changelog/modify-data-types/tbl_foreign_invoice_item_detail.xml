@@ -1,0 +1,31 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+    <!-- Modify Data Type -->
+    <changeSet author="karimi" id="ModifyDataType-Foreign-Invoice-Item-Detail-001">
+        <modifyDataType tableName="TBL_FOREIGN_INVOICE_ITEM_DETAIL" columnName="N_ASSAY" newDataType="NUMBER(12, 5)"/>
+    </changeSet>
+    <changeSet author="karimi" id="ModifyDataType-Foreign-Invoice-Item-Detail-002">
+        <modifyDataType tableName="TBL_FOREIGN_INVOICE_ITEM_DETAIL" columnName="N_RC_PRICE"
+                        newDataType="NUMBER(10, 2)"/>
+    </changeSet>
+    <changeSet author="karimi" id="ModifyDataType-Foreign-Invoice-Item-Detail-003">
+        <modifyDataType tableName="TBL_FOREIGN_INVOICE_ITEM_DETAIL" columnName="N_BASE_PRICE"
+                        newDataType="NUMBER(10, 2)"/>
+    </changeSet>
+    <changeSet author="karimi" id="ModifyDataType-Foreign-Invoice-Item-Detail-004">
+        <modifyDataType tableName="TBL_FOREIGN_INVOICE_ITEM_DETAIL" columnName="N_RC_BASE_PRICE"
+                        newDataType="NUMBER(10, 2)"/>
+    </changeSet>
+    <changeSet author="karimi" id="ModifyDataType-Foreign-Invoice-Item-Detail-005">
+        <modifyDataType tableName="TBL_FOREIGN_INVOICE_ITEM_DETAIL" columnName="N_DEDUCTION_VALUE"
+                        newDataType="NUMBER(12, 5)"/>
+    </changeSet>
+    <changeSet author="karimi" id="ModifyDataType-Foreign-Invoice-Item-Detail-006">
+        <modifyDataType tableName="TBL_FOREIGN_INVOICE_ITEM_DETAIL" columnName="N_DEDUCTION_PRICE"
+                        newDataType="NUMBER(10, 2)"/>
+    </changeSet>
+
+</databaseChangeLog>

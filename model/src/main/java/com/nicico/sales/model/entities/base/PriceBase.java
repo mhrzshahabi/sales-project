@@ -40,7 +40,7 @@ public class PriceBase extends BaseEntity {
     @Column(name = "N_PRICE_BASE_REFERENCE")
     private PriceBaseReference priceBaseReference;
 
-    @Column(name = "N_PRICE", precision = 5, scale = 10)
+    @Column(name = "N_PRICE", precision = 10, scale = 5)
     private BigDecimal price;
 
 }

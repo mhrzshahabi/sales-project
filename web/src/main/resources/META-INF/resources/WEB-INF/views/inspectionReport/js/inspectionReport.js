@@ -11,7 +11,7 @@ var RestDataSource_InspecReportRest = isc.MyRestDataSource.create({
             title: "<spring:message code='global.id'/>"
         },
         {
-            name: "InspectionNO",
+            name: "inspectionNO",
             title: "<spring:message code='inspectionReport.InspectionNO'/>"
         },
         {
@@ -27,11 +27,11 @@ var RestDataSource_InspecReportRest = isc.MyRestDataSource.create({
             title: "<spring:message code='inspectionReport.inspectionPlace'/>"
         },
         {
-            name: "IssueDate",
+            name: "issueDate",
             title: "<spring:message code='inspectionReport.IssueDate'/>"
         },
         {
-            name: "InventoryId",
+            name: "inventoryId",
             title: "<spring:message code='inspectionReport.InventoryId'/>"
         },
         {
@@ -89,10 +89,10 @@ var RestDataSource_WeightInspecRest = isc.MyRestDataSource.create({
         {
             name: "inspectionReport",
         },
-        {
-            name: "inspectionReportId",
-            title: "<spring:message code='weightInspection.inspectionReportId'/>"
-        },
+        // {
+        //     name: "inspectionReportId",
+        //     title: "<spring:message code='weightInspection.inspectionReportId'/>"
+        // },
     ],
     fetchDataURL: "${contextPath}/api/weightInspection/spec-list"
 });
@@ -118,20 +118,20 @@ var RestDataSource_AssayInspecRest = isc.MyRestDataSource.create({
             title: "<spring:message code='assayInspection.materialElement'/>"
         },
         {
-            name: "LabName",
+            name: "labName",
             title: "<spring:message code='assayInspection.LabName'/>"
         },
         {
-            name: "LabPlace",
+            name: "labPlace",
             title: "<spring:message code='assayInspection.LabPlace'/>"
         },
         {
             name: "inspectionReport",
         },
-        {
-            name: "inspectionReportId",
-            title: "<spring:message code='assayInspection.inspectionReportId'/>"
-        },
+        // {
+        //     name: "inspectionReportId",
+        //     title: "<spring:message code='assayInspection.inspectionReportId'/>"
+        // },
     ],
     fetchDataURL: "${contextPath}/api/assayInspection/spec-list"
 });
@@ -181,7 +181,28 @@ var RestDataSource_InventoryRest = isc.MyRestDataSource.create({
             name: "label",
         }
     ],
-    fetchDataURL: "${contextPath}/inventory/spec-list"
+    fetchDataURL: "${contextPath}/api/inventory/spec-list"
+});
+
+var RestDataSource_CurrencyRest = isc.MyRestDataSource.create({
+    fields: [
+        {
+            name: "id",
+            primaryKey: true,
+            canEdit: false,
+            hidden: true
+        },
+        {
+            name: "nameFa",
+        },
+        {
+            name: "nameEn",
+        },
+        {
+            name: "symbol",
+        }
+    ],
+    fetchDataURL: "${contextPath}/api/currency/spec-list"
 });
 
 var RestDataSource_ContractRest = isc.MyRestDataSource.create({
@@ -238,7 +259,7 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
         hidden: true
     },
     {
-        name: "InspectionNO",
+        name: "inspectionNO",
         title: "<spring:message code='inspectionReport.InspectionNO'/>",
         required: true,
         keyPressFilter: "[0-9]",
@@ -254,7 +275,7 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
         required: true,
         autoFetchData: false,
         editorType: "SelectItem",
-        valueField: "nameFA",
+        valueField: "id",
         displayField: "nameFA",
         pickListWidth: "500",
         pickListHeight: "300",
@@ -286,19 +307,19 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
         type: "text"
     },
     {
-        name: "IssueDate",
+        name: "issueDate",
         title: "<spring:message code='inspectionReport.IssueDate'/>",
         type: "date"
     },
     {
-        name: "InventoryId",
+        name: "inventoryId",
         title: "<spring:message code='inspectionReport.InventoryId'/>",
         colSpan: 2,
         // required: true,
         autoFetchData: false,
         editorType: "SelectItem",
         valueField: "id",
-        displayField: "amount",
+        displayField: "label",
         pickListWidth: "500",
         pickListHeight: "300",
         optionDataSource: RestDataSource_InventoryRest,
@@ -317,11 +338,11 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
                 // title: "<spring:message code='global.unit'/>",
             },
         ],
-        // validators: [
-        //     {
-        //         type: "required",
-        //         validateOnChange: true
-        //     }]
+        /*validators: [
+            {
+                type: "required",
+                validateOnChange: true
+            }]*/
     },
     {
         name: "sellerId",
@@ -394,10 +415,42 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
     {
         name: "inspectionRateValueType",
         title: "<spring:message code='inspectionReport.inspectionRateValueType'/>",
+        required: true,
+        valueMap: {
+            0: "ManPerDay",
+            1: "PerTon"
+        }
     },
     {
         name: "currencyId",
         title: "<spring:message code='inspectionReport.currencyId'/>",
+        required: true,
+        autoFetchData: false,
+        editorType: "SelectItem",
+        valueField: "id",
+        displayField: "nameFa",
+        pickListWidth: "500",
+        pickListHeight: "300",
+        optionDataSource: RestDataSource_CurrencyRest,
+        pickListProperties:
+            {
+                showFilterEditor: true
+            },
+        pickListFields: [
+            {
+                name: "nameFa",
+                align: "center"
+            },
+            {
+                name: "nameEn",
+                align: "center"
+            },
+        ],
+        /*validators: [
+            {
+                type: "required",
+                validateOnChange: true
+            }]*/
     },
 ]);
 
@@ -500,39 +553,34 @@ inspectionReportTab.dynamicForm.contract = isc.DynamicForm.create({
 //     }
 // });
 
-var weightInspectionObj = {
-    InspectionNO: "",
+var inspectionReportObj = {
+    inspectionNO: "",
     inspectorId: "",
     inspectionPlace: "",
-    IssueDate: "",
-    InventoryId: "",
+    issueDate: "",
+    inventoryId: "",
     sellerId: "",
     buyerId: "",
     inspectionRateValue: "",
     inspectionRateValueType: "",
     currencyId: "",
+    weightInspection: {},
+    assayInspection : {}
+};
+
+var weightInspectionObj = {
     weighingType: "",
     weightGW: "",
     weightND: "",
-    inspectionReportId: "",
+    inspectionReportId: ""
 };
 
 var assayInspectionObj = {
-    InspectionNO: "",
-    inspectorId: "",
-    inspectionPlace: "",
-    IssueDate: "",
-    InventoryId: "",
-    sellerId: "",
-    buyerId: "",
-    inspectionRateValue: "",
-    inspectionRateValueType: "",
-    currencyId: "",
     value: "",
     inspectionReportId: "",
     materialElementId: "",
-    LabName: "",
-    LabPlace: "",
+    labName: "",
+    labPlace: ""
 };
 
 var WeightPane = isc.VLayout.create({
@@ -561,10 +609,6 @@ var WeightPane = isc.VLayout.create({
                 {
                     name: "weightND",
                     required: true
-                },
-                {
-                    name: "inspectionReportId",
-                    required: true
                 }
             ]
         }),
@@ -588,14 +632,10 @@ var assayPane = isc.VLayout.create({
                     required: true
                 },
                 {
-                    name: "LabName"
+                    name: "labName"
                 },
                 {
-                    name: "LabPlace"
-                },
-                {
-                    name: "inspectionReportId",
-                    required: true
+                    name: "labPlace"
                 },
                 {
                     name: "materialElementId",
@@ -650,39 +690,33 @@ inspectionReportTab.window.inspecReport.populateData = function(bodyWidget) {
     // if (bodyWidget.members.get(2).tabs.get(1).pane.members.get(0).hasErrors())
     //     return;
 
-    // inspectionReport for Weight
-    weightInspectionObj.InspectionNO = bodyWidget.members.get(1).getItem("InspectionNO").getValue();
-    weightInspectionObj.inspectorId = bodyWidget.members.get(1).getItem("inspector").getValue();
-    weightInspectionObj.inspectionPlace = bodyWidget.members.get(1).getItem("inspectionPlace").getValue();
-    weightInspectionObj.IssueDate = bodyWidget.members.get(1).getItem("IssueDate").getValue();
-    weightInspectionObj.InventoryId = bodyWidget.members.get(1).getItem("InventoryId").getValue();
-    weightInspectionObj.sellerId = bodyWidget.members.get(1).getItem("sellerId").getValue();
-    weightInspectionObj.buyerId = bodyWidget.members.get(1).getItem("buyerId").getValue();
-    weightInspectionObj.inspectionRateValue = bodyWidget.members.get(1).getItem("inspectionRateValue").getValue();
-    weightInspectionObj.inspectionRateValueType = bodyWidget.members.get(1).getItem("inspectionRateValueType").getValue();
-    weightInspectionObj.currencyId = bodyWidget.members.get(1).getItem("currencyId").getValue();
-    // inspectionReport for Assay
-    assayInspectionObj.InspectionNO = bodyWidget.members.get(1).getItem("InspectionNO").getValue();
-    assayInspectionObj.inspectorId = bodyWidget.members.get(1).getItem("inspector").getValue();
-    assayInspectionObj.inspectionPlace = bodyWidget.members.get(1).getItem("inspectionPlace").getValue();
-    assayInspectionObj.IssueDate = bodyWidget.members.get(1).getItem("IssueDate").getValue();
-    assayInspectionObj.InventoryId = bodyWidget.members.get(1).getItem("InventoryId").getValue();
-    assayInspectionObj.sellerId = bodyWidget.members.get(1).getItem("sellerId").getValue();
-    assayInspectionObj.buyerId = bodyWidget.members.get(1).getItem("buyerId").getValue();
-    assayInspectionObj.inspectionRateValue = bodyWidget.members.get(1).getItem("inspectionRateValue").getValue();
-    assayInspectionObj.inspectionRateValueType = bodyWidget.members.get(1).getItem("inspectionRateValueType").getValue();
-    assayInspectionObj.currencyId = bodyWidget.members.get(1).getItem("currencyId").getValue();
+    // inspectionReport
+    inspectionReportObj.inspectionNO = bodyWidget.members.get(1).getItem("inspectionNO").getValue();
+    inspectionReportObj.inspectorId = bodyWidget.members.get(1).getItem("inspector").getValue();
+    inspectionReportObj.inspectionPlace = bodyWidget.members.get(1).getItem("inspectionPlace").getValue();
+    inspectionReportObj.issueDate = bodyWidget.members.get(1).getItem("issueDate").getValue();
+    inspectionReportObj.inventoryId = bodyWidget.members.get(1).getItem("inventoryId").getValue();
+    inspectionReportObj.sellerId = bodyWidget.members.get(1).getItem("sellerId").getValue();
+    inspectionReportObj.buyerId = bodyWidget.members.get(1).getItem("buyerId").getValue();
+    inspectionReportObj.inspectionRateValue = bodyWidget.members.get(1).getItem("inspectionRateValue").getValue();
+    inspectionReportObj.inspectionRateValueType = bodyWidget.members.get(1).getItem("inspectionRateValueType").getValue();
+    inspectionReportObj.currencyId = bodyWidget.members.get(1).getItem("currencyId").getValue();
+
     // tabSets (Weight)
-    weightInspectionObj.weighingType = Number(bodyWidget.members.get(2).tabs.get(0).pane.members.get(0).getItem("weighingType.id").getValue());
+    weightInspectionObj.weighingType = bodyWidget.members.get(2).tabs.get(0).pane.members.get(0).getItem("weighingType.id").getValue();
     weightInspectionObj.weightGW = bodyWidget.members.get(2).tabs.get(0).pane.members.get(0).getItem("weightGW").getValue();
     weightInspectionObj.weightND = bodyWidget.members.get(2).tabs.get(0).pane.members.get(0).getItem("weightND").getValue();
-    weightInspectionObj.inspectionReportId = bodyWidget.members.get(2).tabs.get(0).pane.members.get(0).getItem("inspectionReportId").getValue();
+    weightInspectionObj.inspectionReportId = "";
+
     // tabSets (Assay)
     assayInspectionObj.value = bodyWidget.members.get(2).tabs.get(1).pane.members.get(0).getItem("value").getValue();
-    assayInspectionObj.inspectionReportId = bodyWidget.members.get(2).tabs.get(1).pane.members.get(0).getItem("inspectionReportId").getValue();
+    assayInspectionObj.inspectionReportId = "";
     assayInspectionObj.materialElementId = bodyWidget.members.get(2).tabs.get(1).pane.members.get(0).getItem("materialElementId").getValue();
-    assayInspectionObj.LabName = bodyWidget.members.get(2).tabs.get(1).pane.members.get(0).getItem("LabName").getValue();
-    assayInspectionObj.LabPlace = bodyWidget.members.get(2).tabs.get(1).pane.members.get(0).getItem("LabPlace").getValue();
+    assayInspectionObj.labName = bodyWidget.members.get(2).tabs.get(1).pane.members.get(0).getItem("labName").getValue();
+    assayInspectionObj.labPlace = bodyWidget.members.get(2).tabs.get(1).pane.members.get(0).getItem("labPlace").getValue();
+
+    inspectionReportObj.weightInspection = weightInspectionObj;
+    inspectionReportObj.assayInspection = assayInspectionObj;
 };
 
 // inspectionReportTab.window.inspecReport.validate = function(data) {
@@ -691,12 +725,11 @@ inspectionReportTab.window.inspecReport.populateData = function(bodyWidget) {
 
 inspectionReportTab.window.inspecReport.okCallBack = function(data) {
 
-    if (weightInspectionObj.weightGW != null){
         alert("weight")
         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                actionURL: "${contextPath}/api/weightInspection/weight",
+                actionURL: "${contextPath}/api/inspectionReport/weight",
                 httpMethod: "POST",
-                data: JSON.stringify(weightInspectionObj),
+                data: JSON.stringify(inspectionReportObj),
                 callback: function (resp) {
                     if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                         isc.say("<spring:message code='global.form.request.successful'/>");
@@ -707,24 +740,6 @@ inspectionReportTab.window.inspecReport.okCallBack = function(data) {
                 }
             })
         );
-    }
-    /*if (data.value != null){
-        alert("assay")
-        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                actionURL: "${contextPath}/api/assayInspection/",
-                httpMethod: "POST",
-                data: JSON.stringify(data),
-                callback: function (resp) {
-                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
-                        isc.say("<spring:message code='global.form.request.successful'/>");
-                        inspectionReportTab.listGrid.main.refresh();
-                        inspectionReportTab.window.inspecReport.close();
-                    } else
-                        isc.say(RpcResponse_o.data);
-                }
-            })
-        );
-    }*/
 };
 
 
@@ -740,7 +755,7 @@ inspectionReportTab.listGrid.fields = [
         hidden: true
     },
     {
-        name: "InspectionNO",
+        name: "inspectionNO",
         title: "<spring:message code='inspectionReport.InspectionNO'/>"
     },
     {
@@ -752,7 +767,7 @@ inspectionReportTab.listGrid.fields = [
         title: "<spring:message code='inspectionReport.inspectionPlace'/>"
     },
     {
-        name: "IssueDate",
+        name: "issueDate",
         title: "<spring:message code='inspectionReport.IssueDate'/>",
         type: "date"
     },

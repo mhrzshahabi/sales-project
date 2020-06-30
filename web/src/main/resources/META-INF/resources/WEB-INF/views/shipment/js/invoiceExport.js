@@ -945,7 +945,7 @@ function invoiceExport() {
                 title: "<spring:message code='LME.molybdenumUsdLb'/>",
                 width: 200
             }],
-        fetchDataURL: SalesConfigs.Urls.RootUrl + "/api/LME/spec-list"
+        fetchDataURL: SalesConfigs.Urls.RootUrl + "/api/price-base/spec-list"
     };
     /**********************************************LISTGRID****************************************************************/
     /**********************************************LAYOUT******************************************************************/
