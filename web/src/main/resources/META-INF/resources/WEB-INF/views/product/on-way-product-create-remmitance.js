@@ -95,6 +95,7 @@ function onWayProductCreateRemittance() {
             },
             {
                 name: "depotId",
+                width: 300,
                 required: true,
                 // validators: [{
                 //     type: "required",
@@ -108,7 +109,13 @@ function onWayProductCreateRemittance() {
                 title: "<spring:message code='warehouseCad.yard'/>",
                 displayField: "name",
                 valueField: "id",
+                pickListFields: [
+                    {name: "store.warehouse.name", title: "انبار"},
+                    {name: "store.name", title: "سوله/محوطه"},
+                    {name: "name", title: "یارد"}
+                ],
                 pickListProperties: {
+                    width: 300,
                     recordClick(pickList, record) {
                         StorageUtil.save('onWayProduct_depotId', record.id);
                         return this.Super("recordClick", arguments);
@@ -119,7 +126,7 @@ function onWayProductCreateRemittance() {
             {
                 name: "unit",
                 type: "number",
-                title: "واحدشمارهش بسته کالا(ورق،بشکه،تن،..)",
+                title: "واحدشمارش بسته کالا(ورق،بشکه،تن،..)",
                 valueMap: SalesBaseParameters.getSavedUnitParameter().getValueMap('id', 'nameFA'),
                 defaultValue: StorageUtil.get('DynamicForm_warehouseCAD_owp' + ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord()['codeKala'].toString()),
                 changed(form, item, value) {
@@ -147,28 +154,28 @@ function onWayProductCreateRemittance() {
             },
             {
                 name: "sourceBundleSum",
-                title: "تعداد بسته(باندل، لات، ... ) مبدا",
+                title: "تعداد بسته(باندل، لات، ... ) ",
                 colSpan: 1,
                 titleColSpan: 1,
                 type: "staticText",
             },
             {
                 name: "destinationBundleSum",
-                title: "تعداد بسته(باندل، لات، ... ) مقصد",
+                title: "تعداد بسته(باندل، لات، ... ) ",
                 colSpan: 1,
                 titleColSpan: 1,
                 type: "staticText",
             },
             {
                 name: "sourceSheetSum",
-                title: "مجموع تعداد واحد(بشکه، ورق، ... ) مبدا",
+                title: "مجموع تعداد واحد(بشکه، ورق، ... ) ",
                 colSpan: 1,
                 titleColSpan: 1,
                 type: "staticText",
             },
             {
                 name: "destinationSheetSum",
-                title: "مجموع تعداد واحد(بشکه، ورق، ... ) مبدا",
+                title: "مجموع تعداد واحد(بشکه، ورق، ... ) ",
                 colSpan: 1,
                 titleColSpan: 1,
                 type: "staticText",
@@ -203,6 +210,7 @@ function onWayProductCreateRemittance() {
         top: 260,
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
+        visibility: "hidden",
         click: function () {
             function dialog(message, okClick = function () {
             }, title = 'اطلاعات ناقص') {
@@ -459,7 +467,7 @@ function onWayProductCreateRemittance() {
                                 },
                                 {
                                     name: "tedad",
-                                    title: "تعداد (ورق، بشگه، فله، ...)",
+                                    title: "تعداد (ورق، بشکه، فله، ...)",
                                     width: "20%",
                                     validators: [{
                                         type: "regexp",
@@ -652,7 +660,7 @@ function onWayProductCreateRemittance() {
                                 return tbl;
                             } catch (e) {
                                 console.error('destination tozin id hover error', e);
-                                return 'شماره توزین مقصذ را وارد کنید   ';
+                                return 'شماره توزین مقصد را وارد کنید   ';
                             }
                         },
                         title: 'توزین مقصد',
@@ -754,7 +762,7 @@ function onWayProductCreateRemittance() {
         width: 100,
         icon: "pieces/16/packages.png",
         orientation: "vertical",
-        disabled: true,
+        visibility: "hidden",
         click: function () {
             const w = listGridSetDestTozinHarasatPolompForSelectedTozin['w'];
             window[w].show()
@@ -998,7 +1006,8 @@ function onWayProductCreateRemittance() {
             }
 
         }
-        packages_button.enable();
+        packages_button.show();
+        IButton_warehouseCAD_Save.show()
         updateDestinationPackageTedadWeight()
 
     })
