@@ -1,9 +1,6 @@
 package com.nicico.sales.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.nicico.sales.model.entities.base.MaterialItem;
-import com.nicico.sales.model.entities.common.BaseEntity;
-import com.nicico.sales.model.entities.warehouse.RemittanceDetail;
 import com.nicico.sales.model.enumeration.EStatus;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -18,7 +15,7 @@ import java.util.List;
 @Setter
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class InventoryDTO extends BaseEntity {
+public class InventoryDTO {
 
     private Long materialItemId;
     private String label;

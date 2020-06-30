@@ -19,11 +19,9 @@ import java.util.List;
 public class RemittanceDTO {
 
     private String code;
-    private Long materialId;
-    private Long sourceWarehouseId;
-    private String railPolompNo;
-    private String securityPolompNo;
     private List<RemittanceDetailDTO> remittanceDetails;
+    private String description;
+
 
     @Getter
     @Setter

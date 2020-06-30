@@ -631,7 +631,7 @@
                     }
                 },
                 {isSeparator: true},
-                 {
+                {
                     title: "<spring:message code='parameters.title'/>",
                     click: function () {
                         createTab("<spring:message code='parameters.title'/>", "<spring:url value="/parameters/showForm" />")
@@ -683,20 +683,20 @@
                         {
                             title: "<spring:message code='salesContractAll.title'/>",
                             click: function () {
-                               enContract();
-                               createTab("<spring:message code='salesContract.title'/>", "<spring:url value="/contract/showForm" />")
+                                enContract();
+                                createTab("<spring:message code='salesContract.title'/>", "<spring:url value="/contract/showForm" />")
                             }
-                        },{
+                        }, {
                             title: "<spring:message code='salesContractMoButton.title'/>",
                             click: function () {
-                               enContract();
-                               createTab("<spring:message code='salesContractMoButton.title'/>", "<spring:url value="/contact/contactMolybdenum"/>")
+                                enContract();
+                                createTab("<spring:message code='salesContractMoButton.title'/>", "<spring:url value="/contact/contactMolybdenum"/>")
                             }
                         }, {
                             title: "<spring:message code='salesContractConcButton.title'/>",
                             click: function () {
-                               enContract();
-                               createTab("<spring:message code='main.contractsConcTab'/>", "<spring:url value="/contact/concMain"/>")
+                                enContract();
+                                createTab("<spring:message code='main.contractsConcTab'/>", "<spring:url value="/contact/concMain"/>")
                             }
                         },
                         {isSeparator: true},
@@ -850,9 +850,9 @@
     //-----------------------reporttab
     reportTab = isc.ToolStripMenuButton.create({
         title: "&nbsp; <spring:message code='main.reportTab'/>",
-            click: function () {
-                createTab("<spring:message code='main.reportTab'/>", "<spring:url value="/contract/show-report-form" />")
-            }
+        click: function () {
+            createTab("<spring:message code='main.reportTab'/>", "<spring:url value="/contract/show-report-form" />")
+        }
     })
 
     /*----------------------productTab------------------------*/
@@ -864,7 +864,16 @@
                 {
                     title: "<spring:message code='tozin.onWay'/>",
                     click: function () {
-                        createTab("<spring:message code='tozin.onWay'/>", "<spring:url value="/tozin/showOnWayProductForm" />")
+
+                        try {
+                            createTab("<spring:message code='tozin.onWay'/>", "<spring:url value="/tozin/showOnWayProductForm" />")
+                        } catch (e) {
+                            console.error('open /tozin/showOnWayProductFormerror accured ', e);
+                            SalesBaseParameters.deleteAllSavedParametersAndFetchAgain().then(r => {
+                                    createTab("<spring:message code='tozin.onWay'/>", "<spring:url value="/tozin/showOnWayProductForm" />")
+                                }
+                            )
+                        }
                     }
 
                 },
@@ -872,8 +881,18 @@
                 {
                     title: "<spring:message code='tozin.between.complex'/>",
                     click: function () {
-                        createTab("<spring:message code='tozin.between.complex'/>",
-                            "<spring:url value="/tozin/between-complex-transfer" />")
+                        try {
+                            createTab("<spring:message code='tozin.between.complex'/>",
+                                "<spring:url value="/tozin/between-complex-transfer" />")
+                        } catch (e) {
+                            console.error('open /tozin/between-complex-transfer error accured ', e);
+                            SalesBaseParameters.deleteAllSavedParametersAndFetchAgain().then(r => {
+                                    createTab("<spring:message code='tozin.between.complex'/>",
+                                        "<spring:url value="/tozin/between-complex-transfer" />")
+                                }
+                            )
+                        }
+
                     }
 
                 },
@@ -1195,23 +1214,25 @@
 
     function enContract() {
         var url_string = window.location.href;
-                                var url = new URL(url_string);
-                                var lang = url.searchParams.get("lang");
+        var url = new URL(url_string);
+        var lang = url.searchParams.get("lang");
 
-                                if (lang == "fa" || lang == null) {
-                                    isc.Dialog.create({
-                                        message: "بهتر است از این تب در فرمت انگلیسی استفاده کنید",
-                                        icon: "[SKIN]ask.png",
-                                        title: "<spring:message code='global.message'/>",
-                                        buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
-                                        buttonClick: function () {
-                                            this.hide();
-                                        }
-                                    });
-    }
+        if (lang == "fa" || lang == null) {
+            isc.Dialog.create({
+                message: "بهتر است از این تب در فرمت انگلیسی استفاده کنید",
+                icon: "[SKIN]ask.png",
+                title: "<spring:message code='global.message'/>",
+                buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
+                buttonClick: function () {
+                    this.hide();
+                }
+            });
+        }
     }
 
-    SalesBaseParameters.getAllParameters();
+
+    SalesBaseParameters.deleteAllSavedParametersAndFetchAgain();
+
 </script>
 </body>
 </html>
