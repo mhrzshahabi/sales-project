@@ -332,6 +332,7 @@ function mainOnWayProduct() {
     const ToolStripButton_Tozin_Report = isc.ToolStripButtonRefresh.create({
         icon: "[SKIN]/actions/excel-512.png",
         title: "<spring:message code='global.form.export.excel'/>",
+        visibility: "hidden",
         click: function () {
             const fieldsGrid = tozinFields.filter(
                 function (q) {
@@ -554,7 +555,7 @@ function mainOnWayProduct() {
         criteria: [{
             fieldName: "date",
             operator: "greaterOrEqual",
-            value: new persianDate().subtract('d', 14).format('YYYYMMDD'),
+            value: new persianDate().subtract('d', 14).format('YYYY/MM/DD'),
         },
             {"fieldName": "tozinId", "operator": "iNotStartsWith", "value": "3-"}
         ]
