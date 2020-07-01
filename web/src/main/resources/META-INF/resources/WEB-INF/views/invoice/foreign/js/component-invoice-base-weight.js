@@ -26,21 +26,21 @@ isc.defineClass("InvoiceBaseWeight", isc.VLayout).addProperties({
 
         switch (this.material) {
             case 0:
-                unitComponentGross = isc.componentUnit.create({
-                    titelFieldValue: '<spring:message code="component.invoice.weight.gross"/>',
-                    typeUnitCategory: 1,
+                unitComponentGross = isc.Unit.create({
+                    fieldValueTitle: '<spring:message code="component.invoice.weight.gross"/>',
+                    unitCategory: 1,
                     showTitle: false
                 });
 
-                unitComponentNet = isc.componentUnit.create({
-                    titelFieldValue: '<spring:message code="component.invoice.weight.net"/>',
-                    typeUnitCategory: 1,
+                unitComponentNet = isc.Unit.create({
+                    fieldValueTitle: '<spring:message code="component.invoice.weight.net"/>',
+                    unitCategory: 1,
                     showTitle: false
                 });
 
-                unitComponentBundles = isc.componentUnit.create({
-                    titelFieldValue: '<spring:message code="component.invoice.weight.bundles"/>',
-                    typeUnitCategory: 1,
+                unitComponentBundles = isc.Unit.create({
+                    fieldValueTitle: '<spring:message code="component.invoice.weight.bundles"/>',
+                    unitCategory: 1,
                     showTitle: false
                 });
 
@@ -50,21 +50,21 @@ isc.defineClass("InvoiceBaseWeight", isc.VLayout).addProperties({
                 break;
 
             case 1:
-                unitComponentNetWet = isc.componentUnit.create({
-                    titelFieldValue: '<spring:message code="component.invoice.weight.netWet"/>',
-                    typeUnitCategory: 1,
+                unitComponentNetWet = isc.Unit.create({
+                    fieldValueTitle: '<spring:message code="component.invoice.weight.netWet"/>',
+                    unitCategory: 1,
                     showTitle: false
                 });
 
-                unitComponentNetDry = isc.componentUnit.create({
-                    titelFieldValue: '<spring:message code="component.invoice.weight.netDry"/>',
-                    typeUnitCategory: 1,
+                unitComponentNetDry = isc.Unit.create({
+                    fieldValueTitle: '<spring:message code="component.invoice.weight.netDry"/>',
+                    unitCategory: 1,
                     showTitle: false
                 });
 
-                unitComponentMoisture = isc.componentUnit.create({
-                    titelFieldValue: '<spring:message code="component.invoice.weight.moisture"/>',
-                    typeUnitCategory: 1,
+                unitComponentMoisture = isc.Unit.create({
+                    fieldValueTitle: '<spring:message code="component.invoice.weight.moisture"/>',
+                    unitCategory: 1,
                     showTitle: false
                 });
 
@@ -74,21 +74,21 @@ isc.defineClass("InvoiceBaseWeight", isc.VLayout).addProperties({
                 break;
 
             case 4:
-                unitComponentNetWet = isc.componentUnit.create({
-                    titelFieldValue: '<spring:message code="component.invoice.weight.netWet"/>',
-                    typeUnitCategory: 1,
+                unitComponentNetWet = isc.Unit.create({
+                    fieldValueTitle: '<spring:message code="component.invoice.weight.netWet"/>',
+                    unitCategory: 1,
                     showTitle: false
                 });
 
-                unitComponentNetDry = isc.componentUnit.create({
-                    titelFieldValue: '<spring:message code="component.invoice.weight.netDry"/>',
-                    typeUnitCategory: 1,
+                unitComponentNetDry = isc.Unit.create({
+                    fieldValueTitle: '<spring:message code="component.invoice.weight.netDry"/>',
+                    unitCategory: 1,
                     showTitle: false
                 });
 
-                unitComponentMoisture = isc.componentUnit.create({
-                    titelFieldValue: '<spring:message code="component.invoice.weight.moisture"/>',
-                    typeUnitCategory: 1,
+                unitComponentMoisture = isc.Unit.create({
+                    fieldValueTitle: '<spring:message code="component.invoice.weight.moisture"/>',
+                    unitCategory: 1,
                     showTitle: false
                 });
 
