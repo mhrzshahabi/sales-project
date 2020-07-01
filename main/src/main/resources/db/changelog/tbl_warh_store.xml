@@ -9,4 +9,21 @@
             'YYYY-MM-DD HH24:MI:SS.FF6'), 0, 1, 1, null, 'اسكله شهيد رجائي ', 2555)
         </sql>
     </changeSet>
+    <changeSet author="saeb" id="saeb_00dddddddd5">
+        <sql>
+            INSERT INTO TBL_WARH_STORE (ID, C_CREATED_BY, D_CREATED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            C_DESCRIPTION, C_NAME, F_WAREHOUSE_ID)
+            VALUES
+            (-2556, 'liquibase', current_timestamp, 0, 1, 1, null, 'انبار ۱۹ ', 2555)
+        </sql>
+    </changeSet>
+    <changeSet author="saeb" id="saeb_0ddd0dddddddd5">
+        <sql>
+            INSERT INTO TBL_WARH_STORE (ID, C_CREATED_BY, D_CREATED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            C_DESCRIPTION, C_NAME, F_WAREHOUSE_ID)
+            VALUES
+            (-2557, 'liquibase', current_timestamp, 0, 1, 1, null, 'انبار ۲۰ ', 2555)
+        </sql>
+    </changeSet>
+
 </databaseChangeLog>

@@ -1413,9 +1413,12 @@
       "title": "به روز رسانی عنصر"
     },
     {
+      "code": "R_REMITTANCE_DETAIL",
+      "title": "مشاهده جزيیات بیجک"
+    },
+    {
       "code": "D_ELEMENT",
       "title": "حذف عنصر"
     }
-
   ]
 }
