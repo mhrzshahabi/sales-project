@@ -19,17 +19,14 @@ import java.util.List;
 public class RemittanceDTO {
 
     private String code;
-    private Long materialId;
-    private Long sourceWarehouseId;
-    private String railPolompNo;
-    private String securityPolompNo;
-    private List<RemittanceDetailDTO> remittanceDetails;
+    private String description;
+
 
     @Getter
     @Setter
     @Accessors(chain = true)
     @ApiModel("RemittanceInfo")
-    public static class Info extends RemittanceDTO {
+    public static class InfoWithoutRemittanceDetail extends RemittanceDTO {
 
         private Long id;
         private MaterialItemDTO.Info materialItem;
@@ -45,6 +42,14 @@ public class RemittanceDTO {
         // BaseEntity
         private Boolean editable;
         private List<EStatus> eStatus;
+    }
+
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("RemittanceInfo")
+    public static class Info extends RemittanceDTO.InfoWithoutRemittanceDetail {
+        private List<RemittanceDetailDTO> remittanceDetails;
     }
 
     @Getter
