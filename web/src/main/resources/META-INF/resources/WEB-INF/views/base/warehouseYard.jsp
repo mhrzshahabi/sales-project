@@ -3,51 +3,56 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 //<script>
-
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
-    var RestDataSource_WarehouseYard = isc.MyRestDataSource.create({
-        fields: [{
+var RestDataSource_WarehouseYard = isc.MyRestDataSource.create({
+    fields: [
+        {
             name: "id",
             title: "id",
             primaryKey: true,
             canEdit: false,
-            hidden: true
-        }, {
+            hidden: true,
+        },
+        {
             name: "warehouseNo",
             title: "<spring:message code='warehouseCad.warehouseNo'/>",
-            width: 200
-        }, {
+            width: 200,
+        },
+        {
             name: "nameFA",
             title: "<spring:message code='warehouseCad.yard'/>",
-            width: 200
-        }
-        ],
+            width: 200,
+        },
+    ],
 
-        fetchDataURL: "${contextPath}/api/warehouseYard/spec-list"
-    });
+    fetchDataURL: "${contextPath}/api/warehouseYard/spec-list",
+});
 
-    function ListGrid_WarehouseYard_refresh() {
-        ListGrid_WarehouseYard.invalidateCache();
+
+function ListGrid_WarehouseYard_refresh() {
+    ListGrid_WarehouseYard.invalidateCache();
+}
+
+
+function ListGrid_WarehouseYard_edit() {
+    var record = ListGrid_WarehouseYard.getSelectedRecord();
+    if (record == null || record.id == null) {
+        isc.Dialog.create({
+            message: "<spring:message code='global.grid.record.not.selected'/>",
+            icon: "[SKIN]ask.png",
+            title: "<spring:message code='global.message'/>",
+            buttons: [isc.Button.create({ title: "<spring:message code='global.ok'/>" })],
+            buttonClick: function () {
+                this.hide();
+            },
+        });
+    } else {
+        DynamicForm_WarehouseYard.editRecord(record);
+        Window_WarehouseYard.show();
     }
+}
 
-    function ListGrid_WarehouseYard_edit() {
-        var record = ListGrid_WarehouseYard.getSelectedRecord();
-        if (record == null || record.id == null) {
-            isc.Dialog.create({
-                message: "<spring:message code='global.grid.record.not.selected'/>",
-                icon: "[SKIN]ask.png",
-                title: "<spring:message code='global.message'/>",
-                buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
-                buttonClick: function () {
-                    this.hide();
-                }
-            });
-        } else {
-            DynamicForm_WarehouseYard.editRecord(record);
-            Window_WarehouseYard.show();
-        }
-    }
 
 function ListGrid_WarehouseYard_remove() {
     var record = ListGrid_WarehouseYard.getSelectedRecord();
@@ -93,89 +98,58 @@ function ListGrid_WarehouseYard_remove() {
 }
 
 
-    var Menu_ListGrid_WarehouseYard = isc.Menu.create({
-        width: 150,
-        data: [
-            {
-                title: "<spring:message code='global.form.refresh'/>", icon: "pieces/16/refresh.png",
-                click: function () {
-                    ListGrid_WarehouseYard_refresh();
-                }
-            },
-            <sec:authorize access="hasAuthority('C_WAREHOUSE_YARD')">
-            {
-                title: "<spring:message code='global.form.new'/>", icon: "pieces/16/icon_add.png",
-                click: function () {
-                    DynamicForm_WarehouseYard.clearValues();
-                    Window_WarehouseYard.show();
-                }
-            },
-            </sec:authorize>
 
-            <sec:authorize access="hasAuthority('U_WAREHOUSE_YARD')">
-            {
-                title: "<spring:message code='global.form.edit'/>", icon: "pieces/16/icon_edit.png",
-                click: function () {
-                    ListGrid_WarehouseYard_edit();
-                }
+var DynamicForm_WarehouseYard = isc.DynamicForm.create({
+    width: 650,
+    height: "100%",
+    titleWidth: "100",
+    numCols: 2,
+    fields: [
+        { name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true },
+        {
+            name: "warehouseNo",
+            title: "<spring:message code='warehouseCad.warehouseNo'/>",
+            width: 500,
+            colSpan: 1,
+            required: true,
+            titleColSpan: 1,
+            keyPressFilter: "[0-9]",
+            length: "15",
+            defaultValue: "BandarAbbas",
+            valueMap: {
+                BandarAbbas: "<spring:message code='global.BandarAbbas'/>",
+                Sarcheshmeh: "<spring:message code='global.Sarcheshmeh'/>",
+                Sungun: "<spring:message code='global.Sungun'/>",
+                China: "<spring:message code='global.china'/>",
             },
-            </sec:authorize>
-
-            <sec:authorize access="hasAuthority('D_WAREHOUSE_YARD')">
-            {
-                title: "<spring:message code='global.form.remove'/>", icon: "pieces/16/icon_delete.png",
-                click: function () {
-                    ListGrid_WarehouseYard_remove();
-                }
-            }
-            </sec:authorize>
-        ]
-    });
-
-    var DynamicForm_WarehouseYard = isc.DynamicForm.create({
-        width: 650,
-        height: "100%",
-        titleWidth: "100",
-        numCols: 2,
-        fields:
-            [
-                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
+            validators: [
                 {
-                    name: "warehouseNo",
-                    title: "<spring:message code='warehouseCad.warehouseNo'/>",
-                    width: 500,
-                    colSpan: 1, required: true,
-                    titleColSpan: 1, keyPressFilter: "[0-9]", length: "15", defaultValue: "BandarAbbas",
-                    valueMap:
-                        {
-                            "BandarAbbas": "<spring:message code='global.BandarAbbas'/>",
-                            "Sarcheshmeh": "<spring:message code='global.Sarcheshmeh'/>",
-                            "Sungun": "<spring:message code='global.Sungun'/>" ,
-                            "China": "<spring:message code='global.china'/>"
-                        },
-                    validators: [
-                    {
-                        type:"required",
-                        validateOnChange: true
-                    }]
+                    type: "required",
+                    validateOnChange: true,
                 },
+            ],
+        },
+        {
+            name: "nameFA",
+            title: "<spring:message code='warehouseCad.yard'/>",
+            width: 500,
+            colSpan: 1,
+            required: true,
+            titleColSpan: 1,
+            validators: [
                 {
-                    name: "nameFA",
-                    title: "<spring:message code='warehouseCad.yard'/>",
-                    width: 500,
-                    colSpan: 1, required: true,
-                    titleColSpan: 1,
-                    validators: [
-                    {
-                        type:"required",
-                        validateOnChange: true
-                    }]
+                    type: "required",
+                    validateOnChange: true,
                 },
-                {
-                    type: "RowSpacerItem"
-                }
-            ]
-    });
+            ],
+        },
+        {
+            type: "RowSpacerItem",
+        },
+    ],
+});
+
+
 
     var ToolStripButton_WarehouseYard_Refresh = isc.ToolStripButtonRefresh.create({
         title: "<spring:message code='global.form.refresh'/>",
@@ -280,53 +254,51 @@ function ListGrid_WarehouseYard_remove() {
         }
     });
 
-    var Window_WarehouseYard = isc.Window.create({
-        title: "<spring:message code='warehouseCad.warehouseNo'/> ",
-        width: 650,
-        autoSize: true,
-        autoCenter: true,
-        isModal: true,
-        showModalMask: true,
-        align: "center",
-        autoDraw: false,
-        dismissOnEscape: true,
-        closeClick: function () {
-            this.Super("closeClick", arguments)
-        },
-        items:
-            [
-                DynamicForm_WarehouseYard,
-                isc.HLayout.create({
-                    layoutMargin: 10,
-                    membersMargin: 5,
-                    align: "center",
-                    width: "100%",
-                    members:
-                        [
-                            IButton_WarehouseYard_Save,
-                            isc.Label.create({
-                                width: 5,
-                            }),
-                            isc.IButtonCancel.create({
-                                title: "<spring:message code='global.cancel'/>",
-                                width: 100,
-                                icon: "pieces/16/icon_delete.png",
-                                orientation: "vertical",
-                                click: function () {
-                                    Window_WarehouseYard.close();
-                                }
-                            })
-                        ]
-                })
-            ]
-    });
+var Window_WarehouseYard = isc.Window.create({
+    title: "<spring:message code='warehouseCad.warehouseNo'/> ",
+    width: 650,
+    autoSize: true,
+    autoCenter: true,
+    isModal: true,
+    showModalMask: true,
+    align: "center",
+    autoDraw: false,
+    dismissOnEscape: true,
+    closeClick: function () {
+        this.Super("closeClick", arguments);
+    },
+    items: [
+        DynamicForm_WarehouseYard,
+        isc.HLayout.create({
+            layoutMargin: 10,
+            membersMargin: 5,
+            align: "center",
+            width: "100%",
+            members: [
+                IButton_WarehouseYard_Save,
+                isc.Label.create({
+                    width: 5,
+                }),
+                isc.IButtonCancel.create({
+                    title: "<spring:message code='global.cancel'/>",
+                    width: 100,
+                    icon: "pieces/16/icon_delete.png",
+                    orientation: "vertical",
+                    click: function () {
+                        Window_WarehouseYard.close();
+                    },
+                }),
+            ],
+        }),
+    ],
+});
+
 
     var ListGrid_WarehouseYard = isc.ListGrid.create({
         showFilterEditor: true,
         width: "100%",
         height: "100%",
         dataSource: RestDataSource_WarehouseYard,
-        contextMenu: Menu_ListGrid_WarehouseYard,
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
