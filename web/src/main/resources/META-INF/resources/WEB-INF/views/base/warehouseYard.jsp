@@ -49,53 +49,49 @@
         }
     }
 
-    function ListGrid_WarehouseYard_remove() {
+function ListGrid_WarehouseYard_remove() {
+    var record = ListGrid_WarehouseYard.getSelectedRecord();
 
-        var record = ListGrid_WarehouseYard.getSelectedRecord();
-
-        if (record == null || record.id == null) {
-            isc.Dialog.create({
-                message: "<spring:message code='global.grid.record.not.selected'/>",
-                icon: "[SKIN]ask.png",
-                title: "<spring:message code='global.message'/>",
-                buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
-                buttonClick: function () {
-                    this.hide();
-                }
-            });
-        } else {
-            isc.Dialog.create({
-                message: "<spring:message code='global.grid.record.remove.ask'/>",
-                icon: "[SKIN]ask.png",
-                title: "<spring:message code='global.grid.record.remove.ask.title'/>",
-                buttons: [
-                    isc.IButtonSave.create({title: "<spring:message code='global.yes'/>"}),
-                    isc.IButtonCancel.create({title: "<spring:message code='global.no'/>"})
-                ],
-                buttonClick: function (button, index) {
-                    this.hide();
-                    if (index == 0) {
-                        var WarehouseYardId = record.id;
-                        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                                actionURL: "${contextPath}/api/warehouseYard/" + WarehouseYardId,
-                                httpMethod: "DELETE",
-                                callback: function (resp) {
-                                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
-                                        ListGrid_WarehouseYard_refresh();
-                                        isc.say("<spring:message code='global.grid.record.remove.success'/>");
-                                    } else {
-                                        isc.say("<spring:message code='global.grid.record.remove.failed'/>");
-                                    }
+    if (record == null || record.id == null) {
+        isc.Dialog.create({
+            message: "<spring:message code='global.grid.record.not.selected'/>",
+            icon: "[SKIN]ask.png",
+            title: "<spring:message code='global.message'/>",
+            buttons: [isc.Button.create({ title: "<spring:message code='global.ok'/>" })],
+            buttonClick: function () {
+                this.hide();
+            },
+        });
+    } else {
+        isc.Dialog.create({
+            message: "<spring:message code='global.grid.record.remove.ask'/>",
+            icon: "[SKIN]ask.png",
+            title: "<spring:message code='global.grid.record.remove.ask.title'/>",
+            buttons: [isc.IButtonSave.create({ title: "<spring:message code='global.yes'/>" }), isc.IButtonCancel.create({ title: "<spring:message code='global.no'/>" })],
+            buttonClick: function (button, index) {
+                this.hide();
+                if (index == 0) {
+                    var WarehouseYardId = record.id;
+                    isc.RPCManager.sendRequest(
+                        Object.assign(BaseRPCRequest, {
+                            actionURL: "${contextPath}/api/warehouseYard/" + WarehouseYardId,
+                            httpMethod: "DELETE",
+                            callback: function (resp) {
+                                if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                                    ListGrid_WarehouseYard_refresh();
+                                    isc.say("<spring:message code='global.grid.record.remove.success'/>");
+                                } else {
+                                    isc.say("<spring:message code='global.grid.record.remove.failed'/>");
                                 }
-                            })
-                        );
-                    }
+                            },
+                        })
+                    );
                 }
-
-
-            });
-        }
+            },
+        });
     }
+}
+
 
     var Menu_ListGrid_WarehouseYard = isc.Menu.create({
         width: 150,
