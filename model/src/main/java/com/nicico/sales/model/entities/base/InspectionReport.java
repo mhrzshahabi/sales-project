@@ -3,7 +3,6 @@ package com.nicico.sales.model.entities.base;
 
 import com.nicico.sales.model.Auditable;
 import com.nicico.sales.model.entities.common.BaseEntity;
-import com.nicico.sales.model.entities.warehouse.Inventory;
 import com.nicico.sales.model.enumeration.InspectionRateValueType;
 import lombok.*;
 import lombok.experimental.Accessors;
@@ -14,6 +13,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -51,15 +51,6 @@ public class InspectionReport extends BaseEntity {
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "F_INVENTORY_ID", nullable = false, insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_inspectionReport2nventoryByInventoryId"))
-    private Inventory inventory;
-
-    @NotNull
-    @Column(name = "F_INVENTORY_ID", nullable = false)
-    private Long inventoryId;
-
-    @Setter(AccessLevel.NONE)
-    @ManyToOne(fetch = FetchType.LAZY)
     @NotAudited
     @JoinColumn(name = "F_SELLER_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_inspectionReport2contactBySellerId"))
     private Contact seller;
@@ -91,6 +82,10 @@ public class InspectionReport extends BaseEntity {
     @Column(name = "F_CURRENCY_ID", nullable = false)
     private Long currencyId;
 
-    //  private List<BillLading billLadings;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "inspectionReport", cascade = CascadeType.ALL)
+    private List<AssayInspection> assayInspections;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "inspectionReport", cascade = CascadeType.ALL)
+    private List<WeightInspection> weightInspections;
 
 }

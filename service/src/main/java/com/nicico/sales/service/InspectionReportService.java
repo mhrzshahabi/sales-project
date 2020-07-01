@@ -26,7 +26,7 @@ public class InspectionReportService extends GenericService<InspectionReport, Lo
     @Override
     public InspectionReportDTO.Info createWeightInspec(InspectionReportDTO.Create request) {
 
-        InspectionReportDTO.Info inspectionReportDTO = super.create(request);
+        /*InspectionReportDTO.Info inspectionReportDTO = super.create(request);
         inspectionReportDTO.setWeightInspection(request.getWeightInspection());
 
         WeightInspectionDTO.Info weightInspectionDTO = inspectionReportDTO.getWeightInspection();
@@ -39,14 +39,15 @@ public class InspectionReportService extends GenericService<InspectionReport, Lo
         weightInspectionDAO.save(weightInspection);
 
         InspectionReport inspectionReport = modelMapper.map(inspectionReportDTO, InspectionReport.class);
-        return save(inspectionReport);
+        return save(inspectionReport);*/
+        return null;
 
     }
 
     @Override
     public InspectionReportDTO.Info createAssayInspec(InspectionReportDTO.Create request) {
 
-        InspectionReportDTO.Info inspectionReportDTO = super.create(request);
+        /*InspectionReportDTO.Info inspectionReportDTO = super.create(request);
         inspectionReportDTO.setAssayInspection(request.getAssayInspection());
 
         AssayInspectionDTO.Info assayInspectionDTO = inspectionReportDTO.getAssayInspection();
@@ -59,7 +60,8 @@ public class InspectionReportService extends GenericService<InspectionReport, Lo
         assayInspectionDAO.save(assayInspection);
 
         InspectionReport inspectionReport = modelMapper.map(inspectionReportDTO, InspectionReport.class);
-        return save(inspectionReport);
+        return save(inspectionReport);*/
+        return null;
 
     }
 }
