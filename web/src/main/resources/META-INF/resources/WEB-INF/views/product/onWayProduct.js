@@ -403,9 +403,9 @@ function mainOnWayProduct() {
                     .criteria.find(c => c.fieldName === 'codeKala').value
             )['gdsName']);
             pdf.setValue("tolid", SalesBaseParameters.getSavedWarehouseParameter().find(
-                sp => sp.id === ListGrid_Tozin_IN_ONWAYPRODUCT.getFilterEditorCriteria()
+                sp => sp.id === Number(ListGrid_Tozin_IN_ONWAYPRODUCT.getFilterEditorCriteria()
                     .criteria.find(c => c.fieldName === 'sourceId').value
-            )['name']);
+                ))['name']);
 
             console.log(pdf.getValues());
 
