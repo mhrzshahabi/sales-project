@@ -76,7 +76,7 @@ public class MaterialItemService implements IMaterialItemService {
     @PreAuthorize("hasAuthority('C_MATERIAL_ITEM')")
     public MaterialItemDTO.Info create(MaterialItemDTO.Create request) {
         final MaterialItem materialItem = modelMapper.map(request, MaterialItem.class);
-
+        materialItem.setId(request.getGdsCode());
         return save(materialItem);
     }
 
@@ -86,7 +86,6 @@ public class MaterialItemService implements IMaterialItemService {
     public MaterialItemDTO.Info update(Long id, MaterialItemDTO.Update request) {
         final Optional<MaterialItem> slById = materialItemDAO.findById(id);
         final MaterialItem materialItem = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.MaterialItemNotFound));
-
         MaterialItem updating = new MaterialItem();
         modelMapper.map(materialItem, updating);
         modelMapper.map(request, updating);
