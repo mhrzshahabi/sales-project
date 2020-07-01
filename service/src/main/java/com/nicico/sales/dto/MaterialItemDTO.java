@@ -20,6 +20,7 @@ public class MaterialItemDTO {
     private String gdsName;
     private Long materialId;
     private String miDetailCode;
+    private String gdsNameEn;
 
     @Getter
     @Setter
