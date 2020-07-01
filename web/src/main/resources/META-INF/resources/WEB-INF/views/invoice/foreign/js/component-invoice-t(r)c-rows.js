@@ -24,26 +24,26 @@ isc.defineClass("invoiceTRCRows", isc.VLayout).addProperties({
         switch (this.material) {
 
             case 1:
-                unitComponentCol1 = isc.componentUnit.create({
-                    titelFieldValue: "Row1",
+                unitComponentCol1 = isc.Unit.create({
+                    fieldValueTitle: "Row1",
                     showTitleFieldValue: false,
-                    typeUnitCategory: 1,
+                    unitCategory: 1,
                     showTitle: false,
                     // disabled: true
                 });
 
-                unitComponentCol2 = isc.componentUnit.create({
-                    titelFieldValue: "Row2",
+                unitComponentCol2 = isc.Unit.create({
+                    fieldValueTitle: "Row2",
                     showTitleFieldValue: false,
-                    typeUnitCategory: 1,
+                    unitCategory: 1,
                     showTitle: false,
                     // disabled: true
                 });
 
-                unitComponentColFinal = isc.componentUnit.create({
-                    titelFieldValue: "RowFinal",
+                unitComponentColFinal = isc.Unit.create({
+                    fieldValueTitle: "RowFinal",
                     showTitleFieldValue: false,
-                    typeUnitCategory: 1,
+                    unitCategory: 1,
                     showTitle: false,
                     // disabled: true
                 });

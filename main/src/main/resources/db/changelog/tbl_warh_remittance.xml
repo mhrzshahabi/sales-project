@@ -16,4 +16,8 @@
     <changeSet author="saeb (generated)" id="saeb1593328809743-264">
         <dropColumn columnName="SECURITY_POLOMP_NO" tableName="TBL_WARH_REMITTANCE"/>
     </changeSet>
+    <changeSet author="saeb (generated)" id="1593351501735-229">
+        <addUniqueConstraint columnNames="C_CODE" constraintName="UC_TsBL_WARH_REMITTANCEC_CODE_COL"
+                             tableName="TBL_WARH_REMITTANCE"/>
+    </changeSet>
 </databaseChangeLog>

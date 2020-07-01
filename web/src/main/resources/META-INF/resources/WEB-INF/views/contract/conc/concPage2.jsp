@@ -607,7 +607,7 @@ var RestDataSource_Incoterms_InCon = isc.MyRestDataSource.create({
                 showTitle: true,
                 defaultValue: "",
                 startRow: true,
-                title: "<strong class='cssDynamicForm'>EXCHANGE RATE DATE</strong>"
+                title: "<strong class='cssDynamicForm'>CURRENCY RATE DATE</strong>"
             }, {
                 name: "article12_number61",
                 width: "150",

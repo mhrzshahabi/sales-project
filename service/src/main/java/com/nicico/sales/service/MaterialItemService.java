@@ -46,6 +46,7 @@ public class MaterialItemService implements IMaterialItemService {
                         .setId(Long.valueOf(u[0].toString()))
                         .setGdsCode(Long.valueOf(u[0].toString()))
                         .setGdsName(u[1].toString())
+                        .setMaterialId(-1L)
                 )
                 .collect(Collectors.toList()));
         materialItemDAO.saveAll(materialItems);

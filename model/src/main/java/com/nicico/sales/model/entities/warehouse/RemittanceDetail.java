@@ -28,7 +28,7 @@ public class RemittanceDetail extends BaseEntity {
     private Long amount;
 
     @Setter(AccessLevel.NONE)
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "F_UNIT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_remittanceDetail2unityUnitId"))
     private Unit unit;
 
@@ -37,7 +37,7 @@ public class RemittanceDetail extends BaseEntity {
     private Long unitId;
 
     @Setter(AccessLevel.NONE)
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "F_REMITTANCE_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_remittanceDetail2remittanceByRemittanceId"))
     private Remittance remittance;
 
@@ -46,7 +46,7 @@ public class RemittanceDetail extends BaseEntity {
     private Long remittanceId;
 
     @Setter(AccessLevel.NONE)
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "F_INVENTORY_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_remittanceDetail2inventoryByInventoryId"))
     private Inventory inventory;
 
@@ -55,7 +55,7 @@ public class RemittanceDetail extends BaseEntity {
     private Long inventoryId;
 
     @Setter(AccessLevel.NONE)
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "F_DEPOT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_remittanceDetail2depotByDepotId"))
     private Depot depot;
 
@@ -63,8 +63,8 @@ public class RemittanceDetail extends BaseEntity {
     @Column(name = "F_DEPOT_ID", nullable = true)
     private Long depotId;
 
-    @NotNull
-    @OneToOne(fetch = FetchType.LAZY)
+    @Setter(AccessLevel.NONE)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "F_SOURCE_TOZINE_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_remittanceSource2tozinTableTozineId"))
     private TozinTable sourceTozin;
 
@@ -72,8 +72,8 @@ public class RemittanceDetail extends BaseEntity {
     @Column(name = "F_SOURCE_TOZINE_ID", nullable = false)
     private Long sourceTozinId;
 
-    @NotNull
-    @OneToOne(fetch = FetchType.LAZY)
+    @Setter(AccessLevel.NONE)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "F_DESTINATION_TOZINE_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_remittanceTozinDest2tozinTableTozineId"))
     private TozinTable destinationTozin;
 
