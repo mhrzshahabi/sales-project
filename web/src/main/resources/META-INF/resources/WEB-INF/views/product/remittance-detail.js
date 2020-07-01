@@ -685,7 +685,18 @@ rdTab.Methods.RecordDoubleClickRD = function () {
 ////////////////////////////////////////////////////////FIELDS//////////////////////////////////////////////////////////
 rdTab.Fields.RemittanceDetailFields = [
     {name: "id", hidden: true, type: "number"},
-    {name: "remittanceId", hidden: true},
+    {
+        name: "remittanceId", hidden: true,
+        optionDataSource: isc.MyRestDataSource.create({
+            fetchDataURL: 'api/remittance/spec-list',
+            fields: rdTab.Fields.Remittance
+        }),
+        pickListProperties: {
+            fields: rdTab.Fields.Remittance
+        },
+        displayField: "code",
+        valueField: "id",
+    },
     {name: "depotId", hidden: true},
     {
         name: "unitId",
