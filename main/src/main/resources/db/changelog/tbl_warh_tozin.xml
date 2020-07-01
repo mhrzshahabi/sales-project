@@ -54,4 +54,8 @@
     <changeSet author="saeb (generated)" id="saeb1593328809743-266">
         <dropColumn columnName="TZN_DATE" tableName="TBL_WARH_TOZIN"/>
     </changeSet>
+    <changeSet author="saeb (generated)" id="saeb1593351501735-230">
+        <addUniqueConstraint columnNames="TOZINE_ID" constraintName="UC_TBL_WARH_TOZINTOZINE_ID_COL"
+                             tableName="TBL_WARH_TOZIN"/>
+    </changeSet>
 </databaseChangeLog>
