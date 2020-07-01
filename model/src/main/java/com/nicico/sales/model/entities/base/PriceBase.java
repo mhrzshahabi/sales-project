@@ -7,6 +7,7 @@ import lombok.*;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -43,4 +44,21 @@ public class PriceBase extends BaseEntity {
     @Column(name = "N_PRICE", precision = 10, scale = 5)
     private BigDecimal price;
 
+    @Setter(AccessLevel.NONE)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "F_CURRENCY_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_priceBase2CurrencyByCurrencyId"))
+    private Currency currency;
+
+    @NotNull
+    @Column(name = "F_CURRENCY_ID", nullable = false)
+    private Long currencyId;
+
+    @Setter(AccessLevel.NONE)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "F_UNIT_ID", nullable = false, insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_priceBase2UnitByUnitId"))
+    private Unit unit;
+
+    @NotNull
+    @Column(name = "F_UNIT_ID", nullable = false)
+    private Long unitId;
 }

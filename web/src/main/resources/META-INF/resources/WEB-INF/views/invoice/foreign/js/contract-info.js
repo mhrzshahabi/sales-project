@@ -10,7 +10,7 @@ __contract.getBuyer = function (contract) {
 };
 __contract.getMaterial = function (contract) {
 
-    return {descl: "CATHOD KHOSHGELE"};
+    return {descl: "CATHOD KHOSHGELE", id: 2};
 };
 __contract.getDeliveryTerm = function (contract) {
 
@@ -18,13 +18,16 @@ __contract.getDeliveryTerm = function (contract) {
 };
 __contract.getContractYear = function (contract) {
 
+    // Year of MOAS+x
     return 2020;
 };
-__contract.getContractMonth = function (contract) {
+__contract.getContractMOASValue = function (contract) {
 
+    // Month of actual shipment plus
     return 2;
 };
-__contract.getFinalPriceBaseText = function (contract) {
+__contract.getShipmentMonthNo = function (shipment) {
 
-    return 'AVERAGE MAY 2017 (MOAS+2)';
+    // Month of actual shipment plus
+    return DateUtil.getMonthNames().indexOf(shipment.month) + 1;
 };
