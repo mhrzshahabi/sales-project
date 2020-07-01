@@ -23,7 +23,10 @@ const tozinLiteFields = [
         },
         filterOperator: "greaterOrEqual",
         title: "<spring:message code='Tozin.date'/>",
-        align: "center"
+        align: "center",
+        formatCellValue(value, record, rowNum, colNum, grid) {
+            return (value.substr(0, 4) + "/" + value.substr(4, 2) + "/" + value.substr(-2))
+        }
     },
     {
         name: "tozinId",
@@ -40,7 +43,7 @@ const tozinLiteFields = [
     {
         name: "codeKala",
         type: "number",
-        filterEditorProperties: {editorType: "comboBox"},
+        // filterEditorProperties: {editorType: "comboBox"},
         valueMap: {11: 'كاتد صادراتي', 8: 'كنسانتره مس ', 97: 'اكسيد موليبدن'},
         title: "<spring:message code='Tozin.codeKala'/>",
         parseEditorValue: function (value, record, form, item) {
@@ -78,29 +81,45 @@ const tozinLiteFields = [
     {
         name: "sourceId",
         type: "number",
-        filterEditorProperties: {editorType: "comboBox"},
+        // filterEditorProperties: {editorType: "comboBox"},
         parseEditorValue: function (value, record, form, item) {
             StorageUtil.save('on_way_product_defaultSourceId', value)
             return value;
         },
         valueMap: SalesBaseParameters.getSavedWarehouseParameter().getValueMap("id", "name"),
+        valueMap: {
+            2421: 'ايستگاه قطار تبريز',
+            1540: 'مجتمع مس شهربابك -ميدوك ',
+            1541: 'مجتمع مس سونگون ',
+            1000: 'مجتمع مس سرچشمه',
+            1021: 'مجتمع مس شهربابك - خاتون آباد ',
+            2509: 'شركت هاي خصوصي وتابع ',
+            2555: 'اسكله شهيد رجائي ',
+        },
         title: "<spring:message code='Tozin.sourceId'/>",
         align: "center"
     },
     {
         name: "targetId",
         type: "number",
-        filterEditorProperties: {
-            editorType: "comboBox",
-            type: "number",
-            // defaultValue: StorageUtil.get('on_way_product_defaultTargetId')
-        },
+        // filterEditorProperties: {
+        //     editorType: "comboBox",
+        //     type: "number",
+        //     // defaultValue: StorageUtil.get('on_way_product_defaultTargetId')
+        // },
         parseEditorValue: function (value, record, form, item) {
             StorageUtil.save('on_way_product_defaultTargetId', value)
             return value;
         },
         filterOperator: "equals",
         valueMap: SalesBaseParameters.getSavedWarehouseParameter().getValueMap("id", "name"),
+
+        valueMap: {
+            2320: 'بندر شهيد رجايي، روبروي اسكله شانزده ،محوطه فلزات آلياژي شركت تايد واتر',
+            1000: 'مجتمع مس سرچشمه',
+            2340: 'بندر شهيد رجايي ، انبار كالا شماره 20',
+            2555: 'اسكله شهيد رجائي ',
+        },
         title: "<spring:message code='Tozin.targetId'/>",
         align: "center",
     },
@@ -328,31 +347,7 @@ function mainOnWayProduct() {
                 if (!['driverName', 'havalehCode'].contains(f.name))
                     headers.add(f.title)
             });
-            /*
-            const fromDay_Value = DynamicForm_DailyReport_OnWayProduct.getValue("fromDay");
-            const toDay_Value = DynamicForm_DailyReport_Tozin1.getValue("toDay");
 
-            const materialId_List = DynamicForm_DailyReport_Tozin2.getField("materialId").getValueMap();
-            const materialId_Value = DynamicForm_DailyReport_Tozin2.getValue("materialId");
-
-
-            const Vahed_tolidi_List = DynamicForm_DailyReport_Tozin3.getField("type").getValueMap();
-            const Vahed_tolidi_Value = DynamicForm_DailyReport_Tozin3.getValue("type");
-
-            const movementType_List = DynamicForm_DailyReport_Tozin4.getField("type").getValueMap();
-            const movementType_Value = DynamicForm_DailyReport_Tozin4.getValue("type");
-            */
-            // const material = materialId_List[materialId_Value];
-            // const vahed_tolidi = Vahed_tolidi_List[Vahed_tolidi_Value];
-            // const movementType = movementType_List[movementType_Value];
-            /*
-            const top =
-                " از تاریخ: " + fromDay_Value +
-                "------ تا تاریخ: " + toDay_Value +
-                "------ محصول: " + material +
-                "------ واحد تولیدی: " + vahed_tolidi +
-                "------ نوع حمل: " + movementType;
-            */
             const top = "";
             const filterEditorCriteria = ListGrid_Tozin_IN_ONWAYPRODUCT.getFilterEditorCriteria();
             const criterias = [];
@@ -380,11 +375,11 @@ function mainOnWayProduct() {
         fields:
             [
                 {name: "type"},
-                // {name: "dateaval"},
-                // {name: "datedovom"},
-                // {name: "kala"},
-                // {name: "tolid"},
-                {name: "haml"},
+                {name: "dateaval"},
+                {name: "datedovom"},
+                {name: "kala"},
+                {name: "tolid"},
+                // {name: "haml"},
                 {name: "criteria"},
             ]
     });
@@ -397,9 +392,25 @@ function mainOnWayProduct() {
 
             const criteria = JSON.stringify(ListGrid_Tozin_IN_ONWAYPRODUCT.getFilterEditorCriteria());
             pdf.setValue("criteria", criteria);
-
             pdf.setValue("type", "pdf");
+
+            const dateaval = ListGrid_Tozin_IN_ONWAYPRODUCT.getFilterEditorCriteria().criteria.find(c => c.fieldName === 'date').value
+            pdf.setValue("dateaval", (dateaval.substr(0, 4)
+                + "/" + dateaval.substr(4, 2) + "/" + dateaval.substr(-2)));
+            pdf.setValue("datedovom", new persianDate().format('YYYY/MM/DD'));
+            pdf.setValue("kala", SalesBaseParameters.getSavedMaterialItemParameter().find(
+                sp => sp.id === ListGrid_Tozin_IN_ONWAYPRODUCT.getFilterEditorCriteria()
+                    .criteria.find(c => c.fieldName === 'codeKala').value
+            )['gdsName']);
+            pdf.setValue("tolid", SalesBaseParameters.getSavedWarehouseParameter().find(
+                sp => sp.id === ListGrid_Tozin_IN_ONWAYPRODUCT.getFilterEditorCriteria()
+                    .criteria.find(c => c.fieldName === 'sourceId').value
+            )['name']);
+
+            console.log(pdf.getValues());
+
             pdf.submitForm();
+
 
         }
     });
@@ -436,6 +447,7 @@ function mainOnWayProduct() {
                 members: [
                     isc.ToolStripButtonRefresh.create({
                         title: "<spring:message code='global.form.refresh'/> پارامترها",
+                        visibility: "hidden",
                         click: function () {
                             SalesBaseParameters.getAllParameters(true).then(
                                 res => {
@@ -478,8 +490,38 @@ function mainOnWayProduct() {
         },
         filterData(criteria, callback, requestProperties) {
             criteria.criteria.add({"fieldName": "tozinId", "operator": "iNotStartsWith", "value": "3-"})
+            if (!criteria.criteria.find(t => t.fieldName === "sourceId")) {
+                isc.say('فیلتر مقصد خالی‌ می‌یاشد')
+                throw 'فیلتر مقصد خالی‌ می‌یاشد'
+            }
+            if (!criteria.criteria.find(t => t.fieldName === "targetId")) {
+                isc.say('فیلتر مقصد خالی‌ می‌یاشد')
+                throw "مبدا چی شد"
+            }
+            if (!criteria.criteria.find(t => t.fieldName === "codeKala")) {
+                isc.say('لطفا محصول انتخاب نمایید')
+                throw "مبدا چی شد"
+            }
             return this.Super("filterData", arguments)
 
+        },
+        getFilterEditorCriteria() {
+            const criteria = this.Super('getFilterEditorCriteria', arguments);
+
+            if (!criteria.criteria.find(t => t.fieldName === "sourceId")) {
+                isc.say('فیلتر مقصد خالی‌ می‌یاشد')
+                throw 'فیلتر مقصد خالی‌ می‌یاشد'
+            }
+            if (!criteria.criteria.find(t => t.fieldName === "targetId")) {
+                isc.say('فیلتر مقصد خالی‌ می‌یاشد')
+                throw "مبدا چی شد"
+            }
+            if (!criteria.criteria.find(t => t.fieldName === "codeKala")) {
+                isc.say('لطفا محصول انتخاب نمایید')
+                throw "مبدا چی شد"
+            }
+
+            return criteria;
         },
         // filterLocalData: true,
         autoFitMaxRecords: 10,
@@ -524,11 +566,11 @@ function mainOnWayProduct() {
             value: targetId
         })
     }
-    if ((targetId = StorageUtil.get('on_way_product_defaultSourceId'))) {
+    if ((sourceId = StorageUtil.get('on_way_product_defaultSourceId'))) {
         listGrid_Tozin_IN_ONWAYPRODUCT_fiter_editor_criteria.criteria.add({
             fieldName: "sourceId",
             operator: 'equals',
-            value: targetId
+            value: sourceId
         })
     }
     if ((codeKala = StorageUtil.get('on_way_product_defaultCodeKala'))) {
