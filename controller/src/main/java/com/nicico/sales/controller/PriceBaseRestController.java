@@ -66,8 +66,8 @@ public class PriceBaseRestController {
 
     @Loggable
     @GetMapping(value = "/get-base-price")
-    public ResponseEntity<List<ElementDTO.PriceBase>> getBasePrice(@RequestParam Integer year, @RequestParam Integer month, @RequestParam Long materialId) {
+    public ResponseEntity<List<ElementDTO.ElementPriceBaseDTO>> getBasePrice(@RequestParam Integer year, @RequestParam Integer month, @RequestParam Long materialId) {
 
-        return new ResponseEntity<>(priceBaseService.getElementBasePrice(year, month, materialId), HttpStatus.OK);
+        return new ResponseEntity<>(priceBaseService.getElementBasePrices(year, month, materialId), HttpStatus.OK);
     }
 }

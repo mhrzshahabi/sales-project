@@ -33,41 +33,41 @@ isc.defineClass("invoiceCalculationRows", isc.VLayout).addProperties({
         switch (this.isPercent){
 
             case 0:
-                unitComponentAssay = isc.componentUnit.create({
-                    titelFieldValue: "Assay",
+                unitComponentAssay = isc.Unit.create({
+                    fieldValueTitle: "Assay",
                     showTitleFieldValue: false,
-                    typeUnitCategory: 1,
+                    unitCategory: 1,
                     showTitle: false,
                 });
 
-                unitComponentDeduc = isc.componentUnit.create({
-                    titelFieldValue: "Deduc",
+                unitComponentDeduc = isc.Unit.create({
+                    fieldValueTitle: "Deduc",
                     showTitleFieldValue: false,
-                    typeUnitCategory: 1,
-                    showTitle: false,
-                    // disabled: true
-                });
-
-                unitComponentFinalCol1 = isc.componentUnit.create({
-                    titelFieldValue: "Final1",
-                    showTitleFieldValue: false,
-                    typeUnitCategory: 1,
+                    unitCategory: 1,
                     showTitle: false,
                     // disabled: true
                 });
 
-                unitComponentFinalCol2 = isc.componentUnit.create({
-                    titelFieldValue: "Final2",
+                unitComponentFinalCol1 = isc.Unit.create({
+                    fieldValueTitle: "Final1",
                     showTitleFieldValue: false,
-                    typeUnitCategory: 1,
+                    unitCategory: 1,
                     showTitle: false,
                     // disabled: true
                 });
 
-                unitComponentFinalCol3 = isc.componentUnit.create({
-                    titelFieldValue: "Final3",
+                unitComponentFinalCol2 = isc.Unit.create({
+                    fieldValueTitle: "Final2",
                     showTitleFieldValue: false,
-                    typeUnitCategory: 1,
+                    unitCategory: 1,
+                    showTitle: false,
+                    // disabled: true
+                });
+
+                unitComponentFinalCol3 = isc.Unit.create({
+                    fieldValueTitle: "Final3",
+                    showTitleFieldValue: false,
+                    unitCategory: 1,
                     showTitle: false,
                     // disabled: true
                 });
@@ -102,57 +102,57 @@ isc.defineClass("invoiceCalculationRows", isc.VLayout).addProperties({
                 break;
 
             case 1:
-                unitComponentAssay = isc.componentUnit.create({
-                    titelFieldValue: "Assay",
+                unitComponentAssay = isc.Unit.create({
+                    fieldValueTitle: "Assay",
                     showTitleFieldValue: false,
-                    typeUnitCategory: 1,
+                    unitCategory: 1,
                     showTitle: false,
                 });
 
-                unitComponentDeduc = isc.componentUnit.create({
-                    titelFieldValue: "Deduc",
+                unitComponentDeduc = isc.Unit.create({
+                    fieldValueTitle: "Deduc",
                     showTitleFieldValue: false,
-                    typeUnitCategory: 1,
-                    showTitle: false,
-                    // disabled: true
-                });
-
-                unitComponentNPCol1 = isc.componentUnit.create({
-                    titelFieldValue: "NP1",
-                    showTitleFieldValue: false,
-                    typeUnitCategory: 1,
+                    unitCategory: 1,
                     showTitle: false,
                     // disabled: true
                 });
 
-                unitComponentNPCol2 = isc.componentUnit.create({
-                    titelFieldValue: "NP2",
+                unitComponentNPCol1 = isc.Unit.create({
+                    fieldValueTitle: "NP1",
                     showTitleFieldValue: false,
-                    typeUnitCategory: 1,
+                    unitCategory: 1,
                     showTitle: false,
                     // disabled: true
                 });
 
-                unitComponentFinalCol1 = isc.componentUnit.create({
-                    titelFieldValue: "Final1",
+                unitComponentNPCol2 = isc.Unit.create({
+                    fieldValueTitle: "NP2",
                     showTitleFieldValue: false,
-                    typeUnitCategory: 1,
+                    unitCategory: 1,
                     showTitle: false,
                     // disabled: true
                 });
 
-                unitComponentFinalCol2 = isc.componentUnit.create({
-                    titelFieldValue: "Final2",
+                unitComponentFinalCol1 = isc.Unit.create({
+                    fieldValueTitle: "Final1",
                     showTitleFieldValue: false,
-                    typeUnitCategory: 1,
+                    unitCategory: 1,
                     showTitle: false,
                     // disabled: true
                 });
 
-                unitComponentFinalCol3 = isc.componentUnit.create({
-                    titelFieldValue: "Final3",
+                unitComponentFinalCol2 = isc.Unit.create({
+                    fieldValueTitle: "Final2",
                     showTitleFieldValue: false,
-                    typeUnitCategory: 1,
+                    unitCategory: 1,
+                    showTitle: false,
+                    // disabled: true
+                });
+
+                unitComponentFinalCol3 = isc.Unit.create({
+                    fieldValueTitle: "Final3",
+                    showTitleFieldValue: false,
+                    unitCategory: 1,
                     showTitle: false,
                     // disabled: true
                 });

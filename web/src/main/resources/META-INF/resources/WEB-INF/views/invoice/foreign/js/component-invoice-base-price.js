@@ -7,177 +7,66 @@ isc.defineClass("InvoiceBasePrice", isc.VLayout).addProperties({
     showEdges: false,
     layoutMargin: 2,
     membersMargin: 2,
-    elements: [],
     contract: null,
+    shipment: null,
     initWidget: function () {
 
         this.Super("initWidget", arguments);
 
         let This = this;
-        let contartYear = __contract.getContractYear(This.contract);
-        let contartMonth = __contract.getContractMonth(This.contract);
-        let finalPriceBaseText = __contract.getFinalPriceBaseText(This.contract);
+        let year = __contract.getContractYear(This.contract);
+        let material = __contract.getMaterial(This.contract);
+        let month = __contract.getShipmentMonthNo(This.shipment);
+        let moasValue = __contract.getContractMOASValue(This.contract);
 
+        let fields = [];
         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
             params: {
-                year: contartYear,
-                month: contartMonth,
-                materialId: __contract.getMaterial(This.contract).id
+                year: year,
+                materialId: material.id,
+                month: month + moasValue
             },
             httpMethod: "GET",
             actionURL: "${contextPath}/api/price-base/get-base-price",
             callback: function (resp) {
 
-                let response = JSON.parse(resp.data);
-                form.getItem("copper").setValue(response[0].cuUsdMt);
-                form.getItem("silver").setValue(response[0].silverUsdOunce);
-                form.getItem("gold").setValue(response[0].goldUsdOunce);
-                form.getItem("platinum").setValue(response[0].platinumUsdOunce);
-                form.getItem("palladium").setValue(response[0].palladiumUsdOunce);
-                form.getItem("selenium").setValue(response[0].seleniumUsdLb);
+                let elements = JSON.parse(resp.data);
+                for (let index = 0; index < elements.length; index++) {
+
+                    if (!elements[index].payable)
+                        continue;
+
+                    fields.add(isc.Unit.create({
+
+                        unitCategory: 1,
+                        disabledUnitField: true,
+                        disabledValueField: true,
+                        disabledCurrencyField: true,
+                        showValueFieldTitle: true,
+                        showUnitFieldTitle: false,
+                        showCurrencyFieldTitle: false,
+                        fieldValueTitle: elements[index].name,
+                        border: "1px solid rgba(0, 0, 0, 0.3)",
+                    }));
+                    fields.last().setValue(elements[index].price);
+                    fields.last().setUnitId(elements[index].unit.id);
+                    fields.last().setCurrencyId(elements[index].currency.id);
+                }
+
+                This.addMember(isc.Label.create({
+                    contents: "<b>" + "AVERAGE OF " + (month + moasValue) + "th MONTH OF " + year + " (MOAS" + (moasValue > 0 ? "+" : "-") + moasValue + ")<b>"
+                }));
+                This.addMember(isc.DynamicForm.create({
+                    width: "100%",
+                    fields: fields
+                }));
             }
         }));
-
-
-        switch (this.material) {
-            case 0:
-                form = isc.DynamicForm.create({
-                    margin: 10,
-                    width: "100%",
-                    canSubmit: true,
-                    align: "center",
-                    titleAlign: "right",
-                    numCols: 2,
-                    fields: [
-                        {
-                            name: "copper",
-                            title: '<spring:message code="component.invoice.price.copper"/>',
-                            type: "float",
-                            required: true,
-                        },
-                    ],
-                });
-
-                this.addMember(isc.Label.create({
-                    align: "left",
-                    contents: "<b>" + "AVERAGE OF " + this.contractMonth + "th Month of " + this.contractYear + "<b>",
-                }));
-                this.addMember(form);
-                break;
-            case 1:
-                form = isc.DynamicForm.create({
-                    margin: 10,
-                    width: "100%",
-                    canSubmit: true,
-                    align: "center",
-                    titleAlign: "right",
-                    numCols: 2,
-                    fields: [
-                        {
-                            name: "copper",
-                            title: '<spring:message code="component.invoice.price.copper"/>',
-                            type: "float",
-                            required: true,
-                        },
-                        {
-                            name: "silver",
-                            title: '<spring:message code="component.invoice.price.silver"/>',
-                            type: "float",
-                            required: true,
-                        },
-                        {
-                            name: "gold",
-                            title: '<spring:message code="component.invoice.price.gold"/>',
-                            type: "float",
-                            required: true,
-                        },
-                    ]
-                });
-
-                this.addMember(isc.Label.create({
-                    align: "left",
-                    contents: "<b>" + "AVERAGE OF " + this.contractMonth + "th Month of " + this.contractYear + "<b>",
-                }));
-                this.addMember(form);
-                break;
-            case 4:
-                form = isc.DynamicForm.create({
-                    margin: 10,
-                    width: "100%",
-                    canSubmit: true,
-                    align: "center",
-                    titleAlign: "right",
-                    numCols: 2,
-                    fields: [
-                        {
-                            name: "copper",
-                            title: '<spring:message code="component.invoice.price.copper"/>',
-                            type: "float",
-                            required: true,
-                        },
-                        {
-                            name: "silver",
-                            title: '<spring:message code="component.invoice.price.silver"/>',
-                            type: "float",
-                            required: true,
-                        },
-                        {
-                            name: "gold",
-                            title: '<spring:message code="component.invoice.price.gold"/>',
-                            type: "float",
-                            required: true,
-                        },
-                        {
-                            name: "platinum",
-                            title: '<spring:message code="component.invoice.price.platinum"/>',
-                            type: "float",
-                            required: true,
-                        },
-                        {
-                            name: "palladium",
-                            title: '<spring:message code="component.invoice.price.palladium"/>',
-                            type: "float",
-                            required: true,
-                        },
-                        {
-                            name: "selenium",
-                            title: '<spring:message code="component.invoice.price.selenium"/>',
-                            type: "float",
-                            required: true,
-                        },
-                    ]
-                });
-
-                this.addMember(isc.Label.create({
-                    align: "left",
-                    contents: "<b>" + "AVERAGE OF " + this.contractMonth + "th Month of " + this.contractYear + "<b>",
-                }));
-                this.addMember(form);
-                break;
-        }
-
     },
-    getPriceValues: function () {
-        invoicePriceObj.priceCopper = Number(form.getItem("copper").getValue());
-        invoicePriceObj.priceSilver = Number(form.getItem("silver").getValue());
-        invoicePriceObj.priceGold = Number(form.getItem("gold").getValue());
-        invoicePriceObj.pricePlatinum = Number(form.getItem("platinum").getValue());
-        invoicePriceObj.pricePalladium = Number(form.getItem("palladium").getValue());
-        invoicePriceObj.priceSelenium = Number(form.getItem("selenium").getValue());
-        return invoicePriceObj;
+    getValues: function () {
+        return this.members[1].getValues();
     },
-    setPriceValues: function (data) {
-        form.getItem("copper").setValue(data.priceCopper);
-        form.getItem("silver").setValue(data.priceSilver);
-        form.getItem("gold").setValue(data.priceGold);
-        form.getItem("platinum").setValue(data.pricePlatinum);
-        form.getItem("palladium").setValue(data.pricePalladium);
-        form.getItem("selenium").setValue(data.priceSelenium);
-    },
+    setValues: function (data) {
+        return this.members[1].setValues(data);
+    }
 });
-
-/*isc.InvoiceBasePrice.create({
-    material: materialCode["Copper Concentrate"],
-    contractMonth: Number('01'),
-    contractYear: Number('2000'),
-});*/

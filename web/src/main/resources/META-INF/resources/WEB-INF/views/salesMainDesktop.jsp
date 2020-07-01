@@ -91,6 +91,18 @@
     <%@include file="common/ts/GeneralTabUtil.js"%>
     <%@include file="common/ts/StorageUtil.js"%>
 
+    var ImportantIDs = {
+        material: {
+            MOLYBDENUM_OXIDE: 1,
+            COPPER_CATHOD: 2,
+            COPPER_CONCENTRATES: 3
+        },
+        invoiceType: {
+            PERFORMA: 1,
+            PROVISIONAL: 2,
+            FINAL: 3
+        }
+    }
     var BaseRPCRequest = {
         httpHeaders: {"Authorization": "Bearer <%= accessToken %>"},
         useSimpleHttp: true,
@@ -588,9 +600,9 @@
                         },
                         {isSeparator: true},
                         {
-                            title: "<spring:message code='exchangeRate.title'/>",
+                            title: "<spring:message code='currencyRate.title'/>",
                             click: function () {
-                                createTab("<spring:message code='exchangeRate.title'/>", "<spring:url value="/currencyRate/showForm" />")
+                                createTab("<spring:message code='currencyRate.title'/>", "<spring:url value="/currencyRate/showForm" />")
                             }
                         },
                         {isSeparator: true},
