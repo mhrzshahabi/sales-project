@@ -34,4 +34,13 @@
         <modifyDataType columnName="N_VALUE" newDataType="NUMBER(10, 5)" tableName="TBL_ASSAY_INSPECTION"/>
     </changeSet>
 
+    <changeSet author="MShahabi" id="1799887766554-010">
+        <addColumn tableName="TBL_ASSAY_INSPECTION">
+            <column name="F_INVENTORY_ID" type="number(19, 0)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+        <addForeignKeyConstraint baseColumnNames="F_INVENTORY_ID" baseTableName="TBL_ASSAY_INSPECTION" constraintName="fk_assayInspection2inventoryByInventoryId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_WARH_INVENTORY" validate="true"/>
+    </changeSet>
+
 </databaseChangeLog>

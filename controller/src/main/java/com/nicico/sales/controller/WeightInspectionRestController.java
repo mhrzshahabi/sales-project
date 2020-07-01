@@ -45,13 +45,6 @@ public class WeightInspectionRestController {
     }
 
     @Loggable
-    @PostMapping(value = "/weight")
-    public ResponseEntity<WeightInspectionDTO.Info> createWeightInspec(@Validated @RequestBody WeightInspectionDTO.Create request) {
-
-        return new ResponseEntity<>(iWeightInspectionService.createWeightInspec(request), HttpStatus.CREATED);
-    }
-
-    @Loggable
     @PutMapping
     public ResponseEntity<WeightInspectionDTO.Info> update(@RequestBody WeightInspectionDTO.Update request) {
         return new ResponseEntity<>(iWeightInspectionService.update(request.getId(), request), HttpStatus.OK);

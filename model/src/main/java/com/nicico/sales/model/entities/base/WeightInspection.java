@@ -3,6 +3,7 @@ package com.nicico.sales.model.entities.base;
 
 import com.nicico.sales.model.Auditable;
 import com.nicico.sales.model.entities.common.BaseEntity;
+import com.nicico.sales.model.entities.warehouse.Inventory;
 import com.nicico.sales.model.enumeration.WeighingType;
 import lombok.*;
 import lombok.experimental.Accessors;
@@ -46,5 +47,14 @@ public class WeightInspection extends BaseEntity {
     @NotNull
     @Column(name = "F_INSPECTION_REPORT_ID", nullable = false)
     private Long inspectionReportId;
+
+    @Setter(AccessLevel.NONE)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "F_INVENTORY_ID", nullable = false, insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_weightInspection2inventoryByInventoryId"))
+    private Inventory inventory;
+
+    @NotNull
+    @Column(name = "F_INVENTORY_ID", nullable = false)
+    private Long inventoryId;
 
 }
