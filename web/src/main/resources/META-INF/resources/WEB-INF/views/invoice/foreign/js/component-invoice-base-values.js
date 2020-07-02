@@ -23,9 +23,9 @@ isc.defineClass("InvoiceBaseValues", isc.VLayout).addProperties({
                 contract: This.contract,
                 shipment: This.shipment
             }));
-            // this.addMember(isc.InvoiceBaseAssay.create({
-            //
-            // }));
+            this.addMember(isc.InvoiceBaseAssay.create({
+                inventories: []
+            }));
             // this.addMember(isc.InvoiceBaseWeight.create({
             //
             // }));
