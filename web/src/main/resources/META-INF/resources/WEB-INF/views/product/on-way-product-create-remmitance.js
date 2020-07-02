@@ -32,7 +32,7 @@ function onWayProductCreateRemittance() {
 
             }
         )
-        DynamicForm_warehouseCAD.setValue('destinationWeight', (sums['vazn'] / 1000).toString());
+        DynamicForm_warehouseCAD.setValue('destinationWeight', (sums['vazn']).toString());
         DynamicForm_warehouseCAD.setValue('destinationSheetSum', sums['tedad']);
         DynamicForm_warehouseCAD.setValue('destinationBundleSum', sums['totalPkg']);
     }
@@ -420,7 +420,7 @@ function onWayProductCreateRemittance() {
         return returnVar;
     })()
     const listGridSetDestTozinHarasatPolompForSelectedTozin = (function () {
-
+            const fieldsTohide = ["havalehCode", "targetId", "containerNo3", "containerNo1",];
             const grid_source = isc.ListGrid.create({
                 ...windowDestinationTozinList['gc'],
                 ...{
@@ -600,6 +600,8 @@ function onWayProductCreateRemittance() {
                             canEdit: false,
                         }
                     }
+                    fieldsTohide.contains(c.name)
+                    c['hidden'] = true;
                     return {...c, canEdit: false}
                 }),
                     {
@@ -924,7 +926,7 @@ function onWayProductCreateRemittance() {
             const grid = window[grid_string];
             const selected_records = ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecords();
             const tzn_data = tozin.response.data;
-            const vazn = (tzn_data.map(t => t.vazn).reduce((i, j) => j + i) / 1000).toString();
+            const vazn = (tzn_data.map(t => t.vazn).reduce((i, j) => j + i)).toString();
             DynamicForm_warehouseCAD.setValue('sourceWeight',
                 vazn);
             const packageSample = {

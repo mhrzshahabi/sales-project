@@ -2,6 +2,8 @@
 // <%@ page contentType="text/html;charset=UTF-8" %>
 // <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 //<script>
+// isc.DataSource.addSearchOperator({...isc.DataSource.getSearchOperators()['equals'],ID:"bagher",title:"bagher"})
+
 const tozinLiteFields = [
     {
         name: "date",
@@ -66,9 +68,36 @@ const tozinLiteFields = [
     },
     {
         name: "containerNo3",
-        type: "number",
-        title: "<spring:message code='Tozin.containerNo3'/>",
+        title: "<spring:message code='Tozin.containerNo3'/> - نوع حمل",
         align: "center",
+        formatCellValue(value, record, rowNum, colNum, grid) {
+            return (value ? "ریلی  " + value : "جاده‌ای"
+            )
+        },
+        validOperators: ["equals", "isNull", "notNull"],
+        filterEditorProperties: {
+            showPickerIcon: true,
+            // showPickerIconOnFocus:true,
+            picker: isc.FormLayout.create({
+                visibility: "hidden",
+                backgroundColor: "white",
+                items: [{
+                    showTitle: false, type: "radioGroup",
+                    valueMap: {isNull: "ریلی", notNull: "جاده‌ای"},
+                    change: function (f, i, value) {
+                        const criteria = ListGrid_Tozin_IN_ONWAYPRODUCT.getFilterEditorCriteria();
+                        criteria.criteria = criteria.criteria.filter(c => c.fieldName !== 'containerNo3');
+                        criteria.criteria.add({
+                            fieldName: "containerNo3",
+                            operator: value
+                        })
+                        console.log(criteria)
+                        ListGrid_Tozin_IN_ONWAYPRODUCT.setFilterEditorCriteria(criteria);
+                        return this.Super("change", arguments)
+                    },
+                }]
+            })
+        }
         // alwaysShowOperatorIcon:true,
     },
     {
@@ -296,7 +325,6 @@ async function onWayProductFetch(classUrl, operator = "and", criteria = []) {
 }
 
 function mainOnWayProduct() {
-
     const restDataSource_Tozin_Lite = {
         fields: tozinLiteFields,
         fetchDataURL: "${contextPath}/api/tozin/lite/spec-list"
