@@ -10,7 +10,7 @@
             'liquibase',
             current_timestamp, null, null, 0, 1, 1, '-1', '-1',
             'آیتمهای ارسالی از لجستیک', 'تعیین
-            نشده', 999);
+            نشده', -1);
         </sql>
     </changeSet>
 
