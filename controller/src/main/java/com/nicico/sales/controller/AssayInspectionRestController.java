@@ -63,4 +63,11 @@ public class AssayInspectionRestController {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
         return new ResponseEntity<>(iAssayInspectionService.search(nicicoCriteria), HttpStatus.OK);
     }
+
+    @Loggable
+    @GetMapping(value = "/get-assay-values")
+    public ResponseEntity<List<AssayInspectionDTO.Info>> getAssayValues(@RequestParam List<Long> inventoryIds) {
+
+        return new ResponseEntity<>(iAssayInspectionService.getAssayValues(inventoryIds), HttpStatus.OK);
+    }
 }

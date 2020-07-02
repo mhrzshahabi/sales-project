@@ -7,60 +7,54 @@ isc.defineClass("InvoiceBaseAssay", isc.VLayout).addProperties({
     showEdges: false,
     layoutMargin: 2,
     membersMargin: 2,
-    inventory: null,
+    inventories: [],
     initWidget: function () {
 
         this.Super("initWidget", arguments);
 
-        //     let This = this;
-        //     let year = __contract.getContractYear(This.contract);
-        //     let material = __contract.getMaterial(This.contract);
-        //     let month = __contract.getShipmentMonthNo(This.shipment);
-        //     let moasValue = __contract.getContractMOASValue(This.contract);
-        //
-        //     let fields = [];
-        //     isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-        //         params: {
-        //             year: year,
-        //             materialId: material.id,
-        //             month: month + moasValue
-        //         },
-        //         httpMethod: "GET",
-        //         actionURL: "${contextPath}/api/price-base/get-base-price",
-        //         callback: function (resp) {
-        //
-        //             let elements = JSON.parse(resp.data);
-        //             for (let index = 0; index < elements.length; index++) {
-        //
-        //                 if (!elements[index].payable)
-        //                     continue;
-        //
-        //                 fields.add(isc.Unit.create({
-        //
-        //                     unitCategory: 1,
-        //                     disabledUnitField: true,
-        //                     disabledValueField: true,
-        //                     disabledCurrencyField: true,
-        //                     showValueFieldTitle: true,
-        //                     showUnitFieldTitle: false,
-        //                     showCurrencyFieldTitle: false,
-        //                     fieldValueTitle: elements[index].name,
-        //                     border: "1px solid rgba(0, 0, 0, 0.3)",
-        //                 }));
-        //                 fields.last().setValue(elements[index].price);
-        //                 fields.last().setUnitId(elements[index].unit.id);
-        //                 fields.last().setCurrencyId(elements[index].currency.id);
-        //             }
-        //
-        //             This.addMember(isc.Label.create({
-        //                 contents: "<b>" + "AVERAGE OF " + (month + moasValue) + "th MONTH OF " + year + " (MOAS" + (moasValue > 0 ? "+" : "-") + moasValue + ")<b>"
-        //             }));
-        //             This.addMember(isc.DynamicForm.create({
-        //                 width: "100%",
-        //                 fields: fields
-        //             }));
-        //         }
-        //     }));
+        let This = this;
+
+        let fields = [];
+        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+            httpMethod: "GET",
+            params: {inventoryIds: This.inventories.map(q => q.id)},
+            actionURL: "${contextPath}/api/assayInspection/get-assay-values",
+            callback: function (resp) {
+
+                let assayValues = JSON.parse(resp.data);
+                for (let index = 0; index < assayValues.length; index++) {
+
+                    if (!assayValues[index].payable)
+                        continue;
+
+                    fields.add(isc.Unit.create({
+
+                        unitCategory: 1,
+                        disabledUnitField: true,
+                        disabledValueField: true,
+                        disabledCurrencyField: true,
+                        showValueFieldTitle: true,
+                        showUnitFieldTitle: false,
+                        showCurrencyFieldTitle: false,
+                        showUnitField: false,
+                        showCurrencyField: false,
+                        fieldValueTitle: assayValues[index].name,
+                        border: "1px solid rgba(0, 0, 0, 0.3)",
+                    }));
+                    fields.last().setValue(assayValues[index].price);
+                    fields.last().setUnitId(assayValues[index].unit.id);
+                    fields.last().setCurrencyId(assayValues[index].currency.id);
+                }
+
+                This.addMember(isc.Label.create({
+                    contents: "<b>" + "AVERAGE OF " + (month + moasValue) + "th MONTH OF " + year + " (MOAS" + (moasValue > 0 ? "+" : "-") + moasValue + ")<b>"
+                }));
+                This.addMember(isc.DynamicForm.create({
+                    width: "100%",
+                    fields: fields
+                }));
+            }
+        }));
         // },
         // getValues: function () {
         //     return this.members[1].getValues();
@@ -183,6 +177,7 @@ isc.defineClass("InvoiceBaseAssay", isc.VLayout).addProperties({
         //             this.addMember(unitComponentSelenium);
         //             break;
         //     }
+
 
     },
     // getAssayValues: function () {
