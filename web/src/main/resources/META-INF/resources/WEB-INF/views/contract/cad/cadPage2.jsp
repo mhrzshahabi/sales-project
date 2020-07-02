@@ -525,7 +525,7 @@ var article10_quality = isc.DynamicForm.create({
                 showTitle: true,
                 defaultValue: "",
                 startRow: true,
-                title: "<strong class='cssDynamicForm'>EXCHANGE RATE DATE</strong>"
+                title: "<strong class='cssDynamicForm'>CURRENCY RATE DATE</strong>"
             },{
                 name: "article10_number61",
                 width: "150",

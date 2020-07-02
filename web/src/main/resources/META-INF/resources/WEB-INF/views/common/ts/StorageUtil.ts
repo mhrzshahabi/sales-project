@@ -25,16 +25,31 @@ class StorageUtil {
         localStorage.setItem(storage_name, JSON.stringify(allOptions))
     };
 
-    public static get(name): any {
-        name = name.toString();
+    public static get(...args: string[]): any {
         const storage_name = this._prefix;
         let allOptions = localStorage.getItem(storage_name);
         if (allOptions === null || allOptions === undefined) return null;
         const all = JSON.parse(allOptions);
         let result = all;
-        Object.values(arguments).forEach(k => result = result[k])
+        args.forEach(k => result = result[k])
         return result
     };
+
+    public static delete(...args: string[]) {
+        const storage_name = this._prefix;
+        let allOptions = localStorage.getItem(storage_name);
+        if (allOptions === null || allOptions === undefined) return true;
+        const all = JSON.parse(allOptions);
+        try {
+            const forEval = 'delete all["' + args.join('"]["') + '"]'
+            eval(forEval);
+            localStorage.setItem(storage_name, JSON.stringify(all));
+            return true;
+        } catch (e) {
+            console.error('storageUtil delete error', e);
+            return false
+        }
+    }
 
 
 }
@@ -84,7 +99,7 @@ class SalesBaseParameters {
 
     static getAllSavedParameter() {
         return {
-            'materialItel': this.materialItem,
+            'materialItem': this.materialItem,
             'unit': this.unit,
             'warehouse': this.warehouse
         }
@@ -124,6 +139,19 @@ class SalesBaseParameters {
         } catch (e) {
             console.error('fetching parameter error', e);
             return false;
+        }
+    }
+
+    public static async deleteAllSavedParametersAndFetchAgain() {
+        StorageUtil.delete('parameters');
+        delete this.warehouse;
+        delete this.unit;
+        delete this.materialItem;
+        await this.getAllParameters()
+        return {
+            unit: this.unit,
+            warehouse: this.warehouse,
+            materialItem: this.materialItem
         }
     }
 }

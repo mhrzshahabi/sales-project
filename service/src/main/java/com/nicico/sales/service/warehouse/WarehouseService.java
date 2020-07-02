@@ -3,11 +3,14 @@ package com.nicico.sales.service.warehouse;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
 import com.nicico.copper.common.dto.grid.TotalResponse;
+import com.nicico.sales.dto.WarehouseDTO;
 import com.nicico.sales.exception.NotFoundException;
 import com.nicico.sales.iservice.warehous.IWarehouseService;
 import com.nicico.sales.model.entities.warehouse.Warehouse;
 import com.nicico.sales.repository.warehouse.WarehouseDAO;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -18,22 +21,24 @@ import java.util.stream.Stream;
 @RequiredArgsConstructor
 public class WarehouseService implements IWarehouseService {
     private final WarehouseDAO warehouseDAO;
+    private final ModelMapper modelMapper;
 
     @Override
-    public Warehouse get(Long id) {
+    public WarehouseDTO.Info get(Long id) {
         final Optional<Warehouse> one = warehouseDAO.findById(id);
-        final Warehouse Warehouse = one.orElseThrow(() -> new NotFoundException());
-        return Warehouse;
+        final Warehouse warehouse = one.orElseThrow(() -> new NotFoundException());
+        return modelMapper.map(warehouse, WarehouseDTO.Info.class);
     }
 
     @Override
-    public List<Warehouse> list() {
-        return warehouseDAO.findAll();
+    public List<WarehouseDTO.Info> list() {
+        return modelMapper.map(warehouseDAO.findAll(), new TypeToken<List<WarehouseDTO.Info>>() {
+        }.getType());
     }
 
     @Override
-    public TotalResponse<Warehouse> search(NICICOCriteria request) {
-        final TotalResponse<Warehouse> response = SearchUtil.search(warehouseDAO, request, entity -> entity);
+    public TotalResponse<WarehouseDTO.Info> search(NICICOCriteria request) {
+        final TotalResponse<WarehouseDTO.Info> response = SearchUtil.search(warehouseDAO, request, entity -> modelMapper.map(entity, WarehouseDTO.Info.class));
         return response;
     }
 

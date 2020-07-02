@@ -69,7 +69,7 @@ function onWayProductCreateRemittance() {
                 hidden: true
             },
             {
-                name: "bijackNo",
+                name: "code",
                 title: "<spring:message code='warehouseCad.bijackNo'/>",
                 type: 'text',
                 required: true,
@@ -94,7 +94,8 @@ function onWayProductCreateRemittance() {
                 type: 'staticText',
             },
             {
-                name: "warehouseYardId",
+                name: "depotId",
+                width: 300,
                 required: true,
                 // validators: [{
                 //     type: "required",
@@ -104,37 +105,28 @@ function onWayProductCreateRemittance() {
                 titleColSpan: 1,
                 showHover: true,
                 autoFetchData: false,
-                defaultValue: StorageUtil.get('onWayProduct_yardId'),
+                defaultValue: StorageUtil.get('onWayProduct_depotId'),
                 title: "<spring:message code='warehouseCad.yard'/>",
-                // type: 'string',
-                // editorType: "SelectItem",
-                // optionDataSource: RestDataSource_WarehouseYard_IN_WAREHOUSECAD_ONWAYPRODUCT,
                 displayField: "name",
                 valueField: "id",
-                // pickListWidth: "215",
-                // pickListHeight: "215",
+                pickListFields: [
+                    {name: "store.warehouse.name", title: "انبار"},
+                    {name: "store.name", title: "سوله/محوطه"},
+                    {name: "name", title: "یارد"}
+                ],
                 pickListProperties: {
+                    width: 300,
                     recordClick(pickList, record) {
-                        StorageUtil.save('onWayProduct_yardId', record.id);
+                        StorageUtil.save('onWayProduct_depotId', record.id);
                         return this.Super("recordClick", arguments);
                     }
                 },
-                // pickListFields: [{
-                //     name: "name"
-                // }],
-                /*
-                changed: function (form, item, value) {
-                    if (!item.getDisplayValue(value).includes("کاتد")) {
-                        isc.warn("<spring:message code='warehouseYard.alert'/>");
-                        form.getItem("warehouseYardId").setValue("");
-                    }
-                }
 
-                 */
             },
             {
                 name: "unit",
-                title: "واحدشمارهش بسته کالا(ورق،بشکه،تن،..)",
+                type: "number",
+                title: "واحدشمارش بسته کالا(ورق،بشکه،تن،..)",
                 valueMap: SalesBaseParameters.getSavedUnitParameter().getValueMap('id', 'nameFA'),
                 defaultValue: StorageUtil.get('DynamicForm_warehouseCAD_owp' + ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord()['codeKala'].toString()),
                 changed(form, item, value) {
@@ -162,28 +154,28 @@ function onWayProductCreateRemittance() {
             },
             {
                 name: "sourceBundleSum",
-                title: "تعداد بسته(باندل، لات، ... ) مبدا",
+                title: "تعداد بسته(باندل، لات، ... ) ",
                 colSpan: 1,
                 titleColSpan: 1,
                 type: "staticText",
             },
             {
                 name: "destinationBundleSum",
-                title: "تعداد بسته(باندل، لات، ... ) مقصد",
+                title: "تعداد بسته(باندل، لات، ... ) ",
                 colSpan: 1,
                 titleColSpan: 1,
                 type: "staticText",
             },
             {
                 name: "sourceSheetSum",
-                title: "مجموع تعداد واحد(بشکه، ورق، ... ) مبدا",
+                title: "مجموع تعداد واحد(بشکه، ورق، ... ) ",
                 colSpan: 1,
                 titleColSpan: 1,
                 type: "staticText",
             },
             {
                 name: "destinationSheetSum",
-                title: "مجموع تعداد واحد(بشکه، ورق، ... ) مبدا",
+                title: "مجموع تعداد واحد(بشکه، ورق، ... ) ",
                 colSpan: 1,
                 titleColSpan: 1,
                 type: "staticText",
@@ -205,7 +197,7 @@ function onWayProductCreateRemittance() {
                 type: "staticText",
             },
             {
-                name: 'remmitanceDescription',
+                name: 'description',
                 width: "100%",
                 height: 80,
                 editorType: "TextAreaItem",
@@ -218,6 +210,7 @@ function onWayProductCreateRemittance() {
         top: 260,
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
+        visibility: "hidden",
         click: function () {
             function dialog(message, okClick = function () {
             }, title = 'اطلاعات ناقص') {
@@ -283,16 +276,59 @@ function onWayProductCreateRemittance() {
                         grid.expandRecord(withoutTedad);
                         window[listGridSetDestTozinHarasatPolompForSelectedTozin['w']].show()
                     })
-                    fetch('api/remittance', {
-                        headers: SalesConfigs.httpHeaders,
-                        method: "POST",
-                        body: JSON.stringify({
-                            remittance: DynamicForm_warehouseCAD.getValues(),
-                            remittanceDetail: remittanceDetail
+                    const dataForSave = {
+                        remittance: DynamicForm_warehouseCAD.getValues(),
+                        remittanceDetails: []
+                    };
+
+
+                    remittanceDetail.forEach(a => {
+                        a.packages.forEach(b => {
+                            const inventory = {...b, materialItemId: a['codeKala']};
+                            const remittanceDetail = {inventory: inventory,}
+                            if (!b['description']) remittanceDetail['description'] = null;
+                            else {
+                                remittanceDetail['description'] = inventory['description'];
+                                delete inventory['description'];
+                            }
+                            remittanceDetail['unitId'] = Number(dataForSave.remittance['unit']);
+                            remittanceDetail['amount'] = Number(inventory['tedad']);
+                            remittanceDetail['weight'] = Number(inventory['wazn']);
+                            remittanceDetail['depotId'] = Number(dataForSave.remittance['depotId']);
+                            remittanceDetail['destinationTozin'] = {...a['destTozin']};
+                            remittanceDetail['sourceTozin'] = {...a};
+                            if (a['railPolompNo']) remittanceDetail['railPolompNo'] = a['railPolompNo'];
+                            if (a['securityPolompNo']) remittanceDetail['securityPolompNo'] = a['securityPolompNo'];
+                            delete remittanceDetail['sourceTozin']['packages'];
+                            delete remittanceDetail['sourceTozin']['destTozin'];
+                            delete remittanceDetail['sourceTozin']['destTozinId'];
+                            delete inventory['tedad'];
+                            delete inventory['wazn'];
+                            dataForSave.remittanceDetails.add(remittanceDetail);
                         })
-                    }).then(r => {
-                        console.log(r)
                     })
+                    console.log('data for send', dataForSave)
+                    fetch('api/remittance-detail/batch', {
+                        headers: {...SalesConfigs.httpHeaders, "content-type": "application/json;charset=UTF-8",},
+                        method: "POST",
+                        body: JSON.stringify(dataForSave)
+                    }).then(r => {
+                        console.log('saved response', r)
+                        if (r.status === 201) {
+                            isc.say('عملیات با موفقیت انجام شد', () => {
+                                windowRemittance.hide()
+                            })
+                        } else {
+
+                            isc.say('مشکل در ذخیره اطلاعات. آیا اطلاعات تکرای فرستاده شده؟ شماره بیجک،توزین مبدا، توزین مقصد')
+
+                        }
+                        r.json().then(j => console.log('saved json response', j))
+                    }).catch(
+                        reject => {
+                            isc.say('مشکل ارتباط')
+                        }
+                    )
                 }
             })
 
@@ -439,7 +475,7 @@ function onWayProductCreateRemittance() {
                                 },
                                 {
                                     name: "tedad",
-                                    title: "تعداد (ورق، بشگه، فله، ...)",
+                                    title: "تعداد (ورق، بشکه، فله، ...)",
                                     width: "20%",
                                     validators: [{
                                         type: "regexp",
@@ -531,7 +567,7 @@ function onWayProductCreateRemittance() {
                 autoSaveEdits: false,
                 showFilterEditor: false,
                 // height: "",
-                editEvent: 'click',
+                editEvent: 'doubleClick',
                 getCellHoverComponent: function (record, rowNum, colNum) {
                     const tozinId = grid_source.getFields()[colNum].name === 'destTozinId' ? record['destTozinId'] : record['tozinId']
                     if (!tozinId) return false;
@@ -632,7 +668,7 @@ function onWayProductCreateRemittance() {
                                 return tbl;
                             } catch (e) {
                                 console.error('destination tozin id hover error', e);
-                                return 'شماره توزین مقصذ را وارد کنید   ';
+                                return 'شماره توزین مقصد را وارد کنید   ';
                             }
                         },
                         title: 'توزین مقصد',
@@ -653,7 +689,7 @@ function onWayProductCreateRemittance() {
                             const destTozin = grid_available_tozins.getData().find(g => g['tozinId'] === newValue);
                             if (newValue !== undefined && newValue !== null && newValue !== '' && destTozin) {
                                 record['destTozin'] = destTozin;
-                                console.log('updated destination Id', record, grid);
+                                // console.log('updated destination Id', record, grid);
                                 record['destTozinId'] = newValue;
                                 return true
                             } else {
@@ -665,25 +701,25 @@ function onWayProductCreateRemittance() {
                         // valueMap: window[windowDestinationTozinList['g']].getData().getValueMap('tozinId', 'tozinId')
                     },
                     {
-                        name: "harasatId",
+                        name: "securityPolompNo",
                         canFilter: false,
                         title: 'شماره پلمپ حراست',
-                        /* editorExit (editCompletionEvent, record, newValue, rowNum, colNum, grid){
-                             if(newValue===undefined || newValue === null || newValue === ''){
-                                 isc.warn('شماره پلمپ حراست خالی می‌باشد');
-                                 // grid.startEditing(rowNum,colNum,true)
-                                 return false;
-                             }
+                        editorExit(editCompletionEvent, record, newValue, rowNum, colNum, grid) {
+                            record['securityPolompNo'] = newValue;
                             return true;
 
-                         }*/
+                        }
 
                     },
                     {
-                        name: "rahAhanId",
+                        name: "railPolompNo",
                         title: 'شماره پلمپ راه‌آهن',
                         canFilter: false,
+                        editorExit(editCompletionEvent, record, newValue, rowNum, colNum, grid) {
+                            record['railPolompNo'] = newValue;
+                            return true;
 
+                        }
 
                         /* editorExit (editCompletionEvent, record, newValue, rowNum, colNum, grid){
                              if(newValue===undefined || newValue === null || newValue === ''){
@@ -734,13 +770,13 @@ function onWayProductCreateRemittance() {
         width: 100,
         icon: "pieces/16/packages.png",
         orientation: "vertical",
-        disabled: true,
+        visibility: "hidden",
         click: function () {
             const w = listGridSetDestTozinHarasatPolompForSelectedTozin['w'];
             window[w].show()
         }
     });
-    isc.Window.create({
+    const windowRemittance = isc.Window.create({
         title: "<spring:message code='bijack'/> ",
         ID: "Window_BijackOnWayProduct",
         width: 1000,
@@ -801,7 +837,8 @@ function onWayProductCreateRemittance() {
                     })
                 ]
             })]
-    }).show();
+    });
+    windowRemittance.show();
     const destinationTozinCriteria = {
         operator: "and",
         criteria: [
@@ -820,16 +857,16 @@ function onWayProductCreateRemittance() {
                 operator: "equals",
                 value: selectedSourceTozins[0]['codeKala']
             },
-            {
-                fieldName: "sourceId",
-                operator: "equals",
-                value: selectedSourceTozins[0]['sourceId']
-            },
-            {
-                fieldName: "targetId",
-                operator: "equals",
-                value: selectedSourceTozins[0]['targetId']
-            },
+            // {
+            //     fieldName: "sourceId",
+            //     operator: "equals",
+            //     value: selectedSourceTozins[0]['sourceId']
+            // },
+            // {
+            //     fieldName: "targetId",
+            //     operator: "equals",
+            //     value: selectedSourceTozins[0]['targetId']
+            // },
 
         ]
     }
@@ -977,9 +1014,10 @@ function onWayProductCreateRemittance() {
             }
 
         }
-        packages_button.enable();
+        packages_button.show();
+        IButton_warehouseCAD_Save.show()
         updateDestinationPackageTedadWeight()
 
     })
-    DynamicForm_warehouseCAD.getItem('warehouseYardId').setOptionDataSource(RestDataSource_WarehouseYard_IN_WAREHOUSECAD_ONWAYPRODUCT)
+    DynamicForm_warehouseCAD.getItem('depotId').setOptionDataSource(RestDataSource_WarehouseYard_IN_WAREHOUSECAD_ONWAYPRODUCT)
 }

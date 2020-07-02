@@ -1,5 +1,6 @@
 package com.nicico.sales.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nicico.copper.common.Loggable;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
@@ -7,6 +8,7 @@ import com.nicico.sales.dto.RemittanceDetailDTO;
 import com.nicico.sales.iservice.IRemittanceDetailService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
@@ -20,10 +22,11 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(value = "/api/remittanceDetail")
+@RequestMapping(value = "/api/remittance-detail")
 
 public class RemittanceDetailRestController {
-
+    private final ModelMapper modelMapper;
+    private final ObjectMapper objectMapper;
     private final IRemittanceDetailService iRemittanceDetailService;
 
     @Loggable
@@ -42,6 +45,12 @@ public class RemittanceDetailRestController {
     @PostMapping
     public ResponseEntity<RemittanceDetailDTO.Info> create(@Validated @RequestBody RemittanceDetailDTO.Create request) {
         return new ResponseEntity<>(iRemittanceDetailService.create(request), HttpStatus.CREATED);
+    }
+
+    @Loggable
+    @PostMapping("/batch")
+    public ResponseEntity<List<RemittanceDetailDTO.Info>> batchCreate(@Validated @RequestBody RemittanceDetailDTO.WithRemittanceAndInventory request) {
+        return new ResponseEntity<>(iRemittanceDetailService.batchUpdate(request), HttpStatus.CREATED);
     }
 
     @Loggable

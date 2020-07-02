@@ -16,11 +16,11 @@ import java.util.List;
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class MaterialItemDTO {
-
     private Long gdsCode;
     private String gdsName;
     private Long materialId;
     private String miDetailCode;
+    private String gdsNameEn;
 
     @Getter
     @Setter

@@ -1,5 +1,9 @@
 var inspectionReportTab = new nicico.GeneralTabUtil().getDefaultJSPTabVariable();
-var This = this;
+inspectionReportTab.variable.materialId = 0;
+inspectionReportTab.variable.data = [];
+inspectionReportTab.variable.selectedInventoriesCounter = 0;
+inspectionReportTab.variable.selectedInventoriesId = [];
+inspectionReportTab.variable.selectedInventoriesLabel = [];
 //***************************************************** RESTDATASOURCE *************************************************
 
 var RestDataSource_InspecReportRest = isc.MyRestDataSource.create({
@@ -110,10 +114,6 @@ var RestDataSource_AssayInspecRest = isc.MyRestDataSource.create({
             title: "<spring:message code='assayInspection.value'/>"
         },
         {
-            name: "materialElement",
-            title: "<spring:message code='assayInspection.materialElement'/>"
-        },
-        {
             name: "materialElementId",
             title: "<spring:message code='assayInspection.materialElement'/>"
         },
@@ -222,16 +222,125 @@ var RestDataSource_ContractRest = isc.MyRestDataSource.create({
             title: "<spring:message code='contract.contractDate'/>"
         },
         {
-            name: "contactInspection.id",
+            name: "contactInspectionId",
             title: "<spring:message code='contact.nameFa'/>"
         },
         {
             name: "material.descp",
             title: "<spring:message code='material.descp'/>"
         },
+        {
+            name: "materialId",
+            title: "<spring:message code='material.descp'/>",
+            hidden: true
+        },
     ],
     fetchDataURL: "${contextPath}/api/contract/spec-list"
 });
+
+var RestDataSource_MaterialRest = isc.MyRestDataSource.create({
+    fields: [
+        {
+            name: "id",
+            primaryKey: true,
+            canEdit: false,
+            hidden: true
+        },
+        {
+            name: "descp",
+            title: "<spring:message code='material.descp'/>"
+        },
+        {
+            name: "code",
+            title: "<spring:message code='material.code'/>"
+        }
+    ],
+    fetchDataURL: "${contextPath}/api/material/spec-list"
+});
+
+var RestDataSource_MaterialElementRest = isc.MyRestDataSource.create({
+    fields: [
+        {
+            name: "id",
+            primaryKey: true,
+            canEdit: false,
+            hidden: true
+        },
+        {
+            name: "material.descp",
+            title: "<spring:message code='material.descp'/>"
+        },
+        {
+            name: "materialId",
+            title: "<spring:message code='material.descp'/>"
+        },
+        {
+            name: "element.name",
+            title: "<spring:message code='assayInspection.materialElement.name'/>"
+        },
+        {
+            name: "element.payable",
+            title: "<spring:message code='assayInspection.materialElement.payable'/>"
+        }
+    ],
+    fetchDataURL: "${contextPath}/api/materialElement/spec-list"
+});
+
+inspectionReportTab.method.getAssayElementFields = function () {
+
+    var elementCriteria = {
+        _constructor: "AdvancedCriteria",
+        operator: "and",
+        criteria: [{fieldName: "materialId", operator: "equals", value: inspectionReportTab.variable.materialId}]
+    };
+
+    RestDataSource_MaterialElementRest.fetchData(elementCriteria, function (dsResponse, data, dsRequest) {
+
+        if (data.length != 0) {
+            const fields = data.map(
+                e => {
+                    return {
+                        name: e.element.name,
+                        title: e.element.name,
+                    }
+                }
+            );
+            fields.add({
+                name: "lotName",
+                title: "lotName",
+                type: "staticText"
+            });
+            inspectionReportTab.listGrid.assayElement.setFields(fields);
+        }
+    });
+};
+
+/*inspectionReportTab.method.getWeightElementFields = function () {
+    inspectionReportTab.listGrid.weightElement.setFields([
+                {
+                    type: "RowSpacerItem"
+                },
+                {
+                    name: "weighingType.id",
+                    title: "<spring:message code='weightInspection.weighingType'/>",
+                    required: true,
+                    /!*valueMap: {
+                        0: "DraftSurvey",
+                        1: "WeighBridge"
+                    }*!/
+                },
+                {
+                    name: "weightGW",
+                    title: "<spring:message code='weightInspection.weightGW'/>",
+                    required: true
+                },
+                {
+                    name: "weightND",
+                    title: "<spring:message code='weightInspection.weightND'/>",
+                    required: true
+                }]
+            );
+};*/
 
 var inspectorCriteria = {
     _constructor: "AdvancedCriteria",
@@ -251,7 +360,71 @@ var buyerCriteria = {
     criteria: [{fieldName: "commercialRole", operator: "iContains", value: "Buyer"}]
 };
 
+//***************************************************  List Element *************************************************
+
 //***************************************************** DYNAMICFORM *************************************************
+
+inspectionReportTab.dynamicForm.material = isc.DynamicForm.create({
+    width: "50%",
+    // height: "100%",
+    align: "center",
+    numCols: 2,
+    canSubmit: true,
+    showErrorText: true,
+    showErrorStyle: true,
+    showInlineErrors: true,
+    errorOrientation: "bottom",
+    requiredMessage: '<spring:message code="validator.field.is.required"/>',
+    fields: [
+        {
+            name: "material",
+            title: "<spring:message code='material.descp'/>",
+            required: true,
+            autoFetchData: false,
+            editorType: "SelectItem",
+            valueField: "descp",
+            displayField: "descp",
+            pickListWidth: "500",
+            pickListHeight: "300",
+            optionDataSource: RestDataSource_MaterialRest,
+            pickListProperties:
+                {
+                    showFilterEditor: true
+                },
+            pickListFields: [
+                {
+                    name: "descp",
+                },
+                {
+                    name: "code",
+                }
+            ],
+            validators: [
+                {
+                    type: "required",
+                    validateOnChange: true
+                }],
+            changed: function (form) {
+                inspectionReportTab.variable.materialId = form.getItem("material").getSelectedRecord().id;
+                inspectionReportTab.method.getAssayElementFields();
+                // inspectionReportTab.method.getWeightElementFields();
+                var material = form.getItem("material").getSelectedRecord().descp;
+                inspectionReportTab.dynamicForm.inspecReport.getItem("inventoryId").setOptionCriteria({
+                    _constructor: "AdvancedCriteria",
+                    operator: "and",
+                    criteria: [{fieldName: "materialItem.material.descp", operator: "equals", value: material}]
+                });
+            },
+            // editorExit: function (form) {
+            //
+            // }
+
+        },
+        {
+            type: "RowSpacerItem"
+        }
+    ]
+});
 
 inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
     {
@@ -315,9 +488,10 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
         name: "inventoryId",
         title: "<spring:message code='inspectionReport.InventoryId'/>",
         colSpan: 2,
-        // required: true,
-        autoFetchData: false,
-        editorType: "SelectItem",
+        required: true,
+        autoFetchData: true,
+        type: "SelectItem",
+        multiple: true,
         valueField: "id",
         displayField: "label",
         pickListWidth: "500",
@@ -335,14 +509,21 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
             {
                 name: "label",
                 align: "center",
-                // title: "<spring:message code='global.unit'/>",
-            },
+            }
         ],
-        /*validators: [
+        validators: [
             {
                 type: "required",
                 validateOnChange: true
-            }]*/
+            }],
+        changed: function (form) {
+            inspectionReportTab.variable.selectedInventoriesCounter = form.getItem("inventoryId").getSelectedRecords().length;
+            inspectionReportTab.variable.selectedInventoriesId = form.getItem("inventoryId").getValue();
+            inspectionReportTab.variable.selectedInventoriesLabel = form.getItem("inventoryId").getSelectedRecord().label;
+            inspectionReportTab.method.setListRows();
+        },
+        click: function () {
+        }
     },
     {
         name: "sellerId",
@@ -454,6 +635,32 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
     },
 ]);
 
+inspectionReportTab.method.setListRows = function () {
+    inspectionReportTab.variable.selectedInventoriesId.forEach(function () {
+        inspectionReportTab.listGrid.assayElement.startEditingNew();
+        inspectionReportTab.listGrid.weightElement.startEditingNew();
+    });
+    inspectionReportTab.listGrid.assayElement.getAllEditRows().forEach(function (element) {
+        var record = inspectionReportTab.listGrid.assayElement.getEditedRecord(JSON.parse(JSON.stringify(element)));
+        // alert(inspectionReportTab.variable.selectedInventoriesLabel.get(element))
+        inspectionReportTab.listGrid.assayElement.setEditValue(element, 3, inspectionReportTab.variable.selectedInventoriesId.get(element));
+    });
+    /*ListGrid_ContractItemShipment.getAllEditRows().forEach(function ( element) {
+                        var record = ListGrid_ContractItemShipment.getEditedRecord(JSON.parse(JSON.stringify(element)));
+                        if (record.sendDate > contractEnd) {
+                            isc.warn("<spring:message code='contract.shipmentSendDateWarn'/>");
+                            ListGrid_ContractItemShipment.validate();
+                            return;
+                        }
+                        if (ListGrid_ContractItemShipment.validateRow(element) != true) {
+                            ListGrid_ContractItemShipment.validateRow(element);
+                            isc.warn("<spring:message code='main.contractShipment'/>");
+                            return;
+                        }
+                    })*/
+
+};
+
 inspectionReportTab.dynamicForm.inspecReport = isc.DynamicForm.create({
     width: "50%",
     // height: "100%",
@@ -468,7 +675,7 @@ inspectionReportTab.dynamicForm.inspecReport = isc.DynamicForm.create({
     fields: inspectionReportTab.dynamicForm.fields
 });
 
-inspectionReportTab.dynamicForm.contract = isc.DynamicForm.create({
+inspectionReportTab.dynamicForm.assayLab = isc.DynamicForm.create({
     width: "50%",
     // height: "100%",
     align: "center",
@@ -481,92 +688,140 @@ inspectionReportTab.dynamicForm.contract = isc.DynamicForm.create({
     requiredMessage: '<spring:message code="validator.field.is.required"/>',
     fields: [
         {
-            name: "contractId",
-            title: "<spring:message code='contract.contractNo'/>",
-            // required: true,
-            autoFetchData: false,
-            editorType: "SelectItem",
-            valueField: "id",
-            displayField: "contractNo",
-            pickListWidth: "500",
-            pickListHeight: "300",
-            optionDataSource: RestDataSource_ContractRest,
-            // optionCriteria: buyerCriteria,
-            pickListProperties:
-                {
-                    showFilterEditor: true
-                },
-            pickListFields: [
-                {
-                    name: "contractNo",
-                    align: "center"
-                },
-                {
-                    name: "contractDate",
-                    align: "center"
-                },
-                {
-                    name: "material.descp",
-                    align: "center"
-                },
-                {
-                    name: "contactInspection.id"
-                }
-            ],
-            // validators: [
-            //     {
-            //         type: "required",
-            //         validateOnChange: true
-            //     }],
-            changed: function (form) {
-                // var contractId = form.getItem("contractId").getValue();
-                var material = form.getItem("contractId").getSelectedRecord().material.descp;
-                inspectionReportTab.dynamicForm.contract.getItem("material").setValue(material);
-                var contactInspection = form.getItem("contractId").getSelectedRecord().contactInspection;
-                if (contactInspection != null){
-                    inspectionReportTab.dynamicForm.inspecReport.getItem("inspector").setValue(contactInspection.id);
-                }
-            }
+            type: "RowSpacerItem"
         },
         {
-            name: "material",
-            title: "<spring:message code='material.title'/>",
-            type: "staticText"
+            name: "<spring:message code='assayInspection.LabName'/>"
+        },
+        {
+            name: "<spring:message code='assayInspection.LabPlace'/>"
         }
     ]
 });
 
+inspectionReportTab.listGrid.assayElement = isc.ListGrid.create({
+    width: "100%",
+    height: "100%",
+    sortField: 1,
+    showRowNumbers: true,
+    canAutoFitFields: false,
+    allowAdvancedCriteria: true,
+    alternateRecordStyles: true,
+    selectionType: "single",
+    // sortDirection: "ascending",
+    canEdit: true,
+    editEvent: "doubleClick",
+    autoSaveEdits: false,
+    showRecordComponents: true,
+    showRecordComponentsByCell: true,
+    canRemoveRecords: true,
+    gridComponents: ["header", "body",
+        isc.ToolStrip.create({
+            width: "100%",
+            height: 24,
+            align: 'left',
+            border: 0,
+            members: [
+                isc.Button.create({
+                    icon: "pieces/16/save.png",
+                    title: "<spring:message code='global.form.save'/>",
+                    click: function () {
+                        inspectionReportTab.listGrid.assayElement.getAllEditRows().forEach(function (element) {
+                            var record = inspectionReportTab.listGrid.assayElement.getEditedRecord(JSON.parse(JSON.stringify(element)));
+                            // alert(JSON.stringify(record))
+                        });
+                        /*ListGrid_ContractItemShipment.getAllEditRows().forEach(function (element) {
+                            var record = ListGrid_ContractItemShipment.getEditedRecord(JSON.parse(JSON.stringify(element)));
+                            if (record.sendDate > contractEnd) {
+                                isc.warn("<spring:message code='contract.shipmentSendDateWarn'/>");
+                                ListGrid_ContractItemShipment.validate();
+                                return;
+                            }
+                            if (ListGrid_ContractItemShipment.validateRow(element) != true) {
+                                ListGrid_ContractItemShipment.validateRow(element);
+                                isc.warn("<spring:message code='main.contractShipment'/>");
+                                return;
+                            }
+                        })*/
+                    }
+                })]
+        })
+    ],
+});
+
+inspectionReportTab.listGrid.weightElement = isc.ListGrid.create({
+    width: "100%",
+    height: "100%",
+    sortField: 1,
+    showRowNumbers: true,
+    canAutoFitFields: false,
+    allowAdvancedCriteria: true,
+    alternateRecordStyles: true,
+    selectionType: "single",
+    // sortDirection: "ascending",
+    dataSource: RestDataSource_WeightInspecRest,
+    canEdit: true,
+    editEvent: "doubleClick",
+    autoSaveEdits: false,
+    showRecordComponents: true,
+    showRecordComponentsByCell: true,
+    canRemoveRecords: true,
+    gridComponents: ["header", "body",
+        isc.ToolStrip.create({
+            width: "100%",
+            height: 24,
+            align: 'left',
+            border: 0,
+            members: [
+                isc.Button.create({
+                    icon: "pieces/16/save.png",
+                    title: "<spring:message code='global.form.save'/>",
+                    click: function () {
+                    }
+                })]
+        })
+    ],
+    fields: BaseFormItems.concat([
+        {
+            name: "weighingType.id",
+            // title: "<spring:message code='weightInspection.weighingType'/>",
+            required: true,
+            valueMap: {
+                0: "DraftSurvey",
+                1: "WeighBridge"
+            }
+        },
+        {
+            name: "weightGW",
+            // title: "<spring:message code='weightInspection.weightGW'/>",
+            required: true
+        },
+        {
+            name: "weightND",
+            // title: "<spring:message code='weightInspection.weightND'/>",
+            required: true
+        }
+    ])
+});
+
 //***************************************************** OTHERS *************************************************
-
-// var WeightInspec_SaveButton = isc.IButtonSave.create({
-//     title: "<spring:message code='global.form.save'/>",
-//     icon: "pieces/16/save.png",
-//     click: function () {
-//         // var data = This.populateData(This.bodyWidget.getObject());
-//     }
-// });
-
-// var AssayInspec_SaveButton = isc.IButtonSave.create({
-//     title: "<spring:message code='global.form.save'/>",
-//     icon: "pieces/16/save.png",
-//     click: function () {
-//     }
-// });
 
 var inspectionReportObj = {
     inspectionNO: "",
     inspectorId: "",
     inspectionPlace: "",
     issueDate: "",
-    inventoryId: "",
+    inventoryId: [],
     sellerId: "",
     buyerId: "",
     inspectionRateValue: "",
     inspectionRateValueType: "",
     currencyId: "",
     weightInspection: {},
-    assayInspection : {}
+    assayInspection: {}
 };
+
+var weightInspections = [];
 
 var weightInspectionObj = {
     weighingType: "",
@@ -574,6 +829,8 @@ var weightInspectionObj = {
     weightND: "",
     inspectionReportId: ""
 };
+
+var assayInspections = [];
 
 var assayInspectionObj = {
     value: "",
@@ -586,64 +843,34 @@ var assayInspectionObj = {
 var WeightPane = isc.VLayout.create({
     autoDraw: true,
     members: [
-        isc.DynamicForm.create({
-            height: "100%",
-            weight: "100%",
-            dataSource: RestDataSource_WeightInspecRest,
-            fields: [
-                {
-                    type: "RowSpacerItem"
-                },
-                {
-                    name: "weighingType.id",
-                    required: true,
-                    valueMap: {
-                        0: "DraftSurvey",
-                        1: "WeighBridge"
-                    }
-                },
-                {
-                    name: "weightGW",
-                    required: true
-                },
-                {
-                    name: "weightND",
-                    required: true
-                }
-            ]
-        }),
-        // WeightInspec_SaveButton
+        inspectionReportTab.listGrid.weightElement
     ]
 });
 
 var assayPane = isc.VLayout.create({
     autoDraw: true,
     members: [
-        isc.DynamicForm.create({
-            height: "100%",
-            weight: "100%",
-            dataSource: RestDataSource_AssayInspecRest,
-            fields: [
-                {
-                    type: "RowSpacerItem"
-                },
-                {
-                    name: "value",
-                    required: true
-                },
-                {
-                    name: "labName"
-                },
-                {
-                    name: "labPlace"
-                },
-                {
-                    name: "materialElementId",
-                    required: true
-                }
-            ],
-        }),
-        // AssayInspec_SaveButton
+        inspectionReportTab.dynamicForm.assayLab,
+        inspectionReportTab.listGrid.assayElement
+    ]
+});
+
+var inspecTabs = isc.TabSet.create({
+    height: "100%",
+    width: "100%",
+    autoDraw: true,
+    tabs: [
+        {
+            name: "weight",
+            title: "<spring:message code='inspectionReport.weightInspection'/>",
+            pane: WeightPane
+        },
+        {
+            name: "assay",
+            title: "<spring:message code='inspectionReport.assayInspection'/>",
+            pane: assayPane,
+            // disabled: true,
+        }
     ]
 });
 
@@ -653,98 +880,129 @@ inspectionReportTab.window.inspecReport.init(null, '<spring:message code="inspec
     height: "500",
     align: "center",
     members: [
-        inspectionReportTab.dynamicForm.contract,
+        inspectionReportTab.dynamicForm.material,
         inspectionReportTab.dynamicForm.inspecReport,
-        isc.TabSet.create({
-            height: "100%",
-            width: "100%",
-            autoDraw: true,
-            tabs: [
-                {
-                    name: "weight",
-                    title: "<spring:message code='inspectionReport.weightInspection'/>",
-                    // icon: "pieces/16/icon1.png",
-                    pane: WeightPane
-                },
-                {
-                    name: "assay",
-                    title: "<spring:message code='inspectionReport.assayInspection'/>",
-                    // icon: "pieces/16/icon2.png",
-                    pane: assayPane,
-                }
-            ]
-        })
-        // inspectionReportTabSets
+        inspecTabs
     ]
 }), "800", "60%");
 
-inspectionReportTab.window.inspecReport.populateData = function(bodyWidget) {
+inspectionReportTab.window.inspecReport.populateData = function (bodyWidget) {
 
-    bodyWidget.members.get(1).validate();
-    if (bodyWidget.members.get(1).hasErrors())
-        return;
-    bodyWidget.members.get(2).tabs.get(0).pane.members.get(0).validate();
-    if (bodyWidget.members.get(2).tabs.get(0).pane.members.get(0).hasErrors())
-        return;
-    // bodyWidget.members.get(2).tabs.get(1).pane.members.get(0).validate();
-    // if (bodyWidget.members.get(2).tabs.get(1).pane.members.get(0).hasErrors())
-    //     return;
+    let record;
+    inspectionReportObj = bodyWidget.members.get(1).getValues();
+    // weightInspectionObj = bodyWidget.members.get(2).tabs.get(0).pane.members.get(0).getValues();
+    bodyWidget.members.get(2).tabs.get(0).pane.members.get(0).getAllEditRows().forEach(function (element) {
+        record = bodyWidget.members.get(2).tabs.get(0).pane.members.get(0).getEditedRecord(JSON.parse(JSON.stringify(element)));
+        weightInspectionObj.weighingType = record.weighingType;
+        weightInspectionObj.weightND = record.weightND;
+        weightInspectionObj.weightGW = record.weightGW;
+        // alert(JSON.stringify(weightInspectionObj));
+        weightInspections.push(weightInspectionObj);
+        alert(JSON.stringify(weightInspections));
+    });
+    // weightInspectionObj.weighingType = bodyWidget.members.get(2).tabs.get(0).pane.members.get(0).getItem("weighingType.id").getValue();
+    // inspectionReportObj.weightInspection = weightInspectionObj;
+    // inspectionReportObj.assayInspection = assayInspectionObj;
 
-    // inspectionReport
-    inspectionReportObj.inspectionNO = bodyWidget.members.get(1).getItem("inspectionNO").getValue();
-    inspectionReportObj.inspectorId = bodyWidget.members.get(1).getItem("inspector").getValue();
-    inspectionReportObj.inspectionPlace = bodyWidget.members.get(1).getItem("inspectionPlace").getValue();
-    inspectionReportObj.issueDate = bodyWidget.members.get(1).getItem("issueDate").getValue();
-    inspectionReportObj.inventoryId = bodyWidget.members.get(1).getItem("inventoryId").getValue();
-    inspectionReportObj.sellerId = bodyWidget.members.get(1).getItem("sellerId").getValue();
-    inspectionReportObj.buyerId = bodyWidget.members.get(1).getItem("buyerId").getValue();
-    inspectionReportObj.inspectionRateValue = bodyWidget.members.get(1).getItem("inspectionRateValue").getValue();
-    inspectionReportObj.inspectionRateValueType = bodyWidget.members.get(1).getItem("inspectionRateValueType").getValue();
-    inspectionReportObj.currencyId = bodyWidget.members.get(1).getItem("currencyId").getValue();
-
-    // tabSets (Weight)
-    weightInspectionObj.weighingType = bodyWidget.members.get(2).tabs.get(0).pane.members.get(0).getItem("weighingType.id").getValue();
-    weightInspectionObj.weightGW = bodyWidget.members.get(2).tabs.get(0).pane.members.get(0).getItem("weightGW").getValue();
-    weightInspectionObj.weightND = bodyWidget.members.get(2).tabs.get(0).pane.members.get(0).getItem("weightND").getValue();
-    weightInspectionObj.inspectionReportId = "";
-
-    // tabSets (Assay)
-    assayInspectionObj.value = bodyWidget.members.get(2).tabs.get(1).pane.members.get(0).getItem("value").getValue();
-    assayInspectionObj.inspectionReportId = "";
-    assayInspectionObj.materialElementId = bodyWidget.members.get(2).tabs.get(1).pane.members.get(0).getItem("materialElementId").getValue();
-    assayInspectionObj.labName = bodyWidget.members.get(2).tabs.get(1).pane.members.get(0).getItem("labName").getValue();
-    assayInspectionObj.labPlace = bodyWidget.members.get(2).tabs.get(1).pane.members.get(0).getItem("labPlace").getValue();
-
-    inspectionReportObj.weightInspection = weightInspectionObj;
-    inspectionReportObj.assayInspection = assayInspectionObj;
 };
 
 // inspectionReportTab.window.inspecReport.validate = function(data) {
-//
+
+// bodyWidget.members.get(1).validate();
+// if (bodyWidget.members.get(1).hasErrors())
+//     return;
+// bodyWidget.members.get(2).tabs.get(0).pane.members.get(0).validate();
+// if (bodyWidget.members.get(2).tabs.get(0).pane.members.get(0).hasErrors())
+//     return;
+// bodyWidget.members.get(2).tabs.get(1).pane.members.get(0).validate();
+// if (bodyWidget.members.get(2).tabs.get(1).pane.members.get(0).hasErrors())
+//     return;
+
 // };
 
-inspectionReportTab.window.inspecReport.okCallBack = function(data) {
+inspectionReportTab.window.inspecReport.okCallBack = function (data) {
 
+    if (inspectionReportObj.weightInspection.weighingType != null && inspectionReportObj.weightInspection.weightGW != null
+        && inspectionReportObj.weightInspection.weightND != null) {
         alert("weight")
-        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+        /*isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                 actionURL: "${contextPath}/api/inspectionReport/weight",
                 httpMethod: "POST",
                 data: JSON.stringify(inspectionReportObj),
                 callback: function (resp) {
                     if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                         isc.say("<spring:message code='global.form.request.successful'/>");
-                        inspectionReportTab.listGrid.main.refresh();
                         inspectionReportTab.window.inspecReport.close();
+                        inspectionReportTab.method.refresh(inspectionReportTab.listGrid.main);
                     } else
                         isc.say(RpcResponse_o.data);
                 }
             })
-        );
+        );*/
+    }
+    if (inspectionReportObj.assayInspection.value != null && inspectionReportObj.assayInspection.materialElementId != null) {
+        alert("assay")
+        /*isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+                actionURL: "${contextPath}/api/inspectionReport/assay",
+                httpMethod: "POST",
+                data: JSON.stringify(inspectionReportObj),
+                callback: function (resp) {
+                    if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                        isc.say("<spring:message code='global.form.request.successful'/>");
+                        inspectionReportTab.window.inspecReport.close();
+                        inspectionReportTab.method.refresh(inspectionReportTab.listGrid.main);
+                    } else
+                        isc.say(RpcResponse_o.data);
+                }
+            })
+        );*/
+    }
+
+};
+
+inspectionReportTab.window.inspecReport.cancelCallBack = function () {
+    inspectionReportTab.dynamicForm.inspecReport.clearValues();
+    inspectionReportTab.dynamicForm.material.clearValues();
+    inspectionReportTab.dynamicForm.assayLab.clearValues();
+    inspectionReportTab.dynamicForm.assayElement.clearValues();
+    inspectionReportTab.window.inspecReport.data.members.get(2).tabs.get(0).pane.members.get(0).clearValues();
+    inspectionReportTab.window.inspecReport.data.members.get(2).tabs.get(1).pane.members.get(0).clearValues();
 };
 
 
 inspectionReportTab.method.newForm = function () {
     inspectionReportTab.window.inspecReport.justShowForm();
+
+};
+
+inspectionReportTab.method.editForm = function () {
+
+    // let record = inspectionReportTab.listGrid.main.getSelectedRecord();
+    // if (record == null || record.id == null)
+    //     incotermTab.dialog.notSelected();
+    // else if (record.editable === false)
+    //     incotermTab.dialog.notEditable();
+    // else {
+    //
+    //     inspectionReportTab.method.jsonRPCManagerRequest({
+    //         httpMethod: "GET",
+    //         actionURL: "${contextPath}/api/weightInspection/spec-list",
+    //         params: {
+    //             criteria: {
+    //                 operator: "and",
+    //                 criteria: [
+    //                     {fieldName: "inspectionReportId", operator: "equals", value: record.id}
+    //                 ]
+    //             }
+    //         },
+    //         callback: function (response) {
+    //
+    //             var data = JSON.parse(response.httpResponseText).response.data;
+    //             // var data = JSON.stringify(JSON.parse(response.httpResponseText).response.data);
+    //
+    //         }
+    //     });
+    // }
 };
 
 //***************************************************** LISTGRID *************************************************
@@ -760,7 +1018,10 @@ inspectionReportTab.listGrid.fields = [
     },
     {
         name: "inspector.nameFA",
-        title: "<spring:message code='inspectionReport.inspector.nameFA'/>"
+        title: "<spring:message code='inspectionReport.inspector.nameFA'/>",
+        sortNormalizer: function (recordObject) {
+            return recordObject.inspector.nameFA;
+        }
     },
     {
         name: "inspectionPlace",
@@ -769,15 +1030,22 @@ inspectionReportTab.listGrid.fields = [
     {
         name: "issueDate",
         title: "<spring:message code='inspectionReport.IssueDate'/>",
-        type: "date"
+        type: "date",
+        width: "10%"
     },
     {
         name: "seller.nameFA",
-        title: "<spring:message code='inspectionReport.seller.nameFA'/>"
+        title: "<spring:message code='inspectionReport.seller.nameFA'/>",
+        sortNormalizer: function (recordObject) {
+            return recordObject.seller.nameFA;
+        }
     },
     {
         name: "buyer.nameFA",
-        title: "<spring:message code='inspectionReport.buyer.nameFA'/>"
+        title: "<spring:message code='inspectionReport.buyer.nameFA'/>",
+        sortNormalizer: function (recordObject) {
+            return recordObject.buyer.nameFA;
+        }
     },
     {
         name: "inspectionRateValue",
@@ -791,5 +1059,3 @@ inspectionReportTab.listGrid.fields = [
 
 
 var defaultBasicForm = nicico.BasicFormUtil.getDefaultBasicForm(inspectionReportTab, "api/inspectionReport/");
-// inspectionReportTab.dynamicForm.main = DynamicForm_InspectionReport;
-// inspectionReportTab.dynamicForm.main.windowWidth = 700;
