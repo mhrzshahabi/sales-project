@@ -35,7 +35,7 @@ public class Inventory extends BaseEntity {
     private Long materialItemId;
 
     @NotEmpty
-    @Column(name = "C_LABEL", nullable = false)
+    @Column(name = "C_LABEL", nullable = false, unique = true)
     private String label;
 
     @OneToMany(mappedBy = "inventory", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)

@@ -1,0 +1,17 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <changeSet author="Saeb" id="saeb_00unissssst1">
+        <sql>
+            INSERT INTO TBL_MATERIAL
+            (ID, C_CREATED_BY, D_CREATED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE, C_ABBREVIATION, C_CODE, C_DESCL,
+            C_DESCP, UNIT_ID)
+            VALUES
+            (-1, 'liquibase', current_timestamp, 0, default, default, '-1', '-1', 'آیتمهای ارسالی از لجستیک', 'تعیین
+            نشده', 999);
+        </sql>
+    </changeSet>
+
+
+</databaseChangeLog>

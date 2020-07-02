@@ -1,6 +1,8 @@
 package com.nicico.sales.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.nicico.sales.model.entities.base.Currency;
+import com.nicico.sales.model.entities.base.Unit;
 import com.nicico.sales.model.enumeration.EStatus;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -46,11 +48,18 @@ public class ElementDTO {
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("BasePrice")
-    public static class PriceBase extends ElementDTO {
+    @ApiModel("PriceBaseInfo")
+    public static class ElementPriceBaseDTO extends ElementDTO {
 
         private Long id;
+        private String name;
+        private Boolean payable;
+        private Boolean useInContract;
+
         private BigDecimal price;
+
+        private Unit unit;
+        private Currency currency;
     }
 
     @Getter

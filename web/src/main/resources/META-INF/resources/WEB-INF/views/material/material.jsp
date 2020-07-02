@@ -3,7 +3,5 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
-
 <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
-<%@include file="js/componentUnit.js"%>
-
+<%@include file="js/material.js"%>

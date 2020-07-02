@@ -7,6 +7,7 @@ import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.core.util.report.ReportUtil;
 import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.TozinDTO;
+import com.nicico.sales.iservice.ITozinLiteService;
 import com.nicico.sales.iservice.ITozinService;
 import com.nicico.sales.utility.MakeExcelOutputUtil;
 import com.nicico.sales.utility.SpecListUtil;
@@ -29,7 +30,6 @@ import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
-
 @RequestMapping("/tozin")
 @Slf4j
 public class TozinFormController {
@@ -38,8 +38,9 @@ public class TozinFormController {
     private final ObjectMapper objectMapper;
     private final SpecListUtil specListUtil;
     private final ITozinService iTozinService;
+    private final ITozinLiteService iTozinLiteService;
     private final MakeExcelOutputUtil makeExcelOutputUtil;
-    private ReportUtil reportUtil;
+    private final ReportUtil reportUtil;
 
     @RequestMapping("/showOnWayProductForm")
     public String showOnWayProductForm() {
@@ -89,14 +90,18 @@ public class TozinFormController {
         parameters.put("datedovom", params.get("datedovom").get(0));
         parameters.put("kala", params.get("kala").get(0));
         parameters.put("tolid", params.get("tolid").get(0));
-        parameters.put("haml", params.get("haml").get(0));
+//        parameters.put("haml", params.get("haml").get(0));
         parameters.put(ConstantVARs.REPORT_TYPE, params.get("type").get(0));
         NICICOCriteria provideNICICOCriteria = specListUtil.provideNICICOCriteria(params, TozinDTO.Info.class);
         List<TozinDTO.Info> data = iTozinService.searchTozin(provideNICICOCriteria).getResponse().getData();
         if (data == null) throw new SalesException(SalesException.ErrorType.NotFound);
-        String jsonData = "{" + "\"content\": " + objectMapper.writeValueAsString(data) + "}";
+        Map<String, List<TozinDTO.Info>> content = new HashMap() {{
+            put("content", data);
+        }};
+        final String jsonData = objectMapper.writeValueAsString(content);
+//        String jsonData = "{" + "\"content\": " + objectMapper.writeValueAsString(data) + "}";
         JsonDataSource jsonDataSource = new JsonDataSource(new ByteArrayInputStream(jsonData.getBytes(StandardCharsets.UTF_8)));
-        reportUtil.export("/reports/OnWayMo.jasper", parameters, jsonDataSource, response);
+        this.reportUtil.export("/reports/OnWayMo.jasper", parameters, jsonDataSource, response);
     }
 
 }

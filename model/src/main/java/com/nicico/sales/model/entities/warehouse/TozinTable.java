@@ -20,7 +20,7 @@ public class TozinTable {
     @SequenceGenerator(name = "SEQ_WARH_TOZIN", sequenceName = "SEQ_WARH_TOZIN", allocationSize = 1)
     private Long id;
     @NotEmpty
-    @Column(name = "TOZINE_ID", nullable = false)
+    @Column(name = "TOZINE_ID", nullable = false, unique = true)
     private String tozinId;
     @Column(name = "B_IS_IN_VIEW", nullable = false, columnDefinition = "number default 1")
     private Boolean isInView = true;

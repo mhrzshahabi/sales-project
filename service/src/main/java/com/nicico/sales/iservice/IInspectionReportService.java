@@ -6,4 +6,6 @@ import com.nicico.sales.model.entities.base.InspectionReport;
 public interface IInspectionReportService extends IGenericService<InspectionReport, Long, InspectionReportDTO.Create, InspectionReportDTO.Info, InspectionReportDTO.Update, InspectionReportDTO.Delete> {
 
     InspectionReportDTO.Info createWeightInspec(InspectionReportDTO.Create request);
+
+    InspectionReportDTO.Info createAssayInspec(InspectionReportDTO.Create request);
 }

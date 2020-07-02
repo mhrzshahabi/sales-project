@@ -16,4 +16,9 @@
         <modifyDataType columnName="N_INSPECTION_RATE_VALUE" newDataType="NUMBER(10, 5)" tableName="TBL_INSPECTION_REPORT"/>
     </changeSet>
 
+    <changeSet author="MShahabi" id="1799887766554-009">
+        <!--<dropForeignKeyConstraint baseTableName="TBL_INSPECTION_REPORT" constraintName="fk_inspectionReport2nventoryByInventoryId"/>-->
+        <dropColumn columnName="F_INVENTORY_ID" tableName="TBL_INSPECTION_REPORT"/>
+    </changeSet>
+
 </databaseChangeLog>

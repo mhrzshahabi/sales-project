@@ -1,7 +1,7 @@
 package com.nicico.sales.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.nicico.sales.model.entities.warehouse.RemittanceDetail;
 import com.nicico.sales.model.enumeration.EStatus;
 import com.nicico.sales.model.enumeration.InspectionRateValueType;
 import io.swagger.annotations.ApiModel;
@@ -24,8 +24,9 @@ public class InspectionReportDTO {
     private String inspectionNO;
     private Long inspectorId;
     private String inspectionPlace;
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date issueDate;
-    private Long inventoryId;
+//    private Long inventoryId;
     private Long sellerId;
     private Long buyerId;
     private BigDecimal inspectionRateValue;
@@ -40,9 +41,10 @@ public class InspectionReportDTO {
 
         private Long id;
         private WeightInspectionDTO.Info weightInspection;
-        private AssayInspectionDTO.Info assayInspection;
+        //        private AssayInspectionDTO.Info assayInspection;
+        private List<AssayInspectionDTO.Info> assayInspections;
         private ContactDTO.Info inspector;
-        private InventoryDTO.Info inventory;
+//        private InventoryDTO.Info inventory;
         private ContactDTO.Info seller;
         private ContactDTO.Info buyer;
         private CurrencyDTO.Info currency;
