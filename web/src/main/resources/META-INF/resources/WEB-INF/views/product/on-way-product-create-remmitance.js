@@ -882,17 +882,19 @@ function onWayProductCreateRemittance() {
             }
         })
     };
-
+    createdTozinList.filter(c => c.tozinId.startsWith('3')).forEach(c => {
+        destinationTozinCriteria.criteria.add({fieldName: "tozinId", operator: "notEqual", value: c.tozinId})
+    })
     Promise.all([
         onWayProductFetch('tozin', 'and', destinationTozinCriteria.criteria),
         onWayProductFetch('tozin/lite', 'and', destinationTozinCriteria.criteria),
     ])
         .then(([tozin, tozinLite]) => {
-                if (tozin && tozin.response && tozin.response.data && tozin.response.data.length > 0) {
-                    const tozinData = tozin.response.data
-                    // console.log('tozin',tozin);
-                    const grid = windowDestinationTozinList['g'];
-                    // const ds = windowDestinationTozinList['ds'];
+            if (tozin && tozin.response && tozin.response.data && tozin.response.data.length > 0) {
+                const tozinData = tozin.response.data
+                // console.log('tozin',tozin);
+                const grid = windowDestinationTozinList['g'];
+                // const ds = windowDestinationTozinList['ds'];
                     window[listGridSetDestTozinHarasatPolompForSelectedTozin['gs']]
                         .setValueMap('destTozinId', tozinData.getValueMap('tozinId', 'tozinId'))
                     if (tozinLite && tozinLite.response && tozinLite.response.data && tozinLite.response.data.length > 0) {
