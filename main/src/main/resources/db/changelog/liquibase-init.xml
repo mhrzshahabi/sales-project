@@ -217,7 +217,7 @@
         <createSequence sequenceName="SEQ_WARH_INVENTORY"/>
     </changeSet>
     <changeSet author="Reza (generated)" id="1592718665942-84">
-        <createSequence sequenceName="SEQ_WARH_ITEM_ELEMENT"/>
+        <createSequence sequenceName="SEQ_WARH_MATERIAL_ELEMENT"/>
     </changeSet>
     <changeSet author="Reza (generated)" id="1592718665942-85">
         <createSequence sequenceName="SEQ_WARH_REMITTANCE"/>
@@ -270,7 +270,7 @@
             <column name="F_INSPECTION_REPORT_ID" type="NUMBER(19, 0)">
                 <constraints nullable="false"/>
             </column>
-            <column name="F_ITEM_ELEMENT_ID" type="NUMBER(19, 0)">
+            <column name="F_MATERIAL_ELEMENT_ID" type="NUMBER(19, 0)">
                 <constraints nullable="false"/>
             </column>
             <column name="F_REMITTANCE_DETAIL_ID" type="NUMBER(19, 0)">
@@ -3386,9 +3386,9 @@
         </createTable>
     </changeSet>
     <changeSet author="Reza (generated)" id="1592718665942-184">
-        <createTable tableName="TBL_WARH_ITEM_ELEMENT">
+        <createTable tableName="TBL_WARH_MATERIAL_ELEMENT">
             <column name="id" type="NUMBER(19, 0)">
-                <constraints primaryKey="true" primaryKeyName="TBL_WARH_ITEM_ELEMENTPK"/>
+                <constraints primaryKey="true" primaryKeyName="TBL_WARH_MATERAIL_ELEMENTPK"/>
             </column>
             <column name="c_created_by" type="VARCHAR2(255 CHAR)">
                 <constraints nullable="false"/>
@@ -3785,7 +3785,7 @@
         <addForeignKeyConstraint baseColumnNames="F_INSPECTION_REPORT_ID" baseTableName="TBL_ASSAY_INSPECTION" constraintName="fk_AssayInspection2inspectionReportByInspectionReportId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_INSPECTION_REPORT" validate="true"/>
     </changeSet>
     <changeSet author="Reza (generated)" id="1592718665942-257">
-        <addForeignKeyConstraint baseColumnNames="F_ITEM_ELEMENT_ID" baseTableName="TBL_ASSAY_INSPECTION" constraintName="fk_AssayInspection2itemElementByItemElementId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_WARH_ITEM_ELEMENT" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="F_MATERIAL_ELEMENT_ID" baseTableName="TBL_ASSAY_INSPECTION" constraintName="fk_AssayInspection2materialElementByMaterialElementId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_WARH_MATERIAL_ELEMENT" validate="true"/>
     </changeSet>
     <changeSet author="Reza (generated)" id="1592718665942-258">
         <addForeignKeyConstraint baseColumnNames="F_PARENT_ID" baseTableName="TBL_CNTR_CONTRACT" constraintName="fk_contract2contractByParentId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_CNTR_CONTRACT" validate="true"/>
@@ -3857,7 +3857,7 @@
         <addForeignKeyConstraint baseColumnNames="F_FOREIGN_INVOICE_ITEM_ID" baseTableName="TBL_FOREIGN_INVOICE_ITEM_DETAIL" constraintName="fk_foreignInvoiceItemDetail2foreignInvoiceItemByForeignInvoiceItemId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_FOREIGN_INVOICE_ITEM" validate="true"/>
     </changeSet>
     <changeSet author="Reza (generated)" id="1592718665942-281">
-        <addForeignKeyConstraint baseColumnNames="F_MATERIAL_ELEMENT_ID" baseTableName="TBL_FOREIGN_INVOICE_ITEM_DETAIL" constraintName="fk_foreignInvoiceItemDetail2materialElementByMaterialElementId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_WARH_ITEM_ELEMENT" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="F_MATERIAL_ELEMENT_ID" baseTableName="TBL_FOREIGN_INVOICE_ITEM_DETAIL" constraintName="fk_foreignInvoiceItemDetail2materialElementByMaterialElementId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_WARH_MATERIAL_ELEMENT" validate="true"/>
     </changeSet>
     <changeSet author="Reza (generated)" id="1592718665942-282">
         <addForeignKeyConstraint baseColumnNames="F_CURRENCY_ID" baseTableName="TBL_FOREIGN_INVOICE_PAYMENT" constraintName="fk_foreignInvoicePayment2currencyByCurrencyId" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_CURRENCY" validate="true"/>
@@ -3926,10 +3926,10 @@
         <addForeignKeyConstraint baseColumnNames="F_ITEM_ID" baseTableName="TBL_WARH_INVENTORY" constraintName="fk_inventory2itemByItemId" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_MATERIAL_ITEM" validate="true"/>
     </changeSet>
     <changeSet author="Reza (generated)" id="1592718665942-306">
-        <addForeignKeyConstraint baseColumnNames="F_ELEMENT_ID" baseTableName="TBL_WARH_ITEM_ELEMENT" constraintName="fk_itemElement2elementByElementId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_WARH_ELEMENT" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="F_ELEMENT_ID" baseTableName="TBL_WARH_MATERIAL_ELEMENT" constraintName="fk_materialElement2elementByElementId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_WARH_ELEMENT" validate="true"/>
     </changeSet>
     <changeSet author="Reza (generated)" id="1592718665942-307">
-        <addForeignKeyConstraint baseColumnNames="F_MATERIAL_ITEM_ID" baseTableName="TBL_WARH_ITEM_ELEMENT" constraintName="fk_materialElement2ItemByItemId" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_MATERIAL_ITEM" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="F_MATERIAL_ITEM_ID" baseTableName="TBL_WARH_MATERIAL_ELEMENT" constraintName="fk_materialElement2ItemByItemId" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_MATERIAL_ITEM" validate="true"/>
     </changeSet>
     <changeSet author="Reza (generated)" id="1592718665942-308">
         <addForeignKeyConstraint baseColumnNames="F_DEPOT_ID" baseTableName="TBL_WARH_REMITTANCE_DETAIL" constraintName="fk_remittanceDetail2depotByDepotId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_WARH_DEPOT" validate="true"/>
@@ -3947,7 +3947,7 @@
         <addForeignKeyConstraint baseColumnNames="F_WAREHOUSE_ID" baseTableName="TBL_WARH_STORE" constraintName="fk_store2warehouseByWarehouseId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_WARH_WAREHOUSE" validate="true"/>
     </changeSet>
     <changeSet author="Reza (generated)" id="1592718665942-315">
-        <addForeignKeyConstraint baseColumnNames="F_MATERIAL_ELEMENT_ID" baseTableName="TBL_TYPICAL_ASSAY" constraintName="fk_typicalAssay2materialElementByMaterialElementId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_WARH_ITEM_ELEMENT" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="F_MATERIAL_ELEMENT_ID" baseTableName="TBL_TYPICAL_ASSAY" constraintName="fk_typicalAssay2materialElementByMaterialElementId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_WARH_MATERIAL_ELEMENT" validate="true"/>
     </changeSet>
     <changeSet author="Reza (generated)" id="1592718665942-316">
         <addForeignKeyConstraint baseColumnNames="F_UNIT_ID" baseTableName="TBL_TYPICAL_ASSAY" constraintName="fk_typicalAssay2unitByUnitId" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_UNIT" validate="true"/>

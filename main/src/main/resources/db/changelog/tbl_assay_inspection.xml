@@ -20,11 +20,11 @@
     </changeSet>
 
     <changeSet author="Reza Mazloom" id="mazloom_002">
-        <renameColumn tableName="TBL_ASSAY_INSPECTION" oldColumnName="F_ITEM_ELEMENT_ID" newColumnName="F_MATERIAL_ELEMENT_ID"/>
+        <renameColumn tableName="TBL_ASSAY_INSPECTION" oldColumnName="F_MATERIAL_ELEMENT_ID" newColumnName="F_MATERIAL_ELEMENT_ID"/>
     </changeSet>
 
     <changeSet author="Reza Mazloom" id="mazloom_003">
-        <dropForeignKeyConstraint baseTableName="TBL_ASSAY_INSPECTION" constraintName="fk_AssayInspection2itemElementByItemElementId"/>
+        <dropForeignKeyConstraint baseTableName="TBL_ASSAY_INSPECTION" constraintName="fk_AssayInspection2materialElementByMaterialElementId"/>
         <addForeignKeyConstraint baseTableName="TBL_ASSAY_INSPECTION" baseColumnNames="F_MATERIAL_ELEMENT_ID"
                                  constraintName="fk_AssayInspection2materialElementByMaterialElementId" referencedTableName="TBL_WARH_MATERIAL_ELEMENT"
                                  referencedColumnNames="ID"/>
