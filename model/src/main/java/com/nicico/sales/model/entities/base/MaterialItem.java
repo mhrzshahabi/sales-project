@@ -5,6 +5,7 @@ import lombok.*;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 @Getter
 @Setter
@@ -17,16 +18,20 @@ import javax.persistence.*;
 public class MaterialItem extends BaseEntity {
 
     @Id
-//    @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_MATERIAL_ITEM")
-//    @SequenceGenerator(name = "SEQ_MATERIAL_ITEM", sequenceName = "SEQ_MATERIAL_ITEM", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_MATERIAL_ITEM")
+    @SequenceGenerator(name = "SEQ_MATERIAL_ITEM", sequenceName = "SEQ_MATERIAL_ITEM", allocationSize = 1)
     @Column(name = "ID")
     private Long id;
 
     @Column(name = "GDSCODE")
     private Long gdsCode;
 
+    @NotBlank
     @Column(name = "GDSNAME")
     private String gdsName;
+
+    @Column(name="C_GDSNAME_EN")
+    private String gdsNameEn;
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)

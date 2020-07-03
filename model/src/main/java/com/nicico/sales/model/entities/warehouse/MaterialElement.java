@@ -1,6 +1,6 @@
 package com.nicico.sales.model.entities.warehouse;
 
-import com.nicico.sales.model.entities.base.MaterialItem;
+import com.nicico.sales.model.entities.base.Material;
 import com.nicico.sales.model.entities.common.BaseEntity;
 import lombok.*;
 import lombok.experimental.Accessors;
@@ -25,22 +25,20 @@ public class MaterialElement extends BaseEntity {
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "F_MATERIAL_ITEM_ID", insertable = false, updatable = false,
-            foreignKey = @ForeignKey(name = "fk_materialElement2ItemByItemId"))
-    private MaterialItem materialItem;
+    @JoinColumn(name = "F_MATERIAL_ID", insertable = false, updatable = false,
+            foreignKey = @ForeignKey(name = "fk_materialElement2materialByMaterialId"))
+    private Material material;
 
     @NotNull
-    @Column(name = "F_MATERIAL_ITEM_ID", nullable = false)
-    private Long materialItemId;
+    @Column(name = "F_MATERIAL_ID", nullable = false)
+    private Long materialId;
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "F_ELEMENT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_itemElement2elementByElementId"))
+    @JoinColumn(name = "F_ELEMENT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_materialElement2elementByElementId"))
     private Element element;
 
     @NotNull
     @Column(name = "F_ELEMENT_ID", nullable = false)
     private Long elementId;
-
-
 }

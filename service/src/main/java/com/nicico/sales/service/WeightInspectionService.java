@@ -19,35 +19,4 @@ import javax.transaction.Transactional;
 @Service
 public class WeightInspectionService extends GenericService<WeightInspection, Long, WeightInspectionDTO.Create, WeightInspectionDTO.Info, WeightInspectionDTO.Update, WeightInspectionDTO.Delete> implements IWeightInspectionService {
 
-    private final WeightInspectionDAO weightInspectionDAO;
-    private final InspectionReportDAO inspectionReportDAO;
-    private final ModelMapper modelMapper;
-
-    @Override
-    @Transactional
-    @Action(value = ActionType.Create, authority = "")
-    public WeightInspectionDTO.Info createWeightInspec(WeightInspectionDTO.Create request) {
-
-        WeightInspectionDTO.Info weightInspectionDTO = super.create(request);
-
-
-        InspectionReportDTO.Info inspectionReportDTO = new InspectionReportDTO.Info();
-        inspectionReportDTO.setInspectionNO(weightInspectionDTO.getInspectionReport().getInspectionNO());
-        inspectionReportDTO.setInspectorId(weightInspectionDTO.getInspectionReport().getInspectorId());
-        inspectionReportDTO.setInspectionPlace(weightInspectionDTO.getInspectionReport().getInspectionPlace());
-        inspectionReportDTO.setIssueDate(weightInspectionDTO.getInspectionReport().getIssueDate());
-        inspectionReportDTO.setInventoryId(weightInspectionDTO.getInspectionReport().getInventoryId());
-        inspectionReportDTO.setSellerId(weightInspectionDTO.getInspectionReport().getSellerId());
-        inspectionReportDTO.setBuyerId(weightInspectionDTO.getInspectionReport().getBuyerId());
-        inspectionReportDTO.setInspectionRateValue(weightInspectionDTO.getInspectionReport().getInspectionRateValue());
-        inspectionReportDTO.setInspectionRateValueType(weightInspectionDTO.getInspectionReport().getInspectionRateValueType());
-        inspectionReportDTO.setCurrencyId(weightInspectionDTO.getInspectionReport().getCurrencyId());
-        inspectionReportDTO.setCurrencyId(weightInspectionDTO.getInspectionReport().getCurrencyId());
-
-
-        weightInspectionDTO.setInspectionReport(inspectionReportDTO);
-        WeightInspection weightInspection = modelMapper.map(weightInspectionDTO, WeightInspection.class);
-        return save(weightInspection);
-
-    }
 }

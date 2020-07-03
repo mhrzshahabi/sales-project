@@ -6,6 +6,7 @@ import lombok.*;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
@@ -33,9 +34,12 @@ public class Inventory extends BaseEntity {
     @Column(name = "F_MATERIAL_ITEM_ID", nullable = false)
     private Long materialItemId;
 
+    @NotEmpty
+    @Column(name = "C_LABEL", nullable = false, unique = true)
+    private String label;
+
     @OneToMany(mappedBy = "inventory", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private List<RemittanceDetail> remittanceDetails;
 
-    @Column(name = "C_LABEL", nullable = false)
-    private String label;
+
 }

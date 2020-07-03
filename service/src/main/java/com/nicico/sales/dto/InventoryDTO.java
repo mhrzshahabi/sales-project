@@ -1,9 +1,6 @@
 package com.nicico.sales.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.nicico.sales.model.entities.base.MaterialItem;
-import com.nicico.sales.model.entities.common.BaseEntity;
-import com.nicico.sales.model.entities.warehouse.RemittanceDetail;
 import com.nicico.sales.model.enumeration.EStatus;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -18,7 +15,7 @@ import java.util.List;
 @Setter
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class InventoryDTO extends BaseEntity {
+public class InventoryDTO {
 
     private Long materialItemId;
     private String label;
@@ -27,10 +24,9 @@ public class InventoryDTO extends BaseEntity {
     @Getter
     @Setter
     @Accessors(chain = true)
-    public static class Info extends InventoryDTO {
+    public static class InfoWithoutRemittanceDetail extends InventoryDTO {
         private Long id;
         private MaterialItemDTO.Info materialItem;
-        private List<RemittanceDetailDTO.Info> remittanceDetails;
         // Auditing
         private Date createdDate;
         private String createdBy;
@@ -40,6 +36,14 @@ public class InventoryDTO extends BaseEntity {
         // BaseEntity
         private Boolean editable;
         private List<EStatus> eStatus;
+    }
+
+
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    public static class Info extends InventoryDTO.InfoWithoutRemittanceDetail {
+        private List<RemittanceDetailDTO.Info> remittanceDetails;
     }
 
 

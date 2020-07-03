@@ -27,10 +27,10 @@ public class TypicalAssay extends Auditable {
     @Column(name = "ID")
     private Long id;
 
-    @Column(name = "N_MIN_VALUE", precision = 5, scale = 10, nullable = false)
+    @Column(name = "N_MIN_VALUE", precision = 10, scale = 5, nullable = false)
     private BigDecimal minValue;
 
-    @Column(name = "N_MAX_VALUE", precision = 5, scale = 10, nullable = false)
+    @Column(name = "N_MAX_VALUE", precision = 10, scale = 5, nullable = false)
     private BigDecimal maxValue;
 
     @Setter(AccessLevel.NONE)

@@ -24,18 +24,13 @@ public class Remittance extends BaseEntity {
     private Long id;
 
     @NotNull
-    @Column(name = "C_CODE", nullable = false)
+    @Column(name = "C_CODE", nullable = false, unique = true)
     private String code;
-
-    // rahahanPolompNo
-    @Column(name = "RAIL_POLOMP_NO")
-    private String railPolompNo;
-
-    // herasatPolompNo
-    @Column(name = "SECURITY_POLOMP_NO")
-    private String securityPolompNo;
 
     @OneToMany(mappedBy = "remittance", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private List<RemittanceDetail> remittanceDetails;
+
+    @Column(name = "C_DESCRIPTION", length = 1000)
+    private String description;
 
 }
