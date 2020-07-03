@@ -1,5 +1,4 @@
 isc.defineClass("InvoiceBaseValues", isc.VLayout).addProperties({
-
     width: "100%",
     align: "top",
     autoFit: false,
@@ -26,9 +25,9 @@ isc.defineClass("InvoiceBaseValues", isc.VLayout).addProperties({
             this.addMember(isc.InvoiceBaseAssay.create({
                 inventories: [{id: 1}, {id: 2}]
             }));
-            // this.addMember(isc.InvoiceBaseWeight.create({
-            //
-            // }));
+            this.addMember(isc.InvoiceBaseWeight.create({
+                billLadings: [{id: 1}, {id: 2}]
+            }));
         } else {
 
         }

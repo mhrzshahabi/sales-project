@@ -1,5 +1,4 @@
 isc.defineClass("InvoiceBaseInfo", isc.VLayout).addProperties({
-
     width: "100%",
     align: "top",
     autoFit: false,

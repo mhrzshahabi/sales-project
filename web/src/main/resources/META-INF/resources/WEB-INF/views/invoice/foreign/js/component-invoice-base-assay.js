@@ -1,7 +1,6 @@
 isc.defineClass("InvoiceBaseAssay", isc.VLayout).addProperties({
     align: "top",
     width: "100%",
-    height: "20%",
     autoFit: false,
     autoDraw: false,
     showEdges: false,
@@ -13,14 +12,13 @@ isc.defineClass("InvoiceBaseAssay", isc.VLayout).addProperties({
         this.Super("initWidget", arguments);
 
         let This = this;
-
-        let fields = [];
         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
             httpMethod: "GET",
             params: {inventoryIds: This.inventories.map(q => q.id)},
             actionURL: "${contextPath}/api/assayInspection/get-assay-values",
             callback: function (resp) {
 
+                let fields = [];
                 let assayValues = JSON.parse(resp.data);
                 for (let index = 0; index < assayValues.length; index++) {
 
@@ -52,9 +50,9 @@ isc.defineClass("InvoiceBaseAssay", isc.VLayout).addProperties({
         }));
     },
     getValues: function () {
-        return this.members[1].getValues();
+        return this.members[0].getValues();
     },
     setValues: function (data) {
-        return this.members[1].setValues(data);
+        return this.members[0].setValues(data);
     }
 });
