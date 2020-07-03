@@ -35,7 +35,7 @@ public class MaterialElement extends BaseEntity {
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "F_ELEMENT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_itemElement2elementByElementId"))
+    @JoinColumn(name = "F_ELEMENT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_materialElement2elementByElementId"))
     private Element element;
 
     @NotNull

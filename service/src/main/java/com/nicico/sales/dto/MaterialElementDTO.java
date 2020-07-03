@@ -24,7 +24,7 @@ public class MaterialElementDTO {
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("ItemElementInfo")
+    @ApiModel("MaterialElementInfo")
     public static class Info extends MaterialElementDTO {
 
         private Long id;
@@ -46,7 +46,7 @@ public class MaterialElementDTO {
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("ItemElementCreateRq")
+    @ApiModel("MaterialElementCreateRq")
     public static class Create extends MaterialElementDTO {
 
     }
@@ -54,7 +54,7 @@ public class MaterialElementDTO {
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("ItemElementUpdateRq")
+    @ApiModel("MaterialElementUpdateRq")
     public static class Update extends MaterialElementDTO {
 
         @NotNull
@@ -65,7 +65,7 @@ public class MaterialElementDTO {
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("ItemElementDeleteRq")
+    @ApiModel("MaterialElementDeleteRq")
     public static class Delete {
 
         @NotNull

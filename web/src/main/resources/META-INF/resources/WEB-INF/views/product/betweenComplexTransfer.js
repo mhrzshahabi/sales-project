@@ -19,7 +19,7 @@ function loadOnWayProduct() {
             name: "tozinDate",
             filterOperator: "greaterOrEqual",
             filterEditorProperties: {
-                defaultValue: new persianDate().toLocale('en').subtract('d', 14).format('YYYY/MM/DD'),
+                // defaultValue: new persianDate().toLocale('en').subtract('d', 14).format('YYYY/MM/DD'),
                 icons: [{
                     src: "pieces/pcal.png",
                     click: function (form, item, icon) {
@@ -156,6 +156,8 @@ function loadOnWayProduct() {
     const ToolStripButton_Tozin_Report = isc.ToolStripButtonRefresh.create({
         icon: "[SKIN]/actions/excel-512.png",
         title: "<spring:message code='global.form.export.excel'/>",
+        visibility: "hidden",
+
         click: function () {
             const fieldsGrid = tozinFields.filter(
                 function (q) {
@@ -210,6 +212,8 @@ function loadOnWayProduct() {
     const Jasper_Pdf = isc.ToolStripButtonRefresh.create({
         icon: "[SKIN]/actions/pdf.png",
         title: "<spring:message code='global.form.export.pdf'/>",
+        visibility: "hidden",
+
         click: function () {
 
 
@@ -337,7 +341,7 @@ function loadOnWayProduct() {
                 name: "tozinDate",
                 filterOperator: "greaterOrEqual",
                 filterEditorProperties: {
-                    defaultValue: new persianDate().toLocale('en').subtract('d', 14).format('YYYY/MM/DD'),
+                    // defaultValue: new persianDate().toLocale('en').subtract('d', 14).format('YYYY/MM/DD'),
                     icons: [{
                         src: "pieces/pcal.png",
                         click: function (form, item, icon) {
@@ -455,7 +459,18 @@ function loadOnWayProduct() {
         ]
     });
     // )
-
+    const listGrid_Tozin_IN_ONWAYPRODUCT_fiter_editor_criteria = {
+        _constructor: "AdvancedCriteria",
+        operator: "and",
+        criteria: [{
+            fieldName: "tozinDate",
+            operator: "greaterOrEqual",
+            value: new persianDate().subtract('d', 14).format('YYYY/MM/DD'),
+        },
+            // {"fieldName": "tozinId", "operator": "iNotStartsWith", "value": "3-"}
+        ]
+    };
+    ListGrid_Tozin_IN_ONWAYPRODUCT.setFilterEditorCriteria(listGrid_Tozin_IN_ONWAYPRODUCT_fiter_editor_criteria)
 
 }
 
