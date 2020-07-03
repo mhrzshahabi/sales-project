@@ -14,6 +14,13 @@ function giveMeAName() {
 
 function onWayProductCreateRemittance() {
     function updateDestinationPackageTedadWeight() {
+        function _styler(numberToSet, formItemStr) {
+            const sourceNum = isNaN(DynamicForm_warehouseCAD.getValue("source" + formItemStr)) ? 0 :
+                Number(DynamicForm_warehouseCAD.getValue("source" + formItemStr))
+            const strToSet = ((sourceNum - numberToSet > 0) ? '<span style="color:red">' + numberToSet.toString() + "</span>" : numberToSet.toString());
+            DynamicForm_warehouseCAD.setValue('destination' + formItemStr, strToSet);
+        }
+
         const grid = window[listGridSetDestTozinHarasatPolompForSelectedTozin['gs']];
         console.log('listGridSetDestTozinHarasatPolompForSelectedTozin', grid);
         const sums = {
@@ -32,9 +39,12 @@ function onWayProductCreateRemittance() {
 
             }
         )
-        DynamicForm_warehouseCAD.setValue('destinationWeight', (sums['vazn']).toString());
-        DynamicForm_warehouseCAD.setValue('destinationSheetSum', sums['tedad']);
-        DynamicForm_warehouseCAD.setValue('destinationBundleSum', sums['totalPkg']);
+        _styler(sums['vazn'], "Weight");
+        _styler(sums['tedad'], "SheetSum");
+        _styler(sums['totalPkg'], "BundleSum");
+        // DynamicForm_warehouseCAD.setValue('destinationWeight', ('<span style="color:red">' + sums['vazn']).toString() + "</span>");
+        // DynamicForm_warehouseCAD.setValue('destinationSheetSum', sums['tedad']);
+        // DynamicForm_warehouseCAD.setValue('destinationBundleSum', sums['totalPkg']);
     }
 
     const RestDataSource_WarehouseYard_IN_WAREHOUSECAD_ONWAYPRODUCT = isc.MyRestDataSource.create({
@@ -356,7 +366,7 @@ function onWayProductCreateRemittance() {
 
     const windowDestinationTozinList = (function () {
         const datasource = isc.DataSource.create({
-            fields: tozinLiteFields
+            fields: [...tozinLiteFields]
         });
         const gridConfigs = {
             showRowNumbers: true,
@@ -373,7 +383,7 @@ function onWayProductCreateRemittance() {
             width: "100%",
             height: 570,
             dataSource: datasource,
-            fields: [...tozinLiteFields,],
+            fields: [...tozinLiteFields],
         };
         const extraGridConfigs = {
             recordDoubleClick(viewer, record, recordNum, field, fieldNum, value, rawValue) {
@@ -395,12 +405,13 @@ function onWayProductCreateRemittance() {
         const grid = isc.ListGrid.create({...extraGridConfigs, ...gridConfigs});
         const win = isc.Window.create({
             title: "<spring:message code='contact.title'/>",
-            width: 700,
+            width: .7 * innerWidth,
             height: 580,
             autoSize: true,
             autoCenter: true,
             isModal: true,
             showModalMask: true,
+            showTitle: false,
             align: "center",
             autoDraw: false,
             dismissOnEscape: true,
@@ -445,7 +456,7 @@ function onWayProductCreateRemittance() {
 
                         const ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT = isc.ListGrid.create({
                             showFilterEditor: false,
-                            width: "100%",
+                            width: .8 * innerWidth,
                             // height: 500,
                             modalEditing: true,
                             showRowNumbers: false,
@@ -461,7 +472,7 @@ function onWayProductCreateRemittance() {
                             // gridComponents: ["header", "body",  ],
                             fields: [{
                                 name: "label",
-                                title: "<spring:message code='warehouseCadItem.bundleSerial'/>",
+                                title: "سریال",
                                 width: "20%",
                                 editorExit(editCompletionEvent, recordg, newValue, rowNum, colNum, grid) {
                                     record['packages'].find(p => p.uid === recordg.uid)['label'] = newValue
@@ -475,7 +486,7 @@ function onWayProductCreateRemittance() {
                                 },
                                 {
                                     name: "tedad",
-                                    title: "تعداد (ورق، بشکه، فله، ...)",
+                                    title: "تعداد (ورق، بشکه، گونی، ...)",
                                     width: "20%",
                                     validators: [{
                                         type: "regexp",
@@ -573,7 +584,7 @@ function onWayProductCreateRemittance() {
                     if (!tozinId) return false;
                     this.rowHoverComponent = isc.DetailViewer.create({
                         dataSource: isc.MyRestDataSource.create({
-                            fields: tozinFields,
+                            fields: [...tozinFields],
                             fetchDataURL: 'api/tozin/spec-list'
                         }),
                         width: 250
@@ -589,7 +600,7 @@ function onWayProductCreateRemittance() {
 
                     return this.rowHoverComponent;
                 },
-                fields: [...windowDestinationTozinList['gc']['fields'].map(c => {
+                fields: [...[windowDestinationTozinList['gc']['fields']].map(c => {
                     if (c.name == 'tozinId') {
                         return {
                             name: "tozinId",
@@ -644,7 +655,7 @@ function onWayProductCreateRemittance() {
                         hoverHTML(record, value, rowNum, colNum, grid) {
                             console.log('hover html', arguments)
                             try {
-                                const title = tozinFields.getValueMap('name', 'title')
+                                const title = [...tozinFields].getValueMap('name', 'title')
                                 const tbl = '<table border="1">' +
                                     Object.keys(record['destTozin']).map((k, i, list) => {
                                         const columns = 4;
@@ -746,6 +757,7 @@ function onWayProductCreateRemittance() {
                 showModalMask: true,
                 align: "center",
                 autoDraw: false,
+                showTitle: false,
                 dismissOnEscape: true,
                 visibility: 'hidden',
                 closeClick: function () {
@@ -761,12 +773,11 @@ function onWayProductCreateRemittance() {
                     // grid_destinetion,
                 ]
             })
-            return {
-                w: w.getID(),
-                gs: grid_source.getID(),
-            }
+        return {
+            w: w.getID(),
+            gs: grid_source.getID(),
         }
-    )()
+    })()
     const packages_button = isc.IButtonSave.create({
         title: "<spring:message code='warehouseStock.bundle'/>",
         width: 100,
@@ -780,7 +791,7 @@ function onWayProductCreateRemittance() {
     });
     const windowRemittance = isc.Window.create({
         title: "<spring:message code='bijack'/> ",
-        ID: "Window_BijackOnWayProduct",
+        // ID: "Window_BijackOnWayProduct",
         width: 1000,
         // height: 630,
         autoSize: true,
@@ -828,7 +839,7 @@ function onWayProductCreateRemittance() {
                                             message: "<spring:message code='warehouseCad.warning.close'/>",
                                             buttons: [isc.Dialog.OK, isc.Dialog.CANCEL],
                                             okClick() {
-                                                Window_BijackOnWayProduct.close();
+                                                windowRemittance.close();
                                                 this.close();
                                             }
                                         })
@@ -882,7 +893,7 @@ function onWayProductCreateRemittance() {
             }
         })
     };
-    createdTozinList.filter(c => c.tozinId.startsWith('3')).forEach(c => {
+    [...createdTozinList].filter(c => c.tozinId.startsWith('3')).forEach(c => {
         destinationTozinCriteria.criteria.add({fieldName: "tozinId", operator: "notEqual", value: c.tozinId})
     })
     Promise.all([
