@@ -26,7 +26,6 @@ isc.defineClass("InvoiceBaseAssay", isc.VLayout).addProperties({
                         continue;
 
                     fields.add(isc.Unit.create({
-
                         unitCategory: 1,
                         disabledUnitField: true,
                         disabledValueField: true,
@@ -35,11 +34,12 @@ isc.defineClass("InvoiceBaseAssay", isc.VLayout).addProperties({
                         showUnitFieldTitle: false,
                         showCurrencyFieldTitle: false,
                         showCurrencyField: false,
+                        name: assayValues[index].materialElement.element.name,
                         fieldValueTitle: assayValues[index].materialElement.element.name,
                         border: "1px solid rgba(0, 0, 0, 0.3)",
                     }));
                     fields.last().setValue(assayValues[index].value);
-                    fields.last().setUnitId(assayValues[index].unit.id);
+                    fields.last().setUnitId(assayValues[index].materialElement.unit.id);
                 }
 
                 This.addMember(isc.DynamicForm.create({

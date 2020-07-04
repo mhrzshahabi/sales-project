@@ -1,240 +1,112 @@
-isc.defineClass("invoiceCalculationRows", isc.VLayout).addProperties({
-    autoFit: false,
-    autoDraw: true,
-    align: "center",
+isc.defineClass("InvoiceCalculationRow", isc.DynamicForm).addProperties({
+    numCols: 4,
     width: "100%",
-    height: "20%",
-    isPercent: null,
-    unitComponentAssay: null,
-    unitComponentDeduc: null,
-    unitComponentNPCol1: null,
-    unitComponentNPCol2: null,
-    unitComponentFinalCol1: null,
-    unitComponentFinalCol2: null,
-    unitComponentFinalCol3: null,
-    hLayoutFinal: null,
-    hLayoutNP: null,
-    invoiceCalculationRowsObj: null,
+    wrapItemTitles: false,
+    assay: null,
+    price: null,
     initWidget: function () {
 
-        var This = this;
         this.Super("initWidget", arguments);
 
-        invoiceCalculationRowsObj = {
-            calculationRowsAssay: 0,
-            calculationRowsDeduc: 0,
-            calculationRowsFinalCol1: 0,
-            calculationRowsFinalCol2: 0,
-            calculationRowsFinalCol3: 0,
-            calculationRowsNPCol1: 0,
-            calculationRowsNPCol2: 0,
-        }
+        let This = this;
+        this.addField(isc.Unit.create({
+            colSpan: 4,
+            unitCategory: 1,
+            disabledUnitField: true,
+            disabledValueField: true,
+            disabledCurrencyField: true,
+            showValueFieldTitle: true,
+            showUnitFieldTitle: false,
+            showCurrencyFieldTitle: false,
+            showCurrencyField: false,
+            fieldValueTitle: This.assay.materialElement.element.name,
+            border: "1px solid rgba(0, 0, 0, 0.3)",
+        }));
+        this.fields.last().setValue(this.assay.value);
+        this.fields.last().setUnitId(this.assay.materialElement.unit.id);
+        this.addField({
+            colSpan: 2,
+            wrap: false,
+            required: true,
+            showTitle: false,
+            width: '100%',
+            type: 'float',
+            name: "deductionValue",
+            keyPressFilter: "[0-9.]",
+            validators: [{
+                type: "isFloat",
+                wrap: false,
+                stopOnError: true,
+                validateOnChange: true,
+                errorMessage: "<spring:message code='global.form.correctType'/>"
+            }],
+            changed: function (form, item, value) {
 
-        switch (this.isPercent){
-
-            case 0:
-                unitComponentAssay = isc.Unit.create({
-                    fieldValueTitle: "Assay",
-                    showTitleFieldValue: false,
-                    unitCategory: 1,
-                    showTitle: false,
+                form.setValue(This.assay.materialElement.element.name, {
+                    value: This.assay.value - value,
+                    unitId: This.assay.materialElement.unit.id,
                 });
+                This.calculate();
+            }
+        });
+        this.addField({
+            value: 1,
+            colSpan: 2,
+            showTitle: false,
+            width: "100%",
+            name: "deductionType",
+            valueMap: Enums.deductionType
+        });
+        this.addField(isc.Unit.create({
+            colSpan: 4,
+            unitCategory: 1,
+            disabledUnitField: true,
+            disabledValueField: true,
+            disabledCurrencyField: true,
+            showValueFieldTitle: false,
+            showUnitFieldTitle: false,
+            showCurrencyFieldTitle: false,
+            showCurrencyField: false,
+            deductionUnitConversionRate: 1,
+            name: This.assay.materialElement.element.name,
+            border: "1px solid rgba(0, 0, 0, 0.3)",
+        }));
+        if (This.assay.materialElement.unit.id !== 1 && This.assay.materialElement.unit.id !== This.price.unit.id)
+            this.addField(isc.Unit.create({
+                colSpan: 4,
+                unitCategory: 1,
+                disabledUnitField: true,
+                disabledValueField: true,
+                disabledCurrencyField: true,
+                showValueFieldTitle: false,
+                showUnitFieldTitle: false,
+                showCurrencyFieldTitle: false,
+                showCurrencyField: false,
+                name: "deductionUnitConversionRate",
+                border: "1px solid rgba(0, 0, 0, 0.3)",
+                changed: function (form, item, value) {
 
-                unitComponentDeduc = isc.Unit.create({
-                    fieldValueTitle: "Deduc",
-                    showTitleFieldValue: false,
-                    unitCategory: 1,
-                    showTitle: false,
-                    // disabled: true
-                });
+                    form.getField(This.assay.materialElement.element.name).deductionUnitConversionRate = value;
+                    This.calculate();
+                }
+            }));
+        this.addField({
+            colSpan: 4,
+            title: "=",
+            type: "staticText",
+            name: "deductionPrice",
+        });
 
-                unitComponentFinalCol1 = isc.Unit.create({
-                    fieldValueTitle: "Final1",
-                    showTitleFieldValue: false,
-                    unitCategory: 1,
-                    showTitle: false,
-                    // disabled: true
-                });
-
-                unitComponentFinalCol2 = isc.Unit.create({
-                    fieldValueTitle: "Final2",
-                    showTitleFieldValue: false,
-                    unitCategory: 1,
-                    showTitle: false,
-                    // disabled: true
-                });
-
-                unitComponentFinalCol3 = isc.Unit.create({
-                    fieldValueTitle: "Final3",
-                    showTitleFieldValue: false,
-                    unitCategory: 1,
-                    showTitle: false,
-                    // disabled: true
-                });
-
-                hLayoutFinal = isc.HLayout.create({
-                    width: "100%",
-                    height: "100%",
-                    members: [
-                        unitComponentFinalCol1,
-                        isc.Label.create({
-                            padding: 3,
-                            // width: "100",
-                            height: "25%",
-                            align: "center",
-                            contents: "<b>" + "    *    " + "<b>",
-                        }),
-                        unitComponentFinalCol2,
-                        isc.Label.create({
-                            padding: 3,
-                            // width: "100",
-                            height: "25%",
-                            align: "center",
-                            contents: "<b>" + "    =    " + "<b>",
-                        }),
-                        unitComponentFinalCol3
-                    ]
-                });
-
-                this.addMember(unitComponentAssay);
-                this.addMember(unitComponentDeduc);
-                this.addMember(hLayoutFinal);
-                break;
-
-            case 1:
-                unitComponentAssay = isc.Unit.create({
-                    fieldValueTitle: "Assay",
-                    showTitleFieldValue: false,
-                    unitCategory: 1,
-                    showTitle: false,
-                });
-
-                unitComponentDeduc = isc.Unit.create({
-                    fieldValueTitle: "Deduc",
-                    showTitleFieldValue: false,
-                    unitCategory: 1,
-                    showTitle: false,
-                    // disabled: true
-                });
-
-                unitComponentNPCol1 = isc.Unit.create({
-                    fieldValueTitle: "NP1",
-                    showTitleFieldValue: false,
-                    unitCategory: 1,
-                    showTitle: false,
-                    // disabled: true
-                });
-
-                unitComponentNPCol2 = isc.Unit.create({
-                    fieldValueTitle: "NP2",
-                    showTitleFieldValue: false,
-                    unitCategory: 1,
-                    showTitle: false,
-                    // disabled: true
-                });
-
-                unitComponentFinalCol1 = isc.Unit.create({
-                    fieldValueTitle: "Final1",
-                    showTitleFieldValue: false,
-                    unitCategory: 1,
-                    showTitle: false,
-                    // disabled: true
-                });
-
-                unitComponentFinalCol2 = isc.Unit.create({
-                    fieldValueTitle: "Final2",
-                    showTitleFieldValue: false,
-                    unitCategory: 1,
-                    showTitle: false,
-                    // disabled: true
-                });
-
-                unitComponentFinalCol3 = isc.Unit.create({
-                    fieldValueTitle: "Final3",
-                    showTitleFieldValue: false,
-                    unitCategory: 1,
-                    showTitle: false,
-                    // disabled: true
-                });
-
-                hLayoutNP = isc.HLayout.create({
-                    width: "100%",
-                    height: "100%",
-                    members: [
-                        unitComponentNPCol1,
-                        isc.Label.create({
-                            // align: "center",
-                            contents: "<b>" + "OR" + "<b>",
-                        }),
-                        unitComponentNPCol2,
-                    ]
-                });
-
-                hLayoutFinal = isc.HLayout.create({
-                    width: "100%",
-                    height: "100%",
-                    members: [
-                        unitComponentFinalCol1,
-                        isc.Label.create({
-                            align: "center",
-                            contents: "<b>" + "*" + "<b>",
-                        }),
-                        unitComponentFinalCol2,
-                        isc.Label.create({
-                            align: "center",
-                            contents: "<b>" + "=" + "<b>",
-                        }),
-                        unitComponentFinalCol3
-                    ]
-                });
-
-                this.addMember(unitComponentAssay);
-                this.addMember(unitComponentDeduc);
-                this.addMember(hLayoutNP);
-                this.addMember(hLayoutFinal);
-                break;
-        }
-
+        this.setValues(this.data);
     },
-    getCalRowsValues: function () {
-
-        invoiceCalculationRowsObj.calculationRowsAssay = this.members.get(0).getUnitValues();
-        invoiceCalculationRowsObj.calculationRowsDeduc = this.members.get(1).getUnitValues();
-
-        switch (this.isPercent) {
-            case 0:
-                invoiceCalculationRowsObj.calculationRowsFinalCol1 = this.members.get(2).members.get(0).getUnitValues();
-                invoiceCalculationRowsObj.calculationRowsFinalCol2 = this.members.get(2).members.get(2).getUnitValues();
-                invoiceCalculationRowsObj.calculationRowsFinalCol3 = this.members.get(2).members.get(4).getUnitValues();
-                break;
-
-            case 1:
-                invoiceCalculationRowsObj.calculationRowsNPCol1 = this.members.get(2).members.get(0).getUnitValues();
-                invoiceCalculationRowsObj.calculationRowsNPCol2 = this.members.get(2).members.get(2).getUnitValues();
-                invoiceCalculationRowsObj.calculationRowsFinalCol1 = this.members.get(3).members.get(0).getUnitValues();
-                invoiceCalculationRowsObj.calculationRowsFinalCol2 = this.members.get(3).members.get(2).getUnitValues();
-                invoiceCalculationRowsObj.calculationRowsFinalCol3 = this.members.get(3).members.get(4).getUnitValues();
-                break;
-        }
-
-        return invoiceCalculationRowsObj;
+    calculate: function () {
+        let assayField = this.getField(this.assay.materialElement.element.name);
+        this.setValue("deductionPrice", assayField.getValue() * assayField.deductionUnitConversionRate);
     },
-    setCalRowsValues: function (data) {
-        this.members.get(0).setUnitValues(data.calculationRowsAssay);
-        this.members.get(1).setUnitValues(data.calculationRowsDeduc);
-
-        switch (this.isPercent) {
-            case 0:
-                this.members.get(2).members.get(0).setUnitValues(data.calculationRowsFinalCol1);
-                this.members.get(2).members.get(2).setUnitValues(data.calculationRowsFinalCol2);
-                this.members.get(2).members.get(4).setUnitValues(data.calculationRowsFinalCol3);
-                break;
-            case 1:
-                this.members.get(2).members.get(0).setUnitValues(data.calculationRowsNPCol1);
-                this.members.get(2).members.get(2).setUnitValues(data.calculationRowsNPCol2);
-                this.members.get(3).members.get(0).setUnitValues(data.calculationRowsFinalCol1);
-                this.members.get(3).members.get(2).setUnitValues(data.calculationRowsFinalCol2);
-                this.members.get(3).members.get(4).setUnitValues(data.calculationRowsFinalCol3);
-        }
+    getValue: function () {
+        this.getValue("deductionPrice");
+    },
+    setValue: function (value) {
+        this.setValues(value);
     }
 });

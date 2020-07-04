@@ -31,15 +31,15 @@ isc.defineClass("invoiceCalculation", isc.VLayout).addProperties({
 
             case 1:
 
-                calRowsComponentCopper = isc.invoiceCalculationRows.create({
+                calRowsComponentCopper = isc.InvoiceCalculationRow.create({
                     isPercent: 0
                 });
 
-                calRowsComponentSilver = isc.invoiceCalculationRows.create({
+                calRowsComponentSilver = isc.InvoiceCalculationRow.create({
                     isPercent: 1
                 });
 
-                calRowsComponentGold = isc.invoiceCalculationRows.create({
+                calRowsComponentGold = isc.InvoiceCalculationRow.create({
                     isPercent: 1
                 });
 
@@ -50,27 +50,27 @@ isc.defineClass("invoiceCalculation", isc.VLayout).addProperties({
 
             case 4:
 
-                calRowsComponentCopper = isc.invoiceCalculationRows.create({
+                calRowsComponentCopper = isc.InvoiceCalculationRow.create({
                     isPercent: 0
                 });
 
-                calRowsComponentSilver = isc.invoiceCalculationRows.create({
+                calRowsComponentSilver = isc.InvoiceCalculationRow.create({
                     isPercent: 1
                 });
 
-                calRowsComponentGold = isc.invoiceCalculationRows.create({
+                calRowsComponentGold = isc.InvoiceCalculationRow.create({
                     isPercent: 1
                 });
 
-                calRowsComponentPlatinum = isc.invoiceCalculationRows.create({
+                calRowsComponentPlatinum = isc.InvoiceCalculationRow.create({
                     isPercent: 1
                 });
 
-                calRowsComponentPalladium = isc.invoiceCalculationRows.create({
+                calRowsComponentPalladium = isc.InvoiceCalculationRow.create({
                     isPercent: 1
                 });
 
-                calRowsComponentSelenium = isc.invoiceCalculationRows.create({
+                calRowsComponentSelenium = isc.InvoiceCalculationRow.create({
                     isPercent: 0
                 });
 

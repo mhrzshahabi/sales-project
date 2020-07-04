@@ -44,6 +44,7 @@ isc.defineClass("InvoiceBasePrice", isc.VLayout).addProperties({
                         showValueFieldTitle: true,
                         showUnitFieldTitle: false,
                         showCurrencyFieldTitle: false,
+                        name: elements[index].name,
                         fieldValueTitle: elements[index].name,
                         border: "1px solid rgba(0, 0, 0, 0.3)",
                     }));

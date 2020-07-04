@@ -150,15 +150,6 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
         editorType: "SelectItem",
         valueField: "id",
         displayField: "month",
-        pickListWidth: 370,
-        pickListHeight: 300,
-        pickListProperties: {
-            showFilterEditor: false
-        },
-        pickListFields: [
-            {name: "id", primaryKey: true, hidden: true, title: "<spring:message code='global.id'/>"},
-            {name: "month", title: "<spring:message code='foreign-invoice.form.shipment'/>"},
-        ],
         optionDataSource: isc.MyRestDataSource.create({
             fields: [
                 {name: "id", primaryKey: true, hidden: true, title: "<spring:message code='global.id'/>"},
