@@ -8,7 +8,7 @@
 select tzn_date,p.id,p.namefa plant,m.gdscode,m.gdsname
 				 , case when instr(carname ,'انتينر')>0   then 'ريلی' else 'جاده اي' end car,
 				 nvl(sum(wazn),0) wazn,sum(case when tedad is null then 1 when tedad=0 then 1 else tedad end) tedad
-				 from n_master.v_tozine_content_m m
+				 from v_tozine_content_m m
 				join tbl_tozin_target s on s.targetid=sourceid
 				join tbl_tozin_plant p on p.id=substr(TOZINE_ID,1,1)
 				join tbl_tozin_material mt on mt.gdscode=m.gdscode

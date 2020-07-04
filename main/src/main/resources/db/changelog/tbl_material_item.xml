@@ -10,6 +10,616 @@
         </addColumn>
     </changeSet>
 
+    <changeSet author="Saeb" id="saeb_00unissssdfdfssssssst1ssss">
+        <sql>
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (-1, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, -1, 'خالي', -1, null, null);
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (1, 'liquibase', current_timestamp,
+            null, null, 0, 1, 1, 1, 'مفتول مسي 8 ميليمتري', -1, null, null);
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (2, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 2, 'سولفور موليبدن سرچشمه', -1, null, 'Molybdenum Source Sarcheshmeh');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (3, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 3, 'اسلب', -1, null, 'Slab');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (5, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 5, 'آند سربي ', -1, null, 'Andy lead');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (6, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 6, 'قطعات كارخانه', -1, null, 'Factory parts');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (8, 'liquibase', current_timestamp,
+            null, null, 0, 1, 1, 8, 'كنسانتره مس ', -1, null, null);
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (9, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 9, 'مس كاتد ', -1, null, 'Copper cathode');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (10, 'liquibase', current_timestamp,
+            null, null, 0, 1, 1, 10, 'مس كاتد ليچينگ', -1, null, null);
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (11, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 11, 'كاتد صادراتي', 3, null, 'Export cathode');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (12, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 12, 'سنگ آهك', 1, null, 'Limestone');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (13, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 13, 'سنگ سيليس', -1, null, 'Silica stone');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (14, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 14, 'اسيد سولفوريك', 1, null, 'Sulfuric acid');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (15, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 15, 'سولفور سديم مايع', 2, null, 'Sodium liquid sulfur');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (16, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 16, 'نفت كوره', 2, null, 'Fuel oil');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (18, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 18, 'بنزين', 1, null, 'Benzin');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (19, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 19, 'نيترات انفجاري', 1, null, 'Explosive nitrate');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (20, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 20, 'آهك صنعتي', -1, null, 'Industrial lime');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (21, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 21, 'لوازم اداري', -1, null, 'Office supplies');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (22, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 22, 'قطعات ولوازم يدكي ', 2, null, 'Spare parts and accessories');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (23, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 23, 'گلوله ', 1, null, 'Bullets');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (24, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 24, 'ضايعات مس ', 2, null, 'Copper waste');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (25, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 25, 'سرباره كنورتور پرعيار خاتون آباد', 1, null, 'High grade khatonabad');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (27, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 27, 'ميل گرد', 2, null, 'Rebar');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (28, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 28, 'مس آند ', -1, null, 'Copper anode');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (29, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 29, 'آند قراضه ', 3, null, 'Scrap iron');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (31, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 31, 'روغن موتور ', 3, null, 'engine oil');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (32, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 32, 'مواد شيميائي ', 2, null, 'Chemicals');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (34, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 34, 'سيمان ', 2, null, 'Cement materials');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (35, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 35, 'سولفور سديم جامد پرك ', 1, null, 'Solid Sodium Solid Perk');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (36, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 36, 'آهن الات ', 1, null, 'Iron iron');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (37, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 37, 'آجر نسوز', 2, null, 'Firebrick');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (38, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 38, 'لوله آهني ', 1, null, 'Iron pipe');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (39, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 39, 'پروفيل', 2, null, 'Profile pipe');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (40, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 40, 'ريسول ', 2, null, 'Risoul');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (42, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 42, 'سرباره ريورب', 2, null, 'Rivor slag');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (43, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 43, 'مس جوري ( داخلي ) ', -1, null, 'Miss Jouri (internal)');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (44, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 44, 'قراضه خريداري مصرفي ', 3, null, 'Consumer shopping scrap');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (46, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 46, 'ورق فلزي ', 2, null, 'Sheet metal');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (47, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 47, 'خاك نسوز ', 3, null, 'Refractory soil');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (52, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 52, 'كنسانتره فلزات گرانبها با سلنيوم', 1, null, 'Precious metal concentrate with
+            selenium');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (57, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 57, 'ته پاتيل داخلي', 1, null, 'Cauldron');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (58, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 58, 'ضايعات آهن ', 2, null, 'Iron waste');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (59, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 59, 'سولفات باريم ', 2, null, 'Barium sulfate');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (60, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 60, 'بارهاي متفرقه -شركتي ', -1, null, 'Miscellaneous Loans - Company');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (61, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 61, 'بارهاي متفرقه -غيرشركتي', 3, null, 'Miscellaneous loads - non-corporate');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (62, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 62, 'پروفيل ', 1, null, 'Profile');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (63, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 63, 'الكل', 1, null, 'alcohol');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (64, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 64, 'پودر باريت كريستال ', 3, null, 'Crystal barite powder');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (65, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 65, 'نفت سفيد ', -1, null, 'White oil');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (67, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 67, 'كلروفريك', 2, null, 'Chloroferric');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (68, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 68, 'آنفو ', 2, null, 'ANFO');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (70, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 70, 'سيانور ', -1, null, 'Cyanide');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (72, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 72, 'سرباره گرانوله', -1, null, null);
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (73, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 73, 'اكسيژن', 1, null, 'Oxygen');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (75, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 75, 'پودر سيليس ', 1, null, 'Silica powder');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (76, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 76, 'داخلي سرباره پرعيار', 3, null, 'داخلي سرباره پرعيار');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (77, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 77, 'داخلي سرباره كم عيار', 1, null, 'داخلي سرباره كم عيار');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (78, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 78, 'سود', -1, null, 'Profit');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (79, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 79, 'ذغال كك', 3, null, 'Coke');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (82, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 82, 'ته پاتيل كنورتور', 1, null, 'ته پاتيل كنورتور');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (83, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 83, 'نرمه زيرسرندي ', 2, null, 'نرمه زيرسرندي');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (84, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 84, 'زيرسرندي درشت ', -1, null, 'زير سرندي درشت');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (85, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 85, 'آند مس داخلي ', 1, null, 'Internal copper anode');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (87, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 87, 'ضايعات مس وارداتي ', -1, null, 'Imported copper waste');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (88, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 88, 'لجن آندي', 1, null, 'لجن آندي');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (89, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 89, 'گريس ', 2, null, 'Grease');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (90, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 90, 'قراضه پالايشگاه مصرفي ', -1, null, 'Consumer refinery scrap');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (91, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 91, 'ضايعات كاتدي پالايشگاه ', -1, null, 'ضايعات كاتدی پالايشگاه ');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (92, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 92, 'روغن اسكارل( انواع )', 3, null, 'Scarlet oil');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (93, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 93, 'سنگ معدن ', 1, null, 'Ore');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (94, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 94, 'گازوييل', -1, null, 'Diesel fuel');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (96, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 96, 'دسته كاتد', 1, null, 'Cathode handle');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (97, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 97, 'اكسيد موليبدن', 3, null, 'Molybdenum dioxide');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (99, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 99, 'ريجكت (Reject)', 1, null, 'Reject');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (100, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 100, 'ماسه سيليس', 3, null, 'ماسه سيليس');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (101, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 101, 'ضايعات نسوز', 3, null, 'ضايعات نسوز');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (102, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 102, 'غبار سياه ', 1, null, 'Black dust');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (103, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 103, 'مس سرقتي', -1, null, 'Stolen copper');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (104, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 104, 'غبار سفيد', -1, null, 'White dust');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (106, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 106, 'غبار دودكش', 1, null, 'Chimney dust');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (110, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 110, 'سرباره مس ', 1, null, 'سرباره مس ');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (112, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 112, 'گلوله داخلي ', 1, null, 'Internal bullet');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (116, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 116, 'غبار A', -1, null, 'Dust A');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (117, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 117, 'خاك رس ', -1, null, 'Clay');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (118, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 118, 'مس آرسنيك ', 3, null, 'Arsenic');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (120, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 120, 'سولفور موليبدن _ داخلي', -1, null, 'Molybdenum Sulfur Internal');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (121, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 121, 'سولفور موليبدن سونگون', -1, null, 'Molybdenum Sulfur Sungun');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (122, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 122, 'مولد ', 2, null, 'generating');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (125, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 125, 'كاتد مس زدا', 3, null, 'كاتد مس زدا');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (129, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 129, 'كاتد داخلي', 2, null, 'Internal cathode');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (132, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 132, 'ضايعات لاينر لاستيكي ', 3, null, 'ضايعات لاينر لاستيكي ');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (133, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 133, 'روغن سوخته ', 1, null, 'Burnt oil');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (134, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 134, 'اموليت', 1, null, 'Emolite');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (135, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 135, 'ضايعات پلاستيكي', 2, null, 'Plastic waste');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (136, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 136, 'سنگ فيروزه', 3, null, 'Turquoise');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (137, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 137, 'اسيد داخلي ', 1, null, 'Internal acid');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (140, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 140, 'كنسانتره سرقتي ', 2, null, 'Theft Concentration');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (141, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 141, 'ميل پانچ مستعمل', -1, null, 'Mill Punch Used');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (142, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 142, 'ته پاتيل سرقتي ', 2, null, 'ته پاتيل سرقتي ');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (144, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 144, 'لجن غبار ليچينگ ', 3, null, 'Leech dusting sludge');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (145, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 145, 'ضايعات برگشتي ', 2, null, 'Return waste');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (146, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 146, 'قراضه پالايشگاه مهندسي ', 1, null, 'Engineering Refinery Scrap');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (148, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 148, 'آند قراضه داخلي ', 1, null, 'Internal scrap anode');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (149, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 149, 'ضايعات گلوله ', -1, null, 'Bullet waste');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (150, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 150, 'ضايعات آندو قراضه پالايشگاه ', 1, null, 'Ando waste scrap refinery');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (154, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 154, 'الكتروليت (بليد)', 1, null, 'Electrolyte Blade');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (155, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 155, 'سولفات سديم', 1, null, 'Sodium sulfate');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (156, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 156, 'جرم نسوز', 3, null, 'Refractory');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (157, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 157, 'مواد سرد', 1, null, 'Cold material');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (158, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 158, 'نمك ', -1, null, 'salt');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (159, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 159, 'بليستر ', 1, null, 'Blister');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (162, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 162, 'غبار داخلي ', 2, null, 'Internal dust');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (165, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 165, 'ضايعات كابل ', -1, null, 'Cable waste');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (166, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 166, 'آب دمين ', 3, null, 'R.O.mixedbed');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (167, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 167, 'ضايعات لاينر فلزي ', 2, null, 'Metal liner waste');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (169, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 169, 'چدن ', 1, null, 'Cast iron');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (170, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 170, 'خمير الكترود ', 1, null, 'Electrode Paste');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (171, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 171, 'لوله مانسمان ', -1, null, 'seamless pipe');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (172, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 172, 'ضايعات پلي اتيلن ', -1, null, 'Polyethylene waste');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (173, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 173, 'كربن اكتيو ', 1, null, 'Activated carbon');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (174, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 174, 'لوله پلي اتيلن ', -1, null, 'Polyethylene pipe');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (175, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 175, 'خاك سولفوري ', 3, null, 'Sulfuric soil');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (178, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 178, 'ضايعات فلزي ', 1, null, 'Metal waste');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (179, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 179, 'كنسانتره فلزات گرانبها بدون سلنيوم', 2, null, 'Concentrate of precious metals
+            without selenium');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (180, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 180, 'برش قيچي ريختگري', 2, null, 'برش قيچي ريختگري');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (181, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 181, 'ضايعات منگنز', 2, null, 'Manganese waste');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (182, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 182, 'ضايعات استيل ', 1, null, 'Steel waste');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (183, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 183, 'آهك هيدراته ', 3, null, 'Hydrate lime');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (184, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 184, 'پسماند غبار هيپ ', 1, null, 'Hip dust residue');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (186, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 186, 'الكترود', 2, null, 'Electrode');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (187, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 187, 'دايلوئنت', 2, null, 'دايلوئنت');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (188, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 188, 'اور سايز 008', 3, null, 'Over Size 008');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (190, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 190, 'ضايعات كيسه جامبو', 2, null, 'Jumbo bag waste');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (193, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 193, 'پرليت', 3, null, 'Pearlite');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (194, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 194, 'آب', 3, null, 'Water');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (195, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 195, 'ضايعات بشكه', -1, null, 'Barrel waste');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (196, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 196, 'غبار فلش', 1, null, 'Flash dust');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (197, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 197, 'نشاسته', 2, null, 'Starch');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (198, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 198, 'غبار داخلي فلش', 1, null, 'Flash internal dust');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (199, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 199, 'ضايعات لاستيك', 2, null, 'Tires wastage');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (200, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 200, 'نيتروژن', 1, null, 'Nitrogen');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (201, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 201, 'سازه فلزي', -1, null, 'Metal structure');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (202, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 202, 'كاتد برگشتي از گمرك', -1, null, 'Cathode Return from Customs');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (203, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 203, 'سرباره پرعيار كنورتور', 2, null, 'سرباره پرعيار كنورتور');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (204, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 204, 'ضايعات سيم مسي', 3, null, 'Copper wire waste');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (205, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 205, 'ضايعات كابل مسي', -1, null, 'Copper cable waste');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (206, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 206, 'ضايعات شمش مس', 1, null, 'Copper ingot waste');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (207, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 207, 'ضايعات لوله مسي', 2, null, 'Copper pipe waste');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (208, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 208, 'پساب اسيد', 2, null, 'Acid effluent');
+            insert /*+ ignore_row_on_dupkey_index(TBL_MATERIAL_ITEM, TBL_MATERIAL_ITEMPK) */ INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (209, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 209, 'ضايعات آلومينيوم', 1, null, 'Aluminum waste');
+        </sql>
+    </changeSet>
     <changeSet author="j.azad" id="J.AZAD-012">
         <sql>
             UPDATE TBL_MATERIAL_ITEM

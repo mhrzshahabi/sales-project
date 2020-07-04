@@ -335,7 +335,16 @@ function mainOnWayProduct() {
         data: [{
             title: "<spring:message code='bijack'/>",
             icon: "product/warehouses.png",
-            click: onWayProductCreateRemittance
+            click(){
+
+                isc.Dialog.create({
+                    ID:"pls_wait_3",
+                    showTitle: false,
+                    message: "لطفا صبر کنید",
+                });
+
+                onWayProductCreateRemittance();
+            }
         }]
     });
     const ToolStripButton_Tozin_Refresh = isc.ToolStripButtonRefresh.create({
@@ -633,6 +642,8 @@ function mainOnWayProduct() {
 
 
     ListGrid_Tozin_IN_ONWAYPRODUCT.setFilterEditorCriteria(listGrid_Tozin_IN_ONWAYPRODUCT_fiter_editor_criteria)
+
+
 }
 
 mainOnWayProduct()

@@ -1,10 +1,13 @@
 package com.nicico.sales.model.entities.warehouse;
 
+
+import com.nicico.sales.model.entities.common.BaseEntity;
 import lombok.*;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
@@ -14,7 +17,7 @@ import javax.validation.constraints.NotEmpty;
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
 @Table(name = "TBL_WARH_TOZIN")
-public class TozinTable {
+public class TozinTable extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_WARH_TOZIN")
     @SequenceGenerator(name = "SEQ_WARH_TOZIN", sequenceName = "SEQ_WARH_TOZIN", allocationSize = 1)
@@ -23,7 +26,7 @@ public class TozinTable {
     @Column(name = "TOZINE_ID", nullable = false, unique = true)
     private String tozinId;
     @Column(name = "B_IS_IN_VIEW", nullable = false, columnDefinition = "number default 1")
-    private Boolean isInView = true;
+    private final Boolean isInView = true;
     @Column(name = "SOURCEID", nullable = false)
     private Long sourceId;
     @Column(name = "TARGETID", nullable = false)
@@ -42,4 +45,7 @@ public class TozinTable {
     private String plak;
     @Column(name = "DRVNAME", nullable = false)
     private String driverName;
+    @NotNull
+    @Column(name = "GDSCODE", nullable = false)
+    private Long codeKala;
 }

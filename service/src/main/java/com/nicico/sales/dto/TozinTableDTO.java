@@ -19,12 +19,13 @@ import java.util.List;
 public class TozinTableDTO {
 
     private String tozinId;
+    private final Boolean isInView = true;
     private String cardId;
     private String haveCode;
     private String tozinDate;
     private Long sourceId;
     private Long targetId;
-    private Boolean isInView = true;
+    private String codeKala;
     private Long vazn;
     private String date;
     private String ctrlDescOut;

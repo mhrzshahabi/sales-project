@@ -13,6 +13,8 @@ function giveMeAName() {
 }
 
 function onWayProductCreateRemittance() {
+
+
     function updateDestinationPackageTedadWeight() {
         function _styler(numberToSet, formItemStr) {
             const sourceNum = isNaN(DynamicForm_warehouseCAD.getValue("source" + formItemStr)) ? 0 :
@@ -343,6 +345,85 @@ function onWayProductCreateRemittance() {
             })
 
         }
+    });
+    const packages_button = isc.IButtonSave.create({
+        title: "<spring:message code='warehouseStock.bundle'/>",
+        width: 100,
+        icon: "pieces/16/packages.png",
+        orientation: "vertical",
+        visibility: "hidden",
+        click: function () {
+            const w = listGridSetDestTozinHarasatPolompForSelectedTozin['w'];
+            window[w].show()
+        }
+    });
+    const windowRemittance = isc.Window.create({
+        title: "<spring:message code='bijack'/> ",
+        // ID: "Window_BijackOnWayProduct",
+        width: 1000,
+        // height: 630,
+        autoSize: true,
+        autoCenter: true,
+        isModal: true,
+        align: "center",
+        autoDraw: false,
+        canDragReposition: false,
+        dismissOnEscape: true,
+        closeClick: function () {
+            this.Super("closeClick", arguments)
+        },
+        items: [
+            isc.VLayout.create({
+                width: 830,
+                // height: 700,
+                padding: 10,
+                margin: 10,
+                members: [
+                    DynamicForm_warehouseCAD,
+                    isc.HLayout.create({
+                        width: "100%",
+                        // height:100,
+                        align: "center",
+                        margin: 10,
+                        padding: 20,
+                        members:
+                            [
+                                packages_button,
+                                isc.Label.create({
+                                    width: 5,
+                                }),
+                                IButton_warehouseCAD_Save,
+                                isc.Label.create({
+                                    width: 5,
+                                }),
+                                isc.IButtonCancel.create({
+                                    title: "<spring:message code='global.cancel'/>",
+                                    width: 100,
+                                    icon: "pieces/16/icon_delete.png",
+                                    orientation: "vertical",
+                                    click: function () {
+                                        isc.Dialog.create({
+                                            title: "<spring:message code='global.warning'/>",
+                                            message: "<spring:message code='warehouseCad.warning.close'/>",
+                                            buttons: [isc.Dialog.OK, isc.Dialog.CANCEL],
+                                            okClick() {
+                                                windowRemittance.close();
+                                                this.close();
+                                            }
+                                        })
+                                    }
+                                }),
+
+                            ]
+                    })
+                ]
+            })]
+    });
+    windowRemittance.show();
+    isc.Dialog.create({
+        ID:"pls_wait_2",
+        showTitle: false,
+        message: "لطفا صبر کنید",
     });
     const selectedSourceTozins = ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecords();
     DynamicForm_warehouseCAD.clearValues();
@@ -778,80 +859,7 @@ function onWayProductCreateRemittance() {
             gs: grid_source.getID(),
         }
     })()
-    const packages_button = isc.IButtonSave.create({
-        title: "<spring:message code='warehouseStock.bundle'/>",
-        width: 100,
-        icon: "pieces/16/packages.png",
-        orientation: "vertical",
-        visibility: "hidden",
-        click: function () {
-            const w = listGridSetDestTozinHarasatPolompForSelectedTozin['w'];
-            window[w].show()
-        }
-    });
-    const windowRemittance = isc.Window.create({
-        title: "<spring:message code='bijack'/> ",
-        // ID: "Window_BijackOnWayProduct",
-        width: 1000,
-        // height: 630,
-        autoSize: true,
-        autoCenter: true,
-        isModal: true,
-        align: "center",
-        autoDraw: false,
-        canDragReposition: false,
-        dismissOnEscape: true,
-        closeClick: function () {
-            this.Super("closeClick", arguments)
-        },
-        items: [
-            isc.VLayout.create({
-                width: 830,
-                // height: 700,
-                padding: 10,
-                margin: 10,
-                members: [
-                    DynamicForm_warehouseCAD,
-                    isc.HLayout.create({
-                        width: "100%",
-                        // height:100,
-                        align: "center",
-                        margin: 10,
-                        padding: 20,
-                        members:
-                            [
-                                packages_button,
-                                isc.Label.create({
-                                    width: 5,
-                                }),
-                                IButton_warehouseCAD_Save,
-                                isc.Label.create({
-                                    width: 5,
-                                }),
-                                isc.IButtonCancel.create({
-                                    title: "<spring:message code='global.cancel'/>",
-                                    width: 100,
-                                    icon: "pieces/16/icon_delete.png",
-                                    orientation: "vertical",
-                                    click: function () {
-                                        isc.Dialog.create({
-                                            title: "<spring:message code='global.warning'/>",
-                                            message: "<spring:message code='warehouseCad.warning.close'/>",
-                                            buttons: [isc.Dialog.OK, isc.Dialog.CANCEL],
-                                            okClick() {
-                                                windowRemittance.close();
-                                                this.close();
-                                            }
-                                        })
-                                    }
-                                }),
 
-                            ]
-                    })
-                ]
-            })]
-    });
-    windowRemittance.show();
     const destinationTozinCriteria = {
         operator: "and",
         criteria: [
@@ -923,6 +931,7 @@ function onWayProductCreateRemittance() {
                     window[grid].setData(tozinData);
                 }
                 updateDestinationPackageTedadWeight()
+                pls_wait_2.destroy()
 
             }
         )
@@ -1032,6 +1041,7 @@ function onWayProductCreateRemittance() {
         packages_button.show();
         IButton_warehouseCAD_Save.show()
         updateDestinationPackageTedadWeight()
+        pls_wait_3.destroy()
 
     })
     DynamicForm_warehouseCAD.getItem('depotId').setOptionDataSource(RestDataSource_WarehouseYard_IN_WAREHOUSECAD_ONWAYPRODUCT)
