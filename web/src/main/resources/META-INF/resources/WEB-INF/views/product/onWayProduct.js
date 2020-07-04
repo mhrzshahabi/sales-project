@@ -47,7 +47,7 @@ const tozinLiteFields = [
         type: "number",
         // filterEditorProperties: {editorType: "comboBox"},
         valueMap: {11: 'كاتد صادراتي', 8: 'كنسانتره مس ', 97: 'اكسيد موليبدن'},
-        title: "<spring:message code='Tozin.codeKala'/>",
+        title: "محصول",
         parseEditorValue: function (value, record, form, item) {
             StorageUtil.save('on_way_product_defaultCodeKala', value)
             return value;
@@ -540,8 +540,8 @@ function mainOnWayProduct() {
         filterData(criteria, callback, requestProperties) {
             criteria.criteria.add({"fieldName": "tozinId", "operator": "iNotStartsWith", "value": "3-"})
             if (!criteria.criteria.find(t => t.fieldName === "sourceId")) {
-                isc.say('فیلتر مقصد خالی‌ می‌یاشد')
-                throw 'فیلتر مقصد خالی‌ می‌یاشد'
+                isc.say('فیلتر مبدا خالی‌ می‌یاشد')
+                throw 'فیلتر مبدا خالی‌ می‌یاشد'
             }
             if (!criteria.criteria.find(t => t.fieldName === "targetId")) {
                 isc.say('فیلتر مقصد خالی‌ می‌یاشد')
