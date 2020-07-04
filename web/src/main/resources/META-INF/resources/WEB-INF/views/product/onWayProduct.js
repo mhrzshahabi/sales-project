@@ -27,7 +27,12 @@ const tozinLiteFields = [
         title: "<spring:message code='Tozin.date'/>",
         align: "center",
         formatCellValue(value, record, rowNum, colNum, grid) {
-            return (value.substr(0, 4) + "/" + value.substr(4, 2) + "/" + value.substr(-2))
+            try {
+                return (value.substr(0, 4) + "/" + value.substr(4, 2) + "/" + value.substr(-2))
+            }
+            catch (e) {
+                return value
+            }
         }
     },
     {
@@ -47,7 +52,7 @@ const tozinLiteFields = [
         type: "number",
         // filterEditorProperties: {editorType: "comboBox"},
         valueMap: {11: 'كاتد صادراتي', 8: 'كنسانتره مس ', 97: 'اكسيد موليبدن'},
-        title: "<spring:message code='Tozin.codeKala'/>",
+        title: "محصول",
         parseEditorValue: function (value, record, form, item) {
             StorageUtil.save('on_way_product_defaultCodeKala', value)
             return value;
@@ -326,6 +331,21 @@ async function onWayProductFetch(classUrl, operator = "and", criteria = []) {
 }
 
 function mainOnWayProduct() {
+    function criteriaBuildForListGrid() {
+        const filterEditorCriteria = ListGrid_Tozin_IN_ONWAYPRODUCT.getFilterEditorCriteria();
+        filterEditorCriteria.criteria.add({"fieldName": "tozinId", "operator": "iNotStartsWith", "value": "3-"})
+        fetchAlreadyInsertedTozinList().then(
+            value => {
+                value.forEach(v => filterEditorCriteria.criteria.add({
+                        "fieldName": "tozinId",
+                        "operator": "notEqual",
+                        "value": v
+                    })
+                )
+                ListGrid_Tozin_IN_ONWAYPRODUCT.fetchData(filterEditorCriteria)
+            }
+        )
+    }
     const restDataSource_Tozin_Lite = {
         fields: tozinLiteFields,
         fetchDataURL: "${contextPath}/api/tozin/lite/spec-list"
@@ -335,7 +355,16 @@ function mainOnWayProduct() {
         data: [{
             title: "<spring:message code='bijack'/>",
             icon: "product/warehouses.png",
-            click: onWayProductCreateRemittance
+            click(){
+
+                isc.Dialog.create({
+                    ID:"pls_wait_3",
+                    showTitle: false,
+                    message: "لطفا صبر کنید",
+                });
+
+                onWayProductCreateRemittance(criteriaBuildForListGrid);
+            }
         }]
     });
     const ToolStripButton_Tozin_Refresh = isc.ToolStripButtonRefresh.create({
@@ -449,21 +478,7 @@ function mainOnWayProduct() {
         width: 120,
         title: "<spring:message code='global.search'/>",
         icon: "icon/search.png",
-        click: function () {
-            const filterEditorCriteria = ListGrid_Tozin_IN_ONWAYPRODUCT.getFilterEditorCriteria();
-            filterEditorCriteria.criteria.add({"fieldName": "tozinId", "operator": "iNotStartsWith", "value": "3-"})
-            fetchAlreadyInsertedTozinList().then(
-                value => {
-                    value.forEach(v => filterEditorCriteria.criteria.add({
-                            "fieldName": "tozinId",
-                            "operator": "notEqual",
-                            "value": v
-                        })
-                    )
-                    ListGrid_Tozin_IN_ONWAYPRODUCT.fetchData(filterEditorCriteria)
-                }
-            )
-        }
+        click: criteriaBuildForListGrid
     });
 
     const HLayout_onWayProduct_searchBtn = isc.HLayout.create({
@@ -531,16 +546,16 @@ function mainOnWayProduct() {
         filterData(criteria, callback, requestProperties) {
             criteria.criteria.add({"fieldName": "tozinId", "operator": "iNotStartsWith", "value": "3-"})
             if (!criteria.criteria.find(t => t.fieldName === "sourceId")) {
-                isc.say('فیلتر مقصد خالی‌ می‌یاشد')
-                throw 'فیلتر مقصد خالی‌ می‌یاشد'
+                isc.say('فیلتر مبدا خالی‌ می‌باشد')
+                throw 'فیلتر مبدا خالی‌ می‌باشد'
             }
             if (!criteria.criteria.find(t => t.fieldName === "targetId")) {
-                isc.say('فیلتر مقصد خالی‌ می‌یاشد')
-                throw "مبدا چی شد"
+                isc.say('فیلتر مقصد خالی‌ می‌باشد')
+                throw "مقصد چی شد"
             }
             if (!criteria.criteria.find(t => t.fieldName === "codeKala")) {
                 isc.say('لطفا محصول انتخاب نمایید')
-                throw "مبدا چی شد"
+                throw "محصول چی شد"
             }
             fetchAlreadyInsertedTozinList().then(
                 value => {
@@ -559,11 +574,11 @@ function mainOnWayProduct() {
             const criteria = this.Super('getFilterEditorCriteria', arguments);
 
             if (!criteria.criteria.find(t => t.fieldName === "sourceId")) {
-                isc.say('فیلتر مقصد خالی‌ می‌یاشد')
-                throw 'فیلتر مقصد خالی‌ می‌یاشد'
+                isc.say('فیلتر مبدا خالی‌ می‌باشد')
+                throw 'فیلتر مبدا خالی‌ می‌باشد'
             }
             if (!criteria.criteria.find(t => t.fieldName === "targetId")) {
-                isc.say('فیلتر مقصد خالی‌ می‌یاشد')
+                isc.say('فیلتر مقصد خالی‌ می‌باشد')
                 throw "مبدا چی شد"
             }
             if (!criteria.criteria.find(t => t.fieldName === "codeKala")) {
@@ -634,6 +649,7 @@ function mainOnWayProduct() {
 
     ListGrid_Tozin_IN_ONWAYPRODUCT.setFilterEditorCriteria(listGrid_Tozin_IN_ONWAYPRODUCT_fiter_editor_criteria)
 
+
 }
 
 mainOnWayProduct()
@@ -641,16 +657,17 @@ mainOnWayProduct()
 async function fetchAlreadyInsertedTozinList() {
     const response = await fetch('api/tozin-table/spec-list?operator=and&criteria=' +
         ListGrid_Tozin_IN_ONWAYPRODUCT.getFilterEditorCriteria().criteria.filter(c => [
-            "tozinId",
-            "sourceId",
-            "targetId",
-            "cardId",
-            "haveCode",
-            "vazn",
+            // "tozinId",
+            // "codeKala",
+            // "sourceId",
+            // "targetId",
+            // "cardId",
+            // "haveCode",
+            // "vazn",
             "date",
-            "ctrlDescOut",
-            "plak",
-            "driverName",
+            // "ctrlDescOut",
+            // "plak",
+            // "driverName",
         ].contains(c.fieldName))
             .filter(c => c.operator !== "iNotStartsWith")
             .map(a => {
