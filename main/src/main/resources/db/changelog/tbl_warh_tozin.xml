@@ -58,4 +58,12 @@
         <addUniqueConstraint columnNames="TOZINE_ID" constraintName="UC_TBL_WARH_TOZINTOZINE_ID_COL"
                              tableName="TBL_WARH_TOZIN"/>
     </changeSet>
+    <changeSet author="saeb (generated)" id="saeb 1593837790228-235">
+        <addColumn tableName="TBL_WARH_TOZIN">
+            <column name="GDSCODE" type="number(19, 0)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="saeb (generated)" id="saeb 1593840642599-207">
+        <addNotNullConstraint columnDataType="number(19,0)" columnName="GDSCODE" tableName="TBL_WARH_TOZIN"/>
+    </changeSet>
 </databaseChangeLog>
