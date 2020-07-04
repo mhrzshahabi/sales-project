@@ -546,11 +546,11 @@ function mainOnWayProduct() {
         filterData(criteria, callback, requestProperties) {
             criteria.criteria.add({"fieldName": "tozinId", "operator": "iNotStartsWith", "value": "3-"})
             if (!criteria.criteria.find(t => t.fieldName === "sourceId")) {
-                isc.say('فیلتر مبدا خالی‌ می‌یاشد')
-                throw 'فیلتر مبدا خالی‌ می‌یاشد'
+                isc.say('فیلتر مبدا خالی‌ می‌باشد')
+                throw 'فیلتر مبدا خالی‌ می‌باشد'
             }
             if (!criteria.criteria.find(t => t.fieldName === "targetId")) {
-                isc.say('فیلتر مقصد خالی‌ می‌یاشد')
+                isc.say('فیلتر مقصد خالی‌ می‌باشد')
                 throw "مقصد چی شد"
             }
             if (!criteria.criteria.find(t => t.fieldName === "codeKala")) {
@@ -574,11 +574,11 @@ function mainOnWayProduct() {
             const criteria = this.Super('getFilterEditorCriteria', arguments);
 
             if (!criteria.criteria.find(t => t.fieldName === "sourceId")) {
-                isc.say('فیلتر مقصد خالی‌ می‌یاشد')
-                throw 'فیلتر مقصد خالی‌ می‌یاشد'
+                isc.say('فیلتر مبدا خالی‌ می‌باشد')
+                throw 'فیلتر مبدا خالی‌ می‌باشد'
             }
             if (!criteria.criteria.find(t => t.fieldName === "targetId")) {
-                isc.say('فیلتر مقصد خالی‌ می‌یاشد')
+                isc.say('فیلتر مقصد خالی‌ می‌باشد')
                 throw "مبدا چی شد"
             }
             if (!criteria.criteria.find(t => t.fieldName === "codeKala")) {
