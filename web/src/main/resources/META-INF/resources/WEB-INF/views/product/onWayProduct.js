@@ -27,7 +27,12 @@ const tozinLiteFields = [
         title: "<spring:message code='Tozin.date'/>",
         align: "center",
         formatCellValue(value, record, rowNum, colNum, grid) {
-            return (value.substr(0, 4) + "/" + value.substr(4, 2) + "/" + value.substr(-2))
+            try {
+                return (value.substr(0, 4) + "/" + value.substr(4, 2) + "/" + value.substr(-2))
+            }
+            catch (e) {
+                return value
+            }
         }
     },
     {
@@ -546,11 +551,11 @@ function mainOnWayProduct() {
             }
             if (!criteria.criteria.find(t => t.fieldName === "targetId")) {
                 isc.say('فیلتر مقصد خالی‌ می‌یاشد')
-                throw "مبدا چی شد"
+                throw "مقصد چی شد"
             }
             if (!criteria.criteria.find(t => t.fieldName === "codeKala")) {
                 isc.say('لطفا محصول انتخاب نمایید')
-                throw "مبدا چی شد"
+                throw "محصول چی شد"
             }
             fetchAlreadyInsertedTozinList().then(
                 value => {

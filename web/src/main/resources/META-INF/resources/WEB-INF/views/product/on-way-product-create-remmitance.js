@@ -514,7 +514,7 @@ function onWayProductCreateRemittance(criteriaBuildForListGrid) {
         return returnVar;
     })()
     const listGridSetDestTozinHarasatPolompForSelectedTozin = (function () {
-        const fieldsTohide = ["havalehCode", "targetId", "containerNo3", "containerNo1",];
+        const fieldsToHide = ["havalehCode", "targetId", "sourceId", "codeKala", "containerNo3", "containerNo1",];
         const grid_source = isc.ListGrid.create({
             ...windowDestinationTozinList['gc'],
             ...{
@@ -683,8 +683,8 @@ function onWayProductCreateRemittance(criteriaBuildForListGrid) {
 
                 return this.rowHoverComponent;
             },
-            fields: [...[windowDestinationTozinList['gc']['fields']].map(c => {
-                if (c.name == 'tozinId') {
+            fields: [...windowDestinationTozinList['gc']['fields'].map(c => {
+                if (c.name === 'tozinId') {
                     return {
                         name: "tozinId",
                         showHover: true,
@@ -694,8 +694,8 @@ function onWayProductCreateRemittance(criteriaBuildForListGrid) {
                         canEdit: false,
                     }
                 }
-                fieldsTohide.contains(c.name)
-                c['hidden'] = true;
+                if (fieldsToHide.contains(c.name))
+                    c['hidden'] = true;
                 return {...c, canEdit: false}
             }),
                 {
@@ -832,7 +832,7 @@ function onWayProductCreateRemittance(criteriaBuildForListGrid) {
         });
         const w = isc.Window.create({
             title: "توزین‌ها",
-            width: window.innerWidth,
+            width: .8 * window.innerWidth,
             height: 580,
             autoSize: true,
             autoCenter: true,
@@ -906,11 +906,11 @@ function onWayProductCreateRemittance(criteriaBuildForListGrid) {
     [...createdTozinList].filter(c => c.tozinId.startsWith('3')).forEach(c => {
         destinationTozinCriteria.criteria.add({fieldName: "tozinId", operator: "notEqual", value: c.tozinId})
     })
-    Promise.all([
-        onWayProductFetch('tozin', 'and', destinationTozinCriteria.criteria),
-        onWayProductFetch('tozin/lite', 'and', destinationTozinCriteria.criteria),
-    ])
-        .then(([tozin, tozinLite]) => {
+    // Promise.all([
+    //     onWayProductFetch('tozin/lite', 'and', destinationTozinCriteria.criteria),
+    //     onWayProductFetch('tozin/lite', 'and', destinationTozinCriteria.criteria),
+    // ])
+    onWayProductFetch('tozin/lite', 'and', destinationTozinCriteria.criteria).then((tozin) => {
                 if (tozin && tozin.response && tozin.response.data && tozin.response.data.length > 0) {
                     const tozinData = tozin.response.data
                     // console.log('tozin',tozin);
@@ -918,18 +918,18 @@ function onWayProductCreateRemittance(criteriaBuildForListGrid) {
                     // const ds = windowDestinationTozinList['ds'];
                     window[listGridSetDestTozinHarasatPolompForSelectedTozin['gs']]
                         .setValueMap('destTozinId', tozinData.getValueMap('tozinId', 'tozinId'))
-                    if (tozinLite && tozinLite.response && tozinLite.response.data && tozinLite.response.data.length > 0) {
-                        const tozinLiteData = tozinLite.response.data;
-                        tozinData.forEach(tz => {
-                            try {
-                                const fnd = tozinLiteData.find(tzl => tz['tozinId'] === tzl['tozinId']);
-                                tz['driverName'] = fnd['driverName']
-                            } catch (e) {
-                                tz['driverName'] = ''
-                            }
-                        })
-                    }
-                    console.log(grid, 'all available dest')
+                    // if (tozinLite && tozinLite.response && tozinLite.response.data && tozinLite.response.data.length > 0) {
+                    //     const tozinLiteData = tozinLite.response.data;
+                    //     tozinData.forEach(tz => {
+                    //         try {
+                    //             const fnd = tozinLiteData.find(tzl => tz['tozinId'] === tzl['tozinId']);
+                    //             tz['driverName'] = fnd['driverName']
+                    //         } catch (e) {
+                    //             tz['driverName'] = ''
+                    //         }
+                    //     })
+                    // }
+                    // console.log(grid, 'all available dest')
                     window[grid].setData(tozinData);
                 }
                 updateDestinationPackageTedadWeight()
