@@ -20,7 +20,7 @@ SELECT card_id,carno1,carno3,carpelak plak,carname,customerid,customer,sellerid,
                 p.id pid,s.plant_id ||'-'||t.plant_id source_plant_id,t.plant_id target_plant_id,
                 isoky hav_isfinal
 
-                FROM n_master.v_tozine_content_b v
+                FROM v_tozine_content_b v
                 join tbl_tozin_material m on m.GDSCODE=v.GDSCODE
                 join TBL_TOZIN_PLANT p on p.id=substr(v.TOZINE_ID,1,1)
                 left join TBL_TOZIN_TARGET s on s.targetid=v.SOURCEID

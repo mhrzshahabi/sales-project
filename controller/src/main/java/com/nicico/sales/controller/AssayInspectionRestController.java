@@ -52,9 +52,9 @@ public class AssayInspectionRestController {
 
     @Loggable
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         iAssayInspectionService.delete(id);
-        return new ResponseEntity(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @Loggable
@@ -62,5 +62,12 @@ public class AssayInspectionRestController {
     public ResponseEntity<TotalResponse<AssayInspectionDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) throws IOException {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
         return new ResponseEntity<>(iAssayInspectionService.search(nicicoCriteria), HttpStatus.OK);
+    }
+
+    @Loggable
+    @GetMapping(value = "/get-assay-values")
+    public ResponseEntity<List<AssayInspectionDTO.Info>> getAssayValues(@RequestParam List<Long> inventoryIds) {
+
+        return new ResponseEntity<>(iAssayInspectionService.getAssayValues(inventoryIds), HttpStatus.OK);
     }
 }

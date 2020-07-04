@@ -1,7 +1,6 @@
 isc.defineClass("InvoiceBasePrice", isc.VLayout).addProperties({
     align: "top",
     width: "100%",
-    height: "20%",
     autoFit: false,
     autoDraw: false,
     showEdges: false,
@@ -19,7 +18,6 @@ isc.defineClass("InvoiceBasePrice", isc.VLayout).addProperties({
         let month = __contract.getShipmentMonthNo(This.shipment);
         let moasValue = __contract.getContractMOASValue(This.contract);
 
-        let fields = [];
         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
             params: {
                 year: year,
@@ -30,6 +28,7 @@ isc.defineClass("InvoiceBasePrice", isc.VLayout).addProperties({
             actionURL: "${contextPath}/api/price-base/get-base-price",
             callback: function (resp) {
 
+                let fields = [];
                 let elements = JSON.parse(resp.data);
                 for (let index = 0; index < elements.length; index++) {
 
