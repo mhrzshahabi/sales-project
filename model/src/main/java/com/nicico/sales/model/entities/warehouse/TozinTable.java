@@ -1,5 +1,7 @@
 package com.nicico.sales.model.entities.warehouse;
 
+
+import lombok.*;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
