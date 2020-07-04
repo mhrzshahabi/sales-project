@@ -633,7 +633,6 @@ function mainOnWayProduct() {
 
 
     ListGrid_Tozin_IN_ONWAYPRODUCT.setFilterEditorCriteria(listGrid_Tozin_IN_ONWAYPRODUCT_fiter_editor_criteria)
-
 }
 
 mainOnWayProduct()
@@ -641,16 +640,17 @@ mainOnWayProduct()
 async function fetchAlreadyInsertedTozinList() {
     const response = await fetch('api/tozin-table/spec-list?operator=and&criteria=' +
         ListGrid_Tozin_IN_ONWAYPRODUCT.getFilterEditorCriteria().criteria.filter(c => [
-            "tozinId",
-            "sourceId",
-            "targetId",
-            "cardId",
-            "haveCode",
-            "vazn",
+            // "tozinId",
+            // "codeKala",
+            // "sourceId",
+            // "targetId",
+            // "cardId",
+            // "haveCode",
+            // "vazn",
             "date",
-            "ctrlDescOut",
-            "plak",
-            "driverName",
+            // "ctrlDescOut",
+            // "plak",
+            // "driverName",
         ].contains(c.fieldName))
             .filter(c => c.operator !== "iNotStartsWith")
             .map(a => {
