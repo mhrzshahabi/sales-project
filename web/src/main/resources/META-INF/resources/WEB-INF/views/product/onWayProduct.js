@@ -83,7 +83,7 @@ const tozinLiteFields = [
                 backgroundColor: "white",
                 items: [{
                     showTitle: false, type: "radioGroup",
-                    valueMap: {isNull: "ریلی", notNull: "جاده‌ای"},
+                    valueMap: {notNull: "ریلی", isNull: "جاده‌ای"},
                     change: function (f, i, value) {
                         const criteria = ListGrid_Tozin_IN_ONWAYPRODUCT.getFilterEditorCriteria();
                         criteria.criteria = criteria.criteria.filter(c => c.fieldName !== 'containerNo3');

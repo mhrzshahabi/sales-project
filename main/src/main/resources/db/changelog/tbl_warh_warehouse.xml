@@ -1,0 +1,14 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <changeSet author="saeb" id="saeb_00dgj8956ythdddd5">
+        <sql>
+            INSERT INTO TBL_WARH_WAREHOUSE (ID, C_CREATED_BY, D_CREATED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE, C_NAME)
+            VALUES
+            (2555, 'liquibase', current_timestamp, 0, 1, 1, 'اسكله شهيد رجائي ');
+        </sql>
+    </changeSet>
+
+
+</databaseChangeLog>

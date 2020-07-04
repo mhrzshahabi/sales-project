@@ -1,124 +1,68 @@
 isc.defineClass("InvoiceBaseWeight", isc.VLayout).addProperties({
+    align: "top",
+    width: "100%",
     autoFit: false,
     autoDraw: false,
-    align: "center",
-    width: "100%",
-    height: "20%",
-    material: null,
-    // backgroundColor: "#f0c85a",
-    unitComponentGross: null,
-    unitComponentNet: null,
-    unitComponentBundles: null,
-    unitComponentNetWet: null,
-    unitComponentMoisture: null,
-    unitComponentNetDry: null,
-    invoiceWeightObj: "",
+    showEdges: false,
+    layoutMargin: 2,
+    membersMargin: 2,
+    billLadings: [],
     initWidget: function () {
 
-        var This = this;
         this.Super("initWidget", arguments);
 
-        invoiceWeightObj = {
-            weightGW: 0,
-            weightND: 0,
-            weightBM: 0,
-        };
+        let This = this;
+        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+            httpMethod: "GET",
+            params: {billLadingIds: This.billLadings.map(q => q.id)},
+            actionURL: "${contextPath}/api/bill-of-lading/get-total-weights",
+            callback: function (resp) {
 
-        switch (this.material) {
-            case 0:
-                unitComponentGross = isc.Unit.create({
-                    fieldValueTitle: '<spring:message code="component.invoice.weight.gross"/>',
+                let fields = [];
+                let weights = JSON.parse(resp.data);
+                fields.add(isc.Unit.create({
+
                     unitCategory: 1,
-                    showTitle: false
-                });
+                    disabledUnitField: true,
+                    disabledValueField: true,
+                    disabledCurrencyField: true,
+                    showValueFieldTitle: true,
+                    showUnitFieldTitle: false,
+                    showCurrencyFieldTitle: false,
+                    showCurrencyField: false,
+                    fieldValueTitle: "weightGW",
+                    border: "1px solid rgba(0, 0, 0, 0.3)",
+                }));
+                fields.last().setValue(weights.weightGW);
+                fields.last().setUnitId(weights.weightGWUnit.id);
 
-                unitComponentNet = isc.Unit.create({
-                    fieldValueTitle: '<spring:message code="component.invoice.weight.net"/>',
+                fields.add(isc.Unit.create({
+
                     unitCategory: 1,
-                    showTitle: false
-                });
+                    disabledUnitField: true,
+                    disabledValueField: true,
+                    disabledCurrencyField: true,
+                    showValueFieldTitle: true,
+                    showUnitFieldTitle: false,
+                    showCurrencyFieldTitle: false,
+                    showCurrencyField: false,
+                    fieldValueTitle: "weightND",
+                    border: "1px solid rgba(0, 0, 0, 0.3)",
+                }));
+                fields.last().setValue(weights.weightND);
+                fields.last().setUnitId(weights.weightNDUnit.id);
 
-                unitComponentBundles = isc.Unit.create({
-                    fieldValueTitle: '<spring:message code="component.invoice.weight.bundles"/>',
-                    unitCategory: 1,
-                    showTitle: false
-                });
-
-                this.addMember(unitComponentGross);
-                this.addMember(unitComponentNet);
-                this.addMember(unitComponentBundles);
-                break;
-
-            case 1:
-                unitComponentNetWet = isc.Unit.create({
-                    fieldValueTitle: '<spring:message code="component.invoice.weight.netWet"/>',
-                    unitCategory: 1,
-                    showTitle: false
-                });
-
-                unitComponentNetDry = isc.Unit.create({
-                    fieldValueTitle: '<spring:message code="component.invoice.weight.netDry"/>',
-                    unitCategory: 1,
-                    showTitle: false
-                });
-
-                unitComponentMoisture = isc.Unit.create({
-                    fieldValueTitle: '<spring:message code="component.invoice.weight.moisture"/>',
-                    unitCategory: 1,
-                    showTitle: false
-                });
-
-                this.addMember(unitComponentNetWet);
-                this.addMember(unitComponentNetDry);
-                this.addMember(unitComponentMoisture);
-                break;
-
-            case 4:
-                unitComponentNetWet = isc.Unit.create({
-                    fieldValueTitle: '<spring:message code="component.invoice.weight.netWet"/>',
-                    unitCategory: 1,
-                    showTitle: false
-                });
-
-                unitComponentNetDry = isc.Unit.create({
-                    fieldValueTitle: '<spring:message code="component.invoice.weight.netDry"/>',
-                    unitCategory: 1,
-                    showTitle: false
-                });
-
-                unitComponentMoisture = isc.Unit.create({
-                    fieldValueTitle: '<spring:message code="component.invoice.weight.moisture"/>',
-                    unitCategory: 1,
-                    showTitle: false
-                });
-
-                this.addMember(unitComponentNetWet);
-                this.addMember(unitComponentNetDry);
-                this.addMember(unitComponentMoisture);
-                break;
-        }
-
-        /*var submit = isc.Button.create({
-            title: "submit",
-            click: function () {
-                console.log(This.getWeightValues());
+                This.addMember(isc.DynamicForm.create({
+                    width: "100%",
+                    fields: fields
+                }));
             }
-        });
-        this.addMember(submit);*/
+        }));
     },
-    getWeightValues: function () {
-        invoiceWeightObj.weightGW = this.members.get(0).getUnitValues();
-        invoiceWeightObj.weightND = this.members.get(1).getUnitValues();
-        invoiceWeightObj.weightBM = this.members.get(2).getUnitValues();
-        return invoiceWeightObj;
+    getValues: function () {
+        return this.members[0].getValues();
     },
-    setWeightValues: function (data) {
-        this.members.get(0).setUnitValues(data.weightGW);
-        this.members.get(1).setUnitValues(data.weightND);
-        this.members.get(2).setUnitValues(data.weightBM);
+    setValues: function (data) {
+        return this.members[0].setValues(data);
     }
-});
-
-isc.InvoiceBaseWeight.create({
-    material: materialCode["Copper Cathode"]
 });
