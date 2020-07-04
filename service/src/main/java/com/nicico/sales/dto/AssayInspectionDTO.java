@@ -31,11 +31,10 @@ public class AssayInspectionDTO {
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("AssayInspectionInfo")
-    public static class Info extends AssayInspectionDTO {
+    @ApiModel("AssayInspectionInfoWithoutInspectionReport")
+    public static class InfoWithoutInspectionReport extends AssayInspectionDTO {
 
         private Long id;
-        private InspectionReportDTO.Info inspectionReport;
         private MaterialElementDTO.Info materialElement;
         private InventoryDTO.Info inventory;
 
@@ -50,6 +49,15 @@ public class AssayInspectionDTO {
         // BaseEntity
         private Boolean editable;
         private List<EStatus> eStatus;
+    }
+
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("AssayInspectionInfo")
+    public static class Info extends InfoWithoutInspectionReport {
+
+        private InspectionReportDTO.Info inspectionReport;
     }
 
     @Getter

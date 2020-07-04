@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -22,24 +23,38 @@ public class InspectionReportService extends GenericService<InspectionReport, Lo
 
     private final WeightInspectionDAO weightInspectionDAO;
     private final AssayInspectionDAO assayInspectionDAO;
+    private final WeightInspectionService weightInspectionService;
 
     @Override
     public InspectionReportDTO.Info createWeightInspec(InspectionReportDTO.Create request) {
+        List<WeightInspectionDTO.Create> weightInspections = request.getWeightInspections();
+//        List<AssayInspectionDTO.Create> assayInspections = request.getAssayInspections();
 
-        /*InspectionReportDTO.Info inspectionReportDTO = super.create(request);
-        inspectionReportDTO.setWeightInspection(request.getWeightInspection());
+        request.setWeightInspections(null);
+//        request.setAssayInspections(null);
 
-        WeightInspectionDTO.Info weightInspectionDTO = inspectionReportDTO.getWeightInspection();
-        weightInspectionDTO.setEditable(true);
-        weightInspectionDTO.setEStatus(new ArrayList<EStatus>() {{
-            add(EStatus.Active); }});
-        inspectionReportDTO.getWeightInspection().setInspectionReportId(inspectionReportDTO.getId());
+        InspectionReportDTO.Info inspectionReportDTO = super.create(request);
 
-        WeightInspection weightInspection = modelMapper.map(weightInspectionDTO, WeightInspection.class);
-        weightInspectionDAO.save(weightInspection);
+        weightInspections.forEach(item->item.setInspectionReportId(inspectionReportDTO.getId()));
+//        assayInspections.forEach(item->item.setInspectionReportId(inspectionReportDTO.getId()));
 
-        InspectionReport inspectionReport = modelMapper.map(inspectionReportDTO, InspectionReport.class);
-        return save(inspectionReport);*/
+        weightInspections.forEach(item -> {
+            WeightInspection weightInspection = modelMapper.map(item, WeightInspection.class);
+            weightInspectionService.save(weightInspection);
+        });
+
+// #################################################################################
+//        IncotermDTO.Info incoterm = super.create(request);
+
+//        List<IncotermSteps> incotermStepsCreateList = new ArrayList<>();
+//        request.getIncotermSteps().forEach(item -> {
+//            IncotermSteps incotermSteps = new IncotermSteps();
+//            incotermSteps.setIncotermStepId(item.getIncotermStepId()).
+//                    setOrder(item.getOrder()).
+//                    setIncotermId(incoterm.getId());
+//            incotermStepsCreateList.add(incotermSteps);
+//        });
+//        incotermStepsDAO.saveAll(incotermStepsCreateList);
         return null;
 
     }

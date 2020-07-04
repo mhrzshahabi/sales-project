@@ -29,11 +29,10 @@ public class WeightInspectionDTO {
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("WeightInspectionInfo")
-    public static class Info extends WeightInspectionDTO {
+    @ApiModel("WeightInspectionInfoWithoutInspectionReport")
+    public static class InfoWithoutInspectionReport extends WeightInspectionDTO {
 
         private Long id;
-        private InspectionReportDTO.Info inspectionReport;
         private InventoryDTO.Info inventory;
 
 
@@ -47,6 +46,15 @@ public class WeightInspectionDTO {
         // BaseEntity
         private Boolean editable;
         private List<EStatus> eStatus;
+    }
+
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("WeightInspectionInfo")
+    public static class Info extends InfoWithoutInspectionReport {
+
+        private InspectionReportDTO.Info inspectionReport;
     }
 
     @Getter
