@@ -13,13 +13,13 @@ import java.util.List;
 public interface MaterialItemDAO extends JpaRepository<MaterialItem, Long>, JpaSpecificationExecutor<MaterialItem> {
     MaterialItem findByGdsCode(Long gdsCode);
 
-    @Query(value = "select distinct GDSCODE,GDSNAME  from n_master.V_TOZINE_CONTENT_M where GDSCODE not in (" +
+    @Query(value = "select distinct GDSCODE,GDSNAME  from n_mdms.V_TOZINE_CONTENT_M where GDSCODE not in (" +
             "    select id" +
             "    from TBL_MATERIAL_ITEM" +
             "    )", nativeQuery = true)
     List<Object[]> itemsForInsert();
 
-    @Query(value = "select distinct GDSCODE,GDSNAME  from n_master.V_TOZINE_CONTENT_M where GDSCODE in (" +
+    @Query(value = "select distinct GDSCODE,GDSNAME  from n_mdms.V_TOZINE_CONTENT_M where GDSCODE in (" +
             "    select id" +
             "    from TBL_MATERIAL_ITEM" +
             "    )", nativeQuery = true)
