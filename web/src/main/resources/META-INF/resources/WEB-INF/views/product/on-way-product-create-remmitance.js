@@ -12,7 +12,7 @@ function giveMeAName() {
     return (codeKala + '_f' + tozinId + '_rd' + now_date + '_' + random);
 }
 
-function onWayProductCreateRemittance() {
+function onWayProductCreateRemittance(criteriaBuildForListGrid) {
 
 
     function updateDestinationPackageTedadWeight() {
@@ -340,6 +340,8 @@ function onWayProductCreateRemittance() {
                         reject => {
                             isc.say('مشکل ارتباط')
                         }
+                    ).finally(
+                        () => criteriaBuildForListGrid()
                     )
                 }
             })
@@ -421,7 +423,7 @@ function onWayProductCreateRemittance() {
     });
     windowRemittance.show();
     isc.Dialog.create({
-        ID:"pls_wait_2",
+        ID: "pls_wait_2",
         showTitle: false,
         message: "لطفا صبر کنید",
     });
@@ -512,348 +514,348 @@ function onWayProductCreateRemittance() {
         return returnVar;
     })()
     const listGridSetDestTozinHarasatPolompForSelectedTozin = (function () {
-            const fieldsTohide = ["havalehCode", "targetId", "containerNo3", "containerNo1",];
-            const grid_source = isc.ListGrid.create({
-                ...windowDestinationTozinList['gc'],
-                ...{
-                    alternateRecordStyles: true,
-                    expansionFieldImageShowSelected: true,
-                    canExpandRecords: true,
-                    canExpandMultipleRecords: false,
-                    getExpansionComponent: function (record, rowNum, colNum) {
-                        function updateRecord(key, value, pkgRec) {
-                            const recordPkgs = record['packages'];
-                            recordPkgs.find(p => p.uid === pkgRec.uid)[key] = value;
-                            const ggrid = window[listGridSetDestTozinHarasatPolompForSelectedTozin['gs']];
-                            const rowNum = ggrid.getRecordIndex(record);
-                            // console.log(rowNum,'pkgNum_destination',
-                            //     recordPkgs.length)
-                            const _3 = recordPkgs.map(rp => Number(rp.tedad)).reduce((i, j) => i + j);
-                            ggrid.setEditValue(rowNum, 'tedad_destination',
-                                recordPkgs.map(rp => Number(rp.tedad)).reduce((i, j) => i + j))
-                            ggrid.setEditValue(rowNum, 'pkgNum_destination',
-                                recordPkgs.length)
-                        }
+        const fieldsTohide = ["havalehCode", "targetId", "containerNo3", "containerNo1",];
+        const grid_source = isc.ListGrid.create({
+            ...windowDestinationTozinList['gc'],
+            ...{
+                alternateRecordStyles: true,
+                expansionFieldImageShowSelected: true,
+                canExpandRecords: true,
+                canExpandMultipleRecords: false,
+                getExpansionComponent: function (record, rowNum, colNum) {
+                    function updateRecord(key, value, pkgRec) {
+                        const recordPkgs = record['packages'];
+                        recordPkgs.find(p => p.uid === pkgRec.uid)[key] = value;
+                        const ggrid = window[listGridSetDestTozinHarasatPolompForSelectedTozin['gs']];
+                        const rowNum = ggrid.getRecordIndex(record);
+                        // console.log(rowNum,'pkgNum_destination',
+                        //     recordPkgs.length)
+                        const _3 = recordPkgs.map(rp => Number(rp.tedad)).reduce((i, j) => i + j);
+                        ggrid.setEditValue(rowNum, 'tedad_destination',
+                            recordPkgs.map(rp => Number(rp.tedad)).reduce((i, j) => i + j))
+                        ggrid.setEditValue(rowNum, 'pkgNum_destination',
+                            recordPkgs.length)
+                    }
 
-                        const ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT = isc.ListGrid.create({
-                            showFilterEditor: false,
-                            width: .8 * innerWidth,
-                            // height: 500,
-                            modalEditing: true,
-                            showRowNumbers: false,
-                            canEdit: true,
-                            editEvent: "click",
-                            editByCell: true,
-                            canRemoveRecords: true,
-                            autoSaveEdits: false,
-                            deferRemoval: false,
-                            saveLocally: true,
-                            showGridSummary: true,
-                            // visibility: 'hidden',
-                            // gridComponents: ["header", "body",  ],
-                            fields: [{
-                                name: "label",
-                                title: "سریال",
-                                width: "20%",
-                                editorExit(editCompletionEvent, recordg, newValue, rowNum, colNum, grid) {
-                                    record['packages'].find(p => p.uid === recordg.uid)['label'] = newValue
-                                },
-                                summaryFunction: "count",
+                    const ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT = isc.ListGrid.create({
+                        showFilterEditor: false,
+                        width: .8 * innerWidth,
+                        // height: 500,
+                        modalEditing: true,
+                        showRowNumbers: false,
+                        canEdit: true,
+                        editEvent: "click",
+                        editByCell: true,
+                        canRemoveRecords: true,
+                        autoSaveEdits: false,
+                        deferRemoval: false,
+                        saveLocally: true,
+                        showGridSummary: true,
+                        // visibility: 'hidden',
+                        // gridComponents: ["header", "body",  ],
+                        fields: [{
+                            name: "label",
+                            title: "سریال",
+                            width: "20%",
+                            editorExit(editCompletionEvent, recordg, newValue, rowNum, colNum, grid) {
+                                record['packages'].find(p => p.uid === recordg.uid)['label'] = newValue
                             },
-                                {
-                                    name: "uid",
-                                    width: "20%",
-                                    hidden: true,
-                                },
-                                {
-                                    name: "tedad",
-                                    title: "تعداد (ورق، بشکه، گونی، ...)",
-                                    width: "20%",
-                                    validators: [{
-                                        type: "regexp",
-                                        expression: "^[0-9]*$",
-                                        validateOnChange: true
-                                    }],
-                                    summaryFunction: "sum",
-                                    editorExit(editCompletionEvent, recordg, newValue, rowNum, colNum, grid) {
-                                        // record['packages'].find(p => p.uid === recordg.uid)['tedad'] = Number(newValue)
-                                        updateRecord('tedad', newValue, recordg);
-                                        return true;
-                                    },
-                                    editorProperties: {
-                                        keyPressFilter: "[0-9]",
-                                    },
-                                },
-                                {
-                                    name: "wazn",
-                                    title: "<spring:message code='warehouseCadItem.weightKg'/>",
-                                    width: "20%",
-                                    validators: [{
-                                        type: "regexp",
-                                        expression: "^[0-9]*$",
-                                        validateOnChange: true
-                                    }],
-                                    editorExit(editCompletionEvent, recordg, newValue, rowNum, colNum, grid) {
-                                        record['packages'].find(p => p.uid === recordg.uid)['wazn'] = Number(newValue)
-                                    },
-                                    editorProperties: {
-                                        keyPressFilter: "[0-9]",
-                                    },
-                                    summaryFunction: "sum"
-                                },
-                                {
-                                    name: "description",
-                                    title: "<spring:message code='warehouseCadItem.description'/>",
-                                    width: "25%",
-                                    editorExit(editCompletionEvent, recordg, newValue, rowNum, colNum, grid) {
-                                        record['packages'].find(p => p.uid === recordg.uid)['description'] = newValue
-                                    },
+                            summaryFunction: "count",
+                        },
+                            {
+                                name: "uid",
+                                width: "20%",
+                                hidden: true,
+                            },
+                            {
+                                name: "tedad",
+                                title: "تعداد (ورق، بشکه، گونی، ...)",
+                                width: "20%",
+                                validators: [{
+                                    type: "regexp",
+                                    expression: "^[0-9]*$",
+                                    validateOnChange: true
                                 }],
-                            removeData: function (record) {
+                                summaryFunction: "sum",
+                                editorExit(editCompletionEvent, recordg, newValue, rowNum, colNum, grid) {
+                                    // record['packages'].find(p => p.uid === recordg.uid)['tedad'] = Number(newValue)
+                                    updateRecord('tedad', newValue, recordg);
+                                    return true;
+                                },
+                                editorProperties: {
+                                    keyPressFilter: "[0-9]",
+                                },
+                            },
+                            {
+                                name: "wazn",
+                                title: "<spring:message code='warehouseCadItem.weightKg'/>",
+                                width: "20%",
+                                validators: [{
+                                    type: "regexp",
+                                    expression: "^[0-9]*$",
+                                    validateOnChange: true
+                                }],
+                                editorExit(editCompletionEvent, recordg, newValue, rowNum, colNum, grid) {
+                                    record['packages'].find(p => p.uid === recordg.uid)['wazn'] = Number(newValue)
+                                },
+                                editorProperties: {
+                                    keyPressFilter: "[0-9]",
+                                },
+                                summaryFunction: "sum"
+                            },
+                            {
+                                name: "description",
+                                title: "<spring:message code='warehouseCadItem.description'/>",
+                                width: "25%",
+                                editorExit(editCompletionEvent, recordg, newValue, rowNum, colNum, grid) {
+                                    record['packages'].find(p => p.uid === recordg.uid)['description'] = newValue
+                                },
+                            }],
+                        removeData: function (record) {
 
-                                isc.Dialog.create({
-                                    message: "<spring:message code='global.grid.record.remove.ask'/>",
-                                    icon: "[SKIN]ask.png",
-                                    title: "<spring:message code='global.grid.record.remove.ask.title'/>",
-                                    buttons: [
-                                        isc.Button.create({title: "<spring:message code='global.yes'/>"}),
-                                        isc.Button.create({title: "<spring:message code='global.no'/>"})
-                                    ],
-                                    buttonClick: function (button, index) {
-                                        this.hide();
+                            isc.Dialog.create({
+                                message: "<spring:message code='global.grid.record.remove.ask'/>",
+                                icon: "[SKIN]ask.png",
+                                title: "<spring:message code='global.grid.record.remove.ask.title'/>",
+                                buttons: [
+                                    isc.Button.create({title: "<spring:message code='global.yes'/>"}),
+                                    isc.Button.create({title: "<spring:message code='global.no'/>"})
+                                ],
+                                buttonClick: function (button, index) {
+                                    this.hide();
 
-                                        if (index == 0) {
-                                            ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT.data.remove(record);
-                                        }
-
+                                    if (index == 0) {
+                                        ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT.data.remove(record);
                                     }
-                                });
 
-                            }
-                        });
-                        const add_bundle_button = isc.IButton.create({
-                            title: "<spring:message code='warehouseCad.addBundle'/>",
-                            // width: 150,
-                            click: () => {
-                                // const grid_source = listGridSetDestTozinHarasatPolompForSelectedTozin['gs'];
-                                // const grid = window[grid_source];
-                                const gridData = record.packages;
-                                const uid = giveMeAName();
-                                gridData.add({
-                                    label: uid,
-                                    productId: null,
-                                    tedad: 0,
-                                    uid: uid,
-                                    wazn: 0
-                                })
-                            }
-                        });
-                        ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT.setData(record['packages']);
-                        return isc.VLayout.create({
-                            height: 300,
-                            members: [ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT, add_bundle_button]
-                        })
-                    }
-                },
-                canEdit: true,
-                autoSaveEdits: false,
-                showFilterEditor: false,
-                // height: "",
-                editEvent: 'doubleClick',
-                getCellHoverComponent: function (record, rowNum, colNum) {
-                    const tozinId = grid_source.getFields()[colNum].name === 'destTozinId' ? record['destTozinId'] : record['tozinId']
-                    if (!tozinId) return false;
-                    this.rowHoverComponent = isc.DetailViewer.create({
-                        dataSource: isc.MyRestDataSource.create({
-                            fields: [...tozinFields],
-                            fetchDataURL: 'api/tozin/spec-list'
-                        }),
-                        width: 250
-                    });
-
-                    this.rowHoverComponent.fetchData({
-                        criteria: {
-                            fieldName: "tozinId",
-                            operator: "equals",
-                            value: tozinId
-                        }
-                    }, null, {showPrompt: false});
-
-                    return this.rowHoverComponent;
-                },
-                fields: [...[windowDestinationTozinList['gc']['fields']].map(c => {
-                    if (c.name == 'tozinId') {
-                        return {
-                            name: "tozinId",
-                            showHover: true,
-                            width: "10%",
-                            title: "<spring:message code='Tozin.tozinPlantId'/>",
-                            showHoverComponents: true,
-                            canEdit: false,
-                        }
-                    }
-                    fieldsTohide.contains(c.name)
-                    c['hidden'] = true;
-                    return {...c, canEdit: false}
-                }),
-                    {
-                        name: "pkgNum_source",
-                        canFilter: false,
-                        title: 'بسته(لات، باندل، ...) مبدا',
-                        canEdit: false
-                    },
-                    {
-                        name: "tedad_source",
-                        canFilter: false,
-                        title: 'تعداد(ورق، بشکه، ...) مبدا',
-                        canEdit: false
-                    },
-                    {
-                        name: "pkgNum_destination",
-                        canFilter: false,
-                        editorProperties: {
-                            type: 'number',
-                            required: 'true',
-                            keyPressFilter: "[0-9]",
-                        },
-                        title: 'بسته(لات، باندل، ...) مقصد',
-                        canEdit: false
-                    },
-                    {
-                        name: "tedad_destination",
-                        editorProperties: {
-                            type: 'number',
-                            required: 'true',
-                            keyPressFilter: "[0-9]",
-                        },
-                        canFilter: false,
-                        title: 'تعداد(ورق، بشکه، ...) مقصد',
-                        canEdit: false
-                    },
-                    {
-                        name: "destTozinId", showHoverComponents: true,
-                        showHover: true,
-                        hoverHTML(record, value, rowNum, colNum, grid) {
-                            console.log('hover html', arguments)
-                            try {
-                                const title = [...tozinFields].getValueMap('name', 'title')
-                                const tbl = '<table border="1">' +
-                                    Object.keys(record['destTozin']).map((k, i, list) => {
-                                        const columns = 4;
-                                        if (i % columns !== 0) return '\n';
-                                        const startRow = '<tr>';
-                                        const endRow = '</tr>';
-
-                                        function rowMaker(num) {
-                                            let rows = '\n';
-                                            for (let j = 0; j < num; j++) {
-                                                const title0 = title[list[i + j]] ? title[list[i + j]] : list[i + j];
-                                                rows = rows + (i + j >= list.length ? '' : '<th>' + title0 + '</th>' +
-                                                    '<td>' + record['destTozin'][list[i + j]] + '</td>');
-                                            }
-                                            return rows;
-                                        }
-
-                                        const rows = rowMaker(columns);
-                                        // console.log('end rows', rows)
-
-                                        return startRow + rows + endRow;
-                                    }).join('\n') + '</table>';
-                                return tbl;
-                            } catch (e) {
-                                console.error('destination tozin id hover error', e);
-                                return 'شماره توزین مقصد را وارد کنید   ';
-                            }
-                        },
-                        title: 'توزین مقصد',
-                        canFilter: false,
-                        required: true,
-                        editorType: "comboBox",
-                        editorProperties: {
-                            icons: [{
-                                src: "pieces/16/icon_add.png",
-                                click() {
-                                    window[windowDestinationTozinList['w']].show()
                                 }
-                            }]
-                        },
-                        editorExit(editCompletionEvent, record, newValue, rowNum, colNum, grid) {
-                            const grid_available_tozins_string = windowDestinationTozinList['g'];
-                            const grid_available_tozins = window[grid_available_tozins_string];
-                            const destTozin = grid_available_tozins.getData().find(g => g['tozinId'] === newValue);
-                            if (newValue !== undefined && newValue !== null && newValue !== '' && destTozin) {
-                                record['destTozin'] = destTozin;
-                                // console.log('updated destination Id', record, grid);
-                                record['destTozinId'] = newValue;
-                                return true
-                            } else {
-                                isc.warn('شماره توزین اشتباه است');
-                                // grid.startEditing(rowNum,colNum,true)
-                                return false;
-                            }
-                        }
-                        // valueMap: window[windowDestinationTozinList['g']].getData().getValueMap('tozinId', 'tozinId')
-                    },
-                    {
-                        name: "securityPolompNo",
-                        canFilter: false,
-                        title: 'شماره پلمپ حراست',
-                        editorExit(editCompletionEvent, record, newValue, rowNum, colNum, grid) {
-                            record['securityPolompNo'] = newValue;
-                            return true;
+                            });
 
                         }
-
-                    },
-                    {
-                        name: "railPolompNo",
-                        title: 'شماره پلمپ راه‌آهن',
-                        canFilter: false,
-                        editorExit(editCompletionEvent, record, newValue, rowNum, colNum, grid) {
-                            record['railPolompNo'] = newValue;
-                            return true;
-
+                    });
+                    const add_bundle_button = isc.IButton.create({
+                        title: "<spring:message code='warehouseCad.addBundle'/>",
+                        // width: 150,
+                        click: () => {
+                            // const grid_source = listGridSetDestTozinHarasatPolompForSelectedTozin['gs'];
+                            // const grid = window[grid_source];
+                            const gridData = record.packages;
+                            const uid = giveMeAName();
+                            gridData.add({
+                                label: uid,
+                                productId: null,
+                                tedad: 0,
+                                uid: uid,
+                                wazn: 0
+                            })
                         }
+                    });
+                    ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT.setData(record['packages']);
+                    return isc.VLayout.create({
+                        height: 300,
+                        members: [ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT, add_bundle_button]
+                    })
+                }
+            },
+            canEdit: true,
+            autoSaveEdits: false,
+            showFilterEditor: false,
+            // height: "",
+            editEvent: 'doubleClick',
+            getCellHoverComponent: function (record, rowNum, colNum) {
+                const tozinId = grid_source.getFields()[colNum].name === 'destTozinId' ? record['destTozinId'] : record['tozinId']
+                if (!tozinId) return false;
+                this.rowHoverComponent = isc.DetailViewer.create({
+                    dataSource: isc.MyRestDataSource.create({
+                        fields: [...tozinFields],
+                        fetchDataURL: 'api/tozin/spec-list'
+                    }),
+                    width: 250
+                });
 
-                        /* editorExit (editCompletionEvent, record, newValue, rowNum, colNum, grid){
-                             if(newValue===undefined || newValue === null || newValue === ''){
-                                 isc.warn('شماره پلمپ حراست خالی می‌باشد');
-                                 // grid.startEditing(rowNum,colNum,true)
-                                 return false;
-                             }
-                            return true;
-
-                         }*/
-
-                    },
-                ]
-            });
-            const w = isc.Window.create({
-                title: "توزین‌ها",
-                width: window.innerWidth,
-                height: 580,
-                autoSize: true,
-                autoCenter: true,
-                isModal: true,
-                showModalMask: true,
-                align: "center",
-                autoDraw: false,
-                showTitle: false,
-                dismissOnEscape: true,
-                visibility: 'hidden',
-                closeClick: function () {
-                    try {
-                        updateDestinationPackageTedadWeight()
-                    } catch (e) {
-                        console.error('updateDestinationPackageTedadWeight() on close', e);
+                this.rowHoverComponent.fetchData({
+                    criteria: {
+                        fieldName: "tozinId",
+                        operator: "equals",
+                        value: tozinId
                     }
-                    this.Super("closeClick", arguments)
+                }, null, {showPrompt: false});
+
+                return this.rowHoverComponent;
+            },
+            fields: [...[windowDestinationTozinList['gc']['fields']].map(c => {
+                if (c.name == 'tozinId') {
+                    return {
+                        name: "tozinId",
+                        showHover: true,
+                        width: "10%",
+                        title: "<spring:message code='Tozin.tozinPlantId'/>",
+                        showHoverComponents: true,
+                        canEdit: false,
+                    }
+                }
+                fieldsTohide.contains(c.name)
+                c['hidden'] = true;
+                return {...c, canEdit: false}
+            }),
+                {
+                    name: "pkgNum_source",
+                    canFilter: false,
+                    title: 'بسته(لات، باندل، ...) مبدا',
+                    canEdit: false
                 },
-                items: [
-                    grid_source,
-                    // grid_destinetion,
-                ]
-            })
+                {
+                    name: "tedad_source",
+                    canFilter: false,
+                    title: 'تعداد(ورق، بشکه، ...) مبدا',
+                    canEdit: false
+                },
+                {
+                    name: "pkgNum_destination",
+                    canFilter: false,
+                    editorProperties: {
+                        type: 'number',
+                        required: 'true',
+                        keyPressFilter: "[0-9]",
+                    },
+                    title: 'بسته(لات، باندل، ...) مقصد',
+                    canEdit: false
+                },
+                {
+                    name: "tedad_destination",
+                    editorProperties: {
+                        type: 'number',
+                        required: 'true',
+                        keyPressFilter: "[0-9]",
+                    },
+                    canFilter: false,
+                    title: 'تعداد(ورق، بشکه، ...) مقصد',
+                    canEdit: false
+                },
+                {
+                    name: "destTozinId", showHoverComponents: true,
+                    showHover: true,
+                    hoverHTML(record, value, rowNum, colNum, grid) {
+                        console.log('hover html', arguments)
+                        try {
+                            const title = [...tozinFields].getValueMap('name', 'title')
+                            const tbl = '<table border="1">' +
+                                Object.keys(record['destTozin']).map((k, i, list) => {
+                                    const columns = 4;
+                                    if (i % columns !== 0) return '\n';
+                                    const startRow = '<tr>';
+                                    const endRow = '</tr>';
+
+                                    function rowMaker(num) {
+                                        let rows = '\n';
+                                        for (let j = 0; j < num; j++) {
+                                            const title0 = title[list[i + j]] ? title[list[i + j]] : list[i + j];
+                                            rows = rows + (i + j >= list.length ? '' : '<th>' + title0 + '</th>' +
+                                                '<td>' + record['destTozin'][list[i + j]] + '</td>');
+                                        }
+                                        return rows;
+                                    }
+
+                                    const rows = rowMaker(columns);
+                                    // console.log('end rows', rows)
+
+                                    return startRow + rows + endRow;
+                                }).join('\n') + '</table>';
+                            return tbl;
+                        } catch (e) {
+                            console.error('destination tozin id hover error', e);
+                            return 'شماره توزین مقصد را وارد کنید   ';
+                        }
+                    },
+                    title: 'توزین مقصد',
+                    canFilter: false,
+                    required: true,
+                    editorType: "comboBox",
+                    editorProperties: {
+                        icons: [{
+                            src: "pieces/16/icon_add.png",
+                            click() {
+                                window[windowDestinationTozinList['w']].show()
+                            }
+                        }]
+                    },
+                    editorExit(editCompletionEvent, record, newValue, rowNum, colNum, grid) {
+                        const grid_available_tozins_string = windowDestinationTozinList['g'];
+                        const grid_available_tozins = window[grid_available_tozins_string];
+                        const destTozin = grid_available_tozins.getData().find(g => g['tozinId'] === newValue);
+                        if (newValue !== undefined && newValue !== null && newValue !== '' && destTozin) {
+                            record['destTozin'] = destTozin;
+                            // console.log('updated destination Id', record, grid);
+                            record['destTozinId'] = newValue;
+                            return true
+                        } else {
+                            isc.warn('شماره توزین اشتباه است');
+                            // grid.startEditing(rowNum,colNum,true)
+                            return false;
+                        }
+                    }
+                    // valueMap: window[windowDestinationTozinList['g']].getData().getValueMap('tozinId', 'tozinId')
+                },
+                {
+                    name: "securityPolompNo",
+                    canFilter: false,
+                    title: 'شماره پلمپ حراست',
+                    editorExit(editCompletionEvent, record, newValue, rowNum, colNum, grid) {
+                        record['securityPolompNo'] = newValue;
+                        return true;
+
+                    }
+
+                },
+                {
+                    name: "railPolompNo",
+                    title: 'شماره پلمپ راه‌آهن',
+                    canFilter: false,
+                    editorExit(editCompletionEvent, record, newValue, rowNum, colNum, grid) {
+                        record['railPolompNo'] = newValue;
+                        return true;
+
+                    }
+
+                    /* editorExit (editCompletionEvent, record, newValue, rowNum, colNum, grid){
+                         if(newValue===undefined || newValue === null || newValue === ''){
+                             isc.warn('شماره پلمپ حراست خالی می‌باشد');
+                             // grid.startEditing(rowNum,colNum,true)
+                             return false;
+                         }
+                        return true;
+
+                     }*/
+
+                },
+            ]
+        });
+        const w = isc.Window.create({
+            title: "توزین‌ها",
+            width: window.innerWidth,
+            height: 580,
+            autoSize: true,
+            autoCenter: true,
+            isModal: true,
+            showModalMask: true,
+            align: "center",
+            autoDraw: false,
+            showTitle: false,
+            dismissOnEscape: true,
+            visibility: 'hidden',
+            closeClick: function () {
+                try {
+                    updateDestinationPackageTedadWeight()
+                } catch (e) {
+                    console.error('updateDestinationPackageTedadWeight() on close', e);
+                }
+                this.Super("closeClick", arguments)
+            },
+            items: [
+                grid_source,
+                // grid_destinetion,
+            ]
+        })
         return {
             w: w.getID(),
             gs: grid_source.getID(),
@@ -909,11 +911,11 @@ function onWayProductCreateRemittance() {
         onWayProductFetch('tozin/lite', 'and', destinationTozinCriteria.criteria),
     ])
         .then(([tozin, tozinLite]) => {
-            if (tozin && tozin.response && tozin.response.data && tozin.response.data.length > 0) {
-                const tozinData = tozin.response.data
-                // console.log('tozin',tozin);
-                const grid = windowDestinationTozinList['g'];
-                // const ds = windowDestinationTozinList['ds'];
+                if (tozin && tozin.response && tozin.response.data && tozin.response.data.length > 0) {
+                    const tozinData = tozin.response.data
+                    // console.log('tozin',tozin);
+                    const grid = windowDestinationTozinList['g'];
+                    // const ds = windowDestinationTozinList['ds'];
                     window[listGridSetDestTozinHarasatPolompForSelectedTozin['gs']]
                         .setValueMap('destTozinId', tozinData.getValueMap('tozinId', 'tozinId'))
                     if (tozinLite && tozinLite.response && tozinLite.response.data && tozinLite.response.data.length > 0) {

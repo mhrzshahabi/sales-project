@@ -326,6 +326,21 @@ async function onWayProductFetch(classUrl, operator = "and", criteria = []) {
 }
 
 function mainOnWayProduct() {
+    function criteriaBuildForListGrid() {
+        const filterEditorCriteria = ListGrid_Tozin_IN_ONWAYPRODUCT.getFilterEditorCriteria();
+        filterEditorCriteria.criteria.add({"fieldName": "tozinId", "operator": "iNotStartsWith", "value": "3-"})
+        fetchAlreadyInsertedTozinList().then(
+            value => {
+                value.forEach(v => filterEditorCriteria.criteria.add({
+                        "fieldName": "tozinId",
+                        "operator": "notEqual",
+                        "value": v
+                    })
+                )
+                ListGrid_Tozin_IN_ONWAYPRODUCT.fetchData(filterEditorCriteria)
+            }
+        )
+    }
     const restDataSource_Tozin_Lite = {
         fields: tozinLiteFields,
         fetchDataURL: "${contextPath}/api/tozin/lite/spec-list"
@@ -343,7 +358,7 @@ function mainOnWayProduct() {
                     message: "لطفا صبر کنید",
                 });
 
-                onWayProductCreateRemittance();
+                onWayProductCreateRemittance(criteriaBuildForListGrid);
             }
         }]
     });
@@ -458,21 +473,7 @@ function mainOnWayProduct() {
         width: 120,
         title: "<spring:message code='global.search'/>",
         icon: "icon/search.png",
-        click: function () {
-            const filterEditorCriteria = ListGrid_Tozin_IN_ONWAYPRODUCT.getFilterEditorCriteria();
-            filterEditorCriteria.criteria.add({"fieldName": "tozinId", "operator": "iNotStartsWith", "value": "3-"})
-            fetchAlreadyInsertedTozinList().then(
-                value => {
-                    value.forEach(v => filterEditorCriteria.criteria.add({
-                            "fieldName": "tozinId",
-                            "operator": "notEqual",
-                            "value": v
-                        })
-                    )
-                    ListGrid_Tozin_IN_ONWAYPRODUCT.fetchData(filterEditorCriteria)
-                }
-            )
-        }
+        click: criteriaBuildForListGrid
     });
 
     const HLayout_onWayProduct_searchBtn = isc.HLayout.create({
