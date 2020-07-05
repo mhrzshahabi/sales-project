@@ -44,11 +44,11 @@ public class AuthorizationUtil {
 
     public void checkStandardPermission(String entityName, String actionTypeStr) {
 
-        Locale locale = LocaleContextHolder.getLocale();
-        String standardPermissionKey = getStandardPermissionKey(entityName, actionTypeStr);
-        log.debug(messageSource.getMessage("logging.check.authority", null, locale));
-        if (!SecurityUtil.hasAuthority(standardPermissionKey))
-            throw new UnAuthorizedException(standardPermissionKey);
+//        Locale locale = LocaleContextHolder.getLocale();
+//        String standardPermissionKey = getStandardPermissionKey(entityName, actionTypeStr);
+//        log.debug(messageSource.getMessage("logging.check.authority", null, locale));
+//        if (!SecurityUtil.hasAuthority(standardPermissionKey))
+//            throw new UnAuthorizedException(standardPermissionKey);
     }
 
     public void checkStandardPermission(String permissionKey) {

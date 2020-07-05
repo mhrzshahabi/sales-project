@@ -28,11 +28,6 @@ public class WarehouseStock extends BaseEntity {
     @Column(name = "PLANT")
     private String plant;
 
-    @Setter(AccessLevel.NONE)
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "YARD_ID", nullable = false, insertable = false, updatable = false, foreignKey = @ForeignKey(name = "WarehouseStock2yard"))
-    private WarehouseYard warehouseYard;
-
     @Column(name = "YARD_ID")
     private Long warehouseYardId;
 

@@ -579,15 +579,7 @@
                             click: function () {
                                 createTab("<spring:message code='vessel.title'/>", "<spring:url value="/vessel/showForm" />")
                             }
-                        },
-                        {isSeparator: true},
-                        {
-                            title: "<spring:message code='warehouseCad.yard'/>",
-                            click: function () {
-                                createTab("<spring:message code='warehouseCad.yard'/>", "<spring:url value="/warehouseYard/showForm" />")
-                            }
-                        },
-
+                        }
                     ]
                 },
                 {isSeparator: true},

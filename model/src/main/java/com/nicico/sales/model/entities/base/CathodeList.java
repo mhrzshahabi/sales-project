@@ -18,7 +18,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Entity
 @Immutable
-@Subselect("select * from N_MASTER.V_CATODLISTFOREXPORT")
+@Subselect("select * from V_CATODLISTFOREXPORT")
 @IdClass(CathodeList.CathodeListId.class)
 public class CathodeList {
 

@@ -40,7 +40,7 @@ select  m.id material_id,card_id,
                 hav_isfinal,
                 p.id pid,s.plant_id ||'-'||t.plant_id source_plant_id,t.plant_id target_plant_id
 
-                from n_master.v_tozine_content_m v
+                from v_tozine_content_m v
                 join tbl_tozin_material m on m.GDSCODE=v.GDSCODE
                 join TBL_TOZIN_PLANT p on p.id=substr(v.TOZINE_ID,1,1)
                 left join TBL_TOZIN_TARGET s on s.targetid=v.SOURCEID
