@@ -204,9 +204,6 @@
     <changeSet author="Reza (generated)" id="1592718665942-78">
         <createSequence sequenceName="SEQ_WAREHOUSE_STOCK"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592718665942-79">
-        <createSequence sequenceName="SEQ_WAREHOUSE_YARD"/>
-    </changeSet>
     <changeSet author="Reza (generated)" id="1592718665942-80">
         <createSequence sequenceName="SEQ_WARH_DEPOT"/>
     </changeSet>
@@ -3270,34 +3267,6 @@
             <column name="YARD_ID" type="NUMBER(19, 0)"/>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592718665942-179">
-        <createTable tableName="TBL_WAREHOUSE_YARD">
-            <column name="ID" type="NUMBER(19, 0)">
-                <constraints primaryKey="true" primaryKeyName="TBL_WAREHOUSE_YARDPK"/>
-            </column>
-            <column name="c_created_by" type="VARCHAR2(255 CHAR)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="d_created_date" type="TIMESTAMP">
-                <constraints nullable="false"/>
-            </column>
-            <column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
-            <column name="d_last_modified_date" type="TIMESTAMP"/>
-            <column name="n_version" type="NUMBER(10, 0)">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="1" name="N_E_STATUS" type="NUMBER">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="1" name="B_EDITABLE" type="NUMBER">
-                <constraints nullable="false"/>
-            </column>
-            <column name="c_NAME_FA" type="VARCHAR2(200 CHAR)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="WAREHOUSE_NO" type="VARCHAR2(20 CHAR)"/>
-        </createTable>
-    </changeSet>
     <changeSet author="Reza (generated)" id="1592718665942-180">
         <createTable tableName="TBL_WARH_DEPOT">
             <column name="id" type="NUMBER(19, 0)">
@@ -3739,14 +3708,8 @@
     <changeSet author="Reza (generated)" id="1592718665942-238">
         <addForeignKeyConstraint baseColumnNames="MATERIAL_ITEM_ID" baseTableName="TBL_WAREHOUSE_CAD" constraintName="WarehouseCad2material_itm" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_MATERIAL_ITEM" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592718665942-239">
-        <addForeignKeyConstraint baseColumnNames="YARD_ID" baseTableName="TBL_WAREHOUSE_CAD" constraintName="WarehouseCad2yard" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_WAREHOUSE_YARD" validate="true"/>
-    </changeSet>
     <changeSet author="Reza (generated)" id="1592718665942-242">
         <addForeignKeyConstraint baseColumnNames="MATERIAL_ITEM_ID" baseTableName="TBL_WAREHOUSE_STOCK" constraintName="WarehouseStock2matherialitem" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_MATERIAL_ITEM" validate="true"/>
-    </changeSet>
-    <changeSet author="Reza (generated)" id="1592718665942-243">
-        <addForeignKeyConstraint baseColumnNames="YARD_ID" baseTableName="TBL_WAREHOUSE_STOCK" constraintName="WarehouseStock2yard" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_WAREHOUSE_YARD" validate="true"/>
     </changeSet>
     <changeSet author="Reza (generated)" id="1592718665942-245">
         <addForeignKeyConstraint baseColumnNames="COUNTRY_ID" baseTableName="TBL_BANK" constraintName="bank2Country" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_COUNTRY" validate="true"/>
