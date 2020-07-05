@@ -40,7 +40,7 @@ public class InspectionReportDTO {
 
         private Long id;
         private List<WeightInspectionDTO.InfoWithoutInspectionReport> weightInspections;
-        private List<AssayInspectionDTO.Info> assayInspections;
+        private List<AssayInspectionDTO.InfoWithoutInspectionReport> assayInspections;
         private ContactDTO.Info inspector;
         private ContactDTO.Info seller;
         private ContactDTO.Info buyer;
@@ -66,7 +66,7 @@ public class InspectionReportDTO {
     public static class Create extends InspectionReportDTO {
 
         private List<WeightInspectionDTO.Create> weightInspections;
-        private List<AssayInspectionDTO.Create> assayInspections;
+        private List<List<AssayInspectionDTO.Create>> assayInspections;
 
     }
 

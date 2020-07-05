@@ -45,15 +45,9 @@ public class InspectionReportRestController {
     }
 
     @Loggable
-    @PostMapping(value = "/weight")
-    public ResponseEntity<InspectionReportDTO.Info> createWeightInspec(@Validated @RequestBody InspectionReportDTO.Create request) {
-        return new ResponseEntity<>(iInspectionReportService.createWeightInspec(request), HttpStatus.CREATED);
-    }
-
-    @Loggable
-    @PostMapping(value = "/assay")
-    public ResponseEntity<InspectionReportDTO.Info> createAssayInspec(@Validated @RequestBody InspectionReportDTO.Create request) {
-        return new ResponseEntity<>(iInspectionReportService.createAssayInspec(request), HttpStatus.CREATED);
+    @PostMapping(value = "/inspection")
+    public ResponseEntity<InspectionReportDTO.Info> createInspec(@Validated @RequestBody InspectionReportDTO.Create request) {
+        return new ResponseEntity<>(iInspectionReportService.createInspec(request), HttpStatus.CREATED);
     }
 
     @Loggable
