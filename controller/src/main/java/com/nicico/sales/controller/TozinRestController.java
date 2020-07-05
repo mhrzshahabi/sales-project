@@ -26,23 +26,6 @@ public class TozinRestController {
     private final ITozinService tozinService;
     private final ITozinLiteService tozinLiteService;
 
-
-    @Loggable
-    @GetMapping(value = {"/on-way-product/spec-list"})
-
-    public ResponseEntity<TotalResponse<TozinDTO.Info>> searchOnWayProduct(@RequestParam MultiValueMap<String, String> criteria) {
-        final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
-        return new ResponseEntity<>(tozinService.searchTozinOnTheWay(nicicoCriteria, "SourceTozin"), HttpStatus.OK);
-    }
-
-    @Loggable
-    @GetMapping(value = {"/search-tozin"})
-    public ResponseEntity<TotalResponse<TozinDTO.Info>> searchTozinComboBijack(@RequestParam MultiValueMap<String, String> criteria) {
-        final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
-        return new ResponseEntity<>(tozinService.searchTozinOnTheWay(nicicoCriteria, "DestTozin"), HttpStatus.OK);
-
-    }
-
     @Loggable
     @GetMapping(value = {"/spec-list"})
     public ResponseEntity<TotalResponse<TozinDTO.Info>> search(@RequestParam MultiValueMap<String, String> criteria) {

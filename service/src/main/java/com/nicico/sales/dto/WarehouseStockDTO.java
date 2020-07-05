@@ -34,7 +34,6 @@ public class WarehouseStockDTO {
     public static class Info extends WarehouseStockDTO {
         private Long id;
         private MaterialItemDTO materialItem;
-        private WarehouseYardDTO warehouseYard;
         private Date createdDate;
         private String createdBy;
         private Date lastModifiedDate;

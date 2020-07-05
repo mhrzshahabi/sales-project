@@ -1,0 +1,43 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+    <changeSet author="Reza Mazloom" id="mazloom_002">
+        <preConditions onFail="CONTINUE">
+            <or>
+                <runningAs username="saleslocal"/>
+                <runningAs username="sales"/>
+            </or>
+        </preConditions>
+        <sql>
+            create synonym CUSTOMER1TBL for dev_mdms.CUSTOMER1TBL;
+            create synonym LC_T for dev_mdms.LC_T;
+            create synonym V_CATODLISTFOREXPORT for dev_mdms.V_CATODLISTFOREXPORT;
+            create synonym V_TOZINE_CONTENT_B for dev_mdms.V_TOZINE_CONTENT_B;
+            create synonym V_TOZINE_CONTENT_M for dev_mdms.V_TOZINE_CONTENT_M;
+            create synonym V_TOZINE_CONTENT_M2 for dev_mdms.V_TOZINE_CONTENT_M2;
+            create synonym V_TOZINE_CONTENT_M3 for dev_mdms.V_TOZINE_CONTENT_M3;
+            create synonym VIEW_INNERSALESFORSALSE for dev_mdms.VIEW_INNERSALESFORSALSE;
+        </sql>
+    </changeSet>
+
+    <changeSet author="Reza Mazloom" id="mazloom_003">
+        <preConditions onFail="CONTINUE">
+            <or>
+                <runningAs username="n_sales"/>
+            </or>
+        </preConditions>
+        <sql>
+            create synonym CUSTOMER1TBL for n_mdms.CUSTOMER1TBL;
+            create synonym LC_T for n_mdms.LC_T;
+            create synonym V_CATODLISTFOREXPORT for n_mdms.V_CATODLISTFOREXPORT;
+            create synonym V_TOZINE_CONTENT_B for n_mdms.V_TOZINE_CONTENT_B;
+            create synonym V_TOZINE_CONTENT_M for n_mdms.V_TOZINE_CONTENT_M;
+            create synonym V_TOZINE_CONTENT_M2 for n_mdms.V_TOZINE_CONTENT_M2;
+            create synonym V_TOZINE_CONTENT_M3 for n_mdms.V_TOZINE_CONTENT_M3;
+            create synonym VIEW_INNERSALESFORSALSE for n_mdms.VIEW_INNERSALESFORSALSE;
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>
