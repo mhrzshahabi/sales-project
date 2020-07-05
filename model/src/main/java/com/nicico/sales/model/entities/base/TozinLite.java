@@ -15,7 +15,7 @@ import javax.persistence.Id;
 @AllArgsConstructor
 @Entity
 @Immutable
-@Subselect("select * from n_master.V_TOZINE_CONTENT_M3")
+@Subselect("select * from V_TOZINE_CONTENT_M3")
 public class TozinLite {
     @Column(name = "PLAK")
     private String plak;

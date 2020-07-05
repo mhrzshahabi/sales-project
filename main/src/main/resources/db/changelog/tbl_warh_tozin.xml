@@ -58,4 +58,57 @@
         <addUniqueConstraint columnNames="TOZINE_ID" constraintName="UC_TBL_WARH_TOZINTOZINE_ID_COL"
                              tableName="TBL_WARH_TOZIN"/>
     </changeSet>
+    <changeSet author="saeb (generated)" id="saeb 1593837790228-235">
+        <addColumn tableName="TBL_WARH_TOZIN">
+            <column name="GDSCODE" type="number(19, 0)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="saeb (generated)" id="saeb 1593840642599-207">
+        <addNotNullConstraint columnDataType="number(19,0)" columnName="GDSCODE" tableName="TBL_WARH_TOZIN"/>
+    </changeSet>
+    <changeSet author="saeb (generated)" id="1593846083539-235">
+        <addColumn tableName="TBL_WARH_TOZIN">
+            <column defaultValueNumeric="1" name="B_EDITABLE" type="number">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="saeb (generated)" id="1593846083539-236">
+        <addColumn tableName="TBL_WARH_TOZIN">
+            <column defaultValueNumeric="1" name="N_E_STATUS" type="number">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="saeb (generated)" id="1593846083539-237">
+        <addColumn tableName="TBL_WARH_TOZIN">
+            <column name="c_created_by" type="varchar2(255 CHAR)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="saeb (generated)" id="1593846083539-238">
+        <addColumn tableName="TBL_WARH_TOZIN">
+            <column name="c_last_modified_by" type="varchar2(255 CHAR)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="saeb (generated)" id="1593846083539-239">
+        <addColumn tableName="TBL_WARH_TOZIN">
+            <column name="d_created_date" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="saeb (generated)" id="1593846083539-240">
+        <addColumn tableName="TBL_WARH_TOZIN">
+            <column name="d_last_modified_date" type="timestamp"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="saeb (generated)" id="1593846083539-241">
+        <addColumn tableName="TBL_WARH_TOZIN">
+            <column name="n_version" type="number(10, 0)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>

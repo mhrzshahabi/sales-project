@@ -49,11 +49,6 @@ public class WarehouseCad extends BaseEntity {
     @Column(name = "MOVEMENT_TYPE")
     private String movementType;
 
-    @Setter(AccessLevel.NONE)
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "YARD_ID", nullable = false, insertable = false, updatable = false, foreignKey = @ForeignKey(name = "WarehouseCad2yard"))
-    private WarehouseYard warehouseYard;
-
     @Column(name = "YARD_ID")
     private Long warehouseYardId;
 
