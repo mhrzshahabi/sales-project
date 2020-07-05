@@ -6,8 +6,6 @@ import com.nicico.copper.common.domain.ConstantVARs;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.core.util.report.ReportUtil;
 import com.nicico.sales.SalesException;
-import com.nicico.sales.dto.WarehouseCadDTO;
-import com.nicico.sales.iservice.IWarehouseCadService;
 import com.nicico.sales.utility.MakeExcelOutputUtil;
 import com.nicico.sales.utility.SpecListUtil;
 import lombok.RequiredArgsConstructor;
