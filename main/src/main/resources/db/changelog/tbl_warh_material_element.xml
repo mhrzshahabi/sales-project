@@ -2,9 +2,6 @@
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
-    <changeSet author="Reza Mazloom" id="mazloom_004">
-        <renameSequence newSequenceName="SEQ_WARH_MATERIAL_ELEMENT" oldSequenceName="SEQ_WARH_ITEM_ELEMENT"/>
-    </changeSet>
 
     <!-- Replace foreign key from F_MATERIAL_ITEM_ID to F_MATERIAL_ID -->
     <changeSet author="karimi (generated)" id="1593331182345-221">

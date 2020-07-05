@@ -86,10 +86,10 @@ public class TozinFormController {
     @RequestMapping("/report")
     public void ExportThinOnWay(@RequestParam MultiValueMap<String, String> params, HttpServletResponse response) throws Exception {
         Map<String, Object> parameters = new HashMap<>(params);
-//        parameters.put("dateaval", params.get("dateaval").get(0));
-//        parameters.put("datedovom", params.get("datedovom").get(0));
-//        parameters.put("kala", params.get("kala").get(0));
-//        parameters.put("tolid", params.get("tolid").get(0));
+        parameters.put("dateaval", params.get("dateaval").get(0));
+        parameters.put("datedovom", params.get("datedovom").get(0));
+        parameters.put("kala", params.get("kala").get(0));
+        parameters.put("tolid", params.get("tolid").get(0));
 //        parameters.put("haml", params.get("haml").get(0));
         parameters.put(ConstantVARs.REPORT_TYPE, params.get("type").get(0));
         NICICOCriteria provideNICICOCriteria = specListUtil.provideNICICOCriteria(params, TozinDTO.Info.class);
@@ -101,7 +101,7 @@ public class TozinFormController {
         final String jsonData = objectMapper.writeValueAsString(content);
 //        String jsonData = "{" + "\"content\": " + objectMapper.writeValueAsString(data) + "}";
         JsonDataSource jsonDataSource = new JsonDataSource(new ByteArrayInputStream(jsonData.getBytes(StandardCharsets.UTF_8)));
-        this.reportUtil.export("/reports/OnWayMo_1.jasper", parameters, jsonDataSource, response);
+        this.reportUtil.export("/reports/OnWayMo.jasper", parameters, jsonDataSource, response);
     }
 
 }

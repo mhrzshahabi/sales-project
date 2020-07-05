@@ -2,6 +2,7 @@ package com.nicico.sales.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.nicico.sales.model.enumeration.EStatus;
 import com.nicico.sales.model.enumeration.PriceBaseReference;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -28,20 +29,29 @@ public class PriceBaseDTO {
     private Long elementId;
     private PriceBaseReference priceBaseReference;
     private BigDecimal price;
+    private Long currencyId;
+    private Long unitId;
 
     @Getter
     @Setter
     @Accessors(chain = true)
     @ApiModel("PriceBaseInfo")
     public static class Info extends PriceBaseDTO {
-        private ElementDTO.Info element;
-
         private Long id;
+        private ElementDTO.Info element;
+        private CurrencyDTO.Info currency;
+        private UnitDTO.Info unit;
+
+        // Auditing
         private Date createdDate;
         private String createdBy;
         private Date lastModifiedDate;
         private String lastModifiedBy;
         private Integer version;
+
+        // BaseEntity
+        private Boolean editable;
+        private List<EStatus> eStatus;
     }
 
     @Getter
