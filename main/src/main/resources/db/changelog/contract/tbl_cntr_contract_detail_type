@@ -1,0 +1,17 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+    <changeSet author="Reza Mazloom" id="mazloom_010">
+        <dropColumn columnName="C_MATERIAL" tableName="TBL_CNTR_CONTRACT_DETAIL_TYPE"/>
+    </changeSet>
+    <changeSet author="Reza Mazloom" id="mazloom_011">
+        <addColumn tableName="TBL_CNTR_CONTRACT_DETAIL_TYPE">
+            <column name="F_MATERIAL_ID" type="number(19, 0)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+
+</databaseChangeLog>

@@ -37,4 +37,6 @@
 	<include file="classpath:/db/changelog/tbl_warh_depot.xml"/>
 
 	<include file="classpath:/db/changelog/synonyms.xml"/>
+	<include file="classpath:/db/changelog/contract/tbl_cntr_contract_detail_type.xml"/>
+
 </databaseChangeLog>
