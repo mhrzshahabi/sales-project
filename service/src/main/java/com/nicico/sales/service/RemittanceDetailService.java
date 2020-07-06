@@ -3,10 +3,12 @@ package com.nicico.sales.service;
 import com.nicico.sales.dto.InventoryDTO;
 import com.nicico.sales.dto.RemittanceDetailDTO;
 import com.nicico.sales.iservice.IRemittanceDetailService;
+import com.nicico.sales.model.entities.base.Tozin;
 import com.nicico.sales.model.entities.warehouse.Inventory;
 import com.nicico.sales.model.entities.warehouse.Remittance;
 import com.nicico.sales.model.entities.warehouse.RemittanceDetail;
 import com.nicico.sales.model.entities.warehouse.TozinTable;
+import com.nicico.sales.repository.TozinDAO;
 import com.nicico.sales.repository.TozinTableDAO;
 import com.nicico.sales.repository.warehouse.InventoryDAO;
 import com.nicico.sales.repository.warehouse.RemittanceDAO;
@@ -26,6 +28,7 @@ public class RemittanceDetailService extends GenericService<RemittanceDetail, Lo
     private final RemittanceDAO remittanceDAO;
     private final InventoryDAO inventoryDAO;
     private final TozinTableDAO tozinTableDAO;
+    private final TozinDAO tozinDAO;
 
     @Override
     @Transactional
@@ -37,13 +40,8 @@ public class RemittanceDetailService extends GenericService<RemittanceDetail, Lo
         remittanceDetailsList.stream().forEach(rd -> {
             final TozinTable sourceTozin = modelMapper.map(rd.getSourceTozin(), TozinTable.class);
             final TozinTable destinationTozin = modelMapper.map(rd.getDestinationTozin(), TozinTable.class);
-            if (!tozinKeyValue.containsKey(sourceTozin.getTozinId())) {
-                tozinKeyValue.put(sourceTozin.getTozinId(), tozinTableDAO.save(sourceTozin).getId());
-            }
-            if (!tozinKeyValue.containsKey(destinationTozin.getTozinId())) {
-                tozinKeyValue.put(destinationTozin.getTozinId(), tozinTableDAO.save(destinationTozin).getId());
-            }
-
+            saveTozin(tozinKeyValue,  sourceTozin);
+            saveTozin(tozinKeyValue,  destinationTozin);
         });
         remittanceDetailsList.stream().forEach(rd -> {
             final InventoryDTO.Create inventory = rd.getInventory();
@@ -58,5 +56,17 @@ public class RemittanceDetailService extends GenericService<RemittanceDetail, Lo
         final List<RemittanceDetail> remittanceDetails = repository.saveAll(rds);
         return modelMapper.map(remittanceDetails, new TypeToken<List<RemittanceDetailDTO.Info>>() {
         }.getType());
+    }
+
+    private void saveTozin(Map<String, Long> tozinKeyValue,  TozinTable tozinTable) {
+        if (!tozinKeyValue.containsKey(tozinTable.getTozinId())) {
+            final Tozin tozin = tozinDAO.findFirstByTozinId(tozinTable.getTozinId());
+            if(tozin != null){
+                final TozinTable tozinToSave = modelMapper.map(tozin, TozinTable.class);
+                tozinToSave.setDriverName(tozinTable.getDriverName());
+                tozinKeyValue.put(tozinTable.getTozinId(), tozinTableDAO.save(tozinToSave).getId());
+            }
+            else tozinKeyValue.put(tozinTable.getTozinId(), tozinTableDAO.save(tozinTable).getId());
+        }
     }
 }
