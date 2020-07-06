@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface TozinDAO extends JpaRepository<Tozin, Long>, JpaSpecificationExecutor<Tozin> {
-
+    Tozin findFirstByTozinId(String tozinId);
 
 }
