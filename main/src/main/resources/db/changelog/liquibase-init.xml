@@ -195,12 +195,6 @@
     <changeSet author="Reza (generated)" id="1592718665942-74">
         <createSequence sequenceName="SEQ_VESSEL"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592718665942-75">
-        <createSequence sequenceName="SEQ_WAREHOUSE_CAD"/>
-    </changeSet>
-    <changeSet author="Reza (generated)" id="1592718665942-76">
-        <createSequence sequenceName="SEQ_WAREHOUSE_CAD_ITEM"/>
-    </changeSet>
     <changeSet author="Reza (generated)" id="1592718665942-78">
         <createSequence sequenceName="SEQ_WAREHOUSE_STOCK"/>
     </changeSet>
@@ -3152,88 +3146,6 @@
             <column name="YEAR_OF_BUILd" type="NUMBER(10, 0)"/>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592718665942-175">
-        <createTable tableName="TBL_WAREHOUSE_CAD">
-            <column name="ID" type="NUMBER(19, 0)">
-                <constraints primaryKey="true" primaryKeyName="TBL_WAREHOUSE_CADPK"/>
-            </column>
-            <column name="c_created_by" type="VARCHAR2(255 CHAR)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="d_created_date" type="TIMESTAMP">
-                <constraints nullable="false"/>
-            </column>
-            <column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
-            <column name="d_last_modified_date" type="TIMESTAMP"/>
-            <column name="n_version" type="NUMBER(10, 0)">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="1" name="N_E_STATUS" type="NUMBER">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="1" name="B_EDITABLE" type="NUMBER">
-                <constraints nullable="false"/>
-            </column>
-            <column name="BIJACK_NO" type="VARCHAR2(255 CHAR)"/>
-            <column name="BIJAK_FIRST_DESCRIPTION" type="VARCHAR2(255 CHAR)"/>
-            <column name="BIJAK_SECOND_DESCRIPTION" type="VARCHAR2(255 CHAR)"/>
-            <column name="CONTAINER_NO" type="VARCHAR2(255 CHAR)"/>
-            <column name="DESTINATION_BUNDLE_SUM" type="VARCHAR2(255 CHAR)"/>
-            <column name="DESTINATION_SHEET_SUM" type="VARCHAR2(255 CHAR)"/>
-            <column name="DESTINATION_SHEET_SUM_DELIVERY" type="NUMBER(10, 0)"/>
-            <column name="DESTINATION_TOZIN_PLANT_ID" type="VARCHAR2(255 CHAR)"/>
-            <column name="DESTINATION_UNLOAD_DATE" type="VARCHAR2(255 CHAR)"/>
-            <column name="DESTINATION_WEIGHT" type="FLOAT(24)"/>
-            <column name="HERASAT_POLOMP_NO" type="VARCHAR2(255 CHAR)"/>
-            <column name="MATERIAL_ITEM_ID" type="NUMBER(19, 0)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="MOVEMENT_TYPE" type="VARCHAR2(255 CHAR)"/>
-            <column name="PLANT" type="VARCHAR2(255 CHAR)"/>
-            <column name="RAHAHAN_POLOMP_NO" type="VARCHAR2(255 CHAR)"/>
-            <column name="SOURCE_BUNDLE_SUM" type="VARCHAR2(255 CHAR)"/>
-            <column name="SOURCE_LOAD_DATE" type="VARCHAR2(255 CHAR)"/>
-            <column name="SOURCE_SHEET_SUM" type="VARCHAR2(255 CHAR)"/>
-            <column name="SOURCE_SHEET_SUM_DELIVERY" type="NUMBER(10, 0)"/>
-            <column name="SOURCE_TOZIN_PLANT_ID" type="VARCHAR2(255 CHAR)"/>
-            <column name="SOURCE_WEIGHT" type="FLOAT(24)"/>
-            <column name="WAREHOUSE_NO" type="VARCHAR2(255 CHAR)"/>
-            <column name="YARD_ID" type="NUMBER(19, 0)"/>
-            <column name="WEIGHT_KG" type="FLOAT(24)"/>
-        </createTable>
-    </changeSet>
-    <changeSet author="Reza (generated)" id="1592718665942-176">
-        <createTable tableName="TBL_WAREHOUSE_CAD_ITEM">
-            <column name="ID" type="NUMBER(19, 0)">
-                <constraints primaryKey="true" primaryKeyName="TBL_WAREHOUSE_CAD_ITEMPK"/>
-            </column>
-            <column name="c_created_by" type="VARCHAR2(255 CHAR)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="d_created_date" type="TIMESTAMP">
-                <constraints nullable="false"/>
-            </column>
-            <column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
-            <column name="d_last_modified_date" type="TIMESTAMP"/>
-            <column name="n_version" type="NUMBER(10, 0)">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="1" name="N_E_STATUS" type="NUMBER">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="1" name="B_EDITABLE" type="NUMBER">
-                <constraints nullable="false"/>
-            </column>
-            <column name="BARREL_NO" type="NUMBER(19, 0)"/>
-            <column name="BUNDLE_SERIAL" type="VARCHAR2(255 CHAR)"/>
-            <column name="DESCRIPTION" type="VARCHAR2(255 CHAR)"/>
-            <column name="ISSUE_ID" type="NUMBER(19, 0)"/>
-            <column name="LOT_NAME" type="VARCHAR2(255 CHAR)"/>
-            <column name="SHEET_NO" type="NUMBER(19, 0)"/>
-            <column name="WAREHOUSE_CAD_ID" type="NUMBER(19, 0)"/>
-            <column name="WEIGHT_KG" type="FLOAT(24)"/>
-        </createTable>
-    </changeSet>
     <changeSet author="Reza (generated)" id="1592718665942-178">
         <createTable tableName="TBL_WAREHOUSE_STOCK">
             <column name="ID" type="NUMBER(19, 0)">
@@ -3565,9 +3477,6 @@
             <column name="N_WEIGHT_N_D" type="NUMBER(5, 10)"/>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592718665942-192">
-        <addUniqueConstraint columnNames="BIJACK_NO" constraintName="BIJACK_NO_UNIQUE" tableName="TBL_WAREHOUSE_CAD"/>
-    </changeSet>
     <changeSet author="Reza (generated)" id="1592718665942-193">
         <addUniqueConstraint columnNames="CONTRACT_ID, PERSON_ID" constraintName="CONTRACT_ID_PERSON_ID_UNIQUE" tableName="TBL_CONTRACT_PERSON"/>
     </changeSet>
@@ -3615,11 +3524,6 @@
     </changeSet>
     <changeSet author="Reza (generated)" id="1592718665942-208">
         <addUniqueConstraint columnNames="C_CODE" constraintName="UC_TBL_CNTR_TERMC_CODE_COL" tableName="TBL_CNTR_TERM"/>
-    </changeSet>
-    <changeSet author="Reza (generated)" id="1592718665942-209">
-        <createIndex indexName="WAREHOUSECADITEM_IDX_ISSUEID" tableName="TBL_WAREHOUSE_CAD_ITEM">
-            <column name="ISSUE_ID"/>
-        </createIndex>
     </changeSet>
     <changeSet author="Reza (generated)" id="1592718665942-210">
         <addForeignKeyConstraint baseColumnNames="BANK_ID" baseTableName="TBL_CONTACT_ACCOUNT" constraintName="ContactAccount2bank" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_BANK" validate="true"/>
@@ -3701,12 +3605,6 @@
     </changeSet>
     <changeSet author="Reza (generated)" id="1592718665942-236">
         <addForeignKeyConstraint baseColumnNames="VESSEL_ID" baseTableName="TBL_SHIPMENT" constraintName="Shipment2vessel" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_VESSEL" validate="true"/>
-    </changeSet>
-    <changeSet author="Reza (generated)" id="1592718665942-237">
-        <addForeignKeyConstraint baseColumnNames="WAREHOUSE_CAD_ID" baseTableName="TBL_WAREHOUSE_CAD_ITEM" constraintName="WAREHOUSECADITEM2w_c_header" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_WAREHOUSE_CAD" validate="true"/>
-    </changeSet>
-    <changeSet author="Reza (generated)" id="1592718665942-238">
-        <addForeignKeyConstraint baseColumnNames="MATERIAL_ITEM_ID" baseTableName="TBL_WAREHOUSE_CAD" constraintName="WarehouseCad2material_itm" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_MATERIAL_ITEM" validate="true"/>
     </changeSet>
     <changeSet author="Reza (generated)" id="1592718665942-242">
         <addForeignKeyConstraint baseColumnNames="MATERIAL_ITEM_ID" baseTableName="TBL_WAREHOUSE_STOCK" constraintName="WarehouseStock2matherialitem" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_MATERIAL_ITEM" validate="true"/>
