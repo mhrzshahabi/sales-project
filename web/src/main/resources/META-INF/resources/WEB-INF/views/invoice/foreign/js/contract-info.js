@@ -31,3 +31,24 @@ __contract.getShipmentMonthNo = function (shipment) {
     // Month of actual shipment plus
     return DateUtil.getMonthNames().indexOf(shipment.month) + 1;
 };
+__contract.getTC = function (contract) {
+
+    // TC Price
+    return 12345;
+};
+__contract.getRc = function (contract, elementName) {
+
+    // RC Price
+    switch (elementName.toUpperCase()) {
+        case 'AG':
+            return 10;
+        case 'AU':
+            return 93;
+        case 'PT':
+            return 600;
+        case 'PD':
+            return 550;
+    }
+
+    return 0;
+};

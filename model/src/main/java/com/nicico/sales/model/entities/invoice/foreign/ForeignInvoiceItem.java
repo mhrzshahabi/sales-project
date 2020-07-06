@@ -46,6 +46,9 @@ public class ForeignInvoiceItem extends BaseEntity {
     @Column(name = "N_DEDUCTION_VALUE", scale = 5, precision = 12)
     private BigDecimal deductionValue;
 
+    @Column(name = "N_DEDUCTION_UNIT_CONVERSION_RATE", scale = 5, precision = 12)
+    private BigDecimal deductionUnitConversionRate;
+
     @Column(name = "N_DEDUCTION_PRICE", scale = 2, precision = 10)
     private BigDecimal deductionPrice;
 
