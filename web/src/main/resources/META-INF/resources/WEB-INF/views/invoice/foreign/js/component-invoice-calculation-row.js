@@ -19,6 +19,7 @@ isc.defineClass("InvoiceCalculationRow", isc.DynamicForm).addProperties({
             showUnitFieldTitle: false,
             showCurrencyFieldTitle: false,
             showCurrencyField: false,
+            name: 'priceBase',
             fieldValueTitle: This.assay.materialElement.element.name,
             border: "1px solid rgba(0, 0, 0, 0.3)",
         }));
@@ -42,7 +43,7 @@ isc.defineClass("InvoiceCalculationRow", isc.DynamicForm).addProperties({
             }],
             changed: function (form, item, value) {
 
-                form.setValue(This.assay.materialElement.element.name, {
+                form.setValue('finalAssay', {
                     value: This.assay.value - value,
                     unitId: This.assay.materialElement.unit.id,
                 });
@@ -68,10 +69,11 @@ isc.defineClass("InvoiceCalculationRow", isc.DynamicForm).addProperties({
             showCurrencyFieldTitle: false,
             showCurrencyField: false,
             deductionUnitConversionRate: 1,
-            name: This.assay.materialElement.element.name,
+            name: 'finalAssay',
             border: "1px solid rgba(0, 0, 0, 0.3)",
         }));
-        if (This.assay.materialElement.unit.id !== 1 && This.assay.materialElement.unit.id !== This.price.unit.id)
+        if (This.assay.materialElement.unit.id !== This.price.unit.id &&
+            This.assay.materialElement.unit.id !== ImportantIDs.unit.PERCENT)
             this.addField(isc.Unit.create({
                 colSpan: 4,
                 unitCategory: 1,
@@ -81,30 +83,29 @@ isc.defineClass("InvoiceCalculationRow", isc.DynamicForm).addProperties({
                 showValueFieldTitle: false,
                 showUnitFieldTitle: false,
                 showCurrencyFieldTitle: false,
+                showUnitField: false,
                 showCurrencyField: false,
                 name: "deductionUnitConversionRate",
                 border: "1px solid rgba(0, 0, 0, 0.3)",
                 changed: function (form, item, value) {
 
-                    form.getField(This.assay.materialElement.element.name).deductionUnitConversionRate = value;
+                    form.getField('finalAssay').deductionUnitConversionRate = value;
                     This.calculate();
                 }
             }));
         this.addField({
             colSpan: 4,
-            title: "=",
+            title: " = ",
             type: "staticText",
             name: "deductionPrice",
         });
-
-        this.setValues(this.data);
     },
     calculate: function () {
-        let assayField = this.getField(this.assay.materialElement.element.name);
+        let assayField = this.getField('finalAssay');
         this.setValue("deductionPrice", assayField.getValue() * assayField.deductionUnitConversionRate);
     },
     getValue: function () {
-        this.getValue("deductionPrice");
+        return this.getValues();
     },
     setValue: function (value) {
         this.setValues(value);

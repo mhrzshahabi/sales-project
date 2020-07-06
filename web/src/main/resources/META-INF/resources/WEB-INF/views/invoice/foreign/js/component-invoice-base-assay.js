@@ -6,6 +6,7 @@ isc.defineClass("InvoiceBaseAssay", isc.VLayout).addProperties({
     showEdges: false,
     layoutMargin: 2,
     membersMargin: 2,
+    overflow: "scroll",
     inventories: [],
     initWidget: function () {
 

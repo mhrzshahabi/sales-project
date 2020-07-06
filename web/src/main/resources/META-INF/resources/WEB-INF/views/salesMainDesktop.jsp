@@ -116,6 +116,9 @@
             PERFORMA: 1,
             PROVISIONAL: 2,
             FINAL: 3
+        },
+        unit: {
+            PERCENT: 1
         }
     }
     var BaseRPCRequest = {

@@ -6,6 +6,7 @@ isc.defineClass("InvoiceBaseWeight", isc.VLayout).addProperties({
     showEdges: false,
     layoutMargin: 2,
     membersMargin: 2,
+    overflow: "scroll",
     billLadings: [],
     initWidget: function () {
 
