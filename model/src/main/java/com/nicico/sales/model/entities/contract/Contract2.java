@@ -1,6 +1,7 @@
 package com.nicico.sales.model.entities.contract;
 
 import com.nicico.sales.model.Auditable;
+import com.nicico.sales.model.entities.base.ContractDetail;
 import com.nicico.sales.model.entities.base.Material;
 import com.nicico.sales.model.entities.common.BaseEntity;
 import lombok.*;
@@ -86,7 +87,7 @@ public class Contract2 extends BaseEntity {
     @OneToMany(mappedBy = "contract", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<ContractContact> contractContacts;
 
-//    @NotAudited
-//    @OneToMany(mappedBy = "contract", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-//    private List<ContractDetail> contractDetails;
+    @NotAudited
+    @OneToMany(mappedBy = "contract", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    private List<ContractDetail2> contractDetails;
 }
