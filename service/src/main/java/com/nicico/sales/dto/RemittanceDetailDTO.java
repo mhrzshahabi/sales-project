@@ -32,11 +32,10 @@ public class RemittanceDetailDTO {
     @Setter
     @Accessors(chain = true)
     @ApiModel("RemittanceDetailInfo")
-    public static class Info extends RemittanceDetailDTO {
+    public static class InfoWithoutRemittance extends RemittanceDetailDTO {
 
         private Long id;
         private UnitDTO.Info unit;
-        private RemittanceDTO.InfoWithoutRemittanceDetail remittance;
         private TozinTableDTO.InfoWithoutRemittanceDetail sourceTozin;
         private TozinTableDTO.InfoWithoutRemittanceDetail destinationTozin;
         private InventoryDTO.InfoWithoutRemittanceDetail inventory;
@@ -54,6 +53,15 @@ public class RemittanceDetailDTO {
         private Boolean editable;
         private List<EStatus> eStatus;
     }
+
+     @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("RemittanceDetailInfo")
+    public static class Info extends InfoWithoutRemittance {
+         private RemittanceDTO.InfoWithoutRemittanceDetail remittance;
+     }
+
 
     @Getter
     @Setter
