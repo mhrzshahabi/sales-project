@@ -7,7 +7,6 @@ import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.core.util.report.ReportUtil;
 import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.TozinDTO;
-import com.nicico.sales.iservice.ITozinLiteService;
 import com.nicico.sales.iservice.ITozinService;
 import com.nicico.sales.utility.MakeExcelOutputUtil;
 import com.nicico.sales.utility.SpecListUtil;
@@ -27,18 +26,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/tozin")
 @Slf4j
 public class TozinFormController {
 
-
     private final ObjectMapper objectMapper;
     private final SpecListUtil specListUtil;
     private final ITozinService iTozinService;
-    private final ITozinLiteService iTozinLiteService;
     private final MakeExcelOutputUtil makeExcelOutputUtil;
     private final ReportUtil reportUtil;
 
@@ -50,22 +46,6 @@ public class TozinFormController {
     @RequestMapping("/between-complex-transfer")
     public String betweenComplexTransfer() {
         return "product/betweenComplexTransfer";
-    }
-
-
-    @RequestMapping("/showWarehouseCadForm")
-    public String showWarehouseCadForm() {
-        return "product/warehouseCad_OnWayProduct";
-    }
-
-    @RequestMapping("/showWarehouseMoForm")
-    public String showWarehouseMoForm() {
-        return "product/warehouseMo_OnWayProduct";
-    }
-
-    @RequestMapping("/showWarehouseConcForm")
-    public String showWarehouseConcForm() {
-        return "product/warehouseConc_OnWayProduct";
     }
 
     @Loggable
