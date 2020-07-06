@@ -1,4 +1,3 @@
-
 //******************************************************* VARIABLES ****************************************************
 
 var inspectionReportTab = new nicico.GeneralTabUtil().getDefaultJSPTabVariable();
@@ -199,12 +198,15 @@ var RestDataSource_CurrencyRest = isc.MyRestDataSource.create({
         },
         {
             name: "nameFa",
+            title: "<spring:message code='currency.nameFa'/>"
         },
         {
             name: "nameEn",
+            title: "<spring:message code='currency.nameLatin'/>"
         },
         {
             name: "symbol",
+            title: "<spring:message code='currency.symbol'/>"
         }
     ],
     fetchDataURL: "${contextPath}/api/currency/spec-list"
@@ -302,7 +304,14 @@ inspectionReportTab.method.getAssayElementFields = function () {
     RestDataSource_MaterialElementRest.fetchData(elementCriteria, function (dsResponse, data, dsRequest) {
 
         if (data.length != 0) {
-            const fields = data.map(
+
+            let fields = [{
+                name: "inventoryId",
+                title: "<spring:message code='inspectionReport.InventoryId'/>",
+                type: "staticText"
+            }];
+
+            fields.addAll(data.map(
                 me => {
                     return {
                         name: me.element.name,
@@ -310,12 +319,8 @@ inspectionReportTab.method.getAssayElementFields = function () {
                         id: me.id
                     }
                 }
-            );
-            fields.add({
-                name: "inventoryId",
-                title: "<spring:message code='inspectionReport.InventoryId'/>",
-                type: "staticText"
-            });
+            ));
+
             inspectionReportTab.listGrid.assayElement.setFields(fields);
         }
     });
@@ -389,7 +394,11 @@ inspectionReportTab.dynamicForm.material = isc.DynamicForm.create({
                 inspectionReportTab.dynamicForm.inspecReport.getItem("inventoryId").setOptionCriteria({
                     _constructor: "AdvancedCriteria",
                     operator: "and",
-                    criteria: [{fieldName: "materialItem.materialId", operator: "equals", value: material}]
+                    criteria: [{
+                        fieldName: "materialItem.materialId",
+                        operator: "equals",
+                        value: inspectionReportTab.variable.materialId
+                    }]
                 });
             },
             // editorExit: function (form) {
@@ -499,6 +508,9 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
                 validateOnChange: true
             }],
         changed: function (form) {
+            inspectionReportTab.variable.selectedInventoriesCounter = 0;
+            inspectionReportTab.variable.selectedInventoriesId = [];
+            inspectionReportTab.variable.selectedInventoriesLabel = [];
             inspectionReportTab.variable.selectedInventoriesCounter = form.getItem("inventoryId").getSelectedRecords().length;
             inspectionReportTab.variable.selectedInventoriesId = form.getItem("inventoryId").getValue();
             inspectionReportTab.variable.selectedInventoriesLabel = form.getItem("inventoryId").getSelectedRecord().label;
@@ -690,9 +702,6 @@ inspectionReportTab.dynamicForm.assayLab = isc.DynamicForm.create({
     requiredMessage: '<spring:message code="validator.field.is.required"/>',
     fields: [
         {
-            type: "RowSpacerItem"
-        },
-        {
             name: "labName",
             title: "<spring:message code='assayInspection.LabName'/>"
         },
@@ -804,7 +813,7 @@ inspectionReportTab.method.setListRows = function () {
     inspectionReportTab.listGrid.assayElement.getAllEditRows().forEach(function (element) {
         var record = inspectionReportTab.listGrid.assayElement.getEditedRecord(JSON.parse(JSON.stringify(element)));
         // alert(inspectionReportTab.variable.selectedInventoriesLabel.get(element))
-        inspectionReportTab.listGrid.assayElement.setEditValue(element, 3, inspectionReportTab.variable.selectedInventoriesId.get(element));
+        inspectionReportTab.listGrid.assayElement.setEditValue(element, 1, inspectionReportTab.variable.selectedInventoriesId.get(element));
     });
 
     inspectionReportTab.listGrid.weightElement.getAllEditRows().forEach(function (element) {
@@ -856,17 +865,17 @@ inspectionReportTab.window.inspecReport.populateData = function (bodyWidget) {
     assayInspectionObj.labName = bodyWidget.members.get(2).tabs.get(1).pane.members.get(0).getItem("labName").getValue();
     assayInspectionObj.labPlace = bodyWidget.members.get(2).tabs.get(1).pane.members.get(0).getItem("labPlace").getValue();
     var allCols = bodyWidget.members.get(2).tabs.get(1).pane.members.get(1).fields.length;
-    var fieldCols = allCols-3;
+    var fieldCols = allCols - 3;
     bodyWidget.members.get(2).tabs.get(1).pane.members.get(1).getAllEditRows().forEach(function (element) {
-        assayInspectionRecord =[];
+        assayInspectionRecord = [];
         var assayRecord = bodyWidget.members.get(2).tabs.get(1).pane.members.get(1).getEditedRecord(JSON.parse(JSON.stringify(element)));
         assayInspectionObj.inventoryId = assayRecord.inventoryId;
-        for (let i = 1; i <= fieldCols ; i++) {
-            assayInspectionObj. value = bodyWidget.members.get(2).tabs.get(1).pane.members.get(1).getEditedCell(JSON.parse(JSON.stringify(element)), i);
-            assayInspectionObj. materialElementId = bodyWidget.members.get(2).tabs.get(1).pane.members.get(1).fields.get(i).id;
+        for (let i = 2; i < allCols-1; i++) {
+            assayInspectionObj.value = bodyWidget.members.get(2).tabs.get(1).pane.members.get(1).getEditedCell(JSON.parse(JSON.stringify(element)), i);
+            assayInspectionObj.materialElementId = bodyWidget.members.get(2).tabs.get(1).pane.members.get(1).fields.get(i).id;
             assayInspectionRecord.push(assayInspectionObj);
         }
-    assayInspections.push(assayInspectionRecord);
+        assayInspections.push(assayInspectionRecord);
     });
     inspectionReportObj.assayInspections = assayInspections;
 
@@ -905,6 +914,8 @@ inspectionReportTab.window.inspecReport.cancelCallBack = function () {
     inspectionReportTab.dynamicForm.material.clearValues();
     inspectionReportTab.dynamicForm.inspecReport.clearValues();
     inspectionReportTab.dynamicForm.assayLab.clearValues();
+    inspectionReportTab.listGrid.weightElement.setData([]);
+    inspectionReportTab.listGrid.assayElement.setData([]);
 };
 
 inspectionReportTab.method.refreshData = function () {
@@ -923,7 +934,6 @@ inspectionReportTab.method.editForm = function () {
     else if (record.editable === false)
         inspectionReportTab.dialog.notEditable();
     else {
-
         inspectionReportTab.method.jsonRPCManagerRequest({
             httpMethod: "GET",
             actionURL: "${contextPath}/api/inspectionReport/spec-list",
@@ -941,7 +951,73 @@ inspectionReportTab.method.editForm = function () {
                 // alert(JSON.stringify(data));
                 inspectionReportTab.window.inspecReport.justShowForm();
                 inspectionReportTab.dynamicForm.inspecReport.editRecord(record);
-                // inspectionReportTab.dynamicForm.material.getField("material").setValue(response.materialId);
+
+                let weightIds = record.weightInspections.map(q => q.id);
+                let assayIds = record.assayInspections.map(q => q.id);
+
+                // alert("%" + weightIds);
+                let weightCriteria = {
+                    _constructor: "AdvancedCriteria",
+                    operator: "and",
+                    criteria: [{fieldName: "id", operator: "equals", value: weightIds}]
+                };
+                RestDataSource_WeightInspecRest.fetchData(weightCriteria, function (dsResponse, data, dsRequest) {
+
+                    if (data.length != 0) {
+                        const weightRecords = data.map(
+                            w => {
+                                return {
+                                    weighingType: w.weighingType,
+                                    weightGW: w.weightGW,
+                                    weightND: w.weightND,
+                                    inspectionReportId: w.inspectionReportId,
+                                    inventoryId: w.inventoryId
+                                }
+                            }
+                        );
+                        // alert(weightRecords.get(0).weighingType)
+                        inspectionReportTab.dynamicForm.inspecReport.getItem("inventoryId").setValue(weightRecords.get(0).inventoryId);
+                        inspectionReportTab.listGrid.weightElement.setData(weightRecords);
+                    }
+                });
+
+                alert("#" + assayIds);
+                let assayCriteria = {
+                    _constructor: "AdvancedCriteria",
+                    operator: "and",
+                    criteria: [{fieldName: "id", operator: "equals", value: assayIds}]
+                };
+                RestDataSource_AssayInspecRest.fetchData(assayCriteria, function (dsResponse, data, dsRequest) {
+
+                    if (data.length != 0) {
+                        const assayRecords = data.map(
+                            a => {
+                                return {
+                                    value: a.value,
+                                    inspectionReportId: a.inspectionReportId,
+                                    materialElementId: a.materialElementId,
+                                    labName: a.labName,
+                                    labPlace: a.labPlace,
+                                    inventoryId: a.inventoryId,
+                                }
+                            });
+                        alert(assayRecords.get(0).value)
+                        inspectionReportTab.listGrid.assayElement.setData(assayRecords);
+                    }
+                });
+
+                /*RestDataSource_AssayInspecRest.filter(assay => assay.inspectionReportId == record.id).map(
+                    a => {
+                        return {
+                            value: a.value,
+                            inspectionReportId: a.inspectionReportId,
+                            materialElementId: a.materialElementId,
+                            labName: a.labName,
+                            labPlace: a.labPlace,
+                            inventoryId: a.inventoryId,
+                        }
+                    });
+                alert("** " + assayIds);*/
             }
         });
         inspectionReportTab.variable.method = "PUT";
