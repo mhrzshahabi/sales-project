@@ -93,6 +93,19 @@
     <%@include file="common/ts/GeneralTabUtil.js"%>
     <%@include file="common/ts/StorageUtil.js"%>
 
+    var Enums = {
+
+        eStatus: {
+            "Active": "عادی",
+            "DeActive": "حذف شده"
+        },
+        deductionType: {
+            1: "Unit",
+            2: "Percent",
+            3: "Discount"
+        }
+    };
+
     var ImportantIDs = {
         material: {
             MOLYBDENUM_OXIDE: 1,
@@ -103,6 +116,9 @@
             PERFORMA: 1,
             PROVISIONAL: 2,
             FINAL: 3
+        },
+        unit: {
+            PERCENT: 1
         }
     }
     var BaseRPCRequest = {
@@ -112,11 +128,6 @@
         showPrompt: true,
         serverOutputAsString: false,
         willHandleError: false //centralized error handling
-    };
-
-    const statusMap = {
-        "Active": "عادی",
-        "DeActive": "حذف شده"
     };
 
     const BaseFormItems = {
@@ -181,7 +192,7 @@
                 if (record == null || record.estatus == null || record.estatus.length === 0)
                     return;
 
-                return record.estatus.map(q => '<div>' + statusMap[q] + '</div>').join();
+                return record.estatus.map(q => '<div>' + Enums.eStatus[q] + '</div>').join();
             },
             formatCellValue: function (value, record, rowNum, colNum, grid) {
 

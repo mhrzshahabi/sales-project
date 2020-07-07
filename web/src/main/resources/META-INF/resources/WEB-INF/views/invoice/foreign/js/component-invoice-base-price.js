@@ -6,8 +6,10 @@ isc.defineClass("InvoiceBasePrice", isc.VLayout).addProperties({
     showEdges: false,
     layoutMargin: 2,
     membersMargin: 2,
+    overflow: "scroll",
     contract: null,
     shipment: null,
+    currency: null,
     initWidget: function () {
 
         this.Super("initWidget", arguments);
@@ -32,6 +34,9 @@ isc.defineClass("InvoiceBasePrice", isc.VLayout).addProperties({
                 let elements = JSON.parse(resp.data);
                 for (let index = 0; index < elements.length; index++) {
 
+                    if (elements[index].currency.id !== This.currency.id)
+                        isc.error('Currency is not matched!');
+
                     if (!elements[index].payable)
                         continue;
 
@@ -44,6 +49,7 @@ isc.defineClass("InvoiceBasePrice", isc.VLayout).addProperties({
                         showValueFieldTitle: true,
                         showUnitFieldTitle: false,
                         showCurrencyFieldTitle: false,
+                        name: elements[index].name,
                         fieldValueTitle: elements[index].name,
                         border: "1px solid rgba(0, 0, 0, 0.3)",
                     }));
