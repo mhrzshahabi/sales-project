@@ -3,9 +3,6 @@
 var inspectionReportTab = new nicico.GeneralTabUtil().getDefaultJSPTabVariable();
 inspectionReportTab.variable.materialId = 0;
 inspectionReportTab.variable.data = [];
-inspectionReportTab.variable.selectedInventoriesCounter = 0;
-inspectionReportTab.variable.selectedInventoriesId = [];
-inspectionReportTab.variable.selectedInventoriesLabel = [];
 
 //***************************************************** RESTDATASOURCE *************************************************
 
@@ -140,7 +137,7 @@ var RestDataSource_AssayInspecRest = isc.MyRestDataSource.create({
     fetchDataURL: "${contextPath}/api/assayInspection/spec-list"
 });
 
-var RestDataSource_ContactRest = isc.MyRestDataSource.create({
+var RestDataSource_ContactRest = {
     fields: [
         {
             name: "id",
@@ -165,7 +162,7 @@ var RestDataSource_ContactRest = isc.MyRestDataSource.create({
         },
     ],
     fetchDataURL: "${contextPath}/api/contact/spec-list"
-});
+};
 
 var RestDataSource_InventoryRest = isc.MyRestDataSource.create({
     fields: [
@@ -308,7 +305,18 @@ inspectionReportTab.method.getAssayElementFields = function () {
             let fields = [{
                 name: "inventoryId",
                 title: "<spring:message code='inspectionReport.InventoryId'/>",
-                type: "staticText"
+                type: "staticText",
+                formatCellValue: function (value, record, rowNum, colNum, grid) {
+
+                    let selectedInventories = inspectionReportTab.dynamicForm.inspecReport.getField("inventoryId").getSelectedRecords();
+                    if (record == null || value == null || selectedInventories.length === 0)
+                        return;
+
+                    let inventory = selectedInventories.filter(q => q.id === value).first();
+                    if (inventory == null) return;
+
+                    return inventory.label;
+                }
             }];
 
             fields.addAll(data.map(
@@ -316,7 +324,12 @@ inspectionReportTab.method.getAssayElementFields = function () {
                     return {
                         name: me.element.name,
                         title: me.element.name,
-                        id: me.id
+                        id: me.id,
+                        required: true,
+                        validators: [{
+                            type: "isFloat",
+                            validateOnChange: true
+                        }]
                     }
                 }
             ));
@@ -421,6 +434,7 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
         name: "inspectionNO",
         title: "<spring:message code='inspectionReport.InspectionNO'/>",
         required: true,
+        wrapTitle: false,
         keyPressFilter: "[0-9]",
         validators: [
             {
@@ -432,13 +446,14 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
         name: "inspectorId",
         title: "<spring:message code='inspectionReport.inspector.nameFA'/>",
         required: true,
+        wrapTitle: false,
         autoFetchData: false,
         editorType: "SelectItem",
         valueField: "id",
         displayField: "nameFA",
         pickListWidth: "500",
         pickListHeight: "300",
-        optionDataSource: RestDataSource_ContactRest,
+        optionDataSource: isc.MyRestDataSource.create(RestDataSource_ContactRest),
         optionCriteria: inspectorCriteria,
         pickListProperties:
             {
@@ -463,12 +478,14 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
     {
         name: "inspectionPlace",
         title: "<spring:message code='inspectionReport.inspectionPlace'/>",
-        type: "text"
+        type: "text",
+        wrapTitle: false
     },
     {
         name: "issueDate",
         title: "<spring:message code='inspectionReport.IssueDate'/>",
-        type: "date"
+        type: "date",
+        wrapTitle: false
     },
     {
         name: "inventoryId",
@@ -507,14 +524,13 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
                 type: "required",
                 validateOnChange: true
             }],
-        changed: function (form) {
-            inspectionReportTab.variable.selectedInventoriesCounter = 0;
-            inspectionReportTab.variable.selectedInventoriesId = [];
-            inspectionReportTab.variable.selectedInventoriesLabel = [];
-            inspectionReportTab.variable.selectedInventoriesCounter = form.getItem("inventoryId").getSelectedRecords().length;
-            inspectionReportTab.variable.selectedInventoriesId = form.getItem("inventoryId").getValue();
-            inspectionReportTab.variable.selectedInventoriesLabel = form.getItem("inventoryId").getSelectedRecord().label;
-            inspectionReportTab.method.setListRows();
+        blur: function (form, item) {
+            console.log("123321");
+
+            let selectedInventories = inspectionReportTab.dynamicForm.inspecReport.getField("inventoryId").getSelectedRecords();
+            if (selectedInventories == null) selectedInventories = [];
+            inspectionReportTab.method.setWeightElementListRows(selectedInventories);
+            inspectionReportTab.method.setAssayElementListRows(selectedInventories);
         },
         click: function () {
         }
@@ -523,13 +539,14 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
         name: "sellerId",
         title: "<spring:message code='inspectionReport.sellerId'/>",
         required: true,
+        wrapTitle: false,
         autoFetchData: false,
         editorType: "SelectItem",
         valueField: "id",
         displayField: "nameFA",
         pickListWidth: "500",
         pickListHeight: "300",
-        optionDataSource: RestDataSource_ContactRest,
+        optionDataSource: isc.MyRestDataSource.create(RestDataSource_ContactRest),
         optionCriteria: sellerCriteria,
         pickListProperties:
             {
@@ -555,13 +572,14 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
         name: "buyerId",
         title: "<spring:message code='inspectionReport.buyerId'/>",
         required: true,
+        wrapTitle: false,
         autoFetchData: false,
         editorType: "SelectItem",
         valueField: "id",
         displayField: "nameFA",
         pickListWidth: "500",
         pickListHeight: "300",
-        optionDataSource: RestDataSource_ContactRest,
+        optionDataSource: isc.MyRestDataSource.create(RestDataSource_ContactRest),
         optionCriteria: buyerCriteria,
         pickListProperties:
             {
@@ -586,11 +604,13 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
     {
         name: "inspectionRateValue",
         title: "<spring:message code='inspectionReport.inspectionRateValue'/>",
+        wrapTitle: false,
     },
     {
         name: "inspectionRateValueType",
         title: "<spring:message code='inspectionReport.inspectionRateValueType'/>",
         required: true,
+        wrapTitle: false,
         valueMap: {
             0: "ManPerDay",
             1: "PerTon"
@@ -668,7 +688,18 @@ inspectionReportTab.listGrid.weightElement = isc.ListGrid.create({
     fields: BaseFormItems.concat([
         {
             name: "inventoryId",
-            type: "staticText"
+            type: "staticText",
+            formatCellValue: function (value, record, rowNum, colNum, grid) {
+
+                let selectedInventories = inspectionReportTab.dynamicForm.inspecReport.getField("inventoryId").getSelectedRecords();
+                if (record == null || value == null || selectedInventories.length === 0)
+                    return;
+
+                let inventory = selectedInventories.filter(q => q.id === value).first();
+                if (inventory == null) return;
+
+                return inventory.label;
+            }
         },
         {
             name: "weighingType.id",
@@ -680,11 +711,19 @@ inspectionReportTab.listGrid.weightElement = isc.ListGrid.create({
         },
         {
             name: "weightGW",
-            required: true
+            required: true,
+            validators: [{
+                type: "isFloat",
+                validateOnChange: true
+            }]
         },
         {
             name: "weightND",
-            required: true
+            required: true,
+            validators: [{
+                type: "isFloat",
+                validateOnChange: true
+            }]
         }
     ])
 });
@@ -703,11 +742,13 @@ inspectionReportTab.dynamicForm.assayLab = isc.DynamicForm.create({
     fields: [
         {
             name: "labName",
-            title: "<spring:message code='assayInspection.LabName'/>"
+            title: "<spring:message code='assayInspection.LabName'/>",
+            required: true
         },
         {
             name: "labPlace",
-            title: "<spring:message code='assayInspection.LabPlace'/>"
+            title: "<spring:message code='assayInspection.LabPlace'/>",
+            required: true
         }
     ]
 });
@@ -803,25 +844,48 @@ var assayInspectionObj = {
     inventoryId: "",
 };
 
-inspectionReportTab.method.setListRows = function () {
+inspectionReportTab.method.setWeightElementListRows = function (selectedInventories) {
 
-    inspectionReportTab.variable.selectedInventoriesId.forEach(function () {
-        inspectionReportTab.listGrid.assayElement.startEditingNew();
-        inspectionReportTab.listGrid.weightElement.startEditingNew();
-    });
+    if (inspectionReportTab.listGrid.weightElement.getData().length) {
 
-    inspectionReportTab.listGrid.assayElement.getAllEditRows().forEach(function (element) {
-        var record = inspectionReportTab.listGrid.assayElement.getEditedRecord(JSON.parse(JSON.stringify(element)));
-        // alert(inspectionReportTab.variable.selectedInventoriesLabel.get(element))
-        inspectionReportTab.listGrid.assayElement.setEditValue(element, 1, inspectionReportTab.variable.selectedInventoriesId.get(element));
-    });
+        inspectionReportTab.dialog.question(() => {
 
-    inspectionReportTab.listGrid.weightElement.getAllEditRows().forEach(function (element) {
-        var record = inspectionReportTab.listGrid.weightElement.getEditedRecord(JSON.parse(JSON.stringify(element)));
-        // alert(inspectionReportTab.variable.selectedInventoriesLabel.get(element))
-        inspectionReportTab.listGrid.weightElement.setEditValue(element, 1, inspectionReportTab.variable.selectedInventoriesId.get(element));
-    });
+            inspectionReportTab.listGrid.weightElement.setData([]);
+            if (selectedInventories.length === 0)
+                return;
 
+            selectedInventories.forEach((current, index, array) => inspectionReportTab.listGrid.weightElement.startEditingNew({inventoryId: current.id}));
+        }, "ok ?");
+    } else {
+
+        inspectionReportTab.listGrid.weightElement.setData([]);
+        if (selectedInventories.length === 0)
+            return;
+
+        selectedInventories.forEach((current, index, array) => inspectionReportTab.listGrid.weightElement.startEditingNew({inventoryId: current.id}));
+    }
+};
+
+inspectionReportTab.method.setAssayElementListRows = function (selectedInventories) {
+
+    if (inspectionReportTab.listGrid.assayElement.getData().length) {
+
+        inspectionReportTab.dialog.question(() => {
+
+            inspectionReportTab.listGrid.assayElement.setData([]);
+            if (selectedInventories.length === 0)
+                return;
+
+            selectedInventories.forEach((current, index, array) => inspectionReportTab.listGrid.assayElement.startEditingNew({inventoryId: current.id}));
+        }, "");
+    } else {
+
+        inspectionReportTab.listGrid.assayElement.setData([]);
+        if (selectedInventories.length === 0)
+            return;
+
+        selectedInventories.forEach((current, index, array) => inspectionReportTab.listGrid.assayElement.startEditingNew({inventoryId: current.id}));
+    }
 };
 
 inspectionReportTab.window.inspecReport = new nicico.FormUtil();
@@ -839,9 +903,6 @@ inspectionReportTab.window.inspecReport.init(null, '<spring:message code="inspec
 inspectionReportTab.window.inspecReport.populateData = function (bodyWidget) {
     weightInspections = [];
     assayInspections = [];
-    //----------------------- Validation ---------------------
-
-    // inspectionReportTab.window.inspecReport.validate();
 
     //------------- Save Inspection Data in Object -----------
 
@@ -870,7 +931,7 @@ inspectionReportTab.window.inspecReport.populateData = function (bodyWidget) {
         assayInspectionRecord = [];
         var assayRecord = bodyWidget.members.get(2).tabs.get(1).pane.members.get(1).getEditedRecord(JSON.parse(JSON.stringify(element)));
         assayInspectionObj.inventoryId = assayRecord.inventoryId;
-        for (let i = 2; i < allCols-1; i++) {
+        for (let i = 2; i < allCols - 1; i++) {
             assayInspectionObj.value = bodyWidget.members.get(2).tabs.get(1).pane.members.get(1).getEditedCell(JSON.parse(JSON.stringify(element)), i);
             assayInspectionObj.materialElementId = bodyWidget.members.get(2).tabs.get(1).pane.members.get(1).fields.get(i).id;
             assayInspectionRecord.push(assayInspectionObj);
@@ -881,21 +942,41 @@ inspectionReportTab.window.inspecReport.populateData = function (bodyWidget) {
 
 };
 
-/*inspectionReportTab.window.inspecReport.validate = function () {
+inspectionReportTab.window.inspecReport.validate = function () {
+
     inspectionReportTab.dynamicForm.material.validate();
     if (inspectionReportTab.dynamicForm.material.hasErrors())
-        return;
+        return false;
 
     inspectionReportTab.dynamicForm.inspecReport.validate();
     if (inspectionReportTab.dynamicForm.inspecReport.hasErrors())
-        return;
-};*/
+        return false;
+
+    inspectionReportTab.dynamicForm.assayLab.validate();
+    if (inspectionReportTab.dynamicForm.assayLab.hasErrors())
+        return false;
+
+    let selectedInventories = inspectionReportTab.dynamicForm.inspecReport.getField("inventoryId").getSelectedRecords();
+    if (selectedInventories == null)
+        return false;
+
+    for (let i = 0; i < selectedInventories.length; i++) {
+        inspectionReportTab.listGrid.weightElement.validateRow(i);
+        if (inspectionReportTab.listGrid.weightElement.hasErrors())
+            return;
+        inspectionReportTab.listGrid.assayElement.validateRow(i);
+        if (inspectionReportTab.listGrid.assayElement.hasErrors())
+            return;
+    }
+
+    return true;
+};
 
 inspectionReportTab.window.inspecReport.okCallBack = function () {
 
     isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
             actionURL: "${contextPath}/api/inspectionReport/inspection",
-            httpMethod: "POST",
+            httpMethod: inspectionReportTab.variable.method,
             data: JSON.stringify(inspectionReportObj),
             callback: function (resp) {
                 if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
@@ -923,6 +1004,7 @@ inspectionReportTab.method.refreshData = function () {
 };
 
 inspectionReportTab.method.newForm = function () {
+    inspectionReportTab.variable.method = "POST";
     inspectionReportTab.window.inspecReport.justShowForm();
 };
 
@@ -947,15 +1029,14 @@ inspectionReportTab.method.editForm = function () {
             },
             callback: function (response) {
 
-                var data = JSON.parse(response.httpResponseText).response.data;
-                // alert(JSON.stringify(data));
+                let data = JSON.parse(response.httpResponseText).response.data;
+
                 inspectionReportTab.window.inspecReport.justShowForm();
                 inspectionReportTab.dynamicForm.inspecReport.editRecord(record);
 
                 let weightIds = record.weightInspections.map(q => q.id);
                 let assayIds = record.assayInspections.map(q => q.id);
 
-                // alert("%" + weightIds);
                 let weightCriteria = {
                     _constructor: "AdvancedCriteria",
                     operator: "and",
@@ -963,7 +1044,7 @@ inspectionReportTab.method.editForm = function () {
                 };
                 RestDataSource_WeightInspecRest.fetchData(weightCriteria, function (dsResponse, data, dsRequest) {
 
-                    if (data.length != 0) {
+                    if (data.length !== 0) {
                         const weightRecords = data.map(
                             w => {
                                 return {
@@ -975,13 +1056,16 @@ inspectionReportTab.method.editForm = function () {
                                 }
                             }
                         );
-                        // alert(weightRecords.get(0).weighingType)
-                        inspectionReportTab.dynamicForm.inspecReport.getItem("inventoryId").setValue(weightRecords.get(0).inventoryId);
+
+                        var inventoriesId = [];
+                        for (let i = 0; i < weightRecords.length; i++) {
+                            inventoriesId.push(weightRecords.get(i).inventoryId)
+                        }
+                        inspectionReportTab.dynamicForm.inspecReport.setValue("inventoryId", inventoriesId);
                         inspectionReportTab.listGrid.weightElement.setData(weightRecords);
                     }
                 });
 
-                alert("#" + assayIds);
                 let assayCriteria = {
                     _constructor: "AdvancedCriteria",
                     operator: "and",
@@ -989,7 +1073,7 @@ inspectionReportTab.method.editForm = function () {
                 };
                 RestDataSource_AssayInspecRest.fetchData(assayCriteria, function (dsResponse, data, dsRequest) {
 
-                    if (data.length != 0) {
+                    if (data.length !== 0) {
                         const assayRecords = data.map(
                             a => {
                                 return {
@@ -1001,23 +1085,10 @@ inspectionReportTab.method.editForm = function () {
                                     inventoryId: a.inventoryId,
                                 }
                             });
-                        alert(assayRecords.get(0).value)
                         inspectionReportTab.listGrid.assayElement.setData(assayRecords);
                     }
                 });
 
-                /*RestDataSource_AssayInspecRest.filter(assay => assay.inspectionReportId == record.id).map(
-                    a => {
-                        return {
-                            value: a.value,
-                            inspectionReportId: a.inspectionReportId,
-                            materialElementId: a.materialElementId,
-                            labName: a.labName,
-                            labPlace: a.labPlace,
-                            inventoryId: a.inventoryId,
-                        }
-                    });
-                alert("** " + assayIds);*/
             }
         });
         inspectionReportTab.variable.method = "PUT";
