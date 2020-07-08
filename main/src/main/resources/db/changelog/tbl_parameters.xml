@@ -1,0 +1,15 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+<!--    <changeSet author="Reza Mazloom" id="mazloom_016">-->
+<!--            <dropColumn columnName="CONTRACT_ID" tableName="TBL_PARAMETER"/>-->
+<!--    </changeSet>-->
+    <changeSet author="Reza Mazloom" id="mazloom_017">
+        <addColumn tableName="TBL_PARAMETER">
+            <column name="MATERIAL_ID" type="number(10, 0)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+</databaseChangeLog>
