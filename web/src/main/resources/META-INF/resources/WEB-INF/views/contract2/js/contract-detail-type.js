@@ -16,10 +16,10 @@ contractDetailTypeTab.dynamicForm.fields.code = {
     title: "<spring:message code='global.code'/>"
 };
 contractDetailTypeTab.dynamicForm.fields.material = {
-    name: "material",
+    name: "materialId",
     width: "100%",
     editorType: "SelectItem",
-    optionDataSource:isc.MyRestDataSource.create({
+    optionDataSource: isc.MyRestDataSource.create({
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, hidden: true},
@@ -33,19 +33,19 @@ contractDetailTypeTab.dynamicForm.fields.material = {
     displayField: "descl",
     valueField: "id",
     required: true,
-    title: "material"
+    title: "<spring:message code='material.title'/>"
 };
 contractDetailTypeTab.dynamicForm.fields.titleFa = {
-    width: "50%",
     name: "titleFa",
+    width: "50%",
     required: true,
+    keyPressFilter: "^[\u0600-\u06FF\uFB8A\u067E\u0686\u06AF\u200C\u200F|0-9]",
     title: "<spring:message code='global.title-fa'/>",
-    keyPressFilter: "^[\u0600-\u06FF\uFB8A\u067E\u0686\u06AF\u200C\u200F|0-9 ]"
 };
 contractDetailTypeTab.dynamicForm.fields.titleEn = {
+    name: "titleEn",
     width: "50%",
     required: true,
-    name: "titleEn",
     keyPressFilter: "^[A-Za-z0-9 ]",
     title: "<spring:message code='global.title-en'/>"
 };
@@ -78,7 +78,14 @@ contractDetailTypeTab.restDataSource.unit = isc.MyRestDataSource.create({
     ],
     fetchDataURL: contractDetailTypeTab.variable.unitUrl + "spec-list"
 });
+
 contractDetailTypeTab.dynamicForm.paramFields = {};
+contractDetailTypeTab.dynamicForm.paramFields.name = {
+    name: "name",
+    width: "20%",
+    required: true,
+    title: "<spring:message code='global.title'/>"
+};
 contractDetailTypeTab.dynamicForm.paramFields.key = {
     name: "key",
     width: "15%",
@@ -86,30 +93,17 @@ contractDetailTypeTab.dynamicForm.paramFields.key = {
     keyPressFilter: "^[A-Za-z|0-9]",
     title: "<spring:message code='global.key'/>"
 };
-contractDetailTypeTab.dynamicForm.paramFields.required = {
-    name: "required",
-    type: "Boolean",
-    width: "10%",
-    required: false,
-    title: "Required"
-};
-contractDetailTypeTab.dynamicForm.paramFields.name = {
-    width: "20%",
-    name: "name",
-    required: true,
-    title: "<spring:message code='global.title'/>"
-};
 contractDetailTypeTab.dynamicForm.paramFields.type = {
-    width: "20%",
     name: "type",
+    width: "20%",
     required: true,
     valueMap: JSON.parse('${Enum_DataType}'),
     title: "<spring:message code='global.type'/>"
 };
 contractDetailTypeTab.dynamicForm.paramFields.unitId = {
-    width: "20%",
-    type: 'long',
     name: "unitId",
+    type: 'long',
+    width: "20%",
     editorType: "SelectItem",
     valueField: "id",
     displayField: "nameFA",
@@ -117,12 +111,19 @@ contractDetailTypeTab.dynamicForm.paramFields.unitId = {
     pickListHeight: "300",
     pickListProperties: {showFilterEditor: true},
     pickListFields: [
-        {name: "id", align: "center"},
+        {name: "id", align: "center", hidden: true},
         {name: "nameFA", align: "center"},
         {name: "nameEN", align: "center"},
     ],
     title: "<spring:message code='global.unit'/>",
     optionDataSource: contractDetailTypeTab.restDataSource.unit
+};
+contractDetailTypeTab.dynamicForm.paramFields.required = {
+    name: "required",
+    type: "Boolean",
+    width: "10%",
+    required: false,
+    title: "<spring:message code='global.required'/>"
 };
 contractDetailTypeTab.dynamicForm.paramFields.defaultValue = {
     width: "20%",
@@ -164,8 +165,8 @@ contractDetailTypeTab.dynamicForm.templateFields.code = {
     title: "<spring:message code='global.code'/>"
 };
 contractDetailTypeTab.dynamicForm.templateFields.content = {
-    width: "80%",
     name: "content",
+    width: "80%",
     required: true,
     title: "<spring:message code='global.content'/>"
 };
@@ -237,7 +238,6 @@ contractDetailTypeTab.listGrid.detailType = isc.ListGrid.create({
     contextMenu: contractDetailTypeTab.menu.detailType,
     dataSource: contractDetailTypeTab.restDataSource.detailType,
     recordDoubleClick() {
-
         contractDetailTypeTab.method.editData();
     }
 });
@@ -494,7 +494,6 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
                         icon: "pieces/16/save.png",
                         title: "<spring:message code='global.form.save'/>",
                         click: function () {
-
                             contractDetailTypeTab.listGrid.param.saveAllEdits();
                         }
                     })]
@@ -802,12 +801,16 @@ contractDetailTypeTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
                 let allParams = contractDetailTypeTab.listGrid.param.getAllData();
                 let allTemplates = contractDetailTypeTab.listGrid.template.getAllData();
 
+                console.log(data);
+                console.log(allParams);
+                console.log(allTemplates);
+
                 for (let i = 0; i < allParams.length; i++)
-                    allParams[i][contractDetailTypeTab.dynamicForm.paramFields.contractDetailTypeId.name] = data.id;
+                    allParams[i][contractDetailTypeTab.dynamicForm.paramFields.contractDetailTypeId] = data.id;
                 data.contractDetailTypeParams = allParams;
 
                 for (let i = 0; i < allTemplates.length; i++)
-                    allParams[i][contractDetailTypeTab.dynamicForm.templateFields.contractDetailTypeId.name] = data.id;
+                    allParams[i][contractDetailTypeTab.dynamicForm.templateFields.contractDetailTypeId] = data.id;
                 data.contractDetailTypeTemplates = allTemplates;
 
                 isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
@@ -844,7 +847,7 @@ contractDetailTypeTab.window.detailType = isc.Window.nicico.getDefault(null, [
     contractDetailTypeTab.dynamicForm.detailType,
     contractDetailTypeTab.hLayout.extra,
     contractDetailTypeTab.hLayout.saveOrExitHlayout
-], "85%", "75%");
+], "85%", null);
 
 //*************************************************** Functions ********************************************************
 

@@ -21,9 +21,7 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ContractDetailTypeParamDTO {
 
-    @JsonProperty("title")
     private String name;
-    @JsonProperty("name")
     private String key;
     private DataType type;
     private String defaultValue;
@@ -35,7 +33,7 @@ public class ContractDetailTypeParamDTO {
     private Long unitId;
     private Long contractDetailTypeId;
 
-    private List<ContractDetailTypeParamValueDTO.Info> contractDetailTypeParamValues;
+    private List<ContractDetailTypeParamValueDTO.Create> contractDetailTypeParamValues;
 
     @Getter
     @Setter

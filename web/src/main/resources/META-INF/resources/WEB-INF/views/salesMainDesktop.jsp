@@ -340,9 +340,9 @@
         getAllData: function () {
 
             let data = [...this.getData()];
-            let allEditRows = this.getAllEditRows();
-            for (let i = 0; i < allEditRows.length; i++)
-                data.push({...this.getEditedRecord(allEditRows[i])});
+            // let allEditRows = this.getAllEditRows();
+            // for (let i = 0; i < allEditRows.length; i++)
+            //     data.push({...this.getEditedRecord(allEditRows[i])});
 
             return data;
         },

@@ -58,7 +58,7 @@ public class ContractDetailTypeService extends GenericService<ContractDetailType
                     }.getType());
             contractDetailTypeTemplateRqs.forEach(q -> q.setContractDetailTypeId(savedContractDetailType.getId()));
             List<ContractDetailTypeTemplateDTO.Info> savedContractDetailTypeTemplates = contractDetailTypeTemplateService.createAll(contractDetailTypeTemplateRqs);
-            savedContractDetailType.setContractDetailTypeTemplates(savedContractDetailTypeTemplates);
+//            savedContractDetailType.setContractDetailTypeTemplates(savedContractDetailTypeTemplates);
         }
 
         if (request.getContractDetailTypeParams() != null && request.getContractDetailTypeParams().size() > 0) {
@@ -79,12 +79,12 @@ public class ContractDetailTypeService extends GenericService<ContractDetailType
                             }.getType());
                     contractDetailTypeParamValueRqs.forEach(p -> p.setContractDetailTypeParamId(savedContractDetailTypeParam.getId()));
                     List<ContractDetailTypeParamValueDTO.Info> savedContractDetailTypeParamValues = contractDetailTypeParamValueService.createAll(contractDetailTypeParamValueRqs);
-                    savedContractDetailTypeParam.setContractDetailTypeParamValues(savedContractDetailTypeParamValues);
+//                    savedContractDetailTypeParam.setContractDetailTypeParamValues(savedContractDetailTypeParamValues);
                 }
 
                 savedContractDetailTypeParams.add(savedContractDetailTypeParam);
             });
-            savedContractDetailType.setContractDetailTypeParams(savedContractDetailTypeParams);
+//            savedContractDetailType.setContractDetailTypeParams(savedContractDetailTypeParams);
         }
 
         return savedContractDetailType;
@@ -151,7 +151,7 @@ public class ContractDetailTypeService extends GenericService<ContractDetailType
         List<ContractDetailTypeTemplateDTO.Create> contractDetailTypeTemplates4Insert = new ArrayList<>();
         List<ContractDetailTypeTemplateDTO.Update> contractDetailTypeTemplates4Update = new ArrayList<>();
         ContractDetailTypeTemplateDTO.Delete contractDetailTypeTemplates4Delete = new ContractDetailTypeTemplateDTO.Delete();
-        updateUtil.fill(
+        /*updateUtil.fill(
                 ContractDetailTypeTemplate.class,
                 contractDetailType.getContractDetailTypeTemplates(),
                 ContractDetailTypeTemplateDTO.Info.class,
@@ -160,7 +160,7 @@ public class ContractDetailTypeService extends GenericService<ContractDetailType
                 contractDetailTypeTemplates4Insert,
                 ContractDetailTypeTemplateDTO.Update.class,
                 contractDetailTypeTemplates4Update,
-                contractDetailTypeTemplates4Delete);
+                contractDetailTypeTemplates4Delete);*/
         if (!contractDetailTypeTemplates4Insert.isEmpty())
             contractDetailTypeTemplateService.createAll(contractDetailTypeTemplates4Insert);
         if (!contractDetailTypeTemplates4Update.isEmpty())
@@ -174,7 +174,7 @@ public class ContractDetailTypeService extends GenericService<ContractDetailType
         List<ContractDetailTypeParamDTO.Create> contractDetailTypeParams4Insert = new ArrayList<>();
         List<ContractDetailTypeParamDTO.Update> contractDetailTypeParams4Update = new ArrayList<>();
         ContractDetailTypeParamDTO.Delete contractDetailTypeParams4Delete = new ContractDetailTypeParamDTO.Delete();
-        updateUtil.fill(
+        /*updateUtil.fill(
                 ContractDetailTypeParam.class,
                 contractDetailType.getContractDetailTypeParams(),
                 ContractDetailTypeParamDTO.Info.class,
@@ -183,12 +183,12 @@ public class ContractDetailTypeService extends GenericService<ContractDetailType
                 contractDetailTypeParams4Insert,
                 ContractDetailTypeParamDTO.Update.class,
                 contractDetailTypeParams4Update,
-                contractDetailTypeParams4Delete);
+                contractDetailTypeParams4Delete);*/
         if (!contractDetailTypeParams4Insert.isEmpty()) {
 
             contractDetailTypeParams4Insert.forEach(q -> {
 
-                ContractDetailTypeParamDTO.Info savedContractDetailTypeParam = contractDetailTypeParamService.create(q);
+                /*ContractDetailTypeParamDTO.Info savedContractDetailTypeParam = contractDetailTypeParamService.create(q);
                 List<ContractDetailTypeParamValueDTO.Info> contractDetailTypeParamValues = q.getContractDetailTypeParamValues();
                 if (contractDetailTypeParamValues != null && contractDetailTypeParamValues.size() > 0) {
 
@@ -197,7 +197,7 @@ public class ContractDetailTypeService extends GenericService<ContractDetailType
                             contractDetailTypeParamValues,
                             new TypeToken<List<ContractDetailTypeParamValueDTO.Create>>() {
                             }.getType()));
-                }
+                }*/
             });
         }
         if (!contractDetailTypeParams4Update.isEmpty()) {
@@ -209,7 +209,7 @@ public class ContractDetailTypeService extends GenericService<ContractDetailType
                 List<ContractDetailTypeParamValueDTO.Create> contractDetailTypeParamValues4Insert = new ArrayList<>();
                 List<ContractDetailTypeParamValueDTO.Update> contractDetailTypeParamValues4Update = new ArrayList<>();
                 ContractDetailTypeParamValueDTO.Delete contractDetailTypeParamValues4Delete = new ContractDetailTypeParamValueDTO.Delete();
-                updateUtil.fill(
+                /*updateUtil.fill(
                         ContractDetailTypeParamValue.class,
                         contractDetailType.getContractDetailTypeParams().
                                 stream().
@@ -224,7 +224,7 @@ public class ContractDetailTypeService extends GenericService<ContractDetailType
                         contractDetailTypeParamValues4Insert,
                         ContractDetailTypeParamValueDTO.Update.class,
                         contractDetailTypeParamValues4Update,
-                        contractDetailTypeParamValues4Delete);
+                        contractDetailTypeParamValues4Delete);*/
                 if (!contractDetailTypeParamValues4Insert.isEmpty())
                     contractDetailTypeParamValueService.createAll(contractDetailTypeParamValues4Insert);
                 if (!contractDetailTypeParamValues4Update.isEmpty())
