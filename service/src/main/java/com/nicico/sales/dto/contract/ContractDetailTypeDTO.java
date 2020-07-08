@@ -24,8 +24,8 @@ public class ContractDetailTypeDTO {
     private String titleFa;
     private String titleEn;
 
-    private List<ContractDetailTypeParamDTO> contractDetailTypeParams;
-    private List<ContractDetailTypeTemplateDTO> contractDetailTypeTemplates;
+    private List<ContractDetailTypeParamDTO.Create> contractDetailTypeParams;
+    private List<ContractDetailTypeTemplateDTO.Create> contractDetailTypeTemplates;
 
     @Getter
     @Setter

@@ -6,12 +6,17 @@
     <changeSet author="Reza Mazloom" id="mazloom_010">
         <dropColumn columnName="C_MATERIAL" tableName="TBL_CNTR_CONTRACT_DETAIL_TYPE"/>
     </changeSet>
+
     <changeSet author="Reza Mazloom" id="mazloom_011">
         <addColumn tableName="TBL_CNTR_CONTRACT_DETAIL_TYPE">
             <column name="F_MATERIAL_ID" type="number(19, 0)">
                 <constraints nullable="false"/>
             </column>
         </addColumn>
+    </changeSet>
+
+    <changeSet author="Reza Mazloom" id="mazloom_012">
+        <addForeignKeyConstraint baseColumnNames="F_MATERIAL_ID" baseTableName="TBL_CNTR_CONTRACT_DETAIL_TYPE" constraintName="FK_ContractDetailType2MaterialByMaterialId" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_MATERIAL" validate="true"/>
     </changeSet>
 
 </databaseChangeLog>
