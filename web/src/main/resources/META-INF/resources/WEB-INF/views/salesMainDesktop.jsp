@@ -1177,6 +1177,7 @@
         : document.URL.split("?")[0];
     const SalesConfigs = {
         Urls: {
+            completeUrl: SalesDocumentUrl,
             RootUrl: "${contextPath}",
             InvoiceExportRest: "${contextPath}" + "/rest",
             remittanceRest: "${contextPath}" + "/rest",

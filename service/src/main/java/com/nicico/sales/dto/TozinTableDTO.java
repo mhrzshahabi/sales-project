@@ -58,7 +58,8 @@ public class TozinTableDTO {
     @Accessors(chain = true)
     @ApiModel("TozinTableInfo")
     public static class Info extends TozinTableDTO.InfoWithoutRemittanceDetail {
-        private RemittanceDetailDTO.Info remittanceDetail;
+        private List<RemittanceDetailDTO.InfoWithoutRemittance> remittanceDetailsAsSource;
+        private List<RemittanceDetailDTO.InfoWithoutRemittance> remittanceDetailsAsDestination;
     }
 
     @Getter

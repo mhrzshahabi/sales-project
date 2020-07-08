@@ -39,6 +39,7 @@ public class RemittanceDetailDTO {
         private TozinTableDTO.InfoWithoutRemittanceDetail sourceTozin;
         private TozinTableDTO.InfoWithoutRemittanceDetail destinationTozin;
         private InventoryDTO.InfoWithoutRemittanceDetail inventory;
+        private DepotDTO.Info depot;
 //        private Remittance remittance;
 
 
