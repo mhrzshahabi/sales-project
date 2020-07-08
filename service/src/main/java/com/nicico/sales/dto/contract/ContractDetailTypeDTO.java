@@ -1,6 +1,7 @@
 package com.nicico.sales.dto.contract;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.nicico.sales.dto.MaterialDTO;
 import com.nicico.sales.model.enumeration.EStatus;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -19,12 +20,12 @@ import java.util.List;
 public class ContractDetailTypeDTO {
 
     private String code;
-    private Long material;
+    private Long materialId;
     private String titleFa;
     private String titleEn;
 
-    private List<ContractDetailTypeParamDTO.Info> contractDetailTypeParams;
-    private List<ContractDetailTypeTemplateDTO.Info> contractDetailTypeTemplates;
+    private List<ContractDetailTypeParamDTO.Create> contractDetailTypeParams;
+    private List<ContractDetailTypeTemplateDTO.Create> contractDetailTypeTemplates;
 
     @Getter
     @Setter
@@ -33,6 +34,8 @@ public class ContractDetailTypeDTO {
     public static class Info extends ContractDetailTypeDTO {
 
         private Long id;
+
+        private MaterialDTO.Info material;
 
         // Auditing
         private Date createdDate;

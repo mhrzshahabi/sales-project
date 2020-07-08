@@ -43,4 +43,5 @@ public class ContractDetailType extends BaseEntity {
 
     @OneToMany(mappedBy = "contractDetailType", fetch = FetchType.LAZY)
     private List<ContractDetailTypeTemplate> contractDetailTypeTemplates;
+
 }
