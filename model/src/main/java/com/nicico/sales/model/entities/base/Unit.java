@@ -7,6 +7,7 @@ import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
@@ -25,14 +26,13 @@ public class Unit extends BaseEntity {
     @Column(name = "ID")
     private Long id;
 
+    @NotNull
     @Column(name = "C_NAME_FA", nullable = false)
     private String nameFA;
 
+    @NotNull
     @Column(name = "C_NAME_EN", nullable = false)
     private String nameEN;
-
-    @Column(name = "N_COMBINATION_VALUE")
-    private Long combinationValue;
 
     @Column(name = "N_CATEGORY_UNIT")
     private CategoryUnit categoryUnit ;
