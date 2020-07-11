@@ -23,43 +23,43 @@ import java.util.List;
 
 public class BankRestController {
 
-    private final IBankService iBankService;
+    private final IBankService bankService;
 
     @Loggable
     @GetMapping(value = "/{id}")
     public ResponseEntity<BankDTO.Info> get(@PathVariable Long id) {
-        return new ResponseEntity<>(iBankService.get(id), HttpStatus.OK);
+        return new ResponseEntity<>(bankService.get(id), HttpStatus.OK);
     }
 
     @Loggable
     @GetMapping(value = "/list")
     public ResponseEntity<List<BankDTO.Info>> list() {
-        return new ResponseEntity<>(iBankService.list(), HttpStatus.OK);
+        return new ResponseEntity<>(bankService.list(), HttpStatus.OK);
     }
 
     @Loggable
     @PostMapping
     public ResponseEntity<BankDTO.Info> create(@Validated @RequestBody BankDTO.Create request) {
-        return new ResponseEntity<>(iBankService.create(request), HttpStatus.CREATED);
+        return new ResponseEntity<>(bankService.create(request), HttpStatus.CREATED);
     }
 
     @Loggable
     @PutMapping
     public ResponseEntity<BankDTO.Info> update(@RequestBody BankDTO.Update request) {
-        return new ResponseEntity<>(iBankService.update(request.getId(), request), HttpStatus.OK);
+        return new ResponseEntity<>(bankService.update(request.getId(), request), HttpStatus.OK);
     }
 
     @Loggable
     @DeleteMapping(value = "/{id}")
     public ResponseEntity delete(@PathVariable Long id) {
-        iBankService.delete(id);
+        bankService.delete(id);
         return new ResponseEntity(HttpStatus.OK);
     }
 
     @Loggable
     @DeleteMapping(value = "/list")
     public ResponseEntity delete(@Validated @RequestBody BankDTO.Delete request) {
-        iBankService.delete(request);
+        bankService.delete(request);
         return new ResponseEntity(HttpStatus.OK);
     }
 
@@ -67,6 +67,6 @@ public class BankRestController {
     @GetMapping(value = "/spec-list")
     public ResponseEntity<TotalResponse<BankDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) throws IOException {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
-        return new ResponseEntity<>(iBankService.search(nicicoCriteria), HttpStatus.OK);
+        return new ResponseEntity<>(bankService.search(nicicoCriteria), HttpStatus.OK);
     }
 }
