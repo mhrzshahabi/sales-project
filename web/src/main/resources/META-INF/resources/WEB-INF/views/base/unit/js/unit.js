@@ -1,5 +1,5 @@
-var unitBases = new nicico.GeneralTabUtil().getDefaultJSPTabVariable();
-unitBases.dynamicForm.fields = BaseFormItems.concat([
+var unitTab = new nicico.GeneralTabUtil().getDefaultJSPTabVariable();
+unitTab.dynamicForm.fields = BaseFormItems.concat([
 
     {
         name: "id",
@@ -46,10 +46,10 @@ unitBases.dynamicForm.fields = BaseFormItems.concat([
     }
 
 ]);
-Object.assign(unitBases.listGrid.fields, unitBases.dynamicForm.fields);
-nicico.BasicFormUtil.getDefaultBasicForm(unitBases, "api/unit/");
-unitBases.listGrid.main.contextMenu = null;
-unitBases.dynamicForm.main.windowWidth = 500;
+Object.assign(unitTab.listGrid.fields, unitTab.dynamicForm.fields);
+nicico.BasicFormUtil.getDefaultBasicForm(unitTab, "api/unit/");
+unitTab.listGrid.main.contextMenu = null;
+unitTab.dynamicForm.main.windowWidth = 500;
 
 
 

@@ -640,7 +640,7 @@
                 {
                     title: "<spring:message code='unit.title'/>",
                     click: function () {
-                        createTab("<spring:message code='unit.title'/>", "<spring:url value="/unitBase/showForm" />")
+                        createTab("<spring:message code='unit.title'/>", "<spring:url value="base-unit/show-Form" />")
                     }
                 },
                 {isSeparator: true},

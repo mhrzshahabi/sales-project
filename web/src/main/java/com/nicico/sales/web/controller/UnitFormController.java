@@ -14,12 +14,12 @@ import java.util.Map;
 
 @RequiredArgsConstructor
 @Controller
-@RequestMapping("/unitBase")
+@RequestMapping("/base-unit")
 public class UnitFormController {
 
     private final ObjectMapper objectMapper;
 
-    @RequestMapping("/showForm")
+    @RequestMapping("/show-Form")
     public String showUnit(HttpServletRequest request) throws JsonProcessingException {
 
         Map<String , String> categoryUnit = new HashMap<>();
@@ -27,16 +27,13 @@ public class UnitFormController {
         request.setAttribute("Enum_CategoryUnit" , objectMapper.writeValueAsString(categoryUnit) );
 
         Map<String , String > symbolUnit = new HashMap<>();
-
         for(SymbolUnit value :  SymbolUnit.values()) symbolUnit.put(value.name() , value.name());
-
         request.setAttribute("Enum_SymbolUnit" , objectMapper.writeValueAsString(symbolUnit));
-
 
         request.setAttribute("c_entity", SecurityUtil.hasAuthority("C_UNIT"));
         request.setAttribute("u_entity", SecurityUtil.hasAuthority("U_UNIT"));
         request.setAttribute("d_entity", SecurityUtil.hasAuthority("D_UNIT"));
 
-        return "unitBase/unitBase";
+        return "base/unit/unit";
     }
 }

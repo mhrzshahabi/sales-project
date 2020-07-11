@@ -21,7 +21,6 @@ public class UnitDTO {
 
     private String nameFA;
     private String nameEN;
-    private Long combinationValue;
     private CategoryUnit categoryUnit ;
     private SymbolUnit symbolUnit;
 
