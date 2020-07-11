@@ -10,6 +10,7 @@
         </addColumn>
     </changeSet>
 
+
     <changeSet author="j.azad" id="J.AZAD-014">
         <addColumn tableName="TBL_UNIT">
             <column name="N_SYMBOL_UNIT" type="number(10, 0)"/>
