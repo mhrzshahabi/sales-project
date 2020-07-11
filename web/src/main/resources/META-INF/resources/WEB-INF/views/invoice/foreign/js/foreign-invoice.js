@@ -347,19 +347,24 @@ foreignInvoiceTab.button.save = isc.IButtonSave.create({
                 invoiceType: foreignInvoiceTab.dynamicForm.valuesManager.getValue("invoiceType")
             });
             foreignInvoiceTab.method.addTab(invoiceBaseValuesComponent, '<spring:message code="foreign-invoice.form.tab.base-values"/>');
-            let invoiceCalculationComponent = {
+            let invoiceCalculationComponent = isc.InvoiceCalculation.create({
 
                 invoiceBaseAssayComponent: invoiceBaseValuesComponent.invoiceBaseAssayComponent,
                 invoiceBasePriceComponent: invoiceBaseValuesComponent.invoiceBasePriceComponent
-            };
-            foreignInvoiceTab.method.addTab(isc.InvoiceCalculation.create(invoiceCalculationComponent), '<spring:message code="foreign-invoice.form.tab.calculation"/>');
-            foreignInvoiceTab.method.addTab(isc.InvoiceDeduction.create({
+            });
+            foreignInvoiceTab.method.addTab(invoiceCalculationComponent, '<spring:message code="foreign-invoice.form.tab.calculation"/>');
+            let invoiceDeductionComponent = isc.InvoiceDeduction.create({
 
                 invoiceCalculationComponent: invoiceCalculationComponent,
                 currency: foreignInvoiceTab.dynamicForm.valuesManager.getValue("currency"),
                 contract: foreignInvoiceTab.dynamicForm.valuesManager.getValue("contract")
-            }), '<spring:message code="foreign-invoice.form.tab.deduction"/>');
-            // foreignInvoiceTab.method.addTab(isc.InvoicePayment.create({}), '<spring:message code="foreign-invoice.form.tab.payment"/>');
+            });
+            foreignInvoiceTab.method.addTab(invoiceDeductionComponent, '<spring:message code="foreign-invoice.form.tab.deduction"/>');
+            foreignInvoiceTab.method.addTab(isc.InvoicePayment.create({
+
+                invoiceDeductionComponent: invoiceDeductionComponent,
+                invoiceCalculationComponent: invoiceCalculationComponent
+            }), '<spring:message code="foreign-invoice.form.tab.payment"/>');
         }
 
         foreignInvoiceTab.window.main.close();
