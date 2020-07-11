@@ -345,7 +345,7 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
                             };
 
                             let defaultValidReferenceEditorProperties = {};
-                            let recordValues = ['Bank', 'Contact', 'Country', 'Currency', 'Material', 'Port', 'Unit', 'RateReference', 'PriceBaseReference'];
+                            let recordValues = ['Bank', 'Contact', 'Country', 'Currency', 'Material', 'Port', 'Unit', 'Enum_RateReference', 'Enum_PriceBaseReference'];
 
                             defaultValidReferenceEditorProperties = {
                                 valueMap: {},
@@ -384,6 +384,21 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
                     else {
 
                         let recordType = record[contractDetailTypeTab.dynamicForm.paramFields.type.name];
+                        if (recordType === 'Reference') {
+                            let referenceType = record[contractDetailTypeTab.dynamicForm.paramFields.reference.name];
+                            if (referenceType === undefined) {
+                                isc.Dialog.create({
+                                    message: "reference is null",
+                                    icon: "[SKIN]ask.png",
+                                    title: "<spring:message code='global.message'/>",
+                                    buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
+                                    buttonClick: function (button, index) {
+                                        this.close();
+                                    }
+                                });
+                                return;
+                            }
+                        }
                         let defaultValueEditorProperties = contractDetailTypeTab.listGrid.param.getParamEditorProperties(recordType);
                         if (defaultValueEditorProperties == null)
                             return;
@@ -406,22 +421,30 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
                         if (recordType === 'Reference') {
                             let referenceType = record[contractDetailTypeTab.dynamicForm.paramFields.reference.name];
                             let displayField = contractDetailTypeTab.listGrid.param.getDisplayField(referenceType);
-                            defaultValueExtraEditorProperties = {
-                                autoFetchData: false,
-                                editorType: "SelectItem",
-                                valueField: "id",
-                                displayField: displayField,
-                                pickListHeight: "300",
-                                optionDataSource: isc.MyRestDataSource.create({
-                                    fields: BaseFormItems.concat([
+                            if (referenceType.includes('Enum')) {
+                                debugger;
+                                defaultValueExtraEditorProperties = {
+                                    editorType: "SelectItem",
+                                    valueMap: JSON.parse('$' + '{' + referenceType + '}')
+                                };
+                            } else {
+                                defaultValueExtraEditorProperties = {
+                                    autoFetchData: false,
+                                    editorType: "SelectItem",
+                                    valueField: "id",
+                                    displayField: displayField,
+                                    pickListHeight: "300",
+                                    optionDataSource: isc.MyRestDataSource.create({
+                                        fields: BaseFormItems.concat([
+                                            {name: displayField}
+                                        ]),
+                                        fetchDataURL: "${contextPath}" + "/api/" + referenceType.toLowerCase() + "/" + "spec-list"
+                                    }),
+                                    pickListFields: [
                                         {name: displayField}
-                                    ]),
-                                    fetchDataURL: "${contextPath}" + "/api/" + referenceType.toLowerCase() + "/" + "spec-list"
-                                }),
-                                pickListFields: [
-                                    {name: displayField}
-                                ]
-                            };
+                                    ]
+                                };
+                            }
                         }
                         if (defaultValueEditorProperties.type.toLowerCase() === 'date') {
                             defaultValueExtraEditorProperties.getValue = function () {
@@ -468,7 +491,7 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
         ]
     })],
     cellChanged: function (record, newValue, oldValue, rowNum, colNum, grid) {
-
+        console.log("cellChaned");
         if (newValue === oldValue)
             return;
         if (record[contractDetailTypeTab.dynamicForm.paramFields.contractDetailTypeParamValues.name] == null &&
@@ -546,6 +569,10 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
                 return 'nameFa';
             case 'Material':
                 return 'descp';
+            case 'Port':
+                return 'port';
+            case 'Unit':
+                return 'nameFA';
             case 'RateReference':
                 return '';
             case 'PriceBaseReference':
