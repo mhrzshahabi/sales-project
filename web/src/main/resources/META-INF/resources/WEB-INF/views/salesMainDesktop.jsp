@@ -106,8 +106,6 @@
         }
     };
 
-
-
     var ImportantIDs = {
         material: {
             MOLYBDENUM_OXIDE: 1,
@@ -122,7 +120,7 @@
         unit: {
             PERCENT: 1
         }
-    };
+    }
     var BaseRPCRequest = {
         httpHeaders: {"Authorization": "Bearer <%= accessToken %>"},
         useSimpleHttp: true,
@@ -600,6 +598,13 @@
                     title: "<spring:message code='main.baseTab.financial'/>",
                     submenu: [
                         {
+                            title: "<spring:message code='unit.title'/>",
+                            click: function () {
+                                createTab("<spring:message code='unit.title'/>", "<spring:url value="/unit/showForm" />")
+                            }
+                        },
+                        {isSeparator: true},
+                        {
                             title: "<spring:message code='currencyRate.title'/>",
                             click: function () {
                                 createTab("<spring:message code='currencyRate.title'/>", "<spring:url value="/currencyRate/showForm" />")
@@ -636,15 +641,6 @@
                     }
                 },
                 {isSeparator: true},
-
-                {
-                    title: "<spring:message code='unit.title'/>",
-                    click: function () {
-                        createTab("<spring:message code='unit.title'/>", "<spring:url value="/unitBase/showForm" />")
-                    }
-                },
-                {isSeparator: true},
-
                 {
                     title: "<spring:message code='country.title'/>",
                     click: function () {
@@ -657,8 +653,7 @@
                     click: function () {
                         createTab("<spring:message code='parameters.title'/>", "<spring:url value="/parameters/showForm" />")
                     }
-                },
-
+                }
             ]
         }),
     });
