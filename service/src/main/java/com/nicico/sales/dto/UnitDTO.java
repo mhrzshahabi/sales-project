@@ -1,6 +1,8 @@
 package com.nicico.sales.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.nicico.sales.model.enumeration.CategoryUnit;
+import com.nicico.sales.model.enumeration.SymbolUnit;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -19,7 +21,9 @@ public class UnitDTO {
 
     private String nameFA;
     private String nameEN;
-    private String symbol;
+    private Long combinationValue;
+    private CategoryUnit categoryUnit ;
+    private SymbolUnit symbolUnit;
 
     @Getter
     @Setter

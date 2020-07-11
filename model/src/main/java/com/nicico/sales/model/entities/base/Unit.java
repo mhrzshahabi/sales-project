@@ -1,10 +1,11 @@
 package com.nicico.sales.model.entities.base;
 
 import com.nicico.sales.model.entities.common.BaseEntity;
+import com.nicico.sales.model.enumeration.CategoryUnit;
+import com.nicico.sales.model.enumeration.SymbolUnit;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
 
 @Getter
@@ -20,17 +21,23 @@ public class Unit extends BaseEntity {
     @Id
     @GenericGenerator(name = "SEQ_UNIT", strategy = "com.nicico.sales.model.entities.common.IdKeepingSequenceGenerator")
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_UNIT")
-//    @SequenceGenerator(name = "SEQ_UNIT", sequenceName = "SEQ_UNIT", allocationSize = 1, initialValue = 1000000)
+    @SequenceGenerator(name = "SEQ_UNIT", sequenceName = "SEQ_UNIT", allocationSize = 1, initialValue = 1000000)
     @Column(name = "ID")
     private Long id;
 
-    @Column(name = "c_NAME_FA", nullable = false)
+    @Column(name = "C_NAME_FA", nullable = false)
     private String nameFA;
 
-    @Column(name = "c_NAME_EN", nullable = false)
+    @Column(name = "C_NAME_EN", nullable = false)
     private String nameEN;
 
-    @Column(name = "c_SYMBOL")
-    private String symbol;
+    @Column(name = "N_COMBINATION_VALUE")
+    private Long combinationValue;
+
+    @Column(name = "N_CATEGORY_UNIT")
+    private CategoryUnit categoryUnit ;
+
+    @Column(name = "N_SYMBOL_UNIT")
+    private SymbolUnit symbolUnit;
 
 }
