@@ -24,6 +24,7 @@ public class ContractDetailTypeParamDTO {
     private String name;
     private String key;
     private DataType type;
+    private String reference;
     private String defaultValue;
     private Boolean required;
 

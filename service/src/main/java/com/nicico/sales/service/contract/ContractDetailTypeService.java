@@ -49,17 +49,13 @@ public class ContractDetailTypeService extends GenericService<ContractDetailType
 
         final ContractDetailType contractDetailType = modelMapper.map(request, ContractDetailType.class);
         validation(contractDetailType, request);
+
+        List<ContractDetailTypeParam> contractDetailTypeParams = contractDetailType.getContractDetailTypeParams();
+        List<ContractDetailTypeTemplate> contractDetailTypeTemplates = contractDetailType.getContractDetailTypeTemplates();
+        contractDetailType.setContractDetailTypeParams(null);
+        contractDetailType.setContractDetailTypeTemplates(null);
+
         ContractDetailTypeDTO.Info savedContractDetailType = save(contractDetailType);
-
-        if (request.getContractDetailTypeTemplates() != null && request.getContractDetailTypeTemplates().size() > 0) {
-
-            final List<ContractDetailTypeTemplateDTO.Create> contractDetailTypeTemplateRqs = modelMapper.map(request.getContractDetailTypeTemplates(),
-                    new TypeToken<List<ContractDetailTypeTemplateDTO.Create>>() {
-                    }.getType());
-            contractDetailTypeTemplateRqs.forEach(q -> q.setContractDetailTypeId(savedContractDetailType.getId()));
-            List<ContractDetailTypeTemplateDTO.Info> savedContractDetailTypeTemplates = contractDetailTypeTemplateService.createAll(contractDetailTypeTemplateRqs);
-//            savedContractDetailType.setContractDetailTypeTemplates(savedContractDetailTypeTemplates);
-        }
 
         if (request.getContractDetailTypeParams() != null && request.getContractDetailTypeParams().size() > 0) {
 
@@ -85,6 +81,16 @@ public class ContractDetailTypeService extends GenericService<ContractDetailType
                 savedContractDetailTypeParams.add(savedContractDetailTypeParam);
             });
 //            savedContractDetailType.setContractDetailTypeParams(savedContractDetailTypeParams);
+        }
+
+        if (request.getContractDetailTypeTemplates() != null && request.getContractDetailTypeTemplates().size() > 0) {
+
+            final List<ContractDetailTypeTemplateDTO.Create> contractDetailTypeTemplateRqs = modelMapper.map(request.getContractDetailTypeTemplates(),
+                    new TypeToken<List<ContractDetailTypeTemplateDTO.Create>>() {
+                    }.getType());
+            contractDetailTypeTemplateRqs.forEach(q -> q.setContractDetailTypeId(savedContractDetailType.getId()));
+            List<ContractDetailTypeTemplateDTO.Info> savedContractDetailTypeTemplates = contractDetailTypeTemplateService.createAll(contractDetailTypeTemplateRqs);
+//            savedContractDetailType.setContractDetailTypeTemplates(savedContractDetailTypeTemplates);
         }
 
         return savedContractDetailType;

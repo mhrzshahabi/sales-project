@@ -39,6 +39,7 @@
 
 	<include file="classpath:/db/changelog/synonyms.xml"/>
 	<include file="classpath:/db/changelog/contract/tbl_cntr_contract_detail_type.xml"/>
+	<include file="classpath:/db/changelog/contract/tbl_cntr_contract_detail_type_param.xml"/>
 	<include file="classpath:/db/changelog/tbl_parameters.xml"/>
 
 </databaseChangeLog>

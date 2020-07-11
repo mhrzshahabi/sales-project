@@ -38,6 +38,9 @@ public class ContractDetailTypeParam extends BaseEntity {
     @Column(name = "N_TYPE", nullable = false)
     private DataType type;
 
+    @Column(name = "C_REFERENCE")
+    private String reference;
+
     @Column(name = "C_DEFAULT_VALUE")
     private String defaultValue;
 
