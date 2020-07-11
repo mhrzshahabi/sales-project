@@ -25,12 +25,12 @@ public class ContractDetailTypeFormController {
     public String show(HttpServletRequest request) throws JsonProcessingException {
 
         Map<String, String> dataTypes = new HashMap<>();
-        Map<String, String> rateReferences = new HashMap<>();
-        Map<String, String> priceBaseReferences = new HashMap<>();
+        Map<Integer, String> rateReferences = new HashMap<>();
+        Map<Integer, String> priceBaseReferences = new HashMap<>();
         for (DataType value : DataType.values()) dataTypes.put(value.name(), value.name());
-        for (RateReference value : RateReference.values()) rateReferences.put(value.name(), value.name());
+        for (RateReference value : RateReference.values()) rateReferences.put(value.getId(), value.name());
         for (PriceBaseReference value : PriceBaseReference.values())
-            priceBaseReferences.put(value.name(), value.name());
+            priceBaseReferences.put(value.getId(), value.name());
         request.setAttribute("Enum_DataType", objectMapper.writeValueAsString(dataTypes));
         request.setAttribute("Enum_RateReference", objectMapper.writeValueAsString(rateReferences));
         request.setAttribute("Enum_PriceBaseReference", objectMapper.writeValueAsString(priceBaseReferences));

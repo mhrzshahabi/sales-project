@@ -312,7 +312,7 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
                         contractDetailTypeTab.dialog.notEditable();
                     else if (record.type !== 'Reference')
                         isc.Dialog.create({
-                            message: "type is not Reference",
+                            message: "<spring:message code='contract-detail-type.window.type-must-reference'/>",
                             icon: "[SKIN]ask.png",
                             title: "<spring:message code='global.message'/>",
                             buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
@@ -388,9 +388,8 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
                             let referenceType = record[contractDetailTypeTab.dynamicForm.paramFields.reference.name];
                             if (referenceType === undefined) {
                                 isc.Dialog.create({
-                                    message: "reference is null",
+                                    message: "<spring:message code='contract-detail-type.window.reference-required'/>",
                                     icon: "[SKIN]ask.png",
-                                    title: "<spring:message code='global.message'/>",
                                     buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
                                     buttonClick: function (button, index) {
                                         this.close();
@@ -422,10 +421,9 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
                             let referenceType = record[contractDetailTypeTab.dynamicForm.paramFields.reference.name];
                             let displayField = contractDetailTypeTab.listGrid.param.getDisplayField(referenceType);
                             if (referenceType.includes('Enum')) {
-                                debugger;
                                 defaultValueExtraEditorProperties = {
                                     editorType: "SelectItem",
-                                    valueMap: JSON.parse('$' + '{' + referenceType + '}')
+                                    valueMap: JSON.parse('${Enum_RateReference}'),
                                 };
                             } else {
                                 defaultValueExtraEditorProperties = {
@@ -498,7 +496,6 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
             record[contractDetailTypeTab.dynamicForm.paramFields.defaultValue.name] == null)
             return;
 
-        console.log(grid.fields[colNum].name);
         if (grid.fields[colNum].name === contractDetailTypeTab.dynamicForm.paramFields.type.name ||
             grid.fields[colNum].name === contractDetailTypeTab.dynamicForm.paramFields.reference.name) {
 
