@@ -649,7 +649,7 @@ function mainOnWayProduct() {
     if ((codeKala = StorageUtil.get('on_way_product_defaultCodeKala'))) {
         listGrid_Tozin_IN_ONWAYPRODUCT_fiter_editor_criteria.criteria.add({
             fieldName: "codeKala",
-            operator: 'inSet',
+            operator: 'equals',
             value: codeKala
         })
     }
