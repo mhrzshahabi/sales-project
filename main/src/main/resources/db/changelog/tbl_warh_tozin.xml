@@ -111,4 +111,9 @@
             </column>
         </addColumn>
     </changeSet>
+    <changeSet author="saeb (generated)" id="saeb1594530927945-225">
+        <addColumn tableName="TBL_WARH_TOZIN">
+            <column name="CONTENER_NO3" type="varchar2(255 CHAR)"/>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>
