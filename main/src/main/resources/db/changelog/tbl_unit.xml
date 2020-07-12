@@ -1,22 +1,20 @@
 <?xml version="1.1" encoding="UTF-8" standalone="no"?>
-<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
 
 
-    <changeSet author="Reza Mazloom" id="mazloom_001">
-        <dropColumn tableName="TBL_UNIT" columnName="CATEGORY_VALUE"/>
-        <dropColumn tableName="TBL_UNIT" columnName="n_DECIMAL_DIGITS"/>
+    <changeSet author="j.azad" id="J.AZAD-013">
+        <addColumn tableName="TBL_UNIT">
+            <column name="N_CATEGORY_UNIT" type="number(10, 0)"/>
+        </addColumn>
     </changeSet>
 
 
-    <changeSet author="Saeb" id="saeb_00unit1">
-        <sql>
-            INSERT INTO TBL_UNIT
-            (ID, C_CREATED_BY, D_CREATED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE, C_NAME_EN, C_NAME_FA)
-            VALUES
-            (-1, 'liquibase', current_timestamp , 0, default, default, 'تن', 'تن' )
-        </sql>
+    <changeSet author="j.azad" id="J.AZAD-014">
+        <addColumn tableName="TBL_UNIT">
+            <column name="N_SYMBOL_UNIT" type="number(10, 0)"/>
+        </addColumn>
     </changeSet>
 
 
