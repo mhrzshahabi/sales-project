@@ -58,6 +58,14 @@ public class RemittanceRestController {
     }
 
     @Loggable
+    @DeleteMapping(value = "/prune")
+    public ResponseEntity delete(@RequestBody RemittanceDTO.Delete ids) {
+        iRemittanceService.deleteAll(ids);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+
+    @Loggable
     @GetMapping(value = "/spec-list")
     public ResponseEntity<TotalResponse<RemittanceDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) throws IOException {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);

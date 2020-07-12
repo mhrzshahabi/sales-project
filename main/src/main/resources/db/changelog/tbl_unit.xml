@@ -3,13 +3,11 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
 
-
     <changeSet author="j.azad" id="J.AZAD-013">
         <addColumn tableName="TBL_UNIT">
             <column name="N_CATEGORY_UNIT" type="number(10, 0)"/>
         </addColumn>
     </changeSet>
-
 
     <changeSet author="j.azad" id="J.AZAD-014">
         <addColumn tableName="TBL_UNIT">
@@ -17,5 +15,12 @@
         </addColumn>
     </changeSet>
 
+    <changeSet author="j.azad" id="J.AZAD-022">
+        <addNotNullConstraint columnDataType="number(10,0)" columnName="N_CATEGORY_UNIT" tableName="TBL_UNIT"/>
+    </changeSet>
+
+    <changeSet author="j.azad" id="J.AZAD-023">
+        <addNotNullConstraint columnDataType="number(10,0)" columnName="N_SYMBOL_UNIT" tableName="TBL_UNIT"/>
+    </changeSet>
 
 </databaseChangeLog>
