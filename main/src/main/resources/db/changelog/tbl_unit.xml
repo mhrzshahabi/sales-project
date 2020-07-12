@@ -3,19 +3,16 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
 
-
     <changeSet author="j.azad" id="J.AZAD-013">
         <addColumn tableName="TBL_UNIT">
             <column name="N_CATEGORY_UNIT" type="number(10, 0)"/>
         </addColumn>
     </changeSet>
 
-
     <changeSet author="j.azad" id="J.AZAD-014">
         <addColumn tableName="TBL_UNIT">
             <column name="N_SYMBOL_UNIT" type="number(10, 0)"/>
         </addColumn>
     </changeSet>
-
 
 </databaseChangeLog>
