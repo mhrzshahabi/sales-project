@@ -23,9 +23,6 @@ public class ContractDetailType extends BaseEntity {
     @SequenceGenerator(name = "SEQ_CNTR_CONTRACT_DETAIL_TYPE", sequenceName = "SEQ_CNTR_CONTRACT_DETAIL_TYPE", allocationSize = 1)
     private Long id;
 
-    @Column(name = "C_MATERIAL", nullable = false, unique = true)
-    private Long material;
-
     @NotEmpty
     @Column(name = "C_CODE", nullable = false, unique = true)
     private String code;
@@ -43,4 +40,5 @@ public class ContractDetailType extends BaseEntity {
 
     @OneToMany(mappedBy = "contractDetailType", fetch = FetchType.LAZY)
     private List<ContractDetailTypeTemplate> contractDetailTypeTemplates;
+
 }
