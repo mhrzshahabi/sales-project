@@ -38,9 +38,6 @@
 	<include file="classpath:/db/changelog/tbl_warh_depot.xml"/>
 	<include file="classpath:/db/changelog/synonyms.xml"/>
 
-
-	<include file="classpath:/db/changelog/tbl_unit_base.xml"/>
-
-
+	<include file="classpath:/db/changelog/tbl_unit.xml"/>
 
 </databaseChangeLog>
