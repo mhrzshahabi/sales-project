@@ -1,0 +1,125 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+    <changeSet author="j.azad" id="J.AZAD-015">
+        <sql>
+            /*+ ignore_row_on_dupkey_index(TBL_COUNTRY, TBL_COUNTRYPK) */
+            INSERT INTO TBL_COUNTRY (ID, C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE, C_NAME_EN, C_NAME_FA)
+            VALUES
+            (1, 'j.azad', current_timestamp, null, null, 0, 1, 1, 'Iran (Islamic Republic of)', 'ایران');
+
+            /*+ ignore_row_on_dupkey_index(TBL_COUNTRY, TBL_COUNTRYPK) */
+            INSERT INTO TBL_COUNTRY (ID, C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE, C_NAME_EN, C_NAME_FA)
+            VALUES
+            (2, 'j.azad', current_timestamp, null, null, 0, 1, 1, 'China', 'چین');
+
+            /*+ ignore_row_on_dupkey_index(TBL_COUNTRY, TBL_COUNTRYPK) */
+            INSERT INTO TBL_COUNTRY (ID, C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE, C_NAME_EN, C_NAME_FA)
+            VALUES
+            (3, 'j.azad', current_timestamp, null, null, 0, 1, 1, 'Afghanistan', 'افغانستان');
+
+            /*+ ignore_row_on_dupkey_index(TBL_COUNTRY, TBL_COUNTRYPK) */
+            INSERT INTO TBL_COUNTRY (ID, C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE, C_NAME_EN, C_NAME_FA)
+            VALUES
+            (4, 'j.azad',current_timestamp, null, null, 0, 1, 1, 'Australia', 'استرالیا');
+
+            /*+ ignore_row_on_dupkey_index(TBL_COUNTRY, TBL_COUNTRYPK) */
+            INSERT INTO TBL_COUNTRY (ID, C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE, C_NAME_EN, C_NAME_FA)
+            VALUES
+            (5, 'j.azad', current_timestamp, null), null, null, 0, 1, 1, 'Bahrain', 'بحرین');
+
+            /*+ ignore_row_on_dupkey_index(TBL_COUNTRY, TBL_COUNTRYPK) */
+            INSERT INTO TBL_COUNTRY (ID, C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE, C_NAME_EN, C_NAME_FA)
+            VALUES
+            (6, 'j.azad', current_timestamp, null, null, 0, 1, 1, 'Belarus', 'بلاروس');
+
+            /*+ ignore_row_on_dupkey_index(TBL_COUNTRY, TBL_COUNTRYPK) */
+            INSERT INTO TBL_COUNTRY (ID, C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE, C_NAME_EN, C_NAME_FA)
+            VALUES
+            (7, 'j.azad', current_timestamp, null, null, 0, 1, 1, 'Belgium', 'بلژیک');
+
+            /*+ ignore_row_on_dupkey_index(TBL_COUNTRY, TBL_COUNTRYPK) */
+            INSERT INTO TBL_COUNTRY (ID, C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE, C_NAME_EN, C_NAME_FA)
+            VALUES
+            (8, 'j.azad', current_timestamp, null, null, 0, 1, 1, 'Canada', 'کانادا');
+
+            /*+ ignore_row_on_dupkey_index(TBL_COUNTRY, TBL_COUNTRYPK) */
+            INSERT INTO TBL_COUNTRY (ID, C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE, C_NAME_EN, C_NAME_FA)
+            VALUES
+            (9, 'j.azad',current_timestamp, null, null, 0, 1, 1, 'Chile', 'شیلی');
+
+            /*+ ignore_row_on_dupkey_index(TBL_COUNTRY, TBL_COUNTRYPK) */
+            INSERT INTO TBL_COUNTRY (ID, C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE, C_NAME_EN, C_NAME_FA)
+            VALUES
+            (10, 'j.azad', current_timestamp, null, null, 0, 1, 1, 'Colombia', 'کلمبیا');
+
+            /*+ ignore_row_on_dupkey_index(TBL_COUNTRY, TBL_COUNTRYPK) */
+            INSERT INTO TBL_COUNTRY (ID, C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE, C_NAME_EN, C_NAME_FA)
+            VALUES
+            (11, 'j.azad',current_timestamp, null, null, 0, 1, 1, 'Denmark', 'دانمارک');
+
+            /*+ ignore_row_on_dupkey_index(TBL_COUNTRY, TBL_COUNTRYPK) */
+            INSERT INTO TBL_COUNTRY (ID, C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE, C_NAME_EN, C_NAME_FA)
+            VALUES
+            (12, 'j.azad',current_timestamp, null, null, 0, 1, 1, 'France', 'فرانسه');
+
+            /*+ ignore_row_on_dupkey_index(TBL_COUNTRY, TBL_COUNTRYPK) */
+            INSERT INTO TBL_COUNTRY (ID, C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE, C_NAME_EN, C_NAME_FA)
+            VALUES
+            (13, 'j.azad',current_timestamp, null, null, 0, 1, 1, 'India', 'هند');
+
+            /*+ ignore_row_on_dupkey_index(TBL_COUNTRY, TBL_COUNTRYPK) */
+            INSERT INTO TBL_COUNTRY (ID, C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE, C_NAME_EN, C_NAME_FA)
+            VALUES
+            (14, 'j.azad',current_timestamp, null, null, 0, 1, 1, 'Iraq', 'عراق');
+
+            /*+ ignore_row_on_dupkey_index(TBL_COUNTRY, TBL_COUNTRYPK) */
+            INSERT INTO TBL_COUNTRY (ID, C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE, C_NAME_EN, C_NAME_FA)
+            VALUES
+            (15, 'j.azad',current_timestamp, null, null, 0, 1, 1, 'North Korea', 'کره شمالی');
+
+            /*+ ignore_row_on_dupkey_index(TBL_COUNTRY, TBL_COUNTRYPK) */
+            INSERT INTO TBL_COUNTRY (ID, C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE, C_NAME_EN, C_NAME_FA)
+            VALUES
+            (16, 'j.azad',current_timestamp, null, null, 0, 1, 1, 'South Korea', 'کره جنوبی');
+
+            /*+ ignore_row_on_dupkey_index(TBL_COUNTRY, TBL_COUNTRYPK) */
+            INSERT INTO TBL_COUNTRY (ID, C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE, C_NAME_EN, C_NAME_FA)
+            VALUES
+            (17, 'j.azad',current_timestamp, null, null, 0, 1, 1, 'Italy', 'ایتالیا');
+
+            /*+ ignore_row_on_dupkey_index(TBL_COUNTRY, TBL_COUNTRYPK) */
+            INSERT INTO TBL_COUNTRY (ID, C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE, C_NAME_EN, C_NAME_FA)
+            VALUES
+            (18, 'j.azad',current_timestamp, null, null, 0, 1, 1, 'Malaysia', 'مالزی');
+
+            /*+ ignore_row_on_dupkey_index(TBL_COUNTRY, TBL_COUNTRYPK) */
+            INSERT INTO TBL_COUNTRY (ID, C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE, C_NAME_EN, C_NAME_FA)
+            VALUES
+            (19, 'j.azad',current_timestamp, null, null, 0, 1, 1, 'Myanmar', 'میانمار');
+
+            /*+ ignore_row_on_dupkey_index(TBL_COUNTRY, TBL_COUNTRYPK) */
+            INSERT INTO TBL_COUNTRY (ID, C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE, C_NAME_EN, C_NAME_FA)
+            VALUES
+            (20, 'j.azad',current_timestamp, null, null, 0, 1, 1, 'Oman', 'عمان');
+
+            /*+ ignore_row_on_dupkey_index(TBL_COUNTRY, TBL_COUNTRYPK) */
+            INSERT INTO TBL_COUNTRY (ID, C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE, C_NAME_EN, C_NAME_FA)
+            VALUES
+            (21, 'j.azad',current_timestamp, null, null, 0, 1, 1, 'Philippines', 'فیلیپین');
+
+            /*+ ignore_row_on_dupkey_index(TBL_COUNTRY, TBL_COUNTRYPK) */
+            INSERT INTO TBL_COUNTRY (ID, C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE, C_NAME_EN, C_NAME_FA)
+            VALUES
+            (22, 'j.azad',current_timestamp, null, null, 0, 1, 1, 'Qatar', 'قطر');
+
+            /*+ ignore_row_on_dupkey_index(TBL_COUNTRY, TBL_COUNTRYPK) */
+            INSERT INTO TBL_COUNTRY (ID, C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE, C_NAME_EN, C_NAME_FA)
+            VALUES
+            (23, 'j.azad',current_timestamp, null, null, 0, 1, 1, 'Russian', 'روسیه');
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

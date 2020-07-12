@@ -647,7 +647,7 @@
                 {
                     title: "<spring:message code='country.title'/>",
                     click: function () {
-                        createTab("<spring:message code='country.title'/>", "<spring:url value="/country/showForm" />")
+                        createTab("<spring:message code='country.title'/>", "<spring:url value="/base-country/show-form" />")
                     }
                 },
                 {isSeparator: true},
