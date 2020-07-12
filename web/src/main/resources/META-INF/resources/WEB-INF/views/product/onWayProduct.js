@@ -29,8 +29,7 @@ const tozinLiteFields = [
         formatCellValue(value, record, rowNum, colNum, grid) {
             try {
                 return (value.substr(0, 4) + "/" + value.substr(4, 2) + "/" + value.substr(-2))
-            }
-            catch (e) {
+            } catch (e) {
                 return value
             }
         }
@@ -116,6 +115,13 @@ const tozinLiteFields = [
         name: "sourceId",
         type: "number",
         // filterEditorProperties: {editorType: "comboBox"},
+        filterEditorProperties: {
+            editorType: "selectItem",
+            multiple: true,
+            type: "number",
+            // defaultValue: StorageUtil.get('on_way_product_defaultTargetId')
+        },
+        filterOperator: "inSet",
         parseEditorValue: function (value, record, form, item) {
             StorageUtil.save('on_way_product_defaultSourceId', value)
             return value;
@@ -136,16 +142,17 @@ const tozinLiteFields = [
     {
         name: "targetId",
         type: "number",
-        // filterEditorProperties: {
-        //     editorType: "comboBox",
-        //     type: "number",
-        //     // defaultValue: StorageUtil.get('on_way_product_defaultTargetId')
-        // },
+        filterEditorProperties: {
+            editorType: "selectItem",
+            multiple: true,
+            type: "number",
+            // defaultValue: StorageUtil.get('on_way_product_defaultTargetId')
+        },
         parseEditorValue: function (value, record, form, item) {
             StorageUtil.save('on_way_product_defaultTargetId', value)
             return value;
         },
-        filterOperator: "equals",
+        filterOperator: "inSet",
         valueMap: SalesBaseParameters.getSavedWarehouseParameter().getValueMap("id", "name"),
 
         valueMap: {
@@ -346,6 +353,7 @@ function mainOnWayProduct() {
             }
         )
     }
+
     const restDataSource_Tozin_Lite = {
         fields: tozinLiteFields,
         fetchDataURL: "${contextPath}/api/tozin/lite/spec-list"
@@ -355,10 +363,10 @@ function mainOnWayProduct() {
         data: [{
             title: "<spring:message code='bijack'/>",
             icon: "product/warehouses.png",
-            click(){
+            click() {
 
                 isc.Dialog.create({
-                    ID:"pls_wait_3",
+                    ID: "pls_wait_3",
                     showTitle: false,
                     message: "لطفا صبر کنید",
                 });
@@ -627,21 +635,21 @@ function mainOnWayProduct() {
     if ((targetId = StorageUtil.get('on_way_product_defaultTargetId'))) {
         listGrid_Tozin_IN_ONWAYPRODUCT_fiter_editor_criteria.criteria.add({
             fieldName: "targetId",
-            operator: 'equals',
+            operator: 'inSet',
             value: targetId
         })
     }
     if ((sourceId = StorageUtil.get('on_way_product_defaultSourceId'))) {
         listGrid_Tozin_IN_ONWAYPRODUCT_fiter_editor_criteria.criteria.add({
             fieldName: "sourceId",
-            operator: 'equals',
+            operator: 'inSet',
             value: sourceId
         })
     }
     if ((codeKala = StorageUtil.get('on_way_product_defaultCodeKala'))) {
         listGrid_Tozin_IN_ONWAYPRODUCT_fiter_editor_criteria.criteria.add({
             fieldName: "codeKala",
-            operator: 'equals',
+            operator: 'inSet',
             value: codeKala
         })
     }
