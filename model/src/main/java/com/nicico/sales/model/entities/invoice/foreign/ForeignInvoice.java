@@ -66,9 +66,9 @@ public class ForeignInvoice extends BaseEntity {
 
     @Column(name = "C_CONVERSION_SUM_PRICE_TEXT")
     private String conversionSumPriceText;
-//
-//    @Column(name = "C_DESCRIPTION")
-//    private String description;
+
+    @Column(name = "C_DESCRIPTION")
+    private String description;
 
     // *****************************************************************************************************************
 

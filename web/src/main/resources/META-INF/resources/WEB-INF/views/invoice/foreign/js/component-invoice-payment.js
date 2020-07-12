@@ -91,8 +91,7 @@ isc.defineClass("InvoicePayment", isc.VLayout).addProperties({
                 });
                 This.addMember(valuesForm);
 
-                let otherValuesGrid = isc.ListGrid.create({
-                });
+                let otherValuesGrid = isc.ListGrid.create({});
                 This.addMember(otherValuesGrid);
 
                 fields = [];
@@ -115,21 +114,18 @@ isc.defineClass("InvoicePayment", isc.VLayout).addProperties({
                 fields.last().setValue(sumOfValuesForm + sumOfVOtherValuesGrid);
 
                 fields.add({
-                    name: "curDate",
-                    title: "<spring:message code='currencyRate.curDate'/>",
                     type: "date",
-                    width: "400",
                     required: true,
-                    validators: [
-                        {
-                            type: "required",
-                            validateOnChange: true
-                        }]
+                    name: "conversionDate",
+                    title: "<spring:message code='foreign-invoice.form.conversion-date'/>",
+                    validators: [{
+                        type: "required",
+                        validateOnChange: true
+                    }]
                 });
                 fields.add({
-                    width: "20%",
-                    name: "conversionDate",
                     required: true,
+                    name: "conversionRefId",
                     valueMap: JSON.parse('${Enum_DataType}'),
                     title: "<spring:message code='global.type'/>"
                 });
