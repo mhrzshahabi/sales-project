@@ -15,4 +15,12 @@
         </addColumn>
     </changeSet>
 
+    <changeSet author="j.azad" id="J.AZAD-022">
+        <addNotNullConstraint columnDataType="number(10,0)" columnName="N_CATEGORY_UNIT" tableName="TBL_UNIT"/>
+    </changeSet>
+
+    <changeSet author="j.azad" id="J.AZAD-023">
+        <addNotNullConstraint columnDataType="number(10,0)" columnName="N_SYMBOL_UNIT" tableName="TBL_UNIT"/>
+    </changeSet>
+
 </databaseChangeLog>
