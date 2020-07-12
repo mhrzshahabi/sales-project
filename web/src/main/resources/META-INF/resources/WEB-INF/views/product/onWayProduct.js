@@ -361,7 +361,7 @@ function mainOnWayProduct() {
     const Menu_ListGrid_OnWayProduct = isc.Menu.create({
         width: 150,
         data: [{
-            title: "<spring:message code='bijack'/>",
+            title: " صدور <spring:message code='bijack'/>",
             icon: "product/warehouses.png",
             click() {
 
@@ -370,6 +370,7 @@ function mainOnWayProduct() {
                     showTitle: false,
                     message: "لطفا صبر کنید",
                 });
+
 
                 onWayProductCreateRemittance(criteriaBuildForListGrid);
             }
@@ -502,6 +503,10 @@ function mainOnWayProduct() {
         membersMargin: 10,
         align: "center",
         members: [
+            isc.IButton.create({
+                title: Menu_ListGrid_OnWayProduct.data[0].title,
+                click: Menu_ListGrid_OnWayProduct.data[0].click
+            }),
             HLayout_onWayProduct_searchBtn,
             isc.ToolStrip.create({
                 width: "100%",

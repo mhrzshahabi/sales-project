@@ -349,7 +349,7 @@ function onWayProductCreateRemittance(criteriaBuildForListGrid) {
         }
     });
     const packages_button = isc.IButtonSave.create({
-        title: "<spring:message code='warehouseStock.bundle'/>",
+        title: "جزئیات آیتم‌ها",
         width: 100,
         icon: "pieces/16/packages.png",
         orientation: "vertical",
