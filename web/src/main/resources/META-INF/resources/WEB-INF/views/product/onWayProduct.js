@@ -53,7 +53,10 @@ const tozinLiteFields = [
         valueMap: {11: 'كاتد صادراتي', 8: 'كنسانتره مس ', 97: 'اكسيد موليبدن'},
         title: "محصول",
         parseEditorValue: function (value, record, form, item) {
+            console.log("        parseEditorValue: function (value, record, form, item) ",value)
             StorageUtil.save('on_way_product_defaultCodeKala', value)
+            const selectionType = value === 8 ? "multiple" : "single";
+            ListGrid_Tozin_IN_ONWAYPRODUCT.setSelectionType(selectionType);
             return value;
         },
         align: "center"
@@ -364,7 +367,8 @@ function mainOnWayProduct() {
             title: " صدور <spring:message code='bijack'/>",
             icon: "product/warehouses.png",
             click() {
-
+                if (ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecords().length < 1)
+                    return isc.warn("لطفا توزین‌های مورد نظر را انتخاب کنید");
                 isc.Dialog.create({
                     ID: "pls_wait_3",
                     showTitle: false,
@@ -548,6 +552,7 @@ function mainOnWayProduct() {
         showFilterEditor: true,
         allowAdvancedCriteria: true,
         filterOnKeypress: false,
+        selectionType: "single",
         sortField: 'date',
         initialCriteria: {
             _constructor: "AdvancedCriteria",
