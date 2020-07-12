@@ -67,6 +67,12 @@ public class ForeignInvoiceRestController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+//    @Loggable
+//    @GetMapping(value = "/get-payment-by-contract/{contractId}")
+//    public ResponseEntity<> delete(@PathVariable Long contractId) {
+//
+//    }
+
     @Loggable
     @GetMapping(value = "/spec-list")
     public ResponseEntity<TotalResponse<ForeignInvoiceDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) {

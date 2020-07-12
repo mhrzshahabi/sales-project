@@ -57,7 +57,7 @@ public class WeightInspectionRestController {
     }
 
     @Loggable
-    @DeleteMapping(value = "/get-weight-values")
+    @GetMapping(value = "/get-weight-values")
     public ResponseEntity<WeightInspectionDTO.Info> getWeightValues(Long inventoryId) {
 
         return new ResponseEntity<>(iWeightInspectionService.getWeightValues(inventoryId), HttpStatus.OK);
