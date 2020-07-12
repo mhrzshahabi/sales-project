@@ -7,7 +7,7 @@ isc.defineClass("InvoiceBaseWeight", isc.VLayout).addProperties({
     layoutMargin: 2,
     membersMargin: 2,
     overflow: "scroll",
-    inventories: [],
+    inventory: null,
     initWidget: function () {
 
         this.Super("initWidget", arguments);
@@ -15,7 +15,7 @@ isc.defineClass("InvoiceBaseWeight", isc.VLayout).addProperties({
         let This = this;
         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
             httpMethod: "GET",
-            params: {inventoryIds: This.inventories.map(q => q.id)},
+            params: {inventoryId: This.inventory.id},
             actionURL: "${contextPath}/api/weightInspection/get-weight-values",
             callback: function (resp) {
 
@@ -36,7 +36,7 @@ isc.defineClass("InvoiceBaseWeight", isc.VLayout).addProperties({
                     border: "1px solid rgba(0, 0, 0, 0.3)",
                 }));
                 fields.last().setValue(values.weightGW);
-                fields.last().setUnitId(values.weightGWUnit.id);
+                fields.last().setUnitId(values.unit.id);
 
                 fields.add(isc.Unit.create({
 
@@ -53,7 +53,7 @@ isc.defineClass("InvoiceBaseWeight", isc.VLayout).addProperties({
                     border: "1px solid rgba(0, 0, 0, 0.3)",
                 }));
                 fields.last().setValue(values.weightND);
-                fields.last().setUnitId(values.weightNDUnit.id);
+                fields.last().setUnitId(values.unit.id);
 
                 fields.add(isc.Unit.create({
 
@@ -70,7 +70,7 @@ isc.defineClass("InvoiceBaseWeight", isc.VLayout).addProperties({
                     border: "1px solid rgba(0, 0, 0, 0.3)",
                 }));
                 fields.last().setValue(values.secondValue);
-                fields.last().setUnitId(values.secondValueUnit.id);
+                fields.last().setUnitId(values.unit.id);
 
                 This.addMember(isc.DynamicForm.create({
                     width: "100%",

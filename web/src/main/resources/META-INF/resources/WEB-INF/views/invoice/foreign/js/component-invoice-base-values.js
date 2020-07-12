@@ -36,7 +36,7 @@ isc.defineClass("InvoiceBaseValues", isc.VLayout).addProperties({
             this.addMember(invoiceBaseAssayComponent);
 
             this.invoiceBaseWeightComponent = isc.InvoiceBaseWeight.create({
-                // billLadings: [{id: 1}, {id: 2}]
+                inventory: [{id: 1}, {id: 2}]
             });
             this.addMember(invoiceBaseWeightComponent);
         } else {
