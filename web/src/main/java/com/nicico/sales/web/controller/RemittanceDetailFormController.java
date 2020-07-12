@@ -1,20 +1,30 @@
 package com.nicico.sales.web.controller;
 
+import com.nicico.copper.common.Loggable;
+import com.nicico.copper.common.domain.ConstantVARs;
+import com.nicico.copper.core.util.report.ReportUtil;
+import com.nicico.sales.service.RemittanceService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import net.sf.jasperreports.engine.data.JsonDataSource;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("/remittance-detail")
+@Slf4j
 public class RemittanceDetailFormController {
-//
-//    private final SpecListUtil specListUtil;
-//    private final MakeExcelOutputUtil makeExcelOutputUtil;
-//    private final ReportUtil reportUtil;
-//    private final ObjectMapper objectMapper;
-//    ModelMapper modelMapper;
-//
+    private final RemittanceService remittanceService;
+    private final ReportUtil reportUtil;
+
+    //
     @RequestMapping("/showForm")
     public String showWarehouseCad() {
         return "product/remittance-detail";
@@ -48,25 +58,14 @@ public class RemittanceDetailFormController {
 //        makeExcelOutputUtil.makeExcelResponse(bytes, response);
 //    }
 //
-//    @Loggable
-//    @RequestMapping(value = {"/Bijack"})
-//    public void print(@RequestParam MultiValueMap<String, String> criteria, @RequestParam MultiValueMap<String, String> params, HttpServletResponse response) throws Exception {
-//
-//        Map<String, Object> parameters = new HashMap<>(params);
-//        parameters.put("mahsool", params.get("mahsool").get(0));
-//        parameters.put("vahed", params.get("vahed").get(0));
-//        parameters.put("haml", params.get("haml").get(0));
-//        parameters.put(ConstantVARs.REPORT_TYPE, params.get("type").get(0));
-//
-//        NICICOCriteria provideNICICOCriteria = specListUtil.provideNICICOCriteria(criteria, WarehouseCadDTO.Info.class);
-//        List<WarehouseCadDTO.Info> data = iWarehouseCadService.search(provideNICICOCriteria).getResponse().getData();
-//
-//        if (data == null) throw new SalesException(SalesException.ErrorType.NotFound);
-//
-//
-//        String jsonData = "{" + "\"content\": " + objectMapper.writeValueAsString(data) + "}";
-//        JsonDataSource jsonDataSource = new JsonDataSource(new ByteArrayInputStream(jsonData.getBytes(StandardCharsets.UTF_8)));
-//        reportUtil.export("/reports/Bijack.jasper", parameters, jsonDataSource, response);
-//    }
+    @Loggable
+    @RequestMapping(value = {"/report"})
+    public void print(@RequestParam MultiValueMap<String, String> criteria, @RequestParam MultiValueMap<String, String> params, HttpServletResponse response) throws Exception {
+        Map<String, Object> parameters = new HashMap<>(params);
+        parameters.put(ConstantVARs.REPORT_TYPE, params.get("type").get(0));
+        final JsonDataSource print = remittanceService.print(criteria);
+        reportUtil.export("/reports/remittance.jasper", parameters, print, response);
+    }
 //
 }
+

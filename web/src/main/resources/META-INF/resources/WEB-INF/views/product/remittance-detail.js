@@ -1413,6 +1413,27 @@ rdTab.Grids.RemittanceDetail = {
     autoFetchData: false,
 }
 ////////////////////////////////////////////////////////COMPONENT HOLDERS///////////////////////////////////////////////
+rdTab.DynamicForms.Forms.PDF = isc.DynamicForm.create({
+    method: "POST",
+    action: "remittance-detail/report",
+    autoDraw: true,
+    visibility: "hidden",
+    target: "_Blank",
+    fields:
+        [
+            {name: "type", defaultValue: "pdf"},
+            {name: "criteria"},
+        ]
+});
+rdTab.Layouts.ToolStripButtons.PDF = {
+    icon: "[SKIN]/actions/pdf.png",
+    title: "<spring:message code='global.form.export.pdf'/>",
+    click: function () {
+        const criteria = JSON.stringify(rdTab.Grids.Remittance.obj.getCriteria());
+        rdTab.DynamicForms.Forms.PDF.setValue("criteria", criteria);
+        rdTab.DynamicForms.Forms.PDF.submitForm();
+    }
+};
 isc.VLayout.create({
     members: [
         isc.ToolStrip.create({
@@ -1441,7 +1462,8 @@ isc.VLayout.create({
                             click() {
                                 rdTab.Grids.Remittance.obj.invalidateCache()
                             }
-                        })
+                        }),
+                        isc.ToolStripButtonRefresh.create(rdTab.Layouts.ToolStripButtons.PDF)
                     ]
                 })
             ]

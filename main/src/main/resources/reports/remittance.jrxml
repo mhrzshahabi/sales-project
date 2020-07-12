@@ -41,28 +41,24 @@
 		<field name="code" class="java.lang.String">
 			<property name="com.jaspersoft.studio.field.label" value="BIJACK_NO"/>
 		</field>
-		<field name="warehouseNo" class="java.lang.String">
+		<field name="depot" class="java.lang.String">
 			<property name="com.jaspersoft.studio.field.label" value="WAREHOUSE_NO"/>
 		</field>
-		<field name="plant" class="java.lang.String">
+		<field name="from" class="java.lang.String">
 			<property name="com.jaspersoft.studio.field.label" value="PLANT"/>
 		</field>
-		<field name="movementType" class="java.lang.String">
+		<field name="isWithRail" class="java.lang.String">
 			<property name="com.jaspersoft.studio.field.label" value="MOVEMENT_TYPE"/>
 		</field>
-		<field name="sourceLoadDate" class="java.lang.String">
+		<field name="sourceDate" class="java.lang.String">
 			<property name="com.jaspersoft.studio.field.label" value="SOURCE_LOAD_DATE"/>
 		</field>
-		<field name="destinationUnloadDate" class="java.lang.String">
+		<field name="destinationDate" class="java.lang.String">
 			<property name="com.jaspersoft.studio.field.label" value="DESTINATION_UNLOAD_DATE"/>
 		</field>
-		<field name="mahsool" class="java.lang.String">
-			<property name="com.jaspersoft.studio.field.label" value="HAVCODE"/>
-		</field>
-		<field name="materialItem.gdsName" class="java.lang.String">
+		<field name="materialItemName" class="java.lang.String">
 			<property name="net.sf.jasperreports.json.field.expression" value="materialItem.gdsName"/>
 		</field>
-		<variable name="Variable_1" class="java.lang.String"/>
 	</subDataset>
 	<parameter name="logo_nicico" class="java.awt.image.BufferedImage"/>
 	<parameter name="mahsool" class="java.lang.String"/>
@@ -80,6 +76,12 @@
 	<title>
 		<band height="78" splitType="Stretch">
 			<rectangle radius="5">
+				<reportElement x="1" y="53" width="553" height="21" isPrintWhenDetailOverflows="true" forecolor="#E1E2E2" backcolor="#FB8122" uuid="935177f5-8bad-4000-8064-452fd6b2c5b1"/>
+				<graphicElement>
+					<pen lineWidth="1.0" lineStyle="Solid"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle radius="5">
 				<reportElement x="0" y="0" width="554" height="50" forecolor="#FFFFFF" backcolor="#FFFFFF" uuid="363dffa2-2cc0-4dce-884c-e1204d4a3892"/>
 				<graphicElement>
 					<pen lineWidth="1.0" lineColor="#E1E2E2"/>
@@ -89,6 +91,48 @@
 				<reportElement x="497" y="2" width="50" height="48" uuid="3b99f146-68a2-4b9f-8685-abe6faaec187"/>
 				<imageExpression><![CDATA[$P{logo_nicico}]]></imageExpression>
 			</image>
+			<staticText>
+				<reportElement x="513" y="54" width="30" height="19" uuid="7c380485-1fd2-437c-bca0-207d787cd447"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Shabnam-FD" size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[محصول :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="292" y="54" width="38" height="19" uuid="47ebd53b-77b4-4525-a43f-c0348aceb5e9"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Shabnam-FD" size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[واحد تولیدی :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="82" y="54" width="28" height="19" uuid="0a511e4d-2302-4f0d-8157-fb816ac622a1"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Shabnam-FD" size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[نوع حمل :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="420" y="54" width="93" height="19" uuid="a1b61b0f-0aef-4c99-a608-4a3a801e9b8d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Shabnam-FD" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{mahsool}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="219" y="54" width="73" height="19" uuid="d2a03c96-822c-4d55-8697-484b89d30e5a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Shabnam-FD" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{vahed}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="12" y="54" width="70" height="19" uuid="23279d86-e702-4b1a-90f1-aa09ed1b535b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Shabnam-FD" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{haml}]]></textFieldExpression>
+			</textField>
 			<staticText>
 				<reportElement x="202" y="4" width="150" height="24" uuid="e88033b6-b36a-41b5-8413-3782db8d3915"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -137,7 +181,7 @@
 								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
 									<font fontName="Shabnam-FD" size="7"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{destinationUnloadDate}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{destinationDate}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -161,7 +205,7 @@
 								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
 									<font fontName="Shabnam-FD" size="7"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{sourceLoadDate}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{sourceDate}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -185,7 +229,7 @@
 								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
 									<font fontName="Shabnam-FD" size="7"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{plant}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{from}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -209,7 +253,7 @@
 								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
 									<font fontName="Shabnam-FD" size="7"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{movementType}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{isWithRail}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -233,7 +277,7 @@
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Shabnam-FD" size="7"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{materialItem.gdsName}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{materialItemName}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -257,7 +301,7 @@
 								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
 									<font fontName="Shabnam-FD" size="7"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{warehouseNo}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{depot}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
