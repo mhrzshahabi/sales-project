@@ -85,11 +85,13 @@ public class RemittanceService extends GenericService<Remittance, Long, Remittan
         final HashMap content = new HashMap() {{
             put("content", dataForPdf);
         }};
+        /*
         try {
             objectMapper.writeValue(new File("/tmp/js.json"),content);
         } catch (IOException e) {
             log.debug(e.getMessage());
         }
+         */
         JsonDataSource jsonDataSource = new JsonDataSource(
                 new ByteArrayInputStream(objectMapper.writeValueAsString(content).getBytes(StandardCharsets.UTF_8))
         );
