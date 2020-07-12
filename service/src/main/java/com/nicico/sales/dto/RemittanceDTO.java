@@ -49,7 +49,7 @@ public class RemittanceDTO {
     @Accessors(chain = true)
     @ApiModel("RemittanceInfo")
     public static class Info extends RemittanceDTO.InfoWithoutRemittanceDetail {
-        private List<RemittanceDetailDTO> remittanceDetails;
+        private List<RemittanceDetailDTO.InfoWithoutRemittance> remittanceDetails;
     }
 
     @Getter
