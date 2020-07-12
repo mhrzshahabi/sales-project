@@ -29,6 +29,7 @@
     <script src="<spring:url value='/static/script/enumJson/unitEnum.js' />"></script>
     <script src="<spring:url value='/static/script/enumJson/materialEnum.js' />"></script>
     <script src="<spring:url value='/static/script/js/persian-rex.js' />"></script>
+    <script src="<spring:url value='/static/script/js/num2persian-min.js' />"></script>
 
 
     <script>var isomorphicDir = "isomorphic/";</script>
@@ -920,7 +921,7 @@
                 {
                     title: "<spring:message code='bijack'/>",
                     click: function () {
-                        createTab("<spring:message code='bijack'/>", "<spring:url value="/warehouseCad/showForm" />")
+                        createTab("<spring:message code='bijack'/>", "<spring:url value="/remittance-detail/showForm" />")
                     }
                 },
                 {isSeparator: true},
@@ -1179,11 +1180,12 @@
         : document.URL.split("?")[0];
     const SalesConfigs = {
         Urls: {
+            completeUrl: SalesDocumentUrl,
             RootUrl: "${contextPath}",
             InvoiceExportRest: "${contextPath}" + "/rest",
             remittanceRest: "${contextPath}" + "/rest",
         },
-        httpHeaders: {"Authorization": "Bearer <%= accessToken %>"},
+        httpHeaders: {"Authorization": "Bearer <%= accessToken %>", "content-type": "application/json"},
         userFullName: '<%= SecurityUtil.getFullName()%>',
     }
     isc.FilterBuilder.addProperties({
