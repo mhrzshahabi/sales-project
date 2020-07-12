@@ -1,10 +1,12 @@
 package com.nicico.sales.model.entities.base;
 
 import com.nicico.sales.model.entities.common.BaseEntity;
+import com.nicico.sales.model.enumeration.SymbolCurrency;
 import lombok.*;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
@@ -22,13 +24,14 @@ public class Currency extends BaseEntity {
     @Column(name = "ID")
     private Long id;
 
-    @Column(name = "c_NAME_FA")
+    @NotNull
+    @Column(name = "C_NAME_FA" , nullable = false)
     private String nameFa;
 
-    @Column(name = "c_NAME_EN")
+    @Column(name = "C_NAME_EN" , nullable = false)
     private String nameEn;
 
-    @Column(name = "c_SYMBOL", length = 20)
-    private String symbol;
+    @Column(name = "N_SYMBOL_CURRENCY" )
+    private SymbolCurrency symbolCurrency;
 
 }
