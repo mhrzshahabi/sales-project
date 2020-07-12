@@ -25,6 +25,7 @@ public class WeightInspectionDTO {
     private BigDecimal weightND;
     private Long inspectionReportId;
     private Long inventoryId;
+    private Long unitId;
 
     @Getter
     @Setter
@@ -34,6 +35,7 @@ public class WeightInspectionDTO {
 
         private Long id;
         private InventoryDTO.Info inventory;
+        private UnitDTO.Info unit;
 
 
         // Auditing

@@ -27,6 +27,7 @@ public class AssayInspectionDTO {
     private String labName;
     private String labPlace;
     private Long inventoryId;
+    private Long unitId;
 
     @Getter
     @Setter
@@ -37,6 +38,7 @@ public class AssayInspectionDTO {
         private Long id;
         private MaterialElementDTO.Info materialElement;
         private InventoryDTO.Info inventory;
+        private UnitDTO.Info unit;
 
 
         // Auditing
