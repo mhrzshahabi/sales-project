@@ -1,6 +1,8 @@
 package com.nicico.sales.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.nicico.sales.model.enumeration.EStatus;
+import com.nicico.sales.model.enumeration.SymbolCurrency;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -20,19 +22,25 @@ public class CurrencyDTO {
     private String nameFa;
     private String nameEn;
     private String isActive;
-    private String symbol;
+    private SymbolCurrency symbolCurrency;
+
 
     @Getter
     @Setter
     @Accessors(chain = true)
     @ApiModel("CurrencyInfo")
     public static class Info extends CurrencyDTO {
+
         private Long id;
         private Date createdDate;
         private String createdBy;
         private Date lastModifiedDate;
         private String lastModifiedBy;
         private Integer version;
+
+        // BaseEntity
+        private Boolean editable;
+        private List<EStatus> eStatus;
     }
 
     @Getter
