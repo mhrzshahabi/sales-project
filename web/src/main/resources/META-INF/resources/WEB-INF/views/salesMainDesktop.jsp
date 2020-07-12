@@ -599,13 +599,6 @@
                     title: "<spring:message code='main.baseTab.financial'/>",
                     submenu: [
                         {
-                            title: "<spring:message code='unit.title'/>",
-                            click: function () {
-                                createTab("<spring:message code='unit.title'/>", "<spring:url value="/unit/showForm" />")
-                            }
-                        },
-                        {isSeparator: true},
-                        {
                             title: "<spring:message code='currencyRate.title'/>",
                             click: function () {
                                 createTab("<spring:message code='currencyRate.title'/>", "<spring:url value="/currencyRate/showForm" />")
@@ -642,6 +635,15 @@
                     }
                 },
                 {isSeparator: true},
+
+                {
+                    title: "<spring:message code='unit.title'/>",
+                    click: function () {
+                        createTab("<spring:message code='unit.title'/>", "<spring:url value="base-unit/show-form" />")
+                    }
+                },
+                {isSeparator: true},
+
                 {
                     title: "<spring:message code='country.title'/>",
                     click: function () {
@@ -654,7 +656,8 @@
                     click: function () {
                         createTab("<spring:message code='parameters.title'/>", "<spring:url value="/parameters/showForm" />")
                     }
-                }
+                },
+
             ]
         }),
     });
