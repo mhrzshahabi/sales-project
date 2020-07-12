@@ -38,5 +38,6 @@
 	<include file="classpath:/db/changelog/synonyms.xml"/>
 
 	<include file="classpath:/db/changelog/tbl_unit.xml"/>
+	<include file="classpath:/db/changelog/tbl_country.xml"/>
 
 </databaseChangeLog>

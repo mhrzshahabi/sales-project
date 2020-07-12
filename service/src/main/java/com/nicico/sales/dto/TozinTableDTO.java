@@ -39,7 +39,7 @@ public class TozinTableDTO {
     @ApiModel("TozinTableInfo")
     public static class InfoWithoutRemittanceDetail extends TozinTableDTO {
         private Long id;
-
+        private String containerNo3;
 
         // Auditing
         private Date createdDate;

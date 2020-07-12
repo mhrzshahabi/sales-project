@@ -49,7 +49,8 @@ public class TozinTable extends BaseEntity{
     @NotNull
     @Column(name = "GDSCODE", nullable = false)
     private Long codeKala;
-
+    @Column(name = "CONTENER_NO3")
+    private String containerNo3;
     @OneToMany(mappedBy = "destinationTozin", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private List<RemittanceDetail> remittanceDetailsAsDestination;
 
