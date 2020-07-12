@@ -48,7 +48,6 @@ unitTab.dynamicForm.fields = BaseFormItems.concat([
 ]);
 Object.assign(unitTab.listGrid.fields, unitTab.dynamicForm.fields);
 nicico.BasicFormUtil.getDefaultBasicForm(unitTab, "api/unit/");
-unitTab.listGrid.main.contextMenu = null;
 unitTab.dynamicForm.main.windowWidth = 500;
 
 

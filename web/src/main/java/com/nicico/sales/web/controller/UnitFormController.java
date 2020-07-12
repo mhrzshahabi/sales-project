@@ -19,7 +19,7 @@ public class UnitFormController {
 
     private final ObjectMapper objectMapper;
 
-    @RequestMapping("/show-Form")
+    @RequestMapping("/show-form")
     public String showUnit(HttpServletRequest request) throws JsonProcessingException {
 
         Map<String , String> categoryUnit = new HashMap<>();
