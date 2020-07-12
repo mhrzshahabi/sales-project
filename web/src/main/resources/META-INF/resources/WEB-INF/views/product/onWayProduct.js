@@ -458,7 +458,7 @@ function mainOnWayProduct() {
         click: function () {
 
 
-            const criteria = JSON.stringify(ListGrid_Tozin_IN_ONWAYPRODUCT.getFilterEditorCriteria());
+            const criteria = JSON.stringify(ListGrid_Tozin_IN_ONWAYPRODUCT.getCriteria());
             pdf.setValue("criteria", criteria);
             pdf.setValue("type", "pdf");
 
@@ -472,7 +472,7 @@ function mainOnWayProduct() {
             )['gdsName']);
             pdf.setValue("tolid", SalesBaseParameters.getSavedWarehouseParameter().find(
                 sp => sp.id === Number(ListGrid_Tozin_IN_ONWAYPRODUCT.getFilterEditorCriteria()
-                    .criteria.find(c => c.fieldName === 'sourceId').value
+                    .criteria.find(c => c.fieldName === 'sourceId').value[0]
                 ))['name']);
 
             console.log(pdf.getValues());
