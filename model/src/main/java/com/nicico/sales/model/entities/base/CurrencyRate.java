@@ -2,12 +2,13 @@ package com.nicico.sales.model.entities.base;
 
 import com.nicico.sales.model.entities.common.BaseEntity;
 import com.nicico.sales.model.enumeration.RateReference;
-import com.nicico.sales.model.enumeration.SymbolCurrency;
+import com.nicico.sales.model.enumeration.SymbolUnit;
 import lombok.*;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 import java.util.Date;
 
 @Getter
@@ -39,14 +40,18 @@ public class CurrencyRate extends BaseEntity {
 
     @NotNull
     @Column(name = "N_FROM", nullable = false)
-    private SymbolCurrency symbolCurrencyFrom;
+    private SymbolUnit SymbolUnitFrom;
 
     @NotNull
     @Column(name = "N_TO", nullable = false)
-    private SymbolCurrency symbolCurrencyTo;
+    private SymbolUnit SymbolUnitTO;
 
     @NotNull
     @Column(name = "N_REFERENCE", nullable = false)
     private RateReference reference;
+
+    @NotNull
+    @Column(name = "N_RATE_VALUE" , precision = 10, scale = 5 , nullable = false)
+    private BigDecimal rateValue;
 
 }
