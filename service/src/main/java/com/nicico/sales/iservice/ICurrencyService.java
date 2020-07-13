@@ -1,24 +1,12 @@
 package com.nicico.sales.iservice;
 
-import com.nicico.copper.common.domain.criteria.NICICOCriteria;
-import com.nicico.copper.common.dto.grid.TotalResponse;
+
 import com.nicico.sales.dto.CurrencyDTO;
+import com.nicico.sales.model.entities.base.Currency;
+import org.springframework.stereotype.Repository;
 
-import java.util.List;
 
-public interface ICurrencyService {
+@Repository
+public interface ICurrencyService extends IGenericService<Currency, Long , CurrencyDTO.Create , CurrencyDTO.Info , CurrencyDTO.Update , CurrencyDTO.Delete> {
 
-    CurrencyDTO.Info get(Long id);
-
-    List<CurrencyDTO.Info> list();
-
-    CurrencyDTO.Info create(CurrencyDTO.Create request);
-
-    CurrencyDTO.Info update(Long id, CurrencyDTO.Update request);
-
-    void delete(Long id);
-
-    void delete(CurrencyDTO.Delete request);
-
-    TotalResponse<CurrencyDTO.Info> search(NICICOCriteria criteria);
 }

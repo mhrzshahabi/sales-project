@@ -119,7 +119,7 @@
             FINAL: 3
         },
         unit: {
-            PERCENT: 1
+            PERCENT : 1,
         }
     }
     var BaseRPCRequest = {
@@ -584,7 +584,7 @@
                         {
                             title: "<spring:message code='port.port'/>",
                             click: function () {
-                                createTab("<spring:message code='port.port'/>", "<spring:url value="/port/showForm" />")
+                                createTab("<spring:message code='port.port'/>", "<spring:url value="/base-port/show-form" />")
                             }
                         }, {
                             title: "<spring:message code='vessel.title'/>",
@@ -608,7 +608,7 @@
                         {
                             title: "<spring:message code='currency.title'/>",
                             click: function () {
-                                createTab("<spring:message code='currency.title'/>", "<spring:url value="/currency/showForm" />")
+                                createTab("<spring:message code='currency.title'/>", "<spring:url value="/base-currency/show-form" />")
                             }
                         },
                         {isSeparator: true},
