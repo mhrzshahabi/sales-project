@@ -5,7 +5,7 @@ import com.nicico.sales.model.enumeration.CategoryUnit;
 import com.nicico.sales.model.enumeration.SymbolUnit;
 import lombok.*;
 import lombok.experimental.Accessors;
-import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
@@ -20,7 +20,6 @@ import javax.validation.constraints.NotNull;
 public class Unit extends BaseEntity {
 
     @Id
-    @GenericGenerator(name = "SEQ_UNIT", strategy = "com.nicico.sales.model.entities.common.IdKeepingSequenceGenerator")
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_UNIT")
     @SequenceGenerator(name = "SEQ_UNIT", sequenceName = "SEQ_UNIT", allocationSize = 1, initialValue = 1000000)
     @Column(name = "ID")
@@ -35,7 +34,7 @@ public class Unit extends BaseEntity {
     private String nameEN;
 
     @Column(name = "N_CATEGORY_UNIT")
-    private CategoryUnit categoryUnit ;
+    private CategoryUnit categoryUnit;
 
     @Column(name = "N_SYMBOL_UNIT")
     private SymbolUnit symbolUnit;

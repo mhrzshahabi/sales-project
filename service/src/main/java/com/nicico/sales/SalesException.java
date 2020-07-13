@@ -24,13 +24,6 @@ public class SalesException extends NICICOException {
     @Getter
     @RequiredArgsConstructor
     public enum ErrorType implements IErrorCode {
-        CathodListNotFound(404),
-        WarehouseStockNotFound(404),
-        MaterialItemNotFound(404),
-        ContractDetailNotFound(404),
-        DuplicateRecord(403),
-        CostNotFound(404),
-        InvoiceNotFound(404),
         ContractShipmentNotFound(404),
         TozinNotFound(404),
         ContactNotFound(404),
@@ -61,10 +54,7 @@ public class SalesException extends NICICOException {
         InvoiceInternalNotFound(404),
         BankNotFound(404),
         InvoiceSalesNotFound(404),
-        InvoiceSalesItemNotFound(404),
-        VesselNotFound(404),
-        InspectionReportNotFound(404),
-        AccessDenied(403);
+        InvoiceSalesItemNotFound(404);
 
         private final Integer httpStatusCode;
 
