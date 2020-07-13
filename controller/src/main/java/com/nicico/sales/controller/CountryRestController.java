@@ -22,43 +22,36 @@ import java.util.List;
 @RequestMapping(value = "/api/country")
 public class CountryRestController {
 
-    private final ICountryService countryService;
+    private final ICountryService iCountryService;
 
     @Loggable
     @GetMapping(value = "/{id}")
     public ResponseEntity<CountryDTO.Info> get(@PathVariable Long id) {
-        return new ResponseEntity<>(countryService.get(id), HttpStatus.OK);
+        return new ResponseEntity<>(iCountryService.get(id), HttpStatus.OK);
     }
 
     @Loggable
     @GetMapping(value = "/list")
     public ResponseEntity<List<CountryDTO.Info>> list() {
-        return new ResponseEntity<>(countryService.list(), HttpStatus.OK);
+        return new ResponseEntity<>(iCountryService.list(), HttpStatus.OK);
     }
 
     @Loggable
     @PostMapping
     public ResponseEntity<CountryDTO.Info> create(@Validated @RequestBody CountryDTO.Create request) {
-        return new ResponseEntity<>(countryService.create(request), HttpStatus.CREATED);
+        return new ResponseEntity<>(iCountryService.create(request), HttpStatus.CREATED);
     }
 
     @Loggable
     @PutMapping
     public ResponseEntity<CountryDTO.Info> update(@RequestBody CountryDTO.Update request) {
-        return new ResponseEntity<>(countryService.update(request.getId(), request), HttpStatus.OK);
+        return new ResponseEntity<>(iCountryService.update(request.getId(), request), HttpStatus.OK);
     }
 
     @Loggable
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
-        countryService.delete(id);
-        return new ResponseEntity(HttpStatus.OK);
-    }
-
-    @Loggable
-    @DeleteMapping(value = "/list")
-    public ResponseEntity<Void> delete(@Validated @RequestBody CountryDTO.Delete request) {
-        countryService.delete(request);
+    public ResponseEntity delete(@PathVariable Long id) {
+        iCountryService.delete(id);
         return new ResponseEntity(HttpStatus.OK);
     }
 
@@ -66,6 +59,6 @@ public class CountryRestController {
     @GetMapping(value = "/spec-list")
     public ResponseEntity<TotalResponse<CountryDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) throws IOException {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
-        return new ResponseEntity<>(countryService.search(nicicoCriteria), HttpStatus.OK);
+        return new ResponseEntity<>(iCountryService.search(nicicoCriteria), HttpStatus.OK);
     }
 }

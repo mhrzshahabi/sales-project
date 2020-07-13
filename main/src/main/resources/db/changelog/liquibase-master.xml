@@ -36,8 +36,9 @@
 	<include file="classpath:/db/changelog/tbl_warh_store.xml"/>
 	<include file="classpath:/db/changelog/tbl_warh_depot.xml"/>
 	<include file="classpath:/db/changelog/synonyms.xml"/>
-
 	<include file="classpath:/db/changelog/tbl_unit.xml"/>
 	<include file="classpath:/db/changelog/tbl_country.xml"/>
+	<include file="classpath:/db/changelog/tbl_currency.xml"/>
+	<include file="classpath:/db/changelog/tbl_port.xml"/>
 
 </databaseChangeLog>

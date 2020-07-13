@@ -1,0 +1,15 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+    <changeSet author="j.azad" id="J.AZAD-020">
+        <dropForeignKeyConstraint baseTableName="TBL_PORT" constraintName="port2country"/>
+        <addForeignKeyConstraint baseColumnNames="COUNTRY_ID" baseTableName="TBL_PORT" constraintName="port2country" referencedColumnNames="ID" referencedTableName="TBL_COUNTRY"/>
+    </changeSet>
+
+    <changeSet author="j.azad" id="J.AZAD-021">
+        <addNotNullConstraint columnDataType="varchar(4000 CHAR)" columnName="C_PORT" tableName="TBL_PORT"/>
+    </changeSet>
+
+</databaseChangeLog>
