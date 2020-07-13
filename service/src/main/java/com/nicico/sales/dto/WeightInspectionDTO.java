@@ -37,7 +37,6 @@ public class WeightInspectionDTO {
         private InventoryDTO.Info inventory;
         private UnitDTO.Info unit;
 
-
         // Auditing
         private Date createdDate;
         private String createdBy;
@@ -48,6 +47,16 @@ public class WeightInspectionDTO {
         // BaseEntity
         private Boolean editable;
         private List<EStatus> eStatus;
+
+        public BigDecimal getSecondValue() {
+
+            BigDecimal weightGW = getWeightGW();
+            BigDecimal weightND = getWeightND();
+            if(weightGW == null) weightGW = BigDecimal.ZERO;
+            if(weightND == null) weightND = BigDecimal.ZERO;
+
+            return weightGW.subtract(weightND);
+        }
     }
 
     @Getter
