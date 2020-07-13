@@ -7,7 +7,7 @@ isc.defineClass("InvoiceBaseWeight", isc.VLayout).addProperties({
     layoutMargin: 2,
     membersMargin: 2,
     overflow: "scroll",
-    inventory: null,
+    inventories: null,
     initWidget: function () {
 
         this.Super("initWidget", arguments);
@@ -15,7 +15,7 @@ isc.defineClass("InvoiceBaseWeight", isc.VLayout).addProperties({
         let This = this;
         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
             httpMethod: "GET",
-            params: {inventoryId: This.inventory.id},
+            params: {inventoryIds: This.inventories.map(q => q.id)},
             actionURL: "${contextPath}/api/weightInspection/get-weight-values",
             callback: function (resp) {
 

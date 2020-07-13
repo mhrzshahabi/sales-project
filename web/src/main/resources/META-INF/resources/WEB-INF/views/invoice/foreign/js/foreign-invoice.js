@@ -337,6 +337,12 @@ foreignInvoiceTab.button.save = isc.IButtonSave.create({
         if (__contract.getMaterial(foreignInvoiceTab.dynamicForm.valuesManager.getValue('contract')).id === ImportantIDs.material.MOLYBDENUM_OXIDE) {
 
             foreignInvoiceTab.method.addTab(isc.InvoiceCalculation2.create({}), '<spring:message code="foreign-invoice.form.tab.calculation"/>');
+            foreignInvoiceTab.method.addTab(isc.InvoicePayment.create({
+                currency: foreignInvoiceTab.dynamicForm.valuesManager.getValue("currency"),
+                contract: foreignInvoiceTab.dynamicForm.valuesManager.getValue("contract"),
+                shipment: foreignInvoiceTab.dynamicForm.valuesManager.getValue("shipment"),
+                inventories: [{id: 1}, {id: 2}]
+            }), '<spring:message code="foreign-invoice.form.tab.payment"/>');
         } else {
 
             let invoiceBaseValuesComponent = isc.InvoiceBaseValues.create({
@@ -364,6 +370,13 @@ foreignInvoiceTab.button.save = isc.IButtonSave.create({
 
                 invoiceDeductionComponent: invoiceDeductionComponent,
                 invoiceCalculationComponent: invoiceCalculationComponent
+            }), '<spring:message code="foreign-invoice.form.tab.payment"/>');
+            foreignInvoiceTab.method.addTab(isc.InvoicePayment.create({
+                currency: foreignInvoiceTab.dynamicForm.valuesManager.getValue("currency"),
+                contract: foreignInvoiceTab.dynamicForm.valuesManager.getValue("contract"),
+                invoiceDeductionComponent: invoiceDeductionComponent,
+                invoiceCalculationComponent: invoiceCalculationComponent,
+                invoiceBaseWeightComponent: invoiceBaseValuesComponent.invoiceBaseWeightComponent
             }), '<spring:message code="foreign-invoice.form.tab.payment"/>');
         }
 
