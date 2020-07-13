@@ -162,10 +162,10 @@ contractDetailTypeTab.dynamicForm.templateFields.content = {
     title: "<spring:message code='global.content'/>"
 };
 contractDetailTypeTab.dynamicForm.templateFields.contractDetailTypeId = {
+    name: "contractDetailTypeId",
     width: "50%",
     hidden: true,
     required: true,
-    name: "contractDetailTypeId",
     title: "<spring:message code='contract-detail-type.form.title-fa'/>"
 };
 
@@ -648,6 +648,7 @@ contractDetailTypeTab.listGrid.template = isc.ListGrid.create({
         let result = '';
         let rows = params.filter(q => q[contractDetailTypeTab.dynamicForm.paramFields.type.name].toLowerCase() != 'column');
         let columns = params.filter(q => q[contractDetailTypeTab.dynamicForm.paramFields.type.name].toLowerCase() == 'column');
+
         if (columns.length === 0) {
 
             for (let i = 0; i < params.length; i++) {
@@ -720,7 +721,6 @@ contractDetailTypeTab.listGrid.template = isc.ListGrid.create({
         return result;
     },
     getEditorProperties: function (editField, editedRecord, rowNum) {
-
         if (editField.name === contractDetailTypeTab.dynamicForm.templateFields.content.name)
             return {
 
@@ -806,16 +806,12 @@ contractDetailTypeTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
                 let allParams = contractDetailTypeTab.listGrid.param.getAllData();
                 let allTemplates = contractDetailTypeTab.listGrid.template.getAllData();
 
-                console.log(data);
-                console.log(allParams);
-                console.log(allTemplates);
-
                 for (let i = 0; i < allParams.length; i++)
                     allParams[i][contractDetailTypeTab.dynamicForm.paramFields.contractDetailTypeId.name] = data.id;
                 data.contractDetailTypeParams = allParams;
 
                 for (let i = 0; i < allTemplates.length; i++)
-                    allParams[i][contractDetailTypeTab.dynamicForm.templateFields.contractDetailTypeId.name] = data.id;
+                    allTemplates[i][contractDetailTypeTab.dynamicForm.templateFields.contractDetailTypeId.name] = data.id;
                 data.contractDetailTypeTemplates = allTemplates;
 
                 isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {

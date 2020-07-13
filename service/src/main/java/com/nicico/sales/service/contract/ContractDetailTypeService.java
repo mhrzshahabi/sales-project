@@ -82,7 +82,7 @@ public class ContractDetailTypeService extends GenericService<ContractDetailType
         ContractDetailType contractDetailType = repository.findById(id).orElseThrow(() -> new NotFoundException(ContractDetailType.class));
 
         try {
-//            updateTemplates(request, contractDetailType);
+            updateTemplates(request, contractDetailType);
             updateParams(request, contractDetailType);
         } catch (IllegalAccessException | InvocationTargetException | NoSuchFieldException e) {
 
@@ -142,11 +142,12 @@ public class ContractDetailTypeService extends GenericService<ContractDetailType
                 contractDetailTypeTemplates4Insert,
                 ContractDetailTypeTemplateDTO.Update.class,
                 contractDetailTypeTemplates4Update,
-                contractDetailTypeTemplates4Delete);
+                contractDetailTypeTemplates4Delete)
+        ;
         if (!contractDetailTypeTemplates4Insert.isEmpty())
             contractDetailTypeTemplateService.createAll(contractDetailTypeTemplates4Insert);
         if (!contractDetailTypeTemplates4Update.isEmpty())
-            contractDetailTypeTemplateService.updateAll(contractDetailTypeTemplates4Update);
+            contractDetailTypeTemplates4Update.forEach(q -> contractDetailTypeTemplateService.update(q));
         if (!contractDetailTypeTemplates4Delete.getIds().isEmpty())
             contractDetailTypeTemplateService.deleteAll(contractDetailTypeTemplates4Delete);
     }
@@ -167,14 +168,11 @@ public class ContractDetailTypeService extends GenericService<ContractDetailType
                 contractDetailTypeParams4Update,
                 contractDetailTypeParams4Delete);
 
-        if (!contractDetailTypeParams4Insert.isEmpty()) {
-            contractDetailTypeParams4Insert.forEach(q -> contractDetailTypeParamService.create(q));
-        }
-        if (!contractDetailTypeParams4Update.isEmpty()) {
-            contractDetailTypeParams4Update.forEach(q -> contractDetailTypeParamService.update(q));
-        }
-        if (!contractDetailTypeParams4Delete.getIds().isEmpty()) {
+        if (!contractDetailTypeParams4Insert.isEmpty())
+            contractDetailTypeParamService.createAll(contractDetailTypeParams4Insert);
+        if (!contractDetailTypeParams4Update.isEmpty())
+            contractDetailTypeParamService.updateAll(contractDetailTypeParams4Update);
+        if (!contractDetailTypeParams4Delete.getIds().isEmpty())
             contractDetailTypeParamService.deleteAll(contractDetailTypeParams4Delete);
-        }
     }
 }
