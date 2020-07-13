@@ -5,6 +5,7 @@ import lombok.*;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
@@ -22,10 +23,12 @@ public class Country extends BaseEntity {
     @Column(name = "ID")
     private Long id;
 
-    @Column(name = "c_NAME_FA", nullable = false)
+    @NotNull
+    @Column(name = "C_NAME_FA", nullable = false)
     private String nameFa;
 
-    @Column(name = "c_NAME_EN", nullable = false)
+    @NotNull
+    @Column(name = "C_NAME_EN", nullable = false)
     private String nameEn;
 
 }
