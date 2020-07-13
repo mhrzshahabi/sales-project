@@ -3,7 +3,8 @@ unitTab.dynamicForm.fields = BaseFormItems.concat([
 
     {
         name: "id",
-        hidden: true , width: "10%",
+        hidden: true ,
+        width: "10%",
     },
     {
         name: "nameFA",
