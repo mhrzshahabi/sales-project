@@ -94,7 +94,7 @@ public class CurrencyRateService implements ICurrencyRateService {
 
     @Override
     public CurrencyRateDTO.Info getCurrencyRate(RateReference rateReference, Date conversionDate) {
-        return modelMapper.map(currencyRateDAO.findByRateReferenceAndDate(rateReference, conversionDate), CurrencyRateDTO.Info.class);
+        return null;//modelMapper.map(currencyRateDAO.findByRateReferenceAndDate(rateReference, conversionDate), CurrencyRateDTO.Info.class);
     }
 
     private CurrencyRateDTO.Info save(CurrencyRate currencyRate) {
