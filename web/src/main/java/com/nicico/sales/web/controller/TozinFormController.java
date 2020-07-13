@@ -9,7 +9,6 @@ import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.TozinDTO;
 import com.nicico.sales.iservice.ITozinService;
 import com.nicico.sales.model.entities.base.TozinLite;
-import com.nicico.sales.repository.TozinDAO;
 import com.nicico.sales.repository.TozinLiteDAO;
 import com.nicico.sales.utility.MakeExcelOutputUtil;
 import com.nicico.sales.utility.SpecListUtil;

@@ -1177,14 +1177,14 @@ rdTab.Fields.RemittanceDetail = [
         title: "توزین مبدا",
         recordDoubleClick: rdTab.Methods.RecordDoubleClickRD,
         pickListFields: rdTab.Fields.TozinLite,
-        showHover:true,
+        showHover: true,
         showHoverComponents: true,
     },
     {
         name: "destinationTozin.tozinId",
         title: "توزین مقصد",
         recordDoubleClick: rdTab.Methods.RecordDoubleClickRD,
-        showHover:true,
+        showHover: true,
         showHoverComponents: true,
         pickListFields: rdTab.Fields.TozinLite
 
@@ -1387,7 +1387,7 @@ rdTab.Grids.RemittanceDetail = {
     fields: rdTab.Fields.RemittanceDetailFullFields,
     showHoverComponents: true,
     getCellHoverComponent: function (record, rowNum, colNum) {
-        console.log('getCellHoverComponent',this, arguments)
+        console.log('getCellHoverComponent', this, arguments)
         this.rowHoverComponent = isc.DetailViewer.create({
             dataSource: isc.MyRestDataSource.create({
                 fields: [...rdTab.Fields.TozinFull],
@@ -1400,7 +1400,7 @@ rdTab.Grids.RemittanceDetail = {
             criteria: {
                 fieldName: "tozinId",
                 operator: "equals",
-                value: eval('record.'+this.getField(colNum).name)
+                value: eval('record.' + this.getField(colNum).name)
             }
         }, null, {showPrompt: false});
 
@@ -1453,6 +1453,35 @@ isc.VLayout.create({
 
                 },
             }),
+                isc.ToolStripButtonAdd.create({
+                    click() {
+                            rdTab.Grids.Remittance.obj.getSelectedRecords();
+                            isc.Window.create({
+                                title: "بیجک خروجی",
+                                width: .8 * window.innerWidth,
+                                height: 580,
+                                autoSize: true,
+                                autoCenter: true,
+                                showMinimizeButton: false,
+                                isModal: true,
+                                showModalMask: true,
+                                align: "center",
+                                autoDraw: false,
+                                showTitle: false,
+                                dismissOnEscape: true,
+                                visibility: 'hidden',
+                                closeClick: function () {
+
+                                    this.Super("closeClick", arguments)
+                                },
+                                members:[isc.VLayout.create({
+                                    members:[isc.DynamicForm.create({
+                                        fields:[...rdTab.Fields.Remittance]
+                                    })]
+                                })]
+                            })
+                    }
+                }),
                 isc.ToolStrip.create({
                     width: "100%",
                     align: "left",
