@@ -23,7 +23,7 @@ public class CurrencyRate extends BaseEntity {
     private Long id;
 
     @Column(name = "C_DATE")
-    @Temporal(TemporalType.DATE)
+//    @Temporal(TemporalType.DATE)
     private String curDate;
 
     @Column(name = "c_IRR_USD")

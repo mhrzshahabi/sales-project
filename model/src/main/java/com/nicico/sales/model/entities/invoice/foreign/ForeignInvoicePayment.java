@@ -47,6 +47,9 @@ public class ForeignInvoicePayment extends BaseEntity {
     @Column(name = "N_DOC_CONVERSION_PRICE", scale = 2, precision = 14)
     private BigDecimal docConversionPrice;
 
+    @Column(name = "N_PORTION", scale = 2, precision = 5)
+    private BigDecimal portion;
+
     @Column(name = "C_DESCRIPTION", length = 4000)
     private String description;
 
