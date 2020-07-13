@@ -29,6 +29,7 @@
     <script src="<spring:url value='/static/script/enumJson/unitEnum.js' />"></script>
     <script src="<spring:url value='/static/script/enumJson/materialEnum.js' />"></script>
     <script src="<spring:url value='/static/script/js/persian-rex.js' />"></script>
+    <script src="<spring:url value='/static/script/js/num2persian-min.js' />"></script>
 
 
     <script>var isomorphicDir = "isomorphic/";</script>
@@ -118,7 +119,7 @@
             FINAL: 3
         },
         unit: {
-            PERCENT: 1
+            PERCENT : 1,
         }
     }
     var BaseRPCRequest = {
@@ -583,7 +584,7 @@
                         {
                             title: "<spring:message code='port.port'/>",
                             click: function () {
-                                createTab("<spring:message code='port.port'/>", "<spring:url value="/port/showForm" />")
+                                createTab("<spring:message code='port.port'/>", "<spring:url value="/base-port/show-form" />")
                             }
                         }, {
                             title: "<spring:message code='vessel.title'/>",
@@ -598,13 +599,6 @@
                     title: "<spring:message code='main.baseTab.financial'/>",
                     submenu: [
                         {
-                            title: "<spring:message code='unit.title'/>",
-                            click: function () {
-                                createTab("<spring:message code='unit.title'/>", "<spring:url value="/unit/showForm" />")
-                            }
-                        },
-                        {isSeparator: true},
-                        {
                             title: "<spring:message code='currencyRate.title'/>",
                             click: function () {
                                 createTab("<spring:message code='currencyRate.title'/>", "<spring:url value="/currencyRate/showForm" />")
@@ -614,7 +608,7 @@
                         {
                             title: "<spring:message code='currency.title'/>",
                             click: function () {
-                                createTab("<spring:message code='currency.title'/>", "<spring:url value="/currency/showForm" />")
+                                createTab("<spring:message code='currency.title'/>", "<spring:url value="/base-currency/show-form" />")
                             }
                         },
                         {isSeparator: true},
@@ -641,10 +635,19 @@
                     }
                 },
                 {isSeparator: true},
+
+                {
+                    title: "<spring:message code='unit.title'/>",
+                    click: function () {
+                        createTab("<spring:message code='unit.title'/>", "<spring:url value="base-unit/show-form" />")
+                    }
+                },
+                {isSeparator: true},
+
                 {
                     title: "<spring:message code='country.title'/>",
                     click: function () {
-                        createTab("<spring:message code='country.title'/>", "<spring:url value="/country/showForm" />")
+                        createTab("<spring:message code='country.title'/>", "<spring:url value="/base-country/show-form" />")
                     }
                 },
                 {isSeparator: true},
@@ -653,7 +656,8 @@
                     click: function () {
                         createTab("<spring:message code='parameters.title'/>", "<spring:url value="/parameters/showForm" />")
                     }
-                }
+                },
+
             ]
         }),
     });
@@ -917,7 +921,7 @@
                 {
                     title: "<spring:message code='bijack'/>",
                     click: function () {
-                        createTab("<spring:message code='bijack'/>", "<spring:url value="/warehouseCad/showForm" />")
+                        createTab("<spring:message code='bijack'/>", "<spring:url value="/remittance-detail/showForm" />")
                     }
                 },
                 {isSeparator: true},
@@ -1176,11 +1180,12 @@
         : document.URL.split("?")[0];
     const SalesConfigs = {
         Urls: {
+            completeUrl: SalesDocumentUrl,
             RootUrl: "${contextPath}",
             InvoiceExportRest: "${contextPath}" + "/rest",
             remittanceRest: "${contextPath}" + "/rest",
         },
-        httpHeaders: {"Authorization": "Bearer <%= accessToken %>"},
+        httpHeaders: {"Authorization": "Bearer <%= accessToken %>", "content-type": "application/json"},
         userFullName: '<%= SecurityUtil.getFullName()%>',
     }
     isc.FilterBuilder.addProperties({

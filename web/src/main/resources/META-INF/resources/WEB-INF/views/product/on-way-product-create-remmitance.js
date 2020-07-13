@@ -41,7 +41,7 @@ function onWayProductCreateRemittance(criteriaBuildForListGrid) {
 
             }
         )
-        _styler(sums['vazn'], "Weight");
+        _styler(sums['vazn']+ " " + sums['vazn'].toPersianLetter(), "Weight");
         _styler(sums['tedad'], "SheetSum");
         _styler(sums['totalPkg'], "BundleSum");
         // DynamicForm_warehouseCAD.setValue('destinationWeight', ('<span style="color:red">' + sums['vazn']).toString() + "</span>");
@@ -952,7 +952,7 @@ function onWayProductCreateRemittance(criteriaBuildForListGrid) {
             const tzn_data = tozin.response.data;
             const vazn = (tzn_data.map(t => t.vazn).reduce((i, j) => j + i)).toString();
             DynamicForm_warehouseCAD.setValue('sourceWeight',
-                vazn);
+                vazn + " " + vazn.toPersianLetter());
             const packageSample = {
                 uid: giveMeAName(),
                 label: giveMeAName(),
