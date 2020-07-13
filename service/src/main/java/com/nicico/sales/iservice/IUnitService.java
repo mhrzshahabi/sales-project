@@ -1,26 +1,11 @@
 package com.nicico.sales.iservice;
 
-import com.nicico.copper.common.domain.criteria.NICICOCriteria;
-import com.nicico.copper.common.dto.grid.TotalResponse;
+
 import com.nicico.sales.dto.UnitDTO;
+import com.nicico.sales.model.entities.base.Unit;
+import org.springframework.stereotype.Repository;
 
-import java.util.List;
+@Repository
+public interface IUnitService extends IGenericService<Unit, Long , UnitDTO.Create , UnitDTO.Info , UnitDTO.Update , UnitDTO.Delete> {
 
-public interface IUnitService {
-
-    UnitDTO.Info get(Long id);
-
-    List<UnitDTO.Info> list();
-
-    UnitDTO.Info create(UnitDTO.Create request);
-
-    UnitDTO.Info update(Long id, UnitDTO.Update request);
-
-    void delete(Long id);
-
-    void delete(UnitDTO.Delete request);
-
-    TotalResponse<UnitDTO.Info> search(NICICOCriteria criteria);
-
-    void updateUnits();
 }
