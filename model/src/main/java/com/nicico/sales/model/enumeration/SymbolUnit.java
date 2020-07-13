@@ -25,7 +25,9 @@ public enum SymbolUnit {
     MT(15),
     DMT(16),
     US_MT(17),
-    US_TR_OZ(18);
+    US_TR_OZ(18),
+    US_LB(19),
+    KGS(20);
 
     private final Integer id;
 }

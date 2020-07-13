@@ -34,10 +34,11 @@ public class Unit extends BaseEntity {
     @Column(name = "C_NAME_EN", nullable = false)
     private String nameEN;
 
-    @Column(name = "N_CATEGORY_UNIT")
+    @NotNull
+    @Column(name = "N_CATEGORY_UNIT" , nullable = false)
     private CategoryUnit categoryUnit ;
 
-    @Column(name = "N_SYMBOL_UNIT")
+    @NotNull
+    @Column(name = "N_SYMBOL_UNIT" , nullable = false)
     private SymbolUnit symbolUnit;
-
 }

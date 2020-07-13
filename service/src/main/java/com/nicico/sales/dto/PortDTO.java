@@ -39,7 +39,7 @@ public class PortDTO {
     @ApiModel("PortInfo")
     public static class Info extends PortDTO {
         private Long id;
-        private CountryDTO.CountryInfoTuple country;
+        private CountryDTO.Info country;
         private Date createdDate;
         private String createdBy;
         private Date lastModifiedDate;

@@ -638,7 +638,7 @@ const rdTab = {
     },
     Log: {},
 };
-////////////////////////////////////////////////////////METHODS/////////////////////////////////////////////////////////
+
 rdTab.Methods.RecordDoubleClick = function (url, items, recordString, viewer, record, recordNum, field, fieldNum, value, rawValue) {
     let form;
     const window1 = isc.Window.create({
@@ -791,7 +791,7 @@ rdTab.Methods.FetchAlreadyInsertedTozinList = async function (criteria) {
     const responseJson = await response.json();
     return responseJson.response.data.map(t => t.tozinId);
 }
-////////////////////////////////////////////////////////FIELDS//////////////////////////////////////////////////////////
+
 rdTab.Fields.TozinBase = [
     {
         name: "date",
