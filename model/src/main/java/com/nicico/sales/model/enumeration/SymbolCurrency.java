@@ -13,7 +13,7 @@ public enum SymbolCurrency {
     £(4),
     ¢(5),
     ¥(6),
-    RIAL(7);
+    ریال(7);
 
     private final Integer id;
 }
