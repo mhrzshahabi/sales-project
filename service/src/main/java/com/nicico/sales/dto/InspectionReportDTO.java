@@ -79,6 +79,9 @@ public class InspectionReportDTO {
         @NotNull
         @ApiModelProperty(required = true)
         private Long id;
+
+        private List<WeightInspectionDTO.Info> weightInspections;
+        private List<AssayInspectionDTO.Info> assayInspections;
     }
 
     @Getter

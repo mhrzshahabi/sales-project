@@ -44,11 +44,11 @@ public class InspectionReportRestController {
         return new ResponseEntity<>(iInspectionReportService.create(request), HttpStatus.CREATED);
     }
 
-    @Loggable
+    /*@Loggable
     @PostMapping(value = "/inspection")
     public ResponseEntity<InspectionReportDTO.Info> createInspec(@Validated @RequestBody InspectionReportDTO.Create request) {
         return new ResponseEntity<>(iInspectionReportService.createInspec(request), HttpStatus.CREATED);
-    }
+    }*/
 
     @Loggable
     @PutMapping
