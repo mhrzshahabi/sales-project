@@ -56,6 +56,15 @@ public class TozinDTO {
     public static class Info extends TozinDTO {
     }
 
+     @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("TozinInfo")
+    public static class PDF extends TozinDTO.Info {
+        private String driverName;
+    }
+
+
     @Getter
     @Setter
     @Accessors(chain = true)
