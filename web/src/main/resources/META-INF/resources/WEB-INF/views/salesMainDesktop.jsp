@@ -92,7 +92,7 @@
     <%@include file="common/ts/FormUtil.js"%>
     <%@include file="common/ts/FindFormUtil.js"%>
     <%@include file="common/ts/GeneralTabUtil.js"%>
-    <%@include file="common/ts/StorageUtil.js"%>
+<%--    <%@include file="common/ts/"%>--%>
 
     var Enums = {
 
@@ -122,6 +122,7 @@
             PERCENT : 1,
         }
     }
+
     var BaseRPCRequest = {
         httpHeaders: {"Authorization": "Bearer <%= accessToken %>"},
         useSimpleHttp: true,
@@ -601,7 +602,7 @@
                         {
                             title: "<spring:message code='currencyRate.title'/>",
                             click: function () {
-                                createTab("<spring:message code='currencyRate.title'/>", "<spring:url value="/currencyRate/showForm" />")
+                                createTab("<spring:message code='currencyRate.title'/>", "<spring:url value="/base-currencyRate/show-form" />")
                             }
                         },
                         {isSeparator: true},
