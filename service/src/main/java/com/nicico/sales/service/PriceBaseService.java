@@ -1,18 +1,17 @@
 package com.nicico.sales.service;
 
-import com.nicico.sales.dto.ElementDTO;
+import com.nicico.sales.dto.PriceBaseDTO;
 import com.nicico.sales.iservice.IPriceBaseService;
 import com.nicico.sales.model.entities.base.PriceBase;
+import com.nicico.sales.model.entities.warehouse.Element;
 import com.nicico.sales.model.entities.warehouse.MaterialElement;
+import com.nicico.sales.model.enumeration.PriceBaseReference;
 import com.nicico.sales.repository.PriceBaseDAO;
 import com.nicico.sales.repository.warehouse.MaterialElementDAO;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.TypeToken;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,26 +22,24 @@ public class PriceBaseService extends GenericService<com.nicico.sales.model.enti
     private final MaterialElementDAO materialElementDAO;
 
     @Override
-    public List<ElementDTO.ElementPriceBaseDTO> getElementBasePrices(Integer year, Integer month, Long materialId) {
+    public List<PriceBaseDTO.Info> getElementBasePrices(PriceBaseReference reference, Integer year, Integer month, Long materialId) {
 
         List<MaterialElement> materialElements = materialElementDAO.findAllByMaterialId(materialId);
         List<Long> elementIds = materialElements.stream().map(MaterialElement::getElementId).collect(Collectors.toList());
 
-        List<PriceBase> prices = ((PriceBaseDAO) repository).getAllPricesByElements(year, month, elementIds);
-        Collection<ElementDTO.ElementPriceBaseDTO> groups = prices.stream().collect(Collectors.groupingBy(PriceBase::getElementId, Collectors.collectingAndThen(Collectors.toList(), q -> {
+        List<PriceBase> pricesByElements = ((PriceBaseDAO) repository).getAllPricesByElements(reference, year, month, elementIds);
+        pricesByElements.stream().filter(price -> {
 
-            if (q.size() == 0)
-                return new ElementDTO.ElementPriceBaseDTO();
+            @SuppressWarnings("OptionalGetWithoutIsPresent")
+            Element elm = materialElements.stream().
+                    map(MaterialElement::getElement).
+                    filter(element -> element.getId() == price.getElementId().longValue()).
+                    findFirst().get();
+            price.getUnitId() == elm.getUnitId();
+        });
 
-            BigDecimal averagePrice = q.stream().map(PriceBase::getPrice).reduce(BigDecimal.ZERO, BigDecimal::add).divide(BigDecimal.valueOf(q.size()), RoundingMode.HALF_EVEN);
-            ElementDTO.ElementPriceBaseDTO result = modelMapper.map(q.get(0).getElement(), ElementDTO.ElementPriceBaseDTO.class);
-            result.setPrice(averagePrice);
-            result.setUnit(q.get(0).getUnit());
-            result.setCurrency(q.get(0).getCurrency());
-
-            return result;
-        }))).values();
-
-        return new ArrayList<>(groups);
+        return modelMapper.map(pricesByElements,
+                new TypeToken<List<PriceBaseDTO.Info>>() {
+                }.getType());
     }
 }

@@ -29,6 +29,28 @@ public class WeightInspectionDTO {
     @Getter
     @Setter
     @Accessors(chain = true)
+    @ApiModel("WeightInspectionData")
+    public static class WeightData {
+
+        private BigDecimal weightGW;
+        private BigDecimal weightND;
+        private UnitDTO.Info unit;
+        private InventoryDTO.Info inventory;
+
+        public BigDecimal getSecondValue() {
+
+            BigDecimal weightGW = getWeightGW();
+            BigDecimal weightND = getWeightND();
+            if(weightGW == null) weightGW = BigDecimal.ZERO;
+            if(weightND == null) weightND = BigDecimal.ZERO;
+
+            return weightGW.subtract(weightND);
+        }
+    }
+
+    @Getter
+    @Setter
+    @Accessors(chain = true)
     @ApiModel("WeightInspectionInfo")
     public static class Info extends WeightInspectionDTO {
 

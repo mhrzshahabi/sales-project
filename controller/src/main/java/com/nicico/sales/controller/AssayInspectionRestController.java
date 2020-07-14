@@ -66,8 +66,8 @@ public class AssayInspectionRestController {
 
     @Loggable
     @GetMapping(value = "/get-assay-values")
-    public ResponseEntity<List<AssayInspectionDTO.Info>> getAssayValues(@RequestParam List<Long> inventoryIds) {
+    public ResponseEntity<List<AssayInspectionDTO.AssayData>> getAssayValues(@RequestParam List<Long> inventoryIds, @RequestParam Boolean doIntegration) {
 
-        return new ResponseEntity<>(iAssayInspectionService.getAssayValues(inventoryIds), HttpStatus.OK);
+        return new ResponseEntity<>(iAssayInspectionService.getAssayValues(inventoryIds, doIntegration), HttpStatus.OK);
     }
 }

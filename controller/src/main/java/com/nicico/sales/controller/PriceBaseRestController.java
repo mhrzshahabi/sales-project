@@ -3,9 +3,9 @@ package com.nicico.sales.controller;
 import com.nicico.copper.common.Loggable;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.sales.dto.ElementDTO;
 import com.nicico.sales.dto.PriceBaseDTO;
 import com.nicico.sales.iservice.IPriceBaseService;
+import com.nicico.sales.model.enumeration.PriceBaseReference;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -66,8 +66,8 @@ public class PriceBaseRestController {
 
     @Loggable
     @GetMapping(value = "/get-base-price")
-    public ResponseEntity<List<ElementDTO.ElementPriceBaseDTO>> getBasePrice(@RequestParam Integer year, @RequestParam Integer month, @RequestParam Long materialId) {
+    public ResponseEntity<List<PriceBaseDTO.Info>> getBasePrice(@RequestParam PriceBaseReference reference, @RequestParam Integer year, @RequestParam Integer month, @RequestParam Long unitId, @RequestParam Long materialId) {
 
-        return new ResponseEntity<>(priceBaseService.getElementBasePrices(year, month, materialId), HttpStatus.OK);
+        return new ResponseEntity<>(priceBaseService.getElementBasePrices(reference, year, month, unitId, materialId), HttpStatus.OK);
     }
 }

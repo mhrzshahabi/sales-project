@@ -1,8 +1,6 @@
 package com.nicico.sales.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.nicico.sales.model.entities.base.Currency;
-import com.nicico.sales.model.entities.base.Unit;
 import com.nicico.sales.model.enumeration.EStatus;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -11,7 +9,6 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotNull;
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -43,23 +40,6 @@ public class ElementDTO {
         // BaseEntity
         private Boolean editable;
         private List<EStatus> eStatus;
-    }
-
-    @Getter
-    @Setter
-    @Accessors(chain = true)
-    @ApiModel("PriceBaseInfo")
-    public static class ElementPriceBaseDTO extends ElementDTO {
-
-        private Long id;
-        private String name;
-        private Boolean payable;
-        private Boolean useInContract;
-
-        private BigDecimal price;
-
-        private Unit unit;
-        private Currency currency;
     }
 
     @Getter
