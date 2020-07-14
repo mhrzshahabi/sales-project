@@ -61,12 +61,12 @@ inspectionReportTab.restDataSource.inspecReportRest = isc.MyRestDataSource.creat
             title: "<spring:message code='inspectionReport.inspectionRateValueType'/>"
         },
         {
-            name: "currencyId",
-            title: "<spring:message code='inspectionReport.currencyId'/>"
+            name: "unitId",
+            title: "<spring:message code='global.unit'/>"
         },
         {
-            name: "currency.nameFa",
-            title: "<spring:message code='inspectionReport.currencyId'/>"
+            name: "unit.nameFA",
+            title: "<spring:message code='global.unit'/>"
         },
     ],
     fetchDataURL: "${contextPath}/api/inspectionReport/spec-list"
@@ -440,22 +440,28 @@ inspectionReportTab.method.setInventoryCriteria = function (materialId) {
     });
 };
 
-inspectionReportTab.criteria.inspectorCriteria = {
+let inspectorCriteria = {
     _constructor: "AdvancedCriteria",
     operator: "and",
     criteria: [{fieldName: "commercialRole", operator: "iContains", value: "Inspector"}]
 };
 
-inspectionReportTab.criteria.sellerCriteria = {
+let sellerCriteria = {
     _constructor: "AdvancedCriteria",
     operator: "and",
     criteria: [{fieldName: "commercialRole", operator: "iContains", value: "Seller"}]
 };
 
-inspectionReportTab.criteria.buyerCriteria = {
+let buyerCriteria = {
     _constructor: "AdvancedCriteria",
     operator: "and",
     criteria: [{fieldName: "commercialRole", operator: "iContains", value: "Buyer"}]
+};
+
+let currencyInUnitCriteria = {
+    _constructor: "AdvancedCriteria",
+    operator: "and",
+    criteria: [{fieldName: "categoryUnit", operator: "equals", value: 0}]
 };
 
 //*************************************************** FORM STRUCTURE ************************************************
@@ -571,7 +577,7 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
         pickListWidth: "500",
         pickListHeight: "300",
         optionDataSource: isc.MyRestDataSource.create(inspectionReportTab.restDataSource.contactRest),
-        optionCriteria: inspectionReportTab.criteria.inspectorCriteria,
+        optionCriteria: inspectorCriteria,
         pickListProperties:
             {
                 showFilterEditor: true
@@ -663,7 +669,7 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
         pickListWidth: "500",
         pickListHeight: "300",
         optionDataSource: isc.MyRestDataSource.create(inspectionReportTab.restDataSource.contactRest1),
-        optionCriteria: inspectionReportTab.criteria.sellerCriteria,
+        optionCriteria: sellerCriteria,
         pickListProperties:
             {
                 showFilterEditor: true
@@ -696,7 +702,7 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
         pickListWidth: "500",
         pickListHeight: "300",
         optionDataSource: isc.MyRestDataSource.create(inspectionReportTab.restDataSource.contactRest2),
-        optionCriteria: inspectionReportTab.criteria.buyerCriteria,
+        optionCriteria: buyerCriteria,
         pickListProperties:
             {
                 showFilterEditor: true
@@ -735,27 +741,28 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
             }]
     },
     {
-        name: "currencyId",
-        title: "<spring:message code='inspectionReport.currencyId'/>",
+        name: "unitId",
+        title: "<spring:message code='global.unit'/>",
         required: true,
         autoFetchData: false,
         editorType: "SelectItem",
         valueField: "id",
-        displayField: "nameFa",
+        displayField: "nameFA",
         pickListWidth: "500",
         pickListHeight: "300",
-        optionDataSource: inspectionReportTab.restDataSource.currencyRest,
+        optionDataSource: inspectionReportTab.restDataSource.unitRest,
+        optionCriteria: currencyInUnitCriteria,
         pickListProperties:
             {
                 showFilterEditor: true
             },
         pickListFields: [
             {
-                name: "nameFa",
+                name: "nameFA",
                 align: "center"
             },
             {
-                name: "nameEn",
+                name: "nameEN",
                 align: "center"
             },
         ],
@@ -1265,7 +1272,7 @@ inspectionReportTab.listGrid.fields = [
         title: "<spring:message code='inspectionReport.inspectionRateValueType'/>"
     },
     {
-        name: "currency.nameFa",
+        name: "unit.nameFA",
         title: "<spring:message code='inspectionReport.currencyId'/>"
     }
 ];

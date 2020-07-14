@@ -20,6 +20,7 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.Console;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
@@ -57,6 +58,8 @@ public class InspectionReportService extends GenericService<InspectionReport, Lo
     @Action(value = ActionType.Update)
     public InspectionReportDTO.Info update(Long id, InspectionReportDTO.Update request) {
 
+        request.getWeightInspections().forEach(item -> item.setInspectionReportId(request.getId()));
+        request.getAssayInspections().forEach(item -> item.setInspectionReportId(request.getId()));
         InspectionReport inspectionReport = repository.findById(id).orElseThrow(() -> new NotFoundException(InspectionReport.class));
 
         try {

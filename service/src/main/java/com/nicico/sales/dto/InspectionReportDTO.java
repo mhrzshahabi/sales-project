@@ -30,7 +30,7 @@ public class InspectionReportDTO {
     private Long buyerId;
     private BigDecimal inspectionRateValue;
     private InspectionRateValueType inspectionRateValueType;
-    private Long currencyId;
+    private Long unitId;
     private List<AssayInspectionDTO.InfoWithoutInspectionReport> assayInspections;
     private List<WeightInspectionDTO.InfoWithoutInspectionReport> weightInspections;
 
@@ -44,7 +44,7 @@ public class InspectionReportDTO {
         private ContactDTO.Info inspector;
         private ContactDTO.Info seller;
         private ContactDTO.Info buyer;
-        private UnitDTO.Info currency;
+        private UnitDTO.Info unit;
 
         // Auditing
         private Date createdDate;
