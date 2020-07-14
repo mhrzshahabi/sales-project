@@ -39,11 +39,11 @@ public class CurrencyRate extends BaseEntity {
 
     @NotNull
     @Column(name = "N_FROM", nullable = false)
-    private SymbolUnit.SymbolCUR symbolCF;
+    private SymbolUnit symbolCF;
 
     @NotNull
     @Column(name = "N_TO", nullable = false)
-    private SymbolUnit.SymbolCUR symbolCT;
+    private SymbolUnit symbolCT;
 
     @NotNull
     @Column(name = "N_REFERENCE", nullable = false)

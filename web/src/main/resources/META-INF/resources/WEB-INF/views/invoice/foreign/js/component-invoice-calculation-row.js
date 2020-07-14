@@ -68,7 +68,7 @@ isc.defineClass("InvoiceCalculationRow", isc.DynamicForm).addProperties({
         }));
         this.fields.last().setUnitId(this.assay.materialElement.unit.id);
         if (This.assay.materialElement.unit.id !== ImportantIDs.unit.PERCENT &&
-            !Enums.unit.hasFlag(This.price.unit.value, This.assay.materialElement.unit.value))
+            !Enums.unit.hasFlag(This.price.unit.symbolUnit, This.assay.materialElement.unit.symbolUnit))
             this.addField({
                 colSpan: 4,
                 title: " X ",

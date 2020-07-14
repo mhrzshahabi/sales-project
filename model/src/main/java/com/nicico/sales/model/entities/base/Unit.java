@@ -38,5 +38,4 @@ public class Unit extends BaseEntity {
 
     @Column(name = "N_SYMBOL_UNIT")
     private SymbolUnit symbolUnit;
-
 }

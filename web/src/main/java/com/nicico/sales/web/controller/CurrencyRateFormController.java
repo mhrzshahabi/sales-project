@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
+import java.util.EnumSet;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -23,11 +24,18 @@ public class CurrencyRateFormController {
     @RequestMapping("/show-form")
     public String showCurrencyRate(HttpServletRequest request) throws JsonProcessingException {
 
-
-        request.setAttribute("Enum_SymbolCUR", objectMapper.writeValueAsString(
-                Arrays.stream(SymbolUnit.SymbolCUR.values())
-                        .collect(Collectors.toMap(SymbolUnit.SymbolCUR::name, SymbolUnit.SymbolCUR::name)))
-        );
+        EnumSet<SymbolUnit> currencySymbols = EnumSet.of(
+                SymbolUnit.$,
+                SymbolUnit.¢,
+                SymbolUnit.£,
+                SymbolUnit.¥,
+                SymbolUnit.€,
+                SymbolUnit.ریال);
+        String currencyStr = objectMapper.writeValueAsString(
+                currencySymbols.
+                        stream().
+                        collect(Collectors.toMap(SymbolUnit::name, SymbolUnit::name)));
+        request.setAttribute("Enum_SymbolCUR", currencyStr);
 
         request.setAttribute("Enum_RateReference", objectMapper.writeValueAsString(
                 Arrays.stream(RateReference.values())

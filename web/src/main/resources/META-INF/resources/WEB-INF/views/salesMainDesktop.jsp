@@ -101,12 +101,12 @@
             "DeActive": "حذف شده"
         },
         unit: {
-            "Percent": 1,
+            symbols: JSON.parse('${Enum_SymbolUnit_WithValue}'),
             hasFlag: function (value, target) {
 
-                value = Enums.unit[value];
-                target = Enums.unit[target];
-                for (let id in Object.values(Enums.unit).sort().reverse()) {
+                value = Enums.unit.symbols[value];
+                target = Enums.unit.symbols[target];
+                for (let id in Object.values(Enums.unit.symbols).sort().reverse()) {
 
                     if (id > value) continue;
                     if (id === target) return true;
@@ -114,6 +114,19 @@
                 }
 
                 return false;
+            },
+            getValues: function (value) {
+
+                let result = [];
+                value = Enums.unit.symbols[value];
+                for (let id in Object.values(Enums.unit.symbols).sort().reverse()) {
+
+                    if (id > value) continue;
+                    result.push(Object.keys(Enums.unit.symbols).filter(q => Enums.unit.symbols[q] === id).first());
+                    value -= id;
+                }
+
+                return result;
             }
         }
     };
