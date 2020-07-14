@@ -1,0 +1,82 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+    <changeSet author="" id="J.AZAD-025">
+        <addColumn tableName="TBL_CURRENCY_RATE">
+            <column name="D_CURRENCY_DATE" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="j.azad" id="J.AZAD-026">
+        <addColumn tableName="TBL_CURRENCY_RATE">
+            <column name="N_FROM" type="number(10, 0)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="j.azad" id="J.AZAD-027">
+        <addColumn tableName="TBL_CURRENCY_RATE">
+            <column name="N_TO" type="number(10, 0)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+
+
+    <changeSet author="j.azad" id="J.AZAD-028">
+        <addColumn tableName="TBL_CURRENCY_RATE">
+            <column name="N_REFERENCE" type="number(10, 0)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+
+
+    <changeSet author="j.azad" id="J.AZAD-029">
+        <addColumn tableName="TBL_CURRENCY_RATE">
+            <column name="N_RATE_VALUE" type="number(10, 5)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+
+
+    <changeSet author="j.azad" id="J.AZAD-030">
+        <addUniqueConstraint columnNames="D_CURRENCY_DATE, N_FROM, N_TO, N_REFERENCE" constraintName="UNIQE_List_CrrencyRate" tableName="TBL_CURRENCY_RATE"/>
+    </changeSet>
+
+
+
+    <changeSet author="j.azad" id="J.AZAD-031">
+        <dropColumn columnName="C_AED_USD" tableName="TBL_CURRENCY_RATE"/>
+    </changeSet>
+
+
+    <changeSet author="j.azad" id="J.AZAD-032">
+        <dropColumn columnName="C_DATE" tableName="TBL_CURRENCY_RATE"/>
+    </changeSet>
+
+
+
+    <changeSet author="j.azad" id="J.AZAD-033">
+        <dropColumn columnName="C_EUR_USD" tableName="TBL_CURRENCY_RATE"/>
+    </changeSet>
+
+
+
+    <changeSet author="j.azad" id="J.AZAD-034">
+        <dropColumn columnName="C_IRR_USD" tableName="TBL_CURRENCY_RATE"/>
+    </changeSet>
+
+
+    <changeSet author="j.azad" id="J.AZAD-035">
+        <dropColumn columnName="C_RMB_USD" tableName="TBL_CURRENCY_RATE"/>
+    </changeSet>
+
+
+</databaseChangeLog>
