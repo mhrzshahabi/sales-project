@@ -10,6 +10,7 @@ import com.nicico.sales.dto.RemittanceDTO;
 import com.nicico.sales.iservice.IRemittanceService;
 import com.nicico.sales.model.entities.warehouse.Remittance;
 import com.nicico.sales.model.entities.warehouse.RemittanceDetail;
+import com.nicico.sales.repository.TozinDAO;
 import com.nicico.sales.repository.TozinTableDAO;
 import com.nicico.sales.repository.warehouse.InventoryDAO;
 import com.nicico.sales.repository.warehouse.RemittanceDetailDAO;
@@ -38,6 +39,7 @@ public class RemittanceService extends GenericService<Remittance, Long, Remittan
     private final RemittanceDetailDAO remittanceDetailDAO;
     private final InventoryDAO inventoryDAO;
     private final TozinTableDAO tozinTableDAO;
+    private final TozinDAO tozinDAO;
     private final SpecListUtil specListUtil;
     private final ObjectMapper objectMapper;
     private final ModelMapper modelMapper;
@@ -68,10 +70,13 @@ public class RemittanceService extends GenericService<Remittance, Long, Remittan
         final List<RemittanceDTO.PDF> dataForPdf = modelMapper.map(data, new TypeToken<List<RemittanceDTO.PDF>>() {
         }.getType());
         dataForPdf.stream().forEach(remittancePDF -> {
-            remittancePDF.setDepot(remittancePDF.getRemittanceDetails().get(0).getDepot().getName());
+            remittancePDF.setDepot(String.format("%s %s %s",
+                    remittancePDF.getRemittanceDetails().get(0).getDepot().getStore().getWarehouse().getName(),
+                    remittancePDF.getRemittanceDetails().get(0).getDepot().getStore().getName(),
+                    remittancePDF.getRemittanceDetails().get(0).getDepot().getName()));
             remittancePDF.setMaterialItemName(remittancePDF.getRemittanceDetails().get(0).getInventory().getMaterialItem().getGdsName());
             remittancePDF.setIsWithRail(false);
-            remittancePDF.setFrom(remittancePDF.getRemittanceDetails().get(0).getSourceTozin().getTozinId());
+            remittancePDF.setFrom(remittancePDF.getRemittanceDetails().get(0).getSourceTozin().getSourceWarehouse().getName());
             remittancePDF.setSourceDate(remittancePDF.getRemittanceDetails().get(0).getSourceTozin().getDate());
             remittancePDF.setDestinationDate(remittancePDF.getRemittanceDetails().get(0).getDestinationTozin().getDate());
             final String containerNo3 = remittancePDF.getRemittanceDetails().get(0).getSourceTozin().getContainerNo3();

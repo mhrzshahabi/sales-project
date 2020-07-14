@@ -82,6 +82,7 @@ public class RemittanceDTO {
         @ApiModelProperty(required = true)
         private List<Long> ids;
     }
+
     @Setter
     @Getter
     @NoArgsConstructor

@@ -13,5 +13,4 @@ public interface TozinTableDAO extends JpaRepository<TozinTable, Long>, JpaSpeci
     TozinTable findFirstByTozinId(String tozinId);
     void deleteAllByIdIn(Set<Long> ids);
     Set<TozinTable> findAllByTozinIdIn(Set<String> tozinIdList);
-
 }

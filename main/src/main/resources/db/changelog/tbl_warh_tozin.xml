@@ -116,4 +116,14 @@
             <column name="CONTENER_NO3" type="varchar2(255 CHAR)"/>
         </addColumn>
     </changeSet>
+
+    <changeSet author="saeb (generated)" id="1594630669881-225">
+        <addForeignKeyConstraint baseColumnNames="GDSCODE" baseTableName="TBL_WARH_TOZIN" constraintName="f_tozinTable2materialItemByGDSCODE" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_MATERIAL_ITEM" validate="true"/>
+    </changeSet>
+    <changeSet author="saeb (generated)" id="1594630669881-226">
+        <addForeignKeyConstraint baseColumnNames="SOURCEID" baseTableName="TBL_WARH_TOZIN" constraintName="f_tozinTable2materialItemBySOURCEID" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_WARH_WAREHOUSE" validate="true"/>
+    </changeSet>
+    <changeSet author="saeb (generated)" id="1594630669881-227">
+        <addForeignKeyConstraint baseColumnNames="TARGETID" baseTableName="TBL_WARH_TOZIN" constraintName="f_tozinTable2materialItemByTARGETID" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_WARH_WAREHOUSE" validate="true"/>
+    </changeSet>
 </databaseChangeLog>

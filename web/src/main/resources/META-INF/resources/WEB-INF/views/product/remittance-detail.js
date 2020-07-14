@@ -20,6 +20,22 @@ const rdTab = {
             colWidths: ["30%", "*"],
             titleAlign: "right",
         },
+        defaultWindowConfig: {
+            width: .8 * window.innerWidth,
+            height: .8 * window.innerHeight,
+            autoSize: true,
+            autoCenter: true,
+            showMinimizeButton: false,
+            isModal: true,
+            showModalMask: true,
+            align: "center",
+            autoDraw: true,
+            showTitle: false,
+            dismissOnEscape: true,
+            closeClick: function () {
+                this.Super("closeClick", arguments)
+            },
+        },
         Authorities: {},
     },
     Methods: {
@@ -638,7 +654,7 @@ const rdTab = {
     },
     Log: {},
 };
-
+////////////////////////////////////////////////////////METHODS/////////////////////////////////////////////////////////
 rdTab.Methods.RecordDoubleClick = function (url, items, recordString, viewer, record, recordNum, field, fieldNum, value, rawValue) {
     let form;
     const window1 = isc.Window.create({
@@ -694,7 +710,7 @@ rdTab.Methods.RecordDoubleClickRD = function (viewer, record, recordNum, field, 
                 )
                 .reduce(
                     function (i, j) {
-                        console.log("rdTab.Grids.Remittance.obj.getSelectedRecord().remittanceDetails.reduce", arguments)
+                        // console.log("rdTab.Grids.Remittance.obj.getSelectedRecord().remittanceDetails.reduce", arguments)
                         return Number(i) < Number(j) ? i : j;
                     }
                 );
@@ -791,7 +807,7 @@ rdTab.Methods.FetchAlreadyInsertedTozinList = async function (criteria) {
     const responseJson = await response.json();
     return responseJson.response.data.map(t => t.tozinId);
 }
-
+////////////////////////////////////////////////////////FIELDS//////////////////////////////////////////////////////////
 rdTab.Fields.TozinBase = [
     {
         name: "date",
@@ -949,7 +965,7 @@ rdTab.Fields.TozinLite = [
                             fieldName: "containerNo3",
                             operator: value
                         })
-                        console.log(criteria)
+                      //  console.log(criteria)
                         ListGrid_Tozin_IN_ONWAYPRODUCT.setFilterEditorCriteria(criteria);
                         return this.Super("change", arguments)
                     },
@@ -1252,11 +1268,12 @@ rdTab.Fields.RemittanceDetailFullFields = [
     },
     {
         name: "depot.name", showHover: true, title: "دپو", formatCellValue(value, record) {
-            console.log('name: "depot.id", hidden: true, disabled: true,title:"دپو",formatCellValue()', arguments);
+          //  console.log('name: "depot.id", hidden: true, disabled: true,title:"دپو",formatCellValue()', arguments);
             // return this.Super('formatCellValue',arguments);
             const title = record.depot.store.warehouse.name + " - " + record.depot.store.name + " - " + record.depot.name;
             return title;
         },
+        showHoverComponents: false,
         recordDoubleClick: rdTab.Methods.RecordDoubleClickRD
     },
 ];
@@ -1387,7 +1404,7 @@ rdTab.Grids.RemittanceDetail = {
     fields: rdTab.Fields.RemittanceDetailFullFields,
     showHoverComponents: true,
     getCellHoverComponent: function (record, rowNum, colNum) {
-        console.log('getCellHoverComponent', this, arguments)
+       // console.log('getCellHoverComponent', this, arguments)
         this.rowHoverComponent = isc.DetailViewer.create({
             dataSource: isc.MyRestDataSource.create({
                 fields: [...rdTab.Fields.TozinFull],
@@ -1455,31 +1472,66 @@ isc.VLayout.create({
             }),
                 isc.ToolStripButtonAdd.create({
                     click() {
-                            rdTab.Grids.Remittance.obj.getSelectedRecords();
-                            isc.Window.create({
-                                title: "بیجک خروجی",
-                                width: .8 * window.innerWidth,
-                                height: 580,
-                                autoSize: true,
-                                autoCenter: true,
-                                showMinimizeButton: false,
-                                isModal: true,
-                                showModalMask: true,
-                                align: "center",
-                                autoDraw: false,
-                                showTitle: false,
-                                dismissOnEscape: true,
-                                visibility: 'hidden',
-                                closeClick: function () {
+                        const selectedData = [];
+                        rdTab.Grids.Remittance.obj
+                            .getSelectedRecords()
+                            .forEach(r => selectedData.addList(r.remittanceDetails));
+                        // console.log('selectedData', selectedData)
+                        let grid;
+                        isc.Window.create({
+                            ...rdTab.Vars.defaultWindowConfig,
+                            members: [isc.VLayout.create({
+                                height: "100%",
+                                members: [isc.DynamicForm.create({
+                                    fields: [...rdTab.Fields.Remittance]
+                                }),
+                                    isc.ToolStrip.create({
+                                        members: [
+                                            isc.ToolStripButtonAdd.create({
+                                                click() {
 
-                                    this.Super("closeClick", arguments)
-                                },
-                                members:[isc.VLayout.create({
-                                    members:[isc.DynamicForm.create({
-                                        fields:[...rdTab.Fields.Remittance]
-                                    })]
-                                })]
-                            })
+                                                    isc.Window.create({
+                                                        ...rdTab.Vars.defaultWindowConfig,
+                                                        members: [isc.ListGrid.create({
+                                                            ...rdTab.Grids.RemittanceDetail,
+                                                            fields: [{name: "remittance.code"}, {name: "remittance.description"}, ...rdTab.Grids.RemittanceDetail.fields],
+                                                            initialCriteria:{
+                                                                operator:"and",
+                                                                criteria:[
+                                                                    {fieldName:"destinationTozin.sourceId",
+                                                                        operator:"inSet",
+                                                                    value:[1000,1021,1540,1541,2421,2509]
+                                                                    },
+                                                                    {fieldName:"destinationTozin",
+                                                                        operator:"notNull",
+                                                                    },
+
+                                                                ],
+                                                            },
+                                                            showHoverComponents: false,
+                                                            height: "100%",
+                                                            autoFetchData: true,
+                                                            allowAdvancedCriteria: true,
+                                                            showFilterEditor: true,
+                                                            dataSource: isc.MyRestDataSource.create(rdTab.RestDataSources.RemittanceDetail)
+                                                        }),],
+                                                    })
+                                                }
+                                            }),
+                                        ]
+                                    }),
+                                    grid = isc.ListGrid.create({
+                                        fields: [...rdTab.Fields.RemittanceDetailFullFields].map(f => {
+                                            f.recordDoubleClick = _ => {
+                                            };
+                                            return f
+                                        })
+                                    })
+
+                                ]
+                            })]
+                        })
+                        grid.setData(selectedData);
                     }
                 }),
                 isc.ToolStrip.create({
