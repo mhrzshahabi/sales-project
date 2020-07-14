@@ -38,7 +38,7 @@ public class WeightInspectionDTO {
         private UnitDTO.Info unit;
         private InventoryDTO.Info inventory;
 
-        public BigDecimal getSecondValue() {
+        public BigDecimal getWeightDiff() {
 
             BigDecimal weightGW = getWeightGW();
             BigDecimal weightND = getWeightND();
@@ -70,7 +70,7 @@ public class WeightInspectionDTO {
         private Boolean editable;
         private List<EStatus> eStatus;
 
-        public BigDecimal getSecondValue() {
+        public BigDecimal getWeightDiff() {
 
             BigDecimal weightGW = getWeightGW();
             BigDecimal weightND = getWeightND();

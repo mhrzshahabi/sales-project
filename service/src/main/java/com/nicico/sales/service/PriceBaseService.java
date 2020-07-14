@@ -3,7 +3,6 @@ package com.nicico.sales.service;
 import com.nicico.sales.dto.PriceBaseDTO;
 import com.nicico.sales.iservice.IPriceBaseService;
 import com.nicico.sales.model.entities.base.PriceBase;
-import com.nicico.sales.model.entities.warehouse.Element;
 import com.nicico.sales.model.entities.warehouse.MaterialElement;
 import com.nicico.sales.model.enumeration.PriceBaseReference;
 import com.nicico.sales.repository.PriceBaseDAO;
@@ -28,18 +27,7 @@ public class PriceBaseService extends GenericService<com.nicico.sales.model.enti
         List<Long> elementIds = materialElements.stream().map(MaterialElement::getElementId).collect(Collectors.toList());
 
         List<PriceBase> pricesByElements = ((PriceBaseDAO) repository).getAllPricesByElements(reference, year, month, elementIds);
-        pricesByElements.stream().filter(price -> {
-
-            @SuppressWarnings("OptionalGetWithoutIsPresent")
-            Element elm = materialElements.stream().
-                    map(MaterialElement::getElement).
-                    filter(element -> element.getId() == price.getElementId().longValue()).
-                    findFirst().get();
-            price.getUnitId() == elm.getUnitId();
-        });
-
-        return modelMapper.map(pricesByElements,
-                new TypeToken<List<PriceBaseDTO.Info>>() {
-                }.getType());
+        return modelMapper.map(pricesByElements, new TypeToken<List<PriceBaseDTO.Info>>() {
+        }.getType());
     }
 }
