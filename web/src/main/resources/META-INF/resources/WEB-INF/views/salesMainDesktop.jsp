@@ -99,6 +99,22 @@
         eStatus: {
             "Active": "عادی",
             "DeActive": "حذف شده"
+        },
+        unit: {
+            "Percent": 1,
+            hasFlag: function (value, target) {
+
+                value = Enums.unit[value];
+                target = Enums.unit[target];
+                for (let id in Object.values(Enums.unit).sort().reverse()) {
+
+                    if (id > value) continue;
+                    if (id === target) return true;
+                    value -= id;
+                }
+
+                return false;
+            }
         }
     };
 

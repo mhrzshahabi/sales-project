@@ -34,25 +34,25 @@ isc.defineClass("InvoiceDeduction", isc.VLayout).addProperties({
             }));
         }
 
-        This.addMember(isc.DynamicForm.create({
+        this.addMember(isc.DynamicForm.create({
             width: "100%",
             fields: fields,
             itemChanged: function (item, newValue) {
 
                 let sum = Object.keys(this.getValues()).map(q => this.getValues()[q].deductionPrice).sum();
-                this.parentElement.members[1].value = sum;
-                this.parentElement.members[1].setContents(`
-                    <span style="margin: 0;padding: 10px 14px 10px 10px;font-size: 14px;font-weight: bold;color: #dc3545;">` +
-                    sum +
-                    `</span>`
-                );
+                this.parentElement.members[1].setValue(sum);
             }
         }));
-        This.addMember(isc.Lable.create({
-            value: 0,
-            contents: '',
-            width: '100%'
+        this.addMember(isc.Unit.create({
+            border: "1px solid rgba(0, 0, 0, 0.3)",
+            disabledUnitField: true,
+            disabledValueField: true,
+            showValueFieldTitle: true,
+            showUnitFieldTitle: false,
+            unitCategory: JSON.parse('${Enum_CategoryUnit}').Currency,
+            fieldValueTitle: "<spring:message code='foreign-invoice.form.tab.deductions.subtotal'/>",
         }));
+        this.members.last().setUnitId(this.currency.id);
     },
     getValue: function () {
         return this.members[0].getValues();

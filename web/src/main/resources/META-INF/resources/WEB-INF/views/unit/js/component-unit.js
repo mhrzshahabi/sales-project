@@ -3,7 +3,7 @@ isc.defineClass("Unit", isc.DynamicForm).addProperties({
     width: 500,
     wrapItemTitles: false,
     data: null,
-    unitCategory: 0,
+    unitCategory: "",
     fieldValueTitle: "",
     disabledUnitField: false,
     disabledValueField: false,

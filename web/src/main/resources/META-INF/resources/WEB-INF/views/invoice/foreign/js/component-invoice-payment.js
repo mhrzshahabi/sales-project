@@ -38,7 +38,7 @@ isc.defineClass("InvoicePayment", isc.VLayout).addProperties({
                     border: "1px solid rgba(0, 0, 0, 0.3)",
                 }));
                 fields.last().setValue(unitPrice);
-                fields.last().setUnitId(This.currency.symbol);
+                fields.last().setUnitId(This.currency.id);
 
                 fields.add(isc.Unit.create({
                     isResult: true,
@@ -53,7 +53,7 @@ isc.defineClass("InvoicePayment", isc.VLayout).addProperties({
                     border: "1px solid rgba(0, 0, 0, 0.3)",
                 }));
                 fields.last().setValue(sumFIPrice);
-                fields.last().setUnitId(This.currency.symbol);
+                fields.last().setUnitId(This.currency.id);
 
                 let piValues = JSON.parse(resp.data);
                 for (let index = 0; index < piValues.length; index++) {
@@ -76,7 +76,7 @@ isc.defineClass("InvoicePayment", isc.VLayout).addProperties({
                         }
                     }));
                     fields.last().setValue(piValues[index].sumPrice * -1);
-                    fields.last().setUnitId(piValues[index].currency.symbol);
+                    fields.last().setUnitId(piValues[index].currency.id);
                 }
 
                 let valuesForm = isc.DynamicForm.create({
@@ -158,7 +158,7 @@ isc.defineClass("InvoicePayment", isc.VLayout).addProperties({
                     fieldValueTitle: '<spring:message code="foreign-invoice.form.sum-price"/>',
                     border: "1px solid rgba(0, 0, 0, 0.3)",
                 }));
-                fields.last().setUnitId(This.currency.symbol);
+                fields.last().setUnitId(This.currency.id);
                 fields.last().setValue(sumOfValuesForm + sumOfVOtherValuesGrid);
 
                 fields.add({
@@ -249,7 +249,7 @@ isc.defineClass("InvoicePayment", isc.VLayout).addProperties({
                     fieldValueTitle: "<spring:message code='foreign-invoice.form.conversion-sum-price'/>",
                     border: "1px solid rgba(0, 0, 0, 0.3)",
                 }));
-                fields.last().setUnitId(This.currency.symbol);
+                fields.last().setUnitId(This.currency.id);
 
                 fields.add(isc.Unit.create({
                     required: true,
@@ -263,7 +263,7 @@ isc.defineClass("InvoicePayment", isc.VLayout).addProperties({
                     fieldValueTitle: "<spring:message code='foreign-invoice.form.conversion-sum-price-text'/>",
                     border: "1px solid rgba(0, 0, 0, 0.3)",
                 }));
-                fields.last().setUnitId(This.currency.symbol);
+                fields.last().setUnitId(This.currency.id);
 
                 This.addMember(isc.DynamicForm.create({
                     width: "100%",

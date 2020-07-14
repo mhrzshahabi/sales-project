@@ -66,8 +66,9 @@ isc.defineClass("InvoiceCalculationRow", isc.DynamicForm).addProperties({
             name: 'finalAssay',
             border: "1px solid rgba(0, 0, 0, 0.3)",
         }));
-        if (This.assay.materialElement.unit.id !== This.price.unit.id &&
-            This.assay.materialElement.unit.id !== ImportantIDs.unit.PERCENT)
+        this.fields.last().setUnitId(this.assay.materialElement.unit.id);
+        if (This.assay.materialElement.unit.id !== ImportantIDs.unit.PERCENT &&
+            !Enums.unit.hasFlag(This.price.unit.value, This.assay.materialElement.unit.value))
             this.addField(isc.Unit.create({
                 colSpan: 4,
                 unitCategory: 1,

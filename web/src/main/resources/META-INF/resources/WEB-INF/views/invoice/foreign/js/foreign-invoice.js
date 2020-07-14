@@ -263,17 +263,17 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
         pickListFields: [
             {name: "id", primaryKey: true, hidden: true, title: "<spring:message code='global.id'/>"},
             {name: "reference", title: "<spring:message code='foreign-invoice.form.conversion-ref'/>"},
-            {name: "date", title: "<spring:message code='global.date'/>"},
-            {name: "fromCurrency", title: "<spring:message code='global.from'/>"},
-            {name: "toCurrency", title: "<spring:message code='global.to'/>"},
+            {name: "currencyDate", title: "<spring:message code='global.date'/>"},
+            {name: "symbolCF", title: "<spring:message code='global.from'/>"},
+            {name: "symbolCT", title: "<spring:message code='global.to'/>"},
         ],
         optionDataSource: isc.MyRestDataSource.create({
             fields: [
                 {name: "id", primaryKey: true, hidden: true, title: "<spring:message code='global.id'/>"},
                 {name: "reference", title: "<spring:message code='foreign-invoice.form.conversion-ref'/>"},
-                {name: "date", title: "<spring:message code='global.date'/>"},
-                {name: "fromCurrency", title: "<spring:message code='global.from'/>"},
-                {name: "toCurrency", title: "<spring:message code='global.to'/>"},
+                {name: "currencyDate", title: "<spring:message code='global.date'/>"},
+                {name: "symbolCF", title: "<spring:message code='global.from'/>"},
+                {name: "symbolCT", title: "<spring:message code='global.to'/>"},
             ],
             fetchDataURL: foreignInvoiceTab.variable.conversionRefUrl + "spec-list"
         }),
@@ -371,6 +371,7 @@ foreignInvoiceTab.button.save = isc.IButtonSave.create({
             foreignInvoiceTab.method.addTab(invoiceBaseValuesComponent, '<spring:message code="foreign-invoice.form.tab.base-values"/>');
             let invoiceCalculationComponent = isc.InvoiceCalculation.create({
 
+                currency: foreignInvoiceTab.dynamicForm.valuesManager.getValue("currency"),
                 invoiceBaseAssayComponent: invoiceBaseValuesComponent.invoiceBaseAssayComponent,
                 invoiceBasePriceComponent: invoiceBaseValuesComponent.invoiceBasePriceComponent
             });
@@ -382,11 +383,6 @@ foreignInvoiceTab.button.save = isc.IButtonSave.create({
                 contract: foreignInvoiceTab.dynamicForm.valuesManager.getValue("contract")
             });
             foreignInvoiceTab.method.addTab(invoiceDeductionComponent, '<spring:message code="foreign-invoice.form.tab.deduction"/>');
-            foreignInvoiceTab.method.addTab(isc.InvoicePayment.create({
-
-                invoiceDeductionComponent: invoiceDeductionComponent,
-                invoiceCalculationComponent: invoiceCalculationComponent
-            }), '<spring:message code="foreign-invoice.form.tab.payment"/>');
             foreignInvoiceTab.method.addTab(isc.InvoicePayment.create({
                 currency: foreignInvoiceTab.dynamicForm.valuesManager.getValue("currency"),
                 contract: foreignInvoiceTab.dynamicForm.valuesManager.getValue("contract"),

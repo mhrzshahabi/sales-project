@@ -22,7 +22,7 @@ isc.defineClass("InvoiceDeductionRow", isc.DynamicForm).addProperties({
             name: 'rcPrice',
             border: "1px solid rgba(0, 0, 0, 0.3)"
         }));
-        this.fields.last().setCurrencyId(this.currency.id);
+        this.fields.last().setUnitId(this.currency.id);
         let rcPrice = __contract.getRc(this.contract, this.elementName);
         this.fields.last().setValue(rcPrice);
         this.addField(isc.Unit.create({
