@@ -8,6 +8,7 @@ import lombok.experimental.Accessors;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Getter
 @Setter
@@ -48,4 +49,12 @@ public class TozinTable extends BaseEntity{
     @NotNull
     @Column(name = "GDSCODE", nullable = false)
     private Long codeKala;
+    @Column(name = "CONTENER_NO3")
+    private String containerNo3;
+    @OneToMany(mappedBy = "destinationTozin", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    private List<RemittanceDetail> remittanceDetailsAsDestination;
+
+    @OneToMany(mappedBy = "sourceTozin", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    private List<RemittanceDetail> remittanceDetailsAsSource;
+
 }

@@ -41,7 +41,7 @@ function onWayProductCreateRemittance(criteriaBuildForListGrid) {
 
             }
         )
-        _styler(sums['vazn'], "Weight");
+        _styler(sums['vazn'] + " " + sums['vazn'].toPersianLetter(), "Weight");
         _styler(sums['tedad'], "SheetSum");
         _styler(sums['totalPkg'], "BundleSum");
         // DynamicForm_warehouseCAD.setValue('destinationWeight', ('<span style="color:red">' + sums['vazn']).toString() + "</span>");
@@ -349,7 +349,7 @@ function onWayProductCreateRemittance(criteriaBuildForListGrid) {
         }
     });
     const packages_button = isc.IButtonSave.create({
-        title: "<spring:message code='warehouseStock.bundle'/>",
+        title: "جزئیات آیتم‌ها",
         width: 100,
         icon: "pieces/16/packages.png",
         orientation: "vertical",
@@ -365,6 +365,7 @@ function onWayProductCreateRemittance(criteriaBuildForListGrid) {
         width: 1000,
         // height: 630,
         autoSize: true,
+        showMinimizeButton: false,
         autoCenter: true,
         isModal: true,
         align: "center",
@@ -492,6 +493,7 @@ function onWayProductCreateRemittance(criteriaBuildForListGrid) {
             height: 580,
             autoSize: true,
             autoCenter: true,
+            showMinimizeButton: false,
             isModal: true,
             showModalMask: true,
             showTitle: false,
@@ -836,6 +838,7 @@ function onWayProductCreateRemittance(criteriaBuildForListGrid) {
             height: 580,
             autoSize: true,
             autoCenter: true,
+            showMinimizeButton: false,
             isModal: true,
             showModalMask: true,
             align: "center",
@@ -911,32 +914,32 @@ function onWayProductCreateRemittance(criteriaBuildForListGrid) {
     //     onWayProductFetch('tozin/lite', 'and', destinationTozinCriteria.criteria),
     // ])
     onWayProductFetch('tozin/lite', 'and', destinationTozinCriteria.criteria).then((tozin) => {
-                if (tozin && tozin.response && tozin.response.data && tozin.response.data.length > 0) {
-                    const tozinData = tozin.response.data
-                    // console.log('tozin',tozin);
-                    const grid = windowDestinationTozinList['g'];
-                    // const ds = windowDestinationTozinList['ds'];
-                    window[listGridSetDestTozinHarasatPolompForSelectedTozin['gs']]
-                        .setValueMap('destTozinId', tozinData.getValueMap('tozinId', 'tozinId'))
-                    // if (tozinLite && tozinLite.response && tozinLite.response.data && tozinLite.response.data.length > 0) {
-                    //     const tozinLiteData = tozinLite.response.data;
-                    //     tozinData.forEach(tz => {
-                    //         try {
-                    //             const fnd = tozinLiteData.find(tzl => tz['tozinId'] === tzl['tozinId']);
-                    //             tz['driverName'] = fnd['driverName']
-                    //         } catch (e) {
-                    //             tz['driverName'] = ''
-                    //         }
-                    //     })
-                    // }
-                    // console.log(grid, 'all available dest')
-                    window[grid].setData(tozinData);
-                }
-                updateDestinationPackageTedadWeight()
-                pls_wait_2.destroy()
-
+            if (tozin && tozin.response && tozin.response.data && tozin.response.data.length > 0) {
+                const tozinData = tozin.response.data
+                // console.log('tozin',tozin);
+                const grid = windowDestinationTozinList['g'];
+                // const ds = windowDestinationTozinList['ds'];
+                window[listGridSetDestTozinHarasatPolompForSelectedTozin['gs']]
+                    .setValueMap('destTozinId', tozinData.getValueMap('tozinId', 'tozinId'))
+                // if (tozinLite && tozinLite.response && tozinLite.response.data && tozinLite.response.data.length > 0) {
+                //     const tozinLiteData = tozinLite.response.data;
+                //     tozinData.forEach(tz => {
+                //         try {
+                //             const fnd = tozinLiteData.find(tzl => tz['tozinId'] === tzl['tozinId']);
+                //             tz['driverName'] = fnd['driverName']
+                //         } catch (e) {
+                //             tz['driverName'] = ''
+                //         }
+                //     })
+                // }
+                // console.log(grid, 'all available dest')
+                window[grid].setData(tozinData);
             }
-        )
+            updateDestinationPackageTedadWeight()
+            pls_wait_2.destroy()
+
+        }
+    )
     Promise.all([
         onWayProductFetch('tozin', 'or', ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecords()
             .map(tz => {
@@ -952,7 +955,7 @@ function onWayProductCreateRemittance(criteriaBuildForListGrid) {
             const tzn_data = tozin.response.data;
             const vazn = (tzn_data.map(t => t.vazn).reduce((i, j) => j + i)).toString();
             DynamicForm_warehouseCAD.setValue('sourceWeight',
-                vazn);
+                vazn + " " + vazn.toPersianLetter());
             const packageSample = {
                 uid: giveMeAName(),
                 label: giveMeAName(),

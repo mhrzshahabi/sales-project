@@ -23,17 +23,17 @@
                 },
                 {
                     name: "paramValue",
-                    title: "<spring:message code='parameters.paramValue'/>",
+                    title: "<spring:message code='parameters.paramValue.c'/>",
                     width: 200
                 },
                 {
-                    name: "contractId",
+                    name: "materialId",
                     title: "<spring:message code='parameters.paramValue'/>",
                     width: 200
                 },
                 {
                     name: "categoryValue",
-                    title: "<spring:message code='parameters.paramValue'/>",
+                    title: "<spring:message code='parameters.paramValue.d'/>",
                     width: 200
                 }],
 
@@ -180,12 +180,12 @@
                     }]
                 },
                 {
-                    name: "contractId",
-                    title: "<spring:message	code='parameters.paramValue'/>",
+                    name: "materialId",
+                    title: "<spring:message	code='parameters.paramValue.c'/>",
                     width: 500,
                     type: "select",
                     required: true,
-                    valueMap: {"1": "MOLYBDENUM OXIDE", "3": "COPPER CONCENTRATES", "2": "COPPER CATHODES"},
+                    valueMap: {"1": "MOLYBDENUM OXIDE", "2": "COPPER CATHODES", "3": "COPPER CONCENTRATES"},
                     validators: [
                     {
                         type:"required",
@@ -427,7 +427,7 @@
                         "-2": "BANK REFERENCE"
                     }
                 },{
-                    name: "contractId",
+                    name: "materialId",
                     title: "<spring:message	code='parameters.paramValue'/>",
                     width: "15%",
                     type: "select",

@@ -20,5 +20,4 @@
     <changeSet author="karimi (generated)" id="1593331182345-247">
         <dropColumn columnName="F_MATERIAL_ITEM_ID" tableName="TBL_WARH_MATERIAL_ELEMENT"/>
     </changeSet>
-
 </databaseChangeLog>

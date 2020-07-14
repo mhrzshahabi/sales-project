@@ -21,11 +21,10 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ContractDetailTypeParamDTO {
 
-    @JsonProperty("title")
     private String name;
-    @JsonProperty("name")
     private String key;
     private DataType type;
+    private String reference;
     private String defaultValue;
     private Boolean required;
 

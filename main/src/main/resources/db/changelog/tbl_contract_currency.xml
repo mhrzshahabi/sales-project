@@ -1,0 +1,20 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+    <changeSet author="Reza Mazloom" id="mazloom_018">
+        <addColumn tableName="TBL_CONTRACT_CURRENCY">
+            <column name="UNIT_ID" type="number(19, 0)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="Reza Mazloom" id="mazloom_019">
+        <addForeignKeyConstraint baseColumnNames="UNIT_ID" baseTableName="TBL_CONTRACT_CURRENCY"
+                                 constraintName="ContractCurrency2UNIT" deferrable="false" initiallyDeferred="false"
+                                 referencedColumnNames="ID" referencedTableName="TBL_UNIT" validate="true"/>
+    </changeSet>
+    <changeSet author="Reza Mazloom" id="mazloom_021">
+        <dropColumn columnName="CURRENCY_ID" tableName="TBL_CONTRACT_CURRENCY"/>
+    </changeSet>
+
+</databaseChangeLog>

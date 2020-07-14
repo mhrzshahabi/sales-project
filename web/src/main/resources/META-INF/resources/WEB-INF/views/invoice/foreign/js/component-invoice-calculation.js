@@ -1,115 +1,56 @@
-isc.defineClass("invoiceCalculation", isc.VLayout).addProperties({
-    autoFit: false,
-    autoDraw: true,
-    align: "center",
+isc.defineClass("InvoiceCalculation", isc.VLayout).addProperties({
+    align: "top",
     width: "100%",
-    height: "100%",
+    autoFit: false,
+    autoDraw: false,
+    showEdges: false,
+    layoutMargin: 2,
+    membersMargin: 2,
     overflow: "scroll",
-    material: null,
-    calRowsComponentCopper: null,
-    calRowsComponentSilver: null,
-    calRowsComponentGold: null,
-    calRowsComponentPlatinum: null,
-    calRowsComponentPalladium: null,
-    calRowsComponentSelenium: null,
-    invoiceCalculationObj: null,
+    invoiceBaseAssayComponent: null,
+    invoiceBasePriceComponent: null,
     initWidget: function () {
 
-        var This = this;
+        let This = this;
         this.Super("initWidget", arguments);
 
-        invoiceCalculationObj = {
-            calculationCopper: "",
-            calculationSilver: "",
-            calculationGold: "",
-            calculationPlatinum: "",
-            calculationPalladium: "",
-            calculationSelenium: "",
-        };
+        let fields = [];
+        let assayValues = this.invoiceBaseAssayComponent.getValues();
+        let priceValues = this.invoiceBasePriceComponent.getValues();
+        for (let index = 0; index < priceValues.length; index++) {
 
-        switch (this.material){
-
-            case 1:
-
-                calRowsComponentCopper = isc.invoiceCalculationRows.create({
-                    isPercent: 0
-                });
-
-                calRowsComponentSilver = isc.invoiceCalculationRows.create({
-                    isPercent: 1
-                });
-
-                calRowsComponentGold = isc.invoiceCalculationRows.create({
-                    isPercent: 1
-                });
-
-                this.addMember(calRowsComponentCopper);
-                this.addMember(calRowsComponentSilver);
-                this.addMember(calRowsComponentGold);
-                break;
-
-            case 4:
-
-                calRowsComponentCopper = isc.invoiceCalculationRows.create({
-                    isPercent: 0
-                });
-
-                calRowsComponentSilver = isc.invoiceCalculationRows.create({
-                    isPercent: 1
-                });
-
-                calRowsComponentGold = isc.invoiceCalculationRows.create({
-                    isPercent: 1
-                });
-
-                calRowsComponentPlatinum = isc.invoiceCalculationRows.create({
-                    isPercent: 1
-                });
-
-                calRowsComponentPalladium = isc.invoiceCalculationRows.create({
-                    isPercent: 1
-                });
-
-                calRowsComponentSelenium = isc.invoiceCalculationRows.create({
-                    isPercent: 0
-                });
-
-                this.addMember(calRowsComponentCopper);
-                this.addMember(calRowsComponentSilver);
-                this.addMember(calRowsComponentGold);
-                this.addMember(calRowsComponentPlatinum);
-                this.addMember(calRowsComponentPalladium);
-                this.addMember(calRowsComponentSelenium);
-                break;
+            fields.add(isc.InvoiceCalculationRow.create({
+                assay: assayValues[index],
+                price: priceValues[index],
+                border: "1px solid rgba(0, 0, 0, 0.3)",
+                name: assayValues[index].materialElement.element.name
+            }));
         }
 
-    },
-    getCalValues: function () {
+        This.addMember(isc.DynamicForm.create({
+            width: "100%",
+            fields: fields,
+            itemChanged: function (item, newValue) {
 
-        switch (this.material){
-            case 1:
-                invoiceCalculationObj.calculationCopper = this.members.get(0).getCalRowsValues();
-                invoiceCalculationObj.calculationSilver = this.members.get(1).getCalRowsValues();
-                invoiceCalculationObj.calculationGold = this.members.get(2).getCalRowsValues();
-                break;
-
-            case 4:
-                invoiceCalculationObj.calculationCopper = this.members.get(0).getCalRowsValues();
-                invoiceCalculationObj.calculationSilver = this.members.get(1).getCalRowsValues();
-                invoiceCalculationObj.calculationGold = this.members.get(2).getCalRowsValues();
-                invoiceCalculationObj.calculationPlatinum = this.members.get(3).getCalRowsValues();
-                invoiceCalculationObj.calculationPalladium = this.members.get(4).getCalRowsValues();
-                invoiceCalculationObj.calculationSelenium = this.members.get(5).getCalRowsValues();
-                break;
-        }
-        return invoiceCalculationObj;
+                let sum = Object.keys(this.getValues()).map(q => this.getValues()[q].deductionPrice).sum();
+                this.parentElement.members[1].value = sum;
+                this.parentElement.members[1].setContents(`
+                    <span style="margin: 0;padding: 10px 14px 10px 10px;font-size: 14px;font-weight: bold;color: #003168;">` +
+                    sum +
+                    `</span>`
+                );
+            }
+        }));
+        This.addMember(isc.Lable.create({
+            value: 0,
+            contents: '',
+            width: '100%'
+        }));
     },
-    setCalValues: function (data) {
-        this.members.get(0).setCalRowsValues(data.calculationCopper);
-        this.members.get(1).setCalRowsValues(data.calculationSilver);
-        this.members.get(2).setCalRowsValues(data.calculationGold);
-        this.members.get(3).setCalRowsValues(data.calculationPlatinum);
-        this.members.get(4).setCalRowsValues(data.calculationPalladium);
-        this.members.get(5).setCalRowsValues(data.calculationSelenium);
+    getValue: function () {
+        return this.members[0].getValues();
+    },
+    getSumValue: function () {
+        return this.members[1].value;
     }
 });

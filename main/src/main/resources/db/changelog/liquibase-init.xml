@@ -105,9 +105,6 @@
     <changeSet author="Reza (generated)" id="1592718665942-35">
         <createSequence sequenceName="SEQ_COUNTRY"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592718665942-36">
-        <createSequence sequenceName="SEQ_CURRENCY"/>
-    </changeSet>
     <changeSet author="Reza (generated)" id="1592718665942-37">
         <createSequence sequenceName="SEQ_CURRENCY_RATE"/>
     </changeSet>
@@ -2010,33 +2007,6 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592718665942-135">
-        <createTable tableName="TBL_CURRENCY">
-            <column name="ID" type="NUMBER(19, 0)">
-                <constraints primaryKey="true" primaryKeyName="TBL_CURRENCYPK"/>
-            </column>
-            <column name="c_created_by" type="VARCHAR2(255 CHAR)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="d_created_date" type="TIMESTAMP">
-                <constraints nullable="false"/>
-            </column>
-            <column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
-            <column name="d_last_modified_date" type="TIMESTAMP"/>
-            <column name="n_version" type="NUMBER(10, 0)">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="1" name="N_E_STATUS" type="NUMBER">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="1" name="B_EDITABLE" type="NUMBER">
-                <constraints nullable="false"/>
-            </column>
-            <column name="c_NAME_EN" type="VARCHAR2(100 CHAR)"/>
-            <column name="c_NAME_FA" type="VARCHAR2(100 CHAR)"/>
-            <column name="c_SYMBOL" type="VARCHAR2(20 CHAR)"/>
-        </createTable>
-    </changeSet>
     <changeSet author="Reza (generated)" id="1592718665942-136">
         <createTable tableName="TBL_CURRENCY_RATE">
             <column name="ID" type="NUMBER(19, 0)">
@@ -3534,9 +3504,6 @@
     <changeSet author="Reza (generated)" id="1592718665942-212">
         <addForeignKeyConstraint baseColumnNames="DEFINITION_ID" baseTableName="TBL_CONTRACT" constraintName="Contract2parmtrByDefinitin" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_PARAMETER" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592718665942-213">
-        <addForeignKeyConstraint baseColumnNames="CURRENCY_ID" baseTableName="TBL_CONTRACT_CURRENCY" constraintName="ContractCurrency2CURRENCY" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_CURRENCY" validate="true"/>
-    </changeSet>
     <changeSet author="Reza (generated)" id="1592718665942-214">
         <addForeignKeyConstraint baseColumnNames="CONTRACT_ID" baseTableName="TBL_CONTRACT_CURRENCY" constraintName="ContractCurrency2contract" deferrable="false" initiallyDeferred="false" referencedColumnNames="CONTRACT_ID" referencedTableName="TBL_CONTRACT" validate="true"/>
     </changeSet>
@@ -3696,9 +3663,6 @@
     <changeSet author="Reza (generated)" id="1592718665942-273">
         <addForeignKeyConstraint baseColumnNames="F_CONTRACT_ID" baseTableName="TBL_FOREIGN_INVOICE" constraintName="fk_foreignInvoice2contractByContractId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_CNTR_CONTRACT" validate="true"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592718665942-274">
-        <addForeignKeyConstraint baseColumnNames="F_CURRENCY_ID" baseTableName="TBL_FOREIGN_INVOICE" constraintName="fk_foreignInvoice2currencyByCurrencyId" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_CURRENCY" validate="true"/>
-    </changeSet>
     <changeSet author="Reza (generated)" id="1592718665942-275">
         <addForeignKeyConstraint baseColumnNames="F_CONVERSION_REF_ID" baseTableName="TBL_FOREIGN_INVOICE" constraintName="fk_foreignInvoice2currencyRateByConversionRefId" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_CURRENCY_RATE" validate="true"/>
     </changeSet>
@@ -3719,9 +3683,6 @@
     </changeSet>
     <changeSet author="Reza (generated)" id="1592718665942-281">
         <addForeignKeyConstraint baseColumnNames="F_MATERIAL_ELEMENT_ID" baseTableName="TBL_FOREIGN_INVOICE_ITEM_DETAIL" constraintName="fk_foreignInvoiceItemDetail2materialElementByMaterialElementId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_WARH_MATERIAL_ELEMENT" validate="true"/>
-    </changeSet>
-    <changeSet author="Reza (generated)" id="1592718665942-282">
-        <addForeignKeyConstraint baseColumnNames="F_CURRENCY_ID" baseTableName="TBL_FOREIGN_INVOICE_PAYMENT" constraintName="fk_foreignInvoicePayment2currencyByCurrencyId" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_CURRENCY" validate="true"/>
     </changeSet>
     <changeSet author="Reza (generated)" id="1592718665942-283">
         <addForeignKeyConstraint baseColumnNames="F_CONVERSION_REF_ID" baseTableName="TBL_FOREIGN_INVOICE_PAYMENT" constraintName="fk_foreignInvoicePayment2currencyRateByConversionRefId" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_CURRENCY_RATE" validate="true"/>
@@ -3779,9 +3740,6 @@
     </changeSet>
     <changeSet author="Reza (generated)" id="1592718665942-301">
         <addForeignKeyConstraint baseColumnNames="F_SELLER_ID" baseTableName="TBL_INSPECTION_REPORT" constraintName="fk_inspectionReport2contactBySellerId" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_CONTACT" validate="true"/>
-    </changeSet>
-    <changeSet author="Reza (generated)" id="1592718665942-302">
-        <addForeignKeyConstraint baseColumnNames="F_CURRENCY_ID" baseTableName="TBL_INSPECTION_REPORT" constraintName="fk_inspectionReport2currencyByCurrencyId" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_CURRENCY" validate="true"/>
     </changeSet>
     <changeSet author="Reza (generated)" id="1592718665942-303">
         <addForeignKeyConstraint baseColumnNames="F_ITEM_ID" baseTableName="TBL_WARH_INVENTORY" constraintName="fk_inventory2itemByItemId" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_MATERIAL_ITEM" validate="true"/>

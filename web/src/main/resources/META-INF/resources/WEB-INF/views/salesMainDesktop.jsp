@@ -29,6 +29,7 @@
     <script src="<spring:url value='/static/script/enumJson/unitEnum.js' />"></script>
     <script src="<spring:url value='/static/script/enumJson/materialEnum.js' />"></script>
     <script src="<spring:url value='/static/script/js/persian-rex.js' />"></script>
+    <script src="<spring:url value='/static/script/js/num2persian-min.js' />"></script>
 
 
     <script>var isomorphicDir = "isomorphic/";</script>
@@ -93,6 +94,19 @@
     <%@include file="common/ts/GeneralTabUtil.js"%>
     <%@include file="common/ts/StorageUtil.js"%>
 
+    var Enums = {
+
+        eStatus: {
+            "Active": "عادی",
+            "DeActive": "حذف شده"
+        },
+        deductionType: {
+            1: "Unit",
+            2: "Percent",
+            3: "Discount"
+        }
+    };
+
     var ImportantIDs = {
         material: {
             MOLYBDENUM_OXIDE: 1,
@@ -103,8 +117,12 @@
             PERFORMA: 1,
             PROVISIONAL: 2,
             FINAL: 3
+        },
+        unit: {
+            PERCENT : 1,
         }
     }
+
     var BaseRPCRequest = {
         httpHeaders: {"Authorization": "Bearer <%= accessToken %>"},
         useSimpleHttp: true,
@@ -112,11 +130,6 @@
         showPrompt: true,
         serverOutputAsString: false,
         willHandleError: false //centralized error handling
-    };
-
-    const statusMap = {
-        "Active": "عادی",
-        "DeActive": "حذف شده"
     };
 
     const BaseFormItems = {
@@ -181,7 +194,7 @@
                 if (record == null || record.estatus == null || record.estatus.length === 0)
                     return;
 
-                return record.estatus.map(q => '<div>' + statusMap[q] + '</div>').join();
+                return record.estatus.map(q => '<div>' + Enums.eStatus[q] + '</div>').join();
             },
             formatCellValue: function (value, record, rowNum, colNum, grid) {
 
@@ -329,9 +342,9 @@
         getAllData: function () {
 
             let data = [...this.getData()];
-            let allEditRows = this.getAllEditRows();
-            for (let i = 0; i < allEditRows.length; i++)
-                data.push({...this.getEditedRecord(allEditRows[i])});
+            // let allEditRows = this.getAllEditRows();
+            // for (let i = 0; i < allEditRows.length; i++)
+            //     data.push({...this.getEditedRecord(allEditRows[i])});
 
             return data;
         },
@@ -572,7 +585,7 @@
                         {
                             title: "<spring:message code='port.port'/>",
                             click: function () {
-                                createTab("<spring:message code='port.port'/>", "<spring:url value="/port/showForm" />")
+                                createTab("<spring:message code='port.port'/>", "<spring:url value="/base-port/show-form" />")
                             }
                         }, {
                             title: "<spring:message code='vessel.title'/>",
@@ -587,23 +600,9 @@
                     title: "<spring:message code='main.baseTab.financial'/>",
                     submenu: [
                         {
-                            title: "<spring:message code='unit.title'/>",
-                            click: function () {
-                                createTab("<spring:message code='unit.title'/>", "<spring:url value="/unit/showForm" />")
-                            }
-                        },
-                        {isSeparator: true},
-                        {
                             title: "<spring:message code='currencyRate.title'/>",
                             click: function () {
-                                createTab("<spring:message code='currencyRate.title'/>", "<spring:url value="/currencyRate/showForm" />")
-                            }
-                        },
-                        {isSeparator: true},
-                        {
-                            title: "<spring:message code='currency.title'/>",
-                            click: function () {
-                                createTab("<spring:message code='currency.title'/>", "<spring:url value="/currency/showForm" />")
+                                createTab("<spring:message code='currencyRate.title'/>", "<spring:url value="/base-currencyRate/show-form" />")
                             }
                         },
                         {isSeparator: true},
@@ -630,10 +629,19 @@
                     }
                 },
                 {isSeparator: true},
+
+                {
+                    title: "<spring:message code='unit.title'/>",
+                    click: function () {
+                        createTab("<spring:message code='unit.title'/>", "<spring:url value="base-unit/show-form" />")
+                    }
+                },
+                {isSeparator: true},
+
                 {
                     title: "<spring:message code='country.title'/>",
                     click: function () {
-                        createTab("<spring:message code='country.title'/>", "<spring:url value="/country/showForm" />")
+                        createTab("<spring:message code='country.title'/>", "<spring:url value="/base-country/show-form" />")
                     }
                 },
                 {isSeparator: true},
@@ -642,7 +650,8 @@
                     click: function () {
                         createTab("<spring:message code='parameters.title'/>", "<spring:url value="/parameters/showForm" />")
                     }
-                }
+                },
+
             ]
         }),
     });
@@ -906,7 +915,7 @@
                 {
                     title: "<spring:message code='bijack'/>",
                     click: function () {
-                        createTab("<spring:message code='bijack'/>", "<spring:url value="/warehouseCad/showForm" />")
+                        createTab("<spring:message code='bijack'/>", "<spring:url value="/remittance-detail/showForm" />")
                     }
                 },
                 {isSeparator: true},
@@ -1122,32 +1131,9 @@
                     headerLayout.setVisibility(true);
                     MainDesktopMenuH.setVisibility(true);
                 }, 100)
-
             }
-
         }
     })
-
-
-    <sec:authorize access="hasAuthority('R_CURRENCY')">
-    {
-        var dollar = {};
-        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                actionURL: "${contextPath}/api/currency/list",
-                httpMethod: "GET",
-                data: "",
-                callback: function (RpcResponse_o) {
-                    if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
-                        var data = JSON.parse(RpcResponse_o.data);
-                        for (x of data) {
-                            dollar[x.nameEn] = x.nameEn;
-                        }
-                    } //if rpc
-                } // callback
-            })
-        );
-    }
-    </sec:authorize>
 
     /*Help*/
     isc.HTMLFlow.create({
@@ -1165,11 +1151,12 @@
         : document.URL.split("?")[0];
     const SalesConfigs = {
         Urls: {
+            completeUrl: SalesDocumentUrl,
             RootUrl: "${contextPath}",
             InvoiceExportRest: "${contextPath}" + "/rest",
             remittanceRest: "${contextPath}" + "/rest",
         },
-        httpHeaders: {"Authorization": "Bearer <%= accessToken %>"},
+        httpHeaders: {"Authorization": "Bearer <%= accessToken %>", "content-type": "application/json"},
         userFullName: '<%= SecurityUtil.getFullName()%>',
     }
     isc.FilterBuilder.addProperties({

@@ -10,12 +10,12 @@ public enum DataType {
     PersianDate(1),
     GeorgianDate(2),
     Boolean(3),
-    Float(4),
-    Double(5),
+    BigDecimal(4),
     Integer(6),
     Long(7),
     String(8),
-    Column(9);
+    Column(9),
+    Reference(10);
 
     private final Integer id;
 }

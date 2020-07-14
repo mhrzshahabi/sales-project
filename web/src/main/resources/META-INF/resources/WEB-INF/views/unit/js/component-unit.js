@@ -1,5 +1,4 @@
 isc.defineClass("Unit", isc.DynamicForm).addProperties({
-
     numCols: 4,
     width: 500,
     wrapItemTitles: false,

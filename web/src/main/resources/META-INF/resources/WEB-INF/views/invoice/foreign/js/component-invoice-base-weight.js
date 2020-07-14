@@ -6,7 +6,8 @@ isc.defineClass("InvoiceBaseWeight", isc.VLayout).addProperties({
     showEdges: false,
     layoutMargin: 2,
     membersMargin: 2,
-    billLadings: [],
+    overflow: "scroll",
+    inventory: null,
     initWidget: function () {
 
         this.Super("initWidget", arguments);
@@ -14,12 +15,12 @@ isc.defineClass("InvoiceBaseWeight", isc.VLayout).addProperties({
         let This = this;
         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
             httpMethod: "GET",
-            params: {billLadingIds: This.billLadings.map(q => q.id)},
-            actionURL: "${contextPath}/api/bill-of-lading/get-total-weights",
+            params: {inventoryId: This.inventory.id},
+            actionURL: "${contextPath}/api/weightInspection/get-weight-values",
             callback: function (resp) {
 
                 let fields = [];
-                let weights = JSON.parse(resp.data);
+                let values = JSON.parse(resp.data);
                 fields.add(isc.Unit.create({
 
                     unitCategory: 1,
@@ -30,11 +31,12 @@ isc.defineClass("InvoiceBaseWeight", isc.VLayout).addProperties({
                     showUnitFieldTitle: false,
                     showCurrencyFieldTitle: false,
                     showCurrencyField: false,
+                    name: "weightGW",
                     fieldValueTitle: "weightGW",
                     border: "1px solid rgba(0, 0, 0, 0.3)",
                 }));
-                fields.last().setValue(weights.weightGW);
-                fields.last().setUnitId(weights.weightGWUnit.id);
+                fields.last().setValue(values.weightGW);
+                fields.last().setUnitId(values.unit.id);
 
                 fields.add(isc.Unit.create({
 
@@ -46,11 +48,29 @@ isc.defineClass("InvoiceBaseWeight", isc.VLayout).addProperties({
                     showUnitFieldTitle: false,
                     showCurrencyFieldTitle: false,
                     showCurrencyField: false,
+                    name: "weightND",
                     fieldValueTitle: "weightND",
                     border: "1px solid rgba(0, 0, 0, 0.3)",
                 }));
-                fields.last().setValue(weights.weightND);
-                fields.last().setUnitId(weights.weightNDUnit.id);
+                fields.last().setValue(values.weightND);
+                fields.last().setUnitId(values.unit.id);
+
+                fields.add(isc.Unit.create({
+
+                    unitCategory: 1,
+                    disabledUnitField: true,
+                    disabledValueField: true,
+                    disabledCurrencyField: true,
+                    showValueFieldTitle: true,
+                    showUnitFieldTitle: false,
+                    showCurrencyFieldTitle: false,
+                    showCurrencyField: false,
+                    name: "secondValue",
+                    fieldValueTitle: "secondValue",
+                    border: "1px solid rgba(0, 0, 0, 0.3)",
+                }));
+                fields.last().setValue(values.secondValue);
+                fields.last().setUnitId(values.unit.id);
 
                 This.addMember(isc.DynamicForm.create({
                     width: "100%",
