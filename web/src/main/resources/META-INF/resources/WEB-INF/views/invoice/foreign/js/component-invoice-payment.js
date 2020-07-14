@@ -27,7 +27,7 @@ isc.defineClass("InvoicePayment", isc.VLayout).addProperties({
                 let sumFIPrice = unitPrice * This.invoiceBaseWeightComponent.getValues().weightND;
                 fields.add(isc.Unit.create({
                     isResult: false,
-                    unitCategory: 1,
+                    unitCategory: This.currency.categoryUnit,
                     disabledUnitField: true,
                     disabledValueField: true,
                     showValueFieldTitle: true,
@@ -42,7 +42,7 @@ isc.defineClass("InvoicePayment", isc.VLayout).addProperties({
 
                 fields.add(isc.Unit.create({
                     isResult: true,
-                    unitCategory: 1,
+                    unitCategory: This.currency.categoryUnit,
                     disabledUnitField: true,
                     disabledValueField: true,
                     showValueFieldTitle: true,
@@ -60,7 +60,7 @@ isc.defineClass("InvoicePayment", isc.VLayout).addProperties({
 
                     fields.add(isc.Unit.create({
                         isResult: true,
-                        unitCategory: 1,
+                        unitCategory: piValues[index].currency.categoryUnit,
                         disabledUnitField: true,
                         disabledValueField: true,
                         showValueFieldTitle: true,
@@ -148,7 +148,7 @@ isc.defineClass("InvoicePayment", isc.VLayout).addProperties({
                 let sumOfVOtherValuesGrid = otherValuesGrid.getData().map(q => q.finalValue).sum();
                 let sumOfValuesForm = valuesForm.fields.filter(q => q.isResult).map(q => q.getValue()).sum();
                 fields.add(isc.Unit.create({
-                    unitCategory: 1,
+                    unitCategory: This.currency.categoryUnit,
                     disabledUnitField: true,
                     disabledValueField: true,
                     showValueFieldTitle: true,
@@ -239,7 +239,7 @@ isc.defineClass("InvoicePayment", isc.VLayout).addProperties({
                 });
                 fields.add(isc.Unit.create({
                     required: true,
-                    unitCategory: 1,
+                    unitCategory: This.currency.categoryUnit,
                     disabledUnitField: true,
                     disabledValueField: true,
                     showValueFieldTitle: true,
@@ -253,7 +253,7 @@ isc.defineClass("InvoicePayment", isc.VLayout).addProperties({
 
                 fields.add(isc.Unit.create({
                     required: true,
-                    unitCategory: 1,
+                    unitCategory: This.currency.categoryUnit,
                     disabledUnitField: true,
                     disabledValueField: true,
                     showValueFieldTitle: true,

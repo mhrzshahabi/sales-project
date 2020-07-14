@@ -13,7 +13,7 @@ isc.defineClass("InvoiceDeductionRow", isc.DynamicForm).addProperties({
         let This = this;
         this.addField(isc.Unit.create({
             colSpan: 1,
-            unitCategory: 1,
+            unitCategory: This.currency.categoryUnit,
             disabledUnitField: true,
             disabledValueField: true,
             showValueFieldTitle: false,
@@ -27,7 +27,7 @@ isc.defineClass("InvoiceDeductionRow", isc.DynamicForm).addProperties({
         this.fields.last().setValue(rcPrice);
         this.addField(isc.Unit.create({
             colSpan: 2,
-            unitCategory: 1,
+            unitCategory: This.calculationData.finalAssay.getUnitId(),
             disabledUnitField: true,
             disabledValueField: true,
             showValueFieldTitle: true,
@@ -40,14 +40,9 @@ isc.defineClass("InvoiceDeductionRow", isc.DynamicForm).addProperties({
         let finalAssayValue = this.calculationData.finalAssay.getValue();
         this.fields.last().setValue(finalAssayValue);
         this.fields.last().setUnitId(this.calculationData.finalAssay.getUnitId());
-        this.addField(isc.Unit.create({
+        this.addField({
             colSpan: 2,
-            unitCategory: 1,
-            disabledUnitField: true,
-            disabledValueField: true,
-            showValueFieldTitle: false,
-            showUnitFieldTitle: false,
-            showUnitField: false,
+            title: " X ",
             name: "deductionUnitConversionRate",
             border: "1px solid rgba(0, 0, 0, 0.3)",
             changed: function (form, item, value) {
@@ -55,13 +50,14 @@ isc.defineClass("InvoiceDeductionRow", isc.DynamicForm).addProperties({
                 form.getField('finalAssay').deductionUnitConversionRate = value;
                 This.calculate();
             }
-        }));
+        });
         this.addField({
             colSpan: 2,
             title: " = ",
             type: "staticText",
             name: "deductionPrice",
-            value: finalAssayValue * rcPrice
+            value: finalAssayValue * rcPrice,
+            border: "1px solid rgba(0, 0, 0, 0.3)"
         });
     },
     calculate: function () {

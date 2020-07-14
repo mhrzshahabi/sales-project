@@ -48,8 +48,8 @@ isc.defineClass("InvoiceCalculation", isc.VLayout).addProperties({
             disabledValueField: true,
             showValueFieldTitle: true,
             showUnitFieldTitle: false,
-            unitCategory: JSON.parse('${Enum_CategoryUnit}').Currency,
-            fieldValueTitle: "<spring:message code='foreign-invoice.form.tab.subtotal'/>",
+            unitCategory: This.currency.categoryUnit,
+            fieldValueTitle: "<spring:message code='foreign-invoice.form.tab.subtotal'/>"
         }));
         this.members.last().setUnitId(this.currency.id);
     },
@@ -57,6 +57,6 @@ isc.defineClass("InvoiceCalculation", isc.VLayout).addProperties({
         return this.members[0].getValues();
     },
     getSumValue: function () {
-        return this.members[1].value;
+        return this.members[1].getValue();
     }
 });

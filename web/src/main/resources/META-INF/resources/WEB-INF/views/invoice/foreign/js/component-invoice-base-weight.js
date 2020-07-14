@@ -26,7 +26,7 @@ isc.defineClass("InvoiceBaseWeight", isc.VLayout).addProperties({
                 let weightValues = JSON.parse(resp.data).get(0);
                 fields.add(isc.Unit.create({
 
-                    unitCategory: 1,
+                    unitCategory: weightValues.unit.categoryUnit,
                     disabledUnitField: true,
                     disabledValueField: true,
                     showValueFieldTitle: true,
@@ -40,7 +40,7 @@ isc.defineClass("InvoiceBaseWeight", isc.VLayout).addProperties({
 
                 fields.add(isc.Unit.create({
 
-                    unitCategory: 1,
+                    unitCategory: weightValues.unit.categoryUnit,
                     disabledUnitField: true,
                     disabledValueField: true,
                     showValueFieldTitle: true,
@@ -54,7 +54,7 @@ isc.defineClass("InvoiceBaseWeight", isc.VLayout).addProperties({
 
                 fields.add(isc.Unit.create({
 
-                    unitCategory: 1,
+                    unitCategory: weightValues.unit.categoryUnit,
                     disabledUnitField: true,
                     disabledValueField: true,
                     showValueFieldTitle: true,

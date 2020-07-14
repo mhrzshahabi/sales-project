@@ -11,7 +11,7 @@ isc.defineClass("InvoiceCalculationRow", isc.DynamicForm).addProperties({
         let This = this;
         this.addField(isc.Unit.create({
             colSpan: 4,
-            unitCategory: 1,
+            unitCategory: This.assay.materialElement.unit.categoryUnit,
             disabledUnitField: true,
             disabledValueField: true,
             showValueFieldTitle: true,
@@ -57,7 +57,7 @@ isc.defineClass("InvoiceCalculationRow", isc.DynamicForm).addProperties({
         });
         this.addField(isc.Unit.create({
             colSpan: 4,
-            unitCategory: 1,
+            unitCategory: This.assay.materialElement.unit.categoryUnit,
             disabledUnitField: true,
             disabledValueField: true,
             showValueFieldTitle: false,
@@ -69,14 +69,9 @@ isc.defineClass("InvoiceCalculationRow", isc.DynamicForm).addProperties({
         this.fields.last().setUnitId(this.assay.materialElement.unit.id);
         if (This.assay.materialElement.unit.id !== ImportantIDs.unit.PERCENT &&
             !Enums.unit.hasFlag(This.price.unit.value, This.assay.materialElement.unit.value))
-            this.addField(isc.Unit.create({
+            this.addField({
                 colSpan: 4,
-                unitCategory: 1,
-                disabledUnitField: true,
-                disabledValueField: true,
-                showValueFieldTitle: false,
-                showUnitFieldTitle: false,
-                showUnitField: false,
+                title: " X ",
                 name: "deductionUnitConversionRate",
                 border: "1px solid rgba(0, 0, 0, 0.3)",
                 changed: function (form, item, value) {
@@ -84,7 +79,7 @@ isc.defineClass("InvoiceCalculationRow", isc.DynamicForm).addProperties({
                     form.getField('finalAssay').deductionUnitConversionRate = value;
                     This.calculate();
                 }
-            }));
+            });
         this.addField({
             colSpan: 4,
             title: " = ",

@@ -40,7 +40,7 @@ isc.defineClass("InvoiceBasePrice", isc.VLayout).addProperties({
 
                     fields.add(isc.Unit.create({
 
-                        unitCategory: 1,
+                        unitCategory: elements[index].unit.categoryUnit,
                         disabledUnitField: true,
                         disabledValueField: true,
                         showValueFieldTitle: true,

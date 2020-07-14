@@ -30,7 +30,7 @@ isc.defineClass("InvoiceBaseAssay", isc.VLayout).addProperties({
                         continue;
 
                     fields.add(isc.Unit.create({
-                        unitCategory: 1,
+                        unitCategory: assayValues[index].materialElement.unit.categoryUnit,
                         disabledUnitField: true,
                         disabledValueField: true,
                         showValueFieldTitle: true,
