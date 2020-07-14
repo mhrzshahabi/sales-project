@@ -9,5 +9,5 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class TypicalAssayService extends GenericService<TypicalAssay,Long , TypicalAssayDTO.Create , TypicalAssayDTO.Info , TypicalAssayDTO.Update , TypicalAssayDTO.Delete> implements ITypicalAssayService {
+public class TypicalAssayService extends GenericService<TypicalAssay, Long, TypicalAssayDTO.Create, TypicalAssayDTO.Info, TypicalAssayDTO.Update, TypicalAssayDTO.Delete> implements ITypicalAssayService {
 }

@@ -1,6 +1,6 @@
 <?xml version="1.1" encoding="UTF-8" standalone="no"?>
-<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
-                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
 
     <!-- Replace foreign key from F_MATERIAL_ITEM_ID to F_MATERIAL_ID -->
@@ -12,10 +12,14 @@
         </addColumn>
     </changeSet>
     <changeSet author="karimi (generated)" id="1593331182345-222">
-        <addForeignKeyConstraint baseColumnNames="F_MATERIAL_ID" baseTableName="TBL_WARH_MATERIAL_ELEMENT" constraintName="fk_materialElement2materialByMaterialId" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_MATERIAL" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="F_MATERIAL_ID" baseTableName="TBL_WARH_MATERIAL_ELEMENT"
+                                 constraintName="fk_materialElement2materialByMaterialId" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_MATERIAL"
+                                 validate="true"/>
     </changeSet>
     <changeSet author="karimi (generated)" id="1593331182345-223">
-        <dropForeignKeyConstraint baseTableName="TBL_WARH_MATERIAL_ELEMENT" constraintName="FK_MATERIALELEMENT2ITEMBYITEMID"/>
+        <dropForeignKeyConstraint baseTableName="TBL_WARH_MATERIAL_ELEMENT"
+                                  constraintName="FK_MATERIALELEMENT2ITEMBYITEMID"/>
     </changeSet>
     <changeSet author="karimi (generated)" id="1593331182345-247">
         <dropColumn columnName="F_MATERIAL_ITEM_ID" tableName="TBL_WARH_MATERIAL_ELEMENT"/>

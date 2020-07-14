@@ -26,7 +26,7 @@ public class InspectionReportDTO {
     private String inspectionPlace;
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date issueDate;
-//    private Long inventoryId;
+    //    private Long inventoryId;
     private Long sellerId;
     private Long buyerId;
     private BigDecimal inspectionRateValue;
@@ -44,7 +44,7 @@ public class InspectionReportDTO {
         //        private AssayInspectionDTO.Info assayInspection;
         private List<AssayInspectionDTO.Info> assayInspections;
         private ContactDTO.Info inspector;
-//        private InventoryDTO.Info inventory;
+        //        private InventoryDTO.Info inventory;
         private ContactDTO.Info seller;
         private ContactDTO.Info buyer;
         private UnitDTO.Info currency;

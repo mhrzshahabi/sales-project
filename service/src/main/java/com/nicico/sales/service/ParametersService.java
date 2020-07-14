@@ -3,8 +3,8 @@ package com.nicico.sales.service;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.ParametersDTO;
+import com.nicico.sales.exception.NotFoundException;
 import com.nicico.sales.iservice.IParametersService;
 import com.nicico.sales.model.entities.base.Parameters;
 import com.nicico.sales.repository.ParametersDAO;
@@ -29,7 +29,7 @@ public class ParametersService implements IParametersService {
     @PreAuthorize("hasAuthority('R_PARAMETERS')")
     public ParametersDTO.Info get(Long id) {
         final Optional<Parameters> slById = parametersDAO.findById(id);
-        final Parameters parameters = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.ParametersNotFound));
+        final Parameters parameters = slById.orElseThrow(() -> new NotFoundException(Parameters.class));
 
         return modelMapper.map(parameters, ParametersDTO.Info.class);
     }
@@ -58,7 +58,7 @@ public class ParametersService implements IParametersService {
     @PreAuthorize("hasAuthority('U_PARAMETERS')")
     public ParametersDTO.Info update(Long id, ParametersDTO.Update request) {
         final Optional<Parameters> slById = parametersDAO.findById(id);
-        final Parameters parameters = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.ParametersNotFound));
+        final Parameters parameters = slById.orElseThrow(() -> new NotFoundException(Parameters.class));
 
         Parameters updating = new Parameters();
         modelMapper.map(parameters, updating);

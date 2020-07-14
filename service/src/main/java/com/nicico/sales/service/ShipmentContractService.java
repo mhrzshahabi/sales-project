@@ -3,8 +3,8 @@ package com.nicico.sales.service;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.ShipmentContractDTO;
+import com.nicico.sales.exception.NotFoundException;
 import com.nicico.sales.iservice.IShipmentContractService;
 import com.nicico.sales.model.entities.base.ShipmentContract;
 import com.nicico.sales.repository.ShipmentContractDAO;
@@ -29,7 +29,7 @@ public class ShipmentContractService implements IShipmentContractService {
     @PreAuthorize("hasAuthority('R_SHIPMENT_CONTRACT')")
     public ShipmentContractDTO.Info get(Long id) {
         final Optional<ShipmentContract> slById = shipmentContractDAO.findById(id);
-        final ShipmentContract shipmentContract = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.ShipmentContractNotFound));
+        final ShipmentContract shipmentContract = slById.orElseThrow(() -> new NotFoundException(ShipmentContract.class));
 
         return modelMapper.map(shipmentContract, ShipmentContractDTO.Info.class);
     }
@@ -58,7 +58,7 @@ public class ShipmentContractService implements IShipmentContractService {
     @PreAuthorize("hasAuthority('U_SHIPMENT_CONTRACT')")
     public ShipmentContractDTO.Info update(Long id, ShipmentContractDTO.Update request) {
         final Optional<ShipmentContract> slById = shipmentContractDAO.findById(id);
-        final ShipmentContract shipmentContract = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.ShipmentContractNotFound));
+        final ShipmentContract shipmentContract = slById.orElseThrow(() -> new NotFoundException(ShipmentContract.class));
 
         ShipmentContract updating = new ShipmentContract();
         modelMapper.map(shipmentContract, updating);

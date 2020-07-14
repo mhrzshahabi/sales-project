@@ -18,7 +18,9 @@ import java.util.List;
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
 @Table(name = "TBL_WARH_TOZIN")
-public class TozinTable extends BaseEntity{
+public class TozinTable extends BaseEntity {
+    @Column(name = "B_IS_IN_VIEW", nullable = false, columnDefinition = "number default 1")
+    private final Boolean isInView = true;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_WARH_TOZIN")
     @SequenceGenerator(name = "SEQ_WARH_TOZIN", sequenceName = "SEQ_WARH_TOZIN", allocationSize = 1)
@@ -26,8 +28,6 @@ public class TozinTable extends BaseEntity{
     @NotEmpty
     @Column(name = "TOZINE_ID", nullable = false, unique = true)
     private String tozinId;
-    @Column(name = "B_IS_IN_VIEW", nullable = false, columnDefinition = "number default 1")
-    private final Boolean isInView = true;
     @Column(name = "SOURCEID", nullable = false)
     private Long sourceId;
     @Column(name = "TARGETID", nullable = false)

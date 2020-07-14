@@ -39,7 +39,7 @@ public class Person extends BaseEntity {
     @Column(name = "TITLE", length = 20)
     private String title;
 
-    @Column(name = "EMAIL",length = 200)
+    @Column(name = "EMAIL", length = 200)
     private String email;
 
     @Column(name = "EMAIL1")

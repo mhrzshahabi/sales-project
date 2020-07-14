@@ -31,7 +31,7 @@ public class Port extends BaseEntity {
     private Long countryId;
 
     @NotNull
-    @Column(name = "C_PORT", length = 4000 , nullable = false)
+    @Column(name = "C_PORT", length = 4000, nullable = false)
     private String port;
 
     @Column(name = "C_LOA")

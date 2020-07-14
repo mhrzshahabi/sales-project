@@ -10,5 +10,6 @@ import java.util.List;
 @Repository
 public interface RemittanceDetailDAO extends JpaRepository<RemittanceDetail, Long>, JpaSpecificationExecutor<RemittanceDetail> {
     List<RemittanceDetail> findAllByRemittanceIdIsIn(List<Long> ids);
+
     void deleteAllByIdIn(List<Long> ids);
 }

@@ -3,7 +3,7 @@
                    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
     <changeSet author="Reza Mazloom" id="mazloom_016">
-            <dropColumn columnName="CONTRACT_ID" tableName="TBL_PARAMETER"/>
+        <dropColumn columnName="CONTRACT_ID" tableName="TBL_PARAMETER"/>
     </changeSet>
     <changeSet author="Reza Mazloom" id="mazloom_017">
         <addColumn tableName="TBL_PARAMETER">

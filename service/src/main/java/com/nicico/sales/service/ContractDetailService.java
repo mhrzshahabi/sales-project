@@ -3,7 +3,6 @@ package com.nicico.sales.service;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.ContractDetailAuditDTO;
 import com.nicico.sales.dto.ContractDetailDTO;
 import com.nicico.sales.exception.NotFoundException;
@@ -118,7 +117,6 @@ public class ContractDetailService implements IContractDetailService {
         final ContractDetail saved = contractDetailDAO.saveAndFlush(contractDetail);
         return modelMapper.map(saved, ContractDetailDTO.Info.class);
     }
-
 
 
 }

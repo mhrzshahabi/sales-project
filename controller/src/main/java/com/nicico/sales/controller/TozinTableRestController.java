@@ -29,13 +29,12 @@ public class TozinTableRestController {
 
     }
 
-     @Loggable
+    @Loggable
     @DeleteMapping(value = {"/list"})
     public ResponseEntity batchDelete(@RequestBody TozinTableDTO.Delete ids) {
         tozinService.deleteAll(ids);
-        return new ResponseEntity<>( HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
-
 
 
     @Loggable
