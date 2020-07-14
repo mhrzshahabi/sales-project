@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.util.List;
 
-
 @Slf4j
 @RequiredArgsConstructor
 @RestController
@@ -52,9 +51,16 @@ public class WeightInspectionRestController {
 
     @Loggable
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         iWeightInspectionService.delete(id);
-        return new ResponseEntity(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @Loggable
+    @GetMapping(value = "/get-weight-values")
+    public ResponseEntity<WeightInspectionDTO.Info> getWeightValues(Long inventoryId) {
+
+        return new ResponseEntity<>(iWeightInspectionService.getWeightValues(inventoryId), HttpStatus.OK);
     }
 
     @Loggable

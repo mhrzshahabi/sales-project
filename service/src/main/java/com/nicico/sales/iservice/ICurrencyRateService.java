@@ -3,7 +3,9 @@ package com.nicico.sales.iservice;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.sales.dto.CurrencyRateDTO;
+import com.nicico.sales.model.enumeration.RateReference;
 
+import java.util.Date;
 import java.util.List;
 
 public interface ICurrencyRateService {
@@ -21,4 +23,6 @@ public interface ICurrencyRateService {
     void delete(CurrencyRateDTO.Delete request);
 
     TotalResponse<CurrencyRateDTO.Info> search(NICICOCriteria criteria);
+
+    CurrencyRateDTO.Info getCurrencyRate(RateReference rateReference, Date conversionDate);
 }

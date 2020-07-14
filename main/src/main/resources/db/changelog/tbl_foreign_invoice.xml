@@ -31,5 +31,10 @@
         <dropForeignKeyConstraint baseTableName="TBL_FOREIGN_INVOICE" constraintName="FK_FOREIGNINVOICE2MATERIALBYMATERIALID"/>
     </changeSet>
 
+    <changeSet author="karimi (generated)" id="1594613577991-229">
+        <addColumn tableName="TBL_FOREIGN_INVOICE">
+            <column name="C_DESCRIPTION" type="varchar2(255 CHAR)"/>
+        </addColumn>
+    </changeSet>
 
 </databaseChangeLog>
