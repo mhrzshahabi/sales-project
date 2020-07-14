@@ -36,9 +36,6 @@
     <changeSet author="karimi" id="ModifyDataType-Foreign-Invoice-009">
         <addForeignKeyConstraint baseColumnNames="F_UNIT_ID" baseTableName="TBL_FOREIGN_INVOICE" constraintName="fk_foreignInvoice2unitByUnitId" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_UNIT" validate="true"/>
     </changeSet>
-    <changeSet author="karimi" id="ModifyDataType-Foreign-Invoice-010">
-        <dropForeignKeyConstraint baseTableName="TBL_FOREIGN_INVOICE" constraintName="FK_FOREIGNINVOICE2CURRENCYBYCURRENCYID"/>
-    </changeSet>
     <changeSet author="Reza Mazloom" id="ModifyDataType-Foreign-Invoice-011">
         <dropColumn columnName="F_CURRENCY_ID" tableName="TBL_FOREIGN_INVOICE"/>
     </changeSet>

@@ -13,9 +13,6 @@
                                  constraintName="ContractCurrency2UNIT" deferrable="false" initiallyDeferred="false"
                                  referencedColumnNames="ID" referencedTableName="TBL_UNIT" validate="true"/>
     </changeSet>
-    <changeSet author="Reza Mazloom" id="mazloom_020">
-        <dropForeignKeyConstraint baseTableName="TBL_CONTRACT_CURRENCY" constraintName="CONTRACTCURRENCY2CURRENCY"/>
-    </changeSet>
     <changeSet author="Reza Mazloom" id="mazloom_021">
         <dropColumn columnName="CURRENCY_ID" tableName="TBL_CONTRACT_CURRENCY"/>
     </changeSet>
