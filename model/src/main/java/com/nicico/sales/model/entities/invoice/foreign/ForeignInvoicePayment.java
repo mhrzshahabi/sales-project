@@ -1,6 +1,5 @@
 package com.nicico.sales.model.entities.invoice.foreign;
 
-import com.nicico.sales.model.entities.base.Currency;
 import com.nicico.sales.model.entities.base.CurrencyRate;
 import com.nicico.sales.model.entities.common.BaseEntity;
 import lombok.*;
@@ -48,8 +47,8 @@ public class ForeignInvoicePayment extends BaseEntity {
     @Column(name = "N_DOC_CONVERSION_PRICE", scale = 2, precision = 14)
     private BigDecimal docConversionPrice;
 
-    @Column(name = "B_IS_POSITIVE")
-    private Boolean isPositive;
+    @Column(name = "N_PORTION", scale = 2, precision = 5)
+    private BigDecimal portion;
 
     @Column(name = "C_DESCRIPTION", length = 4000)
     private String description;
@@ -63,15 +62,6 @@ public class ForeignInvoicePayment extends BaseEntity {
 
     @Column(name = "F_CONVERSION_REF_ID")
     private Long conversionRefId;
-
-    @Setter(AccessLevel.NONE)
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "F_CURRENCY_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_foreignInvoicePayment2currencyByCurrencyId"))
-    private Currency currency;
-
-    @NotNull
-    @Column(name = "F_CURRENCY_ID", nullable = false)
-    private Long currencyId;
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)

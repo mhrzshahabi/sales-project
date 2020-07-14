@@ -1,19 +1,26 @@
 package com.nicico.sales.web.controller.invoice.foreign;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nicico.sales.model.enumeration.RateReference;
 import com.nicico.sales.utility.SecurityChecker;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("/foreign-invoice")
 public class ForeignInvoiceFormController {
 
+    private final ObjectMapper objectMapper;
+
     @RequestMapping("/show-form")
-    public String show(HttpServletRequest request) {
+    public String show(HttpServletRequest request) throws JsonProcessingException {
 
         request.setAttribute("c_entity", SecurityChecker.check("" +
                 "hasAuthority('C_FOREIGN_INVOICE') AND " +
@@ -30,6 +37,11 @@ public class ForeignInvoiceFormController {
                 "hasAuthority('D_FOREIGN_INVOICE_ITEM') AND " +
                 "hasAuthority('D_FOREIGN_INVOICE_ITEM_DETAIL') AND " +
                 "hasAuthority('D_FOREIGN_INVOICE_PAYMENT')"));
+
+        Map<String, String> rateReferences = new HashMap<>();
+        for (RateReference value : RateReference.values()) rateReferences.put(value.name(), value.name());
+        request.setAttribute("Enum_RateReference", objectMapper.writeValueAsString(rateReferences));
+
         return "invoice/foreign/foreign-invoice";
     }
 }

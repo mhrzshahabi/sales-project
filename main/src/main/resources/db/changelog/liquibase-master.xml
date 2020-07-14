@@ -31,6 +31,7 @@
 	<include file="classpath:/db/changelog/modify-data-types/tbl_foreign_invoice_item_detail.xml"/>
 	<include file="classpath:/db/changelog/tbl_foreign_invoice_item.xml"/>
 	<include file="classpath:/db/changelog/tbl_foreign_invoice_item_detail.xml"/>
+	<include file="classpath:/db/changelog/tbl_foreign_invoice_payment.xml"/>
 
 	<include file="classpath:/db/changelog/tbl_warh_warehouse.xml"/>
 	<include file="classpath:/db/changelog/tbl_warh_store.xml"/>
