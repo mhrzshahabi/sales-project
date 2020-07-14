@@ -25,13 +25,13 @@ public class Parameters extends BaseEntity {
     @Column(name = "PARAM_NAME", nullable = false)
     private String paramName;
 
-    @Column(name = "PARAM_Value", nullable = false)
+    @Column(name = "PARAM_VALUE", nullable = false)
     private String paramValue;
 
-    @Column(name = "CONTRACT_ID", nullable = false)
-    private Integer contractId;
+    @Column(name = "MATERIAL_ID", nullable = false)
+    private Integer materialId;
 
-    @Column(name = "CATEGORY_VALUE", nullable = false)
+    @Column(name = "CATEGORY_VALUE", nullable = false) //N_CATEGORY_VALUE
     private Integer categoryValue;
 
 }

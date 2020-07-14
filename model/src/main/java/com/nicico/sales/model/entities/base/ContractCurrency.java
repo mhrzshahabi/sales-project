@@ -30,11 +30,11 @@ public class ContractCurrency extends BaseEntity {
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "CURRENCY_ID", nullable = false, insertable = false, updatable = false, foreignKey = @ForeignKey(name = "ContractCurrency2CURRENCY"))
-    private Currency currency;
+    @JoinColumn(name = "UNIT_ID", nullable = false, insertable = false, updatable = false, foreignKey = @ForeignKey(name = "ContractCurrency2UNIT"))
+    private Unit unit;
 
-    @Column(name = "CURRENCY_ID")
-    private Long currencyId;
+    @Column(name = "UNIT_ID")
+    private Long unitId;
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)

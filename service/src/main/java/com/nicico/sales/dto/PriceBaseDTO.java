@@ -39,7 +39,7 @@ public class PriceBaseDTO {
     public static class Info extends PriceBaseDTO {
         private Long id;
         private ElementDTO.Info element;
-        private CurrencyDTO.Info currency;
+        private UnitDTO.Info currency;
         private UnitDTO.Info unit;
 
         // Auditing
