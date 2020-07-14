@@ -4,7 +4,6 @@ package com.nicico.sales.controller;
 import com.nicico.copper.common.Loggable;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.sales.dto.PortDTO;
 import com.nicico.sales.dto.UnitDTO;
 import com.nicico.sales.iservice.IUnitService;
 import lombok.RequiredArgsConstructor;
@@ -36,6 +35,13 @@ public class UnitRestController {
     @Loggable
     @GetMapping(value = "/list")
     public ResponseEntity<List<UnitDTO.Info>> list() {
+        return new ResponseEntity<>(iUnitService.list(), HttpStatus.OK);
+    }
+
+    @Loggable
+    @GetMapping(value = "/update-all")
+    public ResponseEntity<List<UnitDTO.Info>> updateUnits() {
+        iUnitService.updateUnits();
         return new ResponseEntity<>(iUnitService.list(), HttpStatus.OK);
     }
 

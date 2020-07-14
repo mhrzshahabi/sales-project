@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface IUnitService extends IGenericService<Unit, Long , UnitDTO.Create , UnitDTO.Info , UnitDTO.Update , UnitDTO.Delete> {
-
+    void updateUnits();
 }
