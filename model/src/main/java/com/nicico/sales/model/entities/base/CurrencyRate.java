@@ -1,10 +1,15 @@
 package com.nicico.sales.model.entities.base;
 
 import com.nicico.sales.model.entities.common.BaseEntity;
+import com.nicico.sales.model.enumeration.RateReference;
+import com.nicico.sales.model.enumeration.SymbolUnit;
 import lombok.*;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -13,8 +18,14 @@ import javax.persistence.*;
 @Accessors(chain = true)
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
-@Table(name = "TBL_CURRENCY_RATE")
+@Table(name = "TBL_CURRENCY_RATE",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = {"D_CURRENCY_DATE", "N_FROM", "N_TO", "N_REFERENCE"}, name = CurrencyRate.UNIQUE_LIST_CURRENCY_RATE)
+
+        })
 public class CurrencyRate extends BaseEntity {
+
+    public static final String UNIQUE_LIST_CURRENCY_RATE = "UNIQE_List_CrrencyRate";
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_CURRENCY_RATE")
@@ -22,19 +33,24 @@ public class CurrencyRate extends BaseEntity {
     @Column(name = "ID")
     private Long id;
 
-    @Column(name = "C_DATE")
-    private String curDate;
+    @NotNull
+    @Column(name = "D_CURRENCY_DATE"  , nullable = false)
+    private Date currencyDate;
 
-    @Column(name = "c_IRR_USD")
-    private String irrUsd;
+    @NotNull
+    @Column(name = "N_FROM", nullable = false)
+    private SymbolUnit.SymbolCUR symbolCF;
 
-    @Column(name = "c_EUR_USD")
-    private String eurUsd;
+    @NotNull
+    @Column(name = "N_TO", nullable = false)
+    private SymbolUnit.SymbolCUR symbolCT;
 
-    @Column(name = "c_AED_USD")
-    private String aedUsd;
+    @NotNull
+    @Column(name = "N_REFERENCE", nullable = false)
+    private RateReference reference;
 
-    @Column(name = "c_RMB_USD")
-    private String rmbUsd;
+    @NotNull
+    @Column(name = "N_RATE_VALUE" , precision = 10, scale = 5 , nullable = false)
+    private BigDecimal rateValue;
 
 }

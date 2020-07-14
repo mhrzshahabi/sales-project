@@ -87,5 +87,5 @@ priceBaseTab.dynamicForm.fields = BaseFormItems.concat([
 ]);
 Object.assign(priceBaseTab.listGrid.fields, priceBaseTab.dynamicForm.fields);
 nicico.BasicFormUtil.getDefaultBasicForm(priceBaseTab, "api/price-base/");
-priceBaseTab.listGrid.main.contextMenu = null;
+// priceBaseTab.listGrid.main.contextMenu = null;
 priceBaseTab.dynamicForm.main.windowWidth = 500;

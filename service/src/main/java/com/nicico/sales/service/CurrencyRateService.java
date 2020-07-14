@@ -7,6 +7,7 @@ import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.CurrencyRateDTO;
 import com.nicico.sales.iservice.ICurrencyRateService;
 import com.nicico.sales.model.entities.base.CurrencyRate;
+import com.nicico.sales.model.enumeration.RateReference;
 import com.nicico.sales.repository.CurrencyRateDAO;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -15,6 +16,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,8 +24,8 @@ import java.util.Optional;
 @Service
 public class CurrencyRateService implements ICurrencyRateService {
 
-    private final CurrencyRateDAO currencyRateDAO;
     private final ModelMapper modelMapper;
+    private final CurrencyRateDAO currencyRateDAO;
 
     @Transactional(readOnly = true)
     @PreAuthorize("hasAuthority('R_CURRENCY_RATE')")
@@ -88,6 +90,11 @@ public class CurrencyRateService implements ICurrencyRateService {
     @PreAuthorize("hasAuthority('R_CURRENCY_RATE')")
     public TotalResponse<CurrencyRateDTO.Info> search(NICICOCriteria criteria) {
         return SearchUtil.search(currencyRateDAO, criteria, currencyRate -> modelMapper.map(currencyRate, CurrencyRateDTO.Info.class));
+    }
+
+    @Override
+    public CurrencyRateDTO.Info getCurrencyRate(RateReference rateReference, Date conversionDate) {
+        return null;//modelMapper.map(currencyRateDAO.findByRateReferenceAndDate(rateReference, conversionDate), CurrencyRateDTO.Info.class);
     }
 
     private CurrencyRateDTO.Info save(CurrencyRate currencyRate) {
