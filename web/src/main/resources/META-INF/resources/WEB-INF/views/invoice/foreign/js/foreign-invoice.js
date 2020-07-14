@@ -199,7 +199,7 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
             criteria: [{
                 fieldName: 'categoryUnit',
                 operator: 'equals',
-                value: JSON.parse('${Enum_CategoryUnit}').Currency
+                value: JSON.parse('${Enum_CategoryUnit}').Finance
             }]
         },
         optionDataSource: isc.MyRestDataSource.create({
@@ -227,7 +227,7 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
             criteria: [{
                 fieldName: 'categoryUnit',
                 operator: 'equals',
-                value: JSON.parse('${Enum_CategoryUnit}').Currency
+                value: JSON.parse('${Enum_CategoryUnit}').Finance
             }]
         },
         optionDataSource: isc.MyRestDataSource.create({
