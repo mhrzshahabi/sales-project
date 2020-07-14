@@ -4,7 +4,6 @@ package com.nicico.sales.controller;
 import com.nicico.copper.common.Loggable;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.sales.dto.PortDTO;
 import com.nicico.sales.dto.UnitDTO;
 import com.nicico.sales.iservice.IUnitService;
 import lombok.RequiredArgsConstructor;

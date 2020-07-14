@@ -21,5 +21,8 @@
         </addColumn>
     </changeSet>
 
+    <changeSet author="j.azad" id="J.AZAD-024">
+        <dropColumn columnName="N_SYMBOL_CURRENC" tableName="TBL_CURRENCY"/>
+    </changeSet>
 
 </databaseChangeLog>
