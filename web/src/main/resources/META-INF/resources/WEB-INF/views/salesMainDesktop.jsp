@@ -99,11 +99,6 @@
         eStatus: {
             "Active": "عادی",
             "DeActive": "حذف شده"
-        },
-        deductionType: {
-            1: "Unit",
-            2: "Percent",
-            3: "Discount"
         }
     };
 
@@ -119,7 +114,7 @@
             FINAL: 3
         },
         unit: {
-            PERCENT : 1,
+            PERCENT: 1,
         }
     }
     var BaseRPCRequest = {

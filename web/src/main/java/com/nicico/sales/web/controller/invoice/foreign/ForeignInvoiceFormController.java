@@ -2,6 +2,8 @@ package com.nicico.sales.web.controller.invoice.foreign;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nicico.sales.model.enumeration.CategoryUnit;
+import com.nicico.sales.model.enumeration.DeductionType;
 import com.nicico.sales.model.enumeration.RateReference;
 import com.nicico.sales.utility.SecurityChecker;
 import lombok.RequiredArgsConstructor;
@@ -41,6 +43,14 @@ public class ForeignInvoiceFormController {
         Map<String, String> rateReferences = new HashMap<>();
         for (RateReference value : RateReference.values()) rateReferences.put(value.name(), value.name());
         request.setAttribute("Enum_RateReference", objectMapper.writeValueAsString(rateReferences));
+
+        Map<String, String> deductionTypes = new HashMap<>();
+        for (DeductionType value : DeductionType.values()) deductionTypes.put(value.name(), value.name());
+        request.setAttribute("Enum_DeductionType", objectMapper.writeValueAsString(deductionTypes));
+
+        Map<String, String> currencyUnits = new HashMap<>();
+        for (CategoryUnit value : CategoryUnit.values()) currencyUnits.put(value.name(), value.name());
+        request.setAttribute("Enum_CategoryUnit", objectMapper.writeValueAsString(currencyUnits));
 
         return "invoice/foreign/foreign-invoice";
     }

@@ -6,7 +6,7 @@ foreignInvoiceTab.variable.selectBillLadingForm = new nicico.FindFormUtil();
 foreignInvoiceTab.variable.contractUrl = __contract.url;
 foreignInvoiceTab.variable.personUrl = "${contextPath}" + "/api/person/";
 foreignInvoiceTab.variable.shipmentUrl = "${contextPath}" + "/api/shipment/";
-foreignInvoiceTab.variable.currencyUrl = "${contextPath}" + "/api/currency/";
+foreignInvoiceTab.variable.currencyUrl = "${contextPath}" + "/api/unit/";
 foreignInvoiceTab.variable.invoiceTypeUrl = "${contextPath}" + "/api/invoicetype/";
 foreignInvoiceTab.variable.conversionRefUrl = "${contextPath}" + "/api/currencyRate/";
 foreignInvoiceTab.variable.foreignInvoiceUrl = "${contextPath}" + "/api/foreign-invoice/";
@@ -194,6 +194,14 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
         width: "100%",
         valueField: "id",
         displayField: "nameEn",
+        optionCriteria: {
+            operator: 'and',
+            criteria: [{
+                fieldName: 'categoryUnit',
+                operator: 'equals',
+                value: JSON.parse('${Enum_CategoryUnit}').Currency
+            }]
+        },
         optionDataSource: isc.MyRestDataSource.create({
             fields: [
                 {name: "id", primaryKey: true, hidden: true, title: "<spring:message code='global.id'/>"},
@@ -214,6 +222,14 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
         width: "100%",
         valueField: "id",
         displayField: "nameEn",
+        optionCriteria: {
+            operator: 'and',
+            criteria: [{
+                fieldName: 'categoryUnit',
+                operator: 'equals',
+                value: JSON.parse('${Enum_CategoryUnit}').Currency
+            }]
+        },
         optionDataSource: isc.MyRestDataSource.create({
             fields: [
                 {name: "id", primaryKey: true, hidden: true, title: "<spring:message code='global.id'/>"},

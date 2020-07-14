@@ -53,7 +53,7 @@ isc.defineClass("InvoiceCalculationRow", isc.DynamicForm).addProperties({
             showTitle: false,
             width: "100%",
             name: "deductionType",
-            valueMap: Enums.deductionType
+            valueMap: JSON.parse('${Enums_DeductionType}')
         });
         this.addField(isc.Unit.create({
             colSpan: 4,
