@@ -48,9 +48,6 @@ public class CurrencyRate extends BaseEntity {
     @Column(name = "N_REFERENCE", nullable = false)
     private RateReference reference;
 
-    @NotNull
-    @Column(name = "N_RATE_VALUE", precision = 10, scale = 5, nullable = false)
-    private BigDecimal rateValue;
     @Column(name = "N_CURRENCY_RATE_VALUE" , scale = 2 , precision = 10, nullable = false)
     private BigDecimal currencyRateValue;
 

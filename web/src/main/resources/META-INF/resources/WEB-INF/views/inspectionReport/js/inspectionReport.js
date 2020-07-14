@@ -233,8 +233,8 @@ inspectionReportTab.restDataSource.inventoryRest = isc.MyRestDataSource.create({
             hidden: true
         },
         {
-            name: "materialItem.material.descp",
-            title: "<spring:message code='material.descp'/>"
+            name: "materialItem.gdsName",
+            title: "<spring:message code='MaterialItem.gdsName'/>"
         },
         {
             name: "materialItem.materialId",
@@ -614,7 +614,7 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
                 hidden: true
             },
             {
-                name: "materialItem.material.descp",
+                name: "materialItem.gdsName",
                 align: "center",
             },
             {
