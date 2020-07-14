@@ -64,12 +64,4 @@ public class AssayInspection extends BaseEntity {
     @Column(name = "F_INVENTORY_ID", nullable = false)
     private Long inventoryId;
 
-    /*@Setter(AccessLevel.NONE)
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "F_UNIT_ID", nullable = false, insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_assayInspection2unit"))
-    private Unit unit;
-
-    @Column(name = "F_UNIT_ID")
-    private Long unitId;*/
-
 }

@@ -234,35 +234,18 @@ inspectionReportTab.restDataSource.inventoryRest = isc.MyRestDataSource.create({
         },
         {
             name: "materialItem.material.descp",
+            title: "<spring:message code='material.descp'/>"
         },
         {
             name: "materialItem.materialId",
+            title: "<spring:message code='material.title'/>"
         },
         {
             name: "label",
+            title: "<spring:message code='inspectionReport.InventoryLabel'/>"
         }
     ],
     fetchDataURL: "${contextPath}/api/inventory/spec-list"
-});
-
-inspectionReportTab.restDataSource.currencyRest = isc.MyRestDataSource.create({
-    fields: [
-        {
-            name: "id",
-            primaryKey: true,
-            canEdit: false,
-            hidden: true
-        },
-        {
-            name: "nameFa",
-            title: "<spring:message code='currency.nameFa'/>"
-        },
-        {
-            name: "nameEn",
-            title: "<spring:message code='currency.nameLatin'/>"
-        }
-    ],
-    fetchDataURL: "${contextPath}/api/currency/spec-list"
 });
 
 /*inspectionReportTab.restDataSource.contractRest = isc.MyRestDataSource.create({
@@ -536,10 +519,7 @@ inspectionReportTab.dynamicForm.material = isc.DynamicForm.create({
                 inspectionReportTab.listGrid.weightElement.setFieldTitle("weightGW", weightWGTitle + " (" + unitName + ")");
                 let weightNDTitle = inspectionReportTab.listGrid.weightElement.getFieldTitle("weightND").replace(/ *\([^)]*\) */g, "");
                 inspectionReportTab.listGrid.weightElement.setFieldTitle("weightND", weightNDTitle + " (" + unitName + ")");
-            },
-            // editorExit: function (form) {
-            //
-            // }
+            }
 
         },
         {
@@ -1151,6 +1131,7 @@ inspectionReportTab.window.inspecReport.cancelCallBack = function () {
     inspectionReportTab.dynamicForm.assayLab.clearValues();
     inspectionReportTab.listGrid.weightElement.setData([]);
     inspectionReportTab.listGrid.assayElement.setData([]);
+    inspectionReportTab.listGrid.assayElement.setFields([]);
 };
 
 inspectionReportTab.method.refreshData = function () {
@@ -1273,7 +1254,7 @@ inspectionReportTab.listGrid.fields = [
     },
     {
         name: "unit.nameFA",
-        title: "<spring:message code='inspectionReport.currencyId'/>"
+        title: "<spring:message code='global.unit'/>"
     }
 ];
 
