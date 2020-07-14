@@ -21,7 +21,6 @@ public class CurrencyDTO {
 
     private String nameFa;
     private String nameEn;
-    private String isActive;
     private SymbolCurrency symbolCurrency;
 
 
