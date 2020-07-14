@@ -19,7 +19,6 @@ import java.util.Date;
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
 @Table(name = "TBL_CURRENCY_RATE",
-
         uniqueConstraints = {
                 @UniqueConstraint(columnNames = {"D_CURRENCY_DATE", "N_FROM", "N_TO", "N_REFERENCE"}, name = CurrencyRate.UNIQUE_LIST_CURRENCY_RATE)
 
@@ -40,11 +39,11 @@ public class CurrencyRate extends BaseEntity {
 
     @NotNull
     @Column(name = "N_FROM", nullable = false)
-    private SymbolUnit SymbolUnitFrom;
+    private SymbolUnit.SymbolCUR symbolCF;
 
     @NotNull
     @Column(name = "N_TO", nullable = false)
-    private SymbolUnit SymbolUnitTO;
+    private SymbolUnit.SymbolCUR symbolCT;
 
     @NotNull
     @Column(name = "N_REFERENCE", nullable = false)
