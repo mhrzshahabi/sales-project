@@ -519,6 +519,11 @@ inspectionReportTab.dynamicForm.material = isc.DynamicForm.create({
                 inspectionReportTab.listGrid.weightElement.setFieldTitle("weightGW", weightWGTitle + " (" + unitName + ")");
                 let weightNDTitle = inspectionReportTab.listGrid.weightElement.getFieldTitle("weightND").replace(/ *\([^)]*\) */g, "");
                 inspectionReportTab.listGrid.weightElement.setFieldTitle("weightND", weightNDTitle + " (" + unitName + ")");
+
+                console.log(inspectionReportTab.variable.materialId);
+                inspectionReportTab.dynamicForm.inspecReport.getItem("inventoryId").setValue([]);
+                inspectionReportTab.listGrid.weightElement.setData([]);
+                inspectionReportTab.listGrid.assayElement.setData([]);
             }
 
         },
@@ -629,6 +634,7 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
             }],
         blur: function (form, item) {
 
+            console.log(11)
             let selectedInventories = item.getSelectedRecords();
             if (selectedInventories == null) selectedInventories = [];
             inspectionReportTab.method.setWeightElementListRows(selectedInventories);
@@ -1171,14 +1177,12 @@ inspectionReportTab.method.editForm = function () {
 
                 let weightInspectionArray = record.weightInspections;
                 let assayInspectionArray = record.assayInspections;
-                let assayData = [];
-                let assayRecord = [];
-                assayData = inspectionReportTab.method.groupByAssays(assayInspectionArray, "inventoryId");
 
                 // Set Material
                 let materialId = weightInspectionArray.get(0).inventory.materialItem.materialId;
                 inspectionReportTab.dynamicForm.material.setValue("material", materialId);
-                inspectionReportTab.method.getAssayElementFields(materialId);
+                // inspectionReportTab.method.getAssayElementFields(materialId);
+                inspectionReportTab.dynamicForm.material.getField("material").changed(inspectionReportTab.dynamicForm.material, inspectionReportTab.dynamicForm.material.getItem("material"));
 
                 // Set Inventories
                 weightInspectionArray.forEach((current, index, array) => inventories.add(current.inventory.id));
@@ -1188,14 +1192,12 @@ inspectionReportTab.method.editForm = function () {
                 inspectionReportTab.dynamicForm.assayLab.getField("labName").setValue(assayInspectionArray.get(0).labName);
                 inspectionReportTab.dynamicForm.assayLab.getField("labPlace").setValue(assayInspectionArray.get(0).labPlace);
 
-                // ListGrid and Data
+                // ListGrid and Data (inventoryId: Changed -> listGrids setData)
                 inspectionReportTab.dynamicForm.inspecReport.getField("inventoryId").showPicker();
                 setTimeout(() => {
                     inspectionReportTab.dynamicForm.inspecReport.getField("inventoryId").pickList.hide();
                     inspectionReportTab.tab.inspecTabs.focus();
                 }, 500);
-
-                // inspectionReportTab.method.setAssayValue(inventories);
 
             }
         });
