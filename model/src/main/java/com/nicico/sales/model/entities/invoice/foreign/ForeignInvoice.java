@@ -87,12 +87,12 @@ public class ForeignInvoice extends BaseEntity {
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "F_CURRENCY_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_foreignInvoice2currencyByCurrencyId"))
-    private Currency currency;
+    @JoinColumn(name = "F_UNIT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_foreignInvoice2unitByUnitId"))
+    private Unit unit;
 
     @NotNull
-    @Column(name = "F_CURRENCY_ID", nullable = false)
-    private Long currencyId;
+    @Column(name = "F_UNIT_ID", nullable = false)
+    private Long unitId;
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)

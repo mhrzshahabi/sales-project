@@ -1,6 +1,9 @@
 package com.nicico.sales.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.nicico.sales.model.enumeration.EStatus;
+import com.nicico.sales.model.enumeration.RateReference;
+import com.nicico.sales.model.enumeration.SymbolUnit;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -8,6 +11,7 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -17,11 +21,11 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class CurrencyRateDTO {
 
-    private String curDate;
-    private String irrUsd;
-    private String eurUsd;
-    private String aedUsd;
-    private String rmbUsd;
+    private Date currencyDate;
+    private SymbolUnit.SymbolCUR symbolCF;
+    private SymbolUnit.SymbolCUR symbolCT;
+    private RateReference reference;
+    private BigDecimal rateValue;
 
     @Getter
     @Setter
@@ -34,6 +38,11 @@ public class CurrencyRateDTO {
         private Date lastModifiedDate;
         private String lastModifiedBy;
         private Integer version;
+
+
+        // BaseEntity
+        private Boolean editable;
+        private List<EStatus> eStatus;
     }
 
     @Getter

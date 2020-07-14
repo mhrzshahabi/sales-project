@@ -3,7 +3,7 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
 
-    <changeSet author="" id="J.AZAD-025">
+    <changeSet author="j.azad" id="J.AZAD-025">
         <addColumn tableName="TBL_CURRENCY_RATE">
             <column name="D_CURRENCY_DATE" type="timestamp">
                 <constraints nullable="false"/>

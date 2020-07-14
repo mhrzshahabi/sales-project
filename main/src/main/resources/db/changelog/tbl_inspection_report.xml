@@ -21,6 +21,20 @@
         <dropColumn columnName="F_INVENTORY_ID" tableName="TBL_INSPECTION_REPORT"/>
     </changeSet>
 
+    <changeSet author="Reza (generated)" id="1594700896171-223">
+        <addColumn tableName="TBL_INSPECTION_REPORT">
+            <column name="F_UNIT_ID" type="number(19, 0)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="Reza (generated)" id="1594700896171-233">
+        <addForeignKeyConstraint baseColumnNames="F_UNIT_ID" baseTableName="TBL_INSPECTION_REPORT" constraintName="fk_inspectionReport2unitByUnitId" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_UNIT" validate="true"/>
+    </changeSet>
+    <changeSet author="Reza (generated)" id="1594700896171-261">
+        <dropColumn columnName="F_CURRENCY_ID" tableName="TBL_INSPECTION_REPORT"/>
+    </changeSet>
+
     <changeSet author="MShahabi" id="1799887766554-012">
         <dropForeignKeyConstraint baseTableName="TBL_INSPECTION_REPORT" constraintName="FK_INSPECTIONREPORT2REMITTANCEDETAILBYREMITTANCEDETAILID"/>
         <dropColumn tableName="TBL_INSPECTION_REPORT" columnName="F_REMITTANCE_DETAIL_ID"/>

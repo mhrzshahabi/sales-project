@@ -19,7 +19,7 @@ public class ParametersDTO {
 
     private String paramName;
     private String paramValue;
-    private Integer contractId;
+    private Integer materialId;
     private Integer categoryValue;
 
     @Getter

@@ -75,12 +75,12 @@ public class InspectionReport extends BaseEntity {
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "F_CURRENCY_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_inspectionReport2currencyByCurrencyId"))
-    private Currency currency;
+    @JoinColumn(name = "F_UNIT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_inspectionReport2unitByUnitId"))
+    private Unit unit;
 
     @NotNull
-    @Column(name = "F_CURRENCY_ID", nullable = false)
-    private Long currencyId;
+    @Column(name = "F_UNIT_ID", nullable = false)
+    private Long unitId;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "inspectionReport", cascade = CascadeType.REMOVE)
     private List<AssayInspection> assayInspections;
