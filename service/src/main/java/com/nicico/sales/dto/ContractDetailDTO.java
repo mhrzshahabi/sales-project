@@ -221,10 +221,10 @@ public class ContractDetailDTO {
     @Accessors(chain = true)
     @ApiModel("ContractDetailUpdateRq")
     public static class Update extends ContractDetailDTO {
+        ContractDTO.Update contract;
         @NotNull
         @ApiModelProperty(required = true)
         private Long id;
-        ContractDTO.Update contract;
     }
 
     @Getter

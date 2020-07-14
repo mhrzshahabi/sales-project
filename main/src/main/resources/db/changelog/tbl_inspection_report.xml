@@ -1,6 +1,6 @@
 <?xml version="1.1" encoding="UTF-8" standalone="no"?>
-<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
-                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
 
     <changeSet author="MShahabi" id="1799887766554-002">
@@ -9,16 +9,37 @@
                 <constraints nullable="false"/>
             </column>
         </addColumn>
-        <addForeignKeyConstraint baseColumnNames="F_INVENTORY_ID" baseTableName="TBL_INSPECTION_REPORT" constraintName="fk_inspectionReport2inventoryByInventoryId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_WARH_INVENTORY" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="F_INVENTORY_ID" baseTableName="TBL_INSPECTION_REPORT"
+                                 constraintName="fk_inspectionReport2inventoryByInventoryId" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="id"
+                                 referencedTableName="TBL_WARH_INVENTORY" validate="true"/>
     </changeSet>
 
     <changeSet id="MShahabi" author="1799887766554-003">
-        <modifyDataType columnName="N_INSPECTION_RATE_VALUE" newDataType="NUMBER(10, 5)" tableName="TBL_INSPECTION_REPORT"/>
+        <modifyDataType columnName="N_INSPECTION_RATE_VALUE" newDataType="NUMBER(10, 5)"
+                        tableName="TBL_INSPECTION_REPORT"/>
     </changeSet>
 
     <changeSet author="MShahabi" id="1799887766554-009">
         <!--<dropForeignKeyConstraint baseTableName="TBL_INSPECTION_REPORT" constraintName="fk_inspectionReport2nventoryByInventoryId"/>-->
         <dropColumn columnName="F_INVENTORY_ID" tableName="TBL_INSPECTION_REPORT"/>
+    </changeSet>
+
+    <changeSet author="Reza (generated)" id="1594700896171-223">
+        <addColumn tableName="TBL_INSPECTION_REPORT">
+            <column name="F_UNIT_ID" type="number(19, 0)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="Reza (generated)" id="1594700896171-233">
+        <addForeignKeyConstraint baseColumnNames="F_UNIT_ID" baseTableName="TBL_INSPECTION_REPORT"
+                                 constraintName="fk_inspectionReport2unitByUnitId" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_UNIT"
+                                 validate="true"/>
+    </changeSet>
+    <changeSet author="Reza (generated)" id="1594700896171-261">
+        <dropColumn columnName="F_CURRENCY_ID" tableName="TBL_INSPECTION_REPORT"/>
     </changeSet>
 
 </databaseChangeLog>

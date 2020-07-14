@@ -3,8 +3,8 @@ package com.nicico.sales.service;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.WarehouseStockDTO;
+import com.nicico.sales.exception.NotFoundException;
 import com.nicico.sales.iservice.IWarehouseStockService;
 import com.nicico.sales.model.entities.base.WarehouseStock;
 import com.nicico.sales.repository.WarehouseStockDAO;
@@ -29,7 +29,7 @@ public class WarehouseStockService implements IWarehouseStockService {
     @PreAuthorize("hasAuthority('R_WAREHOUSE_STOCK')")
     public WarehouseStockDTO.Info get(Long id) {
         final Optional<WarehouseStock> slById = warehouseStockDAO.findById(id);
-        final WarehouseStock warehouseStock = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.WarehouseStockNotFound));
+        final WarehouseStock warehouseStock = slById.orElseThrow(() -> new NotFoundException(WarehouseStock.class));
 
         return modelMapper.map(warehouseStock, WarehouseStockDTO.Info.class);
     }
@@ -58,7 +58,7 @@ public class WarehouseStockService implements IWarehouseStockService {
     @PreAuthorize("hasAuthority('U_WAREHOUSE_STOCK')")
     public WarehouseStockDTO.Info update(Long id, WarehouseStockDTO.Update request) {
         final Optional<WarehouseStock> slById = warehouseStockDAO.findById(id);
-        final WarehouseStock warehouseStock = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.WarehouseStockNotFound));
+        final WarehouseStock warehouseStock = slById.orElseThrow(() -> new NotFoundException(WarehouseStock.class));
 
         WarehouseStock updating = new WarehouseStock();
         modelMapper.map(warehouseStock, updating);

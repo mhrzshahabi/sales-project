@@ -1,7 +1,6 @@
 package com.nicico.sales.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.nicico.sales.model.entities.base.Currency;
 import com.nicico.sales.model.entities.base.Unit;
 import com.nicico.sales.model.enumeration.EStatus;
 import io.swagger.annotations.ApiModel;
@@ -59,7 +58,7 @@ public class ElementDTO {
         private BigDecimal price;
 
         private Unit unit;
-        private Currency currency;
+        private Unit currency;
     }
 
     @Getter

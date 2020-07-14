@@ -36,7 +36,7 @@ public class PaymentTypeService implements IPaymentTypeService {
     @Transactional(readOnly = true)
     @Override
     public TotalResponse<PaymentTypeDTO.Info> search(NICICOCriteria criteria) {
-        return SearchUtil.search(paymentTypeDAO, criteria, paymentType  -> modelMapper.map(paymentType, PaymentTypeDTO.Info.class));
+        return SearchUtil.search(paymentTypeDAO, criteria, paymentType -> modelMapper.map(paymentType, PaymentTypeDTO.Info.class));
     }
 
 }

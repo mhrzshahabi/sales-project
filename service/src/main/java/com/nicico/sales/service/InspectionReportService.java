@@ -1,20 +1,12 @@
 package com.nicico.sales.service;
 
-import com.nicico.sales.dto.AssayInspectionDTO;
 import com.nicico.sales.dto.InspectionReportDTO;
-import com.nicico.sales.dto.WeightInspectionDTO;
 import com.nicico.sales.iservice.IInspectionReportService;
-import com.nicico.sales.model.entities.base.AssayInspection;
 import com.nicico.sales.model.entities.base.InspectionReport;
-import com.nicico.sales.model.entities.base.WeightInspection;
-import com.nicico.sales.model.enumeration.EStatus;
 import com.nicico.sales.repository.AssayInspectionDAO;
-import com.nicico.sales.repository.InspectionReportDAO;
 import com.nicico.sales.repository.WeightInspectionDAO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
 
 @RequiredArgsConstructor
 @Service

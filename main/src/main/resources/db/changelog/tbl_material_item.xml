@@ -1,6 +1,6 @@
 <?xml version="1.1" encoding="UTF-8" standalone="no"?>
-<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
-                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
 
 
@@ -943,7 +943,7 @@
         </sql>
         <sql>
             UPDATE TBL_MATERIAL_ITEM
-            SET C_GDSNAME_EN = 'ضايعات كاتدی  پالايشگاه '
+            SET C_GDSNAME_EN = 'ضايعات كاتدی پالايشگاه '
             WHERE ID =91
         </sql>
         <sql>

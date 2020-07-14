@@ -3,8 +3,8 @@ package com.nicico.sales.service;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.PersonDTO;
+import com.nicico.sales.exception.NotFoundException;
 import com.nicico.sales.iservice.IPersonService;
 import com.nicico.sales.model.entities.base.Person;
 import com.nicico.sales.repository.PersonDAO;
@@ -29,7 +29,7 @@ public class PersonService implements IPersonService {
     @PreAuthorize("hasAuthority('R_PERSON')")
     public PersonDTO.Info get(Long id) {
         final Optional<Person> slById = personDAO.findById(id);
-        final Person person = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.PersonNotFound));
+        final Person person = slById.orElseThrow(() -> new NotFoundException(Person.class));
 
         return modelMapper.map(person, PersonDTO.Info.class);
     }
@@ -58,7 +58,7 @@ public class PersonService implements IPersonService {
     @PreAuthorize("hasAuthority('U_PERSON')")
     public PersonDTO.Info update(Long id, PersonDTO.Update request) {
         final Optional<Person> slById = personDAO.findById(id);
-        final Person person = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.PersonNotFound));
+        final Person person = slById.orElseThrow(() -> new NotFoundException(Person.class));
 
         Person updating = new Person();
         modelMapper.map(person, updating);

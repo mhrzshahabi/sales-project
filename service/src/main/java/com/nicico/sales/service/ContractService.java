@@ -4,8 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.ContractDTO;
+import com.nicico.sales.exception.NotFoundException;
 import com.nicico.sales.iservice.IContractService;
 import com.nicico.sales.model.entities.base.Contract;
 import com.nicico.sales.model.entities.base.ContractDetail;
@@ -85,7 +85,7 @@ public class ContractService implements IContractService {
     @PreAuthorize("hasAuthority('R_CONTRACT')")
     public ContractDTO.Info get(Long id) {
         final Optional<Contract> slById = contractDAO.findById(id);
-        final Contract contract = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.ContractNotFound));
+        final Contract contract = slById.orElseThrow(() -> new NotFoundException(Contract.class));
 
         return modelMapper.map(contract, ContractDTO.Info.class);
     }
@@ -363,7 +363,7 @@ public class ContractService implements IContractService {
     @PreAuthorize("hasAuthority('U_CONTRACT')")
     public ContractDTO.Info update(Long id, ContractDTO.Update request) {
         final Optional<Contract> slById = contractDAO.findById(id);
-        final Contract contract = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.ContractNotFound));
+        final Contract contract = slById.orElseThrow(() -> new NotFoundException(Contract.class));
 
         Contract updating = new Contract();
         TypeMap<Contract, Contract> typeMap = modelMapper.getTypeMap(Contract.class, Contract.class);
@@ -723,9 +723,9 @@ public class ContractService implements IContractService {
 }
 
 
-    class MyXWPFHtmlDocument extends POIXMLDocumentPart {
-        private String html;
-        private final String id;
+class MyXWPFHtmlDocument extends POIXMLDocumentPart {
+    private final String id;
+    private String html;
 
     public MyXWPFHtmlDocument(PackagePart part, String id) throws Exception {
         super(part);
@@ -757,14 +757,13 @@ public class ContractService implements IContractService {
 }
 
 //the XWPFRelation for /word/htmlDoc#.html
-    final class XWPFHtmlRelation extends POIXMLRelation {
+final class XWPFHtmlRelation extends POIXMLRelation {
     public XWPFHtmlRelation() {
         super(
                 "text/html",
                 "http://schemas.openxmlformats.org/officeDocument/2006/relationships/aFChunk",
                 "/word/htmlDoc#.html");
     }
-
 
 
 }

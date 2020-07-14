@@ -3,9 +3,9 @@ package com.nicico.sales.service;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.ContractDetailAuditDTO;
 import com.nicico.sales.dto.ContractDetailDTO;
+import com.nicico.sales.exception.NotFoundException;
 import com.nicico.sales.iservice.IContractDetailService;
 import com.nicico.sales.model.entities.base.ContractDetail;
 import com.nicico.sales.repository.ContractDetailAuditDAO;
@@ -32,14 +32,14 @@ public class ContractDetailService implements IContractDetailService {
     @PreAuthorize("hasAuthority('R_CONTRACT_DETAIL')")
     public ContractDetailDTO.Info get(Long id) {
         final Optional<ContractDetail> slById = contractDetailDAO.findById(id);
-        final ContractDetail contractDetail = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.ContractDetailNotFound));
+        final ContractDetail contractDetail = slById.orElseThrow(() -> new NotFoundException(ContractDetail.class));
 
         return modelMapper.map(contractDetail, ContractDetailDTO.Info.class);
     }
 
     public ContractDetailDTO.Info findByContractID(Long id) {
         final Optional<ContractDetail> slById = contractDetailDAO.findByContractId(id);
-        final ContractDetail contractDetail = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.ContractDetailNotFound));
+        final ContractDetail contractDetail = slById.orElseThrow(() -> new NotFoundException(ContractDetail.class));
 
         return modelMapper.map(contractDetail, ContractDetailDTO.Info.class);
     }
@@ -74,7 +74,7 @@ public class ContractDetailService implements IContractDetailService {
     @PreAuthorize("hasAuthority('U_CONTRACT_DETAIL')")
     public ContractDetailDTO.Info update(Long id, ContractDetailDTO.Update request) {
         final Optional<ContractDetail> slById = contractDetailDAO.findById(id);
-        final ContractDetail contractDetail = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.ContractDetailNotFound));
+        final ContractDetail contractDetail = slById.orElseThrow(() -> new NotFoundException(ContractDetail.class));
 
         ContractDetail updating = new ContractDetail();
         modelMapper.map(contractDetail, updating);
@@ -117,7 +117,6 @@ public class ContractDetailService implements IContractDetailService {
         final ContractDetail saved = contractDetailDAO.saveAndFlush(contractDetail);
         return modelMapper.map(saved, ContractDetailDTO.Info.class);
     }
-
 
 
 }

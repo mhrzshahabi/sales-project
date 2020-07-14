@@ -8,5 +8,5 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class InvoiceTypeService extends GenericService<InvoiceType ,Long , InvoiceTypeDTO.Create ,InvoiceTypeDTO.Info , InvoiceTypeDTO.Update , InvoiceTypeDTO.Delete > implements IInvoiceTypeService {
+public class InvoiceTypeService extends GenericService<InvoiceType, Long, InvoiceTypeDTO.Create, InvoiceTypeDTO.Info, InvoiceTypeDTO.Update, InvoiceTypeDTO.Delete> implements IInvoiceTypeService {
 }

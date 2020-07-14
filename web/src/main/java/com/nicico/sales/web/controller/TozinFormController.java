@@ -5,8 +5,8 @@ import com.nicico.copper.common.Loggable;
 import com.nicico.copper.common.domain.ConstantVARs;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.core.util.report.ReportUtil;
-import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.TozinDTO;
+import com.nicico.sales.exception.NotFoundException;
 import com.nicico.sales.iservice.ITozinService;
 import com.nicico.sales.model.entities.base.TozinLite;
 import com.nicico.sales.repository.TozinLiteDAO;
@@ -75,10 +75,12 @@ public class TozinFormController {
         parameters.put(ConstantVARs.REPORT_TYPE, params.get("type").get(0));
         NICICOCriteria provideNICICOCriteria = specListUtil.provideNICICOCriteria(params, TozinDTO.Info.class);
         List<TozinDTO.Info> data = iTozinService.searchTozin(provideNICICOCriteria).getResponse().getData();
-        if (data == null) throw new SalesException(SalesException.ErrorType.NotFound);
+        if (data == null) throw new NotFoundException();
         final List<TozinDTO.PDF> dataa = Arrays.asList(objectMapper.convertValue(data, TozinDTO.PDF[].class));
         final Set<TozinLite> drivers = tozinDAO.findAllByTozinIdIn(dataa.stream().map(TozinDTO::getTozinId).collect(Collectors.toSet()));
-        dataa.stream().forEach(t->{t.setDriverName(drivers.stream().filter(d->d.getTozinId().equals(t.getTozinId())).findAny().get().getDriverName());});
+        dataa.stream().forEach(t -> {
+            t.setDriverName(drivers.stream().filter(d -> d.getTozinId().equals(t.getTozinId())).findAny().get().getDriverName());
+        });
         Map<String, List<TozinDTO.Info>> content = new HashMap() {{
             put("content", dataa);
         }};

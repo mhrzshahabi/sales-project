@@ -19,7 +19,7 @@ public class ContractDetailTypeTemplateService extends GenericService<ContractDe
     private final ContractDetailTypeTemplateDAO contractDetailTypeTemplateDAO;
     private final ModelMapper modelMapper;
 
-      @Override
+    @Override
     public List<ContractDetailTypeTemplateDTO.Info> findByContractDetailType(Long id) {
         final List<ContractDetailTypeTemplate> slById = contractDetailTypeTemplateDAO.findByContractDetailTypeId(id);
         return modelMapper.map(slById, new TypeToken<List<ContractDetailTypeTemplateDTO.Info>>() {

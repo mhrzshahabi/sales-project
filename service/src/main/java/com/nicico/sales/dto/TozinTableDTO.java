@@ -18,8 +18,8 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class TozinTableDTO {
 
-    private String tozinId;
     private final Boolean isInView = true;
+    private String tozinId;
     private String cardId;
     private String haveCode;
     private String tozinDate;

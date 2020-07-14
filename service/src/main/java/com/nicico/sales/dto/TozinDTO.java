@@ -56,7 +56,7 @@ public class TozinDTO {
     public static class Info extends TozinDTO {
     }
 
-     @Getter
+    @Getter
     @Setter
     @Accessors(chain = true)
     @ApiModel("TozinInfo")
