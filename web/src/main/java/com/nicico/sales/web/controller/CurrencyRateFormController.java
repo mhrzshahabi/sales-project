@@ -10,8 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Controller
@@ -23,14 +23,16 @@ public class CurrencyRateFormController {
     @RequestMapping("/show-form")
     public String showCurrencyRate(HttpServletRequest request) throws JsonProcessingException {
 
-        Map<String, String> symbolTU = new HashMap<>();
-        for (SymbolUnit symbolunit : SymbolUnit.values()) symbolTU.put(symbolunit.name(), symbolunit.name());
-        request.setAttribute("Enum_SymbolUnit", objectMapper.writeValueAsString(symbolTU));
 
+        request.setAttribute("Enum_SymbolCUR", objectMapper.writeValueAsString(
+                Arrays.stream(SymbolUnit.SymbolCUR.values())
+                        .collect(Collectors.toMap(SymbolUnit.SymbolCUR::name, SymbolUnit.SymbolCUR::name)))
+        );
 
-        Map<String, String> rReference = new HashMap<>();
-        for (RateReference reference : RateReference.values()) rReference.put(reference.name(), reference.name());
-        request.setAttribute("Enum_RateReference", objectMapper.writeValueAsString(rReference));
+        request.setAttribute("Enum_RateReference", objectMapper.writeValueAsString(
+                Arrays.stream(RateReference.values())
+                        .collect(Collectors.toMap(RateReference::name, RateReference::name)))
+        );
 
         request.setAttribute("c_entity", SecurityUtil.hasAuthority("C_CURRENCY_RATE"));
         request.setAttribute("u_entity", SecurityUtil.hasAuthority("U_CURRENCY_RATE"));
