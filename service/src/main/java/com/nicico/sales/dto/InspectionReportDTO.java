@@ -31,6 +31,8 @@ public class InspectionReportDTO {
     private BigDecimal inspectionRateValue;
     private InspectionRateValueType inspectionRateValueType;
     private Long currencyId;
+    private List<AssayInspectionDTO.InfoWithoutInspectionReport> assayInspections;
+    private List<WeightInspectionDTO.InfoWithoutInspectionReport> weightInspections;
 
     @Getter
     @Setter
@@ -39,8 +41,6 @@ public class InspectionReportDTO {
     public static class Info extends InspectionReportDTO {
 
         private Long id;
-        private List<WeightInspectionDTO.InfoWithoutInspectionReport> weightInspections;
-        private List<AssayInspectionDTO.InfoWithoutInspectionReport> assayInspections;
         private ContactDTO.Info inspector;
         private ContactDTO.Info seller;
         private ContactDTO.Info buyer;
@@ -65,9 +65,6 @@ public class InspectionReportDTO {
     @ApiModel("InspectionReportCreateRq")
     public static class Create extends InspectionReportDTO {
 
-        private List<WeightInspectionDTO.Create> weightInspections;
-        private List<List<AssayInspectionDTO.Create>> assayInspections;
-
     }
 
     @Getter
@@ -79,9 +76,6 @@ public class InspectionReportDTO {
         @NotNull
         @ApiModelProperty(required = true)
         private Long id;
-
-        private List<WeightInspectionDTO.Info> weightInspections;
-        private List<AssayInspectionDTO.Info> assayInspections;
     }
 
     @Getter
