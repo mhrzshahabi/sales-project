@@ -17,4 +17,11 @@
         <addForeignKeyConstraint baseColumnNames="F_INVENTORY_ID" baseTableName="TBL_WEIGHING_INSPECTION" constraintName="fk_weightInspection2inventoryByInventoryId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_WARH_INVENTORY" validate="true"/>
     </changeSet>
 
+    <changeSet author="MShahabi" id="1799887766554-014">
+        <addColumn tableName="TBL_WEIGHING_INSPECTION">
+            <column name="F_UNIT_ID" type="number(19, 0)"/>
+        </addColumn>
+        <addForeignKeyConstraint baseColumnNames="F_UNIT_ID" baseTableName="TBL_WEIGHING_INSPECTION" constraintName="fk_weightInspection2unit" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_UNIT" validate="true"/>
+    </changeSet>
+
 </databaseChangeLog>

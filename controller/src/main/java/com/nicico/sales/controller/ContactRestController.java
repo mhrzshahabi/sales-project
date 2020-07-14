@@ -89,6 +89,22 @@ public class ContactRestController {
     }
 
     @Loggable
+    @GetMapping(value = "/spec-list1")
+    public ResponseEntity<TotalResponse<ContactDTO.Info>> list1(@RequestParam MultiValueMap<String, String> criteria) throws IOException {
+        criteria.set("criteria","{\"fieldName\":\"status\",\"operator\":\"equals\",\"value\":true,\"_constructor\":\"AdvancedCriteria\"}");
+        final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
+        return new ResponseEntity<>(contactService.search(nicicoCriteria), HttpStatus.OK);
+    }
+
+    @Loggable
+    @GetMapping(value = "/spec-list2")
+    public ResponseEntity<TotalResponse<ContactDTO.Info>> list2(@RequestParam MultiValueMap<String, String> criteria) throws IOException {
+        criteria.set("criteria","{\"fieldName\":\"status\",\"operator\":\"equals\",\"value\":true,\"_constructor\":\"AdvancedCriteria\"}");
+        final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
+        return new ResponseEntity<>(contactService.search(nicicoCriteria), HttpStatus.OK);
+    }
+
+    @Loggable
     @GetMapping(value = "/spec-list-mainContact")
     public ResponseEntity<TotalResponse<ContactDTO.Info>> listMainContact(@RequestParam MultiValueMap<String, String> criteria) throws IOException {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);

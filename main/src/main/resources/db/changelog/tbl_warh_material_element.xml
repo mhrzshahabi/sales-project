@@ -21,4 +21,11 @@
         <dropColumn columnName="F_MATERIAL_ITEM_ID" tableName="TBL_WARH_MATERIAL_ELEMENT"/>
     </changeSet>
 
+    <changeSet author="MShahabi" id="1799887766554-016">
+        <addColumn tableName="TBL_WARH_MATERIAL_ELEMENT">
+            <column name="F_UNIT_ID" type="number(19, 0)"/>
+        </addColumn>
+        <addForeignKeyConstraint baseColumnNames="F_UNIT_ID" baseTableName="TBL_WARH_MATERIAL_ELEMENT" constraintName="fk_materialElement2unit" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_UNIT" validate="true"/>
+    </changeSet>
+
 </databaseChangeLog>

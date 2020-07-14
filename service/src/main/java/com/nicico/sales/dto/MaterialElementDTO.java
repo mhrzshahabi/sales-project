@@ -20,6 +20,7 @@ public class MaterialElementDTO {
 
     private Long materialId;
     private Long elementId;
+    private Long unitId;
 
     @Getter
     @Setter
@@ -30,6 +31,7 @@ public class MaterialElementDTO {
         private Long id;
         private MaterialDTO.Info material;
         private ElementDTO.Info element;
+        private UnitDTO.Info unit;
 
         // Auditing
         private Date createdDate;

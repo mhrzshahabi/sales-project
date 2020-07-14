@@ -25,6 +25,7 @@ public class WeightInspectionDTO {
     private BigDecimal weightND;
     private Long inspectionReportId;
     private Long inventoryId;
+    private Long unitId;
 
     @Getter
     @Setter
@@ -51,12 +52,12 @@ public class WeightInspectionDTO {
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("WeightInspectionInfo")
-    public static class Info extends WeightInspectionDTO {
+    @ApiModel("WeightInspectionInfoWithoutInspectionReport")
+    public static class InfoWithoutInspectionReport extends WeightInspectionDTO {
 
         private Long id;
-        private InspectionReportDTO.Info inspectionReport;
         private InventoryDTO.Info inventory;
+        private UnitDTO.Info unit;
 
         // Auditing
         private Date createdDate;
@@ -78,6 +79,15 @@ public class WeightInspectionDTO {
 
             return weightGW.subtract(weightND);
         }
+    }
+
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("WeightInspectionInfo")
+    public static class Info extends InfoWithoutInspectionReport {
+
+        private InspectionReportDTO.Info inspectionReport;
     }
 
     @Getter

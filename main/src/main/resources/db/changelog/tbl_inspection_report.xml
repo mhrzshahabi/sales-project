@@ -21,4 +21,9 @@
         <dropColumn columnName="F_INVENTORY_ID" tableName="TBL_INSPECTION_REPORT"/>
     </changeSet>
 
+    <changeSet author="MShahabi" id="1799887766554-012">
+        <dropForeignKeyConstraint baseTableName="TBL_INSPECTION_REPORT" constraintName="FK_INSPECTIONREPORT2REMITTANCEDETAILBYREMITTANCEDETAILID"/>
+        <dropColumn tableName="TBL_INSPECTION_REPORT" columnName="F_REMITTANCE_DETAIL_ID"/>
+    </changeSet>
+
 </databaseChangeLog>
