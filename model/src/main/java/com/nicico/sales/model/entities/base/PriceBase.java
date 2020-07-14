@@ -18,8 +18,8 @@ import java.util.Date;
 @Accessors(chain = true)
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
-@Table(name = "TBL_PRICE_BASE", uniqueConstraints = @UniqueConstraint(name = "element_currency_unit_priceBaseReference_priceDate_UNIQUE",
-        columnNames = {"F_ELEMENT_ID", "F_CURRENCY_ID", "F_UNIT_ID", "N_PRICE_BASE_REFERENCE", "D_PRICE_DATE"}))
+@Table(name = "TBL_PRICE_BASE", uniqueConstraints = @UniqueConstraint(name = "element_priceBaseReference_priceDate_UNIQUE",
+        columnNames = {"F_ELEMENT_ID", "N_PRICE_BASE_REFERENCE", "D_PRICE_DATE"}))
 public class PriceBase extends BaseEntity {
 
     @Id
@@ -43,15 +43,6 @@ public class PriceBase extends BaseEntity {
 
     @Column(name = "N_PRICE", precision = 10, scale = 5)
     private BigDecimal price;
-
-    @Setter(AccessLevel.NONE)
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "F_CURRENCY_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_priceBase2CurrencyByCurrencyId"))
-    private Currency currency;
-
-    @NotNull
-    @Column(name = "F_CURRENCY_ID", nullable = false)
-    private Long currencyId;
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)

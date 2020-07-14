@@ -38,7 +38,7 @@ public class PriceBaseService extends GenericService<com.nicico.sales.model.enti
             ElementDTO.ElementPriceBaseDTO result = modelMapper.map(q.get(0).getElement(), ElementDTO.ElementPriceBaseDTO.class);
             result.setPrice(averagePrice);
             result.setUnit(q.get(0).getUnit());
-            result.setCurrency(q.get(0).getCurrency());
+            result.setCurrency(q.get(0).getUnit());
 
             return result;
         }))).values();

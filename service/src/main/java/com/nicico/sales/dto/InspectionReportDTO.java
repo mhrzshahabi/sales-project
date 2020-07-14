@@ -47,7 +47,7 @@ public class InspectionReportDTO {
 //        private InventoryDTO.Info inventory;
         private ContactDTO.Info seller;
         private ContactDTO.Info buyer;
-        private CurrencyDTO.Info currency;
+        private UnitDTO.Info currency;
 
         // Auditing
         private Date createdDate;
