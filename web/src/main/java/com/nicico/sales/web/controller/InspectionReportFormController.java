@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nicico.copper.core.SecurityUtil;
 import com.nicico.sales.model.enumeration.InspectionRateValueType;
+import com.nicico.sales.model.enumeration.WeighingType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +27,10 @@ public class InspectionReportFormController {
         Map<String, String> inspectionRateValueTypes = new HashMap<>();
         for (InspectionRateValueType value : InspectionRateValueType.values()) inspectionRateValueTypes.put(value.name(), value.name());
         request.setAttribute("Enum_InspectionRateValueType", objectMapper.writeValueAsString(inspectionRateValueTypes));
+
+        Map<String, String> weighingType = new HashMap<>();
+        for (WeighingType value : WeighingType.values()) weighingType.put(value.name(), value.name());
+        request.setAttribute("Enum_WeighingType", objectMapper.writeValueAsString(weighingType));
 
         request.setAttribute("c_entity", SecurityUtil.hasAuthority("C_INSPECTION_REPORT"));
         request.setAttribute("u_entity", SecurityUtil.hasAuthority("U_INSPECTION_REPORT"));
