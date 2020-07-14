@@ -3,8 +3,8 @@ package com.nicico.sales.service;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.DCCDTO;
+import com.nicico.sales.exception.NotFoundException;
 import com.nicico.sales.iservice.IDCCService;
 import com.nicico.sales.model.entities.base.DCC;
 import com.nicico.sales.repository.DCCDAO;
@@ -29,7 +29,7 @@ public class DCCService implements IDCCService {
     @PreAuthorize("hasAuthority('R_DCC')")
     public DCCDTO.Info get(Long id) {
         final Optional<DCC> slById = dCCDAO.findById(id);
-        final DCC dCC = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.DCCNotFound));
+        final DCC dCC = slById.orElseThrow(() -> new NotFoundException(DCC.class));
 
         return modelMapper.map(dCC, DCCDTO.Info.class);
     }
@@ -58,7 +58,7 @@ public class DCCService implements IDCCService {
     @PreAuthorize("hasAuthority('U_DCC')")
     public DCCDTO.Info update(Long id, DCCDTO.Update request) {
         final Optional<DCC> slById = dCCDAO.findById(id);
-        final DCC dCC = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.DCCNotFound));
+        final DCC dCC = slById.orElseThrow(() -> new NotFoundException(DCC.class));
 
         DCC updating = new DCC();
         modelMapper.map(dCC, updating);

@@ -8,6 +8,4 @@ public interface ITozinService {
 
     TotalResponse<TozinDTO.Info> searchTozin(NICICOCriteria criteria);
 
-    TozinDTO.Info get(Long id);
-
 }

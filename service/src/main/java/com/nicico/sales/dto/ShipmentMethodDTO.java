@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
@@ -37,7 +38,8 @@ public class ShipmentMethodDTO {
     @Setter
     @Accessors(chain = true)
     @ApiModel("ShipmentMethodRq")
-    public static class Create extends ShipmentMethodDTO {}
+    public static class Create extends ShipmentMethodDTO {
+    }
 
     @Getter
     @Setter

@@ -102,7 +102,7 @@ public class WarehouseStockFormController {
     }
 
     //****************************************************************************************************************
-    private static XWPFDocument replaceDynamicTable1(XWPFDocument doc, List<Object[]> ll) throws NumberFormatException, Exception {
+    private static XWPFDocument replaceDynamicTable1(XWPFDocument doc, List<Object[]> ll) throws Exception {
         List<XWPFTable> tables = doc.getTables();
         XWPFTable table = tables.get(1);
         int row = 1;
@@ -213,7 +213,7 @@ public class WarehouseStockFormController {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         stream = new ClassPathResource("reports/word/StocksCommitments.docx").getInputStream();
         ServletOutputStream out = response.getOutputStream();
-        doc = (XWPFDocument) new XWPFDocument(stream);
+        doc = new XWPFDocument(stream);
         replacePOI(doc, "header", "Report on commitments leading up to " + day);
         List<Object[]> ll = warehouseStockDAO.warehouseStockCommitment(day);
         replaceDynamicTable(doc, ll);

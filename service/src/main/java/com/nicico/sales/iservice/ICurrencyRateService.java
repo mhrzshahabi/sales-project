@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 
 
 @Repository
-public interface ICurrencyRateService extends IGenericService<CurrencyRate, Long , CurrencyRateDTO.Create , CurrencyRateDTO.Info , CurrencyRateDTO.Update , CurrencyRateDTO.Delete> {
+public interface ICurrencyRateService extends IGenericService<CurrencyRate, Long, CurrencyRateDTO.Create, CurrencyRateDTO.Info, CurrencyRateDTO.Update, CurrencyRateDTO.Delete> {
 
 }
 

@@ -3,8 +3,8 @@ package com.nicico.sales.service;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.ContractCurrencyDTO;
+import com.nicico.sales.exception.NotFoundException;
 import com.nicico.sales.iservice.IContractCurrencyService;
 import com.nicico.sales.model.entities.base.ContractCurrency;
 import com.nicico.sales.repository.ContractCurrencyDAO;
@@ -29,7 +29,7 @@ public class ContractCurrencyService implements IContractCurrencyService {
     @PreAuthorize("hasAuthority('R_CONTRACT_CURRENCY')")
     public ContractCurrencyDTO.Info get(Long id) {
         final Optional<ContractCurrency> slById = contractCurrencyDAO.findById(id);
-        final ContractCurrency contractCurrency = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.ContractCurrencyNotFound));
+        final ContractCurrency contractCurrency = slById.orElseThrow(() -> new NotFoundException(ContractCurrency.class));
 
         return modelMapper.map(contractCurrency, ContractCurrencyDTO.Info.class);
     }
@@ -58,7 +58,7 @@ public class ContractCurrencyService implements IContractCurrencyService {
     @PreAuthorize("hasAuthority('U_CONTRACT_CURRENCY')")
     public ContractCurrencyDTO.Info update(Long id, ContractCurrencyDTO.Update request) {
         final Optional<ContractCurrency> slById = contractCurrencyDAO.findById(id);
-        final ContractCurrency contractCurrency = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.ContractCurrencyNotFound));
+        final ContractCurrency contractCurrency = slById.orElseThrow(() -> new NotFoundException(ContractCurrency.class));
 
         ContractCurrency updating = new ContractCurrency();
         modelMapper.map(contractCurrency, updating);

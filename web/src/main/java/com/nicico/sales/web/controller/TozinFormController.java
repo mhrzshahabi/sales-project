@@ -5,9 +5,11 @@ import com.nicico.copper.common.Loggable;
 import com.nicico.copper.common.domain.ConstantVARs;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.core.util.report.ReportUtil;
-import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.TozinDTO;
+import com.nicico.sales.exception.NotFoundException;
 import com.nicico.sales.iservice.ITozinService;
+import com.nicico.sales.model.entities.base.TozinLite;
+import com.nicico.sales.repository.TozinLiteDAO;
 import com.nicico.sales.utility.MakeExcelOutputUtil;
 import com.nicico.sales.utility.SpecListUtil;
 import lombok.RequiredArgsConstructor;
@@ -21,10 +23,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
@@ -37,6 +37,7 @@ public class TozinFormController {
     private final ITozinService iTozinService;
     private final MakeExcelOutputUtil makeExcelOutputUtil;
     private final ReportUtil reportUtil;
+    private final TozinLiteDAO tozinDAO;
 
     @RequestMapping("/showOnWayProductForm")
     public String showOnWayProductForm() {
@@ -74,9 +75,14 @@ public class TozinFormController {
         parameters.put(ConstantVARs.REPORT_TYPE, params.get("type").get(0));
         NICICOCriteria provideNICICOCriteria = specListUtil.provideNICICOCriteria(params, TozinDTO.Info.class);
         List<TozinDTO.Info> data = iTozinService.searchTozin(provideNICICOCriteria).getResponse().getData();
-        if (data == null) throw new SalesException(SalesException.ErrorType.NotFound);
+        if (data == null) throw new NotFoundException();
+        final List<TozinDTO.PDF> dataa = Arrays.asList(objectMapper.convertValue(data, TozinDTO.PDF[].class));
+        final Set<TozinLite> drivers = tozinDAO.findAllByTozinIdIn(dataa.stream().map(TozinDTO::getTozinId).collect(Collectors.toSet()));
+        dataa.stream().forEach(t -> {
+            t.setDriverName(drivers.stream().filter(d -> d.getTozinId().equals(t.getTozinId())).findAny().get().getDriverName());
+        });
         Map<String, List<TozinDTO.Info>> content = new HashMap() {{
-            put("content", data);
+            put("content", dataa);
         }};
         final String jsonData = objectMapper.writeValueAsString(content);
 //        String jsonData = "{" + "\"content\": " + objectMapper.writeValueAsString(data) + "}";

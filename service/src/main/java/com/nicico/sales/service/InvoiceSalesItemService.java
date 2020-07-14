@@ -3,8 +3,8 @@ package com.nicico.sales.service;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.InvoiceSalesItemDTO;
+import com.nicico.sales.exception.NotFoundException;
 import com.nicico.sales.iservice.IInvoiceSalesItemService;
 import com.nicico.sales.model.entities.base.InvoiceSalesItem;
 import com.nicico.sales.repository.InvoiceSalesItemDAO;
@@ -29,7 +29,7 @@ public class InvoiceSalesItemService implements IInvoiceSalesItemService {
 //    @PreAuthorize("hasAuthority('R_INVOICE_SALES_ITEM')")
     public InvoiceSalesItemDTO.Info get(Long id) {
         final Optional<InvoiceSalesItem> slById = invoiceSalesItemDAO.findById(id);
-        final InvoiceSalesItem invoiceSalesItem = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.InvoiceSalesItemNotFound));
+        final InvoiceSalesItem invoiceSalesItem = slById.orElseThrow(() -> new NotFoundException(InvoiceSalesItem.class));
 
         return modelMapper.map(invoiceSalesItem, InvoiceSalesItemDTO.Info.class);
     }
@@ -59,7 +59,7 @@ public class InvoiceSalesItemService implements IInvoiceSalesItemService {
 //    @PreAuthorize("hasAuthority('U_INVOICE_SALES_ITEM')")
     public InvoiceSalesItemDTO.Info update(Long id, InvoiceSalesItemDTO.Update request) {
         final Optional<InvoiceSalesItem> slById = invoiceSalesItemDAO.findById(id);
-        final InvoiceSalesItem invoiceSalesItem = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.InvoiceSalesItemNotFound));
+        final InvoiceSalesItem invoiceSalesItem = slById.orElseThrow(() -> new NotFoundException(InvoiceSalesItem.class));
 
         InvoiceSalesItem updating = new InvoiceSalesItem();
         modelMapper.map(invoiceSalesItem, updating);

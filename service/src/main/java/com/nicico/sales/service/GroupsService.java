@@ -3,8 +3,8 @@ package com.nicico.sales.service;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.GroupsDTO;
+import com.nicico.sales.exception.NotFoundException;
 import com.nicico.sales.iservice.IGroupsService;
 import com.nicico.sales.model.entities.base.Groups;
 import com.nicico.sales.repository.GroupsDAO;
@@ -29,7 +29,7 @@ public class GroupsService implements IGroupsService {
     @PreAuthorize("hasAuthority('R_GROUPS')")
     public GroupsDTO.Info get(Long id) {
         final Optional<Groups> slById = groupsDAO.findById(id);
-        final Groups groups = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.GroupsNotFound));
+        final Groups groups = slById.orElseThrow(() -> new NotFoundException(Groups.class));
 
         return modelMapper.map(groups, GroupsDTO.Info.class);
     }
@@ -58,7 +58,7 @@ public class GroupsService implements IGroupsService {
     @PreAuthorize("hasAuthority('U_GROUPS')")
     public GroupsDTO.Info update(Long id, GroupsDTO.Update request) {
         final Optional<Groups> slById = groupsDAO.findById(id);
-        final Groups groups = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.GroupsNotFound));
+        final Groups groups = slById.orElseThrow(() -> new NotFoundException(Groups.class));
 
         Groups updating = new Groups();
         modelMapper.map(groups, updating);

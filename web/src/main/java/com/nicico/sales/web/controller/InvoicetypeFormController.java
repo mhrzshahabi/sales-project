@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class InvoicetypeFormController {
 
     @RequestMapping("/showForm")
-    public String showInvoiceType(){
+    public String showInvoiceType() {
         return "invoicetype/invoiceType";
     }
 }

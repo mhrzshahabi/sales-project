@@ -37,13 +37,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public abstract class GenericService<T, ID extends Serializable, C, R, U, D> implements IGenericService<T, ID, C, R, U, D> {
 
-    private Class<T> tType;
-    private Class<R> rType;
-    private Class<U> uType;
-    private Class<D> dType;
-
     protected ActionType actionType;
-
     @Autowired
     protected ModelMapper modelMapper;
     @Autowired
@@ -54,6 +48,10 @@ public abstract class GenericService<T, ID extends Serializable, C, R, U, D> imp
     @Autowired
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     protected JpaSpecificationExecutor<T> repositorySpecificationExecutor;
+    private Class<T> tType;
+    private Class<R> rType;
+    private Class<U> uType;
+    private Class<D> dType;
 
     {
         ParameterizedType superClass = (ParameterizedType) getClass().getGenericSuperclass();

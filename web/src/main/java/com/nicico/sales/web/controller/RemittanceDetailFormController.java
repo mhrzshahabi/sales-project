@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/remittance-detail")
 public class RemittanceDetailFormController {
-//
+    //
 //    private final SpecListUtil specListUtil;
 //    private final MakeExcelOutputUtil makeExcelOutputUtil;
 //    private final ReportUtil reportUtil;
