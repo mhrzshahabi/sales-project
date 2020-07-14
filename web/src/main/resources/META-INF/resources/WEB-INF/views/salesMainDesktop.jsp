@@ -607,13 +607,6 @@
                         },
                         {isSeparator: true},
                         {
-                            title: "<spring:message code='currency.title'/>",
-                            click: function () {
-                                createTab("<spring:message code='currency.title'/>", "<spring:url value="/base-currency/show-form" />")
-                            }
-                        },
-                        {isSeparator: true},
-                        {
                             title: "<spring:message code='bank.title'/>",
                             click: function () {
                                 createTab("<spring:message code='bank.title'/>", "<spring:url value="/bank/showForm" />")
@@ -1138,32 +1131,9 @@
                     headerLayout.setVisibility(true);
                     MainDesktopMenuH.setVisibility(true);
                 }, 100)
-
             }
-
         }
     })
-
-
-    <sec:authorize access="hasAuthority('R_CURRENCY')">
-    {
-        var dollar = {};
-        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                actionURL: "${contextPath}/api/currency/list",
-                httpMethod: "GET",
-                data: "",
-                callback: function (RpcResponse_o) {
-                    if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
-                        var data = JSON.parse(RpcResponse_o.data);
-                        for (x of data) {
-                            dollar[x.nameEn] = x.nameEn;
-                        }
-                    } //if rpc
-                } // callback
-            })
-        );
-    }
-    </sec:authorize>
 
     /*Help*/
     isc.HTMLFlow.create({
