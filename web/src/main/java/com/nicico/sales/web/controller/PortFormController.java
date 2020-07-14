@@ -1,7 +1,6 @@
 package com.nicico.sales.web.controller;
 
 import com.nicico.copper.core.SecurityUtil;
-import com.nicico.copper.core.util.report.ReportUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 @RequestMapping("/base-port")
 public class PortFormController {
-    private final ReportUtil report;
+
 
     @RequestMapping("/show-form")
     public String showPort(HttpServletRequest request) {

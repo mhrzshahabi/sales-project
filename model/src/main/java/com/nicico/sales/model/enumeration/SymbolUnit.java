@@ -30,16 +30,17 @@ public enum SymbolUnit {
     KGS(20);
     private final Integer id;
 
-    @Getter
-    @RequiredArgsConstructor
-    public enum SymbolCUR {
-        $(21),
-        CNH(22),
-        €(23),
-        £(24),
-        ¢(25),
-        ¥(26),
-        ریال(27);
-        private final Integer id;
-    }
+     @Getter
+     @RequiredArgsConstructor
+     public enum SymbolCUR
+     {
+         $(1),
+         CNH(2),
+         €(3),
+         £(4),
+         ¢(5),
+         ¥(6),
+         ریال(7);
+         private final Integer id;
+     }
 }
