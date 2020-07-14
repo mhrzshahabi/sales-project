@@ -1,17 +1,20 @@
 <?xml version="1.1" encoding="UTF-8" standalone="no"?>
-<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
-                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
 
     <!-- Modify Data Type -->
-    <changeSet  author="karimi"  id="ModifyDataType-Foreign-Invoice-Payment-001">
-        <modifyDataType tableName="TBL_FOREIGN_INVOICE_PAYMENT" columnName="N_DOC_SUM_VALUE" newDataType="NUMBER(14, 2)"/>
+    <changeSet author="karimi" id="ModifyDataType-Foreign-Invoice-Payment-001">
+        <modifyDataType tableName="TBL_FOREIGN_INVOICE_PAYMENT" columnName="N_DOC_SUM_VALUE"
+                        newDataType="NUMBER(14, 2)"/>
     </changeSet>
-    <changeSet  author="karimi"  id="ModifyDataType-Foreign-Invoice-Payment-002">
-        <modifyDataType tableName="TBL_FOREIGN_INVOICE_PAYMENT" columnName="N_DOC_CONVERSION_RATE" newDataType="NUMBER(14, 2)"/>
+    <changeSet author="karimi" id="ModifyDataType-Foreign-Invoice-Payment-002">
+        <modifyDataType tableName="TBL_FOREIGN_INVOICE_PAYMENT" columnName="N_DOC_CONVERSION_RATE"
+                        newDataType="NUMBER(14, 2)"/>
     </changeSet>
-    <changeSet  author="karimi"  id="ModifyDataType-Foreign-Invoice-Payment-003">
-        <modifyDataType tableName="TBL_FOREIGN_INVOICE_PAYMENT" columnName="N_DOC_CONVERSION_PRICE" newDataType="NUMBER(14, 2)"/>
+    <changeSet author="karimi" id="ModifyDataType-Foreign-Invoice-Payment-003">
+        <modifyDataType tableName="TBL_FOREIGN_INVOICE_PAYMENT" columnName="N_DOC_CONVERSION_PRICE"
+                        newDataType="NUMBER(14, 2)"/>
     </changeSet>
     <changeSet author="Reza Mazloom" id="ModifyDataType-Foreign-Invoice-Payment-004">
         <dropColumn columnName="F_CURRENCY_ID" tableName="TBL_FOREIGN_INVOICE_PAYMENT"/>

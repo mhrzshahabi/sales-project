@@ -1,6 +1,5 @@
 {
-  "list":[
-
+  "list": [
     {
       "code": "R_BANK",
       "title": "نمایش بانک"
@@ -849,9 +848,6 @@
       "code": "D_WAREHOUSE_YARD",
       "title": "حذف یارد انبار"
     },
-
-
-
     {
       "code": "R_CONTRACT_TYPE",
       "title": "نمایش نوع قرارداد"
@@ -868,7 +864,6 @@
       "code": "D_CONTRACT_TYPE",
       "title": "حذف نوع قرارداد"
     },
-
     {
       "code": "R_CONTRACT_2",
       "title": "نمایش قرارداد"
@@ -885,7 +880,6 @@
       "code": "D_CONTRACT_2",
       "title": "حذف قرارداد"
     },
-    
     {
       "code": "R_CONTRACT_DETAIL_TYPE",
       "title": "نمایش نوع جزییات قرارداد"
@@ -902,7 +896,6 @@
       "code": "D_CONTRACT_DETAIL_TYPE",
       "title": "حذف نوع جزییات قرارداد"
     },
-
     {
       "code": "R_CONTRACT_DETAIL_TYPE_PARAM",
       "title": "نمایش پارامتر نوع جزییات قرارداد"
@@ -919,7 +912,6 @@
       "code": "D_CONTRACT_DETAIL_TYPE_PARAM",
       "title": "حذف پارامتر نوع جزییات قرارداد"
     },
-
     {
       "code": "R_CONTRACT_DETAIL_TYPE_PARAM_VALUE",
       "title": "نمایش مقدار پارامتر نوع جزییات قرارداد"
@@ -936,7 +928,6 @@
       "code": "D_CONTRACT_DETAIL_TYPE_PARAM_VALUE",
       "title": "حذف مقدار پارامتر نوع جزییات قرارداد"
     },
-
     {
       "code": "R_CONTRACT_DETAIL_TYPE_TEMPLATE",
       "title": "نمایش الگوی نوع جزییات قرارداد"
@@ -953,7 +944,6 @@
       "code": "D_CONTRACT_DETAIL_TYPE_TEMPLATE",
       "title": "حذف الگوی نوع جزییات قرارداد"
     },
-    
     {
       "code": "R_INCOTERM",
       "title": "نمایش اینکوترم"
@@ -970,7 +960,6 @@
       "code": "D_INCOTERM",
       "title": "حذف اینکوترم"
     },
-
     {
       "code": "R_INCOTERM_VERSION",
       "title": "نمایش نسخه اینکوترم"
@@ -987,7 +976,6 @@
       "code": "D_INCOTERM_VERSION",
       "title": "حذف نسخه اینکوترم"
     },
-
     {
       "code": "R_INCOTERM_DETAIL",
       "title": "نمایش جزییات اینکوترم"
@@ -1004,7 +992,6 @@
       "code": "D_INCOTERM_DETAIL",
       "title": "حذف جزییات اینکوترم"
     },
-
     {
       "code": "R_INCOTERM_ASPECT",
       "title": "نمایش نوع اینکوترم"
@@ -1021,7 +1008,6 @@
       "code": "D_INCOTERM_ASPECT",
       "title": "حذف نوع اینکوترم"
     },
-
     {
       "code": "R_TERM",
       "title": "نمایش ترم"
@@ -1038,7 +1024,6 @@
       "code": "D_TERM",
       "title": "حذف ترم"
     },
-
     {
       "code": "R_INCOTERM_FORM",
       "title": "نمایش فرم فروش اینکوترم"
@@ -1055,7 +1040,6 @@
       "code": "D_INCOTERM_FORM",
       "title": "حذف فرم فروش اینکوترم"
     },
-
     {
       "code": "R_INCOTERM_FORMS",
       "title": "نمایش فرم فروش مد جزییات اینکوترم"
@@ -1072,7 +1056,6 @@
       "code": "D_INCOTERM_FORMS",
       "title": "حذف فرم فروش مد جزییات اینکوترم"
     },
-
     {
       "code": "R_INCOTERM_PARTY",
       "title": "نمایش طرف قرارداد در اینکوترم"
@@ -1089,7 +1072,6 @@
       "code": "D_INCOTERM_PARTY",
       "title": "حذف طرف قرارداد در اینکوترم"
     },
-
     {
       "code": "R_INCOTERM_PARTIES",
       "title": "نمایش طرف قرارداد در جزییات اینکوترم"
@@ -1106,7 +1088,6 @@
       "code": "D_INCOTERM_PARTIES",
       "title": "حذف طرف قرارداد در جزییات اینکوترم"
     },
-    
     {
       "code": "R_INCOTERM_STEP",
       "title": "نمایش گام اینکوترم"
@@ -1123,7 +1104,6 @@
       "code": "D_INCOTERM_STEP",
       "title": "حذف گام اینکوترم"
     },
-
     {
       "code": "R_INCOTERM_STEPS",
       "title": "نمایش گام جزییات اینکوترم"
@@ -1140,7 +1120,6 @@
       "code": "D_INCOTERM_STEPS",
       "title": "حذف گام جزییات اینکوترم"
     },
-
     {
       "code": "R_INCOTERM_RULE",
       "title": "نمایش مد اینکوترم"
@@ -1157,7 +1136,6 @@
       "code": "D_INCOTERM_RULE",
       "title": "حذف مد اینکوترم"
     },
-    
     {
       "code": "R_INCOTERM_RULES",
       "title": "نمایش مد جزییات اینکوترم"
@@ -1174,7 +1152,6 @@
       "code": "D_INCOTERM_RULES",
       "title": "حذف مد جزییات اینکوترم"
     },
-    
     {
       "code": "R_FOREIGN_INVOICE",
       "title": "نمایش صورتحساب فروش خارجی"
@@ -1191,7 +1168,6 @@
       "code": "D_FOREIGN_INVOICE",
       "title": "حذف صورتحساب فروش خارجی"
     },
-
     {
       "code": "R_FOREIGN_INVOICE_ITEM",
       "title": "نمایش اقلام صورتحساب فروش خارجی"
@@ -1208,7 +1184,6 @@
       "code": "D_FOREIGN_INVOICE_ITEM",
       "title": "حذف اقلام صورتحساب فروش خارجی"
     },
-
     {
       "code": "R_FOREIGN_INVOICE_ITEM_DETAIL",
       "title": "نمایش جزییات اقلام صورتحساب فروش خارجی"
@@ -1225,7 +1200,6 @@
       "code": "D_FOREIGN_INVOICE_ITEM_DETAIL",
       "title": "حذف جزییات اقلام صورتحساب فروش خارجی"
     },
-
     {
       "code": "R_FOREIGN_INVOICE_PAYMENT",
       "title": "نمایش پرداخت صورتحساب فروش خارجی"
@@ -1242,7 +1216,6 @@
       "code": "D_FOREIGN_INVOICE_PAYMENT",
       "title": "حذف پرداخت صورتحساب فروش خارجی"
     },
-
     {
       "code": "R_VESSEL",
       "title": "نمایش کشتی"
@@ -1259,9 +1232,6 @@
       "code": "D_VESSEL",
       "title": "حذف کشتی"
     },
-
-
-
     {
       "code": "R_INSPECTION_REPORT",
       "title": "نمایش گزارش بازرسی"
@@ -1278,9 +1248,6 @@
       "code": "D_INSPECTION_REPORT",
       "title": "حذف گزارش بازرسی"
     },
-
-
-
     {
       "code": "R_ASSAY_INSPECTION",
       "title": "نمایش بازرسی محتوا"
@@ -1297,9 +1264,6 @@
       "code": "D_ASSAY_INSPECTION",
       "title": "حذف بازرسی محتوا"
     },
-
-
-
     {
       "code": "R_WEIGHT_INSPECTION",
       "title": "نمایش بازرسی وزن"
@@ -1316,8 +1280,6 @@
       "code": "D_WEIGHT_INSPECTION",
       "title": "حذف بازرسی وزن"
     },
-
-
     {
       "code": "R_INVOICE_TYPE",
       "title": "نمایش نوع صورتحساب"
@@ -1334,7 +1296,6 @@
       "code": "D_INVOICE_TYPE",
       "title": "حذف نوع صورتحساب"
     },
-
     {
       "code": "R_SHIPMENT_TYPE",
       "title": "نمایش نوع حمل"
@@ -1351,7 +1312,6 @@
       "code": "D_SHIPMENT_TYPE",
       "title": "حذف نوع حمل"
     },
-
     {
       "code": "R_SHIPMENT_METHOD",
       "title": "نمایش روش حمل"
@@ -1420,7 +1380,6 @@
       "code": "D_ELEMENT",
       "title": "حذف عنصر"
     },
-
     {
       "code": "R_MATERIAL_ELEMENT",
       "title": "نمایش عنصر محصول"

@@ -30,7 +30,7 @@ public class TypicalAssayDTO {
     @Accessors(chain = true)
     @ApiModel("TypicalAssayInfo")
     public static class Info extends TypicalAssayDTO {
-        private Long id ;
+        private Long id;
         private Date createDate;
         private String createdBy;
         private Date lastModifiedDate;
@@ -60,7 +60,7 @@ public class TypicalAssayDTO {
     @Setter
     @Accessors(chain = true)
     @ApiModel("TypicalAssayDeleteRq")
-    public static class Delete{
+    public static class Delete {
         @NotNull
         @ApiModelProperty(required = true)
         private List<Long> ids;

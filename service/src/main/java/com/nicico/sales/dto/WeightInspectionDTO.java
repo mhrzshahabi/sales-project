@@ -74,8 +74,8 @@ public class WeightInspectionDTO {
 
             BigDecimal weightGW = getWeightGW();
             BigDecimal weightND = getWeightND();
-            if(weightGW == null) weightGW = BigDecimal.ZERO;
-            if(weightND == null) weightND = BigDecimal.ZERO;
+            if (weightGW == null) weightGW = BigDecimal.ZERO;
+            if (weightND == null) weightND = BigDecimal.ZERO;
 
             return weightGW.subtract(weightND);
         }

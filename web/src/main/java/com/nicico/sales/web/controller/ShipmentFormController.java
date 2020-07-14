@@ -1,11 +1,8 @@
 package com.nicico.sales.web.controller;
 
 import com.github.mfathi91.time.PersianDate;
-import com.nicico.sales.dto.PortDTO;
 import com.nicico.sales.dto.ShipmentDTO;
 import com.nicico.sales.iservice.IShipmentService;
-import com.nicico.sales.model.entities.base.Port;
-import com.nicico.sales.model.entities.base.Shipment;
 import lombok.RequiredArgsConstructor;
 import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -101,12 +98,12 @@ public class ShipmentFormController {
         String shiptype = shipment.getShipmentType();
 
 
-        if (description.toLowerCase().contains("cathod") ) {
+        if (description.toLowerCase().contains("cathod")) {
             if (shiptype.contains("bulk")) {
 
                 stream = new ClassPathResource("reports/word/Ship_Cat_bulk.docx").getInputStream();
                 ServletOutputStream out = response.getOutputStream();
-                doc = (XWPFDocument) new XWPFDocument(stream);
+                doc = new XWPFDocument(stream);
                 replacePOI(doc, "vessel_name", shipment.getVessel().getName());
                 replacePOI(doc, "agent", shipment.getContactByAgent().getNameFA());
                 replacePOI(doc, "contract_amount", shipment.getAmount().toString());
@@ -135,7 +132,7 @@ public class ShipmentFormController {
 
                 stream = new ClassPathResource("reports/word/Ship_Cat_Container.docx").getInputStream();
                 ServletOutputStream out = response.getOutputStream();
-                doc = (XWPFDocument) new XWPFDocument(stream);
+                doc = new XWPFDocument(stream);
 
                 replacePOI(doc, "agent", shipment.getContactByAgent().getNameFA());
                 replacePOI(doc, "contract_amount", shipment.getAmount().toString());
@@ -156,7 +153,7 @@ public class ShipmentFormController {
                 replacePOI(doc, "loa", shipment.getPortByLoading().getPort());
                 replacePOI(doc, "dis", shipment.getPortByDischarge().getPort());
                 replacePOI(doc, "country", shipment.getPortByDischarge().getCountry().getNameFa());
-                replacePOI(doc, "containerType", shipment.getContainerType()  == null ? "50" : shipment.getContainerType() );
+                replacePOI(doc, "containerType", shipment.getContainerType() == null ? "50" : shipment.getContainerType());
                 replacePOI(doc, "blNumbers", shipment.getBlNumbers());
                 replacePOI(doc, "bookingno", "(Booking No." + shipment.getBookingCat() + ")");
                 replacePOI(doc, "dateday", dateday);
@@ -175,7 +172,7 @@ public class ShipmentFormController {
 
                 stream = new ClassPathResource("reports/word/Copper_Concentrate_bulk.docx").getInputStream();
                 ServletOutputStream out = response.getOutputStream();
-                doc = (XWPFDocument) new XWPFDocument(stream);
+                doc = new XWPFDocument(stream);
 
                 replacePOI(doc, "tolorance", "-/+" + shipment.getContractShipment().getTolorance().toString() + "%");
                 replacePOI(doc, "vessel_name", shipment.getVessel().getName());
@@ -211,7 +208,7 @@ public class ShipmentFormController {
 
                 stream = new ClassPathResource("reports/word/Molybdenum Oxide.docx").getInputStream();
                 ServletOutputStream out = response.getOutputStream();
-                doc = (XWPFDocument) new XWPFDocument(stream);
+                doc = new XWPFDocument(stream);
 
                 replacePOI(doc, "dateday", dateday);
 

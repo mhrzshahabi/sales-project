@@ -5,7 +5,8 @@
 
     <changeSet author="j.azad" id="J.AZAD-020">
         <dropForeignKeyConstraint baseTableName="TBL_PORT" constraintName="port2country"/>
-        <addForeignKeyConstraint baseColumnNames="COUNTRY_ID" baseTableName="TBL_PORT" constraintName="port2country" referencedColumnNames="ID" referencedTableName="TBL_COUNTRY"/>
+        <addForeignKeyConstraint baseColumnNames="COUNTRY_ID" baseTableName="TBL_PORT" constraintName="port2country"
+                                 referencedColumnNames="ID" referencedTableName="TBL_COUNTRY"/>
     </changeSet>
 
     <changeSet author="j.azad" id="J.AZAD-021">

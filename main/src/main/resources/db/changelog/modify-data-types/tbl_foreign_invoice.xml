@@ -1,6 +1,6 @@
 <?xml version="1.1" encoding="UTF-8" standalone="no"?>
-<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
-                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
 
     <!-- Modify Data Type -->
@@ -34,7 +34,10 @@
         </addColumn>
     </changeSet>
     <changeSet author="karimi" id="ModifyDataType-Foreign-Invoice-009">
-        <addForeignKeyConstraint baseColumnNames="F_UNIT_ID" baseTableName="TBL_FOREIGN_INVOICE" constraintName="fk_foreignInvoice2unitByUnitId" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_UNIT" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="F_UNIT_ID" baseTableName="TBL_FOREIGN_INVOICE"
+                                 constraintName="fk_foreignInvoice2unitByUnitId" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_UNIT"
+                                 validate="true"/>
     </changeSet>
     <changeSet author="Reza Mazloom" id="ModifyDataType-Foreign-Invoice-011">
         <dropColumn columnName="F_CURRENCY_ID" tableName="TBL_FOREIGN_INVOICE"/>

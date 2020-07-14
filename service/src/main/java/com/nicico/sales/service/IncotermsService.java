@@ -3,10 +3,11 @@ package com.nicico.sales.service;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.IncotermsDTO;
+import com.nicico.sales.exception.NotFoundException;
 import com.nicico.sales.iservice.IIncotermsService;
 import com.nicico.sales.model.entities.base.Incoterms;
+import com.nicico.sales.model.entities.contract.Incoterm;
 import com.nicico.sales.repository.IncotermsDAO;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -29,7 +30,7 @@ public class IncotermsService implements IIncotermsService {
     @PreAuthorize("hasAuthority('R_INCOTERMS')")
     public IncotermsDTO.Info get(Long id) {
         final Optional<Incoterms> slById = incotermsDAO.findById(id);
-        final Incoterms incoterms = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.IncotermsNotFound));
+        final Incoterms incoterms = slById.orElseThrow(() -> new NotFoundException(Incoterm.class));
 
         return modelMapper.map(incoterms, IncotermsDTO.Info.class);
     }
@@ -58,7 +59,7 @@ public class IncotermsService implements IIncotermsService {
     @PreAuthorize("hasAuthority('U_INCOTERMS')")
     public IncotermsDTO.Info update(Long id, IncotermsDTO.Update request) {
         final Optional<Incoterms> slById = incotermsDAO.findById(id);
-        final Incoterms incoterms = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.IncotermsNotFound));
+        final Incoterms incoterms = slById.orElseThrow(() -> new NotFoundException(Incoterm.class));
 
         Incoterms updating = new Incoterms();
         modelMapper.map(incoterms, updating);

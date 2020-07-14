@@ -1,6 +1,6 @@
 <?xml version="1.1" encoding="UTF-8" standalone="no"?>
-<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
-                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
 
     <changeSet author="j.azad" id="J.AZAD-025">
@@ -47,9 +47,9 @@
 
 
     <changeSet author="j.azad" id="J.AZAD-030">
-        <addUniqueConstraint columnNames="D_CURRENCY_DATE, N_FROM, N_TO, N_REFERENCE" constraintName="UNIQE_List_CrrencyRate" tableName="TBL_CURRENCY_RATE"/>
+        <addUniqueConstraint columnNames="D_CURRENCY_DATE, N_FROM, N_TO, N_REFERENCE"
+                             constraintName="UNIQE_List_CrrencyRate" tableName="TBL_CURRENCY_RATE"/>
     </changeSet>
-
 
 
     <changeSet author="j.azad" id="J.AZAD-031">
@@ -62,11 +62,9 @@
     </changeSet>
 
 
-
     <changeSet author="j.azad" id="J.AZAD-033">
         <dropColumn columnName="C_EUR_USD" tableName="TBL_CURRENCY_RATE"/>
     </changeSet>
-
 
 
     <changeSet author="j.azad" id="J.AZAD-034">

@@ -26,6 +26,7 @@ public class InspectionReportDTO {
     private String inspectionPlace;
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date issueDate;
+    //    private Long inventoryId;
     private Long sellerId;
     private Long buyerId;
     private BigDecimal inspectionRateValue;
@@ -39,9 +40,11 @@ public class InspectionReportDTO {
     public static class Info extends InspectionReportDTO {
 
         private Long id;
-        private List<WeightInspectionDTO.InfoWithoutInspectionReport> weightInspections;
-        private List<AssayInspectionDTO.InfoWithoutInspectionReport> assayInspections;
+        private WeightInspectionDTO.Info weightInspection;
+        //        private AssayInspectionDTO.Info assayInspection;
+        private List<AssayInspectionDTO.Info> assayInspections;
         private ContactDTO.Info inspector;
+        //        private InventoryDTO.Info inventory;
         private ContactDTO.Info seller;
         private ContactDTO.Info buyer;
         private UnitDTO.Info currency;
@@ -65,8 +68,8 @@ public class InspectionReportDTO {
     @ApiModel("InspectionReportCreateRq")
     public static class Create extends InspectionReportDTO {
 
-        private List<WeightInspectionDTO.Create> weightInspections;
-        private List<List<AssayInspectionDTO.Create>> assayInspections;
+        private WeightInspectionDTO.Info weightInspection;
+        private AssayInspectionDTO.Info assayInspection;
 
     }
 
@@ -79,9 +82,6 @@ public class InspectionReportDTO {
         @NotNull
         @ApiModelProperty(required = true)
         private Long id;
-
-        private List<WeightInspectionDTO.Info> weightInspections;
-        private List<AssayInspectionDTO.Info> assayInspections;
     }
 
     @Getter

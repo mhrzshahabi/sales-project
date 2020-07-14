@@ -34,7 +34,7 @@ public class CurrencyRate extends BaseEntity {
     private Long id;
 
     @NotNull
-    @Column(name = "D_CURRENCY_DATE"  , nullable = false)
+    @Column(name = "D_CURRENCY_DATE", nullable = false)
     private Date currencyDate;
 
     @NotNull
@@ -50,7 +50,7 @@ public class CurrencyRate extends BaseEntity {
     private RateReference reference;
 
     @NotNull
-    @Column(name = "N_RATE_VALUE" , precision = 10, scale = 5 , nullable = false)
+    @Column(name = "N_RATE_VALUE", precision = 10, scale = 5, nullable = false)
     private BigDecimal rateValue;
 
 }
