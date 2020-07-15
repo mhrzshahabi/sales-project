@@ -462,7 +462,7 @@ inspectionReportTab.dynamicForm.material = isc.DynamicForm.create({
     fields: [
         {
             name: "material",
-            title: "<spring:message code='material.descp'/>",
+            title: "<spring:message code='material.title'/>",
             required: true,
             wrapTitle: false,
             autoFetchData: false,
@@ -587,7 +587,13 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
         name: "inspectionPlace",
         title: "<spring:message code='inspectionReport.inspectionPlace'/>",
         type: "text",
-        wrapTitle: false
+        required: true,
+        wrapTitle: false,
+        validators: [
+            {
+                type: "required",
+                validateOnChange: true
+            }]
     },
     {
         name: "issueDate",
@@ -600,6 +606,7 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
         title: "<spring:message code='inspectionReport.InventoryId'/>",
         colSpan: 2,
         required: true,
+        wrapTitle: false,
         autoFetchData: false,
         type: "SelectItem",
         multiple: true,
@@ -712,7 +719,19 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
     {
         name: "inspectionRateValue",
         title: "<spring:message code='inspectionReport.inspectionRateValue'/>",
+        type: "float",
+        required: true,
         wrapTitle: false,
+        validators: [
+            {
+                type: "required",
+                validateOnChange: true
+            },
+            {
+                type: "float",
+                validateOnChange: true
+            }
+        ]
     },
     {
         name: "inspectionRateValueType",
@@ -862,13 +881,23 @@ inspectionReportTab.dynamicForm.assayLab = isc.DynamicForm.create({
             name: "labName",
             title: "<spring:message code='assayInspection.LabName'/>",
             required: true,
-            wrapTitle: false
+            wrapTitle: false,
+            validators: [
+                {
+                    type: "required",
+                    validateOnChange: true
+                }]
         },
         {
             name: "labPlace",
             title: "<spring:message code='assayInspection.LabPlace'/>",
             required: true,
-            wrapTitle: false
+            wrapTitle: false,
+            validators: [
+                {
+                    type: "required",
+                    validateOnChange: true
+                }]
         }
     ]
 });
@@ -1181,7 +1210,6 @@ inspectionReportTab.method.editForm = function () {
                 // Set Material
                 let materialId = weightInspectionArray.get(0).inventory.materialItem.materialId;
                 inspectionReportTab.dynamicForm.material.setValue("material", materialId);
-                // inspectionReportTab.method.getAssayElementFields(materialId);
                 inspectionReportTab.dynamicForm.material.getField("material").changed(inspectionReportTab.dynamicForm.material, inspectionReportTab.dynamicForm.material.getItem("material"));
 
                 // Set Inventories
