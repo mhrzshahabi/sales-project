@@ -11,7 +11,6 @@
     <include file="classpath:/db/changelog/tbl_inspection_report.xml"/>
     <include file="classpath:/db/changelog/tbl_person.xml"/>
     <include file="classpath:/db/changelog/tbl_foreign_invoice.xml"/>
-    <include file="classpath:/db/changelog/tbl_contact.xml"/>
     <include file="classpath:/db/changelog/tbl_warh_inventory.xml"/>
     <include file="classpath:/db/changelog/tbl_warh_remittance.xml"/>
     <include file="classpath:/db/changelog/tbl_warh_remittance_detail.xml"/>
@@ -34,6 +33,7 @@
     <include file="classpath:/db/changelog/synonyms.xml"/>
     <include file="classpath:/db/changelog/tbl_country.xml"/>
     <include file="classpath:/db/changelog/tbl_port.xml"/>
+    <include file="classpath:/db/changelog/tbl_contact.xml"/>
     <include file="classpath:/db/changelog/tbl_currency_rate.xml"/>
     <include file="classpath:/db/changelog/contract/tbl_cntr_contract_detail_type.xml"/>
     <include file="classpath:/db/changelog/contract/tbl_cntr_contract_detail_type_param.xml"/>
