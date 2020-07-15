@@ -44,7 +44,7 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
 
         ContractDTO2.Info savedContract2 = save(contract2);
         if(request.getContractContacts() != null && request.getContractContacts().size() > 0){
-            new TypeToken<List<ContractContact>>()
+            new TypeToken<List<ContractContact>>(){};
             modelMapper.map(request.getContractContacts(),);
         }
         if(request.getContractDetails() != null && request.getContractDetails().size() > 0){}
