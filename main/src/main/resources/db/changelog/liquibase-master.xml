@@ -44,5 +44,4 @@
     <!--	<include file="classpath:/db/changelog/view_tozin_s.xml"/>-->
     <!--	<include file="classpath:/db/changelog/view_frosh.xml"/>-->
     <!--	<include file="classpath:/db/changelog/view_kharid.xml"/>-->
-
 </databaseChangeLog>
