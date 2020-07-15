@@ -1,6 +1,7 @@
 package com.nicico.sales.model.entities.warehouse;
 
 import com.nicico.sales.model.entities.base.Material;
+import com.nicico.sales.model.entities.base.Unit;
 import com.nicico.sales.model.entities.common.BaseEntity;
 import lombok.*;
 import lombok.experimental.Accessors;
@@ -41,4 +42,12 @@ public class MaterialElement extends BaseEntity {
     @NotNull
     @Column(name = "F_ELEMENT_ID", nullable = false)
     private Long elementId;
+
+    @Setter(AccessLevel.NONE)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "F_UNIT_ID", nullable = false, insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_materialElement2unit"))
+    private Unit unit;
+
+    @Column(name = "F_UNIT_ID")
+    private Long unitId;
 }

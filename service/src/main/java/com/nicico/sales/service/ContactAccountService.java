@@ -3,8 +3,8 @@ package com.nicico.sales.service;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.ContactAccountDTO;
+import com.nicico.sales.exception.NotFoundException;
 import com.nicico.sales.iservice.IContactAccountService;
 import com.nicico.sales.model.entities.base.ContactAccount;
 import com.nicico.sales.repository.ContactAccountDAO;
@@ -30,7 +30,7 @@ public class ContactAccountService implements IContactAccountService {
     @PreAuthorize("hasAuthority('R_CONTACT_ACCOUNT')")
     public ContactAccountDTO.Info get(Long id) {
         final Optional<ContactAccount> slById = contactAccountDAO.findById(id);
-        final ContactAccount contactAccount = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.ContactAccountNotFound));
+        final ContactAccount contactAccount = slById.orElseThrow(() -> new NotFoundException(ContactAccount.class));
 
         return modelMapper.map(contactAccount, ContactAccountDTO.Info.class);
     }
@@ -72,7 +72,7 @@ public class ContactAccountService implements IContactAccountService {
     @PreAuthorize("hasAuthority('U_CONTACT_ACCOUNT')")
     public ContactAccountDTO.Info update(Long id, ContactAccountDTO.Update request) {
         final Optional<ContactAccount> slById = contactAccountDAO.findById(id);
-        final ContactAccount contactAccount = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.ContactAccountNotFound));
+        final ContactAccount contactAccount = slById.orElseThrow(() -> new NotFoundException(ContactAccount.class));
 
         ContactAccount updating = new ContactAccount();
         modelMapper.map(contactAccount, updating); //map audits

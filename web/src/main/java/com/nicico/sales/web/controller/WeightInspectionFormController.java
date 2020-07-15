@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 public class WeightInspectionFormController {
 
     @RequestMapping("/show-form")
-    public String showTerm(HttpServletRequest request) {
+    public String show(HttpServletRequest request) {
 
         request.setAttribute("c_entity", SecurityUtil.hasAuthority("C_WEIGHT_INSPECTION"));
         request.setAttribute("u_entity", SecurityUtil.hasAuthority("U_WEIGHT_INSPECTION"));

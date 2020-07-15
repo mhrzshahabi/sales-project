@@ -7,8 +7,10 @@ isc.defineClass("InvoiceCalculation2", isc.VLayout).addProperties({
     layoutMargin: 2,
     membersMargin: 2,
     overflow: "scroll",
-    invoiceBaseAssayComponent: null,
-    invoiceBasePriceComponent: null,
+    contract: null,
+    shipment: null,
+    currency: null,
+    inventories: [],
     initWidget: function () {
 
         let This = this;

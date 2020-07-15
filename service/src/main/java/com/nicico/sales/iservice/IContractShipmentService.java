@@ -4,7 +4,6 @@ import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.sales.dto.ContractShipmentAuditDTO;
 import com.nicico.sales.dto.ContractShipmentDTO;
-import com.nicico.sales.model.entities.base.ContractShipmentAudit;
 
 import java.util.List;
 

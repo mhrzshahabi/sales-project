@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 
-public interface TypicalAssayDAO extends JpaRepository<TypicalAssay, Long> , JpaSpecificationExecutor<TypicalAssay> {
+public interface TypicalAssayDAO extends JpaRepository<TypicalAssay, Long>, JpaSpecificationExecutor<TypicalAssay> {
 }

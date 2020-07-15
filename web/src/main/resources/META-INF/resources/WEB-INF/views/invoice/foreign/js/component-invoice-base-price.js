@@ -9,7 +9,6 @@ isc.defineClass("InvoiceBasePrice", isc.VLayout).addProperties({
     overflow: "scroll",
     contract: null,
     shipment: null,
-    currency: null,
     initWidget: function () {
 
         this.Super("initWidget", arguments);
@@ -19,12 +18,14 @@ isc.defineClass("InvoiceBasePrice", isc.VLayout).addProperties({
         let material = __contract.getMaterial(This.contract);
         let month = __contract.getShipmentMonthNo(This.shipment);
         let moasValue = __contract.getContractMOASValue(This.contract);
+        let basePriceReference = __contract.getBasePriceReference(This.contract);
 
         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
             params: {
                 year: year,
                 materialId: material.id,
-                month: month + moasValue
+                month: month + moasValue,
+                reference: basePriceReference
             },
             httpMethod: "GET",
             actionURL: "${contextPath}/api/price-base/get-base-price",
@@ -34,28 +35,22 @@ isc.defineClass("InvoiceBasePrice", isc.VLayout).addProperties({
                 let elements = JSON.parse(resp.data);
                 for (let index = 0; index < elements.length; index++) {
 
-                    if (elements[index].currency.id !== This.currency.id)
-                        isc.error('Currency is not matched!');
-
-                    if (!elements[index].payable)
+                    if (!elements[index].element.payable)
                         continue;
 
                     fields.add(isc.Unit.create({
 
-                        unitCategory: 1,
+                        unitCategory: elements[index].unit.categoryUnit,
                         disabledUnitField: true,
                         disabledValueField: true,
-                        disabledCurrencyField: true,
                         showValueFieldTitle: true,
                         showUnitFieldTitle: false,
-                        showCurrencyFieldTitle: false,
-                        name: elements[index].name,
-                        fieldValueTitle: elements[index].name,
+                        name: elements[index].element.name,
+                        fieldValueTitle: elements[index].element.name,
                         border: "1px solid rgba(0, 0, 0, 0.3)",
                     }));
                     fields.last().setValue(elements[index].price);
                     fields.last().setUnitId(elements[index].unit.id);
-                    fields.last().setCurrencyId(elements[index].currency.id);
                 }
 
                 This.addMember(isc.Label.create({

@@ -100,10 +100,34 @@
             "Active": "عادی",
             "DeActive": "حذف شده"
         },
-        deductionType: {
-            1: "Unit",
-            2: "Percent",
-            3: "Discount"
+        unit: {
+            symbols: JSON.parse('${Enum_SymbolUnit_WithValue}'),
+            hasFlag: function (value, target) {
+
+                value = Enums.unit.symbols[value];
+                target = Enums.unit.symbols[target];
+                for (let id in Object.values(Enums.unit.symbols).sort().reverse()) {
+
+                    if (id > value) continue;
+                    if (id === target) return true;
+                    value -= id;
+                }
+
+                return false;
+            },
+            getValues: function (value) {
+
+                let result = [];
+                value = Enums.unit.symbols[value];
+                for (let id in Object.values(Enums.unit.symbols).sort().reverse()) {
+
+                    if (id > value) continue;
+                    result.push(Object.keys(Enums.unit.symbols).filter(q => Enums.unit.symbols[q] === id).first());
+                    value -= id;
+                }
+
+                return result;
+            }
         }
     };
 
@@ -119,7 +143,7 @@
             FINAL: 3
         },
         unit: {
-            PERCENT : 1,
+            PERCENT: 1,
         }
     }
 

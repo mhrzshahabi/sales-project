@@ -30,7 +30,7 @@ public class MaterialItem extends BaseEntity {
     @Column(name = "GDSNAME")
     private String gdsName;
 
-    @Column(name="C_GDSNAME_EN")
+    @Column(name = "C_GDSNAME_EN")
     private String gdsNameEn;
 
     @Setter(AccessLevel.NONE)

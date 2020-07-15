@@ -1,6 +1,6 @@
 <?xml version="1.1" encoding="UTF-8" standalone="no"?>
-<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
-                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
     <changeSet author="MShahabi" id="1592814189336-239">
         <addColumn tableName="TBL_ASSAY_INSPECTION">
@@ -15,7 +15,8 @@
     </changeSet>
 
     <changeSet author="MShahabi" id="1799887766554-001">
-        <dropForeignKeyConstraint baseTableName="TBL_ASSAY_INSPECTION" constraintName="FK_ASSAYINSPECTION2REMITTANCEDETAILBYREMITTANCEDETAILID"/>
+        <dropForeignKeyConstraint baseTableName="TBL_ASSAY_INSPECTION"
+                                  constraintName="FK_ASSAYINSPECTION2REMITTANCEDETAILBYREMITTANCEDETAILID"/>
         <dropColumn columnName="F_REMITTANCE_DETAIL_ID" tableName="TBL_ASSAY_INSPECTION"/>
     </changeSet>
 
@@ -29,7 +30,22 @@
                 <constraints nullable="false"/>
             </column>
         </addColumn>
-        <addForeignKeyConstraint baseColumnNames="F_INVENTORY_ID" baseTableName="TBL_ASSAY_INSPECTION" constraintName="fk_assayInspection2inventoryByInventoryId" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_WARH_INVENTORY" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="F_INVENTORY_ID" baseTableName="TBL_ASSAY_INSPECTION"
+                                 constraintName="fk_assayInspection2inventoryByInventoryId" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="id"
+                                 referencedTableName="TBL_WARH_INVENTORY" validate="true"/>
+    </changeSet>
+
+    <changeSet author="MShahabi" id="1799887766554-013">
+        <addColumn tableName="TBL_ASSAY_INSPECTION">
+            <column name="F_UNIT_ID" type="number(19, 0)"/>
+        </addColumn>
+        <addForeignKeyConstraint baseColumnNames="F_UNIT_ID" baseTableName="TBL_ASSAY_INSPECTION" constraintName="fk_assayInspection2unit" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_UNIT" validate="true"/>
+    </changeSet>
+
+    <changeSet author="MShahabi" id="1799887766554-015">
+        <dropForeignKeyConstraint baseTableName="TBL_ASSAY_INSPECTION" constraintName="fk_assayInspection2unit"/>
+        <dropColumn columnName="F_UNIT_ID" tableName="TBL_ASSAY_INSPECTION"/>
     </changeSet>
 
 </databaseChangeLog>

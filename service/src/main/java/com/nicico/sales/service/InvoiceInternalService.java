@@ -3,8 +3,8 @@ package com.nicico.sales.service;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.InvoiceInternalDTO;
+import com.nicico.sales.exception.NotFoundException;
 import com.nicico.sales.iservice.IInvoiceInternalService;
 import com.nicico.sales.model.entities.base.InvoiceInternal;
 import com.nicico.sales.model.entities.base.InvoiceInternalDocument;
@@ -37,7 +37,7 @@ public class InvoiceInternalService implements IInvoiceInternalService {
     @PreAuthorize("hasAuthority('R_INVOICE_INTERNAL')")
     public InvoiceInternalDTO.Info get(String id) {
         final InvoiceInternal invoiceInternal = invoiceInternalDAO.findById(id)
-                .orElseThrow(() -> new SalesException(SalesException.ErrorType.InvoiceInternalNotFound));
+                .orElseThrow(() -> new NotFoundException(InvoiceInternal.class));
         return modelMapper.map(invoiceInternal, InvoiceInternalDTO.Info.class);
     }
 

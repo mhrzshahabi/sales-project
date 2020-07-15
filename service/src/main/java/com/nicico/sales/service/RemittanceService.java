@@ -11,7 +11,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -33,7 +35,7 @@ public class RemittanceService extends GenericService<Remittance, Long, Remittan
             tozinIdList.add(rd.getDestinationTozinId());
             tozinIdList.add(rd.getSourceTozinId());
         });
-        remittanceDetailDAO.deleteAllByIdIn(allByRemittanceIdIsIn.stream().map(rd->rd.getId()).collect(Collectors.toList()));
+        remittanceDetailDAO.deleteAllByIdIn(allByRemittanceIdIsIn.stream().map(rd -> rd.getId()).collect(Collectors.toList()));
         inventoryDAO.deleteAllByIdIn(inventoryIdList);
         tozinTableDAO.deleteAllByIdIn(tozinIdList);
         super.deleteAll(request);
