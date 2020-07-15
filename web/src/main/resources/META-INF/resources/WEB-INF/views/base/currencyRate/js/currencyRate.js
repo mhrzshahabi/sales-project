@@ -29,7 +29,7 @@ currencyRateTab.dynamicForm.fields = BaseFormItems.concat([
     },
     {
         name: "reference",
-        title: "<spring:message code='unit.symbol'/>",
+        title: "<spring:message code='currencyRate.Central.Bank'/>",
         required: true,
         width: "100%",
         valueMap: JSON.parse('${Enum_RateReference}')
