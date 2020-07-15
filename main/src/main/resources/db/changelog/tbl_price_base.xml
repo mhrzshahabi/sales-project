@@ -63,13 +63,4 @@
                                  validate="true"/>
     </changeSet>
 
-    <changeSet author="Reza (generated)" id="mazloom_022">
-        <createIndex tableName="TBL_PRICE_BASE" unique="true"
-                     indexName="element_priceBaseReference_priceDate_UNIQUE">
-            <column name="F_ELEMENT_ID"/>
-            <column name="N_PRICE_BASE_REFERENCE"/>
-            <column name="D_PRICE_DATE"/>
-        </createIndex>
-    </changeSet>
-
 </databaseChangeLog>
