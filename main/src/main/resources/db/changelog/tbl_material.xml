@@ -2,28 +2,16 @@
 <databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
-    <changeSet author="Saeb" id="saeb_00unissssst1">
-        <sql>
-            INSERT INTO TBL_MATERIAL (ID, C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY,
-            D_LAST_MODIFIED_DATE,
-            N_VERSION, N_E_STATUS, B_EDITABLE, C_ABBREVIATION, C_CODE, C_DESCL, C_DESCP, UNIT_ID) VALUES (-1,
-            'liquibase',
-            current_timestamp, null, null, 0, 1, 1, '-1', '-1',
-            'آیتمهای ارسالی از لجستیک', 'تعیین
-            نشده', -1);
-        </sql>
-    </changeSet>
-
     <changeSet author="Saeb" id="saeb_00unisssssssssst1">
         <sql>
-            INSERT /*+ ignore_row_on_dupkey_index(TBL_MATERIAL, TBL_MATERIALPK) */ INTO TBL_MATERIAL (ID, C_CREATED_BY,
+            INSERT INTO TBL_MATERIAL (ID, C_CREATED_BY,
             D_CREATED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE, C_ABBREVIATION, C_CODE, C_DESCL, C_DESCP, UNIT_ID)
             VALUES (2, 'liquibase', current_timestamp, 2, 1, 0, 'CAD', '74031100', 'Copper Cathode', 'مس کاتد', -1);
             INSERT /*+ ignore_row_on_dupkey_index(TBL_MATERIAL, TBL_MATERIALPK) */ INTO TBL_MATERIAL (ID, C_CREATED_BY,
             D_CREATED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE, C_ABBREVIATION, C_CODE, C_DESCL, C_DESCP, UNIT_ID)
             VALUES (3, 'liquibase', current_timestamp, 6, 1, 0, 'CONC', '26030090', 'Copper Concentrate', 'مس کنسانتره',
             -1);
-            INSERT /*+ ignore_row_on_dupkey_index(TBL_MATERIAL, TBL_MATERIALPK) */ INTO TBL_MATERIAL (ID, C_CREATED_BY,
+            INSERT INTO TBL_MATERIAL (ID, C_CREATED_BY,
             D_CREATED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE, C_ABBREVIATION, C_CODE, C_DESCL, C_DESCP, UNIT_ID)
             VALUES (1, 'liquibase', current_timestamp, 3, 1, 0, 'MO', '28257000', 'Molybdenum Oxide', 'اکسید مولیبدن',
             -1);
