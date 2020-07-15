@@ -30,6 +30,17 @@ public class AssayInspectionDTO {
     @Getter
     @Setter
     @Accessors(chain = true)
+    @ApiModel("AssayInspectionData")
+    public static class AssayData {
+
+        private BigDecimal value;
+        private InventoryDTO.Info inventory;
+        private MaterialElementDTO.Info materialElement;
+    }
+
+    @Getter
+    @Setter
+    @Accessors(chain = true)
     @ApiModel("AssayInspectionInfoWithoutInspectionReport")
     public static class InfoWithoutInspectionReport extends AssayInspectionDTO {
 

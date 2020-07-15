@@ -26,6 +26,11 @@ __contract.getContractMOASValue = function (contract) {
     // Month of actual shipment plus
     return 2;
 };
+__contract.getBasePriceReference = function (contract) {
+
+    // Price base reference
+    return 1;
+};
 __contract.getShipmentMonthNo = function (shipment) {
 
     // Month of actual shipment plus

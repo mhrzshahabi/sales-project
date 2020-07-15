@@ -1,6 +1,5 @@
 package com.nicico.sales.model.enumeration;
 
-
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -8,39 +7,43 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum SymbolUnit {
 
-    KG(1),
-    TON(2),
-    BARREL(3),
-    LI(4),
-    GUNNY(5),
-    SKID(6),
-    BULK(7),
-    PACKAGE(8),
-    SHEET(9),
-    PALLETS(10),
-    BUNDLE(11),
-    PERCENT(12),
-    GRAMS_DMT(13),
-    WMT(14),
-    MT(15),
-    DMT(16),
-    US_MT(17),
-    US_TR_OZ(18),
-    US_LB(19),
-    KGS(20);
-    private final Integer id;
+    // Percent
+    PERCENT     (1),
 
-     @Getter
-     @RequiredArgsConstructor
-     public enum SymbolCUR
-     {
-         $(1),
-         CNH(2),
-         €(3),
-         £(4),
-         ¢(5),
-         ¥(6),
-         ریال(7);
-         private final Integer id;
-     }
+    // Weight
+    TON         (2),
+    BARREL      (4),
+    KG          (8),
+    WMT         (16),
+    MT          (32),
+    DMT         (64),
+    KGS         (128),
+    LB          (256),
+    TR_OZ       (512),
+    GRAMS       (1024),
+
+    // Class
+    PACKAGE     (2048),
+    SHEET       (4096),
+    PALLETS     (8192),
+    BUNDLE      (16384),
+    GUNNY       (32768),
+    SKID        (65536),
+    BULK        (131072),
+
+    // Finance
+    £           (262144),
+    ¢           (524288),
+    ¥           (1048576),
+    ریال        (2097152),
+    $           (4194304),
+    €           (8388608),
+
+    // Combination
+    US_MT       (4194336),
+    US_LB       (4194560),
+    US_TR_OZ    (4194816),
+    GRAMS_DMT   (1088);
+
+    private final Integer id;
 }

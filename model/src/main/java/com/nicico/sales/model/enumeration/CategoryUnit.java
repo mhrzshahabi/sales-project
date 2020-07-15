@@ -10,7 +10,9 @@ public enum CategoryUnit {
     Finance(1),
     Time(2),
     Weight(3),
-    Combination(4);
+    Combination(4),
+    Percent(5),
+    Class(6);
 
     private final Integer id;
 }

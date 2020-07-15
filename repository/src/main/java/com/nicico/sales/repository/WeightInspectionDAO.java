@@ -6,8 +6,10 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface WeightInspectionDAO extends JpaRepository<WeightInspection, Long>, JpaSpecificationExecutor<WeightInspection> {
 
-    WeightInspection findByInventoryId(@Param("inventoryId") Long inventoryId);
+    List<WeightInspection> findAllByInventoryId(@Param("inventoryIds") List<Long> inventoryIds);
 }

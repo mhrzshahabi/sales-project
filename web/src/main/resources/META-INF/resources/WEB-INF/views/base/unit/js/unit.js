@@ -35,7 +35,7 @@ unitTab.dynamicForm.fields = BaseFormItems.concat([
         type: 'text',
         required: true,
         width: "100%",
-        valueMap: JSON.parse('${Enum_SymbolUnit}'),
+        valueMap:JSON.parse('${Enum_SymbolUnit}')
     },
     {
         name: "categoryUnit",
@@ -45,7 +45,7 @@ unitTab.dynamicForm.fields = BaseFormItems.concat([
         width: "100%",
         valueMap: JSON.parse('${Enum_CategoryUnit}'),
     }
-
+    
 ]);
 Object.assign(unitTab.listGrid.fields, unitTab.dynamicForm.fields);
 nicico.BasicFormUtil.getDefaultBasicForm(unitTab, "api/unit/");

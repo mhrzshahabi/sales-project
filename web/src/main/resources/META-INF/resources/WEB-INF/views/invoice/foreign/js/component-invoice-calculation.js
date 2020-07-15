@@ -7,6 +7,7 @@ isc.defineClass("InvoiceCalculation", isc.VLayout).addProperties({
     layoutMargin: 2,
     membersMargin: 2,
     overflow: "scroll",
+    currency: null,
     invoiceBaseAssayComponent: null,
     invoiceBasePriceComponent: null,
     initWidget: function () {
@@ -27,7 +28,7 @@ isc.defineClass("InvoiceCalculation", isc.VLayout).addProperties({
             }));
         }
 
-        This.addMember(isc.DynamicForm.create({
+        this.addMember(isc.DynamicForm.create({
             width: "100%",
             fields: fields,
             itemChanged: function (item, newValue) {
@@ -41,16 +42,21 @@ isc.defineClass("InvoiceCalculation", isc.VLayout).addProperties({
                 );
             }
         }));
-        This.addMember(isc.Lable.create({
-            value: 0,
-            contents: '',
-            width: '100%'
+        this.addMember(isc.Unit.create({
+            border: "1px solid rgba(0, 0, 0, 0.3)",
+            disabledUnitField: true,
+            disabledValueField: true,
+            showValueFieldTitle: true,
+            showUnitFieldTitle: false,
+            unitCategory: This.currency.categoryUnit,
+            fieldValueTitle: "<spring:message code='foreign-invoice.form.tab.subtotal'/>"
         }));
+        this.members.last().setUnitId(this.currency.id);
     },
     getValue: function () {
         return this.members[0].getValues();
     },
     getSumValue: function () {
-        return this.members[1].value;
+        return this.members[1].getValue();
     }
 });

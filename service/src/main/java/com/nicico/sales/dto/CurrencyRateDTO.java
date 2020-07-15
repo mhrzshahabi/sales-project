@@ -27,8 +27,8 @@ public class CurrencyRateDTO {
     @Temporal(TemporalType.TIMESTAMP)
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date currencyDate;
-    private SymbolUnit.SymbolCUR symbolCF;
-    private SymbolUnit.SymbolCUR symbolCT;
+    private SymbolUnit symbolCF;
+    private SymbolUnit symbolCT;
     private RateReference reference;
     private BigDecimal currencyRateValue;
 

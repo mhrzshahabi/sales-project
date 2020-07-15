@@ -5,6 +5,7 @@ import com.nicico.sales.model.enumeration.RateReference;
 import com.nicico.sales.model.enumeration.SymbolUnit;
 import lombok.*;
 import lombok.experimental.Accessors;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
@@ -33,21 +34,22 @@ public class CurrencyRate extends BaseEntity {
     private Long id;
 
     @NotNull
-    @Column(name = "D_CURRENCY_DATE" , nullable = false)
+    @Column(name = "D_CURRENCY_DATE", nullable = false)
     private Date currencyDate;
 
     @NotNull
     @Column(name = "N_FROM", nullable = false)
-    private SymbolUnit.SymbolCUR symbolCF;
+    private SymbolUnit symbolCF;
 
     @NotNull
     @Column(name = "N_TO", nullable = false)
-    private SymbolUnit.SymbolCUR symbolCT;
+    private SymbolUnit symbolCT;
 
     @NotNull
     @Column(name = "N_REFERENCE", nullable = false)
     private RateReference reference;
 
+    @NotNull
     @Column(name = "N_CURRENCY_RATE_VALUE" , scale = 2 , precision = 10, nullable = false)
     private BigDecimal currencyRateValue;
 

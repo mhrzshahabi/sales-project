@@ -27,50 +27,44 @@ isc.defineClass("InvoicePayment", isc.VLayout).addProperties({
                 let sumFIPrice = unitPrice * This.invoiceBaseWeightComponent.getValues().weightND;
                 fields.add(isc.Unit.create({
                     isResult: false,
-                    unitCategory: 1,
+                    unitCategory: This.currency.categoryUnit,
                     disabledUnitField: true,
                     disabledValueField: true,
-                    disabledCurrencyField: true,
                     showValueFieldTitle: true,
                     showUnitFieldTitle: false,
-                    showCurrencyFieldTitle: false,
                     showUnitField: false,
                     name: "unitPrice",
                     fieldValueTitle: '<spring:message code="foreign-invoice.form.unit-price"/>',
                     border: "1px solid rgba(0, 0, 0, 0.3)",
                 }));
                 fields.last().setValue(unitPrice);
-                fields.last().setUnitId(This.currency.symbol);
+                fields.last().setUnitId(This.currency.id);
 
                 fields.add(isc.Unit.create({
                     isResult: true,
-                    unitCategory: 1,
+                    unitCategory: This.currency.categoryUnit,
                     disabledUnitField: true,
                     disabledValueField: true,
-                    disabledCurrencyField: true,
                     showValueFieldTitle: true,
                     showUnitFieldTitle: false,
-                    showCurrencyFieldTitle: false,
                     showUnitField: false,
                     name: "sumFIPrice",
                     fieldValueTitle: '<spring:message code="foreign-invoice.form.sum-fi-price"/>',
                     border: "1px solid rgba(0, 0, 0, 0.3)",
                 }));
                 fields.last().setValue(sumFIPrice);
-                fields.last().setUnitId(This.currency.symbol);
+                fields.last().setUnitId(This.currency.id);
 
                 let piValues = JSON.parse(resp.data);
                 for (let index = 0; index < piValues.length; index++) {
 
                     fields.add(isc.Unit.create({
                         isResult: true,
-                        unitCategory: 1,
+                        unitCategory: piValues[index].currency.categoryUnit,
                         disabledUnitField: true,
                         disabledValueField: true,
-                        disabledCurrencyField: true,
                         showValueFieldTitle: true,
                         showUnitFieldTitle: false,
-                        showCurrencyFieldTitle: false,
                         showUnitField: false,
                         piData: piValues[index],
                         name: "sumPIPrice_" + piValues[index].no,
@@ -82,7 +76,7 @@ isc.defineClass("InvoicePayment", isc.VLayout).addProperties({
                         }
                     }));
                     fields.last().setValue(piValues[index].sumPrice * -1);
-                    fields.last().setUnitId(piValues[index].currency.symbol);
+                    fields.last().setUnitId(piValues[index].currency.id);
                 }
 
                 let valuesForm = isc.DynamicForm.create({
@@ -154,19 +148,17 @@ isc.defineClass("InvoicePayment", isc.VLayout).addProperties({
                 let sumOfVOtherValuesGrid = otherValuesGrid.getData().map(q => q.finalValue).sum();
                 let sumOfValuesForm = valuesForm.fields.filter(q => q.isResult).map(q => q.getValue()).sum();
                 fields.add(isc.Unit.create({
-                    unitCategory: 1,
+                    unitCategory: This.currency.categoryUnit,
                     disabledUnitField: true,
                     disabledValueField: true,
-                    disabledCurrencyField: true,
                     showValueFieldTitle: true,
                     showUnitFieldTitle: false,
-                    showCurrencyFieldTitle: false,
                     showUnitField: false,
                     name: "sumPrice",
                     fieldValueTitle: '<spring:message code="foreign-invoice.form.sum-price"/>',
                     border: "1px solid rgba(0, 0, 0, 0.3)",
                 }));
-                fields.last().setUnitId(This.currency.symbol);
+                fields.last().setUnitId(This.currency.id);
                 fields.last().setValue(sumOfValuesForm + sumOfVOtherValuesGrid);
 
                 fields.add({
@@ -247,35 +239,31 @@ isc.defineClass("InvoicePayment", isc.VLayout).addProperties({
                 });
                 fields.add(isc.Unit.create({
                     required: true,
-                    unitCategory: 1,
+                    unitCategory: This.currency.categoryUnit,
                     disabledUnitField: true,
                     disabledValueField: true,
-                    disabledCurrencyField: true,
                     showValueFieldTitle: true,
                     showUnitFieldTitle: false,
-                    showCurrencyFieldTitle: false,
                     showUnitField: false,
                     name: "conversionSumPrice",
                     fieldValueTitle: "<spring:message code='foreign-invoice.form.conversion-sum-price'/>",
                     border: "1px solid rgba(0, 0, 0, 0.3)",
                 }));
-                fields.last().setUnitId(This.currency.symbol);
+                fields.last().setUnitId(This.currency.id);
 
                 fields.add(isc.Unit.create({
                     required: true,
-                    unitCategory: 1,
+                    unitCategory: This.currency.categoryUnit,
                     disabledUnitField: true,
                     disabledValueField: true,
-                    disabledCurrencyField: true,
                     showValueFieldTitle: true,
                     showUnitFieldTitle: false,
-                    showCurrencyFieldTitle: false,
                     showUnitField: false,
                     name: "conversionSumPriceText",
                     fieldValueTitle: "<spring:message code='foreign-invoice.form.conversion-sum-price-text'/>",
                     border: "1px solid rgba(0, 0, 0, 0.3)",
                 }));
-                fields.last().setUnitId(This.currency.symbol);
+                fields.last().setUnitId(This.currency.id);
 
                 This.addMember(isc.DynamicForm.create({
                     width: "100%",
