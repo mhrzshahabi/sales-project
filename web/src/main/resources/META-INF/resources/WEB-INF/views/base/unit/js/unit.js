@@ -35,7 +35,7 @@ unitTab.dynamicForm.fields = BaseFormItems.concat([
         type: 'text',
         required: true,
         width: "100%",
-        valueMap:JSON.parse('${Enum_SymbolUnit_WithValue}')
+        valueMap:JSON.parse('${Enum_SymbolUnit}')
     },
     {
         name: "categoryUnit",

@@ -25,11 +25,10 @@ public class UnitFormController {
     @RequestMapping("/show-form")
     public String showUnit(HttpServletRequest request) throws JsonProcessingException {
 
-        request.setAttribute("Enum_SymbolUnit_WithValue", objectMapper.writeValueAsString(
-                Arrays.stream(SymbolUnit.values()).
-                        collect(Collectors.
-                                toMap(SymbolUnit::name, SymbolUnit::name)))
-        );
+        Map<String, String> symbolUnit = new HashMap<>();
+        for (SymbolUnit value : SymbolUnit.values()) symbolUnit.put(value.name(), value.name());
+        request.setAttribute("Enum_SymbolUnit", objectMapper.writeValueAsString(symbolUnit));
+
 
         Map<String, String> categoryUnit = new HashMap<>();
         for (CategoryUnit value : CategoryUnit.values()) categoryUnit.put(value.name(), value.name());
