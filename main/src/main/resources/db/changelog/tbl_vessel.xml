@@ -1,0 +1,253 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+<changeSet id="j.azad" author="J.AZAD-044">
+    <sql>
+        Insert into TBL_VESSEL (ID, C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION,
+        N_E_STATUS, B_EDITABLE, BEAM, IMO, LENGTH, VESSEL_NAME, TYPE, YEAR_OF_BUILD)
+        values (86, 'db_mazloom', to_timestamp('02-MAY-20 07.51.13.493000000 AM', 'DD-MON-RR HH.MI.SSXFF AM'), null, null, 0, 1,
+        1, 40, 9290945, 276, 'ADMIRAL GLOBE', 'Bulk Carrier', 2004);
+        Insert into TBL_VESSEL (ID, C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION,
+        N_E_STATUS, B_EDITABLE, BEAM, IMO, LENGTH, VESSEL_NAME, TYPE, YEAR_OF_BUILD)
+        values (29, 'db_mazloom', to_timestamp('02-MAY-20 05.43.12.569000000 AM', 'DD-MON-RR HH.MI.SSXFF AM'), null, null, 0, 1,
+        1, 40, 9290799, 276.2, 'TESSA ', 'Container Ship', 2008);
+        Insert into TBL_VESSEL (ID, C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION,
+        N_E_STATUS, B_EDITABLE, BEAM, IMO, LENGTH, VESSEL_NAME, TYPE, YEAR_OF_BUILD)
+        values (30, 'db_mazloom', to_timestamp('02-MAY-20 05.44.52.519000000 AM', 'DD-MON-RR HH.MI.SSXFF AM'), null, null, 0, 1,
+        1, 32.33, 9169500, 231.54, 'INTER SYDNEY', 'Container Ship', 1998);
+        Insert into TBL_VESSEL (ID, C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION,
+        N_E_STATUS, B_EDITABLE, BEAM, IMO, LENGTH, VESSEL_NAME, TYPE, YEAR_OF_BUILD)
+        values (31, 'db_mazloom', to_timestamp('02-MAY-20 05.46.03.252000000 AM', 'DD-MON-RR HH.MI.SSXFF AM'), null, null, 0, 1,
+        1, 40.06, 9306287, 304.13, 'EMIRATES DANA', 'Container Ship', 2007);
+        Insert into TBL_VESSEL (ID, C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION,
+        N_E_STATUS, B_EDITABLE, BEAM, IMO, LENGTH, VESSEL_NAME, TYPE, YEAR_OF_BUILD)
+        values (32, 'db_mazloom', to_timestamp('02-MAY-20 05.47.02.492000000 AM', 'DD-MON-RR HH.MI.SSXFF AM'), null, null, 0, 1,
+        1, 28.2, 9557240, 177.4, 'SEA TOPAZ', 'Bulk Carrier', 2010);
+        Insert into TBL_VESSEL (ID, C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION,
+        N_E_STATUS, B_EDITABLE, BEAM, IMO, LENGTH, VESSEL_NAME, TYPE, YEAR_OF_BUILD)
+        values (33, 'db_mazloom', to_timestamp('02-MAY-20 05.49.54.277000000 AM', 'DD-MON-RR HH.MI.SSXFF AM'), 'db_mazloom',
+        to_timestamp('02-MAY-20 05.50.31.179000000 AM', 'DD-MON-RR HH.MI.SSXFF AM'), 1, 1, 1, 27, 9593672, 161,
+        'KOTA BAHAGIA', 'Bulk Carrier', 2011);
+        Insert into TBL_VESSEL (ID, C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION,
+        N_E_STATUS, B_EDITABLE, BEAM, IMO, LENGTH, VESSEL_NAME, TYPE, YEAR_OF_BUILD)
+        values (34, 'db_mazloom', to_timestamp('02-MAY-20 05.53.54.370000000 AM', 'DD-MON-RR HH.MI.SSXFF AM'), 'db_mazloom',
+        to_timestamp('02-MAY-20 05.54.07.517000000 AM', 'DD-MON-RR HH.MI.SSXFF AM'), 1, 1, 1, 25, 9424546, 168,
+        'HHL RIO DE JANEIRO', 'Bulk Carrier', 2009);
+        Insert into TBL_VESSEL (ID, C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION,
+        N_E_STATUS, B_EDITABLE, BEAM, IMO, LENGTH, VESSEL_NAME, TYPE, YEAR_OF_BUILD)
+        values (35, 'db_mazloom', to_timestamp('02-MAY-20 05.55.24.757000000 AM', 'DD-MON-RR HH.MI.SSXFF AM'), null, null, 0, 1,
+        1, 40.06, 9306184, 304, 'EMIRATES SANA', 'Container Ship', 2006);
+        Insert into TBL_VESSEL (ID, C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION,
+        N_E_STATUS, B_EDITABLE, BEAM, IMO, LENGTH, VESSEL_NAME, TYPE, YEAR_OF_BUILD)
+        values (36, 'db_mazloom', to_timestamp('02-MAY-20 05.56.35.523000000 AM', 'DD-MON-RR HH.MI.SSXFF AM'), null, null, 0, 1,
+        1, 28.4, 9555280, 179.9, 'CHANG AN', 'Bulk Carrier', 2009);
+        Insert into TBL_VESSEL (ID, C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION,
+        N_E_STATUS, B_EDITABLE, BEAM, IMO, LENGTH, VESSEL_NAME, TYPE, YEAR_OF_BUILD)
+        values (37, 'db_mazloom', to_timestamp('02-MAY-20 05.57.41.641000000 AM', 'DD-MON-RR HH.MI.SSXFF AM'), null, null, 0, 1,
+        1, 27, 9370317, 170.7, 'AGIA ELENI', 'Bulk Carrier', 2008);
+        Insert into TBL_VESSEL (ID, C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION,
+        N_E_STATUS, B_EDITABLE, BEAM, IMO, LENGTH, VESSEL_NAME, TYPE, YEAR_OF_BUILD)
+        values (38, 'db_mazloom', to_timestamp('02-MAY-20 05.59.04.338000000 AM', 'DD-MON-RR HH.MI.SSXFF AM'), null, null, 0, 1,
+        1, 17.9, 9121895, 99.99, 'AURELIA', 'Container Ship', 1998);
+        Insert into TBL_VESSEL (ID, C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION,
+        N_E_STATUS, B_EDITABLE, BEAM, IMO, LENGTH, VESSEL_NAME, TYPE, YEAR_OF_BUILD)
+        values (39, 'db_mazloom', to_timestamp('02-MAY-20 06.00.21.919000000 AM', 'DD-MON-RR HH.MI.SSXFF AM'), 'db_mazloom',
+        to_timestamp('02-MAY-20 06.01.39.939000000 AM', 'DD-MON-RR HH.MI.SSXFF AM'), 1, 1, 1, 19.4, 9459448, 118.35,
+        'MARIWIT', 'Bulk Carrier', 2009);
+        Insert into TBL_VESSEL (ID, C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION,
+        N_E_STATUS, B_EDITABLE, BEAM, IMO, LENGTH, VESSEL_NAME, TYPE, YEAR_OF_BUILD)
+        values (40, 'db_mazloom', to_timestamp('02-MAY-20 06.02.38.028000000 AM', 'DD-MON-RR HH.MI.SSXFF AM'), null, null, 0, 1,
+        1, 26, 9497505, 176.2, 'GAIL', 'Bulk Carrier', 2011);
+        Insert into TBL_VESSEL (ID, C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION,
+        N_E_STATUS, B_EDITABLE, BEAM, IMO, LENGTH, VESSEL_NAME, TYPE, YEAR_OF_BUILD)
+        values (41, 'db_mazloom', to_timestamp('02-MAY-20 06.03.35.079000000 AM', 'DD-MON-RR HH.MI.SSXFF AM'), 'db_mazloom',
+        to_timestamp('02-MAY-20 06.03.45.672000000 AM', 'DD-MON-RR HH.MI.SSXFF AM'), 1, 1, 1, 25, 9651955, 145.5,
+        'HAN REN', 'Bulk Carrier', 2012);
+        Insert into TBL_VESSEL (ID, C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION,
+        N_E_STATUS, B_EDITABLE, BEAM, IMO, LENGTH, VESSEL_NAME, TYPE, YEAR_OF_BUILD)
+        values (42, 'db_mazloom', to_timestamp('02-MAY-20 06.05.01.546000000 AM', 'DD-MON-RR HH.MI.SSXFF AM'), null, null, 0, 1,
+        1, 27, 9324722, 169, 'DANNY BOY', 'Bulk Carrier', 2005);
+        Insert into TBL_VESSEL (ID, C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION,
+        N_E_STATUS, B_EDITABLE, BEAM, IMO, LENGTH, VESSEL_NAME, TYPE, YEAR_OF_BUILD)
+        values (43, 'db_mazloom', to_timestamp('02-MAY-20 06.08.55.784000000 AM', 'DD-MON-RR HH.MI.SSXFF AM'), null, null, 0, 1,
+        1, 32.24, 9228538, 208.03, 'CHIEF', 'Container Ship', 2001);
+        Insert into TBL_VESSEL (ID, C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION,
+        N_E_STATUS, B_EDITABLE, BEAM, IMO, LENGTH, VESSEL_NAME, TYPE, YEAR_OF_BUILD)
+        values (44, 'db_mazloom', to_timestamp('02-MAY-20 06.10.12.775000000 AM', 'DD-MON-RR HH.MI.SSXFF AM'), null, null, 0, 1,
+        1, 22.8, 9109524, 148.17, 'U THAR', 'Bulk Carrier', 1995);
+        Insert into TBL_VESSEL (ID, C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION,
+        N_E_STATUS, B_EDITABLE, BEAM, IMO, LENGTH, VESSEL_NAME, TYPE, YEAR_OF_BUILD)
+        values (45, 'db_mazloom', to_timestamp('02-MAY-20 06.16.47.127000000 AM', 'DD-MON-RR HH.MI.SSXFF AM'), 'db_mazloom',
+        to_timestamp('02-MAY-20 06.17.18.297000000 AM', 'DD-MON-RR HH.MI.SSXFF AM'), 1, 1, 1, 16, 9752400, 63, 'ONYX',
+        'Bulk Carrier', 2015);
+        Insert into TBL_VESSEL (ID, C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION,
+        N_E_STATUS, B_EDITABLE, BEAM, IMO, LENGTH, VESSEL_NAME, TYPE, YEAR_OF_BUILD)
+        values (46, 'db_mazloom', to_timestamp('02-MAY-20 06.19.13.300000000 AM', 'DD-MON-RR HH.MI.SSXFF AM'), 'db_mazloom',
+        to_timestamp('02-MAY-20 06.19.30.944000000 AM', 'DD-MON-RR HH.MI.SSXFF AM'), 1, 1, 1, 13.4, 9623362, 79.99,
+        'FAITH', 'Bulk Carrier', 2011);
+        Insert into TBL_VESSEL (ID, C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION,
+        N_E_STATUS, B_EDITABLE, BEAM, IMO, LENGTH, VESSEL_NAME, TYPE, YEAR_OF_BUILD)
+        values (47, 'db_mazloom', to_timestamp('02-MAY-20 06.24.18.130000000 AM', 'DD-MON-RR HH.MI.SSXFF AM'), 'db_mazloom',
+        to_timestamp('02-MAY-20 06.24.51.134000000 AM', 'DD-MON-RR HH.MI.SSXFF AM'), 1, 1, 1, 26, 9198379, 154.38,
+        'TAN BINH ', 'Bulk Carrier', 1999);
+        Insert into TBL_VESSEL (ID, C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION,
+        N_E_STATUS, B_EDITABLE, BEAM, IMO, LENGTH, VESSEL_NAME, TYPE, YEAR_OF_BUILD)
+        values (48, 'db_mazloom', to_timestamp('02-MAY-20 06.29.39.066000000 AM', 'DD-MON-RR HH.MI.SSXFF AM'), null, null, 0, 1,
+        1, 32.2, 9294202, 189.96, 'RAINBOW', 'Bulk Carrier', 2004);
+        Insert into TBL_VESSEL (ID, C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION,
+        N_E_STATUS, B_EDITABLE, BEAM, IMO, LENGTH, VESSEL_NAME, TYPE, YEAR_OF_BUILD)
+        values (49, 'db_mazloom', to_timestamp('02-MAY-20 06.37.22.484000000 AM', 'DD-MON-RR HH.MI.SSXFF AM'), 'db_mazloom',
+        to_timestamp('02-MAY-20 06.37.33.996000000 AM', 'DD-MON-RR HH.MI.SSXFF AM'), 1, 1, 1, 21, 9358022, 138,
+        'BBC MAPLE LOTTA', 'Bulk Carrier', 2007);
+        Insert into TBL_VESSEL (ID, C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION,
+        N_E_STATUS, B_EDITABLE, BEAM, IMO, LENGTH, VESSEL_NAME, TYPE, YEAR_OF_BUILD)
+        values (50, 'db_mazloom', to_timestamp('02-MAY-20 06.39.01.181000000 AM', 'DD-MON-RR HH.MI.SSXFF AM'), 'db_mazloom',
+        to_timestamp('02-MAY-20 06.39.14.264000000 AM', 'DD-MON-RR HH.MI.SSXFF AM'), 1, 1, 1, 21, 9435117, 138,
+        'BBC COLORADO', 'Bulk Carrier', 2008);
+        Insert into TBL_VESSEL (ID, C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION,
+        N_E_STATUS, B_EDITABLE, BEAM, IMO, LENGTH, VESSEL_NAME, TYPE, YEAR_OF_BUILD)
+        values (51, 'db_mazloom', to_timestamp('02-MAY-20 06.40.20.178000000 AM', 'DD-MON-RR HH.MI.SSXFF AM'), null, null, 0, 1,
+        1, 32.2, 9347580, 294.12, 'HYUNDAI/VOYAGER', 'Container Ship', 2008);
+        Insert into TBL_VESSEL (ID, C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION,
+        N_E_STATUS, B_EDITABLE, BEAM, IMO, LENGTH, VESSEL_NAME, TYPE, YEAR_OF_BUILD)
+        values (52, 'db_mazloom', to_timestamp('02-MAY-20 06.42.29.620000000 AM', 'DD-MON-RR HH.MI.SSXFF AM'), null, null, 0, 1,
+        1, 26, 9282780, 176, 'TEAM CHALLENGE', 'Bulk Carrier', 2004);
+        Insert into TBL_VESSEL (ID, C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION,
+        N_E_STATUS, B_EDITABLE, BEAM, IMO, LENGTH, VESSEL_NAME, TYPE, YEAR_OF_BUILD)
+        values (53, 'db_mazloom', to_timestamp('02-MAY-20 06.43.32.630000000 AM', 'DD-MON-RR HH.MI.SSXFF AM'), null, null, 0, 1,
+        1, 40.3, 9222302, 300.4, 'DIAPOROS', 'Container Ship', 2001);
+        Insert into TBL_VESSEL (ID, C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION,
+        N_E_STATUS, B_EDITABLE, BEAM, IMO, LENGTH, VESSEL_NAME, TYPE, YEAR_OF_BUILD)
+        values (54, 'db_mazloom', to_timestamp('02-MAY-20 06.44.20.761000000 AM', 'DD-MON-RR HH.MI.SSXFF AM'), 'db_mazloom',
+        to_timestamp('02-MAY-20 06.44.33.194000000 AM', 'DD-MON-RR HH.MI.SSXFF AM'), 1, 1, 1, 23, 9571375, 143,
+        'BBC NILE', 'Bulk Carrier', 2011);
+        Insert into TBL_VESSEL (ID, C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION,
+        N_E_STATUS, B_EDITABLE, BEAM, IMO, LENGTH, VESSEL_NAME, TYPE, YEAR_OF_BUILD)
+        values (55, 'db_mazloom', to_timestamp('02-MAY-20 06.52.35.761000000 AM', 'DD-MON-RR HH.MI.SSXFF AM'), null, null, 0, 1,
+        1, 27, 9416769, 180, 'KONG QUE SONG', 'Bulk Carrier', 2010);
+        Insert into TBL_VESSEL (ID, C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION,
+        N_E_STATUS, B_EDITABLE, BEAM, IMO, LENGTH, VESSEL_NAME, TYPE, YEAR_OF_BUILD)
+        values (56, 'db_mazloom', to_timestamp('02-MAY-20 06.53.42.724000000 AM', 'DD-MON-RR HH.MI.SSXFF AM'), null, null, 0, 1,
+        1, 27, 9302918, 172, 'TEAM SAMBA', 'Bulk Carrier', 2005);
+        Insert into TBL_VESSEL (ID, C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION,
+        N_E_STATUS, B_EDITABLE, BEAM, IMO, LENGTH, VESSEL_NAME, TYPE, YEAR_OF_BUILD)
+        values (57, 'db_mazloom', to_timestamp('02-MAY-20 06.54.42.554000000 AM', 'DD-MON-RR HH.MI.SSXFF AM'), null, null, 0, 1,
+        1, 27, 9608843, 180, 'MU MIAN SONG', 'Bulk Carrier', 2012);
+        Insert into TBL_VESSEL (ID, C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION,
+        N_E_STATUS, B_EDITABLE, BEAM, IMO, LENGTH, VESSEL_NAME, TYPE, YEAR_OF_BUILD)
+        values (58, 'db_mazloom', to_timestamp('02-MAY-20 06.55.34.766000000 AM', 'DD-MON-RR HH.MI.SSXFF AM'), null, null, 0, 1,
+        1, 27, 9445148, 169, 'INASE', 'Bulk Carrier', 2008);
+        Insert into TBL_VESSEL (ID, C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION,
+        N_E_STATUS, B_EDITABLE, BEAM, IMO, LENGTH, VESSEL_NAME, TYPE, YEAR_OF_BUILD)
+        values (59, 'db_mazloom', to_timestamp('02-MAY-20 06.56.56.454000000 AM', 'DD-MON-RR HH.MI.SSXFF AM'), null, null, 0, 1,
+        1, 32, 9437062, 294, 'BALBIN', 'Bulk Carrier', 2010);
+        Insert into TBL_VESSEL (ID, C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION,
+        N_E_STATUS, B_EDITABLE, BEAM, IMO, LENGTH, VESSEL_NAME, TYPE, YEAR_OF_BUILD)
+        values (60, 'db_mazloom', to_timestamp('02-MAY-20 06.58.47.274000000 AM', 'DD-MON-RR HH.MI.SSXFF AM'), null, null, 0, 1,
+        1, 30, 9693501, 180, 'BUDVA', 'Bulk Carrier', 2014);
+        Insert into TBL_VESSEL (ID, C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION,
+        N_E_STATUS, B_EDITABLE, BEAM, IMO, LENGTH, VESSEL_NAME, TYPE, YEAR_OF_BUILD)
+        values (61, 'db_mazloom', to_timestamp('02-MAY-20 07.00.13.410000000 AM', 'DD-MON-RR HH.MI.SSXFF AM'), null, null, 0, 1,
+        1, 29, 9597642, 180, 'ACACIA', 'Bulk Carrier', 2011);
+        Insert into TBL_VESSEL (ID, C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION,
+        N_E_STATUS, B_EDITABLE, BEAM, IMO, LENGTH, VESSEL_NAME, TYPE, YEAR_OF_BUILD)
+        values (62, 'db_mazloom', to_timestamp('02-MAY-20 07.01.09.028000000 AM', 'DD-MON-RR HH.MI.SSXFF AM'), null, null, 0, 1,
+        1, 28, 9595981, 190, 'GULL WING', 'Bulk Carrier', 2013);
+        Insert into TBL_VESSEL (ID, C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION,
+        N_E_STATUS, B_EDITABLE, BEAM, IMO, LENGTH, VESSEL_NAME, TYPE, YEAR_OF_BUILD)
+        values (63, 'db_mazloom', to_timestamp('02-MAY-20 07.02.30.895000000 AM', 'DD-MON-RR HH.MI.SSXFF AM'), null, null, 0, 1,
+        1, 27, 9608910, 180, 'ZI JING SONG', 'Bulk Carrier', 2012);
+        Insert into TBL_VESSEL (ID, C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION,
+        N_E_STATUS, B_EDITABLE, BEAM, IMO, LENGTH, VESSEL_NAME, TYPE, YEAR_OF_BUILD)
+        values (64, 'db_mazloom', to_timestamp('02-MAY-20 07.03.29.412000000 AM', 'DD-MON-RR HH.MI.SSXFF AM'), null, null, 0, 1,
+        1, 16, 9199701, 93, 'LYNX', 'Bulk Carrier', 1999);
+        Insert into TBL_VESSEL (ID, C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION,
+        N_E_STATUS, B_EDITABLE, BEAM, IMO, LENGTH, VESSEL_NAME, TYPE, YEAR_OF_BUILD)
+        values (65, 'db_mazloom', to_timestamp('02-MAY-20 07.04.14.425000000 AM', 'DD-MON-RR HH.MI.SSXFF AM'), null, null, 0, 1,
+        1, 27, 9561916, 171, 'ALAM SURIA', 'Bulk Carrier', 2012);
+        Insert into TBL_VESSEL (ID, C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION,
+        N_E_STATUS, B_EDITABLE, BEAM, IMO, LENGTH, VESSEL_NAME, TYPE, YEAR_OF_BUILD)
+        values (66, 'db_mazloom', to_timestamp('02-MAY-20 07.05.09.242000000 AM', 'DD-MON-RR HH.MI.SSXFF AM'), null, null, 0, 1,
+        1, 26, 9192686, 182, 'LE CONG', 'Bulk Carrier', 2000);
+        Insert into TBL_VESSEL (ID, C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION,
+        N_E_STATUS, B_EDITABLE, BEAM, IMO, LENGTH, VESSEL_NAME, TYPE, YEAR_OF_BUILD)
+        values (67, 'db_mazloom', to_timestamp('02-MAY-20 07.06.29.023000000 AM', 'DD-MON-RR HH.MI.SSXFF AM'), null, null, 0, 1,
+        1, 19, 9665853, 124, 'APOLLO NEO', 'Bulk Carrier', 2011);
+        Insert into TBL_VESSEL (ID, C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION,
+        N_E_STATUS, B_EDITABLE, BEAM, IMO, LENGTH, VESSEL_NAME, TYPE, YEAR_OF_BUILD)
+        values (68, 'db_mazloom', to_timestamp('02-MAY-20 07.08.28.910000000 AM', 'DD-MON-RR HH.MI.SSXFF AM'), null, null, 0, 1,
+        1, 30, 9546215, 180, 'EURO SKY', 'Bulk Carrier', 2011);
+        Insert into TBL_VESSEL (ID, C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION,
+        N_E_STATUS, B_EDITABLE, BEAM, IMO, LENGTH, VESSEL_NAME, TYPE, YEAR_OF_BUILD)
+        values (70, 'db_mazloom', to_timestamp('02-MAY-20 07.11.07.255000000 AM', 'DD-MON-RR HH.MI.SSXFF AM'), null, null, 0, 1,
+        1, 28, 9611618, 179, 'THURGAU', 'Bulk Carrier', 2011);
+        Insert into TBL_VESSEL (ID, C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION,
+        N_E_STATUS, B_EDITABLE, BEAM, IMO, LENGTH, VESSEL_NAME, TYPE, YEAR_OF_BUILD)
+        values (71, 'db_mazloom', to_timestamp('02-MAY-20 07.12.27.478000000 AM', 'DD-MON-RR HH.MI.SSXFF AM'), 'db_mazloom',
+        to_timestamp('18-MAY-20 04.04.50.032000000 AM', 'DD-MON-RR HH.MI.SSXFF AM'), 1, 1, 1, 48, 9637258, 366,
+        'HYUNDAI VICTORY', 'Container Ship', 2014);
+        Insert into TBL_VESSEL (ID, C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION,
+        N_E_STATUS, B_EDITABLE, BEAM, IMO, LENGTH, VESSEL_NAME, TYPE, YEAR_OF_BUILD)
+        values (72, 'db_mazloom', to_timestamp('02-MAY-20 07.14.05.407000000 AM', 'DD-MON-RR HH.MI.SSXFF AM'), null, null, 0, 1,
+        1, 28, 9625566, 179, 'LUO ZHOU', 'Bulk Carrier', 2011);
+        Insert into TBL_VESSEL (ID, C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION,
+        N_E_STATUS, B_EDITABLE, BEAM, IMO, LENGTH, VESSEL_NAME, TYPE, YEAR_OF_BUILD)
+        values (73, 'db_mazloom', to_timestamp('02-MAY-20 07.14.42.672000000 AM', 'DD-MON-RR HH.MI.SSXFF AM'), null, null, 0, 1,
+        1, 27, 9553804, 170, 'GANT GRACE', 'Bulk Carrier', 2010);
+        Insert into TBL_VESSEL (ID, C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION,
+        N_E_STATUS, B_EDITABLE, BEAM, IMO, LENGTH, VESSEL_NAME, TYPE, YEAR_OF_BUILD)
+        values (74, 'db_mazloom', to_timestamp('02-MAY-20 07.17.50.304000000 AM', 'DD-MON-RR HH.MI.SSXFF AM'), null, null, 0, 1,
+        1, 12, 8808288, 68, 'JI XIANG', 'Bulk Carrier', 1988);
+        Insert into TBL_VESSEL (ID, C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION,
+        N_E_STATUS, B_EDITABLE, BEAM, IMO, LENGTH, VESSEL_NAME, TYPE, YEAR_OF_BUILD)
+        values (75, 'db_mazloom', to_timestamp('02-MAY-20 07.20.15.729000000 AM', 'DD-MON-RR HH.MI.SSXFF AM'), null, null, 0, 1,
+        1, 40, 9224506, 284, 'WANHAl', 'Container Ship', 2001);
+        Insert into TBL_VESSEL (ID, C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION,
+        N_E_STATUS, B_EDITABLE, BEAM, IMO, LENGTH, VESSEL_NAME, TYPE, YEAR_OF_BUILD)
+        values (76, 'db_mazloom', to_timestamp('02-MAY-20 07.21.09.087000000 AM', 'DD-MON-RR HH.MI.SSXFF AM'), null, null, 0, 1,
+        1, 40, 7019141, 261, 'HOPE STAR', 'Bulk Carrier', 1970);
+        Insert into TBL_VESSEL (ID, C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION,
+        N_E_STATUS, B_EDITABLE, BEAM, IMO, LENGTH, VESSEL_NAME, TYPE, YEAR_OF_BUILD)
+        values (77, 'db_mazloom', to_timestamp('02-MAY-20 07.21.54.029000000 AM', 'DD-MON-RR HH.MI.SSXFF AM'), null, null, 0, 1,
+        1, 26, 9192698, 182, 'LE HE', 'Bulk Carrier', 2001);
+        Insert into TBL_VESSEL (ID, C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION,
+        N_E_STATUS, B_EDITABLE, BEAM, IMO, LENGTH, VESSEL_NAME, TYPE, YEAR_OF_BUILD)
+        values (78, 'db_mazloom', to_timestamp('02-MAY-20 07.23.02.888000000 AM', 'DD-MON-RR HH.MI.SSXFF AM'), null, null, 0, 1,
+        1, 40, 9306160, 340, 'EMIRATES WAFA', 'Container Ship', 2006);
+        Insert into TBL_VESSEL (ID, C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION,
+        N_E_STATUS, B_EDITABLE, BEAM, IMO, LENGTH, VESSEL_NAME, TYPE, YEAR_OF_BUILD)
+        values (79, 'db_mazloom', to_timestamp('02-MAY-20 07.26.07.193000000 AM', 'DD-MON-RR HH.MI.SSXFF AM'), null, null, 0, 1,
+        1, 32, 9235086, 260, 'OEL-TRANSWORD', 'Container Ship', 2000);
+        Insert into TBL_VESSEL (ID, C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION,
+        N_E_STATUS, B_EDITABLE, BEAM, IMO, LENGTH, VESSEL_NAME, TYPE, YEAR_OF_BUILD)
+        values (69, 'db_mazloom', to_timestamp('02-MAY-20 07.09.14.915000000 AM', 'DD-MON-RR HH.MI.SSXFF AM'), null, null, 0, 1,
+        1, 27, 9608831, 180, 'MU DAN SONG', 'Bulk Carrier', 2012);
+        Insert into TBL_VESSEL (ID, C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION,
+        N_E_STATUS, B_EDITABLE, BEAM, IMO, LENGTH, VESSEL_NAME, TYPE, YEAR_OF_BUILD)
+        values (80, 'db_mazloom', to_timestamp('02-MAY-20 07.43.20.923000000 AM', 'DD-MON-RR HH.MI.SSXFF AM'), null, null, 0, 1,
+        1, 32, 9104902, 245, 'OEL-EMIRATES', 'Container Ship', 1995);
+        Insert into TBL_VESSEL (ID, C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION,
+        N_E_STATUS, B_EDITABLE, BEAM, IMO, LENGTH, VESSEL_NAME, TYPE, YEAR_OF_BUILD)
+        values (81, 'db_mazloom', to_timestamp('02-MAY-20 07.44.15.236000000 AM', 'DD-MON-RR HH.MI.SSXFF AM'), null, null, 0, 1,
+        1, 40, 9168879, 285, 'EVER USEFUL', ' Container Ship', 1999);
+        Insert into TBL_VESSEL (ID, C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION,
+        N_E_STATUS, B_EDITABLE, BEAM, IMO, LENGTH, VESSEL_NAME, TYPE, YEAR_OF_BUILD)
+        values (82, 'db_mazloom', to_timestamp('02-MAY-20 07.45.11.248000000 AM', 'DD-MON-RR HH.MI.SSXFF AM'), null, null, 0, 1,
+        1, 28, 9431898, 185, 'HUAYANG SUNRISE', 'Bulk Carrier', 2011);
+        Insert into TBL_VESSEL (ID, C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION,
+        N_E_STATUS, B_EDITABLE, BEAM, IMO, LENGTH, VESSEL_NAME, TYPE, YEAR_OF_BUILD)
+        values (83, 'db_mazloom', to_timestamp('02-MAY-20 07.45.51.053000000 AM', 'DD-MON-RR HH.MI.SSXFF AM'), null, null, 0, 1,
+        1, 27, 9593684, 161, 'KOTA BAKAT', 'Bulk Carrier', 2012);
+        Insert into TBL_VESSEL (ID, C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION,
+        N_E_STATUS, B_EDITABLE, BEAM, IMO, LENGTH, VESSEL_NAME, TYPE, YEAR_OF_BUILD)
+        values (84, 'db_mazloom', to_timestamp('02-MAY-20 07.46.38.970000000 AM', 'DD-MON-RR HH.MI.SSXFF AM'), null, null, 0, 1,
+        1, 40, 9290945, 276, 'EMIRATES HANA', 'Container Ship', 2004);
+        Insert into TBL_VESSEL (ID, C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION,
+        N_E_STATUS, B_EDITABLE, BEAM, IMO, LENGTH, VESSEL_NAME, TYPE, YEAR_OF_BUILD)
+        values (85, 'db_mazloom', to_timestamp('02-MAY-20 07.47.35.529000000 AM', 'DD-MON-RR HH.MI.SSXFF AM'), null, null, 0, 1,
+        1, 20, 9240031, 131, 'LUCKY OCHO', 'Bulk Carrier', 2011);
+    </sql>
+</changeSet>
+</databaseChangeLog>
