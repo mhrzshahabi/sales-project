@@ -29,6 +29,9 @@ public class ContractDTO2 {
     private Long materialId;
     private Long contractTypeId;
 
+    private List<ContractContactDTO.Info> contractContacts;
+    private List<ContractDetailDTO2.Info> contractDetails;
+
     @Getter
     @Setter
     @Accessors(chain = true)

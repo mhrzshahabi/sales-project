@@ -178,6 +178,13 @@ contractTab.dynamicForm.fields.agentSeller = {
     required: false,
     title: "<spring:message code='contact.commercialRole.agentSeller'/>"
 };
+contractTab.dynamicForm.contractContactFields = {};
+contractTab.dynamicForm.contractContactFields.contractId = {
+    name: "contractId"
+};
+contractTab.dynamicForm.contractContactFields.contactId = {
+    name: "contactId"
+};
 contractTab.dynamicForm.contract = isc.DynamicForm.create({
     width: "100%",
     height: "100%",
@@ -254,6 +261,15 @@ contractTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
                 if (contractTab.dynamicForm.contract.hasErrors())
                     return;
                 let data = contractTab.dynamicForm.contract.getValues();
+
+                let contractContacts = [data.buyerId, data.sellerId, data.agentBuyerId, data.agentSellerId];
+                data.contractContacts = [];
+                contractContacts.forEach(x => {
+                    contractTab.dynamicForm.contractContactFields = {};
+                    contractTab.dynamicForm.contractContactFields.contractId = data.id;
+                    contractTab.dynamicForm.contractContactFields.contactId = x;
+                    data.contractContacts.push(contractTab.dynamicForm.contractContactFields);
+                });
                 isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                     actionURL: contractTab.variable.url,
                     httpMethod: contractTab.variable.method,
