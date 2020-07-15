@@ -83,7 +83,7 @@ public class ContactRestController {
     @Loggable
     @GetMapping(value = "/spec-list")
     public ResponseEntity<TotalResponse<ContactDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) throws IOException {
-        criteria.set("criteria", "{\"fieldName\":\"status\",\"operator\":\"equals\",\"value\":true,\"_constructor\":\"AdvancedCriteria\"}");
+//        criteria.set("criteria", "{\"fieldName\":\"status\",\"operator\":\"equals\",\"value\":true,\"_constructor\":\"AdvancedCriteria\"}");
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
         return new ResponseEntity<>(contactService.search(nicicoCriteria), HttpStatus.OK);
     }
