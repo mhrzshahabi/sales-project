@@ -15,7 +15,10 @@ isc.defineClass("InvoiceBaseAssay", isc.VLayout).addProperties({
         let This = this;
         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
             httpMethod: "GET",
-            params: {inventoryIds: This.inventories.map(q => q.id)},
+            params: {
+                doIntegration: true,
+                inventoryIds: This.inventories.map(q => q.id)
+            },
             actionURL: "${contextPath}/api/assayInspection/get-assay-values",
             callback: function (resp) {
 
@@ -27,14 +30,11 @@ isc.defineClass("InvoiceBaseAssay", isc.VLayout).addProperties({
                         continue;
 
                     fields.add(isc.Unit.create({
-                        unitCategory: 1,
+                        unitCategory: assayValues[index].materialElement.unit.categoryUnit,
                         disabledUnitField: true,
                         disabledValueField: true,
-                        disabledCurrencyField: true,
                         showValueFieldTitle: true,
                         showUnitFieldTitle: false,
-                        showCurrencyFieldTitle: false,
-                        showCurrencyField: false,
                         name: assayValues[index].materialElement.element.name,
                         fieldValueTitle: assayValues[index].materialElement.element.name,
                         border: "1px solid rgba(0, 0, 0, 0.3)",

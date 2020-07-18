@@ -25,16 +25,39 @@ public class WeightInspectionDTO {
     private BigDecimal weightND;
     private Long inspectionReportId;
     private Long inventoryId;
+    private Long unitId;
 
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("WeightInspectionInfo")
-    public static class Info extends WeightInspectionDTO {
+    @ApiModel("WeightInspectionData")
+    public static class WeightData {
+
+        private BigDecimal weightGW;
+        private BigDecimal weightND;
+        private UnitDTO.Info unit;
+        private InventoryDTO.Info inventory;
+
+        public BigDecimal getWeightDiff() {
+
+            BigDecimal weightGW = getWeightGW();
+            BigDecimal weightND = getWeightND();
+            if(weightGW == null) weightGW = BigDecimal.ZERO;
+            if(weightND == null) weightND = BigDecimal.ZERO;
+
+            return weightGW.subtract(weightND);
+        }
+    }
+
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("WeightInspectionInfoWithoutInspectionReport")
+    public static class InfoWithoutInspectionReport extends WeightInspectionDTO {
 
         private Long id;
-        private InspectionReportDTO.Info inspectionReport;
         private InventoryDTO.Info inventory;
+        private UnitDTO.Info unit;
 
         // Auditing
         private Date createdDate;
@@ -47,7 +70,7 @@ public class WeightInspectionDTO {
         private Boolean editable;
         private List<EStatus> eStatus;
 
-        public BigDecimal getSecondValue() {
+        public BigDecimal getWeightDiff() {
 
             BigDecimal weightGW = getWeightGW();
             BigDecimal weightND = getWeightND();
@@ -56,6 +79,15 @@ public class WeightInspectionDTO {
 
             return weightGW.subtract(weightND);
         }
+    }
+
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("WeightInspectionInfo")
+    public static class Info extends InfoWithoutInspectionReport {
+
+        private InspectionReportDTO.Info inspectionReport;
     }
 
     @Getter

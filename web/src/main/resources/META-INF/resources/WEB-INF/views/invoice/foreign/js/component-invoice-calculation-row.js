@@ -11,14 +11,11 @@ isc.defineClass("InvoiceCalculationRow", isc.DynamicForm).addProperties({
         let This = this;
         this.addField(isc.Unit.create({
             colSpan: 4,
-            unitCategory: 1,
+            unitCategory: This.assay.materialElement.unit.categoryUnit,
             disabledUnitField: true,
             disabledValueField: true,
-            disabledCurrencyField: true,
             showValueFieldTitle: true,
             showUnitFieldTitle: false,
-            showCurrencyFieldTitle: false,
-            showCurrencyField: false,
             name: 'priceBase',
             fieldValueTitle: This.assay.materialElement.element.name,
             border: "1px solid rgba(0, 0, 0, 0.3)",
@@ -56,35 +53,25 @@ isc.defineClass("InvoiceCalculationRow", isc.DynamicForm).addProperties({
             showTitle: false,
             width: "100%",
             name: "deductionType",
-            valueMap: Enums.deductionType
+            valueMap: JSON.parse('${Enums_DeductionType}')
         });
         this.addField(isc.Unit.create({
             colSpan: 4,
-            unitCategory: 1,
+            unitCategory: This.assay.materialElement.unit.categoryUnit,
             disabledUnitField: true,
             disabledValueField: true,
-            disabledCurrencyField: true,
             showValueFieldTitle: false,
             showUnitFieldTitle: false,
-            showCurrencyFieldTitle: false,
-            showCurrencyField: false,
             deductionUnitConversionRate: 1,
             name: 'finalAssay',
             border: "1px solid rgba(0, 0, 0, 0.3)",
         }));
-        if (This.assay.materialElement.unit.id !== This.price.unit.id &&
-            This.assay.materialElement.unit.id !== ImportantIDs.unit.PERCENT)
-            this.addField(isc.Unit.create({
+        this.fields.last().setUnitId(this.assay.materialElement.unit.id);
+        if (This.assay.materialElement.unit.id !== ImportantIDs.unit.PERCENT &&
+            !Enums.unit.hasFlag(This.price.unit.symbolUnit, This.assay.materialElement.unit.symbolUnit))
+            this.addField({
                 colSpan: 4,
-                unitCategory: 1,
-                disabledUnitField: true,
-                disabledValueField: true,
-                disabledCurrencyField: true,
-                showValueFieldTitle: false,
-                showUnitFieldTitle: false,
-                showCurrencyFieldTitle: false,
-                showUnitField: false,
-                showCurrencyField: false,
+                title: " X ",
                 name: "deductionUnitConversionRate",
                 border: "1px solid rgba(0, 0, 0, 0.3)",
                 changed: function (form, item, value) {
@@ -92,7 +79,7 @@ isc.defineClass("InvoiceCalculationRow", isc.DynamicForm).addProperties({
                     form.getField('finalAssay').deductionUnitConversionRate = value;
                     This.calculate();
                 }
-            }));
+            });
         this.addField({
             colSpan: 4,
             title: " = ",

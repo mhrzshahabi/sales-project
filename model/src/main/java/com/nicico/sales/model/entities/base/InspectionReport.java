@@ -82,10 +82,10 @@ public class InspectionReport extends BaseEntity {
     @Column(name = "F_UNIT_ID", nullable = false)
     private Long unitId;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "inspectionReport", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "inspectionReport", cascade = CascadeType.REMOVE)
     private List<AssayInspection> assayInspections;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "inspectionReport", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "inspectionReport", cascade = CascadeType.REMOVE)
     private List<WeightInspection> weightInspections;
 
 }
