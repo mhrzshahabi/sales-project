@@ -145,6 +145,9 @@
         <addNotNullConstraint columnDataType="varchar(255 CHAR)" columnName="N_WEIGHT"
                               tableName="TBL_WARH_REMITTANCE_DETAIL"/>
     </changeSet>
+    <changeSet author="Reza Mazloom" id="mazloom_024">
+        <dropColumn columnName="N_VALUE" tableName="TBL_WARH_REMITTANCE_DETAIL"/>
+    </changeSet>
 
 
 </databaseChangeLog>
