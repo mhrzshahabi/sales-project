@@ -59,10 +59,6 @@
         <dropColumn columnName="C_RMB_USD" tableName="TBL_CURRENCY_RATE"/>
     </changeSet>
 
-    <changeSet author="j.azad" id="J.AZAD-036">
-        <dropColumn columnName="N_RATE_VALUE" tableName="TBL_CURRENCY_RATE"/>
-    </changeSet>
-
     <changeSet author="j.azad" id="J.AZAD-038">
         <addColumn tableName="TBL_CURRENCY_RATE">
             <column name="N_CURRENCY_RATE_VALUE" type="number(10, 2)">
