@@ -2,11 +2,9 @@ package com.nicico.sales.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nicico.copper.common.domain.ConstantVARs;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
-import com.nicico.copper.core.util.report.ReportUtil;
-import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.RemittanceDTO;
+import com.nicico.sales.exception.NotFoundException;
 import com.nicico.sales.iservice.IRemittanceService;
 import com.nicico.sales.model.entities.warehouse.Remittance;
 import com.nicico.sales.model.entities.warehouse.RemittanceDetail;
@@ -26,10 +24,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.MultiValueMap;
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -66,7 +65,7 @@ public class RemittanceService extends GenericService<Remittance, Long, Remittan
     public JsonDataSource print(MultiValueMap criteria) throws JsonProcessingException, JRException {
         NICICOCriteria provideNICICOCriteria = specListUtil.provideNICICOCriteria(criteria, RemittanceDTO.Info.class);
         List<RemittanceDTO.Info> data = search(provideNICICOCriteria).getResponse().getData();
-        if (data == null) throw new SalesException(SalesException.ErrorType.NotFound);
+        if (data == null) throw new NotFoundException();
         final List<RemittanceDTO.PDF> dataForPdf = modelMapper.map(data, new TypeToken<List<RemittanceDTO.PDF>>() {
         }.getType());
         dataForPdf.stream().forEach(remittancePDF -> {
