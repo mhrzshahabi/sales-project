@@ -426,19 +426,19 @@ inspectionReportTab.method.setInventoryCriteria = function (materialId) {
 let inspectorCriteria = {
     _constructor: "AdvancedCriteria",
     operator: "and",
-    criteria: [{fieldName: "commercialRole", operator: "iContains", value: "Inspector"}]
+    criteria: [{fieldName: "commercialRole", operator: "equals", value: "Inspector"}]
 };
 
 let sellerCriteria = {
     _constructor: "AdvancedCriteria",
     operator: "and",
-    criteria: [{fieldName: "commercialRole", operator: "iContains", value: "Seller"}]
+    criteria: [{fieldName: "commercialRole", operator: "equals", value: "Seller"}]
 };
 
 let buyerCriteria = {
     _constructor: "AdvancedCriteria",
     operator: "and",
-    criteria: [{fieldName: "commercialRole", operator: "iContains", value: "Buyer"}]
+    criteria: [{fieldName: "commercialRole", operator: "equals", value: "Buyer"}]
 };
 
 let currencyInUnitCriteria = {
@@ -576,6 +576,9 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
                 name: "nameEN",
                 align: "center"
             },
+            {
+                name: "commercialRole"
+            }
         ],
         validators: [
             {
@@ -676,6 +679,9 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
                 name: "nameEN",
                 align: "center"
             },
+            {
+                name: "commercialRole"
+            }
         ],
         validators: [
             {
@@ -709,6 +715,9 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
                 name: "nameEN",
                 align: "center"
             },
+            {
+                name: "commercialRole"
+            }
         ],
         validators: [
             {
@@ -1061,7 +1070,7 @@ inspectionReportTab.window.inspecReport.populateData = function (bodyWidget) {
     //---------------- Save Weight Data in Object ------------
     let record;
     bodyWidget.members.get(2).tabs.get(0).pane.members.get(0).selectAllRecords();
-    bodyWidget.members.get(2).tabs.get(0).pane.members.get(0).getSelectedRecords().forEach(function (element) {
+    bodyWidget.members.get(2).tabs.get(0).pane.members.get(0).getSelectedRecords().forEach(function (weightRecord, element) {
 
         let weightInspectionObj = {
             weighingType: "",
@@ -1071,14 +1080,17 @@ inspectionReportTab.window.inspecReport.populateData = function (bodyWidget) {
             inventoryId: "",
             unitId: ""
         };
-
-        record = bodyWidget.members.get(2).tabs.get(0).pane.members.get(0).getSelectedRecord(element);
-        weightInspectionObj.weighingType = record.weighingType;
-        weightInspectionObj.weightND = record.weightND;
-        weightInspectionObj.weightGW = record.weightGW;
-        weightInspectionObj.inventoryId = record.inventoryId;
+        // console.log("element" + element)
+        // record = bodyWidget.members.get(2).tabs.get(0).pane.members.get(0).getSelectedRecords().get(element);
+        weightInspectionObj.weighingType = weightRecord.weighingType;
+        weightInspectionObj.weightND = weightRecord.weightND;
+        weightInspectionObj.weightGW = weightRecord.weightGW;
+        weightInspectionObj.inventoryId = weightRecord.inventoryId;
         weightInspectionObj.unitId = bodyWidget.members.get(2).tabs.get(0).pane.members.get(0).unitId;
+        // console.log("weightInspectionObj " + JSON.stringify(weightInspectionObj))
         weightInspections.push(weightInspectionObj);
+        // console.log("weightInspections " + JSON.stringify(weightInspections))
+
     });
     inspectionReportObj.weightInspections = weightInspections;
 
