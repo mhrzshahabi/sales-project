@@ -973,10 +973,11 @@ function onWayProductCreateRemittance(criteriaBuildForListGrid) {
                 pkg_tmp.uid = uid;
                 pkg_tmp.label = uid;
                 tzn['packages'] = [pkg_tmp];
-                tzn['tedad_source'] = !isNaN(tzn['tedad']) ? tzn['tedad'] : 0;
-                tzn['tedad_destination'] = !isNaN(tzn['tedad']) ? tzn['tedad'] : 0;
-                tzn['pkgNum_source'] = 0;
-                tzn['pkgNum_destination'] = 0;
+                tzn['pkgNum_source'] = !isNaN(tzn['tedad']) ? tzn['tedad'] : 0;
+                tzn['pkgNum_destination'] = !isNaN(tzn['tedad']) ? tzn['tedad'] : 0;
+                tzn['tedad_source'] = 0;
+                tzn['tedad_destination'] = 0;
+
                 return tzn;
             })
             // console.log('selectedTozinList',selectedTozinList)
@@ -1034,6 +1035,15 @@ function onWayProductCreateRemittance(criteriaBuildForListGrid) {
                                 }
                             })
                             tz['packages'] = updated_packages;
+                            if (tz['packages'] && tz['packages'].length > 0) {
+                                const hameshoon = tz['packages'].map(a => {
+                                    console.log('aa', a);
+                                    return a.tedad
+                                }).reduce((i, j) => i + j);
+                                // console.log("tzn['packages']", tzn, hameshoon);
+                                tz['tedad_source'] = hameshoon;
+                                tz['tedad_destination'] = hameshoon;
+                            }
                         }
                         return {...pkg_update, ...tz}
                     }

@@ -851,14 +851,7 @@
                     click: function () {
                         createTab("<spring:message code='contractPerson.title'/>", "<spring:url value="/contractPerson/showForm" />")
                     }
-                },
-                {isSeparator: true},
-                {
-                    title: "<spring:message code='inspectionReport.title'/>",
-                    click: function () {
-                        createTab("<spring:message code='inspectionReport.title'/>", "<spring:url value="/inspectionReport/show-form" />")
-                    }
-                },
+                }
             ]
         })
     });
@@ -880,6 +873,13 @@
                     title: "<spring:message code='shipmentCost.title'/>",
                     click: function () {
                         createTab("<spring:message code='shipmentCost.title'/>", "<spring:url value="/cost/showForm" />")
+                    }
+                },
+                {isSeparator: true},
+                {
+                    title: "<spring:message code='inspectionReport.title'/>",
+                    click: function () {
+                        createTab("<spring:message code='inspectionReport.title'/>", "<spring:url value="/inspectionReport/show-form" />")
                     }
                 }
             ]

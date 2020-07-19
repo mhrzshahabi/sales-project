@@ -63,4 +63,20 @@
                                  validate="true"/>
     </changeSet>
 
+    <changeSet author="MShahabi" id="1799887766554-019">
+        <dropForeignKeyConstraint baseTableName="TBL_PRICE_BASE" constraintName="fk_priceBase2UnitByUnitId"/>
+        <dropColumn columnName="F_UNIT_ID" tableName="TBL_PRICE_BASE"/>
+    </changeSet>
+
+    <changeSet author="MShahabi" id="1799887766554-020">
+        <addColumn tableName="TBL_PRICE_BASE">
+            <column name="F_WEIGHT_UNIT_ID" type="number(19, 0)"/>
+        </addColumn>
+        <addForeignKeyConstraint baseColumnNames="F_WEIGHT_UNIT_ID" baseTableName="TBL_PRICE_BASE" constraintName="fk_priceBase2UnitByWeightUnitId" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_UNIT" validate="true"/>
+        <addColumn tableName="TBL_PRICE_BASE">
+            <column name="F_FINANCE_UNIT_ID" type="number(19, 0)"/>
+        </addColumn>
+        <addForeignKeyConstraint baseColumnNames="F_FINANCE_UNIT_ID" baseTableName="TBL_PRICE_BASE" constraintName="fk_priceBase2UnitByFinanceUnitId" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_UNIT" validate="true"/>
+    </changeSet>
+
 </databaseChangeLog>

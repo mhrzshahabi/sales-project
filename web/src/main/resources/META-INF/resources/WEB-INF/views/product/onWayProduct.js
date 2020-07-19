@@ -28,7 +28,9 @@ const tozinLiteFields = [
         align: "center",
         formatCellValue(value, record, rowNum, colNum, grid) {
             try {
-                return (value.substr(0, 4) + "/" + value.substr(4, 2) + "/" + value.substr(-2))
+                const valStr = value.toString();
+                console.log("date",value);
+                return (valStr.substr(0, 4) + "/" + valStr.substr(4, 2) + "/" + valStr.substr(-2))
             } catch (e) {
                 return value
             }
@@ -126,6 +128,7 @@ const tozinLiteFields = [
         },
         filterOperator: "inSet",
         parseEditorValue: function (value, record, form, item) {
+            StorageUtil.delete('on_way_product_defaultSourceId');
             StorageUtil.save('on_way_product_defaultSourceId', value)
             return value;
         },
@@ -152,6 +155,7 @@ const tozinLiteFields = [
             // defaultValue: StorageUtil.get('on_way_product_defaultTargetId')
         },
         parseEditorValue: function (value, record, form, item) {
+            StorageUtil.delete('on_way_product_defaultTargetId')
             StorageUtil.save('on_way_product_defaultTargetId', value)
             return value;
         },
