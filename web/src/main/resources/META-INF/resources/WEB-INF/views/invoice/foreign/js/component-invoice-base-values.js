@@ -23,7 +23,6 @@ isc.defineClass("InvoiceBaseValues", isc.VLayout).addProperties({
         if (this.invoiceType.id === ImportantIDs.invoiceType.FINAL) {
 
             this.invoiceBasePriceComponent = isc.InvoiceBasePrice.create({
-
                 currency: This.currency,
                 contract: This.contract,
                 shipment: This.shipment
@@ -33,12 +32,12 @@ isc.defineClass("InvoiceBaseValues", isc.VLayout).addProperties({
             this.invoiceBaseAssayComponent = isc.InvoiceBaseAssay.create({
                 inventories: [{id: 1}, {id: 2}]
             });
-            this.addMember(invoiceBaseAssayComponent);  //Error
+            this.addMember(this.invoiceBaseAssayComponent);  //Error
 
             this.invoiceBaseWeightComponent = isc.InvoiceBaseWeight.create({
                 inventories: [{id: 1}, {id: 2}]
             });
-            this.addMember(invoiceBaseWeightComponent);
+            this.addMember(this.invoiceBaseWeightComponent);
         } else {
 
         }

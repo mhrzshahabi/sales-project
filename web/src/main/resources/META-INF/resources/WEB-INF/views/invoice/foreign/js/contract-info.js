@@ -29,7 +29,7 @@ __contract.getContractMOASValue = function (contract) {
 __contract.getBasePriceReference = function (contract) {
 
     // Price base reference
-    return 1;
+    return "LME";
 };
 __contract.getShipmentMonthNo = function (shipment) {
 

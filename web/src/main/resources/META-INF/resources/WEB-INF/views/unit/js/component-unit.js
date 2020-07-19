@@ -72,13 +72,13 @@ isc.defineClass("Unit", isc.DynamicForm).addProperties({
         this.setValues(this.data);
     },
     getValue: function () {
-        this.getValue("value");
+        this.getValues().value;
     },
     getUnitId: function () {
         this.getValue("unitId");
     },
     setValue: function (value) {
-        this.setValue("value", value);
+        this.value = value;
     },
     setUnitId: function (unitId) {
         this.setValue("unitId", unitId);
