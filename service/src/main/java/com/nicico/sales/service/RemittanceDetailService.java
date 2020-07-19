@@ -58,6 +58,24 @@ public class RemittanceDetailService extends GenericService<RemittanceDetail, Lo
         }.getType());
     }
 
+    @Override
+    @Transactional
+    public List<RemittanceDetailDTO.Info> out(RemittanceDetailDTO.OutRemittance request) {
+        final Long remittanceId = remittanceDAO.save(modelMapper.map(request.getRemittance(), Remittance.class)).getId();
+        List<RemittanceDetail> details = new ArrayList<>();
+        request
+                .getRemittanceDetails()
+                .parallelStream()
+                .forEach(r -> {
+                    final RemittanceDetail remittanceDetail = modelMapper.map(r, RemittanceDetail.class);
+                    remittanceDetail.setSourceTozinId(tozinTableDAO.save(modelMapper.map(r.getSourceTozin(), TozinTable.class)).getId());
+                    remittanceDetail.setRemittanceId(remittanceId);
+                    details.add(remittanceDetail);
+                });
+
+        return modelMapper.map(repository.saveAll(details),new TypeToken<List<RemittanceDetailDTO.Info>>(){}.getType());
+    }
+
     private void saveTozin(Map<String, Long> tozinKeyValue, TozinTable tozinTable) {
         if (!tozinKeyValue.containsKey(tozinTable.getTozinId())) {
             final Tozin tozin = tozinDAO.findFirstByTozinId(tozinTable.getTozinId());
