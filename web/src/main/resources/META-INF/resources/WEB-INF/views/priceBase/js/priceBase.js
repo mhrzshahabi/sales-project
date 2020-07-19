@@ -38,14 +38,14 @@ priceBaseTab.dynamicForm.fields = BaseFormItems.concat([
         pickListHeight: "300",
         optionDataSource: isc.MyRestDataSource.create({
             fields: BaseFormItems.concat([
-                {name: "nameFa"},
+                {name: "nameFA"},
                 {name: "nameEn"}
             ]),
-            fetchDataURL: "${contextPath}/api/currency/" + "spec-list"
+            fetchDataURL: "${contextPath}/api/unit/" + "spec-list"
         }),
         pickListFields: [
             {name: "nameFa", title: '<spring:message code="currency.name.fa"/>'},
-            {name: "nameEn", title: '<spring:message code="currency.name.en"/>'}
+            {name: "nameEN", title: '<spring:message code="currency.name.en"/>'}
         ]
     }, {
         type: 'number',
