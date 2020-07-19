@@ -119,11 +119,11 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
         name: "contractId",
         width: "100%",
         valueField: "id",
-        displayField: "no",
+        displayField: __contract.nameOfNumberProperty,
         optionDataSource: isc.MyRestDataSource.create({
             fields: [
                 {name: "id", primaryKey: true, hidden: true, title: "<spring:message code='global.id'/>"},
-                {name: "no", title: "<spring:message code='foreign-invoice.form.contract'/>"},
+                {name: __contract.nameOfNumberProperty, title: "<spring:message code='foreign-invoice.form.contract'/>"},
                 {name: "description", title: "<spring:message code='global.description'/>"},
             ],
             fetchDataURL: foreignInvoiceTab.variable.contractUrl + "spec-list"
