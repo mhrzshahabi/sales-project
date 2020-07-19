@@ -155,7 +155,7 @@ contractTab.dynamicForm.fields.agentBuyer = {
     autoFetchData: false,
     displayField: "nameEN",
     valueField: "id",
-    required: false,
+    required: true,
     title: "<spring:message code='contact.commercialRole.agentBuyer'/>"
 };
 contractTab.dynamicForm.fields.agentSeller = {
@@ -181,9 +181,46 @@ contractTab.dynamicForm.fields.agentSeller = {
     autoFetchData: false,
     displayField: "nameEN",
     valueField: "id",
-    required: false,
+    required: true,
     title: "<spring:message code='contact.commercialRole.agentSeller'/>"
 };
+contractTab.dynamicForm.fields.contractDetailType = {
+    name: "contractDetailTypeId",
+    width: "100%",
+    editorType: "SelectItem",
+    optionCriteria: {
+        operator: 'and',
+        criteria: [{
+            fieldName: 'materialId',
+            operator: 'equals',
+            value: 3
+        }]
+    },
+    optionDataSource: isc.MyRestDataSource.create({
+        fields: [
+            {name: "id", title: "id", primaryKey: true, hidden: true},
+            {name: "titleEn"}
+        ],
+        fetchDataURL: "${contextPath}/api/contract-detail-type/spec-list"
+    }),
+    autoFetchData: false,
+    displayField: "titleEn",
+    valueField: "titleEn",
+    required: false,
+    title: "<spring:message code='entity.contract-detail-type'/>",
+    changed: function (form, item, value) {
+        contractTab.contractDetailsSectionStack.addSection({
+            title: value,
+            expanded: true, items: [
+                isc.Img.create({
+                    autoDraw: false, width: 48, height: 48,
+                    src: "pieces/48/piece_yellow.png"
+                })
+            ]
+        });
+
+    }
+}
 
 contractTab.dynamicForm.contract = isc.DynamicForm.create({
     width: "100%",
@@ -210,7 +247,8 @@ contractTab.dynamicForm.contract = isc.DynamicForm.create({
         contractTab.dynamicForm.fields.buyer,
         contractTab.dynamicForm.fields.seller,
         contractTab.dynamicForm.fields.agentBuyer,
-        contractTab.dynamicForm.fields.agentSeller
+        contractTab.dynamicForm.fields.agentSeller,
+        contractTab.dynamicForm.fields.contractDetailType
     ], true)
 });
 
@@ -291,9 +329,17 @@ contractTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
     ]
 });
 
+contractTab.contractDetailsSectionStack = isc.SectionStack.create({
+    visibilityMode: "multiple",
+    width: 300,
+    height: 500,
+    sections: []
+});
+
 contractTab.window = isc.Window.nicico.getDefault(null, [
     contractTab.dynamicForm.contract,
-    contractTab.hLayout.saveOrExitHlayout
+    contractTab.hLayout.saveOrExitHlayout,
+    contractTab.contractDetailsSectionStack
 ], "85%", null);
 
 //*************************************************** Functions ********************************************************
