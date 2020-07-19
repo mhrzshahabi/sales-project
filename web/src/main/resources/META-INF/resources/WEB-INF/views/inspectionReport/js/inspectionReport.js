@@ -164,7 +164,7 @@ inspectionReportTab.restDataSource.contactRest = {
             title: "<spring:message code='contact.nameEn'/>"
         },
         {
-            name: "inspector",
+            name: "commercialRole",
         },
     ],
     fetchDataURL: "${contextPath}/api/contact/spec-list"
@@ -191,7 +191,7 @@ inspectionReportTab.restDataSource.contactRest1 = {
             title: "<spring:message code='contact.nameEn'/>"
         },
         {
-            name: "seller",
+            name: "commercialRole",
         },
     ],
     fetchDataURL: "${contextPath}/api/contact/spec-list1"
@@ -218,7 +218,7 @@ inspectionReportTab.restDataSource.contactRest2 = {
             title: "<spring:message code='contact.nameEn'/>"
         },
         {
-            name: "buyer",
+            name: "commercialRole",
         },
     ],
     fetchDataURL: "${contextPath}/api/contact/spec-list2"
@@ -453,19 +453,19 @@ inspectionReportTab.method.getAssayId = function (meId, inId) {
 let inspectorCriteria = {
     _constructor: "AdvancedCriteria",
     operator: "and",
-    criteria: [{fieldName: "inspector", operator: "equals", value: true}]
+    criteria: [{fieldName: "commercialRole", operator: "iContains", value: "Inspector"}]
 };
 
 let sellerCriteria = {
     _constructor: "AdvancedCriteria",
     operator: "and",
-    criteria: [{fieldName: "seller", operator: "equals", value: true}]
+    criteria: [{fieldName: "commercialRole", operator: "iContains", value: "Seller"}]
 };
 
 let buyerCriteria = {
     _constructor: "AdvancedCriteria",
     operator: "and",
-    criteria: [{fieldName: "buyer", operator: "equals", value: true}]
+    criteria: [{fieldName: "commercialRole", operator: "iContains", value: "Buyer"}]
 };
 
 let currencyInUnitCriteria = {
@@ -601,9 +601,6 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
             {
                 name: "nameEN",
                 align: "center"
-            },
-            {
-                name: "inspector"
             }
         ],
         validators: [
@@ -703,9 +700,6 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
             {
                 name: "nameEN",
                 align: "center"
-            },
-            {
-                name: "seller"
             }
         ],
         validators: [
@@ -739,9 +733,6 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
             {
                 name: "nameEN",
                 align: "center"
-            },
-            {
-                name: "buyer"
             }
         ],
         validators: [
