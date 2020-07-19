@@ -14,6 +14,10 @@ let weightCriteria = {
 
 priceBaseTab.dynamicForm.fields = BaseFormItems.concat([
     {
+        name: "id",
+        hidden: true
+    },
+    {
         name: "priceDate",
         width: "10%",
         type: 'date',
@@ -37,27 +41,35 @@ priceBaseTab.dynamicForm.fields = BaseFormItems.concat([
             fetchDataURL: "${contextPath}/api/element/" + "spec-list"
         }),
         pickListFields: [
-            {name: "name", title: '<spring:message code="priceBase.element"/>'}
+            {
+                name: "name",
+                title: '<spring:message code="priceBase.element"/>'
+            }
+        ],
+        validator: [
+            {
+                type: "required",
+                validateOnChange: true
+            }
         ],
         changed: function (form, item, value) {
             let elementId = item.getValue();
             switch (elementId) {
 
                 case 1:
-                    form.getItem("currencyId").setValue(12);
-                    form.getItem("unitId").setValue(13);
+                    form.getItem("financeUnitId").setValue(12);
+                    form.getItem("weightUnitId").setValue(13);
                     break;
                 case 2:
-                    form.getItem("currencyId").setValue(12);
-                    form.getItem("unitId").setValue(14);
+                    form.getItem("financeUnitId").setValue(12);
+                    form.getItem("weightUnitId").setValue(14);
                     break;
             }
         }
     },
     {
-        name: "currencyId",
-        title: "<spring:message code='currency.title'/>",
-        type: 'number',
+        name: "financeUnitId",
+        title: "<spring:message code='priceBase.financeUnit'/>",
         width: "300",
         required: true,
         autoFetchData: false,
@@ -77,12 +89,17 @@ priceBaseTab.dynamicForm.fields = BaseFormItems.concat([
         pickListFields: [
             {name: "nameFA", title: '<spring:message code="unit.nameFa"/>'},
             {name: "nameEN", title: '<spring:message code="unit.nameEN"/>'}
-        ]
+        ],
+        validator: [
+            {
+                type: "required",
+                validateOnChange: true
+            }
+        ],
     },
     {
-        name: "unitId",
-        title: "<spring:message code='unit.title'/>",
-        type: 'number',
+        name: "weightUnitId",
+        title: "<spring:message code='priceBase.weightUnit'/>",
         width: "300",
         required: true,
         autoFetchData: false,
@@ -102,7 +119,13 @@ priceBaseTab.dynamicForm.fields = BaseFormItems.concat([
         pickListFields: [
             {name: "nameFA", title: '<spring:message code="unit.nameFa"/>'},
             {name: "nameEN", title: '<spring:message code="unit.nameEN"/>'}
-        ]
+        ],
+        validator: [
+            {
+                type: "required",
+                validateOnChange: true
+            }
+        ],
     },
     {
         name: "priceBaseReference",
@@ -118,38 +141,17 @@ priceBaseTab.dynamicForm.fields = BaseFormItems.concat([
     {
         name: "price",
         width: "300",
-        type: "text",
-        title: "<spring:message code='priceBase.price'/>"
+        type: "float",
+        title: "<spring:message code='priceBase.price'/>",
+        // validator: [
+        //     {
+        //         type: "isFloat",
+        //         validateOnChange: true
+        //     }
+        // ],
+        mask: ("####.####")
     }
 ]);
-
-priceBaseTab.listGrid.fields = [
-    {
-        name: "id",
-        hidden: true
-    },
-    {
-        name: "priceDate",
-    },
-    {
-        name: "elementId",
-        title: "elementId",
-
-    },
-    {
-        name: "priceBaseReference",
-        title: "<spring:message code='inspectionReport.inspectionPlace'/>"
-    },
-    {
-        name: "unitId",
-        title: "<spring:message code='inspectionReport.IssueDate'/>",
-        type: "date",
-        width: "10%"
-    },
-    {
-        name: "currencyId"
-    }
-];
 
 Object.assign(priceBaseTab.listGrid.fields, priceBaseTab.dynamicForm.fields);
 nicico.BasicFormUtil.getDefaultBasicForm(priceBaseTab, "api/price-base/");
