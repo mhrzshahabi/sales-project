@@ -20,7 +20,8 @@ import java.math.BigDecimal;
 @AuditOverride(forClass = Auditable.class)
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
-@Table(name = "TBL_ASSAY_INSPECTION")
+@Table(name = "TBL_ASSAY_INSPECTION", uniqueConstraints = @UniqueConstraint(name = "inspectionReport_materialElement_inventory_UNIQUE",
+        columnNames = {"F_INSPECTION_REPORT_ID", "F_MATERIAL_ELEMENT_ID", "F_INVENTORY_ID"}))
 public class AssayInspection extends BaseEntity {
 
     @Id
@@ -63,13 +64,5 @@ public class AssayInspection extends BaseEntity {
     @NotNull
     @Column(name = "F_INVENTORY_ID", nullable = false)
     private Long inventoryId;
-
-    /*@Setter(AccessLevel.NONE)
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "F_UNIT_ID", nullable = false, insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_assayInspection2unit"))
-    private Unit unit;
-
-    @Column(name = "F_UNIT_ID")
-    private Long unitId;*/
 
 }

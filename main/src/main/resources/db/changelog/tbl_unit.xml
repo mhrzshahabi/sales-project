@@ -27,54 +27,70 @@
         <dropColumn columnName="CATEGORY_VALUE" tableName="TBL_UNIT"/>
     </changeSet>
 
-    <changeSet author="Reza Mazloom" id="mazloom_024">
+    <changeSet author="j.azad" id="J.AZAD-039">
         <sql>
-            Insert into TBL_UNIT
+            INSERT  INTO TBL_UNIT
             (ID,C_CREATED_BY,D_CREATED_DATE,C_LAST_MODIFIED_BY,D_LAST_MODIFIED_DATE,N_VERSION,N_E_STATUS,B_EDITABLE,C_NAME_EN,C_NAME_FA,N_CATEGORY_UNIT,N_SYMBOL_UNIT)
             values (11,'j.azad',to_timestamp('03-JUL-20 10.15.40.056000000 AM','DD-MON-RR HH.MI.SSXFF
             AM'),'j.azad',to_timestamp('11-JUL-20 08.34.52.826000000 AM','DD-MON-RR HH.MI.SSXFF
-            AM'),2,1,1,'kilogramme','کیلوگرم',1,1);
-            Insert into TBL_UNIT
+            AM'),2,1,0,'kilogramme','کیلوگرم',1,1);
+
+            INSERT  INTO TBL_UNIT
             (ID,C_CREATED_BY,D_CREATED_DATE,C_LAST_MODIFIED_BY,D_LAST_MODIFIED_DATE,N_VERSION,N_E_STATUS,B_EDITABLE,C_NAME_EN,C_NAME_FA,N_CATEGORY_UNIT,N_SYMBOL_UNIT)
             values (-1,'j.azad',to_timestamp('02-JUL-20 11.50.07.727477000 PM','DD-MON-RR HH.MI.SSXFF
             AM'),'j.azad',to_timestamp('03-JUL-20 04.34.37.001000000 AM','DD-MON-RR HH.MI.SSXFF
-            AM'),1,1,1,'tonne','تن',1,1);
-            Insert into TBL_UNIT
+            AM'),1,1,0,'tonne','تن',1,1);
+
+            INSERT  INTO TBL_UNIT
             (ID,C_CREATED_BY,D_CREATED_DATE,C_LAST_MODIFIED_BY,D_LAST_MODIFIED_DATE,N_VERSION,N_E_STATUS,B_EDITABLE,C_NAME_EN,C_NAME_FA,N_CATEGORY_UNIT,N_SYMBOL_UNIT)
             values (1,'j.azad',to_timestamp('03-JUL-20 10.15.40.048000000 AM','DD-MON-RR HH.MI.SSXFF
             AM'),'j.azad',to_timestamp('07-JUL-20 09.50.18.241000000 AM','DD-MON-RR HH.MI.SSXFF
-            AM'),2,1,1,'Barrel','بشکه',1,1);
-            Insert into TBL_UNIT
+            AM'),2,1,0,'Barrel','بشکه',1,1);
+
+            INSERT  INTO TBL_UNIT
             (ID,C_CREATED_BY,D_CREATED_DATE,C_LAST_MODIFIED_BY,D_LAST_MODIFIED_DATE,N_VERSION,N_E_STATUS,B_EDITABLE,C_NAME_EN,C_NAME_FA,N_CATEGORY_UNIT,N_SYMBOL_UNIT)
             values (2,'j.azad',to_timestamp('03-JUL-20 10.15.40.053000000 AM','DD-MON-RR HH.MI.SSXFF
             AM'),'j.azad',to_timestamp('07-JUL-20 10.01.04.241000000 AM','DD-MON-RR HH.MI.SSXFF
-            AM'),1,1,1,'sheet','ورق',1,1);
-            Insert into TBL_UNIT
+            AM'),1,1,0,'sheet','ورق',1,1);
+
+            INSERT  INTO TBL_UNIT
             (ID,C_CREATED_BY,D_CREATED_DATE,C_LAST_MODIFIED_BY,D_LAST_MODIFIED_DATE,N_VERSION,N_E_STATUS,B_EDITABLE,C_NAME_EN,C_NAME_FA,N_CATEGORY_UNIT,N_SYMBOL_UNIT)
             values (3,'j.azad',to_timestamp('03-JUL-20 10.15.40.054000000 AM','DD-MON-RR HH.MI.SSXFF
             AM'),'j.azad',to_timestamp('07-JUL-20 09.50.25.271000000 AM','DD-MON-RR HH.MI.SSXFF
-            AM'),1,1,1,'gunny','گونی',1,1);
-            Insert into TBL_UNIT
+            AM'),1,1,0,'gunny','گونی',1,1);
+
+            INSERT  INTO TBL_UNIT
             (ID,C_CREATED_BY,D_CREATED_DATE,C_LAST_MODIFIED_BY,D_LAST_MODIFIED_DATE,N_VERSION,N_E_STATUS,B_EDITABLE,C_NAME_EN,C_NAME_FA,N_CATEGORY_UNIT,N_SYMBOL_UNIT)
             values (4,'j.azad',to_timestamp('03-JUL-20 10.15.40.054000000 AM','DD-MON-RR HH.MI.SSXFF
             AM'),'j.azad',to_timestamp('07-JUL-20 10.12.18.548000000 AM','DD-MON-RR HH.MI.SSXFF
-            AM'),2,1,1,'BUNDLE','بسته',1,1);
-            Insert into TBL_UNIT
+            AM'),2,1,0,'BUNDLE','بسته',1,1);
+
+            INSERT  INTO TBL_UNIT
             (ID,C_CREATED_BY,D_CREATED_DATE,C_LAST_MODIFIED_BY,D_LAST_MODIFIED_DATE,N_VERSION,N_E_STATUS,B_EDITABLE,C_NAME_EN,C_NAME_FA,N_CATEGORY_UNIT,N_SYMBOL_UNIT)
             values (6,'j.azad',to_timestamp('03-JUL-20 10.15.40.055000000 AM','DD-MON-RR HH.MI.SSXFF
             AM'),'j.azad',to_timestamp('07-JUL-20 09.54.26.682000000 AM','DD-MON-RR HH.MI.SSXFF
-            AM'),1,1,1,'Bulk','فله',1,1);
-            Insert into TBL_UNIT
+            AM'),1,1,0,'Bulk','فله',1,1);
+
+            INSERT  INTO TBL_UNIT
             (ID,C_CREATED_BY,D_CREATED_DATE,C_LAST_MODIFIED_BY,D_LAST_MODIFIED_DATE,N_VERSION,N_E_STATUS,B_EDITABLE,C_NAME_EN,C_NAME_FA,N_CATEGORY_UNIT,N_SYMBOL_UNIT)
             values (7,'j.azad',to_timestamp('03-JUL-20 10.15.40.055000000 AM','DD-MON-RR HH.MI.SSXFF
             AM'),'j.azad',to_timestamp('07-JUL-20 10.08.55.573000000 AM','DD-MON-RR HH.MI.SSXFF
-            AM'),2,1,1,'PALLETS','پالت',1,1);
-            Insert into TBL_UNIT
+            AM'),2,1,0,'PALLETS','پالت',1,1);
+
+            INSERT  INTO TBL_UNIT
             (ID,C_CREATED_BY,D_CREATED_DATE,C_LAST_MODIFIED_BY,D_LAST_MODIFIED_DATE,N_VERSION,N_E_STATUS,B_EDITABLE,C_NAME_EN,C_NAME_FA,N_CATEGORY_UNIT,N_SYMBOL_UNIT)
             values (9,'j.azad',to_timestamp('03-JUL-20 10.15.40.055000000 AM','DD-MON-RR HH.MI.SSXFF
             AM'),'j.azad',to_timestamp('07-JUL-20 09.50.31.273000000 AM','DD-MON-RR HH.MI.SSXFF
-            AM'),2,1,1,'Liter','لیتر',1,1);
+            AM'),2,1,0,'Liter','لیتر',1,1);
         </sql>
+    </changeSet>
+
+    <changeSet author="j.azad" id="J.AZAD-040">
+        <dropColumn columnName="N_DECIMAL_DIGITS" tableName="TBL_UNIT"/>
+    </changeSet>
+
+    <changeSet author="j.azad" id="J.AZAD-041">
+        <dropColumn columnName="C_SYMBOL" tableName="TBL_UNIT"/>
     </changeSet>
 
 </databaseChangeLog>

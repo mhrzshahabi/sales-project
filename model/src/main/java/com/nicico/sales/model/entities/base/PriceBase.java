@@ -46,10 +46,20 @@ public class PriceBase extends BaseEntity {
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "F_UNIT_ID", nullable = false, insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_priceBase2UnitByUnitId"))
-    private Unit unit;
+    @JoinColumn(name = "F_WEIGHT_UNIT_ID", nullable = false, insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_priceBase2UnitByWeightUnitId"))
+    private Unit weightUnit;
 
     @NotNull
-    @Column(name = "F_UNIT_ID", nullable = false)
-    private Long unitId;
+    @Column(name = "F_WEIGHT_UNIT_ID", nullable = false)
+    private Long weightUnitId;
+
+    @Setter(AccessLevel.NONE)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "F_FINANCE_UNIT_ID", nullable = false, insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_priceBase2UnitByFinanceUnitId"))
+    private Unit financeUnit;
+
+    @NotNull
+    @Column(name = "F_FINANCE_UNIT_ID", nullable = false)
+    private Long financeUnitId;
+
 }

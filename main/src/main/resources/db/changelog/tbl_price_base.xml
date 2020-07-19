@@ -49,13 +49,6 @@
         <modifyDataType columnName="N_PRICE" newDataType="NUMBER(10, 5)" tableName="TBL_PRICE_BASE"/>
     </changeSet>
 
-    <changeSet author="karimi (generated)" id="1593491220577-228">
-        <addColumn tableName="TBL_PRICE_BASE">
-            <column name="F_CURRENCY_ID" type="number(19, 0)">
-                <constraints nullable="false"/>
-            </column>
-        </addColumn>
-    </changeSet>
     <changeSet author="karimi (generated)" id="1593491220577-229">
         <addColumn tableName="TBL_PRICE_BASE">
             <column name="F_UNIT_ID" type="number(19, 0)">
@@ -70,20 +63,20 @@
                                  validate="true"/>
     </changeSet>
 
-    <changeSet author="Reza Mazloom" id="mazloom_009">
-        <dropUniqueConstraint tableName="TBL_PRICE_BASE" constraintName="element_priceBaseReference_priceDate_UNIQUE"/>
-        <addUniqueConstraint columnNames="F_ELEMENT_ID, F_CURRENCY_ID, F_UNIT_ID, N_PRICE_BASE_REFERENCE, D_PRICE_DATE"
-                             constraintName="element_currency_unit_priceBaseReference_priceDate_UNIQUE"
-                             tableName="TBL_PRICE_BASE"/>
+    <changeSet author="MShahabi" id="1799887766554-019">
+        <dropForeignKeyConstraint baseTableName="TBL_PRICE_BASE" constraintName="fk_priceBase2UnitByUnitId"/>
+        <dropColumn columnName="F_UNIT_ID" tableName="TBL_PRICE_BASE"/>
     </changeSet>
 
-    <changeSet author="Reza (generated)" id="mazloom_022">
-        <createIndex tableName="TBL_PRICE_BASE" unique="true"
-                     indexName="element_priceBaseReference_priceDate_UNIQUE">
-            <column name="F_ELEMENT_ID"/>
-            <column name="N_PRICE_BASE_REFERENCE"/>
-            <column name="D_PRICE_DATE"/>
-        </createIndex>
+    <changeSet author="MShahabi" id="1799887766554-020">
+        <addColumn tableName="TBL_PRICE_BASE">
+            <column name="F_WEIGHT_UNIT_ID" type="number(19, 0)"/>
+        </addColumn>
+        <addForeignKeyConstraint baseColumnNames="F_WEIGHT_UNIT_ID" baseTableName="TBL_PRICE_BASE" constraintName="fk_priceBase2UnitByWeightUnitId" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_UNIT" validate="true"/>
+        <addColumn tableName="TBL_PRICE_BASE">
+            <column name="F_FINANCE_UNIT_ID" type="number(19, 0)"/>
+        </addColumn>
+        <addForeignKeyConstraint baseColumnNames="F_FINANCE_UNIT_ID" baseTableName="TBL_PRICE_BASE" constraintName="fk_priceBase2UnitByFinanceUnitId" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_UNIT" validate="true"/>
     </changeSet>
 
 </databaseChangeLog>
