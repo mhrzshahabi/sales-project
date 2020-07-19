@@ -41,55 +41,27 @@ isc.defineClass("InvoiceCalculation2", isc.VLayout).addProperties({
                 let fields = [{
                     name: "lotNo",
                     align: "center",
-                    value: data[i].lotNo,
                     title: "<spring:message code='global.number'/>"
                 }, {
                     align: "center",
-                    name: "weightGW",
-                    value: data[i].weightGW,
+                    name: "weightGW (" + data.weightUnit.symbolUnit + ")",
                     title: "<spring:message code='foreign-invoice.form.weight-gw'/>"
                 }, {
                     align: "center",
-                    name: "weightND",
-                    value: data[i].weightND,
+                    name: "weightND (" + data.weightUnit.symbolUnit + ")",
                     title: "<spring:message code='foreign-invoice.form.weight-nd'/>"
                 }];
 
-                for (let index = 0; index < data[i].elements.length; index++) {
+                for (let index = 0; index < data.materialElements.length; index++) {
 
-                    if (!elements[index].element.payable)
+                    if (!data.materialElements[index].element.payable)
                         continue;
 
-                    fields.add(isc.Unit.create({
-
-                        unitCategory: elements[index].unit.categoryUnit,
-                        disabledUnitField: true,
-                        disabledValueField: true,
-                        showValueFieldTitle: true,
-                        showUnitFieldTitle: false,
-                        name: elements[index].element.name,
-                        fieldValueTitle: elements[index].element.name,
+                    fields.add({
+                        name: data.materialElements[index].element.name,
                         border: "1px solid rgba(0, 0, 0, 0.3)",
-                    }));
-                    fields.last().setValue(elements[index].price);
-                    fields.last().setUnitId(elements[index].unit.id);
-                }
-
-                This.addMember(isc.Label.create({
-                    contents: "<b>" + "AVERAGE OF " + (month + moasValue) + "th MONTH OF " + year + " (MOAS" + (moasValue > 0 ? "+" : "-") + moasValue + ")<b>"
-                }));
-                This.addMember(isc.DynamicForm.create({
-                    width: "100%",
-                    fields: fields
-                }));
-
-                for (let index = 0; index < priceValues.length; index++) {
-
-                    fields.add(isc.InvoiceCalculationRow.create({
-                        assay: assayValues[index],
-                        price: priceValues[index],
-                        border: "1px solid rgba(0, 0, 0, 0.3)",
-                    }));
+                        title: data.materialElements[index].element.name + ' (' + data.materialElements[index].unit.symbolUnit + ')',
+                    });
                 }
 
                 fields.addAll([{
@@ -97,16 +69,19 @@ isc.defineClass("InvoiceCalculation2", isc.VLayout).addProperties({
                     name: "deductionValue",
                     title: "<spring:message code='foreign-invoice.form.discount'/>"
                 }, {
+                    canEdit: true,
+                    required: true,
+                    type: "Float",
                     align: "center",
                     name: "deductionUnitConversionRate",
                     changed: function (form, item, value) {
 
-                        let unitPriceField = this.getField('unitPrice');
-                        this.setValue("subTotal", unitPriceField.getValue() * unitPriceField.deductionUnitConversionRate);
+                        let deductionPriceField = this.getField('deductionPrice');
+                        this.setValue("subTotal", deductionPriceField.getValue() * value);
                     }
                 }, {
                     align: "center",
-                    name: "unitPrice",
+                    name: "deductionPrice",
                     title: "<spring:message code='foreign-invoice.form.unit-price'/>"
                 }, {
                     align: "center",
@@ -114,12 +89,8 @@ isc.defineClass("InvoiceCalculation2", isc.VLayout).addProperties({
                     title: "<spring:message code='foreign-invoice.form.tab.subtotal'/>"
                 }]);
 
-                let dataSource = isc.MyRestDataSource.create({});
-                let criteria = {
-                    operator: "and",
-                    criteria: [{fieldName: "", operator: "", value: ""}]
-                };
-                let grid = isc.ListGrid.nicico.getDefault(fields, dataSource, criteria);
+                let grid = isc.ListGrid.nicico.getDefault(fields, null, criteria);
+                grid.setData(data);
                 this.addMember(grid);
                 this.addMember(isc.Label.create({
                     contents: __contract.getPriceArticleTemplate(This.contract)
