@@ -367,7 +367,7 @@ inspectionReportTab.method.getAssayElementFields = function (materialId) {
 
     inspectionReportTab.restDataSource.materialElementRest.fetchData(elementCriteria, function (dsResponse, data, dsRequest) {
 
-        if (data.length != 0) {
+        if (data.length !== 0) {
 
             let fields = [{
                 name: "inventoryId",
@@ -391,7 +391,8 @@ inspectionReportTab.method.getAssayElementFields = function (materialId) {
                     return {
                         name: me.element.name,
                         title: me.element.name + " (" + me.unit.nameEN + ")",
-                        id: "",
+                        ids: [],
+                        versions: [],
                         meId: me.id,
                         required: true,
                         validators: [
@@ -424,31 +425,31 @@ inspectionReportTab.method.setInventoryCriteria = function (materialId) {
     });
 };
 
-inspectionReportTab.method.getAssayId = function (meId, inId) {
-
-    let assayCriteria = {
-        _constructor: "AdvancedCriteria",
-        operator: "and",
-        criteria: [
-            {
-                fieldName: "materialElementId",
-                operator: "equals",
-                value: meId
-            },
-            {
-                fieldName: "inventoryId",
-                operator: "equals",
-                value: inId
-            }]
-    };
-
-    let dataZero = inspectionReportTab.restDataSource.assayInspecRest.fetchData(assayCriteria, function (dsResponse, data, dsRequest) {
-        return data[0];
-    });
-
-    console.log("DATA: " + JSON.stringify(dataZero));
-
-};
+// inspectionReportTab.method.getAssayId = function (meId, inId) {
+//
+//     let assayCriteria = {
+//         _constructor: "AdvancedCriteria",
+//         operator: "and",
+//         criteria: [
+//             {
+//                 fieldName: "materialElementId",
+//                 operator: "equals",
+//                 value: meId
+//             },
+//             {
+//                 fieldName: "inventoryId",
+//                 operator: "equals",
+//                 value: inId
+//             }]
+//     };
+//
+//     let dataZero = inspectionReportTab.restDataSource.assayInspecRest.fetchData(assayCriteria, function (dsResponse, data, dsRequest) {
+//         return data[0];
+//     });
+//
+//     console.log("DATA: " + JSON.stringify(dataZero));
+//
+// };
 
 let inspectorCriteria = {
     _constructor: "AdvancedCriteria",
@@ -1040,16 +1041,32 @@ inspectionReportTab.method.setAssayElementListRows = function (selectedInventori
     let fields = inspectionReportTab.listGrid.assayElement.fields;
     let length = inspectionReportTab.listGrid.assayElement.fields.length;
     let assayData = inspectionReportTab.method.groupByAssays(record.assayInspections, "inventoryId");
+    assayData.sortByProperty("inventoryId", true);
+    selectedInventories.sortByProperty("id", true);
+    console.log("assayData " + JSON.stringify(assayData));
+    console.log("assayData " +assayData[0].get(0).inventoryId + "@" + assayData[1].get(0).inventoryId);
+    console.log("selectedInventories " +selectedInventories[0].id + "@" + selectedInventories[1].id);
     selectedInventories.forEach((current, index, array) => {
-        let assayRecord = assayData[index];
-        assayRecord.forEach((c, i, arr) => {
-            for (let n = 2; n < length; n++) {
-                if (c.materialElement.id === fields[n].meId) {
-                    inspectionReportTab.method.getAssayId(c.materialElement.id, c.inventoryId);
-                    inspectionReportTab.listGrid.assayElement.setEditValue(index, n, c.value);
+        if (current.id === assayData[index].get(0).inventoryId) {
+            let assayRecord = assayData[index];
+            assayRecord.forEach((c, i, arr) => {
+                for (let n = 2; n < length; n++) {
+
+                    if (c.materialElement.id === fields[n].meId) {
+
+                        if (inspectionReportTab.listGrid.assayElement.getField(n).ids.length > index)
+                            inspectionReportTab.listGrid.assayElement.getField(n).ids = [];
+
+                        if (inspectionReportTab.listGrid.assayElement.getField(n).versions.length > index)
+                            inspectionReportTab.listGrid.assayElement.getField(n).versions = [];
+
+                        inspectionReportTab.listGrid.assayElement.setEditValue(index, n, c.value);
+                        inspectionReportTab.listGrid.assayElement.getField(n).ids.add(c.id);
+                        inspectionReportTab.listGrid.assayElement.getField(n).versions.add(c.version);
+                    }
                 }
-            }
-        });
+            });
+        }
     });
 
     inspectionReportTab.listGrid.assayElement.saveAllEdits();
@@ -1122,19 +1139,13 @@ inspectionReportTab.window.inspecReport.populateData = function (bodyWidget) {
 
         for (let i = 2; i < inspectionReportTab.variable.allCols; i++) {
 
-            let assayInspectionObj = {
-                id: "",
-                value: "",
-                inspectionReportId: "",
-                materialElementId: "",
-                labName: "",
-                labPlace: "",
-                inventoryId: "",
-            };
+            let assayInspectionObj = {};
 
             assayInspectionObj.labName = bodyWidget.members.get(2).tabs.get(1).pane.members.get(0).getItem("labName").getValue();
             assayInspectionObj.labPlace = bodyWidget.members.get(2).tabs.get(1).pane.members.get(0).getItem("labPlace").getValue();
-            assayInspectionObj.value = bodyWidget.members.get(2).tabs.get(1).pane.members.get(1).getCellValue(assayRecord, index, i);
+            assayInspectionObj.id = bodyWidget.members.get(2).tabs.get(1).pane.members.get(1).getField(i).ids[index];
+            assayInspectionObj.version = bodyWidget.members.get(2).tabs.get(1).pane.members.get(1).getField(i).versions[index];
+            assayInspectionObj.value = NumberUtil.parseInt(bodyWidget.members.get(2).tabs.get(1).pane.members.get(1).getCellValue(assayRecord, index, i));
             assayInspectionObj.materialElementId = bodyWidget.members.get(2).tabs.get(1).pane.members.get(1).fields.get(i).meId;
             assayInspectionObj.inventoryId = assayRecord.inventoryId;
 
