@@ -29,6 +29,12 @@ public class ContractDTO2 {
     private Long materialId;
     private Long contractTypeId;
 
+    // contractContacts
+    private Long buyerId;
+    private Long sellerId;
+    private Long agentBuyerId;
+    private Long agentSellerId;
+
     private List<ContractContactDTO.Info> contractContacts;
     private List<ContractDetailDTO2.Info> contractDetails;
 

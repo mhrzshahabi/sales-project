@@ -1,19 +1,23 @@
 package com.nicico.sales.service.contract;
 
+import com.nicico.copper.common.domain.criteria.NICICOCriteria;
+import com.nicico.copper.common.domain.criteria.SearchUtil;
+import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.sales.annotation.Action;
 import com.nicico.sales.dto.contract.ContractContactDTO;
 import com.nicico.sales.dto.contract.ContractDTO2;
 import com.nicico.sales.enumeration.ActionType;
+import com.nicico.sales.exception.NotFoundException;
 import com.nicico.sales.iservice.contract.IContractContactService;
 import com.nicico.sales.iservice.contract.IContractService2;
 import com.nicico.sales.model.entities.contract.Contract2;
-import com.nicico.sales.model.entities.contract.ContractContact;
+import com.nicico.sales.model.enumeration.CommercialRole;
 import com.nicico.sales.service.GenericService;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.TypeToken;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -34,71 +38,88 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
         contract2.setContractDetails(null);
 
         ContractDTO2.Info savedContract2 = save(contract2);
-        if (request.getContractContacts() != null && request.getContractContacts().size() > 0) {
-            final List<ContractContactDTO.Create> contractContactsRqs = modelMapper.map(request.getContractContacts(), new TypeToken<List<ContractContactDTO.Create>>() {
-            }.getType());
-            contractContactsRqs.forEach(q -> q.setContractId(savedContract2.getId()));
-            List<ContractContactDTO.Info> savedContractContact = contractContactService.createAll(contractContactsRqs);
-            savedContract2.setContractContacts(savedContractContact);
-        }
+
+        createContractContacts(savedContract2.getId(), request.getBuyerId(), CommercialRole.Buyer);
+        createContractContacts(savedContract2.getId(), request.getSellerId(), CommercialRole.Seller);
+        createContractContacts(savedContract2.getId(), request.getAgentBuyerId(), CommercialRole.AgentBuyer);
+        createContractContacts(savedContract2.getId(), request.getAgentSellerId(), CommercialRole.AgentSeller);
+
+        savedContract2.setBuyerId(request.getBuyerId());
+        savedContract2.setSellerId(request.getSellerId());
+        savedContract2.setAgentBuyerId(request.getAgentBuyerId());
+        savedContract2.setAgentSellerId(request.getAgentSellerId());
+
         if (request.getContractDetails() != null && request.getContractDetails().size() > 0) {
         }
 
         return savedContract2;
     }
 
-    /*@Override
-    @Transactional
-    @Action(value = ActionType.Update)
-    public ContractDetailTypeDTO.Info update(Long id, ContractDetailTypeDTO.Update request) {
+    private void createContractContacts(Long contractId, Long contactId, CommercialRole commercialRole) {
+        ContractContactDTO.Create contractContactDTO = new ContractContactDTO.Create();
+        contractContactDTO.setContractId(contractId);
+        contractContactDTO.setContactId(contactId);
+        contractContactDTO.setCommercialRole(commercialRole);
+        contractContactService.create(contractContactDTO);
+    }
 
-        ContractDetailType contractDetailType = repository.findById(id).orElseThrow(() -> new NotFoundException(ContractDetailType.class));
+    @Override
+    @Transactional(readOnly = true)
+    @Action(value = ActionType.Search)
+    public TotalResponse<ContractDTO2.Info> search(NICICOCriteria request) {
 
-        try {
-            updateTemplates(request, contractDetailType);
-            updateParams(request, contractDetailType);
-        } catch (IllegalAccessException | InvocationTargetException | NoSuchFieldException e) {
+        List<Contract2> entities = new ArrayList<>();
+        TotalResponse<ContractDTO2.Info> result = SearchUtil.search(repositorySpecificationExecutor, request, entity -> {
 
-            Locale locale = LocaleContextHolder.getLocale();
-            throw new SalesException2(ErrorType.Unknown, "", messageSource.getMessage("contract-detail-type.exception.update", null, locale));
-        }
+            ContractDTO2.Info eResult = modelMapper.map(entity, ContractDTO2.Info.class);
+            validation(entity, eResult);
+            entities.add(entity);
+            eResult.getContractContacts().forEach(q -> {
+                if (q.getCommercialRole() == CommercialRole.Buyer)
+                    eResult.setBuyerId(q.getContactId());
+                if (q.getCommercialRole() == CommercialRole.Seller)
+                    eResult.setSellerId(q.getContactId());
+                if (q.getCommercialRole() == CommercialRole.AgentBuyer)
+                    eResult.setAgentBuyerId(q.getContactId());
+                if (q.getCommercialRole() == CommercialRole.AgentSeller)
+                    eResult.setAgentSellerId(q.getContactId());
+            });
+            return eResult;
+        });
 
-        ContractDetailType updating = new ContractDetailType();
-        modelMapper.map(contractDetailType, updating);
-        modelMapper.map(request, updating);
-        validation(updating, request);
-
-        updating.setContractDetailTypeParams(null);
-        updating.setContractDetailTypeTemplates(null);
-
-        return save(updating);
+        validationAll(entities, result);
+        return result;
     }
 
     @Override
     @Transactional
-    @Action(ActionType.Delete)
-    public void delete(Long id) {
+    @Action(value = ActionType.Update)
+    public ContractDTO2.Info update(Long id, ContractDTO2.Update request) {
 
-        ContractDetailType contractDetailType = repository.findById(id).orElseThrow(() -> new NotFoundException(ContractDetailType.class));
+        Contract2 contract2 = repository.findById(id).orElseThrow(() -> new NotFoundException(Contract2.class));
 
-        List<ContractDetailTypeParam> contractDetailTypeParams = contractDetailType.getContractDetailTypeParams();
-        ContractDetailTypeParamDTO.Delete paramDeleteRq = new ContractDetailTypeParamDTO.Delete();
-        paramDeleteRq.setIds(contractDetailTypeParams.stream().map(ContractDetailTypeParam::getId).collect(Collectors.toList()));
-        if (!paramDeleteRq.getIds().isEmpty())
-            contractDetailTypeParamService.deleteAll(paramDeleteRq);
+        // update ContractContact
+        request.getContractContacts().forEach(q -> {
+            if (q.getCommercialRole() == CommercialRole.Buyer)
+                q.setContactId(request.getBuyerId());
+            if (q.getCommercialRole() == CommercialRole.Seller)
+                q.setContactId(request.getSellerId());
+            if (q.getCommercialRole() == CommercialRole.AgentBuyer)
+                q.setContactId(request.getAgentBuyerId());
+            if (q.getCommercialRole() == CommercialRole.AgentSeller)
+                q.setContactId(request.getAgentSellerId());
+            contractContactService.update(modelMapper.map(q, ContractContactDTO.Update.class));
+        });
 
-        ContractDetailTypeTemplateDTO.Delete templateDeleteRq = new ContractDetailTypeTemplateDTO.Delete();
-        List<ContractDetailTypeTemplate> contractDetailTypeTemplates = contractDetailType.getContractDetailTypeTemplates();
-        templateDeleteRq.setIds(contractDetailTypeTemplates.stream().map(ContractDetailTypeTemplate::getId).collect(Collectors.toList()));
-        if (!templateDeleteRq.getIds().isEmpty())
-            contractDetailTypeTemplateService.deleteAll(templateDeleteRq);
+        Contract2 updating = new Contract2();
+        modelMapper.map(contract2, updating);
+        modelMapper.map(request, updating);
+        validation(updating, request);
 
-        validation(contractDetailType, id);
+        updating.setContractContacts(null);
+        updating.setContractDetails(null);
 
-        contractDetailType.setContractDetailTypeParams(null);
-        contractDetailType.setContractDetailTypeTemplates(null);
-
-        repository.delete(contractDetailType);
-    }*/
+        return save(updating);
+    }
 
 }

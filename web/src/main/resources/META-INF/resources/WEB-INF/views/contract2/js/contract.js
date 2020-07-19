@@ -54,6 +54,7 @@ contractTab.dynamicForm.fields.material = {
         ],
         fetchDataURL: "${contextPath}/api/material/spec-list"
     }),
+    autoFetchData: false,
     displayField: "descl",
     valueField: "id",
     required: true,
@@ -73,6 +74,7 @@ contractTab.dynamicForm.fields.contractType = {
         ],
         fetchDataURL: "${contextPath}/api/contract-type/spec-list"
     }),
+    autoFetchData: false,
     displayField: "titleEn",
     valueField: "id",
     required: true,
@@ -98,9 +100,10 @@ contractTab.dynamicForm.fields.buyer = {
         ],
         fetchDataURL: "${contextPath}/api/contact/spec-list"
     }),
+    autoFetchData: false,
     displayField: "nameEN",
     valueField: "id",
-    required: false,
+    required: true,
     title: "<spring:message code='contact.commercialRole.buyer'/>"
 };
 contractTab.dynamicForm.fields.seller = {
@@ -123,9 +126,10 @@ contractTab.dynamicForm.fields.seller = {
         ],
         fetchDataURL: "${contextPath}/api/contact/spec-list"
     }),
+    autoFetchData: false,
     displayField: "nameEN",
     valueField: "id",
-    required: false,
+    required: true,
     title: "<spring:message code='contact.commercialRole.seller'/>"
 };
 contractTab.dynamicForm.fields.agentBuyer = {
@@ -148,6 +152,7 @@ contractTab.dynamicForm.fields.agentBuyer = {
         ],
         fetchDataURL: "${contextPath}/api/contact/spec-list"
     }),
+    autoFetchData: false,
     displayField: "nameEN",
     valueField: "id",
     required: false,
@@ -173,18 +178,13 @@ contractTab.dynamicForm.fields.agentSeller = {
         ],
         fetchDataURL: "${contextPath}/api/contact/spec-list"
     }),
+    autoFetchData: false,
     displayField: "nameEN",
     valueField: "id",
     required: false,
     title: "<spring:message code='contact.commercialRole.agentSeller'/>"
 };
-contractTab.dynamicForm.contractContactFields = {};
-contractTab.dynamicForm.contractContactFields.contractId = {
-    name: "contractId"
-};
-contractTab.dynamicForm.contractContactFields.contactId = {
-    name: "contactId"
-};
+
 contractTab.dynamicForm.contract = isc.DynamicForm.create({
     width: "100%",
     height: "100%",
@@ -262,20 +262,13 @@ contractTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
                     return;
                 let data = contractTab.dynamicForm.contract.getValues();
 
-                let contractContacts = [data.buyerId, data.sellerId, data.agentBuyerId, data.agentSellerId];
-                data.contractContacts = [];
-                contractContacts.forEach(x => {
-                    contractTab.dynamicForm.contractContactFields = {};
-                    contractTab.dynamicForm.contractContactFields.contractId = data.id;
-                    contractTab.dynamicForm.contractContactFields.contactId = x;
-                    data.contractContacts.push(contractTab.dynamicForm.contractContactFields);
-                });
                 isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                     actionURL: contractTab.variable.url,
                     httpMethod: contractTab.variable.method,
                     data: JSON.stringify(data),
                     callback: function (resp) {
                         if (resp.httpResponseCode === 201 || resp.httpResponseCode === 200) {
+                            console.log(resp);
                             contractTab.dialog.ok();
                             contractTab.method.refreshData();
                             contractTab.window.close();

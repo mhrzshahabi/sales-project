@@ -194,4 +194,25 @@ public abstract class AllConverters {
             return null;
         }
     }
+
+    // *****************************************************************************************************************
+
+    @Converter(autoApply = true)
+    public static class CommercialRoleConverter implements AttributeConverter<CommercialRole, Integer> {
+
+        @Override
+        public Integer convertToDatabaseColumn(CommercialRole literal) {
+
+            if (literal == null)
+                return null;
+
+            return literal.getId();
+        }
+
+        @Override
+        public CommercialRole convertToEntityAttribute(Integer integer) {
+            return Arrays.stream(CommercialRole.values())
+                    .filter(literal -> literal.getId().equals(integer)).findFirst().orElse(null);
+        }
+    }
 }
