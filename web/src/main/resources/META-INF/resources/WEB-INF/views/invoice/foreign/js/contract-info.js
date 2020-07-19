@@ -57,3 +57,8 @@ __contract.getRc = function (contract, elementName) {
 
     return 0;
 };
+__contract.getPriceArticleTemplate = function (contract) {
+
+    // Price contract text
+    return '';
+};

@@ -22,7 +22,8 @@ import java.math.BigDecimal;
 @AuditOverride(forClass = Auditable.class)
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
-@Table(name = "TBL_WEIGHING_INSPECTION")
+@Table(name = "TBL_WEIGHING_INSPECTION", uniqueConstraints = @UniqueConstraint(name = "inspectionReport_inventory_UNIQUE",
+        columnNames = {"F_INSPECTION_REPORT_ID", "F_INVENTORY_ID"}))
 public class WeightInspection extends BaseEntity {
 
     @Id
