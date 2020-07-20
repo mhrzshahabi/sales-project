@@ -149,5 +149,7 @@
         <dropColumn columnName="N_VALUE" tableName="TBL_WARH_REMITTANCE_DETAIL"/>
     </changeSet>
 
-
+    <changeSet author="saeb (generated)" id="saeb1595155666870-198">
+        <dropNotNullConstraint columnDataType="number(19,0)" columnName="F_DESTINATION_TOZINE_ID" tableName="TBL_WARH_REMITTANCE_DETAIL"/>
+    </changeSet>
 </databaseChangeLog>
