@@ -1349,19 +1349,24 @@ rdTab.Fields.RemittanceFull = function () {
             valueMap: SalesBaseParameters.getSavedWarehouseParameter().getValueMap("id", "name"),
             title: "مبدا",
             formatCellValue(value, record) {
-                if(value) return value;
-                return SalesBaseParameters.getSavedWarehouseParameter().find(w=>{
-                  return   w.id == record.remittanceDetails[0].sourceTozin.sourceId;
+                if (value) return value;
+                return SalesBaseParameters.getSavedWarehouseParameter().find(w => {
+                    return w.id == record.remittanceDetails[0].sourceTozin.sourceId;
                 }).name;
             }
         },
         {
+            ...rdTab.Fields.TozinBase().find(t => t.name === 'date'),
+            name: "remittanceDetails.sourceTozin.date",
+            title: "تاریخ توزین مبدا",
+
+        },
+        {
+            ...rdTab.Fields.TozinBase().find(t => t.name === 'date'),
             name: "remittanceDetails.destinationTozin.date",
             title: "تاریخ توزین مقصد",
-            formatCellValue(value, record) {
-                if(value) return value;
-               return record.remittanceDetails[0].sourceTozin.date;
-            }
+            
+
         },
         {
             name: "remittanceDetails.destinationTozin.targetId",
@@ -1472,11 +1477,11 @@ rdTab.Grids.Remittance = {
     // groupByField: "remittance.code",
     dataSource: rdTab.RestDataSources.Remittance,
     autoFetchData: true,
-    getCellCSSText(record, rowNum, colNum){
-        if(!record.remittanceDetails[0].destinationTozin){
+    getCellCSSText(record, rowNum, colNum) {
+        if (!record.remittanceDetails[0].destinationTozin) {
             return "font-weight:bold; color:#287fd6;";
         }
-        return this.Super('getCellCSSText',arguments)
+        return this.Super('getCellCSSText', arguments)
     }
 
 }
@@ -1571,14 +1576,14 @@ isc.VLayout.create({
                                 const rd = [...r_tmp.remittanceDetails];
                                 delete r_tmp.remittanceDetails;
                                 rd.forEach(_ => {
-                                    if(!_['destinationTozin'])hasOutRemittance=true
+                                    if (!_['destinationTozin']) hasOutRemittance = true
                                     _['remittance'] = r_tmp;
 
                                 })
                                 selectedData.addList(rd)
                             });
                         if (multipleMaterialItem) return;
-                        if(hasOutRemittance) return isc.warn('بیجک خروجی انتخاب شده')
+                        if (hasOutRemittance) return isc.warn('بیجک خروجی انتخاب شده')
                         // console.log('selectedData', selectedData)
                         //  let grid;
                         //  let _form;
