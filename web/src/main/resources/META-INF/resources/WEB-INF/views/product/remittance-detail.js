@@ -1423,7 +1423,7 @@ rdTab.RestDataSources.RemittanceDetail = {
     fields: rdTab.Fields.RemittanceDetailFullFields()
 };
 rdTab.RestDataSources.Remittance = {
-    fetchDataURL: "api/remittance/spec-list",
+    fetchDataURL: "api/remittance/spec-list?distinct=true&",
     updateDataURL: "api/remittance/",
     fields: rdTab.Fields.RemittanceFull()
 };
