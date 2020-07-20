@@ -143,13 +143,15 @@ priceBaseTab.dynamicForm.fields = BaseFormItems.concat([
         width: "300",
         type: "float",
         title: "<spring:message code='priceBase.price'/>",
-        // validator: [
-        //     {
-        //         type: "isFloat",
-        //         validateOnChange: true
-        //     }
-        // ],
-        mask: ("####.####")
+        validator: [
+            {
+                type: "floatPrecision",
+                validateOnChange: true,
+                precision: 10,
+                min: 0,
+                max: 5
+            }
+        ],
     }
 ]);
 
