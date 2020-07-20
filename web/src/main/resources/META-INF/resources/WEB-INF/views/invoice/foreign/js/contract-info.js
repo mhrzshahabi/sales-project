@@ -1,7 +1,12 @@
 let __contract = {};
+let __contract2 = {};
+let __weightInspection = {};
 
 __contract.nameOfNumberProperty = "no";
 __contract.url = "${contextPath}" + "/api/g-contract/";
+
+
+
 
 __contract.getBuyer = function (contract) {
 
@@ -20,6 +25,7 @@ __contract.getContractYear = function (contract) {
 
     // Year of MOAS+x
     return 2020;
+
 };
 __contract.getContractMOASValue = function (contract) {
 

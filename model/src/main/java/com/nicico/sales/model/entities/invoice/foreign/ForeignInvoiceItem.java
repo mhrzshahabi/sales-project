@@ -52,8 +52,6 @@ public class ForeignInvoiceItem extends BaseEntity {
 //    @Column(name = "N_DEDUCTION_PRICE", scale = 2, precision = 10)
 //    private BigDecimal deductionPrice;
 
-    // *****************************************************************************************************************
-
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "F_FOREIGN_INVOICE_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_foreignInvoiceItem2foreignInvoiceByForeignInvoiceId"))
