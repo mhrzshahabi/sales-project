@@ -210,20 +210,23 @@ contractTab.dynamicForm.fields.contractDetailType = {
     required: false,
     title: "<spring:message code='entity.contract-detail-type'/>",
     changed: function (form, item, value) {
+        contractTab.contractDetailsSectionStack.getSectionNames()
+        var record = item.getSelectedRecord();
         contractTab.contractDetailsSectionStack.addSection({
-            name: item.getSelectedRecord().id,
-            title: item.getSelectedRecord().titleEn,
+            name: record.titleEn,
+            title: record.titleEn,
             expanded: true,
 
-            controls: isc.IButton.create({
+            controls: [isc.IButton.create({
                 width: 150,
                 icon: "[SKIN]/actions/remove.png",
                 size: 32,
                 click: function () {
-                    console.log(item.getSelectedRecord())
-                    contractTab.contractDetailsSectionStack.removeSection(String(item.getSelectedRecord().id));
+                    console.log(record.titleEn + " deleted");
+                    contractTab.contractDetailsSectionStack.removeSection(record.titleEn + "");
+                    console.log(contractTab.contractDetailsSectionStack.getSectionNames());
                 }
-            }),
+            })],
 
             items: [
                 isc.DynamicForm.create({
@@ -252,6 +255,7 @@ contractTab.dynamicForm.fields.contractDetailType = {
                 })
             ]
         });
+        console.log(contractTab.contractDetailsSectionStack.getSectionNames());
     }
 }
 
