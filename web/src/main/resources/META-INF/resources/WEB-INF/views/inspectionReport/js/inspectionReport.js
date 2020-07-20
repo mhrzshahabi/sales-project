@@ -831,12 +831,13 @@ inspectionReportTab.listGrid.weightElement = isc.ListGrid.create({
     selectionType: "single",
     dataSource: inspectionReportTab.restDataSource.weightInspecRest,
     canEdit: true,
-    editEvent: "click",
+    editEvent: "doubleClick",
     autoSaveEdits: true,
     saveLocally: true,
     showRecordComponents: true,
     showRecordComponentsByCell: true,
     canRemoveRecords: false,
+    // arrowKeyAction: "select",
     fields: BaseFormItems.concat([
         {
             name: "id",
@@ -942,7 +943,7 @@ inspectionReportTab.listGrid.assayElement = isc.ListGrid.create({
     alternateRecordStyles: true,
     selectionType: "single",
     canEdit: true,
-    editEvent: "click",
+    editEvent: "doubleClick",
     autoSaveEdits: true,
     saveLocally: true,
     showRecordComponents: true,
@@ -1041,13 +1042,15 @@ inspectionReportTab.method.setAssayElementListRows = function (selectedInventori
     let fields = inspectionReportTab.listGrid.assayElement.fields;
     let length = inspectionReportTab.listGrid.assayElement.fields.length;
     let assayData = inspectionReportTab.method.groupByAssays(record.assayInspections, "inventoryId");
-    assayData.sortByProperty("inventoryId", true);
+    assayData.forEach((current, index, array) => {
+        current.sortByProperty("inventoryId", true);
+    });
     selectedInventories.sortByProperty("id", true);
     console.log("assayData " + JSON.stringify(assayData));
     console.log("assayData " +assayData[0].get(0).inventoryId + "@" + assayData[1].get(0).inventoryId);
     console.log("selectedInventories " +selectedInventories[0].id + "@" + selectedInventories[1].id);
     selectedInventories.forEach((current, index, array) => {
-        if (current.id === assayData[index].get(0).inventoryId) {
+        // if (current.id === assayData[index].get(0).inventoryId) {
             let assayRecord = assayData[index];
             assayRecord.forEach((c, i, arr) => {
                 for (let n = 2; n < length; n++) {
@@ -1066,7 +1069,7 @@ inspectionReportTab.method.setAssayElementListRows = function (selectedInventori
                     }
                 }
             });
-        }
+        // }
     });
 
     inspectionReportTab.listGrid.assayElement.saveAllEdits();
