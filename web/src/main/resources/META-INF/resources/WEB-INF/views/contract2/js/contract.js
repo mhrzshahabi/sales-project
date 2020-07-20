@@ -210,10 +210,22 @@ contractTab.dynamicForm.fields.contractDetailType = {
     required: false,
     title: "<spring:message code='entity.contract-detail-type'/>",
     changed: function (form, item, value) {
-        contractTab.contractDetailsSectionStack.getSectionNames()
         var record = item.getSelectedRecord();
+        var fields = [];
+        record.contractDetailTypeParams.forEach(param => {
+            var field = {
+                width: "10%",
+            };
+            field.name = param.name;
+            field.required = param.required;
+            field.title = param.name;
+            field.type = param.type;
+            fields.push(field);
+        })
+        if (contractTab.contractDetailsSectionStack.getSectionNames().includes(value))
+            return;
         contractTab.contractDetailsSectionStack.addSection({
-            name: record.titleEn,
+            name: value,
             title: record.titleEn,
             expanded: true,
 
@@ -222,9 +234,7 @@ contractTab.dynamicForm.fields.contractDetailType = {
                 icon: "[SKIN]/actions/remove.png",
                 size: 32,
                 click: function () {
-                    console.log(record.titleEn + " deleted");
-                    contractTab.contractDetailsSectionStack.removeSection(record.titleEn + "");
-                    console.log(contractTab.contractDetailsSectionStack.getSectionNames());
+                    contractTab.contractDetailsSectionStack.removeSection(record.id + "");
                 }
             })],
 
@@ -243,19 +253,10 @@ contractTab.dynamicForm.fields.contractDetailType = {
                     showInlineErrors: true,
                     errorOrientation: "bottom",
                     requiredMessage: '<spring:message code="validator.field.is.required"/>',
-                    fields: BaseFormItems.concat([
-                        {
-                            name: "no",
-                            width: "10%",
-                            required: true,
-                            keyPressFilter: "^[A-Za-z0-9]",
-                            title: "<spring:message code='contract.form.no'/>"
-                        }
-                    ], true)
+                    fields: BaseFormItems.concat(fields, true)
                 })
             ]
         });
-        console.log(contractTab.contractDetailsSectionStack.getSectionNames());
     }
 }
 
@@ -343,7 +344,6 @@ contractTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
                     data: JSON.stringify(data),
                     callback: function (resp) {
                         if (resp.httpResponseCode === 201 || resp.httpResponseCode === 200) {
-                            console.log(resp);
                             contractTab.dialog.ok();
                             contractTab.method.refreshData();
                             contractTab.window.close();
@@ -375,8 +375,8 @@ contractTab.contractDetailsSectionStack = isc.SectionStack.create({
 
 contractTab.window = isc.Window.nicico.getDefault(null, [
     contractTab.dynamicForm.contract,
-    contractTab.hLayout.saveOrExitHlayout,
-    contractTab.contractDetailsSectionStack
+    contractTab.contractDetailsSectionStack,
+    contractTab.hLayout.saveOrExitHlayout
 ], "85%", null);
 
 //*************************************************** Functions ********************************************************
