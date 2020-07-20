@@ -4,7 +4,7 @@
 //<script>
 // isc.DataSource.addSearchOperator({...isc.DataSource.getSearchOperators()['equals'],ID:"bagher",title:"bagher"})
 
-const tozinLiteFields = [
+const tozinLiteFields = _=> [
     {
         name: "date",
         type: "text",
@@ -177,7 +177,7 @@ const tozinLiteFields = [
         align: "center"
     },
 ];
-const tozinFields = [...tozinLiteFields,
+const tozinFields =_=> [...tozinLiteFields(),
 
     {
         name: "source",
@@ -362,7 +362,7 @@ function mainOnWayProduct() {
     }
 
     const restDataSource_Tozin_Lite = {
-        fields: tozinLiteFields,
+        fields: tozinLiteFields(),
         fetchDataURL: "${contextPath}/api/tozin/lite/spec-list"
     };
     const Menu_ListGrid_OnWayProduct = isc.Menu.create({
@@ -409,7 +409,7 @@ function mainOnWayProduct() {
         title: "<spring:message code='global.form.export.excel'/>",
         visibility: "hidden",
         click: function () {
-            const fieldsGrid = tozinFields.filter(
+            const fieldsGrid = tozinFields().filter(
                 function (q) {
                     return q.name.toString().toLowerCase() != '$74y';
                 });
@@ -617,7 +617,7 @@ function mainOnWayProduct() {
         contextMenu: Menu_ListGrid_OnWayProduct,
         autoFetchData: false,
         useClientFiltering: false,
-        fields: tozinLiteFields
+        fields: tozinLiteFields()
     });
 
     const VLayout_Tozin_Grid = isc.VLayout.create({
@@ -643,7 +643,7 @@ function mainOnWayProduct() {
             operator: "greaterOrEqual",
             value: new persianDate().subtract('d', 14).format('YYYY/MM/DD'),
         },
-            {"fieldName": "tozinId", "operator": "iNotStartsWith", "value": "3-"}
+           // {"fieldName": "tozinId", "operator": "iNotStartsWith", "value": "3-"}
         ]
     };
     if ((targetId = StorageUtil.get('on_way_product_defaultTargetId'))) {
