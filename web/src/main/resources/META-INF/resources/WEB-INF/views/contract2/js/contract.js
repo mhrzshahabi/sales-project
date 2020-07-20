@@ -184,6 +184,7 @@ contractTab.dynamicForm.fields.agentSeller = {
     required: true,
     title: "<spring:message code='contact.commercialRole.agentSeller'/>"
 };
+
 contractTab.dynamicForm.fields.contractDetailType = {
     name: "contractDetailTypeId",
     width: "100%",
@@ -205,20 +206,52 @@ contractTab.dynamicForm.fields.contractDetailType = {
     }),
     autoFetchData: false,
     displayField: "titleEn",
-    valueField: "titleEn",
+    valueField: "id",
     required: false,
     title: "<spring:message code='entity.contract-detail-type'/>",
     changed: function (form, item, value) {
         contractTab.contractDetailsSectionStack.addSection({
-            title: value,
-            expanded: true, items: [
-                isc.Img.create({
-                    autoDraw: false, width: 48, height: 48,
-                    src: "pieces/48/piece_yellow.png"
+            name: item.getSelectedRecord().id,
+            title: item.getSelectedRecord().titleEn,
+            expanded: true,
+
+            controls: isc.IButton.create({
+                width: 150,
+                icon: "[SKIN]/actions/remove.png",
+                size: 32,
+                click: function () {
+                    console.log(item.getSelectedRecord())
+                    contractTab.contractDetailsSectionStack.removeSection(String(item.getSelectedRecord().id));
+                }
+            }),
+
+            items: [
+                isc.DynamicForm.create({
+                    visibility: "hidden",
+                    width: "100%",
+                    height: "100%",
+                    align: "center",
+                    titleAlign: "right",
+                    numCols: 8,
+                    margin: 10,
+                    canSubmit: true,
+                    showErrorText: true,
+                    showErrorStyle: true,
+                    showInlineErrors: true,
+                    errorOrientation: "bottom",
+                    requiredMessage: '<spring:message code="validator.field.is.required"/>',
+                    fields: BaseFormItems.concat([
+                        {
+                            name: "no",
+                            width: "10%",
+                            required: true,
+                            keyPressFilter: "^[A-Za-z0-9]",
+                            title: "<spring:message code='contract.form.no'/>"
+                        }
+                    ], true)
                 })
             ]
         });
-
     }
 }
 
@@ -331,8 +364,8 @@ contractTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
 
 contractTab.contractDetailsSectionStack = isc.SectionStack.create({
     visibilityMode: "multiple",
-    width: 300,
-    height: 500,
+    width: "100%",
+    height: 200,
     sections: []
 });
 
