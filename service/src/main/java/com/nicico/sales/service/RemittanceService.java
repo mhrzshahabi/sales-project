@@ -77,7 +77,8 @@ public class RemittanceService extends GenericService<Remittance, Long, Remittan
             remittancePDF.setIsWithRail(false);
             remittancePDF.setFrom(remittancePDF.getRemittanceDetails().get(0).getSourceTozin().getSourceWarehouse().getName());
             remittancePDF.setSourceDate(remittancePDF.getRemittanceDetails().get(0).getSourceTozin().getDate());
-            remittancePDF.setDestinationDate(remittancePDF.getRemittanceDetails().get(0).getDestinationTozin().getDate());
+            if (remittancePDF.getRemittanceDetails().get(0).getDestinationTozin()!=null)
+                remittancePDF.setDestinationDate(remittancePDF.getRemittanceDetails().get(0).getDestinationTozin().getDate());
             final String containerNo3 = remittancePDF.getRemittanceDetails().get(0).getSourceTozin().getContainerNo3();
             try {
                 Integer.valueOf(containerNo3);
