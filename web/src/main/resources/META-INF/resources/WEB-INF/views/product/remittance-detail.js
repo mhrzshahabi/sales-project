@@ -1365,7 +1365,7 @@ rdTab.Fields.RemittanceFull = function () {
             ...rdTab.Fields.TozinBase().find(t => t.name === 'date'),
             name: "remittanceDetails.destinationTozin.date",
             title: "تاریخ توزین مقصد",
-            
+
 
         },
         {
@@ -1557,6 +1557,7 @@ isc.VLayout.create({
                     },
                 }),
                 isc.ToolStripButtonAdd.create({
+                    visibility: "hidden",
                     title: 'ایجاد بیجک خروجی',
                     click() {
                         const selectedData = [];
