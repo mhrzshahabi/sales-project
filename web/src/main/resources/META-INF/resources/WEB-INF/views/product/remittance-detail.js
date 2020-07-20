@@ -267,7 +267,8 @@ const rdTab = {
                 }
 
                 if (response.status === 200 || response.status === 201) response.text().then(resp => {
-                    rdTab.Dialog.Success()
+                    rdTab.Dialog.Success();
+                    rdTab.Grids.Remittance.obj.invalidateCache();
                 });
                 else {
                     response.text().then(error => {
@@ -378,7 +379,7 @@ const rdTab = {
                 const data = {ids: grid.getSelectedRecords().map(record => record.id)};
                 if (params.ids.length > 0) {
                     isc.Dialog.create({
-                        message: '<spring:message code="global.delete.ask"  />' + "<br>" + params.ids.length + " ",
+                        message: '<spring:message code="global.delete.ask"  />' + "<br>" + params.ids.length + " " + 'مورد',
                         icon: "[SKIN]ask.png",
                         title: '<spring:message code="global.form.remove"/> ' + " " + params.ids.length + " " + 'مورد',
                         buttons: [
@@ -659,7 +660,8 @@ rdTab.Methods.RecordDoubleClick = function (url, items, recordString, viewer, re
     let form;
     const window1 = isc.Window.create({
         width: .2 * window.innerWidth,
-        height: .2 * window.innerHeight,
+        // height: .2 * window.innerHeight,
+        // width: "100%",
         autoSize: true,
         autoCenter: true,
         isModal: true,
@@ -672,6 +674,7 @@ rdTab.Methods.RecordDoubleClick = function (url, items, recordString, viewer, re
     });
     window1.setMembers(
         [isc.VLayout.create({
+            height: "100%",
             members: [
                 form = isc.DynamicForm.create({
                     items: items,
@@ -1228,7 +1231,7 @@ rdTab.Fields.RemittanceDetail = function () {
         },
         {
             name: "description",
-            title: "توضیحات پگیج",
+            title: "توضیحات پکیج",
             recordDoubleClick: rdTab.Methods.RecordDoubleClickRD,
 
 
