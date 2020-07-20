@@ -10,4 +10,19 @@
         </addColumn>
     </changeSet>
 
+    <!-- Drop Deduction columns -->
+    <changeSet author="karimi (generated)" id="1595149855236-235">
+        <dropColumn columnName="N_DEDUCTION_PRICE" tableName="TBL_FOREIGN_INVOICE_ITEM"/>
+    </changeSet>
+    <changeSet author="karimi (generated)" id="1595149855236-236">
+        <dropColumn columnName="N_DEDUCTION_TYPE" tableName="TBL_FOREIGN_INVOICE_ITEM"/>
+    </changeSet>
+    <changeSet author="karimi (generated)" id="1595149855236-237">
+        <dropColumn columnName="N_DEDUCTION_UNIT_CONVERSION_RATE" tableName="TBL_FOREIGN_INVOICE_ITEM"/>
+    </changeSet>
+    <changeSet author="karimi (generated)" id="1595149855236-238">
+        <dropColumn columnName="N_DEDUCTION_VALUE" tableName="TBL_FOREIGN_INVOICE_ITEM"/>
+    </changeSet>
+
+
 </databaseChangeLog>
