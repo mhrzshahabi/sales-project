@@ -159,6 +159,7 @@
                 type: 'integer',
                 width: "10%",
                 align: "center",
+
             },
             {
                 name: "shipmentType",
@@ -246,6 +247,7 @@
                 name: "vessel.name",
                 title: "<spring:message code='vessel.name'/>",
                 type: 'text',
+
             }
         ],
         fetchDataURL: "${contextPath}/api/shipment/spec-list"

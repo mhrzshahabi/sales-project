@@ -350,7 +350,7 @@ function onWayProductCreateRemittance(criteriaBuildForListGrid) {
     });
     const packages_button = isc.IButtonSave.create({
         title: "جزئیات آیتم‌ها",
-        width: 100,
+        // width: 100,
         icon: "pieces/16/packages.png",
         orientation: "vertical",
         visibility: "hidden",
