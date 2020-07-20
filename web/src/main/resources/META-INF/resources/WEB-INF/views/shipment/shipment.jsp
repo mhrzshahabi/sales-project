@@ -159,6 +159,7 @@
                 type: 'integer',
                 width: "10%",
                 align: "center",
+
             },
             {
                 name: "shipmentType",
@@ -246,6 +247,7 @@
                 name: "vessel.name",
                 title: "<spring:message code='vessel.name'/>",
                 type: 'text',
+
             }
         ],
         fetchDataURL: "${contextPath}/api/shipment/spec-list"
@@ -926,7 +928,7 @@
                 name: "freightCurrency", colSpan: 1,
                 title: "<spring:message code='currency.title'/>",
                 type: 'text',
-                defaultValue: "USD", valueMap: dollar,
+                defaultValue: "USD",
                 width: "100%",
             },
             {
@@ -970,11 +972,11 @@
                 title: "<spring:message code='currency.title'/>",
                 type: 'text',
                 defaultValue: "USD",
-                valueMap: dollar,
-                width: "100%",
+                width: "100%"
             },
             {
-                name: "postFreight", colSpan: 1,
+                name: "postFreight",
+                colSpan: 1,
                 title: "<spring:message code='shipment.postFreight'/>",
                 type: 'float',
                 required: true,
@@ -992,11 +994,12 @@
                 }]
             },
             {
-                name: "postFreightCurrency", colSpan: 1,
+                name: "postFreightCurrency",
+                colSpan: 1,
                 title: "<spring:message code='currency.title'/>",
                 type: 'text',
-                defaultValue: "USD", valueMap: dollar,
-                width: "100%",
+                defaultValue: "USD",
+                width: "100%"
             },
             {
                 name: "dispatch", colSpan: 1,
