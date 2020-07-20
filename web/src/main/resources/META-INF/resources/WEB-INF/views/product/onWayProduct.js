@@ -643,7 +643,7 @@ function mainOnWayProduct() {
             operator: "greaterOrEqual",
             value: new persianDate().subtract('d', 14).format('YYYY/MM/DD'),
         },
-            {"fieldName": "tozinId", "operator": "iNotStartsWith", "value": "3-"}
+           // {"fieldName": "tozinId", "operator": "iNotStartsWith", "value": "3-"}
         ]
     };
     if ((targetId = StorageUtil.get('on_way_product_defaultTargetId'))) {
