@@ -3,7 +3,7 @@
                    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
 
-    <!-- Add N_DEDUCTION_UNIT_CONVERSION_RATE column-->
+    <!-- Add N_DEDUCTION_UNIT_CONVERSION_RATE column -->
     <changeSet author="karimi (generated)" id="1593919475246-235">
         <addColumn tableName="TBL_FOREIGN_INVOICE_ITEM">
             <column name="N_DEDUCTION_UNIT_CONVERSION_RATE" type="number(12, 5)"/>
@@ -23,6 +23,5 @@
     <changeSet author="karimi (generated)" id="1595149855236-238">
         <dropColumn columnName="N_DEDUCTION_VALUE" tableName="TBL_FOREIGN_INVOICE_ITEM"/>
     </changeSet>
-
 
 </databaseChangeLog>

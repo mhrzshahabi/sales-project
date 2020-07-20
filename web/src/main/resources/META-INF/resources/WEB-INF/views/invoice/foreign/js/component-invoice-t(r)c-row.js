@@ -34,7 +34,7 @@ isc.defineClass("InvoiceDeductionRow", isc.DynamicForm).addProperties({
             showUnitFieldTitle: false,
             name: 'finalAssay',
             fieldValueTitle: ' x ',
-            deductionUnitConversionRate: 1,
+            rcUnitConversionRate: 1,
             border: "1px solid rgba(0, 0, 0, 0.3)"
         }));
         let finalAssayValue = this.calculationData.finalAssay.getValue();
@@ -43,11 +43,11 @@ isc.defineClass("InvoiceDeductionRow", isc.DynamicForm).addProperties({
         this.addField({
             colSpan: 2,
             title: " X ",
-            name: "deductionUnitConversionRate",
+            name: "rcUnitConversionRate",
             border: "1px solid rgba(0, 0, 0, 0.3)",
             changed: function (form, item, value) {
 
-                form.getField('finalAssay').deductionUnitConversionRate = value;
+                form.getField('finalAssay').rcUnitConversionRate = value;
                 This.calculate();
             }
         });
@@ -63,7 +63,7 @@ isc.defineClass("InvoiceDeductionRow", isc.DynamicForm).addProperties({
     calculate: function () {
         let rcPriceField = this.getField('rcPrice');
         let assayField = this.getField('finalAssay');
-        this.setValue("deductionPrice", rcPriceField.getValue() * assayField.getValue() * assayField.deductionUnitConversionRate);
+        this.setValue("deductionPrice", rcPriceField.getValue() * assayField.getValue() * assayField.rcUnitConversionRate);
     },
     getValue: function () {
         this.getField("deductionPrice").getValue();

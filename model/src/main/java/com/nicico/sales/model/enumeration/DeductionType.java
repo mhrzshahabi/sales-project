@@ -9,7 +9,7 @@ public enum DeductionType {
 
     Unit(1),
     Percent(2),
-    Discount(3);
+    DiscountPercent(3);
 
     private final Integer id;
 }
