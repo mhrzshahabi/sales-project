@@ -25,10 +25,12 @@ public class ForeignInvoiceItemDetail extends BaseEntity {
     @SequenceGenerator(name = "SEQ_FOREIGN_INVOICE_ITEM_DETAIL", sequenceName = "SEQ_FOREIGN_INVOICE_ITEM_DETAIL", allocationSize = 1)
     private Long id;
 
+    // Final assay
     @NotNull
     @Column(name = "N_ASSAY", nullable = false, scale = 5, precision = 12)
     private BigDecimal assay;
 
+    // Element base prices
     @NotNull
     @Column(name = "N_BASE_PRICE", nullable = false, scale = 2, precision = 10)
     private BigDecimal basePrice;
@@ -38,6 +40,9 @@ public class ForeignInvoiceItemDetail extends BaseEntity {
 
     @Column(name = "N_RC_BASE_PRICE", scale = 2, precision = 10)
     private BigDecimal rcBasePrice;
+
+    @Column(name = "N_RC_UNIT_CONVERSION_RATE", scale = 5, precision = 12)
+    private BigDecimal rcUnitConversionRate;
 
     @Column(name = "N_DEDUCTION_TYPE")
     private DeductionType deductionType;
