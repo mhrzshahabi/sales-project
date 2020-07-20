@@ -1348,10 +1348,20 @@ rdTab.Fields.RemittanceFull = function () {
             name: "remittanceDetails.destinationTozin.sourceId",
             valueMap: SalesBaseParameters.getSavedWarehouseParameter().getValueMap("id", "name"),
             title: "مبدا",
+            formatCellValue(value, record) {
+                if(value) return value;
+                return SalesBaseParameters.getSavedWarehouseParameter().find(w=>{
+                  return   w.id == record.remittanceDetails[0].sourceTozin.sourceId;
+                }).name;
+            }
         },
         {
             name: "remittanceDetails.destinationTozin.date",
             title: "تاریخ توزین مقصد",
+            formatCellValue(value, record) {
+                if(value) return value;
+               return record.remittanceDetails[0].sourceTozin.date;
+            }
         },
         {
             name: "remittanceDetails.destinationTozin.targetId",
@@ -1462,6 +1472,12 @@ rdTab.Grids.Remittance = {
     // groupByField: "remittance.code",
     dataSource: rdTab.RestDataSources.Remittance,
     autoFetchData: true,
+    getCellCSSText(record, rowNum, colNum){
+        if(!record.remittanceDetails[0].destinationTozin){
+            return "font-weight:bold; color:#287fd6;";
+        }
+        return this.Super('getCellCSSText',arguments)
+    }
 
 }
 rdTab.Grids.RemittanceDetail = {
@@ -1543,6 +1559,7 @@ isc.VLayout.create({
                             .getSelectedRecord() ? rdTab.Grids.Remittance.obj
                             .getSelectedRecord().remittanceDetails[0].inventory.materialItemId : null
                         let multipleMaterialItem = false;
+                        let hasOutRemittance = false;
                         rdTab.Grids.Remittance.obj
                             .getSelectedRecords()
                             .forEach(r => {
@@ -1554,11 +1571,14 @@ isc.VLayout.create({
                                 const rd = [...r_tmp.remittanceDetails];
                                 delete r_tmp.remittanceDetails;
                                 rd.forEach(_ => {
+                                    if(!_['destinationTozin'])hasOutRemittance=true
                                     _['remittance'] = r_tmp;
+
                                 })
                                 selectedData.addList(rd)
                             });
                         if (multipleMaterialItem) return;
+                        if(hasOutRemittance) return isc.warn('بیجک خروجی انتخاب شده')
                         // console.log('selectedData', selectedData)
                         //  let grid;
                         //  let _form;
@@ -1854,7 +1874,10 @@ isc.VLayout.create({
                                 delete rd['sourceTozinId'];
                                 delete rd['sourceTozin'];
                                 delete rd['remittance'];
+                                delete rd['securityPolompNo'];
+                                delete rd['railPolompNo'];
                                 delete rd['remittanceId'];
+                                delete rd['description'];
                                 delete rd['description'];
                                 rd['sourceTozin'] = Object.assign({}, rd['outTozin']);
                                 rd['description'] = rd['outDescription'];
