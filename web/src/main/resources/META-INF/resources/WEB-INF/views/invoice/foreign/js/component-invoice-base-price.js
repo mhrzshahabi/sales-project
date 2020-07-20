@@ -28,7 +28,7 @@ isc.defineClass("InvoiceBasePrice", isc.VLayout).addProperties({
                 reference: basePriceReference
             },
             httpMethod: "GET",
-            actionURL: "${contextPath}" + "/api/price-base/get-base-price",
+            actionURL: "${contextPath}/api/price-base/get-base-price",
 
             callback: function (resp) {
 

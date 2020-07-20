@@ -205,7 +205,7 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
         optionDataSource: isc.MyRestDataSource.create({
             fields: [
                 {name: "id", primaryKey: true, hidden: true, title: "<spring:message code='global.id'/>"},
-                {name: "nameEn", title: "<spring:message code='global.title'/>"},
+                {name: "nameFA", title: "<spring:message code='global.title'/>"},
             ],
             fetchDataURL: foreignInvoiceTab.variable.unitUrl + "spec-list"
         }),
@@ -233,7 +233,7 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
         optionDataSource: isc.MyRestDataSource.create({
             fields: [
                 {name: "id", primaryKey: true, hidden: true, title: "<spring:message code='global.id'/>"},
-                {name: "nameFa", title: "<spring:message code='global.title'/>"},
+                {name: "nameFA", title: "<spring:message code='global.title'/>"},
             ],
             fetchDataURL: foreignInvoiceTab.variable.unitUrl + "spec-list"
         }),
