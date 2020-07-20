@@ -14,6 +14,11 @@ foreignInvoiceTab.variable.foreignInvoiceItemUrl = "${contextPath}" + "/api/fore
 foreignInvoiceTab.variable.foreignInvoicePaymentUrl = "${contextPath}" + "/api/foreign-invoice-payment/";
 foreignInvoiceTab.variable.foreignInvoiceItemDetailUrl = "${contextPath}" + "/api/foreign-invoice-item-detail/";
 foreignInvoiceTab.variable.billLadingUrl = "${contextPath}" + "/api/bill-lading/";
+/*Add Jalal*/
+// foreignInvoiceTab.variable.weightInspection = __weightInspection.url;
+// foreignInvoiceTab.variable.contract2 = __contract2.year;
+
+
 
 foreignInvoiceTab.tab.pane = {};
 foreignInvoiceTab.listGrid.fields = BaseFormItems.concat([
@@ -368,20 +373,23 @@ foreignInvoiceTab.button.save = isc.IButtonSave.create({
                 invoiceType: foreignInvoiceTab.dynamicForm.valuesManager.getValue("invoiceType")
             });
             foreignInvoiceTab.method.addTab(invoiceBaseValuesComponent, '<spring:message code="foreign-invoice.form.tab.base-values"/>');
+
+            // let invoiceDeductionComponent = isc.InvoiceDeduction.create({
+            //     invoiceCalculationComponent: invoiceCalculationComponent,
+            //     currency: foreignInvoiceTab.dynamicForm.valuesManager.getValue('currency'),
+            //     contract: foreignInvoiceTab.dynamicForm.valuesManager.getValue('contract')
+            // });
+            // foreignInvoiceTab.method.addTab(invoiceDeductionComponent, '<spring:message code="foreign-invoice.form.tab.deduction"/>');
+
+            //
             // let invoiceCalculationComponent = isc.InvoiceCalculation.create({
             //
             //     currency: foreignInvoiceTab.dynamicForm.valuesManager.getValue("currency"),
             //     invoiceBaseAssayComponent: invoiceBaseValuesComponent.invoiceBaseAssayComponent,
             //     invoiceBasePriceComponent: invoiceBaseValuesComponent.invoiceBasePriceComponent
             // });
-            // foreignInvoiceTab.method.addTab(invoiceCalculationComponent, '<spring:message code="foreign-invoice.form.tab.calculation"/>');
-            // let invoiceDeductionComponent = isc.InvoiceDeduction.create({
-            //
-            //     invoiceCalculationComponent: invoiceCalculationComponent,
-            //     currency: foreignInvoiceTab.dynamicForm.valuesManager.getValue("currency"),
-            //     contract: foreignInvoiceTab.dynamicForm.valuesManager.getValue("contract")
-            // });
-            // foreignInvoiceTab.method.addTab(invoiceDeductionComponent, '<spring:message code="foreign-invoice.form.tab.deduction"/>');
+            //  foreignInvoiceTab.method.addTab(InvoiceCalculation2, '<spring:message code="foreign-invoice.form.tab.calculation"/>');
+
             // foreignInvoiceTab.method.addTab(isc.InvoicePayment.create({
             //     currency: foreignInvoiceTab.dynamicForm.valuesManager.getValue("currency"),
             //     contract: foreignInvoiceTab.dynamicForm.valuesManager.getValue("contract"),
@@ -452,7 +460,7 @@ foreignInvoiceTab.window.main = isc.Window.nicico.getDefault('<spring:message co
     })
 ], "500");
 
-foreignInvoiceTab.tab.invoice = isc.TabSet.create({
+foreignInvoiceTab.tab.invoice = isc.TabSet.create({ //مقادیر پایه 2 تا شد
 
     width: "100%",
     height: "500",
@@ -461,34 +469,39 @@ foreignInvoiceTab.tab.invoice = isc.TabSet.create({
     edgeMarginSize: 3,
     tabBarThickness: 300,
     tabBarPosition: "left",
-    // tabBarControls: [],
-    // tabs: [
-    //     {
-    //         paneMargin: 5,
-    //         pane: foreignInvoiceTab.tab.pane.contractInfo,
-    //         title: '<spring:message code="foreign-invoice.form.tab.contract-info"/>'
-    //     },
-    //     {
-    //         paneMargin: 5,
-    //         pane: foreignInvoiceTab.tab.pane.baseValues,
-    //         title: '<spring:message code="foreign-invoice.form.tab.base-values"/>'
-    //     },
-    //     {
-    //         paneMargin: 5,
-    //         pane: foreignInvoiceTab.tab.pane.calculation,
-    //         title: '<spring:message code="foreign-invoice.form.tab.calculation"/>'
-    //     },
-    //     {
-    //         paneMargin: 5,
-    //         pane: foreignInvoiceTab.tab.pane.deduction,
-    //         title: '<spring:message code="foreign-invoice.form.tab.deduction"/>'
-    //     },
-    //     {
-    //         paneMargin: 5,
-    //         pane: foreignInvoiceTab.tab.pane.payment,
-    //         title: '<spring:message code="foreign-invoice.form.tab.payment"/>'
-    //     }
-    // ]
+    tabBarControls: [],
+    tabs: [
+
+
+        // {
+        //     paneMargin: 5,
+        //     pane: foreignInvoiceTab.tab.pane.contractInfo,
+        //     title: '<spring:message code="foreign-invoice.form.tab.contract-info"/>' /*تکراری*/
+        // },
+        // {
+        //     paneMargin: 5,
+        //     pane: foreignInvoiceTab.tab.pane.baseValues,
+        //     title: '<spring:message code="foreign-invoice.form.tab.base-values"/>' /*تکراری*/
+        // },
+
+
+        {
+            paneMargin: 5,
+            pane: foreignInvoiceTab.tab.pane.deduction,
+            title: '<spring:message code="foreign-invoice.form.tab.deduction"/>'
+        },
+        {
+            paneMargin: 5,
+            pane: foreignInvoiceTab.tab.pane.payment,
+            title: '<spring:message code="foreign-invoice.form.tab.payment"/>'
+        },
+        {
+            paneMargin: 5,
+            pane: foreignInvoiceTab.tab.pane.calculation,
+            title: '<spring:message code="foreign-invoice.form.tab.calculation"/>'
+        },
+
+    ]
 });
 
 foreignInvoiceTab.variable.invoiceForm.validate = function (data) {

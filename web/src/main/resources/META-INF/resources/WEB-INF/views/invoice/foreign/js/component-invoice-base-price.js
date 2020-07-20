@@ -19,6 +19,7 @@ isc.defineClass("InvoiceBasePrice", isc.VLayout).addProperties({
         let month = __contract.getShipmentMonthNo(This.shipment);
         let moasValue = __contract.getContractMOASValue(This.contract);
         let basePriceReference = __contract.getBasePriceReference(This.contract);
+        let contract2 = __contract.url;
 
         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
             params: {
@@ -53,7 +54,6 @@ isc.defineClass("InvoiceBasePrice", isc.VLayout).addProperties({
                     fields.last().setValue(elements[index].price);
                     fields.last().setUnitId(elements[index].unit.id);
                 }
-
                 This.addMember(isc.Label.create({
                     contents: "<b>" + "AVERAGE OF " + (month + moasValue) + "th MONTH OF " + year + " (MOAS" + (moasValue > 0 ? "+" : "-") + moasValue + ")<b>"
                 }));
@@ -61,6 +61,8 @@ isc.defineClass("InvoiceBasePrice", isc.VLayout).addProperties({
                     width: "100%",
                     fields: fields
                 }));
+
+
             }
         }));
     },
