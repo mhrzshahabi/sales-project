@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import java.util.Locale;
 
 @Getter
-@ResponseStatus(HttpStatus.BAD_REQUEST)
+@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 public class InvalidDataException extends BaseException {
 
     public InvalidDataException() {

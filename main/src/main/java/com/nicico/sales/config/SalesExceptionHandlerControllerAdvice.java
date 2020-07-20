@@ -144,8 +144,6 @@ public class SalesExceptionHandlerControllerAdvice extends AbstractExceptionHand
                 return new ResponseEntity<>(errorResponseDTO, HttpStatus.BAD_REQUEST);
             } else return this.handleException(constraintViolationException);
         } else if (ex.getCause() instanceof DataException)
-         /*   this.printLog(exception, true, true, exception.getClass().getName());
-        return provideStandardError(new UnAuthorizedException(exception, null));*/
             return provideStandardError(new InvalidDataException(ex, null));
 
         return provideStandardError(ex);
