@@ -873,7 +873,7 @@
                 {
                     title: "<spring:message code='shipmentCost.title'/>",
                     click: function () {
-                        createTab("<spring:message code='shipmentCost.title'/>", "<spring:url value="/cost/showForm" />")
+                        createTab("<spring:message code='shipmentCost.title'/>", "<spring:url value="/shipment-cost/show-form" />")
                     }
                 },
                 {isSeparator: true},
