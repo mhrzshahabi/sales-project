@@ -76,9 +76,9 @@ public class RemittanceService extends GenericService<Remittance, Long, Remittan
             remittancePDF.setMaterialItemName(remittancePDF.getRemittanceDetails().get(0).getInventory().getMaterialItem().getGdsName());
             remittancePDF.setIsWithRail(false);
             remittancePDF.setFrom(remittancePDF.getRemittanceDetails().get(0).getSourceTozin().getSourceWarehouse().getName());
-            remittancePDF.setSourceDate(remittancePDF.getRemittanceDetails().get(0).getSourceTozin().getDate());
-            if (remittancePDF.getRemittanceDetails().get(0).getDestinationTozin()!=null)
-                remittancePDF.setDestinationDate(remittancePDF.getRemittanceDetails().get(0).getDestinationTozin().getDate());
+            remittancePDF.setSourceDate(addSlashToDate(remittancePDF.getRemittanceDetails().get(0).getSourceTozin().getDate()));
+            if (remittancePDF.getRemittanceDetails().get(0).getDestinationTozin() != null)
+                remittancePDF.setDestinationDate(addSlashToDate(remittancePDF.getRemittanceDetails().get(0).getDestinationTozin().getDate()));
             final String containerNo3 = remittancePDF.getRemittanceDetails().get(0).getSourceTozin().getContainerNo3();
             try {
                 Integer.valueOf(containerNo3);
@@ -102,5 +102,12 @@ public class RemittanceService extends GenericService<Remittance, Long, Remittan
                 new ByteArrayInputStream(objectMapper.writeValueAsString(content).getBytes(StandardCharsets.UTF_8))
         );
         return jsonDataSource;
+    }
+
+    private String addSlashToDate(String date) {
+        final String year = date.substring(0, 4);
+        final String month = date.substring(4, 6);
+        final String day = date.substring(6, 8);
+        return String.format("%s/%s/%s", year, month, day);
     }
 }
