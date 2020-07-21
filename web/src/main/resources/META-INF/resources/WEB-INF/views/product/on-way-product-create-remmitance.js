@@ -941,6 +941,10 @@ function onWayProductCreateRemittance(criteriaBuildForListGrid) {
 
         }
     )
+    const pls_wait_3 = isc.Dialog.create({
+        showTitle: false,
+        message: "لطفا صبر کنید",
+    });
     Promise.all([
         onWayProductFetch('tozin', 'or', ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecords()
             .map(tz => {
@@ -1057,7 +1061,7 @@ function onWayProductCreateRemittance(criteriaBuildForListGrid) {
         packages_button.show();
         IButton_warehouseCAD_Save.show()
         updateDestinationPackageTedadWeight()
-        pls_wait_3.destroy()
+        pls_wait_3.destroy();
 
     })
     DynamicForm_warehouseCAD.getItem('depotId').setOptionDataSource(RestDataSource_WarehouseYard_IN_WAREHOUSECAD_ONWAYPRODUCT)
