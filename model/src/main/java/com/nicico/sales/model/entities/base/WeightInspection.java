@@ -8,7 +8,6 @@ import com.nicico.sales.model.enumeration.WeighingType;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.envers.AuditOverride;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;

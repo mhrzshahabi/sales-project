@@ -57,9 +57,8 @@ public class WeightInspectionRestController {
     }
 
     @Loggable
-    @GetMapping(value = "/get-weight-values")
+    @GetMapping(value = "/get-weight-values") //Error
     public ResponseEntity<List<WeightInspectionDTO.WeightData>> getWeightValues(@RequestParam List<Long> inventoryIds, @RequestParam Boolean doIntegration) {
-
         return new ResponseEntity<>(iWeightInspectionService.getWeightValues(inventoryIds, doIntegration), HttpStatus.OK);
     }
 

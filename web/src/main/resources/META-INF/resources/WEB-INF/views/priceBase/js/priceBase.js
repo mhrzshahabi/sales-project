@@ -1,17 +1,4 @@
 var priceBaseTab = new nicico.GeneralTabUtil().getDefaultJSPTabVariable();
-
-let financeCriteria = {
-    _constructor: "AdvancedCriteria",
-    operator: "and",
-    criteria: [{fieldName: "categoryUnit", operator: "equals", value: "Finance"}]
-};
-
-let weightCriteria = {
-    _constructor: "AdvancedCriteria",
-    operator: "and",
-    criteria: [{fieldName: "categoryUnit", operator: "equals", value: "Weight"}]
-};
-
 priceBaseTab.dynamicForm.fields = BaseFormItems.concat([
     {
         name: "id",
@@ -164,4 +151,5 @@ priceBaseTab.dynamicForm.fields = BaseFormItems.concat([
 
 Object.assign(priceBaseTab.listGrid.fields, priceBaseTab.dynamicForm.fields);
 nicico.BasicFormUtil.getDefaultBasicForm(priceBaseTab, "api/price-base/");
+// priceBaseTab.listGrid.main.contextMenu = null;
 priceBaseTab.dynamicForm.main.windowWidth = 500;
