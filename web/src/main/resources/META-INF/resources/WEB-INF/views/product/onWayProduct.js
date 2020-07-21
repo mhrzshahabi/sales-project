@@ -384,11 +384,7 @@ function mainOnWayProduct() {
             click() {
                 if (ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecords().length < 1)
                     return isc.warn("لطفا توزین‌های مورد نظر را انتخاب کنید");
-                isc.Dialog.create({
-                    ID: "pls_wait_3",
-                    showTitle: false,
-                    message: "لطفا صبر کنید",
-                });
+
 
 
                 onWayProductCreateRemittance(criteriaBuildForListGrid);
