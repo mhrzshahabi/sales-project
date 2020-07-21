@@ -2,6 +2,7 @@ package com.nicico.sales.model.entities.contract;
 
 import com.nicico.sales.model.entities.base.Contact;
 import com.nicico.sales.model.entities.common.BaseEntity;
+import com.nicico.sales.model.enumeration.CommercialRole;
 import lombok.*;
 import lombok.experimental.Accessors;
 
@@ -40,4 +41,8 @@ public class ContractContact extends BaseEntity {
     @NotNull
     @Column(name = "F_CONTACT_ID", nullable = false)
     private Long contactId;
+
+    @NotNull
+    @Column(name = "N_COMMERCIAL_ROLE", nullable = false)
+    private CommercialRole CommercialRole;
 }
