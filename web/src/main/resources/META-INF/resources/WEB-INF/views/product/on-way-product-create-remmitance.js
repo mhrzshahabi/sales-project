@@ -450,7 +450,7 @@ function onWayProductCreateRemittance(criteriaBuildForListGrid) {
 
     const windowDestinationTozinList = (function () {
         const datasource = isc.DataSource.create({
-            fields: [...tozinLiteFields]
+            fields: [...tozinLiteFields()]
         });
         const gridConfigs = {
             showRowNumbers: true,
@@ -467,7 +467,7 @@ function onWayProductCreateRemittance(criteriaBuildForListGrid) {
             width: "100%",
             height: 570,
             dataSource: datasource,
-            fields: [...tozinLiteFields],
+            fields: [...tozinLiteFields()],
         };
         const extraGridConfigs = {
             recordDoubleClick(viewer, record, recordNum, field, fieldNum, value, rawValue) {
@@ -669,7 +669,7 @@ function onWayProductCreateRemittance(criteriaBuildForListGrid) {
                 if (!tozinId) return false;
                 this.rowHoverComponent = isc.DetailViewer.create({
                     dataSource: isc.MyRestDataSource.create({
-                        fields: [...tozinFields],
+                        fields: [...tozinFields()],
                         fetchDataURL: 'api/tozin/spec-list'
                     }),
                     width: 250
@@ -740,7 +740,7 @@ function onWayProductCreateRemittance(criteriaBuildForListGrid) {
                     hoverHTML(record, value, rowNum, colNum, grid) {
                         console.log('hover html', arguments)
                         try {
-                            const title = [...tozinFields].getValueMap('name', 'title')
+                            const title = [...tozinFields()].getValueMap('name', 'title')
                             const tbl = '<table border="1">' +
                                 Object.keys(record['destTozin']).map((k, i, list) => {
                                     const columns = 4;

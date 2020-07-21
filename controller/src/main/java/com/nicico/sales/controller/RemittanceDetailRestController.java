@@ -52,6 +52,11 @@ public class RemittanceDetailRestController {
     public ResponseEntity<List<RemittanceDetailDTO.Info>> batchCreate(@Validated @RequestBody RemittanceDetailDTO.WithRemittanceAndInventory request) {
         return new ResponseEntity<>(iRemittanceDetailService.batchUpdate(request), HttpStatus.CREATED);
     }
+    @Loggable
+    @PostMapping("/out")
+    public ResponseEntity<List<RemittanceDetailDTO.Info>> outRemittance(@Validated @RequestBody RemittanceDetailDTO.OutRemittance request) {
+        return  new ResponseEntity<>(iRemittanceDetailService.out(request),HttpStatus.CREATED);
+    }
 
     @Loggable
     @PutMapping

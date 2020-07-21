@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface IRemittanceDetailService extends IGenericService<RemittanceDetail, Long, RemittanceDetailDTO.Create, RemittanceDetailDTO.Info, RemittanceDetailDTO.Update, RemittanceDetailDTO.Delete> {
     List<RemittanceDetailDTO.Info> batchUpdate(RemittanceDetailDTO.WithRemittanceAndInventory request);
+    List<RemittanceDetailDTO.Info> out(RemittanceDetailDTO.OutRemittance request);
 }

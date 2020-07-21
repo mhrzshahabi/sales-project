@@ -110,4 +110,25 @@ public class RemittanceDetailDTO {
         private RemittanceDTO.Create remittance;
         private List<RemittanceDetailDTO.WithInventory> remittanceDetails;
     }
+
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    public static class OutCreate extends RemittanceDetailDTO {
+        Long inventoryId;
+        TozinTableDTO.Create sourceTozin;
+    }
+
+
+
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    public static class OutRemittance {
+        private RemittanceDTO.Create remittance;
+        private List<RemittanceDetailDTO.OutCreate> remittanceDetails;
+    }
+
+
+
 }
