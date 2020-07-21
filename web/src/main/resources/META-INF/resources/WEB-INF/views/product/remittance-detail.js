@@ -1539,6 +1539,364 @@ rdTab.Layouts.ToolStripButtons.PDF = {
         rdTab.DynamicForms.Forms.PDF.submitForm();
     }
 };
+rdTab.Layouts.ToolStripButtons.New = isc.ToolStripButtonAdd.create({
+    visibility: "hidden",
+    ID: "new_bijak" + Math.random().toString().substr(3, 5),
+    title: 'ایجاد بیجک خروجی',
+    click() {
+        const selectedData = [];
+        let materialItemId = rdTab.Grids.Remittance.obj
+            .getSelectedRecord() ? rdTab.Grids.Remittance.obj
+            .getSelectedRecord().remittanceDetails[0].inventory.materialItemId : null
+        let multipleMaterialItem = false;
+        let hasOutRemittance = false;
+        rdTab.Grids.Remittance.obj
+            .getSelectedRecords()
+            .forEach(r => {
+                if (r.remittanceDetails[0].inventory.materialItemId !== materialItemId) {
+                    isc.warn('رکوردهای‌انتخاب شده به محصولات متفاوتی تعلق دارند.');
+                    multipleMaterialItem = true;
+                }
+                const r_tmp = {...r};
+                const rd = [...r_tmp.remittanceDetails];
+                delete r_tmp.remittanceDetails;
+                rd.forEach(_ => {
+                    if (!_['destinationTozin']) hasOutRemittance = true
+                    _['remittance'] = r_tmp;
+
+                })
+                selectedData.addList(rd)
+            });
+        if (multipleMaterialItem) return;
+        if (hasOutRemittance) return isc.warn('بیجک خروجی انتخاب شده')
+        // console.log('selectedData', selectedData)
+        //  let grid;
+        //  let _form;
+        //let _addBtn;
+        rdTab.DynamicForms.Forms.OutRemittance = isc.DynamicForm.create({
+            numCols: 6,
+            fields: [...rdTab.Fields.Remittance(), {
+                name: "materialItemId",
+                title: "محصول",
+                changed(form, item, value) {
+                    if (value) {
+                        rdTab.Layouts.ToolStripButtons.OutRemittanceAddTozin.enable();
+                        rdTab.Layouts.ToolStripButtons.OutRemittanceAdd.enable();
+                        rdTab.DynamicForms.Forms.TozinTable.setValue('codeKala', value)
+                    }
+                },
+                valueMap: rdTab.Fields.Inventory().find(i => i.name === "materialItemId").valueMap,
+            },
+
+            ]
+        });
+        rdTab.DynamicForms.Forms.TozinTable = isc.DynamicForm.create({
+            numCols: 6,
+            fields: rdTab.Fields.TozinTable().map(a => {
+                a.changed = (form, item, value) => {
+                    const _item = form.getItem('isInView');
+                    _item.setValue(false);
+                    _item.disable();
+                };
+                if (a.name === 'codeKala') a.hidden = true;
+                if (a.name === 'isInView') a.disabled = true;
+                return a
+            })
+        });
+        rdTab.Layouts.ToolStripButtons.OutRemittanceAdd = isc.ToolStripButtonAdd.create({
+            title: "افزودن بیجک ورودی",
+            disabled: true,
+            click() {
+                let selectRd;
+                const win = isc.Window.create({
+                    ...rdTab.Vars.defaultWindowConfig,
+                    members: [
+                        isc.ToolStrip.create({
+                            members: [
+                                isc.ToolStripButtonAdd.create({
+                                    title: "افزودن",
+                                    click() {
+                                        const records = selectRd.getSelectedRecords();
+                                        records.forEach(d => {
+                                            if (!rdTab.Grids.RemittanceDetailOutRemittance.getData().find(rd => rd.id === d.id))
+                                                rdTab.Grids.RemittanceDetailOutRemittance.addData(d)
+                                        });
+                                        selectRd.deselectAllRecords();
+                                        win.hide();
+                                    }
+                                }),
+                                isc.ToolStripButtonRefresh.create({
+                                    title: "انتخاب‌همه",
+                                    click() {
+                                        selectRd.selectAllRecords();
+                                    }
+                                }),
+
+                            ]
+                        }),
+                        selectRd = isc.ListGrid.create({
+                            ...rdTab.Grids.RemittanceDetail,
+                            fields: [
+                                {name: "remittance.code"}, {name: "remittance.description"}, ...rdTab.Fields.RemittanceDetailFullFields().map(f => {
+                                    const showFields = {
+                                        "remittance.code": {},
+                                        "remittance.description": {},
+                                        "inventory.label": {},
+                                        "description": {},
+                                        "weight": {},
+                                        "ampunt": {},
+                                        "unitId": {},
+                                        "depotId": {},
+                                    };
+                                    // f.hidden = true;
+                                    // if (Object.keys(showFields).contains(f.name)) f.hidden = false;
+                                    f.recordDoubleClick = _ => {
+                                    };
+                                    return f
+                                }),],
+                            initialCriteria: {
+                                operator: "and",
+                                criteria: [
+                                    {
+                                        fieldName: "destinationTozin.sourceId",
+                                        operator: "inSet",
+                                        value: [1000, 1021, 1540, 1541, 2421, 2509]
+                                    },
+                                    {
+                                        fieldName: "destinationTozin",
+                                        operator: "notNull",
+                                    },
+                                    {
+                                        fieldName: "inventory.materialItemId",
+                                        operator: "equals",
+                                        value: rdTab.DynamicForms.Forms.OutRemittance.getValue("materialItemId")
+                                    }
+
+                                ],
+                            },
+                            showHoverComponents: false,
+                            height: "100%",
+                            autoFetchData: true,
+                            allowAdvancedCriteria: true,
+                            showFilterEditor: true,
+                            dataSource: isc.MyRestDataSource.create(Object.assign({}, rdTab.RestDataSources.RemittanceDetail)),
+
+                        }),],
+                })
+            }
+        });
+
+        rdTab.Layouts.ToolStripButtons.OutRemittanceAddTozin = isc.ToolStripButtonAdd.create({
+            disabled: true,
+            align: "center",
+            title: "انتخاب توزین از لجستیک",
+            click() {
+                rdTab.Grids.TozinLite = isc.ListGrid.create({
+                    fields: rdTab.Fields.TozinLite(),
+                    initialCriteria: {
+                        operator: "and",
+                        criteria: [
+                            {
+                                fieldName: "sourceId",
+                                operator: "inSet",
+                                value: [2555]
+                            },
+                            {
+                                fieldName: "tozinId",
+                                operator: "iStartsWith",
+                                value: "3"
+                            },
+                            {
+                                fieldName: "codeKala",
+                                operator: "equals",
+                                value: rdTab.DynamicForms.Forms.OutRemittance.getValue("materialItemId")
+                            },
+                            {
+                                fieldName: "date",
+                                operator: "greaterOrEqual",
+                                value: new persianDate().subtract('d', 10).format('YYYYMMDD')
+                            },
+
+
+                        ],
+                    },
+                    showHoverComponents: false,
+                    height: "100%",
+                    selectionType: "single",
+                    autoFetchData: true,
+                    allowAdvancedCriteria: true,
+                    showFilterEditor: true,
+                    recordDoubleClick(viewer, record, recordNum, field, fieldNum, value, rawValue) {
+                        console.log("rdTab.DynamicForms.Forms.TozinTable", rdTab.DynamicForms.Forms.TozinTable);
+                        rdTab.DynamicForms.Forms.TozinTable.setValues({
+                            ...record,
+                            isInView: true
+                        });
+                        win.destroy();
+                        // viewer.deselectAllRecords();
+                    },
+                    dataSource: isc.MyRestDataSource.create(rdTab.RestDataSources.TozinLite)
+                });
+                const win = isc.Window.create({
+                    ...rdTab.Vars.defaultWindowConfig,
+                    members: [
+                        isc.ToolStrip.create({
+                            members: [
+                                isc.ToolStripButtonAdd.create({
+                                    title: "افزودن",
+                                    click: _ => rdTab.Grids.TozinLite.recordDoubleClick(rdTab.Grids.TozinLite, rdTab.Grids.TozinLite.getSelectedRecord())
+                                }),
+                            ]
+                        }),
+                        rdTab.Grids.TozinLite,],
+                })
+            }
+        });
+        rdTab.Layouts.ToolStripButtons.AddTozinToRemittanceDetails = isc.ToolStripButtonAdd.create({
+            // disabled: true,
+            title: "افزودن توزین به بیجک‌های انتخابی",
+            click() {
+                if (!rdTab.DynamicForms.Forms.TozinTable.validate()) return;
+                const outTozin = rdTab.DynamicForms.Forms.TozinTable.getValues();
+                rdTab.Grids.RemittanceDetailOutRemittance.getSelectedRecords().forEach(rd => {
+                    if (!rd.outTozin) {
+                        rd.outTozin = outTozin;
+                    }
+                });
+                rdTab.Grids.RemittanceDetailOutRemittance.redraw();
+
+            }
+        });
+        rdTab.Grids.RemittanceDetailOutRemittance = isc.ListGrid.create({
+            canRemoveRecords: true,
+            canEdit: true,
+            editEvent: "doubleClick",
+            autoSaveEdits: false,
+            fields: [
+                {name: "remittance.code", title: "شماره بیجک", canEdit: false},
+                {name: "remittance.description", title: "شرح بیجک", canEdit: false},
+                ...rdTab.Fields.RemittanceDetailFullFields().map(f => {
+                    const showFields = {
+                        "remittance.code": {},
+                        "remittance.description": {},
+                        "inventory.label": {},
+                        "description": {},
+                        "weight": {},
+                        "ampunt": {},
+                        "unitId": {},
+                        "depotId": {},
+                    };
+                    f.hidden = true;
+                    f.canEdit = false;
+                    if (Object.keys(showFields).contains(f.name)) f.hidden = false;
+                    f.recordDoubleClick = _ => {
+                    };
+                    return f
+                }),
+                {name: "outTozin.tozinId", title: "توزین خروجی", canEdit: false},
+                {
+                    name: "outDescription",
+                    title: "شرح محصول",
+                    canEdit: true,
+                    editorExit(editCompletionEvent, record, newValue, rowNum, colNum, grid) {
+                        record.outDescription = newValue
+                    }
+                }
+            ],
+        })
+        rdTab.Layouts.Window.OutRemittance = isc.Window.create({
+            ...rdTab.Vars.defaultWindowConfig,
+            members: [
+                isc.VLayout.create({
+                    height: "100%",
+                    members: [
+                        rdTab.DynamicForms.Forms.OutRemittance,
+                        isc.Label.create({
+                            height: .06 * innerHeight,
+                            contents: "<h3 style='text-align: center'>"
+                                + "اطلاعات توزین خروجی" +
+                                "</h3>"
+                        }),
+                        isc.HLayout.create({
+                            height: "15%",
+                            members: [
+                                isc.VLayout.create({
+                                    width: "85%",
+                                    members: [rdTab.DynamicForms.Forms.TozinTable,]
+                                }),
+                                isc.VLayout.create({
+                                    members: [rdTab.Layouts.ToolStripButtons.OutRemittanceAddTozin,]
+                                }),
+                            ]
+                        }),
+                        isc.ToolStrip.create({
+                            members: [
+                                rdTab.Layouts.ToolStripButtons.OutRemittanceAdd,
+                                rdTab.Layouts.ToolStripButtons.AddTozinToRemittanceDetails,
+
+                                // rdTab.Layouts.ToolStripButtons.OutRemittanceAddTozin,
+                            ]
+                        }),
+                        rdTab.Grids.RemittanceDetailOutRemittance,
+
+                    ]
+                })]
+        });
+        rdTab.Methods.OutRemittanceSave = function () {
+            console.log("save out remittance btn ", rdTab.Grids.RemittanceDetailOutRemittance, rdTab.DynamicForms.Forms.OutRemittance)
+            if (!rdTab.DynamicForms.Forms.OutRemittance.validate()) return;
+            const remittanceDetails = rdTab.Grids.RemittanceDetailOutRemittance.getData();
+            const remittance = rdTab.DynamicForms.Forms.OutRemittance.getValues();
+            const remittanceDetailsWithoutTozin = remittanceDetails.filter(rd => {
+                    if (rd.outTozin) return false;
+                    return true;
+                }
+            )
+            if (remittanceDetailsWithoutTozin && remittanceDetailsWithoutTozin.length > 0) {
+                rdTab.Grids.RemittanceDetailOutRemittance.deselectAllRecords();
+                rdTab.Grids.RemittanceDetailOutRemittance.selectRecords(remittanceDetailsWithoutTozin);
+                return isc.warn('رکورد‌های انخابی بدون توزین خروجی می‌باشند.')
+            }
+            const remittanceDetailForSend = Object.assign([], remittanceDetails)
+            remittanceDetailForSend.forEach(rd => {
+                delete rd['destinationTozinId'];
+                delete rd['destinationTozin'];
+                delete rd['sourceTozinId'];
+                delete rd['sourceTozin'];
+                delete rd['remittance'];
+                delete rd['securityPolompNo'];
+                delete rd['railPolompNo'];
+                delete rd['remittanceId'];
+                delete rd['description'];
+                delete rd['description'];
+                rd['sourceTozin'] = Object.assign({}, rd['outTozin']);
+                rd['description'] = rd['outDescription'];
+                rd['inventoryId'] = rd['inventory']['id'];
+                delete rd['inventory'];
+                delete rd['outDescription'];
+                delete rd['outTozin'];
+            })
+            rdTab.Vars.Method = "POST";
+            rdTab.Methods.Save({
+                remittanceDetails: remittanceDetails,
+                remittance: remittance,
+            }, 'api/remittance-detail/out');
+            rdTab.Vars.Method = "PUT";
+
+        }
+        rdTab.Layouts.Window.OutRemittance.addMember(
+            rdTab.Methods.HlayoutSaveOrExit(rdTab.Methods.OutRemittanceSave, rdTab.Layouts.Window.OutRemittance.ID)
+        )
+        rdTab.Grids.RemittanceDetailOutRemittance.setData(selectedData);
+        console.debug('out remittance detail', rdTab.Grids.RemittanceDetailOutRemittance, rdTab.DynamicForms.Forms.OutRemittance);
+        if (selectedData.length > 0) {
+            rdTab.DynamicForms.Forms.OutRemittance.setValue("materialItemId", materialItemId);
+            rdTab.DynamicForms.Forms.TozinTable.setValue('codeKala', materialItemId)
+            rdTab.Layouts.ToolStripButtons.OutRemittanceAddTozin.enable();
+            rdTab.Layouts.ToolStripButtons.OutRemittanceAdd.enable();
+        }
+    }
+});
 isc.VLayout.create({
     members: [
         isc.ToolStrip.create({
@@ -1559,363 +1917,7 @@ isc.VLayout.create({
 
                     },
                 }),
-                isc.ToolStripButtonAdd.create({
-                    visibility: "hidden",
-                    title: 'ایجاد بیجک خروجی',
-                    click() {
-                        const selectedData = [];
-                        let materialItemId = rdTab.Grids.Remittance.obj
-                            .getSelectedRecord() ? rdTab.Grids.Remittance.obj
-                            .getSelectedRecord().remittanceDetails[0].inventory.materialItemId : null
-                        let multipleMaterialItem = false;
-                        let hasOutRemittance = false;
-                        rdTab.Grids.Remittance.obj
-                            .getSelectedRecords()
-                            .forEach(r => {
-                                if (r.remittanceDetails[0].inventory.materialItemId !== materialItemId) {
-                                    isc.warn('رکوردهای‌انتخاب شده به محصولات متفاوتی تعلق دارند.');
-                                    multipleMaterialItem = true;
-                                }
-                                const r_tmp = {...r};
-                                const rd = [...r_tmp.remittanceDetails];
-                                delete r_tmp.remittanceDetails;
-                                rd.forEach(_ => {
-                                    if (!_['destinationTozin']) hasOutRemittance = true
-                                    _['remittance'] = r_tmp;
-
-                                })
-                                selectedData.addList(rd)
-                            });
-                        if (multipleMaterialItem) return;
-                        if (hasOutRemittance) return isc.warn('بیجک خروجی انتخاب شده')
-                        // console.log('selectedData', selectedData)
-                        //  let grid;
-                        //  let _form;
-                        //let _addBtn;
-                        rdTab.DynamicForms.Forms.OutRemittance = isc.DynamicForm.create({
-                            numCols: 6,
-                            fields: [...rdTab.Fields.Remittance(), {
-                                name: "materialItemId",
-                                title: "محصول",
-                                changed(form, item, value) {
-                                    if (value) {
-                                        rdTab.Layouts.ToolStripButtons.OutRemittanceAddTozin.enable();
-                                        rdTab.Layouts.ToolStripButtons.OutRemittanceAdd.enable();
-                                        rdTab.DynamicForms.Forms.TozinTable.setValue('codeKala', value)
-                                    }
-                                },
-                                valueMap: rdTab.Fields.Inventory().find(i => i.name === "materialItemId").valueMap,
-                            },
-
-                            ]
-                        });
-                        rdTab.DynamicForms.Forms.TozinTable = isc.DynamicForm.create({
-                            numCols: 6,
-                            fields: rdTab.Fields.TozinTable().map(a => {
-                                a.changed = (form, item, value) => {
-                                    const _item = form.getItem('isInView');
-                                    _item.setValue(false);
-                                    _item.disable();
-                                };
-                                if (a.name === 'codeKala') a.hidden = true;
-                                if (a.name === 'isInView') a.disabled = true;
-                                return a
-                            })
-                        });
-                        rdTab.Layouts.ToolStripButtons.OutRemittanceAdd = isc.ToolStripButtonAdd.create({
-                            title: "افزودن بیجک ورودی",
-                            disabled: true,
-                            click() {
-                                let selectRd;
-                                const win = isc.Window.create({
-                                    ...rdTab.Vars.defaultWindowConfig,
-                                    members: [
-                                        isc.ToolStrip.create({
-                                            members: [
-                                                isc.ToolStripButtonAdd.create({
-                                                    title: "افزودن",
-                                                    click() {
-                                                        const records = selectRd.getSelectedRecords();
-                                                        records.forEach(d => {
-                                                            if (!rdTab.Grids.RemittanceDetailOutRemittance.getData().find(rd => rd.id === d.id))
-                                                                rdTab.Grids.RemittanceDetailOutRemittance.addData(d)
-                                                        });
-                                                        selectRd.deselectAllRecords();
-                                                        win.hide();
-                                                    }
-                                                }),
-                                                isc.ToolStripButtonRefresh.create({
-                                                    title: "انتخاب‌همه",
-                                                    click() {
-                                                        selectRd.selectAllRecords();
-                                                    }
-                                                }),
-
-                                            ]
-                                        }),
-                                        selectRd = isc.ListGrid.create({
-                                            ...rdTab.Grids.RemittanceDetail,
-                                            fields: [
-                                                {name: "remittance.code"}, {name: "remittance.description"}, ...rdTab.Fields.RemittanceDetailFullFields().map(f => {
-                                                    const showFields = {
-                                                        "remittance.code": {},
-                                                        "remittance.description": {},
-                                                        "inventory.label": {},
-                                                        "description": {},
-                                                        "weight": {},
-                                                        "ampunt": {},
-                                                        "unitId": {},
-                                                        "depotId": {},
-                                                    };
-                                                    // f.hidden = true;
-                                                    // if (Object.keys(showFields).contains(f.name)) f.hidden = false;
-                                                    f.recordDoubleClick = _ => {
-                                                    };
-                                                    return f
-                                                }),],
-                                            initialCriteria: {
-                                                operator: "and",
-                                                criteria: [
-                                                    {
-                                                        fieldName: "destinationTozin.sourceId",
-                                                        operator: "inSet",
-                                                        value: [1000, 1021, 1540, 1541, 2421, 2509]
-                                                    },
-                                                    {
-                                                        fieldName: "destinationTozin",
-                                                        operator: "notNull",
-                                                    },
-                                                    {
-                                                        fieldName: "inventory.materialItemId",
-                                                        operator: "equals",
-                                                        value: rdTab.DynamicForms.Forms.OutRemittance.getValue("materialItemId")
-                                                    }
-
-                                                ],
-                                            },
-                                            showHoverComponents: false,
-                                            height: "100%",
-                                            autoFetchData: true,
-                                            allowAdvancedCriteria: true,
-                                            showFilterEditor: true,
-                                            dataSource: isc.MyRestDataSource.create(Object.assign({}, rdTab.RestDataSources.RemittanceDetail)),
-
-                                        }),],
-                                })
-                            }
-                        });
-
-                        rdTab.Layouts.ToolStripButtons.OutRemittanceAddTozin = isc.ToolStripButtonAdd.create({
-                            disabled: true,
-                            align: "center",
-                            title: "انتخاب توزین از لجستیک",
-                            click() {
-                                rdTab.Grids.TozinLite = isc.ListGrid.create({
-                                    fields: rdTab.Fields.TozinLite(),
-                                    initialCriteria: {
-                                        operator: "and",
-                                        criteria: [
-                                            {
-                                                fieldName: "sourceId",
-                                                operator: "inSet",
-                                                value: [2555]
-                                            },
-                                            {
-                                                fieldName: "tozinId",
-                                                operator: "iStartsWith",
-                                                value: "3"
-                                            },
-                                            {
-                                                fieldName: "codeKala",
-                                                operator: "equals",
-                                                value: rdTab.DynamicForms.Forms.OutRemittance.getValue("materialItemId")
-                                            },
-                                            {
-                                                fieldName: "date",
-                                                operator: "greaterOrEqual",
-                                                value: new persianDate().subtract('d', 10).format('YYYYMMDD')
-                                            },
-
-
-                                        ],
-                                    },
-                                    showHoverComponents: false,
-                                    height: "100%",
-                                    selectionType: "single",
-                                    autoFetchData: true,
-                                    allowAdvancedCriteria: true,
-                                    showFilterEditor: true,
-                                    recordDoubleClick(viewer, record, recordNum, field, fieldNum, value, rawValue) {
-                                        console.log("rdTab.DynamicForms.Forms.TozinTable", rdTab.DynamicForms.Forms.TozinTable);
-                                        rdTab.DynamicForms.Forms.TozinTable.setValues({
-                                            ...record,
-                                            isInView: true
-                                        });
-                                        win.destroy();
-                                        // viewer.deselectAllRecords();
-                                    },
-                                    dataSource: isc.MyRestDataSource.create(rdTab.RestDataSources.TozinLite)
-                                });
-                                const win = isc.Window.create({
-                                    ...rdTab.Vars.defaultWindowConfig,
-                                    members: [
-                                        isc.ToolStrip.create({
-                                            members: [
-                                                isc.ToolStripButtonAdd.create({
-                                                    title: "افزودن",
-                                                    click: _ => rdTab.Grids.TozinLite.recordDoubleClick(rdTab.Grids.TozinLite, rdTab.Grids.TozinLite.getSelectedRecord())
-                                                }),
-                                            ]
-                                        }),
-                                        rdTab.Grids.TozinLite,],
-                                })
-                            }
-                        });
-                        rdTab.Layouts.ToolStripButtons.AddTozinToRemittanceDetails = isc.ToolStripButtonAdd.create({
-                            // disabled: true,
-                            title: "افزودن توزین به بیجک‌های انتخابی",
-                            click() {
-                                if (!rdTab.DynamicForms.Forms.TozinTable.validate()) return;
-                                const outTozin = rdTab.DynamicForms.Forms.TozinTable.getValues();
-                                rdTab.Grids.RemittanceDetailOutRemittance.getSelectedRecords().forEach(rd => {
-                                    if (!rd.outTozin) {
-                                        rd.outTozin = outTozin;
-                                    }
-                                });
-                                rdTab.Grids.RemittanceDetailOutRemittance.redraw();
-
-                            }
-                        });
-                        rdTab.Grids.RemittanceDetailOutRemittance = isc.ListGrid.create({
-                            canRemoveRecords: true,
-                            canEdit: true,
-                            editEvent: "doubleClick",
-                            autoSaveEdits: false,
-                            fields: [
-                                {name: "remittance.code", title: "شماره بیجک", canEdit: false},
-                                {name: "remittance.description", title: "شرح بیجک", canEdit: false},
-                                ...rdTab.Fields.RemittanceDetailFullFields().map(f => {
-                                    const showFields = {
-                                        "remittance.code": {},
-                                        "remittance.description": {},
-                                        "inventory.label": {},
-                                        "description": {},
-                                        "weight": {},
-                                        "ampunt": {},
-                                        "unitId": {},
-                                        "depotId": {},
-                                    };
-                                    f.hidden = true;
-                                    f.canEdit = false;
-                                    if (Object.keys(showFields).contains(f.name)) f.hidden = false;
-                                    f.recordDoubleClick = _ => {
-                                    };
-                                    return f
-                                }),
-                                {name: "outTozin.tozinId", title: "توزین خروجی", canEdit: false},
-                                {
-                                    name: "outDescription",
-                                    title: "شرح محصول",
-                                    canEdit: true,
-                                    editorExit(editCompletionEvent, record, newValue, rowNum, colNum, grid) {
-                                        record.outDescription = newValue
-                                    }
-                                }
-                            ],
-                        })
-                        rdTab.Layouts.Window.OutRemittance = isc.Window.create({
-                            ...rdTab.Vars.defaultWindowConfig,
-                            members: [
-                                isc.VLayout.create({
-                                    height: "100%",
-                                    members: [
-                                        rdTab.DynamicForms.Forms.OutRemittance,
-                                        isc.Label.create({
-                                            height: .06 * innerHeight,
-                                            contents: "<h3 style='text-align: center'>"
-                                                + "اطلاعات توزین خروجی" +
-                                                "</h3>"
-                                        }),
-                                        isc.HLayout.create({
-                                            height: "15%",
-                                            members: [
-                                                isc.VLayout.create({
-                                                    width: "85%",
-                                                    members: [rdTab.DynamicForms.Forms.TozinTable,]
-                                                }),
-                                                isc.VLayout.create({
-                                                    members: [rdTab.Layouts.ToolStripButtons.OutRemittanceAddTozin,]
-                                                }),
-                                            ]
-                                        }),
-                                        isc.ToolStrip.create({
-                                            members: [
-                                                rdTab.Layouts.ToolStripButtons.OutRemittanceAdd,
-                                                rdTab.Layouts.ToolStripButtons.AddTozinToRemittanceDetails,
-
-                                                // rdTab.Layouts.ToolStripButtons.OutRemittanceAddTozin,
-                                            ]
-                                        }),
-                                        rdTab.Grids.RemittanceDetailOutRemittance,
-
-                                    ]
-                                })]
-                        });
-                        rdTab.Methods.OutRemittanceSave = function () {
-                            console.log("save out remittance btn ", rdTab.Grids.RemittanceDetailOutRemittance, rdTab.DynamicForms.Forms.OutRemittance)
-                            if (!rdTab.DynamicForms.Forms.OutRemittance.validate()) return;
-                            const remittanceDetails = rdTab.Grids.RemittanceDetailOutRemittance.getData();
-                            const remittance = rdTab.DynamicForms.Forms.OutRemittance.getValues();
-                            const remittanceDetailsWithoutTozin = remittanceDetails.filter(rd => {
-                                    if (rd.outTozin) return false;
-                                    return true;
-                                }
-                            )
-                            if (remittanceDetailsWithoutTozin && remittanceDetailsWithoutTozin.length > 0) {
-                                rdTab.Grids.RemittanceDetailOutRemittance.deselectAllRecords();
-                                rdTab.Grids.RemittanceDetailOutRemittance.selectRecords(remittanceDetailsWithoutTozin);
-                                return isc.warn('رکورد‌های انخابی بدون توزین خروجی می‌باشند.')
-                            }
-                            const remittanceDetailForSend = Object.assign([], remittanceDetails)
-                            remittanceDetailForSend.forEach(rd => {
-                                delete rd['destinationTozinId'];
-                                delete rd['destinationTozin'];
-                                delete rd['sourceTozinId'];
-                                delete rd['sourceTozin'];
-                                delete rd['remittance'];
-                                delete rd['securityPolompNo'];
-                                delete rd['railPolompNo'];
-                                delete rd['remittanceId'];
-                                delete rd['description'];
-                                delete rd['description'];
-                                rd['sourceTozin'] = Object.assign({}, rd['outTozin']);
-                                rd['description'] = rd['outDescription'];
-                                rd['inventoryId'] = rd['inventory']['id'];
-                                delete rd['inventory'];
-                                delete rd['outDescription'];
-                                delete rd['outTozin'];
-                            })
-                            rdTab.Vars.Method = "POST";
-                            rdTab.Methods.Save({
-                                remittanceDetails: remittanceDetails,
-                                remittance: remittance,
-                            }, 'api/remittance-detail/out');
-                            rdTab.Vars.Method = "PUT";
-
-                        }
-                        rdTab.Layouts.Window.OutRemittance.addMember(
-                            rdTab.Methods.HlayoutSaveOrExit(rdTab.Methods.OutRemittanceSave, rdTab.Layouts.Window.OutRemittance.ID)
-                        )
-                        rdTab.Grids.RemittanceDetailOutRemittance.setData(selectedData);
-                        console.debug('out remittance detail', rdTab.Grids.RemittanceDetailOutRemittance, rdTab.DynamicForms.Forms.OutRemittance);
-                        if (selectedData.length > 0) {
-                            rdTab.DynamicForms.Forms.OutRemittance.setValue("materialItemId", materialItemId);
-                            rdTab.DynamicForms.Forms.TozinTable.setValue('codeKala', materialItemId)
-                            rdTab.Layouts.ToolStripButtons.OutRemittanceAddTozin.enable();
-                            rdTab.Layouts.ToolStripButtons.OutRemittanceAdd.enable();
-                        }
-                    }
-                }),
+                rdTab.Layouts.ToolStripButtons.New,
                 isc.ToolStrip.create({
                     width: "100%",
                     align: "left",
