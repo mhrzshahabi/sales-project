@@ -15,7 +15,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "TBL_CONTACT_ACCOUNT",
         uniqueConstraints = {
-                @UniqueConstraint(columnNames = {"C_BANK_ACCOUNT"}, name = ContactAccount.UNIQUE_C_BANK_ACCOUNT ) ,
+                @UniqueConstraint(columnNames = {"C_BANK_ACCOUNT"}, name = ContactAccount.UNIQUE_C_BANK_ACCOUNT),
         })
 public class ContactAccount extends BaseEntity {
 

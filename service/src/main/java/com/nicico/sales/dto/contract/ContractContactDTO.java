@@ -1,6 +1,7 @@
 package com.nicico.sales.dto.contract;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.nicico.sales.model.enumeration.CommercialRole;
 import com.nicico.sales.model.enumeration.EStatus;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -10,7 +11,6 @@ import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotNull;
 import java.util.Date;
-import java.util.EnumSet;
 import java.util.List;
 
 @Getter
@@ -21,6 +21,7 @@ public class ContractContactDTO {
 
     private Long contractId;
     private Long contactId;
+    private CommercialRole CommercialRole;
 
     @Getter
     @Setter

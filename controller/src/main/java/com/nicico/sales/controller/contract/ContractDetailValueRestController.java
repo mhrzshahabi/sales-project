@@ -38,8 +38,8 @@ public class ContractDetailValueRestController {
     @Loggable
     @PostMapping
     public ResponseEntity<ContractDetailValueDTO.Info> create(@Validated @RequestBody List<ContractDetailValueDTO.Create> request) {
-        for (ContractDetailValueDTO.Create create:request) {
-             contractDetailValueService.create(create);
+        for (ContractDetailValueDTO.Create create : request) {
+            contractDetailValueService.create(create);
         }
         return new ResponseEntity<>(HttpStatus.CREATED);
     }

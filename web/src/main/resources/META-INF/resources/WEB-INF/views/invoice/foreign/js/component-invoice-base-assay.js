@@ -6,6 +6,7 @@ isc.defineClass("InvoiceBaseAssay", isc.VLayout).addProperties({
     showEdges: false,
     layoutMargin: 2,
     membersMargin: 2,
+    overflow: "scroll",
     inventories: [],
     initWidget: function () {
 
@@ -14,8 +15,12 @@ isc.defineClass("InvoiceBaseAssay", isc.VLayout).addProperties({
         let This = this;
         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
             httpMethod: "GET",
-            params: {inventoryIds: This.inventories.map(q => q.id)},
-            actionURL: "${contextPath}/api/assayInspection/get-assay-values",
+            params: {
+                doIntegration: true,
+                inventoryIds: This.inventories.map(q => q.id)
+            },
+            actionURL: "${contextPath}" + "/api/assayInspection/get-assay-values",
+
             callback: function (resp) {
 
                 let fields = [];
@@ -26,20 +31,17 @@ isc.defineClass("InvoiceBaseAssay", isc.VLayout).addProperties({
                         continue;
 
                     fields.add(isc.Unit.create({
-
-                        unitCategory: 1,
+                        unitCategory: assayValues[index].materialElement.unit.categoryUnit,
                         disabledUnitField: true,
                         disabledValueField: true,
-                        disabledCurrencyField: true,
                         showValueFieldTitle: true,
                         showUnitFieldTitle: false,
-                        showCurrencyFieldTitle: false,
-                        showCurrencyField: false,
+                        name: assayValues[index].materialElement.element.name,
                         fieldValueTitle: assayValues[index].materialElement.element.name,
                         border: "1px solid rgba(0, 0, 0, 0.3)",
                     }));
                     fields.last().setValue(assayValues[index].value);
-                    fields.last().setUnitId(assayValues[index].unit.id);
+                    fields.last().setUnitId(assayValues[index].materialElement.unit.id);
                 }
 
                 This.addMember(isc.DynamicForm.create({

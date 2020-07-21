@@ -3,8 +3,8 @@ package com.nicico.sales.service;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.GroupsPersonDTO;
+import com.nicico.sales.exception.NotFoundException;
 import com.nicico.sales.iservice.IGroupsPersonService;
 import com.nicico.sales.model.entities.base.GroupsPerson;
 import com.nicico.sales.repository.GroupsPersonDAO;
@@ -29,7 +29,7 @@ public class GroupsPersonService implements IGroupsPersonService {
     @PreAuthorize("hasAuthority('R_GROUPS_PERSON')")
     public GroupsPersonDTO.Info get(Long id) {
         final Optional<GroupsPerson> slById = groupsPersonDAO.findById(id);
-        final GroupsPerson groupsPerson = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.GroupsPersonNotFound));
+        final GroupsPerson groupsPerson = slById.orElseThrow(() -> new NotFoundException(GroupsPerson.class));
 
         return modelMapper.map(groupsPerson, GroupsPersonDTO.Info.class);
     }
@@ -58,7 +58,7 @@ public class GroupsPersonService implements IGroupsPersonService {
     @PreAuthorize("hasAuthority('U_GROUPS_PERSON')")
     public GroupsPersonDTO.Info update(Long id, GroupsPersonDTO.Update request) {
         final Optional<GroupsPerson> slById = groupsPersonDAO.findById(id);
-        final GroupsPerson groupsPerson = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.GroupsPersonNotFound));
+        final GroupsPerson groupsPerson = slById.orElseThrow(() -> new NotFoundException(GroupsPerson.class));
 
         GroupsPerson updating = new GroupsPerson();
         modelMapper.map(groupsPerson, updating);

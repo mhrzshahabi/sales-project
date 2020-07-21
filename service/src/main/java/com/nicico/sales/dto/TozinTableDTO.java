@@ -18,8 +18,8 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class TozinTableDTO {
 
-    private String tozinId;
     private final Boolean isInView = true;
+    private String tozinId;
     private String cardId;
     private String haveCode;
     private String tozinDate;
@@ -39,7 +39,7 @@ public class TozinTableDTO {
     @ApiModel("TozinTableInfo")
     public static class InfoWithoutRemittanceDetail extends TozinTableDTO {
         private Long id;
-
+        private String containerNo3;
 
         // Auditing
         private Date createdDate;
@@ -51,6 +51,10 @@ public class TozinTableDTO {
         // BaseEntity
         private Boolean editable;
         private List<EStatus> eStatus;
+
+        private WarehouseDTO.Info sourceWarehouse;
+        private WarehouseDTO.Info targetWarehouse;
+        private MaterialItemDTO.Info materialItem;
     }
 
     @Getter
@@ -58,7 +62,9 @@ public class TozinTableDTO {
     @Accessors(chain = true)
     @ApiModel("TozinTableInfo")
     public static class Info extends TozinTableDTO.InfoWithoutRemittanceDetail {
-        private RemittanceDetailDTO.Info remittanceDetail;
+        private List<RemittanceDetailDTO.InfoWithoutRemittance> remittanceDetailsAsSource;
+        private List<RemittanceDetailDTO.InfoWithoutRemittance> remittanceDetailsAsDestination;
+
     }
 
     @Getter

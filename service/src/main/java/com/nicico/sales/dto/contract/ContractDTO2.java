@@ -10,7 +10,6 @@ import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotNull;
 import java.util.Date;
-import java.util.EnumSet;
 import java.util.List;
 
 @Getter
@@ -29,6 +28,15 @@ public class ContractDTO2 {
     private Long parentId;
     private Long materialId;
     private Long contractTypeId;
+
+    // contractContacts
+    private Long buyerId;
+    private Long sellerId;
+    private Long agentBuyerId;
+    private Long agentSellerId;
+
+    private List<ContractContactDTO.Info> contractContacts;
+    private List<ContractDetailDTO2.Info> contractDetails;
 
     @Getter
     @Setter

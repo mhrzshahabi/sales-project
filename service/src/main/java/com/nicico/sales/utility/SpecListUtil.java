@@ -23,6 +23,12 @@ public class SpecListUtil {
 
     private final ObjectMapper objectMapper;
 
+    public static <T> Predicate<T> distinct(Function<? super T, ?> keyExtractor) {
+
+        Set<Object> seen = ConcurrentHashMap.newKeySet();
+        return t -> seen.add(keyExtractor.apply(t));
+    }
+
     public <P extends SearchDTO.SearchRq, Q> Q createSearchRq(Integer startRow, Integer endRow, String operator, String criteria, String sortBy, Function<P, Q> work) throws IOException {
 
         SearchDTO.SearchRq request = new SearchDTO.SearchRq();
@@ -111,12 +117,6 @@ public class SpecListUtil {
         if (nCriteria.getOperator() == null) nCriteria.setOperator("and");
 
         return nCriteria;
-    }
-
-    public static <T> Predicate<T> distinct(Function<? super T, ?> keyExtractor) {
-
-        Set<Object> seen = ConcurrentHashMap.newKeySet();
-        return t -> seen.add(keyExtractor.apply(t));
     }
 
     private Field getField(String fieldName, Class<?> entityClass) {

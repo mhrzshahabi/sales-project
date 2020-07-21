@@ -1,114 +1,63 @@
-isc.defineClass("invoiceTRC", isc.VLayout).addProperties({
-    autoFit: false,
-    autoDraw: true,
-    align: "center",
+isc.defineClass("InvoiceDeduction", isc.VLayout).addProperties({
+    align: "top",
     width: "100%",
-    height: "70%",
-    material: null,
-    invoiceTRCRowsComponentT: null,
-    invoiceTRCRowsComponentRCuAg: null,
-    invoiceTRCRowsComponentRSilverAu: null,
-    invoiceTRCRowsComponentRGoldPt: null,
-    invoiceTRCRowsComponentRPD: null,
-    invoiceTRCObj: "",
+    autoFit: false,
+    autoDraw: false,
+    showEdges: false,
+    layoutMargin: 2,
+    membersMargin: 2,
+    overflow: "scroll",
+    currency: null,
+    contract: null,
+    invoiceCalculationComponent: null,
     initWidget: function () {
 
-        var This = this;
         this.Super("initWidget", arguments);
 
-        invoiceTRCObj = {
-            tRCT: 0,
-            tRCRCuAg: 0,
-            tRCRSilverAu: 0,
-            tRCRGoldPt: 0,
-            tRCRPd: 0,
+        let This = this;
+        let fields = [{
+            name: "TC",
+            type: "staticText",
+            title: "<spring:message code='contract.TC'/>",
+            value: {deductionPrice: __contract.getTC(This.contract)}
+        }];
+        let calculationValues = this.invoiceCalculationComponent.getValues();
+        for (let key in Object.keys(calculationValues)) {
+
+            fields.add(isc.InvoiceDeductionRow.create({
+                name: 'R/C ' + key,
+                border: "1px solid rgba(0, 0, 0, 0.3)",
+                elementName: key,
+                currency: This.currency,
+                contract: This.contract,
+                calculationData: calculationValues[key]
+            }));
         }
 
-        switch (this.material) {
+        this.addMember(isc.DynamicForm.create({
+            width: "100%",
+            fields: fields,
+            itemChanged: function (item, newValue) {
 
-            case 1:
-                invoiceTRCRowsComponentT = isc.invoiceTRCRows.create({
-                    rowTitle: "T/C:",
-                    material: This.material
-                });
-                invoiceTRCRowsComponentRCuAg = isc.invoiceTRCRows.create({
-                    rowTitle: "R/C-CU:",
-                    material: This.material
-                });
-                invoiceTRCRowsComponentRSilverAu = isc.invoiceTRCRows.create({
-                    rowTitle: "R/C-SILVER:",
-                    material: This.material
-                });
-                invoiceTRCRowsComponentRGoldPt = isc.invoiceTRCRows.create({
-                    rowTitle: "R/C-GOLD:",
-                    material: This.material
-                });
-
-                this.addMember(invoiceTRCRowsComponentT);
-                this.addMember(invoiceTRCRowsComponentRCuAg);
-                this.addMember(invoiceTRCRowsComponentRSilverAu);
-                this.addMember(invoiceTRCRowsComponentRGoldPt);
-                break;
-
-            case 4:
-                invoiceTRCRowsComponentT = isc.invoiceTRCRows.create({
-                    rowTitle: "T/C:",
-                    material: This.material
-                });
-                invoiceTRCRowsComponentRCuAg = isc.invoiceTRCRows.create({
-                    rowTitle: "R/C Ag:",
-                    material: This.material
-                });
-                invoiceTRCRowsComponentRSilverAu = isc.invoiceTRCRows.create({
-                    rowTitle: "R/C Au:",
-                    material: This.material
-                });
-                invoiceTRCRowsComponentRGoldPt = isc.invoiceTRCRows.create({
-                    rowTitle: "R/C Pt:",
-                    material: This.material
-                });
-                invoiceTRCRowsComponentRPD = isc.invoiceTRCRows.create({
-                    rowTitle: "R/C Pd:",
-                    material: This.material
-                });
-
-                this.addMember(invoiceTRCRowsComponentT);
-                this.addMember(invoiceTRCRowsComponentRCuAg);
-                this.addMember(invoiceTRCRowsComponentRSilverAu);
-                this.addMember(invoiceTRCRowsComponentRGoldPt);
-                this.addMember(invoiceTRCRowsComponentRPD);
-                break;
-
-        }
-
+                let sum = Object.keys(this.getValues()).map(q => this.getValues()[q].deductionPrice).sum();
+                this.parentElement.members[1].setValue(sum);
+            }
+        }));
+        this.addMember(isc.Unit.create({
+            border: "1px solid rgba(0, 0, 0, 0.3)",
+            disabledUnitField: true,
+            disabledValueField: true,
+            showValueFieldTitle: true,
+            showUnitFieldTitle: false,
+            unitCategory: This.currency.categoryUnit,
+            fieldValueTitle: "<spring:message code='foreign-invoice.form.tab.deductions.subtotal'/>",
+        }));
+        this.members.last().setUnitId(this.currency.id);
     },
-    getTRCValues: function () {
-
-        switch (this.material) {
-
-            case 1:
-                invoiceTRCObj.tRCT = this.members.get(0).getTRCRowsValues();
-                invoiceTRCObj.tRCRCuAg = this.members.get(1).getTRCRowsValues();
-                invoiceTRCObj.tRCRSilverAu = this.members.get(2).getTRCRowsValues();
-                invoiceTRCObj.tRCRGoldPt = this.members.get(3).getTRCRowsValues();
-                break;
-
-            case 4:
-                invoiceTRCObj.tRCT = this.members.get(0).getTRCRowsValues();
-                invoiceTRCObj.tRCRCuAg = this.members.get(1).getTRCRowsValues();
-                invoiceTRCObj.tRCRSilverAu = this.members.get(2).getTRCRowsValues();
-                invoiceTRCObj.tRCRGoldPt = this.members.get(3).getTRCRowsValues();
-                invoiceTRCObj.tRCRPd = this.members.get(4).getTRCRowsValues();
-                break;
-        }
-
-        return invoiceTRCObj;
+    getValue: function () {
+        return this.members[0].getValues();
     },
-    setTRCValues: function (data) {
-        this.members.get(0).setTRCRowsValues(data.tRCT);
-        this.members.get(1).setTRCRowsValues(data.tRCRCuAg);
-        this.members.get(2).setTRCRowsValues(data.tRCRSilverAu);
-        this.members.get(3).setTRCRowsValues(data.tRCRGoldPt);
-        this.members.get(4).setTRCRowsValues(data.tRCRPd);
+    getSumValue: function () {
+        return this.members[1].getValue();
     }
 });

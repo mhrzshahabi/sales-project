@@ -6,9 +6,14 @@ isc.defineClass("InvoiceBaseValues", isc.VLayout).addProperties({
     showEdges: false,
     layoutMargin: 2,
     membersMargin: 2,
+    overflow: "scroll",
+    currency: null,
     contract: null,
     shipment: null,
     invoiceType: null,
+    invoiceBasePriceComponent: null,
+    invoiceBaseAssayComponent: null,
+    invoiceBaseWeightComponent: null,
     initWidget: function () {
 
         this.Super("initWidget", arguments);
@@ -17,17 +22,22 @@ isc.defineClass("InvoiceBaseValues", isc.VLayout).addProperties({
 
         if (this.invoiceType.id === ImportantIDs.invoiceType.FINAL) {
 
-            this.addMember(isc.InvoiceBasePrice.create({
-
+            this.invoiceBasePriceComponent = isc.InvoiceBasePrice.create({
+                currency: This.currency,
                 contract: This.contract,
                 shipment: This.shipment
-            }));
-            this.addMember(isc.InvoiceBaseAssay.create({
+            });
+            this.addMember(this.invoiceBasePriceComponent);
+
+            this.invoiceBaseAssayComponent = isc.InvoiceBaseAssay.create({
                 inventories: [{id: 1}, {id: 2}]
-            }));
-            this.addMember(isc.InvoiceBaseWeight.create({
-                billLadings: [{id: 1}, {id: 2}]
-            }));
+            });
+            this.addMember(this.invoiceBaseAssayComponent);
+
+            this.invoiceBaseWeightComponent = isc.InvoiceBaseWeight.create({
+                inventories: [{id: 1}, {id: 2}]
+            });
+            this.addMember(this.invoiceBaseWeightComponent);
         } else {
 
         }

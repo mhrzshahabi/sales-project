@@ -1,6 +1,7 @@
 package com.nicico.sales.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.nicico.sales.model.enumeration.EStatus;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -22,23 +23,20 @@ public class CountryDTO {
 
     @Getter
     @Setter
-    @ApiModel("CountryInfoTuple")
-    public static class CountryInfoTuple {
-        private String nameFa;
-        private String nameEn;
-    }
-
-    @Getter
-    @Setter
     @Accessors(chain = true)
     @ApiModel("CountryInfo")
     public static class Info extends CountryDTO {
+
         private Long id;
         private Date createdDate;
         private String createdBy;
         private Date lastModifiedDate;
         private String lastModifiedBy;
         private Integer version;
+
+        // BaseEntity
+        private Boolean editable;
+        private List<EStatus> eStatus;
     }
 
     @Getter

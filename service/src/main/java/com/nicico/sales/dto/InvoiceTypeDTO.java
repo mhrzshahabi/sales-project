@@ -24,7 +24,7 @@ public class InvoiceTypeDTO {
     @Setter
     @Accessors(chain = true)
     @ApiModel("InvoiceTypeInfo")
-    public static class Info extends InvoiceTypeDTO{
+    public static class Info extends InvoiceTypeDTO {
         private Long id;
         private Date createdDate;
         private String createdBy;
@@ -38,7 +38,7 @@ public class InvoiceTypeDTO {
     @Setter
     @Accessors(chain = true)
     @ApiModel("InvoiceTypeCreateRq")
-    public static class Create extends InvoiceTypeDTO{
+    public static class Create extends InvoiceTypeDTO {
 
     }
 
@@ -47,7 +47,7 @@ public class InvoiceTypeDTO {
     @Setter
     @Accessors(chain = true)
     @ApiModel("InvoiceTypeUpdateRq")
-    public static class Update extends InvoiceTypeDTO{
+    public static class Update extends InvoiceTypeDTO {
         @NotNull
         @ApiModelProperty(required = true)
         private Long id;
@@ -57,7 +57,7 @@ public class InvoiceTypeDTO {
     @Setter
     @Accessors(chain = true)
     @ApiModel("InvoiceTypeDeleteRq")
-    public static class Delete{
+    public static class Delete {
         @NotNull
         @ApiModelProperty(required = true)
         private List<Long> ids;

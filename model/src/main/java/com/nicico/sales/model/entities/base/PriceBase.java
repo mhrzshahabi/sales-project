@@ -18,8 +18,8 @@ import java.util.Date;
 @Accessors(chain = true)
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
-@Table(name = "TBL_PRICE_BASE", uniqueConstraints = @UniqueConstraint(name = "element_currency_unit_priceBaseReference_priceDate_UNIQUE",
-        columnNames = {"F_ELEMENT_ID", "F_CURRENCY_ID", "F_UNIT_ID", "N_PRICE_BASE_REFERENCE", "D_PRICE_DATE"}))
+@Table(name = "TBL_PRICE_BASE", uniqueConstraints = @UniqueConstraint(name = "element_priceBaseReference_priceDate_UNIQUE",
+        columnNames = {"F_ELEMENT_ID", "N_PRICE_BASE_REFERENCE", "D_PRICE_DATE"}))
 public class PriceBase extends BaseEntity {
 
     @Id
@@ -46,19 +46,20 @@ public class PriceBase extends BaseEntity {
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "F_CURRENCY_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_priceBase2CurrencyByCurrencyId"))
-    private Currency currency;
+    @JoinColumn(name = "F_WEIGHT_UNIT_ID", nullable = false, insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_priceBase2UnitByWeightUnitId"))
+    private Unit weightUnit;
 
     @NotNull
-    @Column(name = "F_CURRENCY_ID", nullable = false)
-    private Long currencyId;
+    @Column(name = "F_WEIGHT_UNIT_ID", nullable = false)
+    private Long weightUnitId;
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "F_UNIT_ID", nullable = false, insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_priceBase2UnitByUnitId"))
-    private Unit unit;
+    @JoinColumn(name = "F_FINANCE_UNIT_ID", nullable = false, insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_priceBase2UnitByFinanceUnitId"))
+    private Unit financeUnit;
 
     @NotNull
-    @Column(name = "F_UNIT_ID", nullable = false)
-    private Long unitId;
+    @Column(name = "F_FINANCE_UNIT_ID", nullable = false)
+    private Long financeUnitId;
+
 }

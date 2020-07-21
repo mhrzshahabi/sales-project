@@ -1,7 +1,6 @@
 package com.nicico.sales.dto.contract;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.nicico.sales.model.enumeration.DataType;
 import com.nicico.sales.model.enumeration.EStatus;
 import io.swagger.annotations.ApiModel;
@@ -21,11 +20,10 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ContractDetailTypeParamDTO {
 
-    @JsonProperty("title")
     private String name;
-    @JsonProperty("name")
     private String key;
     private DataType type;
+    private String reference;
     private String defaultValue;
     private Boolean required;
 

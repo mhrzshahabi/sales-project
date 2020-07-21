@@ -29,8 +29,8 @@ public class PriceBaseDTO {
     private Long elementId;
     private PriceBaseReference priceBaseReference;
     private BigDecimal price;
-    private Long currencyId;
-    private Long unitId;
+    private Long weightUnitId;
+    private Long financeUnitId;
 
     @Getter
     @Setter
@@ -39,8 +39,8 @@ public class PriceBaseDTO {
     public static class Info extends PriceBaseDTO {
         private Long id;
         private ElementDTO.Info element;
-        private CurrencyDTO.Info currency;
-        private UnitDTO.Info unit;
+        private UnitDTO.Info weightUnit;
+        private UnitDTO.Info financeUnit;
 
         // Auditing
         private Date createdDate;

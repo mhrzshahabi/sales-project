@@ -1,14 +1,11 @@
 package com.nicico.sales.model.entities.base;
 
-/**
- * Ashouri
- */
-
 import com.nicico.sales.model.entities.common.BaseEntity;
 import lombok.*;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
@@ -33,16 +30,17 @@ public class Port extends BaseEntity {
     @Column(name = "COUNTRY_ID")
     private Long countryId;
 
-    @Column(name = "c_PORT", length = 4000)
+    @NotNull
+    @Column(name = "C_PORT", length = 4000, nullable = false)
     private String port;
 
-    @Column(name = "c_LOA")
+    @Column(name = "C_LOA")
     private String loa;
 
-    @Column(name = "c_BEAM")
+    @Column(name = "C_BEAM")
     private String beam;
 
-    @Column(name = "c_ARRIVAL")
+    @Column(name = "C_ARRIVAL")
     private String arrival;
 
 }

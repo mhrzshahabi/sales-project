@@ -1,6 +1,6 @@
 <?xml version="1.1" encoding="UTF-8" standalone="no"?>
-<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
-                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
 
     <!-- Add PERSON_ID column-->
@@ -25,11 +25,20 @@
         </addColumn>
     </changeSet>
     <changeSet author="karimi (generated)" id="1592910204690-233">
-        <addForeignKeyConstraint baseColumnNames="F_MATERIAL_ITEM_ID" baseTableName="TBL_FOREIGN_INVOICE" constraintName="fk_foreignInvoice2materialItemByMaterialItemId" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_MATERIAL_ITEM" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="F_MATERIAL_ITEM_ID" baseTableName="TBL_FOREIGN_INVOICE"
+                                 constraintName="fk_foreignInvoice2materialItemByMaterialItemId" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="ID"
+                                 referencedTableName="TBL_MATERIAL_ITEM" validate="true"/>
     </changeSet>
     <changeSet author="karimi (generated)" id="1592910204690-234">
-        <dropForeignKeyConstraint baseTableName="TBL_FOREIGN_INVOICE" constraintName="FK_FOREIGNINVOICE2MATERIALBYMATERIALID"/>
+        <dropForeignKeyConstraint baseTableName="TBL_FOREIGN_INVOICE"
+                                  constraintName="FK_FOREIGNINVOICE2MATERIALBYMATERIALID"/>
     </changeSet>
 
+    <changeSet author="karimi (generated)" id="1594613577991-229">
+        <addColumn tableName="TBL_FOREIGN_INVOICE">
+            <column name="C_DESCRIPTION" type="varchar2(255 CHAR)"/>
+        </addColumn>
+    </changeSet>
 
 </databaseChangeLog>

@@ -6,8 +6,6 @@ import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.sales.dto.ContractDetailAuditDTO;
 import com.nicico.sales.dto.ContractDetailDTO;
 import com.nicico.sales.iservice.IContractDetailService;
-import com.nicico.sales.model.entities.base.ContractDetail;
-import com.nicico.sales.service.ContractDetailService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -81,6 +79,7 @@ public class ContractDetailRestController {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
         return new ResponseEntity<>(contractDetailService.search(nicicoCriteria), HttpStatus.OK);
     }
+
     @Loggable
     @GetMapping(value = "/audit/spec-list")
     public ResponseEntity<TotalResponse<ContractDetailAuditDTO.Info>> listAudit(@RequestParam MultiValueMap<String, String> criteria) throws IOException {

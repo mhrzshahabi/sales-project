@@ -40,8 +40,8 @@ public class RemittanceDetailService extends GenericService<RemittanceDetail, Lo
         remittanceDetailsList.stream().forEach(rd -> {
             final TozinTable sourceTozin = modelMapper.map(rd.getSourceTozin(), TozinTable.class);
             final TozinTable destinationTozin = modelMapper.map(rd.getDestinationTozin(), TozinTable.class);
-            saveTozin(tozinKeyValue,  sourceTozin);
-            saveTozin(tozinKeyValue,  destinationTozin);
+            saveTozin(tozinKeyValue, sourceTozin);
+            saveTozin(tozinKeyValue, destinationTozin);
         });
         remittanceDetailsList.stream().forEach(rd -> {
             final InventoryDTO.Create inventory = rd.getInventory();
@@ -58,15 +58,32 @@ public class RemittanceDetailService extends GenericService<RemittanceDetail, Lo
         }.getType());
     }
 
-    private void saveTozin(Map<String, Long> tozinKeyValue,  TozinTable tozinTable) {
+    @Override
+    @Transactional
+    public List<RemittanceDetailDTO.Info> out(RemittanceDetailDTO.OutRemittance request) {
+        final Long remittanceId = remittanceDAO.save(modelMapper.map(request.getRemittance(), Remittance.class)).getId();
+        List<RemittanceDetail> details = new ArrayList<>();
+        request
+                .getRemittanceDetails()
+                .parallelStream()
+                .forEach(r -> {
+                    final RemittanceDetail remittanceDetail = modelMapper.map(r, RemittanceDetail.class);
+                    remittanceDetail.setSourceTozinId(tozinTableDAO.save(modelMapper.map(r.getSourceTozin(), TozinTable.class)).getId());
+                    remittanceDetail.setRemittanceId(remittanceId);
+                    details.add(remittanceDetail);
+                });
+
+        return modelMapper.map(repository.saveAll(details),new TypeToken<List<RemittanceDetailDTO.Info>>(){}.getType());
+    }
+
+    private void saveTozin(Map<String, Long> tozinKeyValue, TozinTable tozinTable) {
         if (!tozinKeyValue.containsKey(tozinTable.getTozinId())) {
             final Tozin tozin = tozinDAO.findFirstByTozinId(tozinTable.getTozinId());
-            if(tozin != null){
+            if (tozin != null) {
                 final TozinTable tozinToSave = modelMapper.map(tozin, TozinTable.class);
                 tozinToSave.setDriverName(tozinTable.getDriverName());
                 tozinKeyValue.put(tozinTable.getTozinId(), tozinTableDAO.save(tozinToSave).getId());
-            }
-            else tozinKeyValue.put(tozinTable.getTozinId(), tozinTableDAO.save(tozinTable).getId());
+            } else tozinKeyValue.put(tozinTable.getTozinId(), tozinTableDAO.save(tozinTable).getId());
         }
     }
 }

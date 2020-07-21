@@ -3,8 +3,8 @@ package com.nicico.sales.service;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.MaterialItemDTO;
+import com.nicico.sales.exception.NotFoundException;
 import com.nicico.sales.iservice.IMaterialItemService;
 import com.nicico.sales.model.entities.base.MaterialItem;
 import com.nicico.sales.repository.MaterialDAO;
@@ -56,7 +56,7 @@ public class MaterialItemService implements IMaterialItemService {
     @PreAuthorize("hasAuthority('R_MATERIAL_ITEM')")
     public MaterialItemDTO.Info get(Long id) {
         final Optional<MaterialItem> slById = materialItemDAO.findById(id);
-        final MaterialItem materialItem = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.MaterialItemNotFound));
+        final MaterialItem materialItem = slById.orElseThrow(() -> new NotFoundException(MaterialItem.class));
 
         return modelMapper.map(materialItem, MaterialItemDTO.Info.class);
     }
@@ -85,7 +85,7 @@ public class MaterialItemService implements IMaterialItemService {
     @PreAuthorize("hasAuthority('U_MATERIAL_ITEM')")
     public MaterialItemDTO.Info update(Long id, MaterialItemDTO.Update request) {
         final Optional<MaterialItem> slById = materialItemDAO.findById(id);
-        final MaterialItem materialItem = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.MaterialItemNotFound));
+        final MaterialItem materialItem = slById.orElseThrow(() -> new NotFoundException(MaterialItem.class));
         MaterialItem updating = new MaterialItem();
         modelMapper.map(materialItem, updating);
         modelMapper.map(request, updating);

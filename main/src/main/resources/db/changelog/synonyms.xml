@@ -4,11 +4,14 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
 
     <changeSet author="Reza Mazloom" id="mazloom_002">
-        <preConditions onFail="CONTINUE">
-            <or>
-                <runningAs username="saleslocal"/>
-                <runningAs username="sales"/>
-            </or>
+        <preConditions onFail="MARK_RAN">
+            <and>
+                <or>
+                    <runningAs username="saleslocal"/>
+                    <runningAs username="sales"/>
+                </or>
+                <tableExists tableName="CUSTOMER1TBL"/>
+            </and>
         </preConditions>
         <sql>
             create synonym CUSTOMER1TBL for dev_mdms.CUSTOMER1TBL;
@@ -23,10 +26,13 @@
     </changeSet>
 
     <changeSet author="Reza Mazloom" id="mazloom_003">
-        <preConditions onFail="CONTINUE">
-            <or>
-                <runningAs username="n_sales"/>
-            </or>
+        <preConditions onFail="MARK_RAN">
+            <and>
+                <or>
+                    <runningAs username="n_sales"/>
+                </or>
+                <tableExists tableName="CUSTOMER1TBL"/>
+            </and>
         </preConditions>
         <sql>
             create synonym CUSTOMER1TBL for n_mdms.CUSTOMER1TBL;

@@ -16,8 +16,8 @@ import java.util.Set;
 @Entity
 @Table(name = "TBL_CONTACT",
         uniqueConstraints = {
-                @UniqueConstraint(columnNames = {"C_PHONE " , "b_SELLER" , "b_BUYER" , "b_TRANSPORTER" , "b_SHIPPER" , "b_INSPECTOR" , "b_INSURANCER" , "b_AGENT_BUYER" , "b_AGENT_SELLER" , "COUNTRY_ID"}, name = Contact.UNIQUE_List_Person) ,
-                @UniqueConstraint(columnNames = {"C_ECONOMICAL_CODE"}, name = Contact.UNIQUE_C_ECONOMICAL_CODE) ,
+                @UniqueConstraint(columnNames = {"C_PHONE ", "b_SELLER", "b_BUYER", "b_TRANSPORTER", "b_SHIPPER", "b_INSPECTOR", "b_INSURANCER", "b_AGENT_BUYER", "b_AGENT_SELLER", "COUNTRY_ID"}, name = Contact.UNIQUE_List_Person),
+                @UniqueConstraint(columnNames = {"C_ECONOMICAL_CODE"}, name = Contact.UNIQUE_C_ECONOMICAL_CODE),
 
         })
 public class Contact extends BaseEntity {

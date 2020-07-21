@@ -41,7 +41,7 @@ function onWayProductCreateRemittance(criteriaBuildForListGrid) {
 
             }
         )
-        _styler(sums['vazn'], "Weight");
+        _styler(sums['vazn'] + " " + sums['vazn'].toPersianLetter(), "Weight");
         _styler(sums['tedad'], "SheetSum");
         _styler(sums['totalPkg'], "BundleSum");
         // DynamicForm_warehouseCAD.setValue('destinationWeight', ('<span style="color:red">' + sums['vazn']).toString() + "</span>");
@@ -328,7 +328,8 @@ function onWayProductCreateRemittance(criteriaBuildForListGrid) {
                         console.log('saved response', r)
                         if (r.status === 201) {
                             isc.say('عملیات با موفقیت انجام شد', () => {
-                                windowRemittance.hide()
+                                windowRemittance.hide();
+                                criteriaBuildForListGrid();
                             })
                         } else {
 
@@ -341,7 +342,7 @@ function onWayProductCreateRemittance(criteriaBuildForListGrid) {
                             isc.say('مشکل ارتباط')
                         }
                     ).finally(
-                        () => criteriaBuildForListGrid()
+                        // () => criteriaBuildForListGrid()
                     )
                 }
             })
@@ -349,8 +350,8 @@ function onWayProductCreateRemittance(criteriaBuildForListGrid) {
         }
     });
     const packages_button = isc.IButtonSave.create({
-        title: "<spring:message code='warehouseStock.bundle'/>",
-        width: 100,
+        title: "جزئیات آیتم‌ها",
+        // width: 100,
         icon: "pieces/16/packages.png",
         orientation: "vertical",
         visibility: "hidden",
@@ -365,6 +366,7 @@ function onWayProductCreateRemittance(criteriaBuildForListGrid) {
         width: 1000,
         // height: 630,
         autoSize: true,
+        showMinimizeButton: false,
         autoCenter: true,
         isModal: true,
         align: "center",
@@ -449,7 +451,7 @@ function onWayProductCreateRemittance(criteriaBuildForListGrid) {
 
     const windowDestinationTozinList = (function () {
         const datasource = isc.DataSource.create({
-            fields: [...tozinLiteFields]
+            fields: [...tozinLiteFields()]
         });
         const gridConfigs = {
             showRowNumbers: true,
@@ -466,7 +468,7 @@ function onWayProductCreateRemittance(criteriaBuildForListGrid) {
             width: "100%",
             height: 570,
             dataSource: datasource,
-            fields: [...tozinLiteFields],
+            fields: [...tozinLiteFields()],
         };
         const extraGridConfigs = {
             recordDoubleClick(viewer, record, recordNum, field, fieldNum, value, rawValue) {
@@ -492,6 +494,7 @@ function onWayProductCreateRemittance(criteriaBuildForListGrid) {
             height: 580,
             autoSize: true,
             autoCenter: true,
+            showMinimizeButton: false,
             isModal: true,
             showModalMask: true,
             showTitle: false,
@@ -667,7 +670,7 @@ function onWayProductCreateRemittance(criteriaBuildForListGrid) {
                 if (!tozinId) return false;
                 this.rowHoverComponent = isc.DetailViewer.create({
                     dataSource: isc.MyRestDataSource.create({
-                        fields: [...tozinFields],
+                        fields: [...tozinFields()],
                         fetchDataURL: 'api/tozin/spec-list'
                     }),
                     width: 250
@@ -738,7 +741,7 @@ function onWayProductCreateRemittance(criteriaBuildForListGrid) {
                     hoverHTML(record, value, rowNum, colNum, grid) {
                         console.log('hover html', arguments)
                         try {
-                            const title = [...tozinFields].getValueMap('name', 'title')
+                            const title = [...tozinFields()].getValueMap('name', 'title')
                             const tbl = '<table border="1">' +
                                 Object.keys(record['destTozin']).map((k, i, list) => {
                                     const columns = 4;
@@ -836,6 +839,7 @@ function onWayProductCreateRemittance(criteriaBuildForListGrid) {
             height: 580,
             autoSize: true,
             autoCenter: true,
+            showMinimizeButton: false,
             isModal: true,
             showModalMask: true,
             align: "center",
@@ -911,32 +915,36 @@ function onWayProductCreateRemittance(criteriaBuildForListGrid) {
     //     onWayProductFetch('tozin/lite', 'and', destinationTozinCriteria.criteria),
     // ])
     onWayProductFetch('tozin/lite', 'and', destinationTozinCriteria.criteria).then((tozin) => {
-                if (tozin && tozin.response && tozin.response.data && tozin.response.data.length > 0) {
-                    const tozinData = tozin.response.data
-                    // console.log('tozin',tozin);
-                    const grid = windowDestinationTozinList['g'];
-                    // const ds = windowDestinationTozinList['ds'];
-                    window[listGridSetDestTozinHarasatPolompForSelectedTozin['gs']]
-                        .setValueMap('destTozinId', tozinData.getValueMap('tozinId', 'tozinId'))
-                    // if (tozinLite && tozinLite.response && tozinLite.response.data && tozinLite.response.data.length > 0) {
-                    //     const tozinLiteData = tozinLite.response.data;
-                    //     tozinData.forEach(tz => {
-                    //         try {
-                    //             const fnd = tozinLiteData.find(tzl => tz['tozinId'] === tzl['tozinId']);
-                    //             tz['driverName'] = fnd['driverName']
-                    //         } catch (e) {
-                    //             tz['driverName'] = ''
-                    //         }
-                    //     })
-                    // }
-                    // console.log(grid, 'all available dest')
-                    window[grid].setData(tozinData);
-                }
-                updateDestinationPackageTedadWeight()
-                pls_wait_2.destroy()
-
+            if (tozin && tozin.response && tozin.response.data && tozin.response.data.length > 0) {
+                const tozinData = tozin.response.data
+                // console.log('tozin',tozin);
+                const grid = windowDestinationTozinList['g'];
+                // const ds = windowDestinationTozinList['ds'];
+                window[listGridSetDestTozinHarasatPolompForSelectedTozin['gs']]
+                    .setValueMap('destTozinId', tozinData.getValueMap('tozinId', 'tozinId'))
+                // if (tozinLite && tozinLite.response && tozinLite.response.data && tozinLite.response.data.length > 0) {
+                //     const tozinLiteData = tozinLite.response.data;
+                //     tozinData.forEach(tz => {
+                //         try {
+                //             const fnd = tozinLiteData.find(tzl => tz['tozinId'] === tzl['tozinId']);
+                //             tz['driverName'] = fnd['driverName']
+                //         } catch (e) {
+                //             tz['driverName'] = ''
+                //         }
+                //     })
+                // }
+                // console.log(grid, 'all available dest')
+                window[grid].setData(tozinData);
             }
-        )
+            updateDestinationPackageTedadWeight()
+            pls_wait_2.destroy()
+
+        }
+    )
+    const pls_wait_3 = isc.Dialog.create({
+        showTitle: false,
+        message: "لطفا صبر کنید",
+    });
     Promise.all([
         onWayProductFetch('tozin', 'or', ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecords()
             .map(tz => {
@@ -952,7 +960,7 @@ function onWayProductCreateRemittance(criteriaBuildForListGrid) {
             const tzn_data = tozin.response.data;
             const vazn = (tzn_data.map(t => t.vazn).reduce((i, j) => j + i)).toString();
             DynamicForm_warehouseCAD.setValue('sourceWeight',
-                vazn);
+                vazn + " " + vazn.toPersianLetter());
             const packageSample = {
                 uid: giveMeAName(),
                 label: giveMeAName(),
@@ -970,10 +978,11 @@ function onWayProductCreateRemittance(criteriaBuildForListGrid) {
                 pkg_tmp.uid = uid;
                 pkg_tmp.label = uid;
                 tzn['packages'] = [pkg_tmp];
-                tzn['tedad_source'] = !isNaN(tzn['tedad']) ? tzn['tedad'] : 0;
-                tzn['tedad_destination'] = !isNaN(tzn['tedad']) ? tzn['tedad'] : 0;
-                tzn['pkgNum_source'] = 0;
-                tzn['pkgNum_destination'] = 0;
+                tzn['pkgNum_source'] = !isNaN(tzn['tedad']) ? tzn['tedad'] : 0;
+                tzn['pkgNum_destination'] = !isNaN(tzn['tedad']) ? tzn['tedad'] : 0;
+                tzn['tedad_source'] = 0;
+                tzn['tedad_destination'] = 0;
+
                 return tzn;
             })
             // console.log('selectedTozinList',selectedTozinList)
@@ -1031,6 +1040,15 @@ function onWayProductCreateRemittance(criteriaBuildForListGrid) {
                                 }
                             })
                             tz['packages'] = updated_packages;
+                            if (tz['packages'] && tz['packages'].length > 0) {
+                                const hameshoon = tz['packages'].map(a => {
+                                    console.log('aa', a);
+                                    return a.tedad
+                                }).reduce((i, j) => i + j);
+                                // console.log("tzn['packages']", tzn, hameshoon);
+                                tz['tedad_source'] = hameshoon;
+                                tz['tedad_destination'] = hameshoon;
+                            }
                         }
                         return {...pkg_update, ...tz}
                     }
@@ -1043,7 +1061,7 @@ function onWayProductCreateRemittance(criteriaBuildForListGrid) {
         packages_button.show();
         IButton_warehouseCAD_Save.show()
         updateDestinationPackageTedadWeight()
-        pls_wait_3.destroy()
+        pls_wait_3.destroy();
 
     })
     DynamicForm_warehouseCAD.getItem('depotId').setOptionDataSource(RestDataSource_WarehouseYard_IN_WAREHOUSECAD_ONWAYPRODUCT)

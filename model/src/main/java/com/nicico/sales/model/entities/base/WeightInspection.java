@@ -8,7 +8,6 @@ import com.nicico.sales.model.enumeration.WeighingType;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.envers.AuditOverride;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
@@ -22,7 +21,8 @@ import java.math.BigDecimal;
 @AuditOverride(forClass = Auditable.class)
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
-@Table(name = "TBL_WEIGHING_INSPECTION")
+@Table(name = "TBL_WEIGHING_INSPECTION", uniqueConstraints = @UniqueConstraint(name = "inspectionReport_inventory_UNIQUE",
+        columnNames = {"F_INSPECTION_REPORT_ID", "F_INVENTORY_ID"}))
 public class WeightInspection extends BaseEntity {
 
     @Id
@@ -56,5 +56,13 @@ public class WeightInspection extends BaseEntity {
     @NotNull
     @Column(name = "F_INVENTORY_ID", nullable = false)
     private Long inventoryId;
+
+    @Setter(AccessLevel.NONE)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "F_UNIT_ID", nullable = false, insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_weightInspection2unit"))
+    private Unit unit;
+
+    @Column(name = "F_UNIT_ID")
+    private Long unitId;
 
 }

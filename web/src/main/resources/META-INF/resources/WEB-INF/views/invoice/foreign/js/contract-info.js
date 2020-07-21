@@ -1,7 +1,12 @@
 let __contract = {};
+let __contract2 = {};
+let __weightInspection = {};
 
 __contract.nameOfNumberProperty = "no";
 __contract.url = "${contextPath}" + "/api/g-contract/";
+
+
+
 
 __contract.getBuyer = function (contract) {
 
@@ -20,14 +25,46 @@ __contract.getContractYear = function (contract) {
 
     // Year of MOAS+x
     return 2020;
+
 };
 __contract.getContractMOASValue = function (contract) {
 
     // Month of actual shipment plus
     return 2;
 };
+__contract.getBasePriceReference = function (contract) {
+
+    // Price base reference
+    return "LME";
+};
 __contract.getShipmentMonthNo = function (shipment) {
 
     // Month of actual shipment plus
     return DateUtil.getMonthNames().indexOf(shipment.month) + 1;
+};
+__contract.getTC = function (contract) {
+
+    // TC Price
+    return 12345;
+};
+__contract.getRc = function (contract, elementName) {
+
+    // RC Price
+    switch (elementName.toUpperCase()) {
+        case 'AG':
+            return 10;
+        case 'AU':
+            return 93;
+        case 'PT':
+            return 600;
+        case 'PD':
+            return 550;
+    }
+
+    return 0;
+};
+__contract.getPriceArticleTemplate = function (contract) {
+
+    // Price contract text
+    return '';
 };

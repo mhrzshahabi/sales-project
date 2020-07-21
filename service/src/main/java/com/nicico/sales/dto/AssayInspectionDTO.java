@@ -1,8 +1,6 @@
 package com.nicico.sales.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.nicico.sales.model.entities.warehouse.MaterialElement;
-import com.nicico.sales.model.entities.warehouse.RemittanceDetail;
 import com.nicico.sales.model.enumeration.EStatus;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -31,14 +29,23 @@ public class AssayInspectionDTO {
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("AssayInspectionInfo")
-    public static class Info extends AssayInspectionDTO {
+    @ApiModel("AssayInspectionData")
+    public static class AssayData {
+
+        private BigDecimal value;
+        private InventoryDTO.Info inventory;
+        private MaterialElementDTO.Info materialElement;
+    }
+
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("AssayInspectionInfoWithoutInspectionReport")
+    public static class InfoWithoutInspectionReport extends AssayInspectionDTO {
 
         private Long id;
-        private InspectionReportDTO.Info inspectionReport;
         private MaterialElementDTO.Info materialElement;
         private InventoryDTO.Info inventory;
-
 
         // Auditing
         private Date createdDate;
@@ -50,6 +57,15 @@ public class AssayInspectionDTO {
         // BaseEntity
         private Boolean editable;
         private List<EStatus> eStatus;
+    }
+
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("AssayInspectionInfo")
+    public static class Info extends InfoWithoutInspectionReport {
+
+        private InspectionReportDTO.Info inspectionReport;
     }
 
     @Getter
