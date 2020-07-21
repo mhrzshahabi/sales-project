@@ -57,12 +57,20 @@ priceBaseTab.dynamicForm.fields = BaseFormItems.concat([
             switch (elementId) {
 
                 case 1:
-                    form.getItem("financeUnitId").setValue(12);
-                    form.getItem("weightUnitId").setValue(13);
+                    form.getItem("financeUnitId").setValue(32);
+                    form.getItem("weightUnitId").setValue(30);
                     break;
                 case 2:
-                    form.getItem("financeUnitId").setValue(12);
-                    form.getItem("weightUnitId").setValue(14);
+                    form.getItem("financeUnitId").setValue(32);
+                    form.getItem("weightUnitId").setValue(30);
+                    break;
+                case 3:
+                    form.getItem("financeUnitId").setValue(32);
+                    form.getItem("weightUnitId").setValue(31);
+                    break;
+                case 4:
+                    form.getItem("financeUnitId").setValue(32);
+                    form.getItem("weightUnitId").setValue(31);
                     break;
             }
         }
