@@ -40,10 +40,13 @@
     <include file="classpath:/db/changelog/tbl_parameters.xml"/>
     <include file="classpath:/db/changelog/tbl_contract_currency.xml"/>
     <include file="classpath:/db/changelog/tbl_vessel.xml"/>
+    <include file="classpath:/db/changelog/contract/tbl_cntr_contract_contact.xml"/>
+    <include file="classpath:/db/changelog/tbl_cntr_incoterm.xml"/>
     <include file="classpath:/db/changelog/tbl_shipment_type.xml"/>
     <include file="classpath:/db/changelog/tbl_shipment_method.xml"/>
     <include file="classpath:/db/changelog/tbl_warh_element.xml"/>
     <include file="classpath:/db/changelog/tbl_cost.xml"/>
+
     <!--	<include file="classpath:/db/changelog/view_tozin.xml"/>-->
     <!--	<include file="classpath:/db/changelog/view_tozin_m.xml"/>-->
     <!--	<include file="classpath:/db/changelog/view_tozin_s.xml"/>-->
