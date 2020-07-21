@@ -14,11 +14,6 @@ foreignInvoiceTab.variable.foreignInvoiceItemUrl = "${contextPath}" + "/api/fore
 foreignInvoiceTab.variable.foreignInvoicePaymentUrl = "${contextPath}" + "/api/foreign-invoice-payment/";
 foreignInvoiceTab.variable.foreignInvoiceItemDetailUrl = "${contextPath}" + "/api/foreign-invoice-item-detail/";
 foreignInvoiceTab.variable.billLadingUrl = "${contextPath}" + "/api/bill-lading/";
-/*Add Jalal*/
-// foreignInvoiceTab.variable.weightInspection = __weightInspection.url;
-// foreignInvoiceTab.variable.contract2 = __contract2.year;
-
-
 
 foreignInvoiceTab.tab.pane = {};
 foreignInvoiceTab.listGrid.fields = BaseFormItems.concat([
@@ -149,9 +144,10 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
         }
     },
     {
-        required: false,
+        required: true,
+        disabled: true,
         width: "100%",
-        type: "text",
+        type: "integer",
         name: "shipmentId",
         editorType: "SelectItem",
         valueField: "id",
@@ -175,7 +171,6 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
             };
         }
     },
-
     {
         required: true,
         type: "integer",
@@ -195,10 +190,10 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
     },
     {
         required: true,
+        width: "100%",
         type: "integer",
         name: "currencyId",
         editorType: "SelectItem",
-        width: "100%",
         valueField: "id",
         displayField: "nameFA",
         optionCriteria: {
@@ -220,9 +215,11 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
         changed: function (form, item, value) {
 
             form.setValue("toCurrencyId", null);
+            form.getField("toCurrencyId").enable();
         }
     },
     {
+        disabled: true,
         type: "integer",
         name: "toCurrencyId",
         editorType: "SelectItem",
@@ -252,10 +249,13 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
 
                 form.setValue("toCurrencyId", null);
                 form.setValue("conversionRefId", null);
-            }
+                form.getField("conversionRefId").disable();
+            } else
+                form.getField("conversionRefId").enable();
         }
     },
     {
+        disabled: true,
         width: "100%",
         type: "integer",
         name: "conversionRefId",
@@ -529,6 +529,11 @@ foreignInvoiceTab.dynamicForm.main = null;
 foreignInvoiceTab.method.newForm = function () {
     foreignInvoiceTab.variable.method = "POST";
     foreignInvoiceTab.dynamicForm.valuesManager.clearValues();
+    // foreignInvoiceTab.dynamicForm.baseData.getFields().forEach(field => {
+    //     if (!field.changed) return;
+    //     field.changed(foreignInvoiceTab.dynamicForm.baseData, field, field.getValue());
+    // });
+
     foreignInvoiceTab.window.main.show();
 };
 foreignInvoiceTab.method.editForm = function () {
@@ -543,6 +548,11 @@ foreignInvoiceTab.method.editForm = function () {
         foreignInvoiceTab.variable.method = "PUT";
         foreignInvoiceTab.dynamicForm.valuesManager.clearValues();
         foreignInvoiceTab.dynamicForm.valuesManager.editRecord(record);
+        // foreignInvoiceTab.dynamicForm.baseData.getFields().forEach(field => {
+        //     if (!field.changed) return;
+        //     field.changed(foreignInvoiceTab.dynamicForm.baseData, field, field.getValue());
+        // });
+
         foreignInvoiceTab.window.main.show();
     }
 };
