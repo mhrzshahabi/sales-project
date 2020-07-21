@@ -169,7 +169,7 @@ const tozinLiteFields = _ => [
             2340: 'بندر شهيد رجايي ، انبار كالا شماره 20',
             2555: 'اسكله شهيد رجائي ',
         },
-        showHove: true,
+        showHover: true,
         title: "<spring:message code='Tozin.targetId'/>",
         align: "center",
     },
