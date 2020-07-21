@@ -1,4 +1,4 @@
-isc.defineClass("InvoiceCalculation2", isc.VLayout).addProperties({
+isc.defineClass("InvoiceCalculation2", isc.VLayout).addProperties({ //TestShod
     align: "top",
     width: "100%",
     autoFit: false,

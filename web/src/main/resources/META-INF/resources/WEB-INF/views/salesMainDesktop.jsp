@@ -139,9 +139,9 @@
             COPPER_CONCENTRATES: 3
         },
         invoiceType: {
-            PERFORMA: 1,
+            PERFORMA: 3,
             PROVISIONAL: 2,
-            FINAL: 3
+            FINAL: 1
         },
         unit: {
             PERCENT: 1,
