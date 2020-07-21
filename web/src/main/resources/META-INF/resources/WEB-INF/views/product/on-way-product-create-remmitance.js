@@ -328,7 +328,8 @@ function onWayProductCreateRemittance(criteriaBuildForListGrid) {
                         console.log('saved response', r)
                         if (r.status === 201) {
                             isc.say('عملیات با موفقیت انجام شد', () => {
-                                windowRemittance.hide()
+                                windowRemittance.hide();
+                                criteriaBuildForListGrid();
                             })
                         } else {
 
@@ -341,7 +342,7 @@ function onWayProductCreateRemittance(criteriaBuildForListGrid) {
                             isc.say('مشکل ارتباط')
                         }
                     ).finally(
-                        () => criteriaBuildForListGrid()
+                        // () => criteriaBuildForListGrid()
                     )
                 }
             })
