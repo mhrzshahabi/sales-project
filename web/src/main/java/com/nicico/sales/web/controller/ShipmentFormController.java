@@ -91,15 +91,13 @@ public class ShipmentFormController {
         XWPFDocument doc;
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        ShipmentDTO.Info
-
-                shipment = shipmentService.get(Long.valueOf(shipmentId));
+        ShipmentDTO.Info shipment = shipmentService.get(Long.valueOf(shipmentId));
         String description = shipment.getMaterial().getDescl();
         String shiptype = shipment.getShipmentType();
 
 
         if (description.toLowerCase().contains("cathod")) {
-            if (shiptype.contains("bulk")) {
+            if (shiptype.contains("فله")) {
 
                 stream = new ClassPathResource("reports/word/Ship_Cat_bulk.docx").getInputStream();
                 ServletOutputStream out = response.getOutputStream();
@@ -128,7 +126,7 @@ public class ShipmentFormController {
                 doc.write(out);
                 baos.writeTo(out);
                 out.flush();
-            } else if (shiptype.contains("container")) {
+            } else if (shiptype.contains("انتینر")) {
 
                 stream = new ClassPathResource("reports/word/Ship_Cat_Container.docx").getInputStream();
                 ServletOutputStream out = response.getOutputStream();
@@ -168,7 +166,7 @@ public class ShipmentFormController {
         }
 
         if (description.toLowerCase().contains("conc")) {
-            if (shiptype.contains("bulk")) {
+            if (shiptype.contains("فله")) {
 
                 stream = new ClassPathResource("reports/word/Copper_Concentrate_bulk.docx").getInputStream();
                 ServletOutputStream out = response.getOutputStream();
@@ -203,7 +201,7 @@ public class ShipmentFormController {
         }
 
         if (description.toLowerCase().contains("mol")) {
-            if (shiptype.contains("container")) {
+            if (shiptype.contains("انتینر")) {
 
 
                 stream = new ClassPathResource("reports/word/Molybdenum Oxide.docx").getInputStream();
@@ -219,7 +217,7 @@ public class ShipmentFormController {
                 replacePOI(doc, "year", shipment.getContractShipment().getSendDate().toString());
                 replacePOI(doc, "contract_no", shipment.getContract().getContractNo());
                 replacePOI(doc, "agent", shipment.getContactByAgent().getNameFA());
-//                replacePOI(doc, "tolorance", "-/+" + shipment.getContractShipment().getTolorance().toString() + "%");
+                replacePOI(doc, "tolorance", "-/+" + shipment.getContractShipment().getTolorance().toString() + "%");
 //                replacePOI(doc, "containertype", shipment.getContainerType());
                 replacePOI(doc, "buyer", shipment.getContact().getNameEN());
                 replacePOI(doc, "disport", shipment.getPortByDischarge().getPort());
