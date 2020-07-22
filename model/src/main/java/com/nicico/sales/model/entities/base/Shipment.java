@@ -96,7 +96,6 @@ public class Shipment extends BaseEntity {
 
     @Column(name = "CREATE_DATE")
     private Date createDate;
-//    private String createDate;
 
     @Column(name = "FILE_NAME")
     private String fileName;
@@ -141,11 +140,9 @@ public class Shipment extends BaseEntity {
 
     @Column(name = "BL_DATE", length = 20)
     private Date blDate;
-//    private String blDate;
 
     @Column(name = "SW_BL_DATE")
     private Date swBlDate;
-//    private String swBlDate;
 
     @Column(name = "CONSIGNEE")
     private String consignee;
