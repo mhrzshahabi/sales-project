@@ -746,6 +746,7 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
         name: "inspectionRateValue",
         title: "<spring:message code='inspectionReport.inspectionRateValue'/>",
         type: "float",
+        length: 11,
         required: true,
         wrapTitle: false,
         validators: [
@@ -753,10 +754,11 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
                 type: "required",
                 validateOnChange: true
             },
-            {
-                type: "float",
-                validateOnChange: true
-            }
+            /*{
+                type: "regexp",
+                expression: "^(\d{1,10}(\.\d{1,5})?)$",
+                validateOnChange: true,
+            }*/
         ]
     },
     {
