@@ -6,6 +6,7 @@ import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.sales.dto.UnitDTO;
 import com.nicico.sales.iservice.IUnitService;
+import com.nicico.sales.model.enumeration.CategoryUnit;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -65,10 +66,17 @@ public class UnitRestController {
     }
 
     @Loggable
-    @GetMapping(value = "/spec-list")
-    public ResponseEntity<TotalResponse<UnitDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) throws IOException {
-        final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
-        return new ResponseEntity<>(iUnitService.search(nicicoCriteria), HttpStatus.OK);
+    @GetMapping(value = "/category-unit")
+    public ResponseEntity<CategoryUnit[]> EnumCategoryUnit() throws IOException {
+        return new ResponseEntity<>(CategoryUnit.values(), HttpStatus.OK);
     }
+
+     @Loggable
+        @GetMapping(value = "/spec-list")
+        public ResponseEntity<TotalResponse<UnitDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) throws IOException {
+            final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
+            return new ResponseEntity<>(iUnitService.search(nicicoCriteria), HttpStatus.OK);
+        }
+
 
 }
