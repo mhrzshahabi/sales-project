@@ -1902,7 +1902,7 @@ isc.VLayout.create({
         isc.ToolStrip.create({
             members: [
                 isc.ToolStripButtonRemove.create({
-                    title: "حذف کامل بیجک ورودی",
+                    title: "حذف کامل بیجک",
                     click() {
                         isc.Dialog.create({
                             title: "هشدار",
