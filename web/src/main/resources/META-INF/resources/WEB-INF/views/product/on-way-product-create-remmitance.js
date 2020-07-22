@@ -275,19 +275,25 @@ function onWayProductCreateRemittance(criteriaBuildForListGrid) {
                         window[listGridSetDestTozinHarasatPolompForSelectedTozin['w']].show()
                     })
                     const withoutTedad = remittanceDetail.find(tz => {
+
                         const pkg = tz['packages'].find(p => {
                             if (!p.tedad || isNaN(p.tedad) || p.tedad < 1) {
                                 return true
                             }
                             return false;
                         })
-                        if (pkg) return true;
+                        if (pkg) {
+                            console.log(tz)
+                            if (tz.codeKala === 8 && DynamicForm_warehouseCAD.getValues().unit !== 3) return false;
+                            return true;
+                        }
                         return false
                     })
                     if (withoutTedad) return dialog('نعداد بسته عدد بزرگتر از صفر نیست', function () {
                         grid.expandRecord(withoutTedad);
                         window[listGridSetDestTozinHarasatPolompForSelectedTozin['w']].show()
                     })
+                    return;
                     const dataForSave = {
                         remittance: DynamicForm_warehouseCAD.getValues(),
                         remittanceDetails: []
@@ -978,10 +984,10 @@ function onWayProductCreateRemittance(criteriaBuildForListGrid) {
                 pkg_tmp.uid = uid;
                 pkg_tmp.label = uid;
                 tzn['packages'] = [pkg_tmp];
-                tzn['pkgNum_source'] = !isNaN(tzn['tedad']) ? tzn['tedad'] : 0;
-                tzn['pkgNum_destination'] = !isNaN(tzn['tedad']) ? tzn['tedad'] : 0;
-                tzn['tedad_source'] = 0;
-                tzn['tedad_destination'] = 0;
+                tzn['pkgNum_source'] = 0;
+                tzn['pkgNum_destination'] = 0;
+                tzn['tedad_source'] = !isNaN(tzn['tedad']) ? tzn['tedad'] : 0;
+                tzn['tedad_destination'] = !isNaN(tzn['tedad']) ? tzn['tedad'] : 0;
 
                 return tzn;
             })
@@ -1042,7 +1048,7 @@ function onWayProductCreateRemittance(criteriaBuildForListGrid) {
                             tz['packages'] = updated_packages;
                             if (tz['packages'] && tz['packages'].length > 0) {
                                 const hameshoon = tz['packages'].map(a => {
-                                    console.log('aa', a);
+                                    console.debug('aa', a);
                                     return a.tedad
                                 }).reduce((i, j) => i + j);
                                 // console.log("tzn['packages']", tzn, hameshoon);
@@ -1050,6 +1056,8 @@ function onWayProductCreateRemittance(criteriaBuildForListGrid) {
                                 tz['tedad_destination'] = hameshoon;
                             }
                         }
+                        tz['pkgNum_source'] = packages.length;
+                        tz['pkgNum_destination'] = packages.length;
                         return {...pkg_update, ...tz}
                     }
                 )
