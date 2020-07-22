@@ -18,7 +18,7 @@ const tozinLiteFields = _ => [
             icons: [{
                 src: "pieces/pcal.png",
                 click: function (form, item, icon) {
-                    // console.log(form)
+                    // // console.log(form)
                     displayDatePicker(item['ID'], form.getItems()[0], 'ymd', '/');
                 }
             }],
@@ -29,7 +29,7 @@ const tozinLiteFields = _ => [
         formatCellValue(value, record, rowNum, colNum, grid) {
             try {
                 const valStr = value.toString();
-                console.log("date", value);
+                // console.log("date", value);
                 return (valStr.substr(0, 4) + "/" + valStr.substr(4, 2) + "/" + valStr.substr(-2))
             } catch (e) {
                 return value
@@ -57,7 +57,7 @@ const tozinLiteFields = _ => [
         valueMap: {11: 'كاتد صادراتي', 8: 'كنسانتره مس ', 97: 'اكسيد موليبدن'},
         title: "محصول",
         parseEditorValue: function (value, record, form, item) {
-            console.log("        parseEditorValue: function (value, record, form, item) ", value)
+            // console.log("        parseEditorValue: function (value, record, form, item) ", value)
             StorageUtil.save('on_way_product_defaultCodeKala', value)
             const selectionType = value === 8 ? "multiple" : "single";
             ListGrid_Tozin_IN_ONWAYPRODUCT.setSelectionType(selectionType);
@@ -102,7 +102,7 @@ const tozinLiteFields = _ => [
                             fieldName: "containerNo3",
                             operator: value
                         })
-                        console.log(criteria)
+                        // console.log(criteria)
                         ListGrid_Tozin_IN_ONWAYPRODUCT.setFilterEditorCriteria(criteria);
                         return this.Super("change", arguments)
                     },
@@ -360,12 +360,12 @@ function mainOnWayProduct() {
                 )
                 ListGrid_Tozin_IN_ONWAYPRODUCT.fetchData(filterEditorCriteria, _ => {
                     const filter = filterEditorCriteria.criteria.filter(__ => {
-                        console.debug(__);
+                        // console.debug(__);
                         if (__.fieldName !== 'tozinId') return true;
                         return false
                     })
                     filterEditorCriteria.criteria=filter;
-                    console.log("filterEditorCriteria",filterEditorCriteria)
+                    // console.log("filterEditorCriteria",filterEditorCriteria)
                     ListGrid_Tozin_IN_ONWAYPRODUCT.setFilterEditorCriteria(filterEditorCriteria);
                 })
             }
@@ -490,7 +490,7 @@ function mainOnWayProduct() {
                     .criteria.find(c => c.fieldName === 'sourceId').value[0]
                 ))['name']);
 
-            console.log(pdf.getValues());
+            // console.log(pdf.getValues());
 
             pdf.submitForm();
 
