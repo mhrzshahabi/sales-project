@@ -1,11 +1,14 @@
 <%@ page import="com.nicico.copper.common.domain.ConstantVARs" %>
 <%@ page import="com.nicico.copper.core.SecurityUtil" %>
+<%@ page import="java.util.Map" %>
+<%@ page import="java.util.HashMap" %>
+<%@ page import="com.nicico.sales.model.enumeration.CategoryUnit" %>
+<%@ page import="com.fasterxml.jackson.databind.ObjectMapper" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-
 <% final String accessToken = (String) session.getAttribute(ConstantVARs.ACCESS_TOKEN); %>
 
 <html>
@@ -65,6 +68,8 @@
 <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
 
 <script type="application/javascript">
+
+
     persianDate.localType = 'en';
     isc.SimpleType.create({
         name: "persianDate",
@@ -1250,6 +1255,15 @@
 
 
     SalesBaseParameters.deleteAllSavedParametersAndFetchAgain();
+    const EnumCategoryUnit = {string: {}, index: {}}
+
+    fetch('api/unit/category-unit', {headers: SalesConfigs.httpHeaders}).then(r => r.json().then(j => {
+        j.forEach((e, i) => {
+            EnumCategoryUnit.index[e] = i;
+            EnumCategoryUnit.string[e] = e
+        });
+        Object.freeze(EnumCategoryUnit);
+    }))
 
 </script>
 </body>
