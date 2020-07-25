@@ -46,7 +46,6 @@ public class RemittanceService extends GenericService<Remittance, Long, Remittan
     @Override
     @Transactional
     public void deleteAll(RemittanceDTO.Delete request) {
-        final List<Remittance> allRemittanceById = repository.findAllById(request.getIds());
         final List<RemittanceDetail> allByRemittanceIdIsIn = remittanceDetailDAO.findAllByRemittanceIdIsIn(request.getIds());
         Set<Long> inventoryIdList = new HashSet<>();
         Set<Long> tozinIdList = new HashSet<>();
@@ -56,8 +55,8 @@ public class RemittanceService extends GenericService<Remittance, Long, Remittan
             tozinIdList.add(rd.getSourceTozinId());
         });
         remittanceDetailDAO.deleteAllByIdIn(allByRemittanceIdIsIn.stream().map(rd -> rd.getId()).collect(Collectors.toList()));
-        inventoryDAO.deleteAllByIdIn(inventoryIdList);
         tozinTableDAO.deleteAllByIdIn(tozinIdList);
+        if(allByRemittanceIdIsIn.get(0).getDestinationTozinId() != null) inventoryDAO.deleteAllByIdIn(inventoryIdList);
         super.deleteAll(request);
     }
 
