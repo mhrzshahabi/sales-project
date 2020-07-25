@@ -1769,6 +1769,7 @@ rdTab.Layouts.ToolStripButtons.New = isc.ToolStripButtonAdd.create({
         });
         rdTab.Grids.RemittanceDetailOutRemittance = isc.ListGrid.create({
             canRemoveRecords: true,
+            deferRemoval: false,
             canEdit: true,
             editEvent: "doubleClick",
             autoSaveEdits: false,
