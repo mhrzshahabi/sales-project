@@ -2,6 +2,7 @@ package com.nicico.sales.model.entities.base;
 
 import com.nicico.sales.model.Auditable;
 import com.nicico.sales.model.entities.common.BaseEntity;
+import com.nicico.sales.model.entities.contract.Incoterm;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.Cascade;
@@ -116,7 +117,7 @@ public class Contract extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @NotAudited
     @JoinColumn(name = "INCOTERMS_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "Contract2incoterm"))
-    private Incoterms incoterms;
+    private Incoterm incoterms;
 
     @Column(name = "INCOTERMS_ID", nullable = false)
     private Long incotermsId;

@@ -77,8 +77,7 @@ public class RemittanceDetail extends BaseEntity {
     @JoinColumn(name = "F_DESTINATION_TOZINE_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_remittanceTozinDest2tozinTableTozineId"))
     private TozinTable destinationTozin;
 
-    @NotNull
-    @Column(name = "F_DESTINATION_TOZINE_ID", nullable = false)
+    @Column(name = "F_DESTINATION_TOZINE_ID")
     private Long destinationTozinId;
 
 

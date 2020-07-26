@@ -4,7 +4,7 @@
 //<script>
 // isc.DataSource.addSearchOperator({...isc.DataSource.getSearchOperators()['equals'],ID:"bagher",title:"bagher"})
 
-const tozinLiteFields = [
+const tozinLiteFields = _ => [
     {
         name: "date",
         type: "text",
@@ -18,7 +18,7 @@ const tozinLiteFields = [
             icons: [{
                 src: "pieces/pcal.png",
                 click: function (form, item, icon) {
-                    // console.log(form)
+                    // // console.log(form)
                     displayDatePicker(item['ID'], form.getItems()[0], 'ymd', '/');
                 }
             }],
@@ -29,7 +29,7 @@ const tozinLiteFields = [
         formatCellValue(value, record, rowNum, colNum, grid) {
             try {
                 const valStr = value.toString();
-                console.log("date",value);
+                // console.log("date", value);
                 return (valStr.substr(0, 4) + "/" + valStr.substr(4, 2) + "/" + valStr.substr(-2))
             } catch (e) {
                 return value
@@ -40,7 +40,9 @@ const tozinLiteFields = [
         name: "tozinId",
         showHover: true,
         width: "10%",
-        title: "<spring:message code='Tozin.tozinPlantId'/>"
+        filterEditorProperties: {},
+        title: "<spring:message code='Tozin.tozinPlantId'/>",
+
     },
     {
         name: "driverName",
@@ -55,7 +57,7 @@ const tozinLiteFields = [
         valueMap: {11: 'كاتد صادراتي', 8: 'كنسانتره مس ', 97: 'اكسيد موليبدن'},
         title: "محصول",
         parseEditorValue: function (value, record, form, item) {
-            console.log("        parseEditorValue: function (value, record, form, item) ",value)
+            // console.log("        parseEditorValue: function (value, record, form, item) ", value)
             StorageUtil.save('on_way_product_defaultCodeKala', value)
             const selectionType = value === 8 ? "multiple" : "single";
             ListGrid_Tozin_IN_ONWAYPRODUCT.setSelectionType(selectionType);
@@ -100,7 +102,7 @@ const tozinLiteFields = [
                             fieldName: "containerNo3",
                             operator: value
                         })
-                        console.log(criteria)
+                        // console.log(criteria)
                         ListGrid_Tozin_IN_ONWAYPRODUCT.setFilterEditorCriteria(criteria);
                         return this.Super("change", arguments)
                     },
@@ -161,13 +163,13 @@ const tozinLiteFields = [
         },
         filterOperator: "inSet",
         valueMap: SalesBaseParameters.getSavedWarehouseParameter().getValueMap("id", "name"),
-
         valueMap: {
             2320: 'بندر شهيد رجايي، روبروي اسكله شانزده ،محوطه فلزات آلياژي شركت تايد واتر',
             1000: 'مجتمع مس سرچشمه',
             2340: 'بندر شهيد رجايي ، انبار كالا شماره 20',
             2555: 'اسكله شهيد رجائي ',
         },
+        showHover: true,
         title: "<spring:message code='Tozin.targetId'/>",
         align: "center",
     },
@@ -177,7 +179,7 @@ const tozinLiteFields = [
         align: "center"
     },
 ];
-const tozinFields = [...tozinLiteFields,
+const tozinFields = _ => [...tozinLiteFields(),
 
     {
         name: "source",
@@ -346,7 +348,7 @@ async function onWayProductFetch(classUrl, operator = "and", criteria = []) {
 
 function mainOnWayProduct() {
     function criteriaBuildForListGrid() {
-        const filterEditorCriteria = ListGrid_Tozin_IN_ONWAYPRODUCT.getFilterEditorCriteria();
+        const filterEditorCriteria = {...ListGrid_Tozin_IN_ONWAYPRODUCT.getFilterEditorCriteria()};
         filterEditorCriteria.criteria.add({"fieldName": "tozinId", "operator": "iNotStartsWith", "value": "3-"})
         fetchAlreadyInsertedTozinList().then(
             value => {
@@ -356,13 +358,22 @@ function mainOnWayProduct() {
                         "value": v
                     })
                 )
-                ListGrid_Tozin_IN_ONWAYPRODUCT.fetchData(filterEditorCriteria)
+                ListGrid_Tozin_IN_ONWAYPRODUCT.fetchData(filterEditorCriteria, _ => {
+                    const filter = filterEditorCriteria.criteria.filter(__ => {
+                        // console.debug(__);
+                        if (__.fieldName !== 'tozinId') return true;
+                        return false
+                    })
+                    filterEditorCriteria.criteria=filter;
+                    // console.log("filterEditorCriteria",filterEditorCriteria)
+                    ListGrid_Tozin_IN_ONWAYPRODUCT.setFilterEditorCriteria(filterEditorCriteria);
+                })
             }
         )
     }
 
     const restDataSource_Tozin_Lite = {
-        fields: tozinLiteFields,
+        fields: tozinLiteFields(),
         fetchDataURL: "${contextPath}/api/tozin/lite/spec-list"
     };
     const Menu_ListGrid_OnWayProduct = isc.Menu.create({
@@ -373,11 +384,7 @@ function mainOnWayProduct() {
             click() {
                 if (ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecords().length < 1)
                     return isc.warn("لطفا توزین‌های مورد نظر را انتخاب کنید");
-                isc.Dialog.create({
-                    ID: "pls_wait_3",
-                    showTitle: false,
-                    message: "لطفا صبر کنید",
-                });
+
 
 
                 onWayProductCreateRemittance(criteriaBuildForListGrid);
@@ -409,7 +416,7 @@ function mainOnWayProduct() {
         title: "<spring:message code='global.form.export.excel'/>",
         visibility: "hidden",
         click: function () {
-            const fieldsGrid = tozinFields.filter(
+            const fieldsGrid = tozinFields().filter(
                 function (q) {
                     return q.name.toString().toLowerCase() != '$74y';
                 });
@@ -483,7 +490,7 @@ function mainOnWayProduct() {
                     .criteria.find(c => c.fieldName === 'sourceId').value[0]
                 ))['name']);
 
-            console.log(pdf.getValues());
+            // console.log(pdf.getValues());
 
             pdf.submitForm();
 
@@ -566,7 +573,7 @@ function mainOnWayProduct() {
             ]
         },
         filterData(criteria, callback, requestProperties) {
-            criteria.criteria.add({"fieldName": "tozinId", "operator": "iNotStartsWith", "value": "3-"})
+            // criteria.criteria.add({"fieldName": "tozinId", "operator": "iNotStartsWith", "value": "3-"})
             if (!criteria.criteria.find(t => t.fieldName === "sourceId")) {
                 isc.say('فیلتر مبدا خالی‌ می‌باشد')
                 throw 'فیلتر مبدا خالی‌ می‌باشد'
@@ -594,7 +601,6 @@ function mainOnWayProduct() {
         },
         getFilterEditorCriteria() {
             const criteria = this.Super('getFilterEditorCriteria', arguments);
-
             if (!criteria.criteria.find(t => t.fieldName === "sourceId")) {
                 isc.say('فیلتر مبدا خالی‌ می‌باشد')
                 throw 'فیلتر مبدا خالی‌ می‌باشد'
@@ -607,7 +613,6 @@ function mainOnWayProduct() {
                 isc.say('لطفا محصول انتخاب نمایید')
                 throw "مبدا چی شد"
             }
-
             return criteria;
         },
         // filterLocalData: true,
@@ -617,7 +622,7 @@ function mainOnWayProduct() {
         contextMenu: Menu_ListGrid_OnWayProduct,
         autoFetchData: false,
         useClientFiltering: false,
-        fields: tozinLiteFields
+        fields: tozinLiteFields()
     });
 
     const VLayout_Tozin_Grid = isc.VLayout.create({
@@ -643,7 +648,7 @@ function mainOnWayProduct() {
             operator: "greaterOrEqual",
             value: new persianDate().subtract('d', 14).format('YYYY/MM/DD'),
         },
-           // {"fieldName": "tozinId", "operator": "iNotStartsWith", "value": "3-"}
+            // {"fieldName": "tozinId", "operator": "iNotStartsWith", "value": "3-"}
         ]
     };
     if ((targetId = StorageUtil.get('on_way_product_defaultTargetId'))) {

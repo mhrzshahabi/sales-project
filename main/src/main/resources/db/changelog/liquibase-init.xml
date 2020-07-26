@@ -131,9 +131,6 @@
     <changeSet author="Reza (generated)" id="1592718665942-47">
         <createSequence sequenceName="SEQ_GROUPS_PERSON"/>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592718665942-48">
-        <createSequence sequenceName="SEQ_INCOTERMS"/>
-    </changeSet>
     <changeSet author="Reza (generated)" id="1592718665942-50">
         <createSequence sequenceName="SEQ_INSPECTION_REPORT"/>
     </changeSet>
@@ -2321,46 +2318,6 @@
             <column name="PERSON_ID" type="NUMBER(19, 0)"/>
         </createTable>
     </changeSet>
-    <changeSet author="Reza (generated)" id="1592718665942-147">
-        <createTable tableName="TBL_INCOTERMS">
-            <column name="ID" type="NUMBER(19, 0)">
-                <constraints primaryKey="true" primaryKeyName="TBL_INCOTERMSPK"/>
-            </column>
-            <column name="c_created_by" type="VARCHAR2(255 CHAR)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="d_created_date" type="TIMESTAMP">
-                <constraints nullable="false"/>
-            </column>
-            <column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
-            <column name="d_last_modified_date" type="TIMESTAMP"/>
-            <column name="n_version" type="NUMBER(10, 0)">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="1" name="N_E_STATUS" type="NUMBER">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="1" name="B_EDITABLE" type="NUMBER">
-                <constraints nullable="false"/>
-            </column>
-            <column name="ALONGSIDE_SHIP" type="NUMBER(1, 0)"/>
-            <column name="ARRIVAL" type="NUMBER(1, 0)"/>
-            <column name="CARRIER" type="NUMBER(1, 0)"/>
-            <column name="CODE" type="VARCHAR2(100 CHAR)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="DESTINATION" type="NUMBER(1, 0)"/>
-            <column name="EXPENSES" type="VARCHAR2(10 CHAR)"/>
-            <column name="NAMED_PLACE" type="VARCHAR2(10 CHAR)"/>
-            <column name="NAMED_PORT" type="VARCHAR2(10 CHAR)"/>
-            <column name="ON_BOARD" type="NUMBER(1, 0)"/>
-            <column name="TERMINAL" type="NUMBER(1, 0)"/>
-            <column name="WAREHOUSE" type="NUMBER(1, 0)"/>
-            <column name="WORKS" type="NUMBER(1, 0)">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-    </changeSet>
     <changeSet author="Reza (generated)" id="1592718665942-149">
         <createTable tableName="TBL_INSPECTION_REPORT">
             <column name="id" type="NUMBER(19, 0)">
@@ -3518,11 +3475,6 @@
         <addForeignKeyConstraint baseColumnNames="BANK_ID" baseTableName="TBL_CONTACT_ACCOUNT"
                                  constraintName="ContactAccount2bank" deferrable="false" initiallyDeferred="false"
                                  referencedColumnNames="ID" referencedTableName="TBL_BANK" validate="true"/>
-    </changeSet>
-    <changeSet author="Reza (generated)" id="1592718665942-211">
-        <addForeignKeyConstraint baseColumnNames="INCOTERMS_ID" baseTableName="TBL_CONTRACT"
-                                 constraintName="Contract2incoterm" deferrable="false" initiallyDeferred="false"
-                                 referencedColumnNames="ID" referencedTableName="TBL_INCOTERMS" validate="true"/>
     </changeSet>
     <changeSet author="Reza (generated)" id="1592718665942-212">
         <addForeignKeyConstraint baseColumnNames="DEFINITION_ID" baseTableName="TBL_CONTRACT"

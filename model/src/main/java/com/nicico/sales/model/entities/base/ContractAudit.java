@@ -1,5 +1,6 @@
 package com.nicico.sales.model.entities.base;
 
+import com.nicico.sales.model.entities.contract.Incoterm;
 import lombok.*;
 import org.hibernate.annotations.Immutable;
 import org.hibernate.annotations.Subselect;
@@ -181,7 +182,7 @@ public class ContractAudit {
     @ManyToOne(fetch = FetchType.LAZY)
     @NotAudited
     @JoinColumn(name = "INCOTERMS_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "Contract2incoterm"))
-    private Incoterms incoterms;
+    private Incoterm incoterms;
     @Column(name = "INCOTERMS_ID", nullable = false)
     private Long incotermsId;
     @Column(name = "INSPECTION_COST_SRC", length = 4)

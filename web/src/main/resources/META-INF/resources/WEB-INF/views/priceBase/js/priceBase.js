@@ -57,12 +57,20 @@ priceBaseTab.dynamicForm.fields = BaseFormItems.concat([
             switch (elementId) {
 
                 case 1:
-                    form.getItem("financeUnitId").setValue(12);
-                    form.getItem("weightUnitId").setValue(13);
+                    form.getItem("financeUnitId").setValue(32);
+                    form.getItem("weightUnitId").setValue(11);
                     break;
                 case 2:
-                    form.getItem("financeUnitId").setValue(12);
-                    form.getItem("weightUnitId").setValue(14);
+                    form.getItem("financeUnitId").setValue(32);
+                    form.getItem("weightUnitId").setValue(-1);
+                    break;
+                case 3:
+                    form.getItem("financeUnitId").setValue(32);
+                    form.getItem("weightUnitId").setValue(11);
+                    break;
+                case 4:
+                    form.getItem("financeUnitId").setValue(32);
+                    form.getItem("weightUnitId").setValue(-1);
                     break;
             }
         }
@@ -132,26 +140,23 @@ priceBaseTab.dynamicForm.fields = BaseFormItems.concat([
     {
         name: "priceBaseReference",
         width: "300",
+        // type: "long",
         required: true,
         title: "<spring:message code='priceBase.reference'/>",
-        valueMap: {
-            0: "LME",
-            1: "MetalsWeek"
-        },
-        defaultValue: 0
+        valueMap: JSON.parse('${Enum_PriceBaseReference}'),
+        defaultValue: "LME"
     },
     {
         name: "price",
         width: "300",
         type: "float",
+        length: 11,
         title: "<spring:message code='priceBase.price'/>",
         validator: [
             {
-                type: "floatPrecision",
+                type: "regexp",
+                expression: "^(\d{1,10}(\.\d{1,5})?)$",
                 validateOnChange: true,
-                precision: 10,
-                min: 0,
-                max: 5
             }
         ],
     }
