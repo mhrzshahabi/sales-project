@@ -17,10 +17,7 @@ import org.modelmapper.TypeToken;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RequiredArgsConstructor
 @Service
@@ -63,17 +60,26 @@ public class RemittanceDetailService extends GenericService<RemittanceDetail, Lo
     public List<RemittanceDetailDTO.Info> out(RemittanceDetailDTO.OutRemittance request) {
         final Long remittanceId = remittanceDAO.save(modelMapper.map(request.getRemittance(), Remittance.class)).getId();
         List<RemittanceDetail> details = new ArrayList<>();
+        Map<String, TozinTable> tozinTableSet = new HashMap();
+        request.getRemittanceDetails().stream().forEach(rd -> {
+            final String tozinId = rd.getSourceTozin().getTozinId();
+            if (!tozinTableSet.containsKey(tozinId))
+                tozinTableSet.put(tozinId, tozinTableDAO.saveAndFlush(modelMapper.map(rd.getSourceTozin(), TozinTable.class)));
+        });
         request
                 .getRemittanceDetails()
                 .parallelStream()
                 .forEach(r -> {
                     final RemittanceDetail remittanceDetail = modelMapper.map(r, RemittanceDetail.class);
-                    remittanceDetail.setSourceTozinId(tozinTableDAO.save(modelMapper.map(r.getSourceTozin(), TozinTable.class)).getId());
+                    remittanceDetail.setSourceTozinId(tozinTableSet.get(r.getSourceTozin().getTozinId()).getId());
                     remittanceDetail.setRemittanceId(remittanceId);
                     details.add(remittanceDetail);
                 });
 
-        return modelMapper.map(repository.saveAll(details),new TypeToken<List<RemittanceDetailDTO.Info>>(){}.getType());
+        final List<RemittanceDetail> remittanceDetailList = repository.saveAll(details);
+        final List<RemittanceDetailDTO.Info> infoList = modelMapper.map(remittanceDetailList, new TypeToken<List<RemittanceDetailDTO.Info>>() {
+        }.getType());
+        return infoList;
     }
 
     private void saveTozin(Map<String, Long> tozinKeyValue, TozinTable tozinTable) {

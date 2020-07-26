@@ -1637,7 +1637,9 @@ rdTab.Layouts.ToolStripButtons.New = isc.ToolStripButtonAdd.create({
                         selectRd = isc.ListGrid.create({
                             ...rdTab.Grids.RemittanceDetail,
                             fields: [
-                                {name: "remittance.code"}, {name: "remittance.description"}, ...rdTab.Fields.RemittanceDetailFullFields().map(f => {
+                                {name: "remittance.code", title: "شماره بیچک"},
+                                {name: "remittance.description", title: "شرح بیجک"},
+                                ...rdTab.Fields.RemittanceDetailFullFields().map(f => {
                                     const showFields = {
                                         "remittance.code": {},
                                         "remittance.description": {},
@@ -1769,6 +1771,7 @@ rdTab.Layouts.ToolStripButtons.New = isc.ToolStripButtonAdd.create({
         });
         rdTab.Grids.RemittanceDetailOutRemittance = isc.ListGrid.create({
             canRemoveRecords: true,
+            deferRemoval: false,
             canEdit: true,
             editEvent: "doubleClick",
             autoSaveEdits: false,
@@ -1902,7 +1905,7 @@ isc.VLayout.create({
         isc.ToolStrip.create({
             members: [
                 isc.ToolStripButtonRemove.create({
-                    title: "حذف کامل بیجک ورودی",
+                    title: "حذف کامل بیجک",
                     click() {
                         isc.Dialog.create({
                             title: "هشدار",
