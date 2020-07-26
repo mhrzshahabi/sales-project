@@ -6,14 +6,18 @@ import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.sales.annotation.Action;
 import com.nicico.sales.dto.contract.ContractContactDTO;
 import com.nicico.sales.dto.contract.ContractDTO2;
+import com.nicico.sales.dto.contract.ContractDetailDTO2;
 import com.nicico.sales.enumeration.ActionType;
 import com.nicico.sales.exception.NotFoundException;
+import com.nicico.sales.iservice.IContractDetailService;
 import com.nicico.sales.iservice.contract.IContractContactService;
+import com.nicico.sales.iservice.contract.IContractDetailService2;
 import com.nicico.sales.iservice.contract.IContractService2;
 import com.nicico.sales.model.entities.contract.Contract2;
 import com.nicico.sales.model.enumeration.CommercialRole;
 import com.nicico.sales.service.GenericService;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.TypeToken;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +29,7 @@ import java.util.List;
 public class ContractService2 extends GenericService<Contract2, Long, ContractDTO2.Create, ContractDTO2.Info, ContractDTO2.Update, ContractDTO2.Delete> implements IContractService2 {
 
     private final IContractContactService contractContactService;
+    private final IContractDetailService2 contractDetailService;
 
     @Override
     @Transactional
@@ -50,6 +55,12 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
         savedContract2.setAgentSellerId(request.getAgentSellerId());
 
         if (request.getContractDetails() != null && request.getContractDetails().size() > 0) {
+            final List<ContractDetailDTO2.Create> contractDetailsRqs = modelMapper.map(request.getContractDetails(), new TypeToken<List<ContractDetailDTO2.Create>>() {
+            }.getType());
+            contractDetailsRqs.forEach(q -> {
+                q.setContractId(savedContract2.getId());
+                contractDetailService.create(q);
+            });
         }
 
         return savedContract2;

@@ -337,6 +337,10 @@ contractTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
                 if (contractTab.dynamicForm.contract.hasErrors())
                     return;
                 let data = contractTab.dynamicForm.contract.getValues();
+                data.contractDetails = [];
+                contractTab.contractDetailsSectionStack.getSectionNames().forEach(q => {
+                    data.contractDetails.push({contractDetailTypeId: q})
+                });
 
                 isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                     actionURL: contractTab.variable.url,
@@ -384,6 +388,7 @@ contractTab.window = isc.Window.nicico.getDefault(null, [
 contractTab.method.addData = function () {
     contractTab.variable.method = "POST";
     contractTab.dynamicForm.contract.clearValues();
+    contractTab.contractDetailsSectionStack.getSectionNames().forEach(q => contractTab.contractDetailsSectionStack.removeSection(q + ""));
     contractTab.window.setTitle("<spring:message code='contract.window.title.add'/>");
     contractTab.window.show();
 };
@@ -397,6 +402,57 @@ contractTab.method.editData = function () {
     else {
         contractTab.variable.method = "PUT";
         contractTab.dynamicForm.contract.editRecord(JSON.parse(JSON.stringify(record)))
+
+        console.log(record);
+        var fields = [];
+        record.contractDetails.forEach(q => {
+            q.contractDetailTypeParams.forEach(param => {
+                var field = {
+                    width: "10%",
+                };
+                field.name = param.name;
+                field.required = param.required;
+                field.title = param.name;
+                field.type = param.type;
+                fields.push(field);
+            })
+
+            contractTab.contractDetailsSectionStack.addSection({
+                name: q.id,
+                title: q.titleEn,
+                expanded: true,
+
+                controls: [isc.IButton.create({
+                    width: 150,
+                    icon: "[SKIN]/actions/remove.png",
+                    size: 32,
+                    click: function () {
+                        contractTab.contractDetailsSectionStack.removeSection(q.id + "");
+                    }
+                })],
+
+                items: [
+                    isc.DynamicForm.create({
+                        visibility: "hidden",
+                        width: "100%",
+                        height: "100%",
+                        align: "center",
+                        titleAlign: "right",
+                        numCols: 8,
+                        margin: 10,
+                        canSubmit: true,
+                        showErrorText: true,
+                        showErrorStyle: true,
+                        showInlineErrors: true,
+                        errorOrientation: "bottom",
+                        requiredMessage: '<spring:message code="validator.field.is.required"/>',
+                        fields: BaseFormItems.concat(fields, true)
+                    })
+                ]
+            });
+        });
+
+
         contractTab.window.setTitle("<spring:message code='contract.window.title.edit'/>");
         contractTab.window.show();
     }
