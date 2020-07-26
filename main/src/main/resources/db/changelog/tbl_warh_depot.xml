@@ -24,4 +24,18 @@
         </sql>
     </changeSet>
 
+
+    <changeSet author="saeb" id="saebqweqweqwe_0ddd0dsdfsdddddddd5">
+        <sql>
+            UPDATE TBL_WARH_DEPOT set C_NAME = 'یارد کاتد' where id = -2555;
+        </sql>
+    </changeSet>
+
+    <changeSet author="saeb" id="saeb_00dddasbcvbcvbdfsdfdddfdd5">
+        <sql>
+            INSERT INTO TBL_WARH_DEPOT
+            (ID, C_CREATED_BY, D_CREATED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE, C_NAME, F_STORE_ID)
+            VALUES (-2558, 'liqubase', CURRENT_TIMESTAMP, 0, default, default, 'یارد مولیبدن ', -2555)
+        </sql>
+    </changeSet>
 </databaseChangeLog>

@@ -98,7 +98,6 @@ public class ContractDTO {
     public static class Info extends ContractDTO {
         private UnitDTO unit;
         private MaterialDTO material;
-        private IncotermsDTO incoterms;
         private Long id;
         private Date createdDate;
         private String createdBy;

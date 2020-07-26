@@ -746,6 +746,7 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
         name: "inspectionRateValue",
         title: "<spring:message code='inspectionReport.inspectionRateValue'/>",
         type: "float",
+        length: 11,
         required: true,
         wrapTitle: false,
         validators: [
@@ -753,10 +754,11 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
                 type: "required",
                 validateOnChange: true
             },
-            {
-                type: "float",
-                validateOnChange: true
-            }
+            /*{
+                type: "regexp",
+                expression: "^(\d{1,10}(\.\d{1,5})?)$",
+                validateOnChange: true,
+            }*/
         ]
     },
     {
@@ -831,12 +833,13 @@ inspectionReportTab.listGrid.weightElement = isc.ListGrid.create({
     selectionType: "single",
     dataSource: inspectionReportTab.restDataSource.weightInspecRest,
     canEdit: true,
-    editEvent: "click",
+    editEvent: "doubleClick",
     autoSaveEdits: true,
     saveLocally: true,
     showRecordComponents: true,
     showRecordComponentsByCell: true,
     canRemoveRecords: false,
+    // arrowKeyAction: "select",
     fields: BaseFormItems.concat([
         {
             name: "id",
@@ -942,7 +945,7 @@ inspectionReportTab.listGrid.assayElement = isc.ListGrid.create({
     alternateRecordStyles: true,
     selectionType: "single",
     canEdit: true,
-    editEvent: "click",
+    editEvent: "doubleClick",
     autoSaveEdits: true,
     saveLocally: true,
     showRecordComponents: true,
@@ -1041,13 +1044,10 @@ inspectionReportTab.method.setAssayElementListRows = function (selectedInventori
     let fields = inspectionReportTab.listGrid.assayElement.fields;
     let length = inspectionReportTab.listGrid.assayElement.fields.length;
     let assayData = inspectionReportTab.method.groupByAssays(record.assayInspections, "inventoryId");
-    assayData.sortByProperty("inventoryId", true);
-    selectedInventories.sortByProperty("id", true);
-    console.log("assayData " + JSON.stringify(assayData));
-    console.log("assayData " +assayData[0].get(0).inventoryId + "@" + assayData[1].get(0).inventoryId);
-    console.log("selectedInventories " +selectedInventories[0].id + "@" + selectedInventories[1].id);
+
+    // selectedInventories.sortByProperty("id", true);
+
     selectedInventories.forEach((current, index, array) => {
-        if (current.id === assayData[index].get(0).inventoryId) {
             let assayRecord = assayData[index];
             assayRecord.forEach((c, i, arr) => {
                 for (let n = 2; n < length; n++) {
@@ -1066,12 +1066,11 @@ inspectionReportTab.method.setAssayElementListRows = function (selectedInventori
                     }
                 }
             });
-        }
     });
 
     inspectionReportTab.listGrid.assayElement.saveAllEdits();
     inspectionReportTab.listGrid.assayElement.endEditing();
-    // }
+
 };
 
 inspectionReportTab.method.groupByAssays = function (array, groupFieldName) {
@@ -1079,6 +1078,7 @@ inspectionReportTab.method.groupByAssays = function (array, groupFieldName) {
     let group = array.groupBy(groupFieldName);
     let result = [];
     Object.keys(group).forEach(q => result.add(group[q]));
+    // Object.keys(result).forEach(q => result[q].sortByProperty(groupFieldName, true));
     return result;
 
 };

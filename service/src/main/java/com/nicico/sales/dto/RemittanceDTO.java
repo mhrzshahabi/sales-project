@@ -5,6 +5,7 @@ import com.nicico.sales.model.enumeration.EStatus;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
@@ -80,5 +81,17 @@ public class RemittanceDTO {
         @NotNull
         @ApiModelProperty(required = true)
         private List<Long> ids;
+    }
+
+    @Setter
+    @Getter
+    @NoArgsConstructor
+    public static class PDF extends Info {
+        String depot;
+        String materialItemName;
+        Boolean isWithRail;
+        String from;
+        String sourceDate;
+        String destinationDate;
     }
 }

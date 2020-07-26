@@ -51,6 +51,10 @@ public class TozinTableDTO {
         // BaseEntity
         private Boolean editable;
         private List<EStatus> eStatus;
+
+        private WarehouseDTO.Info sourceWarehouse;
+        private WarehouseDTO.Info targetWarehouse;
+        private MaterialItemDTO.Info materialItem;
     }
 
     @Getter
@@ -60,6 +64,7 @@ public class TozinTableDTO {
     public static class Info extends TozinTableDTO.InfoWithoutRemittanceDetail {
         private List<RemittanceDetailDTO.InfoWithoutRemittance> remittanceDetailsAsSource;
         private List<RemittanceDetailDTO.InfoWithoutRemittance> remittanceDetailsAsDestination;
+
     }
 
     @Getter

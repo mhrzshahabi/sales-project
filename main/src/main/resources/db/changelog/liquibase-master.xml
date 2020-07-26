@@ -5,7 +5,6 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
 				   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
     <include file="classpath:/db/changelog/liquibase-init.xml"/>
-    <include file="classpath:/db/changelog/tbl_warh_material_element.xml"/>
     <include file="classpath:/db/changelog/tbl_assay_inspection.xml"/>
     <include file="classpath:/db/changelog/tbl_weighting_inspection.xml"/>
     <include file="classpath:/db/changelog/tbl_inspection_report.xml"/>
@@ -41,6 +40,12 @@
     <include file="classpath:/db/changelog/tbl_contract_currency.xml"/>
     <include file="classpath:/db/changelog/tbl_vessel.xml"/>
     <include file="classpath:/db/changelog/contract/tbl_cntr_contract_contact.xml"/>
+    <include file="classpath:/db/changelog/tbl_cntr_incoterm.xml"/>
+    <include file="classpath:/db/changelog/tbl_shipment_type.xml"/>
+    <include file="classpath:/db/changelog/tbl_shipment_method.xml"/>
+    <include file="classpath:/db/changelog/tbl_warh_element.xml"/>
+    <include file="classpath:/db/changelog/tbl_cost.xml"/>
+    <include file="classpath:/db/changelog/tbl_warh_material_element.xml"/>
 
     <!--	<include file="classpath:/db/changelog/view_tozin.xml"/>-->
     <!--	<include file="classpath:/db/changelog/view_tozin_m.xml"/>-->

@@ -55,7 +55,6 @@ public class ContractService implements IContractService {
     private final Environment environment;
     private final ContractShipmentDAO contractShipmentDAO;
     private final PortDAO portDAO;
-    private final IncotermsDAO incotermsDAO;
     private final ContractDetailDAO contractDetailDAO;
     private final EntityManager entityManager;
     private MyXWPFHtmlDocument myXWPFHtmlDocument;

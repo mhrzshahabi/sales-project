@@ -14,6 +14,10 @@ let weightCriteria = {
 
 priceBaseTab.dynamicForm.fields = BaseFormItems.concat([
     {
+        name: "id",
+        hidden: true
+    },
+    {
         name: "priceDate",
         width: "10%",
         type: 'date',
@@ -22,8 +26,8 @@ priceBaseTab.dynamicForm.fields = BaseFormItems.concat([
     {
         name: "elementId",
         title: "<spring:message code='priceBase.element'/>",
-        type: 'number',
         width: "300",
+        type: "long",
         required: true,
         autoFetchData: false,
         editorType: "SelectItem",
@@ -37,28 +41,45 @@ priceBaseTab.dynamicForm.fields = BaseFormItems.concat([
             fetchDataURL: "${contextPath}/api/element/" + "spec-list"
         }),
         pickListFields: [
-            {name: "name", title: '<spring:message code="priceBase.element"/>'}
+            {
+                name: "name",
+                title: '<spring:message code="priceBase.element"/>'
+            }
+        ],
+        validator: [
+            {
+                type: "required",
+                validateOnChange: true
+            }
         ],
         changed: function (form, item, value) {
             let elementId = item.getValue();
             switch (elementId) {
 
                 case 1:
-                    form.getItem("currencyId").setValue(12);
-                    form.getItem("unitId").setValue(13);
+                    form.getItem("financeUnitId").setValue(32);
+                    form.getItem("weightUnitId").setValue(11);
                     break;
                 case 2:
-                    form.getItem("currencyId").setValue(12);
-                    form.getItem("unitId").setValue(14);
+                    form.getItem("financeUnitId").setValue(32);
+                    form.getItem("weightUnitId").setValue(-1);
+                    break;
+                case 3:
+                    form.getItem("financeUnitId").setValue(32);
+                    form.getItem("weightUnitId").setValue(11);
+                    break;
+                case 4:
+                    form.getItem("financeUnitId").setValue(32);
+                    form.getItem("weightUnitId").setValue(-1);
                     break;
             }
         }
     },
     {
-        name: "currencyId",
-        title: "<spring:message code='currency.title'/>",
-        type: 'number',
+        name: "financeUnitId",
+        title: "<spring:message code='priceBase.financeUnit'/>",
         width: "300",
+        type: "long",
         required: true,
         autoFetchData: false,
         canEdit: false,
@@ -77,13 +98,19 @@ priceBaseTab.dynamicForm.fields = BaseFormItems.concat([
         pickListFields: [
             {name: "nameFA", title: '<spring:message code="unit.nameFa"/>'},
             {name: "nameEN", title: '<spring:message code="unit.nameEN"/>'}
-        ]
+        ],
+        validator: [
+            {
+                type: "required",
+                validateOnChange: true
+            }
+        ],
     },
     {
-        name: "unitId",
-        title: "<spring:message code='unit.title'/>",
-        type: 'number',
+        name: "weightUnitId",
+        title: "<spring:message code='priceBase.weightUnit'/>",
         width: "300",
+        type: "long",
         required: true,
         autoFetchData: false,
         canEdit: false,
@@ -102,55 +129,40 @@ priceBaseTab.dynamicForm.fields = BaseFormItems.concat([
         pickListFields: [
             {name: "nameFA", title: '<spring:message code="unit.nameFa"/>'},
             {name: "nameEN", title: '<spring:message code="unit.nameEN"/>'}
-        ]
+        ],
+        validator: [
+            {
+                type: "required",
+                validateOnChange: true
+            }
+        ],
     },
     {
         name: "priceBaseReference",
         width: "300",
+        // type: "long",
         required: true,
         title: "<spring:message code='priceBase.reference'/>",
-        valueMap: {
-            0: "LME",
-            1: "MetalsWeek"
-        },
-        defaultValue: 0
+        valueMap: JSON.parse('${Enum_PriceBaseReference}'),
+        defaultValue: "LME"
     },
     {
         name: "price",
         width: "300",
-        type: "text",
-        title: "<spring:message code='priceBase.price'/>"
+        type: "float",
+        length: 11,
+        title: "<spring:message code='priceBase.price'/>",
+        validator: [
+            {
+                type: "regexp",
+                expression: "^(\d{1,10}(\.\d{1,5})?)$",
+                validateOnChange: true,
+            }
+        ],
     }
 ]);
 
-priceBaseTab.listGrid.fields = [
-    {
-        name: "id",
-        hidden: true
-    },
-    {
-        name: "priceDate",
-    },
-    {
-        name: "elementId",
-        title: "elementId",
-
-    },
-    {
-        name: "priceBaseReference",
-        title: "<spring:message code='inspectionReport.inspectionPlace'/>"
-    },
-    {
-        name: "unitId",
-        title: "<spring:message code='inspectionReport.IssueDate'/>",
-        type: "date",
-        width: "10%"
-    },
-    {
-        name: "currencyId"
-    }
-];
-
 Object.assign(priceBaseTab.listGrid.fields, priceBaseTab.dynamicForm.fields);
 nicico.BasicFormUtil.getDefaultBasicForm(priceBaseTab, "api/price-base/");
+// priceBaseTab.listGrid.main.contextMenu = null;
 priceBaseTab.dynamicForm.main.windowWidth = 500;

@@ -20,6 +20,22 @@ const rdTab = {
             colWidths: ["30%", "*"],
             titleAlign: "right",
         },
+        defaultWindowConfig: {
+            width: .8 * window.innerWidth,
+            height: .8 * window.innerHeight,
+            autoSize: true,
+            autoCenter: true,
+            showMinimizeButton: false,
+            isModal: true,
+            showModalMask: true,
+            align: "center",
+            autoDraw: true,
+            showTitle: false,
+            dismissOnEscape: true,
+            closeClick: function () {
+                this.Super("closeClick", arguments)
+            },
+        },
         Authorities: {},
     },
     Methods: {
@@ -251,7 +267,8 @@ const rdTab = {
                 }
 
                 if (response.status === 200 || response.status === 201) response.text().then(resp => {
-                    rdTab.Dialog.Success()
+                    rdTab.Dialog.Success();
+                    rdTab.Grids.Remittance.obj.invalidateCache();
                 });
                 else {
                     response.text().then(error => {
@@ -362,7 +379,7 @@ const rdTab = {
                 const data = {ids: grid.getSelectedRecords().map(record => record.id)};
                 if (params.ids.length > 0) {
                     isc.Dialog.create({
-                        message: '<spring:message code="global.delete.ask"  />' + "<br>" + params.ids.length + " ",
+                        message: '<spring:message code="global.delete.ask"  />' + "<br>" + params.ids.length + " " + 'مورد',
                         icon: "[SKIN]ask.png",
                         title: '<spring:message code="global.form.remove"/> ' + " " + params.ids.length + " " + 'مورد',
                         buttons: [
@@ -638,12 +655,13 @@ const rdTab = {
     },
     Log: {},
 };
-
+////////////////////////////////////////////////////////METHODS/////////////////////////////////////////////////////////
 rdTab.Methods.RecordDoubleClick = function (url, items, recordString, viewer, record, recordNum, field, fieldNum, value, rawValue) {
     let form;
     const window1 = isc.Window.create({
         width: .2 * window.innerWidth,
-        height: .2 * window.innerHeight,
+        // height: .2 * window.innerHeight,
+        // width: "100%",
         autoSize: true,
         autoCenter: true,
         isModal: true,
@@ -656,6 +674,7 @@ rdTab.Methods.RecordDoubleClick = function (url, items, recordString, viewer, re
     });
     window1.setMembers(
         [isc.VLayout.create({
+            height: "100%",
             members: [
                 form = isc.DynamicForm.create({
                     items: items,
@@ -681,7 +700,7 @@ rdTab.Methods.RecordDoubleClick = function (url, items, recordString, viewer, re
     window1.show();
 }
 rdTab.Methods.RecordDoubleClickRD = function (viewer, record, recordNum, field, fieldNum, value, rawValue) {
-    const fields = Object.assign([], rdTab.Fields.RemittanceDetail).map(t => {
+    const fields = rdTab.Fields.RemittanceDetail().map(t => {
         t.showIf = () => t.name !== 'id' && t.name !== 'remittanceId';
 
         if (t.name === "destinationTozin.tozinId" || t.name === "sourceTozin.tozinId") {
@@ -694,7 +713,7 @@ rdTab.Methods.RecordDoubleClickRD = function (viewer, record, recordNum, field, 
                 )
                 .reduce(
                     function (i, j) {
-                        console.log("rdTab.Grids.Remittance.obj.getSelectedRecord().remittanceDetails.reduce", arguments)
+                        // console.log("rdTab.Grids.Remittance.obj.getSelectedRecord().remittanceDetails.reduce", arguments)
                         return Number(i) < Number(j) ? i : j;
                     }
                 );
@@ -765,7 +784,7 @@ rdTab.Methods.RecordDoubleClickRD = function (viewer, record, recordNum, field, 
                 //     autoFetchData: false,
                 //     // autoFitFieldWidths: true,
                 // },
-                pickListFields: rdTab.Fields.Depot,
+                pickListFields: rdTab.Fields.Depot(),
                 optionDataSource: isc.MyRestDataSource.create(rdTab.RestDataSources.Depot),
             }
         }
@@ -791,13 +810,28 @@ rdTab.Methods.FetchAlreadyInsertedTozinList = async function (criteria) {
     const responseJson = await response.json();
     return responseJson.response.data.map(t => t.tozinId);
 }
-
-rdTab.Fields.TozinBase = [
-    {
-        name: "date",
-        type: "text",
-        filterEditorProperties: {
-            // defaultValue: new persianDate().subtract('d', 14).format('YYYYMMDD'),
+////////////////////////////////////////////////////////FIELDS//////////////////////////////////////////////////////////
+rdTab.Fields.TozinBase = function () {
+    return [
+        {
+            name: "date",
+            required: true,
+            type: "text",
+            filterEditorProperties: {
+                // defaultValue: new persianDate().subtract('d', 14).format('YYYYMMDD'),
+                keyPressFilter: "[0-9/]",
+                parseEditorValue: function (value, record, form, item) {
+                    if (value === undefined || value == null || value === '') return value;
+                    return value.replace(/\//g, '').padEnd(8, "01");
+                },
+                icons: [{
+                    src: "pieces/pcal.png",
+                    click: function (form, item, icon) {
+                        // console.log(form)
+                        displayDatePicker(item['ID'], form.getItems()[0], 'ymd', '/');
+                    }
+                }],
+            },
             keyPressFilter: "[0-9/]",
             parseEditorValue: function (value, record, form, item) {
                 if (value === undefined || value == null || value === '') return value;
@@ -810,535 +844,600 @@ rdTab.Fields.TozinBase = [
                     displayDatePicker(item['ID'], form.getItems()[0], 'ymd', '/');
                 }
             }],
-        },
-        filterOperator: "greaterOrEqual",
-        title: "<spring:message code='Tozin.date'/>",
-        align: "center",
-        formatCellValue(value, record, rowNum, colNum, grid) {
-            try {
-                return (value.substr(0, 4) + "/" + value.substr(4, 2) + "/" + value.substr(-2))
-            } catch (e) {
-                return value
+            filterOperator: "greaterOrEqual",
+            title: "<spring:message code='Tozin.date'/>",
+            align: "center",
+            formatCellValue(value, record, rowNum, colNum, grid) {
+                try {
+                    return (value.substr(0, 4) + "/" + value.substr(4, 2) + "/" + value.substr(-2))
+                } catch (e) {
+                    return value
+                }
             }
-        }
-    },
-    {
-        name: "tozinId",
-        showHover: true,
-        width: "10%",
-        title: "<spring:message code='Tozin.tozinPlantId'/>"
-    },
-    {
-        name: "driverName",
-        showHover: true,
-        width: "10%",
-        title: "<spring:message code='Tozin.driver'/>"
-    },
-    {
-        name: "codeKala",
-        type: "number",
-        // filterEditorProperties: {editorType: "comboBox"},
-        valueMap: {11: 'كاتد صادراتي', 8: 'كنسانتره مس ', 97: 'اكسيد موليبدن'},
-        title: "محصول",
-        parseEditorValue: function (value, record, form, item) {
-            StorageUtil.save('on_way_product_defaultCodeKala', value)
-            return value;
         },
-        align: "center"
-    },
-    {
-        name: "plak",
-        title: "<spring:message code='Tozin.plak.container'/>",
-        align: "center",
-        showHover: true,
-        width: "10%"
-    },
-    {
-        name: "vazn",
-        title: "<spring:message code='Tozin.vazn'/>",
-        align: "center",
-        showHover: true,
-        width: "10%"
-    },
-    {
-        name: "sourceId",
-        type: "number",
-        // filterEditorProperties: {editorType: "comboBox"},
-        parseEditorValue: function (value, record, form, item) {
-            StorageUtil.save('on_way_product_defaultSourceId', value)
-            return value;
+        {
+            name: "tozinId",
+            required: true,
+            showHover: true,
+            width: "10%",
+            title: "<spring:message code='Tozin.tozinPlantId'/>"
         },
-        valueMap: SalesBaseParameters.getSavedWarehouseParameter().getValueMap("id", "name"),
-        valueMap: {
-            2421: 'ايستگاه قطار تبريز',
-            1540: 'مجتمع مس شهربابك -ميدوك ',
-            1541: 'مجتمع مس سونگون ',
-            1000: 'مجتمع مس سرچشمه',
-            1021: 'مجتمع مس شهربابك - خاتون آباد ',
-            2509: 'شركت هاي خصوصي وتابع ',
-            2555: 'اسكله شهيد رجائي ',
+        {
+            name: "driverName",
+            required: true,
+
+            showHover: true,
+            width: "10%",
+            title: "<spring:message code='Tozin.driver'/>"
         },
-        title: "<spring:message code='Tozin.sourceId'/>",
-        align: "center"
-    },
-    {
-        name: "targetId",
-        type: "number",
-        // filterEditorProperties: {
-        //     editorType: "comboBox",
-        //     type: "number",
-        //     // defaultValue: StorageUtil.get('on_way_product_defaultTargetId')
+        {
+            name: "codeKala",
+            type: "number",
+            // filterEditorProperties: {editorType: "comboBox"},
+            valueMap: {11: 'كاتد صادراتي', 8: 'كنسانتره مس ', 97: 'اكسيد موليبدن'},
+            title: "محصول",
+            parseEditorValue: function (value, record, form, item) {
+                StorageUtil.save('on_way_product_defaultCodeKala', value)
+                return value;
+            },
+            align: "center"
+        },
+        {
+            name: "plak",
+            required: true,
+
+            title: "<spring:message code='Tozin.plak.container'/>",
+            align: "center",
+            showHover: true,
+            width: "10%"
+        },
+        {
+            name: "vazn",
+            required: true,
+            title: "<spring:message code='Tozin.vazn'/>",
+            align: "center",
+            showHover: true,
+            width: "10%"
+        },
+        {
+            name: "sourceId",
+            type: "number",
+            required: true,
+            // filterEditorProperties: {editorType: "comboBox"},
+            parseEditorValue: function (value, record, form, item) {
+                StorageUtil.save('on_way_product_defaultSourceId', value)
+                return value;
+            },
+            valueMap: SalesBaseParameters.getSavedWarehouseParameter().getValueMap("id", "name"),
+            valueMap: {
+                2421: 'ايستگاه قطار تبريز',
+                1540: 'مجتمع مس شهربابك -ميدوك ',
+                1541: 'مجتمع مس سونگون ',
+                1000: 'مجتمع مس سرچشمه',
+                1021: 'مجتمع مس شهربابك - خاتون آباد ',
+                2509: 'شركت هاي خصوصي وتابع ',
+                2555: 'اسكله شهيد رجائي ',
+            },
+            title: "<spring:message code='Tozin.sourceId'/>",
+            align: "center"
+        },
+        {
+            name: "targetId",
+            type: "number",
+            // filterEditorProperties: {
+            //     editorType: "comboBox",
+            //     type: "number",
+            //     // defaultValue: StorageUtil.get('on_way_product_defaultTargetId')
+            // },
+            parseEditorValue: function (value, record, form, item) {
+                StorageUtil.save('on_way_product_defaultTargetId', value)
+                return value;
+            },
+            filterOperator: "equals",
+            valueMap: SalesBaseParameters.getSavedWarehouseParameter().getValueMap("id", "name"),
+            // valueMap: {
+            //     2320: 'بندر شهيد رجايي، روبروي اسكله شانزده ،محوطه فلزات آلياژي شركت تايد واتر',
+            //     1000: 'مجتمع مس سرچشمه',
+            //     2340: 'بندر شهيد رجايي ، انبار كالا شماره 20',
+            //     2555: 'اسكله شهيد رجائي ',
+            // },
+            title: "<spring:message code='Tozin.targetId'/>",
+            align: "center",
+        },
+    ];
+}
+rdTab.Fields.TozinTable = function () {
+    return [
+        ...rdTab.Fields.TozinBase(),
+        {
+            name: 'isInView',
+            title: "اطلاعات از لجستیک",
+            defaultValue: false,
+            valueMap: {true: "بله", false: "خیر"}
+        },
+        {name: 'haveCode', hidden: true},
+        {name: 'cardId', hidden: true},
+        {name: 'ctrlDescOut', title: "شرح"},
+        {name: 'version', hidden: true},
+    ];
+}
+rdTab.Fields.TozinLite = function () {
+    return [
+        ...rdTab.Fields.TozinBase(),
+        {
+            name: "containerNo1",
+            title: "<spring:message code='Tozin.containerNo1'/>",
+            align: "center", hidden: true,
+        },
+        {
+            name: "containerNo3", hidden: true,
+            title: "<spring:message code='Tozin.containerNo3'/> - نوع حمل",
+            align: "center",
+            formatCellValue(value, record, rowNum, colNum, grid) {
+                return (value ? "ریلی  " + value : "جاده‌ای"
+                )
+            },
+            validOperators: ["equals", "isNull", "notNull"],
+            filterEditorProperties: {
+                showPickerIcon: true,
+                // showPickerIconOnFocus:true,
+                picker: isc.FormLayout.create({
+                    visibility: "hidden",
+                    backgroundColor: "white",
+                    items: [{
+                        showTitle: false, type: "radioGroup",
+                        valueMap: {notNull: "ریلی", isNull: "جاده‌ای"},
+                        change: function (f, i, value) {
+                            const criteria = ListGrid_Tozin_IN_ONWAYPRODUCT.getFilterEditorCriteria();
+                            criteria.criteria = criteria.criteria.filter(c => c.fieldName !== 'containerNo3');
+                            criteria.criteria.add({
+                                fieldName: "containerNo3",
+                                operator: value
+                            })
+                            //  console.log(criteria)
+                            ListGrid_Tozin_IN_ONWAYPRODUCT.setFilterEditorCriteria(criteria);
+                            return this.Super("change", arguments)
+                        },
+                    }]
+                })
+            }
+            // alwaysShowOperatorIcon:true,
+        },
+        {
+            name: "havalehCode", hidden: true,
+            title: "<spring:message code='Tozin.haveCode'/>",
+            align: "center"
+        },
+    ];
+}
+rdTab.Fields.TozinFull = function () {
+    return [
+        ...rdTab.Fields.TozinLite(),
+        {
+            name: "source",
+            title: "<spring:message code='Tozin.source'/>",
+            align: "center",
+            showHover: true,
+            width: "10%"
+        },
+        {
+            name: "nameKala",
+            title: "<spring:message code='Tozin.nameKala'/>",
+            align: "center",
+            showHover: true,
+            width: "10%"
+        },
+        {
+            name: "target",
+            title: "<spring:message code='Tozin.target'/>",
+            align: "center",
+            showHover: true,
+            width: "10%"
+        },
+        {
+            name: "cardId",
+            title: "<spring:message code='Tozin.cardId'/>",
+            align: "center"
+        },
+        {
+            name: "carName",
+            title: "<spring:message code='Tozin.carName'/>",
+            align: "center"
+        },
+        {
+            name: "containerId",
+            title: "<spring:message code='Tozin.containerId'/>",
+            align: "center",
+            showHover: true,
+            width: "10%"
+        },
+        {
+            name: "containerName",
+            title: "<spring:message code='Tozin.containerName'/>",
+            align: "center"
+        },
+        {
+            name: "vazn1",
+            title: "<spring:message code='Tozin.vazn1'/>",
+            align: "center"
+        },
+        {
+            name: "vazn2",
+            title: "<spring:message code='Tozin.vazn2'/>",
+            align: "center"
+        },
+        {
+            name: "condition",
+            title: "<spring:message code='Tozin.condition'/>",
+            align: "center"
+        },
+        {
+            name: "tedad",
+            title: "<spring:message code='Tozin.tedad'/>",
+            align: "center",
+            showHover: true,
+            width: "10%"
+        },
+        {
+            name: "unitKala",
+            title: "<spring:message code='Tozin.unitKala'/>",
+            align: "center"
+        },
+        {
+            name: "packName",
+            title: "<spring:message code='Tozin.packName'/>",
+            align: "center",
+            showHover: true,
+            width: "10%"
+        },
+        {
+            name: "haveCode",
+            title: "<spring:message code='Tozin.haveCode'/>",
+            align: "center",
+            showHover: true,
+            width: "10%"
+        },
+        {
+            name: "tozinDate",
+            showHover: true,
+            width: "10%",
+            title: "<spring:message code='Tozin.tozinDate'/>"
+        },
+        {
+            name: "tozinTime",
+            title: "<spring:message code='Tozin.tozinTime'/>",
+            align: "center"
+        },
+        {
+            name: "havalehName",
+            title: "<spring:message code='Tozin.havalehName'/>",
+            align: "center"
+        },
+        {
+            name: "havalehFrom",
+            title: "<spring:message code='Tozin.havalehFrom'/>",
+            align: "center"
+        },
+        {
+            name: "carNo1",
+            title: "<spring:message code='Tozin.carNo1'/>",
+            align: "center"
+        },
+        {
+            name: "carNo3",
+            title: "<spring:message code='Tozin.carNo3'/>",
+            align: "center"
+        },
+        {
+            name: "isFinal",
+            title: "<spring:message code='Tozin.isFinal'/>",
+            align: "center"
+        },
+        {
+            name: "ctrlDescOut",
+            title: "<spring:message code='Tozin.isFinal'/>",
+            align: "center"
+        },
+        {
+            name: "tznSharh2",
+            title: "<spring:message code='Tozin.isFinal'/>",
+            align: "center"
+        }, {
+            name: "strSharh2",
+            title: "<spring:message code='Tozin.isFinal'/>",
+            align: "center"
+        }, {
+            name: "tznSharh1",
+            title: "<spring:message code='Tozin.isFinal'/>",
+            align: "center"
+        },
+
+        {
+            name: "havalehDate",
+            title: "<spring:message code='Tozin.havalehDate'/>",
+            align: "center"
+        },
+
+
+    ];
+}
+rdTab.Fields.RemittanceDetail = function () {
+    return [
+        {name: "id", hidden: true, type: "number"},
+        {
+            name: "remittanceId", hidden: true,
+            // optionDataSource: isc.MyRestDataSource.create({
+            //     fetchDataURL: 'api/remittance/spec-list',
+            //     fields: rdTab.Fields.Remittance
+            // }),
+            // pickListProperties: {
+            //     fields: rdTab.Fields.Remittance
+            // },
+            displayField: "code",
+            valueField: "id",
+        },
+        {name: "depot.id", hidden: true, title: "دپو",},
+        {
+            name: "unitId",
+            valueMap: SalesBaseParameters.getSavedUnitParameter().getValueMap('id', 'nameFA'),
+            type: "number",
+            title: "واحد",
+            recordDoubleClick: rdTab.Methods.RecordDoubleClickRD,
+        },
+        {
+            name: "amount",
+            title: "تعداد محصول",
+            recordDoubleClick: rdTab.Methods.RecordDoubleClickRD,
+
+
+        },
+        {
+            name: "weight",
+            title: "وزن",
+            recordDoubleClick: rdTab.Methods.RecordDoubleClickRD,
+
+
+        },
+        {
+            name: "sourceTozin.tozinId",
+            title: "توزین مبدا",
+            recordDoubleClick: rdTab.Methods.RecordDoubleClickRD,
+            pickListFields: rdTab.Fields.TozinLite(),
+            showHover: true,
+            showHoverComponents: true,
+        },
+        {
+            name: "destinationTozin.tozinId",
+            title: "توزین مقصد",
+            recordDoubleClick: rdTab.Methods.RecordDoubleClickRD,
+            showHover: true,
+            showHoverComponents: true,
+            pickListFields: rdTab.Fields.TozinLite()
+
+        },
+        {
+            name: "securityPolompNo",
+            title: "پلمپ حراست",
+            recordDoubleClick: rdTab.Methods.RecordDoubleClickRD,
+
+
+        },
+        {
+            name: "railPolompNo",
+            title: "پلمپ راه‌آهن",
+            recordDoubleClick: rdTab.Methods.RecordDoubleClickRD,
+
+
+        },
+        {
+            name: "description",
+            title: "توضیحات پکیج",
+            recordDoubleClick: rdTab.Methods.RecordDoubleClickRD,
+
+
+        },
+    ];
+}
+rdTab.Fields.RemittanceDetailFullFields = function () {
+    return [
+        // {
+        //     name: "remittance.code", title: "شماره بیجک"
+        //     , recordDoubleClick: function (viewer, record, recordNum, field, fieldNum, value, rawValue) {
+        //         rdTab.Methods.RecordDoubleClick('api/remittance', rdTab.Fields.Remittance, "remittance",
+        //             viewer, record, recordNum, field, fieldNum, value, rawValue)
+        //     }
         // },
-        parseEditorValue: function (value, record, form, item) {
-            StorageUtil.save('on_way_product_defaultTargetId', value)
-            return value;
-        },
-        filterOperator: "equals",
-        valueMap: SalesBaseParameters.getSavedWarehouseParameter().getValueMap("id", "name"),
-
-        valueMap: {
-            2320: 'بندر شهيد رجايي، روبروي اسكله شانزده ،محوطه فلزات آلياژي شركت تايد واتر',
-            1000: 'مجتمع مس سرچشمه',
-            2340: 'بندر شهيد رجايي ، انبار كالا شماره 20',
-            2555: 'اسكله شهيد رجائي ',
-        },
-        title: "<spring:message code='Tozin.targetId'/>",
-        align: "center",
-    },
-];
-rdTab.Fields.TozinTable = [
-    ...rdTab.Fields.TozinBase,
-    {
-        name: 'isInView',
-        valueMap: {true: "بله", false: "خیر"}
-    },
-    {name: 'haveCode',},
-    {name: 'cardId',},
-    {name: 'ctrlDescOut',},
-    {name: 'version', hidden: true},
-];
-rdTab.Fields.TozinLite = [
-    ...rdTab.Fields.TozinBase,
-    {
-        name: "containerNo1",
-        title: "<spring:message code='Tozin.containerNo1'/>",
-        align: "center"
-    },
-    {
-        name: "containerNo3",
-        title: "<spring:message code='Tozin.containerNo3'/> - نوع حمل",
-        align: "center",
-        formatCellValue(value, record, rowNum, colNum, grid) {
-            return (value ? "ریلی  " + value : "جاده‌ای"
-            )
-        },
-        validOperators: ["equals", "isNull", "notNull"],
-        filterEditorProperties: {
-            showPickerIcon: true,
-            // showPickerIconOnFocus:true,
-            picker: isc.FormLayout.create({
-                visibility: "hidden",
-                backgroundColor: "white",
-                items: [{
-                    showTitle: false, type: "radioGroup",
-                    valueMap: {notNull: "ریلی", isNull: "جاده‌ای"},
-                    change: function (f, i, value) {
-                        const criteria = ListGrid_Tozin_IN_ONWAYPRODUCT.getFilterEditorCriteria();
-                        criteria.criteria = criteria.criteria.filter(c => c.fieldName !== 'containerNo3');
-                        criteria.criteria.add({
-                            fieldName: "containerNo3",
-                            operator: value
-                        })
-                        console.log(criteria)
-                        ListGrid_Tozin_IN_ONWAYPRODUCT.setFilterEditorCriteria(criteria);
-                        return this.Super("change", arguments)
-                    },
-                }]
-            })
-        }
-        // alwaysShowOperatorIcon:true,
-    },
-    {
-        name: "havalehCode",
-        title: "<spring:message code='Tozin.haveCode'/>",
-        align: "center"
-    },
-
-
-];
-rdTab.Fields.TozinFull = [
-    ...rdTab.Fields.TozinLite,
-    {
-        name: "source",
-        title: "<spring:message code='Tozin.source'/>",
-        align: "center",
-        showHover: true,
-        width: "10%"
-    },
-    {
-        name: "nameKala",
-        title: "<spring:message code='Tozin.nameKala'/>",
-        align: "center",
-        showHover: true,
-        width: "10%"
-    },
-    {
-        name: "target",
-        title: "<spring:message code='Tozin.target'/>",
-        align: "center",
-        showHover: true,
-        width: "10%"
-    },
-    {
-        name: "cardId",
-        title: "<spring:message code='Tozin.cardId'/>",
-        align: "center"
-    },
-    {
-        name: "carName",
-        title: "<spring:message code='Tozin.carName'/>",
-        align: "center"
-    },
-    {
-        name: "containerId",
-        title: "<spring:message code='Tozin.containerId'/>",
-        align: "center",
-        showHover: true,
-        width: "10%"
-    },
-    {
-        name: "containerName",
-        title: "<spring:message code='Tozin.containerName'/>",
-        align: "center"
-    },
-    {
-        name: "vazn1",
-        title: "<spring:message code='Tozin.vazn1'/>",
-        align: "center"
-    },
-    {
-        name: "vazn2",
-        title: "<spring:message code='Tozin.vazn2'/>",
-        align: "center"
-    },
-    {
-        name: "condition",
-        title: "<spring:message code='Tozin.condition'/>",
-        align: "center"
-    },
-    {
-        name: "tedad",
-        title: "<spring:message code='Tozin.tedad'/>",
-        align: "center",
-        showHover: true,
-        width: "10%"
-    },
-    {
-        name: "unitKala",
-        title: "<spring:message code='Tozin.unitKala'/>",
-        align: "center"
-    },
-    {
-        name: "packName",
-        title: "<spring:message code='Tozin.packName'/>",
-        align: "center",
-        showHover: true,
-        width: "10%"
-    },
-    {
-        name: "haveCode",
-        title: "<spring:message code='Tozin.haveCode'/>",
-        align: "center",
-        showHover: true,
-        width: "10%"
-    },
-    {
-        name: "tozinDate",
-        showHover: true,
-        width: "10%",
-        title: "<spring:message code='Tozin.tozinDate'/>"
-    },
-    {
-        name: "tozinTime",
-        title: "<spring:message code='Tozin.tozinTime'/>",
-        align: "center"
-    },
-    {
-        name: "havalehName",
-        title: "<spring:message code='Tozin.havalehName'/>",
-        align: "center"
-    },
-    {
-        name: "havalehFrom",
-        title: "<spring:message code='Tozin.havalehFrom'/>",
-        align: "center"
-    },
-    {
-        name: "carNo1",
-        title: "<spring:message code='Tozin.carNo1'/>",
-        align: "center"
-    },
-    {
-        name: "carNo3",
-        title: "<spring:message code='Tozin.carNo3'/>",
-        align: "center"
-    },
-    {
-        name: "isFinal",
-        title: "<spring:message code='Tozin.isFinal'/>",
-        align: "center"
-    },
-    {
-        name: "ctrlDescOut",
-        title: "<spring:message code='Tozin.isFinal'/>",
-        align: "center"
-    },
-    {
-        name: "tznSharh2",
-        title: "<spring:message code='Tozin.isFinal'/>",
-        align: "center"
-    }, {
-        name: "strSharh2",
-        title: "<spring:message code='Tozin.isFinal'/>",
-        align: "center"
-    }, {
-        name: "tznSharh1",
-        title: "<spring:message code='Tozin.isFinal'/>",
-        align: "center"
-    },
-
-    {
-        name: "havalehDate",
-        title: "<spring:message code='Tozin.havalehDate'/>",
-        align: "center"
-    },
-
-
-];
-rdTab.Fields.RemittanceDetail = [
-    {name: "id", hidden: true, type: "number"},
-    {
-        name: "remittanceId", hidden: true,
-        // optionDataSource: isc.MyRestDataSource.create({
-        //     fetchDataURL: 'api/remittance/spec-list',
-        //     fields: rdTab.Fields.Remittance
-        // }),
-        // pickListProperties: {
-        //     fields: rdTab.Fields.Remittance
+        // {
+        //     name: "remittance.description",
+        //     title: "توضیحات بیجک",
+        //     recordDoubleClick() {
+        //         rdTab.Methods.RecordDoubleClick("api/remittance", rdTab.Fields.Remittance, 'remittance', ...arguments)
+        //     }
+        //
         // },
-        displayField: "code",
-        valueField: "id",
-    },
-    {name: "depot.id", hidden: true, title: "دپو",},
-    {
-        name: "unitId",
-        valueMap: SalesBaseParameters.getSavedUnitParameter().getValueMap('id', 'nameFA'),
-        type: "number",
-        title: "واحد",
-        recordDoubleClick: rdTab.Methods.RecordDoubleClickRD,
-    },
-    {
-        name: "amount",
-        title: "تعداد محصول",
-        recordDoubleClick: rdTab.Methods.RecordDoubleClickRD,
-
-
-    },
-    {
-        name: "weight",
-        title: "وزن",
-        recordDoubleClick: rdTab.Methods.RecordDoubleClickRD,
-
-
-    },
-    {
-        name: "securityPolompNo",
-        title: "پلمپ حراست",
-        recordDoubleClick: rdTab.Methods.RecordDoubleClickRD,
-
-
-    },
-    {
-        name: "railPolompNo",
-        title: "پلمپ راه‌آهن",
-        recordDoubleClick: rdTab.Methods.RecordDoubleClickRD,
-
-
-    },
-    {
-        name: "description",
-        title: "توضیحات",
-        recordDoubleClick: rdTab.Methods.RecordDoubleClickRD,
-
-
-    },
-    {
-        name: "sourceTozin.tozinId",
-        title: "توزین مبدا",
-        recordDoubleClick: rdTab.Methods.RecordDoubleClickRD,
-        pickListFields: rdTab.Fields.TozinLite,
-        showHover:true,
-        showHoverComponents: true,
-    },
-    {
-        name: "destinationTozin.tozinId",
-        title: "توزین مقصد",
-        recordDoubleClick: rdTab.Methods.RecordDoubleClickRD,
-        showHover:true,
-        showHoverComponents: true,
-        pickListFields: rdTab.Fields.TozinLite
-
-    },
-];
-rdTab.Fields.RemittanceDetailFullFields = [
-    // {
-    //     name: "remittance.code", title: "شماره بیجک"
-    //     , recordDoubleClick: function (viewer, record, recordNum, field, fieldNum, value, rawValue) {
-    //         rdTab.Methods.RecordDoubleClick('api/remittance', rdTab.Fields.Remittance, "remittance",
-    //             viewer, record, recordNum, field, fieldNum, value, rawValue)
-    //     }
-    // },
-    ...Object.assign([], rdTab.Fields.RemittanceDetail),
-    // {
-    //     name: "remittance.description",
-    //     title: "توضیحات بیجک",
-    //     recordDoubleClick() {
-    //         rdTab.Methods.RecordDoubleClick("api/remittance", rdTab.Fields.Remittance, 'remittance', ...arguments)
-    //     }
-    //
-    // },
-    {
-        name: "inventory.label",
-        title: "سریال محصول",
-        recordDoubleClick: function (viewer, record, recordNum, field, fieldNum, value, rawValue) {
-            rdTab.Methods.RecordDoubleClick('api/inventory', rdTab.Fields.Inventory, "inventory",
-                viewer, record, recordNum, field, fieldNum, value, rawValue)
-        }
-    },
-    {
-        name: "inventory.materialItem.id",
-        valueMap: SalesBaseParameters.getSavedMaterialItemParameter().getValueMap("id", "gdsName"),
-        type: "number",
-        title: "محصول",
-        recordDoubleClick: function (viewer, record, recordNum, field, fieldNum, value, rawValue) {
-            rdTab.Methods.RecordDoubleClick('api/inventory', rdTab.Fields.Inventory, "inventory",
-                viewer, record, recordNum, field, fieldNum, value, rawValue)
-        }
-
-
-    },
-    {
-        name: "destinationTozin.sourceId",
-        valueMap: SalesBaseParameters.getSavedWarehouseParameter().getValueMap("id", "name"),
-        title: "مبدا",
-        recordDoubleClick: rdTab.Methods.RecordDoubleClickRD,
-
-
-    },
-    {
-        name: "destinationTozin.date",
-        title: "تاریخ توزین مقصد",
-        recordDoubleClick: rdTab.Methods.RecordDoubleClickRD,
-
-
-    },
-    {
-        name: "destinationTozin.targetId",
-        valueMap: SalesBaseParameters.getSavedWarehouseParameter().getValueMap("id", "name"),
-        title: "مقصد",
-        recordDoubleClick: rdTab.Methods.RecordDoubleClickRD,
-
-
-    },
-    {
-        name: "depot.name", showHover: true, title: "دپو", formatCellValue(value, record) {
-            console.log('name: "depot.id", hidden: true, disabled: true,title:"دپو",formatCellValue()', arguments);
-            // return this.Super('formatCellValue',arguments);
-            const title = record.depot.store.warehouse.name + " - " + record.depot.store.name + " - " + record.depot.name;
-            return title;
+        {
+            name: "inventory.label",
+            title: "سریال محصول",
+            recordDoubleClick: function (viewer, record, recordNum, field, fieldNum, value, rawValue) {
+                rdTab.Methods.RecordDoubleClick('api/inventory', rdTab.Fields.Inventory(), "inventory",
+                    viewer, record, recordNum, field, fieldNum, value, rawValue)
+            }
         },
-        recordDoubleClick: rdTab.Methods.RecordDoubleClickRD
-    },
-];
-rdTab.Fields.Remittance = [
-    {
-        name: 'code', title: "شماره بیجک",
-        recordDoubleClick: function (viewer, record, recordNum, field, fieldNum, value, rawValue) {
-            rdTab.Methods.RecordDoubleClick('api/remittance', rdTab.Fields.Remittance, false,
-                viewer, record, recordNum, field, fieldNum, value, rawValue)
-        }
-    },
-    {
-        name: 'description', title: "شرح",
-        recordDoubleClick: function (viewer, record, recordNum, field, fieldNum, value, rawValue) {
-            rdTab.Methods.RecordDoubleClick('api/remittance', rdTab.Fields.Remittance, false,
-                viewer, record, recordNum, field, fieldNum, value, rawValue)
-        }
-    },
-    {name: 'id', title: "شناسه", hidden: true},
-];
-rdTab.Fields.RemittanceFull = [
-    ...rdTab.Fields.Remittance,
-    {
-        name: "remittanceDetails.sourceTozin.tozinId",
-        title: "توزین مبدا",
-    },
-    {
-        name: "remittanceDetails.inventory.materialItem.id",
-        valueMap: SalesBaseParameters.getSavedMaterialItemParameter().getValueMap("id", "gdsName"),
-        type: "number",
-        title: "محصول",
-    },
-    {
-        name: "remittanceDetails.destinationTozin.sourceId",
-        valueMap: SalesBaseParameters.getSavedWarehouseParameter().getValueMap("id", "name"),
-        title: "مبدا",
-    },
-    {
-        name: "remittanceDetails.destinationTozin.date",
-        title: "تاریخ توزین مقصد",
-    },
-    {
-        name: "remittanceDetails.destinationTozin.targetId",
-        valueMap: SalesBaseParameters.getSavedWarehouseParameter().getValueMap("id", "name"),
-        title: "مقصد",
-    },
-];
-rdTab.Fields.Inventory = [
-    {
-        name: 'materialItemId',
-        valueMap: SalesBaseParameters.getSavedMaterialItemParameter().getValueMap("id", "gdsName"),
-        title: 'محصول',
-        disabled: true,
+        {
+            name: "inventory.materialItem.id",
+            valueMap: SalesBaseParameters.getSavedMaterialItemParameter().getValueMap("id", "gdsName"),
+            type: "number",
+            title: "محصول",
+            hidden: true,
+            recordDoubleClick: function (viewer, record, recordNum, field, fieldNum, value, rawValue) {
+                rdTab.Methods.RecordDoubleClick('api/inventory', rdTab.Fields.Inventory(), "inventory",
+                    viewer, record, recordNum, field, fieldNum, value, rawValue)
+            }
+        },
+        {
+            name: "destinationTozin.sourceId",
+            valueMap: SalesBaseParameters.getSavedWarehouseParameter().getValueMap("id", "name"),
+            title: "مبدا",
+            recordDoubleClick: rdTab.Methods.RecordDoubleClickRD, hidden: true,
 
-    },
-    {name: 'label', title: 'سریال محصول'},
-    {name: 'id', title: 'شناسه', hidden: true,},
-];
-rdTab.Fields.Depot = [
-    {name: "store.warehouse.name", title: "انبار"},
-    {name: "store.name", title: "سوله/محوطه"},
-    {name: "name", title: "یارد"}
-];
+
+        },
+        {
+            name: "destinationTozin.date",
+            title: "تاریخ توزین مقصد",
+            hidden: true,
+            recordDoubleClick: rdTab.Methods.RecordDoubleClickRD,
+
+
+        },
+        {
+            name: "destinationTozin.targetId",
+            valueMap: SalesBaseParameters.getSavedWarehouseParameter().getValueMap("id", "name"),
+            title: "مقصد",
+            hidden: true,
+            recordDoubleClick: rdTab.Methods.RecordDoubleClickRD,
+
+
+        },
+        {
+            name: "depot.name", showHover: true, title: "دپو", formatCellValue(value, record) {
+                //  console.log('name: "depot.id", hidden: true, disabled: true,title:"دپو",formatCellValue()', arguments);
+                // return this.Super('formatCellValue',arguments);
+                const title = record.depot.store.warehouse.name + " - " + record.depot.store.name + " - " + record.depot.name;
+                return title;
+            },
+            showHoverComponents: false,
+            hidden: true,
+            recordDoubleClick: rdTab.Methods.RecordDoubleClickRD
+        },
+        ...rdTab.Fields.RemittanceDetail(),
+
+    ];
+}
+rdTab.Fields.Remittance = function () {
+    return [
+        {
+            name: 'code', title: "شماره بیجک",
+            recordDoubleClick: function (viewer, record, recordNum, field, fieldNum, value, rawValue) {
+                rdTab.Methods.RecordDoubleClick('api/remittance', rdTab.Fields.Remittance(), false,
+                    viewer, record, recordNum, field, fieldNum, value, rawValue)
+            },
+            required: true,
+        },
+        {
+            name: 'description', title: "شرح بیجک",
+            recordDoubleClick: function (viewer, record, recordNum, field, fieldNum, value, rawValue) {
+                rdTab.Methods.RecordDoubleClick('api/remittance', rdTab.Fields.Remittance(), false,
+                    viewer, record, recordNum, field, fieldNum, value, rawValue)
+            },
+        },
+        {name: 'id', title: "شناسه", hidden: true},
+    ];
+}
+rdTab.Fields.RemittanceFull = function () {
+    return [
+        ...rdTab.Fields.Remittance(),
+        {
+            name: "remittanceDetails.sourceTozin.tozinId",
+            title: "توزین مبدا",
+        },
+        {
+            name: "remittanceDetails.inventory.materialItem.id",
+            valueMap: SalesBaseParameters.getSavedMaterialItemParameter().getValueMap("id", "gdsName"),
+            type: "number",
+            title: "محصول",
+        },
+        {
+            name: "remittanceDetails.destinationTozin.sourceId",
+            valueMap: SalesBaseParameters.getSavedWarehouseParameter().getValueMap("id", "name"),
+            title: "مبدا",
+            formatCellValue(value, record) {
+                if (value) return value;
+                return SalesBaseParameters.getSavedWarehouseParameter().find(w => {
+                    return w.id == record.remittanceDetails[0].sourceTozin.sourceId;
+                }).name;
+            }
+        },
+        {
+            ...rdTab.Fields.TozinBase().find(t => t.name === 'date'),
+            name: "remittanceDetails.sourceTozin.date",
+            title: "تاریخ توزین مبدا",
+
+        },
+        {
+            ...rdTab.Fields.TozinBase().find(t => t.name === 'date'),
+            name: "remittanceDetails.destinationTozin.date",
+            title: "تاریخ توزین مقصد",
+
+
+        },
+        {
+            name: "remittanceDetails.destinationTozin.targetId",
+            valueMap: SalesBaseParameters.getSavedWarehouseParameter().getValueMap("id", "name"),
+            title: "مقصد",
+            hidden: true,
+        },
+        {
+            name: "remittanceDetails.depot.name",
+            // valueMap: SalesBaseParameters.getSavedWarehouseParameter().getValueMap("id", "name"),
+            title: "دپو",
+            showHover: true,
+            formatCellValue(value, record) {
+                // console.log('name: "depot.id", hidden: true, disabled: true,title:"دپو",formatCellValue()', arguments);
+                // return this.Super('formatCellValue',arguments);
+                try {
+                    const title = record.remittanceDetails[0].depot.store.warehouse.name +
+                        " - " + record.remittanceDetails[0].depot.store.name +
+                        " - " + record.remittanceDetails[0].depot.name;
+                    return title;
+                } catch (e) {
+                    console.error("depot name in remittance listgrid\n", e);
+                    return value;
+                }
+
+            },
+        },
+    ];
+}
+rdTab.Fields.Inventory = function () {
+    return [
+        {
+            name: 'materialItemId',
+            valueMap: SalesBaseParameters.getSavedMaterialItemParameter().getValueMap("id", "gdsName"),
+            title: 'محصول',
+            disabled: true,
+
+        },
+        {name: 'label', title: 'سریال محصول'},
+        {name: 'id', title: 'شناسه', hidden: true,},
+    ];
+}
+rdTab.Fields.Depot = function () {
+    return [
+        {name: "store.warehouse.name", title: "انبار"},
+        {name: "store.name", title: "سوله/محوطه"},
+        {name: "name", title: "یارد"}
+    ];
+}
 ////////////////////////////////////////////////////////DS//////////////////////////////////////////////////////////////
 rdTab.RestDataSources.RemittanceDetail = {
     fetchDataURL: "api/remittance-detail/spec-list",
     updateDataURL: "api/remittance-detail/update",
-    fields: rdTab.Fields.RemittanceDetailFullFields
+    fields: rdTab.Fields.RemittanceDetailFullFields()
 };
 rdTab.RestDataSources.Remittance = {
-    fetchDataURL: "api/remittance/spec-list",
+    fetchDataURL: "api/remittance/spec-list?distinct=true&",
     updateDataURL: "api/remittance/",
-    fields: rdTab.Fields.RemittanceFull
+    fields: rdTab.Fields.RemittanceFull()
 };
 rdTab.RestDataSources.TozinLite = {
     fetchDataURL: "api/tozin/lite/spec-list",
     // updateDataURL: "api/remittance/",
-    fields: rdTab.Fields.TozinFull
+    fields: rdTab.Fields.TozinFull()
 };
 rdTab.RestDataSources.Depot = {
     fetchDataURL: "api/depot/spec-list",
-    fields: [...rdTab.Fields.Depot]
+    fields: rdTab.Fields.Depot()
 };
 ////////////////////////////////////////////////////////LISTGRIDS///////////////////////////////////////////////////////
 rdTab.Grids.Remittance = {
@@ -1381,16 +1480,22 @@ rdTab.Grids.Remittance = {
     // groupByField: "remittance.code",
     dataSource: rdTab.RestDataSources.Remittance,
     autoFetchData: true,
+    getCellCSSText(record, rowNum, colNum) {
+        if (!record.remittanceDetails[0].destinationTozin) {
+            return "font-weight:bold; color:#287fd6;";
+        }
+        return this.Super('getCellCSSText', arguments)
+    }
 
 }
 rdTab.Grids.RemittanceDetail = {
-    fields: rdTab.Fields.RemittanceDetailFullFields,
+    fields: rdTab.Fields.RemittanceDetailFullFields(),
     showHoverComponents: true,
     getCellHoverComponent: function (record, rowNum, colNum) {
-        console.log('getCellHoverComponent',this, arguments)
+        // console.log('getCellHoverComponent', this, arguments)
         this.rowHoverComponent = isc.DetailViewer.create({
             dataSource: isc.MyRestDataSource.create({
-                fields: [...rdTab.Fields.TozinFull],
+                fields: rdTab.Fields.TozinFull(),
                 fetchDataURL: 'api/tozin/spec-list'
             }),
             width: 250
@@ -1400,7 +1505,7 @@ rdTab.Grids.RemittanceDetail = {
             criteria: {
                 fieldName: "tozinId",
                 operator: "equals",
-                value: eval('record.'+this.getField(colNum).name)
+                value: eval('record.' + this.getField(colNum).name)
             }
         }, null, {showPrompt: false});
 
@@ -1413,25 +1518,409 @@ rdTab.Grids.RemittanceDetail = {
     autoFetchData: false,
 }
 ////////////////////////////////////////////////////////COMPONENT HOLDERS///////////////////////////////////////////////
+rdTab.DynamicForms.Forms.PDF = isc.DynamicForm.create({
+    method: "POST",
+    action: "remittance-detail/report",
+    autoDraw: true,
+    visibility: "hidden",
+    target: "_Blank",
+    fields:
+        [
+            {name: "type", defaultValue: "pdf"},
+            {name: "criteria"},
+        ]
+});
+rdTab.Layouts.ToolStripButtons.PDF = {
+    icon: "[SKIN]/actions/pdf.png",
+    title: "<spring:message code='global.form.export.pdf'/>",
+    click: function () {
+        const criteria = JSON.stringify(rdTab.Grids.Remittance.obj.getCriteria());
+        rdTab.DynamicForms.Forms.PDF.setValue("criteria", criteria);
+        rdTab.DynamicForms.Forms.PDF.submitForm();
+    }
+};
+rdTab.Layouts.ToolStripButtons.New = isc.ToolStripButtonAdd.create({
+    visibility: "hidden",
+    ID: "new_bijak" + Math.random().toString().substr(3, 5),
+    title: 'ایجاد بیجک خروجی',
+    click() {
+        const selectedData = [];
+        let materialItemId = rdTab.Grids.Remittance.obj
+            .getSelectedRecord() ? rdTab.Grids.Remittance.obj
+            .getSelectedRecord().remittanceDetails[0].inventory.materialItemId : null
+        let multipleMaterialItem = false;
+        let hasOutRemittance = false;
+        rdTab.Grids.Remittance.obj
+            .getSelectedRecords()
+            .forEach(r => {
+                if (r.remittanceDetails[0].inventory.materialItemId !== materialItemId) {
+                    isc.warn('رکوردهای‌انتخاب شده به محصولات متفاوتی تعلق دارند.');
+                    multipleMaterialItem = true;
+                }
+                const r_tmp = {...r};
+                const rd = [...r_tmp.remittanceDetails];
+                delete r_tmp.remittanceDetails;
+                rd.forEach(_ => {
+                    if (!_['destinationTozin']) hasOutRemittance = true
+                    _['remittance'] = r_tmp;
+
+                })
+                selectedData.addList(rd)
+            });
+        if (multipleMaterialItem) return;
+        if (hasOutRemittance) return isc.warn('بیجک خروجی انتخاب شده')
+        // console.log('selectedData', selectedData)
+        //  let grid;
+        //  let _form;
+        //let _addBtn;
+        rdTab.DynamicForms.Forms.OutRemittance = isc.DynamicForm.create({
+            numCols: 6,
+            fields: [...rdTab.Fields.Remittance(), {
+                name: "materialItemId",
+                title: "محصول",
+                changed(form, item, value) {
+                    if (value) {
+                        rdTab.Layouts.ToolStripButtons.OutRemittanceAddTozin.enable();
+                        rdTab.Layouts.ToolStripButtons.OutRemittanceAdd.enable();
+                        rdTab.DynamicForms.Forms.TozinTable.setValue('codeKala', value)
+                    }
+                },
+                valueMap: rdTab.Fields.Inventory().find(i => i.name === "materialItemId").valueMap,
+            },
+
+            ]
+        });
+        rdTab.DynamicForms.Forms.TozinTable = isc.DynamicForm.create({
+            numCols: 6,
+            fields: rdTab.Fields.TozinTable().map(a => {
+                a.changed = (form, item, value) => {
+                    const _item = form.getItem('isInView');
+                    _item.setValue(false);
+                    _item.disable();
+                };
+                if (a.name === 'codeKala') a.hidden = true;
+                if (a.name === 'isInView') a.disabled = true;
+                return a
+            })
+        });
+        rdTab.Layouts.ToolStripButtons.OutRemittanceAdd = isc.ToolStripButtonAdd.create({
+            title: "افزودن بیجک ورودی",
+            disabled: true,
+            click() {
+                let selectRd;
+                const win = isc.Window.create({
+                    ...rdTab.Vars.defaultWindowConfig,
+                    members: [
+                        isc.ToolStrip.create({
+                            members: [
+                                isc.ToolStripButtonAdd.create({
+                                    title: "افزودن",
+                                    click() {
+                                        const records = selectRd.getSelectedRecords();
+                                        records.forEach(d => {
+                                            if (!rdTab.Grids.RemittanceDetailOutRemittance.getData().find(rd => rd.id === d.id))
+                                                rdTab.Grids.RemittanceDetailOutRemittance.addData(d)
+                                        });
+                                        selectRd.deselectAllRecords();
+                                        win.hide();
+                                    }
+                                }),
+                                isc.ToolStripButtonRefresh.create({
+                                    title: "انتخاب‌همه",
+                                    click() {
+                                        selectRd.selectAllRecords();
+                                    }
+                                }),
+
+                            ]
+                        }),
+                        selectRd = isc.ListGrid.create({
+                            ...rdTab.Grids.RemittanceDetail,
+                            fields: [
+                                {name: "remittance.code", title: "شماره بیچک"},
+                                {name: "remittance.description", title: "شرح بیجک"},
+                                ...rdTab.Fields.RemittanceDetailFullFields().map(f => {
+                                    const showFields = {
+                                        "remittance.code": {},
+                                        "remittance.description": {},
+                                        "inventory.label": {},
+                                        "description": {},
+                                        "weight": {},
+                                        "ampunt": {},
+                                        "unitId": {},
+                                        "depotId": {},
+                                    };
+                                    // f.hidden = true;
+                                    // if (Object.keys(showFields).contains(f.name)) f.hidden = false;
+                                    f.recordDoubleClick = _ => {
+                                    };
+                                    return f
+                                }),],
+                            initialCriteria: {
+                                operator: "and",
+                                criteria: [
+                                    {
+                                        fieldName: "destinationTozin.sourceId",
+                                        operator: "inSet",
+                                        value: [1000, 1021, 1540, 1541, 2421, 2509]
+                                    },
+                                    {
+                                        fieldName: "destinationTozin",
+                                        operator: "notNull",
+                                    },
+                                    {
+                                        fieldName: "inventory.materialItemId",
+                                        operator: "equals",
+                                        value: rdTab.DynamicForms.Forms.OutRemittance.getValue("materialItemId")
+                                    }
+
+                                ],
+                            },
+                            showHoverComponents: false,
+                            height: "100%",
+                            autoFetchData: true,
+                            allowAdvancedCriteria: true,
+                            showFilterEditor: true,
+                            dataSource: isc.MyRestDataSource.create(Object.assign({}, rdTab.RestDataSources.RemittanceDetail)),
+
+                        }),],
+                })
+            }
+        });
+
+        rdTab.Layouts.ToolStripButtons.OutRemittanceAddTozin = isc.ToolStripButtonAdd.create({
+            disabled: true,
+            align: "center",
+            title: "انتخاب توزین از لجستیک",
+            click() {
+                rdTab.Grids.TozinLite = isc.ListGrid.create({
+                    fields: rdTab.Fields.TozinLite(),
+                    initialCriteria: {
+                        operator: "and",
+                        criteria: [
+                            {
+                                fieldName: "sourceId",
+                                operator: "inSet",
+                                value: [2555]
+                            },
+                            {
+                                fieldName: "tozinId",
+                                operator: "iStartsWith",
+                                value: "3"
+                            },
+                            {
+                                fieldName: "codeKala",
+                                operator: "equals",
+                                value: rdTab.DynamicForms.Forms.OutRemittance.getValue("materialItemId")
+                            },
+                            {
+                                fieldName: "date",
+                                operator: "greaterOrEqual",
+                                value: new persianDate().subtract('d', 10).format('YYYYMMDD')
+                            },
+
+
+                        ],
+                    },
+                    showHoverComponents: false,
+                    height: "100%",
+                    selectionType: "single",
+                    autoFetchData: true,
+                    allowAdvancedCriteria: true,
+                    showFilterEditor: true,
+                    recordDoubleClick(viewer, record, recordNum, field, fieldNum, value, rawValue) {
+                        console.log("rdTab.DynamicForms.Forms.TozinTable", rdTab.DynamicForms.Forms.TozinTable);
+                        rdTab.DynamicForms.Forms.TozinTable.setValues({
+                            ...record,
+                            isInView: true
+                        });
+                        win.destroy();
+                        // viewer.deselectAllRecords();
+                    },
+                    dataSource: isc.MyRestDataSource.create(rdTab.RestDataSources.TozinLite)
+                });
+                const win = isc.Window.create({
+                    ...rdTab.Vars.defaultWindowConfig,
+                    members: [
+                        isc.ToolStrip.create({
+                            members: [
+                                isc.ToolStripButtonAdd.create({
+                                    title: "افزودن",
+                                    click: _ => rdTab.Grids.TozinLite.recordDoubleClick(rdTab.Grids.TozinLite, rdTab.Grids.TozinLite.getSelectedRecord())
+                                }),
+                            ]
+                        }),
+                        rdTab.Grids.TozinLite,],
+                })
+            }
+        });
+        rdTab.Layouts.ToolStripButtons.AddTozinToRemittanceDetails = isc.ToolStripButtonAdd.create({
+            // disabled: true,
+            title: "افزودن توزین به بیجک‌های انتخابی",
+            click() {
+                if (!rdTab.DynamicForms.Forms.TozinTable.validate()) return;
+                const outTozin = rdTab.DynamicForms.Forms.TozinTable.getValues();
+                rdTab.Grids.RemittanceDetailOutRemittance.getSelectedRecords().forEach(rd => {
+                    if (!rd.outTozin) {
+                        rd.outTozin = outTozin;
+                    }
+                });
+                rdTab.Grids.RemittanceDetailOutRemittance.redraw();
+
+            }
+        });
+        rdTab.Grids.RemittanceDetailOutRemittance = isc.ListGrid.create({
+            canRemoveRecords: true,
+            deferRemoval: false,
+            canEdit: true,
+            editEvent: "doubleClick",
+            autoSaveEdits: false,
+            fields: [
+                {name: "remittance.code", title: "شماره بیجک", canEdit: false},
+                {name: "remittance.description", title: "شرح بیجک", canEdit: false},
+                ...rdTab.Fields.RemittanceDetailFullFields().map(f => {
+                    const showFields = {
+                        "remittance.code": {},
+                        "remittance.description": {},
+                        "inventory.label": {},
+                        "description": {},
+                        "weight": {},
+                        "ampunt": {},
+                        "unitId": {},
+                        "depotId": {},
+                    };
+                    f.hidden = true;
+                    f.canEdit = false;
+                    if (Object.keys(showFields).contains(f.name)) f.hidden = false;
+                    f.recordDoubleClick = _ => {
+                    };
+                    return f
+                }),
+                {name: "outTozin.tozinId", title: "توزین خروجی", canEdit: false},
+                {
+                    name: "outDescription",
+                    title: "شرح محصول",
+                    canEdit: true,
+                    editorExit(editCompletionEvent, record, newValue, rowNum, colNum, grid) {
+                        record.outDescription = newValue
+                    }
+                }
+            ],
+        })
+        rdTab.Layouts.Window.OutRemittance = isc.Window.create({
+            ...rdTab.Vars.defaultWindowConfig,
+            members: [
+                isc.VLayout.create({
+                    height: "100%",
+                    members: [
+                        rdTab.DynamicForms.Forms.OutRemittance,
+                        isc.Label.create({
+                            height: .06 * innerHeight,
+                            contents: "<h3 style='text-align: center'>"
+                                + "اطلاعات توزین خروجی" +
+                                "</h3>"
+                        }),
+                        isc.HLayout.create({
+                            height: "15%",
+                            members: [
+                                isc.VLayout.create({
+                                    width: "85%",
+                                    members: [rdTab.DynamicForms.Forms.TozinTable,]
+                                }),
+                                isc.VLayout.create({
+                                    members: [rdTab.Layouts.ToolStripButtons.OutRemittanceAddTozin,]
+                                }),
+                            ]
+                        }),
+                        isc.ToolStrip.create({
+                            members: [
+                                rdTab.Layouts.ToolStripButtons.OutRemittanceAdd,
+                                rdTab.Layouts.ToolStripButtons.AddTozinToRemittanceDetails,
+
+                                // rdTab.Layouts.ToolStripButtons.OutRemittanceAddTozin,
+                            ]
+                        }),
+                        rdTab.Grids.RemittanceDetailOutRemittance,
+
+                    ]
+                })]
+        });
+        rdTab.Methods.OutRemittanceSave = function () {
+            console.log("save out remittance btn ", rdTab.Grids.RemittanceDetailOutRemittance, rdTab.DynamicForms.Forms.OutRemittance)
+            if (!rdTab.DynamicForms.Forms.OutRemittance.validate()) return;
+            const remittanceDetails = rdTab.Grids.RemittanceDetailOutRemittance.getData();
+            const remittance = rdTab.DynamicForms.Forms.OutRemittance.getValues();
+            const remittanceDetailsWithoutTozin = remittanceDetails.filter(rd => {
+                    if (rd.outTozin) return false;
+                    return true;
+                }
+            )
+            if (remittanceDetailsWithoutTozin && remittanceDetailsWithoutTozin.length > 0) {
+                rdTab.Grids.RemittanceDetailOutRemittance.deselectAllRecords();
+                rdTab.Grids.RemittanceDetailOutRemittance.selectRecords(remittanceDetailsWithoutTozin);
+                return isc.warn('رکورد‌های انخابی بدون توزین خروجی می‌باشند.')
+            }
+            const remittanceDetailForSend = Object.assign([], remittanceDetails)
+            remittanceDetailForSend.forEach(rd => {
+                delete rd['destinationTozinId'];
+                delete rd['destinationTozin'];
+                delete rd['sourceTozinId'];
+                delete rd['sourceTozin'];
+                delete rd['remittance'];
+                delete rd['securityPolompNo'];
+                delete rd['railPolompNo'];
+                delete rd['remittanceId'];
+                delete rd['description'];
+                delete rd['description'];
+                rd['sourceTozin'] = Object.assign({}, rd['outTozin']);
+                rd['description'] = rd['outDescription'];
+                rd['inventoryId'] = rd['inventory']['id'];
+                delete rd['inventory'];
+                delete rd['outDescription'];
+                delete rd['outTozin'];
+            })
+            rdTab.Vars.Method = "POST";
+            rdTab.Methods.Save({
+                remittanceDetails: remittanceDetails,
+                remittance: remittance,
+            }, 'api/remittance-detail/out');
+            rdTab.Vars.Method = "PUT";
+
+        }
+        rdTab.Layouts.Window.OutRemittance.addMember(
+            rdTab.Methods.HlayoutSaveOrExit(rdTab.Methods.OutRemittanceSave, rdTab.Layouts.Window.OutRemittance.ID)
+        )
+        rdTab.Grids.RemittanceDetailOutRemittance.setData(selectedData);
+        console.debug('out remittance detail', rdTab.Grids.RemittanceDetailOutRemittance, rdTab.DynamicForms.Forms.OutRemittance);
+        if (selectedData.length > 0) {
+            rdTab.DynamicForms.Forms.OutRemittance.setValue("materialItemId", materialItemId);
+            rdTab.DynamicForms.Forms.TozinTable.setValue('codeKala', materialItemId)
+            rdTab.Layouts.ToolStripButtons.OutRemittanceAddTozin.enable();
+            rdTab.Layouts.ToolStripButtons.OutRemittanceAdd.enable();
+        }
+    }
+});
 isc.VLayout.create({
     members: [
         isc.ToolStrip.create({
-            members: [isc.ToolStripButtonRemove.create({
-                title: "حذف کامل بیجک ورودی",
-                click() {
-                    isc.Dialog.create({
-                        title: "هشدار",
-                        message: "پاک کردن بیجک باعث پاک شدن تمامی محصولات زیرمجموعه تعریف‌شده به آن هم می‌شود. آیا اطمینان دارید؟",
-                        buttons: [isc.Dialog.OK, isc.Dialog.CANCEL],
-                        okClick() {
-                            rdTab.Methods.Delete(rdTab.Grids.Remittance.obj,
-                                SalesConfigs.Urls.completeUrl + '/api/remittance/prune')
-                            this.close();
-                        }
-                    })
+            members: [
+                isc.ToolStripButtonRemove.create({
+                    title: "حذف کامل بیجک",
+                    click() {
+                        isc.Dialog.create({
+                            title: "هشدار",
+                            message: "پاک کردن بیجک باعث پاک شدن تمامی محصولات زیرمجموعه تعریف‌شده به آن هم می‌شود. آیا اطمینان دارید؟",
+                            buttons: [isc.Dialog.OK, isc.Dialog.CANCEL],
+                            okClick() {
+                                rdTab.Methods.Delete(rdTab.Grids.Remittance.obj,
+                                    SalesConfigs.Urls.completeUrl + '/api/remittance/prune')
+                                this.close();
+                            }
+                        })
 
-                },
-            }),
+                    },
+                }),
+                rdTab.Layouts.ToolStripButtons.New,
                 isc.ToolStrip.create({
                     width: "100%",
                     align: "left",
@@ -1441,7 +1930,8 @@ isc.VLayout.create({
                             click() {
                                 rdTab.Grids.Remittance.obj.invalidateCache()
                             }
-                        })
+                        }),
+                        isc.ToolStripButtonRefresh.create(rdTab.Layouts.ToolStripButtons.PDF)
                     ]
                 })
             ]

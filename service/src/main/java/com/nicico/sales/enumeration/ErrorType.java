@@ -14,7 +14,8 @@ public enum ErrorType {
     NotEditable(404),
     PayloadTooLarge(413),
     Unknown(500),
-    NotImplemented(50);
+    NotImplemented(50),
+    invalidData(500);
 
     private final Integer id;
 }

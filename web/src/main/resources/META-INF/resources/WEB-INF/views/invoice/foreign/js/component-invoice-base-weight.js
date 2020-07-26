@@ -19,14 +19,14 @@ isc.defineClass("InvoiceBaseWeight", isc.VLayout).addProperties({
                 doIntegration: true,
                 inventoryIds: This.inventories.map(q => q.id)
             },
-            actionURL: "${contextPath}/api/weightInspection/get-weight-values",
+            actionURL: "${contextPath}" + "/api/weightInspection/get-weight-values",
             callback: function (resp) {
 
                 let fields = [];
                 let weightValues = JSON.parse(resp.data).get(0);
                 fields.add(isc.Unit.create({
 
-                    unitCategory: weightValues.unit.categoryUnit,
+                    unitCategory: weightValues.unit.this.cater,
                     disabledUnitField: true,
                     disabledValueField: true,
                     showValueFieldTitle: true,
