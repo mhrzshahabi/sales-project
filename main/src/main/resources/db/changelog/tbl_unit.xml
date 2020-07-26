@@ -118,5 +118,29 @@
             DELETE FROM TBL_UNIT WHERE ID=31;
         </sql>
     </changeSet>
+    <changeSet author="saeb" id="saebbbbbbbbb-039">
+        <sql>
+            INSERT INTO TBL_UNIT
+            (ID,C_CREATED_BY,D_CREATED_DATE,C_LAST_MODIFIED_BY,D_LAST_MODIFIED_DATE,N_VERSION,N_E_STATUS,B_EDITABLE,C_NAME_EN,C_NAME_FA,N_CATEGORY_UNIT,N_SYMBOL_UNIT)
+            values (-11,'j.azad',to_timestamp('03-JUL-20 10.15.40.056000000 AM','DD-MON-RR HH.MI.SSXFF
+            AM'),'j.azad',to_timestamp('11-JUL-20 08.34.52.826000000 AM','DD-MON-RR HH.MI.SSXFF
+            AM'),2,1,0,'kilogramme','کیلوگرم',1,1);
 
+            insert INTO TBL_UNIT (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            C_NAME_EN, C_NAME_FA, N_CATEGORY_UNIT, N_SYMBOL_UNIT) VALUES (-32, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 'دلار', 'Dollar', 0, 22);
+        </sql>
+    </changeSet>
+    <changeSet author="saeb" id="saebbbbbbssssbbb-039">
+        <sql>
+            DELETE FROM TBL_UNIT WHERE ID=32;
+        </sql>
+    </changeSet>
+
+    <changeSet id="saeb1234hala bia vesatsssddds " author="saeb">
+    <sql>
+    update TBL_UNIT set N_CATEGORY_UNIT=2 , N_SYMBOL_UNIT=7 where id = -11;
+    </sql>
+    </changeSet>
 </databaseChangeLog>

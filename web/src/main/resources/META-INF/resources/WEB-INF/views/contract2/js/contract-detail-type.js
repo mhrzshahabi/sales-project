@@ -514,6 +514,7 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
                 return {
                     type: "boolean"
                 };
+            case 'BigDecimal':
             case 'Float':
             case 'Double':
                 return {
