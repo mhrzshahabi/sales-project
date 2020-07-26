@@ -137,4 +137,10 @@
             DELETE FROM TBL_UNIT WHERE ID=32;
         </sql>
     </changeSet>
+
+    <changeSet id="saeb1234hala bia vesatsssddds " author="saeb">
+    <sql>
+    update TBL_UNIT set N_CATEGORY_UNIT=2 , N_SYMBOL_UNIT=7 where id = -11;
+    </sql>
+    </changeSet>
 </databaseChangeLog>
