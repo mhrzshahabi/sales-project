@@ -19,7 +19,7 @@ priceBaseTab.dynamicForm.fields = BaseFormItems.concat([
     },
     {
         name: "priceDate",
-        width: "10%",
+        width: "300",
         type: 'date',
         title: "<spring:message code='priceBase.date'/>"
     },
