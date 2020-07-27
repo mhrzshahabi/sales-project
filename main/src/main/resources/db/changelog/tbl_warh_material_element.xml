@@ -66,5 +66,10 @@
 
         </sql>
     </changeSet>
-
+    <changeSet id="saeb1234hala bia vesat " author="saeb">
+        <sql>
+            update TBL_WARH_MATERIAL_ELEMENT set F_UNIT_ID=-11 where id in (5,4);
+            delete from tbl_unit where id=11
+        </sql>
+    </changeSet>
 </databaseChangeLog>

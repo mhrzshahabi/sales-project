@@ -24,7 +24,6 @@ import java.util.stream.Collectors;
 public class MaterialItemService implements IMaterialItemService {
 
     private final MaterialItemDAO materialItemDAO;
-    private final MaterialDAO materialDAO;
     private final ModelMapper modelMapper;
 
     @Override
