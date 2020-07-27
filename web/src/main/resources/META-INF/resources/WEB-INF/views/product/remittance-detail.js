@@ -1540,7 +1540,7 @@ rdTab.Layouts.ToolStripButtons.PDF = {
     }
 };
 rdTab.Layouts.ToolStripButtons.New = isc.ToolStripButtonAdd.create({
-    visibility: "hidden",
+    // visibility: "hidden",
     ID: "new_bijak" + Math.random().toString().substr(3, 5),
     title: 'ایجاد بیجک خروجی',
     click() {
