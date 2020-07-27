@@ -8,23 +8,28 @@ import com.nicico.sales.dto.contract.ContractContactDTO;
 import com.nicico.sales.dto.contract.ContractDTO2;
 import com.nicico.sales.dto.contract.ContractDetailDTO2;
 import com.nicico.sales.enumeration.ActionType;
+import com.nicico.sales.enumeration.ErrorType;
 import com.nicico.sales.exception.NotFoundException;
+import com.nicico.sales.exception.SalesException2;
 import com.nicico.sales.iservice.contract.IContractContactService;
 import com.nicico.sales.iservice.contract.IContractDetailService2;
 import com.nicico.sales.iservice.contract.IContractService2;
 import com.nicico.sales.model.entities.contract.Contract2;
+import com.nicico.sales.model.entities.contract.ContractDetail2;
 import com.nicico.sales.model.enumeration.CommercialRole;
 import com.nicico.sales.service.GenericService;
 import com.nicico.sales.utility.UpdateUtil;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.TypeToken;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Locale;
 
 @Service
 @RequiredArgsConstructor
@@ -126,44 +131,41 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
             contractContactService.update(modelMapper.map(q, ContractContactDTO.Update.class));
         });
 
-        // update ContractDetails
-//        try {
-        updateDetails(request, contract2);
-//        } catch (IllegalAccessException | InvocationTargetException | NoSuchFieldException e) {
-//
-//            Locale locale = LocaleContextHolder.getLocale();
-//            throw new SalesException2(ErrorType.Unknown, "", messageSource.getMessage("contract-detail.exception.update", null, locale));
-//        }
+        //  update ContractDetails
+        List<ContractDetailDTO2.Create> contractDetail4Insert = new ArrayList<>();
+        List<ContractDetailDTO2.Update> contractDetail4Update = new ArrayList<>();
+        ContractDetailDTO2.Delete contractDetail4Delete = new ContractDetailDTO2.Delete();
+
+        try {
+            updateUtil.fill(ContractDetail2.class, contract2.getContractDetails(),
+                    ContractDetailDTO2.Info.class, request.getContractDetails(),
+                    ContractDetailDTO2.Create.class, contractDetail4Insert,
+                    ContractDetailDTO2.Update.class, contractDetail4Update,
+                    contractDetail4Delete);
+        } catch (IllegalAccessException | InvocationTargetException | NoSuchFieldException e) {
+            Locale locale = LocaleContextHolder.getLocale();
+            throw new SalesException2(ErrorType.Unknown, "", messageSource.getMessage("contract-detail.exception.update", null, locale));
+        }
+
+        if (!contractDetail4Insert.isEmpty()) {
+            contractDetail4Insert.forEach(q -> q.setContractId(contract2.getId()));
+            contractDetailService.createAll(contractDetail4Insert);
+        }
+        if (!contractDetail4Delete.getIds().isEmpty())
+            contractDetailService.deleteAll(contractDetail4Delete);
 
         Contract2 updating = new Contract2();
+
+        contract2.setContractDetails(null);
+        request.setContractDetails(null);
+
         modelMapper.map(contract2, updating);
         modelMapper.map(request, updating);
         validation(updating, request);
 
         updating.setContractContacts(null);
-        updating.setContractDetails(null);
 
         return save(updating);
-    }
-
-    private void updateDetails(ContractDTO2.Update request, Contract2 contract2) {
-
-        List<ContractDetailDTO2.Create> contractDetail4Insert = modelMapper.map(request.getContractDetails().stream().filter(req ->
-                contract2.getContractDetails().stream().noneMatch(db -> db.getContractDetailTypeId().equals(req.getContractDetailTypeId())))
-                .collect(Collectors.toList()), new TypeToken<List<ContractDetailDTO2.Create>>() {
-        }.getType());
-
-        ContractDetailDTO2.Delete contractDetail4Delete = new ContractDetailDTO2.Delete();
-        contractDetail4Delete.setIds(modelMapper.map(contract2.getContractDetails().stream().filter(db ->
-                request.getContractDetails().stream().noneMatch(req -> req.getContractDetailTypeId().equals(db.getContractDetailTypeId())))
-                .collect(Collectors.toList()), new TypeToken<List<ContractDetailDTO2.Create>>() {
-        }.getType()));
-
-        System.out.println("");
-        if (!contractDetail4Insert.isEmpty())
-            contractDetailService.createAll(contractDetail4Insert);
-        if (!contractDetail4Delete.getIds().isEmpty())
-            contractDetailService.deleteAll(contractDetail4Delete);
     }
 
 }

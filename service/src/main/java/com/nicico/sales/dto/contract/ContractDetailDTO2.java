@@ -22,7 +22,6 @@ public class ContractDetailDTO2 {
     private Long contractId;
     private Long contractDetailTypeId;
 
-    private ContractDetailTypeDTO.Info contractDetailType;
 
     @Getter
     @Setter
@@ -31,6 +30,8 @@ public class ContractDetailDTO2 {
     public static class Info extends ContractDetailDTO2 {
 
         private Long id;
+
+        private ContractDetailTypeDTO.Info contractDetailType;
 
         // Auditing
         private Date createdDate;
@@ -56,6 +57,8 @@ public class ContractDetailDTO2 {
     @Accessors(chain = true)
     @ApiModel("ContractDetailUpdateRq")
     public static class Update extends ContractDetailDTO2 {
+
+        private ContractDetailTypeDTO.Update contractDetailType;
 
         @NotNull
         @ApiModelProperty(required = true)

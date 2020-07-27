@@ -225,6 +225,7 @@ contractTab.dynamicForm.fields.contractDetailType = {
         if (contractTab.contractDetailsSectionStack.getSectionNames().includes(value))
             return;
         contractTab.contractDetailsSectionStack.addSection({
+            contractDetailId: null,
             name: value,
             title: record.titleEn,
             expanded: true,
@@ -338,8 +339,9 @@ contractTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
                     return;
                 let data = contractTab.dynamicForm.contract.getValues();
                 data.contractDetails = [];
-                contractTab.contractDetailsSectionStack.getSectionNames().forEach(q => {
-                    data.contractDetails.push({contractDetailTypeId: q })
+                console.log(contractTab.contractDetailsSectionStack.getse);
+                contractTab.contractDetailsSectionStack.sections.forEach(q => {
+                    data.contractDetails.push({contractDetailTypeId: q.name, id: q.contractDetailId})
                 });
 
                 console.log(data);
@@ -420,7 +422,8 @@ contractTab.method.editData = function () {
             })
 
             contractTab.contractDetailsSectionStack.addSection({
-                name: q.contractDetailType.id,
+                contractDetailId: q.id,
+                name: q.contractDetailTypeId,
                 title: q.contractDetailType.titleEn,
                 expanded: true,
 
@@ -429,7 +432,7 @@ contractTab.method.editData = function () {
                     icon: "[SKIN]/actions/remove.png",
                     size: 32,
                     click: function () {
-                        contractTab.contractDetailsSectionStack.removeSection(q.contractDetailType.id + "");
+                        contractTab.contractDetailsSectionStack.removeSection(q.contractDetailTypeId + "");
                     }
                 })],
 
