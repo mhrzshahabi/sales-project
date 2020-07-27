@@ -22,6 +22,8 @@ public class ContractDetailDTO2 {
     private Long contractId;
     private Long contractDetailTypeId;
 
+    private ContractDetailTypeDTO.Info contractDetailType;
+
     @Getter
     @Setter
     @Accessors(chain = true)
@@ -29,7 +31,6 @@ public class ContractDetailDTO2 {
     public static class Info extends ContractDetailDTO2 {
 
         private Long id;
-        private ContractDetailTypeDTO.Info contractDetailType;
 
         // Auditing
         private Date createdDate;

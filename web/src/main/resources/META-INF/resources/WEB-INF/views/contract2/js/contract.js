@@ -339,8 +339,10 @@ contractTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
                 let data = contractTab.dynamicForm.contract.getValues();
                 data.contractDetails = [];
                 contractTab.contractDetailsSectionStack.getSectionNames().forEach(q => {
-                    data.contractDetails.push({contractDetailTypeId: q})
+                    data.contractDetails.push({contractDetailTypeId: q })
                 });
+
+                console.log(data);
 
                 isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                     actionURL: contractTab.variable.url,
@@ -401,12 +403,12 @@ contractTab.method.editData = function () {
         contractTab.dialog.notEditable();
     else {
         contractTab.variable.method = "PUT";
-        contractTab.dynamicForm.contract.editRecord(JSON.parse(JSON.stringify(record)))
+        contractTab.dynamicForm.contract.editRecord(JSON.parse(JSON.stringify(record)));
 
-        console.log(record);
-        var fields = [];
+        contractTab.contractDetailsSectionStack.getSectionNames().forEach(q => contractTab.contractDetailsSectionStack.removeSection(q + ""));
         record.contractDetails.forEach(q => {
-            q.contractDetailTypeParams.forEach(param => {
+            var fields = [];
+            q.contractDetailType.contractDetailTypeParams.forEach(param => {
                 var field = {
                     width: "10%",
                 };
@@ -418,8 +420,8 @@ contractTab.method.editData = function () {
             })
 
             contractTab.contractDetailsSectionStack.addSection({
-                name: q.id,
-                title: q.titleEn,
+                name: q.contractDetailType.id,
+                title: q.contractDetailType.titleEn,
                 expanded: true,
 
                 controls: [isc.IButton.create({
@@ -427,7 +429,7 @@ contractTab.method.editData = function () {
                     icon: "[SKIN]/actions/remove.png",
                     size: 32,
                     click: function () {
-                        contractTab.contractDetailsSectionStack.removeSection(q.id + "");
+                        contractTab.contractDetailsSectionStack.removeSection(q.contractDetailType.id + "");
                     }
                 })],
 
@@ -451,7 +453,6 @@ contractTab.method.editData = function () {
                 ]
             });
         });
-
 
         contractTab.window.setTitle("<spring:message code='contract.window.title.edit'/>");
         contractTab.window.show();
