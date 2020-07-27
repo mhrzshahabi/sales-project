@@ -338,13 +338,21 @@ contractTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
                 if (contractTab.dynamicForm.contract.hasErrors())
                     return;
                 let data = contractTab.dynamicForm.contract.getValues();
-                data.contractDetails = [];
-                console.log(contractTab.contractDetailsSectionStack.getse);
-                contractTab.contractDetailsSectionStack.sections.forEach(q => {
-                    data.contractDetails.push({contractDetailTypeId: q.name, id: q.contractDetailId})
-                });
 
-                console.log(data);
+                data.contractDetails = [];
+                data.contractDetails.contractDetailValues = [];
+                contractTab.contractDetailsSectionStack.sections.forEach(q => {
+                    data.contractDetails.push({contractDetailTypeId: q.name, id: q.contractDetailId});
+                    console.log(q);
+                    data.contractDetails.contractDetailValues.push({
+                        name: "",
+                        key: "",
+                        type: "",
+                        value: "",
+                        // column: "",
+                        contractDetailId: q.contractDetailId
+                    });
+                });
 
                 isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                     actionURL: contractTab.variable.url,

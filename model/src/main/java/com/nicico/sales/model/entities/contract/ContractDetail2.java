@@ -10,6 +10,7 @@ import org.hibernate.envers.NotAudited;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Getter
 @Setter
@@ -52,7 +53,7 @@ public class ContractDetail2 extends BaseEntity {
     @Column(name = "F_CONTRACT_DETAIL_TYPE_ID", nullable = false)
     private Long contractDetailTypeId;
 
-//    @NotAudited
-//    @OneToMany(mappedBy = "contractDetail", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-//    private List<ContractDetailValue> contractDetailValues;
+    @NotAudited
+    @OneToMany(mappedBy = "contractDetail", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<ContractDetailValue> contractDetailValues;
 }
