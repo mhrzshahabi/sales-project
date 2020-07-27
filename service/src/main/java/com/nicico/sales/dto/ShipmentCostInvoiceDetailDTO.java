@@ -19,7 +19,6 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ShipmentCostInvoiceDetailDTO {
 
-
     private String serviceCode;
     private String serviceName;
     private BigDecimal quantity;
