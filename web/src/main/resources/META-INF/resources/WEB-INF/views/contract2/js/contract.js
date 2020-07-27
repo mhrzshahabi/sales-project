@@ -216,10 +216,12 @@ contractTab.dynamicForm.fields.contractDetailType = {
             var field = {
                 width: "10%",
             };
-            field.name = param.name;
-            field.required = param.required;
+            field.name = param.key;
+            field.key = param.key;
             field.title = param.name;
             field.type = param.type;
+            field.defaultValue = param.defaultValue;
+            field.required = param.required;
             fields.push(field);
         })
         if (contractTab.contractDetailsSectionStack.getSectionNames().includes(value))
@@ -342,17 +344,23 @@ contractTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
                 data.contractDetails = [];
                 data.contractDetails.contractDetailValues = [];
                 contractTab.contractDetailsSectionStack.sections.forEach(q => {
-                    data.contractDetails.push({contractDetailTypeId: q.name, id: q.contractDetailId});
-                    console.log(q);
-                    data.contractDetails.contractDetailValues.push({
-                        name: "",
-                        key: "",
-                        type: "",
-                        value: "",
-                        // column: "",
-                        contractDetailId: q.contractDetailId
+                    data.contractDetails.push({
+                        contractDetailTypeId: q.name,
+                        id: q.contractDetailId,
+                        contractDetailValues: q.items[0].fields.filter(x => x.isBaseItem == undefined).forEach((x, index) => {
+                            data.contractDetails.contractDetailValues.push({
+                                name: x.name,
+                                key: x.name,
+                                type: x.type,
+                                value: q.items[0].values[Object.keys(q.items[0].values)[index]],
+                                // column: "",
+                                contractDetailId: q.contractDetailId
+                            });
+                        })
                     });
                 });
+
+                console.log(data);
 
                 isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                     actionURL: contractTab.variable.url,
@@ -422,10 +430,12 @@ contractTab.method.editData = function () {
                 var field = {
                     width: "10%",
                 };
-                field.name = param.name;
-                field.required = param.required;
+                field.name = param.key;
+                field.key = param.key;
                 field.title = param.name;
                 field.type = param.type;
+                field.defaultValue = param.defaultValue;
+                field.required = param.required;
                 fields.push(field);
             })
 
