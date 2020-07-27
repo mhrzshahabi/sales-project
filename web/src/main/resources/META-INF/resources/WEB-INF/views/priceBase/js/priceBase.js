@@ -1,4 +1,17 @@
 var priceBaseTab = new nicico.GeneralTabUtil().getDefaultJSPTabVariable();
+
+let financeCriteria = {
+    _constructor: "AdvancedCriteria",
+    operator: "and",
+    criteria: [{fieldName: "categoryUnit", operator: "equals", value: "Finance"}]
+};
+
+let weightCriteria = {
+    _constructor: "AdvancedCriteria",
+    operator: "and",
+    criteria: [{fieldName: "categoryUnit", operator: "equals", value: "Weight"}]
+};
+
 priceBaseTab.dynamicForm.fields = BaseFormItems.concat([
     {
         name: "id",
@@ -44,20 +57,20 @@ priceBaseTab.dynamicForm.fields = BaseFormItems.concat([
             switch (elementId) {
 
                 case 1:
-                    form.getItem("financeUnitId").setValue(32);
-                    form.getItem("weightUnitId").setValue(30);
+                    form.getItem("financeUnitId").setValue(-32);
+                    form.getItem("weightUnitId").setValue(-11);
                     break;
                 case 2:
-                    form.getItem("financeUnitId").setValue(32);
-                    form.getItem("weightUnitId").setValue(30);
+                    form.getItem("financeUnitId").setValue(-32);
+                    form.getItem("weightUnitId").setValue(-1);
                     break;
                 case 3:
-                    form.getItem("financeUnitId").setValue(32);
-                    form.getItem("weightUnitId").setValue(31);
+                    form.getItem("financeUnitId").setValue(-32);
+                    form.getItem("weightUnitId").setValue(-11);
                     break;
                 case 4:
-                    form.getItem("financeUnitId").setValue(32);
-                    form.getItem("weightUnitId").setValue(31);
+                    form.getItem("financeUnitId").setValue(-32);
+                    form.getItem("weightUnitId").setValue(-1);
                     break;
             }
         }

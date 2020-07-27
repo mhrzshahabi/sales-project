@@ -434,7 +434,8 @@ const rdTab = {
                     showEdges: false,
                     edgeImage: "",
                     width: "100%",
-                    alignLayout: "center",
+                    height: "100%",
+                    alignLayout: "bottom",
                     padding: 10,
                     membersMargin: 10,
                     members: [
@@ -658,6 +659,7 @@ const rdTab = {
 ////////////////////////////////////////////////////////METHODS/////////////////////////////////////////////////////////
 rdTab.Methods.RecordDoubleClick = function (url, items, recordString, viewer, record, recordNum, field, fieldNum, value, rawValue) {
     let form;
+    let vLayout;
     const window1 = isc.Window.create({
         width: .2 * window.innerWidth,
         // height: .2 * window.innerHeight,
@@ -673,10 +675,11 @@ rdTab.Methods.RecordDoubleClick = function (url, items, recordString, viewer, re
 
     });
     window1.setMembers(
-        [isc.VLayout.create({
+        [vLayout = isc.VLayout.create({
             height: "100%",
             members: [
                 form = isc.DynamicForm.create({
+                    height: "100%",
                     items: items,
                 }),
                 rdTab.Methods.HlayoutSaveOrExit(function () {
@@ -693,11 +696,14 @@ rdTab.Methods.RecordDoubleClick = function (url, items, recordString, viewer, re
         })]
     );
     if (recordString) {
-        if (Object.keys(record).contains('remittanceDetails'))
+        if (Object.keys(record).contains('remittanceDetails')) {
             form.setValues(record['remittanceDetails'][0][recordString]);
+        }
         form.setValues(record[recordString]);
     } else form.setValues(record);
     window1.show();
+    window[window1.getID() + "_body"].setHeight(0);
+
 }
 rdTab.Methods.RecordDoubleClickRD = function (viewer, record, recordNum, field, fieldNum, value, rawValue) {
     const fields = rdTab.Fields.RemittanceDetail().map(t => {
@@ -1540,7 +1546,7 @@ rdTab.Layouts.ToolStripButtons.PDF = {
     }
 };
 rdTab.Layouts.ToolStripButtons.New = isc.ToolStripButtonAdd.create({
-    visibility: "hidden",
+    // visibility: "hidden",
     ID: "new_bijak" + Math.random().toString().substr(3, 5),
     title: 'ایجاد بیجک خروجی',
     click() {
@@ -1637,7 +1643,9 @@ rdTab.Layouts.ToolStripButtons.New = isc.ToolStripButtonAdd.create({
                         selectRd = isc.ListGrid.create({
                             ...rdTab.Grids.RemittanceDetail,
                             fields: [
-                                {name: "remittance.code"}, {name: "remittance.description"}, ...rdTab.Fields.RemittanceDetailFullFields().map(f => {
+                                {name: "remittance.code", title: "شماره بیچک"},
+                                {name: "remittance.description", title: "شرح بیجک"},
+                                ...rdTab.Fields.RemittanceDetailFullFields().map(f => {
                                     const showFields = {
                                         "remittance.code": {},
                                         "remittance.description": {},
@@ -1769,6 +1777,7 @@ rdTab.Layouts.ToolStripButtons.New = isc.ToolStripButtonAdd.create({
         });
         rdTab.Grids.RemittanceDetailOutRemittance = isc.ListGrid.create({
             canRemoveRecords: true,
+            deferRemoval: false,
             canEdit: true,
             editEvent: "doubleClick",
             autoSaveEdits: false,
@@ -1902,7 +1911,7 @@ isc.VLayout.create({
         isc.ToolStrip.create({
             members: [
                 isc.ToolStripButtonRemove.create({
-                    title: "حذف کامل بیجک ورودی",
+                    title: "حذف کامل بیجک",
                     click() {
                         isc.Dialog.create({
                             title: "هشدار",

@@ -137,6 +137,7 @@ function onWayProductCreateRemittance(criteriaBuildForListGrid) {
             {
                 name: "unit",
                 type: "number",
+                required: true,
                 title: "واحدشمارش بسته کالا(ورق،بشکه،تن،..)",
                 valueMap: SalesBaseParameters.getSavedUnitParameter().filter(u => u.categoryUnit.toLowerCase() === EnumCategoryUnit.string.Weight.toLowerCase()).getValueMap('id', 'nameFA'),
                 defaultValue: StorageUtil.get('DynamicForm_warehouseCAD_owp' + ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord()['codeKala'].toString()),
@@ -560,8 +561,8 @@ function onWayProductCreateRemittance(criteriaBuildForListGrid) {
                         editEvent: "click",
                         editByCell: true,
                         canRemoveRecords: true,
-                        autoSaveEdits: false,
                         deferRemoval: false,
+                        autoSaveEdits: false,
                         saveLocally: true,
                         showGridSummary: true,
                         // visibility: 'hidden',
