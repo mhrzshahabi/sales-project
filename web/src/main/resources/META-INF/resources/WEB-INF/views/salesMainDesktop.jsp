@@ -1048,8 +1048,7 @@
             financialTab,
             // inspectionTab,
             productTab,
-            reportTab,
-            settingTab,
+            reportTab
         ]
     });
 
