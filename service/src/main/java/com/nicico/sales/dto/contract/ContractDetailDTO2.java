@@ -1,7 +1,6 @@
 package com.nicico.sales.dto.contract;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.nicico.sales.model.entities.contract.ContractDetailValue;
 import com.nicico.sales.model.enumeration.EStatus;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -23,8 +22,6 @@ public class ContractDetailDTO2 {
     private Long contractId;
     private Long contractDetailTypeId;
 
-    private List<ContractDetailValueDTO.Info> contractDetailValues;
-
     @Getter
     @Setter
     @Accessors(chain = true)
@@ -34,6 +31,7 @@ public class ContractDetailDTO2 {
         private Long id;
 
         private ContractDetailTypeDTO.Info contractDetailType;
+        private List<ContractDetailValueDTO.Info> contractDetailValues;
 
         // Auditing
         private Date createdDate;
@@ -52,6 +50,7 @@ public class ContractDetailDTO2 {
     @Accessors(chain = true)
     @ApiModel("ContractDetailCreateRq")
     public static class Create extends ContractDetailDTO2 {
+        private List<ContractDetailValueDTO.Create> contractDetailValues;
     }
 
     @Getter
@@ -61,6 +60,7 @@ public class ContractDetailDTO2 {
     public static class Update extends ContractDetailDTO2 {
 
         private ContractDetailTypeDTO.Update contractDetailType;
+        private List<ContractDetailValueDTO.Update> contractDetailValues;
 
         @NotNull
         @ApiModelProperty(required = true)

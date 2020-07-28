@@ -249,7 +249,7 @@ namespace nicico {
                     autoCenter: true,
                     showModalMask: true,
                     dismissOnEscape: true,
-                    dismissOnOutsideClick: true,
+                    dismissOnOutsideClick: false,
                     title: title,
                     // @ts-ignore
                     closeClick: function () {

@@ -219,11 +219,15 @@ contractTab.dynamicForm.fields.contractDetailType = {
             field.name = param.key;
             field.key = param.key;
             field.title = param.name;
-            field.type = param.type;
+            field.paramType = param.type;
             field.defaultValue = param.defaultValue;
             field.required = param.required;
+
+            Object.assign(field, getParamEditorProperties(field.paramType));
+
             fields.push(field);
         })
+        console.log(fields);
         if (contractTab.contractDetailsSectionStack.getSectionNames().includes(value))
             return;
         contractTab.contractDetailsSectionStack.addSection({
@@ -342,22 +346,27 @@ contractTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
                 let data = contractTab.dynamicForm.contract.getValues();
 
                 data.contractDetails = [];
-                data.contractDetails.contractDetailValues = [];
                 contractTab.contractDetailsSectionStack.sections.forEach(q => {
-                    data.contractDetails.push({
+                    var contractDetailObj = {
                         contractDetailTypeId: q.name,
                         id: q.contractDetailId,
-                        contractDetailValues: q.items[0].fields.filter(x => x.isBaseItem == undefined).forEach((x, index) => {
-                            data.contractDetails.contractDetailValues.push({
-                                name: x.name,
-                                key: x.name,
-                                type: x.type,
-                                value: q.items[0].values[Object.keys(q.items[0].values)[index]],
-                                // column: "",
-                                contractDetailId: q.contractDetailId
-                            });
-                        })
+                        contractDetailValues: []
+                    };
+
+                    q.items[0].fields.filter(x => x.isBaseItem == undefined).forEach((x, index) => {
+                        contractDetailObj.contractDetailValues.push({
+                            id: x.contractDetailValueId,
+                            name: x.name,
+                            key: x.name,
+                            type: x.paramType,
+                            value: q.items[0].values[x.name],
+                            contractDetailId: q.contractDetailId,
+                            estatus: x.estatus,
+                            editable: x.editable
+                            // column: ""
+                        });
                     });
+                    data.contractDetails.push(contractDetailObj);
                 });
 
                 console.log(data);
@@ -424,18 +433,25 @@ contractTab.method.editData = function () {
         contractTab.dynamicForm.contract.editRecord(JSON.parse(JSON.stringify(record)));
 
         contractTab.contractDetailsSectionStack.getSectionNames().forEach(q => contractTab.contractDetailsSectionStack.removeSection(q + ""));
+
         record.contractDetails.forEach(q => {
             var fields = [];
-            q.contractDetailType.contractDetailTypeParams.forEach(param => {
+            q.contractDetailType.contractDetailTypeParams.forEach((param, index) => {
                 var field = {
                     width: "10%",
                 };
                 field.name = param.key;
                 field.key = param.key;
                 field.title = param.name;
-                field.type = param.type;
-                field.defaultValue = param.defaultValue;
+                field.paramType = param.type;
+                field.defaultValue = q.contractDetailValues[index].value;
                 field.required = param.required;
+                field.contractDetailValueId = q.contractDetailValues[index].id;
+                field.estatus = q.contractDetailValues[index].estatus;
+                field.editable = q.contractDetailValues[index].editable;
+
+                Object.assign(field, getParamEditorProperties(field.paramType));
+
                 fields.push(field);
             })
 
@@ -479,6 +495,55 @@ contractTab.method.editData = function () {
         contractTab.window.show();
     }
 };
+
+function getParamEditorProperties(paramType) {
+    switch (paramType) {
+        case 'PersianDate':
+            return {
+                length: 10,
+                textAlign: "center",
+                type: 'text',
+                icons: [persianDatePicker]
+            };
+        case 'GeorgianDate':
+            return {
+                type: "date",
+                textAlign: "center",
+                format: 'dd/MM/YYYY'
+            };
+        case 'Boolean':
+            return {
+                type: "boolean"
+            };
+        case 'BigDecimal':
+        case 'Float':
+        case 'Double':
+            return {
+                type: "float",
+                keyPressFilter: "[0-9.]"
+            };
+        case 'Integer':
+        case 'Long':
+            return {
+                type: "integer",
+                keyPressFilter: "[0-9]"
+            };
+        case 'String':
+            return {
+                type: "text",
+            };
+        case 'Reference':
+            return {
+                type: "integer"
+            };
+        case 'Column':
+        default:
+            break;
+    }
+
+    return null;
+}
+
 contractTab.method.refreshData = function () {
     contractTab.listGrid.contract.invalidateCache();
 };

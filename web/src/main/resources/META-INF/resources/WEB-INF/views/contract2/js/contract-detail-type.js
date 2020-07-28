@@ -501,7 +501,7 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
                 return {
                     length: 10,
                     textAlign: "center",
-                    type: 'persianDate',
+                    type: 'text',
                     icons: [persianDatePicker]
                 };
             case 'GeorgianDate':

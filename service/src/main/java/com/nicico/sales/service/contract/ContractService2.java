@@ -7,12 +7,14 @@ import com.nicico.sales.annotation.Action;
 import com.nicico.sales.dto.contract.ContractContactDTO;
 import com.nicico.sales.dto.contract.ContractDTO2;
 import com.nicico.sales.dto.contract.ContractDetailDTO2;
+import com.nicico.sales.dto.contract.ContractDetailValueDTO;
 import com.nicico.sales.enumeration.ActionType;
 import com.nicico.sales.enumeration.ErrorType;
 import com.nicico.sales.exception.NotFoundException;
 import com.nicico.sales.exception.SalesException2;
 import com.nicico.sales.iservice.contract.IContractContactService;
 import com.nicico.sales.iservice.contract.IContractDetailService2;
+import com.nicico.sales.iservice.contract.IContractDetailValueService;
 import com.nicico.sales.iservice.contract.IContractService2;
 import com.nicico.sales.model.entities.contract.Contract2;
 import com.nicico.sales.model.entities.contract.ContractDetail2;
@@ -37,6 +39,7 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
 
     private final IContractContactService contractContactService;
     private final IContractDetailService2 contractDetailService;
+    private final IContractDetailValueService contractDetailValueService;
     private final UpdateUtil updateUtil;
     private final ResourceBundleMessageSource messageSource;
 
@@ -67,8 +70,20 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
             final List<ContractDetailDTO2.Create> contractDetailsRqs = modelMapper.map(request.getContractDetails(), new TypeToken<List<ContractDetailDTO2.Create>>() {
             }.getType());
             contractDetailsRqs.forEach(q -> {
+                List<ContractDetailValueDTO.Create> contractDetailValues = q.getContractDetailValues();
+                q.setContractDetailValues(null); //don't want to use CascadeType.ALL
                 q.setContractId(savedContract2.getId());
-                contractDetailService.create(q);
+                ContractDetailDTO2.Info savedContractDetail = contractDetailService.create(q);
+
+                if (contractDetailValues != null && contractDetailValues.size() > 0) {
+                    List<ContractDetailValueDTO.Create> contractDetailValueRqs = modelMapper.map(contractDetailValues, new TypeToken<List<ContractDetailValueDTO.Create>>() {
+                    }.getType());
+                    contractDetailValueRqs.forEach(x -> {
+                        x.setContractDetailId(savedContractDetail.getId());
+                        contractDetailValueService.create(x);
+                    });
+                }
+
             });
         }
 
@@ -150,6 +165,11 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
         if (!contractDetail4Insert.isEmpty()) {
             contractDetail4Insert.forEach(q -> q.setContractId(contract2.getId()));
             contractDetailService.createAll(contractDetail4Insert);
+        }
+        //because ContractDetail to ContractDetailValue : CascadeType.ALL
+        if (!contractDetail4Update.isEmpty()) {
+            contractDetail4Update.forEach(q -> q.setContractId(contract2.getId()));
+            contractDetailService.updateAll(contractDetail4Update);
         }
         if (!contractDetail4Delete.getIds().isEmpty())
             contractDetailService.deleteAll(contractDetail4Delete);
