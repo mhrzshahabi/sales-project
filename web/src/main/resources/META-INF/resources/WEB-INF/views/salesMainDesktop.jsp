@@ -16,7 +16,6 @@
     <link rel="stylesheet" href="<spring:url value='/static/css/smartStyle.css' />"/>
     <link rel="stylesheet" href="<spring:url value='/static/css/calendar.css' />"/>
     <link rel="stylesheet" href='<spring:url value="/static/css/commonStyle.css"/>'/>
-    <link rel="stylesheet" href='<spring:url value="/static/css/OAManagementUsers.css"/>'/>
 
     <script src="<spring:url value='/static/script/js/calendar.js'/>"></script>
     <script src="<spring:url value='/static/script/js/jalali-moment.browser.js'/>"></script>
@@ -699,14 +698,6 @@
                 ]
             })
         ]
-    });
-
-    /*----------------------settingTab------------------------*/
-    settingTab = isc.ToolStripMenuButton.create({
-        title: "&nbsp; <spring:message code='main.settingTab'/>",
-        click: function () {
-            createTab("<spring:message code='main.settingTab'/>", "<spring:url value="web/oauth/landing/show-form" />", false);
-        }
     });
 
     /*----------------------contractsTab------------------------*/
