@@ -220,14 +220,15 @@ contractTab.dynamicForm.fields.contractDetailType = {
             field.key = param.key;
             field.title = param.name;
             field.paramType = param.type;
+            field.reference = param.reference;
             field.defaultValue = param.defaultValue;
             field.required = param.required;
 
-            Object.assign(field, getParamEditorProperties(field.paramType));
+            Object.assign(field, getParamEditorProperties(field.paramType, field.reference));
 
             fields.push(field);
         })
-        console.log(fields);
+
         if (contractTab.contractDetailsSectionStack.getSectionNames().includes(value))
             return;
         contractTab.contractDetailsSectionStack.addSection({
@@ -369,8 +370,6 @@ contractTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
                     data.contractDetails.push(contractDetailObj);
                 });
 
-                console.log(data);
-
                 isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                     actionURL: contractTab.variable.url,
                     httpMethod: contractTab.variable.method,
@@ -444,13 +443,14 @@ contractTab.method.editData = function () {
                 field.key = param.key;
                 field.title = param.name;
                 field.paramType = param.type;
+                field.reference = param.reference;
                 field.defaultValue = q.contractDetailValues[index].value;
                 field.required = param.required;
                 field.contractDetailValueId = q.contractDetailValues[index].id;
                 field.estatus = q.contractDetailValues[index].estatus;
                 field.editable = q.contractDetailValues[index].editable;
 
-                Object.assign(field, getParamEditorProperties(field.paramType));
+                Object.assign(field, getParamEditorProperties(field.paramType, field.reference));
 
                 fields.push(field);
             })
@@ -496,7 +496,7 @@ contractTab.method.editData = function () {
     }
 };
 
-function getParamEditorProperties(paramType) {
+function getParamEditorProperties(paramType, reference) {
     switch (paramType) {
         case 'PersianDate':
             return {
@@ -534,9 +534,48 @@ function getParamEditorProperties(paramType) {
             };
         case 'Reference':
             return {
-                type: "integer"
+                width: "100%",
+                type: "integer",
+                editorType: "SelectItem",
+                valueField: "id",
+                autoFetchData: false,
+                optionDataSource: isc.MyRestDataSource.create({
+                    fields: [
+                        {name: "id", title: "id", primaryKey: true, hidden: true},
+                        {name: "port"}
+                    ],
+                    fetchDataURL: "${contextPath}/api/" + reference.toLowerCase() + "/spec-list"
+                }),
+                displayField: getDisplayField(reference)
             };
         case 'Column':
+        default:
+            break;
+    }
+
+    return null;
+}
+
+function getDisplayField(referenceType) {
+    switch (referenceType) {
+        case 'Bank':
+            return 'bankName';
+        case 'Contact':
+            return 'nameFA';
+        case 'Country':
+            return 'nameFa';
+        case 'Currency':
+            return 'nameFa';
+        case 'Material':
+            return 'descp';
+        case 'Port':
+            return 'port';
+        case 'Unit':
+            return 'nameFA';
+        case 'RateReference':
+            return '';
+        case 'PriceBaseReference':
+            return '';
         default:
             break;
     }
