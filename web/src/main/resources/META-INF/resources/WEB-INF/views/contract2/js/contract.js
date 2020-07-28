@@ -357,8 +357,10 @@ contractTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
                             id: x.contractDetailValueId,
                             name: x.name,
                             key: x.name,
+                            reference: x.reference,
                             type: x.paramType,
                             value: q.items[0].values[x.name],
+                            unitId: x.unitId,
                             contractDetailId: q.contractDetailId,
                             estatus: x.estatus,
                             editable: x.editable
