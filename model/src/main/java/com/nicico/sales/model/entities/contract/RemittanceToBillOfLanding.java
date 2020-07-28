@@ -22,7 +22,7 @@ import java.util.Date;
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
 @Table(name = "TBL_CNTR_REMITTANCE_TO_BILL_OF_LANDING")
-public class RemittanceToBL extends BaseEntity {
+public class RemittanceToBillOfLanding extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_REMITTANCE_TO_BILL_OF_LANDING")
