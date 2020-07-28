@@ -1,0 +1,97 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+    <changeSet author="MShahabi" id="1799887766554-027">
+        <createSequence sequenceName="SEQ_SHIPMENT_COST_INVOICE"/>
+    </changeSet>
+
+    <changeSet author="MShahabi" id="1799887766554-028">
+        <createTable tableName="TBL_SHIPMENT_COST_INVOICE">
+            <column name="id" type="NUMBER(19, 0)">
+                <constraints primaryKey="true" primaryKeyName="TBL_SHIPMENT_COST_INVOICEPK"/>
+            </column>
+            <column name="c_created_by" type="VARCHAR2(255 CHAR)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="d_created_date" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
+            <column name="d_last_modified_date" type="TIMESTAMP"/>
+            <column name="n_version" type="NUMBER(10, 0)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueNumeric="1" name="N_E_STATUS" type="NUMBER">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueNumeric="1" name="B_EDITABLE" type="NUMBER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="F_BUYER_CONTACT_ID" type="NUMBER(19, 0)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="N_BUYER_SHARE" type="FLOAT(24)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="N_C_VAT" type="NUMBER(19, 2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="F_CONTRACT_ID" type="NUMBER(19, 0)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="D_CONVERSION_DATE" type="TIMESTAMP"/>
+            <column name="N_CONVERSION_RATE" type="NUMBER(10, 5)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="F_CONVERSION_REF_ID" type="NUMBER(19, 0)"/>
+            <column name="N_CONVERSION_SUM_PRICE" type="NUMBER(18, 6)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="N_CONVERSION_SUM_PRICE_BUYER_SHARE" type="NUMBER(18, 6)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="N_CONVERSION_SUM_PRICE_SELLER_SHARE" type="NUMBER(18, 6)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="C_CONVERSION_SUM_PRICE_TEXT" type="VARCHAR2(255 CHAR)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="C_DESCRIPTION" type="VARCHAR2(4000 CHAR)"/>
+            <column name="F_FINANCE_UNIT_ID" type="NUMBER(19, 0)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="D_INVOICE_DATE" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="C_INVOICE_NO" type="VARCHAR2(255 CHAR)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="C_INVOICE_NO_PAPER" type="VARCHAR2(255 CHAR)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="F_INVOICE_TYPE_ID" type="NUMBER(19, 0)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="N_REFERENCE_ID" type="NUMBER(19, 0)"/>
+            <column name="N_RIAL_PRICE" type="NUMBER(18, 6)"/>
+            <column name="F_SELLER_CONTACT_ID" type="NUMBER(19, 0)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="N_SUM_PRICE" type="NUMBER(18, 6)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="N_SUM_PRICE_WITH_DISCOUNT" type="NUMBER(18, 6)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="N_SUM_PRICE_WITH_VAT" type="NUMBER(18, 6)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="N_T_VAT" type="NUMBER(19, 2)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>

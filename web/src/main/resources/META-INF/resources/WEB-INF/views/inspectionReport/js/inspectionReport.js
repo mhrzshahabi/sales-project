@@ -1060,6 +1060,7 @@ inspectionReportTab.method.setAssayElementListRows = function (selectedInventori
                         if (inspectionReportTab.listGrid.assayElement.getField(n).versions.length > index)
                             inspectionReportTab.listGrid.assayElement.getField(n).versions = [];
 
+                        // inspectionReportTab.listGrid.assayElement.setEditValue(index, 1, c.inventoryId);
                         inspectionReportTab.listGrid.assayElement.setEditValue(index, n, c.value);
                         inspectionReportTab.listGrid.assayElement.getField(n).ids.add(c.id);
                         inspectionReportTab.listGrid.assayElement.getField(n).versions.add(c.version);
@@ -1149,7 +1150,7 @@ inspectionReportTab.window.inspecReport.populateData = function (bodyWidget) {
             assayInspectionObj.materialElementId = bodyWidget.members.get(2).tabs.get(1).pane.members.get(1).fields.get(i).meId;
             assayInspectionObj.inventoryId = assayRecord.inventoryId;
 
-            // console.log("assayInspectionObj" + JSON.stringify(assayInspectionObj));
+            console.log("assayInspectionObj" + JSON.stringify(assayInspectionObj));
             assayInspectionRecord.push(assayInspectionObj);
         }
     });
