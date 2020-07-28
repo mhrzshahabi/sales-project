@@ -58,8 +58,10 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
 
         createContractContacts(savedContract2.getId(), request.getBuyerId(), CommercialRole.Buyer);
         createContractContacts(savedContract2.getId(), request.getSellerId(), CommercialRole.Seller);
-        createContractContacts(savedContract2.getId(), request.getAgentBuyerId(), CommercialRole.AgentBuyer);
-        createContractContacts(savedContract2.getId(), request.getAgentSellerId(), CommercialRole.AgentSeller);
+        if (request.getAgentBuyerId() != null)
+            createContractContacts(savedContract2.getId(), request.getAgentBuyerId(), CommercialRole.AgentBuyer);
+        if (request.getAgentSellerId() != null)
+            createContractContacts(savedContract2.getId(), request.getAgentSellerId(), CommercialRole.AgentSeller);
 
         savedContract2.setBuyerId(request.getBuyerId());
         savedContract2.setSellerId(request.getSellerId());

@@ -155,7 +155,6 @@ contractTab.dynamicForm.fields.agentBuyer = {
     autoFetchData: false,
     displayField: "nameEN",
     valueField: "id",
-    required: true,
     title: "<spring:message code='contact.commercialRole.agentBuyer'/>"
 };
 contractTab.dynamicForm.fields.agentSeller = {
@@ -181,7 +180,6 @@ contractTab.dynamicForm.fields.agentSeller = {
     autoFetchData: false,
     displayField: "nameEN",
     valueField: "id",
-    required: true,
     title: "<spring:message code='contact.commercialRole.agentSeller'/>"
 };
 
@@ -214,7 +212,7 @@ contractTab.dynamicForm.fields.contractDetailType = {
         var fields = [];
         record.contractDetailTypeParams.forEach(param => {
             var field = {
-                width: "10%",
+                width: param.width,
             };
             field.name = param.key;
             field.key = param.key;
@@ -435,20 +433,20 @@ contractTab.method.editData = function () {
 
         record.contractDetails.forEach(q => {
             var fields = [];
-            q.contractDetailType.contractDetailTypeParams.forEach((param, index) => {
+            q.contractDetailType.contractDetailValues.forEach(detailValue => {
                 var field = {
-                    width: "10%",
+                    width: detailValue.width,
                 };
-                field.name = param.key;
-                field.key = param.key;
-                field.title = param.name;
-                field.paramType = param.type;
-                field.reference = param.reference;
-                field.defaultValue = q.contractDetailValues[index].value;
-                field.required = param.required;
-                field.contractDetailValueId = q.contractDetailValues[index].id;
-                field.estatus = q.contractDetailValues[index].estatus;
-                field.editable = q.contractDetailValues[index].editable;
+                field.name = detailValue.key;
+                field.key = detailValue.key;
+                field.title = detailValue.name;
+                field.paramType = detailValue.type;
+                field.reference = detailValue.reference;
+                field.defaultValue = detailValue.value;
+                field.required = detailValue.required;
+                field.contractDetailValueId = detailValue.id;
+                field.estatus = detailValue.estatus;
+                field.editable = detailValue.editable;
 
                 Object.assign(field, getParamEditorProperties(field.paramType, field.reference));
 
