@@ -21,7 +21,7 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(value = "/api/bill-of-landing")
+@RequestMapping(value = "/api/remittance-to-bill-of-landing")
 public class RemittanceToBillOfLandingController {
 
     private final IRemittanceToBillOfLandingService service;
