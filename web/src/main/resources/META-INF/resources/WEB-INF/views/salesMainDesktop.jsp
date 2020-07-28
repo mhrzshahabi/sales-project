@@ -1264,7 +1264,9 @@
         });
         Object.freeze(EnumCategoryUnit);
     }))
-
+    function dbg(...args) {
+        console.debug(...args)
+    }
 </script>
 </body>
 </html>
