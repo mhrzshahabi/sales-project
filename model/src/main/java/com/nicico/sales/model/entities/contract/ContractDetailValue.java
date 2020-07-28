@@ -43,8 +43,10 @@ public class ContractDetailValue extends BaseEntity {
     @Column(name = "N_TYPE", nullable = false)
     private DataType type;
 
-    @NotEmpty
-    @Column(name = "C_VALUE", nullable = false)
+    @Column(name = "C_REFERENCE")
+    private String reference;
+
+    @Column(name = "C_VALUE")
     private String value;
 
     @Column(name = "C_COLUMN")
