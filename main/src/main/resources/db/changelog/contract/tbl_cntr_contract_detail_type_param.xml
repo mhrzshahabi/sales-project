@@ -21,14 +21,4 @@
         </addColumn>
     </changeSet>
 
-    <changeSet author="Reza Mazloom" id="mazloom_009">
-        <dropNotNullConstraint tableName="TBL_CNTR_CONTRACT_DETAIL_VALUE" columnName="C_VALUE"/>
-    </changeSet>
-
-    <changeSet author="Reza Mazloom" id="mazloom_026">
-        <addColumn tableName="TBL_CNTR_CONTRACT_DETAIL_VALUE_AUD">
-            <column name="C_REFERENCE" type="varchar2(255 CHAR)"/>
-        </addColumn>
-    </changeSet>
-
 </databaseChangeLog>

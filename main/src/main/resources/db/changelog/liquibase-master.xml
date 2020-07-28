@@ -49,6 +49,7 @@
     <include file="classpath:/db/changelog/tbl_warh_material_element.xml"/>
     <include file="classpath:/db/changelog/tbl_shipment_cost_invoice.xml"/>
     <include file="classpath:/db/changelog/tbl_shipment_cost_invoice_detail.xml"/>
+    <include file="classpath:/db/changelog/contract/tbl_cntr_contract_detail_value.xml"/>
 
     <!--	<include file="classpath:/db/changelog/view_tozin.xml"/>-->
     <!--	<include file="classpath:/db/changelog/view_tozin_m.xml"/>-->

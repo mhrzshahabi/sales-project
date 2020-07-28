@@ -26,6 +26,7 @@ public class ContractDetailValueDTO {
     private String reference;
     private String value;
     private String column;
+    private Boolean required;
 
     @Transient
     private Integer width = 100;

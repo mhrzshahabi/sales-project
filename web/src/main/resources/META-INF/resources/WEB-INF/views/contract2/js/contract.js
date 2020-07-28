@@ -352,7 +352,7 @@ contractTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
                         contractDetailValues: []
                     };
 
-                    q.items[0].fields.filter(x => x.isBaseItem == undefined).forEach((x, index) => {
+                    q.items[0].fields.filter(x => x.isBaseItem == undefined).forEach(x => {
                         contractDetailObj.contractDetailValues.push({
                             id: x.contractDetailValueId,
                             name: x.name,
@@ -361,6 +361,7 @@ contractTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
                             type: x.paramType,
                             value: q.items[0].values[x.name],
                             unitId: x.unitId,
+                            required: (x.required == undefined) ? false : x.required,
                             contractDetailId: q.contractDetailId,
                             estatus: x.estatus,
                             editable: x.editable
@@ -435,7 +436,7 @@ contractTab.method.editData = function () {
 
         record.contractDetails.forEach(q => {
             var fields = [];
-            q.contractDetailType.contractDetailValues.forEach(detailValue => {
+            q.contractDetailValues.forEach(detailValue => {
                 var field = {
                     width: detailValue.width,
                 };
