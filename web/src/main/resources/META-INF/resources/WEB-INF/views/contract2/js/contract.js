@@ -228,9 +228,9 @@ contractTab.dynamicForm.fields.contractDetailType = {
             dynamicFormFields.push(field);
         });
 
-        record.contractDetailTypeParams.filter(param => param.type == "ListOfReference").forEach(param => {
-            this.generateListGridFields(param.reference);
-        });
+        // record.contractDetailTypeParams.filter(param => param.type == "ListOfReference").forEach(param => {
+        //     this.generateListGridFields(param.reference);
+        // });
 
         if (contractTab.contractDetailsSectionStack.getSectionNames().includes(value))
             return;
@@ -279,7 +279,7 @@ contractTab.dynamicForm.fields.contractDetailType = {
                     alternateRecordStyles: true,
                     selectionType: "single",
                     sortDirection: "ascending",
-                    fields: [],
+                    fields: this.generateListGridFields('ContractShipment'),
                     canEdit: true,
                     editEvent: "doubleClick",
                     autoSaveEdits: false,
@@ -331,7 +331,7 @@ contractTab.dynamicForm.fields.contractDetailType = {
                         name: "loadPortId",
                         title: "<spring:message code='shipment.loading'/>",
                         editorType: "SelectItem",
-                        optionDataSource: RestDataSource_Port,
+                        optionDataSource: getParamEditorProperties('Reference','Port'),
                         displayField: "port",
                         valueField: "id",
                         width: "10%",
@@ -668,7 +668,7 @@ function getParamEditorProperties(paramType, reference) {
                 optionDataSource: isc.MyRestDataSource.create({
                     fields: [
                         {name: "id", title: "id", primaryKey: true, hidden: true},
-                        {name: "port"}
+                        {name: getDisplayField(reference)}
                     ],
                     fetchDataURL: "${contextPath}/api/" + reference.toLowerCase() + "/spec-list"
                 }),
