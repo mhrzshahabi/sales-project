@@ -16,20 +16,23 @@ namespace nicico {
 
     export class BasicFormUtil {
 
-        // static createListGrid
+        static createListGrid(listgridElement): void {
+            // @ts-ignore
+            listgridElement = isc.ListGrid.nicico.getDefault(creator.listGrid.fields, creator.restDataSource.main, creator.listGrid.criteria);
+        }
 
         static getDefaultBasicForm(creator: JSPTabVariable, restControllerUrl: string): isc.VLayout {
 
             // @ts-ignore
-            creator.variable.url += restControllerUrl.replaceAll(new RegExp("^/|/$"),'') + '/';
+            creator.variable.url += restControllerUrl.replaceAll(new RegExp("^/|/$"), '') + '/';
             // @ts-ignore
             creator.dynamicForm.main = isc.DynamicForm.nicico.getDefault(creator.dynamicForm.fields);
             // @ts-ignore
             creator.dynamicForm.main.hide();
             // @ts-ignore
             creator.restDataSource.main = isc.RestDataSource.nicico.getDefault(creator.variable.url + "spec-list", creator.listGrid.fields, creator.method.transformRequest);
-            // @ts-ignore
-            creator.listGrid.main = isc.ListGrid.nicico.getDefault(creator.listGrid.fields, creator.restDataSource.main, creator.listGrid.criteria);
+
+            this.createListGrid(creator.listGrid["main"]);
             // <c:if test = "${u_entity}">
             // @ts-ignore
             creator.listGrid.main.recordDoubleClick = function (viewer, record, recordNum, field, fieldNum, value, rawValue) {
@@ -46,7 +49,7 @@ namespace nicico {
                     {
                         icon: "pieces/16/refresh.png",
                         title: '<spring:message code="global.form.refresh"/>',
-                        click: function() {
+                        click: function () {
                             // @ts-ignore
                             creator.method.refresh(creator.listGrid.main)
                         }
@@ -55,7 +58,7 @@ namespace nicico {
                     {
                         icon: "pieces/16/icon_add.png",
                         title: '<spring:message code="global.form.new"/>',
-                        click: function() {
+                        click: function () {
                             // @ts-ignore
                             creator.method.newForm('<spring:message code="global.form.new"/>', creator.listGrid.main, creator.dynamicForm.main)
                         }
@@ -65,7 +68,7 @@ namespace nicico {
                     {
                         icon: "pieces/16/icon_edit.png",
                         title: "<spring:message code='global.form.edit'/>",
-                        click: function() {
+                        click: function () {
                             // @ts-ignore
                             creator.method.editForm('<spring:message code="global.form.edit"/>', creator.listGrid.main, creator.dynamicForm.main)
                         }
@@ -75,7 +78,7 @@ namespace nicico {
                     {
                         icon: "pieces/16/icon_delete.png",
                         title: '<spring:message code="global.form.remove"/>',
-                        click: function() {
+                        click: function () {
                             // @ts-ignore
                             creator.method.delete(creator.listGrid.main)
                         }
@@ -95,7 +98,7 @@ namespace nicico {
                     // @ts-ignore
                     isc.ToolStripButtonAdd.create({
                         title: "<spring:message code='global.form.new'/>",
-                        click: function() {
+                        click: function () {
                             // @ts-ignore
                             creator.method.newForm('<spring:message code="global.form.new"/>', creator.listGrid.main, creator.dynamicForm.main)
                         }
@@ -106,7 +109,7 @@ namespace nicico {
                     isc.ToolStripButtonEdit.create({
                         icon: "[SKIN]/actions/edit.png",
                         title: "<spring:message code='global.form.edit'/>",
-                        click: function() {
+                        click: function () {
                             // @ts-ignore
                             creator.method.editForm('<spring:message code="global.form.edit"/>', creator.listGrid.main, creator.dynamicForm.main)
                         }
@@ -117,7 +120,7 @@ namespace nicico {
                     isc.ToolStripButtonRemove.create({
                         icon: "[SKIN]/actions/remove.png",
                         title: "<spring:message code='global.form.remove'/>",
-                        click: function() {
+                        click: function () {
                             // @ts-ignore
                             creator.method.delete(creator.listGrid.main)
                         }
@@ -132,7 +135,7 @@ namespace nicico {
                                 // @ts-ignore
                                 isc.ToolStripButtonRefresh.create({
                                     title: "<spring:message code='global.form.refresh'/>",
-                                    click: function() {
+                                    click: function () {
                                         // @ts-ignore
                                         creator.method.refresh(creator.listGrid.main)
                                     }

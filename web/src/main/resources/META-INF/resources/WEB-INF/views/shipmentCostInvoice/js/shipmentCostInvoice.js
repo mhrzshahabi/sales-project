@@ -762,29 +762,28 @@ shipmentCostInvoiceTab.listGrid.fields = [
     }
 ];
 
+nicico.BasicFormUtil.createListGrid = function(listgridElement) {
+    listgridElement = isc.ListGrid.nicico.getDefault(shipmentCostInvoiceTab.listGrid.fields,
+        shipmentCostInvoiceTab.restDataSource.shipmentCostInvoice, null, {
+            // showFilterEditor: true,
+            // canAutoFitFields: true,
+            width: "100%",
+            height: "80%",
+            // autoFetchData: true,
+            // styleName: 'expandList',
+            // alternateRecordStyles: true,
+            // canExpandRecords: true,
+            // canExpandMultipleRecords: false,
+            // wrapCells: false,
+            // showRollOver: false,
+            // showRecordComponents: true,
+            // showRecordComponentsByCell: true,
+            // autoFitExpandField: true,
+            // virtualScrolling: true,
+            // loadOnExpand: true,
+            // loaded: false,
+            // sortField: 2
+        }
+    );
+};
 nicico.BasicFormUtil.getDefaultBasicForm(shipmentCostInvoiceTab, "api/shipmentCostInvoice/");
-
-shipmentCostInvoiceTab.vLayout.main.addMember(isc.ListGrid.nicico.getDefault(shipmentCostInvoiceTab.listGrid.fields,
-    shipmentCostInvoiceTab.restDataSource.shipmentCostInvoice, null, {
-        // showFilterEditor: true,
-        // canAutoFitFields: true,
-        width: "100%",
-        height: "80%",
-        // autoFetchData: true,
-        // styleName: 'expandList',
-        // alternateRecordStyles: true,
-        // canExpandRecords: true,
-        // canExpandMultipleRecords: false,
-        // wrapCells: false,
-        // showRollOver: false,
-        // showRecordComponents: true,
-        // showRecordComponentsByCell: true,
-        // autoFitExpandField: true,
-        // virtualScrolling: true,
-        // loadOnExpand: true,
-        // loaded: false,
-        // sortField: 2
-    }
-));
-shipmentCostInvoiceTab.vLayout.main.redraw();
-shipmentCostInvoiceTab.listGrid.main = shipmentCostInvoiceTab.vLayout.main.members[1];

@@ -11,6 +11,10 @@ var nicico;
     var BasicFormUtil = /** @class */ (function () {
         function BasicFormUtil() {
         }
+        BasicFormUtil.createListGrid = function (listgridElement) {
+            // @ts-ignore
+            listgridElement = isc.ListGrid.nicico.getDefault(creator.listGrid.fields, creator.restDataSource.main, creator.listGrid.criteria);
+        };
         BasicFormUtil.getDefaultBasicForm = function (creator, restControllerUrl) {
             // @ts-ignore
             creator.variable.url += restControllerUrl.replaceAll(new RegExp("^/|/$"), '') + '/';
@@ -20,8 +24,7 @@ var nicico;
             creator.dynamicForm.main.hide();
             // @ts-ignore
             creator.restDataSource.main = isc.RestDataSource.nicico.getDefault(creator.variable.url + "spec-list", creator.listGrid.fields, creator.method.transformRequest);
-            // @ts-ignore
-            creator.listGrid.main = isc.ListGrid.nicico.getDefault(creator.listGrid.fields, creator.restDataSource.main, creator.listGrid.criteria);
+            this.createListGrid(creator.listGrid["main"]);
             // <c:if test = "${u_entity}">
             // @ts-ignore
             creator.listGrid.main.recordDoubleClick = function (viewer, record, recordNum, field, fieldNum, value, rawValue) {
