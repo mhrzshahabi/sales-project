@@ -408,14 +408,13 @@ foreignInvoiceTab.button.save = isc.IButtonSave.create({
             // });
             // foreignInvoiceTab.method.addTab(invoiceDeductionComponent, '<spring:message code="foreign-invoice.form.tab.deduction"/>');
 
-            //
             // let invoiceCalculationComponent = isc.InvoiceCalculation.create({
             //
             //     currency: foreignInvoiceTab.dynamicForm.valuesManager.getValue("currency"),
             //     invoiceBaseAssayComponent: invoiceBaseValuesComponent.invoiceBaseAssayComponent,
             //     invoiceBasePriceComponent: invoiceBaseValuesComponent.invoiceBasePriceComponent
             // });
-            //  foreignInvoiceTab.method.addTab(InvoiceCalculation2, '<spring:message code="foreign-invoice.form.tab.calculation"/>');
+            //  foreignInvoiceTab.method.addTab(invoiceCalculationComponent, '<spring:message code="foreign-invoice.form.tab.calculation"/>');
 
             // foreignInvoiceTab.method.addTab(isc.InvoicePayment.create({
             //     currency: foreignInvoiceTab.dynamicForm.valuesManager.getValue("currency"),
