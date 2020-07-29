@@ -211,11 +211,17 @@
                 length: "200",
                 errorOrientation: "bottom",
                 width: 500,
+                keyPressFilter : "[^\\s]+$",
                 validators: [
                     {
                         type: "required",
                         validateOnChange: true
-                    }]
+                    },
+                    {
+                      type: "regexp",
+                      expression: "^[\u0600-\u06FF\uFB8A\u067E\u0686\u06AF\u200C\u200F|a-zA-Z]*$",
+                      validateOnChange: true
+                    } ]
             },
             {
                 name: "jobTitle",
@@ -224,7 +230,19 @@
                 length: "200",
                 type: 'text',
                 width: 500,
-                wrapTitle: false
+                wrapTitle: false,
+                keyPressFilter : "[^\\s]+$",
+                validators: [
+                    {
+                        type: "required",
+                        validateOnChange: true
+                    },
+                    {
+                      type: "regexp",
+                      expression: "^[\u0600-\u06FF\uFB8A\u067E\u0686\u06AF\u200C\u200F|a-zA-Z]*$",
+                      validateOnChange: true
+                    }
+                ]
             },
             {
                 name: "title",hidden: true,
@@ -869,10 +887,6 @@
                     members: [hLayoutViewLoader]
                 });
                 return layoutPerson;
-            },
-            recordClick: function(viewer, record, recordNum, field, fieldNum, value, rawValue) {
-                formEdit.editSelectedData(listGrid);
-                formView.editSelectedData(listGrid);
             },
             sortField: 2,
             sortDirection: "descending",
