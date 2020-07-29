@@ -46,6 +46,9 @@ public class ContractDetailValue extends BaseEntity {
     @Column(name = "C_REFERENCE")
     private String reference;
 
+    @Column(name = "B_REQUIRED", nullable = false)
+    private Boolean required;
+
     @Column(name = "C_VALUE")
     private String value;
 

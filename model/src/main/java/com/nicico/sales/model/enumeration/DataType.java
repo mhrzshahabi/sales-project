@@ -15,7 +15,8 @@ public enum DataType {
     Long(7),
     String(8),
     Column(9),
-    Reference(10);
+    Reference(10),
+    ListOfReference(11);
 
     private final Integer id;
 }
