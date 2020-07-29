@@ -762,13 +762,13 @@ shipmentCostInvoiceTab.listGrid.fields = [
     }
 ];
 
-nicico.BasicFormUtil.createListGrid = function(listgridElement) {
-    listgridElement = isc.ListGrid.nicico.getDefault(shipmentCostInvoiceTab.listGrid.fields,
+nicico.BasicFormUtil.createListGrid = function() {
+
+    shipmentCostInvoiceTab.listGrid.main = isc.ListGrid.nicico.getDefault(shipmentCostInvoiceTab.listGrid.fields,
         shipmentCostInvoiceTab.restDataSource.shipmentCostInvoice, null, {
             // showFilterEditor: true,
             // canAutoFitFields: true,
             width: "100%",
-            height: "80%",
             // autoFetchData: true,
             // styleName: 'expandList',
             // alternateRecordStyles: true,

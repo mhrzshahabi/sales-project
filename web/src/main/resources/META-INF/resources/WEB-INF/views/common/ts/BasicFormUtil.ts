@@ -16,79 +16,7 @@ namespace nicico {
 
     export class BasicFormUtil {
 
-        static createListGrid(listgridElement): void {
-            // @ts-ignore
-            listgridElement = isc.ListGrid.nicico.getDefault(creator.listGrid.fields, creator.restDataSource.main, creator.listGrid.criteria);
-        }
-
-        static getDefaultBasicForm(creator: JSPTabVariable, restControllerUrl: string): isc.VLayout {
-
-            // @ts-ignore
-            creator.variable.url += restControllerUrl.replaceAll(new RegExp("^/|/$"), '') + '/';
-            // @ts-ignore
-            creator.dynamicForm.main = isc.DynamicForm.nicico.getDefault(creator.dynamicForm.fields);
-            // @ts-ignore
-            creator.dynamicForm.main.hide();
-            // @ts-ignore
-            creator.restDataSource.main = isc.RestDataSource.nicico.getDefault(creator.variable.url + "spec-list", creator.listGrid.fields, creator.method.transformRequest);
-
-            this.createListGrid(creator.listGrid["main"]);
-            // <c:if test = "${u_entity}">
-            // @ts-ignore
-            creator.listGrid.main.recordDoubleClick = function (viewer, record, recordNum, field, fieldNum, value, rawValue) {
-                // @ts-ignore
-                creator.method.editForm('<spring:message code="global.form.edit"/>', creator.listGrid.main, creator.dynamicForm.main)
-            }
-            // </c:if>
-
-            // @ts-ignore
-            creator.menu.main = isc.Menu.create({
-
-                width: 150,
-                data: [
-                    {
-                        icon: "pieces/16/refresh.png",
-                        title: '<spring:message code="global.form.refresh"/>',
-                        click: function () {
-                            // @ts-ignore
-                            creator.method.refresh(creator.listGrid.main)
-                        }
-                    },
-                    // <c:if test = "${c_entity}">
-                    {
-                        icon: "pieces/16/icon_add.png",
-                        title: '<spring:message code="global.form.new"/>',
-                        click: function () {
-                            // @ts-ignore
-                            creator.method.newForm('<spring:message code="global.form.new"/>', creator.listGrid.main, creator.dynamicForm.main)
-                        }
-                    },
-                    // </c:if>
-                    // <c:if test = "${u_entity}">
-                    {
-                        icon: "pieces/16/icon_edit.png",
-                        title: "<spring:message code='global.form.edit'/>",
-                        click: function () {
-                            // @ts-ignore
-                            creator.method.editForm('<spring:message code="global.form.edit"/>', creator.listGrid.main, creator.dynamicForm.main)
-                        }
-                    },
-                    // </c:if>
-                    // <c:if test = "${d_entity}">
-                    {
-                        icon: "pieces/16/icon_delete.png",
-                        title: '<spring:message code="global.form.remove"/>',
-                        click: function () {
-                            // @ts-ignore
-                            creator.method.delete(creator.listGrid.main)
-                        }
-                    }
-                    // </c:if>
-                ]
-            });
-            // @ts-ignore
-            isc.Canvas.nicico.changeProperties(creator.listGrid.main, "contextMenu", creator.menu.main);
-
+        static createToolStrip(creator): void {
             // @ts-ignore
             creator.toolStrip.main = isc.ToolStrip.create({
                 width: "100%",
@@ -144,7 +72,75 @@ namespace nicico {
                         })
                 ]
             });
+        }
 
+        static createRestDataSource(creator): void {
+            // @ts-ignore
+            creator.restDataSource.main = isc.RestDataSource.nicico.getDefault(creator.variable.url + "spec-list", creator.listGrid.fields, creator.method.transformRequest);
+        }
+
+        static createListGrid(creator): void {
+            // @ts-ignore
+            creator.listGrid.main = isc.ListGrid.nicico.getDefault(creator.listGrid.fields, creator.restDataSource.main, creator.listGrid.criteria);
+        }
+
+        static createListGridMenu(creator): void {
+            // @ts-ignore
+            creator.menu.main = isc.Menu.create({
+                width: 150,
+                data: [
+                    {
+                        icon: "pieces/16/refresh.png",
+                        title: '<spring:message code="global.form.refresh"/>',
+                        click: function () {
+                            // @ts-ignore
+                            creator.method.refresh(creator.listGrid.main)
+                        }
+                    },
+                    // <c:if test = "${c_entity}">
+                    {
+                        icon: "pieces/16/icon_add.png",
+                        title: '<spring:message code="global.form.new"/>',
+                        click: function () {
+                            // @ts-ignore
+                            creator.method.newForm('<spring:message code="global.form.new"/>', creator.listGrid.main, creator.dynamicForm.main)
+                        }
+                    },
+                    // </c:if>
+                    // <c:if test = "${u_entity}">
+                    {
+                        icon: "pieces/16/icon_edit.png",
+                        title: "<spring:message code='global.form.edit'/>",
+                        click: function () {
+                            // @ts-ignore
+                            creator.method.editForm('<spring:message code="global.form.edit"/>', creator.listGrid.main, creator.dynamicForm.main)
+                        }
+                    },
+                    // </c:if>
+                    // <c:if test = "${d_entity}">
+                    {
+                        icon: "pieces/16/icon_delete.png",
+                        title: '<spring:message code="global.form.remove"/>',
+                        click: function () {
+                            // @ts-ignore
+                            creator.method.delete(creator.listGrid.main)
+                        }
+                    }
+                    // </c:if>
+                ]
+            });
+            // @ts-ignore
+            isc.Canvas.nicico.changeProperties(creator.listGrid.main, "contextMenu", creator.menu.main);
+        }
+
+        static createDynamicForm(creator): void {
+            // @ts-ignore
+            creator.dynamicForm.main = isc.DynamicForm.nicico.getDefault(creator.dynamicForm.fields);
+            // @ts-ignore
+            creator.dynamicForm.main.hide();
+        }
+
+        static createVLayout(creator): void {
             // @ts-ignore
             creator.vLayout.main = isc.VLayout.create({
 
@@ -152,6 +148,26 @@ namespace nicico {
                 // @ts-ignore
                 members: [creator.toolStrip.main, creator.listGrid.main]
             });
+        }
+
+        static getDefaultBasicForm(creator: JSPTabVariable, restControllerUrl: string): isc.VLayout {
+
+            // @ts-ignore
+            creator.variable.url += restControllerUrl.replaceAll(new RegExp("^/|/$"), '') + '/';
+
+            this.createDynamicForm(creator);
+            this.createRestDataSource(creator);
+            this.createListGrid(creator);
+            // <c:if test = "${u_entity}">
+            // @ts-ignore
+            creator.listGrid.main.recordDoubleClick = function (viewer, record, recordNum, field, fieldNum, value, rawValue) {
+                // @ts-ignore
+                creator.method.editForm('<spring:message code="global.form.edit"/>', creator.listGrid.main, creator.dynamicForm.main)
+            }
+            // </c:if>
+            this.createListGridMenu(creator);
+            this.createToolStrip(creator);
+            this.createVLayout(creator);
 
             // @ts-ignore
             return creator.vLayout.main;
