@@ -2,6 +2,19 @@
 <databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+    <changeSet author="Abiz" id="AZAARE-001">
+        <addColumn tableName="TBL_CONTACT">
+            <column name="C_POSTAL_CODE" type="varchar2(200 CHAR)"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="Abiz" id="AZAARE-002">
+        <addColumn tableName="TBL_CONTACT">
+            <column name="C_REGISTER_NUMBER" type="varchar2(200 CHAR)"/>
+        </addColumn>
+    </changeSet>
+
     <changeSet author="j.azad" id="J.AZAD-001">
         <addColumn tableName="TBL_CONTACT_ACCOUNT">
             <column name="C_BANK_ACCOUNT" type="varchar2(200 CHAR)"/>
