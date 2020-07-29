@@ -4,8 +4,14 @@ shipmentCostInvoiceTab.variable.invoiceTypeUrl = "${contextPath}" + "/api/invoic
 shipmentCostInvoiceTab.variable.contactUrl = "${contextPath}" + "/api/contact/";
 shipmentCostInvoiceTab.variable.unitUrl = "${contextPath}" + "/api/unit/";
 shipmentCostInvoiceTab.variable.conversionRefUrl = "${contextPath}" + "/api/currencyRate/";
+shipmentCostInvoiceTab.variable.shipmentCostInvoice = "${contextPath}" + "/api/shipmentCostInvoice/";
 shipmentCostInvoiceTab.variable.shipmentCostInvoiceDetail = "${contextPath}" + "/api/shipmentCostInvoiceDetail/";
+shipmentCostInvoiceTab.variable.percentPerYearRest = "${contextPath}" + "/api/percentPerYear/";
 
+shipmentCostInvoiceTab.variable.today = new Date();
+shipmentCostInvoiceTab.variable.year = shipmentCostInvoiceTab.variable.today.getFullYear();
+shipmentCostInvoiceTab.variable.tVatPercent = 6;
+shipmentCostInvoiceTab.variable.cVatPercent = 3;
 
 //***************************************************** RESTDATASOURCE *************************************************
 
@@ -41,6 +47,91 @@ shipmentCostInvoiceTab.restDataSource.unitRest = isc.MyRestDataSource.create({
 
 });
 
+shipmentCostInvoiceTab.restDataSource.shipmentCostInvoice = isc.MyRestDataSource.create({
+
+    fields: [
+        {
+            name: "id", primaryKey: true, canEdit: false, hidden: true
+        },
+        {
+            name: "referenceId", title: "<spring:message code='shipmentCostInvoice.referenceId'/>"
+        },
+        {
+            name: "invoiceDate", title: "<spring:message code='shipmentCostInvoice.invoiceDate'/>"
+        },
+        {
+            name: "invoiceNoPaper", title: "<spring:message code='shipmentCostInvoice.invoiceNoPaper'/>"
+        },
+        {
+            name: "invoiceNo", title: "<spring:message code='shipmentCostInvoice.invoiceNo'/>"
+        },
+        {
+            name: "tVat", title: "<spring:message code='shipmentCostInvoice.tVat'/>"
+        },
+        {
+            name: "tVat", title: "<spring:message code='shipmentCostInvoice.tVat'/>"
+        },
+        {
+            name: "sumPrice", title: "<spring:message code='shipmentCostInvoice.sumPrice'/>"
+        },
+        {
+            name: "sumPriceWithDiscount", title: "<spring:message code='shipmentCostInvoice.sumPriceWithDiscount'/>"
+        },
+        {
+            name: "sumPriceWithVat", title: "<spring:message code='shipmentCostInvoice.sumPriceWithVat'/>"
+        },
+        {
+            name: "rialPrice", title: "<spring:message code='shipmentCostInvoice.rialPrice'/>"
+        },
+        {
+            name: "conversionDate", title: "<spring:message code='shipmentCostInvoice.conversionDate'/>"
+        },
+        {
+            name: "conversionRate", title: "<spring:message code='shipmentCostInvoice.conversionRate'/>"
+        },
+        {
+            name: "conversionSumPrice", title: "<spring:message code='shipmentCostInvoice.conversionSumPrice'/>"
+        },
+        {
+            name: "conversionSumPriceText", title: "<spring:message code='shipmentCostInvoice.conversionSumPriceText'/>"
+        },
+        {
+            name: "buyerShare", title: "<spring:message code='shipmentCostInvoice.buyerShare'/>"
+        },
+        {
+            name: "conversionSumPriceBuyerShare",
+            title: "<spring:message code='shipmentCostInvoice.conversionSumPriceBuyerShare'/>"
+        },
+        {
+            name: "conversionSumPriceSellerShare",
+            title: "<spring:message code='shipmentCostInvoice.conversionSumPriceSellerShare'/>"
+        },
+        {
+            name: "description", title: "<spring:message code='shipmentCostInvoice.description'/>"
+        },
+        {
+            name: "invoiceType", title: "<spring:message code='shipmentCostInvoice.invoiceTypeId'/>"
+        },
+        {
+            name: "conversionRef", title: "<spring:message code='shipmentCostInvoice.conversionRefId'/>"
+        },
+        {
+            name: "sellerContact", title: "<spring:message code='shipmentCostInvoice.sellerContactId'/>"
+        },
+        {
+            name: "buyerContact", title: "<spring:message code='shipmentCostInvoice.buyerContactId'/>"
+        },
+        {
+            name: "financeUnit", title: "<spring:message code='shipmentCostInvoice.financeUnitId'/>"
+        },
+        {
+            name: "contract", title: "<spring:message code='shipmentCostInvoice.contractId'/>"
+        }
+    ],
+    fetchDataURL: shipmentCostInvoiceTab.variable.shipmentCostInvoice + "spec-list"
+
+});
+
 shipmentCostInvoiceTab.restDataSource.shipmentCostInvoiceDetail = isc.MyRestDataSource.create({
 
     fields: [
@@ -66,7 +157,8 @@ shipmentCostInvoiceTab.restDataSource.shipmentCostInvoiceDetail = isc.MyRestData
             name: "discountPrice", title: "<spring:message code='shipmentCostInvoiceDetail.discountPrice'/>"
         },
         {
-            name: "sumPriceWithDiscount", title: "<spring:message code='shipmentCostInvoiceDetail.sumPriceWithDiscount'/>"
+            name: "sumPriceWithDiscount",
+            title: "<spring:message code='shipmentCostInvoiceDetail.sumPriceWithDiscount'/>"
         },
         {
             name: "tVatPrice", title: "<spring:message code='shipmentCostInvoiceDetail.tVatPrice'/>"
@@ -88,6 +180,25 @@ shipmentCostInvoiceTab.restDataSource.shipmentCostInvoiceDetail = isc.MyRestData
 
 });
 
+shipmentCostInvoiceTab.restDataSource.percentPerYearRest = isc.MyRestDataSource.create({
+    fields: [
+        {
+            name: "id", primaryKey: true, canEdit: false, hidden: true
+        },
+        {
+            name: "year", title: "year"
+        },
+        {
+            name: "tVat", title: "tVat"
+        },
+        {
+            name: "cVat", title: "cVat"
+        }
+    ],
+    fetchDataURL: shipmentCostInvoiceTab.variable.percentPerYearRest + "spec-list"
+
+});
+
 let sellerCriteria = {
     _constructor: "AdvancedCriteria",
     operator: "and",
@@ -105,6 +216,22 @@ let financeUnitCriteria = {
     operator: "and",
     criteria: [{fieldName: "categoryUnit", operator: "equals", value: 0}]
 };
+
+shipmentCostInvoiceTab.method.setVATs = function (year) {
+
+    let percentCriteria = {
+        _constructor: "AdvancedCriteria",
+        operator: "and",
+        criteria: [{fieldName: "year", operator: "equals", value: year}]
+    };
+
+    shipmentCostInvoiceTab.restDataSource.percentPerYearRest.fetchData(percentCriteria, function (dsResponse, data, dsRequest) {
+        shipmentCostInvoiceTab.variable.cVatPercent = data[0].cVat;
+        shipmentCostInvoiceTab.variable.tVatPercent = data[0].tVat;
+    });
+
+};
+
 
 //***************************************************** MAINWINDOW *************************************************
 
@@ -160,7 +287,16 @@ shipmentCostInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
         title: "<spring:message code='shipmentCostInvoice.invoiceDate'/>",
         type: "date",
         wrapTitle: false,
-        colSpan: 4
+        colSpan: 4,
+        blur: function (form, item) {
+
+            shipmentCostInvoiceTab.variable.today = item.getValue();
+            shipmentCostInvoiceTab.variable.year = shipmentCostInvoiceTab.variable.today.getFullYear();
+            shipmentCostInvoiceTab.method.setVATs(shipmentCostInvoiceTab.variable.year);
+            form.setValue("tVat", shipmentCostInvoiceTab.variable.tVatPercent);
+            form.setValue("cVat", shipmentCostInvoiceTab.variable.cVatPercent);
+
+        },
     },
     {
         name: "invoiceNoPaper",
@@ -264,13 +400,16 @@ shipmentCostInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
         name: "tVat",
         title: "<spring:message code='shipmentCostInvoice.tVat'/>",
         wrapTitle: false,
-        type: "staticText"
+        type: "staticText",
+        defaultValue: shipmentCostInvoiceTab.variable.tVatPercent
+
     },
     {
         name: "cVat",
         title: "<spring:message code='shipmentCostInvoice.cVat'/>",
         wrapTitle: false,
-        type: "staticText"
+        type: "staticText",
+        defaultValue: shipmentCostInvoiceTab.variable.cVatPercent
     },
     {
         name: "financeUnitId",
@@ -343,7 +482,6 @@ shipmentCostInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
             if (!value || !form.getValue("financeUnitId")) return;
             if (form.getValue("financeUnitId") === form.getValue("toFinanceUnitId")) {
 
-                // form.setValue("toFinanceUnitId", null);
                 form.setValue("conversionDate", form.getValue("invoiceDate"));
                 form.setValue("conversionRate", 1);
                 form.getItem("conversionRefId").canEdit = false;
@@ -547,6 +685,34 @@ shipmentCostInvoiceTab.method.newForm = function () {
 
 //***************************************************** MAINLISTGRID *************************************************
 
+// creator.listGrid.main = isc.ListGrid.nicico.getDefault(creator.listGrid.fields, creator.restDataSource.main, creator.listGrid.criteria);
+
+
+// shipmentCostInvoiceTab.listGrid.main = isc.ListGrid.create({
+//     showFilterEditor: true,
+//     canAutoFitFields: true,
+//     width: "100%",
+//     height: "100%",
+//     dataSource: shipmentCostInvoiceTab.restDataSource.shipmentCostInvoice,
+//     autoFetchData: true,
+//     styleName: 'expandList',
+//     alternateRecordStyles: true,
+//     canExpandRecords: true,
+//     canExpandMultipleRecords: false,
+//     wrapCells: false,
+//     showRollOver: false,
+//     showRecordComponents: true,
+//     showRecordComponentsByCell: true,
+//     autoFitExpandField: true,
+//     virtualScrolling: true,
+//     loadOnExpand: true,
+//     loaded: false,
+//     sortField: 2,
+//     fields: shipmentCostInvoiceTab.listGrid.fields,
+//     getExpansionComponent: function (record) {
+//     }
+// });
+
 shipmentCostInvoiceTab.listGrid.fields = [
     {
         name: "id",
@@ -597,3 +763,28 @@ shipmentCostInvoiceTab.listGrid.fields = [
 ];
 
 nicico.BasicFormUtil.getDefaultBasicForm(shipmentCostInvoiceTab, "api/shipmentCostInvoice/");
+
+shipmentCostInvoiceTab.vLayout.main.addMember(isc.ListGrid.nicico.getDefault(shipmentCostInvoiceTab.listGrid.fields,
+    shipmentCostInvoiceTab.restDataSource.shipmentCostInvoice, null, {
+        // showFilterEditor: true,
+        // canAutoFitFields: true,
+        width: "100%",
+        height: "80%",
+        // autoFetchData: true,
+        // styleName: 'expandList',
+        // alternateRecordStyles: true,
+        // canExpandRecords: true,
+        // canExpandMultipleRecords: false,
+        // wrapCells: false,
+        // showRollOver: false,
+        // showRecordComponents: true,
+        // showRecordComponentsByCell: true,
+        // autoFitExpandField: true,
+        // virtualScrolling: true,
+        // loadOnExpand: true,
+        // loaded: false,
+        // sortField: 2
+    }
+));
+shipmentCostInvoiceTab.vLayout.main.redraw();
+shipmentCostInvoiceTab.listGrid.main = shipmentCostInvoiceTab.vLayout.main.members[1];

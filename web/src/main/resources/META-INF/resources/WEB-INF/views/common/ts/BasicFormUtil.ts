@@ -16,6 +16,8 @@ namespace nicico {
 
     export class BasicFormUtil {
 
+        // static createListGrid
+
         static getDefaultBasicForm(creator: JSPTabVariable, restControllerUrl: string): isc.VLayout {
 
             // @ts-ignore
