@@ -250,7 +250,7 @@ shipmentCostInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
         wrapTitle: false,
         editorType: "SelectItem",
         valueField: "id",
-        displayField: "nameFA",
+        displayField: "title",
         pickListWidth: "500",
         pickListHeight: "300",
         optionDataSource: isc.MyRestDataSource.create({
@@ -301,12 +301,15 @@ shipmentCostInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
     {
         name: "invoiceNoPaper",
         title: "<spring:message code='shipmentCostInvoice.invoiceNoPaper'/>",
+        required: true,
         wrapTitle: false
     },
     {
         name: "invoiceNo",
         title: "<spring:message code='shipmentCostInvoice.invoiceNo'/>",
-        wrapTitle: false
+        required: true,
+        wrapTitle: false,
+        // canEdit: false
     },
     {
         name: "sellerContactId",
@@ -399,6 +402,7 @@ shipmentCostInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
     {
         name: "tVat",
         title: "<spring:message code='shipmentCostInvoice.tVat'/>",
+        required: true,
         wrapTitle: false,
         type: "staticText",
         defaultValue: shipmentCostInvoiceTab.variable.tVatPercent
@@ -407,6 +411,7 @@ shipmentCostInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
     {
         name: "cVat",
         title: "<spring:message code='shipmentCostInvoice.cVat'/>",
+        required: true,
         wrapTitle: false,
         type: "staticText",
         defaultValue: shipmentCostInvoiceTab.variable.cVatPercent
@@ -447,7 +452,7 @@ shipmentCostInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
     {
         name: "toFinanceUnitId",
         title: "<spring:message code='shipmentCostInvoice.toFinanceUnit'/>",
-        required: true,
+        // required: true,
         wrapTitle: false,
         autoFetchData: false,
         editorType: "SelectItem",
@@ -471,11 +476,11 @@ shipmentCostInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
                 align: "center"
             },
         ],
-        validators: [
+        /*validators: [
             {
                 type: "required",
                 validateOnChange: true
-            }],
+            }],*/
         changed: function (form, item, value) {
 
             form.getItem("conversionRefId").canEdit = true;
@@ -528,7 +533,9 @@ shipmentCostInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
     {
         name: "conversionRate",
         // title: "<spring:message code='shipmentCostInvoice.cVat'/>",
-        hidden: true
+        required: true,
+        hidden: true,
+        defaultValue: 1
     },
     {
         type: "RowSpacerItem"
@@ -548,8 +555,7 @@ shipmentCostInvoiceTab.dynamicForm.shipmentCost = isc.DynamicForm.create({
 });
 
 shipmentCostInvoiceTab.listGrid.shipmentCostDetail = isc.ListGrid.create({
-    // width: "100%",
-    // height: "100%",
+    width: "100%",
     sortField: 1,
     showRowNumbers: true,
     canAutoFitFields: false,
@@ -559,8 +565,8 @@ shipmentCostInvoiceTab.listGrid.shipmentCostDetail = isc.ListGrid.create({
     dataSource: shipmentCostInvoiceTab.restDataSource.shipmentCostInvoiceDetail,
     canEdit: true,
     editEvent: "doubleClick",
-    autoSaveEdits: true,
-    saveLocally: true,
+    // autoSaveEdits: true,
+    // saveLocally: true,
     showRecordComponents: true,
     showRecordComponentsByCell: true,
     canRemoveRecords: true,
@@ -670,13 +676,79 @@ shipmentCostInvoiceTab.listGrid.shipmentCostDetail = isc.ListGrid.create({
 shipmentCostInvoiceTab.window.shipmentCost = new nicico.FormUtil();
 shipmentCostInvoiceTab.window.shipmentCost.init(null, '<spring:message code="shipmentCostInvoice.title"/>', isc.VLayout.create({
     width: "100%",
-    height: "500",
+    height: "600",
     align: "center",
     members: [
         shipmentCostInvoiceTab.dynamicForm.shipmentCost,
         shipmentCostInvoiceTab.listGrid.shipmentCostDetail
     ]
 }), "1200", "60%");
+
+shipmentCostInvoiceTab.window.shipmentCost.populateData = function (bodyWidget) {
+
+    //////////////// DynamicForm ///////////////
+    var shipmentCostObj = bodyWidget.members.get(0).getValues();
+
+     //////////////// ListGrid ///////////////
+    let shipmentCostInvoiceDetails = [];
+    // bodyWidget.members.get(1).selectAllRecords();
+    bodyWidget.members.get(1).getAllEditRows().forEach(function (current) {
+
+        let record = bodyWidget.members.get(1).getEditedRecord(current);
+        console.log("record : " + JSON.stringify(record));
+        // let shipmentCostDetailObj = record.getValues();
+        let shipmentCostDetailObj = {};
+        shipmentCostDetailObj.id = record.id;
+        shipmentCostDetailObj.serviceCode = record.serviceCode;
+        shipmentCostDetailObj.serviceName = record.serviceName;
+        shipmentCostDetailObj.quantity = record.quantity;
+        shipmentCostDetailObj.unitPrice = record.unitPrice;
+        shipmentCostDetailObj.sumPrice = record.sumPrice;
+        shipmentCostDetailObj.discountPrice = record.discountPrice;
+        shipmentCostDetailObj.sumPriceWithDiscount = record.sumPriceWithDiscount;
+        shipmentCostDetailObj.tVatPrice = record.tVatPrice;
+        shipmentCostDetailObj.cVatPrice = record.cVatPrice;
+        shipmentCostDetailObj.sumVatPrice = record.sumVatPrice;
+        shipmentCostDetailObj.sumPriceWithVat = record.sumPriceWithVat;
+        shipmentCostDetailObj.shipmentCostInvoiceId = record.shipmentCostInvoiceId;
+
+        console.log("shipmentCostDetailObj" + JSON.stringify(shipmentCostDetailObj));
+        shipmentCostInvoiceDetails.push(shipmentCostDetailObj);
+
+    });
+
+    shipmentCostObj.shipmentCostInvoiceDetails = shipmentCostInvoiceDetails;
+    console.log("shipmentCostObj" + JSON.stringify(shipmentCostObj));
+    return shipmentCostObj;
+};
+
+shipmentCostInvoiceTab.window.shipmentCost.validate = function (data) {
+
+    shipmentCostInvoiceTab.dynamicForm.shipmentCost.validate();
+    if (shipmentCostInvoiceTab.dynamicForm.shipmentCost.hasErrors())
+        return false;
+
+    return true;
+};
+
+shipmentCostInvoiceTab.window.shipmentCost.okCallBack = function (shipmentCostObj) {
+
+    isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+            actionURL: "${contextPath}/api/shipmentCostInvoice",
+            httpMethod: shipmentCostInvoiceTab.variable.method,
+            data: JSON.stringify(shipmentCostObj),
+            callback: function (resp) {
+                if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                    isc.say("<spring:message code='global.form.request.successful'/>");
+                    shipmentCostInvoiceTab.method.refreshData();
+                    shipmentCostInvoiceTab.window.shipmentCost.close();
+                } else
+                    isc.say(RpcResponse_o.data);
+            }
+        })
+    );
+
+};
 
 shipmentCostInvoiceTab.method.newForm = function () {
     shipmentCostInvoiceTab.variable.method = "POST";
@@ -685,33 +757,127 @@ shipmentCostInvoiceTab.method.newForm = function () {
 
 //***************************************************** MAINLISTGRID *************************************************
 
-// creator.listGrid.main = isc.ListGrid.nicico.getDefault(creator.listGrid.fields, creator.restDataSource.main, creator.listGrid.criteria);
+/*shipmentCostInvoiceTab.listGrid.shipmentCostDetailMain = isc.ListGrid.create(
+        {
+            showFilterEditor: true,
+            canAutoFitFields: true,
+            width: "100%",
+            styleName: "listgrid-child",
+            height: 180,
+            dataSource: shipmentCostInvoiceTab.restDataSource.shipmentCostInvoiceDetail,
+            autoFetchData: false,
+            setAutoFitExtraRecords: true,
+            showRecordComponents: true,
+            showRecordComponentsByCell: true,
+            fields: [
+                {
+                    name: "id",
+                    hidden: true,
+                    primaryKey: true
+                },
+                {
+                    name: "serviceCode",
+                    width: "10%",
+                },
+                {
+                    name: "serviceName",
+                    width: "10%"
+                },
+                {
+                    name: "quantity",
+                    width: "10%"
+                },
+                {
+                    name: "unitPrice",
+                    width: "10%"
+                },
+                {
+                    name: "sumPrice",
+                    width: "10%"
+                },
+                {
+                    name: "sumPriceWithVat",
+                    width: "10%"
+                },
+                {
+                    name: "shipmentCostInvoiceId",
+                    type: "long",
+                    hidden: true,
+                },
+                {
+                    name: "editIcon",
+                    width: "4%",
+                    align: "center",
+                    showTitle: false
+                },
+                {
+                    name: "removeIcon",
+                    width: "4%",
+                    align: "center",
+                    showTitle: false
+                }
+            ],
+            recordDoubleClick: function (viewer, record, recordNum, field, fieldNum, value, rawValue) {
+                loadWindowFeatureList(record.shipmentCostInvoiceId)
+            },
+            /!*createRecordComponent: function (record, colNum) {
+                var fieldName = this.getFieldName(colNum);
+                var recordCanvas = isc.HLayout.create(
+                    {
+                        height: 22,
+                        width: "100%",
+                        align: "center"
+                    });
+                if (fieldName == "editIcon") {
+                    var editImg = isc.ImgButton.create(
+                        {
+                            showDown: false,
+                            showRollOver: false,
+                            layoutAlign: "center",
+                            src: "pieces/16/icon_edit.png",
+                            prompt: "ویرایش",
+                            height: 16,
+                            width: 16,
+                            grid: this,
+                            click: function () {
+                                ListGrid_InvoiceSalesItem.selectSingleRecord(record);
+                                ListGrid_InvoiceSalesItem_edit();
+                            }
+                        });
+                    return editImg;
+                }
+                else if (fieldName == "removeIcon") {
+                    var removeImg = isc.ImgButton.create(
+                        {
+                            showDown: false,
+                            showRollOver: false,
+                            layoutAlign: "center",
+                            src: "pieces/16/icon_delete.png",
+                            prompt: "حذف",
+                            height: 16,
+                            width: 16,
+                            grid: this,
+                            click: function () {
+                                ListGrid_InvoiceSalesItem.selectSingleRecord(record);
+                                ListGrid_InvoiceSalesItem_remove();
+                            }
+                        });
+                    return removeImg;
+                }
+                else {
+                    return null;
+                }
+            }*!/
 
+        });
 
-// shipmentCostInvoiceTab.listGrid.main = isc.ListGrid.create({
-//     showFilterEditor: true,
-//     canAutoFitFields: true,
-//     width: "100%",
-//     height: "100%",
-//     dataSource: shipmentCostInvoiceTab.restDataSource.shipmentCostInvoice,
-//     autoFetchData: true,
-//     styleName: 'expandList',
-//     alternateRecordStyles: true,
-//     canExpandRecords: true,
-//     canExpandMultipleRecords: false,
-//     wrapCells: false,
-//     showRollOver: false,
-//     showRecordComponents: true,
-//     showRecordComponentsByCell: true,
-//     autoFitExpandField: true,
-//     virtualScrolling: true,
-//     loadOnExpand: true,
-//     loaded: false,
-//     sortField: 2,
-//     fields: shipmentCostInvoiceTab.listGrid.fields,
-//     getExpansionComponent: function (record) {
-//     }
-// });
+shipmentCostInvoiceTab.vLayout.shipmentCostDetailMainBody = isc.VLayout.create({
+    width: "100%",
+    height: "100%",
+    members: [
+        shipmentCostInvoiceTab.listGrid.shipmentCostDetailMain
+    ]
+});*/
 
 shipmentCostInvoiceTab.listGrid.fields = [
     {
@@ -766,24 +932,65 @@ nicico.BasicFormUtil.createListGrid = function() {
 
     shipmentCostInvoiceTab.listGrid.main = isc.ListGrid.nicico.getDefault(shipmentCostInvoiceTab.listGrid.fields,
         shipmentCostInvoiceTab.restDataSource.shipmentCostInvoice, null, {
-            // showFilterEditor: true,
-            // canAutoFitFields: true,
             width: "100%",
             // autoFetchData: true,
-            // styleName: 'expandList',
-            // alternateRecordStyles: true,
-            // canExpandRecords: true,
-            // canExpandMultipleRecords: false,
-            // wrapCells: false,
-            // showRollOver: false,
-            // showRecordComponents: true,
-            // showRecordComponentsByCell: true,
-            // autoFitExpandField: true,
-            // virtualScrolling: true,
-            // loadOnExpand: true,
-            // loaded: false,
-            // sortField: 2
+            styleName: 'expandList',
+            alternateRecordStyles: true,
+            canExpandRecords: true,
+            canExpandMultipleRecords: false,
+            wrapCells: false,
+            showRollOver: false,
+            showRecordComponents: true,
+            showRecordComponentsByCell: true,
+            autoFitExpandField: true,
+            virtualScrolling: true,
+            loadOnExpand: true,
+            loaded: false,
+            /*getExpansionComponent: function (record) {
+
+                let expansionCriteria = {
+                    _constructor: "AdvancedCriteria",
+                    operator: "and",
+                    criteria: [{fieldName: "shipmentCostInvoiceId", operator: "equals", value: record.id}]
+                };
+
+                shipmentCostInvoiceTab.listGrid.shipmentCostDetailMain.fetchData(expansionCriteria, function (dsResponse, data, dsRequest) {
+                    if (data.length == 0) {
+                        recordNotFound.show();
+                        shipmentCostInvoiceTab.listGrid.shipmentCostDetailMain.hide()
+                    } else {
+                        recordNotFound.hide();
+                        shipmentCostInvoiceTab.listGrid.shipmentCostDetailMain.setData(data);
+                        shipmentCostInvoiceTab.listGrid.shipmentCostDetailMain.setAutoFitMaxRecords(1);
+                        shipmentCostInvoiceTab.listGrid.shipmentCostDetailMain.show();
+                    }
+                }, {operationId: "00"});
+
+            }*/
         }
     );
 };
+
+/*isc.SectionStack.create(
+        {
+            sections: [
+                {
+                    title: "<spring:message code='shipmentCostInvoice.title'/>",
+                    items: shipmentCostInvoiceTab.vLayout.main,
+                    showHeader: false,
+                    expanded: true
+                },
+                {
+                    title: "<spring:message code='shipmentCostInvoiceDetail.title'/>",
+                    hidden: true,
+                    items: shipmentCostInvoiceTab.vLayout.shipmentCostDetailMainBody,
+                    expanded: false
+                }],
+            visibilityMode: "multiple",
+            animateSections: true,
+            height: "100%",
+            width: "100%",
+            overflow: "hidden"
+        });*/
+
 nicico.BasicFormUtil.getDefaultBasicForm(shipmentCostInvoiceTab, "api/shipmentCostInvoice/");
