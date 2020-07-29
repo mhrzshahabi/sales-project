@@ -20,7 +20,6 @@
     <link rel="stylesheet" href="<spring:url value='/static/css/smartStyle.css' />"/>
     <link rel="stylesheet" href="<spring:url value='/static/css/calendar.css' />"/>
     <link rel="stylesheet" href='<spring:url value="/static/css/commonStyle.css"/>'/>
-    <link rel="stylesheet" href='<spring:url value="/static/css/OAManagementUsers.css"/>'/>
 
     <script src="<spring:url value='/static/script/js/calendar.js'/>"></script>
     <script src="<spring:url value='/static/script/js/jalali-moment.browser.js'/>"></script>
@@ -708,14 +707,6 @@
         ]
     });
 
-    /*----------------------settingTab------------------------*/
-    settingTab = isc.ToolStripMenuButton.create({
-        title: "&nbsp; <spring:message code='main.settingTab'/>",
-        click: function () {
-            createTab("<spring:message code='main.settingTab'/>", "<spring:url value="web/oauth/landing/show-form" />", false);
-        }
-    });
-
     /*----------------------contractsTab------------------------*/
     contractsTab = isc.ToolStripMenuButton.create({
         title: "&nbsp; <spring:message code='main.contractsTab'/>",
@@ -887,6 +878,13 @@
                     click: function () {
                         createTab("<spring:message code='inspectionReport.title'/>", "<spring:url value="/inspectionReport/show-form" />")
                     }
+                },
+                {isSeparator: true},
+                {
+                    title: "<spring:message code='shipmentCostInvoice.title'/>",
+                    click: function () {
+                        createTab("<spring:message code='shipmentCostInvoice.title'/>", "<spring:url value="/shipmentCostInvoice/show-form" />")
+                    }
                 }
             ]
         })
@@ -1057,8 +1055,7 @@
             financialTab,
             // inspectionTab,
             productTab,
-            reportTab,
-            settingTab,
+            reportTab
         ]
     });
 
