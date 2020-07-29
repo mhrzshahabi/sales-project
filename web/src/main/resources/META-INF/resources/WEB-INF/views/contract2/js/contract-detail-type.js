@@ -294,7 +294,7 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
                         contractDetailTypeTab.dialog.notSelected();
                     else if (record.editable === false)
                         contractDetailTypeTab.dialog.notEditable();
-                    else if (record.type !== 'Reference')
+                    else if (!record.type.includes('Reference'))
                         isc.Dialog.create({
                             message: "<spring:message code='contract-detail-type.window.type-must-reference'/>",
                             icon: "[SKIN]ask.png",

@@ -208,9 +208,10 @@ contractTab.dynamicForm.fields.contractDetailType = {
     required: false,
     title: "<spring:message code='entity.contract-detail-type'/>",
     changed: function (form, item, value) {
+
         var record = item.getSelectedRecord();
-        var fields = [];
-        record.contractDetailTypeParams.forEach(param => {
+        var dynamicFormFields = [];
+        record.contractDetailTypeParams.filter(param => param.type !== "ListOfReference").forEach(param => {
             var field = {
                 width: param.width,
             };
@@ -224,11 +225,17 @@ contractTab.dynamicForm.fields.contractDetailType = {
 
             Object.assign(field, getParamEditorProperties(field.paramType, field.reference));
 
-            fields.push(field);
-        })
+            dynamicFormFields.push(field);
+        });
+
+        record.contractDetailTypeParams.filter(param => param.type == "ListOfReference").forEach(param => {
+            this.generateListGridFields(param.reference);
+        });
 
         if (contractTab.contractDetailsSectionStack.getSectionNames().includes(value))
             return;
+
+        var listOfReferenceListGridId = 'listOfReferenceListGridId_' + Math.random().toString().substring(2, 8);
         contractTab.contractDetailsSectionStack.addSection({
             contractDetailId: null,
             name: value,
@@ -259,10 +266,128 @@ contractTab.dynamicForm.fields.contractDetailType = {
                     showInlineErrors: true,
                     errorOrientation: "bottom",
                     requiredMessage: '<spring:message code="validator.field.is.required"/>',
-                    fields: BaseFormItems.concat(fields, true)
+                    fields: BaseFormItems.concat(dynamicFormFields, true)
+                }),
+                isc.ListGrid.create({
+                    ID: listOfReferenceListGridId,
+                    width: "100%",
+                    height: "100%",
+                    sortField: 1,
+                    showRowNumbers: true,
+                    canAutoFitFields: false,
+                    allowAdvancedCriteria: true,
+                    alternateRecordStyles: true,
+                    selectionType: "single",
+                    sortDirection: "ascending",
+                    fields: [],
+                    canEdit: true,
+                    editEvent: "doubleClick",
+                    autoSaveEdits: false,
+                    virtualScrolling: false,
+                    showRecordComponents: true,
+                    showRecordComponentsByCell: true,
+                    recordComponentPoolingMode: "recycle",
+                    listEndEditAction: "next",
+                    canRemoveRecords: true,
+                    gridComponents: ["header", "body", isc.ToolStrip.create({
+                        width: "100%",
+                        height: 24,
+                        members: [
+                            isc.ToolStripButton.create({
+                                icon: "pieces/16/icon_add.png",
+                                title: "<spring:message code='global.add'/>",
+                                click: function () {
+                                    window[listOfReferenceListGridId].startEditingNew();
+                                }
+                            }),
+                            isc.ToolStrip.create({
+                                width: "100%",
+                                height: 24,
+                                align: 'left',
+                                border: 0,
+                                members: [
+                                    isc.ToolStripButton.create({
+                                        icon: "pieces/16/save.png",
+                                        title: "<spring:message code='global.form.save'/>",
+                                        click: function () {
+                                            window[listOfReferenceListGridId].saveAllEdits();
+                                        }
+                                    })]
+                            })
+                        ]
+                    })]
                 })
             ]
         });
+
+    },
+
+    generateListGridFields: function (referenceType) {
+        switch (referenceType) {
+            case 'ContractShipment':
+                return [
+                    {name: "id", hidden: true,},
+                    {
+                        name: "loadPortId",
+                        title: "<spring:message code='shipment.loading'/>",
+                        editorType: "SelectItem",
+                        optionDataSource: RestDataSource_Port,
+                        displayField: "port",
+                        valueField: "id",
+                        width: "10%",
+                        align: "center"
+                    },
+                    {
+                        name: "quantity",
+                        title: "<spring:message code='global.quantity'/>",
+                        width: "10%",
+                        align: "center",
+                        validators: [{
+                            type: "isFloat",
+                            validateOnChange: true
+                        }],
+                        changed: function (form, item, value) {
+                            if (ListGrid_ContractItemShipment.getEditRow() == 0) {
+                                amountSet = value;
+                                valuesManagerArticle5_quality.setValue("fullArticle5", value + "MT");
+                            }
+                        },
+
+                    },
+                    {
+                        name: "tolorance",
+                        title: "<spring:message code='contractItemShipment.tolorance'/>",
+                        keyPressFilter: "[0-9.]",
+                        width: "10%",
+                        align: "center",
+                        validators: [
+                            {
+                                type: "isInteger",
+                                validateOnChange: true,
+                                keyPressFilter: "[0-9.]"
+                            }],
+                        changed: function (form, item, value) {
+                            if (ListGrid_ContractItemShipment.getEditRow() == 0) {
+                                valuesManagerArticle5_quality.setValue("fullArticle5", amountSet + "MT" + " " + "+/-" + value + " " + valuesManagerArticle2Cad.getItem("optional").getDisplayValue(valuesManagerArticle2Cad.getValue("optional")) + " " + "PER EACH CALENDER MONTH STARTING FROM" + " " + sendDateSet + " " + "TILL");
+                            }
+                        }
+                    },
+                    {
+                        name: "sendDate",
+                        title: "<spring:message code='global.sendDate'/>",
+                        type: "date",
+                        required: false,
+                        width: "10%",
+                        wrapTitle: false,
+                        changed: function (form, item, value) {
+                            sendDateSet = (value.getFullYear() + "/" + ("0" + (value.getMonth() + 1)).slice(-2) + "/" + ("0" + value.getDate()).slice(-2));
+                        }
+                    },
+                ];
+            default:
+                break;
+        }
+        return null;
     }
 }
 
