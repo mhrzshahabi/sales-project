@@ -1,6 +1,9 @@
 package com.nicico.sales.dto.contract;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.nicico.sales.dto.RemittanceDTO;
+import com.nicico.sales.model.entities.contract.BillOfLanding;
+import com.nicico.sales.model.entities.warehouse.Remittance;
 import com.nicico.sales.model.enumeration.EStatus;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -9,6 +12,7 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -17,6 +21,17 @@ import java.util.List;
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class RemittanceToBillOfLandingDTO {
+    private Long billOfLandingId;
+
+    private Long remittanceId;
+
+    private Integer netWeight;
+
+    private Integer grossWeight;
+
+    private Integer bundlesNum;
+
+    private BigDecimal moisture;
 
 
 
@@ -27,6 +42,8 @@ public class RemittanceToBillOfLandingDTO {
     public static class Info extends RemittanceToBillOfLandingDTO {
 
         private Long id;
+        private BillOfLandingDTO.Info billOfLanding;
+        private RemittanceDTO.Info remittance;
 
         // Auditing
         private Date createdDate;

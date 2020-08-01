@@ -1,17 +1,13 @@
 package com.nicico.sales.model.entities.contract;
 
-import com.nicico.sales.model.entities.base.Contact;
-import com.nicico.sales.model.entities.base.Port;
-import com.nicico.sales.model.entities.base.Vessel;
 import com.nicico.sales.model.entities.common.BaseEntity;
 import com.nicico.sales.model.entities.warehouse.Remittance;
 import lombok.*;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
+import java.math.BigDecimal;
 
 //بارنامه
 @Getter
@@ -51,9 +47,21 @@ public class RemittanceToBillOfLanding extends BaseEntity {
             updatable = false
     )
     private Remittance remittance;
-    
+
     @NotNull
     @Column(name = "F_REMITTANCETOBL_TO_REMITTANCE")
     private Long remittanceId;
+
+    @Column(name = "N_TOTAL_NET")
+    private Integer netWeight;
+
+    @Column(name = "N_TOTAL_GROSS")
+    private Integer grossWeight;
+
+    @Column(name = "N_TOTAL_BUNDLES")
+    private Integer bundlesNum;
+
+    @Column(name = "N_MOISTURE", precision = 10, scale = 5)
+    private BigDecimal moisture;
 
 }

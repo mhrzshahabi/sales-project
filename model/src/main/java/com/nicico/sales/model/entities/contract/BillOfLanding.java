@@ -9,7 +9,6 @@ import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
@@ -205,14 +204,7 @@ public class BillOfLanding extends BaseEntity {
 
     @Column(name = "F_VESSEL", length = 4000)
     private Long oceanVesselId;
-    @Column(name = "N_TOTAL_NET")
-    private Integer totalNet;
 
-    @Column(name = "N_TOTAL_GROSS")
-    private Integer totalGross;
-
-    @Column(name = "N_TOTAL_BUNDLES")
-    private Integer totalBundles;
 
     @Column(name = "N_COPY_NUMBER_OF_BL")
     private Integer numberOfBlCopies;
@@ -222,6 +214,16 @@ public class BillOfLanding extends BaseEntity {
 
     @Column(name = "C_PLACE_OF_ISSUE")
     private String placeOfIssue;
+
+    @Column(name = "C_DESCRIPTION", length = 4000)
+    private String description;
+
+    @Column(name = "C_DESCRIPTION_REMITTANCE", length = 4000)
+    private String descriptionRemittance;
+
+    @Column(name = "C_DESCRIPTION_CONTAINER", length = 4000)
+    private String descriptionContainer;
+
 
 
 }

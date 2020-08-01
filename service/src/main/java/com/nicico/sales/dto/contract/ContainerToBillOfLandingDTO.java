@@ -1,6 +1,9 @@
 package com.nicico.sales.dto.contract;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.nicico.sales.dto.UnitDTO;
+import com.nicico.sales.model.entities.base.Unit;
+import com.nicico.sales.model.entities.contract.BillOfLanding;
 import com.nicico.sales.model.enumeration.EStatus;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -17,6 +20,21 @@ import java.util.List;
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ContainerToBillOfLandingDTO {
+    private Long billOfLandingId;
+
+    private String containerType;
+
+    private String containerNo;
+
+    private String sealNo;
+
+    private Long quantity;
+
+    private String quantityType;
+
+    private Long weight;
+
+    private Long unitId;
 
 
 
@@ -27,6 +45,8 @@ public class ContainerToBillOfLandingDTO {
     public static class Info extends ContainerToBillOfLandingDTO {
 
         private Long id;
+        private BillOfLandingDTO.Info billOfLanding;
+        private UnitDTO.Info unit;
 
         // Auditing
         private Date createdDate;
