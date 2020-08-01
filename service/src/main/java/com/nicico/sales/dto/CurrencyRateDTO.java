@@ -2,6 +2,7 @@ package com.nicico.sales.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.nicico.sales.model.enumeration.CurrencyType;
 import com.nicico.sales.model.enumeration.EStatus;
 import com.nicico.sales.model.enumeration.RateReference;
 import com.nicico.sales.model.enumeration.SymbolUnit;
@@ -31,6 +32,8 @@ public class CurrencyRateDTO {
     private SymbolUnit symbolCT;
     private RateReference reference;
     private BigDecimal currencyRateValue;
+    private CurrencyType currencyTypeFrom;
+    private CurrencyType currencyTypeTo;
 
     @Getter
     @Setter
