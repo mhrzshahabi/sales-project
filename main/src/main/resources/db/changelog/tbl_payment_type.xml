@@ -1,0 +1,92 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+    <changeSet id="1799887766554-031" author="MShahabi">
+        <sql>
+
+            insert INTO TBL_PAYMENT_TYPE (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            PAYMENT_CODE, PAYMENT_NON_CASH, PAYMENT_TYPE) VALUES (1, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 1, 0, 'نقدی');
+
+            insert INTO TBL_PAYMENT_TYPE (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            PAYMENT_CODE, PAYMENT_NON_CASH, PAYMENT_TYPE) VALUES (2, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 2, 1, 'اعتبار اسنادی بانک تجارت');
+
+            insert INTO TBL_PAYMENT_TYPE (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            PAYMENT_CODE, PAYMENT_NON_CASH, PAYMENT_TYPE) VALUES (3, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 3, 1, 'اعتبار اسنادی بانک ملی');
+
+            insert INTO TBL_PAYMENT_TYPE (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            PAYMENT_CODE, PAYMENT_NON_CASH, PAYMENT_TYPE) VALUES (4, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 4, 1, 'اعتبار اسنادی بانک ملت');
+
+            insert INTO TBL_PAYMENT_TYPE (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            PAYMENT_CODE, PAYMENT_NON_CASH, PAYMENT_TYPE) VALUES (5, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 5, 1, 'اعتبار اسنادی بانک سپه');
+
+            insert INTO TBL_PAYMENT_TYPE (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            PAYMENT_CODE, PAYMENT_NON_CASH, PAYMENT_TYPE) VALUES (6, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 6, 1, 'اعتبار اسنادی بانک صادرات');
+
+            insert INTO TBL_PAYMENT_TYPE (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            PAYMENT_CODE, PAYMENT_NON_CASH, PAYMENT_TYPE) VALUES (7, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 7, 1, 'اعتبار اسنادی بانک توسعه صادرات');
+
+            insert INTO TBL_PAYMENT_TYPE (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            PAYMENT_CODE, PAYMENT_NON_CASH, PAYMENT_TYPE) VALUES (8, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 8, 1, 'اعتبار اسنادی بانک صنعت و معدن');
+
+            insert INTO TBL_PAYMENT_TYPE (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            PAYMENT_CODE, PAYMENT_NON_CASH, PAYMENT_TYPE) VALUES (9, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 9, 1, 'اعتبار اسنادی بانک رفاه کارگران');
+
+            insert INTO TBL_PAYMENT_TYPE (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            PAYMENT_CODE, PAYMENT_NON_CASH, PAYMENT_TYPE) VALUES (10, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 10, 1, 'اعتبار اسنادی بانک کشاورزی');
+
+            insert INTO TBL_PAYMENT_TYPE (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            PAYMENT_CODE, PAYMENT_NON_CASH, PAYMENT_TYPE) VALUES (11, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 11, 1, 'اعتبار اسنادی بانک مسکن');
+
+            insert INTO TBL_PAYMENT_TYPE (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            PAYMENT_CODE, PAYMENT_NON_CASH, PAYMENT_TYPE) VALUES (12, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 12, 1, 'اعتبار اسنادی بانک سامان');
+
+            insert INTO TBL_PAYMENT_TYPE (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            PAYMENT_CODE, PAYMENT_NON_CASH, PAYMENT_TYPE) VALUES (13, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 13, 1, 'اعتبار اسنادی بانک پارسیان');
+
+            insert INTO TBL_PAYMENT_TYPE (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            PAYMENT_CODE, PAYMENT_NON_CASH, PAYMENT_TYPE) VALUES (14, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 14, 1, 'اعتبار اسنادی بانک پاسارگاد');
+
+            insert INTO TBL_PAYMENT_TYPE (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            PAYMENT_CODE, PAYMENT_NON_CASH, PAYMENT_TYPE) VALUES (15, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 15, 1, 'اعتبار اسنادی بانک کارآفرین');
+
+            insert INTO TBL_PAYMENT_TYPE (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            PAYMENT_CODE, PAYMENT_NON_CASH, PAYMENT_TYPE) VALUES (16, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 16, 1, 'اعتبار اسنادی بانک اقتصاد نوین');
+
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

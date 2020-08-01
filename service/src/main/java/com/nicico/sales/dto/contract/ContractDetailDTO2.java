@@ -30,6 +30,9 @@ public class ContractDetailDTO2 {
 
         private Long id;
 
+        private ContractDetailTypeDTO.Info contractDetailType;
+        private List<ContractDetailValueDTO.Info> contractDetailValues;
+
         // Auditing
         private Date createdDate;
         private String createdBy;
@@ -47,6 +50,7 @@ public class ContractDetailDTO2 {
     @Accessors(chain = true)
     @ApiModel("ContractDetailCreateRq")
     public static class Create extends ContractDetailDTO2 {
+        private List<ContractDetailValueDTO.Create> contractDetailValues;
     }
 
     @Getter
@@ -54,6 +58,9 @@ public class ContractDetailDTO2 {
     @Accessors(chain = true)
     @ApiModel("ContractDetailUpdateRq")
     public static class Update extends ContractDetailDTO2 {
+
+        private ContractDetailTypeDTO.Update contractDetailType;
+        private List<ContractDetailValueDTO.Update> contractDetailValues;
 
         @NotNull
         @ApiModelProperty(required = true)
