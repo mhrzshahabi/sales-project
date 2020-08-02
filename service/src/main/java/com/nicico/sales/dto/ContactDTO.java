@@ -48,6 +48,8 @@ public class ContactDTO {
     private String ceoPassportNo;
     private Long countryId;
     private Long bankId;
+    private String postalCode;
+    private String registerNumber;
 
     @Getter
     @Setter

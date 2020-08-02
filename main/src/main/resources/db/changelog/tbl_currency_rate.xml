@@ -67,4 +67,21 @@
         </addColumn>
     </changeSet>
 
+    <changeSet author="Abiz" id="AZAARE-005">
+        <addColumn tableName="TBL_CURRENCY_RATE">
+            <column name="N_CURRENCY_TYPE_FROM" type="number(1,0)"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="Abiz" id="AZAARE-006">
+        <addColumn tableName="TBL_CURRENCY_RATE">
+            <column name="N_CURRENCY_TYPE_TO" type="number(1,0)"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="Abiz" id="AZAARE-007">
+        <dropUniqueConstraint constraintName="UNIQE_LIST_CRRENCYRATE" tableName="TBL_CURRENCY_RATE"/>
+        <addUniqueConstraint columnNames="D_CURRENCY_DATE, N_FROM, N_TO, N_REFERENCE, N_CURRENCY_TYPE_FROM, N_CURRENCY_TYPE_TO" constraintName="UNIQE_LIST_CRRENCYRATE" tableName="TBL_CURRENCY_RATE"/>
+    </changeSet>
+
 </databaseChangeLog>

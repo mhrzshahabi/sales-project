@@ -139,4 +139,11 @@ public class Contact extends BaseEntity {
 
     @Column(name = "COUNTRY_ID")
     private Long countryId;
+
+    @Column(name = "C_POSTAL_CODE")
+    private String postalCode;
+
+    @Column(name = "C_REGISTER_NUMBER")
+    private String registerNumber;
+
 }
