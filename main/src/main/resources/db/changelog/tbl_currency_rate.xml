@@ -81,7 +81,7 @@
 
     <changeSet author="Abiz" id="AZAARE-007">
         <dropUniqueConstraint constraintName="UNIQE_LIST_CRRENCYRATE" tableName="TBL_CURRENCY_RATE"/>
-        <addUniqueConstraint columnNames="D_CURRENCY_DATE, N_FROM, N_TO, N_REFERENCE, N_CURRENCY_TYPE_FROM, N_CURRENCY_TYPE_TO" constraintName="UNIQE_LIST_CRRENCYRATE" tableName="TBL_CURRENCY_RATE"/>
+        <addUniqueConstraint columnNames="D_CURRENCY_DATE, N_FROM, N_TO, N_REFERENCE, N_CURRENCY_TYPE_FROM, N_CURRENCY_TYPE_TO" constraintName="UNIQUE_LIST_CURRENCY_RATE" tableName="TBL_CURRENCY_RATE"/>
     </changeSet>
 
 </databaseChangeLog>
