@@ -42,8 +42,8 @@ public class RemittanceToBillOfLandingDTO {
     public static class Info extends RemittanceToBillOfLandingDTO {
 
         private Long id;
-        private BillOfLandingDTO.Info billOfLanding;
-        private RemittanceDTO.Info remittance;
+//        private BillOfLandingDTO.Info billOfLanding;
+        private RemittanceDTO.InfoWithInspections remittance;
 
         // Auditing
         private Date createdDate;

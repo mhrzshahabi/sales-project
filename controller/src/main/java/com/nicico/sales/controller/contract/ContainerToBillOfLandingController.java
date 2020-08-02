@@ -10,10 +10,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -36,11 +34,30 @@ public class ContainerToBillOfLandingController {
     }
 
 
-
     @Loggable
     @GetMapping(value = "/list")
     public ResponseEntity<List<ContainerToBillOfLandingDTO.Info>> list() {
         return new ResponseEntity<>(service.list(), HttpStatus.OK);
+    }
+
+
+    @Loggable
+    @PostMapping
+    public ResponseEntity<ContainerToBillOfLandingDTO.Info> create(@Validated @RequestBody ContainerToBillOfLandingDTO.Create request) {
+        return new ResponseEntity<>(service.create(request), HttpStatus.CREATED);
+    }
+
+    @Loggable
+    @PutMapping
+    public ResponseEntity<ContainerToBillOfLandingDTO.Info> update(@Validated @RequestBody ContainerToBillOfLandingDTO.Update request) {
+        return new ResponseEntity<>(service.update(request), HttpStatus.CREATED);
+    }
+
+    @Loggable
+    @DeleteMapping
+    public ResponseEntity<HttpStatus> delete(@Validated @RequestBody ContainerToBillOfLandingDTO.Delete request) {
+        service.deleteAll(request);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
 

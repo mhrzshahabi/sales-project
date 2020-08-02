@@ -10,10 +10,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -35,6 +33,18 @@ public class RemittanceToBillOfLandingController {
         return new ResponseEntity<>(service.search(nicicoCriteria), HttpStatus.OK);
     }
 
+    @Loggable
+    @PostMapping
+    public ResponseEntity<List<RemittanceToBillOfLandingDTO.Info>> create(@Validated @RequestBody List<RemittanceToBillOfLandingDTO.Create> request) {
+        return new ResponseEntity<>(service.batch(request), HttpStatus.CREATED);
+    }
+
+    @Loggable
+    @DeleteMapping
+    public ResponseEntity delete(@Validated @RequestBody RemittanceToBillOfLandingDTO.Delete request) {
+        service.deleteAll(request);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
 
 
     @Loggable

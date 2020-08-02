@@ -4,7 +4,6 @@ import com.nicico.copper.common.Loggable;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.sales.dto.contract.BillOfLandingDTO;
-import com.nicico.sales.dto.contract.BillOfLandingDTO;
 import com.nicico.sales.iservice.contract.IBillOfLandingService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,7 +13,6 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 
@@ -36,7 +34,6 @@ public class BillOfLandingController {
     }
 
 
-
     @Loggable
     @GetMapping(value = "/list")
     public ResponseEntity<List<BillOfLandingDTO.Info>> list() {
@@ -45,10 +42,18 @@ public class BillOfLandingController {
 
     @Loggable
     @PostMapping
-    public ResponseEntity<BillOfLandingDTO.Info> create( @RequestBody BillOfLandingDTO.Create request) {
+    public ResponseEntity<BillOfLandingDTO.Info> create(@RequestBody BillOfLandingDTO.Create request) {
 
         return new ResponseEntity<>(service.create(request), HttpStatus.CREATED);
     }
+
+    @Loggable
+    @DeleteMapping
+    public ResponseEntity<HttpStatus> delete(@RequestBody BillOfLandingDTO.Delete request) {
+        service.deleteAll(request);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 
     @Loggable
     @PutMapping
@@ -56,6 +61,6 @@ public class BillOfLandingController {
 
         return new ResponseEntity<>(service.update(request.getId(), request), HttpStatus.OK);
     }
-    
+
 
 }

@@ -7,6 +7,8 @@ import com.nicico.sales.dto.VesselDTO;
 import com.nicico.sales.model.entities.base.Contact;
 import com.nicico.sales.model.entities.base.Port;
 import com.nicico.sales.model.entities.base.Vessel;
+import com.nicico.sales.model.entities.contract.ContainerToBillOfLanding;
+import com.nicico.sales.model.entities.contract.RemittanceToBillOfLanding;
 import com.nicico.sales.model.enumeration.EStatus;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -94,6 +96,11 @@ public class BillOfLandingDTO {
         private PortDTO.Info switchPortOfDischarge;
 
         private VesselDTO.Info oceanVessel;
+
+//        private List<RemittanceToBillOfLandingDTO.Info> remittances;
+
+        private List<ContainerToBillOfLandingDTO.Info> containers;
+
 
 
 

@@ -49,7 +49,7 @@ public class RemittanceToBillOfLanding extends BaseEntity {
     private Remittance remittance;
 
     @NotNull
-    @Column(name = "F_REMITTANCETOBL_TO_REMITTANCE")
+    @Column(name = "F_REMITTANCETOBL_TO_REMITTANCE", unique = true)
     private Long remittanceId;
 
     @Column(name = "N_TOTAL_NET")

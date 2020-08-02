@@ -4,6 +4,7 @@ import com.nicico.sales.model.entities.base.Contact;
 import com.nicico.sales.model.entities.base.Port;
 import com.nicico.sales.model.entities.base.Vessel;
 import com.nicico.sales.model.entities.common.BaseEntity;
+import com.nicico.sales.model.entities.warehouse.RemittanceDetail;
 import lombok.*;
 import lombok.experimental.Accessors;
 
@@ -11,6 +12,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.List;
 
 //بارنامه
 @Getter
@@ -223,6 +225,12 @@ public class BillOfLanding extends BaseEntity {
 
     @Column(name = "C_DESCRIPTION_CONTAINER", length = 4000)
     private String descriptionContainer;
+
+    @OneToMany(mappedBy = "billOfLanding", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    private List<RemittanceToBillOfLanding> remittances;
+
+    @OneToMany(mappedBy = "billOfLanding", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    private List<ContainerToBillOfLanding> containers;
 
 
 

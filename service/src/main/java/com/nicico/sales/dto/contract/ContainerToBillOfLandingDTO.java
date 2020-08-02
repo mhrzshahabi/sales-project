@@ -45,7 +45,7 @@ public class ContainerToBillOfLandingDTO {
     public static class Info extends ContainerToBillOfLandingDTO {
 
         private Long id;
-        private BillOfLandingDTO.Info billOfLanding;
+//        private BillOfLandingDTO.Info billOfLanding;
         private UnitDTO.Info unit;
 
         // Auditing

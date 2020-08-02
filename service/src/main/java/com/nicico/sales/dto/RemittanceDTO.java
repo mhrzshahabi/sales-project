@@ -53,6 +53,17 @@ public class RemittanceDTO {
         private List<RemittanceDetailDTO.InfoWithoutRemittance> remittanceDetails;
     }
 
+      @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("RemittanceInfo")
+    public static class InfoWithInspections extends RemittanceDTO.InfoWithoutRemittanceDetail {
+        private List<RemittanceDetailDTO.InfoWithoutRemittanceInspections> remittanceDetails;
+    }
+
+
+
+
     @Getter
     @Setter
     @Accessors(chain = true)

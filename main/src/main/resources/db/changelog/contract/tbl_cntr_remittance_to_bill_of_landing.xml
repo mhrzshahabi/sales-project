@@ -38,6 +38,9 @@
             <column name="F_REMITTANCETOBL_TO_REMITTANCE" type="NUMBER(19, 0)"/>
         </createTable>
     </changeSet>
+    <changeSet author="saeb (generated)" id="1596342365208-252">
+        <addUniqueConstraint columnNames="F_REMITTANCETOBL_TO_REMITTANCE" constraintName="UC_TBL_CNTR_REMITTANCE_TO_BILL_OF_LANDINGF_REMITTANCETOBL_TO_RE" tableName="TBL_CNTR_REMITTANCE_TO_BILL_OF_LANDING"/>
+    </changeSet>
     <changeSet author="saeb (generated)" id="1596267426191-255">
         <addForeignKeyConstraint baseColumnNames="F_REMITTANCETOBL_TO_BL"
                                  baseTableName="TBL_CNTR_REMITTANCE_TO_BILL_OF_LANDING"
