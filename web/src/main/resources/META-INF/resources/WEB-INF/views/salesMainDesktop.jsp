@@ -156,6 +156,21 @@
 
     const BaseFormItems = {
 
+        getFieldNameByLang: function (baseName, postFixIsUpperCase) {
+
+            let postFix = postFixIsUpperCase ? ["FA", "EN"] : ["Fa", "En"];
+            if (baseName == null)
+                baseName = "name";
+            else if (baseName instanceof Array) {
+
+                postFix[0] = baseName[1];
+                postFix[1] = baseName[2];
+                baseName = baseName[0];
+            }
+
+            let locale = languageForm.getValue("languageName");
+            return baseName + (locale === "fa" ? postFix[0] : postFix[1]);
+        },
         concat: function (fields, setBaseItemsHidden = true) {
 
             let items = [];

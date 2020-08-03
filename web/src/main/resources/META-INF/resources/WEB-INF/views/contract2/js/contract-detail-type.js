@@ -694,10 +694,13 @@ contractDetailTypeTab.listGrid.template = isc.ListGrid.create({
 
                     let paramUnitId = rows[i - 1][contractDetailTypeTab.dynamicForm.paramFields.unitId.name];
                     result += '<td style="border: 1px solid black;border-collapse: collapse;">';
+                    result += '$';
+                    result += '{';
                     result += rows[i - 1][contractDetailTypeTab.dynamicForm.paramFields.key.name];
+                    result += '}';
                     if (paramUnitId != null) {
-                        result += '&nbsp;($';
-                        result += '{_';
+                        result += '&nbsp;($U';
+                        result += '{';
                         result += paramUnitId;
                         result += '})';
                     }
