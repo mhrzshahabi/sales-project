@@ -1,6 +1,7 @@
 package com.nicico.sales.model.entities.base;
 
 import com.nicico.sales.model.entities.common.BaseEntity;
+import com.nicico.sales.model.enumeration.CurrencyType;
 import com.nicico.sales.model.enumeration.RateReference;
 import com.nicico.sales.model.enumeration.SymbolUnit;
 import lombok.*;
@@ -20,7 +21,7 @@ import java.util.Date;
 @Entity
 @Table(name = "TBL_CURRENCY_RATE",
         uniqueConstraints = {
-                @UniqueConstraint(columnNames = {"D_CURRENCY_DATE", "N_FROM", "N_TO", "N_REFERENCE"}, name = CurrencyRate.UNIQUE_LIST_CURRENCY_RATE)
+                @UniqueConstraint(columnNames = {"D_CURRENCY_DATE", "N_FROM", "N_TO", "N_REFERENCE","N_CURRENCY_TYPE_FROM","N_CURRENCY_TYPE_TO"}, name = CurrencyRate.UNIQUE_LIST_CURRENCY_RATE)
 
         })
 public class CurrencyRate extends BaseEntity {
@@ -50,7 +51,13 @@ public class CurrencyRate extends BaseEntity {
     private RateReference reference;
 
     @NotNull
-    @Column(name = "N_CURRENCY_RATE_VALUE" , scale = 2 , precision = 10, nullable = false)
+    @Column(name = "N_CURRENCY_RATE_VALUE", scale = 2, precision = 10, nullable = false)
     private BigDecimal currencyRateValue;
+
+    @Column(name = "N_CURRENCY_TYPE_FROM")
+    private CurrencyType currencyTypeFrom;
+
+    @Column(name = "N_CURRENCY_TYPE_TO")
+    private CurrencyType currencyTypeTo;
 
 }

@@ -19,7 +19,7 @@ priceBaseTab.dynamicForm.fields = BaseFormItems.concat([
     },
     {
         name: "priceDate",
-        width: "10%",
+        width: "300",
         type: 'date',
         title: "<spring:message code='priceBase.date'/>"
     },
@@ -57,19 +57,19 @@ priceBaseTab.dynamicForm.fields = BaseFormItems.concat([
             switch (elementId) {
 
                 case 1:
-                    form.getItem("financeUnitId").setValue(32);
-                    form.getItem("weightUnitId").setValue(11);
+                    form.getItem("financeUnitId").setValue(-32);
+                    form.getItem("weightUnitId").setValue(-11);
                     break;
                 case 2:
-                    form.getItem("financeUnitId").setValue(32);
+                    form.getItem("financeUnitId").setValue(-32);
                     form.getItem("weightUnitId").setValue(-1);
                     break;
                 case 3:
-                    form.getItem("financeUnitId").setValue(32);
-                    form.getItem("weightUnitId").setValue(11);
+                    form.getItem("financeUnitId").setValue(-32);
+                    form.getItem("weightUnitId").setValue(-11);
                     break;
                 case 4:
-                    form.getItem("financeUnitId").setValue(32);
+                    form.getItem("financeUnitId").setValue(-32);
                     form.getItem("weightUnitId").setValue(-1);
                     break;
             }

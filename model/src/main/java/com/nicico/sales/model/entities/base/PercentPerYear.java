@@ -25,10 +25,10 @@ public class PercentPerYear extends BaseEntity {
     @Column(name = "YEAR")
     private Long year;
 
-    @Column(name = "LEGAL_FEES")
-    private Double legalFees;
+    @Column(name = "N_C_VAT")
+    private Double cVat;
 
-    @Column(name = "VAT")
-    private Double vat;
+    @Column(name = "N_T_VAT")
+    private Double tVat;
 
 }

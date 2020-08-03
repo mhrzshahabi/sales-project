@@ -1,9 +1,5 @@
 <%@ page import="com.nicico.copper.common.domain.ConstantVARs" %>
 <%@ page import="com.nicico.copper.core.SecurityUtil" %>
-<%@ page import="java.util.Map" %>
-<%@ page import="java.util.HashMap" %>
-<%@ page import="com.nicico.sales.model.enumeration.CategoryUnit" %>
-<%@ page import="com.fasterxml.jackson.databind.ObjectMapper" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
@@ -20,7 +16,6 @@
     <link rel="stylesheet" href="<spring:url value='/static/css/smartStyle.css' />"/>
     <link rel="stylesheet" href="<spring:url value='/static/css/calendar.css' />"/>
     <link rel="stylesheet" href='<spring:url value="/static/css/commonStyle.css"/>'/>
-    <link rel="stylesheet" href='<spring:url value="/static/css/OAManagementUsers.css"/>'/>
 
     <script src="<spring:url value='/static/script/js/calendar.js'/>"></script>
     <script src="<spring:url value='/static/script/js/jalali-moment.browser.js'/>"></script>
@@ -82,15 +77,12 @@
     });
     var persianDatePicker = isc.FormItem.getPickerIcon("date", {
         disableOnReadOnly: false,
+        src: "pieces/pcal.png",
         click: function (form, item, icon) {
             if (!item.getCanEdit())
                 return;
-            closeCalendarWindow();
-            displayDatePicker(null, item, 'ymd', '/');
-        },
-        blur: function () {
-            closeCalendarWindow();
-        },
+            displayDatePicker(item['ID'], item, 'ymd', '/');
+        }
     });
 
     <%@include file="common/ts/CommonUtil.js"%>
@@ -708,14 +700,6 @@
         ]
     });
 
-    /*----------------------settingTab------------------------*/
-    settingTab = isc.ToolStripMenuButton.create({
-        title: "&nbsp; <spring:message code='main.settingTab'/>",
-        click: function () {
-            createTab("<spring:message code='main.settingTab'/>", "<spring:url value="web/oauth/landing/show-form" />", false);
-        }
-    });
-
     /*----------------------contractsTab------------------------*/
     contractsTab = isc.ToolStripMenuButton.create({
         title: "&nbsp; <spring:message code='main.contractsTab'/>",
@@ -887,6 +871,13 @@
                     click: function () {
                         createTab("<spring:message code='inspectionReport.title'/>", "<spring:url value="/inspectionReport/show-form" />")
                     }
+                },
+                {isSeparator: true},
+                {
+                    title: "<spring:message code='shipmentCostInvoice.title'/>",
+                    click: function () {
+                        createTab("<spring:message code='shipmentCostInvoice.title'/>", "<spring:url value="/shipmentCostInvoice/show-form" />")
+                    }
                 }
             ]
         })
@@ -1057,8 +1048,7 @@
             financialTab,
             // inspectionTab,
             productTab,
-            reportTab,
-            settingTab,
+            reportTab
         ]
     });
 

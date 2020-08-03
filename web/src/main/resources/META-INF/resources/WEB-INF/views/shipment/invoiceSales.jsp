@@ -251,10 +251,10 @@
                     name: "year"
                 },
                 {
-                    name: "legalFees"
+                    name: "cVat"
                 },
                 {
-                    name: "vat"
+                    name: "tVat"
                 }
             ],
             fetchDataURL: "${contextPath}/api/percentPerYear/spec-list"
@@ -1503,8 +1503,8 @@
     };
 
     RestDataSource_percentPerYear.fetchData(criteria1, function (dsResponse, data, dsRequest) {
-        legTotal = data[0].legalFees;
-        vatTotal = data[0].vat;
+        legTotal = data[0].cVat;
+        vatTotal = data[0].tVat;
     });
 
     function updatePrice(){
