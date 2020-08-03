@@ -45,7 +45,7 @@ public class InventoryDTO {
         private Long id;
         private MaterialItemDTO.Info materialItem;
 //        private List<AssayInspectionDTO.InfoWithoutInspectionReportAndInventory> assayInspections;
-        private WeightInspectionDTO.InfoWithoutInspectionReportAndInventory weightInspections;
+        private WeightInspectionDTO.InfoWithoutInspectionReportAndInventory weightInspection;
         // Auditing
         private Date createdDate;
         private String createdBy;

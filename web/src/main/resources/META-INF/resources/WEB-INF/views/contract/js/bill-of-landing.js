@@ -1321,6 +1321,27 @@ BlTab.Fields.RemittanceFull = function () {
 
             },
         },
+
+        {
+            name: 'totalNet',
+            type: "summary",
+            baseStyle: "cell",
+            recordSummaryFunction(_record, _grid, _value,) {
+                return _record.remittanceDetails.map(rd => rd.inventory.weightInspection.weightND).reduce((i, j) => i + j);
+            },
+            title: "<spring:message code='billOfLanding.total.net.weight'/>",
+            summaryFunction: "sum"
+        },
+        {
+            name: 'totalGross',
+            type: "summary",
+            baseStyle: "cell",
+            recordSummaryFunction(_record, _grid, _value,) {
+                return _record.remittanceDetails.map(rd => rd.inventory.weightInspection.weightGW).reduce((i, j) => i + j);
+            },
+            title: "<spring:message code='billOfLanding.total.gross.weight'/>",
+            summaryFunction: "sum"
+        },
     ];
 }
 BlTab.Fields.Inventory = function () {
@@ -1565,6 +1586,8 @@ BlTab.Fields.ContainerToBillOfLanding = _ => [
     {
         name: 'containerNo',
         title: "<spring:message code='billOfLanding.container.no'/>",
+        summaryFunction: "count",
+
     },
     {
         name: 'sealNo',
@@ -1573,6 +1596,7 @@ BlTab.Fields.ContainerToBillOfLanding = _ => [
     {
         name: 'quantity',
         title: "<spring:message code='global.quantity'/>",
+        summaryFunction: "sum",
     },
     {
         name: 'quantityType',
@@ -1581,6 +1605,7 @@ BlTab.Fields.ContainerToBillOfLanding = _ => [
     {
         name: 'weight',
         title: "<spring:message code='Tozin.vazn'/>",
+        summaryFunction: "sum",
 
     },
     {
@@ -1684,6 +1709,7 @@ BlTab.Grids.RemittanceDetail = {
 }
 BlTab.Grids.Remittance = {
     // ID: BlTab.Vars.Prefix + "remittance_detail_tab_list_grid",
+    showGridSummary: true,
     showFilterEditor: true,
     expansionFieldImageShowSelected: true,
     initialCriteria: {
@@ -1806,6 +1832,7 @@ BlTab.Grids.BillOfLanding = {
         })
         BlTab.Grids.ContainerToBillOfLanding = isc.ListGrid.create({
             data: record.containers,
+            showGridSummary: true,
             gridComponents: [isc.ToolStrip.create({
                 members: [
                     BlTab.Layouts.ToolStripButtons.NewContainerToBillOfLanding = isc.ToolStripButtonAdd.create({
