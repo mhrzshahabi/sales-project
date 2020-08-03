@@ -232,6 +232,13 @@ public class BillOfLanding extends BaseEntity {
     @OneToMany(mappedBy = "billOfLanding", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private List<ContainerToBillOfLanding> containers;
 
+    @Column(name = "N_TOTAL_NET")
+    private Integer totalNet;
 
+    @Column(name = "N_TOTAL_GROSS")
+    private Integer totalGross;
+
+    @Column(name = "N_TOTAL_BUNDLES")
+    private Integer totalBundles;
 
 }

@@ -1,7 +1,6 @@
 //<%@ page contentType="text/html;charset=UTF-8" %>
 //<%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 //<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-
 const BlTab = {
     Logs: [],
     Vars: {
@@ -1486,7 +1485,7 @@ BlTab.Fields.BillOfLandingWithoutSwitch = _ => [
             autoFetchData: false,
             editorType: "SelectItem",
             valueField: "id",
-            displayField: "Name",
+            displayField: "name",
             pickListWidth: "700",
             pickListHeight: "300",
             optionDataSource: isc.MyRestDataSource.create({...BlTab.RestDataSources.Vessel}),

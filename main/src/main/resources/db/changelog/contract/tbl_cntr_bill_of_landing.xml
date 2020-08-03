@@ -102,4 +102,22 @@
     <changeSet author="saeb (generated)" id="1596267426191-252">
         <addForeignKeyConstraint baseColumnNames="F_VESSEL" baseTableName="TBL_CNTR_BILL_OF_LANDING" constraintName="FK_BILL_OF_LANDING_TO_VESSEL" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_VESSEL" validate="true"/>
     </changeSet>
+    <changeSet author="saeb (generated)" id="1596441538809-252">
+        <addColumn tableName="TBL_CNTR_BILL_OF_LANDING">
+            <column name="N_TOTAL_BUNDLES" type="number(10, 0)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="saeb (generated)" id="1596441538809-253">
+        <addColumn tableName="TBL_CNTR_BILL_OF_LANDING">
+            <column name="N_TOTAL_GROSS" type="number(10, 0)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="saeb (generated)" id="1596441538809-254">
+        <addColumn tableName="TBL_CNTR_BILL_OF_LANDING">
+            <column name="N_TOTAL_NET" type="number(10, 0)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="saeb (generated)" id="1596441538809-255">
+        <addUniqueConstraint columnNames="C_DOCUMENT_NO" constraintName="UC_TBL_CNTR_BILL_OF_LANDINGC_DOCUMENT_NO_COL" tableName="TBL_CNTR_BILL_OF_LANDING"/>
+    </changeSet>
 </databaseChangeLog>

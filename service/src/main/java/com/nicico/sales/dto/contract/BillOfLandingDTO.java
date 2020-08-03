@@ -65,6 +65,12 @@ public class BillOfLandingDTO {
 
     private String descriptionContainer;
 
+    private Integer totalNet;
+
+    private Integer totalGross;
+
+    private Integer totalBundles;
+
 
 
     @Getter
