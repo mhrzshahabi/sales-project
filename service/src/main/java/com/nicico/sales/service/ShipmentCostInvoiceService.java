@@ -10,6 +10,7 @@ import com.nicico.sales.exception.SalesException2;
 import com.nicico.sales.iservice.IShipmentCostInvoiceService;
 import com.nicico.sales.model.entities.base.ShipmentCostInvoice;
 import com.nicico.sales.model.entities.base.ShipmentCostInvoiceDetail;
+import com.nicico.sales.utility.InvoiceNoGenerator;
 import com.nicico.sales.utility.UpdateUtil;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.TypeToken;
@@ -28,6 +29,7 @@ import java.util.Locale;
 public class ShipmentCostInvoiceService extends GenericService<ShipmentCostInvoice, Long, ShipmentCostInvoiceDTO.Create, ShipmentCostInvoiceDTO.Info, ShipmentCostInvoiceDTO.Update, ShipmentCostInvoiceDTO.Delete> implements IShipmentCostInvoiceService {
 
     private final ShipmentCostInvoiceDetailService shipmentCostInvoiceDetailService;
+    private final InvoiceNoGenerator invoiceNoGenerator;
     private final ResourceBundleMessageSource messageSource;
     private final UpdateUtil updateUtil;
 
@@ -37,6 +39,9 @@ public class ShipmentCostInvoiceService extends GenericService<ShipmentCostInvoi
     public ShipmentCostInvoiceDTO.Info create(ShipmentCostInvoiceDTO.Create request) {
 
         ShipmentCostInvoiceDTO.Info shipmentCostInvoiceDTO = super.create(request);
+        shipmentCostInvoiceDTO.setInvoiceNo(invoiceNoGenerator.createInvoiceNo((shipmentCostInvoiceDTO.getInvoiceTypeId(), shipmentCostInvoiceDTO.getInvoiceDate().getYear(),
+                shipmentCostInvoiceDTO.getInvoiceDate().getMonth(), shipmentCostInvoiceDTO.getContract().getMaterial().getAbbreviation(),
+                shipmentCostInvoiceDTO.getContract().getContractNo()));
 
         request.getShipmentCostInvoiceDetails().forEach(item -> item.setShipmentCostInvoiceId(shipmentCostInvoiceDTO.getId()));
         shipmentCostInvoiceDetailService.createAll(modelMapper.map(request.getShipmentCostInvoiceDetails(), new TypeToken<List<ShipmentCostInvoiceDetailDTO.Create>>() {
