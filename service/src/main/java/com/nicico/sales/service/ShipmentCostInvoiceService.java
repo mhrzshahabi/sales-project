@@ -4,21 +4,32 @@ import com.nicico.sales.annotation.Action;
 import com.nicico.sales.dto.ShipmentCostInvoiceDTO;
 import com.nicico.sales.dto.ShipmentCostInvoiceDetailDTO;
 import com.nicico.sales.enumeration.ActionType;
+import com.nicico.sales.enumeration.ErrorType;
+import com.nicico.sales.exception.NotFoundException;
+import com.nicico.sales.exception.SalesException2;
 import com.nicico.sales.iservice.IShipmentCostInvoiceService;
 import com.nicico.sales.model.entities.base.ShipmentCostInvoice;
 import com.nicico.sales.model.entities.base.ShipmentCostInvoiceDetail;
+import com.nicico.sales.utility.UpdateUtil;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.TypeToken;
+import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 @RequiredArgsConstructor
 @Service
 public class ShipmentCostInvoiceService extends GenericService<ShipmentCostInvoice, Long, ShipmentCostInvoiceDTO.Create, ShipmentCostInvoiceDTO.Info, ShipmentCostInvoiceDTO.Update, ShipmentCostInvoiceDTO.Delete> implements IShipmentCostInvoiceService {
 
-    private final  ShipmentCostInvoiceDetailService shipmentCostInvoiceDetailService;
+    private final ShipmentCostInvoiceDetailService shipmentCostInvoiceDetailService;
+    private final ResourceBundleMessageSource messageSource;
+    private final UpdateUtil updateUtil;
 
     @Override
     @Transactional
@@ -28,8 +39,50 @@ public class ShipmentCostInvoiceService extends GenericService<ShipmentCostInvoi
         ShipmentCostInvoiceDTO.Info shipmentCostInvoiceDTO = super.create(request);
 
         request.getShipmentCostInvoiceDetails().forEach(item -> item.setShipmentCostInvoiceId(shipmentCostInvoiceDTO.getId()));
-        shipmentCostInvoiceDetailService.createAll(modelMapper.map(request.getShipmentCostInvoiceDetails(), new TypeToken<List<ShipmentCostInvoiceDetailDTO.Create>>() {}.getType()));
+        shipmentCostInvoiceDetailService.createAll(modelMapper.map(request.getShipmentCostInvoiceDetails(), new TypeToken<List<ShipmentCostInvoiceDetailDTO.Create>>() {
+        }.getType()));
 
         return shipmentCostInvoiceDTO;
+    }
+
+    @Override
+    @Transactional
+    @Action(value = ActionType.Update)
+    public ShipmentCostInvoiceDTO.Info update(Long id, ShipmentCostInvoiceDTO.Update request) {
+
+        request.getShipmentCostInvoiceDetails().forEach(item -> item.setShipmentCostInvoiceId(request.getId()));
+        ShipmentCostInvoice shipmentCostInvoice = repository.findById(id).orElseThrow(() -> new NotFoundException(ShipmentCostInvoice.class));
+
+        try {
+            updateDetail(request, shipmentCostInvoice);
+        } catch (IllegalAccessException | InvocationTargetException | NoSuchFieldException e) {
+            Locale locale = LocaleContextHolder.getLocale();
+            throw new SalesException2(ErrorType.Unknown, "", messageSource.getMessage("shipment-cost-invoice.exception.update", null, locale));
+        }
+
+        ShipmentCostInvoice updating = new ShipmentCostInvoice();
+        modelMapper.map(shipmentCostInvoice, updating);
+        modelMapper.map(request, updating);
+        validation(updating, request);
+
+        return save(updating);
+
+    }
+
+    private void updateDetail(ShipmentCostInvoiceDTO.Update request, ShipmentCostInvoice shipmentCostInvoice) throws InvocationTargetException, IllegalAccessException, NoSuchFieldException {
+
+        List<ShipmentCostInvoiceDetailDTO.Create> shipmentCostInvoiceDetail4Insert = new ArrayList<>();
+        List<ShipmentCostInvoiceDetailDTO.Update> shipmentCostInvoiceDetail4Update = new ArrayList<>();
+        ShipmentCostInvoiceDetailDTO.Delete shipmentCostInvoiceDetail4Delete = new ShipmentCostInvoiceDetailDTO.Delete();
+
+        updateUtil.fill(ShipmentCostInvoiceDetail.class, shipmentCostInvoice.getShipmentCostInvoiceDetails(), ShipmentCostInvoiceDetailDTO.Info.class, request.getShipmentCostInvoiceDetails(), ShipmentCostInvoiceDetailDTO.Create.class, shipmentCostInvoiceDetail4Insert, ShipmentCostInvoiceDetailDTO.Update.class, shipmentCostInvoiceDetail4Update, shipmentCostInvoiceDetail4Delete);
+
+        if (!shipmentCostInvoiceDetail4Insert.isEmpty())
+            shipmentCostInvoiceDetailService.createAll(shipmentCostInvoiceDetail4Insert);
+        if (!shipmentCostInvoiceDetail4Update.isEmpty())
+            shipmentCostInvoiceDetailService.updateAll(shipmentCostInvoiceDetail4Update);
+        if (!shipmentCostInvoiceDetail4Delete.getIds().isEmpty())
+            shipmentCostInvoiceDetailService.deleteAll(shipmentCostInvoiceDetail4Delete);
+
     }
 }

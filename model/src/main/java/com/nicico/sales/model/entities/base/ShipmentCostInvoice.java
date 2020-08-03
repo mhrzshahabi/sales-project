@@ -41,11 +41,11 @@ public class ShipmentCostInvoice extends BaseEntity {
     private String invoiceNo;
 
     @NotNull
-    @Column(name = "N_T_VAT", nullable = false)
+    @Column(name = "N_T_VAT", nullable = false, scale = 5, precision = 10)
     private BigDecimal tVat;
 
     @NotNull
-    @Column(name = "N_C_VAT", nullable = false)
+    @Column(name = "N_C_VAT", nullable = false, scale = 5, precision = 10)
     private BigDecimal cVat;
 
     @NotNull

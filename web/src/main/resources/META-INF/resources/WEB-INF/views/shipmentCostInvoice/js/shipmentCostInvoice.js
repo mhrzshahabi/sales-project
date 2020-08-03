@@ -15,6 +15,7 @@ shipmentCostInvoiceTab.variable.year = shipmentCostInvoiceTab.variable.today.get
 shipmentCostInvoiceTab.variable.tVatPercent = 0;
 shipmentCostInvoiceTab.variable.cVatPercent = 0;
 shipmentCostInvoiceTab.variable.financeUnitName = 0;
+shipmentCostInvoiceTab.variable.summaryRowData = {};
 
 //***************************************************** RESTDATASOURCE *************************************************
 
@@ -229,26 +230,27 @@ shipmentCostInvoiceTab.method.setVATs = function (year) {
     };
 
     shipmentCostInvoiceTab.restDataSource.percentPerYearRest.fetchData(percentCriteria, function (dsResponse, data, dsRequest) {
-        // alert("data " + JSON.stringify(data[0]))
+
         shipmentCostInvoiceTab.variable.cVatPercent = data[0].cvat;
         shipmentCostInvoiceTab.variable.tVatPercent = data[0].tvat;
-        // console.log("tVatPer " + shipmentCostInvoiceTab.variable.tVatPercent);
+
+        shipmentCostInvoiceTab.dynamicForm.shipmentCost.getItem("tvat").setValue(shipmentCostInvoiceTab.variable.tVatPercent);
+        shipmentCostInvoiceTab.dynamicForm.shipmentCost.getItem("cvat").setValue(shipmentCostInvoiceTab.variable.cVatPercent);
 
     });
 
 };
 
-shipmentCostInvoiceTab.method.updatePriceValues = function () {
+shipmentCostInvoiceTab.method.updateFinanceUnit = function () {
 
-    let row = shipmentCostInvoiceTab.listGrid.shipmentCostDetail.getEditRow();
-    let record = shipmentCostInvoiceTab.listGrid.shipmentCostDetail.getEditRecord(row);
-    let quantity = shipmentCostInvoiceTab.listGrid.shipmentCostDetail.getCellValue(record, row, 3);
-    let unitPrice = shipmentCostInvoiceTab.listGrid.shipmentCostDetail.getCellValue(record, row, 4);
-    let sumPrice = quantity * unitPrice;
-    shipmentCostInvoiceTab.listGrid.shipmentCostDetail.setEditValue(row, 5, sumPrice);
+    shipmentCostInvoiceTab.dynamicForm.shipmentCost.getItem("conversionRefId").canEdit = true;
+    if (!shipmentCostInvoiceTab.dynamicForm.shipmentCost.getValue("financeUnitId")) return;
 
+    if (shipmentCostInvoiceTab.dynamicForm.shipmentCost.getValue("financeUnitId") === shipmentCostInvoiceTab.dynamicForm.shipmentCost.getValue("toFinanceUnitId")) {
+        shipmentCostInvoiceTab.dynamicForm.shipmentCost.setValue("conversionRate", 1);
+        shipmentCostInvoiceTab.dynamicForm.shipmentCost.getItem("conversionRefId").canEdit = false;
+    }
 };
-
 
 //***************************************************** MAINWINDOW *************************************************
 
@@ -357,6 +359,7 @@ shipmentCostInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
     {
         name: "invoiceDate",
         title: "<spring:message code='shipmentCostInvoice.invoiceDate'/>",
+        required: true,
         type: "date",
         wrapTitle: false,
         colSpan: 4,
@@ -364,19 +367,19 @@ shipmentCostInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
 
             shipmentCostInvoiceTab.variable.today = item.getValue();
             shipmentCostInvoiceTab.variable.year = shipmentCostInvoiceTab.variable.today.getFullYear();
-            console.log("year / " + JSON.stringify(shipmentCostInvoiceTab.variable.year));
             shipmentCostInvoiceTab.method.setVATs(shipmentCostInvoiceTab.variable.year);
-            form.getItem("tVat").setValue(shipmentCostInvoiceTab.variable.tVatPercent);
-            form.getItem("cVat").setValue(shipmentCostInvoiceTab.variable.cVatPercent);
-            alert("set")
-
         },
     },
     {
         name: "invoiceNoPaper",
         title: "<spring:message code='shipmentCostInvoice.invoiceNoPaper'/>",
         required: true,
-        wrapTitle: false
+        wrapTitle: false,
+        validators: [
+            {
+                type: "required",
+                validateOnChange: true
+            }]
     },
     {
         name: "invoiceNo",
@@ -384,6 +387,11 @@ shipmentCostInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
         required: true,
         wrapTitle: false,
         // canEdit: false
+        validators: [
+            {
+                type: "required",
+                validateOnChange: true
+            }]
     },
     {
         name: "sellerContactId",
@@ -474,21 +482,30 @@ shipmentCostInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
             }]
     },
     {
-        name: "tVat",
+        name: "tvat",
         title: "<spring:message code='shipmentCostInvoice.tVat'/>",
         required: true,
         wrapTitle: false,
+        type: "float",
         editorType: "staticText",
-        // defaultValue: shipmentCostInvoiceTab.variable.tVatPercent
-
+        validators: [
+            {
+                type: "required",
+                validateOnChange: true
+            }]
     },
     {
-        name: "cVat",
+        name: "cvat",
         title: "<spring:message code='shipmentCostInvoice.cVat'/>",
         required: true,
         wrapTitle: false,
+        type: "float",
         editorType: "staticText",
-        // defaultValue: shipmentCostInvoiceTab.variable.cVatPercent
+        validators: [
+            {
+                type: "required",
+                validateOnChange: true
+            }]
     },
     {
         name: "financeUnitId",
@@ -524,12 +541,12 @@ shipmentCostInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
             }],
         changed: function (form, item, value) {
             shipmentCostInvoiceTab.variable.financeUnitName = item.getSelectedRecord().nameFA;
+            shipmentCostInvoiceTab.method.updateFinanceUnit();
         }
     },
     {
         name: "toFinanceUnitId",
         title: "<spring:message code='shipmentCostInvoice.toFinanceUnit'/>",
-        // required: true,
         wrapTitle: false,
         autoFetchData: false,
         editorType: "SelectItem",
@@ -553,21 +570,17 @@ shipmentCostInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
                 align: "center"
             },
         ],
-        /*validators: [
-            {
-                type: "required",
-                validateOnChange: true
-            }],*/
         changed: function (form, item, value) {
 
-            form.getItem("conversionRefId").canEdit = true;
+            shipmentCostInvoiceTab.method.updateFinanceUnit();
+            /*form.getItem("conversionRefId").canEdit = true;
             if (!value || !form.getValue("financeUnitId")) return;
 
             if (form.getValue("financeUnitId") === form.getValue("toFinanceUnitId")) {
                 // form.setValue("conversionDate", form.getValue("invoiceDate"));
                 form.setValue("conversionRate", 1);
                 form.getItem("conversionRefId").canEdit = false;
-            }
+            }*/
         }
     },
     {
@@ -642,30 +655,42 @@ shipmentCostInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
     {
         name: "rialPrice",
         title: "<spring:message code='shipmentCostInvoice.rialPrice'/>",
+        wrapTitle: false
     },
     {
         name: "conversionSumPrice",
         title: "<spring:message code='shipmentCostInvoice.conversionSumPrice'/>",
+        wrapTitle: false,
         editorType: "staticText"
     },
     {
         name: "conversionSumPriceText",
         title: "<spring:message code='shipmentCostInvoice.conversionSumPriceText'/>",
+        wrapTitle: false,
         editorType: "staticText"
     },
     {
         name: "buyerShare",
         title: "<spring:message code='shipmentCostInvoice.buyerShare'/>",
-        required: true
+        type: "float",
+        required: true,
+        wrapTitle: false,
+        validators: [
+            {
+                type: "required",
+                validateOnChange: true
+            }]
     },
     {
         name: "conversionSumPriceBuyerShare",
         title: "<spring:message code='shipmentCostInvoice.conversionSumPriceBuyerShare'/>",
+        wrapTitle: false,
         editorType: "staticText"
     },
     {
         name: "conversionSumPriceSellerShare",
         title: "<spring:message code='shipmentCostInvoice.conversionSumPriceSellerShare'/>",
+        wrapTitle: false,
         editorType: "staticText"
     },
     {
@@ -673,11 +698,13 @@ shipmentCostInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
         title: "<spring:message code='shipmentCostInvoice.description'/>",
         width: "100%",
         colSpan: 4,
-        type: "textArea"
+        type: "textArea",
+        wrapTitle: false
     },
     {
         name: "contractId",
         title: "<spring:message code='shipmentCostInvoice.contract'/>",
+        required: true,
         wrapTitle: false,
         editorType: "SelectItem",
         valueField: "id",
@@ -702,6 +729,11 @@ shipmentCostInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
             {name: "contractDate", title: "<spring:message code='contract.contractDate'/>"},
             {name: "material.descp", title: "<spring:message code='material.descp'/>"},
         ],
+        validators: [
+            {
+                type: "required",
+                validateOnChange: true
+            }]
     },
     {
         type: "RowSpacerItem"
@@ -717,7 +749,10 @@ shipmentCostInvoiceTab.dynamicForm.shipmentCost = isc.DynamicForm.create({
     showErrorStyle: true,
     errorOrientation: "bottom",
     requiredMessage: '<spring:message code="validator.field.is.required"/>',
-    fields: shipmentCostInvoiceTab.dynamicForm.fields
+    fields: shipmentCostInvoiceTab.dynamicForm.fields,
+    focus: function () {
+        shipmentCostInvoiceTab.method.setVATs(shipmentCostInvoiceTab.variable.year)
+    }
 });
 
 shipmentCostInvoiceTab.listGrid.shipmentCostDetail = isc.ListGrid.create({
@@ -766,7 +801,6 @@ shipmentCostInvoiceTab.listGrid.shipmentCostDetail = isc.ListGrid.create({
             title: "<spring:message code='shipmentCostInvoice.financeUnit'/>",
             editorType: "staticText",
             width: "10%",
-            // value: shipmentCostInvoiceTab.variable.financeUnitName
         },
         {
             name: "unitPrice",
@@ -781,7 +815,7 @@ shipmentCostInvoiceTab.listGrid.shipmentCostDetail = isc.ListGrid.create({
             type: "float",
             editorType: "staticText",
             width: "10%",
-            value: 0
+            // value: 0
         },
         {
             name: "discountPrice",
@@ -796,23 +830,28 @@ shipmentCostInvoiceTab.listGrid.shipmentCostDetail = isc.ListGrid.create({
             type: "float",
             editorType: "staticText",
             width: "10%",
-            value: 0
+            // value: 0
         },
         {
-            name: "tVatPrice",
+            name: "tvatPrice",
             title: "<spring:message code='shipmentCostInvoiceDetail.tVatPrice'/>",
             type: "float",
             editorType: "staticText",
             width: "10%",
-            value: 0
+            // value: 0
         },
         {
-            name: "cVatPrice",
+            name: "cvatPrice",
             title: "<spring:message code='shipmentCostInvoiceDetail.cVatPrice'/>",
             type: "float",
             editorType: "staticText",
             width: "10%",
-            value: 0
+            // value: 0
+        },
+        {
+            name: "sumVatPrice",
+            type: "float",
+            hidden: true
         },
         {
             name: "sumPriceWithVat",
@@ -820,7 +859,7 @@ shipmentCostInvoiceTab.listGrid.shipmentCostDetail = isc.ListGrid.create({
             type: "float",
             editorType: "staticText",
             width: "10%",
-            value: 0
+            // value: 0
         },
     ]),
     rowEditorExit: function (editCompletionEvent, record, newValues, rowNum) {
@@ -829,14 +868,14 @@ shipmentCostInvoiceTab.listGrid.shipmentCostDetail = isc.ListGrid.create({
 
             let sumPriceIndex = this.fields.indexOf(this.fields.filter(q => q.name === "sumPrice").first());
             let sumPriceWithDiscountIndex = this.fields.indexOf(this.fields.filter(q => q.name === "sumPriceWithDiscount").first());
-            let tVatPriceIndex = this.fields.indexOf(this.fields.filter(q => q.name === "tVatPrice").first());
-            let cVatPriceIndex = this.fields.indexOf(this.fields.filter(q => q.name === "cVatPrice").first());
+            let tVatPriceIndex = this.fields.indexOf(this.fields.filter(q => q.name === "tvatPrice").first());
+            let cVatPriceIndex = this.fields.indexOf(this.fields.filter(q => q.name === "cvatPrice").first());
             let sumPriceWithVatIndex = this.fields.indexOf(this.fields.filter(q => q.name === "sumPriceWithVat").first());
 
             let sumPriceValue = newValues.unitPrice * newValues.quantity;
             let sumPriceWithDiscountValue = sumPriceValue - newValues.discountPrice;
-            let tVatPriceValue = shipmentCostInvoiceTab.dynamicForm.shipmentCost.getItem("tVat").getValue() * sumPriceWithDiscountValue / 100;
-            let cVatPriceValue = shipmentCostInvoiceTab.dynamicForm.shipmentCost.getItem("cVat").getValue() * sumPriceWithDiscountValue / 100;
+            let tVatPriceValue = shipmentCostInvoiceTab.dynamicForm.shipmentCost.getItem("tvat").getValue() * sumPriceWithDiscountValue / 100;
+            let cVatPriceValue = shipmentCostInvoiceTab.dynamicForm.shipmentCost.getItem("cvat").getValue() * sumPriceWithDiscountValue / 100;
             let sumPriceWithVatValue = sumPriceWithDiscountValue + tVatPriceValue + cVatPriceValue;
 
             this.setEditValue(rowNum, sumPriceIndex, sumPriceValue);
@@ -845,8 +884,8 @@ shipmentCostInvoiceTab.listGrid.shipmentCostDetail = isc.ListGrid.create({
             this.setEditValue(rowNum, cVatPriceIndex, cVatPriceValue);
             this.setEditValue(rowNum, sumPriceWithVatIndex, sumPriceWithVatValue);
 
-            /*let rate = shipmentCostInvoiceTab.dynamicForm.shipmentCost.getItem("conversionRate").getValues();
-            shipmentCostInvoiceTab.dynamicForm.shipmentCost.setValue("conversionSumPrice", sumPriceWithVatValue*rate);*/
+            // shipmentCostInvoiceTab.listGrid.shipmentCostDetail.saveAllEdits();
+            shipmentCostInvoiceTab.listGrid.shipmentCostDetail.members.get(3).members.get(1).members.get(0).click();
 
         }
 
@@ -866,7 +905,7 @@ shipmentCostInvoiceTab.listGrid.shipmentCostDetail = isc.ListGrid.create({
             }),
 
             // save Button
-            /*isc.ToolStrip.create({
+            isc.ToolStrip.create({
 
                 width: "100%",
                 height: 24,
@@ -879,14 +918,24 @@ shipmentCostInvoiceTab.listGrid.shipmentCostDetail = isc.ListGrid.create({
                         title: "<spring:message code='global.form.save'/>",
                         click: function () {
                             shipmentCostInvoiceTab.listGrid.shipmentCostDetail.saveAllEdits();
+
+                            shipmentCostInvoiceTab.variable.summaryRowData = shipmentCostInvoiceTab.listGrid.shipmentCostDetail.members.get(2).getData()[0];
+                            var rate = shipmentCostInvoiceTab.dynamicForm.shipmentCost.getItem("conversionRate").getValue();
+                            var share = shipmentCostInvoiceTab.dynamicForm.shipmentCost.getItem("buyerShare").getValue();
+                            var conversionSumPrice = shipmentCostInvoiceTab.variable.summaryRowData.sumPrice * rate;
+                            shipmentCostInvoiceTab.dynamicForm.shipmentCost.setValue("conversionSumPrice", conversionSumPrice);
+                            shipmentCostInvoiceTab.dynamicForm.shipmentCost.setValue("conversionSumPriceText", conversionSumPrice.toPersianLetter());
+                            shipmentCostInvoiceTab.dynamicForm.shipmentCost.setValue("conversionSumPriceBuyerShare", conversionSumPrice * share / 100);
+                            shipmentCostInvoiceTab.dynamicForm.shipmentCost.setValue("conversionSumPriceSellerShare", conversionSumPrice * (100 - share) / 100);
                         }
                     })]
-            })*/
+            })
         ]
     })],
 });
 
 shipmentCostInvoiceTab.window.shipmentCost = new nicico.FormUtil();
+
 shipmentCostInvoiceTab.window.shipmentCost.init(null, '<spring:message code="shipmentCostInvoice.title"/>', isc.VLayout.create({
     width: "100%",
     height: "750",
@@ -905,37 +954,33 @@ shipmentCostInvoiceTab.window.shipmentCost.populateData = function (bodyWidget) 
 
     //////////////// ListGrid //////////////////
     let shipmentCostInvoiceDetails = [];
-    let summaryRowData = bodyWidget.members.get(1).members.get(2).getData()[0];
 
-    // bodyWidget.members.get(1).selectAllRecords();
-    bodyWidget.members.get(1).getAllEditRows().forEach(function (current) {
+    bodyWidget.members.get(1).selectAllRecords();
+    bodyWidget.members.get(1).getSelectedRecords().forEach(function (current, index) {
 
-        let record = bodyWidget.members.get(1).getEditedRecord(current);
-        console.log("record : " + JSON.stringify(record));
-        // let shipmentCostDetailObj = record.getValues();
         let shipmentCostDetailObj = {};
-        shipmentCostDetailObj.id = record.id;
-        shipmentCostDetailObj.serviceCode = record.serviceCode;
-        shipmentCostDetailObj.serviceName = record.serviceName;
-        shipmentCostDetailObj.quantity = record.quantity;
-        shipmentCostDetailObj.unitPrice = record.unitPrice;
-        shipmentCostDetailObj.sumPrice = record.sumPrice;
-        shipmentCostDetailObj.discountPrice = record.discountPrice;
-        shipmentCostDetailObj.sumPriceWithDiscount = record.sumPriceWithDiscount;
-        shipmentCostDetailObj.tVatPrice = record.tVatPrice;
-        shipmentCostDetailObj.cVatPrice = record.cVatPrice;
-        shipmentCostDetailObj.sumVatPrice = record.sumVatPrice;
-        shipmentCostDetailObj.sumPriceWithVat = record.sumPriceWithVat;
-        shipmentCostDetailObj.shipmentCostInvoiceId = record.shipmentCostInvoiceId;
+        shipmentCostDetailObj.id = current.id;
+        shipmentCostDetailObj.serviceCode = current.serviceCode;
+        shipmentCostDetailObj.serviceName = current.serviceName;
+        shipmentCostDetailObj.quantity = current.quantity;
+        shipmentCostDetailObj.unitPrice = current.unitPrice;
+        shipmentCostDetailObj.sumPrice = current.sumPrice;
+        shipmentCostDetailObj.discountPrice = current.discountPrice;
+        shipmentCostDetailObj.sumPriceWithDiscount = current.sumPriceWithDiscount;
+        shipmentCostDetailObj.tvatPrice = current.tvatPrice;
+        shipmentCostDetailObj.cvatPrice = current.cvatPrice;
+        shipmentCostDetailObj.sumVatPrice = shipmentCostDetailObj.tvatPrice + shipmentCostDetailObj.cvatPrice;
+        shipmentCostDetailObj.sumPriceWithVat = current.sumPriceWithVat;
+        shipmentCostDetailObj.shipmentCostInvoiceId = current.shipmentCostInvoiceId;
+        console.log("shipmentCostDetailObj@@@@@ : " + JSON.stringify(shipmentCostDetailObj));
 
-        console.log("shipmentCostDetailObj" + JSON.stringify(shipmentCostDetailObj));
         shipmentCostInvoiceDetails.push(shipmentCostDetailObj);
 
     });
 
-    shipmentCostObj.sumPrice = summaryRowData.sumPrice;
-    shipmentCostObj.sumPriceWithDiscount = summaryRowData.sumPriceWithDiscount;
-    shipmentCostObj.sumPriceWithVat = summaryRowData.sumPriceWithVat;
+    shipmentCostObj.sumPrice = shipmentCostInvoiceTab.variable.summaryRowData.sumPrice;
+    shipmentCostObj.sumPriceWithDiscount = shipmentCostInvoiceTab.variable.summaryRowData.sumPriceWithDiscount;
+    shipmentCostObj.sumPriceWithVat = shipmentCostInvoiceTab.variable.summaryRowData.sumPriceWithVat;
     shipmentCostObj.shipmentCostInvoiceDetails = shipmentCostInvoiceDetails;
     console.log("shipmentCostObj" + JSON.stringify(shipmentCostObj));
     return shipmentCostObj;
@@ -947,11 +992,17 @@ shipmentCostInvoiceTab.window.shipmentCost.validate = function (data) {
     if (shipmentCostInvoiceTab.dynamicForm.shipmentCost.hasErrors())
         return false;
 
+    for (let i = 0; i < shipmentCostInvoiceTab.listGrid.shipmentCostDetail.getTotalRows(); i++) {
+        shipmentCostInvoiceTab.listGrid.shipmentCostDetail.validateRow(i);
+        if (shipmentCostInvoiceTab.listGrid.shipmentCostDetail.hasErrors())
+            return false;
+    }
     return true;
 };
 
 shipmentCostInvoiceTab.window.shipmentCost.okCallBack = function (shipmentCostObj) {
 
+    console.log("shipmentCostObjFinal22222" + JSON.stringify(shipmentCostObj));
     isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
             actionURL: "${contextPath}/api/shipmentCostInvoice",
             httpMethod: shipmentCostInvoiceTab.variable.method,
@@ -990,10 +1041,12 @@ shipmentCostInvoiceTab.method.newForm = function () {
             styleName: "listgrid-child",
             height: 180,
             dataSource: shipmentCostInvoiceTab.restDataSource.shipmentCostInvoiceDetail,
+            // contextMenu: Menu_ListGrid_InvoiceSalesItem,
             autoFetchData: false,
             setAutoFitExtraRecords: true,
             showRecordComponents: true,
             showRecordComponentsByCell: true,
+            // numCols: 2,
             fields: [
                 {
                     name: "id",
@@ -1029,7 +1082,7 @@ shipmentCostInvoiceTab.method.newForm = function () {
                     type: "long",
                     hidden: true,
                 },
-                {
+                /!*{
                     name: "editIcon",
                     width: "4%",
                     align: "center",
@@ -1040,7 +1093,7 @@ shipmentCostInvoiceTab.method.newForm = function () {
                     width: "4%",
                     align: "center",
                     showTitle: false
-                }
+                }*!/
             ],
             recordDoubleClick: function (viewer, record, recordNum, field, fieldNum, value, rawValue) {
                 loadWindowFeatureList(record.shipmentCostInvoiceId)
@@ -1096,13 +1149,21 @@ shipmentCostInvoiceTab.method.newForm = function () {
 
         });
 
-shipmentCostInvoiceTab.vLayout.shipmentCostDetailMainBody = isc.VLayout.create({
+shipmentCostInvoiceTab.hLayout.ShipmentCostDetailMain_Grid = isc.HLayout.create({
     width: "100%",
-    height: "100%",
     members: [
         shipmentCostInvoiceTab.listGrid.shipmentCostDetailMain
     ]
-});*/
+});
+
+shipmentCostInvoiceTab.vLayout.ShipmentCostDetailMain_Body = isc.VLayout.create({
+        width: "100%",
+        height: "100%",
+        members: [
+            shipmentCostInvoiceTab.hLayout.ShipmentCostDetailMain_Grid,
+            // HLayout_InvoiceSalesItem_Actions
+        ]
+    });*/
 
 shipmentCostInvoiceTab.listGrid.fields = [
     {
@@ -1153,12 +1214,26 @@ shipmentCostInvoiceTab.listGrid.fields = [
     }
 ];
 
+// var recordNotFound = isc.Label.create({
+//         height: 30,
+//         padding: 10,
+//         align: "center",
+//         valign: "center",
+//         wrap: false,
+//         contents: "<spring:message code='global.record.find'/>"
+//     });
+
 nicico.BasicFormUtil.createListGrid = function () {
 
     shipmentCostInvoiceTab.listGrid.main = isc.ListGrid.nicico.getDefault(shipmentCostInvoiceTab.listGrid.fields,
         shipmentCostInvoiceTab.restDataSource.shipmentCostInvoice, null, {
+            showFilterEditor: true,
+            canAutoFitFields: true,
             width: "100%",
-            // autoFetchData: true,
+            height: "100%",
+            // dataSource: RestDataSource_invoiceSales,
+            // contextMenu: Menu_ListGrid_InvoiceSales,
+            autoFetchData: true,
             styleName: 'expandList',
             alternateRecordStyles: true,
             canExpandRecords: true,
@@ -1171,51 +1246,92 @@ nicico.BasicFormUtil.createListGrid = function () {
             virtualScrolling: true,
             loadOnExpand: true,
             loaded: false,
-            /*getExpansionComponent: function (record) {
+            sortField: 2,
+            getExpansionComponent: function (record) {
 
-                let expansionCriteria = {
-                    _constructor: "AdvancedCriteria",
-                    operator: "and",
-                    criteria: [{fieldName: "shipmentCostInvoiceId", operator: "equals", value: record.id}]
-                };
+            var criteria1 = {
+                _constructor: "AdvancedCriteria",
+                operator: "and",
+                criteria: [{fieldName: "shipmentCostInvoiceId", operator: "equals", value: record.id}]
+            };
 
-                shipmentCostInvoiceTab.listGrid.shipmentCostDetailMain.fetchData(expansionCriteria, function (dsResponse, data, dsRequest) {
-                    if (data.length == 0) {
-                        recordNotFound.show();
-                        shipmentCostInvoiceTab.listGrid.shipmentCostDetailMain.hide()
-                    } else {
-                        recordNotFound.hide();
-                        shipmentCostInvoiceTab.listGrid.shipmentCostDetailMain.setData(data);
-                        shipmentCostInvoiceTab.listGrid.shipmentCostDetailMain.setAutoFitMaxRecords(1);
-                        shipmentCostInvoiceTab.listGrid.shipmentCostDetailMain.show();
-                    }
-                }, {operationId: "00"});
+            shipmentCostInvoiceTab.listGrid.shipmentCostDetailMain.fetchData(criteria1, function (dsResponse, data, dsRequest) {
+                if (data.length == 0) {
+                    recordNotFound.show();
+                    shipmentCostInvoiceTab.listGrid.shipmentCostDetailMain.hide()
+                } else {
+                    recordNotFound.hide();
+                    shipmentCostInvoiceTab.listGrid.shipmentCostDetailMain.setData(data);
+                    shipmentCostInvoiceTab.listGrid.shipmentCostDetailMain.setAutoFitMaxRecords(1);
+                    shipmentCostInvoiceTab.listGrid.shipmentCostDetailMain.show();
+                }
+            }, {operationId: "00"});
 
-            }*/
+
+            /*var hLayout = isc.HLayout.create({
+                align: "center", padding: 5,
+                membersMargin: 20,
+                members: [
+                    ToolStripButton_InvoiceSalesItem_Add ,
+                ]
+            });*/
+
+            var layoutShipmentCost = isc.VLayout.create({
+                styleName: "expand-layout",
+                padding: 5,
+                membersMargin: 10,
+                members: [
+                    shipmentCostInvoiceTab.listGrid.shipmentCostDetailMain,
+                    recordNotFound,
+                    // hLayout
+                ]
+            });
+
+            return layoutShipmentCost;
+        }
         }
     );
 };
 
-/*isc.SectionStack.create(
-        {
-            sections: [
-                {
-                    title: "<spring:message code='shipmentCostInvoice.title'/>",
-                    items: shipmentCostInvoiceTab.vLayout.main,
-                    showHeader: false,
-                    expanded: true
-                },
-                {
-                    title: "<spring:message code='shipmentCostInvoiceDetail.title'/>",
-                    hidden: true,
-                    items: shipmentCostInvoiceTab.vLayout.shipmentCostDetailMainBody,
-                    expanded: false
-                }],
-            visibilityMode: "multiple",
-            animateSections: true,
-            height: "100%",
-            width: "100%",
-            overflow: "hidden"
-        });*/
+/*shipmentCostInvoiceTab.hLayout.main_Grid = isc.HLayout.create({
+        width: "100%",
+        height: "100%",
+        members: [
+
+            shipmentCostInvoiceTab.listGrid.main
+        ]
+    });
+
+shipmentCostInvoiceTab.vLayout.main_Body = isc.VLayout.create({
+    width: "100%",
+    height: "99%",
+    members: [
+
+        shipmentCostInvoiceTab.hLayout.main_Grid,
+        // HLayout_InvoiceSales_Actions,
+    ]
+});
+
+isc.SectionStack.create(
+    {
+        sections: [
+            {
+                title: "<spring:message code='shipmentCostInvoice.title'/>",
+                items: shipmentCostInvoiceTab.vLayout.main_Body,
+                showHeader: false,
+                expanded: true
+            },
+            {
+                title: "<spring:message code='shipmentCostInvoiceDetail.title'/>",
+                hidden: true,
+                items: shipmentCostInvoiceTab.vLayout.ShipmentCostDetailMain_Body,
+                expanded: false
+            }],
+        visibilityMode: "multiple",
+        animateSections: true,
+        height: "100%",
+        width: "100%",
+        overflow: "hidden"
+    });*/
 
 nicico.BasicFormUtil.getDefaultBasicForm(shipmentCostInvoiceTab, "api/shipmentCostInvoice/");
