@@ -1397,27 +1397,45 @@ BlTab.Fields.BillOfLandingSwitch = function () {
         }
     }
     return [
-        {name: 'switchDocumentNo',},
-        {name: 'switchShipperExporter', hidden: true, shouldSaveValue: false},
+        {name: 'switchDocumentNo',title:"<spring:message code='billOfLanding.document.no'/>",},
+        {name: 'switchShipperExporter', hidden: true, shouldSaveValue: false
+            ,title:"<spring:message code='billOfLanding.shipper.exporter'/>",
+        },
         {
             name: 'switchShipperExporterId',
             ...contactOptionDataSource(),
+        title:"<spring:message code='billOfLanding.shipper.exporter'/>",
 
+},
+        {name: 'switchNotifyParty', hidden: true, shouldSaveValue: false,
+            title:"<spring:message code='billOfLanding.notify.party'/>",
         },
-        {name: 'switchNotifyParty', hidden: true, shouldSaveValue: false},
         {
             name: 'switchNotifyPartyId',
+            title:"<spring:message code='billOfLanding.notify.party'/>",
             ...contactOptionDataSource(),
         },
-        {name: 'switchConsignee', hidden: true, shouldSaveValue: false},
+        {name: 'switchConsignee', hidden: true, shouldSaveValue: false,
+            title:"<spring:message code='billOfLanding.consignee'/>",
+        },
         {
             name: 'switchConsigneeId',
             ...contactOptionDataSource(),
+            title:"<spring:message code='billOfLanding.consignee'/>",
         },
-        {name: 'switchPortOfLoading', hidden: true, shouldSaveValue: false},
-        {name: 'switchPortOfLoadingId', ...portOptionDataSource()},
-        {name: 'switchPortOfDischarge', hidden: true, shouldSaveValue: false},
-        {name: 'switchPortOfDischargeId', ...portOptionDataSource()},
+        {name: 'switchPortOfLoading', hidden: true, shouldSaveValue: false,
+            title:"<spring:message code='billOfLanding.port.of.landing/>",
+
+        },
+        {name: 'switchPortOfLoadingId', ...portOptionDataSource(),
+            title:"<spring:message code='billOfLanding.port.of.landing/>",
+        },
+        {name: 'switchPortOfDischarge', hidden: true, shouldSaveValue: false,
+            title:"<spring:message code='billOfLanding.port.of.discharge/>",
+        },
+        {name: 'switchPortOfDischargeId', ...portOptionDataSource(),
+            title:"<spring:message code='billOfLanding.port.of.discharge/>",
+        },
     ]
 }
 /*
@@ -1468,7 +1486,7 @@ BlTab.Fields.BillOfLandingWithoutSwitch = _ => [
             pickListFields: BlTab.Fields.Vessel(),
         }
     },
-    {name: 'totalNet', required: true,},
+    {name: 'totalNet', },
     {name: 'totalGross',},
     {name: 'totalBundles',},
     {name: 'numberOfBlCopies', required: true,},
