@@ -53,6 +53,7 @@
     <include file="classpath:/db/changelog/tbl_payment_type.xml"/>
     <include file="classpath:/db/changelog/tbl_invoice_type.xml"/>
     <include file="classpath:/db/changelog/contract/tbl_cntr_contract_detail_value.xml"/>
+    <include file="classpath:/db/changelog/tbl_contract_discount.xml"/>
 
     <!--	<include file="classpath:/db/changelog/view_tozin.xml"/>-->
     <!--	<include file="classpath:/db/changelog/view_tozin_m.xml"/>-->
