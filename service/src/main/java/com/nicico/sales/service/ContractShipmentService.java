@@ -113,7 +113,7 @@ public class ContractShipmentService implements IContractShipmentService {
 
 
     private ContractShipmentDTO.Info save(ContractShipment contractShipment) {
-        final ContractShipment saved = contractShipmentDAO.saveAndFlush(contractShipment);
+        final ContractShipment saved = contractShipmentDAO.save(contractShipment);
         return modelMapper.map(saved, ContractShipmentDTO.Info.class);
     }
 }
