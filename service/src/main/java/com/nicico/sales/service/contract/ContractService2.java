@@ -1,5 +1,6 @@
 package com.nicico.sales.service.contract;
 
+import com.google.gson.JsonParser;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
 import com.nicico.copper.common.dto.grid.TotalResponse;
@@ -17,8 +18,10 @@ import com.nicico.sales.iservice.contract.IContractDetailService2;
 import com.nicico.sales.iservice.contract.IContractDetailValueService;
 import com.nicico.sales.iservice.contract.IContractService2;
 import com.nicico.sales.model.entities.contract.Contract2;
+import com.nicico.sales.model.entities.contract.ContractContact;
 import com.nicico.sales.model.entities.contract.ContractDetail2;
 import com.nicico.sales.model.enumeration.CommercialRole;
+import com.nicico.sales.repository.contract.ContractContactDAO;
 import com.nicico.sales.service.GenericService;
 import com.nicico.sales.utility.UpdateUtil;
 import lombok.RequiredArgsConstructor;
@@ -29,9 +32,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -42,6 +44,7 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
     private final IContractDetailValueService contractDetailValueService;
     private final UpdateUtil updateUtil;
     private final ResourceBundleMessageSource messageSource;
+    private final ContractContactDAO contractContactDAO;
 
     @Override
     @Transactional
@@ -106,6 +109,13 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
     public TotalResponse<ContractDTO2.Info> search(NICICOCriteria request) {
 
         List<Contract2> entities = new ArrayList<>();
+        if (request.getCriteria() != null){
+            List criteriaList = (List) request.getCriteria();
+            replaceContractContactCriteria("buyerId", CommercialRole.Buyer, criteriaList);
+            replaceContractContactCriteria("sellerId", CommercialRole.Seller, criteriaList);
+            replaceContractContactCriteria("agentBuyerId", CommercialRole.AgentBuyer, criteriaList);
+            replaceContractContactCriteria("agentSellerId", CommercialRole.AgentSeller, criteriaList);
+        }
         TotalResponse<ContractDTO2.Info> result = SearchUtil.search(repositorySpecificationExecutor, request, entity -> {
 
             ContractDTO2.Info eResult = modelMapper.map(entity, ContractDTO2.Info.class);
@@ -127,6 +137,26 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
         validationAll(entities, result);
         return result;
     }
+
+    private void replaceContractContactCriteria(String fieldName, CommercialRole role, List<String> criteriaList) {
+        Optional<String> agentSellerIdOptional = criteriaList.stream().filter(s -> s.contains(fieldName)).findAny();
+        if (agentSellerIdOptional.isPresent()) {
+            String agentSeller = agentSellerIdOptional.get();
+            criteriaList.remove(agentSeller);
+            Long agentSellerId = new JsonParser().parse(agentSeller).getAsJsonObject().get("value").getAsLong();
+            List<Long> ids = contractContactDAO.findAllByContactIdAndCommercialRole(agentSellerId, role)
+                    .stream().mapToLong(ContractContact::getContractId).distinct().boxed().collect(Collectors.toList());
+            StringBuffer stringBuffer = new StringBuffer("{");
+             if(!ids.isEmpty()) {
+                stringBuffer.append("\"fieldName\":\"id\",\"operator\":\"inSet\",\"value\":");
+                stringBuffer.append(ids).append("}");
+            } else {
+                stringBuffer.append("\"fieldName\":\"id\",\"operator\":\"isNull\"}");
+            }
+            criteriaList.add(stringBuffer.toString());
+        }
+    }
+
 
     @Override
     @Transactional

@@ -23,6 +23,7 @@ currencyRateTab.dynamicForm.fields = BaseFormItems.concat([
         title: "<spring:message code='currency.rate.f'/>",
         required: true,
         width: "100%",
+        filterOperator: "equals",
         valueMap: JSON.parse('${Enum_SymbolCUR}'),
     },
     {
@@ -31,6 +32,7 @@ currencyRateTab.dynamicForm.fields = BaseFormItems.concat([
         //required: true,
         width: "100%",
         length: "8",
+        filterOperator: "equals",
         valueMap: currencyTypes,
     },
     {
@@ -38,6 +40,7 @@ currencyRateTab.dynamicForm.fields = BaseFormItems.concat([
         title: "<spring:message code='currency.rate.t'/>",
         required: true,
         width: "100%",
+        filterOperator: "equals",
         valueMap: JSON.parse('${Enum_SymbolCUR}'),
     },
     {
@@ -46,6 +49,7 @@ currencyRateTab.dynamicForm.fields = BaseFormItems.concat([
         //required: true,
         width: "100%",
         length: "8",
+        filterOperator: "equals",
         valueMap: currencyTypes,
     },
     {
@@ -53,6 +57,7 @@ currencyRateTab.dynamicForm.fields = BaseFormItems.concat([
         title: "<spring:message code='currencyRate.Central.Bank'/>",
         required: true,
         width: "100%",
+        filterOperator: "equals",
         valueMap: JSON.parse('${Enum_RateReference}')
     },
     {

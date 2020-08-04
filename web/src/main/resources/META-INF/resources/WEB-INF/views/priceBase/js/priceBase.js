@@ -143,6 +143,7 @@ priceBaseTab.dynamicForm.fields = BaseFormItems.concat([
         // type: "long",
         required: true,
         title: "<spring:message code='priceBase.reference'/>",
+        filterOperator: "equals",
         valueMap: JSON.parse('${Enum_PriceBaseReference}'),
         defaultValue: "LME"
     },
