@@ -1,4 +1,9 @@
 var currencyRateTab = new nicico.GeneralTabUtil().getDefaultJSPTabVariable();
+const currencyTypes = {
+       //null:"",
+      "AZAD": "<spring:message code='currency.type.azad'/>",
+      "NIMAEE": "<spring:message code='currency.type.nimaee'/>"
+}
 currencyRateTab.dynamicForm.fields = BaseFormItems.concat([
     {
         name: "id",
@@ -21,11 +26,27 @@ currencyRateTab.dynamicForm.fields = BaseFormItems.concat([
         valueMap: JSON.parse('${Enum_SymbolCUR}'),
     },
     {
+        name: "currencyTypeFrom",
+        title: "<spring:message code='currency.type.from'/>",
+        //required: true,
+        width: "100%",
+        length: "8",
+        valueMap: currencyTypes,
+    },
+    {
         name: "symbolCT",
         title: "<spring:message code='currency.rate.t'/>",
         required: true,
         width: "100%",
         valueMap: JSON.parse('${Enum_SymbolCUR}'),
+    },
+    {
+        name: "currencyTypeTo",
+        title: "<spring:message code='currency.type.to'/>",
+        //required: true,
+        width: "100%",
+        length: "8",
+        valueMap: currencyTypes,
     },
     {
         name: "reference",
@@ -41,7 +62,8 @@ currencyRateTab.dynamicForm.fields = BaseFormItems.concat([
         width: "100%",
         length: "8",
         keyPressFilter: "[0-9]"
-    }
+    },
+
 ]);
 Object.assign(currencyRateTab.listGrid.fields, currencyRateTab.dynamicForm.fields);
 nicico.BasicFormUtil.getDefaultBasicForm(currencyRateTab, "/api/currencyRate");
