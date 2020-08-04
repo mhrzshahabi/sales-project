@@ -1,9 +1,11 @@
 package com.nicico.sales.service.contract;
 
+import com.google.gson.Gson;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
 import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.sales.annotation.Action;
+import com.nicico.sales.dto.ContractShipmentDTO;
 import com.nicico.sales.dto.contract.ContractContactDTO;
 import com.nicico.sales.dto.contract.ContractDTO2;
 import com.nicico.sales.dto.contract.ContractDetailDTO2;
@@ -12,13 +14,16 @@ import com.nicico.sales.enumeration.ActionType;
 import com.nicico.sales.enumeration.ErrorType;
 import com.nicico.sales.exception.NotFoundException;
 import com.nicico.sales.exception.SalesException2;
+import com.nicico.sales.iservice.IContractShipmentService;
 import com.nicico.sales.iservice.contract.IContractContactService;
 import com.nicico.sales.iservice.contract.IContractDetailService2;
 import com.nicico.sales.iservice.contract.IContractDetailValueService;
 import com.nicico.sales.iservice.contract.IContractService2;
 import com.nicico.sales.model.entities.contract.Contract2;
 import com.nicico.sales.model.entities.contract.ContractDetail2;
+import com.nicico.sales.model.entities.contract.ContractDetailValue;
 import com.nicico.sales.model.enumeration.CommercialRole;
+import com.nicico.sales.model.enumeration.DataType;
 import com.nicico.sales.service.GenericService;
 import com.nicico.sales.utility.UpdateUtil;
 import lombok.RequiredArgsConstructor;
@@ -29,9 +34,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -41,7 +44,9 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
     private final IContractDetailService2 contractDetailService;
     private final IContractDetailValueService contractDetailValueService;
     private final UpdateUtil updateUtil;
+    private final Gson gson;
     private final ResourceBundleMessageSource messageSource;
+    private final IContractShipmentService contractShipmentService;
 
     @Override
     @Transactional
@@ -73,7 +78,6 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
             }.getType());
             contractDetailsRqs.forEach(q -> {
                 List<ContractDetailValueDTO.Create> contractDetailValues = q.getContractDetailValues();
-                q.setContractDetailValues(null); //don't want to use CascadeType.ALL
                 q.setContractId(savedContract2.getId());
                 ContractDetailDTO2.Info savedContractDetail = contractDetailService.create(q);
 
@@ -82,6 +86,20 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
                     }.getType());
                     contractDetailValueRqs.forEach(x -> {
                         x.setContractDetailId(savedContractDetail.getId());
+
+                        //based on reference type, first we must create records in reference table
+                        /*HashMap<String, Object> valueHashMap = gson.fromJson(x.getReferenceJsonValue(), new TypeToken<HashMap<String, Object>>() {
+                        }.getType());
+
+                        ContractShipmentDTO.Create contractShipmentDTO = new ContractShipmentDTO.Create();
+                        contractShipmentDTO.setContractId(1L);
+                        contractShipmentDTO.setLoadPortId(21L);
+                        contractShipmentDTO.setQuantity((Double) valueHashMap.get("quantity"));
+                        contractShipmentDTO.setTolorance(1L);
+                        contractShipmentDTO.setSendDate(new Date());
+                        ContractShipmentDTO.Info savedContractShipment = contractShipmentService.create(contractShipmentDTO);
+                        x.setValue(savedContractShipment.getId().toString());*/
+
                         contractDetailValueService.create(x);
                     });
                 }
@@ -165,16 +183,82 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
         }
 
         if (!contractDetail4Insert.isEmpty()) {
-            contractDetail4Insert.forEach(q -> q.setContractId(contract2.getId()));
-            contractDetailService.createAll(contractDetail4Insert);
+            contractDetail4Insert.forEach(q -> {
+                List<ContractDetailValueDTO.Create> contractDetailValues = q.getContractDetailValues();
+                q.setContractId(contract2.getId());
+                ContractDetailDTO2.Info savedContractDetail = contractDetailService.create(q);
+
+                if (contractDetailValues != null && contractDetailValues.size() > 0) {
+                    List<ContractDetailValueDTO.Create> contractDetailValueRqs = modelMapper.map(contractDetailValues, new TypeToken<List<ContractDetailValueDTO.Create>>() {
+                    }.getType());
+                    contractDetailValueRqs.forEach(x -> {
+                        x.setContractDetailId(savedContractDetail.getId());
+
+                        //based on reference type, first we must create records in reference table
+                        /*HashMap<String, Object> valueHashMap = gson.fromJson(x.getReferenceJsonValue(), new TypeToken<HashMap<String, Object>>() {
+                        }.getType());
+
+                        ContractShipmentDTO.Create contractShipmentDTO = new ContractShipmentDTO.Create();
+                        contractShipmentDTO.setContractId(1L);
+                        contractShipmentDTO.setLoadPortId(21L);
+                        contractShipmentDTO.setQuantity((Double) valueHashMap.get("quantity"));
+                        contractShipmentDTO.setTolorance(1L);
+                        contractShipmentDTO.setSendDate(new Date());
+                        ContractShipmentDTO.Info savedContractShipment = contractShipmentService.create(contractShipmentDTO);
+                        x.setValue(savedContractShipment.getId().toString());*/
+
+                        contractDetailValueService.create(x);
+                    });
+                }
+
+            });
         }
-        //because ContractDetail to ContractDetailValue : CascadeType.ALL
+
         if (!contractDetail4Update.isEmpty()) {
-            contractDetail4Update.forEach(q -> q.setContractId(contract2.getId()));
-            contractDetailService.updateAll(contractDetail4Update);
+            int index = 0;
+            for (ContractDetailDTO2.Update q : contractDetail4Update) {
+                q.setContractId(contract2.getId());
+                ContractDetailDTO2.Info savedContractDetail = contractDetailService.update(q);
+
+                //contractDetailValue have 3 state in update in listGrid (create,update,delete)
+                //  update ContractDetails
+                List<ContractDetailValueDTO.Create> contractDetailValue4Insert = new ArrayList<>();
+                List<ContractDetailValueDTO.Update> contractDetailValue4Update = new ArrayList<>();
+                ContractDetailValueDTO.Delete contractDetailValue4Delete = new ContractDetailValueDTO.Delete();
+
+                try {
+                    updateUtil.fill(ContractDetailValue.class, modelMapper.map(savedContractDetail.getContractDetailValues(), new TypeToken<List<ContractDetailValue>>() {
+                            }.getType()),
+                            ContractDetailValueDTO.Info.class, request.getContractDetails().get(index).getContractDetailValues(),
+                            ContractDetailValueDTO.Create.class, contractDetailValue4Insert,
+                            ContractDetailValueDTO.Update.class, contractDetailValue4Update,
+                            contractDetailValue4Delete);
+                } catch (IllegalAccessException | InvocationTargetException | NoSuchFieldException e) {
+                    Locale locale = LocaleContextHolder.getLocale();
+                    throw new SalesException2(ErrorType.Unknown, "", messageSource.getMessage("contract-detail.exception.update", null, locale));
+                }
+
+                if (!contractDetailValue4Insert.isEmpty()) {
+                    contractDetailValueService.createAll(contractDetailValue4Insert);
+                }
+                if (!contractDetailValue4Update.isEmpty()) {
+                    contractDetailValueService.updateAll(contractDetailValue4Update);
+                }
+//                if (!contractDetailValue4Delete.getIds().isEmpty()) {
+//                    contractDetailValueService.deleteAll(contractDetailValue4Delete);
+//                }
+
+                //based on reference type, first we must update records in reference table
+                index++;
+            }
+
         }
-        if (!contractDetail4Delete.getIds().isEmpty())
+
+        if (!contractDetail4Delete.getIds().isEmpty()){
+            //delete listOfReference
             contractDetailService.deleteAll(contractDetail4Delete);
+        }
+
 
         Contract2 updating = new Contract2();
 
@@ -190,4 +274,32 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
         return save(updating);
     }
 
+    @Override
+    @Transactional
+    @Action(value = ActionType.Delete)
+    public void delete(Long id) {
+
+        final Optional<Contract2> entityById = repository.findById(id);
+        final Contract2 entity = entityById.orElseThrow(() -> new NotFoundException(Contract2.class));
+
+        validation(entity, id);
+
+        if (entity.getContractDetails() != null && entity.getContractDetails().size() > 0) {
+            entity.getContractDetails().forEach(q -> {
+                if (q.getContractDetailValues() != null && q.getContractDetailValues().size() > 0) {
+                    q.getContractDetailValues().forEach(x -> {
+                        if (x.getType() == DataType.ListOfReference) {
+                            switch (x.getReference()) {
+                                case "ContractShipment":
+                                    contractShipmentService.delete(Long.valueOf(x.getValue()));
+                                    break;
+                            }
+                        }
+                    });
+                }
+            });
+        }
+
+        repository.deleteById(id);
+    }
 }
