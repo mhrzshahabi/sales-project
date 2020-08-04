@@ -58,7 +58,19 @@ contractTab.dynamicForm.fields.material = {
     displayField: "descl",
     valueField: "id",
     required: true,
-    title: "<spring:message code='material.title'/>"
+    title: "<spring:message code='material.title'/>",
+    changed: function (form, item, value) {
+
+        let contractDetailTypeField = form.getField(contractTab.dynamicForm.fields.contractDetailType.name)
+        contractDetailTypeField.setOptionCriteria({
+            operator: 'and',
+            criteria: [{
+                fieldName: 'materialId',
+                operator: 'equals',
+                value: value
+            }]
+        });
+    }
 };
 contractTab.dynamicForm.fields.contractType = {
     name: "contractTypeId",
@@ -192,7 +204,7 @@ contractTab.dynamicForm.fields.contractDetailType = {
         criteria: [{
             fieldName: 'materialId',
             operator: 'equals',
-            value: 3
+            value: null
         }]
     },
     optionDataSource: isc.MyRestDataSource.create({
@@ -331,7 +343,7 @@ contractTab.dynamicForm.fields.contractDetailType = {
                         name: "loadPortId",
                         title: "<spring:message code='shipment.loading'/>",
                         editorType: "SelectItem",
-                        optionDataSource: getParamEditorProperties('Reference','Port'),
+                        optionDataSource: getParamEditorProperties('Reference', 'Port'),
                         displayField: "port",
                         valueField: "id",
                         width: "10%",
