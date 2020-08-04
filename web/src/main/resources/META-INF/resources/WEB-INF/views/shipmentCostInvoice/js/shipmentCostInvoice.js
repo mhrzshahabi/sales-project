@@ -403,10 +403,7 @@ shipmentCostInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
             {
                 type: "required",
                 validateOnChange: true
-            }],
-        focusInItem: function () {
-            shipmentCostInvoiceTab.method.setVATs(shipmentCostInvoiceTab.variable.year)
-        }
+            }]
     },
     {
         name: "invoiceDate",
@@ -574,7 +571,7 @@ shipmentCostInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
         pickListWidth: "500",
         pickListHeight: "300",
         optionDataSource: shipmentCostInvoiceTab.restDataSource.unitRest,
-        optionCriteria: financeUnitCriteria,
+        // optionCriteria: financeUnitCriteria,
         pickListProperties:
             {
                 showFilterEditor: true
@@ -594,9 +591,22 @@ shipmentCostInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
                 type: "required",
                 validateOnChange: true
             }],
-        changed: function (form, item, value) {
+        changed: function (form, item) {
+
             shipmentCostInvoiceTab.variable.financeUnitName = item.getSelectedRecord().nameFA;
-            shipmentCostInvoiceTab.method.updateFinanceUnit();
+            shipmentCostInvoiceTab.dynamicForm.shipmentCost.setValue("toFinanceUnitId", null);
+
+            if (shipmentCostInvoiceTab.listGrid.shipmentCostDetail.getAllData() != null) {
+                let totalRows = shipmentCostInvoiceTab.listGrid.shipmentCostDetail.getTotalRows();
+                let financeUnitIdIndex = shipmentCostInvoiceTab.listGrid.shipmentCostDetail.fields.indexOf(shipmentCostInvoiceTab.listGrid.shipmentCostDetail.fields.filter(q => q.name === "financeUnitId").first());
+                for (let i = 0; i < totalRows ; i++) {
+                    shipmentCostInvoiceTab.listGrid.shipmentCostDetail.setEditValue(i, financeUnitIdIndex, shipmentCostInvoiceTab.variable.financeUnitName);
+                }
+                shipmentCostInvoiceTab.listGrid.shipmentCostDetail.invalidateCache();
+            }
+            // shipmentCostInvoiceTab.listGrid.shipmentCostDetail.setData([]);
+            // shipmentCostInvoiceTab.variable.financeUnitName = item.getSelectedRecord().nameFA;
+            // shipmentCostInvoiceTab.method.updateFinanceUnit();
         }
     },
     {
@@ -610,7 +620,7 @@ shipmentCostInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
         pickListWidth: "500",
         pickListHeight: "300",
         optionDataSource: shipmentCostInvoiceTab.restDataSource.unitRest,
-        optionCriteria: financeUnitCriteria,
+        // optionCriteria: financeUnitCriteria,
         pickListProperties:
             {
                 showFilterEditor: true
@@ -626,7 +636,7 @@ shipmentCostInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
             },
         ],
         changed: function (form, item, value) {
-
+            shipmentCostInvoiceTab.dynamicForm.shipmentCost.setValue("conversionRefId", null);
             shipmentCostInvoiceTab.method.updateFinanceUnit();
         }
     },
@@ -666,6 +676,7 @@ shipmentCostInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
         changed: function (form, item, value) {
             let currencyRateValue = item.getSelectedRecord().currencyRateValue;
             shipmentCostInvoiceTab.dynamicForm.shipmentCost.setValue("conversionRate", currencyRateValue);
+            shipmentCostInvoiceTab.listGrid.shipmentCostDetail.members.get(3).members.get(2).members.get(0).click();
         }
     },
     {
@@ -723,6 +734,8 @@ shipmentCostInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
         type: "float",
         required: true,
         wrapTitle: false,
+        hint: "for 20% Just Enter 20",
+        showHintInField: true,
         colSpan: 4,
         validators: [
             {
@@ -920,11 +933,10 @@ shipmentCostInvoiceTab.listGrid.shipmentCostDetail = isc.ListGrid.create({
             }),
             // price Label
             isc.Label.create({
-                // height: 20,
-                width: 400,
-                // padding: 2,
-                // margin: 10,
-                align: "left",
+                width: 600,
+                marginRight: 40,
+                marginLeft: 40,
+                align: "center",
                 contents: ""
             }),
             // save Button
@@ -1027,7 +1039,6 @@ shipmentCostInvoiceTab.window.shipmentCost.validate = function (data) {
 
 shipmentCostInvoiceTab.window.shipmentCost.okCallBack = function (shipmentCostObj) {
 
-    console.log("shipmentCostObjFinal22222" + JSON.stringify(shipmentCostObj));
     isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
             actionURL: "${contextPath}/api/shipmentCostInvoice",
             httpMethod: shipmentCostInvoiceTab.variable.method,
@@ -1049,6 +1060,8 @@ shipmentCostInvoiceTab.window.shipmentCost.cancelCallBack = function () {
 
     shipmentCostInvoiceTab.dynamicForm.shipmentCost.clearValues();
     shipmentCostInvoiceTab.listGrid.shipmentCostDetail.setData([]);
+    shipmentCostInvoiceTab.listGrid.shipmentCostDetail.members.get(3).members.get(1).setContents("");
+
 };
 
 shipmentCostInvoiceTab.method.refreshData = function () {
@@ -1056,11 +1069,69 @@ shipmentCostInvoiceTab.method.refreshData = function () {
 };
 
 shipmentCostInvoiceTab.method.newForm = function () {
+
+    shipmentCostInvoiceTab.variable.financeUnitName = 0;
     shipmentCostInvoiceTab.variable.method = "POST";
     shipmentCostInvoiceTab.window.shipmentCost.justShowForm();
+    shipmentCostInvoiceTab.method.setVATs(shipmentCostInvoiceTab.variable.year)
+
 };
 
 shipmentCostInvoiceTab.method.editForm = function () {
+
+    shipmentCostInvoiceTab.variable.method = "PUT";
+
+    let record = shipmentCostInvoiceTab.listGrid.main.getSelectedRecord();
+    if (record == null || record.id == null)
+        shipmentCostInvoiceTab.dialog.notSelected();
+    else if (record.editable === false)
+        shipmentCostInvoiceTab.dialog.notEditable();
+    else {
+        shipmentCostInvoiceTab.method.jsonRPCManagerRequest({
+            httpMethod: "GET",
+            actionURL: "${contextPath}/api/shipmentCostInvoice/spec-list",
+            params: {
+                criteria: {
+                    operator: "and",
+                    criteria: [
+                        {fieldName: "id", operator: "equals", value: record.id}
+                    ]
+                }
+            },
+            callback: function (response) {
+
+                shipmentCostInvoiceTab.window.shipmentCost.justShowForm();
+
+                // Set Data
+                shipmentCostInvoiceTab.dynamicForm.shipmentCost.editRecord(record);
+                shipmentCostInvoiceTab.dynamicForm.shipmentCost.getField("invoiceTypeId").changed(shipmentCostInvoiceTab.dynamicForm.shipmentCost,
+                    shipmentCostInvoiceTab.dynamicForm.shipmentCost.getItem("invoiceTypeId"), shipmentCostInvoiceTab.dynamicForm.shipmentCost.getItem("invoiceTypeId").getValue());
+                shipmentCostInvoiceTab.listGrid.shipmentCostDetail.setData(record.shipmentCostInvoiceDetails);
+
+                // Set Unit for ListGrid
+                if (shipmentCostInvoiceTab.listGrid.shipmentCostDetail.getAllData() != null) {
+                    let totalRows = shipmentCostInvoiceTab.listGrid.shipmentCostDetail.getTotalRows();
+                    shipmentCostInvoiceTab.restDataSource.unitRest.fetchData(financeUnitCriteria, function (dsResponse, data, dsRequest) {
+
+                        if (data.length !== 0) {
+                            console.log("Data : financeUnitId ", data[0]);
+                            shipmentCostInvoiceTab.variable.financeUnitName = data[0].nameFA;
+                            console.log("financeUnitName ", shipmentCostInvoiceTab.variable.financeUnitName);
+                        }
+                    });
+
+                    let financeUnitIdIndex = shipmentCostInvoiceTab.listGrid.shipmentCostDetail.fields.indexOf(shipmentCostInvoiceTab.listGrid.shipmentCostDetail.fields.filter(q => q.name === "financeUnitId").first());
+                    for (let i = 0; i < totalRows ; i++) {
+                        console.log("Hey Dear!!!!!!");
+                        shipmentCostInvoiceTab.listGrid.shipmentCostDetail.setEditValue(i, financeUnitIdIndex, shipmentCostInvoiceTab.variable.financeUnitName);
+                    }
+                    shipmentCostInvoiceTab.listGrid.shipmentCostDetail.invalidateCache();
+                }
+                shipmentCostInvoiceTab.listGrid.shipmentCostDetail.members.get(3).members.get(2).members.get(0).click();
+
+            }
+        });
+    }
 };
 
 //***************************************************** MAINLISTGRID *************************************************
@@ -1113,14 +1184,16 @@ shipmentCostInvoiceTab.listGrid.fields = BaseFormItems.concat([
     }
 ]);
 
-/*shipmentCostInvoiceTab.label.recordNotFound = isc.Label.create({
+/*
+shipmentCostInvoiceTab.label.recordNotFound = isc.Label.create({
         height: 30,
         padding: 10,
         align: "center",
         valign: "center",
         wrap: false,
         contents: "<spring:message code='global.record.find'/>"
-    });*/
+    });
+*/
 
 // ShipmentCost Section
 nicico.BasicFormUtil.createListGrid = function () {
