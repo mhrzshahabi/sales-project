@@ -881,12 +881,14 @@
                     }
                 },
                 {isSeparator: true},
+                <sec:authorize access="hasAuthority('R_INSPECTION_REPORT')">
                 {
                     title: "<spring:message code='inspectionReport.title'/>",
                     click: function () {
                         createTab("<spring:message code='inspectionReport.title'/>", "<spring:url value="/inspectionReport/show-form" />")
                     }
                 },
+                </sec:authorize>
                 {isSeparator: true},
                 {
                     title: "<spring:message code='shipmentCostInvoice.title'/>",

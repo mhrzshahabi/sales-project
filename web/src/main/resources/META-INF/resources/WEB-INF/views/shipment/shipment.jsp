@@ -9,9 +9,9 @@
 
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
 
-    let contractId;
+    var contractId;
 
-    let RestDataSource_Contact__SHIPMENT = isc.MyRestDataSource.create({
+    var RestDataSource_Contact__SHIPMENT = isc.MyRestDataSource.create({
         fields:
             [
                 {name: "id", primaryKey: true, canEdit: false, hidden: true},
@@ -45,7 +45,7 @@
         fetchDataURL: "${contextPath}/api/contact/spec-list"
     });
 
-    let RestDataSource_LoadingPort = isc.MyRestDataSource.create({
+    var RestDataSource_LoadingPort = isc.MyRestDataSource.create({
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
@@ -59,7 +59,7 @@
         fetchDataURL: "${contextPath}/api/port/spec-list"
     });
 
-    let RestDataSource_VesselInShipment = isc.MyRestDataSource.create({
+    var RestDataSource_VesselInShipment = isc.MyRestDataSource.create({
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
@@ -74,7 +74,7 @@
         fetchDataURL: "${contextPath}/api/vessel/spec-list"
     });
 
-    let RestDataSource_UnitInShipment = isc.MyRestDataSource.create({
+    var RestDataSource_UnitInShipment = isc.MyRestDataSource.create({
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
@@ -84,7 +84,7 @@
         fetchDataURL: "${contextPath}/api/unit/spec-list"
     });
 
-    let RestDataSource_ShipmentTypeInShipment = isc.MyRestDataSource.create({
+    var RestDataSource_ShipmentTypeInShipment = isc.MyRestDataSource.create({
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
@@ -93,7 +93,7 @@
         fetchDataURL: "${contextPath}/api/shipmentType/spec-list"
     });
 
-    let RestDataSource_ShipmentMethodInShipment = isc.MyRestDataSource.create({
+    var RestDataSource_ShipmentMethodInShipment = isc.MyRestDataSource.create({
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
@@ -102,7 +102,7 @@
         fetchDataURL: "${contextPath}/api/shipmentMethod/spec-list"
     });
 
-    let RestDataSource_pickShipmentItem = isc.MyRestDataSource.create({
+    var RestDataSource_pickShipmentItem = isc.MyRestDataSource.create({
         fields:
             [
                 {name: "cisId", title: "id", primaryKey: true, canEdit: false, hidden: true},
@@ -119,7 +119,7 @@
         fetchDataURL: "${contextPath}/api/shipment/pick-list"
     });
 
-    let RestDataSource_Shipment__SHIPMENT = isc.MyRestDataSource.create({
+    var RestDataSource_Shipment__SHIPMENT = isc.MyRestDataSource.create({
         fields: [
             {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
             {name: "contractShipmentId", title: "<spring:message code='contact.name'/>", type: 'long', hidden: true},
@@ -268,7 +268,7 @@
         }
     }
 
-    let Menu_ListGrid_Shipment = isc.Menu.create({
+    var Menu_ListGrid_Shipment = isc.Menu.create({
         width: 150,
         data: [
             {
@@ -307,6 +307,12 @@
             {
                 title: "<spring:message code='global.form.print.word'/>",
                 click: function () {
+                    let record = ListGrid_Shipment.getSelectedRecord();
+                    if(record.shipmentType == "پالت" || (record.material.descl.contains("onc") && record.shipmentType.contains("انتینر")) ||
+                        (record.material.descl.contains("olyb") && record.shipmentType.contains("فله"))) {
+                        isc.say("<spring:message code='global.print.not.exist'/>");
+                        return;
+                    }
                     check_Shipment_Print();
                 }
             }
@@ -314,9 +320,9 @@
         ]
     });
 
-    let dash = "\n";
+    var dash = "\n";
 
-    let DynamicForm_Shipment = isc.DynamicForm.create({
+    var DynamicForm_Shipment = isc.DynamicForm.create({
         width: "100%",
         height: "100%",
         dataSource: RestDataSource_Shipment__SHIPMENT,
@@ -706,7 +712,7 @@
     });
 
     // Bill of Lading
-    let DynamicForm_Shipment1 = isc.DynamicForm.create({
+    var DynamicForm_Shipment1 = isc.DynamicForm.create({
         width: "100%",
         height: "100%",
         dataSource: RestDataSource_Shipment__SHIPMENT,
@@ -855,13 +861,13 @@
             }
         ]
     });
-    let RestDataSource_Contact_optionCriteria__SHIPMENT = {
+    var RestDataSource_Contact_optionCriteria__SHIPMENT = {
         _constructor: "AdvancedCriteria",
         operator: "and",
         criteria: [{fieldName: "transporter", operator: "equals", value: true}]
     };
 
-    let DynamicForm_Shipment2 = isc.DynamicForm.create({
+    var DynamicForm_Shipment2 = isc.DynamicForm.create({
         width: "100%",
         height: "100%",
         dataSource: RestDataSource_Shipment__SHIPMENT,
@@ -1064,7 +1070,7 @@
         ]
     });
 
-    let shipmentTabs = isc.TabSet.create({
+    var shipmentTabs = isc.TabSet.create({
         width: 900,
         height: "500",
         textAlign: "center",
@@ -1087,7 +1093,7 @@
         ]
     });
 
-    let IButton_Shipment_Save = isc.IButtonSave.create({
+    var IButton_Shipment_Save = isc.IButtonSave.create({
         top: 260,
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
@@ -1153,7 +1159,7 @@
     });
 
 
-    let fillScreenWindow_letter = isc.Window.create({
+    var fillScreenWindow_letter = isc.Window.create({
         placement: "fillScreen",
         autoDraw: false,
         title: "<spring:message code='global.form.help'/>",
@@ -1174,7 +1180,7 @@
         ]
     });
 
-    let ShipmentCancelBtn_Help_shipment = isc.ToolStripButtonPrint.create({
+    var ShipmentCancelBtn_Help_shipment = isc.ToolStripButtonPrint.create({
         icon: "[SKIN]/actions/help.png",
         title: "<spring:message code='global.form.help'/>",
         click: function () {
@@ -1182,7 +1188,7 @@
         }
     });
 
-    let ShipmentCancelBtn = isc.IButtonCancel.create({
+    var ShipmentCancelBtn = isc.IButtonCancel.create({
         top: 260,
         layoutMargin: 5,
         membersMargin: 5,
@@ -1195,7 +1201,7 @@
     });
 
 
-    let hLayout_saveButton = isc.HLayout.create({
+    var hLayout_saveButton = isc.HLayout.create({
         width: 900,
         height: "100%",
         layoutMargin: 10,
@@ -1208,7 +1214,7 @@
         ]
     });
 
-    let VLayout_saveButton = isc.VLayout.create({
+    var VLayout_saveButton = isc.VLayout.create({
         width: 900,
         height: "100%",
         textAlign: "center",
@@ -1219,7 +1225,7 @@
         ]
     });
 
-    let Window_Shipment = isc.Window.create({
+    var Window_Shipment = isc.Window.create({
         title: "<spring:message code='Shipment.title'/>",
         width: 900,
         height: 600,
@@ -1411,7 +1417,7 @@
         }
     }
 
-    let ToolStripButton_Shipment_Refresh = isc.ToolStripButtonRefresh.create({
+    var ToolStripButton_Shipment_Refresh = isc.ToolStripButtonRefresh.create({
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_Shipment_refresh();
@@ -1448,7 +1454,7 @@
     });
     </sec:authorize>
 
-    let ToolStrip_Actions_Shipment = isc.ToolStrip.create({
+    var ToolStrip_Actions_Shipment = isc.ToolStrip.create({
         width: "100%",
         members: [
             <sec:authorize access="hasAuthority('C_SHIPMENT')">
@@ -1476,18 +1482,18 @@
         ]
     });
 
-    let HLayout_Actions_Shipment = isc.HLayout.create({
+    var HLayout_Actions_Shipment = isc.HLayout.create({
         width: "100%",
         members: [
             ToolStrip_Actions_Shipment
         ]
     });
 
-    let ShipmentAttachmentViewLoader = isc.ViewLoader.create({
+    var ShipmentAttachmentViewLoader = isc.ViewLoader.create({
         autoDraw: false,
         loadingMessage: ""
     });
-    let hLayoutViewLoader = isc.HLayout.create({
+    var hLayoutViewLoader = isc.HLayout.create({
         width: "100%",
         height: 180,
         align: "center", padding: 5,
@@ -1498,7 +1504,7 @@
     });
     hLayoutViewLoader.hide();
 
-    let ListGrid_Shipment = isc.ListGrid.create({
+    var ListGrid_Shipment = isc.ListGrid.create({
         showFilterEditor: true,
         width: "100%",
         height: "100%",
@@ -1804,7 +1810,7 @@
         }
     });
 
-    let HLayout_Grid_Shipment = isc.HLayout.create({
+    var HLayout_Grid_Shipment = isc.HLayout.create({
         width: "100%",
         height: "100%",
         members: [
@@ -1812,7 +1818,7 @@
         ]
     });
 
-    let VLayout_Body_Shipment = isc.VLayout.create({
+    var VLayout_Body_Shipment = isc.VLayout.create({
         width: "100%",
         height: "100%",
         members: [
