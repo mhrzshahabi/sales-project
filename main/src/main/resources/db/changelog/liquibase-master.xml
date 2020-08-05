@@ -51,6 +51,7 @@
     <include file="classpath:/db/changelog/tbl_shipment_cost_invoice_detail.xml"/>
     <include file="classpath:/db/changelog/tbl_sales_type.xml"/>
     <include file="classpath:/db/changelog/tbl_payment_type.xml"/>
+    <include file="classpath:/db/changelog/tbl_invoice_type.xml"/>
     <include file="classpath:/db/changelog/contract/tbl_cntr_contract_detail_value.xml"/>
     <include file="classpath:/db/changelog/tbl_contract_discount.xml"/>
 

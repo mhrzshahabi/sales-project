@@ -11,70 +11,7 @@ var nicico;
     var BasicFormUtil = /** @class */ (function () {
         function BasicFormUtil() {
         }
-        BasicFormUtil.getDefaultBasicForm = function (creator, restControllerUrl) {
-            // @ts-ignore
-            creator.variable.url += restControllerUrl.replaceAll(new RegExp("^/|/$"), '') + '/';
-            // @ts-ignore
-            creator.dynamicForm.main = isc.DynamicForm.nicico.getDefault(creator.dynamicForm.fields);
-            // @ts-ignore
-            creator.dynamicForm.main.hide();
-            // @ts-ignore
-            creator.restDataSource.main = isc.RestDataSource.nicico.getDefault(creator.variable.url + "spec-list", creator.listGrid.fields, creator.method.transformRequest);
-            // @ts-ignore
-            creator.listGrid.main = isc.ListGrid.nicico.getDefault(creator.listGrid.fields, creator.restDataSource.main, creator.listGrid.criteria);
-            // <c:if test = "${u_entity}">
-            // @ts-ignore
-            creator.listGrid.main.recordDoubleClick = function (viewer, record, recordNum, field, fieldNum, value, rawValue) {
-                // @ts-ignore
-                creator.method.editForm('<spring:message code="global.form.edit"/>', creator.listGrid.main, creator.dynamicForm.main);
-            };
-            // </c:if>
-            // @ts-ignore
-            creator.menu.main = isc.Menu.create({
-                width: 150,
-                data: [
-                    {
-                        icon: "pieces/16/refresh.png",
-                        title: '<spring:message code="global.form.refresh"/>',
-                        click: function () {
-                            // @ts-ignore
-                            creator.method.refresh(creator.listGrid.main);
-                        }
-                    },
-                    // <c:if test = "${c_entity}">
-                    {
-                        icon: "pieces/16/icon_add.png",
-                        title: '<spring:message code="global.form.new"/>',
-                        click: function () {
-                            // @ts-ignore
-                            creator.method.newForm('<spring:message code="global.form.new"/>', creator.listGrid.main, creator.dynamicForm.main);
-                        }
-                    },
-                    // </c:if>
-                    // <c:if test = "${u_entity}">
-                    {
-                        icon: "pieces/16/icon_edit.png",
-                        title: "<spring:message code='global.form.edit'/>",
-                        click: function () {
-                            // @ts-ignore
-                            creator.method.editForm('<spring:message code="global.form.edit"/>', creator.listGrid.main, creator.dynamicForm.main);
-                        }
-                    },
-                    // </c:if>
-                    // <c:if test = "${d_entity}">
-                    {
-                        icon: "pieces/16/icon_delete.png",
-                        title: '<spring:message code="global.form.remove"/>',
-                        click: function () {
-                            // @ts-ignore
-                            creator.method.delete(creator.listGrid.main);
-                        }
-                    }
-                    // </c:if>
-                ]
-            });
-            // @ts-ignore
-            isc.Canvas.nicico.changeProperties(creator.listGrid.main, "contextMenu", creator.menu.main);
+        BasicFormUtil.createToolStrip = function (creator) {
             // @ts-ignore
             creator.toolStrip.main = isc.ToolStrip.create({
                 width: "100%",
@@ -128,12 +65,93 @@ var nicico;
                     })
                 ]
             });
+        };
+        BasicFormUtil.createRestDataSource = function (creator) {
+            // @ts-ignore
+            creator.restDataSource.main = isc.RestDataSource.nicico.getDefault(creator.variable.url + "spec-list", creator.listGrid.fields, creator.method.transformRequest);
+        };
+        BasicFormUtil.createListGrid = function (creator) {
+            // @ts-ignore
+            creator.listGrid.main = isc.ListGrid.nicico.getDefault(creator.listGrid.fields, creator.restDataSource.main, creator.listGrid.criteria);
+        };
+        BasicFormUtil.createListGridMenu = function (creator) {
+            // @ts-ignore
+            creator.menu.main = isc.Menu.create({
+                width: 150,
+                data: [
+                    {
+                        icon: "pieces/16/refresh.png",
+                        title: '<spring:message code="global.form.refresh"/>',
+                        click: function () {
+                            // @ts-ignore
+                            creator.method.refresh(creator.listGrid.main);
+                        }
+                    },
+                    // <c:if test = "${c_entity}">
+                    {
+                        icon: "pieces/16/icon_add.png",
+                        title: '<spring:message code="global.form.new"/>',
+                        click: function () {
+                            // @ts-ignore
+                            creator.method.newForm('<spring:message code="global.form.new"/>', creator.listGrid.main, creator.dynamicForm.main);
+                        }
+                    },
+                    // </c:if>
+                    // <c:if test = "${u_entity}">
+                    {
+                        icon: "pieces/16/icon_edit.png",
+                        title: "<spring:message code='global.form.edit'/>",
+                        click: function () {
+                            // @ts-ignore
+                            creator.method.editForm('<spring:message code="global.form.edit"/>', creator.listGrid.main, creator.dynamicForm.main);
+                        }
+                    },
+                    // </c:if>
+                    // <c:if test = "${d_entity}">
+                    {
+                        icon: "pieces/16/icon_delete.png",
+                        title: '<spring:message code="global.form.remove"/>',
+                        click: function () {
+                            // @ts-ignore
+                            creator.method.delete(creator.listGrid.main);
+                        }
+                    }
+                    // </c:if>
+                ]
+            });
+            // @ts-ignore
+            isc.Canvas.nicico.changeProperties(creator.listGrid.main, "contextMenu", creator.menu.main);
+        };
+        BasicFormUtil.createDynamicForm = function (creator) {
+            // @ts-ignore
+            creator.dynamicForm.main = isc.DynamicForm.nicico.getDefault(creator.dynamicForm.fields);
+            // @ts-ignore
+            creator.dynamicForm.main.hide();
+        };
+        BasicFormUtil.createVLayout = function (creator) {
             // @ts-ignore
             creator.vLayout.main = isc.VLayout.create({
                 width: "100%",
                 // @ts-ignore
                 members: [creator.toolStrip.main, creator.listGrid.main]
             });
+        };
+        BasicFormUtil.getDefaultBasicForm = function (creator, restControllerUrl) {
+            // @ts-ignore
+            creator.variable.url += restControllerUrl.replaceAll(new RegExp("^/|/$"), '') + '/';
+            this.createDynamicForm(creator);
+            this.createRestDataSource(creator);
+            this.createListGrid(creator);
+            // <c:if test = "${u_entity}">
+            // @ts-ignore
+            creator.listGrid.main.recordDoubleClick = function (viewer, record, recordNum, field, fieldNum, value, rawValue) {
+                // @ts-ignore
+                creator.method.editForm('<spring:message code="global.form.edit"/>', creator.listGrid.main, creator.dynamicForm.main);
+            };
+            // </c:if>
+            this.createListGridMenu(creator);
+            this.createToolStrip(creator);
+            this.createVLayout(creator);
             // @ts-ignore
             return creator.vLayout.main;
         };

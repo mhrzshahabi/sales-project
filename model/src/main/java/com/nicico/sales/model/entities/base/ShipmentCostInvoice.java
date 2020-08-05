@@ -8,6 +8,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -40,11 +41,11 @@ public class ShipmentCostInvoice extends BaseEntity {
     private String invoiceNo;
 
     @NotNull
-    @Column(name = "N_T_VAT", nullable = false)
+    @Column(name = "N_T_VAT", nullable = false, scale = 5, precision = 10)
     private BigDecimal tVat;
 
     @NotNull
-    @Column(name = "N_C_VAT", nullable = false)
+    @Column(name = "N_C_VAT", nullable = false, scale = 5, precision = 10)
     private BigDecimal cVat;
 
     @NotNull
@@ -146,5 +147,8 @@ public class ShipmentCostInvoice extends BaseEntity {
     @NotNull
     @Column(name = "F_CONTRACT_ID", nullable = false)
     private Long contractId;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "shipmentCostInvoice", cascade = CascadeType.REMOVE)
+    private List<ShipmentCostInvoiceDetail> shipmentCostInvoiceDetails;
 
 }
