@@ -354,7 +354,14 @@
     isc.Dialog.SAY_TITLE = "<spring:message code='global.message'/>";
     Page.setAppImgDir("static/img/");
 
-    function formatCellValueNumber(value) {
+    function formatCellValueNumber(value, record, rowNum, colNum) {
+        // dbg('formatCellValueNumber', this)
+        const field = this.getField(colNum)
+        // dbg('field', field)
+        if (field.type && field.type.toLowerCase() === 'date') {
+            // dbg('date field', field, this.Super('formatCellValue', arguments))
+            return new Date(value)
+        }
         // console.debug("formatCellValueNumber(value) arguments",arguments);
         if (value === undefined || isNaN(value)) return value;
         return isc.NumberUtil.format(value, ',0');
@@ -1276,6 +1283,7 @@
         });
         Object.freeze(EnumCategoryUnit);
     }))
+
     function dbg(...args) {
         console.debug(...args)
     }
