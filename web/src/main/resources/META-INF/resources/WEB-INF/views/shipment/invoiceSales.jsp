@@ -251,10 +251,10 @@
                     name: "year"
                 },
                 {
-                    name: "legalFees"
+                    name: "cVat"
                 },
                 {
-                    name: "vat"
+                    name: "tVat"
                 }
             ],
             fetchDataURL: "${contextPath}/api/percentPerYear/spec-list"
@@ -349,65 +349,60 @@
         }
     }
 
+
     function ListGrid_InvoiceSales_remove() {
+    var record = ListGrid_invoiceSales.getSelectedRecord();
 
-        var record = ListGrid_invoiceSales.getSelectedRecord();
-
-        if (record == null || record.id == null) {
-            isc.Dialog.create(
-                {
-                    message: "<spring:message code='global.grid.record.not.selected'/>",
-                    icon: "[SKIN]ask.png",
-                    title: "<spring:message code='global.message'/>",
-                    buttons: [isc.Button.create(
-                        {
-                            title: "<spring:message code='global.ok'/>"
-                        })],
-                    buttonClick: function () {
-                        this.hide();
-                    }
-                });
-        }
-        else {
-            isc.Dialog.create(
-                {
-                    message: "<spring:message code='global.grid.record.remove.ask'/>",
-                    icon: "[SKIN]ask.png",
-                    title: "<spring:message code='global.grid.record.remove.ask.title'/>",
-                    buttons: [
-                        isc.IButtonSave.create(
-                            {
-                                title: "<spring:message code='global.yes'/>"
-                            }),
-                        isc.IButtonCancel.create(
-                            {
-                                title: "<spring:message code='global.no'/>"
-                            })
-                    ],
-                    buttonClick: function (button, index) {
-                        this.hide();
-                        if (index == 0) {
-                            var invoiceSalesId = record.id;
-                            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest,
-                                {
-                                    actionURL: "${contextPath}/api/invoiceSales/" + invoiceSalesId,
-                                    httpMethod: "DELETE",
-                                    callback: function (resp) {
-                                        if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
-                                            ListGrid_InvoiceSales_refresh();
-                                            isc.say("<spring:message code='global.grid.record.remove.success'/>");
-                                        }
-                                        else {
-                                            isc.say("<spring:message code='global.grid.record.remove.failed'/>");
-                                        }
-                                    }
-                                }));
-                        }
-                    }
-                });
-        }
+    if (record == null || record.id == null) {
+        isc.Dialog.create({
+            message: "<spring:message code='global.grid.record.not.selected'/>",
+            icon: "[SKIN]ask.png",
+            title: "<spring:message code='global.message'/>",
+            buttons: [
+                isc.Button.create({
+                    title: "<spring:message code='global.ok'/>",
+                }),
+            ],
+            buttonClick: function () {
+                this.hide();
+            },
+        });
+    } else {
+        isc.Dialog.create({
+            message: "<spring:message code='global.grid.record.remove.ask'/>",
+            icon: "[SKIN]ask.png",
+            title: "<spring:message code='global.grid.record.remove.ask.title'/>",
+            buttons: [
+                isc.IButtonSave.create({
+                    title: "<spring:message code='global.yes'/>",
+                }),
+                isc.IButtonCancel.create({
+                    title: "<spring:message code='global.no'/>",
+                }),
+            ],
+            buttonClick: function (button, index) {
+                this.hide();
+                if (index == 0) {
+                    var invoiceSalesId = record.id;
+                    isc.RPCManager.sendRequest(
+                        Object.assign(BaseRPCRequest, {
+                            actionURL: "${contextPath}/api/invoiceSales/" + invoiceSalesId,
+                            httpMethod: "DELETE",
+                            callback: function (resp) {
+                                if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                                    ListGrid_InvoiceSales_refresh();
+                                    isc.say("<spring:message code='global.grid.record.remove.success'/>");
+                                } else {
+                                    isc.say("<spring:message code='global.grid.record.remove.failed'/>");
+                                }
+                            },
+                        })
+                    );
+                }
+            },
+        });
     }
-
+}
 
     var Menu_ListGrid_InvoiceSales = isc.Menu.create(
         {
@@ -768,7 +763,8 @@
                 {
                     name: "firstContractNo",
                     title: "<spring:message code='invoiceSales.firstContractNo'/>",
-                    colSpan: 4
+                    colSpan: 4 ,
+                    keyPressFilter: "[0-9.]"
                 },
                 {
                     name: "secondContractNo",
@@ -1507,8 +1503,8 @@
     };
 
     RestDataSource_percentPerYear.fetchData(criteria1, function (dsResponse, data, dsRequest) {
-        legTotal = data[0].legalFees;
-        vatTotal = data[0].vat;
+        legTotal = data[0].cVat;
+        vatTotal = data[0].tVat;
     });
 
     function updatePrice(){

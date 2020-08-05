@@ -2,8 +2,8 @@ package com.nicico.sales.model.entities.base;
 
 import com.nicico.sales.model.Auditable;
 import com.nicico.sales.model.entities.common.BaseEntity;
-import com.nicico.sales.model.entities.warehouse.ItemElement;
-import com.nicico.sales.model.entities.warehouse.RemittanceDetail;
+import com.nicico.sales.model.entities.warehouse.Inventory;
+import com.nicico.sales.model.entities.warehouse.MaterialElement;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.envers.AuditOverride;
@@ -20,7 +20,8 @@ import java.math.BigDecimal;
 @AuditOverride(forClass = Auditable.class)
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
-@Table(name = "TBL_ASSAY_INSPECTION")
+@Table(name = "TBL_ASSAY_INSPECTION", uniqueConstraints = @UniqueConstraint(name = "inspectionReport_materialElement_inventory_UNIQUE",
+        columnNames = {"F_INSPECTION_REPORT_ID", "F_MATERIAL_ELEMENT_ID", "F_INVENTORY_ID"}))
 public class AssayInspection extends BaseEntity {
 
     @Id
@@ -28,7 +29,7 @@ public class AssayInspection extends BaseEntity {
     @SequenceGenerator(name = "SEQ_ASSAY_INSPECTION", sequenceName = "SEQ_ASSAY_INSPECTION", allocationSize = 1)
     private Long id;
 
-    @Column(name = "N_VALUE", scale = 10, precision = 5)
+    @Column(name = "N_VALUE", scale = 5, precision = 10)
     private BigDecimal value;
 
     @Setter(AccessLevel.NONE)
@@ -42,20 +43,26 @@ public class AssayInspection extends BaseEntity {
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "F_REMITTANCE_DETAIL_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_AssayInspection2RemittanceDetailByRemittanceDetailId"))
-    private RemittanceDetail remittanceDetail;
+    @JoinColumn(name = "F_MATERIAL_ELEMENT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_AssayInspection2materialElementByMaterialElementId"))
+    private MaterialElement materialElement;
 
     @NotNull
-    @Column(name = "F_REMITTANCE_DETAIL_ID", nullable = false)
-    private Long remittanceDetailId;
+    @Column(name = "F_MATERIAL_ELEMENT_ID", nullable = false)
+    private Long materialElementId;
+
+    @Column(name = "C_LAB_NAME")
+    private String labName;
+
+    @Column(name = "C_LAB_PLACE")
+    private String labPlace;
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "F_ITEM_ELEMENT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_AssayInspection2itemElementByItemElementId"))
-    private ItemElement itemElement;
+    @JoinColumn(name = "F_INVENTORY_ID", nullable = false, insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_assayInspection2inventoryByInventoryId"))
+    private Inventory inventory;
 
     @NotNull
-    @Column(name = "F_ITEM_ELEMENT_ID", nullable = false)
-    private Long itemElementId;
+    @Column(name = "F_INVENTORY_ID", nullable = false)
+    private Long inventoryId;
 
 }

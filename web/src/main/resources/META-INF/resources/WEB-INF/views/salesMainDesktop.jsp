@@ -5,7 +5,6 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-
 <% final String accessToken = (String) session.getAttribute(ConstantVARs.ACCESS_TOKEN); %>
 
 <html>
@@ -17,7 +16,6 @@
     <link rel="stylesheet" href="<spring:url value='/static/css/smartStyle.css' />"/>
     <link rel="stylesheet" href="<spring:url value='/static/css/calendar.css' />"/>
     <link rel="stylesheet" href='<spring:url value="/static/css/commonStyle.css"/>'/>
-    <link rel="stylesheet" href='<spring:url value="/static/css/OAManagementUsers.css"/>'/>
 
     <script src="<spring:url value='/static/script/js/calendar.js'/>"></script>
     <script src="<spring:url value='/static/script/js/jalali-moment.browser.js'/>"></script>
@@ -28,6 +26,10 @@
     <script src="<spring:url value='/static/script/js/persian-date.min.js' />"></script>
     <script src="<spring:url value='/static/script/enumJson/unitEnum.js' />"></script>
     <script src="<spring:url value='/static/script/enumJson/materialEnum.js' />"></script>
+    <script src="<spring:url value='/static/script/js/persian-rex.js' />"></script>
+    <script src="<spring:url value='/static/script/js/num2persian-min.js' />"></script>
+    <script src="<spring:url value='/static/script/js/convertunit.js' />"></script>
+
 
     <script>var isomorphicDir = "isomorphic/";</script>
     <script src=isomorphic/system/modules/ISC_Core.js></script>
@@ -62,6 +64,8 @@
 
 <script type="application/javascript">
 
+
+    persianDate.localType = 'en';
     isc.SimpleType.create({
         name: "persianDate",
         inheritsFrom: "text",
@@ -73,15 +77,12 @@
     });
     var persianDatePicker = isc.FormItem.getPickerIcon("date", {
         disableOnReadOnly: false,
+        src: "pieces/pcal.png",
         click: function (form, item, icon) {
             if (!item.getCanEdit())
                 return;
-            closeCalendarWindow();
-            displayDatePicker(null, item, 'ymd', '/');
-        },
-        blur: function () {
-            closeCalendarWindow();
-        },
+            displayDatePicker(item['ID'], item, 'ymd', '/');
+        }
     });
 
     <%@include file="common/ts/CommonUtil.js"%>
@@ -91,6 +92,59 @@
     <%@include file="common/ts/GeneralTabUtil.js"%>
     <%@include file="common/ts/StorageUtil.js"%>
 
+    var Enums = {
+
+        eStatus: {
+            "Active": "عادی",
+            "DeActive": "حذف شده"
+        },
+        unit: {
+            symbols: JSON.parse('${Enum_SymbolUnit_WithValue}'),
+            hasFlag: function (value, target) {
+
+                value = Enums.unit.symbols[value];
+                target = Enums.unit.symbols[target];
+                for (let id in Object.values(Enums.unit.symbols).sort().reverse()) {
+
+                    if (id > value) continue;
+                    if (id === target) return true;
+                    value -= id;
+                }
+
+                return false;
+            },
+            getValues: function (value) {
+
+                let result = [];
+                value = Enums.unit.symbols[value];
+                for (let id in Object.values(Enums.unit.symbols).sort().reverse()) {
+
+                    if (id > value) continue;
+                    result.push(Object.keys(Enums.unit.symbols).filter(q => Enums.unit.symbols[q] === id).first());
+                    value -= id;
+                }
+
+                return result;
+            }
+        }
+    };
+
+    var ImportantIDs = {
+        material: {
+            MOLYBDENUM_OXIDE: 1,
+            COPPER_CATHOD: 2,
+            COPPER_CONCENTRATES: 3
+        },
+        invoiceType: {
+            PERFORMA: 3,
+            PROVISIONAL: 2,
+            FINAL: 1
+        },
+        unit: {
+            PERCENT: 1,
+        }
+    }
+
     var BaseRPCRequest = {
         httpHeaders: {"Authorization": "Bearer <%= accessToken %>"},
         useSimpleHttp: true,
@@ -98,11 +152,6 @@
         showPrompt: true,
         serverOutputAsString: false,
         willHandleError: false //centralized error handling
-    };
-
-    const statusMap = {
-        "Active": "عادی",
-        "DeActive": "حذف شده"
     };
 
     const BaseFormItems = {
@@ -167,7 +216,7 @@
                 if (record == null || record.estatus == null || record.estatus.length === 0)
                     return;
 
-                return record.estatus.map(q => '<div>' + statusMap[q] + '</div>').join();
+                return record.estatus.map(q => '<div>' + Enums.eStatus[q] + '</div>').join();
             },
             formatCellValue: function (value, record, rowNum, colNum, grid) {
 
@@ -294,7 +343,6 @@
         // console.debug("formatCellValueNumber(value) arguments",arguments);
         if (value === undefined || isNaN(value)) return value;
         return isc.NumberUtil.format(value, ',0');
-
     }
 
     isc.ListGrid.addProperties({
@@ -316,9 +364,9 @@
         getAllData: function () {
 
             let data = [...this.getData()];
-            let allEditRows = this.getAllEditRows();
-            for (let i = 0; i < allEditRows.length; i++)
-                data.push({...this.getEditedRecord(allEditRows[i])});
+            // let allEditRows = this.getAllEditRows();
+            // for (let i = 0; i < allEditRows.length; i++)
+            //     data.push({...this.getEditedRecord(allEditRows[i])});
 
             return data;
         },
@@ -368,7 +416,6 @@
                     flagTabExist = true;
                     break;
                 }
-
             }
         }
         if (!flagTabExist)
@@ -381,7 +428,6 @@
     }
 
     var label_Username = isc.Label.create({
-
         width: 200,
         dynamicContents: true,
         contents: "<span class='header-label-username'><spring:message code='global.user'/></span>" + ":" + "<span class='header-label-username-span'>${userFullName}</span>",
@@ -553,74 +599,32 @@
                         {isSeparator: true},
 
                     ]
-
-
                 },
-
                 {isSeparator: true},
-
-
                 {
                     title: "<spring:message code='main.baseTab.test'/>",
                     submenu: [
-
                         {
                             title: "<spring:message code='port.port'/>",
                             click: function () {
-                                createTab("<spring:message code='port.port'/>", "<spring:url value="/port/showForm" />")
+                                createTab("<spring:message code='port.port'/>", "<spring:url value="/base-port/show-form" />")
                             }
                         }, {
                             title: "<spring:message code='vessel.title'/>",
                             click: function () {
                                 createTab("<spring:message code='vessel.title'/>", "<spring:url value="/vessel/showForm" />")
                             }
-                        },{
-                            title: "generatorDynamicForm",
-                            click: function () {
-                                createTab("test", "<spring:url value="/generatorDynamicForm/show-form" />")
-                            }
-                        },
-                        {isSeparator: true},
-                        {
-                            title: "<spring:message code='warehouseCad.yard'/>",
-                            click: function () {
-                                createTab("<spring:message code='warehouseCad.yard'/>", "<spring:url value="/warehouseYard/showForm" />")
-                            }
-                        },
-
+                        }
                     ]
                 },
                 {isSeparator: true},
-
-
                 {
                     title: "<spring:message code='main.baseTab.financial'/>",
                     submenu: [
                         {
-                            title: "<spring:message code='unit.title'/>",
+                            title: "<spring:message code='currencyRate.title'/>",
                             click: function () {
-                                createTab("<spring:message code='unit.title'/>", "<spring:url value="/unit/showForm" />")
-                            }
-                        },
-                        {isSeparator: true},
-                        {
-                            title: "<spring:message code='rate.title'/>",
-                            click: function () {
-                                createTab("<spring:message code='rate.title'/>", "<spring:url value="/rate/showForm" />")
-                            }
-                        },
-                        {isSeparator: true},
-                        {
-                            title: "<spring:message code='exchangeRate.title'/>",
-                            click: function () {
-                                createTab("<spring:message code='exchangeRate.title'/>", "<spring:url value="/currencyRate/showForm" />")
-                            }
-                        },
-                        {isSeparator: true},
-                        {
-                            title: "<spring:message code='currency.title'/>",
-                            click: function () {
-                                createTab("<spring:message code='currency.title'/>", "<spring:url value="/currency/showForm" />")
+                                createTab("<spring:message code='currencyRate.title'/>", "<spring:url value="/base-currencyRate/show-form" />")
                             }
                         },
                         {isSeparator: true},
@@ -632,24 +636,14 @@
                         },
                         {isSeparator: true},
                         {
-                            title: "<spring:message code='paymentOption.title'/>",
+                            title: "<spring:message code='priceBase.title'/>",
                             click: function () {
-                                createTab("<spring:message code='paymentOption.title'/>", "<spring:url value="/paymentOption/showForm" />")
-                            }
-                        },
-                        {isSeparator: true},
-
-                        {
-                            title: "<spring:message code='LME.title'/>",
-                            click: function () {
-                                createTab("<spring:message code='LME.title'/>", "<spring:url value="/LME/showForm" />")
+                                createTab("<spring:message code='priceBase.title'/>", "<spring:url value="/price-base/showForm" />")
                             }
                         },
                     ]
                 },
                 {isSeparator: true},
-
-
                 {
                     title: "<spring:message code='material.title'/>",
                     click: function () {
@@ -658,81 +652,29 @@
                 },
                 {isSeparator: true},
 
-
                 {
-                    title: "<spring:message code='typical.analysis'/>",
-                    submenu: [
-                        {
-                            title: "<spring:message code='typical.analysis.mo'/>",
-                            click: function () {
-                                createTab("<spring:message code='typical.analysis.mo'/>", "<spring:url value="/analysisMo/showForm" />")
-                            }
-                        },
-                    ]
+                    title: "<spring:message code='unit.title'/>",
+                    click: function () {
+                        createTab("<spring:message code='unit.title'/>", "<spring:url value="base-unit/show-form" />")
+                    }
                 },
                 {isSeparator: true},
 
                 {
                     title: "<spring:message code='country.title'/>",
                     click: function () {
-                        createTab("<spring:message code='country.title'/>", "<spring:url value="/country/showForm" />")
+                        createTab("<spring:message code='country.title'/>", "<spring:url value="/base-country/show-form" />")
                     }
                 },
                 {isSeparator: true},
-
-
-
                 {
-                    title: "<spring:message code='shipment.type'/>",
+                    title: "<spring:message code='parameters.title'/>",
                     click: function () {
-                        createTab("<spring:message code='shipment.type'/>", "<spring:url value="/shipmenttype/showForm" />")
+                        createTab("<spring:message code='parameters.title'/>", "<spring:url value="/parameters/showForm" />")
                     }
                 },
-                {isSeparator: true},
-
-                {
-                    title: "<spring:message code='shipment.method'/>",
-                    click: function () {
-                        createTab("<spring:message code='shipment.method'/>", "<spring:url value="/shipmentmethod/showForm" />")
-                    }
-                },
-                {isSeparator: true},
-
-
-                <%--{--%>
-                <%--    title: "<spring:message code='instruction.title'/>",--%>
-                <%--    click: function () {--%>
-                <%--        createTab("<spring:message code='instruction.title'/>", "<spring:url value="/instruction/showForm" />")--%>
-                <%--    }--%>
-                <%--},--%>
-                <%--{isSeparator: true},--%>
-
-
-
-                {
-                    title: "<spring:message code='Invoice.Type'/>",
-                    click: function () {
-                        createTab("<spring:message code='Invoice.Type'/>", "<spring:url value="/invoiceType/showForm" />")
-                    }
-                },
-                {isSeparator: true},
-
-
-                {
-                    title: "invoiceComp",
-                    click: function () {
-                        createTab("invoiceComp", "<spring:url value="/invoiceComps/show-form" />")
-                    }
-                },
-                {isSeparator: true},
-
-
-
-
 
             ]
-
-
         }),
     });
 
@@ -758,17 +700,6 @@
         ]
     });
 
-    /*End --------------------------help General----------------------------*/
-
-
-    /*----------------------settingTab------------------------*/
-    settingTab = isc.ToolStripMenuButton.create({
-        title: "&nbsp; <spring:message code='main.settingTab'/>",
-        click: function () {
-            createTab("<spring:message code='main.settingTab'/>", "<spring:url value="web/oauth/landing/show-form" />", false);
-        }
-    });
-
     /*----------------------contractsTab------------------------*/
     contractsTab = isc.ToolStripMenuButton.create({
         title: "&nbsp; <spring:message code='main.contractsTab'/>",
@@ -781,20 +712,20 @@
                         {
                             title: "<spring:message code='salesContractAll.title'/>",
                             click: function () {
-                               enContract();
-                               createTab("<spring:message code='salesContract.title'/>", "<spring:url value="/contract/showForm" />")
+                                enContract();
+                                createTab("<spring:message code='salesContract.title'/>", "<spring:url value="/contract/showForm" />")
                             }
-                        },{
+                        }, {
                             title: "<spring:message code='salesContractMoButton.title'/>",
                             click: function () {
-                               enContract();
-                               createTab("<spring:message code='salesContractMoButton.title'/>", "<spring:url value="/contact/contactMolybdenum"/>")
+                                enContract();
+                                createTab("<spring:message code='salesContractMoButton.title'/>", "<spring:url value="/contact/contactMolybdenum"/>")
                             }
                         }, {
                             title: "<spring:message code='salesContractConcButton.title'/>",
                             click: function () {
-                               enContract();
-                               createTab("<spring:message code='main.contractsConcTab'/>", "<spring:url value="/contact/concMain"/>")
+                                enContract();
+                                createTab("<spring:message code='main.contractsConcTab'/>", "<spring:url value="/contact/concMain"/>")
                             }
                         },
                         {isSeparator: true},
@@ -804,19 +735,9 @@
                                 enContract();
                                 createTab("<spring:message code='main.contractsCadTab'/>", "<spring:url value="/contact/cadMain"/>")
                             }
-                        },
-
+                        }
                     ]
                 },
-                {isSeparator: true},
-                {
-                    title: "<spring:message code='inspectionContract.title'/>",
-                    click: function () {
-                        createTab("<spring:message code='inspectionContract.title'/>", "<spring:url value="/inspectionContract/showForm" />")
-                    }
-                },
-
-
                 <sec:authorize access="hasAuthority('R_CONTRACT2')">
                 {isSeparator: true},
                 {
@@ -907,21 +828,20 @@
                     }
                 },
                 </sec:authorize>--%>
-
-
-                /*{
+                {isSeparator: true},
+                {
                     title: "<spring:message code='charter.title'/>",
                     click: function () {
                         createTab("<spring:message code='charter.title'/>", "<spring:url value="/shipmentContract/showForm" />")
                     }
                 },
-                {isSeparator: true},*/
-                /*{
+                {isSeparator: true},
+                {
                     title: "<spring:message code='contractPerson.title'/>",
                     click: function () {
                         createTab("<spring:message code='contractPerson.title'/>", "<spring:url value="/contractPerson/showForm" />")
                     }
-                }*/
+                }
             ]
         })
     });
@@ -942,7 +862,21 @@
                 {
                     title: "<spring:message code='shipmentCost.title'/>",
                     click: function () {
-                        createTab("<spring:message code='shipmentCost.title'/>", "<spring:url value="/cost/showForm" />")
+                        createTab("<spring:message code='shipmentCost.title'/>", "<spring:url value="/shipment-cost/show-form" />")
+                    }
+                },
+                {isSeparator: true},
+                {
+                    title: "<spring:message code='inspectionReport.title'/>",
+                    click: function () {
+                        createTab("<spring:message code='inspectionReport.title'/>", "<spring:url value="/inspectionReport/show-form" />")
+                    }
+                },
+                {isSeparator: true},
+                {
+                    title: "<spring:message code='shipmentCostInvoice.title'/>",
+                    click: function () {
+                        createTab("<spring:message code='shipmentCostInvoice.title'/>", "<spring:url value="/shipmentCostInvoice/show-form" />")
                     }
                 }
             ]
@@ -952,11 +886,10 @@
     //-----------------------reporttab
     reportTab = isc.ToolStripMenuButton.create({
         title: "&nbsp; <spring:message code='main.reportTab'/>",
-            click: function () {
-                createTab("<spring:message code='main.reportTab'/>", "<spring:url value="/contract/show-report-form" />")
-            }
+        click: function () {
+            createTab("<spring:message code='main.reportTab'/>", "<spring:url value="/contract/show-report-form" />")
+        }
     })
-
 
     /*----------------------productTab------------------------*/
     productTab = isc.ToolStripMenuButton.create({
@@ -967,7 +900,16 @@
                 {
                     title: "<spring:message code='tozin.onWay'/>",
                     click: function () {
-                        createTab("<spring:message code='tozin.onWay'/>", "<spring:url value="/tozin/showOnWayProductForm" />")
+
+                        try {
+                            createTab("<spring:message code='tozin.onWay'/>", "<spring:url value="/tozin/showOnWayProductForm" />")
+                        } catch (e) {
+                            console.error('open /tozin/showOnWayProductFormerror accured ', e);
+                            SalesBaseParameters.deleteAllSavedParametersAndFetchAgain().then(r => {
+                                    createTab("<spring:message code='tozin.onWay'/>", "<spring:url value="/tozin/showOnWayProductForm" />")
+                                }
+                            )
+                        }
                     }
 
                 },
@@ -975,24 +917,26 @@
                 {
                     title: "<spring:message code='tozin.between.complex'/>",
                     click: function () {
-                        createTab("<spring:message code='tozin.between.complex'/>",
-                            "<spring:url value="/tozin/between-complex-transfer" />")
+                        try {
+                            createTab("<spring:message code='tozin.between.complex'/>",
+                                "<spring:url value="/tozin/between-complex-transfer" />")
+                        } catch (e) {
+                            console.error('open /tozin/between-complex-transfer error accured ', e);
+                            SalesBaseParameters.deleteAllSavedParametersAndFetchAgain().then(r => {
+                                    createTab("<spring:message code='tozin.between.complex'/>",
+                                        "<spring:url value="/tozin/between-complex-transfer" />")
+                                }
+                            )
+                        }
+
                     }
 
-                },
-                {isSeparator: true},
-
-                {
-                    title: "<spring:message code='molybdenum.title'/>",
-                    click: function () {
-                        createTab("<spring:message code='molybdenum.title'/>", "<spring:url value="/warehouseLot/showForm" />")
-                    }
                 },
                 {isSeparator: true},
                 {
                     title: "<spring:message code='bijack'/>",
                     click: function () {
-                        createTab("<spring:message code='bijack'/>", "<spring:url value="/warehouseCad/showForm" />")
+                        createTab("<spring:message code='bijack'/>", "<spring:url value="/remittance-detail/showForm" />")
                     }
                 },
                 {isSeparator: true},
@@ -1003,12 +947,12 @@
                     }
                 },
                 {isSeparator: true},
-                {
-                    title: "<spring:message code='warehouseStock'/>",
-                    click: function () {
-                        createTab("باقر<spring:message code='warehouseStock'/>", "<spring:url value="/remittance/showForm" />")
-                    }
-                },
+                <%--{   visibility:"hidden",--%>
+                <%--    title: "بیجک ورودی خروجی",--%>
+                <%--    click: function () {--%>
+                <%--        createTab("بیجک ورودی خروجی", "<spring:url value="/remittance/showForm" />")--%>
+                <%--    }--%>
+                <%--},--%>
             ]
         })
     });
@@ -1019,6 +963,15 @@
         menu: isc.Menu.create({
             placement: "none",
             data: [
+                <sec:authorize access="hasAuthority('R_FOREIGN_INVOICE')">
+                {
+                    title: "<spring:message code='entity.foreign-invoice'/>",
+                    click: function () {
+                        createTab("<spring:message code='entity.foreign-invoice'/>", "<spring:url value="/foreign-invoice/show-form" />")
+                    }
+                },
+                {isSeparator: true},
+                </sec:authorize>
                 {
                     title: "<spring:message code='issuedInvoices.title'/>",
                     click: function () {
@@ -1095,8 +1048,7 @@
             financialTab,
             // inspectionTab,
             productTab,
-            reportTab,
-            settingTab,
+            reportTab
         ]
     });
 
@@ -1199,32 +1151,9 @@
                     headerLayout.setVisibility(true);
                     MainDesktopMenuH.setVisibility(true);
                 }, 100)
-
             }
-
         }
     })
-
-
-    <sec:authorize access="hasAuthority('R_CURRENCY')">
-    {
-        var dollar = {};
-        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                actionURL: "${contextPath}/api/currency/list",
-                httpMethod: "GET",
-                data: "",
-                callback: function (RpcResponse_o) {
-                    if (RpcResponse_o.httpResponseCode == 200 || RpcResponse_o.httpResponseCode == 201) {
-                        var data = JSON.parse(RpcResponse_o.data);
-                        for (x of data) {
-                            dollar[x.nameEn] = x.nameEn;
-                        }
-                    } //if rpc
-                } // callback
-            })
-        );
-    }
-    </sec:authorize>
 
     /*Help*/
     isc.HTMLFlow.create({
@@ -1242,11 +1171,12 @@
         : document.URL.split("?")[0];
     const SalesConfigs = {
         Urls: {
+            completeUrl: SalesDocumentUrl,
             RootUrl: "${contextPath}",
             InvoiceExportRest: "${contextPath}" + "/rest",
             remittanceRest: "${contextPath}" + "/rest",
         },
-        httpHeaders: {"Authorization": "Bearer <%= accessToken %>"},
+        httpHeaders: {"Authorization": "Bearer <%= accessToken %>", "content-type": "application/json"},
         userFullName: '<%= SecurityUtil.getFullName()%>',
     }
     isc.FilterBuilder.addProperties({
@@ -1297,23 +1227,34 @@
 
     function enContract() {
         var url_string = window.location.href;
-                                var url = new URL(url_string);
-                                var lang = url.searchParams.get("lang");
+        var url = new URL(url_string);
+        var lang = url.searchParams.get("lang");
 
-                                if (lang == "fa" || lang == null) {
-                                    isc.Dialog.create({
-                                        message: "بهتر است از این تب در فرمت انگلیسی استفاده کنید",
-                                        icon: "[SKIN]ask.png",
-                                        title: "<spring:message code='global.message'/>",
-                                        buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
-                                        buttonClick: function () {
-                                            this.hide();
-                                        }
-                                    });
-    }
+        if (lang == "fa" || lang == null) {
+            isc.Dialog.create({
+                message: "بهتر است از این تب در فرمت انگلیسی استفاده کنید",
+                icon: "[SKIN]ask.png",
+                title: "<spring:message code='global.message'/>",
+                buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
+                buttonClick: function () {
+                    this.hide();
+                }
+            });
+        }
     }
 
-    SalesBaseParameters.getAllParameters();
+
+    SalesBaseParameters.deleteAllSavedParametersAndFetchAgain();
+    const EnumCategoryUnit = {string: {}, index: {}}
+
+    fetch('api/unit/category-unit', {headers: SalesConfigs.httpHeaders}).then(r => r.json().then(j => {
+        j.forEach((e, i) => {
+            EnumCategoryUnit.index[e] = i;
+            EnumCategoryUnit.string[e] = e
+        });
+        Object.freeze(EnumCategoryUnit);
+    }))
+
 </script>
 </body>
 </html>

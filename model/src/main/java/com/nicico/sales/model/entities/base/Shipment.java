@@ -1,6 +1,6 @@
 package com.nicico.sales.model.entities.base;
 
-import com.nicico.sales.model.Auditable;
+import com.nicico.sales.model.entities.common.BaseEntity;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.envers.NotAudited;
@@ -17,7 +17,7 @@ import java.util.Set;
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
 @Table(name = "TBL_SHIPMENT")
-public class Shipment extends Auditable {
+public class Shipment extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_SHIPMENT")
@@ -96,27 +96,26 @@ public class Shipment extends Auditable {
 
     @Column(name = "CREATE_DATE")
     private Date createDate;
-//    private String createDate;
 
-    @Column(name = "FILE_NAME", length = 100)
+    @Column(name = "FILE_NAME")
     private String fileName;
 
-    @Column(name = "NEW_FILE_NAME", length = 100)
+    @Column(name = "NEW_FILE_NAME")
     private String newFileName;
 
-    @Column(name = "SHIPMENT_TYPE", length = 100)
+    @Column(name = "SHIPMENT_TYPE")
     private String shipmentType;
 
-    @Column(name = "SHIPMENT_METHOD", length = 100)
+    @Column(name = "SHIPMENT_METHOD")
     private String shipmentMethod;
 
-    @Column(name = "LAYCAN", length = 100)
+    @Column(name = "LAYCAN")
     private String laycan;
 
     @Column(name = "SWITCH_BL_NUMBERS", length = 4000)
     private String switchBl;
 
-    @Column(name = "SWB", length = 100)
+    @Column(name = "SWB")
     private String swb;
 
     @Setter(AccessLevel.NONE)
@@ -127,10 +126,10 @@ public class Shipment extends Auditable {
     @Column(name = "SWITCH_PORT")
     private Long switchPortId;
 
-    @Column(name = "NO_BUNDLE", length = 100)
+    @Column(name = "NO_BUNDLE")
     private Integer noBundle;
 
-    @Column(name = "LOADING_LETTER", length = 100)
+    @Column(name = "LOADING_LETTER")
     private String loadingLetter;
 
     @Column(name = "BL_NUMBERS", length = 4000)
@@ -141,13 +140,11 @@ public class Shipment extends Auditable {
 
     @Column(name = "BL_DATE", length = 20)
     private Date blDate;
-//    private String blDate;
 
     @Column(name = "SW_BL_DATE")
     private Date swBlDate;
-//    private String swBlDate;
 
-    @Column(name = "CONSIGNEE", length = 100)
+    @Column(name = "CONSIGNEE")
     private String consignee;
 
     @Setter(AccessLevel.NONE)

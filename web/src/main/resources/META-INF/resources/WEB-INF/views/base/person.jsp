@@ -177,7 +177,8 @@
             {
                 name: "contactId",
                 title: "<spring:message code='commercialParty.title'/>",
-                width: 500, wrapTitle: false, required: true, errorOrientation: "bottom",
+                width: 500, wrapTitle: false,
+                errorOrientation: "bottom",
                 editorType: "SelectItem",
                 hidden: true,
                 type: 'text',
@@ -206,32 +207,42 @@
                 name: "fullName",
                 title: "<spring:message code='person.fullName'/>",
                 type: 'text', wrapTitle: false,
-                required: true, length: "200", errorOrientation: "bottom",
+                required: true,
+                length: "200",
+                errorOrientation: "bottom",
                 width: 500,
+                keyPressFilter : "[^\\s]+$",
                 validators: [
                     {
                         type: "required",
                         validateOnChange: true
-                    }]
+                    },
+                    {
+                      type: "regexp",
+                      expression: "^[\u0600-\u06FF\uFB8A\u067E\u0686\u06AF\u200C\u200F|a-zA-Z]*$",
+                      validateOnChange: true
+                    } ]
             },
             {
                 name: "jobTitle",
                 title: "<spring:message code='person.jobTitle'/>",
+                required: true,
                 length: "200",
                 type: 'text',
                 width: 500,
-                wrapTitle: false
-            },
-            { name: "image", type: "imageFile",
-              accept: ".pdf,.docx,.xlsx,.rar,.zip,image/*",
-              multiple: "",
-              hint: "Maximum file size is 5 MiB",
-              title: "<spring:message code='global.Attachment'/> ",
+                wrapTitle: false,
+                keyPressFilter : "[^\\s]+$",
                 validators: [
-                {
-                    type:"required",
-                    validateOnChange: true
-                }]
+                    {
+                        type: "required",
+                        validateOnChange: true
+                    },
+                    {
+                      type: "regexp",
+                      expression: "^[\u0600-\u06FF\uFB8A\u067E\u0686\u06AF\u200C\u200F|a-zA-Z]*$",
+                      validateOnChange: true
+                    }
+                ]
             },
             {
                 name: "title",hidden: true,
@@ -245,7 +256,8 @@
                 }
             },
             {
-                name: "email",hidden: true,
+                name: "email",
+                hidden: true,
                 title: "<spring:message code='person.email'/>",
                 type: 'text',
                 required: false, errorOrientation: "bottom",
@@ -356,11 +368,11 @@
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
         click: function () {
-           /* ValuesManager_Person.validate();
+            ValuesManager_Person.validate();
             DynamicForm_Person.validate();
             if (DynamicForm_Person.hasErrors()) {
                 return;
-            }*/
+            }
 
             var data = DynamicForm_Person.getValues();
             var method = "PUT";
@@ -768,7 +780,8 @@
                     name: "fullName",
                     title: "<spring:message code='person.fullName'/>",
                     type: 'text',
-                    required: true, errorOrientation: "bottom",
+                    required: true,
+                    errorOrientation: "bottom",
                     width: "10%",
                     validators: [
                         {
@@ -798,7 +811,7 @@
                     name: "email",hidden: true,
                     title: "<spring:message code='person.email'/>",
                     type: 'text',
-                    required: true, errorOrientation: "bottom",
+                    errorOrientation: "bottom",
                     width: "10%",
                     validators: [
                         {
@@ -874,10 +887,6 @@
                     members: [hLayoutViewLoader]
                 });
                 return layoutPerson;
-            },
-            recordClick: function(viewer, record, recordNum, field, fieldNum, value, rawValue) {
-                formEdit.editSelectedData(listGrid);
-                formView.editSelectedData(listGrid);
             },
             sortField: 2,
             sortDirection: "descending",

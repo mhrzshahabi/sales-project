@@ -9,7 +9,7 @@ import lombok.experimental.Accessors;
 @Getter
 @Setter
 @Accessors(chain = true)
-@JsonInclude(JsonInclude.Include.NON_NULL)
+//@JsonInclude()
 public class TozinDTO {
 
     private String source;
@@ -55,6 +55,15 @@ public class TozinDTO {
     @ApiModel("TozinInfo")
     public static class Info extends TozinDTO {
     }
+
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("TozinInfo")
+    public static class PDF extends TozinDTO.Info {
+        private String driverName;
+    }
+
 
     @Getter
     @Setter

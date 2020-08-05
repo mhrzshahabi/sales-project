@@ -7,7 +7,6 @@ import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.List;
 
 @Getter
 @Setter
@@ -18,7 +17,7 @@ import java.util.List;
 @Entity
 @Table(name = "TBL_WARH_REMITTANCE_DETAIL")
 public class RemittanceDetail extends BaseEntity {
-
+    //todo Article 3 molybdenum....
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_WARH_REMITTANCE_DETAIL")
     @SequenceGenerator(name = "SEQ_WARH_REMITTANCE_DETAIL", sequenceName = "SEQ_WARH_REMITTANCE_DETAIL", allocationSize = 1)
@@ -60,14 +59,38 @@ public class RemittanceDetail extends BaseEntity {
     @JoinColumn(name = "F_DEPOT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_remittanceDetail2depotByDepotId"))
     private Depot depot;
 
-    @NotNull
-    @Column(name = "F_DEPOT_ID", nullable = false)
+    //    @NotNull
+    @Column(name = "F_DEPOT_ID", nullable = true)
     private Long depotId;
 
-    @OneToMany(mappedBy = "remittanceDetail", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    private List<InventoryValue> inventoryValues;
-//
-//    @OneToMany(mappedBy = "remittanceDetail", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-//    private List<ItemRawMaterial> itemRawMaterials;
+    @Setter(AccessLevel.NONE)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "F_SOURCE_TOZINE_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_remittanceSource2tozinTableTozineId"))
+    private TozinTable sourceTozin;
+
+    @NotNull
+    @Column(name = "F_SOURCE_TOZINE_ID", nullable = false)
+    private Long sourceTozinId;
+
+    @Setter(AccessLevel.NONE)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "F_DESTINATION_TOZINE_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_remittanceTozinDest2tozinTableTozineId"))
+    private TozinTable destinationTozin;
+
+    @Column(name = "F_DESTINATION_TOZINE_ID")
+    private Long destinationTozinId;
+
+
+    @Column(name = "RAIL_POLOMP_NO")
+    private String railPolompNo;
+    @Column(name = "SECURITY_POLOMP_NO")
+    private String securityPolompNo;
+
+
+    @Column(name = "C_DESCRIPTION", length = 1000)
+    private String description;
+
+    @Column(name = "N_WEIGHT")
+    private Long weight;
 
 }

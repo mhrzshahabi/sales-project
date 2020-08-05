@@ -6,6 +6,7 @@ import com.nicico.sales.enumeration.ErrorType;
 import com.nicico.sales.exception.*;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.exception.ConstraintViolationException;
+import org.hibernate.exception.DataException;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -86,12 +87,7 @@ public class SalesExceptionHandlerControllerAdvice extends AbstractExceptionHand
         }
     }
 
-    @ExceptionHandler({
-            SalesException2.class,
-            NotFoundException.class,
-            NotEditableException.class,
-            UnAuthorizedException.class
-    })
+    @ExceptionHandler({SalesException2.class, NotFoundException.class, NotEditableException.class, UnAuthorizedException.class})
     public ResponseEntity<Object> handleBaseExceptions(BaseException exception) {
 
         this.printLog(exception, true, true, exception.getResponse().toString());
@@ -128,23 +124,28 @@ public class SalesExceptionHandlerControllerAdvice extends AbstractExceptionHand
 
         this.printLog(ex, true, true, ex.getClass().getName());
 
-        ConstraintViolationException constraintViolationException = (ConstraintViolationException) ex.getCause();
-        if (constraintViolationException.getConstraintName() != null) {
+        if (ex.getCause() instanceof ConstraintViolationException) {
 
-            String constraintName = constraintViolationException.getConstraintName().toLowerCase();
-            Optional<ErrorResponseDTO.ErrorFieldDTO> first = this.getUniqueConstraintErrors().entrySet().stream().
-                    filter((entry) -> constraintName.contains(entry.getKey())).
-                    map(Map.Entry::getValue).findFirst();
-            ErrorResponseDTO.ErrorFieldDTO errorDTO = first.orElse(new ErrorResponseDTO.ErrorFieldDTO());
-            ErrorResponseDTO errorResponseDTO = (new ErrorResponseDTO(ex)).
-                    setError(errorDTO.getCode()).
-                    setErrors(Collections.singleton((new ErrorResponseDTO.ErrorFieldDTO()).
-                            setCode(errorDTO.getCode()).
-                            setField(errorDTO.getField()).
-                            setMessage(errorDTO.getMessage())));
+            ConstraintViolationException constraintViolationException = (ConstraintViolationException) ex.getCause();
+            if (constraintViolationException.getConstraintName() != null) {
 
-            return new ResponseEntity<>(errorResponseDTO, HttpStatus.BAD_REQUEST);
-        } else
-            return this.handleException(constraintViolationException);
+                String constraintName = constraintViolationException.getConstraintName().toLowerCase();
+                Optional<ErrorResponseDTO.ErrorFieldDTO> first = this.getUniqueConstraintErrors().entrySet().stream().
+                        filter((entry) -> constraintName.contains(entry.getKey())).
+                        map(Map.Entry::getValue).findFirst();
+                ErrorResponseDTO.ErrorFieldDTO errorDTO = first.orElse(new ErrorResponseDTO.ErrorFieldDTO());
+                ErrorResponseDTO errorResponseDTO = (new ErrorResponseDTO(ex)).
+                        setError(errorDTO.getCode()).
+                        setErrors(Collections.singleton((new ErrorResponseDTO.ErrorFieldDTO()).
+                                setCode(errorDTO.getCode()).
+                                setField(errorDTO.getField()).
+                                setMessage(errorDTO.getMessage())));
+
+                return new ResponseEntity<>(errorResponseDTO, HttpStatus.BAD_REQUEST);
+            } else return this.handleException(constraintViolationException);
+        } else if (ex.getCause() instanceof DataException)
+            return provideStandardError(new InvalidDataException(ex, null));
+
+        return provideStandardError(ex);
     }
 }

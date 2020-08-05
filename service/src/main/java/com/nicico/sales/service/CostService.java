@@ -3,8 +3,8 @@ package com.nicico.sales.service;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.CostDTO;
+import com.nicico.sales.exception.NotFoundException;
 import com.nicico.sales.iservice.ICostService;
 import com.nicico.sales.model.entities.base.Cost;
 import com.nicico.sales.repository.CostDAO;
@@ -29,7 +29,7 @@ public class CostService implements ICostService {
     @PreAuthorize("hasAuthority('R_COST')")
     public CostDTO.Info get(Long id) {
         final Optional<Cost> slById = costDAO.findById(id);
-        final Cost cost = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.CostNotFound));
+        final Cost cost = slById.orElseThrow(() -> new NotFoundException(Cost.class));
 
         return modelMapper.map(cost, CostDTO.Info.class);
     }
@@ -58,7 +58,7 @@ public class CostService implements ICostService {
     @PreAuthorize("hasAuthority('U_COST')")
     public CostDTO.Info update(Long id, CostDTO.Update request) {
         final Optional<Cost> slById = costDAO.findById(id);
-        final Cost cost = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.CostNotFound));
+        final Cost cost = slById.orElseThrow(() -> new NotFoundException(Cost.class));
 
         Cost updating = new Cost();
         modelMapper.map(cost, updating);

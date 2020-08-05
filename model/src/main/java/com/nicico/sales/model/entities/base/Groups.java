@@ -1,6 +1,6 @@
 package com.nicico.sales.model.entities.base;
 
-import com.nicico.sales.model.Auditable;
+import com.nicico.sales.model.entities.common.BaseEntity;
 import lombok.*;
 import lombok.experimental.Accessors;
 
@@ -14,7 +14,7 @@ import javax.persistence.*;
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
 @Table(name = "TBL_GROUPS")
-public class Groups extends Auditable {
+public class Groups extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_GROUPS")
@@ -22,7 +22,7 @@ public class Groups extends Auditable {
     @Column(name = "ID")
     private Long id;
 
-    @Column(name = "GROUPS_NAME", nullable = false, length = 200)
+    @Column(name = "GROUPS_NAME", nullable = false)
     private String groupsName;
 
 }

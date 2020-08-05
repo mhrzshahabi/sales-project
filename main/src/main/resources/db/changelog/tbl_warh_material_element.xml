@@ -1,0 +1,75 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+    <!-- Replace foreign key from F_MATERIAL_ITEM_ID to F_MATERIAL_ID -->
+    <changeSet author="karimi (generated)" id="1593331182345-221">
+        <addColumn tableName="TBL_WARH_MATERIAL_ELEMENT">
+            <column name="F_MATERIAL_ID" type="number(19, 0)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="karimi (generated)" id="1593331182345-222">
+        <addForeignKeyConstraint baseColumnNames="F_MATERIAL_ID" baseTableName="TBL_WARH_MATERIAL_ELEMENT"
+                                 constraintName="fk_materialElement2materialByMaterialId" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_MATERIAL"
+                                 validate="true"/>
+    </changeSet>
+    <changeSet author="karimi (generated)" id="1593331182345-223">
+        <dropForeignKeyConstraint baseTableName="TBL_WARH_MATERIAL_ELEMENT"
+                                  constraintName="FK_MATERIALELEMENT2ITEMBYITEMID"/>
+    </changeSet>
+    <changeSet author="karimi (generated)" id="1593331182345-247">
+        <dropColumn columnName="F_MATERIAL_ITEM_ID" tableName="TBL_WARH_MATERIAL_ELEMENT"/>
+    </changeSet>
+
+    <changeSet author="MShahabi" id="1799887766554-016">
+        <addColumn tableName="TBL_WARH_MATERIAL_ELEMENT">
+            <column name="F_UNIT_ID" type="number(19, 0)"/>
+        </addColumn>
+        <addForeignKeyConstraint baseColumnNames="F_UNIT_ID" baseTableName="TBL_WARH_MATERIAL_ELEMENT" constraintName="fk_materialElement2unit" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_UNIT" validate="true"/>
+    </changeSet>
+
+    <changeSet author="MShahabi" id="1799887766554-025">
+        <sql>
+            insert INTO TBL_WARH_MATERIAL_ELEMENT (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            F_ELEMENT_ID, F_MATERIAL_ID, F_UNIT_ID) VALUES (1, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 1, 3, -1);
+
+            insert INTO TBL_WARH_MATERIAL_ELEMENT (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            F_ELEMENT_ID, F_MATERIAL_ID, F_UNIT_ID) VALUES (2, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 2, 3, -1);
+
+            insert INTO TBL_WARH_MATERIAL_ELEMENT (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            F_ELEMENT_ID, F_MATERIAL_ID, F_UNIT_ID) VALUES (3, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 3, 3, -1);
+
+            insert INTO TBL_WARH_MATERIAL_ELEMENT (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            F_ELEMENT_ID, F_MATERIAL_ID, F_UNIT_ID) VALUES (4, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 4, 1, 11);
+
+            insert INTO TBL_WARH_MATERIAL_ELEMENT (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            F_ELEMENT_ID, F_MATERIAL_ID, F_UNIT_ID) VALUES (5, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 1, 1, 11);
+
+            insert INTO TBL_WARH_MATERIAL_ELEMENT (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            F_ELEMENT_ID, F_MATERIAL_ID, F_UNIT_ID) VALUES (6, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 1, 2, -1);
+
+        </sql>
+    </changeSet>
+    <changeSet id="saeb1234hala bia vesat " author="saeb">
+        <sql>
+            update TBL_WARH_MATERIAL_ELEMENT set F_UNIT_ID=-11 where id in (5,4);
+            delete from tbl_unit where id=11
+        </sql>
+    </changeSet>
+</databaseChangeLog>

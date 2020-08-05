@@ -1,6 +1,6 @@
 package com.nicico.sales.model.entities.base;
 
-import com.nicico.sales.model.Auditable;
+import com.nicico.sales.model.entities.common.BaseEntity;
 import lombok.*;
 import lombok.experimental.Accessors;
 
@@ -14,7 +14,7 @@ import javax.persistence.*;
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
 @Table(name = "TBL_WAREHOUSE_STOCK")
-public class WarehouseStock extends Auditable {
+public class WarehouseStock extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_WAREHOUSE_STOCK")
@@ -27,11 +27,6 @@ public class WarehouseStock extends Auditable {
 
     @Column(name = "PLANT")
     private String plant;
-
-    @Setter(AccessLevel.NONE)
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "YARD_ID", nullable = false, insertable = false, updatable = false, foreignKey = @ForeignKey(name = "WarehouseStock2yard"))
-    private WarehouseYard warehouseYard;
 
     @Column(name = "YARD_ID")
     private Long warehouseYardId;

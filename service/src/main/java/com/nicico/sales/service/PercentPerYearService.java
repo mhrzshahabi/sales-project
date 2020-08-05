@@ -36,7 +36,7 @@ public class PercentPerYearService implements IPercentPerYearService {
     @Transactional(readOnly = true)
     @Override
     public TotalResponse<PercentPerYearDTO.Info> search(NICICOCriteria criteria) {
-        return SearchUtil.search(percentPerYearDAO, criteria, percentPerYear  -> modelMapper.map(percentPerYear, PercentPerYearDTO.Info.class));
+        return SearchUtil.search(percentPerYearDAO, criteria, percentPerYear -> modelMapper.map(percentPerYear, PercentPerYearDTO.Info.class));
     }
 
 }

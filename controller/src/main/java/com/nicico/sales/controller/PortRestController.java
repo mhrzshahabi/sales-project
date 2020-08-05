@@ -22,43 +22,36 @@ import java.util.List;
 @RequestMapping(value = "/api/port")
 public class PortRestController {
 
-    private final IPortService portService;
+    private final IPortService iPortService;
 
     @Loggable
     @GetMapping(value = "/{id}")
     public ResponseEntity<PortDTO.Info> get(@PathVariable Long id) {
-        return new ResponseEntity<>(portService.get(id), HttpStatus.OK);
+        return new ResponseEntity<>(iPortService.get(id), HttpStatus.OK);
     }
 
     @Loggable
     @GetMapping(value = "/list")
     public ResponseEntity<List<PortDTO.Info>> list() {
-        return new ResponseEntity<>(portService.list(), HttpStatus.OK);
+        return new ResponseEntity<>(iPortService.list(), HttpStatus.OK);
     }
 
     @Loggable
     @PostMapping
     public ResponseEntity<PortDTO.Info> create(@Validated @RequestBody PortDTO.Create request) {
-        return new ResponseEntity<>(portService.create(request), HttpStatus.CREATED);
+        return new ResponseEntity<>(iPortService.create(request), HttpStatus.CREATED);
     }
 
     @Loggable
     @PutMapping
     public ResponseEntity<PortDTO.Info> update(@RequestBody PortDTO.Update request) {
-        return new ResponseEntity<>(portService.update(request.getId(), request), HttpStatus.OK);
+        return new ResponseEntity<>(iPortService.update(request.getId(), request), HttpStatus.OK);
     }
 
     @Loggable
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
-        portService.delete(id);
-        return new ResponseEntity(HttpStatus.OK);
-    }
-
-    @Loggable
-    @DeleteMapping(value = "/list")
-    public ResponseEntity<Void> delete(@Validated @RequestBody PortDTO.Delete request) {
-        portService.delete(request);
+    public ResponseEntity delete(@PathVariable Long id) {
+        iPortService.delete(id);
         return new ResponseEntity(HttpStatus.OK);
     }
 
@@ -66,6 +59,6 @@ public class PortRestController {
     @GetMapping(value = "/spec-list")
     public ResponseEntity<TotalResponse<PortDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) throws IOException {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
-        return new ResponseEntity<>(portService.search(nicicoCriteria), HttpStatus.OK);
+        return new ResponseEntity<>(iPortService.search(nicicoCriteria), HttpStatus.OK);
     }
 }

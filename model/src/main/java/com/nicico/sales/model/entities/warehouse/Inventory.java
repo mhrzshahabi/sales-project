@@ -1,10 +1,12 @@
 package com.nicico.sales.model.entities.warehouse;
 
+import com.nicico.sales.model.entities.base.MaterialItem;
 import com.nicico.sales.model.entities.common.BaseEntity;
 import lombok.*;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
@@ -25,14 +27,19 @@ public class Inventory extends BaseEntity {
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "F_ITEM_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_inventory2itemByItemId"))
-    private Item item;
+    @JoinColumn(name = "F_MATERIAL_ITEM_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_inventory2itemByItemId"))
+    private MaterialItem materialItem;
 
     @NotNull
-    @Column(name = "F_ITEM_ID", nullable = false)
-    private Long itemId;
+    @Column(name = "F_MATERIAL_ITEM_ID", nullable = false)
+    private Long materialItemId;
+
+    @NotEmpty
+    @Column(name = "C_LABEL", nullable = false, unique = true)
+    private String label;
 
     @OneToMany(mappedBy = "inventory", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private List<RemittanceDetail> remittanceDetails;
+
 
 }

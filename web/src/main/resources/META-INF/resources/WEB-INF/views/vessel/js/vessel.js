@@ -5,9 +5,10 @@ vesselTab.dynamicForm.fields = [{
     name: "id",
     type: "number",
     title: "<spring:message code='global.id'/>"
-},{
+}, {
     width: "10%",
     name: "name",
+    required: true,
     type: 'text',
     title: "<spring:message code='vessel.name'/>"
 }, {
@@ -30,7 +31,7 @@ vesselTab.dynamicForm.fields = [{
     name: "length",
     type: "number",
     title: "<spring:message code='vessel.length'/>"
-},{
+}, {
     width: "10%",
     name: "beam",
     type: "number",
@@ -38,5 +39,5 @@ vesselTab.dynamicForm.fields = [{
 }];
 Object.assign(vesselTab.listGrid.fields, vesselTab.dynamicForm.fields);
 nicico.BasicFormUtil.getDefaultBasicForm(vesselTab, "api/vessel/");
-vesselTab.listGrid.main.contextMenu=null;
+vesselTab.listGrid.main.contextMenu = null;
 vesselTab.dynamicForm.main.windowWidth = 500;

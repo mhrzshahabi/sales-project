@@ -3,8 +3,8 @@ package com.nicico.sales.controller.warehouse;
 import com.nicico.copper.common.Loggable;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
+import com.nicico.sales.dto.WarehouseDTO;
 import com.nicico.sales.iservice.warehous.IWarehouseService;
-import com.nicico.sales.model.entities.warehouse.Warehouse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -30,15 +30,21 @@ public class WarehouseController {
     @Loggable
     @GetMapping(value = {"/spec-list"})
 
-    public ResponseEntity<TotalResponse<Warehouse>> search(@RequestParam MultiValueMap<String, String> criteria) {
+    public ResponseEntity<TotalResponse<WarehouseDTO.Info>> search(@RequestParam MultiValueMap<String, String> criteria) {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
         return new ResponseEntity<>(service.search(nicicoCriteria), HttpStatus.OK);
     }
 
     @Loggable
     @GetMapping(value = "/update-all")
-    public ResponseEntity<List<Warehouse>> updateFromTozinView() {
+    public ResponseEntity<List<WarehouseDTO.Info>> updateFromTozinView() {
         service.updateFromTozinView();
+        return new ResponseEntity<>(service.list(), HttpStatus.OK);
+    }
+
+    @Loggable
+    @GetMapping(value = "/list")
+    public ResponseEntity<List<WarehouseDTO.Info>> list() {
         return new ResponseEntity<>(service.list(), HttpStatus.OK);
     }
 

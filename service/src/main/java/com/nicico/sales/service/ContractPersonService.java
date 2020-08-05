@@ -3,8 +3,8 @@ package com.nicico.sales.service;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.ContractPersonDTO;
+import com.nicico.sales.exception.NotFoundException;
 import com.nicico.sales.iservice.IContractPersonService;
 import com.nicico.sales.model.entities.base.ContractPerson;
 import com.nicico.sales.repository.ContractPersonDAO;
@@ -29,7 +29,7 @@ public class ContractPersonService implements IContractPersonService {
     @PreAuthorize("hasAuthority('R_CONTRACT_PERSON')")
     public ContractPersonDTO.Info get(Long id) {
         final Optional<ContractPerson> slById = contractPersonDAO.findById(id);
-        final ContractPerson contractPerson = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.ContractPersonNotFound));
+        final ContractPerson contractPerson = slById.orElseThrow(() -> new NotFoundException(ContractPerson.class));
 
         return modelMapper.map(contractPerson, ContractPersonDTO.Info.class);
     }
@@ -58,7 +58,7 @@ public class ContractPersonService implements IContractPersonService {
     @PreAuthorize("hasAuthority('U_CONTRACT_PERSON')")
     public ContractPersonDTO.Info update(Long id, ContractPersonDTO.Update request) {
         final Optional<ContractPerson> slById = contractPersonDAO.findById(id);
-        final ContractPerson contractPerson = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.ContractPersonNotFound));
+        final ContractPerson contractPerson = slById.orElseThrow(() -> new NotFoundException(ContractPerson.class));
 
         ContractPerson updating = new ContractPerson();
         modelMapper.map(contractPerson, updating);

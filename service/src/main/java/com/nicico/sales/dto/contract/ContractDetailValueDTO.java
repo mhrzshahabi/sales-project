@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
@@ -22,9 +23,15 @@ public class ContractDetailValueDTO {
     private String name;
     private String key;
     private DataType type;
+    private String reference;
     private String value;
     private String column;
+    private Boolean required;
 
+    @Transient
+    private Integer width = 100;
+
+    private Long unitId;
     private Long contractDetailId;
 
     @Getter

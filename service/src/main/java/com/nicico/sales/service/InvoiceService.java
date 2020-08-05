@@ -3,8 +3,8 @@ package com.nicico.sales.service;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.InvoiceDTO;
+import com.nicico.sales.exception.NotFoundException;
 import com.nicico.sales.iservice.IInvoiceService;
 import com.nicico.sales.model.entities.base.Invoice;
 import com.nicico.sales.repository.InvoiceDAO;
@@ -36,7 +36,7 @@ public class InvoiceService implements IInvoiceService {
     @PreAuthorize("hasAuthority('R_INVOICE')")
     public InvoiceDTO.Info get(Long id) {
         final Optional<Invoice> slById = invoiceDAO.findById(id);
-        final Invoice invoice = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.InvoiceNotFound));
+        final Invoice invoice = slById.orElseThrow(() -> new NotFoundException(Invoice.class));
 
         return modelMapper.map(invoice, InvoiceDTO.Info.class);
     }
@@ -65,7 +65,7 @@ public class InvoiceService implements IInvoiceService {
     @PreAuthorize("hasAuthority('U_INVOICE')")
     public InvoiceDTO.Info update(Long id, InvoiceDTO.Update request) {
         final Optional<Invoice> slById = invoiceDAO.findById(id);
-        final Invoice invoice = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.InvoiceNotFound));
+        final Invoice invoice = slById.orElseThrow(() -> new NotFoundException(Invoice.class));
 
         Invoice updating = new Invoice();
         modelMapper.map(invoice, updating);
@@ -94,7 +94,7 @@ public class InvoiceService implements IInvoiceService {
     @Override
     public InvoiceDTO.Info sendForm2accounting(Long id, String data) {
         final Invoice invoice = invoiceDAO.findById(id)
-                .orElseThrow(() -> new SalesException(SalesException.ErrorType.InvoiceNotFound));
+                .orElseThrow(() -> new NotFoundException(Invoice.class));
         ResponseEntity<String> processId = restTemplate.postForEntity(accountingAppUrl + "/rest/workflow/startSalesProcess", data, String.class);
         invoice.setProcessId(processId.getBody());
         return save(invoice);

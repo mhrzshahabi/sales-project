@@ -4,17 +4,15 @@ import com.google.gson.Gson;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.InvoiceSalesDTO;
+import com.nicico.sales.exception.NotFoundException;
 import com.nicico.sales.iservice.IInvoiceSalesService;
 import com.nicico.sales.model.entities.base.InvoiceSales;
 import com.nicico.sales.repository.InvoiceSalesDAO;
-import com.nicico.sales.utility.AccountingTotalResponse;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -40,7 +38,7 @@ public class InvoiceSalesService implements IInvoiceSalesService {
 //    @PreAuthorize("hasAuthority('R_INVOICE_SALES')")
     public InvoiceSalesDTO.Info get(Long id) {
         final Optional<InvoiceSales> slById = invoiceSalesDAO.findById(id);
-        final InvoiceSales invoiceSales = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.InvoiceSalesNotFound));
+        final InvoiceSales invoiceSales = slById.orElseThrow(() -> new NotFoundException(InvoiceSales.class));
 
         return modelMapper.map(invoiceSales, InvoiceSalesDTO.Info.class);
     }
@@ -82,7 +80,7 @@ public class InvoiceSalesService implements IInvoiceSalesService {
 //    @PreAuthorize("hasAuthority('U_INVOICE_SALES')")
     public InvoiceSalesDTO.Info update(Long id, InvoiceSalesDTO.Update request) {
         final Optional<InvoiceSales> slById = invoiceSalesDAO.findById(id);
-        final InvoiceSales invoiceSales = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.InvoiceSalesNotFound));
+        final InvoiceSales invoiceSales = slById.orElseThrow(() -> new NotFoundException(InvoiceSales.class));
 
         InvoiceSales updating = new InvoiceSales();
         modelMapper.map(invoiceSales, updating);

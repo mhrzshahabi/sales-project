@@ -26,22 +26,22 @@ public class ContractDetailValueRestController {
     @Loggable
     @GetMapping(value = "/{id}")
     public ResponseEntity<ContractDetailValueDTO.Info> get(@PathVariable Long id) {
-
         return new ResponseEntity<>(contractDetailValueService.get(id), HttpStatus.OK);
     }
 
     @Loggable
     @GetMapping(value = "/list")
     public ResponseEntity<List<ContractDetailValueDTO.Info>> list() {
-
         return new ResponseEntity<>(contractDetailValueService.list(), HttpStatus.OK);
     }
 
     @Loggable
     @PostMapping
-    public ResponseEntity<ContractDetailValueDTO.Info> create(@Validated @RequestBody ContractDetailValueDTO.Create request) {
-
-        return new ResponseEntity<>(contractDetailValueService.create(request), HttpStatus.CREATED);
+    public ResponseEntity<ContractDetailValueDTO.Info> create(@Validated @RequestBody List<ContractDetailValueDTO.Create> request) {
+        for (ContractDetailValueDTO.Create create : request) {
+            contractDetailValueService.create(create);
+        }
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @Loggable

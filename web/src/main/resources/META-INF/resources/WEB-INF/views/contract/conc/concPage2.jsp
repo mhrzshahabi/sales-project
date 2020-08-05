@@ -2,29 +2,23 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
 //<script>
-
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
-    var RestDataSource_Incoterms_InCon = isc.MyRestDataSource.create({
+var textHelp ="";
+var RestDataSource_Incoterms_InCon = isc.MyRestDataSource.create({
+        autoFetchData: false,
         fields:
-        [
-        {name: "id", title: "<spring:message code='goods.code'/> "},
-        {name: "incotermRule.titleEn", title: "incotermsRules "},
-        {name: "code", title: "code"}
-        ],
-        fetchDataURL: "${contextPath}/api/incoterm-rules/spec-list",
-                    transformResponse: function (dsResponse, dsRequest, data) {
-                    data.response.data.forEach(d=>d['code']=d['incotermRule']['code'])
+                [
+                {name: "id", title: "<spring:message code='goods.code'/> "},
+                {name: "incotermVersion.incotermVersion", title: "incotermsRules "},
+                {name: "code", title: "code"}
+                ],
+        fetchDataURL: "${contextPath}/api/g-incoterm/spec-list",transformResponse: function (dsResponse, dsRequest, data) {
+                       data.response.data.forEach(d=>d['incotermVersionName']=d['incotermVersion']['incotermVersion'])
+                       data.response.data.forEach(d=>d['incotermVersionID']=d['incotermVersion']['id'])
                     return this.Super("transformResponse", arguments);
                     }
     });
-    var RestDataSource_ContractIncoterms_InCon = isc.MyRestDataSource.create({
-        fields:
-        [
-        {name: "id", title: "<spring:message code='goods.code'/> "},
-        {name: "title", title: "incotermsRules "},
-        ],
-        fetchDataURL: "${contextPath}/api/g-incoterm/spec-list"
-    });
+
     var sendDateSetConc;
     var sendDateSetConcSave;
     factoryLableArticle("lableArticle3", '<b><font size=4px>Article 3 -QUALITY</font><b>', "30", 5);
@@ -299,24 +293,27 @@
                 type: 'long',
                 numCols: 4,
                 editorType: "SelectItem",
-                optionDataSource: RestDataSource_ContractIncoterms_InCon,
-                displayField: "title",
-                valueField: "id",
-                pickListWidth: "450",
+                autoFetchData: false,
+                optionDataSource: RestDataSource_Incoterms_InCon,
+                displayField: "incotermVersionName",
+                valueField: "incotermVersionID",
+                pickListWidth: "499",
                 pickListHeight: "500",
                 pickListProperties: {showFilterEditor: true},
                 pickListFields: [
-                    {name: "id", width: 220, align: "center"},
-                    {name: "title", width: 220, align: "center"}
+                    {name: "incotermVersionName", width: "100%", align: "center"}
                 ],
-                changed: function (form, item, value) {
-                    form.clearValue('incotermsId');
+                changed: function(form, item, value) {
+                            form.getField('incotermsId').setDisabled(!value);
+                            form.clearValue('incotermsId');
+                            textHelp ="";
                 },
                 width: "500",
-                title: "<strong class='cssDynamicForm'>SHIPMENT TYPE<strong>"
+                title: "<strong class='cssDynamicForm'>INCOTERM VERSION<strong>"
             }
             ,{
                 name: "incotermsId", //article6_number32
+                disabled: true,
                 colSpan: 3,
                 titleColSpan: 1,
                 showIf:"true",
@@ -334,21 +331,36 @@
                 numCols: 4,
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_Incoterms_InCon,
-                displayField: "code",
+                autoFetchData: false,
+                displayField: "title",
                 valueField: "id",
-                pickListWidth: "450",
+                pickListWidth: "499",
                 pickListHeight: "500",
                 pickListProperties: {showFilterEditor: true},
                 pickListFields: [
-                    {name: "id", width: 220, align: "center"},
-                    {name: "incotermRule.titleEn", width: 220, align: "center"}
+                    {name: "title",align: "center",width: "100%",title:"incoterm title"}
                 ],
                 getPickListFilterCriteria : function () {
-                        return {_constructor:'AdvancedCriteria',operator:"and",criteria:[{fieldName: "incotermId", operator: "equals", value: this.form.getValue("incotermVersion")}]}
-                     },
+                        return {_constructor:'AdvancedCriteria',operator:"and",criteria:[{fieldName: "incotermVersion.id", operator: "equals", value: this.form.getValue("incotermVersion")}]}
+                },
+                changed:function(form, item, value){
+                        RestDataSource_Incoterms_InCon.fetchData({_constructor:'AdvancedCriteria',operator:"and",criteria:[{fieldName: "id", operator: "equals", value: value}]},function (dsResponse, data, dsRequest) {
+                            for (let i=0;i<data[0].incotermRules.length;i++){
+                                  textHelp += ("<b>CODE : </b>"+data[0].incotermRules[i].incotermRule.code +" "+"<b>TITLE : </b>"+"      "+data[0].incotermRules[i].incotermRule.titleEn)+"<br>";
+                            }
+                        });
+                },
                 width: "500",
-                title: "<strong class='cssDynamicForm'>SHIPMENT TYPE<strong>"
-                },{
+                title: "<strong class='cssDynamicForm'>INCOTERM RULES<strong>",
+                icons: [{
+                        src: "[SKIN]/actions/help.png",
+
+                        click: function(){
+                            isc.say("<br><b>INCOTERM RULES: </b><br>"+textHelp)
+                        }
+                     }]
+                },
+                {
                 name: "portByPortSourceId",
                 showIf:"true",
                 editorType: "SelectItem",
@@ -595,7 +607,7 @@
                 showTitle: true,
                 defaultValue: "",
                 startRow: true,
-                title: "<strong class='cssDynamicForm'>EXCHANGE RATE DATE</strong>"
+                title: "<strong class='cssDynamicForm'>CURRENCY RATE DATE</strong>"
             }, {
                 name: "article12_number61",
                 width: "150",

@@ -17,25 +17,39 @@ class StorageUtil {
             allOptions[name] = option;
         try {
             Object.assign(allOptions[name], allOptions[name], option);
-        }
-        catch (e) {
+        } catch (e) {
             allOptions[name] = option;
         }
         localStorage.setItem(storage_name, JSON.stringify(allOptions));
     }
     ;
-    static get(name) {
-        name = name.toString();
+    static get(...args) {
         const storage_name = this._prefix;
         let allOptions = localStorage.getItem(storage_name);
         if (allOptions === null || allOptions === undefined)
             return null;
         const all = JSON.parse(allOptions);
         let result = all;
-        Object.values(arguments).forEach(k => result = result[k]);
+        args.forEach(k => result = result[k]);
         return result;
     }
     ;
+    static delete(...args) {
+        const storage_name = this._prefix;
+        let allOptions = localStorage.getItem(storage_name);
+        if (allOptions === null || allOptions === undefined)
+            return true;
+        const all = JSON.parse(allOptions);
+        try {
+            const forEval = 'delete all["' + args.join('"]["') + '"]';
+            eval(forEval);
+            localStorage.setItem(storage_name, JSON.stringify(all));
+            return true;
+        } catch (e) {
+            console.error('storageUtil delete error', e);
+            return false;
+        }
+    }
 }
 StorageUtil._prefix = 'sales';
 class SalesBaseParameters {
@@ -62,25 +76,40 @@ class SalesBaseParameters {
     static async getUnitParameter(updateTable = false) {
         return await this.getParameter('unit', updateTable);
     }
+    static getSavedWarehouseParameter() {
+        return this.warehouse;
+    }
+    static getSavedUnitParameter() {
+        return this.unit;
+    }
+    static getSavedMaterialItemParameter() {
+        return this.materialItem;
+    }
+    static getAllSavedParameter() {
+        return {
+            'materialItem': this.materialItem,
+            'unit': this.unit,
+            'warehouse': this.warehouse
+        };
+    }
     static async getWarehouseParameter(updateTable = false) {
         return await this.getParameter('warehouse', updateTable);
     }
-    static async getGoodsParameter(updateTable = false) {
-        return await this.getParameter('goods', updateTable);
+    static async getMaterialItemParameter(updateTable = false) {
+        return await this.getParameter('materialItem', updateTable);
     }
     static async getAllParameters(updateTable = false) {
         await Promise.all([
             this.getUnitParameter(updateTable),
             this.getWarehouseParameter(updateTable),
-            this.getGoodsParameter(updateTable)
+            this.getMaterialItemParameter(updateTable)
         ]);
         return {
-            'goods': this.goods,
+            'materialItem': this.materialItem,
             'unit': this.unit,
             'warehouse': this.warehouse
         };
     }
-
     static async fetchAndSave(parameter) {
         try {
             const rawResponse = await fetch(this.rootUrl + '/api/' + parameter + '/list', {headers: this.httpHeaders});
@@ -94,6 +123,18 @@ class SalesBaseParameters {
             console.error('fetching parameter error', e);
             return false;
         }
+    }
+    static async deleteAllSavedParametersAndFetchAgain() {
+        StorageUtil.delete('parameters');
+        delete this.warehouse;
+        delete this.unit;
+        delete this.materialItem;
+        await this.getAllParameters();
+        return {
+            unit: this.unit,
+            warehouse: this.warehouse,
+            materialItem: this.materialItem
+        };
     }
 }
 SalesBaseParameters.rootUrl = document.URL.split("?")[0].slice(-1) === "/"

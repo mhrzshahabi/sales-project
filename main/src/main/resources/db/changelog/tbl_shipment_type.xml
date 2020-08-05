@@ -1,0 +1,40 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+    <changeSet author="MShahabi" id="1799887766554-022">
+
+        <insert tableName="TBL_Shipment_Type">
+            <column name="ID" valueSequenceNext="SEQ_Shipment_Type"/>
+            <column name="C_CREATED_BY" value="j.azad"/>
+            <column name="D_CREATED_DATE" value="19-APR-20 11.13.08.350000000 AM"/>
+            <column name="C_LAST_MODIFIED_BY" value="j.azad"/>
+            <column name="D_LAST_MODIFIED_DATE" value="19-APR-20 11.13.08.350000000 AM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="Ship_Type">فله</column>
+        </insert>
+
+        <insert tableName="TBL_Shipment_Type">
+            <column name="ID" valueSequenceNext="SEQ_Shipment_Type"/>
+            <column name="C_CREATED_BY" value="j.azad"/>
+            <column name="D_CREATED_DATE" value="19-APR-20 11.13.08.350000000 AM"/>
+            <column name="C_LAST_MODIFIED_BY" value="j.azad"/>
+            <column name="D_LAST_MODIFIED_DATE" value="19-APR-20 11.13.08.350000000 AM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="Ship_Type">کانتینری</column>
+        </insert>
+
+        <insert tableName="TBL_Shipment_Type">
+            <column name="ID" valueSequenceNext="SEQ_Shipment_Type"/>
+            <column name="C_CREATED_BY" value="j.azad"/>
+            <column name="D_CREATED_DATE" value="19-APR-20 11.13.08.350000000 AM"/>
+            <column name="C_LAST_MODIFIED_BY" value="j.azad"/>
+            <column name="D_LAST_MODIFIED_DATE" value="19-APR-20 11.13.08.350000000 AM"/>
+            <column name="N_VERSION" value="0.1"/>
+            <column name="Ship_Type">پالت</column>
+        </insert>
+
+    </changeSet>
+
+</databaseChangeLog>

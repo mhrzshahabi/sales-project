@@ -3,7 +3,6 @@ package com.nicico.sales.model.entities.base;
 
 import com.nicico.sales.model.Auditable;
 import com.nicico.sales.model.entities.common.BaseEntity;
-import com.nicico.sales.model.entities.warehouse.RemittanceDetail;
 import com.nicico.sales.model.enumeration.InspectionRateValueType;
 import lombok.*;
 import lombok.experimental.Accessors;
@@ -14,6 +13,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -32,7 +32,7 @@ public class InspectionReport extends BaseEntity {
     private Long id;
 
     @Column(name = "C_INSPECTION_NO")
-    private String InspectionNO;
+    private String inspectionNO;
 
     @NotAudited
     @Setter(AccessLevel.NONE)
@@ -47,16 +47,7 @@ public class InspectionReport extends BaseEntity {
     private String inspectionPlace;
 
     @Column(name = "D_ISSUE_DATE")
-    private Date IssueDate;
-
-    @Setter(AccessLevel.NONE)
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "F_REMITTANCE_DETAIL_ID", nullable = false, insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_inspectionReport2RemittanceDetailByRemittanceDetailId"))
-    private RemittanceDetail remittanceDetail;
-
-    @NotNull
-    @Column(name = "F_REMITTANCE_DETAIL_ID", nullable = false)
-    private Long remittanceDetailId;
+    private Date issueDate;
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
@@ -76,7 +67,7 @@ public class InspectionReport extends BaseEntity {
     @Column(name = "F_BUYER_ID")
     private Long buyerId;
 
-    @Column(name = "N_INSPECTION_RATE_VALUE", scale = 10, precision = 5)
+    @Column(name = "N_INSPECTION_RATE_VALUE", scale = 5, precision = 10)
     private BigDecimal inspectionRateValue;
 
     @Column(name = "N_INSPECTION_RATE_VALUE_TYPE")
@@ -84,11 +75,17 @@ public class InspectionReport extends BaseEntity {
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "F_CURRENCY_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_inspectionReport2currencyByCurrencyId"))
-    private Currency currency;
+    @JoinColumn(name = "F_UNIT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_inspectionReport2unitByUnitId"))
+    private Unit unit;
 
     @NotNull
-    @Column(name = "F_CURRENCY_ID", nullable = false)
-    private Long currencyId;
+    @Column(name = "F_UNIT_ID", nullable = false)
+    private Long unitId;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "inspectionReport", cascade = CascadeType.REMOVE)
+    private List<AssayInspection> assayInspections;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "inspectionReport", cascade = CascadeType.REMOVE)
+    private List<WeightInspection> weightInspections;
 
 }

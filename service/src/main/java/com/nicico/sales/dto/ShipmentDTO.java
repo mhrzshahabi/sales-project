@@ -21,10 +21,9 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ShipmentDTO {
 
-    private Long contactId;
-    private Long shipmentHeaderId;
-    private Long contractId;
     private Long contractShipmentId;
+    private Long contactId;
+    private Long contractId;
     private Long materialId;
     private Double amount;
     private Long noContainer;
@@ -38,15 +37,15 @@ public class ShipmentDTO {
     private String fileName;
     private String newFileName;
     private String shipmentType;
+    private String shipmentMethod;
     private String laycan;
     private String switchBl;
     private String swb;
     private Long switchPortId;
-    private String noBundle;
-    private String noPalete;
-    private String noBarrel;
+    private Integer noBundle;
     private String loadingLetter;
     private String blNumbers;
+    private Long numberOfBLs;
     @Temporal(TemporalType.TIMESTAMP)
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date blDate;
@@ -58,25 +57,31 @@ public class ShipmentDTO {
     private Double freight;
     private Double totalFreight;
     private String freightCurrency;
-    private Double detention;
-    private Double demurrage;
-    private Double dispatch;
-    private long numberOfBLs;
     private Double preFreight;
     private String preFreightCurrency;
     private Double postFreight;
     private String postFreightCurrency;
+    private Long noBarrel;
+    private Long noPalete;
+    private Double demurrage;
+    private Double dispatch;
+    private Double detention;
     private String bookingCat;
     private Long vesselId;
+    private Double gross;
+    private Double net;
+    private Double moisture;
+    private Double vgm;
 
     @Getter
     @Setter
     @Accessors(chain = true)
     @ApiModel("ShipmentInfo")
     public static class Info extends ShipmentDTO {
+        private Long id;
         private VesselDTO vessel;
         private ContactDTO.ContactInfoTuple contactByAgent;
-        private ContactDTO.ContactInfoTuple contact; // Add By Jalal Buyer
+        private ContactDTO.ContactInfoTuple contact;
         private ContactDTO.ContactInfoTuple container;
         private PortDTO.PortInfoTuple portByLoading;
         private PortDTO.Info portByDischarge;
@@ -85,7 +90,6 @@ public class ShipmentDTO {
         private ContractDTO.ContractInfoTuple contract;
         private MaterialDTO.MaterialTuple material;
         private String containerType;
-        private Long id;
         private DateTimeDTO.DateTimeStrRs createDate;
         private String createdBy;
         private Date lastModifiedDate;

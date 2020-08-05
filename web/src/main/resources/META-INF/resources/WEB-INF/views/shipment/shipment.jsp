@@ -9,9 +9,9 @@
 
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
 
-    var contractId;
+    let contractId;
 
-    var RestDataSource_Contact__SHIPMENT = isc.MyRestDataSource.create({
+    let RestDataSource_Contact__SHIPMENT = isc.MyRestDataSource.create({
         fields:
             [
                 {name: "id", primaryKey: true, canEdit: false, hidden: true},
@@ -45,7 +45,7 @@
         fetchDataURL: "${contextPath}/api/contact/spec-list"
     });
 
-    var RestDataSource_LoadingPort = isc.MyRestDataSource.create({
+    let RestDataSource_LoadingPort = isc.MyRestDataSource.create({
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
@@ -59,7 +59,7 @@
         fetchDataURL: "${contextPath}/api/port/spec-list"
     });
 
-    var RestDataSource_VesselInShipment = isc.MyRestDataSource.create({
+    let RestDataSource_VesselInShipment = isc.MyRestDataSource.create({
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
@@ -74,7 +74,7 @@
         fetchDataURL: "${contextPath}/api/vessel/spec-list"
     });
 
-    var RestDataSource_UnitInShipment = isc.MyRestDataSource.create({
+    let RestDataSource_UnitInShipment = isc.MyRestDataSource.create({
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
@@ -84,7 +84,7 @@
         fetchDataURL: "${contextPath}/api/unit/spec-list"
     });
 
-    var RestDataSource_ShipmentTypeInShipment = isc.MyRestDataSource.create({
+    let RestDataSource_ShipmentTypeInShipment = isc.MyRestDataSource.create({
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
@@ -93,7 +93,7 @@
         fetchDataURL: "${contextPath}/api/shipmentType/spec-list"
     });
 
-    var RestDataSource_ShipmentMethodInShipment = isc.MyRestDataSource.create({
+    let RestDataSource_ShipmentMethodInShipment = isc.MyRestDataSource.create({
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
@@ -102,7 +102,7 @@
         fetchDataURL: "${contextPath}/api/shipmentMethod/spec-list"
     });
 
-    var RestDataSource_pickShipmentItem = isc.MyRestDataSource.create({
+    let RestDataSource_pickShipmentItem = isc.MyRestDataSource.create({
         fields:
             [
                 {name: "cisId", title: "id", primaryKey: true, canEdit: false, hidden: true},
@@ -119,7 +119,7 @@
         fetchDataURL: "${contextPath}/api/shipment/pick-list"
     });
 
-    var RestDataSource_Shipment__SHIPMENT = isc.MyRestDataSource.create({
+    let RestDataSource_Shipment__SHIPMENT = isc.MyRestDataSource.create({
         fields: [
             {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
             {name: "contractShipmentId", title: "<spring:message code='contact.name'/>", type: 'long', hidden: true},
@@ -144,6 +144,7 @@
             },
             {name: "materialId", title: "<spring:message code='contact.name'/>", type: 'long', hidden: true},
             {name: "material.descl", title: "<spring:message code='material.descl'/>", type: 'text'},
+            {name: "material.descp", title: "<spring:message code='material.descp'/>", type: 'text'},
             {name: "material.unit.nameEN", title: "<spring:message code='unit.nameEN'/>", type: 'text'},
             {name: "amount", title: "<spring:message code='global.amount'/>", type: 'float'},
             {name: "noContainer", title: "<spring:message code='shipment.noContainer'/>", type: 'integer'},
@@ -228,12 +229,17 @@
                 align: "center",
                 showHover: true,
                 validators: [
-                {
-                    type:"required",
-                    validateOnChange: true
-                }]
+                    {
+                        type: "required",
+                        validateOnChange: true
+                    }]
             },
-            {name: "createDate.date", title: "<spring:message code='shipment.createDate'/>", type: 'text', width: "10%"},
+            {
+                name: "createDate.date",
+                title: "<spring:message code='shipment.createDate'/>",
+                type: 'text',
+                width: "10%"
+            },
             {
                 name: "contactByAgent.nameFA",
                 title: "<spring:message code='shipment.agent'/>",
@@ -246,6 +252,7 @@
                 name: "vessel.name",
                 title: "<spring:message code='vessel.name'/>",
                 type: 'text',
+
             }
         ],
         fetchDataURL: "${contextPath}/api/shipment/spec-list"
@@ -261,7 +268,7 @@
         }
     }
 
-    var Menu_ListGrid_Shipment = isc.Menu.create({
+    let Menu_ListGrid_Shipment = isc.Menu.create({
         width: 150,
         data: [
             {
@@ -307,9 +314,9 @@
         ]
     });
 
-    var dash = "\n";
+    let dash = "\n";
 
-    var DynamicForm_Shipment = isc.DynamicForm.create({
+    let DynamicForm_Shipment = isc.DynamicForm.create({
         width: "100%",
         height: "100%",
         dataSource: RestDataSource_Shipment__SHIPMENT,
@@ -332,10 +339,10 @@
                 pickListHeight: "500",
                 required: true,
                 validators: [
-                {
-                type:"required",
-                validateOnChange: true
-                }],
+                    {
+                        type: "required",
+                        validateOnChange: true
+                    }],
                 pickListProperties: {showFilterEditor: true},
                 pickListFields: [
                     {name: "contractNo", width: "10%", align: "center"},
@@ -352,10 +359,10 @@
                     }
                 ],
                 changed: function () {
-                    var record = DynamicForm_Shipment.getItem("contractShipmentId").getSelectedRecord();
-                    var d = new Date(record.sendDate);
+                    let record = DynamicForm_Shipment.getItem("contractShipmentId").getSelectedRecord();
+                    let d = new Date(record.sendDate);
 
-                    DynamicForm_Shipment.setValue("material.descl", record.materialDescp);
+                    DynamicForm_Shipment.setValue("material.descp", record.materialDescp);
                     DynamicForm_Shipment.setValue("contract.contact.nameFA", record.fullname);
 
                     DynamicForm_Shipment.setValue("amount", record.amount);
@@ -379,12 +386,12 @@
                 }
             },
             {
-                name:"contract.contact.nameFA",
+                name: "contract.contact.nameFA",
                 title: "<spring:message code='contact.name'/>",
                 type: "staticText"
             },
             {
-                name:"material.descl",
+                name: "material.descp",
                 title: "<spring:message code='material.title'/>",
                 type: "staticText"
             },
@@ -413,21 +420,21 @@
                 title: "<spring:message code='shipment.bDate'/>",
                 ID: "createDateId",
                 icons: [{
-                src: "pieces/pcal.png",
-                click: function () {
-                    displayDatePicker('createDateId', this, 'ymd', '/');
-                }
+                    src: "pieces/pcal.png",
+                    click: function () {
+                        displayDatePicker('createDateId', this, 'ymd', '/');
+                    }
                 }],
                 defaultValue: "1399/01/01",
                 required: true,
+                validators: [
+                    {
+                        type: "required",
+                        validateOnChange: true
+                    }],
                 formatCellValue: (value) => {
                     return new persianDate(value).format('YYYY/MM/DD')
                 },
-                validators: [
-                {
-                    type:"required",
-                    validateOnChange: true
-                }],
             },
             {
                 name: "loadingLetter",
@@ -438,10 +445,10 @@
                 length: "100",
                 width: "100%",
                 validators: [
-                {
-                    type:"required",
-                    validateOnChange: true
-                }]
+                    {
+                        type: "required",
+                        validateOnChange: true
+                    }]
             },
             {
                 name: "amount",
@@ -456,10 +463,10 @@
                     stopOnError: true,
                     errorMessage: "<spring:message code='global.form.correctType'/>"
                 },
-                {
-                type:"required",
-                validateOnChange: true
-                }]
+                    {
+                        type: "required",
+                        validateOnChange: true
+                    }]
             },
             {
                 name: "material.unit.nameEN",
@@ -472,17 +479,17 @@
                 pickListHeight: "500",
                 required: true,
                 validators: [
-                {
-                type:"required",
-                validateOnChange: true
-                }],
+                    {
+                        type: "required",
+                        validateOnChange: true
+                    }],
                 pickListProperties: {showFilterEditor: true},
                 pickListFields: [
                     {
                         name: "nameFA",
                         width: "10%",
                         align: "center"
-                        },
+                    },
                     {
                         name: "nameEN",
                         width: "10%",
@@ -498,77 +505,76 @@
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_ShipmentTypeInShipment,
                 pickListHeight: "500",
-                // valueMap: {"bulk": "bulk", "container": "container"},
                 required: true,
                 validators: [{
-                    type:"required",
+                    type: "required",
                     validateOnChange: true
                 }],
-                changed: function (form, item, value){
+                changed: function (form, item, value) {
                     if (value.contains("فله")) {
-                        if (DynamicForm_Shipment.getItem("material.descl").getValue()=="کاتد"){
-                                form.getItem("gross").show();
-                                form.getItem("net").show();
-                                form.getItem("moisture").hide();
-                                form.getItem("vgm").show();
-                                form.getItem("noContainer").show();
-                                form.getItem("noBarrel").hide();
-                                form.getItem("noPalete").hide();
-                            }
-                            if(DynamicForm_Shipment.getItem("material.descl").getValue()=="کنسانتره"){
-                                form.getItem("gross").show();
-                                form.getItem("net").show();
-                                form.getItem("moisture").show();
-                                form.getItem("vgm").hide();
-                                form.getItem("noContainer").hide();
-                                form.getItem("noBarrel").hide();
-                                form.getItem("noPalete").hide();
-                            }
-                            if (DynamicForm_Shipment.getItem("material.descl").getValue()=="اکسید مولیبدن"){
-                                form.getItem("gross").hide();
-                                form.getItem("net").hide();
-                                form.getItem("moisture").hide();
-                                form.getItem("vgm").hide();
-                                form.getItem("noContainer").hide();
-                                form.getItem("noBarrel").hide();
-                                form.getItem("noPalete").hide();
-                            }
+                        if (DynamicForm_Shipment.getItem("material.descp").getValue() === "مس کاتد") {
+                            form.getItem("gross").show();
+                            form.getItem("net").show();
+                            form.getItem("moisture").hide();
+                            form.getItem("vgm").show();
+                            form.getItem("noContainer").show();
+                            form.getItem("noBarrel").hide();
+                            form.getItem("noPalete").hide();
+                        }
+                        if (DynamicForm_Shipment.getItem("material.descp").getValue() === "مس کنسانتره") {
+                            form.getItem("gross").show();
+                            form.getItem("net").show();
+                            form.getItem("moisture").show();
+                            form.getItem("vgm").hide();
+                            form.getItem("noContainer").hide();
+                            form.getItem("noBarrel").hide();
+                            form.getItem("noPalete").hide();
+                        }
+                        if (DynamicForm_Shipment.getItem("material.descp").getValue() === "اکسید مولیبدن") {
+                            form.getItem("gross").hide();
+                            form.getItem("net").hide();
+                            form.getItem("moisture").hide();
+                            form.getItem("vgm").hide();
+                            form.getItem("noContainer").hide();
+                            form.getItem("noBarrel").hide();
+                            form.getItem("noPalete").hide();
+                        }
                     } else if (value.contains("انتینری")) {
-                        if (DynamicForm_Shipment.getItem("material.descl").getValue()=="کاتد"){
-                                form.getItem("gross").show();
-                                form.getItem("net").show();
-                                form.getItem("moisture").hide();
-                                form.getItem("vgm").show();
-                                form.getItem("noContainer").show();
-                                form.getItem("noBarrel").hide();
-                                form.getItem("noPalete").hide();
-                            }
-                            if (DynamicForm_Shipment.getItem("material.descl").getValue()=="کنسانتره"){
-                                form.getItem("gross").show();
-                                form.getItem("net").show();
-                                form.getItem("moisture").hide();
-                                form.getItem("vgm").hide();
-                                form.getItem("noContainer").show();
-                                form.getItem("noBarrel").show();
-                                form.getItem("noPalete").show();
-                            }
-                            if (DynamicForm_Shipment.getItem("material.descl").getValue()=="اکسید مولیبدن"){
-                                form.getItem("gross").show();
-                                form.getItem("net").show();
-                                form.getItem("moisture").hide();
-                                form.getItem("vgm").hide();
-                                form.getItem("noContainer").show();
-                                form.getItem("noBarrel").show();
-                                form.getItem("noPalete").show();
-                            }
-                    } else if (value.contains("پالت")){
-                             form.getItem("gross").hide();
-                             form.getItem("net").hide();
-                             form.getItem("moisture").hide();
-                             form.getItem("vgm").hide();
-                             form.getItem("noContainer").hide();
-                             form.getItem("noBarrel").hide();
-                             form.getItem("noPalete").hide();
+                        if (DynamicForm_Shipment.getItem("material.descp").getValue() === "مس کاتد") {
+                            form.getItem("gross").show();
+                            form.getItem("net").show();
+                            form.getItem("moisture").hide();
+                            form.getItem("vgm").show();
+                            form.getItem("noContainer").show();
+                            form.getItem("noBarrel").hide();
+                            form.getItem("noPalete").hide();
+                        }
+                        if (DynamicForm_Shipment.getItem("material.descp").getValue() === "مس کنسانتره") {
+                            form.getItem("gross").show();
+                            form.getItem("net").show();
+                            form.getItem("moisture").hide();
+                            form.getItem("vgm").hide();
+                            form.getItem("noContainer").show();
+                            form.getItem("noBarrel").show();
+                            form.getItem("noPalete").show();
+                        }
+                        if (DynamicForm_Shipment.getItem("material.descp").getValue() === "اکسید مولیبدن") {
+                            form.getItem("gross").show();
+                            form.getItem("net").show();
+                            form.getItem("moisture").hide();
+                            form.getItem("vgm").hide();
+                            form.getItem("noContainer").show();
+                            form.getItem("noBarrel").show();
+                            form.getItem("noPalete").show();
+                        }
+                    } else if (value.contains("پالت")) {
+                        form.getItem("gross").hide();
+                        form.getItem("net").hide();
+                        form.getItem("moisture").hide();
+                        form.getItem("vgm").hide();
+                        form.getItem("noContainer").hide();
+                        form.getItem("noBarrel").hide();
+                        form.getItem("noPalete").hide();
                     }
                 }
             },
@@ -582,53 +588,61 @@
                 pickListHeight: "500",
                 required: true,
                 validators: [{
-                    type:"required",
+                    type: "required",
                     validateOnChange: true
                 }]
             },
             {
-                name: "gross", colSpan: 4,
+                name: "gross",
+                colSpan: 4,
                 title: "<spring:message code='shipment.gross'/>",
                 required: true,
+                type: "float",
                 width: "100%",
                 validators: [{
-                        type:"required",
-                        validateOnChange: true
-                    }],
-                hidden:true
+                    type: "required",
+                    validateOnChange: true
+                }],
+                hidden: true
             },
             {
-                name: "net", colSpan: 4,
+                name: "net",
+                colSpan: 4,
                 title: "<spring:message code='shipment.net'/>",
                 required: true,
+                type: "float",
                 width: "100%",
                 validators: [{
-                        type:"required",
-                        validateOnChange: true
-                    }],
-                hidden:true
+                    type: "required",
+                    validateOnChange: true
+                }],
+                hidden: true
             },
             {
-                name: "moisture", colSpan: 4,
+                name: "moisture",
+                colSpan: 4,
                 title: "<spring:message code='shipment.moisture'/>",
                 required: true,
+                type: "float",
                 width: "100%",
                 validators: [{
-                        type:"required",
-                        validateOnChange: true
-                    }],
-                hidden:true
+                    type: "required",
+                    validateOnChange: true
+                }],
+                hidden: true
             },
             {
-                name: "vgm", colSpan: 4,
+                name: "vgm",
+                colSpan: 4,
                 title: "<spring:message code='shipment.vgm'/>",
                 required: true,
+                type: "float",
                 width: "100%",
                 validators: [{
-                        type:"required",
-                        validateOnChange: true
-                    }],
-                hidden:true
+                    type: "required",
+                    validateOnChange: true
+                }],
+                hidden: true
             },
             {
                 name: "noContainer",
@@ -639,16 +653,16 @@
                 keyPressFilter: "[0-9.]",
                 required: true,
                 validators: [{
-                        type: "isInteger",
-                        validateOnChange: true,
-                        stopOnError: true,
-                        errorMessage: "<spring:message code='global.form.correctType'/>"
-                    },
+                    type: "isInteger",
+                    validateOnChange: true,
+                    stopOnError: true,
+                    errorMessage: "<spring:message code='global.form.correctType'/>"
+                },
                     {
-                        type:"required",
+                        type: "required",
                         validateOnChange: true
                     }],
-                hidden:true
+                hidden: true
             },
             {
                 name: "noBarrel", colSpan: 4,
@@ -656,17 +670,18 @@
                 type: 'integer',
                 required: true,
                 width: "100%",
+                keyPressFilter: "[0-9.]",
                 validators: [{
                     type: "isInteger",
                     validateOnChange: true,
                     stopOnError: true,
                     errorMessage: "<spring:message code='global.form.correctType'/>"
                 },
-                {
-                    type:"required",
-                    validateOnChange: true
-                }],
-                hidden:true
+                    {
+                        type: "required",
+                        validateOnChange: true
+                    }],
+                hidden: true
             },
             {
                 name: "noPalete", colSpan: 4,
@@ -674,23 +689,24 @@
                 type: 'integer',
                 width: "100%",
                 required: true,
+                keyPressFilter: "[0-9.]",
                 validators: [{
-                        type: "isInteger",
-                        validateOnChange: true,
-                        stopOnError: true,
-                        errorMessage: "<spring:message code='global.form.correctType'/>"
-                    },
+                    type: "isInteger",
+                    validateOnChange: true,
+                    stopOnError: true,
+                    errorMessage: "<spring:message code='global.form.correctType'/>"
+                },
                     {
-                        type:"required",
+                        type: "required",
                         validateOnChange: true
                     }],
-                hidden:true
-            },
+                hidden: true
+            }
         ]
     });
 
     // Bill of Lading
-    var DynamicForm_Shipment1 = isc.DynamicForm.create({
+    let DynamicForm_Shipment1 = isc.DynamicForm.create({
         width: "100%",
         height: "100%",
         dataSource: RestDataSource_Shipment__SHIPMENT,
@@ -714,10 +730,10 @@
                     stopOnError: true,
                     errorMessage: "<spring:message code='global.form.correctType'/>"
                 },
-                {
-                    type:"required",
-                    validateOnChange: true
-                }]
+                    {
+                        type: "required",
+                        validateOnChange: true
+                    }]
             },
             {
                 name: "blNumbers",
@@ -727,13 +743,13 @@
                 width: "100%",
                 required: true,
                 validators: [
-                {
-                    type:"required",
-                    validateOnChange: true
-                }]
+                    {
+                        type: "required",
+                        validateOnChange: true
+                    }]
 
             },
-             {
+            {
                 name: "blDate", colSpan: 4,
                 title: "<spring:message code='shipment.blDate'/>",
                 defaultValue: "<%=dateUtil.todayDate()%>",
@@ -741,11 +757,11 @@
                 required: true,
                 width: "100%",
                 validators: [
-                {
-                    type:"required",
-                    validateOnChange: true
-                }]
-            },{
+                    {
+                        type: "required",
+                        validateOnChange: true
+                    }]
+            }, {
                 name: "portByLoadingId",
                 title: "<spring:message code='shipment.loading'/>",
                 editorType: "SelectItem",
@@ -764,21 +780,21 @@
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_LoadingPort,
                 displayField: "port",
-                valueField: "id", width: "100%", align: "center", startRow: true , colSpan: 4,
+                valueField: "id", width: "100%", align: "center", startRow: true, colSpan: 4,
                 required: true
-            },{
+            }, {
                 name: "consignee", colSpan: 4,
                 title: "<spring:message code='shipment.consignee'/>",
                 type: 'text',
                 required: true,
                 width: "100%", startRow: true,
                 validators: [
-                {
-                    type:"required",
-                    validateOnChange: true
-                }]
+                    {
+                        type: "required",
+                        validateOnChange: true
+                    }]
             },
-             {
+            {
                 align: "center",
                 layoutAlign: "center",
                 type: "Header",
@@ -807,20 +823,20 @@
                             break;
                     }
                 }
-            },{
+            }, {
                 name: "switchPortId",
                 title: "<spring:message code='port.switchPort'/>",
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_LoadingPort,
                 displayField: "port",
                 valueField: "id", width: "100%", align: "center",
-                startRow: true ,colSpan: 4,
+                startRow: true, colSpan: 4,
             },
             {
                 name: "switchBl",
                 title: "<spring:message code='shipment.switchBl'/>",
                 type: 'text',
-                startRow: true , width: "100%" , colSpan: 4
+                startRow: true, width: "100%", colSpan: 4
 
             },
             {
@@ -832,20 +848,20 @@
                 required: true,
                 width: "100%",
                 validators: [
-                {
-                    type:"required",
-                    validateOnChange: true
-                }]
+                    {
+                        type: "required",
+                        validateOnChange: true
+                    }]
             }
         ]
     });
-    var RestDataSource_Contact_optionCriteria__SHIPMENT = {
+    let RestDataSource_Contact_optionCriteria__SHIPMENT = {
         _constructor: "AdvancedCriteria",
         operator: "and",
         criteria: [{fieldName: "transporter", operator: "equals", value: true}]
     };
 
-    var DynamicForm_Shipment2 = isc.DynamicForm.create({
+    let DynamicForm_Shipment2 = isc.DynamicForm.create({
         width: "100%",
         height: "100%",
         dataSource: RestDataSource_Shipment__SHIPMENT,
@@ -877,16 +893,17 @@
                     },
                     {name: "country.nameFa", align: "center"}],
                 validators: [
-                {
-                    type:"required",
-                    validateOnChange: true
-                }]
+                    {
+                        type: "required",
+                        validateOnChange: true
+                    }]
             },
             {
                 name: "vesselId",
                 colSpan: 4,
                 title: "<spring:message code='vessel.name'/>",
                 editorType: "SelectItem",
+                required: true,
                 optionDataSource: RestDataSource_VesselInShipment,
                 type: 'long',
                 width: 400,
@@ -902,7 +919,13 @@
                         name: "name",
                     },
                     {
-                        name: "type"}]
+                        name: "type"
+                    }],
+                validators: [
+                    {
+                        type: "required",
+                        validateOnChange: true
+                    }]
             },
             {type: "Header", defaultValue: dash},
             {
@@ -917,16 +940,16 @@
                     stopOnError: true,
                     errorMessage: "<spring:message code='global.form.correctType'/>"
                 },
-                {
-                    type:"required",
-                    validateOnChange: true
-                }]
+                    {
+                        type: "required",
+                        validateOnChange: true
+                    }]
             },
             {
                 name: "freightCurrency", colSpan: 1,
                 title: "<spring:message code='currency.title'/>",
                 type: 'text',
-                defaultValue: "USD", valueMap: dollar,
+                defaultValue: "USD",
                 width: "100%",
             },
             {
@@ -943,10 +966,10 @@
                     stopOnError: true,
                     errorMessage: "<spring:message code='global.form.correctType'/>"
                 },
-                {
-                    type:"required",
-                    validateOnChange: true
-                }]
+                    {
+                        type: "required",
+                        validateOnChange: true
+                    }]
             },
             {
                 name: "preFreight", colSpan: 1,
@@ -960,21 +983,21 @@
                     stopOnError: true,
                     errorMessage: "<spring:message code='global.form.correctType'/>"
                 },
-                {
-                    type:"required",
-                    validateOnChange: true
-                }]
+                    {
+                        type: "required",
+                        validateOnChange: true
+                    }]
             },
             {
                 name: "preFreightCurrency", colSpan: 1,
                 title: "<spring:message code='currency.title'/>",
                 type: 'text',
                 defaultValue: "USD",
-                valueMap: dollar,
-                width: "100%",
+                width: "100%"
             },
             {
-                name: "postFreight", colSpan: 1,
+                name: "postFreight",
+                colSpan: 1,
                 title: "<spring:message code='shipment.postFreight'/>",
                 type: 'float',
                 required: true,
@@ -986,17 +1009,18 @@
                     stopOnError: true,
                     errorMessage: "<spring:message code='global.form.correctType'/>"
                 },
-                {
-                    type:"required",
-                    validateOnChange: true
-                }]
+                    {
+                        type: "required",
+                        validateOnChange: true
+                    }]
             },
             {
-                name: "postFreightCurrency", colSpan: 1,
+                name: "postFreightCurrency",
+                colSpan: 1,
                 title: "<spring:message code='currency.title'/>",
                 type: 'text',
-                defaultValue: "USD", valueMap: dollar,
-                width: "100%",
+                defaultValue: "USD",
+                width: "100%"
             },
             {
                 name: "dispatch", colSpan: 1,
@@ -1040,7 +1064,7 @@
         ]
     });
 
-    var shipmentTabs = isc.TabSet.create({
+    let shipmentTabs = isc.TabSet.create({
         width: 900,
         height: "500",
         textAlign: "center",
@@ -1063,12 +1087,12 @@
         ]
     });
 
-    var IButton_Shipment_Save = isc.IButtonSave.create({
+    let IButton_Shipment_Save = isc.IButtonSave.create({
         top: 260,
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
         click: function () {
-           DynamicForm_Shipment.validate();
+            DynamicForm_Shipment.validate();
             if (DynamicForm_Shipment.hasErrors()) {
                 shipmentTabs.selectTab(0);
                 return;
@@ -1106,9 +1130,9 @@
             DynamicForm_Shipment.setValue("dispatch", DynamicForm_Shipment2.getValue("dispatch"));
             DynamicForm_Shipment.setValue("demurrage", DynamicForm_Shipment2.getValue("demurrage"));
             DynamicForm_Shipment.setValue("detention", DynamicForm_Shipment2.getValue("detention"));
-            var allDataShipment=DynamicForm_Shipment.getValues();
-            var dataShipment = Object.assign(allDataShipment);
-            var methodXXXX = "PUT";
+            let allDataShipment = DynamicForm_Shipment.getValues();
+            let dataShipment = Object.assign(allDataShipment);
+            let methodXXXX = "PUT";
             if ((dataShipment.id == null) || (dataShipment.id == 'undefiend')) methodXXXX = "POST";
             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                     actionURL: "${contextPath}/api/shipment/",
@@ -1129,38 +1153,36 @@
     });
 
 
-
-    var fillScreenWindow_letter = isc.Window.create({
+    let fillScreenWindow_letter = isc.Window.create({
         placement: "fillScreen",
         autoDraw: false,
         title: "<spring:message code='global.form.help'/>",
         items: [
             isc.HLayout.create({
                 width: "100%",
-                layoutMargin:5,
+                layoutMargin: 5,
                 membersMargin: 10,
                 members: [
                     isc.HTMLPane.create({
-                        ID:"myPane",
-                        showEdges:true,
-                        contentsURL:"/sales/help/LoadingLetter.html",
-                        contentsType:"page"
+                        ID: "myPane",
+                        showEdges: true,
+                        contentsURL: "/sales/help/LoadingLetter.html",
+                        contentsType: "page"
                     })
-                    ]
-                })
+                ]
+            })
         ]
     });
 
-        var ShipmentCancelBtn_Help_shipment = isc.ToolStripButtonPrint.create({
+    let ShipmentCancelBtn_Help_shipment = isc.ToolStripButtonPrint.create({
         icon: "[SKIN]/actions/help.png",
         title: "<spring:message code='global.form.help'/>",
-        click:function()
-        {
+        click: function () {
             fillScreenWindow_letter.show();
         }
-   });
+    });
 
-    var ShipmentCancelBtn = isc.IButtonCancel.create({
+    let ShipmentCancelBtn = isc.IButtonCancel.create({
         top: 260,
         layoutMargin: 5,
         membersMargin: 5,
@@ -1173,7 +1195,7 @@
     });
 
 
-    var hLayout_saveButton = isc.HLayout.create({
+    let hLayout_saveButton = isc.HLayout.create({
         width: 900,
         height: "100%",
         layoutMargin: 10,
@@ -1186,7 +1208,7 @@
         ]
     });
 
-    var VLayout_saveButton = isc.VLayout.create({
+    let VLayout_saveButton = isc.VLayout.create({
         width: 900,
         height: "100%",
         textAlign: "center",
@@ -1197,7 +1219,7 @@
         ]
     });
 
-    var Window_Shipment = isc.Window.create({
+    let Window_Shipment = isc.Window.create({
         title: "<spring:message code='Shipment.title'/>",
         width: 900,
         height: 600,
@@ -1239,7 +1261,7 @@
     }
 
     function ListGrid_Shipment_remove() {
-        var record = ListGrid_Shipment.getSelectedRecord();
+        let record = ListGrid_Shipment.getSelectedRecord();
 
         if (record == null || record.id == null) {
             isc.Dialog.create({
@@ -1283,7 +1305,7 @@
         }
     }
 
-    function ListGrid_Shipment_add(){
+    function ListGrid_Shipment_add() {
         DynamicForm_Shipment.clearValues();
         DynamicForm_Shipment1.clearValues();
         DynamicForm_Shipment2.clearValues();
@@ -1293,7 +1315,7 @@
     }
 
     function ListGrid_Shipment_edit() {
-        var record = ListGrid_Shipment.getSelectedRecord();
+        let record = ListGrid_Shipment.getSelectedRecord();
 
         if (record == null || record.id == null) {
             isc.Dialog.create({
@@ -1306,6 +1328,74 @@
                 }
             });
         } else {
+
+            if (record.shipmentType.contains("فله")) {
+                if (record.material.descl.contains("athod")) {
+                    DynamicForm_Shipment.getItem("gross").show();
+                    DynamicForm_Shipment.getItem("net").show();
+                    DynamicForm_Shipment.getItem("moisture").hide();
+                    DynamicForm_Shipment.getItem("vgm").show();
+                    DynamicForm_Shipment.getItem("noContainer").show();
+                    DynamicForm_Shipment.getItem("noBarrel").hide();
+                    DynamicForm_Shipment.getItem("noPalete").hide();
+                }
+                if (record.material.descl.contains("onc")) {
+                    DynamicForm_Shipment.getItem("gross").show();
+                    DynamicForm_Shipment.getItem("net").show();
+                    DynamicForm_Shipment.getItem("moisture").show();
+                    DynamicForm_Shipment.getItem("vgm").hide();
+                    DynamicForm_Shipment.getItem("noContainer").hide();
+                    DynamicForm_Shipment.getItem("noBarrel").hide();
+                    DynamicForm_Shipment.getItem("noPalete").hide();
+                }
+                if (record.material.descl.contains("olyb")) {
+                    DynamicForm_Shipment.getItem("gross").hide();
+                    DynamicForm_Shipment.getItem("net").hide();
+                    DynamicForm_Shipment.getItem("moisture").hide();
+                    DynamicForm_Shipment.getItem("vgm").hide();
+                    DynamicForm_Shipment.getItem("noContainer").hide();
+                    DynamicForm_Shipment.getItem("noBarrel").hide();
+                    DynamicForm_Shipment.getItem("noPalete").hide();
+                }
+            } else if (record.shipmentType.contains("انتینری")) {
+                if (record.material.descl.contains("athod")) {
+                    DynamicForm_Shipment.getItem("gross").show();
+                    DynamicForm_Shipment.getItem("net").show();
+                    DynamicForm_Shipment.getItem("moisture").hide();
+                    DynamicForm_Shipment.getItem("vgm").show();
+                    DynamicForm_Shipment.getItem("noContainer").show();
+                    DynamicForm_Shipment.getItem("noBarrel").hide();
+                    DynamicForm_Shipment.getItem("noPalete").hide();
+                }
+                if (record.material.descl.contains("onc")) {
+                    DynamicForm_Shipment.getItem("gross").show();
+                    DynamicForm_Shipment.getItem("net").show();
+                    DynamicForm_Shipment.getItem("moisture").hide();
+                    DynamicForm_Shipment.getItem("vgm").hide();
+                    DynamicForm_Shipment.getItem("noContainer").show();
+                    DynamicForm_Shipment.getItem("noBarrel").show();
+                    DynamicForm_Shipment.getItem("noPalete").show();
+                }
+                if (record.material.descl.contains("olyb")) {
+                    DynamicForm_Shipment.getItem("gross").show();
+                    DynamicForm_Shipment.getItem("net").show();
+                    DynamicForm_Shipment.getItem("moisture").hide();
+                    DynamicForm_Shipment.getItem("vgm").hide();
+                    DynamicForm_Shipment.getItem("noContainer").show();
+                    DynamicForm_Shipment.getItem("noBarrel").show();
+                    DynamicForm_Shipment.getItem("noPalete").show();
+                }
+            } else if (record.shipmentType.contains("پالت")) {
+                DynamicForm_Shipment.getItem("gross").hide();
+                DynamicForm_Shipment.getItem("net").hide();
+                DynamicForm_Shipment.getItem("moisture").hide();
+                DynamicForm_Shipment.getItem("vgm").hide();
+                DynamicForm_Shipment.getItem("noContainer").hide();
+                DynamicForm_Shipment.getItem("noBarrel").hide();
+                DynamicForm_Shipment.getItem("noPalete").hide();
+            }
+
+
             DynamicForm_Shipment.clearValues();
             DynamicForm_Shipment1.clearValues();
             DynamicForm_Shipment2.clearValues();
@@ -1321,7 +1411,7 @@
         }
     }
 
-    var ToolStripButton_Shipment_Refresh = isc.ToolStripButtonRefresh.create({
+    let ToolStripButton_Shipment_Refresh = isc.ToolStripButtonRefresh.create({
         title: "<spring:message code='global.form.refresh'/>",
         click: function () {
             ListGrid_Shipment_refresh();
@@ -1329,7 +1419,7 @@
     });
 
     <sec:authorize access="hasAuthority('C_SHIPMENT')">
-    var ToolStripButton_Shipment_Add = isc.ToolStripButtonAdd.create({
+    let ToolStripButton_Shipment_Add = isc.ToolStripButtonAdd.create({
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.form.new'/>",
         click: function () {
@@ -1339,7 +1429,7 @@
     </sec:authorize>
 
     <sec:authorize access="hasAuthority('U_SHIPMENT')">
-    var ToolStripButton_Shipment_Edit = isc.ToolStripButtonEdit.create({
+    let ToolStripButton_Shipment_Edit = isc.ToolStripButtonEdit.create({
         icon: "[SKIN]/actions/edit.png",
         title: "<spring:message code='global.form.edit'/>",
         click: function () {
@@ -1349,7 +1439,7 @@
     </sec:authorize>
 
     <sec:authorize access="hasAuthority('D_SHIPMENT')">
-    var ToolStripButton_Shipment_Remove = isc.ToolStripButtonRemove.create({
+    let ToolStripButton_Shipment_Remove = isc.ToolStripButtonRemove.create({
         icon: "[SKIN]/actions/remove.png",
         title: "<spring:message code='global.form.remove'/>",
         click: function () {
@@ -1358,7 +1448,7 @@
     });
     </sec:authorize>
 
-    var ToolStrip_Actions_Shipment = isc.ToolStrip.create({
+    let ToolStrip_Actions_Shipment = isc.ToolStrip.create({
         width: "100%",
         members: [
             <sec:authorize access="hasAuthority('C_SHIPMENT')">
@@ -1373,7 +1463,7 @@
             ToolStripButton_Shipment_Remove,
             </sec:authorize>
 
-        ShipmentCancelBtn_Help_shipment,
+            ShipmentCancelBtn_Help_shipment,
 
             isc.ToolStrip.create({
                 width: "100%",
@@ -1386,18 +1476,18 @@
         ]
     });
 
-    var HLayout_Actions_Shipment = isc.HLayout.create({
+    let HLayout_Actions_Shipment = isc.HLayout.create({
         width: "100%",
         members: [
             ToolStrip_Actions_Shipment
         ]
     });
 
-    var ShipmentAttachmentViewLoader = isc.ViewLoader.create({
+    let ShipmentAttachmentViewLoader = isc.ViewLoader.create({
         autoDraw: false,
         loadingMessage: ""
     });
-    var hLayoutViewLoader = isc.HLayout.create({
+    let hLayoutViewLoader = isc.HLayout.create({
         width: "100%",
         height: 180,
         align: "center", padding: 5,
@@ -1408,7 +1498,7 @@
     });
     hLayoutViewLoader.hide();
 
-    var ListGrid_Shipment = isc.ListGrid.create({
+    let ListGrid_Shipment = isc.ListGrid.create({
         showFilterEditor: true,
         width: "100%",
         height: "100%",
@@ -1426,6 +1516,7 @@
         virtualScrolling: true,
         loadOnExpand: true,
         loaded: false,
+        autoFetchData: true,
         fields: [
             {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
             {name: "contractShipmentId", hidden: true, type: 'long'},
@@ -1507,21 +1598,18 @@
                 showHover: true,
                 required: true,
                 validators: [
-                {
-                    type:"required",
-                    validateOnChange: true
-                }]
+                    {
+                        type: "required",
+                        validateOnChange: true
+                    }]
             },
-
-            {
+            /*{
                 name: "bookingCat",
                 title: "<spring:message code='shipment.bookingCat'/>",
                 type: 'text',
                 width: "10%",
-                showHover: true,
-
-            },
-
+                showHover: true
+            },*/
             {
                 name: "loadingLetter",
                 title: "<spring:message code='shipment.loadingLetter'/>",
@@ -1530,19 +1618,19 @@
                 showHover: true,
                 required: true,
                 validators: [
-                {
-                    type:"required",
-                    validateOnChange: true
-                }]
+                    {
+                        type: "required",
+                        validateOnChange: true
+                    }]
             },
-            {
+            /*{
                 name: "noContainer",
                 title: "<spring:message code='shipment.noContainer'/>",
                 type: 'text',
                 width: "10%",
                 align: "center",
                 showHover: true
-            },
+            },*/
             {
                 name: "portByLoading.port",
                 title: "<spring:message code='shipment.loading'/>",
@@ -1554,10 +1642,10 @@
                     return recordObject.portByLoading.port
                 },
                 validators: [
-                {
-                    type:"required",
-                    validateOnChange: true
-                }],
+                    {
+                        type: "required",
+                        validateOnChange: true
+                    }],
             },
             {
                 name: "portByDischarge.port",
@@ -1570,10 +1658,10 @@
                     return recordObject.portByDischarge.port
                 },
                 validators: [
-                {
-                    type:"required",
-                    validateOnChange: true
-                }]
+                    {
+                        type: "required",
+                        validateOnChange: true
+                    }]
             },
             {
                 name: "contractShipment.sendDate",
@@ -1584,10 +1672,10 @@
                 align: "center",
                 showHover: true,
                 validators: [
-                {
-                    type:"required",
-                    validateOnChange: true
-                }],
+                    {
+                        type: "required",
+                        validateOnChange: true
+                    }],
                 sortNormalizer: function (recordObject) {
                     return recordObject.contractShipment.sendDate
                 }
@@ -1600,14 +1688,14 @@
                 width: "10%",
                 align: "center",
                 showHover: true,
-                formatCellValue: (value) => {
-                                    return new persianDate(value).format('YYYY/MM/DD')
-                 },
                 validators: [
-                {
-                    type:"required",
-                    validateOnChange: true
-                }]
+                    {
+                        type: "required",
+                        validateOnChange: true
+                    }],
+                formatCellValue: (value) => {
+                    return new persianDate(value).format('YYYY/MM/DD')
+                },
             },
             {
                 name: "month",
@@ -1618,10 +1706,10 @@
                 align: "center",
                 showHover: true,
                 validators: [
-                {
-                    type:"required",
-                    validateOnChange: true
-                }]
+                    {
+                        type: "required",
+                        validateOnChange: true
+                    }]
             },
             {
                 name: "contactByAgent.nameFA",
@@ -1642,10 +1730,10 @@
                 width: "10%",
                 showHover: true,
                 validators: [
-                {
-                    type:"required",
-                    validateOnChange: true
-                }],
+                    {
+                        type: "required",
+                        validateOnChange: true
+                    }],
                 sortNormalizer: function (recordObject) {
                     return recordObject.vessel.name
                 }
@@ -1669,12 +1757,12 @@
                     return recordObject.switchPort.port
                 },
                 validators: [
-                {
-                    type:"required",
-                    validateOnChange: true
-                }],
+                    {
+                        type: "required",
+                        validateOnChange: true
+                    }]
             },
-            {
+            /*{
                 name: "status",
                 title: "<spring:message code='shipment.staus'/>",
                 type: 'text',
@@ -1685,9 +1773,8 @@
                     "Resource": "<spring:message code='shipment.resource'/>"
                 },
                 showHover: true
-            }
+            }*/
         ],
-        autoFetchData: true,
         getExpansionComponent: function (record) {
             if (record == null || record.id == null) {
                 isc.Dialog.create({
@@ -1703,11 +1790,11 @@
                 });
                 record.id = null;
             }
-            var dccTableId = record.id;
-            var dccTableName = "TBL_SHIPMENT";
+            let dccTableId = record.id;
+            let dccTableName = "TBL_SHIPMENT";
             ShipmentAttachmentViewLoader.setViewURL("dcc/showForm/" + dccTableName + "/" + dccTableId);
             hLayoutViewLoader.show();
-            var layoutShipment = isc.VLayout.create({
+            let layoutShipment = isc.VLayout.create({
                 styleName: "expand-layout",
                 padding: 5,
                 membersMargin: 10,
@@ -1717,7 +1804,7 @@
         }
     });
 
-    var HLayout_Grid_Shipment = isc.HLayout.create({
+    let HLayout_Grid_Shipment = isc.HLayout.create({
         width: "100%",
         height: "100%",
         members: [
@@ -1725,7 +1812,7 @@
         ]
     });
 
-    var VLayout_Body_Shipment = isc.VLayout.create({
+    let VLayout_Body_Shipment = isc.VLayout.create({
         width: "100%",
         height: "100%",
         members: [
@@ -1745,7 +1832,7 @@
                         items: VLayout_Body_Shipment,
                         showHeader: false,
                         expanded: true
-                        }
+                    }
                     ],
                     visibilityMode: "multiple",
                     animateSections: true,

@@ -38,6 +38,13 @@ public class MaterialItemRestController {
     }
 
     @Loggable
+    @GetMapping(value = "/update-all")
+    public ResponseEntity<List<MaterialItemDTO.Info>> updateAll() {
+        materialItemService.updateFromTozinView();
+        return new ResponseEntity<>(materialItemService.list(), HttpStatus.OK);
+    }
+
+    @Loggable
     @PostMapping
     public ResponseEntity<MaterialItemDTO.Info> create(@Validated @RequestBody MaterialItemDTO.Create request) {
         return new ResponseEntity<>(materialItemService.create(request), HttpStatus.CREATED);

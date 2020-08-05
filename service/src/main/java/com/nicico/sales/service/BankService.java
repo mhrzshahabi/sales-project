@@ -3,8 +3,8 @@ package com.nicico.sales.service;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.BankDTO;
+import com.nicico.sales.exception.NotFoundException;
 import com.nicico.sales.iservice.IBankService;
 import com.nicico.sales.model.entities.base.Bank;
 import com.nicico.sales.repository.BankDAO;
@@ -29,7 +29,7 @@ public class BankService implements IBankService {
     @PreAuthorize("hasAuthority('R_BANK')")
     public BankDTO.Info get(Long id) {
         final Optional<Bank> slById = bankDAO.findById(id);
-        final Bank bank = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.BankNotFound));
+        final Bank bank = slById.orElseThrow(() -> new NotFoundException(Bank.class));
 
         return modelMapper.map(bank, BankDTO.Info.class);
     }
@@ -58,7 +58,7 @@ public class BankService implements IBankService {
     @PreAuthorize("hasAuthority('U_BANK')")
     public BankDTO.Info update(Long id, BankDTO.Update request) {
         final Optional<Bank> slById = bankDAO.findById(id);
-        final Bank bank = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.BankNotFound));
+        final Bank bank = slById.orElseThrow(() -> new NotFoundException(Bank.class));
 
         Bank updating = new Bank();
         modelMapper.map(bank, updating);

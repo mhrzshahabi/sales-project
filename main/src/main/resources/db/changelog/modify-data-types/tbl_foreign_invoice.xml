@@ -1,0 +1,49 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+    <!-- Modify Data Type -->
+    <changeSet author="karimi" id="ModifyDataType-Foreign-Invoice-001">
+        <modifyDataType tableName="TBL_FOREIGN_INVOICE" columnName="N_UNIT_COST" newDataType="NUMBER(10, 2)"/>
+    </changeSet>
+    <changeSet author="karimi" id="ModifyDataType-Foreign-Invoice-002">
+        <modifyDataType tableName="TBL_FOREIGN_INVOICE" columnName="N_SUM_PRICE" newDataType="NUMBER(14, 2)"/>
+    </changeSet>
+    <changeSet author="karimi" id="ModifyDataType-Foreign-Invoice-003">
+        <modifyDataType tableName="TBL_FOREIGN_INVOICE" columnName="N_UNIT_PRICE" newDataType="NUMBER(10, 2)"/>
+    </changeSet>
+    <changeSet author="karimi" id="ModifyDataType-Foreign-Invoice-004">
+        <modifyDataType tableName="TBL_FOREIGN_INVOICE" columnName="N_SUM_PI_PRICE" newDataType="NUMBER(14, 2)"/>
+    </changeSet>
+    <changeSet author="karimi" id="ModifyDataType-Foreign-Invoice-005">
+        <modifyDataType tableName="TBL_FOREIGN_INVOICE" columnName="N_SUM_FI_PRICE" newDataType="NUMBER(14, 2)"/>
+    </changeSet>
+    <changeSet author="karimi" id="ModifyDataType-Foreign-Invoice-006">
+        <modifyDataType tableName="TBL_FOREIGN_INVOICE" columnName="N_CONVERSION_RATE" newDataType="NUMBER(12, 5)"/>
+    </changeSet>
+    <changeSet author="karimi" id="ModifyDataType-Foreign-Invoice-007">
+        <modifyDataType tableName="TBL_FOREIGN_INVOICE" columnName="N_CONVERSION_SUM_PRICE"
+                        newDataType="NUMBER(19, 2)"/>
+    </changeSet>
+    <changeSet author="karimi" id="ModifyDataType-Foreign-Invoice-008">
+        <addColumn tableName="TBL_FOREIGN_INVOICE">
+            <column name="F_UNIT_ID" type="number(19, 0)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="karimi" id="ModifyDataType-Foreign-Invoice-009">
+        <addForeignKeyConstraint baseColumnNames="F_UNIT_ID" baseTableName="TBL_FOREIGN_INVOICE"
+                                 constraintName="fk_foreignInvoice2unitByUnitId" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_UNIT"
+                                 validate="true"/>
+    </changeSet>
+    <changeSet author="Reza Mazloom" id="ModifyDataType-Foreign-Invoice-011">
+        <dropColumn columnName="F_CURRENCY_ID" tableName="TBL_FOREIGN_INVOICE"/>
+    </changeSet>
+    <changeSet author="Reza Mazloom" id="ModifyDataType-Foreign-Invoice-012">
+        <dropColumn columnName="F_MATERIAL_ID" tableName="TBL_FOREIGN_INVOICE"/>
+    </changeSet>
+
+</databaseChangeLog>

@@ -1,0 +1,24 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+    <changeSet author="Reza Mazloom" id="mazloom_013">
+        <addColumn tableName="TBL_CNTR_CONTRACT_DETAIL_TYPE_PARAM">
+            <column name="C_REFERENCE" type="varchar2(255 CHAR)">
+            </column>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="Reza Mazloom" id="mazloom_014">
+        <renameColumn tableName="TBL_CNTR_CONTRACT_DETAIL_TYPE_PARAM" oldColumnName="C_REQUIRED"
+                      newColumnName="B_REQUIRED"/>
+    </changeSet>
+
+    <changeSet author="Reza Mazloom" id="mazloom_015">
+        <addColumn tableName="TBL_CNTR_CONTRACT_DETAIL_VALUE">
+            <column name="C_REFERENCE" type="varchar2(255 CHAR)"/>
+        </addColumn>
+    </changeSet>
+
+</databaseChangeLog>

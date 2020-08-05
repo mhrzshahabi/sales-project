@@ -1,6 +1,6 @@
 package com.nicico.sales.model.entities.base;
 
-import com.nicico.sales.model.Auditable;
+import com.nicico.sales.model.entities.common.BaseEntity;
 import lombok.*;
 import lombok.experimental.Accessors;
 
@@ -14,7 +14,7 @@ import javax.persistence.*;
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
 @Table(name = "TBL_CONTRACT_CURRENCY")
-public class ContractCurrency extends Auditable {
+public class ContractCurrency extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_CONTRACT_CURRENCY")
@@ -30,11 +30,11 @@ public class ContractCurrency extends Auditable {
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "CURRENCY_ID", nullable = false, insertable = false, updatable = false, foreignKey = @ForeignKey(name = "ContractCurrency2CURRENCY"))
-    private Currency currency;
+    @JoinColumn(name = "UNIT_ID", nullable = false, insertable = false, updatable = false, foreignKey = @ForeignKey(name = "ContractCurrency2UNIT"))
+    private Unit unit;
 
-    @Column(name = "CURRENCY_ID")
-    private Long currencyId;
+    @Column(name = "UNIT_ID")
+    private Long unitId;
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)

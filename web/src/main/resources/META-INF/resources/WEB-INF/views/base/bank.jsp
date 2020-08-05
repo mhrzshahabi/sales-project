@@ -213,8 +213,9 @@
 
     var DynamicForm_Bank = isc.DynamicForm.create(
         {
-            width: 650,
-            height: 100,
+            wrapItemTitles: false,
+            width: 700,
+            height: "100%",
             titleWidth: "100",
             numCols: 2,
             fields: [
@@ -226,32 +227,13 @@
                     type: "RowSpacerItem"
                 },
                 {
-                    name: "bankCode",
-                    title: "<spring:message code='bank.bankCode'/>",
-                    width: 500,
-                    colSpan: 1,
-                    required: true, errorOrientation: "bottom",
-                    titleColSpan: 1,
-                    keyPressFilter: "[0-9]",
-                    length: "15", showIf: "false",
-                    validators: [
-                        {
-                            type: "required",
-                            validateOnChange: true
-                        }]
-                },
-                {
                     name: "bankName",
                     title: "<spring:message code='bank.nameFa'/>",
                     width: 500,
                     colSpan: 1,
                     required: true, errorOrientation: "bottom",
                     titleColSpan: 1,
-                    validators: [
-                        {
-                            type: "required",
-                            validateOnChange: true
-                        }]
+                    keyPressFilter: "^[\u0600-\u06FF\uFB8A\u067E\u0686\u06AF\u200C\u200F|0-9 ]",
                 },
                 {
                     name: "enBankName",
@@ -260,11 +242,7 @@
                     colSpan: 1,
                     required: true, errorOrientation: "bottom",
                     titleColSpan: 1,
-                    validators: [
-                        {
-                            type: "required",
-                            validateOnChange: true
-                        }]
+                    keyPressFilter: "^[U+0061-|0-9 ]",
                 },
                 {
                     name: "address",
@@ -458,7 +436,7 @@
     var Window_Bank = isc.Window.create(
         {
             title: "<spring:message code='bank.title'/> ",
-            width: 650,
+            width: 700,
             autoSize: true,
             autoCenter: true,
             isModal: true,
@@ -476,7 +454,7 @@
                         margin: '10px',
                         padding: 10,
                         layoutMargin: 10,
-                        membersMargin: 5,
+                        membersMargin: 10,
                         align: "center",
                         width: "100%",
                         members: [

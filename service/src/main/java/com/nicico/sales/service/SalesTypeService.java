@@ -35,7 +35,7 @@ public class SalesTypeService implements ISalesTypeService {
     @Transactional(readOnly = true)
     @Override
     public TotalResponse<SalesTypeDTO.Info> search(NICICOCriteria criteria) {
-        return SearchUtil.search(salesTypeDAO, criteria, salesType  -> modelMapper.map(salesType, SalesTypeDTO.Info.class));
+        return SearchUtil.search(salesTypeDAO, criteria, salesType -> modelMapper.map(salesType, SalesTypeDTO.Info.class));
     }
 
 }

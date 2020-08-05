@@ -2122,12 +2122,14 @@ ul {
 .sectionHeaderclosed,
 .sectionHeaderDisabledopened,
 .sectionHeaderDisabledclosed {
-  background: #ffffff;
+ // background: #ffffff;
   color: #616161;
   padding-left: 10px;
   font-family: IRANSansNum, IRANSans;
   font-weight: bold;
   font-size: 12.58px;
+  background: rgb(255,236,213);
+  background: linear-gradient(90deg, rgba(255,236,213,1) 0%, rgba(254,157,42,1) 100%);
 }
 
 .sectionHeaderopened,

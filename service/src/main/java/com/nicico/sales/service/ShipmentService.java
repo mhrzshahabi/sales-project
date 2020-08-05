@@ -3,8 +3,8 @@ package com.nicico.sales.service;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.ShipmentDTO;
+import com.nicico.sales.exception.NotFoundException;
 import com.nicico.sales.iservice.IShipmentService;
 import com.nicico.sales.model.entities.base.Shipment;
 import com.nicico.sales.repository.ShipmentDAO;
@@ -29,7 +29,7 @@ public class ShipmentService implements IShipmentService {
     @PreAuthorize("hasAuthority('R_SHIPMENT')")
     public ShipmentDTO.Info get(Long id) {
         final Optional<Shipment> slById = shipmentDAO.findById(id);
-        final Shipment shipment = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.ShipmentNotFound));
+        final Shipment shipment = slById.orElseThrow(() -> new NotFoundException(Shipment.class));
 
         return modelMapper.map(shipment, ShipmentDTO.Info.class);
     }
@@ -58,7 +58,7 @@ public class ShipmentService implements IShipmentService {
     @PreAuthorize("hasAuthority('U_SHIPMENT')")
     public ShipmentDTO.Info update(Long id, ShipmentDTO.Update request) {
         final Optional<Shipment> slById = shipmentDAO.findById(id);
-        final Shipment shipment = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.ShipmentNotFound));
+        final Shipment shipment = slById.orElseThrow(() -> new NotFoundException(Shipment.class));
 
         Shipment updating = new Shipment();
         modelMapper.map(shipment, updating);
@@ -99,25 +99,6 @@ public class ShipmentService implements IShipmentService {
     @PreAuthorize("hasAuthority('R_SHIPMENT')")
     public List<Object[]> pickListShipment() {
         return shipmentDAO.pickListShipment();
-    }
-
-    @Override
-    @PreAuthorize("hasAuthority('O_SHIPMENT')")
-    public List<String> findLotname(String id) {
-        return shipmentDAO.findLotname(id);
-    }
-
-
-    @Override
-    @PreAuthorize("hasAuthority('O_SHIPMENT')")
-    public List<String> findbooking(String id) {
-        return shipmentDAO.findbooking(id);
-    }
-
-    @Override
-    @PreAuthorize("hasAuthority('O_SHIPMENT')")
-    public List<String> cname() {
-        return shipmentDAO.cname();
     }
 
     @Override

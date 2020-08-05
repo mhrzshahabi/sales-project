@@ -36,6 +36,7 @@ public class ContractShipmentRestController {
     public ResponseEntity<List<ContractShipmentDTO.Info>> list() {
         return new ResponseEntity<>(contractShipmentService.list(), HttpStatus.OK);
     }
+
     @Loggable
     @GetMapping(value = "/audit/list")
     public ResponseEntity<List<ContractShipmentAuditDTO.Info>> listAudit() {

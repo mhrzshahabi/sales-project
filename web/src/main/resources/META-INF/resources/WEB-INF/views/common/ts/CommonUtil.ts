@@ -2,7 +2,6 @@
 
 // @ts-ignore
 ///<reference path="../../../../../../static/isomorphic/system/development/smartclient.d.ts" />
-///<reference path="/home/saeb/Java/smartclient.d.ts />
 
 //------------------------------------------ TS References ---------------------------------------//
 
@@ -250,7 +249,7 @@ namespace nicico {
                     autoCenter: true,
                     showModalMask: true,
                     dismissOnEscape: true,
-                    dismissOnOutsideClick: true,
+                    dismissOnOutsideClick: false,
                     title: title,
                     // @ts-ignore
                     closeClick: function () {

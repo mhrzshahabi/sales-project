@@ -3,11 +3,12 @@ package com.nicico.sales.service;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.ContactDTO;
+import com.nicico.sales.exception.NotFoundException;
 import com.nicico.sales.iservice.IContactService;
 import com.nicico.sales.model.entities.base.Contact;
 import com.nicico.sales.model.entities.base.ContactAccount;
+import com.nicico.sales.model.entities.base.Contract;
 import com.nicico.sales.repository.ContactDAO;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -31,7 +32,7 @@ public class ContactService implements IContactService {
     @PreAuthorize("hasAuthority('R_CONTACT')")
     public ContactDTO.Info get(Long id) {
         final Optional<Contact> slById = contactDAO.findById(id);
-        final Contact contact = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.ContactNotFound));
+        final Contact contact = slById.orElseThrow(() -> new NotFoundException(Contract.class));
 
         return modelMapper.map(contact, ContactDTO.Info.class);
     }
@@ -60,7 +61,7 @@ public class ContactService implements IContactService {
     @PreAuthorize("hasAuthority('U_CONTACT')")
     public ContactDTO.Info update(Long id, ContactDTO.Update request) {
         final Optional<Contact> slById = contactDAO.findById(id);
-        final Contact contact = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.ContactNotFound));
+        final Contact contact = slById.orElseThrow(() -> new NotFoundException(Contract.class));
 
         Contact updating = new Contact();
         modelMapper.map(contact, updating);
@@ -72,7 +73,7 @@ public class ContactService implements IContactService {
     @Transactional
     public void updateContactDefaultAccount(ContactAccount contactAccount) {
         final Optional<Contact> slById = contactDAO.findById(contactAccount.getContactId());
-        final Contact contact = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.ContactNotFound));
+        final Contact contact = slById.orElseThrow(() -> new NotFoundException(Contract.class));
         contact.setBankAccount(contactAccount.getBankAccount());
         contact.setBankShaba(contactAccount.getBankShaba());
         contact.setBankSwift(contactAccount.getBankSwift());
@@ -84,7 +85,7 @@ public class ContactService implements IContactService {
     @Transactional
     public void removeContactDefaultAccount(ContactAccount contactAccount) {
         final Optional<Contact> slById = contactDAO.findById(contactAccount.getContactId());
-        final Contact contact = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.ContactNotFound));
+        final Contact contact = slById.orElseThrow(() -> new NotFoundException(Contract.class));
         contact.setBankAccount(null);
         contact.setBankShaba(null);
         contact.setBankSwift(null);

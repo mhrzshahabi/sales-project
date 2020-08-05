@@ -3,8 +3,8 @@ package com.nicico.sales.service;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.sales.SalesException;
 import com.nicico.sales.dto.ContractAuditDTO;
+import com.nicico.sales.exception.NotFoundException;
 import com.nicico.sales.iservice.IContractAuditService;
 import com.nicico.sales.model.entities.base.ContractAudit;
 import com.nicico.sales.repository.ContractAuditDAO;
@@ -26,7 +26,7 @@ public class ContractAuditService implements IContractAuditService {
     @Override
     public ContractAuditDTO.Info get(ContractAudit.ContractAuditId id) {
         final Optional<ContractAudit> slById = contractAuditDAO.findById(id);
-        final ContractAudit contractAudit = slById.orElseThrow(() -> new SalesException(SalesException.ErrorType.ContractAuditNotFound));
+        final ContractAudit contractAudit = slById.orElseThrow(() -> new NotFoundException(ContractAudit.class));
 
         return modelMapper.map(contractAudit, ContractAuditDTO.Info.class);
     }

@@ -9,10 +9,12 @@
     var methodHtpp="";
     var recordContractNo;
     var RestDataSource_contractDetail_list = isc.MyRestDataSource.create({
+        autoFetchData: false,
         fetchDataURL: "${contextPath}/api/contractDetail/spec-list"
     });
 
     var RestDataSource_Material = isc.MyRestDataSource.create({
+        autoFetchData: false,
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, hidden: true},
@@ -25,6 +27,7 @@
     });
 
     var RestDataSource_Contract = isc.MyRestDataSource.create({
+        autoFetchData: false,
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, hidden: true},
@@ -45,6 +48,7 @@
     });
 
     var RestDataSource_Parameters = isc.MyRestDataSource.create({
+        autoFetchData: false,
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
