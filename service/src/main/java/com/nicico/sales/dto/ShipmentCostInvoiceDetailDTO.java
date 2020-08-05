@@ -40,8 +40,6 @@ public class ShipmentCostInvoiceDetailDTO {
     public static class Info extends ShipmentCostInvoiceDetailDTO {
 
         private Long id;
-        private ShipmentCostInvoiceDTO.Info shipmentCostInvoice;
-
 
         // Auditing
         private Date createdDate;
