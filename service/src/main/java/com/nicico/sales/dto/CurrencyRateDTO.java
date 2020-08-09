@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.nicico.sales.model.enumeration.CurrencyType;
 import com.nicico.sales.model.enumeration.EStatus;
 import com.nicico.sales.model.enumeration.RateReference;
-import com.nicico.sales.model.enumeration.SymbolUnit;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -28,8 +27,8 @@ public class CurrencyRateDTO {
     @Temporal(TemporalType.TIMESTAMP)
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date currencyDate;
-    private SymbolUnit symbolCF;
-    private SymbolUnit symbolCT;
+    private Long unitFromId;
+    private Long unitToId;
     private RateReference reference;
     private BigDecimal currencyRateValue;
     private CurrencyType currencyTypeFrom;
