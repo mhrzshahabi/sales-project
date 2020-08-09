@@ -40,12 +40,19 @@ public class CurrencyRate extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "F_UNIT_FROM", nullable = false, insertable = false, updatable = false, foreignKey = @ForeignKey(name = "CurrencyRate2UnitF"))
-    private Unit symbolCF;
+    private Unit unitFrom;
 
     @NotNull
+    @Column(name = "F_UNIT_FROM", nullable = false)
+    private Long unitFromId;
+
     @ManyToOne
     @JoinColumn(name = "F_UNIT_TO", nullable = false, insertable = false, updatable = false, foreignKey = @ForeignKey(name = "CurrencyRate2UnitT"))
-    private Unit symbolCT;
+    private Unit unitTo;
+
+    @NotNull
+    @Column(name = "F_UNIT_TO", nullable = false)
+    private Long unitToId;
 
     @NotNull
     @Column(name = "N_REFERENCE", nullable = false)

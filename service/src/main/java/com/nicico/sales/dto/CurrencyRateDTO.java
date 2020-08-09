@@ -2,7 +2,6 @@ package com.nicico.sales.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.nicico.sales.model.entities.base.Unit;
 import com.nicico.sales.model.enumeration.CurrencyType;
 import com.nicico.sales.model.enumeration.EStatus;
 import com.nicico.sales.model.enumeration.RateReference;
@@ -28,8 +27,8 @@ public class CurrencyRateDTO {
     @Temporal(TemporalType.TIMESTAMP)
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date currencyDate;
-    private Unit symbolCF;
-    private Unit symbolCT;
+    private Long unitFromId;
+    private Long unitToId;
     private RateReference reference;
     private BigDecimal currencyRateValue;
     private CurrencyType currencyTypeFrom;
