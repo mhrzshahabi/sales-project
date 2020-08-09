@@ -27,4 +27,5 @@ public class TozinService implements ITozinService {
     public TotalResponse<TozinDTO.Info> searchTozin(NICICOCriteria criteria) {
         return SearchUtil.search(tozinDAO, criteria, tozin -> modelMapper.map(tozin, TozinDTO.Info.class));
     }
+
 }

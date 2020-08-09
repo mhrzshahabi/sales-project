@@ -61,4 +61,18 @@
     <!--	<include file="classpath:/db/changelog/view_frosh.xml"/>-->
     <!--	<include file="classpath:/db/changelog/view_kharid.xml"/>-->
 
+
+
+
+
+
+
+
+
+
+
+    <include file="classpath:/db/changelog/contract/tbl_cntr_bill_of_landing.xml"/>
+    <include file="classpath:/db/changelog/contract/tbl_cntr_container_to_bill_of_landing.xml"/>
+    <include file="classpath:/db/changelog/contract/tbl_cntr_remittance_to_bill_of_landing.xml"/>
+
 </databaseChangeLog>

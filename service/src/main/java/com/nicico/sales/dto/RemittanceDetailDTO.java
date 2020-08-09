@@ -55,6 +55,33 @@ public class RemittanceDetailDTO {
         private List<EStatus> eStatus;
     }
 
+     @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("RemittanceDetailInfo")
+    public static class InfoWithoutRemittanceInspections extends RemittanceDetailDTO {
+
+        private Long id;
+        private UnitDTO.Info unit;
+        private TozinTableDTO.InfoWithoutRemittanceDetail sourceTozin;
+        private TozinTableDTO.InfoWithoutRemittanceDetail destinationTozin;
+        private InventoryDTO.InfoWithInspections inventory;
+        private DepotDTO.Info depot;
+//        private Remittance remittance;
+
+
+        // Auditing
+        private Date createdDate;
+        private String createdBy;
+        private Date lastModifiedDate;
+        private String lastModifiedBy;
+        private Integer version;
+
+        // BaseEntity
+        private Boolean editable;
+        private List<EStatus> eStatus;
+    }
+
     @Getter
     @Setter
     @Accessors(chain = true)
