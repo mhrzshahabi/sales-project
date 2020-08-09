@@ -35,6 +35,7 @@ unitTab.dynamicForm.fields = BaseFormItems.concat([
         type: 'text',
         required: true,
         width: "100%",
+        filterOperator: "equals",
         valueMap:JSON.parse('${Enum_SymbolUnit}')
     },
     {
@@ -43,6 +44,7 @@ unitTab.dynamicForm.fields = BaseFormItems.concat([
         type: 'text',
         required: true,
         width: "100%",
+        filterOperator: "equals",
         valueMap: JSON.parse('${Enum_CategoryUnit}'),
     }
     

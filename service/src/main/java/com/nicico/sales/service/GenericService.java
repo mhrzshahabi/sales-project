@@ -26,10 +26,7 @@ import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -232,25 +229,22 @@ public abstract class GenericService<T, ID extends Serializable, C, R, U, D> imp
     @SuppressWarnings("unchecked")
     public List<R> updateAll(List<U> requests) {
 
+        Map<ID, U> data = new HashMap<>();
         Method idGetterMethod = getMethod(uType, new String[]{"getId", "getCode"});
-        Set<ID> ids = requests.stream().map(q -> {
+        requests.forEach(q -> {
 
             try {
 
-                return (ID) idGetterMethod.invoke(q);
+                data.put((ID) idGetterMethod.invoke(q), q);
 
             } catch (IllegalAccessException | InvocationTargetException e) {
 
                 e.printStackTrace();
                 log.error("Exception", e);
             }
+        });
 
-            return null;
-
-        }).collect(Collectors.toSet());
-        ids.remove(null);
-
-        return updateAll(new ArrayList<>(ids), requests);
+        return updateAll(new ArrayList<>(data.keySet()), new ArrayList<>(data.values()));
     }
 
     @Override

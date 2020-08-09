@@ -156,11 +156,15 @@ var ListGrid_Material = isc.ListGrid.create({
             },
         },
     ],
+    filterData: function () {
+        ListGrid_Material.collapseRecords(ListGrid_Material.getExpandedRecords());
+        this.Super("filterData", arguments);
+    },
     getExpansionComponent: function (record) {
         var criteria1 = {
             _constructor: "AdvancedCriteria",
             operator: "and",
-            criteria: [{ fieldName: "materialId", operator: "equals", value: record.id }],
+            criteria: [{fieldName: "materialId", operator: "equals", value: record.id}],
         };
 
         ListGrid_MaterialItem.fetchData(
