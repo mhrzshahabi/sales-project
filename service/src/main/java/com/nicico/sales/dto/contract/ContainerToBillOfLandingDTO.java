@@ -1,20 +1,17 @@
-package com.nicico.sales.dto;
+package com.nicico.sales.dto.contract;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.nicico.sales.model.enumeration.CurrencyType;
+import com.nicico.sales.dto.UnitDTO;
+import com.nicico.sales.model.entities.base.Unit;
+import com.nicico.sales.model.entities.contract.BillOfLanding;
 import com.nicico.sales.model.enumeration.EStatus;
-import com.nicico.sales.model.enumeration.RateReference;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -22,24 +19,36 @@ import java.util.List;
 @Setter
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class CurrencyRateDTO {
+public class ContainerToBillOfLandingDTO {
+    private Long billOfLandingId;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date currencyDate;
-    private Long unitFromId;
-    private Long unitToId;
-    private RateReference reference;
-    private BigDecimal currencyRateValue;
-    private CurrencyType currencyTypeFrom;
-    private CurrencyType currencyTypeTo;
+    private String containerType;
+
+    private String containerNo;
+
+    private String sealNo;
+
+    private Long quantity;
+
+    private String quantityType;
+
+    private Long weight;
+
+    private Long unitId;
+
+
 
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("CurrencyRateInfo")
-    public static class Info extends CurrencyRateDTO {
+    @ApiModel("ContainerToBillOfLandingInfo")
+    public static class Info extends ContainerToBillOfLandingDTO {
+
         private Long id;
+//        private BillOfLandingDTO.Info billOfLanding;
+        private UnitDTO.Info unit;
+
+        // Auditing
         private Date createdDate;
         private String createdBy;
         private Date lastModifiedDate;
@@ -54,15 +63,16 @@ public class CurrencyRateDTO {
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("CurrencyRateCreateRq")
-    public static class Create extends CurrencyRateDTO {
+    @ApiModel("ContainerToBillOfLandingCreateRq")
+    public static class Create extends ContainerToBillOfLandingDTO {
     }
 
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("CurrencyRateUpdateRq")
-    public static class Update extends CurrencyRateDTO {
+    @ApiModel("ContainerToBillOfLandingUpdateRq")
+    public static class Update extends ContainerToBillOfLandingDTO {
+
         @NotNull
         @ApiModelProperty(required = true)
         private Long id;
@@ -71,8 +81,9 @@ public class CurrencyRateDTO {
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("CurrencyRateDeleteRq")
+    @ApiModel("ContainerToBillOfLandingDeleteRq")
     public static class Delete {
+
         @NotNull
         @ApiModelProperty(required = true)
         private List<Long> ids;

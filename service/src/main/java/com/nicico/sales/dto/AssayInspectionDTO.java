@@ -40,12 +40,11 @@ public class AssayInspectionDTO {
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("AssayInspectionInfoWithoutInspectionReport")
-    public static class InfoWithoutInspectionReport extends AssayInspectionDTO {
+    @ApiModel("AssayInspectionInfoWithoutInspectionReportAndInventory")
+    public static class InfoWithoutInspectionReportAndInventory extends AssayInspectionDTO {
 
         private Long id;
         private MaterialElementDTO.Info materialElement;
-        private InventoryDTO.Info inventory;
 
         // Auditing
         private Date createdDate;
@@ -57,6 +56,13 @@ public class AssayInspectionDTO {
         // BaseEntity
         private Boolean editable;
         private List<EStatus> eStatus;
+    }
+ @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("AssayInspectionInfoWithoutInspectionReport")
+    public static class InfoWithoutInspectionReport extends InfoWithoutInspectionReportAndInventory {
+        private InventoryDTO.Info inventory;
     }
 
     @Getter

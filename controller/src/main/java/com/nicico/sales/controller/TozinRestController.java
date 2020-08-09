@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+
 @Slf4j
 @RequiredArgsConstructor
 @RestController
@@ -25,6 +26,7 @@ public class TozinRestController {
 
     private final ITozinService tozinService;
     private final ITozinLiteService tozinLiteService;
+//    private final ObjectMapper mapper;
 
     @Loggable
     @GetMapping(value = {"/spec-list"})
@@ -37,6 +39,16 @@ public class TozinRestController {
     @Loggable
     @GetMapping(value = {"/lite/spec-list"})
     public ResponseEntity<TotalResponse<TozinLite>> searchLite(@RequestParam MultiValueMap<String, String> criteria) {
+//        Map<String,String> criteraHardFoookingCode = new HashMap<String,String>(){{
+//            put("fieldName","tozinId");
+//            put("operator","iNotStartsWith");
+//            put("value","3-");
+//        }};
+//        try {
+//            criteria.add("criteria",mapper.writeValueAsString(criteraHardFoookingCode));
+//        } catch (JsonProcessingException e) {
+//            log.error(e.getMessage());
+//        }
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
         return new ResponseEntity<>(tozinLiteService.search(nicicoCriteria), HttpStatus.OK);
     }

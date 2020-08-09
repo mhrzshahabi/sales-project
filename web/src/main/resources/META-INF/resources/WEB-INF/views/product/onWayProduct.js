@@ -347,29 +347,32 @@ async function onWayProductFetch(classUrl, operator = "and", criteria = []) {
 }
 
 function mainOnWayProduct() {
-    function criteriaBuildForListGrid() {
-        const filterEditorCriteria = {...ListGrid_Tozin_IN_ONWAYPRODUCT.getFilterEditorCriteria()};
+    async function criteriaBuildForListGrid() {
+        const filterEditorCriteria = ListGrid_Tozin_IN_ONWAYPRODUCT.getFilterEditorCriteria();
         filterEditorCriteria.criteria.add({"fieldName": "tozinId", "operator": "iNotStartsWith", "value": "3-"})
-        fetchAlreadyInsertedTozinList().then(
-            value => {
-                value.forEach(v => filterEditorCriteria.criteria.add({
-                        "fieldName": "tozinId",
-                        "operator": "notEqual",
-                        "value": v
-                    })
-                )
-                ListGrid_Tozin_IN_ONWAYPRODUCT.fetchData(filterEditorCriteria, _ => {
-                    const filter = filterEditorCriteria.criteria.filter(__ => {
-                        // console.debug(__);
-                        if (__.fieldName !== 'tozinId') return true;
-                        return false
-                    })
-                    filterEditorCriteria.criteria=filter;
-                    // console.log("filterEditorCriteria",filterEditorCriteria)
-                    ListGrid_Tozin_IN_ONWAYPRODUCT.setFilterEditorCriteria(filterEditorCriteria);
-                })
-            }
+        const criteriaForSearch = {...filterEditorCriteria};
+        // dbg('filterEditorCriteria', filterEditorCriteria)
+        const value = await fetchAlreadyInsertedTozinList()
+        value.forEach(v => criteriaForSearch.criteria.add({
+                "fieldName": "tozinId",
+                "operator": "notEqual",
+                "value": v
+            })
         )
+        // dbg('criteriaForSearch', criteriaForSearch)
+        ListGrid_Tozin_IN_ONWAYPRODUCT.fetchData(criteriaForSearch)
+        // ListGrid_Tozin_IN_ONWAYPRODUCT.fetchData(criteriaForSearch, _ => {
+        //     // const filter = filterEditorCriteria.criteria.filter(__ => {
+        //     //     // console.debug(__);
+        //     //     return true
+        //     //     if (__.fieldName !== 'tozinId') return true;
+        //     //     return false
+        //     // })
+        //     // filterEditorCriteria.criteria=filter;
+        //     // console.log("filterEditorCriteria",filterEditorCriteria)
+        //     // ListGrid_Tozin_IN_ONWAYPRODUCT.setFilterEditorCriteria(filterEditorCriteria);
+        // })
+
     }
 
     const restDataSource_Tozin_Lite = {
@@ -384,7 +387,6 @@ function mainOnWayProduct() {
             click() {
                 if (ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecords().length < 1)
                     return isc.warn("لطفا توزین‌های مورد نظر را انتخاب کنید");
-
 
 
                 onWayProductCreateRemittance(criteriaBuildForListGrid);
@@ -502,7 +504,7 @@ function mainOnWayProduct() {
         width: 120,
         title: "<spring:message code='global.search'/>",
         icon: "icon/search.png",
-        click: criteriaBuildForListGrid
+        click: _ => ListGrid_Tozin_IN_ONWAYPRODUCT.filterData(ListGrid_Tozin_IN_ONWAYPRODUCT.getFilterEditorCriteria())
     });
 
     const HLayout_onWayProduct_searchBtn = isc.HLayout.create({
@@ -572,7 +574,8 @@ function mainOnWayProduct() {
                 {"fieldName": "tozinId", "operator": "iNotStartsWith", "value": "3-"}
             ]
         },
-        filterData(criteria, callback, requestProperties) {
+        async filterData(criteria, callback, requestProperties) {
+            // dbg('async filterData(criteria', arguments)
             // criteria.criteria.add({"fieldName": "tozinId", "operator": "iNotStartsWith", "value": "3-"})
             if (!criteria.criteria.find(t => t.fieldName === "sourceId")) {
                 isc.say('فیلتر مبدا خالی‌ می‌باشد')
@@ -586,35 +589,11 @@ function mainOnWayProduct() {
                 isc.say('لطفا محصول انتخاب نمایید')
                 throw "محصول چی شد"
             }
-            fetchAlreadyInsertedTozinList().then(
-                value => {
-                    value.forEach(v => criteria.criteria.add({
-                            "fieldName": "tozinId",
-                            "operator": "notEqual",
-                            "value": v
-                        })
-                    )
-                    return this.Super("filterData", arguments)
-                }
-            )
+            await criteriaBuildForListGrid()
+            // arguments[0] = this.getFilterEditorCriteria();
+            // return this.Super("filterData", arguments)
+        },
 
-        },
-        getFilterEditorCriteria() {
-            const criteria = this.Super('getFilterEditorCriteria', arguments);
-            if (!criteria.criteria.find(t => t.fieldName === "sourceId")) {
-                isc.say('فیلتر مبدا خالی‌ می‌باشد')
-                throw 'فیلتر مبدا خالی‌ می‌باشد'
-            }
-            if (!criteria.criteria.find(t => t.fieldName === "targetId")) {
-                isc.say('فیلتر مقصد خالی‌ می‌باشد')
-                throw "مبدا چی شد"
-            }
-            if (!criteria.criteria.find(t => t.fieldName === "codeKala")) {
-                isc.say('لطفا محصول انتخاب نمایید')
-                throw "مبدا چی شد"
-            }
-            return criteria;
-        },
         // filterLocalData: true,
         autoFitMaxRecords: 10,
         dataSource: isc.MyRestDataSource.create(restDataSource_Tozin_Lite),

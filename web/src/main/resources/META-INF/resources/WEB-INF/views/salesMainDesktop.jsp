@@ -354,7 +354,14 @@
     isc.Dialog.SAY_TITLE = "<spring:message code='global.message'/>";
     Page.setAppImgDir("static/img/");
 
-    function formatCellValueNumber(value) {
+    function formatCellValueNumber(value, record, rowNum, colNum) {
+        // dbg('formatCellValueNumber', this)
+        const field = this.getField(colNum)
+        // dbg('field', field)
+        if (field.type && field.type.toLowerCase() === 'date') {
+            // dbg('date field', field, this.Super('formatCellValue', arguments))
+            return new Date(value)
+        }
         // console.debug("formatCellValueNumber(value) arguments",arguments);
         if (value === undefined || isNaN(value)) return value;
         return isc.NumberUtil.format(value, ',0');
@@ -875,6 +882,13 @@
                 },
                 {isSeparator: true},
                 {
+                    title: "بارنامه",
+                    click: function () {
+                        createTab("بارنامه", "<spring:url value="/bill-of-landing/show-form" />")
+                    }
+                },
+                {isSeparator: true},
+                {
                     title: "<spring:message code='shipmentCost.title'/>",
                     click: function () {
                         createTab("<spring:message code='shipmentCost.title'/>", "<spring:url value="/shipment-cost/show-form" />")
@@ -1272,6 +1286,9 @@
         Object.freeze(EnumCategoryUnit);
     }))
 
+    function dbg(...args) {
+        console.debug(...args)
+    }
 </script>
 </body>
 </html>
