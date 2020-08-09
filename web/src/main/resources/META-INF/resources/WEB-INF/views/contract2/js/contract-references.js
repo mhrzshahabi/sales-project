@@ -1,4 +1,10 @@
+function getReferenceCriteria(idValues) {
+
+    return {fieldName: "id", operator: "equals", value: idValues};
+}
+
 function getReferenceFields(referenceType) {
+
     switch (referenceType) {
         case 'ContractShipment':
             return [
@@ -76,9 +82,52 @@ function getReferenceFields(referenceType) {
         case 'PriceBaseReference':
             return '';
         default:
-            break;
+            return null;
     }
-    return null;
+}
+
+function getReferenceDataSource(referenceType) {
+
+    let url = "";
+    switch (referenceType) {
+        case 'ContractShipment':
+            url = "";
+            break;
+        case 'Bank':
+            url = "";
+            break;
+        case 'Contact':
+            url = "";
+            break;
+        case 'Country':
+            url = "";
+            break;
+        case 'Currency':
+            url = "";
+            break;
+        case 'Material':
+            url = "";
+            break;
+        case 'Port':
+            url = "";
+            break;
+        case 'Unit':
+            url = "";
+            break;
+        case 'RateReference':
+            url = "";
+            break;
+        case 'PriceBaseReference':
+            url = "";
+            break;
+        default:
+            return null;
+    }
+
+    return isc.MyRestDataSource.create({
+        fetchDataURL: url,
+        fields: getReferenceFields(referenceType)
+    });
 }
 
 function getContactByType(contactType) {

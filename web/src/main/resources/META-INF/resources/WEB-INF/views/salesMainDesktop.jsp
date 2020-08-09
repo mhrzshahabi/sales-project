@@ -135,6 +135,11 @@
             COPPER_CATHOD: 2,
             COPPER_CONCENTRATES: 3
         },
+        materialValueMap: {
+            1: "MOLYBDENUM OXIDE",
+            2: "COPPER CATHOD",
+            3: "COPPER CONCENTRATES"
+        },
         invoiceType: {
             PERFORMA: 3,
             PROVISIONAL: 2,

@@ -150,7 +150,7 @@ namespace nicico {
             });
         }
 
-        static getDefaultBasicForm(creator: JSPTabVariable, restControllerUrl: string): isc.VLayout {
+        static getDefaultBasicForm(creator: JSPTabVariable, restControllerUrl: string, createWindowHook: any): isc.VLayout {
 
             // @ts-ignore
             creator.variable.url += restControllerUrl.replaceAll(new RegExp("^/|/$"), '') + '/';
@@ -167,6 +167,10 @@ namespace nicico {
             // </c:if>
             this.createListGridMenu(creator);
             this.createToolStrip(creator);
+
+            if (createWindowHook && createWindowHook instanceof Function)
+                createWindowHook(creator);
+
             this.createVLayout(creator);
 
             // @ts-ignore
