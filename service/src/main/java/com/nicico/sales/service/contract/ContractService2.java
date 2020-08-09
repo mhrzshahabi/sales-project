@@ -1,11 +1,9 @@
 package com.nicico.sales.service.contract;
 
-import com.google.gson.Gson;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
 import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.sales.annotation.Action;
-import com.nicico.sales.dto.ContractShipmentDTO;
 import com.nicico.sales.dto.contract.ContractContactDTO;
 import com.nicico.sales.dto.contract.ContractDTO2;
 import com.nicico.sales.dto.contract.ContractDetailDTO2;
@@ -25,6 +23,7 @@ import com.nicico.sales.model.entities.contract.ContractDetailValue;
 import com.nicico.sales.model.enumeration.CommercialRole;
 import com.nicico.sales.model.enumeration.DataType;
 import com.nicico.sales.service.GenericService;
+import com.nicico.sales.utility.ContractNoGenerator;
 import com.nicico.sales.utility.UpdateUtil;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.TypeToken;
@@ -34,19 +33,23 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class ContractService2 extends GenericService<Contract2, Long, ContractDTO2.Create, ContractDTO2.Info, ContractDTO2.Update, ContractDTO2.Delete> implements IContractService2 {
 
-    private final IContractContactService contractContactService;
     private final IContractDetailService2 contractDetailService;
-    private final IContractDetailValueService contractDetailValueService;
-    private final UpdateUtil updateUtil;
-    private final Gson gson;
-    private final ResourceBundleMessageSource messageSource;
+    private final IContractContactService contractContactService;
     private final IContractShipmentService contractShipmentService;
+    private final IContractDetailValueService contractDetailValueService;
+
+    private final UpdateUtil updateUtil;
+    private final ContractNoGenerator contractNoGenerator;
+    private final ResourceBundleMessageSource messageSource;
 
     @Override
     @Transactional
@@ -56,8 +59,10 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
         final Contract2 contract2 = modelMapper.map(request, Contract2.class);
         validation(contract2, request);
 
-        contract2.setContractContacts(null);
         contract2.setContractDetails(null);
+        contract2.setContractContacts(null);
+//        if (StringUtils.isEmpty(contract2.getNo()))
+//        contract2.setNo(contractNoGenerator.createContractNo());
 
         ContractDTO2.Info savedContract2 = save(contract2);
 
@@ -254,7 +259,7 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
 
         }
 
-        if (!contractDetail4Delete.getIds().isEmpty()){
+        if (!contractDetail4Delete.getIds().isEmpty()) {
             //delete listOfReference
             contractDetailService.deleteAll(contractDetail4Delete);
         }
