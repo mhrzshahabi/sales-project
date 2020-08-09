@@ -47,6 +47,7 @@ namespace nicico {
         vLayout: {};
         restDataSource: {};
         window: {};
+        sectionStack: {};
         dialog: {
 
             notEditable(): void,
@@ -122,6 +123,7 @@ namespace nicico {
         vLayout: {};
         restDataSource: {};
         window: {};
+        sectionStack: {};
         dialog: {
 
             notEditable(): void,
@@ -158,7 +160,7 @@ namespace nicico {
             This.vLayout = {};
             This.restDataSource = {};
             This.window = {};
-
+            This.sectionStack = {};
             This.variable = {
 
                 url: "",

@@ -26,7 +26,7 @@ import java.util.Date;
         })
 public class CurrencyRate extends BaseEntity {
 
-    public static final String UNIQUE_LIST_CURRENCY_RATE = "UNIQE_List_CrrencyRate";
+    public static final String UNIQUE_LIST_CURRENCY_RATE = "UNIQUE_LIST_CURRENCY_RATE";
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_CURRENCY_RATE")

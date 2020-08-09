@@ -46,6 +46,8 @@ public class ShipmentCostInvoiceDTO {
     private Long buyerContactId;
     private Long financeUnitId;
     private Long contractId;
+    private List<ShipmentCostInvoiceDetailDTO.Info> shipmentCostInvoiceDetails;
+
 
 
     @Getter

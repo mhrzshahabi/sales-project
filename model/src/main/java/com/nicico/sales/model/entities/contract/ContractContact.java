@@ -44,5 +44,5 @@ public class ContractContact extends BaseEntity {
 
     @NotNull
     @Column(name = "N_COMMERCIAL_ROLE", nullable = false)
-    private CommercialRole CommercialRole;
+    private CommercialRole commercialRole;
 }
