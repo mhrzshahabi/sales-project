@@ -19,6 +19,7 @@ contractDetailTypeTab.dynamicForm.fields.material = {
     name: "materialId",
     width: "100%",
     editorType: "SelectItem",
+    filterOperator: "equals",
     optionDataSource: isc.MyRestDataSource.create({
         fields:
             [
