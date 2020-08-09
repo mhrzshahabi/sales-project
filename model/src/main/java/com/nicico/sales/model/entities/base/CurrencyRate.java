@@ -21,7 +21,7 @@ import java.util.Date;
 @Entity
 @Table(name = "TBL_CURRENCY_RATE",
         uniqueConstraints = {
-                @UniqueConstraint(columnNames = {"D_CURRENCY_DATE", "N_FROM", "N_TO", "N_REFERENCE","N_CURRENCY_TYPE_FROM","N_CURRENCY_TYPE_TO"}, name = CurrencyRate.UNIQUE_LIST_CURRENCY_RATE)
+                @UniqueConstraint(columnNames = {"D_CURRENCY_DATE", "F_UNIT_FROM", "F_UNIT_TO", "N_REFERENCE","N_CURRENCY_TYPE_FROM","N_CURRENCY_TYPE_TO"}, name = CurrencyRate.UNIQUE_LIST_CURRENCY_RATE)
 
         })
 public class CurrencyRate extends BaseEntity {
@@ -38,13 +38,14 @@ public class CurrencyRate extends BaseEntity {
     @Column(name = "D_CURRENCY_DATE", nullable = false)
     private Date currencyDate;
 
-    @NotNull
-    @Column(name = "N_FROM", nullable = false)
-    private SymbolUnit symbolCF;
+    @ManyToOne
+    @JoinColumn(name = "F_UNIT_FROM", nullable = false, insertable = false, updatable = false, foreignKey = @ForeignKey(name = "CurrencyRate2UnitF"))
+    private Unit symbolCF;
 
     @NotNull
-    @Column(name = "N_TO", nullable = false)
-    private SymbolUnit symbolCT;
+    @ManyToOne
+    @JoinColumn(name = "F_UNIT_TO", nullable = false, insertable = false, updatable = false, foreignKey = @ForeignKey(name = "CurrencyRate2UnitT"))
+    private Unit symbolCT;
 
     @NotNull
     @Column(name = "N_REFERENCE", nullable = false)
@@ -59,5 +60,6 @@ public class CurrencyRate extends BaseEntity {
 
     @Column(name = "N_CURRENCY_TYPE_TO")
     private CurrencyType currencyTypeTo;
+
 
 }
