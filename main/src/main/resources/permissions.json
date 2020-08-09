@@ -1395,7 +1395,7 @@
     {
       "code": "D_MATERIAL_ELEMENT",
       "title": "حذف عنصر محصول"
-    }/*,
+    },
     {
       "code": "R_SHIPMENT_COST_INVOICE",
       "title": "نمایش صورتحساب هزینه های حمل"
@@ -1411,6 +1411,6 @@
     {
       "code": "D_SHIPMENT_COST_INVOICE",
       "title": "حذف صورتحساب هزینه های حمل"
-    }*/
+    }
   ]
 }

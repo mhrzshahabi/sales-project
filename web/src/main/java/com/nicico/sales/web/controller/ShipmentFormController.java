@@ -105,7 +105,7 @@ public class ShipmentFormController {
                 replacePOI(doc, "vessel_name", shipment.getVessel().getName());
                 replacePOI(doc, "agent", shipment.getContactByAgent().getNameFA());
                 replacePOI(doc, "contract_amount", shipment.getAmount().toString());
-                replacePOI(doc, "unitNameFa", shipment.getMaterial().getUnit().getNameFA());
+                replacePOI(doc, "unitNameFa", shipment.getUnit().getNameFA());
                 replacePOI(doc, "descp", shipment.getMaterial().getDescp());
                 replacePOI(doc, "tolorance", "-/+" + shipment.getContractShipment().getTolorance().toString() + "%");
                 replacePOI(doc, "contract_no", shipment.getContract().getContractNo());
@@ -134,7 +134,7 @@ public class ShipmentFormController {
 
                 replacePOI(doc, "agent", shipment.getContactByAgent().getNameFA());
                 replacePOI(doc, "contract_amount", shipment.getAmount().toString());
-                replacePOI(doc, "unitNameFa", shipment.getMaterial().getUnit().getNameFA());
+                replacePOI(doc, "unitNameFa", shipment.getUnit().getNameFA());
                 replacePOI(doc, "descp", shipment.getMaterial().getDescp());
                 replacePOI(doc, "tolorance", "-/+" + shipment.getContractShipment().getTolorance().toString() + "%");
                 replacePOI(doc, "contract_no", shipment.getContract().getContractNo());
@@ -176,7 +176,7 @@ public class ShipmentFormController {
                 replacePOI(doc, "vessel_name", shipment.getVessel().getName());
                 replacePOI(doc, "contract_amount", shipment.getAmount().toString());
                 replacePOI(doc, "descp", shipment.getMaterial().getDescp());
-                replacePOI(doc, "unitNameFa", shipment.getMaterial().getUnit().getNameFA());
+                replacePOI(doc, "unitNameFa", shipment.getUnit().getNameFA());
                 replacePOI(doc, "contract_no", shipment.getContract().getContractNo());
                 replacePOI(doc, "buyer", shipment.getContact().getNameFA());
                 replacePOI(doc, "agent", shipment.getContactByAgent().getNameFA());
@@ -211,7 +211,7 @@ public class ShipmentFormController {
                 replacePOI(doc, "dateday", dateday);
 
                 replacePOI(doc, "contract_amount", shipment.getAmount().toString());
-                replacePOI(doc, "unitNameFa", shipment.getMaterial().getUnit().getNameFA());
+                replacePOI(doc, "unitNameFa", shipment.getUnit().getNameFA());
                 replacePOI(doc, "descp", shipment.getMaterial().getDescp());
                 replacePOI(doc, "month", shipment.getMonth());
                 replacePOI(doc, "year", shipment.getContractShipment().getSendDate().toString());

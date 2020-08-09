@@ -145,8 +145,8 @@
             {name: "materialId", title: "<spring:message code='contact.name'/>", type: 'long', hidden: true},
             {name: "material.descl", title: "<spring:message code='material.descl'/>", type: 'text'},
             {name: "material.descp", title: "<spring:message code='material.descp'/>", type: 'text'},
-            {name: "material.unit.nameEN", title: "<spring:message code='unit.nameEN'/>", type: 'text'},
             {name: "amount", title: "<spring:message code='global.amount'/>", type: 'float'},
+            {name: "unitId", title: "<spring:message code='unit.title'/>"},
             {name: "noContainer", title: "<spring:message code='shipment.noContainer'/>", type: 'integer'},
             {name: "noPalete", title: "<spring:message code='shipment.noPalete'/>", type: 'integer'},
             {name: "noBarrel", title: "<spring:message code='shipment.noBarrel'/>", type: 'integer'},
@@ -252,7 +252,6 @@
                 name: "vessel.name",
                 title: "<spring:message code='vessel.name'/>",
                 type: 'text',
-
             }
         ],
         fetchDataURL: "${contextPath}/api/shipment/spec-list"
@@ -308,8 +307,9 @@
                 title: "<spring:message code='global.form.print.word'/>",
                 click: function () {
                     let record = ListGrid_Shipment.getSelectedRecord();
-                    if(record.shipmentType == "پالت" || (record.material.descl.contains("onc") && record.shipmentType.contains("انتینر")) ||
-                        (record.material.descl.contains("olyb") && record.shipmentType.contains("فله"))) {
+                    if(record.shipmentType == "پالت" || (record.materialId == ImportantIDs.material.COPPER_CONCENTRATES &&
+                        record.shipmentType.contains("انتینر")) ||
+                        (record.materialId == ImportantIDs.material.MOLYBDENUM_OXIDE && record.shipmentType.contains("فله"))) {
                         isc.say("<spring:message code='global.print.not.exist'/>");
                         return;
                     }
@@ -475,13 +475,13 @@
                     }]
             },
             {
-                name: "material.unit.nameEN",
+                name: "unitId",
                 title: "<spring:message code='unit.title'/>",
                 width: "100%",
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_UnitInShipment,
                 displayField: "nameFA",
-                valueField: "nameEN",
+                valueField: "id",
                 pickListHeight: "500",
                 required: true,
                 validators: [
@@ -518,7 +518,7 @@
                 }],
                 changed: function (form, item, value) {
                     if (value.contains("فله")) {
-                        if (DynamicForm_Shipment.getItem("material.descp").getValue() === "مس کاتد") {
+                        if (DynamicForm_Shipment.getItem("materialId").getValue() === ImportantIDs.material.COPPER_CATHOD) {
                             form.getItem("gross").show();
                             form.getItem("net").show();
                             form.getItem("moisture").hide();
@@ -527,7 +527,7 @@
                             form.getItem("noBarrel").hide();
                             form.getItem("noPalete").hide();
                         }
-                        if (DynamicForm_Shipment.getItem("material.descp").getValue() === "مس کنسانتره") {
+                        if (DynamicForm_Shipment.getItem("materialId").getValue() === ImportantIDs.COPPER_CONCENTRATES) {
                             form.getItem("gross").show();
                             form.getItem("net").show();
                             form.getItem("moisture").show();
@@ -536,7 +536,7 @@
                             form.getItem("noBarrel").hide();
                             form.getItem("noPalete").hide();
                         }
-                        if (DynamicForm_Shipment.getItem("material.descp").getValue() === "اکسید مولیبدن") {
+                        if (DynamicForm_Shipment.getItem("materialId").getValue() === ImportantIDs.MOLYBDENUM_OXIDE) {
                             form.getItem("gross").hide();
                             form.getItem("net").hide();
                             form.getItem("moisture").hide();
@@ -546,7 +546,7 @@
                             form.getItem("noPalete").hide();
                         }
                     } else if (value.contains("انتینری")) {
-                        if (DynamicForm_Shipment.getItem("material.descp").getValue() === "مس کاتد") {
+                        if (DynamicForm_Shipment.getItem("materialId").getValue() === ImportantIDs.material.COPPER_CATHOD) {
                             form.getItem("gross").show();
                             form.getItem("net").show();
                             form.getItem("moisture").hide();
@@ -555,7 +555,7 @@
                             form.getItem("noBarrel").hide();
                             form.getItem("noPalete").hide();
                         }
-                        if (DynamicForm_Shipment.getItem("material.descp").getValue() === "مس کنسانتره") {
+                        if (DynamicForm_Shipment.getItem("materialId").getValue() === ImportantIDs.material.COPPER_CONCENTRATES) {
                             form.getItem("gross").show();
                             form.getItem("net").show();
                             form.getItem("moisture").hide();
@@ -564,7 +564,7 @@
                             form.getItem("noBarrel").show();
                             form.getItem("noPalete").show();
                         }
-                        if (DynamicForm_Shipment.getItem("material.descp").getValue() === "اکسید مولیبدن") {
+                        if (DynamicForm_Shipment.getItem("materialId").getValue() === ImportantIDs.material.MOLYBDENUM_OXIDE) {
                             form.getItem("gross").show();
                             form.getItem("net").show();
                             form.getItem("moisture").hide();
@@ -1336,7 +1336,7 @@
         } else {
 
             if (record.shipmentType.contains("فله")) {
-                if (record.material.descl.contains("athod")) {
+                if (record.materialId === ImportantIDs.material.COPPER_CATHOD) {
                     DynamicForm_Shipment.getItem("gross").show();
                     DynamicForm_Shipment.getItem("net").show();
                     DynamicForm_Shipment.getItem("moisture").hide();
@@ -1345,7 +1345,7 @@
                     DynamicForm_Shipment.getItem("noBarrel").hide();
                     DynamicForm_Shipment.getItem("noPalete").hide();
                 }
-                if (record.material.descl.contains("onc")) {
+                if (record.materialId === ImportantIDs.material.COPPER_CONCENTRATES) {
                     DynamicForm_Shipment.getItem("gross").show();
                     DynamicForm_Shipment.getItem("net").show();
                     DynamicForm_Shipment.getItem("moisture").show();
@@ -1354,7 +1354,7 @@
                     DynamicForm_Shipment.getItem("noBarrel").hide();
                     DynamicForm_Shipment.getItem("noPalete").hide();
                 }
-                if (record.material.descl.contains("olyb")) {
+                if (record.materialId === ImportantIDs.material.MOLYBDENUM_OXIDE) {
                     DynamicForm_Shipment.getItem("gross").hide();
                     DynamicForm_Shipment.getItem("net").hide();
                     DynamicForm_Shipment.getItem("moisture").hide();
@@ -1364,7 +1364,7 @@
                     DynamicForm_Shipment.getItem("noPalete").hide();
                 }
             } else if (record.shipmentType.contains("انتینری")) {
-                if (record.material.descl.contains("athod")) {
+                if (record.materialId === ImportantIDs.material.COPPER_CATHOD) {
                     DynamicForm_Shipment.getItem("gross").show();
                     DynamicForm_Shipment.getItem("net").show();
                     DynamicForm_Shipment.getItem("moisture").hide();
@@ -1373,7 +1373,7 @@
                     DynamicForm_Shipment.getItem("noBarrel").hide();
                     DynamicForm_Shipment.getItem("noPalete").hide();
                 }
-                if (record.material.descl.contains("onc")) {
+                if (record.materialId === ImportantIDs.material.COPPER_CONCENTRATES) {
                     DynamicForm_Shipment.getItem("gross").show();
                     DynamicForm_Shipment.getItem("net").show();
                     DynamicForm_Shipment.getItem("moisture").hide();
@@ -1382,7 +1382,7 @@
                     DynamicForm_Shipment.getItem("noBarrel").show();
                     DynamicForm_Shipment.getItem("noPalete").show();
                 }
-                if (record.material.descl.contains("olyb")) {
+                if (record.materialId === ImportantIDs.material.MOLYBDENUM_OXIDE) {
                     DynamicForm_Shipment.getItem("gross").show();
                     DynamicForm_Shipment.getItem("net").show();
                     DynamicForm_Shipment.getItem("moisture").hide();
@@ -1575,17 +1575,6 @@
                 showHover: true,
                 sortNormalizer: function (recordObject) {
                     return recordObject.material.descl
-                }
-            },
-            {
-                name: "material.unit.nameEN",
-                title: "<spring:message code='unit.nameEN'/>",
-                type: 'text',
-                width: "10%",
-                align: "center",
-                showHover: true,
-                sortNormalizer: function (recordObject) {
-                    return recordObject.material.unit.nameEN
                 }
             },
             {
