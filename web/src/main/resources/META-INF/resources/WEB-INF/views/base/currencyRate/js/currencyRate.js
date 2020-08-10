@@ -4,6 +4,20 @@ const currencyTypes = {
       "AZAD": "<spring:message code='currency.type.azad'/>",
       "NIMAEE": "<spring:message code='currency.type.nimaee'/>"
 }
+var RestDataSource_Units = isc.MyRestDataSource.create({
+    fields: BaseFormItems.concat([
+        {name: "id", title: "id", primaryKey: true, hidden: true},
+        {name: "nameFA"},
+        {name: "nameEN"},
+    ]),
+    fetchDataURL: "${contextPath}/api/unit/spec-list"
+})
+var RestDataSource_Units_optionCriteria = {
+    _constructor: "AdvancedCriteria",
+    operator: "and",
+    criteria: [{fieldName: "categoryUnit", operator: "equals", value: "Finance"}]
+};
+
 currencyRateTab.dynamicForm.fields = BaseFormItems.concat([
     {
         name: "id",
@@ -19,12 +33,15 @@ currencyRateTab.dynamicForm.fields = BaseFormItems.concat([
         required: true,
     },
     {
-        name: "symbolCF",
+        name: "unitFromId",
         title: "<spring:message code='currency.rate.f'/>",
         required: true,
         width: "100%",
         filterOperator: "equals",
-        valueMap: JSON.parse('${Enum_SymbolCUR}'),
+        optionDataSource : RestDataSource_Units,
+        optionCriteria : RestDataSource_Units_optionCriteria,
+        displayField: "nameFA",
+        valueField: "id",
     },
     {
         name: "currencyTypeFrom",
@@ -36,12 +53,15 @@ currencyRateTab.dynamicForm.fields = BaseFormItems.concat([
         valueMap: currencyTypes,
     },
     {
-        name: "symbolCT",
+        name: "unitToId",
         title: "<spring:message code='currency.rate.t'/>",
         required: true,
         width: "100%",
         filterOperator: "equals",
-        valueMap: JSON.parse('${Enum_SymbolCUR}'),
+        optionDataSource : RestDataSource_Units,
+        displayField: "nameFA",
+        optionCriteria : RestDataSource_Units_optionCriteria,
+        valueField: "id",
     },
     {
         name: "currencyTypeTo",
@@ -77,8 +97,8 @@ currencyRateTab.dynamicForm.main.windowWidth = 500;
 currencyRateTab.dynamicForm.main.validate = function () {
     let isValid = this.Super("validate", arguments);
     let data = currencyRateTab.dynamicForm.main.getValues();
-    if (data.symbolCF != null && data.symbolCF === data.symbolCT) {
-        currencyRateTab.dynamicForm.main.errors["symbolCT"] = "<spring:message code='currencyRate.checkRate'/>";
+    if (data.unitFromId != null && data.unitFromId === data.unitToId) {
+        currencyRateTab.dynamicForm.main.errors["unitToId"] = "<spring:message code='currencyRate.checkRate'/>";
         return false;
     }
     return isValid;

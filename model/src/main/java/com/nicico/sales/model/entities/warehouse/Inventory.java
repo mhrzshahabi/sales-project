@@ -1,9 +1,12 @@
 package com.nicico.sales.model.entities.warehouse;
 
+import com.nicico.sales.model.entities.base.AssayInspection;
 import com.nicico.sales.model.entities.base.MaterialItem;
+import com.nicico.sales.model.entities.base.WeightInspection;
 import com.nicico.sales.model.entities.common.BaseEntity;
 import lombok.*;
 import lombok.experimental.Accessors;
+import org.hibernate.annotations.JoinFormula;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -40,6 +43,29 @@ public class Inventory extends BaseEntity {
 
     @OneToMany(mappedBy = "inventory", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private List<RemittanceDetail> remittanceDetails;
+
+
+    @OneToMany(mappedBy = "inventory", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    private List<AssayInspection> assayInspections;
+
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinFormula(
+      "(select weight.id\n" +
+              "from TBL_INSPECTION_REPORT ins\n" +
+              "         inner join TBL_WEIGHING_INSPECTION weight on ins.ID = weight.F_INSPECTION_REPORT_ID\n" +
+              "where\n" +
+              "      weight.F_INVENTORY_ID = id        AND\n" +
+              "      ins.D_ISSUE_DATE =\n" +
+              "      (select max(i.D_ISSUE_DATE)\n" +
+              "       from TBL_INSPECTION_REPORT i\n" +
+              "                inner join TBL_ASSAY_INSPECTION a on i.ID = a.F_INSPECTION_REPORT_ID)\n)"
+
+    )
+    private WeightInspection weightInspection;
+
+     @OneToMany(mappedBy = "inventory", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+        private List<WeightInspection> weightInspections;
 
 
 }

@@ -1,0 +1,34 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <changeSet author="Saeb" id="saeb13123123123213123">
+        <createView viewName="VIEW_TOZIN_S">
+            <![CDATA[
+SELECT card_id,carno1,carno3,carpelak plak,carname,customerid,customer,sellerid,seller,
+       wazn1,wazn2,wazn,
+
+       greatest (nvl(tedad,1),1) tedad,
+       nvl(unit_kala,6) unit_kala,
+       nvl(packname,'فله') packname
+
+    ,havcode,dat,tzn_date,tzn_time,v.gdscode,v.gdsname,
+       v.sourceid,v.sourcee,v.targetid,v.target,
+       to_char(p.id)||p.NAMEfa tozine_id,cast('    ' as varchar2(300))    HAV_NAME,cast('    ' as varchar2(20))  HAV_DATE,
+       tozine_id tozin_plant_id,
+       case when condition='unload' then '2تخليه' else '1بارگيري' end condition,
+       p.id pid,
+       substr(v.sourceid,1,1) ||'-'||substr(v.target,1,1) source_plant_id,substr(v.target,1,1) target_plant_id,
+       isoky hav_isfinal
+
+FROM v_tozine_content_b v
+       join TBL_MATERIAL_ITEM m on m.id=v.GDSCODE
+       join TBL_TOZIN_PLANT p on p.id=substr(v.TOZINE_ID,1,1)
+--        left join TBL_TOZIN_TARGET s on s.targetid=v.SOURCEID
+--        left join TBL_TOZIN_TARGET t on t.targetid=v.targetid
+
+order by carpelak ,carname,v.TZN_DATE,v.TZN_TIME,customerid,customer,sellerid
+            ]]>
+        </createView>
+    </changeSet>
+</databaseChangeLog>
