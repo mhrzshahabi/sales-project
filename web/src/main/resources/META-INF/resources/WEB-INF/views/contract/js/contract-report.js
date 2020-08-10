@@ -290,16 +290,15 @@ function contractReport() {
                                                             displayDatePicker('toDayDateTozin', this, 'ymd', '/');
                                                         }
                                                     }],
-                                                    defaultValue: "1398/10/26",
+                                                    defaultValue: new persianDate().format('YYYY/MM/DD'),
                                                 },]
                                             }),
                                         ]
                                 })
                             ]
                     }),
-
                     isc.FacetChart.create({
-
+                        visibility:"hidden",
                         showDataValues: true,
                         showDoughnut: true,
                         facets: [{
@@ -312,6 +311,7 @@ function contractReport() {
                         chartType: "Pie"
                     }),
                     isc.ListGrid.create({
+                        visibility:"hidden",
                         groupStartOpen: "first",
                         groupByField: ['year', "material.descl"],
                         width: "100%",
