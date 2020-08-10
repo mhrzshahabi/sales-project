@@ -136,9 +136,19 @@
             COPPER_CONCENTRATES: 3
         },
         invoiceType: {
-            PERFORMA: 3,
+            FINAL: 1,
             PROVISIONAL: 2,
-            FINAL: 1
+            PERFORMA: 3,
+            TRUSTY: 4,
+            INSPECTION: 5,
+            INSURANCE: 6,
+            THC: 7,
+            BLFEE: 8,
+            UMPIRELAB: 9,
+            DEMAND: 10,
+            FREIGHT: 11,
+            DISPATCH: 12,
+            DEMURRAGE: 13
         },
         unit: {
             PERCENT: 1,

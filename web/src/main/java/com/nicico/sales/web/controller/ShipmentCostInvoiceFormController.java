@@ -12,13 +12,18 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/shipmentCostInvoice")
 public class ShipmentCostInvoiceFormController {
 
+//    private final ObjectMapper objectMapper;
 
     @RequestMapping("/show-form")
     public String show(HttpServletRequest request) {
 
-        request.setAttribute("c_entity", true/*SecurityUtil.hasAuthority("C_SHIPMENT_COST_INVOICE")*/);
-        request.setAttribute("u_entity", true/*SecurityUtil.hasAuthority("U_SHIPMENT_COST_INVOICE")*/);
-        request.setAttribute("d_entity", true/*SecurityUtil.hasAuthority("D_SHIPMENT_COST_INVOICE")*/);
+        request.setAttribute("c_entity", SecurityUtil.hasAuthority("C_SHIPMENT_COST_INVOICE"));
+        request.setAttribute("u_entity", SecurityUtil.hasAuthority("U_SHIPMENT_COST_INVOICE"));
+        request.setAttribute("d_entity", SecurityUtil.hasAuthority("D_SHIPMENT_COST_INVOICE"));
+
+//        Map<String, String> eStatus = new HashMap<>();
+//        for (EStatus value : EStatus.values()) eStatus.put(value.name(), value.name());
+//        request.setAttribute("Enum_EStatus", objectMapper.writeValueAsString(eStatus));
 
         return "shipmentCostInvoice/shipmentCostInvoice";
     }
