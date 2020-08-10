@@ -217,7 +217,7 @@ group by id,plant,gdscode,snamefa,namefa,gdsname,car
 	</columnHeader>
 	<detail>
 		<band height="20" splitType="Immediate">
-			<textField isBlankWhenNull="true">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement stretchType="ContainerHeight" x="441" y="0" width="92" height="20" uuid="b617a190-f9e9-4d64-b240-566faac0ec98"/>
 				<box>
 					<pen lineWidth="0.5"/>
