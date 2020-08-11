@@ -98,6 +98,7 @@
             "Active": "عادی",
             "DeActive": "حذف شده"
         },
+        eStatus2: JSON.parse('${Enum_EStatus}'),
         unit: {
             symbols: JSON.parse('${Enum_SymbolUnit_WithValue}'),
             hasFlag: function (value, target) {
