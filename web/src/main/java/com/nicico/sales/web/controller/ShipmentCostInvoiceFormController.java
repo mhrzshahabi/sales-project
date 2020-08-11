@@ -12,13 +12,16 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/shipmentCostInvoice")
 public class ShipmentCostInvoiceFormController {
 
-
     @RequestMapping("/show-form")
     public String show(HttpServletRequest request) {
 
-        request.setAttribute("c_entity", true/*SecurityUtil.hasAuthority("C_SHIPMENT_COST_INVOICE")*/);
-        request.setAttribute("u_entity", true/*SecurityUtil.hasAuthority("U_SHIPMENT_COST_INVOICE")*/);
-        request.setAttribute("d_entity", true/*SecurityUtil.hasAuthority("D_SHIPMENT_COST_INVOICE")*/);
+        request.setAttribute("c_entity", SecurityUtil.hasAuthority("C_SHIPMENT_COST_INVOICE"));
+        request.setAttribute("u_entity", SecurityUtil.hasAuthority("U_SHIPMENT_COST_INVOICE"));
+        request.setAttribute("d_entity", SecurityUtil.hasAuthority("D_SHIPMENT_COST_INVOICE"));
+        request.setAttribute("f_entity", SecurityUtil.hasAuthority("F_SHIPMENT_COST_INVOICE"));
+        request.setAttribute("a_entity", SecurityUtil.hasAuthority("A_SHIPMENT_COST_INVOICE"));
+        request.setAttribute("i_entity", SecurityUtil.hasAuthority("I_SHIPMENT_COST_INVOICE"));
+
 
         return "shipmentCostInvoice/shipmentCostInvoice";
     }
