@@ -94,4 +94,15 @@
         </createTable>
     </changeSet>
 
+    <changeSet author="MShahabi" id="1799887766554-033">
+        <createSequence sequenceName="SEQ_INVOICE_NO" ordered="true" startValue="1000"/>
+    </changeSet>
+
+    <changeSet author="MShahabi" id="1799887766554-035">
+        <modifyDataType tableName="TBL_SHIPMENT_COST_INVOICE" columnName="N_T_VAT"
+                        newDataType="NUMBER(10, 5)"/>
+        <modifyDataType tableName="TBL_SHIPMENT_COST_INVOICE" columnName="N_C_VAT"
+                        newDataType="NUMBER(10, 5)"/>
+    </changeSet>
+
 </databaseChangeLog>

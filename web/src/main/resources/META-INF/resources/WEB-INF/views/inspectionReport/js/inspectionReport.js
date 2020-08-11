@@ -1234,6 +1234,10 @@ inspectionReportTab.method.editForm = function () {
         inspectionReportTab.dialog.notSelected();
     else if (record.editable === false)
         inspectionReportTab.dialog.notEditable();
+    else if (record.estatus.contains(Enums.eStatus2.DeActive))
+        inspectionReportTab.dialog.inactiveRecord();
+    else if (record.estatus.contains(Enums.eStatus2.Final))
+        inspectionReportTab.dialog.finalRecord();
     else {
         inspectionReportTab.method.jsonRPCManagerRequest({
             httpMethod: "GET",

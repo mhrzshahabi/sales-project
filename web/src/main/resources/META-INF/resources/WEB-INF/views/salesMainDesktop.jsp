@@ -98,6 +98,7 @@
             "Active": "عادی",
             "DeActive": "حذف شده"
         },
+        eStatus2: JSON.parse('${Enum_EStatus}'),
         unit: {
             symbols: JSON.parse('${Enum_SymbolUnit_WithValue}'),
             hasFlag: function (value, target) {
@@ -136,9 +137,19 @@
             COPPER_CONCENTRATES: 3
         },
         invoiceType: {
-            PERFORMA: 3,
+            FINAL: 1,
             PROVISIONAL: 2,
-            FINAL: 1
+            PERFORMA: 3,
+            TRUSTY: 4,
+            INSPECTION: 5,
+            INSURANCE: 6,
+            THC: 7,
+            BLFEE: 8,
+            UMPIRELAB: 9,
+            DEMAND: 10,
+            FREIGHT: 11,
+            DISPATCH: 12,
+            DEMURRAGE: 13
         },
         unit: {
             PERCENT: 1,
@@ -156,6 +167,21 @@
 
     const BaseFormItems = {
 
+        getFieldNameByLang: function (baseName, postFixIsUpperCase) {
+
+            let postFix = postFixIsUpperCase ? ["FA", "EN"] : ["Fa", "En"];
+            if (baseName == null)
+                baseName = "name";
+            else if (baseName instanceof Array) {
+
+                postFix[0] = baseName[1];
+                postFix[1] = baseName[2];
+                baseName = baseName[0];
+            }
+
+            let locale = languageForm.getValue("languageName");
+            return baseName + (locale === "fa" ? postFix[0] : postFix[1]);
+        },
         concat: function (fields, setBaseItemsHidden = true) {
 
             let items = [];
@@ -339,7 +365,14 @@
     isc.Dialog.SAY_TITLE = "<spring:message code='global.message'/>";
     Page.setAppImgDir("static/img/");
 
-    function formatCellValueNumber(value) {
+    function formatCellValueNumber(value, record, rowNum, colNum) {
+        // dbg('formatCellValueNumber', this)
+        const field = this.getField(colNum)
+        // dbg('field', field)
+        if (field.type && field.type.toLowerCase() === 'date') {
+            // dbg('date field', field, this.Super('formatCellValue', arguments))
+            return new Date(value)
+        }
         // console.debug("formatCellValueNumber(value) arguments",arguments);
         if (value === undefined || isNaN(value)) return value;
         return isc.NumberUtil.format(value, ',0');
@@ -860,18 +893,27 @@
                 },
                 {isSeparator: true},
                 {
+                    title: "بارنامه",
+                    click: function () {
+                        createTab("بارنامه", "<spring:url value="/bill-of-landing/show-form" />")
+                    }
+                },
+                {isSeparator: true},
+                {
                     title: "<spring:message code='shipmentCost.title'/>",
                     click: function () {
                         createTab("<spring:message code='shipmentCost.title'/>", "<spring:url value="/shipment-cost/show-form" />")
                     }
                 },
                 {isSeparator: true},
+                <sec:authorize access="hasAuthority('R_INSPECTION_REPORT')">
                 {
                     title: "<spring:message code='inspectionReport.title'/>",
                     click: function () {
                         createTab("<spring:message code='inspectionReport.title'/>", "<spring:url value="/inspectionReport/show-form" />")
                     }
                 },
+                </sec:authorize>
                 {isSeparator: true},
                 {
                     title: "<spring:message code='shipmentCostInvoice.title'/>",
@@ -1255,6 +1297,9 @@
         Object.freeze(EnumCategoryUnit);
     }))
 
+    function dbg(...args) {
+        console.debug(...args)
+    }
 </script>
 </body>
 </html>

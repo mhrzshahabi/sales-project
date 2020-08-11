@@ -44,6 +44,7 @@ contractTab.dynamicForm.fields.material = {
     name: "materialId",
     width: "100%",
     editorType: "SelectItem",
+    filterOperator: "equals",
     optionDataSource: isc.MyRestDataSource.create({
         fields: [
             {name: "id", title: "id", primaryKey: true, hidden: true},
@@ -64,6 +65,7 @@ contractTab.dynamicForm.fields.contractType = {
     name: "contractTypeId",
     width: "100%",
     editorType: "SelectItem",
+    filterOperator: "equals",
     optionDataSource: isc.MyRestDataSource.create({
         fields: [
             {name: "id", title: "id", primaryKey: true, hidden: true},
@@ -92,6 +94,7 @@ contractTab.dynamicForm.fields.buyer = {
             value: true
         }]
     },
+    filterOperator: "equals",
     optionDataSource: isc.MyRestDataSource.create({
         fields: [
             {name: "id", title: "id", primaryKey: true, hidden: true},
@@ -110,6 +113,7 @@ contractTab.dynamicForm.fields.seller = {
     name: "sellerId",
     width: "100%",
     editorType: "SelectItem",
+    filterOperator: "equals",
     optionCriteria: {
         operator: 'and',
         criteria: [{
@@ -144,6 +148,7 @@ contractTab.dynamicForm.fields.agentBuyer = {
             value: true
         }]
     },
+    filterOperator: "equals",
     optionDataSource: isc.MyRestDataSource.create({
         fields: [
             {name: "id", title: "id", primaryKey: true, hidden: true},
@@ -180,6 +185,7 @@ contractTab.dynamicForm.fields.agentSeller = {
     autoFetchData: false,
     displayField: "nameEN",
     valueField: "id",
+    filterOperator: "equals",
     title: "<spring:message code='contact.commercialRole.agentSeller'/>"
 };
 
@@ -202,6 +208,7 @@ contractTab.dynamicForm.fields.contractDetailType = {
         ],
         fetchDataURL: "${contextPath}/api/contract-detail-type/spec-list"
     }),
+    filterOperator: "equals",
     autoFetchData: false,
     displayField: "titleEn",
     valueField: "id",
@@ -553,6 +560,10 @@ contractTab.method.editData = function () {
         contractTab.dialog.notSelected();
     else if (record.editable === false)
         contractTab.dialog.notEditable();
+    else if (record.estatus.contains(Enums.eStatus2.DeActive))
+        contractTab.dialog.inactiveRecord();
+    else if (record.estatus.contains(Enums.eStatus2.Final))
+        contractTab.dialog.finalRecord();
     else {
         contractTab.variable.method = "PUT";
         contractTab.dynamicForm.contract.editRecord(JSON.parse(JSON.stringify(record)));
@@ -719,6 +730,10 @@ contractTab.method.deleteRecord = function () {
         contractTab.dialog.notSelected();
     else if (record.editable === false)
         contractTab.dialog.notEditable();
+    else if (record.estatus.contains(Enums.eStatus2.DeActive))
+        contractTab.dialog.inactiveRecord();
+    else if (record.estatus.contains(Enums.eStatus2.Final))
+        contractTab.dialog.finalRecord();
     else
         contractTab.dialog.question(
             () => {

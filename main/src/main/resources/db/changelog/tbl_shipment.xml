@@ -1,0 +1,18 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+    <changeSet author="MShahabi" id="1799887766554-036">
+        <addColumn tableName="TBL_SHIPMENT">
+            <column name="F_UNIT_ID" type="NUMBER(19, 0)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="MShahabi" id="1799887766554-037">
+        <addForeignKeyConstraint baseColumnNames="F_UNIT_ID" baseTableName="TBL_SHIPMENT" constraintName="fk_shipment2unitByUnitId" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_UNIT" validate="true"/>
+    </changeSet>
+
+</databaseChangeLog>

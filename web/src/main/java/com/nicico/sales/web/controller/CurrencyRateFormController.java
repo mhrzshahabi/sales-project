@@ -24,18 +24,6 @@ public class CurrencyRateFormController {
     @RequestMapping("/show-form")
     public String showCurrencyRate(HttpServletRequest request) throws JsonProcessingException {
 
-        EnumSet<SymbolUnit> currencySymbols = EnumSet.of(
-                SymbolUnit.$,
-                SymbolUnit.¢,
-                SymbolUnit.£,
-                SymbolUnit.¥,
-                SymbolUnit.€,
-                SymbolUnit.ریال);
-        String currencyStr = objectMapper.writeValueAsString(
-                currencySymbols.
-                        stream().
-                        collect(Collectors.toMap(SymbolUnit::name, SymbolUnit::name)));
-        request.setAttribute("Enum_SymbolCUR", currencyStr);
 
         request.setAttribute("Enum_RateReference", objectMapper.writeValueAsString(
                 Arrays.stream(RateReference.values())

@@ -1,6 +1,7 @@
 package com.nicico.sales.model.entities.base;
 
 import com.nicico.sales.model.entities.common.BaseEntity;
+import com.nicico.sales.model.enumeration.CurrencyType;
 import com.nicico.sales.model.enumeration.RateReference;
 import com.nicico.sales.model.enumeration.SymbolUnit;
 import lombok.*;
@@ -20,12 +21,12 @@ import java.util.Date;
 @Entity
 @Table(name = "TBL_CURRENCY_RATE",
         uniqueConstraints = {
-                @UniqueConstraint(columnNames = {"D_CURRENCY_DATE", "N_FROM", "N_TO", "N_REFERENCE"}, name = CurrencyRate.UNIQUE_LIST_CURRENCY_RATE)
+                @UniqueConstraint(columnNames = {"D_CURRENCY_DATE", "F_UNIT_FROM", "F_UNIT_TO", "N_REFERENCE","N_CURRENCY_TYPE_FROM","N_CURRENCY_TYPE_TO"}, name = CurrencyRate.UNIQUE_LIST_CURRENCY_RATE)
 
         })
 public class CurrencyRate extends BaseEntity {
 
-    public static final String UNIQUE_LIST_CURRENCY_RATE = "UNIQE_List_CrrencyRate";
+    public static final String UNIQUE_LIST_CURRENCY_RATE = "UNIQUE_LIST_CURRENCY_RATE";
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_CURRENCY_RATE")
@@ -37,20 +38,35 @@ public class CurrencyRate extends BaseEntity {
     @Column(name = "D_CURRENCY_DATE", nullable = false)
     private Date currencyDate;
 
-    @NotNull
-    @Column(name = "N_FROM", nullable = false)
-    private SymbolUnit symbolCF;
+    @ManyToOne
+    @JoinColumn(name = "F_UNIT_FROM", nullable = false, insertable = false, updatable = false, foreignKey = @ForeignKey(name = "CurrencyRate2UnitF"))
+    private Unit unitFrom;
 
     @NotNull
-    @Column(name = "N_TO", nullable = false)
-    private SymbolUnit symbolCT;
+    @Column(name = "F_UNIT_FROM", nullable = false)
+    private Long unitFromId;
+
+    @ManyToOne
+    @JoinColumn(name = "F_UNIT_TO", nullable = false, insertable = false, updatable = false, foreignKey = @ForeignKey(name = "CurrencyRate2UnitT"))
+    private Unit unitTo;
+
+    @NotNull
+    @Column(name = "F_UNIT_TO", nullable = false)
+    private Long unitToId;
 
     @NotNull
     @Column(name = "N_REFERENCE", nullable = false)
     private RateReference reference;
 
     @NotNull
-    @Column(name = "N_CURRENCY_RATE_VALUE" , scale = 2 , precision = 10, nullable = false)
+    @Column(name = "N_CURRENCY_RATE_VALUE", scale = 2, precision = 10, nullable = false)
     private BigDecimal currencyRateValue;
+
+    @Column(name = "N_CURRENCY_TYPE_FROM")
+    private CurrencyType currencyTypeFrom;
+
+    @Column(name = "N_CURRENCY_TYPE_TO")
+    private CurrencyType currencyTypeTo;
+
 
 }

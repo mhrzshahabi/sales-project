@@ -1395,6 +1395,34 @@
     {
       "code": "D_MATERIAL_ELEMENT",
       "title": "حذف عنصر محصول"
+    },
+    {
+      "code": "R_SHIPMENT_COST_INVOICE",
+      "title": "نمایش صورتحساب هزینه های حمل"
+    },
+    {
+      "code": "C_SHIPMENT_COST_INVOICE",
+      "title": "ایجاد صورتحساب هزینه های حمل"
+    },
+    {
+      "code": "U_SHIPMENT_COST_INVOICE",
+      "title": "به روز رسانی صورتحساب هزینه های حمل"
+    },
+    {
+      "code": "D_SHIPMENT_COST_INVOICE",
+      "title": "حذف صورتحساب هزینه های حمل"
+    },
+    {
+      "code": "F_SHIPMENT_COST_INVOICE",
+      "title": "تایید نهایی صورتحساب هزینه های حمل"
+    },
+    {
+      "code": "A_SHIPMENT_COST_INVOICE",
+      "title": "فعال کردن صورتحساب هزینه های حمل"
+    },
+    {
+      "code": "I_SHIPMENT_COST_INVOICE",
+      "title": "غیر فعال کردن صورتحساب هزینه های حمل"
     }
   ]
 }

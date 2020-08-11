@@ -58,6 +58,13 @@ public class ShipmentCostInvoiceRestController {
     }
 
     @Loggable
+    @PostMapping(value = "/finalize/{id}")
+    public ResponseEntity finalize(@PathVariable Long id) {
+        iShipmentCostInvoiceService.finalize(id);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @Loggable
     @GetMapping(value = "/spec-list")
     public ResponseEntity<TotalResponse<ShipmentCostInvoiceDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) throws IOException {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);

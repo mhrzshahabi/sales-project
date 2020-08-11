@@ -1,0 +1,20 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <changeSet author="Reza Mazloom" id="reza_003">
+        <createView viewName="VIEW_TOZIN_S">
+            <![CDATA[
+with a as (
+            select tzn_date,p.id,p.namefa plant,sellerid, seller,gdsname , target
+            , case when instr(carname ,'انتينر')>0   then 'ريلی' else 'جاده اي' end car,
+            nvl(sum(wazn),0) wazn,nvl(sum(tedad),0) tedad   , gdscode
+            from view_tozin_s t
+            join tbl_tozin_plant p on p.id=substr(TOZINE_ID,1,1)
+            where  (substr(condition,1,1)=2) and (gdscode in (24 , 159 ))
+            group by tzn_date, p.id,p.namefa,sellerid,seller,gdscode,gdsname ,target,case when instr(carname ,'انتينر')>0  then 'ريلی' else 'جاده اي' end)
+            select a."TZN_DATE",a."ID",a."PLANT",a."SELLERID",a."SELLER",a."GDSNAME",a."TARGET",a."CAR",a."WAZN",a."TEDAD" , a."GDSCODE"  from a right join TBL_TOZIN_PLANT  on A.plant = TBL_TOZIN_PLANT.NAMEFA
+            ]]>
+        </createView>
+    </changeSet>
+</databaseChangeLog>
