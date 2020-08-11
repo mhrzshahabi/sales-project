@@ -282,33 +282,6 @@ shipmentCostInvoiceTab.method.updateFinanceUnit = function () {
     }
 };
 
-shipmentCostInvoiceTab.method.fetchConversionRef = function (from, to) {
-
-    let conversionRefCriteria = {
-        _constructor: "AdvancedCriteria",
-        operator: "and",
-        criteria:
-            [
-                {
-                    fieldName: "unitFromId",
-                    operator: "equals",
-                    value: from
-                },
-                {
-                    fieldName: "unitToId",
-                    operator: "equals",
-                    value: to
-                }
-            ]
-    };
-    shipmentCostInvoiceTab.restDataSource.conversionRefRest.fetchData(conversionRefCriteria, function (dsResponse, data, dsRequest) {
-
-        if (data.length !== 0) {
-            return data;
-        }
-    });
-};
-
 shipmentCostInvoiceTab.method.clearListGrid = function () {
 
     shipmentCostInvoiceTab.listGrid.shipmentCostDetail.setData([]);
@@ -319,59 +292,6 @@ shipmentCostInvoiceTab.method.clearListGrid = function () {
     shipmentCostInvoiceTab.dynamicForm.shipmentCost.getItem("conversionSumPriceSellerShare").setValue(null);
 
 };
-
-// shipmentCostInvoiceTab.method.finalize = function () {
-//
-//     shipmentCostInvoiceTab.variable.method = "PUT";
-//
-//     let record = shipmentCostInvoiceTab.listGrid.main.getSelectedRecord();
-//     if (record == null || record.id == null)
-//         shipmentCostInvoiceTab.dialog.notSelected();
-//     else if (record.editable === false)
-//         shipmentCostInvoiceTab.dialog.notEditable();
-//     else if (record.estatus === 'Final')
-//         shipmentCostInvoiceTab.dialog.say("Already Finalize", "Final Approval");
-//     else {
-//         shipmentCostInvoiceTab.method.jsonRPCManagerRequest({
-//             httpMethod: "GET",
-//             actionURL: "${contextPath}/api/shipmentCostInvoice/spec-list",
-//             params: {
-//                 criteria: {
-//                     operator: "and",
-//                     criteria: [
-//                         {fieldName: "id", operator: "equals", value: record.id}
-//                     ]
-//                 }
-//             },
-//             callback: function (response) {
-//                 console.log("record for finalize() ", record);
-//
-//                 shipmentCostInvoiceTab.dialog.question(() => {
-//                     record.estatus = [];
-//                     record.estatus.add(JSON.parse('${Enum_EStatus}').Final);
-//                     console.log("record After : ", record);
-//
-//                     isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-//                             actionURL: "${contextPath}/api/shipmentCostInvoice",
-//                             httpMethod: shipmentCostInvoiceTab.variable.method,
-//                             data: JSON.stringify(record),
-//                             callback: function (resp) {
-//                                 if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
-//                                     console.log("put record ", record);
-//                                     isc.say("<spring:message code='global.form.request.successful'/>");
-//                                     shipmentCostInvoiceTab.method.refreshData();
-//                                 } else
-//                                     isc.say(RpcResponse_o.data);
-//                             }
-//                         })
-//                     );
-//
-//                 }, "Finalize()??");
-//             }
-//         });
-//     }
-//
-// };
 
 //***************************************************** MAINWINDOW *************************************************
 
@@ -689,7 +609,7 @@ shipmentCostInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
         pickListWidth: "500",
         pickListHeight: "300",
         optionDataSource: shipmentCostInvoiceTab.restDataSource.unitRest,
-        // optionCriteria: financeUnitCriteria,
+        optionCriteria: financeUnitCriteria,
         pickListProperties:
             {
                 showFilterEditor: true
@@ -744,7 +664,7 @@ shipmentCostInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
         pickListWidth: "500",
         pickListHeight: "300",
         optionDataSource: shipmentCostInvoiceTab.restDataSource.unitRest,
-        // optionCriteria: financeUnitCriteria,
+        optionCriteria: financeUnitCriteria,
         pickListProperties:
             {
                 showFilterEditor: true
@@ -932,7 +852,6 @@ shipmentCostInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
 ]);
 
 shipmentCostInvoiceTab.dynamicForm.shipmentCost = isc.DynamicForm.create({
-    // width: "100%",
     align: "center",
     numCols: 4,
     canSubmit: true,
@@ -1167,7 +1086,6 @@ shipmentCostInvoiceTab.window.shipmentCost.populateData = function (bodyWidget) 
         shipmentCostDetailObj.sumVatPrice = shipmentCostDetailObj.tvatPrice + shipmentCostDetailObj.cvatPrice;
         shipmentCostDetailObj.sumPriceWithVat = current.sumPriceWithVat;
         shipmentCostDetailObj.shipmentCostInvoiceId = current.shipmentCostInvoiceId;
-        console.log("shipmentCostDetailObj@@@@@ : " + JSON.stringify(shipmentCostDetailObj));
 
         shipmentCostInvoiceDetails.push(shipmentCostDetailObj);
 
@@ -1177,7 +1095,7 @@ shipmentCostInvoiceTab.window.shipmentCost.populateData = function (bodyWidget) 
     shipmentCostObj.sumPriceWithDiscount = shipmentCostInvoiceTab.variable.summaryRowData.sumPriceWithDiscount;
     shipmentCostObj.sumPriceWithVat = shipmentCostInvoiceTab.variable.summaryRowData.sumPriceWithVat;
     shipmentCostObj.shipmentCostInvoiceDetails = shipmentCostInvoiceDetails;
-    console.log("shipmentCostObj" + JSON.stringify(shipmentCostObj));
+
     return shipmentCostObj;
 };
 
@@ -1339,17 +1257,6 @@ shipmentCostInvoiceTab.listGrid.fields = BaseFormItems.concat([
     }
 ]);
 
-/*
-shipmentCostInvoiceTab.label.recordNotFound = isc.Label.create({
-        height: 30,
-        padding: 10,
-        align: "center",
-        valign: "center",
-        wrap: false,
-        contents: "<spring:message code='global.record.find'/>"
-    });
-*/
-
 // ShipmentCost Section
 nicico.BasicFormUtil.createListGrid = function () {
 
@@ -1472,11 +1379,13 @@ shipmentCostInvoiceTab.listGrid.shipmentCostDetailMain = isc.ListGrid.create(
     });
 
 nicico.BasicFormUtil.getDefaultBasicForm(shipmentCostInvoiceTab, "api/shipmentCostInvoice/");
+
 shipmentCostInvoiceTab.menu.main.data.splice(4, 2);
 shipmentCostInvoiceTab.menu.main.initWidget();
 shipmentCostInvoiceTab.variable.finalizeToolStripItem = shipmentCostInvoiceTab.toolStrip.main.members.filter(q => q.role === "finalizeRecord").first();
 if (shipmentCostInvoiceTab.variable.finalizeToolStripItem)
     shipmentCostInvoiceTab.variable.finalizeToolStripItem.setVisibility("visible");
+
 shipmentCostInvoiceTab.sectionStack.mainSection = isc.SectionStack.create(
     {
         sections: [
