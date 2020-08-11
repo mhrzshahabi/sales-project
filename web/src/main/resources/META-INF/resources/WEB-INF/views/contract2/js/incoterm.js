@@ -347,6 +347,10 @@ incotermTab.method.editForm = function () {
         incotermTab.dialog.notSelected();
     else if (record.editable === false)
         incotermTab.dialog.notEditable();
+    else if (record.estatus.contains(Enums.eStatus2.DeActive))
+        incotermTab.dialog.inactiveRecord();
+    else if (record.estatus.contains(Enums.eStatus2.Final))
+        incotermTab.dialog.finalRecord();
     else {
 
         incotermTab.method.jsonRPCManagerRequest({

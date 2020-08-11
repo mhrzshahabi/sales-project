@@ -11,5 +11,8 @@ public enum ActionType {
     UpdateAll,
     Delete,
     DeleteAll,
-    Unknown;
+    Unknown,
+    Finalize,
+    Activate,
+    DeActivate;
 }

@@ -560,6 +560,10 @@ contractTab.method.editData = function () {
         contractTab.dialog.notSelected();
     else if (record.editable === false)
         contractTab.dialog.notEditable();
+    else if (record.estatus.contains(Enums.eStatus2.DeActive))
+        contractTab.dialog.inactiveRecord();
+    else if (record.estatus.contains(Enums.eStatus2.Final))
+        contractTab.dialog.finalRecord();
     else {
         contractTab.variable.method = "PUT";
         contractTab.dynamicForm.contract.editRecord(JSON.parse(JSON.stringify(record)));
@@ -726,6 +730,10 @@ contractTab.method.deleteRecord = function () {
         contractTab.dialog.notSelected();
     else if (record.editable === false)
         contractTab.dialog.notEditable();
+    else if (record.estatus.contains(Enums.eStatus2.DeActive))
+        contractTab.dialog.inactiveRecord();
+    else if (record.estatus.contains(Enums.eStatus2.Final))
+        contractTab.dialog.finalRecord();
     else
         contractTab.dialog.question(
             () => {

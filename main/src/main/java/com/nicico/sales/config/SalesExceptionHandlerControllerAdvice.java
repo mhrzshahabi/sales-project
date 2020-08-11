@@ -87,7 +87,7 @@ public class SalesExceptionHandlerControllerAdvice extends AbstractExceptionHand
         }
     }
 
-    @ExceptionHandler({SalesException2.class, NotFoundException.class, NotEditableException.class, UnAuthorizedException.class})
+    @ExceptionHandler({SalesException2.class, NotFoundException.class, DeActiveRecordException.class, FinalRecordException.class, NotEditableException.class, UnAuthorizedException.class})
     public ResponseEntity<Object> handleBaseExceptions(BaseException exception) {
 
         this.printLog(exception, true, true, exception.getResponse().toString());

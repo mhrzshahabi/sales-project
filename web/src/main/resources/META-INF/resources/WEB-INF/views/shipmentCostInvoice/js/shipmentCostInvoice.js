@@ -1095,6 +1095,10 @@ shipmentCostInvoiceTab.method.editForm = function () {
         shipmentCostInvoiceTab.dialog.notSelected();
     else if (record.editable === false)
         shipmentCostInvoiceTab.dialog.notEditable();
+    else if (record.estatus.contains(Enums.eStatus2.DeActive))
+        shipmentCostInvoiceTab.dialog.inactiveRecord();
+    else if (record.estatus.contains(Enums.eStatus2.Final))
+        shipmentCostInvoiceTab.dialog.finalRecord();
     else {
         shipmentCostInvoiceTab.method.jsonRPCManagerRequest({
             httpMethod: "GET",
@@ -1346,7 +1350,12 @@ shipmentCostInvoiceTab.listGrid.shipmentCostDetailMain = isc.ListGrid.create(
     });
 
 nicico.BasicFormUtil.getDefaultBasicForm(shipmentCostInvoiceTab, "api/shipmentCostInvoice/");
-
+shipmentCostInvoiceTab.variable.finalizeMenuItem = shipmentCostInvoiceTab.menu.main.data.filter(q => q.role === "finalizeRecord").first();
+if (shipmentCostInvoiceTab.variable.finalizeMenuItem)
+    shipmentCostInvoiceTab.variable.finalizeMenuItem.setVisibility("visible");
+shipmentCostInvoiceTab.variable.finalizeToolStripItem = shipmentCostInvoiceTab.toolStrip.main.members.filter(q => q.role === "finalizeRecord").first();
+if (shipmentCostInvoiceTab.variable.finalizeToolStripItem)
+    shipmentCostInvoiceTab.variable.finalizeToolStripItem.setVisibility("visible");
 shipmentCostInvoiceTab.sectionStack.mainSection = isc.SectionStack.create(
     {
         sections: [

@@ -541,6 +541,10 @@ foreignInvoiceTab.method.editForm = function () {
         foreignInvoiceTab.dialog.notSelected();
     else if (record.editable === false)
         foreignInvoiceTab.dialog.notEditable();
+    else if (record.estatus.contains(Enums.eStatus2.DeActive))
+        foreignInvoiceTab.dialog.inactiveRecord();
+    else if (record.estatus.contains(Enums.eStatus2.Final))
+        foreignInvoiceTab.dialog.finalRecord();
     else {
 
         foreignInvoiceTab.variable.method = "PUT";
