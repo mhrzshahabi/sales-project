@@ -58,6 +58,7 @@ namespace nicico {
                     // @ts-ignore
                     isc.ToolStripButton.create({
                         visibility: "hidden",
+                        // @ts-ignore
                         role: "activateRecord",
                         icon: "[SKIN]/actions/configure.png",
                         title: "<spring:message code='global.active'/>",
@@ -72,6 +73,7 @@ namespace nicico {
                     // @ts-ignore
                     isc.ToolStripButton.create({
                         visibility: "hidden",
+                        // @ts-ignore
                         role: "deactivateRecord",
                         icon: "[SKIN]/actions/exclamation.png",
                         title: "<spring:message code='global.inactive'/>",
@@ -86,6 +88,7 @@ namespace nicico {
                     // @ts-ignore
                     isc.ToolStripButton.create({
                         visibility: "hidden",
+                        // @ts-ignore
                         role: "finalizeRecord",
                         icon: "[SKIN]/actions/accept.png",
                         title: "<spring:message code='global.form.accept'/>",
@@ -130,7 +133,7 @@ namespace nicico {
             // @ts-ignore
             creator.menu.main = isc.Menu.create({
                 width: 150,
-                data: [
+                items: [
                     {
                         icon: "pieces/16/refresh.png",
                         title: '<spring:message code="global.form.refresh"/>',
@@ -171,7 +174,7 @@ namespace nicico {
                     // </c:if>
                     // <c:if test = "${a_entity}">
                     {
-                        visibility: "hidden",
+                        // @ts-ignore
                         role: "activateRecord",
                         icon: "pieces/16/configure.png",
                         title: '<spring:message code="global.active"/>',
@@ -183,7 +186,7 @@ namespace nicico {
                     // </c:if>
                     // <c:if test = "${i_entity}">
                     {
-                        visibility: "hidden",
+                        // @ts-ignore
                         role: "deactivateRecord",
                         icon: "pieces/16/exclamation.png",
                         title: '<spring:message code="global.inactive"/>',
@@ -195,7 +198,7 @@ namespace nicico {
                     // </c:if>
                     // <c:if test = "${f_entity}">
                     {
-                        visibility: "hidden",
+                        // @ts-ignore
                         role: "finalizeRecord",
                         icon: "pieces/16/accept.png",
                         title: '<spring:message code="global.form.accept"/>',
