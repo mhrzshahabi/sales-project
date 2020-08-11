@@ -30,6 +30,7 @@ countryTab.dynamicForm.fields = [
         colSpan: 1,
         required: true,
         titleColSpan: 1,
+        keyPressFilter: "^[\u0600-\u06FF\uFB8A\u067E\u0686\u06AF\u200C\u200F]*$",
         validators: [
             {
                 type:"required",
@@ -43,6 +44,7 @@ countryTab.dynamicForm.fields = [
         colSpan: 1,
         required: true,
         titleColSpan: 1,
+        keyPressFilter: "^[a-z|A-Z]*$",
         validators: [
             {
                 type:"required",

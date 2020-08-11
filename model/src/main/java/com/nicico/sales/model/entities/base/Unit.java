@@ -5,8 +5,14 @@ import com.nicico.sales.model.enumeration.CategoryUnit;
 import com.nicico.sales.model.enumeration.SymbolUnit;
 import lombok.*;
 import lombok.experimental.Accessors;
+import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.*;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Entity;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Column;
 import javax.validation.constraints.NotNull;
 
 @Getter
@@ -20,8 +26,8 @@ import javax.validation.constraints.NotNull;
 public class Unit extends BaseEntity {
 
     @Id
-//    @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_UNIT")
-//    @SequenceGenerator(name = "SEQ_UNIT", sequenceName = "SEQ_UNIT", allocationSize = 1, initialValue = 1000000)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_UNIT")
+    @GenericGenerator(name = "SEQ_UNIT", strategy = "com.nicico.sales.model.entities.common.IdKeepingSequenceGenerator", parameters = {})
     @Column(name = "ID")
     private Long id;
 

@@ -143,4 +143,15 @@
     update TBL_UNIT set N_CATEGORY_UNIT=2 , N_SYMBOL_UNIT=7 where id = -11;
     </sql>
     </changeSet>
+    <changeSet author="Abiz" id="AZAARE-021">
+        <sql>
+
+            SELECT SEQ_UNIT.NEXTVAL FROM DUAL;
+            ALTER SEQUENCE SEQ_UNIT INCREMENT BY 10000;
+            SELECT SEQ_UNIT.NEXTVAL FROM DUAL;
+            ALTER SEQUENCE SEQ_UNIT INCREMENT BY 1;
+
+        </sql>
+    </changeSet>
+
 </databaseChangeLog>
