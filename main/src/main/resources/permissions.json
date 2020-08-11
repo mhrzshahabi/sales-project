@@ -1411,6 +1411,18 @@
     {
       "code": "D_SHIPMENT_COST_INVOICE",
       "title": "حذف صورتحساب هزینه های حمل"
+    },
+    {
+      "code": "F_SHIPMENT_COST_INVOICE",
+      "title": "تایید نهایی صورتحساب هزینه های حمل"
+    },
+    {
+      "code": "A_SHIPMENT_COST_INVOICE",
+      "title": "فعال کردن صورتحساب هزینه های حمل"
+    },
+    {
+      "code": "I_SHIPMENT_COST_INVOICE",
+      "title": "غیر فعال کردن صورتحساب هزینه های حمل"
     }
   ]
 }

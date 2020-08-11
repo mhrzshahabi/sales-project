@@ -120,7 +120,7 @@ var nicico;
             // @ts-ignore
             creator.menu.main = isc.Menu.create({
                 width: 150,
-                data: [
+                items: [
                     {
                         icon: "pieces/16/refresh.png",
                         title: '<spring:message code="global.form.refresh"/>',
@@ -161,7 +161,7 @@ var nicico;
                     // </c:if>
                     // <c:if test = "${a_entity}">
                     {
-                        visibility: "hidden",
+                        // @ts-ignore
                         role: "activateRecord",
                         icon: "pieces/16/configure.png",
                         title: '<spring:message code="global.active"/>',
@@ -173,7 +173,7 @@ var nicico;
                     // </c:if>
                     // <c:if test = "${i_entity}">
                     {
-                        visibility: "hidden",
+                        // @ts-ignore
                         role: "deactivateRecord",
                         icon: "pieces/16/exclamation.png",
                         title: '<spring:message code="global.inactive"/>',
@@ -185,7 +185,7 @@ var nicico;
                     // </c:if>
                     // <c:if test = "${f_entity}">
                     {
-                        visibility: "hidden",
+                        // @ts-ignore
                         role: "finalizeRecord",
                         icon: "pieces/16/accept.png",
                         title: '<spring:message code="global.form.accept"/>',

@@ -27,12 +27,13 @@ public abstract class AllConverters {
         @Override
         public List<EStatus> convertToEntityAttribute(Integer integer) {
 
-            if (EStatus.values().length == 0)
+            EStatus[] values = EStatus.values();
+            if (values.length == 0)
                 return null;
 
             List<EStatus> result = new ArrayList<>();
-            Arrays.sort(EStatus.values(), Collections.reverseOrder(Comparator.comparingInt(EStatus::getId)));
-            for (EStatus literal : EStatus.values()) {
+            Arrays.sort(values, Collections.reverseOrder(Comparator.comparingInt(EStatus::getId)));
+            for (EStatus literal : values) {
 
                 int id = literal.getId();
                 if (id > integer) continue;

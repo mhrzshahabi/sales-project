@@ -954,16 +954,11 @@ shipmentCostInvoiceTab.listGrid.shipmentCostDetail = isc.ListGrid.create({
     canEdit: true,
     editEvent: "doubleClick",
     autoSaveEdits: false,
-    // saveLocally: true,
     showRecordComponents: true,
     showRecordComponentsByCell: true,
     canRemoveRecords: true,
     showGridSummary: true,
     fields: BaseFormItems.concat([
-        {
-            name: "id",
-            hidden: true
-        },
         {
             name: "serviceCode",
             title: "<spring:message code='shipmentCostInvoiceDetail.serviceCode'/>",
@@ -1285,10 +1280,6 @@ shipmentCostInvoiceTab.method.editForm = function () {
 
 shipmentCostInvoiceTab.listGrid.fields = BaseFormItems.concat([
     {
-        name: "id",
-        hidden: true
-    },
-    {
         name: "invoiceDate",
         title: "<spring:message code='shipmentCostInvoice.invoiceDate'/>",
         type: 'date',
@@ -1481,9 +1472,8 @@ shipmentCostInvoiceTab.listGrid.shipmentCostDetailMain = isc.ListGrid.create(
     });
 
 nicico.BasicFormUtil.getDefaultBasicForm(shipmentCostInvoiceTab, "api/shipmentCostInvoice/");
-shipmentCostInvoiceTab.variable.finalizeMenuItem = shipmentCostInvoiceTab.menu.main.data.filter(q => q.role === "finalizeRecord").first();
-if (shipmentCostInvoiceTab.variable.finalizeMenuItem)
-    shipmentCostInvoiceTab.variable.finalizeMenuItem.setVisibility("visible");
+shipmentCostInvoiceTab.menu.main.data.splice(4, 2);
+shipmentCostInvoiceTab.menu.main.initWidget();
 shipmentCostInvoiceTab.variable.finalizeToolStripItem = shipmentCostInvoiceTab.toolStrip.main.members.filter(q => q.role === "finalizeRecord").first();
 if (shipmentCostInvoiceTab.variable.finalizeToolStripItem)
     shipmentCostInvoiceTab.variable.finalizeToolStripItem.setVisibility("visible");
