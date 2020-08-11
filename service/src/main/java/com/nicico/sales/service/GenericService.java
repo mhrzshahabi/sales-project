@@ -7,11 +7,10 @@ import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.annotation.Action;
 import com.nicico.sales.enumeration.ActionType;
 import com.nicico.sales.enumeration.ErrorType;
-import com.nicico.sales.exception.NotEditableException;
-import com.nicico.sales.exception.NotFoundException;
-import com.nicico.sales.exception.SalesException2;
+import com.nicico.sales.exception.*;
 import com.nicico.sales.iservice.IGenericService;
 import com.nicico.sales.model.entities.common.BaseEntity;
+import com.nicico.sales.model.enumeration.EStatus;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -26,10 +25,7 @@ import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -232,25 +228,22 @@ public abstract class GenericService<T, ID extends Serializable, C, R, U, D> imp
     @SuppressWarnings("unchecked")
     public List<R> updateAll(List<U> requests) {
 
+        Map<ID, U> data = new HashMap<>();
         Method idGetterMethod = getMethod(uType, new String[]{"getId", "getCode"});
-        Set<ID> ids = requests.stream().map(q -> {
+        requests.forEach(q -> {
 
             try {
 
-                return (ID) idGetterMethod.invoke(q);
+                data.put((ID) idGetterMethod.invoke(q), q);
 
             } catch (IllegalAccessException | InvocationTargetException e) {
 
                 e.printStackTrace();
                 log.error("Exception", e);
             }
+        });
 
-            return null;
-
-        }).collect(Collectors.toSet());
-        ids.remove(null);
-
-        return updateAll(new ArrayList<>(ids), requests);
+        return updateAll(new ArrayList<>(data.keySet()), new ArrayList<>(data.values()));
     }
 
     @Override
@@ -325,6 +318,68 @@ public abstract class GenericService<T, ID extends Serializable, C, R, U, D> imp
     }
 
     @Override
+    @Action(value = ActionType.Finalize)
+    @Transactional
+    public R finalize(ID id) {
+
+        final Optional<T> entityById = repository.findById(id);
+        final T entity = entityById.orElseThrow(() -> new NotFoundException(tType));
+
+        if (!(entity instanceof BaseEntity))
+            return null;
+
+        List<EStatus> eStatus = ((BaseEntity) entity).getEStatus();
+        if (!eStatus.contains(EStatus.Final))
+            eStatus.add(EStatus.Final);
+
+        validation(entity, id);
+
+        return save(entity);
+    }
+
+    @Override
+    @Action(value = ActionType.Activate)
+    @Transactional
+    public R activate(ID id) {
+
+        final Optional<T> entityById = repository.findById(id);
+        final T entity = entityById.orElseThrow(() -> new NotFoundException(tType));
+
+        if (!(entity instanceof BaseEntity))
+            return null;
+
+        List<EStatus> eStatus = ((BaseEntity) entity).getEStatus();
+        if (!eStatus.contains(EStatus.Active))
+            eStatus.add(EStatus.Active);
+        eStatus.remove(EStatus.DeActive);
+
+        validation(entity, id);
+
+        return save(entity);
+    }
+
+    @Override
+    @Action(value = ActionType.DeActivate)
+    @Transactional
+    public R deactivate(ID id) {
+
+        final Optional<T> entityById = repository.findById(id);
+        final T entity = entityById.orElseThrow(() -> new NotFoundException(tType));
+
+        if (!(entity instanceof BaseEntity))
+            return null;
+
+        List<EStatus> eStatus = ((BaseEntity) entity).getEStatus();
+        if (!eStatus.contains(EStatus.DeActive))
+            eStatus.add(EStatus.DeActive);
+        eStatus.remove(EStatus.Active);
+
+        validation(entity, id);
+
+        return save(entity);
+    }
+
+    @Override
     public R save(T entity) {
 
         return modelMapper.map(repository.saveAndFlush(entity), rType);
@@ -339,33 +394,70 @@ public abstract class GenericService<T, ID extends Serializable, C, R, U, D> imp
     @Override
     public Boolean validation(T entity, Object... request) {
 
-        if (actionType != ActionType.Update && actionType != ActionType.Delete)
-            return null;
+        if (actionType == ActionType.Update || actionType == ActionType.Delete) {
 
-        if (!(entity instanceof BaseEntity) || ((BaseEntity) entity).getEditable())
-            return null;
+            if (!(entity instanceof BaseEntity) ||
+                    (((BaseEntity) entity).getEditable() &&
+                            !((BaseEntity) entity).getEStatus().contains(EStatus.Final) &&
+                            !((BaseEntity) entity).getEStatus().contains(EStatus.DeActive)))
+                return null;
+            else if (((BaseEntity) entity).getEStatus().contains(EStatus.Final))
+                throw new FinalRecordException();
+            else if (((BaseEntity) entity).getEStatus().contains(EStatus.DeActive))
+                throw new DeActiveRecordException();
 
-        throw new NotEditableException();
+            throw new NotEditableException();
+        } else if (actionType == ActionType.Finalize) {
+
+            if (!(entity instanceof BaseEntity) || !((BaseEntity) entity).getEStatus().contains(EStatus.DeActive))
+                return null;
+
+            throw new DeActiveRecordException();
+        } else {
+
+            return null;
+        }
     }
 
     @Override
     public Boolean validationAll(List<T> entities, Object... request) {
 
-        if (actionType != ActionType.UpdateAll && actionType != ActionType.DeleteAll)
-            return null;
-
         if (entities == null || entities.size() == 0)
             return null;
 
-        for (Object entity : entities) {
+        if (actionType == ActionType.UpdateAll || actionType == ActionType.DeleteAll) {
 
-            if (!(entity instanceof BaseEntity) || ((BaseEntity) entity).getEditable())
-                continue;
+            for (Object entity : entities) {
 
-            throw new NotEditableException();
+                if (!(entity instanceof BaseEntity) ||
+                        (((BaseEntity) entity).getEditable() &&
+                                !((BaseEntity) entity).getEStatus().contains(EStatus.Final) &&
+                                !((BaseEntity) entity).getEStatus().contains(EStatus.DeActive)))
+                    return null;
+                else if (((BaseEntity) entity).getEStatus().contains(EStatus.Final))
+                    throw new FinalRecordException();
+                else if (((BaseEntity) entity).getEStatus().contains(EStatus.DeActive))
+                    throw new DeActiveRecordException();
+
+                throw new NotEditableException();
+            }
+
+            return null;
+        } else if (actionType == ActionType.Finalize) {
+
+            for (Object entity : entities) {
+
+                if (!(entity instanceof BaseEntity) || !((BaseEntity) entity).getEStatus().contains(EStatus.DeActive))
+                    return null;
+
+                throw new DeActiveRecordException();
+            }
+
+            return null;
+        } else {
+
+            return null;
         }
-
-        return null;
     }
 
     private <K> @NotNull Method getMethod(Class<K> clazz, String[] names) {

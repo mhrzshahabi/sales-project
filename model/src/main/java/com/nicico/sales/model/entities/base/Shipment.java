@@ -6,6 +6,7 @@ import lombok.experimental.Accessors;
 import org.hibernate.envers.NotAudited;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.Set;
 
@@ -217,4 +218,14 @@ public class Shipment extends BaseEntity {
 
     @Column(name = "VGM")
     private Double vgm;
+
+    @Setter(AccessLevel.NONE)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "F_UNIT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_shipment2unitByUnitId"))
+    private Unit unit;
+
+    @NotNull
+    @Column(name = "F_UNIT_ID", nullable = false)
+    private Long unitId;
+
 }

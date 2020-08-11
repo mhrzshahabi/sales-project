@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nicico.copper.common.domain.ConstantVARs;
 import com.nicico.copper.core.SecurityUtil;
+import com.nicico.sales.model.enumeration.EStatus;
 import com.nicico.sales.model.enumeration.SymbolUnit;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,6 +33,7 @@ public class HomeController {
 
     @GetMapping(value = {"/", "/home"})
     public String showHomePage(HttpServletRequest request, HttpServletResponse response) throws JsonProcessingException {
+
         request.getSession().setAttribute("userFullName", SecurityUtil.getFullName());
         localeResolver.setLocale(request, response, new Locale(request.getParameter("lang") == null ? ConstantVARs.LANGUAGE_FA : request.getParameter("lang")));
 
@@ -41,6 +43,10 @@ public class HomeController {
 
         request.setAttribute("Enum_SymbolUnit_WithValue", objectMapper.writeValueAsString(
                 Arrays.stream(SymbolUnit.values()).collect(Collectors.toMap(SymbolUnit::name, SymbolUnit::getId)))
+        );
+
+        request.setAttribute("Enum_EStatus", objectMapper.writeValueAsString(
+                Arrays.stream(EStatus.values()).collect(Collectors.toMap(EStatus::name, EStatus::name)))
         );
 
         return "salesMainDesktop";

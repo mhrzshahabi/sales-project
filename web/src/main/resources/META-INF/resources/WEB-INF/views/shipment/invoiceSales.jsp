@@ -1398,7 +1398,8 @@
                     name: "orderAmount",
                     title: "<spring:message code='invoiceSalesItem.orderAmount'/>",
                     required: true,
-                    length: "100",
+                    length: "12",
+                    keyPressFilter: "[0-9]",
                     validators: [{
                         type: "isInteger",
                         validateOnChange: true,
@@ -1410,7 +1411,8 @@
                     name: "netAmount",
                     title: "<spring:message code='invoiceSalesItem.netAmount'/>",
                     required: true,
-                    length: "100",
+                    length: "12",
+                    keyPressFilter: "[0-9]",
                     validators: [{
                         type: "isInteger",
                         validateOnChange: true,
@@ -1425,7 +1427,8 @@
                     name: "unitPrice",
                     title: "<spring:message code='invoiceSalesItem.unitPrice'/>",
                     required: true,
-                    length: "100",
+                    length: "12",
+                    keyPressFilter: "[0-9]",
                     validators: [{
                         type: "isInteger",
                         validateOnChange: true,

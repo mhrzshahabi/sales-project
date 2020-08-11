@@ -19,6 +19,7 @@ contractDetailTypeTab.dynamicForm.fields.material = {
     name: "materialId",
     width: "100%",
     editorType: "SelectItem",
+    filterOperator: "equals",
     optionDataSource: isc.MyRestDataSource.create({
         fields:
             [
@@ -294,6 +295,10 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
                         contractDetailTypeTab.dialog.notSelected();
                     else if (record.editable === false)
                         contractDetailTypeTab.dialog.notEditable();
+                    else if (record.estatus.contains(Enums.eStatus2.Final))
+                        contractDetailTypeTab.dialog.finalRecord();
+                    else if (record.estatus.contains(Enums.eStatus2.DeActive))
+                        contractDetailTypeTab.dialog.inactiveRecord();
                     else if (!record.type.includes('Reference'))
                         isc.Dialog.create({
                             message: "<spring:message code='contract-detail-type.window.type-must-reference'/>",
@@ -312,6 +317,10 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
                             contractDetailTypeTab.dialog.notSelected();
                         else if (record.editable === false)
                             contractDetailTypeTab.dialog.notEditable();
+                        else if (record.estatus.contains(Enums.eStatus2.DeActive))
+                            contractDetailTypeTab.dialog.inactiveRecord();
+                        else if (record.estatus.contains(Enums.eStatus2.Final))
+                            contractDetailTypeTab.dialog.finalRecord();
                         else {
 
                             contractDetailTypeTab.window.formUtil.populateData = function (body) {
@@ -366,6 +375,10 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
                         contractDetailTypeTab.dialog.notSelected();
                     else if (record.editable === false)
                         contractDetailTypeTab.dialog.notEditable();
+                    else if (record.estatus.contains(Enums.eStatus2.DeActive))
+                        contractDetailTypeTab.dialog.inactiveRecord();
+                    else if (record.estatus.contains(Enums.eStatus2.Final))
+                        contractDetailTypeTab.dialog.finalRecord();
                     else {
 
                         let recordType = record[contractDetailTypeTab.dynamicForm.paramFields.type.name];
@@ -694,10 +707,13 @@ contractDetailTypeTab.listGrid.template = isc.ListGrid.create({
 
                     let paramUnitId = rows[i - 1][contractDetailTypeTab.dynamicForm.paramFields.unitId.name];
                     result += '<td style="border: 1px solid black;border-collapse: collapse;">';
+                    result += '$';
+                    result += '{';
                     result += rows[i - 1][contractDetailTypeTab.dynamicForm.paramFields.key.name];
+                    result += '}';
                     if (paramUnitId != null) {
-                        result += '&nbsp;($';
-                        result += '{_';
+                        result += '&nbsp;($U';
+                        result += '{';
                         result += paramUnitId;
                         result += '})';
                     }
@@ -868,6 +884,10 @@ contractDetailTypeTab.method.editData = function () {
         contractDetailTypeTab.dialog.notSelected();
     else if (record.editable === false)
         contractDetailTypeTab.dialog.notEditable();
+    else if (record.estatus.contains(Enums.eStatus2.DeActive))
+        contractDetailTypeTab.dialog.inactiveRecord();
+    else if (record.estatus.contains(Enums.eStatus2.Final))
+        contractDetailTypeTab.dialog.finalRecord();
     else {
         contractDetailTypeTab.variable.method = "PUT";
         contractDetailTypeTab.listGrid.param.setData(record.contractDetailTypeParams);
@@ -887,6 +907,10 @@ contractDetailTypeTab.method.deleteRecord = function () {
         contractDetailTypeTab.dialog.notSelected();
     else if (record.editable === false)
         contractDetailTypeTab.dialog.notEditable();
+    else if (record.estatus.contains(Enums.eStatus2.DeActive))
+        contractDetailTypeTab.dialog.inactiveRecord();
+    else if (record.estatus.contains(Enums.eStatus2.Final))
+        contractDetailTypeTab.dialog.finalRecord();
     else
         contractDetailTypeTab.dialog.question(
             () => {

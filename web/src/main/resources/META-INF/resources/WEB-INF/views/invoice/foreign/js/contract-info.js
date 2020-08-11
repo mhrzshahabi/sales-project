@@ -1,12 +1,7 @@
 let __contract = {};
-let __contract2 = {};
-let __weightInspection = {};
 
 __contract.nameOfNumberProperty = "no";
 __contract.url = "${contextPath}" + "/api/g-contract/";
-
-
-
 
 __contract.getBuyer = function (contract) {
 

@@ -35,6 +35,12 @@ public interface IGenericService<T, ID extends Serializable, C, R, U, D> {
 
     void deleteAll(D request);
 
+    R finalize(ID id);
+
+    R activate(ID id);
+
+    R deactivate(ID id);
+
     R save(T entity);
 
     List<R> saveAll(List<T> entities);
