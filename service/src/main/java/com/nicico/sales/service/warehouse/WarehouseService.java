@@ -1,5 +1,6 @@
 package com.nicico.sales.service.warehouse;
 
+import com.google.common.primitives.Longs;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
 import com.nicico.copper.common.dto.grid.TotalResponse;
@@ -11,6 +12,7 @@ import com.nicico.sales.repository.warehouse.WarehouseDAO;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -22,6 +24,7 @@ import java.util.stream.Stream;
 public class WarehouseService implements IWarehouseService {
     private final WarehouseDAO warehouseDAO;
     private final ModelMapper modelMapper;
+    private final JdbcTemplate jdbcTemplate;
 
     @Override
     public WarehouseDTO.Info get(Long id) {
@@ -63,6 +66,27 @@ public class WarehouseService implements IWarehouseService {
                 .collect(Collectors.toList());
         warehouses.addAll(collect);
         warehouseDAO.saveAll(warehouses);
+        final List<Warehouse> plantIdUpdate = new ArrayList<>();
+        final List<Long> sarcheshmeh = Longs.asList(2673, 2675, 1000, 1166, 1181, 1560, 1580, 2502, 2503);
+        final List<Long> doshtoron = Longs.asList(1021, 1022, 1240, 1980);
+        final List<Long> miduk = Longs.asList(2565, 2583, 1540, 1820, 2477);
+        final List<Long> songun = Longs.asList(2535, 2635, 1185, 1541, 1721, 2421, 2495);
+        final List<Long> bandar = Longs.asList(2585L, 2594L, 2609L, 2611L, 2621L, 2631L, 3645L,
+                2649L, 2653L, 2661L, 2665L, 2666L, 2669L, 2670L,
+                2671L, 2677L, 2679L, 2681L, 2683L, 2685L, 2555L,
+                1020L, 1581L, 1582L, 1880L, 2320L, 2340L, 2360, 2627,2645);
+        final List<Warehouse> sarcheshmehia = warehouseDAO.getAllByPlantIdIsNullAndIdIn(sarcheshmeh);
+        final List<Warehouse> bandaria = warehouseDAO.getAllByPlantIdIsNullAndIdIn(bandar);
+        final List<Warehouse> doshtoronia = warehouseDAO.getAllByPlantIdIsNullAndIdIn(doshtoron);
+        final List<Warehouse> midukia = warehouseDAO.getAllByPlantIdIsNullAndIdIn(miduk);
+        final List<Warehouse> songunia = warehouseDAO.getAllByPlantIdIsNullAndIdIn(songun);
+        sarcheshmehia.stream().forEach(b->b.setPlantId(1L));
+        doshtoronia.stream().forEach(b->b.setPlantId(2L));
+        bandaria.stream().forEach(b->b.setPlantId(3L));
+        midukia.stream().forEach(b->b.setPlantId(4L));
+        songunia.stream().forEach(b->b.setPlantId(5L));
+        plantIdUpdate.addAll(Stream.of(bandaria,sarcheshmehia,doshtoronia,midukia,songunia).flatMap(w->w.stream()).collect(Collectors.toList()));
+        warehouseDAO.saveAll(plantIdUpdate);
     }
 
 }

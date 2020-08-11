@@ -1,30 +1,50 @@
 package com.nicico.sales.service.contract;
 
+import com.google.gson.JsonParser;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
 import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.sales.annotation.Action;
 import com.nicico.sales.dto.contract.ContractContactDTO;
 import com.nicico.sales.dto.contract.ContractDTO2;
+import com.nicico.sales.dto.contract.ContractDetailDTO2;
+import com.nicico.sales.dto.contract.ContractDetailValueDTO;
 import com.nicico.sales.enumeration.ActionType;
+import com.nicico.sales.enumeration.ErrorType;
 import com.nicico.sales.exception.NotFoundException;
+import com.nicico.sales.exception.SalesException2;
 import com.nicico.sales.iservice.contract.IContractContactService;
+import com.nicico.sales.iservice.contract.IContractDetailService2;
+import com.nicico.sales.iservice.contract.IContractDetailValueService;
 import com.nicico.sales.iservice.contract.IContractService2;
 import com.nicico.sales.model.entities.contract.Contract2;
+import com.nicico.sales.model.entities.contract.ContractContact;
+import com.nicico.sales.model.entities.contract.ContractDetail2;
 import com.nicico.sales.model.enumeration.CommercialRole;
+import com.nicico.sales.repository.contract.ContractContactDAO;
 import com.nicico.sales.service.GenericService;
+import com.nicico.sales.utility.UpdateUtil;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.TypeToken;
+import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.lang.reflect.InvocationTargetException;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class ContractService2 extends GenericService<Contract2, Long, ContractDTO2.Create, ContractDTO2.Info, ContractDTO2.Update, ContractDTO2.Delete> implements IContractService2 {
 
     private final IContractContactService contractContactService;
+    private final IContractDetailService2 contractDetailService;
+    private final IContractDetailValueService contractDetailValueService;
+    private final UpdateUtil updateUtil;
+    private final ResourceBundleMessageSource messageSource;
+    private final ContractContactDAO contractContactDAO;
 
     @Override
     @Transactional
@@ -41,8 +61,10 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
 
         createContractContacts(savedContract2.getId(), request.getBuyerId(), CommercialRole.Buyer);
         createContractContacts(savedContract2.getId(), request.getSellerId(), CommercialRole.Seller);
-        createContractContacts(savedContract2.getId(), request.getAgentBuyerId(), CommercialRole.AgentBuyer);
-        createContractContacts(savedContract2.getId(), request.getAgentSellerId(), CommercialRole.AgentSeller);
+        if (request.getAgentBuyerId() != null)
+            createContractContacts(savedContract2.getId(), request.getAgentBuyerId(), CommercialRole.AgentBuyer);
+        if (request.getAgentSellerId() != null)
+            createContractContacts(savedContract2.getId(), request.getAgentSellerId(), CommercialRole.AgentSeller);
 
         savedContract2.setBuyerId(request.getBuyerId());
         savedContract2.setSellerId(request.getSellerId());
@@ -50,6 +72,24 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
         savedContract2.setAgentSellerId(request.getAgentSellerId());
 
         if (request.getContractDetails() != null && request.getContractDetails().size() > 0) {
+            final List<ContractDetailDTO2.Create> contractDetailsRqs = modelMapper.map(request.getContractDetails(), new TypeToken<List<ContractDetailDTO2.Create>>() {
+            }.getType());
+            contractDetailsRqs.forEach(q -> {
+                List<ContractDetailValueDTO.Create> contractDetailValues = q.getContractDetailValues();
+                q.setContractDetailValues(null); //don't want to use CascadeType.ALL
+                q.setContractId(savedContract2.getId());
+                ContractDetailDTO2.Info savedContractDetail = contractDetailService.create(q);
+
+                if (contractDetailValues != null && contractDetailValues.size() > 0) {
+                    List<ContractDetailValueDTO.Create> contractDetailValueRqs = modelMapper.map(contractDetailValues, new TypeToken<List<ContractDetailValueDTO.Create>>() {
+                    }.getType());
+                    contractDetailValueRqs.forEach(x -> {
+                        x.setContractDetailId(savedContractDetail.getId());
+                        contractDetailValueService.create(x);
+                    });
+                }
+
+            });
         }
 
         return savedContract2;
@@ -69,6 +109,13 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
     public TotalResponse<ContractDTO2.Info> search(NICICOCriteria request) {
 
         List<Contract2> entities = new ArrayList<>();
+        if (request.getCriteria() != null){
+            List criteriaList = (List) request.getCriteria();
+            replaceContractContactCriteria("buyerId", CommercialRole.Buyer, criteriaList);
+            replaceContractContactCriteria("sellerId", CommercialRole.Seller, criteriaList);
+            replaceContractContactCriteria("agentBuyerId", CommercialRole.AgentBuyer, criteriaList);
+            replaceContractContactCriteria("agentSellerId", CommercialRole.AgentSeller, criteriaList);
+        }
         TotalResponse<ContractDTO2.Info> result = SearchUtil.search(repositorySpecificationExecutor, request, entity -> {
 
             ContractDTO2.Info eResult = modelMapper.map(entity, ContractDTO2.Info.class);
@@ -91,6 +138,26 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
         return result;
     }
 
+    private void replaceContractContactCriteria(String fieldName, CommercialRole role, List<String> criteriaList) {
+        Optional<String> agentSellerIdOptional = criteriaList.stream().filter(s -> s.contains(fieldName)).findAny();
+        if (agentSellerIdOptional.isPresent()) {
+            String agentSeller = agentSellerIdOptional.get();
+            criteriaList.remove(agentSeller);
+            Long agentSellerId = new JsonParser().parse(agentSeller).getAsJsonObject().get("value").getAsLong();
+            List<Long> ids = contractContactDAO.findAllByContactIdAndCommercialRole(agentSellerId, role)
+                    .stream().mapToLong(ContractContact::getContractId).distinct().boxed().collect(Collectors.toList());
+            StringBuffer stringBuffer = new StringBuffer("{");
+             if(!ids.isEmpty()) {
+                stringBuffer.append("\"fieldName\":\"id\",\"operator\":\"inSet\",\"value\":");
+                stringBuffer.append(ids).append("}");
+            } else {
+                stringBuffer.append("\"fieldName\":\"id\",\"operator\":\"isNull\"}");
+            }
+            criteriaList.add(stringBuffer.toString());
+        }
+    }
+
+
     @Override
     @Transactional
     @Action(value = ActionType.Update)
@@ -98,7 +165,7 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
 
         Contract2 contract2 = repository.findById(id).orElseThrow(() -> new NotFoundException(Contract2.class));
 
-        // update ContractContact
+        // update ContractContacts
         request.getContractContacts().forEach(q -> {
             if (q.getCommercialRole() == CommercialRole.Buyer)
                 q.setContactId(request.getBuyerId());
@@ -111,13 +178,44 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
             contractContactService.update(modelMapper.map(q, ContractContactDTO.Update.class));
         });
 
+        //  update ContractDetails
+        List<ContractDetailDTO2.Create> contractDetail4Insert = new ArrayList<>();
+        List<ContractDetailDTO2.Update> contractDetail4Update = new ArrayList<>();
+        ContractDetailDTO2.Delete contractDetail4Delete = new ContractDetailDTO2.Delete();
+
+        try {
+            updateUtil.fill(ContractDetail2.class, contract2.getContractDetails(),
+                    ContractDetailDTO2.Info.class, request.getContractDetails(),
+                    ContractDetailDTO2.Create.class, contractDetail4Insert,
+                    ContractDetailDTO2.Update.class, contractDetail4Update,
+                    contractDetail4Delete);
+        } catch (IllegalAccessException | InvocationTargetException | NoSuchFieldException e) {
+            Locale locale = LocaleContextHolder.getLocale();
+            throw new SalesException2(ErrorType.Unknown, "", messageSource.getMessage("contract-detail.exception.update", null, locale));
+        }
+
+        if (!contractDetail4Insert.isEmpty()) {
+            contractDetail4Insert.forEach(q -> q.setContractId(contract2.getId()));
+            contractDetailService.createAll(contractDetail4Insert);
+        }
+        //because ContractDetail to ContractDetailValue : CascadeType.ALL
+        if (!contractDetail4Update.isEmpty()) {
+            contractDetail4Update.forEach(q -> q.setContractId(contract2.getId()));
+            contractDetailService.updateAll(contractDetail4Update);
+        }
+        if (!contractDetail4Delete.getIds().isEmpty())
+            contractDetailService.deleteAll(contractDetail4Delete);
+
         Contract2 updating = new Contract2();
+
+        contract2.setContractDetails(null);
+        request.setContractDetails(null);
+
         modelMapper.map(contract2, updating);
         modelMapper.map(request, updating);
         validation(updating, request);
 
         updating.setContractContacts(null);
-        updating.setContractDetails(null);
 
         return save(updating);
     }

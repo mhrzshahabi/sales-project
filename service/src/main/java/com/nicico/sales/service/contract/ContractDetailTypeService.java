@@ -142,8 +142,8 @@ public class ContractDetailTypeService extends GenericService<ContractDetailType
                 contractDetailTypeTemplates4Insert,
                 ContractDetailTypeTemplateDTO.Update.class,
                 contractDetailTypeTemplates4Update,
-                contractDetailTypeTemplates4Delete)
-        ;
+                contractDetailTypeTemplates4Delete);
+
         if (!contractDetailTypeTemplates4Insert.isEmpty())
             contractDetailTypeTemplateService.createAll(contractDetailTypeTemplates4Insert);
         if (!contractDetailTypeTemplates4Update.isEmpty())

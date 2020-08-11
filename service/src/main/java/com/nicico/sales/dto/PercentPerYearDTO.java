@@ -14,16 +14,16 @@ import java.util.Date;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class PercentPerYearDTO {
 
-    private Long id;
     private Long year;
-    private Double legalFees;
-    private Double vat;
+    private Double cVat;
+    private Double tVat;
 
     @Getter
     @Setter
     @Accessors(chain = true)
     @ApiModel("PercentPerYearInfo")
     public static class Info extends PercentPerYearDTO {
+
         private Long id;
         private Date createdDate;
         private String createdBy;

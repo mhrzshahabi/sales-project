@@ -19,7 +19,7 @@ priceBaseTab.dynamicForm.fields = BaseFormItems.concat([
     },
     {
         name: "priceDate",
-        width: "10%",
+        width: "300",
         type: 'date',
         title: "<spring:message code='priceBase.date'/>"
     },
@@ -143,6 +143,7 @@ priceBaseTab.dynamicForm.fields = BaseFormItems.concat([
         // type: "long",
         required: true,
         title: "<spring:message code='priceBase.reference'/>",
+        filterOperator: "equals",
         valueMap: JSON.parse('${Enum_PriceBaseReference}'),
         defaultValue: "LME"
     },
@@ -164,5 +165,4 @@ priceBaseTab.dynamicForm.fields = BaseFormItems.concat([
 
 Object.assign(priceBaseTab.listGrid.fields, priceBaseTab.dynamicForm.fields);
 nicico.BasicFormUtil.getDefaultBasicForm(priceBaseTab, "api/price-base/");
-// priceBaseTab.listGrid.main.contextMenu = null;
 priceBaseTab.dynamicForm.main.windowWidth = 500;

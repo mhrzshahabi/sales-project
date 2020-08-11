@@ -53,10 +53,9 @@ public class WeightInspectionDTO {
     @Setter
     @Accessors(chain = true)
     @ApiModel("WeightInspectionInfoWithoutInspectionReport")
-    public static class InfoWithoutInspectionReport extends WeightInspectionDTO {
+    public static class InfoWithoutInspectionReportAndInventory extends WeightInspectionDTO {
 
         private Long id;
-        private InventoryDTO.Info inventory;
         private UnitDTO.Info unit;
 
         // Auditing
@@ -80,6 +79,15 @@ public class WeightInspectionDTO {
             return weightGW.subtract(weightND);
         }
     }
+
+
+     @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("WeightInspectionInfoWithoutInspectionReport")
+    public static class InfoWithoutInspectionReport extends InfoWithoutInspectionReportAndInventory {
+         private InventoryDTO.Info inventory;
+     }
 
     @Getter
     @Setter

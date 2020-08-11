@@ -19,7 +19,7 @@ isc.defineClass("InvoiceBaseAssay", isc.VLayout).addProperties({
                 doIntegration: true,
                 inventoryIds: This.inventories.map(q => q.id)
             },
-            actionURL: "${contextPath}" + "/api/assayInspection/get-assay-values",
+            actionURL: "${contextPath}/api/assayInspection/get-assay-values",
 
             callback: function (resp) {
 

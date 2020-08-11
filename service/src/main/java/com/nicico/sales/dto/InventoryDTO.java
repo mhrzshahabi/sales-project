@@ -38,6 +38,25 @@ public class InventoryDTO {
         private List<EStatus> eStatus;
     }
 
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    public static class InfoWithInspections extends InventoryDTO {
+        private Long id;
+        private MaterialItemDTO.Info materialItem;
+//        private List<AssayInspectionDTO.InfoWithoutInspectionReportAndInventory> assayInspections;
+        private WeightInspectionDTO.InfoWithoutInspectionReportAndInventory weightInspection;
+        // Auditing
+        private Date createdDate;
+        private String createdBy;
+        private Date lastModifiedDate;
+        private String lastModifiedBy;
+        private Integer version;
+        // BaseEntity
+        private Boolean editable;
+        private List<EStatus> eStatus;
+    }
+
 
     @Getter
     @Setter

@@ -1,9 +1,5 @@
 <%@ page import="com.nicico.copper.common.domain.ConstantVARs" %>
 <%@ page import="com.nicico.copper.core.SecurityUtil" %>
-<%@ page import="java.util.Map" %>
-<%@ page import="java.util.HashMap" %>
-<%@ page import="com.nicico.sales.model.enumeration.CategoryUnit" %>
-<%@ page import="com.fasterxml.jackson.databind.ObjectMapper" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
@@ -20,7 +16,6 @@
     <link rel="stylesheet" href="<spring:url value='/static/css/smartStyle.css' />"/>
     <link rel="stylesheet" href="<spring:url value='/static/css/calendar.css' />"/>
     <link rel="stylesheet" href='<spring:url value="/static/css/commonStyle.css"/>'/>
-    <link rel="stylesheet" href='<spring:url value="/static/css/OAManagementUsers.css"/>'/>
 
     <script src="<spring:url value='/static/script/js/calendar.js'/>"></script>
     <script src="<spring:url value='/static/script/js/jalali-moment.browser.js'/>"></script>
@@ -82,15 +77,12 @@
     });
     var persianDatePicker = isc.FormItem.getPickerIcon("date", {
         disableOnReadOnly: false,
+        src: "pieces/pcal.png",
         click: function (form, item, icon) {
             if (!item.getCanEdit())
                 return;
-            closeCalendarWindow();
-            displayDatePicker(null, item, 'ymd', '/');
-        },
-        blur: function () {
-            closeCalendarWindow();
-        },
+            displayDatePicker(item['ID'], item, 'ymd', '/');
+        }
     });
 
     <%@include file="common/ts/CommonUtil.js"%>
@@ -164,6 +156,21 @@
 
     const BaseFormItems = {
 
+        getFieldNameByLang: function (baseName, postFixIsUpperCase) {
+
+            let postFix = postFixIsUpperCase ? ["FA", "EN"] : ["Fa", "En"];
+            if (baseName == null)
+                baseName = "name";
+            else if (baseName instanceof Array) {
+
+                postFix[0] = baseName[1];
+                postFix[1] = baseName[2];
+                baseName = baseName[0];
+            }
+
+            let locale = languageForm.getValue("languageName");
+            return baseName + (locale === "fa" ? postFix[0] : postFix[1]);
+        },
         concat: function (fields, setBaseItemsHidden = true) {
 
             let items = [];
@@ -347,7 +354,14 @@
     isc.Dialog.SAY_TITLE = "<spring:message code='global.message'/>";
     Page.setAppImgDir("static/img/");
 
-    function formatCellValueNumber(value) {
+    function formatCellValueNumber(value, record, rowNum, colNum) {
+        // dbg('formatCellValueNumber', this)
+        const field = this.getField(colNum)
+        // dbg('field', field)
+        if (field.type && field.type.toLowerCase() === 'date') {
+            // dbg('date field', field, this.Super('formatCellValue', arguments))
+            return new Date(value)
+        }
         // console.debug("formatCellValueNumber(value) arguments",arguments);
         if (value === undefined || isNaN(value)) return value;
         return isc.NumberUtil.format(value, ',0');
@@ -708,14 +722,6 @@
         ]
     });
 
-    /*----------------------settingTab------------------------*/
-    settingTab = isc.ToolStripMenuButton.create({
-        title: "&nbsp; <spring:message code='main.settingTab'/>",
-        click: function () {
-            createTab("<spring:message code='main.settingTab'/>", "<spring:url value="web/oauth/landing/show-form" />", false);
-        }
-    });
-
     /*----------------------contractsTab------------------------*/
     contractsTab = isc.ToolStripMenuButton.create({
         title: "&nbsp; <spring:message code='main.contractsTab'/>",
@@ -876,6 +882,13 @@
                 },
                 {isSeparator: true},
                 {
+                    title: "بارنامه",
+                    click: function () {
+                        createTab("بارنامه", "<spring:url value="/bill-of-landing/show-form" />")
+                    }
+                },
+                {isSeparator: true},
+                {
                     title: "<spring:message code='shipmentCost.title'/>",
                     click: function () {
                         createTab("<spring:message code='shipmentCost.title'/>", "<spring:url value="/shipment-cost/show-form" />")
@@ -886,6 +899,13 @@
                     title: "<spring:message code='inspectionReport.title'/>",
                     click: function () {
                         createTab("<spring:message code='inspectionReport.title'/>", "<spring:url value="/inspectionReport/show-form" />")
+                    }
+                },
+                {isSeparator: true},
+                {
+                    title: "<spring:message code='shipmentCostInvoice.title'/>",
+                    click: function () {
+                        createTab("<spring:message code='shipmentCostInvoice.title'/>", "<spring:url value="/shipmentCostInvoice/show-form" />")
                     }
                 }
             ]
@@ -1057,8 +1077,7 @@
             financialTab,
             // inspectionTab,
             productTab,
-            reportTab,
-            settingTab,
+            reportTab
         ]
     });
 
@@ -1265,6 +1284,9 @@
         Object.freeze(EnumCategoryUnit);
     }))
 
+    function dbg(...args) {
+        console.debug(...args)
+    }
 </script>
 </body>
 </html>

@@ -10,4 +10,15 @@
         </addColumn>
     </changeSet>
 
+    <changeSet author="Reza Mazloom" id="mazloom_014">
+        <renameColumn tableName="TBL_CNTR_CONTRACT_DETAIL_TYPE_PARAM" oldColumnName="C_REQUIRED"
+                      newColumnName="B_REQUIRED"/>
+    </changeSet>
+
+    <changeSet author="Reza Mazloom" id="mazloom_015">
+        <addColumn tableName="TBL_CNTR_CONTRACT_DETAIL_VALUE">
+            <column name="C_REFERENCE" type="varchar2(255 CHAR)"/>
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>

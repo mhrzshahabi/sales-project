@@ -1,6 +1,7 @@
 package com.nicico.sales.dto.contract;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.nicico.sales.dto.MaterialDTO;
 import com.nicico.sales.model.enumeration.EStatus;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

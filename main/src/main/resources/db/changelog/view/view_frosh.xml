@@ -1,0 +1,45 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <changeSet author="saebm" id="reasdasdasdza_005">
+        <createView viewName="VIEW_FROSH">
+            <![CDATA[
+select tzn_date,p.id,p.namefa plant,m.gdscode,m.gdsname
+    , case when instr(carname ,'انتينر')>0   then 'ريلی' else 'جاده اي' end car,
+       nvl(sum(wazn),0) wazn,sum(case when tedad is null then 1 when tedad=0 then 1 else tedad end) tedad
+from v_tozine_content_m m
+--        join TBL_WARH_TOZIN s on s.targetid=sourceid
+       join tbl_tozin_plant p on p.id=substr(TOZINE_ID,1,1)
+       join TBL_MATERIAL_ITEM mt on mt.id=m.gdscode
+where  m.targetid not in (select targetid from TBL_WARH_TOZIN)
+group by tzn_date,p.id,p.namefa ,m.gdscode,m.gdsname
+       , (case when instr(carname ,'انتينر')>0   then 'ريلی' else 'جاده اي' end)
+order by tzn_date,p.id,m.gdscode
+			]]>
+        </createView>
+    </changeSet>
+    <changeSet author="saebm" id="reasdasdasdfsdfsdfsdza_005">
+        <createView viewName="VIEW_FROSH" replaceIfExists="true">
+            <![CDATA[
+select tzn_date,
+       p.id,
+       p.namefa                                                                 plant,
+       m.gdscode,
+       m.gdsname
+        ,
+       case when instr(carname, 'انتينر') > 0 then 'ريلی' else 'جاده اي' end    car,
+       nvl(sum(wazn), 0)                                                        wazn,
+       sum(case when tedad is null then 1 when tedad = 0 then 1 else tedad end) tedad
+from v_tozine_content_m m
+         join TBL_WARH_WAREHOUSE s on s.id = sourceid
+         join tbl_tozin_plant p on p.id = substr(TOZINE_ID, 1, 1)
+         join TBL_MATERIAL_ITEM mt on mt.id = m.gdscode
+where m.targetid not in (select targetid from TBL_WARH_TOZIN)
+group by tzn_date, p.id, p.namefa, m.gdscode, m.gdsname
+       , (case when instr(carname, 'انتينر') > 0 then 'ريلی' else 'جاده اي' end)
+order by tzn_date, p.id, m.gdscode
+			]]>
+        </createView>
+    </changeSet>
+</databaseChangeLog>

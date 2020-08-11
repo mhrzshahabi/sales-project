@@ -1357,6 +1357,7 @@ rdTab.Fields.RemittanceFull = function () {
             name: "remittanceDetails.destinationTozin.sourceId",
             valueMap: SalesBaseParameters.getSavedWarehouseParameter().getValueMap("id", "name"),
             title: "مبدا",
+            filterOperator: "equals",
             formatCellValue(value, record) {
                 if (value) return value;
                 return SalesBaseParameters.getSavedWarehouseParameter().find(w => {

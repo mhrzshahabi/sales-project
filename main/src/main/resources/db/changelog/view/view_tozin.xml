@@ -1,0 +1,160 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <changeSet author="Saeb" id="reza_00sdsadsasdasdasd1">
+        <createView viewName="VIEW_TOZIN" replaceIfExists="false">
+            <![CDATA[
+select  m.id material_id,card_id,
+        carno1,
+        carno3,
+        plak,
+        carname,
+        contener_id,
+        contener_no1,
+        contener_no3,
+        contener_name,
+--         to_char(p.id)||p.NAMEfa tozine_id,
+        tozine_id tozin_plant_id,
+        wazn1,
+        wazn2,
+        case when condition='unload' then '2تخليه' else '1بارگيري' end condition,
+        wazn,
+        greatest (nvl(tedad,1),1) tedad,
+        nvl(unit_kala,6) unit_kala,
+        nvl(packname,'فله') packname,
+        havcode,
+        dat,
+        tzn_date,
+        tzn_time,
+        v.gdscode,
+        v.gdsname,
+        v.sourceid,
+        sourcee,
+        v.targetid,
+        v.target,
+        hav_name,
+        hav_from,
+        hav_to,
+        hav_date,
+        hav_isfinal
+--        , p.id pid,
+--        s.plant_id ||'-'||t.plant_id source_plant_id,t.plant_id target_plant_id
+
+from n_master.v_tozine_content_m v
+--             join tbl_tozin_material m on m.GDSCODE=v.GDSCODE
+            join TBL_MATERIAL_ITEM m on m.ID=v.GDSCODE
+--             join TBL_TOZIN_PLANT p on p.id=substr(v.TOZINE_ID,1,1)
+--             join TBL_WARH_WAREHOUSE p on p.id=TARGETID
+            left join TBL_WARH_WAREHOUSE s on s.id=v.SOURCEID
+            left join TBL_WARH_WAREHOUSE t on t.id=v.targetid
+--             left join TBL_TOZIN_TARGET s on s.targetid=v.SOURCEID
+--             left join TBL_TOZIN_TARGET t on t.targetid=v.targetid
+
+order by v.PLAK,v.CONTENER_ID,v.TZN_DATE,v.TZN_TIME
+]]>
+        </createView>
+    </changeSet>
+
+
+    <changeSet author="saebm" id="rezaasadsfgnbkasdmkjl_001">
+        <createView viewName="VIEW_TOZIN" replaceIfExists="true">
+            <![CDATA[
+
+select  m.id material_id,card_id,
+        carno1,
+        carno3,
+        plak,
+        carname,
+        contener_id,
+        contener_no1,
+        contener_no3,
+        contener_name,
+        to_char(p.id)||p.NAMEfa tozine_id,
+        tozine_id tozin_plant_id,
+        wazn1,
+        wazn2,
+        case when condition='unload' then '2تخليه' else '1بارگيري' end condition,
+        wazn,
+        greatest (nvl(tedad,1),1) tedad,
+        nvl(unit_kala,6) unit_kala,
+        nvl(packname,'فله') packname,
+        havcode,
+        dat,
+        tzn_date,
+        tzn_time,
+        v.gdscode,
+        v.gdsname,
+        v.sourceid,
+        sourcee,
+        v.targetid,
+        v.target,
+        hav_name,
+        hav_from,
+        hav_to,
+        hav_date,
+        hav_isfinal,
+        p.id pid,
+       substr(v.SOURCEID,1,1) ||'-'||substr(v.TOZINE_ID,1,1) source_plant_id,substr(v.TOZINE_ID,1,1) target_plant_id
+
+from v_tozine_content_m v
+       join TBL_MATERIAL_ITEM m on m.id=v.GDSCODE
+       join TBL_TOZIN_PLANT p on p.id=substr(v.TOZINE_ID,1,1)
+--        left join TBL_WARH_TOZIN s on s.targetid=v.SOURCEID
+--        left join TBL_WARH_TOZIN t on t.targetid=v.targetid
+
+order by v.PLAK,v.CONTENER_ID,v.TZN_DATE,v.TZN_TIME
+            ]]>
+        </createView>
+    </changeSet>
+
+    <changeSet author="Reza Mazloom" id="reza_0asdghasdasdasdjkoli01">
+        <createView viewName="VIEW_TOZIN" replaceIfExists="true">
+            <![CDATA[
+select  m.id material_id,card_id,
+        carno1,
+        carno3,
+        plak,
+        carname,
+        contener_id,
+        contener_no1,
+        contener_no3,
+        contener_name,
+        to_char(p.id)||p.NAMEfa tozine_id,
+        tozine_id tozin_plant_id,
+        wazn1,
+        wazn2,
+        case when condition='unload' then '2تخليه' else '1بارگيري' end condition,
+        wazn,
+        greatest (nvl(tedad,1),1) tedad,
+        nvl(unit_kala,6) unit_kala,
+        nvl(packname,'فله') packname,
+        havcode,
+        dat,
+        tzn_date,
+        tzn_time,
+        v.gdscode,
+        v.gdsname,
+        v.sourceid,
+        sourcee,
+        v.targetid,
+        v.target,
+        hav_name,
+        hav_from,
+        hav_to,
+        hav_date,
+        hav_isfinal,
+        p.id pid,s.N_PLANT_ID ||'-'||t.N_PLANT_ID source_plant_id,t.N_PLANT_ID target_plant_id
+
+from v_tozine_content_m v
+         join TBL_MATERIAL_ITEM m on m.id=v.GDSCODE
+         join TBL_TOZIN_PLANT p on p.id=substr(v.TOZINE_ID,1,1)
+         left join TBL_WARH_WAREHOUSE s on s.id=v.SOURCEID
+         left join TBL_WARH_WAREHOUSE t on t.id=v.targetid
+order by v.PLAK,v.CONTENER_ID,v.TZN_DATE,v.TZN_TIME
+            ]]>
+        </createView>
+    </changeSet>
+</databaseChangeLog>
+
+

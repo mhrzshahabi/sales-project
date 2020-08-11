@@ -420,6 +420,7 @@
                     width: "15%",
                     type: "text",
                     required: true,
+                    filterOperator: "equals",
                     valueMap: {
                         "1": "Unit",
                         "2": "Time",
@@ -432,6 +433,7 @@
                     width: "15%",
                     type: "select",
                     required: true,
+                    filterOperator: "equals",
                     valueMap: {"1": "MOLYBDENUM OXIDE", "3": "COPPER CONCENTRATES", "2": "COPPER CATHODES"}
                 }],
             autoFetchData: true
