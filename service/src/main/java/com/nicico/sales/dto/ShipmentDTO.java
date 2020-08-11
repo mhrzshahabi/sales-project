@@ -72,6 +72,7 @@ public class ShipmentDTO {
     private Double net;
     private Double moisture;
     private Double vgm;
+    private Long unitId;
 
     @Getter
     @Setter
@@ -90,6 +91,7 @@ public class ShipmentDTO {
         private ContractDTO.ContractInfoTuple contract;
         private MaterialDTO.MaterialTuple material;
         private String containerType;
+        private UnitDTO unit;
         private DateTimeDTO.DateTimeStrRs createDate;
         private String createdBy;
         private Date lastModifiedDate;

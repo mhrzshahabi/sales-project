@@ -98,6 +98,7 @@
             "Active": "عادی",
             "DeActive": "حذف شده"
         },
+        eStatus2: JSON.parse('${Enum_EStatus}'),
         unit: {
             symbols: JSON.parse('${Enum_SymbolUnit_WithValue}'),
             hasFlag: function (value, target) {
@@ -136,9 +137,19 @@
             COPPER_CONCENTRATES: 3
         },
         invoiceType: {
-            PERFORMA: 3,
+            FINAL: 1,
             PROVISIONAL: 2,
-            FINAL: 1
+            PERFORMA: 3,
+            TRUSTY: 4,
+            INSPECTION: 5,
+            INSURANCE: 6,
+            THC: 7,
+            BLFEE: 8,
+            UMPIRELAB: 9,
+            DEMAND: 10,
+            FREIGHT: 11,
+            DISPATCH: 12,
+            DEMURRAGE: 13
         },
         unit: {
             PERCENT: 1,
@@ -895,12 +906,14 @@
                     }
                 },
                 {isSeparator: true},
+                <sec:authorize access="hasAuthority('R_INSPECTION_REPORT')">
                 {
                     title: "<spring:message code='inspectionReport.title'/>",
                     click: function () {
                         createTab("<spring:message code='inspectionReport.title'/>", "<spring:url value="/inspectionReport/show-form" />")
                     }
                 },
+                </sec:authorize>
                 {isSeparator: true},
                 {
                     title: "<spring:message code='shipmentCostInvoice.title'/>",

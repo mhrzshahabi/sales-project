@@ -28,6 +28,9 @@ namespace nicico {
             newForm(title: string, grid: isc.ListGrid, form: isc.DynamicForm, newActionHook?: any): void,
             editForm(title: string, grid: isc.ListGrid, form: isc.DynamicForm, editActionHook?: any),
             delete(grid: isc.ListGrid, deleteActionHook?: any, errorActionHook?: any),
+            activate(grid: isc.ListGrid, activateActionHook?: any, errorActionHook?: any),
+            deactivate(grid: isc.ListGrid, deactivateActionHook?: any, errorActionHook?: any),
+            finalize(grid: isc.ListGrid, finalizeActionHook?: any, errorActionHook?: any),
             saveForm(grid: isc.ListGrid, form: isc.DynamicForm, validationActionHook?: any, getDataActionHook?: any, saveActionHook?: any, errorActionHook?: any)
         };
         tab: {};
@@ -51,6 +54,9 @@ namespace nicico {
         dialog: {
 
             notEditable(): void,
+            activeRecord(): void,
+            inactiveRecord(): void,
+            finalRecord(): void,
             notSelected(): void,
             moreSelected(): void,
             ok(warn?: string): void,
@@ -102,6 +108,9 @@ namespace nicico {
             newForm(title: string, grid: isc.ListGrid, form: isc.DynamicForm, newActionHook?: any): void,
             editForm(title: string, grid: isc.ListGrid, form: isc.DynamicForm, editActionHook?: any): void
             delete(grid: isc.ListGrid, deleteActionHook?: any, errorActionHook?: any): void,
+            activate(grid: isc.ListGrid, activateActionHook?: any, errorActionHook?: any): void,
+            deactivate(grid: isc.ListGrid, deactivateActionHook?: any, errorActionHook?: any): void,
+            finalize(grid: isc.ListGrid, finalizeActionHook?: any, errorActionHook?: any): void,
             saveForm(grid: isc.ListGrid, form: isc.DynamicForm, validationActionHook?: any, getDataActionHook?: any, saveActionHook?: any, errorActionHook?: any)
         };
         tab: {};
@@ -127,6 +136,9 @@ namespace nicico {
         dialog: {
 
             notEditable(): void,
+            activeRecord(): void,
+            inactiveRecord(): void,
+            finalRecord(): void,
             notSelected(): void,
             moreSelected(): void,
             ok(warn ?: string): void,
@@ -181,6 +193,9 @@ namespace nicico {
             This.method = {
 
                 delete: null,
+                activate: null,
+                deactivate: null,
+                finalize: null,
                 refresh: null,
                 newForm: null,
                 editForm: null,
@@ -362,6 +377,12 @@ namespace nicico {
                 // @ts-ignore
                 else if (record.editable == false)
                     This.dialog.notEditable();
+                // @ts-ignore
+                else if (record.estatus.contains(Enums.eStatus2.DeActive))
+                    This.dialog.inactiveRecord();
+                // @ts-ignore
+                else if (record.estatus.contains(Enums.eStatus2.Final))
+                    This.dialog.finalRecord();
                 else {
 
                     This.variable.method = "PUT";
@@ -395,6 +416,12 @@ namespace nicico {
                 // @ts-ignore
                 else if (record.editable == false)
                     This.dialog.notEditable();
+                // @ts-ignore
+                else if (record.estatus.contains(Enums.eStatus2.DeActive))
+                    This.dialog.inactiveRecord();
+                // @ts-ignore
+                else if (record.estatus.contains(Enums.eStatus2.Final))
+                    This.dialog.finalRecord();
                 else {
 
                     This.variable.method = "DELETE";
@@ -419,6 +446,120 @@ namespace nicico {
                         };
                         This.method.jsonRPCManagerRequest(rpcRequest);
                     });
+                }
+            };
+            This.method.activate = function (grid: isc.ListGrid, activateActionHook?: any, errorActionHook?: any) {
+
+                let record = grid.getSelectedRecord();
+                if (record == null || record["id"] == null)
+                    This.dialog.notSelected();
+                // @ts-ignore
+                else if (record.editable == false)
+                    This.dialog.notEditable();
+                // @ts-ignore
+                else if (record.estatus.contains(Enums.eStatus2.Active))
+                    This.dialog.activeRecord();
+                else {
+
+                    This.variable.method = "POST";
+                    This.dialog.question(() => {
+
+                        let rpcRequest = <isc.RPCRequest>{};
+                        rpcRequest.httpMethod = This.variable.method;
+                        rpcRequest.actionURL = This.variable.url + "activate/" + record["id"];
+                        rpcRequest.callback = function (response) {
+
+                            if (response.httpResponseCode === 200 || response.httpResponseCode === 201) {
+
+                                This.dialog.ok();
+                                This.method.refresh(grid);
+                                if (activateActionHook != null) activateActionHook(record);
+                            } else {
+
+                                This.dialog.error(response);
+
+                                if (errorActionHook != null) errorActionHook(record);
+                            }
+                        };
+                        This.method.jsonRPCManagerRequest(rpcRequest);
+                    }, "<spring:message code='global.activate.ask'/>");
+                }
+            };
+            This.method.deactivate = function (grid: isc.ListGrid, deactivateActionHook?: any, errorActionHook?: any) {
+
+                let record = grid.getSelectedRecord();
+                if (record == null || record["id"] == null)
+                    This.dialog.notSelected();
+                // @ts-ignore
+                else if (record.editable == false)
+                    This.dialog.notEditable();
+                // @ts-ignore
+                else if (record.estatus.contains(Enums.eStatus2.DeActive))
+                    This.dialog.inactiveRecord();
+                else {
+
+                    This.variable.method = "POST";
+                    This.dialog.question(() => {
+
+                        let rpcRequest = <isc.RPCRequest>{};
+                        rpcRequest.httpMethod = This.variable.method;
+                        rpcRequest.actionURL = This.variable.url + "deactivate/" + record["id"];
+                        rpcRequest.callback = function (response) {
+
+                            if (response.httpResponseCode === 200 || response.httpResponseCode === 201) {
+
+                                This.dialog.ok();
+                                This.method.refresh(grid);
+                                if (deactivateActionHook != null) deactivateActionHook(record);
+                            } else {
+
+                                This.dialog.error(response);
+
+                                if (errorActionHook != null) errorActionHook(record);
+                            }
+                        };
+                        This.method.jsonRPCManagerRequest(rpcRequest);
+                    }, "<spring:message code='global.deactivate.ask'/>");
+                }
+            };
+            This.method.finalize = function (grid: isc.ListGrid, finalizeActionHook?: any, errorActionHook?: any) {
+
+                let record = grid.getSelectedRecord();
+                if (record == null || record["id"] == null)
+                    This.dialog.notSelected();
+                // @ts-ignore
+                else if (record.editable == false)
+                    This.dialog.notEditable();
+                // @ts-ignore
+                else if (record.estatus.contains(Enums.eStatus2.DeActive))
+                    This.dialog.inactiveRecord();
+                // @ts-ignore
+                else if (record.estatus.contains(Enums.eStatus2.Final))
+                    This.dialog.finalRecord();
+                else {
+
+                    This.variable.method = "POST";
+                    This.dialog.question(() => {
+
+                        let rpcRequest = <isc.RPCRequest>{};
+                        rpcRequest.httpMethod = This.variable.method;
+                        rpcRequest.actionURL = This.variable.url + "finalize/" + record["id"];
+                        rpcRequest.callback = function (response) {
+
+                            if (response.httpResponseCode === 200 || response.httpResponseCode === 201) {
+
+                                This.dialog.ok();
+                                This.method.refresh(grid);
+                                if (finalizeActionHook != null) finalizeActionHook(record);
+                            } else {
+
+                                This.dialog.error(response);
+
+                                if (errorActionHook != null) errorActionHook(record);
+                            }
+                        };
+                        This.method.jsonRPCManagerRequest(rpcRequest);
+                    }, "<spring:message code='global.finalize.ask'/>");
                 }
             };
             This.method.saveForm = function (grid: isc.ListGrid, form: isc.DynamicForm, validationActionHook?: any, getDataActionHook?: any, saveActionHook?: any, errorActionHook?: any): void {
@@ -450,6 +591,9 @@ namespace nicico {
                 error: null,
                 question: null,
                 notEditable: null,
+                activeRecord: null,
+                inactiveRecord: null,
+                finalRecord: null,
                 notSelected: null,
                 moreSelected: null
             };
@@ -457,6 +601,45 @@ namespace nicico {
 
                 isc.Dialog.create({
                     message: "<spring:message code='global.grid.record.not.editable'/>",
+                    icon: "[SKIN]ask.png",
+                    title: "<spring:message code='global.message'/>",
+                    buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
+                    // @ts-ignore
+                    buttonClick: function (button, index) {
+                        this.close();
+                    }
+                });
+            };
+            This.dialog.activeRecord = function () {
+
+                isc.Dialog.create({
+                    message: "<spring:message code='global.grid.record.can.not.activate'/>",
+                    icon: "[SKIN]ask.png",
+                    title: "<spring:message code='global.message'/>",
+                    buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
+                    // @ts-ignore
+                    buttonClick: function (button, index) {
+                        this.close();
+                    }
+                });
+            };
+            This.dialog.inactiveRecord = function () {
+
+                isc.Dialog.create({
+                    message: "<spring:message code='global.grid.record.can.not.deactivate'/>",
+                    icon: "[SKIN]ask.png",
+                    title: "<spring:message code='global.message'/>",
+                    buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
+                    // @ts-ignore
+                    buttonClick: function (button, index) {
+                        this.close();
+                    }
+                });
+            };
+            This.dialog.finalRecord = function () {
+
+                isc.Dialog.create({
+                    message: "<spring:message code='global.grid.final.record.not.editable'/>",
                     icon: "[SKIN]ask.png",
                     title: "<spring:message code='global.message'/>",
                     buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],

@@ -48,6 +48,48 @@ var nicico;
                         }
                     }),
                     // </c:if>
+                    // <c:if test = "${a_entity}">
+                    // @ts-ignore
+                    isc.ToolStripButton.create({
+                        visibility: "hidden",
+                        role: "activateRecord",
+                        icon: "[SKIN]/actions/configure.png",
+                        title: "<spring:message code='global.active'/>",
+                        // @ts-ignore
+                        click: function () {
+                            // @ts-ignore
+                            creator.method.activate(creator.listGrid.main);
+                        }
+                    }),
+                    // </c:if>
+                    // <c:if test = "${i_entity}">
+                    // @ts-ignore
+                    isc.ToolStripButton.create({
+                        visibility: "hidden",
+                        role: "deactivateRecord",
+                        icon: "[SKIN]/actions/exclamation.png",
+                        title: "<spring:message code='global.inactive'/>",
+                        // @ts-ignore
+                        click: function () {
+                            // @ts-ignore
+                            creator.method.deactivate(creator.listGrid.main);
+                        }
+                    }),
+                    // </c:if>
+                    // <c:if test = "${f_entity}">
+                    // @ts-ignore
+                    isc.ToolStripButton.create({
+                        visibility: "hidden",
+                        role: "finalizeRecord",
+                        icon: "[SKIN]/actions/accept.png",
+                        title: "<spring:message code='global.form.accept'/>",
+                        // @ts-ignore
+                        click: function () {
+                            // @ts-ignore
+                            creator.method.finalize(creator.listGrid.main);
+                        }
+                    }),
+                    // </c:if>
                     isc.ToolStrip.create({
                         width: "100%",
                         align: "left",
@@ -78,7 +120,7 @@ var nicico;
             // @ts-ignore
             creator.menu.main = isc.Menu.create({
                 width: 150,
-                data: [
+                items: [
                     {
                         icon: "pieces/16/refresh.png",
                         title: '<spring:message code="global.form.refresh"/>',
@@ -114,6 +156,42 @@ var nicico;
                         click: function () {
                             // @ts-ignore
                             creator.method.delete(creator.listGrid.main);
+                        }
+                    },
+                    // </c:if>
+                    // <c:if test = "${a_entity}">
+                    {
+                        // @ts-ignore
+                        role: "activateRecord",
+                        icon: "pieces/16/configure.png",
+                        title: '<spring:message code="global.active"/>',
+                        click: function () {
+                            // @ts-ignore
+                            creator.method.activate(creator.listGrid.main);
+                        }
+                    },
+                    // </c:if>
+                    // <c:if test = "${i_entity}">
+                    {
+                        // @ts-ignore
+                        role: "deactivateRecord",
+                        icon: "pieces/16/exclamation.png",
+                        title: '<spring:message code="global.inactive"/>',
+                        click: function () {
+                            // @ts-ignore
+                            creator.method.deactivate(creator.listGrid.main);
+                        }
+                    },
+                    // </c:if>
+                    // <c:if test = "${f_entity}">
+                    {
+                        // @ts-ignore
+                        role: "finalizeRecord",
+                        icon: "pieces/16/accept.png",
+                        title: '<spring:message code="global.form.accept"/>',
+                        click: function () {
+                            // @ts-ignore
+                            creator.method.finalize(creator.listGrid.main);
                         }
                     }
                     // </c:if>
