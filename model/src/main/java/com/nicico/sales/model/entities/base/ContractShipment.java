@@ -34,10 +34,10 @@ public class ContractShipment extends BaseEntity {
     @NotAudited
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "F_CONTRACT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "CONTRACTSHIPMENT2CONTRACT2"))
+    @JoinColumn(name = "CONTRACT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "CONTRACTSHIPMENT2CONTRACT2"))
     private Contract2 contract;
 
-    @Column(name = "F_CONTRACT_ID")
+    @Column(name = "CONTRACT_ID")
     private Long contractId;
 
     @Setter(AccessLevel.NONE)
