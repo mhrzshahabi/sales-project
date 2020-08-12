@@ -79,4 +79,8 @@
         <addForeignKeyConstraint baseColumnNames="F_FINANCE_UNIT_ID" baseTableName="TBL_PRICE_BASE" constraintName="fk_priceBase2UnitByFinanceUnitId" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_UNIT" validate="true"/>
     </changeSet>
 
+    <changeSet author="Abiz" id="AZAARE-022">
+        <modifyDataType columnName="N_PRICE" newDataType="NUMBER(16, 5)" tableName="TBL_PRICE_BASE"/>
+    </changeSet>
+
 </databaseChangeLog>
