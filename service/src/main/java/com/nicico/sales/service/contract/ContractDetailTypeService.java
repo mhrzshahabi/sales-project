@@ -122,9 +122,6 @@ public class ContractDetailTypeService extends GenericService<ContractDetailType
 
         validation(contractDetailType, id);
 
-        contractDetailType.setContractDetailTypeParams(null);
-        contractDetailType.setContractDetailTypeTemplates(null);
-
         repository.delete(contractDetailType);
     }
 

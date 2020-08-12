@@ -321,7 +321,7 @@ public abstract class GenericService<T, ID extends Serializable, C, R, U, D> imp
     @Override
     public R save(T entity) {
 
-        return modelMapper.map(repository.save(entity), rType);
+        return modelMapper.map(repository.saveAndFlush(entity), rType);
     }
 
     @Override

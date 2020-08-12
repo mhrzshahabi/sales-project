@@ -388,18 +388,8 @@
         filterUsingText: '<spring:message code="global.grid.filterUsingText" />',
         groupByText: '<spring:message code="global.grid.groupByText" />',
         freezeFieldText: '<spring:message code="global.grid.freezeFieldText" />',
-        getAllData: function () {
-
-            let data = [...this.getData()];
-            // let allEditRows = this.getAllEditRows();
-            // for (let i = 0; i < allEditRows.length; i++)
-            //     data.push({...this.getEditedRecord(allEditRows[i])});
-
-            return data;
-        },
         validateAllData: function () {
-
-            for (let i = 0; i < this.getAllData().length; i++)
+            for (let i = 0; i < this.getData().length; i++)
                 if (!this.validateRecord(i))
                     return false;
 

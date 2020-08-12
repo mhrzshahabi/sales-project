@@ -1,9 +1,11 @@
 package com.nicico.sales.service.contract;
 
+import com.google.gson.Gson;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
 import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.sales.annotation.Action;
+import com.nicico.sales.dto.ContractShipmentDTO;
 import com.nicico.sales.dto.contract.ContractContactDTO;
 import com.nicico.sales.dto.contract.ContractDTO2;
 import com.nicico.sales.dto.contract.ContractDetailDTO2;
@@ -33,10 +35,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -49,6 +48,7 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
 
     private final UpdateUtil updateUtil;
     private final ContractNoGenerator contractNoGenerator;
+    private final Gson gson;
     private final ResourceBundleMessageSource messageSource;
 
     @Override
@@ -92,18 +92,13 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
                     contractDetailValueRqs.forEach(x -> {
                         x.setContractDetailId(savedContractDetail.getId());
 
-                        //based on reference type, first we must create records in reference table
-                        /*HashMap<String, Object> valueHashMap = gson.fromJson(x.getReferenceJsonValue(), new TypeToken<HashMap<String, Object>>() {
-                        }.getType());
-
-                        ContractShipmentDTO.Create contractShipmentDTO = new ContractShipmentDTO.Create();
-                        contractShipmentDTO.setContractId(1L);
-                        contractShipmentDTO.setLoadPortId(21L);
-                        contractShipmentDTO.setQuantity((Double) valueHashMap.get("quantity"));
-                        contractShipmentDTO.setTolorance(1L);
-                        contractShipmentDTO.setSendDate(new Date());
-                        ContractShipmentDTO.Info savedContractShipment = contractShipmentService.create(contractShipmentDTO);
-                        x.setValue(savedContractShipment.getId().toString());*/
+                        //based on reference, first we have to create records in reference tables
+                        if (x.getType().name().equals("ListOfReference")) {
+                            switch (x.getReference()) {
+                                case "ContractShipment":
+                                    x.setValue(createContractShipment(x, savedContract2.getId()).toString());
+                            }
+                        }
 
                         contractDetailValueService.create(x);
                     });
@@ -113,6 +108,18 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
         }
 
         return savedContract2;
+    }
+
+    private Long createContractShipment(ContractDetailValueDTO.Create x, Long id) {
+        ContractShipmentDTO.Create contractShipmentDTO = gson.fromJson(x.getReferenceJsonValue(), ContractShipmentDTO.Create.class);
+        contractShipmentDTO.setContractId(id);
+        ContractShipmentDTO.Info savedContractShipment = contractShipmentService.create(contractShipmentDTO);
+        return savedContractShipment.getId();
+    }
+
+    private void updateContractShipment(ContractDetailValueDTO.Update x) {
+        ContractShipmentDTO.Update contractShipmentDTO = gson.fromJson(x.getReferenceJsonValue(), ContractShipmentDTO.Update.class);
+        contractShipmentService.update(contractShipmentDTO.getId(), contractShipmentDTO);
     }
 
     private void createContractContacts(Long contractId, Long contactId, CommercialRole commercialRole) {
@@ -199,18 +206,15 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
                     contractDetailValueRqs.forEach(x -> {
                         x.setContractDetailId(savedContractDetail.getId());
 
-                        //based on reference type, first we must create records in reference table
-                        /*HashMap<String, Object> valueHashMap = gson.fromJson(x.getReferenceJsonValue(), new TypeToken<HashMap<String, Object>>() {
-                        }.getType());
-
-                        ContractShipmentDTO.Create contractShipmentDTO = new ContractShipmentDTO.Create();
-                        contractShipmentDTO.setContractId(1L);
-                        contractShipmentDTO.setLoadPortId(21L);
-                        contractShipmentDTO.setQuantity((Double) valueHashMap.get("quantity"));
-                        contractShipmentDTO.setTolorance(1L);
-                        contractShipmentDTO.setSendDate(new Date());
-                        ContractShipmentDTO.Info savedContractShipment = contractShipmentService.create(contractShipmentDTO);
-                        x.setValue(savedContractShipment.getId().toString());*/
+                        //based on reference, first we have to update records in reference tables
+                        if (x.getType().name().equals("ListOfReference")) {
+                            HashMap<String, String> valueHashMap = gson.fromJson(x.getReferenceJsonValue(), new TypeToken<HashMap<String, String>>() {
+                            }.getType());
+                            switch (x.getReference()) {
+                                case "ContractShipment":
+                                    x.setValue(createContractShipment(x, contract2.getId()).toString());
+                            }
+                        }
 
                         contractDetailValueService.create(x);
                     });
@@ -225,8 +229,6 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
                 q.setContractId(contract2.getId());
                 ContractDetailDTO2.Info savedContractDetail = contractDetailService.update(q);
 
-                //contractDetailValue have 3 state in update in listGrid (create,update,delete)
-                //  update ContractDetails
                 List<ContractDetailValueDTO.Create> contractDetailValue4Insert = new ArrayList<>();
                 List<ContractDetailValueDTO.Update> contractDetailValue4Update = new ArrayList<>();
                 ContractDetailValueDTO.Delete contractDetailValue4Delete = new ContractDetailValueDTO.Delete();
@@ -244,26 +246,57 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
                 }
 
                 if (!contractDetailValue4Insert.isEmpty()) {
-                    contractDetailValueService.createAll(contractDetailValue4Insert);
+                    contractDetailValue4Insert.forEach(x -> {
+                        //based on reference, first we have to update records in reference tables
+                        if (x.getType().name().equals("ListOfReference")) {
+                            HashMap<String, String> valueHashMap = gson.fromJson(x.getReferenceJsonValue(), new TypeToken<HashMap<String, String>>() {
+                            }.getType());
+                            switch (x.getReference()) {
+                                case "ContractShipment":
+                                    x.setValue(createContractShipment(x, contract2.getId()).toString());
+                            }
+                        }
+                        contractDetailValueService.create(x);
+                    });
                 }
                 if (!contractDetailValue4Update.isEmpty()) {
-                    contractDetailValueService.updateAll(contractDetailValue4Update);
-                }
-//                if (!contractDetailValue4Delete.getIds().isEmpty()) {
-//                    contractDetailValueService.deleteAll(contractDetailValue4Delete);
-//                }
+                    //based on reference type, first we must update records in reference table
+                    contractDetailValue4Update.forEach(x -> {
+                        if (x.getType().name().equals("ListOfReference")) {
+                            //based on reference, first we have to update records in reference tables
+                            if (x.getType().name().equals("ListOfReference")) {
+                                switch (x.getReference()) {
+                                    case "ContractShipment":
+                                        updateContractShipment(x);
+                                }
+                            }
 
-                //based on reference type, first we must update records in reference table
+                        }
+                        contractDetailValueService.update(x);
+                    });
+                }
+                if (!contractDetailValue4Delete.getIds().isEmpty()) {
+                    request.getContractDetails().get(index).getContractDetailValues().stream()
+                            .filter(contractDetailValue -> contractDetailValue4Delete.getIds().contains(contractDetailValue.getId()))
+                            .forEach(detail -> contractShipmentService.delete(Long.valueOf(detail.getValue())));
+
+                    contractDetailValueService.deleteAll(contractDetailValue4Delete);
+
+                }
+
                 index++;
             }
 
         }
 
         if (!contractDetail4Delete.getIds().isEmpty()) {
-            //delete listOfReference
+            contract2.getContractDetails().stream().filter(contractDetail -> contractDetail4Delete.getIds().contains(contractDetail.getId()))
+                    .forEach(x -> x.getContractDetailValues().stream().filter(detailValue -> detailValue.getType().name().equals("ListOfReference")).forEach(
+                            t -> contractShipmentService.delete(Long.valueOf(t.getValue()))
+                    ));
+
             contractDetailService.deleteAll(contractDetail4Delete);
         }
-
 
         Contract2 updating = new Contract2();
 

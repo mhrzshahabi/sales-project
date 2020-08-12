@@ -1,6 +1,11 @@
 function getReferenceCriteria(idValues) {
-
-    return {fieldName: "id", operator: "equals", value: idValues};
+    return {
+        _constructor: "AdvancedCriteria",
+        operator: "and",
+        criteria: [
+            {fieldName: "id", operator: "equals", value: idValues}
+        ]
+    }
 }
 
 function getReferenceFields(referenceType) {
@@ -8,8 +13,14 @@ function getReferenceFields(referenceType) {
     switch (referenceType) {
         case 'ContractShipment':
             return [
-                {name: "id", hidden: true},
+                {name: "id", title: "id", primaryKey: true, hidden: true},
                 {name: "contractDetailValueId", hidden: true},
+                Object.assign({
+                    name: "loadPortId",
+                    title: "<spring:message code='shipment.loading'/>",
+
+                    align: "center"
+                }, getFieldProperties("Reference", "Port")),
                 {
                     name: "quantity",
                     title: "<spring:message code='global.quantity'/>",
@@ -45,37 +56,32 @@ function getReferenceFields(referenceType) {
         case 'Bank':
             return [
                 {name: "id", title: "id", primaryKey: true, hidden: true},
-                {name: 'bankName'}
+                {name: 'bankName', title: "<spring:message code='bank.nameFa'/>"}
             ]
         case 'Contact':
             return [
                 {name: "id", title: "id", primaryKey: true, hidden: true},
-                {name: 'nameFA'}
+                {name: 'nameFA', title: "<spring:message code='contact.nameFa'/>"}
             ]
         case 'Country':
             return [
                 {name: "id", title: "id", primaryKey: true, hidden: true},
-                {name: 'nameFa'}
-            ]
-        case 'Currency':
-            return [
-                {name: "id", title: "id", primaryKey: true, hidden: true},
-                {name: 'nameFa'}
+                {name: 'nameFa', title: "<spring:message code='country.nameFa'/>"}
             ]
         case 'Material':
             return [
                 {name: "id", title: "id", primaryKey: true, hidden: true},
-                {name: 'descp'}
+                {name: 'descp', title: "<spring:message code='material.descp'/>"}
             ]
         case 'Port':
             return [
                 {name: "id", title: "id", primaryKey: true, hidden: true},
-                {name: 'port'}
+                {name: 'port', title: "<spring:message code='port.port'/>"}
             ]
         case 'Unit':
             return [
                 {name: "id", title: "id", primaryKey: true, hidden: true},
-                {name: 'nameFA'}
+                {name: 'nameFA', title: "<spring:message code='unit.nameFa'/>"}
             ]
         case 'RateReference':
             return '';
@@ -91,28 +97,25 @@ function getReferenceDataSource(referenceType) {
     let url = "";
     switch (referenceType) {
         case 'ContractShipment':
-            url = "";
+            url = "${contextPath}" + "/api/contractShipment/spec-list";
             break;
         case 'Bank':
-            url = "";
+            url = "${contextPath}" + "/api/bank/spec-list";
             break;
         case 'Contact':
-            url = "";
+            url = "${contextPath}" + "/api/contact/spec-list";
             break;
         case 'Country':
-            url = "";
-            break;
-        case 'Currency':
-            url = "";
+            url = "${contextPath}" + "/api/country/spec-list";
             break;
         case 'Material':
-            url = "";
+            url = "${contextPath}" + "/api/material/spec-list";
             break;
         case 'Port':
-            url = "";
+            url = "${contextPath}" + "/api/port/spec-list";
             break;
         case 'Unit':
-            url = "";
+            url = "${contextPath}" + "/api/unit/spec-list";
             break;
         case 'RateReference':
             url = "";
@@ -153,17 +156,18 @@ function getContactByType(contactType) {
         autoFetchData: false,
         displayField: "nameEN",
         valueField: "id",
-        required: true,
         title: "<spring:message code='contact.commercialRole.buyer'/>"
     };
 
     switch (contactType) {
         case 'buyer':
+            contactCommons.required = true;
             contactCommons.name = "buyerId";
             contactCommons.optionCriteria.criteria[0].fieldName = "buyer";
             contactCommons.title = "<spring:message code='contact.commercialRole.buyer'/>";
             break;
         case 'seller':
+            contactCommons.required = true;
             contactCommons.name = "sellerId";
             contactCommons.optionCriteria.criteria[0].fieldName = "seller";
             contactCommons.title = "<spring:message code='contact.commercialRole.seller'/>";
@@ -194,8 +198,7 @@ function getFieldProperties(fieldType, reference) {
         case 'GeorgianDate':
             return {
                 type: "date",
-                textAlign: "center",
-                format: 'dd/MM/YYYY'
+                textAlign: "center"
             };
         case 'Boolean':
             return {

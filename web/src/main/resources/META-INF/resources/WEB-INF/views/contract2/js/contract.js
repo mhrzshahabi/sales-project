@@ -126,7 +126,6 @@ contractTab.dynamicForm.fields = BaseFormItems.concat([
     {
         colSpan: 8,
         width: "100%",
-        required: true,
         type: "TextArea",
         name: "description",
         title: "<spring:message code='global.description'/>"
@@ -136,54 +135,11 @@ Object.assign(contractTab.listGrid.fields, contractTab.dynamicForm.fields.filter
 
 //******************************************************* COMPONENTS ***************************************************
 
-nicico.BasicFormUtil.createListGrid = function () {
-
-    contractTab.listGrid.main = isc.ListGrid.nicico.getDefault(
-        contractTab.listGrid.fields,
-        contractTab.restDataSource.main,
-        contractTab.listGrid.criteria,
-        {
-            showFilterEditor: true,
-            width: "100%",
-            height: "100%",
-            autoFetchData: true,
-            styleName: 'expandList',
-            alternateRecordStyles: true,
-            canExpandRecords: true,
-            canExpandMultipleRecords: false,
-            wrapCells: false,
-            showRollOver: false,
-            showRecordComponents: true,
-            showRecordComponentsByCell: true,
-            autoFitExpandField: true,
-            virtualScrolling: true,
-            loadOnExpand: true,
-            loaded: false,
-            getExpansionComponent: function (record) {
-
-                let criteria = {
-                    _constructor: "AdvancedCriteria",
-                    operator: "and",
-                    criteria: [{fieldName: "contractId", operator: "equals", value: record.id}]
-                };
-                contractTab.listGrid.contractDetail.fetchData(criteria, function (dsResponse, data, dsRequest) {
-                    if (data == null || data.length === 0)
-                        contractTab.listGrid.contractDetail.hide();
-                    else {
-                        contractTab.listGrid.contractDetail.setData(data);
-                        contractTab.listGrid.contractDetail.setAutoFitMaxRecords(1);
-                        contractTab.listGrid.contractDetail.show();
-                    }
-                }, {operationId: "00"});
-                return contractTab.listGrid.contractDetail;
-            }
-        });
-};
 nicico.BasicFormUtil.createDynamicForm = function (creator) {
 
     contractTab.dynamicForm.main = isc.DynamicForm.create({
         width: "100%",
-        height: "10%",
+        height: "15%",
         align: "center",
         titleAlign: "right",
         numCols: 8,
@@ -197,21 +153,10 @@ nicico.BasicFormUtil.createDynamicForm = function (creator) {
         requiredMessage: '<spring:message code="validator.field.is.required"/>'
     });
 };
-contractTab.listGrid.contractDetail = isc.ListGrid.nicico.getDefault(
-    null,
-    contractTab.restDataSource.contractDetail, null,
-    {
-        height: 180,
-        width: "100%",
-        styleName: "listgrid-child",
-        autoFetchData: false,
-        showFilterEditor: true,
-    });
 
 contractTab.listGrid.contractDetailType = isc.ListGrid.nicico.getDefault(
     [
         {name: "id", primaryKey: true, hidden: true, title: '<spring:message code="global.id"/>'},
-        {name: "code", title: '<spring:message code="global.code"/>'},
         {name: "titleFa", title: '<spring:message code="global.title-fa"/>'},
         {name: "titleEn", title: '<spring:message code="global.title-en"/>'},
         {
@@ -231,11 +176,7 @@ contractTab.listGrid.contractDetailType = isc.ListGrid.nicico.getDefault(
             optionDataSource: contractTab.restDataSource.contractDetailTypeTemplate,
             optionCriteria: {fieldName: "contractDetailTypeId", operator: "equals", value: null},
             recordClick: function (viewer, record, recordNum, field, fieldNum, value, rawValue) {
-
                 this.optionCriteria.value = record.id;
-
-                console.log(this.optionCriteria)
-
                 return false;
             }
         },
@@ -310,21 +251,21 @@ contractTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
             title: "<spring:message code='global.form.save'/>",
             icon: "pieces/16/save.png",
             click: function () {
-                contractTab.dynamicForm.main.validate();
-                if (contractTab.dynamicForm.main.hasErrors())
-                    return;
+                // contractTab.dynamicForm.main.validate();
+                // if (contractTab.dynamicForm.main.hasErrors())
+                //     return;
                 let data = contractTab.dynamicForm.main.getValues();
 
                 data.contractDetails = [];
-                contractTab.sectionStack.contract.sections.forEach(q => {
+                contractTab.sectionStack.contract.sections.forEach(section => {
                     let contractDetailObj = {
-                        contractDetailTypeId: q.name,
-                        id: q.contractDetailId,
+                        contractDetailTypeId: section.name,
+                        id: section.contractDetailId,
                         contractDetailValues: []
                     };
 
                     // dynamicForm
-                    q.items[0].fields.filter(x => x.isBaseItem == null).forEach(x => {
+                    section.getSectionStack().getMembers().get(1).fields.filter(x => x.isBaseItem == null).forEach(x => {
                         contractDetailObj.contractDetailValues.push({
                             id: x.contractDetailValueId,
                             name: x.name,
@@ -332,32 +273,45 @@ contractTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
                             title: x.title,
                             reference: x.reference,
                             type: x.paramType,
-                            value: q.items[0].values[x.name],
+                            value: section.getSectionStack().getMembers().get(1).values[x.name],
                             unitId: x.unitId,
                             required: (x.required == null) ? false : x.required,
-                            contractDetailId: q.contractDetailId,
+                            contractDetailId: section.contractDetailId,
                             estatus: x.estatus,
                             editable: x.editable
                         });
                     });
 
-                    /*//listGrid
-                    q.items[1].getAllData().filter(x => x.isBaseItem == undefined).forEach(x => {
-                        contractDetailObj.contractDetailValues.push({
-                            id: x.contractDetailValueId,
-                            name: "Contract Shipment",
-                            key: "ContractShipment",
-                            reference: "ContractShipment",
-                            type: "ListOfReference",
-                            value: x.id,
-                            referenceJsonValue: JSON.stringify(x),
-                            unitId: null,
-                            required: false,
-                            contractDetailId: q.contractDetailId
-                            // estatus: x.estatus,
-                            // editable: x.editable
+                    section.getSectionStack().getMembers().slice(2, section.getSectionStack().getMembers().length).forEach(listGrid => {
+                        listGrid.saveAllEdits();
+                        let listGridData;
+                        if (listGrid.getData() instanceof Array) //create
+                            listGridData = listGrid.getData();
+                        else { //update
+                            listGridData = listGrid.getData().localData
+                        }
+                        listGridData.forEach(x => {
+                            Object.keys(x).forEach(listGridKey => {
+                                if (listGridKey.startsWith("_"))
+                                    delete x[listGridKey];
+                            });
+                            contractDetailObj.contractDetailValues.push({
+                                id: x.contractDetailValueId,
+                                name: "Not Important",
+                                title: "Not Important",
+                                key: "NotImportant",
+                                reference: listGrid.reference,
+                                type: "ListOfReference",
+                                value: x.id,
+                                referenceJsonValue: JSON.stringify(x),
+                                unitId: null,
+                                required: false,
+                                contractDetailId: section.contractDetailId,
+                                estatus: x.estatus,
+                                editable: x.editable
+                            });
                         });
-                    });*/
+                    });
 
                     data.contractDetails.push(contractDetailObj);
                 });
@@ -407,22 +361,6 @@ nicico.BasicFormUtil.getDefaultBasicForm(contractTab, "api/g-contract/", (creato
         contractTab.hLayout.saveOrExitHlayout
     ], "100%", 0.95 * innerHeight);
 });
-contractTab.sectionStack.mainSection = isc.SectionStack.create({
-    width: "100%",
-    height: "100%",
-    overflow: "hidden",
-    visibilityMode: "multiple",
-    animateSections: true,
-    sections: [{
-        expanded: true,
-        showHeader: false,
-        items: contractTab.vLayout.main
-    }, {
-        hidden: true,
-        expanded: false,
-        items: contractTab.listGrid.contractDetail
-    }]
-});
 
 //*************************************************** Functions ********************************************************
 
@@ -468,13 +406,14 @@ contractTab.method.editForm = function () {
         contractTab.window.main.show();
     }
 };
-contractTab.method.provideDetailContent = function (data) {};
+contractTab.method.provideDetailContent = function (data) {
+};
 contractTab.method.addSectionByContract = function (record) {
 
     record.contractDetails.forEach(q => {
 
         let sectionStackSectionObj = {
-            expanded: false,
+            expanded: true,
             contractDetailId: q.id,
             name: q.contractDetailTypeId,
             title: q.contractDetailType.titleEn,
@@ -524,7 +463,6 @@ contractTab.method.addSectionByContract = function (record) {
         let contractDetailDynamicForm = isc.DynamicForm.create({
             visibility: "hidden",
             width: "100%",
-            height: "100%",
             align: "center",
             titleAlign: "right",
             numCols: 8,
@@ -539,22 +477,19 @@ contractTab.method.addSectionByContract = function (record) {
         });
         sectionStackSectionObj.items.push(contractDetailDynamicForm);
 
-        q.contractDetailType.contractDetailTypeParams.filter(param => param.type === "ListOfReference").forEach(param => {
-            let listOfReferenceListGridId = 'listOfReferenceListGridId_' + Math.random().toString().substring(2, 8);
+        let contractDetailValueGroup = q.contractDetailValues.filter(x => x.type === 'ListOfReference').groupBy('reference');
+        Object.keys(contractDetailValueGroup).forEach(reference => {
+
             let contractDetailListGrid = isc.ListGrid.create({
-                ID: listOfReferenceListGridId,
                 width: "100%",
                 height: 300,
-                sortField: 1,
                 showRowNumbers: true,
                 canAutoFitFields: false,
                 allowAdvancedCriteria: true,
                 alternateRecordStyles: true,
                 selectionType: "single",
                 sortDirection: "ascending",
-                fields: getReferenceFields(param.reference),
-                dataSource: getReferenceDataSource(param.reference),
-                initialCriteria: getReferenceCriteria(q.contractDetailValues.map(p => p.value)),
+                fields: getReferenceFields(reference),
                 canEdit: true,
                 editEvent: "doubleClick",
                 autoSaveEdits: false,
@@ -564,6 +499,7 @@ contractTab.method.addSectionByContract = function (record) {
                 recordComponentPoolingMode: "recycle",
                 listEndEditAction: "next",
                 canRemoveRecords: true,
+                reference: reference,
                 gridComponents: ["header", "body", isc.ToolStrip.create({
                     width: "100%",
                     height: 24,
@@ -591,7 +527,20 @@ contractTab.method.addSectionByContract = function (record) {
                         })
                     ]
                 })]
-            })
+            });
+
+            getReferenceDataSource(reference).fetchData(
+                getReferenceCriteria(contractDetailValueGroup[reference].map(p => p.value)),
+                function (dsResponse, data) {
+                    contractDetailListGrid.setData(data);
+                    q.contractDetailValues.filter(x => x.type == 'ListOfReference').forEach((detailValue, index) => {
+                        data[index].contractDetailValueId = detailValue.id;
+                        data[index].estatus = detailValue.estatus;
+                        data[index].editable = detailValue.editable;
+                        data[index].version = detailValue.version;
+                    })
+                }
+            );
             sectionStackSectionObj.items.push(contractDetailListGrid);
         });
         contractTab.sectionStack.contract.addSection(sectionStackSectionObj);
@@ -600,7 +549,7 @@ contractTab.method.addSectionByContract = function (record) {
 contractTab.method.addSectionByContractDetailType = function (record) {
 
     let sectionStackSectionObj = {
-        expanded: false,
+        expanded: true,
         name: record.id,
         title: record.titleEn,
         contractDetailId: null,
@@ -657,9 +606,7 @@ contractTab.method.addSectionByContractDetailType = function (record) {
     sectionStackSectionObj.items.push(contractDetailDynamicForm);
 
     record.contractDetailTypeParams.filter(param => param.type === "ListOfReference").forEach(param => {
-        let listOfReferenceListGridId = 'listOfReferenceListGridId_' + Math.random().toString().substring(2, 8);
         let contractDetailListGrid = isc.ListGrid.create({
-            ID: listOfReferenceListGridId,
             width: "100%",
             height: 300,
             sortField: 1,
@@ -679,6 +626,7 @@ contractTab.method.addSectionByContractDetailType = function (record) {
             recordComponentPoolingMode: "recycle",
             listEndEditAction: "next",
             canRemoveRecords: true,
+            reference: param.reference,
             gridComponents: ["header", "body", isc.ToolStrip.create({
                 width: "100%",
                 height: 24,

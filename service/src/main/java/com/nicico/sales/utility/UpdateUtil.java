@@ -55,7 +55,10 @@ public class UpdateUtil {
                 }).
                 filter(q -> request.stream().noneMatch(p -> {
                     try {
-                        return requestIdMethod.invoke(p).equals(q);
+                        Object id = requestIdMethod.invoke(p);
+                        if (id == null)
+                            return false;
+                        return id.equals(q);
                     } catch (IllegalAccessException | InvocationTargetException e) {
 
                         log.error("Exception", e);
