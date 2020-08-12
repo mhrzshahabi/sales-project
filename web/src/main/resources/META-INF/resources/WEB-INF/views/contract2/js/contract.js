@@ -36,7 +36,7 @@ contractTab.dynamicForm.fields = BaseFormItems.concat([
         useInGrid: true,
         name: "no",
         width: "100%",
-        required: false,
+        required: true, //false
         // editorType: "StaticText",
         title: "<spring:message code='contract.form.no'/>"
     },
@@ -251,9 +251,9 @@ contractTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
             title: "<spring:message code='global.form.save'/>",
             icon: "pieces/16/save.png",
             click: function () {
-                // contractTab.dynamicForm.main.validate();
-                // if (contractTab.dynamicForm.main.hasErrors())
-                //     return;
+                contractTab.dynamicForm.main.validate();
+                if (contractTab.dynamicForm.main.hasErrors())
+                    return;
                 let data = contractTab.dynamicForm.main.getValues();
 
                 data.contractDetails = [];
@@ -282,6 +282,7 @@ contractTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
                         });
                     });
 
+                    // listGrids
                     section.getSectionStack().getMembers().slice(2, section.getSectionStack().getMembers().length).forEach(listGrid => {
                         listGrid.saveAllEdits();
                         let listGridData;

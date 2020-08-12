@@ -4,6 +4,7 @@ import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.dto.contract.ContractContactDTO;
+import com.nicico.sales.model.enumeration.CommercialRole;
 
 import java.util.List;
 
@@ -34,4 +35,6 @@ public interface IContractContactService {
     TotalResponse<ContractContactDTO.Info> search(NICICOCriteria request);
 
     SearchDTO.SearchRs<ContractContactDTO.Info> search(SearchDTO.SearchRq request);
+
+    ContractContactDTO.Info getByContractIdAndContactIdAndCommercialRole(Long contractId, Long contactId, CommercialRole commercialRole);
 }

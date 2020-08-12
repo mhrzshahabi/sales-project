@@ -36,7 +36,6 @@ public class ContractDTO2 {
     private Long agentBuyerId;
     private Long agentSellerId;
 
-    private List<ContractContactDTO.Info> contractContacts;
     private List<ContractDetailDTO2.Info> contractDetails;
 
     @Getter
@@ -47,6 +46,7 @@ public class ContractDTO2 {
 
         private Long id;
         private MaterialDTO.Info material;
+        private List<ContractContactDTO.Info> contractContacts;
 
         // Auditing
         private Date createdDate;

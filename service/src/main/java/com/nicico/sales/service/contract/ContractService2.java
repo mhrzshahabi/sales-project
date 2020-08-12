@@ -20,6 +20,7 @@ import com.nicico.sales.iservice.contract.IContractDetailService2;
 import com.nicico.sales.iservice.contract.IContractDetailValueService;
 import com.nicico.sales.iservice.contract.IContractService2;
 import com.nicico.sales.model.entities.contract.Contract2;
+import com.nicico.sales.model.entities.contract.ContractContact;
 import com.nicico.sales.model.entities.contract.ContractDetail2;
 import com.nicico.sales.model.entities.contract.ContractDetailValue;
 import com.nicico.sales.model.enumeration.CommercialRole;
@@ -73,11 +74,6 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
         if (request.getAgentSellerId() != null)
             createContractContacts(savedContract2.getId(), request.getAgentSellerId(), CommercialRole.AgentSeller);
 
-        savedContract2.setBuyerId(request.getBuyerId());
-        savedContract2.setSellerId(request.getSellerId());
-        savedContract2.setAgentBuyerId(request.getAgentBuyerId());
-        savedContract2.setAgentSellerId(request.getAgentSellerId());
-
         if (request.getContractDetails() != null && request.getContractDetails().size() > 0) {
             final List<ContractDetailDTO2.Create> contractDetailsRqs = modelMapper.map(request.getContractDetails(), new TypeToken<List<ContractDetailDTO2.Create>>() {
             }.getType());
@@ -130,6 +126,20 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
         contractContactService.create(contractContactDTO);
     }
 
+    private void updateContractContacts(Long newContractContactId, CommercialRole commercialRole, Contract2 contract2) {
+        ContractContactDTO.Update contractContactDTO = new ContractContactDTO.Update();
+        Optional<ContractContact> oldContractContact = contract2.getContractContacts().stream().filter(item -> item.getCommercialRole() == commercialRole).findFirst();
+        if (oldContractContact.isPresent()) {
+            ContractContactDTO.Info foundContractContact = contractContactService.getByContractIdAndContactIdAndCommercialRole(contract2.getId(), oldContractContact.get().getContact().getId(), commercialRole);
+            contractContactDTO.setId(foundContractContact.getId());
+            contractContactDTO.setContractId(contract2.getId());
+            contractContactDTO.setContactId(newContractContactId);
+            contractContactDTO.setCommercialRole(commercialRole);
+            contractContactService.update(contractContactDTO);
+        } else
+            createContractContacts(contract2.getId(), newContractContactId, commercialRole);
+    }
+
     @Override
     @Transactional(readOnly = true)
     @Action(value = ActionType.Search)
@@ -166,17 +176,12 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
         Contract2 contract2 = repository.findById(id).orElseThrow(() -> new NotFoundException(Contract2.class));
 
         // update ContractContacts
-        request.getContractContacts().forEach(q -> {
-            if (q.getCommercialRole() == CommercialRole.Buyer)
-                q.setContactId(request.getBuyerId());
-            if (q.getCommercialRole() == CommercialRole.Seller)
-                q.setContactId(request.getSellerId());
-            if (q.getCommercialRole() == CommercialRole.AgentBuyer)
-                q.setContactId(request.getAgentBuyerId());
-            if (q.getCommercialRole() == CommercialRole.AgentSeller)
-                q.setContactId(request.getAgentSellerId());
-            contractContactService.update(modelMapper.map(q, ContractContactDTO.Update.class));
-        });
+        updateContractContacts(request.getBuyerId(), CommercialRole.Buyer, contract2);
+        updateContractContacts(request.getSellerId(), CommercialRole.Seller, contract2);
+        if (request.getAgentBuyerId() != null)
+            updateContractContacts(request.getAgentBuyerId(), CommercialRole.AgentBuyer, contract2);
+        if (request.getAgentSellerId() != null)
+            updateContractContacts(request.getAgentSellerId(), CommercialRole.AgentSeller, contract2);
 
         //  update ContractDetails
         List<ContractDetailDTO2.Create> contractDetail4Insert = new ArrayList<>();
