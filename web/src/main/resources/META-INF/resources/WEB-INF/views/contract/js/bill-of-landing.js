@@ -1327,7 +1327,13 @@ BlTab.Fields.RemittanceFull = function () {
             type: "summary",
             baseStyle: "cell",
             recordSummaryFunction(_record, _grid, _value,) {
-                return _record.remittanceDetails.map(rd => rd.inventory.weightInspection.weightND).reduce((i, j) => i + j);
+                try {
+                    return _record.remittanceDetails.map(rd => rd.inventory.weightInspection.weightND).reduce((i, j) => i + j);
+
+                } catch (e) {
+                    dbg('recordSummaryFunction error', e)
+                    return 0;
+                }
             },
             title: "<spring:message code='billOfLanding.total.net.weight'/>",
             summaryFunction: "sum"
@@ -1337,7 +1343,12 @@ BlTab.Fields.RemittanceFull = function () {
             type: "summary",
             baseStyle: "cell",
             recordSummaryFunction(_record, _grid, _value,) {
-                return _record.remittanceDetails.map(rd => rd.inventory.weightInspection.weightGW).reduce((i, j) => i + j);
+                try {
+                    return _record.remittanceDetails.map(rd => rd.inventory.weightInspection.weightGW).reduce((i, j) => i + j);
+                } catch (e) {
+                    dbg('recordSummaryFunction error', e)
+                    return 0;
+                }
             },
             title: "<spring:message code='billOfLanding.total.gross.weight'/>",
             summaryFunction: "sum"
