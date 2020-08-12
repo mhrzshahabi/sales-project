@@ -2,6 +2,7 @@ package com.nicico.sales.model.entities.base;
 
 import com.nicico.sales.model.Auditable;
 import com.nicico.sales.model.entities.common.BaseEntity;
+import com.nicico.sales.model.entities.contract.Contract2;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.envers.AuditOverride;
@@ -9,6 +10,7 @@ import org.hibernate.envers.Audited;
 import org.hibernate.envers.NotAudited;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Getter
@@ -29,7 +31,13 @@ public class ContractShipment extends BaseEntity {
     @Column(name = "ID")
     private Long id;
 
-    @Column(name = "CONTRACT_ID")
+    @NotAudited
+    @Setter(AccessLevel.NONE)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "F_CONTRACT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "CONTRACTSHIPMENT2CONTRACT2"))
+    private Contract2 contract;
+
+    @Column(name = "F_CONTRACT_ID")
     private Long contractId;
 
     @Setter(AccessLevel.NONE)
