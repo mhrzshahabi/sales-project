@@ -52,11 +52,16 @@ var nicico;
             };
             // @ts-ignore
             isc.ListGrid.nicico.createListGrid = function (listGridProperties, fields, restDataSource) {
-                // @ts-ignore
-                return isc.ListGrid.create(Object.assign(listGridProperties, {
-                    fields: fields,
-                    dataSource: restDataSource
-                }));
+                return fields ?
+                    // @ts-ignore
+                    isc.ListGrid.create(Object.assign(listGridProperties, {
+                        fields: fields,
+                        dataSource: restDataSource
+                    })) :
+                    // @ts-ignore
+                    isc.ListGrid.create(Object.assign(listGridProperties, {
+                        dataSource: restDataSource
+                    }));
             };
             // @ts-ignore
             isc.RestDataSource.nicico = {};

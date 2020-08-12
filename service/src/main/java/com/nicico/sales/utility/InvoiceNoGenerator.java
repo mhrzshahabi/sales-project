@@ -11,13 +11,13 @@ import org.springframework.stereotype.Component;
 public class InvoiceNoGenerator {
 
     private final ShipmentCostInvoiceDAO shipmentCostInvoiceDAO;
-    private Long invoiceSeq;
 
     public String createInvoiceNo(String invoiceTypeTitle, Integer persianYear, Integer persianMonth, String matAbbreviation, String contractNo) {
 
         String base = "" + persianYear + "" + persianMonth + "/" + matAbbreviation + "-" + contractNo + "/";
-        invoiceSeq = shipmentCostInvoiceDAO.findNextInvoiceSequence();
+        Long invoiceSeq = shipmentCostInvoiceDAO.findNextInvoiceSequence();
 
+        // lotfan az enum estefade bshavad.
         switch (invoiceTypeTitle) {
             case "PROFORMA":
                 base = base + "01" + invoiceSeq;
@@ -63,7 +63,5 @@ public class InvoiceNoGenerator {
         }
 
         return base;
-
     }
-
 }

@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
@@ -153,6 +154,8 @@ public class RemittanceDetailDTO {
     @Accessors(chain = true)
     public static class OutRemittance {
         private RemittanceDTO.Create remittance;
+        @NotEmpty
+        @NotNull
         private List<RemittanceDetailDTO.OutCreate> remittanceDetails;
     }
 

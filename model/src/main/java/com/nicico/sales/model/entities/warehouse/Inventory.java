@@ -54,7 +54,7 @@ public class Inventory extends BaseEntity {
       "(select weight.id\n" +
               "from TBL_INSPECTION_REPORT ins\n" +
               "         inner join TBL_WEIGHING_INSPECTION weight on ins.ID = weight.F_INSPECTION_REPORT_ID\n" +
-              "where\n" +
+              "where\n  ROWNUM<2 and" +
               "      weight.F_INVENTORY_ID = id        AND\n" +
               "      ins.D_ISSUE_DATE =\n" +
               "      (select max(i.D_ISSUE_DATE)\n" +
