@@ -55,3 +55,4 @@ countryTab.dynamicForm.fields = [
 Object.assign(countryTab.listGrid.fields, countryTab.dynamicForm.fields);
 nicico.BasicFormUtil.getDefaultBasicForm(countryTab, "/api/country/");
 countryTab.dynamicForm.main.windowWidth = 500;
+countryTab.listGrid.main.sort('id');
