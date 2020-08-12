@@ -27,4 +27,16 @@
         </addColumn>
     </changeSet>
 
+    <changeSet author="Reza Mazloom" id="mazloom_029">
+        <addColumn tableName="TBL_CNTR_CONTRACT_DETAIL_VALUE">
+            <column name="C_TITLE" type="varchar2(255 CHAR)"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="Reza Mazloom" id="mazloom_030">
+        <addColumn tableName="TBL_CNTR_CONTRACT_DETAIL_VALUE_AUD">
+            <column name="C_TITLE" type="varchar2(255 CHAR)"/>
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>
