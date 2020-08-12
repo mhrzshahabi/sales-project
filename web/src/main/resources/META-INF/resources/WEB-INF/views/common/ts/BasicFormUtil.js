@@ -52,6 +52,7 @@ var nicico;
                     // @ts-ignore
                     isc.ToolStripButton.create({
                         visibility: "hidden",
+                        // @ts-ignore
                         role: "activateRecord",
                         icon: "[SKIN]/actions/configure.png",
                         title: "<spring:message code='global.active'/>",
@@ -66,6 +67,7 @@ var nicico;
                     // @ts-ignore
                     isc.ToolStripButton.create({
                         visibility: "hidden",
+                        // @ts-ignore
                         role: "deactivateRecord",
                         icon: "[SKIN]/actions/exclamation.png",
                         title: "<spring:message code='global.inactive'/>",
@@ -80,6 +82,7 @@ var nicico;
                     // @ts-ignore
                     isc.ToolStripButton.create({
                         visibility: "hidden",
+                        // @ts-ignore
                         role: "finalizeRecord",
                         icon: "[SKIN]/actions/accept.png",
                         title: "<spring:message code='global.form.accept'/>",
