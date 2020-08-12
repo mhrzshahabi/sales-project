@@ -1041,7 +1041,6 @@ inspectionReportTab.window.inspecReport.populateData = function (bodyWidget) {
     let assayInspectionRecord = [];
 
     //------------- Save Inspection Data in Object -----------
-
     let inspectionReportObj = bodyWidget.members.get(1).getValues();
 
     //---------------- Save Weight Data in Object ------------
@@ -1073,9 +1072,9 @@ inspectionReportTab.window.inspecReport.populateData = function (bodyWidget) {
     //--------------- Save Assay Data in Object --------------
     inspectionReportTab.variable.allCols = bodyWidget.members.get(2).tabs.get(1).pane.members.get(1).fields.length;
     inspectionReportTab.variable.allME = bodyWidget.members.get(2).tabs.get(1).pane.members.get(1).fields;
+
     bodyWidget.members.get(2).tabs.get(1).pane.members.get(1).selectAllRecords();
-    let records = [];
-    records = bodyWidget.members.get(2).tabs.get(1).pane.members.get(1).getSelectedRecords();
+    let records = bodyWidget.members.get(2).tabs.get(1).pane.members.get(1).getSelectedRecords();
     records.sortByProperty("inventoryId", true);
     records.forEach(function (assayRecord, index) {
 
@@ -1086,15 +1085,15 @@ inspectionReportTab.window.inspecReport.populateData = function (bodyWidget) {
             assayInspectionObj.labName = bodyWidget.members.get(2).tabs.get(1).pane.members.get(0).getItem("labName").getValue();
             assayInspectionObj.labPlace = bodyWidget.members.get(2).tabs.get(1).pane.members.get(0).getItem("labPlace").getValue();
             assayInspectionObj.id = bodyWidget.members.get(2).tabs.get(1).pane.members.get(1).getField(i).ids[index];
-            console.log("!!!index: ", index);
-            console.log("!!!assayRecord: ", assayRecord);
-            console.log("!!!assayInspectionObj.id: ", assayInspectionObj.id);
             assayInspectionObj.version = bodyWidget.members.get(2).tabs.get(1).pane.members.get(1).getField(i).versions[index];
             assayInspectionObj.value = NumberUtil.parseInt(bodyWidget.members.get(2).tabs.get(1).pane.members.get(1).getCellValue(assayRecord, index, i));
             assayInspectionObj.materialElementId = bodyWidget.members.get(2).tabs.get(1).pane.members.get(1).fields.get(i).meId;
             assayInspectionObj.inventoryId = assayRecord.inventoryId;
-
+            // console.log("!!!index: ", index);
+            // console.log("!!!assayRecord: ", assayRecord);
+            // console.log("!!!assayInspectionObj.id: ", assayInspectionObj.id);
             console.log("$$$$ assayInspectionObj: " + JSON.stringify(assayInspectionObj));
+
             assayInspectionRecord.push(assayInspectionObj);
         }
     });
