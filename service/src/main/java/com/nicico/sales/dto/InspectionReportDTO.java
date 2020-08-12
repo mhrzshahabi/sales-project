@@ -1,6 +1,5 @@
 package com.nicico.sales.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.nicico.sales.model.enumeration.EStatus;
 import com.nicico.sales.model.enumeration.InspectionRateValueType;
@@ -24,7 +23,6 @@ public class InspectionReportDTO {
     private String inspectionNO;
     private Long inspectorId;
     private String inspectionPlace;
-    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date issueDate;
     private Long sellerId;
     private Long buyerId;

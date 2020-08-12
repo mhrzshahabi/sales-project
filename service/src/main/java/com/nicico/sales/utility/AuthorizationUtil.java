@@ -59,10 +59,10 @@ public class AuthorizationUtil {
 
     public void checkStandardPermission(String permissionKey) {
 
-//        Locale locale = LocaleContextHolder.getLocale();
-//        log.debug(messageSource.getMessage("logging.check.authority", new Object[]{permissionKey}, locale));
-//        if (!evaluatePermissionKey(permissionKey))
-//            throw new UnAuthorizedException(permissionKey);
+        Locale locale = LocaleContextHolder.getLocale();
+        log.debug(messageSource.getMessage("logging.check.authority", new Object[]{permissionKey}, locale));
+        if (!evaluatePermissionKey(permissionKey))
+            throw new UnAuthorizedException(permissionKey);
     }
 
     private Boolean evaluatePermissionKey(String permissionKey) {
