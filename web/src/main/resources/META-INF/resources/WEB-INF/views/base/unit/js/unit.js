@@ -11,6 +11,7 @@ unitTab.dynamicForm.fields = BaseFormItems.concat([
         title: "<spring:message code='unit.nameFa'/>",
         required: true,
         width: "100%",
+        keyPressFilter: "^[\u0600-\u06FF\uFB8A\u067E\u0686\u06AF\u200C\u200F]*$",
         validators: [
             {
                 type:"required",
@@ -23,6 +24,7 @@ unitTab.dynamicForm.fields = BaseFormItems.concat([
         type: 'text',
         required: true,
         width: "100%",
+        keyPressFilter: "^[a-z|A-Z]*$",
         validators: [
             {
                 type:"required",

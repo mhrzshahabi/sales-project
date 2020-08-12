@@ -26,6 +26,7 @@ public class InventoryDTO {
     @Accessors(chain = true)
     public static class InfoWithoutRemittanceDetail extends InventoryDTO {
         private Long id;
+        private WeightInspectionDTO.InfoWithoutInspectionReportAndInventory weightInspection;
         private MaterialItemDTO.Info materialItem;
         // Auditing
         private Date createdDate;

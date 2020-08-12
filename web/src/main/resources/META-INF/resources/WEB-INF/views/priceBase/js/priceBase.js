@@ -153,6 +153,7 @@ priceBaseTab.dynamicForm.fields = BaseFormItems.concat([
         type: "float",
         length: 11,
         title: "<spring:message code='priceBase.price'/>",
+        keyPressFilter : "[0-9.]",
         validator: [
             {
                 type: "regexp",
@@ -160,6 +161,9 @@ priceBaseTab.dynamicForm.fields = BaseFormItems.concat([
                 validateOnChange: true,
             }
         ],
+        formatCellValue: function (value, record, rowNum, colNum) {
+            return `<span style="font-weight: bolder; font-size: small;">` + value + `</span>`;
+        }
     }
 ]);
 
