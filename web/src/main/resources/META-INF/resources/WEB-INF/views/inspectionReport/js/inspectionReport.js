@@ -592,8 +592,13 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
     {
         name: "issueDate",
         title: "<spring:message code='inspectionReport.IssueDate'/>",
-        type: "date",
-        wrapTitle: false
+        type: "dateTime",
+        editorType: "date",
+        wrapTitle: false,
+        dateFormatter: "yyyy-MM-dd HH:mm:ss",
+        // formatValue: function (value) {
+        //     return new Date(value);
+        // }
     },
     {
         name: "inventoryId",
@@ -954,6 +959,15 @@ inspectionReportTab.tab.inspecTabs = isc.TabSet.create({
 
 //***************************************************** FUNCTIONS *************************************************
 
+inspectionReportTab.method.clearForm = function () {
+    inspectionReportTab.dynamicForm.material.clearValues();
+    inspectionReportTab.dynamicForm.inspecReport.clearValues();
+    inspectionReportTab.dynamicForm.assayLab.clearValues();
+    inspectionReportTab.listGrid.weightElement.setData([]);
+    inspectionReportTab.listGrid.assayElement.setData([]);
+    inspectionReportTab.listGrid.assayElement.setFields([]);
+};
+
 inspectionReportTab.method.setWeightElementListRows = function (selectedInventories) {
 
     inspectionReportTab.listGrid.weightElement.setData([]);
@@ -1043,6 +1057,8 @@ inspectionReportTab.window.inspecReport.populateData = function (bodyWidget) {
     //------------- Save Inspection Data in Object -----------
     let inspectionReportObj = bodyWidget.members.get(1).getValues();
 
+    inspectionReportTab.listGrid.weightElement.endEditing();
+    inspectionReportTab.listGrid.assayElement.endEditing();
     //---------------- Save Weight Data in Object ------------
     bodyWidget.members.get(2).tabs.get(0).pane.members.get(0).selectAllRecords();
     bodyWidget.members.get(2).tabs.get(0).pane.members.get(0).getSelectedRecords().forEach(function (weightRecord, element) {
@@ -1151,12 +1167,7 @@ inspectionReportTab.window.inspecReport.okCallBack = function (inspectionReportO
 };
 
 inspectionReportTab.window.inspecReport.cancelCallBack = function () {
-    inspectionReportTab.dynamicForm.material.clearValues();
-    inspectionReportTab.dynamicForm.inspecReport.clearValues();
-    inspectionReportTab.dynamicForm.assayLab.clearValues();
-    inspectionReportTab.listGrid.weightElement.setData([]);
-    inspectionReportTab.listGrid.assayElement.setData([]);
-    inspectionReportTab.listGrid.assayElement.setFields([]);
+    inspectionReportTab.method.clearForm();
 };
 
 inspectionReportTab.method.refreshData = function () {
@@ -1165,6 +1176,7 @@ inspectionReportTab.method.refreshData = function () {
 
 inspectionReportTab.method.newForm = function () {
     inspectionReportTab.variable.method = "POST";
+    inspectionReportTab.method.clearForm();
     inspectionReportTab.window.inspecReport.justShowForm();
 };
 

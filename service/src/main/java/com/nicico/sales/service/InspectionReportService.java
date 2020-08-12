@@ -14,17 +14,15 @@ import com.nicico.sales.model.entities.base.InspectionReport;
 import com.nicico.sales.model.entities.base.WeightInspection;
 import com.nicico.sales.utility.UpdateUtil;
 import lombok.RequiredArgsConstructor;
+import org.exolab.castor.types.DateTime;
 import org.modelmapper.TypeToken;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.Console;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 @RequiredArgsConstructor
 @Service
@@ -41,6 +39,12 @@ public class InspectionReportService extends GenericService<InspectionReport, Lo
     public InspectionReportDTO.Info create(InspectionReportDTO.Create request) {
 
         InspectionReportDTO.Info inspectionReportDTO = super.create(request);
+
+        Locale locale = LocaleContextHolder.getLocale();
+        if (request.getWeightInspections().size() == 0) throw new SalesException2(ErrorType.Unknown, "", messageSource.getMessage("weight-inspection.exception.notFound", null, locale));
+
+        if (request.getAssayInspections().size() == 0) throw new SalesException2(ErrorType.Unknown, "", messageSource.getMessage("assay-inspection.exception.notFound", null, locale));
+
 
         request.getWeightInspections().forEach(item -> item.setInspectionReportId(inspectionReportDTO.getId()));
         weightInspectionService.createAll(modelMapper.map(request.getWeightInspections(), new TypeToken<List<WeightInspectionDTO.Create>>() {
