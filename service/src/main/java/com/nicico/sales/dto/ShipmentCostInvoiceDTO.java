@@ -95,6 +95,7 @@ public class ShipmentCostInvoiceDTO {
         @NotNull
         @ApiModelProperty(required = true)
         private Long id;
+        private List<EStatus> eStatus;
     }
 
     @Getter
