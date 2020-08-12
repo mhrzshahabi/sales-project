@@ -217,7 +217,7 @@ var nicico;
                 members: [creator.toolStrip.main, creator.listGrid.main]
             });
         };
-        BasicFormUtil.getDefaultBasicForm = function (creator, restControllerUrl) {
+        BasicFormUtil.getDefaultBasicForm = function (creator, restControllerUrl, createWindowHook) {
             // @ts-ignore
             creator.variable.url += restControllerUrl.replaceAll(new RegExp("^/|/$"), '') + '/';
             this.createDynamicForm(creator);
@@ -232,6 +232,8 @@ var nicico;
             // </c:if>
             this.createListGridMenu(creator);
             this.createToolStrip(creator);
+            if (createWindowHook && createWindowHook instanceof Function)
+                createWindowHook(creator);
             this.createVLayout(creator);
             // @ts-ignore
             return creator.vLayout.main;

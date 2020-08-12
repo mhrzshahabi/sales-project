@@ -46,6 +46,7 @@ public class ContractDTO2 {
     public static class Info extends ContractDTO2 {
 
         private Long id;
+        private MaterialDTO.Info material;
 
         // Auditing
         private Date createdDate;

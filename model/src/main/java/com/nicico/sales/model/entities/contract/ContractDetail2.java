@@ -54,6 +54,6 @@ public class ContractDetail2 extends BaseEntity {
     private Long contractDetailTypeId;
 
     @NotAudited
-    @OneToMany(mappedBy = "contractDetail", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "contractDetail", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<ContractDetailValue> contractDetailValues;
 }

@@ -136,6 +136,11 @@
             COPPER_CATHOD: 2,
             COPPER_CONCENTRATES: 3
         },
+        materialValueMap: {
+            1: "MOLYBDENUM OXIDE",
+            2: "COPPER CATHOD",
+            3: "COPPER CONCENTRATES"
+        },
         invoiceType: {
             FINAL: 1,
             PROVISIONAL: 2,
@@ -394,18 +399,8 @@
         filterUsingText: '<spring:message code="global.grid.filterUsingText" />',
         groupByText: '<spring:message code="global.grid.groupByText" />',
         freezeFieldText: '<spring:message code="global.grid.freezeFieldText" />',
-        getAllData: function () {
-
-            let data = [...this.getData()];
-            // let allEditRows = this.getAllEditRows();
-            // for (let i = 0; i < allEditRows.length; i++)
-            //     data.push({...this.getEditedRecord(allEditRows[i])});
-
-            return data;
-        },
         validateAllData: function () {
-
-            for (let i = 0; i < this.getAllData().length; i++)
+            for (let i = 0; i < this.getData().length; i++)
                 if (!this.validateRecord(i))
                     return false;
 
