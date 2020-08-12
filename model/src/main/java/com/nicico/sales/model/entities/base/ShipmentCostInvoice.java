@@ -36,8 +36,7 @@ public class ShipmentCostInvoice extends BaseEntity {
     @Column(name = "C_INVOICE_NO_PAPER", nullable = false)
     private String invoiceNoPaper;
 
-    @NotNull
-    @Column(name = "C_INVOICE_NO", nullable = false)
+    @Column(name = "C_INVOICE_NO")
     private String invoiceNo;
 
     @NotNull

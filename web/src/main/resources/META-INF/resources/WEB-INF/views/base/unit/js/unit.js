@@ -11,12 +11,19 @@ unitTab.dynamicForm.fields = BaseFormItems.concat([
         title: "<spring:message code='unit.nameFa'/>",
         required: true,
         width: "100%",
-        keyPressFilter: "^[\u0600-\u06FF\uFB8A\u067E\u0686\u06AF\u200C\u200F]*$",
+        keyPressFilter: "[\u0600-\u06FF\uFB8A\u067E\u0686\u06AF\u200C\u200F ]",
+        length: 20,
         validators: [
             {
-                type:"required",
+                type: "required",
                 validateOnChange: true
-            }]
+            },
+            {
+                type: "regexp",
+                expression: "^[\u0600-\u06FF\uFB8A\u067E\u0686\u06AF\u200C\u200F ]*$",
+                validateOnChange: true
+            }
+        ]
     },
     {
         name: "nameEN",
@@ -24,10 +31,16 @@ unitTab.dynamicForm.fields = BaseFormItems.concat([
         type: 'text',
         required: true,
         width: "100%",
-        keyPressFilter: "^[a-z|A-Z]*$",
+        length: 20,
+        keyPressFilter: "[A-Za-z ]",
         validators: [
             {
-                type:"required",
+                type: "required",
+                validateOnChange: true
+            },
+            {
+                type: "regexp",
+                expression: "^[A-Za-z ]*$",
                 validateOnChange: true
             }]
     },
@@ -49,7 +62,7 @@ unitTab.dynamicForm.fields = BaseFormItems.concat([
         filterOperator: "equals",
         valueMap: JSON.parse('${Enum_CategoryUnit}'),
     }
-    
+
 ]);
 Object.assign(unitTab.listGrid.fields, unitTab.dynamicForm.fields);
 nicico.BasicFormUtil.getDefaultBasicForm(unitTab, "api/unit/");

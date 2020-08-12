@@ -18,7 +18,7 @@ import java.util.List;
 @Setter
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class WeightInspectionDTO {
+public abstract class WeightInspectionDTO {
 
     private WeighingType weighingType;
     private BigDecimal weightGW;
@@ -42,8 +42,8 @@ public class WeightInspectionDTO {
 
             BigDecimal weightGW = getWeightGW();
             BigDecimal weightND = getWeightND();
-            if(weightGW == null) weightGW = BigDecimal.ZERO;
-            if(weightND == null) weightND = BigDecimal.ZERO;
+            if (weightGW == null) weightGW = BigDecimal.ZERO;
+            if (weightND == null) weightND = BigDecimal.ZERO;
 
             return weightGW.subtract(weightND);
         }
@@ -81,13 +81,13 @@ public class WeightInspectionDTO {
     }
 
 
-     @Getter
+    @Getter
     @Setter
     @Accessors(chain = true)
     @ApiModel("WeightInspectionInfoWithoutInspectionReport")
     public static class InfoWithoutInspectionReport extends InfoWithoutInspectionReportAndInventory {
-         private InventoryDTO.Info inventory;
-     }
+        private InventoryDTO.Info inventory;
+    }
 
     @Getter
     @Setter
