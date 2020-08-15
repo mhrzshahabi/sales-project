@@ -201,12 +201,6 @@ contractTab.listGrid.contractDetailType = isc.ListGrid.nicico.getDefault(
 
             var fieldName = this.getFieldName(colNum);
             if (fieldName === "addIcon") {
-
-                let recordCanvas = isc.HLayout.create(
-                    {
-                        width: "100%",
-                        align: "center"
-                    });
                 return isc.ImgButton.create(
                     {
                         width: 16,
@@ -266,7 +260,6 @@ contractTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
                         contractDetailValues: []
                     };
 
-                    debugger;
                     // dynamicForm
                     section.items[0].fields.filter(x => x.isBaseItem == null).forEach(x => {
                         contractDetailObj.contractDetailValues.push({
@@ -285,11 +278,9 @@ contractTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
                         });
                     });
 
-                    debugger;
                     // listGrids
                     section.items.slice(1, section.items.length).forEach(listGrid => {
                         listGrid.saveAllEdits();
-                        debugger;
                         let listGridData;
                         if (listGrid.getData() instanceof Array) //create
                             listGridData = listGrid.getData();
@@ -452,11 +443,14 @@ contractTab.method.addSectionByContract = function (record) {
             field.title = detailValue.title;
             field.paramType = detailValue.type;
             field.reference = detailValue.reference;
-            field.defaultValue = detailValue.value;
-            if (field.defaultValue === "false")
-                field.defaultValue = false;
-            if (field.defaultValue === "true")
-                field.defaultValue = true;
+            field.value = detailValue.value;
+            if (field.value === "false")
+                field.value = false;
+            if (field.value === "true")
+                field.value = true;
+            if (field.paramType === 'GeorgianDate'){
+                console.log("111111", new Date(detailValue.value))
+                field.value = new Date(detailValue.value);}
             field.required = detailValue.required;
             field.contractDetailValueId = detailValue.id;
             field.estatus = detailValue.estatus;
@@ -587,7 +581,7 @@ contractTab.method.addSectionByContractDetailType = function (record) {
         field.title = param.name;
         field.paramType = param.type;
         field.reference = param.reference;
-        field.defaultValue = param.defaultValue;
+        field.value = param.defaultValue;
         field.required = param.required;
 
         Object.assign(field, getFieldProperties(field.paramType, field.reference));
@@ -641,7 +635,6 @@ contractTab.method.addSectionByContractDetailType = function (record) {
                         icon: "pieces/16/icon_add.png",
                         title: "<spring:message code='global.add'/>",
                         click: function () {
-                            debugger;
                             contractDetailListGrid.startEditingNew();
                         }
                     }),

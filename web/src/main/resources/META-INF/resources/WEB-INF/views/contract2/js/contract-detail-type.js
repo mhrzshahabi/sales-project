@@ -295,10 +295,6 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
                         contractDetailTypeTab.dialog.notSelected();
                     else if (record.editable === false)
                         contractDetailTypeTab.dialog.notEditable();
-                    else if (record.estatus.contains(Enums.eStatus2.Final))
-                        contractDetailTypeTab.dialog.finalRecord();
-                    else if (record.estatus.contains(Enums.eStatus2.DeActive))
-                        contractDetailTypeTab.dialog.inactiveRecord();
                     else if (!record.type.includes('Reference'))
                         isc.Dialog.create({
                             message: "<spring:message code='contract-detail-type.window.type-must-reference'/>",
@@ -317,10 +313,6 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
                             contractDetailTypeTab.dialog.notSelected();
                         else if (record.editable === false)
                             contractDetailTypeTab.dialog.notEditable();
-                        else if (record.estatus.contains(Enums.eStatus2.DeActive))
-                            contractDetailTypeTab.dialog.inactiveRecord();
-                        else if (record.estatus.contains(Enums.eStatus2.Final))
-                            contractDetailTypeTab.dialog.finalRecord();
                         else {
 
                             contractDetailTypeTab.window.formUtil.populateData = function (body) {
@@ -375,10 +367,6 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
                         contractDetailTypeTab.dialog.notSelected();
                     else if (record.editable === false)
                         contractDetailTypeTab.dialog.notEditable();
-                    else if (record.estatus.contains(Enums.eStatus2.DeActive))
-                        contractDetailTypeTab.dialog.inactiveRecord();
-                    else if (record.estatus.contains(Enums.eStatus2.Final))
-                        contractDetailTypeTab.dialog.finalRecord();
                     else {
 
                         let recordType = record[contractDetailTypeTab.dynamicForm.paramFields.type.name];
