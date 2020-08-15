@@ -448,9 +448,8 @@ contractTab.method.addSectionByContract = function (record) {
                 field.value = false;
             if (field.value === "true")
                 field.value = true;
-            if (field.paramType === 'GeorgianDate'){
-                console.log("111111", new Date(detailValue.value))
-                field.value = new Date(detailValue.value);}
+            if (field.paramType === 'GeorgianDate')
+                field.value = new Date(detailValue.value);
             field.required = detailValue.required;
             field.contractDetailValueId = detailValue.id;
             field.estatus = detailValue.estatus;
