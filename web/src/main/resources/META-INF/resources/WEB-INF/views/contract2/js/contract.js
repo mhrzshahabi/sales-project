@@ -256,6 +256,8 @@ contractTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
                     return;
                 let data = contractTab.dynamicForm.main.getValues();
 
+                contractTab.sectionStack.contract.expandSection(contractTab.sectionStack.contract.sections);
+
                 data.contractDetails = [];
                 contractTab.sectionStack.contract.sections.forEach(section => {
                     let contractDetailObj = {
@@ -264,8 +266,9 @@ contractTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
                         contractDetailValues: []
                     };
 
+                    debugger;
                     // dynamicForm
-                    section.getSectionStack().getMembers().get(1).fields.filter(x => x.isBaseItem == null).forEach(x => {
+                    section.items[0].fields.filter(x => x.isBaseItem == null).forEach(x => {
                         contractDetailObj.contractDetailValues.push({
                             id: x.contractDetailValueId,
                             name: x.name,
@@ -273,7 +276,7 @@ contractTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
                             title: x.title,
                             reference: x.reference,
                             type: x.paramType,
-                            value: section.getSectionStack().getMembers().get(1).values[x.name],
+                            value: section.items[0].values[x.name],
                             unitId: x.unitId,
                             required: (x.required == null) ? false : x.required,
                             contractDetailId: section.contractDetailId,
@@ -282,9 +285,11 @@ contractTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
                         });
                     });
 
+                    debugger;
                     // listGrids
-                    section.getSectionStack().getMembers().slice(2, section.getSectionStack().getMembers().length).forEach(listGrid => {
+                    section.items.slice(1, section.items.length).forEach(listGrid => {
                         listGrid.saveAllEdits();
+                        debugger;
                         let listGridData;
                         if (listGrid.getData() instanceof Array) //create
                             listGridData = listGrid.getData();
@@ -414,7 +419,7 @@ contractTab.method.addSectionByContract = function (record) {
     record.contractDetails.forEach(q => {
 
         let sectionStackSectionObj = {
-            expanded: true,
+            expanded: false,
             contractDetailId: q.id,
             name: q.contractDetailTypeId,
             title: q.contractDetailType.titleEn,
@@ -550,7 +555,7 @@ contractTab.method.addSectionByContract = function (record) {
 contractTab.method.addSectionByContractDetailType = function (record) {
 
     let sectionStackSectionObj = {
-        expanded: true,
+        expanded: false,
         name: record.id,
         title: record.titleEn,
         contractDetailId: null,
@@ -636,6 +641,7 @@ contractTab.method.addSectionByContractDetailType = function (record) {
                         icon: "pieces/16/icon_add.png",
                         title: "<spring:message code='global.add'/>",
                         click: function () {
+                            debugger;
                             contractDetailListGrid.startEditingNew();
                         }
                     }),
