@@ -15,7 +15,7 @@ import javax.validation.constraints.NotNull;
 @Accessors(chain = true)
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
-@Table(name = "TBL_CNTR_CONTRACT_DETAIL_TYPE_TEMPLATE")
+@Table(name = "TBL_CNTR_CONTRACT_DETAIL_TYPE_TEMPLATE",uniqueConstraints = @UniqueConstraint(name = "UC_C_CODE_F_CONTRACT_DETAIL_TYPE_ID",columnNames = {"F_CONTRACT_DETAIL_TYPE_ID","C_CODE"}))
 public class ContractDetailTypeTemplate extends BaseEntity {
 
     @Id
@@ -24,7 +24,7 @@ public class ContractDetailTypeTemplate extends BaseEntity {
     private Long id;
 
     @NotEmpty
-    @Column(name = "C_CODE", nullable = false, unique = true)
+    @Column(name = "C_CODE", nullable = false)
     private String code;
 
     @NotEmpty

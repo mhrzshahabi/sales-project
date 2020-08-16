@@ -89,11 +89,16 @@ namespace nicico {
             // @ts-ignore
             isc.ListGrid.nicico.createListGrid = function (listGridProperties: Partial<isc.ListGrid>, fields: Array<Partial<isc.ListGridField>>, restDataSource?: isc.RestDataSource): isc.ListGrid {
 
-                // @ts-ignore
-                return isc.ListGrid.create(Object.assign(listGridProperties, {
-                    fields: fields,
-                    dataSource: restDataSource
-                }));
+                return fields ?
+                    // @ts-ignore
+                    isc.ListGrid.create(Object.assign(listGridProperties, {
+                        fields: fields,
+                        dataSource: restDataSource
+                    })) :
+                    // @ts-ignore
+                    isc.ListGrid.create(Object.assign(listGridProperties, {
+                        dataSource: restDataSource
+                    }));
             };
 
             // @ts-ignore

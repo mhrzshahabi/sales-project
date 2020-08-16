@@ -21,4 +21,17 @@
                                  initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_MATERIAL"
                                  validate="true"/>
     </changeSet>
+
+    <changeSet author="Reza Mazloom" id="mazloom_032">
+        <dropUniqueConstraint constraintName="UC_TBL_CNTR_CONTRACT_DETAIL_TYPEC_CODE_COL"
+                              tableName="TBL_CNTR_CONTRACT_DETAIL_TYPE"/>
+    </changeSet>
+
+    <changeSet author="Reza Mazloom" id="mazloom_031">
+        <dropUniqueConstraint constraintName="UC_TBL_CNTR_CONTRACT_DETAIL_TYPE_TEMPLATEC_CODE_COL" tableName="TBL_CNTR_CONTRACT_DETAIL_TYPE_TEMPLATE"/>
+    </changeSet>
+
+    <changeSet author="Reza Mazloom" id="mazloom_033">
+        <addUniqueConstraint columnNames="F_CONTRACT_DETAIL_TYPE_ID, C_CODE" constraintName="UC_C_CODE_F_CONTRACT_DETAIL_TYPE_ID" tableName="TBL_CNTR_CONTRACT_DETAIL_TYPE_TEMPLATE"/>
+    </changeSet>
 </databaseChangeLog>

@@ -5,22 +5,29 @@
 
     <changeSet author="j.azad" id="J.AZAD-045">
         <dropForeignKeyConstraint baseTableName="TBL_COST" constraintName="Cost2contactinspector_S"/>
-        <addForeignKeyConstraint baseColumnNames="SOURCE_INSPECTOR_ID" baseTableName="TBL_COST" constraintName="Cost2contactinspector_S" referencedColumnNames="ID" referencedTableName="TBL_CONTACT"/>
+        <addForeignKeyConstraint baseColumnNames="SOURCE_INSPECTOR_ID" baseTableName="TBL_COST"
+                                 constraintName="Cost2contactinspector_S" referencedColumnNames="ID"
+                                 referencedTableName="TBL_CONTACT"/>
     </changeSet>
 
     <changeSet author="j.azad" id="J.AZAD-046">
         <dropForeignKeyConstraint baseTableName="TBL_COST" constraintName="Cost2contactinspector_d"/>
-        <addForeignKeyConstraint baseColumnNames="DEST_INSPECTOR_ID" baseTableName="TBL_COST" constraintName="Cost2contactinspector_d" referencedColumnNames="ID" referencedTableName="TBL_CONTACT"/>
+        <addForeignKeyConstraint baseColumnNames="DEST_INSPECTOR_ID" baseTableName="TBL_COST"
+                                 constraintName="Cost2contactinspector_d" referencedColumnNames="ID"
+                                 referencedTableName="TBL_CONTACT"/>
     </changeSet>
 
     <changeSet author="j.azad" id="J.AZAD-047">
         <dropForeignKeyConstraint baseTableName="TBL_COST" constraintName="Cost2contactinsurance"/>
-        <addForeignKeyConstraint baseColumnNames="INSURANCE_ID" baseTableName="TBL_COST" constraintName="Cost2contactinsurance" referencedColumnNames="ID" referencedTableName="TBL_CONTACT"/>
+        <addForeignKeyConstraint baseColumnNames="INSURANCE_ID" baseTableName="TBL_COST"
+                                 constraintName="Cost2contactinsurance" referencedColumnNames="ID"
+                                 referencedTableName="TBL_CONTACT"/>
     </changeSet>
 
     <changeSet author="j.azad" id="J.AZAD-048">
         <dropForeignKeyConstraint baseTableName="TBL_COST" constraintName="Cost2shipment"/>
-        <addForeignKeyConstraint baseColumnNames="SHIPMENT_ID" baseTableName="TBL_COST" constraintName="Cost2shipment" referencedColumnNames="ID" referencedTableName="TBL_SHIPMENT"/>
+        <addForeignKeyConstraint baseColumnNames="SHIPMENT_ID" baseTableName="TBL_COST" constraintName="Cost2shipment"
+                                 referencedColumnNames="ID" referencedTableName="TBL_SHIPMENT"/>
     </changeSet>
 
 </databaseChangeLog>

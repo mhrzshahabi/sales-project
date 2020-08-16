@@ -295,10 +295,6 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
                         contractDetailTypeTab.dialog.notSelected();
                     else if (record.editable === false)
                         contractDetailTypeTab.dialog.notEditable();
-                    else if (record.estatus.contains(Enums.eStatus2.Final))
-                        contractDetailTypeTab.dialog.finalRecord();
-                    else if (record.estatus.contains(Enums.eStatus2.DeActive))
-                        contractDetailTypeTab.dialog.inactiveRecord();
                     else if (!record.type.includes('Reference'))
                         isc.Dialog.create({
                             message: "<spring:message code='contract-detail-type.window.type-must-reference'/>",
@@ -317,10 +313,6 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
                             contractDetailTypeTab.dialog.notSelected();
                         else if (record.editable === false)
                             contractDetailTypeTab.dialog.notEditable();
-                        else if (record.estatus.contains(Enums.eStatus2.DeActive))
-                            contractDetailTypeTab.dialog.inactiveRecord();
-                        else if (record.estatus.contains(Enums.eStatus2.Final))
-                            contractDetailTypeTab.dialog.finalRecord();
                         else {
 
                             contractDetailTypeTab.window.formUtil.populateData = function (body) {
@@ -375,10 +367,6 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
                         contractDetailTypeTab.dialog.notSelected();
                     else if (record.editable === false)
                         contractDetailTypeTab.dialog.notEditable();
-                    else if (record.estatus.contains(Enums.eStatus2.DeActive))
-                        contractDetailTypeTab.dialog.inactiveRecord();
-                    else if (record.estatus.contains(Enums.eStatus2.Final))
-                        contractDetailTypeTab.dialog.finalRecord();
                     else {
 
                         let recordType = record[contractDetailTypeTab.dynamicForm.paramFields.type.name];
@@ -563,8 +551,6 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
                 return 'nameFA';
             case 'Country':
                 return 'nameFa';
-            case 'Currency':
-                return 'nameFa';
             case 'Material':
                 return 'descp';
             case 'Port':
@@ -745,7 +731,7 @@ contractDetailTypeTab.listGrid.template = isc.ListGrid.create({
                 width: '100%',
                 required: true,
                 editorType: "RichTextItem",
-                defaultValue: this.getDefaultHTMLValue(contractDetailTypeTab.listGrid.param.getAllData()),
+                defaultValue: this.getDefaultHTMLValue(contractDetailTypeTab.listGrid.param.getData()),
                 keyPress: function () {
 
                     if (isc.EventHandler.getKey().toLowerCase() === "enter" && !isc.EventHandler.shiftKeyDown()) {
@@ -820,8 +806,8 @@ contractDetailTypeTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
                 contractDetailTypeTab.listGrid.template.saveAllEdits();
 
                 let data = contractDetailTypeTab.dynamicForm.detailType.getValues();
-                let allParams = contractDetailTypeTab.listGrid.param.getAllData();
-                let allTemplates = contractDetailTypeTab.listGrid.template.getAllData();
+                let allParams = contractDetailTypeTab.listGrid.param.getData();
+                let allTemplates = contractDetailTypeTab.listGrid.template.getData();
 
                 for (let i = 0; i < allParams.length; i++)
                     allParams[i][contractDetailTypeTab.dynamicForm.paramFields.contractDetailTypeId.name] = data.id;
@@ -830,6 +816,12 @@ contractDetailTypeTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
                 for (let i = 0; i < allTemplates.length; i++)
                     allTemplates[i][contractDetailTypeTab.dynamicForm.templateFields.contractDetailTypeId.name] = data.id;
                 data.contractDetailTypeTemplates = allTemplates;
+
+                if (data.contractDetailTypeParams.length == 0 || data.contractDetailTypeTemplates == 0) {
+                    contractDetailTypeTab.dialog.say("<spring:message code='contract-detail-type.window.validation.param.template.empty.check'/>",
+                        "<spring:message code='global.warning'/>");
+                    return;
+                }
 
                 isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                     actionURL: contractDetailTypeTab.variable.url,

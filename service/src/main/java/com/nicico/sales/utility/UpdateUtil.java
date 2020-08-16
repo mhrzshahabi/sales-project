@@ -11,6 +11,7 @@ import javax.validation.constraints.NotNull;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,21 +22,14 @@ public class UpdateUtil {
 
     private final ModelMapper modelMapper;
 
-    public <T, C, R, U, D> void fill(
-            Class<T> savedType, List<T> saved,
-            Class<R> requestType, List<R> request,
-            Class<C> _4InsertType, List<C> _4Insert,
-            Class<U> _4UpdateType, List<U> _4Update,
-            D _4Delete) throws InvocationTargetException, IllegalAccessException, NoSuchFieldException {
+    public <T, C, R, U, D> void fill(Class<T> savedType, List<T> saved, Class<R> requestType, List<R> request, Class<C> _4InsertType, List<C> _4Insert, Class<U> _4UpdateType, List<U> _4Update, D _4Delete) throws InvocationTargetException, IllegalAccessException, NoSuchFieldException {
 
         Class<D> _4DeleteType = (Class<D>) _4Delete.getClass();
 
         for (R r : request) {
 
-            if (getIdMethod(r.getClass(), "getId").invoke(r) == null)
-                _4Insert.add(modelMapper.map(r, _4InsertType));
-            else
-                _4Update.add(modelMapper.map(r, _4UpdateType));
+            if (getIdMethod(r.getClass(), "getId").invoke(r) == null) _4Insert.add(modelMapper.map(r, _4InsertType));
+            else _4Update.add(modelMapper.map(r, _4UpdateType));
         }
 
         @NotNull Method savedIdMethod = getIdMethod(savedType, "getId");
@@ -55,7 +49,10 @@ public class UpdateUtil {
                 }).
                 filter(q -> request.stream().noneMatch(p -> {
                     try {
-                        return requestIdMethod.invoke(p) == q;
+                        Object id = requestIdMethod.invoke(p);
+                        if (id == null)
+                            return false;
+                        return id.equals(q);
                     } catch (IllegalAccessException | InvocationTargetException e) {
 
                         log.error("Exception", e);
@@ -69,11 +66,16 @@ public class UpdateUtil {
     private <K> @NotNull Method getIdMethod(Class<K> clazz, String name) {
 
         try {
+            if (clazz == null) return null;
 
-            return clazz.getDeclaredMethod(name);
+            final Method[] methods = clazz.getDeclaredMethods();
+            final List<String> methodsName = Arrays.stream(methods).map(Method::getName).collect(Collectors.toList());
 
+            if (methodsName.contains(name))
+                return clazz.getDeclaredMethod(name);
+            else
+                return getIdMethod(clazz.getSuperclass(), name);
         } catch (NoSuchMethodException e) {
-
             e.printStackTrace();
             log.error("Exception", e);
         }

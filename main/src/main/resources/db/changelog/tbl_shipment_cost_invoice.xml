@@ -105,4 +105,10 @@
                         newDataType="NUMBER(10, 5)"/>
     </changeSet>
 
+    <changeSet author="MShahabi" id="1799887766554-038">
+        <dropNotNullConstraint tableName="TBL_SHIPMENT_COST_INVOICE"
+                               columnDataType="VARCHAR2(255 CHAR)"
+                               columnName="C_INVOICE_NO"/>
+    </changeSet>
+
 </databaseChangeLog>
