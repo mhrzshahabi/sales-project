@@ -232,7 +232,8 @@ contractTab.listGrid.contractDetailType = isc.ListGrid.nicico.getDefault(
     });
 contractTab.sectionStack.contract = isc.SectionStack.create({
     visibilityMode: "multiple",
-    margin: 15,
+    canDrag: true,
+    margin: 10,
     width: "100%",
     overflow: "auto",
     sections: []
@@ -471,7 +472,7 @@ contractTab.method.addSectionByContract = function (record) {
             align: "center",
             titleAlign: "right",
             numCols: 8,
-            margin: 10,
+            padding: 10,
             canSubmit: true,
             showErrorText: true,
             showErrorStyle: true,

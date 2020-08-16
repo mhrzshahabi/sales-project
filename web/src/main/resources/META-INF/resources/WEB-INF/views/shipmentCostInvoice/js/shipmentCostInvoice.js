@@ -219,32 +219,30 @@ shipmentCostInvoiceTab.restDataSource.percentPerYearRest = isc.MyRestDataSource.
 
 });
 
-let sellerCriteria = {
+shipmentCostInvoiceTab.variable.sellerCriteria = {
     _constructor: "AdvancedCriteria",
     operator: "and",
     criteria: [{fieldName: "commercialRole", operator: "iContains", value: "Seller"}]
 };
-
-let buyerCriteria = {
+shipmentCostInvoiceTab.variable.buyerCriteria = {
     _constructor: "AdvancedCriteria",
     operator: "and",
     criteria: [{fieldName: "commercialRole", operator: "iContains", value: "Buyer"}]
 };
-
-let financeUnitCriteria = {
+shipmentCostInvoiceTab.variable.financeUnitCriteria = {
     _constructor: "AdvancedCriteria",
     operator: "and",
     criteria: [{fieldName: "categoryUnit", operator: "equals", value: 0}]
 };
-
-let costTypeCriteria = {
+shipmentCostInvoiceTab.variable.costTypeCriteria = {
     _constructor: "AdvancedCriteria",
     operator: "and",
     criteria: [
         {fieldName: "id", operator: "notEqual", value: ImportantIDs.invoiceType.PERFORMA},
         {fieldName: "id", operator: "notEqual", value: ImportantIDs.invoiceType.PROVISIONAL},
         {fieldName: "id", operator: "notEqual", value: ImportantIDs.invoiceType.FINAL},
-        {fieldName: "id", operator: "notEqual", value: ImportantIDs.invoiceType.TRUSTY}
+        {fieldName: "id", operator: "notEqual", value: ImportantIDs.invoiceType.PI_TRUSTY},
+        {fieldName: "id", operator: "notEqual", value: ImportantIDs.invoiceType.FI_TRUSTY}
     ]
 };
 
@@ -320,7 +318,7 @@ shipmentCostInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
             ],
             fetchDataURL: shipmentCostInvoiceTab.variable.invoiceTypeUrl + "spec-list"
         }),
-        optionCriteria: costTypeCriteria,
+        optionCriteria: shipmentCostInvoiceTab.variable.costTypeCriteria,
         pickListProperties:
             {
                 showFilterEditor: true
@@ -493,7 +491,7 @@ shipmentCostInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
         pickListWidth: "500",
         pickListHeight: "300",
         optionDataSource: shipmentCostInvoiceTab.restDataSource.contactRest,
-        optionCriteria: sellerCriteria,
+        optionCriteria: shipmentCostInvoiceTab.variable.sellerCriteria,
         pickListProperties:
             {
                 showFilterEditor: true
@@ -537,7 +535,7 @@ shipmentCostInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
         pickListWidth: "500",
         pickListHeight: "300",
         optionDataSource: shipmentCostInvoiceTab.restDataSource.contactRest,
-        optionCriteria: buyerCriteria,
+        optionCriteria: shipmentCostInvoiceTab.variable.buyerCriteria,
         pickListProperties:
             {
                 showFilterEditor: true
@@ -609,7 +607,7 @@ shipmentCostInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
         pickListWidth: "500",
         pickListHeight: "300",
         optionDataSource: shipmentCostInvoiceTab.restDataSource.unitRest,
-        optionCriteria: financeUnitCriteria,
+        optionCriteria: shipmentCostInvoiceTab.variable.financeUnitCriteria,
         pickListProperties:
             {
                 showFilterEditor: true
@@ -664,7 +662,7 @@ shipmentCostInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
         pickListWidth: "500",
         pickListHeight: "300",
         optionDataSource: shipmentCostInvoiceTab.restDataSource.unitRest,
-        optionCriteria: financeUnitCriteria,
+        optionCriteria: shipmentCostInvoiceTab.variable.financeUnitCriteria,
         pickListProperties:
             {
                 showFilterEditor: true

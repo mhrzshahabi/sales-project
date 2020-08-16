@@ -7,14 +7,17 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum ContractDetailTypeReference {
 
-    Bank(1),
-    Contact(2),
-    Country(3),
-    Port(6),
-    Unit(7),
-    ContractShipment(7),
-    Enum_RateReference(8),
-    Enum_PriceBaseReference(9);
+    Bank(1, "REFERENCE"),
+    Contact(2, "REFERENCE"),
+    Country(3, "REFERENCE"),
+    Port(4, "REFERENCE"),
+    Unit(5, "REFERENCE"),
+
+    ContractShipment(6, "LIST OF REFERENCE"),
+
+    Enum_RateReference(7, "REFERENCE"),
+    Enum_PriceBaseReference(8, "REFERENCE");
 
     private final Integer id;
+    private final String type;
 }
