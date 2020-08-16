@@ -8,8 +8,28 @@
 
             insert INTO TBL_INVOICE_TYPE (ID,
             C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            TITLE) VALUES (1, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 'FINAL');
+
+            insert INTO TBL_INVOICE_TYPE (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            TITLE) VALUES (2, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 'PROVISIONAL');
+
+            insert INTO TBL_INVOICE_TYPE (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            TITLE) VALUES (3, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 'PERFORMA');
+
+            insert INTO TBL_INVOICE_TYPE (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            TITLE) VALUES (4, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 'PI TRUSTY');
+
+            insert INTO TBL_INVOICE_TYPE (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
             TITLE) VALUES (5, 'liquibase',current_timestamp,
-            null, null, 0, 1, 0, 'INSPECTION');
+            null, null, 0, 1, 0, 'FI TRUSTY');
 
             insert INTO TBL_INVOICE_TYPE (ID,
             C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
@@ -50,6 +70,11 @@
             C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
             TITLE) VALUES (13, 'liquibase',current_timestamp,
             null, null, 0, 1, 0, 'DEMURRAGE');
+
+            insert INTO TBL_INVOICE_TYPE (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            TITLE) VALUES (14, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 'INSPECTION');
 
         </sql>
     </changeSet>
