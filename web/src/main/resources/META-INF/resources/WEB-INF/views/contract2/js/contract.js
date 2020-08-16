@@ -30,108 +30,114 @@ contractTab.restDataSource.contractDetailTypeTemplate = isc.MyRestDataSource.cre
 });
 
 //******************************************************* FORMITEMS ****************************************************
-
-contractTab.dynamicForm.fields = BaseFormItems.concat([
-    {
-        useInGrid: true,
-        name: "no",
-        width: "100%",
-        required: true, //false
-        // editorType: "StaticText",
-        title: "<spring:message code='contract.form.no'/>"
-    },
-    {
-        useInGrid: true,
-        name: "date",
-        type: "date",
-        formatCellValue: function (value, record, rowNum, colNum, grid) {
-            return new Date(value);
+function contractTabDynamicFormFields() {
+    return BaseFormItems.concat([
+        {
+            useInGrid: true,
+            name: "no",
+            width: "100%",
+            required: true, //false
+            // editorType: "StaticText",
+            title: "<spring:message code='contract.form.no'/>"
         },
-        width: "100%",
-        required: true,
-        title: "<spring:message code='global.date'/>"
-    },
-    {
-        name: "affectFrom",
-        type: "date",
-        width: "100%",
-        required: true,
-        title: "affectFrom"
-    },
-    {
-        name: "affectUpTo",
-        type: "date",
-        width: "10%",
-        required: true,
-        title: "affectUpTo"
-    },
-    {
-        useInGrid: true,
-        name: "materialId",
-        width: "100%",
-        editorType: "SelectItem",
-        optionDataSource: isc.MyRestDataSource.create({
-            fields: [
-                {name: "id", title: "id", primaryKey: true, hidden: true},
-                {name: "code", title: "<spring:message code='goods.code'/> "},
-                {name: "descl"},
-                {name: "unitId"},
-                {name: "unit.nameEN"}
-            ],
-            fetchDataURL: "${contextPath}/api/material/spec-list"
-        }),
-        autoFetchData: false,
-        displayField: "descl",
-        valueField: "id",
-        required: true,
-        title: "<spring:message code='material.title'/>",
-        changed: function (form, item, value) {
+        {
+            useInGrid: true,
+            name: "date",
+            type: "date",
+            formatCellValue: function (value, record, rowNum, colNum, grid) {
+                return new Date(value);
+            },
+            width: "100%",
+            required: true,
+            title: "<spring:message code='global.date'/>"
+        },
+        {
+            name: "affectFrom",
+            title: "<spring:message code='contract.affect.from'/>",
+            type: "date",
+            width: "100%",
+            required: true,
+        },
+        {
+            name: "affectUpTo",
+            title: "<spring:message code='contract.affect.upto'/>",
+            type: "date",
+            width: "10%",
+            required: true,
+        },
+        {
+            useInGrid: true,
+            name: "materialId",
+            width: "100%",
+            editorType: "SelectItem",
+            optionDataSource: isc.MyRestDataSource.create({
+                fields: [
+                    {name: "id", title: "id", primaryKey: true, hidden: true},
+                    {name: "code", title: "<spring:message code='goods.code'/> "},
+                    {name: "descl"},
+                    {name: "unitId"},
+                    {name: "unit.nameEN"}
+                ],
+                fetchDataURL: "${contextPath}/api/material/spec-list"
+            }),
+            autoFetchData: false,
+            displayField: "descl",
+            valueField: "id",
+            required: true,
+            title: "<spring:message code='material.title'/>",
+            changed: function (form, item, value) {
 
-            contractTab.listGrid.contractDetailType.setCriteria({
-                operator: 'and',
-                criteria: [{
-                    fieldName: 'materialId',
-                    operator: 'equals',
-                    value: value
-                }]
-            });
-            contractTab.sectionStack.contract.getSectionNames().forEach(q => contractTab.sectionStack.contract.removeSection(q + ""));
+                contractTab.listGrid.contractDetailType.setCriteria({
+                    operator: 'and',
+                    criteria: [{
+                        fieldName: 'materialId',
+                        operator: 'equals',
+                        value: value
+                    }]
+                });
+                contractTab.sectionStack.contract.getSectionNames().forEach(q => contractTab.sectionStack.contract.removeSection(q + ""));
+            }
+        },
+        {
+            useInGrid: true,
+            name: "contractTypeId",
+            width: "100%",
+            editorType: "SelectItem",
+            optionDataSource: isc.MyRestDataSource.create({
+                fields: [
+                    {name: "id", title: "id", primaryKey: true, hidden: true},
+                    {name: "code", title: "<spring:message code='goods.code'/> "},
+                    {name: "titleFa"},
+                    {name: "titleEn"},
+                    {name: "description"}
+                ],
+                fetchDataURL: "${contextPath}/api/contract-type/spec-list"
+            }),
+            autoFetchData: false,
+            displayField: "titleEn",
+            valueField: "id",
+            required: true,
+            title: "<spring:message code='entity.contract-type'/>"
+        },
+        Object.assign(getContactByType("buyer"), {useInGrid: true}),
+        Object.assign(getContactByType("seller"), {useInGrid: true}),
+        Object.assign(getContactByType("agentBuyer"), {useInGrid: true}),
+        Object.assign(getContactByType("agentSeller"), {useInGrid: true}),
+        {
+            colSpan: 8,
+            width: "100%",
+            type: "TextArea",
+            name: "description",
+            title: "<spring:message code='global.description'/>"
         }
-    },
-    {
-        useInGrid: true,
-        name: "contractTypeId",
-        width: "100%",
-        editorType: "SelectItem",
-        optionDataSource: isc.MyRestDataSource.create({
-            fields: [
-                {name: "id", title: "id", primaryKey: true, hidden: true},
-                {name: "code", title: "<spring:message code='goods.code'/> "},
-                {name: "titleFa"},
-                {name: "titleEn"},
-                {name: "description"}
-            ],
-            fetchDataURL: "${contextPath}/api/contract-type/spec-list"
-        }),
-        autoFetchData: false,
-        displayField: "titleEn",
-        valueField: "id",
-        required: true,
-        title: "<spring:message code='entity.contract-type'/>"
-    },
-    Object.assign(getContactByType("buyer"), {useInGrid: true}),
-    Object.assign(getContactByType("seller"), {useInGrid: true}),
-    Object.assign(getContactByType("agentBuyer"), {useInGrid: true}),
-    Object.assign(getContactByType("agentSeller"), {useInGrid: true}),
-    {
-        colSpan: 8,
-        width: "100%",
-        type: "TextArea",
-        name: "description",
-        title: "<spring:message code='global.description'/>"
-    }
-]);
-Object.assign(contractTab.listGrid.fields, contractTab.dynamicForm.fields.filter(field => field.useInGrid));
+    ]);
+}
+
+contractTab.dynamicForm.fields = contractTabDynamicFormFields();
+contractTab.listGrid.fields = contractTabDynamicFormFields().filter(field => field.useInGrid || field.isBaseItem);
+contractTab.listGrid.fields.forEach(item => {
+    if (item.isBaseItem) item.hidden = false;
+});
 
 //******************************************************* COMPONENTS ***************************************************
 
