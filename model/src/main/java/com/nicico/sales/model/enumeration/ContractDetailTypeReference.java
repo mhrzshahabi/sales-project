@@ -10,7 +10,6 @@ public enum ContractDetailTypeReference {
     Bank(1),
     Contact(2),
     Country(3),
-    Currency(4),
     Port(6),
     Unit(7),
     ContractShipment(7),

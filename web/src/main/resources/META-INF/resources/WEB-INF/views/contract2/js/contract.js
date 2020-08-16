@@ -30,108 +30,114 @@ contractTab.restDataSource.contractDetailTypeTemplate = isc.MyRestDataSource.cre
 });
 
 //******************************************************* FORMITEMS ****************************************************
-
-contractTab.dynamicForm.fields = BaseFormItems.concat([
-    {
-        useInGrid: true,
-        name: "no",
-        width: "100%",
-        required: true, //false
-        // editorType: "StaticText",
-        title: "<spring:message code='contract.form.no'/>"
-    },
-    {
-        useInGrid: true,
-        name: "date",
-        type: "date",
-        formatCellValue: function (value, record, rowNum, colNum, grid) {
-            return new Date(value);
+function contractTabDynamicFormFields() {
+    return BaseFormItems.concat([
+        {
+            useInGrid: true,
+            name: "no",
+            width: "100%",
+            required: true, //false
+            // editorType: "StaticText",
+            title: "<spring:message code='contract.form.no'/>"
         },
-        width: "100%",
-        required: true,
-        title: "<spring:message code='global.date'/>"
-    },
-    {
-        name: "affectFrom",
-        type: "date",
-        width: "100%",
-        required: true,
-        title: "affectFrom"
-    },
-    {
-        name: "affectUpTo",
-        type: "date",
-        width: "10%",
-        required: true,
-        title: "affectUpTo"
-    },
-    {
-        useInGrid: true,
-        name: "materialId",
-        width: "100%",
-        editorType: "SelectItem",
-        optionDataSource: isc.MyRestDataSource.create({
-            fields: [
-                {name: "id", title: "id", primaryKey: true, hidden: true},
-                {name: "code", title: "<spring:message code='goods.code'/> "},
-                {name: "descl"},
-                {name: "unitId"},
-                {name: "unit.nameEN"}
-            ],
-            fetchDataURL: "${contextPath}/api/material/spec-list"
-        }),
-        autoFetchData: false,
-        displayField: "descl",
-        valueField: "id",
-        required: true,
-        title: "<spring:message code='material.title'/>",
-        changed: function (form, item, value) {
+        {
+            useInGrid: true,
+            name: "date",
+            type: "date",
+            formatCellValue: function (value, record, rowNum, colNum, grid) {
+                return new Date(value);
+            },
+            width: "100%",
+            required: true,
+            title: "<spring:message code='global.date'/>"
+        },
+        {
+            name: "affectFrom",
+            title: "<spring:message code='contract.affect.from'/>",
+            type: "date",
+            width: "100%",
+            required: true,
+        },
+        {
+            name: "affectUpTo",
+            title: "<spring:message code='contract.affect.upto'/>",
+            type: "date",
+            width: "10%",
+            required: true,
+        },
+        {
+            useInGrid: true,
+            name: "materialId",
+            width: "100%",
+            editorType: "SelectItem",
+            optionDataSource: isc.MyRestDataSource.create({
+                fields: [
+                    {name: "id", title: "id", primaryKey: true, hidden: true},
+                    {name: "code", title: "<spring:message code='goods.code'/> "},
+                    {name: "descl"},
+                    {name: "unitId"},
+                    {name: "unit.nameEN"}
+                ],
+                fetchDataURL: "${contextPath}/api/material/spec-list"
+            }),
+            autoFetchData: false,
+            displayField: "descl",
+            valueField: "id",
+            required: true,
+            title: "<spring:message code='material.title'/>",
+            changed: function (form, item, value) {
 
-            contractTab.listGrid.contractDetailType.setCriteria({
-                operator: 'and',
-                criteria: [{
-                    fieldName: 'materialId',
-                    operator: 'equals',
-                    value: value
-                }]
-            });
-            contractTab.sectionStack.contract.getSectionNames().forEach(q => contractTab.sectionStack.contract.removeSection(q + ""));
+                contractTab.listGrid.contractDetailType.setCriteria({
+                    operator: 'and',
+                    criteria: [{
+                        fieldName: 'materialId',
+                        operator: 'equals',
+                        value: value
+                    }]
+                });
+                contractTab.sectionStack.contract.getSectionNames().forEach(q => contractTab.sectionStack.contract.removeSection(q + ""));
+            }
+        },
+        {
+            useInGrid: true,
+            name: "contractTypeId",
+            width: "100%",
+            editorType: "SelectItem",
+            optionDataSource: isc.MyRestDataSource.create({
+                fields: [
+                    {name: "id", title: "id", primaryKey: true, hidden: true},
+                    {name: "code", title: "<spring:message code='goods.code'/> "},
+                    {name: "titleFa"},
+                    {name: "titleEn"},
+                    {name: "description"}
+                ],
+                fetchDataURL: "${contextPath}/api/contract-type/spec-list"
+            }),
+            autoFetchData: false,
+            displayField: "titleEn",
+            valueField: "id",
+            required: true,
+            title: "<spring:message code='entity.contract-type'/>"
+        },
+        Object.assign(getContactByType("buyer"), {useInGrid: true}),
+        Object.assign(getContactByType("seller"), {useInGrid: true}),
+        Object.assign(getContactByType("agentBuyer"), {useInGrid: true}),
+        Object.assign(getContactByType("agentSeller"), {useInGrid: true}),
+        {
+            colSpan: 8,
+            width: "100%",
+            type: "TextArea",
+            name: "description",
+            title: "<spring:message code='global.description'/>"
         }
-    },
-    {
-        useInGrid: true,
-        name: "contractTypeId",
-        width: "100%",
-        editorType: "SelectItem",
-        optionDataSource: isc.MyRestDataSource.create({
-            fields: [
-                {name: "id", title: "id", primaryKey: true, hidden: true},
-                {name: "code", title: "<spring:message code='goods.code'/> "},
-                {name: "titleFa"},
-                {name: "titleEn"},
-                {name: "description"}
-            ],
-            fetchDataURL: "${contextPath}/api/contract-type/spec-list"
-        }),
-        autoFetchData: false,
-        displayField: "titleEn",
-        valueField: "id",
-        required: true,
-        title: "<spring:message code='entity.contract-type'/>"
-    },
-    Object.assign(getContactByType("buyer"), {useInGrid: true}),
-    Object.assign(getContactByType("seller"), {useInGrid: true}),
-    Object.assign(getContactByType("agentBuyer"), {useInGrid: true}),
-    Object.assign(getContactByType("agentSeller"), {useInGrid: true}),
-    {
-        colSpan: 8,
-        width: "100%",
-        type: "TextArea",
-        name: "description",
-        title: "<spring:message code='global.description'/>"
-    }
-]);
-Object.assign(contractTab.listGrid.fields, contractTab.dynamicForm.fields.filter(field => field.useInGrid));
+    ]);
+}
+
+contractTab.dynamicForm.fields = contractTabDynamicFormFields();
+contractTab.listGrid.fields = contractTabDynamicFormFields().filter(field => field.useInGrid || field.isBaseItem);
+contractTab.listGrid.fields.forEach(item => {
+    if (item.isBaseItem) item.hidden = false;
+});
 
 //******************************************************* COMPONENTS ***************************************************
 
@@ -201,12 +207,6 @@ contractTab.listGrid.contractDetailType = isc.ListGrid.nicico.getDefault(
 
             var fieldName = this.getFieldName(colNum);
             if (fieldName === "addIcon") {
-
-                let recordCanvas = isc.HLayout.create(
-                    {
-                        width: "100%",
-                        align: "center"
-                    });
                 return isc.ImgButton.create(
                     {
                         width: 16,
@@ -256,6 +256,8 @@ contractTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
                     return;
                 let data = contractTab.dynamicForm.main.getValues();
 
+                contractTab.sectionStack.contract.expandSection(contractTab.sectionStack.contract.sections);
+
                 data.contractDetails = [];
                 contractTab.sectionStack.contract.sections.forEach(section => {
                     let contractDetailObj = {
@@ -265,7 +267,7 @@ contractTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
                     };
 
                     // dynamicForm
-                    section.getSectionStack().getMembers().get(1).fields.filter(x => x.isBaseItem == null).forEach(x => {
+                    section.items[0].fields.filter(x => x.isBaseItem == null).forEach(x => {
                         contractDetailObj.contractDetailValues.push({
                             id: x.contractDetailValueId,
                             name: x.name,
@@ -273,7 +275,7 @@ contractTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
                             title: x.title,
                             reference: x.reference,
                             type: x.paramType,
-                            value: section.getSectionStack().getMembers().get(1).values[x.name],
+                            value: section.items[0].values[x.name],
                             unitId: x.unitId,
                             required: (x.required == null) ? false : x.required,
                             contractDetailId: section.contractDetailId,
@@ -283,7 +285,7 @@ contractTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
                     });
 
                     // listGrids
-                    section.getSectionStack().getMembers().slice(2, section.getSectionStack().getMembers().length).forEach(listGrid => {
+                    section.items.slice(1, section.items.length).forEach(listGrid => {
                         listGrid.saveAllEdits();
                         let listGridData;
                         if (listGrid.getData() instanceof Array) //create
@@ -414,7 +416,7 @@ contractTab.method.addSectionByContract = function (record) {
     record.contractDetails.forEach(q => {
 
         let sectionStackSectionObj = {
-            expanded: true,
+            expanded: false,
             contractDetailId: q.id,
             name: q.contractDetailTypeId,
             title: q.contractDetailType.titleEn,
@@ -447,11 +449,13 @@ contractTab.method.addSectionByContract = function (record) {
             field.title = detailValue.title;
             field.paramType = detailValue.type;
             field.reference = detailValue.reference;
-            field.defaultValue = detailValue.value;
-            if (field.defaultValue === "false")
-                field.defaultValue = false;
-            if (field.defaultValue === "true")
-                field.defaultValue = true;
+            field.value = detailValue.value;
+            if (field.value === "false")
+                field.value = false;
+            if (field.value === "true")
+                field.value = true;
+            if (field.paramType === 'GeorgianDate')
+                field.value = new Date(detailValue.value);
             field.required = detailValue.required;
             field.contractDetailValueId = detailValue.id;
             field.estatus = detailValue.estatus;
@@ -550,7 +554,7 @@ contractTab.method.addSectionByContract = function (record) {
 contractTab.method.addSectionByContractDetailType = function (record) {
 
     let sectionStackSectionObj = {
-        expanded: true,
+        expanded: false,
         name: record.id,
         title: record.titleEn,
         contractDetailId: null,
@@ -582,7 +586,7 @@ contractTab.method.addSectionByContractDetailType = function (record) {
         field.title = param.name;
         field.paramType = param.type;
         field.reference = param.reference;
-        field.defaultValue = param.defaultValue;
+        field.value = param.defaultValue;
         field.required = param.required;
 
         Object.assign(field, getFieldProperties(field.paramType, field.reference));
