@@ -91,7 +91,7 @@ function getReferenceFields(referenceType) {
         case 'Incoterm':
             return [
                 {name: "id", title: "id", primaryKey: true, hidden: true},
-                {name: "incotermVersion", title: '<spring:message code="global.version"/>'}
+                {name: "title", title: '<spring:message code="global.title"/>'}
             ]
         case 'RateReference':
             return '';
@@ -128,7 +128,7 @@ function getReferenceDataSource(referenceType) {
             url = "${contextPath}" + "/api/unit/spec-list";
             break;
         case 'Incoterm':
-            url = "${contextPath}" + "/api/incoterm-version/spec-list";
+            url = "${contextPath}" + "/api/g-incoterm/spec-list";
             break;
         case 'RateReference':
             url = "";
@@ -235,6 +235,12 @@ function getFieldProperties(fieldType, reference) {
                 type: "text",
             };
         case 'Reference':
+            if (reference == 'Enum_RateReference') {
+                return {valueMap: JSON.parse('${Enum_RateReference}')}
+            }
+            if (reference == 'Enum_PriceBaseReference') {
+                return {valueMap: JSON.parse('${Enum_PriceBaseReference}')}
+            }
             return {
                 width: "100%",
                 type: "integer",
