@@ -145,8 +145,8 @@
             FINAL: 1,
             PROVISIONAL: 2,
             PERFORMA: 3,
-            TRUSTY: 4,
-            INSPECTION: 5,
+            PI_TRUSTY: 4,
+            FI_TRUSTY: 5,
             INSURANCE: 6,
             THC: 7,
             BLFEE: 8,
@@ -154,7 +154,8 @@
             DEMAND: 10,
             FREIGHT: 11,
             DISPATCH: 12,
-            DEMURRAGE: 13
+            DEMURRAGE: 13,
+            INSPECTION: 14
         },
         unit: {
             PERCENT: 1,

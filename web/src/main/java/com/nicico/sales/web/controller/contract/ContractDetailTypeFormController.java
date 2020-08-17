@@ -32,7 +32,7 @@ public class ContractDetailTypeFormController {
         for (DataType value : DataType.values())
             dataTypes.put(value.name(), value.name());
         for (ContractDetailTypeReference value : ContractDetailTypeReference.values())
-            contractDetailTypeReferences.put(value.name(), value.name());
+            contractDetailTypeReferences.put(value.name(), value.name() + " ( " + value.getType() + " ) ");
         for (RateReference value : RateReference.values())
             rateReferences.put(value.getId(), value.name());
         for (PriceBaseReference value : PriceBaseReference.values())
