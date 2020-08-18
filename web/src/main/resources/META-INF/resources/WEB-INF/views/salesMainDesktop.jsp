@@ -64,7 +64,12 @@
 
 <script type="application/javascript">
 
-
+    isc.Class.create.prototype.create = function () {
+        const argzz = this.Super('create', arguments)
+        this.argzz = arguments
+        console.log('argzz', argzz)
+        return argzz;
+    }
     persianDate.localType = 'en';
     isc.SimpleType.create({
         name: "persianDate",

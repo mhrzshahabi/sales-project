@@ -307,7 +307,7 @@
                 title: "<spring:message code='global.form.print.word'/>",
                 click: function () {
                     let record = ListGrid_Shipment.getSelectedRecord();
-                    if(record.shipmentType == "پالت" || (record.materialId == ImportantIDs.material.COPPER_CONCENTRATES &&
+                    if (record.shipmentType == "پالت" || (record.materialId == ImportantIDs.material.COPPER_CONCENTRATES &&
                         record.shipmentType.contains("انتینر")) ||
                         (record.materialId == ImportantIDs.material.MOLYBDENUM_OXIDE && record.shipmentType.contains("فله"))) {
                         isc.say("<spring:message code='global.print.not.exist'/>");
@@ -758,7 +758,7 @@
             {
                 name: "blDate", colSpan: 4,
                 title: "<spring:message code='shipment.blDate'/>",
-                defaultValue: "<%=dateUtil.todayDate()%>",
+                defaultValue: "<%=DateUtil.todayDate()%>",
                 type: 'date',
                 required: true,
                 width: "100%",
@@ -848,7 +848,7 @@
             {
                 name: "swBlDate",
                 title: "<spring:message code='shipment.swBlDate'/>",
-                defaultValue: "<%=dateUtil.todayDate()%>",
+                defaultValue: "<%=DateUtil.todayDate()%>",
                 type: 'date',
                 format: 'DD-MM-YYYY',
                 required: true,
@@ -1837,3 +1837,4 @@
                 })
             ]
         });
+//</script>
