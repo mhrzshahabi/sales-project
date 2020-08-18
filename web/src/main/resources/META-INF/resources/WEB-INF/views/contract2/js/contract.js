@@ -267,6 +267,10 @@ contractTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
                         contractDetailValues: []
                     };
 
+                    section.items[0].validate();
+                    if (section.items[0].hasErrors())
+                        throw "dynamicForm validation is failed.";
+
                     // dynamicForm
                     section.items[0].fields.filter(x => x.isBaseItem == null).forEach(x => {
                         contractDetailObj.contractDetailValues.push({
@@ -461,6 +465,22 @@ contractTab.method.addSectionByContract = function (record) {
             field.contractDetailValueId = detailValue.id;
             field.estatus = detailValue.estatus;
             field.editable = detailValue.editable;
+            field.unitId = detailValue.unitId;
+
+            if (detailValue.unitId !== undefined) {
+                getReferenceDataSource("Unit").fetchData(
+                    {
+                        _constructor: "AdvancedCriteria",
+                        operator: "and",
+                        criteria: [
+                            {fieldName: "id", operator: "equals", value: detailValue.unitId}
+                        ]
+                    },
+                    function (dsResponse, data) {
+                        contractDetailDynamicForm.getField(field.name).setHint(data[0].symbolUnit);
+                    }
+                );
+            }
 
             Object.assign(field, getFieldProperties(field.paramType, field.reference));
 
@@ -589,6 +609,22 @@ contractTab.method.addSectionByContractDetailType = function (record) {
         field.reference = param.reference;
         field.value = param.defaultValue;
         field.required = param.required;
+        field.unitId = param.unitId;
+
+        if (param.unitId !== undefined) {
+            getReferenceDataSource("Unit").fetchData(
+                {
+                    _constructor: "AdvancedCriteria",
+                    operator: "and",
+                    criteria: [
+                        {fieldName: "id", operator: "equals", value: param.unitId}
+                    ]
+                },
+                function (dsResponse, data) {
+                    contractDetailDynamicForm.getField(field.name).setHint(data[0].symbolUnit);
+                }
+            );
+        }
 
         Object.assign(field, getFieldProperties(field.paramType, field.reference));
 
