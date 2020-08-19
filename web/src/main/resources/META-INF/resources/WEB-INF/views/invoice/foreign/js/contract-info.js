@@ -1,13 +1,5 @@
 let __contract = {};
 
-__contract.nameOfNumberProperty = "no";
-__contract.url = "${contextPath}" + "/api/g-contract/";
-
-__contract.getBuyer = function (contract) {
-
-    // contract.contractContacts.filter(q => q.buyer).first()
-    return {nameEN: "ali", address: "aaa", phone: "123", fax: "2222"};
-};
 __contract.getMaterial = function (contract) {
 
     return {descl: "CATHOD KHOSHGELE", id: 2};

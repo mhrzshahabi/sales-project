@@ -637,7 +637,7 @@ shipmentCostInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
             shipmentCostInvoiceTab.dynamicForm.shipmentCost.setValue("conversionRate", 1);
             shipmentCostInvoiceTab.listGrid.shipmentCostDetail.members.get(3).members.get(2).members.get(0).click();
 
-            if (shipmentCostInvoiceTab.listGrid.shipmentCostDetail.getAllData() != null) {
+            if (shipmentCostInvoiceTab.listGrid.shipmentCostDetail.getData() != null) {
                 let totalRows = shipmentCostInvoiceTab.listGrid.shipmentCostDetail.getTotalRows();
                 let financeUnitIdIndex = shipmentCostInvoiceTab.listGrid.shipmentCostDetail.fields.indexOf(shipmentCostInvoiceTab.listGrid.shipmentCostDetail.fields.filter(q => q.name === "financeUnitId").first());
                 for (let i = 0; i < totalRows; i++) {

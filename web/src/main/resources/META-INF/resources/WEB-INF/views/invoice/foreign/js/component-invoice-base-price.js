@@ -6,19 +6,22 @@ isc.defineClass("InvoiceBasePrice", isc.VLayout).addProperties({
     showEdges: false,
     layoutMargin: 2,
     membersMargin: 2,
-    overflow: "scroll",
+    overflow: "visible",
     contract: null,
     shipment: null,
+    contractDetailData: null,
     initWidget: function () {
 
         this.Super("initWidget", arguments);
 
         let This = this;
-        let year = __contract.getContractYear(This.contract);
-        let material = __contract.getMaterial(This.contract);
-        let month = __contract.getShipmentMonthNo(This.shipment);
-        let moasValue = __contract.getContractMOASValue(This.contract);
-        let basePriceReference = __contract.getBasePriceReference(This.contract);
+
+        let year = 2020;//This.shipment.sendDate.getFullYear();
+        let material = This.contract.material;
+        let month = 8; // This.shipment.sendDate.getMonth() + 1;
+        let monthName = "AUGUST"; // This.shipment.sendDate.getMonthName();
+        let moasValue = This.contractDetailData.moasValue;
+        let basePriceReference = This.contractDetailData.basePriceReference;
 
         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
             params: {
@@ -33,33 +36,37 @@ isc.defineClass("InvoiceBasePrice", isc.VLayout).addProperties({
             callback: function (resp) {
 
                 let fields = [];
-                let elements = JSON.parse(resp.data);
-                for (let index = 0; index < elements.length; index++) {
+                let priceBases = JSON.parse(resp.data);
+                let groupedPriceBases = priceBases.groupBy("elementId");
+                Object.keys(groupedPriceBases).forEach(elementId => {
 
-                    if (!elements[index].element.payable)
-                        continue;
+                    let firstBasePrice = groupedPriceBases[elementId].first();
+                    if (!firstBasePrice.element.payable)
+                        return;
 
                     fields.add(isc.Unit.create({
 
-                        unitCategory: elements[index].unit.categoryUnit,
+                        unitCategory: firstBasePrice.financeUnit.categoryUnit,
                         disabledUnitField: true,
                         disabledValueField: true,
                         showValueFieldTitle: true,
                         showUnitFieldTitle: false,
-                        name: elements[index].element.name,
-                        fieldValueTitle: elements[index].element.name,
-                        border: "1px solid rgba(0, 0, 0, 0.3)",
+                        name: firstBasePrice.element.name,
+                        fieldValueTitle: firstBasePrice.element.name,
                     }));
-                    fields.last().setValue(elements[index].price);
-                    fields.last().setUnitId(elements[index].unit.id);
-                }
+
+
+                    fields.last().setUnitId(firstBasePrice.financeUnitId);
+                    fields.last().setValue(groupedPriceBases[elementId].map(q => q.price).sum() / groupedPriceBases[elementId].length);
+                });
+                let fieldsNames = fields.map(q => q.name).join(", ");
+
                 This.addMember(isc.Label.create({
-                    contents: "<b>" + "AVERAGE OF " + (month + moasValue) + "th MONTH OF " + year + " (MOAS" + (moasValue > 0 ? "+" : "-") + moasValue + ")<b>"
-                }));
-                This.addMember(isc.DynamicForm.create({
                     width: "100%",
-                    fields: fields
+                    height: "50",
+                    contents: "<b>" + "AVERAGE OF " + (month + moasValue) + "th MONTH OF " + year + " (MOAS" + (moasValue > 0 ? "+" : "-") + moasValue + ") " + " FOR " + fieldsNames + "<b>"
                 }));
+                This.addMembers(fields);
 
 
             }

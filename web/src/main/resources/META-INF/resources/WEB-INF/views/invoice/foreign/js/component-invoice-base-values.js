@@ -11,6 +11,7 @@ isc.defineClass("InvoiceBaseValues", isc.VLayout).addProperties({
     contract: null,
     shipment: null,
     invoiceType: null,
+    contractDetailData: null,
     invoiceBasePriceComponent: null,
     invoiceBaseAssayComponent: null,
     invoiceBaseWeightComponent: null,
@@ -25,19 +26,24 @@ isc.defineClass("InvoiceBaseValues", isc.VLayout).addProperties({
             this.invoiceBasePriceComponent = isc.InvoiceBasePrice.create({
                 currency: This.currency,
                 contract: This.contract,
-                shipment: This.shipment
+                shipment: This.shipment,
+                contractDetailData: This.contractDetailData
             });
             this.addMember(this.invoiceBasePriceComponent);
 
-            this.invoiceBaseAssayComponent = isc.InvoiceBaseAssay.create({
-                inventories: [{id: 1}, {id: 2}]
-            });
-            this.addMember(this.invoiceBaseAssayComponent);
+            // if (This.contract.materialId !== ImportantIDs.material.COPPER_CATHOD) {
+            //
+            //     this.invoiceBaseAssayComponent = isc.InvoiceBaseAssay.create({
+            //         inventories: [{id: 1}, {id: 2}]
+            //     });
+            //     this.addMember(this.invoiceBaseAssayComponent);
+            // }
 
-            this.invoiceBaseWeightComponent = isc.InvoiceBaseWeight.create({
-                inventories: [{id: 1}, {id: 2}]
-            });
-            this.addMember(this.invoiceBaseWeightComponent);
+            // this.invoiceBaseWeightComponent = isc.InvoiceBaseWeight.create({
+            //     inventories: [{id: 1}, {id: 2}]
+            // });
+            // this.addMember(this.invoiceBaseWeightComponent);
+
         } else {
 
         }

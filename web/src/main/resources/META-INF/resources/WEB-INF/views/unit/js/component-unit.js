@@ -21,9 +21,11 @@ isc.defineClass("Unit", isc.DynamicForm).addProperties({
             name: "value",
             width: "100%",
             type: 'float',
+            format: "#.000",
+            titleAlign: "left",
             keyPressFilter: "[0-9.]",
             title: This.fieldValueTitle,
-            disabled: This.disabledValueField,
+            editorType: This.disabledValueField ? "StaticText" : "TextItem",
             showTitle: This.showValueFieldTitle,
             validators: [{
                 type: "isFloat",
@@ -40,9 +42,8 @@ isc.defineClass("Unit", isc.DynamicForm).addProperties({
             name: "unitId",
             valueField: "id",
             displayField: "nameEN",
-            editorType: "SelectItem",
             visible: This.showUnitField,
-            disabled: This.disabledUnitField,
+            editorType: This.disabledUnitField ? "StaticText" : "SelectItem",
             showTitle: This.showUnitFieldTitle,
             title: "<spring:message code='unit.title'/>",
             pickListWidth: "400",
@@ -57,10 +58,10 @@ isc.defineClass("Unit", isc.DynamicForm).addProperties({
                 fetchDataURL: "${contextPath}" + "/api/unit/spec-list"
             }),
             pickListFields: [
-                {name: "categoryUnit", title: "categoryUnit"},
                 {name: "id", title: '<spring:message code="global.code"/>'},
                 {name: "nameFA", title: '<spring:message code="global.title-fa"/>'},
                 {name: "nameEN", title: '<spring:message code="global.title-en"/>'},
+                {name: "categoryUnit", title: "categoryUnit"},
             ],
             pickListCriteria: {
                 _constructor: 'AdvancedCriteria', operator: "and", criteria: [{
@@ -72,15 +73,15 @@ isc.defineClass("Unit", isc.DynamicForm).addProperties({
         this.setValues(this.data);
     },
     getValue: function () {
-        this.getValues().value;
+        this.getItem("value").getValue();
     },
     getUnitId: function () {
-        this.getValue("unitId");
+        this.getItem("unitId").getValue();
     },
     setValue: function (value) {
-        this.value = value;
+        this.getItem("value").setValue(value);
     },
     setUnitId: function (unitId) {
-        this.setValue("unitId", unitId);
+        this.getItem("unitId").setValue(unitId);
     }
 });
