@@ -1,6 +1,5 @@
 package com.nicico.sales.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.nicico.copper.common.dto.date.DateTimeDTO;
 import io.swagger.annotations.ApiModel;
@@ -9,8 +8,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
@@ -44,6 +41,9 @@ public class ShipmentDTO {
     private Double moisture;
     private Double vgm;
     private Long unitId;
+    private Date shipmentDate;
+    private Date sendDate;
+
 
     @Getter
     @Setter
@@ -55,8 +55,7 @@ public class ShipmentDTO {
         private ContactDTO.ContactInfoTuple contactByAgent;
         private ContactDTO.ContactInfoTuple contact;
         private ContactDTO.ContactInfoTuple container;
-        private ContractShipmentDTO contractShipment;
-        private ContractDTO.ContractInfoTuple contract;
+        private ContractShipmentDTO.Info contractShipment;
         private MaterialDTO.MaterialTuple material;
         private String containerType;
         private UnitDTO unit;
