@@ -34,15 +34,16 @@ isc.defineClass("InvoiceBaseValues", isc.VLayout).addProperties({
             // if (This.contract.materialId !== ImportantIDs.material.COPPER_CATHOD) {
             //
             //     this.invoiceBaseAssayComponent = isc.InvoiceBaseAssay.create({
-            //         inventories: [{id: 1}, {id: 2}]
+            //         shipment: This.shipment,
             //     });
             //     this.addMember(this.invoiceBaseAssayComponent);
             // }
 
-            // this.invoiceBaseWeightComponent = isc.InvoiceBaseWeight.create({
-            //     inventories: [{id: 1}, {id: 2}]
-            // });
-            // this.addMember(this.invoiceBaseWeightComponent);
+            this.invoiceBaseWeightComponent = isc.InvoiceBaseWeight.create({
+                shipment: This.shipment,
+            });
+
+            this.addMember(this.invoiceBaseWeightComponent);
 
         } else {
 

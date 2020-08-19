@@ -7,6 +7,7 @@ isc.defineClass("InvoiceBasePrice", isc.VLayout).addProperties({
     layoutMargin: 2,
     membersMargin: 2,
     overflow: "visible",
+    canAdaptHeight: true,
     contract: null,
     shipment: null,
     contractDetailData: null,
@@ -72,10 +73,10 @@ isc.defineClass("InvoiceBasePrice", isc.VLayout).addProperties({
             }
         }));
     },
-    getValues: function () {
-        return this.members[1].getValues();
-    },
-    setValues: function (data) {
-        return this.members[1].setValues(data);
-    }
+    // getValues: function () {
+    //     return this.members[1].getValues();
+    // },
+    // setValues: function (data) {
+    //     return this.members[1].setValues(data);
+    // }
 });

@@ -170,7 +170,7 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
             }
 
             shipmentIdField.setOptionCriteria({
-                fieldName: "contractId",
+                fieldName: "contractShipment.contractId",
                 operator: "equals",
                 value: selectedRecord.id
             });
@@ -186,10 +186,23 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
         editorType: "SelectItem",
         valueField: "id",
         displayField: "month",
+        pickListProperties: {
+            showFilterEditor: true
+        },
+        pickListFields: [
+            {name: "id", primaryKey: true, hidden: true, title: "<spring:message code='global.id'/>"},
+            {name: "contact.nameFA", title: "<spring:message code='foreign-invoice.form.shipment'/>"},
+            {name: "material.descl", title: "<spring:message code='material.descl'/>"},
+            {name: "amount", title: "<spring:message code='global.amount'/>"},
+            {name: "loadingLetter", title: "<spring:message code='shipment.loadingLetter'/>"},
+        ],
         optionDataSource: isc.MyRestDataSource.create({
             fields: [
                 {name: "id", primaryKey: true, hidden: true, title: "<spring:message code='global.id'/>"},
-                {name: "month", title: "<spring:message code='foreign-invoice.form.shipment'/>"},
+                {name: "contact.nameFA", title: "<spring:message code='foreign-invoice.form.shipment'/>"},
+                {name: "material.descl", title: "<spring:message code='material.descl'/>"},
+                {name: "amount", title: "<spring:message code='global.amount'/>"},
+                {name: "loadingLetter", title: "<spring:message code='shipment.loadingLetter'/>"},
             ],
             fetchDataURL: foreignInvoiceTab.variable.shipmentUrl + "spec-list"
         }),
@@ -619,7 +632,7 @@ foreignInvoiceTab.method.newForm = function () {
         "date": "2020-08-18T07:30:00.000Z",
         "invoiceTypeId": 1,
         "contractId": 218,
-        "shipmentId": 41,
+        "shipmentId": 76,
         "creatorId": 2,
         "currencyId": -32,
         "toCurrencyId": -33,
@@ -630,6 +643,7 @@ foreignInvoiceTab.method.newForm = function () {
     foreignInvoiceTab.dynamicForm.baseData.redraw();
     foreignInvoiceTab.window.main.show();
 };
+
 foreignInvoiceTab.method.editForm = function () {
 
     let record = foreignInvoiceTab.listGrid.main.getSelectedRecord();
@@ -654,6 +668,7 @@ foreignInvoiceTab.method.editForm = function () {
         foreignInvoiceTab.window.main.show();
     }
 };
+
 foreignInvoiceTab.method.addTab = function (pane, title) {
     foreignInvoiceTab.tab.invoice.addTab({
         pane: pane,

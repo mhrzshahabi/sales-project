@@ -28,6 +28,7 @@ public class InspectionReportDTO {
     private Long buyerId;
     private BigDecimal inspectionRateValue;
     private InspectionRateValueType inspectionRateValueType;
+    private String description;
     private Long unitId;
     private List<AssayInspectionDTO.InfoWithoutInspectionReport> assayInspections;
     private List<WeightInspectionDTO.InfoWithoutInspectionReport> weightInspections;

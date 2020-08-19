@@ -2,10 +2,7 @@ package com.nicico.sales.web.controller.invoice.foreign;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nicico.sales.model.enumeration.CategoryUnit;
-import com.nicico.sales.model.enumeration.CommercialRole;
-import com.nicico.sales.model.enumeration.DeductionType;
-import com.nicico.sales.model.enumeration.RateReference;
+import com.nicico.sales.model.enumeration.*;
 import com.nicico.sales.utility.SecurityChecker;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -56,6 +53,10 @@ public class ForeignInvoiceFormController {
         Map<String, String> commercialRoles = new HashMap<>();
         for (CommercialRole value : CommercialRole.values()) commercialRoles.put(value.name(), value.name());
         request.setAttribute("Enum_CommercialRole", objectMapper.writeValueAsString(commercialRoles));
+
+        Map<Integer, String> mileStone = new HashMap<>();
+        for (InspectionReportMilestone value : InspectionReportMilestone.values()) mileStone.put(value.getId(), value.name());
+        request.setAttribute("Enum_MileStone", objectMapper.writeValueAsString(mileStone));
 
         return "invoice/foreign/foreign-invoice";
     }

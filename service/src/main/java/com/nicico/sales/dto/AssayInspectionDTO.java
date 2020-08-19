@@ -2,6 +2,7 @@ package com.nicico.sales.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.nicico.sales.model.enumeration.EStatus;
+import com.nicico.sales.model.enumeration.InspectionReportMilestone;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -20,10 +21,12 @@ import java.util.List;
 public class AssayInspectionDTO {
 
     private BigDecimal value;
+    private InspectionReportMilestone mileStone;
     private Long inspectionReportId;
     private Long materialElementId;
     private String labName;
     private String labPlace;
+    private Long shipmentId;
     private Long inventoryId;
 
     @Getter
@@ -57,7 +60,8 @@ public class AssayInspectionDTO {
         private Boolean editable;
         private List<EStatus> eStatus;
     }
- @Getter
+
+    @Getter
     @Setter
     @Accessors(chain = true)
     @ApiModel("AssayInspectionInfoWithoutInspectionReport")
@@ -72,6 +76,7 @@ public class AssayInspectionDTO {
     public static class Info extends InfoWithoutInspectionReport {
 
         private InspectionReportDTO.Info inspectionReport;
+        private ShipmentDTO.Info shipment;
     }
 
     @Getter
