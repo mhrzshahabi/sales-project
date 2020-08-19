@@ -1,8 +1,6 @@
 package com.nicico.sales.model.entities.contract;
 
-import com.nicico.sales.model.entities.base.Contact;
-import com.nicico.sales.model.entities.base.Port;
-import com.nicico.sales.model.entities.base.Vessel;
+import com.nicico.sales.model.entities.base.*;
 import com.nicico.sales.model.entities.common.BaseEntity;
 import com.nicico.sales.model.entities.warehouse.RemittanceDetail;
 import lombok.*;
@@ -214,6 +212,7 @@ public class BillOfLanding extends BaseEntity {
     @Column(name = "D_DATE_OF_ISSUE")
     private Date dateOfIssue;
 
+
     @Column(name = "C_PLACE_OF_ISSUE")
     private String placeOfIssue;
 
@@ -240,5 +239,55 @@ public class BillOfLanding extends BaseEntity {
 
     @Column(name = "N_TOTAL_BUNDLES")
     private Integer totalBundles;
+
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @Setter(AccessLevel.NONE)
+    @JoinColumn(
+            name = "F_shipment_id",
+            foreignKey = @ForeignKey(name = "FK_BILL_OF_LANDING_TO_shipment"),
+            insertable = false,
+            updatable = false
+    )
+    private Shipment shipment;
+
+
+//    @NotNull
+    @Column(name = "F_shipment_id")
+    private Long shipmentId;
+
+     @ManyToOne(fetch = FetchType.LAZY)
+    @Setter(AccessLevel.NONE)
+    @JoinColumn(
+            name = "F_shipment_type_id",
+            foreignKey = @ForeignKey(name = "FK_BILL_OF_LANDING_TO_shipment_type"),
+            insertable = false,
+            updatable = false
+    )
+    private ShipmentType shipmentType;
+
+
+//    @NotNull
+    @Column(name = "F_shipment_type_id")
+    private Long shipmentTypeId;
+
+     @ManyToOne(fetch = FetchType.LAZY)
+    @Setter(AccessLevel.NONE)
+    @JoinColumn(
+            name = "F_shipment_method_id",
+            foreignKey = @ForeignKey(name = "FK_BILL_OF_LANDING_TO_shipment_method"),
+            insertable = false,
+            updatable = false
+    )
+    private ShipmentMethod shipmentMethod;
+
+
+//    @NotNull
+    @Column(name = "F_shipment_method_id")
+    private Long shipmentMethodId;
+
+    @Column(name = "D_switch_DATE_OF_ISSUE")
+    private Date switchDateOfIssue;
+
 
 }
