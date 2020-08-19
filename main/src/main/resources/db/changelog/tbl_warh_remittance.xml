@@ -20,4 +20,14 @@
         <addUniqueConstraint columnNames="C_CODE" constraintName="UC_TsBL_WARH_REMITTANCEC_CODE_COL"
                              tableName="TBL_WARH_REMITTANCE"/>
     </changeSet>
+
+    <changeSet author="saeb (generated)" id="1597816041760-264">
+        <addColumn tableName="TBL_WARH_REMITTANCE">
+            <column name="F_shipment_id" type="number(19, 0)"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="saeb (generated)" id="1597816041760-281">
+        <addForeignKeyConstraint baseColumnNames="F_shipment_id" baseTableName="TBL_WARH_REMITTANCE" constraintName="FK_remittance_to_shipment" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_SHIPMENT" validate="true"/>
+    </changeSet>
 </databaseChangeLog>
