@@ -21,6 +21,7 @@ public class ContractDetailDTO2 {
     private String content;
     private Long contractId;
     private Long contractDetailTypeId;
+    private Long contractDetailTypeTemplateId; //this is the template that user used.
 
     @Getter
     @Setter

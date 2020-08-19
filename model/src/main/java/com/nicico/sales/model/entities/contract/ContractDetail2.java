@@ -53,6 +53,9 @@ public class ContractDetail2 extends BaseEntity {
     @Column(name = "F_CONTRACT_DETAIL_TYPE_ID", nullable = false)
     private Long contractDetailTypeId;
 
+    @Column(name = "F_CONTRACT_DETAIL_TYPE_TEMPLATE_ID")
+    private Long contractDetailTypeTemplateId;
+
     @NotAudited
     @OneToMany(mappedBy = "contractDetail", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<ContractDetailValue> contractDetailValues;
