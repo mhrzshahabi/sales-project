@@ -47,5 +47,14 @@
         <dropColumn tableName="TBL_SHIPMENT" columnName="DETENSION"/>
     </changeSet>
 
+    <changeSet author="Abiz" id="AZAARE-032">
+        <dropColumn tableName="TBL_SHIPMENT" columnName="CREATE_DATE"/>
+        <addColumn tableName="TBL_SHIPMENT">
+            <column name="SHIPMENT_DATE" type="TIMESTAMP"/>
+        </addColumn>
+        <addColumn tableName="TBL_SHIPMENT">
+            <column name="SEND_DATE" type="TIMESTAMP"/>
+        </addColumn>
+    </changeSet>
 
 </databaseChangeLog>

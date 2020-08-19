@@ -62,8 +62,11 @@ public class Shipment extends BaseEntity {
     @Column(name = "STATUS", length = 20)
     private String status;
 
-    @Column(name = "CREATE_DATE")
-    private Date createDate;
+    @Column(name = "SHIPMENT_DATE")
+    private Date shipmentDate;
+
+    @Column(name = "SEND_DATE")
+    private Date sendDate;
 
     @Column(name = "FILE_NAME")
     private String fileName;
