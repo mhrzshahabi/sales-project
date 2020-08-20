@@ -67,13 +67,6 @@ foreignInvoiceTab.listGrid.fields = BaseFormItems.concat([
         width: "100%",
         required: true,
         showHover: true,
-        name: "buyer.nameFA",
-        title: "<spring:message code='foreign-invoice.form.buyer'/>"
-    },
-    {
-        width: "100%",
-        required: true,
-        showHover: true,
         name: "buyer.nameEN",
         title: "<spring:message code='foreign-invoice.form.buyer'/>"
     },
@@ -90,6 +83,12 @@ foreignInvoiceTab.listGrid.fields = BaseFormItems.concat([
         showHover: true,
         name: "contract.no",
         title: "<spring:message code='foreign-invoice.form.contract'/>"
+    }, ,
+    {
+        width: "100%",
+        showHover: true,
+        name: "accountingId",
+        title: "<spring:message code='foreign-invoice.form.accountingId'/>"
     },
     {
         width: "100%",
@@ -169,12 +168,14 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
                 return;
             }
 
+            shipmentIdField.setValue(null);
             shipmentIdField.setOptionCriteria({
                 fieldName: "contractShipment.contractId",
                 operator: "equals",
                 value: selectedRecord.id
             });
             shipmentIdField.enable();
+            shipmentIdField.changed(form, shipmentIdField, null);
         }
     },
     {
@@ -185,13 +186,14 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
         name: "shipmentId",
         editorType: "SelectItem",
         valueField: "id",
-        displayField: "month",
+        displayField: "sendDate",
         pickListProperties: {
             showFilterEditor: true
         },
         pickListFields: [
             {name: "id", primaryKey: true, hidden: true, title: "<spring:message code='global.id'/>"},
-            {name: "contact.nameFA", title: "<spring:message code='foreign-invoice.form.shipment'/>"},
+            {name: "sendDate", title: "<spring:message code='global.sendDate'/>", type: "date", width: "110"},
+            {name: "contact.nameEN", title: "<spring:message code='foreign-invoice.form.shipment'/>"},
             {name: "material.descl", title: "<spring:message code='material.descl'/>"},
             {name: "amount", title: "<spring:message code='global.amount'/>"},
             {name: "loadingLetter", title: "<spring:message code='shipment.loadingLetter'/>"},
@@ -199,7 +201,7 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
         optionDataSource: isc.MyRestDataSource.create({
             fields: [
                 {name: "id", primaryKey: true, hidden: true, title: "<spring:message code='global.id'/>"},
-                {name: "contact.nameFA", title: "<spring:message code='foreign-invoice.form.shipment'/>"},
+                {name: "contact.nameEN", title: "<spring:message code='foreign-invoice.form.shipment'/>"},
                 {name: "material.descl", title: "<spring:message code='material.descl'/>"},
                 {name: "amount", title: "<spring:message code='global.amount'/>"},
                 {name: "loadingLetter", title: "<spring:message code='shipment.loadingLetter'/>"},
@@ -213,23 +215,32 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
                 type: "required",
                 validateOnChange: true
             }],
-        // changed: function (form, item, value) {
-        //
-        //     let selectedRecord = item.getSelectedRecord();
-        //     if (!selectedRecord) {
-        //
-        //         foreignInvoiceTab.button.selectBillLading.disable();
-        //         foreignInvoiceTab.button.selectBillLading.criteria = null;
-        //         return;
-        //     }
-        //
-        //     foreignInvoiceTab.button.selectBillLading.enable();
-        //     foreignInvoiceTab.button.selectBillLading.criteria = {
-        //         operator: "equals",
-        //         fieldName: "shipmentId",
-        //         value: selectedRecord.id
-        //     };
-        // }
+        formatValue(value, record, form, item) {
+
+            let selectedRecord = item.getSelectedRecord();
+            if (!selectedRecord) return;
+
+            return new Date(selectedRecord.sendDate).getMonthName();
+        },
+        changed: function (form, item, value) {
+
+            foreignInvoiceTab.dynamicForm.valuesManager.setValue("billLadings", null);
+
+            let selectedRecord = item.getSelectedRecord();
+            if (!selectedRecord) {
+
+                foreignInvoiceTab.button.selectBillLading.disable();
+                foreignInvoiceTab.button.selectBillLading.criteria = null;
+                return;
+            }
+
+            foreignInvoiceTab.button.selectBillLading.enable();
+            foreignInvoiceTab.button.selectBillLading.criteria = {
+                operator: "equals",
+                fieldName: "shipmentId",
+                value: selectedRecord.id
+            };
+        }
     },
     {
         required: true,
@@ -261,7 +272,7 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
         name: "currencyId",
         editorType: "SelectItem",
         valueField: "id",
-        displayField: "nameFA",
+        displayField: "nameEN",
         optionCriteria: {
             operator: 'and',
             criteria: [{
@@ -273,7 +284,7 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
         optionDataSource: isc.MyRestDataSource.create({
             fields: [
                 {name: "id", primaryKey: true, hidden: true, title: "<spring:message code='global.id'/>"},
-                {name: "nameFA", title: "<spring:message code='global.title'/>"},
+                {name: "nameEN", title: "<spring:message code='global.title'/>"},
             ],
             fetchDataURL: foreignInvoiceTab.variable.unitUrl + "spec-list"
         }),
@@ -304,7 +315,7 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
         editorType: "SelectItem",
         width: "100%",
         valueField: "id",
-        displayField: "nameFA",
+        displayField: "nameEN",
         optionCriteria: {
             operator: 'and',
             criteria: [{
@@ -316,7 +327,7 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
         optionDataSource: isc.MyRestDataSource.create({
             fields: [
                 {name: "id", primaryKey: true, hidden: true, title: "<spring:message code='global.id'/>"},
-                {name: "nameFA", title: "<spring:message code='global.title'/>"},
+                {name: "nameEN", title: "<spring:message code='global.title'/>"},
             ],
             fetchDataURL: foreignInvoiceTab.variable.unitUrl + "spec-list"
         }),
@@ -368,8 +379,6 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
         editorType: "SelectItem",
         valueField: "id",
         displayField: "reference",
-        pickListWidth: 370,
-        pickListHeight: 300,
         pickListProperties: {
             showFilterEditor: true
         },
@@ -377,8 +386,8 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
             {name: "id", primaryKey: true, hidden: true, title: "<spring:message code='global.id'/>"},
             {name: "reference", title: "<spring:message code='foreign-invoice.form.conversion-ref'/>"},
             {name: "currencyDate", title: "<spring:message code='global.date'/>"},
-            {name: "unitFrom.nameFA", title: "<spring:message code='global.from'/>"},
-            {name: "unitTo.nameFA", title: "<spring:message code='global.to'/>"},
+            {name: "unitFrom.nameEN", title: "<spring:message code='global.from'/>"},
+            {name: "unitTo.nameEN", title: "<spring:message code='global.to'/>"},
             {name: "currencyRateValue", title: "<spring:message code='rate.title'/>"}
         ],
         optionDataSource: isc.MyRestDataSource.create({
@@ -396,6 +405,12 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
         }),
         title: "<spring:message code='foreign-invoice.form.conversion-ref'/>",
         wrapTitle: false
+    },
+    {
+        width: "100%",
+        name: "description",
+        editorType: "textArea",
+        title: "<spring:message code='global.description'/>",
     }
 ]);
 
@@ -433,12 +448,25 @@ foreignInvoiceTab.dynamicForm.baseData = isc.DynamicForm.create({
     valuesManager: foreignInvoiceTab.dynamicForm.valuesManager,
     requiredMessage: '<spring:message code="validator.field.is.required"/>'
 });
+foreignInvoiceTab.dynamicForm.baseData.validate = function () {
+
+    let isValid = this.Super("validate", arguments);
+    let billLadings = foreignInvoiceTab.dynamicForm.valuesManager.getValue('billLadings');
+    if (billLadings == null || billLadings.length === 0) {
+
+        foreignInvoiceTab.dialog.say("<spring:message code='foreign-invoice.form.validate.bill-of-lading.not.selected'/>");
+        return false;
+    }
+
+    return isValid;
+}
 foreignInvoiceTab.button.save = isc.IButtonSave.create({
     margin: 10,
     height: 50,
     icon: "pieces/16/save.png",
     title: "<spring:message code='global.form.save'/>",
     click: function () {
+
         foreignInvoiceTab.dynamicForm.baseData.validate();
         if (foreignInvoiceTab.dynamicForm.baseData.hasErrors()) {
             return;
@@ -537,28 +565,29 @@ foreignInvoiceTab.button.selectBillLading = isc.IButtonSave.create({
     width: 200,
     margin: 10,
     height: 50,
-    // criteria: null,
-    // disabled: true,
+    criteria: null,
+    disabled: true,
     icon: "pieces/16/icon_add.png",
     title: "<spring:message code='foreign-invoice.form.button.select.bill-lading'/>",
     click: function () {
 
         foreignInvoiceTab.variable.selectBillLadingForm.showFindFormByRestApiUrl(
             foreignInvoiceTab.window.main,
-            "600", "500", "billLading", null,
+            "70%", null, "<spring:message code='foreign-invoice.form.button.select.bill-lading'/>",
+            foreignInvoiceTab.dynamicForm.valuesManager.getValue("billLadings"),
             foreignInvoiceTab.variable.billLadingUrl + "spec-list",
             [
                 {name: "id", primaryKey: true, hidden: true, title: "<spring:message code='global.id'/>"},
                 {name: "documentNo", title: "<spring:message code='foreign-invoice.form.conversion-ref'/>"},
-                {name: "shipperExporter.nameFA", title: "<spring:message code='global.date'/>"},
-                {name: "notifyParty.nameFA", title: "<spring:message code='global.from'/>"},
-                {name: "consignee.nameFA", title: "<spring:message code='global.to'/>"},
+                {name: "shipperExporter.nameEN", title: "<spring:message code='global.date'/>"},
+                {name: "notifyParty.nameEN", title: "<spring:message code='global.from'/>"},
+                {name: "consignee.nameEN", title: "<spring:message code='global.to'/>"},
                 {name: "portOfLoading.port", title: "<spring:message code='rate.title'/>"},
                 {name: "portOfDischarge.port", title: "<spring:message code='rate.title'/>"},
                 {name: "placeOfDelivery", title: "<spring:message code='rate.title'/>"},
                 {name: "oceanVessel.name", title: "<spring:message code='rate.title'/>"},
             ],
-            null, null /*this.criteria*/, Number.MAX_VALUE);
+            null, this.criteria, Number.MAX_VALUE);
     }
 });
 foreignInvoiceTab.window.main = isc.Window.nicico.getDefault('<spring:message code="entity.foreign-invoice"/>', [
@@ -579,12 +608,12 @@ foreignInvoiceTab.window.main = isc.Window.nicico.getDefault('<spring:message co
             })
         ]
     })
-], "500");
+], "50%");
 
 foreignInvoiceTab.tab.invoice = isc.TabSet.create({
 
     width: "100%",
-    height: "500",
+    height: "600",
     autoDraw: true,
     showEdges: false,
     edgeMarginSize: 3,
@@ -609,7 +638,7 @@ foreignInvoiceTab.variable.invoiceForm.populateData = function (bodyWidget) {
     foreignInvoiceTab.dynamicForm.valuesManager.getValues();
 };
 
-foreignInvoiceTab.variable.invoiceForm.init(null, '<spring:message code="entity.foreign-invoice"/>', foreignInvoiceTab.tab.invoice, "50%");
+foreignInvoiceTab.variable.invoiceForm.init(null, '<spring:message code="entity.foreign-invoice"/>', foreignInvoiceTab.tab.invoice, "70%");
 
 nicico.BasicFormUtil.getDefaultBasicForm(foreignInvoiceTab, "api/foreign-invoice/");
 foreignInvoiceTab.dynamicForm.main = null;
@@ -628,15 +657,636 @@ foreignInvoiceTab.method.newForm = function () {
     });
 
 
-    foreignInvoiceTab.dynamicForm.baseData.setValues({
-        "date": "2020-08-18T07:30:00.000Z",
+    foreignInvoiceTab.dynamicForm.valuesManager.setValues({
+        "date": "2020-08-20T07:30:00.000Z",
+        "billLadings": [
+            {
+                "documentNo": "78978",
+                "switchDocumentNo": "78978",
+                "shipperExporterId": 24,
+                "switchShipperExporterId": 24,
+                "notifyPartyId": 2058,
+                "switchNotifyPartyId": 2058,
+                "consigneeId": 42,
+                "switchConsigneeId": 42,
+                "portOfLoadingId": 33,
+                "switchPortOfLoadingId": 33,
+                "portOfDischargeId": 31,
+                "switchPortOfDischargeId": 31,
+                "placeOfDelivery": "89",
+                "oceanVesselId": 32,
+                "numberOfBlCopies": 89,
+                "dateOfIssue": 1597476600000,
+                "placeOfIssue": "678",
+                "totalNet": 89,
+                "totalGross": 89,
+                "totalBundles": 89,
+                "id": 22,
+                "shipperExporter": {
+                    "nameFA": "é?«∆Ê›‰ê",
+                    "nameEN": "zhyaofeng",
+                    "phone": "8690",
+                    "type": false,
+                    "status": true,
+                    "tradeMark": "ZH-COPPER",
+                    "commercialRole": "Agent Seller,Agent Buyer",
+                    "seller": false,
+                    "buyer": false,
+                    "transporter": false,
+                    "shipper": false,
+                    "inspector": false,
+                    "insurancer": false,
+                    "agentBuyer": true,
+                    "agentSeller": true,
+                    "ceo": "linchan",
+                    "countryId": 2,
+                    "id": 24,
+                    "country": {
+                        "nameFa": "ç?‰",
+                        "nameEn": "China"
+                    },
+                    "createdDate": 1596256929444,
+                    "createdBy": "devadmin",
+                    "lastModifiedDate": 1597640650586,
+                    "lastModifiedBy": "devadmin",
+                    "version": 9
+                },
+                "switchShipperExporter": {
+                    "nameFA": "é?«∆Ê›‰ê",
+                    "nameEN": "zhyaofeng",
+                    "phone": "8690",
+                    "type": false,
+                    "status": true,
+                    "tradeMark": "ZH-COPPER",
+                    "commercialRole": "Agent Seller,Agent Buyer",
+                    "seller": false,
+                    "buyer": false,
+                    "transporter": false,
+                    "shipper": false,
+                    "inspector": false,
+                    "insurancer": false,
+                    "agentBuyer": true,
+                    "agentSeller": true,
+                    "ceo": "linchan",
+                    "countryId": 2,
+                    "id": 24,
+                    "country": {
+                        "nameFa": "ç?‰",
+                        "nameEn": "China"
+                    },
+                    "createdDate": 1596256929444,
+                    "createdBy": "devadmin",
+                    "lastModifiedDate": 1597640650586,
+                    "lastModifiedBy": "devadmin",
+                    "version": 9
+                },
+                "notifyParty": {
+                    "nameFA": "·«ò? Â—«?“‰ ·?„? œ",
+                    "nameEN": "LUCKY HORIZEN LIMITED",
+                    "phone": "+862156237847",
+                    "address": "RM 19C LOCKHART CTR 301-307",
+                    "type": true,
+                    "status": true,
+                    "commercialRole": "Seller",
+                    "seller": true,
+                    "buyer": false,
+                    "countryId": 1,
+                    "id": 2058,
+                    "country": {
+                        "nameFa": "«?—«‰",
+                        "nameEn": "Iran (Islamic Republic of)"
+                    },
+                    "createdDate": 1597293065534,
+                    "createdBy": "r.mazloom",
+                    "lastModifiedDate": 1597293674270,
+                    "lastModifiedBy": "r.mazloom",
+                    "version": 3
+                },
+                "switchNotifyParty": {
+                    "nameFA": "·«ò? Â—«?“‰ ·?„? œ",
+                    "nameEN": "LUCKY HORIZEN LIMITED",
+                    "phone": "+862156237847",
+                    "address": "RM 19C LOCKHART CTR 301-307",
+                    "type": true,
+                    "status": true,
+                    "commercialRole": "Seller",
+                    "seller": true,
+                    "buyer": false,
+                    "countryId": 1,
+                    "id": 2058,
+                    "country": {
+                        "nameFa": "«?—«‰",
+                        "nameEn": "Iran (Islamic Republic of)"
+                    },
+                    "createdDate": 1597293065534,
+                    "createdBy": "r.mazloom",
+                    "lastModifiedDate": 1597293674270,
+                    "lastModifiedBy": "r.mazloom",
+                    "version": 3
+                },
+                "consignee": {
+                    "nameFA": "   ?»·?»·?»·?» 3435435 · ?»·?»·?»· ?»·?»·?»·",
+                    "nameEN": "dfgdfgfdg",
+                    "phone": "43545",
+                    "type": true,
+                    "status": true,
+                    "commercialRole": "Seller",
+                    "seller": true,
+                    "countryId": 3,
+                    "id": 42,
+                    "country": {
+                        "nameFa": "«›€«‰” «‰",
+                        "nameEn": "Afghanistan"
+                    },
+                    "createdDate": 1597217979021,
+                    "createdBy": "devadmin",
+                    "lastModifiedDate": 1597217997269,
+                    "lastModifiedBy": "devadmin",
+                    "version": 1
+                },
+                "switchConsignee": {
+                    "nameFA": "   ?»·?»·?»·?» 3435435 · ?»·?»·?»· ?»·?»·?»·",
+                    "nameEN": "dfgdfgfdg",
+                    "phone": "43545",
+                    "type": true,
+                    "status": true,
+                    "commercialRole": "Seller",
+                    "seller": true,
+                    "countryId": 3,
+                    "id": 42,
+                    "country": {
+                        "nameFa": "«›€«‰” «‰",
+                        "nameEn": "Afghanistan"
+                    },
+                    "createdDate": 1597217979021,
+                    "createdBy": "devadmin",
+                    "lastModifiedDate": 1597217997269,
+                    "lastModifiedBy": "devadmin",
+                    "version": 1
+                },
+                "portOfLoading": {
+                    "port": "FANGCHENG",
+                    "countryId": 2,
+                    "id": 33,
+                    "country": {
+                        "nameFa": "ç?‰",
+                        "nameEn": "China",
+                        "id": 2,
+                        "createdDate": 1595302644624,
+                        "createdBy": "j.azad",
+                        "version": 0,
+                        "editable": true,
+                        "estatus": [
+                            "Active"
+                        ]
+                    },
+                    "createdDate": 1587866451161,
+                    "createdBy": "db_mazloom",
+                    "version": 0,
+                    "editable": true,
+                    "estatus": [
+                        "Active"
+                    ]
+                },
+                "switchPortOfLoading": {
+                    "port": "FANGCHENG",
+                    "countryId": 2,
+                    "id": 33,
+                    "country": {
+                        "nameFa": "ç?‰",
+                        "nameEn": "China",
+                        "id": 2,
+                        "createdDate": 1595302644624,
+                        "createdBy": "j.azad",
+                        "version": 0,
+                        "editable": true,
+                        "estatus": [
+                            "Active"
+                        ]
+                    },
+                    "createdDate": 1587866451161,
+                    "createdBy": "db_mazloom",
+                    "version": 0,
+                    "editable": true,
+                    "estatus": [
+                        "Active"
+                    ]
+                },
+                "portOfDischarge": {
+                    "port": "ABU DHABI",
+                    "countryId": 3,
+                    "id": 31,
+                    "country": {
+                        "nameFa": "«›€«‰” «‰",
+                        "nameEn": "Afghanistan",
+                        "id": 3,
+                        "createdDate": 1595302644625,
+                        "createdBy": "j.azad",
+                        "version": 0,
+                        "editable": true,
+                        "estatus": [
+                            "Active"
+                        ]
+                    },
+                    "createdDate": 1587866317999,
+                    "createdBy": "db_mazloom",
+                    "version": 0,
+                    "editable": true,
+                    "estatus": [
+                        "Active"
+                    ]
+                },
+                "switchPortOfDischarge": {
+                    "port": "ABU DHABI",
+                    "countryId": 3,
+                    "id": 31,
+                    "country": {
+                        "nameFa": "«›€«‰” «‰",
+                        "nameEn": "Afghanistan",
+                        "id": 3,
+                        "createdDate": 1595302644625,
+                        "createdBy": "j.azad",
+                        "version": 0,
+                        "editable": true,
+                        "estatus": [
+                            "Active"
+                        ]
+                    },
+                    "createdDate": 1587866317999,
+                    "createdBy": "db_mazloom",
+                    "version": 0,
+                    "editable": true,
+                    "estatus": [
+                        "Active"
+                    ]
+                },
+                "oceanVessel": {
+                    "name": "SEA TOPAZ",
+                    "type": "Bulk Carrier",
+                    "imo": "9557240",
+                    "yearOfBuild": 2010,
+                    "length": 177.4,
+                    "beam": 28.2,
+                    "id": 32,
+                    "createdDate": 1588382222492,
+                    "createdBy": "db_mazloom",
+                    "version": 0,
+                    "editable": true,
+                    "estatus": [
+                        "Active"
+                    ]
+                },
+                "containers": [
+                    {
+                        "billOfLandingId": 22,
+                        "containerType": "7689",
+                        "containerNo": "78",
+                        "sealNo": "789",
+                        "quantity": 789,
+                        "quantityType": "789",
+                        "weight": 789,
+                        "unitId": -1,
+                        "id": 3,
+                        "unit": {
+                            "nameFA": " ‰",
+                            "nameEN": "tonne",
+                            "categoryUnit": "Weight",
+                            "symbolUnit": "PERCENT",
+                            "id": -1,
+                            "createdDate": 1593717607727,
+                            "createdBy": "j.azad",
+                            "lastModifiedDate": 1593734677001,
+                            "lastModifiedBy": "j.azad",
+                            "version": 1,
+                            "editable": false,
+                            "estatus": [
+                                "Active"
+                            ]
+                        },
+                        "createdDate": 1597468851485,
+                        "createdBy": "r.mazloom",
+                        "version": 0,
+                        "editable": true,
+                        "estatus": [
+                            "Active"
+                        ]
+                    }
+                ],
+                "createdDate": 1597468806358,
+                "createdBy": "r.mazloom",
+                "version": 0,
+                "editable": true,
+                "estatus": [
+                    "Active"
+                ],
+                "_selection_56": true,
+                "_embeddedComponents_isc_ListGrid_1": null
+            },
+            {
+                "documentNo": "Õ«·«???Õ«·« »?Œ?«· €’Â",
+                "switchDocumentNo": "Õ«·«???Õ«·« »?Œ?«· €’Â",
+                "shipperExporterId": 2058,
+                "switchShipperExporterId": 2058,
+                "notifyPartyId": 24,
+                "switchNotifyPartyId": 24,
+                "consigneeId": 2058,
+                "switchConsigneeId": 2058,
+                "portOfLoadingId": 30,
+                "switchPortOfLoadingId": 30,
+                "portOfDischargeId": 3,
+                "switchPortOfDischargeId": 3,
+                "placeOfDelivery": "12",
+                "oceanVesselId": 32,
+                "numberOfBlCopies": 12,
+                "dateOfIssue": 1597735800000,
+                "placeOfIssue": "12",
+                "description": "12",
+                "totalNet": 12,
+                "totalGross": 12,
+                "totalBundles": 12,
+                "id": 62,
+                "shipperExporter": {
+                    "nameFA": "·«ò? Â—«?“‰ ·?„? œ",
+                    "nameEN": "LUCKY HORIZEN LIMITED",
+                    "phone": "+862156237847",
+                    "address": "RM 19C LOCKHART CTR 301-307",
+                    "type": true,
+                    "status": true,
+                    "commercialRole": "Seller",
+                    "seller": true,
+                    "buyer": false,
+                    "countryId": 1,
+                    "id": 2058,
+                    "country": {
+                        "nameFa": "«?—«‰",
+                        "nameEn": "Iran (Islamic Republic of)"
+                    },
+                    "createdDate": 1597293065534,
+                    "createdBy": "r.mazloom",
+                    "lastModifiedDate": 1597293674270,
+                    "lastModifiedBy": "r.mazloom",
+                    "version": 3
+                },
+                "switchShipperExporter": {
+                    "nameFA": "·«ò? Â—«?“‰ ·?„? œ",
+                    "nameEN": "LUCKY HORIZEN LIMITED",
+                    "phone": "+862156237847",
+                    "address": "RM 19C LOCKHART CTR 301-307",
+                    "type": true,
+                    "status": true,
+                    "commercialRole": "Seller",
+                    "seller": true,
+                    "buyer": false,
+                    "countryId": 1,
+                    "id": 2058,
+                    "country": {
+                        "nameFa": "«?—«‰",
+                        "nameEn": "Iran (Islamic Republic of)"
+                    },
+                    "createdDate": 1597293065534,
+                    "createdBy": "r.mazloom",
+                    "lastModifiedDate": 1597293674270,
+                    "lastModifiedBy": "r.mazloom",
+                    "version": 3
+                },
+                "notifyParty": {
+                    "nameFA": "é?«∆Ê›‰ê",
+                    "nameEN": "zhyaofeng",
+                    "phone": "8690",
+                    "type": false,
+                    "status": true,
+                    "tradeMark": "ZH-COPPER",
+                    "commercialRole": "Agent Seller,Agent Buyer",
+                    "seller": false,
+                    "buyer": false,
+                    "transporter": false,
+                    "shipper": false,
+                    "inspector": false,
+                    "insurancer": false,
+                    "agentBuyer": true,
+                    "agentSeller": true,
+                    "ceo": "linchan",
+                    "countryId": 2,
+                    "id": 24,
+                    "country": {
+                        "nameFa": "ç?‰",
+                        "nameEn": "China"
+                    },
+                    "createdDate": 1596256929444,
+                    "createdBy": "devadmin",
+                    "lastModifiedDate": 1597640650586,
+                    "lastModifiedBy": "devadmin",
+                    "version": 9
+                },
+                "switchNotifyParty": {
+                    "nameFA": "é?«∆Ê›‰ê",
+                    "nameEN": "zhyaofeng",
+                    "phone": "8690",
+                    "type": false,
+                    "status": true,
+                    "tradeMark": "ZH-COPPER",
+                    "commercialRole": "Agent Seller,Agent Buyer",
+                    "seller": false,
+                    "buyer": false,
+                    "transporter": false,
+                    "shipper": false,
+                    "inspector": false,
+                    "insurancer": false,
+                    "agentBuyer": true,
+                    "agentSeller": true,
+                    "ceo": "linchan",
+                    "countryId": 2,
+                    "id": 24,
+                    "country": {
+                        "nameFa": "ç?‰",
+                        "nameEn": "China"
+                    },
+                    "createdDate": 1596256929444,
+                    "createdBy": "devadmin",
+                    "lastModifiedDate": 1597640650586,
+                    "lastModifiedBy": "devadmin",
+                    "version": 9
+                },
+                "consignee": {
+                    "nameFA": "·«ò? Â—«?“‰ ·?„? œ",
+                    "nameEN": "LUCKY HORIZEN LIMITED",
+                    "phone": "+862156237847",
+                    "address": "RM 19C LOCKHART CTR 301-307",
+                    "type": true,
+                    "status": true,
+                    "commercialRole": "Seller",
+                    "seller": true,
+                    "buyer": false,
+                    "countryId": 1,
+                    "id": 2058,
+                    "country": {
+                        "nameFa": "«?—«‰",
+                        "nameEn": "Iran (Islamic Republic of)"
+                    },
+                    "createdDate": 1597293065534,
+                    "createdBy": "r.mazloom",
+                    "lastModifiedDate": 1597293674270,
+                    "lastModifiedBy": "r.mazloom",
+                    "version": 3
+                },
+                "switchConsignee": {
+                    "nameFA": "·«ò? Â—«?“‰ ·?„? œ",
+                    "nameEN": "LUCKY HORIZEN LIMITED",
+                    "phone": "+862156237847",
+                    "address": "RM 19C LOCKHART CTR 301-307",
+                    "type": true,
+                    "status": true,
+                    "commercialRole": "Seller",
+                    "seller": true,
+                    "buyer": false,
+                    "countryId": 1,
+                    "id": 2058,
+                    "country": {
+                        "nameFa": "«?—«‰",
+                        "nameEn": "Iran (Islamic Republic of)"
+                    },
+                    "createdDate": 1597293065534,
+                    "createdBy": "r.mazloom",
+                    "lastModifiedDate": 1597293674270,
+                    "lastModifiedBy": "r.mazloom",
+                    "version": 3
+                },
+                "portOfLoading": {
+                    "port": "ZHOUSHAN",
+                    "countryId": 2,
+                    "id": 30,
+                    "country": {
+                        "nameFa": "ç?‰",
+                        "nameEn": "China",
+                        "id": 2,
+                        "createdDate": 1595302644624,
+                        "createdBy": "j.azad",
+                        "version": 0,
+                        "editable": true,
+                        "estatus": [
+                            "Active"
+                        ]
+                    },
+                    "createdDate": 1587866229644,
+                    "createdBy": "db_mazloom",
+                    "version": 0,
+                    "editable": true,
+                    "estatus": [
+                        "Active"
+                    ]
+                },
+                "switchPortOfLoading": {
+                    "port": "ZHOUSHAN",
+                    "countryId": 2,
+                    "id": 30,
+                    "country": {
+                        "nameFa": "ç?‰",
+                        "nameEn": "China",
+                        "id": 2,
+                        "createdDate": 1595302644624,
+                        "createdBy": "j.azad",
+                        "version": 0,
+                        "editable": true,
+                        "estatus": [
+                            "Active"
+                        ]
+                    },
+                    "createdDate": 1587866229644,
+                    "createdBy": "db_mazloom",
+                    "version": 0,
+                    "editable": true,
+                    "estatus": [
+                        "Active"
+                    ]
+                },
+                "portOfDischarge": {
+                    "port": "SHANGHAI",
+                    "countryId": 2,
+                    "id": 3,
+                    "country": {
+                        "nameFa": "ç?‰",
+                        "nameEn": "China",
+                        "id": 2,
+                        "createdDate": 1595302644624,
+                        "createdBy": "j.azad",
+                        "version": 0,
+                        "editable": true,
+                        "estatus": [
+                            "Active"
+                        ]
+                    },
+                    "createdDate": 1587732958179,
+                    "createdBy": "db_mazloom",
+                    "lastModifiedDate": 1587865761876,
+                    "lastModifiedBy": "db_mazloom",
+                    "version": 3,
+                    "editable": true,
+                    "estatus": [
+                        "Active"
+                    ]
+                },
+                "switchPortOfDischarge": {
+                    "port": "SHANGHAI",
+                    "countryId": 2,
+                    "id": 3,
+                    "country": {
+                        "nameFa": "ç?‰",
+                        "nameEn": "China",
+                        "id": 2,
+                        "createdDate": 1595302644624,
+                        "createdBy": "j.azad",
+                        "version": 0,
+                        "editable": true,
+                        "estatus": [
+                            "Active"
+                        ]
+                    },
+                    "createdDate": 1587732958179,
+                    "createdBy": "db_mazloom",
+                    "lastModifiedDate": 1587865761876,
+                    "lastModifiedBy": "db_mazloom",
+                    "version": 3,
+                    "editable": true,
+                    "estatus": [
+                        "Active"
+                    ]
+                },
+                "oceanVessel": {
+                    "name": "SEA TOPAZ",
+                    "type": "Bulk Carrier",
+                    "imo": "9557240",
+                    "yearOfBuild": 2010,
+                    "length": 177.4,
+                    "beam": 28.2,
+                    "id": 32,
+                    "createdDate": 1588382222492,
+                    "createdBy": "db_mazloom",
+                    "version": 0,
+                    "editable": true,
+                    "estatus": [
+                        "Active"
+                    ]
+                },
+                "containers": [],
+                "createdDate": 1597726005093,
+                "createdBy": "db_saeb",
+                "version": 0,
+                "editable": true,
+                "estatus": [
+                    "Active"
+                ],
+                "_selection_56": true,
+                "_embeddedComponents_isc_ListGrid_1": null
+            }
+        ],
+        "toCurrencyId": -33,
+        "conversionRefId": 124,
         "invoiceTypeId": 1,
         "contractId": 218,
-        "shipmentId": 76,
+        "shipmentId": 77,
         "creatorId": 2,
         "currencyId": -32,
-        "toCurrencyId": -33,
-        "conversionRefId": 124
+        "description": "This is test"
     });
 
 

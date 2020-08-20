@@ -19,7 +19,6 @@ isc.defineClass("InvoiceBaseWeight", isc.VLayout).addProperties({
         fields.add(isc.DynamicForm.create({
             fields: [{
 
-                width: "100%",
                 type: "integer",
                 name: "reportMilestone",
                 editorType: "SelectItem",
@@ -36,6 +35,7 @@ isc.defineClass("InvoiceBaseWeight", isc.VLayout).addProperties({
                     isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
 
                         httpMethod: "GET",
+                        willHandleError: true,
                         params: {
                             reportMilestone: value,
                             shipmentId: This.shipment.id
@@ -43,7 +43,7 @@ isc.defineClass("InvoiceBaseWeight", isc.VLayout).addProperties({
                         actionURL: "${contextPath}" + "/api/weightInspection/get-weight-values",
                         callback: function (resp) {
 
-                            if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+                            if (resp.data && (resp.httpResponseCode === 200 || resp.httpResponseCode === 201)) {
 
                                 let weightValue = JSON.parse(resp.data);
                                 if (weightValue == null)
@@ -60,6 +60,21 @@ isc.defineClass("InvoiceBaseWeight", isc.VLayout).addProperties({
                                 This.getMembers().filter(q => q.name === "weightDiff").first().setValue(weightValue.weightDiff);
                                 This.getMembers().filter(q => q.name === "weightDiff").first().setUnitId(weightValue.unit.id);
                                 This.getMembers().filter(q => q.name === "weightDiff").first().unitCategory = weightValue.unit.categoryUnit;
+                            } else {
+
+                                isc.RPCManager.handleError(resp, null);
+
+                                This.getMembers().filter(q => q.name === "weightGW").first().setValue(null);
+                                This.getMembers().filter(q => q.name === "weightGW").first().setUnitId(null);
+                                This.getMembers().filter(q => q.name === "weightGW").first().unitCategory = null;
+
+                                This.getMembers().filter(q => q.name === "weightND").first().setValue(null);
+                                This.getMembers().filter(q => q.name === "weightND").first().setUnitId(null);
+                                This.getMembers().filter(q => q.name === "weightND").first().unitCategory = null;
+
+                                This.getMembers().filter(q => q.name === "weightDiff").first().setValue(null);
+                                This.getMembers().filter(q => q.name === "weightDiff").first().setUnitId(null);
+                                This.getMembers().filter(q => q.name === "weightDiff").first().unitCategory = null;
                             }
                         }
                     }));

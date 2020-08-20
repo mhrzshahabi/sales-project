@@ -21,7 +21,8 @@ public class WeightInspectionService extends GenericService<WeightInspection, Lo
     public WeightInspectionDTO.InfoWithoutInspectionReportAndInventory getWeightValues(Long shipmentId, Integer reportMilestone) {
 
         List<WeightInspection> weightInspections = ((WeightInspectionDAO) repository).findAllByShipmentId(shipmentId);
-        if (weightInspections.size() == 0) return null;
+        if (weightInspections.size() == 0)
+            throw new NotFoundException(WeightInspection.class);
 
         switch (reportMilestone) {
 
