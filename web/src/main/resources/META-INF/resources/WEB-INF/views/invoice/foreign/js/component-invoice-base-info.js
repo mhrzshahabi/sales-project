@@ -96,9 +96,10 @@ isc.defineClass("InvoiceBaseInfo", isc.VLayout).addProperties({
                     <td class="table-td-value">` +
                         This.billLadings.map(bl => {
                             result = "<div>" + bl.oceanVessel.name + "</div>";
-                            result += "<div>B/L NO: " + bl.documentNo + "</div>";
+                            result += "<div>B/L NO: " + bl.documentNo;
                             if (bl.switchDocumentNo)
-                                result += "<div> & SW B/L NO: " + bl.switchDocumentNo + " - DATED " + DateUtil.format(bl.dateOfIssue, "dd MM YYYY") + "</div>";
+                                result += " & SW B/L NO: " + bl.switchDocumentNo + " - DATED " + DateUtil.format(bl.dateOfIssue, "dd MM YYYY");
+                            result += "</div>";
                             if (bl.containers && bl.containers.length > 0)
                                 result += "<div>" + bl.containers.length + " X " + bl.containers[0].containerType + " CONTAINERS</div>";
                             result += "<div>FROM: " + bl.portOfLoading.port + "</div>";
@@ -106,7 +107,7 @@ isc.defineClass("InvoiceBaseInfo", isc.VLayout).addProperties({
                             result += "<div>NET WET WEIGHT: " + bl.totalGross + "</div>";
 
                             return result;
-                        }).join('<hr>') + `</td>
+                        }).join('<br/>') + `</td>
                   </tr>
                   <tr>
                     <td class="table-td">DELIVERY TERMS:&nbsp;</td>

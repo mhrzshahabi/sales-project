@@ -30,21 +30,31 @@ isc.defineClass("InvoiceBaseValues", isc.VLayout).addProperties({
                 contractDetailData: This.contractDetailData
             });
             this.addMember(this.invoiceBasePriceComponent);
+            this.addMember(isc.HTMLFlow.create({
+                width: "100%",
+                contents: "<span style='width: 100%; display: block; margin: 10px auto; border-bottom: 1px solid rgba(0,0,0,0.3)'></span>"
+            }));
 
-            // if (This.contract.materialId !== ImportantIDs.material.COPPER_CATHOD) {
-            //
-            //     this.invoiceBaseAssayComponent = isc.InvoiceBaseAssay.create({
-            //         shipment: This.shipment,
-            //     });
-            //     this.addMember(this.invoiceBaseAssayComponent);
-            // }
+            if (This.contract.materialId !== ImportantIDs.material.COPPER_CATHOD) {
+
+                this.invoiceBaseAssayComponent = isc.InvoiceBaseAssay.create({
+                    shipment: This.shipment,
+                });
+                this.addMember(this.invoiceBaseAssayComponent);
+                this.addMember(isc.HTMLFlow.create({
+                    width: "100%",
+                    contents: "<span style='width: 100%; display: block; margin: 10px auto; border-bottom: 1px solid rgba(0,0,0,0.3)'></span>"
+                }));
+            }
 
             this.invoiceBaseWeightComponent = isc.InvoiceBaseWeight.create({
                 shipment: This.shipment,
             });
-
             this.addMember(this.invoiceBaseWeightComponent);
-
+            this.addMember(isc.HTMLFlow.create({
+                width: "100%",
+                contents: "<span style='width: 100%; display: block; margin: 10px auto; border-bottom: 1px solid rgba(0,0,0,0.3)'></span>"
+            }));
         } else {
 
         }

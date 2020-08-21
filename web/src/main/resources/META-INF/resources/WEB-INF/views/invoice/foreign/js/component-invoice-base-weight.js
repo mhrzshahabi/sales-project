@@ -4,10 +4,10 @@ isc.defineClass("InvoiceBaseWeight", isc.VLayout).addProperties({
     autoFit: false,
     autoDraw: false,
     showEdges: false,
+    canAdaptHeight: true,
     layoutMargin: 2,
     membersMargin: 2,
     overflow: "visible",
-    canAdaptHeight: true,
     shipment: null,
     initWidget: function () {
 
@@ -15,8 +15,8 @@ isc.defineClass("InvoiceBaseWeight", isc.VLayout).addProperties({
 
         let This = this;
 
-        let fields = [];
-        fields.add(isc.DynamicForm.create({
+        let members = [];
+        members.add(isc.DynamicForm.create({
             fields: [{
 
                 type: "integer",
@@ -29,7 +29,7 @@ isc.defineClass("InvoiceBaseWeight", isc.VLayout).addProperties({
                     type: "required",
                     validateOnChange: true
                 }],
-                valueMap: Object.assign(JSON.parse('${Enum_MileStone}'), {4: "Average"}),
+                valueMap: JSON.parse('${Enum_MileStone}'),
                 changed: function (form, item, value) {
 
                     isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
@@ -82,7 +82,7 @@ isc.defineClass("InvoiceBaseWeight", isc.VLayout).addProperties({
             }]
         }));
 
-        fields.add(isc.Unit.create({
+        members.add(isc.Unit.create({
 
             disabledUnitField: true,
             disabledValueField: true,
@@ -92,7 +92,7 @@ isc.defineClass("InvoiceBaseWeight", isc.VLayout).addProperties({
             fieldValueTitle: "weightGW",
         }));
 
-        fields.add(isc.Unit.create({
+        members.add(isc.Unit.create({
 
             disabledUnitField: true,
             disabledValueField: true,
@@ -102,7 +102,7 @@ isc.defineClass("InvoiceBaseWeight", isc.VLayout).addProperties({
             fieldValueTitle: "weightND",
         }));
 
-        fields.add(isc.Unit.create({
+        members.add(isc.Unit.create({
 
             disabledUnitField: true,
             disabledValueField: true,
@@ -112,9 +112,9 @@ isc.defineClass("InvoiceBaseWeight", isc.VLayout).addProperties({
             fieldValueTitle: "weightDiff",
         }));
 
-        this.addMembers(fields);
-        this.getMembers()[0].setValue("reportMilestone", 4);
-        this.getMembers()[0].getItem(0).changed(this.getMembers()[0], this.getMembers()[0].getItem(0), 4);
+        this.addMembers(members);
+        this.getMembers()[0].setValue("reportMilestone", 1);
+        this.getMembers()[0].getItem(0).changed(this.getMembers()[0], this.getMembers()[0].getItem(0), 1);
     },
     // getValues: function () {
     //     return this.members[0].getValues();
