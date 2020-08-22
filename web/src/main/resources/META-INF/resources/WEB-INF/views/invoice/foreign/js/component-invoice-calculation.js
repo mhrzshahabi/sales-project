@@ -4,33 +4,33 @@ isc.defineClass("InvoiceCalculation", isc.VLayout).addProperties({
     autoFit: false,
     autoDraw: false,
     showEdges: false,
+    // canAdaptHeight: true,
     layoutMargin: 2,
     membersMargin: 2,
-    overflow: "scroll",
+    overflow: "auto",
     currency: null,
     invoiceBaseAssayComponent: null,
     invoiceBasePriceComponent: null,
     initWidget: function () {
 
-        let This = this;
         this.Super("initWidget", arguments);
 
-        let fields = [];
+        let This = this;
+
         let assayValues = this.invoiceBaseAssayComponent.getValues();
         let priceValues = this.invoiceBasePriceComponent.getValues();
         for (let index = 0; index < priceValues.length; index++) {
 
-            fields.add(isc.InvoiceCalculationRow.create({
+            this.addMember(isc.InvoiceCalculationRow.create({
                 assay: assayValues[index],
                 price: priceValues[index],
-                border: "1px solid rgba(0, 0, 0, 0.3)",
-                name: assayValues[index].materialElement.element.name
+                name: assayValues[index].name
             }));
         }
 
-        this.addMember(isc.DynamicForm.create({
+        /*this.addFields(isc.DynamicForm.create({
             width: "100%",
-            fields: fields,
+            fields: members,
             itemChanged: function (item, newValue) {
 
                 let sum = Object.keys(this.getValues()).map(q => this.getValues()[q].deductionPrice).sum();
@@ -42,7 +42,8 @@ isc.defineClass("InvoiceCalculation", isc.VLayout).addProperties({
                 );
             }
         }));
-        this.addMember(isc.Unit.create({
+
+        this.addField(isc.Unit.create({
             border: "1px solid rgba(0, 0, 0, 0.3)",
             disabledUnitField: true,
             disabledValueField: true,
@@ -51,12 +52,12 @@ isc.defineClass("InvoiceCalculation", isc.VLayout).addProperties({
             unitCategory: This.currency.categoryUnit,
             fieldValueTitle: "<spring:message code='foreign-invoice.form.tab.subtotal'/>"
         }));
-        this.members.last().setUnitId(this.currency.id);
+        this.members.last().setUnitId(this.currency.id);*/
     },
-    getValue: function () {
-        return this.members[0].getValues();
-    },
-    getSumValue: function () {
-        return this.members[1].getValue();
-    }
+    // getValue: function () {
+    //     return this.members[0].getValues();
+    // },
+    // getSumValue: function () {
+    //     return this.members[1].getValue();
+    // }
 });

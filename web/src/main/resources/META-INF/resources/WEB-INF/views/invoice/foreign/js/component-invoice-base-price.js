@@ -25,6 +25,7 @@ isc.defineClass("InvoiceBasePrice", isc.VLayout).addProperties({
         let basePriceReference = This.contractDetailData.basePriceReference;
 
         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+            willHandleError: true,
             params: {
                 year: year,
                 materialId: material.id,
@@ -37,42 +38,65 @@ isc.defineClass("InvoiceBasePrice", isc.VLayout).addProperties({
             callback: function (resp) {
 
                 let members = [];
-                let priceBases = JSON.parse(resp.data);
-                priceBases.forEach(priceBase => {
+                if (resp.data && (resp.httpResponseCode === 200 || resp.httpResponseCode === 201)) {
 
-                    if (!priceBase.element.payable)
-                        return;
+                    let priceBases = JSON.parse(resp.data);
+                    priceBases.forEach(priceBase => {
 
-                    members.add(isc.Unit.create({
+                        if (!priceBase.element.payable)
+                            return;
 
-                        unitCategory: priceBase.financeUnit.categoryUnit,
-                        disabledUnitField: true,
-                        disabledValueField: true,
-                        showValueFieldTitle: true,
-                        showUnitFieldTitle: false,
-                        name: priceBase.element.name,
-                        fieldValueTitle: priceBase.element.name,
-                    }));
+                        members.add(isc.Unit.create({
 
-                    members.last().setValue(priceBase.price);
-                    members.last().setUnitId(priceBase.financeUnitId);
-                });
+                            unitCategory: priceBase.financeUnit.categoryUnit,
+                            fieldValueTitle: priceBase.element.name,
+                            disabledUnitField: true,
+                            disabledValueField: true,
+                            showValueFieldTitle: true,
+                            showUnitFieldTitle: false,
+                            name: priceBase.element.name,
+                            unit: priceBase.financeUnit,
+                            elementId: priceBase.elementId,
+                        }));
+
+                        members.last().setValue(priceBase.price);
+                        members.last().setUnitId(priceBase.financeUnitId);
+                    });
+                } else {
+
+                    isc.RPCManager.handleError(resp);
+                }
 
                 let fieldsNames = members.map(q => q.name).join(", ");
                 This.addMember(isc.Label.create({
                     width: "100%",
                     height: "50",
                     contents: "<b>" + "AVERAGE OF " + (month + moasValue) +
-                        "th MONTH OF " + year + " (MOAS" + (moasValue === 0 ? "" : (moasValue > 0 ? "+" : "-") + moasValue) +
-                        ") " + " FOR " + fieldsNames + "<b>"
+                    "th MONTH OF " + year + " (MOAS" + (moasValue === 0 ? "" : (moasValue > 0 ? "+" : "-") + moasValue) +
+                    ") " + " FOR " + fieldsNames + "<b>"
                 }));
-                This.addMembers(members);
+
+                if (members.length)
+                    This.addMembers(members);
             }
         }));
     },
-    // getValues: function () {
-    //     return this.members[1].getValues();
-    // },
+    getValues: function () {
+
+        let data = [];
+        this.getMembers().slice(1).forEach((current) => {
+
+            data.add({
+                elementId: current.elementId,
+                name: current.name,
+                value: current.getValues().value,
+                unit: current.unit,
+                unitId: current.getValues().unitId
+            });
+        });
+
+        return data;
+    },
     // setValues: function (data) {
     //     return this.members[1].setValues(data);
     // }

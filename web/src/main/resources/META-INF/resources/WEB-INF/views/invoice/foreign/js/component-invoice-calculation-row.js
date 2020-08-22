@@ -1,7 +1,12 @@
-isc.defineClass("InvoiceCalculationRow", isc.DynamicForm).addProperties({
-    numCols: 4,
+isc.defineClass("InvoiceCalculationRow", isc.VLayout).addProperties({
+    align: "top",
     width: "100%",
-    wrapItemTitles: false,
+    autoFit: false,
+    autoDraw: false,
+    showEdges: false,
+    canAdaptHeight: true,
+    layoutMargin: 2,
+    membersMargin: 2,
     assay: null,
     price: null,
     initWidget: function () {
@@ -9,92 +14,100 @@ isc.defineClass("InvoiceCalculationRow", isc.DynamicForm).addProperties({
         this.Super("initWidget", arguments);
 
         let This = this;
-        this.addField(isc.Unit.create({
-            colSpan: 4,
-            unitCategory: This.assay.materialElement.unit.categoryUnit,
+
+        this.addMember(isc.Unit.create({
+            unitCategory: This.assay.unit.categoryUnit,
             disabledUnitField: true,
             disabledValueField: true,
             showValueFieldTitle: true,
             showUnitFieldTitle: false,
             name: 'priceBase',
-            fieldValueTitle: This.assay.materialElement.element.name,
-            border: "1px solid rgba(0, 0, 0, 0.3)",
+            fieldValueTitle: This.assay.name,
         }));
-        this.fields.last().setValue(this.assay.value);
-        this.fields.last().setUnitId(this.assay.materialElement.unit.id);
-        this.addField({
-            colSpan: 2,
-            wrap: false,
-            required: true,
-            showTitle: false,
-            width: '100%',
-            type: 'float',
-            name: "deductionValue",
-            keyPressFilter: "[0-9.]",
-            validators: [{
-                type: "isFloat",
-                wrap: false,
-                stopOnError: true,
-                validateOnChange: true,
-                errorMessage: "<spring:message code='global.form.correctType'/>"
-            }],
-            changed: function (form, item, value) {
+        this.getMembers().last().setValue(this.assay.value);
+        this.getMembers().last().setUnitId(this.assay.unitId);
 
-                form.setValue('finalAssay', {
-                    value: This.assay.value - value,
-                    unitId: This.assay.materialElement.unit.id,
-                });
-                This.calculate();
-            }
-        });
-        this.addField({
-            value: 1,
-            colSpan: 2,
-            showTitle: false,
-            width: "100%",
-            name: "deductionType",
-            valueMap: JSON.parse('${Enums_DeductionType}')
-        });
-        this.addField(isc.Unit.create({
-            colSpan: 4,
-            unitCategory: This.assay.materialElement.unit.categoryUnit,
-            disabledUnitField: true,
-            disabledValueField: true,
-            showValueFieldTitle: false,
-            showUnitFieldTitle: false,
-            deductionUnitConversionRate: 1,
-            name: 'finalAssay',
-            border: "1px solid rgba(0, 0, 0, 0.3)",
-        }));
-        this.fields.last().setUnitId(this.assay.materialElement.unit.id);
-        if (This.assay.materialElement.unit.id !== ImportantIDs.unit.PERCENT &&
-            !Enums.unit.hasFlag(This.price.unit.symbolUnit, This.assay.materialElement.unit.symbolUnit))
-            this.addField({
-                colSpan: 4,
-                title: " X ",
-                name: "deductionUnitConversionRate",
-                border: "1px solid rgba(0, 0, 0, 0.3)",
+
+        console.log(this.getMembers())
+
+        this.addMember(isc.DynamicForm.create({
+            fields: [{
+                wrap: false,
+                required: true,
+                showTitle: false,
+                width: '100%',
+                type: 'float',
+                name: "deductionValue",
+                keyPressFilter: "[0-9.]",
+                validators: [{
+                    type: "isFloat",
+                    wrap: false,
+                    stopOnError: true,
+                    validateOnChange: true,
+                    errorMessage: "<spring:message code='global.form.correctType'/>"
+                }],
                 changed: function (form, item, value) {
 
-                    form.getField('finalAssay').deductionUnitConversionRate = value;
-                    This.calculate();
+                    form.setValue('finalAssay', {
+                        value: This.assay.value - value,
+                        unitId: This.assay.unitId,
+                    });
+                    // This.calculate();
                 }
-            });
-        this.addField({
-            colSpan: 4,
-            title: " = ",
-            type: "staticText",
-            name: "deductionPrice",
-        });
+            }, {
+                colSpan: 2,
+                showTitle: false,
+                width: "100%",
+                name: "deductionType",
+                valueMap: JSON.parse('${Enum_DeductionType}')
+            }]
+        }));
+
+        this.addField();
+        // this.addField(isc.Unit.create({
+        //     colSpan: 4,
+        //     unitCategory: This.assay.unit.categoryUnit,
+        //     disabledUnitField: true,
+        //     disabledValueField: true,
+        //     showValueFieldTitle: false,
+        //     showUnitFieldTitle: false,
+        //     deductionUnitConversionRate: 1,
+        //     name: 'finalAssay',
+        //     border: "1px solid rgba(0, 0, 0, 0.3)",
+        // }));
+        // this.getFields().last().setUnitId(this.assay.unitId);
+        //
+        //
+        // if (This.assay.unitId !== ImportantIDs.unit.PERCENT &&
+        //     !Enums.unit.hasFlag(This.price.unit.symbolUnit, This.assay.unit.symbolUnit))
+        //     this.addField({
+        //         colSpan: 4,
+        //         title: " X ",
+        //         name: "deductionUnitConversionRate",
+        //         border: "1px solid rgba(0, 0, 0, 0.3)",
+        //         changed: function (form, item, value) {
+        //
+        //             form.getField('finalAssay').deductionUnitConversionRate = value;
+        //             This.calculate();
+        //         }
+        //     });
+        // console.log("@before");
+        // this.addField({
+        //     colSpan: 4,
+        //     title: " = ",
+        //     type: "staticText",
+        //     name: "deductionPrice",
+        // });
+
     },
-    calculate: function () {
-        let assayField = this.getField('finalAssay');
-        this.setValue("deductionPrice", assayField.getValue() * assayField.deductionUnitConversionRate);
-    },
-    getValue: function () {
-        return this.getValues();
-    },
-    setValue: function (value) {
-        this.setValues(value);
-    }
+    // calculate: function () {
+    //     let assayField = this.getField('finalAssay');
+    //     this.setValue("deductionPrice", assayField.getValue() * assayField.deductionUnitConversionRate);
+    // },
+    // getValue: function () {
+    //     return this.getValues();
+    // },
+    // setValue: function (value) {
+    //     this.setValues(value);
+    // }
 });

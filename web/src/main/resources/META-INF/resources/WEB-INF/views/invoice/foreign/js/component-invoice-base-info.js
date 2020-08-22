@@ -6,6 +6,7 @@ isc.defineClass("InvoiceBaseInfo", isc.VLayout).addProperties({
     showEdges: false,
     layoutMargin: 2,
     membersMargin: 2,
+    overflow: "auto",
     contract: null,
     billLadings: null,
     invoiceNo: null,

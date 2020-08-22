@@ -521,13 +521,23 @@ foreignInvoiceTab.button.save = isc.IButtonSave.create({
             // });
             // foreignInvoiceTab.method.addTab(invoiceDeductionComponent, '<spring:message code="foreign-invoice.form.tab.deduction"/>');
 
-            // let invoiceCalculationComponent = isc.InvoiceCalculation.create({
-            //
-            //     currency: foreignInvoiceTab.dynamicForm.valuesManager.getValue("currency"),
-            //     invoiceBaseAssayComponent: invoiceBaseValuesComponent.invoiceBaseAssayComponent,
-            //     invoiceBasePriceComponent: invoiceBaseValuesComponent.invoiceBasePriceComponent
-            // });
-            //  foreignInvoiceTab.method.addTab(invoiceCalculationComponent, '<spring:message code="foreign-invoice.form.tab.calculation"/>');
+            function addRelatedTab() {
+
+                setTimeout(() => {
+
+                    if (invoiceBaseValuesComponent.invoiceBaseAssayComponent.isDrawn() && invoiceBaseValuesComponent.invoiceBasePriceComponent.isDrawn()) {
+
+                        let invoiceCalculationComponent = isc.InvoiceCalculation.create({
+
+                            currency: foreignInvoiceTab.dynamicForm.valuesManager.getValue("currency"),
+                            invoiceBaseAssayComponent: invoiceBaseValuesComponent.invoiceBaseAssayComponent,
+                            invoiceBasePriceComponent: invoiceBaseValuesComponent.invoiceBasePriceComponent
+                        });
+                        foreignInvoiceTab.method.addTab(invoiceCalculationComponent, '<spring:message code="foreign-invoice.form.tab.calculation"/>');
+                    } else addRelatedTab();
+                }, 500);
+            }
+            addRelatedTab();
 
             // foreignInvoiceTab.method.addTab(isc.InvoicePayment.create({
             //     currency: foreignInvoiceTab.dynamicForm.valuesManager.getValue("currency"),
@@ -656,335 +666,12 @@ foreignInvoiceTab.method.newForm = function () {
         field.changed(foreignInvoiceTab.dynamicForm.baseData, field, field.getValue());
     });
 
-
     foreignInvoiceTab.dynamicForm.valuesManager.setValues({
-        "date": "2020-08-20T07:30:00.000Z",
+        "date": "2020-08-22T07:30:00.000Z",
         "billLadings": [
             {
-                "documentNo": "78978",
-                "switchDocumentNo": "78978",
-                "shipperExporterId": 24,
-                "switchShipperExporterId": 24,
-                "notifyPartyId": 2058,
-                "switchNotifyPartyId": 2058,
-                "consigneeId": 42,
-                "switchConsigneeId": 42,
-                "portOfLoadingId": 33,
-                "switchPortOfLoadingId": 33,
-                "portOfDischargeId": 31,
-                "switchPortOfDischargeId": 31,
-                "placeOfDelivery": "89",
-                "oceanVesselId": 32,
-                "numberOfBlCopies": 89,
-                "dateOfIssue": 1597476600000,
-                "placeOfIssue": "678",
-                "totalNet": 89,
-                "totalGross": 89,
-                "totalBundles": 89,
-                "id": 22,
-                "shipperExporter": {
-                    "nameFA": "é?«∆Ê›‰ê",
-                    "nameEN": "zhyaofeng",
-                    "phone": "8690",
-                    "type": false,
-                    "status": true,
-                    "tradeMark": "ZH-COPPER",
-                    "commercialRole": "Agent Seller,Agent Buyer",
-                    "seller": false,
-                    "buyer": false,
-                    "transporter": false,
-                    "shipper": false,
-                    "inspector": false,
-                    "insurancer": false,
-                    "agentBuyer": true,
-                    "agentSeller": true,
-                    "ceo": "linchan",
-                    "countryId": 2,
-                    "id": 24,
-                    "country": {
-                        "nameFa": "ç?‰",
-                        "nameEn": "China"
-                    },
-                    "createdDate": 1596256929444,
-                    "createdBy": "devadmin",
-                    "lastModifiedDate": 1597640650586,
-                    "lastModifiedBy": "devadmin",
-                    "version": 9
-                },
-                "switchShipperExporter": {
-                    "nameFA": "é?«∆Ê›‰ê",
-                    "nameEN": "zhyaofeng",
-                    "phone": "8690",
-                    "type": false,
-                    "status": true,
-                    "tradeMark": "ZH-COPPER",
-                    "commercialRole": "Agent Seller,Agent Buyer",
-                    "seller": false,
-                    "buyer": false,
-                    "transporter": false,
-                    "shipper": false,
-                    "inspector": false,
-                    "insurancer": false,
-                    "agentBuyer": true,
-                    "agentSeller": true,
-                    "ceo": "linchan",
-                    "countryId": 2,
-                    "id": 24,
-                    "country": {
-                        "nameFa": "ç?‰",
-                        "nameEn": "China"
-                    },
-                    "createdDate": 1596256929444,
-                    "createdBy": "devadmin",
-                    "lastModifiedDate": 1597640650586,
-                    "lastModifiedBy": "devadmin",
-                    "version": 9
-                },
-                "notifyParty": {
-                    "nameFA": "·«ò? Â—«?“‰ ·?„? œ",
-                    "nameEN": "LUCKY HORIZEN LIMITED",
-                    "phone": "+862156237847",
-                    "address": "RM 19C LOCKHART CTR 301-307",
-                    "type": true,
-                    "status": true,
-                    "commercialRole": "Seller",
-                    "seller": true,
-                    "buyer": false,
-                    "countryId": 1,
-                    "id": 2058,
-                    "country": {
-                        "nameFa": "«?—«‰",
-                        "nameEn": "Iran (Islamic Republic of)"
-                    },
-                    "createdDate": 1597293065534,
-                    "createdBy": "r.mazloom",
-                    "lastModifiedDate": 1597293674270,
-                    "lastModifiedBy": "r.mazloom",
-                    "version": 3
-                },
-                "switchNotifyParty": {
-                    "nameFA": "·«ò? Â—«?“‰ ·?„? œ",
-                    "nameEN": "LUCKY HORIZEN LIMITED",
-                    "phone": "+862156237847",
-                    "address": "RM 19C LOCKHART CTR 301-307",
-                    "type": true,
-                    "status": true,
-                    "commercialRole": "Seller",
-                    "seller": true,
-                    "buyer": false,
-                    "countryId": 1,
-                    "id": 2058,
-                    "country": {
-                        "nameFa": "«?—«‰",
-                        "nameEn": "Iran (Islamic Republic of)"
-                    },
-                    "createdDate": 1597293065534,
-                    "createdBy": "r.mazloom",
-                    "lastModifiedDate": 1597293674270,
-                    "lastModifiedBy": "r.mazloom",
-                    "version": 3
-                },
-                "consignee": {
-                    "nameFA": "   ?»·?»·?»·?» 3435435 · ?»·?»·?»· ?»·?»·?»·",
-                    "nameEN": "dfgdfgfdg",
-                    "phone": "43545",
-                    "type": true,
-                    "status": true,
-                    "commercialRole": "Seller",
-                    "seller": true,
-                    "countryId": 3,
-                    "id": 42,
-                    "country": {
-                        "nameFa": "«›€«‰” «‰",
-                        "nameEn": "Afghanistan"
-                    },
-                    "createdDate": 1597217979021,
-                    "createdBy": "devadmin",
-                    "lastModifiedDate": 1597217997269,
-                    "lastModifiedBy": "devadmin",
-                    "version": 1
-                },
-                "switchConsignee": {
-                    "nameFA": "   ?»·?»·?»·?» 3435435 · ?»·?»·?»· ?»·?»·?»·",
-                    "nameEN": "dfgdfgfdg",
-                    "phone": "43545",
-                    "type": true,
-                    "status": true,
-                    "commercialRole": "Seller",
-                    "seller": true,
-                    "countryId": 3,
-                    "id": 42,
-                    "country": {
-                        "nameFa": "«›€«‰” «‰",
-                        "nameEn": "Afghanistan"
-                    },
-                    "createdDate": 1597217979021,
-                    "createdBy": "devadmin",
-                    "lastModifiedDate": 1597217997269,
-                    "lastModifiedBy": "devadmin",
-                    "version": 1
-                },
-                "portOfLoading": {
-                    "port": "FANGCHENG",
-                    "countryId": 2,
-                    "id": 33,
-                    "country": {
-                        "nameFa": "ç?‰",
-                        "nameEn": "China",
-                        "id": 2,
-                        "createdDate": 1595302644624,
-                        "createdBy": "j.azad",
-                        "version": 0,
-                        "editable": true,
-                        "estatus": [
-                            "Active"
-                        ]
-                    },
-                    "createdDate": 1587866451161,
-                    "createdBy": "db_mazloom",
-                    "version": 0,
-                    "editable": true,
-                    "estatus": [
-                        "Active"
-                    ]
-                },
-                "switchPortOfLoading": {
-                    "port": "FANGCHENG",
-                    "countryId": 2,
-                    "id": 33,
-                    "country": {
-                        "nameFa": "ç?‰",
-                        "nameEn": "China",
-                        "id": 2,
-                        "createdDate": 1595302644624,
-                        "createdBy": "j.azad",
-                        "version": 0,
-                        "editable": true,
-                        "estatus": [
-                            "Active"
-                        ]
-                    },
-                    "createdDate": 1587866451161,
-                    "createdBy": "db_mazloom",
-                    "version": 0,
-                    "editable": true,
-                    "estatus": [
-                        "Active"
-                    ]
-                },
-                "portOfDischarge": {
-                    "port": "ABU DHABI",
-                    "countryId": 3,
-                    "id": 31,
-                    "country": {
-                        "nameFa": "«›€«‰” «‰",
-                        "nameEn": "Afghanistan",
-                        "id": 3,
-                        "createdDate": 1595302644625,
-                        "createdBy": "j.azad",
-                        "version": 0,
-                        "editable": true,
-                        "estatus": [
-                            "Active"
-                        ]
-                    },
-                    "createdDate": 1587866317999,
-                    "createdBy": "db_mazloom",
-                    "version": 0,
-                    "editable": true,
-                    "estatus": [
-                        "Active"
-                    ]
-                },
-                "switchPortOfDischarge": {
-                    "port": "ABU DHABI",
-                    "countryId": 3,
-                    "id": 31,
-                    "country": {
-                        "nameFa": "«›€«‰” «‰",
-                        "nameEn": "Afghanistan",
-                        "id": 3,
-                        "createdDate": 1595302644625,
-                        "createdBy": "j.azad",
-                        "version": 0,
-                        "editable": true,
-                        "estatus": [
-                            "Active"
-                        ]
-                    },
-                    "createdDate": 1587866317999,
-                    "createdBy": "db_mazloom",
-                    "version": 0,
-                    "editable": true,
-                    "estatus": [
-                        "Active"
-                    ]
-                },
-                "oceanVessel": {
-                    "name": "SEA TOPAZ",
-                    "type": "Bulk Carrier",
-                    "imo": "9557240",
-                    "yearOfBuild": 2010,
-                    "length": 177.4,
-                    "beam": 28.2,
-                    "id": 32,
-                    "createdDate": 1588382222492,
-                    "createdBy": "db_mazloom",
-                    "version": 0,
-                    "editable": true,
-                    "estatus": [
-                        "Active"
-                    ]
-                },
-                "containers": [
-                    {
-                        "billOfLandingId": 22,
-                        "containerType": "7689",
-                        "containerNo": "78",
-                        "sealNo": "789",
-                        "quantity": 789,
-                        "quantityType": "789",
-                        "weight": 789,
-                        "unitId": -1,
-                        "id": 3,
-                        "unit": {
-                            "nameFA": " ‰",
-                            "nameEN": "tonne",
-                            "categoryUnit": "Weight",
-                            "symbolUnit": "PERCENT",
-                            "id": -1,
-                            "createdDate": 1593717607727,
-                            "createdBy": "j.azad",
-                            "lastModifiedDate": 1593734677001,
-                            "lastModifiedBy": "j.azad",
-                            "version": 1,
-                            "editable": false,
-                            "estatus": [
-                                "Active"
-                            ]
-                        },
-                        "createdDate": 1597468851485,
-                        "createdBy": "r.mazloom",
-                        "version": 0,
-                        "editable": true,
-                        "estatus": [
-                            "Active"
-                        ]
-                    }
-                ],
-                "createdDate": 1597468806358,
-                "createdBy": "r.mazloom",
-                "version": 0,
-                "editable": true,
-                "estatus": [
-                    "Active"
-                ],
-                "_selection_56": true,
-                "_embeddedComponents_isc_ListGrid_1": null
-            },
-            {
-                "documentNo": "Õ«·«???Õ«·« »?Œ?«· €’Â",
-                "switchDocumentNo": "Õ«·«???Õ«·« »?Œ?«· €’Â",
+                "documentNo": "ÿ≠ÿßŸÑÿß€±€≤€≥ÿ≠ÿßŸÑÿß ÿ®€åÿÆ€åÿßŸÑ ÿ∫ÿµŸá",
+                "switchDocumentNo": "ÿ≠ÿßŸÑÿß€±€≤€≥ÿ≠ÿßŸÑÿß ÿ®€åÿÆ€åÿßŸÑ ÿ∫ÿµŸá",
                 "shipperExporterId": 2058,
                 "switchShipperExporterId": 2058,
                 "notifyPartyId": 24,
@@ -1006,7 +693,7 @@ foreignInvoiceTab.method.newForm = function () {
                 "totalBundles": 12,
                 "id": 62,
                 "shipperExporter": {
-                    "nameFA": "·«ò? Â—«?“‰ ·?„? œ",
+                    "nameFA": "ŸÑÿß⁄©€å Ÿáÿ±ÿß€åÿ≤ŸÜ ŸÑ€åŸÖ€åÿ™ÿØ",
                     "nameEN": "LUCKY HORIZEN LIMITED",
                     "phone": "+862156237847",
                     "address": "RM 19C LOCKHART CTR 301-307",
@@ -1018,7 +705,7 @@ foreignInvoiceTab.method.newForm = function () {
                     "countryId": 1,
                     "id": 2058,
                     "country": {
-                        "nameFa": "«?—«‰",
+                        "nameFa": "ÿß€åÿ±ÿßŸÜ",
                         "nameEn": "Iran (Islamic Republic of)"
                     },
                     "createdDate": 1597293065534,
@@ -1028,7 +715,7 @@ foreignInvoiceTab.method.newForm = function () {
                     "version": 3
                 },
                 "switchShipperExporter": {
-                    "nameFA": "·«ò? Â—«?“‰ ·?„? œ",
+                    "nameFA": "ŸÑÿß⁄©€å Ÿáÿ±ÿß€åÿ≤ŸÜ ŸÑ€åŸÖ€åÿ™ÿØ",
                     "nameEN": "LUCKY HORIZEN LIMITED",
                     "phone": "+862156237847",
                     "address": "RM 19C LOCKHART CTR 301-307",
@@ -1040,7 +727,7 @@ foreignInvoiceTab.method.newForm = function () {
                     "countryId": 1,
                     "id": 2058,
                     "country": {
-                        "nameFa": "«?—«‰",
+                        "nameFa": "ÿß€åÿ±ÿßŸÜ",
                         "nameEn": "Iran (Islamic Republic of)"
                     },
                     "createdDate": 1597293065534,
@@ -1050,7 +737,7 @@ foreignInvoiceTab.method.newForm = function () {
                     "version": 3
                 },
                 "notifyParty": {
-                    "nameFA": "é?«∆Ê›‰ê",
+                    "nameFA": "⁄ò€åÿßÿ¶ŸàŸÅŸÜ⁄Ø",
                     "nameEN": "zhyaofeng",
                     "phone": "8690",
                     "type": false,
@@ -1069,7 +756,7 @@ foreignInvoiceTab.method.newForm = function () {
                     "countryId": 2,
                     "id": 24,
                     "country": {
-                        "nameFa": "ç?‰",
+                        "nameFa": "⁄Ü€åŸÜ",
                         "nameEn": "China"
                     },
                     "createdDate": 1596256929444,
@@ -1079,7 +766,7 @@ foreignInvoiceTab.method.newForm = function () {
                     "version": 9
                 },
                 "switchNotifyParty": {
-                    "nameFA": "é?«∆Ê›‰ê",
+                    "nameFA": "⁄ò€åÿßÿ¶ŸàŸÅŸÜ⁄Ø",
                     "nameEN": "zhyaofeng",
                     "phone": "8690",
                     "type": false,
@@ -1098,7 +785,7 @@ foreignInvoiceTab.method.newForm = function () {
                     "countryId": 2,
                     "id": 24,
                     "country": {
-                        "nameFa": "ç?‰",
+                        "nameFa": "⁄Ü€åŸÜ",
                         "nameEn": "China"
                     },
                     "createdDate": 1596256929444,
@@ -1108,7 +795,7 @@ foreignInvoiceTab.method.newForm = function () {
                     "version": 9
                 },
                 "consignee": {
-                    "nameFA": "·«ò? Â—«?“‰ ·?„? œ",
+                    "nameFA": "ŸÑÿß⁄©€å Ÿáÿ±ÿß€åÿ≤ŸÜ ŸÑ€åŸÖ€åÿ™ÿØ",
                     "nameEN": "LUCKY HORIZEN LIMITED",
                     "phone": "+862156237847",
                     "address": "RM 19C LOCKHART CTR 301-307",
@@ -1120,7 +807,7 @@ foreignInvoiceTab.method.newForm = function () {
                     "countryId": 1,
                     "id": 2058,
                     "country": {
-                        "nameFa": "«?—«‰",
+                        "nameFa": "ÿß€åÿ±ÿßŸÜ",
                         "nameEn": "Iran (Islamic Republic of)"
                     },
                     "createdDate": 1597293065534,
@@ -1130,7 +817,7 @@ foreignInvoiceTab.method.newForm = function () {
                     "version": 3
                 },
                 "switchConsignee": {
-                    "nameFA": "·«ò? Â—«?“‰ ·?„? œ",
+                    "nameFA": "ŸÑÿß⁄©€å Ÿáÿ±ÿß€åÿ≤ŸÜ ŸÑ€åŸÖ€åÿ™ÿØ",
                     "nameEN": "LUCKY HORIZEN LIMITED",
                     "phone": "+862156237847",
                     "address": "RM 19C LOCKHART CTR 301-307",
@@ -1142,7 +829,7 @@ foreignInvoiceTab.method.newForm = function () {
                     "countryId": 1,
                     "id": 2058,
                     "country": {
-                        "nameFa": "«?—«‰",
+                        "nameFa": "ÿß€åÿ±ÿßŸÜ",
                         "nameEn": "Iran (Islamic Republic of)"
                     },
                     "createdDate": 1597293065534,
@@ -1156,7 +843,7 @@ foreignInvoiceTab.method.newForm = function () {
                     "countryId": 2,
                     "id": 30,
                     "country": {
-                        "nameFa": "ç?‰",
+                        "nameFa": "⁄Ü€åŸÜ",
                         "nameEn": "China",
                         "id": 2,
                         "createdDate": 1595302644624,
@@ -1180,7 +867,7 @@ foreignInvoiceTab.method.newForm = function () {
                     "countryId": 2,
                     "id": 30,
                     "country": {
-                        "nameFa": "ç?‰",
+                        "nameFa": "⁄Ü€åŸÜ",
                         "nameEn": "China",
                         "id": 2,
                         "createdDate": 1595302644624,
@@ -1204,7 +891,7 @@ foreignInvoiceTab.method.newForm = function () {
                     "countryId": 2,
                     "id": 3,
                     "country": {
-                        "nameFa": "ç?‰",
+                        "nameFa": "⁄Ü€åŸÜ",
                         "nameEn": "China",
                         "id": 2,
                         "createdDate": 1595302644624,
@@ -1230,7 +917,7 @@ foreignInvoiceTab.method.newForm = function () {
                     "countryId": 2,
                     "id": 3,
                     "country": {
-                        "nameFa": "ç?‰",
+                        "nameFa": "⁄Ü€åŸÜ",
                         "nameEn": "China",
                         "id": 2,
                         "createdDate": 1595302644624,
@@ -1275,20 +962,18 @@ foreignInvoiceTab.method.newForm = function () {
                 "estatus": [
                     "Active"
                 ],
-                "_selection_56": true,
-                "_embeddedComponents_isc_ListGrid_1": null
+                "_selection_108": true
             }
         ],
         "toCurrencyId": -33,
         "conversionRefId": 124,
         "invoiceTypeId": 1,
-        "contractId": 218,
-        "shipmentId": 77,
+        "contractId": 294,
+        "shipmentId": 73,
         "creatorId": 2,
         "currencyId": -32,
         "description": "This is test"
     });
-
 
     foreignInvoiceTab.dynamicForm.baseData.redraw();
     foreignInvoiceTab.window.main.show();

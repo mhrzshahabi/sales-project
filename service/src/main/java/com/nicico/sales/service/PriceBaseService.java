@@ -1,6 +1,7 @@
 package com.nicico.sales.service;
 
 import com.nicico.sales.dto.PriceBaseDTO;
+import com.nicico.sales.exception.NotFoundException;
 import com.nicico.sales.iservice.IPriceBaseService;
 import com.nicico.sales.model.entities.base.PriceBase;
 import com.nicico.sales.model.entities.warehouse.MaterialElement;
@@ -42,6 +43,9 @@ public class PriceBaseService extends GenericService<com.nicico.sales.model.enti
 
             priceBases.add(priceBase);
         });
+
+
+        if (priceBases.size() == 0) throw new NotFoundException(PriceBase.class);
 
         return priceBases;
     }

@@ -11,6 +11,7 @@ import org.modelmapper.TypeToken;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -20,22 +21,27 @@ public class AssayInspectionService extends GenericService<AssayInspection, Long
     public List<AssayInspectionDTO.InfoWithoutInspectionReportAndInventory> getAssayValues(Long shipmentId, InspectionReportMilestone reportMilestone) {
 
         List<AssayInspection> assayInspections = ((AssayInspectionDAO) repository).findAllByShipmentId(shipmentId);
-        if (assayInspections.size() == 0)
-            throw new NotFoundException(AssayInspection.class);
+        if (assayInspections.size() == 0) throw new NotFoundException(AssayInspection.class);
 
         switch (reportMilestone.getId()) {
 
             case 1:
-                AssayInspection sourceInspection = assayInspections.stream().filter(q -> q.getMileStone() == InspectionReportMilestone.Source).findFirst().orElseThrow(() -> new NotFoundException(AssayInspection.class));
-                return modelMapper.map(sourceInspection, new TypeToken<List<AssayInspectionDTO.InfoWithoutInspectionReportAndInventory>>() {
+                List<AssayInspection> sourceInspections = assayInspections.stream().filter(q -> q.getMileStone() == InspectionReportMilestone.Source).collect(Collectors.toList());
+                if (sourceInspections.size() == 0) throw new NotFoundException(AssayInspection.class);
+
+                return modelMapper.map(sourceInspections, new TypeToken<List<AssayInspectionDTO.InfoWithoutInspectionReportAndInventory>>() {
                 }.getType());
             case 2:
-                AssayInspection destinationInspection = assayInspections.stream().filter(q -> q.getMileStone() == InspectionReportMilestone.Destination).findFirst().orElseThrow(() -> new NotFoundException(AssayInspection.class));
-                return modelMapper.map(destinationInspection, new TypeToken<List<AssayInspectionDTO.InfoWithoutInspectionReportAndInventory>>() {
+                List<AssayInspection> destinationInspections = assayInspections.stream().filter(q -> q.getMileStone() == InspectionReportMilestone.Destination).collect(Collectors.toList());
+                if (destinationInspections.size() == 0) throw new NotFoundException(AssayInspection.class);
+
+                return modelMapper.map(destinationInspections, new TypeToken<List<AssayInspectionDTO.InfoWithoutInspectionReportAndInventory>>() {
                 }.getType());
             case 3:
-                AssayInspection umpireInspection = assayInspections.stream().filter(q -> q.getMileStone() == InspectionReportMilestone.Umpire).findFirst().orElseThrow(() -> new NotFoundException(AssayInspection.class));
-                return modelMapper.map(umpireInspection, new TypeToken<List<AssayInspectionDTO.InfoWithoutInspectionReportAndInventory>>() {
+                List<AssayInspection> umpireInspections = assayInspections.stream().filter(q -> q.getMileStone() == InspectionReportMilestone.Umpire).collect(Collectors.toList());
+                if (umpireInspections.size() == 0) throw new NotFoundException(AssayInspection.class);
+
+                return modelMapper.map(umpireInspections, new TypeToken<List<AssayInspectionDTO.InfoWithoutInspectionReportAndInventory>>() {
                 }.getType());
             default:
                 throw new NotFoundException(AssayInspection.class);

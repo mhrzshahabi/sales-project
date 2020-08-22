@@ -18,7 +18,6 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ShipmentDTO {
 
-    private Date sendDate;
     private Long contractShipmentId;
     private Long contactId;
     private Long materialId;
