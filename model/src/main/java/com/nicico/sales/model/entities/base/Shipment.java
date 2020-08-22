@@ -62,8 +62,8 @@ public class Shipment extends BaseEntity {
     @Column(name = "STATUS", length = 20)
     private String status;
 
-    @Column(name = "SHIPMENT_DATE")
-    private Date shipmentDate;
+    @Column(name = "AUTOMATION_DATE")
+    private Date automationDate;
 
     @Column(name = "SEND_DATE")
     private Date sendDate;
