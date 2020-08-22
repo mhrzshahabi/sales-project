@@ -42,6 +42,9 @@ public class ShipmentDTO {
     private Double moisture;
     private Double vgm;
     private Long unitId;
+    private Date shipmentDate;
+    private Date sendDate;
+
 
     @Getter
     @Setter
@@ -53,8 +56,7 @@ public class ShipmentDTO {
         private ContactDTO.ContactInfoTuple contactByAgent;
         private ContactDTO.ContactInfoTuple contact;
         private ContactDTO.ContactInfoTuple container;
-        private ContractShipmentDTO contractShipment;
-        private ContractDTO.ContractInfoTuple contract;
+        private ContractShipmentDTO.Info contractShipment;
         private MaterialDTO.MaterialTuple material;
         private String containerType;
         private UnitDTO unit;
