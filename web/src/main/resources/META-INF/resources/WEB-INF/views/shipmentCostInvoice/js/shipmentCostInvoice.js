@@ -11,6 +11,7 @@ shipmentCostInvoiceTab.variable.shipmentCostInvoiceDetail = "${contextPath}" + "
 shipmentCostInvoiceTab.variable.percentPerYearRest = "${contextPath}" + "/api/percentPerYear/";
 shipmentCostInvoiceTab.variable.inspectionReportUrl = "${contextPath}" + "/api/inspectionReport/";
 shipmentCostInvoiceTab.variable.contractUrl = "${contextPath}" + "/api/contract/";
+shipmentCostInvoiceTab.variable.billOfLandingUrl = "${contextPath}" + "/api/bill-of-landing/";
 
 shipmentCostInvoiceTab.variable.today = new Date();
 shipmentCostInvoiceTab.variable.year = shipmentCostInvoiceTab.variable.today.getFullYear();
@@ -354,12 +355,34 @@ shipmentCostInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
                     form.getItem("referenceId").hide();
                     break;
                 case ImportantIDs.invoiceType.THC:
-                    form.getItem("referenceId").setOptionDataSource(null);
-                    form.getItem("referenceId").hide();
+                    form.getItem("referenceId").show();
+                    referenceIdPickListFields = [
+                        {
+                            name: "documentNo", title: "<spring:message code='billOfLanding.document.no'/>"
+                        },
+                        {
+                            name: "shipperExporter.nameFA", title: "<spring:message code='billOfLanding.shipper.exporter'/>"
+                        },
+                        {
+                            name: "consignee.nameFA", title: "<spring:message code='billOfLanding.consignee'/>"
+                        }
+                    ];
+                    referenceIdFetchDataURL = shipmentCostInvoiceTab.variable.billOfLandingUrl + "spec-list";
                     break;
                 case ImportantIDs.invoiceType.BLFEE:
-                    form.getItem("referenceId").setOptionDataSource(null);
-                    form.getItem("referenceId").hide();
+                    form.getItem("referenceId").show();
+                    referenceIdPickListFields = [
+                        {
+                            name: "documentNo", title: "<spring:message code='billOfLanding.document.no'/>"
+                        },
+                        {
+                            name: "shipperExporter.nameFA", title: "<spring:message code='billOfLanding.shipper.exporter'/>"
+                        },
+                        {
+                            name: "consignee.nameFA", title: "<spring:message code='billOfLanding.consignee'/>"
+                        }
+                    ];
+                    referenceIdFetchDataURL = shipmentCostInvoiceTab.variable.billOfLandingUrl + "spec-list";
                     break;
                 case ImportantIDs.invoiceType.UMPIRELAB:
                     form.getItem("referenceId").setOptionDataSource(null);
