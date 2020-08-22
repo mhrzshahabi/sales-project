@@ -1,8 +1,11 @@
 package com.nicico.sales.web.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.mfathi91.time.PersianDate;
 import com.nicico.sales.dto.ShipmentDTO;
 import com.nicico.sales.iservice.IShipmentService;
+import com.nicico.sales.model.enumeration.CategoryUnit;
 import lombok.RequiredArgsConstructor;
 import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -19,13 +22,16 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("/shipment")
 public class ShipmentFormController {
     private final IShipmentService shipmentService;
+    private final ObjectMapper objectMapper;
 
     public static XWPFDocument replacePOI(XWPFDocument doc, String placeHolder, String replaceText) {
         // REPLACE ALL HEADERS
@@ -71,8 +77,10 @@ public class ShipmentFormController {
     }
 
     @RequestMapping("/showForm")
-    public String showShipment() {
-
+    public String showShipment(HttpServletRequest request) throws JsonProcessingException {
+        request.getSession().setAttribute("Enum_CategoryUnit", objectMapper.writeValueAsString(
+                Arrays.stream(CategoryUnit.values()).collect(Collectors.toMap(CategoryUnit::name, CategoryUnit::getId)))
+        );
         return "shipment/shipment";
     }
 

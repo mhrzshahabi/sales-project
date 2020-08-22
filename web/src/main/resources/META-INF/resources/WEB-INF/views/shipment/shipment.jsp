@@ -299,6 +299,17 @@
         ]
     });
 
+    function setBuyerName(buyerId) {
+        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+                actionURL: "${contextPath}/api/contact/" + buyerId,
+                httpMethod: "GET",
+                callback: function (RpcResponse_o) {
+                    DynamicForm_Shipment.setValue("contract.contact.nameFA", JSON.parse(RpcResponse_o.data).nameFA);
+                }
+            })
+        );
+    }
+
     var dash = "\n";
 
     var DynamicForm_Shipment = isc.DynamicForm.create({
@@ -340,9 +351,10 @@
                 },
                 changed: function (form, item, value) {
                     let record = DynamicForm_Shipment.getItem("contractId").getSelectedRecord();
+                    let buyerId = record.contractContacts.filter(c => (c.commercialRole === 'Buyer'))[0].contactId;
+                    setBuyerName(buyerId);
                     DynamicForm_Shipment.setValue("material.descp", record.material.descp);
-                    DynamicForm_Shipment.setValue("contract.contact.nameFA", record.agentBuyer.nameFA);
-                    DynamicForm_Shipment.setValue("contactId", record.agentBuyer.id);
+                    DynamicForm_Shipment.setValue("contactId", buyerId);
                     DynamicForm_Shipment.setValue("materialId", record.materialId);
                     DynamicForm_Shipment.getItem("contractShipmentId").setValue(null);
                     DynamicForm_Shipment.getItem("contractShipmentId").setOptionCriteria({
@@ -402,13 +414,13 @@
             },
             {name: "contractDate", hidden: true,},
             {
-                name: "shipmentDate",
+                name: "automationDate",
                 title: "<spring:message code='shipment.bDate'/>",
-                ID: "shipmentDateId",
+                ID: "automationDateId",
                 icons: [{
                     src: "pieces/pcal.png",
                     click: function () {
-                        displayDatePicker('shipmentDateId', this, 'ymd', '/');
+                        displayDatePicker('automationDateId', this, 'ymd', '/');
                     }
                 }],
 // defaultValue: "1399/01/01",
@@ -457,6 +469,7 @@
                 width: "100%",
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_UnitInShipment,
+                optionCriteria: RestDataSource_UNIT_optionCriteria,
                 displayField: "nameFA",
                 valueField: "id",
                 pickListHeight: "500",
@@ -750,16 +763,28 @@
         operator: "and",
         criteria: [{fieldName: "transporter", operator: "equals", value: true}]
     };
-    
+
+    var RestDataSource_UNIT_optionCriteria = {
+        _constructor: "AdvancedCriteria",
+        operator: "and",
+        criteria:
+            [{
+                fieldName: 'categoryUnit',
+                operator: 'equals',
+                value: JSON.parse('${Enum_CategoryUnit}').Weight
+            }],
+
+    };
+
     var IButton_Shipment_Save = isc.IButtonSave.create({
         top: 260,
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
         click: function () {
             DynamicForm_Shipment.validate();
-           let shipmentDate = toEnglishDigits(DynamicForm_Shipment.getValue("shipmentDate"));
-            DynamicForm_Shipment.setValue("shipmentDate",
-                new Date(new persianDate(shipmentDate.split("/").map(x => +x)).format('X') * 1000));
+            let automationDate = toEnglishDigits(DynamicForm_Shipment.getValue("automationDate"));
+            DynamicForm_Shipment.setValue("automationDate",
+                new Date(new persianDate(automationDate.split("/").map(x => +x)).format('X') * 1000));
             let allDataShipment = DynamicForm_Shipment.getValues();
             let dataShipment = Object.assign(allDataShipment);
             let methodXXXX = "PUT";
@@ -1026,8 +1051,9 @@
 
             DynamicForm_Shipment.clearValues();
             DynamicForm_Shipment.editRecord(record);
-            DynamicForm_Shipment.setValue("shipmentDate", new Date(record.shipmentDate).toLocaleDateString('fa-IR'));
+            DynamicForm_Shipment.setValue("automationDate", new Date(record.automationDate).toLocaleDateString('fa-IR'));
             DynamicForm_Shipment.setValue("contractId", record.contractShipment.contract.no);
+            setBuyerName(record.contactId);
             abal.disable();
             shipment.disable();
             Window_Shipment.animateShow();
@@ -1167,7 +1193,7 @@
                 }
             },
             {
-                name: "shipmentDate",
+                name: "automationDate",
                 title: "<spring:message code='shipment.bDate'/>",
                 type: 'date',
                 width: "10%",
