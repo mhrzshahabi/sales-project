@@ -120,4 +120,28 @@
     <changeSet author="saeb (generated)" id="1596441538809-255">
         <addUniqueConstraint columnNames="C_DOCUMENT_NO" constraintName="UC_TBL_CNTR_BILL_OF_LANDINGC_DOCUMENT_NO_COL" tableName="TBL_CNTR_BILL_OF_LANDING"/>
     </changeSet>
+
+
+
+    <changeSet author="saeb (generated)" id="1597725066562-256">
+        <addColumn tableName="TBL_CNTR_BILL_OF_LANDING">
+            <column name="F_shipment_id" type="number(19, 0)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="saeb (generated)" id="1597725066562-257">
+        <addColumn tableName="TBL_CNTR_BILL_OF_LANDING">
+            <column name="F_shipment_method_id" type="number(19, 0)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="saeb (generated)" id="1597725066562-258">
+        <addColumn tableName="TBL_CNTR_BILL_OF_LANDING">
+            <column name="F_shipment_type_id" type="number(19, 0)"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="saeb (generated)" id="1597725511403-256">
+        <addColumn tableName="TBL_CNTR_BILL_OF_LANDING">
+            <column name="D_switch_DATE_OF_ISSUE" type="timestamp"/>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>
