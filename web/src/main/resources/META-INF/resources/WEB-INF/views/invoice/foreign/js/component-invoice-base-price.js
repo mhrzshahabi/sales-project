@@ -48,6 +48,7 @@ isc.defineClass("InvoiceBasePrice", isc.VLayout).addProperties({
 
                         members.add(isc.Unit.create({
 
+                            unitHint: "/" + priceBase.weightUnit.nameEN,
                             unitCategory: priceBase.financeUnit.categoryUnit,
                             fieldValueTitle: priceBase.element.name,
                             disabledUnitField: true,
@@ -55,12 +56,13 @@ isc.defineClass("InvoiceBasePrice", isc.VLayout).addProperties({
                             showValueFieldTitle: true,
                             showUnitFieldTitle: false,
                             name: priceBase.element.name,
-                            unit: priceBase.financeUnit,
+                            weightUnit: priceBase.weightUnit,
+                            financeUnit: priceBase.financeUnit,
                             elementId: priceBase.elementId,
                         }));
 
                         members.last().setValue(priceBase.price);
-                        members.last().setUnitId(priceBase.financeUnitId);
+                        members.last().setUnitId(priceBase.financeUnit.id);
                     });
                 } else {
 
@@ -84,14 +86,16 @@ isc.defineClass("InvoiceBasePrice", isc.VLayout).addProperties({
     getValues: function () {
 
         let data = [];
-        this.getMembers().slice(1).forEach((current) => {
+        this.getMembers().slice(1).forEach(current => {
 
+            let values = current.getValues();
             data.add({
-                elementId: current.elementId,
                 name: current.name,
-                value: current.getValues().value,
-                unit: current.unit,
-                unitId: current.getValues().unitId
+                value: values.value,
+                unitId: values.unitId,
+                elementId: current.elementId,
+                weightUnit: current.weightUnit,
+                financeUnit: current.financeUnit
             });
         });
 
