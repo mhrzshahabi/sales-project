@@ -18,6 +18,7 @@ isc.defineClass("InvoiceCalculation", isc.VLayout).addProperties({
 
         let assayValues = this.invoiceBaseAssayComponent.getValues();
         let priceValues = this.invoiceBasePriceComponent.getValues();
+
         for (let index = 0; index < priceValues.length; index++) {
 
             this.addMember(isc.InvoiceCalculationRow.create({
@@ -26,11 +27,16 @@ isc.defineClass("InvoiceCalculation", isc.VLayout).addProperties({
                 name: assayValues[index].name,
                 sumPriceChanged: function (sumPrice) {
 
-                    This.getMembers().last().data[this.ID] = sumPrice;
-                    This.getMembers().last().setValue(Object.values(This.getMembers().last().data).sum());
+                    This.getMembers()[4].data[this.ID] = sumPrice;
+                    This.getMembers()[4].setValue(Object.values(This.getMembers()[4].data).sum());
                 }
             }));
         }
+
+        this.addMember(isc.HTMLFlow.create({
+            width: "100%",
+            contents: "<span style='width: 100%; display: block; margin: 10px auto; border-bottom: 1px solid rgba(0,0,0,0.3)'></span>"
+        }));
 
         this.addMember(isc.Unit.create({
             data: {},
@@ -43,10 +49,27 @@ isc.defineClass("InvoiceCalculation", isc.VLayout).addProperties({
             fieldValueTitle: "<spring:message code='foreign-invoice.form.tab.subtotal'/>"
         }));
         this.getMembers().last().setUnitId(this.currency.id);
+
+        this.addMember(isc.HTMLFlow.create({
+            width: "100%",
+            contents: "<span style='width: 100%; display: block; margin: 10px auto; border-bottom: 1px solid rgba(0,0,0,0.3)'></span>"
+        }));
+
     },
-    // getValue: function () {
-    //     return this.members[0].getValues();
-    // },
+    getValues: function () {
+
+        let data = [];
+        this.getMembers().slice(0, (this.getMembers().length)-1).forEach(current => {
+
+            data.add({
+                finalAssay: current.getFinalAssay(),
+                priceBase: current.getPriceBase(),
+            });
+        });
+
+        console.log("data ", data)
+        return data;
+    },
     // getSumValue: function () {
     //     return this.members[1].getValue();
     // }

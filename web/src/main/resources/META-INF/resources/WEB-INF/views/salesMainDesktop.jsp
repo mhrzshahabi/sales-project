@@ -100,33 +100,47 @@
         },
         eStatus2: JSON.parse('${Enum_EStatus}'),
         unit: {
-            symbols: JSON.parse('${Enum_SymbolUnit_WithValue}'),
-            hasFlag: function (value, target) {
 
-                value = Enums.unit.symbols[value];
-                target = Enums.unit.symbols[target];
-                for (let id in Object.values(Enums.unit.symbols).sort().reverse()) {
+            getStandardSymbol: function (symbolUnit) {
 
-                    if (id > value) continue;
-                    if (id === target) return true;
-                    value -= id;
+                switch (symbolUnit) {
+
+                    case "":
+                        break;
                 }
 
-                return false;
-            },
-            getValues: function (value) {
 
-                let result = [];
-                value = Enums.unit.symbols[value];
-                for (let id in Object.values(Enums.unit.symbols).sort().reverse()) {
-
-                    if (id > value) continue;
-                    result.push(Object.keys(Enums.unit.symbols).filter(q => Enums.unit.symbols[q] === id).first());
-                    value -= id;
-                }
-
-                return result;
+                // test
+                return "t";
             }
+
+            <%--symbols: JSON.parse('${Enum_SymbolUnit_WithValue}'),--%>
+            <%--hasFlag: function (value, target) {--%>
+
+            <%--value = Enums.unit.symbols[value];--%>
+            <%--target = Enums.unit.symbols[target];--%>
+            <%--for (let id in Object.values(Enums.unit.symbols).sort().reverse()) {--%>
+
+            <%--if (id > value) continue;--%>
+            <%--if (id === target) return true;--%>
+            <%--value -= id;--%>
+            <%--}--%>
+
+            <%--return false;--%>
+            <%--},--%>
+            <%--getValues: function (value) {--%>
+
+            <%--let result = [];--%>
+            <%--value = Enums.unit.symbols[value];--%>
+            <%--for (let id in Object.values(Enums.unit.symbols).sort().reverse()) {--%>
+
+            <%--if (id > value) continue;--%>
+            <%--result.push(Object.keys(Enums.unit.symbols).filter(q => Enums.unit.symbols[q] === id).first());--%>
+            <%--value -= id;--%>
+            <%--}--%>
+
+            <%--return result;--%>
+            <%--}--%>
         }
     };
 
@@ -157,9 +171,6 @@
             DEMURRAGE: 13,
             INSPECTION: 14
         },
-        unit: {
-            PERCENT: 1,
-        }
     }
 
     var BaseRPCRequest = {
@@ -1196,8 +1207,8 @@
     /*Help*/
     isc.HTMLFlow.create({
         contents: "<div id=\"mybutton\">\n" +
-            "<button class=\"glow-on-hover\"><spring:message code='global.form.help'/></button>\n" +
-            "</div>",
+        "<button class=\"glow-on-hover\"><spring:message code='global.form.help'/></button>\n" +
+        "</div>",
         dynamicContents: true,
         click: function () {
             fillScreenWindow_Main.show();

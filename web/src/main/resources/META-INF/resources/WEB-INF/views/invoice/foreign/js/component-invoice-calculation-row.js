@@ -16,20 +16,21 @@ isc.defineClass("InvoiceCalculationRow", isc.VLayout).addProperties({
         let This = this;
 
         this.addMember(isc.Unit.create({
+            width: "400",
             unitCategory: This.assay.unit.categoryUnit,
             disabledUnitField: true,
             disabledValueField: true,
             showValueFieldTitle: true,
             showUnitFieldTitle: false,
-            name: 'priceBase',
+            name: "assay",
             fieldValueTitle: This.assay.name,
         }));
         this.getMembers().last().setValue(this.assay.value);
         this.getMembers().last().setUnitId(this.assay.unitId);
 
         this.addMember(isc.DynamicForm.create({
-            numCols: 4,
-            width: "100%",
+            numCols: 6,
+            width: "50%",
             fields: [{
                 showTitle: false,
                 type: "staticText",
@@ -38,9 +39,11 @@ isc.defineClass("InvoiceCalculationRow", isc.VLayout).addProperties({
                 wrap: false,
                 required: true,
                 showTitle: false,
+                errorOrientation: "bottom",
                 type: 'float',
                 name: "deductionValue",
                 keyPressFilter: "[0-9.]",
+                width: "100",
                 validators: [{
                     type: "isFloat",
                     wrap: false,
@@ -50,14 +53,34 @@ isc.defineClass("InvoiceCalculationRow", isc.VLayout).addProperties({
                 }],
                 changed: function (form, item, value) {
 
-                    This.getMembers().last().getMembers()[1].setUnitId(This.assay.unitId);
-                    This.getMembers().last().getMembers()[1].setValue(This.assay.value - value);
-                    This.calculate();
+                    form.getItem("deductionType").setValue(null);
                 }
             }, {
                 showTitle: false,
                 name: "deductionType",
-                valueMap: JSON.parse('${Enum_DeductionType}')
+                errorOrientation: "bottom",
+                width: "150",
+                valueMap: JSON.parse('${Enum_DeductionType}'),
+                changed: function (form, item, value) {
+
+                    This.getMembers().last().getMembers()[1].setUnitId(This.assay.unitId);
+                    let deductionValue = form.getItem("deductionValue").getValue();
+                    let discountValue;
+                    switch (value) {
+                        case "Percent":
+                            discountValue = This.assay.value - (This.assay.value * deductionValue / 100);
+                            break;
+                        case "Unit":
+                            discountValue = This.assay.value - deductionValue;
+                            break;
+                        case "DiscountPercent":
+                            discountValue = 0;
+                            break;
+                    }
+
+                    This.getMembers().last().getMembers()[1].setValue(discountValue);
+                    This.calculate();
+                }
             }]
         }));
 
@@ -68,46 +91,69 @@ isc.defineClass("InvoiceCalculationRow", isc.VLayout).addProperties({
                 width: This.getMembers().first().titleWidth
             }]
         })];
+
         priceMembers.add(isc.Unit.create({
+            width: 300,
             unitCategory: This.assay.unit.categoryUnit,
             disabledUnitField: true,
             disabledValueField: true,
             showValueFieldTitle: false,
             showUnitFieldTitle: false,
-            deductionUnitConversionRate: 1,
             name: 'finalAssay',
         }));
         priceMembers.last().setUnitId(this.assay.unitId);
 
-        if (this.assay.unitId !== ImportantIDs.unit.PERCENT && This.price.weightUnit.id !== This.assay.unit.id)
+        if (this.assay.unit.categoryUnit !== JSON.parse('${Enum_CategoryUnit}').Percent && this.price.weightUnit.id !== this.assay.unit.id)
             priceMembers.add(isc.DynamicForm.create({
+                isConversionForm: true,
                 fields: [{
                     value: " X ",
                     showTitle: false,
-                    type: "staticText"
+                    width: "100%",
+                    type: "staticText",
+                    align: "center"
                 }, {
                     showTitle: false,
+                    width: "100%",
+                    type: "staticText",
                     name: "deductionUnitConversionRate",
-                    changed: function (form, item, value) {
+                    value: convert(1).from(Enums.unit.getStandardSymbol(This.price.weightUnit.symbolUnit)).to(Enums.unit.getStandardSymbol(This.assay.unit.symbolUnit)),
+                    align: "center"
 
-                        This.getMembers().last().getMembers()[1].deductionUnitConversionRate = value;
-                        This.calculate();
-                    }
                 }]
             }));
 
         priceMembers.add(isc.DynamicForm.create({
+            numCols: 8,
+            width: "50%",
             fields: [{
+                value: " X ",
+                showTitle: false,
+                colSpan: 1,
+                type: "staticText",
+                align: "center"
+            }, {
+
+                showTitle: false,
+                type: "staticText",
+                name: "basePrice",
+                colSpan: 1,
+                value: This.price.value,
+                align: "center"
+            }, {
                 value: " = ",
                 showTitle: false,
-                type: "staticText"
+                colSpan: 1,
+                type: "staticText",
+                align: "center"
             }, {
                 showTitle: false,
                 type: "staticText",
+                colSpan: 1,
                 name: "deductionPrice",
+                align: "center",
                 changed: function (form, item, value) {
 
-                    This.sumPriceChanged(value);
                 }
             }]
         }));
@@ -118,12 +164,21 @@ isc.defineClass("InvoiceCalculationRow", isc.VLayout).addProperties({
         }));
     },
     calculate: function () {
+
         let assayField = this.getMembers().last().getMembers()[1];
-        this.getMembers().last().getMembers().last().setValue("deductionPrice", assayField.getValue() * assayField.deductionUnitConversionRate);
+        let conversionForm = this.getMembers().last().getMembers().filter(q => q.isConversionForm).first();
+        let basePriceValue = this.getMembers().last().getMembers().last().getValue("basePrice");
+        let deductionPriceValue = assayField.getValues().value * basePriceValue * (conversionForm ? conversionForm.getValue("deductionUnitConversionRate") : 1);
+        this.getMembers().last().getMembers().last().setValue("deductionPrice", deductionPriceValue);
+        this.sumPriceChanged(deductionPriceValue);
     },
-    // getValue: function () {
-    //     return this.getValues();
-    // },
+    getFinalAssay: function () {
+        return this.getMembers().last().getMembers()[1].getValues().value;
+
+    },
+    getPriceBase: function () {
+        return this.getMembers().last().getMembers().last().getValue("basePrice");
+    },
     // setValue: function (value) {
     //     this.setValues(value);
     // }
