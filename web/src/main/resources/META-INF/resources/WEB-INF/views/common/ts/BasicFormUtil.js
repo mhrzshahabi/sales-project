@@ -93,6 +93,21 @@ var nicico;
                         }
                     }),
                     // </c:if>
+                    // <c:if test = "${o_entity}">
+                    // @ts-ignore
+                    isc.ToolStripButton.create({
+                        visibility: "hidden",
+                        // @ts-ignore
+                        role: "disapproveRecord",
+                        icon: "[SKIN]/actions/refresh.png",
+                        title: "<spring:message code='global.form.disapprove'/>",
+                        // @ts-ignore
+                        click: function () {
+                            // @ts-ignore
+                            creator.method.disapprove(creator.listGrid.main);
+                        }
+                    }),
+                    // </c:if>
                     isc.ToolStrip.create({
                         width: "100%",
                         align: "left",
@@ -195,6 +210,18 @@ var nicico;
                         click: function () {
                             // @ts-ignore
                             creator.method.finalize(creator.listGrid.main);
+                        }
+                    },
+                    // </c:if>
+                    // <c:if test = "${o_entity}">
+                    {
+                        // @ts-ignore
+                        role: "disapproveRecord",
+                        icon: "pieces/16/refresh.png",
+                        title: '<spring:message code="global.form.disapprove"/>',
+                        click: function () {
+                            // @ts-ignore
+                            creator.method.disapprove(creator.listGrid.main);
                         }
                     }
                     // </c:if>
