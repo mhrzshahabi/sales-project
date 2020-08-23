@@ -28,7 +28,7 @@ public class ContractShipmentDTO {
     private Date sendDate;
     @Temporal(TemporalType.TIMESTAMP)
     @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date shipmentDate;
+    private Date automationDate;
     private Long tolorance;
     private Long contractId;
 
