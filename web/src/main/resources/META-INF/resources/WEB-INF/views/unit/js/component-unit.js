@@ -6,6 +6,7 @@ isc.defineClass("Unit", isc.DynamicForm).addProperties({
     unitHint: "",
     unitCategory: "",
     fieldValueTitle: "",
+    fieldValueTitleWidth: "",
     disabledUnitField: false,
     disabledValueField: false,
     showValueFieldTitle: true,
@@ -17,15 +18,15 @@ isc.defineClass("Unit", isc.DynamicForm).addProperties({
 
         let This = this;
         this.addField({
-            wrap: false,
+            wrapTitle: false,
             required: true,
             name: "value",
-            width: "100%",
             type: 'float',
             format: "#.000",
             titleAlign: "left",
             keyPressFilter: "[0-9.]",
             title: This.fieldValueTitle,
+            titleWidth: This.fieldValueTitleWidth,
             editorType: This.disabledValueField ? "StaticText" : "TextItem",
             showTitle: This.showValueFieldTitle,
             validators: [{
@@ -37,12 +38,13 @@ isc.defineClass("Unit", isc.DynamicForm).addProperties({
             }]
         });
         this.addField({
+            wrapTitle: false,
             type: 'long',
-            width: "100%",
             autoFetchData: false,
             name: "unitId",
             valueField: "id",
             displayField: "nameEN",
+            wrapHintText: false,
             hint: This.unitHint,
             visible: This.showUnitField,
             editorType: This.disabledUnitField ? "StaticText" : "SelectItem",

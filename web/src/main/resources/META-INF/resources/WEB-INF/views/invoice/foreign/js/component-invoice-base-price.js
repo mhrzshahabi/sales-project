@@ -48,7 +48,7 @@ isc.defineClass("InvoiceBasePrice", isc.VLayout).addProperties({
 
                         members.add(isc.Unit.create({
 
-                            unitHint: "/" + priceBase.weightUnit.nameEN,
+                            unitHint: "PER " + priceBase.weightUnit.nameEN,
                             unitCategory: priceBase.financeUnit.categoryUnit,
                             fieldValueTitle: priceBase.element.name,
                             disabledUnitField: true,

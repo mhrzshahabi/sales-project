@@ -233,7 +233,7 @@ shipmentCostInvoiceTab.variable.buyerCriteria = {
 shipmentCostInvoiceTab.variable.financeUnitCriteria = {
     _constructor: "AdvancedCriteria",
     operator: "and",
-    criteria: [{fieldName: "categoryUnit", operator: "equals", value: 0}]
+    criteria: [{fieldName: "categoryUnit", operator: "equals", value: 1}]
 };
 shipmentCostInvoiceTab.variable.costTypeCriteria = {
     _constructor: "AdvancedCriteria",
@@ -1168,6 +1168,7 @@ shipmentCostInvoiceTab.method.newForm = function () {
 
     shipmentCostInvoiceTab.variable.financeUnitName = 0;
     shipmentCostInvoiceTab.variable.method = "POST";
+    shipmentCostInvoiceTab.dynamicForm.shipmentCost.clearValues();
     shipmentCostInvoiceTab.window.shipmentCost.justShowForm();
     shipmentCostInvoiceTab.method.setVATs(shipmentCostInvoiceTab.variable.year)
 

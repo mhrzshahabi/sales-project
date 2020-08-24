@@ -534,26 +534,26 @@ foreignInvoiceTab.button.save = isc.IButtonSave.create({
                             invoiceBasePriceComponent: invoiceBaseValuesComponent.invoiceBasePriceComponent
                         });
                         foreignInvoiceTab.method.addTab(invoiceCalculationComponent, '<spring:message code="foreign-invoice.form.tab.calculation"/>');
+
+                        function addRelatedDeductionTab() {
+
+                            setTimeout(() => {
+
+                                if (invoiceCalculationComponent.isDrawn()) {
+
+                                    let invoiceDeductionComponent = isc.InvoiceDeduction.create({
+                                        invoiceCalculationComponent: invoiceCalculationComponent,
+                                        contractDetailData: foreignInvoiceTab.variable.contractDetailData,
+                                        currency: foreignInvoiceTab.dynamicForm.valuesManager.getValue('currency')
+                                    });
+                                    foreignInvoiceTab.method.addTab(invoiceDeductionComponent, '<spring:message code="foreign-invoice.form.tab.deduction"/>');
+
+                                } else addRelatedDeductionTab();
+                            }, 500);
+                        }
                         addRelatedDeductionTab();
 
                     } else addRelatedTab();
-                }, 500);
-            }
-
-            function addRelatedDeductionTab() {
-
-                setTimeout(() => {
-
-                    if (invoiceDeductionComponent.invoiceCalculationComponent.isDrawn()) {
-
-                        let invoiceDeductionComponent = isc.InvoiceDeduction.create({
-                            invoiceCalculationComponent: invoiceCalculationComponent,
-                            currency: foreignInvoiceTab.dynamicForm.valuesManager.getValue('currency'),
-                            contract: foreignInvoiceTab.dynamicForm.valuesManager.getValue('contract')
-                        });
-                        foreignInvoiceTab.method.addTab(invoiceDeductionComponent, '<spring:message code="foreign-invoice.form.tab.deduction"/>');
-
-                    } else addRelatedDeductionTab();
                 }, 500);
             }
 
@@ -1051,3 +1051,23 @@ foreignInvoiceTab.method.addTab = function (pane, title) {
 // MOCK
 foreignInvoiceTab.variable.contractDetailData.moasValue = 0;
 foreignInvoiceTab.variable.contractDetailData.basePriceReference = "LME";
+foreignInvoiceTab.variable.contractDetailData.tc = 123456;
+foreignInvoiceTab.variable.contractDetailData.rc = [{
+    elementId: 1,
+    elementName: "CU",
+    price: 12.3,
+    weightUnit: {id: -1, nameEN: "Pound", categoryUnit: "Weight"},
+    financeUnit: {id: -32, nameEN: "Dollar", categoryUnit: "Finance"}
+}, {
+    elementId: 2,
+    elementName: "AG",
+    price: 11.3,
+    weightUnit: {id: -1, nameEN: "Pound", categoryUnit: "Weight"},
+    financeUnit: {id: -32, nameEN: "Dollar", categoryUnit: "Finance"}
+}, {
+    elementId: 3,
+    elementName: "AU",
+    price: 12.4,
+    weightUnit: {id: -1, nameEN: "Pound", categoryUnit: "Weight"},
+    financeUnit: {id: -32, nameEN: "Dollar", categoryUnit: "Finance"}
+}];

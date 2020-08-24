@@ -101,7 +101,7 @@
         eStatus2: JSON.parse('${Enum_EStatus}'),
         unit: {
 
-            getStandardSymbol: function (symbolUnit) {
+            /*getStandardSymbol: function (symbolUnit) {
 
                 switch (symbolUnit) {
 
@@ -112,7 +112,7 @@
 
                 // test
                 return "t";
-            }
+            }*/
 
             <%--symbols: JSON.parse('${Enum_SymbolUnit_WithValue}'),--%>
             <%--hasFlag: function (value, target) {--%>

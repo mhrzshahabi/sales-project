@@ -8,6 +8,7 @@ isc.defineClass("InvoiceCalculation", isc.VLayout).addProperties({
     membersMargin: 2,
     overflow: "auto",
     currency: null,
+    updateDeductionData: null,
     invoiceBaseAssayComponent: null,
     invoiceBasePriceComponent: null,
     initWidget: function () {
@@ -27,8 +28,12 @@ isc.defineClass("InvoiceCalculation", isc.VLayout).addProperties({
                 name: assayValues[index].name,
                 sumPriceChanged: function (sumPrice) {
 
-                    This.getMembers()[4].data[this.ID] = sumPrice;
-                    This.getMembers()[4].setValue(Object.values(This.getMembers()[4].data).sum());
+                    let subtotalForm = This.getMembers().filter(q => q.name === "subTotal").first();
+                    subtotalForm.data[this.ID] = sumPrice;
+                    subtotalForm.setValue(Object.values(subtotalForm.data).sum());
+                    if (This.updateDeductionData) {
+                        This.updateDeductionData (This.getValues());
+                    }
                 }
             }));
         }
@@ -54,20 +59,18 @@ isc.defineClass("InvoiceCalculation", isc.VLayout).addProperties({
             width: "100%",
             contents: "<span style='width: 100%; display: block; margin: 10px auto; border-bottom: 1px solid rgba(0,0,0,0.3)'></span>"
         }));
-
     },
     getValues: function () {
 
         let data = [];
-        this.getMembers().slice(0, (this.getMembers().length)-1).forEach(current => {
+        this.getMembers().slice(0, this.invoiceBasePriceComponent.getValues().length).forEach(current => {
 
             data.add({
+                name: current.name,
                 finalAssay: current.getFinalAssay(),
-                priceBase: current.getPriceBase(),
             });
         });
 
-        console.log("data ", data)
         return data;
     },
     // getSumValue: function () {

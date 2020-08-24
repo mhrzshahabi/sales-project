@@ -499,7 +499,7 @@ let buyerCriteria = {
 let currencyInUnitCriteria = {
     _constructor: "AdvancedCriteria",
     operator: "and",
-    criteria: [{fieldName: "categoryUnit", operator: "equals", value: 0}]
+    criteria: [{fieldName: "categoryUnit", operator: "equals", value: 1}]
 };
 
 //*************************************************** FORM STRUCTURE ************************************************

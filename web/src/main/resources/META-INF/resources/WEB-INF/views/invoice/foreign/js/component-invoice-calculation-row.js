@@ -63,7 +63,7 @@ isc.defineClass("InvoiceCalculationRow", isc.VLayout).addProperties({
                 valueMap: JSON.parse('${Enum_DeductionType}'),
                 changed: function (form, item, value) {
 
-                    This.getMembers().last().getMembers()[1].setUnitId(This.assay.unitId);
+                    This.getMembers().last().getMembers().filter(q => q.name === "finalAssay").first().setUnitId(This.assay.unitId);
                     let deductionValue = form.getItem("deductionValue").getValue();
                     let discountValue;
                     switch (value) {
@@ -78,7 +78,7 @@ isc.defineClass("InvoiceCalculationRow", isc.VLayout).addProperties({
                             break;
                     }
 
-                    This.getMembers().last().getMembers()[1].setValue(discountValue);
+                    This.getMembers().last().getMembers().filter(q => q.name === "finalAssay").first().setValue(discountValue);
                     This.calculate();
                 }
             }]
@@ -103,25 +103,34 @@ isc.defineClass("InvoiceCalculationRow", isc.VLayout).addProperties({
         }));
         priceMembers.last().setUnitId(this.assay.unitId);
 
-        if (this.assay.unit.categoryUnit !== JSON.parse('${Enum_CategoryUnit}').Percent && this.price.weightUnit.id !== this.assay.unit.id)
-            priceMembers.add(isc.DynamicForm.create({
-                isConversionForm: true,
-                fields: [{
-                    value: " X ",
-                    showTitle: false,
-                    width: "100%",
-                    type: "staticText",
-                    align: "center"
-                }, {
-                    showTitle: false,
-                    width: "100%",
-                    type: "staticText",
-                    name: "deductionUnitConversionRate",
-                    value: convert(1).from(Enums.unit.getStandardSymbol(This.price.weightUnit.symbolUnit)).to(Enums.unit.getStandardSymbol(This.assay.unit.symbolUnit)),
-                    align: "center"
+        priceMembers.add(isc.DynamicForm.create({
+            isConversionForm: true,
+            fields: [{
+                value: " X ",
+                showTitle: false,
+                width: "100%",
+                type: "staticText",
+                align: "center"
+            }, {
+                showTitle: false,
+                wrapTitle: false,
+                required: true,
+                errorOrientation: "bottom",
+                width: "100",
+                type: "float",
+                name: "deductionUnitConversionRate",
+                value: 1,
+                align: "center",
+                validators: [{
+                    type: "required",
+                    validateOnChange: true,
+                }],
+                changed: function () {
+                    This.calculate();
+                }
 
-                }]
-            }));
+            }]
+        }));
 
         priceMembers.add(isc.DynamicForm.create({
             numCols: 8,
@@ -152,9 +161,6 @@ isc.defineClass("InvoiceCalculationRow", isc.VLayout).addProperties({
                 colSpan: 1,
                 name: "deductionPrice",
                 align: "center",
-                changed: function (form, item, value) {
-
-                }
             }]
         }));
 
@@ -165,19 +171,18 @@ isc.defineClass("InvoiceCalculationRow", isc.VLayout).addProperties({
     },
     calculate: function () {
 
-        let assayField = this.getMembers().last().getMembers()[1];
+        let priceForm = this.getMembers().last().getMembers().last();
+        let assayField = this.getMembers().last().getMembers().filter(q => q.name === "finalAssay").first();
         let conversionForm = this.getMembers().last().getMembers().filter(q => q.isConversionForm).first();
-        let basePriceValue = this.getMembers().last().getMembers().last().getValue("basePrice");
-        let deductionPriceValue = assayField.getValues().value * basePriceValue * (conversionForm ? conversionForm.getValue("deductionUnitConversionRate") : 1);
-        this.getMembers().last().getMembers().last().setValue("deductionPrice", deductionPriceValue);
+        let basePriceValue = priceForm.getValue("basePrice");
+        let deductionPriceValue = assayField.getValues().value * basePriceValue * conversionForm.getValue("deductionUnitConversionRate");
+        priceForm.setValue("deductionPrice", deductionPriceValue);
+
         this.sumPriceChanged(deductionPriceValue);
     },
     getFinalAssay: function () {
-        return this.getMembers().last().getMembers()[1].getValues().value;
 
-    },
-    getPriceBase: function () {
-        return this.getMembers().last().getMembers().last().getValue("basePrice");
+        return this.getMembers().last().getMembers().filter(q => q.name === "finalAssay").first();
     },
     // setValue: function (value) {
     //     this.setValues(value);

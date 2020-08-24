@@ -6,45 +6,55 @@ isc.defineClass("InvoiceDeduction", isc.VLayout).addProperties({
     showEdges: false,
     layoutMargin: 2,
     membersMargin: 2,
-    overflow: "scroll",
+    overflow: "auto",
     currency: null,
-    contract: null,
+    contractDetailData: null,
     invoiceCalculationComponent: null,
     initWidget: function () {
 
         this.Super("initWidget", arguments);
 
         let This = this;
-        let fields = [{
-            name: "TC",
-            type: "staticText",
-            title: "<spring:message code='contract.TC'/>",
-            value: {deductionPrice: __contract.getTC(This.contract)}
-        }];
-        let calculationValues = this.invoiceCalculationComponent.getValues();
-        for (let key in Object.keys(calculationValues)) {
+        this.addMember(isc.DynamicForm.create({
+            width: "50%",
+            fields: [{
+                width: "100%",
+                height: "50",
+                name: "TC",
+                titleWidth: "10%",
+                top: 5,
+                align: "left",
+                titleAlign: "left",
+                type: "staticText",
+                value: This.contractDetailData.tc,
+                title: "<spring:message code='contract.TC'/>"
+            }]
+        }));
 
-            fields.add(isc.InvoiceDeductionRow.create({
-                name: 'R/C ' + key,
-                border: "1px solid rgba(0, 0, 0, 0.3)",
-                elementName: key,
+        let calculationValues = this.invoiceCalculationComponent.getValues();
+        for (let index = 0; index < calculationValues.length; index++) {
+
+            this.addMember(isc.InvoiceDeductionRow.create({
                 currency: This.currency,
-                contract: This.contract,
-                calculationData: calculationValues[key]
+                elementFinalAssay: calculationValues[index].finalAssay,
+                contractDetailData: This.contractDetailData.rc.filter(q => q.elementName.toUpperCase() === calculationValues[index].name.toUpperCase()).first(),
+                sumDeductionChanged: function (sumDeduction) {
+
+                    let subtotalForm = This.getMembers().filter(q => q.name === "subTotal").first();
+                    subtotalForm.data[this.ID] = sumDeduction;
+                    subtotalForm.setValue(Object.values(subtotalForm.data).sum());
+                }
             }));
         }
 
-        this.addMember(isc.DynamicForm.create({
+        this.addMember(isc.HTMLFlow.create({
             width: "100%",
-            fields: fields,
-            itemChanged: function (item, newValue) {
-
-                let sum = Object.keys(this.getValues()).map(q => this.getValues()[q].deductionPrice).sum();
-                this.parentElement.members[1].setValue(sum);
-            }
+            contents: "<span style='width: 100%; display: block; margin: 10px auto; border-bottom: 1px solid rgba(0,0,0,0.3)'></span>"
         }));
+
         this.addMember(isc.Unit.create({
-            border: "1px solid rgba(0, 0, 0, 0.3)",
+            data: {},
+            name: "subTotal",
             disabledUnitField: true,
             disabledValueField: true,
             showValueFieldTitle: true,
@@ -52,12 +62,24 @@ isc.defineClass("InvoiceDeduction", isc.VLayout).addProperties({
             unitCategory: This.currency.categoryUnit,
             fieldValueTitle: "<spring:message code='foreign-invoice.form.tab.deductions.subtotal'/>",
         }));
-        this.members.last().setUnitId(this.currency.id);
+        this.getMembers().last().setUnitId(this.currency.id);
+
+        this.addMember(isc.HTMLFlow.create({
+            width: "100%",
+            contents: "<span style='width: 100%; display: block; margin: 10px auto; border-bottom: 1px solid rgba(0,0,0,0.3)'></span>"
+        }));
+
+        this.invoiceCalculationComponent.updateDeductionData = function (calculationToDeductionData) {
+
+            This.getMembers().slice(1, 1 + calculationToDeductionData.length).forEach(current => {
+
+                let elementCalculationData = calculationToDeductionData.filter(q => q.name.toUpperCase() === current.contractDetailData.elementName.toUpperCase()).first();
+                current.elementFinalAssay = elementCalculationData.finalAssay;
+                current.updateDeductionRows();
+            });
+        };
     },
-    getValue: function () {
-        return this.members[0].getValues();
-    },
-    getSumValue: function () {
-        return this.members[1].getValue();
-    }
+    // getValue: function () {
+    //     return this.members[0].getValues();
+    // },
 });
