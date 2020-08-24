@@ -32,7 +32,7 @@ public class TozinRestController {
     @GetMapping(value = {"/spec-list"})
     public ResponseEntity<TotalResponse<TozinDTO.Info>> search(@RequestParam MultiValueMap<String, String> criteria) {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
-        return new ResponseEntity<>(tozinService.searchTozin(nicicoCriteria), HttpStatus.OK);
+        return new ResponseEntity<>(tozinService.search(nicicoCriteria), HttpStatus.OK);
 
     }
 

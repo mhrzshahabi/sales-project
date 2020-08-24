@@ -76,7 +76,7 @@ public class InvoiceRestController {
     @Loggable
     @DeleteMapping(value = "/list")
     public ResponseEntity<Void> delete(@Validated @RequestBody InvoiceDTO.Delete request) {
-        invoiceService.delete(request);
+        invoiceService.deleteAll(request);
         return new ResponseEntity(HttpStatus.OK);
     }
 

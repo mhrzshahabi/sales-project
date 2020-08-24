@@ -18,7 +18,7 @@ public interface IDCCService {
 
     void delete(Long id);
 
-    void delete(DCCDTO.Delete request);
+    void deleteAll(DCCDTO.Delete request);
 
     TotalResponse<DCCDTO.Info> search(NICICOCriteria criteria);
 

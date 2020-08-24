@@ -58,7 +58,7 @@ public class ShipmentRestController {
     @Loggable
     @DeleteMapping(value = "/list")
     public ResponseEntity<Void> delete(@Validated @RequestBody ShipmentDTO.Delete request) {
-        shipmentService.delete(request);
+        shipmentService.deleteAll(request);
         return new ResponseEntity(HttpStatus.OK);
     }
 
