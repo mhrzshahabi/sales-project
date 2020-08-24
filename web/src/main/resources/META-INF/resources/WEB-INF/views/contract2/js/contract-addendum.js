@@ -11,7 +11,7 @@ contractTab.Vars = {
     Prefix: "contract_addendum_tab" + Math.random().toString().substr(-6),
     Url: SalesConfigs.Urls.remittanceRest,
     Urls: {},
-    Method: "PATCH",
+    Method: "POST",
     ContentType: "application/json; charset=utf-8",
     DefaultFormConfig: {
         showErrorText: true,
@@ -42,6 +42,8 @@ contractTab.Vars = {
     },
     Authorities: {},
 }
+contractTab.Window = {}
+contractTab.Grids = {}
 ////////////////////////////////////////////////////////METHODS/////////////////////////////////////////////////////////
 contractTab.Methods = {
     CreateWindowForForm: function (formItems, url, numCols = 6, extraOption = {win: {}, form: {}}) {
@@ -508,6 +510,541 @@ contractTab.Methods = {
         return new persianDate(dateTime).toLocale('en').format('YYYY/MM/DD');
     },
 };
+contractTab.Methods.NewAddendum = function () {
+    const contractRecord = contractTab.listGrid.main.getSelectedRecord()
+    if (!contractRecord) return isc.warn("<spring:message code='global.grid.record.not.selected'/>")
+    if (contractRecord.parentId) return isc.warn("<spring:message code='exception.not-editable'/>")
+    // dbg('addendum Record', contractRecord)
+    const ds = isc.MyRestDataSource.create({fetchDataURL: '${contextPath}/api/contact/spec-list'});
+    const formFields = [
+        {
+            name: "no",
+            required: true, //false
+            // editorType: "StaticText",
+            title: "<spring:message code='contract.form.no'/>",
+            defaultValue: contractRecord['no'] + "-" + moment().dayOfYear().toString()
+        },
+        {
+            name: "parentId",
+            hidden: true, //false
+            // editorType: "StaticText",
+            defaultValue: contractRecord['id']
+        },
+        {
+            name: "materialId",
+            // width: "100%",
+            optionDataSource: isc.MyRestDataSource.create({
+                fields: [
+                    {name: "id", title: "id", primaryKey: true, hidden: true},
+                    {name: "code", title: "<spring:message code='goods.code'/> "},
+                    {name: "descl"},
+                    {name: "unitId"},
+                    {name: "unit.nameEN"}
+                ],
+                fetchDataURL: "${contextPath}/api/material/spec-list"
+            }),
+            defaultValue: contractRecord["materialId"],
+            autoFetchData: false,
+            displayField: "descl",
+            valueField: "id",
+            required: true,
+            disabled: true,
+            title: "<spring:message code='material.title'/>",
+        },
+        {
+            name: "contractTypeId",
+            // width: "100%",
+            editorType: "SelectItem",
+            defaultValue: (_ => {
+                if (!StorageUtil.get('addendumContractTypeId') || typeof (StorageUtil.get('addendumContractTypeId')) !== "number") return null;
+                try {
+                    return StorageUtil.get('addendumContractTypeId')
+                } catch (e) {
+                    dbg('addendumContractTypeId error', e)
+                    return null
+                }
+
+            })(),
+            optionDataSource: isc.MyRestDataSource.create({
+                fields: [
+                    {name: "id", title: "id", primaryKey: true, hidden: true},
+                    {name: "code", title: "<spring:message code='goods.code'/> "},
+                    {name: "titleFa"},
+                    {name: "titleEn"},
+                    {name: "description"}
+                ],
+                fetchDataURL: "${contextPath}/api/contract-type/spec-list"
+            }),
+            autoFetchData: false,
+            displayField: "titleEn",
+            valueField: "id",
+            required: true,
+            changed(form, item, value) {
+                StorageUtil.save('addendumContractTypeId', value)
+            },
+            title: "<spring:message code='entity.contract-type'/>"
+        },
+        {
+            name: "date",
+            type: "date",
+            required: true,
+            title: "<spring:message code='global.date'/>"
+        },
+        {
+            name: "affectFrom",
+            title: "<spring:message code='contract.affect.from'/>",
+            type: "date",
+            // width: "100%",
+            required: true,
+        },
+        {
+            name: "affectUpTo",
+            title: "<spring:message code='contract.affect.upto'/>",
+            type: "date",
+            // width: "10%",
+            required: true,
+        },
+
+        {
+            name: "buyerId", title: "<spring:message code='contact.commercialRole.buyer'/>", disabled: true,
+            defaultValue: contractRecord['buyerId'],
+            displayField: "nameEN",
+            valueField: "id",
+            optionDataSource: ds,
+        },
+        {
+            name: "sellerId", title: "<spring:message code='contact.commercialRole.seller'/>", disabled: true,
+            defaultValue: contractRecord['sellerId'],
+            // displayField: "nameEN",
+            // valueField: "id",
+            // optionDataSource: ds,
+            hidden: true
+
+        },
+        {
+            name: "agentBuyerId",
+            displayField: "nameEN",
+            valueField: "id",
+            title: "<spring:message code='contact.commercialRole.agentBuyer'/>",
+            defaultValue: contractRecord['agentBuyerId'],
+            optionDataSource: ds,
+        },
+        {
+            name: "agentSellerId",
+            displayField: "nameEN",
+            valueField: "id",
+            title: "<spring:message code='contact.commercialRole.agentSeller'/>",
+            defaultValue: contractRecord['agentSellerId'],
+            optionDataSource: ds,
+
+        },
+        {
+            colSpan: 6,
+            width: "100%",
+            type: "TextArea",
+            name: "description",
+            title: "<spring:message code='global.description'/>"
+        }
+    ];
+    const winId = contractTab.Vars.Prefix + Math.random().toString().substr(3, 5)
+    contractTab.Window.Addendum = isc.Window.create(
+        {
+            ...contractTab.Vars.DefaultWindowConfig,
+            ID: winId,
+            height: 0.6 * innerHeight,
+            members: [
+                isc.VLayout.create({
+                    width: "100%",
+                    height: "100%",
+                    members: [
+                        isc.HLayout.create({
+                            width: "100%",
+                            height: "33%",
+                            members: [
+                                contractTab.dynamicForm.Addendum = isc.DynamicForm.create({
+                                    width: "100%",
+                                    numCols: 6,
+                                    fields: formFields
+                                })
+                            ]
+                        }),
+                        isc.HLayout.create({
+                            members: [
+                                isc.VLayout.create({
+                                    width: "40%",
+                                    members: [
+                                        contractTab.Grids.Addendum = isc.ListGrid.create({
+
+                                            width: "100%",
+                                            fields: [
+                                                {
+                                                    name: "id",
+                                                    primaryKey: true,
+                                                    hidden: true,
+                                                    title: '<spring:message code="global.id"/>'
+                                                },
+                                                {
+                                                    name: "titleFa",
+                                                    title: '<spring:message code="global.title-fa"/>'
+                                                },
+                                                {
+                                                    name: "titleEn",
+                                                    title: '<spring:message code="global.title-en"/>'
+                                                },
+                                                {
+                                                    type: 'long',
+                                                    editorType: "SelectItem",
+                                                    name: "contractDetailTypeTemplateId",
+                                                    title: '<spring:message code="contract.form.detail-type-template"/>',
+                                                    canEdit: true,
+                                                    required: true,
+                                                    valueField: "id",
+                                                    displayField: "code",
+                                                    pickListProperties: {showFilterEditor: true},
+                                                    pickListFields: [
+                                                        {name: "id", align: "center", hidden: true},
+                                                        {name: "code", align: "center"},
+                                                    ],
+                                                    optionDataSource: contractTab.restDataSource.contractDetailTypeTemplate,
+                                                    optionCriteria: {
+                                                        fieldName: "contractDetailTypeId",
+                                                        operator: "equals",
+                                                        value: null
+                                                    },
+                                                    recordClick: function (viewer, record, recordNum, field, fieldNum, value, rawValue) {
+                                                        this.optionCriteria.value = contractRecord.id;
+                                                        return false;
+                                                    }
+                                                },
+                                                {
+                                                    name: "addIcon",
+                                                    width: "5%",
+                                                    type: "icon",
+                                                    emptyCellValue: '<img src="static/img/pieces/16/icon_add.png">',
+                                                    recordClick(viewer, _record, recordNum, field, fieldNum, value, rawValue) {
+                                                        const t = contractRecord.contractDetails.find(cd => cd.contractDetailTypeId === _record.id);
+                                                        const sectionStackSectionObj = {
+                                                            expanded: false,
+                                                            name: _record.id,
+                                                            title: _record.titleEn,
+                                                            contractDetailId: null,
+                                                            controls: [isc.IButton.create({
+                                                                width: 150,
+                                                                icon: "[SKIN]/actions/view.png",
+                                                                size: 32,
+                                                                click: function () {
+
+                                                                }
+                                                            }), isc.IButton.create({
+                                                                width: 150,
+                                                                icon: "[SKIN]/actions/remove.png",
+                                                                size: 32,
+                                                                click: function () {
+                                                                    contractTab.sectionStack.Addendum.removeSection(_record.id + "");
+                                                                }
+                                                            })],
+                                                            items: []
+                                                        };
+
+                                                        const dynamicFormField = [];
+                                                        _record.contractDetailTypeParams.filter(param => param.type !== "ListOfReference").forEach(param => {
+                                                            const field = {
+                                                                width: "100%",
+                                                            };
+                                                            field.name = param.key;
+                                                            field.key = param.key;
+                                                            field.title = param.name;
+                                                            field.paramType = param.type;
+                                                            field.reference = param.reference;
+                                                            field.value = param.defaultValue;
+                                                            field.required = param.required;
+
+                                                            Object.assign(field, getFieldProperties(field.paramType, field.reference));
+
+                                                            dynamicFormField.push(field);
+                                                        });
+                                                        const contractDetailDynamicForm = isc.DynamicForm.create({
+                                                            visibility: "hidden",
+                                                            width: "100%",
+                                                            align: "center",
+                                                            titleAlign: "right",
+                                                            numCols: 8,
+                                                            margin: 10,
+                                                            canSubmit: true,
+                                                            showErrorText: true,
+                                                            showErrorStyle: true,
+                                                            showInlineErrors: true,
+                                                            errorOrientation: "bottom",
+                                                            requiredMessage: '<spring:message code="validator.field.is.required"/>',
+                                                            fields: BaseFormItems.concat(dynamicFormField, true)
+                                                        });
+                                                        sectionStackSectionObj.items.push(contractDetailDynamicForm);
+
+                                                        _record.contractDetailTypeParams.filter(param => param.type === "ListOfReference").forEach(param => {
+                                                            dbg('article is reference');
+                                                            const contractDetailListGrid = isc.ListGrid.create({
+                                                                width: "100%",
+                                                                height: 300,
+                                                                sortField: 1,
+                                                                showRowNumbers: true,
+                                                                canAutoFitFields: false,
+                                                                allowAdvancedCriteria: true,
+                                                                alternateRecordStyles: true,
+                                                                selectionType: "single",
+                                                                sortDirection: "ascending",
+                                                                fields: getReferenceFields(param.reference),
+                                                                canEdit: true,
+                                                                editEvent: "doubleClick",
+                                                                autoSaveEdits: false,
+                                                                virtualScrolling: false,
+                                                                showRecordComponents: true,
+                                                                showRecordComponentsByCell: true,
+                                                                recordComponentPoolingMode: "recycle",
+                                                                listEndEditAction: "next",
+                                                                canRemoveRecords: true,
+                                                                reference: param.reference,
+                                                                gridComponents: ["header", "body", isc.ToolStrip.create({
+                                                                    width: "100%",
+                                                                    height: 24,
+                                                                    members: [
+                                                                        isc.ToolStripButton.create({
+                                                                            icon: "pieces/16/icon_add.png",
+                                                                            title: "<spring:message code='global.add'/>",
+                                                                            click: function () {
+                                                                                contractDetailListGrid.startEditingNew();
+                                                                            }
+                                                                        }),
+                                                                        isc.ToolStrip.create({
+                                                                            width: "100%",
+                                                                            height: 24,
+                                                                            align: 'left',
+                                                                            border: 0,
+                                                                            members: [
+                                                                                isc.ToolStripButton.create({
+                                                                                    icon: "pieces/16/save.png",
+                                                                                    title: "<spring:message code='global.form.save'/>",
+                                                                                    click: function () {
+                                                                                        contractDetailListGrid.saveAllEdits();
+                                                                                    }
+                                                                                })]
+                                                                        })
+                                                                    ]
+                                                                })]
+                                                            })
+                                                            sectionStackSectionObj.items.push(contractDetailListGrid);
+                                                            fetch('api/' + param['reference'] + '/spec-list?criteria=' +
+                                                                JSON.stringify({
+                                                                    fieldName: "id",
+                                                                    // fieldName: "contractId",
+                                                                    operator: "inSet",
+                                                                    value: t.contractDetailValues
+                                                                        .filter(cdv => cdv.reference)
+                                                                        .map(cdv => Number(cdv.value)),
+                                                                    // value: contractRecord['id']
+                                                                },), {headers: SalesConfigs.httpHeaders}).then(
+                                                                r => {
+                                                                    dbg('list reference response', r)
+                                                                    if (r.ok) {
+                                                                        r.json().then(j => {
+                                                                            dbg('list reference response', j)
+                                                                            contractDetailListGrid.setData(j.response.data)
+                                                                        })
+                                                                    }
+                                                                }
+                                                            )
+                                                        });
+                                                        contractTab.sectionStack.Addendum.addSection(sectionStackSectionObj);
+                                                        dbg('selected article', contractTab.Grids.Addendum.getSelectedRecord())
+                                                        dbg('sectionStackSectionObj', contractDetailDynamicForm)
+                                                        if (t) {
+                                                            t.contractDetailValues.filter(cdv => !cdv.reference).forEach(cdv => {
+                                                                // if (!cdv.reference)
+                                                                contractDetailDynamicForm.setValue(cdv.key, cdv.value)
+                                                            })
+                                                        }
+                                                        dbg('should have reference', t);
+                                                    }
+                                                }
+                                            ],
+                                            dataSource: contractTab.restDataSource.contractDetailType,
+                                            initialCriteria: {
+                                                operator: 'and',
+                                                criteria: [{
+                                                    fieldName: 'materialId',
+                                                    operator: 'equals',
+                                                    value: contractRecord.materialId
+                                                }]
+                                            },
+
+                                            autoFetchData: true,
+                                        })
+                                    ]
+                                }),
+                                contractTab.sectionStack.Addendum = isc.SectionStack.create({width: "60%"})
+                            ]
+                        }),
+                        isc.HLayout.create({
+                            height: "8%",
+                            members: [
+                                contractTab.Methods.HlayoutSaveOrExit(
+                                    contractTab.Methods.SaveAddendum, winId
+                                )
+                            ]
+                        }),
+                    ]
+                })
+            ]
+        }
+    )
+}
+contractTab.Methods.Validators = {
+    async Addendum(data) {
+        return true
+        const contractShipments = data.contractDetails.filter(cd => {
+                if (!cd.contractDetailValues) return false;
+                return cd.contractDetailValues.find(cdv => (cdv.reference && cdv.reference.toLowerCase() === 'ContractShipment'.toLowerCase()))
+            }
+        )
+        if (!contractShipments || contractShipments.length === 0) return true;
+        const contract = contractTab.listGrid.main.getSelectedRecord();
+        const parentContractShipments = contract.contractDetails.filter(
+            cd => {
+                if (!cd.contractDetailValues || cd.contractDetailValues.length === 0) return false;
+                const shipments = cd.contractDetailValues.filter(cdv => {
+                    if (cdv.reference && cdv.reference.toLowerCase() === 'ContractShipment'.toLowerCase()) return true;
+                    return false;
+                })
+                if (shipments && shipments.length > 0) return true;
+                return false;
+            }
+        )
+        if (!parentContractShipments || parentContractShipments.length === 0) return true;
+        const response = await fetch('api/shipment/spec-list?criteria=' + JSON.stringify({
+            fieldName: 'contractShipmentId',
+            operator: 'inSet',
+            value: parentContractShipments.map(pcs => pcs.contractDetailValues.map(cdv => Number(cdv.value))).flat()
+        }), {headers: SalesConfigs.httpHeaders})
+        if (!response.ok) {
+            const err = await response.json()
+            isc.warn(JSON.stringify(err))
+            console.error('addendum validation error: ', err)
+            throw "addendum validation error"
+        }
+        const shipmentContractsWithShipment = (await response.json()).response.data.map(({contractShipment}) => contractShipment)
+        const shipmentContractsWithShipmentId = shipmentContractsWithShipment.map(sws => Number(sws.id))
+        const contractShipmentIds = contractShipments.map(cs => cs.contractDetailValues.map(cdv => Number(cdv.value))).flat()
+        const removedId = shipmentContractsWithShipmentId.find(id => !contractShipmentIds.contains(id))
+        if (removedId) {
+            isc.warn("<spring:message code='shipment.was.sent'/>")
+            return false
+        }
+        const chagedShipmentContract = shipmentContractsWithShipment.find(scws => {
+                const cs = JSON.parse(contractShipments.map(cs => cs.contractDetailValues).flat().find(cs => {
+                    return Number(cs.value) === scws.id;
+                }).referenceJsonValue)
+                // dbg('contractshipment: ', cs, 'original contractshipment: ', scws)
+                const modifiedNotFound = Object.keys(cs).find(c => (typeof (cs[c]) !== 'object' && cs[c] !== scws[c]))
+                // dbg('modifiedNotFound', modifiedNotFound);
+                return modifiedNotFound;
+            }
+        )
+        dbg('chagedShipmentContract', chagedShipmentContract)
+        if (chagedShipmentContract) {
+            isc.warn("<spring:message code='shipment.was.sent'/>")
+            return false
+        }
+        dbg('shipments sent with this contract', shipmentContractsWithShipment)
+        dbg('addendum data', data, parentContractShipments, contractShipments, contractShipmentIds)
+        return true
+    }
+}
+contractTab.Methods.SaveAddendum = async function () {
+    const msg = isc.Dialog.create({
+        message:"<spring:message code='global.please.wait'/>"
+    })
+    if (!contractTab.dynamicForm.Addendum.validate())
+        return;
+    let data = contractTab.dynamicForm.Addendum.getValues();
+
+    contractTab.sectionStack.Addendum.expandSection(contractTab.sectionStack.Addendum.sections);
+
+    data.contractDetails = [];
+    contractTab.sectionStack.Addendum.sections.forEach(section => {
+        let contractDetailObj = {
+            contractDetailTypeId: section.name,
+            id: section.contractDetailId,
+            contractDetailValues: []
+        };
+
+        // dynamicForm
+        section.items[0].fields.filter(x => x.isBaseItem == null).forEach(x => {
+            contractDetailObj.contractDetailValues.push({
+                id: x.contractDetailValueId,
+                name: x.name,
+                key: x.key,
+                title: x.title,
+                reference: x.reference,
+                type: x.paramType,
+                value: section.items[0].values[x.name],
+                unitId: x.unitId,
+                required: (x.required == null) ? false : x.required,
+                contractDetailId: section.contractDetailId,
+                estatus: x.estatus,
+                editable: x.editable
+            });
+        });
+
+        // listGrids
+        section.items.slice(1, section.items.length).forEach(listGrid => {
+            listGrid.saveAllEdits();
+            let listGridData;
+            if (listGrid.getData() instanceof Array) //create
+                listGridData = listGrid.getData();
+            else { //update
+                listGridData = listGrid.getData().localData
+            }
+            listGridData.forEach(x => {
+                Object.keys(x).forEach(listGridKey => {
+                    if (listGridKey.startsWith("_"))
+                        delete x[listGridKey];
+                });
+                contractDetailObj.contractDetailValues.push({
+                    id: x.contractDetailValueId,
+                    name: "Not Important",
+                    title: "Not Important",
+                    key: "NotImportant",
+                    reference: listGrid.reference,
+                    type: "ListOfReference",
+                    value: x.id,
+                    referenceJsonValue: JSON.stringify(x),
+                    unitId: null,
+                    required: false,
+                    contractDetailId: section.contractDetailId,
+                    estatus: x.estatus,
+                    editable: x.editable
+                });
+            });
+        });
+
+        data.contractDetails.push(contractDetailObj);
+    });
+    const validated = await contractTab.Methods.Validators.Addendum(data)
+    if (validated) isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+        actionURL: contractTab.variable.contractUrl,
+        httpMethod: contractTab.Vars.Method,
+        data: JSON.stringify(data),
+        callback: function (resp) {
+            if (resp.httpResponseCode === 201 || resp.httpResponseCode === 200) {
+                contractTab.dialog.ok();
+                contractTab.method.refresh(contractTab.listGrid.main);
+                contractTab.Window.Addendum.destroy();
+            } else
+                contractTab.dialog.error(resp);
+            msg.destroy()
+        }
+    }))
+    else msg.destroy()
+}
 ////////////////////////////////////////////////////////FIELDS//////////////////////////////////////////////////////////
 contractTab.Fields = {
     Contract: _ => [
@@ -616,240 +1153,19 @@ contractTab.Fields = {
 ////////////////////////////////////////////////////////DYNAMICFORMS////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////COMPONENTS//////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////WINDOWS/////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////MainContractRefactor////////////////////////////////////////////
 contractTab.ToolStripButtons = {
     Addendum: isc.ToolStripButtonRefresh.create({
             title: "<spring:message code='contract.addendum'/>",
-            click() {
-                const record = contractTab.listGrid.main.getSelectedRecord()
-                const ds = isc.MyRestDataSource.create({fetchDataURL: '${contextPath}/api/contact/spec-list'});
-                if (!record) return isc.warn("<spring:message code='global.grid.record.not.selected'/>")
-                const formFields = [
-                    {
-                        name: "no",
-                        required: true, //false
-                        // editorType: "StaticText",
-                        title: "<spring:message code='contract.form.no'/>",
-                        defaultValue: record['no'] + "-" + moment().dayOfYear().toString()
-                    },
-                    {
-                        name: "parentId",
-                        hidden: true, //false
-                        // editorType: "StaticText",
-                        defaultValue: record['id']
-                    },
-                    {
-                        name: "materialId",
-                        // width: "100%",
-                        optionDataSource: isc.MyRestDataSource.create({
-                            fields: [
-                                {name: "id", title: "id", primaryKey: true, hidden: true},
-                                {name: "code", title: "<spring:message code='goods.code'/> "},
-                                {name: "descl"},
-                                {name: "unitId"},
-                                {name: "unit.nameEN"}
-                            ],
-                            fetchDataURL: "${contextPath}/api/material/spec-list"
-                        }),
-                        defaultValue: record["materialId"],
-                        autoFetchData: false,
-                        displayField: "descl",
-                        valueField: "id",
-                        required: true,
-                        disabled: true,
-                        title: "<spring:message code='material.title'/>",
-                    },
-                    {
-                        name: "contractTypeId",
-                        // width: "100%",
-                        editorType: "SelectItem",
-                        optionDataSource: isc.MyRestDataSource.create({
-                            fields: [
-                                {name: "id", title: "id", primaryKey: true, hidden: true},
-                                {name: "code", title: "<spring:message code='goods.code'/> "},
-                                {name: "titleFa"},
-                                {name: "titleEn"},
-                                {name: "description"}
-                            ],
-                            fetchDataURL: "${contextPath}/api/contract-type/spec-list"
-                        }),
-                        autoFetchData: false,
-                        displayField: "titleEn",
-                        valueField: "id",
-                        required: true,
-                        title: "<spring:message code='entity.contract-type'/>"
-                    },
-                    {
-                        name: "date",
-                        type: "date",
-                        required: true,
-                        title: "<spring:message code='global.date'/>"
-                    },
-                    {
-                        name: "affectFrom",
-                        title: "<spring:message code='contract.affect.from'/>",
-                        type: "date",
-                        // width: "100%",
-                        required: true,
-                    },
-                    {
-                        name: "affectUpTo",
-                        title: "<spring:message code='contract.affect.upto'/>",
-                        type: "date",
-                        // width: "10%",
-                        required: true,
-                    },
-
-                    {
-                        name: "buyerId", title: "<spring:message code='contact.commercialRole.buyer'/>", disabled: true,
-                        defaultValue: record['buyerId'],
-                        displayField: "nameEN",
-                        valueField: "id",
-                        optionDataSource: ds,
-                    },
-                    {
-                        name: "sellerId", title: "<spring:message code='contact.commercialRole.seller'/>", disabled: true,
-                        defaultValue: record['sellerId'],
-                        // displayField: "nameEN",
-                        // valueField: "id",
-                        // optionDataSource: ds,
-                        hidden: true
-
-                    },
-                    {
-                        name: "agentBuyerId",
-                        displayField: "nameEN",
-                        valueField: "id",
-                        title: "<spring:message code='contact.commercialRole.agentBuyer'/>",
-                        defaultValue: record['agentBuyerId'],
-                        optionDataSource: ds,
-                    },
-                    {
-                        name: "agentSellerId",
-                        displayField: "nameEN",
-                        valueField: "id",
-                        title: "<spring:message code='contact.commercialRole.agentSeller'/>",
-                        defaultValue: record['agentSellerId'],
-                        optionDataSource: ds,
-
-                    },
-                    {
-                        colSpan: 6,
-                        width: "100%",
-                        type: "TextArea",
-                        name: "description",
-                        title: "<spring:message code='global.description'/>"
-                    }
-                ];
-                const winId = contractTab.Vars.Prefix + Math.random().toString().substr(3, 5)
-                const win = isc.Window.create(
-                    {
-                        ...contractTab.Vars.DefaultWindowConfig,
-                        ID: winId,
-                        members: [
-                            isc.VLayout.create({
-                                width: "100%",
-                                members: [
-                                    isc.HLayout.create({
-                                        width: "100%",
-                                        members: [
-                                            isc.DynamicForm.create({
-                                                width: "100%",
-
-                                                numCols: 6,
-                                                fields: formFields
-                                            })
-                                        ]
-                                    }),
-                                    isc.HLayout.create({
-                                        members: [
-                                            isc.VLayout.create({
-                                                members: [
-                                                    isc.ListGrid.create({
-                                                        fields: [
-                                                            {
-                                                                name: "id",
-                                                                primaryKey: true,
-                                                                hidden: true,
-                                                                title: '<spring:message code="global.id"/>'
-                                                            },
-                                                            {
-                                                                name: "titleFa",
-                                                                title: '<spring:message code="global.title-fa"/>'
-                                                            },
-                                                            {
-                                                                name: "titleEn",
-                                                                title: '<spring:message code="global.title-en"/>'
-                                                            },
-                                                            {
-                                                                type: 'long',
-                                                                editorType: "SelectItem",
-                                                                name: "contractDetailTypeTemplateId",
-                                                                title: '<spring:message code="contract.form.detail-type-template"/>',
-                                                                canEdit: true,
-                                                                required: true,
-                                                                valueField: "id",
-                                                                displayField: "code",
-                                                                pickListProperties: {showFilterEditor: true},
-                                                                pickListFields: [
-                                                                    {name: "id", align: "center", hidden: true},
-                                                                    {name: "code", align: "center"},
-                                                                ],
-                                                                optionDataSource: contractTab.restDataSource.contractDetailTypeTemplate,
-                                                                optionCriteria: {
-                                                                    fieldName: "contractDetailTypeId",
-                                                                    operator: "equals",
-                                                                    value: null
-                                                                },
-                                                                recordClick: function (viewer, record, recordNum, field, fieldNum, value, rawValue) {
-                                                                    this.optionCriteria.value = record.id;
-                                                                    return false;
-                                                                }
-                                                            },
-                                                            {
-                                                                width: 40,
-                                                                name: "addIcon",
-                                                                align: "center",
-                                                                showTitle: false,
-                                                                canFilter: false
-                                                            }
-                                                        ],
-                                                        dataSource: contractTab.restDataSource.contractDetailType,
-                                                        initialCriteria: {
-                                                            operator: 'and',
-                                                            criteria: [{
-                                                                fieldName: 'materialId',
-                                                                operator: 'equals',
-                                                                value: record.materialId
-                                                            }]
-                                                        },
-                                                        width: "30%",
-                                                        autoFetchData: true,
-                                                        showResizeBar: true,
-                                                        showFilterEditor: true,
-                                                        showRecordComponents: true,
-                                                        setAutoFitExtraRecords: true,
-                                                        showRecordComponentsByCell: true,
-                                                    })
-                                                ]
-                                            }),
-
-                                        ]
-                                    }),
-                                    isc.HLayout.create({
-                                        members: [
-                                            contractTab.Methods.HlayoutSaveOrExit(
-                                                _ => {
-                                                }, winId
-                                            )
-                                        ]
-                                    }),
-                                ]
-                            })
-                        ]
-                    }
-                )
-            }
+            click: contractTab.Methods.NewAddendum
         }
     )
 };
 contractTab.toolStrip.main.addMember(contractTab.ToolStripButtons.Addendum, 3)
+contractTab.listGrid.main.getCellCSSText = function (record, rowNum, colNum) {
+    if (record.parentId) {
+        return "font-weight:bold; color:#287fd6;";
+    }
+    return this.Super('getCellCSSText', arguments)
+}
+contractTab.listGrid.main.redraw()
