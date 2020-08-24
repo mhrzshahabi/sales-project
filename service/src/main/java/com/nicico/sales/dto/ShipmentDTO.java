@@ -41,7 +41,7 @@ public class ShipmentDTO {
     private Double moisture;
     private Double vgm;
     private Long unitId;
-    private Date shipmentDate;
+    private Date automationDate;
     private Date sendDate;
 
 
