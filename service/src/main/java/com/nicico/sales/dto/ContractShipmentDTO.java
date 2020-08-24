@@ -2,6 +2,7 @@ package com.nicico.sales.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.nicico.sales.dto.contract.ContractDTO2;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -25,6 +26,9 @@ public class ContractShipmentDTO {
     @Temporal(TemporalType.TIMESTAMP)
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date sendDate;
+    @Temporal(TemporalType.TIMESTAMP)
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date shipmentDate;
     private Long tolorance;
     private Long contractId;
 
@@ -35,7 +39,7 @@ public class ContractShipmentDTO {
     @ApiModel("ContractShipmentInfo")
     public static class Info extends ContractShipmentDTO {
         private Long id;
-
+        private ContractDTO2 contract;
         private PortDTO loadPort;
         private Date createdDate;
         private String createdBy;

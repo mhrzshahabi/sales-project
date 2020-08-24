@@ -44,14 +44,6 @@ public class Shipment extends BaseEntity {
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "CONTRACT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "shipmnt2contract"))
-    private Contract contract;
-
-    @Column(name = "CONTRACT_ID")
-    private Long contractId;
-
-    @Setter(AccessLevel.NONE)
-    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MATERIAL_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "shipmnt2material"))
     private Material material;
 
@@ -64,39 +56,17 @@ public class Shipment extends BaseEntity {
     @Column(name = "CONTAINER")
     private Long noContainer;
 
-    @Column(name = "CONTAINER_TYPE", length = 20)
-    private String containerType;
-
-    @Setter(AccessLevel.NONE)
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "LOADING", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "shipmnt2portByLoading"))
-    private Port portByLoading;
-
-    @Column(name = "LOADING")
-    private Long portByLoadingId;
-
-    @Setter(AccessLevel.NONE)
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "DISCHARGE", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "shipmnt2portBydisch"))
-    private Port portByDischarge;
-
-    @Column(name = "DISCHARGE")
-    private Long portByDischargeId;
-
-    @Column(name = "DISCHARGE_ADDRESS", length = 4000)
-    private String dischargeAddress;
-
     @Column(name = "DESCRIPTION", length = 4000)
     private String description;
 
     @Column(name = "STATUS", length = 20)
     private String status;
 
-    @Column(name = "MONTH", length = 20)
-    private String month;
+    @Column(name = "SHIPMENT_DATE")
+    private Date shipmentDate;
 
-    @Column(name = "CREATE_DATE")
-    private Date createDate;
+    @Column(name = "SEND_DATE")
+    private Date sendDate;
 
     @Column(name = "FILE_NAME")
     private String fileName;
@@ -109,44 +79,11 @@ public class Shipment extends BaseEntity {
 
     @Column(name = "SHIPMENT_METHOD")
     private String shipmentMethod;
-
-    @Column(name = "LAYCAN")
-    private String laycan;
-
-    @Column(name = "SWITCH_BL_NUMBERS", length = 4000)
-    private String switchBl;
-
-    @Column(name = "SWB")
-    private String swb;
-
-    @Setter(AccessLevel.NONE)
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "SWITCH_PORT", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "shipmnt2portBysw"))
-    private Port switchPort;
-
-    @Column(name = "SWITCH_PORT")
-    private Long switchPortId;
-
-    @Column(name = "NO_BUNDLE")
-    private Integer noBundle;
-
     @Column(name = "LOADING_LETTER")
     private String loadingLetter;
 
-    @Column(name = "BL_NUMBERS", length = 4000)
-    private String blNumbers;
-
     @Column(name = "NO_OF_BL")
     private long numberOfBLs;
-
-    @Column(name = "BL_DATE", length = 20)
-    private Date blDate;
-
-    @Column(name = "SW_BL_DATE")
-    private Date swBlDate;
-
-    @Column(name = "CONSIGNEE")
-    private String consignee;
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
@@ -156,41 +93,11 @@ public class Shipment extends BaseEntity {
     @Column(name = "AGENT")
     private Long contactByAgentId;
 
-    @Column(name = "FREIGHT")
-    private Double freight;
-
-    @Column(name = "TOTAL_FREIGHT")
-    private Double totalFreight;
-
-    @Column(name = "FREIGHT_CUR", length = 20)
-    private String freightCurrency;
-
-    @Column(name = "PRE_FREIGHT")
-    private Double preFreight;
-
-    @Column(name = "PRE_REIGHT_CUR", length = 20)
-    private String preFreightCurrency;
-
-    @Column(name = "POST_FREIGHT")
-    private Double postFreight;
-
-    @Column(name = "POST_REIGHT_CUR", length = 20)
-    private String postFreightCurrency;
-
     @Column(name = "NO_BARREL")
     private Long noBarrel;
 
     @Column(name = "NO_PALETE")
     private Long noPalete;
-
-    @Column(name = "DEMURRAGE")
-    private Double demurrage;
-
-    @Column(name = "DISPATCH")
-    private Double dispatch;
-
-    @Column(name = "DETENSION")
-    private Double detention;
 
     @Column(name = "BOOKING_NO_cat")
     private String bookingCat;

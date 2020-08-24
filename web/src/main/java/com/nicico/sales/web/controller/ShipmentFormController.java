@@ -108,16 +108,16 @@ public class ShipmentFormController {
                 replacePOI(doc, "unitNameFa", shipment.getUnit().getNameFA());
                 replacePOI(doc, "descp", shipment.getMaterial().getDescp());
                 replacePOI(doc, "tolorance", "-/+" + shipment.getContractShipment().getTolorance().toString() + "%");
-                replacePOI(doc, "contract_no", shipment.getContract().getContractNo());
+                replacePOI(doc, "contract_no", shipment.getContractShipment().getContract().getNo());
 
-                String[] loa = shipment.getPortByLoading().getPort().split(",");
-                replacePOI(doc, "loa", loa[0]);
+               // String[] loa = shipment.getPortByLoading().getPort().split(",");
+               // replacePOI(doc, "loa", loa[0]);
 
-                String[] disPort = shipment.getPortByDischarge().getPort().split(",");
-                replacePOI(doc, "dis", disPort[0]);
+               // String[] disPort = shipment.getPortByDischarge().getPort().split(",");
+               // replacePOI(doc, "dis", disPort[0]);
 
-                replacePOI(doc, "country", shipment.getPortByDischarge().getCountry().getNameFa());
-                replacePOI(doc, "barname", String.valueOf(shipment.getNumberOfBLs()));
+               // replacePOI(doc, "country", shipment.getPortByDischarge().getCountry().getNameFa());
+               // replacePOI(doc, "barname", String.valueOf(shipment.getNumberOfBLs()));
                 replacePOI(doc, "dateday", dateday);
 
 
@@ -137,7 +137,7 @@ public class ShipmentFormController {
                 replacePOI(doc, "unitNameFa", shipment.getUnit().getNameFA());
                 replacePOI(doc, "descp", shipment.getMaterial().getDescp());
                 replacePOI(doc, "tolorance", "-/+" + shipment.getContractShipment().getTolorance().toString() + "%");
-                replacePOI(doc, "contract_no", shipment.getContract().getContractNo());
+                replacePOI(doc, "contract_no", shipment.getContractShipment().getContract().getNo());
 
 
                 List<String> inspector = shipmentService.inspector();
@@ -148,11 +148,11 @@ public class ShipmentFormController {
 
 
                 replacePOI(doc, "noContainer", String.valueOf(shipment.getNoContainer()));
-                replacePOI(doc, "loa", shipment.getPortByLoading().getPort());
-                replacePOI(doc, "dis", shipment.getPortByDischarge().getPort());
-                replacePOI(doc, "country", shipment.getPortByDischarge().getCountry().getNameFa());
+              //  replacePOI(doc, "loa", shipment.getPortByLoading().getPort());
+              //  replacePOI(doc, "dis", shipment.getPortByDischarge().getPort());
+              //  replacePOI(doc, "country", shipment.getPortByDischarge().getCountry().getNameFa());
                 replacePOI(doc, "containerType", shipment.getContainerType() == null ? "50" : shipment.getContainerType());
-                replacePOI(doc, "blNumbers", shipment.getBlNumbers());
+              //  replacePOI(doc, "blNumbers", shipment.getBlNumbers());
                 replacePOI(doc, "bookingno", "(Booking No." + shipment.getBookingCat() + ")");
                 replacePOI(doc, "dateday", dateday);
 
@@ -177,13 +177,13 @@ public class ShipmentFormController {
                 replacePOI(doc, "contract_amount", shipment.getAmount().toString());
                 replacePOI(doc, "descp", shipment.getMaterial().getDescp());
                 replacePOI(doc, "unitNameFa", shipment.getUnit().getNameFA());
-                replacePOI(doc, "contract_no", shipment.getContract().getContractNo());
+                replacePOI(doc, "contract_no", shipment.getContractShipment().getContract().getNo());
                 replacePOI(doc, "buyer", shipment.getContact().getNameFA());
                 replacePOI(doc, "agent", shipment.getContactByAgent().getNameFA());
-                replacePOI(doc, "loa", shipment.getPortByLoading().getPort());
+               // replacePOI(doc, "loa", shipment.getPortByLoading().getPort());
                 replacePOI(doc, "company", shipment.getContact().getNameFA());
-                replacePOI(doc, "country", shipment.getPortByDischarge().getCountry().getNameFa());
-                replacePOI(doc, "disPort", shipment.getPortByDischarge().getPort());
+              //  replacePOI(doc, "country", shipment.getPortByDischarge().getCountry().getNameFa());
+              //  replacePOI(doc, "disPort", shipment.getPortByDischarge().getPort());
 
                 replacePOI(doc, "dateday", dateday);
                 List<String> inspector = shipmentService.inspector();
@@ -213,17 +213,16 @@ public class ShipmentFormController {
                 replacePOI(doc, "contract_amount", shipment.getAmount().toString());
                 replacePOI(doc, "unitNameFa", shipment.getUnit().getNameFA());
                 replacePOI(doc, "descp", shipment.getMaterial().getDescp());
-                replacePOI(doc, "month", shipment.getMonth());
+                //replacePOI(doc, "month", shipment.getMonth());
                 replacePOI(doc, "year", shipment.getContractShipment().getSendDate().toString());
-                replacePOI(doc, "contract_no", shipment.getContract().getContractNo());
+                replacePOI(doc, "contract_no", shipment.getContractShipment().getContract().getNo());
                 replacePOI(doc, "agent", shipment.getContactByAgent().getNameFA());
                 replacePOI(doc, "tolorance", "-/+" + shipment.getContractShipment().getTolorance().toString() + "%");
 //                replacePOI(doc, "containertype", shipment.getContainerType());
                 replacePOI(doc, "buyer", shipment.getContact().getNameEN());
-                replacePOI(doc, "disport", shipment.getPortByDischarge().getPort());
-                replacePOI(doc, "country", shipment.getPortByDischarge().getCountry().getNameFa());
+              //  replacePOI(doc, "disport", shipment.getPortByDischarge().getPort());
+             //   replacePOI(doc, "country", shipment.getPortByDischarge().getCountry().getNameFa());
 
-                String shipId = shipment.getContract().getId();
 
                 List<String> inspector = shipmentService.inspector();
                 for (int i = 0; i < inspector.size(); i++) {

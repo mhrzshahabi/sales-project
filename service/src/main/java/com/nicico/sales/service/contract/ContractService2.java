@@ -5,6 +5,7 @@ import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
 import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.sales.annotation.Action;
+import com.nicico.sales.dto.ContactDTO;
 import com.nicico.sales.dto.ContractShipmentDTO;
 import com.nicico.sales.dto.contract.ContractContactDTO;
 import com.nicico.sales.dto.contract.ContractDTO2;
@@ -14,6 +15,7 @@ import com.nicico.sales.enumeration.ActionType;
 import com.nicico.sales.enumeration.ErrorType;
 import com.nicico.sales.exception.NotFoundException;
 import com.nicico.sales.exception.SalesException2;
+import com.nicico.sales.iservice.IContactService;
 import com.nicico.sales.iservice.IContractShipmentService;
 import com.nicico.sales.iservice.contract.IContractContactService;
 import com.nicico.sales.iservice.contract.IContractDetailService2;
@@ -46,7 +48,7 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
     private final IContractContactService contractContactService;
     private final IContractShipmentService contractShipmentService;
     private final IContractDetailValueService contractDetailValueService;
-
+    private final IContactService contactService;
     private final UpdateUtil updateUtil;
     private final ContractNoGenerator contractNoGenerator;
     private final Gson gson;
@@ -151,8 +153,11 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
             validation(entity, eResult);
             entities.add(entity);
             eResult.getContractContacts().forEach(q -> {
-                if (q.getCommercialRole() == CommercialRole.Buyer)
+                if (q.getCommercialRole() == CommercialRole.Buyer) {
                     eResult.setBuyerId(q.getContactId());
+                    ContactDTO.Info buyerInfo = contactService.get(q.getContactId());
+                    eResult.setAgentBuyer(buyerInfo);
+                }
                 if (q.getCommercialRole() == CommercialRole.Seller)
                     eResult.setSellerId(q.getContactId());
                 if (q.getCommercialRole() == CommercialRole.AgentBuyer)
