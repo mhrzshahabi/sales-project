@@ -2,9 +2,13 @@ package com.nicico.sales.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+
+import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Getter
 @Setter
@@ -56,4 +60,32 @@ public class InvoiceInternalDTO {
     @ApiModel("InvoiceInternalInfo")
     public static class Info extends InvoiceInternalDTO {
     }
+
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("InvoiceInternalCreateRq")
+    public static class Create extends InvoiceInternalDTO {
+    }
+
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("InvoiceInternalUpdateRq")
+    public static class Update extends InvoiceInternalDTO {
+        @NotNull
+        @ApiModelProperty(required = true)
+        private String id;
+    }
+
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("InvoiceInternalDeleteRq")
+    public static class Delete {
+        @NotNull
+        @ApiModelProperty(required = true)
+        private List<String> ids;
+    }
+
 }

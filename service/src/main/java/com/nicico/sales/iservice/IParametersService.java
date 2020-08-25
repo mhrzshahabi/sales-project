@@ -18,7 +18,7 @@ public interface IParametersService {
 
     void delete(Long id);
 
-    void delete(ParametersDTO.Delete request);
+    void deleteAll(ParametersDTO.Delete request);
 
     TotalResponse<ParametersDTO.Info> search(NICICOCriteria criteria);
 }

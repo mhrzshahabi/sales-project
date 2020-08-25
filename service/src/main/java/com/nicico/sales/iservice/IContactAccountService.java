@@ -18,7 +18,7 @@ public interface IContactAccountService {
 
     void delete(Long id);
 
-    void delete(ContactAccountDTO.Delete request);
+    void deleteAll(ContactAccountDTO.Delete request);
 
     TotalResponse<ContactAccountDTO.Info> search(NICICOCriteria criteria);
 }

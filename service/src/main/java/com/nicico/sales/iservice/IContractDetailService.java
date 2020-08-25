@@ -11,11 +11,9 @@ public interface IContractDetailService {
 
     ContractDetailDTO.Info get(Long id);
 
-    ContractDetailDTO.Info findByContractID(Long id);
-
     List<ContractDetailDTO.Info> list();
 
-    ContractDetailDTO.Info FindByContractID(Long id);
+    ContractDetailDTO.Info findByContractID(Long id);
 
     ContractDetailDTO.Info create(ContractDetailDTO.Create request);
 
@@ -23,7 +21,7 @@ public interface IContractDetailService {
 
     void delete(Long id);
 
-    void delete(ContractDetailDTO.Delete request);
+    void deleteAll(ContractDetailDTO.Delete request);
 
     TotalResponse<ContractDetailDTO.Info> search(NICICOCriteria criteria);
 

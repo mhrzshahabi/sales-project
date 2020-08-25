@@ -58,7 +58,7 @@ public class ContractPersonRestController {
     @Loggable
     @DeleteMapping(value = "/list")
     public ResponseEntity<Void> delete(@Validated @RequestBody ContractPersonDTO.Delete request) {
-        contractPersonService.delete(request);
+        contractPersonService.deleteAll(request);
         return new ResponseEntity(HttpStatus.OK);
     }
 

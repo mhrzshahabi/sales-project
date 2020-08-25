@@ -18,7 +18,7 @@ public interface IWarehouseStockService {
 
     void delete(Long id);
 
-    void delete(WarehouseStockDTO.Delete request);
+    void deleteAll(WarehouseStockDTO.Delete request);
 
     TotalResponse<WarehouseStockDTO.Info> search(NICICOCriteria criteria);
 
