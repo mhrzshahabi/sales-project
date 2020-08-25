@@ -3,11 +3,14 @@ package com.nicico.sales.service;
 import com.google.gson.Gson;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
+import com.nicico.sales.annotation.Action;
 import com.nicico.sales.dto.InvoiceNosaDTO;
+import com.nicico.sales.enumeration.ActionType;
 import com.nicico.sales.iservice.IInvoiceNosaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,7 +32,7 @@ public class InvoiceNosaService implements IInvoiceNosaService {
 
     @Transactional(readOnly = true)
     @Override
-//    @PreAuthorize("hasAuthority('R_INVOICE_SALES')")
+    @PreAuthorize("hasAuthority('R_INVOICE_SALES')")
     public TotalResponse<InvoiceNosaDTO.Info> search(NICICOCriteria criteria) {
 
         String queryCriteria = null;

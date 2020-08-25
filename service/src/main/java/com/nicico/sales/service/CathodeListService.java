@@ -1,29 +1,12 @@
 package com.nicico.sales.service;
 
-import com.nicico.copper.common.domain.criteria.NICICOCriteria;
-import com.nicico.copper.common.domain.criteria.SearchUtil;
-import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.sales.dto.CathodeListDTO;
 import com.nicico.sales.iservice.ICathodeListService;
-import com.nicico.sales.repository.CathodeListDAO;
+import com.nicico.sales.model.entities.base.CathodeList;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
-public class CathodeListService implements ICathodeListService {
-
-    private final CathodeListDAO cathodeListDAO;
-    private final ModelMapper modelMapper;
-
-    @Transactional(readOnly = true)
-    @Override
-    @PreAuthorize("hasAuthority('R_CATODLIST')")
-    public TotalResponse<CathodeListDTO.Info> search(NICICOCriteria criteria) {
-        return SearchUtil.search(cathodeListDAO, criteria, entity -> modelMapper.map(entity, CathodeListDTO.Info.class));
-    }
-
+public class CathodeListService extends GenericService<CathodeList, CathodeList.CathodeListId, CathodeListDTO, CathodeListDTO.Info, CathodeListDTO, CathodeListDTO> implements ICathodeListService {
 }

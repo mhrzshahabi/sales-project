@@ -3,6 +3,7 @@ package com.nicico.sales.iservice;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.sales.dto.ContactDTO;
+import com.nicico.sales.model.entities.base.ContactAccount;
 
 import java.util.List;
 
@@ -18,7 +19,11 @@ public interface IContactService {
 
     void delete(Long id);
 
-    void delete(ContactDTO.Delete request);
+    void deleteAll(ContactDTO.Delete request);
 
     TotalResponse<ContactDTO.Info> search(NICICOCriteria criteria);
+
+    void updateContactDefaultAccount(ContactAccount contactAccount);
+
+    void removeContactDefaultAccount(ContactAccount contactAccount);
 }

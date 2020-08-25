@@ -18,7 +18,7 @@ public interface IPersonService {
 
     void delete(Long id);
 
-    void delete(PersonDTO.Delete request);
+    void deleteAll(PersonDTO.Delete request);
 
     TotalResponse<PersonDTO.Info> search(NICICOCriteria criteria);
 }

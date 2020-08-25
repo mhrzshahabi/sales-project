@@ -18,7 +18,7 @@ public interface IInvoiceSalesService {
 
     void delete(Long id);
 
-    void delete(InvoiceSalesDTO.Delete request);
+    void deleteAll(InvoiceSalesDTO.Delete request);
 
     TotalResponse<InvoiceSalesDTO.Info> search(NICICOCriteria criteria);
 }

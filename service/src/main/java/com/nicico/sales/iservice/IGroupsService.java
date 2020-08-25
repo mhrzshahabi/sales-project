@@ -18,7 +18,7 @@ public interface IGroupsService {
 
     void delete(Long id);
 
-    void delete(GroupsDTO.Delete request);
+    void deleteAll(GroupsDTO.Delete request);
 
     TotalResponse<GroupsDTO.Info> search(NICICOCriteria criteria);
 }

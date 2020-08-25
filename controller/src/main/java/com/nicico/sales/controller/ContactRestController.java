@@ -76,7 +76,7 @@ public class ContactRestController {
     @Loggable
     @DeleteMapping(value = "/list")
     public ResponseEntity<Void> delete(@Validated @RequestBody ContactDTO.Delete request) {
-        contactService.delete(request);
+        contactService.deleteAll(request);
         return new ResponseEntity(HttpStatus.OK);
     }
 

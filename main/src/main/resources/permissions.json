@@ -17,6 +17,22 @@
       "title": "حذف بانک"
     },
     {
+      "code": "R_BILL_OF_LANDING",
+      "title": "نمایش بارنامه"
+    },
+    {
+      "code": "C_BILL_OF_LANDING",
+      "title": "ایجاد بارنامه"
+    },
+    {
+      "code": "U_BILL_OF_LANDING",
+      "title": "به روز رسانی بارنامه"
+    },
+    {
+      "code": "D_BILL_OF_LANDING",
+      "title": "حذف بارنامه"
+    },
+    {
       "code": "R_CATODLIST",
       "title": "نمایش لیست کاتد"
     },
@@ -111,6 +127,22 @@
     {
       "code": "D_CONTRACT_PERSON",
       "title": "حذف افراد قرارداد"
+    },
+    {
+      "code": "R_CONTRACT_DISCOUNT",
+      "title": "نمایش تخفیف قرارداد"
+    },
+    {
+      "code": "C_CONTRACT_DISCOUNT",
+      "title": "ایجاد تخفیف قرارداد"
+    },
+    {
+      "code": "U_CONTRACT_DISCOUNT",
+      "title": "به روز رسانی تخفیف قرارداد"
+    },
+    {
+      "code": "D_CONTRACT_DISCOUNT",
+      "title": "حذف تخفیف قرارداد"
     },
     {
       "code": "R_CONTRACT",
@@ -361,6 +393,22 @@
       "title": "حذف فاکتور فروش"
     },
     {
+      "code": "R_INVOICE_SALES_ITEM",
+      "title": "نمایش جزئیات فاکتور فروش"
+    },
+    {
+      "code": "C_INVOICE_SALES_ITEM",
+      "title": "ایجاد جزئیات فاکتور فروش"
+    },
+    {
+      "code": "U_INVOICE_SALES_ITEM",
+      "title": "به روز رسانی جزئیات فاکتور فروش"
+    },
+    {
+      "code": "D_INVOICE_SALES_ITEM",
+      "title": "حذف جزئیات فاکتور فروش"
+    },
+    {
       "code": "R_INVOICE_INTERNAL",
       "title": "نمایش صورتحساب فروش داخلی"
     },
@@ -497,6 +545,22 @@
       "title": "حذف نوع پرداخت"
     },
     {
+      "code": "R_PERCENT_PER_YEAR",
+      "title": "نمایش درصد عوارض و مالیات"
+    },
+    {
+      "code": "C_PERCENT_PER_YEAR",
+      "title": "ایجاد درصد عوارض و مالیات"
+    },
+    {
+      "code": "U_PERCENT_PER_YEAR",
+      "title": "به روز رسانی درصد عوارض و مالیات"
+    },
+    {
+      "code": "D_PERCENT_PER_YEAR",
+      "title": "حذف درصد عوارض و مالیات"
+    },
+    {
       "code": "R_PERSON",
       "title": "نمایش شخص"
     },
@@ -543,6 +607,22 @@
     {
       "code": "D_RATE",
       "title": "حذف نرخ"
+    },
+    {
+      "code": "R_SALES_TYPE",
+      "title": "نمایش نوع فروش"
+    },
+    {
+      "code": "C_SALES_TYPE",
+      "title": "ایجاد نوع فروش"
+    },
+    {
+      "code": "U_SALES_TYPE",
+      "title": "به روز رسانی نوع فروش"
+    },
+    {
+      "code": "D_SALES_TYPE",
+      "title": "حذف نوع فروش"
     },
     {
       "code": "R_SHIPMENT_ASSAY_HEADER",
@@ -715,6 +795,70 @@
     {
       "code": "D_UNIT",
       "title": "حذف واحد"
+    },
+    {
+      "code": "R_WAREHOUSE",
+      "title": "نمایش انبار"
+    },
+    {
+      "code": "C_WAREHOUSE",
+      "title": "ایجاد انبار"
+    },
+    {
+      "code": "U_WAREHOUSE",
+      "title": "به روز رسانی انبار"
+    },
+    {
+      "code": "D_WAREHOUSE",
+      "title": "حذف انبار"
+    },
+    {
+      "code": "R_WAREHOUSE_STORE",
+      "title": "نمایش سوله انبار "
+    },
+    {
+      "code": "C_WAREHOUSE_STORE",
+      "title": "ایجاد سوله انبار "
+    },
+    {
+      "code": "U_WAREHOUSE_STORE",
+      "title": "به روز رسانی سوله انبار "
+    },
+    {
+      "code": "D_WAREHOUSE_STORE",
+      "title": "حذف سوله انبار "
+    },
+    {
+      "code": "R_WAREHOUSE_DEPOT",
+      "title": "نمایش دپو انبار"
+    },
+    {
+      "code": "C_WAREHOUSE_DEPOT",
+      "title": "ایجاد دپو انبار"
+    },
+    {
+      "code": "U_WAREHOUSE_DEPOT",
+      "title": "به روز رسانی دپو انبار"
+    },
+    {
+      "code": "D_WAREHOUSE_DEPOT",
+      "title": "حذف دپو انبار"
+    },
+    {
+      "code": "R_WAREHOUSE_TOZIN",
+      "title": "نمایش توزین"
+    },
+    {
+      "code": "C_WAREHOUSE_TOZIN",
+      "title": "ایجاد توزین"
+    },
+    {
+      "code": "U_WAREHOUSE_TOZIN",
+      "title": "به روز رسانی توزین"
+    },
+    {
+      "code": "D_WAREHOUSE_TOZIN",
+      "title": "حذف توزین"
     },
     {
       "code": "R_WAREHOUSE_CAD_ITEM",
@@ -1373,8 +1517,36 @@
       "title": "به روز رسانی عنصر"
     },
     {
+      "code": "R_REMITTANCE",
+      "title": "نمایش بیجک"
+    },
+    {
+      "code": "C_REMITTANCE",
+      "title": "ایجاد بیجک"
+    },
+    {
+      "code": "U_REMITTANCE",
+      "title": "به روز رسانی بیجک"
+    },
+    {
+      "code": "D_REMITTANCE",
+      "title": "حذف بیجک"
+    },
+    {
       "code": "R_REMITTANCE_DETAIL",
-      "title": "مشاهده جزيیات بیجک"
+      "title": "نمایش جزيیات بیجک"
+    },
+    {
+      "code": "C_REMITTANCE_DETAIL",
+      "title": "ایجاد جزيیات بیجک"
+    },
+    {
+      "code": "U_REMITTANCE_DETAIL",
+      "title": "به روز رسانی جزيیات بیجک"
+    },
+    {
+      "code": "D_REMITTANCE_DETAIL",
+      "title": "حذف جزيیات بیجک"
     },
     {
       "code": "D_ELEMENT",
@@ -1423,6 +1595,22 @@
     {
       "code": "I_SHIPMENT_COST_INVOICE",
       "title": "غیر فعال کردن صورتحساب هزینه های حمل"
+    },
+    {
+      "code": "R_SHIPMENT_COST_INVOICE_DETAIL",
+      "title": "نمایش جزئیات صورتحساب هزینه های حمل "
+    },
+    {
+      "code": "C_SHIPMENT_COST_INVOICE_DETAIL",
+      "title": "ایجاد جزئیات صورتحساب هزینه های حمل "
+    },
+    {
+      "code": "U_SHIPMENT_COST_INVOICE_DETAIL",
+      "title": "به روز رسانی جزئیات صورتحساب هزینه های حمل "
+    },
+    {
+      "code": "D_SHIPMENT_COST_INVOICE_DETAIL",
+      "title": "حذف جزئیات صورتحساب هزینه های حمل "
     }
   ]
 }

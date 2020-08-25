@@ -18,7 +18,7 @@ public interface IMaterialService {
 
     void delete(Long id);
 
-    void delete(MaterialDTO.Delete request);
+    void deleteAll(MaterialDTO.Delete request);
 
     TotalResponse<MaterialDTO.Info> search(NICICOCriteria criteria);
 }

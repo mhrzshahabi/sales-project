@@ -58,7 +58,7 @@ public class ContractCurrencyRestController {
     @Loggable
     @DeleteMapping(value = "/list")
     public ResponseEntity<Void> delete(@Validated @RequestBody ContractCurrencyDTO.Delete request) {
-        contractCurrencyService.delete(request);
+        contractCurrencyService.deleteAll(request);
         return new ResponseEntity(HttpStatus.OK);
     }
 

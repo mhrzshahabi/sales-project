@@ -1,5 +1,7 @@
 package com.nicico.sales.model.entities.warehouse;
 
+import com.nicico.sales.model.entities.base.Port;
+import com.nicico.sales.model.entities.base.Shipment;
 import com.nicico.sales.model.entities.common.BaseEntity;
 import lombok.*;
 import lombok.experimental.Accessors;
@@ -32,5 +34,19 @@ public class Remittance extends BaseEntity {
 
     @Column(name = "C_DESCRIPTION", length = 1000)
     private String description;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @Setter(AccessLevel.NONE)
+    @JoinColumn(
+            name = "F_shipment_id",
+            foreignKey = @ForeignKey(name = "FK_remittance_to_shipment"),
+            insertable = false,
+            updatable = false
+    )
+    private Shipment shipment;
+
+//    @NotNull
+    @Column(name = "F_shipment_id" )
+    private Long shipmentId;
 
 }

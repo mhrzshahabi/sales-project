@@ -18,7 +18,7 @@ public interface IShipmentContractService {
 
     void delete(Long id);
 
-    void delete(ShipmentContractDTO.Delete request);
+    void deleteAll(ShipmentContractDTO.Delete request);
 
     TotalResponse<ShipmentContractDTO.Info> search(NICICOCriteria criteria);
 }

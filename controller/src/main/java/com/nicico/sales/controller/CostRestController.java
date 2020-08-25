@@ -58,7 +58,7 @@ public class CostRestController {
     @Loggable
     @DeleteMapping(value = "/list")
     public ResponseEntity<Void> delete(@Validated @RequestBody CostDTO.Delete request) {
-        costService.delete(request);
+        costService.deleteAll(request);
         return new ResponseEntity(HttpStatus.OK);
     }
 

@@ -59,7 +59,7 @@ public class BankRestController {
     @Loggable
     @DeleteMapping(value = "/list")
     public ResponseEntity delete(@Validated @RequestBody BankDTO.Delete request) {
-        bankService.delete(request);
+        bankService.deleteAll(request);
         return new ResponseEntity(HttpStatus.OK);
     }
 

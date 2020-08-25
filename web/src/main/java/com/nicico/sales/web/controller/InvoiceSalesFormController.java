@@ -7,7 +7,7 @@ import com.nicico.copper.common.domain.NumberConvertor;
 import com.nicico.copper.core.util.report.ReportUtil;
 import com.nicico.sales.dto.InvoiceSalesDTO;
 import com.nicico.sales.model.entities.base.InvoiceSalesItem;
-import com.nicico.sales.repository.InvoiceSalesItemDAO;
+import com.nicico.sales.service.InvoiceSalesItemService;
 import com.nicico.sales.service.InvoiceSalesService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -27,7 +27,9 @@ public class InvoiceSalesFormController {
 
     private final ReportUtil reportUtil;
     private final InvoiceSalesService invoiceSalesService;
-    private final InvoiceSalesItemDAO invoiceSalesItemDAO;
+    private final InvoiceSalesItemService invoiceSalesItemService;
+
+
     private final NumberConvertor numberConvertor;
 
     @RequestMapping("/showForm")
@@ -54,7 +56,7 @@ public class InvoiceSalesFormController {
         params.put("datetime", today);
 
         InvoiceSalesDTO.Info info = invoiceSalesService.get(rowId);
-        List<InvoiceSalesItem> invoiceSalesItems = invoiceSalesItemDAO.findByInvoiceSalesId(info.getId());
+        List<InvoiceSalesItem> invoiceSalesItems = invoiceSalesItemService.findByInvoiceSalesId(info.getId());
 
         long sum = getSum();
         for (InvoiceSalesItem invoiceSalesItem : invoiceSalesItems) {

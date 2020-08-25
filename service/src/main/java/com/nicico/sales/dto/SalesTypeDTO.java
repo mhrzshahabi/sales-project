@@ -2,11 +2,14 @@ package com.nicico.sales.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
+import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -28,6 +31,33 @@ public class SalesTypeDTO {
         private Date lastModifiedDate;
         private String lastModifiedBy;
         private Integer version;
+    }
+
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("SalesTypeCreateRq")
+    public static class Create extends SalesTypeDTO {
+    }
+
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("SalesTypeUpdateRq")
+    public static class Update extends SalesTypeDTO {
+        @NotNull
+        @ApiModelProperty(required = true)
+        private Long id;
+    }
+
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("SalesTypeDeleteRq")
+    public static class Delete {
+        @NotNull
+        @ApiModelProperty(required = true)
+        private List<Long> ids;
     }
 
 }

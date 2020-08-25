@@ -1,9 +1,8 @@
 package com.nicico.sales.service;
 
-import com.nicico.copper.common.domain.criteria.NICICOCriteria;
-import com.nicico.copper.common.domain.criteria.SearchUtil;
-import com.nicico.copper.common.dto.grid.TotalResponse;
+import com.nicico.sales.annotation.Action;
 import com.nicico.sales.dto.ContactDTO;
+import com.nicico.sales.enumeration.ActionType;
 import com.nicico.sales.exception.NotFoundException;
 import com.nicico.sales.iservice.IContactService;
 import com.nicico.sales.model.entities.base.Contact;
@@ -12,8 +11,6 @@ import com.nicico.sales.model.entities.base.Contract;
 import com.nicico.sales.repository.ContactDAO;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,57 +19,14 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
-public class ContactService implements IContactService {
+public class ContactService extends GenericService<Contact, Long, ContactDTO.Create, ContactDTO.Info, ContactDTO.Update, ContactDTO.Delete> implements IContactService {
 
-    private final ContactDAO contactDAO;
-    private final ModelMapper modelMapper;
 
-    @Transactional(readOnly = true)
-    @Override
-    @PreAuthorize("hasAuthority('R_CONTACT')")
-    public ContactDTO.Info get(Long id) {
-        final Optional<Contact> slById = contactDAO.findById(id);
-        final Contact contact = slById.orElseThrow(() -> new NotFoundException(Contract.class));
-
-        return modelMapper.map(contact, ContactDTO.Info.class);
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    @PreAuthorize("hasAuthority('R_CONTACT')")
-    public List<ContactDTO.Info> list() {
-        final List<Contact> slAll = contactDAO.findAll();
-
-        return modelMapper.map(slAll, new TypeToken<List<ContactDTO.Info>>() {
-        }.getType());
-    }
-
+    @Action(value = ActionType.Update)
     @Transactional
     @Override
-    @PreAuthorize("hasAuthority('C_CONTACT')")
-    public ContactDTO.Info create(ContactDTO.Create request) {
-        final Contact contact = modelMapper.map(request, Contact.class);
-
-        return save(contact);
-    }
-
-    @Transactional
-    @Override
-    @PreAuthorize("hasAuthority('U_CONTACT')")
-    public ContactDTO.Info update(Long id, ContactDTO.Update request) {
-        final Optional<Contact> slById = contactDAO.findById(id);
-        final Contact contact = slById.orElseThrow(() -> new NotFoundException(Contract.class));
-
-        Contact updating = new Contact();
-        modelMapper.map(contact, updating);
-        modelMapper.map(request, updating);
-
-        return save(updating);
-    }
-
-    @Transactional
     public void updateContactDefaultAccount(ContactAccount contactAccount) {
-        final Optional<Contact> slById = contactDAO.findById(contactAccount.getContactId());
+        final Optional<Contact> slById = repository.findById(contactAccount.getContactId());
         final Contact contact = slById.orElseThrow(() -> new NotFoundException(Contract.class));
         contact.setBankAccount(contactAccount.getBankAccount());
         contact.setBankShaba(contactAccount.getBankShaba());
@@ -82,9 +36,11 @@ public class ContactService implements IContactService {
         save(updating);
     }
 
+    @Action(value = ActionType.Update)
     @Transactional
+    @Override
     public void removeContactDefaultAccount(ContactAccount contactAccount) {
-        final Optional<Contact> slById = contactDAO.findById(contactAccount.getContactId());
+        final Optional<Contact> slById = repository.findById(contactAccount.getContactId());
         final Contact contact = slById.orElseThrow(() -> new NotFoundException(Contract.class));
         contact.setBankAccount(null);
         contact.setBankShaba(null);
@@ -94,31 +50,5 @@ public class ContactService implements IContactService {
         save(updating);
     }
 
-    @Transactional
-    @Override
-    @PreAuthorize("hasAuthority('D_CONTACT')")
-    public void delete(Long id) {
-        contactDAO.deleteById(id);
-    }
 
-    @Transactional
-    @Override
-    @PreAuthorize("hasAuthority('D_CONTACT')")
-    public void delete(ContactDTO.Delete request) {
-        final List<Contact> contacts = contactDAO.findAllById(request.getIds());
-
-        contactDAO.deleteAll(contacts);
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    @PreAuthorize("hasAuthority('R_CONTACT')")
-    public TotalResponse<ContactDTO.Info> search(NICICOCriteria criteria) {
-        return SearchUtil.search(contactDAO, criteria, contact -> modelMapper.map(contact, ContactDTO.Info.class));
-    }
-
-    private ContactDTO.Info save(Contact contact) {
-        final Contact saved = contactDAO.saveAndFlush(contact);
-        return modelMapper.map(saved, ContactDTO.Info.class);
-    }
 }
