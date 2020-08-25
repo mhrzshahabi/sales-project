@@ -57,4 +57,215 @@
         </addColumn>
     </changeSet>
 
+    <changeSet author="NO1 (generated)" id="1598344706444-248">
+        <addColumn tableName="TBL_SHIPMENT">
+            <column name="C_AUTOMATION_LETTER_NO" type="varchar2(255 CHAR)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="NO1 (generated)" id="1598344706444-249">
+        <addColumn tableName="TBL_SHIPMENT">
+            <column name="C_DESCRIPTION" type="varchar2(4000 CHAR)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="NO1 (generated)" id="1598344706444-250">
+        <addColumn tableName="TBL_SHIPMENT">
+            <column name="D_AUTOMATION_LETTER_DATE" type="timestamp"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="NO1 (generated)" id="1598344706444-251">
+        <addColumn tableName="TBL_SHIPMENT">
+            <column name="D_SEND_DATE" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="NO1 (generated)" id="1598344706444-252">
+        <addColumn tableName="TBL_SHIPMENT">
+            <column name="F_CONTACT_ID" type="number(19, 0)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="NO1 (generated)" id="1598344706444-253">
+        <addColumn tableName="TBL_SHIPMENT">
+            <column name="F_CONTRACT_SHIPMENT_ID" type="number(19, 0)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="NO1 (generated)" id="1598344706444-254">
+        <addColumn tableName="TBL_SHIPMENT">
+            <column name="F_MATERIAL_ID" type="number(19, 0)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="NO1 (generated)" id="1598344706444-255">
+        <addColumn tableName="TBL_SHIPMENT">
+            <column name="F_SHIPMENT_METHOD_ID" type="number(19, 0)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="NO1 (generated)" id="1598344706444-256">
+        <addColumn tableName="TBL_SHIPMENT">
+            <column name="F_SHIPMENT_TYPE_ID" type="number(19, 0)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="NO1 (generated)" id="1598344706444-257">
+        <addColumn tableName="TBL_SHIPMENT">
+            <column name="F_VESSEL_ID" type="number(19, 0)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="NO1 (generated)" id="1598344706444-258">
+        <addColumn tableName="TBL_SHIPMENT">
+            <column name="N_AMOUNT" type="number(12, 3)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="NO1 (generated)" id="1598344706444-259">
+        <addColumn tableName="TBL_SHIPMENT">
+            <column name="N_NO_BLS" type="number(19, 0)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="NO1 (generated)" id="1598344706444-260">
+        <addColumn tableName="TBL_SHIPMENT">
+            <column name="N_NO_CONTAINER" type="number(19, 0)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="NO1 (generated)" id="1598344706444-261">
+        <addColumn tableName="TBL_SHIPMENT">
+            <column name="N_NO_PACKAGES" type="number(19, 0)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="NO1 (generated)" id="1598344706444-262">
+        <addColumn tableName="TBL_SHIPMENT">
+            <column name="N_WEIGHT_G_W" type="number(10, 5)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="NO1 (generated)" id="1598344706444-263">
+        <addColumn tableName="TBL_SHIPMENT">
+            <column name="N_WEIGHT_N_D" type="number(10, 5)"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="NO1 (generated)" id="1598344706444-285">
+        <dropForeignKeyConstraint baseTableName="TBL_SHIPMENT" constraintName="SHIPMENT2VESSEL"/>
+    </changeSet>
+    <changeSet author="NO1 (generated)" id="1598344706444-286">
+        <dropForeignKeyConstraint baseTableName="TBL_SHIPMENT" constraintName="SHIPMNT2CONTACTAGENT"/>
+    </changeSet>
+    <changeSet author="NO1 (generated)" id="1598344706444-287">
+        <dropForeignKeyConstraint baseTableName="TBL_SHIPMENT" constraintName="SHIPMNT2CONTRACTSHIPMENT"/>
+    </changeSet>
+    <changeSet author="NO1 (generated)" id="1598344706444-288">
+        <dropForeignKeyConstraint baseTableName="TBL_SHIPMENT" constraintName="SHIPMNT2MATERIAL"/>
+    </changeSet>
+    <changeSet author="NO1 (generated)" id="1598344706444-297">
+        <dropColumn columnName="AGENT" tableName="TBL_SHIPMENT"/>
+    </changeSet>
+    <changeSet author="NO1 (generated)" id="1598344706444-298">
+        <dropColumn columnName="AMOUNT" tableName="TBL_SHIPMENT"/>
+    </changeSet>
+    <changeSet author="NO1 (generated)" id="1598344706444-299">
+        <dropColumn columnName="AUTOMATION_DATE" tableName="TBL_SHIPMENT"/>
+    </changeSet>
+    <changeSet author="NO1 (generated)" id="1598344706444-300">
+        <dropColumn columnName="CONTACT_ID" tableName="TBL_SHIPMENT"/>
+    </changeSet>
+    <changeSet author="NO1 (generated)" id="1598344706444-301">
+        <dropColumn columnName="CONTAINER" tableName="TBL_SHIPMENT"/>
+    </changeSet>
+    <changeSet author="NO1 (generated)" id="1598344706444-302">
+        <dropColumn columnName="CONTRACT_SHIPMENT_ID" tableName="TBL_SHIPMENT"/>
+    </changeSet>
+    <changeSet author="NO1 (generated)" id="1598344706444-312">
+        <dropColumn columnName="DESCRIPTION" tableName="TBL_SHIPMENT"/>
+    </changeSet>
+    <changeSet author="NO1 (generated)" id="1598344706444-313">
+        <dropColumn columnName="FILE_NAME" tableName="TBL_SHIPMENT"/>
+    </changeSet>
+    <changeSet author="NO1 (generated)" id="1598344706444-318">
+        <dropColumn columnName="GROSS" tableName="TBL_SHIPMENT"/>
+    </changeSet>
+    <changeSet author="NO1 (generated)" id="1598344706444-319">
+        <dropColumn columnName="LOADING_LETTER" tableName="TBL_SHIPMENT"/>
+    </changeSet>
+    <changeSet author="NO1 (generated)" id="1598344706444-320">
+        <dropColumn columnName="MATERIAL_ID" tableName="TBL_SHIPMENT"/>
+    </changeSet>
+    <changeSet author="NO1 (generated)" id="1598344706444-321">
+        <dropColumn columnName="MOISTURE" tableName="TBL_SHIPMENT"/>
+    </changeSet>
+    <changeSet author="NO1 (generated)" id="1598344706444-322">
+        <dropColumn columnName="NET" tableName="TBL_SHIPMENT"/>
+    </changeSet>
+    <changeSet author="NO1 (generated)" id="1598344706444-323">
+        <dropColumn columnName="NEW_FILE_NAME" tableName="TBL_SHIPMENT"/>
+    </changeSet>
+    <changeSet author="NO1 (generated)" id="1598344706444-324">
+        <dropColumn columnName="NO_BARREL" tableName="TBL_SHIPMENT"/>
+    </changeSet>
+    <changeSet author="NO1 (generated)" id="1598344706444-325">
+        <dropColumn columnName="NO_OF_BL" tableName="TBL_SHIPMENT"/>
+    </changeSet>
+    <changeSet author="NO1 (generated)" id="1598344706444-326">
+        <dropColumn columnName="NO_PALETE" tableName="TBL_SHIPMENT"/>
+    </changeSet>
+    <changeSet author="NO1 (generated)" id="1598344706444-331">
+        <dropColumn columnName="SEND_DATE" tableName="TBL_SHIPMENT"/>
+    </changeSet>
+    <changeSet author="NO1 (generated)" id="1598344706444-332">
+        <dropColumn columnName="SHIPMENT_METHOD" tableName="TBL_SHIPMENT"/>
+    </changeSet>
+    <changeSet author="NO1 (generated)" id="1598344706444-333">
+        <dropColumn columnName="SHIPMENT_TYPE" tableName="TBL_SHIPMENT"/>
+    </changeSet>
+    <changeSet author="NO1 (generated)" id="1598344706444-334">
+        <dropColumn columnName="STATUS" tableName="TBL_SHIPMENT"/>
+    </changeSet>
+    <changeSet author="NO1 (generated)" id="1598344706444-335">
+        <dropColumn columnName="VESSEL_ID" tableName="TBL_SHIPMENT"/>
+    </changeSet>
+
+    <changeSet author="NO1 (generated)" id="1598344706444-270">
+        <addForeignKeyConstraint baseColumnNames="F_CONTACT_ID" baseTableName="TBL_SHIPMENT"
+                                 constraintName="fk_shipment2ContactByContactId" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_CONTACT"
+                                 validate="true"/>
+    </changeSet>
+    <changeSet author="NO1 (generated)" id="1598344706444-271">
+        <addForeignKeyConstraint baseColumnNames="F_CONTRACT_SHIPMENT_ID" baseTableName="TBL_SHIPMENT"
+                                 constraintName="fk_shipment2contractShipmentByContractShipmentId" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="ID"
+                                 referencedTableName="TBL_CONTRACT_SHIPMENT" validate="true"/>
+    </changeSet>
+    <changeSet author="NO1 (generated)" id="1598344706444-272">
+        <addForeignKeyConstraint baseColumnNames="F_MATERIAL_ID" baseTableName="TBL_SHIPMENT"
+                                 constraintName="fk_shipment2materialByMaterialId" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_MATERIAL"
+                                 validate="true"/>
+    </changeSet>
+    <changeSet author="NO1 (generated)" id="1598344706444-273">
+        <addForeignKeyConstraint baseColumnNames="F_SHIPMENT_METHOD_ID" baseTableName="TBL_SHIPMENT"
+                                 constraintName="fk_shipment2shipmentMethodByShipmentMethodId" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="ID"
+                                 referencedTableName="TBL_Shipment_Method" validate="true"/>
+    </changeSet>
+    <changeSet author="NO1 (generated)" id="1598344706444-274">
+        <addForeignKeyConstraint baseColumnNames="F_SHIPMENT_TYPE_ID" baseTableName="TBL_SHIPMENT"
+                                 constraintName="fk_shipment2shipmentTypeByShipmentTypeId" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="ID"
+                                 referencedTableName="TBL_Shipment_Type" validate="true"/>
+    </changeSet>
+    <changeSet author="NO1 (generated)" id="1598344706444-275">
+        <addForeignKeyConstraint baseColumnNames="F_VESSEL_ID" baseTableName="TBL_SHIPMENT"
+                                 constraintName="fk_shipment2vesselByVesselId" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_VESSEL"
+                                 validate="true"/>
+    </changeSet>
+
 </databaseChangeLog>

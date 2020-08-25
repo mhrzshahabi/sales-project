@@ -3,7 +3,9 @@ package com.nicico.sales.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
+import com.nicico.sales.annotation.Action;
 import com.nicico.sales.dto.RemittanceDTO;
+import com.nicico.sales.enumeration.ActionType;
 import com.nicico.sales.exception.NotFoundException;
 import com.nicico.sales.iservice.IRemittanceService;
 import com.nicico.sales.model.entities.warehouse.Remittance;
@@ -44,6 +46,7 @@ public class RemittanceService extends GenericService<Remittance, Long, Remittan
     private final ModelMapper modelMapper;
 
     @Override
+    @Action(value = ActionType.DeleteAll)
     @Transactional
     public void deleteAll(RemittanceDTO.Delete request) {
         final List<RemittanceDetail> allByRemittanceIdIsIn = remittanceDetailDAO.findAllByRemittanceIdIsIn(request.getIds());
@@ -60,6 +63,8 @@ public class RemittanceService extends GenericService<Remittance, Long, Remittan
         super.deleteAll(request);
     }
 
+    @Action(value = ActionType.Get)
+    @Transactional
     @Override
     public JsonDataSource print(MultiValueMap criteria) throws JsonProcessingException, JRException {
         NICICOCriteria provideNICICOCriteria = specListUtil.provideNICICOCriteria(criteria, RemittanceDTO.Info.class);

@@ -7,6 +7,7 @@ import org.hibernate.envers.NotAudited;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Set;
 
@@ -28,103 +29,55 @@ public class Shipment extends BaseEntity {
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "CONTRACT_SHIPMENT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "shipmnt2contractShipment"))
+    @JoinColumn(name = "F_CONTRACT_SHIPMENT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_shipment2contractShipmentByContractShipmentId"))
     private ContractShipment contractShipment;
 
-    @Column(name = "CONTRACT_SHIPMENT_ID")
+    @NotNull
+    @Column(name = "F_CONTRACT_SHIPMENT_ID", nullable = false)
     private Long contractShipmentId;
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "CONTACT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "shipmnt2Contactbybuyer"))
+    @JoinColumn(name = "F_SHIPMENT_TYPE_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_shipment2shipmentTypeByShipmentTypeId"))
+    private ShipmentType shipmentType;
+
+    @NotNull
+    @Column(name = "F_SHIPMENT_TYPE_ID", nullable = false)
+    private Long shipmentTypeId;
+
+    @Setter(AccessLevel.NONE)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "F_SHIPMENT_METHOD_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_shipment2shipmentMethodByShipmentMethodId"))
+    private ShipmentMethod shipmentMethod;
+
+    @NotNull
+    @Column(name = "F_SHIPMENT_METHOD_ID", nullable = false)
+    private Long shipmentMethodId;
+
+    @Setter(AccessLevel.NONE)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "F_CONTACT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_shipment2ContactByContactId"))
     private Contact contact;
 
-    @Column(name = "CONTACT_ID")
+    @NotNull
+    @Column(name = "F_CONTACT_ID", nullable = false)
     private Long contactId;
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "MATERIAL_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "shipmnt2material"))
+    @JoinColumn(name = "F_MATERIAL_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_shipment2materialByMaterialId"))
     private Material material;
 
-    @Column(name = "MATERIAL_ID")
+    @Column(name = "F_MATERIAL_ID")
     private Long materialId;
-
-    @Column(name = "AMOUNT", nullable = false)
-    private Double amount;
-
-    @Column(name = "CONTAINER")
-    private Long noContainer;
-
-    @Column(name = "DESCRIPTION", length = 4000)
-    private String description;
-
-    @Column(name = "STATUS", length = 20)
-    private String status;
-
-    @Column(name = "AUTOMATION_DATE")
-    private Date automationDate;
-
-    @Column(name = "SEND_DATE")
-    private Date sendDate;
-
-    @Column(name = "FILE_NAME")
-    private String fileName;
-
-    @Column(name = "NEW_FILE_NAME")
-    private String newFileName;
-
-    @Column(name = "SHIPMENT_TYPE")
-    private String shipmentType;
-
-    @Column(name = "SHIPMENT_METHOD")
-    private String shipmentMethod;
-    @Column(name = "LOADING_LETTER")
-    private String loadingLetter;
-
-    @Column(name = "NO_OF_BL")
-    private long numberOfBLs;
-
-    @Setter(AccessLevel.NONE)
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "AGENT", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "shipmnt2contactAgent"))
-    private Contact contactByAgent;
-
-    @Column(name = "AGENT")
-    private Long contactByAgentId;
-
-    @Column(name = "NO_BARREL")
-    private Long noBarrel;
-
-    @Column(name = "NO_PALETE")
-    private Long noPalete;
-
-    @Column(name = "BOOKING_NO_cat")
-    private String bookingCat;
 
     @Setter(AccessLevel.NONE)
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "VESSEL_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "Shipment2vessel"))
+    @JoinColumn(name = "F_VESSEL_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_shipment2vesselByVesselId"))
     private Vessel vessel;
 
-    @Column(name = "VESSEL_ID")
+    @Column(name = "F_VESSEL_ID")
     private Long vesselId;
-
-    @NotAudited
-    @OneToMany(mappedBy = "shipment", fetch = FetchType.LAZY)
-    private Set<Invoice> invoices;
-
-    @Column(name = "GROSS")
-    private Double gross;
-
-    @Column(name = "NET")
-    private Double net;
-
-    @Column(name = "MOISTURE")
-    private Double moisture;
-
-    @Column(name = "VGM")
-    private Double vgm;
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
@@ -135,4 +88,75 @@ public class Shipment extends BaseEntity {
     @Column(name = "F_UNIT_ID", nullable = false)
     private Long unitId;
 
+    @NotNull
+    @Column(name = "N_AMOUNT", nullable = false, scale = 3, precision = 12)
+    private BigDecimal amount;
+
+    @Column(name = "C_DESCRIPTION", length = 4000)
+    private String description;
+
+//    @Column(name = "STATUS", length = 20)
+//    private String status;
+
+    @Column(name = "C_AUTOMATION_LETTER_NO")
+    private String automationLetterNo;
+
+    @Column(name = "D_AUTOMATION_LETTER_DATE")
+    private Date automationLetterDate;
+
+    @NotNull
+    @Column(name = "D_SEND_DATE", nullable = false)
+    private Date sendDate;
+
+//    @Column(name = "FILE_NAME")
+//    private String fileName;
+//
+//    @Column(name = "NEW_FILE_NAME")
+//    private String newFileName;
+
+//    @Column(name = "SHIPMENT_TYPE")
+//    private String shipmentType;
+//
+//    @Column(name = "SHIPMENT_METHOD")
+//    private String shipmentMethod;
+
+    @NotNull
+    @Column(name = "N_NO_BLS", nullable = false)
+    private Long noBLs;
+
+    @Column(name = "N_NO_CONTAINER")
+    private Long noContainer;
+
+    @Column(name = "N_NO_PACKAGES")
+    private Long noPackages;
+
+//    @Setter(AccessLevel.NONE)
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "AGENT", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "shipmnt2contactAgent"))
+//    private Contact contactByAgent;
+//
+//    @Column(name = "AGENT")
+//    private Long contactByAgentId;
+
+//    @Column(name = "N_NO_BARREL")
+//    private Long noBarrel;
+
+//    @Column(name = "N_NO_PALLET")
+//    private Long noPallet;
+
+    @Column(name = "BOOKING_NO_cat")
+    private String bookingCat;
+
+//    @NotAudited
+//    @OneToMany(mappedBy = "shipment", fetch = FetchType.LAZY)
+//    private Set<Invoice> invoices;
+
+    @Column(name = "N_WEIGHT_G_W", scale = 5, precision = 10)
+    private BigDecimal weightGW;
+
+    @Column(name = "N_WEIGHT_N_D", scale = 5, precision = 10)
+    private BigDecimal weightND;
+
+    @Column(name = "VGM")
+    private Double vgm;
 }

@@ -115,7 +115,7 @@ public class DCCRestController {
     @Loggable
     @DeleteMapping(value = "/list")
     public ResponseEntity<Void> delete(@Validated @RequestBody DCCDTO.Delete request) {
-        dCCService.delete(request);
+        dCCService.deleteAll(request);
         return new ResponseEntity(HttpStatus.OK);
     }
 

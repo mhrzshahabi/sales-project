@@ -1,17 +1,15 @@
 package com.nicico.sales.service.warehouse;
 
-import com.nicico.copper.common.domain.criteria.NICICOCriteria;
-import com.nicico.copper.common.domain.criteria.SearchUtil;
-import com.nicico.copper.common.dto.grid.TotalResponse;
+import com.nicico.sales.annotation.Action;
 import com.nicico.sales.dto.WarehouseDTO;
-import com.nicico.sales.exception.NotFoundException;
+import com.nicico.sales.enumeration.ActionType;
 import com.nicico.sales.iservice.warehous.IWarehouseService;
 import com.nicico.sales.model.entities.warehouse.Warehouse;
 import com.nicico.sales.repository.warehouse.WarehouseDAO;
+import com.nicico.sales.service.GenericService;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -19,40 +17,21 @@ import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
-public class WarehouseService implements IWarehouseService {
-    private final WarehouseDAO warehouseDAO;
-    private final ModelMapper modelMapper;
+public class WarehouseService extends GenericService<Warehouse, Long, WarehouseDTO, WarehouseDTO.Info, WarehouseDTO, WarehouseDTO> implements IWarehouseService {
 
-    @Override
-    public WarehouseDTO.Info get(Long id) {
-        final Optional<Warehouse> one = warehouseDAO.findById(id);
-        final Warehouse warehouse = one.orElseThrow(() -> new NotFoundException());
-        return modelMapper.map(warehouse, WarehouseDTO.Info.class);
-    }
-
-    @Override
-    public List<WarehouseDTO.Info> list() {
-        return modelMapper.map(warehouseDAO.findAll(), new TypeToken<List<WarehouseDTO.Info>>() {
-        }.getType());
-    }
-
-    @Override
-    public TotalResponse<WarehouseDTO.Info> search(NICICOCriteria request) {
-        final TotalResponse<WarehouseDTO.Info> response = SearchUtil.search(warehouseDAO, request, entity -> modelMapper.map(entity, WarehouseDTO.Info.class));
-        return response;
-    }
-
+    @Action(value = ActionType.UpdateAll)
+    @Transactional
     @Override
     public void updateFromTozinView() {
-        List<Object[]> allItemsFromViewForUpdate = warehouseDAO.getAllWarehousesFromViewForUpdate();
+        List<Object[]> allItemsFromViewForUpdate = ((WarehouseDAO)repository).getAllWarehousesFromViewForUpdate();
         Map<Long, String> ItemsFetchedForUpdate = new HashMap<>();
         allItemsFromViewForUpdate.stream()
                 .forEach((Object[] u) -> ItemsFetchedForUpdate.put(Long.valueOf(u[0].toString()), u[1].toString()));
         List<Warehouse> warehouses = new ArrayList<>();
-        warehouses.addAll(warehouseDAO.findAllById(ItemsFetchedForUpdate.keySet()));
+        warehouses.addAll(((WarehouseDAO)repository).findAllById(ItemsFetchedForUpdate.keySet()));
         warehouses.stream()
                 .forEach(u -> u.setName(ItemsFetchedForUpdate.get(u.getId())));
-        List<Object[]> allItemsFromViewForInsert = warehouseDAO.getAllWarehousesFromViewForInsert();
+        List<Object[]> allItemsFromViewForInsert = ((WarehouseDAO)repository).getAllWarehousesFromViewForInsert();
         Stream<Warehouse> warehouseStream = allItemsFromViewForInsert
                 .stream()
                 .map(u -> new Warehouse()
@@ -62,7 +41,7 @@ public class WarehouseService implements IWarehouseService {
         List<Warehouse> collect = warehouseStream
                 .collect(Collectors.toList());
         warehouses.addAll(collect);
-        warehouseDAO.saveAll(warehouses);
+        ((WarehouseDAO)repository).saveAll(warehouses);
     }
 
 }

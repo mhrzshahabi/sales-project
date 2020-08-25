@@ -58,7 +58,7 @@ public class ParametersRestController {
     @Loggable
     @DeleteMapping(value = "/list")
     public ResponseEntity<Void> delete(@Validated @RequestBody ParametersDTO.Delete request) {
-        parametersService.delete(request);
+        parametersService.deleteAll(request);
         return new ResponseEntity(HttpStatus.OK);
     }
 

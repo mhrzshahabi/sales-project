@@ -18,7 +18,7 @@ public interface IBankService {
 
     void delete(Long id);
 
-    void delete(BankDTO.Delete request);
+    void deleteAll(BankDTO.Delete request);
 
     TotalResponse<BankDTO.Info> search(NICICOCriteria criteria);
 }

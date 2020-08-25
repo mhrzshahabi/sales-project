@@ -18,7 +18,7 @@ public interface IContractCurrencyService {
 
     void delete(Long id);
 
-    void delete(ContractCurrencyDTO.Delete request);
+    void deleteAll(ContractCurrencyDTO.Delete request);
 
     TotalResponse<ContractCurrencyDTO.Info> search(NICICOCriteria criteria);
 }
