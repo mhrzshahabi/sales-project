@@ -8,7 +8,6 @@ isc.defineClass("InvoiceCalculation", isc.VLayout).addProperties({
     membersMargin: 2,
     overflow: "auto",
     currency: null,
-    updateDeductionData: null,
     invoiceBaseAssayComponent: null,
     invoiceBasePriceComponent: null,
     initWidget: function () {
@@ -31,9 +30,6 @@ isc.defineClass("InvoiceCalculation", isc.VLayout).addProperties({
                     let subtotalForm = This.getMembers().filter(q => q.name === "subTotal").first();
                     subtotalForm.data[this.ID] = sumPrice;
                     subtotalForm.setValue(Object.values(subtotalForm.data).sum());
-                    if (This.updateDeductionData) {
-                        This.updateDeductionData (This.getValues());
-                    }
                 }
             }));
         }
@@ -59,6 +55,52 @@ isc.defineClass("InvoiceCalculation", isc.VLayout).addProperties({
             width: "100%",
             contents: "<span style='width: 100%; display: block; margin: 10px auto; border-bottom: 1px solid rgba(0,0,0,0.3)'></span>"
         }));
+
+        This.addMember(isc.ToolStrip.create({
+            width: "100%",
+            border: '0px',
+            members: [
+                isc.ToolStripButton.create({
+                    width: "100",
+                    height: "25",
+                    autoFit: false,
+                    title: "<spring:message code='global.ok'/>",
+                    click: function () {
+
+                        This.okButtonClick();
+
+                        let tab = This.parentElement.parentElement;
+                        tab.getTab(tab.selectedTab).pane.members.forEach(q => q.disable());
+                        tab.selectTab(tab.selectedTab + 1 % tab.tabs.length);
+                    }
+                }),
+                isc.ToolStrip.create({
+                    width: "100%",
+                    align: "right",
+                    border: '0px',
+                    members: [
+                        isc.ToolStripButton.create({
+                            width: "100",
+                            height: "25",
+                            autoFit: false,
+                            title: "<spring:message code='global.cancel'/>",
+                            click: function () {
+
+                                let tab = This.parentElement.parentElement;
+                                let selectedTab = tab.selectedTab;
+                                tab.getTab(tab.selectedTab - 1).pane.members.forEach(q => q.enable());
+                                tab.selectTab(selectedTab - 1);
+                                tab.removeTab(selectedTab);
+                            }
+                        })
+                    ]
+                })
+            ]
+        }));
+        this.addMember(isc.HTMLFlow.create({
+            width: "100%",
+            contents: "<span style='width: 100%; display: block; margin: 10px auto; border-bottom: 1px solid rgba(0,0,0,0.3)'></span>"
+        }));
     },
     getValues: function () {
 
@@ -73,7 +115,10 @@ isc.defineClass("InvoiceCalculation", isc.VLayout).addProperties({
 
         return data;
     },
-    // getSumValue: function () {
-    //     return this.members[1].getValue();
-    // }
+    getCalculationSubTotal: function () {
+        return this.getMembers().filter(q => q.name === "subTotal").first().getValues().value;
+    },
+    okButtonClick: function () {
+
+    }
 });

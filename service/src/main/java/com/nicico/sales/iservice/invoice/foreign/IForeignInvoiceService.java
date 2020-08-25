@@ -34,4 +34,7 @@ public interface IForeignInvoiceService {
     TotalResponse<ForeignInvoiceDTO.Info> search(NICICOCriteria request);
 
     SearchDTO.SearchRs<ForeignInvoiceDTO.Info> search(SearchDTO.SearchRq request);
+
+    List<ForeignInvoiceDTO.Info> getByContract(Long contractId, Long typeId);
+
 }

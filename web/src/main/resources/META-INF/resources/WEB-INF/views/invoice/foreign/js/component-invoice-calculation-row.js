@@ -161,6 +161,7 @@ isc.defineClass("InvoiceCalculationRow", isc.VLayout).addProperties({
                 colSpan: 1,
                 name: "deductionPrice",
                 align: "center",
+                format: "#.000"
             }]
         }));
 

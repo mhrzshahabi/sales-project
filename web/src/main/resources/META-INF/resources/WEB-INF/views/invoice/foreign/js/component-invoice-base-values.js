@@ -58,5 +58,34 @@ isc.defineClass("InvoiceBaseValues", isc.VLayout).addProperties({
         } else {
 
         }
+
+        This.addMember(isc.ToolStrip.create({
+            width: "100%",
+            border: '0px',
+            members: [
+                isc.ToolStripButton.create({
+                    width: "100",
+                    height: "25",
+                    autoFit: false,
+                    title: "<spring:message code='global.ok'/>",
+                    click: function () {
+
+                        This.okButtonClick();
+
+                        let tab = This.parentElement.parentElement;
+                        tab.getTab(tab.selectedTab).pane.members.forEach(q => q.disable());
+                        tab.selectTab(tab.selectedTab + 1 % tab.tabs.length);
+                    }
+                })
+            ]
+        }));
+        this.addMember(isc.HTMLFlow.create({
+            width: "100%",
+            contents: "<span style='width: 100%; display: block; margin: 10px auto; border-bottom: 1px solid rgba(0,0,0,0.3)'></span>"
+        }));
+    },
+    okButtonClick: function () {
+
+
     }
 });

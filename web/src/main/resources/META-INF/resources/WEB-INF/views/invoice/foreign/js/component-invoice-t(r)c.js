@@ -21,7 +21,6 @@ isc.defineClass("InvoiceDeduction", isc.VLayout).addProperties({
                 width: "100%",
                 height: "50",
                 name: "TC",
-                titleWidth: "10%",
                 top: 5,
                 align: "left",
                 titleAlign: "left",
@@ -35,6 +34,7 @@ isc.defineClass("InvoiceDeduction", isc.VLayout).addProperties({
         for (let index = 0; index < calculationValues.length; index++) {
 
             this.addMember(isc.InvoiceDeductionRow.create({
+                isInvoiceDeductionRow: true,
                 currency: This.currency,
                 elementFinalAssay: calculationValues[index].finalAssay,
                 contractDetailData: This.contractDetailData.rc.filter(q => q.elementName.toUpperCase() === calculationValues[index].name.toUpperCase()).first(),
@@ -69,17 +69,61 @@ isc.defineClass("InvoiceDeduction", isc.VLayout).addProperties({
             contents: "<span style='width: 100%; display: block; margin: 10px auto; border-bottom: 1px solid rgba(0,0,0,0.3)'></span>"
         }));
 
-        this.invoiceCalculationComponent.updateDeductionData = function (calculationToDeductionData) {
+        this.getMembers().filter(q => q.isInvoiceDeductionRow).forEach(q => q.calculate());
 
-            This.getMembers().slice(1, 1 + calculationToDeductionData.length).forEach(current => {
+        this.addMember(isc.ToolStrip.create({
+            width: "100%",
+            border: '0px',
+            members: [
+                isc.ToolStripButton.create({
+                    width: "100",
+                    height: "25",
+                    autoFit: false,
+                    title: "<spring:message code='global.ok'/>",
+                    click: function () {
 
-                let elementCalculationData = calculationToDeductionData.filter(q => q.name.toUpperCase() === current.contractDetailData.elementName.toUpperCase()).first();
-                current.elementFinalAssay = elementCalculationData.finalAssay;
-                current.updateDeductionRows();
-            });
-        };
+                        This.okButtonClick();
+
+                        let tab = This.parentElement.parentElement;
+                        tab.getTab(tab.selectedTab).pane.members.forEach(q => q.disable());
+                        tab.selectTab(tab.selectedTab + 1 % tab.tabs.length)
+                    }
+                }),
+                isc.ToolStrip.create(
+                    {
+                        width: "100%",
+                        align: "right",
+                        border: '0px',
+                        members: [
+                            // @ts-ignore
+                            isc.ToolStripButton.create({
+                                width: "100",
+                                height: "25",
+                                autoFit: false,
+                                title: "<spring:message code='global.cancel'/>",
+                                click: function () {
+
+                                    let tab = This.parentElement.parentElement;
+                                    let selectedTab = tab.selectedTab;
+                                    tab.getTab(tab.selectedTab - 1).pane.members.forEach(q => q.enable());
+                                    tab.selectTab(selectedTab - 1);
+                                    tab.removeTab(selectedTab);
+                                }
+                            })
+                        ]
+                    })
+            ]
+        }));
+        this.addMember(isc.HTMLFlow.create({
+            width: "100%",
+            contents: "<span style='width: 100%; display: block; margin: 10px auto; border-bottom: 1px solid rgba(0,0,0,0.3)'></span>"
+        }));
     },
-    // getValue: function () {
-    //     return this.members[0].getValues();
-    // },
+    getDeductionSubTotal: function () {
+        // console.log(this.getMembers());
+        return this.getMembers().filter(q => q.name === "subTotal").first().getValues().value;
+    },
+    okButtonClick: function () {
+
+    }
 });

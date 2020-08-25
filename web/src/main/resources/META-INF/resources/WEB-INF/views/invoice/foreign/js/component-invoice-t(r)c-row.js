@@ -67,6 +67,7 @@ isc.defineClass("InvoiceDeductionRow", isc.HLayout).addProperties({
                 value: 1,
                 showTitle: false,
                 type: "float",
+                errorOrientation: "bottom",
                 name: "rcUnitConversionRate",
                 align: "center",
                 required: true,
@@ -90,6 +91,7 @@ isc.defineClass("InvoiceDeductionRow", isc.HLayout).addProperties({
                 type: "staticText",
                 name: "deductionPrice",
                 align: "center",
+                format: "#.000"
             }]
         }));
     },
@@ -102,10 +104,6 @@ isc.defineClass("InvoiceDeductionRow", isc.HLayout).addProperties({
         conversionForm.setValue("deductionPrice", deductionPriceValue);
         this.sumDeductionChanged(deductionPriceValue);
 
-    },
-    updateDeductionRows: function () {
-        this.getMembers().filter(q => q.name === "finalAssay").first().setValue(this.elementFinalAssay.getValues().value);
-        this.calculate();
     },
     // calculate: function () {
     //     let rcPriceField = this.getField('rcPrice');

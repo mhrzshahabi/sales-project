@@ -66,7 +66,7 @@ public class PriceBaseRestController {
 
     @Loggable
     @GetMapping(value = "/get-avg-base-price")
-    public ResponseEntity<List<PriceBaseDTO.Info>> getBasePrice(@RequestParam PriceBaseReference reference, @RequestParam Integer year, @RequestParam Integer month, @RequestParam Long materialId) {
-        return new ResponseEntity<>(priceBaseService.getAverageOfElementBasePrices(reference, year, month, materialId), HttpStatus.OK);
+    public ResponseEntity<List<PriceBaseDTO.Info>> getBasePrice(@RequestParam PriceBaseReference reference, @RequestParam Integer year, @RequestParam Integer month, @RequestParam Long materialId, @RequestParam Long financeUnitId) {
+        return new ResponseEntity<>(priceBaseService.getAverageOfElementBasePrices(reference, year, month, materialId, financeUnitId), HttpStatus.OK);
     }
 }
