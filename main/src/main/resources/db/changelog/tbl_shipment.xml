@@ -15,4 +15,46 @@
         <addForeignKeyConstraint baseColumnNames="F_UNIT_ID" baseTableName="TBL_SHIPMENT" constraintName="fk_shipment2unitByUnitId" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_UNIT" validate="true"/>
     </changeSet>
 
+    <changeSet author="Abiz" id="AZAARE-030">
+        <dropForeignKeyConstraint baseTableName="TBL_SHIPMENT" constraintName="shipmnt2contract"/>
+        <dropColumn tableName="TBL_SHIPMENT" columnName="CONTRACT_ID"/>
+        <dropColumn tableName="TBL_SHIPMENT" columnName="MONTH"/>
+    </changeSet>
+
+    <changeSet author="Abiz" id="AZAARE-031">
+        <dropColumn tableName="TBL_SHIPMENT" columnName="CONTAINER_TYPE"/>
+        <dropColumn tableName="TBL_SHIPMENT" columnName="LOADING"/>
+        <dropColumn tableName="TBL_SHIPMENT" columnName="DISCHARGE"/>
+        <dropColumn tableName="TBL_SHIPMENT" columnName="DISCHARGE_ADDRESS"/>
+        <dropColumn tableName="TBL_SHIPMENT" columnName="LAYCAN"/>
+        <dropColumn tableName="TBL_SHIPMENT" columnName="SWITCH_BL_NUMBERS"/>
+        <dropColumn tableName="TBL_SHIPMENT" columnName="SWB"/>
+        <dropColumn tableName="TBL_SHIPMENT" columnName="SWITCH_PORT"/>
+        <dropColumn tableName="TBL_SHIPMENT" columnName="NO_BUNDLE"/>
+        <dropColumn tableName="TBL_SHIPMENT" columnName="BL_NUMBERS"/>
+        <dropColumn tableName="TBL_SHIPMENT" columnName="BL_DATE"/>
+        <dropColumn tableName="TBL_SHIPMENT" columnName="SW_BL_DATE"/>
+        <dropColumn tableName="TBL_SHIPMENT" columnName="CONSIGNEE"/>
+        <dropColumn tableName="TBL_SHIPMENT" columnName="FREIGHT"/>
+        <dropColumn tableName="TBL_SHIPMENT" columnName="TOTAL_FREIGHT"/>
+        <dropColumn tableName="TBL_SHIPMENT" columnName="FREIGHT_CUR"/>
+        <dropColumn tableName="TBL_SHIPMENT" columnName="PRE_FREIGHT"/>
+        <dropColumn tableName="TBL_SHIPMENT" columnName="PRE_REIGHT_CUR"/>
+        <dropColumn tableName="TBL_SHIPMENT" columnName="POST_FREIGHT"/>
+        <dropColumn tableName="TBL_SHIPMENT" columnName="POST_REIGHT_CUR"/>
+        <dropColumn tableName="TBL_SHIPMENT" columnName="DEMURRAGE"/>
+        <dropColumn tableName="TBL_SHIPMENT" columnName="DISPATCH"/>
+        <dropColumn tableName="TBL_SHIPMENT" columnName="DETENSION"/>
+    </changeSet>
+
+    <changeSet author="Abiz" id="AZAARE-032">
+        <dropColumn tableName="TBL_SHIPMENT" columnName="CREATE_DATE"/>
+        <addColumn tableName="TBL_SHIPMENT">
+            <column name="AUTOMATION_DATE" type="TIMESTAMP"/>
+        </addColumn>
+        <addColumn tableName="TBL_SHIPMENT">
+            <column name="SEND_DATE" type="TIMESTAMP"/>
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>
