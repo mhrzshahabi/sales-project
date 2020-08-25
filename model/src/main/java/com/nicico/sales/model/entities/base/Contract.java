@@ -332,5 +332,4 @@ public class Contract extends BaseEntity {
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "CONTRACT_ID", nullable = false, insertable = false, updatable = false)
     private List<ContractShipment> contractShipments;
-
 }
