@@ -1,6 +1,7 @@
 package com.nicico.sales.dto.contract;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.nicico.sales.dto.ContactDTO;
 import com.nicico.sales.model.enumeration.CommercialRole;
 import com.nicico.sales.model.enumeration.EStatus;
 import io.swagger.annotations.ApiModel;
@@ -30,6 +31,7 @@ public class ContractContactDTO {
     public static class Info extends ContractContactDTO {
 
         private Long id;
+        private ContactDTO.Info contact;
 
         // Auditing
         private Date createdDate;
