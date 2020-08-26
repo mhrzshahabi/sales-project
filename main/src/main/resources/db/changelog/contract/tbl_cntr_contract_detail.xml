@@ -17,12 +17,12 @@
 
     <changeSet author="Reza (generated)" id="mazloom_039">
         <addColumn tableName="TBL_CNTR_CONTRACT_DETAIL">
-            <column name="C_CONTRACT_DETAIL_TEMPLATE" type="varchar2(255 CHAR)"/>
+            <column name="C_CONTRACT_DETAIL_TEMPLATE" type="CLOB"/>
         </addColumn>
     </changeSet>
     <changeSet author="Reza (generated)" id="mazloom_040">
         <addColumn tableName="TBL_CNTR_CONTRACT_DETAIL_AUD">
-            <column name="C_CONTRACT_DETAIL_TEMPLATE" type="varchar2(255 CHAR)"/>
+            <column name="C_CONTRACT_DETAIL_TEMPLATE" type="CLOB"/>
         </addColumn>
     </changeSet>
 

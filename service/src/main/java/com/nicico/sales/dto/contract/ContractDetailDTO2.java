@@ -21,7 +21,7 @@ public class ContractDetailDTO2 {
     private String content;
     private Long contractId;
     private Long contractDetailTypeId;
-    private Long contractDetailTemplate;
+    private String contractDetailTemplate;
 
     @Getter
     @Setter
