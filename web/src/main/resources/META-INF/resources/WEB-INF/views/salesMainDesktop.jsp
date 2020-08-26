@@ -266,6 +266,11 @@
     };
 
     var salesCommonUtil = new nicico.CommonUtil();
+    nicico.CommonUtil.getAlignByLang = function () {
+
+        let locale = languageForm.getValue("languageName");
+        return locale === "fa" ? "left" : "right";
+    };
     var salesPersianDateUtil = new nicico.PersianDateUtil();
 
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />

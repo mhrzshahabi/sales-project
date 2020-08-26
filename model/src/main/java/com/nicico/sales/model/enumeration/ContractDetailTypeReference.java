@@ -12,6 +12,7 @@ public enum ContractDetailTypeReference {
     Country(3, "REFERENCE"),
     Port(4, "REFERENCE"),
     Unit(5, "REFERENCE"),
+    Incoterm(5, "REFERENCE"),
 
     ContractShipment(6, "LIST OF REFERENCE"),
 

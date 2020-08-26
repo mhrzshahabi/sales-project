@@ -96,7 +96,6 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
                     contractDetailValueRqs.forEach(x -> {
                         x.setContractDetailId(savedContractDetail.getId());
 
-                        //based on reference, first we have to create records in reference tables
                         if (x.getType().name().equals("ListOfReference")) {
                             switch (x.getReference()) {
                                 case "ContractShipment":
@@ -220,7 +219,6 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
                     contractDetailValueRqs.forEach(x -> {
                         x.setContractDetailId(savedContractDetail.getId());
 
-                        //based on reference, first we have to update records in reference tables
                         if (x.getType().name().equals("ListOfReference")) {
                             HashMap<String, String> valueHashMap = gson.fromJson(x.getReferenceJsonValue(), new TypeToken<HashMap<String, String>>() {
                             }.getType());

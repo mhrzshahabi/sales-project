@@ -18,7 +18,8 @@ import java.util.List;
 @Accessors(chain = true)
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
-@Table(name = "TBL_CNTR_CONTRACT_DETAIL_TYPE_PARAM")
+@Table(name = "TBL_CNTR_CONTRACT_DETAIL_TYPE_PARAM",
+        uniqueConstraints = @UniqueConstraint(columnNames = {"C_KEY", "F_CONTRACT_DETAIL_TYPE_ID"}, name = "UC_C_KEY_F_CONTRACT_DETAIL_TYPE_ID"))
 public class ContractDetailTypeParam extends BaseEntity {
 
     @Id
@@ -31,7 +32,7 @@ public class ContractDetailTypeParam extends BaseEntity {
     private String name;
 
     @NotEmpty
-    @Column(name = "C_KEY", nullable = false, unique = true)
+    @Column(name = "C_KEY", nullable = false)
     private String key;
 
     @NotNull
@@ -63,7 +64,4 @@ public class ContractDetailTypeParam extends BaseEntity {
     @NotNull
     @Column(name = "F_CONTRACT_DETAIL_TYPE_ID", nullable = false)
     private Long contractDetailTypeId;
-
-    @OneToMany(mappedBy = "contractDetailTypeParam", fetch = FetchType.LAZY)
-    private List<ContractDetailTypeParamValue> contractDetailTypeParamValues;
 }

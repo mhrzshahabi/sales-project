@@ -15,12 +15,18 @@ function getReferenceFields(referenceType) {
             return [
                 {name: "id", title: "id", primaryKey: true, hidden: true},
                 {name: "contractDetailValueId", hidden: true},
-                Object.assign({
+                {
                     name: "loadPortId",
+                    type: "integer",
+                    width: "100%",
                     title: "<spring:message code='shipment.loading'/>",
-
-                    align: "center"
-                }, getFieldProperties("Reference", "Port")),
+                    align: "center",
+                    editorType: "SelectItem",
+                    valueField: "id",
+                    displayField: getReferenceFields("Port")[1].name,
+                    autoFetchData: false,
+                    optionDataSource: getReferenceDataSource("Port")
+                },
                 {
                     name: "quantity",
                     title: "<spring:message code='global.quantity'/>",
@@ -49,8 +55,7 @@ function getReferenceFields(referenceType) {
                     title: "<spring:message code='global.sendDate'/>",
                     type: "date",
                     required: false,
-                    width: "10%",
-                    wrapTitle: false
+                    width: "10%"
                 }
             ];
         case 'Bank':
@@ -82,6 +87,11 @@ function getReferenceFields(referenceType) {
             return [
                 {name: "id", title: "id", primaryKey: true, hidden: true},
                 {name: 'nameFA', title: "<spring:message code='unit.nameFa'/>"}
+            ]
+        case 'Incoterm':
+            return [
+                {name: "id", title: "id", primaryKey: true, hidden: true},
+                {name: "title", title: '<spring:message code="global.title"/>'}
             ]
         case 'RateReference':
             return '';
@@ -116,6 +126,9 @@ function getReferenceDataSource(referenceType) {
             break;
         case 'Unit':
             url = "${contextPath}" + "/api/unit/spec-list";
+            break;
+        case 'Incoterm':
+            url = "${contextPath}" + "/api/g-incoterm/spec-list";
             break;
         case 'RateReference':
             url = "";
@@ -222,16 +235,19 @@ function getFieldProperties(fieldType, reference) {
                 type: "text",
             };
         case 'Reference':
+            if (reference == 'Enum_RateReference') {
+                return {valueMap: JSON.parse('${Enum_RateReference}')}
+            }
+            if (reference == 'Enum_PriceBaseReference') {
+                return {valueMap: JSON.parse('${Enum_PriceBaseReference}')}
+            }
             return {
                 width: "100%",
                 type: "integer",
                 editorType: "SelectItem",
                 valueField: "id",
                 autoFetchData: false,
-                optionDataSource: isc.MyRestDataSource.create({
-                    fields: getReferenceFields(reference),
-                    fetchDataURL: "${contextPath}/api/" + reference.toLowerCase() + "/spec-list"
-                }),
+                optionDataSource: getReferenceDataSource(reference),
                 displayField: getReferenceFields(reference)[1].name
             };
         case 'Column':

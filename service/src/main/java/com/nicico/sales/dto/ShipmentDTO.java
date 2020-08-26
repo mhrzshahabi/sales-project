@@ -2,6 +2,8 @@ package com.nicico.sales.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.nicico.copper.common.dto.date.DateTimeDTO;
+import com.nicico.sales.model.entities.base.*;
+import com.nicico.sales.model.enumeration.EStatus;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -9,6 +11,7 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -18,32 +21,27 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ShipmentDTO {
 
+
     private Long contractShipmentId;
+    private Long shipmentTypeId;
+    private Long shipmentMethodId;
     private Long contactId;
     private Long materialId;
-    private Double amount;
-    private Long noContainer;
-    private String containerType;
-    private String description;
-    private String status;
-    private String fileName;
-    private String newFileName;
-    private String shipmentType;
-    private String shipmentMethod;
-    private String loadingLetter;
-    private Long contactByAgentId;
-    private Long noBarrel;
-    private Long noPalete;
-    private String bookingCat;
+    private Long contactAgentId;
     private Long vesselId;
-    private Double gross;
-    private Double net;
-    private Double moisture;
-    private Double vgm;
     private Long unitId;
-    private Date automationDate;
+    private BigDecimal amount;
+    private String description;
+    private String automationLetterNo;
+    private Date automationLetterDate;
     private Date sendDate;
-
+    private Long noBLs;
+    private Long noContainer;
+    private Long noPackages;
+    private String bookingCat;
+    private BigDecimal weightGW;
+    private BigDecimal weightND;
+    private Double vgm;
 
     @Getter
     @Setter
@@ -51,19 +49,26 @@ public class ShipmentDTO {
     @ApiModel("ShipmentInfo")
     public static class Info extends ShipmentDTO {
         private Long id;
-        private VesselDTO vessel;
-        private ContactDTO.ContactInfoTuple contactByAgent;
-        private ContactDTO.ContactInfoTuple contact;
-        private ContactDTO.ContactInfoTuple container;
-        private ContractShipmentDTO.Info contractShipment;
-        private MaterialDTO.MaterialTuple material;
-        private String containerType;
-        private UnitDTO unit;
-        private DateTimeDTO.DateTimeStrRs createDate;
+
+        // Auditing
+        private Date createdDate;
         private String createdBy;
         private Date lastModifiedDate;
         private String lastModifiedBy;
         private Integer version;
+
+        // BaseEntity
+        private Boolean editable;
+        private List<EStatus> eStatus;
+
+        private UnitDTO.Info unit;
+        private VesselDTO.Info vessel;
+        private ContactDTO.Info contact;
+        private ContactDTO.Info contactAgent;
+        private MaterialDTO.Info material;
+        private ShipmentTypeDTO.Info shipmentType;
+        private ShipmentMethodDTO.Info shipmentMethod;
+        private ContractShipmentDTO.Info contractShipment;
     }
 
     @Getter
@@ -71,7 +76,6 @@ public class ShipmentDTO {
     @Accessors(chain = true)
     @ApiModel("ShipmentCreateRq")
     public static class Create extends ShipmentDTO {
-        private DateTimeDTO.DateTimeStrRq createDate;
     }
 
     @Getter
@@ -79,10 +83,10 @@ public class ShipmentDTO {
     @Accessors(chain = true)
     @ApiModel("ShipmentUpdateRq")
     public static class Update extends ShipmentDTO {
+
         @NotNull
         @ApiModelProperty(required = true)
         private Long id;
-        private DateTimeDTO.DateTimeStrRq createDate;
     }
 
     @Getter
@@ -90,6 +94,7 @@ public class ShipmentDTO {
     @Accessors(chain = true)
     @ApiModel("ShipmentDeleteRq")
     public static class Delete {
+
         @NotNull
         @ApiModelProperty(required = true)
         private List<Long> ids;
@@ -102,5 +107,4 @@ public class ShipmentDTO {
     public static class InfoWithInvoice extends ShipmentDTO {
         private List<InvoiceDTO.Info> invoices;
     }
-
 }
