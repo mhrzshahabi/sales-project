@@ -30,6 +30,7 @@ public class ShipmentDTO {
     private Long contactAgentId;
     private Long vesselId;
     private Long unitId;
+    private Long dischargePortId;
     private BigDecimal amount;
     private String description;
     private String automationLetterNo;
@@ -64,6 +65,7 @@ public class ShipmentDTO {
         private UnitDTO.Info unit;
         private VesselDTO.Info vessel;
         private ContactDTO.Info contact;
+        private PortDTO.Info dischargePort;
         private ContactDTO.Info contactAgent;
         private MaterialDTO.Info material;
         private ShipmentTypeDTO.Info shipmentType;

@@ -97,6 +97,14 @@ public class Shipment extends BaseEntity {
     @Column(name = "F_UNIT_ID", nullable = false)
     private Long unitId;
 
+    @Setter(AccessLevel.NONE)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "DISCHARGE_PORT_ID", nullable = false, insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_shipment2portByDischargePortId"))
+    private Port dischargePort;
+
+    @Column(name = "DISCHARGE_PORT_ID")
+    private Long dischargePortId;
+
     @NotNull
     @Column(name = "N_AMOUNT", nullable = false, scale = 3, precision = 12)
     private BigDecimal amount;
