@@ -7,9 +7,9 @@ import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.core.util.report.ReportUtil;
 import com.nicico.sales.dto.TozinDTO;
 import com.nicico.sales.exception.NotFoundException;
+import com.nicico.sales.iservice.ITozinLiteService;
 import com.nicico.sales.iservice.ITozinService;
 import com.nicico.sales.model.entities.base.TozinLite;
-import com.nicico.sales.repository.TozinLiteDAO;
 import com.nicico.sales.utility.MakeExcelOutputUtil;
 import com.nicico.sales.utility.SpecListUtil;
 import lombok.RequiredArgsConstructor;
@@ -37,7 +37,7 @@ public class TozinFormController {
     private final ITozinService iTozinService;
     private final MakeExcelOutputUtil makeExcelOutputUtil;
     private final ReportUtil reportUtil;
-    private final TozinLiteDAO tozinDAO;
+    private final ITozinLiteService tozinLiteService;
 
     @RequestMapping("/showOnWayProductForm")
     public String showOnWayProductForm() {
@@ -54,7 +54,7 @@ public class TozinFormController {
     public void ExportToExcel(@RequestParam MultiValueMap<String, String> criteria, HttpServletResponse response) throws Exception {
         List<Object> resp = new ArrayList<>();
         NICICOCriteria provideNICICOCriteria = specListUtil.provideNICICOCriteria(criteria, TozinDTO.Info.class);
-        List<TozinDTO.Info> data = iTozinService.searchTozin(provideNICICOCriteria).getResponse().getData();
+        List<TozinDTO.Info> data = iTozinService.search(provideNICICOCriteria).getResponse().getData();
         if (data != null) resp.addAll(data);
         String topRowTitle = criteria.getFirst("top");
         String[] fields = criteria.getFirst("fields").split(",");
@@ -74,10 +74,10 @@ public class TozinFormController {
 //        parameters.put("haml", params.get("haml").get(0));
         parameters.put(ConstantVARs.REPORT_TYPE, params.get("type").get(0));
         NICICOCriteria provideNICICOCriteria = specListUtil.provideNICICOCriteria(params, TozinDTO.Info.class);
-        List<TozinDTO.Info> data = iTozinService.searchTozin(provideNICICOCriteria).getResponse().getData();
+        List<TozinDTO.Info> data = iTozinService.search(provideNICICOCriteria).getResponse().getData();
         if (data == null) throw new NotFoundException();
         final List<TozinDTO.PDF> dataa = Arrays.asList(objectMapper.convertValue(data, TozinDTO.PDF[].class));
-        final Set<TozinLite> drivers = tozinDAO.findAllByTozinIdIn(dataa.stream().map(TozinDTO::getTozinId).collect(Collectors.toSet()));
+        final Set<TozinLite> drivers = tozinLiteService.findAllByTozinIdIn(dataa.stream().map(TozinDTO::getTozinId).collect(Collectors.toSet()));
         dataa.stream().forEach(t -> {
             t.setDriverName(drivers.stream().filter(d -> d.getTozinId().equals(t.getTozinId())).findAny().get().getDriverName());
         });

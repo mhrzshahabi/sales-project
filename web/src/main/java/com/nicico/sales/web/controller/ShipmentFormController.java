@@ -84,32 +84,28 @@ public class ShipmentFormController {
         return "shipment/shipment";
     }
 
-    @RequestMapping("/print/{shipmentId}")
-    public void printDocx(HttpServletRequest request, HttpServletResponse response, @PathVariable String shipmentId) throws IOException {
+ /*   @RequestMapping("/print/{shipmentId}")
+    public void printDocx(HttpServletRequest request, HttpServletResponse response, @PathVariable Long shipmentId) throws IOException {
 
-        InputStream stream;
+//        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+//        String today = PersianDate.now().format(dtf);
 
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
-        dtf.format(PersianDate.now());
-        String dateday = PersianDate.now().format(dtf);
+//        XSSFWorkbook workbook = new XSSFWorkbook();
+//        XSSFFont font = workbook.createFont();
+//        font.setFontName("B Nazanin");
 
-        XSSFWorkbook workbook = new XSSFWorkbook();
-        XSSFFont font = workbook.createFont();
-        font.setFontName("B Nazanin");
-        XWPFDocument doc;
+//        ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        ShipmentDTO.Info shipment = shipmentService.get(Long.valueOf(shipmentId));
-        String description = shipment.getMaterial().getDescl();
-        String shiptype = shipment.getShipmentType();
+        ShipmentDTO.Info shipment = shipmentService.get(shipmentId);
+//        String description = shipment.getMaterial().getDescl();
+//        String shiptype = shipment.getShipmentType();
 
+        if (shipment.getMaterialId() == 2L) {
+            if (shipment.getShipmentTypeId() == 1L) {
 
-        if (description.toLowerCase().contains("cathod")) {
-            if (shiptype.contains("فله")) {
-
-                stream = new ClassPathResource("reports/word/Ship_Cat_bulk.docx").getInputStream();
+                InputStream stream = new ClassPathResource("reports/word/Ship_Cat_bulk.docx").getInputStream();
                 ServletOutputStream out = response.getOutputStream();
-                doc = new XWPFDocument(stream);
+                XWPFDocument doc = new XWPFDocument(stream);
                 replacePOI(doc, "vessel_name", shipment.getVessel().getName());
                 replacePOI(doc, "agent", shipment.getContactByAgent().getNameFA());
                 replacePOI(doc, "contract_amount", shipment.getAmount().toString());
@@ -126,7 +122,7 @@ public class ShipmentFormController {
 
                // replacePOI(doc, "country", shipment.getPortByDischarge().getCountry().getNameFa());
                // replacePOI(doc, "barname", String.valueOf(shipment.getNumberOfBLs()));
-                replacePOI(doc, "dateday", dateday);
+                replacePOI(doc, "dateday", today);
 
 
                 response.setHeader("Content-Disposition", "attachment; filename=\"Ship_Cat_bulk.doc\"");
@@ -157,12 +153,16 @@ public class ShipmentFormController {
 
                 replacePOI(doc, "noContainer", String.valueOf(shipment.getNoContainer()));
               //  replacePOI(doc, "loa", shipment.getPortByLoading().getPort());
+                replacePOI(doc, "loa", (shipment.getContractShipment().getLoadPort().getLoa()!= null ?shipment.getContractShipment().getLoadPort().getLoa():""));
               //  replacePOI(doc, "dis", shipment.getPortByDischarge().getPort());
+                replacePOI(doc, "dis", shipment.getContractShipment().getLoadPort().getPort());
               //  replacePOI(doc, "country", shipment.getPortByDischarge().getCountry().getNameFa());
+                replacePOI(doc, "country", shipment.getContractShipment().getLoadPort().getCountry().getNameFa());
                 replacePOI(doc, "containerType", shipment.getContainerType() == null ? "50" : shipment.getContainerType());
               //  replacePOI(doc, "blNumbers", shipment.getBlNumbers());
+              //  replacePOI(doc, "blNumbers", shipment.getBlNumbers());
                 replacePOI(doc, "bookingno", "(Booking No." + shipment.getBookingCat() + ")");
-                replacePOI(doc, "dateday", dateday);
+                replacePOI(doc, "dateday", today);
 
 
                 response.setHeader("Content-Disposition", "attachment; filename=\"Ship_Cat_Container.doc\"");
@@ -193,7 +193,7 @@ public class ShipmentFormController {
               //  replacePOI(doc, "country", shipment.getPortByDischarge().getCountry().getNameFa());
               //  replacePOI(doc, "disPort", shipment.getPortByDischarge().getPort());
 
-                replacePOI(doc, "dateday", dateday);
+                replacePOI(doc, "dateday", today);
                 List<String> inspector = shipmentService.inspector();
                 for (int i = 0; i < inspector.size(); i++) {
 
@@ -216,7 +216,7 @@ public class ShipmentFormController {
                 ServletOutputStream out = response.getOutputStream();
                 doc = new XWPFDocument(stream);
 
-                replacePOI(doc, "dateday", dateday);
+                replacePOI(doc, "dateday", today);
 
                 replacePOI(doc, "contract_amount", shipment.getAmount().toString());
                 replacePOI(doc, "unitNameFa", shipment.getUnit().getNameFA());
@@ -249,5 +249,5 @@ public class ShipmentFormController {
             }
         }
 
-    }
+    }*/
 }

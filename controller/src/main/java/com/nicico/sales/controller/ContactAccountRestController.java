@@ -58,7 +58,7 @@ public class ContactAccountRestController {
     @Loggable
     @DeleteMapping(value = "/list")
     public ResponseEntity<Void> delete(@Validated @RequestBody ContactAccountDTO.Delete request) {
-        contactAccountService.delete(request);
+        contactAccountService.deleteAll(request);
         return new ResponseEntity(HttpStatus.OK);
     }
 

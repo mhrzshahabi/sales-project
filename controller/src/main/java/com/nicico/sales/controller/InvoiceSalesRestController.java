@@ -60,7 +60,7 @@ public class InvoiceSalesRestController {
     @Loggable
     @DeleteMapping(value = "/list")
     public ResponseEntity delete(@Validated @RequestBody InvoiceSalesDTO.Delete request) {
-        invoiceSalesService.delete(request);
+        invoiceSalesService.deleteAll(request);
         return new ResponseEntity(HttpStatus.OK);
     }
 

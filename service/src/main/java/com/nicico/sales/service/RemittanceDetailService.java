@@ -1,7 +1,9 @@
 package com.nicico.sales.service;
 
+import com.nicico.sales.annotation.Action;
 import com.nicico.sales.dto.InventoryDTO;
 import com.nicico.sales.dto.RemittanceDetailDTO;
+import com.nicico.sales.enumeration.ActionType;
 import com.nicico.sales.iservice.IRemittanceDetailService;
 import com.nicico.sales.model.entities.base.Tozin;
 import com.nicico.sales.model.entities.warehouse.Inventory;
@@ -27,8 +29,9 @@ public class RemittanceDetailService extends GenericService<RemittanceDetail, Lo
     private final TozinTableDAO tozinTableDAO;
     private final TozinDAO tozinDAO;
 
-    @Override
+    @Action(value = ActionType.Update)
     @Transactional
+    @Override
     public List<RemittanceDetailDTO.Info> batchUpdate(RemittanceDetailDTO.WithRemittanceAndInventory request) {
         Remittance remittanceSaved = remittanceDAO.save(modelMapper.map(request.getRemittance(), Remittance.class));
         List<RemittanceDetail> rds = new ArrayList<>();
@@ -55,6 +58,7 @@ public class RemittanceDetailService extends GenericService<RemittanceDetail, Lo
         }.getType());
     }
 
+    @Action(value = ActionType.Create)
     @Override
     @Transactional
     public List<RemittanceDetailDTO.Info> out(RemittanceDetailDTO.OutRemittance request) {

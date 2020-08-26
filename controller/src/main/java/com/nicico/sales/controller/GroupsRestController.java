@@ -58,7 +58,7 @@ public class GroupsRestController {
     @Loggable
     @DeleteMapping(value = "/list")
     public ResponseEntity<Void> delete(@Validated @RequestBody GroupsDTO.Delete request) {
-        groupsService.delete(request);
+        groupsService.deleteAll(request);
         return new ResponseEntity(HttpStatus.OK);
     }
 

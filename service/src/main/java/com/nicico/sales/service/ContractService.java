@@ -4,7 +4,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
 import com.nicico.copper.common.dto.grid.TotalResponse;
+import com.nicico.sales.annotation.Action;
 import com.nicico.sales.dto.ContractDTO;
+import com.nicico.sales.enumeration.ActionType;
 import com.nicico.sales.exception.NotFoundException;
 import com.nicico.sales.iservice.IContractService;
 import com.nicico.sales.model.entities.base.Contract;
@@ -47,11 +49,9 @@ import java.util.*;
 @RequiredArgsConstructor
 @Service
 @Slf4j
-public class ContractService implements IContractService {
+public class ContractService extends GenericService<Contract, Long, ContractDTO.Create, ContractDTO.Info, ContractDTO.Update, ContractDTO.Delete> implements IContractService {
 
-    private final ContractDAO contractDAO;
     private final ContactDAO contactDAO;
-    private final ModelMapper modelMapper;
     private final Environment environment;
     private final ContractShipmentDAO contractShipmentDAO;
     private final PortDAO portDAO;
@@ -80,25 +80,6 @@ public class ContractService implements IContractService {
         return myXWPFHtmlDocument;
     }
 
-    @Transactional(readOnly = true)
-    @PreAuthorize("hasAuthority('R_CONTRACT')")
-    public ContractDTO.Info get(Long id) {
-        final Optional<Contract> slById = contractDAO.findById(id);
-        final Contract contract = slById.orElseThrow(() -> new NotFoundException(Contract.class));
-
-        return modelMapper.map(contract, ContractDTO.Info.class);
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    @PreAuthorize("hasAuthority('R_CONTRACT')")
-    public List<ContractDTO.Info> list() {
-        final List<Contract> slAll = contractDAO.findAll();
-
-        return modelMapper.map(slAll, new TypeToken<List<ContractDTO.Info>>() {
-        }.getType());
-    }
-
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     @PreAuthorize("hasAuthority('O_CONTRACT')")
@@ -110,7 +91,7 @@ public class ContractService implements IContractService {
         ObjectMapper mapper = new ObjectMapper();
         Map<String, Object> map = mapper.readValue(request, Map.class);
         String contractNo = map.get("contractNo") + "";
-        Integer contractId = (Integer) map.get("contractId");
+        Long contractId = (Long) map.get("contractId");
         printOnePage(printdoc, contractId);
         reader.createQuery().forRevisionsOfEntity(Contract.class, true, false).getResultList();
         List<Number> oldContract = reader.getRevisions(Contract.class, Long.valueOf(contractId));
@@ -119,7 +100,7 @@ public class ContractService implements IContractService {
             intList.add((Integer) i);
         }
         int maxRef = findMax(intList);
-        contractDAO.findById(contractId).getMaterial();
+        repository.findById(contractId).get().getMaterial();
         map.remove("contractNo");
         map.remove("contractId");
         String flag = "";
@@ -308,6 +289,7 @@ public class ContractService implements IContractService {
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     @Override
+    @Action(value = ActionType.Get)
     public List<String> readFromWord(String contractNo, Long contractId, int draftId) {
         AuditReader reader = AuditReaderFactory.get(entityManager);
         String UPLOAD_FILE_DIR = environment.getProperty("nicico.upload.dir");
@@ -343,9 +325,9 @@ public class ContractService implements IContractService {
         return allArticle;
     }
 
-    @Transactional
     @Override
-    @PreAuthorize("hasAuthority('C_CONTRACT')")
+    @Action(value = ActionType.Create)
+    @Transactional(readOnly = true)
     public ContractDTO.Info create(ContractDTO.Create request) {
         request.getContractDetails().setContract(request);
         final Contract contract = modelMapper.map(request, Contract.class);
@@ -357,11 +339,11 @@ public class ContractService implements IContractService {
         return savedContract;
     }
 
-    @Transactional
     @Override
-    @PreAuthorize("hasAuthority('U_CONTRACT')")
+    @Action(value = ActionType.Update)
+    @Transactional(readOnly = true)
     public ContractDTO.Info update(Long id, ContractDTO.Update request) {
-        final Optional<Contract> slById = contractDAO.findById(id);
+        final Optional<Contract> slById = repository.findById(id);
         final Contract contract = slById.orElseThrow(() -> new NotFoundException(Contract.class));
 
         Contract updating = new Contract();
@@ -402,9 +384,9 @@ public class ContractService implements IContractService {
         return save(updating);
     }
 
-    @Transactional
     @Override
-    @PreAuthorize("hasAuthority('D_CONTRACT')")
+    @Action(value = ActionType.Delete)
+    @Transactional(readOnly = true)
     public void delete(Long id) {
         ContractDetail contractDetails = contractDetailDAO.findByContract_id(id);
         if (contractDetails != null) {
@@ -416,7 +398,7 @@ public class ContractService implements IContractService {
                 contractShipmentDAO.deleteById(contractShipment.getId());
             }
         }
-        contractDAO.deleteById(id);
+        repository.deleteById(id);
     }
 
     @Transactional
@@ -425,7 +407,7 @@ public class ContractService implements IContractService {
     public String printContract(Long id) {
         int maxRef = 0;
         String flag = "";
-        Contract contract = contractDAO.findById(id).get();
+        Contract contract = repository.findById(id).get();
         AuditReader reader = AuditReaderFactory.get(entityManager);
         reader.createQuery().forRevisionsOfEntity(Contract.class, true, false).getResultList();
         List<Number> oldContract = reader.getRevisions(Contract.class, Long.valueOf(id));
@@ -460,7 +442,7 @@ public class ContractService implements IContractService {
     @PreAuthorize("hasAuthority('O_CONTRACT')")
     public String printContract(Long id, Long idDraft) {
         String flag = "";
-        Contract contract = contractDAO.findById(id).get();
+        Contract contract = repository.findById(id).get();
         if (contract.getMaterial().getDescl().contains("Mo")) {
             flag = "PrintMoOx_" + contract.getContractNo() + "_" + idDraft;
         } else if (contract.getMaterial().getDescl().contains("Conc")) {
@@ -471,33 +453,13 @@ public class ContractService implements IContractService {
         return flag;
     }
 
-
-    @Transactional
     @Override
-    @PreAuthorize("hasAuthority('D_CONTRACT')")
-    public void delete(ContractDTO.Delete request) {
-        final List<Contract> contracts = contractDAO.findAllById(request.getIds());
-
-        contractDAO.deleteAll(contracts);
-    }
-
+    @Action(value = ActionType.Search)
     @Transactional(readOnly = true)
-    @Override
-    @PreAuthorize("hasAuthority('R_CONTRACT')")
-    public TotalResponse<ContractDTO.Info> search(NICICOCriteria criteria) {
-        return SearchUtil.search(contractDAO, criteria, contract -> modelMapper.map(contract, ContractDTO.Info.class));
-    }
-
-    @Override
     public TotalResponse<ContractDTO.InfoForReport> report(NICICOCriteria nicicoCriteria) {
-        return SearchUtil.search(contractDAO, nicicoCriteria, contract -> modelMapper.map(contract, ContractDTO.InfoForReport.class));
+        return SearchUtil.search((ContractDAO) repository, nicicoCriteria, contract -> modelMapper.map(contract, ContractDTO.InfoForReport.class));
     }
 
-
-    private ContractDTO.Info save(Contract contract) {
-        final Contract saved = contractDAO.saveAndFlush(contract);
-        return modelMapper.map(saved, ContractDTO.Info.class);
-    }
 
     private List<String> extractText(InputStream in) throws Exception {
         XWPFDocument doc = new XWPFDocument(in);
@@ -532,7 +494,7 @@ public class ContractService implements IContractService {
         return allArticles;
     }
 
-    private void printOnePage(XWPFDocument printdoc, int contractId) throws IOException, InvalidFormatException, ParseException {
+    private void printOnePage(XWPFDocument printdoc, long contractId) throws IOException, InvalidFormatException, ParseException {
         String UPLOAD_FILE_DIR = environment.getProperty("nicico.upload.dir");
         CTSectPr sectPr = printdoc.getDocument().getBody().getSectPr();
         if (sectPr == null) sectPr = printdoc.getDocument().getBody().addNewSectPr();
@@ -563,12 +525,12 @@ public class ContractService implements IContractService {
         tableNo.getCTTbl().getTblPr().getTblBorders().unsetInsideV();
 
 
-    /*    Date c = sdf.parse(contractDAO.findById(contractId).getContractDate());
+    /*    Date c = sdf.parse(repository.findById(contractId).getContractDate());
         String date = sdf.format(c);*/
 
-        tableNo.getRow(0).getCell(0).setText("DATE:" + " " + contractDAO.findById(contractId).getContractDate());
+        tableNo.getRow(0).getCell(0).setText("DATE:" + " " + repository.findById(contractId).get().getContractDate());
         tableNo.getRow(0).getCell(0).setVerticalAlignment(XWPFTableCell.XWPFVertAlign.CENTER);
-        tableNo.getRow(0).getCell(1).setText("NO:" + " " + contractDAO.findById(contractId).getContractNo());
+        tableNo.getRow(0).getCell(1).setText("NO:" + " " + repository.findById(contractId).get().getContractNo());
         tableNo.getRow(0).getCell(1).setVerticalAlignment(XWPFTableCell.XWPFVertAlign.CENTER);
         CTTblWidth width = tableNo.getCTTbl().addNewTblPr().addNewTblW();
         width.setW(BigInteger.valueOf(10000));
@@ -597,46 +559,46 @@ public class ContractService implements IContractService {
         //creating three row
         XWPFParagraph paragraphBuyer = table.getRow(2).getCell(0).addParagraph();
         setRun(paragraphBuyer.createRun(), "Calibre LIght", 10, "000000", "BUYER:", true, true);
-        if (contractDAO.findById(contractId).getContactId() != null) {
-            setRun(paragraphBuyer.createRun(), "Calibre LIght", 6, "000000", "NAME:" + " " + nvl(contactDAO.findById(contractDAO.findById(contractId).getContactId()).get().getNameEN()), false, true);
-            setRun(paragraphBuyer.createRun(), "Calibre LIght", 6, "000000", "PHONE:" + " " + nvl(contactDAO.findById(contractDAO.findById(contractId).getContactId()).get().getPhone()), false, true);
-            setRun(paragraphBuyer.createRun(), "Calibre LIght", 6, "000000", "MOBILE:" + " " + nvl(contactDAO.findById(contractDAO.findById(contractId).getContactId()).get().getMobile()), false, true);
-            setRun(paragraphBuyer.createRun(), "Calibre LIght", 6, "000000", "ADDRESS:" + " " + nvl(contactDAO.findById(contractDAO.findById(contractId).getContactId()).get().getAddress()), false, true);
+        if (get(contractId).getContactId() != null) {
+            setRun(paragraphBuyer.createRun(), "Calibre LIght", 6, "000000", "NAME:" + " " + nvl(contactDAO.findById(repository.findById(contractId).get().getContactId()).get().getNameEN()), false, true);
+            setRun(paragraphBuyer.createRun(), "Calibre LIght", 6, "000000", "PHONE:" + " " + nvl(contactDAO.findById(repository.findById(contractId).get().getContactId()).get().getPhone()), false, true);
+            setRun(paragraphBuyer.createRun(), "Calibre LIght", 6, "000000", "MOBILE:" + " " + nvl(contactDAO.findById(repository.findById(contractId).get().getContactId()).get().getMobile()), false, true);
+            setRun(paragraphBuyer.createRun(), "Calibre LIght", 6, "000000", "ADDRESS:" + " " + nvl(contactDAO.findById(repository.findById(contractId).get().getContactId()).get().getAddress()), false, true);
         }
         //table.getRow(2).getCell(0).setText("BUYER:\n" + contactDAO.findById(contractDAO.findById(contractId).getContactId()).get().getNameEN());
         //table.getRow(2).getCell(1).setText("AGENT BUYER:\n" + contactDAO.findById(contractDAO.findById(contractId).getContactByBuyerAgentId()).get().getNameEN());
         XWPFParagraph paragraphAgentBuyer = table.getRow(2).getCell(1).addParagraph();
-        if (nvl(contractDAO.findById(contractId).getContactByBuyerAgentId() + "").equals(""))
+        if (nvl(repository.findById(contractId).get().getContactByBuyerAgentId() + "").equals(""))
             setRun(paragraphAgentBuyer.createRun(), "Calibre LIght", 10, "000000", "null", true, true);
         else
             setRun(paragraphAgentBuyer.createRun(), "Calibre LIght", 10, "000000", "AGENT BUYER:", true, true);
-        if (contractDAO.findById(contractId).getContactByBuyerAgentId() != null) {
-            setRun(paragraphAgentBuyer.createRun(), "Calibre LIght", 6, "000000", "NAME:" + " " + nvl(contactDAO.findById(contractDAO.findById(contractId).getContactByBuyerAgentId()).get().getNameEN()), false, true);
-            setRun(paragraphAgentBuyer.createRun(), "Calibre LIght", 6, "000000", "PHONE:" + " " + nvl(contactDAO.findById(contractDAO.findById(contractId).getContactByBuyerAgentId()).get().getPhone()), false, true);
-            setRun(paragraphAgentBuyer.createRun(), "Calibre LIght", 6, "000000", "MOBILE:" + " " + nvl(contactDAO.findById(contractDAO.findById(contractId).getContactByBuyerAgentId()).get().getMobile()), false, true);
-            setRun(paragraphAgentBuyer.createRun(), "Calibre LIght", 6, "000000", "ADDRESS:" + " " + nvl(contactDAO.findById(contractDAO.findById(contractId).getContactByBuyerAgentId()).get().getAddress()), false, true);
+        if (repository.findById(contractId).get().getContactByBuyerAgentId() != null) {
+            setRun(paragraphAgentBuyer.createRun(), "Calibre LIght", 6, "000000", "NAME:" + " " + nvl(contactDAO.findById(repository.findById(contractId).get().getContactByBuyerAgentId()).get().getNameEN()), false, true);
+            setRun(paragraphAgentBuyer.createRun(), "Calibre LIght", 6, "000000", "PHONE:" + " " + nvl(contactDAO.findById(repository.findById(contractId).get().getContactByBuyerAgentId()).get().getPhone()), false, true);
+            setRun(paragraphAgentBuyer.createRun(), "Calibre LIght", 6, "000000", "MOBILE:" + " " + nvl(contactDAO.findById(repository.findById(contractId).get().getContactByBuyerAgentId()).get().getMobile()), false, true);
+            setRun(paragraphAgentBuyer.createRun(), "Calibre LIght", 6, "000000", "ADDRESS:" + " " + nvl(contactDAO.findById(repository.findById(contractId).get().getContactByBuyerAgentId()).get().getAddress()), false, true);
         }
         //creating four row
         XWPFParagraph paragraphSeller = table.getRow(3).getCell(0).addParagraph();
         setRun(paragraphSeller.createRun(), "Calibre LIght", 10, "000000", "SELLER:", true, true);
-        if (contractDAO.findById(contractId).getContactBySellerId() != null) {
-            setRun(paragraphSeller.createRun(), "Calibre LIght", 6, "000000", "NAME:" + " " + nvl(contactDAO.findById(contractDAO.findById(contractId).getContactBySellerId()).get().getNameEN()), false, true);
-            setRun(paragraphSeller.createRun(), "Calibre LIght", 6, "000000", "PHONE:" + " " + nvl(contactDAO.findById(contractDAO.findById(contractId).getContactBySellerId()).get().getPhone()), false, true);
-            setRun(paragraphSeller.createRun(), "Calibre LIght", 6, "000000", "MOBILE:" + " " + nvl(contactDAO.findById(contractDAO.findById(contractId).getContactBySellerId()).get().getMobile()), false, true);
-            setRun(paragraphSeller.createRun(), "Calibre LIght", 6, "000000", "ADDRESS:" + " " + nvl(contactDAO.findById(contractDAO.findById(contractId).getContactBySellerId()).get().getAddress()), false, true);
+        if (repository.findById(contractId).get().getContactBySellerId() != null) {
+            setRun(paragraphSeller.createRun(), "Calibre LIght", 6, "000000", "NAME:" + " " + nvl(contactDAO.findById(repository.findById(contractId).get().getContactBySellerId()).get().getNameEN()), false, true);
+            setRun(paragraphSeller.createRun(), "Calibre LIght", 6, "000000", "PHONE:" + " " + nvl(contactDAO.findById(repository.findById(contractId).get().getContactBySellerId()).get().getPhone()), false, true);
+            setRun(paragraphSeller.createRun(), "Calibre LIght", 6, "000000", "MOBILE:" + " " + nvl(contactDAO.findById(repository.findById(contractId).get().getContactBySellerId()).get().getMobile()), false, true);
+            setRun(paragraphSeller.createRun(), "Calibre LIght", 6, "000000", "ADDRESS:" + " " + nvl(contactDAO.findById(repository.findById(contractId).get().getContactBySellerId()).get().getAddress()), false, true);
         }
-        //table.getRow(3).getCell(0).setText("SELLER:\n" + contactDAO.findById(contractDAO.findById(contractId).getContactBySellerId()).get().getNameEN());
+        //table.getRow(3).getCell(0).setText("SELLER:\n" + contactDAO.findById(repository.findById(contractId).getContactBySellerId()).get().getNameEN());
         ////******
         XWPFParagraph paragraphAgentSeller = table.getRow(3).getCell(1).addParagraph();
-        if (nvl(contractDAO.findById(contractId).getContactBySellerAgentId() + "").equals(""))
+        if (nvl(repository.findById(contractId).get().getContactBySellerAgentId() + "").equals(""))
             setRun(paragraphAgentSeller.createRun(), "Calibre LIght", 10, "000000", "", true, true);
         else
             setRun(paragraphAgentSeller.createRun(), "Calibre LIght", 10, "000000", "AGENT SELLER:", true, true);
-        if (contractDAO.findById(contractId).getContactBySellerAgentId() != null) {
-            setRun(paragraphAgentSeller.createRun(), "Calibre LIght", 6, "000000", "NAME:" + " " + nvl(contactDAO.findById(contractDAO.findById(contractId).getContactBySellerAgentId()).get().getNameEN()), false, true);
-            setRun(paragraphAgentSeller.createRun(), "Calibre LIght", 6, "000000", "PHONE:" + " " + nvl(contactDAO.findById(contractDAO.findById(contractId).getContactBySellerAgentId()).get().getPhone()), false, true);
-            setRun(paragraphAgentSeller.createRun(), "Calibre LIght", 6, "000000", "MOBILE:" + " " + nvl(contactDAO.findById(contractDAO.findById(contractId).getContactBySellerAgentId()).get().getMobile()), false, true);
-            setRun(paragraphAgentSeller.createRun(), "Calibre LIght", 6, "000000", "ADDRESS:" + " " + nvl(contactDAO.findById(contractDAO.findById(contractId).getContactBySellerAgentId()).get().getAddress()), false, true);
+        if (repository.findById(contractId).get().getContactBySellerAgentId() != null) {
+            setRun(paragraphAgentSeller.createRun(), "Calibre LIght", 6, "000000", "NAME:" + " " + nvl(contactDAO.findById(repository.findById(contractId).get().getContactBySellerAgentId()).get().getNameEN()), false, true);
+            setRun(paragraphAgentSeller.createRun(), "Calibre LIght", 6, "000000", "PHONE:" + " " + nvl(contactDAO.findById(repository.findById(contractId).get().getContactBySellerAgentId()).get().getPhone()), false, true);
+            setRun(paragraphAgentSeller.createRun(), "Calibre LIght", 6, "000000", "MOBILE:" + " " + nvl(contactDAO.findById(repository.findById(contractId).get().getContactBySellerAgentId()).get().getMobile()), false, true);
+            setRun(paragraphAgentSeller.createRun(), "Calibre LIght", 6, "000000", "ADDRESS:" + " " + nvl(contactDAO.findById(repository.findById(contractId).get().getContactBySellerAgentId()).get().getAddress()), false, true);
         }
         //table.getRow(3).getCell(1).setText("AGENT SELLER:\n" + contactDAO.findById(contractDAO.findById(contractId).getContactBySellerAgentId()).get().getNameEN());
 
