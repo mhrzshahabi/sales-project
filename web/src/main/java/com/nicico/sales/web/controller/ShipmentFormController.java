@@ -173,6 +173,9 @@ public class ShipmentFormController {
             }
         }
 
+
+
+
         if (description.toLowerCase().contains("conc")) {
             if (shiptype.contains("فله")) {
 
