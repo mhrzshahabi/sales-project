@@ -8,7 +8,10 @@
 
     var dccTableName = "${dccTableName}";
     var dccTableId = "${dccTableId}";
-    var criteria = {
+    var d_record ="${d_record}";
+    var c_record ="${c_record}";
+
+var criteria = {
         _constructor: "AdvancedCriteria",
         operator: "and",
         criteria: [
@@ -101,7 +104,7 @@
                     this.hide();
                 }
             });
-        } else {
+        } else if(d_record) {
             isc.Dialog.create({
                 message: "<spring:message code='global.grid.record.remove.ask'/>",
                 icon: "[SKIN]ask.png",
@@ -404,7 +407,7 @@
             ],
         createRecordComponent: function (record, colNum) {
             var fieldName = this.getFieldName(colNum);
-            if (fieldName == "removeIcon") {
+            if (fieldName == "removeIcon" && d_record == "true") {
                 var removeImg = isc.ImgButton.create({
                     showDown: false,
                     showRollOver: false,
@@ -449,3 +452,7 @@
             })
         ]
     });
+if(c_record === "true"){
+} else {
+  ToolStripButton_Dcc_Add.hide();
+}
