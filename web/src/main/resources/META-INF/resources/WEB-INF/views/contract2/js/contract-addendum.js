@@ -781,7 +781,7 @@ contractTab.Methods.NewAddendum = function () {
                                                         sectionStackSectionObj.items.push(contractDetailDynamicForm);
 
                                                         _record.contractDetailTypeParams.filter(param => param.type === "ListOfReference").forEach(param => {
-                                                            dbg('article is reference');
+                                                            dbg('article is reference. param:', param);
                                                             const contractDetailListGrid = isc.ListGrid.create({
                                                                 width: "100%",
                                                                 height: 300,
@@ -832,6 +832,7 @@ contractTab.Methods.NewAddendum = function () {
                                                                 })]
                                                             })
                                                             sectionStackSectionObj.items.push(contractDetailListGrid);
+                                                           /**
                                                             fetch('api/' + param['reference'] + '/spec-list?criteria=' +
                                                                 JSON.stringify({
                                                                     fieldName: "id",
@@ -852,16 +853,17 @@ contractTab.Methods.NewAddendum = function () {
                                                                     }
                                                                 }
                                                             )
+                                                            ***/
                                                         });
                                                         contractTab.sectionStack.Addendum.addSection(sectionStackSectionObj);
                                                         dbg('selected article', contractTab.Grids.Addendum.getSelectedRecord())
                                                         dbg('sectionStackSectionObj', contractDetailDynamicForm)
-                                                        if (t) {
-                                                            t.contractDetailValues.filter(cdv => !cdv.reference).forEach(cdv => {
-                                                                // if (!cdv.reference)
-                                                                contractDetailDynamicForm.setValue(cdv.key, cdv.value)
-                                                            })
-                                                        }
+                                                        // if (t) {
+                                                        //     t.contractDetailValues.filter(cdv => !cdv.reference).forEach(cdv => {
+                                                        //         // if (!cdv.reference)
+                                                        //         contractDetailDynamicForm.setValue(cdv.key, cdv.value)
+                                                        //     })
+                                                        // }
                                                         dbg('should have reference', t);
                                                     }
                                                 }

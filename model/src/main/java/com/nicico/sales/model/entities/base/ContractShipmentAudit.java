@@ -65,4 +65,7 @@ public class ContractShipmentAudit {
         private Long rev;
     }
 
+    @Column(name = "N_PARENT_ID")
+    private Long parentId;
+
 }

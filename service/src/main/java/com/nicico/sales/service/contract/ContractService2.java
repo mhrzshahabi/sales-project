@@ -1,6 +1,7 @@
 package com.nicico.sales.service.contract;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Enums;
 import com.google.gson.Gson;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
@@ -12,11 +13,13 @@ import com.nicico.sales.dto.contract.ContractDTO2;
 import com.nicico.sales.dto.contract.ContractDetailDTO2;
 import com.nicico.sales.dto.contract.ContractDetailValueDTO;
 import com.nicico.sales.enumeration.ActionType;
+import com.nicico.sales.enumeration.EContractDetailTypeCode;
+import com.nicico.sales.enumeration.EContractDetailValueKey;
 import com.nicico.sales.enumeration.ErrorType;
 import com.nicico.sales.exception.NotFoundException;
 import com.nicico.sales.exception.SalesException2;
+import com.nicico.sales.iservice.IContractDetailValueService2;
 import com.nicico.sales.iservice.IContractShipmentService;
-import com.nicico.sales.iservice.IShipmentService;
 import com.nicico.sales.iservice.contract.IContractContactService;
 import com.nicico.sales.iservice.contract.IContractDetailService2;
 import com.nicico.sales.iservice.contract.IContractDetailValueService;
@@ -29,9 +32,9 @@ import com.nicico.sales.model.entities.contract.ContractDetail2;
 import com.nicico.sales.model.entities.contract.ContractDetailValue;
 import com.nicico.sales.model.enumeration.CommercialRole;
 import com.nicico.sales.model.enumeration.DataType;
+import com.nicico.sales.repository.ContractShipmentDAO;
 import com.nicico.sales.repository.ShipmentDAO;
 import com.nicico.sales.service.GenericService;
-import com.nicico.sales.utility.ContractNoGenerator;
 import com.nicico.sales.utility.UpdateUtil;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.TypeToken;
@@ -53,7 +56,9 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
     private final IContractContactService contractContactService;
     private final IContractShipmentService contractShipmentService;
     private final IContractDetailValueService contractDetailValueService;
+    private final IContractDetailValueService2 contractDetailValueService2;
     private final ShipmentDAO shipmentDAO;
+    private final ContractShipmentDAO contractShipmentDAO;
     private final UpdateUtil updateUtil;
     private final ObjectMapper objectMapper;
     private final Gson gson;
@@ -68,6 +73,12 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
         final Contract2 contract2 = modelMapper.map(request, Contract2.class);
         validation(contract2, request);
 
+        ///الحاقیه
+        final List<ContractDetailDTO2.Info> requestContractDetails = request.getContractDetails();
+        Set<ContractShipment> contractShipmentsWithShipments = new HashSet<>();
+        if (request.getParentId() != null) {
+            contractShipmentsWithShipments = getContractShipmentsWithShipment(request);
+        }
         contract2.setContractDetails(null);
         contract2.setContractContacts(null);
 //        if (StringUtils.isEmpty(contract2.getNo()))
@@ -82,8 +93,8 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
         if (request.getAgentSellerId() != null)
             createContractContacts(savedContract2.getId(), request.getAgentSellerId(), CommercialRole.AgentSeller);
 
-        if (request.getContractDetails() != null && request.getContractDetails().size() > 0) {
-            final List<ContractDetailDTO2.Create> contractDetailsRqs = modelMapper.map(request.getContractDetails(), new TypeToken<List<ContractDetailDTO2.Create>>() {
+        if (requestContractDetails != null && requestContractDetails.size() > 0) {
+            final List<ContractDetailDTO2.Create> contractDetailsRqs = modelMapper.map(requestContractDetails, new TypeToken<List<ContractDetailDTO2.Create>>() {
             }.getType());
             contractDetailsRqs.forEach(q -> {
                 List<ContractDetailValueDTO.Create> contractDetailValues = q.getContractDetailValues();
@@ -109,6 +120,42 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
 
             });
         }
+
+        /***شروع الحاقیه***/
+        if (contractShipmentsWithShipments.size() > 0 && requestContractDetails != null) {
+            final Calendar cal = Calendar.getInstance();
+            final Calendar kal = Calendar.getInstance();
+            Set<ContractShipment> contractShipmentsFromAddendum = new HashSet<>(contractShipmentDAO.findByContractId(contract2.getId()));
+            if (contractShipmentsFromAddendum.size() > 0 && contractShipmentsWithShipments.size() > 0) {
+                for (ContractShipment csws : contractShipmentsWithShipments) {
+                    cal.setTime(csws.getSendDate());
+                    final Long contractIdMain = csws.getContractId();
+                    final Boolean[] found = {false};
+
+                    for (ContractShipment csfa : contractShipmentsFromAddendum) {
+                        kal.setTime(csfa.getSendDate());
+                        if (found[0]) continue;
+                        final Long addendumId = csfa.getContractId();
+                        if (
+                                !addendumId.equals(contractIdMain) &&
+                                        csfa.getLoadPortId().equals(csws.getLoadPortId()) &&
+                                        csfa.getTolorance().equals(csws.getTolorance()) &&
+                                        csfa.getQuantity().equals(csws.getQuantity()) &&
+                                        kal.get(Calendar.YEAR) == cal.get(Calendar.YEAR) &&
+                                        kal.get(Calendar.DAY_OF_YEAR) == cal.get(Calendar.DAY_OF_YEAR)
+                        ) {
+                            found[0] = true;
+                            csfa.setParentId(csws.getId());
+                            contractShipmentDAO.save(csfa);
+                        }
+                    }
+                    if (!found[0]) throw new SalesException2(ErrorType.NotFound);
+                }
+
+            }
+        }
+
+        /***پایان الحاقیه***/
 
         return savedContract2;
     }
@@ -180,7 +227,7 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
     @Action(value = ActionType.Update)
     public ContractDTO2.Info update(Long id, ContractDTO2.Update request) {
         final ContractDTO2.Update requestForValidation = new ContractDTO2.Update();
-        modelMapper.map(request,requestForValidation);
+        modelMapper.map(request, requestForValidation);
         Contract2 contract2 = repository.findById(id).orElseThrow(() -> new NotFoundException(Contract2.class));
 
         // update ContractContacts
@@ -312,12 +359,12 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
 
         Contract2 updating = new Contract2();
 
+        validation(contract2, request);
         contract2.setContractDetails(null);
         request.setContractDetails(null);
 
         modelMapper.map(contract2, updating);
         modelMapper.map(request, updating);
-        validation(updating, requestForValidation);
         updating.setContractContacts(null);
 
         return save(updating);
@@ -354,11 +401,12 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
 
     @Override
     public Boolean validation(Contract2 entity, Object... request) {
+        /***شروع الحاقیه***/
         final Calendar cal = Calendar.getInstance();
         final Calendar kal = Calendar.getInstance();
-        if (entity.getParentId() != null && (actionType == ActionType.Create || actionType == ActionType.Update)) {
+        ContractDTO2.Create req = modelMapper.map(request[0], ContractDTO2.Create.class);
+        if ((actionType == ActionType.Create || actionType == ActionType.Update) && req.getParentId() != null) {
 //            if(actionType == ActionType.Create) {ContractDTO2.Create req = modelMapper.map(request[0], ContractDTO2.Create.class);}
-            ContractDTO2.Create req = modelMapper.map(request[0], ContractDTO2.Create.class);
             final List<ContractShipment> contractShipments = req.getContractDetails()
                     .stream().
                             map(cd -> cd.getContractDetailValues()
@@ -375,17 +423,8 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
                     })
                     .collect(Collectors.toList());
             if (contractShipments.size() == 0) return super.validation(entity, request);
-            final List<ContractShipment> contractShipmentsOriginal = shipmentDAO.findAllByContractShipmentIdIsIn(repository.getOne(entity.getParentId())
-                    .getContractDetails().stream()
-                    .map(contractDetail2 -> contractDetail2.getContractDetailValues().stream()
-                            .filter(
-                                    cdv -> cdv.getReference() != null &&
-                                            cdv.getReference().toLowerCase().equals("ContractShipment".toLowerCase())
-                            ).collect(Collectors.toList()))
-                    .flatMap(Collection::stream)
-                    .map(contractDetailValue -> Long.parseLong(contractDetailValue.getValue()))
-                    .collect(Collectors.toList()))
-                    .stream().map(Shipment::getContractShipment).collect(Collectors.toList());
+
+            final Set<ContractShipment> contractShipmentsOriginal = getContractShipmentsWithShipment(req);
             final List<ContractShipment> modifiedFound = contractShipmentsOriginal.stream().filter(ocs -> {
                 final ContractShipment contractShipmentFromController = contractShipments.stream().filter(contractShipment -> contractShipment.getId().equals(ocs.getId()))
                         .findAny()
@@ -396,13 +435,58 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
                         !contractShipmentFromController.getQuantity().equals(ocs.getQuantity()) ||
                         !contractShipmentFromController.getTolorance().equals(ocs.getTolorance()) ||
                         cal.get(Calendar.YEAR) != kal.get(Calendar.YEAR) ||
-                        cal.get(Calendar.DAY_OF_YEAR) != kal.get(Calendar.DAY_OF_YEAR);
+                        cal.get(Calendar.DAY_OF_YEAR) != kal.get(Calendar.DAY_OF_YEAR) ||
+                        contractShipmentFromController.getParentId() != null;
             }).collect(Collectors.toList());
             Locale locale = LocaleContextHolder.getLocale();
             if (modifiedFound.size() > 0) throw new SalesException2(ErrorType.Unknown, "",
                     messageSource.getMessage("shipment.was.sent", null, locale));
 
         }
+
+
+        /*** الحاقیه***/
+
         return super.validation(entity, request);
     }
+
+    /***شروع الحاقیه
+     * @return***/
+
+    @Override
+    public List<Object> getOperationalDataOfContractArticle(Long contractId, String articleCode, String articleKey) {
+        final EContractDetailTypeCode eContractDetailTypeCode = Arrays.stream(EContractDetailTypeCode.values())
+                .filter(e -> e
+                .getId().equals(articleCode)).findAny()
+                .orElseThrow(NotFoundException::new);
+        final EContractDetailValueKey eContractDetailValueKeyOptional = Enums.getIfPresent(EContractDetailValueKey.class,
+                articleKey).orNull();
+        if (eContractDetailValueKeyOptional == null) throw new NotFoundException();
+        final Map<String, List<Object>> map = contractDetailValueService2.get(contractId,
+                eContractDetailTypeCode,
+                eContractDetailValueKeyOptional
+        );
+        if (map.size()==0) return null;
+        final List<Object> objectList = map.get(eContractDetailValueKeyOptional.name());
+        return objectList;
+
+    }
+
+    private Set<ContractShipment> getContractShipmentsWithShipment(ContractDTO2.Create request) {
+        final Map<String, List<Object>> contractShipmentOriginalMap = contractDetailValueService2.get(request.getParentId(),
+                EContractDetailTypeCode.ShipmentDetailCode, EContractDetailValueKey.NotImportant);
+        final List<ContractShipment> contractShipmentsOriginal = modelMapper.map(contractShipmentOriginalMap.get(EContractDetailValueKey.NotImportant.name()),
+                new TypeToken<List<ContractShipment>>() {
+                }.getType()
+        );
+        final List<Shipment> allByContractShipmentIdIsIn = shipmentDAO
+                .findAllByContractShipmentIdIsIn(contractShipmentsOriginal.stream()
+                        .map(ContractShipment::getId).collect(Collectors.toList()));
+        final Set<ContractShipment> contractShipmentsWithParentOrInShipment = contractShipmentsOriginal.stream()
+                .filter(contractShipment -> contractShipment.getParentId() != null).collect(Collectors.toSet());
+        contractShipmentsWithParentOrInShipment
+                .addAll(allByContractShipmentIdIsIn.stream().map(Shipment::getContractShipment).collect(Collectors.toSet()));
+        return contractShipmentsWithParentOrInShipment;
+    }
 }
+/*** الحاقیه***/

@@ -87,4 +87,8 @@
     <include file="classpath:/db/changelog/contract/tbl_cntr_container_to_bill_of_landing.xml"/>
     <include file="classpath:/db/changelog/contract/tbl_cntr_remittance_to_bill_of_landing.xml"/>
 
+
+    <include file="classpath:/db/changelog/tbl_contract_shipment.xml"/>
+
+
 </databaseChangeLog>

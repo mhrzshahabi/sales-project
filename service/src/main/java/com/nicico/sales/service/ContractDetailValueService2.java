@@ -62,7 +62,7 @@ public class ContractDetailValueService2 implements IContractDetailValueService2
 
 				final List<ContractDetailValue> contractDetailValues = contractDetailValueDAO.findAllByContractIdAndDetailCodeAndValueKey(appendixContract.getId(), contractDetailTypeCode.getId(), contractDetailValueKey.name());
 				if (contractDetailValues != null && contractDetailValues.size() > 0) {
-					contractDetailValuesProcesor(contractDetailValues, result);
+					contractDetailValuesProcessor(contractDetailValues, result);
 
 					break;
 				}
@@ -73,19 +73,26 @@ public class ContractDetailValueService2 implements IContractDetailValueService2
 			final List<ContractDetailValue> contractDetailValues = contractDetailValueDAO.findAllByContractIdAndDetailCodeAndValueKey(contract.getId(), contractDetailTypeCode.getId(), contractDetailValueKey.name());
 
 			if (contractDetailValues != null && contractDetailValues.size() > 0)
-				contractDetailValuesProcesor(contractDetailValues, result);
+				contractDetailValuesProcessor(contractDetailValues, result);
 		}
 
 		return result;
 	}
 
-	private void contractDetailValuesProcesor(List<ContractDetailValue> contractDetailValues, Map<String, List<Object>> result) {
+	private void contractDetailValuesProcessor(List<ContractDetailValue> contractDetailValues, Map<String, List<Object>> result) {
 		contractDetailValues.forEach(contractDetailValue -> {
-			if (contractDetailValue.getReference() != null)
+			if (contractDetailValue.getReference() != null) {
 				if (!result.containsKey(contractDetailValue.getKey()))
-					result.put(contractDetailValue.getKey(), Arrays.asList((getValue(contractDetailValue))));
+					result.put(contractDetailValue.getKey(), new ArrayList<>(Arrays.asList((getValue(contractDetailValue)))));
 				else
 					result.get(contractDetailValue.getKey()).add(getValue(contractDetailValue));
+			} else {
+				if (!result.containsKey(contractDetailValue.getKey()))
+					result.put(contractDetailValue.getKey(), new ArrayList<>(Arrays.asList((contractDetailValue.getValue()))));
+				else
+					result.get(contractDetailValue.getKey()).add(contractDetailValue.getValue());
+			}
+
 		});
 	}
 
@@ -95,13 +102,13 @@ public class ContractDetailValueService2 implements IContractDetailValueService2
 				final Optional<ContractShipment> contractShipmentOpt = contractShipmentDAO.findById(Long.valueOf(contractDetailValue.getValue()));
 
 				if (contractShipmentOpt.isPresent())
-					return modelMapper.map(contractShipmentOpt.get(), ContractShipmentDTO.Info.class);
+					return modelMapper.map(contractShipmentOpt.get(), ContractShipmentDTO.Tuple.class);
 				break;
 			case "Port":
 				final Optional<Port> portOpt = portDAO.findById(Long.valueOf(contractDetailValue.getValue()));
 
 				if (portOpt.isPresent())
-					return modelMapper.map(portOpt.get(), PortDTO.Info.class);
+					return modelMapper.map(portOpt.get(), PortDTO.Tuple.class);
 				break;
 			case "Unit":
 				final Optional<Unit> unitOpt = unitDAO.findById(Long.valueOf(contractDetailValue.getValue()));
