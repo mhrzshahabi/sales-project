@@ -1,8 +1,6 @@
 package com.nicico.sales.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.nicico.copper.common.dto.date.DateTimeDTO;
-import com.nicico.sales.model.entities.base.*;
 import com.nicico.sales.model.enumeration.EStatus;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -33,6 +31,7 @@ public class ShipmentDTO {
     private Long dischargePortId;
     private BigDecimal amount;
     private String description;
+    private String containerType;
     private String automationLetterNo;
     private Date automationLetterDate;
     private Date sendDate;

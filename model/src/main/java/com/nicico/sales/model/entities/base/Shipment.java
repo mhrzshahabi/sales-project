@@ -102,7 +102,8 @@ public class Shipment extends BaseEntity {
     @JoinColumn(name = "DISCHARGE_PORT_ID", nullable = false, insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_shipment2portByDischargePortId"))
     private Port dischargePort;
 
-    @Column(name = "DISCHARGE_PORT_ID")
+    @NotNull
+    @Column(name = "DISCHARGE_PORT_ID", nullable = false)
     private Long dischargePortId;
 
     @NotNull
@@ -111,6 +112,9 @@ public class Shipment extends BaseEntity {
 
     @Column(name = "C_DESCRIPTION", length = 4000)
     private String description;
+
+    @Column(name = "C_CONTAINER_TYPE")
+    private String containerType;
 
 //    @Column(name = "STATUS", length = 20)
 //    private String status;

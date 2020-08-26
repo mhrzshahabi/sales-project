@@ -288,5 +288,14 @@
     <changeSet author="NO1 (generated)" id="1598416311495-263">
         <addForeignKeyConstraint baseColumnNames="DISCHARGE_PORT_ID" baseTableName="TBL_SHIPMENT" constraintName="fk_shipment2portByDischargePortId" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_PORT" validate="true"/>
     </changeSet>
+    <changeSet author="NO1 (generated)" id="1598421943547-220">
+        <addNotNullConstraint columnDataType="number(19,0)" columnName="DISCHARGE_PORT_ID" tableName="TBL_SHIPMENT"/>
+    </changeSet>
+
+     <changeSet author="NO1 (generated)" id="1598429535644-255">
+        <addColumn tableName="TBL_SHIPMENT">
+            <column name="C_CONTAINER_TYPE" type="varchar2(255 CHAR)"/>
+        </addColumn>
+     </changeSet>
 
 </databaseChangeLog>
