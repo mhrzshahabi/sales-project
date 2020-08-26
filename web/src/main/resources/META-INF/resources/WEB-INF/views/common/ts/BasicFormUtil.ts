@@ -117,8 +117,8 @@ namespace nicico {
                     isc.ToolStrip.create(
                         {
                             width: "100%",
-                            align: "left",
                             border: '0px',
+                            align: CommonUtil.getAlignByLang(),
                             members: [
                                 // @ts-ignore
                                 isc.ToolStripButtonRefresh.create({

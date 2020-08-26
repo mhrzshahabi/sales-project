@@ -65,6 +65,15 @@ public class Shipment extends BaseEntity {
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "F_AGENT_CONTACT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_shipment2ContactByContactAgentId"))
+    private Contact contactAgent;
+
+    @NotNull
+    @Column(name = "F_AGENT_CONTACT_ID", nullable = false)
+    private Long contactAgentId;
+
+    @Setter(AccessLevel.NONE)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "F_MATERIAL_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_shipment2materialByMaterialId"))
     private Material material;
 

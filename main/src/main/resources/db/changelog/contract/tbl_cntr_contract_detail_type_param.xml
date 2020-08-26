@@ -21,4 +21,15 @@
         </addColumn>
     </changeSet>
 
+    <changeSet author="Reza (generated)" id="mazloom_034">
+        <addUniqueConstraint columnNames="C_KEY, F_CONTRACT_DETAIL_TYPE_ID"
+                             constraintName="UC_C_KEY_F_CONTRACT_DETAIL_TYPE_ID"
+                             tableName="TBL_CNTR_CONTRACT_DETAIL_TYPE_PARAM"/>
+    </changeSet>
+
+    <changeSet author="Reza (generated)" id="mazloom_035">
+        <dropUniqueConstraint constraintName="UC_TBL_CNTR_CONTRACT_DETAIL_TYPE_PARAMC_KEY_COL"
+                              tableName="TBL_CNTR_CONTRACT_DETAIL_TYPE_PARAM"/>
+    </changeSet>
+
 </databaseChangeLog>

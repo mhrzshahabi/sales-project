@@ -11,6 +11,10 @@ var nicico;
     var CommonUtil = /** @class */ (function () {
         function CommonUtil() {
             // @ts-ignore
+            this.getAlignByLang = function () {
+                return "left";
+            };
+            // @ts-ignore
             isc.Canvas.tag = null;
             // @ts-ignore
             isc.Canvas.nicico = {};

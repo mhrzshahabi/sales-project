@@ -540,7 +540,6 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
                 return {
                     type: "integer"
                 };
-            case 'Column':
             default:
                 break;
         }
@@ -650,80 +649,29 @@ contractDetailTypeTab.listGrid.template = isc.ListGrid.create({
     getDefaultHTMLValue: function (params) {
 
         let result = '';
-        let rows = params.filter(q => q[contractDetailTypeTab.dynamicForm.paramFields.type.name].toLowerCase() != 'column');
-        let columns = params.filter(q => q[contractDetailTypeTab.dynamicForm.paramFields.type.name].toLowerCase() == 'column');
+        for (let i = 0; i < params.length; i++) {
 
-        if (columns.length === 0) {
+            let paramKey = params[i][contractDetailTypeTab.dynamicForm.paramFields.key.name];
+            if (paramKey == null)
+                continue;
 
-            for (let i = 0; i < params.length; i++) {
+            result += '$';
+            result += '{';
+            result += paramKey;
+            result += '}';
 
-                let paramKey = params[i][contractDetailTypeTab.dynamicForm.paramFields.key.name];
-                if (paramKey == null)
-                    continue;
+            let paramUnitId = params[i][contractDetailTypeTab.dynamicForm.paramFields.unitId.name];
+            if (paramUnitId == null) {
 
-                result += '$';
-                result += '{';
-                result += paramKey;
-                result += '}';
-
-                let paramUnitId = params[i][contractDetailTypeTab.dynamicForm.paramFields.unitId.name];
-                if (paramUnitId == null) {
-
-                    result += '<br>';
-                    continue;
-                }
-
-                result += '&nbsp;&nbsp;&nbsp;$';
-                result += '{_';
-                result += paramUnitId;
-                result += '}<br>';
+                result += '<br>';
+                continue;
             }
 
-            return result;
+            result += '&nbsp;&nbsp;&nbsp;$';
+            result += '{_';
+            result += paramUnitId;
+            result += '}<br>';
         }
-
-        result = '<table style="border: 1px solid black;border-collapse: collapse;">';
-        for (let i = 0; i <= rows.length; i++) {
-
-            result += '<tr>';
-
-            for (let j = 0; j <= columns.length; j++) {
-
-                if (i === 0)
-                    result += j > 0 ?
-                        '<th style="border: 1px solid black;border-collapse: collapse;">' + columns[j - 1][contractDetailTypeTab.dynamicForm.paramFields.key.name] + '</th>' :
-                        '<th style="border: 1px solid black;border-collapse: collapse;"></th>';
-                else if (j === 0) {
-
-                    let paramUnitId = rows[i - 1][contractDetailTypeTab.dynamicForm.paramFields.unitId.name];
-                    result += '<td style="border: 1px solid black;border-collapse: collapse;">';
-                    result += '$';
-                    result += '{';
-                    result += rows[i - 1][contractDetailTypeTab.dynamicForm.paramFields.key.name];
-                    result += '}';
-                    if (paramUnitId != null) {
-                        result += '&nbsp;($U';
-                        result += '{';
-                        result += paramUnitId;
-                        result += '})';
-                    }
-                    result += '</td>';
-                } else {
-
-                    result += '<td style="border: 1px solid black;border-collapse: collapse;">';
-                    result += '$';
-                    result += '[';
-                    result += rows[i - 1][contractDetailTypeTab.dynamicForm.paramFields.key.name];
-                    result += ',';
-                    result += columns[j - 1][contractDetailTypeTab.dynamicForm.paramFields.key.name];
-                    result += ']';
-                    result += '</td>';
-                }
-            }
-
-            result += '</tr>';
-        }
-        result += '</table>';
 
         return result;
     },

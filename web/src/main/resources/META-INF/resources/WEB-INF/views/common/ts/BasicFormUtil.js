@@ -110,8 +110,8 @@ var nicico;
                     // </c:if>
                     isc.ToolStrip.create({
                         width: "100%",
-                        align: "left",
                         border: '0px',
+                        align: nicico.CommonUtil.getAlignByLang(),
                         members: [
                             // @ts-ignore
                             isc.ToolStripButtonRefresh.create({
