@@ -268,4 +268,16 @@
                                  validate="true"/>
     </changeSet>
 
+    <changeSet author="NO1 (generated)" id="1598413652601-254">
+        <addColumn tableName="TBL_SHIPMENT">
+            <column name="F_AGENT_CONTACT_ID" type="number(19, 0)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="NO1 (generated)" id="1598413652601-261">
+        <addForeignKeyConstraint baseColumnNames="F_AGENT_CONTACT_ID" baseTableName="TBL_SHIPMENT" constraintName="fk_shipment2ContactByContactAgentId" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_CONTACT" validate="true"/>
+    </changeSet>
+    <changeSet author="NO1 (generated)" id="1598413981763-222">
+        <addNotNullConstraint columnDataType="number(19,0)" columnName="F_AGENT_CONTACT_ID" tableName="TBL_SHIPMENT"/>
+    </changeSet>
+
 </databaseChangeLog>
