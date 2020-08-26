@@ -249,6 +249,7 @@ contractTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
                 contractTab.sectionStack.contract.sections.forEach(section => {
                     let contractDetailObj = {
                         contractDetailTypeId: section.name,
+                        contractDetailTemplate: section.template,
                         id: section.contractDetailId,
                         content: generateContentFromSection(section, section.template),
                         contractDetailValues: []
@@ -293,7 +294,7 @@ contractTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
                             contractDetailObj.contractDetailValues.push({
                                 id: x.contractDetailValueId,
                                 name: listGrid.paramName,
-                                title: listGrid.paramTitle,
+                                title: listGrid.paramName,
                                 key: listGrid.paramKey,
                                 reference: listGrid.reference,
                                 type: "ListOfReference",

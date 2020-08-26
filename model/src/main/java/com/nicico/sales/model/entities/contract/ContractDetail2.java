@@ -54,6 +54,7 @@ public class ContractDetail2 extends BaseEntity {
     private Long contractDetailTypeId;
 
     @Column(name = "C_CONTRACT_DETAIL_TEMPLATE")
+    @Lob
     private String contractDetailTemplate;
 
     @NotAudited
