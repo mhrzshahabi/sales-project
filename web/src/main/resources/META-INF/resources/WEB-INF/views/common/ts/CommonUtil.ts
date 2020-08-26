@@ -34,7 +34,14 @@ namespace nicico {
 
     export class CommonUtil {
 
+        static getAlignByLang: any;
+
         constructor() {
+
+            // @ts-ignore
+            this.getAlignByLang = function () {
+                return "left";
+            };
 
             // @ts-ignore
             isc.Canvas.tag = null;
