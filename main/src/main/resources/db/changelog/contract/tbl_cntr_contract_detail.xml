@@ -14,4 +14,23 @@
             <column name="F_CONTRACT_DETAIL_TYPE_TEMPLATE_ID" type="number(19, 0)"/>
         </addColumn>
     </changeSet>
+
+    <changeSet author="Reza (generated)" id="mazloom_039">
+        <addColumn tableName="TBL_CNTR_CONTRACT_DETAIL">
+            <column name="C_CONTRACT_DETAIL_TEMPLATE" type="CLOB"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="Reza (generated)" id="mazloom_040">
+        <addColumn tableName="TBL_CNTR_CONTRACT_DETAIL_AUD">
+            <column name="C_CONTRACT_DETAIL_TEMPLATE" type="CLOB"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="Reza (generated)" id="mazloom_041">
+        <dropColumn columnName="F_CONTRACT_DETAIL_TYPE_TEMPLATE_ID" tableName="TBL_CNTR_CONTRACT_DETAIL"/>
+    </changeSet>
+    <changeSet author="Reza (generated)" id="mazloom_042">
+        <dropColumn columnName="F_CONTRACT_DETAIL_TYPE_TEMPLATE_ID" tableName="TBL_CNTR_CONTRACT_DETAIL_AUD"/>
+    </changeSet>
+
 </databaseChangeLog>
