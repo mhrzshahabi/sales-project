@@ -55,6 +55,7 @@ isc.defineClass("InvoiceDeductionRow", isc.HLayout).addProperties({
         this.getMembers().last().setUnitId(this.elementFinalAssay.getValues().unitId);
 
         this.addMember(isc.DynamicForm.create({
+            isConversionForm: true,
             numCols: 8,
             fields: [{
                 width: "50",
@@ -105,16 +106,16 @@ isc.defineClass("InvoiceDeductionRow", isc.HLayout).addProperties({
         this.sumDeductionChanged(deductionPriceValue);
 
     },
+    validate: function () {
+
+        let conversionForm = this.getMembers().filter(q => q.isConversionForm).first();
+        conversionForm.validate();
+        return !conversionForm.hasErrors();
+    }
     // calculate: function () {
     //     let rcPriceField = this.getField('rcPrice');
     //     let assayField = this.getField('finalAssay');
     //     this.setValue("deductionPrice", rcPriceField.getValue() * assayField.getValue() * assayField.rcUnitConversionRate);
-    // },
-    // getValue: function () {
-    //     this.getField("deductionPrice").getValue();
-    // },
-    // setValue: function (value) {
-    //     this.setValues(value);
     // }
 });
 

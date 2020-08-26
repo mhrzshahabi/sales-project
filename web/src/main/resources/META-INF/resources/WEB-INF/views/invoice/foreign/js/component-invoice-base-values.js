@@ -70,11 +70,15 @@ isc.defineClass("InvoiceBaseValues", isc.VLayout).addProperties({
                     title: "<spring:message code='global.ok'/>",
                     click: function () {
 
-                        This.okButtonClick();
+                        if (!This.validate())
+                            return;
+                        else {
+                            This.okButtonClick();
 
-                        let tab = This.parentElement.parentElement;
-                        tab.getTab(tab.selectedTab).pane.members.forEach(q => q.disable());
-                        tab.selectTab(tab.selectedTab + 1 % tab.tabs.length);
+                            let tab = This.parentElement.parentElement;
+                            tab.getTab(tab.selectedTab).pane.members.forEach(q => q.disable());
+                            tab.selectTab(tab.selectedTab + 1 % tab.tabs.length);
+                        }
                     }
                 })
             ]
@@ -86,6 +90,12 @@ isc.defineClass("InvoiceBaseValues", isc.VLayout).addProperties({
     },
     okButtonClick: function () {
 
+    },
+    validate: function () {
 
+        if (!this.invoiceBasePriceComponent)
+            return false;
+
+        return true;
     }
 });

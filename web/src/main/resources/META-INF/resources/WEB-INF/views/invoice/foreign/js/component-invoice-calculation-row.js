@@ -57,6 +57,7 @@ isc.defineClass("InvoiceCalculationRow", isc.VLayout).addProperties({
                 }
             }, {
                 showTitle: false,
+                required: true,
                 name: "deductionType",
                 errorOrientation: "bottom",
                 width: "150",
@@ -185,7 +186,17 @@ isc.defineClass("InvoiceCalculationRow", isc.VLayout).addProperties({
 
         return this.getMembers().last().getMembers().filter(q => q.name === "finalAssay").first();
     },
-    // setValue: function (value) {
-    //     this.setValues(value);
-    // }
+    validate: function () {
+
+        this.getMembers()[1].validate();
+        if (this.getMembers()[1].hasErrors())
+            return false;
+        else {
+            let conversionForm = this.getMembers().last().getMembers().filter(q => q.isConversionForm).first();
+            conversionForm.validate();
+            if (conversionForm.hasErrors())
+                return false;
+        }
+        return true;
+    }
 });

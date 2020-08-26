@@ -9,6 +9,7 @@ isc.defineClass("InvoiceBasePrice", isc.VLayout).addProperties({
     membersMargin: 2,
     overflow: "visible",
     contract: null,
+    currency: null,
     shipment: null,
     contractDetailData: null,
     initWidget: function () {
@@ -30,7 +31,8 @@ isc.defineClass("InvoiceBasePrice", isc.VLayout).addProperties({
                 year: year,
                 materialId: material.id,
                 month: month + moasValue,
-                reference: basePriceReference
+                reference: basePriceReference,
+                financeUnitId: This.currency.id
             },
             httpMethod: "GET",
             actionURL: "${contextPath}/api/price-base/get-avg-base-price",
@@ -47,7 +49,7 @@ isc.defineClass("InvoiceBasePrice", isc.VLayout).addProperties({
                             return;
 
                         members.add(isc.Unit.create({
-
+                            hasExist: "exist",
                             unitHint: "PER " + priceBase.weightUnit.nameEN,
                             unitCategory: priceBase.financeUnit.categoryUnit,
                             fieldValueTitle: priceBase.element.name,
@@ -101,7 +103,11 @@ isc.defineClass("InvoiceBasePrice", isc.VLayout).addProperties({
 
         return data;
     },
-    // setValues: function (data) {
-    //     return this.members[1].setValues(data);
-    // }
+    validate: function () {
+
+        if(!this.getMembers().filter(q => q.name === "exist").length)
+            return false;
+
+        return true;
+    }
 });

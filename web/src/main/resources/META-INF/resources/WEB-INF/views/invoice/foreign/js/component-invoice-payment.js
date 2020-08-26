@@ -40,6 +40,11 @@ isc.defineClass("InvoicePayment", isc.VLayout).addProperties({
                 This.getMembers().last().setValue(unitPrice);
                 This.getMembers().last().setUnitId(This.currency.id);
 
+                This.addMember(isc.HTMLFlow.create({
+                    width: "100%",
+                    contents: "<span style='width: 100%; display: block; margin: 10px auto; border-bottom: 1px solid rgba(0,0,0,0.3)'></span>"
+                }));
+
                 This.addMember(isc.Unit.create({
                     isResult: true,
                     unitCategory: This.currency.categoryUnit,
@@ -55,6 +60,7 @@ isc.defineClass("InvoicePayment", isc.VLayout).addProperties({
                 This.getMembers().last().setUnitId(This.currency.id);
 
                 let piValues = JSON.parse(resp.data);
+                let sumPIPrice = piValues.map(q => q.sumPIPrice).sum();
                 for (let index = 0; index < piValues.length; index++) {
 
                     This.addMember(isc.Unit.create({
@@ -67,15 +73,34 @@ isc.defineClass("InvoicePayment", isc.VLayout).addProperties({
                         showUnitField: true,
                         piData: piValues[index],
                         name: "sumPIPrice_" + piValues[index].no,
-                        fieldValueTitle: '<spring:message code="foreign-invoice.form.sum-pi-price"/>',
+                        fieldValueTitle: '<spring:message code="foreign-invoice.form.pi-price"/>',
                         hoverHTML: function (item, form) {
                             return `<div style="font-weight: bolder;">Provisional invoice NO. ` + item.piData.no + `</div>
                             <div>` + item.piData.description + `</div>`;
                         }
                     }));
-                    This.getMembers().last().setValue(piValues[index].sumPrice * -1);
+                    This.getMembers().last().setValue(piValues[index].sumPIPrice * -1);
                     This.getMembers().last().setUnitId(piValues[index].unit.id);
                 }
+
+                This.addMember(isc.HTMLFlow.create({
+                    width: "100%",
+                    contents: "<span style='width: 100%; display: block; margin: 10px auto; border-bottom: 1px solid rgba(0,0,0,0.3)'></span>"
+                }));
+
+                This.addMember(isc.Unit.create({
+                    unitCategory: This.currency.categoryUnit,
+                    disabledUnitField: true,
+                    disabledValueField: true,
+                    showValueFieldTitle: true,
+                    showUnitFieldTitle: false,
+                    showUnitField: false,
+                    name: "sumPrice",
+                    fieldValueTitle: '<spring:message code="foreign-invoice.form.sum-price"/>',
+                }));
+                let sumPrice = sumFIPrice - sumPIPrice;
+                This.getMembers().last().setUnitId(This.currency.id);
+                This.getMembers().last().setValue(sumPrice);
 
                 // let otherValuesGrid = isc.ListGrid.nicico.getDefault(
                 //     null,
@@ -195,48 +220,21 @@ isc.defineClass("InvoicePayment", isc.VLayout).addProperties({
                 //     }
                 // });
 
-                This.addMember(isc.DynamicForm.create({
+                This.addMember(isc.HTMLFlow.create({
                     width: "100%",
-                    titleAlign: "left",
-                    titleWidth: 200,
-                    fields: [{
-                        type: "date",
-                        canEdit: false,
-                        required: true,
-                        name: "conversionDate",
-                        title: "<spring:message code='foreign-invoice.form.conversion-date'/>",
-                        value: This.conversionRate.currencyDate,
-                        validators: [{
-                            type: "required",
-                            validateOnChange: true
-                        }],
-                        // change: function (form, item, value) {
-                        //     form.getField("conversionRefId").setValue(null);
-                        // }
-                    }, {
-                        editorType: "staticText",
-                        required: true,
-                        name: "rateReference",
-                        title: "<spring:message code='foreign-invoice.form.conversion-ref'/>",
-                        value: This.conversionRate.reference
-                        // valueMap: JSON.parse('${Enum_RateReference}'),
-                        // change: function (form, item, value) {
-                        //     form.getField("conversionRefId").setValue(null);
-                        // }
-                    }, {
-                        hidden: true,
-                        required: true,
-                        editorType: "staticText",
-                        name: "conversionRefId",
-                        title: "<spring:message code='foreign-invoice.form.conversion-ref.id'/>",
-                        value: This.conversionRate.id
-                    }, {
-                        required: true,
-                        editorType: "staticText",
-                        name: "conversionRate",
-                        title: "<spring:message code='foreign-invoice.form.conversion-rate'/>",
-                        value: This.conversionRate.currencyRateValue
-                    }]
+                    contents: "<span style='width: 100%; display: block; margin: 30px auto; border-bottom: 0px solid rgba(0,0,0,0.3)'></span>"
+                }));
+
+                let conversionDate = This.conversionRate.currencyDate;
+                let rateReference = This.conversionRate.reference;
+                let conversionRefId = This.conversionRate.id;
+                let conversionRate = This.conversionRate.currencyRateValue;
+                let conversionSumPrice = sumPrice * conversionRate;
+
+                This.addMember(isc.HTMLFlow.create({
+                    width: "100%",
+                    contents: "<span style='width: 100%; text-align: left; margin-bottom: 10px; display: block'>"+ "FINAL BALANCE IN " + This.currency.nameEN +
+                    " BASED ON " + rateReference + " RATE OF " + conversionDate + " - " + conversionRate + ": " + "<span>"
                 }));
 
                 This.addMember(isc.Unit.create({
@@ -246,26 +244,24 @@ isc.defineClass("InvoicePayment", isc.VLayout).addProperties({
                     disabledValueField: true,
                     showValueFieldTitle: true,
                     showUnitFieldTitle: false,
-                    showUnitField: false,
+                    showUnitField: true,
                     name: "conversionSumPrice",
                     fieldValueTitle: "<spring:message code='foreign-invoice.form.conversion-sum-price'/>",
                 }));
                 This.getMembers().last().setUnitId(This.currency.id);
-                // This.calculateConversionPrice();
+                This.getMembers().last().setValue(conversionSumPrice);
 
-                This.addMember(isc.Unit.create({
-                    required: true,
-                    unitCategory: This.currency.categoryUnit,
-                    disabledUnitField: true,
-                    disabledValueField: true,
-                    showValueFieldTitle: true,
-                    showUnitFieldTitle: false,
-                    showUnitField: false,
-                    name: "conversionSumPriceText",
-                    fieldValueTitle: "<spring:message code='foreign-invoice.form.conversion-sum-price-text'/>",
+                This.addMember(isc.DynamicForm.create({
+                    width: "100%",
+                    titleWidth: "120",
+                    titleAlign: "left",
+                    fields: [{
+                        name: "conversionSumPriceText",
+                        title: "<spring:message code='foreign-invoice.form.conversion-sum-price-text'/>",
+                        type: "staticText",
+                        value: numberToEnglish(conversionSumPrice)
+                    }]
                 }));
-                This.getMembers().last().setUnitId(This.currency.id);
-                // fields.last().setValue(numberToEnglish());
 
                 This.addMember(isc.HTMLFlow.create({
                     width: "100%",
@@ -318,7 +314,7 @@ isc.defineClass("InvoicePayment", isc.VLayout).addProperties({
             }
         }));
     },
-    calculateConversionPrice: function () {
+    calculate: function () {
         let conversionRateValue = this.getMembers().last().getMembers().first().getValue("conversionRate");
         let sumFIPriceValue = this.getMembers().first().getMembers().filter(q => q.name === "sumFIPrice").first().getValues().value;
         console.log("conversionRateValue", conversionRateValue, "sumFIPriceValue", sumFIPriceValue);

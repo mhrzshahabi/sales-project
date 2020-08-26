@@ -82,11 +82,15 @@ isc.defineClass("InvoiceDeduction", isc.VLayout).addProperties({
                     title: "<spring:message code='global.ok'/>",
                     click: function () {
 
-                        This.okButtonClick();
+                        if (!This.validate()) return;
+                        else {
 
-                        let tab = This.parentElement.parentElement;
-                        tab.getTab(tab.selectedTab).pane.members.forEach(q => q.disable());
-                        tab.selectTab(tab.selectedTab + 1 % tab.tabs.length)
+                            This.okButtonClick();
+
+                            let tab = This.parentElement.parentElement;
+                            tab.getTab(tab.selectedTab).pane.members.forEach(q => q.disable());
+                            tab.selectTab(tab.selectedTab + 1 % tab.tabs.length);
+                        }
                     }
                 }),
                 isc.ToolStrip.create(
@@ -125,5 +129,11 @@ isc.defineClass("InvoiceDeduction", isc.VLayout).addProperties({
     },
     okButtonClick: function () {
 
+    },
+    validate: function () {
+
+        var isValid = true;
+        this.getMembers().slice(1, this.invoiceCalculationComponent.getValues().length).forEach(q => isValid &= q.validate());
+        return isValid;
     }
 });

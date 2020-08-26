@@ -12,6 +12,7 @@ isc.defineClass("Unit", isc.DynamicForm).addProperties({
     showValueFieldTitle: true,
     showUnitFieldTitle: false,
     showUnitField: true,
+    required: true,
     initWidget: function () {
 
         this.Super("initWidget", arguments);
@@ -19,7 +20,7 @@ isc.defineClass("Unit", isc.DynamicForm).addProperties({
         let This = this;
         this.addField({
             wrapTitle: false,
-            required: true,
+            required: This.required,
             name: "value",
             type: 'float',
             format: "#.000",
@@ -39,6 +40,7 @@ isc.defineClass("Unit", isc.DynamicForm).addProperties({
         });
         this.addField({
             wrapTitle: false,
+            required: This.required,
             type: 'long',
             autoFetchData: false,
             name: "unitId",
@@ -87,5 +89,10 @@ isc.defineClass("Unit", isc.DynamicForm).addProperties({
     },
     setUnitId: function (unitId) {
         this.getItem("unitId").setValue(unitId);
+    },
+    validate: function () {
+
+        this.validate();
+        return !this.hasErrors();
     }
 });
