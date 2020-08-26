@@ -249,7 +249,6 @@ contractTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
                 contractTab.sectionStack.contract.sections.forEach(section => {
                     let contractDetailObj = {
                         contractDetailTypeId: section.name,
-                        contractDetailTypeTemplateId: section.contractDetailTypeTemplateId,
                         id: section.contractDetailId,
                         content: generateContentFromSection(section, section.template),
                         contractDetailValues: []
@@ -293,9 +292,9 @@ contractTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
                             });
                             contractDetailObj.contractDetailValues.push({
                                 id: x.contractDetailValueId,
-                                name: "Not Important",
-                                title: "Not Important",
-                                key: "NotImportant",
+                                name: listGrid.paramName,
+                                title: listGrid.paramTitle,
+                                key: listGrid.paramKey,
                                 reference: listGrid.reference,
                                 type: "ListOfReference",
                                 value: x.id,
@@ -364,7 +363,6 @@ contractTab.variable.contractDetailTypeTemplate.init(null, "<spring:message code
         {
             styleName: "contractDetailTypeTemplate",
             cellDoubleClick: function (record, rowNum, colNum) {
-                this.contractDetailTypeRecord.contractDetailTypeTemplateId = record.id;
                 this.contractDetailTypeRecord.content = record.content;
                 contractTab.method.addSectionByContractDetailType(this.contractDetailTypeRecord);
                 contractTab.variable.contractDetailTypeTemplate.windowWidget.getObject().close();
@@ -499,13 +497,12 @@ contractTab.method.addSectionByContract = function (record) {
     record.contractDetails.forEach(q => {
 
         let sectionStackSectionObj = {
-            template: q.contractDetailTypeTemplate.content,
+            template: q.contractDetailTemplate,
             expanded: false,
             contractDetailId: q.id,
             name: q.contractDetailTypeId,
             title: q.contractDetailType.titleEn,
             content: q.content,
-            contractDetailTypeTemplateId: q.contractDetailTypeTemplateId,
             controls: [isc.IButton.create({
                 size: 32,
                 width: 150,
@@ -588,7 +585,7 @@ contractTab.method.addSectionByContract = function (record) {
 
         let contractDetailValueGroup = q.contractDetailValues.filter(x => x.type === 'ListOfReference').groupBy('reference');
         Object.keys(contractDetailValueGroup).forEach(reference => {
-
+            debugger;
             let contractDetailListGrid = isc.ListGrid.create({
                 width: "100%",
                 height: 300,
@@ -609,6 +606,9 @@ contractTab.method.addSectionByContract = function (record) {
                 listEndEditAction: "next",
                 canRemoveRecords: true,
                 reference: reference,
+                paramName: contractDetailValueGroup[reference][0].name,
+                paramTitle: contractDetailValueGroup[reference][0].title,
+                paramKey: contractDetailValueGroup[reference][0].key,
                 gridComponents: ["header", "body", isc.ToolStrip.create({
                     width: "100%",
                     height: 24,
@@ -663,7 +663,6 @@ contractTab.method.addSectionByContractDetailType = function (record) {
         name: record.id,
         title: record.titleEn,
         contractDetailId: null,
-        contractDetailTypeTemplateId: record.contractDetailTypeTemplateId,
         controls: [isc.IButton.create({
             width: 150,
             icon: "[SKIN]/actions/view.png",
@@ -756,6 +755,9 @@ contractTab.method.addSectionByContractDetailType = function (record) {
             listEndEditAction: "next",
             canRemoveRecords: true,
             reference: param.reference,
+            paramName: param.name,
+            paramTitle: param.title,
+            paramKey: param.key,
             gridComponents: ["header", "body", isc.ToolStrip.create({
                 width: "100%",
                 height: 24,
@@ -791,12 +793,46 @@ contractTab.method.addSectionByContractDetailType = function (record) {
 };
 
 function generateContentFromSection(section, template) {
+
     section.items[0].fields.filter(x => x.isBaseItem == null).forEach(x => {
         if (x.unitId !== undefined)
             template = template.replaceAll('\\${_' + x.unitId + '}', section.items[0].getField(x.name).getHint());
         if (x.paramType == "Reference")
             template = template.replaceAll('\\${' + x.key + '}', section.items[0].getField(x.key).getDisplayValue());
         template = template.replaceAll('\\${' + x.key + '}', section.items[0].values[x.name]);
+    });
+
+    section.items.slice(1, section.items.length).forEach(listGrid => {
+        listGrid.saveAllEdits();
+        let listGridData;
+        if (listGrid.getData() instanceof Array) //create
+            listGridData = listGrid.getData();
+        else { //update
+            listGridData = listGrid.getData().localData
+        }
+
+        var table = "";
+        var tableStartTag = "<table>";
+        var tableEndTag = "</table>";
+        var tableHeader = "";
+        var tableRows = "";
+
+        tableHeader = tableHeader + "<tr>";
+        listGrid.getFields().map(field => field.name).filter(filedName => !filedName.contains("$")).forEach(header => {
+            tableHeader = tableHeader + "<th>" + header + "</th>";
+        });
+        tableHeader = tableHeader + "</tr>";
+
+        listGridData.forEach(record => {
+            tableRows = tableRows + "<tr>";
+            Object.keys(record).filter(allKey => Object.keys(record).filter(allKey => listGrid.getFields().map(field => field.name).contains(allKey))).forEach(key => {
+                tableRows = tableRows + "<td>" + record[key] + "</td>";
+            });
+            tableRows = tableRows + "</tr>";
+        });
+
+        table = table + tableStartTag + tableHeader + tableRows + tableEndTag;
+
     });
     return template;
 }
