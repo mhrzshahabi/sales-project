@@ -21,6 +21,7 @@ public class ContractDetailDTO2 {
     private String content;
     private Long contractId;
     private Long contractDetailTypeId;
+    private Long contractDetailTypeTemplateId;
 
     @Getter
     @Setter
@@ -31,6 +32,7 @@ public class ContractDetailDTO2 {
         private Long id;
 
         private ContractDetailTypeDTO.Info contractDetailType;
+        private ContractDetailTypeTemplateDTO.Info contractDetailTypeTemplate;
         private List<ContractDetailValueDTO.Info> contractDetailValues;
 
         // Auditing

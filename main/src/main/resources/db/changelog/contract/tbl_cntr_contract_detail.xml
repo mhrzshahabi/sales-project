@@ -1,0 +1,17 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+    <changeSet author="Reza Mazloom" id="mazloom_036">
+        <addColumn tableName="TBL_CNTR_CONTRACT_DETAIL">
+            <column name="F_CONTRACT_DETAIL_TYPE_TEMPLATE_ID" type="number(19, 0)"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="Reza Mazloom" id="mazloom_037">
+        <addColumn tableName="TBL_CNTR_CONTRACT_DETAIL_AUD">
+            <column name="F_CONTRACT_DETAIL_TYPE_TEMPLATE_ID" type="number(19, 0)"/>
+        </addColumn>
+    </changeSet>
+</databaseChangeLog>

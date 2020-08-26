@@ -133,6 +133,15 @@ body {
 .cssDynamicForm {
     color: #333333
 }
-.noneStyleFormItem{
+
+.noneStyleFormItem {
     display: none;
+}
+
+.contractDetailPreview {
+    text-align: left;
+}
+
+.contractDetailTypeTemplate table td {
+    text-align: left !important;
 }

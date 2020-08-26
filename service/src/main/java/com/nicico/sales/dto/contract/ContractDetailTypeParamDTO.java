@@ -33,8 +33,6 @@ public class ContractDetailTypeParamDTO {
     private Long unitId;
     private Long contractDetailTypeId;
 
-    private List<ContractDetailTypeParamValueDTO.Info> contractDetailTypeParamValues;
-
     @Getter
     @Setter
     @Accessors(chain = true)
