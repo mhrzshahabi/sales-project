@@ -251,7 +251,7 @@ contractTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
                         contractDetailTypeId: section.name,
                         contractDetailTypeTemplateId: section.contractDetailTypeTemplateId,
                         id: section.contractDetailId,
-                        content: section.content,
+                        content: generateContentFromSection(section, section.template),
                         contractDetailValues: []
                     };
 
@@ -310,7 +310,7 @@ contractTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
                     });
 
                     data.contractDetails.push(contractDetailObj);
-                    data.content = data.content + "<h1>" + section.title + "</h1>" + section.content;
+                    data.content = data.content + "<h1>" + section.title + "</h1>" + contractDetailObj.content;
                 });
 
                 isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
@@ -371,16 +371,45 @@ contractTab.variable.contractDetailTypeTemplate.init(null, "<spring:message code
             }
         }), "50%", 400);
 
-
 contractTab.variable.contractDetailPreview = new nicico.FormUtil();
 contractTab.variable.contractDetailPreview.getButtonLayout = function () {
 };
 contractTab.variable.contractDetailPreview.init(null, "<spring:message code='contract.window.detail.preview'/>",
     isc.HTMLFlow.create({
+        overflow: "auto",
         width: "100%",
         padding: 20,
         styleName: "contractDetailPreview"
-    }), "50%");
+    }), "50%", "400");
+
+contractTab.variable.contractPreview = new nicico.FormUtil();
+contractTab.variable.contractPreview.getButtonLayout = function () {
+};
+contractTab.variable.contractPreview.init(null, "<spring:message code='contract.window.contract.preview'/>",
+    [
+        isc.HTMLFlow.create({
+            overflow: "auto",
+            width: "100%",
+            padding: 20,
+            styleName: "contractDetailPreview"
+        }),
+        isc.ToolStripButtonAdd.create({
+            icon: "[SKIN]/actions/print.png",
+            title: "<spring:message code='global.form.print.pdf'/>",
+            width: "100%",
+            click: function () {
+                var printWindow = window.open('', '', 'height=800,width=800');
+                printWindow.document.write('<html><head><title></title>');
+                printWindow.document.write('</head><body>');
+                printWindow.document.write(contractTab.variable.contractPreview.bodyWidget.getObject().get(0).getContents());
+                printWindow.document.write('</body></html>');
+                printWindow.document.close();
+                printWindow.print();
+            }
+        })
+    ]
+    , "50%", 0.95 * innerHeight);
+
 nicico.BasicFormUtil.getDefaultBasicForm(contractTab, "api/g-contract/", (creator) => {
     contractTab.window.main = isc.Window.nicico.getDefault(null, [
         contractTab.dynamicForm.main,
@@ -391,20 +420,20 @@ nicico.BasicFormUtil.getDefaultBasicForm(contractTab, "api/g-contract/", (creato
 // <c:if test = "${c_entity}">
 // @ts-ignore
 contractTab.toolStrip.main.addMember(isc.ToolStripButtonAdd.create({
-    icon: "pieces/16/icon_view.png",
+    icon: "[SKIN]/actions/print.png",
     title: "<spring:message code='global.form.print'/>",
     click: function () {
         let record = contractTab.listGrid.main.getSelectedRecord();
         if (record == null || record.id == null)
             contractTab.dialog.notSelected();
         else {
-            contractTab.variable.contractDetailPreview.bodyWidget.getObject().setContents(record.content == undefined ? "" : record.content);
-            contractTab.variable.contractDetailPreview.justShowForm();
+            contractTab.variable.contractPreview.bodyWidget.getObject().get(0).setContents(record.content == undefined ? "" : record.content);
+            contractTab.variable.contractPreview.justShowForm();
         }
     }
-}));
-contractTab.menu.main.addMember(isc.Menu.create({
-    icon: "pieces/16/icon_view.png",
+}), 3);
+contractTab.menu.main.data.add({
+    icon: "[SKIN]/actions/print.png",
     title: '<spring:message code="global.form.print"/>',
     click: function () {
         // @ts-ignore
@@ -412,11 +441,12 @@ contractTab.menu.main.addMember(isc.Menu.create({
         if (record == null || record.id == null)
             contractTab.dialog.notSelected();
         else {
-            contractTab.variable.contractDetailPreview.bodyWidget.getObject().setContents(record.content == undefined ? "" : record.content);
-            contractTab.variable.contractDetailPreview.justShowForm();
+            contractTab.variable.contractPreview.bodyWidget.getObject().get(0).setContents(record.content == undefined ? "" : record.content);
+            contractTab.variable.contractPreview.justShowForm();
         }
     }
-}));
+});
+contractTab.menu.main.initWidget();
 // </c:if>
 
 //*************************************************** Functions ********************************************************
@@ -469,6 +499,7 @@ contractTab.method.addSectionByContract = function (record) {
     record.contractDetails.forEach(q => {
 
         let sectionStackSectionObj = {
+            template: q.contractDetailTypeTemplate.content,
             expanded: false,
             contractDetailId: q.id,
             name: q.contractDetailTypeId,
@@ -480,7 +511,8 @@ contractTab.method.addSectionByContract = function (record) {
                 width: 150,
                 icon: "[SKIN]/actions/view.png",
                 click: function () {
-                    contractTab.variable.contractDetailPreview.bodyWidget.getObject().setContents(q.content);
+                    let clickedSection = contractTab.sectionStack.contract.sections.filter(q => q.name === sectionStackSectionObj.name).first();
+                    contractTab.variable.contractDetailPreview.bodyWidget.getObject().setContents(generateContentFromSection(clickedSection, sectionStackSectionObj.template));
                     contractTab.variable.contractDetailPreview.justShowForm();
                 }
             }), isc.IButton.create({
@@ -626,6 +658,7 @@ contractTab.method.addSectionByContract = function (record) {
 contractTab.method.addSectionByContractDetailType = function (record) {
 
     let sectionStackSectionObj = {
+        template: record.content,
         expanded: false,
         name: record.id,
         title: record.titleEn,
@@ -636,7 +669,8 @@ contractTab.method.addSectionByContractDetailType = function (record) {
             icon: "[SKIN]/actions/view.png",
             size: 32,
             click: function () {
-                contractTab.variable.contractDetailPreview.bodyWidget.getObject().setContents(record.content);
+                let clickedSection = contractTab.sectionStack.contract.sections.filter(q => q.name === sectionStackSectionObj.name).first();
+                contractTab.variable.contractDetailPreview.bodyWidget.getObject().setContents(generateContentFromSection(clickedSection, sectionStackSectionObj.template));
                 contractTab.variable.contractDetailPreview.justShowForm();
             }
         }), isc.IButton.create({
@@ -681,9 +715,8 @@ contractTab.method.addSectionByContractDetailType = function (record) {
 
         Object.assign(field, getFieldProperties(field.paramType, field.reference));
         dynamicFormField.push(field);
-        record.content = record.content.replaceAll('\\${' + field.key + '}', field.value);
-        sectionStackSectionObj.content = record.content;
     });
+
     let contractDetailDynamicForm = isc.DynamicForm.create({
         visibility: "hidden",
         width: "100%",
@@ -753,5 +786,17 @@ contractTab.method.addSectionByContractDetailType = function (record) {
         })
         sectionStackSectionObj.items.push(contractDetailListGrid);
     });
+
     contractTab.sectionStack.contract.addSection(sectionStackSectionObj);
 };
+
+function generateContentFromSection(section, template) {
+    section.items[0].fields.filter(x => x.isBaseItem == null).forEach(x => {
+        if (x.unitId !== undefined)
+            template = template.replaceAll('\\${_' + x.unitId + '}', section.items[0].getField(x.name).getHint());
+        if (x.paramType == "Reference")
+            template = template.replaceAll('\\${' + x.key + '}', section.items[0].getField(x.key).getDisplayValue());
+        template = template.replaceAll('\\${' + x.key + '}', section.items[0].values[x.name]);
+    });
+    return template;
+}

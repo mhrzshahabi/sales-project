@@ -64,7 +64,4 @@ public class ContractDetailTypeParam extends BaseEntity {
     @NotNull
     @Column(name = "F_CONTRACT_DETAIL_TYPE_ID", nullable = false)
     private Long contractDetailTypeId;
-
-    @OneToMany(mappedBy = "contractDetailTypeParam", fetch = FetchType.LAZY)
-    private List<ContractDetailTypeParamValue> contractDetailTypeParamValues;
 }
