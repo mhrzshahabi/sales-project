@@ -1,18 +1,13 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ page  import="com.nicico.copper.core.SecurityUtil" %>
 
 //<script>
 
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
-    var d_record = false;
-    var c_record = false;
-    <sec:authorize access="hasAuthority('C_CONTACT')">
-    c_record = true;
-    </sec:authorize>
-    <sec:authorize access="hasAuthority('U_CONTACT')">
-    d_record = true;
-    </sec:authorize>
+     var c_record = "${SecurityUtil.hasAuthority('C_CONTACT')}";
+     var d_record = "${SecurityUtil.hasAuthority('U_CONTACT')}";
 
     var RestDataSource_Country_IN_CONTACT = isc.MyRestDataSource.create(
         {
