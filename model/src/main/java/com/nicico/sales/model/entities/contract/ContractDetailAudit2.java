@@ -25,6 +25,7 @@ public class ContractDetailAudit2 extends BaseEntity {
     private Long revType;
 
     @Column(name = "C_CONTENT", columnDefinition = "TEXT")
+    @Lob
     private String content;
 
     @NotAudited
@@ -47,8 +48,9 @@ public class ContractDetailAudit2 extends BaseEntity {
     @Column(name = "F_CONTRACT_DETAIL_TYPE_ID", nullable = false)
     private Long contractDetailTypeId;
 
-    @Column(name = "F_CONTRACT_DETAIL_TYPE_TEMPLATE_ID")
-    private Long contractDetailTypeTemplateId;
+    @Column(name = "C_CONTRACT_DETAIL_TEMPLATE")
+    @Lob
+    private String contractDetailTemplate;
 
 //    @NotAudited
 //    @OneToMany(mappedBy = "contractDetail", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
