@@ -102,13 +102,13 @@ public class ContractDetailValueService2 implements IContractDetailValueService2
 				final Optional<ContractShipment> contractShipmentOpt = contractShipmentDAO.findById(Long.valueOf(contractDetailValue.getValue()));
 
 				if (contractShipmentOpt.isPresent())
-					return modelMapper.map(contractShipmentOpt.get(), ContractShipmentDTO.Tuple.class);
+					return modelMapper.map(contractShipmentOpt.get(), ContractShipmentDTO.Info.class);
 				break;
 			case "Port":
 				final Optional<Port> portOpt = portDAO.findById(Long.valueOf(contractDetailValue.getValue()));
 
 				if (portOpt.isPresent())
-					return modelMapper.map(portOpt.get(), PortDTO.Tuple.class);
+					return modelMapper.map(portOpt.get(), PortDTO.Info.class);
 				break;
 			case "Unit":
 				final Optional<Unit> unitOpt = unitDAO.findById(Long.valueOf(contractDetailValue.getValue()));

@@ -722,6 +722,179 @@ contractTab.Methods.NewAddendum = function () {
                                                     type: "icon",
                                                     emptyCellValue: '<img src="static/img/pieces/16/icon_add.png">',
                                                     recordClick(viewer, _record, recordNum, field, fieldNum, value, rawValue) {
+                                                        _record.contractDetails.forEach(q => {
+
+                                                            let sectionStackSectionObj = {
+                                                                template: q.contractDetailTemplate,
+                                                                expanded: false,
+                                                                contractDetailId: q.id,
+                                                                name: q.contractDetailTypeId,
+                                                                title: q.contractDetailType.titleEn,
+                                                                content: q.content,
+                                                                controls: [isc.IButton.create({
+                                                                    size: 32,
+                                                                    width: 150,
+                                                                    icon: "[SKIN]/actions/view.png",
+                                                                    click: function () {
+                                                                        let clickedSection = contractTab.sectionStack.Addendum.sections.filter(q => q.name === sectionStackSectionObj.name).first();
+                                                                        contractTab.variable.contractDetailPreview.bodyWidget.getObject().setContents(generateContentFromSection(clickedSection, sectionStackSectionObj.template));
+                                                                        contractTab.variable.contractDetailPreview.justShowForm();
+                                                                    }
+                                                                }), isc.IButton.create({
+                                                                    width: 150,
+                                                                    icon: "[SKIN]/actions/remove.png",
+                                                                    size: 32,
+                                                                    click: function () {
+                                                                        contractTab.sectionStack.Addendum.removeSection(q.contractDetailTypeId + "");
+                                                                    }
+                                                                })],
+                                                                items: []
+                                                            };
+
+                                                            // DynamicForm
+                                                            let dynamicFormFields = [];
+                                                            q.contractDetailValues.filter(x => x.type !== 'ListOfReference').forEach(detailValue => {
+                                                                let field = {
+                                                                    width: "100%",
+                                                                };
+                                                                field.name = detailValue.key;
+                                                                field.key = detailValue.key;
+                                                                field.title = detailValue.title;
+                                                                field.paramType = detailValue.type;
+                                                                field.reference = detailValue.reference;
+                                                                field.value = detailValue.value;
+                                                                if (field.value === "false")
+                                                                    field.value = false;
+                                                                if (field.value === "true")
+                                                                    field.value = true;
+                                                                if (field.paramType === 'GeorgianDate')
+                                                                    field.value = new Date(detailValue.value);
+                                                                field.required = detailValue.required;
+                                                                field.contractDetailValueId = detailValue.id;
+                                                                field.estatus = detailValue.estatus;
+                                                                field.editable = detailValue.editable;
+                                                                field.unitId = detailValue.unitId;
+
+                                                                if (detailValue.unitId !== undefined) {
+                                                                    getReferenceDataSource("Unit").fetchData(
+                                                                        {
+                                                                            _constructor: "AdvancedCriteria",
+                                                                            operator: "and",
+                                                                            criteria: [
+                                                                                {fieldName: "id", operator: "equals", value: detailValue.unitId}
+                                                                            ]
+                                                                        },
+                                                                        function (dsResponse, data) {
+                                                                            contractDetailDynamicForm.getField(field.name).setHint(data[0].symbolUnit);
+                                                                        }
+                                                                    );
+                                                                }
+
+                                                                Object.assign(field, getFieldProperties(field.paramType, field.reference));
+
+                                                                dynamicFormFields.push(field);
+                                                            });
+                                                            let contractDetailDynamicForm = isc.DynamicForm.create({
+                                                                visibility: "hidden",
+                                                                width: "100%",
+                                                                align: "center",
+                                                                titleAlign: "right",
+                                                                numCols: 8,
+                                                                padding: 10,
+                                                                canSubmit: true,
+                                                                showErrorText: true,
+                                                                showErrorStyle: true,
+                                                                showInlineErrors: true,
+                                                                errorOrientation: "bottom",
+                                                                requiredMessage: '<spring:message code="validator.field.is.required"/>',
+                                                                fields: BaseFormItems.concat(dynamicFormFields, true)
+                                                            });
+                                                            sectionStackSectionObj.items.push(contractDetailDynamicForm);
+
+                                                            let contractDetailValueGroup = q.contractDetailValues.filter(x => x.type === 'ListOfReference').groupBy('reference');
+                                                            Object.keys(contractDetailValueGroup).forEach(reference => {
+                                                                debugger;
+                                                                let contractDetailListGrid = isc.ListGrid.create({
+                                                                    width: "100%",
+                                                                    height: 300,
+                                                                    showRowNumbers: true,
+                                                                    canAutoFitFields: false,
+                                                                    allowAdvancedCriteria: true,
+                                                                    alternateRecordStyles: true,
+                                                                    selectionType: "single",
+                                                                    sortDirection: "ascending",
+                                                                    fields: getReferenceFields(reference),
+                                                                    canEdit: true,
+                                                                    editEvent: "doubleClick",
+                                                                    autoSaveEdits: false,
+                                                                    virtualScrolling: false,
+                                                                    showRecordComponents: true,
+                                                                    showRecordComponentsByCell: true,
+                                                                    recordComponentPoolingMode: "recycle",
+                                                                    listEndEditAction: "next",
+                                                                    canRemoveRecords: true,
+                                                                    reference: reference,
+                                                                    paramName: contractDetailValueGroup[reference][0].name,
+                                                                    paramTitle: contractDetailValueGroup[reference][0].title,
+                                                                    paramKey: contractDetailValueGroup[reference][0].key,
+                                                                    gridComponents: ["header", "body", isc.ToolStrip.create({
+                                                                        width: "100%",
+                                                                        height: 24,
+                                                                        members: [
+                                                                            isc.ToolStripButton.create({
+                                                                                icon: "pieces/16/icon_add.png",
+                                                                                title: "<spring:message code='global.add'/>",
+                                                                                click: function () {
+                                                                                    contractDetailListGrid.startEditingNew();
+                                                                                }
+                                                                            }),
+                                                                            isc.ToolStrip.create({
+                                                                                width: "100%",
+                                                                                height: 24,
+                                                                                align: 'left',
+                                                                                border: 0,
+                                                                                members: [
+                                                                                    isc.ToolStripButton.create({
+                                                                                        icon: "pieces/16/save.png",
+                                                                                        title: "<spring:message code='global.form.save'/>",
+                                                                                        click: function () {
+                                                                                            contractDetailListGrid.saveAllEdits();
+                                                                                        }
+                                                                                    })]
+                                                                            })
+                                                                        ]
+                                                                    })]
+                                                                });
+
+                                                                getReferenceDataSource(reference).fetchData(
+                                                                    getReferenceCriteria(contractDetailValueGroup[reference].map(p => p.value)),
+                                                                    function (dsResponse, data) {
+                                                                        contractDetailListGrid.setData(data);
+                                                                        q.contractDetailValues.filter(x => x.type == 'ListOfReference').forEach((detailValue, index) => {
+                                                                            data[index].contractDetailValueId = detailValue.id;
+                                                                            data[index].estatus = detailValue.estatus;
+                                                                            data[index].editable = detailValue.editable;
+                                                                            data[index].version = detailValue.version;
+                                                                        })
+                                                                    }
+                                                                );
+                                                                sectionStackSectionObj.items.push(contractDetailListGrid);
+                                                            });
+                                                            contractTab.sectionStack.Addendum.addSection(sectionStackSectionObj);
+                                                        });
+                                                        
+                                                        
+                                                        
+                                                        
+                                                        
+                                                        
+                                                        
+                                                        
+                                                        
+                                                        
+                                                        
+                                                        
+                                                        return 
                                                         const t = contractRecord.contractDetails.find(cd => cd.contractDetailTypeId === _record.id);
                                                         const sectionStackSectionObj = {
                                                             expanded: false,
