@@ -94,7 +94,7 @@ isc.defineClass("InvoiceBasePrice", isc.VLayout).addProperties({
             data.add({
                 name: current.name,
                 value: values.value,
-                unitId: values.unitId,
+                financeUnitId: values.unitId,
                 elementId: current.elementId,
                 weightUnit: current.weightUnit,
                 financeUnit: current.financeUnit

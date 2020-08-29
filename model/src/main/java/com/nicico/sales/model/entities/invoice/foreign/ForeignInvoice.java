@@ -2,6 +2,7 @@ package com.nicico.sales.model.entities.invoice.foreign;
 
 import com.nicico.sales.model.entities.base.*;
 import com.nicico.sales.model.entities.common.BaseEntity;
+import com.nicico.sales.model.entities.contract.BillOfLanding;
 import com.nicico.sales.model.entities.contract.Contract2;
 import lombok.*;
 import lombok.experimental.Accessors;
@@ -11,6 +12,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -96,15 +98,6 @@ public class ForeignInvoice extends BaseEntity {
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "F_MATERIAL_ITEM_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_foreignInvoice2materialItemByMaterialItemId"))
-    private MaterialItem materialItem;
-
-    @NotNull
-    @Column(name = "F_MATERIAL_ITEM_ID", nullable = false)
-    private Long materialItemId;
-
-    @Setter(AccessLevel.NONE)
-    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "F_BUYER_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_foreignInvoice2contactByBuyerId"))
     private Contact buyer;
 
@@ -141,6 +134,6 @@ public class ForeignInvoice extends BaseEntity {
 
     // *****************************************************************************************************************
 
-//  @OneToMany(mappedBy = "foreignInvoice", fetch = FetchType.LAZY, cascade = CascadeType.DELETE)
-//  private List<BillLading> billLadings;
+    @OneToMany(mappedBy = "foreignInvoice", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<ForeignInvoiceBillOfLanding> billLadings;
 }

@@ -22,6 +22,7 @@ isc.defineClass("InvoiceCalculation", isc.VLayout).addProperties({
         for (let index = 0; index < priceValues.length; index++) {
 
             this.addMember(isc.InvoiceCalculationRow.create({
+                role: "calculationRow",
                 assay: assayValues[index],
                 price: priceValues[index],
                 name: assayValues[index].name,
@@ -69,6 +70,7 @@ isc.defineClass("InvoiceCalculation", isc.VLayout).addProperties({
 
                         if (!This.validate()) return;
                         else {
+
                             This.okButtonClick();
 
                             let tab = This.parentElement.parentElement;
@@ -112,11 +114,16 @@ isc.defineClass("InvoiceCalculation", isc.VLayout).addProperties({
     getValues: function () {
 
         let data = [];
-        this.getMembers().slice(0, this.invoiceBasePriceComponent.getValues().length).forEach(current => {
+        this.getMembers().filter(q => q.role === "calculationRow").forEach(current => {
 
             data.add({
                 name: current.name,
-                finalAssay: current.getFinalAssay(),
+                assay: current.getFinalAssay(),
+                basePrice: current.getBasePrice(),
+                deductionType: current.getDeductionType(),
+                deductionValue: current.getDeductionValue(),
+                deductionPrice: current.getDeductionPrice(),
+                deductionUnitConversionRate: current.getDeductionUnitConversionRate(),
             });
         });
 
@@ -127,7 +134,7 @@ isc.defineClass("InvoiceCalculation", isc.VLayout).addProperties({
     },
     validate: function () {
 
-        var isValid = true;
+        let isValid = true;
         this.getMembers().slice(0, this.invoiceBaseAssayComponent.getValues().length).forEach(q => isValid &= q.validate());
         return isValid;
     }

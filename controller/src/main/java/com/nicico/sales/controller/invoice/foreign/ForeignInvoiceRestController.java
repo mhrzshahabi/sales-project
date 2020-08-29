@@ -68,10 +68,10 @@ public class ForeignInvoiceRestController {
     }
 
     @Loggable
-    @GetMapping(value = "/get-by-contract/{contractId}/{typeId}")
-    public ResponseEntity<List<ForeignInvoiceDTO.Info>> getByContract(@PathVariable Long contractId, @PathVariable Long typeId) {
+    @GetMapping(value = "/get-by-contract")
+    public ResponseEntity<List<ForeignInvoiceDTO.Info>> getByContract(@RequestParam Long invoiceTypeId, @RequestParam Long contractId, @RequestParam Long currencyId) {
 
-        return new ResponseEntity<>(foreignInvoiceService.getByContract(contractId, typeId), HttpStatus.OK);
+        return new ResponseEntity<>(foreignInvoiceService.getByContract(invoiceTypeId, contractId, currencyId), HttpStatus.OK);
     }
 
     @Loggable

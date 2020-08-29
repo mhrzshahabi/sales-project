@@ -106,17 +106,14 @@ isc.defineClass("InvoiceBaseAssay", isc.VLayout).addProperties({
         this.getMembers().slice(1).forEach(current => {
 
             data.add({
-                elementId: current.elementId,
                 name: current.name,
-                value: current.getValues().value,
                 unit: current.unit,
+                elementId: current.elementId,
+                value: current.getValues().value,
                 unitId: current.getValues().unitId
             });
         });
 
         return data;
     },
-    // setValues: function (data) {
-    //     return this.members[0].setValues(data);
-    // }
 });

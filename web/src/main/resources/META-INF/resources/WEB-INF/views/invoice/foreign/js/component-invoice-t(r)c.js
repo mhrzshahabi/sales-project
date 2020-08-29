@@ -34,10 +34,11 @@ isc.defineClass("InvoiceDeduction", isc.VLayout).addProperties({
         for (let index = 0; index < calculationValues.length; index++) {
 
             this.addMember(isc.InvoiceDeductionRow.create({
+                role: "RC",
                 isInvoiceDeductionRow: true,
                 currency: This.currency,
-                elementFinalAssay: calculationValues[index].finalAssay,
-                contractDetailData: This.contractDetailData.rc.filter(q => q.elementName.toUpperCase() === calculationValues[index].name.toUpperCase()).first(),
+                elementFinalAssay: calculationValues[index].assay,
+                rcData: This.contractDetailData.rc.filter(q => q.elementName.toUpperCase() === calculationValues[index].name.toUpperCase()).first(),
                 sumDeductionChanged: function (sumDeduction) {
 
                     let subtotalForm = This.getMembers().filter(q => q.name === "subTotal").first();
@@ -127,12 +128,31 @@ isc.defineClass("InvoiceDeduction", isc.VLayout).addProperties({
         // console.log(this.getMembers());
         return this.getMembers().filter(q => q.name === "subTotal").first().getValues().value;
     },
+    getValues: function () {
+
+        let data = [{
+            name: "TC",
+            value: this.contractDetailData.tc
+        }];
+        this.getMembers().filter(q => q.role === "RC").forEach(current => {
+
+            data.add({
+                name: current.rcData.elementName,
+                assay: current.getFinalAssay(),
+                rcPrice: current.getRCPrice(),
+                rcBasePrice: current.getRCBasePrice(),
+                rcUnitConversionRate: current.getRCUnitConversionRate(),
+            });
+        });
+
+        return data;
+    },
     okButtonClick: function () {
 
     },
     validate: function () {
 
-        var isValid = true;
+        let isValid = true;
         this.getMembers().slice(1, this.invoiceCalculationComponent.getValues().length).forEach(q => isValid &= q.validate());
         return isValid;
     }

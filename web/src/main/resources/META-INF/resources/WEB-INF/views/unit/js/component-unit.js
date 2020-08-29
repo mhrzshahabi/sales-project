@@ -23,7 +23,7 @@ isc.defineClass("Unit", isc.DynamicForm).addProperties({
             required: This.required,
             name: "value",
             type: 'float',
-            format: "#.000",
+            format: "#.##",
             titleAlign: "left",
             keyPressFilter: "[0-9.]",
             title: This.fieldValueTitle,
@@ -89,10 +89,5 @@ isc.defineClass("Unit", isc.DynamicForm).addProperties({
     },
     setUnitId: function (unitId) {
         this.getItem("unitId").setValue(unitId);
-    },
-    validate: function () {
-
-        this.validate();
-        return !this.hasErrors();
     }
 });

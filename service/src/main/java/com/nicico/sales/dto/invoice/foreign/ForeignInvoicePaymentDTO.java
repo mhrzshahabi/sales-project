@@ -31,7 +31,6 @@ public class ForeignInvoicePaymentDTO {
     private Long conversionRefId;
     private Long foreignInvoiceId;
 
-
     @Getter
     @Setter
     @Accessors(chain = true)
@@ -41,7 +40,6 @@ public class ForeignInvoicePaymentDTO {
         private Long id;
         private CurrencyRateDTO.Info conversionRef;
         private ForeignInvoiceDTO.Info foreignInvoice;
-
 
         // Auditing
         private Date createdDate;

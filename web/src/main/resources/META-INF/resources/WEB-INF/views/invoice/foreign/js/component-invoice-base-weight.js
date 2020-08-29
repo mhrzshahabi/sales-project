@@ -9,7 +9,6 @@ isc.defineClass("InvoiceBaseWeight", isc.VLayout).addProperties({
     membersMargin: 2,
     overflow: "visible",
     shipment: null,
-    finalData: {},
     initWidget: function () {
 
         this.Super("initWidget", arguments);
@@ -119,16 +118,10 @@ isc.defineClass("InvoiceBaseWeight", isc.VLayout).addProperties({
     },
     getValues: function () {
 
-        let data = [];
-        this.members.slice(0, this.members.length).forEach((current) => {
-                data.add({name: current.name, value: current.getValues().value})
-            }
-        );
-        return data;
-    },
-    getFinalData: function () {
-
-        this.finalData.weightGW = this.getMembers().filter(q => q.name === "weightGW").first().getValues().value;
-        this.finalData.weightND = this.getMembers().filter(q => q.name === "weightND").first().getValues().value;
+        return {
+            weightGW: this.getMembers().filter(q => q.name === "weightGW").first(),
+            weightND: this.getMembers().filter(q => q.name === "weightND").first(),
+            weightDiff: this.getMembers().filter(q => q.name === "weightDiff").first()
+        };
     }
 });

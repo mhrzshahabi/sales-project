@@ -73,6 +73,7 @@ isc.defineClass("InvoiceBaseValues", isc.VLayout).addProperties({
                         if (!This.validate())
                             return;
                         else {
+
                             This.okButtonClick();
 
                             let tab = This.parentElement.parentElement;
@@ -90,6 +91,14 @@ isc.defineClass("InvoiceBaseValues", isc.VLayout).addProperties({
     },
     okButtonClick: function () {
 
+    },
+    getValues: function () {
+
+        return {
+            assay: this.invoiceBaseAssayComponent.getValues(),
+            weight: this.invoiceBaseWeightComponent.getValues(),
+            basePrice: this.invoiceBasePriceComponent.getValues()
+        }
     },
     validate: function () {
 

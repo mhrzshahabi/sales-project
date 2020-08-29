@@ -396,7 +396,9 @@ namespace nicico {
 
                 if (rpcRequest == null) return;
 
-                if (rpcRequest.callback == null)
+                if (rpcRequest.callback == null) {
+                    
+                    rpcRequest.willHandleError = true;
                     rpcRequest.callback = function (response) {
 
                         if (response.httpResponseCode === 201 || response.httpResponseCode === 200) {
@@ -411,6 +413,7 @@ namespace nicico {
                             if (errorActionHook != null) errorActionHook(response);
                         }
                     };
+                }
 
                 if (rpcRequest.actionURL == null) rpcRequest.actionURL = This.variable.url;
                 if (rpcRequest.httpMethod == null) rpcRequest.httpMethod = This.variable.method;

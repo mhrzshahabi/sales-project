@@ -41,4 +41,11 @@
         </addColumn>
     </changeSet>
 
+    <changeSet author="saeb (generated)" id="1598696536361-271">
+        <dropForeignKeyConstraint baseTableName="TBL_FOREIGN_INVOICE" constraintName="FK_FOREIGNINVOICE2MATERIALITEMBYMATERIALITEMID"/>
+    </changeSet>
+    <changeSet author="saeb (generated)" id="1598696536361-290">
+        <dropColumn columnName="F_MATERIAL_ITEM_ID" tableName="TBL_FOREIGN_INVOICE"/>
+    </changeSet>
+
 </databaseChangeLog>

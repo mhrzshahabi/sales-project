@@ -22,11 +22,9 @@ public class ForeignInvoiceItemDTO {
 
     private BigDecimal weightGW;
     private BigDecimal weightND;
-    private BigDecimal basePrice;
     private BigDecimal treatCost;
     private Long foreignInvoiceId;
     private Long remittanceDetailId;
-
 
     @Getter
     @Setter
@@ -55,6 +53,8 @@ public class ForeignInvoiceItemDTO {
     @Accessors(chain = true)
     @ApiModel("ForeignInvoiceItemCreateRq")
     public static class Create extends ForeignInvoiceItemDTO {
+
+        private List<ForeignInvoiceItemDetailDTO.Create> foreignInvoiceItemDetails;
     }
 
     @Getter
