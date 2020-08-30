@@ -68,9 +68,9 @@ public class AssayInspectionRestController {
 
     @Loggable
     @GetMapping(value = "/get-assay-values")
-    public ResponseEntity<List<AssayInspectionDTO.InfoWithoutInspectionReportAndInventory>> getAssayValues(@RequestParam Long shipmentId, @RequestParam Integer reportMilestone) {
+    public ResponseEntity<List<AssayInspectionDTO.InfoWithoutInspectionReportAndInventory>> getAssayValues(@RequestParam Long shipmentId, @RequestParam Integer reportMilestone, @RequestParam List<Long> inventoryIds) {
 
         InspectionReportMilestone reportMilestoneEnum = new AllConverters.InspectionReportMilestoneConverter().convertToEntityAttribute(reportMilestone);
-        return new ResponseEntity<>(iAssayInspectionService.getAssayValues(shipmentId, reportMilestoneEnum), HttpStatus.OK);
+        return new ResponseEntity<>(iAssayInspectionService.getAssayValues(shipmentId, reportMilestoneEnum, inventoryIds), HttpStatus.OK);
     }
 }

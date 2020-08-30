@@ -8,11 +8,12 @@ isc.defineClass("InvoicePayment", isc.VLayout).addProperties({
     membersMargin: 2,
     overflow: "auto",
     currency: null,
-    contract: null,
+    shipment: null,
     conversionRef: null,
     invoiceDeductionComponent: null,
     invoiceBaseWeightComponent: null,
     invoiceCalculationComponent: null,
+    paymentForm: new nicico.FindFormUtil(),
     initWidget: function () {
 
         this.Super("initWidget", arguments);
@@ -22,10 +23,10 @@ isc.defineClass("InvoicePayment", isc.VLayout).addProperties({
             httpMethod: "GET",
             params: {
                 currencyId: This.currency.id,
-                contractId: This.contract.id,
+                shipmentId: This.shipment.id,
                 invoiceTypeId: ImportantIDs.invoiceType.PROVISIONAL
             },
-            actionURL: "${contextPath}/api/foreign-invoice/get-by-contract",
+            actionURL: "${contextPath}/api/foreign-invoice/get-by-shipment",
             callback: function (resp) {
 
                 let unitPrice = This.invoiceCalculationComponent.getCalculationSubTotal() - This.invoiceDeductionComponent.getDeductionSubTotal();
@@ -120,123 +121,6 @@ isc.defineClass("InvoicePayment", isc.VLayout).addProperties({
                 This.getMembers().last().setUnitId(This.currency.id);
                 This.getMembers().last().setValue(sumPrice);
 
-                // let otherValuesGrid = isc.ListGrid.nicico.getDefault(
-                //     null,
-                //     isc.MyRestDataSource.create({
-                //         fields: BaseFormItems.concat([
-                //             {
-                //                 showHover: true,
-                //                 name: "docNo",
-                //                 title: "<spring:message code='foreign-invoice.form.no'/>"
-                //             },
-                //             {
-                //                 showHover: true,
-                //                 name: "docDate",
-                //                 title: "<spring:message code='foreign-invoice.form.date'/>"
-                //             },
-                //             {
-                //                 showHover: true,
-                //                 name: "docSumValue",
-                //                 title: "<spring:message code='foreign-invoice.form.sum-price'/>"
-                //             },
-                //             {
-                //                 showHover: true,
-                //                 name: "docConversionDate",
-                //                 title: "<spring:message code='foreign-invoice.form.conversion-date'/>"
-                //             },
-                //             {
-                //                 showHover: true,
-                //                 name: "docConversionRate",
-                //                 title: "<spring:message code='foreign-invoice.form.conversion-rate'/>"
-                //             },
-                //             {
-                //                 showHover: true,
-                //                 name: "docConversionPrice",
-                //                 title: "<spring:message code='foreign-invoice.form.conversion-sum-price'/>"
-                //             },
-                //             {
-                //                 showHover: true,
-                //                 name: "portion",
-                //                 title: "<spring:message code='foreign-invoice.form.payment-buyer-portion'/>"
-                //             },
-                //             {
-                //                 showHover: true,
-                //                 name: "description",
-                //                 title: "<spring:message code='global.description'/>"
-                //             },
-                //             {
-                //                 hidden: true,
-                //                 showHover: true,
-                //                 name: "conversionRefId",
-                //                 title: "<spring:message code='foreign-invoice.form.conversion-ref.id'/>"
-                //             }
-                //         ]),
-                //         fetchDataURL: "${contextPath}/api/foreign-invoice/get-payment-by-contract/" + This.contract.id
-                //     }), null, {
-                //         showFilterEditor: false,
-                //         selectionType: "simple",
-                //     }
-                // );
-                // This.addMember(otherValuesGrid);
-
-                // let sumOfVOtherValuesGrid = otherValuesGrid.getData().map(q => q.finalValue).sum();
-                // let sumOfValuesForm = valuesForm.fields.filter(q => q.isResult).map(q => q.getValue()).sum();
-                // fields.add(isc.Unit.create({
-                //     unitCategory: This.currency.categoryUnit,
-                //     disabledUnitField: true,
-                //     disabledValueField: true,
-                //     showValueFieldTitle: true,
-                //     showUnitFieldTitle: false,
-                //     showUnitField: false,
-                //     name: "sumPrice",
-                //     fieldValueTitle: '<spring:message code="foreign-invoice.form.sum-price"/>',
-                //     border: "1px solid rgba(0, 0, 0, 0.3)",
-                // }));
-                // fields.last().setUnitId(This.currency.id);
-                // fields.last().setValue(sumOfValuesForm + sumOfVOtherValuesGrid);
-
-                // fields.add({
-                //     type: "button",
-                //     title: "<spring:message code='global.form.apply'/>",
-                //     click: function (form, item) {
-                //
-                //         let rateReference = form.getValue("rateReference");
-                //         let conversionDate = form.getValue("conversionDate");
-                //         if (rateReference == null || conversionDate == null)
-                //             return;
-                //
-                //         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                //
-                //             httpMethod: "GET",
-                //             actionURL: "${contextPath}/api/currencyRate/get-rate",
-                //             params: {rateReference: rateReference, conversionDate: conversionDate},
-                //             callback: function (resp) {
-                //
-                //                 if (resp && (resp.httpResponseCode === 200 || resp.httpResponseCode === 201)) {
-                //
-                //                     let data = JSON.parse(resp);
-                //                     if (data == null) {
-                //
-                //                         form.setValue("conversionRate", null);
-                //                         form.setValue("conversionRefId", null);
-                //                         form.setValue("conversionSumPrice", null);
-                //                         form.setValue("conversionSumPriceText", null);
-                //                         return;
-                //                     }
-                //
-                //                     form.setValue("conversionRefId", data.id);
-                //                     form.setValue("conversionRate", data.value);
-                //
-                //                     let convertedPrice = data.value * form.getValue("sumPrice");
-                //                     form.setValue("conversionSumPrice", convertedPrice);
-                //                     form.setValue("conversionSumPriceText", convertedPrice.toPersianLetter());
-                //                 } else
-                //                     isc.say(resp.data);
-                //             }
-                //         }));
-                //     }
-                // });
-
                 let conversionDate;
                 let rateReference;
                 let conversionRefId;
@@ -293,33 +177,99 @@ isc.defineClass("InvoicePayment", isc.VLayout).addProperties({
                     }]
                 }));
 
+                This.addMember(isc.IButton.create({
+                    width: "100",
+                    right: "10",
+                    position: "absolute",
+                    icon: "pieces/512/sanad.png",
+                    click: function () {
+
+                        This.paymentForm.showFindFormByRestApiUrl(null, "50%", "500",
+                            "<spring:message code='foreign-invoice.form.tab.payment'/>", null,
+                            "${contextPath}/api/shipmentCostInvoice/spec-list", BaseFormItems.concat([
+                                {
+                                    showHover: true,
+                                    name: "docNo",
+                                    title: "<spring:message code='foreign-invoice.form.no'/>"
+                                },
+                                {
+                                    showHover: true,
+                                    name: "docDate",
+                                    title: "<spring:message code='foreign-invoice.form.date'/>"
+                                },
+                                {
+                                    showHover: true,
+                                    name: "docSumValue",
+                                    title: "<spring:message code='foreign-invoice.form.sum-price'/>"
+                                },
+                                {
+                                    showHover: true,
+                                    name: "docConversionDate",
+                                    title: "<spring:message code='foreign-invoice.form.conversion-date'/>"
+                                },
+                                {
+                                    showHover: true,
+                                    name: "docConversionRate",
+                                    title: "<spring:message code='foreign-invoice.form.conversion-rate'/>"
+                                },
+                                {
+                                    showHover: true,
+                                    name: "docConversionPrice",
+                                    title: "<spring:message code='foreign-invoice.form.conversion-sum-price'/>"
+                                },
+                                {
+                                    showHover: true,
+                                    name: "portion",
+                                    title: "<spring:message code='foreign-invoice.form.payment-buyer-portion'/>"
+                                },
+                                {
+                                    showHover: true,
+                                    name: "description",
+                                    title: "<spring:message code='global.description'/>"
+                                },
+                                {
+                                    hidden: true,
+                                    showHover: true,
+                                    name: "conversionRefId",
+                                    title: "<spring:message code='foreign-invoice.form.conversion-ref.id'/>"
+                                }
+                            ]), null, {
+                                operator: "and",
+                                criteria: [{
+                                    fieldName: "shipmentId",
+                                    operator: "equals",
+                                    value: This.shipment.id
+                                }]
+                            }, 0);
+                    }
+                }));
+
                 This.addMember(isc.HTMLFlow.create({
                     width: "100%",
                     contents: "<span style='width: 100%; display: block; margin: 10px auto; border-bottom: 1px solid rgba(0,0,0,0.3)'></span>"
                 }));
 
                 This.addMember(isc.ToolStrip.create({
-                        width: "100%",
-                        align: "right",
-                        border: '0px',
-                        members: [
-                            isc.ToolStripButton.create({
-                                width: "100",
-                                height: "25",
-                                autoFit: false,
-                                title: "<spring:message code='global.cancel'/>",
-                                click: function () {
+                    width: "100%",
+                    align: "right",
+                    border: '0px',
+                    members: [
+                        isc.ToolStripButton.create({
+                            width: "100",
+                            height: "25",
+                            autoFit: false,
+                            title: "<spring:message code='global.cancel'/>",
+                            click: function () {
 
-                                    let tab = This.parentElement.parentElement;
-                                    let selectedTab = tab.selectedTab;
-                                    tab.getTab(tab.selectedTab - 1).pane.members.forEach(q => q.enable());
-                                    tab.selectTab(selectedTab - 1);
-                                    tab.removeTab(selectedTab);
-                                }
-                            })
-                        ]
-                    })
-                );
+                                let tab = This.parentElement.parentElement;
+                                let selectedTab = tab.selectedTab;
+                                tab.getTab(tab.selectedTab - 1).pane.members.forEach(q => q.enable());
+                                tab.selectTab(selectedTab - 1);
+                                tab.removeTab(selectedTab);
+                            }
+                        })
+                    ]
+                }));
 
                 This.addMember(isc.HTMLFlow.create({
                     width: "100%",
@@ -337,7 +287,10 @@ isc.defineClass("InvoicePayment", isc.VLayout).addProperties({
     getValues: function () {
 
         return {
-            unitPrice: this.getMembers().filter(q => q.name === "unitPrice").first(),
+
+            shipmentCostInvoices: null,
+            unitCost: this.invoiceDeductionComponent.getDeductionSubTotal(),
+            unitPrice: this.invoiceCalculationComponent.getCalculationSubTotal(),
             sumFIPrice: this.getMembers().filter(q => q.name === "sumFIPrice").first(),
             sumPrice: this.getMembers().filter(q => q.name === "sumPrice").first(),
             conversionSumPrice: this.getMembers().filter(q => q.name === "conversionSumPrice").first(),

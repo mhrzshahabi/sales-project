@@ -48,4 +48,39 @@
         <dropColumn columnName="F_MATERIAL_ITEM_ID" tableName="TBL_FOREIGN_INVOICE"/>
     </changeSet>
 
+    <changeSet author="saeb (generated)" id="1598775111759-271">
+        <dropForeignKeyConstraint baseTableName="TBL_FOREIGN_INVOICE" constraintName="FK_FOREIGNINVOICE2UNITBYUNITID"/>
+    </changeSet>
+    <changeSet author="saeb (generated)" id="1598775111759-290">
+        <dropColumn columnName="F_UNIT_ID" tableName="TBL_FOREIGN_INVOICE"/>
+    </changeSet>
+
+    <changeSet author="saeb (generated)" id="1598775111759-257">
+        <addColumn tableName="TBL_FOREIGN_INVOICE">
+            <column name="F_CURRENCY_ID" type="number(19, 0)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="saeb (generated)" id="1598775111759-263">
+        <addForeignKeyConstraint baseColumnNames="F_CURRENCY_ID" baseTableName="TBL_FOREIGN_INVOICE" constraintName="fk_foreignInvoice2unitByCurrencyId" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_UNIT" validate="true"/>
+    </changeSet>
+
+    <changeSet author="saeb (generated)" id="1598823410000-257">
+        <addColumn tableName="TBL_FOREIGN_INVOICE">
+            <column name="F_SHIPMENT_ID" type="number(19, 0)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="saeb (generated)" id="1598823410000-263">
+        <addForeignKeyConstraint baseColumnNames="F_SHIPMENT_ID" baseTableName="TBL_FOREIGN_INVOICE" constraintName="fk_foreignInvoice2shipmentByShipmentId" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_SHIPMENT" validate="true"/>
+    </changeSet>
+    <changeSet author="saeb (generated)" id="1598823410000-263">
+        <addForeignKeyConstraint baseColumnNames="F_SHIPMENT_ID" baseTableName="TBL_FOREIGN_INVOICE" constraintName="fk_foreignInvoice2shipmentByShipmentId" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_SHIPMENT" validate="true"/>
+    </changeSet>
+    <changeSet author="saeb (generated)" id="1598823410000-290">
+        <dropColumn columnName="F_CONTRACT_ID" tableName="TBL_FOREIGN_INVOICE"/>
+    </changeSet>
+
 </databaseChangeLog>

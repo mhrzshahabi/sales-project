@@ -9,6 +9,7 @@ isc.defineClass("InvoiceBaseAssay", isc.VLayout).addProperties({
     membersMargin: 2,
     overflow: "visible",
     shipment: null,
+    remittanceDetail: null,
     initWidget: function () {
 
         this.Super("initWidget", arguments);
@@ -37,7 +38,8 @@ isc.defineClass("InvoiceBaseAssay", isc.VLayout).addProperties({
                         willHandleError: true,
                         params: {
                             reportMilestone: value,
-                            shipmentId: This.shipment.id
+                            shipmentId: This.shipment.id,
+                            inventoryIds: [This.remittanceDetail.inventoryId]
                         },
                         actionURL: "${contextPath}" + "/api/assayInspection/get-assay-values",
                         callback: function (resp) {
@@ -45,7 +47,7 @@ isc.defineClass("InvoiceBaseAssay", isc.VLayout).addProperties({
                             if (resp.data && (resp.httpResponseCode === 200 || resp.httpResponseCode === 201)) {
 
                                 let assayValues = JSON.parse(resp.data);
-                                if (assayValues == null)
+                                if (!assayValues || !assayValues.length)
                                     return;
 
                                 let members = [];
@@ -54,11 +56,12 @@ isc.defineClass("InvoiceBaseAssay", isc.VLayout).addProperties({
                                     if (!assayValues[index].materialElement.element.payable)
                                         continue;
 
-                                    let elementWidget = This.getMembers().filter(q => q.name === assayValues[index].materialElement.element.name).first();
+                                    let elementWidget = This.getMembers().filter(q => q.elementId === assayValues[index].materialElement.element.id).first();
                                     if (elementWidget) {
 
                                         elementWidget.setValue(assayValues[index].value);
                                         elementWidget.setUnitId(assayValues[index].materialElement.unit.id);
+                                        elementWidget.materialElementId = assayValues[index].materialElement.id;
                                         elementWidget.unitCategory = assayValues[index].materialElement.unit.categoryUnit;
                                     } else {
 
@@ -69,6 +72,7 @@ isc.defineClass("InvoiceBaseAssay", isc.VLayout).addProperties({
                                             showValueFieldTitle: true,
                                             showUnitFieldTitle: false,
                                             name: assayValues[index].materialElement.element.name,
+                                            materialElementId: assayValues[index].materialElement.id,
                                             fieldValueTitle: assayValues[index].materialElement.element.name,
                                             unitCategory: assayValues[index].materialElement.unit.categoryUnit,
                                             unit: assayValues[index].materialElement.unit,
@@ -89,6 +93,7 @@ isc.defineClass("InvoiceBaseAssay", isc.VLayout).addProperties({
                                     q.setValue(null)
                                     q.setUnitId(null);
                                     q.unitCategory = null;
+                                    q.materialElementId = null;
                                 });
                             }
                         }
@@ -109,6 +114,7 @@ isc.defineClass("InvoiceBaseAssay", isc.VLayout).addProperties({
                 name: current.name,
                 unit: current.unit,
                 elementId: current.elementId,
+                materialElementId: current.materialElementId,
                 value: current.getValues().value,
                 unitId: current.getValues().unitId
             });

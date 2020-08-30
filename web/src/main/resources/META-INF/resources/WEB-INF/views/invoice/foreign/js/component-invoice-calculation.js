@@ -21,11 +21,14 @@ isc.defineClass("InvoiceCalculation", isc.VLayout).addProperties({
 
         for (let index = 0; index < priceValues.length; index++) {
 
+            let assayValue = assayValues.filter(q => q.elementId === priceValues[index].elementId).first();
             this.addMember(isc.InvoiceCalculationRow.create({
                 role: "calculationRow",
-                assay: assayValues[index],
+                assay: assayValue,
+                name: assayValue.name,
                 price: priceValues[index],
-                name: assayValues[index].name,
+                elementId: priceValues[index].elementId,
+                materialElementId: assayValue.materialElementId,
                 sumPriceChanged: function (sumPrice) {
 
                     let subtotalForm = This.getMembers().filter(q => q.name === "subTotal").first();
@@ -118,6 +121,8 @@ isc.defineClass("InvoiceCalculation", isc.VLayout).addProperties({
 
             data.add({
                 name: current.name,
+                elementId: current.elementId,
+                materialElementId: current.materialElementId,
                 assay: current.getFinalAssay(),
                 basePrice: current.getBasePrice(),
                 deductionType: current.getDeductionType(),

@@ -11,6 +11,6 @@ import java.util.List;
 @Repository
 public interface ForeignInvoiceDAO extends JpaRepository<ForeignInvoice, Long>, JpaSpecificationExecutor<ForeignInvoice> {
 
-    List<ForeignInvoice> findAllByContractIdAndInvoiceTypeId(@Param("contractId") Long contractId, @Param("invoiceTypeId") Long invoiceTypeId);
+    List<ForeignInvoice> findAllByShipmentIdAndInvoiceTypeId(@Param("shipmentId") Long shipmentId, @Param("invoiceTypeId") Long invoiceTypeId);
 
 }

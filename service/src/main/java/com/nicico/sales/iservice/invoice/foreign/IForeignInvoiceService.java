@@ -35,6 +35,6 @@ public interface IForeignInvoiceService {
 
     SearchDTO.SearchRs<ForeignInvoiceDTO.Info> search(SearchDTO.SearchRq request);
 
-    List<ForeignInvoiceDTO.Info> getByContract(Long invoiceTypeId, Long contractId, Long currencyId);
+    List<ForeignInvoiceDTO.Info> getByShipment(Long invoiceTypeId, Long shipmentId, Long currencyId);
 
 }

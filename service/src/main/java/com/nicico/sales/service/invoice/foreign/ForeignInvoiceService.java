@@ -26,11 +26,11 @@ public class ForeignInvoiceService extends GenericService<ForeignInvoice, Long, 
 
     @Override
     @Transactional
-    public List<ForeignInvoiceDTO.Info> getByContract(Long invoiceTypeId, Long contractId, Long currencyId) {
+    public List<ForeignInvoiceDTO.Info> getByShipment(Long invoiceTypeId, Long shipmentId, Long currencyId) {
 
-        List<ForeignInvoice> allByContractIdAndInvoiceTypeId = ((ForeignInvoiceDAO) repository).findAllByContractIdAndInvoiceTypeId(contractId, invoiceTypeId);
+        List<ForeignInvoice> allByContractIdAndInvoiceTypeId = ((ForeignInvoiceDAO) repository).findAllByShipmentIdAndInvoiceTypeId(shipmentId, invoiceTypeId);
         final List<ForeignInvoice> foreignInvoicePI = allByContractIdAndInvoiceTypeId.stream().
-                filter(q -> q.getUnitId().longValue() != currencyId && (q.getConversionRef() == null || q.getConversionRef().getUnitToId().longValue() != currencyId))
+                filter(q -> q.getCurrencyId().longValue() != currencyId && (q.getConversionRef() == null || q.getConversionRef().getUnitToId().longValue() != currencyId))
                 .collect(Collectors.toList());
 
         if (foreignInvoicePI.size() != 0) {

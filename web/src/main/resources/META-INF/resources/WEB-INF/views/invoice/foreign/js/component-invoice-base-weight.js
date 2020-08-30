@@ -9,6 +9,7 @@ isc.defineClass("InvoiceBaseWeight", isc.VLayout).addProperties({
     membersMargin: 2,
     overflow: "visible",
     shipment: null,
+    remittanceDetail: null,
     initWidget: function () {
 
         this.Super("initWidget", arguments);
@@ -38,14 +39,16 @@ isc.defineClass("InvoiceBaseWeight", isc.VLayout).addProperties({
                         willHandleError: true,
                         params: {
                             reportMilestone: value,
-                            shipmentId: This.shipment.id
+                            shipmentId: This.shipment.id,
+                            inventoryIds: [This.remittanceDetail.inventoryId]
                         },
                         actionURL: "${contextPath}" + "/api/weightInspection/get-weight-values",
                         callback: function (resp) {
 
                             if (resp.data && (resp.httpResponseCode === 200 || resp.httpResponseCode === 201)) {
 
-                                let weightValue = JSON.parse(resp.data);
+                                let weightValues = JSON.parse(resp.data);
+                                let weightValue = weightValues && weightValues.length ? weightValues[0] : null;
                                 if (weightValue == null)
                                     return;
 

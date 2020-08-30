@@ -60,10 +60,10 @@ public class WeightInspectionRestController {
 
     @Loggable
     @GetMapping(value = "/get-weight-values")
-    public ResponseEntity<WeightInspectionDTO.InfoWithoutInspectionReportAndInventory> getWeightValues(@RequestParam Long shipmentId, @RequestParam Integer reportMilestone) {
+    public ResponseEntity<List<WeightInspectionDTO.InfoWithoutInspectionReportAndInventory>> getWeightValues(@RequestParam Long shipmentId, @RequestParam Integer reportMilestone, @RequestParam List<Long> inventoryIds) {
 
         InspectionReportMilestone reportMilestoneEnum = new AllConverters.InspectionReportMilestoneConverter().convertToEntityAttribute(reportMilestone);
-        return new ResponseEntity<>(iWeightInspectionService.getWeightValues(shipmentId, reportMilestoneEnum), HttpStatus.OK);
+        return new ResponseEntity<>(iWeightInspectionService.getWeightValues(shipmentId, reportMilestoneEnum, inventoryIds), HttpStatus.OK);
     }
 
     @Loggable

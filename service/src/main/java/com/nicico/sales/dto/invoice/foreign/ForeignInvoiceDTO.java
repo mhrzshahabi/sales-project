@@ -38,12 +38,11 @@ public class ForeignInvoiceDTO {
     private String description;
     private Long accountingId;
     private Long conversionRefId;
-    private Long unitId;
+    private Long currencyId;
     private Long buyerId;
     private Long invoiceTypeId;
     private Long contractId;
     private Long creatorId;
-    private List<ForeignInvoiceBillOfLandingDTO.Info> billLadings;
 
     @Getter
     @Setter
@@ -53,11 +52,12 @@ public class ForeignInvoiceDTO {
 
         private Long id;
         private CurrencyRateDTO.Info conversionRef;
-        private UnitDTO.Info unit;
+        private UnitDTO.Info currency;
         private ContactDTO.Info buyer;
         private InvoiceTypeDTO.Info invoiceType;
         private ContractDTO2.Info contract;
         private PersonDTO.Info creator;
+        private List<ForeignInvoiceBillOfLandingDTO.Info> billLadings;
 
         // Auditing
         private Date createdDate;
@@ -78,6 +78,7 @@ public class ForeignInvoiceDTO {
     @ApiModel("ForeignInvoiceCreateRq")
     public static class Create extends ForeignInvoiceDTO {
 
+        private List<Long> billLadingIds;
         private ForeignInvoicePaymentDTO.Create foreignInvoicePayment;
         private List<ForeignInvoiceItemDTO.Create> foreignInvoiceItems;
     }
