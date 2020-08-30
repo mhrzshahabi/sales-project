@@ -11,5 +11,5 @@ import java.util.List;
 @Repository
 public interface AssayInspectionDAO extends JpaRepository<AssayInspection, Long>, JpaSpecificationExecutor<AssayInspection> {
 
-    List<AssayInspection> findAllByInventoryIdIn(@Param("inventoryIds") List<Long> inventoryIds);
+    List<AssayInspection> findAllByShipmentIdAndInventoryIdIn(@Param("shipmentId") Long shipmentId, @Param("inventoryIds") List<Long> inventoryIds);
 }

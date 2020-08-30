@@ -24,4 +24,8 @@
         <dropColumn columnName="N_DEDUCTION_VALUE" tableName="TBL_FOREIGN_INVOICE_ITEM"/>
     </changeSet>
 
+    <changeSet author="saeb (generated)" id="1598696536361-291">
+        <dropColumn columnName="N_BASE_PRICE" tableName="TBL_FOREIGN_INVOICE_ITEM"/>
+    </changeSet>
+
 </databaseChangeLog>

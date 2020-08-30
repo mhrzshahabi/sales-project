@@ -40,4 +40,10 @@
         <dropColumn tableName="TBL_INSPECTION_REPORT" columnName="F_REMITTANCE_DETAIL_ID"/>
     </changeSet>
 
+    <changeSet author="MShahabi" id="1799887766554-039">
+        <addColumn tableName="TBL_INSPECTION_REPORT">
+            <column name="C_DESCRIPTION" type="VARCHAR2(255 CHAR)"/>
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>

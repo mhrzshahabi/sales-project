@@ -5,6 +5,8 @@ import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.sales.dto.WeightInspectionDTO;
 import com.nicico.sales.iservice.IWeightInspectionService;
+import com.nicico.sales.model.enumeration.AllConverters;
+import com.nicico.sales.model.enumeration.InspectionReportMilestone;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -57,9 +59,11 @@ public class WeightInspectionRestController {
     }
 
     @Loggable
-    @GetMapping(value = "/get-weight-values") //Error
-    public ResponseEntity<List<WeightInspectionDTO.WeightData>> getWeightValues(@RequestParam List<Long> inventoryIds, @RequestParam Boolean doIntegration) {
-        return new ResponseEntity<>(iWeightInspectionService.getWeightValues(inventoryIds, doIntegration), HttpStatus.OK);
+    @GetMapping(value = "/get-weight-values")
+    public ResponseEntity<List<WeightInspectionDTO.InfoWithoutInspectionReportAndInventory>> getWeightValues(@RequestParam Long shipmentId, @RequestParam Integer reportMilestone, @RequestParam List<Long> inventoryIds) {
+
+        InspectionReportMilestone reportMilestoneEnum = new AllConverters.InspectionReportMilestoneConverter().convertToEntityAttribute(reportMilestone);
+        return new ResponseEntity<>(iWeightInspectionService.getWeightValues(shipmentId, reportMilestoneEnum, inventoryIds), HttpStatus.OK);
     }
 
     @Loggable

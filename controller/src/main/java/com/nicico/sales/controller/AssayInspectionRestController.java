@@ -5,6 +5,8 @@ import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.sales.dto.AssayInspectionDTO;
 import com.nicico.sales.iservice.IAssayInspectionService;
+import com.nicico.sales.model.enumeration.AllConverters;
+import com.nicico.sales.model.enumeration.InspectionReportMilestone;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -66,8 +68,9 @@ public class AssayInspectionRestController {
 
     @Loggable
     @GetMapping(value = "/get-assay-values")
-    public ResponseEntity<List<AssayInspectionDTO.AssayData>> getAssayValues(@RequestParam List<Long> inventoryIds, @RequestParam Boolean doIntegration) {
+    public ResponseEntity<List<AssayInspectionDTO.InfoWithoutInspectionReportAndInventory>> getAssayValues(@RequestParam Long shipmentId, @RequestParam Integer reportMilestone, @RequestParam List<Long> inventoryIds) {
 
-        return new ResponseEntity<>(iAssayInspectionService.getAssayValues(inventoryIds, doIntegration), HttpStatus.OK);
+        InspectionReportMilestone reportMilestoneEnum = new AllConverters.InspectionReportMilestoneConverter().convertToEntityAttribute(reportMilestone);
+        return new ResponseEntity<>(iAssayInspectionService.getAssayValues(shipmentId, reportMilestoneEnum, inventoryIds), HttpStatus.OK);
     }
 }

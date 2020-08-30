@@ -96,41 +96,61 @@
 
         eStatus: {
             "Active": "عادی",
-            "DeActive": "حذف شده"
+            "DeActive": "حذف شده",
+            "Final": "نهایی شده"
         },
         eStatus2: JSON.parse('${Enum_EStatus}'),
         unit: {
-            symbols: JSON.parse('${Enum_SymbolUnit_WithValue}'),
-            hasFlag: function (value, target) {
 
-                value = Enums.unit.symbols[value];
-                target = Enums.unit.symbols[target];
-                for (let id in Object.values(Enums.unit.symbols).sort().reverse()) {
+            /*getStandardSymbol: function (symbolUnit) {
 
-                    if (id > value) continue;
-                    if (id === target) return true;
-                    value -= id;
+                switch (symbolUnit) {
+
+                    case "":
+                        break;
                 }
 
-                return false;
-            },
-            getValues: function (value) {
 
-                let result = [];
-                value = Enums.unit.symbols[value];
-                for (let id in Object.values(Enums.unit.symbols).sort().reverse()) {
+                // test
+                return "t";
+            }*/
 
-                    if (id > value) continue;
-                    result.push(Object.keys(Enums.unit.symbols).filter(q => Enums.unit.symbols[q] === id).first());
-                    value -= id;
-                }
+            <%--symbols: JSON.parse('${Enum_SymbolUnit_WithValue}'),--%>
+            <%--hasFlag: function (value, target) {--%>
 
-                return result;
-            }
+            <%--value = Enums.unit.symbols[value];--%>
+            <%--target = Enums.unit.symbols[target];--%>
+            <%--for (let id in Object.values(Enums.unit.symbols).sort().reverse()) {--%>
+
+            <%--if (id > value) continue;--%>
+            <%--if (id === target) return true;--%>
+            <%--value -= id;--%>
+            <%--}--%>
+
+            <%--return false;--%>
+            <%--},--%>
+            <%--getValues: function (value) {--%>
+
+            <%--let result = [];--%>
+            <%--value = Enums.unit.symbols[value];--%>
+            <%--for (let id in Object.values(Enums.unit.symbols).sort().reverse()) {--%>
+
+            <%--if (id > value) continue;--%>
+            <%--result.push(Object.keys(Enums.unit.symbols).filter(q => Enums.unit.symbols[q] === id).first());--%>
+            <%--value -= id;--%>
+            <%--}--%>
+
+            <%--return result;--%>
+            <%--}--%>
         }
     };
 
     var ImportantIDs = {
+        contractType: {
+            Primary: 1,
+            Appendix: 2,
+            Template: 3
+        },
         material: {
             MOLYBDENUM_OXIDE: 1,
             COPPER_CATHOD: 2,
@@ -157,9 +177,6 @@
             DEMURRAGE: 13,
             INSPECTION: 14
         },
-        unit: {
-            PERCENT: 1,
-        }
     }
 
     var BaseRPCRequest = {
@@ -337,14 +354,14 @@
         promptStyle: "dialog",
         allowCrossDomainCalls: true,
         handleError: function (response, request) {
-            if (response.error == 'invalid_token')
+            if (!response || response.error === 'invalid_token')
                 isc.warn(response.data);
             console.log("Global RPCManager Error Handler: ", request, response);
-            if (response.httpResponseCode == 403) { // Forbidden
+            if (response.httpResponseCode === 403) { // Forbidden
                 isc.say(JSON.parse(response.httpResponseText).exception);
-            } else if (response.httpResponseCode == 500) {
+            } else if (response.httpResponseCode === 500) {
                 isc.say(JSON.parse(response.httpResponseText).exception + " HTTP Response Code is 500");
-            } else if (response.httpResponseCode == 405) {
+            } else if (response.httpResponseCode === 405) {
                 isc.say(JSON.parse(response.httpResponseText).exception + " HTTP Response Code is 450");
             }
             const httpResponse = JSON.parse(response.httpResponseText);
@@ -366,7 +383,7 @@
                     break;
                 default:
                     if (!httpResponse.errors) return;
-                    const errorText = httpResponse.errors.map(q => q.message + '<br>').join();
+                    const errorText = httpResponse.errors.map(q => q.message).join('<br>');
                     isc.warn(errorText, {title: "<spring:message code='dialog_WarnTitle'/>"});
                     break;
             }
@@ -1201,8 +1218,8 @@
     /*Help*/
     isc.HTMLFlow.create({
         contents: "<div id=\"mybutton\">\n" +
-            "<button class=\"glow-on-hover\"><spring:message code='global.form.help'/></button>\n" +
-            "</div>",
+        "<button class=\"glow-on-hover\"><spring:message code='global.form.help'/></button>\n" +
+        "</div>",
         dynamicContents: true,
         click: function () {
             fillScreenWindow_Main.show();
