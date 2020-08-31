@@ -286,6 +286,12 @@ contractTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
                         else { //update
                             listGridData = listGrid.getData().localData
                         }
+                        if (listGridData.length == 0) {
+                            contractTab.dialog.say(
+                                "<spring:message code='contract.window.list-of-reference-empty'/>",
+                                "<spring:message code='global.warning'/>");
+                            throw "One of List Grids is Empty"
+                        }
                         listGridData.forEach(x => {
                             Object.keys(x).forEach(listGridKey => {
                                 if (listGridKey.startsWith("_"))
@@ -310,6 +316,16 @@ contractTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
                     });
 
                     data.contractDetails.push(contractDetailObj);
+
+                    data.content = data.content + data.no + "<br>";
+                    data.content = data.content + data.date + "<br>";
+                    data.content = data.content + data.material.descl + "<br>";
+                    data.contractContacts.forEach(contractContact => {
+                        data.content = data.content + contractContact.contact.nameEN + "<br>" +
+                            contractContact.contact.address + "<br>" +
+                            contractContact.contact.phone + "<br>" +
+                            contractContact.contact.fax + "<br><br>";
+                    });
                     data.content = data.content + "<h1>" + section.title + "</h1>" + contractDetailObj.content;
                 });
 
@@ -586,7 +602,6 @@ contractTab.method.addSectionByContract = function (record) {
 
         let contractDetailValueGroup = q.contractDetailValues.filter(x => x.type === 'ListOfReference').groupBy('reference');
         Object.keys(contractDetailValueGroup).forEach(reference => {
-            debugger;
             let contractDetailListGrid = isc.ListGrid.create({
                 width: "100%",
                 height: 300,
@@ -813,27 +828,35 @@ function generateContentFromSection(section, template) {
         }
 
         var table = "";
-        var tableStartTag = "<table>";
+        var tableStartTag = "<table style='border: 1px solid black;'>";
         var tableEndTag = "</table>";
         var tableHeader = "";
         var tableRows = "";
 
+        var correspondingNameTitle = {};
+        listGrid.getFields().filter(filed => filed.showTemplate == true).forEach(field => correspondingNameTitle[field.name] = field.title);
+
         tableHeader = tableHeader + "<tr>";
-        listGrid.getFields().map(field => field.name).filter(filedName => !filedName.contains("$")).forEach(header => {
-            tableHeader = tableHeader + "<th>" + header + "</th>";
+        Object.values(correspondingNameTitle).forEach(header => {
+            tableHeader = tableHeader + "<th style='border: 1px solid black;'>" + header + "</th>";
         });
         tableHeader = tableHeader + "</tr>";
 
         listGridData.forEach(record => {
             tableRows = tableRows + "<tr>";
-            Object.keys(record).filter(allKey => Object.keys(record).filter(allKey => listGrid.getFields().map(field => field.name).contains(allKey))).forEach(key => {
-                tableRows = tableRows + "<td>" + record[key] + "</td>";
+            Object.keys(correspondingNameTitle).forEach(name => {
+                let templateDataFieldName = listGrid.getField(name).templateDataFieldName;
+                if (templateDataFieldName)
+                    tableRows = tableRows + "<td style='border: 1px solid black;'>" + templateDataFieldName.split('.').evalPropertyPath(record) + "</td>";
+                else
+                    tableRows = tableRows + "<td style='border: 1px solid black;'>" + record[name] + "</td>";
             });
             tableRows = tableRows + "</tr>";
         });
 
         table = table + tableStartTag + tableHeader + tableRows + tableEndTag;
 
+        template = template.replaceAll('\\${' + listGrid.paramKey + '}', table);
     });
     return template;
 }

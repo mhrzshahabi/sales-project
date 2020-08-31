@@ -5,12 +5,11 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum EStatus {
+public enum InspectionReportMilestone {
 
-    Active(1),
-    DeActive(2),
-    Final(4),
-    Disapprovement(8);
+    Source(1),
+    Destination(2),
+    Umpire(3);
 
     private final Integer id;
 }

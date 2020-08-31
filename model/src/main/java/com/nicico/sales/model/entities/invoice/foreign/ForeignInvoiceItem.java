@@ -32,25 +32,10 @@ public class ForeignInvoiceItem extends BaseEntity {
     @Column(name = "N_WEIGHT_ND", nullable = false, scale = 5, precision = 12)
     private BigDecimal weightND;
 
-    // For molybdenum oxide, metal base price
-    @NotNull
-    @Column(name = "N_BASE_PRICE", nullable = false, scale = 2, precision = 10)
-    private BigDecimal basePrice;
-
     @Column(name = "N_TC", scale = 2, precision = 10)
     private BigDecimal treatCost;
 
-//    @Column(name = "N_DEDUCTION_TYPE")
-//    private DeductionType deductionType;
-//
-//    @Column(name = "N_DEDUCTION_VALUE", scale = 5, precision = 12)
-//    private BigDecimal deductionValue;
-//
-//    @Column(name = "N_DEDUCTION_UNIT_CONVERSION_RATE", scale = 5, precision = 12)
-//    private BigDecimal deductionUnitConversionRate;
-//
-//    @Column(name = "N_DEDUCTION_PRICE", scale = 2, precision = 10)
-//    private BigDecimal deductionPrice;
+    // *****************************************************************************************************************
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
