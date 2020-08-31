@@ -69,7 +69,7 @@ public class ShipmentFormController {
         for (XWPFRun r : paragraph.getRuns()) {
             String text = r.getText(r.getTextPosition());
             if (text != null && text.contains(placeHolder)) {
-                text = text.replace(placeHolder, replaceText);
+                text = text.replace(placeHolder, (replaceText != null ? replaceText : ""));
                 r.setText(text, 0);
             }
         }
@@ -111,7 +111,7 @@ public class ShipmentFormController {
                 ServletOutputStream out = response.getOutputStream();
                 XWPFDocument doc = new XWPFDocument(inputStream);
                 replacePOI(doc, "vessel_name", (shipment.getVessel() != null ? shipment.getVessel().getName() : ""));
-                replacePOI(doc, "agent", (shipment.getContactAgent() != null ? shipment.getContactAgent().getNameFA() : ""));
+                replacePOI(doc, "agent", shipment.getContactAgent().getNameFA());
                 replacePOI(doc, "contract_amount", String.valueOf((shipment.getAmount() != null ? shipment.getAmount() : "")));
                 replacePOI(doc, "unitNameFa", (shipment.getUnit() != null ? shipment.getUnit().getNameFA() : ""));
                 replacePOI(doc, "descp", (shipment.getMaterial() != null ? shipment.getMaterial().getDescp() : ""));
@@ -147,7 +147,7 @@ public class ShipmentFormController {
                 replacePOI(doc, "agent", (shipment.getContactAgent() != null ? shipment.getContactAgent().getNameFA() : ""));
                 replacePOI(doc, "contract_amount", (shipment.getAmount() != null ? shipment.getAmount().toString() : ""));
                 replacePOI(doc, "unitNameFa", (shipment.getUnit() != null ? shipment.getUnit().getNameFA() : ""));
-                replacePOI(doc, "descp", (shipment.getMaterial() != null ? shipment.getMaterial().getDescp() : ""));
+                replacePOI(doc, "descp", shipment.getMaterial().getDescp());
                 replacePOI(doc, "tolorance", "-/+" + (shipment.getContractShipment() != null ? shipment.getContractShipment().getTolorance().toString() : "") + "%");
                 replacePOI(doc, "contract_no", (shipment.getContractShipment() != null ? shipment.getContractShipment().getContract().getNo() : ""));
 
@@ -193,7 +193,7 @@ public class ShipmentFormController {
                 replacePOI(doc, "contract_amount", (shipment.getAmount() != null ? shipment.getAmount().toString() : ""));
                 replacePOI(doc, "descp", (shipment.getMaterial() != null ? shipment.getMaterial().getDescp() : ""));
                 replacePOI(doc, "unitNameFa", (shipment.getUnit() != null ? shipment.getUnit().getNameFA() : ""));
-                replacePOI(doc, "contract_no", (shipment.getContractShipment() != null ? shipment.getContractShipment().getContract().getNo() : ""));
+                replacePOI(doc, "contract_no", shipment.getContractShipment().getContract().getNo());
                 replacePOI(doc, "buyer", (shipment.getContact() != null ? shipment.getContact().getNameFA() : ""));
                 replacePOI(doc, "agent", (shipment.getContactAgent() != null ? shipment.getContactAgent().getNameFA() : ""));
                 // replacePOI(doc, "loa", shipment.getPortByLoading().getPort());
