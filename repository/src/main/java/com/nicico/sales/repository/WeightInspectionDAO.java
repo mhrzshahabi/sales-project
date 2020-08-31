@@ -11,5 +11,5 @@ import java.util.List;
 @Repository
 public interface WeightInspectionDAO extends JpaRepository<WeightInspection, Long>, JpaSpecificationExecutor<WeightInspection> {
 
-    List<WeightInspection> findAllByInventoryId(@Param("inventoryIds") List<Long> inventoryIds);
+    List<WeightInspection> findAllByShipmentIdAndInventoryIdIn(@Param("shipmentId") Long shipmentId, @Param("inventoryIds") List<Long> inventoryIds);
 }

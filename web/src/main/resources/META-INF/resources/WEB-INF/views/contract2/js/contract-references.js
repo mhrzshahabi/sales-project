@@ -25,7 +25,9 @@ function getReferenceFields(referenceType) {
                     valueField: "id",
                     displayField: getReferenceFields("Port")[1].name,
                     autoFetchData: false,
-                    optionDataSource: getReferenceDataSource("Port")
+                    optionDataSource: getReferenceDataSource("Port"),
+                    showTemplate: true,
+                    templateDataFieldName: "loadPort.port"
                 },
                 {
                     name: "quantity",
@@ -35,7 +37,8 @@ function getReferenceFields(referenceType) {
                     validators: [{
                         type: "isFloat",
                         validateOnChange: true
-                    }]
+                    }],
+                    showTemplate: true
                 },
                 {
                     name: "tolorance",
@@ -48,14 +51,16 @@ function getReferenceFields(referenceType) {
                             type: "isInteger",
                             validateOnChange: true,
                             keyPressFilter: "[0-9.]"
-                        }]
+                        }],
+                    showTemplate: true
                 },
                 {
                     name: "sendDate",
                     title: "<spring:message code='global.sendDate'/>",
                     type: "date",
                     required: false,
-                    width: "10%"
+                    width: "10%",
+                    showTemplate: true
                 }
             ];
         case 'Bank':
