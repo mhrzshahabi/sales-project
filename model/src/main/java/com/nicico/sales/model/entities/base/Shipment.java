@@ -1,6 +1,7 @@
 package com.nicico.sales.model.entities.base;
 
 import com.nicico.sales.model.entities.common.BaseEntity;
+import com.nicico.sales.model.entities.warehouse.Remittance;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.envers.NotAudited;
@@ -9,6 +10,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -187,4 +189,7 @@ public class Shipment extends BaseEntity {
      @Column(name = "D_ARRIVAL_DATE_TO")
      private Date arrivalDateTo;
 
+
+    @OneToMany(mappedBy = "shipmentId", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    private List<Remittance> remittances;
 }
