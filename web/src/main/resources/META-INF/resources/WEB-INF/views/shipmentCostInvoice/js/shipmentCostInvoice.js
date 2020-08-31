@@ -233,7 +233,7 @@ shipmentCostInvoiceTab.variable.buyerCriteria = {
 shipmentCostInvoiceTab.variable.financeUnitCriteria = {
     _constructor: "AdvancedCriteria",
     operator: "and",
-    criteria: [{fieldName: "categoryUnit", operator: "equals", value: 0}]
+    criteria: [{fieldName: "categoryUnit", operator: "equals", value: 1}]
 };
 shipmentCostInvoiceTab.variable.costTypeCriteria = {
     _constructor: "AdvancedCriteria",
@@ -660,7 +660,7 @@ shipmentCostInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
             shipmentCostInvoiceTab.dynamicForm.shipmentCost.setValue("conversionRate", 1);
             shipmentCostInvoiceTab.listGrid.shipmentCostDetail.members.get(3).members.get(2).members.get(0).click();
 
-            if (shipmentCostInvoiceTab.listGrid.shipmentCostDetail.getAllData() != null) {
+            if (shipmentCostInvoiceTab.listGrid.shipmentCostDetail.getData() != null) {
                 let totalRows = shipmentCostInvoiceTab.listGrid.shipmentCostDetail.getTotalRows();
                 let financeUnitIdIndex = shipmentCostInvoiceTab.listGrid.shipmentCostDetail.fields.indexOf(shipmentCostInvoiceTab.listGrid.shipmentCostDetail.fields.filter(q => q.name === "financeUnitId").first());
                 for (let i = 0; i < totalRows; i++) {
@@ -1168,6 +1168,7 @@ shipmentCostInvoiceTab.method.newForm = function () {
 
     shipmentCostInvoiceTab.variable.financeUnitName = 0;
     shipmentCostInvoiceTab.variable.method = "POST";
+    shipmentCostInvoiceTab.dynamicForm.shipmentCost.clearValues();
     shipmentCostInvoiceTab.window.shipmentCost.justShowForm();
     shipmentCostInvoiceTab.method.setVATs(shipmentCostInvoiceTab.variable.year)
 
@@ -1402,6 +1403,7 @@ shipmentCostInvoiceTab.listGrid.shipmentCostDetailMain = isc.ListGrid.create(
 nicico.BasicFormUtil.getDefaultBasicForm(shipmentCostInvoiceTab, "api/shipmentCostInvoice/");
 
 shipmentCostInvoiceTab.menu.main.data.splice(4, 2);
+shipmentCostInvoiceTab.menu.main.data.pop();
 shipmentCostInvoiceTab.menu.main.initWidget();
 shipmentCostInvoiceTab.variable.finalizeToolStripItem = shipmentCostInvoiceTab.toolStrip.main.members.filter(q => q.role === "finalizeRecord").first();
 if (shipmentCostInvoiceTab.variable.finalizeToolStripItem)

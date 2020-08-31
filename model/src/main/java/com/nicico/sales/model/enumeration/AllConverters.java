@@ -216,4 +216,109 @@ public abstract class AllConverters {
                     .filter(literal -> literal.getId().equals(integer)).findFirst().orElse(null);
         }
     }
+
+    // *****************************************************************************************************************
+
+    @Converter(autoApply = true)
+    public static class InspectionReportMilestoneConverter implements AttributeConverter<InspectionReportMilestone, Integer> {
+
+        @Override
+        public Integer convertToDatabaseColumn(InspectionReportMilestone literal) {
+
+            if (literal == null)
+                return null;
+
+            return literal.getId();
+        }
+
+        @Override
+        public InspectionReportMilestone convertToEntityAttribute(Integer integer) {
+            return Arrays.stream(InspectionReportMilestone.values())
+                    .filter(literal -> literal.getId().equals(integer)).findFirst().orElse(null);
+        }
+    }
+
+    // *****************************************************************************************************************
+
+    @Converter(autoApply = true)
+    public static class CategoryUnitConverter implements AttributeConverter<CategoryUnit, Integer> {
+
+        @Override
+        public Integer convertToDatabaseColumn(CategoryUnit literal) {
+
+            if (literal == null)
+                return null;
+
+            return literal.getId();
+        }
+
+        @Override
+        public CategoryUnit convertToEntityAttribute(Integer integer) {
+            return Arrays.stream(CategoryUnit.values())
+                    .filter(literal -> literal.getId().equals(integer)).findFirst().orElse(null);
+        }
+    }
+
+     // *****************************************************************************************************************
+
+    @Converter(autoApply = true)
+    public static class ContractDetailTypeReferenceConverter implements AttributeConverter<ContractDetailTypeReference, Integer> {
+
+        @Override
+        public Integer convertToDatabaseColumn(ContractDetailTypeReference literal) {
+
+            if (literal == null)
+                return null;
+
+            return literal.getId();
+        }
+
+        @Override
+        public ContractDetailTypeReference convertToEntityAttribute(Integer integer) {
+            return Arrays.stream(ContractDetailTypeReference.values())
+                    .filter(literal -> literal.getId().equals(integer)).findFirst().orElse(null);
+        }
+    }
+
+     // *****************************************************************************************************************
+
+    @Converter(autoApply = true)
+    public static class CurrencyTypeConverter implements AttributeConverter<CurrencyType, Integer> {
+
+        @Override
+        public Integer convertToDatabaseColumn(CurrencyType literal) {
+
+            if (literal == null)
+                return null;
+
+            return literal.getId();
+        }
+
+        @Override
+        public CurrencyType convertToEntityAttribute(Integer integer) {
+            return Arrays.stream(CurrencyType.values())
+                    .filter(literal -> literal.getId().equals(integer)).findFirst().orElse(null);
+        }
+    }
+
+       // *****************************************************************************************************************
+
+    @Converter(autoApply = true)
+    public static class SymbolUnitConverter implements AttributeConverter<SymbolUnit, Integer> {
+
+        @Override
+        public Integer convertToDatabaseColumn(SymbolUnit literal) {
+
+            if (literal == null)
+                return null;
+
+            return literal.getId();
+        }
+
+        @Override
+        public SymbolUnit convertToEntityAttribute(Integer integer) {
+            return Arrays.stream(SymbolUnit.values())
+                    .filter(literal -> literal.getId().equals(integer)).findFirst().orElse(null);
+        }
+    }
 }

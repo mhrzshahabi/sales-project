@@ -73,6 +73,9 @@ public class InspectionReport extends BaseEntity {
     @Column(name = "N_INSPECTION_RATE_VALUE_TYPE")
     private InspectionRateValueType inspectionRateValueType;
 
+    @Column(name = "C_DESCRIPTION")
+    private String description;
+
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "F_UNIT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_inspectionReport2unitByUnitId"))
