@@ -180,4 +180,11 @@ public class Shipment extends BaseEntity {
 
     @Column(name = "VGM")
     private Double vgm;
+
+     @Column(name = "D_ARRIVAL_DATE_FROM")
+     private Date arrivalDateFrom;
+
+     @Column(name = "D_ARRIVAL_DATE_TO")
+     private Date arrivalDateTo;
+
 }

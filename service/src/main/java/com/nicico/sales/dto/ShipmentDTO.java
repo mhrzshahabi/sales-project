@@ -42,6 +42,8 @@ public class ShipmentDTO {
     private BigDecimal weightGW;
     private BigDecimal weightND;
     private Double vgm;
+    private Date arrivalDateFrom;
+    private Date arrivalDateTo;
 
     @Getter
     @Setter

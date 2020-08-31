@@ -298,4 +298,16 @@
         </addColumn>
      </changeSet>
 
+    <changeSet author="NO1 (generated)" id="1598852484430-259">
+        <addColumn tableName="TBL_SHIPMENT">
+            <column name="D_ARRIVAL_DATE_FROM" type="timestamp"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="NO1 (generated)" id="1598852484430-260">
+        <addColumn tableName="TBL_SHIPMENT">
+            <column name="D_ARRIVAL_DATE_TO" type="timestamp"/>
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>
