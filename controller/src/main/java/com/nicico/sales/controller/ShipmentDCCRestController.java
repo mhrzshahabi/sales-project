@@ -25,8 +25,8 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(value = "/api/dcc")
-public class DCCRestController {
+@RequestMapping(value = "/api/shipmentDcc")
+public class ShipmentDCCRestController {
 
     private final IDCCService dCCService;
     private final Environment environment;
