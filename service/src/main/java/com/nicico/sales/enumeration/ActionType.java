@@ -14,5 +14,6 @@ public enum ActionType {
     Unknown,
     Finalize,
     Activate,
-    DeActivate;
+    DeActivate,
+    Disapprove;
 }

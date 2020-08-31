@@ -4,79 +4,127 @@ isc.defineClass("InvoiceBaseWeight", isc.VLayout).addProperties({
     autoFit: false,
     autoDraw: false,
     showEdges: false,
+    canAdaptHeight: true,
     layoutMargin: 2,
     membersMargin: 2,
-    overflow: "scroll",
-    inventories: null,
+    overflow: "visible",
+    shipment: null,
+    remittanceDetail: null,
     initWidget: function () {
 
         this.Super("initWidget", arguments);
 
         let This = this;
-        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-            httpMethod: "GET",
-            params: {
-                doIntegration: true,
-                inventoryIds: This.inventories.map(q => q.id)
-            },
-            actionURL: "${contextPath}" + "/api/weightInspection/get-weight-values",
-            callback: function (resp) {
 
-                let fields = [];
-                let weightValues = JSON.parse(resp.data).get(0);
-                fields.add(isc.Unit.create({
+        let members = [];
+        members.add(isc.DynamicForm.create({
+            fields: [{
 
-                    unitCategory: weightValues.unit.categoryUnit,
-                    disabledUnitField: true,
-                    disabledValueField: true,
-                    showValueFieldTitle: true,
-                    showUnitFieldTitle: false,
-                    name: "weightGW",
-                    fieldValueTitle: "weightGW",
-                    border: "1px solid rgba(0, 0, 0, 0.3)",
-                }));
-                fields.last().setValue(weightValues.weightGW);
-                fields.last().setUnitId(weightValues.unit.id);
+                type: "integer",
+                name: "reportMilestone",
+                editorType: "SelectItem",
+                required: true,
+                wrapTitle: false,
+                title: "<spring:message code='inspectionReport.mileStone'/>",
+                validators: [{
+                    type: "required",
+                    validateOnChange: true
+                }],
+                valueMap: JSON.parse('${Enum_MileStone}'),
+                changed: function (form, item, value) {
 
-                fields.add(isc.Unit.create({
+                    isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
 
-                    unitCategory: weightValues.unit.categoryUnit,
-                    disabledUnitField: true,
-                    disabledValueField: true,
-                    showValueFieldTitle: true,
-                    showUnitFieldTitle: false,
-                    name: "weightND",
-                    fieldValueTitle: "weightND",
-                    border: "1px solid rgba(0, 0, 0, 0.3)",
-                }));
-                fields.last().setValue(weightValues.weightND);
-                fields.last().setUnitId(weightValues.unit.id);
+                        httpMethod: "GET",
+                        willHandleError: true,
+                        params: {
+                            reportMilestone: value,
+                            shipmentId: This.shipment.id,
+                            inventoryIds: [This.remittanceDetail.inventoryId]
+                        },
+                        actionURL: "${contextPath}" + "/api/weightInspection/get-weight-values",
+                        callback: function (resp) {
 
-                fields.add(isc.Unit.create({
+                            if (resp.data && (resp.httpResponseCode === 200 || resp.httpResponseCode === 201)) {
 
-                    unitCategory: weightValues.unit.categoryUnit,
-                    disabledUnitField: true,
-                    disabledValueField: true,
-                    showValueFieldTitle: true,
-                    showUnitFieldTitle: false,
-                    name: "weightDiff",
-                    fieldValueTitle: "weightDiff",
-                    border: "1px solid rgba(0, 0, 0, 0.3)",
-                }));
-                fields.last().setValue(weightValues.weightDiff);
-                fields.last().setUnitId(weightValues.unit.id);
+                                let weightValues = JSON.parse(resp.data);
+                                let weightValue = weightValues && weightValues.length ? weightValues[0] : null;
+                                if (weightValue == null)
+                                    return;
 
-                This.addMember(isc.DynamicForm.create({
-                    width: "100%",
-                    fields: fields
-                }));
-            }
+                                This.getMembers().filter(q => q.name === "weightGW").first().setValue(weightValue.weightGW);
+                                This.getMembers().filter(q => q.name === "weightGW").first().setUnitId(weightValue.unit.id);
+                                This.getMembers().filter(q => q.name === "weightGW").first().unitCategory = weightValue.unit.categoryUnit;
+
+                                This.getMembers().filter(q => q.name === "weightND").first().setValue(weightValue.weightND);
+                                This.getMembers().filter(q => q.name === "weightND").first().setUnitId(weightValue.unit.id);
+                                This.getMembers().filter(q => q.name === "weightND").first().unitCategory = weightValue.unit.categoryUnit;
+
+                                This.getMembers().filter(q => q.name === "weightDiff").first().setValue(weightValue.weightDiff);
+                                This.getMembers().filter(q => q.name === "weightDiff").first().setUnitId(weightValue.unit.id);
+                                This.getMembers().filter(q => q.name === "weightDiff").first().unitCategory = weightValue.unit.categoryUnit;
+                            } else {
+
+                                isc.RPCManager.handleError(resp, null);
+
+                                This.getMembers().filter(q => q.name === "weightGW").first().setValue(null);
+                                This.getMembers().filter(q => q.name === "weightGW").first().setUnitId(null);
+                                This.getMembers().filter(q => q.name === "weightGW").first().unitCategory = null;
+
+                                This.getMembers().filter(q => q.name === "weightND").first().setValue(null);
+                                This.getMembers().filter(q => q.name === "weightND").first().setUnitId(null);
+                                This.getMembers().filter(q => q.name === "weightND").first().unitCategory = null;
+
+                                This.getMembers().filter(q => q.name === "weightDiff").first().setValue(null);
+                                This.getMembers().filter(q => q.name === "weightDiff").first().setUnitId(null);
+                                This.getMembers().filter(q => q.name === "weightDiff").first().unitCategory = null;
+                            }
+                        }
+                    }));
+                }
+            }]
         }));
+
+        members.add(isc.Unit.create({
+
+            disabledUnitField: true,
+            disabledValueField: true,
+            showValueFieldTitle: true,
+            showUnitFieldTitle: false,
+            name: "weightGW",
+            fieldValueTitle: "weightGW",
+        }));
+
+        members.add(isc.Unit.create({
+
+            disabledUnitField: true,
+            disabledValueField: true,
+            showValueFieldTitle: true,
+            showUnitFieldTitle: false,
+            name: "weightND",
+            fieldValueTitle: "weightND",
+        }));
+
+        members.add(isc.Unit.create({
+
+            disabledUnitField: true,
+            disabledValueField: true,
+            showValueFieldTitle: true,
+            showUnitFieldTitle: false,
+            name: "weightDiff",
+            fieldValueTitle: "weightDiff",
+        }));
+
+        this.addMembers(members);
+        this.getMembers()[0].setValue("reportMilestone", 1);
+        this.getMembers()[0].getItem(0).changed(this.getMembers()[0], this.getMembers()[0].getItem(0), 1);
     },
     getValues: function () {
-        return this.members[0].getValues();
-    },
-    setValues: function (data) {
-        return this.members[0].setValues(data);
+
+        return {
+            weightGW: this.getMembers().filter(q => q.name === "weightGW").first(),
+            weightND: this.getMembers().filter(q => q.name === "weightND").first(),
+            weightDiff: this.getMembers().filter(q => q.name === "weightDiff").first()
+        };
     }
 });
