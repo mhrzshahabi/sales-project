@@ -378,7 +378,9 @@
                     let record = DynamicForm_Shipment.getItem("contractId").getSelectedRecord();
                     let buyerId = record.contractContacts.filter(c => (c.commercialRole === 'Buyer'))[0].contactId;
                     setBuyerName(buyerId);
-                    DynamicForm_Shipment.setValue("material.descp", record.material.descp);
+let contactAgentId = record.contractContacts.filter(c => (c.commercialRole === 'AgentBuyer'))[0].contactId;
+DynamicForm_Shipment.setValue("contactAgentId", contactAgentId);
+DynamicForm_Shipment.setValue("material.descp", record.material.descp);
                     DynamicForm_Shipment.setValue("contactId", buyerId);
                     DynamicForm_Shipment.setValue("materialId", record.materialId);
                     DynamicForm_Shipment.getItem("contractShipmentId").setValue(null);
@@ -518,21 +520,45 @@
                     }
                 ],
             },
-            {
-                name: "shipmentType",
-                colSpan: 4,
+{
+name: "noBLs",
+title: "<spring:message code='shipment.numberOfBLs'/>",
+type: 'long',
+required: true,
+width: "100%",
+keyPressFilter: "[0-9]",
+validators: [
+{
+type: "required",
+validateOnChange: true
+}]
+},
+{
+                name: "shipmentTypeId",
+displayField: "shipmentType",
+valueField: "id",
+colSpan: 4,
                 title: "<spring:message code='shipment.shipmentType'/>",
                 width: "100%",
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_ShipmentTypeInShipment,
-                pickListHeight: "500",
+pickListProperties: {showFilterEditor: true},
+
+pickListFields: [
+{
+name: "shipmentType",
+width: "10%",
+align: "center"
+}],
+pickListHeight: "500",
                 required: true,
                 validators: [{
                     type: "required",
                     validateOnChange: true
                 }],
                 changed: function (form, item, value) {
-                    if (value.contains("فله")) {
+let shipmentTypeName = DynamicForm_Shipment.getItem("shipmentTypeId").getSelectedRecord().shipmentType;
+if (shipmentTypeName.contains("فله")) {
                         if (DynamicForm_Shipment.getItem("materialId").getValue() === ImportantIDs.material.COPPER_CATHOD) {
                             form.getItem("gross").show();
                             form.getItem("net").show();
@@ -560,7 +586,7 @@
                             form.getItem("noBarrel").hide();
                             form.getItem("noPalete").hide();
                         }
-                    } else if (value.contains("انتینری")) {
+                    } else if (shipmentTypeName.contains("انتینری")) {
                         if (DynamicForm_Shipment.getItem("materialId").getValue() === ImportantIDs.material.COPPER_CATHOD) {
                             form.getItem("gross").show();
                             form.getItem("net").show();
@@ -588,7 +614,7 @@
                             form.getItem("noBarrel").show();
                             form.getItem("noPalete").show();
                         }
-                    } else if (value.contains("پالت")) {
+                    } else if (shipmentTypeName.contains("پالت")) {
                         form.getItem("gross").hide();
                         form.getItem("net").hide();
                         form.getItem("moisture").hide();
@@ -600,8 +626,11 @@
                 }
             },
             {
-                name: "shipmentMethod",
+                name: "shipmentMethodId",
                 colSpan: 4,
+displayField: "shipmentMethod",
+valueField: "id",
+
                 title: "<spring:message code='shipment.shipmentMethod'/>",
                 width: "100%",
                 editorType: "SelectItem",
