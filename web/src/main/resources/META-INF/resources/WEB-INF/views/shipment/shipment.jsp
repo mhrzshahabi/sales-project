@@ -2,6 +2,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ page  import="com.nicico.copper.core.SecurityUtil" %>
 
 //<script>
 
@@ -15,6 +16,8 @@
     };
 
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
+    var c_record = "${SecurityUtil.hasAuthority('C_SHIPMENT')}";
+    var d_record = "${SecurityUtil.hasAuthority('U_SHIPMENT')}";
 
     var contractId;
 
@@ -1334,7 +1337,8 @@
             }
             let dccTableId = record.id;
             let dccTableName = "TBL_SHIPMENT";
-            ShipmentAttachmentViewLoader.setViewURL("dcc/showForm/" + dccTableName + "/" + dccTableId);
+            ShipmentAttachmentViewLoader.setViewURL("dcc/showForm/" + dccTableName + "/" + dccTableId + "?d_record="
++ d_record + "&c_record=" + c_record);
             hLayoutViewLoader.show();
             let layoutShipment = isc.VLayout.create({
                 styleName: "expand-layout",

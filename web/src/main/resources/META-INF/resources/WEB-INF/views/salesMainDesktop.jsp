@@ -1160,7 +1160,7 @@
     saleToolStrip.addMember(baseTab);
     </sec:authorize>
     <sec:authorize
-    access="hasAuthority('R_CONTRACT') or hasAuthority('R_CONTRACT_TYPE') or hasAuthority('R_CONTRACT_DETAIL_TYPE') or hasAuthority('R_INCOTERM') or hasAuthority('R_SHIPMENT_CONTRACT') or hasAuthority('R_CONTRACT_PERSON')">
+    access="hasAuthority('R_CONTRACT2') or hasAuthority('R_CONTRACT_TYPE') or hasAuthority('R_CONTRACT_DETAIL_TYPE') or hasAuthority('R_INCOTERM') or hasAuthority('R_SHIPMENT_CONTRACT') or hasAuthority('R_CONTRACT_PERSON')">
     saleToolStrip.addMember(contractsTab);
     </sec:authorize>
     <sec:authorize
@@ -1173,7 +1173,7 @@
     <sec:authorize access="hasAuthority('R_TOZIN_LITE') or hasAuthority('R_TOZIN') or hasAuthority('R_REMITTANCE') or hasAuthority('R_WAREHOUSE')">
     saleToolStrip.addMember(productTab);
     </sec:authorize>
-    <sec:authorize access="hasAuthority('R_CONTRACT')">
+    <sec:authorize access="hasAuthority('R_CONTRACT2')">
     saleToolStrip.addMember(reportTab);
     </sec:authorize>
 
