@@ -1377,6 +1377,11 @@
       "title": "حذف گزارش بازرسی"
     },
     {
+      "code": "F_INSPECTION_REPORT",
+      "title": "تایید نهایی گزارش بازرسی"
+    },
+
+    {
       "code": "R_ASSAY_INSPECTION",
       "title": "نمایش بازرسی محتوا"
     },
