@@ -1,8 +1,6 @@
 package com.nicico.sales.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.nicico.copper.common.dto.date.DateTimeDTO;
-import com.nicico.sales.model.entities.base.*;
 import com.nicico.sales.model.enumeration.EStatus;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -30,8 +28,10 @@ public class ShipmentDTO {
     private Long contactAgentId;
     private Long vesselId;
     private Long unitId;
+    private Long dischargePortId;
     private BigDecimal amount;
     private String description;
+    private String containerType;
     private String automationLetterNo;
     private Date automationLetterDate;
     private Date sendDate;
@@ -42,6 +42,11 @@ public class ShipmentDTO {
     private BigDecimal weightGW;
     private BigDecimal weightND;
     private Double vgm;
+    private Date arrivalDateFrom;
+    private Date arrivalDateTo;
+    private Long noBarrel;
+    private Long noPallet;
+
 
     @Getter
     @Setter
@@ -64,6 +69,7 @@ public class ShipmentDTO {
         private UnitDTO.Info unit;
         private VesselDTO.Info vessel;
         private ContactDTO.Info contact;
+        private PortDTO.Info dischargePort;
         private ContactDTO.Info contactAgent;
         private MaterialDTO.Info material;
         private ShipmentTypeDTO.Info shipmentType;
@@ -106,5 +112,14 @@ public class ShipmentDTO {
     @ApiModel("ShipmentInfoWithContract")
     public static class InfoWithInvoice extends ShipmentDTO {
         private List<InvoiceDTO.Info> invoices;
+    }
+
+    public BigDecimal getMoisture(){
+        BigDecimal weightGW = getWeightGW();
+        BigDecimal weightND = getWeightND();
+        if (weightGW == null) weightGW = BigDecimal.ZERO;
+        if (weightND == null) weightND = BigDecimal.ZERO;
+
+        return weightGW.subtract(weightND);
     }
 }
