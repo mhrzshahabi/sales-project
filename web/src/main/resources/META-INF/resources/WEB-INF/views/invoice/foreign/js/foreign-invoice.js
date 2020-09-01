@@ -193,7 +193,6 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
     {
         required: true,
         disabled: true,
-        multiple: true,
         width: "100%",
         type: "integer",
         name: "shipmentId",
@@ -395,16 +394,16 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
                     operator: "and",
                     criteria:
                         [
-                            {
-                                fieldName: "currencyDate",
-                                operator: "lessOrEqual",
-                                value: toDate.toString()
-                            },
-                            {
-                                fieldName: "currencyDate",
-                                operator: "greaterOrEqual",
-                                value: fromDate.toString()
-                            },
+                            // {
+                            //     fieldName: "currencyDate",
+                            //     operator: "lessOrEqual",
+                            //     value: toDate.toString()
+                            // },
+                            // {
+                            //     fieldName: "currencyDate",
+                            //     operator: "greaterOrEqual",
+                            //     value: fromDate.toString()
+                            // },
                             {
                                 fieldName: "unitFromId",
                                 operator: "equals",
@@ -458,6 +457,7 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
     {
         required: true,
         disabled: true,
+        multiple: true,
         width: "100%",
         type: "integer",
         name: "remittanceDetailId",
@@ -514,7 +514,8 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
 
 //******************************************************* COMPONENTS ***************************************************
 
-foreignInvoiceTab.dynamicForm.valuesManager = isc.ValuesManager.create({});
+foreignInvoiceTab.dynamicForm.valuesManager = isc.ValuesManager.create({
+});
 
 foreignInvoiceTab.dynamicForm.baseData = isc.DynamicForm.create({
 
@@ -626,6 +627,7 @@ foreignInvoiceTab.button.save = isc.IButtonSave.create({
                         let invoicePaymentComponent = isc.InvoicePayment.create({
                             currency: foreignInvoiceTab.dynamicForm.valuesManager.getValue("currency"),
                             shipment: foreignInvoiceTab.dynamicForm.valuesManager.getValue("shipment"),
+                            contract: foreignInvoiceTab.dynamicForm.valuesManager.getValue("contract"),
                             conversionRef: foreignInvoiceTab.dynamicForm.valuesManager.getValue('conversionRef'),
                             invoiceDeductionComponent: invoiceDeductionComponent,
                             invoiceCalculationComponent: invoiceCalculationComponent,
@@ -634,7 +636,8 @@ foreignInvoiceTab.button.save = isc.IButtonSave.create({
                         foreignInvoiceTab.method.addTab(invoicePaymentComponent, '<spring:message code="foreign-invoice.form.tab.payment"/>');
                     }
                 }
-            }        }
+            }
+        }
 
         foreignInvoiceTab.window.main.close();
         foreignInvoiceTab.variable.invoiceForm.justShowForm();
@@ -732,11 +735,23 @@ foreignInvoiceTab.variable.invoiceForm.validate = function (data) {
 
 foreignInvoiceTab.variable.invoiceForm.okCallBack = function (data) {
 
-    console.log(data)
+    data.shipmentId = data.shipmentId[0];
+    isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+            actionURL: "${contextPath}/api/foreign-invoice",
+            httpMethod: foreignInvoiceTab.variable.method,
+            data: JSON.stringify(data),
+            params: null,
+            callback: function (resp) {
+                if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                    foreignInvoiceTab.window.main.close();i
+                    foreignInvoiceTab.method.refreshData();
+                    isc.say("<spring:message code='global.form.request.successful'/>");
+                } else
+                    isc.say(resp.data);
+            }
+        })
+    );
 
-    foreignInvoiceTab.method.jsonRPCManagerRequest({
-        data: JSON.stringify(data)
-    }, (resp) => foreignInvoiceTab.listGrid.main.invalidateCache());
 };
 
 foreignInvoiceTab.variable.invoiceForm.populateData = function (bodyWidget) {
@@ -759,16 +774,19 @@ foreignInvoiceTab.variable.invoiceForm.populateData = function (bodyWidget) {
     data.buyerId = data.contract.contractContacts.filter(q => q.commercialRole === JSON.parse('${Enum_CommercialRole}').Buyer).first().contactId;
 
     let paymentComponentValues = invoicePaymentComponent.pane.getValues();
-    data.unitCost = paymentComponentValues.unitCost.getValues().value;
-    data.unitPrice = paymentComponentValues.unitPrice.getValues().value;
+    data.unitCost = paymentComponentValues.unitCost;
+    data.unitPrice = paymentComponentValues.unitPrice;
     data.sumPrice = paymentComponentValues.sumPrice.getValues().value;
     data.sumFIPrice = paymentComponentValues.sumFIPrice.getValues().value;
+    data.conversionDate = paymentComponentValues.conversionDate;
+    data.conversionRate = paymentComponentValues.conversionRate;
     data.conversionSumPrice = paymentComponentValues.conversionSumPrice.getValues().value;
-    data.conversionSumPriceText = paymentComponentValues.conversionSumPriceText.getValues().value;
+    data.conversionSumPriceText = paymentComponentValues.conversionSumPriceText;
     data.sumPIPrice = data.sumFIPrice - data.sumPrice;
-    data.foreignInvoicePayment = paymentComponentValues.shipmentCostInvoices;
+    data.no = "9806-11";
+    data.foreignInvoicePayments = paymentComponentValues.shipmentCostInvoices;
 
-    data.foreignInvoiceItems = [];
+    data.foreignInvoiceItems =
 
     delete data.contract;
     delete data.conversionRef;
@@ -776,8 +794,8 @@ foreignInvoiceTab.variable.invoiceForm.populateData = function (bodyWidget) {
     delete data.billLadings;
     delete data.invoiceType;
     delete data.shipment;
-
-    console.log(data);
+    delete data.contractId;
+    delete data.toCurrencyId;
 
     // private ForeignInvoicePaymentDTO.Create foreignInvoicePayment;
     // private List<ForeignInvoiceItemDTO.Create> foreignInvoiceItems;
@@ -788,6 +806,7 @@ foreignInvoiceTab.variable.invoiceForm.populateData = function (bodyWidget) {
     // foreignInvoiceTab.dynamicForm.valuesManager.setValue("calculation", invoiceCalculationComponent.pane.getValues());
     // foreignInvoiceTab.dynamicForm.valuesManager.setValue("deduction", invoiceDeductionComponent.pane.getValues());
 
+    console.log("populate data ", data)
     return data;
 };
 
@@ -797,6 +816,10 @@ nicico.BasicFormUtil.getDefaultBasicForm(foreignInvoiceTab, "api/foreign-invoice
 foreignInvoiceTab.dynamicForm.main = null;
 
 //*************************************************** Functions ********************************************************
+
+foreignInvoiceTab.method.refreshData = function () {
+    foreignInvoiceTab.listGrid.main.invalidateCache();
+};
 
 foreignInvoiceTab.method.newForm = function () {
 
@@ -810,7 +833,7 @@ foreignInvoiceTab.method.newForm = function () {
     });
 
     foreignInvoiceTab.dynamicForm.valuesManager.setValues({
-        "date": "2020-08-22T07:30:00.000Z",
+        "date": "2020-08-31T07:30:00.000Z",
         "billLadings": [
             {
                 "documentNo": "حالا۱۲۳حالا بیخیال غصه",
@@ -838,7 +861,7 @@ foreignInvoiceTab.method.newForm = function () {
                 "shipperExporter": {
                     "nameFA": "لاکی هرایزن لیمیتد",
                     "nameEN": "LUCKY HORIZEN LIMITED",
-                    "phone": "+862156237847",
+                    "phone": "869011111111134",
                     "address": "RM 19C LOCKHART CTR 301-307",
                     "type": true,
                     "status": true,
@@ -853,14 +876,14 @@ foreignInvoiceTab.method.newForm = function () {
                     },
                     "createdDate": 1597293065534,
                     "createdBy": "r.mazloom",
-                    "lastModifiedDate": 1597293674270,
-                    "lastModifiedBy": "r.mazloom",
-                    "version": 3
+                    "lastModifiedDate": 1598093743015,
+                    "lastModifiedBy": "devadmin",
+                    "version": 5
                 },
                 "switchShipperExporter": {
                     "nameFA": "لاکی هرایزن لیمیتد",
                     "nameEN": "LUCKY HORIZEN LIMITED",
-                    "phone": "+862156237847",
+                    "phone": "869011111111134",
                     "address": "RM 19C LOCKHART CTR 301-307",
                     "type": true,
                     "status": true,
@@ -875,15 +898,18 @@ foreignInvoiceTab.method.newForm = function () {
                     },
                     "createdDate": 1597293065534,
                     "createdBy": "r.mazloom",
-                    "lastModifiedDate": 1597293674270,
-                    "lastModifiedBy": "r.mazloom",
-                    "version": 3
+                    "lastModifiedDate": 1598093743015,
+                    "lastModifiedBy": "devadmin",
+                    "version": 5
                 },
                 "notifyParty": {
                     "nameFA": "ژیائوفنگ",
                     "nameEN": "zhyaofeng",
-                    "phone": "8690",
+                    "phone": "8690111111111",
                     "type": false,
+                    "bankAccount": "686868",
+                    "bankShaba": "IR567575775777556675677777",
+                    "bankSwift": "567567567",
                     "status": true,
                     "tradeMark": "ZH-COPPER",
                     "commercialRole": "Agent Seller,Agent Buyer",
@@ -900,19 +926,22 @@ foreignInvoiceTab.method.newForm = function () {
                     "id": 24,
                     "country": {
                         "nameFa": "چین",
-                        "nameEn": "China"
+                        "nameEn": "FkChina"
                     },
                     "createdDate": 1596256929444,
                     "createdBy": "devadmin",
-                    "lastModifiedDate": 1597640650586,
+                    "lastModifiedDate": 1598334787441,
                     "lastModifiedBy": "devadmin",
-                    "version": 9
+                    "version": 22
                 },
                 "switchNotifyParty": {
                     "nameFA": "ژیائوفنگ",
                     "nameEN": "zhyaofeng",
-                    "phone": "8690",
+                    "phone": "8690111111111",
                     "type": false,
+                    "bankAccount": "686868",
+                    "bankShaba": "IR567575775777556675677777",
+                    "bankSwift": "567567567",
                     "status": true,
                     "tradeMark": "ZH-COPPER",
                     "commercialRole": "Agent Seller,Agent Buyer",
@@ -929,18 +958,18 @@ foreignInvoiceTab.method.newForm = function () {
                     "id": 24,
                     "country": {
                         "nameFa": "چین",
-                        "nameEn": "China"
+                        "nameEn": "FkChina"
                     },
                     "createdDate": 1596256929444,
                     "createdBy": "devadmin",
-                    "lastModifiedDate": 1597640650586,
+                    "lastModifiedDate": 1598334787441,
                     "lastModifiedBy": "devadmin",
-                    "version": 9
+                    "version": 22
                 },
                 "consignee": {
                     "nameFA": "لاکی هرایزن لیمیتد",
                     "nameEN": "LUCKY HORIZEN LIMITED",
-                    "phone": "+862156237847",
+                    "phone": "869011111111134",
                     "address": "RM 19C LOCKHART CTR 301-307",
                     "type": true,
                     "status": true,
@@ -955,14 +984,14 @@ foreignInvoiceTab.method.newForm = function () {
                     },
                     "createdDate": 1597293065534,
                     "createdBy": "r.mazloom",
-                    "lastModifiedDate": 1597293674270,
-                    "lastModifiedBy": "r.mazloom",
-                    "version": 3
+                    "lastModifiedDate": 1598093743015,
+                    "lastModifiedBy": "devadmin",
+                    "version": 5
                 },
                 "switchConsignee": {
                     "nameFA": "لاکی هرایزن لیمیتد",
                     "nameEN": "LUCKY HORIZEN LIMITED",
-                    "phone": "+862156237847",
+                    "phone": "869011111111134",
                     "address": "RM 19C LOCKHART CTR 301-307",
                     "type": true,
                     "status": true,
@@ -977,9 +1006,9 @@ foreignInvoiceTab.method.newForm = function () {
                     },
                     "createdDate": 1597293065534,
                     "createdBy": "r.mazloom",
-                    "lastModifiedDate": 1597293674270,
-                    "lastModifiedBy": "r.mazloom",
-                    "version": 3
+                    "lastModifiedDate": 1598093743015,
+                    "lastModifiedBy": "devadmin",
+                    "version": 5
                 },
                 "portOfLoading": {
                     "port": "ZHOUSHAN",
@@ -987,11 +1016,13 @@ foreignInvoiceTab.method.newForm = function () {
                     "id": 30,
                     "country": {
                         "nameFa": "چین",
-                        "nameEn": "China",
+                        "nameEn": "FkChina",
                         "id": 2,
                         "createdDate": 1595302644624,
                         "createdBy": "j.azad",
-                        "version": 0,
+                        "lastModifiedDate": 1598846835554,
+                        "lastModifiedBy": "db_zare",
+                        "version": 1,
                         "editable": true,
                         "estatus": [
                             "Active"
@@ -1011,11 +1042,13 @@ foreignInvoiceTab.method.newForm = function () {
                     "id": 30,
                     "country": {
                         "nameFa": "چین",
-                        "nameEn": "China",
+                        "nameEn": "FkChina",
                         "id": 2,
                         "createdDate": 1595302644624,
                         "createdBy": "j.azad",
-                        "version": 0,
+                        "lastModifiedDate": 1598846835554,
+                        "lastModifiedBy": "db_zare",
+                        "version": 1,
                         "editable": true,
                         "estatus": [
                             "Active"
@@ -1035,11 +1068,13 @@ foreignInvoiceTab.method.newForm = function () {
                     "id": 3,
                     "country": {
                         "nameFa": "چین",
-                        "nameEn": "China",
+                        "nameEn": "FkChina",
                         "id": 2,
                         "createdDate": 1595302644624,
                         "createdBy": "j.azad",
-                        "version": 0,
+                        "lastModifiedDate": 1598846835554,
+                        "lastModifiedBy": "db_zare",
+                        "version": 1,
                         "editable": true,
                         "estatus": [
                             "Active"
@@ -1061,11 +1096,13 @@ foreignInvoiceTab.method.newForm = function () {
                     "id": 3,
                     "country": {
                         "nameFa": "چین",
-                        "nameEn": "China",
+                        "nameEn": "FkChina",
                         "id": 2,
                         "createdDate": 1595302644624,
                         "createdBy": "j.azad",
-                        "version": 0,
+                        "lastModifiedDate": 1598846835554,
+                        "lastModifiedBy": "db_zare",
+                        "version": 1,
                         "editable": true,
                         "estatus": [
                             "Active"
@@ -1105,17 +1142,19 @@ foreignInvoiceTab.method.newForm = function () {
                 "estatus": [
                     "Active"
                 ],
-                "_selection_108": true
+                "_selection_344": true,
+                "_embeddedComponents_isc_ListGrid_1": null
             }
         ],
-        "toCurrencyId": -33,
-        "conversionRefId": 124,
         "invoiceTypeId": 1,
         "contractId": 294,
         "shipmentId": 73,
-        "creatorId": 2,
+        "remittanceDetailId": 152,
+        "creatorId": 3,
         "currencyId": -32,
-        "description": "This is test"
+        "toCurrencyId": -33,
+        "conversionRefId": 124,
+        "description": "desc"
     });
 
     foreignInvoiceTab.dynamicForm.baseData.redraw();

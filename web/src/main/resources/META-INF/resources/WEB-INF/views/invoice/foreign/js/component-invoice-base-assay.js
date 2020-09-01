@@ -39,7 +39,7 @@ isc.defineClass("InvoiceBaseAssay", isc.VLayout).addProperties({
                         params: {
                             reportMilestone: value,
                             shipmentId: This.shipment.id,
-                            inventoryIds: [This.remittanceDetail.inventoryId]
+                            inventoryIds: [This.remittanceDetail.inventory.id]
                         },
                         actionURL: "${contextPath}" + "/api/assayInspection/get-assay-values",
                         callback: function (resp) {

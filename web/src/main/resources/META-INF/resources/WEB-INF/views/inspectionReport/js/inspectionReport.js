@@ -1218,9 +1218,6 @@ inspectionReportTab.window.inspecReport.populateData = function (bodyWidget) {
             assayInspectionObj.value = NumberUtil.parseInt(bodyWidget.members.get(2).tabs.get(1).pane.members.get(1).getCellValue(assayRecord, index, i));
             assayInspectionObj.materialElementId = bodyWidget.members.get(2).tabs.get(1).pane.members.get(1).fields.get(i).meId;
             assayInspectionObj.inventoryId = assayRecord.inventoryId;
-            // console.log("!!!index: ", index);
-            // console.log("!!!assayRecord: ", assayRecord);
-            // console.log("!!!assayInspectionObj.id: ", assayInspectionObj.id);
             console.log("$$$$ assayInspectionObj: " + JSON.stringify(assayInspectionObj));
 
             assayInspectionRecord.push(assayInspectionObj);

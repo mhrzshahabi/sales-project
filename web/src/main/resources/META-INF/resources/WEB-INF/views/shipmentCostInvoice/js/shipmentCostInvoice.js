@@ -339,7 +339,6 @@ shipmentCostInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
             form.getItem("referenceId").setValue(null);
             let referenceIdFetchDataURL = "";
             let referenceIdPickListFields = [];
-            console.log("value ", value);
             switch (value) {
                 case ImportantIDs.invoiceType.INSPECTION:
                     form.getItem("referenceId").show();
@@ -1055,6 +1054,8 @@ shipmentCostInvoiceTab.listGrid.shipmentCostDetail = isc.ListGrid.create({
                             shipmentCostInvoiceTab.variable.summaryRowData = shipmentCostInvoiceTab.listGrid.shipmentCostDetail.members.get(2).getData()[0];
                             var rate = shipmentCostInvoiceTab.dynamicForm.shipmentCost.getItem("conversionRate").getValue();
                             var share = shipmentCostInvoiceTab.dynamicForm.shipmentCost.getItem("buyerShare").getValue();
+                            if (rate == null)
+                                rate = 1;
                             var conversionSumPrice = shipmentCostInvoiceTab.variable.summaryRowData.sumPriceWithVat * rate;
                             shipmentCostInvoiceTab.dynamicForm.shipmentCost.setValue("conversionSumPrice", conversionSumPrice);
                             shipmentCostInvoiceTab.dynamicForm.shipmentCost.setValue("conversionSumPriceText", conversionSumPrice.toPersianLetter());

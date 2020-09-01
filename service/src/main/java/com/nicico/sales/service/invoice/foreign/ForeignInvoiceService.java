@@ -1,6 +1,7 @@
 package com.nicico.sales.service.invoice.foreign;
 
 import com.nicico.sales.dto.invoice.foreign.ForeignInvoiceDTO;
+import com.nicico.sales.dto.invoice.foreign.ForeignInvoicePaymentDTO;
 import com.nicico.sales.enumeration.ErrorType;
 import com.nicico.sales.exception.SalesException2;
 import com.nicico.sales.iservice.invoice.foreign.IForeignInvoiceService;
@@ -23,6 +24,7 @@ import java.util.stream.Collectors;
 public class ForeignInvoiceService extends GenericService<ForeignInvoice, Long, ForeignInvoiceDTO.Create, ForeignInvoiceDTO.Info, ForeignInvoiceDTO.Update, ForeignInvoiceDTO.Delete> implements IForeignInvoiceService {
 
     private final ResourceBundleMessageSource messageSource;
+    private final ForeignInvoicePaymentService foreignInvoicePaymentService;
 
     @Override
     @Transactional
@@ -30,8 +32,7 @@ public class ForeignInvoiceService extends GenericService<ForeignInvoice, Long, 
 
         List<ForeignInvoice> allByContractIdAndInvoiceTypeId = ((ForeignInvoiceDAO) repository).findAllByShipmentIdAndInvoiceTypeId(shipmentId, invoiceTypeId);
         final List<ForeignInvoice> foreignInvoicePI = allByContractIdAndInvoiceTypeId.stream().
-                filter(q -> q.getCurrencyId().longValue() != currencyId && (q.getConversionRef() == null || q.getConversionRef().getUnitToId().longValue() != currencyId))
-                .collect(Collectors.toList());
+                filter(q -> q.getCurrencyId().longValue() != currencyId && (q.getConversionRef() == null || q.getConversionRef().getUnitToId().longValue() != currencyId)).collect(Collectors.toList());
 
         if (foreignInvoicePI.size() != 0) {
 
@@ -43,4 +44,17 @@ public class ForeignInvoiceService extends GenericService<ForeignInvoice, Long, 
         return modelMapper.map(allByContractIdAndInvoiceTypeId, new TypeToken<List<ForeignInvoiceDTO.Info>>() {
         }.getType());
     }
+
+    @Override
+    @Transactional
+    public ForeignInvoiceDTO.Info create(ForeignInvoiceDTO.Create request) {
+
+        ForeignInvoiceDTO.Info foreignInvoiceDTO = super.create(request);
+
+        request.getForeignInvoicePayments().forEach(item -> item.setForeignInvoiceId(foreignInvoiceDTO.getId()));
+        foreignInvoicePaymentService.createAll(modelMapper.map(request.getForeignInvoicePayments(), new TypeToken<List<ForeignInvoicePaymentDTO.Create>>() {}.getType()));
+
+        return foreignInvoiceDTO;
+    }
+
 }

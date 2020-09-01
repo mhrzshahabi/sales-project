@@ -40,7 +40,7 @@ isc.defineClass("InvoiceBaseWeight", isc.VLayout).addProperties({
                         params: {
                             reportMilestone: value,
                             shipmentId: This.shipment.id,
-                            inventoryIds: [This.remittanceDetail.inventoryId]
+                            inventoryIds: [This.remittanceDetail.inventory.id]
                         },
                         actionURL: "${contextPath}" + "/api/weightInspection/get-weight-values",
                         callback: function (resp) {

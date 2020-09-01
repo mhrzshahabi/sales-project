@@ -128,7 +128,6 @@ isc.defineClass("InvoiceDeduction", isc.VLayout).addProperties({
         }));
     },
     getDeductionSubTotal: function () {
-        // console.log(this.getMembers());
         return this.getMembers().filter(q => q.name === "subTotal").first().getValues().value;
     },
     getValues: function () {
