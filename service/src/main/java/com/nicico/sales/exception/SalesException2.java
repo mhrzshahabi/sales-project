@@ -13,7 +13,7 @@ public class SalesException2 extends BaseException {
 
     public SalesException2(Exception innerException) {
 
-        super(innerException);
+        this(innerException, ErrorType.Unknown, "", innerException.getMessage());
     }
 
     public SalesException2(ErrorType errorType) {
@@ -29,5 +29,10 @@ public class SalesException2 extends BaseException {
     public SalesException2(ErrorType errorType, String field, String message) {
 
         this.response = new ErrorResponse(errorType, field, message);
+    }
+
+    public SalesException2(Exception innerException, ErrorType errorType, String field, String message) {
+
+        this(errorType, null, null);
     }
 }
