@@ -5,7 +5,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.mfathi91.time.PersianDate;
 import com.nicico.sales.dto.ShipmentDTO;
 import com.nicico.sales.exception.SalesException2;
+import com.nicico.sales.iservice.IRemittanceService;
 import com.nicico.sales.iservice.IShipmentService;
+import com.nicico.sales.model.entities.warehouse.Remittance;
+import com.nicico.sales.model.entities.warehouse.RemittanceDetail;
 import com.nicico.sales.model.enumeration.CategoryUnit;
 import lombok.RequiredArgsConstructor;
 import org.apache.poi.xwpf.usermodel.*;
@@ -22,6 +25,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,6 +35,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/shipment")
 public class ShipmentFormController {
     private final IShipmentService shipmentService;
+    private final IRemittanceService remittanceService;
     private final ObjectMapper objectMapper;
 
     private void replacePOI(XWPFDocument doc, String placeHolder, String replaceText) {
@@ -223,11 +228,16 @@ public class ShipmentFormController {
                 replacePOI(doc, "country", (shipment.getDischargePort() != null && shipment.getDischargePort().getCountry() != null ? shipment.getDischargePort().getCountry().getNameFa() : ""));
 
                 List<String> inspector = shipmentService.inspector();
-                for (String s : inspector) {
-
+                for (String s : inspector)
                     replacePOI(doc, "inspector", s);
-                }
+
                 replacePOI(doc, "nocont", (shipment.getNoContainer() != null ? shipment.getNoContainer().toString() : ""));
+
+                List<String> lots = remittanceService.getLotsByShipmentId(shipmentId);
+                for (String s : lots)
+                    replacePOI(doc,"lots",s);
+
+                 replacePOI(doc,"ola", String.valueOf(lots.size()));
 
                 response.setHeader("Content-Disposition", "attachment; filename=\"Molybdenum Oxide.doc\"");
                 response.setContentType("application/vnd.ms-word");

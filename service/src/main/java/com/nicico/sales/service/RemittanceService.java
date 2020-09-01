@@ -13,6 +13,7 @@ import com.nicico.sales.model.entities.warehouse.RemittanceDetail;
 import com.nicico.sales.repository.TozinDAO;
 import com.nicico.sales.repository.TozinTableDAO;
 import com.nicico.sales.repository.warehouse.InventoryDAO;
+import com.nicico.sales.repository.warehouse.RemittanceDAO;
 import com.nicico.sales.repository.warehouse.RemittanceDetailDAO;
 import com.nicico.sales.utility.SpecListUtil;
 import lombok.RequiredArgsConstructor;
@@ -38,6 +39,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class RemittanceService extends GenericService<Remittance, Long, RemittanceDTO.Create, RemittanceDTO.Info, RemittanceDTO.Update, RemittanceDTO.Delete> implements IRemittanceService {
     private final RemittanceDetailDAO remittanceDetailDAO;
+    private final RemittanceDAO remittanceDAO;
     private final InventoryDAO inventoryDAO;
     private final TozinTableDAO tozinTableDAO;
     private final TozinDAO tozinDAO;
@@ -59,7 +61,7 @@ public class RemittanceService extends GenericService<Remittance, Long, Remittan
         });
         remittanceDetailDAO.deleteAllByIdIn(allByRemittanceIdIsIn.stream().map(rd -> rd.getId()).collect(Collectors.toList()));
         tozinTableDAO.deleteAllByIdIn(tozinIdList);
-        if(allByRemittanceIdIsIn.get(0).getDestinationTozinId() != null) inventoryDAO.deleteAllByIdIn(inventoryIdList);
+        if (allByRemittanceIdIsIn.get(0).getDestinationTozinId() != null) inventoryDAO.deleteAllByIdIn(inventoryIdList);
         super.deleteAll(request);
     }
 
@@ -113,5 +115,17 @@ public class RemittanceService extends GenericService<Remittance, Long, Remittan
         final String month = date.substring(4, 6);
         final String day = date.substring(6, 8);
         return String.format("%s/%s/%s", year, month, day);
+    }
+
+    @Override
+    @Transactional
+    public List<String> getLotsByShipmentId(Long id) {
+
+        final List<Remittance> remittances = remittanceDAO.findByShipmentId(id);
+        return remittances.stream().
+                map(Remittance::getRemittanceDetails).
+                flatMap(remittanceDetails -> remittanceDetails.stream().
+                        map(remittanceDetail -> remittanceDetail.getInventory().getLabel())).
+                collect(Collectors.toList());
     }
 }

@@ -1130,9 +1130,8 @@ valueField: "id",
                 let dccTableId = record.id;
                 let dccTableName = "TBL_SHIPMENT";
                 let dccFileNewName = "ShipOrder_" + record.materialId + "_" + record.shipmentTypeId;
-                console.log("newName",dccFileNewName);
                 ShipmentDccViewLoader.setViewURL("shipmentDcc/showForm/" + dccTableName + "/" + dccTableId+"/"+dccFileNewName);
-                Window_Shipment_Dcc.show();
+                Window_Shipment_Dcc.animateShow();
         }
     }
 
