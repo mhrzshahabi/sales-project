@@ -44,6 +44,9 @@ public class ShipmentDTO {
     private Double vgm;
     private Date arrivalDateFrom;
     private Date arrivalDateTo;
+    private Long noBarrel;
+    private Long noPallet;
+
 
     @Getter
     @Setter
@@ -109,5 +112,14 @@ public class ShipmentDTO {
     @ApiModel("ShipmentInfoWithContract")
     public static class InfoWithInvoice extends ShipmentDTO {
         private List<InvoiceDTO.Info> invoices;
+    }
+
+    public BigDecimal getMoisture(){
+        BigDecimal weightGW = getWeightGW();
+        BigDecimal weightND = getWeightND();
+        if (weightGW == null) weightGW = BigDecimal.ZERO;
+        if (weightND == null) weightND = BigDecimal.ZERO;
+
+        return weightGW.subtract(weightND);
     }
 }
