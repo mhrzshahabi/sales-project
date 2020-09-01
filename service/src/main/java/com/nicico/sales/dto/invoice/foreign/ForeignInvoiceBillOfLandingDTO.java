@@ -1,15 +1,20 @@
 package com.nicico.sales.dto.invoice.foreign;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.nicico.sales.dto.MaterialElementDTO;
-import com.nicico.sales.model.enumeration.DeductionType;
+import com.nicico.sales.dto.*;
+import com.nicico.sales.dto.contract.BillOfLandingDTO;
+import com.nicico.sales.dto.contract.ContractDTO2;
+import com.nicico.sales.model.entities.contract.BillOfLanding;
+import com.nicico.sales.model.entities.invoice.foreign.ForeignInvoice;
 import com.nicico.sales.model.enumeration.EStatus;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -19,29 +24,20 @@ import java.util.List;
 @Setter
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ForeignInvoiceItemDetailDTO {
+public class ForeignInvoiceBillOfLandingDTO {
 
-    private BigDecimal assay;
-    private BigDecimal basePrice;
-    private BigDecimal rcPrice;
-    private BigDecimal rcBasePrice;
-    private BigDecimal rcUnitConversionRate;
-    private DeductionType deductionType;
-    private BigDecimal deductionValue;
-    private BigDecimal deductionUnitConversionRate;
-    private BigDecimal deductionPrice;
-    private Long foreignInvoiceItemId;
-    private Long materialElementId;
+    private Long billOfLandingId;
+    private Long foreignInvoiceId;
 
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("ForeignInvoiceItemDetailInfo")
-    public static class Info extends ForeignInvoiceItemDetailDTO {
+    @ApiModel("ForeignInvoiceBillOfLandingInfo")
+    public static class Info extends ForeignInvoiceBillOfLandingDTO {
 
         private Long id;
-        private MaterialElementDTO.Info materialElement;
-        private ForeignInvoiceItemDTO.Info foreignInvoiceItem;
+        private BillOfLandingDTO.Info billOfLanding;
+        private ForeignInvoiceDTO.Info foreignInvoice;
 
         // Auditing
         private Date createdDate;
@@ -53,20 +49,21 @@ public class ForeignInvoiceItemDetailDTO {
         // BaseEntity
         private Boolean editable;
         private List<EStatus> eStatus;
+
     }
 
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("ForeignInvoiceItemDetailCreateRq")
-    public static class Create extends ForeignInvoiceItemDetailDTO {
+    @ApiModel("ForeignInvoiceBillOfLandingCreateRq")
+    public static class Create extends ForeignInvoiceBillOfLandingDTO {
     }
 
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("ForeignInvoiceItemDetailUpdateRq")
-    public static class Update extends ForeignInvoiceItemDetailDTO {
+    @ApiModel("ForeignInvoiceBillOfLandingUpdateRq")
+    public static class Update extends ForeignInvoiceBillOfLandingDTO {
 
         @NotNull
         @ApiModelProperty(required = true)
@@ -76,7 +73,7 @@ public class ForeignInvoiceItemDetailDTO {
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("ForeignInvoiceItemDetailDeleteRq")
+    @ApiModel("ForeignInvoiceBillOfLandingDeleteRq")
     public static class Delete {
 
         @NotNull

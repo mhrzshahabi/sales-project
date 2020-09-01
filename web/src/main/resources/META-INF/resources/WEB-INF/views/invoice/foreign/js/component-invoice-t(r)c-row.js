@@ -1,75 +1,132 @@
-isc.defineClass("InvoiceDeductionRow", isc.DynamicForm).addProperties({
-    numCols: 7,
+isc.defineClass("InvoiceDeductionRow", isc.HLayout).addProperties({
+    align: "top",
     width: "100%",
+    autoFit: false,
+    autoDraw: false,
+    showEdges: false,
+    canAdaptHeight: true,
+    layoutMargin: 2,
+    membersMargin: 2,
     wrapItemTitles: false,
+    rcData: null,
     currency: null,
-    contract: null,
-    elementName: null,
-    calculationData: null,
+    elementFinalAssay: null,
     initWidget: function () {
 
         this.Super("initWidget", arguments);
 
         let This = this;
-        this.addField(isc.Unit.create({
-            colSpan: 1,
-            unitCategory: This.currency.categoryUnit,
-            disabledUnitField: true,
-            disabledValueField: true,
-            showValueFieldTitle: false,
-            showUnitFieldTitle: false,
-            showUnitField: false,
+        this.addMember(isc.Unit.create({
+            width: "250",
             name: 'rcPrice',
-            border: "1px solid rgba(0, 0, 0, 0.3)"
-        }));
-        this.fields.last().setUnitId(this.currency.id);
-        let rcPrice = __contract.getRc(this.contract, this.elementName);
-        this.fields.last().setValue(rcPrice);
-        this.addField(isc.Unit.create({
-            colSpan: 2,
-            unitCategory: This.calculationData.finalAssay.getUnitId(),
+            fieldValueTitleWidth: "100",
             disabledUnitField: true,
             disabledValueField: true,
             showValueFieldTitle: true,
             showUnitFieldTitle: false,
-            name: 'finalAssay',
-            fieldValueTitle: ' x ',
-            rcUnitConversionRate: 1,
-            border: "1px solid rgba(0, 0, 0, 0.3)"
+            fieldValueTitle: "R/C-" + This.rcData.elementName,
+            unitHint: "PER " + This.rcData.weightUnit.nameEN,
+            unitCategory: This.rcData.financeUnit.categoryUnit,
         }));
-        let finalAssayValue = this.calculationData.finalAssay.getValue();
-        this.fields.last().setValue(finalAssayValue);
-        this.fields.last().setUnitId(this.calculationData.finalAssay.getUnitId());
-        this.addField({
-            colSpan: 2,
-            title: " X ",
-            name: "rcUnitConversionRate",
-            border: "1px solid rgba(0, 0, 0, 0.3)",
-            changed: function (form, item, value) {
+        this.getMembers().last().setValue(this.rcData.price);
+        this.getMembers().last().setUnitId(this.rcData.financeUnit.id);
 
-                form.getField('finalAssay').rcUnitConversionRate = value;
-                This.calculate();
-            }
-        });
-        this.addField({
-            colSpan: 2,
-            title: " = ",
-            type: "staticText",
-            name: "deductionPrice",
-            value: finalAssayValue * rcPrice,
-            border: "1px solid rgba(0, 0, 0, 0.3)"
-        });
+        this.addMember(isc.DynamicForm.create({
+            width: "50",
+            fields: [{
+                value: " X ",
+                showTitle: false,
+                type: "staticText",
+                align: "center"
+            }]
+        }));
+
+        this.addMember(isc.Unit.create({
+            width: "250",
+            name: 'finalAssay',
+            disabledUnitField: true,
+            disabledValueField: true,
+            showUnitFieldTitle: false,
+            showValueFieldTitle: false,
+            unitCategory: This.elementFinalAssay.unitCategory,
+        }));
+        let finalAssayValue = this.elementFinalAssay.getValues().value;
+        this.getMembers().last().setValue(finalAssayValue);
+        this.getMembers().last().setUnitId(this.elementFinalAssay.getValues().unitId);
+
+        this.addMember(isc.DynamicForm.create({
+            isConversionForm: true,
+            numCols: 8,
+            fields: [{
+                width: "50",
+                value: " X ",
+                showTitle: false,
+                type: "staticText",
+                align: "center"
+            }, {
+                width: "100",
+                value: 1,
+                showTitle: false,
+                type: "float",
+                errorOrientation: "bottom",
+                name: "rcUnitConversionRate",
+                align: "center",
+                required: true,
+                validators: [{
+                    type: "required",
+                    validateOnChange: true,
+                }],
+                changed: function (form, item, value) {
+
+                    This.calculate();
+                }
+            }, {
+                width: "50",
+                value: " = ",
+                showTitle: false,
+                type: "staticText",
+                align: "center"
+            }, {
+                width: "100",
+                showTitle: false,
+                type: "staticText",
+                name: "deductionPrice",
+                align: "center",
+                format: "#.000"
+            }]
+        }));
     },
     calculate: function () {
-        let rcPriceField = this.getField('rcPrice');
-        let assayField = this.getField('finalAssay');
-        this.setValue("deductionPrice", rcPriceField.getValue() * assayField.getValue() * assayField.rcUnitConversionRate);
+
+        let conversionForm = this.getMembers().last();
+        let rcPriceField = this.getMembers().filter(q => q.name === "rcPrice").first();
+        let assayField = this.getMembers().filter(q => q.name === "finalAssay").first();
+        let deductionPriceValue = assayField.getValues().value * rcPriceField.getValues().value * conversionForm.getValue("rcUnitConversionRate");
+        conversionForm.setValue("deductionPrice", deductionPriceValue);
+        this.sumDeductionChanged(deductionPriceValue);
+
     },
-    getValue: function () {
-        this.getField("deductionPrice").getValue();
+    getFinalAssay: function () {
+
+        return this.getMembers().filter(q => q.name === "finalAssay").first();
     },
-    setValue: function (value) {
-        this.setValues(value);
+    getRCPrice: function () {
+
+        return this.getMembers().filter(q => q.isConversionForm).first().getValue("deductionPrice");
+    },
+    getRCBasePrice: function () {
+
+        return this.getMembers().filter(q => q.name === "rcPrice").first();
+    },
+    getRCUnitConversionRate: function () {
+
+        return this.getMembers().filter(q => q.isConversionForm).first().getValue("rcUnitConversionRate");
+    },
+    validate: function () {
+
+        let conversionForm = this.getMembers().filter(q => q.isConversionForm).first();
+        conversionForm.validate();
+        return !conversionForm.hasErrors();
     }
 });
 

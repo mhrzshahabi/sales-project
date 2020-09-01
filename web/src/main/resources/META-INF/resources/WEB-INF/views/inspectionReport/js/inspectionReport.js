@@ -61,6 +61,10 @@ inspectionReportTab.restDataSource.inspecReportRest = isc.MyRestDataSource.creat
             title: "<spring:message code='inspectionReport.inspectionRateValueType'/>"
         },
         {
+            name: "description",
+            title: "<spring:message code='inspectionReport.inspectionRateValueType'/>"
+        },
+        {
             name: "unitId",
             title: "<spring:message code='global.unit'/>"
         },
@@ -324,6 +328,62 @@ inspectionReportTab.restDataSource.unitRest = isc.MyRestDataSource.create({
     fetchDataURL: "${contextPath}/api/unit/spec-list"
 });
 
+inspectionReportTab.restDataSource.shipmentRest = isc.MyRestDataSource.create({
+    fields: [
+        {
+            name: "id",
+            primaryKey: true,
+            canEdit: false,
+            hidden: true
+        },
+        {
+            name: "contact.nameFA",
+            title: "contact"
+        },
+        {
+            name: "material.descl",
+            title: "material"
+        },
+        {
+            name: "materialId",
+            title: "materialId"
+        },
+        {
+            name: "amount",
+            title: "amount"
+        },
+        {
+            name: "shipmentDate",
+            title: "shipmentDate"
+        },
+        {
+            name: "sendDate",
+            title: "sendDate"
+        },
+        {
+            name: "shipmentType",
+            title: "shipmentType"
+        },
+        {
+            name: "shipmentMethod",
+            title: "shipmentMethod"
+        },
+        {
+            name: "loadingLetter",
+            title: "loadingLetter"
+        },
+        {
+            name: "contactByAgent.nameFA",
+            title: "contactByAgent"
+        },
+        {
+            name: "shipmentMethod",
+            title: "shipmentMethod"
+        },
+    ],
+    fetchDataURL: "${contextPath}/api/shipment/spec-list"
+});
+
 inspectionReportTab.method.getAssayElementFields = function (materialId) {
 
     let elementCriteria = {
@@ -439,7 +499,7 @@ let buyerCriteria = {
 let currencyInUnitCriteria = {
     _constructor: "AdvancedCriteria",
     operator: "and",
-    criteria: [{fieldName: "categoryUnit", operator: "equals", value: 0}]
+    criteria: [{fieldName: "categoryUnit", operator: "equals", value: 1}]
 };
 
 //*************************************************** FORM STRUCTURE ************************************************
@@ -448,6 +508,7 @@ inspectionReportTab.dynamicForm.material = isc.DynamicForm.create({
     width: "50%",
     align: "center",
     numCols: 2,
+    margin: 10,
     canSubmit: true,
     showErrorText: true,
     showErrorStyle: true,
@@ -531,6 +592,39 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
     {
         name: "id",
         hidden: true
+    },
+    {
+        name: "shipmentId",
+        title: "<spring:message code='Shipment.title'/>",
+        required: true,
+        colSpan: 2,
+        autoFetchData: false,
+        editorType: "SelectItem",
+        valueField: "id",
+        displayField: "nameFA",
+        pickListWidth: "500",
+        pickListHeight: "300",
+        optionDataSource: inspectionReportTab.restDataSource.unitRest,
+        // optionCriteria: currencyInUnitCriteria,
+        pickListProperties:
+            {
+                showFilterEditor: true
+            },
+        pickListFields: [
+            {
+                name: "nameFA",
+                align: "center"
+            },
+            {
+                name: "nameEN",
+                align: "center"
+            },
+        ],
+        validators: [
+            {
+                type: "required",
+                validateOnChange: true
+            }]
     },
     {
         name: "inspectionNO",
@@ -777,11 +871,30 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
                 validateOnChange: true
             }]
     },
+    {
+        name: "mileStone",
+        title: "<spring:message code='inspectionReport.mileStone'/>",
+        required: true,
+        wrapTitle: false,
+        valueMap: JSON.parse('${Enum_MileStone}'),
+        validators: [
+            {
+                type: "required",
+                validateOnChange: true
+            }]
+    },
+    {
+        name: "description",
+        title: "<spring:message code='inspectionReport.description'/>",
+        colSpan: 4,
+        width: "100%",
+        wrapTitle: false,
+        editorType: "textArea",
+        marginRight: 10
+    },
 ]);
 
 inspectionReportTab.dynamicForm.inspecReport = isc.DynamicForm.create({
-    width: "50%",
-    // height: "100%",
     align: "center",
     numCols: 4,
     margin: 10,
@@ -1040,7 +1153,7 @@ inspectionReportTab.method.groupByAssays = function (array, groupFieldName) {
 inspectionReportTab.window.inspecReport = new nicico.FormUtil();
 inspectionReportTab.window.inspecReport.init(null, '<spring:message code="inspectionReport.title"/>', isc.VLayout.create({
     width: "100%",
-    height: "500",
+    height: "650",
     align: "center",
     members: [
         inspectionReportTab.dynamicForm.material,
