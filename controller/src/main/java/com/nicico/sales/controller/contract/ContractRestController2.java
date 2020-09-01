@@ -14,6 +14,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -74,4 +75,17 @@ public class ContractRestController2 {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
         return new ResponseEntity<>(contractService.search(nicicoCriteria), HttpStatus.OK);
     }
+
+    @Loggable
+    @GetMapping(value = "/latest-version-of-data/{contractId}/{code}/{contractDetailValueKey}")
+    public ResponseEntity<List<Object>> latestVersionOfData(@PathVariable String contractDetailValueKey,
+                                                            @PathVariable Long contractId,
+                                                            @PathVariable String code) {
+        return new ResponseEntity<>(contractService.getOperationalDataOfContractArticle(contractId,
+                code, contractDetailValueKey), HttpStatus.OK);
+
+
+
+    }
+
 }
