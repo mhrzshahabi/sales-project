@@ -143,12 +143,12 @@
     </changeSet>
     <changeSet author="NO1 (generated)" id="1598344706444-262">
         <addColumn tableName="TBL_SHIPMENT">
-            <column name="N_WEIGHT_G_W" type="number(10, 5)"/>
+            <column name="N_WEIGHT_G_W" type="number(15, 5)"/>
         </addColumn>
     </changeSet>
     <changeSet author="NO1 (generated)" id="1598344706444-263">
         <addColumn tableName="TBL_SHIPMENT">
-            <column name="N_WEIGHT_N_D" type="number(10, 5)"/>
+            <column name="N_WEIGHT_N_D" type="number(15, 5)"/>
         </addColumn>
     </changeSet>
 
@@ -308,6 +308,21 @@
         <addColumn tableName="TBL_SHIPMENT">
             <column name="D_ARRIVAL_DATE_TO" type="timestamp"/>
         </addColumn>
+    </changeSet>
+
+    <changeSet author="Abiz" id="AZAARE-040">
+        <addColumn tableName="TBL_SHIPMENT">
+            <column name="N_NO_BARREL" type="number(6,0)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="Abiz" id="AZAARE-041">
+        <addColumn tableName="TBL_SHIPMENT">
+            <column name="N_NO_PALLET" type="number(6,0)"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="Abiz" id="AZAARE-042">
+        <addUniqueConstraint columnNames="F_CONTRACT_SHIPMENT_ID" constraintName="UNIQUE_F_CONTRACT_SHIPMENT_ID" tableName="TBL_SHIPMENT"/>
     </changeSet>
 
 </databaseChangeLog>

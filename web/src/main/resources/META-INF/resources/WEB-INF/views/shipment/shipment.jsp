@@ -109,6 +109,16 @@
         fetchDataURL: "${contextPath}/api/shipmentMethod/spec-list"
     });
 
+    var RestDataSource_Port = isc.MyRestDataSource.create({
+        fields:
+            [
+                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
+                {name: "port", title: "<spring:message code='billOfLanding.port.of.discharge'/>"},
+            ],
+        fetchDataURL: "${contextPath}/api/port/spec-list"
+    });
+
+
     var RestDataSource_pickShipmentItem = isc.MyRestDataSource.create({
         fields:
             [
@@ -154,20 +164,20 @@
             {name: "amount", title: "<spring:message code='global.amount'/>", type: 'float'},
             {name: "unitId", title: "<spring:message code='unit.title'/>"},
             {name: "noContainer", title: "<spring:message code='shipment.noContainer'/>", type: 'integer'},
-            {name: "noPalete", title: "<spring:message code='shipment.noPalete'/>", type: 'integer'},
+            {name: "noPallet", title: "<spring:message code='shipment.noPallet'/>", type: 'integer'},
             {name: "noBarrel", title: "<spring:message code='shipment.noBarrel'/>", type: 'integer'},
-            {name: "gross", title: "<spring:message code='shipment.gross'/>"},
-            {name: "net", title: "<spring:message code='shipment.net'/>"},
+            {name: "weightGW", title: "<spring:message code='shipment.gross'/>"},
+            {name: "weightND", title: "<spring:message code='shipment.net'/>"},
             {name: "moisture", title: "<spring:message code='shipment.moisture'/>"},
             {name: "vgm", title: "<spring:message code='shipment.vgm'/>"},
             {
-                name: "shipmentType",
+                name: "shipmentType.shipmentType",
                 title: "<spring:message code='shipment.shipmentType'/>",
                 type: 'text',
                 width: 400,
             },
             {
-                name: "shipmentMethod",
+                name: "shipmentMethod.shipmentMethod",
                 title: "<spring:message code='shipment.shipmentMethod'/>",
                 type: 'text',
                 width: 400,
@@ -181,7 +191,7 @@
 
             },
             {
-                name: "loadingLetter",
+                name: "automationLetterNo",
                 title: "<spring:message code='shipment.loadingLetter'/>",
                 type: 'text',
                 width: "10%",
@@ -214,7 +224,7 @@
                     }]
             },
             {
-                name: "sendDate",
+                name: "automationLetterDate",
                 title: "<spring:message code='shipment.bDate'/>",
                 type: 'text',
                 width: "10%"
@@ -286,9 +296,11 @@
                 title: "<spring:message code='global.form.print.word'/>",
                 click: function () {
                     let record = ListGrid_Shipment.getSelectedRecord();
-                    if (record.shipmentType == "پالت" || (record.materialId == ImportantIDs.material.COPPER_CONCENTRATES &&
-                        record.shipmentType.contains("انتینر")) ||
-                        (record.materialId == ImportantIDs.material.MOLYBDENUM_OXIDE && record.shipmentType.contains("فله"))) {
+                    if (record.shipmentType.shipmentType == "پالت" || (record.materialId ==
+                        ImportantIDs.material.COPPER_CONCENTRATES &&
+                        record.shipmentType.shipmentType.contains("انتینر")) ||
+                        (record.materialId == ImportantIDs.material.MOLYBDENUM_OXIDE &&
+                            record.shipmentType.shipmentType.contains("فله"))) {
                         isc.say("<spring:message code='global.print.not.exist'/>");
                         return;
                     }
@@ -353,9 +365,7 @@
                     let record = DynamicForm_Shipment.getItem("contractId").getSelectedRecord();
                     let buyerId = record.contractContacts.filter(c => (c.commercialRole === 'Buyer'))[0].contactId;
                     setBuyerName(buyerId);
-let contactAgentId = record.contractContacts.filter(c => (c.commercialRole === 'AgentBuyer'))[0].contactId;
-DynamicForm_Shipment.setValue("contactAgentId", contactAgentId);
-DynamicForm_Shipment.setValue("material.descp", record.material.descp);
+                    DynamicForm_Shipment.setValue("material.descp", record.material.descp);
                     DynamicForm_Shipment.setValue("contactId", buyerId);
                     DynamicForm_Shipment.setValue("materialId", record.materialId);
                     DynamicForm_Shipment.getItem("contractShipmentId").setValue(null);
@@ -416,13 +426,13 @@ DynamicForm_Shipment.setValue("material.descp", record.material.descp);
             },
             {name: "contractDate", hidden: true,},
             {
-                name: "automationDate",
+                name: "automationLetterDate",
                 title: "<spring:message code='shipment.bDate'/>",
-                ID: "automationDateId",
+                ID: "automationLetterDateId",
                 icons: [{
                     src: "pieces/pcal.png",
                     click: function () {
-                        displayDatePicker('automationDateId', this, 'ymd', '/');
+                        displayDatePicker('automationLetterDateId', this, 'ymd', '/');
                     }
                 }],
 // defaultValue: "1399/01/01",
@@ -434,8 +444,7 @@ DynamicForm_Shipment.setValue("material.descp", record.material.descp);
                     }],
             },
             {
-                name: "loadingLetter",
-                colSpan: 4,
+                name: "automationLetterNo",
                 title: "<spring:message code='shipment.loadingLetter'/>",
                 type: 'text',
                 required: true,
@@ -446,6 +455,24 @@ DynamicForm_Shipment.setValue("material.descp", record.material.descp);
                         type: "required",
                         validateOnChange: true
                     }]
+            },
+            {
+                name: "bookingCat",
+                title: "<spring:message code='shipment.bookingCat'/>",
+                type: 'text',
+                width: "100%",
+                required: true,
+            },
+
+            {
+                name: "arrivalDateFrom",
+                type: "date",
+                title: "<spring:message code='shipment.arrivalDateFrom'/>",
+            },
+            {
+                name: "arrivalDateTo",
+                type: "date",
+                title: "<spring:message code='shipment.arrivalDateTo'/>",
             },
             {
                 name: "amount",
@@ -495,116 +522,116 @@ DynamicForm_Shipment.setValue("material.descp", record.material.descp);
                     }
                 ],
             },
-{
-name: "noBLs",
-title: "<spring:message code='shipment.numberOfBLs'/>",
-type: 'long',
-required: true,
-width: "100%",
-keyPressFilter: "[0-9]",
-validators: [
-{
-type: "required",
-validateOnChange: true
-}]
-},
-{
+            {
+                name: "noBLs",
+                title: "<spring:message code='shipment.numberOfBLs'/>",
+                type: 'long',
+                required: true,
+                width: "100%",
+                keyPressFilter: "[0-9]",
+                validators: [
+                    {
+                        type: "required",
+                        validateOnChange: true
+                    }]
+            },
+            {
                 name: "shipmentTypeId",
-displayField: "shipmentType",
-valueField: "id",
-colSpan: 4,
+                displayField: "shipmentType",
+                valueField: "id",
+                colSpan: 4,
                 title: "<spring:message code='shipment.shipmentType'/>",
                 width: "100%",
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_ShipmentTypeInShipment,
-pickListProperties: {showFilterEditor: true},
+                pickListProperties: {showFilterEditor: true},
 
-pickListFields: [
-{
-name: "shipmentType",
-width: "10%",
-align: "center"
-}],
-pickListHeight: "500",
+                pickListFields: [
+                    {
+                        name: "shipmentType",
+                        width: "10%",
+                        align: "center"
+                    }],
+                pickListHeight: "500",
                 required: true,
                 validators: [{
                     type: "required",
                     validateOnChange: true
                 }],
                 changed: function (form, item, value) {
-let shipmentTypeName = DynamicForm_Shipment.getItem("shipmentTypeId").getSelectedRecord().shipmentType;
-if (shipmentTypeName.contains("فله")) {
+                    let shipmentTypeName = DynamicForm_Shipment.getItem("shipmentTypeId").getSelectedRecord().shipmentType;
+                    if (shipmentTypeName.contains("فله")) {
                         if (DynamicForm_Shipment.getItem("materialId").getValue() === ImportantIDs.material.COPPER_CATHOD) {
-                            form.getItem("gross").show();
-                            form.getItem("net").show();
+                            form.getItem("weightGW").show();
+                            form.getItem("weightND").show();
                             form.getItem("moisture").hide();
                             form.getItem("vgm").show();
                             form.getItem("noContainer").show();
                             form.getItem("noBarrel").hide();
-                            form.getItem("noPalete").hide();
+                            form.getItem("noPallet").hide();
                         }
                         if (DynamicForm_Shipment.getItem("materialId").getValue() === ImportantIDs.COPPER_CONCENTRATES) {
-                            form.getItem("gross").show();
-                            form.getItem("net").show();
+                            form.getItem("weightGW").show();
+                            form.getItem("weightND").show();
                             form.getItem("moisture").show();
                             form.getItem("vgm").hide();
                             form.getItem("noContainer").hide();
                             form.getItem("noBarrel").hide();
-                            form.getItem("noPalete").hide();
+                            form.getItem("noPallet").hide();
                         }
                         if (DynamicForm_Shipment.getItem("materialId").getValue() === ImportantIDs.MOLYBDENUM_OXIDE) {
-                            form.getItem("gross").hide();
-                            form.getItem("net").hide();
+                            form.getItem("weightGW").hide();
+                            form.getItem("weightND").hide();
                             form.getItem("moisture").hide();
                             form.getItem("vgm").hide();
                             form.getItem("noContainer").hide();
                             form.getItem("noBarrel").hide();
-                            form.getItem("noPalete").hide();
+                            form.getItem("noPallet").hide();
                         }
                     } else if (shipmentTypeName.contains("انتینری")) {
                         if (DynamicForm_Shipment.getItem("materialId").getValue() === ImportantIDs.material.COPPER_CATHOD) {
-                            form.getItem("gross").show();
-                            form.getItem("net").show();
+                            form.getItem("weightGW").show();
+                            form.getItem("weightND").show();
                             form.getItem("moisture").hide();
                             form.getItem("vgm").show();
                             form.getItem("noContainer").show();
                             form.getItem("noBarrel").hide();
-                            form.getItem("noPalete").hide();
+                            form.getItem("noPallet").hide();
                         }
                         if (DynamicForm_Shipment.getItem("materialId").getValue() === ImportantIDs.material.COPPER_CONCENTRATES) {
-                            form.getItem("gross").show();
-                            form.getItem("net").show();
+                            form.getItem("weightGW").show();
+                            form.getItem("weightND").show();
                             form.getItem("moisture").hide();
                             form.getItem("vgm").hide();
                             form.getItem("noContainer").show();
                             form.getItem("noBarrel").show();
-                            form.getItem("noPalete").show();
+                            form.getItem("noPallet").show();
                         }
                         if (DynamicForm_Shipment.getItem("materialId").getValue() === ImportantIDs.material.MOLYBDENUM_OXIDE) {
-                            form.getItem("gross").show();
-                            form.getItem("net").show();
+                            form.getItem("weightGW").show();
+                            form.getItem("weightND").show();
                             form.getItem("moisture").hide();
                             form.getItem("vgm").hide();
                             form.getItem("noContainer").show();
                             form.getItem("noBarrel").show();
-                            form.getItem("noPalete").show();
+                            form.getItem("noPallet").show();
                         }
                     } else if (shipmentTypeName.contains("پالت")) {
-                        form.getItem("gross").hide();
-                        form.getItem("net").hide();
+                        form.getItem("weightGW").hide();
+                        form.getItem("weightND").hide();
                         form.getItem("moisture").hide();
                         form.getItem("vgm").hide();
                         form.getItem("noContainer").hide();
                         form.getItem("noBarrel").hide();
-                        form.getItem("noPalete").hide();
+                        form.getItem("noPallet").hide();
                     }
                 }
             },
             {
                 name: "shipmentMethodId",
                 colSpan: 4,
-displayField: "shipmentMethod",
-valueField: "id",
+                displayField: "shipmentMethod",
+                valueField: "id",
 
                 title: "<spring:message code='shipment.shipmentMethod'/>",
                 width: "100%",
@@ -618,12 +645,14 @@ valueField: "id",
                 }]
             },
             {
-                name: "gross",
+                name: "weightGW",
                 colSpan: 4,
+                length: 10,
                 title: "<spring:message code='shipment.gross'/>",
                 required: true,
                 type: "float",
                 width: "100%",
+                keyPressFilter: "[0-9.]",
                 validators: [{
                     type: "required",
                     validateOnChange: true
@@ -631,8 +660,10 @@ valueField: "id",
                 hidden: true
             },
             {
-                name: "net",
+                name: "weightND",
                 colSpan: 4,
+                length: 10,
+                keyPressFilter: "[0-9.]",
                 title: "<spring:message code='shipment.net'/>",
                 required: true,
                 type: "float",
@@ -647,13 +678,8 @@ valueField: "id",
                 name: "moisture",
                 colSpan: 4,
                 title: "<spring:message code='shipment.moisture'/>",
-                required: true,
-                type: "float",
+                type: "staticText",
                 width: "100%",
-                validators: [{
-                    type: "required",
-                    validateOnChange: true
-                }],
                 hidden: true
             },
             {
@@ -695,6 +721,7 @@ valueField: "id",
                 type: 'integer',
                 required: true,
                 width: "100%",
+                length: 6,
                 keyPressFilter: "[0-9.]",
                 validators: [{
                     type: "isInteger",
@@ -709,10 +736,11 @@ valueField: "id",
                 hidden: true
             },
             {
-                name: "noPalete", colSpan: 4,
+                name: "noPallet", colSpan: 4,
                 title: "<spring:message code='shipment.noPalette'/>",
                 type: 'integer',
                 width: "100%",
+                length: 6,
                 required: true,
                 keyPressFilter: "[0-9.]",
                 validators: [{
@@ -730,7 +758,7 @@ valueField: "id",
             {
                 required: true,
                 colSpan: 4,
-                name: "contactByAgentId",
+                name: "contactAgentId",
                 title: "<spring:message code='shipment.agent'/>",
                 type: 'long',
                 width: 400,
@@ -784,7 +812,27 @@ valueField: "id",
                         validateOnChange: true
                     }]
             },
-
+            {
+                name: "dischargePortId",
+                colSpan: 4,
+                title: "<spring:message code='billOfLanding.port.of.discharge'/>",
+                editorType: "SelectItem",
+                required: true,
+                optionDataSource: RestDataSource_Port,
+                type: 'long',
+                width: 400,
+                displayField: "port",
+                valueField: "id",
+                pickListWidth: 400,
+                pickListHeight: "500",
+                pickListProperties: {
+                    showFilterEditor: true
+                },
+                pickListFields: [
+                    {
+                        name: "port",
+                    }]
+            },
         ]
     });
     var RestDataSource_Contact_optionCriteria__SHIPMENT = {
@@ -811,9 +859,9 @@ valueField: "id",
         icon: "pieces/16/save.png",
         click: function () {
             DynamicForm_Shipment.validate();
-            let automationDate = toEnglishDigits(DynamicForm_Shipment.getValue("automationDate"));
-            DynamicForm_Shipment.setValue("automationDate",
-                new Date(new persianDate(automationDate.split("/").map(x => +x)).format('X') * 1000));
+            let automationLetterDate = toEnglishDigits(DynamicForm_Shipment.getValue("automationLetterDate"));
+            DynamicForm_Shipment.setValue("automationLetterDate",
+                new Date(new persianDate(automationLetterDate.split("/").map(x => +x)).format('X') * 1000));
             let allDataShipment = DynamicForm_Shipment.getValues();
             let dataShipment = Object.assign(allDataShipment);
             let methodXXXX = "PUT";
@@ -998,7 +1046,7 @@ valueField: "id",
 
     function ListGrid_Shipment_edit() {
         let record = ListGrid_Shipment.getSelectedRecord();
-
+        let shipmentTypeName = record.shipmentType.shipmentType;
         if (record == null || record.id == null) {
             isc.Dialog.create({
                 message: "<spring:message code='global.grid.record.not.selected'/>",
@@ -1011,77 +1059,82 @@ valueField: "id",
             });
         } else {
 
-            if (record.shipmentType.contains("فله")) {
+            if (shipmentTypeName.contains("فله")) {
                 if (record.materialId === ImportantIDs.material.COPPER_CATHOD) {
-                    DynamicForm_Shipment.getItem("gross").show();
-                    DynamicForm_Shipment.getItem("net").show();
+                    DynamicForm_Shipment.getItem("weightGW").show();
+                    DynamicForm_Shipment.getItem("weightND").show();
                     DynamicForm_Shipment.getItem("moisture").hide();
                     DynamicForm_Shipment.getItem("vgm").show();
                     DynamicForm_Shipment.getItem("noContainer").show();
                     DynamicForm_Shipment.getItem("noBarrel").hide();
-                    DynamicForm_Shipment.getItem("noPalete").hide();
+                    DynamicForm_Shipment.getItem("noPallet").hide();
                 }
                 if (record.materialId === ImportantIDs.material.COPPER_CONCENTRATES) {
-                    DynamicForm_Shipment.getItem("gross").show();
-                    DynamicForm_Shipment.getItem("net").show();
+                    DynamicForm_Shipment.getItem("weightGW").show();
+                    DynamicForm_Shipment.getItem("weightND").show();
                     DynamicForm_Shipment.getItem("moisture").show();
                     DynamicForm_Shipment.getItem("vgm").hide();
                     DynamicForm_Shipment.getItem("noContainer").hide();
                     DynamicForm_Shipment.getItem("noBarrel").hide();
-                    DynamicForm_Shipment.getItem("noPalete").hide();
+                    DynamicForm_Shipment.getItem("noPallet").hide();
                 }
                 if (record.materialId === ImportantIDs.material.MOLYBDENUM_OXIDE) {
-                    DynamicForm_Shipment.getItem("gross").hide();
-                    DynamicForm_Shipment.getItem("net").hide();
+                    DynamicForm_Shipment.getItem("weightGW").hide();
+                    DynamicForm_Shipment.getItem("weightND").hide();
                     DynamicForm_Shipment.getItem("moisture").hide();
                     DynamicForm_Shipment.getItem("vgm").hide();
                     DynamicForm_Shipment.getItem("noContainer").hide();
                     DynamicForm_Shipment.getItem("noBarrel").hide();
-                    DynamicForm_Shipment.getItem("noPalete").hide();
+                    DynamicForm_Shipment.getItem("noPallet").hide();
                 }
-            } else if (record.shipmentType.contains("انتینری")) {
+            } else if (shipmentTypeName.contains("انتینری")) {
                 if (record.materialId === ImportantIDs.material.COPPER_CATHOD) {
-                    DynamicForm_Shipment.getItem("gross").show();
-                    DynamicForm_Shipment.getItem("net").show();
+                    DynamicForm_Shipment.getItem("weightGW").show();
+                    DynamicForm_Shipment.getItem("weightND").show();
                     DynamicForm_Shipment.getItem("moisture").hide();
                     DynamicForm_Shipment.getItem("vgm").show();
                     DynamicForm_Shipment.getItem("noContainer").show();
                     DynamicForm_Shipment.getItem("noBarrel").hide();
-                    DynamicForm_Shipment.getItem("noPalete").hide();
+                    DynamicForm_Shipment.getItem("noPallet").hide();
                 }
                 if (record.materialId === ImportantIDs.material.COPPER_CONCENTRATES) {
-                    DynamicForm_Shipment.getItem("gross").show();
-                    DynamicForm_Shipment.getItem("net").show();
+                    DynamicForm_Shipment.getItem("weightGW").show();
+                    DynamicForm_Shipment.getItem("weightND").show();
                     DynamicForm_Shipment.getItem("moisture").hide();
                     DynamicForm_Shipment.getItem("vgm").hide();
                     DynamicForm_Shipment.getItem("noContainer").show();
                     DynamicForm_Shipment.getItem("noBarrel").show();
-                    DynamicForm_Shipment.getItem("noPalete").show();
+                    DynamicForm_Shipment.getItem("noPallet").show();
                 }
                 if (record.materialId === ImportantIDs.material.MOLYBDENUM_OXIDE) {
-                    DynamicForm_Shipment.getItem("gross").show();
-                    DynamicForm_Shipment.getItem("net").show();
+                    DynamicForm_Shipment.getItem("weightGW").show();
+                    DynamicForm_Shipment.getItem("weightND").show();
                     DynamicForm_Shipment.getItem("moisture").hide();
                     DynamicForm_Shipment.getItem("vgm").hide();
                     DynamicForm_Shipment.getItem("noContainer").show();
                     DynamicForm_Shipment.getItem("noBarrel").show();
-                    DynamicForm_Shipment.getItem("noPalete").show();
+                    DynamicForm_Shipment.getItem("noPallet").show();
                 }
-            } else if (record.shipmentType.contains("پالت")) {
-                DynamicForm_Shipment.getItem("gross").hide();
-                DynamicForm_Shipment.getItem("net").hide();
+            } else if (shipmentTypeName.contains("پالت")) {
+                DynamicForm_Shipment.getItem("weightGW").hide();
+                DynamicForm_Shipment.getItem("weightND").hide();
                 DynamicForm_Shipment.getItem("moisture").hide();
                 DynamicForm_Shipment.getItem("vgm").hide();
                 DynamicForm_Shipment.getItem("noContainer").hide();
                 DynamicForm_Shipment.getItem("noBarrel").hide();
-                DynamicForm_Shipment.getItem("noPalete").hide();
+                DynamicForm_Shipment.getItem("noPallet").hide();
             }
 
 
             DynamicForm_Shipment.clearValues();
             DynamicForm_Shipment.editRecord(record);
-            DynamicForm_Shipment.setValue("automationDate", new Date(record.automationDate).toLocaleDateString('fa-IR'));
+            DynamicForm_Shipment.setValue("automationLetterDate", new Date(parseInt(record.automationLetterDate)).toLocaleDateString('fa-IR'));
             DynamicForm_Shipment.setValue("contractId", record.contractShipment.contract.no);
+            DynamicForm_Shipment.setValue("contractId", record.contractShipment.contract.no);
+            DynamicForm_Shipment.setValue("arrivalDateTo", new Date(parseInt(ListGrid_Shipment.getSelectedRecord().arrivalDateTo)));
+            DynamicForm_Shipment.setValue("arrivalDateFrom", new Date(parseInt(ListGrid_Shipment.getSelectedRecord().arrivalDateFrom)));
+            DynamicForm_Shipment.setValue("sendDate", new Date(parseInt(ListGrid_Shipment.getSelectedRecord().sendDate)));
+
             setBuyerName(record.contactId);
             abal.disable();
             shipment.disable();
@@ -1222,7 +1275,7 @@ valueField: "id",
                 }
             },
             {
-                name: "automationDate",
+                name: "automationLetterDate",
                 title: "<spring:message code='shipment.bDate'/>",
                 type: 'date',
                 width: "10%",
@@ -1258,7 +1311,7 @@ valueField: "id",
                 showHover: true
             },
             {
-                name: "shipmentType",
+                name: "shipmentType.shipmentType",
                 title: "<spring:message code='shipment.shipmentType'/>",
                 type: 'text',
                 width: "10%",
@@ -1271,7 +1324,20 @@ valueField: "id",
                     }]
             },
             {
-                name: "loadingLetter",
+                name: "shipmentMethod.shipmentMethod",
+                title: "<spring:message code='shipment.shipmentMethod'/>",
+                type: 'text',
+                width: "10%",
+                showHover: true,
+                required: true,
+                validators: [
+                    {
+                        type: "required",
+                        validateOnChange: true
+                    }]
+            },
+            {
+                name: "automationLetterNo",
                 title: "<spring:message code='shipment.loadingLetter'/>",
                 type: 'text',
                 width: "10%",
@@ -1318,14 +1384,14 @@ valueField: "id",
                 },
             },
             {
-                name: "contactByAgent.nameFA",
+                name: "contactAgent.nameFA",
                 title: "<spring:message code='shipment.agent'/>",
                 type: 'text',
                 width: "10%",
                 align: "center",
                 showHover: true,
                 sortNormalizer: function (recordObject) {
-                    return recordObject.contactByAgent.nameFA
+                    return recordObject.contactAgent.nameFA
                 }
             },
             {
