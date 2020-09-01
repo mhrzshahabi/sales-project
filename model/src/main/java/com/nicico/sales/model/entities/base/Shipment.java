@@ -18,7 +18,9 @@ import java.util.Set;
 @Accessors(chain = true)
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
-@Table(name = "TBL_SHIPMENT")
+@Table(name = "TBL_SHIPMENT" , uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"F_CONTRACT_SHIPMENT_ID"}, name = "UNIQUE_F_CONTRACT_SHIPMENT_ID")
+})
 public class Shipment extends BaseEntity {
 
     @Id
@@ -147,13 +149,13 @@ public class Shipment extends BaseEntity {
 //    @Column(name = "AGENT")
 //    private Long contactByAgentId;
 
-//    @Column(name = "N_NO_BARREL")
-//    private Long noBarrel;
+    @Column(name = "N_NO_BARREL")
+    private Long noBarrel;
 
-//    @Column(name = "N_NO_PALLET")
-//    private Long noPallet;
+    @Column(name = "N_NO_PALLET")
+    private Long noPallet;
 
-    @Column(name = "BOOKING_NO_cat")
+    @Column(name = "BOOKING_NO_CAT")
     private String bookingCat;
 
 //    @NotAudited
