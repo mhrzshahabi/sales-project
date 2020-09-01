@@ -83,6 +83,9 @@ public class ContractRestController2 {
                                                             @PathVariable String code) {
         return new ResponseEntity<>(contractService.getOperationalDataOfContractArticle(contractId,
                 code, contractDetailValueKey), HttpStatus.OK);
+
+
+
     }
 
 }

@@ -470,6 +470,11 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
         final List<Object> objectList = map.get(eContractDetailValueKeyOptional.name());
         return objectList;
 
+
+
+
+
+
     }
 
     private Set<ContractShipment> getContractShipmentsWithShipment(ContractDTO2.Create request) {
