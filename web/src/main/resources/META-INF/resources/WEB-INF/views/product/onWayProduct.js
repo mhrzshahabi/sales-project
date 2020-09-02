@@ -351,7 +351,7 @@ function mainOnWayProduct() {
         const filterEditorCriteria = ListGrid_Tozin_IN_ONWAYPRODUCT.getFilterEditorCriteria();
         filterEditorCriteria.criteria.add({"fieldName": "tozinId", "operator": "iNotStartsWith", "value": "3-"})
         const criteriaForSearch = {...filterEditorCriteria};
-        // dbg('filterEditorCriteria', filterEditorCriteria)
+        // dbg(false, 'filterEditorCriteria', filterEditorCriteria)
         const value = await fetchAlreadyInsertedTozinList()
         value.forEach(v => criteriaForSearch.criteria.add({
                 "fieldName": "tozinId",
@@ -359,7 +359,7 @@ function mainOnWayProduct() {
                 "value": v
             })
         )
-        // dbg('criteriaForSearch', criteriaForSearch)
+        // dbg(false, 'criteriaForSearch', criteriaForSearch)
         ListGrid_Tozin_IN_ONWAYPRODUCT.fetchData(criteriaForSearch)
         // ListGrid_Tozin_IN_ONWAYPRODUCT.fetchData(criteriaForSearch, _ => {
         //     // const filter = filterEditorCriteria.criteria.filter(__ => {
@@ -575,7 +575,7 @@ function mainOnWayProduct() {
             ]
         },
         async filterData(criteria, callback, requestProperties) {
-            // dbg('async filterData(criteria', arguments)
+            // dbg(false, 'async filterData(criteria', arguments)
             // criteria.criteria.add({"fieldName": "tozinId", "operator": "iNotStartsWith", "value": "3-"})
             if (!criteria.criteria.find(t => t.fieldName === "sourceId")) {
                 isc.say('فیلتر مبدا خالی‌ می‌باشد')

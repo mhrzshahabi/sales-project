@@ -5,6 +5,7 @@ import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.sales.dto.contract.ContractDTO2;
 import com.nicico.sales.iservice.contract.IContractService2;
+import com.nicico.sales.utility.SpecListUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -14,6 +15,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -21,6 +23,7 @@ import java.util.List;
 @RequestMapping(value = "/api/g-contract")
 public class ContractRestController2 {
 
+    private final SpecListUtil specListUtil;
     private final IContractService2 contractService;
 
     @Loggable
@@ -73,5 +76,26 @@ public class ContractRestController2 {
 
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
         return new ResponseEntity<>(contractService.search(nicicoCriteria), HttpStatus.OK);
+    }
+
+    @Loggable
+    @GetMapping(value = "/latest-version-of-data/{contractId}/{code}/{contractDetailValueKey}")
+    public ResponseEntity<List<Object>> latestVersionOfData(@PathVariable String contractDetailValueKey,
+                                                            @PathVariable Long contractId,
+                                                            @PathVariable String code) {
+        return new ResponseEntity<>(contractService.getOperationalDataOfContractArticle(contractId,
+                code, contractDetailValueKey), HttpStatus.OK);
+    }
+
+    @Loggable
+    @GetMapping(value = "/latest-version-of-data-response")
+    public ResponseEntity<Map<String, Object>> latestVersionOfDataResponse(
+            @RequestParam String code,
+            @RequestParam Long contractId,
+            @RequestParam String contractDetailValueKey) {
+
+        return new ResponseEntity<>(specListUtil.getCoveredByResponse(
+                contractService.getOperationalDataOfContractArticle(contractId,
+                        code, contractDetailValueKey)), HttpStatus.OK);
     }
 }

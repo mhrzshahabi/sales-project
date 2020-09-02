@@ -44,7 +44,6 @@ public class ShipmentDTO {
     private Double vgm;
     private Date arrivalDateFrom;
     private Date arrivalDateTo;
-    private Long noBarrel;
     private Long noPallet;
 
 

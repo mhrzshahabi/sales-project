@@ -131,7 +131,18 @@
                 {name: "contractId", title: "contractId"},
                 {name: "loadPortId", title: "<spring:message code='shipment.loading'/>"},
             ],
-        fetchDataURL: "${contextPath}/api/contractShipment/spec-list"
+        transformRequest: function (dsRequest) {
+
+            dsRequest.params = {
+
+                contractId: DynamicForm_Shipment.getValue("contractId"),
+                code: JSON.parse('${Enum_EContractDetailTypeCode}').ShipmentDetailCode,
+                contractDetailValueKey: JSON.parse('${Enum_EContractDetailValueKey}').NotImportant
+            };
+
+            this.Super("transformRequest", arguments);
+        },
+        fetchDataURL: "${contextPath}/api/g-contract/latest-version-of-data-response"
     });
 
     var RestDataSource_pickContractItem = isc.MyRestDataSource.create({
@@ -168,7 +179,6 @@
             {name: "unitId", title: "<spring:message code='unit.title'/>"},
             {name: "noContainer", title: "<spring:message code='shipment.noContainer'/>", type: 'integer'},
             {name: "noPallet", title: "<spring:message code='shipment.noPallet'/>", type: 'integer'},
-            {name: "noBarrel", title: "<spring:message code='shipment.noBarrel'/>", type: 'integer'},
             {name: "weightGW", title: "<spring:message code='shipment.gross'/>"},
             {name: "weightND", title: "<spring:message code='shipment.net'/>"},
             {name: "moisture", title: "<spring:message code='shipment.moisture'/>"},
@@ -177,13 +187,11 @@
                 name: "shipmentType.shipmentType",
                 title: "<spring:message code='shipment.shipmentType'/>",
                 type: 'text',
-                width: 400,
             },
             {
                 name: "shipmentMethod.shipmentMethod",
                 title: "<spring:message code='shipment.shipmentMethod'/>",
                 type: 'text',
-                width: 400,
             },
             {
                 name: "bookingCat",
@@ -345,6 +353,7 @@
                 width: "100%",
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_pickContractItem,
+                optionCriteria: {operator: "and", criteria: [{fieldName: "parentId", operator: "isNull"}]},
                 displayField: "no",
                 valueField: "id",
                 pickListHeight: "500",
@@ -371,16 +380,6 @@
                     DynamicForm_Shipment.setValue("material.descp", record.material.descp);
                     DynamicForm_Shipment.setValue("contactId", buyerId);
                     DynamicForm_Shipment.setValue("materialId", record.materialId);
-                    DynamicForm_Shipment.getItem("contractShipmentId").setValue(null);
-                    DynamicForm_Shipment.getItem("contractShipmentId").setOptionCriteria({
-                        operator: 'and',
-                        criteria: [{
-                            fieldName: 'contractId',
-                            operator: 'equals',
-                            value: record.id
-                        }]
-                    })
-
                 }
             },
             {
@@ -542,7 +541,6 @@
                 name: "shipmentTypeId",
                 displayField: "shipmentType",
                 valueField: "id",
-                colSpan: 4,
                 title: "<spring:message code='shipment.shipmentType'/>",
                 width: "100%",
                 editorType: "SelectItem",
@@ -557,214 +555,86 @@
                     }],
                 pickListHeight: "500",
                 required: true,
-                validators: [{
-                    type: "required",
-                    validateOnChange: true
-                }],
-                changed: function (form, item, value) {
-                    let shipmentTypeName = DynamicForm_Shipment.getItem("shipmentTypeId").getSelectedRecord().shipmentType;
-                    if (shipmentTypeName.contains("فله")) {
-                        if (DynamicForm_Shipment.getItem("materialId").getValue() === ImportantIDs.material.COPPER_CATHOD) {
-                            form.getItem("weightGW").show();
-                            form.getItem("weightND").show();
-                            form.getItem("moisture").hide();
-                            form.getItem("vgm").show();
-                            form.getItem("noContainer").show();
-                            form.getItem("noBarrel").hide();
-                            form.getItem("noPallet").hide();
-                        }
-                        if (DynamicForm_Shipment.getItem("materialId").getValue() === ImportantIDs.COPPER_CONCENTRATES) {
-                            form.getItem("weightGW").show();
-                            form.getItem("weightND").show();
-                            form.getItem("moisture").show();
-                            form.getItem("vgm").hide();
-                            form.getItem("noContainer").hide();
-                            form.getItem("noBarrel").hide();
-                            form.getItem("noPallet").hide();
-                        }
-                        if (DynamicForm_Shipment.getItem("materialId").getValue() === ImportantIDs.MOLYBDENUM_OXIDE) {
-                            form.getItem("weightGW").hide();
-                            form.getItem("weightND").hide();
-                            form.getItem("moisture").hide();
-                            form.getItem("vgm").hide();
-                            form.getItem("noContainer").hide();
-                            form.getItem("noBarrel").hide();
-                            form.getItem("noPallet").hide();
-                        }
-                    } else if (shipmentTypeName.contains("انتینری")) {
-                        if (DynamicForm_Shipment.getItem("materialId").getValue() === ImportantIDs.material.COPPER_CATHOD) {
-                            form.getItem("weightGW").show();
-                            form.getItem("weightND").show();
-                            form.getItem("moisture").hide();
-                            form.getItem("vgm").show();
-                            form.getItem("noContainer").show();
-                            form.getItem("noBarrel").hide();
-                            form.getItem("noPallet").hide();
-                        }
-                        if (DynamicForm_Shipment.getItem("materialId").getValue() === ImportantIDs.material.COPPER_CONCENTRATES) {
-                            form.getItem("weightGW").show();
-                            form.getItem("weightND").show();
-                            form.getItem("moisture").hide();
-                            form.getItem("vgm").hide();
-                            form.getItem("noContainer").show();
-                            form.getItem("noBarrel").show();
-                            form.getItem("noPallet").show();
-                        }
-                        if (DynamicForm_Shipment.getItem("materialId").getValue() === ImportantIDs.material.MOLYBDENUM_OXIDE) {
-                            form.getItem("weightGW").show();
-                            form.getItem("weightND").show();
-                            form.getItem("moisture").hide();
-                            form.getItem("vgm").hide();
-                            form.getItem("noContainer").show();
-                            form.getItem("noBarrel").show();
-                            form.getItem("noPallet").show();
-                        }
-                    } else if (shipmentTypeName.contains("پالت")) {
-                        form.getItem("weightGW").hide();
-                        form.getItem("weightND").hide();
-                        form.getItem("moisture").hide();
-                        form.getItem("vgm").hide();
-                        form.getItem("noContainer").hide();
-                        form.getItem("noBarrel").hide();
-                        form.getItem("noPallet").hide();
-                    }
-                }
+                validators: [
+                    {
+                        type: "required",
+                        validateOnChange: true
+                    }],
             },
             {
                 name: "shipmentMethodId",
-                colSpan: 4,
+
                 displayField: "shipmentMethod",
                 valueField: "id",
-
                 title: "<spring:message code='shipment.shipmentMethod'/>",
                 width: "100%",
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_ShipmentMethodInShipment,
                 pickListHeight: "500",
                 required: true,
-                validators: [{
-                    type: "required",
-                    validateOnChange: true
-                }]
+            },
+            {
+                name: "noPackages",
+                title: "<spring:message code='shipment.noPackages'/>",
+                width: "100%",
+                type: "long",
+                length: 10,
+                keyPressFilter: "[0-9.]",
             },
             {
                 name: "weightGW",
-                colSpan: 4,
                 length: 10,
                 title: "<spring:message code='shipment.gross'/>",
-                required: true,
                 type: "float",
                 width: "100%",
                 keyPressFilter: "[0-9.]",
-                validators: [{
-                    type: "required",
-                    validateOnChange: true
-                }],
-                hidden: true
             },
             {
                 name: "weightND",
-                colSpan: 4,
                 length: 10,
                 keyPressFilter: "[0-9.]",
                 title: "<spring:message code='shipment.net'/>",
-                required: true,
                 type: "float",
                 width: "100%",
-                validators: [{
-                    type: "required",
-                    validateOnChange: true
-                }],
-                hidden: true
             },
             {
                 name: "moisture",
-                colSpan: 4,
                 title: "<spring:message code='shipment.moisture'/>",
                 type: "staticText",
                 width: "100%",
-                hidden: true
             },
             {
                 name: "vgm",
-                colSpan: 4,
                 title: "<spring:message code='shipment.vgm'/>",
-                required: true,
                 type: "float",
                 width: "100%",
-                validators: [{
-                    type: "required",
-                    validateOnChange: true
-                }],
-                hidden: true
             },
             {
                 name: "noContainer",
-                colSpan: 4,
                 title: "<spring:message code='shipment.noContainer'/>",
                 type: 'integer',
                 width: "100%",
                 keyPressFilter: "[0-9.]",
-                required: true,
-                validators: [{
-                    type: "isInteger",
-                    validateOnChange: true,
-                    stopOnError: true,
-                    errorMessage: "<spring:message code='global.form.correctType'/>"
-                },
-                    {
-                        type: "required",
-                        validateOnChange: true
-                    }],
-                hidden: true
             },
             {
-                name: "noBarrel", colSpan: 4,
-                title: "<spring:message code='shipment.noBarrel'/>",
-                type: 'integer',
-                required: true,
+                name: "containerType",
+                title: "<spring:message code='billOfLanding.container.type'/>",
+                type: 'text',
                 width: "100%",
-                length: 6,
-                keyPressFilter: "[0-9.]",
-                validators: [{
-                    type: "isInteger",
-                    validateOnChange: true,
-                    stopOnError: true,
-                    errorMessage: "<spring:message code='global.form.correctType'/>"
-                },
-                    {
-                        type: "required",
-                        validateOnChange: true
-                    }],
-                hidden: true
             },
             {
-                name: "noPallet", colSpan: 4,
+                name: "noPallet",
                 title: "<spring:message code='shipment.noPalette'/>",
                 type: 'integer',
                 width: "100%",
                 length: 6,
-                required: true,
                 keyPressFilter: "[0-9.]",
-                validators: [{
-                    type: "isInteger",
-                    validateOnChange: true,
-                    stopOnError: true,
-                    errorMessage: "<spring:message code='global.form.correctType'/>"
-                },
-                    {
-                        type: "required",
-                        validateOnChange: true
-                    }],
-                hidden: true
             },
             {
-                required: true,
-                colSpan: 4,
                 name: "contactAgentId",
                 title: "<spring:message code='shipment.agent'/>",
                 type: 'long',
-                width: 400,
+                width: "100%",
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_Contact__SHIPMENT,
                 optionCriteria: RestDataSource_Contact_optionCriteria__SHIPMENT,
@@ -780,6 +650,7 @@
                         align: "center"
                     },
                     {name: "country.nameFa", align: "center"}],
+                required: true,
                 validators: [
                     {
                         type: "required",
@@ -788,13 +659,11 @@
             },
             {
                 name: "vesselId",
-                colSpan: 4,
                 title: "<spring:message code='vessel.name'/>",
                 editorType: "SelectItem",
-                required: true,
                 optionDataSource: RestDataSource_VesselInShipment,
                 type: 'long',
-                width: 400,
+                width: "100%",
                 displayField: "name",
                 valueField: "id",
                 pickListWidth: 400,
@@ -809,23 +678,16 @@
                     {
                         name: "type"
                     }],
-                validators: [
-                    {
-                        type: "required",
-                        validateOnChange: true
-                    }]
             },
             {
                 name: "dischargePortId",
-                colSpan: 4,
                 title: "<spring:message code='billOfLanding.port.of.discharge'/>",
                 editorType: "SelectItem",
-                required: true,
                 optionDataSource: RestDataSource_Port,
                 type: 'long',
-                width: 400,
                 displayField: "port",
                 valueField: "id",
+                width: "100%",
                 pickListWidth: 400,
                 pickListHeight: "500",
                 pickListProperties: {
@@ -834,7 +696,13 @@
                 pickListFields: [
                     {
                         name: "port",
-                    }]
+                    }],
+                required: true,
+                validators: [
+                    {
+                        type: "required",
+                        validateOnChange: true
+                    }],
             },
         ]
     });
@@ -861,7 +729,9 @@
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
         click: function () {
-            DynamicForm_Shipment.validate();
+            let validate = DynamicForm_Shipment.validate();
+            if (!validate)
+                return false;
             let automationLetterDate = toEnglishDigits(DynamicForm_Shipment.getValue("automationLetterDate"));
             DynamicForm_Shipment.setValue("automationLetterDate",
                 new Date(new persianDate(automationLetterDate.split("/").map(x => +x)).format('X') * 1000));
@@ -1049,7 +919,6 @@
 
     function ListGrid_Shipment_edit() {
         let record = ListGrid_Shipment.getSelectedRecord();
-        let shipmentTypeName = record.shipmentType.shipmentType;
         if (record == null || record.id == null) {
             isc.Dialog.create({
                 message: "<spring:message code='global.grid.record.not.selected'/>",
@@ -1061,83 +930,16 @@
                 }
             });
         } else {
-
-            if (shipmentTypeName.contains("فله")) {
-                if (record.materialId === ImportantIDs.material.COPPER_CATHOD) {
-                    DynamicForm_Shipment.getItem("weightGW").show();
-                    DynamicForm_Shipment.getItem("weightND").show();
-                    DynamicForm_Shipment.getItem("moisture").hide();
-                    DynamicForm_Shipment.getItem("vgm").show();
-                    DynamicForm_Shipment.getItem("noContainer").show();
-                    DynamicForm_Shipment.getItem("noBarrel").hide();
-                    DynamicForm_Shipment.getItem("noPallet").hide();
-                }
-                if (record.materialId === ImportantIDs.material.COPPER_CONCENTRATES) {
-                    DynamicForm_Shipment.getItem("weightGW").show();
-                    DynamicForm_Shipment.getItem("weightND").show();
-                    DynamicForm_Shipment.getItem("moisture").show();
-                    DynamicForm_Shipment.getItem("vgm").hide();
-                    DynamicForm_Shipment.getItem("noContainer").hide();
-                    DynamicForm_Shipment.getItem("noBarrel").hide();
-                    DynamicForm_Shipment.getItem("noPallet").hide();
-                }
-                if (record.materialId === ImportantIDs.material.MOLYBDENUM_OXIDE) {
-                    DynamicForm_Shipment.getItem("weightGW").hide();
-                    DynamicForm_Shipment.getItem("weightND").hide();
-                    DynamicForm_Shipment.getItem("moisture").hide();
-                    DynamicForm_Shipment.getItem("vgm").hide();
-                    DynamicForm_Shipment.getItem("noContainer").hide();
-                    DynamicForm_Shipment.getItem("noBarrel").hide();
-                    DynamicForm_Shipment.getItem("noPallet").hide();
-                }
-            } else if (shipmentTypeName.contains("انتینری")) {
-                if (record.materialId === ImportantIDs.material.COPPER_CATHOD) {
-                    DynamicForm_Shipment.getItem("weightGW").show();
-                    DynamicForm_Shipment.getItem("weightND").show();
-                    DynamicForm_Shipment.getItem("moisture").hide();
-                    DynamicForm_Shipment.getItem("vgm").show();
-                    DynamicForm_Shipment.getItem("noContainer").show();
-                    DynamicForm_Shipment.getItem("noBarrel").hide();
-                    DynamicForm_Shipment.getItem("noPallet").hide();
-                }
-                if (record.materialId === ImportantIDs.material.COPPER_CONCENTRATES) {
-                    DynamicForm_Shipment.getItem("weightGW").show();
-                    DynamicForm_Shipment.getItem("weightND").show();
-                    DynamicForm_Shipment.getItem("moisture").hide();
-                    DynamicForm_Shipment.getItem("vgm").hide();
-                    DynamicForm_Shipment.getItem("noContainer").show();
-                    DynamicForm_Shipment.getItem("noBarrel").show();
-                    DynamicForm_Shipment.getItem("noPallet").show();
-                }
-                if (record.materialId === ImportantIDs.material.MOLYBDENUM_OXIDE) {
-                    DynamicForm_Shipment.getItem("weightGW").show();
-                    DynamicForm_Shipment.getItem("weightND").show();
-                    DynamicForm_Shipment.getItem("moisture").hide();
-                    DynamicForm_Shipment.getItem("vgm").hide();
-                    DynamicForm_Shipment.getItem("noContainer").show();
-                    DynamicForm_Shipment.getItem("noBarrel").show();
-                    DynamicForm_Shipment.getItem("noPallet").show();
-                }
-            } else if (shipmentTypeName.contains("پالت")) {
-                DynamicForm_Shipment.getItem("weightGW").hide();
-                DynamicForm_Shipment.getItem("weightND").hide();
-                DynamicForm_Shipment.getItem("moisture").hide();
-                DynamicForm_Shipment.getItem("vgm").hide();
-                DynamicForm_Shipment.getItem("noContainer").hide();
-                DynamicForm_Shipment.getItem("noBarrel").hide();
-                DynamicForm_Shipment.getItem("noPallet").hide();
-            }
-
-
             DynamicForm_Shipment.clearValues();
+//DynamicForm_Shipment.setValue("contractId", record.contractShipment.contractId);
+//          DynamicForm_Shipment.getItem("contractShipmentId").setOptionDataSource(null);
             DynamicForm_Shipment.editRecord(record);
+            DynamicForm_Shipment.setValue("contractId", record.contractShipment.contractId);
+            //DynamicForm_Shipment.getItem("contractShipmentId").setValue(record.contractShipment.sendDate);
             DynamicForm_Shipment.setValue("automationLetterDate", new Date(parseInt(record.automationLetterDate)).toLocaleDateString('fa-IR'));
-            DynamicForm_Shipment.setValue("contractId", record.contractShipment.contract.no);
-            DynamicForm_Shipment.setValue("contractId", record.contractShipment.contract.no);
             DynamicForm_Shipment.setValue("arrivalDateTo", new Date(parseInt(ListGrid_Shipment.getSelectedRecord().arrivalDateTo)));
             DynamicForm_Shipment.setValue("arrivalDateFrom", new Date(parseInt(ListGrid_Shipment.getSelectedRecord().arrivalDateFrom)));
             DynamicForm_Shipment.setValue("sendDate", new Date(parseInt(ListGrid_Shipment.getSelectedRecord().sendDate)));
-
             setBuyerName(record.contactId);
             abal.disable();
             shipment.disable();
@@ -1345,12 +1147,6 @@
                 type: 'text',
                 width: "10%",
                 showHover: true,
-                required: true,
-                validators: [
-                    {
-                        type: "required",
-                        validateOnChange: true
-                    }]
             },
             {
                 name: "contractShipment.sendDate",
