@@ -26,14 +26,10 @@ public class ShipmentDCCFormController {
     private final FileUtil fileUtil;
     private final Environment environment;
 
-    @GetMapping(value = {"/showForm/{dccTableName}/{dccTableId}/{dccFileNewName}"})
-    public String showDCC(ModelMap modelMap, @PathVariable String dccTableName, @PathVariable String dccTableId, @PathVariable String dccFileNewName) {
-        modelMap.addAttribute("dccTableName", dccTableName);
-        modelMap.addAttribute("dccTableId", dccTableId);
-        modelMap.addAttribute("dccFileNewName", dccFileNewName);
+    @GetMapping(value = {"/showForm"})
+    public String showDCC(ModelMap modelMap) {
         return "shipment/shipmentDCC";
     }
-
     @GetMapping(value = "/downloadFile")
     public void downloadFile(@RequestParam String table, @RequestParam String file, HttpServletRequest request, HttpServletResponse response) throws IOException {
         String UPLOAD_FILE_DIR = environment.getProperty("nicico.upload.dir");

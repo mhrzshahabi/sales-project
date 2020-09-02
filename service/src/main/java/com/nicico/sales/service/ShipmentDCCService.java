@@ -1,7 +1,6 @@
 package com.nicico.sales.service;
 
 import com.nicico.sales.dto.DCCDTO;
-import com.nicico.sales.iservice.IDCCService;
 import com.nicico.sales.iservice.IShipmentDCCService;
 import com.nicico.sales.model.entities.base.DCC;
 import com.nicico.sales.repository.DCCDAO;
@@ -15,4 +14,12 @@ public class ShipmentDCCService extends GenericService<DCC, Long, DCCDTO.Create,
     public Long findNextImageNumber() {
         return ((DCCDAO) repository).findNextImageNumber();
     }
+
+    @Override
+    public DCC getByFileNewName(String fileNewName) {
+        return ((DCCDAO) repository).getByFileNewName(fileNewName);
+    }
+
+
+
 }

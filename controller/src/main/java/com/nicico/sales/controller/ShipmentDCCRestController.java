@@ -7,9 +7,15 @@ import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.copper.core.util.file.FileInfo;
 import com.nicico.sales.dto.DCCDTO;
+import com.nicico.sales.enumeration.ErrorType;
+import com.nicico.sales.exception.SalesException2;
 import com.nicico.sales.iservice.IDCCService;
+import com.nicico.sales.iservice.IShipmentDCCService;
+import com.nicico.sales.model.entities.base.DCC;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -29,8 +36,9 @@ import java.util.List;
 public class ShipmentDCCRestController {
 
     private final IDCCService dCCService;
+    private final IShipmentDCCService shipmentDCCService;
     private final Environment environment;
-
+    private final ResourceBundleMessageSource  messageSource;
     @Loggable
     @GetMapping(value = "/{id}")
     public ResponseEntity<DCCDTO.Info> get(@PathVariable Long id) {
@@ -45,48 +53,47 @@ public class ShipmentDCCRestController {
 
     @Loggable
     @PostMapping
-    public ResponseEntity<DCCDTO.Info> createOrUpdate(
+    public ResponseEntity<DCCDTO.Info> create(
             @RequestParam("file") MultipartFile file,
             @RequestParam("folder") String folder,
             @RequestParam("data") String data
-    ) {
+    ) throws IOException {
         if (file.isEmpty())
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 
-        try {
+
             FileInfo fileInfo = new FileInfo();
             File destinationFile;
 
             String UPLOAD_FILE_DIR = environment.getProperty("nicico.upload.dir");
             String fileName = file.getOriginalFilename();
+            Gson gson = new GsonBuilder().setLenient().create();
+            DCCDTO.Create dcc = gson.fromJson(data, DCCDTO.Create.class);
 
             new File(UPLOAD_FILE_DIR + File.separator + folder).mkdirs();
             destinationFile = new File(UPLOAD_FILE_DIR + File.separator + folder + File.separator + fileName);
-            Long imageNumber = dCCService.findNextImageNumber();
+          //  Long imageNumber = dCCService.findNextImageNumber();
             String ext = getExtensionOfFile(destinationFile.getPath());
-            String fileNewName = imageNumber.toString() + "-" + System.currentTimeMillis() + "." + ext;
+            String fileNewName =  dcc.getFileNewName() + "." + ext; //imageNumber.toString() + "-" + System.currentTimeMillis()
+
+            DCC dcc1 = shipmentDCCService.getByFileNewName(fileNewName);
+            if(dcc1 != null) {
+                Locale locale = LocaleContextHolder.getLocale();
+                String message = messageSource.getMessage("exception.invalid-file-name", null, locale);
+                throw  new SalesException2(ErrorType.Forbidden,null,message);
+            }
+
             destinationFile = new File(UPLOAD_FILE_DIR + File.separator + folder + File.separator + fileNewName);
             file.transferTo(destinationFile);
             fileInfo.setFileName(destinationFile.getPath());
 
             //create file new name
             fileInfo.setFileSize(file.getSize());
-            Gson gson = new GsonBuilder().setLenient().create();
+            dcc.setFileName(file.getOriginalFilename());
+            dcc.setFileNewName(fileNewName);
+            return new ResponseEntity<>(dCCService.create(dcc), HttpStatus.CREATED);
 
-            if (data.contains("id")) {
-                DCCDTO.Update dcc = gson.fromJson(data, DCCDTO.Update.class);
-                dcc.setFileName(file.getOriginalFilename());
-                dcc.setFileNewName(fileNewName);
-                return new ResponseEntity<>(dCCService.update(dcc.getId(), dcc), HttpStatus.OK);
-            } else {
-                DCCDTO.Create dcc = gson.fromJson(data, DCCDTO.Create.class);
-                dcc.setFileName(file.getOriginalFilename());
-                //dcc.setFileNewName(fileNewName);
-                return new ResponseEntity<>(dCCService.create(dcc), HttpStatus.CREATED);
-            }
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+
     }
 
     private String getExtensionOfFile(String fileName) {

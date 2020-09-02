@@ -66,6 +66,49 @@
         fetchDataURL: "${contextPath}/api/port/spec-list"
     });
 
+    var RestDataSource_Dcc = isc.MyRestDataSource.create({
+        fields: [
+            {name: "id", hidden: true, primaryKey: true, canEdit: false,},
+            {
+                name: "documentType",
+                title: "<spring:message code='dcc.documentType'/>",
+                type: 'text',
+                required: true,
+                width: 400
+                ,
+                valueMap: {
+                    "letter": "<spring:message code='dcc.letter'/>",
+                    "image": "<spring:message code='dcc.image'/>"
+                },
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }]
+            },
+            {
+                name: "description",
+                title: "<spring:message code='global.description'/>",
+                type: 'text',
+                width: 400
+            },
+            {
+                name: "fileName",
+                title: "<spring:message code='global.fileName'/>",
+                type: 'text',
+                required: true,
+                width: 400,
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }]
+            },
+            {name: "fileNewName", title: "<spring:message code='global.fileNewName'/>", type: 'text', width: 400}
+        ],
+        fetchDataURL: "${contextPath}/api/dcc/spec-list"
+    });
+
     var RestDataSource_VesselInShipment = isc.MyRestDataSource.create({
         fields:
             [
@@ -117,7 +160,6 @@
             ],
         fetchDataURL: "${contextPath}/api/port/spec-list"
     });
-
 
     var RestDataSource_pickShipmentItem = isc.MyRestDataSource.create({
         fields:
@@ -258,13 +300,115 @@
         fetchDataURL: "${contextPath}/api/shipment/spec-list"
     });
 
+    var shipmentDccDynamicFormPrint = isc.DynamicForm.create({
+        width: "100%",
+        height: "100%",
+        titleWidth: "100",
+        numCols: 2,
+        fields:
+            [
+                {
+                    name: "dccId",
+                    title: "<spring:message code='shipment.loading.pattern'/>",
+                    editorType: "SelectItem",
+                    optionDataSource: RestDataSource_Dcc,
+                    displayField: "fileNewName",
+                    autoFetchData: false,
+                    valueField: "id",
+                    width: 300,
+                    wrapTitle: false,
+                    required: true ,
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }],
+                    pickListProperties: {
+                        showFilterEditor: true
+                    },
+                    pickListFields: [
+                    {
+                        name: "fileNewName",
+                        title: "<spring:message code='global.fileNewName'/>",
+                        showHover: true
+                    }
+                    ],
+                     getPickListFilterCriteria  : function () {
+                        let record = ListGrid_Shipment.getSelectedRecord();
+                        let fileNewName = "ShipOrder_" +record.materialId+"_" +record.shipmentTypeId;
+                        var criteria={"_constructor":"AdvancedCriteria","operator":"and",
+                                                    "criteria":[{"fieldName":"fileNewName","operator":"startsWith","value":fileNewName}]}
+                            return criteria;
+                    },
+                }
+    ]
+    });
+
+    var IButton_Shipment_Dcc_Print = isc.IButtonSave.create({
+        top: 260,
+        title: "<spring:message code='global.form.print'/>",
+        icon: "[SKIN]/actions/print.png",
+        click: function () {
+             "<spring:url value="/shipment/print/" var="printUrl"/>";
+             let fileNewName = shipmentDccDynamicFormPrint.getItem("dccId").getDisplayValue();
+             let record = ListGrid_Shipment.getSelectedRecord();
+            window.open('${printUrl}' + record.id + "/" + fileNewName);
+        }
+    });
+    var CancelBtn_Shipment_Dcc = isc.IButtonCancel.create({
+        icon: "pieces/16/icon_delete.png",
+        title: "<spring:message code='global.form.close'/>",
+        click: function () {
+            shipmentDccWindow.close();
+        }
+    });
+
+     var hLayout_shipment_dcc = isc.HLayout.create({
+        layoutMargin: 10,
+        membersMargin: 5,
+        textAlign: "center",
+        align: "center",
+        members: [
+            IButton_Shipment_Dcc_Print,
+            CancelBtn_Shipment_Dcc
+        ]
+    });
+
+     var vLayout_shipment_dcc = isc.VLayout.create({
+        width: 300,
+        textAlign: "center",
+        align: "center",
+        members: [
+            shipmentDccDynamicFormPrint,
+            hLayout_shipment_dcc
+        ]
+    });
+
+    var shipmentDccWindow = isc.Window.create({
+        title: "<spring:message code='shipment.loading.pattern'/> ",
+        width: 500,
+        autoSize: true,
+        autoCenter: true,
+        isModal: true,
+        showModalMask: true,
+        canDragReposition: false,
+        align: "center",
+        autoDraw: false,
+        dismissOnEscape: true,
+        closeClick: function () {
+            this.Super("closeClick", arguments)
+        },
+        items:
+            [
+                vLayout_shipment_dcc
+            ]
+    });
     function check_Shipment_Print() {
-        record = ListGrid_Shipment.getSelectedRecord();
+        let record = ListGrid_Shipment.getSelectedRecord();
         if (record == null) {
             isc.say("<spring:message code='global.grid.record.not.selected'/>");
         } else {
-            "<spring:url value="/shipment/print/" var="printUrl"/>";
-            window.open('${printUrl}' + record.id);
+            shipmentDccWindow.show();
         }
     }
 
@@ -340,10 +484,11 @@
     autoDraw: false,
     loadingMessage: ""
     });
+
     var Window_Shipment_Dcc = isc.Window.create({
-            title: " ",
+            title: "<spring:message code='shipment.loading.pattern'/>",
             width: "40%",
-            height: "40%",
+            height: "60%",
             autoCenter: true,
             align: "center",
             autoDraw: false,
@@ -969,25 +1114,8 @@
     }
 
     function ListGrid_Shipment_dcc() {
-        let record = ListGrid_Shipment.getSelectedRecord();
-
-        if (record == null || record.id == null) {
-            isc.Dialog.create({
-                message: "<spring:message code='global.grid.record.not.selected'/>",
-                icon: "[SKIN]ask.png",
-                title: "<spring:message code='global.message'/>.",
-                buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
-                buttonClick: function () {
-                    this.hide();
-                }
-            });
-        } else {
-                let dccTableId = record.id;
-                let dccTableName = "TBL_SHIPMENT";
-                let dccFileNewName = "ShipOrder_" + record.materialId + "_" + record.shipmentTypeId;
-                ShipmentDccViewLoader.setViewURL("shipmentDcc/showForm/" + dccTableName + "/" + dccTableId+"/"+dccFileNewName);
+                ShipmentDccViewLoader.setViewURL("shipmentDcc/showForm/" );
                 Window_Shipment_Dcc.animateShow();
-        }
     }
 
     var ToolStripButton_Shipment_Refresh = isc.ToolStripButtonRefresh.create({
@@ -1030,7 +1158,7 @@
     <%--<sec:authorize access="hasAuthority('D_SHIPMENT')">--%>
     let ToolStripButton_Shipment_dcc = isc.ToolStripButtonAdd.create({
         icon: "[SKIN]/actions/add.png",
-        title: "<spring:message code='global.form.new'/>",
+        title: "<spring:message code='shipment.loading.pattern.Attachment'/>",
         click: function () {
             ListGrid_Shipment_dcc();
         }

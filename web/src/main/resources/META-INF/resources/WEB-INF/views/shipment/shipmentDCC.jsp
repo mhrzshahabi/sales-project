@@ -5,25 +5,18 @@
 //<script>
 
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
-
-    var dccTableName = "${dccTableName}";
-    var dccTableId = "${dccTableId}";
-    var dccFileNewName = "${dccFileNewName}";
+    var dccTableName = "TBL_SHIPMENT";
     var criteria = {
         _constructor: "AdvancedCriteria",
         operator: "and",
         criteria: [
-            {fieldName: "tblId1", operator: "equals", value: dccTableId},
             {fieldName: "tblName1", operator: "equals", value: dccTableName}
         ]
     };
-
     function ListGrid_Shipment_Dcc_refresh() {
-        if (dccTableId != null) {
             ListGrid_Shipment_Dcc.fetchData(criteria, function (dsResponse, data, dsRequest) {
                 ListGrid_Shipment_Dcc.setData(data);
             }, {operationId: "00"});
-        }
     }
     function ListGrid_Shipment_Dcc_remove() {
         var record = ListGrid_Shipment_Dcc.getSelectedRecord();
@@ -68,6 +61,104 @@
             });
         }
     }
+    var RestDataSource_Shipment_Dcc = isc.MyRestDataSource.create({
+        fields: [
+            {name: "id", hidden: true, primaryKey: true, canEdit: false,},
+            <%--{--%>
+            <%--    name: "documentType",--%>
+            <%--    title: "<spring:message code='dcc.documentType'/>",--%>
+            <%--    type: 'text',--%>
+            <%--    required: true,--%>
+            <%--    width: 400--%>
+            <%--    ,--%>
+            <%--    valueMap: {--%>
+            <%--        "letter": "<spring:message code='dcc.letter'/>",--%>
+            <%--        "image": "<spring:message code='dcc.image'/>"--%>
+            <%--    },--%>
+            <%--    validators: [--%>
+            <%--    {--%>
+            <%--        type:"required",--%>
+            <%--        validateOnChange: true--%>
+            <%--    }]--%>
+            <%--},--%>
+            {
+                name: "description",
+                title: "<spring:message code='global.description'/>",
+                type: 'text',
+                width: 400
+            },
+            {
+                name: "fileName",
+                title: "<spring:message code='global.fileName'/>",
+                type: 'text',
+                required: true,
+                width: 400,
+                validators: [
+                {
+                    type:"required",
+                    validateOnChange: true
+                }]
+            },
+            {name: "fileNewName", title: "<spring:message code='global.fileNewName'/>", type: 'text', width: 400}
+        ],
+        fetchDataURL: "${contextPath}/api/shipmentDcc/spec-list"
+    });
+    var RestDataSource_Material = isc.MyRestDataSource.create({
+        fields:
+            [
+                {name: "id", title: "id", primaryKey: true, hidden: true},
+                {name: "code", title: "<spring:message code='goods.code'/> "},
+                {name: "descl"},
+                {name: "unitId"},
+                {name: "unit.nameEN"},
+            ],
+        fetchDataURL: "${contextPath}/api/material/spec-list"
+    });
+    var RestDataSource_ShipmentTypeInShipment = isc.MyRestDataSource.create({
+        fields:
+            [
+                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
+                {name: "shipmentType", title: "<spring:message code='shipment.type'/>"},
+            ],
+        fetchDataURL: "${contextPath}/api/shipmentType/spec-list"
+    });
+    var shipmentDccMenu = isc.Menu.create({
+            width: 150,
+            data: [
+                {
+                    title: "<spring:message code='global.form.refresh'/>",
+                    icon: "pieces/16/refresh.png",
+                    click: function () {
+                        ListGrid_Shipment_Dcc_refresh();
+                    }
+                },
+                {
+                    title: "<spring:message code='global.form.new'/>",
+                    icon: "pieces/16/icon_add.png",
+                    click: function () {
+                        shipmentDccDynamicForm.clearValues();
+                        shipmentDccCreateWindow.animateShow();
+                    }
+                },
+                {
+                    title: "<spring:message code='global.form.remove'/>",
+                    icon: "pieces/16/icon_delete.png",
+                    click: function () {
+                        ListGrid_Shipment_Dcc_remove();
+                    }
+                },
+                {isSeparator: true},
+                {
+                    title: "<spring:message code='global.form.dcc.download'/>",
+                    icon: "icon/pdf.png",
+                    click: function () {
+                        var record = ListGrid_Shipment_Dcc.getSelectedRecord();
+                        if (record.tblName1 != null )
+                            window.open("dcc/downloadFile?table=" + "shipment" + "&file=" + record.fileNewName);
+                    }
+                }
+            ]
+        });
     var ListGrid_Shipment_Dcc = isc.ListGrid.create({
         width: "100%",
         height: "100%",
@@ -151,50 +242,6 @@
             }
         }
     });
-
-    var RestDataSource_Shipment_Dcc = isc.MyRestDataSource.create({
-        fields: [
-            {name: "id", hidden: true, primaryKey: true, canEdit: false,},
-            <%--{--%>
-            <%--    name: "documentType",--%>
-            <%--    title: "<spring:message code='dcc.documentType'/>",--%>
-            <%--    type: 'text',--%>
-            <%--    required: true,--%>
-            <%--    width: 400--%>
-            <%--    ,--%>
-            <%--    valueMap: {--%>
-            <%--        "letter": "<spring:message code='dcc.letter'/>",--%>
-            <%--        "image": "<spring:message code='dcc.image'/>"--%>
-            <%--    },--%>
-            <%--    validators: [--%>
-            <%--    {--%>
-            <%--        type:"required",--%>
-            <%--        validateOnChange: true--%>
-            <%--    }]--%>
-            <%--},--%>
-            {
-                name: "description",
-                title: "<spring:message code='global.description'/>",
-                type: 'text',
-                width: 400
-            },
-            {
-                name: "fileName",
-                title: "<spring:message code='global.fileName'/>",
-                type: 'text',
-                required: true,
-                width: 400,
-                validators: [
-                {
-                    type:"required",
-                    validateOnChange: true
-                }]
-            },
-            {name: "fileNewName", title: "<spring:message code='global.fileNewName'/>", type: 'text', width: 400}
-        ],
-        fetchDataURL: "${contextPath}/api/shipmentDcc/spec-list"
-    });
-
     var shipmentDccDynamicForm = isc.DynamicForm.create({
         width: "100%",
         height: "100%",
@@ -203,22 +250,71 @@
         fields:
             [
                 {name: "id", hidden: true, primaryKey: true, canEdit: false},
-                <%--{--%>
-                <%--    name: "documentType",--%>
-                <%--    title: "<spring:message code='dcc.documentType'/>",--%>
-                <%--    type: 'text',--%>
-                <%--    required: true,--%>
-                <%--    width: 400,--%>
-                <%--    valueMap: {--%>
-                <%--        "letter": "<spring:message code='dcc.letter'/>",--%>
-                <%--         "image": "<spring:message code='dcc.image'/>"--%>
-                <%--    },--%>
-                <%--    validators: [--%>
-                <%--    {--%>
-                <%--        type:"required",--%>
-                <%--        validateOnChange: true--%>
-                <%--    }]--%>
-                <%--},--%>
+                {
+                    name: "name",
+                    title: "<spring:message code='global.fileName'/>",
+                    type: 'text',
+                    required: true,
+                    width: 300,
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }]
+                },
+                {
+                    name: "materialId",
+                    title: "<spring:message code='material.title'/>",
+                    editorType: "SelectItem",
+                    optionDataSource: RestDataSource_Material,
+                    displayField: "descl",
+                    valueField: "id",
+                    width: 300,
+                    required: true ,
+                    validators: [
+                    {
+                        type:"required",
+                        validateOnChange: true
+                    }],
+                    pickListProperties: {
+                        showFilterEditor: true
+                    },
+                    pickListFields: [
+                    {
+                        name: "code",
+                        title: "<spring:message code='material.code'/>",
+                        showHover: true
+                    },
+                    {
+                        name: "descl",
+                        title: "<spring:message code='material.descl'/>",
+                        showHover: true
+                    }
+                    ]
+                },
+                {
+                name: "shipmentTypeId",
+                displayField: "shipmentType",
+                valueField: "id",
+                colSpan: 4,
+                title: "<spring:message code='shipment.shipmentType'/>",
+                width: 300,
+                editorType: "SelectItem",
+                optionDataSource: RestDataSource_ShipmentTypeInShipment,
+                pickListProperties: {showFilterEditor: true},
+                pickListFields: [
+                    {
+                        name: "shipmentType",
+                        width: "10%",
+                        align: "center"
+                    }],
+                pickListHeight: "500",
+                required: true,
+                validators: [{
+                    type: "required",
+                    validateOnChange: true
+                }]
+                },
                 {
                     name: "description",
                     title: "<spring:message code='global.description'/>",
@@ -238,7 +334,7 @@
                     title: "<spring:message code='global.Attachment'/> ",
                     type: "file",
                     required: true,
-                    accept: ".pdf,.docx,.xlsx,.rar,.zip,image/*",
+                    accept: ".docx/*",
                     multiple: "",
                     width: "90%",
                     validators: [
@@ -249,8 +345,7 @@
                 }
             ]
     });
-
-    var IButton_Shipment_Dcc_Add = isc.IButtonSave.create({
+    var shipmentDccAddIButton = isc.IButtonSave.create({
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='global.attach.file'/>",
         click: function () {
@@ -258,60 +353,7 @@
             shipmentDccCreateWindow.animateShow();
         }
     });
-
-    var shipmentDccMenu = isc.Menu.create(
-        {
-            width: 150,
-            data: [
-                {
-                    title: "<spring:message code='global.form.refresh'/>",
-                    icon: "pieces/16/refresh.png",
-                    click: function () {
-                        ListGrid_Shipment_Dcc_refresh();
-                    }
-                },
-                {
-                    title: "<spring:message code='global.form.new'/>",
-                    icon: "pieces/16/icon_add.png",
-                    click: function () {
-                        shipmentDccDynamicForm.clearValues();
-                        shipmentDccCreateWindow.animateShow();
-                    }
-                },
-                {
-                    title: "<spring:message code='global.form.remove'/>",
-                    icon: "pieces/16/icon_delete.png",
-                    click: function () {
-                        ListGrid_Shipment_Dcc_remove();
-                    }
-                },
-                {
-                    isSeparator: true
-                },
-                {
-                    title: "<spring:message code='global.form.dcc.download'/>",
-                    icon: "icon/pdf.png",
-                    click: function () {
-                        var record = ListGrid_Shipment_Dcc.getSelectedRecord();
-                        if (record.tblName1 != null && record.tblName1 == "TBL_CONTRACT")
-                            window.open("dcc/downloadFile?table=" + "contract" + "&file=" + record.fileNewName);
-                        else if (record.tblName1 != null && record.tblName1 == "TBL_PERSON")
-                            window.open("dcc/downloadFile?table=" + "person" + "&file=" + record.fileNewName);
-                        else if (record.tblName1 != null && record.tblName1 == "TBL_CONTACT")
-                            window.open("dcc/downloadFile?table=" + "contact" + "&file=" + record.fileNewName);
-                        else if (record.tblName1 != null && record.tblName1 == "TBL_SHIPMENT")
-                            window.open("dcc/downloadFile?table=" + "shipment" + "&file=" + record.fileNewName);
-                        else if (record.tblName1 != null && record.tblName1 == "TBL_INVOICE")
-                            window.open("dcc/downloadFile?table=" + "invoice" + "&file=" + record.fileNewName);
-                        else if (record.tblName1 != null && record.tblName1 == "TBL_WAREHOUSE_CAD")
-                            window.open("dcc/downloadFile?table=" + "warehouse_cad" + "&file=" + record.fileNewName);
-                    }
-                }
-            ]
-        });
-
-    var shipmentDccSaveIButton = isc.IButtonSave.create(
-        {
+    var shipmentDccSaveIButton = isc.IButtonSave.create({
             top: 260,
             title: "<spring:message code='global.form.save'/>",
             icon: "pieces/16/save.png",
@@ -321,48 +363,24 @@
                 if (shipmentDccDynamicForm.hasErrors()) {
                     return;
                 }
-
                 var fileBrowserId = document.getElementById(window.fileDcc.uploadItem.getElement().id);
                 var file = fileBrowserId.files[0];
-                let fileExtensionIsValid = RegExp(".+(.doc|.docx|.pdf|.xlsx|.rar|.zip|.jpg|.jpeg|.bmp|.png|.ico|.webp|.tif|.gif)$","i").test(file.name);
+                let fileExtensionIsValid = RegExp(".+(.doc|.docx)$","i").test(file.name);
                 if(!fileExtensionIsValid) {
                    isc.warn("<spring:message code='dcc.upload.fileType.error'/>");
                    return false;
                 }
-                var folder;
-                shipmentDccDynamicForm.setValue("tblName1", dccTableName);
-                shipmentDccDynamicForm.setValue("tblId1", dccTableId);
-                shipmentDccDynamicForm.setValue("fileNewName", dccFileNewName);
-                shipmentDccDynamicForm.setValue("documentType", "sample");
 
-                if (dccTableName != null && dccTableName == 'TBL_CONTACT') {
-                    folder = "contact";
-                    shipmentDccDynamicForm.setValue("folder", "contact");
-                }
-                else if (dccTableName != null && dccTableName == 'TBL_CONTRACT') {
-                    folder = "contract";
-                    shipmentDccDynamicForm.setValue("folder", "contract");
-                }
-                else if (dccTableName != null && dccTableName == 'TBL_PERSON') {
-                    folder = "person";
-                    shipmentDccDynamicForm.setValue("folder", "person");
-                }
-                else if (dccTableName != null && dccTableName == 'TBL_SHIPMENT') {
-                    folder = "shipment";
-                    shipmentDccDynamicForm.setValue("folder", "shipment");
-                }
-                else if (dccTableName != null && dccTableName == 'TBL_INVOICE') {
-                    folder = "invoice";
-                    shipmentDccDynamicForm.setValue("folder", "invoice");
-                }
-                else if (dccTableName != null && dccTableName == 'TBL_WAREHOUSE_CAD') {
-                    folder = "warehouse_cad";
-                    shipmentDccDynamicForm.setValue("folder", "warehouse_cad");
-                }
+                shipmentDccDynamicForm.setValue("tblName1", dccTableName);
+                let dccFileNewName = "ShipOrder_" + shipmentDccDynamicForm.getItem("materialId").getValue() + "_" + shipmentDccDynamicForm.getItem("shipmentTypeId").getValue()+"_"+ shipmentDccDynamicForm.getItem("name").getValue();
+                console.log("dccFileNewName",dccFileNewName);
+                shipmentDccDynamicForm.setValue("fileNewName", dccFileNewName);
+                shipmentDccDynamicForm.setValue("documentType", "pattern");
+                shipmentDccDynamicForm.setValue("folder", "shipment");
 
                 var formData = new FormData();
                 formData.append("file", file);
-                formData.append("folder", folder);
+                formData.append("folder",  "shipment");
                 formData.append("data", JSON.stringify(shipmentDccDynamicForm.getValues()));
 
                 var request = new XMLHttpRequest();
@@ -386,7 +404,6 @@
                 }
             }
         });
-
     var shipmentDccCreateWindow = isc.Window.create({
         title: "<spring:message code='dcc.Attachment'/> ",
         width: 550,
@@ -426,8 +443,6 @@
                 })
             ]
     });
-
-
     isc.VLayout.create({
         width: "100%",
         height: "100%",
@@ -441,7 +456,7 @@
                 align: "center",
                 members:
                     [
-                         IButton_Shipment_Dcc_Add,
+                         shipmentDccAddIButton,
                          isc.IButtonCancel.create({
                             top: 260,
                             layoutMargin: 5,

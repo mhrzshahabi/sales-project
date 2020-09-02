@@ -81,7 +81,7 @@ public class DCCRestController {
             } else {
                 DCCDTO.Create dcc = gson.fromJson(data, DCCDTO.Create.class);
                 dcc.setFileName(file.getOriginalFilename());
-                //dcc.setFileNewName(fileNewName);
+                dcc.setFileNewName(fileNewName);
                 return new ResponseEntity<>(dCCService.create(dcc), HttpStatus.CREATED);
             }
         } catch (Exception e) {
