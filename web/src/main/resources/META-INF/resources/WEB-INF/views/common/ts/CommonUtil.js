@@ -322,6 +322,12 @@ var nicico;
                     return NaN;
                 return this.map(function (q) { return q[key]; }).sum();
             };
+            // @ts-ignore
+            Array.prototype.evalPropertyPath = function (obj) {
+                return this.reduce(function (prev, curr) {
+                    return prev ? prev[curr] : null;
+                }, obj || self);
+            };
         }
         return CommonUtil;
     }());

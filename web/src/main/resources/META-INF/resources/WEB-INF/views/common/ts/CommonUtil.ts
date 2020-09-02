@@ -396,6 +396,12 @@ namespace nicico {
                 if (key == null || this == null || this.length === 0) return NaN;
                 return this.map(q => q[key]).sum();
             };
+            // @ts-ignore
+            Array.prototype.evalPropertyPath = function(obj) {
+                return this.reduce(function(prev, curr) {
+                    return prev ? prev[curr] : null
+                }, obj || self)
+            };
         }
     }
 

@@ -7,3 +7,4 @@
 <%@include file="../common/ts/BasicFormUtil.js"%>
 <%@include file="js/contract-references.js" %>
 <%@include file="js/contract.js" %>
+<%@include file="js/contract-addendum.js" %>

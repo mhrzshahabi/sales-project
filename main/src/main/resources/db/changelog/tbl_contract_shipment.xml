@@ -10,4 +10,17 @@
                                  validate="true"/>
     </changeSet>
 
+    <changeSet author="saeb (generated)" id="1598276253273-251">
+        <addColumn tableName="TBL_CONTRACT_SHIPMENT">
+            <column name="N_PARENT_ID" type="number(19, 0)"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="saeb (generated)" id="1598276253273-252">
+        <addColumn tableName="TBL_CONTRACT_SHIPMENT_AUD">
+            <column name="N_PARENT_ID" type="number(19, 0)"/>
+        </addColumn>
+    </changeSet>
+
+
 </databaseChangeLog>

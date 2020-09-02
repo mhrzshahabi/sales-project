@@ -58,5 +58,8 @@ public class ContractShipment extends BaseEntity {
     @Column(name = "TOLORANCE")
     private Long tolorance;
 
+    @Column(name = "N_PARENT_ID")
+        private Long parentId;
+
 
 }
