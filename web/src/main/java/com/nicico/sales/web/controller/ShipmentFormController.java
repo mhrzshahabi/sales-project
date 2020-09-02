@@ -134,6 +134,7 @@ public class ShipmentFormController {
             String today = PersianDate.now().format(dtf);
             replacePOI(doc, "dateday", today);
             replacePOI(doc, "buyer", (shipment.getContact() != null ? shipment.getContact().getNameFA() : ""));
+            replacePOI(doc, "letterDate", String.valueOf(shipment.getLastDeliveryLetterDate() != null ? shipment.getLastDeliveryLetterDate():""));
             replacePOI(doc, "company", (shipment.getContact() != null ? shipment.getContact().getNameFA() : ""));
             replacePOI(doc, "disPort", (shipment.getDischargePort() != null ? shipment.getDischargePort().getPort() : ""));
             replacePOI(doc, "month", String.valueOf(shipment.getSendDate().getMonth()));
