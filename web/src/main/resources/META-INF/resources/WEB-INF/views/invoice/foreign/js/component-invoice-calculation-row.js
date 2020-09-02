@@ -9,6 +9,7 @@ isc.defineClass("InvoiceCalculationRow", isc.VLayout).addProperties({
     membersMargin: 2,
     assay: null,
     price: null,
+    // calculationRowData: null,
     initWidget: function () {
 
         this.Super("initWidget", arguments);

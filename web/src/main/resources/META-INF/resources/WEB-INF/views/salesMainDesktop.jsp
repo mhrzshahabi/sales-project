@@ -260,7 +260,6 @@
             width: 100,
             canEdit: false,
             name: "estatus",
-            type: "number",
             hidden: true,
             showHover: true,
             canSort: false,

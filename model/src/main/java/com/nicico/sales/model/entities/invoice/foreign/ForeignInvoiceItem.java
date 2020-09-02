@@ -2,6 +2,7 @@ package com.nicico.sales.model.entities.invoice.foreign;
 
 import com.nicico.sales.model.entities.common.BaseEntity;
 import com.nicico.sales.model.entities.warehouse.RemittanceDetail;
+import com.nicico.sales.model.enumeration.InspectionReportMilestone;
 import lombok.*;
 import lombok.experimental.Accessors;
 
@@ -35,6 +36,12 @@ public class ForeignInvoiceItem extends BaseEntity {
 
     @Column(name = "N_TC", scale = 2, precision = 10)
     private BigDecimal treatCost;
+
+    @Column(name = "N_ASSAY_MILESTONE")
+    private InspectionReportMilestone assayMilestone;
+
+    @Column(name = "N_WEIGHT_MILESTONE")
+    private InspectionReportMilestone weightMilestone;
 
     // *****************************************************************************************************************
 

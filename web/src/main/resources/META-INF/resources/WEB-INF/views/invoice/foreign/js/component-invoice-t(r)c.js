@@ -8,6 +8,7 @@ isc.defineClass("InvoiceDeduction", isc.VLayout).addProperties({
     membersMargin: 2,
     overflow: "auto",
     currency: null,
+    rcDeductionData: null,
     contractDetailData: null,
     invoiceCalculationComponent: null,
     initWidget: function () {

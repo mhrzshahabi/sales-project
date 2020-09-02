@@ -4,10 +4,7 @@ import com.ghasemkiani.util.icu.PersianCalendar;
 import com.ibm.icu.util.Calendar;
 import com.nicico.sales.dto.InvoiceTypeDTO;
 import com.nicico.sales.dto.contract.ContractDTO2;
-import com.nicico.sales.dto.invoice.foreign.ForeignInvoiceDTO;
-import com.nicico.sales.dto.invoice.foreign.ForeignInvoiceItemDTO;
-import com.nicico.sales.dto.invoice.foreign.ForeignInvoiceItemDetailDTO;
-import com.nicico.sales.dto.invoice.foreign.ForeignInvoicePaymentDTO;
+import com.nicico.sales.dto.invoice.foreign.*;
 import com.nicico.sales.enumeration.ErrorType;
 import com.nicico.sales.exception.SalesException2;
 import com.nicico.sales.iservice.invoice.foreign.IForeignInvoiceService;
@@ -15,6 +12,7 @@ import com.nicico.sales.model.entities.invoice.foreign.ForeignInvoice;
 import com.nicico.sales.repository.invoice.foreign.ForeignInvoiceDAO;
 import com.nicico.sales.service.GenericService;
 import com.nicico.sales.service.InvoiceTypeService;
+import com.nicico.sales.service.contract.BillOfLandingService;
 import com.nicico.sales.service.contract.ContractService2;
 import com.nicico.sales.utility.InvoiceNoGenerator;
 import lombok.RequiredArgsConstructor;
@@ -39,6 +37,7 @@ public class ForeignInvoiceService extends GenericService<ForeignInvoice, Long, 
     private final ForeignInvoiceItemService foreignInvoiceItemService;
     private final ForeignInvoicePaymentService foreignInvoicePaymentService;
     private final ForeignInvoiceItemDetailService foreignInvoiceItemDetailService;
+    private final ForeignInvoiceBillOfLadingService foreignInvoiceBillOfLadingService;
 
     @Override
     @Transactional
@@ -66,12 +65,7 @@ public class ForeignInvoiceService extends GenericService<ForeignInvoice, Long, 
         PersianCalendar calendar = new PersianCalendar(request.getDate());
         ContractDTO2.Info contract = contractService.get(request.getContractId());
         InvoiceTypeDTO.Info invoiceType = invoiceTypeService.get(request.getInvoiceTypeId());
-        request.setNo(invoiceNoGenerator.createInvoiceNo(
-            invoiceType.getTitle(),
-            calendar.get(Calendar.YEAR) % 100,
-            calendar.get(Calendar.MONTH) + 1,
-            contract.getMaterial().getAbbreviation(),
-            contract.getNo()));
+        request.setNo(invoiceNoGenerator.createInvoiceNo(invoiceType.getTitle(), calendar.get(Calendar.YEAR) % 100, calendar.get(Calendar.MONTH) + 1, contract.getMaterial().getAbbreviation(), contract.getNo()));
 
         ForeignInvoiceDTO.Info foreignInvoice = super.create(request);
 
@@ -91,6 +85,13 @@ public class ForeignInvoiceService extends GenericService<ForeignInvoice, Long, 
         request.getForeignInvoicePayments().forEach(item -> item.setForeignInvoiceId(foreignInvoice.getId()));
         foreignInvoicePaymentService.createAll(modelMapper.map(request.getForeignInvoicePayments(), new TypeToken<List<ForeignInvoicePaymentDTO.Create>>() {
         }.getType()));
+
+        request.getBillLadingIds().forEach(item -> {
+            ForeignInvoiceBillOfLandingDTO.Create foreignInvoiceBillOfLanding = new ForeignInvoiceBillOfLandingDTO.Create();
+            foreignInvoiceBillOfLanding.setBillOfLandingId(item);
+            foreignInvoiceBillOfLanding.setForeignInvoiceId(foreignInvoice.getId());
+            foreignInvoiceBillOfLadingService.create(foreignInvoiceBillOfLanding);
+        });
 
         return foreignInvoice;
     }
