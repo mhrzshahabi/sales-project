@@ -4,8 +4,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.mfathi91.time.PersianDate;
 import com.nicico.sales.dto.ShipmentDTO;
-import com.nicico.sales.exception.SalesException2;
 import com.nicico.sales.iservice.IRemittanceService;
+import com.nicico.sales.enumeration.EContractDetailTypeCode;
+import com.nicico.sales.enumeration.EContractDetailValueKey;
 import com.nicico.sales.iservice.IShipmentService;
 import com.nicico.sales.model.entities.warehouse.Remittance;
 import com.nicico.sales.model.entities.warehouse.RemittanceDetail;
@@ -21,7 +22,6 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.format.DateTimeFormatter;
@@ -82,9 +82,16 @@ public class ShipmentFormController {
 
     @RequestMapping("/showForm")
     public String showShipment(HttpServletRequest request) throws JsonProcessingException {
+
         request.getSession().setAttribute("Enum_CategoryUnit", objectMapper.writeValueAsString(
-                Arrays.stream(CategoryUnit.values()).collect(Collectors.toMap(CategoryUnit::name, CategoryUnit::getId)))
-        );
+                Arrays.stream(CategoryUnit.values()).collect(Collectors.toMap(CategoryUnit::name, CategoryUnit::getId))));
+
+        request.getSession().setAttribute("Enum_EContractDetailTypeCode", objectMapper.writeValueAsString(
+                Arrays.stream(EContractDetailTypeCode.values()).collect(Collectors.toMap(EContractDetailTypeCode::name, EContractDetailTypeCode::getId))));
+
+        request.getSession().setAttribute("Enum_EContractDetailValueKey", objectMapper.writeValueAsString(
+                Arrays.stream(EContractDetailValueKey.values()).collect(Collectors.toMap(EContractDetailValueKey::name, EContractDetailValueKey::name))));
+
         return "shipment/shipment";
     }
 

@@ -1331,7 +1331,7 @@ BlTab.Fields.RemittanceFull = function () {
                     return _record.remittanceDetails.map(rd => rd.inventory.weightInspection.weightND).reduce((i, j) => i + j);
 
                 } catch (e) {
-                    dbg('recordSummaryFunction error', e)
+                    dbg(false, 'recordSummaryFunction error', e)
                     return 0;
                 }
             },
@@ -1346,7 +1346,7 @@ BlTab.Fields.RemittanceFull = function () {
                 try {
                     return _record.remittanceDetails.map(rd => rd.inventory.weightInspection.weightGW).reduce((i, j) => i + j);
                 } catch (e) {
-                    dbg('recordSummaryFunction error', e)
+                    dbg(false, 'recordSummaryFunction error', e)
                     return 0;
                 }
             },
@@ -1788,7 +1788,7 @@ BlTab.Grids.BillOfLanding = {
                     isc.ToolStripButtonAdd.create({
                         // title: 'add',
                         click() {
-                            // dbg('new remittance', arguments)
+                            // dbg(false, 'new remittance', arguments)
                             let gridForSelectRemittance;
                             const win = isc.Window.create({
                                 ...BlTab.Vars.DefaultWindowConfig,
@@ -1848,7 +1848,7 @@ BlTab.Grids.BillOfLanding = {
                 members: [
                     BlTab.Layouts.ToolStripButtons.NewContainerToBillOfLanding = isc.ToolStripButtonAdd.create({
                         click() {
-                            // dbg('window create container info', arguments);
+                            // dbg(false, 'window create container info', arguments);
                             BlTab.Vars.Method = "POST";
                             const winId = BlTab.Vars.Prefix + "window_container" + Math.random().toString().substr(2, 4)
                             BlTab.Layouts.Window.ContainerToBillOfLanding = isc.Window.create({
@@ -1879,7 +1879,7 @@ BlTab.Grids.BillOfLanding = {
                     }),
                     isc.ToolStripButtonEdit.create({
                         click() {
-                            dbg('container edit')
+                            dbg(false, 'container edit')
                             BlTab.Layouts.ToolStripButtons.NewContainerToBillOfLanding.click();
                             BlTab.Vars.Method = "PUT";
                             BlTab.DynamicForms.Forms.ContainerToBillOfLanding.setValues(BlTab.Grids.ContainerToBillOfLanding.getSelectedRecord());
@@ -1897,14 +1897,14 @@ BlTab.Grids.BillOfLanding = {
             fields: BlTab.Fields.ContainerToBillOfLanding()
         });
         // const a = new Date().getTime();
-        // dbg('before fetch',a);
+        // dbg(false, 'before fetch',a);
         fetch('api/remittance-to-bill-of-landing/spec-list?criteria=' + JSON.stringify({
             "fieldName": "billOfLandingId",
             "operator": "equals",
             "value": record.id
         }), {headers: SalesConfigs.httpHeaders}).then(
             r => r.json().then(j => {
-                // dbg('after fetched',new Date().getTime() - a);
+                // dbg(false, 'after fetched',new Date().getTime() - a);
                 remittanceGrid.setData(j.response.data.map(d => {
                     d.remittance.deleteId = d.id;
                     return d.remittance
@@ -1912,11 +1912,11 @@ BlTab.Grids.BillOfLanding = {
 
             })
         )
-        // dbg('after fetch',new Date().getTime() - a);
+        // dbg(false, 'after fetch',new Date().getTime() - a);
         return isc.TabSet.create({
             /*
             tabSelected(tabSet, tabNum, tabPane, ID, tab, name) {
-                dbg(`BlTab.Layouts.ToolStripButtons.new.click = _ => {
+                dbg(false, `BlTab.Layouts.ToolStripButtons.new.click = _ => {
 isc.ValuesManager.create({
     ID: "vm"
 });
@@ -2005,11 +2005,11 @@ BlTab.Layouts.ToolStripButtons.NewBillOfLanding.click = _ => {
                                         method: "POST",
                                         body: JSON.stringify(BlTab.Vars.BillOfLanding.getValues())
                                     }).then(
-                                        _ => _.json().then(j => dbg('BL Fetch saved data', j)).catch(err => dbg('BL Fetch saved ERROR data', err))
+                                        _ => _.json().then(j => dbg(false, 'BL Fetch saved data', j)).catch(err => dbg(false, 'BL Fetch saved ERROR data', err))
                                     )
                                     */
         BlTab.Methods.Save(BlTab.Vars.BillOfLanding.getValues(), 'api/bill-of-landing').then(function () {
-            dbg(`BlTab.Methods.Save(BlTab.Vars.BillOfLanding.getValues(), 
+            dbg(false, `BlTab.Methods.Save(BlTab.Vars.BillOfLanding.getValues(), 
                         'api/bill-of-landing').then(function () {`, arguments)
             window[windID].destroy();
         })
@@ -2047,7 +2047,7 @@ BlTab.Layouts.ToolStripButtons.NewBillOfLanding.click = _ => {
             BlTab.Layouts.BillOfLandingFormTab = isc.TabSet.create({
                 /*
                 tabSelected(tabSet, tabNum, tabPane, ID, tab, name) {
-                    dbg(`BlTab.Layouts.ToolStripButtons.new.click = _ => {
+                    dbg(false, `BlTab.Layouts.ToolStripButtons.new.click = _ => {
     isc.ValuesManager.create({
         ID: "vm"
     });

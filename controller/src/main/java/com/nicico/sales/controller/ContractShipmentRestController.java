@@ -20,7 +20,7 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(value = "/api/contractShipment")
+@RequestMapping(value = {"/api/contractShipment", "/api/ContractShipment"})
 public class ContractShipmentRestController {
 
     private final IContractShipmentService contractShipmentService;
