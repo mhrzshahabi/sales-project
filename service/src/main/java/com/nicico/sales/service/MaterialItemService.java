@@ -1,5 +1,8 @@
 package com.nicico.sales.service;
 
+import com.nicico.copper.common.domain.criteria.NICICOCriteria;
+import com.nicico.copper.common.domain.criteria.SearchUtil;
+import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.sales.dto.MaterialItemDTO;
 import com.nicico.sales.iservice.IMaterialItemService;
 import com.nicico.sales.model.entities.base.MaterialItem;
@@ -37,6 +40,21 @@ public class MaterialItemService extends GenericService<MaterialItem, Long, Mate
                         .setMaterialId(Long.valueOf(u[0].toString().contains("کاتد") ? 2L : (Long.valueOf(u[0].toString().contains("مولیبدن") ? 1L : 3L))))
                 ).collect(Collectors.toList()));
         repository.saveAll(materialItems);
+    }
+
+
+    @Override
+    public TotalResponse<MaterialItemDTO.InfoWithInventories> searchWithInventories(NICICOCriteria request){
+        List<MaterialItem> entities = new ArrayList<>();
+        final TotalResponse<MaterialItemDTO.InfoWithInventories> totalResponse = SearchUtil.search(repositorySpecificationExecutor, request, entity -> {
+
+            MaterialItemDTO.InfoWithInventories eResult = modelMapper.map(entity, MaterialItemDTO.InfoWithInventories.class);
+            validation(entity, eResult);
+            entities.add(entity);
+            return eResult;
+        });
+        validationAll(entities, totalResponse);
+        return totalResponse;
     }
 
 }
