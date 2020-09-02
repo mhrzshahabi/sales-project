@@ -1,6 +1,7 @@
 package com.nicico.sales.model.entities.base;
 
 import com.nicico.sales.model.entities.common.BaseEntity;
+import com.nicico.sales.model.entities.warehouse.Remittance;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.envers.NotAudited;
@@ -9,6 +10,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -18,7 +20,9 @@ import java.util.Set;
 @Accessors(chain = true)
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
-@Table(name = "TBL_SHIPMENT")
+@Table(name = "TBL_SHIPMENT" , uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"F_CONTRACT_SHIPMENT_ID"}, name = "UNIQUE_F_CONTRACT_SHIPMENT_ID")
+})
 public class Shipment extends BaseEntity {
 
     @Id
@@ -97,12 +101,24 @@ public class Shipment extends BaseEntity {
     @Column(name = "F_UNIT_ID", nullable = false)
     private Long unitId;
 
+    @Setter(AccessLevel.NONE)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "DISCHARGE_PORT_ID", nullable = false, insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_shipment2portByDischargePortId"))
+    private Port dischargePort;
+
+    @NotNull
+    @Column(name = "DISCHARGE_PORT_ID", nullable = false)
+    private Long dischargePortId;
+
     @NotNull
     @Column(name = "N_AMOUNT", nullable = false, scale = 3, precision = 12)
     private BigDecimal amount;
 
     @Column(name = "C_DESCRIPTION", length = 4000)
     private String description;
+
+    @Column(name = "C_CONTAINER_TYPE")
+    private String containerType;
 
 //    @Column(name = "STATUS", length = 20)
 //    private String status;
@@ -147,13 +163,10 @@ public class Shipment extends BaseEntity {
 //    @Column(name = "AGENT")
 //    private Long contactByAgentId;
 
-//    @Column(name = "N_NO_BARREL")
-//    private Long noBarrel;
+    @Column(name = "N_NO_PALLET")
+    private Long noPallet;
 
-//    @Column(name = "N_NO_PALLET")
-//    private Long noPallet;
-
-    @Column(name = "BOOKING_NO_cat")
+    @Column(name = "BOOKING_NO_CAT")
     private String bookingCat;
 
 //    @NotAudited
@@ -168,4 +181,14 @@ public class Shipment extends BaseEntity {
 
     @Column(name = "VGM")
     private Double vgm;
+
+     @Column(name = "D_ARRIVAL_DATE_FROM")
+     private Date arrivalDateFrom;
+
+     @Column(name = "D_ARRIVAL_DATE_TO")
+     private Date arrivalDateTo;
+
+
+    @OneToMany(mappedBy = "shipmentId", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    private List<Remittance> remittances;
 }

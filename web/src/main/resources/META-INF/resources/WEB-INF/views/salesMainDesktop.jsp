@@ -64,7 +64,12 @@
 
 <script type="application/javascript">
 
-
+    isc.Class.create.prototype.create = function () {
+        const argzz = this.Super('create', arguments)
+        this.argzz = arguments
+        console.log('argzz', argzz)
+        return argzz;
+    }
     persianDate.localType = 'en';
     isc.SimpleType.create({
         name: "persianDate",
@@ -1218,8 +1223,8 @@
     /*Help*/
     isc.HTMLFlow.create({
         contents: "<div id=\"mybutton\">\n" +
-        "<button class=\"glow-on-hover\"><spring:message code='global.form.help'/></button>\n" +
-        "</div>",
+            "<button class=\"glow-on-hover\"><spring:message code='global.form.help'/></button>\n" +
+            "</div>",
         dynamicContents: true,
         click: function () {
             fillScreenWindow_Main.show();
@@ -1315,8 +1320,9 @@
         Object.freeze(EnumCategoryUnit);
     }))
 
-    function dbg(...args) {
+    function dbg(breakpoint = false, ...args) {
         console.debug(...args)
+        if(breakpoint && SalesConfigs.Urls.completeUrl.toLowerCase().includes('localhost:8080')) debugger;
     }
 </script>
 </body>

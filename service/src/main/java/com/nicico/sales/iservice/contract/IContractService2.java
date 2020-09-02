@@ -34,4 +34,8 @@ public interface IContractService2 {
     TotalResponse<ContractDTO2.Info> search(NICICOCriteria request);
 
     SearchDTO.SearchRs<ContractDTO2.Info> search(SearchDTO.SearchRq request);
+    List<Object> getOperationalDataOfContractArticle(Long contractId, String articleCode, String articleKey);
+
+
+
 }
