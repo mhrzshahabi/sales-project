@@ -662,6 +662,11 @@
                     }]
             },
             {
+               name: "lastDeliveryLetterDate",
+               type: "date",
+               title: "<spring:message code='shipment.lastDeliveryLetterDate'/>",
+            },
+            {
                 name: "unitId",
                 title: "<spring:message code='unit.title'/>",
                 width: "100%",
@@ -1106,6 +1111,7 @@
             DynamicForm_Shipment.setValue("arrivalDateTo", new Date(parseInt(ListGrid_Shipment.getSelectedRecord().arrivalDateTo)));
             DynamicForm_Shipment.setValue("arrivalDateFrom", new Date(parseInt(ListGrid_Shipment.getSelectedRecord().arrivalDateFrom)));
             DynamicForm_Shipment.setValue("sendDate", new Date(parseInt(ListGrid_Shipment.getSelectedRecord().sendDate)));
+            DynamicForm_Shipment.setValue("lastDeliveryLetterDate", new Date(parseInt(ListGrid_Shipment.getSelectedRecord().lastDeliveryLetterDate)));
             setBuyerName(record.contactId);
             abal.disable();
             shipment.disable();
