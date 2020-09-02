@@ -5,6 +5,7 @@ import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.sales.dto.contract.ContractDTO2;
 import com.nicico.sales.iservice.contract.IContractService2;
+import com.nicico.sales.utility.SpecListUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -22,6 +23,7 @@ import java.util.Map;
 @RequestMapping(value = "/api/g-contract")
 public class ContractRestController2 {
 
+    private final SpecListUtil specListUtil;
     private final IContractService2 contractService;
 
     @Loggable
@@ -82,10 +84,18 @@ public class ContractRestController2 {
                                                             @PathVariable Long contractId,
                                                             @PathVariable String code) {
         return new ResponseEntity<>(contractService.getOperationalDataOfContractArticle(contractId,
-                
                 code, contractDetailValueKey), HttpStatus.OK);
-
-
     }
 
+    @Loggable
+    @GetMapping(value = "/latest-version-of-data-response")
+    public ResponseEntity<Map<String, Object>> latestVersionOfDataResponse(
+            @RequestParam String code,
+            @RequestParam Long contractId,
+            @RequestParam String contractDetailValueKey) {
+
+        return new ResponseEntity<>(specListUtil.getCoveredByResponse(
+                contractService.getOperationalDataOfContractArticle(contractId,
+                        code, contractDetailValueKey)), HttpStatus.OK);
+    }
 }

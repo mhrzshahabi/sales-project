@@ -163,9 +163,6 @@ public class Shipment extends BaseEntity {
 //    @Column(name = "AGENT")
 //    private Long contactByAgentId;
 
-    @Column(name = "N_NO_BARREL")
-    private Long noBarrel;
-
     @Column(name = "N_NO_PALLET")
     private Long noPallet;
 
