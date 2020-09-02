@@ -72,10 +72,10 @@ public class ContractRestController2 {
 
     @Loggable
     @GetMapping(value = "/spec-list")
-    public ResponseEntity<TotalResponse<ContractDTO2.Info>> list(@RequestParam MultiValueMap<String, String> criteria) {
+    public ResponseEntity<TotalResponse<ContractDTO2.ListGridInfo>> list(@RequestParam MultiValueMap<String, String> criteria) {
 
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
-        return new ResponseEntity<>(contractService.search(nicicoCriteria), HttpStatus.OK);
+        return new ResponseEntity<>(contractService.refinedSearch(nicicoCriteria), HttpStatus.OK);
     }
 
     @Loggable

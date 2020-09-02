@@ -36,14 +36,19 @@ public class ContractDTO2 {
     private Long agentBuyerId;
     private Long agentSellerId;
 
-    private List<ContractDetailDTO2.Info> contractDetails;
-
     @Getter
     @Setter
     @Accessors(chain = true)
     @ApiModel("ContractInfo")
-    public static class Info extends ContractDTO2 {
+    public static class Info extends ListGridInfo {
+        private List<ContractDetailDTO2.Info> contractDetails;
+    }
 
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("ContractListGridInfo")
+    public static class ListGridInfo extends ContractDTO2 {
         private Long id;
         private MaterialDTO.Info material;
         private List<ContractContactDTO.Info> contractContacts;
@@ -65,6 +70,7 @@ public class ContractDTO2 {
     @Accessors(chain = true)
     @ApiModel("ContractCreateRq")
     public static class Create extends ContractDTO2 {
+        private List<ContractDetailDTO2.Info> contractDetails;
     }
 
     @Getter
@@ -72,6 +78,7 @@ public class ContractDTO2 {
     @Accessors(chain = true)
     @ApiModel("ContractUpdateRq")
     public static class Update extends ContractDTO2 {
+        private List<ContractDetailDTO2.Info> contractDetails;
 
         @NotNull
         @ApiModelProperty(required = true)
@@ -83,6 +90,7 @@ public class ContractDTO2 {
     @Accessors(chain = true)
     @ApiModel("ContractDeleteRq")
     public static class Delete {
+        private List<ContractDetailDTO2.Info> contractDetails;
 
         @NotNull
         @ApiModelProperty(required = true)

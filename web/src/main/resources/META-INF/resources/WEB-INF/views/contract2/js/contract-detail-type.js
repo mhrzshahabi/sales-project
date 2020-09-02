@@ -238,7 +238,7 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
 
     width: "100%",
     height: "100%",
-    sortField: 1,
+    sortField: "id",
     showRowNumbers: true,
     canAutoFitFields: false,
     allowAdvancedCriteria: true,
@@ -777,8 +777,8 @@ contractDetailTypeTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
                     allTemplates[i][contractDetailTypeTab.dynamicForm.templateFields.contractDetailTypeId.name] = data.id;
                 data.contractDetailTypeTemplates = allTemplates;
 
-                if (data.contractDetailTypeParams.length == 0 || data.contractDetailTypeTemplates == 0) {
-                    contractDetailTypeTab.dialog.say("<spring:message code='contract-detail-type.window.validation.param.template.empty.check'/>",
+                if (data.contractDetailTypeTemplates == 0) {
+                    contractDetailTypeTab.dialog.say("<spring:message code='contract-detail-type.window.validation.template.empty.check'/>",
                         "<spring:message code='global.warning'/>");
                     return;
                 }

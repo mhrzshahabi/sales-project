@@ -194,15 +194,14 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
             createContractContacts(contract2.getId(), newContractContactId, commercialRole);
     }
 
-    @Override
     @Transactional(readOnly = true)
     @Action(value = ActionType.Search)
-    public TotalResponse<ContractDTO2.Info> search(NICICOCriteria request) {
+    public TotalResponse<ContractDTO2.ListGridInfo> refinedSearch(NICICOCriteria request) {
 
         List<Contract2> entities = new ArrayList<>();
-        TotalResponse<ContractDTO2.Info> result = SearchUtil.search(repositorySpecificationExecutor, request, entity -> {
+        TotalResponse<ContractDTO2.ListGridInfo> result = SearchUtil.search(repositorySpecificationExecutor, request, entity -> {
 
-            ContractDTO2.Info eResult = modelMapper.map(entity, ContractDTO2.Info.class);
+            ContractDTO2.ListGridInfo eResult = modelMapper.map(entity, ContractDTO2.ListGridInfo.class);
             validation(entity, eResult);
             entities.add(entity);
             eResult.getContractContacts().forEach(q -> {
