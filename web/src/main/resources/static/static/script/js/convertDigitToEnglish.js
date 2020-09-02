@@ -1,5 +1,4 @@
 function numberToEnglish( n ) {
-    console.log('************',n)
     var string = n.toString(), units, tens, scales, start, end, chunks, chunksLen, chunk, ints, i, word, words, and = 'and';
 
     /* Remove spaces and commas */

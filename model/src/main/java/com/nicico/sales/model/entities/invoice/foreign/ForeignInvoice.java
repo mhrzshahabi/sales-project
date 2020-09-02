@@ -133,5 +133,11 @@ public class ForeignInvoice extends BaseEntity {
     // *****************************************************************************************************************
 
     @OneToMany(mappedBy = "foreignInvoice", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private List<ForeignInvoiceBillOfLanding> billLadings;
+    private List<ForeignInvoiceBillOfLading> billLadings;
+
+    @OneToMany(mappedBy = "foreignInvoice", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<ForeignInvoiceItem> foreignInvoiceItems;
+
+    @OneToMany(mappedBy = "foreignInvoice", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<ForeignInvoicePayment> foreignInvoicePayments;
 }

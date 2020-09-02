@@ -148,7 +148,6 @@ isc.defineClass("InvoiceDeduction", isc.VLayout).addProperties({
                 rcUnitConversionRate: current.getRCUnitConversionRate(),
             });
         });
-
         return data;
     },
     okButtonClick: function () {

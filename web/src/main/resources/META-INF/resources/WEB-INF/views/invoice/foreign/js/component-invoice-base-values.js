@@ -18,7 +18,6 @@ isc.defineClass("InvoiceBaseValues", isc.VLayout).addProperties({
     invoiceBaseWeightComponent: null,
     initWidget: function () {
 
-        console.log("remittanceDetails ", remittanceDetails);
         this.Super("initWidget", arguments);
 
         let This = this;

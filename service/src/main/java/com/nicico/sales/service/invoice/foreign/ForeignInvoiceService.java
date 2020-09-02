@@ -1,6 +1,12 @@
 package com.nicico.sales.service.invoice.foreign;
 
+import com.ghasemkiani.util.icu.PersianCalendar;
+import com.ibm.icu.util.Calendar;
+import com.nicico.sales.dto.InvoiceTypeDTO;
+import com.nicico.sales.dto.contract.ContractDTO2;
 import com.nicico.sales.dto.invoice.foreign.ForeignInvoiceDTO;
+import com.nicico.sales.dto.invoice.foreign.ForeignInvoiceItemDTO;
+import com.nicico.sales.dto.invoice.foreign.ForeignInvoiceItemDetailDTO;
 import com.nicico.sales.dto.invoice.foreign.ForeignInvoicePaymentDTO;
 import com.nicico.sales.enumeration.ErrorType;
 import com.nicico.sales.exception.SalesException2;
@@ -8,6 +14,9 @@ import com.nicico.sales.iservice.invoice.foreign.IForeignInvoiceService;
 import com.nicico.sales.model.entities.invoice.foreign.ForeignInvoice;
 import com.nicico.sales.repository.invoice.foreign.ForeignInvoiceDAO;
 import com.nicico.sales.service.GenericService;
+import com.nicico.sales.service.InvoiceTypeService;
+import com.nicico.sales.service.contract.ContractService2;
+import com.nicico.sales.utility.InvoiceNoGenerator;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.TypeToken;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -23,8 +32,13 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ForeignInvoiceService extends GenericService<ForeignInvoice, Long, ForeignInvoiceDTO.Create, ForeignInvoiceDTO.Info, ForeignInvoiceDTO.Update, ForeignInvoiceDTO.Delete> implements IForeignInvoiceService {
 
+    private final InvoiceNoGenerator invoiceNoGenerator;
     private final ResourceBundleMessageSource messageSource;
+    private final ContractService2 contractService;
+    private final InvoiceTypeService invoiceTypeService;
+    private final ForeignInvoiceItemService foreignInvoiceItemService;
     private final ForeignInvoicePaymentService foreignInvoicePaymentService;
+    private final ForeignInvoiceItemDetailService foreignInvoiceItemDetailService;
 
     @Override
     @Transactional
@@ -49,12 +63,35 @@ public class ForeignInvoiceService extends GenericService<ForeignInvoice, Long, 
     @Transactional
     public ForeignInvoiceDTO.Info create(ForeignInvoiceDTO.Create request) {
 
-        ForeignInvoiceDTO.Info foreignInvoiceDTO = super.create(request);
+        PersianCalendar calendar = new PersianCalendar(request.getDate());
+        ContractDTO2.Info contract = contractService.get(request.getContractId());
+        InvoiceTypeDTO.Info invoiceType = invoiceTypeService.get(request.getInvoiceTypeId());
+        request.setNo(invoiceNoGenerator.createInvoiceNo(
+            invoiceType.getTitle(),
+            calendar.get(Calendar.YEAR) % 100,
+            calendar.get(Calendar.MONTH) + 1,
+            contract.getMaterial().getAbbreviation(),
+            contract.getNo()));
 
-        request.getForeignInvoicePayments().forEach(item -> item.setForeignInvoiceId(foreignInvoiceDTO.getId()));
-        foreignInvoicePaymentService.createAll(modelMapper.map(request.getForeignInvoicePayments(), new TypeToken<List<ForeignInvoicePaymentDTO.Create>>() {}.getType()));
+        ForeignInvoiceDTO.Info foreignInvoice = super.create(request);
 
-        return foreignInvoiceDTO;
+        request.getForeignInvoiceItems().forEach(item -> {
+
+            ForeignInvoiceItemDTO.Create foreignInvoiceItemCreate = modelMapper.map(item, ForeignInvoiceItemDTO.Create.class);
+            foreignInvoiceItemCreate.setForeignInvoiceId(foreignInvoice.getId());
+            ForeignInvoiceItemDTO.Info foreignInvoiceItem = foreignInvoiceItemService.create(foreignInvoiceItemCreate);
+            item.getForeignInvoiceItemDetails().forEach(detail -> {
+
+                ForeignInvoiceItemDetailDTO.Create foreignInvoiceItemDetailCreate = modelMapper.map(detail, ForeignInvoiceItemDetailDTO.Create.class);
+                foreignInvoiceItemDetailCreate.setForeignInvoiceItemId(foreignInvoiceItem.getId());
+                foreignInvoiceItemDetailService.create(foreignInvoiceItemDetailCreate);
+            });
+        });
+
+        request.getForeignInvoicePayments().forEach(item -> item.setForeignInvoiceId(foreignInvoice.getId()));
+        foreignInvoicePaymentService.createAll(modelMapper.map(request.getForeignInvoicePayments(), new TypeToken<List<ForeignInvoicePaymentDTO.Create>>() {
+        }.getType()));
+
+        return foreignInvoice;
     }
-
 }

@@ -8,6 +8,7 @@ import lombok.experimental.Accessors;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
+import java.util.List;
 
 @Getter
 @Setter
@@ -54,4 +55,9 @@ public class ForeignInvoiceItem extends BaseEntity {
     @NotNull
     @Column(name = "F_REMITTANCE_DETAIL_ID", nullable = false)
     private Long remittanceDetailId;
+
+    // *****************************************************************************************************************
+
+    @OneToMany(mappedBy = "foreignInvoiceItem", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<ForeignInvoiceItemDetail> foreignInvoiceItemDetails;
 }

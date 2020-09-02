@@ -141,9 +141,8 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
         valueField: "id",
         displayField: "no",
         optionCriteria: {
-            fieldName: "contractTypeId",
-            operator: "equals",
-            value: ImportantIDs.contractType.Primary
+            fieldName: "parentId",
+            operator: "isNull"
         },
         optionDataSource: isc.MyRestDataSource.create({
             fields: [
@@ -514,8 +513,7 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
 
 //******************************************************* COMPONENTS ***************************************************
 
-foreignInvoiceTab.dynamicForm.valuesManager = isc.ValuesManager.create({
-});
+foreignInvoiceTab.dynamicForm.valuesManager = isc.ValuesManager.create({});
 
 foreignInvoiceTab.dynamicForm.baseData = isc.DynamicForm.create({
 
@@ -735,22 +733,32 @@ foreignInvoiceTab.variable.invoiceForm.validate = function (data) {
 
 foreignInvoiceTab.variable.invoiceForm.okCallBack = function (data) {
 
-    data.shipmentId = data.shipmentId[0];
-    isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-            actionURL: "${contextPath}/api/foreign-invoice",
-            httpMethod: foreignInvoiceTab.variable.method,
-            data: JSON.stringify(data),
-            params: null,
-            callback: function (resp) {
-                if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
-                    foreignInvoiceTab.window.main.close();i
-                    foreignInvoiceTab.method.refreshData();
-                    isc.say("<spring:message code='global.form.request.successful'/>");
-                } else
-                    isc.say(resp.data);
-            }
-        })
-    );
+    foreignInvoiceTab.method.jsonRPCManagerRequest({
+        data: JSON.stringify(data)
+    }, (resp) => {
+        if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+
+            foreignInvoiceTab.window.main.close();
+            foreignInvoiceTab.method.refresh(foreignInvoiceTab.listGrid.main);
+            foreignInvoiceTab.dialog.ok();
+        }
+    });
+
+    // isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+    //         actionURL: "${contextPath}/api/foreign-invoice",
+    //         httpMethod: foreignInvoiceTab.variable.method,
+    //         data: JSON.stringify(data),
+    //         params: null,
+    //         callback: function (resp) {
+    //             if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+    //                 foreignInvoiceTab.window.main.close();i
+    //                 foreignInvoiceTab.method.refreshData();
+    //                 isc.say("<spring:message code='global.form.request.successful'/>");
+    //             } else
+    //                 isc.say(resp.data);
+    //         }
+    //     })
+    // );
 
 };
 
@@ -769,6 +777,7 @@ foreignInvoiceTab.variable.invoiceForm.populateData = function (bodyWidget) {
     if (!invoicePaymentComponent) return null;
 
     let data = foreignInvoiceTab.dynamicForm.valuesManager.getValues();
+    let remittanceDetails = foreignInvoiceTab.dynamicForm.valuesManager.getValue('remittanceDetails');
 
     data.billLadingIds = data.billLadings.map(q => q.id);
     data.buyerId = data.contract.contractContacts.filter(q => q.commercialRole === JSON.parse('${Enum_CommercialRole}').Buyer).first().contactId;
@@ -783,10 +792,43 @@ foreignInvoiceTab.variable.invoiceForm.populateData = function (bodyWidget) {
     data.conversionSumPrice = paymentComponentValues.conversionSumPrice.getValues().value;
     data.conversionSumPriceText = paymentComponentValues.conversionSumPriceText;
     data.sumPIPrice = data.sumFIPrice - data.sumPrice;
-    data.no = "9806-11";
     data.foreignInvoicePayments = paymentComponentValues.shipmentCostInvoices;
 
-    data.foreignInvoiceItems =
+    foreignInvoiceTab.method.getForeignInvoiceItemDetails = function () {
+        let itemDetails = [];
+        invoiceBaseAssayComponent.getValues().forEach(q => {
+            itemDetails.add({
+                materialElementId: q.materialElementId,
+                assay: q.value,
+                basePrice: invoiceBasePriceComponent.getValues().filter(bp => bp.elementId === q.elementId).first().value,
+                rcPrice: invoiceDeductionComponent.pane.getValues().slice(1).filter(trc => trc.materialElementId === q.materialElementId).first().rcPrice,
+                rcBasePrice: invoiceDeductionComponent.pane.getValues().slice(1).filter(trc => trc.materialElementId === q.materialElementId).first().rcBasePrice.getValues().value,
+                rcUnitConversionRate: invoiceDeductionComponent.pane.getValues().slice(1).filter(trc => trc.materialElementId === q.materialElementId).first().rcUnitConversionRate,
+                deductionType: invoiceCalculationComponent.pane.getValues().filter(ca => ca.elementId === q.elementId).first().deductionType,
+                deductionValue: invoiceCalculationComponent.pane.getValues().filter(ca => ca.elementId === q.elementId).first().deductionValue,
+                deductionUnitConversionRate: invoiceCalculationComponent.pane.getValues().filter(ca => ca.elementId === q.elementId).first().deductionUnitConversionRate,
+                deductionPrice: invoiceCalculationComponent.pane.getValues().filter(ca => ca.elementId === q.elementId).first().deductionPrice
+            })
+        });
+        return itemDetails;
+    };
+
+    foreignInvoiceTab.method.getForeignInvoiceItems = function () {
+        let items = [];
+
+        remittanceDetails.forEach(current => {
+            items.add({
+                weightGW: invoiceBaseWeightComponent.getValues().weightGW.getValues().value,
+                weightND: invoiceBaseWeightComponent.getValues().weightND.getValues().value,
+                treatCost: invoiceDeductionComponent.pane.getValues().filter(q => q.name === "TC").first().value,
+                remittanceDetailId: current.id,
+                foreignInvoiceItemDetails: foreignInvoiceTab.method.getForeignInvoiceItemDetails()
+            });
+        });
+        return items;
+    };
+
+    data.foreignInvoiceItems = foreignInvoiceTab.method.getForeignInvoiceItems();
 
     delete data.contract;
     delete data.conversionRef;
@@ -794,19 +836,11 @@ foreignInvoiceTab.variable.invoiceForm.populateData = function (bodyWidget) {
     delete data.billLadings;
     delete data.invoiceType;
     delete data.shipment;
-    delete data.contractId;
     delete data.toCurrencyId;
+    delete data.remittanceDetails;
+    delete data.remittanceDetailId;
 
-    // private ForeignInvoicePaymentDTO.Create foreignInvoicePayment;
-    // private List<ForeignInvoiceItemDTO.Create> foreignInvoiceItems;
-
-    // data.basePrice = invoiceBasePriceComponent.getValues();
-    // foreignInvoiceTab.dynamicForm.valuesManager.setValue("baseWeight", invoiceBaseWeightComponent.getValues());
-    // foreignInvoiceTab.dynamicForm.valuesManager.setValue("baseAssay", invoiceBaseAssayComponent.getValues());
-    // foreignInvoiceTab.dynamicForm.valuesManager.setValue("calculation", invoiceCalculationComponent.pane.getValues());
-    // foreignInvoiceTab.dynamicForm.valuesManager.setValue("deduction", invoiceDeductionComponent.pane.getValues());
-
-    console.log("populate data ", data)
+    console.log("populate data ", data);
     return data;
 };
 
@@ -816,10 +850,6 @@ nicico.BasicFormUtil.getDefaultBasicForm(foreignInvoiceTab, "api/foreign-invoice
 foreignInvoiceTab.dynamicForm.main = null;
 
 //*************************************************** Functions ********************************************************
-
-foreignInvoiceTab.method.refreshData = function () {
-    foreignInvoiceTab.listGrid.main.invalidateCache();
-};
 
 foreignInvoiceTab.method.newForm = function () {
 

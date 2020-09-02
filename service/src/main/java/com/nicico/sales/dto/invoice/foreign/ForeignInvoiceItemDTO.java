@@ -35,6 +35,7 @@ public class ForeignInvoiceItemDTO {
         private Long id;
         private ForeignInvoiceDTO.Info foreignInvoice;
         private RemittanceDetailDTO.Info remittanceDetail;
+        private List<ForeignInvoiceItemDetailDTO.Info> foreignInvoiceItemDetails;
 
         // Auditing
         private Date createdDate;

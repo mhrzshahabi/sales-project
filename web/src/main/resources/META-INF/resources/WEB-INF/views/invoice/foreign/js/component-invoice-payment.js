@@ -38,6 +38,26 @@ isc.defineClass("InvoicePayment", isc.VLayout).addProperties({
         };
 
         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+
+            httpMethod: "GET",
+            // params: {
+            //     criteria: {
+            //         operator: "and",
+            //         criteria: [{
+            //             fieldName: "contractId",
+            //             operator: "equals",
+            //             value: This.shipment.contractShipment.contractId
+            //         }]
+            //     }
+            // },
+            actionURL: "${contextPath}/api/shipmentCostInvoice/spec-list",
+            callback: function (resp) {
+
+                This.shipmentCostInvoices = JSON.parse(resp.data).response.data;
+            }
+        }));
+
+        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
             httpMethod: "GET",
             params: {
                 currencyId: This.currency.id,
@@ -208,9 +228,9 @@ isc.defineClass("InvoicePayment", isc.VLayout).addProperties({
                     title: "<spring:message code='foreign-invoice.form.choose-shipment-cost-invoice'/>",
                     click: function () {
 
-                        This.paymentForm.showFindFormByRestApiUrl(null, "50%", "500",
-                            "<spring:message code='foreign-invoice.form.tab.payment'/>", null,
-                            "${contextPath}/api/shipmentCostInvoice/spec-list", BaseFormItems.concat([
+                        This.paymentForm.showFindFormByData(null, "50%", "500",
+                            "<spring:message code='foreign-invoice.form.tab.payment'/>", This.shipmentCostInvoices, null,
+                            BaseFormItems.concat([
                                 {
                                     showHover: true,
                                     name: "invoiceDate",
@@ -228,12 +248,9 @@ isc.defineClass("InvoicePayment", isc.VLayout).addProperties({
                                     format: "#.##",
                                     title: "<spring:message code='shipmentCostInvoice.conversionSumPrice'/>",
                                     getGridSummary: function (records, field, groupSummaries) {
-                                        console.log("records ", records);
-                                        let sumFI = This.getMembers().filter(q => q.name === "sumFIPrice").first().getValues().value;
-                                        let sumConversion = records.map(q => q[field.name]).sum();
-                                        console.log("sumFI ", sumFI);
-                                        console.log("sumConversion ", sumConversion);
-                                        return sumFI - sumConversion;
+                                        let sumFIPrice = This.getMembers().filter(q => q.name === "sumFIPrice").first().getValues().value;
+                                        let sumConversionSumPrice = records.map(q => q[field.name]).sum();
+                                        return sumFIPrice - sumConversionSumPrice;
                                     }
                                 },
                                 {
@@ -266,13 +283,9 @@ isc.defineClass("InvoicePayment", isc.VLayout).addProperties({
                                     name: "contractId",
                                     title: "<spring:message code='shipmentCostInvoice.contract'/>"
                                 }
-                            ]), null, null, 0);
+                            ]), 0);
                     }
                 }));
-
-                This.paymentForm.okCallBack = function (selectedRecords) {
-                    This.shipmentCostInvoices = This.paymentForm.listGridWidget.getData();
-                };
 
                 This.addMember(isc.HTMLFlow.create({
                     width: "100%",
@@ -317,7 +330,7 @@ isc.defineClass("InvoicePayment", isc.VLayout).addProperties({
     getForeignInvoicePayment: function () {
 
         let data = [];
-        if (this.shipmentCostInvoices){
+        if (this.shipmentCostInvoices) {
 
             this.shipmentCostInvoices.forEach(current => {
 
@@ -338,6 +351,7 @@ isc.defineClass("InvoicePayment", isc.VLayout).addProperties({
     },
     getValues: function () {
 
+        console.log("shipmentCostInvoices ", this.getForeignInvoicePayment())
         return {
             shipmentCostInvoices: this.getForeignInvoicePayment(),
             unitCost: this.invoiceDeductionComponent.getDeductionSubTotal(),
