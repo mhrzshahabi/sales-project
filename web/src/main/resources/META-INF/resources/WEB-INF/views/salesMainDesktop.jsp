@@ -1045,7 +1045,7 @@
                 },
                 {isSeparator: true},
                 </sec:authorize>
-                <sec:authorize access="hasAuthority('R_WAREHOUSE')">
+                <sec:authorize access="hasAuthority('R_WAREHOUSE_STOCK')">
                 {
                     title: "<spring:message code='warehouseStock'/>",
                     click: function () {
@@ -1175,7 +1175,7 @@
     <sec:authorize access="hasAuthority('R_FOREIGN_INVOICE') or hasAuthority('R_INVOICE_INTERNAL') or hasAuthority('R_INVOICE_SALES')">
     saleToolStrip.addMember(financialTab);
     </sec:authorize>
-    <sec:authorize access="hasAuthority('R_TOZIN_LITE') or hasAuthority('R_TOZIN') or hasAuthority('R_REMITTANCE') or hasAuthority('R_WAREHOUSE')">
+    <sec:authorize access="hasAuthority('R_TOZIN_LITE') or hasAuthority('R_TOZIN') or hasAuthority('R_REMITTANCE') or hasAuthority('R_WAREHOUSE_STOCK')">
     saleToolStrip.addMember(productTab);
     </sec:authorize>
     <sec:authorize access="hasAuthority('R_CONTRACT2')">
