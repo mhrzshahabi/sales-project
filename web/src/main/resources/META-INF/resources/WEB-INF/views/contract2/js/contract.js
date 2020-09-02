@@ -256,8 +256,7 @@ contractTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
                     data.content = data.content + changeHeaderAndFooterTemplate(section.template);
                 });
 
-                contractTab.sectionStack.contract.sections
-                    .filter(q => !q.title.toLowerCase().contains("header") && !q.title.toLowerCase().contains("footer")).forEach(section => {
+                contractTab.sectionStack.contract.sections.forEach(section => {
                     let contractDetailObj = {
                         contractDetailTypeId: section.name,
                         contractDetailTemplate: section.template,
@@ -327,7 +326,9 @@ contractTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
                     });
 
                     data.contractDetails.push(contractDetailObj);
-                    data.content = data.content + "<h1>" + section.title + "</h1>" + contractDetailObj.content;
+
+                    if (!section.title.toLowerCase().contains("header") && !section.title.toLowerCase().contains("footer"))
+                        data.content = data.content + "<h2>" + section.title + "</h2>" + contractDetailObj.content;
                 });
 
                 contractTab.sectionStack.contract.sections.filter(x => x.title.toLowerCase().contains("footer")).forEach(section => {
