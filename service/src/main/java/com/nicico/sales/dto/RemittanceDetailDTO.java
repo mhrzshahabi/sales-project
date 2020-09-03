@@ -41,6 +41,8 @@ public class RemittanceDetailDTO {
         private TozinTableDTO.InfoWithoutRemittanceDetail destinationTozin;
         private InventoryDTO.InfoWithoutRemittanceDetail inventory;
         private DepotDTO.Info depot;
+        private String date;
+        private Boolean inputRemittance;
 //        private Remittance remittance;
 
 

@@ -20,6 +20,7 @@ import java.util.List;
 @Accessors(chain = true)
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
+@SecondaryTable(name = "VIEW_WARH_INVENTORY")
 @Table(name = "TBL_WARH_INVENTORY")
 public class Inventory extends BaseEntity {
 
@@ -67,5 +68,9 @@ public class Inventory extends BaseEntity {
      @OneToMany(mappedBy = "inventory", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
         private List<WeightInspection> weightInspections;
 
+    @Column(name = "weight",insertable = false,updatable = false,table = "VIEW_WARH_INVENTORY")
+    private Long weight;
+     @Column(name = "amount",insertable = false,updatable = false,table = "VIEW_WARH_INVENTORY")
+    private Long amount;
 
 }
