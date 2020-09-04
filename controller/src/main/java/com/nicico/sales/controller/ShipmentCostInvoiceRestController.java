@@ -52,16 +52,38 @@ public class ShipmentCostInvoiceRestController {
 
     @Loggable
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+
         iShipmentCostInvoiceService.delete(id);
-        return new ResponseEntity(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @Loggable
+    @PostMapping(value = "/activate/{id}")
+    public ResponseEntity<ShipmentCostInvoiceDTO.Info> activate(@PathVariable Long id) {
+
+        return new ResponseEntity<>(iShipmentCostInvoiceService.activate(id), HttpStatus.OK);
+    }
+
+    @Loggable
+    @PostMapping(value = "/deactivate/{id}")
+    public ResponseEntity<ShipmentCostInvoiceDTO.Info> deactivate(@PathVariable Long id) {
+
+        return new ResponseEntity<>(iShipmentCostInvoiceService.deactivate(id), HttpStatus.OK);
     }
 
     @Loggable
     @PostMapping(value = "/finalize/{id}")
-    public ResponseEntity finalize(@PathVariable Long id) {
-        iShipmentCostInvoiceService.finalize(id);
-        return new ResponseEntity(HttpStatus.OK);
+    public ResponseEntity<ShipmentCostInvoiceDTO.Info> finalize(@PathVariable Long id) {
+
+        return new ResponseEntity<>(iShipmentCostInvoiceService.finalize(id), HttpStatus.OK);
+    }
+
+    @Loggable
+    @PostMapping(value = "/disapprove/{id}")
+    public ResponseEntity<ShipmentCostInvoiceDTO.Info> disapprove(@PathVariable Long id) {
+
+        return new ResponseEntity<>(iShipmentCostInvoiceService.disapprove(id), HttpStatus.OK);
     }
 
     @Loggable

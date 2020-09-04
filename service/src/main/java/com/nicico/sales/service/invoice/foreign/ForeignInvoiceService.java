@@ -2,9 +2,11 @@ package com.nicico.sales.service.invoice.foreign;
 
 import com.ghasemkiani.util.icu.PersianCalendar;
 import com.ibm.icu.util.Calendar;
+import com.nicico.sales.annotation.Action;
 import com.nicico.sales.dto.InvoiceTypeDTO;
 import com.nicico.sales.dto.contract.ContractDTO2;
 import com.nicico.sales.dto.invoice.foreign.*;
+import com.nicico.sales.enumeration.ActionType;
 import com.nicico.sales.enumeration.ErrorType;
 import com.nicico.sales.exception.SalesException2;
 import com.nicico.sales.iservice.invoice.foreign.IForeignInvoiceService;
@@ -12,7 +14,6 @@ import com.nicico.sales.model.entities.invoice.foreign.ForeignInvoice;
 import com.nicico.sales.repository.invoice.foreign.ForeignInvoiceDAO;
 import com.nicico.sales.service.GenericService;
 import com.nicico.sales.service.InvoiceTypeService;
-import com.nicico.sales.service.contract.BillOfLandingService;
 import com.nicico.sales.service.contract.ContractService2;
 import com.nicico.sales.utility.InvoiceNoGenerator;
 import lombok.RequiredArgsConstructor;
@@ -41,6 +42,7 @@ public class ForeignInvoiceService extends GenericService<ForeignInvoice, Long, 
 
     @Override
     @Transactional
+    @Action(ActionType.Get)
     public List<ForeignInvoiceDTO.Info> getByShipment(Long invoiceTypeId, Long shipmentId, Long currencyId) {
 
         List<ForeignInvoice> allByContractIdAndInvoiceTypeId = ((ForeignInvoiceDAO) repository).findAllByShipmentIdAndInvoiceTypeId(shipmentId, invoiceTypeId);
@@ -60,6 +62,7 @@ public class ForeignInvoiceService extends GenericService<ForeignInvoice, Long, 
 
     @Override
     @Transactional
+    @Action(ActionType.Create)
     public ForeignInvoiceDTO.Info create(ForeignInvoiceDTO.Create request) {
 
         PersianCalendar calendar = new PersianCalendar(request.getDate());
@@ -94,5 +97,17 @@ public class ForeignInvoiceService extends GenericService<ForeignInvoice, Long, 
         });
 
         return foreignInvoice;
+    }
+
+    @Override
+    @Transactional
+    @Action(ActionType.Delete)
+    public void delete(Long aLong) {
+    }
+
+    @Override
+    @Transactional
+    @Action(ActionType.DeleteAll)
+    public void deleteAll(ForeignInvoiceDTO.Delete request) {
     }
 }

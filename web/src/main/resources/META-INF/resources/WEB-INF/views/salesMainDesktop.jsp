@@ -263,6 +263,10 @@
             hidden: true,
             showHover: true,
             canSort: false,
+            multiple: true,
+            filterOperator: "equals",
+            editorType: "SelectItem",
+            valueMap: Enums.eStatus2,
             title: "<spring:message code='global.e-status'/>",
             hoverHTML(record, value, rowNum, colNum, grid) {
 
@@ -1247,22 +1251,35 @@
 
         getValueFieldProperties: function (type, fieldName, operatorId, itemType) {
 
+            let superProperties = this.Super("getValueFieldProperties", arguments);
             if (this.dataSource == null)
-                return {name: fieldName, type: type, filterOperator: operatorId};
+                return Object.assign(superProperties, {
+                    type: type,
+                    name: fieldName,
+                    editorType: itemType,
+                    filterOperator: operatorId
+                });
 
             const field = this.dataSource.getField(fieldName);
             if (field == null || (field.editorType !== "SelectItem" && field.editorType !== "ComboBoxItem"))
-                return {name: fieldName, type: type, filterOperator: operatorId};
-
-            return {
+                return Object.assign(superProperties, {
+                    type: type,
+                    name: fieldName,
+                    editorType: itemType,
+                    filterOperator: operatorId
+                });
+            debugger;
+            return Object.assign(superProperties, {
                 required: true,
                 autoFetchData: false,
                 showFilterEditor: true,
+                editorType: itemType,
                 multiple: field.multiple,
-                editorType: field.editorType,
                 valueField: field.valueField,
                 displayField: field.displayField,
+                valueMap: field.dataSource,
                 optionDataSource: field.dataSource,
+                filterOperator: field.filterOperator,
                 pickListFields: [
                     {
                         title: '<spring:message code="global.id"/>',
@@ -1285,7 +1302,7 @@
                     showFilterEditor: true,
                     sortDirection: "descending"
                 }
-            };
+            });
         }
     });
 
@@ -1321,7 +1338,7 @@
 
     function dbg(breakpoint = false, ...args) {
         console.debug(...args)
-        if(breakpoint && SalesConfigs.Urls.completeUrl.toLowerCase().includes('localhost:8080')) debugger;
+        if (breakpoint && SalesConfigs.Urls.completeUrl.toLowerCase().includes('localhost:8080')) debugger;
     }
 </script>
 </body>

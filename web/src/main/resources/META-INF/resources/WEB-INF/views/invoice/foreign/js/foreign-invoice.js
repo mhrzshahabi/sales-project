@@ -18,9 +18,6 @@ foreignInvoiceTab.variable.foreignInvoiceItemDetailUrl = "${contextPath}" + "/ap
 foreignInvoiceTab.variable.foreignInvoiceBillOfLadingUrl = "${contextPath}" + "/api/foreign-invoice-bill-of-lading/";
 foreignInvoiceTab.variable.billLadingUrl = "${contextPath}" + "/api/bill-of-landing/";
 
-foreignInvoiceTab.variable.calculationData = [];
-foreignInvoiceTab.variable.rcDeductionData = [];
-
 foreignInvoiceTab.variable.invoiceTypeCriteria = {
     _constructor: "AdvancedCriteria",
     operator: "or",
@@ -44,6 +41,7 @@ foreignInvoiceTab.listGrid.fields = BaseFormItems.concat([
     },
     {
         name: "date",
+        type: "date",
         width: "100%",
         required: true,
         showHover: true,
@@ -88,7 +86,7 @@ foreignInvoiceTab.listGrid.fields = BaseFormItems.concat([
         showHover: true,
         name: "contract.no",
         title: "<spring:message code='foreign-invoice.form.contract'/>"
-    }, ,
+    },
     {
         width: "100%",
         showHover: true,
@@ -103,6 +101,7 @@ foreignInvoiceTab.listGrid.fields = BaseFormItems.concat([
         title: "<spring:message code='foreign-invoice.form.creator'/>"
     },
 ]);
+foreignInvoiceTab.listGrid.fields.filter(q => q.name === "estatus").first().hidden = false;
 foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
     /* Foreign Invoice */
     {
@@ -502,19 +501,6 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
 
 //***************************************************** RESTDATASOURCE *************************************************
 
-// foreignInvoiceTab.restDataSource.foreignInvoiceItem = isc.MyRestDataSource.create({
-//     fields: BaseFormItems.concat([]),
-//     fetchDataURL: foreignInvoiceTab.variable.foreignInvoiceItemUrl + "spec-list"
-// });
-// foreignInvoiceTab.restDataSource.foreignInvoicePayment = isc.MyRestDataSource.create({
-//     fields: BaseFormItems.concat([]),
-//     fetchDataURL: foreignInvoiceTab.variable.foreignInvoicePaymentUrl + "spec-list"
-// });
-// foreignInvoiceTab.restDataSource.foreignInvoiceItemDetail = isc.MyRestDataSource.create({
-//     fields: BaseFormItems.concat([]),
-//     fetchDataURL: foreignInvoiceTab.variable.foreignInvoiceItemDetailUrl + "spec-list"
-// });
-
 //******************************************************* COMPONENTS ***************************************************
 
 foreignInvoiceTab.dynamicForm.valuesManager = isc.ValuesManager.create({});
@@ -616,7 +602,7 @@ foreignInvoiceTab.button.save = isc.IButtonSave.create({
                     currency: foreignInvoiceTab.dynamicForm.valuesManager.getValue("currency"),
                     invoiceBaseAssayComponent: invoiceBaseValuesComponent.invoiceBaseAssayComponent,
                     invoiceBasePriceComponent: invoiceBaseValuesComponent.invoiceBasePriceComponent,
-                    // calculationData: foreignInvoiceTab.variable.calculationData
+                    calculationData: foreignInvoiceTab.dynamicForm.valuesManager.getValue("calculationData")
                 });
                 foreignInvoiceTab.method.addTab(invoiceCalculationComponent, '<spring:message code="foreign-invoice.form.tab.calculation"/>');
 
@@ -626,7 +612,7 @@ foreignInvoiceTab.button.save = isc.IButtonSave.create({
                         invoiceCalculationComponent: invoiceCalculationComponent,
                         contractDetailData: foreignInvoiceTab.variable.contractDetailData,
                         currency: foreignInvoiceTab.dynamicForm.valuesManager.getValue('currency'),
-                        // rcDeductionData: foreignInvoiceTab.variable.rcDeductionData
+                        rcDeductionData: foreignInvoiceTab.dynamicForm.valuesManager.getValue("rcDeductionData")
                     });
                     foreignInvoiceTab.method.addTab(invoiceDeductionComponent, '<spring:message code="foreign-invoice.form.tab.deduction"/>');
 
@@ -859,7 +845,19 @@ foreignInvoiceTab.variable.invoiceForm.populateData = function (bodyWidget) {
 
 foreignInvoiceTab.variable.invoiceForm.init(null, '<spring:message code="entity.foreign-invoice"/>', foreignInvoiceTab.tab.invoice, "70%");
 
+nicico.BasicFormUtil.createListGrid = function () {
+
+    foreignInvoiceTab.listGrid.main = isc.ListGrid.nicico.getDefault(
+        foreignInvoiceTab.listGrid.fields,
+        foreignInvoiceTab.restDataSource.main,
+        foreignInvoiceTab.listGrid.criteria, {
+            sortField: 1,
+            sortDirection: "descending"
+        });
+};
 nicico.BasicFormUtil.getDefaultBasicForm(foreignInvoiceTab, "api/foreign-invoice/");
+nicico.BasicFormUtil.showAllToolStripActions(foreignInvoiceTab);
+nicico.BasicFormUtil.removeExtraActions(foreignInvoiceTab, [nicico.ActionType.DELETE]);
 
 foreignInvoiceTab.dynamicForm.main = null;
 
@@ -872,6 +870,10 @@ foreignInvoiceTab.method.newForm = function () {
     foreignInvoiceTab.dynamicForm.valuesManager.clearErrors();
     foreignInvoiceTab.tab.invoice.removeTabs(foreignInvoiceTab.tab.invoice.tabs);
     foreignInvoiceTab.dynamicForm.baseData.getFields().forEach(field => {
+
+        if (field.name === "date" || field.name === "invoiceTypeId")
+            field.enable();
+
         if (!field.changed) return;
         field.changed(foreignInvoiceTab.dynamicForm.baseData, field, field.getValue());
     });
@@ -1208,8 +1210,6 @@ foreignInvoiceTab.method.newForm = function () {
 foreignInvoiceTab.method.editForm = function () {
 
     let record = foreignInvoiceTab.listGrid.main.getSelectedRecord();
-    console.log("record ", record)
-
     if (record == null || record.id == null)
         foreignInvoiceTab.dialog.notSelected();
     else if (record.editable === false)
@@ -1222,120 +1222,105 @@ foreignInvoiceTab.method.editForm = function () {
 
         foreignInvoiceTab.method.jsonRPCManagerRequest({
             httpMethod: "GET",
-            actionURL: foreignInvoiceTab.variable.foreignInvoicePaymentUrl + "spec-list",
+            actionURL: foreignInvoiceTab.variable.foreignInvoiceBillOfLadingUrl + "spec-list",
             params: {
                 criteria: {
                     operator: "and",
-                    criteria: [
-                        {fieldName: "foreignInvoiceId", operator: "equals", value: record.id}
-                    ]
+                    criteria: [{fieldName: "foreignInvoiceId", operator: "equals", value: record.id}]
                 }
             },
-            callback: function (paymentResp) {
-
-                let paymentValues = JSON.parse(paymentResp.httpResponseText).response.data;
+            callback: function (billOfLadingResp) {
 
                 foreignInvoiceTab.method.jsonRPCManagerRequest({
                     httpMethod: "GET",
-                    actionURL: foreignInvoiceTab.variable.foreignInvoiceItemUrl + "spec-list",
+                    actionURL: foreignInvoiceTab.variable.foreignInvoicePaymentUrl + "spec-list",
                     params: {
                         criteria: {
                             operator: "and",
-                            criteria: [
-                                {fieldName: "foreignInvoiceId", operator: "equals", value: record.id}
-                            ]
+                            criteria: [{fieldName: "foreignInvoiceId", operator: "equals", value: record.id}]
                         }
                     },
-                    callback: function (itemResp) {
+                    callback: function (paymentResp) {
 
-                        let itemValues = JSON.parse(itemResp.httpResponseText).response.data;
-
-                        foreignInvoiceTab.dynamicForm.valuesManager.setValue('assayMilestone', itemValues[0].assayMilestone);
-                        foreignInvoiceTab.dynamicForm.valuesManager.setValue('weightMilestone', itemValues[0].weightMilestone);
-                        let remittanceDetailIds = [];
-
-                        itemValues.forEach(current => {
-                            remittanceDetailIds.add(current.remittanceDetailId);
-
-                            foreignInvoiceTab.method.jsonRPCManagerRequest({
-                                httpMethod: "GET",
-                                actionURL: foreignInvoiceTab.variable.foreignInvoiceItemDetailUrl + "spec-list",
-                                params: {
-                                    criteria: {
-                                        operator: "and",
-                                        criteria: [
-                                            {fieldName: "foreignInvoiceItemId", operator: "equals", value: current.id}
-                                        ]
-                                    }
-                                },
-                                callback: function (itemDetailResp) {
-
-                                    let itemDetailValues = JSON.parse(itemDetailResp.httpResponseText).response.data;
-
-                                    let calculationRowData = [];
-                                    let rcRowData = [];
-                                    itemDetailValues.forEach(detail => {
-                                        calculationRowData.add({
-                                            foreignInvoiceItemId: current.id,
-                                            materialElementId: detail.materialElementId,
-                                            deductionValue: detail.deductionValue,
-                                            deductionType: detail.deductionType,
-                                            deductionUnitConversionRate: detail.deductionUnitConversionRate
-                                        });
-                                        rcRowData.add({
-                                            foreignInvoiceItemId: current.id,
-                                            materialElementId: detail.materialElementId,
-                                            rcUnitConversionRate: detail.rcUnitConversionRate
-                                        });
-                                    });
-                                    foreignInvoiceTab.variable.calculationData.add(calculationRowData);
-                                    foreignInvoiceTab.variable.rcDeductionData.add(rcRowData);
-
-                                    foreignInvoiceTab.method.jsonRPCManagerRequest({
-                                        httpMethod: "GET",
-                                        actionURL: foreignInvoiceTab.variable.foreignInvoiceBillOfLadingUrl + "spec-list",
-                                        params: {
-                                            criteria: {
-                                                operator: "and",
-                                                criteria: [
-                                                    {
-                                                        fieldName: "foreignInvoiceId",
-                                                        operator: "equals",
-                                                        value: record.id
-                                                    }
-                                                ]
-                                            }
-                                        },
-                                        callback: function (billOfLadingResp) {
-
-                                            // console.log("billOfLadingResp ", JSON.parse(billOfLadingResp.httpResponseText).response.data);
-                                            let billOfLadingValues = JSON.parse(billOfLadingResp.httpResponseText).response.data;
-                                            let billLadings = [];
-
-                                            billOfLadingValues.forEach(q => billLadings.add(q.billOfLanding));
-
-                                            foreignInvoiceTab.variable.method = "PUT";
-                                            foreignInvoiceTab.dynamicForm.valuesManager.clearValues();
-                                            foreignInvoiceTab.dynamicForm.valuesManager.editRecord(record);
-                                            foreignInvoiceTab.tab.invoice.removeTabs(foreignInvoiceTab.tab.invoice.tabs);
-                                            foreignInvoiceTab.dynamicForm.baseData.setValues(record);
-                                            foreignInvoiceTab.dynamicForm.baseData.setValue("date", new Date(record.date));
-                                            foreignInvoiceTab.dynamicForm.baseData.setValue("contractId", record.shipment.contractShipment.contractId);
-                                            foreignInvoiceTab.dynamicForm.baseData.setValue("toCurrencyId", record.conversionRef.unitToId);
-                                            foreignInvoiceTab.dynamicForm.baseData.setValue("remittanceDetailId", remittanceDetailIds);
-                                            foreignInvoiceTab.dynamicForm.valuesManager.setValue("billLadings", billLadings);
-                                            foreignInvoiceTab.button.selectBillLading.enable();
-
-                                            foreignInvoiceTab.dynamicForm.baseData.getFields().forEach(field => {
-                                                field.enable();
-                                            });
-
-                                            foreignInvoiceTab.window.main.show();
-                                        }
-                                    });
+                        foreignInvoiceTab.method.jsonRPCManagerRequest({
+                            httpMethod: "GET",
+                            actionURL: foreignInvoiceTab.variable.foreignInvoiceItemUrl + "spec-list",
+                            params: {
+                                criteria: {
+                                    operator: "and",
+                                    criteria: [{fieldName: "foreignInvoiceId", operator: "equals", value: record.id}]
                                 }
-                            });
-                        })
+                            },
+                            callback: function (itemResp) {
+
+                                let itemValue = JSON.parse(itemResp.httpResponseText).response.data[0];
+                                foreignInvoiceTab.method.jsonRPCManagerRequest({
+                                    httpMethod: "GET",
+                                    actionURL: foreignInvoiceTab.variable.foreignInvoiceItemDetailUrl + "spec-list",
+                                    params: {
+                                        criteria: {
+                                            operator: "and",
+                                            criteria: [{
+                                                fieldName: "foreignInvoiceItemId",
+                                                operator: "equals",
+                                                value: itemValue.id
+                                            }]
+                                        }
+                                    },
+                                    callback: function (itemDetailResp) {
+
+                                        let itemDetailValues = JSON.parse(itemDetailResp.httpResponseText).response.data;
+
+                                        let rcRowData = [];
+                                        let calculationRowData = [];
+                                        itemDetailValues.forEach(detail => {
+
+                                            calculationRowData.add({
+                                                foreignInvoiceItemId: itemValue.id,
+                                                materialElementId: detail.materialElementId,
+                                                deductionValue: detail.deductionValue,
+                                                deductionType: detail.deductionType,
+                                                deductionUnitConversionRate: detail.deductionUnitConversionRate
+                                            });
+                                            rcRowData.add({
+                                                foreignInvoiceItemId: itemValue.id,
+                                                materialElementId: detail.materialElementId,
+                                                rcUnitConversionRate: detail.rcUnitConversionRate
+                                            });
+                                        });
+
+                                        foreignInvoiceTab.variable.method = "PUT";
+                                        let paymentValues = JSON.parse(paymentResp.httpResponseText).response.data;
+                                        let billOfLadingValues = JSON.parse(billOfLadingResp.httpResponseText).response.data;
+
+                                        foreignInvoiceTab.dynamicForm.valuesManager.clearValues();
+                                        foreignInvoiceTab.dynamicForm.valuesManager.setValues(record);
+                                        foreignInvoiceTab.dynamicForm.valuesManager.setValue("rcDeductionData", rcRowData);
+                                        foreignInvoiceTab.dynamicForm.valuesManager.setValue("calculationData", calculationRowData);
+                                        foreignInvoiceTab.dynamicForm.valuesManager.setValue("payments", paymentValues);
+                                        foreignInvoiceTab.dynamicForm.valuesManager.setValue('assayMilestone', itemValue.assayMilestone);
+                                        foreignInvoiceTab.dynamicForm.valuesManager.setValue('weightMilestone', itemValue.weightMilestone);
+                                        foreignInvoiceTab.dynamicForm.valuesManager.setValue("billLadings", billOfLadingValues.map(q => q.billOfLanding));
+                                        foreignInvoiceTab.dynamicForm.valuesManager.setValue("date", new Date(record.date));
+                                        foreignInvoiceTab.dynamicForm.valuesManager.setValue("toCurrencyId", record.conversionRef.unitToId);
+                                        foreignInvoiceTab.dynamicForm.valuesManager.setValue("contractId", record.shipment.contractShipment.contractId);
+                                        foreignInvoiceTab.dynamicForm.valuesManager.setValue("remittanceDetailId", itemValue.remittanceDetailId);
+
+                                        foreignInvoiceTab.button.selectBillLading.enable();
+                                        foreignInvoiceTab.tab.invoice.removeTabs(foreignInvoiceTab.tab.invoice.tabs);
+                                        foreignInvoiceTab.dynamicForm.baseData.getFields().forEach(field => {
+
+                                            if (field.name === "date" || field.name === "invoiceTypeId")
+                                                field.disable();
+                                            else
+                                                field.enable();
+                                        });
+
+                                        foreignInvoiceTab.window.main.show();
+                                    }
+                                });
+                            }
+                        });
                     }
                 });
             }

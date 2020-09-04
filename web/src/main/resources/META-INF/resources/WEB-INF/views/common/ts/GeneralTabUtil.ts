@@ -82,6 +82,7 @@ namespace nicico {
             notEditable(): void,
             activeRecord(): void,
             inactiveRecord(): void,
+            recordIsInactive(): void,
             finalRecord(): void,
             disapproveRecord(): void,
             notSelected(): void,
@@ -191,6 +192,7 @@ namespace nicico {
             notEditable(): void,
             activeRecord(): void,
             inactiveRecord(): void,
+            recordIsInactive(): void,
             finalRecord(): void,
             disapproveRecord(): void,
             notSelected(): void,
@@ -494,7 +496,7 @@ namespace nicico {
                     This.dialog.notEditable();
                 // @ts-ignore
                 else if (record.estatus.contains(Enums.eStatus2.DeActive))
-                    This.dialog.inactiveRecord();
+                    This.dialog.recordIsInactive();
                 // @ts-ignore
                 else if (record.estatus.contains(Enums.eStatus2.Final))
                     This.dialog.finalRecord();
@@ -535,7 +537,7 @@ namespace nicico {
                     This.dialog.notEditable();
                 // @ts-ignore
                 else if (record.estatus.contains(Enums.eStatus2.DeActive))
-                    This.dialog.inactiveRecord();
+                    This.dialog.recordIsInactive();
                 // @ts-ignore
                 else if (record.estatus.contains(Enums.eStatus2.Final))
                     This.dialog.finalRecord();
@@ -655,7 +657,7 @@ namespace nicico {
                     This.dialog.notEditable();
                 // @ts-ignore
                 else if (record.estatus.contains(Enums.eStatus2.DeActive))
-                    This.dialog.inactiveRecord();
+                    This.dialog.recordIsInactive();
                 // @ts-ignore
                 else if (record.estatus.contains(Enums.eStatus2.Final))
                     This.dialog.finalRecord();
@@ -697,9 +699,9 @@ namespace nicico {
                     This.dialog.notEditable();
                 // @ts-ignore
                 else if (record.estatus.contains(Enums.eStatus2.DeActive))
-                    This.dialog.inactiveRecord();
+                    This.dialog.recordIsInactive();
                 // @ts-ignore
-                else if (record.estatus.contains(Enums.eStatus2.Disapprovement))
+                else if (!record.estatus.contains(Enums.eStatus2.Final))
                     This.dialog.disapproveRecord();
                 else {
 
@@ -759,6 +761,7 @@ namespace nicico {
                 notEditable: null,
                 activeRecord: null,
                 inactiveRecord: null,
+                recordIsInactive: null,
                 finalRecord: null,
                 disapproveRecord: null,
                 notSelected: null,
@@ -768,7 +771,7 @@ namespace nicico {
 
                 isc.Dialog.create({
                     message: "<spring:message code='global.grid.record.not.editable'/>",
-                    icon: "[SKIN]ask.png",
+                    icon: "[SKIN]say.png",
                     title: "<spring:message code='global.message'/>",
                     buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
                     // @ts-ignore
@@ -781,7 +784,7 @@ namespace nicico {
 
                 isc.Dialog.create({
                     message: "<spring:message code='global.grid.record.can.not.activate'/>",
-                    icon: "[SKIN]ask.png",
+                    icon: "[SKIN]say.png",
                     title: "<spring:message code='global.message'/>",
                     buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
                     // @ts-ignore
@@ -794,7 +797,20 @@ namespace nicico {
 
                 isc.Dialog.create({
                     message: "<spring:message code='global.grid.record.can.not.deactivate'/>",
-                    icon: "[SKIN]ask.png",
+                    icon: "[SKIN]say.png",
+                    title: "<spring:message code='global.message'/>",
+                    buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
+                    // @ts-ignore
+                    buttonClick: function (button, index) {
+                        this.close();
+                    }
+                });
+            };
+            This.dialog.recordIsInactive = function () {
+
+                isc.Dialog.create({
+                    message: "<spring:message code='exception.inactive.not-editable'/>",
+                    icon: "[SKIN]say.png",
                     title: "<spring:message code='global.message'/>",
                     buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
                     // @ts-ignore
@@ -807,7 +823,7 @@ namespace nicico {
 
                 isc.Dialog.create({
                     message: "<spring:message code='global.grid.final.record.not.editable'/>",
-                    icon: "[SKIN]ask.png",
+                    icon: "[SKIN]say.png",
                     title: "<spring:message code='global.message'/>",
                     buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
                     // @ts-ignore
@@ -820,7 +836,7 @@ namespace nicico {
 
                 isc.Dialog.create({
                     message: "<spring:message code='global.grid.record.can.not.disapprove'/>",
-                    icon: "[SKIN]ask.png",
+                    icon: "[SKIN]say.png",
                     title: "<spring:message code='global.message'/>",
                     buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
                     // @ts-ignore
@@ -833,7 +849,7 @@ namespace nicico {
 
                 isc.Dialog.create({
                     message: "<spring:message code='global.grid.record.not.selected'/>",
-                    icon: "[SKIN]ask.png",
+                    icon: "[SKIN]say.png",
                     title: "<spring:message code='global.message'/>",
                     buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
                     // @ts-ignore
@@ -846,7 +862,7 @@ namespace nicico {
 
                 isc.Dialog.create({
                     message: "<spring:message code='global.grid.record.moreSelected'/>",
-                    icon: "[SKIN]ask.png",
+                    icon: "[SKIN]say.png",
                     title: "<spring:message code='global.message'/>",
                     buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
                     // @ts-ignore

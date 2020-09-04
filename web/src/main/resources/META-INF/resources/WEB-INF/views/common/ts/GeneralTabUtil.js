@@ -1,11 +1,14 @@
 //------------------------------------------ TS References -----------------------------------------
-var __assign = (this && this.__assign) || Object.assign || function(t) {
-    for (var s, i = 1, n = arguments.length; i < n; i++) {
-        s = arguments[i];
-        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-            t[p] = s[p];
-    }
-    return t;
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
 };
 ///<reference path="CommonUtil.ts"/>
 ///<reference path="FormUtil.ts"/>
@@ -305,7 +308,7 @@ var nicico;
                     This.dialog.notEditable();
                 // @ts-ignore
                 else if (record.estatus.contains(Enums.eStatus2.DeActive))
-                    This.dialog.inactiveRecord();
+                    This.dialog.recordIsInactive();
                 // @ts-ignore
                 else if (record.estatus.contains(Enums.eStatus2.Final))
                     This.dialog.finalRecord();
@@ -340,7 +343,7 @@ var nicico;
                     This.dialog.notEditable();
                 // @ts-ignore
                 else if (record.estatus.contains(Enums.eStatus2.DeActive))
-                    This.dialog.inactiveRecord();
+                    This.dialog.recordIsInactive();
                 // @ts-ignore
                 else if (record.estatus.contains(Enums.eStatus2.Final))
                     This.dialog.finalRecord();
@@ -439,7 +442,7 @@ var nicico;
                     This.dialog.notEditable();
                 // @ts-ignore
                 else if (record.estatus.contains(Enums.eStatus2.DeActive))
-                    This.dialog.inactiveRecord();
+                    This.dialog.recordIsInactive();
                 // @ts-ignore
                 else if (record.estatus.contains(Enums.eStatus2.Final))
                     This.dialog.finalRecord();
@@ -474,9 +477,9 @@ var nicico;
                     This.dialog.notEditable();
                 // @ts-ignore
                 else if (record.estatus.contains(Enums.eStatus2.DeActive))
-                    This.dialog.inactiveRecord();
+                    This.dialog.recordIsInactive();
                 // @ts-ignore
-                else if (record.estatus.contains(Enums.eStatus2.Disapprovement))
+                else if (!record.estatus.contains(Enums.eStatus2.Final))
                     This.dialog.disapproveRecord();
                 else {
                     This.variable.method = "POST";
@@ -525,6 +528,7 @@ var nicico;
                 notEditable: null,
                 activeRecord: null,
                 inactiveRecord: null,
+                recordIsInactive: null,
                 finalRecord: null,
                 disapproveRecord: null,
                 notSelected: null,
@@ -533,7 +537,7 @@ var nicico;
             This.dialog.notEditable = function () {
                 isc.Dialog.create({
                     message: "<spring:message code='global.grid.record.not.editable'/>",
-                    icon: "[SKIN]ask.png",
+                    icon: "[SKIN]say.png",
                     title: "<spring:message code='global.message'/>",
                     buttons: [isc.Button.create({ title: "<spring:message code='global.ok'/>" })],
                     // @ts-ignore
@@ -545,7 +549,7 @@ var nicico;
             This.dialog.activeRecord = function () {
                 isc.Dialog.create({
                     message: "<spring:message code='global.grid.record.can.not.activate'/>",
-                    icon: "[SKIN]ask.png",
+                    icon: "[SKIN]say.png",
                     title: "<spring:message code='global.message'/>",
                     buttons: [isc.Button.create({ title: "<spring:message code='global.ok'/>" })],
                     // @ts-ignore
@@ -557,7 +561,19 @@ var nicico;
             This.dialog.inactiveRecord = function () {
                 isc.Dialog.create({
                     message: "<spring:message code='global.grid.record.can.not.deactivate'/>",
-                    icon: "[SKIN]ask.png",
+                    icon: "[SKIN]say.png",
+                    title: "<spring:message code='global.message'/>",
+                    buttons: [isc.Button.create({ title: "<spring:message code='global.ok'/>" })],
+                    // @ts-ignore
+                    buttonClick: function (button, index) {
+                        this.close();
+                    }
+                });
+            };
+            This.dialog.recordIsInactive = function () {
+                isc.Dialog.create({
+                    message: "<spring:message code='exception.inactive.not-editable'/>",
+                    icon: "[SKIN]say.png",
                     title: "<spring:message code='global.message'/>",
                     buttons: [isc.Button.create({ title: "<spring:message code='global.ok'/>" })],
                     // @ts-ignore
@@ -569,7 +585,7 @@ var nicico;
             This.dialog.finalRecord = function () {
                 isc.Dialog.create({
                     message: "<spring:message code='global.grid.final.record.not.editable'/>",
-                    icon: "[SKIN]ask.png",
+                    icon: "[SKIN]say.png",
                     title: "<spring:message code='global.message'/>",
                     buttons: [isc.Button.create({ title: "<spring:message code='global.ok'/>" })],
                     // @ts-ignore
@@ -581,7 +597,7 @@ var nicico;
             This.dialog.disapproveRecord = function () {
                 isc.Dialog.create({
                     message: "<spring:message code='global.grid.record.can.not.disapprove'/>",
-                    icon: "[SKIN]ask.png",
+                    icon: "[SKIN]say.png",
                     title: "<spring:message code='global.message'/>",
                     buttons: [isc.Button.create({ title: "<spring:message code='global.ok'/>" })],
                     // @ts-ignore
@@ -593,7 +609,7 @@ var nicico;
             This.dialog.notSelected = function () {
                 isc.Dialog.create({
                     message: "<spring:message code='global.grid.record.not.selected'/>",
-                    icon: "[SKIN]ask.png",
+                    icon: "[SKIN]say.png",
                     title: "<spring:message code='global.message'/>",
                     buttons: [isc.Button.create({ title: "<spring:message code='global.ok'/>" })],
                     // @ts-ignore
@@ -605,7 +621,7 @@ var nicico;
             This.dialog.moreSelected = function () {
                 isc.Dialog.create({
                     message: "<spring:message code='global.grid.record.moreSelected'/>",
-                    icon: "[SKIN]ask.png",
+                    icon: "[SKIN]say.png",
                     title: "<spring:message code='global.message'/>",
                     buttons: [isc.Button.create({ title: "<spring:message code='global.ok'/>" })],
                     // @ts-ignore

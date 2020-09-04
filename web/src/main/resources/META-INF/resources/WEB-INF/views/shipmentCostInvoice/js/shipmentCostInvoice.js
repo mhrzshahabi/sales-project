@@ -1402,13 +1402,7 @@ shipmentCostInvoiceTab.listGrid.shipmentCostDetailMain = isc.ListGrid.create(
     });
 
 nicico.BasicFormUtil.getDefaultBasicForm(shipmentCostInvoiceTab, "api/shipmentCostInvoice/");
-
-shipmentCostInvoiceTab.menu.main.data.splice(4, 2);
-shipmentCostInvoiceTab.menu.main.data.pop();
-shipmentCostInvoiceTab.menu.main.initWidget();
-shipmentCostInvoiceTab.variable.finalizeToolStripItem = shipmentCostInvoiceTab.toolStrip.main.members.filter(q => q.role === "finalizeRecord").first();
-if (shipmentCostInvoiceTab.variable.finalizeToolStripItem)
-    shipmentCostInvoiceTab.variable.finalizeToolStripItem.setVisibility("visible");
+nicico.BasicFormUtil.showAllToolStripActions(shipmentCostInvoiceTab);
 
 shipmentCostInvoiceTab.sectionStack.mainSection = isc.SectionStack.create(
     {
