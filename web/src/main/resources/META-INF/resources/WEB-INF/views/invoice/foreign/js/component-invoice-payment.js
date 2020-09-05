@@ -229,7 +229,7 @@ isc.defineClass("InvoicePayment", isc.VLayout).addProperties({
                     click: function () {
 
                         This.paymentForm.showFindFormByData(null, "50%", "500",
-                            "<spring:message code='foreign-invoice.form.tab.payment'/>", This.shipmentCostInvoices, null,
+                            "<spring:message code='foreign-invoice.form.tab.payment.shipment.cost'/>", This.shipmentCostInvoices, null,
                             BaseFormItems.concat([
                                 {
                                     showHover: true,

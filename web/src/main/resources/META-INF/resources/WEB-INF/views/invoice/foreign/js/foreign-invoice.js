@@ -878,330 +878,330 @@ foreignInvoiceTab.method.newForm = function () {
         field.changed(foreignInvoiceTab.dynamicForm.baseData, field, field.getValue());
     });
 
-    foreignInvoiceTab.dynamicForm.valuesManager.setValues({
-        "date": "2020-08-31T07:30:00.000Z",
-        "billLadings": [
-            {
-                "documentNo": "حالا۱۲۳حالا بیخیال غصه",
-                "switchDocumentNo": "حالا۱۲۳حالا بیخیال غصه",
-                "shipperExporterId": 2058,
-                "switchShipperExporterId": 2058,
-                "notifyPartyId": 24,
-                "switchNotifyPartyId": 24,
-                "consigneeId": 2058,
-                "switchConsigneeId": 2058,
-                "portOfLoadingId": 30,
-                "switchPortOfLoadingId": 30,
-                "portOfDischargeId": 3,
-                "switchPortOfDischargeId": 3,
-                "placeOfDelivery": "12",
-                "oceanVesselId": 32,
-                "numberOfBlCopies": 12,
-                "dateOfIssue": 1597735800000,
-                "placeOfIssue": "12",
-                "description": "12",
-                "totalNet": 12,
-                "totalGross": 12,
-                "totalBundles": 12,
-                "id": 62,
-                "shipperExporter": {
-                    "nameFA": "لاکی هرایزن لیمیتد",
-                    "nameEN": "LUCKY HORIZEN LIMITED",
-                    "phone": "869011111111134",
-                    "address": "RM 19C LOCKHART CTR 301-307",
-                    "type": true,
-                    "status": true,
-                    "commercialRole": "Seller",
-                    "seller": true,
-                    "buyer": false,
-                    "countryId": 1,
-                    "id": 2058,
-                    "country": {
-                        "nameFa": "ایران",
-                        "nameEn": "Iran (Islamic Republic of)"
-                    },
-                    "createdDate": 1597293065534,
-                    "createdBy": "r.mazloom",
-                    "lastModifiedDate": 1598093743015,
-                    "lastModifiedBy": "devadmin",
-                    "version": 5
-                },
-                "switchShipperExporter": {
-                    "nameFA": "لاکی هرایزن لیمیتد",
-                    "nameEN": "LUCKY HORIZEN LIMITED",
-                    "phone": "869011111111134",
-                    "address": "RM 19C LOCKHART CTR 301-307",
-                    "type": true,
-                    "status": true,
-                    "commercialRole": "Seller",
-                    "seller": true,
-                    "buyer": false,
-                    "countryId": 1,
-                    "id": 2058,
-                    "country": {
-                        "nameFa": "ایران",
-                        "nameEn": "Iran (Islamic Republic of)"
-                    },
-                    "createdDate": 1597293065534,
-                    "createdBy": "r.mazloom",
-                    "lastModifiedDate": 1598093743015,
-                    "lastModifiedBy": "devadmin",
-                    "version": 5
-                },
-                "notifyParty": {
-                    "nameFA": "ژیائوفنگ",
-                    "nameEN": "zhyaofeng",
-                    "phone": "8690111111111",
-                    "type": false,
-                    "bankAccount": "686868",
-                    "bankShaba": "IR567575775777556675677777",
-                    "bankSwift": "567567567",
-                    "status": true,
-                    "tradeMark": "ZH-COPPER",
-                    "commercialRole": "Agent Seller,Agent Buyer",
-                    "seller": false,
-                    "buyer": false,
-                    "transporter": false,
-                    "shipper": false,
-                    "inspector": false,
-                    "insurancer": false,
-                    "agentBuyer": true,
-                    "agentSeller": true,
-                    "ceo": "linchan",
-                    "countryId": 2,
-                    "id": 24,
-                    "country": {
-                        "nameFa": "چین",
-                        "nameEn": "FkChina"
-                    },
-                    "createdDate": 1596256929444,
-                    "createdBy": "devadmin",
-                    "lastModifiedDate": 1598334787441,
-                    "lastModifiedBy": "devadmin",
-                    "version": 22
-                },
-                "switchNotifyParty": {
-                    "nameFA": "ژیائوفنگ",
-                    "nameEN": "zhyaofeng",
-                    "phone": "8690111111111",
-                    "type": false,
-                    "bankAccount": "686868",
-                    "bankShaba": "IR567575775777556675677777",
-                    "bankSwift": "567567567",
-                    "status": true,
-                    "tradeMark": "ZH-COPPER",
-                    "commercialRole": "Agent Seller,Agent Buyer",
-                    "seller": false,
-                    "buyer": false,
-                    "transporter": false,
-                    "shipper": false,
-                    "inspector": false,
-                    "insurancer": false,
-                    "agentBuyer": true,
-                    "agentSeller": true,
-                    "ceo": "linchan",
-                    "countryId": 2,
-                    "id": 24,
-                    "country": {
-                        "nameFa": "چین",
-                        "nameEn": "FkChina"
-                    },
-                    "createdDate": 1596256929444,
-                    "createdBy": "devadmin",
-                    "lastModifiedDate": 1598334787441,
-                    "lastModifiedBy": "devadmin",
-                    "version": 22
-                },
-                "consignee": {
-                    "nameFA": "لاکی هرایزن لیمیتد",
-                    "nameEN": "LUCKY HORIZEN LIMITED",
-                    "phone": "869011111111134",
-                    "address": "RM 19C LOCKHART CTR 301-307",
-                    "type": true,
-                    "status": true,
-                    "commercialRole": "Seller",
-                    "seller": true,
-                    "buyer": false,
-                    "countryId": 1,
-                    "id": 2058,
-                    "country": {
-                        "nameFa": "ایران",
-                        "nameEn": "Iran (Islamic Republic of)"
-                    },
-                    "createdDate": 1597293065534,
-                    "createdBy": "r.mazloom",
-                    "lastModifiedDate": 1598093743015,
-                    "lastModifiedBy": "devadmin",
-                    "version": 5
-                },
-                "switchConsignee": {
-                    "nameFA": "لاکی هرایزن لیمیتد",
-                    "nameEN": "LUCKY HORIZEN LIMITED",
-                    "phone": "869011111111134",
-                    "address": "RM 19C LOCKHART CTR 301-307",
-                    "type": true,
-                    "status": true,
-                    "commercialRole": "Seller",
-                    "seller": true,
-                    "buyer": false,
-                    "countryId": 1,
-                    "id": 2058,
-                    "country": {
-                        "nameFa": "ایران",
-                        "nameEn": "Iran (Islamic Republic of)"
-                    },
-                    "createdDate": 1597293065534,
-                    "createdBy": "r.mazloom",
-                    "lastModifiedDate": 1598093743015,
-                    "lastModifiedBy": "devadmin",
-                    "version": 5
-                },
-                "portOfLoading": {
-                    "port": "ZHOUSHAN",
-                    "countryId": 2,
-                    "id": 30,
-                    "country": {
-                        "nameFa": "چین",
-                        "nameEn": "FkChina",
-                        "id": 2,
-                        "createdDate": 1595302644624,
-                        "createdBy": "j.azad",
-                        "lastModifiedDate": 1598846835554,
-                        "lastModifiedBy": "db_zare",
-                        "version": 1,
-                        "editable": true,
-                        "estatus": [
-                            "Active"
-                        ]
-                    },
-                    "createdDate": 1587866229644,
-                    "createdBy": "db_mazloom",
-                    "version": 0,
-                    "editable": true,
-                    "estatus": [
-                        "Active"
-                    ]
-                },
-                "switchPortOfLoading": {
-                    "port": "ZHOUSHAN",
-                    "countryId": 2,
-                    "id": 30,
-                    "country": {
-                        "nameFa": "چین",
-                        "nameEn": "FkChina",
-                        "id": 2,
-                        "createdDate": 1595302644624,
-                        "createdBy": "j.azad",
-                        "lastModifiedDate": 1598846835554,
-                        "lastModifiedBy": "db_zare",
-                        "version": 1,
-                        "editable": true,
-                        "estatus": [
-                            "Active"
-                        ]
-                    },
-                    "createdDate": 1587866229644,
-                    "createdBy": "db_mazloom",
-                    "version": 0,
-                    "editable": true,
-                    "estatus": [
-                        "Active"
-                    ]
-                },
-                "portOfDischarge": {
-                    "port": "SHANGHAI",
-                    "countryId": 2,
-                    "id": 3,
-                    "country": {
-                        "nameFa": "چین",
-                        "nameEn": "FkChina",
-                        "id": 2,
-                        "createdDate": 1595302644624,
-                        "createdBy": "j.azad",
-                        "lastModifiedDate": 1598846835554,
-                        "lastModifiedBy": "db_zare",
-                        "version": 1,
-                        "editable": true,
-                        "estatus": [
-                            "Active"
-                        ]
-                    },
-                    "createdDate": 1587732958179,
-                    "createdBy": "db_mazloom",
-                    "lastModifiedDate": 1587865761876,
-                    "lastModifiedBy": "db_mazloom",
-                    "version": 3,
-                    "editable": true,
-                    "estatus": [
-                        "Active"
-                    ]
-                },
-                "switchPortOfDischarge": {
-                    "port": "SHANGHAI",
-                    "countryId": 2,
-                    "id": 3,
-                    "country": {
-                        "nameFa": "چین",
-                        "nameEn": "FkChina",
-                        "id": 2,
-                        "createdDate": 1595302644624,
-                        "createdBy": "j.azad",
-                        "lastModifiedDate": 1598846835554,
-                        "lastModifiedBy": "db_zare",
-                        "version": 1,
-                        "editable": true,
-                        "estatus": [
-                            "Active"
-                        ]
-                    },
-                    "createdDate": 1587732958179,
-                    "createdBy": "db_mazloom",
-                    "lastModifiedDate": 1587865761876,
-                    "lastModifiedBy": "db_mazloom",
-                    "version": 3,
-                    "editable": true,
-                    "estatus": [
-                        "Active"
-                    ]
-                },
-                "oceanVessel": {
-                    "name": "SEA TOPAZ",
-                    "type": "Bulk Carrier",
-                    "imo": "9557240",
-                    "yearOfBuild": 2010,
-                    "length": 177.4,
-                    "beam": 28.2,
-                    "id": 32,
-                    "createdDate": 1588382222492,
-                    "createdBy": "db_mazloom",
-                    "version": 0,
-                    "editable": true,
-                    "estatus": [
-                        "Active"
-                    ]
-                },
-                "containers": [],
-                "createdDate": 1597726005093,
-                "createdBy": "db_saeb",
-                "version": 0,
-                "editable": true,
-                "estatus": [
-                    "Active"
-                ],
-                "_selection_344": true,
-                "_embeddedComponents_isc_ListGrid_1": null
-            }
-        ],
-        "invoiceTypeId": 1,
-        "contractId": 294,
-        "shipmentId": 73,
-        "remittanceDetailId": 152,
-        "creatorId": 3,
-        "currencyId": -32,
-        "toCurrencyId": -33,
-        "conversionRefId": 124,
-        "description": "desc"
-    });
+    // foreignInvoiceTab.dynamicForm.valuesManager.setValues({
+    //     "date": "2020-08-31T07:30:00.000Z",
+    //     "billLadings": [
+    //         {
+    //             "documentNo": "حالا۱۲۳حالا بیخیال غصه",
+    //             "switchDocumentNo": "حالا۱۲۳حالا بیخیال غصه",
+    //             "shipperExporterId": 2058,
+    //             "switchShipperExporterId": 2058,
+    //             "notifyPartyId": 24,
+    //             "switchNotifyPartyId": 24,
+    //             "consigneeId": 2058,
+    //             "switchConsigneeId": 2058,
+    //             "portOfLoadingId": 30,
+    //             "switchPortOfLoadingId": 30,
+    //             "portOfDischargeId": 3,
+    //             "switchPortOfDischargeId": 3,
+    //             "placeOfDelivery": "12",
+    //             "oceanVesselId": 32,
+    //             "numberOfBlCopies": 12,
+    //             "dateOfIssue": 1597735800000,
+    //             "placeOfIssue": "12",
+    //             "description": "12",
+    //             "totalNet": 12,
+    //             "totalGross": 12,
+    //             "totalBundles": 12,
+    //             "id": 62,
+    //             "shipperExporter": {
+    //                 "nameFA": "لاکی هرایزن لیمیتد",
+    //                 "nameEN": "LUCKY HORIZEN LIMITED",
+    //                 "phone": "869011111111134",
+    //                 "address": "RM 19C LOCKHART CTR 301-307",
+    //                 "type": true,
+    //                 "status": true,
+    //                 "commercialRole": "Seller",
+    //                 "seller": true,
+    //                 "buyer": false,
+    //                 "countryId": 1,
+    //                 "id": 2058,
+    //                 "country": {
+    //                     "nameFa": "ایران",
+    //                     "nameEn": "Iran (Islamic Republic of)"
+    //                 },
+    //                 "createdDate": 1597293065534,
+    //                 "createdBy": "r.mazloom",
+    //                 "lastModifiedDate": 1598093743015,
+    //                 "lastModifiedBy": "devadmin",
+    //                 "version": 5
+    //             },
+    //             "switchShipperExporter": {
+    //                 "nameFA": "لاکی هرایزن لیمیتد",
+    //                 "nameEN": "LUCKY HORIZEN LIMITED",
+    //                 "phone": "869011111111134",
+    //                 "address": "RM 19C LOCKHART CTR 301-307",
+    //                 "type": true,
+    //                 "status": true,
+    //                 "commercialRole": "Seller",
+    //                 "seller": true,
+    //                 "buyer": false,
+    //                 "countryId": 1,
+    //                 "id": 2058,
+    //                 "country": {
+    //                     "nameFa": "ایران",
+    //                     "nameEn": "Iran (Islamic Republic of)"
+    //                 },
+    //                 "createdDate": 1597293065534,
+    //                 "createdBy": "r.mazloom",
+    //                 "lastModifiedDate": 1598093743015,
+    //                 "lastModifiedBy": "devadmin",
+    //                 "version": 5
+    //             },
+    //             "notifyParty": {
+    //                 "nameFA": "ژیائوفنگ",
+    //                 "nameEN": "zhyaofeng",
+    //                 "phone": "8690111111111",
+    //                 "type": false,
+    //                 "bankAccount": "686868",
+    //                 "bankShaba": "IR567575775777556675677777",
+    //                 "bankSwift": "567567567",
+    //                 "status": true,
+    //                 "tradeMark": "ZH-COPPER",
+    //                 "commercialRole": "Agent Seller,Agent Buyer",
+    //                 "seller": false,
+    //                 "buyer": false,
+    //                 "transporter": false,
+    //                 "shipper": false,
+    //                 "inspector": false,
+    //                 "insurancer": false,
+    //                 "agentBuyer": true,
+    //                 "agentSeller": true,
+    //                 "ceo": "linchan",
+    //                 "countryId": 2,
+    //                 "id": 24,
+    //                 "country": {
+    //                     "nameFa": "چین",
+    //                     "nameEn": "FkChina"
+    //                 },
+    //                 "createdDate": 1596256929444,
+    //                 "createdBy": "devadmin",
+    //                 "lastModifiedDate": 1598334787441,
+    //                 "lastModifiedBy": "devadmin",
+    //                 "version": 22
+    //             },
+    //             "switchNotifyParty": {
+    //                 "nameFA": "ژیائوفنگ",
+    //                 "nameEN": "zhyaofeng",
+    //                 "phone": "8690111111111",
+    //                 "type": false,
+    //                 "bankAccount": "686868",
+    //                 "bankShaba": "IR567575775777556675677777",
+    //                 "bankSwift": "567567567",
+    //                 "status": true,
+    //                 "tradeMark": "ZH-COPPER",
+    //                 "commercialRole": "Agent Seller,Agent Buyer",
+    //                 "seller": false,
+    //                 "buyer": false,
+    //                 "transporter": false,
+    //                 "shipper": false,
+    //                 "inspector": false,
+    //                 "insurancer": false,
+    //                 "agentBuyer": true,
+    //                 "agentSeller": true,
+    //                 "ceo": "linchan",
+    //                 "countryId": 2,
+    //                 "id": 24,
+    //                 "country": {
+    //                     "nameFa": "چین",
+    //                     "nameEn": "FkChina"
+    //                 },
+    //                 "createdDate": 1596256929444,
+    //                 "createdBy": "devadmin",
+    //                 "lastModifiedDate": 1598334787441,
+    //                 "lastModifiedBy": "devadmin",
+    //                 "version": 22
+    //             },
+    //             "consignee": {
+    //                 "nameFA": "لاکی هرایزن لیمیتد",
+    //                 "nameEN": "LUCKY HORIZEN LIMITED",
+    //                 "phone": "869011111111134",
+    //                 "address": "RM 19C LOCKHART CTR 301-307",
+    //                 "type": true,
+    //                 "status": true,
+    //                 "commercialRole": "Seller",
+    //                 "seller": true,
+    //                 "buyer": false,
+    //                 "countryId": 1,
+    //                 "id": 2058,
+    //                 "country": {
+    //                     "nameFa": "ایران",
+    //                     "nameEn": "Iran (Islamic Republic of)"
+    //                 },
+    //                 "createdDate": 1597293065534,
+    //                 "createdBy": "r.mazloom",
+    //                 "lastModifiedDate": 1598093743015,
+    //                 "lastModifiedBy": "devadmin",
+    //                 "version": 5
+    //             },
+    //             "switchConsignee": {
+    //                 "nameFA": "لاکی هرایزن لیمیتد",
+    //                 "nameEN": "LUCKY HORIZEN LIMITED",
+    //                 "phone": "869011111111134",
+    //                 "address": "RM 19C LOCKHART CTR 301-307",
+    //                 "type": true,
+    //                 "status": true,
+    //                 "commercialRole": "Seller",
+    //                 "seller": true,
+    //                 "buyer": false,
+    //                 "countryId": 1,
+    //                 "id": 2058,
+    //                 "country": {
+    //                     "nameFa": "ایران",
+    //                     "nameEn": "Iran (Islamic Republic of)"
+    //                 },
+    //                 "createdDate": 1597293065534,
+    //                 "createdBy": "r.mazloom",
+    //                 "lastModifiedDate": 1598093743015,
+    //                 "lastModifiedBy": "devadmin",
+    //                 "version": 5
+    //             },
+    //             "portOfLoading": {
+    //                 "port": "ZHOUSHAN",
+    //                 "countryId": 2,
+    //                 "id": 30,
+    //                 "country": {
+    //                     "nameFa": "چین",
+    //                     "nameEn": "FkChina",
+    //                     "id": 2,
+    //                     "createdDate": 1595302644624,
+    //                     "createdBy": "j.azad",
+    //                     "lastModifiedDate": 1598846835554,
+    //                     "lastModifiedBy": "db_zare",
+    //                     "version": 1,
+    //                     "editable": true,
+    //                     "estatus": [
+    //                         "Active"
+    //                     ]
+    //                 },
+    //                 "createdDate": 1587866229644,
+    //                 "createdBy": "db_mazloom",
+    //                 "version": 0,
+    //                 "editable": true,
+    //                 "estatus": [
+    //                     "Active"
+    //                 ]
+    //             },
+    //             "switchPortOfLoading": {
+    //                 "port": "ZHOUSHAN",
+    //                 "countryId": 2,
+    //                 "id": 30,
+    //                 "country": {
+    //                     "nameFa": "چین",
+    //                     "nameEn": "FkChina",
+    //                     "id": 2,
+    //                     "createdDate": 1595302644624,
+    //                     "createdBy": "j.azad",
+    //                     "lastModifiedDate": 1598846835554,
+    //                     "lastModifiedBy": "db_zare",
+    //                     "version": 1,
+    //                     "editable": true,
+    //                     "estatus": [
+    //                         "Active"
+    //                     ]
+    //                 },
+    //                 "createdDate": 1587866229644,
+    //                 "createdBy": "db_mazloom",
+    //                 "version": 0,
+    //                 "editable": true,
+    //                 "estatus": [
+    //                     "Active"
+    //                 ]
+    //             },
+    //             "portOfDischarge": {
+    //                 "port": "SHANGHAI",
+    //                 "countryId": 2,
+    //                 "id": 3,
+    //                 "country": {
+    //                     "nameFa": "چین",
+    //                     "nameEn": "FkChina",
+    //                     "id": 2,
+    //                     "createdDate": 1595302644624,
+    //                     "createdBy": "j.azad",
+    //                     "lastModifiedDate": 1598846835554,
+    //                     "lastModifiedBy": "db_zare",
+    //                     "version": 1,
+    //                     "editable": true,
+    //                     "estatus": [
+    //                         "Active"
+    //                     ]
+    //                 },
+    //                 "createdDate": 1587732958179,
+    //                 "createdBy": "db_mazloom",
+    //                 "lastModifiedDate": 1587865761876,
+    //                 "lastModifiedBy": "db_mazloom",
+    //                 "version": 3,
+    //                 "editable": true,
+    //                 "estatus": [
+    //                     "Active"
+    //                 ]
+    //             },
+    //             "switchPortOfDischarge": {
+    //                 "port": "SHANGHAI",
+    //                 "countryId": 2,
+    //                 "id": 3,
+    //                 "country": {
+    //                     "nameFa": "چین",
+    //                     "nameEn": "FkChina",
+    //                     "id": 2,
+    //                     "createdDate": 1595302644624,
+    //                     "createdBy": "j.azad",
+    //                     "lastModifiedDate": 1598846835554,
+    //                     "lastModifiedBy": "db_zare",
+    //                     "version": 1,
+    //                     "editable": true,
+    //                     "estatus": [
+    //                         "Active"
+    //                     ]
+    //                 },
+    //                 "createdDate": 1587732958179,
+    //                 "createdBy": "db_mazloom",
+    //                 "lastModifiedDate": 1587865761876,
+    //                 "lastModifiedBy": "db_mazloom",
+    //                 "version": 3,
+    //                 "editable": true,
+    //                 "estatus": [
+    //                     "Active"
+    //                 ]
+    //             },
+    //             "oceanVessel": {
+    //                 "name": "SEA TOPAZ",
+    //                 "type": "Bulk Carrier",
+    //                 "imo": "9557240",
+    //                 "yearOfBuild": 2010,
+    //                 "length": 177.4,
+    //                 "beam": 28.2,
+    //                 "id": 32,
+    //                 "createdDate": 1588382222492,
+    //                 "createdBy": "db_mazloom",
+    //                 "version": 0,
+    //                 "editable": true,
+    //                 "estatus": [
+    //                     "Active"
+    //                 ]
+    //             },
+    //             "containers": [],
+    //             "createdDate": 1597726005093,
+    //             "createdBy": "db_saeb",
+    //             "version": 0,
+    //             "editable": true,
+    //             "estatus": [
+    //                 "Active"
+    //             ],
+    //             "_selection_344": true,
+    //             "_embeddedComponents_isc_ListGrid_1": null
+    //         }
+    //     ],
+    //     "invoiceTypeId": 1,
+    //     "contractId": 294,
+    //     "shipmentId": 73,
+    //     "remittanceDetailId": 152,
+    //     "creatorId": 3,
+    //     "currencyId": -32,
+    //     "toCurrencyId": -33,
+    //     "conversionRefId": 124,
+    //     "description": "desc"
+    // });
 
     foreignInvoiceTab.dynamicForm.baseData.redraw();
     foreignInvoiceTab.window.main.show();
