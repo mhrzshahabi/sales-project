@@ -1679,6 +1679,11 @@ rdTab.Layouts.ToolStripButtons.New = isc.ToolStripButtonAdd.create({
                                         fieldName: "inventory.materialItemId",
                                         operator: "equals",
                                         value: rdTab.DynamicForms.Forms.OutRemittance.getValue("materialItemId")
+                                    },
+                                    {
+                                        fieldName: "inventory.amount",
+                                        operator: "greaterOrEqual",
+                                        value: 0
                                     }
 
                                 ],

@@ -1,0 +1,31 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <changeSet author="saeb" id="reza_003dsdsds">
+        <createView viewName="VIEW_warh_inventory">
+            <![CDATA[
+
+select inventory.*,
+       inventory_group.*
+from TBL_WARH_INVENTORY inventory
+         inner join
+     (select inventory.id as inventory_id,
+             sum((case
+                      when remittance_detail.F_DESTINATION_TOZINE_ID is not null then remittance_detail.N_WEIGHT
+                      when remittance_detail.F_DESTINATION_TOZINE_ID is null
+                          then remittance_detail.N_WEIGHT * -1 end)) as weight,
+             sum((case
+                      when remittance_detail.F_DESTINATION_TOZINE_ID is not null then remittance_detail.N_AMOUNT
+                      when remittance_detail.F_DESTINATION_TOZINE_ID is null
+                          then remittance_detail.N_AMOUNT * -1 end)) as amount
+      from tbl_warh_inventory inventory
+               left join
+           TBL_WARH_REMITTANCE_DETAIL remittance_detail on remittance_detail.F_INVENTORY_ID = inventory.ID
+      group by inventory.id) inventory_group on inventory.id = inventory_group.inventory_id
+
+
+ ]]>
+        </createView>
+    </changeSet>
+</databaseChangeLog>

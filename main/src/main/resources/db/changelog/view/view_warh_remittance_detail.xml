@@ -1,0 +1,23 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <changeSet author="saeb" id="saeb_1_2_3_hala_bikhial_ghoseh_003">
+        <createView viewName="VIEW_WARH_REMITTANCE_DETAIL" replaceIfExists="true">
+            <![CDATA[
+select remittance.*,
+       (case
+            when remittance.F_DESTINATION_TOZINE_ID is not null then tozintable_destination.DAT
+            when remittance.F_DESTINATION_TOZINE_ID is null then tozintable_source.DAT end) as calc_date,
+       (case
+            when remittance.F_DESTINATION_TOZINE_ID is not null then 1
+            when remittance.F_DESTINATION_TOZINE_ID is null then 0 end)                     as input_remittance
+from tbl_warh_remittance_detail remittance
+         left join
+     tbl_warh_tozin tozintable_source on remittance.f_source_tozine_id = tozintable_source.id
+         left join
+     tbl_warh_tozin tozintable_destination on remittance.f_destination_tozine_id = tozintable_destination.id
+            ]]>
+        </createView>
+    </changeSet>
+</databaseChangeLog>
