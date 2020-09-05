@@ -6,11 +6,13 @@
 
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
     var dccTableName = "TBL_SHIPMENT";
+    var dccDocumentType = "pattern";
     var criteria = {
         _constructor: "AdvancedCriteria",
         operator: "and",
         criteria: [
-            {fieldName: "tblName1", operator: "equals", value: dccTableName}
+            {fieldName: "tblName1", operator: "equals", value: dccTableName},
+            {fieldName: "documentType", operator: "equals", value: dccDocumentType}
         ]
     };
     function ListGrid_Shipment_Dcc_refresh() {
@@ -63,24 +65,7 @@
     }
     var RestDataSource_Shipment_Dcc = isc.MyRestDataSource.create({
         fields: [
-            {name: "id", hidden: true, primaryKey: true, canEdit: false,},
-            <%--{--%>
-            <%--    name: "documentType",--%>
-            <%--    title: "<spring:message code='dcc.documentType'/>",--%>
-            <%--    type: 'text',--%>
-            <%--    required: true,--%>
-            <%--    width: 400--%>
-            <%--    ,--%>
-            <%--    valueMap: {--%>
-            <%--        "letter": "<spring:message code='dcc.letter'/>",--%>
-            <%--        "image": "<spring:message code='dcc.image'/>"--%>
-            <%--    },--%>
-            <%--    validators: [--%>
-            <%--    {--%>
-            <%--        type:"required",--%>
-            <%--        validateOnChange: true--%>
-            <%--    }]--%>
-            <%--},--%>
+            {name: "id", hidden: true, primaryKey: true, canEdit: false},
             {
                 name: "description",
                 title: "<spring:message code='global.description'/>",
@@ -114,7 +99,7 @@
             ],
         fetchDataURL: "${contextPath}/api/material/spec-list"
     });
-    var RestDataSource_ShipmentTypeInShipment = isc.MyRestDataSource.create({
+    var RestDataSource_ShipmentTypeInShipmentDcc = isc.MyRestDataSource.create({
         fields:
             [
                 {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
@@ -180,23 +165,6 @@
                     width: "25%",
                     align: "center"
                 },
-                <%--{--%>
-                <%--    name: "documentType",--%>
-                <%--    title: "<spring:message code='dcc.documentType'/>",--%>
-                <%--    type: 'text',--%>
-                <%--    required: true,--%>
-                <%--    width: 400--%>
-                <%--    ,--%>
-                <%--    valueMap: {--%>
-                <%--        "letter": "<spring:message code='dcc.letter'/>",--%>
-                <%--        "image": "<spring:message code='dcc.image'/>"--%>
-                <%--    },--%>
-                <%--    validators: [--%>
-                <%--    {--%>
-                <%--        type:"required",--%>
-                <%--        validateOnChange: true--%>
-                <%--    }]--%>
-                <%--},--%>
                 {
                     name: "description",
                     title: "<spring:message code='global.description'/>",
@@ -296,11 +264,10 @@
                 name: "shipmentTypeId",
                 displayField: "shipmentType",
                 valueField: "id",
-                colSpan: 4,
                 title: "<spring:message code='shipment.shipmentType'/>",
                 width: 300,
                 editorType: "SelectItem",
-                optionDataSource: RestDataSource_ShipmentTypeInShipment,
+                optionDataSource: RestDataSource_ShipmentTypeInShipmentDcc,
                 pickListProperties: {showFilterEditor: true},
                 pickListFields: [
                     {
@@ -329,14 +296,14 @@
                     }]
                 },
                 {
-                    ID: "fileDcc",
-                    name: "fileDcc",
+                    ID: "fileShipmentDcc",
+                    name: "fileShipmentDcc",
                     title: "<spring:message code='global.Attachment'/> ",
                     type: "file",
                     required: true,
                     accept: ".docx/*",
                     multiple: "",
-                    width: "90%",
+                    width: 200,
                     validators: [
                     {
                         type:"required",
@@ -363,7 +330,7 @@
                 if (shipmentDccDynamicForm.hasErrors()) {
                     return;
                 }
-                var fileBrowserId = document.getElementById(window.fileDcc.uploadItem.getElement().id);
+                var fileBrowserId = document.getElementById(window.fileShipmentDcc.uploadItem.getElement().id);
                 var file = fileBrowserId.files[0];
                 let fileExtensionIsValid = RegExp(".+(.doc|.docx)$","i").test(file.name);
                 if(!fileExtensionIsValid) {
