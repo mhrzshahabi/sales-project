@@ -45,6 +45,34 @@ public class ForeignInvoiceRestController {
     }
 
     @Loggable
+    @PostMapping(value = "/activate/{id}")
+    public ResponseEntity<ForeignInvoiceDTO.Info> activate(@PathVariable Long id) {
+
+        return new ResponseEntity<>(foreignInvoiceService.activate(id), HttpStatus.OK);
+    }
+
+    @Loggable
+    @PostMapping(value = "/deactivate/{id}")
+    public ResponseEntity<ForeignInvoiceDTO.Info> deactivate(@PathVariable Long id) {
+
+        return new ResponseEntity<>(foreignInvoiceService.deactivate(id), HttpStatus.OK);
+    }
+
+    @Loggable
+    @PostMapping(value = "/finalize/{id}")
+    public ResponseEntity<ForeignInvoiceDTO.Info> finalize(@PathVariable Long id) {
+
+        return new ResponseEntity<>(foreignInvoiceService.finalize(id), HttpStatus.OK);
+    }
+
+    @Loggable
+    @PostMapping(value = "/disapprove/{id}")
+    public ResponseEntity<ForeignInvoiceDTO.Info> disapprove(@PathVariable Long id) {
+
+        return new ResponseEntity<>(foreignInvoiceService.disapprove(id), HttpStatus.OK);
+    }
+
+    @Loggable
     @PutMapping
     public ResponseEntity<ForeignInvoiceDTO.Info> update(@Validated @RequestBody ForeignInvoiceDTO.Update request) {
 
