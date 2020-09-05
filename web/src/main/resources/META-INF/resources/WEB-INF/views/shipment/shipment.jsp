@@ -1174,7 +1174,7 @@
     });
     </sec:authorize>
 
-    <%--<sec:authorize access="hasAuthority('D_SHIPMENT')">--%>
+    <sec:authorize access="hasAuthority('C_SHIPMENT_DCC')">
     let ToolStripButton_Shipment_dcc = isc.ToolStripButtonAdd.create({
         icon: "[SKIN]/actions/add.png",
         title: "<spring:message code='shipment.loading.pattern.Attachment'/>",
@@ -1182,7 +1182,7 @@
             ListGrid_Shipment_dcc();
         }
     });
-    <%--</sec:authorize>--%>
+    </sec:authorize>
 
     var ToolStrip_Actions_Shipment = isc.ToolStrip.create({
         width: "100%",
@@ -1199,7 +1199,9 @@
             ToolStripButton_Shipment_Remove,
             </sec:authorize>
 
+            <sec:authorize access="hasAuthority('C_SHIPMENT_DCC')">
             ToolStripButton_Shipment_dcc,
+           </sec:authorize>
 
             ShipmentCancelBtn_Help_shipment,
 
