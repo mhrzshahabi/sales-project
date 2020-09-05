@@ -1136,39 +1136,48 @@ crTab.Layouts.Vlayouts.main = isc.VLayout.create({
                     align: "center",
                     height: "5%"
                 }),
-                crTab.DynamicForms.ChartDate = isc.DynamicForm.create(
-                    {
-                        numCols: 4,
-                        height: "10%",
-                        fields: [
-                            {name: "fromDate",
-                                title: "<spring:message code='dailyWarehouse.fromDay'/>",
-                                defaultValue: crTab.Methods.getFirstDayOfSeason(),
-                                editorExit:crTab.Methods.UpdateInputOutputCharts,
-                                keyPressFilter: "[0-9/]",
-                                icons: [{
-                                    src: "pieces/pcal.png",
-                                    click: function (form, item, icon) {
-                                        // // console.log(form)
-                                        displayDatePicker(item['ID'], form.getItems()[0], 'ymd', '/');
-                                    }
-                                }],
-                            },
-                            {name: "toDate",
-                                title: "<spring:message code='dailyWarehouse.toDay'/>",
-                                editorExit:crTab.Methods.UpdateInputOutputCharts,
-                                keyPressFilter: "[0-9/]",
-                                icons: [{
-                                    src: "pieces/pcal.png",
-                                    click: function (form, item, icon) {
-                                        // // console.log(form)
-                                        displayDatePicker(item['ID'], form.getItems()[0], 'ymd', '/');
-                                    }
-                                }],
-                                defaultValue: new persianDate().subtract('d', 1).format('YYYY/MM/DD')},
-                        ]
-                    }
-                ),
+                isc.HLayout.create({
+                    height: "10%",
+                    members:[
+                        crTab.DynamicForms.ChartDate = isc.DynamicForm.create(
+                            {
+                                numCols: 4,
+                                fields: [
+                                    {name: "fromDate",
+                                        title: "<spring:message code='dailyWarehouse.fromDay'/>",
+                                        defaultValue: crTab.Methods.getFirstDayOfSeason(),
+                                        // editorExit:crTab.Methods.UpdateInputOutputCharts,
+                                        keyPressFilter: "[0-9/]",
+                                        icons: [{
+                                            src: "pieces/pcal.png",
+                                            click: function (form, item, icon) {
+                                                // // console.log(form)
+                                                displayDatePicker(item['ID'], form.getItems()[0], 'ymd', '/');
+                                            }
+                                        }],
+                                    },
+                                    {name: "toDate",
+                                        title: "<spring:message code='dailyWarehouse.toDay'/>",
+                                        // editorExit:crTab.Methods.UpdateInputOutputCharts,
+                                        keyPressFilter: "[0-9/]",
+                                        icons: [{
+                                            src: "pieces/pcal.png",
+                                            click: function (form, item, icon) {
+                                                // // console.log(form)
+                                                displayDatePicker(item['ID'], form.getItems()[0], 'ymd', '/');
+                                            }
+                                        }],
+                                        defaultValue: new persianDate().subtract('d', 1).format('YYYY/MM/DD')},
+                                ]
+                            }
+                        ),
+                        isc.SpacerItem.create({height:1}),
+                        isc.ToolStripButtonRefresh.create({
+                            title:" فیلتر",
+                            click: crTab.Methods.UpdateInputOutputCharts
+                        })
+                    ]}),
+
                 crTab.Layouts.Vlayouts.Chart = isc.VLayout.create()
 
             ]
