@@ -658,6 +658,9 @@ const rdTab = {
 };
 ////////////////////////////////////////////////////////METHODS/////////////////////////////////////////////////////////
 rdTab.Methods.RecordDoubleClick = function (url, items, recordString, viewer, record, recordNum, field, fieldNum, value, rawValue) {
+    //   <sec:authorize access="!hasAuthority('U_REMITTANCE')">
+    return false;
+    //   </sec:authorize>
     let form;
     let vLayout;
     const window1 = isc.Window.create({
@@ -1546,6 +1549,23 @@ rdTab.Layouts.ToolStripButtons.PDF = {
         rdTab.DynamicForms.Forms.PDF.submitForm();
     }
 };
+
+rdTab.Layouts.ToolStripButtons.Delete = isc.ToolStripButtonRemove.create({
+    title: "حذف کامل بیجک",
+    click() {
+        isc.Dialog.create({
+            title: "هشدار",
+            message: "پاک کردن بیجک باعث پاک شدن تمامی محصولات زیرمجموعه تعریف‌شده به آن هم می‌شود. آیا اطمینان دارید؟",
+            buttons: [isc.Dialog.OK, isc.Dialog.CANCEL],
+            okClick() {
+                rdTab.Methods.Delete(rdTab.Grids.Remittance.obj,
+                    SalesConfigs.Urls.completeUrl + '/api/remittance/prune')
+                this.close();
+            }
+        })
+
+    },
+});
 rdTab.Layouts.ToolStripButtons.New = isc.ToolStripButtonAdd.create({
     // visibility: "hidden",
     ID: "new_bijak" + Math.random().toString().substr(3, 5),
@@ -1916,22 +1936,7 @@ isc.VLayout.create({
     members: [
         isc.ToolStrip.create({
             members: [
-                isc.ToolStripButtonRemove.create({
-                    title: "حذف کامل بیجک",
-                    click() {
-                        isc.Dialog.create({
-                            title: "هشدار",
-                            message: "پاک کردن بیجک باعث پاک شدن تمامی محصولات زیرمجموعه تعریف‌شده به آن هم می‌شود. آیا اطمینان دارید؟",
-                            buttons: [isc.Dialog.OK, isc.Dialog.CANCEL],
-                            okClick() {
-                                rdTab.Methods.Delete(rdTab.Grids.Remittance.obj,
-                                    SalesConfigs.Urls.completeUrl + '/api/remittance/prune')
-                                this.close();
-                            }
-                        })
-
-                    },
-                }),
+                rdTab.Layouts.ToolStripButtons.Delete,
                 rdTab.Layouts.ToolStripButtons.New,
                 isc.ToolStrip.create({
                     width: "100%",
@@ -1955,3 +1960,9 @@ isc.VLayout.create({
     ]
 })
 console.debug("rdTab = ", rdTab);
+// <sec:authorize access="!hasAuthority('D_REMITTANCE')">
+rdTab.Layouts.ToolStripButtons.Delete.hide();
+// </sec:authorize>
+// <sec:authorize access="!hasAuthority('C_REMITTANCE')">
+rdTab.Layouts.ToolStripButtons.New.hide();
+// </sec:authorize>

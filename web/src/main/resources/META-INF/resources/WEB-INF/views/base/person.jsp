@@ -1,9 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ page  import="com.nicico.copper.core.SecurityUtil" %>
 //<script>
 
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
+    var c_record = "${SecurityUtil.hasAuthority('C_PERSON')}";
+    var d_record = "${SecurityUtil.hasAuthority('U_PERSON')}";
 
     var RestDataSource_Contact = isc.MyRestDataSource.create(
         {
@@ -878,7 +881,7 @@
                 }
                 var dccTableId = record.id;
                 var dccTableName = "TBL_PERSON";
-                personAttachmentViewLoader.setViewURL("dcc/showForm/" + dccTableName + "/" + dccTableId);
+                personAttachmentViewLoader.setViewURL("dcc/showForm/" + dccTableName + "/" + dccTableId + "?d_record=" + d_record + "&c_record=" + c_record);
                 hLayoutViewLoader.show();
                 var layoutPerson = isc.VLayout.create({
                     styleName: "expand-layout",

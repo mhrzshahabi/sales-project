@@ -1,10 +1,13 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ page  import="com.nicico.copper.core.SecurityUtil" %>
 
 //<script>
 
-    <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
+    <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
+     var c_record = "${SecurityUtil.hasAuthority('C_CONTACT')}";
+     var d_record = "${SecurityUtil.hasAuthority('U_CONTACT')}";
 
     var RestDataSource_Country_IN_CONTACT = isc.MyRestDataSource.create(
         {
@@ -440,7 +443,8 @@
                     defaultValue: " ",
                     redrawOnChange: true,
                     mask: "required",
-                    hint: "<p style='color: black ; left: 386% ; white-space: pre; position: relative; top:5px;'><b style='color:red;'>*</b><spring:message code='contact.role'/></p>",
+                    hint: "<p style='color: black ; left: 386% ; white-space: pre; position: relative; top:5px;'><b style='color:red;'>*</b><spring:message
+code='contact.role'/></p>",
                 },
                 {
                     ID: "check_box_alert",
@@ -589,7 +593,7 @@
             return true;
         let x = resData.find(d => (d != null && (d.id != contact_id)));
         if (x != null && x.id != null) {
-            let msg = "<spring:message code='contact.property.repeated.warning'/> " + warnMsg + "  " + prop_value;
+            let msg = "<spring:message code='contact.property.repeated.warning'/> " + warnMsg + " " + prop_value;
             isc.warn(msg, "");
             return false;
         } else
@@ -1098,6 +1102,7 @@
                     }
                 }
             },
+            <sec:authorize access="hasAuthority('U_CONTACT')">
             recordClick: function (viewer, record, recordNum, field, fieldNum, value, rawValue) {
                 if (record != null) {
                     contactAccountTabs.enableTab("edit");
@@ -1105,9 +1110,10 @@
                 }
             },
             dataChanged: function () {
-                contactAccountTabs.selectTab(0);
+                contactAccountTabs.selectTab("create");
                 contactAccountTabs.disableTab("edit");
             }
+            </sec:authorize>
         });
 
     var ContactAccountGridHeaderForm = isc.DynamicForm.create({
@@ -1963,7 +1969,7 @@
                 }
                 var dccTableId = record.id;
                 var dccTableName = "TBL_CONTACT";
-                contactAttachmentViewLoader.setViewURL("dcc/showForm/" + dccTableName + "/" + dccTableId);
+                contactAttachmentViewLoader.setViewURL("dcc/showForm/" + dccTableName + "/" + dccTableId + "?d_record=" + d_record + "&c_record=" + c_record);
                 hLayoutViewLoader.show();
                 var layoutContact = isc.VLayout.create({
                     styleName: "expand-layout",
@@ -1982,3 +1988,12 @@
             HLayout_Actions_Contact, ListGrid_Contact
         ]
     });
+
+    <sec:authorize access="!hasAuthority('C_CONTACT')">
+    ContactAccount_CreateSaveButton.hide();
+    contactAccountTabs.animateHide("create");
+    Button_Delete_Account.hide();
+    </sec:authorize>
+    <sec:authorize access="!hasAuthority('U_CONTACT')">
+    ContactAccount_EditSaveButton.hide();
+    </sec:authorize>
