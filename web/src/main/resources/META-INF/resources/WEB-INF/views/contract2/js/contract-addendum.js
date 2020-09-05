@@ -1221,7 +1221,7 @@ contractTab.ToolStripButtons = {
             const contract = contractTab.listGrid.main.getSelectedRecord();
             if (!contract) return contractTab.dialog.notSelected();
             const criteriaId = contract.parentId ? contract.parentId : contract.id;
-            contractTab.listGrid.main.filterData({
+            contractTab.listGrid.main.setCriteria({
                 _constructor: "AdvancedCriteria",
                 operator: "or",
                 criteria:
