@@ -214,7 +214,8 @@ var nicico;
             This.method.jsonRPCManagerRequest = function (rpcRequest, okActionHook, errorActionHook) {
                 if (rpcRequest == null)
                     return;
-                if (rpcRequest.callback == null)
+                if (rpcRequest.callback == null) {
+                    rpcRequest.willHandleError = true;
                     rpcRequest.callback = function (response) {
                         if (response.httpResponseCode === 201 || response.httpResponseCode === 200) {
                             This.dialog.ok();
@@ -227,6 +228,7 @@ var nicico;
                                 errorActionHook(response);
                         }
                     };
+                }
                 if (rpcRequest.actionURL == null)
                     rpcRequest.actionURL = This.variable.url;
                 if (rpcRequest.httpMethod == null)

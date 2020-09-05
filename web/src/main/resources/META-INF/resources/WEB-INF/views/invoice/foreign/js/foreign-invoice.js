@@ -732,8 +732,6 @@ foreignInvoiceTab.variable.invoiceForm.validate = function (data) {
 
 foreignInvoiceTab.variable.invoiceForm.okCallBack = function (data) {
 
-    console.log(data)
-
     foreignInvoiceTab.method.jsonRPCManagerRequest({
         data: JSON.stringify(data)
     }, (resp) => foreignInvoiceTab.listGrid.main.invalidateCache());
