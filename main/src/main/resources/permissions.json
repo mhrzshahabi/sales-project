@@ -166,7 +166,7 @@
     },
     {
       "code": "R_CONTRACT_SHIPMENT",
-      "title": "نمایش حمل قرارداد"
+      "title": "نمایش تعیین مشخصات محموله"
     },
     {
       "code": "C_CONTRACT_SHIPMENT",
@@ -762,23 +762,7 @@
     },
     {
       "code": "R_TOZIN",
-      "title": "نمایش توزین"
-    },
-    {
-      "code": "C_TOZIN",
-      "title": "ایجاد توزین"
-    },
-    {
-      "code": "U_TOZIN",
-      "title": "به روز رسانی توزین"
-    },
-    {
-      "code": "D_TOZIN",
-      "title": "حذف توزین"
-    },
-    {
-      "code": "O_TOZIN",
-      "title": "خروجی توزین"
+      "title": "نمایش بین المجامع"
     },
     {
       "code": "R_UNIT",
@@ -1393,6 +1377,11 @@
       "title": "حذف گزارش بازرسی"
     },
     {
+      "code": "F_INSPECTION_REPORT",
+      "title": "تایید نهایی گزارش بازرسی"
+    },
+
+    {
       "code": "R_ASSAY_INSPECTION",
       "title": "نمایش بازرسی محتوا"
     },
@@ -1611,6 +1600,10 @@
     {
       "code": "D_SHIPMENT_COST_INVOICE_DETAIL",
       "title": "حذف جزئیات صورتحساب هزینه های حمل "
+    },
+    {
+      "code": "R_TOZIN_LITE",
+      "title": "نمایش محصولات در راه"
     }
   ]
 }

@@ -1,11 +1,14 @@
 package com.nicico.sales.model.entities.base;
 
 import com.nicico.sales.model.entities.common.BaseEntity;
+import com.nicico.sales.model.entities.warehouse.Inventory;
+import com.nicico.sales.model.entities.warehouse.RemittanceDetail;
 import lombok.*;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.List;
 
 @Getter
 @Setter
@@ -43,5 +46,8 @@ public class MaterialItem extends BaseEntity {
 
     @Column(name = "MI_DETAIL_CODE")
     private String miDetailCode;
+
+    @OneToMany(mappedBy = "materialItem", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    private List<Inventory> materialItem;
 
 }

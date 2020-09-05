@@ -26,6 +26,8 @@ public class InventoryDTO {
     @Accessors(chain = true)
     public static class InfoWithoutRemittanceDetail extends InventoryDTO {
         private Long id;
+        private Long weight;
+        private Long amount;
         private WeightInspectionDTO.InfoWithoutInspectionReportAndInventory weightInspection;
         private MaterialItemDTO.Info materialItem;
         // Auditing
@@ -44,6 +46,8 @@ public class InventoryDTO {
     @Accessors(chain = true)
     public static class InfoWithInspections extends InventoryDTO {
         private Long id;
+        private Long weight;
+        private Long amount;
         private MaterialItemDTO.Info materialItem;
 //        private List<AssayInspectionDTO.InfoWithoutInspectionReportAndInventory> assayInspections;
         private WeightInspectionDTO.InfoWithoutInspectionReportAndInventory weightInspection;

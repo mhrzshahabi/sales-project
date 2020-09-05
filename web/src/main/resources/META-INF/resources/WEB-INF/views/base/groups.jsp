@@ -30,10 +30,10 @@
                     required: true,
                     width: 400,
                     validators: [
-                    {
+                        {
                         type:"required",
-                        validateOnChange: true
-                    }]
+                            validateOnChange: true
+                        }]
                 },
                 {
                     name: "jobTitle",
@@ -60,10 +60,10 @@
                     required: true,
                     width: 400,
                     validators: [
-                    {
+                        {
                         type:"required",
-                        validateOnChange: true
-                    }]
+                            validateOnChange: true
+                        }]
                 },
                 {
                     name: "email1",
@@ -191,10 +191,10 @@
                 required: true,
                 width: 400,
                 validators: [
-                {
-                    type:"required",
-                    validateOnChange: true
-                }]
+                    {
+                        type: "required",
+                        validateOnChange: true
+                    }]
             },
             {
                 type: "RowSpacerItem"
@@ -428,10 +428,10 @@
                 required: true,
                 width: 400,
                 validators: [
-                {
-                    type:"required",
-                    validateOnChange: true
-                }]
+                    {
+                        type: "required",
+                        validateOnChange: true
+                    }]
             },
         ],
 
@@ -461,10 +461,10 @@
                     required: true,
                     width: "100%",
                     validators: [
-                    {
-                        type:"required",
-                        validateOnChange: true
-                    }]
+                        {
+                            type: "required",
+                            validateOnChange: true
+                        }]
                 },],
             autoFetchData: true,
             recordDoubleClick: "this.updateDetails(viewer, record, recordNum, field, fieldNum, value, rawValue)",
@@ -585,10 +585,10 @@
                     required: true,
                     width: "10%",
                     validators: [
-                    {
-                        type:"required",
-                        validateOnChange: true
-                    }]
+                        {
+                            type: "required",
+                            validateOnChange: true
+                        }]
                 },
                 {
                     name: "jobTitle",
@@ -615,10 +615,10 @@
                     required: true,
                     width: "10%",
                     validators: [
-                    {
-                        type:"required",
-                        validateOnChange: true
-                    }]
+                        {
+                            type: "required",
+                            validateOnChange: true
+                        }]
                 },
                 {
                     name: "phoneNo",
@@ -690,6 +690,7 @@
                         ListGrid_GroupsPerson_refresh();
                     }
                 },
+                <sec:authorize access="hasAuthority('C_GROUPS')">
                 {
                     title: "<spring:message code='global.form.new'/>", icon: "pieces/16/icon_add.png",
                     click: function () {
@@ -714,18 +715,23 @@
                         }
                     }
                 },
+                </sec:authorize>
+                <sec:authorize access="hasAuthority('U_GROUPS')">
                 {
                     title: "<spring:message code='global.form.edit'/>", icon: "pieces/16/icon_edit.png",
                     click: function () {
                         ListGrid_GroupsPerson_edit();
                     }
                 },
+                </sec:authorize>
+                <sec:authorize access="hasAuthority('U_GROUPS')">
                 {
                     title: "<spring:message code='global.form.remove'/>", icon: "pieces/16/icon_delete.png",
                     click: function () {
                         ListGrid_GroupsPerson_remove();
                     }
                 }
+                </sec:authorize>
             ]
     });
     var DynamicForm_GroupsPerson = isc.DynamicForm.create({
@@ -737,47 +743,47 @@
         fields:
             [
                 {name: "id", hidden: true,},
-            {name: "groupsId", type: "long", hidden: true},
-            {
-                name: "personId",
-                title: "<spring:message code='person.fullName'/>",
-                width: 500,
-                required: true,
-                editorType: "SelectItem",
-                optionDataSource: RestDataSource_Person_GroupEmail,
-                displayField: "fullName",
-                valueField: "id",
-                 type: 'text',
-                 sortField: 1,
-                pickListWidth: 505,
-                pickListHeight: 500,
-                pickListProperties: {showFilterEditor: true},
-                pickListFields: [
-                    {
-                        name: "id",
-                        align: "center",
-                        hidden: true,
-                    }, {
-                        name: "fullName",
-                        width: 150,
-                        align: "center"
-                    }, {
-                        name: "contact.nameFA",
-                        title: "<spring:message code='commercialParty.title'/>",
-                        width: 200,
-                        align: "center"
-                    }, {
-                        name: "email",
-                        width: 150,
-                        align: "center"
-                    }],
+                {name: "groupsId", type: "long", hidden: true},
+                {
+                    name: "personId",
+                    title: "<spring:message code='person.fullName'/>",
+                    width: 500,
+                    required: true,
+                    editorType: "SelectItem",
+                    optionDataSource: RestDataSource_Person_GroupEmail,
+                    displayField: "fullName",
+                    valueField: "id",
+                    type: 'text',
+                    sortField: 1,
+                    pickListWidth: 505,
+                    pickListHeight: 500,
+                    pickListProperties: {showFilterEditor: true},
+                    pickListFields: [
+                        {
+                            name: "id",
+                            align: "center",
+                            hidden: true,
+                        }, {
+                            name: "fullName",
+                            width: 150,
+                            align: "center"
+                        }, {
+                            name: "contact.nameFA",
+                            title: "<spring:message code='commercialParty.title'/>",
+                            width: 200,
+                            align: "center"
+                        }, {
+                            name: "email",
+                            width: 150,
+                            align: "center"
+                        }],
                     validators: [
-                    {
-                        type:"required",
-                        validateOnChange: true
-                    }]
-            }
-        ]
+                        {
+                            type: "required",
+                            validateOnChange: true
+                        }]
+                }
+            ]
     });
 
     var IButton_GroupsPerson_Save = isc.IButtonSave.create({
@@ -1043,10 +1049,10 @@
                 width: 400,
                 hidden: true,
                 validators: [
-                {
-                    type:"required",
-                    validateOnChange: true
-                }]
+                    {
+                        type: "required",
+                        validateOnChange: true
+                    }]
             },
             {
                 name: "groups.groupsName",
@@ -1062,10 +1068,10 @@
                 width: 400,
                 hidden: true,
                 validators: [
-                {
-                    type:"required",
-                    validateOnChange: true
-                }]
+                    {
+                        type: "required",
+                        validateOnChange: true
+                    }]
             },
             {
                 name: "person.fullName",
@@ -1074,10 +1080,10 @@
                 required: true,
                 width: 400,
                 validators: [
-                {
-                    type:"required",
-                    validateOnChange: true
-                }]
+                    {
+                        type: "required",
+                        validateOnChange: true
+                    }]
             },
             {
                 name: "person.jobTitle",
@@ -1104,10 +1110,10 @@
                 required: true,
                 width: 150,
                 validators: [
-                {
-                    type:"required",
-                    validateOnChange: true
-                }]
+                    {
+                        type: "required",
+                        validateOnChange: true
+                    }]
             },
             {
                 name: "person.email1",
@@ -1249,10 +1255,10 @@
                 width: "10%",
                 hidden: true,
                 validators: [
-                {
-                    type:"required",
-                    validateOnChange: true
-                }]
+                    {
+                        type: "required",
+                        validateOnChange: true
+                    }]
             },
             {
                 name: "groups.groupsName",
@@ -1271,10 +1277,10 @@
                 width: "10%",
                 hidden: true,
                 validators: [
-                {
-                    type:"required",
-                    validateOnChange: true
-                }]
+                    {
+                        type: "required",
+                        validateOnChange: true
+                    }]
             },
             {
                 name: "person.fullName",
@@ -1286,10 +1292,10 @@
                     return recordObject.person.fullName;
                 },
                 validators: [
-                {
-                    type:"required",
-                    validateOnChange: true
-                }]
+                    {
+                        type: "required",
+                        validateOnChange: true
+                    }]
             },
             {
                 name: "person.jobTitle",
@@ -1324,10 +1330,10 @@
                     return recordObject.person.email;
                 },
                 validators: [
-                {
-                    type:"required",
-                    validateOnChange: true
-                }]
+                    {
+                        type: "required",
+                        validateOnChange: true
+                    }]
             },
             {
                 name: "person.webAddress",
@@ -1387,3 +1393,11 @@
         width: "100%",
         overflow: "hidden"
     });
+
+    <sec:authorize access="!hasAuthority('C_GROUPS')">
+    ToolStripButton_GroupsPerson_Add.hide();
+    ToolStripButton_GroupsPerson_Remove.hide();
+    </sec:authorize>
+    <sec:authorize access="!hasAuthority('U_GROUPS')">
+    ToolStripButton_GroupsPerson_Edit.hide();
+    </sec:authorize>

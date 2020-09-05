@@ -227,13 +227,13 @@ function getFieldProperties(fieldType, reference) {
         case 'Double':
             return {
                 type: "float",
-                keyPressFilter: "[0-9.]"
+                keyPressFilter: "[0-9.+-]"
             };
         case 'Integer':
         case 'Long':
             return {
                 type: "integer",
-                keyPressFilter: "[0-9]"
+                keyPressFilter: "[0-9+-]"
             };
         case 'String':
             return {

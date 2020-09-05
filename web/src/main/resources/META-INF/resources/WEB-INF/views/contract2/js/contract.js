@@ -205,9 +205,14 @@ contractTab.listGrid.contractDetailType = isc.ListGrid.nicico.getDefault(
                         click: function () {
                             if (contractTab.sectionStack.contract.getSectionNames().includes(record.id))
                                 return;
-                            contractTab.variable.contractDetailTypeTemplate.bodyWidget.getObject().setData(record.contractDetailTypeTemplates);
-                            contractTab.variable.contractDetailTypeTemplate.bodyWidget.getObject().contractDetailTypeRecord = record;
-                            contractTab.variable.contractDetailTypeTemplate.justShowForm();
+                            if (record.contractDetailTypeTemplates.length == 1) {
+                                record.content = record.contractDetailTypeTemplates[0].content;
+                                contractTab.method.addSectionByContractDetailType(record);
+                            } else {
+                                contractTab.variable.contractDetailTypeTemplate.bodyWidget.getObject().setData(record.contractDetailTypeTemplates);
+                                contractTab.variable.contractDetailTypeTemplate.bodyWidget.getObject().contractDetailTypeRecord = record;
+                                contractTab.variable.contractDetailTypeTemplate.justShowForm();
+                            }
                         }
                     });
             }
@@ -245,7 +250,12 @@ contractTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
                 contractTab.sectionStack.contract.expandSection(contractTab.sectionStack.contract.sections);
 
                 data.contractDetails = [];
+
                 data.content = "";
+                contractTab.sectionStack.contract.sections.filter(x => x.title.toLowerCase().contains("header")).forEach(section => {
+                    data.content = data.content + changeHeaderAndFooterTemplate(section.template);
+                });
+
                 contractTab.sectionStack.contract.sections.forEach(section => {
                     let contractDetailObj = {
                         contractDetailTypeId: section.name,
@@ -317,16 +327,12 @@ contractTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
 
                     data.contractDetails.push(contractDetailObj);
 
-                    data.content = data.content + data.no + "<br>";
-                    data.content = data.content + data.date + "<br>";
-                    data.content = data.content + data.material.descl + "<br>";
-                    data.contractContacts.forEach(contractContact => {
-                        data.content = data.content + contractContact.contact.nameEN + "<br>" +
-                            contractContact.contact.address + "<br>" +
-                            contractContact.contact.phone + "<br>" +
-                            contractContact.contact.fax + "<br><br>";
-                    });
-                    data.content = data.content + "<h1>" + section.title + "</h1>" + contractDetailObj.content;
+                    if (!section.title.toLowerCase().contains("header") && !section.title.toLowerCase().contains("footer"))
+                        data.content = data.content + "<h2>" + section.title + "</h2>" + contractDetailObj.content;
+                });
+
+                contractTab.sectionStack.contract.sections.filter(x => x.title.toLowerCase().contains("footer")).forEach(section => {
+                    data.content = data.content + changeHeaderAndFooterTemplate(section.template);
                 });
 
                 isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
@@ -483,34 +489,44 @@ contractTab.method.newForm = function () {
 };
 contractTab.method.editForm = function () {
 
-    let record = contractTab.listGrid.main.getSelectedRecord();
-    if (record == null || record.id == null)
+    let listGridRecord = contractTab.listGrid.main.getSelectedRecord();
+    if (listGridRecord == null || listGridRecord.id == null)
         contractTab.dialog.notSelected();
-    else if (record.editable === false)
+    else if (listGridRecord.editable === false)
         contractTab.dialog.notEditable();
-    else {
 
-        contractTab.variable.method = "PUT";
-        contractTab.dynamicForm.main.editRecord(JSON.parse(JSON.stringify(record)));
+    isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+        actionURL: 'api/g-contract/' + listGridRecord.id,
+        httpMethod: "GET",
+        callback: function (resp) {
+            if (resp.httpResponseCode === 201 || resp.httpResponseCode === 200) {
+                let record = JSON.parse(resp.data);
+                record.buyerId = listGridRecord.buyerId;
+                record.sellerId = listGridRecord.sellerId;
+                record.agentBuyerId = listGridRecord.agentBuyerId;
+                record.agentSellerId = listGridRecord.agentSellerId;
 
-        contractTab.listGrid.contractDetailType.setCriteria({
-            operator: 'and',
-            criteria: [{
-                fieldName: 'materialId',
-                operator: 'equals',
-                value: contractTab.dynamicForm.main.getValue('materialId')
-            }]
-        });
-        contractTab.sectionStack.contract.getSectionNames().forEach(q => contractTab.sectionStack.contract.removeSection(q + ""));
-        contractTab.method.addSectionByContract(record);
-
-        contractTab.window.main.setTitle("<spring:message code='contract.window.title.edit'/>" + "\t" + record.material.descl);
-        contractTab.window.main.show();
-    }
+                contractTab.variable.method = "PUT";
+                contractTab.dynamicForm.main.editRecord(record);
+                contractTab.listGrid.contractDetailType.setCriteria({
+                    operator: 'and',
+                    criteria: [{
+                        fieldName: 'materialId',
+                        operator: 'equals',
+                        value: contractTab.dynamicForm.main.getValue('materialId')
+                    }]
+                });
+                contractTab.sectionStack.contract.getSectionNames().forEach(q => contractTab.sectionStack.contract.removeSection(q + ""));
+                contractTab.method.addSectionByContract(record);
+                contractTab.window.main.setTitle("<spring:message code='contract.window.title.edit'/>" + "\t" + record.material.descl);
+                contractTab.window.main.show();
+            } else
+                contractTab.dialog.error(resp);
+        }
+    }))
 };
 
 contractTab.method.addSectionByContract = function (record) {
-
     record.contractDetails.forEach(q => {
 
         let sectionStackSectionObj = {
@@ -858,5 +874,41 @@ function generateContentFromSection(section, template) {
 
         template = template.replaceAll('\\${' + listGrid.paramKey + '}', table);
     });
+    return template;
+}
+
+function changeHeaderAndFooterTemplate(template) {
+    var buyer = contractTab.dynamicForm.main.getField("buyerId").getSelectedRecord();
+    if (buyer !== undefined) {
+        template = template.replaceAll('\\${' + "buyer_name" + '}', buyer.nameEN);
+        template = template.replaceAll('\\${' + "buyer_address" + '}', buyer.address);
+        template = template.replaceAll('\\${' + "buyer_phone" + '}', buyer.phone);
+        template = template.replaceAll('\\${' + "buyer_fax" + '}', buyer.fax);
+    }
+
+    var seller = contractTab.dynamicForm.main.getField("sellerId").getSelectedRecord();
+    if (seller !== undefined) {
+        template = template.replaceAll('\\${' + "seller_name" + '}', seller.nameEN);
+        template = template.replaceAll('\\${' + "seller_address" + '}', seller.address);
+        template = template.replaceAll('\\${' + "seller_phone" + '}', seller.phone);
+        template = template.replaceAll('\\${' + "seller_fax" + '}', seller.fax);
+    }
+
+    var agentBuyer = contractTab.dynamicForm.main.getField("agentBuyerId").getSelectedRecord();
+    if (agentBuyer !== undefined) {
+        template = template.replaceAll('\\${' + "agentBuyer_name" + '}', agentBuyer.nameEN);
+        template = template.replaceAll('\\${' + "agentBuyer_address" + '}', agentBuyer.address);
+        template = template.replaceAll('\\${' + "agentBuyer_phone" + '}', agentBuyer.phone);
+        template = template.replaceAll('\\${' + "agentBuyer_fax" + '}', agentBuyer.fax);
+    }
+
+    var agentSeller = contractTab.dynamicForm.main.getField("agentSellerId").getSelectedRecord();
+    if (agentSeller !== undefined) {
+        template = template.replaceAll('\\${' + "agentSeller_name" + '}', agentSeller.nameEN);
+        template = template.replaceAll('\\${' + "agentSeller_address" + '}', agentSeller.address);
+        template = template.replaceAll('\\${' + "agentSeller_phone" + '}', agentSeller.phone);
+        template = template.replaceAll('\\${' + "agentSeller_fax" + '}', agentSeller.fax);
+    }
+
     return template;
 }

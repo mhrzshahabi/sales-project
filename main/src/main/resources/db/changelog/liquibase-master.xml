@@ -78,6 +78,13 @@
 
 
 
+    	<include file="classpath:/db/changelog/view/view_warh_inventory.xml"/>
+    	<include file="classpath:/db/changelog/view/view_warh_remittance_detail.xml"/>
+
+
+
+
+
 
 
 

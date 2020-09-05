@@ -37,6 +37,7 @@ import com.nicico.sales.repository.ShipmentDAO;
 import com.nicico.sales.service.GenericService;
 import com.nicico.sales.utility.UpdateUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.TypeToken;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.context.support.ResourceBundleMessageSource;
@@ -50,6 +51,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class ContractService2 extends GenericService<Contract2, Long, ContractDTO2.Create, ContractDTO2.Info, ContractDTO2.Update, ContractDTO2.Delete> implements IContractService2 {
 
     private final IContractDetailService2 contractDetailService;
@@ -145,7 +147,7 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
                                         kal.get(Calendar.DAY_OF_YEAR) == cal.get(Calendar.DAY_OF_YEAR)
                         ) {
                             found[0] = true;
-                            csfa.setParentId(csws.getId());
+                            if(csfa.getParentId()==null) csfa.setParentId(csws.getId());
                             contractShipmentDAO.save(csfa);
                         }
                     }
@@ -163,6 +165,10 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
     private Long createContractShipment(ContractDetailValueDTO.Create x, Long id) {
         ContractShipmentDTO.Create contractShipmentDTO = gson.fromJson(x.getReferenceJsonValue(), ContractShipmentDTO.Create.class);
         contractShipmentDTO.setContractId(id);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(contractShipmentDTO.getSendDate());
+        calendar.set(Calendar.HOUR_OF_DAY,12);
+        contractShipmentDTO.setSendDate(calendar.getTime());
         ContractShipmentDTO.Info savedContractShipment = contractShipmentService.create(contractShipmentDTO);
         return savedContractShipment.getId();
     }
@@ -194,15 +200,14 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
             createContractContacts(contract2.getId(), newContractContactId, commercialRole);
     }
 
-    @Override
     @Transactional(readOnly = true)
     @Action(value = ActionType.Search)
-    public TotalResponse<ContractDTO2.Info> search(NICICOCriteria request) {
+    public TotalResponse<ContractDTO2.ListGridInfo> refinedSearch(NICICOCriteria request) {
 
         List<Contract2> entities = new ArrayList<>();
-        TotalResponse<ContractDTO2.Info> result = SearchUtil.search(repositorySpecificationExecutor, request, entity -> {
+        TotalResponse<ContractDTO2.ListGridInfo> result = SearchUtil.search(repositorySpecificationExecutor, request, entity -> {
 
-            ContractDTO2.Info eResult = modelMapper.map(entity, ContractDTO2.Info.class);
+            ContractDTO2.ListGridInfo eResult = modelMapper.map(entity, ContractDTO2.ListGridInfo.class);
             validation(entity, eResult);
             entities.add(entity);
             eResult.getContractContacts().forEach(q -> {
@@ -408,8 +413,8 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
         if ((actionType == ActionType.Create || actionType == ActionType.Update) && req.getParentId() != null) {
 //            if(actionType == ActionType.Create) {ContractDTO2.Create req = modelMapper.map(request[0], ContractDTO2.Create.class);}
             final List<ContractShipment> contractShipments = req.getContractDetails()
-                    .stream().
-                            map(cd -> cd.getContractDetailValues()
+                    .stream()
+                    .map(cd -> cd.getContractDetailValues()
                                     .stream().filter(cdv -> cdv.getReference() != null &&
                                             cdv.getReference().toLowerCase().equals("ContractShipment".toLowerCase()))
                                     .collect(Collectors.toList())
@@ -417,7 +422,7 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
                         try {
                             return objectMapper.readValue(contractDetailValue.getReferenceJsonValue(), ContractShipment.class);
                         } catch (IOException e) {
-                            e.printStackTrace();
+                            log.warn("jackson objectMapper error ",e);
                         }
                         return null;
                     })
@@ -426,7 +431,9 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
 
             final Set<ContractShipment> contractShipmentsOriginal = getContractShipmentsWithShipment(req);
             final List<ContractShipment> modifiedFound = contractShipmentsOriginal.stream().filter(ocs -> {
-                final ContractShipment contractShipmentFromController = contractShipments.stream().filter(contractShipment -> contractShipment.getId().equals(ocs.getId()))
+                final ContractShipment contractShipmentFromController = contractShipments
+                        .stream()
+                        .filter(contractShipment -> contractShipment.getId().equals(ocs.getId()))
                         .findAny()
                         .orElseThrow(() -> new SalesException2(ErrorType.NotFound));
                 cal.setTime(contractShipmentFromController.getSendDate());
@@ -435,8 +442,9 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
                         !contractShipmentFromController.getQuantity().equals(ocs.getQuantity()) ||
                         !contractShipmentFromController.getTolorance().equals(ocs.getTolorance()) ||
                         cal.get(Calendar.YEAR) != kal.get(Calendar.YEAR) ||
-                        cal.get(Calendar.DAY_OF_YEAR) != kal.get(Calendar.DAY_OF_YEAR) ||
-                        contractShipmentFromController.getParentId() != null;
+                        cal.get(Calendar.DAY_OF_YEAR) != kal.get(Calendar.DAY_OF_YEAR)
+                        //|| contractShipmentFromController.getParentId() != null
+                 ;
             }).collect(Collectors.toList());
             Locale locale = LocaleContextHolder.getLocale();
             if (modifiedFound.size() > 0) throw new SalesException2(ErrorType.Unknown, "",
@@ -455,9 +463,13 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
 
     @Override
     public List<Object> getOperationalDataOfContractArticle(Long contractId, String articleCode, String articleKey) {
+
+        if (contractId == null)
+            return new ArrayList<>();
+
         final EContractDetailTypeCode eContractDetailTypeCode = Arrays.stream(EContractDetailTypeCode.values())
                 .filter(e -> e
-                .getId().equals(articleCode)).findAny()
+                        .getId().equals(articleCode)).findAny()
                 .orElseThrow(NotFoundException::new);
         final EContractDetailValueKey eContractDetailValueKeyOptional = Enums.getIfPresent(EContractDetailValueKey.class,
                 articleKey).orNull();
@@ -466,15 +478,8 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
                 eContractDetailTypeCode,
                 eContractDetailValueKeyOptional
         );
-        if (map.size()==0) return null;
-        final List<Object> objectList = map.get(eContractDetailValueKeyOptional.name());
-        return objectList;
-
-
-
-
-
-
+        if (map.size() == 0) return new ArrayList<>();
+        return map.get(eContractDetailValueKeyOptional.name());
     }
 
     private Set<ContractShipment> getContractShipmentsWithShipment(ContractDTO2.Create request) {

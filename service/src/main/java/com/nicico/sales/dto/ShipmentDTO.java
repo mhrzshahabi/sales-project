@@ -45,6 +45,7 @@ public class ShipmentDTO {
     private Date arrivalDateFrom;
     private Date arrivalDateTo;
     private Long noPallet;
+    private Date lastDeliveryLetterDate;
 
 
     @Getter
