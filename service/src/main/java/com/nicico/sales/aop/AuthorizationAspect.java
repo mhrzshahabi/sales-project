@@ -40,7 +40,7 @@ public class AuthorizationAspect {
             ParameterizedType superClass = (ParameterizedType) target.getClass().getGenericSuperclass();
             Class<?> entityClass = (Class<?>) superClass.getActualTypeArguments()[0];
             String entityName = entityClass.getSimpleName();
-//            authorizationUtil.checkStandardPermission(entityName, action.value().name());
+            authorizationUtil.checkStandardPermission(entityName, action.value().name());
         } else if (action.value() != ActionType.Unknown)
             authorizationUtil.checkStandardPermission(action.authority());
     }
