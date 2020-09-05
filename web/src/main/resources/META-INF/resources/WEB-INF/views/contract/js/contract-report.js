@@ -699,8 +699,118 @@ const crTab = {
 crTab.Methods.getFirstDayOfSeason = () => {
     const today = new persianDate();
     const firstMonthOfThisSeason = Number(((today.month() - 1) / 3).toFixed(1).substr(0, 1)) * 3 + 1
-    return today.year().toString() + firstMonthOfThisSeason.toString().padStart(2, "0") + "00"
+    return today.year().toString() + "/" + firstMonthOfThisSeason.toString().padStart(2, "0") + "/01"
 }
+crTab.Methods.UpdateInputOutputCharts = function() {
+    crTab.Grids.RemittanceDetail.fetchData({
+        _constructor: "AdvancedCriteria",
+        operator: 'and',
+        criteria: [
+            {
+                fieldName: 'date',
+                operator: 'lessOrEqual',
+                value: new persianDate().subtract('d', 1).format('YYYYMMDD')
+            },
+            {
+                fieldName: 'inventory.weight',
+                operator: 'greaterThan',
+                value: 0
+            },
+        ]
+    })
+    fetch('api/remittance-detail/spec-list/?criteria=' + JSON.stringify(
+        {
+            _constructor: "AdvancedCriteria",
+            operator: "and",
+            criteria:
+                [
+                    {
+                        fieldName: "date",
+                        operator: "lessOrEqual",
+                        value: crTab.DynamicForms.ChartDate.getValue('toDate').replaceAll("/","")
+                    },
+                    {
+                        fieldName: "date",
+                        operator: "greaterOrEqual",
+                        value: crTab.DynamicForms.ChartDate.getValue('fromDate').replaceAll("/","")
+
+                    },]
+        }), {headers: SalesConfigs.httpHeaders}).then(r => {
+        if (r.ok) {
+            r.json().then(
+                j => {
+
+                    const dataCame = j.response.data.filter(_ => _.destinationTozin).map(_ => {
+                        _.material = _.inventory.materialItem.gdsName;
+                        _.month = _.date.toString().substr(4, 2)
+                        return _;
+
+                    })
+                    const dataWent = j.response.data.filter(_ => !_.destinationTozin).map(_ => {
+                        _.material = _.inventory.materialItem.gdsName;
+                        _.month = _.date.toString().substr(4, 2)
+                        return _;
+
+                    })
+                    crTab.Layouts.Vlayouts.Chart.setMembers([]);
+                    crTab.Layouts.Vlayouts.Chart.addMember(
+                        isc.HLayout.create({
+                            members: [
+                                isc.FacetChart.create({
+                                    facets: [{
+                                        id: "material",    // the key used for this facet in the data above
+                                        title: "محصول"  // the user-visible title you want in the chart
+                                    }, {
+                                        id: "month",
+                                        title: "ماه"
+                                    }],
+                                    data: dataCame,        // a reference to our data above
+                                    valueProperty: "amount", // the property in our data that is the numerical value to chart
+                                    chartType: "Pie",
+                                    title: "آمار ورودی انبار از "+
+                                        crTab.DynamicForms.ChartDate.getValue('fromDate') +
+                                        'تا ' +
+                                        crTab.DynamicForms.ChartDate.getValue('toDate'), // a title for the chart as a whole
+                                    showInlineLabels: true,
+                                    showDataValues: true,
+                                    showDataPoints: true,
+                                    showStatisticsOverData: true,
+
+                                }),
+                                isc.FacetChart.create({
+                                    facets: [{
+                                        id: "material",    // the key used for this facet in the data above
+                                        title: "محصول"  // the user-visible title you want in the chart
+                                    }, {
+                                        id: "month",
+                                        title: "ماه"
+                                    }],
+                                    data: dataWent,        // a reference to our data above
+                                    valueProperty: "amount", // the property in our data that is the numerical value to chart
+                                    chartType: "Pie",
+                                    title: "آمار خروجی انبار از "+
+                                    crTab.DynamicForms.ChartDate.getValue('fromDate') +
+                                        'تا ' +
+                                        crTab.DynamicForms.ChartDate.getValue('toDate'), // a title for the chart as a whole
+                                    showInlineLabels: true,
+                                    showDataValues: true,
+                                    showDataPoints: true,
+                                    showStatisticsOverData: true,
+
+                                })
+
+
+                            ]
+                        })
+                    )
+
+
+                }
+            )
+        }
+    })
+}
+
 ////////////////////////////////////////////////////////FIELDS//////////////////////////////////////////////////////////
 crTab.Fields.RemittanceDetail = _ => [
     {
@@ -995,14 +1105,8 @@ crTab.Layouts.Vlayouts.main = isc.VLayout.create({
                     })
                 ]
         }),
-
         isc.VLayout.create({
             members: [
-                isc.Label.create({
-                    contents: '<h2>گزارش موجودی انبار</h2>',
-                    align: "center",
-                    height: "5%"
-                }),
                 crTab.Grids.RemittanceDetail = isc.ListGrid.create({
                     title: "موجودی انبار",
                     fields: crTab.Fields.RemittanceDetail(),
@@ -1024,98 +1128,54 @@ crTab.Layouts.Vlayouts.main = isc.VLayout.create({
                 })
             ]
         }),
+        isc.VLayout.create({
+            height: "60%",
+            members: [
+                isc.Label.create({
+                    contents: '<h2>گزارش ورودی خروجی </h2>',
+                    align: "center",
+                    height: "5%"
+                }),
+                crTab.DynamicForms.ChartDate = isc.DynamicForm.create(
+                    {
+                        numCols: 4,
+                        height: "10%",
+                        fields: [
+                            {name: "fromDate",
+                                title: "<spring:message code='dailyWarehouse.fromDay'/>",
+                                defaultValue: crTab.Methods.getFirstDayOfSeason(),
+                                editorExit:crTab.Methods.UpdateInputOutputCharts,
+                                keyPressFilter: "[0-9/]",
+                                icons: [{
+                                    src: "pieces/pcal.png",
+                                    click: function (form, item, icon) {
+                                        // // console.log(form)
+                                        displayDatePicker(item['ID'], form.getItems()[0], 'ymd', '/');
+                                    }
+                                }],
+                            },
+                            {name: "toDate",
+                                title: "<spring:message code='dailyWarehouse.toDay'/>",
+                                editorExit:crTab.Methods.UpdateInputOutputCharts,
+                                keyPressFilter: "[0-9/]",
+                                icons: [{
+                                    src: "pieces/pcal.png",
+                                    click: function (form, item, icon) {
+                                        // // console.log(form)
+                                        displayDatePicker(item['ID'], form.getItems()[0], 'ymd', '/');
+                                    }
+                                }],
+                                defaultValue: new persianDate().subtract('d', 1).format('YYYY/MM/DD')},
+                        ]
+                    }
+                ),
+                crTab.Layouts.Vlayouts.Chart = isc.VLayout.create()
 
+            ]
+        })
     ]
 })
-crTab.Grids.RemittanceDetail.fetchData({
-    _constructor: "AdvancedCriteria",
-    operator: 'and',
-    criteria: [
-        {
-            fieldName: 'date',
-            operator: 'lessOrEqual',
-            value: new persianDate().subtract('d', 1).format('YYYYMMDD')
-        },
-        {
-            fieldName: 'inventory.weight',
-            operator: 'greaterThan',
-            value: 0
-        },
-    ]
-})
-fetch('api/remittance-detail/spec-list/?criteria=' + JSON.stringify({
-    fieldName: "date",
-    operator: "greaterOrEqual",
-    value: crTab.Methods.getFirstDayOfSeason()
-
-}), {headers: SalesConfigs.httpHeaders}).then(r => {
-    if (r.ok) {
-        r.json().then(
-            j => {
-
-                const dataCame = j.response.data.filter(_ => _.destinationTozin).map(_ => {
-                    _.material = _.inventory.materialItem.gdsName;
-                    _.month = _.date.toString().substr(4, 2)
-                    return _;
-
-                })
-                const dataWent = j.response.data.filter(_ => !_.destinationTozin).map(_ => {
-                    _.material = _.inventory.materialItem.gdsName;
-                    _.month = _.date.toString().substr(4, 2)
-                    return _;
-
-                })
-
-
-                console.log("aaaaa", dataWent,dataCame)
-                crTab.Layouts.Vlayouts.main.addMember(
-                    isc.HLayout.create({members:[
-                            isc.FacetChart.create({
-                                facets: [{
-                                    id: "material",    // the key used for this facet in the data above
-                                    title: "محصول"  // the user-visible title you want in the chart
-                                }, {
-                                    id: "month",
-                                    title: "ماه"
-                                }],
-                                data: dataCame,        // a reference to our data above
-                                valueProperty: "amount", // the property in our data that is the numerical value to chart
-                                chartType: "Pie",
-                                title: "آمار ورودی انبار فصل", // a title for the chart as a whole
-                                showInlineLabels: true,
-                                showDataValues: true,
-                                showDataPoints: true,
-                                showStatisticsOverData: true,
-
-                            }),
-                            isc.FacetChart.create({
-                                facets: [{
-                                    id: "material",    // the key used for this facet in the data above
-                                    title: "محصول"  // the user-visible title you want in the chart
-                                }, {
-                                    id: "month",
-                                    title: "ماه"
-                                }],
-                                data: dataWent,        // a reference to our data above
-                                valueProperty: "amount", // the property in our data that is the numerical value to chart
-                                chartType: "Pie",
-                                title: "آمار خروجی انبار فصل", // a title for the chart as a whole
-                                showInlineLabels: true,
-                                showDataValues: true,
-                                showDataPoints: true,
-                                showStatisticsOverData: true,
-
-                            })
-
-
-                        ]})
-                )
-
-
-            }
-        )
-    }
-})
+crTab.Methods.UpdateInputOutputCharts()
 dbg(false, "crtab", crTab)
 
 //}
