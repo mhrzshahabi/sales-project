@@ -5,6 +5,12 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
  */
+
+contractTab.listGrid.main.setFields(
+    [...contractTab.listGrid.main.getFields(),
+        {name: "parentId", hidden: true}
+    ]
+);
 ////////////////////////////////////////////////////////VARIABLES///////////////////////////////////////////////////////
 contractTab.Vars = {
     Debug: false,
@@ -1205,12 +1211,40 @@ contractTab.Fields = {
 ////////////////////////////////////////////////////////MainContractRefactor////////////////////////////////////////////
 contractTab.ToolStripButtons = {
     Addendum: isc.ToolStripButtonRefresh.create({
-            title: "<spring:message code='contract.addendum'/>",
-            click: contractTab.Methods.NewAddendum
+        title: "<spring:message code='contract.addendum'/>",
+        click: contractTab.Methods.NewAddendum
+    }),
+    filterContracts: isc.ToolStripButtonEdit.create({
+        title: "<spring:message code='global.form.filter'/>",
+        icon: "pieces/16/icon_view.png",
+        click: function () {
+            const contract = contractTab.listGrid.main.getSelectedRecord();
+            if (!contract) return contractTab.dialog.notSelected();
+            const criteriaId = contract.parentId ? contract.parentId : contract.id;
+            contractTab.listGrid.main.filterData({
+                _constructor: "AdvancedCriteria",
+                operator: "or",
+                criteria:
+                    [
+                        {
+                            fieldName: "id",
+                            operator: "equals",
+                            value: criteriaId
+                        },
+                        {
+                            fieldName: "parentId",
+                            operator: "equals",
+                            value: criteriaId
+                        },
+
+                    ]
+            })
+            contractTab.listGrid.main.invalidateCache()
         }
-    )
+    }),
 };
 contractTab.toolStrip.main.addMember(contractTab.ToolStripButtons.Addendum, 3)
+contractTab.toolStrip.main.addMember(contractTab.ToolStripButtons.filterContracts, 3)
 contractTab.listGrid.main.getCellCSSText = function (record, rowNum, colNum) {
     if (record.parentId) {
         return "font-weight:bold; color:#287fd6;";
