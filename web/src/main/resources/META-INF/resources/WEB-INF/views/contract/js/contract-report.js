@@ -761,7 +761,7 @@ crTab.RestDataSources.RemittanceDetail = isc.MyRestDataSource.create({
 ////////////////////////////////////////////////////////COMPONENTS//////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////WINDOWS/////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////MainContractRefactor////////////////////////////////////////////
-isc.VLayout.create({
+crTab.Layouts.Vlayouts.main = isc.VLayout.create({
     width: "100%",
     height: "100%",
     // membersMargin: 20,
@@ -1024,6 +1024,7 @@ isc.VLayout.create({
                 })
             ]
         }),
+
     ]
 })
 crTab.Grids.RemittanceDetail.fetchData({
@@ -1051,19 +1052,66 @@ fetch('api/remittance-detail/spec-list/?criteria=' + JSON.stringify({
     if (r.ok) {
         r.json().then(
             j => {
-                console.log(j)
-                const byMaterialItem = j.response.data.groupBy("inventory.materialItemId")
-                const byMonth = {};
-                Object.keys(byMaterialItem).forEach(materialItemId => {
-                    byMonth[materialItemId] = byMaterialItem[materialItemId].map(_ => {
-                        _.month = _.date
-                            .substr(4, 2);
-                        console.log(_)
-                        return _
-                    })
-                        .groupBy("month")
+
+                const dataCame = j.response.data.filter(_ => _.destinationTozin).map(_ => {
+                    _.material = _.inventory.materialItem.gdsName;
+                    _.month = _.date.toString().substr(4, 2)
+                    return _;
+
                 })
-                console.log(byMonth)
+                const dataWent = j.response.data.filter(_ => !_.destinationTozin).map(_ => {
+                    _.material = _.inventory.materialItem.gdsName;
+                    _.month = _.date.toString().substr(4, 2)
+                    return _;
+
+                })
+
+
+                console.log("aaaaa", dataWent,dataCame)
+                crTab.Layouts.Vlayouts.main.addMember(
+                    isc.HLayout.create({members:[
+                            isc.FacetChart.create({
+                                facets: [{
+                                    id: "material",    // the key used for this facet in the data above
+                                    title: "محصول"  // the user-visible title you want in the chart
+                                }, {
+                                    id: "month",
+                                    title: "ماه"
+                                }],
+                                data: dataCame,        // a reference to our data above
+                                valueProperty: "amount", // the property in our data that is the numerical value to chart
+                                chartType: "Pie",
+                                title: "آمار ورودی انبار فصل", // a title for the chart as a whole
+                                showInlineLabels: true,
+                                showDataValues: true,
+                                showDataPoints: true,
+                                showStatisticsOverData: true,
+
+                            }),
+                            isc.FacetChart.create({
+                                facets: [{
+                                    id: "material",    // the key used for this facet in the data above
+                                    title: "محصول"  // the user-visible title you want in the chart
+                                }, {
+                                    id: "month",
+                                    title: "ماه"
+                                }],
+                                data: dataWent,        // a reference to our data above
+                                valueProperty: "amount", // the property in our data that is the numerical value to chart
+                                chartType: "Pie",
+                                title: "آمار خروجی انبار فصل", // a title for the chart as a whole
+                                showInlineLabels: true,
+                                showDataValues: true,
+                                showDataPoints: true,
+                                showStatisticsOverData: true,
+
+                            })
+
+
+                        ]})
+                )
+
+
             }
         )
     }
