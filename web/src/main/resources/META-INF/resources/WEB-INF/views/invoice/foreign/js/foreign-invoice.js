@@ -15,6 +15,7 @@ foreignInvoiceTab.variable.foreignInvoiceUrl = "${contextPath}" + "/api/foreign-
 foreignInvoiceTab.variable.foreignInvoiceItemUrl = "${contextPath}" + "/api/foreign-invoice-item/";
 foreignInvoiceTab.variable.foreignInvoicePaymentUrl = "${contextPath}" + "/api/foreign-invoice-payment/";
 foreignInvoiceTab.variable.foreignInvoiceItemDetailUrl = "${contextPath}" + "/api/foreign-invoice-item-detail/";
+foreignInvoiceTab.variable.foreignInvoiceBillOfLadingUrl = "${contextPath}" + "/api/foreign-invoice-bill-of-lading/";
 foreignInvoiceTab.variable.billLadingUrl = "${contextPath}" + "/api/bill-of-landing/";
 
 foreignInvoiceTab.variable.invoiceTypeCriteria = {
@@ -40,6 +41,7 @@ foreignInvoiceTab.listGrid.fields = BaseFormItems.concat([
     },
     {
         name: "date",
+        type: "date",
         width: "100%",
         required: true,
         showHover: true,
@@ -84,7 +86,7 @@ foreignInvoiceTab.listGrid.fields = BaseFormItems.concat([
         showHover: true,
         name: "contract.no",
         title: "<spring:message code='foreign-invoice.form.contract'/>"
-    }, ,
+    },
     {
         width: "100%",
         showHover: true,
@@ -99,6 +101,7 @@ foreignInvoiceTab.listGrid.fields = BaseFormItems.concat([
         title: "<spring:message code='foreign-invoice.form.creator'/>"
     },
 ]);
+foreignInvoiceTab.listGrid.fields.filter(q => q.name === "estatus").first().hidden = false;
 foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
     /* Foreign Invoice */
     {
@@ -141,9 +144,8 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
         valueField: "id",
         displayField: "no",
         optionCriteria: {
-            fieldName: "contractTypeId",
-            operator: "equals",
-            value: ImportantIDs.contractType.Primary
+            fieldName: "parentId",
+            operator: "isNull"
         },
         optionDataSource: isc.MyRestDataSource.create({
             fields: [
@@ -193,7 +195,6 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
     {
         required: true,
         disabled: true,
-        multiple: true,
         width: "100%",
         type: "integer",
         name: "shipmentId",
@@ -395,16 +396,16 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
                     operator: "and",
                     criteria:
                         [
-                            {
-                                fieldName: "currencyDate",
-                                operator: "lessOrEqual",
-                                value: toDate.toString()
-                            },
-                            {
-                                fieldName: "currencyDate",
-                                operator: "greaterOrEqual",
-                                value: fromDate.toString()
-                            },
+                            // {
+                            //     fieldName: "currencyDate",
+                            //     operator: "lessOrEqual",
+                            //     value: toDate.toString()
+                            // },
+                            // {
+                            //     fieldName: "currencyDate",
+                            //     operator: "greaterOrEqual",
+                            //     value: fromDate.toString()
+                            // },
                             {
                                 fieldName: "unitFromId",
                                 operator: "equals",
@@ -458,6 +459,7 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
     {
         required: true,
         disabled: true,
+        multiple: true,
         width: "100%",
         type: "integer",
         name: "remittanceDetailId",
@@ -499,19 +501,6 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
 
 //***************************************************** RESTDATASOURCE *************************************************
 
-// foreignInvoiceTab.restDataSource.foreignInvoiceItem = isc.MyRestDataSource.create({
-//     fields: BaseFormItems.concat([]),
-//     fetchDataURL: foreignInvoiceTab.variable.foreignInvoiceItemUrl + "spec-list"
-// });
-// foreignInvoiceTab.restDataSource.foreignInvoicePayment = isc.MyRestDataSource.create({
-//     fields: BaseFormItems.concat([]),
-//     fetchDataURL: foreignInvoiceTab.variable.foreignInvoicePaymentUrl + "spec-list"
-// });
-// foreignInvoiceTab.restDataSource.foreignInvoiceItemDetail = isc.MyRestDataSource.create({
-//     fields: BaseFormItems.concat([]),
-//     fetchDataURL: foreignInvoiceTab.variable.foreignInvoiceItemDetailUrl + "spec-list"
-// });
-
 //******************************************************* COMPONENTS ***************************************************
 
 foreignInvoiceTab.dynamicForm.valuesManager = isc.ValuesManager.create({});
@@ -531,6 +520,7 @@ foreignInvoiceTab.dynamicForm.baseData = isc.DynamicForm.create({
     valuesManager: foreignInvoiceTab.dynamicForm.valuesManager,
     requiredMessage: '<spring:message code="validator.field.is.required"/>'
 });
+
 foreignInvoiceTab.dynamicForm.baseData.validate = function () {
 
     let isValid = this.Super("validate", arguments);
@@ -542,7 +532,8 @@ foreignInvoiceTab.dynamicForm.baseData.validate = function () {
     }
 
     return isValid;
-}
+};
+
 foreignInvoiceTab.button.save = isc.IButtonSave.create({
     margin: 10,
     height: 50,
@@ -598,7 +589,9 @@ foreignInvoiceTab.button.save = isc.IButtonSave.create({
                 contractDetailData: foreignInvoiceTab.variable.contractDetailData,
                 shipment: foreignInvoiceTab.dynamicForm.valuesManager.getValue("shipment"),
                 invoiceType: foreignInvoiceTab.dynamicForm.valuesManager.getValue("invoiceType"),
-                remittanceDetails: foreignInvoiceTab.dynamicForm.valuesManager.getValue("remittanceDetails")
+                remittanceDetails: foreignInvoiceTab.dynamicForm.valuesManager.getValue("remittanceDetails"),
+                assayMilestone: foreignInvoiceTab.dynamicForm.valuesManager.getValue("assayMilestone"),
+                weightMilestone: foreignInvoiceTab.dynamicForm.valuesManager.getValue("weightMilestone")
             });
             foreignInvoiceTab.method.addTab(invoiceBaseValuesComponent, '<spring:message code="foreign-invoice.form.tab.base-values"/>');
 
@@ -608,7 +601,8 @@ foreignInvoiceTab.button.save = isc.IButtonSave.create({
 
                     currency: foreignInvoiceTab.dynamicForm.valuesManager.getValue("currency"),
                     invoiceBaseAssayComponent: invoiceBaseValuesComponent.invoiceBaseAssayComponent,
-                    invoiceBasePriceComponent: invoiceBaseValuesComponent.invoiceBasePriceComponent
+                    invoiceBasePriceComponent: invoiceBaseValuesComponent.invoiceBasePriceComponent,
+                    calculationData: foreignInvoiceTab.dynamicForm.valuesManager.getValue("calculationData")
                 });
                 foreignInvoiceTab.method.addTab(invoiceCalculationComponent, '<spring:message code="foreign-invoice.form.tab.calculation"/>');
 
@@ -617,7 +611,8 @@ foreignInvoiceTab.button.save = isc.IButtonSave.create({
                     let invoiceDeductionComponent = isc.InvoiceDeduction.create({
                         invoiceCalculationComponent: invoiceCalculationComponent,
                         contractDetailData: foreignInvoiceTab.variable.contractDetailData,
-                        currency: foreignInvoiceTab.dynamicForm.valuesManager.getValue('currency')
+                        currency: foreignInvoiceTab.dynamicForm.valuesManager.getValue('currency'),
+                        rcDeductionData: foreignInvoiceTab.dynamicForm.valuesManager.getValue("rcDeductionData")
                     });
                     foreignInvoiceTab.method.addTab(invoiceDeductionComponent, '<spring:message code="foreign-invoice.form.tab.deduction"/>');
 
@@ -626,6 +621,7 @@ foreignInvoiceTab.button.save = isc.IButtonSave.create({
                         let invoicePaymentComponent = isc.InvoicePayment.create({
                             currency: foreignInvoiceTab.dynamicForm.valuesManager.getValue("currency"),
                             shipment: foreignInvoiceTab.dynamicForm.valuesManager.getValue("shipment"),
+                            contract: foreignInvoiceTab.dynamicForm.valuesManager.getValue("contract"),
                             conversionRef: foreignInvoiceTab.dynamicForm.valuesManager.getValue('conversionRef'),
                             invoiceDeductionComponent: invoiceDeductionComponent,
                             invoiceCalculationComponent: invoiceCalculationComponent,
@@ -634,7 +630,8 @@ foreignInvoiceTab.button.save = isc.IButtonSave.create({
                         foreignInvoiceTab.method.addTab(invoicePaymentComponent, '<spring:message code="foreign-invoice.form.tab.payment"/>');
                     }
                 }
-            }        }
+            }
+        }
 
         foreignInvoiceTab.window.main.close();
         foreignInvoiceTab.variable.invoiceForm.justShowForm();
@@ -688,6 +685,7 @@ foreignInvoiceTab.button.selectBillLading = isc.IButtonSave.create({
             null, this.criteria, Number.MAX_VALUE);
     }
 });
+
 foreignInvoiceTab.window.main = isc.Window.nicico.getDefault('<spring:message code="entity.foreign-invoice"/>', [
 
     foreignInvoiceTab.dynamicForm.baseData,
@@ -732,11 +730,33 @@ foreignInvoiceTab.variable.invoiceForm.validate = function (data) {
 
 foreignInvoiceTab.variable.invoiceForm.okCallBack = function (data) {
 
-    console.log(data)
-
     foreignInvoiceTab.method.jsonRPCManagerRequest({
         data: JSON.stringify(data)
-    }, (resp) => foreignInvoiceTab.listGrid.main.invalidateCache());
+    }, (resp) => {
+        if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+
+            foreignInvoiceTab.window.main.close();
+            foreignInvoiceTab.method.refresh(foreignInvoiceTab.listGrid.main);
+            foreignInvoiceTab.dialog.ok();
+        }
+    });
+
+    // isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+    //         actionURL: "${contextPath}/api/foreign-invoice",
+    //         httpMethod: foreignInvoiceTab.variable.method,
+    //         data: JSON.stringify(data),
+    //         params: null,
+    //         callback: function (resp) {
+    //             if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+    //                 foreignInvoiceTab.window.main.close();i
+    //                 foreignInvoiceTab.method.refreshData();
+    //                 isc.say("<spring:message code='global.form.request.successful'/>");
+    //             } else
+    //                 isc.say(resp.data);
+    //         }
+    //     })
+    // );
+
 };
 
 foreignInvoiceTab.variable.invoiceForm.populateData = function (bodyWidget) {
@@ -754,21 +774,60 @@ foreignInvoiceTab.variable.invoiceForm.populateData = function (bodyWidget) {
     if (!invoicePaymentComponent) return null;
 
     let data = foreignInvoiceTab.dynamicForm.valuesManager.getValues();
+    let remittanceDetails = foreignInvoiceTab.dynamicForm.valuesManager.getValue('remittanceDetails');
 
     data.billLadingIds = data.billLadings.map(q => q.id);
     data.buyerId = data.contract.contractContacts.filter(q => q.commercialRole === JSON.parse('${Enum_CommercialRole}').Buyer).first().contactId;
 
     let paymentComponentValues = invoicePaymentComponent.pane.getValues();
-    data.unitCost = paymentComponentValues.unitCost.getValues().value;
-    data.unitPrice = paymentComponentValues.unitPrice.getValues().value;
+    data.unitCost = paymentComponentValues.unitCost;
+    data.unitPrice = paymentComponentValues.unitPrice;
     data.sumPrice = paymentComponentValues.sumPrice.getValues().value;
     data.sumFIPrice = paymentComponentValues.sumFIPrice.getValues().value;
+    data.conversionDate = paymentComponentValues.conversionDate;
+    data.conversionRate = paymentComponentValues.conversionRate;
     data.conversionSumPrice = paymentComponentValues.conversionSumPrice.getValues().value;
-    data.conversionSumPriceText = paymentComponentValues.conversionSumPriceText.getValues().value;
+    data.conversionSumPriceText = paymentComponentValues.conversionSumPriceText;
     data.sumPIPrice = data.sumFIPrice - data.sumPrice;
-    data.foreignInvoicePayment = paymentComponentValues.shipmentCostInvoices;
+    data.foreignInvoicePayments = paymentComponentValues.shipmentCostInvoices;
 
-    data.foreignInvoiceItems = [];
+    foreignInvoiceTab.method.getForeignInvoiceItemDetails = function () {
+        let itemDetails = [];
+        invoiceBaseAssayComponent.getValues().forEach(q => {
+            itemDetails.add({
+                materialElementId: q.materialElementId,
+                assay: q.value,
+                basePrice: invoiceBasePriceComponent.getValues().filter(bp => bp.elementId === q.elementId).first().value,
+                rcPrice: invoiceDeductionComponent.pane.getValues().slice(1).filter(trc => trc.materialElementId === q.materialElementId).first().rcPrice,
+                rcBasePrice: invoiceDeductionComponent.pane.getValues().slice(1).filter(trc => trc.materialElementId === q.materialElementId).first().rcBasePrice.getValues().value,
+                rcUnitConversionRate: invoiceDeductionComponent.pane.getValues().slice(1).filter(trc => trc.materialElementId === q.materialElementId).first().rcUnitConversionRate,
+                deductionType: invoiceCalculationComponent.pane.getValues().filter(ca => ca.elementId === q.elementId).first().deductionType,
+                deductionValue: invoiceCalculationComponent.pane.getValues().filter(ca => ca.elementId === q.elementId).first().deductionValue,
+                deductionUnitConversionRate: invoiceCalculationComponent.pane.getValues().filter(ca => ca.elementId === q.elementId).first().deductionUnitConversionRate,
+                deductionPrice: invoiceCalculationComponent.pane.getValues().filter(ca => ca.elementId === q.elementId).first().deductionPrice
+            })
+        });
+        return itemDetails;
+    };
+
+    foreignInvoiceTab.method.getForeignInvoiceItems = function () {
+        let items = [];
+
+        remittanceDetails.forEach(current => {
+            items.add({
+                weightGW: invoiceBaseWeightComponent.getValues().weightGW.getValues().value,
+                weightND: invoiceBaseWeightComponent.getValues().weightND.getValues().value,
+                treatCost: invoiceDeductionComponent.pane.getValues().filter(q => q.name === "TC").first().value,
+                remittanceDetailId: current.id,
+                assayMilestone: invoiceBaseAssayComponent.getValues()[0].assayMilestone,
+                weightMilestone: invoiceBaseWeightComponent.getValues().weightMilestone,
+                foreignInvoiceItemDetails: foreignInvoiceTab.method.getForeignInvoiceItemDetails()
+            });
+        });
+        return items;
+    };
+
+    data.foreignInvoiceItems = foreignInvoiceTab.method.getForeignInvoiceItems();
 
     delete data.contract;
     delete data.conversionRef;
@@ -776,24 +835,30 @@ foreignInvoiceTab.variable.invoiceForm.populateData = function (bodyWidget) {
     delete data.billLadings;
     delete data.invoiceType;
     delete data.shipment;
+    delete data.toCurrencyId;
+    delete data.remittanceDetails;
+    delete data.remittanceDetailId;
 
-    console.log(data);
-
-    // private ForeignInvoicePaymentDTO.Create foreignInvoicePayment;
-    // private List<ForeignInvoiceItemDTO.Create> foreignInvoiceItems;
-
-    // data.basePrice = invoiceBasePriceComponent.getValues();
-    // foreignInvoiceTab.dynamicForm.valuesManager.setValue("baseWeight", invoiceBaseWeightComponent.getValues());
-    // foreignInvoiceTab.dynamicForm.valuesManager.setValue("baseAssay", invoiceBaseAssayComponent.getValues());
-    // foreignInvoiceTab.dynamicForm.valuesManager.setValue("calculation", invoiceCalculationComponent.pane.getValues());
-    // foreignInvoiceTab.dynamicForm.valuesManager.setValue("deduction", invoiceDeductionComponent.pane.getValues());
-
+    console.log("populate data ", data);
     return data;
 };
 
 foreignInvoiceTab.variable.invoiceForm.init(null, '<spring:message code="entity.foreign-invoice"/>', foreignInvoiceTab.tab.invoice, "70%");
 
+nicico.BasicFormUtil.createListGrid = function () {
+
+    foreignInvoiceTab.listGrid.main = isc.ListGrid.nicico.getDefault(
+        foreignInvoiceTab.listGrid.fields,
+        foreignInvoiceTab.restDataSource.main,
+        foreignInvoiceTab.listGrid.criteria, {
+            sortField: 1,
+            sortDirection: "descending"
+        });
+};
 nicico.BasicFormUtil.getDefaultBasicForm(foreignInvoiceTab, "api/foreign-invoice/");
+nicico.BasicFormUtil.showAllToolStripActions(foreignInvoiceTab);
+nicico.BasicFormUtil.removeExtraActions(foreignInvoiceTab, [nicico.ActionType.DELETE]);
+
 foreignInvoiceTab.dynamicForm.main = null;
 
 //*************************************************** Functions ********************************************************
@@ -805,318 +870,338 @@ foreignInvoiceTab.method.newForm = function () {
     foreignInvoiceTab.dynamicForm.valuesManager.clearErrors();
     foreignInvoiceTab.tab.invoice.removeTabs(foreignInvoiceTab.tab.invoice.tabs);
     foreignInvoiceTab.dynamicForm.baseData.getFields().forEach(field => {
+
+        if (field.name === "date" || field.name === "invoiceTypeId")
+            field.enable();
+
         if (!field.changed) return;
         field.changed(foreignInvoiceTab.dynamicForm.baseData, field, field.getValue());
     });
 
-    foreignInvoiceTab.dynamicForm.valuesManager.setValues({
-        "date": "2020-08-22T07:30:00.000Z",
-        "billLadings": [
-            {
-                "documentNo": "حالا۱۲۳حالا بیخیال غصه",
-                "switchDocumentNo": "حالا۱۲۳حالا بیخیال غصه",
-                "shipperExporterId": 2058,
-                "switchShipperExporterId": 2058,
-                "notifyPartyId": 24,
-                "switchNotifyPartyId": 24,
-                "consigneeId": 2058,
-                "switchConsigneeId": 2058,
-                "portOfLoadingId": 30,
-                "switchPortOfLoadingId": 30,
-                "portOfDischargeId": 3,
-                "switchPortOfDischargeId": 3,
-                "placeOfDelivery": "12",
-                "oceanVesselId": 32,
-                "numberOfBlCopies": 12,
-                "dateOfIssue": 1597735800000,
-                "placeOfIssue": "12",
-                "description": "12",
-                "totalNet": 12,
-                "totalGross": 12,
-                "totalBundles": 12,
-                "id": 62,
-                "shipperExporter": {
-                    "nameFA": "لاکی هرایزن لیمیتد",
-                    "nameEN": "LUCKY HORIZEN LIMITED",
-                    "phone": "+862156237847",
-                    "address": "RM 19C LOCKHART CTR 301-307",
-                    "type": true,
-                    "status": true,
-                    "commercialRole": "Seller",
-                    "seller": true,
-                    "buyer": false,
-                    "countryId": 1,
-                    "id": 2058,
-                    "country": {
-                        "nameFa": "ایران",
-                        "nameEn": "Iran (Islamic Republic of)"
-                    },
-                    "createdDate": 1597293065534,
-                    "createdBy": "r.mazloom",
-                    "lastModifiedDate": 1597293674270,
-                    "lastModifiedBy": "r.mazloom",
-                    "version": 3
-                },
-                "switchShipperExporter": {
-                    "nameFA": "لاکی هرایزن لیمیتد",
-                    "nameEN": "LUCKY HORIZEN LIMITED",
-                    "phone": "+862156237847",
-                    "address": "RM 19C LOCKHART CTR 301-307",
-                    "type": true,
-                    "status": true,
-                    "commercialRole": "Seller",
-                    "seller": true,
-                    "buyer": false,
-                    "countryId": 1,
-                    "id": 2058,
-                    "country": {
-                        "nameFa": "ایران",
-                        "nameEn": "Iran (Islamic Republic of)"
-                    },
-                    "createdDate": 1597293065534,
-                    "createdBy": "r.mazloom",
-                    "lastModifiedDate": 1597293674270,
-                    "lastModifiedBy": "r.mazloom",
-                    "version": 3
-                },
-                "notifyParty": {
-                    "nameFA": "ژیائوفنگ",
-                    "nameEN": "zhyaofeng",
-                    "phone": "8690",
-                    "type": false,
-                    "status": true,
-                    "tradeMark": "ZH-COPPER",
-                    "commercialRole": "Agent Seller,Agent Buyer",
-                    "seller": false,
-                    "buyer": false,
-                    "transporter": false,
-                    "shipper": false,
-                    "inspector": false,
-                    "insurancer": false,
-                    "agentBuyer": true,
-                    "agentSeller": true,
-                    "ceo": "linchan",
-                    "countryId": 2,
-                    "id": 24,
-                    "country": {
-                        "nameFa": "چین",
-                        "nameEn": "China"
-                    },
-                    "createdDate": 1596256929444,
-                    "createdBy": "devadmin",
-                    "lastModifiedDate": 1597640650586,
-                    "lastModifiedBy": "devadmin",
-                    "version": 9
-                },
-                "switchNotifyParty": {
-                    "nameFA": "ژیائوفنگ",
-                    "nameEN": "zhyaofeng",
-                    "phone": "8690",
-                    "type": false,
-                    "status": true,
-                    "tradeMark": "ZH-COPPER",
-                    "commercialRole": "Agent Seller,Agent Buyer",
-                    "seller": false,
-                    "buyer": false,
-                    "transporter": false,
-                    "shipper": false,
-                    "inspector": false,
-                    "insurancer": false,
-                    "agentBuyer": true,
-                    "agentSeller": true,
-                    "ceo": "linchan",
-                    "countryId": 2,
-                    "id": 24,
-                    "country": {
-                        "nameFa": "چین",
-                        "nameEn": "China"
-                    },
-                    "createdDate": 1596256929444,
-                    "createdBy": "devadmin",
-                    "lastModifiedDate": 1597640650586,
-                    "lastModifiedBy": "devadmin",
-                    "version": 9
-                },
-                "consignee": {
-                    "nameFA": "لاکی هرایزن لیمیتد",
-                    "nameEN": "LUCKY HORIZEN LIMITED",
-                    "phone": "+862156237847",
-                    "address": "RM 19C LOCKHART CTR 301-307",
-                    "type": true,
-                    "status": true,
-                    "commercialRole": "Seller",
-                    "seller": true,
-                    "buyer": false,
-                    "countryId": 1,
-                    "id": 2058,
-                    "country": {
-                        "nameFa": "ایران",
-                        "nameEn": "Iran (Islamic Republic of)"
-                    },
-                    "createdDate": 1597293065534,
-                    "createdBy": "r.mazloom",
-                    "lastModifiedDate": 1597293674270,
-                    "lastModifiedBy": "r.mazloom",
-                    "version": 3
-                },
-                "switchConsignee": {
-                    "nameFA": "لاکی هرایزن لیمیتد",
-                    "nameEN": "LUCKY HORIZEN LIMITED",
-                    "phone": "+862156237847",
-                    "address": "RM 19C LOCKHART CTR 301-307",
-                    "type": true,
-                    "status": true,
-                    "commercialRole": "Seller",
-                    "seller": true,
-                    "buyer": false,
-                    "countryId": 1,
-                    "id": 2058,
-                    "country": {
-                        "nameFa": "ایران",
-                        "nameEn": "Iran (Islamic Republic of)"
-                    },
-                    "createdDate": 1597293065534,
-                    "createdBy": "r.mazloom",
-                    "lastModifiedDate": 1597293674270,
-                    "lastModifiedBy": "r.mazloom",
-                    "version": 3
-                },
-                "portOfLoading": {
-                    "port": "ZHOUSHAN",
-                    "countryId": 2,
-                    "id": 30,
-                    "country": {
-                        "nameFa": "چین",
-                        "nameEn": "China",
-                        "id": 2,
-                        "createdDate": 1595302644624,
-                        "createdBy": "j.azad",
-                        "version": 0,
-                        "editable": true,
-                        "estatus": [
-                            "Active"
-                        ]
-                    },
-                    "createdDate": 1587866229644,
-                    "createdBy": "db_mazloom",
-                    "version": 0,
-                    "editable": true,
-                    "estatus": [
-                        "Active"
-                    ]
-                },
-                "switchPortOfLoading": {
-                    "port": "ZHOUSHAN",
-                    "countryId": 2,
-                    "id": 30,
-                    "country": {
-                        "nameFa": "چین",
-                        "nameEn": "China",
-                        "id": 2,
-                        "createdDate": 1595302644624,
-                        "createdBy": "j.azad",
-                        "version": 0,
-                        "editable": true,
-                        "estatus": [
-                            "Active"
-                        ]
-                    },
-                    "createdDate": 1587866229644,
-                    "createdBy": "db_mazloom",
-                    "version": 0,
-                    "editable": true,
-                    "estatus": [
-                        "Active"
-                    ]
-                },
-                "portOfDischarge": {
-                    "port": "SHANGHAI",
-                    "countryId": 2,
-                    "id": 3,
-                    "country": {
-                        "nameFa": "چین",
-                        "nameEn": "China",
-                        "id": 2,
-                        "createdDate": 1595302644624,
-                        "createdBy": "j.azad",
-                        "version": 0,
-                        "editable": true,
-                        "estatus": [
-                            "Active"
-                        ]
-                    },
-                    "createdDate": 1587732958179,
-                    "createdBy": "db_mazloom",
-                    "lastModifiedDate": 1587865761876,
-                    "lastModifiedBy": "db_mazloom",
-                    "version": 3,
-                    "editable": true,
-                    "estatus": [
-                        "Active"
-                    ]
-                },
-                "switchPortOfDischarge": {
-                    "port": "SHANGHAI",
-                    "countryId": 2,
-                    "id": 3,
-                    "country": {
-                        "nameFa": "چین",
-                        "nameEn": "China",
-                        "id": 2,
-                        "createdDate": 1595302644624,
-                        "createdBy": "j.azad",
-                        "version": 0,
-                        "editable": true,
-                        "estatus": [
-                            "Active"
-                        ]
-                    },
-                    "createdDate": 1587732958179,
-                    "createdBy": "db_mazloom",
-                    "lastModifiedDate": 1587865761876,
-                    "lastModifiedBy": "db_mazloom",
-                    "version": 3,
-                    "editable": true,
-                    "estatus": [
-                        "Active"
-                    ]
-                },
-                "oceanVessel": {
-                    "name": "SEA TOPAZ",
-                    "type": "Bulk Carrier",
-                    "imo": "9557240",
-                    "yearOfBuild": 2010,
-                    "length": 177.4,
-                    "beam": 28.2,
-                    "id": 32,
-                    "createdDate": 1588382222492,
-                    "createdBy": "db_mazloom",
-                    "version": 0,
-                    "editable": true,
-                    "estatus": [
-                        "Active"
-                    ]
-                },
-                "containers": [],
-                "createdDate": 1597726005093,
-                "createdBy": "db_saeb",
-                "version": 0,
-                "editable": true,
-                "estatus": [
-                    "Active"
-                ],
-                "_selection_108": true
-            }
-        ],
-        "toCurrencyId": -33,
-        "conversionRefId": 124,
-        "invoiceTypeId": 1,
-        "contractId": 294,
-        "shipmentId": 73,
-        "creatorId": 2,
-        "currencyId": -32,
-        "description": "This is test"
-    });
+    // foreignInvoiceTab.dynamicForm.valuesManager.setValues({
+    //     "date": "2020-08-31T07:30:00.000Z",
+    //     "billLadings": [
+    //         {
+    //             "documentNo": "حالا۱۲۳حالا بیخیال غصه",
+    //             "switchDocumentNo": "حالا۱۲۳حالا بیخیال غصه",
+    //             "shipperExporterId": 2058,
+    //             "switchShipperExporterId": 2058,
+    //             "notifyPartyId": 24,
+    //             "switchNotifyPartyId": 24,
+    //             "consigneeId": 2058,
+    //             "switchConsigneeId": 2058,
+    //             "portOfLoadingId": 30,
+    //             "switchPortOfLoadingId": 30,
+    //             "portOfDischargeId": 3,
+    //             "switchPortOfDischargeId": 3,
+    //             "placeOfDelivery": "12",
+    //             "oceanVesselId": 32,
+    //             "numberOfBlCopies": 12,
+    //             "dateOfIssue": 1597735800000,
+    //             "placeOfIssue": "12",
+    //             "description": "12",
+    //             "totalNet": 12,
+    //             "totalGross": 12,
+    //             "totalBundles": 12,
+    //             "id": 62,
+    //             "shipperExporter": {
+    //                 "nameFA": "لاکی هرایزن لیمیتد",
+    //                 "nameEN": "LUCKY HORIZEN LIMITED",
+    //                 "phone": "869011111111134",
+    //                 "address": "RM 19C LOCKHART CTR 301-307",
+    //                 "type": true,
+    //                 "status": true,
+    //                 "commercialRole": "Seller",
+    //                 "seller": true,
+    //                 "buyer": false,
+    //                 "countryId": 1,
+    //                 "id": 2058,
+    //                 "country": {
+    //                     "nameFa": "ایران",
+    //                     "nameEn": "Iran (Islamic Republic of)"
+    //                 },
+    //                 "createdDate": 1597293065534,
+    //                 "createdBy": "r.mazloom",
+    //                 "lastModifiedDate": 1598093743015,
+    //                 "lastModifiedBy": "devadmin",
+    //                 "version": 5
+    //             },
+    //             "switchShipperExporter": {
+    //                 "nameFA": "لاکی هرایزن لیمیتد",
+    //                 "nameEN": "LUCKY HORIZEN LIMITED",
+    //                 "phone": "869011111111134",
+    //                 "address": "RM 19C LOCKHART CTR 301-307",
+    //                 "type": true,
+    //                 "status": true,
+    //                 "commercialRole": "Seller",
+    //                 "seller": true,
+    //                 "buyer": false,
+    //                 "countryId": 1,
+    //                 "id": 2058,
+    //                 "country": {
+    //                     "nameFa": "ایران",
+    //                     "nameEn": "Iran (Islamic Republic of)"
+    //                 },
+    //                 "createdDate": 1597293065534,
+    //                 "createdBy": "r.mazloom",
+    //                 "lastModifiedDate": 1598093743015,
+    //                 "lastModifiedBy": "devadmin",
+    //                 "version": 5
+    //             },
+    //             "notifyParty": {
+    //                 "nameFA": "ژیائوفنگ",
+    //                 "nameEN": "zhyaofeng",
+    //                 "phone": "8690111111111",
+    //                 "type": false,
+    //                 "bankAccount": "686868",
+    //                 "bankShaba": "IR567575775777556675677777",
+    //                 "bankSwift": "567567567",
+    //                 "status": true,
+    //                 "tradeMark": "ZH-COPPER",
+    //                 "commercialRole": "Agent Seller,Agent Buyer",
+    //                 "seller": false,
+    //                 "buyer": false,
+    //                 "transporter": false,
+    //                 "shipper": false,
+    //                 "inspector": false,
+    //                 "insurancer": false,
+    //                 "agentBuyer": true,
+    //                 "agentSeller": true,
+    //                 "ceo": "linchan",
+    //                 "countryId": 2,
+    //                 "id": 24,
+    //                 "country": {
+    //                     "nameFa": "چین",
+    //                     "nameEn": "FkChina"
+    //                 },
+    //                 "createdDate": 1596256929444,
+    //                 "createdBy": "devadmin",
+    //                 "lastModifiedDate": 1598334787441,
+    //                 "lastModifiedBy": "devadmin",
+    //                 "version": 22
+    //             },
+    //             "switchNotifyParty": {
+    //                 "nameFA": "ژیائوفنگ",
+    //                 "nameEN": "zhyaofeng",
+    //                 "phone": "8690111111111",
+    //                 "type": false,
+    //                 "bankAccount": "686868",
+    //                 "bankShaba": "IR567575775777556675677777",
+    //                 "bankSwift": "567567567",
+    //                 "status": true,
+    //                 "tradeMark": "ZH-COPPER",
+    //                 "commercialRole": "Agent Seller,Agent Buyer",
+    //                 "seller": false,
+    //                 "buyer": false,
+    //                 "transporter": false,
+    //                 "shipper": false,
+    //                 "inspector": false,
+    //                 "insurancer": false,
+    //                 "agentBuyer": true,
+    //                 "agentSeller": true,
+    //                 "ceo": "linchan",
+    //                 "countryId": 2,
+    //                 "id": 24,
+    //                 "country": {
+    //                     "nameFa": "چین",
+    //                     "nameEn": "FkChina"
+    //                 },
+    //                 "createdDate": 1596256929444,
+    //                 "createdBy": "devadmin",
+    //                 "lastModifiedDate": 1598334787441,
+    //                 "lastModifiedBy": "devadmin",
+    //                 "version": 22
+    //             },
+    //             "consignee": {
+    //                 "nameFA": "لاکی هرایزن لیمیتد",
+    //                 "nameEN": "LUCKY HORIZEN LIMITED",
+    //                 "phone": "869011111111134",
+    //                 "address": "RM 19C LOCKHART CTR 301-307",
+    //                 "type": true,
+    //                 "status": true,
+    //                 "commercialRole": "Seller",
+    //                 "seller": true,
+    //                 "buyer": false,
+    //                 "countryId": 1,
+    //                 "id": 2058,
+    //                 "country": {
+    //                     "nameFa": "ایران",
+    //                     "nameEn": "Iran (Islamic Republic of)"
+    //                 },
+    //                 "createdDate": 1597293065534,
+    //                 "createdBy": "r.mazloom",
+    //                 "lastModifiedDate": 1598093743015,
+    //                 "lastModifiedBy": "devadmin",
+    //                 "version": 5
+    //             },
+    //             "switchConsignee": {
+    //                 "nameFA": "لاکی هرایزن لیمیتد",
+    //                 "nameEN": "LUCKY HORIZEN LIMITED",
+    //                 "phone": "869011111111134",
+    //                 "address": "RM 19C LOCKHART CTR 301-307",
+    //                 "type": true,
+    //                 "status": true,
+    //                 "commercialRole": "Seller",
+    //                 "seller": true,
+    //                 "buyer": false,
+    //                 "countryId": 1,
+    //                 "id": 2058,
+    //                 "country": {
+    //                     "nameFa": "ایران",
+    //                     "nameEn": "Iran (Islamic Republic of)"
+    //                 },
+    //                 "createdDate": 1597293065534,
+    //                 "createdBy": "r.mazloom",
+    //                 "lastModifiedDate": 1598093743015,
+    //                 "lastModifiedBy": "devadmin",
+    //                 "version": 5
+    //             },
+    //             "portOfLoading": {
+    //                 "port": "ZHOUSHAN",
+    //                 "countryId": 2,
+    //                 "id": 30,
+    //                 "country": {
+    //                     "nameFa": "چین",
+    //                     "nameEn": "FkChina",
+    //                     "id": 2,
+    //                     "createdDate": 1595302644624,
+    //                     "createdBy": "j.azad",
+    //                     "lastModifiedDate": 1598846835554,
+    //                     "lastModifiedBy": "db_zare",
+    //                     "version": 1,
+    //                     "editable": true,
+    //                     "estatus": [
+    //                         "Active"
+    //                     ]
+    //                 },
+    //                 "createdDate": 1587866229644,
+    //                 "createdBy": "db_mazloom",
+    //                 "version": 0,
+    //                 "editable": true,
+    //                 "estatus": [
+    //                     "Active"
+    //                 ]
+    //             },
+    //             "switchPortOfLoading": {
+    //                 "port": "ZHOUSHAN",
+    //                 "countryId": 2,
+    //                 "id": 30,
+    //                 "country": {
+    //                     "nameFa": "چین",
+    //                     "nameEn": "FkChina",
+    //                     "id": 2,
+    //                     "createdDate": 1595302644624,
+    //                     "createdBy": "j.azad",
+    //                     "lastModifiedDate": 1598846835554,
+    //                     "lastModifiedBy": "db_zare",
+    //                     "version": 1,
+    //                     "editable": true,
+    //                     "estatus": [
+    //                         "Active"
+    //                     ]
+    //                 },
+    //                 "createdDate": 1587866229644,
+    //                 "createdBy": "db_mazloom",
+    //                 "version": 0,
+    //                 "editable": true,
+    //                 "estatus": [
+    //                     "Active"
+    //                 ]
+    //             },
+    //             "portOfDischarge": {
+    //                 "port": "SHANGHAI",
+    //                 "countryId": 2,
+    //                 "id": 3,
+    //                 "country": {
+    //                     "nameFa": "چین",
+    //                     "nameEn": "FkChina",
+    //                     "id": 2,
+    //                     "createdDate": 1595302644624,
+    //                     "createdBy": "j.azad",
+    //                     "lastModifiedDate": 1598846835554,
+    //                     "lastModifiedBy": "db_zare",
+    //                     "version": 1,
+    //                     "editable": true,
+    //                     "estatus": [
+    //                         "Active"
+    //                     ]
+    //                 },
+    //                 "createdDate": 1587732958179,
+    //                 "createdBy": "db_mazloom",
+    //                 "lastModifiedDate": 1587865761876,
+    //                 "lastModifiedBy": "db_mazloom",
+    //                 "version": 3,
+    //                 "editable": true,
+    //                 "estatus": [
+    //                     "Active"
+    //                 ]
+    //             },
+    //             "switchPortOfDischarge": {
+    //                 "port": "SHANGHAI",
+    //                 "countryId": 2,
+    //                 "id": 3,
+    //                 "country": {
+    //                     "nameFa": "چین",
+    //                     "nameEn": "FkChina",
+    //                     "id": 2,
+    //                     "createdDate": 1595302644624,
+    //                     "createdBy": "j.azad",
+    //                     "lastModifiedDate": 1598846835554,
+    //                     "lastModifiedBy": "db_zare",
+    //                     "version": 1,
+    //                     "editable": true,
+    //                     "estatus": [
+    //                         "Active"
+    //                     ]
+    //                 },
+    //                 "createdDate": 1587732958179,
+    //                 "createdBy": "db_mazloom",
+    //                 "lastModifiedDate": 1587865761876,
+    //                 "lastModifiedBy": "db_mazloom",
+    //                 "version": 3,
+    //                 "editable": true,
+    //                 "estatus": [
+    //                     "Active"
+    //                 ]
+    //             },
+    //             "oceanVessel": {
+    //                 "name": "SEA TOPAZ",
+    //                 "type": "Bulk Carrier",
+    //                 "imo": "9557240",
+    //                 "yearOfBuild": 2010,
+    //                 "length": 177.4,
+    //                 "beam": 28.2,
+    //                 "id": 32,
+    //                 "createdDate": 1588382222492,
+    //                 "createdBy": "db_mazloom",
+    //                 "version": 0,
+    //                 "editable": true,
+    //                 "estatus": [
+    //                     "Active"
+    //                 ]
+    //             },
+    //             "containers": [],
+    //             "createdDate": 1597726005093,
+    //             "createdBy": "db_saeb",
+    //             "version": 0,
+    //             "editable": true,
+    //             "estatus": [
+    //                 "Active"
+    //             ],
+    //             "_selection_344": true,
+    //             "_embeddedComponents_isc_ListGrid_1": null
+    //         }
+    //     ],
+    //     "invoiceTypeId": 1,
+    //     "contractId": 294,
+    //     "shipmentId": 73,
+    //     "remittanceDetailId": 152,
+    //     "creatorId": 3,
+    //     "currencyId": -32,
+    //     "toCurrencyId": -33,
+    //     "conversionRefId": 124,
+    //     "description": "desc"
+    // });
 
     foreignInvoiceTab.dynamicForm.baseData.redraw();
     foreignInvoiceTab.window.main.show();
@@ -1135,15 +1220,111 @@ foreignInvoiceTab.method.editForm = function () {
         foreignInvoiceTab.dialog.finalRecord();
     else {
 
-        foreignInvoiceTab.variable.method = "PUT";
-        foreignInvoiceTab.dynamicForm.valuesManager.clearValues();
-        foreignInvoiceTab.dynamicForm.valuesManager.editRecord(record);
-        foreignInvoiceTab.dynamicForm.baseData.getFields().forEach(field => {
-            if (!field.changed) return;
-            field.changed(foreignInvoiceTab.dynamicForm.baseData, field, field.getValue());
-        });
+        foreignInvoiceTab.method.jsonRPCManagerRequest({
+            httpMethod: "GET",
+            actionURL: foreignInvoiceTab.variable.foreignInvoiceBillOfLadingUrl + "spec-list",
+            params: {
+                criteria: {
+                    operator: "and",
+                    criteria: [{fieldName: "foreignInvoiceId", operator: "equals", value: record.id}]
+                }
+            },
+            callback: function (billOfLadingResp) {
 
-        foreignInvoiceTab.window.main.show();
+                foreignInvoiceTab.method.jsonRPCManagerRequest({
+                    httpMethod: "GET",
+                    actionURL: foreignInvoiceTab.variable.foreignInvoicePaymentUrl + "spec-list",
+                    params: {
+                        criteria: {
+                            operator: "and",
+                            criteria: [{fieldName: "foreignInvoiceId", operator: "equals", value: record.id}]
+                        }
+                    },
+                    callback: function (paymentResp) {
+
+                        foreignInvoiceTab.method.jsonRPCManagerRequest({
+                            httpMethod: "GET",
+                            actionURL: foreignInvoiceTab.variable.foreignInvoiceItemUrl + "spec-list",
+                            params: {
+                                criteria: {
+                                    operator: "and",
+                                    criteria: [{fieldName: "foreignInvoiceId", operator: "equals", value: record.id}]
+                                }
+                            },
+                            callback: function (itemResp) {
+
+                                let itemValue = JSON.parse(itemResp.httpResponseText).response.data[0];
+                                foreignInvoiceTab.method.jsonRPCManagerRequest({
+                                    httpMethod: "GET",
+                                    actionURL: foreignInvoiceTab.variable.foreignInvoiceItemDetailUrl + "spec-list",
+                                    params: {
+                                        criteria: {
+                                            operator: "and",
+                                            criteria: [{
+                                                fieldName: "foreignInvoiceItemId",
+                                                operator: "equals",
+                                                value: itemValue.id
+                                            }]
+                                        }
+                                    },
+                                    callback: function (itemDetailResp) {
+
+                                        let itemDetailValues = JSON.parse(itemDetailResp.httpResponseText).response.data;
+
+                                        let rcRowData = [];
+                                        let calculationRowData = [];
+                                        itemDetailValues.forEach(detail => {
+
+                                            calculationRowData.add({
+                                                foreignInvoiceItemId: itemValue.id,
+                                                materialElementId: detail.materialElementId,
+                                                deductionValue: detail.deductionValue,
+                                                deductionType: detail.deductionType,
+                                                deductionUnitConversionRate: detail.deductionUnitConversionRate
+                                            });
+                                            rcRowData.add({
+                                                foreignInvoiceItemId: itemValue.id,
+                                                materialElementId: detail.materialElementId,
+                                                rcUnitConversionRate: detail.rcUnitConversionRate
+                                            });
+                                        });
+
+                                        foreignInvoiceTab.variable.method = "PUT";
+                                        let paymentValues = JSON.parse(paymentResp.httpResponseText).response.data;
+                                        let billOfLadingValues = JSON.parse(billOfLadingResp.httpResponseText).response.data;
+
+                                        foreignInvoiceTab.dynamicForm.valuesManager.clearValues();
+                                        foreignInvoiceTab.dynamicForm.valuesManager.setValues(record);
+                                        foreignInvoiceTab.dynamicForm.valuesManager.setValue("rcDeductionData", rcRowData);
+                                        foreignInvoiceTab.dynamicForm.valuesManager.setValue("calculationData", calculationRowData);
+                                        foreignInvoiceTab.dynamicForm.valuesManager.setValue("payments", paymentValues);
+                                        foreignInvoiceTab.dynamicForm.valuesManager.setValue('assayMilestone', itemValue.assayMilestone);
+                                        foreignInvoiceTab.dynamicForm.valuesManager.setValue('weightMilestone', itemValue.weightMilestone);
+                                        foreignInvoiceTab.dynamicForm.valuesManager.setValue("billLadings", billOfLadingValues.map(q => q.billOfLanding));
+                                        foreignInvoiceTab.dynamicForm.valuesManager.setValue("date", new Date(record.date));
+                                        foreignInvoiceTab.dynamicForm.valuesManager.setValue("toCurrencyId", record.conversionRef.unitToId);
+                                        foreignInvoiceTab.dynamicForm.valuesManager.setValue("contractId", record.shipment.contractShipment.contractId);
+                                        foreignInvoiceTab.dynamicForm.valuesManager.setValue("remittanceDetailId", itemValue.remittanceDetailId);
+
+                                        foreignInvoiceTab.button.selectBillLading.enable();
+                                        foreignInvoiceTab.tab.invoice.removeTabs(foreignInvoiceTab.tab.invoice.tabs);
+                                        foreignInvoiceTab.dynamicForm.baseData.getFields().forEach(field => {
+
+                                            if (field.name === "date" || field.name === "invoiceTypeId")
+                                                field.disable();
+                                            else
+                                                field.enable();
+                                        });
+
+                                        foreignInvoiceTab.window.main.show();
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+        });
     }
 };
 

@@ -14,10 +14,11 @@ public class InvoiceNoGenerator {
 
     public String createInvoiceNo(String invoiceTypeTitle, Integer persianYear, Integer persianMonth, String matAbbreviation, String contractNo) {
 
-        String base = "" + persianYear + "" + persianMonth + "/" + matAbbreviation + "-" + contractNo + "/";
+        String base = String.format(String.valueOf(persianYear % 100), "00") +
+                String.format(String.valueOf(persianMonth), "00") + "/" +
+                matAbbreviation + "-" + contractNo + "/";
         Long invoiceSeq = shipmentCostInvoiceDAO.findNextInvoiceSequence();
 
-        // lotfan az enum estefade bshavad.
         switch (invoiceTypeTitle) {
             case "PROFORMA":
                 base = base + "01" + invoiceSeq;

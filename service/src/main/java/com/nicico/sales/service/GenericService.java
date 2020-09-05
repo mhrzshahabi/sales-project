@@ -335,7 +335,6 @@ public abstract class GenericService<T, ID extends Serializable, C, R, U, D> imp
         List<EStatus> eStatus = ((BaseEntity) entity).getEStatus();
         if (!eStatus.contains(EStatus.Final))
             eStatus.add(EStatus.Final);
-        eStatus.remove(EStatus.Disapprovement);
 
         validation(entity, id);
 
@@ -345,7 +344,7 @@ public abstract class GenericService<T, ID extends Serializable, C, R, U, D> imp
     @Override
     @Action(value = ActionType.Disapprove)
     @Transactional
-    public R Disapprove(ID id) {
+    public R disapprove(ID id) {
 
         final Optional<T> entityById = repository.findById(id);
         final T entity = entityById.orElseThrow(() -> new NotFoundException(tType));
@@ -356,8 +355,6 @@ public abstract class GenericService<T, ID extends Serializable, C, R, U, D> imp
             throw new DeActiveRecordException();
 
         List<EStatus> eStatus = ((BaseEntity) entity).getEStatus();
-        if (!eStatus.contains(EStatus.Disapprovement))
-            eStatus.add(EStatus.Disapprovement);
         eStatus.remove(EStatus.Final);
 
         validation(entity, id);

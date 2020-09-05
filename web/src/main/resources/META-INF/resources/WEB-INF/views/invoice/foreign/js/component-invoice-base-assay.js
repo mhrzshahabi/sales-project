@@ -10,6 +10,7 @@ isc.defineClass("InvoiceBaseAssay", isc.VLayout).addProperties({
     overflow: "visible",
     shipment: null,
     remittanceDetail: null,
+    assayMilestone: null,
     initWidget: function () {
 
         this.Super("initWidget", arguments);
@@ -39,7 +40,7 @@ isc.defineClass("InvoiceBaseAssay", isc.VLayout).addProperties({
                         params: {
                             reportMilestone: value,
                             shipmentId: This.shipment.id,
-                            inventoryIds: [This.remittanceDetail.inventoryId]
+                            inventoryIds: [This.remittanceDetail.inventory.id]
                         },
                         actionURL: "${contextPath}" + "/api/assayInspection/get-assay-values",
                         callback: function (resp) {
@@ -101,8 +102,11 @@ isc.defineClass("InvoiceBaseAssay", isc.VLayout).addProperties({
                 }
             }]
         }));
+        if (this.assayMilestone === undefined)
+            this.getMembers()[0].setValue("reportMilestone", 1);
+        else
+            this.getMembers()[0].setValue("reportMilestone", this.assayMilestone);
 
-        this.getMembers()[0].setValue("reportMilestone", 1);
         this.getMembers()[0].getItem(0).changed(this.getMembers()[0], this.getMembers()[0].getItem(0), 1);
     },
     getValues: function () {
@@ -111,6 +115,7 @@ isc.defineClass("InvoiceBaseAssay", isc.VLayout).addProperties({
         this.getMembers().slice(1).forEach(current => {
 
             data.add({
+                assayMilestone: this.getMembers()[0].getField("reportMilestone").getValue(),
                 name: current.name,
                 unit: current.unit,
                 elementId: current.elementId,
@@ -119,7 +124,6 @@ isc.defineClass("InvoiceBaseAssay", isc.VLayout).addProperties({
                 unitId: current.getValues().unitId
             });
         });
-
         return data;
     },
 });

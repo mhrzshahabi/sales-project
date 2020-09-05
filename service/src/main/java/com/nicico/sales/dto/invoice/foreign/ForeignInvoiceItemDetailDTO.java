@@ -21,7 +21,7 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ForeignInvoiceItemDetailDTO {
 
-    private BigDecimal assay;
+    private BigDecimal assay;//
     private BigDecimal basePrice;
     private BigDecimal rcPrice;
     private BigDecimal rcBasePrice;
@@ -29,7 +29,7 @@ public class ForeignInvoiceItemDetailDTO {
     private DeductionType deductionType;
     private BigDecimal deductionValue;
     private BigDecimal deductionUnitConversionRate;
-    private BigDecimal deductionPrice;
+    private BigDecimal deductionPrice;//
     private Long foreignInvoiceItemId;
     private Long materialElementId;
 
