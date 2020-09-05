@@ -463,9 +463,13 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
 
     @Override
     public List<Object> getOperationalDataOfContractArticle(Long contractId, String articleCode, String articleKey) {
+
+        if (contractId == null)
+            return new ArrayList<>();
+
         final EContractDetailTypeCode eContractDetailTypeCode = Arrays.stream(EContractDetailTypeCode.values())
                 .filter(e -> e
-                .getId().equals(articleCode)).findAny()
+                        .getId().equals(articleCode)).findAny()
                 .orElseThrow(NotFoundException::new);
         final EContractDetailValueKey eContractDetailValueKeyOptional = Enums.getIfPresent(EContractDetailValueKey.class,
                 articleKey).orNull();
@@ -474,15 +478,8 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
                 eContractDetailTypeCode,
                 eContractDetailValueKeyOptional
         );
-        if (map.size()==0) return null;
-        final List<Object> objectList = map.get(eContractDetailValueKeyOptional.name());
-        return objectList;
-
-
-
-
-
-
+        if (map.size() == 0) return new ArrayList<>();
+        return map.get(eContractDetailValueKeyOptional.name());
     }
 
     private Set<ContractShipment> getContractShipmentsWithShipment(ContractDTO2.Create request) {
