@@ -173,11 +173,13 @@
         transformRequest: function (dsRequest) {
 
             dsRequest.params = {
-
-                contractId: DynamicForm_Shipment.getValue("contractId"),
                 code: JSON.parse('${Enum_EContractDetailTypeCode}').ShipmentDetailCode,
                 contractDetailValueKey: JSON.parse('${Enum_EContractDetailValueKey}').NotImportant
             };
+
+            let contractId1 = DynamicForm_Shipment.getValue("contractId");
+            if(contractId1)
+                dsRequest.params.contractId = contractId1;
 
             this.Super("transformRequest", arguments);
         },
@@ -538,8 +540,6 @@
                         title: "<spring:message code='contract.contractNo'/>"
                     },
                 ],
-                click(form, item) {
-                },
                 changed: function (form, item, value) {
                     let record = DynamicForm_Shipment.getItem("contractId").getSelectedRecord();
                     let buyerId = record.contractContacts.filter(c => (c.commercialRole === 'Buyer'))[0].contactId;
@@ -571,12 +571,16 @@
                     {name: "quantity"},
                     {name: "sendDate"},
                 ],
-                click(form, item) {
-                },
                 changed: function (form, item, value) {
                     let d = new Date(item.getSelectedRecord().sendDate);
                     DynamicForm_Shipment.setValue("sendDate", d);
                 }
+            },
+            {
+                name: "shipmentSendDate", ID: "shipmentSendDate",
+                title: "<spring:message code='shipmentContract.list'/>",
+                hidden: true,
+                type: "staticText",
             },
             {
                 name: "contract.contact.nameFA",
@@ -649,6 +653,7 @@
                 type: 'float',
                 required: true,
                 width: "100%",
+                length: 9,
                 keyPressFilter: "[0-9.]",
                 validators: [{
                     type: "isFloat",
@@ -1085,6 +1090,8 @@
         abal.enable();
         abal.fetchData();
         shipment.enable();
+        DynamicForm_Shipment.getItem("contractShipmentId").show();
+        DynamicForm_Shipment.getItem("shipmentSendDate").hide();
         Window_Shipment.animateShow();
     }
 
@@ -1116,7 +1123,10 @@
             abal.disable();
             shipment.disable();
             Window_Shipment.animateShow();
-        }
+            DynamicForm_Shipment.getItem("contractShipmentId").hide();
+            DynamicForm_Shipment.getItem("shipmentSendDate").show();
+            DynamicForm_Shipment.getItem("shipmentSendDate").setValue(ListGrid_Shipment.getSelectedRecord().contractShipment.sendDate);
+         }
     }
 
     function ListGrid_Shipment_dcc() {

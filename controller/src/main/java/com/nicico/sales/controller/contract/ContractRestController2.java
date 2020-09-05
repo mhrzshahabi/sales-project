@@ -91,8 +91,8 @@ public class ContractRestController2 {
     @GetMapping(value = "/latest-version-of-data-response")
     public ResponseEntity<Map<String, Object>> latestVersionOfDataResponse(
             @RequestParam String code,
-            @RequestParam Long contractId,
-            @RequestParam String contractDetailValueKey) {
+            @RequestParam String contractDetailValueKey,
+            @RequestParam(required = false) Long contractId) {
 
         return new ResponseEntity<>(specListUtil.getCoveredByResponse(
                 contractService.getOperationalDataOfContractArticle(contractId,
