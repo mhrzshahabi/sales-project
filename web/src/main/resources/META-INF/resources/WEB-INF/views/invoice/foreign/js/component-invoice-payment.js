@@ -225,7 +225,7 @@ isc.defineClass("InvoicePayment", isc.VLayout).addProperties({
                     right: "10",
                     position: "absolute",
                     // icon: "pieces/512/sanad.png",
-                    title: "<spring:message code='foreign-invoice.form.choose-shipment-cost-invoice'/>",
+                    title: "<spring:message code='foreign-invoice.form.tab.payment.shipment.cost'/>",
                     click: function () {
 
                         This.paymentForm.showFindFormByData(null, "50%", "500",
