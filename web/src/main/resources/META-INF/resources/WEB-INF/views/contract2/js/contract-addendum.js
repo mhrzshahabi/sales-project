@@ -1141,7 +1141,7 @@ contractTab.Methods.SaveAddendum = async function () {
             if (resp.httpResponseCode === 201 || resp.httpResponseCode === 200) {
                 contractTab.dialog.ok();
                 contractTab.method.refresh(contractTab.listGrid.main);
-                contractTab.window.main.close();
+                contractTab.Window.Addendum.destroy();
             } else
                 contractTab.dialog.error(resp);
         }

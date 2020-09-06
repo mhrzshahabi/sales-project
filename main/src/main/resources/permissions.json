@@ -166,7 +166,7 @@
     },
     {
       "code": "R_CONTRACT_SHIPMENT",
-      "title": "نمایش تعیین مشخصات محموله"
+      "title": "نمایش حمل قرارداد"
     },
     {
       "code": "C_CONTRACT_SHIPMENT",
@@ -762,7 +762,23 @@
     },
     {
       "code": "R_TOZIN",
-      "title": "نمایش بین المجامع"
+      "title": "نمایش توزین"
+    },
+    {
+      "code": "C_TOZIN",
+      "title": "ایجاد توزین"
+    },
+    {
+      "code": "U_TOZIN",
+      "title": "به روز رسانی توزین"
+    },
+    {
+      "code": "D_TOZIN",
+      "title": "حذف توزین"
+    },
+    {
+      "code": "O_TOZIN",
+      "title": "خروجی توزین"
     },
     {
       "code": "R_UNIT",
@@ -1604,6 +1620,10 @@
     {
       "code": "R_TOZIN_LITE",
       "title": "نمایش محصولات در راه"
+    },
+    {
+      "code": "C_SHIPMENT_DCC",
+      "title": "پیوست الگوی بارگیری"
     }
   ]
 }
