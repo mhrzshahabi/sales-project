@@ -2,10 +2,7 @@ package com.nicico.sales.service;
 
 import com.ghasemkiani.util.icu.PersianCalendar;
 import com.nicico.sales.annotation.Action;
-import com.nicico.sales.dto.ContractDTO;
-import com.nicico.sales.dto.InvoiceTypeDTO;
-import com.nicico.sales.dto.ShipmentCostInvoiceDTO;
-import com.nicico.sales.dto.ShipmentCostInvoiceDetailDTO;
+import com.nicico.sales.dto.*;
 import com.nicico.sales.enumeration.ActionType;
 import com.nicico.sales.enumeration.ErrorType;
 import com.nicico.sales.exception.NotFoundException;
@@ -34,7 +31,7 @@ public class ShipmentCostInvoiceService extends GenericService<ShipmentCostInvoi
 
     private final ShipmentCostInvoiceDetailService shipmentCostInvoiceDetailService;
     private final InvoiceTypeService invoiceTypeService;
-    private final ContractService contractService;
+    private final ShipmentService shipmentService ;
     private final InvoiceNoGenerator invoiceNoGenerator;
     private final ResourceBundleMessageSource messageSource;
     private final UpdateUtil updateUtil;
@@ -46,9 +43,10 @@ public class ShipmentCostInvoiceService extends GenericService<ShipmentCostInvoi
 
         PersianCalendar calendar = new PersianCalendar(request.getInvoiceDate());
         InvoiceTypeDTO.Info invoiceTypeDTO = invoiceTypeService.get(request.getInvoiceTypeId());
-        ContractDTO.Info contractDTO = contractService.get(request.getContractId());
+        ShipmentDTO.Info shipmentDTO = shipmentService.get(request.getShipmentId());
 
-        request.setInvoiceNo(invoiceNoGenerator.createInvoiceNo(invoiceTypeDTO.getTitle(), calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, contractDTO.getMaterial().getAbbreviation(), contractDTO.getContractNo()));
+//        request.setInvoiceNo(invoiceNoGenerator.createInvoiceNo(invoiceTypeDTO.getTitle(), calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, contractDTO.getMaterial().getAbbreviation(), contractDTO.getContractNo()));
+        request.setInvoiceNo(invoiceNoGenerator.createInvoiceNo(invoiceTypeDTO.getTitle(), calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, shipmentDTO.getMaterial().getAbbreviation(), shipmentDTO.getContractShipment().getContract().getNo()));
 
         ShipmentCostInvoiceDTO.Info shipmentCostInvoiceDTO = super.create(request);
 
