@@ -121,8 +121,8 @@ public class ViewInvoiceInternal {
     @Column(name = "INVOICELATINDESC")
     private String invoiceLatinDesc;
 
-    @Column(name = "INVOICEOTHERDEDUCTIONS")
-    private Long invoiceOtherDeductions;
+    @Column(name = "INVOICEOTHERDEDUCTIONS", precision = 10)
+    private Double invoiceOtherDeductions;
 
     @Column(name = "INVOICEPERSIANDESC")
     private String invoicePersianDesc;
@@ -139,14 +139,14 @@ public class ViewInvoiceInternal {
     @Column(name = "INVOICESERIAL")
     private String invoiceSerial;
 
-    @Column(name = "INVOICETOTALTAX")
-    private Long invoiceTotalTax;
+    @Column(name = "INVOICETOTALTAX", precision = 10)
+    private Double invoiceTotalTax;
 
     @Column(name = "INVOICETOTALWEIGHT")
     private String invoiceTotalWeight;
 
-    @Column(name = "INVOICEUNITPRICE")
-    private Long invoiceUnitPrice;
+    @Column(name = "INVOICEUNITPRICE", precision = 10)
+    private Double invoiceUnitPrice;
 
     @Column(name = "INVOICEVALUEADDED")
     private String invoiceValueAdded;
@@ -184,8 +184,8 @@ public class ViewInvoiceInternal {
     @Column(name = "PERCENTAGE")
     private String percentage;
 
-    @Column(name = "POLLUTIONCHARGEAMOUNT")
-    private Long pollutionChargeAmount;
+    @Column(name = "POLLUTIONCHARGEAMOUNT", precision = 10)
+    private Double pollutionChargeAmount;
 
     @Column(name = "POLLUTIONCOSTCENTERCODE")
     private String pollutionCostCenterCode;
@@ -217,21 +217,21 @@ public class ViewInvoiceInternal {
     @Column(name = "SALESTYPE")
     private Integer salesType;
 
-    @Column(name = "TAXCHARGEAMOUNT")
-    private Long taxChargeAmount;
+    @Column(name = "TAXCHARGEAMOUNT", precision = 10)
+    private Double taxChargeAmount;
 
     @Column(name = "TAXCOSTCENTERCODE")
     private String taxCostCenterCode;
 
-    @Column(name = "TOTALAMOUNT")
-    private Long TotalAmount;
+    @Column(name = "TOTALAMOUNT", precision = 10)
+    private Double TotalAmount;
 
-    @Column(name = "TOTALDEDUCTIONS")
-    private Long totalDeductions;
+    @Column(name = "TOTALDEDUCTIONS", precision = 10)
+    private Double totalDeductions;
 
     @Column(name = "UNITID")
     private String unitId;
 
-    @Column(name = "UNITPRICE")
-    private Long unitPrice;
+    @Column(name = "UNITPRICE", precision = 10)
+    private Double unitPrice;
 }
