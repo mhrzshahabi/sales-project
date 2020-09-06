@@ -701,7 +701,7 @@ crTab.Methods.getFirstDayOfSeason = () => {
     const firstMonthOfThisSeason = Number(((today.month() - 1) / 3).toFixed(1).substr(0, 1)) * 3 + 1
     return today.year().toString() + "/" + firstMonthOfThisSeason.toString().padStart(2, "0") + "/01"
 }
-crTab.Methods.UpdateInputOutputCharts = function() {
+crTab.Methods.UpdateInputOutputCharts = function () {
     crTab.Grids.RemittanceDetail.fetchData({
         _constructor: "AdvancedCriteria",
         operator: 'and',
@@ -718,6 +718,21 @@ crTab.Methods.UpdateInputOutputCharts = function() {
             },
         ]
     })
+    const fromYear = Number(crTab.DynamicForms.ChartDate.getValue('fromDate').replaceAll("/", "").substr(0, 4));
+    const fromMonth = Number(crTab.DynamicForms.ChartDate.getValue('fromDate').replaceAll("/", "").substr(4, 2));
+    const toYear = Number(crTab.DynamicForms.ChartDate.getValue('toDate').replaceAll("/", "").substr(0, 4));
+    const toMonth = Number(crTab.DynamicForms.ChartDate.getValue('toDate').replaceAll("/", "").substr(0, 2));
+    const _facet = fromYear - toYear !== 0 ? {
+        id: "year",
+        title: "ماه"
+    } : (toMonth - fromMonth > 0 ? {
+        id: "month",
+        title: "سال"
+    } : {
+        id: "day",
+        title: "روز"
+    })
+    // dbg(true,_facet)
     fetch('api/remittance-detail/spec-list/?criteria=' + JSON.stringify(
         {
             _constructor: "AdvancedCriteria",
@@ -727,12 +742,12 @@ crTab.Methods.UpdateInputOutputCharts = function() {
                     {
                         fieldName: "date",
                         operator: "lessOrEqual",
-                        value: crTab.DynamicForms.ChartDate.getValue('toDate').replaceAll("/","")
+                        value: crTab.DynamicForms.ChartDate.getValue('toDate').replaceAll("/", "")
                     },
                     {
                         fieldName: "date",
                         operator: "greaterOrEqual",
-                        value: crTab.DynamicForms.ChartDate.getValue('fromDate').replaceAll("/","")
+                        value: crTab.DynamicForms.ChartDate.getValue('fromDate').replaceAll("/", "")
 
                     },]
         }), {headers: SalesConfigs.httpHeaders}).then(r => {
@@ -742,13 +757,17 @@ crTab.Methods.UpdateInputOutputCharts = function() {
 
                     const dataCame = j.response.data.filter(_ => _.destinationTozin).map(_ => {
                         _.material = _.inventory.materialItem.gdsName;
-                        _.month = _.date.toString().substr(4, 2)
+                        _.day = _.date.toString().substr(6, 2);
+                        _.month = _.date.toString().substr(4, 2);
+                        _.year = _.date.toString().substr(0, 4);
                         return _;
 
                     })
                     const dataWent = j.response.data.filter(_ => !_.destinationTozin).map(_ => {
                         _.material = _.inventory.materialItem.gdsName;
-                        _.month = _.date.toString().substr(4, 2)
+                        _.day = _.date.toString().substr(6, 2);
+                        _.month = _.date.toString().substr(4, 2);
+                        _.year = _.date.toString().substr(0, 4);
                         return _;
 
                     })
@@ -760,14 +779,11 @@ crTab.Methods.UpdateInputOutputCharts = function() {
                                     facets: [{
                                         id: "material",    // the key used for this facet in the data above
                                         title: "محصول"  // the user-visible title you want in the chart
-                                    }, {
-                                        id: "month",
-                                        title: "ماه"
-                                    }],
+                                    }, _facet],
                                     data: dataCame,        // a reference to our data above
                                     valueProperty: "amount", // the property in our data that is the numerical value to chart
                                     chartType: "Pie",
-                                    title: "آمار ورودی انبار از "+
+                                    title: "آمار ورودی انبار از " +
                                         crTab.DynamicForms.ChartDate.getValue('fromDate') +
                                         'تا ' +
                                         crTab.DynamicForms.ChartDate.getValue('toDate'), // a title for the chart as a whole
@@ -781,15 +797,12 @@ crTab.Methods.UpdateInputOutputCharts = function() {
                                     facets: [{
                                         id: "material",    // the key used for this facet in the data above
                                         title: "محصول"  // the user-visible title you want in the chart
-                                    }, {
-                                        id: "month",
-                                        title: "ماه"
-                                    }],
+                                    }, _facet],
                                     data: dataWent,        // a reference to our data above
                                     valueProperty: "amount", // the property in our data that is the numerical value to chart
                                     chartType: "Pie",
-                                    title: "آمار خروجی انبار از "+
-                                    crTab.DynamicForms.ChartDate.getValue('fromDate') +
+                                    title: "آمار خروجی انبار از " +
+                                        crTab.DynamicForms.ChartDate.getValue('fromDate') +
                                         'تا ' +
                                         crTab.DynamicForms.ChartDate.getValue('toDate'), // a title for the chart as a whole
                                     showInlineLabels: true,
@@ -1138,12 +1151,13 @@ crTab.Layouts.Vlayouts.main = isc.VLayout.create({
                 }),
                 isc.HLayout.create({
                     height: "10%",
-                    members:[
+                    members: [
                         crTab.DynamicForms.ChartDate = isc.DynamicForm.create(
                             {
                                 numCols: 4,
                                 fields: [
-                                    {name: "fromDate",
+                                    {
+                                        name: "fromDate",
                                         title: "<spring:message code='dailyWarehouse.fromDay'/>",
                                         defaultValue: crTab.Methods.getFirstDayOfSeason(),
                                         // editorExit:crTab.Methods.UpdateInputOutputCharts,
@@ -1156,7 +1170,8 @@ crTab.Layouts.Vlayouts.main = isc.VLayout.create({
                                             }
                                         }],
                                     },
-                                    {name: "toDate",
+                                    {
+                                        name: "toDate",
                                         title: "<spring:message code='dailyWarehouse.toDay'/>",
                                         // editorExit:crTab.Methods.UpdateInputOutputCharts,
                                         keyPressFilter: "[0-9/]",
@@ -1167,16 +1182,18 @@ crTab.Layouts.Vlayouts.main = isc.VLayout.create({
                                                 displayDatePicker(item['ID'], form.getItems()[0], 'ymd', '/');
                                             }
                                         }],
-                                        defaultValue: new persianDate().subtract('d', 1).format('YYYY/MM/DD')},
+                                        defaultValue: new persianDate().subtract('d', 1).format('YYYY/MM/DD')
+                                    },
                                 ]
                             }
                         ),
-                        isc.SpacerItem.create({height:1}),
+                        isc.SpacerItem.create({height: 1}),
                         isc.ToolStripButtonRefresh.create({
-                            title:" فیلتر",
+                            title: " فیلتر",
                             click: crTab.Methods.UpdateInputOutputCharts
                         })
-                    ]}),
+                    ]
+                }),
 
                 crTab.Layouts.Vlayouts.Chart = isc.VLayout.create()
 
@@ -1186,7 +1203,20 @@ crTab.Layouts.Vlayouts.main = isc.VLayout.create({
 })
 crTab.Methods.UpdateInputOutputCharts()
 dbg(false, "crtab", crTab)
-
+await fetch('remittance-detail/excel' +
+    JSON.stringify({
+        operator: "and", criteroa: [{fieldName: "inventory.materialItemId", operator: "equals", value: 3},
+            {fieldName: "inventory.weight", operator: "greaterOrEqual", value: 1}]
+    }),
+    {
+        Headers: SalesConfigs.httpHeaders,
+        method: "POST", body: JSON.stringify({
+            request:{
+                header:['id'],
+                doesNotNeedFetch:false
+            }
+        })
+    })
 //}
 //)
 
