@@ -44,4 +44,9 @@ public class MaterialItem extends BaseEntity {
     @Column(name = "MI_DETAIL_CODE")
     private String miDetailCode;
 
+    @Column(name = "C_ACC_DETAIL")
+    private String accDetail;
+
+    @Column(name = "C_ACC_DETAIL_ID")
+    private Long accDetailId;
 }
