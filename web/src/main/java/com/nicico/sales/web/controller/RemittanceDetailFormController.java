@@ -17,6 +17,7 @@ import net.sf.jasperreports.engine.data.JsonDataSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -36,12 +37,14 @@ public class RemittanceDetailFormController {
     private final ReportUtil reportUtil;
     private final SpecListUtil specListUtil;
     private final MakeExcelOutputUtil makeExcelOutputUtil;
+
     //
     @RequestMapping("/showForm")
     public String showWarehouseCad() {
         return "product/remittance-detail";
     }
-//
+
+    //
 //    @RequestMapping("/showWarehouseCadForm")
 //    public String showWarehouseCadForm() {
 //        return "product/warehouseCad_Bijack";
@@ -59,22 +62,23 @@ public class RemittanceDetailFormController {
 //
     @PostMapping("/excel")
     public void ExportToExcel(@RequestParam MultiValueMap<String, String> criteria,
-                              RemittanceDetailDTO.Excel request, HttpServletResponse response) throws Exception {
+                              @RequestBody RemittanceDetailDTO.Excel request,
+                              HttpServletResponse response) throws Exception {
         List<Object> resp = new ArrayList<>();
         if (!request.getDoesNotNeedFetch()) {
             NICICOCriteria provideNICICOCriteria = specListUtil.provideNICICOCriteria(criteria, RemittanceDetailDTO.Info.class);
             List<RemittanceDetailDTO.Info> data = service.search(provideNICICOCriteria).getResponse().getData();
             if (data != null) resp.addAll(data);
-        }
-        else {
+        } else {
             final List<RemittanceDetailDTO.Info> requestRows = request.getRows();
-            if(requestRows != null && requestRows.size()>0) resp.addAll(requestRows);
+            if (requestRows != null && requestRows.size() > 0) resp.addAll(requestRows);
         }
         byte[] bytes = makeExcelOutputUtil.makeOutput(resp, RemittanceDetailDTO.Info.class, request.getFields(),
                 request.getHeader(), true, request.getTopRowTitle());
         makeExcelOutputUtil.makeExcelResponse(bytes, response);
     }
-//
+
+    //
     @Loggable
     @RequestMapping(value = {"/report"})
     public void print(@RequestParam MultiValueMap<String, String> criteria,

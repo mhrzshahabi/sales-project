@@ -823,9 +823,46 @@ crTab.Methods.UpdateInputOutputCharts = function () {
         }
     })
 }
+crTab.Methods.makeRemittanceDetailExcell = async function (
+    criteria = {
+        operator: "and", criteria: [{fieldName: "inventory.materialItemId", operator: "equals", value: 3},
+            {fieldName: "inventory.weight", operator: "greaterOrEqual", value: 1}]
+    },
+    rows = crTab.Grids.RemittanceDetail.getOriginalData().localdata,
+    topRowTitle = "محصولات موجود در انبار",
+    nicicoCriteria = null,
+    header = crTab.Fields.RemittanceDetailFullFields().map(_ => {
+        return _.title ? _.title : _.name
+    }),
+    fields = crTab.Fields.RemittanceDetailFullFields().map(_ => _.name),
+    doesNotNeedFetch = false
+) {
+    const response = await fetch('remittance-detail/excel?' +
+        JSON.stringify(criteria),
+        {
+            headers: SalesConfigs.httpHeaders,
+            method: "POST", body: JSON.stringify({
 
+                rows: rows,
+                topRowTitle: topRowTitle,
+                nicicoCriteria: nicicoCriteria,
+                header: header,
+                fields: fields,
+                doesNotNeedFetch: doesNotNeedFetch
+
+            })
+        })
+    if (response.ok) {
+        const b = await response.blob();
+        const excelUrl = URL.createObjectURL(b);
+        const a = document.createElement('a');
+        a.href = excelUrl;
+        a.setAttribute('download', "123.xlsx")
+        a.click()
+    }
+}
 ////////////////////////////////////////////////////////FIELDS//////////////////////////////////////////////////////////
-crTab.Fields.RemittanceDetail = _ => [
+crTab.Fields.RemittanceDetailGrid = _ => [
     {
         name: "date", hidden: true, type: "text",
         filterEditorProperties: {
@@ -874,10 +911,409 @@ crTab.Fields.RemittanceDetail = _ => [
         hidden: true
     },
 ]
+crTab.Fields.TozinBase = function () {
+    return [
+        {
+            name: "date",
+            required: true,
+            type: "text",
+        },
+        {
+            name: "tozinId",
+            title: "<spring:message code='Tozin.tozinPlantId'/>"
+        },
+        {
+            name: "driverName",
+            title: "<spring:message code='Tozin.driver'/>"
+        },
+        {
+            name: "codeKala",
+        },
+        {
+            name: "plak",
+            title: "<spring:message code='Tozin.plak.container'/>",
+        },
+        {
+            name: "vazn",
+            title: "<spring:message code='Tozin.vazn'/>",
+        },
+        {
+            name: "sourceId",
+            title: "<spring:message code='Tozin.sourceId'/>",
+        },
+        {
+            name: "targetId",
+            title: "<spring:message code='Tozin.targetId'/>",
+        },
+    ];
+}
+crTab.Fields.TozinTable = function () {
+    return [
+        ...crTab.Fields.TozinBase(),
+        {
+            name: 'isInView',
+            title: "اطلاعات از لجستیک",
+        },
+        {name: 'haveCode', hidden: true},
+        {name: 'cardId', hidden: true},
+        {name: 'ctrlDescOut', title: "شرح"},
+        {name: 'version', hidden: true},
+    ];
+}
+crTab.Fields.TozinLite = function () {
+    return [
+        ...crTab.Fields.TozinBase(),
+        {
+            name: "containerNo1",
+            title: "<spring:message code='Tozin.containerNo1'/>",
+        },
+        {
+            name: "containerNo3", hidden: true,
+            title: "<spring:message code='Tozin.containerNo3'/> - نوع حمل",
+        },
+        {
+            name: "havalehCode", hidden: true,
+            title: "<spring:message code='Tozin.haveCode'/>",
+        },
+    ];
+}
+crTab.Fields.TozinFull = function () {
+    return [
+        ...crTab.Fields.TozinLite(),
+        {
+            name: "source",
+            title: "<spring:message code='Tozin.source'/>",
+
+        },
+        {
+            name: "nameKala",
+            title: "<spring:message code='Tozin.nameKala'/>",
+
+        },
+        {
+            name: "target",
+            title: "<spring:message code='Tozin.target'/>",
+
+        },
+        {
+            name: "cardId",
+            title: "<spring:message code='Tozin.cardId'/>",
+        },
+        {
+            name: "carName",
+            title: "<spring:message code='Tozin.carName'/>",
+        },
+        {
+            name: "containerId",
+            title: "<spring:message code='Tozin.containerId'/>",
+
+        },
+        {
+            name: "containerName",
+            title: "<spring:message code='Tozin.containerName'/>",
+        },
+        {
+            name: "vazn1",
+            title: "<spring:message code='Tozin.vazn1'/>",
+        },
+        {
+            name: "vazn2",
+            title: "<spring:message code='Tozin.vazn2'/>",
+        },
+        {
+            name: "condition",
+            title: "<spring:message code='Tozin.condition'/>",
+        },
+        {
+            name: "tedad",
+            title: "<spring:message code='Tozin.tedad'/>",
+        },
+        {
+            name: "unitKala",
+            title: "<spring:message code='Tozin.unitKala'/>",
+        },
+        {
+            name: "packName",
+            title: "<spring:message code='Tozin.packName'/>",
+        },
+        {
+            name: "haveCode",
+            title: "<spring:message code='Tozin.haveCode'/>",
+        },
+        {
+            name: "tozinDate",
+            showHover: true,
+        },
+        {
+            name: "tozinTime",
+            title: "<spring:message code='Tozin.tozinTime'/>",
+        },
+        {
+            name: "havalehName",
+            title: "<spring:message code='Tozin.havalehName'/>",
+            align: "center"
+        },
+        {
+            name: "havalehFrom",
+            title: "<spring:message code='Tozin.havalehFrom'/>",
+            align: "center"
+        },
+        {
+            name: "carNo1",
+            title: "<spring:message code='Tozin.carNo1'/>",
+            align: "center"
+        },
+        {
+            name: "carNo3",
+            title: "<spring:message code='Tozin.carNo3'/>",
+            align: "center"
+        },
+        {
+            name: "isFinal",
+            title: "<spring:message code='Tozin.isFinal'/>",
+            align: "center"
+        },
+        {
+            name: "ctrlDescOut",
+            title: "<spring:message code='Tozin.isFinal'/>",
+            align: "center"
+        },
+        {
+            name: "tznSharh2",
+            title: "<spring:message code='Tozin.isFinal'/>",
+            align: "center"
+        }, {
+            name: "strSharh2",
+            title: "<spring:message code='Tozin.isFinal'/>",
+            align: "center"
+        }, {
+            name: "tznSharh1",
+            title: "<spring:message code='Tozin.isFinal'/>",
+            align: "center"
+        },
+
+        {
+            name: "havalehDate",
+            title: "<spring:message code='Tozin.havalehDate'/>",
+            align: "center"
+        },
+
+
+    ];
+}
+crTab.Fields.RemittanceDetail = function () {
+    return [
+        {name: "id", hidden: true, type: "number"},
+        {
+            name: "remittanceId", hidden: true,
+        },
+        {name: "depot.id", hidden: true, title: "دپو",},
+        {
+            name: "unitId",
+            type: "number",
+            title: "واحد",
+        },
+        {
+            name: "amount",
+            title: "تعداد محصول",
+
+
+        },
+        {
+            name: "weight",
+            title: "وزن",
+
+
+        },
+        {
+            name: "sourceTozin.tozinId",
+            title: "توزین مبدا",
+
+        },
+        {
+            name: "destinationTozin.tozinId",
+            title: "توزین مقصد",
+
+
+        },
+        {
+            name: "securityPolompNo",
+            title: "پلمپ حراست",
+
+
+        },
+        {
+            name: "railPolompNo",
+            title: "پلمپ راه‌آهن",
+
+
+        },
+        {
+            name: "description",
+            title: "توضیحات پکیج",
+
+
+        },
+    ];
+}
+crTab.Fields.RemittanceDetailFullFields = function () {
+    return [
+
+        {
+            name: "inventory.label",
+            title: "سریال محصول",
+        },
+        {
+            name: "inventory.materialItem.id",
+            type: "number",
+            title: "محصول",
+            hidden: true,
+        },
+        {
+            name: "inventory.materialItem.gdsName",
+            type: "number",
+            title: "محصول",
+            hidden: true,
+        },
+        {
+            name: "destinationTozin.sourceId",
+        },
+        {
+            name: "destinationTozin.date",
+            title: "تاریخ توزین مقصد",
+
+
+        },
+        {
+            name: "destinationTozin.targetId",
+
+
+        },
+        {
+            name: "depot.name", showHover: true, title: "دپو", formatCellValue(value, record) {
+            },
+        },
+        {
+            name: "depot.store.name", showHover: true, title: "سوله/محوطه", formatCellValue(value, record) {
+            },
+        },
+        {
+            name: "depot.store.warehouse.name", showHover: true, title: "انبار", formatCellValue(value, record) {
+            },
+        },
+        ...crTab.Fields.RemittanceDetail(),
+
+    ];
+}
+crTab.Fields.Remittance = function () {
+    return [
+        {
+            name: 'code', title: "شماره بیجک",
+        },
+        {
+            name: 'description', title: "شرح بیجک",
+        },
+        {name: 'id', title: "شناسه", hidden: true},
+    ];
+}
+crTab.Fields.RemittanceFull = function () {
+    return [
+        ...crTab.Fields.Remittance(),
+        {
+            name: "remittanceDetails.sourceTozin.tozinId",
+            title: "توزین مبدا",
+        },
+        {
+            name: "remittanceDetails.inventory.materialItem.id",
+            type: "number",
+            title: "محصول",
+        },
+        {
+            name: "remittanceDetails.destinationTozin.sourceId",
+            title: "مبدا",
+            filterOperator: "equals",
+        },
+        {
+            ...crTab.Fields.TozinBase().find(t => t.name === 'date'),
+            name: "remittanceDetails.sourceTozin.date",
+            title: "تاریخ توزین مبدا",
+
+        },
+        {
+            ...crTab.Fields.TozinBase().find(t => t.name === 'date'),
+            name: "remittanceDetails.destinationTozin.date",
+            title: "تاریخ توزین مقصد",
+
+
+        },
+        {
+            name: "remittanceDetails.destinationTozin.targetId",
+            title: "مقصد",
+            hidden: true,
+        },
+        {
+            name: "remittanceDetails.depot.name",
+            // valueMap: SalesBaseParameters.getSavedWarehouseParameter().getValueMap("id", "name"),
+            title: "دپو",
+            showHover: true,
+        }
+    ];
+}
+crTab.Fields.Inventory = function () {
+    return [
+        {
+            name: 'materialItemId',
+            valueMap: SalesBaseParameters.getSavedMaterialItemParameter().getValueMap("id", "gdsName"),
+            title: 'محصول',
+            disabled: true,
+
+        },
+        {name: 'label', title: 'سریال محصول'},
+        {name: 'id', title: 'شناسه', hidden: true,},
+    ];
+}
+crTab.Fields.Depot = function () {
+    return [
+        {name: "store.warehouse.name", title: "انبار"},
+        {name: "store.name", title: "سوله/محوطه"},
+        {name: "name", title: "یارد"}
+    ];
+}
+crTab.Fields.Shipment = function () {
+    return [
+        {name: "id", primaryKey: true, canEdit: false, hidden: true},
+        {name: "code", title: "<spring:message code='contact.code'/>"},
+        {name: "nameFA", title: "<spring:message code='contact.nameFa'/>"},
+        {name: "nameEN", title: "<spring:message code='contact.nameEn'/>"},
+        {name: "commertialRole"},
+        {name: "phone", title: "<spring:message code='contact.phone'/>"},
+        {name: "mobile", title: "<spring:message code='contact.mobile'/>"},
+        {
+            name: "type", title: "<spring:message code='contact.type'/>",
+            valueMap: {
+                "true": "<spring:message code='contact.type.real'/>",
+                "false": "<spring:message code='contact.type.legal'/>"
+            }
+        },
+        {name: "economicalCode", title: "<spring:message code='contact.economicalCode'/>"},
+        {
+            name: "status", title: "<spring:message code='contact.status'/>",
+            valueMap: {
+                "true": "<spring:message code='enabled'/>", "false": "<spring:message code='disabled'/>"
+            }
+        },
+        {name: "contactAccounts"},
+        {name: "country.nameFa", title: "<spring:message code='country.nameFa'/>"},
+
+        {name: "bookingCat", title: "<spring:message code='shipment.bookingCat'/>", align: "center"}
+
+
+    ];
+}
 ////////////////////////////////////////////////////////DATASOURCE//////////////////////////////////////////////////////
 crTab.RestDataSources.RemittanceDetail = isc.MyRestDataSource.create({
     fetchDataURL: 'api/remittance-detail/spec-list',
-    fields: crTab.Fields.RemittanceDetail()
+    fields: crTab.Fields.RemittanceDetailGrid()
 });
 ////////////////////////////////////////////////////////GRIDS///////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////DYNAMICFORMS////////////////////////////////////////////////////
@@ -1122,7 +1558,7 @@ crTab.Layouts.Vlayouts.main = isc.VLayout.create({
             members: [
                 crTab.Grids.RemittanceDetail = isc.ListGrid.create({
                     title: "موجودی انبار",
-                    fields: crTab.Fields.RemittanceDetail(),
+                    fields: crTab.Fields.RemittanceDetailGrid(),
                     dataFetchMode: "basic",
                     showGroupSummary: true,
                     groupStartOpen: "none",
@@ -1206,22 +1642,7 @@ dbg(false, "crtab", crTab)
 
 //}
 //)
-fetch('remittance-detail/excel' +
-    JSON.stringify({
-        operator: "and", criteroa: [{fieldName: "inventory.materialItemId", operator: "equals", value: 3},
-            {fieldName: "inventory.weight", operator: "greaterOrEqual", value: 1}]
-    }),
-    {
-        Headers: SalesConfigs.httpHeaders,
-        method: "POST", body: JSON.stringify({
-            request:{
-                header:['id'],
-                doesNotNeedFetch:false
-            }
-        })
-    }).then(
-        response=>{
-            debugger;
-        }
-)
+
+
+
 
