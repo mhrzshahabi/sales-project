@@ -5,6 +5,7 @@ import com.nicico.sales.dto.contract.ContractDetailTypeDTO;
 import com.nicico.sales.dto.contract.ContractDetailTypeParamDTO;
 import com.nicico.sales.dto.contract.ContractDetailTypeTemplateDTO;
 import com.nicico.sales.enumeration.ActionType;
+import com.nicico.sales.enumeration.EContractDetailTypeCode;
 import com.nicico.sales.enumeration.ErrorType;
 import com.nicico.sales.exception.NotFoundException;
 import com.nicico.sales.exception.SalesException2;
@@ -14,6 +15,7 @@ import com.nicico.sales.iservice.contract.IContractDetailTypeTemplateService;
 import com.nicico.sales.model.entities.contract.ContractDetailType;
 import com.nicico.sales.model.entities.contract.ContractDetailTypeParam;
 import com.nicico.sales.model.entities.contract.ContractDetailTypeTemplate;
+import com.nicico.sales.repository.contract.ContractDetailTypeDAO;
 import com.nicico.sales.service.GenericService;
 import com.nicico.sales.utility.UpdateUtil;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
@@ -37,6 +40,7 @@ public class ContractDetailTypeService extends GenericService<ContractDetailType
     private final ResourceBundleMessageSource messageSource;
     private final IContractDetailTypeParamService contractDetailTypeParamService;
     private final IContractDetailTypeTemplateService contractDetailTypeTemplateService;
+    private final ContractDetailTypeDAO contractDetailTypeDAO;
 
     @Override
     @Transactional
@@ -98,6 +102,7 @@ public class ContractDetailTypeService extends GenericService<ContractDetailType
         updating.setContractDetailTypeParams(null);
         updating.setContractDetailTypeTemplates(null);
 
+        validation(updating, request);
         return save(updating);
     }
 
@@ -171,5 +176,21 @@ public class ContractDetailTypeService extends GenericService<ContractDetailType
             contractDetailTypeParamService.updateAll(contractDetailTypeParams4Update);
         if (!contractDetailTypeParams4Delete.getIds().isEmpty())
             contractDetailTypeParamService.deleteAll(contractDetailTypeParams4Delete);
+    }
+
+    @Override
+    public Boolean validation(ContractDetailType entity, Object... request) {
+        Boolean validation = super.validation(entity, request);
+        if (actionType == ActionType.Create) {
+            if (entity.getCode().equals(EContractDetailTypeCode.NoteDetailCode.getId()))
+                return true;
+            if (contractDetailTypeDAO.findByMaterialIdAndCode(entity.getMaterialId(), entity.getCode()).size() >= 1) {
+                EContractDetailTypeCode eContractDetailTypeCode = Arrays.stream(EContractDetailTypeCode.values()).filter(q -> q.getId().equals(entity.getCode())).findFirst().get();
+                throw new SalesException2(ErrorType.BadRequest, "code",
+                        messageSource.getMessage("contract-detail-type.code.unique.constraint.violation",
+                                new Object[]{eContractDetailTypeCode.name()}, LocaleContextHolder.getLocale()));
+            }
+        }
+        return validation;
     }
 }

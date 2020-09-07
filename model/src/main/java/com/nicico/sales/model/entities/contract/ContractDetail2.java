@@ -60,4 +60,8 @@ public class ContractDetail2 extends BaseEntity {
     @NotAudited
     @OneToMany(mappedBy = "contractDetail", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<ContractDetailValue> contractDetailValues;
+
+    @NotNull
+    @Column(name = "N_POSITION", nullable = false)
+    private Integer position;
 }

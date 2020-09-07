@@ -1,13 +1,13 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<%@ page  import="com.nicico.copper.core.SecurityUtil" %>
+<%@ page import="com.nicico.copper.core.SecurityUtil" %>
 
 //<script>
 
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
-     var c_record = "${SecurityUtil.hasAuthority('C_CONTACT')}";
-     var d_record = "${SecurityUtil.hasAuthority('U_CONTACT')}";
+    var c_record = "${SecurityUtil.hasAuthority('C_CONTACT')}";
+    var d_record = "${SecurityUtil.hasAuthority('U_CONTACT')}";
 
     var RestDataSource_Country_IN_CONTACT = isc.MyRestDataSource.create(
         {
@@ -1470,8 +1470,17 @@ code='contact.role'/></p>",
                     if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
                         ContactAccount_CreateDynamicForm.clearValues();
                         ListGrid_ContactAccount.invalidateCache();
-                        ListGrid_Contact.invalidateCache();
+                        //ListGrid_Contact.invalidateCache();
                         isc.say("<spring:message code='global.form.request.successful'/>");
+                        ListGrid_ContactAccount.fetchData({
+                            _constructor: "AdvancedCriteria",
+                            operator: "and",
+                            criteria: [{
+                                fieldName: "contactId",
+                                operator: "equals",
+                                value: ContactAccountGridHeaderForm.getValue('id')
+                            }]
+                        });
                     } else
                         isc.say(RpcResponse_o.data);
                 }
@@ -1497,7 +1506,16 @@ code='contact.role'/></p>",
                 callback: function (RpcResponse_o) {
                     if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
                         ListGrid_ContactAccount.invalidateCache();
-                        ListGrid_Contact.invalidateCache();
+                        //ListGrid_Contact.invalidateCache();
+                        ListGrid_ContactAccount.fetchData({
+                            _constructor: "AdvancedCriteria",
+                            operator: "and",
+                            criteria: [{
+                                fieldName: "contactId",
+                                operator: "equals",
+                                value: ContactAccountGridHeaderForm.getValue('id')
+                            }]
+                        });
                         isc.say("<spring:message code='global.form.request.successful'/>");
                     } else
                         isc.say(RpcResponse_o.data);
@@ -1511,6 +1529,7 @@ code='contact.role'/></p>",
         title: "<spring:message code='global.form.close'/>",
         icon: "pieces/16/icon_delete.png",
         click: function () {
+            ListGrid_Contact.invalidateCache();
             Window_AccountsContact.close();
         }
     });

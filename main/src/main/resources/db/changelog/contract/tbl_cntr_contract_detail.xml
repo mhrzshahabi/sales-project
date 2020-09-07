@@ -33,4 +33,16 @@
         <dropColumn columnName="F_CONTRACT_DETAIL_TYPE_TEMPLATE_ID" tableName="TBL_CNTR_CONTRACT_DETAIL_AUD"/>
     </changeSet>
 
+    <changeSet author="Reza Mazloom" id="mazloom_043">
+        <addColumn tableName="TBL_CNTR_CONTRACT_DETAIL">
+            <column name="N_POSITION" type="number(10, 0)"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="Reza Mazloom" id="mazloom_044">
+        <addColumn tableName="TBL_CNTR_CONTRACT_DETAIL_AUD">
+            <column name="N_POSITION" type="number(10, 0)"/>
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>
