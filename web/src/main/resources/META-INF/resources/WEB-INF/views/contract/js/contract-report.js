@@ -1203,7 +1203,10 @@ crTab.Layouts.Vlayouts.main = isc.VLayout.create({
 })
 crTab.Methods.UpdateInputOutputCharts()
 dbg(false, "crtab", crTab)
-await fetch('remittance-detail/excel' +
+
+//}
+//)
+fetch('remittance-detail/excel' +
     JSON.stringify({
         operator: "and", criteroa: [{fieldName: "inventory.materialItemId", operator: "equals", value: 3},
             {fieldName: "inventory.weight", operator: "greaterOrEqual", value: 1}]
@@ -1216,7 +1219,9 @@ await fetch('remittance-detail/excel' +
                 doesNotNeedFetch:false
             }
         })
-    })
-//}
-//)
+    }).then(
+        response=>{
+            debugger;
+        }
+)
 
