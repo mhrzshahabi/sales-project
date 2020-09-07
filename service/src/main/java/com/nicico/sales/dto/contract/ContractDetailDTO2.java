@@ -22,6 +22,7 @@ public class ContractDetailDTO2 {
     private Long contractId;
     private Long contractDetailTypeId;
     private String contractDetailTemplate;
+    private Integer position;
 
     @Getter
     @Setter
