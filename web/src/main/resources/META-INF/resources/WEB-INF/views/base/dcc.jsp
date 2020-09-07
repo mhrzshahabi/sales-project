@@ -11,9 +11,6 @@
     var d_record ="${d_record}";
     var c_record ="${c_record}";
 
-    <c:if test="${d_record}">
-        yyyyyy
-    </c:if>
 var criteria = {
         _constructor: "AdvancedCriteria",
         operator: "and",
