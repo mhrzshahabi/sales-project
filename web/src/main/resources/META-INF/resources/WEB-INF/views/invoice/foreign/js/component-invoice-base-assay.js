@@ -126,4 +126,17 @@ isc.defineClass("InvoiceBaseAssay", isc.VLayout).addProperties({
         });
         return data;
     },
+    validate: function () {
+
+        let isValid = true;
+        if (this.getMembers().length < 2)
+            isValid = false;
+        else {
+            this.getMembers().slice(1).forEach(current => {
+                if (current.getValues().value === null)
+                    isValid = false;
+            });
+        }
+        return isValid;
+    }
 });

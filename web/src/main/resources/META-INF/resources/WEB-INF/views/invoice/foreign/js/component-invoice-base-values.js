@@ -109,9 +109,16 @@ isc.defineClass("InvoiceBaseValues", isc.VLayout).addProperties({
     },
     validate: function () {
 
-        if (!this.invoiceBasePriceComponent)
-            return false;
+        let isValid = true;
+        if (!this.invoiceBasePriceComponent.validate())
+            isValid = false;
 
-        return true;
+        if (!this.invoiceBaseAssayComponent.validate())
+            isValid = false;
+
+        if (!this.invoiceBaseWeightComponent.validate())
+            isValid = false;
+
+        return isValid;
     }
 });
