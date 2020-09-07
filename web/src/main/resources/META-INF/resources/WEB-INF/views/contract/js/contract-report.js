@@ -16,8 +16,6 @@ async function getAccessToken(user = "user", password = "password") {
     const json = await response.json()
     return json['access_token'];
 }
-
-
 const crTab = {
     Logs: [],
     Vars: {
@@ -823,32 +821,38 @@ crTab.Methods.UpdateInputOutputCharts = function () {
         }
     })
 }
-crTab.Methods.makeRemittanceDetailExcell = async function (
-    criteria = {
-        operator: "and", criteria: [{fieldName: "inventory.materialItemId", operator: "equals", value: 3},
-            {fieldName: "inventory.weight", operator: "greaterOrEqual", value: 1}]
-    },
-    rows = crTab.Grids.RemittanceDetail.getOriginalData().localdata,
-    topRowTitle = "محصولات موجود در انبار",
-    nicicoCriteria = null,
-    header = crTab.Fields.RemittanceDetailFullFields().map(_ => {
-        return _.title ? _.title : _.name
-    }),
-    fields = crTab.Fields.RemittanceDetailFullFields().map(_ => _.name),
-    doesNotNeedFetch = false
-) {
-    const response = await fetch('remittance-detail/excel?' +
-        JSON.stringify(criteria),
+crTab.Methods.makeRemittanceDetailExcel = async function (    options = {}) {
+    const args = {
+        ...{
+            criteria: {
+                operator: "and", criteria: [{fieldName: "inventory.materialItemId", operator: "equals", value: 3},
+                    {fieldName: "inventory.weight", operator: "greaterOrEqual", value: 1}]
+            },
+            rows: crTab.Grids.RemittanceDetail.getOriginalData().localdata,
+            topRowTitle: "محصولات موجود در انبار",
+            nicicoCriteria: null,
+            header: crTab.Fields.RemittanceDetailFullFields().map(_ => {
+                return _.title ? _.title : _.name
+            }),
+            fields: crTab.Fields.RemittanceDetailFullFields().map(_ => _.name),
+            doesNotNeedFetch: false,
+            fileName: 'anbar'
+        },
+        ...options
+    }
+    const response = await fetch('remittance-detail/excel?_constructor=AdvancedCriteria&operator='
+        +args.criteria.operator + "&" +
+        args.criteria.criteria.map(_=>"criteria="+JSON.stringify(_)).join('&'),
         {
             headers: SalesConfigs.httpHeaders,
             method: "POST", body: JSON.stringify({
 
-                rows: rows,
-                topRowTitle: topRowTitle,
-                nicicoCriteria: nicicoCriteria,
-                header: header,
-                fields: fields,
-                doesNotNeedFetch: doesNotNeedFetch
+                rows: args.rows,
+                topRowTitle: args.topRowTitle,
+                nicicoCriteria: args.nicicoCriteria,
+                header: args.header,
+                fields: args.fields,
+                doesNotNeedFetch: args.doesNotNeedFetch
 
             })
         })
@@ -857,7 +861,7 @@ crTab.Methods.makeRemittanceDetailExcell = async function (
         const excelUrl = URL.createObjectURL(b);
         const a = document.createElement('a');
         a.href = excelUrl;
-        a.setAttribute('download', "123.xlsx")
+        a.setAttribute('download', args.fileName + ".xlsx")
         a.click()
     }
 }
@@ -1481,6 +1485,69 @@ crTab.Layouts.Vlayouts.main = isc.VLayout.create({
                                                     window.open('${printUrl}' + '/' + toDay);
                                                 }
                                             }
+                                        ]
+                                    })
+                                }),
+                                isc.MenuButton.create({
+                                    autoDraw: false,
+                                    title: "گزارش موجودی",
+                                    prompt: "گزارش موجودی انبارها",
+                                    width: 200,
+                                    menu: isc.Menu.create({
+                                        width: 200,
+                                        data: [
+                                            {
+                                                title: "کنسانتره",
+                                                icon: "icon/excel.png",
+                                                click: function () {
+                                                  crTab.Methods.makeRemittanceDetailExcel({
+                                                      criteria: {
+                                                          _constructor: "AdvancedCriteria",
+                                                          operator: "and", criteria: [
+                                                              {fieldName: "inventory.materialItemId", operator: "equals", value: 8},
+                                                              {fieldName: "inventory.weight", operator: "greaterOrEqual", value: 1},
+                                                              {fieldName:"date",operator: "lessOrEqual",value: toDayDateTozin.getValue().replaceAll("/","")}
+                                                          ]
+                                                      },
+                                                      topRowTitle: "موجودی کنسانتره",
+                                                      fileName: 'موجودی کنسانتره'+ new persianDate().format('YYYYMMDD')
+                                                  })
+                                                }
+                                            },
+                                            {
+                                                title: "کاتد",
+                                                icon: "icon/excel.png",
+                                                click: function () {
+                                                  crTab.Methods.makeRemittanceDetailExcel({
+                                                      criteria: {
+                                                          operator: "and", criteria: [
+                                                              {fieldName: "inventory.materialItemId", operator: "equals", value: 11},
+                                                              {fieldName: "inventory.weight", operator: "greaterOrEqual", value: 1},
+                                                              {fieldName:"date",operator: "lessOrEqual",value: toDayDateTozin.getValue().replaceAll("/","")}
+                                                          ]
+                                                      },
+                                                      topRowTitle: "موجودی کاتد",
+                                                      fileName: 'موجودی کاتد'+ new persianDate().format('YYYYMMDD')
+                                                  })
+                                                }
+                                            },
+                                            {
+                                                title: "مولیبدن",
+                                                icon: "icon/excel.png",
+                                                click: function () {
+                                                  crTab.Methods.makeRemittanceDetailExcel({
+                                                      criteria: {
+                                                          operator: "and", criteria: [
+                                                              {fieldName: "inventory.materialItemId", operator: "equals", value: 97},
+                                                              {fieldName: "inventory.weight", operator: "greaterOrEqual", value: 1},
+                                                              {fieldName:"date",operator: "lessOrEqual",value: toDayDateTozin.getValue().replaceAll("/","")}
+                                                          ]
+                                                      },
+                                                      topRowTitle: "موجودی مولیبدن",
+                                                      fileName: 'موجودی مولیبدن'+ new persianDate().format('YYYYMMDD')
+                                                  })
+                                                }
+                                            },
                                         ]
                                     })
                                 }),

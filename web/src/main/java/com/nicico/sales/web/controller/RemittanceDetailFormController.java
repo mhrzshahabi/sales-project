@@ -66,7 +66,7 @@ public class RemittanceDetailFormController {
                               HttpServletResponse response) throws Exception {
         List<Object> resp = new ArrayList<>();
         if (!request.getDoesNotNeedFetch()) {
-            NICICOCriteria provideNICICOCriteria = specListUtil.provideNICICOCriteria(criteria, RemittanceDetailDTO.Info.class);
+            NICICOCriteria provideNICICOCriteria = NICICOCriteria.of(criteria);
             List<RemittanceDetailDTO.Info> data = service.search(provideNICICOCriteria).getResponse().getData();
             if (data != null) resp.addAll(data);
         } else {
