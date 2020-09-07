@@ -1497,6 +1497,24 @@ crTab.Layouts.Vlayouts.main = isc.VLayout.create({
                                         width: 200,
                                         data: [
                                             {
+                                                title: "کلی",
+                                                icon: "icon/excel.png",
+                                                click: function () {
+                                                  crTab.Methods.makeRemittanceDetailExcel({
+                                                      criteria: {
+                                                          _constructor: "AdvancedCriteria",
+                                                          operator: "and", criteria: [
+                                                              // {fieldName: "inventory.materialItemId", operator: "equals", value: 8},
+                                                              {fieldName: "inventory.weight", operator: "greaterOrEqual", value: 1},
+                                                              {fieldName:"date",operator: "lessOrEqual",value: toDayDateTozin.getValue().replaceAll("/","")}
+                                                          ]
+                                                      },
+                                                      topRowTitle: "موجودی کلی",
+                                                      fileName: 'موجودی کلی'+ new persianDate().format('YYYYMMDD')
+                                                  })
+                                                }
+                                            },
+                                            {
                                                 title: "کنسانتره",
                                                 icon: "icon/excel.png",
                                                 click: function () {
