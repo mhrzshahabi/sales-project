@@ -801,6 +801,7 @@ shipmentCostInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
         name: "conversionSumPrice",
         title: "<spring:message code='shipmentCostInvoice.conversionSumPrice'/>",
         type: 'float',
+        format: "#.###",
         wrapTitle: false,
         editorType: "staticText",
         validators: [
@@ -841,6 +842,7 @@ shipmentCostInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
         name: "conversionSumPriceBuyerShare",
         title: "<spring:message code='shipmentCostInvoice.conversionSumPriceBuyerShare'/>",
         type: "float",
+        format: "#.###",
         wrapTitle: false,
         editorType: "staticText",
         validators: [
@@ -853,6 +855,7 @@ shipmentCostInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
         name: "conversionSumPriceSellerShare",
         title: "<spring:message code='shipmentCostInvoice.conversionSumPriceSellerShare'/>",
         type: "float",
+        format: "#.###",
         wrapTitle: false,
         editorType: "staticText",
         validators: [
@@ -1145,7 +1148,7 @@ shipmentCostInvoiceTab.window.shipmentCost.okCallBack = function (shipmentCostOb
                 if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
                     isc.say("<spring:message code='global.form.request.successful'/>");
                     shipmentCostInvoiceTab.method.refreshData();
-                    shipmentCostInvoiceTab.window.shipmentCost.close();
+                    shipmentCostInvoiceTab.window.main.close();
                 } else
                     isc.say(RpcResponse_o.data);
             }
