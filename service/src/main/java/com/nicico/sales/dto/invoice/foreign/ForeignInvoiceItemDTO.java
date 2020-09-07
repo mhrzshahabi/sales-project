@@ -3,6 +3,7 @@ package com.nicico.sales.dto.invoice.foreign;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.nicico.sales.dto.RemittanceDetailDTO;
 import com.nicico.sales.model.enumeration.EStatus;
+import com.nicico.sales.model.enumeration.InspectionReportMilestone;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -25,6 +26,8 @@ public class ForeignInvoiceItemDTO {
     private BigDecimal treatCost;
     private Long foreignInvoiceId;
     private Long remittanceDetailId;
+    private InspectionReportMilestone assayMilestone;
+    private InspectionReportMilestone weightMilestone;
 
     @Getter
     @Setter
@@ -35,6 +38,7 @@ public class ForeignInvoiceItemDTO {
         private Long id;
         private ForeignInvoiceDTO.Info foreignInvoice;
         private RemittanceDetailDTO.Info remittanceDetail;
+//        private List<ForeignInvoiceItemDetailDTO.Info> foreignInvoiceItemDetails;
 
         // Auditing
         private Date createdDate;

@@ -1,6 +1,7 @@
 package com.nicico.sales.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.nicico.sales.model.entities.warehouse.Inventory;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -35,7 +36,13 @@ public class MaterialItemDTO {
         private String lastModifiedBy;
         private Integer version;
     }
-
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("MaterialItemInfo")
+    public static class InfoWithInventories extends Info {
+        private List<InventoryDTO.Info> materialItem;
+    }
     @Getter
     @Setter
     @Accessors(chain = true)

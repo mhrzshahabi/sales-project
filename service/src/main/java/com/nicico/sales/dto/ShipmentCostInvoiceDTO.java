@@ -45,7 +45,7 @@ public class ShipmentCostInvoiceDTO {
     private Long sellerContactId;
     private Long buyerContactId;
     private Long financeUnitId;
-    private Long contractId;
+    private Long shipmentId;
     private List<ShipmentCostInvoiceDetailDTO.Info> shipmentCostInvoiceDetails;
 
 
@@ -62,7 +62,7 @@ public class ShipmentCostInvoiceDTO {
         private ContactDTO.Info sellerContact;
         private ContactDTO.Info buyerContact;
         private UnitDTO.Info financeUnit;
-        private ContractDTO.Info contract;
+        private ShipmentDTO.Info shipment;
 
 
         // Auditing

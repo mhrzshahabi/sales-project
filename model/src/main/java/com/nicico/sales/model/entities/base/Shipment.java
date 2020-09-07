@@ -191,4 +191,8 @@ public class Shipment extends BaseEntity {
 
     @OneToMany(mappedBy = "shipmentId", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private List<Remittance> remittances;
+
+    @Column(name = "D_LAST_DELIVERY_LETTER_DATE")
+    private Date lastDeliveryLetterDate;
+
 }

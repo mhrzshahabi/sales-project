@@ -49,7 +49,7 @@ namespace nicico {
                 let primaryKeyField = listGrid.getFields().find(p => p.primaryKey);
                 // @ts-ignore
                 if (primaryKeyField == null && listGrid.dataSource != null)
-                    // @ts-ignore
+                // @ts-ignore
                     primaryKeyField = Object.values(listGrid.dataSource.getFields()).find(p => p.primaryKey);
                 else
                     primaryKeyField = {name: 'id'};
@@ -81,7 +81,7 @@ namespace nicico {
                 let primaryKeyField = listGrid.getFields().find(p => p.primaryKey);
                 // @ts-ignore
                 if (primaryKeyField == null && listGrid.dataSource != null)
-                    // @ts-ignore
+                // @ts-ignore
                     primaryKeyField = Object.values(listGrid.dataSource.getFields()).find(p => p.primaryKey);
                 else
                     primaryKeyField = {name: 'id'};
@@ -120,6 +120,26 @@ namespace nicico {
             if (ownerWindow != null)
                 ownerWindow.close();
             this.windowWidget.getObject().show();
+        }
+
+        public setOwner(owner: isc.Window): void {
+
+            this.owner = new ObjectHider(owner);
+        }
+
+        public setWindowWidget(window: isc.Window): void {
+
+            this.windowWidget = new ObjectHider(window);
+        }
+
+        public setListGridWidget(listGrid: isc.ListGrid): void {
+
+            this.listGridWidget = new ObjectHider(listGrid);
+        }
+
+        public setSelectionMultiplicity(selectionMultiplicity: number): void {
+
+            this.selectionMultiplicity = new ObjectHider(selectionMultiplicity);
         }
 
         public getButtonLayout(): isc.HLayout {
@@ -204,7 +224,7 @@ namespace nicico {
                         let primaryKeyField = this.getFields().find(p => p.primaryKey);
                         // @ts-ignore
                         if (primaryKeyField == null && this.dataSource != null)
-                            // @ts-ignore
+                        // @ts-ignore
                             primaryKeyField = Object.values(this.dataSource.getFields()).find(p => p.primaryKey);
                         else
                             primaryKeyField = {name: 'id'};

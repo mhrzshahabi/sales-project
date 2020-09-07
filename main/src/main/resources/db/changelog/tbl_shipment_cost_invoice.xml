@@ -111,4 +111,24 @@
                                columnName="C_INVOICE_NO"/>
     </changeSet>
 
+    <changeSet author="MShahabi"  id="1799887766554-044">
+        <dropSequence sequenceName="SEQ_INVOICE_NO"/>
+    </changeSet>
+
+    <changeSet author="MShahabi" id="1799887766554-045">
+        <createSequence sequenceName="SEQ_INVOICE_NO" cycle="true" ordered="true" incrementBy="1" startValue="1000" minValue="1000" maxValue="9999"/>
+    </changeSet>
+
+    <changeSet author="NO1 (generated)" id="1599386431210-260">
+        <addColumn tableName="TBL_SHIPMENT_COST_INVOICE">
+            <column name="F_SHIPMENT_ID" type="number(19, 0)">
+            </column>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="NO1 (generated)" id="1599386431210-294">
+        <dropColumn columnName="F_CONTRACT_ID" tableName="TBL_SHIPMENT_COST_INVOICE"/>
+    </changeSet>
+
+
 </databaseChangeLog>

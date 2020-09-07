@@ -2,10 +2,14 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ page  import="com.nicico.copper.core.SecurityUtil" %>
+
 
 //<script>
 
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
+    var c_record = "${SecurityUtil.hasAuthority('C_INVOICE')}";
+    var d_record = "${SecurityUtil.hasAuthority('U_INVOICE')}";
 
     var RestDataSource_Shipment_InvoiceHeader = isc.MyRestDataSource.create(
         {
@@ -409,7 +413,8 @@
         } else {
             var dccTableId = record.id;
             var dccTableName = "TBL_INVOICE";
-            ViewLoader_Invoice_Attachment.setViewURL("dcc/showForm/" + dccTableName + "/" + dccTableId);
+            ViewLoader_Invoice_Attachment.setViewURL("dcc/showForm/" + dccTableName + "/" + dccTableId+ "?d_record="
++ d_record + "&c_record=" + c_record);
             Window_Invoice_Attachment.show();
         }
     }

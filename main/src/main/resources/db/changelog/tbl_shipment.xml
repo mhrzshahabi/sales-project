@@ -329,5 +329,11 @@
        <dropColumn columnName="N_NO_BARREL" tableName="TBL_SHIPMENT"/>
     </changeSet>
 
+    <changeSet author="Abiz" id="AZAARE-044">
+        <addColumn tableName="TBL_SHIPMENT">
+            <column name="D_LAST_DELIVERY_LETTER_DATE" type="TIMESTAMP"/>
+        </addColumn>
+    </changeSet>
+
 
 </databaseChangeLog>

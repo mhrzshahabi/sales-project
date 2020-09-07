@@ -1393,6 +1393,11 @@
       "title": "حذف گزارش بازرسی"
     },
     {
+      "code": "F_INSPECTION_REPORT",
+      "title": "تایید نهایی گزارش بازرسی"
+    },
+
+    {
       "code": "R_ASSAY_INSPECTION",
       "title": "نمایش بازرسی محتوا"
     },
@@ -1611,6 +1616,14 @@
     {
       "code": "D_SHIPMENT_COST_INVOICE_DETAIL",
       "title": "حذف جزئیات صورتحساب هزینه های حمل "
+    },
+    {
+      "code": "R_TOZIN_LITE",
+      "title": "نمایش محصولات در راه"
+    },
+    {
+      "code": "C_SHIPMENT_DCC",
+      "title": "پیوست الگوی بارگیری"
     }
   ]
 }

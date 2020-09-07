@@ -1,10 +1,8 @@
 package com.nicico.sales.service;
 
+import com.ghasemkiani.util.icu.PersianCalendar;
 import com.nicico.sales.annotation.Action;
-import com.nicico.sales.dto.ContractDTO;
-import com.nicico.sales.dto.InvoiceTypeDTO;
-import com.nicico.sales.dto.ShipmentCostInvoiceDTO;
-import com.nicico.sales.dto.ShipmentCostInvoiceDetailDTO;
+import com.nicico.sales.dto.*;
 import com.nicico.sales.enumeration.ActionType;
 import com.nicico.sales.enumeration.ErrorType;
 import com.nicico.sales.exception.NotFoundException;
@@ -12,7 +10,6 @@ import com.nicico.sales.exception.SalesException2;
 import com.nicico.sales.iservice.IShipmentCostInvoiceService;
 import com.nicico.sales.model.entities.base.ShipmentCostInvoice;
 import com.nicico.sales.model.entities.base.ShipmentCostInvoiceDetail;
-import com.nicico.sales.model.enumeration.EStatus;
 import com.nicico.sales.utility.InvoiceNoGenerator;
 import com.nicico.sales.utility.UpdateUtil;
 import lombok.RequiredArgsConstructor;
@@ -34,7 +31,7 @@ public class ShipmentCostInvoiceService extends GenericService<ShipmentCostInvoi
 
     private final ShipmentCostInvoiceDetailService shipmentCostInvoiceDetailService;
     private final InvoiceTypeService invoiceTypeService;
-    private final ContractService contractService;
+    private final ShipmentService shipmentService ;
     private final InvoiceNoGenerator invoiceNoGenerator;
     private final ResourceBundleMessageSource messageSource;
     private final UpdateUtil updateUtil;
@@ -44,17 +41,12 @@ public class ShipmentCostInvoiceService extends GenericService<ShipmentCostInvoi
     @Action(ActionType.Create)
     public ShipmentCostInvoiceDTO.Info create(ShipmentCostInvoiceDTO.Create request) {
 
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(request.getInvoiceDate());
+        PersianCalendar calendar = new PersianCalendar(request.getInvoiceDate());
         InvoiceTypeDTO.Info invoiceTypeDTO = invoiceTypeService.get(request.getInvoiceTypeId());
-        ContractDTO.Info contractDTO = contractService.get(request.getContractId());
+        ShipmentDTO.Info shipmentDTO = shipmentService.get(request.getShipmentId());
 
-        request.setInvoiceNo(invoiceNoGenerator.createInvoiceNo(
-                invoiceTypeDTO.getTitle(),
-                calendar.get(Calendar.YEAR),
-                calendar.get(Calendar.MONTH) + 1,
-                contractDTO.getMaterial().getAbbreviation(),
-                contractDTO.getContractNo()));
+//        request.setInvoiceNo(invoiceNoGenerator.createInvoiceNo(invoiceTypeDTO.getTitle(), calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, contractDTO.getMaterial().getAbbreviation(), contractDTO.getContractNo()));
+        request.setInvoiceNo(invoiceNoGenerator.createInvoiceNo(invoiceTypeDTO.getTitle(), calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, shipmentDTO.getMaterial().getAbbreviation(), shipmentDTO.getContractShipment().getContract().getNo()));
 
         ShipmentCostInvoiceDTO.Info shipmentCostInvoiceDTO = super.create(request);
 
@@ -123,16 +115,7 @@ public class ShipmentCostInvoiceService extends GenericService<ShipmentCostInvoi
         List<ShipmentCostInvoiceDetailDTO.Update> shipmentCostInvoiceDetail4Update = new ArrayList<>();
         ShipmentCostInvoiceDetailDTO.Delete shipmentCostInvoiceDetail4Delete = new ShipmentCostInvoiceDetailDTO.Delete();
 
-        updateUtil.fill(
-                ShipmentCostInvoiceDetail.class,
-                shipmentCostInvoice.getShipmentCostInvoiceDetails(),
-                ShipmentCostInvoiceDetailDTO.Info.class,
-                request.getShipmentCostInvoiceDetails(),
-                ShipmentCostInvoiceDetailDTO.Create.class,
-                shipmentCostInvoiceDetail4Insert,
-                ShipmentCostInvoiceDetailDTO.Update.class,
-                shipmentCostInvoiceDetail4Update,
-                shipmentCostInvoiceDetail4Delete);
+        updateUtil.fill(ShipmentCostInvoiceDetail.class, shipmentCostInvoice.getShipmentCostInvoiceDetails(), ShipmentCostInvoiceDetailDTO.Info.class, request.getShipmentCostInvoiceDetails(), ShipmentCostInvoiceDetailDTO.Create.class, shipmentCostInvoiceDetail4Insert, ShipmentCostInvoiceDetailDTO.Update.class, shipmentCostInvoiceDetail4Update, shipmentCostInvoiceDetail4Delete);
 
         if (!shipmentCostInvoiceDetail4Insert.isEmpty())
             shipmentCostInvoiceDetailService.createAll(shipmentCostInvoiceDetail4Insert);

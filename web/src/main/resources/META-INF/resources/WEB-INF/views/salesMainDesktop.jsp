@@ -10,41 +10,41 @@
 <html>
 <head>
 
-    <title><spring:message code='main.Tab.Name'/></title>
+<title><spring:message code='main.Tab.Name'/></title>
 
-    <link rel="sales icon" href="<spring:url value='/static/img/icon/nicico.png' />"/>
-    <link rel="stylesheet" href="<spring:url value='/static/css/smartStyle.css' />"/>
-    <link rel="stylesheet" href="<spring:url value='/static/css/calendar.css' />"/>
-    <link rel="stylesheet" href='<spring:url value="/static/css/commonStyle.css"/>'/>
+<link rel="sales icon" href="<spring:url value='/static/img/icon/nicico.png' />"/>
+<link rel="stylesheet" href="<spring:url value='/static/css/smartStyle.css' />"/>
+<link rel="stylesheet" href="<spring:url value='/static/css/calendar.css' />"/>
+<link rel="stylesheet" href='<spring:url value="/static/css/commonStyle.css"/>'/>
 
-    <script src="<spring:url value='/static/script/js/calendar.js'/>"></script>
-    <script src="<spring:url value='/static/script/js/jalali-moment.browser.js'/>"></script>
-    <script src="<spring:url value='/static/script/js/all.js'/>"></script>
-    <script src="<spring:url value='/static/script/js/convertDigitToEnglish.js'/>"></script>
-    <script src="<spring:url value='/static/script/js/moment.js'/>"></script>
-    <script src="<spring:url value='/static/script/js/jquery.min.js' />"></script>
-    <script src="<spring:url value='/static/script/js/persian-date.min.js' />"></script>
-    <script src="<spring:url value='/static/script/enumJson/unitEnum.js' />"></script>
-    <script src="<spring:url value='/static/script/enumJson/materialEnum.js' />"></script>
-    <script src="<spring:url value='/static/script/js/persian-rex.js' />"></script>
-    <script src="<spring:url value='/static/script/js/num2persian-min.js' />"></script>
-    <script src="<spring:url value='/static/script/js/convertunit.js' />"></script>
+<script src="<spring:url value='/static/script/js/calendar.js'/>"></script>
+<script src="<spring:url value='/static/script/js/jalali-moment.browser.js'/>"></script>
+<script src="<spring:url value='/static/script/js/all.js'/>"></script>
+<script src="<spring:url value='/static/script/js/convertDigitToEnglish.js'/>"></script>
+<script src="<spring:url value='/static/script/js/moment.js'/>"></script>
+<script src="<spring:url value='/static/script/js/jquery.min.js' />"></script>
+<script src="<spring:url value='/static/script/js/persian-date.min.js' />"></script>
+<script src="<spring:url value='/static/script/enumJson/unitEnum.js' />"></script>
+<script src="<spring:url value='/static/script/enumJson/materialEnum.js' />"></script>
+<script src="<spring:url value='/static/script/js/persian-rex.js' />"></script>
+<script src="<spring:url value='/static/script/js/num2persian-min.js' />"></script>
+<script src="<spring:url value='/static/script/js/convertunit.js' />"></script>
 
 
-    <script>var isomorphicDir = "isomorphic/";</script>
-    <script src=isomorphic/system/modules/ISC_Core.js></script>
-    <script src=isomorphic/system/modules/ISC_Foundation.js></script>
-    <script src=isomorphic/system/modules/ISC_Containers.js></script>
-    <script src=isomorphic/system/modules/ISC_Grids.js></script>
-    <script src=isomorphic/system/modules/ISC_Forms.js></script>
-    <script src=isomorphic/system/modules/ISC_DataBinding.js></script>
-    <script src=isomorphic/system/modules/ISC_Drawing.js></script>
-    <script src=isomorphic/system/modules/ISC_Charts.js></script>
-    <script src=isomorphic/system/modules/ISC_Analytics.js></script>
-    <script src=isomorphic/system/modules/ISC_FileLoader.js></script>
-    <script SRC=isomorphic/system/modules/ISC_RichTextEditor.js></script>
-    <script SRC=isomorphic/skins/Nicico/load_skin.js></script>
-    <script src="<spring:url value='/static/script/js/changeSkin.js'/>"></script>
+<script>var isomorphicDir = "isomorphic/";</script>
+<script src=isomorphic/system/modules/ISC_Core.js></script>
+<script src=isomorphic/system/modules/ISC_Foundation.js></script>
+<script src=isomorphic/system/modules/ISC_Containers.js></script>
+<script src=isomorphic/system/modules/ISC_Grids.js></script>
+<script src=isomorphic/system/modules/ISC_Forms.js></script>
+<script src=isomorphic/system/modules/ISC_DataBinding.js></script>
+<script src=isomorphic/system/modules/ISC_Drawing.js></script>
+<script src=isomorphic/system/modules/ISC_Charts.js></script>
+<script src=isomorphic/system/modules/ISC_Analytics.js></script>
+<script src=isomorphic/system/modules/ISC_FileLoader.js></script>
+<script SRC=isomorphic/system/modules/ISC_RichTextEditor.js></script>
+<script SRC=isomorphic/skins/Nicico/load_skin.js></script>
+<script src="<spring:url value='/static/script/js/changeSkin.js'/>"></script>
 
 </head>
 
@@ -260,10 +260,13 @@
             width: 100,
             canEdit: false,
             name: "estatus",
-            type: "number",
             hidden: true,
             showHover: true,
             canSort: false,
+            multiple: true,
+            filterOperator: "equals",
+            editorType: "SelectItem",
+            valueMap: Enums.eStatus2,
             title: "<spring:message code='global.e-status'/>",
             hoverHTML(record, value, rowNum, colNum, grid) {
 
@@ -622,12 +625,11 @@
         menu: isc.Menu.create({
             placement: "none",
             data: [
-
-
+                <sec:authorize access="hasAuthority('R_CONTACT') or hasAuthority('R_PERSON') or hasAuthority('R_GROUPS')">
                 {
                     title: "<spring:message code='main.baseTab.Business'/>",
                     submenu: [
-
+                        <sec:authorize access="hasAuthority('R_CONTACT')">
                         {
                             title: "<spring:message code='commercialParty.title'/>",
                             click: function () {
@@ -635,8 +637,8 @@
                             }
                         },
                         {isSeparator: true},
-
-
+                        </sec:authorize>
+                        <sec:authorize access="hasAuthority('R_PERSON')">
                         {
                             title: "<spring:message code='person.title'/>",
                             click: function () {
@@ -644,8 +646,8 @@
                             }
                         },
                         {isSeparator: true},
-
-
+                        </sec:authorize>
+                        <sec:authorize access="hasAuthority('R_GROUPS')">
                         {
                             title: "<spring:message code='groups.title'/>",
                             click: function () {
@@ -653,30 +655,40 @@
                             }
                         },
                         {isSeparator: true},
-
+                        </sec:authorize>
                     ]
                 },
                 {isSeparator: true},
+                </sec:authorize>
+                <sec:authorize access="hasAuthority('R_PORT') or hasAuthority('R_VESSEL')">
                 {
                     title: "<spring:message code='main.baseTab.test'/>",
                     submenu: [
+                        <sec:authorize access="hasAuthority('R_PORT')">
                         {
                             title: "<spring:message code='port.port'/>",
                             click: function () {
                                 createTab("<spring:message code='port.port'/>", "<spring:url value="/base-port/show-form" />")
                             }
-                        }, {
+                        },
+                        </sec:authorize>
+                        <sec:authorize access="hasAuthority('R_VESSEL')">
+                        {
                             title: "<spring:message code='vessel.title'/>",
                             click: function () {
                                 createTab("<spring:message code='vessel.title'/>", "<spring:url value="/vessel/showForm" />")
                             }
                         }
+                        </sec:authorize>
                     ]
                 },
                 {isSeparator: true},
+                </sec:authorize>
+                <sec:authorize access="hasAuthority('R_CURRENCY_RATE') or hasAuthority('R_BANK') or hasAuthority('R_PRICE_BASE')">
                 {
                     title: "<spring:message code='main.baseTab.financial'/>",
                     submenu: [
+                        <sec:authorize access="hasAuthority('R_CURRENCY_RATE')">
                         {
                             title: "<spring:message code='currencyRate.title'/>",
                             click: function () {
@@ -684,6 +696,8 @@
                             }
                         },
                         {isSeparator: true},
+                        </sec:authorize>
+                        <sec:authorize access="hasAuthority('R_BANK')">
                         {
                             title: "<spring:message code='bank.title'/>",
                             click: function () {
@@ -691,15 +705,21 @@
                             }
                         },
                         {isSeparator: true},
+                        </sec:authorize>
+                        <sec:authorize access="hasAuthority('R_PRICE_BASE')">
                         {
                             title: "<spring:message code='priceBase.title'/>",
                             click: function () {
                                 createTab("<spring:message code='priceBase.title'/>", "<spring:url value="/price-base/showForm" />")
                             }
                         },
+                        </sec:authorize>
                     ]
                 },
                 {isSeparator: true},
+                </sec:authorize>
+
+                <sec:authorize access="hasAuthority('R_MATERIAL')">
                 {
                     title: "<spring:message code='material.title'/>",
                     click: function () {
@@ -707,7 +727,8 @@
                     }
                 },
                 {isSeparator: true},
-
+                </sec:authorize>
+                <sec:authorize access="hasAuthority('R_UNIT')">
                 {
                     title: "<spring:message code='unit.title'/>",
                     click: function () {
@@ -715,7 +736,8 @@
                     }
                 },
                 {isSeparator: true},
-
+                </sec:authorize>
+                <sec:authorize access="hasAuthority('R_COUNTRY')">
                 {
                     title: "<spring:message code='country.title'/>",
                     click: function () {
@@ -723,13 +745,15 @@
                     }
                 },
                 {isSeparator: true},
+                </sec:authorize>
+                <sec:authorize access="hasAuthority('R_PARAMETERS')">
                 {
                     title: "<spring:message code='parameters.title'/>",
                     click: function () {
                         createTab("<spring:message code='parameters.title'/>", "<spring:url value="/parameters/showForm" />")
                     }
                 },
-
+                </sec:authorize>
             ]
         }),
     });
@@ -771,7 +795,8 @@
                                 enContract();
                                 createTab("<spring:message code='salesContract.title'/>", "<spring:url value="/contract/showForm" />")
                             }
-                        }, {
+                        },
+                        {
                             title: "<spring:message code='salesContractMoButton.title'/>",
                             click: function () {
                                 enContract();
@@ -884,6 +909,7 @@
                     }
                 },
                 </sec:authorize>--%>
+                <sec:authorize access="hasAuthority('R_SHIPMENT_CONTRACT')">
                 {isSeparator: true},
                 {
                     title: "<spring:message code='charter.title'/>",
@@ -891,6 +917,8 @@
                         createTab("<spring:message code='charter.title'/>", "<spring:url value="/shipmentContract/showForm" />")
                     }
                 },
+                </sec:authorize>
+                <sec:authorize access="hasAuthority('R_CONTRACT_PERSON')">
                 {isSeparator: true},
                 {
                     title: "<spring:message code='contractPerson.title'/>",
@@ -898,6 +926,7 @@
                         createTab("<spring:message code='contractPerson.title'/>", "<spring:url value="/contractPerson/showForm" />")
                     }
                 }
+                </sec:authorize>
             ]
         })
     });
@@ -908,6 +937,7 @@
         menu: isc.Menu.create({
             placement: "none",
             data: [
+                <sec:authorize access="hasAuthority('R_CONTRACT_SHIPMENT')">
                 {
                     title: "<spring:message code='cargoAssignment.title'/>",
                     click: function () {
@@ -915,6 +945,8 @@
                     }
                 },
                 {isSeparator: true},
+                </sec:authorize>
+                <sec:authorize access="hasAuthority('R_BILL_OF_LANDING')">
                 {
                     title: "بارنامه",
                     click: function () {
@@ -922,6 +954,8 @@
                     }
                 },
                 {isSeparator: true},
+                </sec:authorize>
+                <sec:authorize access="hasAuthority('R_COST')">
                 {
                     title: "<spring:message code='shipmentCost.title'/>",
                     click: function () {
@@ -929,6 +963,7 @@
                     }
                 },
                 {isSeparator: true},
+                </sec:authorize>
                 <sec:authorize access="hasAuthority('R_INSPECTION_REPORT')">
                 {
                     title: "<spring:message code='inspectionReport.title'/>",
@@ -936,14 +971,16 @@
                         createTab("<spring:message code='inspectionReport.title'/>", "<spring:url value="/inspectionReport/show-form" />")
                     }
                 },
-                </sec:authorize>
                 {isSeparator: true},
+                </sec:authorize>
+                <sec:authorize access="hasAuthority('R_SHIPMENT_COST_INVOICE')">
                 {
                     title: "<spring:message code='shipmentCostInvoice.title'/>",
                     click: function () {
                         createTab("<spring:message code='shipmentCostInvoice.title'/>", "<spring:url value="/shipmentCostInvoice/show-form" />")
                     }
                 }
+                </sec:authorize>
             ]
         })
     });
@@ -962,6 +999,7 @@
         menu: isc.Menu.create({
             placement: "none",
             data: [
+                <sec:authorize access="hasAuthority('R_TOZIN_LITE')">
                 {
                     title: "<spring:message code='tozin.onWay'/>",
                     click: function () {
@@ -979,6 +1017,8 @@
 
                 },
                 {isSeparator: true},
+                </sec:authorize>
+                <sec:authorize access="hasAuthority('R_TOZIN')">
                 {
                     title: "<spring:message code='tozin.between.complex'/>",
                     click: function () {
@@ -998,6 +1038,8 @@
 
                 },
                 {isSeparator: true},
+                </sec:authorize>
+                <sec:authorize access="hasAuthority('R_REMITTANCE')">
                 {
                     title: "<spring:message code='bijack'/>",
                     click: function () {
@@ -1005,6 +1047,8 @@
                     }
                 },
                 {isSeparator: true},
+                </sec:authorize>
+                <sec:authorize access="hasAuthority('R_WAREHOUSE_STOCK')">
                 {
                     title: "<spring:message code='warehouseStock'/>",
                     click: function () {
@@ -1012,6 +1056,7 @@
                     }
                 },
                 {isSeparator: true},
+                </sec:authorize>
                 <%--{   visibility:"hidden",--%>
                 <%--    title: "بیجک ورودی خروجی",--%>
                 <%--    click: function () {--%>
@@ -1037,6 +1082,7 @@
                 },
                 {isSeparator: true},
                 </sec:authorize>
+                <sec:authorize access="hasAuthority('R_FOREIGN_INVOICE')">
                 {
                     title: "<spring:message code='issuedInvoices.title'/>",
                     click: function () {
@@ -1048,6 +1094,8 @@
                     }
                 },
                 {isSeparator: true},
+                </sec:authorize>
+                <sec:authorize access="hasAuthority('R_INVOICE_INTERNAL')">
                 {
                     title: "<spring:message code='issuedInternalInvoices.title'/>",
                     click: function () {
@@ -1055,6 +1103,8 @@
                     }
                 },
                 {isSeparator: true},
+                </sec:authorize>
+                <sec:authorize access="hasAuthority('R_INVOICE_SALES')">
                 {
                     title: "<spring:message code='invoiceSales.title'/>",
                     click: function () {
@@ -1067,6 +1117,7 @@
                         createTab("<spring:message code='invoiceSales.title'/>", "<spring:url value="/invoice-export/showForm" />")
                     }
                 }*/
+                </sec:authorize>
             ]
         })
     });
@@ -1107,16 +1158,32 @@
         membersMargin: 20,
 
         members: [
-            baseTab,
-            contractsTab,
-            shipmentTab,
-            financialTab,
             // inspectionTab,
-            productTab,
-            reportTab
         ]
     });
 
+
+    <sec:authorize access="hasAuthority('R_CONTACT') or hasAuthority('R_PERSON') or hasAuthority('R_GROUPS') or hasAuthority('R_PORT') or hasAuthority('R_VESSEL') or hasAuthority('R_CURRENCY_RATE')
+ or hasAuthority('R_BANK') or hasAuthority('R_PRICE_BASE') or hasAuthority('R_MATERIAL') or hasAuthority('R_UNIT') or hasAuthority('R_COUNTRY') or hasAuthority('R_PARAMETERS')">
+    saleToolStrip.addMember(baseTab);
+    </sec:authorize>
+    <sec:authorize
+    access="hasAuthority('R_CONTRACT2') or hasAuthority('R_CONTRACT_TYPE') or hasAuthority('R_CONTRACT_DETAIL_TYPE') or hasAuthority('R_INCOTERM') or hasAuthority('R_SHIPMENT_CONTRACT') or hasAuthority('R_CONTRACT_PERSON')">
+    saleToolStrip.addMember(contractsTab);
+    </sec:authorize>
+    <sec:authorize
+    access="hasAuthority('R_CONTRACT_SHIPMENT') or hasAuthority('R_BILL_OF_LANDING') or hasAuthority('R_COST') or hasAuthority('R_INSPECTION_REPORT') or hasAuthority('R_SHIPMENT_COST_INVOICE')">
+    saleToolStrip.addMember(shipmentTab);
+    </sec:authorize>
+    <sec:authorize access="hasAuthority('R_FOREIGN_INVOICE') or hasAuthority('R_INVOICE_INTERNAL') or hasAuthority('R_INVOICE_SALES')">
+    saleToolStrip.addMember(financialTab);
+    </sec:authorize>
+    <sec:authorize access="hasAuthority('R_TOZIN_LITE') or hasAuthority('R_TOZIN') or hasAuthority('R_REMITTANCE') or hasAuthority('R_WAREHOUSE_STOCK')">
+    saleToolStrip.addMember(productTab);
+    </sec:authorize>
+    <sec:authorize access="hasAuthority('R_CONTRACT2')">
+    saleToolStrip.addMember(reportTab);
+    </sec:authorize>
 
     var MainDesktopMenuH = isc.HLayout.create({
         width: "100%",
@@ -1248,22 +1315,35 @@
 
         getValueFieldProperties: function (type, fieldName, operatorId, itemType) {
 
+            let superProperties = this.Super("getValueFieldProperties", arguments);
             if (this.dataSource == null)
-                return {name: fieldName, type: type, filterOperator: operatorId};
+                return Object.assign(superProperties, {
+                    type: type,
+                    name: fieldName,
+                    editorType: itemType,
+                    filterOperator: operatorId
+                });
 
             const field = this.dataSource.getField(fieldName);
             if (field == null || (field.editorType !== "SelectItem" && field.editorType !== "ComboBoxItem"))
-                return {name: fieldName, type: type, filterOperator: operatorId};
-
-            return {
+                return Object.assign(superProperties, {
+                    type: type,
+                    name: fieldName,
+                    editorType: itemType,
+                    filterOperator: operatorId
+                });
+            debugger;
+            return Object.assign(superProperties, {
                 required: true,
                 autoFetchData: false,
                 showFilterEditor: true,
+                editorType: itemType,
                 multiple: field.multiple,
-                editorType: field.editorType,
                 valueField: field.valueField,
                 displayField: field.displayField,
+                valueMap: field.dataSource,
                 optionDataSource: field.dataSource,
+                filterOperator: field.filterOperator,
                 pickListFields: [
                     {
                         title: '<spring:message code="global.id"/>',
@@ -1286,7 +1366,7 @@
                     showFilterEditor: true,
                     sortDirection: "descending"
                 }
-            };
+            });
         }
     });
 
@@ -1322,7 +1402,7 @@
 
     function dbg(breakpoint = false, ...args) {
         console.debug(...args)
-        if(breakpoint && SalesConfigs.Urls.completeUrl.toLowerCase().includes('localhost:8080')) debugger;
+        if (breakpoint && SalesConfigs.Urls.completeUrl.toLowerCase().includes('localhost:8080')) debugger;
     }
 </script>
 </body>
