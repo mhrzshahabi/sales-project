@@ -458,7 +458,7 @@ inspectionReportTab.method.getAssayElementFields = function (materialId) {
 //     let remittanceDetailCriteria = {
 //         _constructor: "AdvancedCriteria",
 //         operator: "and",
-//         criteria: [{fieldName: "remittance.shipmentId", operator: "equals", value: shipmentId}]
+//         criteria: [{fieldName: "remittance.shipmentId", operator: "equals", value: shipmentId}, {fieldName: "remittance.shipmentId", operator: "notNull"}]
 //     };
 //
 //     console.log("shipmentId ", shipmentId);
@@ -470,6 +470,11 @@ inspectionReportTab.method.getAssayElementFields = function (materialId) {
 //             console.log("Empty");
 //     });
 //
+//     let inventories = [];
+//     data.forEach(current => {inventories.add(current.inventory.id)})
+//     inspectionReportTab.dynamicForm.inspecReport.getItem("inventoryId").setValue(inventories);
+//
+//
 //     // inspectionReportTab.dynamicForm.inspecReport.getItem("inventoryId").setOptionCriteria({
 //     //     _constructor: "AdvancedCriteria",
 //     //     operator: "and",
@@ -480,6 +485,19 @@ inspectionReportTab.method.getAssayElementFields = function (materialId) {
 //     //     }]
 //     // });
 // };
+
+inspectionReportTab.method.setInventoryCriteria = function (materialId) {
+
+    inspectionReportTab.dynamicForm.inspecReport.getItem("inventoryId").setOptionCriteria({
+        _constructor: "AdvancedCriteria",
+        operator: "and",
+        criteria: [{
+            fieldName: "materialItem.materialId",
+            operator: "equals",
+            value: materialId
+        }]
+    });
+};
 
 inspectionReportTab.method.setShipmentCriteria = function (materialId) {
     inspectionReportTab.dynamicForm.inspecReport.getItem("shipmentId").setOptionCriteria({
@@ -591,7 +609,7 @@ inspectionReportTab.dynamicForm.material = isc.DynamicForm.create({
                 inspectionReportTab.tab.inspecTabs.tabs.filter(q => q.name === "assay").first().pane.enable();
                 inspectionReportTab.variable.materialId = item.getValue();
                 inspectionReportTab.method.getAssayElementFields(inspectionReportTab.variable.materialId);
-                // inspectionReportTab.method.setInventoryCriteria(inspectionReportTab.variable.materialId);
+                inspectionReportTab.method.setInventoryCriteria(inspectionReportTab.variable.materialId);
                 inspectionReportTab.method.setShipmentCriteria(inspectionReportTab.variable.materialId);
 
                 switch (inspectionReportTab.variable.materialId) {
@@ -680,7 +698,7 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
                 validateOnChange: true
             }],
         changed: function (form, item, value) {
-            inspectionReportTab.method.setInventoryCriteria(value);
+            // inspectionReportTab.method.setInventoryCriteria(value);
         }
     },
     {
