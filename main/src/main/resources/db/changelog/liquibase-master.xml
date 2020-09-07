@@ -4,99 +4,11 @@
                    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
 				   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
-    <include file="classpath:/db/changelog/liquibase-init.xml"/>
-    <include file="classpath:/db/changelog/tbl_assay_inspection.xml"/>
-    <include file="classpath:/db/changelog/tbl_weighting_inspection.xml"/>
-    <include file="classpath:/db/changelog/tbl_inspection_report.xml"/>
-    <include file="classpath:/db/changelog/tbl_person.xml"/>
-    <include file="classpath:/db/changelog/tbl_percent_per_year.xml"/>
-    <include file="classpath:/db/changelog/tbl_foreign_invoice.xml"/>
-    <include file="classpath:/db/changelog/tbl_warh_inventory.xml"/>
-    <include file="classpath:/db/changelog/tbl_warh_remittance.xml"/>
-    <include file="classpath:/db/changelog/tbl_warh_remittance_detail.xml"/>
-    <include file="classpath:/db/changelog/tbl_price_base.xml"/>
-    <include file="classpath:/db/changelog/tbl_warh_tozin.xml"/>
-    <include file="classpath:/db/changelog/tbl_typical_assay.xml"/>
-    <include file="classpath:/db/changelog/tbl_unit.xml"/>
-    <include file="classpath:/db/changelog/tbl_material.xml"/>
-    <include file="classpath:/db/changelog/tbl_material_item.xml"/>
-    <include file="classpath:/db/changelog/modify-data-types/tbl_foreign_invoice.xml"/>
-    <include file="classpath:/db/changelog/modify-data-types/tbl_foreign_invoice_item.xml"/>
-    <include file="classpath:/db/changelog/modify-data-types/tbl_foreign_invoice_payment.xml"/>
-    <include file="classpath:/db/changelog/modify-data-types/tbl_foreign_invoice_item_detail.xml"/>
-    <include file="classpath:/db/changelog/tbl_foreign_invoice_item.xml"/>
-    <include file="classpath:/db/changelog/tbl_foreign_invoice_bill_of_lading.xml"/>
-    <include file="classpath:/db/changelog/tbl_foreign_invoice_item_detail.xml"/>
-    <include file="classpath:/db/changelog/tbl_foreign_invoice_payment.xml"/>
-    <include file="classpath:/db/changelog/tbl_warh_warehouse.xml"/>
-    <include file="classpath:/db/changelog/tbl_warh_store.xml"/>
-    <include file="classpath:/db/changelog/tbl_warh_depot.xml"/>
-    <include file="classpath:/db/changelog/synonyms.xml"/>
-    <include file="classpath:/db/changelog/tbl_country.xml"/>
-    <include file="classpath:/db/changelog/tbl_port.xml"/>
-    <include file="classpath:/db/changelog/tbl_contact.xml"/>
-    <include file="classpath:/db/changelog/tbl_currency_rate.xml"/>
-    <include file="classpath:/db/changelog/contract/tbl_cntr_contract_detail.xml"/>
-    <include file="classpath:/db/changelog/contract/tbl_cntr_contract_detail_type.xml"/>
-    <include file="classpath:/db/changelog/contract/tbl_cntr_contract_detail_type_param.xml"/>
-    <include file="classpath:/db/changelog/tbl_parameters.xml"/>
-    <include file="classpath:/db/changelog/tbl_contract_currency.xml"/>
-    <include file="classpath:/db/changelog/tbl_vessel.xml"/>
-    <include file="classpath:/db/changelog/contract/tbl_cntr_contract_contact.xml"/>
-    <include file="classpath:/db/changelog/tbl_cntr_incoterm.xml"/>
-    <include file="classpath:/db/changelog/tbl_shipment_type.xml"/>
-    <include file="classpath:/db/changelog/tbl_shipment_method.xml"/>
-    <include file="classpath:/db/changelog/tbl_warh_element.xml"/>
-    <include file="classpath:/db/changelog/tbl_cost.xml"/>
-    <include file="classpath:/db/changelog/tbl_warh_material_element.xml"/>
-    <include file="classpath:/db/changelog/tbl_shipment_cost_invoice.xml"/>
-    <include file="classpath:/db/changelog/tbl_shipment_cost_invoice_detail.xml"/>
-    <include file="classpath:/db/changelog/tbl_sales_type.xml"/>
-    <include file="classpath:/db/changelog/tbl_payment_type.xml"/>
-    <include file="classpath:/db/changelog/tbl_invoice_type.xml"/>
-    <include file="classpath:/db/changelog/contract/tbl_cntr_contract_detail_value.xml"/>
-    <include file="classpath:/db/changelog/tbl_contract_discount.xml"/>
-    <include file="classpath:/db/changelog/contract/tbl_cntr_contract.xml"/>
-    <include file="classpath:/db/changelog/tbl_shipment.xml"/>
 
-
-
-
-
-
-
-
-    <include file="classpath:/db/changelog/view/tbl_tozin_plant.xml"/>
-    <include file="classpath:/db/changelog/view/view_tozin.xml"/>
-    <!--	<include file="classpath:/db/changelog/view_tozin.xml"/>-->
-    	<include file="classpath:/db/changelog/view/view_tozin_m.xml"/>
-    	<include file="classpath:/db/changelog/view/view_tozin_s.xml"/>
-    	<include file="classpath:/db/changelog/view/view_frosh.xml"/>
-    	<include file="classpath:/db/changelog/view/view_kharid.xml"/>
-
-
-
-
-
-    	<include file="classpath:/db/changelog/view/view_warh_inventory.xml"/>
-    	<include file="classpath:/db/changelog/view/view_warh_remittance_detail.xml"/>
-
-
-
-
-
-
-
-
-
-
-
-    <include file="classpath:/db/changelog/contract/tbl_cntr_bill_of_landing.xml"/>
-    <include file="classpath:/db/changelog/contract/tbl_cntr_container_to_bill_of_landing.xml"/>
-    <include file="classpath:/db/changelog/contract/tbl_cntr_remittance_to_bill_of_landing.xml"/>
-
-
-    <include file="classpath:/db/changelog/tbl_contract_shipment.xml"/>
-
+    <include file="classpath:/db/changelog/initial-definition/*.xml"/>
+    <include file="classpath:/db/changelog/initial-data/*.xml"/>
+    <include file="classpath:/db/changelog/synonyms/*.xml"/>
+    <include file="classpath:/db/changelog/changes/*.xml"/>
+    <include file="classpath:/db/changelog/view/*.xml"/>
 
 </databaseChangeLog>

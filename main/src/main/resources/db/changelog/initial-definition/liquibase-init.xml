@@ -3,10 +3,5 @@
                    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
 
-    <changeSet author="karimi (generated)" id="1594613577991-230">
-        <addColumn tableName="TBL_FOREIGN_INVOICE_PAYMENT">
-            <column name="N_PORTION" type="number(5, 2)"/>
-        </addColumn>
-    </changeSet>
 
 </databaseChangeLog>

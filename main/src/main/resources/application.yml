@@ -22,6 +22,7 @@ spring:
     database-change-log-lock-table: Z_LIQ_CHANGELOG_LOCK
     change-log: classpath:db/changelog/liquibase-master.xml
     enabled: true
+    contexts: ${spring.profiles.active}
   main:
     allow-bean-definition-overriding: true
   mvc:
@@ -136,8 +137,8 @@ spring:
   profiles: Local
   datasource:
     url: jdbc:oracle:thin:@//oragnrt01.icico.net.ir:1521/pdb_dev01
-    username: saleslocal
-    password: saleslocal
+    username: dev_sales
+    password: devsales
   redis:
     host: devapp01.icico.net.ir
     password: nicico
