@@ -16,7 +16,7 @@ import javax.persistence.Id;
 @Entity
 @Immutable
 @Subselect(
-        "SELECT" +
+        "SELECT " +
                 "CUST_ID AS ID, " +
                 "CUST_ADDRESS AS CUSTOMERADDRESS, " +
                 "CUST_CODEMARKAZHAZ AS CUSTOMERCOSTCENTERCODE, " +

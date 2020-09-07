@@ -16,7 +16,7 @@ import javax.persistence.Id;
 @Entity
 @Immutable
 @Subselect(
-        "SELECT" +
+        "SELECT " +
                 "LCID AS ID, " +
                 "BANKGROUPDESC AS BANKGROUPDESC, " +
                 "BANKGROUPID AS BANKGROUPID, " +

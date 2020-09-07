@@ -16,7 +16,7 @@ import javax.persistence.Id;
 @Entity
 @Immutable
 @Subselect(
-        "SELECT" +
+        "SELECT " +
                 "INV_ID AS ID, " +
                 "BANKGROUPDESC AS BANKGROUPDESC, " +
                 "BUYERID AS BUYERID, " +
@@ -224,7 +224,7 @@ public class ViewInvoiceInternal {
     private String taxCostCenterCode;
 
     @Column(name = "TOTALAMOUNT", precision = 10)
-    private Double TotalAmount;
+    private Double totalAmount;
 
     @Column(name = "TOTALDEDUCTIONS", precision = 10)
     private Double totalDeductions;
