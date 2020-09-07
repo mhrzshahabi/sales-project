@@ -37,7 +37,7 @@ public interface IGenericService<T, ID extends Serializable, C, R, U, D> {
 
     R finalize(ID id);
 
-    R Disapprove(ID id);
+    R disapprove(ID id);
 
     R activate(ID id);
 

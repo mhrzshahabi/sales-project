@@ -1,9 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ page  import="com.nicico.copper.core.SecurityUtil" %>
 
 //<script>
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
+    var c_record = "${SecurityUtil.hasAuthority('C_CONTRACT')}";
+    var d_record = "${SecurityUtil.hasAuthority('U_CONTRACT')}";
 
 var RestDataSource_Contract = isc.MyRestDataSource.create({
         fields:
@@ -420,7 +423,8 @@ var RestDataSource_Contract = isc.MyRestDataSource.create({
         getExpansionComponent: function (record) {
             var dccTableId = record.id;
             var dccTableName = "TBL_CONTRACT";
-            contractAttachmentViewLoader.setViewURL("dcc/showForm/" + dccTableName + "/" + dccTableId);
+            contractAttachmentViewLoader.setViewURL("dcc/showForm/" + dccTableName + "/" + dccTableId+ "?d_record="
++ d_record + "&c_record=" + c_record);
             hLayoutViewLoaderContract.show();
             var layoutContract = isc.VLayout.create({
                 styleName: "expand-layout",

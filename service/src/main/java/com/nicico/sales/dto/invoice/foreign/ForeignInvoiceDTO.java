@@ -2,10 +2,6 @@ package com.nicico.sales.dto.invoice.foreign;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.nicico.sales.dto.*;
-import com.nicico.sales.dto.contract.ContractDTO2;
-import com.nicico.sales.model.entities.base.*;
-import com.nicico.sales.model.entities.contract.Contract2;
-import com.nicico.sales.model.entities.invoice.foreign.ForeignInvoiceBillOfLanding;
 import com.nicico.sales.model.enumeration.EStatus;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -41,7 +37,7 @@ public class ForeignInvoiceDTO {
     private Long currencyId;
     private Long buyerId;
     private Long invoiceTypeId;
-    private Long contractId;
+    private Long shipmentId;
     private Long creatorId;
 
     @Getter
@@ -55,9 +51,11 @@ public class ForeignInvoiceDTO {
         private UnitDTO.Info currency;
         private ContactDTO.Info buyer;
         private InvoiceTypeDTO.Info invoiceType;
-        private ContractDTO2.Info contract;
+        private ShipmentDTO.Info shipment;
         private PersonDTO.Info creator;
-        private List<ForeignInvoiceBillOfLandingDTO.Info> billLadings;
+//        private List<ForeignInvoiceItemDTO.Info> foreignInvoiceItems;
+//        private List<ForeignInvoiceBillOfLandingDTO.Info> billLadings;
+//        private List<ForeignInvoicePaymentDTO.Info> foreignInvoicePayments;
 
         // Auditing
         private Date createdDate;
@@ -78,9 +76,10 @@ public class ForeignInvoiceDTO {
     @ApiModel("ForeignInvoiceCreateRq")
     public static class Create extends ForeignInvoiceDTO {
 
+        private Long contractId;
         private List<Long> billLadingIds;
-        private ForeignInvoicePaymentDTO.Create foreignInvoicePayment;
         private List<ForeignInvoiceItemDTO.Create> foreignInvoiceItems;
+        private List<ForeignInvoicePaymentDTO.Create> foreignInvoicePayments;
     }
 
     @Getter

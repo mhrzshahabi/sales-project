@@ -16,6 +16,7 @@ import javax.validation.constraints.NotNull;
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
 @Table(name = "TBL_WARH_REMITTANCE_DETAIL")
+@SecondaryTable(name = "VIEW_WARH_REMITTANCE_DETAIL")
 public class RemittanceDetail extends BaseEntity {
     //todo Article 3 molybdenum....
     @Id
@@ -93,4 +94,8 @@ public class RemittanceDetail extends BaseEntity {
     @Column(name = "N_WEIGHT")
     private Long weight;
 
+    @Column(name = "calc_date",table = "VIEW_WARH_REMITTANCE_DETAIL",insertable = false,updatable = false)
+    private String date;
+    @Column(name = "input_remittance",table = "VIEW_WARH_REMITTANCE_DETAIL",insertable = false,updatable = false)
+    private Boolean inputRemittance;
 }

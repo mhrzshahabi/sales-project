@@ -14,9 +14,20 @@ namespace nicico {
 
     //------------------------------------------ Classes -------------------------------------------
 
+    export enum ActionType {
+        REFRESH,
+        NEW,
+        EDIT,
+        DELETE,
+        ACTIVATE,
+        DEACTIVATE,
+        FINALIZE,
+        DISAPPROVE
+    }
+
     export class BasicFormUtil {
 
-        static createToolStrip(creator): void {
+        static createToolStrip(creator: JSPTabVariable): void {
             // @ts-ignore
             creator.toolStrip.main = isc.ToolStrip.create({
                 width: "100%",
@@ -25,6 +36,8 @@ namespace nicico {
                     // <c:if test = "${c_entity}">
                     // @ts-ignore
                     isc.ToolStripButtonAdd.create({
+                        // @ts-ignore
+                        actionType: ActionType.NEW,
                         title: "<spring:message code='global.form.new'/>",
                         click: function () {
                             // @ts-ignore
@@ -35,6 +48,8 @@ namespace nicico {
                     // <c:if test = "${u_entity}">
                     // @ts-ignore
                     isc.ToolStripButtonEdit.create({
+                        // @ts-ignore
+                        actionType: ActionType.EDIT,
                         icon: "[SKIN]/actions/edit.png",
                         title: "<spring:message code='global.form.edit'/>",
                         click: function () {
@@ -46,6 +61,8 @@ namespace nicico {
                     // <c:if test = "${d_entity}">
                     // @ts-ignore
                     isc.ToolStripButtonRemove.create({
+                        // @ts-ignore
+                        actionType: ActionType.DELETE,
                         icon: "[SKIN]/actions/remove.png",
                         title: "<spring:message code='global.form.remove'/>",
                         click: function () {
@@ -57,9 +74,9 @@ namespace nicico {
                     // <c:if test = "${a_entity}">
                     // @ts-ignore
                     isc.ToolStripButton.create({
-                        visibility: "hidden",
                         // @ts-ignore
-                        role: "activateRecord",
+                        actionType: ActionType.ACTIVATE,
+                        visibility: "hidden",
                         icon: "[SKIN]/actions/configure.png",
                         title: "<spring:message code='global.active'/>",
                         // @ts-ignore
@@ -72,9 +89,9 @@ namespace nicico {
                     // <c:if test = "${i_entity}">
                     // @ts-ignore
                     isc.ToolStripButton.create({
-                        visibility: "hidden",
                         // @ts-ignore
-                        role: "deactivateRecord",
+                        actionType: ActionType.DEACTIVATE,
+                        visibility: "hidden",
                         icon: "[SKIN]/actions/exclamation.png",
                         title: "<spring:message code='global.inactive'/>",
                         // @ts-ignore
@@ -87,9 +104,9 @@ namespace nicico {
                     // <c:if test = "${f_entity}">
                     // @ts-ignore
                     isc.ToolStripButton.create({
-                        visibility: "hidden",
                         // @ts-ignore
-                        role: "finalizeRecord",
+                        actionType: ActionType.FINALIZE,
+                        visibility: "hidden",
                         icon: "[SKIN]/actions/accept.png",
                         title: "<spring:message code='global.form.accept'/>",
                         // @ts-ignore
@@ -102,10 +119,10 @@ namespace nicico {
                     // <c:if test = "${o_entity}">
                     // @ts-ignore
                     isc.ToolStripButton.create({
-                        visibility: "hidden",
                         // @ts-ignore
-                        role: "disapproveRecord",
-                        icon: "[SKIN]/actions/refresh.png",
+                        actionType: ActionType.DISAPPROVE,
+                        visibility: "hidden",
+                        icon: "[SKIN]/actions/undo.png",
                         title: "<spring:message code='global.form.disapprove'/>",
                         // @ts-ignore
                         click: function () {
@@ -122,6 +139,8 @@ namespace nicico {
                             members: [
                                 // @ts-ignore
                                 isc.ToolStripButtonRefresh.create({
+                                    // @ts-ignore
+                                    actionType: ActionType.REFRESH,
                                     title: "<spring:message code='global.form.refresh'/>",
                                     click: function () {
                                         // @ts-ignore
@@ -134,22 +153,24 @@ namespace nicico {
             });
         }
 
-        static createRestDataSource(creator): void {
+        static createRestDataSource(creator: JSPTabVariable): void {
             // @ts-ignore
             creator.restDataSource.main = isc.RestDataSource.nicico.getDefault(creator.variable.url + "spec-list", creator.listGrid.fields, creator.method.transformRequest);
         }
 
-        static createListGrid(creator): void {
+        static createListGrid(creator: JSPTabVariable): void {
             // @ts-ignore
             creator.listGrid.main = isc.ListGrid.nicico.getDefault(creator.listGrid.fields, creator.restDataSource.main, creator.listGrid.criteria);
         }
 
-        static createListGridMenu(creator): void {
+        static createListGridMenu(creator: JSPTabVariable): void {
             // @ts-ignore
             creator.menu.main = isc.Menu.create({
                 width: 150,
                 items: [
                     {
+                        // @ts-ignore
+                        actionType: ActionType.REFRESH,
                         icon: "pieces/16/refresh.png",
                         title: '<spring:message code="global.form.refresh"/>',
                         click: function () {
@@ -159,6 +180,8 @@ namespace nicico {
                     },
                     // <c:if test = "${c_entity}">
                     {
+                        // @ts-ignore
+                        actionType: ActionType.NEW,
                         icon: "pieces/16/icon_add.png",
                         title: '<spring:message code="global.form.new"/>',
                         click: function () {
@@ -169,6 +192,8 @@ namespace nicico {
                     // </c:if>
                     // <c:if test = "${u_entity}">
                     {
+                        // @ts-ignore
+                        actionType: ActionType.EDIT,
                         icon: "pieces/16/icon_edit.png",
                         title: "<spring:message code='global.form.edit'/>",
                         click: function () {
@@ -179,6 +204,8 @@ namespace nicico {
                     // </c:if>
                     // <c:if test = "${d_entity}">
                     {
+                        // @ts-ignore
+                        actionType: ActionType.DELETE,
                         icon: "pieces/16/icon_delete.png",
                         title: '<spring:message code="global.form.remove"/>',
                         click: function () {
@@ -190,7 +217,7 @@ namespace nicico {
                     // <c:if test = "${a_entity}">
                     {
                         // @ts-ignore
-                        role: "activateRecord",
+                        actionType: ActionType.ACTIVATE,
                         icon: "pieces/16/configure.png",
                         title: '<spring:message code="global.active"/>',
                         click: function () {
@@ -202,7 +229,7 @@ namespace nicico {
                     // <c:if test = "${i_entity}">
                     {
                         // @ts-ignore
-                        role: "deactivateRecord",
+                        actionType: ActionType.DEACTIVATE,
                         icon: "pieces/16/exclamation.png",
                         title: '<spring:message code="global.inactive"/>',
                         click: function () {
@@ -214,7 +241,7 @@ namespace nicico {
                     // <c:if test = "${f_entity}">
                     {
                         // @ts-ignore
-                        role: "finalizeRecord",
+                        actionType: ActionType.FINALIZE,
                         icon: "pieces/16/accept.png",
                         title: '<spring:message code="global.form.accept"/>',
                         click: function () {
@@ -226,8 +253,8 @@ namespace nicico {
                     // <c:if test = "${o_entity}">
                     {
                         // @ts-ignore
-                        role: "disapproveRecord",
-                        icon: "pieces/16/refresh.png",
+                        actionType: ActionType.DISAPPROVE,
+                        icon: "pieces/16/undo.png",
                         title: '<spring:message code="global.form.disapprove"/>',
                         click: function () {
                             // @ts-ignore
@@ -241,14 +268,14 @@ namespace nicico {
             isc.Canvas.nicico.changeProperties(creator.listGrid.main, "contextMenu", creator.menu.main);
         }
 
-        static createDynamicForm(creator): void {
+        static createDynamicForm(creator: JSPTabVariable): void {
             // @ts-ignore
             creator.dynamicForm.main = isc.DynamicForm.nicico.getDefault(creator.dynamicForm.fields);
             // @ts-ignore
             creator.dynamicForm.main.hide();
         }
 
-        static createVLayout(creator): void {
+        static createVLayout(creator: JSPTabVariable): void {
             // @ts-ignore
             creator.vLayout.main = isc.VLayout.create({
 
@@ -256,6 +283,61 @@ namespace nicico {
                 // @ts-ignore
                 members: [creator.toolStrip.main, creator.listGrid.main]
             });
+        }
+
+        static removeExtraGridMenuActions(creator: JSPTabVariable): void {
+
+            // @ts-ignore
+            let actionTypes = creator.toolStrip.main.members.filter(q => q.visibility === "hidden").map(q => q.actionType);
+            this.removeGridMenuByActions(creator, actionTypes);
+        }
+
+        static removeGridMenuByActions(creator: JSPTabVariable, actionTypes: Array<ActionType>): void {
+
+            if (!actionTypes || !actionTypes.length)
+                return;
+
+            // @ts-ignore
+            let menuItems = creator.menu.main.data.filter(q => actionTypes.contains(q.actionType));
+            // @ts-ignore
+            menuItems.forEach(menuItem => creator.menu.main.data.remove(menuItem));
+            // @ts-ignore
+            creator.menu.main.initWidget();
+        }
+
+        static removeExtraActions(creator: JSPTabVariable, actionTypes: Array<ActionType>): void {
+
+            if (!actionTypes || !actionTypes.length)
+                return;
+
+            this.hideToolStripActions(creator, actionTypes);
+            this.removeGridMenuByActions(creator, actionTypes);
+        }
+
+        static showAllToolStripActions(creator: JSPTabVariable): void {
+
+            // @ts-ignore
+            creator.toolStrip.main.members.forEach(toolStripItem => toolStripItem.setVisibility("visible"));
+        }
+
+        static showToolStripActions(creator: JSPTabVariable, actionTypes: Array<ActionType>): void {
+
+            if (!actionTypes || !actionTypes.length)
+                return;
+
+            // @ts-ignore
+            let toolStripItems = creator.toolStrip.main.members.filter(q => actionTypes.contains(q.actionType));
+            toolStripItems.forEach(toolStripItem => toolStripItem.setVisibility("visible"));
+        }
+
+        static hideToolStripActions(creator: JSPTabVariable, actionTypes: Array<ActionType>): void {
+
+            if (!actionTypes || !actionTypes.length)
+                return;
+
+            // @ts-ignore
+            let toolStripItems = creator.toolStrip.main.members.filter(q => actionTypes.contains(q.actionType));
+            toolStripItems.forEach(toolStripItem => toolStripItem.setVisibility("hidden"));
         }
 
         static getDefaultBasicForm(creator: JSPTabVariable, restControllerUrl: string, createWindowHook: any): isc.VLayout {

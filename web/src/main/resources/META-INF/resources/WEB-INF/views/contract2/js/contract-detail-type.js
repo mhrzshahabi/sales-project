@@ -10,10 +10,11 @@ contractDetailTypeTab.window.formUtil = new nicico.FormUtil();
 
 contractDetailTypeTab.dynamicForm.fields.code = {
     name: "code",
-    width: "50%",
+    width: "100%",
     required: true,
     keyPressFilter: "^[A-Za-z0-9]",
-    title: "<spring:message code='global.code'/>"
+    title: "<spring:message code='global.code'/>",
+    valueMap: JSON.parse('${Enum_EContractDetailTypeCode}'),
 };
 contractDetailTypeTab.dynamicForm.fields.material = {
     name: "materialId",
@@ -38,14 +39,14 @@ contractDetailTypeTab.dynamicForm.fields.material = {
 };
 contractDetailTypeTab.dynamicForm.fields.titleFa = {
     name: "titleFa",
-    width: "50%",
+    width: "100%",
     required: true,
     keyPressFilter: "^[\u0600-\u06FF\uFB8A\u067E\u0686\u06AF\u200C\u200F|0-9|-\\s\\/]",
     title: "<spring:message code='global.title-fa'/>",
 };
 contractDetailTypeTab.dynamicForm.fields.titleEn = {
     name: "titleEn",
-    width: "50%",
+    width: "100%",
     required: true,
     keyPressFilter: "^[A-Za-z0-9-\\s\\/]",
     title: "<spring:message code='global.title-en'/>"

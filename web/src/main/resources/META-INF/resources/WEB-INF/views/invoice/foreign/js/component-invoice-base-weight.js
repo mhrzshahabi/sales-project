@@ -10,6 +10,7 @@ isc.defineClass("InvoiceBaseWeight", isc.VLayout).addProperties({
     overflow: "visible",
     shipment: null,
     remittanceDetail: null,
+    weightMilestone: null,
     initWidget: function () {
 
         this.Super("initWidget", arguments);
@@ -40,7 +41,7 @@ isc.defineClass("InvoiceBaseWeight", isc.VLayout).addProperties({
                         params: {
                             reportMilestone: value,
                             shipmentId: This.shipment.id,
-                            inventoryIds: [This.remittanceDetail.inventoryId]
+                            inventoryIds: [This.remittanceDetail.inventory.id]
                         },
                         actionURL: "${contextPath}" + "/api/weightInspection/get-weight-values",
                         callback: function (resp) {
@@ -124,7 +125,8 @@ isc.defineClass("InvoiceBaseWeight", isc.VLayout).addProperties({
         return {
             weightGW: this.getMembers().filter(q => q.name === "weightGW").first(),
             weightND: this.getMembers().filter(q => q.name === "weightND").first(),
-            weightDiff: this.getMembers().filter(q => q.name === "weightDiff").first()
+            weightDiff: this.getMembers().filter(q => q.name === "weightDiff").first(),
+            weightMilestone: this.getMembers()[0].getValue("reportMilestone")
         };
     }
 });
