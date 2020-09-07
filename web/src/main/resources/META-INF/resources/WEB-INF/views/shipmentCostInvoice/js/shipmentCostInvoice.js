@@ -905,86 +905,98 @@ shipmentCostInvoiceTab.listGrid.shipmentCostDetail = isc.ListGrid.create({
             name: "serviceCode",
             title: "<spring:message code='shipmentCostInvoiceDetail.serviceCode'/>",
             type: "text",
-            width: "10%"
+            width: "10%",
+            showHover: true
         },
         {
             name: "serviceName",
             title: "<spring:message code='shipmentCostInvoiceDetail.serviceName'/>",
             required: true,
             type: "text",
-            width: "10%"
+            width: "10%",
+            showHover: true
         },
         {
             name: "quantity",
             title: "<spring:message code='shipmentCostInvoiceDetail.quantity'/>",
             type: "float",
             required: true,
-            width: "10%"
+            width: "10%",
+            showHover: true
         },
         {
             name: "financeUnitId",
             title: "<spring:message code='shipmentCostInvoice.financeUnit'/>",
             editorType: "staticText",
             width: "10%",
+            showHover: true
         },
         {
             name: "unitPrice",
             title: "<spring:message code='shipmentCostInvoiceDetail.unitPrice'/>",
             type: "float",
             required: true,
-            width: "10%"
+            width: "10%",
+            showHover: true
         },
         {
             name: "sumPrice",
             title: "<spring:message code='shipmentCostInvoiceDetail.sumPrice'/>",
             type: "float",
+            format: "#.###",
             editorType: "staticText",
             width: "10%",
-            // value: 0
+            showHover: true
         },
         {
             name: "discountPrice",
             title: "<spring:message code='shipmentCostInvoiceDetail.discountPrice'/>",
             type: "float",
             required: true,
-            width: "10%"
+            width: "10%",
+            showHover: true
         },
         {
             name: "sumPriceWithDiscount",
             title: "<spring:message code='shipmentCostInvoiceDetail.sumPriceWithDiscount'/>",
             type: "float",
+            format: "#.###",
             editorType: "staticText",
             width: "10%",
-            // value: 0
+            showHover: true
         },
         {
             name: "tvatPrice",
             title: "<spring:message code='shipmentCostInvoiceDetail.tVatPrice'/>",
             type: "float",
+            format: "#.###",
             editorType: "staticText",
             width: "10%",
-            // value: 0
+            showHover: true
         },
         {
             name: "cvatPrice",
             title: "<spring:message code='shipmentCostInvoiceDetail.cVatPrice'/>",
             type: "float",
+            format: "#.###",
             editorType: "staticText",
             width: "10%",
-            // value: 0
+            showHover: true
         },
         {
             name: "sumVatPrice",
             type: "float",
+            format: "#.###",
             hidden: true
         },
         {
             name: "sumPriceWithVat",
             title: "<spring:message code='shipmentCostInvoiceDetail.sumPriceWithVat'/>",
             type: "float",
+            format: "#.###",
             editorType: "staticText",
             width: "10%",
-            // value: 0
+            showHover: true
         },
     ]),
     rowEditorExit: function (editCompletionEvent, record, newValues, rowNum) {
