@@ -1,6 +1,5 @@
 package com.nicico.sales.model.entities.base;
 
-
 import com.nicico.sales.model.Auditable;
 import com.nicico.sales.model.entities.warehouse.MaterialElement;
 import lombok.*;
@@ -9,7 +8,6 @@ import lombok.experimental.Accessors;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
-
 
 @Getter
 @Setter

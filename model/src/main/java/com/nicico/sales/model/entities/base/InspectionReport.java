@@ -7,7 +7,6 @@ import com.nicico.sales.model.enumeration.InspectionRateValueType;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.envers.AuditOverride;
-import org.hibernate.envers.NotAudited;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -20,7 +19,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
-@AuditOverride(forClass = Auditable.class)
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
 @Table(name = "TBL_INSPECTION_REPORT")
@@ -34,7 +32,6 @@ public class InspectionReport extends BaseEntity {
     @Column(name = "C_INSPECTION_NO")
     private String inspectionNO;
 
-    @NotAudited
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "F_INSPECTOR_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_inspectionReport2ContactByInspectorId"))
@@ -51,7 +48,6 @@ public class InspectionReport extends BaseEntity {
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
-    @NotAudited
     @JoinColumn(name = "F_SELLER_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_inspectionReport2contactBySellerId"))
     private Contact seller;
 
@@ -60,7 +56,6 @@ public class InspectionReport extends BaseEntity {
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
-    @NotAudited
     @JoinColumn(name = "F_BUYER_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_inspectionReport2contactByBuyerId"))
     private Contact buyer;
 

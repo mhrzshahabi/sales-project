@@ -4,7 +4,6 @@ import com.nicico.sales.model.entities.common.BaseEntity;
 import com.nicico.sales.model.entities.warehouse.Remittance;
 import lombok.*;
 import lombok.experimental.Accessors;
-import org.hibernate.envers.NotAudited;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -169,7 +168,6 @@ public class Shipment extends BaseEntity {
     @Column(name = "BOOKING_NO_CAT")
     private String bookingCat;
 
-//    @NotAudited
 //    @OneToMany(mappedBy = "shipment", fetch = FetchType.LAZY)
 //    private Set<Invoice> invoices;
 

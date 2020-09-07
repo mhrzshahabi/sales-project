@@ -106,13 +106,13 @@ public class ShipmentDTO {
         private List<Long> ids;
     }
 
-    @Getter
-    @Setter
-    @Accessors(chain = true)
-    @ApiModel("ShipmentInfoWithContract")
-    public static class InfoWithInvoice extends ShipmentDTO {
-        private List<InvoiceDTO.Info> invoices;
-    }
+//    @Getter
+//    @Setter
+//    @Accessors(chain = true)
+//    @ApiModel("ShipmentInfoWithContract")
+//    public static class InfoWithInvoice extends ShipmentDTO {
+//        private List<InvoiceDTO.Info> invoices;
+//    }
 
     public BigDecimal getMoisture(){
         BigDecimal weightGW = getWeightGW();

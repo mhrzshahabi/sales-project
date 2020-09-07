@@ -7,10 +7,7 @@ import com.nicico.sales.exception.NotFoundException;
 import com.nicico.sales.iservice.IContactService;
 import com.nicico.sales.model.entities.base.Contact;
 import com.nicico.sales.model.entities.base.ContactAccount;
-import com.nicico.sales.model.entities.base.Contract;
-import com.nicico.sales.repository.ContactDAO;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,7 +24,7 @@ public class ContactService extends GenericService<Contact, Long, ContactDTO.Cre
     @Override
     public void updateContactDefaultAccount(ContactAccount contactAccount) {
         final Optional<Contact> slById = repository.findById(contactAccount.getContactId());
-        final Contact contact = slById.orElseThrow(() -> new NotFoundException(Contract.class));
+        final Contact contact = slById.orElseThrow(() -> new NotFoundException(Contact.class));
         contact.setBankAccount(contactAccount.getBankAccount());
         contact.setBankShaba(contactAccount.getBankShaba());
         contact.setBankSwift(contactAccount.getBankSwift());
@@ -41,7 +38,7 @@ public class ContactService extends GenericService<Contact, Long, ContactDTO.Cre
     @Override
     public void removeContactDefaultAccount(ContactAccount contactAccount) {
         final Optional<Contact> slById = repository.findById(contactAccount.getContactId());
-        final Contact contact = slById.orElseThrow(() -> new NotFoundException(Contract.class));
+        final Contact contact = slById.orElseThrow(() -> new NotFoundException(Contact.class));
         contact.setBankAccount(null);
         contact.setBankShaba(null);
         contact.setBankSwift(null);

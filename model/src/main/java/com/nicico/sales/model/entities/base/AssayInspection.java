@@ -18,7 +18,6 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
-@AuditOverride(forClass = Auditable.class)
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
 @Table(name = "TBL_ASSAY_INSPECTION", uniqueConstraints = @UniqueConstraint(name = "inspectionReport_materialElement_inventory_UNIQUE",

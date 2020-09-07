@@ -2,7 +2,6 @@ package com.nicico.sales.iservice;
 
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.sales.dto.ContractShipmentAuditDTO;
 import com.nicico.sales.dto.ContractShipmentDTO;
 
 import java.util.List;
@@ -13,7 +12,7 @@ public interface IContractShipmentService {
 
     List<ContractShipmentDTO.Info> list();
 
-    List<ContractShipmentAuditDTO.Info> listAudit();
+//    List<ContractShipmentAuditDTO.Info> listAudit();
 
     ContractShipmentDTO.Info create(ContractShipmentDTO.Create request);
 
@@ -25,5 +24,5 @@ public interface IContractShipmentService {
 
     TotalResponse<ContractShipmentDTO.Info> search(NICICOCriteria criteria);
 
-    TotalResponse<ContractShipmentAuditDTO.Info> searchAudit(NICICOCriteria criteria);
+//    TotalResponse<ContractShipmentAuditDTO.Info> searchAudit(NICICOCriteria criteria);
 }

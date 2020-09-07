@@ -6,8 +6,6 @@ import com.nicico.sales.model.entities.common.BaseEntity;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.envers.AuditOverride;
-import org.hibernate.envers.Audited;
-import org.hibernate.envers.NotAudited;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -20,9 +18,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
-@AuditOverride(forClass = Auditable.class)
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
-@Audited
 @Entity
 @Table(name = "TBL_CNTR_CONTRACT")
 public class Contract2 extends BaseEntity {
@@ -53,7 +49,6 @@ public class Contract2 extends BaseEntity {
     @Column(name = "C_DESCRIPTION", length = 4000)
     private String description;
 
-    @NotAudited
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "F_CONTRACT_TYPE_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_contract2contractTypeByContractTypeId"))
@@ -63,7 +58,6 @@ public class Contract2 extends BaseEntity {
     @Column(name = "F_CONTRACT_TYPE_ID", nullable = false)
     private Long contractTypeId;
 
-    @NotAudited
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "F_MATERIAL_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_contract2materialByMaterialId"))
@@ -73,7 +67,6 @@ public class Contract2 extends BaseEntity {
     @Column(name = "F_MATERIAL_ID", nullable = false)
     private Long materialId;
 
-    @NotAudited
     @Setter(AccessLevel.NONE)
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "F_PARENT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_contract2contractByParentId"))
@@ -82,11 +75,9 @@ public class Contract2 extends BaseEntity {
     @Column(name = "F_PARENT_ID")
     private Long parentId;
 
-    @NotAudited
     @OneToMany(mappedBy = "contract", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<ContractContact> contractContacts;
 
-    @NotAudited
     @OneToMany(mappedBy = "contract", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<ContractDetail2> contractDetails;
 }
