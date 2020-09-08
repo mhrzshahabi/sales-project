@@ -16,6 +16,7 @@ async function getAccessToken(user = "user", password = "password") {
     const json = await response.json()
     return json['access_token'];
 }
+
 const crTab = {
     Logs: [],
     Vars: {
@@ -731,24 +732,21 @@ crTab.Methods.UpdateInputOutputCharts = function () {
         title: "روز"
     })
     // dbg(true,_facet)
-    fetch('api/remittance-detail/spec-list/?criteria=' + JSON.stringify(
+    const criteriaStr = [
         {
-            _constructor: "AdvancedCriteria",
-            operator: "and",
-            criteria:
-                [
-                    {
-                        fieldName: "date",
-                        operator: "lessOrEqual",
-                        value: crTab.DynamicForms.ChartDate.getValue('toDate').replaceAll("/", "")
-                    },
-                    {
-                        fieldName: "date",
-                        operator: "greaterOrEqual",
-                        value: crTab.DynamicForms.ChartDate.getValue('fromDate').replaceAll("/", "")
+            fieldName: "date",
+            operator: "lessOrEqual",
+            value: crTab.DynamicForms.ChartDate.getValue('toDate').replaceAll("/", "")
+        },
+        {
+            fieldName: "date",
+            operator: "greaterOrEqual",
+            value: crTab.DynamicForms.ChartDate.getValue('fromDate').replaceAll("/", "")
 
-                    },]
-        }), {headers: SalesConfigs.httpHeaders}).then(r => {
+        },
+    ].map(_ => JSON.stringify(_)).join("&criteria=")
+    fetch('api/remittance-detail/spec-list/?criteria=' + criteriaStr
+        , {headers: SalesConfigs.httpHeaders}).then(r => {
         if (r.ok) {
             r.json().then(
                 j => {
@@ -821,7 +819,7 @@ crTab.Methods.UpdateInputOutputCharts = function () {
         }
     })
 }
-crTab.Methods.makeRemittanceDetailExcel = async function (    options = {}) {
+crTab.Methods.makeRemittanceDetailExcel = async function (options = {}) {
     const args = {
         ...{
             criteria: {
@@ -841,8 +839,8 @@ crTab.Methods.makeRemittanceDetailExcel = async function (    options = {}) {
         ...options
     }
     const response = await fetch('remittance-detail/excel?_constructor=AdvancedCriteria&operator='
-        +args.criteria.operator + "&" +
-        args.criteria.criteria.map(_=>"criteria="+JSON.stringify(_)).join('&'),
+        + args.criteria.operator + "&" +
+        args.criteria.criteria.map(_ => "criteria=" + JSON.stringify(_)).join('&'),
         {
             headers: SalesConfigs.httpHeaders,
             method: "POST", body: JSON.stringify({
@@ -1500,70 +1498,114 @@ crTab.Layouts.Vlayouts.main = isc.VLayout.create({
                                                 title: "کلی",
                                                 icon: "icon/excel.png",
                                                 click: function () {
-                                                  crTab.Methods.makeRemittanceDetailExcel({
-                                                      criteria: {
-                                                          _constructor: "AdvancedCriteria",
-                                                          operator: "and", criteria: [
-                                                              // {fieldName: "inventory.materialItemId", operator: "equals", value: 8},
-                                                              {fieldName: "inventory.weight", operator: "greaterOrEqual", value: 1},
-                                                              {fieldName:"date",operator: "lessOrEqual",value: toDayDateTozin.getValue().replaceAll("/","")}
-                                                          ]
-                                                      },
-                                                      topRowTitle: "موجودی کلی",
-                                                      fileName: 'موجودی کلی'+ new persianDate().format('YYYYMMDD')
-                                                  })
+                                                    crTab.Methods.makeRemittanceDetailExcel({
+                                                        criteria: {
+                                                            _constructor: "AdvancedCriteria",
+                                                            operator: "and", criteria: [
+                                                                // {fieldName: "inventory.materialItemId", operator: "equals", value: 8},
+                                                                {
+                                                                    fieldName: "inventory.weight",
+                                                                    operator: "greaterOrEqual",
+                                                                    value: 1
+                                                                },
+                                                                {
+                                                                    fieldName: "date",
+                                                                    operator: "lessOrEqual",
+                                                                    value: toDayDateTozin.getValue().replaceAll("/", "")
+                                                                }
+                                                            ]
+                                                        },
+                                                        topRowTitle: "موجودی کلی",
+                                                        fileName: 'موجودی کلی' + new persianDate().format('YYYYMMDD')
+                                                    })
                                                 }
                                             },
                                             {
                                                 title: "کنسانتره",
                                                 icon: "icon/excel.png",
                                                 click: function () {
-                                                  crTab.Methods.makeRemittanceDetailExcel({
-                                                      criteria: {
-                                                          _constructor: "AdvancedCriteria",
-                                                          operator: "and", criteria: [
-                                                              {fieldName: "inventory.materialItemId", operator: "equals", value: 8},
-                                                              {fieldName: "inventory.weight", operator: "greaterOrEqual", value: 1},
-                                                              {fieldName:"date",operator: "lessOrEqual",value: toDayDateTozin.getValue().replaceAll("/","")}
-                                                          ]
-                                                      },
-                                                      topRowTitle: "موجودی کنسانتره",
-                                                      fileName: 'موجودی کنسانتره'+ new persianDate().format('YYYYMMDD')
-                                                  })
+                                                    crTab.Methods.makeRemittanceDetailExcel({
+                                                        criteria: {
+                                                            _constructor: "AdvancedCriteria",
+                                                            operator: "and", criteria: [
+                                                                {
+                                                                    fieldName: "inventory.materialItemId",
+                                                                    operator: "equals",
+                                                                    value: 8
+                                                                },
+                                                                {
+                                                                    fieldName: "inventory.weight",
+                                                                    operator: "greaterOrEqual",
+                                                                    value: 1
+                                                                },
+                                                                {
+                                                                    fieldName: "date",
+                                                                    operator: "lessOrEqual",
+                                                                    value: toDayDateTozin.getValue().replaceAll("/", "")
+                                                                }
+                                                            ]
+                                                        },
+                                                        topRowTitle: "موجودی کنسانتره",
+                                                        fileName: 'موجودی کنسانتره' + new persianDate().format('YYYYMMDD')
+                                                    })
                                                 }
                                             },
                                             {
                                                 title: "کاتد",
                                                 icon: "icon/excel.png",
                                                 click: function () {
-                                                  crTab.Methods.makeRemittanceDetailExcel({
-                                                      criteria: {
-                                                          operator: "and", criteria: [
-                                                              {fieldName: "inventory.materialItemId", operator: "equals", value: 11},
-                                                              {fieldName: "inventory.weight", operator: "greaterOrEqual", value: 1},
-                                                              {fieldName:"date",operator: "lessOrEqual",value: toDayDateTozin.getValue().replaceAll("/","")}
-                                                          ]
-                                                      },
-                                                      topRowTitle: "موجودی کاتد",
-                                                      fileName: 'موجودی کاتد'+ new persianDate().format('YYYYMMDD')
-                                                  })
+                                                    crTab.Methods.makeRemittanceDetailExcel({
+                                                        criteria: {
+                                                            operator: "and", criteria: [
+                                                                {
+                                                                    fieldName: "inventory.materialItemId",
+                                                                    operator: "equals",
+                                                                    value: 11
+                                                                },
+                                                                {
+                                                                    fieldName: "inventory.weight",
+                                                                    operator: "greaterOrEqual",
+                                                                    value: 1
+                                                                },
+                                                                {
+                                                                    fieldName: "date",
+                                                                    operator: "lessOrEqual",
+                                                                    value: toDayDateTozin.getValue().replaceAll("/", "")
+                                                                }
+                                                            ]
+                                                        },
+                                                        topRowTitle: "موجودی کاتد",
+                                                        fileName: 'موجودی کاتد' + new persianDate().format('YYYYMMDD')
+                                                    })
                                                 }
                                             },
                                             {
                                                 title: "مولیبدن",
                                                 icon: "icon/excel.png",
                                                 click: function () {
-                                                  crTab.Methods.makeRemittanceDetailExcel({
-                                                      criteria: {
-                                                          operator: "and", criteria: [
-                                                              {fieldName: "inventory.materialItemId", operator: "equals", value: 97},
-                                                              {fieldName: "inventory.weight", operator: "greaterOrEqual", value: 1},
-                                                              {fieldName:"date",operator: "lessOrEqual",value: toDayDateTozin.getValue().replaceAll("/","")}
-                                                          ]
-                                                      },
-                                                      topRowTitle: "موجودی مولیبدن",
-                                                      fileName: 'موجودی مولیبدن'+ new persianDate().format('YYYYMMDD')
-                                                  })
+                                                    crTab.Methods.makeRemittanceDetailExcel({
+                                                        criteria: {
+                                                            operator: "and", criteria: [
+                                                                {
+                                                                    fieldName: "inventory.materialItemId",
+                                                                    operator: "equals",
+                                                                    value: 97
+                                                                },
+                                                                {
+                                                                    fieldName: "inventory.weight",
+                                                                    operator: "greaterOrEqual",
+                                                                    value: 1
+                                                                },
+                                                                {
+                                                                    fieldName: "date",
+                                                                    operator: "lessOrEqual",
+                                                                    value: toDayDateTozin.getValue().replaceAll("/", "")
+                                                                }
+                                                            ]
+                                                        },
+                                                        topRowTitle: "موجودی مولیبدن",
+                                                        fileName: 'موجودی مولیبدن' + new persianDate().format('YYYYMMDD')
+                                                    })
                                                 }
                                             },
                                         ]
@@ -1712,6 +1754,32 @@ crTab.Layouts.Vlayouts.main = isc.VLayout.create({
                         isc.ToolStripButtonRefresh.create({
                             title: " فیلتر",
                             click: crTab.Methods.UpdateInputOutputCharts
+                        }),
+                        isc.ToolStripButtonAdd.create({
+                            title: " اکسل",
+                            click: function () {
+                                crTab.Methods.makeRemittanceDetailExcel({
+                                    criteria: {
+                                        _constructor: "AdvancedCriteria",
+                                        operator: "and", criteria: [
+                                            {
+                                                fieldName: 'date',
+                                                operator: 'lessOrEqual',
+                                                value: crTab.DynamicForms.ChartDate.getValue('toDate').replaceAll("/", ""), // a title for the chart as a whole
+
+                                            },
+                                            {
+                                                fieldName: 'date',
+                                                operator: 'greaterOrEqual',
+                                                value: crTab.DynamicForms.ChartDate.getValue('fromDate').replaceAll("/", ""),
+                                            },
+
+                                        ]
+                                    },
+                                    topRowTitle: "گزارش ورود خروج",
+                                    fileName: "گزارش ورود خروج" + new persianDate().format('YYYYMMDD')
+                                })
+                            }
                         })
                     ]
                 }),
