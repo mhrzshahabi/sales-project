@@ -76,4 +76,14 @@
         </addColumn>
     </changeSet>
 
+    <changeSet  author="MShahabi"  id="1799887766554-051">
+        <dropUniqueConstraint constraintName="inspectionReport_materialElement_inventory_UNIQUE"
+                              tableName="TBL_ASSAY_INSPECTION"/>
+    </changeSet>
+
+    <changeSet author="MShahabi" id="1799887766554-052">
+        <addUniqueConstraint columnNames="N_MILESTONE, F_MATERIAL_ELEMENT_ID, F_INVENTORY_ID"
+                             constraintName="milestone_materialElement_inventory_UNIQUE" tableName="TBL_ASSAY_INSPECTION"/>
+    </changeSet>
+
 </databaseChangeLog>
