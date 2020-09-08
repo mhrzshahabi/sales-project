@@ -98,6 +98,17 @@
         </addColumn>
     </changeSet>
 
+     <changeSet author="NO1 (generated)" id="SEMAMI-1599538708020-262">
+        <addNotNullConstraint columnDataType="number(19,0)" columnName="F_UNIT_ID" tableName="TBL_SHIPMENT_COST_INVOICE_DETAIL"/>
+    </changeSet>
+
+    <changeSet author="NO1 (generated)" id="1599539180359-276">
+        <addForeignKeyConstraint baseColumnNames="F_UNIT_ID" baseTableName="TBL_SHIPMENT_COST_INVOICE_DETAIL"
+                                 constraintName="fk_shipmentCostInvoiceDetail2unitId" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_UNIT"
+                                 validate="true"/>
+    </changeSet>
+
 
 
 </databaseChangeLog>

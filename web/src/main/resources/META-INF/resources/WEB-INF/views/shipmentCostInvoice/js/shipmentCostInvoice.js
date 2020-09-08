@@ -24,33 +24,32 @@ shipmentCostInvoiceTab.variable.summaryRowData = {};
 
 //***************************************************** RESTDATASOURCE *************************************************
 
-shipmentCostInvoiceTab.restDataSource.shipmentRest = isc.MyRestDataSource.create({
-    fields: [
-        {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-        {
-            name: "contractShipment.contract.no",
-            title: "<spring:message code='contract.contractNo'/>",
-            type: 'text',
-            width: 180
-        },
-        {name: "material.descl", title: "<spring:message code='material.descl'/>", type: 'text'}
-    ],
-    fetchDataURL: shipmentCostInvoiceTab.variable.shipmentUrl + "spec-list"
-});
+ shipmentCostInvoiceTab.restDataSource.shipmentRest = isc.MyRestDataSource.create({
+            fields: [
+                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
+                {
+                    name: "contractShipment.contract.no",
+                    title: "<spring:message code='contract.contractNo'/>",
+                    type: 'text',
+                    width: 180
+                },
+                {name: "material.descl", title: "<spring:message code='material.descl'/>", type: 'text'}
+            ],
+            fetchDataURL: shipmentCostInvoiceTab.variable.shipmentUrl + "spec-list"
+ });
 
-shipmentCostInvoiceTab.restDataSource.shipmentCostDutyRest = isc.MyRestDataSource.create({
-    fields: [
-        {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-        {
-            name: "nameFA",
-            title: "<spring:message code='shipmentCostInvoiceDetail.serviceName'/>",
-            type: 'text',
-            width: 180
-        },
-        {name: "code", title: "<spring:message code='shipmentCostInvoiceDetail.serviceCode'/>", type: 'text'}
-    ],
-    fetchDataURL: shipmentCostInvoiceTab.variable.shipmentCostDuty + "spec-list"
-});
+ shipmentCostInvoiceTab.restDataSource.shipmentCostDutyRest = isc.MyRestDataSource.create({
+            fields: [
+                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
+                {
+                    name: "nameFA",
+                    title: "<spring:message code='shipmentCostInvoiceDetail.serviceName'/>",
+                    type: 'text'
+                },
+                {name: "code", title: "<spring:message code='shipmentCostInvoiceDetail.serviceCode'/>", type: 'text'}
+            ],
+            fetchDataURL: shipmentCostInvoiceTab.variable.shipmentCostDuty + "spec-list"
+ });
 
 shipmentCostInvoiceTab.restDataSource.contactRest = isc.MyRestDataSource.create({
     fields: [
@@ -123,28 +122,16 @@ shipmentCostInvoiceTab.restDataSource.shipmentCostInvoice = isc.MyRestDataSource
             name: "tVat", title: "<spring:message code='shipmentCostInvoice.tVat'/>"
         },
         {
-            name: "sumPrice",
-            type: "float",
-            format: "#.##",
-            title: "<spring:message code='shipmentCostInvoice.sumPrice'/>"
+            name: "sumPrice",  type: "float",  format: "#.##", title: "<spring:message code='shipmentCostInvoice.sumPrice'/>"
         },
         {
-            name: "sumPriceWithDiscount",
-            type: "float",
-            format: "#.##",
-            title: "<spring:message code='shipmentCostInvoice.sumPriceWithDiscount'/>"
+            name: "sumPriceWithDiscount",  type: "float",  format: "#.##", title: "<spring:message code='shipmentCostInvoice.sumPriceWithDiscount'/>"
         },
         {
-            name: "sumPriceWithVat",
-            type: "float",
-            format: "#.##",
-            title: "<spring:message code='shipmentCostInvoice.sumPriceWithVat'/>"
+            name: "sumPriceWithVat",  type: "float",  format: "#.##", title: "<spring:message code='shipmentCostInvoice.sumPriceWithVat'/>"
         },
         {
-            name: "rialPrice",
-            type: "float",
-            format: "#.##",
-            title: "<spring:message code='shipmentCostInvoice.rialPrice'/>"
+            name: "rialPrice",  type: "float",  format: "#.##", title: "<spring:message code='shipmentCostInvoice.rialPrice'/>"
         },
         {
             name: "conversionDate", title: "<spring:message code='shipmentCostInvoice.conversionDate'/>"
@@ -153,10 +140,7 @@ shipmentCostInvoiceTab.restDataSource.shipmentCostInvoice = isc.MyRestDataSource
             name: "conversionRate", title: "<spring:message code='shipmentCostInvoice.conversionRate'/>"
         },
         {
-            name: "conversionSumPrice",
-            type: "float",
-            format: "#.##",
-            title: "<spring:message code='shipmentCostInvoice.conversionSumPrice'/>"
+            name: "conversionSumPrice",  type: "float",  format: "#.##", title: "<spring:message code='shipmentCostInvoice.conversionSumPrice'/>"
         },
         {
             name: "conversionSumPriceText", title: "<spring:message code='shipmentCostInvoice.conversionSumPriceText'/>"
@@ -208,52 +192,28 @@ shipmentCostInvoiceTab.restDataSource.shipmentCostInvoiceDetail = isc.MyRestData
             name: "quantity", title: "<spring:message code='shipmentCostInvoiceDetail.quantity'/>"
         },
         {
-            name: "unitPrice",
-            type: "float",
-            format: "#.##",
-            title: "<spring:message code='shipmentCostInvoiceDetail.unitPrice'/>"
+            name: "unitPrice",  type: "float",  format: "#.##", title: "<spring:message code='shipmentCostInvoiceDetail.unitPrice'/>"
         },
         {
-            name: "sumPrice",
-            type: "float",
-            format: "#.##",
-            title: "<spring:message code='shipmentCostInvoiceDetail.sumPrice'/>"
+            name: "sumPrice",  type: "float",  format: "#.##", title: "<spring:message code='shipmentCostInvoiceDetail.sumPrice'/>"
         },
         {
-            name: "discountPrice",
-            type: "float",
-            format: "#.##",
-            title: "<spring:message code='shipmentCostInvoiceDetail.discountPrice'/>"
+            name: "discountPrice",  type: "float",  format: "#.##", title: "<spring:message code='shipmentCostInvoiceDetail.discountPrice'/>"
         },
         {
-            name: "sumPriceWithDiscount",
-            type: "float",
-            format: "#.##",
-            title: "<spring:message code='shipmentCostInvoiceDetail.sumPriceWithDiscount'/>"
+            name: "sumPriceWithDiscount",  type: "float",  format: "#.##", title: "<spring:message code='shipmentCostInvoiceDetail.sumPriceWithDiscount'/>"
         },
         {
-            name: "tVatPrice",
-            type: "float",
-            format: "#.##",
-            title: "<spring:message code='shipmentCostInvoiceDetail.tVatPrice'/>"
+            name: "tVatPrice",  type: "float",  format: "#.##", title: "<spring:message code='shipmentCostInvoiceDetail.tVatPrice'/>"
         },
         {
-            name: "cVatPrice",
-            type: "float",
-            format: "#.##",
-            title: "<spring:message code='shipmentCostInvoiceDetail.cVatPrice'/>"
+            name: "cVatPrice",  type: "float",  format: "#.##", title: "<spring:message code='shipmentCostInvoiceDetail.cVatPrice'/>"
         },
         {
-            name: "sumVatPrice",
-            type: "float",
-            format: "#.##",
-            title: "<spring:message code='shipmentCostInvoiceDetail.sumVatPrice'/>"
+            name: "sumVatPrice",  type: "float",  format: "#.##", title: "<spring:message code='shipmentCostInvoiceDetail.sumVatPrice'/>"
         },
         {
-            name: "sumPriceWithVat",
-            type: "float",
-            format: "#.##",
-            title: "<spring:message code='shipmentCostInvoiceDetail.sumPriceWithVat'/>"
+            name: "sumPriceWithVat",  type: "float",  format: "#.##", title: "<spring:message code='shipmentCostInvoiceDetail.sumPriceWithVat'/>"
         },
         {
             name: "shipmentCostInvoiceId", title: "<spring:message code='global.id'/>"
@@ -268,10 +228,10 @@ shipmentCostInvoiceTab.restDataSource.shipmentCostInvoiceDetail = isc.MyRestData
             name: "shipmentCostDuty.code", title: "<spring:message code='shipmentCostInvoiceDetail.serviceCode'/>"
         },
         {
-            name: "unit.nameFA",  title: "<spring:message code='unit.nameFa'/>"
+            name: "unit.nameFA", title: "<spring:message code=''/>"
         },
         {
-            name: "unit.nameEN",  title: "<spring:message code='unit.nameEN'/>"
+             name: "unitId", title: "<spring:message code='global.id'/>"
         }
     ],
     fetchDataURL: shipmentCostInvoiceTab.variable.shipmentCostInvoiceDetail + "spec-list"
@@ -437,8 +397,7 @@ shipmentCostInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
                             name: "documentNo", title: "<spring:message code='billOfLanding.document.no'/>"
                         },
                         {
-                            name: "shipperExporter.nameFA",
-                            title: "<spring:message code='billOfLanding.shipper.exporter'/>"
+                            name: "shipperExporter.nameFA", title: "<spring:message code='billOfLanding.shipper.exporter'/>"
                         },
                         {
                             name: "consignee.nameFA", title: "<spring:message code='billOfLanding.consignee'/>"
@@ -453,8 +412,7 @@ shipmentCostInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
                             name: "documentNo", title: "<spring:message code='billOfLanding.document.no'/>"
                         },
                         {
-                            name: "shipperExporter.nameFA",
-                            title: "<spring:message code='billOfLanding.shipper.exporter'/>"
+                            name: "shipperExporter.nameFA", title: "<spring:message code='billOfLanding.shipper.exporter'/>"
                         },
                         {
                             name: "consignee.nameFA", title: "<spring:message code='billOfLanding.consignee'/>"
@@ -969,7 +927,7 @@ shipmentCostInvoiceTab.dynamicForm.shipmentPrice = isc.DynamicForm.create({
     showErrorStyle: true,
     errorOrientation: "bottom",
     requiredMessage: '<spring:message code="validator.field.is.required"/>',
-    fields: shipmentCostInvoiceTab.dynamicForm.shipmentPriceFields,
+    fields: shipmentCostInvoiceTab.dynamicForm.shipmentPriceFields ,
 });
 shipmentCostInvoiceTab.listGrid.shipmentCostDetail = isc.ListGrid.create({
     width: "100%",
@@ -988,22 +946,24 @@ shipmentCostInvoiceTab.listGrid.shipmentCostDetail = isc.ListGrid.create({
     showGridSummary: true,
     fields: BaseFormItems.concat([
         {
-            name: "shipmentCostDutyId",
-            title: "<spring:message code='shipmentCostInvoiceDetail.service'/>",
-            required: true,
-            wrapTitle: false,
-            editorType: "SelectItem",
-            valueField: "id",
-            displayField: "nameFA",
-            optionDataSource: shipmentCostInvoiceTab.restDataSource.shipmentCostDutyRest,
-            pickListProperties:
-                {
-                    showFilterEditor: true
-                },
-            pickListFields: [
-                {name: "nameFA", align: "center"},
-                {name: "code", align: "center"},
-            ]
+                name: "shipmentCostDutyId",
+                title: "<spring:message code='shipmentCostInvoiceDetail.service'/>",
+                required: true,
+                wrapTitle: false,
+                editorType: "SelectItem",
+                valueField: "id",
+                pickListWidth: "500",
+                pickListHeight: "300",
+                displayField: "nameFA",
+                optionDataSource: shipmentCostInvoiceTab.restDataSource.shipmentCostDutyRest,
+                pickListProperties:
+                    {
+                        showFilterEditor: true
+                    },
+                pickListFields: [
+                    { name: "nameFA",align: "center"},
+                    { name: "code",align: "center"},
+                ]
         },
         {
             name: "quantity",
@@ -1014,37 +974,39 @@ shipmentCostInvoiceTab.listGrid.shipmentCostDetail = isc.ListGrid.create({
             showHover: true
         },
         {
-            name: "unitId",
-            title: "<spring:message code='MaterialFeature.unit'/>",
-            required: true,
-            wrapTitle: false,
-            editorType: "SelectItem",
-            valueField: "id",
-            displayField: "nameFA",
-            optionDataSource: shipmentCostInvoiceTab.restDataSource.unitRest,
-            pickListProperties:
-                {
-                    showFilterEditor: true
-                },
-            pickListFields: [
-                {
-                    name: "nameFA",
-                    title: "<spring:message code='unit.nameFa'/>",
-                    align: "center"
-                },
-                {
-                    name: "nameEN",
-                    title: "<spring:message code='unit.nameEN'/>",
-                    align: "center"
-                }
-            ]
+                name: "unitId",
+                title: "<spring:message code='MaterialFeature.unit'/>",
+                required: true,
+                wrapTitle: false,
+                editorType: "SelectItem",
+                valueField: "id",
+                displayField: "nameFA",
+                pickListWidth: "500",
+                pickListHeight: "300",
+                optionDataSource: shipmentCostInvoiceTab.restDataSource.unitRest,
+                pickListProperties:
+                    {
+                        showFilterEditor: true
+                    },
+                pickListFields: [
+                     {
+                        name: "nameFA",
+                        title: "<spring:message code='unit.nameFa'/>",
+                        align: "center"
+                    },
+                    {
+                        name: "nameEN",
+                        title: "<spring:message code='unit.nameEN'/>",
+                        align: "center"
+                    }
+                ]
         },
-        /*  {
-              name: "financeUnitId",
-              title: "<spring:message code='shipmentCostInvoice.financeUnit'/>",
-              editorType: "staticText",
-              width: "10%",
-          },*/
+      /*  {
+            name: "financeUnitId",
+            title: "<spring:message code='shipmentCostInvoice.financeUnit'/>",
+            editorType: "staticText",
+            width: "10%",
+        },*/
         {
             name: "unitPrice",
             title: "<spring:message code='shipmentCostInvoiceDetail.unitPrice'/>",
@@ -1122,21 +1084,11 @@ shipmentCostInvoiceTab.listGrid.shipmentCostDetail = isc.ListGrid.create({
 
         if (editCompletionEvent === "enter") {
 
-            let sumPriceIndex = this.fields.indexOf(this.fields.filter(q = > q.name === "sumPrice").first()
-        )
-            ;
-            let sumPriceWithDiscountIndex = this.fields.indexOf(this.fields.filter(q = > q.name === "sumPriceWithDiscount").first()
-        )
-            ;
-            let tVatPriceIndex = this.fields.indexOf(this.fields.filter(q = > q.name === "tvatPrice").first()
-        )
-            ;
-            let cVatPriceIndex = this.fields.indexOf(this.fields.filter(q = > q.name === "cvatPrice").first()
-        )
-            ;
-            let sumPriceWithVatIndex = this.fields.indexOf(this.fields.filter(q = > q.name === "sumPriceWithVat").first()
-        )
-            ;
+            let sumPriceIndex = this.fields.indexOf(this.fields.filter(q => q.name === "sumPrice").first());
+            let sumPriceWithDiscountIndex = this.fields.indexOf(this.fields.filter(q => q.name === "sumPriceWithDiscount").first());
+            let tVatPriceIndex = this.fields.indexOf(this.fields.filter(q => q.name === "tvatPrice").first());
+            let cVatPriceIndex = this.fields.indexOf(this.fields.filter(q => q.name === "cvatPrice").first());
+            let sumPriceWithVatIndex = this.fields.indexOf(this.fields.filter(q => q.name === "sumPriceWithVat").first());
 
             var recordData = newValues;
             if (record != null) {
@@ -1228,9 +1180,8 @@ shipmentCostInvoiceTab.window.shipmentCost.init(null, '<spring:message code="shi
 }), "1200", "60%");
 
 shipmentCostInvoiceTab.window.shipmentCost.populateData = function (bodyWidget) {
-    debugger;
     //////////////// DynamicForm ///////////////
-    var shipmentCostObj = Object.assign(bodyWidget.members.get(0).getValues(), bodyWidget.members.get(2).getValues());
+    var shipmentCostObj = Object.assign (bodyWidget.members.get(0).getValues(), bodyWidget.members.get(2).getValues());
 
     //////////////// ListGrid //////////////////
     let shipmentCostInvoiceDetails = [];
@@ -1256,7 +1207,6 @@ shipmentCostInvoiceTab.window.shipmentCost.populateData = function (bodyWidget) 
         shipmentCostInvoiceDetails.push(shipmentCostDetailObj);
 
     });
-
     shipmentCostObj.sumPrice = shipmentCostInvoiceTab.variable.summaryRowData.sumPrice;
     shipmentCostObj.sumPriceWithDiscount = shipmentCostInvoiceTab.variable.summaryRowData.sumPriceWithDiscount;
     shipmentCostObj.sumPriceWithVat = shipmentCostInvoiceTab.variable.summaryRowData.sumPriceWithVat;
@@ -1324,7 +1274,7 @@ shipmentCostInvoiceTab.method.editForm = function () {
     shipmentCostInvoiceTab.variable.method = "PUT";
 
     let record = shipmentCostInvoiceTab.listGrid.main.getSelectedRecord();
-    console.log("record", record);
+    console.log("record",record);
     if (record == null || record.id == null)
         shipmentCostInvoiceTab.dialog.notSelected();
     else if (record.editable === false)
@@ -1353,12 +1303,12 @@ shipmentCostInvoiceTab.method.editForm = function () {
         shipmentCostInvoiceTab.listGrid.shipmentCostDetail.setData(record.shipmentCostInvoiceDetails);
 
         // Set Unit for ListGrid
-        /*        let totalRows = shipmentCostInvoiceTab.listGrid.shipmentCostDetail.getTotalRows();
-                let financeUnitIdIndex = shipmentCostInvoiceTab.listGrid.shipmentCostDetail.fields.indexOf(shipmentCostInvoiceTab.listGrid.shipmentCostDetail.fields.filter(q => q.name === "financeUnitId").first());
-                for (let i = 0; i < totalRows; i++) {
-                    shipmentCostInvoiceTab.listGrid.shipmentCostDetail.setEditValue(i, financeUnitIdIndex, record.financeUnit.nameFA);
-                }
-                shipmentCostInvoiceTab.listGrid.shipmentCostDetail.invalidateCache();*/
+/*        let totalRows = shipmentCostInvoiceTab.listGrid.shipmentCostDetail.getTotalRows();
+        let financeUnitIdIndex = shipmentCostInvoiceTab.listGrid.shipmentCostDetail.fields.indexOf(shipmentCostInvoiceTab.listGrid.shipmentCostDetail.fields.filter(q => q.name === "financeUnitId").first());
+        for (let i = 0; i < totalRows; i++) {
+            shipmentCostInvoiceTab.listGrid.shipmentCostDetail.setEditValue(i, financeUnitIdIndex, record.financeUnit.nameFA);
+        }
+        shipmentCostInvoiceTab.listGrid.shipmentCostDetail.invalidateCache();*/
 
         shipmentCostInvoiceTab.listGrid.shipmentCostDetail.members.get(3).members.get(2).members.get(0).click();
     }
