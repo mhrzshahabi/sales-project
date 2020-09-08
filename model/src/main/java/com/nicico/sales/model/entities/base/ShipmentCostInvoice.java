@@ -140,12 +140,12 @@ public class ShipmentCostInvoice extends BaseEntity {
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "F_CONTRACT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_shipmentCostInvoice2contractByContractId"))
-    private Contract contract;
+    @JoinColumn(name = "F_SHIPMENT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_shipmentCostInvoice2shipmentId"))
+    private Shipment shipment;
 
     @NotNull
-    @Column(name = "F_CONTRACT_ID", nullable = false)
-    private Long contractId;
+    @Column(name = "F_SHIPMENT_ID", nullable = false)
+    private Long shipmentId;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "shipmentCostInvoice", cascade = CascadeType.REMOVE)
     private List<ShipmentCostInvoiceDetail> shipmentCostInvoiceDetails;

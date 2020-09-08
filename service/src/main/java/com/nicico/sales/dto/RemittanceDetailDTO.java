@@ -1,6 +1,7 @@
 package com.nicico.sales.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.sales.model.enumeration.EStatus;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -160,7 +161,16 @@ public class RemittanceDetailDTO {
         @NotNull
         private List<RemittanceDetailDTO.OutCreate> remittanceDetails;
     }
-
-
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    public static class Excel {
+        public List<RemittanceDetailDTO.Info> rows;
+        public String[] header;
+        public String topRowTitle;
+        public String[] fields;
+        public NICICOCriteria nicicoCriteria;
+        public Boolean doesNotNeedFetch = true;
+    }
 
 }

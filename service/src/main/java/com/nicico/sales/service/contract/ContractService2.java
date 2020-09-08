@@ -147,7 +147,7 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
                                         kal.get(Calendar.DAY_OF_YEAR) == cal.get(Calendar.DAY_OF_YEAR)
                         ) {
                             found[0] = true;
-                            if(csfa.getParentId()==null) csfa.setParentId(csws.getId());
+                            if (csfa.getParentId() == null) csfa.setParentId(csws.getId());
                             contractShipmentDAO.save(csfa);
                         }
                     }
@@ -506,4 +506,5 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
                 .collect(Collectors.toList());
     }
 }
+
 /*** الحاقیه***/

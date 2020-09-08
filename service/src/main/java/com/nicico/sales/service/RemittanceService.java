@@ -61,7 +61,8 @@ public class RemittanceService extends GenericService<Remittance, Long, Remittan
         });
         remittanceDetailDAO.deleteAllByIdIn(allByRemittanceIdIsIn.stream().map(rd -> rd.getId()).collect(Collectors.toList()));
         tozinTableDAO.deleteAllByIdIn(tozinIdList);
-        if (allByRemittanceIdIsIn.get(0).getDestinationTozinId() != null) inventoryDAO.deleteAllByIdIn(inventoryIdList);
+        if (allByRemittanceIdIsIn.size() > 0 && allByRemittanceIdIsIn.get(0).getDestinationTozinId() != null)
+            inventoryDAO.deleteAllByIdIn(inventoryIdList);
         super.deleteAll(request);
     }
 
