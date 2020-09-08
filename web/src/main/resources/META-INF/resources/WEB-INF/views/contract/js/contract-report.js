@@ -21,6 +21,8 @@ const crTab = {
     Logs: [],
     Vars: {
         Debug: false,
+        shamsiDate: "(1[3,4][0-9]{2}\/([0][0-9]|[1][0,1,2])\/([0][0-9]|[1,2][0-9]|30|31))|" +
+            "(1[3-4][0-9]{2}(0[1-9]|1[0-2])(0[0-9]|[1,2][0-9]|30|31))",
         Prefix: "bill_of_landing_detail_tab" + Math.random().toString().substr(-6),
         Url: SalesConfigs.Urls.remittanceRest,
         Urls: {},
@@ -1656,12 +1658,22 @@ crTab.Layouts.Vlayouts.main = isc.VLayout.create({
                                     wrapItemTitles: false,
                                     // height: "100%",
                                     action: "report/printDailyReportBandarAbbas",
+                                    showErrorText: false,
                                     target: "_Blank",
                                     titleWidth: "200",
                                     numCols: 4,
                                     fields: [{
                                         name: "toDay",
                                         ID: "toDayDateTozin",
+                                        validators: [
+                                            {
+                                                type: "regexp",
+                                                expression: crTab.Vars.shamsiDate
+                                            }
+                                        ],
+                                        validateOnChange: true,
+                                        // editorExit:crTab.Methods.UpdateInputOutputCharts,
+                                        keyPressFilter: "[0-9/]",
                                         title: "<spring:message code='dailyWarehouse.toDay'/>",
                                         type: 'text',
                                         align: "center",
@@ -1717,10 +1729,19 @@ crTab.Layouts.Vlayouts.main = isc.VLayout.create({
                     members: [
                         crTab.DynamicForms.ChartDate = isc.DynamicForm.create(
                             {
+                                showErrorText: false,
+                                validateOnChange: true,
+                                wrapItemTitles: false,
                                 numCols: 4,
                                 fields: [
                                     {
                                         name: "fromDate",
+                                        validators: [
+                                            {
+                                                type: "regexp",
+                                                expression: crTab.Vars.shamsiDate
+                                            }
+                                        ],
                                         title: "<spring:message code='dailyWarehouse.fromDay'/>",
                                         defaultValue: crTab.Methods.getFirstDayOfSeason(),
                                         // editorExit:crTab.Methods.UpdateInputOutputCharts,
@@ -1735,9 +1756,16 @@ crTab.Layouts.Vlayouts.main = isc.VLayout.create({
                                     },
                                     {
                                         name: "toDate",
-                                        title: "<spring:message code='dailyWarehouse.toDay'/>",
+                                        validators: [
+                                            {
+                                                type: "regexp",
+                                                expression: crTab.Vars.shamsiDate
+                                            }
+                                        ],
+                                        validateOnChange: true,
                                         // editorExit:crTab.Methods.UpdateInputOutputCharts,
                                         keyPressFilter: "[0-9/]",
+                                        title: "<spring:message code='dailyWarehouse.toDay'/>",
                                         icons: [{
                                             src: "pieces/pcal.png",
                                             click: function (form, item, icon) {
