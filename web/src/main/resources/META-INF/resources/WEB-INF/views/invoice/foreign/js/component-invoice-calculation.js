@@ -30,7 +30,7 @@ isc.defineClass("InvoiceCalculation", isc.VLayout).addProperties({
                 price: priceValues[index],
                 elementId: priceValues[index].elementId,
                 materialElementId: assayValue.materialElementId,
-                // calculationRowData: This.calculationData[0].filter(q => q.materialElementId === assayValues.materialElementId).first(),
+                calculationRowData: This.calculationData.filter(q => q.materialElementId === assayValue.materialElementId).first(),
                 sumPriceChanged: function (sumPrice) {
 
                     let subtotalForm = This.getMembers().filter(q => q.name === "subTotal").first();
@@ -112,6 +112,8 @@ isc.defineClass("InvoiceCalculation", isc.VLayout).addProperties({
             width: "100%",
             contents: "<span style='width: 100%; display: block; margin: 10px auto; border-bottom: 1px solid rgba(0,0,0,0.3)'></span>"
         }));
+
+        this.editCalculation();
     },
     getCalculationSubTotal: function () {
         return this.getMembers().filter(q => q.name === "subTotal").first().getValues().value;
@@ -138,6 +140,9 @@ isc.defineClass("InvoiceCalculation", isc.VLayout).addProperties({
     },
     okButtonClick: function () {
 
+    },
+    editCalculation: function () {
+        this.getMembers().filter(q => q.role === "calculationRow").forEach(current => current.editRowCalculation());
     },
     validate: function () {
 

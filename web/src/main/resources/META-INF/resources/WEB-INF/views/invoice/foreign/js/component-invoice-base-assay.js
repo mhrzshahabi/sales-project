@@ -10,7 +10,8 @@ isc.defineClass("InvoiceBaseAssay", isc.VLayout).addProperties({
     overflow: "visible",
     shipment: null,
     remittanceDetail: null,
-    assayMilestone: null,
+    assayData: null,
+    weightData: null,
     initWidget: function () {
 
         this.Super("initWidget", arguments);
@@ -102,12 +103,6 @@ isc.defineClass("InvoiceBaseAssay", isc.VLayout).addProperties({
                 }
             }]
         }));
-        if (this.assayMilestone === undefined)
-            this.getMembers()[0].setValue("reportMilestone", 1);
-        else
-            this.getMembers()[0].setValue("reportMilestone", this.assayMilestone);
-
-        this.getMembers()[0].getItem(0).changed(this.getMembers()[0], this.getMembers()[0].getItem(0), 1);
     },
     getValues: function () {
 

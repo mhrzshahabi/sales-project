@@ -14,7 +14,6 @@ import com.nicico.sales.model.entities.base.InspectionReport;
 import com.nicico.sales.model.entities.base.WeightInspection;
 import com.nicico.sales.utility.UpdateUtil;
 import lombok.RequiredArgsConstructor;
-import org.exolab.castor.types.DateTime;
 import org.modelmapper.TypeToken;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.context.support.ResourceBundleMessageSource;
@@ -103,7 +102,15 @@ public class InspectionReportService extends GenericService<InspectionReport, Lo
         List<AssayInspectionDTO.Update> assayInspection4Update = new ArrayList<>();
         AssayInspectionDTO.Delete assayInspection4Delete = new AssayInspectionDTO.Delete();
 
-        updateUtil.fill(AssayInspection.class, inspectionReport.getAssayInspections(), AssayInspectionDTO.InfoWithoutInspectionReport.class, request.getAssayInspections(), AssayInspectionDTO.Create.class, assayInspection4Insert, AssayInspectionDTO.Update.class, assayInspection4Update, assayInspection4Delete);
+        updateUtil.fill(AssayInspection.class,
+                inspectionReport.getAssayInspections(),
+                AssayInspectionDTO.InfoWithoutInspectionReport.class,
+                request.getAssayInspections(),
+                AssayInspectionDTO.Create.class,
+                assayInspection4Insert,
+                AssayInspectionDTO.Update.class,
+                assayInspection4Update,
+                assayInspection4Delete);
 
         if (!assayInspection4Insert.isEmpty()) assayInspectionService.createAll(assayInspection4Insert);
         if (!assayInspection4Update.isEmpty()) assayInspectionService.updateAll(assayInspection4Update);

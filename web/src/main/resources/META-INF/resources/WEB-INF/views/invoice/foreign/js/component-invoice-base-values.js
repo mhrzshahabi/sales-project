@@ -12,8 +12,8 @@ isc.defineClass("InvoiceBaseValues", isc.VLayout).addProperties({
     shipment: null,
     invoiceType: null,
     remittanceDetails: null,
-    assayMilestone: null,
-    weightMilestone: null,
+    weightData: null,
+    assayData: null,
     contractDetailData: null,
     invoiceBasePriceComponent: null,
     invoiceBaseAssayComponent: null,
@@ -43,7 +43,8 @@ isc.defineClass("InvoiceBaseValues", isc.VLayout).addProperties({
                 this.invoiceBaseAssayComponent = isc.InvoiceBaseAssay.create({
                     shipment: This.shipment,
                     remittanceDetail: This.remittanceDetails[0],
-                    assayMilestone: This.assayMilestone
+                    assayData: This.assayData,
+                    weightData: This.weightData
                 });
                 this.addMember(this.invoiceBaseAssayComponent);
                 this.addMember(isc.HTMLFlow.create({
@@ -55,7 +56,7 @@ isc.defineClass("InvoiceBaseValues", isc.VLayout).addProperties({
             this.invoiceBaseWeightComponent = isc.InvoiceBaseWeight.create({
                 shipment: This.shipment,
                 remittanceDetail: This.remittanceDetails[0],
-                weightMilestone: This.weightMilestone
+                weightData: This.weightData
             });
             this.addMember(this.invoiceBaseWeightComponent);
             this.addMember(isc.HTMLFlow.create({

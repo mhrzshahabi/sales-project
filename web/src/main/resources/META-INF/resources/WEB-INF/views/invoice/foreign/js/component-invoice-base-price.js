@@ -104,7 +104,6 @@ isc.defineClass("InvoiceBasePrice", isc.VLayout).addProperties({
     },
     validate: function () {
 
-        console.log("price ", this.getMembers())
         let isValid = true;
         this.getMembers().slice(1).forEach(current => {
             if (current.getValues().value === null)

@@ -597,9 +597,9 @@ foreignInvoiceTab.button.save = isc.IButtonSave.create({
                 shipment: foreignInvoiceTab.dynamicForm.valuesManager.getValue("shipment"),
                 invoiceType: foreignInvoiceTab.dynamicForm.valuesManager.getValue("invoiceType"),
                 remittanceDetails: foreignInvoiceTab.dynamicForm.valuesManager.getValue("remittanceDetails"),
-                assayMilestone: foreignInvoiceTab.dynamicForm.valuesManager.getValue("assayMilestone"),
-                weightMilestone: foreignInvoiceTab.dynamicForm.valuesManager.getValue("weightMilestone")
-            });
+                weightData: foreignInvoiceTab.dynamicForm.valuesManager.getValue("weightData"),
+                assayData: foreignInvoiceTab.dynamicForm.valuesManager.getValue("assayData")
+        });
             foreignInvoiceTab.method.addTab(invoiceBaseValuesComponent, '<spring:message code="foreign-invoice.form.tab.base-values"/>');
 
             invoiceBaseValuesComponent.okButtonClick = function () {
@@ -885,690 +885,690 @@ foreignInvoiceTab.method.newForm = function () {
         field.changed(foreignInvoiceTab.dynamicForm.baseData, field, field.getValue());
     });
 
-    // foreignInvoiceTab.dynamicForm.valuesManager.setValues({
-    //     "date": "2020-09-07T07:30:00.000Z",
-    //     "billLadings": [
-    //         {
-    //             "documentNo": "9999999999999",
-    //             "switchDocumentNo": "234234234",
-    //             "shipperExporterId": 24,
-    //             "switchShipperExporterId": 24,
-    //             "notifyPartyId": 1,
-    //             "switchNotifyPartyId": 1,
-    //             "consigneeId": 5,
-    //             "switchConsigneeId": 5,
-    //             "portOfLoadingId": 3,
-    //             "switchPortOfLoadingId": 3,
-    //             "portOfDischargeId": 31,
-    //             "switchPortOfDischargeId": 31,
-    //             "placeOfDelivery": "24234234",
-    //             "oceanVesselId": 86,
-    //             "numberOfBlCopies": 1,
-    //             "dateOfIssue": 1599463800000,
-    //             "placeOfIssue": "234234234234",
-    //             "description": "234234234234",
-    //             "totalNet": 1,
-    //             "totalGross": 1,
-    //             "totalBundles": 1,
-    //             "id": 2,
-    //             "shipperExporter": {
-    //                 "nameFA": "ژیائوفنگ",
-    //                 "nameEN": "zhyaofeng",
-    //                 "phone": "8690111111111",
-    //                 "type": false,
-    //                 "bankAccount": "686868",
-    //                 "bankShaba": "IR567575775777556675677777",
-    //                 "bankSwift": "567567567",
-    //                 "status": true,
-    //                 "tradeMark": "ZH-COPPER",
-    //                 "commercialRole": "Agent Seller,Agent Buyer",
-    //                 "seller": false,
-    //                 "buyer": false,
-    //                 "transporter": false,
-    //                 "shipper": false,
-    //                 "inspector": false,
-    //                 "insurancer": false,
-    //                 "agentBuyer": true,
-    //                 "agentSeller": true,
-    //                 "ceo": "linchan",
-    //                 "countryId": 2,
-    //                 "id": 24,
-    //                 "country": {
-    //                     "nameFa": "چین",
-    //                     "nameEn": "FkChina"
-    //                 },
-    //                 "createdDate": 1596256929444,
-    //                 "createdBy": "devadmin",
-    //                 "lastModifiedDate": 1598334787441,
-    //                 "lastModifiedBy": "devadmin",
-    //                 "version": 22
-    //             },
-    //             "switchShipperExporter": {
-    //                 "nameFA": "ژیائوفنگ",
-    //                 "nameEN": "zhyaofeng",
-    //                 "phone": "8690111111111",
-    //                 "type": false,
-    //                 "bankAccount": "686868",
-    //                 "bankShaba": "IR567575775777556675677777",
-    //                 "bankSwift": "567567567",
-    //                 "status": true,
-    //                 "tradeMark": "ZH-COPPER",
-    //                 "commercialRole": "Agent Seller,Agent Buyer",
-    //                 "seller": false,
-    //                 "buyer": false,
-    //                 "transporter": false,
-    //                 "shipper": false,
-    //                 "inspector": false,
-    //                 "insurancer": false,
-    //                 "agentBuyer": true,
-    //                 "agentSeller": true,
-    //                 "ceo": "linchan",
-    //                 "countryId": 2,
-    //                 "id": 24,
-    //                 "country": {
-    //                     "nameFa": "چین",
-    //                     "nameEn": "FkChina"
-    //                 },
-    //                 "createdDate": 1596256929444,
-    //                 "createdBy": "devadmin",
-    //                 "lastModifiedDate": 1598334787441,
-    //                 "lastModifiedBy": "devadmin",
-    //                 "version": 22
-    //             },
-    //             "notifyParty": {
-    //                 "nameFA": "CHINA MINMETALS NON-FERROUS METALS CO., LTD",
-    //                 "nameEN": "CHINA MINMETALS NON-FERROUS METALS CO., LTD",
-    //                 "phone": "+8601068495586",
-    //                 "fax": "+8601068495562",
-    //                 "address": "NO.5 SANLIHE ROAD, HAIDIAN DISTRICT, BEIJING 100044, P.R. CHINA ",
-    //                 "type": false,
-    //                 "nationalCode": "0",
-    //                 "status": true,
-    //                 "commercialRole": "Buyer",
-    //                 "seller": false,
-    //                 "buyer": true,
-    //                 "countryId": 2,
-    //                 "id": 1,
-    //                 "country": {
-    //                     "nameFa": "چین",
-    //                     "nameEn": "FkChina"
-    //                 },
-    //                 "createdDate": 1578197169411,
-    //                 "createdBy": "dorani_sa",
-    //                 "lastModifiedDate": 1595828067629,
-    //                 "lastModifiedBy": "devadmin",
-    //                 "version": 6
-    //             },
-    //             "switchNotifyParty": {
-    //                 "nameFA": "CHINA MINMETALS NON-FERROUS METALS CO., LTD",
-    //                 "nameEN": "CHINA MINMETALS NON-FERROUS METALS CO., LTD",
-    //                 "phone": "+8601068495586",
-    //                 "fax": "+8601068495562",
-    //                 "address": "NO.5 SANLIHE ROAD, HAIDIAN DISTRICT, BEIJING 100044, P.R. CHINA ",
-    //                 "type": false,
-    //                 "nationalCode": "0",
-    //                 "status": true,
-    //                 "commercialRole": "Buyer",
-    //                 "seller": false,
-    //                 "buyer": true,
-    //                 "countryId": 2,
-    //                 "id": 1,
-    //                 "country": {
-    //                     "nameFa": "چین",
-    //                     "nameEn": "FkChina"
-    //                 },
-    //                 "createdDate": 1578197169411,
-    //                 "createdBy": "dorani_sa",
-    //                 "lastModifiedDate": 1595828067629,
-    //                 "lastModifiedBy": "devadmin",
-    //                 "version": 6
-    //             },
-    //             "consignee": {
-    //                 "nameFA": "بیمه ما",
-    //                 "nameEN": "MA INSURANCE",
-    //                 "phone": "8690",
-    //                 "address": "تهران میدان ونک ابتدای خیابان ونک پلاک 9",
-    //                 "webSite": "WWW.BIMEHMA.COM",
-    //                 "type": true,
-    //                 "status": true,
-    //                 "commercialRole": "Insurancer",
-    //                 "insurancer": true,
-    //                 "countryId": 1,
-    //                 "postalCode": "+234324",
-    //                 "id": 5,
-    //                 "country": {
-    //                     "nameFa": "ایران",
-    //                     "nameEn": "Iran (Islamic Republic of)"
-    //                 },
-    //                 "createdDate": 1579059013188,
-    //                 "createdBy": "dorani_sa",
-    //                 "lastModifiedDate": 1595919615596,
-    //                 "lastModifiedBy": "devadmin",
-    //                 "version": 2
-    //             },
-    //             "switchConsignee": {
-    //                 "nameFA": "بیمه ما",
-    //                 "nameEN": "MA INSURANCE",
-    //                 "phone": "8690",
-    //                 "address": "تهران میدان ونک ابتدای خیابان ونک پلاک 9",
-    //                 "webSite": "WWW.BIMEHMA.COM",
-    //                 "type": true,
-    //                 "status": true,
-    //                 "commercialRole": "Insurancer",
-    //                 "insurancer": true,
-    //                 "countryId": 1,
-    //                 "postalCode": "+234324",
-    //                 "id": 5,
-    //                 "country": {
-    //                     "nameFa": "ایران",
-    //                     "nameEn": "Iran (Islamic Republic of)"
-    //                 },
-    //                 "createdDate": 1579059013188,
-    //                 "createdBy": "dorani_sa",
-    //                 "lastModifiedDate": 1595919615596,
-    //                 "lastModifiedBy": "devadmin",
-    //                 "version": 2
-    //             },
-    //             "portOfLoading": {
-    //                 "port": "SHANGHAI",
-    //                 "countryId": 2,
-    //                 "id": 3,
-    //                 "country": {
-    //                     "nameFa": "چین",
-    //                     "nameEn": "FkChina",
-    //                     "id": 2,
-    //                     "createdDate": 1595302644624,
-    //                     "createdBy": "j.azad",
-    //                     "lastModifiedDate": 1598846835554,
-    //                     "lastModifiedBy": "db_zare",
-    //                     "version": 1,
-    //                     "editable": true,
-    //                     "estatus": [
-    //                         "Active"
-    //                     ]
-    //                 },
-    //                 "createdDate": 1587732958179,
-    //                 "createdBy": "db_mazloom",
-    //                 "lastModifiedDate": 1587865761876,
-    //                 "lastModifiedBy": "db_mazloom",
-    //                 "version": 3,
-    //                 "editable": true,
-    //                 "estatus": [
-    //                     "Active"
-    //                 ]
-    //             },
-    //             "switchPortOfLoading": {
-    //                 "port": "SHANGHAI",
-    //                 "countryId": 2,
-    //                 "id": 3,
-    //                 "country": {
-    //                     "nameFa": "چین",
-    //                     "nameEn": "FkChina",
-    //                     "id": 2,
-    //                     "createdDate": 1595302644624,
-    //                     "createdBy": "j.azad",
-    //                     "lastModifiedDate": 1598846835554,
-    //                     "lastModifiedBy": "db_zare",
-    //                     "version": 1,
-    //                     "editable": true,
-    //                     "estatus": [
-    //                         "Active"
-    //                     ]
-    //                 },
-    //                 "createdDate": 1587732958179,
-    //                 "createdBy": "db_mazloom",
-    //                 "lastModifiedDate": 1587865761876,
-    //                 "lastModifiedBy": "db_mazloom",
-    //                 "version": 3,
-    //                 "editable": true,
-    //                 "estatus": [
-    //                     "Active"
-    //                 ]
-    //             },
-    //             "portOfDischarge": {
-    //                 "port": "ABU DHABI",
-    //                 "countryId": 3,
-    //                 "id": 31,
-    //                 "country": {
-    //                     "nameFa": "افغانستان",
-    //                     "nameEn": "Afghanistan",
-    //                     "id": 3,
-    //                     "createdDate": 1595302644625,
-    //                     "createdBy": "j.azad",
-    //                     "version": 0,
-    //                     "editable": true,
-    //                     "estatus": [
-    //                         "Active"
-    //                     ]
-    //                 },
-    //                 "createdDate": 1587866317999,
-    //                 "createdBy": "db_mazloom",
-    //                 "version": 0,
-    //                 "editable": true,
-    //                 "estatus": [
-    //                     "Active"
-    //                 ]
-    //             },
-    //             "switchPortOfDischarge": {
-    //                 "port": "ABU DHABI",
-    //                 "countryId": 3,
-    //                 "id": 31,
-    //                 "country": {
-    //                     "nameFa": "افغانستان",
-    //                     "nameEn": "Afghanistan",
-    //                     "id": 3,
-    //                     "createdDate": 1595302644625,
-    //                     "createdBy": "j.azad",
-    //                     "version": 0,
-    //                     "editable": true,
-    //                     "estatus": [
-    //                         "Active"
-    //                     ]
-    //                 },
-    //                 "createdDate": 1587866317999,
-    //                 "createdBy": "db_mazloom",
-    //                 "version": 0,
-    //                 "editable": true,
-    //                 "estatus": [
-    //                     "Active"
-    //                 ]
-    //             },
-    //             "oceanVessel": {
-    //                 "name": "ADMIRAL GLOBE",
-    //                 "type": "Bulk Carrier",
-    //                 "imo": "9290945",
-    //                 "yearOfBuild": 2004,
-    //                 "length": 276,
-    //                 "beam": 40,
-    //                 "id": 86,
-    //                 "createdDate": 1588389673493,
-    //                 "createdBy": "db_mazloom",
-    //                 "version": 0,
-    //                 "editable": true,
-    //                 "estatus": [
-    //                     "Active"
-    //                 ]
-    //             },
-    //             "containers": [
-    //                 {
-    //                     "billOfLandingId": 2,
-    //                     "containerType": "a",
-    //                     "containerNo": "s",
-    //                     "sealNo": "d",
-    //                     "quantity": 123,
-    //                     "quantityType": "123",
-    //                     "weight": 123,
-    //                     "unitId": -11,
-    //                     "id": 2,
-    //                     "unit": {
-    //                         "nameFA": "کیلوگرم",
-    //                         "nameEN": "kilogramme",
-    //                         "categoryUnit": "Weight",
-    //                         "id": -11,
-    //                         "createdDate": 1593755140056,
-    //                         "createdBy": "j.azad",
-    //                         "lastModifiedDate": 1594440292826,
-    //                         "lastModifiedBy": "j.azad",
-    //                         "version": 2,
-    //                         "editable": false,
-    //                         "estatus": [
-    //                             "Active"
-    //                         ]
-    //                     },
-    //                     "createdDate": 1596366825909,
-    //                     "createdBy": "db_saeb",
-    //                     "lastModifiedDate": 1596367028720,
-    //                     "lastModifiedBy": "db_saeb",
-    //                     "version": 1,
-    //                     "editable": true,
-    //                     "estatus": [
-    //                         "Active"
-    //                     ]
-    //                 }
-    //             ],
-    //             "createdDate": 1596272394781,
-    //             "createdBy": "db_saeb",
-    //             "lastModifiedDate": 1599451551217,
-    //             "lastModifiedBy": "devadmin",
-    //             "version": 7,
-    //             "editable": true,
-    //             "estatus": [
-    //                 "Active"
-    //             ],
-    //             "_selection_66": true,
-    //             "_embeddedComponents_isc_ListGrid_1": null
-    //         },
-    //         {
-    //             "documentNo": "asdvbcvbcxvbcvbx",
-    //             "switchDocumentNo": "asdvbcvbcxvbcvbx",
-    //             "shipperExporterId": 41,
-    //             "switchShipperExporterId": 41,
-    //             "notifyPartyId": 2058,
-    //             "switchNotifyPartyId": 2058,
-    //             "consigneeId": 24,
-    //             "switchConsigneeId": 24,
-    //             "portOfLoadingId": 21,
-    //             "switchPortOfLoadingId": 21,
-    //             "portOfDischargeId": 1,
-    //             "switchPortOfDischargeId": 1,
-    //             "placeOfDelivery": "HUANGPU",
-    //             "oceanVesselId": 34,
-    //             "numberOfBlCopies": 34,
-    //             "dateOfIssue": 1599377400000,
-    //             "placeOfIssue": "345",
-    //             "description": "345345dffdgdf",
-    //             "totalNet": 345,
-    //             "totalGross": 345,
-    //             "totalBundles": 345,
-    //             "id": 101,
-    //             "shipperExporter": {
-    //                 "nameFA": "SUNGILL RESOURCES LTD",
-    //                 "nameEN": "SUNGILL RESOURCES LTD",
-    //                 "phone": "+852 2575 7591",
-    //                 "fax": "+852 3702 0210",
-    //                 "address": "FLAT/RM 8,12 /F,WAYSON COMMERCIAL BUILDING 28 CONNAUGHT, ROAD WEST SHEUNG WAN, HONK KONG",
-    //                 "type": false,
-    //                 "status": true,
-    //                 "commercialRole": "Buyer",
-    //                 "buyer": true,
-    //                 "countryId": 2,
-    //                 "id": 41,
-    //                 "country": {
-    //                     "nameFa": "چین",
-    //                     "nameEn": "FkChina"
-    //                 },
-    //                 "createdDate": 1579683563975,
-    //                 "createdBy": "dorani_sa",
-    //                 "lastModifiedDate": 1579935876622,
-    //                 "lastModifiedBy": "dorani_sa",
-    //                 "version": 1
-    //             },
-    //             "switchShipperExporter": {
-    //                 "nameFA": "SUNGILL RESOURCES LTD",
-    //                 "nameEN": "SUNGILL RESOURCES LTD",
-    //                 "phone": "+852 2575 7591",
-    //                 "fax": "+852 3702 0210",
-    //                 "address": "FLAT/RM 8,12 /F,WAYSON COMMERCIAL BUILDING 28 CONNAUGHT, ROAD WEST SHEUNG WAN, HONK KONG",
-    //                 "type": false,
-    //                 "status": true,
-    //                 "commercialRole": "Buyer",
-    //                 "buyer": true,
-    //                 "countryId": 2,
-    //                 "id": 41,
-    //                 "country": {
-    //                     "nameFa": "چین",
-    //                     "nameEn": "FkChina"
-    //                 },
-    //                 "createdDate": 1579683563975,
-    //                 "createdBy": "dorani_sa",
-    //                 "lastModifiedDate": 1579935876622,
-    //                 "lastModifiedBy": "dorani_sa",
-    //                 "version": 1
-    //             },
-    //             "notifyParty": {
-    //                 "nameFA": "لاکی هرایزن لیمیتد",
-    //                 "nameEN": "LUCKY HORIZEN LIMITED",
-    //                 "phone": "869011111111134",
-    //                 "address": "RM 19C LOCKHART CTR 301-307",
-    //                 "type": true,
-    //                 "bankAccount": "234",
-    //                 "bankShaba": "IR343434343434343444433333",
-    //                 "bankSwift": "234",
-    //                 "status": true,
-    //                 "commercialRole": "Seller",
-    //                 "seller": true,
-    //                 "buyer": false,
-    //                 "countryId": 1,
-    //                 "id": 2058,
-    //                 "country": {
-    //                     "nameFa": "ایران",
-    //                     "nameEn": "Iran (Islamic Republic of)"
-    //                 },
-    //                 "createdDate": 1597293065534,
-    //                 "createdBy": "r.mazloom",
-    //                 "lastModifiedDate": 1599367644514,
-    //                 "lastModifiedBy": "devadmin",
-    //                 "version": 6
-    //             },
-    //             "switchNotifyParty": {
-    //                 "nameFA": "لاکی هرایزن لیمیتد",
-    //                 "nameEN": "LUCKY HORIZEN LIMITED",
-    //                 "phone": "869011111111134",
-    //                 "address": "RM 19C LOCKHART CTR 301-307",
-    //                 "type": true,
-    //                 "bankAccount": "234",
-    //                 "bankShaba": "IR343434343434343444433333",
-    //                 "bankSwift": "234",
-    //                 "status": true,
-    //                 "commercialRole": "Seller",
-    //                 "seller": true,
-    //                 "buyer": false,
-    //                 "countryId": 1,
-    //                 "id": 2058,
-    //                 "country": {
-    //                     "nameFa": "ایران",
-    //                     "nameEn": "Iran (Islamic Republic of)"
-    //                 },
-    //                 "createdDate": 1597293065534,
-    //                 "createdBy": "r.mazloom",
-    //                 "lastModifiedDate": 1599367644514,
-    //                 "lastModifiedBy": "devadmin",
-    //                 "version": 6
-    //             },
-    //             "consignee": {
-    //                 "nameFA": "ژیائوفنگ",
-    //                 "nameEN": "zhyaofeng",
-    //                 "phone": "8690111111111",
-    //                 "type": false,
-    //                 "bankAccount": "686868",
-    //                 "bankShaba": "IR567575775777556675677777",
-    //                 "bankSwift": "567567567",
-    //                 "status": true,
-    //                 "tradeMark": "ZH-COPPER",
-    //                 "commercialRole": "Agent Seller,Agent Buyer",
-    //                 "seller": false,
-    //                 "buyer": false,
-    //                 "transporter": false,
-    //                 "shipper": false,
-    //                 "inspector": false,
-    //                 "insurancer": false,
-    //                 "agentBuyer": true,
-    //                 "agentSeller": true,
-    //                 "ceo": "linchan",
-    //                 "countryId": 2,
-    //                 "id": 24,
-    //                 "country": {
-    //                     "nameFa": "چین",
-    //                     "nameEn": "FkChina"
-    //                 },
-    //                 "createdDate": 1596256929444,
-    //                 "createdBy": "devadmin",
-    //                 "lastModifiedDate": 1598334787441,
-    //                 "lastModifiedBy": "devadmin",
-    //                 "version": 22
-    //             },
-    //             "switchConsignee": {
-    //                 "nameFA": "ژیائوفنگ",
-    //                 "nameEN": "zhyaofeng",
-    //                 "phone": "8690111111111",
-    //                 "type": false,
-    //                 "bankAccount": "686868",
-    //                 "bankShaba": "IR567575775777556675677777",
-    //                 "bankSwift": "567567567",
-    //                 "status": true,
-    //                 "tradeMark": "ZH-COPPER",
-    //                 "commercialRole": "Agent Seller,Agent Buyer",
-    //                 "seller": false,
-    //                 "buyer": false,
-    //                 "transporter": false,
-    //                 "shipper": false,
-    //                 "inspector": false,
-    //                 "insurancer": false,
-    //                 "agentBuyer": true,
-    //                 "agentSeller": true,
-    //                 "ceo": "linchan",
-    //                 "countryId": 2,
-    //                 "id": 24,
-    //                 "country": {
-    //                     "nameFa": "چین",
-    //                     "nameEn": "FkChina"
-    //                 },
-    //                 "createdDate": 1596256929444,
-    //                 "createdBy": "devadmin",
-    //                 "lastModifiedDate": 1598334787441,
-    //                 "lastModifiedBy": "devadmin",
-    //                 "version": 22
-    //             },
-    //             "portOfLoading": {
-    //                 "port": "JEBEL ALI",
-    //                 "countryId": 3,
-    //                 "id": 21,
-    //                 "country": {
-    //                     "nameFa": "افغانستان",
-    //                     "nameEn": "Afghanistan",
-    //                     "id": 3,
-    //                     "createdDate": 1595302644625,
-    //                     "createdBy": "j.azad",
-    //                     "version": 0,
-    //                     "editable": true,
-    //                     "estatus": [
-    //                         "Active"
-    //                     ]
-    //                 },
-    //                 "createdDate": 1578800749910,
-    //                 "createdBy": "dorani_sa",
-    //                 "lastModifiedDate": 1587865683350,
-    //                 "lastModifiedBy": "db_mazloom",
-    //                 "version": 2,
-    //                 "editable": true,
-    //                 "estatus": [
-    //                     "Active"
-    //                 ]
-    //             },
-    //             "switchPortOfLoading": {
-    //                 "port": "JEBEL ALI",
-    //                 "countryId": 3,
-    //                 "id": 21,
-    //                 "country": {
-    //                     "nameFa": "افغانستان",
-    //                     "nameEn": "Afghanistan",
-    //                     "id": 3,
-    //                     "createdDate": 1595302644625,
-    //                     "createdBy": "j.azad",
-    //                     "version": 0,
-    //                     "editable": true,
-    //                     "estatus": [
-    //                         "Active"
-    //                     ]
-    //                 },
-    //                 "createdDate": 1578800749910,
-    //                 "createdBy": "dorani_sa",
-    //                 "lastModifiedDate": 1587865683350,
-    //                 "lastModifiedBy": "db_mazloom",
-    //                 "version": 2,
-    //                 "editable": true,
-    //                 "estatus": [
-    //                     "Active"
-    //                 ]
-    //             },
-    //             "portOfDischarge": {
-    //                 "port": "HUANGPU",
-    //                 "countryId": 2,
-    //                 "id": 1,
-    //                 "country": {
-    //                     "nameFa": "چین",
-    //                     "nameEn": "FkChina",
-    //                     "id": 2,
-    //                     "createdDate": 1595302644624,
-    //                     "createdBy": "j.azad",
-    //                     "lastModifiedDate": 1598846835554,
-    //                     "lastModifiedBy": "db_zare",
-    //                     "version": 1,
-    //                     "editable": true,
-    //                     "estatus": [
-    //                         "Active"
-    //                     ]
-    //                 },
-    //                 "createdDate": 1578198734058,
-    //                 "createdBy": "dorani_sa",
-    //                 "lastModifiedDate": 1587865832220,
-    //                 "lastModifiedBy": "db_mazloom",
-    //                 "version": 2,
-    //                 "editable": true,
-    //                 "estatus": [
-    //                     "Active"
-    //                 ]
-    //             },
-    //             "switchPortOfDischarge": {
-    //                 "port": "HUANGPU",
-    //                 "countryId": 2,
-    //                 "id": 1,
-    //                 "country": {
-    //                     "nameFa": "چین",
-    //                     "nameEn": "FkChina",
-    //                     "id": 2,
-    //                     "createdDate": 1595302644624,
-    //                     "createdBy": "j.azad",
-    //                     "lastModifiedDate": 1598846835554,
-    //                     "lastModifiedBy": "db_zare",
-    //                     "version": 1,
-    //                     "editable": true,
-    //                     "estatus": [
-    //                         "Active"
-    //                     ]
-    //                 },
-    //                 "createdDate": 1578198734058,
-    //                 "createdBy": "dorani_sa",
-    //                 "lastModifiedDate": 1587865832220,
-    //                 "lastModifiedBy": "db_mazloom",
-    //                 "version": 2,
-    //                 "editable": true,
-    //                 "estatus": [
-    //                     "Active"
-    //                 ]
-    //             },
-    //             "oceanVessel": {
-    //                 "name": "HHL RIO DE JANEIRO",
-    //                 "type": "Bulk Carrier",
-    //                 "imo": "9424546",
-    //                 "yearOfBuild": 2009,
-    //                 "length": 168,
-    //                 "beam": 25,
-    //                 "id": 34,
-    //                 "createdDate": 1588382634370,
-    //                 "createdBy": "db_mazloom",
-    //                 "lastModifiedDate": 1588382647517,
-    //                 "lastModifiedBy": "db_mazloom",
-    //                 "version": 1,
-    //                 "editable": true,
-    //                 "estatus": [
-    //                     "Active"
-    //                 ]
-    //             },
-    //             "containers": [],
-    //             "createdDate": 1599395173365,
-    //             "createdBy": "db_saeb",
-    //             "version": 0,
-    //             "editable": true,
-    //             "estatus": [
-    //                 "Active"
-    //             ],
-    //             "_selection_66": true,
-    //             "_embeddedComponents_isc_ListGrid_1": null
-    //         }
-    //     ],
-    //     "invoiceTypeId": 1,
-    //     "contractId": 294,
-    //     "shipmentId": 73,
-    //     "remittanceDetailId": [
-    //         42
-    //     ],
-    //     "creatorId": 4,
-    //     "currencyId": -32,
-    //     "toCurrencyId": -33,
-    //     "conversionRefId": 124,
-    //     "description": "deded"
-    // });
+    foreignInvoiceTab.dynamicForm.valuesManager.setValues({
+        "date": "2020-09-07T07:30:00.000Z",
+        "billLadings": [
+            {
+                "documentNo": "9999999999999",
+                "switchDocumentNo": "234234234",
+                "shipperExporterId": 24,
+                "switchShipperExporterId": 24,
+                "notifyPartyId": 1,
+                "switchNotifyPartyId": 1,
+                "consigneeId": 5,
+                "switchConsigneeId": 5,
+                "portOfLoadingId": 3,
+                "switchPortOfLoadingId": 3,
+                "portOfDischargeId": 31,
+                "switchPortOfDischargeId": 31,
+                "placeOfDelivery": "24234234",
+                "oceanVesselId": 86,
+                "numberOfBlCopies": 1,
+                "dateOfIssue": 1599463800000,
+                "placeOfIssue": "234234234234",
+                "description": "234234234234",
+                "totalNet": 1,
+                "totalGross": 1,
+                "totalBundles": 1,
+                "id": 2,
+                "shipperExporter": {
+                    "nameFA": "ژیائوفنگ",
+                    "nameEN": "zhyaofeng",
+                    "phone": "8690111111111",
+                    "type": false,
+                    "bankAccount": "686868",
+                    "bankShaba": "IR567575775777556675677777",
+                    "bankSwift": "567567567",
+                    "status": true,
+                    "tradeMark": "ZH-COPPER",
+                    "commercialRole": "Agent Seller,Agent Buyer",
+                    "seller": false,
+                    "buyer": false,
+                    "transporter": false,
+                    "shipper": false,
+                    "inspector": false,
+                    "insurancer": false,
+                    "agentBuyer": true,
+                    "agentSeller": true,
+                    "ceo": "linchan",
+                    "countryId": 2,
+                    "id": 24,
+                    "country": {
+                        "nameFa": "چین",
+                        "nameEn": "FkChina"
+                    },
+                    "createdDate": 1596256929444,
+                    "createdBy": "devadmin",
+                    "lastModifiedDate": 1598334787441,
+                    "lastModifiedBy": "devadmin",
+                    "version": 22
+                },
+                "switchShipperExporter": {
+                    "nameFA": "ژیائوفنگ",
+                    "nameEN": "zhyaofeng",
+                    "phone": "8690111111111",
+                    "type": false,
+                    "bankAccount": "686868",
+                    "bankShaba": "IR567575775777556675677777",
+                    "bankSwift": "567567567",
+                    "status": true,
+                    "tradeMark": "ZH-COPPER",
+                    "commercialRole": "Agent Seller,Agent Buyer",
+                    "seller": false,
+                    "buyer": false,
+                    "transporter": false,
+                    "shipper": false,
+                    "inspector": false,
+                    "insurancer": false,
+                    "agentBuyer": true,
+                    "agentSeller": true,
+                    "ceo": "linchan",
+                    "countryId": 2,
+                    "id": 24,
+                    "country": {
+                        "nameFa": "چین",
+                        "nameEn": "FkChina"
+                    },
+                    "createdDate": 1596256929444,
+                    "createdBy": "devadmin",
+                    "lastModifiedDate": 1598334787441,
+                    "lastModifiedBy": "devadmin",
+                    "version": 22
+                },
+                "notifyParty": {
+                    "nameFA": "CHINA MINMETALS NON-FERROUS METALS CO., LTD",
+                    "nameEN": "CHINA MINMETALS NON-FERROUS METALS CO., LTD",
+                    "phone": "+8601068495586",
+                    "fax": "+8601068495562",
+                    "address": "NO.5 SANLIHE ROAD, HAIDIAN DISTRICT, BEIJING 100044, P.R. CHINA ",
+                    "type": false,
+                    "nationalCode": "0",
+                    "status": true,
+                    "commercialRole": "Buyer",
+                    "seller": false,
+                    "buyer": true,
+                    "countryId": 2,
+                    "id": 1,
+                    "country": {
+                        "nameFa": "چین",
+                        "nameEn": "FkChina"
+                    },
+                    "createdDate": 1578197169411,
+                    "createdBy": "dorani_sa",
+                    "lastModifiedDate": 1595828067629,
+                    "lastModifiedBy": "devadmin",
+                    "version": 6
+                },
+                "switchNotifyParty": {
+                    "nameFA": "CHINA MINMETALS NON-FERROUS METALS CO., LTD",
+                    "nameEN": "CHINA MINMETALS NON-FERROUS METALS CO., LTD",
+                    "phone": "+8601068495586",
+                    "fax": "+8601068495562",
+                    "address": "NO.5 SANLIHE ROAD, HAIDIAN DISTRICT, BEIJING 100044, P.R. CHINA ",
+                    "type": false,
+                    "nationalCode": "0",
+                    "status": true,
+                    "commercialRole": "Buyer",
+                    "seller": false,
+                    "buyer": true,
+                    "countryId": 2,
+                    "id": 1,
+                    "country": {
+                        "nameFa": "چین",
+                        "nameEn": "FkChina"
+                    },
+                    "createdDate": 1578197169411,
+                    "createdBy": "dorani_sa",
+                    "lastModifiedDate": 1595828067629,
+                    "lastModifiedBy": "devadmin",
+                    "version": 6
+                },
+                "consignee": {
+                    "nameFA": "بیمه ما",
+                    "nameEN": "MA INSURANCE",
+                    "phone": "8690",
+                    "address": "تهران میدان ونک ابتدای خیابان ونک پلاک 9",
+                    "webSite": "WWW.BIMEHMA.COM",
+                    "type": true,
+                    "status": true,
+                    "commercialRole": "Insurancer",
+                    "insurancer": true,
+                    "countryId": 1,
+                    "postalCode": "+234324",
+                    "id": 5,
+                    "country": {
+                        "nameFa": "ایران",
+                        "nameEn": "Iran (Islamic Republic of)"
+                    },
+                    "createdDate": 1579059013188,
+                    "createdBy": "dorani_sa",
+                    "lastModifiedDate": 1595919615596,
+                    "lastModifiedBy": "devadmin",
+                    "version": 2
+                },
+                "switchConsignee": {
+                    "nameFA": "بیمه ما",
+                    "nameEN": "MA INSURANCE",
+                    "phone": "8690",
+                    "address": "تهران میدان ونک ابتدای خیابان ونک پلاک 9",
+                    "webSite": "WWW.BIMEHMA.COM",
+                    "type": true,
+                    "status": true,
+                    "commercialRole": "Insurancer",
+                    "insurancer": true,
+                    "countryId": 1,
+                    "postalCode": "+234324",
+                    "id": 5,
+                    "country": {
+                        "nameFa": "ایران",
+                        "nameEn": "Iran (Islamic Republic of)"
+                    },
+                    "createdDate": 1579059013188,
+                    "createdBy": "dorani_sa",
+                    "lastModifiedDate": 1595919615596,
+                    "lastModifiedBy": "devadmin",
+                    "version": 2
+                },
+                "portOfLoading": {
+                    "port": "SHANGHAI",
+                    "countryId": 2,
+                    "id": 3,
+                    "country": {
+                        "nameFa": "چین",
+                        "nameEn": "FkChina",
+                        "id": 2,
+                        "createdDate": 1595302644624,
+                        "createdBy": "j.azad",
+                        "lastModifiedDate": 1598846835554,
+                        "lastModifiedBy": "db_zare",
+                        "version": 1,
+                        "editable": true,
+                        "estatus": [
+                            "Active"
+                        ]
+                    },
+                    "createdDate": 1587732958179,
+                    "createdBy": "db_mazloom",
+                    "lastModifiedDate": 1587865761876,
+                    "lastModifiedBy": "db_mazloom",
+                    "version": 3,
+                    "editable": true,
+                    "estatus": [
+                        "Active"
+                    ]
+                },
+                "switchPortOfLoading": {
+                    "port": "SHANGHAI",
+                    "countryId": 2,
+                    "id": 3,
+                    "country": {
+                        "nameFa": "چین",
+                        "nameEn": "FkChina",
+                        "id": 2,
+                        "createdDate": 1595302644624,
+                        "createdBy": "j.azad",
+                        "lastModifiedDate": 1598846835554,
+                        "lastModifiedBy": "db_zare",
+                        "version": 1,
+                        "editable": true,
+                        "estatus": [
+                            "Active"
+                        ]
+                    },
+                    "createdDate": 1587732958179,
+                    "createdBy": "db_mazloom",
+                    "lastModifiedDate": 1587865761876,
+                    "lastModifiedBy": "db_mazloom",
+                    "version": 3,
+                    "editable": true,
+                    "estatus": [
+                        "Active"
+                    ]
+                },
+                "portOfDischarge": {
+                    "port": "ABU DHABI",
+                    "countryId": 3,
+                    "id": 31,
+                    "country": {
+                        "nameFa": "افغانستان",
+                        "nameEn": "Afghanistan",
+                        "id": 3,
+                        "createdDate": 1595302644625,
+                        "createdBy": "j.azad",
+                        "version": 0,
+                        "editable": true,
+                        "estatus": [
+                            "Active"
+                        ]
+                    },
+                    "createdDate": 1587866317999,
+                    "createdBy": "db_mazloom",
+                    "version": 0,
+                    "editable": true,
+                    "estatus": [
+                        "Active"
+                    ]
+                },
+                "switchPortOfDischarge": {
+                    "port": "ABU DHABI",
+                    "countryId": 3,
+                    "id": 31,
+                    "country": {
+                        "nameFa": "افغانستان",
+                        "nameEn": "Afghanistan",
+                        "id": 3,
+                        "createdDate": 1595302644625,
+                        "createdBy": "j.azad",
+                        "version": 0,
+                        "editable": true,
+                        "estatus": [
+                            "Active"
+                        ]
+                    },
+                    "createdDate": 1587866317999,
+                    "createdBy": "db_mazloom",
+                    "version": 0,
+                    "editable": true,
+                    "estatus": [
+                        "Active"
+                    ]
+                },
+                "oceanVessel": {
+                    "name": "ADMIRAL GLOBE",
+                    "type": "Bulk Carrier",
+                    "imo": "9290945",
+                    "yearOfBuild": 2004,
+                    "length": 276,
+                    "beam": 40,
+                    "id": 86,
+                    "createdDate": 1588389673493,
+                    "createdBy": "db_mazloom",
+                    "version": 0,
+                    "editable": true,
+                    "estatus": [
+                        "Active"
+                    ]
+                },
+                "containers": [
+                    {
+                        "billOfLandingId": 2,
+                        "containerType": "a",
+                        "containerNo": "s",
+                        "sealNo": "d",
+                        "quantity": 123,
+                        "quantityType": "123",
+                        "weight": 123,
+                        "unitId": -11,
+                        "id": 2,
+                        "unit": {
+                            "nameFA": "کیلوگرم",
+                            "nameEN": "kilogramme",
+                            "categoryUnit": "Weight",
+                            "id": -11,
+                            "createdDate": 1593755140056,
+                            "createdBy": "j.azad",
+                            "lastModifiedDate": 1594440292826,
+                            "lastModifiedBy": "j.azad",
+                            "version": 2,
+                            "editable": false,
+                            "estatus": [
+                                "Active"
+                            ]
+                        },
+                        "createdDate": 1596366825909,
+                        "createdBy": "db_saeb",
+                        "lastModifiedDate": 1596367028720,
+                        "lastModifiedBy": "db_saeb",
+                        "version": 1,
+                        "editable": true,
+                        "estatus": [
+                            "Active"
+                        ]
+                    }
+                ],
+                "createdDate": 1596272394781,
+                "createdBy": "db_saeb",
+                "lastModifiedDate": 1599451551217,
+                "lastModifiedBy": "devadmin",
+                "version": 7,
+                "editable": true,
+                "estatus": [
+                    "Active"
+                ],
+                "_selection_66": true,
+                "_embeddedComponents_isc_ListGrid_1": null
+            },
+            {
+                "documentNo": "asdvbcvbcxvbcvbx",
+                "switchDocumentNo": "asdvbcvbcxvbcvbx",
+                "shipperExporterId": 41,
+                "switchShipperExporterId": 41,
+                "notifyPartyId": 2058,
+                "switchNotifyPartyId": 2058,
+                "consigneeId": 24,
+                "switchConsigneeId": 24,
+                "portOfLoadingId": 21,
+                "switchPortOfLoadingId": 21,
+                "portOfDischargeId": 1,
+                "switchPortOfDischargeId": 1,
+                "placeOfDelivery": "HUANGPU",
+                "oceanVesselId": 34,
+                "numberOfBlCopies": 34,
+                "dateOfIssue": 1599377400000,
+                "placeOfIssue": "345",
+                "description": "345345dffdgdf",
+                "totalNet": 345,
+                "totalGross": 345,
+                "totalBundles": 345,
+                "id": 101,
+                "shipperExporter": {
+                    "nameFA": "SUNGILL RESOURCES LTD",
+                    "nameEN": "SUNGILL RESOURCES LTD",
+                    "phone": "+852 2575 7591",
+                    "fax": "+852 3702 0210",
+                    "address": "FLAT/RM 8,12 /F,WAYSON COMMERCIAL BUILDING 28 CONNAUGHT, ROAD WEST SHEUNG WAN, HONK KONG",
+                    "type": false,
+                    "status": true,
+                    "commercialRole": "Buyer",
+                    "buyer": true,
+                    "countryId": 2,
+                    "id": 41,
+                    "country": {
+                        "nameFa": "چین",
+                        "nameEn": "FkChina"
+                    },
+                    "createdDate": 1579683563975,
+                    "createdBy": "dorani_sa",
+                    "lastModifiedDate": 1579935876622,
+                    "lastModifiedBy": "dorani_sa",
+                    "version": 1
+                },
+                "switchShipperExporter": {
+                    "nameFA": "SUNGILL RESOURCES LTD",
+                    "nameEN": "SUNGILL RESOURCES LTD",
+                    "phone": "+852 2575 7591",
+                    "fax": "+852 3702 0210",
+                    "address": "FLAT/RM 8,12 /F,WAYSON COMMERCIAL BUILDING 28 CONNAUGHT, ROAD WEST SHEUNG WAN, HONK KONG",
+                    "type": false,
+                    "status": true,
+                    "commercialRole": "Buyer",
+                    "buyer": true,
+                    "countryId": 2,
+                    "id": 41,
+                    "country": {
+                        "nameFa": "چین",
+                        "nameEn": "FkChina"
+                    },
+                    "createdDate": 1579683563975,
+                    "createdBy": "dorani_sa",
+                    "lastModifiedDate": 1579935876622,
+                    "lastModifiedBy": "dorani_sa",
+                    "version": 1
+                },
+                "notifyParty": {
+                    "nameFA": "لاکی هرایزن لیمیتد",
+                    "nameEN": "LUCKY HORIZEN LIMITED",
+                    "phone": "869011111111134",
+                    "address": "RM 19C LOCKHART CTR 301-307",
+                    "type": true,
+                    "bankAccount": "234",
+                    "bankShaba": "IR343434343434343444433333",
+                    "bankSwift": "234",
+                    "status": true,
+                    "commercialRole": "Seller",
+                    "seller": true,
+                    "buyer": false,
+                    "countryId": 1,
+                    "id": 2058,
+                    "country": {
+                        "nameFa": "ایران",
+                        "nameEn": "Iran (Islamic Republic of)"
+                    },
+                    "createdDate": 1597293065534,
+                    "createdBy": "r.mazloom",
+                    "lastModifiedDate": 1599367644514,
+                    "lastModifiedBy": "devadmin",
+                    "version": 6
+                },
+                "switchNotifyParty": {
+                    "nameFA": "لاکی هرایزن لیمیتد",
+                    "nameEN": "LUCKY HORIZEN LIMITED",
+                    "phone": "869011111111134",
+                    "address": "RM 19C LOCKHART CTR 301-307",
+                    "type": true,
+                    "bankAccount": "234",
+                    "bankShaba": "IR343434343434343444433333",
+                    "bankSwift": "234",
+                    "status": true,
+                    "commercialRole": "Seller",
+                    "seller": true,
+                    "buyer": false,
+                    "countryId": 1,
+                    "id": 2058,
+                    "country": {
+                        "nameFa": "ایران",
+                        "nameEn": "Iran (Islamic Republic of)"
+                    },
+                    "createdDate": 1597293065534,
+                    "createdBy": "r.mazloom",
+                    "lastModifiedDate": 1599367644514,
+                    "lastModifiedBy": "devadmin",
+                    "version": 6
+                },
+                "consignee": {
+                    "nameFA": "ژیائوفنگ",
+                    "nameEN": "zhyaofeng",
+                    "phone": "8690111111111",
+                    "type": false,
+                    "bankAccount": "686868",
+                    "bankShaba": "IR567575775777556675677777",
+                    "bankSwift": "567567567",
+                    "status": true,
+                    "tradeMark": "ZH-COPPER",
+                    "commercialRole": "Agent Seller,Agent Buyer",
+                    "seller": false,
+                    "buyer": false,
+                    "transporter": false,
+                    "shipper": false,
+                    "inspector": false,
+                    "insurancer": false,
+                    "agentBuyer": true,
+                    "agentSeller": true,
+                    "ceo": "linchan",
+                    "countryId": 2,
+                    "id": 24,
+                    "country": {
+                        "nameFa": "چین",
+                        "nameEn": "FkChina"
+                    },
+                    "createdDate": 1596256929444,
+                    "createdBy": "devadmin",
+                    "lastModifiedDate": 1598334787441,
+                    "lastModifiedBy": "devadmin",
+                    "version": 22
+                },
+                "switchConsignee": {
+                    "nameFA": "ژیائوفنگ",
+                    "nameEN": "zhyaofeng",
+                    "phone": "8690111111111",
+                    "type": false,
+                    "bankAccount": "686868",
+                    "bankShaba": "IR567575775777556675677777",
+                    "bankSwift": "567567567",
+                    "status": true,
+                    "tradeMark": "ZH-COPPER",
+                    "commercialRole": "Agent Seller,Agent Buyer",
+                    "seller": false,
+                    "buyer": false,
+                    "transporter": false,
+                    "shipper": false,
+                    "inspector": false,
+                    "insurancer": false,
+                    "agentBuyer": true,
+                    "agentSeller": true,
+                    "ceo": "linchan",
+                    "countryId": 2,
+                    "id": 24,
+                    "country": {
+                        "nameFa": "چین",
+                        "nameEn": "FkChina"
+                    },
+                    "createdDate": 1596256929444,
+                    "createdBy": "devadmin",
+                    "lastModifiedDate": 1598334787441,
+                    "lastModifiedBy": "devadmin",
+                    "version": 22
+                },
+                "portOfLoading": {
+                    "port": "JEBEL ALI",
+                    "countryId": 3,
+                    "id": 21,
+                    "country": {
+                        "nameFa": "افغانستان",
+                        "nameEn": "Afghanistan",
+                        "id": 3,
+                        "createdDate": 1595302644625,
+                        "createdBy": "j.azad",
+                        "version": 0,
+                        "editable": true,
+                        "estatus": [
+                            "Active"
+                        ]
+                    },
+                    "createdDate": 1578800749910,
+                    "createdBy": "dorani_sa",
+                    "lastModifiedDate": 1587865683350,
+                    "lastModifiedBy": "db_mazloom",
+                    "version": 2,
+                    "editable": true,
+                    "estatus": [
+                        "Active"
+                    ]
+                },
+                "switchPortOfLoading": {
+                    "port": "JEBEL ALI",
+                    "countryId": 3,
+                    "id": 21,
+                    "country": {
+                        "nameFa": "افغانستان",
+                        "nameEn": "Afghanistan",
+                        "id": 3,
+                        "createdDate": 1595302644625,
+                        "createdBy": "j.azad",
+                        "version": 0,
+                        "editable": true,
+                        "estatus": [
+                            "Active"
+                        ]
+                    },
+                    "createdDate": 1578800749910,
+                    "createdBy": "dorani_sa",
+                    "lastModifiedDate": 1587865683350,
+                    "lastModifiedBy": "db_mazloom",
+                    "version": 2,
+                    "editable": true,
+                    "estatus": [
+                        "Active"
+                    ]
+                },
+                "portOfDischarge": {
+                    "port": "HUANGPU",
+                    "countryId": 2,
+                    "id": 1,
+                    "country": {
+                        "nameFa": "چین",
+                        "nameEn": "FkChina",
+                        "id": 2,
+                        "createdDate": 1595302644624,
+                        "createdBy": "j.azad",
+                        "lastModifiedDate": 1598846835554,
+                        "lastModifiedBy": "db_zare",
+                        "version": 1,
+                        "editable": true,
+                        "estatus": [
+                            "Active"
+                        ]
+                    },
+                    "createdDate": 1578198734058,
+                    "createdBy": "dorani_sa",
+                    "lastModifiedDate": 1587865832220,
+                    "lastModifiedBy": "db_mazloom",
+                    "version": 2,
+                    "editable": true,
+                    "estatus": [
+                        "Active"
+                    ]
+                },
+                "switchPortOfDischarge": {
+                    "port": "HUANGPU",
+                    "countryId": 2,
+                    "id": 1,
+                    "country": {
+                        "nameFa": "چین",
+                        "nameEn": "FkChina",
+                        "id": 2,
+                        "createdDate": 1595302644624,
+                        "createdBy": "j.azad",
+                        "lastModifiedDate": 1598846835554,
+                        "lastModifiedBy": "db_zare",
+                        "version": 1,
+                        "editable": true,
+                        "estatus": [
+                            "Active"
+                        ]
+                    },
+                    "createdDate": 1578198734058,
+                    "createdBy": "dorani_sa",
+                    "lastModifiedDate": 1587865832220,
+                    "lastModifiedBy": "db_mazloom",
+                    "version": 2,
+                    "editable": true,
+                    "estatus": [
+                        "Active"
+                    ]
+                },
+                "oceanVessel": {
+                    "name": "HHL RIO DE JANEIRO",
+                    "type": "Bulk Carrier",
+                    "imo": "9424546",
+                    "yearOfBuild": 2009,
+                    "length": 168,
+                    "beam": 25,
+                    "id": 34,
+                    "createdDate": 1588382634370,
+                    "createdBy": "db_mazloom",
+                    "lastModifiedDate": 1588382647517,
+                    "lastModifiedBy": "db_mazloom",
+                    "version": 1,
+                    "editable": true,
+                    "estatus": [
+                        "Active"
+                    ]
+                },
+                "containers": [],
+                "createdDate": 1599395173365,
+                "createdBy": "db_saeb",
+                "version": 0,
+                "editable": true,
+                "estatus": [
+                    "Active"
+                ],
+                "_selection_66": true,
+                "_embeddedComponents_isc_ListGrid_1": null
+            }
+        ],
+        "invoiceTypeId": 1,
+        "contractId": 294,
+        "shipmentId": 73,
+        "remittanceDetailId": [
+            42
+        ],
+        "creatorId": 4,
+        "currencyId": -32,
+        "toCurrencyId": -33,
+        "conversionRefId": 124,
+        "description": "deded"
+    });
 
     foreignInvoiceTab.dynamicForm.baseData.redraw();
     foreignInvoiceTab.window.main.show();
@@ -1637,24 +1637,42 @@ foreignInvoiceTab.method.editForm = function () {
                                     callback: function (itemDetailResp) {
 
                                         let itemDetailValues = JSON.parse(itemDetailResp.httpResponseText).response.data;
-
                                         let rcRowData = [];
                                         let calculationRowData = [];
+                                        let assayData = [];
+                                        let weightData = [];
+
+                                        console.log("itemValue ", itemValue);
+                                        console.log("itemDetailValues ", itemDetailValues);
+
+                                        weightData.add({
+                                            weightGW: itemValue.weightGW,
+                                            weightND: itemValue.weightGW,
+                                            assayMilestone: itemValue.assayMilestone,
+                                            weightMilestone: itemValue.weightMilestone,
+                                        });
+
                                         itemDetailValues.forEach(detail => {
 
+                                            assayData.add({
+                                                materialElementId: detail.materialElementId,
+                                                assay: detail.assay
+                                            });
+
                                             calculationRowData.add({
-                                                foreignInvoiceItemId: itemValue.id,
+                                                foreignInvoiceItemId: detail.foreignInvoiceItemId,
                                                 materialElementId: detail.materialElementId,
                                                 deductionValue: detail.deductionValue,
                                                 deductionType: detail.deductionType,
                                                 deductionUnitConversionRate: detail.deductionUnitConversionRate
                                             });
                                             rcRowData.add({
-                                                foreignInvoiceItemId: itemValue.id,
+                                                foreignInvoiceItemId: detail.foreignInvoiceItemId,
                                                 materialElementId: detail.materialElementId,
                                                 rcUnitConversionRate: detail.rcUnitConversionRate
                                             });
                                         });
+
 
                                         foreignInvoiceTab.variable.method = "PUT";
                                         let paymentValues = JSON.parse(paymentResp.httpResponseText).response.data;
@@ -1662,11 +1680,13 @@ foreignInvoiceTab.method.editForm = function () {
 
                                         foreignInvoiceTab.dynamicForm.valuesManager.clearValues();
                                         foreignInvoiceTab.dynamicForm.valuesManager.setValues(record);
-                                        foreignInvoiceTab.dynamicForm.valuesManager.setValue("rcDeductionData", rcRowData);
+                                        foreignInvoiceTab.dynamicForm.valuesManager.setValue("weightData", weightData);
+                                        foreignInvoiceTab.dynamicForm.valuesManager.setValue("assayData", assayData);
                                         foreignInvoiceTab.dynamicForm.valuesManager.setValue("calculationData", calculationRowData);
+                                        foreignInvoiceTab.dynamicForm.valuesManager.setValue("rcDeductionData", rcRowData);
                                         foreignInvoiceTab.dynamicForm.valuesManager.setValue("payments", paymentValues);
-                                        foreignInvoiceTab.dynamicForm.valuesManager.setValue('assayMilestone', itemValue.assayMilestone);
-                                        foreignInvoiceTab.dynamicForm.valuesManager.setValue('weightMilestone', itemValue.weightMilestone);
+                                        // foreignInvoiceTab.dynamicForm.valuesManager.setValue('assayMilestone', itemValue.assayMilestone);
+                                        // foreignInvoiceTab.dynamicForm.valuesManager.setValue('weightMilestone', itemValue.weightMilestone);
                                         foreignInvoiceTab.dynamicForm.valuesManager.setValue("billLadings", billOfLadingValues.map(q => q.billOfLanding));
                                         foreignInvoiceTab.dynamicForm.valuesManager.setValue("date", new Date(record.date));
                                         foreignInvoiceTab.dynamicForm.valuesManager.setValue("toCurrencyId", record.conversionRef.unitToId);
