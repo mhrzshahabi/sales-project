@@ -33,6 +33,7 @@ public class ShipmentCostInvoiceDetailDTO {
     private BigDecimal sumPriceWithVat;
     private Long shipmentCostInvoiceId;
     private Long shipmentCostDutyId;
+    private Long unitId;
 
 
     @Getter
@@ -50,6 +51,7 @@ public class ShipmentCostInvoiceDetailDTO {
         private String lastModifiedBy;
         private Integer version;
         private ShipmentCostDutyDTO.Info  shipmentCostDuty;
+        private UnitDTO.Info  unit;
 
         // BaseEntity
         private Boolean editable;
