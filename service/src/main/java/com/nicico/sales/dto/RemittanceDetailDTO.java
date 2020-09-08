@@ -58,7 +58,7 @@ public class RemittanceDetailDTO {
         private List<EStatus> eStatus;
     }
 
-     @Getter
+    @Getter
     @Setter
     @Accessors(chain = true)
     @ApiModel("RemittanceDetailInfo")
@@ -150,7 +150,6 @@ public class RemittanceDetailDTO {
     }
 
 
-
     @Getter
     @Setter
     @Accessors(chain = true)
@@ -160,7 +159,6 @@ public class RemittanceDetailDTO {
         @NotNull
         private List<RemittanceDetailDTO.OutCreate> remittanceDetails;
     }
-
 
 
 }
