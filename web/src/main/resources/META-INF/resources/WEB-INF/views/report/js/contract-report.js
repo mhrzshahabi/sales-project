@@ -899,7 +899,7 @@ crTab.Layouts.Vlayouts.main = isc.VLayout.create({
                                                 icon: "icon/pdf.png",
                                                 click: function () {
                                                     var toDay = DynamicForm_DailyReport_Tozin.getValue("toDay").replaceAll("/", "");
-                                                    // "<spring:url value="/warehouseStock/print/Kharid_Zaieat/pdf" var="printUrl"/>"
+                                                    // "<spring:url value="/report/warehouseStock/print/Kharid_Zaieat/pdf" var="printUrl"/>"
                                                     window.open('${printUrl}' + '/' + toDay);
                                                 }
                                             },
@@ -908,7 +908,7 @@ crTab.Layouts.Vlayouts.main = isc.VLayout.create({
                                                 icon: "icon/excel.png",
                                                 click: function () {
                                                     var toDay = DynamicForm_DailyReport_Tozin.getValue("toDay").replaceAll("/", "");
-                                                    // "<spring:url value="/warehouseStock/print/Kharid_Zaieat/excel" var="printUrl"/>"
+                                                    // "<spring:url value="/report/warehouseStock/print/Kharid_Zaieat/excel" var="printUrl"/>"
                                                     window.open('${printUrl}' + '/' + toDay);
                                                 }
                                             },
@@ -917,7 +917,7 @@ crTab.Layouts.Vlayouts.main = isc.VLayout.create({
                                                 icon: "icon/html.jpg",
                                                 click: function () {
                                                     var toDay = DynamicForm_DailyReport_Tozin.getValue("toDay").replaceAll("/", "");
-                                                    // "<spring:url value="/warehouseStock/print/Kharid_Zaieat/html" var="printUrl"/>"
+                                                    // "<spring:url value="/report/warehouseStock/print/Kharid_Zaieat/html" var="printUrl"/>"
                                                     window.open('${printUrl}' + '/' + toDay);
                                                 }
                                             }
@@ -936,7 +936,7 @@ crTab.Layouts.Vlayouts.main = isc.VLayout.create({
                                                 title: "<spring:message code='global.form.print.pdf'/>",
                                                 icon: "icon/pdf.png",
                                                 click: function () {
-                                                    //   "<spring:url value="/warehouseStock/print/beyn_mojtama/pdf" var="printUrl"/>"
+                                                    //   "<spring:url value="/report/warehouseStock/print/beyn_mojtama/pdf" var="printUrl"/>"
                                                     window.open('${printUrl}' + '/' + DynamicForm_DailyReport_Tozin.getValue("toDay").replaceAll("/", ""));
                                                 }
                                             },
@@ -944,7 +944,7 @@ crTab.Layouts.Vlayouts.main = isc.VLayout.create({
                                                 title: "<spring:message code='global.form.print.excel'/>",
                                                 icon: "icon/excel.png",
                                                 click: function () {
-                                                    //   "<spring:url value="/warehouseStock/print/beyn_mojtama/excel" var="printUrl"/>"
+                                                    //   "<spring:url value="/report/warehouseStock/print/beyn_mojtama/excel" var="printUrl"/>"
                                                     window.open('${printUrl}' + '/' + DynamicForm_DailyReport_Tozin.getValue("toDay").replaceAll("/", ""));
                                                 }
                                             },
@@ -952,7 +952,7 @@ crTab.Layouts.Vlayouts.main = isc.VLayout.create({
                                                 title: "<spring:message code='global.form.print.html'/>",
                                                 icon: "icon/html.jpg",
                                                 click: function () {
-                                                    // "<spring:url value="/warehouseStock/print/beyn_mojtama/html" var="printUrl"/>"
+                                                    // "<spring:url value="/report/warehouseStock/print/beyn_mojtama/html" var="printUrl"/>"
                                                     window.open('${printUrl}' + '/' + DynamicForm_DailyReport_Tozin.getValue("toDay").replaceAll("/", ""));
                                                 }
                                             }
@@ -972,7 +972,7 @@ crTab.Layouts.Vlayouts.main = isc.VLayout.create({
                                                 icon: "icon/pdf.png",
                                                 click: function () {
                                                     var toDay = DynamicForm_DailyReport_Tozin.getValue("toDay").replaceAll("/", "");
-                                                    // "<spring:url value="/warehouseStock/print/Forosh_Bargiri/pdf" var="printUrl"/>"
+                                                    // "<spring:url value="/report/warehouseStock/print/Forosh_Bargiri/pdf" var="printUrl"/>"
                                                     window.open('${printUrl}' + '/' + toDay);
                                                 }
                                             },
@@ -981,7 +981,7 @@ crTab.Layouts.Vlayouts.main = isc.VLayout.create({
                                                 icon: "icon/excel.png",
                                                 click: function () {
                                                     var toDay = DynamicForm_DailyReport_Tozin.getValue("toDay").replaceAll("/", "");
-                                                    // "<spring:url value="/warehouseStock/print/Forosh_Bargiri/excel" var="printUrl"/>"
+                                                    // "<spring:url value="/report/warehouseStock/print/Forosh_Bargiri/excel" var="printUrl"/>"
                                                     window.open('${printUrl}' + '/' + toDay);
                                                 }
                                             },
@@ -990,7 +990,7 @@ crTab.Layouts.Vlayouts.main = isc.VLayout.create({
                                                 icon: "icon/html.jpg",
                                                 click: function () {
                                                     var toDay = DynamicForm_DailyReport_Tozin.getValue("toDay").replaceAll("/", "");
-                                                    // "<spring:url value="/warehouseStock/print/Forosh_Bargiri/html" var="printUrl"/>"
+                                                    // "<spring:url value="/report/warehouseStock/print/Forosh_Bargiri/html" var="printUrl"/>"
                                                     window.open('${printUrl}' + '/' + toDay);
                                                 }
                                             }
@@ -1010,7 +1010,7 @@ crTab.Layouts.Vlayouts.main = isc.VLayout.create({
                                                 icon: "icon/pdf.png",
                                                 click: function () {
                                                     var toDay = DynamicForm_DailyReport_Tozin.getValue("toDay").replaceAll("/", "");
-                                                    // "<spring:url value="/warehouseStock/print/Kharid_Konstantere/pdf" var="printUrl"/>"
+                                                    // "<spring:url value="/report/warehouseStock/print/Kharid_Konstantere/pdf" var="printUrl"/>"
                                                     window.open('${printUrl}' + '/' + toDay);
                                                 }
                                             },
@@ -1019,7 +1019,7 @@ crTab.Layouts.Vlayouts.main = isc.VLayout.create({
                                                 icon: "icon/excel.png",
                                                 click: function () {
                                                     var toDay = DynamicForm_DailyReport_Tozin.getValue("toDay").replaceAll("/", "");
-                                                    // "<spring:url value="/warehouseStock/print/Kharid_Konstantere/excel" var="printUrl"/>"
+                                                    // "<spring:url value="/report/warehouseStock/print/Kharid_Konstantere/excel" var="printUrl"/>"
                                                     window.open('${printUrl}' + '/' + toDay);
                                                 }
                                             },
@@ -1028,7 +1028,7 @@ crTab.Layouts.Vlayouts.main = isc.VLayout.create({
                                                 icon: "icon/html.jpg",
                                                 click: function () {
                                                     var toDay = DynamicForm_DailyReport_Tozin.getValue("toDay").replaceAll("/", "");
-                                                    // "<spring:url value="/warehouseStock/print/Kharid_Konstantere/html" var="printUrl"/>"
+                                                    // "<spring:url value="/report/warehouseStock/print/Kharid_Konstantere/html" var="printUrl"/>"
                                                     window.open('${printUrl}' + '/' + toDay);
                                                 }
                                             }
@@ -1049,7 +1049,7 @@ crTab.Layouts.Vlayouts.main = isc.VLayout.create({
                                                 icon: "icon/pdf.png",
                                                 click: function () {
                                                     var toDay = DynamicForm_DailyReport_Tozin.getValue("toDay").replaceAll("/", "");
-                                                    // "<spring:url value="/warehouseStock/print/Kharid_Konstantere/pdf" var="printUrl"/>"
+                                                    // "<spring:url value="/report/warehouseStock/print/Kharid_Konstantere/pdf" var="printUrl"/>"
                                                     window.open('${printUrl}' + '/' + toDay);
                                                 }
                                             },
@@ -1058,7 +1058,7 @@ crTab.Layouts.Vlayouts.main = isc.VLayout.create({
                                                 icon: "icon/excel.png",
                                                 click: function () {
                                                     var toDay = DynamicForm_DailyReport_Tozin.getValue("toDay").replaceAll("/", "");
-                                                    // "<spring:url value="/warehouseStock/print/Kharid_Konstantere/excel" var="printUrl"/>"
+                                                    // "<spring:url value="/report/warehouseStock/print/Kharid_Konstantere/excel" var="printUrl"/>"
                                                     window.open('${printUrl}' + '/' + toDay);
                                                 }
                                             },
@@ -1067,7 +1067,7 @@ crTab.Layouts.Vlayouts.main = isc.VLayout.create({
                                                 icon: "icon/html.jpg",
                                                 click: function () {
                                                     var toDay = DynamicForm_DailyReport_Tozin.getValue("toDay").replaceAll("/", "");
-                                                    // "<spring:url value="/warehouseStock/print/Kharid_Konstantere/html" var="printUrl"/>"
+                                                    // "<spring:url value="/report/warehouseStock/print/Kharid_Konstantere/html" var="printUrl"/>"
                                                     window.open('${printUrl}' + '/' + toDay);
                                                 }
                                             }
