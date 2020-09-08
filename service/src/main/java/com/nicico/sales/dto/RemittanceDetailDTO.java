@@ -59,7 +59,7 @@ public class RemittanceDetailDTO {
         private List<EStatus> eStatus;
     }
 
-     @Getter
+    @Getter
     @Setter
     @Accessors(chain = true)
     @ApiModel("RemittanceDetailInfo")
@@ -149,7 +149,6 @@ public class RemittanceDetailDTO {
         Long inventoryId;
         TozinTableDTO.Create sourceTozin;
     }
-
 
 
     @Getter
