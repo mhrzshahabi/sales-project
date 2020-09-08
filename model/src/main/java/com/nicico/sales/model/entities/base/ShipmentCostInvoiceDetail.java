@@ -25,13 +25,6 @@ public class ShipmentCostInvoiceDetail extends BaseEntity {
     @SequenceGenerator(name = "SEQ_SHIPMENT_COST_INVOICE_DETAIL", sequenceName = "SEQ_SHIPMENT_COST_INVOICE_DETAIL", allocationSize = 1)
     private Long id;
 
-    @Column(name = "C_SERVICE_CODE")
-    private String serviceCode;
-
-    @NotNull
-    @Column(name = "C_SERVICE_NAME", nullable = false)
-    private String serviceName;
-
     @NotNull
     @Column(name = "N_QUANTITY", nullable = false, scale = 5, precision = 10)
     private BigDecimal quantity;
@@ -78,5 +71,14 @@ public class ShipmentCostInvoiceDetail extends BaseEntity {
     @NotNull
     @Column(name = "F_SHIPMENT_COST_INVOICE_ID", nullable = false)
     private Long shipmentCostInvoiceId;
+
+    @Setter(AccessLevel.NONE)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "F_SHIPMENT_COST_DUTY_ID", nullable = false, insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_shipmentCostInvoiceDetail2shipmentCostDutyId"))
+    private ShipmentCostDuty shipmentCostDuty;
+
+    @NotNull
+    @Column(name = "F_SHIPMENT_COST_DUTY_ID", nullable = false)
+    private Long shipmentCostDutyId;
 
 }
