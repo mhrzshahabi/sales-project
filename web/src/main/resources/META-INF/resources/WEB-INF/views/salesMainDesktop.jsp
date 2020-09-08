@@ -63,7 +63,10 @@
 <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
 
 <script type="application/javascript">
-
+    const mylocale = '${pageContext.response.locale}';
+    align = function(){
+        return mylocale == 'fa' ? "right" : "left";
+    }
     isc.Class.create.prototype.create = function () {
         const argzz = this.Super('create', arguments)
         this.argzz = arguments

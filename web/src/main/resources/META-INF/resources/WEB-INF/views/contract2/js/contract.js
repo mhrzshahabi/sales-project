@@ -163,8 +163,7 @@ nicico.BasicFormUtil.createDynamicForm = function (creator) {
     contractTab.dynamicForm.main = isc.DynamicForm.create({
         width: "100%",
         height: "15%",
-        align: "center",
-        titleAlign: "right",
+        titleAlign: align(),
         numCols: 8,
         margin: 10,
         canSubmit: true,
