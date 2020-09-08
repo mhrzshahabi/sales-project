@@ -81,4 +81,13 @@ public class ShipmentCostInvoiceDetail extends BaseEntity {
     @Column(name = "F_SHIPMENT_COST_DUTY_ID", nullable = false)
     private Long shipmentCostDutyId;
 
+    @Setter(AccessLevel.NONE)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "F_UNIT_ID", nullable = false, insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_shipmentCostInvoiceDetail2unitId"))
+    private Unit unit;
+
+    @NotNull
+    @Column(name = "F_UNIT_ID", nullable = false)
+    private Long unitId;
+
 }

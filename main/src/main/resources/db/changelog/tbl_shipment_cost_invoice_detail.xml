@@ -92,4 +92,12 @@
         <dropColumn columnName="C_SERVICE_CODE" tableName="TBL_SHIPMENT_COST_INVOICE_DETAIL"/>
     </changeSet>
 
+    <changeSet author="NO1 (generated)" id="1599538708020-262">
+        <addColumn tableName="TBL_SHIPMENT_COST_INVOICE_DETAIL">
+            <column name="F_UNIT_ID" type="number(19, 0)"/>
+        </addColumn>
+    </changeSet>
+
+
+
 </databaseChangeLog>
