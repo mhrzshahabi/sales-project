@@ -956,9 +956,9 @@
                 </sec:authorize>
                 <sec:authorize access="hasAuthority('R_BILL_OF_LANDING')">
                 {
-                    title: "بارنامه",
+                    title:"&nbsp; <spring:message code='bol.title'/>",
                     click: function () {
-                        createTab("بارنامه", "<spring:url value="/bill-of-landing/show-form" />")
+                        createTab("<spring:message code='bol.title'/>", "<spring:url value="/bill-of-landing/show-form" />")
                     }
                 },
                 {isSeparator: true},
