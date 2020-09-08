@@ -1,5 +1,5 @@
-var unitTab = new nicico.GeneralTabUtil().getDefaultJSPTabVariable();
-unitTab.dynamicForm.fields = BaseFormItems.concat([
+var costDutyTab = new nicico.GeneralTabUtil().getDefaultJSPTabVariable();
+costDutyTab.dynamicForm.fields = BaseFormItems.concat([
 
     {
         name: "nameFA",
@@ -40,28 +40,18 @@ unitTab.dynamicForm.fields = BaseFormItems.concat([
             }]
     },
     {
-        name: "symbolUnit",
-        title: "<spring:message code='unit.symbol'/>",
+        name: "code",
+        title: "<spring:message code='shipmentCostInvoiceDetail.serviceCode'/>",
         type: 'text',
         required: true,
-        width: "100%",
-        filterOperator: "equals",
-        valueMap:JSON.parse('${Enum_SymbolUnit}')
-    },
-    {
-        name: "categoryUnit",
-        title: "<spring:message code='unit.category'/>",
-        type: 'text',
-        required: true,
-        width: "100%",
-        filterOperator: "equals",
-        valueMap: JSON.parse('${Enum_CategoryUnit}'),
+        width: "100%"
     }
 
 ]);
-Object.assign(unitTab.listGrid.fields, unitTab.dynamicForm.fields);
-nicico.BasicFormUtil.getDefaultBasicForm(unitTab, "api/unit/");
-unitTab.dynamicForm.main.windowWidth = 500;
+Object.assign(costDutyTab.listGrid.fields, costDutyTab.dynamicForm.fields);
+nicico.BasicFormUtil.getDefaultBasicForm(costDutyTab, "api/costDuty/");
+
+costDutyTab.dynamicForm.main.windowWidth = 500;
 
 
 

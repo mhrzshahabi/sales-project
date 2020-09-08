@@ -58,6 +58,7 @@
     <include file="classpath:/db/changelog/tbl_contract_discount.xml"/>
     <include file="classpath:/db/changelog/contract/tbl_cntr_contract.xml"/>
     <include file="classpath:/db/changelog/tbl_shipment.xml"/>
+    <include file="classpath:/db/changelog/tbl_shipment_cost_duty.xml"/>
 
 
 

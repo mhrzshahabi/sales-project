@@ -66,4 +66,38 @@
         </createTable>
     </changeSet>
 
+    <changeSet author="NO1 (generated)" id="1599480755847-261">
+        <addColumn tableName="TBL_SHIPMENT_COST_INVOICE_DETAIL">
+            <column name="F_SHIPMENT_COST_DUTY_ID" type="number(19, 0)"></column>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="NO1 (generated)" id="SEMAMI-1599480755847-261">
+        <addNotNullConstraint columnDataType="number(19,0)" columnName="F_SHIPMENT_COST_DUTY_ID" tableName="TBL_SHIPMENT_COST_INVOICE_DETAIL"/>
+    </changeSet>
+
+	 <changeSet author="NO1 (generated)" id="1599480755847-274">
+        <addForeignKeyConstraint baseColumnNames="F_SHIPMENT_COST_DUTY_ID"
+                                 baseTableName="TBL_SHIPMENT_COST_INVOICE_DETAIL"
+                                 constraintName="fk_shipmentCostInvoiceDetail2shipmentCostDutyId" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="ID"
+                                 referencedTableName="TBL_SHIPMENT_COST_DUTY" validate="true"/>
+    </changeSet>
+
+    <changeSet author="NO1 (generated)" id="1599480755847-299">
+        <dropColumn columnName="C_SERVICE_NAME" tableName="TBL_SHIPMENT_COST_INVOICE_DETAIL"/>
+    </changeSet>
+
+    <changeSet author="NO1 (generated)" id="1599480925894-299">
+        <dropColumn columnName="C_SERVICE_CODE" tableName="TBL_SHIPMENT_COST_INVOICE_DETAIL"/>
+    </changeSet>
+
+    <changeSet author="NO1 (generated)" id="1599538708020-262">
+        <addColumn tableName="TBL_SHIPMENT_COST_INVOICE_DETAIL">
+            <column name="F_UNIT_ID" type="number(19, 0)"/>
+        </addColumn>
+    </changeSet>
+
+
+
 </databaseChangeLog>
