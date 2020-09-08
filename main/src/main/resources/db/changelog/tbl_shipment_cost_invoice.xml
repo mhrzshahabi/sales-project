@@ -130,5 +130,11 @@
         <dropColumn columnName="F_CONTRACT_ID" tableName="TBL_SHIPMENT_COST_INVOICE"/>
     </changeSet>
 
+    <changeSet author="NO1 (generated)" id="SEMAMI-1599386431210-294">
+        <addForeignKeyConstraint baseColumnNames="F_SHIPMENT_ID" baseTableName="TBL_SHIPMENT_COST_INVOICE"
+                                 constraintName="fk_shipmentCostInvoice2shipmentId" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_SHIPMENT"
+                                 validate="true"/>
+    </changeSet>
 
 </databaseChangeLog>

@@ -138,6 +138,8 @@ public class ShipmentCostInvoice extends BaseEntity {
     @Column(name = "F_FINANCE_UNIT_ID", nullable = false)
     private Long financeUnitId;
 
+
+
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "F_SHIPMENT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_shipmentCostInvoice2shipmentId"))
