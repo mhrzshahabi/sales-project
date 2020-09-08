@@ -935,7 +935,7 @@ rdTab.Fields.TozinBase = function () {
             required: true,
             // filterEditorProperties: {editorType: "comboBox"},
             parseEditorValue: function (value, record, form, item) {
-                StorageUtil.save('on_way_product_defaultSourceId', value)
+                StorageUtil.save('out_remittance_defaultSourceId', value)
                 return value;
             },
             valueMap: SalesBaseParameters.getSavedWarehouseParameter().getValueMap("id", "name"),
@@ -949,7 +949,12 @@ rdTab.Fields.TozinBase = function () {
                 2555: 'اسكله شهيد رجائي ',
             },
             title: "<spring:message code='Tozin.sourceId'/>",
-            align: "center"
+            align: "center",
+            changed: function (form, item, value) {
+                StorageUtil.save('out_remittance_defaultSourceId', value);
+                // return this.Super('changed', arguments)
+            },
+            defaultValue: StorageUtil.get('out_remittance_defaultSourceId')
         },
         {
             name: "targetId",
@@ -957,11 +962,15 @@ rdTab.Fields.TozinBase = function () {
             // filterEditorProperties: {
             //     editorType: "comboBox",
             //     type: "number",
-            //     // defaultValue: StorageUtil.get('on_way_product_defaultTargetId')
+            //     // defaultValue: StorageUtil.get('out_remittance_defaultTargetId')
             // },
+
             parseEditorValue: function (value, record, form, item) {
-                StorageUtil.save('on_way_product_defaultTargetId', value)
+                // StorageUtil.save('out_remittance_defaultTargetId', value);
                 return value;
+            },
+            changed(form, item, value) {
+                StorageUtil.save('out_remittance_defaultTargetId', value);
             },
             filterOperator: "equals",
             valueMap: SalesBaseParameters.getSavedWarehouseParameter().getValueMap("id", "name"),
@@ -973,6 +982,7 @@ rdTab.Fields.TozinBase = function () {
             // },
             title: "<spring:message code='Tozin.targetId'/>",
             align: "center",
+            defaultValue: StorageUtil.get('out_remittance_defaultTargetId')
         },
     ];
 }
@@ -1181,7 +1191,6 @@ rdTab.Fields.TozinFull = function () {
             title: "<spring:message code='Tozin.isFinal'/>",
             align: "center"
         },
-
         {
             name: "havalehDate",
             title: "<spring:message code='Tozin.havalehDate'/>",
@@ -1512,6 +1521,7 @@ rdTab.RestDataSources.Depot = {
 rdTab.Grids.Remittance = {
     // ID: rdTab.Vars.Prefix + "remittance_detail_tab_list_grid",
     showFilterEditor: true,
+    canSort: false,
     expansionFieldImageShowSelected: true,
     canExpandRecords: true,
     canExpandMultipleRecords: false,
@@ -2012,7 +2022,9 @@ rdTab.Layouts.ToolStripButtons.New = isc.ToolStripButtonAdd.create({
         rdTab.DynamicForms.Forms.TozinTable = isc.DynamicForm.create({
             numCols: 6,
             fields: rdTab.Fields.TozinTable().map(a => {
+                const oldChanged = a.changed;
                 a.changed = (form, item, value) => {
+                    if (typeof (oldChanged) === "function") oldChanged(form, item, value)
                     const _item = form.getItem('isInView');
                     _item.setValue(false);
                     _item.disable();
