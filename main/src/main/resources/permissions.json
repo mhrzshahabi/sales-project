@@ -1624,6 +1624,38 @@
     {
       "code": "C_SHIPMENT_DCC",
       "title": "پیوست الگوی بارگیری"
+    },
+    {
+      "code": "R_SHIPMENT_COST_DUTY",
+      "title": "نمایش خدمات"
+    },
+    {
+      "code": "C_SHIPMENT_COST_DUTY",
+      "title": "ایجاد خدمات"
+    },
+    {
+      "code": "U_SHIPMENT_COST_DUTY",
+      "title": "به روز رسانی خدمات"
+    },
+    {
+      "code": "D_SHIPMENT_COST_DUTY",
+      "title": "حذف خدمات"
+    },
+    {
+      "code": "A_SHIPMENT_COST_DUTY",
+      "title": "فعال کردن خدمات"
+    },
+    {
+      "code": "I_SHIPMENT_COST_DUTY",
+      "title": "غیرفعال کردن خدمات"
+    },
+    {
+      "code": "F_SHIPMENT_COST_DUTY",
+      "title": "تایید نهایی خدمات"
+    },
+    {
+      "code": "O_SHIPMENT_COST_DUTY",
+      "title": "لغو تایید نهایی خدمات"
     }
   ]
 }

@@ -1,7 +1,9 @@
-package com.nicico.sales.dto.contract;
+package com.nicico.sales.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.nicico.sales.model.enumeration.CategoryUnit;
 import com.nicico.sales.model.enumeration.EStatus;
+import com.nicico.sales.model.enumeration.SymbolUnit;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -16,31 +18,24 @@ import java.util.List;
 @Setter
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ContractDetailDTO2 {
+public class ShipmentCostDutyDTO {
 
-    private String content;
-    private Long contractId;
-    private Long contractDetailTypeId;
-    private String contractDetailTemplate;
-    private Integer position;
+    private String nameFA;
+    private String nameEN;
+    private String code;
 
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("ContractDetailInfo")
-    public static class Info extends ContractDetailDTO2 {
-
+    @ApiModel("UnitInfo")
+    public static class Info extends ShipmentCostDutyDTO {
         private Long id;
-
-        private ContractDetailTypeDTO.Info contractDetailType;
-        private List<ContractDetailValueDTO.Info> contractDetailValues;
-
-        // Auditing
         private Date createdDate;
         private String createdBy;
         private Date lastModifiedDate;
         private String lastModifiedBy;
         private Integer version;
+
 
         // BaseEntity
         private Boolean editable;
@@ -50,20 +45,28 @@ public class ContractDetailDTO2 {
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("ContractDetailCreateRq")
-    public static class Create extends ContractDetailDTO2 {
-        private List<ContractDetailValueDTO.Create> contractDetailValues;
+    @ApiModel("UnitTuple")
+    public static class Tuple extends ShipmentCostDutyDTO {
+        private Long id;
+        private Date createdDate;
+        private String createdBy;
+        private Date lastModifiedDate;
+        private String lastModifiedBy;
+        private Integer version;
     }
 
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("ContractDetailUpdateRq")
-    public static class Update extends ContractDetailDTO2 {
+    @ApiModel("UnitCreateRq")
+    public static class Create extends ShipmentCostDutyDTO {
+    }
 
-        private ContractDetailTypeDTO.Update contractDetailType;
-        private List<ContractDetailValueDTO.Update> contractDetailValues;
-
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("UnitUpdateRq")
+    public static class Update extends ShipmentCostDutyDTO {
         @NotNull
         @ApiModelProperty(required = true)
         private Long id;
@@ -72,9 +75,8 @@ public class ContractDetailDTO2 {
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("ContractDetailDeleteRq")
+    @ApiModel("UnitDeleteRq")
     public static class Delete {
-
         @NotNull
         @ApiModelProperty(required = true)
         private List<Long> ids;

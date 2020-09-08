@@ -754,6 +754,14 @@
                     }
                 },
                 </sec:authorize>
+                <sec:authorize access="hasAuthority('R_SHIPMENT_COST_DUTY')">
+                {
+                    title: "<spring:message code='shipmentCostInvoiceDetail.service'/>",
+                    click: function () {
+                        createTab("<spring:message code='shipmentCostInvoiceDetail.service'/>", "<spring:url value="/costDuty/showForm" />")
+                    }
+                },
+                </sec:authorize>
             ]
         }),
     });
