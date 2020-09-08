@@ -96,7 +96,8 @@ function getReferenceFields(referenceType) {
         case 'Incoterm':
             return [
                 {name: "id", title: "id", primaryKey: true, hidden: true},
-                {name: "title", title: '<spring:message code="global.title"/>'}
+                {name: "title", title: '<spring:message code="global.title"/>'},
+                {name: "incotermVersion", title: '<spring:message code="global.version"/>'}
             ]
         case 'RateReference':
             return '';
@@ -133,13 +134,10 @@ function getReferenceDataSource(referenceType) {
             url = "${contextPath}" + "/api/unit/spec-list";
             break;
         case 'Incoterm':
-            url = "${contextPath}" + "/api/g-incoterm/spec-list";
+            url = "${contextPath}" + "/api/g-incoterm/list-contract";
             break;
-        case 'RateReference':
-            url = "";
-            break;
-        case 'PriceBaseReference':
-            url = "";
+        case 'IncotermRules':
+            url = "${contextPath}" + "/api/g-incoterm/incoterm-rules";
             break;
         default:
             return null;

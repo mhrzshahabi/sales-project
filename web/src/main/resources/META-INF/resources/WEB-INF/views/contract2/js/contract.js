@@ -195,7 +195,7 @@ contractTab.listGrid.contractDetailType = isc.ListGrid.nicico.getDefault(
     }, {
         width: "40%",
         showResizeBar: true,
-        showFilterEditor: true,
+        showFilterEditor: false,
         showRecordComponents: true,
         setAutoFitExtraRecords: true,
         showRecordComponentsByCell: true,
@@ -284,6 +284,7 @@ contractTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
                 contractTab.sectionStack.contract.sections.forEach(section => {
                     let contractDetailObj = {
                         contractDetailTypeId: section.name,
+                        position: section.position,
                         contractDetailTemplate: section.template,
                         id: section.contractDetailId,
                         content: generateContentFromSection(section, section.template),
@@ -431,6 +432,15 @@ contractTab.variable.contractDetailPreview.init(null, "<spring:message code='con
 contractTab.variable.contractPreview = new nicico.FormUtil();
 contractTab.variable.contractPreview.getButtonLayout = function () {
 };
+contractTab.variable.contractPreview.cancelCallBack = function () {
+    contractTab.variable.contractPreview.windowWidget.getObject().getMembers().forEach(q => {
+        try {
+            q.destroy();
+        } catch (e) {
+            console.log(e);
+        }
+    })
+};
 contractTab.variable.contractPreview.init(null, "<spring:message code='contract.window.contract.preview'/>",
     [
         isc.HTMLFlow.create({
@@ -461,7 +471,7 @@ nicico.BasicFormUtil.getDefaultBasicForm(contractTab, "api/g-contract/", (creato
         contractTab.dynamicForm.main,
         contractTab.hLayout.contractDetailHlayout,
         contractTab.hLayout.saveOrExitHlayout
-    ], "100%", 0.95 * innerHeight);
+    ], "80%", 0.8 * innerHeight);
 });
 // <c:if test = "${c_entity}">
 // @ts-ignore
@@ -756,6 +766,21 @@ contractTab.method.addSectionByContractDetailType = function (record) {
         field.required = param.required;
         field.unitId = param.unitId;
 
+        if (param.reference == "Incoterm") {
+            field.changed = function (form, item, value) {
+                getReferenceDataSource("IncotermRules").fetchData(
+                    {
+                        _constructor: "AdvancedCriteria",
+                        operator: "and",
+                        criteria: value
+                    },
+                    function (dsResponse, data) {
+                        contractDetailDynamicForm.getField(param.name).setHint("RULES: " + data);
+                    }
+                );
+            };
+        }
+
         if (param.unitId !== undefined) {
             getReferenceDataSource("Unit").fetchData(
                 {
@@ -766,7 +791,7 @@ contractTab.method.addSectionByContractDetailType = function (record) {
                     ]
                 },
                 function (dsResponse, data) {
-                    contractDetailDynamicForm.getField(field.name).setHint(data[0].symbolUnit);
+                    contractDetailDynamicForm.getField(param.name).setHint(data[0].symbolUnit);
                 }
             );
         }
