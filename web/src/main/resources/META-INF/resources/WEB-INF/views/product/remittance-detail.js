@@ -950,10 +950,10 @@ rdTab.Fields.TozinBase = function () {
             },
             title: "<spring:message code='Tozin.sourceId'/>",
             align: "center",
-            changed: function (form, item, value) {
-                StorageUtil.save('out_remittance_defaultSourceId', value);
-                // return this.Super('changed', arguments)
-            },
+            // changed: function (form, item, value) {
+            //     StorageUtil.save('out_remittance_defaultSourceId', value);
+            //     // return this.Super('changed', arguments)
+            // },
             defaultValue: StorageUtil.get('out_remittance_defaultSourceId')
         },
         {
@@ -2142,8 +2142,8 @@ rdTab.Layouts.ToolStripButtons.New = isc.ToolStripButtonAdd.create({
                         criteria: [
                             {
                                 fieldName: "sourceId",
-                                operator: "inSet",
-                                value: [2555]
+                                operator: "equals",
+                                value: 2555
                             },
                             {
                                 fieldName: "tozinId",
