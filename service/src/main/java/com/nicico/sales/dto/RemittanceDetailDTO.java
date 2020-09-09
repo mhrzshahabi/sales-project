@@ -1,6 +1,7 @@
 package com.nicico.sales.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.sales.model.enumeration.EStatus;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -91,6 +92,13 @@ public class RemittanceDetailDTO {
     @ApiModel("RemittanceDetailInfo")
     public static class Info extends InfoWithoutRemittance {
         private RemittanceDTO.InfoWithoutRemittanceDetail remittance;
+
+        public String getInventoryLabel() {
+
+            InventoryDTO.InfoWithoutRemittanceDetail inventory = getInventory();
+            if (inventory == null) return "";
+            return inventory.getLabel();
+        }
     }
 
 
@@ -160,5 +168,17 @@ public class RemittanceDetailDTO {
         private List<RemittanceDetailDTO.OutCreate> remittanceDetails;
     }
 
+
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    public static class Excel {
+        public List<RemittanceDetailDTO.Info> rows;
+        public String[] header;
+        public String topRowTitle;
+        public String[] fields;
+        public NICICOCriteria nicicoCriteria;
+        public Boolean doesNotNeedFetch = true;
+    }
 
 }
