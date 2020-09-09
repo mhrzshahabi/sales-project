@@ -572,24 +572,15 @@ foreignInvoiceTab.button.save = isc.IButtonSave.create({
                 invoiceType: foreignInvoiceTab.dynamicForm.valuesManager.getValue('invoiceType'),
             }), '<spring:message code="foreign-invoice.form.tab.contract-info"/>');
 
-        // debugger;
         if (foreignInvoiceTab.dynamicForm.valuesManager.getValue('remittanceDetailId').length > 1) {
-            foreignInvoiceTab.method.addTab(isc.InvoiceCalculation2.create({
-                inventories: [foreignInvoiceTab.dynamicForm.valuesManager.getValue('remittanceDetailId')],
-                shipment : foreignInvoiceTab.dynamicForm.valuesManager.getValue("shipment"),
-                contract: foreignInvoiceTab.dynamicForm.valuesManager.getValue('contract'),
-                assayMilestone: foreignInvoiceTab.dynamicForm.valuesManager.getValue("assayMilestone"),
-                weightMilestone: foreignInvoiceTab.dynamicForm.valuesManager.getValue("weightMilestone"),
-                currency: foreignInvoiceTab.dynamicForm.valuesManager.getValue("currency"),
-                contractDetailData: foreignInvoiceTab.variable.contractDetailData,
-            }), '<spring:message code="foreign-invoice.form.tab.calculation"/>');
 
-            // foreignInvoiceTab.method.addTab(
-            //     isc.InvoicePayment.create({
-            //         currency: foreignInvoiceTab.dynamicForm.valuesManager.getValue("currency"),
-            //         contract: foreignInvoiceTab.dynamicForm.valuesManager.getValue("contract"),
-            //         inventories: [{id: 1}, {id: 2}]
-            //     }), '<spring:message code="foreign-invoice.form.tab.payment"/>');
+            foreignInvoiceTab.method.addTab(isc.InvoiceCalculation2.create({
+                contractDetailData: foreignInvoiceTab.variable.contractDetailData,
+                currency: foreignInvoiceTab.dynamicForm.valuesManager.getValue("currency"),
+                contract: foreignInvoiceTab.dynamicForm.valuesManager.getValue('contract'),
+                shipment : foreignInvoiceTab.dynamicForm.valuesManager.getValue("shipment"),
+                remittanceDetails: foreignInvoiceTab.dynamicForm.valuesManager.getValue("remittanceDetails"),
+            }), '<spring:message code="foreign-invoice.form.tab.calculation"/>');
         } else {
             let invoiceBaseValuesComponent = isc.InvoiceBaseValues.create({
                 currency: foreignInvoiceTab.dynamicForm.valuesManager.getValue("currency"),
@@ -597,9 +588,7 @@ foreignInvoiceTab.button.save = isc.IButtonSave.create({
                 contractDetailData: foreignInvoiceTab.variable.contractDetailData,
                 shipment: foreignInvoiceTab.dynamicForm.valuesManager.getValue("shipment"),
                 invoiceType: foreignInvoiceTab.dynamicForm.valuesManager.getValue("invoiceType"),
-                remittanceDetails: foreignInvoiceTab.dynamicForm.valuesManager.getValue("remittanceDetails"),
-                assayMilestone: foreignInvoiceTab.dynamicForm.valuesManager.getValue("assayMilestone"),
-                weightMilestone: foreignInvoiceTab.dynamicForm.valuesManager.getValue("weightMilestone")
+                remittanceDetails: foreignInvoiceTab.dynamicForm.valuesManager.getValue("remittanceDetails")
             });
             foreignInvoiceTab.method.addTab(invoiceBaseValuesComponent, '<spring:message code="foreign-invoice.form.tab.base-values"/>');
 
@@ -4201,8 +4190,7 @@ foreignInvoiceTab.method.editForm = function () {
         "contractId": 294,
         "remittanceDetailId": [
             42,
-            43,
-            152
+            43
         ]
     });
     foreignInvoiceTab.variable.method = "PUT";

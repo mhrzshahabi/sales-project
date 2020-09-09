@@ -41,11 +41,11 @@ public class PriceBaseService extends GenericService<com.nicico.sales.model.enti
 
             List<PriceBase> groupPriceBases = pricesByElementGroup.get(elementId);
             Set<@NotNull Long> weightUnitIdSet = groupPriceBases.stream().map(PriceBase::getWeightUnitId).collect(Collectors.toSet());
-            if (weightUnitIdSet.size() > 1) throw new SalesException2(ErrorType.Forbidden, "WeightUnit","Weight unit is multiple.");
+            if (weightUnitIdSet.size() > 1) throw new SalesException2(ErrorType.BadRequest, "WeightUnit","Weight unit is multiple.");
             Set<@NotNull Long> financeUnitIdSet = groupPriceBases.stream().map(PriceBase::getFinanceUnitId).collect(Collectors.toSet());
-            if (financeUnitIdSet.size() > 1) throw new SalesException2(ErrorType.Forbidden, "FinanceUnit","Finance unit is multiple.");
+            if (financeUnitIdSet.size() > 1) throw new SalesException2(ErrorType.BadRequest, "FinanceUnit","Finance unit is multiple.");
 
-            if(financeUnitId != groupPriceBases.get(0).getFinanceUnitId().longValue()) throw new SalesException2(ErrorType.Forbidden, "FinanceUnit","Finance unit is not match.");
+            if(financeUnitId != groupPriceBases.get(0).getFinanceUnitId().longValue()) throw new SalesException2(ErrorType.BadRequest, "FinanceUnit","Finance unit is not match.");
 
             PriceBaseDTO.Info priceBase = modelMapper.map(groupPriceBases.get(0), PriceBaseDTO.Info.class);
             BigDecimal groupAveragePrice = groupPriceBases.stream().map(PriceBase::getPrice).reduce(BigDecimal.ZERO, BigDecimal::add).divide(BigDecimal.valueOf(groupPriceBases.size()), RoundingMode.HALF_EVEN);
