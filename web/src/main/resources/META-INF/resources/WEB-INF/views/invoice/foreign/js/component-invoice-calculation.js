@@ -19,6 +19,8 @@ isc.defineClass("InvoiceCalculation", isc.VLayout).addProperties({
 
         let assayValues = this.invoiceBaseAssayComponent.getValues();
         let priceValues = this.invoiceBasePriceComponent.getValues();
+        console.log("assayValues ", assayValues);
+        console.log("priceValues ", priceValues);
 
         for (let index = 0; index < priceValues.length; index++) {
 

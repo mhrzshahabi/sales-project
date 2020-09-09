@@ -27,6 +27,7 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -37,10 +38,10 @@ import java.util.stream.Collectors;
 public class ForeignInvoiceService extends GenericService<ForeignInvoice, Long, ForeignInvoiceDTO.Create, ForeignInvoiceDTO.Info, ForeignInvoiceDTO.Update, ForeignInvoiceDTO.Delete> implements IForeignInvoiceService {
 
     private final UpdateUtil updateUtil;
-    private final InvoiceNoGenerator invoiceNoGenerator;
-    private final ResourceBundleMessageSource messageSource;
     private final ContractService2 contractService;
     private final InvoiceTypeService invoiceTypeService;
+    private final InvoiceNoGenerator invoiceNoGenerator;
+    private final ResourceBundleMessageSource messageSource;
     private final ForeignInvoiceItemService foreignInvoiceItemService;
     private final ForeignInvoicePaymentService foreignInvoicePaymentService;
     private final ForeignInvoiceItemDetailService foreignInvoiceItemDetailService;
@@ -120,9 +121,16 @@ public class ForeignInvoiceService extends GenericService<ForeignInvoice, Long, 
         });
 
         ForeignInvoice foreignInvoice = repository.findById(id).orElseThrow(() -> new NotFoundException(ForeignInvoice.class));
+        try {
 
-        updateForeignInvoiceItems(request, foreignInvoice);
-        updateForeignInvoicePayments(request, foreignInvoice);
+            updateForeignInvoiceItems(request, foreignInvoice);
+            updateForeignInvoicePayments(request, foreignInvoice);
+        } catch (IllegalAccessException | InvocationTargetException | NoSuchFieldException e) {
+
+            Locale locale = LocaleContextHolder.getLocale();
+            throw new SalesException2(ErrorType.Unknown, "", messageSource.getMessage("inspection-report.exception.update", null, locale));
+        }
+
 
         ForeignInvoice updating = new ForeignInvoice();
         modelMapper.map(foreignInvoice, updating);
@@ -132,42 +140,29 @@ public class ForeignInvoiceService extends GenericService<ForeignInvoice, Long, 
         return save(updating);
     }
 
-    private void updateForeignInvoiceItems(ForeignInvoiceDTO.Update request, ForeignInvoice foreignInvoice) {
+    private void updateForeignInvoiceItems(ForeignInvoiceDTO.Update request, ForeignInvoice foreignInvoice) throws IllegalAccessException, NoSuchFieldException, InvocationTargetException {
 
         List<ForeignInvoiceItemDTO.Create> foreignInvoiceItem4Insert = new ArrayList<>();
         List<ForeignInvoiceItemDTO.Update> foreignInvoiceItem4Update = new ArrayList<>();
         ForeignInvoiceItemDTO.Delete foreignInvoiceItem4Delete = new ForeignInvoiceItemDTO.Delete();
 
-//        updateUtil.fill(ForeignInvoiceItem.class,
-//                foreignInvoice.getForeignInvoiceItems(),
-//                ForeignInvoiceItemDTO.Info.class,
-//                request.getForeignInvoiceItems(),
-//                ForeignInvoiceItemDTO.Create.class,
-//                foreignInvoiceItem4Insert,
-//                ForeignInvoiceItemDTO.Update.class,
-//                foreignInvoiceItem4Update,
-//                foreignInvoiceItem4Delete);
+        updateUtil.fill(ForeignInvoiceItem.class, foreignInvoice.getForeignInvoiceItems(), ForeignInvoiceItemDTO.Info.class, modelMapper.map(request.getForeignInvoiceItems(), new TypeToken<List<ForeignInvoiceItemDTO.Info>>() {
+        }.getType()), ForeignInvoiceItemDTO.Create.class, foreignInvoiceItem4Insert, ForeignInvoiceItemDTO.Update.class, foreignInvoiceItem4Update, foreignInvoiceItem4Delete);
 
         if (!foreignInvoiceItem4Insert.isEmpty()) foreignInvoiceItemService.createAll(foreignInvoiceItem4Insert);
         if (!foreignInvoiceItem4Update.isEmpty()) foreignInvoiceItemService.updateAll(foreignInvoiceItem4Update);
-        if (!foreignInvoiceItem4Delete.getIds().isEmpty()) foreignInvoiceItemService.deleteAll(foreignInvoiceItem4Delete);
+        if (!foreignInvoiceItem4Delete.getIds().isEmpty())
+            foreignInvoiceItemService.deleteAll(foreignInvoiceItem4Delete);
     }
 
-    private void updateForeignInvoicePayments(ForeignInvoiceDTO.Update request, ForeignInvoice foreignInvoice) {
+    private void updateForeignInvoicePayments(ForeignInvoiceDTO.Update request, ForeignInvoice foreignInvoice) throws IllegalAccessException, NoSuchFieldException, InvocationTargetException {
 
         List<ForeignInvoicePaymentDTO.Create> foreignInvoicePayment4Insert = new ArrayList<>();
         List<ForeignInvoicePaymentDTO.Update> foreignInvoicePayment4Update = new ArrayList<>();
         ForeignInvoicePaymentDTO.Delete foreignInvoicePayment4Delete = new ForeignInvoicePaymentDTO.Delete();
 
-//        updateUtil.fill(ForeignInvoicePayment.class,
-//                foreignInvoice.getForeignInvoicePayments(),
-//                ForeignInvoicePaymentDTO.Info.class,
-//                request.getForeignInvoicePayments(),
-//                ForeignInvoicePaymentDTO.Create.class,
-//                foreignInvoicePayment4Insert,
-//                ForeignInvoicePaymentDTO.Update.class,
-//                foreignInvoicePayment4Update,
-//                foreignInvoicePayment4Delete);
+        updateUtil.fill(ForeignInvoicePayment.class, foreignInvoice.getForeignInvoicePayments(), ForeignInvoicePaymentDTO.Info.class, modelMapper.map(request.getForeignInvoicePayments(), new TypeToken<List<ForeignInvoicePaymentDTO.Info>>() {
+        }.getType()), ForeignInvoicePaymentDTO.Create.class, foreignInvoicePayment4Insert, ForeignInvoicePaymentDTO.Update.class, foreignInvoicePayment4Update, foreignInvoicePayment4Delete);
 
         if (!foreignInvoicePayment4Insert.isEmpty())
             foreignInvoicePaymentService.createAll(foreignInvoicePayment4Insert);

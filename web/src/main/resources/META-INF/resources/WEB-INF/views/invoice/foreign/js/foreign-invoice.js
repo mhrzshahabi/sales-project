@@ -597,8 +597,6 @@ foreignInvoiceTab.button.save = isc.IButtonSave.create({
                 shipment: foreignInvoiceTab.dynamicForm.valuesManager.getValue("shipment"),
                 invoiceType: foreignInvoiceTab.dynamicForm.valuesManager.getValue("invoiceType"),
                 remittanceDetails: foreignInvoiceTab.dynamicForm.valuesManager.getValue("remittanceDetails"),
-                weightData: foreignInvoiceTab.dynamicForm.valuesManager.getValue("weightData"),
-                assayData: foreignInvoiceTab.dynamicForm.valuesManager.getValue("assayData")
         });
             foreignInvoiceTab.method.addTab(invoiceBaseValuesComponent, '<spring:message code="foreign-invoice.form.tab.base-values"/>');
 
@@ -1676,13 +1674,9 @@ foreignInvoiceTab.method.editForm = function () {
 
                                         foreignInvoiceTab.dynamicForm.valuesManager.clearValues();
                                         foreignInvoiceTab.dynamicForm.valuesManager.setValues(record);
-                                        foreignInvoiceTab.dynamicForm.valuesManager.setValue("weightData", weightData);
-                                        foreignInvoiceTab.dynamicForm.valuesManager.setValue("assayData", assayData);
                                         foreignInvoiceTab.dynamicForm.valuesManager.setValue("calculationData", calculationRowData);
                                         foreignInvoiceTab.dynamicForm.valuesManager.setValue("rcDeductionData", rcRowData);
                                         foreignInvoiceTab.dynamicForm.valuesManager.setValue("payments", paymentValues);
-                                        // foreignInvoiceTab.dynamicForm.valuesManager.setValue('assayMilestone', itemValue.assayMilestone);
-                                        // foreignInvoiceTab.dynamicForm.valuesManager.setValue('weightMilestone', itemValue.weightMilestone);
                                         foreignInvoiceTab.dynamicForm.valuesManager.setValue("billLadings", billOfLadingValues.map(q => q.billOfLanding));
                                         foreignInvoiceTab.dynamicForm.valuesManager.setValue("date", new Date(record.date));
                                         foreignInvoiceTab.dynamicForm.valuesManager.setValue("toCurrencyId", record.conversionRef.unitToId);
