@@ -2,6 +2,7 @@ package com.nicico.sales.model.entities.base;
 
 
 import com.nicico.sales.model.Auditable;
+import com.nicico.sales.model.entities.common.BaseEntity;
 import com.nicico.sales.model.entities.warehouse.MaterialElement;
 import lombok.*;
 import lombok.experimental.Accessors;
@@ -19,7 +20,7 @@ import java.math.BigDecimal;
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
 @Table(name = "TBL_TYPICAL_ASSAY")
-public class TypicalAssay extends Auditable {
+public class TypicalAssay extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_TBL_TYPICAL_ASSAY")

@@ -765,6 +765,14 @@
                     }
                 },
                 </sec:authorize>
+                <sec:authorize access="hasAuthority('R_TYPICAL_ASSAY')">
+                {
+                    title: "<spring:message code='typical.assay'/>",
+                    click: function () {
+                        createTab("<spring:message code='typical.assay'/>", "<spring:url value="/typicalAssay/showForm" />")
+                    }
+                },
+                </sec:authorize>
             ]
         }),
     });

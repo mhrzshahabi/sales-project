@@ -8,4 +8,20 @@
         <modifyDataType columnName="N_MAX_VALUE" newDataType="NUMBER(10, 5)" tableName="TBL_TYPICAL_ASSAY"/>
     </changeSet>
 
+    <changeSet author="Reza Mazloom" id="mazloom_047">
+        <addColumn tableName="TBL_TYPICAL_ASSAY">
+            <column defaultValueNumeric="1" name="B_EDITABLE" type="number">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="Reza Mazloom" id="mazloom_048">
+        <addColumn tableName="TBL_TYPICAL_ASSAY">
+            <column defaultValueNumeric="1" name="N_E_STATUS" type="number">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>
