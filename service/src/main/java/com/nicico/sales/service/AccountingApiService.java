@@ -41,6 +41,7 @@ public class AccountingApiService implements IAccountingApiService {
         final String url = accountingAppUrl + "/rest/detail/getDetailByCode";
         final HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        httpHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
 
         final Map<String, String> requestParam = new HashMap<>();
         requestParam.put("detailCode", detailCode);
@@ -49,7 +50,7 @@ public class AccountingApiService implements IAccountingApiService {
 
         final ResponseEntity<String> httpResponse = restTemplate.exchange(url, HttpMethod.POST, httpEntity, String.class);
         if (httpResponse.getStatusCode().equals(HttpStatus.OK)) {
-            if (StringUtils.isEmpty(httpResponse.getBody())) {
+            if (!StringUtils.isEmpty(httpResponse.getBody())) {
                 return httpResponse.getBody();
             }
         } else {
@@ -64,12 +65,13 @@ public class AccountingApiService implements IAccountingApiService {
         final String url = accountingAppUrl + "/rest/document-mapper/baseDocValues";
         final HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        httpHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
 
         final HttpEntity<String> httpEntity = new HttpEntity<>(httpHeaders);
 
-        final ResponseEntity<String> httpResponse = restTemplate.exchange(url, HttpMethod.POST, httpEntity, String.class);
+        final ResponseEntity<String> httpResponse = restTemplate.exchange(url, HttpMethod.GET, httpEntity, String.class);
         if (httpResponse.getStatusCode().equals(HttpStatus.OK)) {
-            if (StringUtils.isEmpty(httpResponse.getBody())) {
+            if (!StringUtils.isEmpty(httpResponse.getBody())) {
                 try {
                     final Map<String, Object> result = objectMapper.readValue(httpResponse.getBody(), new TypeReference<Map<String, Object>>() {
                     });
@@ -96,7 +98,7 @@ public class AccountingApiService implements IAccountingApiService {
 
         final ResponseEntity<String> httpResponse = restTemplate.exchange(url, HttpMethod.POST, httpEntity, String.class);
         if (httpResponse.getStatusCode().equals(HttpStatus.CREATED)) {
-            System.out.println(httpResponse.getBody());
+            log.info("SendDataParameters Info: [" + httpResponse.getStatusCode() + "]: " + httpResponse.getBody());
         } else {
             log.error("SendDataParameters Error: [" + httpResponse.getStatusCode() + "]: " + httpResponse.getBody());
         }
@@ -107,6 +109,7 @@ public class AccountingApiService implements IAccountingApiService {
         final String url = accountingAppUrl + "/rest/document-mapper/docBuilder/" + appName;
         final HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        httpHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
 
         final List<Map<String, Object>> requestParamList = new ArrayList<>();
         objects.forEach(object -> {
@@ -134,7 +137,7 @@ public class AccountingApiService implements IAccountingApiService {
 
         final ResponseEntity<String> httpResponse = restTemplate.exchange(url, HttpMethod.POST, httpEntity, String.class);
         if (httpResponse.getStatusCode().equals(HttpStatus.OK)) {
-            if (StringUtils.isEmpty(httpResponse.getBody())) {
+            if (!StringUtils.isEmpty(httpResponse.getBody())) {
                 try {
                     return objectMapper.readValue(httpResponse.getBody(), new TypeReference<Map<String, Object>>() {
                     });
