@@ -23,7 +23,6 @@ public class RemittanceDTO {
     private String description;
     private Long shipmentId;
 
-
     @Getter
     @Setter
     @Accessors(chain = true)

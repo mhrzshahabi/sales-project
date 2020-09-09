@@ -167,6 +167,9 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
         return savedContract2;
     }
 
+
+
+
     private Long createContractShipment(ContractDetailValueDTO.Create x, Long id) {
         ContractShipmentDTO.Create contractShipmentDTO = gson.fromJson(x.getReferenceJsonValue(), ContractShipmentDTO.Create.class);
         contractShipmentDTO.setContractId(id);
@@ -444,21 +447,8 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
         ContractDTO2.Create req = modelMapper.map(request[0], ContractDTO2.Create.class);
         if ((actionType == ActionType.Create || actionType == ActionType.Update) && req.getParentId() != null) {
 //            if(actionType == ActionType.Create) {ContractDTO2.Create req = modelMapper.map(request[0], ContractDTO2.Create.class);}
-            final List<ContractShipment> contractShipments = req.getContractDetails()
-                    .stream()
-                    .map(cd -> cd.getContractDetailValues()
-                            .stream().filter(cdv -> cdv.getReference() != null &&
-                                    cdv.getReference().toLowerCase().equals("ContractShipment".toLowerCase()))
-                            .collect(Collectors.toList())
-                    ).flatMap(Collection::stream).map(contractDetailValue -> {
-                        try {
-                            return objectMapper.readValue(contractDetailValue.getReferenceJsonValue(), ContractShipment.class);
-                        } catch (IOException e) {
-                            log.warn("jackson objectMapper error ", e);
-                        }
-                        return null;
-                    })
-                    .collect(Collectors.toList());
+
+            final List<ContractShipment> contractShipments = getContractShipmentsOfRequest(req);
             if (contractShipments.size() == 0) return super.validation(entity, request);
 
             final Set<ContractShipment> contractShipmentsOriginal = getContractShipmentsWithShipment(req);
@@ -530,5 +520,23 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
                 .addAll(allByContractShipmentIdIsIn.stream().map(Shipment::getContractShipment).collect(Collectors.toSet()));
         return contractShipmentsWithParentOrInShipment;
     }
+
+    private List<ContractShipment> getContractShipmentsOfRequest(ContractDTO2.Create req) {
+        return req.getContractDetails().stream()
+                .map(cd -> cd.getContractDetailValues()
+                        .stream().filter(cdv -> cdv.getReference() != null &&
+                                cdv.getReference().toLowerCase().equals("ContractShipment".toLowerCase()))
+                        .collect(Collectors.toList())
+                ).flatMap(Collection::stream).map(contractDetailValue -> {
+                    try {
+                        return objectMapper.readValue(contractDetailValue.getReferenceJsonValue(), ContractShipment.class);
+                    } catch (IOException e) {
+                        log.warn("jackson objectMapper error ", e);
+                    }
+                    return null;
+                })
+                .collect(Collectors.toList());
+    }
 }
+
 /*** الحاقیه***/
