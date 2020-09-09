@@ -3,7 +3,7 @@ package com.nicico.sales.service;
 import com.google.gson.Gson;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.sales.dto.AccountingDepartmentDTO;
+import com.nicico.sales.dto.AccountingDTO;
 import com.nicico.sales.iservice.IAccDepartmentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,7 +26,7 @@ public class AccDepartmentService implements IAccDepartmentService {
 
     @Transactional(readOnly = true)
     @Override
-    public TotalResponse<AccountingDepartmentDTO.Info> search(NICICOCriteria criteria) {
+    public TotalResponse<AccountingDTO.DepartmentInfo> search(NICICOCriteria criteria) {
 
         HttpHeaders headers = new HttpHeaders();
         headers.set(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);

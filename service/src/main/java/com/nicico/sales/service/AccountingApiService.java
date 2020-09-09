@@ -2,7 +2,7 @@ package com.nicico.sales.service;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nicico.sales.dto.AccountingDepartmentDTO;
+import com.nicico.sales.dto.AccountingDTO;
 import com.nicico.sales.iservice.IAccountingApiService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -61,7 +61,28 @@ public class AccountingApiService implements IAccountingApiService {
     }
 
     @Override
-    public List<AccountingDepartmentDTO.Info> getDepartments() {
+    public String getDocumentInfo(String invoiceId) {
+        final String url = accountingAppUrl + "/rest/system-document/document-Number/" + appName + "/" + invoiceId;
+        final HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        httpHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+
+        final HttpEntity<String> httpEntity = new HttpEntity<>(httpHeaders);
+
+        final ResponseEntity<String> httpResponse = restTemplate.exchange(url, HttpMethod.GET, httpEntity, String.class);
+        if (httpResponse.getStatusCode().equals(HttpStatus.OK)) {
+            if (!StringUtils.isEmpty(httpResponse.getBody())) {
+                return httpResponse.getBody();
+            }
+        } else {
+            log.error("getDocumentInfo Error: [" + httpResponse.getStatusCode() + "]: " + httpResponse.getBody());
+        }
+
+        return null;
+    }
+
+    @Override
+    public List<AccountingDTO.DepartmentInfo> getDepartments() {
         final String url = accountingAppUrl + "/rest/document-mapper/baseDocValues";
         final HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
@@ -75,7 +96,7 @@ public class AccountingApiService implements IAccountingApiService {
                 try {
                     final Map<String, Object> result = objectMapper.readValue(httpResponse.getBody(), new TypeReference<Map<String, Object>>() {
                     });
-                    return modelMapper.map(result.get("department"), new TypeReference<List<AccountingDepartmentDTO.Info>>() {
+                    return modelMapper.map(result.get("department"), new TypeReference<List<AccountingDTO.DepartmentInfo>>() {
                     }.getType());
                 } catch (IOException e) {
                     log.error("GetDepartments Error: [" + Arrays.toString(e.getStackTrace()) + "]");

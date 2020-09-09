@@ -1,6 +1,6 @@
 package com.nicico.sales.iservice;
 
-import com.nicico.sales.dto.AccountingDepartmentDTO;
+import com.nicico.sales.dto.AccountingDTO;
 import org.springframework.util.MultiValueMap;
 
 import java.util.List;
@@ -10,7 +10,9 @@ public interface IAccountingApiService {
 
     String getDetailCode(String detailCode);
 
-    List<AccountingDepartmentDTO.Info> getDepartments();
+    String getDocumentInfo(String invoiceId);
+
+    List<AccountingDTO.DepartmentInfo> getDepartments();
 
     void sendDataParameters(MultiValueMap<String, String> requestParams);
 
