@@ -12,6 +12,8 @@ import com.nicico.sales.exception.NotFoundException;
 import com.nicico.sales.exception.SalesException2;
 import com.nicico.sales.iservice.invoice.foreign.IForeignInvoiceService;
 import com.nicico.sales.model.entities.invoice.foreign.ForeignInvoice;
+import com.nicico.sales.model.entities.invoice.foreign.ForeignInvoiceItem;
+import com.nicico.sales.model.entities.invoice.foreign.ForeignInvoicePayment;
 import com.nicico.sales.repository.invoice.foreign.ForeignInvoiceDAO;
 import com.nicico.sales.service.GenericService;
 import com.nicico.sales.service.InvoiceTypeService;
@@ -25,7 +27,6 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -137,7 +138,7 @@ public class ForeignInvoiceService extends GenericService<ForeignInvoice, Long, 
         List<ForeignInvoiceItemDTO.Update> foreignInvoiceItem4Update = new ArrayList<>();
         ForeignInvoiceItemDTO.Delete foreignInvoiceItem4Delete = new ForeignInvoiceItemDTO.Delete();
 
-//        updateUtil.fill(ForeignInvoice.class,
+//        updateUtil.fill(ForeignInvoiceItem.class,
 //                foreignInvoice.getForeignInvoiceItems(),
 //                ForeignInvoiceItemDTO.Info.class,
 //                request.getForeignInvoiceItems(),
@@ -149,8 +150,7 @@ public class ForeignInvoiceService extends GenericService<ForeignInvoice, Long, 
 
         if (!foreignInvoiceItem4Insert.isEmpty()) foreignInvoiceItemService.createAll(foreignInvoiceItem4Insert);
         if (!foreignInvoiceItem4Update.isEmpty()) foreignInvoiceItemService.updateAll(foreignInvoiceItem4Update);
-        if (!foreignInvoiceItem4Delete.getIds().isEmpty())
-            foreignInvoiceItemService.deleteAll(foreignInvoiceItem4Delete);
+        if (!foreignInvoiceItem4Delete.getIds().isEmpty()) foreignInvoiceItemService.deleteAll(foreignInvoiceItem4Delete);
     }
 
     private void updateForeignInvoicePayments(ForeignInvoiceDTO.Update request, ForeignInvoice foreignInvoice) {

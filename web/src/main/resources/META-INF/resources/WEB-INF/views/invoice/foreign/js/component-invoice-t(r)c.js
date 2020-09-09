@@ -43,7 +43,7 @@ isc.defineClass("InvoiceDeduction", isc.VLayout).addProperties({
                 elementFinalAssay: calculationValues[index].assay,
                 materialElementId: calculationValues[index].materialElementId,
                 rcData: This.contractDetailData.rc.filter(q => q.elementId === calculationValues[index].elementId).first(),
-                rcDeductionRowData: This.rcDeductionData.filter(q => q.materialElementId === calculationValues[index].materialElementId).first(),
+                rcDeductionRowData: This.rcDeductionData ? This.rcDeductionData.filter(q => q.materialElementId === calculationValues[index].materialElementId).first() : null,
                 sumDeductionChanged: function (sumDeduction) {
 
                     let subtotalForm = This.getMembers().filter(q => q.name === "subTotal").first();

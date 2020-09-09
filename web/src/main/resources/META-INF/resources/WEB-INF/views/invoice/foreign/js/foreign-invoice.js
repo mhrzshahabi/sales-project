@@ -1642,9 +1642,6 @@ foreignInvoiceTab.method.editForm = function () {
                                         let assayData = [];
                                         let weightData = [];
 
-                                        console.log("itemValue ", itemValue);
-                                        console.log("itemDetailValues ", itemDetailValues);
-
                                         weightData.add({
                                             weightGW: itemValue.weightGW,
                                             weightND: itemValue.weightGW,
@@ -1672,7 +1669,6 @@ foreignInvoiceTab.method.editForm = function () {
                                                 rcUnitConversionRate: detail.rcUnitConversionRate
                                             });
                                         });
-
 
                                         foreignInvoiceTab.variable.method = "PUT";
                                         let paymentValues = JSON.parse(paymentResp.httpResponseText).response.data;

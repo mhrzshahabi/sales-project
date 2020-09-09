@@ -96,6 +96,8 @@ isc.defineClass("InvoiceBaseValues", isc.VLayout).addProperties({
             width: "100%",
             contents: "<span style='width: 100%; display: block; margin: 10px auto; border-bottom: 1px solid rgba(0,0,0,0.3)'></span>"
         }));
+
+        this.invoiceBaseAssayComponent.editAssay();
     },
     okButtonClick: function () {
 

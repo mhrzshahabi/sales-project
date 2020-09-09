@@ -121,6 +121,15 @@ isc.defineClass("InvoiceBaseAssay", isc.VLayout).addProperties({
         });
         return data;
     },
+    editAssay: function () {
+
+        if (this.weightData) {
+            this.getMembers()[0].getField("reportMilestone").setValue(this.weightData[0].assayMilestone);
+        }
+        if (this.assayData) {
+
+        }
+    },
     validate: function () {
 
         let isValid = true;

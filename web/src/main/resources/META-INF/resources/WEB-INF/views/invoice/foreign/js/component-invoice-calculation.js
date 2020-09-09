@@ -30,7 +30,7 @@ isc.defineClass("InvoiceCalculation", isc.VLayout).addProperties({
                 price: priceValues[index],
                 elementId: priceValues[index].elementId,
                 materialElementId: assayValue.materialElementId,
-                calculationRowData: This.calculationData.filter(q => q.materialElementId === assayValue.materialElementId).first(),
+                calculationRowData: This.calculationData ? This.calculationData.filter(q => q.materialElementId === assayValue.materialElementId).first() : null,
                 sumPriceChanged: function (sumPrice) {
 
                     let subtotalForm = This.getMembers().filter(q => q.name === "subTotal").first();

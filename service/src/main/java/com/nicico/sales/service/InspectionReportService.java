@@ -89,7 +89,15 @@ public class InspectionReportService extends GenericService<InspectionReport, Lo
         List<WeightInspectionDTO.Update> weightInspection4Update = new ArrayList<>();
         WeightInspectionDTO.Delete weightInspection4Delete = new WeightInspectionDTO.Delete();
 
-        updateUtil.fill(WeightInspection.class, inspectionReport.getWeightInspections(), WeightInspectionDTO.InfoWithoutInspectionReport.class, request.getWeightInspections(), WeightInspectionDTO.Create.class, weightInspection4Insert, WeightInspectionDTO.Update.class, weightInspection4Update, weightInspection4Delete);
+        updateUtil.fill(WeightInspection.class,
+                inspectionReport.getWeightInspections(),
+                WeightInspectionDTO.InfoWithoutInspectionReport.class,
+                request.getWeightInspections(),
+                WeightInspectionDTO.Create.class,
+                weightInspection4Insert,
+                WeightInspectionDTO.Update.class,
+                weightInspection4Update,
+                weightInspection4Delete);
 
         if (!weightInspection4Insert.isEmpty()) weightInspectionService.createAll(weightInspection4Insert);
         if (!weightInspection4Update.isEmpty()) weightInspectionService.updateAll(weightInspection4Update);
