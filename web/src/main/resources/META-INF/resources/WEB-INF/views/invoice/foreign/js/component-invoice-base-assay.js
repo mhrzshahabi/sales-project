@@ -105,6 +105,9 @@ isc.defineClass("InvoiceBaseAssay", isc.VLayout).addProperties({
         this.getMembers()[0].setValue("reportMilestone", 1);
         this.getMembers()[0].getItem(0).changed(this.getMembers()[0], this.getMembers()[0].getItem(0), 1);
     },
+    getDataRowNo: function () {
+        return this.getMembers().slice(1).length;
+    },
     getValues: function () {
 
         let data = [];

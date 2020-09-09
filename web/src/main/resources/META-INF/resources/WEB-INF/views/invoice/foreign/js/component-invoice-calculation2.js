@@ -32,8 +32,6 @@ isc.defineClass("InvoiceCalculation2", isc.VLayout).addProperties({ //TestShod
             title: "<spring:message code='foreign-invoice.form.weight-nd'/>"
         }];
 
-
-        debugger;
         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
             params: {
                  contractId : This.contract.id,

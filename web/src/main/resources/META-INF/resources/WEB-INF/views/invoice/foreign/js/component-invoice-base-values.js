@@ -116,6 +116,9 @@ isc.defineClass("InvoiceBaseValues", isc.VLayout).addProperties({
         if (!this.invoiceBaseWeightComponent.validate())
             isValid = false;
 
+        if (!(this.invoiceBasePriceComponent.getDataRowNo() === this.invoiceBaseAssayComponent.getDataRowNo()))
+            isValid = false;
+
         if (!isValid)
             isc.warn("<spring:message code='global.message.data.not.complete'/>");
 

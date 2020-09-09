@@ -84,6 +84,9 @@ isc.defineClass("InvoiceBasePrice", isc.VLayout).addProperties({
             }
         }));
     },
+    getDataRowNo: function () {
+        return this.getMembers().slice(1).length;
+    },
     getValues: function () {
 
         let data = [];
