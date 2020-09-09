@@ -1,8 +1,9 @@
 package com.nicico.sales.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.nicico.sales.model.entities.base.ShipmentCostDuty;
+import com.nicico.sales.model.enumeration.CategoryUnit;
 import com.nicico.sales.model.enumeration.EStatus;
+import com.nicico.sales.model.enumeration.SymbolUnit;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -10,7 +11,6 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotNull;
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -18,61 +18,55 @@ import java.util.List;
 @Setter
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ShipmentCostInvoiceDetailDTO {
+public class ShipmentCostDutyDTO {
 
-    private String serviceCode;
-    private String serviceName;
-    private BigDecimal quantity;
-    private BigDecimal unitPrice;
-    private BigDecimal sumPrice;
-    private BigDecimal discountPrice;
-    private BigDecimal sumPriceWithDiscount;
-    private BigDecimal tVatPrice;
-    private BigDecimal cVatPrice;
-    private BigDecimal sumVatPrice;
-    private BigDecimal sumPriceWithVat;
-    private Long shipmentCostInvoiceId;
-    private Long shipmentCostDutyId;
-    private Long unitId;
-
+    private String nameFA;
+    private String nameEN;
+    private String code;
 
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("ShipmentCostInvoiceDetailInfo")
-    public static class Info extends ShipmentCostInvoiceDetailDTO {
-
+    @ApiModel("UnitInfo")
+    public static class Info extends ShipmentCostDutyDTO {
         private Long id;
-
-        // Auditing
         private Date createdDate;
         private String createdBy;
         private Date lastModifiedDate;
         private String lastModifiedBy;
         private Integer version;
-        private ShipmentCostDutyDTO.Info  shipmentCostDuty;
-        private UnitDTO.Info  unit;
+
 
         // BaseEntity
         private Boolean editable;
         private List<EStatus> eStatus;
     }
 
-
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("ShipmentCostInvoiceDetailCreateRq")
-    public static class Create extends ShipmentCostInvoiceDetailDTO {
-
+    @ApiModel("UnitTuple")
+    public static class Tuple extends ShipmentCostDutyDTO {
+        private Long id;
+        private Date createdDate;
+        private String createdBy;
+        private Date lastModifiedDate;
+        private String lastModifiedBy;
+        private Integer version;
     }
 
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("ShipmentCostInvoiceDetailUpdateRq")
-    public static class Update extends ShipmentCostInvoiceDetailDTO {
+    @ApiModel("UnitCreateRq")
+    public static class Create extends ShipmentCostDutyDTO {
+    }
 
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("UnitUpdateRq")
+    public static class Update extends ShipmentCostDutyDTO {
         @NotNull
         @ApiModelProperty(required = true)
         private Long id;
@@ -81,9 +75,8 @@ public class ShipmentCostInvoiceDetailDTO {
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("ShipmentCostInvoiceDetailDeleteRq")
+    @ApiModel("UnitDeleteRq")
     public static class Delete {
-
         @NotNull
         @ApiModelProperty(required = true)
         private List<Long> ids;

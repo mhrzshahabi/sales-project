@@ -17,6 +17,7 @@ namespace nicico {
 
         private owner: ObjectHider<isc.Window>;
         private windowWidget: ObjectHider<isc.Window>;
+        private actionWidget: ObjectHider<isc.Canvas>;
         private bodyWidget: ObjectHider<isc.Canvas | Array<isc.Canvas>>;
 
         public populateData: any = function (bodyWidget: isc.Canvas | Array<isc.Canvas>) {
@@ -116,7 +117,8 @@ namespace nicico {
                 items.addAll(This.bodyWidget.getObject());
             else
                 items.add(This.bodyWidget.getObject());
-            items.add(buttonLayout)
+            items.add(buttonLayout);
+            This.actionWidget = new ObjectHider(buttonLayout);
             // @ts-ignore
             This.windowWidget = new ObjectHider(Object.assign(isc.Window.nicico.getDefault(title, items, width, height), {
 

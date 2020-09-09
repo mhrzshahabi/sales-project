@@ -453,49 +453,25 @@ inspectionReportTab.method.getAssayElementFields = function (materialId) {
     });
 };
 
-// inspectionReportTab.method.setInventoryCriteria = function (shipmentId) {
-//
-//     let remittanceDetailCriteria = {
-//         _constructor: "AdvancedCriteria",
-//         operator: "and",
-//         criteria: [{fieldName: "remittance.shipmentId", operator: "equals", value: shipmentId}, {fieldName: "remittance.shipmentId", operator: "notNull"}]
-//     };
-//
-//     console.log("shipmentId ", shipmentId);
-//     inspectionReportTab.restDataSource.remittanceDetailRest.fetchData(remittanceDetailCriteria, function (dsResponse, data, dsRequest) {
-//
-//         if (data.length !== 0) {
-//             console.log("RD data ", data);
-//         } else
-//             console.log("Empty");
-//     });
-//
-//     let inventories = [];
-//     data.forEach(current => {inventories.add(current.inventory.id)})
-//     inspectionReportTab.dynamicForm.inspecReport.getItem("inventoryId").setValue(inventories);
-//
-//
-//     // inspectionReportTab.dynamicForm.inspecReport.getItem("inventoryId").setOptionCriteria({
-//     //     _constructor: "AdvancedCriteria",
-//     //     operator: "and",
-//     //     criteria: [{
-//     //         fieldName: "remittanceDetail.remittance.shipmentId",
-//     //         operator: "equals",
-//     //         value: shipmentId
-//     //     }]
-//     // });
-// };
+inspectionReportTab.method.setInventoryCriteria = function (shipmentId) {
 
-inspectionReportTab.method.setInventoryCriteria = function (materialId) {
-
-    inspectionReportTab.dynamicForm.inspecReport.getItem("inventoryId").setOptionCriteria({
+    let remittanceDetailCriteria = {
         _constructor: "AdvancedCriteria",
         operator: "and",
         criteria: [{
-            fieldName: "materialItem.materialId",
+            fieldName: "remittance.shipmentId",
             operator: "equals",
-            value: materialId
-        }]
+            value: shipmentId
+        }, {fieldName: "remittance.shipmentId", operator: "notNull"}]
+    };
+
+    inspectionReportTab.restDataSource.remittanceDetailRest.fetchData(remittanceDetailCriteria, function (dsResponse, data, dsRequest) {
+
+        if (data.length !== 0) {
+
+            let final = data.map(item => item.inventory.id).distinct();
+            inspectionReportTab.dynamicForm.inspecReport.getItem("inventoryId").setValue(final);
+        }
     });
 };
 
@@ -609,7 +585,6 @@ inspectionReportTab.dynamicForm.material = isc.DynamicForm.create({
                 inspectionReportTab.tab.inspecTabs.tabs.filter(q => q.name === "assay").first().pane.enable();
                 inspectionReportTab.variable.materialId = item.getValue();
                 inspectionReportTab.method.getAssayElementFields(inspectionReportTab.variable.materialId);
-                inspectionReportTab.method.setInventoryCriteria(inspectionReportTab.variable.materialId);
                 inspectionReportTab.method.setShipmentCriteria(inspectionReportTab.variable.materialId);
 
                 switch (inspectionReportTab.variable.materialId) {
@@ -698,7 +673,7 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
                 validateOnChange: true
             }],
         changed: function (form, item, value) {
-            // inspectionReportTab.method.setInventoryCriteria(value);
+            inspectionReportTab.method.setInventoryCriteria(value);
         }
     },
     {
@@ -1243,7 +1218,6 @@ inspectionReportTab.window.inspecReport.populateData = function (bodyWidget) {
 
     //------------- Save Inspection Data in Object -----------
     let inspectionReportObj = bodyWidget.members.get(1).getValues();
-    console.log("mil ", inspectionReportObj)
 
     inspectionReportTab.listGrid.weightElement.endEditing();
     inspectionReportTab.listGrid.assayElement.endEditing();
@@ -1303,7 +1277,6 @@ inspectionReportTab.window.inspecReport.populateData = function (bodyWidget) {
         }
     });
     inspectionReportObj.assayInspections = assayInspectionRecord;
-    // console.log("@ inspectionReportObj: ", inspectionReportObj);
     return inspectionReportObj;
 };
 

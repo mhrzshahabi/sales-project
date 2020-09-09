@@ -45,9 +45,7 @@ public class ShipmentCostInvoiceService extends GenericService<ShipmentCostInvoi
         InvoiceTypeDTO.Info invoiceTypeDTO = invoiceTypeService.get(request.getInvoiceTypeId());
         ShipmentDTO.Info shipmentDTO = shipmentService.get(request.getShipmentId());
 
-//        request.setInvoiceNo(invoiceNoGenerator.createInvoiceNo(invoiceTypeDTO.getTitle(), calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, contractDTO.getMaterial().getAbbreviation(), contractDTO.getContractNo()));
         request.setInvoiceNo(invoiceNoGenerator.createInvoiceNo(invoiceTypeDTO.getTitle(), calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, shipmentDTO.getMaterial().getAbbreviation(), shipmentDTO.getContractShipment().getContract().getNo()));
-
         ShipmentCostInvoiceDTO.Info shipmentCostInvoiceDTO = super.create(request);
 
         request.getShipmentCostInvoiceDetails().forEach(item -> item.setShipmentCostInvoiceId(shipmentCostInvoiceDTO.getId()));

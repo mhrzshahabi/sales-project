@@ -754,6 +754,14 @@
                     }
                 },
                 </sec:authorize>
+                <sec:authorize access="hasAuthority('R_SHIPMENT_COST_DUTY')">
+                {
+                    title: "<spring:message code='shipmentCostInvoiceDetail.service'/>",
+                    click: function () {
+                        createTab("<spring:message code='shipmentCostInvoiceDetail.service'/>", "<spring:url value="/costDuty/showForm" />")
+                    }
+                },
+                </sec:authorize>
             ]
         }),
     });
@@ -948,9 +956,9 @@
                 </sec:authorize>
                 <sec:authorize access="hasAuthority('R_BILL_OF_LANDING')">
                 {
-                    title: "بارنامه",
+                    title:"&nbsp; <spring:message code='bol.title'/>",
                     click: function () {
-                        createTab("بارنامه", "<spring:url value="/bill-of-landing/show-form" />")
+                        createTab("<spring:message code='bol.title'/>", "<spring:url value="/bill-of-landing/show-form" />")
                     }
                 },
                 {isSeparator: true},
@@ -1308,7 +1316,7 @@
             InvoiceExportRest: "${contextPath}" + "/rest",
             remittanceRest: "${contextPath}" + "/rest",
         },
-        httpHeaders: {"Authorization": "Bearer <%= accessToken %>", "content-type": "application/json"},
+        httpHeaders: {"Authorization": "Bearer <%= accessToken %>", "Content-Type": "application/json;charset=UTF-8"},
         userFullName: '<%= SecurityUtil.getFullName()%>',
     }
     isc.FilterBuilder.addProperties({
