@@ -42,4 +42,21 @@
       </sql>
     </changeSet>
 
+     <changeSet author="NO1 (generated)" id="1599634790815-266">
+        <addColumn tableName="TBL_CONTRACT_DISCOUNT">
+            <column name="F_MATERIAL_ELEMENT_ID" type="number(19, 0)"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="NO1 (generated)" id="1599634790815-272">
+        <addForeignKeyConstraint baseColumnNames="F_MATERIAL_ELEMENT_ID" baseTableName="TBL_CONTRACT_DISCOUNT"
+                                 constraintName="fk_contractDiscount2materialElementByMaterialElementId"
+                                 deferrable="false" initiallyDeferred="false" referencedColumnNames="id"
+                                 referencedTableName="TBL_WARH_MATERIAL_ELEMENT" validate="true"/>
+    </changeSet>
+    <changeSet author="NO1 (generated)" id="Change-Column-Data-Type-001">
+        <modifyDataType tableName="TBL_CONTRACT_DISCOUNT" columnName="DISCOUNT" newDataType="NUMBER(6,3)"/>
+        <modifyDataType tableName="TBL_CONTRACT_DISCOUNT" columnName="UPPER_BOUND" newDataType="NUMBER(6,3)"/>
+        <modifyDataType tableName="TBL_CONTRACT_DISCOUNT" columnName="LOWER_BOUND" newDataType="NUMBER(6,3)"/>
+    </changeSet>
 </databaseChangeLog>
