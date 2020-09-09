@@ -10,7 +10,7 @@ import lombok.experimental.Accessors;
 @Setter
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class AccDepartmentDTO {
+public class AccountingDepartmentDTO {
 
     private Long id;
     private Long departmentCode;
@@ -21,6 +21,6 @@ public class AccDepartmentDTO {
     @Setter
     @Accessors(chain = true)
     @ApiModel("AccDepartmentInfo")
-    public static class Info extends AccDepartmentDTO {
+    public static class Info extends AccountingDepartmentDTO {
     }
 }
