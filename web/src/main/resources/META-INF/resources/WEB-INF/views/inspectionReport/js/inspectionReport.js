@@ -625,6 +625,13 @@ inspectionReportTab.dynamicForm.material = isc.DynamicForm.create({
     ]
 });
 
+inspectionReportTab.variable.unitSum = isc.VLayout.create({
+    height: 100,
+    width: "100%",
+    align: "left",
+    overflow: "scroll",
+    members: []
+});
 inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
     {
         name: "id",
@@ -789,6 +796,29 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
             inspectionReportTab.method.setWeightElementListRows(selectedInventories);
             inspectionReportTab.method.setAssayElementListRows(selectedInventories);
         },
+
+        editorExit(editCompletionEvent, record, newValue, rowNum, colNum, grid) {
+            let selectedRecords = inspectionReportTab.dynamicForm.inspecReport.getField("inventoryId").getSelectedRecords();
+            inspectionReportTab.variable.unitSum.setMembers([]);
+            if(selectedRecords != null && selectedRecords.length > 0 ){
+                let dtls = record.getSelectedRecords().filter(a=>a.remittanceDetails.length>0).map(a=>a.remittanceDetails).flat();
+                let unitList = dtls.map(a=>a.unitId).distinct();
+                unitList.forEach( uId => {
+                        let x = isc.Unit.create({
+                            disabledUnitField: true,
+                            disabledValueField: true,
+                            showUnitFieldTitle: false,
+                            showValueFieldTitle: false,
+                            align: "center",
+                        });
+                        x.setValue(dtls.filter(a=>a.unitId === uId).map(a=>a.amount).sum())
+                        x.setUnitId(uId)
+                        inspectionReportTab.variable.unitSum.addMember(x);
+                }
+                );
+            }
+        },
+
         click: function () {
         }
     },
@@ -958,7 +988,7 @@ inspectionReportTab.dynamicForm.inspecReport = isc.DynamicForm.create({
 
 inspectionReportTab.listGrid.weightElement = isc.ListGrid.create({
     width: "100%",
-    height: "100%",
+    height: "200",
     sortField: 1,
     unitId: null,
     showRowNumbers: true,
@@ -1029,7 +1059,11 @@ inspectionReportTab.listGrid.weightElement = isc.ListGrid.create({
                     validateOnChange: true
                 }]
         }
-    ])
+    ]),
+    dataChanged : function(operationType) {
+        inspectionReportTab.method.setWeightElementSum();
+        this.Super("dataChanged",arguments);
+    }
 });
 
 inspectionReportTab.dynamicForm.assayLab = isc.DynamicForm.create({
@@ -1087,6 +1121,48 @@ inspectionReportTab.listGrid.assayElement = isc.ListGrid.create({
     canRemoveRecords: false
 });
 
+inspectionReportTab.listGrid.weightElementSum = isc.ListGrid.create(
+    {
+        width: "100%",
+        height: "100%",
+        showHeader:false,
+        showEmptyMessage: false,
+        fields: [
+            {
+                name:"title",
+                canEdit: false,
+                width: "30%",
+                align: "center",
+            },
+            {
+                canEdit: true,
+                name: "weightGW",
+                width: "10%",
+                align: "center",
+                editorExit  (editCompletionEvent, record,newVal,  ...d) {
+                    if(inspectionReportTab.listGrid.weightElement.getData().length == 0) return true;
+                    let avr = (newVal / inspectionReportTab.listGrid.weightElement.getData().length);
+                    inspectionReportTab.listGrid.weightElement.getData().map(value => {value.weightGW = avr; return value;});
+                    inspectionReportTab.listGrid.weightElement.redraw();
+                    return true;
+                }
+            },
+            {
+                canEdit: true,
+                name: "weightND",
+                width: "10%",
+                align: "center",
+                layoutMargin: 10,
+                editorExit  (editCompletionEvent, record,newVal,  ...d) {
+                    if(inspectionReportTab.listGrid.weightElement.getData().length == 0) return true;
+                    let avr = (newVal / inspectionReportTab.listGrid.weightElement.getData().length);
+                    inspectionReportTab.listGrid.weightElement.getData().map(value => {value.weightND = avr; return value;});
+                    inspectionReportTab.listGrid.weightElement.redraw();
+                    return true;
+                }
+            }]
+    });
+
 inspectionReportTab.vLayout.weightPane = isc.VLayout.create({
     autoDraw: true,
     members: [
@@ -1103,7 +1179,7 @@ inspectionReportTab.vLayout.assayPane = isc.VLayout.create({
 });
 
 inspectionReportTab.tab.inspecTabs = isc.TabSet.create({
-    height: "100%",
+    height: "220",
     width: "100%",
     autoDraw: true,
     tabs: [
@@ -1198,6 +1274,13 @@ inspectionReportTab.method.groupByAssays = function (array, groupFieldName) {
 
 };
 
+inspectionReportTab.method.setWeightElementSum = function() {
+    inspectionReportTab.listGrid.weightElementSum.setData([{
+        "title":"<spring:message code='foreign-invoice.form.tab.subtotal'/>",
+        "weightND":inspectionReportTab.listGrid.weightElement.getData().map(a=>a.weightND).sum(),
+        "weightGW":inspectionReportTab.listGrid.weightElement.getData().map(a=>a.weightGW).sum()
+    }]);
+}
 
 inspectionReportTab.window.inspecReport = new nicico.FormUtil();
 inspectionReportTab.window.inspecReport.init(null, '<spring:message code="inspectionReport.title"/>', isc.VLayout.create({
@@ -1207,7 +1290,9 @@ inspectionReportTab.window.inspecReport.init(null, '<spring:message code="inspec
     members: [
         inspectionReportTab.dynamicForm.material,
         inspectionReportTab.dynamicForm.inspecReport,
-        inspectionReportTab.tab.inspecTabs
+        inspectionReportTab.tab.inspecTabs,
+        inspectionReportTab.listGrid.weightElementSum,
+        inspectionReportTab.variable.unitSum
     ]
 }), "800", "60%");
 
@@ -1393,6 +1478,8 @@ inspectionReportTab.method.editForm = function () {
             inspectionReportTab.tab.inspecTabs.focus();
         }, 500);
 
+        //Set weightElementSum
+        inspectionReportTab.method.setWeightElementSum();
 
     }
 };
