@@ -341,8 +341,14 @@ function onWayProductCreateRemittance(criteriaBuildForListGrid) {
                                 criteriaBuildForListGrid();
                             })
                         } else {
+                            r.json().then(
+                                j =>
+                                    isc.say('مشکل در ذخیره اطلاعات. مشکل جهت گزارش' +
+                                        '\n' +
+                                        JSON.stringify(j)
+                                    )
+                            )
 
-                            isc.say('مشکل در ذخیره اطلاعات. آیا اطلاعات تکرای فرستاده شده؟ شماره بیجک،توزین مبدا، توزین مقصد')
 
                         }
                         r.json().then(j => {
@@ -538,6 +544,7 @@ function onWayProductCreateRemittance(criteriaBuildForListGrid) {
                 canExpandMultipleRecords: false,
                 getExpansionComponent: function (record, rowNum, colNum) {
                     function updateRecord(key, value, pkgRec) {
+                        // debugger;
                         const recordPkgs = record['packages'];
                         recordPkgs.find(p => p.uid === pkgRec.uid)[key] = value;
                         const ggrid = window[listGridSetDestTozinHarasatPolompForSelectedTozin['gs']];
@@ -593,7 +600,7 @@ function onWayProductCreateRemittance(criteriaBuildForListGrid) {
                                 summaryFunction: "sum",
                                 editorExit(editCompletionEvent, recordg, newValue, rowNum, colNum, grid) {
                                     // record['packages'].find(p => p.uid === recordg.uid)['tedad'] = Number(newValue)
-                                    updateRecord('tedad', newValue, recordg);
+                                    if (newValue) updateRecord('tedad', newValue, recordg);
                                     return true;
                                 },
                                 editorProperties: {
@@ -926,6 +933,12 @@ function onWayProductCreateRemittance(criteriaBuildForListGrid) {
     //     onWayProductFetch('tozin/lite', 'and', destinationTozinCriteria.criteria),
     // ])
     onWayProductFetch('tozin/lite', 'and', destinationTozinCriteria.criteria).then((tozin) => {
+            if (tozin && tozin.response && tozin.response.data && tozin.response.data.length === 0) {
+                isc.warn('در مقصد توزین ثبت نشده', _ => {
+                    windowRemittance.destroy();
+                })
+
+            }
             if (tozin && tozin.response && tozin.response.data && tozin.response.data.length > 0) {
                 const tozinData = tozin.response.data
                 // //console.log('tozin',tozin);

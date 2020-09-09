@@ -24,11 +24,11 @@ public abstract class WeightInspectionDTO {
     private WeighingType weighingType;
     private BigDecimal weightGW;
     private BigDecimal weightND;
-    private InspectionReportMilestone mileStone;
-    private Long inspectionReportId;
+    private Long unitId;
     private Long shipmentId;
     private Long inventoryId;
-    private Long unitId;
+    private Long inspectionReportId;
+    private InspectionReportMilestone mileStone;
 
     @Getter
     @Setter

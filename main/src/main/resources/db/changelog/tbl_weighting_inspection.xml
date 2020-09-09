@@ -54,4 +54,14 @@
         </addColumn>
     </changeSet>
 
+    <changeSet  author="MShahabi"  id="1799887766554-049">
+        <dropUniqueConstraint constraintName="inspectionReport_inventory_UNIQUE"
+                              tableName="TBL_WEIGHING_INSPECTION"/>
+    </changeSet>
+
+    <changeSet author="MShahabi" id="1799887766554-050">
+        <addUniqueConstraint columnNames="N_MILESTONE, F_INVENTORY_ID"
+                             constraintName="milestone_inventory_UNIQUE" tableName="TBL_WEIGHING_INSPECTION"/>
+    </changeSet>
+
 </databaseChangeLog>

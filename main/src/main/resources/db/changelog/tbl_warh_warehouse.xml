@@ -10,5 +10,20 @@
         </sql>
     </changeSet>
 
+ <changeSet author="saeb" id="saeb_00dgj8956ythaaaaaaaadddd5">
+        <sql>
+            INSERT INTO TBL_WARH_WAREHOUSE (ID, C_CREATED_BY, D_CREATED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE, C_NAME)
+            VALUES
+            (-1, 'liquibase', current_timestamp, 0, 1, 1, 'خروج جهت فروش');
+        </sql>
+     <sql>
+            INSERT INTO TBL_WARH_WAREHOUSE (ID, C_CREATED_BY, D_CREATED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE, C_NAME)
+            VALUES
+            (-2, 'liquibase', current_timestamp, 0, 1, 1, 'خروج جهت انتقال');
+        </sql>
+
+    </changeSet>
+
+
 
 </databaseChangeLog>
