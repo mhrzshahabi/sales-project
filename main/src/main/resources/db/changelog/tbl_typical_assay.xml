@@ -24,4 +24,10 @@
         </addColumn>
     </changeSet>
 
+    <changeSet author="Reza Mazloom" id="mazloom_049">
+        <addColumn tableName="TBL_TYPICAL_ASSAY">
+            <column name="F_CONTRACT_ID" type="number(19, 0)"/>
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>

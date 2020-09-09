@@ -56,11 +56,7 @@ typicalAssayTab.dynamicForm.fields = BaseFormItems.concat([
         pickListFields: [
             {name: "elementName", title: '<spring:message code="assayInspection.materialElement.name"/>'},
             {name: "material.descl", title: '<spring:message code="material.descl"/>'}
-        ]/*,
-        changed: function (form,item,value) {
-            item.getSelectedRecord().elementname = item.getSelectedRecord().element.name
-            item.redraw();
-        }*/
+        ]
     }
 ]);
 

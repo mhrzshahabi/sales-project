@@ -14,6 +14,7 @@ public enum ContractDetailTypeReference {
     Unit(5, "REFERENCE"),
     Incoterm(5, "REFERENCE"),
 
+    TypicalAssay(5, "LIST OF REFERENCE"),
     ContractShipment(6, "LIST OF REFERENCE"),
 
     Enum_RateReference(7, "REFERENCE"),

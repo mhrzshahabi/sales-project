@@ -10,41 +10,41 @@
 <html>
 <head>
 
-<title><spring:message code='main.Tab.Name'/></title>
+    <title><spring:message code='main.Tab.Name'/></title>
 
-<link rel="sales icon" href="<spring:url value='/static/img/icon/nicico.png' />"/>
-<link rel="stylesheet" href="<spring:url value='/static/css/smartStyle.css' />"/>
-<link rel="stylesheet" href="<spring:url value='/static/css/calendar.css' />"/>
-<link rel="stylesheet" href='<spring:url value="/static/css/commonStyle.css"/>'/>
+    <link rel="sales icon" href="<spring:url value='/static/img/icon/nicico.png' />"/>
+    <link rel="stylesheet" href="<spring:url value='/static/css/smartStyle.css' />"/>
+    <link rel="stylesheet" href="<spring:url value='/static/css/calendar.css' />"/>
+    <link rel="stylesheet" href='<spring:url value="/static/css/commonStyle.css"/>'/>
 
-<script src="<spring:url value='/static/script/js/calendar.js'/>"></script>
-<script src="<spring:url value='/static/script/js/jalali-moment.browser.js'/>"></script>
-<script src="<spring:url value='/static/script/js/all.js'/>"></script>
-<script src="<spring:url value='/static/script/js/convertDigitToEnglish.js'/>"></script>
-<script src="<spring:url value='/static/script/js/moment.js'/>"></script>
-<script src="<spring:url value='/static/script/js/jquery.min.js' />"></script>
-<script src="<spring:url value='/static/script/js/persian-date.min.js' />"></script>
-<script src="<spring:url value='/static/script/enumJson/unitEnum.js' />"></script>
-<script src="<spring:url value='/static/script/enumJson/materialEnum.js' />"></script>
-<script src="<spring:url value='/static/script/js/persian-rex.js' />"></script>
-<script src="<spring:url value='/static/script/js/num2persian-min.js' />"></script>
-<script src="<spring:url value='/static/script/js/convertunit.js' />"></script>
+    <script src="<spring:url value='/static/script/js/calendar.js'/>"></script>
+    <script src="<spring:url value='/static/script/js/jalali-moment.browser.js'/>"></script>
+    <script src="<spring:url value='/static/script/js/all.js'/>"></script>
+    <script src="<spring:url value='/static/script/js/convertDigitToEnglish.js'/>"></script>
+    <script src="<spring:url value='/static/script/js/moment.js'/>"></script>
+    <script src="<spring:url value='/static/script/js/jquery.min.js' />"></script>
+    <script src="<spring:url value='/static/script/js/persian-date.min.js' />"></script>
+    <script src="<spring:url value='/static/script/enumJson/unitEnum.js' />"></script>
+    <script src="<spring:url value='/static/script/enumJson/materialEnum.js' />"></script>
+    <script src="<spring:url value='/static/script/js/persian-rex.js' />"></script>
+    <script src="<spring:url value='/static/script/js/num2persian-min.js' />"></script>
+    <script src="<spring:url value='/static/script/js/convertunit.js' />"></script>
 
 
-<script>var isomorphicDir = "isomorphic/";</script>
-<script src=isomorphic/system/modules/ISC_Core.js></script>
-<script src=isomorphic/system/modules/ISC_Foundation.js></script>
-<script src=isomorphic/system/modules/ISC_Containers.js></script>
-<script src=isomorphic/system/modules/ISC_Grids.js></script>
-<script src=isomorphic/system/modules/ISC_Forms.js></script>
-<script src=isomorphic/system/modules/ISC_DataBinding.js></script>
-<script src=isomorphic/system/modules/ISC_Drawing.js></script>
-<script src=isomorphic/system/modules/ISC_Charts.js></script>
-<script src=isomorphic/system/modules/ISC_Analytics.js></script>
-<script src=isomorphic/system/modules/ISC_FileLoader.js></script>
-<script SRC=isomorphic/system/modules/ISC_RichTextEditor.js></script>
-<script SRC=isomorphic/skins/Nicico/load_skin.js></script>
-<script src="<spring:url value='/static/script/js/changeSkin.js'/>"></script>
+    <script>var isomorphicDir = "isomorphic/";</script>
+    <script src=isomorphic/system/modules/ISC_Core.js></script>
+    <script src=isomorphic/system/modules/ISC_Foundation.js></script>
+    <script src=isomorphic/system/modules/ISC_Containers.js></script>
+    <script src=isomorphic/system/modules/ISC_Grids.js></script>
+    <script src=isomorphic/system/modules/ISC_Forms.js></script>
+    <script src=isomorphic/system/modules/ISC_DataBinding.js></script>
+    <script src=isomorphic/system/modules/ISC_Drawing.js></script>
+    <script src=isomorphic/system/modules/ISC_Charts.js></script>
+    <script src=isomorphic/system/modules/ISC_Analytics.js></script>
+    <script src=isomorphic/system/modules/ISC_FileLoader.js></script>
+    <script SRC=isomorphic/system/modules/ISC_RichTextEditor.js></script>
+    <script SRC=isomorphic/skins/Nicico/load_skin.js></script>
+    <script src="<spring:url value='/static/script/js/changeSkin.js'/>"></script>
 
 </head>
 
@@ -64,7 +64,7 @@
 
 <script type="application/javascript">
     const mylocale = '${pageContext.response.locale}';
-    align = function(){
+    align = function () {
         return mylocale == 'fa' ? "right" : "left";
     }
     isc.Class.create.prototype.create = function () {
@@ -762,14 +762,6 @@
                     title: "<spring:message code='shipmentCostInvoiceDetail.service'/>",
                     click: function () {
                         createTab("<spring:message code='shipmentCostInvoiceDetail.service'/>", "<spring:url value="/costDuty/showForm" />")
-                    }
-                },
-                </sec:authorize>
-                <sec:authorize access="hasAuthority('R_TYPICAL_ASSAY')">
-                {
-                    title: "<spring:message code='typical.assay'/>",
-                    click: function () {
-                        createTab("<spring:message code='typical.assay'/>", "<spring:url value="/typicalAssay/showForm" />")
                     }
                 },
                 </sec:authorize>

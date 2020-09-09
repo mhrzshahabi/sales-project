@@ -25,6 +25,7 @@ public class TypicalAssayDTO {
     private BigDecimal maxValue;
     private Long unitId;
     private Long materialElementId;
+    private Long contractId;
 
     @Getter
     @Setter
