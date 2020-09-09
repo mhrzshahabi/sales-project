@@ -38,6 +38,19 @@ public class IncotermRestController {
     }
 
     @Loggable
+    @GetMapping(value = "/list-contract")
+    public ResponseEntity<TotalResponse<IncotermDTO.ViewForContract>> getIncotermsForShowInContract() {
+
+        return new ResponseEntity<>(incotermService.getIncotermsForShowInContract(), HttpStatus.OK);
+    }
+
+    @Loggable
+    @GetMapping(value = "/incoterm-rules")
+    public ResponseEntity<TotalResponse<String>> getIncotermRules(@RequestParam MultiValueMap<String, String> criteria) {
+        return new ResponseEntity<>(incotermService.getIncotermRules(Long.valueOf(criteria.get("criteria").get(0))), HttpStatus.OK);
+    }
+
+    @Loggable
     @PostMapping
     public ResponseEntity<IncotermDTO.Info> create(@Validated @RequestBody IncotermDTO.Create request) {
 
