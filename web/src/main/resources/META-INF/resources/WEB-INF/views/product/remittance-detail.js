@@ -934,10 +934,10 @@ rdTab.Fields.TozinBase = function () {
             type: "number",
             required: true,
             // filterEditorProperties: {editorType: "comboBox"},
-            parseEditorValue: function (value, record, form, item) {
-                StorageUtil.save('out_remittance_defaultSourceId', value)
-                return value;
-            },
+            // parseEditorValue: function (value, record, form, item) {
+            //     StorageUtil.save('out_remittance_defaultSourceId', value)
+            //     return value;
+            // },
             valueMap: SalesBaseParameters.getSavedWarehouseParameter().getValueMap("id", "name"),
             valueMap: {
                 2421: 'ايستگاه قطار تبريز',
@@ -964,11 +964,11 @@ rdTab.Fields.TozinBase = function () {
             //     type: "number",
             //     // defaultValue: StorageUtil.get('out_remittance_defaultTargetId')
             // },
-
-            parseEditorValue: function (value, record, form, item) {
-                // StorageUtil.save('out_remittance_defaultTargetId', value);
-                return value;
-            },
+            //
+            // parseEditorValue: function (value, record, form, item) {
+            //     // StorageUtil.save('out_remittance_defaultTargetId', value);
+            //     return value;
+            // },
             changed(form, item, value) {
                 StorageUtil.save('out_remittance_defaultTargetId', value);
             },
@@ -1511,7 +1511,10 @@ rdTab.RestDataSources.Remittance = {
 rdTab.RestDataSources.TozinLite = {
     fetchDataURL: "api/tozin/lite/spec-list",
     // updateDataURL: "api/remittance/",
-    fields: rdTab.Fields.TozinFull()
+    fields: rdTab.Fields.TozinFull().map(_=>{
+        if(_.defaultValue) delete _.defaultValue;
+        return _;
+    })
 };
 rdTab.RestDataSources.Depot = {
     fetchDataURL: "api/depot/spec-list",
@@ -2107,7 +2110,7 @@ rdTab.Layouts.ToolStripButtons.New = isc.ToolStripButtonAdd.create({
                                     {
                                         fieldName: "inventory.weight",
                                         operator: "greaterOrEqual",
-                                        value: 0
+                                        value: 1
                                     }
 
                                 ],
@@ -2130,7 +2133,10 @@ rdTab.Layouts.ToolStripButtons.New = isc.ToolStripButtonAdd.create({
             title: "انتخاب توزین از لجستیک",
             click() {
                 rdTab.Grids.TozinLite = isc.ListGrid.create({
-                    fields: rdTab.Fields.TozinLite(),
+                    fields: rdTab.Fields.TozinLite().map(_=>{
+                        if(_.defaultValue)delete _.defaultValue;
+                        return _;
+                    }),
                     initialCriteria: {
                         operator: "and",
                         criteria: [
