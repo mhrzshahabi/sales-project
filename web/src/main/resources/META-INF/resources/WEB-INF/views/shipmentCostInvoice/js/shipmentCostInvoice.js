@@ -315,6 +315,8 @@ shipmentCostInvoiceTab.method.updateFinanceUnit = function () {
     if (shipmentCostInvoiceTab.dynamicForm.shipmentPrice.getValue("financeUnitId") === shipmentCostInvoiceTab.dynamicForm.shipmentPrice.getValue("toFinanceUnitId")) {
         shipmentCostInvoiceTab.dynamicForm.shipmentPrice.setValue("conversionRate", 1);
         shipmentCostInvoiceTab.dynamicForm.shipmentPrice.getItem("conversionRefId").canEdit = false;
+        shipmentCostInvoiceTab.listGrid.shipmentCostDetail.members.get(3).members.get(2).members.get(0).click();
+
     }
 };
 
@@ -685,7 +687,6 @@ shipmentCostInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
             shipmentCostInvoiceTab.dynamicForm.shipmentCost.setValue("toFinanceUnitId", null);
             shipmentCostInvoiceTab.dynamicForm.shipmentPrice.setValue("conversionRefId", null);
             shipmentCostInvoiceTab.dynamicForm.shipmentPrice.setValue("conversionRate", 1);
-            console.log("members", shipmentCostInvoiceTab.listGrid.shipmentCostDetail.members.get(3).members.get(2).members.get(0));
             shipmentCostInvoiceTab.listGrid.shipmentCostDetail.members.get(3).members.get(2).members.get(0).click();
 
             /*if (shipmentCostInvoiceTab.listGrid.shipmentCostDetail.getData() != null) {
@@ -749,13 +750,16 @@ shipmentCostInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
                         }
                     ]
             });
-
             shipmentCostInvoiceTab.dynamicForm.shipmentPrice.setValue("conversionRefId", null);
             shipmentCostInvoiceTab.method.updateFinanceUnit();
         }
+    },
+    {
+        type: "RowSpacerItem"
     }
 
 ]);
+
 shipmentCostInvoiceTab.dynamicForm.shipmentCost = isc.DynamicForm.create({
     align: "center",
     numCols: 4,
@@ -766,6 +770,7 @@ shipmentCostInvoiceTab.dynamicForm.shipmentCost = isc.DynamicForm.create({
     requiredMessage: '<spring:message code="validator.field.is.required"/>',
     fields: shipmentCostInvoiceTab.dynamicForm.fields
 });
+
 shipmentCostInvoiceTab.dynamicForm.shipmentPriceFields = BaseFormItems.concat([
     {
         name: "conversionRefId",
@@ -888,7 +893,8 @@ shipmentCostInvoiceTab.dynamicForm.shipmentPriceFields = BaseFormItems.concat([
     {
         name: "conversionSumPriceBuyerShare",
         title: "<spring:message code='shipmentCostInvoice.conversionSumPriceBuyerShare'/>",
-        type: "float",
+        type: 'float',
+        format: "#.##",
         wrapTitle: false,
         editorType: "staticText",
         validators: [
@@ -900,7 +906,8 @@ shipmentCostInvoiceTab.dynamicForm.shipmentPriceFields = BaseFormItems.concat([
     {
         name: "conversionSumPriceSellerShare",
         title: "<spring:message code='shipmentCostInvoice.conversionSumPriceSellerShare'/>",
-        type: "float",
+        type: 'float',
+        format: "#.##",
         wrapTitle: false,
         editorType: "staticText",
         validators: [
@@ -919,6 +926,7 @@ shipmentCostInvoiceTab.dynamicForm.shipmentPriceFields = BaseFormItems.concat([
     }
 
 ]);
+
 shipmentCostInvoiceTab.dynamicForm.shipmentPrice = isc.DynamicForm.create({
     align: "center",
     numCols: 4,
@@ -929,6 +937,7 @@ shipmentCostInvoiceTab.dynamicForm.shipmentPrice = isc.DynamicForm.create({
     requiredMessage: '<spring:message code="validator.field.is.required"/>',
     fields: shipmentCostInvoiceTab.dynamicForm.shipmentPriceFields ,
 });
+
 shipmentCostInvoiceTab.listGrid.shipmentCostDetail = isc.ListGrid.create({
     width: "100%",
     sortField: 1,
@@ -1240,7 +1249,7 @@ shipmentCostInvoiceTab.window.shipmentCost.okCallBack = function (shipmentCostOb
                 if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
                     isc.say("<spring:message code='global.form.request.successful'/>");
                     shipmentCostInvoiceTab.method.refreshData();
-                    shipmentCostInvoiceTab.window.shipmentCost.close();
+                    // shipmentCostInvoiceTab.window.shipmentCost.close();
                 } else
                     isc.say(RpcResponse_o.data);
             }
@@ -1266,14 +1275,17 @@ shipmentCostInvoiceTab.method.newForm = function () {
     shipmentCostInvoiceTab.variable.method = "POST";
     shipmentCostInvoiceTab.dynamicForm.shipmentCost.clearValues();
     shipmentCostInvoiceTab.dynamicForm.shipmentPrice.clearValues();
+    shipmentCostInvoiceTab.method.clearListGrid();
     shipmentCostInvoiceTab.window.shipmentCost.justShowForm();
     shipmentCostInvoiceTab.method.setVATs(shipmentCostInvoiceTab.variable.year)
+    shipmentCostInvoiceTab.listGrid.shipmentCostDetail.members.get(3).members.get(2).members.get(0).hide();
 
 };
 
 shipmentCostInvoiceTab.method.editForm = function () {
 
     shipmentCostInvoiceTab.variable.method = "PUT";
+    shipmentCostInvoiceTab.listGrid.shipmentCostDetail.members.get(3).members.get(2).members.get(0).hide();
 
     let record = shipmentCostInvoiceTab.listGrid.main.getSelectedRecord();
     console.log("record",record);
