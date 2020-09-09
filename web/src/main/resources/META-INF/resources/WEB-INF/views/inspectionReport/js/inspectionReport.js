@@ -449,6 +449,7 @@ inspectionReportTab.method.getAssayElementFields = function (materialId) {
             ));
 
             inspectionReportTab.listGrid.assayElement.setFields(fields);
+            inspectionReportTab.listGrid.assayElementSum.setFields(fields);
         }
     });
 };
@@ -594,11 +595,11 @@ inspectionReportTab.dynamicForm.material = isc.DynamicForm.create({
                         inspectionReportTab.listGrid.weightElement.unitId = 1;
                         break;
                     case ImportantIDs.material.MOLYBDENUM_OXIDE:
-
+                        inspectionReportTab.tab.inspecTabs.tabs.filter(q => q.name === "assay").first().pane.enable();
                         inspectionReportTab.listGrid.weightElement.unitId = 2;
                         break;
                     case ImportantIDs.material.COPPER_CONCENTRATES:
-
+                        inspectionReportTab.tab.inspecTabs.tabs.filter(q => q.name === "assay").first().pane.enable();
                         inspectionReportTab.listGrid.weightElement.unitId = 3;
                         break;
 
@@ -1118,7 +1119,11 @@ inspectionReportTab.listGrid.assayElement = isc.ListGrid.create({
     saveLocally: true,
     showRecordComponents: true,
     showRecordComponentsByCell: true,
-    canRemoveRecords: false
+    canRemoveRecords: false,
+    dataChanged : function(operationType) {
+        inspectionReportTab.method.setEssayElementSum();
+        this.Super("dataChanged",arguments);
+    }
 });
 
 inspectionReportTab.listGrid.weightElementSum = isc.ListGrid.create(
@@ -1163,10 +1168,19 @@ inspectionReportTab.listGrid.weightElementSum = isc.ListGrid.create(
             }]
     });
 
+inspectionReportTab.listGrid.assayElementSum = isc.ListGrid.create(
+    {
+       width: "100%",
+       showHeader:false,
+       showEmptyMessage: false,
+       fields: []
+});
+
 inspectionReportTab.vLayout.weightPane = isc.VLayout.create({
     autoDraw: true,
     members: [
-        inspectionReportTab.listGrid.weightElement
+        inspectionReportTab.listGrid.weightElement,
+        inspectionReportTab.listGrid.weightElementSum
     ]
 });
 
@@ -1174,7 +1188,8 @@ inspectionReportTab.vLayout.assayPane = isc.VLayout.create({
     autoDraw: true,
     members: [
         inspectionReportTab.dynamicForm.assayLab,
-        inspectionReportTab.listGrid.assayElement
+        inspectionReportTab.listGrid.assayElement,
+        inspectionReportTab.listGrid.assayElementSum
     ]
 });
 
@@ -1282,6 +1297,14 @@ inspectionReportTab.method.setWeightElementSum = function() {
     }]);
 }
 
+inspectionReportTab.method.setEssayElementSum = function() {
+    var sumData = {"title" : "<spring:message code='foreign-invoice.form.tab.subtotal'/>"};
+    inspectionReportTab.listGrid.assayElement.getFields().filter(f=>f.title.contains(f.name)).forEach( f => {
+       sumData[f.name] = inspectionReportTab.listGrid.assayElement.getData().map(a=>a[f.name]).sum();
+    });
+    inspectionReportTab.listGrid.assayElementSum.setData([sumData]);
+}
+
 inspectionReportTab.window.inspecReport = new nicico.FormUtil();
 inspectionReportTab.window.inspecReport.init(null, '<spring:message code="inspectionReport.title"/>', isc.VLayout.create({
     width: "100%",
@@ -1291,7 +1314,6 @@ inspectionReportTab.window.inspecReport.init(null, '<spring:message code="inspec
         inspectionReportTab.dynamicForm.material,
         inspectionReportTab.dynamicForm.inspecReport,
         inspectionReportTab.tab.inspecTabs,
-        inspectionReportTab.listGrid.weightElementSum,
         inspectionReportTab.variable.unitSum
     ]
 }), "800", "60%");
@@ -1480,6 +1502,9 @@ inspectionReportTab.method.editForm = function () {
 
         //Set weightElementSum
         inspectionReportTab.method.setWeightElementSum();
+
+        //Set essayElementSum
+        //inspectionReportTab.method.setEssayElementSum();
 
     }
 };
