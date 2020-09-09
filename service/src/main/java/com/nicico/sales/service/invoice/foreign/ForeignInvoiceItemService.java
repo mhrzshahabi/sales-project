@@ -52,14 +52,14 @@ public class ForeignInvoiceItemService extends GenericService<ForeignInvoiceItem
     @Override
     @Transactional
     @Action(value = ActionType.List)
-    public ForeignInvoiceItemDTO.Calc2Data getCalculation2Data(Long contractId, Long shipmentId, InspectionReportMilestone reportMilestone, List<Long> inventoryIds, PriceBaseReference reference, Integer year, Integer month, Long financeUnitId) {
+    public ForeignInvoiceItemDTO.Calc2Data getCalculation2Data(Long contractId, Long shipmentId, InspectionReportMilestone assayMilestone, InspectionReportMilestone weightMilestone, List<Long> inventoryIds, PriceBaseReference reference, Integer year, Integer month, Long financeUnitId) {
 
-        List<AssayInspectionDTO.InfoWithoutInspectionReport> assayValues = assayInspectionService.getAssayValues(shipmentId, reportMilestone, inventoryIds);
+        List<AssayInspectionDTO.InfoWithoutInspectionReport> assayValues = assayInspectionService.getAssayValues(shipmentId, assayMilestone, inventoryIds);
         Set<Long> materialIds = assayValues.stream().map(q -> q.getMaterialElement().getMaterialId()).collect(Collectors.toSet());
         if (materialIds.size() != 1)
             throw new SalesException2(ErrorType.Forbidden, "material", "There is multiple material.");
 
-        List<WeightInspectionDTO.InfoWithoutInspectionReport> weightValues = weightInspectionService.getWeightValues(shipmentId, reportMilestone, inventoryIds);
+        List<WeightInspectionDTO.InfoWithoutInspectionReport> weightValues = weightInspectionService.getWeightValues(shipmentId, weightMilestone, inventoryIds);
         // ContractDetailDTO2.Info priceDetail = contractDetailService2.getContractDetailByContractDetailTypeCode(contractId, EContractDetailTypeCode);
         String priceArticleText = ""; // priceDetail.content;
         List<ContractDiscount> discountArticle = new ArrayList<>(); // contractService2.getOperationalDataOfContractArticle(contractId, EContractDetailTypeCode., EContractDetailValueKey.);

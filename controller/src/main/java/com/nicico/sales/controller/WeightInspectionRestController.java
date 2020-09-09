@@ -61,7 +61,7 @@ public class WeightInspectionRestController {
     @Loggable
     @GetMapping(value = "/get-weight-values")
     public ResponseEntity<List<WeightInspectionDTO.InfoWithoutInspectionReport>> getWeightValues(@RequestParam Long shipmentId, @RequestParam Integer reportMilestone, @RequestParam List<Long> inventoryIds) {
-
+//InfoWithoutInspectionReportAndInventory
         InspectionReportMilestone reportMilestoneEnum = new AllConverters.InspectionReportMilestoneConverter().convertToEntityAttribute(reportMilestone);
         return new ResponseEntity<>(iWeightInspectionService.getWeightValues(shipmentId, reportMilestoneEnum, inventoryIds), HttpStatus.OK);
     }
