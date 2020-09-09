@@ -730,19 +730,6 @@ shipmentCostInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
             shipmentCostInvoiceTab.dynamicForm.shipmentPrice.setValue("conversionRefId", null);
             shipmentCostInvoiceTab.dynamicForm.shipmentPrice.setValue("conversionRate", 1);
             shipmentCostInvoiceTab.listGrid.shipmentCostDetail.members.get(3).members.get(2).members.get(0).click();
-
-            /*if (shipmentCostInvoiceTab.listGrid.shipmentCostDetail.getData() != null) {
-                let totalRows = shipmentCostInvoiceTab.listGrid.shipmentCostDetail.getTotalRows();
-                let financeUnitIdIndex = shipmentCostInvoiceTab.listGrid.shipmentCostDetail.fields.indexOf(shipmentCostInvoiceTab.listGrid.shipmentCostDetail.fields.filter(q => q.name === "financeUnitId").first());
-                for (let i = 0; i < totalRows; i++) {
-                    shipmentCostInvoiceTab.listGrid.shipmentCostDetail.setEditValue(i, financeUnitIdIndex, shipmentCostInvoiceTab.variable.financeUnitName);
-                }
-                shipmentCostInvoiceTab.listGrid.shipmentCostDetail.invalidateCache();
-            }*/
-
-            // shipmentCostInvoiceTab.listGrid.shipmentCostDetail.setData([]);
-            // shipmentCostInvoiceTab.variable.financeUnitName = item.getSelectedRecord().nameFA;
-            // shipmentCostInvoiceTab.method.updateFinanceUnit();
         }
     },
     {
@@ -902,6 +889,7 @@ shipmentCostInvoiceTab.dynamicForm.shipmentPriceFields = BaseFormItems.concat([
     {
         name: "conversionSumPrice",
         title: "<spring:message code='shipmentCostInvoice.conversionSumPrice'/>",
+        required: true,
         type: 'float',
         format: "#.##",
         wrapTitle: false,
@@ -915,6 +903,7 @@ shipmentCostInvoiceTab.dynamicForm.shipmentPriceFields = BaseFormItems.concat([
     {
         name: "conversionSumPriceText",
         title: "<spring:message code='shipmentCostInvoice.conversionSumPriceText'/>",
+        required: true,
         wrapTitle: false,
         editorType: "staticText"
     },
@@ -943,6 +932,7 @@ shipmentCostInvoiceTab.dynamicForm.shipmentPriceFields = BaseFormItems.concat([
     {
         name: "conversionSumPriceBuyerShare",
         title: "<spring:message code='shipmentCostInvoice.conversionSumPriceBuyerShare'/>",
+        required: true,
         type: 'float',
         format: "#.##",
         wrapTitle: false,
@@ -956,6 +946,7 @@ shipmentCostInvoiceTab.dynamicForm.shipmentPriceFields = BaseFormItems.concat([
     {
         name: "conversionSumPriceSellerShare",
         title: "<spring:message code='shipmentCostInvoice.conversionSumPriceSellerShare'/>",
+        required: true,
         type: 'float',
         format: "#.##",
         wrapTitle: false,
@@ -1287,6 +1278,11 @@ shipmentCostInvoiceTab.window.shipmentCost.validate = function (data) {
         if (shipmentCostInvoiceTab.listGrid.shipmentCostDetail.hasErrors())
             return false;
     }
+
+    shipmentCostInvoiceTab.dynamicForm.shipmentPriceFields.validate();
+    if (shipmentCostInvoiceTab.dynamicForm.shipmentPriceFields.hasErrors())
+        return false;
+
     return true;
 };
 
