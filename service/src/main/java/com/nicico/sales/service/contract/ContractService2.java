@@ -78,7 +78,7 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
         ///الحاقیه
         final List<ContractDetailDTO2.Info> requestContractDetails = request.getContractDetails();
         Set<ContractShipment> contractShipmentsWithShipments = new HashSet<>();
-        if (request.getParentId() != null) {
+        if (request.getParentId() != null && getContractShipmentsOfRequest(request).size() > 0) {
             contractShipmentsWithShipments = getContractShipmentsWithShipment(request);
         }
         contract2.setContractDetails(null);
@@ -147,7 +147,7 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
                                         kal.get(Calendar.DAY_OF_YEAR) == cal.get(Calendar.DAY_OF_YEAR)
                         ) {
                             found[0] = true;
-                            if(csfa.getParentId()==null) csfa.setParentId(csws.getId());
+                            if (csfa.getParentId() == null) csfa.setParentId(csws.getId());
                             contractShipmentDAO.save(csfa);
                         }
                     }
@@ -170,7 +170,7 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
         contractShipmentDTO.setContractId(id);
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(contractShipmentDTO.getSendDate());
-        calendar.set(Calendar.HOUR_OF_DAY,12);
+        calendar.set(Calendar.HOUR_OF_DAY, 12);
         contractShipmentDTO.setSendDate(calendar.getTime());
         ContractShipmentDTO.Info savedContractShipment = contractShipmentService.create(contractShipmentDTO);
         return savedContractShipment.getId();
@@ -415,21 +415,8 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
         ContractDTO2.Create req = modelMapper.map(request[0], ContractDTO2.Create.class);
         if ((actionType == ActionType.Create || actionType == ActionType.Update) && req.getParentId() != null) {
 //            if(actionType == ActionType.Create) {ContractDTO2.Create req = modelMapper.map(request[0], ContractDTO2.Create.class);}
-            final List<ContractShipment> contractShipments = req.getContractDetails()
-                    .stream()
-                    .map(cd -> cd.getContractDetailValues()
-                                    .stream().filter(cdv -> cdv.getReference() != null &&
-                                            cdv.getReference().toLowerCase().equals("ContractShipment".toLowerCase()))
-                                    .collect(Collectors.toList())
-                            ).flatMap(Collection::stream).map(contractDetailValue -> {
-                        try {
-                            return objectMapper.readValue(contractDetailValue.getReferenceJsonValue(), ContractShipment.class);
-                        } catch (IOException e) {
-                            log.warn("jackson objectMapper error ",e);
-                        }
-                        return null;
-                    })
-                    .collect(Collectors.toList());
+
+            final List<ContractShipment> contractShipments = getContractShipmentsOfRequest(req);
             if (contractShipments.size() == 0) return super.validation(entity, request);
 
             final Set<ContractShipment> contractShipmentsOriginal = getContractShipmentsWithShipment(req);
@@ -447,7 +434,7 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
                         cal.get(Calendar.YEAR) != kal.get(Calendar.YEAR) ||
                         cal.get(Calendar.DAY_OF_YEAR) != kal.get(Calendar.DAY_OF_YEAR)
                         //|| contractShipmentFromController.getParentId() != null
-                 ;
+                        ;
             }).collect(Collectors.toList());
             Locale locale = LocaleContextHolder.getLocale();
             if (modifiedFound.size() > 0) throw new SalesException2(ErrorType.Unknown, "",
@@ -501,5 +488,23 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
                 .addAll(allByContractShipmentIdIsIn.stream().map(Shipment::getContractShipment).collect(Collectors.toSet()));
         return contractShipmentsWithParentOrInShipment;
     }
+
+    private List<ContractShipment> getContractShipmentsOfRequest(ContractDTO2.Create req) {
+        return req.getContractDetails().stream()
+                .map(cd -> cd.getContractDetailValues()
+                        .stream().filter(cdv -> cdv.getReference() != null &&
+                                cdv.getReference().toLowerCase().equals("ContractShipment".toLowerCase()))
+                        .collect(Collectors.toList())
+                ).flatMap(Collection::stream).map(contractDetailValue -> {
+                    try {
+                        return objectMapper.readValue(contractDetailValue.getReferenceJsonValue(), ContractShipment.class);
+                    } catch (IOException e) {
+                        log.warn("jackson objectMapper error ", e);
+                    }
+                    return null;
+                })
+                .collect(Collectors.toList());
+    }
 }
+
 /*** الحاقیه***/

@@ -33,7 +33,7 @@ public class ShipmentCostInvoiceDetailDTO {
     private BigDecimal sumPriceWithVat;
     private Long shipmentCostInvoiceId;
     private Long shipmentCostDutyId;
-    private Long unitID;
+    private Long unitId;
 
 
     @Getter
