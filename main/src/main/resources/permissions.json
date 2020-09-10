@@ -1025,6 +1025,22 @@
       "title": "حذف قرارداد"
     },
     {
+      "code": "F_CONTRACT_2",
+      "title": "تایید نهایی قرارداد"
+    },
+    {
+      "code": "O_CONTRACT_2",
+      "title": "لغو تایید نهایی قرارداد"
+    },
+    {
+      "code": "A_CONTRACT_2",
+      "title": "فعال کردن قرارداد"
+    },
+    {
+      "code": "I_CONTRACT_2",
+      "title": "غیرفعال کردن  قرارداد"
+    },
+    {
       "code": "R_CONTRACT_DETAIL_TYPE",
       "title": "نمایش نوع جزییات قرارداد"
     },

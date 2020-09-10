@@ -574,13 +574,31 @@ foreignInvoiceTab.button.save = isc.IButtonSave.create({
 
         if (foreignInvoiceTab.dynamicForm.valuesManager.getValue('remittanceDetailId').length > 1) {
 
-            foreignInvoiceTab.method.addTab(isc.InvoiceCalculation2.create({
+            let invoiceCalculation2Component = isc.InvoiceCalculation2.create({
                 contractDetailData: foreignInvoiceTab.variable.contractDetailData,
                 currency: foreignInvoiceTab.dynamicForm.valuesManager.getValue("currency"),
                 contract: foreignInvoiceTab.dynamicForm.valuesManager.getValue('contract'),
-                shipment : foreignInvoiceTab.dynamicForm.valuesManager.getValue("shipment"),
+                shipment: foreignInvoiceTab.dynamicForm.valuesManager.getValue("shipment"),
                 remittanceDetails: foreignInvoiceTab.dynamicForm.valuesManager.getValue("remittanceDetails"),
-            }), '<spring:message code="foreign-invoice.form.tab.calculation"/>');
+            });
+            foreignInvoiceTab.method.addTab(invoiceCalculation2Component, '<spring:message code="foreign-invoice.form.tab.calculation"/>');
+            invoiceCalculation2Component.okButtonClick = function addRelatedPaymentTab2() {
+
+                let invoicePaymentComponent = isc.InvoicePayment.create({
+                    currency: foreignInvoiceTab.dynamicForm.valuesManager.getValue("currency"),
+                    shipment: foreignInvoiceTab.dynamicForm.valuesManager.getValue("shipment"),
+                    contract: foreignInvoiceTab.dynamicForm.valuesManager.getValue("contract"),
+                    conversionRef: foreignInvoiceTab.dynamicForm.valuesManager.getValue('conversionRef'),
+                    invoiceBaseWeightComponent: {getValues: invoiceCalculation2Component.getBaseWeightValues},
+                    invoiceDeductionComponent: {getDeductionSubTotal: invoiceCalculation2Component.getDeductionSubTotal},
+                    invoiceCalculationComponent: {
+                        getCalculationSubTotal: function () {
+                            return invoiceCalculation2Component.getCalculationSubTotal();
+                        }
+                    }
+                });
+                foreignInvoiceTab.method.addTab(invoicePaymentComponent, '<spring:message code="foreign-invoice.form.tab.payment"/>');
+            }
         } else {
             let invoiceBaseValuesComponent = isc.InvoiceBaseValues.create({
                 currency: foreignInvoiceTab.dynamicForm.valuesManager.getValue("currency"),

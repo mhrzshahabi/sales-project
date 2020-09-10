@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +49,7 @@ public class PriceBaseService extends GenericService<com.nicico.sales.model.enti
             if(financeUnitId != groupPriceBases.get(0).getFinanceUnitId().longValue()) throw new SalesException2(ErrorType.BadRequest, "FinanceUnit","Finance unit is not match.");
 
             PriceBaseDTO.Info priceBase = modelMapper.map(groupPriceBases.get(0), PriceBaseDTO.Info.class);
-            BigDecimal groupAveragePrice = groupPriceBases.stream().map(PriceBase::getPrice).reduce(BigDecimal.ZERO, BigDecimal::add).divide(BigDecimal.valueOf(groupPriceBases.size()), RoundingMode.HALF_EVEN);
+            BigDecimal groupAveragePrice = groupPriceBases.stream().map(PriceBase::getPrice).reduce(BigDecimal.ZERO, BigDecimal::add).divide(BigDecimal.valueOf(groupPriceBases.size()), MathContext.DECIMAL32);
             priceBase.setPrice(groupAveragePrice);
             priceBase.setId(null);
 

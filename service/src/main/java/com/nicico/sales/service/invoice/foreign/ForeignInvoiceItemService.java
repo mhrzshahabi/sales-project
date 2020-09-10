@@ -28,6 +28,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -49,7 +50,6 @@ public class ForeignInvoiceItemService extends GenericService<ForeignInvoiceItem
     private static final String WEIGHT_ND = "weightND";
     private static final String WEIGHT_GW = "weightGW";
     private static final String WEIGHT_DIFF = "weightDiff";
-    private static final String SUM_PRICE = "sumPrice";
     private static final String UNIT_CONVERSION_RATE = "unitConversionRate";
 
     @Override
@@ -88,8 +88,8 @@ public class ForeignInvoiceItemService extends GenericService<ForeignInvoiceItem
         List<ForeignInvoiceItemDTO.FieldData> fields = new ArrayList<>();
 
         fields.add(new ForeignInvoiceItemDTO.FieldData(LOT_NO, "text", "Label"));
-        fields.add(new ForeignInvoiceItemDTO.FieldData(WEIGHT_ND, "float", "Net Weight", "0.###", "false"));
-        fields.add(new ForeignInvoiceItemDTO.FieldData(WEIGHT_GW, "float", "Gross Weight", "0.###", "false"));
+        fields.add(new ForeignInvoiceItemDTO.FieldData(WEIGHT_ND, "float", "Net Weight", "0.###", "false", "false"));
+        fields.add(new ForeignInvoiceItemDTO.FieldData(WEIGHT_GW, "float", "Gross Weight", "0.###", "false", "false"));
 
         Set<MaterialElementDTO.Info> materialElements = assayValues.stream().map(AssayInspectionDTO.InfoWithoutInspectionReport::getMaterialElement).collect(Collectors.toSet());
         Set<Long> materialElementIds = materialElements.stream().map(MaterialElementDTO.Info::getId).collect(Collectors.toSet());
@@ -100,18 +100,18 @@ public class ForeignInvoiceItemService extends GenericService<ForeignInvoiceItem
             if (!element.getPayable())
                 return;
 
-            fields.add(new ForeignInvoiceItemDTO.FieldData(element.getName(), "float", element.getName(), "0.###", "false"));
+            fields.add(new ForeignInvoiceItemDTO.FieldData(element.getName(), "float", element.getName(), "0.###", "false", "false"));
             Optional<ContractDiscount> contractDiscount = discountArticle.stream().filter(q -> q.getMaterialElementId().longValue() == materialElementId).findFirst();
             if (!contractDiscount.isPresent())
-                fields.add(new ForeignInvoiceItemDTO.FieldData(element.getName() + "Content", "float", element.getName() + " Content", "0.###", "false"));
+                fields.add(new ForeignInvoiceItemDTO.FieldData(element.getName() + "Content", "float", element.getName() + " Content", "0.###", "false", "false"));
             else
-                fields.add(new ForeignInvoiceItemDTO.FieldData(element.getName() + "Discount", "float", element.getName() + " Discount", "0.###", "false"));
+                fields.add(new ForeignInvoiceItemDTO.FieldData(element.getName() + "Discount", "float", element.getName() + " Discount", "0.###", "false", "false"));
         });
 
-        fields.add(new ForeignInvoiceItemDTO.FieldData(PRICE, "float", "Price", "0.##", "false"));
-        fields.add(new ForeignInvoiceItemDTO.FieldData(DISCOUNT, "float", "Discount", "0.##", "false"));
-        fields.add(new ForeignInvoiceItemDTO.FieldData(UNIT_CONVERSION_RATE, "float", "Conversion Rate", "0.###", "true"));
-        fields.add(new ForeignInvoiceItemDTO.FieldData(AMOUNT, "float", "Value Amount", "0.##", "false"));
+        fields.add(new ForeignInvoiceItemDTO.FieldData(PRICE, "float", "Price", "0.##", "false", "false"));
+        fields.add(new ForeignInvoiceItemDTO.FieldData(DISCOUNT, "float", "Discount", "0.##", "false", "false"));
+        fields.add(new ForeignInvoiceItemDTO.FieldData(UNIT_CONVERSION_RATE, "float", "Conversion Rate", "0.###", "true", "true"));
+        fields.add(new ForeignInvoiceItemDTO.FieldData(AMOUNT, "float", "Value Amount", "0.##", "false", "false"));
 
         return fields;
     }
@@ -154,7 +154,7 @@ public class ForeignInvoiceItemService extends GenericService<ForeignInvoiceItem
                         record.put(element.getName() + "Discount", contractDiscount.get().getDiscount());
                     }
                 } else {
-                    BigDecimal content = weight.getWeightND().multiply(a.getValue());
+                    BigDecimal content = weight.getWeightND().multiply(a.getValue()).divide(new BigDecimal(100), MathContext.DECIMAL32);
                     record.put(element.getName() + "Content", content);
                     price[0] = price[0].add(priceBaseDTO.getPrice().multiply(content));
                 }
@@ -163,7 +163,7 @@ public class ForeignInvoiceItemService extends GenericService<ForeignInvoiceItem
             record.put(PRICE, price[0]);
             record.put(DISCOUNT, discount[0]);
             record.put(UNIT_CONVERSION_RATE, 1);
-            record.put(AMOUNT, price[0].subtract(price[0].multiply(discount[0]).divide(new BigDecimal(100), RoundingMode.HALF_DOWN)));
+            record.put(AMOUNT, price[0].subtract(price[0].multiply(discount[0]).divide(new BigDecimal(100), MathContext.DECIMAL32)));
 
             data.add(record);
         });
