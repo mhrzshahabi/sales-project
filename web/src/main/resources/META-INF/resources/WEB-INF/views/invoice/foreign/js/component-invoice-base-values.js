@@ -12,8 +12,6 @@ isc.defineClass("InvoiceBaseValues", isc.VLayout).addProperties({
     shipment: null,
     invoiceType: null,
     remittanceDetails: null,
-    assayMilestone: null,
-    weightMilestone: null,
     contractDetailData: null,
     invoiceBasePriceComponent: null,
     invoiceBaseAssayComponent: null,
@@ -43,7 +41,6 @@ isc.defineClass("InvoiceBaseValues", isc.VLayout).addProperties({
                 this.invoiceBaseAssayComponent = isc.InvoiceBaseAssay.create({
                     shipment: This.shipment,
                     remittanceDetail: This.remittanceDetails[0],
-                    assayMilestone: This.assayMilestone
                 });
                 this.addMember(this.invoiceBaseAssayComponent);
                 this.addMember(isc.HTMLFlow.create({
@@ -55,7 +52,6 @@ isc.defineClass("InvoiceBaseValues", isc.VLayout).addProperties({
             this.invoiceBaseWeightComponent = isc.InvoiceBaseWeight.create({
                 shipment: This.shipment,
                 remittanceDetail: This.remittanceDetails[0],
-                weightMilestone: This.weightMilestone
             });
             this.addMember(this.invoiceBaseWeightComponent);
             this.addMember(isc.HTMLFlow.create({
@@ -95,6 +91,7 @@ isc.defineClass("InvoiceBaseValues", isc.VLayout).addProperties({
             width: "100%",
             contents: "<span style='width: 100%; display: block; margin: 10px auto; border-bottom: 1px solid rgba(0,0,0,0.3)'></span>"
         }));
+
     },
     okButtonClick: function () {
 
@@ -109,9 +106,22 @@ isc.defineClass("InvoiceBaseValues", isc.VLayout).addProperties({
     },
     validate: function () {
 
-        if (!this.invoiceBasePriceComponent)
-            return false;
+        let isValid = true;
+        if (!this.invoiceBasePriceComponent.validate())
+            isValid = false;
 
-        return true;
+        if (!this.invoiceBaseAssayComponent.validate())
+            isValid = false;
+
+        if (!this.invoiceBaseWeightComponent.validate())
+            isValid = false;
+
+        if (!(this.invoiceBasePriceComponent.getDataRowNo() === this.invoiceBaseAssayComponent.getDataRowNo()))
+            isValid = false;
+
+        if (!isValid)
+            isc.warn("<spring:message code='global.message.data.not.complete'/>");
+
+        return isValid;
     }
 });

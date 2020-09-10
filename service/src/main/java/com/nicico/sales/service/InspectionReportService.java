@@ -14,7 +14,6 @@ import com.nicico.sales.model.entities.base.InspectionReport;
 import com.nicico.sales.model.entities.base.WeightInspection;
 import com.nicico.sales.utility.UpdateUtil;
 import lombok.RequiredArgsConstructor;
-import org.exolab.castor.types.DateTime;
 import org.modelmapper.TypeToken;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.context.support.ResourceBundleMessageSource;
@@ -90,7 +89,15 @@ public class InspectionReportService extends GenericService<InspectionReport, Lo
         List<WeightInspectionDTO.Update> weightInspection4Update = new ArrayList<>();
         WeightInspectionDTO.Delete weightInspection4Delete = new WeightInspectionDTO.Delete();
 
-        updateUtil.fill(WeightInspection.class, inspectionReport.getWeightInspections(), WeightInspectionDTO.InfoWithoutInspectionReport.class, request.getWeightInspections(), WeightInspectionDTO.Create.class, weightInspection4Insert, WeightInspectionDTO.Update.class, weightInspection4Update, weightInspection4Delete);
+        updateUtil.fill(WeightInspection.class,
+                inspectionReport.getWeightInspections(),
+                WeightInspectionDTO.InfoWithoutInspectionReport.class,
+                request.getWeightInspections(),
+                WeightInspectionDTO.Create.class,
+                weightInspection4Insert,
+                WeightInspectionDTO.Update.class,
+                weightInspection4Update,
+                weightInspection4Delete);
 
         if (!weightInspection4Insert.isEmpty()) weightInspectionService.createAll(weightInspection4Insert);
         if (!weightInspection4Update.isEmpty()) weightInspectionService.updateAll(weightInspection4Update);
@@ -103,7 +110,15 @@ public class InspectionReportService extends GenericService<InspectionReport, Lo
         List<AssayInspectionDTO.Update> assayInspection4Update = new ArrayList<>();
         AssayInspectionDTO.Delete assayInspection4Delete = new AssayInspectionDTO.Delete();
 
-        updateUtil.fill(AssayInspection.class, inspectionReport.getAssayInspections(), AssayInspectionDTO.InfoWithoutInspectionReport.class, request.getAssayInspections(), AssayInspectionDTO.Create.class, assayInspection4Insert, AssayInspectionDTO.Update.class, assayInspection4Update, assayInspection4Delete);
+        updateUtil.fill(AssayInspection.class,
+                inspectionReport.getAssayInspections(),
+                AssayInspectionDTO.InfoWithoutInspectionReport.class,
+                request.getAssayInspections(),
+                AssayInspectionDTO.Create.class,
+                assayInspection4Insert,
+                AssayInspectionDTO.Update.class,
+                assayInspection4Update,
+                assayInspection4Delete);
 
         if (!assayInspection4Insert.isEmpty()) assayInspectionService.createAll(assayInspection4Insert);
         if (!assayInspection4Update.isEmpty()) assayInspectionService.updateAll(assayInspection4Update);

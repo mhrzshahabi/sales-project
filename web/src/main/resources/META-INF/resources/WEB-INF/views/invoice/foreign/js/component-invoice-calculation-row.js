@@ -9,7 +9,7 @@ isc.defineClass("InvoiceCalculationRow", isc.VLayout).addProperties({
     membersMargin: 2,
     assay: null,
     price: null,
-    // calculationRowData: null,
+    calculationRowData: null,
     initWidget: function () {
 
         this.Super("initWidget", arguments);
@@ -172,6 +172,7 @@ isc.defineClass("InvoiceCalculationRow", isc.VLayout).addProperties({
             width: "100%",
             members: priceMembers
         }));
+
     },
     calculate: function () {
 
@@ -206,6 +207,17 @@ isc.defineClass("InvoiceCalculationRow", isc.VLayout).addProperties({
     getBasePrice: function () {
 
         return this.getMembers().last().getMembers().filter(q => q.isBasePriceForm).first().getValue("basePrice");
+    },
+    editRowCalculation: function () {
+
+        if (this.calculationRowData) {
+            this.getMembers().filter(q => q.role === "deduction").first().setValue("deductionValue", this.calculationRowData.deductionValue);
+            this.getMembers().filter(q => q.role === "deduction").first().setValue("deductionType", this.calculationRowData.deductionType);
+            this.getMembers().filter(q => q.role === "deduction").first().getItem("deductionType").changed(this.getMembers().filter(q => q.role === "deduction").first(),
+                this.getMembers().filter(q => q.role === "deduction").first().getItem("deductionType"), this.getMembers().filter(q => q.role === "deduction").first().getItem("deductionType").getValue());
+            this.getMembers().last().getMembers().filter(q => q.isConversionForm).first().setValue("deductionUnitConversionRate", this.calculationRowData.deductionUnitConversionRate);
+            this.getMembers().last().getMembers().filter(q => q.isConversionForm).first().getItem("deductionUnitConversionRate").changed();
+        }
     },
     validate: function () {
 

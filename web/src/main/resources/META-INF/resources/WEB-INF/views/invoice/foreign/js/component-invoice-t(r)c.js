@@ -43,6 +43,7 @@ isc.defineClass("InvoiceDeduction", isc.VLayout).addProperties({
                 elementFinalAssay: calculationValues[index].assay,
                 materialElementId: calculationValues[index].materialElementId,
                 rcData: This.contractDetailData.rc.filter(q => q.elementId === calculationValues[index].elementId).first(),
+                rcDeductionRowData: This.rcDeductionData ? This.rcDeductionData.filter(q => q.materialElementId === calculationValues[index].materialElementId).first() : null,
                 sumDeductionChanged: function (sumDeduction) {
 
                     let subtotalForm = This.getMembers().filter(q => q.name === "subTotal").first();
@@ -127,6 +128,8 @@ isc.defineClass("InvoiceDeduction", isc.VLayout).addProperties({
             width: "100%",
             contents: "<span style='width: 100%; display: block; margin: 10px auto; border-bottom: 1px solid rgba(0,0,0,0.3)'></span>"
         }));
+
+        this.editDeduction();
     },
     getDeductionSubTotal: function () {
         return this.getMembers().filter(q => q.name === "subTotal").first().getValues().value;
@@ -153,6 +156,9 @@ isc.defineClass("InvoiceDeduction", isc.VLayout).addProperties({
     },
     okButtonClick: function () {
 
+    },
+    editDeduction: function () {
+        this.getMembers().filter(q => q.role === "RC").forEach(current => current.editRowDeduction());
     },
     validate: function () {
 
