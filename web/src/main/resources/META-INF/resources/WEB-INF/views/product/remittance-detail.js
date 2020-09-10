@@ -1355,6 +1355,7 @@ rdTab.Fields.RemittanceDetailFullFields = function () {
 }
 rdTab.Fields.Remittance = function () {
     return [
+        {name: 'id', hidden: true},
         {
             name: 'code', title: "شماره بیجک",
             recordDoubleClick: function (viewer, record, recordNum, field, fieldNum, value, rawValue) {
@@ -1511,8 +1512,8 @@ rdTab.RestDataSources.Remittance = {
 rdTab.RestDataSources.TozinLite = {
     fetchDataURL: "api/tozin/lite/spec-list",
     // updateDataURL: "api/remittance/",
-    fields: rdTab.Fields.TozinFull().map(_=>{
-        if(_.defaultValue) delete _.defaultValue;
+    fields: rdTab.Fields.TozinFull().map(_ => {
+        if (_.defaultValue) delete _.defaultValue;
         return _;
     })
 };
@@ -1524,7 +1525,7 @@ rdTab.RestDataSources.Depot = {
 rdTab.Grids.Remittance = {
     // ID: rdTab.Vars.Prefix + "remittance_detail_tab_list_grid",
     showFilterEditor: true,
-    canSort: false,
+    canSort: true,
     expansionFieldImageShowSelected: true,
     canExpandRecords: true,
     canExpandMultipleRecords: false,
@@ -1562,6 +1563,7 @@ rdTab.Grids.Remittance = {
     // groupByField: "remittance.code",
     dataSource: rdTab.RestDataSources.Remittance,
     autoFetchData: true,
+    sortField: "id",
     getCellCSSText(record, rowNum, colNum) {
         if (!record.remittanceDetails || !record.remittanceDetails[0]) {
             return "font-weight:bold; color:red;";
@@ -2133,8 +2135,8 @@ rdTab.Layouts.ToolStripButtons.New = isc.ToolStripButtonAdd.create({
             title: "انتخاب توزین از لجستیک",
             click() {
                 rdTab.Grids.TozinLite = isc.ListGrid.create({
-                    fields: rdTab.Fields.TozinLite().map(_=>{
-                        if(_.defaultValue)delete _.defaultValue;
+                    fields: rdTab.Fields.TozinLite().map(_ => {
+                        if (_.defaultValue) delete _.defaultValue;
                         return _;
                     }),
                     initialCriteria: {
