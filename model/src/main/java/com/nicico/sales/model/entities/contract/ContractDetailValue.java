@@ -56,9 +56,6 @@ public class ContractDetailValue extends BaseEntity {
     @Column(name = "C_VALUE")
     private String value;
 
-    @Column(name = "C_COLUMN")
-    private String column;
-
     @NotAudited
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)

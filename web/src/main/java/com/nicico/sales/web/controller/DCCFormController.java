@@ -27,9 +27,11 @@ public class DCCFormController {
     private final Environment environment;
 
     @GetMapping(value = {"/showForm/{dccTableName}/{dccTableId}"})
-    public String showDCC(ModelMap modelMap, @PathVariable String dccTableName, @PathVariable String dccTableId) {
+    public String showDCC(ModelMap modelMap, @PathVariable String dccTableName, @PathVariable String dccTableId,@RequestParam String d_record,@RequestParam String c_record) {
         modelMap.addAttribute("dccTableName", dccTableName);
         modelMap.addAttribute("dccTableId", dccTableId);
+        modelMap.addAttribute("d_record", d_record);
+        modelMap.addAttribute("c_record", c_record);
         return "base/dcc";
     }
 

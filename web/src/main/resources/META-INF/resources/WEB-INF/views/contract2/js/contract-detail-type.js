@@ -10,10 +10,11 @@ contractDetailTypeTab.window.formUtil = new nicico.FormUtil();
 
 contractDetailTypeTab.dynamicForm.fields.code = {
     name: "code",
-    width: "50%",
+    width: "100%",
     required: true,
     keyPressFilter: "^[A-Za-z0-9]",
-    title: "<spring:message code='global.code'/>"
+    title: "<spring:message code='global.code'/>",
+    valueMap: JSON.parse('${Enum_EContractDetailTypeCode}'),
 };
 contractDetailTypeTab.dynamicForm.fields.material = {
     name: "materialId",
@@ -38,16 +39,16 @@ contractDetailTypeTab.dynamicForm.fields.material = {
 };
 contractDetailTypeTab.dynamicForm.fields.titleFa = {
     name: "titleFa",
-    width: "50%",
+    width: "100%",
     required: true,
-    keyPressFilter: "^[\u0600-\u06FF\uFB8A\u067E\u0686\u06AF\u200C\u200F|0-9]",
+    keyPressFilter: "^[\u0600-\u06FF\uFB8A\u067E\u0686\u06AF\u200C\u200F|0-9|-\\s\\/]",
     title: "<spring:message code='global.title-fa'/>",
 };
 contractDetailTypeTab.dynamicForm.fields.titleEn = {
     name: "titleEn",
-    width: "50%",
+    width: "100%",
     required: true,
-    keyPressFilter: "^[A-Za-z0-9 ]",
+    keyPressFilter: "^[A-Za-z0-9-\\s\\/]",
     title: "<spring:message code='global.title-en'/>"
 };
 
@@ -238,7 +239,7 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
 
     width: "100%",
     height: "100%",
-    sortField: 1,
+    sortField: "id",
     showRowNumbers: true,
     canAutoFitFields: false,
     allowAdvancedCriteria: true,
@@ -524,13 +525,13 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
             case 'Double':
                 return {
                     type: "float",
-                    keyPressFilter: "[0-9.]"
+                    keyPressFilter: "[0-9.+-]"
                 };
             case 'Integer':
             case 'Long':
                 return {
                     type: "integer",
-                    keyPressFilter: "[0-9]"
+                    keyPressFilter: "[0-9+-]"
                 };
             case 'String':
                 return {
@@ -777,8 +778,8 @@ contractDetailTypeTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
                     allTemplates[i][contractDetailTypeTab.dynamicForm.templateFields.contractDetailTypeId.name] = data.id;
                 data.contractDetailTypeTemplates = allTemplates;
 
-                if (data.contractDetailTypeParams.length == 0 || data.contractDetailTypeTemplates == 0) {
-                    contractDetailTypeTab.dialog.say("<spring:message code='contract-detail-type.window.validation.param.template.empty.check'/>",
+                if (data.contractDetailTypeTemplates == 0) {
+                    contractDetailTypeTab.dialog.say("<spring:message code='contract-detail-type.window.validation.template.empty.check'/>",
                         "<spring:message code='global.warning'/>");
                     return;
                 }

@@ -28,4 +28,23 @@
         <dropColumn columnName="N_BASE_PRICE" tableName="TBL_FOREIGN_INVOICE_ITEM"/>
     </changeSet>
 
+    <changeSet author="MShahabi" id="1799887766554-046">
+        <addColumn tableName="TBL_FOREIGN_INVOICE_ITEM">
+            <column name="N_MILESTONE" type="number(19, 0)"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="MShahabi" id="1799887766554-047">
+        <dropColumn columnName="N_MILESTONE" tableName="TBL_FOREIGN_INVOICE_ITEM"/>
+    </changeSet>
+
+    <changeSet author="MShahabi" id="1799887766554-048">
+        <addColumn tableName="TBL_FOREIGN_INVOICE_ITEM">
+            <column name="N_ASSAY_MILESTONE" type="number(19, 0)"/>
+        </addColumn>
+        <addColumn tableName="TBL_FOREIGN_INVOICE_ITEM">
+            <column name="N_WEIGHT_MILESTONE" type="number(19, 0)"/>
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>

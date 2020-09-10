@@ -31,7 +31,7 @@ public interface IContractService2 {
 
     void deleteAll(ContractDTO2.Delete request);
 
-    TotalResponse<ContractDTO2.Info> search(NICICOCriteria request);
+    TotalResponse<ContractDTO2.ListGridInfo> refinedSearch(NICICOCriteria request);
 
     SearchDTO.SearchRs<ContractDTO2.Info> search(SearchDTO.SearchRq request);
     List<Object> getOperationalDataOfContractArticle(Long contractId, String articleCode, String articleKey);

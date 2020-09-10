@@ -1,3 +1,5 @@
+var c_record = "${SecurityUtil.hasAuthority('C_COST')}";
+var d_record = "${SecurityUtil.hasAuthority('U_COST')}";
 var RestDataSource_Shipment_CostHeader = isc.MyRestDataSource.create(
     {
         fields: [
@@ -1332,47 +1334,46 @@ var ListGrid_Cost = isc.ListGrid.create({
             }
         ],
     autoFetchData: false,
-    createRecordComponent: function (record, colNum) {
-        var fieldName = this.getFieldName(colNum);
-        if (fieldName == "editIcon") {
-            var editImg = isc.ImgButton.create(
-                {
-                    showDown: false,
-                    showRollOver: false,
-                    layoutAlign: "center",
-                    src: "pieces/16/icon_edit.png",
-                    prompt: "ویرایش",
-                    height: 16,
-                    width: 16,
-                    grid: this,
-                    click: function () {
-                        ListGrid_Cost.selectSingleRecord(record);
-                        ListGrid_Cost_edit();
-                    }
-                });
-            return editImg;
-        } else if (fieldName == "removeIcon") {
-            var removeImg = isc.ImgButton.create(
-                {
-                    showDown: false,
-                    showRollOver: false,
-                    layoutAlign: "center",
-                    src: "pieces/16/icon_delete.png",
-                    prompt: "حذف",
-                    height: 16,
-                    width: 16,
-                    grid: this,
-                    click: function () {
-                        ListGrid_Cost.selectSingleRecord(record);
-                        ListGrid_Cost_remove();
-                    }
-                });
-            return removeImg;
-        } else {
-            return null;
-        }
-    }
-
+      createRecordComponent: function (record, colNum) {
+          var fieldName = this.getFieldName(colNum);
+          if (fieldName == "editIcon" &&  d_record == "true") {
+              var editImg = isc.ImgButton.create(
+                  {
+                      showDown: false,
+                      showRollOver: false,
+                      layoutAlign: "center",
+                      src: "pieces/16/icon_edit.png",
+                      prompt: "ویرایش",
+                      height: 16,
+                      width: 16,
+                      grid: this,
+                      click: function () {
+                          ListGrid_Cost.selectSingleRecord(record);
+                          ListGrid_Cost_edit();
+                      }
+                  });
+              return editImg;
+          } else if (fieldName == "removeIcon" &&  d_record == "true") {
+              var removeImg = isc.ImgButton.create(
+                  {
+                      showDown: false,
+                      showRollOver: false,
+                      layoutAlign: "center",
+                      src: "pieces/16/icon_delete.png",
+                      prompt: "حذف",
+                      height: 16,
+                      width: 16,
+                      grid: this,
+                      click: function () {
+                          ListGrid_Cost.selectSingleRecord(record);
+                          ListGrid_Cost_remove();
+                      }
+                  });
+              return removeImg;
+          } else {
+              return null;
+          }
+      }
 });
 
 var HLayout_Cost_Grid = isc.HLayout.create({
@@ -1410,3 +1411,4 @@ isc.SectionStack.create({
     width: "100%",
     overflow: "hidden"
 });
+if(c_record != "true") ToolStripButton_Cost_Add.hide();

@@ -42,6 +42,7 @@ public class ContractAudit2 extends BaseEntity {
     private Date affectUpTo;
 
     @Column(name = "C_CONTENT", columnDefinition = "TEXT")
+    @Lob
     private String content;
 
     @Column(name = "C_DESCRIPTION", length = 4000)

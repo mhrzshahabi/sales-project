@@ -15,3 +15,4 @@ public class SalesApplication {
         SpringApplication.run(SalesApplication.class, args);
     }
 }
+    

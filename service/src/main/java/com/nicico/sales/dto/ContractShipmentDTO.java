@@ -31,6 +31,7 @@ public class ContractShipmentDTO {
     private Date automationDate;
     private Long tolorance;
     private Long contractId;
+    private Long parentId;
 
 
     @Getter

@@ -16,7 +16,7 @@ import javax.validation.constraints.NotNull;
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
 @Table(name = "TBL_FOREIGN_INVOICE_BILL_OF_LANDING")
-public class ForeignInvoiceBillOfLanding extends BaseEntity {
+public class ForeignInvoiceBillOfLading extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_FOREIGN_INVOICE_BILL_OF_LANDING")

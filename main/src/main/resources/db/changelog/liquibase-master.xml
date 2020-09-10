@@ -58,6 +58,7 @@
     <include file="classpath:/db/changelog/tbl_contract_discount.xml"/>
     <include file="classpath:/db/changelog/contract/tbl_cntr_contract.xml"/>
     <include file="classpath:/db/changelog/tbl_shipment.xml"/>
+    <include file="classpath:/db/changelog/tbl_shipment_cost_duty.xml"/>
 
 
 
@@ -73,6 +74,13 @@
     	<include file="classpath:/db/changelog/view/view_tozin_s.xml"/>
     	<include file="classpath:/db/changelog/view/view_frosh.xml"/>
     	<include file="classpath:/db/changelog/view/view_kharid.xml"/>
+
+
+
+
+
+    	<include file="classpath:/db/changelog/view/view_warh_inventory.xml"/>
+    	<include file="classpath:/db/changelog/view/view_warh_remittance_detail.xml"/>
 
 
 

@@ -27,7 +27,6 @@ public class ContractDetailValueDTO {
     private String reference;
     private String value;
     private String referenceJsonValue;
-    private String column;
     private Boolean required;
 
     private Long unitId;

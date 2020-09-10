@@ -8,6 +8,7 @@ isc.defineClass("InvoiceDeduction", isc.VLayout).addProperties({
     membersMargin: 2,
     overflow: "auto",
     currency: null,
+    rcDeductionData: null,
     contractDetailData: null,
     invoiceCalculationComponent: null,
     initWidget: function () {
@@ -128,7 +129,6 @@ isc.defineClass("InvoiceDeduction", isc.VLayout).addProperties({
         }));
     },
     getDeductionSubTotal: function () {
-        // console.log(this.getMembers());
         return this.getMembers().filter(q => q.name === "subTotal").first().getValues().value;
     },
     getValues: function () {
@@ -149,7 +149,6 @@ isc.defineClass("InvoiceDeduction", isc.VLayout).addProperties({
                 rcUnitConversionRate: current.getRCUnitConversionRate(),
             });
         });
-
         return data;
     },
     okButtonClick: function () {

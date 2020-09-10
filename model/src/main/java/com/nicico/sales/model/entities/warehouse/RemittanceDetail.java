@@ -4,6 +4,7 @@ import com.nicico.sales.model.entities.base.Unit;
 import com.nicico.sales.model.entities.common.BaseEntity;
 import lombok.*;
 import lombok.experimental.Accessors;
+import org.hibernate.annotations.Formula;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -16,6 +17,7 @@ import javax.validation.constraints.NotNull;
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
 @Table(name = "TBL_WARH_REMITTANCE_DETAIL")
+//@SecondaryTable(name = "VIEW_WARH_REMITTANCE_DETAIL")
 public class RemittanceDetail extends BaseEntity {
     //todo Article 3 molybdenum....
     @Id
@@ -93,4 +95,8 @@ public class RemittanceDetail extends BaseEntity {
     @Column(name = "N_WEIGHT")
     private Long weight;
 
+    @Formula("(select VIEW_WARH_REMITTANCE_DETAIL.calc_date from VIEW_WARH_REMITTANCE_DETAIL where VIEW_WARH_REMITTANCE_DETAIL.id = id)")
+    private String date;
+    @Formula("(select VIEW_WARH_REMITTANCE_DETAIL.input_remittance from VIEW_WARH_REMITTANCE_DETAIL where VIEW_WARH_REMITTANCE_DETAIL.id = id)")
+    private Boolean inputRemittance;
 }
