@@ -10,10 +10,11 @@ contractDetailTypeTab.window.formUtil = new nicico.FormUtil();
 
 contractDetailTypeTab.dynamicForm.fields.code = {
     name: "code",
-    width: "50%",
+    width: "100%",
     required: true,
     keyPressFilter: "^[A-Za-z0-9]",
-    title: "<spring:message code='global.code'/>"
+    title: "<spring:message code='global.code'/>",
+    valueMap: JSON.parse('${Enum_EContractDetailTypeCode}'),
 };
 contractDetailTypeTab.dynamicForm.fields.material = {
     name: "materialId",
@@ -38,14 +39,14 @@ contractDetailTypeTab.dynamicForm.fields.material = {
 };
 contractDetailTypeTab.dynamicForm.fields.titleFa = {
     name: "titleFa",
-    width: "50%",
+    width: "100%",
     required: true,
     keyPressFilter: "^[\u0600-\u06FF\uFB8A\u067E\u0686\u06AF\u200C\u200F|0-9|-\\s\\/]",
     title: "<spring:message code='global.title-fa'/>",
 };
 contractDetailTypeTab.dynamicForm.fields.titleEn = {
     name: "titleEn",
-    width: "50%",
+    width: "100%",
     required: true,
     keyPressFilter: "^[A-Za-z0-9-\\s\\/]",
     title: "<spring:message code='global.title-en'/>"
@@ -381,7 +382,7 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
                                 return;
                             }
                         }
-                        let defaultValueEditorProperties = contractDetailTypeTab.listGrid.param.getParamEditorProperties(recordType);
+                        let defaultValueEditorProperties = getFieldProperties(recordType, null);
                         if (defaultValueEditorProperties == null)
                             return;
 
@@ -402,7 +403,7 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
                         let defaultValueExtraEditorProperties = {};
                         if (recordType === 'Reference') {
                             let referenceType = record[contractDetailTypeTab.dynamicForm.paramFields.reference.name];
-                            let displayField = contractDetailTypeTab.listGrid.param.getDisplayField(referenceType);
+                            let displayField = getReferenceFields(referenceType)[1].name;
                             if (referenceType.includes('Enum')) {
                                 defaultValueExtraEditorProperties = {
                                     editorType: "SelectItem",
@@ -415,12 +416,7 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
                                     valueField: "id",
                                     displayField: displayField,
                                     pickListHeight: "300",
-                                    optionDataSource: isc.MyRestDataSource.create({
-                                        fields: BaseFormItems.concat([
-                                            {name: displayField}
-                                        ]),
-                                        fetchDataURL: "${contextPath}" + "/api/" + referenceType.toLowerCase() + "/" + "spec-list"
-                                    }),
+                                    optionDataSource: getReferenceDataSource(referenceType),
                                     pickListFields: [
                                         {name: displayField}
                                     ]
@@ -540,30 +536,6 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
                 return {
                     type: "integer"
                 };
-            default:
-                break;
-        }
-
-        return null;
-    },
-    getDisplayField: function (referenceType) {
-        switch (referenceType) {
-            case 'Bank':
-                return 'bankName';
-            case 'Contact':
-                return 'nameFA';
-            case 'Country':
-                return 'nameFa';
-            case 'Material':
-                return 'descp';
-            case 'Port':
-                return 'port';
-            case 'Unit':
-                return 'nameFA';
-            case 'RateReference':
-                return '';
-            case 'PriceBaseReference':
-                return '';
             default:
                 break;
         }

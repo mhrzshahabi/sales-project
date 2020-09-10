@@ -21,13 +21,13 @@ import java.util.List;
 public class AssayInspectionDTO {
 
     private BigDecimal value;
-    private InspectionReportMilestone mileStone;
-    private Long inspectionReportId;
-    private Long materialElementId;
     private String labName;
     private String labPlace;
     private Long shipmentId;
     private Long inventoryId;
+    private Long materialElementId;
+    private Long inspectionReportId;
+    private InspectionReportMilestone mileStone;
 
     @Getter
     @Setter

@@ -4,6 +4,17 @@ contractTab.variable.contractDetailUrl = "${contextPath}" + "/api/contract-detai
 contractTab.variable.contractDetailTypeUrl = "${contextPath}" + "/api/contract-detail-type/"
 contractTab.variable.contractDetailTypeTemplateUrl = "${contextPath}" + "/api/contract-detail-type-template/"
 
+var contractPositionDynamicForm = isc.DynamicForm.nicico.getDefault([{
+    width: "100%",
+    name: "position",
+    title: "<spring:message code='global.order'/>"
+}])
+
+contractTab.window.formUtil = new nicico.FormUtil();
+
+contractTab.window.position = isc.Window.nicico.getDefault("<spring:message code='global.order'/>", [
+    contractPositionDynamicForm
+], "400");
 //*************************************************** RESTDATASOURCES **************************************************
 
 contractTab.restDataSource.contractDetail = isc.MyRestDataSource.create({
@@ -152,8 +163,7 @@ nicico.BasicFormUtil.createDynamicForm = function (creator) {
     contractTab.dynamicForm.main = isc.DynamicForm.create({
         width: "100%",
         height: "15%",
-        align: "center",
-        titleAlign: "right",
+        titleAlign: align(),
         numCols: 8,
         margin: 10,
         canSubmit: true,
@@ -184,7 +194,7 @@ contractTab.listGrid.contractDetailType = isc.ListGrid.nicico.getDefault(
     }, {
         width: "40%",
         showResizeBar: true,
-        showFilterEditor: true,
+        showFilterEditor: false,
         showRecordComponents: true,
         setAutoFitExtraRecords: true,
         showRecordComponentsByCell: true,
@@ -205,14 +215,28 @@ contractTab.listGrid.contractDetailType = isc.ListGrid.nicico.getDefault(
                         click: function () {
                             if (contractTab.sectionStack.contract.getSectionNames().includes(record.id))
                                 return;
-                            if (record.contractDetailTypeTemplates.length == 1) {
-                                record.content = record.contractDetailTypeTemplates[0].content;
-                                contractTab.method.addSectionByContractDetailType(record);
-                            } else {
-                                contractTab.variable.contractDetailTypeTemplate.bodyWidget.getObject().setData(record.contractDetailTypeTemplates);
-                                contractTab.variable.contractDetailTypeTemplate.bodyWidget.getObject().contractDetailTypeRecord = record;
-                                contractTab.variable.contractDetailTypeTemplate.justShowForm();
-                            }
+
+                            contractPositionDynamicForm.setValue("position", "");
+                            contractTab.window.formUtil.showForm(
+                                contractTab.window.main,
+                                "<spring:message code='global.order'/>",
+                                contractPositionDynamicForm, '400');
+
+                            contractTab.window.formUtil.populateData = function (body) {
+                                return [body.getValues()];
+                            };
+
+                            contractTab.window.formUtil.okCallBack = function (data) {
+                                record.position = data[0].position;
+                                if (record.contractDetailTypeTemplates.length == 1) {
+                                    record.content = record.contractDetailTypeTemplates[0].content;
+                                    contractTab.method.addSectionByContractDetailType(record);
+                                } else {
+                                    contractTab.variable.contractDetailTypeTemplate.bodyWidget.getObject().setData(record.contractDetailTypeTemplates);
+                                    contractTab.variable.contractDetailTypeTemplate.bodyWidget.getObject().contractDetailTypeRecord = record;
+                                    contractTab.variable.contractDetailTypeTemplate.justShowForm();
+                                }
+                            };
                         }
                     });
             }
@@ -259,6 +283,7 @@ contractTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
                 contractTab.sectionStack.contract.sections.forEach(section => {
                     let contractDetailObj = {
                         contractDetailTypeId: section.name,
+                        position: section.position,
                         contractDetailTemplate: section.template,
                         id: section.contractDetailId,
                         content: generateContentFromSection(section, section.template),
@@ -406,6 +431,15 @@ contractTab.variable.contractDetailPreview.init(null, "<spring:message code='con
 contractTab.variable.contractPreview = new nicico.FormUtil();
 contractTab.variable.contractPreview.getButtonLayout = function () {
 };
+contractTab.variable.contractPreview.cancelCallBack = function () {
+    contractTab.variable.contractPreview.windowWidget.getObject().getMembers().forEach(q => {
+        try {
+            q.destroy();
+        } catch (e) {
+            console.log(e);
+        }
+    })
+};
 contractTab.variable.contractPreview.init(null, "<spring:message code='contract.window.contract.preview'/>",
     [
         isc.HTMLFlow.create({
@@ -436,7 +470,7 @@ nicico.BasicFormUtil.getDefaultBasicForm(contractTab, "api/g-contract/", (creato
         contractTab.dynamicForm.main,
         contractTab.hLayout.contractDetailHlayout,
         contractTab.hLayout.saveOrExitHlayout
-    ], "100%", 0.95 * innerHeight);
+    ], "80%", 0.8 * innerHeight);
 });
 // <c:if test = "${c_entity}">
 // @ts-ignore
@@ -530,6 +564,7 @@ contractTab.method.addSectionByContract = function (record) {
     record.contractDetails.forEach(q => {
 
         let sectionStackSectionObj = {
+            position: q.position,
             template: q.contractDetailTemplate,
             expanded: false,
             contractDetailId: q.id,
@@ -684,12 +719,13 @@ contractTab.method.addSectionByContract = function (record) {
             );
             sectionStackSectionObj.items.push(contractDetailListGrid);
         });
-        contractTab.sectionStack.contract.addSection(sectionStackSectionObj);
+        contractTab.sectionStack.contract.addSection(sectionStackSectionObj, parseInt(q.position));
     });
 };
 contractTab.method.addSectionByContractDetailType = function (record) {
 
     let sectionStackSectionObj = {
+        position: record.position,
         template: record.content,
         expanded: false,
         name: record.id,
@@ -729,6 +765,21 @@ contractTab.method.addSectionByContractDetailType = function (record) {
         field.required = param.required;
         field.unitId = param.unitId;
 
+        if (param.reference == "Incoterm") {
+            field.changed = function (form, item, value) {
+                getReferenceDataSource("IncotermRules").fetchData(
+                    {
+                        _constructor: "AdvancedCriteria",
+                        operator: "and",
+                        criteria: value
+                    },
+                    function (dsResponse, data) {
+                        contractDetailDynamicForm.getField(param.name).setHint("RULES: " + data);
+                    }
+                );
+            };
+        }
+
         if (param.unitId !== undefined) {
             getReferenceDataSource("Unit").fetchData(
                 {
@@ -739,7 +790,7 @@ contractTab.method.addSectionByContractDetailType = function (record) {
                     ]
                 },
                 function (dsResponse, data) {
-                    contractDetailDynamicForm.getField(field.name).setHint(data[0].symbolUnit);
+                    contractDetailDynamicForm.getField(param.name).setHint(data[0].symbolUnit);
                 }
             );
         }
@@ -820,8 +871,7 @@ contractTab.method.addSectionByContractDetailType = function (record) {
         })
         sectionStackSectionObj.items.push(contractDetailListGrid);
     });
-
-    contractTab.sectionStack.contract.addSection(sectionStackSectionObj);
+    contractTab.sectionStack.contract.addSection(sectionStackSectionObj, parseInt(record.position));
 };
 
 function generateContentFromSection(section, template) {

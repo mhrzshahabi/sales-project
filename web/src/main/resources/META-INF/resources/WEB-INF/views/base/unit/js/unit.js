@@ -2,11 +2,6 @@ var unitTab = new nicico.GeneralTabUtil().getDefaultJSPTabVariable();
 unitTab.dynamicForm.fields = BaseFormItems.concat([
 
     {
-        name: "id",
-        hidden: true ,
-        width: "10%",
-    },
-    {
         name: "nameFA",
         title: "<spring:message code='unit.nameFa'/>",
         required: true,

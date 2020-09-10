@@ -32,17 +32,20 @@ public class MaterialElementDTO {
         private MaterialDTO.Info material;
         private ElementDTO.Info element;
         private UnitDTO.Info unit;
-
+        private String elementName;
         // Auditing
         private Date createdDate;
         private String createdBy;
         private Date lastModifiedDate;
         private String lastModifiedBy;
         private Integer version;
-
         // BaseEntity
         private Boolean editable;
         private List<EStatus> eStatus;
+
+        public String getElementName() {
+            return this.element.getName();
+        }
     }
 
     @Getter
