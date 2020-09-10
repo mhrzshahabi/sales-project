@@ -5,10 +5,32 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
 				   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
 
-    <include file="classpath:/db/changelog/initial-definition/*.xml"/>
-    <include file="classpath:/db/changelog/initial-data/*.xml"/>
-    <include file="classpath:/db/changelog/synonyms/*.xml"/>
-    <include file="classpath:/db/changelog/changes/*.xml"/>
-    <include file="classpath:/db/changelog/view/*.xml"/>
+    <!-- INITIALIZE STRUCTURE -->
+    <include file="classpath:/db/changelog/initial-definition/liquibase-init.xml"/>
+    <!-- INITIALIZE STRUCTURE -->
+
+    <!-- INITIALIZE DATA -->
+    <include file="classpath:/db/changelog/initial-data/base-data.xml"/>
+    <!-- INITIALIZE DATA -->
+
+    <!-- SYNONYMS -->
+    <include file="classpath:/db/changelog/synonyms/logistic-data.xml"/>
+    <!-- SYNONYMS -->
+
+    <!-- CHANGES -->
+<!--    <include file="classpath:/db/changelog/changes/*.xml"/>-->
+    <!-- CHANGES -->
+
+    <!-- VIEWS -->
+    <include file="classpath:/db/changelog/view/tbl_tozin_plant.xml"/>
+    <include file="classpath:/db/changelog/view/view_frosh.xml"/>
+    <include file="classpath:/db/changelog/view/view_kharid.xml"/>
+    <include file="classpath:/db/changelog/view/view_tozin.xml"/>
+    <include file="classpath:/db/changelog/view/view_tozin_m.xml"/>
+    <include file="classpath:/db/changelog/view/view_tozin_s.xml"/>
+    <include file="classpath:/db/changelog/view/view_warh_inventory.xml"/>
+    <include file="classpath:/db/changelog/view/view_warh_remittance_detail.xml"/>
+    <include file="classpath:/db/changelog/view/view_zayeat.xml"/>
+    <!-- VIEWS -->
 
 </databaseChangeLog>
