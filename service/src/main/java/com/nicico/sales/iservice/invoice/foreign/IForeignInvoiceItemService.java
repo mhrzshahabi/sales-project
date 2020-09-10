@@ -22,7 +22,8 @@ public interface IForeignInvoiceItemService {
             Long contractId,
             // For AssayInspectionService and WeightInspectionService
             Long shipmentId,
-            InspectionReportMilestone assayMilestone, InspectionReportMilestone weightMilestone,
+            Integer assayMilestone,
+            Integer weightMilestone,
             List<Long> inventoryIds,
             // For PriceBaseService
             PriceBaseReference reference,

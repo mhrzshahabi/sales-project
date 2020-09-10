@@ -6,97 +6,98 @@ isc.defineClass("InvoiceCalculation2", isc.VLayout).addProperties({ //TestShod
     showEdges: false,
     layoutMargin: 2,
     membersMargin: 2,
-    overflow: "scroll",
+    overflow: "auto",
     contract: null,
     shipment: null,
     currency: null,
-    inventories: [],
+    remittanceDetails: null,
+    contractDetailData: null,
     initWidget: function () {
 
-        let This = this;
         this.Super("initWidget", arguments);
 
+        let This = this;
         let sendDate = new Date(This.shipment.sendDate);
+        let grid = isc.ListGrid.nicico.getDefault([]);
+        let priceArticleElement = isc.HTMLFlow.create({
+            width: "100%"
+        });
+        let priceBaseElement = isc.Label.create({
+            width: "100%"
+        });
 
-        let fields = [{
-            name: "lotNo",
-            align: "center",
-            title: "<spring:message code='global.number'/>"
-        }, {
-            align: "center",
-            name: "weightGW ",
-            title: "<spring:message code='foreign-invoice.form.weight-gw'/>"
-        }, {
-            align: "center",
-            name: "weightND ",
-            title: "<spring:message code='foreign-invoice.form.weight-nd'/>"
-        }];
+        this.addMember(isc.DynamicForm.create({
 
-        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-            params: {
-                 contractId : This.contract.id,
-                 shipmentId : This.shipment.id,
-                 reportMilestone: 1,//This.milestone
-                 inventoryIds: [This.inventories],
-                 reference :  This.contractDetailData.basePriceReference,
-                 year : sendDate.getFullYear(),
-                 month : sendDate.getMonth() + 1,
-                 financeUnitId: This.currency.id
-            },
-            httpMethod: "GET",
-            actionURL: "${contextPath}" + "/api/foreign-invoice-item/get-calculation2-data",
-            callback: function (resp) {
+            numCols: 4,
+            fields: [{
 
-                let data = JSON.parse(resp.data);
+                type: "integer",
+                name: "weightMilestone",
+                editorType: "SelectItem",
+                required: true,
+                wrapTitle: false,
+                title: "<spring:message code='inspectionReport.weight.mileStone'/>",
+                validators: [{
+                    type: "required",
+                    validateOnChange: true
+                }],
+                valueMap: JSON.parse('${Enum_MileStone}'),
+                changed: function (form, item, value) {
 
-                // for (let index = 0; index < data.materialElements.length; index++) {
-                //
-                //     if (!data.materialElements[index].element.payable)
-                //         continue;
-                //
-                //     fields.add({
-                //         name: data.materialElements[index].element.name,
-                //         border: "1px solid rgba(0, 0, 0, 0.3)",
-                //         title: data.materialElements[index].element.name + ' (' + data.materialElements[index].unit.symbolUnit + ')',
-                //     });
-                // }
+                    isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+                        params: {
+                            weightMilestone: value,
+                            contractId: This.contract.id,
+                            shipmentId: This.shipment.id,
+                            year: sendDate.getFullYear(),
+                            month: sendDate.getMonth() + 1,
+                            financeUnitId: This.currency.id,
+                            reference: This.contractDetailData.basePriceReference,
+                            inventoryIds: This.remittanceDetails.map(q => q.inventory.id),
+                            assayMilestone: form.getItem("assayMilestone").getValue()
+                        },
+                        httpMethod: "GET",
+                        actionURL: "${contextPath}" + "/api/foreign-invoice-item/get-calculation2-data",
+                        callback: function (resp) {
 
-                //criteria
-                // grid.setData(data);
-                // this.addMember(grid);
-                // this.addMember(isc.Label.create({
-                //     contents: __contract.getPriceArticleTemplate(This.contract)
-                // }));
-            }
+                            if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+
+                                let data = JSON.parse(resp.data);
+
+                                grid.setFields(data.fields);
+                                grid.setData(data.data);
+
+                                let priceBaseText = 'FINAL PRICE:';
+                                for (let i = 0; i < data.priceBase.length; i++)
+                                    priceBaseText += "<b>" + "MONTHLY AVERAGE OF " + This.contractDetailData.basePriceReference + "FOR" + (sendDate.getMonth() + 1 + This.contractDetailData.moasValue) +
+                                        "th MONTH OF " + sendDate.getFullYear() + " (MOAS" + (This.contractDetailData.moasValue === 0 ? "" : (This.contractDetailData.moasValue > 0 ? "+" : "-") + This.contractDetailData.moasValue) +
+                                        ") " + " FOR " + data.priceBase[i].element.name + "<b><br>";
+                                priceBaseElement.setContents(priceBaseText);
+                                priceArticleElement.setContents(data.priceArticleText);
+                            }
+                        }
+                    }));
+                }
+            }, {
+                type: "integer",
+                name: "assayMilestone",
+                editorType: "SelectItem",
+                required: true,
+                wrapTitle: false,
+                title: "<spring:message code='inspectionReport.assay.mileStone'/>",
+                validators: [{
+                    type: "required",
+                    validateOnChange: true
+                }],
+                valueMap: JSON.parse('${Enum_MileStone}'),
+                changed: function (form, item, value) {
+
+                }
+            }]
         }));
-        // fields.addAll([{
-        //     align: "center",
-        //     name: "deductionValue",
-        //     title: "<spring:message code='foreign-invoice.form.discount'/>"
-        // }, {
-        //     canEdit: true,
-        //     required: true,
-        //     type: "Float",
-        //     align: "center",
-        //     name: "deductionUnitConversionRate",
-        //     changed: function (form, item, value) {
-        //
-        //         let deductionPriceField = this.getField('deductionPrice');
-        //         this.setValue("subTotal", deductionPriceField.getValue() * value);
-        //     }
-        // }, {
-        //     align: "center",
-        //     name: "deductionPrice",
-        //     title: "<spring:message code='foreign-invoice.form.unit-price'/>"
-        // }, {
-        //     align: "center",
-        //     name: "subTotal",
-        //     title: "<spring:message code='foreign-invoice.form.tab.subtotal'/>"
-        // }]);
-        let grid = isc.ListGrid.nicico.getDefault(fields, null, null);
+
         this.addMember(grid);
-    },
-    getValue: function () {
-        this.getValues().sum();
+        this.addMember(priceArticleElement);
+        this.addMember(priceBaseElement);
     }
 });

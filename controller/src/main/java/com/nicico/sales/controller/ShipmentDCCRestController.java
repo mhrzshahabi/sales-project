@@ -80,7 +80,7 @@ public class ShipmentDCCRestController {
             if(dcc1 != null) {
                 Locale locale = LocaleContextHolder.getLocale();
                 String message = messageSource.getMessage("exception.invalid-file-name", null, locale);
-                throw  new SalesException2(ErrorType.Forbidden,null,message);
+                throw  new SalesException2(ErrorType.BadRequest,null,message);
             }
 
             destinationFile = new File(UPLOAD_FILE_DIR + File.separator + folder + File.separator + fileNewName);
