@@ -503,7 +503,8 @@ contractTab.menu.main.data.add({
 });
 contractTab.menu.main.initWidget();
 // </c:if>
-
+nicico.BasicFormUtil.showAllToolStripActions(contractTab);
+nicico.BasicFormUtil.removeExtraActions(contractTab, [nicico.ActionType.ACTIVATE, nicico.ActionType.DEACTIVATE]);
 //*************************************************** Functions ********************************************************
 
 contractTab.method.newForm = function () {

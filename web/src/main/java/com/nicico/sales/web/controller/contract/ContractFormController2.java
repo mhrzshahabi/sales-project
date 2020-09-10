@@ -32,9 +32,14 @@ public class ContractFormController2 {
         request.setAttribute("Enum_RateReference", objectMapper.writeValueAsString(rateReferences));
         request.setAttribute("Enum_PriceBaseReference", objectMapper.writeValueAsString(priceBaseReferences));
 
-        request.setAttribute("c_entity", SecurityUtil.hasAuthority("C_CONTRACT2"));
-        request.setAttribute("u_entity", SecurityUtil.hasAuthority("U_CONTRACT2"));
-        request.setAttribute("d_entity", SecurityUtil.hasAuthority("D_CONTRACT2"));
+        request.setAttribute("c_entity", SecurityUtil.hasAuthority("C_CONTRACT_2"));
+        request.setAttribute("u_entity", SecurityUtil.hasAuthority("U_CONTRACT_2"));
+        request.setAttribute("d_entity", SecurityUtil.hasAuthority("D_CONTRACT_2"));
+        request.setAttribute("f_entity", SecurityUtil.hasAuthority("F_CONTRACT_2"));
+        request.setAttribute("o_entity", SecurityUtil.hasAuthority("O_CONTRACT_2"));
+        request.setAttribute("a_entity", SecurityUtil.hasAuthority("A_CONTRACT_2"));
+        request.setAttribute("i_entity", SecurityUtil.hasAuthority("I_CONTRACT_2"));
+
         return "contract2/contract";
     }
 }

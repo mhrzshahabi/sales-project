@@ -1383,6 +1383,16 @@ contractTab.ToolStripButtons = {
             contractTab.listGrid.main.invalidateCache()
         }
     }),
+
+    // finalize: {
+    //     title: "<spring:message code='global.form.filter'/>",
+    //     icon: "pieces/16/icon_view.png",
+    //     click: function () {
+    //      const contract = contractTab.listGrid.main.getSelectedRecord()
+    //         contract.status = 1;
+    //
+    //     }
+    // }
 };
 contractTab.toolStrip.main.addMember(contractTab.ToolStripButtons.Addendum, 3)
 contractTab.toolStrip.main.addMember(contractTab.ToolStripButtons.filterContracts, 3)
