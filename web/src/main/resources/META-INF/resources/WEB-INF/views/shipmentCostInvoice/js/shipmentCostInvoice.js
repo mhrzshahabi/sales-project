@@ -191,6 +191,18 @@ shipmentCostInvoiceTab.restDataSource.shipmentCostInvoice = isc.MyRestDataSource
         },
         {
             name: "shipment", title: "<spring:message code='shipmentCostInvoice.shipment'/>"
+        },
+        {
+            name: "invoiceType.title", title: "<spring:message code='shipmentCostInvoice.shipment'/>"
+        },
+        {
+            name: "sellerContact.nameFA", title: "<spring:message code='shipmentCostInvoice.shipment'/>"
+        },
+        {
+            name: "buyerContact.nameFA", title: "<spring:message code='shipmentCostInvoice.shipment'/>"
+        },
+        {
+            name: "financeUnit.nameFA", title: "<spring:message code='shipmentCostInvoice.shipment'/>"
         }
     ],
     fetchDataURL: shipmentCostInvoiceTab.variable.shipmentCostInvoice + "spec-list"
@@ -762,11 +774,30 @@ shipmentCostInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
             },
         ],
         changed: function (form, item, value) {
+
+            let toDate = form.getItem("invoiceDate").getValue().duplicate();
+            toDate.setHours(23);
+            toDate.setMinutes(59);
+            toDate.setSeconds(59);
+            let fromDate = form.getItem("invoiceDate").getValue().duplicate();
+            fromDate.setHours(0);
+            fromDate.setMinutes(0);
+            fromDate.setSeconds(0);
             shipmentCostInvoiceTab.dynamicForm.shipmentPrice.getField("conversionRefId").setOptionCriteria({
                 _constructor: "AdvancedCriteria",
                 operator: "and",
                 criteria:
                     [
+                        {
+                            fieldName: "currencyDate",
+                            operator: "lessOrEqual",
+                            value: toDate.toString()
+                        },
+                        {
+                            fieldName: "currencyDate",
+                            operator: "greaterOrEqual",
+                            value: fromDate.toString()
+                        },
                         {
                             fieldName: "unitFromId",
                             operator: "equals",
@@ -781,9 +812,7 @@ shipmentCostInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
             });
             shipmentCostInvoiceTab.dynamicForm.shipmentPrice.setValue("conversionRefId", null);
             shipmentCostInvoiceTab.dynamicForm.shipmentPrice.getItem("conversionRefId").canEdit = true;
-            // shipmentCostInvoiceTab.method.updateFinanceUnit();
 
-            console.log("toFinanceUnitId ", item.getValue());
             if (shipmentCostInvoiceTab.dynamicForm.shipmentPrice.getValue("financeUnitId") === form.getItem("toFinanceUnitId").getValue()) {
                 shipmentCostInvoiceTab.dynamicForm.shipmentPrice.setValue("conversionRate", 1);
                 shipmentCostInvoiceTab.dynamicForm.shipmentPrice.getItem("conversionRefId").canEdit = false;
@@ -827,7 +856,7 @@ shipmentCostInvoiceTab.dynamicForm.shipmentPriceFields = BaseFormItems.concat([
         pickListFields: [
             {name: "id", primaryKey: true, hidden: true, title: "<spring:message code='global.id'/>"},
             {name: "reference", title: "<spring:message code='foreign-invoice.form.conversion-ref'/>"},
-            {name: "currencyDate", title: "<spring:message code='global.date'/>"},
+            {name: "currencyDate", type: "date", title: "<spring:message code='global.date'/>"},
             {name: "unitFrom.nameFA", title: "<spring:message code='global.from'/>"},
             {name: "unitTo.nameFA", title: "<spring:message code='global.to'/>"},
             {name: "currencyRateValue", title: "<spring:message code='rate.title'/>"}
@@ -1391,34 +1420,18 @@ shipmentCostInvoiceTab.listGrid.fields = BaseFormItems.concat([
     {
         name: "invoiceType.title",
         title: "<spring:message code='shipmentCostInvoice.invoiceType'/>",
-        type: 'text',
-        sortNormalizer: function (recordObject) {
-            return recordObject.invoiceType.title;
-        }
     },
     {
         name: "sellerContact.nameFA",
         title: "<spring:message code='shipmentCostInvoice.sellerContact'/>",
-        type: 'text',
-        sortNormalizer: function (recordObject) {
-            return recordObject.sellerContact.nameFA;
-        }
     },
     {
         name: "buyerContact.nameFA",
         title: "<spring:message code='shipmentCostInvoice.buyerContact'/>",
-        type: 'text',
-        sortNormalizer: function (recordObject) {
-            return recordObject.buyerContact.nameFA;
-        }
     },
     {
         name: "financeUnit.nameFA",
         title: "<spring:message code='shipmentCostInvoice.financeUnit'/>",
-        type: 'text',
-        sortNormalizer: function (recordObject) {
-            return recordObject.financeUnit.nameFA;
-        }
     },
     {
         name: "sumPrice",
@@ -1460,7 +1473,6 @@ nicico.BasicFormUtil.createListGrid = function () {
             loadOnExpand: true,
             loaded: false,
             sortField: 2,
-            fields: shipmentCostInvoiceTab.listGrid.fields,
             getExpansionComponent: function (record) {
 
                 let criteria1 = {
