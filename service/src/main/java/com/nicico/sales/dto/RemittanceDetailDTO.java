@@ -92,6 +92,13 @@ public class RemittanceDetailDTO {
     @ApiModel("RemittanceDetailInfo")
     public static class Info extends InfoWithoutRemittance {
         private RemittanceDTO.InfoWithoutRemittanceDetail remittance;
+
+        public String getInventoryLabel() {
+
+            InventoryDTO.InfoWithoutRemittanceDetail inventory = getInventory();
+            if (inventory == null) return "";
+            return inventory.getLabel();
+        }
     }
 
 
@@ -160,6 +167,8 @@ public class RemittanceDetailDTO {
         @NotNull
         private List<RemittanceDetailDTO.OutCreate> remittanceDetails;
     }
+
+
     @Getter
     @Setter
     @Accessors(chain = true)

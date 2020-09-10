@@ -5,6 +5,8 @@ import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.sales.dto.invoice.foreign.ForeignInvoiceItemDTO;
 import com.nicico.sales.iservice.invoice.foreign.IForeignInvoiceItemService;
+import com.nicico.sales.model.enumeration.InspectionReportMilestone;
+import com.nicico.sales.model.enumeration.PriceBaseReference;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -35,6 +37,13 @@ public class ForeignInvoiceItemRestController {
     public ResponseEntity<List<ForeignInvoiceItemDTO.Info>> list() {
 
         return new ResponseEntity<>(foreignInvoiceItemService.list(), HttpStatus.OK);
+    }
+
+    @Loggable
+    @GetMapping(value = "/get-calculation2-data")
+    public ResponseEntity<ForeignInvoiceItemDTO.Calc2Data> getCalculation2Data(@RequestParam Long contractId, @RequestParam Long shipmentId,  @RequestParam Integer assayMilestone,  @RequestParam Integer weightMilestone, @RequestParam List<Long> inventoryIds, @RequestParam PriceBaseReference reference, @RequestParam Integer year, @RequestParam Integer month, @RequestParam Long financeUnitId) {
+
+        return new ResponseEntity<>(foreignInvoiceItemService.getCalculation2Data(contractId, shipmentId,assayMilestone, weightMilestone, inventoryIds, reference, year, month, financeUnitId), HttpStatus.OK);
     }
 
     @Loggable
