@@ -25,10 +25,9 @@ isc.defineClass("InvoiceCalculation2", isc.VLayout).addProperties({ //TestShod
         let priceBaseElement = isc.Label.create({
             width: "100%"
         });
-
         this.addMember(isc.DynamicForm.create({
 
-            numCols: 4,
+            numCols: 6,
             fields: [{
 
                 type: "integer",
@@ -43,40 +42,6 @@ isc.defineClass("InvoiceCalculation2", isc.VLayout).addProperties({ //TestShod
                 }],
                 valueMap: JSON.parse('${Enum_MileStone}'),
                 changed: function (form, item, value) {
-
-                    isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                        params: {
-                            weightMilestone: value,
-                            contractId: This.contract.id,
-                            shipmentId: This.shipment.id,
-                            year: sendDate.getFullYear(),
-                            month: sendDate.getMonth() + 1,
-                            financeUnitId: This.currency.id,
-                            reference: This.contractDetailData.basePriceReference,
-                            inventoryIds: This.remittanceDetails.map(q => q.inventory.id),
-                            assayMilestone: form.getItem("assayMilestone").getValue()
-                        },
-                        httpMethod: "GET",
-                        actionURL: "${contextPath}" + "/api/foreign-invoice-item/get-calculation2-data",
-                        callback: function (resp) {
-
-                            if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
-
-                                let data = JSON.parse(resp.data);
-
-                                grid.setFields(data.fields);
-                                grid.setData(data.data);
-
-                                let priceBaseText = 'FINAL PRICE:';
-                                for (let i = 0; i < data.priceBase.length; i++)
-                                    priceBaseText += "<b>" + "MONTHLY AVERAGE OF " + This.contractDetailData.basePriceReference + "FOR" + (sendDate.getMonth() + 1 + This.contractDetailData.moasValue) +
-                                        "th MONTH OF " + sendDate.getFullYear() + " (MOAS" + (This.contractDetailData.moasValue === 0 ? "" : (This.contractDetailData.moasValue > 0 ? "+" : "-") + This.contractDetailData.moasValue) +
-                                        ") " + " FOR " + data.priceBase[i].element.name + "<b><br>";
-                                priceBaseElement.setContents(priceBaseText);
-                                priceArticleElement.setContents(data.priceArticleText);
-                            }
-                        }
-                    }));
                 }
             }, {
                 type: "integer",
@@ -91,9 +56,53 @@ isc.defineClass("InvoiceCalculation2", isc.VLayout).addProperties({ //TestShod
                 }],
                 valueMap: JSON.parse('${Enum_MileStone}'),
                 changed: function (form, item, value) {
-
                 }
-            }]
+            }
+                , {
+                    type: "button",
+                    wrapTitle: false,
+                    title: "<spring:message code='global.search'/>",
+                    click: function (form, item, value) {
+                        let validate = form.validate();
+                        if (!validate) return false;
+                        debugger;
+                        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+                            params: {
+                                weightMilestone: form.getItem("weightMilestone").getValue(),
+                                contractId: This.contract.id,
+                                shipmentId: This.shipment.id,
+                                year: sendDate.getFullYear(),
+                                month: sendDate.getMonth() + 1,
+                                financeUnitId: This.currency.id,
+                                reference: This.contractDetailData.basePriceReference,
+                                inventoryIds: This.remittanceDetails.map(q => q.inventory.id),
+                                assayMilestone: form.getItem("assayMilestone").getValue()
+                            },
+                            httpMethod: "GET",
+                            actionURL: "${contextPath}" + "/api/foreign-invoice-item/get-calculation2-data",
+                            callback: function (resp) {
+
+                                if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+
+                                    let data = JSON.parse(resp.data);
+
+                                    grid.setFields(data.fields);
+                                    grid.setData(data.data);
+
+                                    let priceBaseText = 'FINAL PRICE:';
+                                    for (let i = 0; i < data.priceBase.length; i++)
+                                        priceBaseText += "<b>" + "MONTHLY AVERAGE OF " + This.contractDetailData.basePriceReference + "FOR" + (sendDate.getMonth() + 1 + This.contractDetailData.moasValue) +
+                                            "th MONTH OF " + sendDate.getFullYear() + " (MOAS" + (This.contractDetailData.moasValue === 0 ? "" : (This.contractDetailData.moasValue > 0 ? "+" : "-") + This.contractDetailData.moasValue) +
+                                            ") " + " FOR " + data.priceBase[i].element.name + "<b><br>";
+                                    priceBaseElement.setContents(priceBaseText);
+                                    priceArticleElement.setContents(data.priceArticleText);
+                                }
+                            }
+                        }));
+
+                    }
+                }
+            ]
         }));
 
         this.addMember(grid);
