@@ -852,7 +852,8 @@ rdTab.Fields.TozinBase = function () {
                 keyPressFilter: "[0-9/]",
                 parseEditorValue: function (value, record, form, item) {
                     if (value === undefined || value == null || value === '') return value;
-                    return value.replace(/\//g, '').padEnd(8, "01");
+                    // return value.replace(/\//g, '').padEnd(8, "01");
+                    return value.replaceAll("/", "");
                 },
                 icons: [{
                     src: "pieces/pcal.png",
@@ -865,7 +866,8 @@ rdTab.Fields.TozinBase = function () {
             keyPressFilter: "[0-9/]",
             parseEditorValue: function (value, record, form, item) {
                 if (value === undefined || value == null || value === '') return value;
-                return value.replace(/\//g, '').padEnd(8, "01");
+                // return value.replace(/\//g, '').padEnd(8, "01");
+                return value.replaceAll("/", "");
             },
             icons: [{
                 src: "pieces/pcal.png",
@@ -973,6 +975,7 @@ rdTab.Fields.TozinBase = function () {
                 StorageUtil.save('out_remittance_defaultTargetId', value);
             },
             filterOperator: "equals",
+            editorType: "ComboBoxItem",
             valueMap: SalesBaseParameters.getSavedWarehouseParameter().getValueMap("id", "name"),
             // valueMap: {
             //     2320: 'بندر شهيد رجايي، روبروي اسكله شانزده ،محوطه فلزات آلياژي شركت تايد واتر',
@@ -1218,6 +1221,10 @@ rdTab.Fields.RemittanceDetail = function () {
         {name: "depot.id", hidden: true, title: "دپو",},
         {
             name: "unitId",
+            editorType: "ComboBoxItem",
+            filterEditorProperties: {
+                editorType: "ComboBoxItem",
+            },
             valueMap: SalesBaseParameters.getSavedUnitParameter().getValueMap('id', 'nameFA'),
             type: "number",
             title: "واحد",
@@ -1304,6 +1311,9 @@ rdTab.Fields.RemittanceDetailFullFields = function () {
         },
         {
             name: "inventory.materialItem.id",
+            filterEditorProperties: {
+                editorType: "ComboBoxItem",
+            },
             valueMap: SalesBaseParameters.getSavedMaterialItemParameter().getValueMap("id", "gdsName"),
             type: "number",
             title: "محصول",
@@ -1316,6 +1326,9 @@ rdTab.Fields.RemittanceDetailFullFields = function () {
         {
             name: "destinationTozin.sourceId",
             valueMap: SalesBaseParameters.getSavedWarehouseParameter().getValueMap("id", "name"),
+            filterEditorProperties: {
+                editorType: "ComboBoxItem",
+            },
             title: "مبدا",
             recordDoubleClick: rdTab.Methods.RecordDoubleClickRD, hidden: true,
 
@@ -1331,7 +1344,11 @@ rdTab.Fields.RemittanceDetailFullFields = function () {
         },
         {
             name: "destinationTozin.targetId",
+            editorType: "ComboBoxItem",
             valueMap: SalesBaseParameters.getSavedWarehouseParameter().getValueMap("id", "name"),
+            filterEditorProperties: {
+                editorType: "ComboBoxItem",
+            },
             title: "مقصد",
             hidden: true,
             recordDoubleClick: rdTab.Methods.RecordDoubleClickRD,
@@ -1359,19 +1376,412 @@ rdTab.Fields.Remittance = function () {
         {
             name: 'code', title: "شماره بیجک",
             recordDoubleClick: function (viewer, record, recordNum, field, fieldNum, value, rawValue) {
-                rdTab.Methods.RecordDoubleClick('api/remittance', rdTab.Fields.Remittance(), false,
+                rdTab.Methods.RecordDoubleClick('api/remittance', rdTab.Fields.Remittance().map(_ => {
+                        if (record.remittanceDetails[0] && _.name.toLowerCase() === "shipmentId".toLowerCase() &&
+                            !record.remittanceDetails[0].destinationTozin) {
+                            dbg(true, record)
+                            _.hidden = false;
+                            _.disabled = false;
+                            _.optionCriteria = {
+                                fieldName: "materialId",
+                                operator: "equals",
+                                value: record.remittanceDetails[0].inventory.materialItem.materialId
+                            }
+                        }
+
+                        return _;
+                    }), false,
                     viewer, record, recordNum, field, fieldNum, value, rawValue)
             },
             required: true,
         },
         {
+            name: 'date', title: "تاریخ بیجک",
+            recordDoubleClick: function (viewer, record, recordNum, field, fieldNum, value, rawValue) {
+                rdTab.Methods.RecordDoubleClick('api/remittance', rdTab.Fields.Remittance().filter(_ => _.name !== 'date').map(_ => {
+
+                        if (record.remittanceDetails[0] && _.name.toLowerCase() === "shipmentId".toLowerCase() &&
+                            !record.remittanceDetails[0].destinationTozin) {
+                            dbg(true, record)
+                            _.hidden = false;
+                            _.disabled = false;
+                            _.optionCriteria = {
+                                fieldName: "materialId",
+                                operator: "equals",
+                                value: record.remittanceDetails[0].inventory.materialItem.materialId
+                            }
+                        }
+
+                        return _;
+                    }), false,
+                    viewer, record, recordNum, field, fieldNum, value, rawValue)
+            },
+        },
+        {
             name: 'description', title: "شرح بیجک",
             recordDoubleClick: function (viewer, record, recordNum, field, fieldNum, value, rawValue) {
-                rdTab.Methods.RecordDoubleClick('api/remittance', rdTab.Fields.Remittance(), false,
+                rdTab.Methods.RecordDoubleClick('api/remittance', rdTab.Fields.Remittance().map(_ => {
+                        if (_.name.toLowerCase() === "shipmentId".toLowerCase()) {
+                            _.hidden = false;
+                            _.disabled = false;
+                            _.optionCriteria = {
+                                fieldName: "materialId",
+                                operator: "equals",
+                                value: record.remittanceDetails[0].inventory.materialItem.material.id
+                            }
+                        }
+
+                        return _;
+                    }), false,
                     viewer, record, recordNum, field, fieldNum, value, rawValue)
             },
         },
         {name: 'id', title: "شناسه", hidden: true},
+        {
+            name: "shipmentId",
+            recordDoubleClick: function (viewer, record, recordNum, field, fieldNum, value, rawValue) {
+                rdTab.Methods.RecordDoubleClick('api/remittance', rdTab.Fields.Remittance().map(_ => {
+                        if (_.name.toLowerCase() === "shipmentId".toLowerCase()) {
+                            _.hidden = false;
+                            _.disabled = false;
+                            _.optionCriteria = {
+                                fieldName: "materialId",
+                                operator: "equals",
+                                value: record.remittanceDetails[0].inventory.materialItem.material.id
+                            }
+                        }
+
+                        return _;
+                    }), false,
+                    viewer, record, recordNum, field, fieldNum, value, rawValue)
+            },
+            title: "<spring:message code='Shipment.title'/>",
+            disabled: true,
+            hidden: true,
+            valueField: "id",
+            pickListWidth: .7 * outerWidth,
+            pickListHeight: "500",
+            pickListProperties: {showFilterEditor: true},
+            pickListFields: [
+                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
+                {name: "contractShipmentId", hidden: true, type: 'long'},
+                {name: "contactId", type: 'long', hidden: true},
+                {
+                    name: "contact.nameFA",
+                    title: "<spring:message code='contact.name'/>",
+                    type: 'text',
+                    width: "10%",
+                    align: "center",
+                    showHover: true,
+                    sortNormalizer: function (recordObject) {
+                        return recordObject.contract.contact.nameFA
+                    }
+                },
+                {name: "contractId", type: 'long', hidden: true},
+                {
+                    name: "contractShipment.contract.no",
+                    title: "<spring:message code='contract.contractNo'/>",
+                    type: 'text',
+                    width: "10%",
+                    showHover: true,
+                    sortNormalizer: function (recordObject) {
+                        return recordObject.contract.contractNo
+                    }
+                },
+                {
+                    name: "automationLetterDate",
+                    title: "<spring:message code='shipment.bDate'/>",
+                    type: 'date',
+                    width: "10%",
+                    showHover: true,
+                    formatCellValue: (value) => {
+                        return new persianDate(value).format('YYYY/MM/DD')
+                    },
+                },
+                {
+                    name: "materialId",
+                    title: "<spring:message code='contact.name'/>",
+                    type: 'long',
+                    hidden: true,
+                    showHover: true
+                },
+                {
+                    name: "material.descl",
+                    title: "<spring:message code='material.descl'/>",
+                    type: 'text',
+                    width: "10%",
+                    align: "center",
+                    showHover: true,
+                    sortNormalizer: function (recordObject) {
+                        return recordObject.material.descl
+                    }
+                },
+                {
+                    name: "amount",
+                    title: "<spring:message code='global.amount'/>",
+                    type: 'text',
+                    width: "10%",
+                    align: "center",
+                    showHover: true
+                },
+                {
+                    name: "shipmentType.shipmentType",
+                    title: "<spring:message code='shipment.shipmentType'/>",
+                    type: 'text',
+                    width: "10%",
+                    showHover: true,
+                    required: true,
+                    validators: [
+                        {
+                            type: "required",
+                            validateOnChange: true
+                        }]
+                },
+                {
+                    name: "shipmentMethod.shipmentMethod",
+                    title: "<spring:message code='shipment.shipmentMethod'/>",
+                    type: 'text',
+                    width: "10%",
+                    showHover: true,
+                    required: true,
+                    validators: [
+                        {
+                            type: "required",
+                            validateOnChange: true
+                        }]
+                },
+                {
+                    name: "automationLetterNo",
+                    title: "<spring:message code='shipment.loadingLetter'/>",
+                    type: 'text',
+                    width: "10%",
+                    showHover: true,
+                },
+                {
+                    name: "contractShipment.sendDate",
+                    title: "<spring:message code='global.sendDate'/>",
+                    type: 'text',
+                    required: true,
+                    width: "10%",
+                    align: "center",
+                    showHover: true,
+                    validators: [
+                        {
+                            type: "required",
+                            validateOnChange: true
+                        }],
+                    sortNormalizer: function (recordObject) {
+                        return recordObject.contractShipment.sendDate
+                    }
+                },
+                {
+                    name: "createDate.date",
+                    title: "<spring:message code='global.createDate'/>",
+                    type: 'text',
+                    required: true,
+                    width: "10%",
+                    align: "center",
+                    showHover: true,
+                    validators: [
+                        {
+                            type: "required",
+                            validateOnChange: true
+                        }],
+                    formatCellValue: (value) => {
+                        return new persianDate(value).format('YYYY/MM/DD')
+                    },
+                },
+                {
+                    name: "contactAgent.nameFA",
+                    title: "<spring:message code='shipment.agent'/>",
+                    type: 'text',
+                    width: "10%",
+                    align: "center",
+                    showHover: true,
+                    sortNormalizer: function (recordObject) {
+                        return recordObject.contactAgent.nameFA
+                    }
+                },
+                {
+                    name: "vessel.name",
+                    title: "<spring:message code='shipment.vesselName'/>",
+                    type: 'text',
+                    required: true,
+                    width: "10%",
+                    showHover: true,
+                    validators: [
+                        {
+                            type: "required",
+                            validateOnChange: true
+                        }],
+                    sortNormalizer: function (recordObject) {
+                        return recordObject.vessel.name
+                    }
+                },
+
+            ],
+            optionDataSource: isc.MyRestDataSource.create({
+                fields: [
+                    {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
+                    {name: "contractShipmentId", hidden: true, type: 'long'},
+                    {name: "contactId", type: 'long', hidden: true},
+                    {
+                        name: "contact.nameFA",
+                        title: "<spring:message code='contact.name'/>",
+                        type: 'text',
+                        width: "10%",
+                        align: "center",
+                        showHover: true,
+                        sortNormalizer: function (recordObject) {
+                            return recordObject.contract.contact.nameFA
+                        }
+                    },
+                    {name: "contractId", type: 'long', hidden: true},
+                    {
+                        name: "contractShipment.contract.no",
+                        title: "<spring:message code='contract.contractNo'/>",
+                        type: 'text',
+                        width: "10%",
+                        showHover: true,
+                        sortNormalizer: function (recordObject) {
+                            return recordObject.contract.contractNo
+                        }
+                    },
+                    {
+                        name: "automationLetterDate",
+                        title: "<spring:message code='shipment.bDate'/>",
+                        type: 'date',
+                        width: "10%",
+                        showHover: true,
+                        formatCellValue: (value) => {
+                            return new persianDate(value).format('YYYY/MM/DD')
+                        },
+                    },
+                    {
+                        name: "materialId",
+                        title: "<spring:message code='contact.name'/>",
+                        type: 'long',
+                        hidden: true,
+                        showHover: true
+                    },
+                    {
+                        name: "material.descl",
+                        title: "<spring:message code='material.descl'/>",
+                        type: 'text',
+                        width: "10%",
+                        align: "center",
+                        showHover: true,
+                        sortNormalizer: function (recordObject) {
+                            return recordObject.material.descl
+                        }
+                    },
+                    {
+                        name: "amount",
+                        title: "<spring:message code='global.amount'/>",
+                        type: 'text',
+                        width: "10%",
+                        align: "center",
+                        showHover: true
+                    },
+                    {
+                        name: "shipmentType.shipmentType",
+                        title: "<spring:message code='shipment.shipmentType'/>",
+                        type: 'text',
+                        width: "10%",
+                        showHover: true,
+                        required: true,
+                        validators: [
+                            {
+                                type: "required",
+                                validateOnChange: true
+                            }]
+                    },
+                    {
+                        name: "shipmentMethod.shipmentMethod",
+                        title: "<spring:message code='shipment.shipmentMethod'/>",
+                        type: 'text',
+                        width: "10%",
+                        showHover: true,
+                        required: true,
+                        validators: [
+                            {
+                                type: "required",
+                                validateOnChange: true
+                            }]
+                    },
+                    {
+                        name: "automationLetterNo",
+                        title: "<spring:message code='shipment.loadingLetter'/>",
+                        type: 'text',
+                        width: "10%",
+                        showHover: true,
+                    },
+                    {
+                        name: "contractShipment.sendDate",
+                        title: "<spring:message code='global.sendDate'/>",
+                        type: 'text',
+                        required: true,
+                        width: "10%",
+                        align: "center",
+                        showHover: true,
+                        validators: [
+                            {
+                                type: "required",
+                                validateOnChange: true
+                            }],
+                        sortNormalizer: function (recordObject) {
+                            return recordObject.contractShipment.sendDate
+                        }
+                    },
+                    {
+                        name: "createDate.date",
+                        title: "<spring:message code='global.createDate'/>",
+                        type: 'text',
+                        required: true,
+                        width: "10%",
+                        align: "center",
+                        showHover: true,
+                        validators: [
+                            {
+                                type: "required",
+                                validateOnChange: true
+                            }],
+                        formatCellValue: (value) => {
+                            return new persianDate(value).format('YYYY/MM/DD')
+                        },
+                    },
+                    {
+                        name: "contactAgent.nameFA",
+                        title: "<spring:message code='shipment.agent'/>",
+                        type: 'text',
+                        width: "10%",
+                        align: "center",
+                        showHover: true,
+                        sortNormalizer: function (recordObject) {
+                            return recordObject.contactAgent.nameFA
+                        }
+                    },
+                    {
+                        name: "vessel.name",
+                        title: "<spring:message code='shipment.vesselName'/>",
+                        type: 'text',
+                        required: true,
+                        width: "10%",
+                        showHover: true,
+                        validators: [
+                            {
+                                type: "required",
+                                validateOnChange: true
+                            }],
+                        sortNormalizer: function (recordObject) {
+                            return recordObject.vessel.name
+                        }
+                    },
+
+                ],
+                fetchDataURL: 'api/shipment/spec-list'
+            })
+        }
     ];
 }
 rdTab.Fields.RemittanceFull = function () {
@@ -1380,18 +1790,27 @@ rdTab.Fields.RemittanceFull = function () {
         {
             name: "remittanceDetails.sourceTozin.tozinId",
             title: "توزین مبدا",
+            canSort: false,
         },
         {
             name: "remittanceDetails.inventory.materialItem.id",
             valueMap: SalesBaseParameters.getSavedMaterialItemParameter().getValueMap("id", "gdsName"),
+            filterEditorProperties: {
+                editorType: "ComboBoxItem",
+            },
+            canSort: false,
             type: "number",
             title: "محصول",
         },
         {
-            name: "remittanceDetails.destinationTozin.sourceId",
+            name: "remittanceDetails.sourceTozin.sourceId",
+            filterEditorProperties: {
+                editorType: "ComboBoxItem",
+            },
             valueMap: SalesBaseParameters.getSavedWarehouseParameter().getValueMap("id", "name"),
             title: "مبدا",
             filterOperator: "equals",
+            canSort: false,
             formatCellValue(value, record) {
                 if (value) return value;
                 else if (record.remittanceDetails[0])
@@ -1403,25 +1822,30 @@ rdTab.Fields.RemittanceFull = function () {
         },
         {
             ...rdTab.Fields.TozinBase().find(t => t.name === 'date'),
+            filterEditorProperties: {
+                editorType: "ComboBoxItem",
+            },
+            canSort: false,
             name: "remittanceDetails.sourceTozin.date",
             title: "تاریخ توزین مبدا",
 
         },
         {
             ...rdTab.Fields.TozinBase().find(t => t.name === 'date'),
+            canSort: false,
             name: "remittanceDetails.destinationTozin.date",
             title: "تاریخ توزین مقصد",
-
-
         },
         {
             name: "remittanceDetails.destinationTozin.targetId",
+            canSort: false,
             valueMap: SalesBaseParameters.getSavedWarehouseParameter().getValueMap("id", "name"),
             title: "مقصد",
             hidden: true,
         },
         {
             name: "remittanceDetails.depot.name",
+            canSort: false,
             // valueMap: SalesBaseParameters.getSavedWarehouseParameter().getValueMap("id", "name"),
             title: "دپو",
             showHover: true,
@@ -1451,6 +1875,9 @@ rdTab.Fields.Inventory = function () {
     return [
         {
             name: 'materialItemId',
+            filterEditorProperties: {
+                editorType: "ComboBoxItem",
+            },
             valueMap: SalesBaseParameters.getSavedMaterialItemParameter().getValueMap("id", "gdsName"),
             title: 'محصول',
             disabled: true,
@@ -1506,6 +1933,7 @@ rdTab.RestDataSources.RemittanceDetail = {
 };
 rdTab.RestDataSources.Remittance = {
     fetchDataURL: "api/remittance/spec-list?distinct=true&",
+    fetchDataURL: "api/remittance/spec-list",
     updateDataURL: "api/remittance/",
     fields: rdTab.Fields.RemittanceFull()
 };
@@ -1564,6 +1992,7 @@ rdTab.Grids.Remittance = {
     dataSource: rdTab.RestDataSources.Remittance,
     autoFetchData: true,
     sortField: "id",
+    fields: rdTab.Fields.RemittanceFull(),
     getCellCSSText(record, rowNum, colNum) {
         if (!record.remittanceDetails || !record.remittanceDetails[0]) {
             return "font-weight:bold; color:red;";
@@ -1678,7 +2107,7 @@ rdTab.Layouts.ToolStripButtons.New = isc.ToolStripButtonAdd.create({
         //let _addBtn;
         rdTab.DynamicForms.Forms.OutRemittance = isc.DynamicForm.create({
             numCols: 6,
-            fields: [...rdTab.Fields.Remittance(),
+            fields: [
                 {
                     name: "materialItemId",
                     title: "محصول",
@@ -1691,336 +2120,17 @@ rdTab.Layouts.ToolStripButtons.New = isc.ToolStripButtonAdd.create({
 
                         }
                     },
+                    editorType: "ComboBoxItem",
                     valueMap: rdTab.Fields.Inventory().find(i => i.name === "materialItemId").valueMap,
                 },
-                {
-                    name: "shipmentId",
-                    title: "<spring:message code='Shipment.title'/>",
-                    disabled: true,
-                    valueField: "id",
-                    pickListWidth: .7 * outerWidth,
-                    pickListHeight: "500",
-                    pickListProperties: {showFilterEditor: true},
-                    pickListFields: [
-                        {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                        {name: "contractShipmentId", hidden: true, type: 'long'},
-                        {name: "contactId", type: 'long', hidden: true},
-                        {
-                            name: "contact.nameFA",
-                            title: "<spring:message code='contact.name'/>",
-                            type: 'text',
-                            width: "10%",
-                            align: "center",
-                            showHover: true,
-                            sortNormalizer: function (recordObject) {
-                                return recordObject.contract.contact.nameFA
-                            }
-                        },
-                        {name: "contractId", type: 'long', hidden: true},
-                        {
-                            name: "contractShipment.contract.no",
-                            title: "<spring:message code='contract.contractNo'/>",
-                            type: 'text',
-                            width: "10%",
-                            showHover: true,
-                            sortNormalizer: function (recordObject) {
-                                return recordObject.contract.contractNo
-                            }
-                        },
-                        {
-                            name: "automationLetterDate",
-                            title: "<spring:message code='shipment.bDate'/>",
-                            type: 'date',
-                            width: "10%",
-                            showHover: true,
-                            formatCellValue: (value) => {
-                                return new persianDate(value).format('YYYY/MM/DD')
-                            },
-                        },
-                        {
-                            name: "materialId",
-                            title: "<spring:message code='contact.name'/>",
-                            type: 'long',
-                            hidden: true,
-                            showHover: true
-                        },
-                        {
-                            name: "material.descl",
-                            title: "<spring:message code='material.descl'/>",
-                            type: 'text',
-                            width: "10%",
-                            align: "center",
-                            showHover: true,
-                            sortNormalizer: function (recordObject) {
-                                return recordObject.material.descl
-                            }
-                        },
-                        {
-                            name: "amount",
-                            title: "<spring:message code='global.amount'/>",
-                            type: 'text',
-                            width: "10%",
-                            align: "center",
-                            showHover: true
-                        },
-                        {
-                            name: "shipmentType.shipmentType",
-                            title: "<spring:message code='shipment.shipmentType'/>",
-                            type: 'text',
-                            width: "10%",
-                            showHover: true,
-                            required: true,
-                            validators: [
-                                {
-                                    type: "required",
-                                    validateOnChange: true
-                                }]
-                        },
-                        {
-                            name: "shipmentMethod.shipmentMethod",
-                            title: "<spring:message code='shipment.shipmentMethod'/>",
-                            type: 'text',
-                            width: "10%",
-                            showHover: true,
-                            required: true,
-                            validators: [
-                                {
-                                    type: "required",
-                                    validateOnChange: true
-                                }]
-                        },
-                        {
-                            name: "automationLetterNo",
-                            title: "<spring:message code='shipment.loadingLetter'/>",
-                            type: 'text',
-                            width: "10%",
-                            showHover: true,
-                        },
-                        {
-                            name: "contractShipment.sendDate",
-                            title: "<spring:message code='global.sendDate'/>",
-                            type: 'text',
-                            required: true,
-                            width: "10%",
-                            align: "center",
-                            showHover: true,
-                            validators: [
-                                {
-                                    type: "required",
-                                    validateOnChange: true
-                                }],
-                            sortNormalizer: function (recordObject) {
-                                return recordObject.contractShipment.sendDate
-                            }
-                        },
-                        {
-                            name: "createDate.date",
-                            title: "<spring:message code='global.createDate'/>",
-                            type: 'text',
-                            required: true,
-                            width: "10%",
-                            align: "center",
-                            showHover: true,
-                            validators: [
-                                {
-                                    type: "required",
-                                    validateOnChange: true
-                                }],
-                            formatCellValue: (value) => {
-                                return new persianDate(value).format('YYYY/MM/DD')
-                            },
-                        },
-                        {
-                            name: "contactAgent.nameFA",
-                            title: "<spring:message code='shipment.agent'/>",
-                            type: 'text',
-                            width: "10%",
-                            align: "center",
-                            showHover: true,
-                            sortNormalizer: function (recordObject) {
-                                return recordObject.contactAgent.nameFA
-                            }
-                        },
-                        {
-                            name: "vessel.name",
-                            title: "<spring:message code='shipment.vesselName'/>",
-                            type: 'text',
-                            required: true,
-                            width: "10%",
-                            showHover: true,
-                            validators: [
-                                {
-                                    type: "required",
-                                    validateOnChange: true
-                                }],
-                            sortNormalizer: function (recordObject) {
-                                return recordObject.vessel.name
-                            }
-                        },
+                ...rdTab.Fields.Remittance().map(_ => {
+                    if (_.name.toLowerCase() === 'shipmentId'.toLowerCase()) {
+                        _.hidden = false;
+                        _.disabled = true;
+                    }
+                    return _;
+                }),
 
-                    ],
-                    optionDataSource: isc.MyRestDataSource.create({
-                        fields: [
-                            {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                            {name: "contractShipmentId", hidden: true, type: 'long'},
-                            {name: "contactId", type: 'long', hidden: true},
-                            {
-                                name: "contact.nameFA",
-                                title: "<spring:message code='contact.name'/>",
-                                type: 'text',
-                                width: "10%",
-                                align: "center",
-                                showHover: true,
-                                sortNormalizer: function (recordObject) {
-                                    return recordObject.contract.contact.nameFA
-                                }
-                            },
-                            {name: "contractId", type: 'long', hidden: true},
-                            {
-                                name: "contractShipment.contract.no",
-                                title: "<spring:message code='contract.contractNo'/>",
-                                type: 'text',
-                                width: "10%",
-                                showHover: true,
-                                sortNormalizer: function (recordObject) {
-                                    return recordObject.contract.contractNo
-                                }
-                            },
-                            {
-                                name: "automationLetterDate",
-                                title: "<spring:message code='shipment.bDate'/>",
-                                type: 'date',
-                                width: "10%",
-                                showHover: true,
-                                formatCellValue: (value) => {
-                                    return new persianDate(value).format('YYYY/MM/DD')
-                                },
-                            },
-                            {
-                                name: "materialId",
-                                title: "<spring:message code='contact.name'/>",
-                                type: 'long',
-                                hidden: true,
-                                showHover: true
-                            },
-                            {
-                                name: "material.descl",
-                                title: "<spring:message code='material.descl'/>",
-                                type: 'text',
-                                width: "10%",
-                                align: "center",
-                                showHover: true,
-                                sortNormalizer: function (recordObject) {
-                                    return recordObject.material.descl
-                                }
-                            },
-                            {
-                                name: "amount",
-                                title: "<spring:message code='global.amount'/>",
-                                type: 'text',
-                                width: "10%",
-                                align: "center",
-                                showHover: true
-                            },
-                            {
-                                name: "shipmentType.shipmentType",
-                                title: "<spring:message code='shipment.shipmentType'/>",
-                                type: 'text',
-                                width: "10%",
-                                showHover: true,
-                                required: true,
-                                validators: [
-                                    {
-                                        type: "required",
-                                        validateOnChange: true
-                                    }]
-                            },
-                            {
-                                name: "shipmentMethod.shipmentMethod",
-                                title: "<spring:message code='shipment.shipmentMethod'/>",
-                                type: 'text',
-                                width: "10%",
-                                showHover: true,
-                                required: true,
-                                validators: [
-                                    {
-                                        type: "required",
-                                        validateOnChange: true
-                                    }]
-                            },
-                            {
-                                name: "automationLetterNo",
-                                title: "<spring:message code='shipment.loadingLetter'/>",
-                                type: 'text',
-                                width: "10%",
-                                showHover: true,
-                            },
-                            {
-                                name: "contractShipment.sendDate",
-                                title: "<spring:message code='global.sendDate'/>",
-                                type: 'text',
-                                required: true,
-                                width: "10%",
-                                align: "center",
-                                showHover: true,
-                                validators: [
-                                    {
-                                        type: "required",
-                                        validateOnChange: true
-                                    }],
-                                sortNormalizer: function (recordObject) {
-                                    return recordObject.contractShipment.sendDate
-                                }
-                            },
-                            {
-                                name: "createDate.date",
-                                title: "<spring:message code='global.createDate'/>",
-                                type: 'text',
-                                required: true,
-                                width: "10%",
-                                align: "center",
-                                showHover: true,
-                                validators: [
-                                    {
-                                        type: "required",
-                                        validateOnChange: true
-                                    }],
-                                formatCellValue: (value) => {
-                                    return new persianDate(value).format('YYYY/MM/DD')
-                                },
-                            },
-                            {
-                                name: "contactAgent.nameFA",
-                                title: "<spring:message code='shipment.agent'/>",
-                                type: 'text',
-                                width: "10%",
-                                align: "center",
-                                showHover: true,
-                                sortNormalizer: function (recordObject) {
-                                    return recordObject.contactAgent.nameFA
-                                }
-                            },
-                            {
-                                name: "vessel.name",
-                                title: "<spring:message code='shipment.vesselName'/>",
-                                type: 'text',
-                                required: true,
-                                width: "10%",
-                                showHover: true,
-                                validators: [
-                                    {
-                                        type: "required",
-                                        validateOnChange: true
-                                    }],
-                                sortNormalizer: function (recordObject) {
-                                    return recordObject.vessel.name
-                                }
-                            },
-
-                        ],
-                        fetchDataURL: 'api/shipment/spec-list'
-                    })
-                }
 
             ]
         });
