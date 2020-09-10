@@ -410,6 +410,7 @@
         if (record == null) {
             isc.say("<spring:message code='global.grid.record.not.selected'/>");
         } else {
+            shipmentDccDynamicFormPrint.clearValues();
             shipmentDccWindow.show();
         }
     }
@@ -454,14 +455,14 @@
                 title: "<spring:message code='global.form.print.word'/>",
                 click: function () {
                     let record = ListGrid_Shipment.getSelectedRecord();
-                    if (record.shipmentType.shipmentType == "پالت" || (record.materialId ==
-                        ImportantIDs.material.COPPER_CONCENTRATES &&
-                        record.shipmentType.shipmentType.contains("انتینر")) ||
-                        (record.materialId == ImportantIDs.material.MOLYBDENUM_OXIDE &&
-                            record.shipmentType.shipmentType.contains("فله"))) {
-                        isc.say("<spring:message code='global.print.not.exist'/>");
-                        return;
-                    }
+                    <%--if (record.shipmentType.shipmentType == "پالت" || (record.materialId ==--%>
+                    <%--    ImportantIDs.material.COPPER_CONCENTRATES &&--%>
+                    <%--    record.shipmentType.shipmentType.contains("انتینر")) ||--%>
+                    <%--    (record.materialId == ImportantIDs.material.MOLYBDENUM_OXIDE &&--%>
+                    <%--        record.shipmentType.shipmentType.contains("فله"))) {--%>
+                    <%--    isc.say("<spring:message code='global.print.not.exist'/>");--%>
+                    <%--    return;--%>
+                    <%--}--%>
                     check_Shipment_Print();
                 }
             }
