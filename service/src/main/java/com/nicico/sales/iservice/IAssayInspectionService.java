@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface IAssayInspectionService extends IGenericService<AssayInspection, Long, AssayInspectionDTO.Create, AssayInspectionDTO.Info, AssayInspectionDTO.Update, AssayInspectionDTO.Delete> {
 
-    List<AssayInspectionDTO.InfoWithoutInspectionReportAndInventory> getAssayValues(Long shipmentId, InspectionReportMilestone reportMilestone, List<Long> inventoryIds);
+    List<AssayInspectionDTO.InfoWithoutInspectionReport> getAssayValues(Long shipmentId, InspectionReportMilestone reportMilestone, List<Long> inventoryIds);
 }

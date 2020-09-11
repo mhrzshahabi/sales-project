@@ -21,8 +21,8 @@ import java.math.BigDecimal;
 @Accessors(chain = true)
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
-@Table(name = "TBL_WEIGHING_INSPECTION", uniqueConstraints = @UniqueConstraint(name = "inspectionReport_inventory_UNIQUE",
-        columnNames = {"F_INSPECTION_REPORT_ID", "F_INVENTORY_ID"}))
+@Table(name = "TBL_WEIGHING_INSPECTION", uniqueConstraints = @UniqueConstraint(name = "milestone_inventory_UNIQUE",
+        columnNames = {"N_MILESTONE", "F_INVENTORY_ID"}))
 public class WeightInspection extends BaseEntity {
 
     @Id

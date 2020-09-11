@@ -45,9 +45,7 @@ public class ShipmentCostInvoiceService extends GenericService<ShipmentCostInvoi
         InvoiceTypeDTO.Info invoiceTypeDTO = invoiceTypeService.get(request.getInvoiceTypeId());
         ShipmentDTO.Info shipmentDTO = shipmentService.get(request.getShipmentId());
 
-//        request.setInvoiceNo(invoiceNoGenerator.createInvoiceNo(invoiceTypeDTO.getTitle(), calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, contractDTO.getMaterial().getAbbreviation(), contractDTO.getContractNo()));
         request.setInvoiceNo(invoiceNoGenerator.createInvoiceNo(invoiceTypeDTO.getTitle(), calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, shipmentDTO.getMaterial().getAbbreviation(), shipmentDTO.getContractShipment().getContract().getNo()));
-
         ShipmentCostInvoiceDTO.Info shipmentCostInvoiceDTO = super.create(request);
 
         request.getShipmentCostInvoiceDetails().forEach(item -> item.setShipmentCostInvoiceId(shipmentCostInvoiceDTO.getId()));
@@ -56,34 +54,6 @@ public class ShipmentCostInvoiceService extends GenericService<ShipmentCostInvoi
 
         return shipmentCostInvoiceDTO;
     }
-
-    /*@Override
-    @Action(value = ActionType.Finalize)
-    @Transactional
-    public ShipmentCostInvoiceDTO.Info finalize(Long id) {
-
-        ShipmentCostInvoiceDTO.Info shipmentCostInvoiceDTO = super.finalize(id);
-        List<EStatus> eStatus = shipmentCostInvoiceDTO.getEStatus();
-        for (int i = 0; i < eStatus.size(); i++) {
-//            if (eStatus.get(i).name.contains("Final")) {
-//            }
-        }
-        if (shipmentCostInvoiceDTO.getEStatus().contains("Final")) {
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(shipmentCostInvoiceDTO.getInvoiceDate());
-            InvoiceTypeDTO.Info invoiceTypeDTO = invoiceTypeService.get(shipmentCostInvoiceDTO.getInvoiceTypeId());
-            ContractDTO.Info contractDTO = contractService.get(shipmentCostInvoiceDTO.getContractId());
-
-            shipmentCostInvoiceDTO.setInvoiceNo(invoiceNoGenerator.createInvoiceNo(
-                    invoiceTypeDTO.getTitle(),
-                    calendar.get(Calendar.YEAR),
-                    calendar.get(Calendar.MONTH) + 1,
-                    contractDTO.getMaterial().getAbbreviation(),
-                    contractDTO.getContractNo()));
-        }
-
-        return shipmentCostInvoiceDTO;
-    }*/
 
     @Override
     @Transactional
@@ -115,7 +85,15 @@ public class ShipmentCostInvoiceService extends GenericService<ShipmentCostInvoi
         List<ShipmentCostInvoiceDetailDTO.Update> shipmentCostInvoiceDetail4Update = new ArrayList<>();
         ShipmentCostInvoiceDetailDTO.Delete shipmentCostInvoiceDetail4Delete = new ShipmentCostInvoiceDetailDTO.Delete();
 
-        updateUtil.fill(ShipmentCostInvoiceDetail.class, shipmentCostInvoice.getShipmentCostInvoiceDetails(), ShipmentCostInvoiceDetailDTO.Info.class, request.getShipmentCostInvoiceDetails(), ShipmentCostInvoiceDetailDTO.Create.class, shipmentCostInvoiceDetail4Insert, ShipmentCostInvoiceDetailDTO.Update.class, shipmentCostInvoiceDetail4Update, shipmentCostInvoiceDetail4Delete);
+        updateUtil.fill(ShipmentCostInvoiceDetail.class,
+                shipmentCostInvoice.getShipmentCostInvoiceDetails(),
+                ShipmentCostInvoiceDetailDTO.Info.class,
+                request.getShipmentCostInvoiceDetails(),
+                ShipmentCostInvoiceDetailDTO.Create.class,
+                shipmentCostInvoiceDetail4Insert,
+                ShipmentCostInvoiceDetailDTO.Update.class,
+                shipmentCostInvoiceDetail4Update,
+                shipmentCostInvoiceDetail4Delete);
 
         if (!shipmentCostInvoiceDetail4Insert.isEmpty())
             shipmentCostInvoiceDetailService.createAll(shipmentCostInvoiceDetail4Insert);

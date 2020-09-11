@@ -19,6 +19,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
@@ -45,12 +46,15 @@ public class CriteriaRefinerAspect {
         ParameterizedType superClass = (ParameterizedType) target.getClass().getGenericSuperclass();
         Class<?> entityClass = (Class<?>) superClass.getActualTypeArguments()[0];
         SearchDTO.SearchRq newRequest = createSearchRq(request);
-        if (checkCriteria(newRequest.getCriteria(), entityClass)) {
+        try {
+            if (checkCriteria(newRequest.getCriteria(), entityClass)) {
 
-            final Method searchMethod = target.getClass().getMethod("search", SearchDTO.SearchRq.class);
-            return mapSearchRs(request, (SearchDTO.SearchRs<?>) searchMethod.invoke(target, newRequest));
-        } else
+                final Method searchMethod = target.getClass().getMethod("search", SearchDTO.SearchRq.class);
+                return mapSearchRs(request, (SearchDTO.SearchRs<?>) searchMethod.invoke(target, newRequest));
+            } else throw new Throwable();
+        } catch (Throwable e) {
             return (TotalResponse<?>) proceedingJoinPoint.proceed();
+        }
     }
 
     private Field getField(String fieldName, Class<?> entityClass) {

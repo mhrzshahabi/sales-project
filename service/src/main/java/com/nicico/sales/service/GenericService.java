@@ -354,6 +354,7 @@ public abstract class GenericService<T, ID extends Serializable, C, R, U, D> imp
 
         List<EStatus> eStatus = ((BaseEntity) entity).getEStatus();
         eStatus.remove(EStatus.Final);
+        if (eStatus.size() == 0) eStatus.add(EStatus.Active);
 
         validation(entity, id);
 

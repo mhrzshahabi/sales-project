@@ -680,6 +680,35 @@ const BlTab = {
 ////////////////////////////////////////////////////////VARIABLES///////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////METHODS/////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////FIELDS//////////////////////////////////////////////////////////
+BlTab.Fields.Shipment = _ =>
+    [
+        {name: "id", primaryKey: true, canEdit: false, hidden: true},
+        {name: "contractShipment.contract.no", primaryKey: true, canEdit: false, hidden: true},
+        {name: "code", title: "<spring:message code='contact.code'/>"},
+        {name: "nameFA", title: "<spring:message code='contact.nameFa'/>"},
+        {name: "nameEN", title: "<spring:message code='contact.nameEn'/>"},
+        {name: "commertialRole"},
+        {name: "phone", title: "<spring:message code='contact.phone'/>"},
+        {name: "mobile", title: "<spring:message code='contact.mobile'/>"},
+        {
+            name: "type", title: "<spring:message code='contact.type'/>",
+            valueMap: {
+                "true": "<spring:message code='contact.type.real'/>",
+                "false": "<spring:message code='contact.type.legal'/>"
+            }
+        },
+        {name: "economicalCode", title: "<spring:message code='contact.economicalCode'/>"},
+        {
+            name: "status", title: "<spring:message code='contact.status'/>",
+            valueMap: {
+                "true": "<spring:message code='enabled'/>", "false": "<spring:message code='disabled'/>"
+            }
+        },
+        {name: "contactAccounts"},
+        {name: "country.nameFa", title: "<spring:message code='country.nameFa'/>"},
+        {name: "bookingCat", title: "<spring:message code='shipment.bookingCat'/>", align: "center"}
+    ];
+
 BlTab.Fields.Vessel = _ => [
     {name: 'id',},
     {name: 'name',},
@@ -1430,6 +1459,7 @@ BlTab.Fields.BillOfLandingSwitch = function () {
     return [
         {
             name: 'switchDocumentNo',
+            required: true,
             title: "<spring:message code='billOfLanding.document.no'/>",
         },
         {
@@ -1495,77 +1525,267 @@ BlTab.Fields.BillOfLandingSwitch = _ => [
 ]
 
  */
-BlTab.Fields.BillOfLandingWithoutSwitch = _ => [
-    {name: 'id', hidden: true,},
-    ...BlTab.Fields.BillOfLandingSwitch().map(b => {
-        b.name = b.name.toString().substr(6).replace(/^./, function (char) {
-            return char.toLowerCase();
-        });
-        return b
-    }),
-    {
-        name: 'placeOfDelivery', required: true,
-        title: "<spring:message code='billOfLanding.place.of.delivery'/>",
-    },
-    {
-        name: 'oceanVessel', hidden: true, shouldSaveValue: false,
-        title: "<spring:message code='billOfLanding.ocean.vessel'/>",
-    },
-    {
-        name: 'oceanVesselId', ...{
-            required: true,
+BlTab.Fields.BillOfLandingWithoutSwitch = _ => {
+    const shipmentOptionDataSource = _ => {
+        return {
             autoFetchData: false,
+            required: true,
             editorType: "SelectItem",
             valueField: "id",
-            displayField: "name",
-            pickListWidth: "700",
+            // displayField: "contractShipment.contract.no",
+            pickListWidth: "500",
             pickListHeight: "300",
-            optionDataSource: isc.MyRestDataSource.create({...BlTab.RestDataSources.Vessel}),
+            optionDataSource: isc.MyRestDataSource.create({
+                fields: BlTab.Fields.Shipment(),
+                fetchDataURL: "api/shipment/spec-list"
+            }),
             click: function () {
             },
             // optionCriteria: currencyInUnitCriteria,
             pickListProperties:
                 {
-                    showHover: true,
-                    autoFitWidth: true,
                     showFilterEditor: true
                 },
-            pickListFields: BlTab.Fields.Vessel(),
+            pickListFields: [
+                {
+                    name: "contractShipment.contract.no",
+                    align: "center"
+                },
+                {
+                    name: "material.descl",
+                    // align: "center"
+                },
+                {
+                    name: "material.descp",
+                    // align: "center"
+                },
+            ],
+            changed(_form, _item, _value) {
+                const shipment = _item.getSelectedRecord();
+                // dbg(true, arguments)
+                if (!shipment) return;
+                if (shipment.shipmentTypeId && !_form.getValue('shipmentTypeId'))
+                    _form.setValue('shipmentTypeId', shipment.shipmentTypeId)
+                if (shipment.shipmentMethodId
+                    // && !_form.getValue('shipmentMethodId')
+                )
+                    _form.setValue('shipmentMethodId', shipment.shipmentTypeId)
+                if (shipment.vessel && !_form.getValue('oceanVesselId'))
+                    _form.setValue('oceanVesselId', shipment.vessel.id)
+                if (shipment.dischargePortId
+                    // && !_form.getValue('portOfDischargeId')
+                )
+                    _form.setValue('portOfDischargeId', shipment.dischargePortId)
+                if (shipment.dischargePort
+                    // && !_form.getValue('placeOfDelivery')
+                )
+                    _form.setValue('placeOfDelivery', shipment.dischargePort.port)
+                if (shipment.contractShipment
+                    // && !_form.getValue('placeOfDelivery')
+                )
+                    _form.setValue('portOfLoadingId', shipment.contractShipment.loadPortId)
+
+                if (shipment.contractShipment && shipment.contractShipment.contractId)
+                    fetch('api/g-contract/' + shipment.contractShipment.contractId, {headers: SalesConfigs.httpHeaders})
+                        .then(
+                            response => {
+                                if (!response.ok) return;
+                                response.json().then(
+                                    response => {
+                                        // dbg(true,response)
+                                        if (response.contractContacts) {
+                                            const buyer = response.contractContacts.find(cc => cc.commercialRole.toLowerCase() === "Buyer".toLowerCase());
+                                            const seller = response.contractContacts.find(cc => cc.commercialRole.toLowerCase() === "seller".toLowerCase());
+                                            const agentBuyer = response.contractContacts.find(cc => cc.commercialRole.toLowerCase() === "AgentBuyer".toLowerCase());
+                                            if (buyer
+                                                // && !_form.getValue("shipperExporterId")
+                                            )
+                                                _form.setValue('shipperExporterId', buyer.contactId)
+                                            if (agentBuyer
+                                                // && !_form.getValue("consigneeId")
+                                            )
+                                                _form.setValue('consigneeId', agentBuyer.contactId)
+                                            if (seller
+                                                // && !_form.getValue("notifyPartyId")
+                                            )
+                                                _form.setValue('notifyPartyId', seller.contactId)
+
+
+                                        }
+                                    }
+                                )
+                            }
+                        )
+            },
+        }
+    }
+    const shipmentTypeOptionDataSource = _ => {
+        return {
+            autoFetchData: false,
+            required: true,
+            editorType: "SelectItem",
+            valueField: "id",
+            displayField: "shipmentType",
+            pickListWidth: "500",
+            pickListHeight: "300",
+            optionDataSource: isc.MyRestDataSource.create({
+                fields: BlTab.Fields.Shipment(),
+                fetchDataURL: "api/shipmentType/spec-list"
+            }),
+            click: function () {
+            },
+            // optionCriteria: currencyInUnitCriteria,
+            pickListProperties:
+                {
+                    showFilterEditor: true
+                },
+            pickListFields: [
+                {
+                    name: "shipmentType",
+                    align: "center"
+                }
+            ],
+        }
+    }
+    const shipmentMethodOptionDataSource = _ => {
+        return {
+            autoFetchData: false,
+            required: true,
+            editorType: "SelectItem",
+            valueField: "id",
+            displayField: "shipmentMethod",
+            pickListWidth: "500",
+            pickListHeight: "300",
+            optionDataSource: isc.MyRestDataSource.create({
+                fields: BlTab.Fields.Shipment(),
+                fetchDataURL: "api/shipmentMethod/spec-list"
+            }),
+            click: function () {
+            },
+            // optionCriteria: currencyInUnitCriteria,
+            pickListProperties:
+                {
+                    showFilterEditor: true
+                },
+            pickListFields: [
+                {
+                    name: "shipmentMethod",
+                    align: "center"
+                }
+            ],
+        }
+    }
+    return [
+        {name: 'id', hidden: true,},
+        ...BlTab.Fields.BillOfLandingSwitch().map(b => {
+            b.name = b.name.toString().substr(6).replace(/^./, function (char) {
+                return char.toLowerCase();
+            });
+            return b
+        }),
+        {
+            name: 'shipmentId',
+            ...shipmentOptionDataSource(),
+            title: "<spring:message code='Shipment.title'/>",
+            formatCellValue: function (value, record, rowNum, colNum, grid) {
+                if (record.shipment)
+                    return record.shipment.contractShipment.contract.no + " " + record.shipment.vessel.name +
+                        " " +
+                        moment(record.shipment.sendDate).format('YYYY/MM/DD');
+                return value
+            }
         },
-        title: "<spring:message code='billOfLanding.ocean.vessel'/>",
-    },
-    {
-        name: 'totalNet',
-        title: "<spring:message code='billOfLanding.total.net.weight'/>",
-    },
-    {
-        name: 'totalGross',
-        title: "<spring:message code='billOfLanding.total.gross.weight'/>",
-    },
-    {
-        name: 'totalBundles',
-        title: "<spring:message code='billOfLanding.total.bundles'/>",
-    },
-    {
-        name: 'numberOfBlCopies', required: true,
-        title: "<spring:message code='billOfLanding.copies.of.bl'/>",
-    },
-    {
-        name: 'dateOfIssue', type: "date",
-        title: "<spring:message code='billOfLanding.date.of.issue'/>",
+        {
+            name: "shipmentTypeId",
+            title: "<spring:message code='shipment.type'/>",
+            ...shipmentTypeOptionDataSource(),
+            formatCellValue: function (value, record, rowNum, colNum, grid) {
+                if (record.shipmentType)
+                    return record.shipmentType.shipmentType
+                return value
+            }
 
-    },
-    {
-        name: 'placeOfIssue', required: true,
-        title: "<spring:message code='billOfLanding.place.of.issue'/>",
-    },
-    {
-        name: 'description', colSpan: 6,
-        editorType: "textArea",
-        title: "<spring:message code='global.description'/>",
+        },
+        {
+            name: "shipmentMethodId",
+            ...shipmentMethodOptionDataSource(),
+            title: "<spring:message code='shipment.method'/>",
+            formatCellValue: function (value, record, rowNum, colNum, grid) {
+                if (record.shipmentMethod)
+                    return record.shipmentMethod.shipmentMethod
+                return value
+            }
+        },
+        {
+            name: 'placeOfDelivery', required: true,
+            title: "<spring:message code='billOfLanding.place.of.delivery'/>",
+        },
+        {
+            name: 'oceanVessel', hidden: true, shouldSaveValue: false,
+            title: "<spring:message code='billOfLanding.ocean.vessel'/>",
+        },
+        {
+            name: 'oceanVesselId', ...{
+                required: true,
+                autoFetchData: false,
+                editorType: "SelectItem",
+                valueField: "id",
+                displayField: "name",
+                pickListWidth: "700",
+                pickListHeight: "300",
+                optionDataSource: isc.MyRestDataSource.create({...BlTab.RestDataSources.Vessel}),
+                click: function () {
+                },
+                // optionCriteria: currencyInUnitCriteria,
+                pickListProperties:
+                    {
+                        showHover: true,
+                        autoFitWidth: true,
+                        showFilterEditor: true
+                    },
+                pickListFields: BlTab.Fields.Vessel(),
+            },
+            title: "<spring:message code='billOfLanding.ocean.vessel'/>",
+        },
+        {
+            name: 'totalNet',
+            keyPressFilter: "[0-9]",
+            title: "<spring:message code='billOfLanding.total.net.weight'/>",
+        },
+        {
+            name: 'totalGross',
+            keyPressFilter: "[0-9]",
+            title: "<spring:message code='billOfLanding.total.gross.weight'/>",
+        },
+        {
+            name: 'totalBundles',
+            keyPressFilter: "[0-9]",
+            title: "<spring:message code='billOfLanding.total.bundles'/>",
+        },
+        {
+            name: 'numberOfBlCopies', required: true,
+            title: "<spring:message code='billOfLanding.copies.of.bl'/>",
+            keyPressFilter: "[0-9]",
+        },
+        {
+            name: 'dateOfIssue', type: "date",
+            title: "<spring:message code='billOfLanding.date.of.issue'/>",
 
-    },
-]
+        },
+        {
+            name: 'placeOfIssue', required: true,
+            title: "<spring:message code='billOfLanding.place.of.issue'/>",
+        },
+        {
+            name: 'description', colSpan: 6,
+            editorType: "textArea",
+            title: "<spring:message code='global.description'/>",
+
+        },
+
+
+    ]
+}
 /*
 BlTab.Fields.BillOfLandingSwitch = _ => [
     {name: 'switchDocumentNo',},
@@ -1584,7 +1804,8 @@ BlTab.Fields.BillOfLandingSwitch = _ => [
  */
 BlTab.Fields.BillOfLanding = _ => [
     ...BlTab.Fields.BillOfLandingWithoutSwitch(),
-    ...BlTab.Fields.BillOfLandingSwitch()
+    ...BlTab.Fields.BillOfLandingSwitch(),
+
 ]
 BlTab.Fields.ContainerToBillOfLanding = _ => [
     {name: 'id', hidden: true,},
@@ -1666,6 +1887,10 @@ BlTab.Fields.RemittanceToBillOfLanding = _ => [
 BlTab.RestDataSources.Vessel = {
     fields: BlTab.Fields.Vessel(),
     fetchDataURL: "api/vessel/spec-list"
+}
+BlTab.RestDataSources.shipment = {
+    fields: BlTab.Fields.Shipment(),
+    fetchDataURL: "api/shipment/spec-list"
 }
 BlTab.RestDataSources.Port = {
     fields: BlTab.Fields.Port(),
@@ -1780,7 +2005,8 @@ BlTab.Grids.BillOfLanding = {
     canExpandMultipleRecords: false,
     getExpansionComponent: function (record, rowNum, colNum) {
         // gridComponents
-        const remittanceGrid = isc.ListGrid.create({
+        /***
+         const remittanceGrid = isc.ListGrid.create({
             ...BlTab.Grids.Remittance,
             showFilterEditor: false,
             gridComponents: [isc.ToolStrip.create({
@@ -1841,7 +2067,9 @@ BlTab.Grids.BillOfLanding = {
             fields: BlTab.Fields.RemittanceFull(),
             // data: record.remittances.map(r => r.remittance)
         })
+         **/
         BlTab.Grids.ContainerToBillOfLanding = isc.ListGrid.create({
+            height: 300,
             data: record.containers,
             showGridSummary: true,
             gridComponents: [isc.ToolStrip.create({
@@ -1896,14 +2124,16 @@ BlTab.Grids.BillOfLanding = {
                 "body", "summaryRow"],
             fields: BlTab.Fields.ContainerToBillOfLanding()
         });
-        // const a = new Date().getTime();
-        // dbg(false, 'before fetch',a);
-        fetch('api/remittance-to-bill-of-landing/spec-list?criteria=' + JSON.stringify({
+        return BlTab.Grids.ContainerToBillOfLanding;
+        /***
+         // const a = new Date().getTime();
+         // dbg(false, 'before fetch',a);
+         fetch('api/remittance-to-bill-of-landing/spec-list?criteria=' + JSON.stringify({
             "fieldName": "billOfLandingId",
             "operator": "equals",
             "value": record.id
         }), {headers: SalesConfigs.httpHeaders}).then(
-            r => r.json().then(j => {
+         r => r.json().then(j => {
                 // dbg(false, 'after fetched',new Date().getTime() - a);
                 remittanceGrid.setData(j.response.data.map(d => {
                     d.remittance.deleteId = d.id;
@@ -1911,9 +2141,9 @@ BlTab.Grids.BillOfLanding = {
                 }));
 
             })
-        )
-        // dbg(false, 'after fetch',new Date().getTime() - a);
-        return isc.TabSet.create({
+         )
+         // dbg(false, 'after fetch',new Date().getTime() - a);
+         return isc.TabSet.create({
             /*
             tabSelected(tabSet, tabNum, tabPane, ID, tab, name) {
                 dbg(false, `BlTab.Layouts.ToolStripButtons.new.click = _ => {
@@ -1925,7 +2155,7 @@ isc.Window.create({
     members: [
         isc.TabSet.create`, arguments)
             },
-             */
+
             height: .3 * innerHeight,
             width: "100%",
             tabs: [
@@ -1939,6 +2169,8 @@ isc.Window.create({
                 }
             ]
         })
+
+         ****/
     },
     showHover: true,
     rotateHeaderTitles: true,
@@ -2011,7 +2243,8 @@ BlTab.Layouts.ToolStripButtons.NewBillOfLanding.click = _ => {
         BlTab.Methods.Save(BlTab.Vars.BillOfLanding.getValues(), 'api/bill-of-landing').then(function () {
             dbg(false, `BlTab.Methods.Save(BlTab.Vars.BillOfLanding.getValues(), 
                         'api/bill-of-landing').then(function () {`, arguments)
-            window[windID].destroy();
+            // window[windID].destroy();
+            BlTab.Vars.BillOfLanding.clearValues();
         })
     }, windID)
     BlTab.Layouts.ToolStrips.BillOfLandingForm.addMember(
@@ -2080,7 +2313,7 @@ BlTab.Layouts.ToolStripButtons.NewBillOfLanding.click = _ => {
 
 }
 BlTab.Layouts.ToolStripButtons.EditBillOfLanding.click = _ => {
-    BlTab.Grids.BillOfLanding.recordDoubleClick(BlTab.Grids.BillOfLanding, BlTab.Grids.BillOfLanding.getSelectedRecord())
+    BlTab.Grids.BillOfLanding.recordDoubleClick(BlTab.Grids.BillOfLanding, BlTab.Grids.BillOfLanding.obj.getSelectedRecord())
 }
 BlTab.Layouts.ToolStripButtons.new.click = BlTab.Layouts.ToolStripButtons.NewBillOfLanding.click
 BlTab.Layouts.ToolStripButtons.edit.click = BlTab.Layouts.ToolStripButtons.EditBillOfLanding.click

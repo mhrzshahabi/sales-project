@@ -17,11 +17,12 @@ async function getAccessToken(user = "user", password = "password") {
     return json['access_token'];
 }
 
-
 const crTab = {
     Logs: [],
     Vars: {
         Debug: false,
+        shamsiDate: "(1[3,4][0-9]{2}\/([0][0-9]|[1][0,1,2])\/([0][0-9]|[1,2][0-9]|30|31))|" +
+            "(1[3-4][0-9]{2}(0[1-9]|1[0-2])(0[0-9]|[1,2][0-9]|30|31))",
         Prefix: "bill_of_landing_detail_tab" + Math.random().toString().substr(-6),
         Url: SalesConfigs.Urls.remittanceRest,
         Urls: {},
@@ -701,7 +702,7 @@ crTab.Methods.getFirstDayOfSeason = () => {
     const firstMonthOfThisSeason = Number(((today.month() - 1) / 3).toFixed(1).substr(0, 1)) * 3 + 1
     return today.year().toString() + "/" + firstMonthOfThisSeason.toString().padStart(2, "0") + "/01"
 }
-crTab.Methods.UpdateInputOutputCharts = function() {
+crTab.Methods.UpdateInputOutputCharts = function () {
     crTab.Grids.RemittanceDetail.fetchData({
         _constructor: "AdvancedCriteria",
         operator: 'and',
@@ -718,37 +719,53 @@ crTab.Methods.UpdateInputOutputCharts = function() {
             },
         ]
     })
-    fetch('api/remittance-detail/spec-list/?criteria=' + JSON.stringify(
+    const fromYear = Number(crTab.DynamicForms.ChartDate.getValue('fromDate').replaceAll("/", "").substr(0, 4));
+    const fromMonth = Number(crTab.DynamicForms.ChartDate.getValue('fromDate').replaceAll("/", "").substr(4, 2));
+    const toYear = Number(crTab.DynamicForms.ChartDate.getValue('toDate').replaceAll("/", "").substr(0, 4));
+    const toMonth = Number(crTab.DynamicForms.ChartDate.getValue('toDate').replaceAll("/", "").substr(0, 2));
+    const _facet = fromYear - toYear !== 0 ? {
+        id: "year",
+        title: "ماه"
+    } : (toMonth - fromMonth > 0 ? {
+        id: "month",
+        title: "سال"
+    } : {
+        id: "day",
+        title: "روز"
+    })
+    // dbg(true,_facet)
+    const criteriaStr = [
         {
-            _constructor: "AdvancedCriteria",
-            operator: "and",
-            criteria:
-                [
-                    {
-                        fieldName: "date",
-                        operator: "lessOrEqual",
-                        value: crTab.DynamicForms.ChartDate.getValue('toDate').replaceAll("/","")
-                    },
-                    {
-                        fieldName: "date",
-                        operator: "greaterOrEqual",
-                        value: crTab.DynamicForms.ChartDate.getValue('fromDate').replaceAll("/","")
+            fieldName: "date",
+            operator: "lessOrEqual",
+            value: crTab.DynamicForms.ChartDate.getValue('toDate').replaceAll("/", "")
+        },
+        {
+            fieldName: "date",
+            operator: "greaterOrEqual",
+            value: crTab.DynamicForms.ChartDate.getValue('fromDate').replaceAll("/", "")
 
-                    },]
-        }), {headers: SalesConfigs.httpHeaders}).then(r => {
+        },
+    ].map(_ => JSON.stringify(_)).join("&criteria=")
+    fetch('api/remittance-detail/spec-list/?operator=and&criteria=' + criteriaStr
+        , {headers: SalesConfigs.httpHeaders}).then(r => {
         if (r.ok) {
             r.json().then(
                 j => {
 
                     const dataCame = j.response.data.filter(_ => _.destinationTozin).map(_ => {
                         _.material = _.inventory.materialItem.gdsName;
-                        _.month = _.date.toString().substr(4, 2)
+                        _.day = _.date.toString().substr(6, 2);
+                        _.month = _.date.toString().substr(4, 2);
+                        _.year = _.date.toString().substr(0, 4);
                         return _;
 
                     })
                     const dataWent = j.response.data.filter(_ => !_.destinationTozin).map(_ => {
                         _.material = _.inventory.materialItem.gdsName;
-                        _.month = _.date.toString().substr(4, 2)
+                        _.day = _.date.toString().substr(6, 2);
+                        _.month = _.date.toString().substr(4, 2);
+                        _.year = _.date.toString().substr(0, 4);
                         return _;
 
                     })
@@ -760,14 +777,11 @@ crTab.Methods.UpdateInputOutputCharts = function() {
                                     facets: [{
                                         id: "material",    // the key used for this facet in the data above
                                         title: "محصول"  // the user-visible title you want in the chart
-                                    }, {
-                                        id: "month",
-                                        title: "ماه"
-                                    }],
+                                    }, _facet],
                                     data: dataCame,        // a reference to our data above
-                                    valueProperty: "amount", // the property in our data that is the numerical value to chart
+                                    valueProperty: "weight", // the property in our data that is the numerical value to chart
                                     chartType: "Pie",
-                                    title: "آمار ورودی انبار از "+
+                                    title: "آمار ورودی انبار از " +
                                         crTab.DynamicForms.ChartDate.getValue('fromDate') +
                                         'تا ' +
                                         crTab.DynamicForms.ChartDate.getValue('toDate'), // a title for the chart as a whole
@@ -781,15 +795,12 @@ crTab.Methods.UpdateInputOutputCharts = function() {
                                     facets: [{
                                         id: "material",    // the key used for this facet in the data above
                                         title: "محصول"  // the user-visible title you want in the chart
-                                    }, {
-                                        id: "month",
-                                        title: "ماه"
-                                    }],
+                                    }, _facet],
                                     data: dataWent,        // a reference to our data above
-                                    valueProperty: "amount", // the property in our data that is the numerical value to chart
+                                    valueProperty: "weight", // the property in our data that is the numerical value to chart
                                     chartType: "Pie",
-                                    title: "آمار خروجی انبار از "+
-                                    crTab.DynamicForms.ChartDate.getValue('fromDate') +
+                                    title: "آمار خروجی انبار از " +
+                                        crTab.DynamicForms.ChartDate.getValue('fromDate') +
                                         'تا ' +
                                         crTab.DynamicForms.ChartDate.getValue('toDate'), // a title for the chart as a whole
                                     showInlineLabels: true,
@@ -810,9 +821,58 @@ crTab.Methods.UpdateInputOutputCharts = function() {
         }
     })
 }
+crTab.Methods.makeRemittanceDetailExcel = async function (options = {}) {
+    const args = {
+        ...{
+            criteria: {
+                operator: "and", criteria: [{fieldName: "inventory.materialItemId", operator: "equals", value: 3},
+                    {fieldName: "inventory.weight", operator: "greaterOrEqual", value: 1}]
+            },
+            rows: crTab.Grids.RemittanceDetail.getOriginalData().localdata,
+            topRowTitle: "محصولات موجود در انبار",
+            nicicoCriteria: null,
+            header: crTab.Fields.RemittanceDetailFullFields().map(_ => {
+                return _.title ? _.title : _.name
+            }),
+            fields: crTab.Fields.RemittanceDetailFullFields().map(_ => _.name),
+            doesNotNeedFetch: false,
+            fileName: 'anbar'
+        },
+        ...options
+    }
+    const dialog = isc.Dialog.create({title: "", message: "<spring:message code='global.please.wait'/>"})
+    const response = await fetch('remittance-detail/excel?_constructor=AdvancedCriteria&operator='
+        + args.criteria.operator + "&" +
+        args.criteria.criteria.map(_ => "criteria=" + JSON.stringify(_)).join('&'),
+        {
+            headers: SalesConfigs.httpHeaders,
+            method: "POST", body: JSON.stringify({
 
+                rows: args.rows,
+                topRowTitle: args.topRowTitle,
+                nicicoCriteria: args.nicicoCriteria,
+                header: args.header,
+                fields: args.fields,
+                doesNotNeedFetch: args.doesNotNeedFetch
+
+            })
+        })
+    if (response.ok) {
+        dialog.destroy();
+        const b = await response.blob();
+        const excelUrl = URL.createObjectURL(b);
+        const a = document.createElement('a');
+        a.href = excelUrl;
+        a.setAttribute('download', args.fileName + ".xlsx")
+        a.click()
+    } else {
+        dialog.destroy();
+        const err = await response.json();
+        isc.warn(" \nمشکلی پیش آمد" + JSON.stringify(err))
+    }
+}
 ////////////////////////////////////////////////////////FIELDS//////////////////////////////////////////////////////////
-crTab.Fields.RemittanceDetail = _ => [
+crTab.Fields.RemittanceDetailGrid = _ => [
     {
         name: "date", hidden: true, type: "text",
         filterEditorProperties: {
@@ -861,10 +921,429 @@ crTab.Fields.RemittanceDetail = _ => [
         hidden: true
     },
 ]
+crTab.Fields.TozinBase = function () {
+    return [
+        {
+            name: "date",
+            required: true,
+            type: "text",
+        },
+        {
+            name: "tozinId",
+            title: "<spring:message code='Tozin.tozinPlantId'/>"
+        },
+        {
+            name: "driverName",
+            title: "<spring:message code='Tozin.driver'/>"
+        },
+        {
+            name: "codeKala",
+        },
+        {
+            name: "plak",
+            title: "<spring:message code='Tozin.plak.container'/>",
+        },
+        {
+            name: "vazn",
+            title: "<spring:message code='Tozin.vazn'/>",
+        },
+        {
+            name: "sourceId",
+            title: "<spring:message code='Tozin.sourceId'/>",
+        },
+        {
+            name: "targetId",
+            title: "<spring:message code='Tozin.targetId'/>",
+        },
+    ];
+}
+crTab.Fields.TozinTable = function () {
+    return [
+        ...crTab.Fields.TozinBase(),
+        {
+            name: 'isInView',
+            title: "اطلاعات از لجستیک",
+        },
+        {name: 'haveCode', hidden: true},
+        {name: 'cardId', hidden: true},
+        {name: 'ctrlDescOut', title: "شرح"},
+        {name: 'version', hidden: true},
+    ];
+}
+crTab.Fields.TozinLite = function () {
+    return [
+        ...crTab.Fields.TozinBase(),
+        {
+            name: "containerNo1",
+            title: "<spring:message code='Tozin.containerNo1'/>",
+        },
+        {
+            name: "containerNo3", hidden: true,
+            title: "<spring:message code='Tozin.containerNo3'/> - نوع حمل",
+        },
+        {
+            name: "havalehCode", hidden: true,
+            title: "<spring:message code='Tozin.haveCode'/>",
+        },
+    ];
+}
+crTab.Fields.TozinFull = function () {
+    return [
+        ...crTab.Fields.TozinLite(),
+        {
+            name: "source",
+            title: "<spring:message code='Tozin.source'/>",
+
+        },
+        {
+            name: "nameKala",
+            title: "<spring:message code='Tozin.nameKala'/>",
+
+        },
+        {
+            name: "target",
+            title: "<spring:message code='Tozin.target'/>",
+
+        },
+        {
+            name: "cardId",
+            title: "<spring:message code='Tozin.cardId'/>",
+        },
+        {
+            name: "carName",
+            title: "<spring:message code='Tozin.carName'/>",
+        },
+        {
+            name: "containerId",
+            title: "<spring:message code='Tozin.containerId'/>",
+
+        },
+        {
+            name: "containerName",
+            title: "<spring:message code='Tozin.containerName'/>",
+        },
+        {
+            name: "vazn1",
+            title: "<spring:message code='Tozin.vazn1'/>",
+        },
+        {
+            name: "vazn2",
+            title: "<spring:message code='Tozin.vazn2'/>",
+        },
+        {
+            name: "condition",
+            title: "<spring:message code='Tozin.condition'/>",
+        },
+        {
+            name: "tedad",
+            title: "<spring:message code='Tozin.tedad'/>",
+        },
+        {
+            name: "unitKala",
+            title: "<spring:message code='Tozin.unitKala'/>",
+        },
+        {
+            name: "packName",
+            title: "<spring:message code='Tozin.packName'/>",
+        },
+        {
+            name: "haveCode",
+            title: "<spring:message code='Tozin.haveCode'/>",
+        },
+        {
+            name: "tozinDate",
+            showHover: true,
+        },
+        {
+            name: "tozinTime",
+            title: "<spring:message code='Tozin.tozinTime'/>",
+        },
+        {
+            name: "havalehName",
+            title: "<spring:message code='Tozin.havalehName'/>",
+            align: "center"
+        },
+        {
+            name: "havalehFrom",
+            title: "<spring:message code='Tozin.havalehFrom'/>",
+            align: "center"
+        },
+        {
+            name: "carNo1",
+            title: "<spring:message code='Tozin.carNo1'/>",
+            align: "center"
+        },
+        {
+            name: "carNo3",
+            title: "<spring:message code='Tozin.carNo3'/>",
+            align: "center"
+        },
+        {
+            name: "isFinal",
+            title: "<spring:message code='Tozin.isFinal'/>",
+            align: "center"
+        },
+        {
+            name: "ctrlDescOut",
+            title: "<spring:message code='Tozin.isFinal'/>",
+            align: "center"
+        },
+        {
+            name: "tznSharh2",
+            title: "<spring:message code='Tozin.isFinal'/>",
+            align: "center"
+        }, {
+            name: "strSharh2",
+            title: "<spring:message code='Tozin.isFinal'/>",
+            align: "center"
+        }, {
+            name: "tznSharh1",
+            title: "<spring:message code='Tozin.isFinal'/>",
+            align: "center"
+        },
+
+        {
+            name: "havalehDate",
+            title: "<spring:message code='Tozin.havalehDate'/>",
+            align: "center"
+        },
+
+
+    ];
+}
+crTab.Fields.RemittanceDetail = function () {
+    return [
+        {name: "id", hidden: true, type: "number"},
+        {
+            name: "remittanceId", hidden: true,
+        },
+        {name: "depot.id", hidden: true, title: "دپو",},
+        {
+            name: "unitId",
+            type: "number",
+            title: "واحد",
+        },
+        {
+            name: "amount",
+            title: "تعداد محصول",
+
+
+        },
+        {
+            name: "weight",
+            title: "وزن",
+
+
+        },
+        {
+            name: "sourceTozin.tozinId",
+            title: "توزین مبدا",
+
+        },
+        {
+            name: "destinationTozin.tozinId",
+            title: "توزین مقصد",
+
+
+        },
+        {
+            name: "securityPolompNo",
+            title: "پلمپ حراست",
+
+
+        },
+        {
+            name: "railPolompNo",
+            title: "پلمپ راه‌آهن",
+
+
+        },
+        {
+            name: "description",
+            title: "توضیحات پکیج",
+
+
+        },
+    ];
+}
+crTab.Fields.RemittanceDetailFullFields = function () {
+    return [
+
+        {
+            name: "inventory.label",
+            title: "سریال محصول",
+        },
+        {
+            name: "inventory.materialItem.id",
+            type: "number",
+            title: "محصول",
+            hidden: true,
+        },
+        {
+            name: "inventory.materialItem.gdsName",
+            type: "number",
+            title: "محصول",
+            hidden: true,
+        },
+        {
+            name: "destinationTozin.sourceId",
+            title: "کد مبدا اعلامی توزین مقصد"
+        },
+         {
+            name: "sourceTozin.sourceWarehouse.name",
+            title: " مبدا اعلامی توزین مبدا"
+        },
+        {
+            name: "sourceTozin.targetWarehouse.name",
+            title: " مقصد اعلامی توزین مبدا"
+        },
+ {
+            name: "destinationTozin.sourceWarehouse.name",
+            title: " مبدا اعلامی توزین مقصد"
+        },
+        {
+            name: "destinationTozin.targetWarehouse.name",
+            title: " مقصد اعلامی توزین مقصد"
+        },
+
+        {
+            name: "destinationTozin.date",
+            title: "تاریخ توزین مقصد",
+
+
+        },
+        {
+            name: "destinationTozin.targetId",
+            title: "کد مقصد اعلامی توزین مقصد"
+
+
+
+        },
+        {
+            name: "depot.name", showHover: true, title: "دپو", formatCellValue(value, record) {
+            },
+        },
+        {
+            name: "depot.store.name", showHover: true, title: "سوله/محوطه", formatCellValue(value, record) {
+            },
+        },
+        {
+            name: "depot.store.warehouse.name", showHover: true, title: "انبار", formatCellValue(value, record) {
+            },
+        },
+        ...crTab.Fields.RemittanceDetail(),
+
+    ];
+}
+crTab.Fields.Remittance = function () {
+    return [
+        {
+            name: 'code', title: "شماره بیجک",
+        },
+        {
+            name: 'description', title: "شرح بیجک",
+        },
+        {name: 'id', title: "شناسه", hidden: true},
+    ];
+}
+crTab.Fields.RemittanceFull = function () {
+    return [
+        ...crTab.Fields.Remittance(),
+        {
+            name: "remittanceDetails.sourceTozin.tozinId",
+            title: "توزین مبدا",
+        },
+        {
+            name: "remittanceDetails.inventory.materialItem.id",
+            type: "number",
+            title: "محصول",
+        },
+        {
+            name: "remittanceDetails.destinationTozin.sourceId",
+            title: "مبدا",
+            filterOperator: "equals",
+        },
+        {
+            ...crTab.Fields.TozinBase().find(t => t.name === 'date'),
+            name: "remittanceDetails.sourceTozin.date",
+            title: "تاریخ توزین مبدا",
+
+        },
+        {
+            ...crTab.Fields.TozinBase().find(t => t.name === 'date'),
+            name: "remittanceDetails.destinationTozin.date",
+            title: "تاریخ توزین مقصد",
+
+
+        },
+        {
+            name: "remittanceDetails.destinationTozin.targetId",
+            title: "مقصد",
+            hidden: true,
+        },
+        {
+            name: "remittanceDetails.depot.name",
+            // valueMap: SalesBaseParameters.getSavedWarehouseParameter().getValueMap("id", "name"),
+            title: "دپو",
+            showHover: true,
+        }
+    ];
+}
+crTab.Fields.Inventory = function () {
+    return [
+        {
+            name: 'materialItemId',
+            valueMap: SalesBaseParameters.getSavedMaterialItemParameter().getValueMap("id", "gdsName"),
+            title: 'محصول',
+            disabled: true,
+
+        },
+        {name: 'label', title: 'سریال محصول'},
+        {name: 'id', title: 'شناسه', hidden: true,},
+    ];
+}
+crTab.Fields.Depot = function () {
+    return [
+        {name: "store.warehouse.name", title: "انبار"},
+        {name: "store.name", title: "سوله/محوطه"},
+        {name: "name", title: "یارد"}
+    ];
+}
+crTab.Fields.Shipment = function () {
+    return [
+        {name: "id", primaryKey: true, canEdit: false, hidden: true},
+        {name: "code", title: "<spring:message code='contact.code'/>"},
+        {name: "nameFA", title: "<spring:message code='contact.nameFa'/>"},
+        {name: "nameEN", title: "<spring:message code='contact.nameEn'/>"},
+        {name: "commertialRole"},
+        {name: "phone", title: "<spring:message code='contact.phone'/>"},
+        {name: "mobile", title: "<spring:message code='contact.mobile'/>"},
+        {
+            name: "type", title: "<spring:message code='contact.type'/>",
+            valueMap: {
+                "true": "<spring:message code='contact.type.real'/>",
+                "false": "<spring:message code='contact.type.legal'/>"
+            }
+        },
+        {name: "economicalCode", title: "<spring:message code='contact.economicalCode'/>"},
+        {
+            name: "status", title: "<spring:message code='contact.status'/>",
+            valueMap: {
+                "true": "<spring:message code='enabled'/>", "false": "<spring:message code='disabled'/>"
+            }
+        },
+        {name: "contactAccounts"},
+        {name: "country.nameFa", title: "<spring:message code='country.nameFa'/>"},
+
+        {name: "bookingCat", title: "<spring:message code='shipment.bookingCat'/>", align: "center"}
+
+
+    ];
+}
 ////////////////////////////////////////////////////////DATASOURCE//////////////////////////////////////////////////////
 crTab.RestDataSources.RemittanceDetail = isc.MyRestDataSource.create({
     fetchDataURL: 'api/remittance-detail/spec-list',
-    fields: crTab.Fields.RemittanceDetail()
+    fields: crTab.Fields.RemittanceDetailGrid()
 });
 ////////////////////////////////////////////////////////GRIDS///////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////DYNAMICFORMS////////////////////////////////////////////////////
@@ -1036,6 +1515,131 @@ crTab.Layouts.Vlayouts.main = isc.VLayout.create({
                                     })
                                 }),
                                 isc.MenuButton.create({
+                                    autoDraw: false,
+                                    title: "گزارش موجودی",
+                                    prompt: "گزارش موجودی انبارها",
+                                    width: 200,
+                                    menu: isc.Menu.create({
+                                        width: 200,
+                                        data: [
+                                            {
+                                                title: "کلی",
+                                                icon: "icon/excel.png",
+                                                click: function () {
+                                                    crTab.Methods.makeRemittanceDetailExcel({
+                                                        criteria: {
+                                                            _constructor: "AdvancedCriteria",
+                                                            operator: "and", criteria: [
+                                                                // {fieldName: "inventory.materialItemId", operator: "equals", value: 8},
+                                                                {
+                                                                    fieldName: "inventory.weight",
+                                                                    operator: "greaterOrEqual",
+                                                                    value: 1
+                                                                },
+                                                                {
+                                                                    fieldName: "date",
+                                                                    operator: "lessOrEqual",
+                                                                    value: toDayDateTozin.getValue().replaceAll("/", "")
+                                                                }
+                                                            ]
+                                                        },
+                                                        topRowTitle: "موجودی کلی",
+                                                        fileName: 'موجودی کلی' + new persianDate().format('YYYYMMDD')
+                                                    })
+                                                }
+                                            },
+                                            {
+                                                title: "کنسانتره",
+                                                icon: "icon/excel.png",
+                                                click: function () {
+                                                    crTab.Methods.makeRemittanceDetailExcel({
+                                                        criteria: {
+                                                            _constructor: "AdvancedCriteria",
+                                                            operator: "and", criteria: [
+                                                                {
+                                                                    fieldName: "inventory.materialItemId",
+                                                                    operator: "equals",
+                                                                    value: 8
+                                                                },
+                                                                {
+                                                                    fieldName: "inventory.weight",
+                                                                    operator: "greaterOrEqual",
+                                                                    value: 1
+                                                                },
+                                                                {
+                                                                    fieldName: "date",
+                                                                    operator: "lessOrEqual",
+                                                                    value: toDayDateTozin.getValue().replaceAll("/", "")
+                                                                }
+                                                            ]
+                                                        },
+                                                        topRowTitle: "موجودی کنسانتره",
+                                                        fileName: 'موجودی کنسانتره' + new persianDate().format('YYYYMMDD')
+                                                    })
+                                                }
+                                            },
+                                            {
+                                                title: "کاتد",
+                                                icon: "icon/excel.png",
+                                                click: function () {
+                                                    crTab.Methods.makeRemittanceDetailExcel({
+                                                        criteria: {
+                                                            operator: "and", criteria: [
+                                                                {
+                                                                    fieldName: "inventory.materialItemId",
+                                                                    operator: "equals",
+                                                                    value: 11
+                                                                },
+                                                                {
+                                                                    fieldName: "inventory.weight",
+                                                                    operator: "greaterOrEqual",
+                                                                    value: 1
+                                                                },
+                                                                {
+                                                                    fieldName: "date",
+                                                                    operator: "lessOrEqual",
+                                                                    value: toDayDateTozin.getValue().replaceAll("/", "")
+                                                                }
+                                                            ]
+                                                        },
+                                                        topRowTitle: "موجودی کاتد",
+                                                        fileName: 'موجودی کاتد' + new persianDate().format('YYYYMMDD')
+                                                    })
+                                                }
+                                            },
+                                            {
+                                                title: "مولیبدن",
+                                                icon: "icon/excel.png",
+                                                click: function () {
+                                                    crTab.Methods.makeRemittanceDetailExcel({
+                                                        criteria: {
+                                                            operator: "and", criteria: [
+                                                                {
+                                                                    fieldName: "inventory.materialItemId",
+                                                                    operator: "equals",
+                                                                    value: 97
+                                                                },
+                                                                {
+                                                                    fieldName: "inventory.weight",
+                                                                    operator: "greaterOrEqual",
+                                                                    value: 1
+                                                                },
+                                                                {
+                                                                    fieldName: "date",
+                                                                    operator: "lessOrEqual",
+                                                                    value: toDayDateTozin.getValue().replaceAll("/", "")
+                                                                }
+                                                            ]
+                                                        },
+                                                        topRowTitle: "موجودی مولیبدن",
+                                                        fileName: 'موجودی مولیبدن' + new persianDate().format('YYYYMMDD')
+                                                    })
+                                                }
+                                            },
+                                        ]
+                                    })
+                                }),
+                                isc.MenuButton.create({
                                     visibility: "hidden",
                                     autoDraw: false,
                                     title: "<spring:message code='tozin.report.cons.buy'/>",
@@ -1080,12 +1684,22 @@ crTab.Layouts.Vlayouts.main = isc.VLayout.create({
                                     wrapItemTitles: false,
                                     // height: "100%",
                                     action: "report/printDailyReportBandarAbbas",
+                                    showErrorText: false,
                                     target: "_Blank",
                                     titleWidth: "200",
                                     numCols: 4,
                                     fields: [{
                                         name: "toDay",
                                         ID: "toDayDateTozin",
+                                        validators: [
+                                            {
+                                                type: "regexp",
+                                                expression: crTab.Vars.shamsiDate
+                                            }
+                                        ],
+                                        validateOnChange: true,
+                                        // editorExit:crTab.Methods.UpdateInputOutputCharts,
+                                        keyPressFilter: "[0-9/]",
                                         title: "<spring:message code='dailyWarehouse.toDay'/>",
                                         type: 'text',
                                         align: "center",
@@ -1109,7 +1723,7 @@ crTab.Layouts.Vlayouts.main = isc.VLayout.create({
             members: [
                 crTab.Grids.RemittanceDetail = isc.ListGrid.create({
                     title: "موجودی انبار",
-                    fields: crTab.Fields.RemittanceDetail(),
+                    fields: crTab.Fields.RemittanceDetailGrid(),
                     dataFetchMode: "basic",
                     showGroupSummary: true,
                     groupStartOpen: "none",
@@ -1138,12 +1752,22 @@ crTab.Layouts.Vlayouts.main = isc.VLayout.create({
                 }),
                 isc.HLayout.create({
                     height: "10%",
-                    members:[
+                    members: [
                         crTab.DynamicForms.ChartDate = isc.DynamicForm.create(
                             {
+                                showErrorText: false,
+                                validateOnChange: true,
+                                wrapItemTitles: false,
                                 numCols: 4,
                                 fields: [
-                                    {name: "fromDate",
+                                    {
+                                        name: "fromDate",
+                                        validators: [
+                                            {
+                                                type: "regexp",
+                                                expression: crTab.Vars.shamsiDate
+                                            }
+                                        ],
                                         title: "<spring:message code='dailyWarehouse.fromDay'/>",
                                         defaultValue: crTab.Methods.getFirstDayOfSeason(),
                                         // editorExit:crTab.Methods.UpdateInputOutputCharts,
@@ -1156,10 +1780,18 @@ crTab.Layouts.Vlayouts.main = isc.VLayout.create({
                                             }
                                         }],
                                     },
-                                    {name: "toDate",
-                                        title: "<spring:message code='dailyWarehouse.toDay'/>",
+                                    {
+                                        name: "toDate",
+                                        validators: [
+                                            {
+                                                type: "regexp",
+                                                expression: crTab.Vars.shamsiDate
+                                            }
+                                        ],
+                                        validateOnChange: true,
                                         // editorExit:crTab.Methods.UpdateInputOutputCharts,
                                         keyPressFilter: "[0-9/]",
+                                        title: "<spring:message code='dailyWarehouse.toDay'/>",
                                         icons: [{
                                             src: "pieces/pcal.png",
                                             click: function (form, item, icon) {
@@ -1167,16 +1799,44 @@ crTab.Layouts.Vlayouts.main = isc.VLayout.create({
                                                 displayDatePicker(item['ID'], form.getItems()[0], 'ymd', '/');
                                             }
                                         }],
-                                        defaultValue: new persianDate().subtract('d', 1).format('YYYY/MM/DD')},
+                                        defaultValue: new persianDate().subtract('d', 1).format('YYYY/MM/DD')
+                                    },
                                 ]
                             }
                         ),
-                        isc.SpacerItem.create({height:1}),
+                        isc.SpacerItem.create({height: 1}),
                         isc.ToolStripButtonRefresh.create({
-                            title:" فیلتر",
+                            title: " فیلتر",
                             click: crTab.Methods.UpdateInputOutputCharts
+                        }),
+                        isc.ToolStripButtonAdd.create({
+                            title: " اکسل",
+                            click: function () {
+                                crTab.Methods.makeRemittanceDetailExcel({
+                                    criteria: {
+                                        _constructor: "AdvancedCriteria",
+                                        operator: "and", criteria: [
+                                            {
+                                                fieldName: 'date',
+                                                operator: 'lessOrEqual',
+                                                value: crTab.DynamicForms.ChartDate.getValue('toDate').replaceAll("/", ""), // a title for the chart as a whole
+
+                                            },
+                                            {
+                                                fieldName: 'date',
+                                                operator: 'greaterOrEqual',
+                                                value: crTab.DynamicForms.ChartDate.getValue('fromDate').replaceAll("/", ""),
+                                            },
+
+                                        ]
+                                    },
+                                    topRowTitle: "گزارش ورود خروج",
+                                    fileName: "گزارش ورود خروج" + new persianDate().format('YYYYMMDD')
+                                })
+                            }
                         })
-                    ]}),
+                    ]
+                }),
 
                 crTab.Layouts.Vlayouts.Chart = isc.VLayout.create()
 
@@ -1189,4 +1849,7 @@ dbg(false, "crtab", crTab)
 
 //}
 //)
+
+
+
 

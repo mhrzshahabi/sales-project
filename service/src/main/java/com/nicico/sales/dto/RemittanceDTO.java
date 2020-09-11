@@ -21,7 +21,7 @@ public class RemittanceDTO {
 
     private String code;
     private String description;
-
+    private Long shipmentId;
 
     @Getter
     @Setter
@@ -31,6 +31,8 @@ public class RemittanceDTO {
 
         private Long id;
         private MaterialItemDTO.Info materialItem;
+        private ShipmentDTO.Info shipment;
+        private String date;
 
 
         // Auditing
@@ -53,15 +55,13 @@ public class RemittanceDTO {
         private List<RemittanceDetailDTO.InfoWithoutRemittance> remittanceDetails;
     }
 
-      @Getter
+    @Getter
     @Setter
     @Accessors(chain = true)
     @ApiModel("RemittanceInfo")
     public static class InfoWithInspections extends RemittanceDTO.InfoWithoutRemittanceDetail {
         private List<RemittanceDetailDTO.InfoWithoutRemittanceInspections> remittanceDetails;
     }
-
-
 
 
     @Getter
