@@ -1459,6 +1459,7 @@ BlTab.Fields.BillOfLandingSwitch = function () {
     return [
         {
             name: 'switchDocumentNo',
+            required: true,
             title: "<spring:message code='billOfLanding.document.no'/>",
         },
         {
@@ -1676,6 +1677,12 @@ BlTab.Fields.BillOfLandingWithoutSwitch = _ => {
     }
     return [
         {name: 'id', hidden: true,},
+        ...BlTab.Fields.BillOfLandingSwitch().map(b => {
+            b.name = b.name.toString().substr(6).replace(/^./, function (char) {
+                return char.toLowerCase();
+            });
+            return b
+        }),
         {
             name: 'shipmentId',
             ...shipmentOptionDataSource(),
@@ -1709,12 +1716,6 @@ BlTab.Fields.BillOfLandingWithoutSwitch = _ => {
                 return value
             }
         },
-        ...BlTab.Fields.BillOfLandingSwitch().map(b => {
-            b.name = b.name.toString().substr(6).replace(/^./, function (char) {
-                return char.toLowerCase();
-            });
-            return b
-        }),
         {
             name: 'placeOfDelivery', required: true,
             title: "<spring:message code='billOfLanding.place.of.delivery'/>",
@@ -2242,7 +2243,8 @@ BlTab.Layouts.ToolStripButtons.NewBillOfLanding.click = _ => {
         BlTab.Methods.Save(BlTab.Vars.BillOfLanding.getValues(), 'api/bill-of-landing').then(function () {
             dbg(false, `BlTab.Methods.Save(BlTab.Vars.BillOfLanding.getValues(), 
                         'api/bill-of-landing').then(function () {`, arguments)
-            window[windID].destroy();
+            // window[windID].destroy();
+            BlTab.Vars.BillOfLanding.clearValues();
         })
     }, windID)
     BlTab.Layouts.ToolStrips.BillOfLandingForm.addMember(
