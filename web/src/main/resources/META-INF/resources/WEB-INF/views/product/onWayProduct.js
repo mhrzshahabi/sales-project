@@ -9,12 +9,15 @@ const tozinLiteFields = _ => [
         name: "date",
         type: "text",
         filterEditorProperties: {
+            ID: "bagherrr",
             // defaultValue: new persianDate().subtract('d', 14).format('YYYYMMDD'),
             keyPressFilter: "[0-9/]",
-            parseEditorValue: function (value, record, form, item) {
-                if (value === undefined || value == null || value === '') return value;
-                return value.replace(/\//g, '').padEnd(8, "01");
-            },
+
+            // parseEditorValue: function (value, record, form, item) {
+            //     debugger
+            //     if (value === undefined || value == null || value === '') return value;
+            //     return value.replace(/\//g, '').padEnd(8, "01");
+            // },
             icons: [{
                 src: "pieces/pcal.png",
                 click: function (form, item, icon) {
@@ -85,36 +88,37 @@ const tozinLiteFields = _ => [
             return (value ? "ریلی  " + value : "جاده‌ای"
             )
         },
-        validOperators: ["equals", "isNull", "notNull"],
-        filterEditorProperties: {
-            showPickerIcon: true,
-            // showPickerIconOnFocus:true,
-            picker: isc.FormLayout.create({
-                visibility: "hidden",
-                backgroundColor: "white",
-                items: [{
-                    showTitle: false, type: "radioGroup",
-                    valueMap: {notNull: "ریلی", isNull: "جاده‌ای"},
-                    change: function (f, i, value) {
-                        const criteria = ListGrid_Tozin_IN_ONWAYPRODUCT.getFilterEditorCriteria();
-                        criteria.criteria = criteria.criteria.filter(c => c.fieldName !== 'containerNo3');
-                        criteria.criteria.add({
-                            fieldName: "containerNo3",
-                            operator: value
-                        })
-                        // console.log(criteria)
-                        ListGrid_Tozin_IN_ONWAYPRODUCT.setFilterEditorCriteria(criteria);
-                        return this.Super("change", arguments)
-                    },
-                }]
-            })
-        }
+        // validOperators: ["equals", "isNull", "notNull"],
+        // filterEditorProperties: {
+        //     showPickerIcon: true,
+        //     // showPickerIconOnFocus:true,
+        //     picker: isc.FormLayout.create({
+        //         visibility: "hidden",
+        //         backgroundColor: "white",
+        //         items: [{
+        //             showTitle: false, type: "radioGroup",
+        //             valueMap: {notNull: "ریلی", isNull: "جاده‌ای"},
+        //             change: function (f, i, value) {
+        //                 const criteria = ListGrid_Tozin_IN_ONWAYPRODUCT.getFilterEditorCriteria();
+        //                 criteria.criteria = criteria.criteria.filter(c => c.fieldName !== 'containerNo3');
+        //                 criteria.criteria.add({
+        //                     fieldName: "containerNo3",
+        //                     operator: value
+        //                 })
+        //                 // console.log(criteria)
+        //                 ListGrid_Tozin_IN_ONWAYPRODUCT.setFilterEditorCriteria(criteria);
+        //                 return this.Super("change", arguments)
+        //             },
+        //         }]
+        //     })
+        // }
         // alwaysShowOperatorIcon:true,
     },
     {
         name: "vazn",
         title: "<spring:message code='Tozin.vazn'/>",
         align: "center",
+        type: "number",
         showHover: true,
         width: "10%"
     },
@@ -349,6 +353,8 @@ async function onWayProductFetch(classUrl, operator = "and", criteria = []) {
 function mainOnWayProduct() {
     async function criteriaBuildForListGrid() {
         const filterEditorCriteria = ListGrid_Tozin_IN_ONWAYPRODUCT.getFilterEditorCriteria();
+        const dateCriteria = filterEditorCriteria.criteria.find(_ => _.fieldName === 'date');
+        if (dateCriteria) dateCriteria.value = dateCriteria.value.replaceAll("/", "")
         filterEditorCriteria.criteria.add({"fieldName": "tozinId", "operator": "iNotStartsWith", "value": "3-"})
         const criteriaForSearch = {...filterEditorCriteria};
         // dbg(false, 'filterEditorCriteria', filterEditorCriteria)
@@ -565,6 +571,7 @@ function mainOnWayProduct() {
         showFilterEditor: true,
         allowAdvancedCriteria: true,
         filterOnKeypress: false,
+        canHover: true,
         selectionType: "single",
         sortField: 'date',
         initialCriteria: {
@@ -577,6 +584,9 @@ function mainOnWayProduct() {
         async filterData(criteria, callback, requestProperties) {
             // dbg(false, 'async filterData(criteria', arguments)
             // criteria.criteria.add({"fieldName": "tozinId", "operator": "iNotStartsWith", "value": "3-"})
+            const dateCriteria = criteria.criteria.find(_ => _.fieldName === 'date');
+            if (dateCriteria) dateCriteria.value = dateCriteria.value.replaceAll("/", "")
+
             if (!criteria.criteria.find(t => t.fieldName === "sourceId")) {
                 isc.say('فیلتر مبدا خالی‌ می‌باشد')
                 throw 'فیلتر مبدا خالی‌ می‌باشد'
@@ -661,8 +671,12 @@ function mainOnWayProduct() {
 mainOnWayProduct()
 
 async function fetchAlreadyInsertedTozinList() {
+    const filterEditorCriteria = ListGrid_Tozin_IN_ONWAYPRODUCT.getFilterEditorCriteria();
+    const dateCriteria = filterEditorCriteria.criteria.find(_ => _.fieldName === 'date');
+    if (dateCriteria) dateCriteria.value = dateCriteria.value.replaceAll("/", "")
+    // debugger
     const response = await fetch('api/tozin-table/spec-list?operator=and&criteria=' +
-        ListGrid_Tozin_IN_ONWAYPRODUCT.getFilterEditorCriteria().criteria.filter(c => [
+        filterEditorCriteria.criteria.filter(c => [
             // "tozinId",
             // "codeKala",
             // "sourceId",

@@ -46,6 +46,20 @@ public class ContractRestController2 {
 
         return new ResponseEntity<>(contractService.create(request), HttpStatus.CREATED);
     }
+    @Loggable
+    @PostMapping("/finalize/{id}")
+    public ResponseEntity<ContractDTO2.Info> finalize(@PathVariable Long id) {
+
+        return new ResponseEntity<>(contractService.finalize(id), HttpStatus.CREATED);
+    }
+
+    @Loggable
+    @PostMapping("/disapprove/{id}")
+    public ResponseEntity<ContractDTO2.Info> disapprove(@PathVariable Long id) {
+
+        return new ResponseEntity<>(contractService.disapprove(id), HttpStatus.CREATED);
+    }
+
 
     @Loggable
     @PutMapping

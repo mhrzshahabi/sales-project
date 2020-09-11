@@ -32,6 +32,7 @@ public class RemittanceDTO {
         private Long id;
         private MaterialItemDTO.Info materialItem;
         private ShipmentDTO.Info shipment;
+        private String date;
 
 
         // Auditing
