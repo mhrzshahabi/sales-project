@@ -4,7 +4,6 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
-<%@include file="js/contract-info.js"%>
 <%@include file="js/component-invoice-base-info.js"%>
 <%@include file="../../unit/js/component-unit.js"%>
 <%@include file="js/component-invoice-base-price.js"%>

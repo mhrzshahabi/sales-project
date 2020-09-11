@@ -75,8 +75,8 @@ isc.defineClass("InvoiceBasePrice", isc.VLayout).addProperties({
                     width: "100%",
                     height: "50",
                     contents: "<b>" + "AVERAGE OF " + (month + moasValue) +
-                    "th MONTH OF " + year + " (MOAS" + (moasValue === 0 ? "" : (moasValue > 0 ? "+" : "-") + moasValue) +
-                    ") " + " FOR " + fieldsNames + "<b>"
+                        "th MONTH OF " + year + " (MOAS" + (moasValue === 0 ? "" : (moasValue > 0 ? "+" : "-") + moasValue) +
+                        ") " + " FOR " + fieldsNames + "</b>"
                 }));
 
                 if (members.length)

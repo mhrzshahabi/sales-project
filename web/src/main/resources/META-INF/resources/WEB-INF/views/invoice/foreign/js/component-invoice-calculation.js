@@ -73,16 +73,14 @@ isc.defineClass("InvoiceCalculation", isc.VLayout).addProperties({
                     title: "<spring:message code='global.ok'/>",
                     click: function () {
 
-                        if (!This.validate()) return;
-                        else {
+                        if (!This.validate())
+                            return;
 
-                            This.okButtonClick();
+                        This.okButtonClick();
 
-                            let tab = This.parentElement.parentElement;
-                            tab.getTab(tab.selectedTab).pane.members.forEach(q => q.disable());
-                            tab.selectTab(tab.selectedTab + 1 % tab.tabs.length);
-                        }
-
+                        let tab = This.parentElement.parentElement;
+                        tab.getTab(tab.selectedTab).pane.members.forEach(q => q.disable());
+                        tab.selectTab(tab.selectedTab + 1 % tab.tabs.length);
                     }
                 }),
                 isc.ToolStrip.create({
@@ -115,8 +113,11 @@ isc.defineClass("InvoiceCalculation", isc.VLayout).addProperties({
 
         this.editCalculation();
     },
-    getCalculationSubTotal: function () {
-        return this.getMembers().filter(q => q.name === "subTotal").first().getValues().value;
+    validate: function () {
+
+        let isValid = true;
+        this.getMembers().slice(0, this.invoiceBaseAssayComponent.getValues().length).forEach(q => isValid &= q.validate());
+        return isValid;
     },
     getValues: function () {
 
@@ -144,10 +145,7 @@ isc.defineClass("InvoiceCalculation", isc.VLayout).addProperties({
     editCalculation: function () {
         this.getMembers().filter(q => q.role === "calculationRow").forEach(current => current.editRowCalculation());
     },
-    validate: function () {
-
-        let isValid = true;
-        this.getMembers().slice(0, this.invoiceBaseAssayComponent.getValues().length).forEach(q => isValid &= q.validate());
-        return isValid;
+    getCalculationSubTotal: function () {
+        return this.getMembers().filter(q => q.name === "subTotal").first().getValues().value;
     }
 });

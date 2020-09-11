@@ -90,7 +90,7 @@ isc.defineClass("InvoiceBaseAssay", isc.VLayout).addProperties({
                                 isc.RPCManager.handleError(resp, null);
                                 This.getMembers().slice(1).filter(q => q instanceof isc.Unit.constructor).forEach(q => {
 
-                                    q.setValue(null)
+                                    q.setValue(null);
                                     q.setUnitId(null);
                                     q.unitCategory = null;
                                     q.materialElementId = null;
@@ -123,6 +123,7 @@ isc.defineClass("InvoiceBaseAssay", isc.VLayout).addProperties({
                 unitId: current.getValues().unitId
             });
         });
+
         return data;
     },
     validate: function () {

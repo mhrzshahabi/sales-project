@@ -107,13 +107,13 @@ isc.defineClass("InvoiceDeductionRow", isc.HLayout).addProperties({
         this.sumDeductionChanged(deductionPriceValue);
 
     },
-    getFinalAssay: function () {
-
-        return this.getMembers().filter(q => q.name === "finalAssay").first();
-    },
     getRCPrice: function () {
 
         return this.getMembers().filter(q => q.isConversionForm).first().getValue("deductionPrice");
+    },
+    getFinalAssay: function () {
+
+        return this.getMembers().filter(q => q.name === "finalAssay").first();
     },
     getRCBasePrice: function () {
 
@@ -138,4 +138,3 @@ isc.defineClass("InvoiceDeductionRow", isc.HLayout).addProperties({
         return !conversionForm.hasErrors();
     }
 });
-

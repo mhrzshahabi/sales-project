@@ -9,8 +9,8 @@ isc.defineClass("InvoiceBaseWeight", isc.VLayout).addProperties({
     membersMargin: 2,
     overflow: "visible",
     shipment: null,
-    remittanceDetail: null,
     weightMilestone: null,
+    remittanceDetail: null,
     initWidget: function () {
 
         this.Super("initWidget", arguments);

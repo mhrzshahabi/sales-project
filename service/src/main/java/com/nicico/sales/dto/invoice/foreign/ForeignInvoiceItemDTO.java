@@ -112,5 +112,6 @@ public class ForeignInvoiceItemDTO {
         private final String title;
         private String format;
         private String canEdit;
+        private String required;
     }
 }

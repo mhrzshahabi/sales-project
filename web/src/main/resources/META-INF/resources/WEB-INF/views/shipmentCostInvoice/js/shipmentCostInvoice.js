@@ -796,7 +796,6 @@ shipmentCostInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
     }
 
 ]);
-
 shipmentCostInvoiceTab.dynamicForm.shipmentCost = isc.DynamicForm.create({
     align: "center",
     numCols: 4,
@@ -807,7 +806,6 @@ shipmentCostInvoiceTab.dynamicForm.shipmentCost = isc.DynamicForm.create({
     requiredMessage: '<spring:message code="validator.field.is.required"/>',
     fields: shipmentCostInvoiceTab.dynamicForm.fields
 });
-
 shipmentCostInvoiceTab.dynamicForm.shipmentPriceFields = BaseFormItems.concat([
     {
         name: "conversionRefId",
@@ -967,7 +965,6 @@ shipmentCostInvoiceTab.dynamicForm.shipmentPriceFields = BaseFormItems.concat([
     }
 
 ]);
-
 shipmentCostInvoiceTab.dynamicForm.shipmentPrice = isc.DynamicForm.create({
     align: "center",
     numCols: 4,
@@ -978,7 +975,6 @@ shipmentCostInvoiceTab.dynamicForm.shipmentPrice = isc.DynamicForm.create({
     requiredMessage: '<spring:message code="validator.field.is.required"/>',
     fields: shipmentCostInvoiceTab.dynamicForm.shipmentPriceFields,
 });
-
 shipmentCostInvoiceTab.listGrid.shipmentCostDetail = isc.ListGrid.create({
     width: "100%",
     sortField: 1,
@@ -1134,7 +1130,7 @@ shipmentCostInvoiceTab.listGrid.shipmentCostDetail = isc.ListGrid.create({
     ]),
     rowEditorExit: function (editCompletionEvent, record, newValues, rowNum) {
 
-        if (editCompletionEvent === "enter") {
+        if (editCompletionEvent !== "escape") {
 
             let sumPriceIndex = this.fields.indexOf(this.fields.filter(q => q.name === "sumPrice").first());
             let sumPriceWithDiscountIndex = this.fields.indexOf(this.fields.filter(q => q.name === "sumPriceWithDiscount").first());
