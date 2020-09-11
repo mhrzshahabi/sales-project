@@ -2123,7 +2123,7 @@ rdTab.Layouts.ToolStripButtons.New = isc.ToolStripButtonAdd.create({
                     editorType: "ComboBoxItem",
                     valueMap: rdTab.Fields.Inventory().find(i => i.name === "materialItemId").valueMap,
                 },
-                ...rdTab.Fields.Remittance().map(_ => {
+                ...rdTab.Fields.Remittance().filter(_=>_.name.toLowerCase() !== 'date').map(_ => {
                     if (_.name.toLowerCase() === 'shipmentId'.toLowerCase()) {
                         _.hidden = false;
                         _.disabled = true;
