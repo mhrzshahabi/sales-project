@@ -109,7 +109,7 @@
             },
             {name: "fileNewName", title: "<spring:message code='global.fileNewName'/>", type: 'text', width: 400}
         ],
-        fetchDataURL: "${contextPath}/api/dcc/spec-list"
+        fetchDataURL: "${contextPath}/api/shipmentDcc/spec-list"
     });
 
     var RestDataSource_VesselInShipment = isc.MyRestDataSource.create({
@@ -321,15 +321,23 @@
                     autoFetchData: false,
                     valueField: "id",
                     width: 300,
+                    pickListWidth: 300,
                     wrapTitle: false,
                     required: true ,
+                    filterLocally : false,
+                    showFilterEditor: false,
+                    useClientFiltering: false,
                     validators: [
                     {
                         type:"required",
                         validateOnChange: true
                     }],
                     pickListProperties: {
-                        showFilterEditor: true
+                        width: 300,
+                        pickListWidth: 300,
+                        filterLocally : false,
+                        showFilterEditor: false,
+                        useClientFiltering: false
                     },
                     pickListFields: [
                     {
@@ -339,6 +347,7 @@
                     }
                     ],
                      getPickListFilterCriteria  : function () {
+
                         let record = ListGrid_Shipment.getSelectedRecord();
                         let fileNewName = "ShipOrder_" +record.materialId+"_" +record.shipmentTypeId;
                         var criteria={"_constructor":"AdvancedCriteria","operator":"and",
@@ -413,6 +422,7 @@
         if (record == null) {
             isc.say("<spring:message code='global.grid.record.not.selected'/>");
         } else {
+            shipmentDccDynamicFormPrint.clearValues();
             shipmentDccWindow.show();
         }
     }
@@ -456,15 +466,7 @@
             {
                 title: "<spring:message code='global.form.print.word'/>",
                 click: function () {
-                    let record = ListGrid_Shipment.getSelectedRecord();
-                    if (record.shipmentType.shipmentType == "پالت" || (record.materialId ==
-                        ImportantIDs.material.COPPER_CONCENTRATES &&
-                        record.shipmentType.shipmentType.contains("انتینر")) ||
-                        (record.materialId == ImportantIDs.material.MOLYBDENUM_OXIDE &&
-                            record.shipmentType.shipmentType.contains("فله"))) {
-                        isc.say("<spring:message code='global.print.not.exist'/>");
-                        return;
-                    }
+
                     check_Shipment_Print();
                 }
             }
