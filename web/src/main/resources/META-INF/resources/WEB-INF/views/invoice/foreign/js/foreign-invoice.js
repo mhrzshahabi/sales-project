@@ -563,6 +563,9 @@ foreignInvoiceTab.button.save = isc.IButtonSave.create({
             'remittanceDetails',
             foreignInvoiceTab.dynamicForm.baseData.getField('remittanceDetailId').getSelectedRecords());
 
+        let selectedShipmentRemittanceDetailsCount = foreignInvoiceTab.dynamicForm.valuesManager.getValue('remittanceDetailId').length;
+        let allShipmentRemittanceDetailsCount = Object.keys(foreignInvoiceTab.dynamicForm.baseData.getField('remittanceDetailId').getAllValueMappings()).length;
+
         foreignInvoiceTab.method.addTab(
             isc.InvoiceBaseInfo.create({
                 invoiceNo: foreignInvoiceTab.dynamicForm.valuesManager.getValue('no'),
@@ -587,8 +590,9 @@ foreignInvoiceTab.button.save = isc.IButtonSave.create({
                 let invoicePaymentComponent = isc.InvoicePayment.create({
                     currency: foreignInvoiceTab.dynamicForm.valuesManager.getValue("currency"),
                     shipment: foreignInvoiceTab.dynamicForm.valuesManager.getValue("shipment"),
-                    contract: foreignInvoiceTab.dynamicForm.valuesManager.getValue("contract"),
                     conversionRef: foreignInvoiceTab.dynamicForm.valuesManager.getValue('conversionRef'),
+                    shipmentCostInvoiceRate: selectedShipmentRemittanceDetailsCount / allShipmentRemittanceDetailsCount,
+                    invoiceCalculation2Component: invoiceCalculation2Component,
                     invoiceBaseWeightComponent: {getValues: invoiceCalculation2Component.getBaseWeightValues},
                     invoiceDeductionComponent: {getDeductionSubTotal: invoiceCalculation2Component.getDeductionSubTotal},
                     invoiceCalculationComponent: {
@@ -634,9 +638,9 @@ foreignInvoiceTab.button.save = isc.IButtonSave.create({
                     invoiceDeductionComponent.okButtonClick = function addRelatedPaymentTab() {
 
                         let invoicePaymentComponent = isc.InvoicePayment.create({
+                            shipmentCostInvoiceRate: selectedShipmentRemittanceDetailsCount / allShipmentRemittanceDetailsCount,
                             currency: foreignInvoiceTab.dynamicForm.valuesManager.getValue("currency"),
                             shipment: foreignInvoiceTab.dynamicForm.valuesManager.getValue("shipment"),
-                            contract: foreignInvoiceTab.dynamicForm.valuesManager.getValue("contract"),
                             conversionRef: foreignInvoiceTab.dynamicForm.valuesManager.getValue('conversionRef'),
                             invoiceDeductionComponent: invoiceDeductionComponent,
                             invoiceCalculationComponent: invoiceCalculationComponent,
@@ -776,15 +780,6 @@ foreignInvoiceTab.variable.invoiceForm.okCallBack = function (data) {
 
 foreignInvoiceTab.variable.invoiceForm.populateData = function (bodyWidget) {
 
-    let invoiceBaseValuesComponent = foreignInvoiceTab.tab.invoice.tabs.filter(t => t.pane.Class === isc.InvoiceBaseValues.Class).first().pane;
-    let invoiceBasePriceComponent = invoiceBaseValuesComponent.invoiceBasePriceComponent;
-    let invoiceBaseAssayComponent = invoiceBaseValuesComponent.invoiceBaseAssayComponent;
-    let invoiceBaseWeightComponent = invoiceBaseValuesComponent.invoiceBaseWeightComponent;
-
-    let invoiceCalculationComponent = foreignInvoiceTab.tab.invoice.tabs.filter(t => t.pane.Class === isc.InvoiceCalculation.Class).first();
-    if (!invoiceCalculationComponent) return null;
-    let invoiceDeductionComponent = foreignInvoiceTab.tab.invoice.tabs.filter(t => t.pane.Class === isc.InvoiceDeduction.Class).first();
-    if (!invoiceDeductionComponent) return null;
     let invoicePaymentComponent = foreignInvoiceTab.tab.invoice.tabs.filter(t => t.pane.Class === isc.InvoicePayment.Class).first();
     if (!invoicePaymentComponent) return null;
 
@@ -806,43 +801,58 @@ foreignInvoiceTab.variable.invoiceForm.populateData = function (bodyWidget) {
     data.sumPIPrice = data.sumFIPrice - data.sumPrice;
     data.foreignInvoicePayments = paymentComponentValues.shipmentCostInvoices;
 
-    foreignInvoiceTab.method.getForeignInvoiceItemDetails = function () {
-        let itemDetails = [];
-        invoiceBaseAssayComponent.getValues().forEach(q => {
-            itemDetails.add({
-                materialElementId: q.materialElementId,
-                assay: q.value,
-                basePrice: invoiceBasePriceComponent.getValues().filter(bp => bp.elementId === q.elementId).first().value,
-                rcPrice: invoiceDeductionComponent.pane.getValues().slice(1).filter(trc => trc.materialElementId === q.materialElementId).first().rcPrice,
-                rcBasePrice: invoiceDeductionComponent.pane.getValues().slice(1).filter(trc => trc.materialElementId === q.materialElementId).first().rcBasePrice.getValues().value,
-                rcUnitConversionRate: invoiceDeductionComponent.pane.getValues().slice(1).filter(trc => trc.materialElementId === q.materialElementId).first().rcUnitConversionRate,
-                deductionType: invoiceCalculationComponent.pane.getValues().filter(ca => ca.elementId === q.elementId).first().deductionType,
-                deductionValue: invoiceCalculationComponent.pane.getValues().filter(ca => ca.elementId === q.elementId).first().deductionValue,
-                deductionUnitConversionRate: invoiceCalculationComponent.pane.getValues().filter(ca => ca.elementId === q.elementId).first().deductionUnitConversionRate,
-                deductionPrice: invoiceCalculationComponent.pane.getValues().filter(ca => ca.elementId === q.elementId).first().deductionPrice
-            })
-        });
-        return itemDetails;
-    };
+    if (remittanceDetails.length === 1) {
 
-    foreignInvoiceTab.method.getForeignInvoiceItems = function () {
-        let items = [];
+        let invoiceBaseValuesComponent = foreignInvoiceTab.tab.invoice.tabs.filter(t => t.pane.Class === isc.InvoiceBaseValues.Class).first().pane;
+        let invoiceBasePriceComponent = invoiceBaseValuesComponent.invoiceBasePriceComponent;
+        let invoiceBaseAssayComponent = invoiceBaseValuesComponent.invoiceBaseAssayComponent;
+        let invoiceBaseWeightComponent = invoiceBaseValuesComponent.invoiceBaseWeightComponent;
 
-        remittanceDetails.forEach(current => {
-            items.add({
-                weightGW: invoiceBaseWeightComponent.getValues().weightGW.getValues().value,
-                weightND: invoiceBaseWeightComponent.getValues().weightND.getValues().value,
-                treatCost: invoiceDeductionComponent.pane.getValues().filter(q => q.name === "TC").first().value,
-                remittanceDetailId: current.id,
-                assayMilestone: invoiceBaseAssayComponent.getValues()[0].assayMilestone,
-                weightMilestone: invoiceBaseWeightComponent.getValues().weightMilestone,
-                foreignInvoiceItemDetails: foreignInvoiceTab.method.getForeignInvoiceItemDetails()
+        let invoiceCalculationComponent = foreignInvoiceTab.tab.invoice.tabs.filter(t => t.pane.Class === isc.InvoiceCalculation.Class).first();
+        if (!invoiceCalculationComponent) return null;
+        let invoiceDeductionComponent = foreignInvoiceTab.tab.invoice.tabs.filter(t => t.pane.Class === isc.InvoiceDeduction.Class).first();
+        if (!invoiceDeductionComponent) return null;
+
+        function getForeignInvoiceItemDetails() {
+            let itemDetails = [];
+            invoiceBaseAssayComponent.getValues().forEach(q => {
+                itemDetails.add({
+                    assay: q.value,
+                    materialElementId: q.materialElementId,
+                    basePrice: invoiceBasePriceComponent.getValues().filter(bp => bp.elementId === q.elementId).first().value,
+                    deductionType: invoiceCalculationComponent.pane.getValues().filter(ca => ca.elementId === q.elementId).first().deductionType,
+                    deductionValue: invoiceCalculationComponent.pane.getValues().filter(ca => ca.elementId === q.elementId).first().deductionValue,
+                    deductionPrice: invoiceCalculationComponent.pane.getValues().filter(ca => ca.elementId === q.elementId).first().deductionPrice,
+                    deductionUnitConversionRate: invoiceCalculationComponent.pane.getValues().filter(ca => ca.elementId === q.elementId).first().deductionUnitConversionRate,
+                    rcPrice: invoiceDeductionComponent.pane.getValues().slice(1).filter(trc => trc.materialElementId === q.materialElementId).first().rcPrice,
+                    rcBasePrice: invoiceDeductionComponent.pane.getValues().slice(1).filter(trc => trc.materialElementId === q.materialElementId).first().rcBasePrice.getValues().value,
+                    rcUnitConversionRate: invoiceDeductionComponent.pane.getValues().slice(1).filter(trc => trc.materialElementId === q.materialElementId).first().rcUnitConversionRate
+                })
             });
-        });
-        return items;
-    };
+            return itemDetails;
+        }
 
-    data.foreignInvoiceItems = foreignInvoiceTab.method.getForeignInvoiceItems();
+        data.foreignInvoiceItems = function () {
+            let items = [];
+
+            remittanceDetails.forEach(current => {
+                items.add({
+                    remittanceDetailId: current.id,
+                    weightMilestone: invoiceBaseWeightComponent.getValues().weightMilestone,
+                    weightGW: invoiceBaseWeightComponent.getValues().weightGW.getValues().value,
+                    weightND: invoiceBaseWeightComponent.getValues().weightND.getValues().value,
+                    assayMilestone: invoiceBaseAssayComponent.getValues()[0].assayMilestone,
+                    treatCost: invoiceDeductionComponent.pane.getValues().filter(q => q.name === "TC").first().value,
+                    foreignInvoiceItemDetails: getForeignInvoiceItemDetails()
+                });
+            });
+            return items;
+        }();
+    } else {
+
+        let invoiceCalculation2Component = foreignInvoiceTab.tab.invoice.tabs.filter(t => t.pane.Class === isc.InvoiceCalculation2.Class).first().pane;
+        data.foreignInvoiceItems = invoiceCalculation2Component.getForeignInvoiceItems();
+    }
 
     delete data.contract;
     delete data.conversionRef;

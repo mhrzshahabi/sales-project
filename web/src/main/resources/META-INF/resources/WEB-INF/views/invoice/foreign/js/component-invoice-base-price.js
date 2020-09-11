@@ -76,8 +76,8 @@ isc.defineClass("InvoiceBasePrice", isc.VLayout).addProperties({
                     width: "100%",
                     height: "50",
                     contents: "<b>" + "AVERAGE OF " + (month + moasValue) +
-                    "th MONTH OF " + year + " (MOAS" + (moasValue === 0 ? "" : (moasValue > 0 ? "+" : "-") + moasValue) +
-                    ") " + " FOR " + fieldsNames + "<b>"
+                        "th MONTH OF " + year + " (MOAS" + (moasValue === 0 ? "" : (moasValue > 0 ? "+" : "-") + moasValue) +
+                        ") " + " FOR " + fieldsNames + "</b>"
                 }));
 
                 if (members.length)
@@ -105,9 +105,6 @@ isc.defineClass("InvoiceBasePrice", isc.VLayout).addProperties({
     },
     validate: function () {
 
-        if(!this.getMembers().filter(q => q.name === "exist").length)
-            return false;
-
-        return true;
+        return this.getMembers().filter(q => q.name === "exist").length;
     }
 });

@@ -19,7 +19,8 @@ isc.defineClass("InvoiceCalculation2", isc.VLayout).addProperties({ //TestShod
         let This = this;
         let sendDate = new Date(This.shipment.sendDate);
         let grid = isc.ListGrid.nicico.getDefault([], null, null, {
-            showGridSummary: true
+            showGridSummary: true,
+            showFilterEditor: false
         });
         let priceArticleElement = isc.HTMLFlow.create({
             width: "100%"
@@ -27,8 +28,8 @@ isc.defineClass("InvoiceCalculation2", isc.VLayout).addProperties({ //TestShod
         let priceBaseElement = isc.Label.create({
             width: "100%"
         });
-        this.addMember(isc.DynamicForm.create({
-
+        let dynamicForm = isc.DynamicForm.create({
+            width: "80%",
             numCols: 6,
             fields: [{
 
@@ -55,17 +56,27 @@ isc.defineClass("InvoiceCalculation2", isc.VLayout).addProperties({ //TestShod
                     validateOnChange: true
                 }],
                 valueMap: JSON.parse('${Enum_MileStone}'),
-            }, {
-                editorType: "button",
-                wrapTitle: false,
-                title: "<spring:message code='global.search'/>",
-                click: function (form, item, value) {
+            }]
+        });
 
-                    let validate = form.validate();
+        this.addMember(isc.HLayout.create({
+            width: "100%",
+            showEdges: false,
+            alignLayout: "center",
+            padding: 10,
+            layoutMargin: 10,
+            membersMargin: 10,
+            members: [dynamicForm, isc.IButton.create({
+                autoFit: true,
+                icon: "[SKIN]/actions/view.png",
+                title: "<spring:message code='global.search'/>",
+                click: function () {
+
+                    let validate = dynamicForm.validate();
                     if (!validate) return false;
                     isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                         params: {
-                            weightMilestone: form.getItem("weightMilestone").getValue(),
+                            weightMilestone: dynamicForm.getItem("weightMilestone").getValue(),
                             contractId: This.contract.id,
                             shipmentId: This.shipment.id,
                             year: sendDate.getFullYear(),
@@ -73,7 +84,7 @@ isc.defineClass("InvoiceCalculation2", isc.VLayout).addProperties({ //TestShod
                             financeUnitId: This.currency.id,
                             reference: This.contractDetailData.basePriceReference,
                             inventoryIds: This.remittanceDetails.map(q => q.inventory.id),
-                            assayMilestone: form.getItem("assayMilestone").getValue()
+                            assayMilestone: dynamicForm.getItem("assayMilestone").getValue()
                         },
                         httpMethod: "GET",
                         actionURL: "${contextPath}" + "/api/foreign-invoice-item/get-calculation2-data",
@@ -84,11 +95,11 @@ isc.defineClass("InvoiceCalculation2", isc.VLayout).addProperties({ //TestShod
                                 let data = JSON.parse(resp.data);
                                 grid.editorExit = function (editCompletionEvent, record, newValues, rowNum) {
 
-                                    if (editCompletionEvent === "enter" && newValues) {
+                                    if (editCompletionEvent !== "escape") {
 
                                         let price = Number(record["price"]);
                                         let discount = Number(record["discount"]);
-                                        let unitConversionRate = Number(newValues);
+                                        let unitConversionRate = Number(newValues ? newValues : record["unitConversionRate"]);
                                         let colNum = grid.fields.indexOf(grid.fields.filter(q => q.name === "amount").first());
                                         if (!unitConversionRate) unitConversionRate = 1;
                                         grid.setEditValue(rowNum, colNum, (price - (price * discount / 100)) * unitConversionRate);
@@ -99,28 +110,40 @@ isc.defineClass("InvoiceCalculation2", isc.VLayout).addProperties({ //TestShod
                                     if (field.type !== "float")
                                         return;
 
+                                    field.showHover = true;
+                                    field.hoverHTML = function (record, value, rowNum, colNum, grid) {
+
+                                        if (!record)
+                                            return;
+
+                                        let gridField = grid.getField(colNum);
+                                        if (!gridField)
+                                            return;
+
+                                        return record[gridField.name + "_UNIT"];
+                                    };
                                     field.formatCellValue = function (value, record, rowNum, colNum) {
                                         return record[field.name];
-                                    }
+                                    };
                                 });
                                 grid.setFields(data.fields);
                                 grid.setData(data.data);
 
-                                let priceBaseText = 'FINAL PRICE:';
+                                let priceBaseText = 'FINAL PRICE:<br>';
                                 for (let i = 0; i < data.priceBase.length; i++)
-                                    priceBaseText += "<b>" + "MONTHLY AVERAGE OF " + This.contractDetailData.basePriceReference + "FOR" + (sendDate.getMonth() + 1 + This.contractDetailData.moasValue) +
+                                    priceBaseText += "<b>" + "MONTHLY AVERAGE OF " + This.contractDetailData.basePriceReference + " FOR " + (sendDate.getMonth() + 1 + This.contractDetailData.moasValue) +
                                         "th MONTH OF " + sendDate.getFullYear() + " (MOAS" + (This.contractDetailData.moasValue === 0 ? "" : (This.contractDetailData.moasValue > 0 ? "+" : "-") + This.contractDetailData.moasValue) +
-                                        ") " + " FOR " + data.priceBase[i].element.name + "<b><br>";
+                                        ") " + " FOR " + data.priceBase[i].element.name + ": " + data.priceBase[i].price + "</b><br>";
                                 priceBaseElement.setContents(priceBaseText);
-                                priceArticleElement.setContents(data.priceArticleText);
+                                priceArticleElement.setContents("<b>" + data.priceArticleText + "</b>");
                             }
                         }
                     }));
 
                 }
-            }
-            ]
+            })]
         }));
+        this.addMember();
 
         this.addMember(grid);
         this.addMember(priceArticleElement);
@@ -130,7 +153,6 @@ isc.defineClass("InvoiceCalculation2", isc.VLayout).addProperties({ //TestShod
             width: "100%",
             contents: "<span style='width: 100%; display: block; margin: 10px auto; border-bottom: 1px solid rgba(0,0,0,0.3)'></span>"
         }));
-
         This.addMember(isc.ToolStrip.create({
             width: "100%",
             border: '0px',
@@ -154,7 +176,6 @@ isc.defineClass("InvoiceCalculation2", isc.VLayout).addProperties({ //TestShod
                 })
             ]
         }));
-
         this.addMember(isc.HTMLFlow.create({
             width: "100%",
             contents: "<span style='width: 100%; display: block; margin: 10px auto; border-bottom: 1px solid rgba(0,0,0,0.3)'></span>"
@@ -162,7 +183,7 @@ isc.defineClass("InvoiceCalculation2", isc.VLayout).addProperties({ //TestShod
     },
     validate: function () {
 
-        let isValid = this.getMember(0).validate();
+        let isValid = this.getMember(0).getMember(0).validate();
         for (let i = 0; i < this.getMember(1).getTotalRows(); i++) {
 
             this.getMember(1).validateRow(i);
@@ -192,5 +213,53 @@ isc.defineClass("InvoiceCalculation2", isc.VLayout).addProperties({ //TestShod
     },
     getCalculationSubTotal: function () {
         return this.getMember(1).getGridSummaryData().map(q => q.amount).sum();
+    },
+    getForeignInvoiceItems: function () {
+
+        let data = [];
+        let This = this;
+        let gridData = this.getMember(1).getData();
+        let formData = this.getMember(0).getMember(0).getValues();
+
+        function getForeignInvoiceItemDetails(item) {
+
+            let itemDetails = [];
+            item.assayInspections.forEach(q => {
+                itemDetails.add({
+                    assay: q.value,
+                    materialElementId: q.materialElementId,
+                    basePrice: item.priceBase.filter(bp => bp.elementId === q.elementId).first().price,
+                    deductionType: JSON.parse('${Enum_DeductionType}').DiscountPercent,
+                    deductionValue: item.discount,
+                    deductionPrice: item.price * item.discount / 100,
+                    deductionUnitConversionRate: item.unitConversionRate,
+                    rcPrice: 0,
+                    rcBasePrice: 0,
+                    rcUnitConversionRate: 1
+                })
+            });
+
+            return itemDetails;
+        }
+
+        gridData.forEach(current => {
+
+            let remittanceDetails = This.remittanceDetails.filter(q => q.inventoryId === current.inventory.id);
+            if (remittanceDetails.length !== 1)
+                return;
+
+            let remittanceDetail = remittanceDetails.first();
+            data.add({
+                treatCost: 0,
+                weightGW: current.weightGW,
+                weightND: current.weightND,
+                assayMilestone: formData.assayMilestone,
+                weightMilestone: formData.weightMilestone,
+                remittanceDetailId: remittanceDetail.id,
+                foreignInvoiceItemDetails: getForeignInvoiceItemDetails(current)
+            });
+        });
+
+        return data;
     }
 });

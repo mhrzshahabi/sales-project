@@ -87,15 +87,14 @@ isc.defineClass("InvoiceDeduction", isc.VLayout).addProperties({
                     title: "<spring:message code='global.ok'/>",
                     click: function () {
 
-                        if (!This.validate()) return;
-                        else {
+                        if (!This.validate())
+                            return;
 
-                            This.okButtonClick();
+                        This.okButtonClick();
 
-                            let tab = This.parentElement.parentElement;
-                            tab.getTab(tab.selectedTab).pane.members.forEach(q => q.disable());
-                            tab.selectTab(tab.selectedTab + 1 % tab.tabs.length);
-                        }
+                        let tab = This.parentElement.parentElement;
+                        tab.getTab(tab.selectedTab).pane.members.forEach(q => q.disable());
+                        tab.selectTab(tab.selectedTab + 1 % tab.tabs.length);
                     }
                 }),
                 isc.ToolStrip.create(
@@ -128,8 +127,11 @@ isc.defineClass("InvoiceDeduction", isc.VLayout).addProperties({
             contents: "<span style='width: 100%; display: block; margin: 10px auto; border-bottom: 1px solid rgba(0,0,0,0.3)'></span>"
         }));
     },
-    getDeductionSubTotal: function () {
-        return this.getMembers().filter(q => q.name === "subTotal").first().getValues().value;
+    validate: function () {
+
+        let isValid = true;
+        this.getMembers().slice(1, this.invoiceCalculationComponent.getValues().length).forEach(q => isValid &= q.validate());
+        return isValid;
     },
     getValues: function () {
 
@@ -154,10 +156,7 @@ isc.defineClass("InvoiceDeduction", isc.VLayout).addProperties({
     okButtonClick: function () {
 
     },
-    validate: function () {
-
-        let isValid = true;
-        this.getMembers().slice(1, this.invoiceCalculationComponent.getValues().length).forEach(q => isValid &= q.validate());
-        return isValid;
+    getDeductionSubTotal: function () {
+        return this.getMembers().filter(q => q.name === "subTotal").first().getValues().value;
     }
 });

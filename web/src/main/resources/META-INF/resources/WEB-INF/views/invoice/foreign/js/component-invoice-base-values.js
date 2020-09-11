@@ -38,7 +38,7 @@ isc.defineClass("InvoiceBaseValues", isc.VLayout).addProperties({
                 contents: "<span style='width: 100%; display: block; margin: 10px auto; border-bottom: 1px solid rgba(0,0,0,0.3)'></span>"
             }));
 
-            if (This.contract.materialId !== ImportantIDs.material.COPPER_CATHOD) {
+            if (this.contract.materialId !== ImportantIDs.material.COPPER_CATHOD) {
 
                 this.invoiceBaseAssayComponent = isc.InvoiceBaseAssay.create({
                     shipment: This.shipment,
@@ -66,7 +66,7 @@ isc.defineClass("InvoiceBaseValues", isc.VLayout).addProperties({
 
         }
 
-        This.addMember(isc.ToolStrip.create({
+        this.addMember(isc.ToolStrip.create({
             width: "100%",
             border: '0px',
             members: [
@@ -79,18 +79,17 @@ isc.defineClass("InvoiceBaseValues", isc.VLayout).addProperties({
 
                         if (!This.validate())
                             return;
-                        else {
 
-                            This.okButtonClick();
+                        This.okButtonClick();
 
-                            let tab = This.parentElement.parentElement;
-                            tab.getTab(tab.selectedTab).pane.members.forEach(q => q.disable());
-                            tab.selectTab(tab.selectedTab + 1 % tab.tabs.length);
-                        }
+                        let tab = This.parentElement.parentElement;
+                        tab.getTab(tab.selectedTab).pane.members.forEach(q => q.disable());
+                        tab.selectTab(tab.selectedTab + 1 % tab.tabs.length);
                     }
                 })
             ]
         }));
+
         this.addMember(isc.HTMLFlow.create({
             width: "100%",
             contents: "<span style='width: 100%; display: block; margin: 10px auto; border-bottom: 1px solid rgba(0,0,0,0.3)'></span>"
@@ -109,9 +108,6 @@ isc.defineClass("InvoiceBaseValues", isc.VLayout).addProperties({
     },
     validate: function () {
 
-        if (!this.invoiceBasePriceComponent)
-            return false;
-
-        return true;
+        return this.invoiceBasePriceComponent;
     }
 });
