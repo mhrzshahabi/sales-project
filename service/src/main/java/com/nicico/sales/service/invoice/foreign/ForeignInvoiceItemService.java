@@ -164,7 +164,7 @@ public class ForeignInvoiceItemService extends GenericService<ForeignInvoiceItem
 
                         discount[0] = discount[0].add(contractDiscount.get().getDiscount());
                         record.put(element.getName() + "Discount", contractDiscount.get().getDiscount());
-                        record.put(element.getName() + "Discount_UNIT", "%");
+                        record.put(element.getName() + "Discount_UNIT", "PERCENT");
                     }
                 } else {
 
@@ -179,7 +179,7 @@ public class ForeignInvoiceItemService extends GenericService<ForeignInvoiceItem
             record.put(PRICE, price[0]);
             record.put(PRICE + "_UNIT", unit.getSymbolUnit().name());
             record.put(DISCOUNT, discount[0]);
-            record.put(DISCOUNT + "_UNIT", "%");
+            record.put(DISCOUNT + "_UNIT", "PERCENT");
             record.put(UNIT_CONVERSION_RATE, 1);
             record.put(AMOUNT, price[0].subtract(price[0].multiply(discount[0]).divide(new BigDecimal(100), MathContext.DECIMAL32)));
             record.put(AMOUNT + "_UNIT", unit.getSymbolUnit().name());
