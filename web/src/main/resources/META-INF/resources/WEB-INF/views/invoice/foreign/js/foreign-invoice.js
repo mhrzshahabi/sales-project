@@ -403,16 +403,16 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
                     operator: "and",
                     criteria:
                         [
-                            // {
-                            //     fieldName: "currencyDate",
-                            //     operator: "lessOrEqual",
-                            //     value: toDate.toString()
-                            // },
-                            // {
-                            //     fieldName: "currencyDate",
-                            //     operator: "greaterOrEqual",
-                            //     value: fromDate.toString()
-                            // },
+                            {
+                                fieldName: "currencyDate",
+                                operator: "lessOrEqual",
+                                value: toDate.toString()
+                            },
+                            {
+                                fieldName: "currencyDate",
+                                operator: "greaterOrEqual",
+                                value: fromDate.toString()
+                            },
                             {
                                 fieldName: "unitFromId",
                                 operator: "equals",
