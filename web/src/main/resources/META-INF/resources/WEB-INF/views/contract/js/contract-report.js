@@ -747,7 +747,7 @@ crTab.Methods.UpdateInputOutputCharts = function () {
 
         },
     ].map(_ => JSON.stringify(_)).join("&criteria=")
-    fetch('api/remittance-detail/spec-list/?criteria=' + criteriaStr
+    fetch('api/remittance-detail/spec-list/?operator=and&criteria=' + criteriaStr
         , {headers: SalesConfigs.httpHeaders}).then(r => {
         if (r.ok) {
             r.json().then(
@@ -1187,7 +1187,25 @@ crTab.Fields.RemittanceDetailFullFields = function () {
         },
         {
             name: "destinationTozin.sourceId",
+            title: "کد مبدا اعلامی توزین مقصد"
         },
+         {
+            name: "sourceTozin.sourceWarehouse.name",
+            title: " مبدا اعلامی توزین مبدا"
+        },
+        {
+            name: "sourceTozin.targetWarehouse.name",
+            title: " مقصد اعلامی توزین مبدا"
+        },
+ {
+            name: "destinationTozin.sourceWarehouse.name",
+            title: " مبدا اعلامی توزین مقصد"
+        },
+        {
+            name: "destinationTozin.targetWarehouse.name",
+            title: " مقصد اعلامی توزین مقصد"
+        },
+
         {
             name: "destinationTozin.date",
             title: "تاریخ توزین مقصد",
@@ -1196,6 +1214,8 @@ crTab.Fields.RemittanceDetailFullFields = function () {
         },
         {
             name: "destinationTozin.targetId",
+            title: "کد مقصد اعلامی توزین مقصد"
+
 
 
         },
