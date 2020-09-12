@@ -20,7 +20,7 @@ isc.defineClass("InvoiceBaseInfo", isc.VLayout).addProperties({
         let result = '';
 
         let material = This.contract.material;
-        let deliveryTerm = __contract.getDeliveryTerm(This.contract);
+        let deliveryTerm = {rule: "FOB", version: "2010"}; // TODO change it
         let buyer = This.contract.contractContacts.filter(q => q.commercialRole === JSON.parse('${Enum_CommercialRole}').Buyer).first().contact;
 
         this.addMember(isc.Label.create({

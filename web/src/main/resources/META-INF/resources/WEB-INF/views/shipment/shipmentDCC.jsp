@@ -13,6 +13,7 @@
         criteria: [
             {fieldName: "tblName1", operator: "equals", value: dccTableName},
             {fieldName: "documentType", operator: "equals", value: dccDocumentType}
+
         ]
     };
     function ListGrid_Shipment_Dcc_refresh() {
@@ -301,7 +302,7 @@
                     title: "<spring:message code='global.Attachment'/> ",
                     type: "file",
                     required: true,
-                    accept: ".docx/*",
+                    accept: "doc/*,docx/*",
                     multiple: "",
                     width: 200,
                     validators: [

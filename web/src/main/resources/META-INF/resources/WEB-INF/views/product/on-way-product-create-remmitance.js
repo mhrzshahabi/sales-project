@@ -970,10 +970,12 @@ function onWayProductCreateRemittance(criteriaBuildForListGrid) {
         message: "لطفا صبر کنید",
     });
     Promise.all([
-        onWayProductFetch('tozin', 'or', ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecords()
-            .map(tz => {
-                return {fieldName: 'tozinId', operator: 'equals', value: tz['tozinId']}
-            })),
+        onWayProductFetch('tozin', 'or',
+            [
+                {fieldName: 'tozinId', operator: 'inSet', value: ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecords()
+                        .map(_=>_.tozinId)}
+                ]
+        ),
         onWayProductFetch('cathodList', 'or', criteria_cathode.criteria)
     ]).then(([tozin, tozinPackagesData]) => {
         // //console.log('tozin, tozinPackagesData', tozin, tozinPackagesData)

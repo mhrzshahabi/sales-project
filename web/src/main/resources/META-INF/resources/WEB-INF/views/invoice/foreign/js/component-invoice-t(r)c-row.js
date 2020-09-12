@@ -11,6 +11,7 @@ isc.defineClass("InvoiceDeductionRow", isc.HLayout).addProperties({
     rcData: null,
     currency: null,
     elementFinalAssay: null,
+    rcDeductionRowData: null,
     initWidget: function () {
 
         this.Super("initWidget", arguments);
@@ -76,7 +77,7 @@ isc.defineClass("InvoiceDeductionRow", isc.HLayout).addProperties({
                     type: "required",
                     validateOnChange: true,
                 }],
-                changed: function (form, item, value) {
+                changed: function () {
 
                     This.calculate();
                 }
@@ -106,13 +107,13 @@ isc.defineClass("InvoiceDeductionRow", isc.HLayout).addProperties({
         this.sumDeductionChanged(deductionPriceValue);
 
     },
-    getFinalAssay: function () {
-
-        return this.getMembers().filter(q => q.name === "finalAssay").first();
-    },
     getRCPrice: function () {
 
         return this.getMembers().filter(q => q.isConversionForm).first().getValue("deductionPrice");
+    },
+    getFinalAssay: function () {
+
+        return this.getMembers().filter(q => q.name === "finalAssay").first();
     },
     getRCBasePrice: function () {
 
@@ -122,6 +123,14 @@ isc.defineClass("InvoiceDeductionRow", isc.HLayout).addProperties({
 
         return this.getMembers().filter(q => q.isConversionForm).first().getValue("rcUnitConversionRate");
     },
+    editRowDeduction: function () {
+
+        if (this.rcDeductionRowData) {
+
+            this.getMembers().filter(q => q.isConversionForm).first().setValue("rcUnitConversionRate", this.rcDeductionRowData.rcUnitConversionRate);
+            this.getMembers().filter(q => q.isConversionForm).first().getItem("rcUnitConversionRate").changed();
+        }
+    },
     validate: function () {
 
         let conversionForm = this.getMembers().filter(q => q.isConversionForm).first();
@@ -129,4 +138,3 @@ isc.defineClass("InvoiceDeductionRow", isc.HLayout).addProperties({
         return !conversionForm.hasErrors();
     }
 });
-

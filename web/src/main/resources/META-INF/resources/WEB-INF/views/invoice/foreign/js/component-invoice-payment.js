@@ -9,10 +9,10 @@ isc.defineClass("InvoicePayment", isc.VLayout).addProperties({
     overflow: "auto",
     currency: null,
     shipment: null,
-    contract: null,
     conversionRef: null,
     conversionDate: null,
     conversionRate: null,
+    shipmentCostInvoiceRate: 1,
     invoiceDeductionComponent: null,
     invoiceBaseWeightComponent: null,
     invoiceCalculationComponent: null,
@@ -40,20 +40,25 @@ isc.defineClass("InvoicePayment", isc.VLayout).addProperties({
         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
 
             httpMethod: "GET",
-            // params: {
-            //     criteria: {
-            //         operator: "and",
-            //         criteria: [{
-            //             fieldName: "contractId",
-            //             operator: "equals",
-            //             value: This.shipment.contractShipment.contractId
-            //         }]
-            //     }
-            // },
+            params: {
+                criteria: {
+                    operator: "and",
+                    criteria: [{
+                        fieldName: "shipmentId",
+                        operator: "equals",
+                        value: This.shipment.id
+                    }]
+                }
+            },
             actionURL: "${contextPath}/api/shipmentCostInvoice/spec-list",
             callback: function (resp) {
 
                 This.shipmentCostInvoices = JSON.parse(resp.data).response.data;
+                This.shipmentCostInvoices.forEach(item => {
+
+                    item.buyerShare *= This.shipmentCostInvoiceRate;
+                    item.conversionSumPrice *= This.shipmentCostInvoiceRate;
+                });
 
                 isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                     httpMethod: "GET",
@@ -321,11 +326,31 @@ isc.defineClass("InvoicePayment", isc.VLayout).addProperties({
             }
         }));
     },
+    validate: function () {
+
+        let isValid = true;
+        this.getMembers().filter(q => q.validate).forEach(q => isValid &= q.validate());
+        return isValid;
+    },
     calculate: function () {
 
         let conversionRateValue = this.getMembers().last().getMembers().first().getValue("conversionRate");
         let sumFIPriceValue = this.getMembers().first().getMembers().filter(q => q.name === "sumFIPrice").first().getValues().value;
         this.getMembers().last().getMembers()[1].setValue(conversionRateValue * sumFIPriceValue);
+    },
+    getValues: function () {
+
+        return {
+            shipmentCostInvoices: this.getForeignInvoicePayment(),
+            unitCost: this.invoiceDeductionComponent.getDeductionSubTotal(),
+            unitPrice: this.invoiceCalculationComponent.getCalculationSubTotal(),
+            sumFIPrice: this.getMembers().filter(q => q.name === "sumFIPrice").first(),
+            sumPrice: this.getMembers().filter(q => q.name === "sumPrice").first(),
+            conversionDate: this.conversionDate,
+            conversionRate: this.conversionRate,
+            conversionSumPrice: this.getMembers().filter(q => q.name === "conversionSumPrice").first(),
+            conversionSumPriceText: this.getMembers().filter(q => q.role === "conversionSumPriceText").first().getValue("conversionSumPriceText")
+        };
     },
     getForeignInvoicePayment: function () {
 
@@ -348,25 +373,5 @@ isc.defineClass("InvoicePayment", isc.VLayout).addProperties({
             });
         }
         return data;
-    },
-    getValues: function () {
-
-        return {
-            shipmentCostInvoices: this.getForeignInvoicePayment(),
-            unitCost: this.invoiceDeductionComponent.getDeductionSubTotal(),
-            unitPrice: this.invoiceCalculationComponent.getCalculationSubTotal(),
-            sumFIPrice: this.getMembers().filter(q => q.name === "sumFIPrice").first(),
-            sumPrice: this.getMembers().filter(q => q.name === "sumPrice").first(),
-            conversionDate: this.conversionDate,
-            conversionRate: this.conversionRate,
-            conversionSumPrice: this.getMembers().filter(q => q.name === "conversionSumPrice").first(),
-            conversionSumPriceText: this.getMembers().filter(q => q.role === "conversionSumPriceText").first().getValue("conversionSumPriceText")
-        };
-    },
-    validate: function () {
-
-        let isValid = true;
-        this.getMembers().filter(q => q.validate).forEach(q => isValid &= q.validate());
-        return isValid;
     }
 });

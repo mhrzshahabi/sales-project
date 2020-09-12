@@ -96,7 +96,71 @@ function getReferenceFields(referenceType) {
         case 'Incoterm':
             return [
                 {name: "id", title: "id", primaryKey: true, hidden: true},
-                {name: "title", title: '<spring:message code="global.title"/>'}
+                {name: "title", title: '<spring:message code="global.title"/>'},
+                {name: "incotermVersion", title: '<spring:message code="global.version"/>'}
+            ]
+        case 'TypicalAssay':
+            return [
+                {name: "id", hidden: true, width: "10%"},
+                {
+                    name: "minValue",
+                    title: "<spring:message code='MaterialFeature.minValue'/>",
+                    width: "100%"
+                },
+                {
+                    name: "maxValue",
+                    title: "<spring:message code='MaterialFeature.maxValue'/>",
+                    width: "100%"
+                },
+                {
+                    name: "unitId",
+                    title: "<spring:message code='global.unit'/>",
+                    width: "100%",
+                    type: "long",
+                    required: true,
+                    autoFetchData: false,
+                    editorType: "SelectItem",
+                    valueField: "id",
+                    displayField: "nameEN",
+                    pickListHeight: "300",
+                    optionDataSource: isc.MyRestDataSource.create({
+                        fields: BaseFormItems.concat([
+                            {name: "nameFA"},
+                            {name: "nameEN"}
+                        ]),
+                        fetchDataURL: "${contextPath}/api/unit/" + "spec-list"
+                    }),
+                    pickListFields: [
+                        {name: "nameFA", title: '<spring:message code="unit.nameFa"/>'},
+                        {name: "nameEN", title: '<spring:message code="unit.nameEN"/>'}
+                    ]
+                },
+                {
+                    name: "materialElementId",
+                    title: "<spring:message code='assayInspection.materialElement'/>",
+                    width: "100%",
+                    type: "long",
+                    required: true,
+                    autoFetchData: false,
+                    editorType: "SelectItem",
+                    valueField: "id",
+                    displayField: "elementName",
+                    pickListHeight: "300",
+                    optionDataSource: isc.MyRestDataSource.create({
+                        fields: BaseFormItems.concat([
+                            {
+                                name: "elementName",
+                                title: '<spring:message code="assayInspection.materialElement.name"/>'
+                            },
+                            {name: "material.descl", title: '<spring:message code="material.descl"/>'}
+                        ]),
+                        fetchDataURL: "${contextPath}/api/materialElement/" + "spec-list"
+                    }),
+                    pickListFields: [
+                        {name: "elementName", title: '<spring:message code="assayInspection.materialElement.name"/>'},
+                        {name: "material.descl", title: '<spring:message code="material.descl"/>'}
+                    ]
+                }
             ]
         case 'RateReference':
             return '';
@@ -133,13 +197,13 @@ function getReferenceDataSource(referenceType) {
             url = "${contextPath}" + "/api/unit/spec-list";
             break;
         case 'Incoterm':
-            url = "${contextPath}" + "/api/g-incoterm/spec-list";
+            url = "${contextPath}" + "/api/g-incoterm/list-contract";
             break;
-        case 'RateReference':
-            url = "";
+        case 'IncotermRules':
+            url = "${contextPath}" + "/api/g-incoterm/incoterm-rules";
             break;
-        case 'PriceBaseReference':
-            url = "";
+        case 'TypicalAssay':
+            url = "${contextPath}" + "/api/typicalAssay/spec-list";
             break;
         default:
             return null;

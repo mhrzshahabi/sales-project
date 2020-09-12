@@ -49,7 +49,6 @@ isc.defineClass("InvoiceBasePrice", isc.VLayout).addProperties({
                             return;
 
                         members.add(isc.Unit.create({
-                            hasExist: "exist",
                             unitHint: "PER " + priceBase.weightUnit.nameEN,
                             unitCategory: priceBase.financeUnit.categoryUnit,
                             fieldValueTitle: priceBase.element.name,
@@ -76,14 +75,17 @@ isc.defineClass("InvoiceBasePrice", isc.VLayout).addProperties({
                     width: "100%",
                     height: "50",
                     contents: "<b>" + "AVERAGE OF " + (month + moasValue) +
-                    "th MONTH OF " + year + " (MOAS" + (moasValue === 0 ? "" : (moasValue > 0 ? "+" : "-") + moasValue) +
-                    ") " + " FOR " + fieldsNames + "<b>"
+                        "th MONTH OF " + year + " (MOAS" + (moasValue === 0 ? "" : (moasValue > 0 ? "+" : "-") + moasValue) +
+                        ") " + " FOR " + fieldsNames + "</b>"
                 }));
 
                 if (members.length)
                     This.addMembers(members);
             }
         }));
+    },
+    getDataRowNo: function () {
+        return this.getMembers().slice(1).length;
     },
     getValues: function () {
 
@@ -105,9 +107,11 @@ isc.defineClass("InvoiceBasePrice", isc.VLayout).addProperties({
     },
     validate: function () {
 
-        if(!this.getMembers().filter(q => q.name === "exist").length)
-            return false;
-
-        return true;
+        let isValid = true;
+        this.getMembers().slice(1).forEach(current => {
+            if (current.getValues().value === null)
+                isValid = false;
+        });
+        return isValid;
     }
 });

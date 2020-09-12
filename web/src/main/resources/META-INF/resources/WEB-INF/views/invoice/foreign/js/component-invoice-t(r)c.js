@@ -43,6 +43,7 @@ isc.defineClass("InvoiceDeduction", isc.VLayout).addProperties({
                 elementFinalAssay: calculationValues[index].assay,
                 materialElementId: calculationValues[index].materialElementId,
                 rcData: This.contractDetailData.rc.filter(q => q.elementId === calculationValues[index].elementId).first(),
+                rcDeductionRowData: This.rcDeductionData ? This.rcDeductionData.filter(q => q.materialElementId === calculationValues[index].materialElementId).first() : null,
                 sumDeductionChanged: function (sumDeduction) {
 
                     let subtotalForm = This.getMembers().filter(q => q.name === "subTotal").first();
@@ -87,15 +88,14 @@ isc.defineClass("InvoiceDeduction", isc.VLayout).addProperties({
                     title: "<spring:message code='global.ok'/>",
                     click: function () {
 
-                        if (!This.validate()) return;
-                        else {
+                        if (!This.validate())
+                            return;
 
-                            This.okButtonClick();
+                        This.okButtonClick();
 
-                            let tab = This.parentElement.parentElement;
-                            tab.getTab(tab.selectedTab).pane.members.forEach(q => q.disable());
-                            tab.selectTab(tab.selectedTab + 1 % tab.tabs.length);
-                        }
+                        let tab = This.parentElement.parentElement;
+                        tab.getTab(tab.selectedTab).pane.members.forEach(q => q.disable());
+                        tab.selectTab(tab.selectedTab + 1 % tab.tabs.length);
                     }
                 }),
                 isc.ToolStrip.create(
@@ -127,9 +127,14 @@ isc.defineClass("InvoiceDeduction", isc.VLayout).addProperties({
             width: "100%",
             contents: "<span style='width: 100%; display: block; margin: 10px auto; border-bottom: 1px solid rgba(0,0,0,0.3)'></span>"
         }));
+
+        this.editDeduction();
     },
-    getDeductionSubTotal: function () {
-        return this.getMembers().filter(q => q.name === "subTotal").first().getValues().value;
+    validate: function () {
+
+        let isValid = true;
+        this.getMembers().slice(1, this.invoiceCalculationComponent.getValues().length).forEach(q => isValid &= q.validate());
+        return isValid;
     },
     getValues: function () {
 
@@ -154,10 +159,10 @@ isc.defineClass("InvoiceDeduction", isc.VLayout).addProperties({
     okButtonClick: function () {
 
     },
-    validate: function () {
-
-        let isValid = true;
-        this.getMembers().slice(1, this.invoiceCalculationComponent.getValues().length).forEach(q => isValid &= q.validate());
-        return isValid;
+    editDeduction: function () {
+        this.getMembers().filter(q => q.role === "RC").forEach(current => current.editRowDeduction());
+    },
+    getDeductionSubTotal: function () {
+        return this.getMembers().filter(q => q.name === "subTotal").first().getValues().value;
     }
 });

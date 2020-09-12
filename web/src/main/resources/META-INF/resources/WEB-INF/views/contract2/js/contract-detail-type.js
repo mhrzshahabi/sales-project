@@ -382,7 +382,7 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
                                 return;
                             }
                         }
-                        let defaultValueEditorProperties = contractDetailTypeTab.listGrid.param.getParamEditorProperties(recordType);
+                        let defaultValueEditorProperties = getFieldProperties(recordType, null);
                         if (defaultValueEditorProperties == null)
                             return;
 
@@ -403,7 +403,7 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
                         let defaultValueExtraEditorProperties = {};
                         if (recordType === 'Reference') {
                             let referenceType = record[contractDetailTypeTab.dynamicForm.paramFields.reference.name];
-                            let displayField = contractDetailTypeTab.listGrid.param.getDisplayField(referenceType);
+                            let displayField = getReferenceFields(referenceType)[1].name;
                             if (referenceType.includes('Enum')) {
                                 defaultValueExtraEditorProperties = {
                                     editorType: "SelectItem",
@@ -416,12 +416,7 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
                                     valueField: "id",
                                     displayField: displayField,
                                     pickListHeight: "300",
-                                    optionDataSource: isc.MyRestDataSource.create({
-                                        fields: BaseFormItems.concat([
-                                            {name: displayField}
-                                        ]),
-                                        fetchDataURL: "${contextPath}" + "/api/" + referenceType.toLowerCase() + "/" + "spec-list"
-                                    }),
+                                    optionDataSource: getReferenceDataSource(referenceType),
                                     pickListFields: [
                                         {name: displayField}
                                     ]
@@ -541,30 +536,6 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
                 return {
                     type: "integer"
                 };
-            default:
-                break;
-        }
-
-        return null;
-    },
-    getDisplayField: function (referenceType) {
-        switch (referenceType) {
-            case 'Bank':
-                return 'bankName';
-            case 'Contact':
-                return 'nameFA';
-            case 'Country':
-                return 'nameFa';
-            case 'Material':
-                return 'descp';
-            case 'Port':
-                return 'port';
-            case 'Unit':
-                return 'nameFA';
-            case 'RateReference':
-                return '';
-            case 'PriceBaseReference':
-                return '';
             default:
                 break;
         }

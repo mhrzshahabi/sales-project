@@ -91,6 +91,9 @@ public class ForeignInvoiceDTO {
         @NotNull
         @ApiModelProperty(required = true)
         private Long id;
+        private List<Long> billLadingIds;
+        private List<ForeignInvoiceItemDTO.Update> foreignInvoiceItems;
+        private List<ForeignInvoicePaymentDTO.Update> foreignInvoicePayments;
     }
 
     @Getter
