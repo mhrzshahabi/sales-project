@@ -1321,6 +1321,7 @@
         },
         httpHeaders: {"Authorization": "Bearer <%= accessToken %>", "Content-Type": "application/json;charset=UTF-8"},
         userFullName: '<%= SecurityUtil.getFullName()%>',
+        valuemanager: {}
     }
     isc.FilterBuilder.addProperties({
 
@@ -1411,21 +1412,124 @@
         Object.freeze(EnumCategoryUnit);
     }))
 
-    function dbg(breakpoint = false, ...args) {
+    function dbg(breakpoint = true, ...args) {
         console.debug(...args)
         if (breakpoint && SalesConfigs.Urls.completeUrl.toLowerCase().includes('localhost:8080')) debugger;
     }
 
+    const itemChangedManage = {
+        valuemanager: {},
+        superMethodEditRecordsDynamicForm: isc.DynamicForm.getInstanceProperty('editRecord'),
+        superMethodSetValuesDynamicForm: isc.DynamicForm.getInstanceProperty('setValues'),
+        superMethodClearValuesDynamicForm: isc.DynamicForm.getInstanceProperty('clearValues'),
+        superMethodClearValuesValuesManager: isc.ValuesManager.getInstanceProperty('clearValues'),
+        superMethodEditRecordsValuesManager: isc.ValuesManager.getInstanceProperty('editRecord'),
+        superMethodSetValuesValuesManager: isc.ValuesManager.getInstanceProperty('setValues'),
+        editRecord: function (_record) {
+            if (_record && Object.keys(_record).length > 0) {
+                // dbg()
+                if (!itemChangedManage.valuemanager[this.getID()])
+                    itemChangedManage.valuemanager[this.getID()] = []
+                itemChangedManage.valuemanager[this.getID()].add({
+                    time: new Date().getTime(),
+                    record: _record,
+                    type: "setValues"
+                })
+            }
+        },
+        itemChanged: function (_item, _newValue) {
+            const log = itemChangedManage.valuemanager[this.getID()];
+            if (log && log.length > 0
+                && log[log.length - 1]['record']
+                && log[log.length - 1]['record'][_item.name]
+                && _newValue !== log[log.length - 1]['record'][_item.name]
+            ) {
+                if (_item.getIcon("itemValueChanged")) return;
+                let itemToShow = log[log.length - 1]['record'][_item.name];
+                if (_item.type && _item.type.toString().includes("date")) itemToShow = new Date(itemToShow);
+                if (
+                    _item.displayField
+                    && _item.optionDataSource
+                    && _item.optionDataSource.fetchDataURL
+                ) {
+                    fetch(_item.optionDataSource.fetchDataURL + "?operator=and&criteria=" + JSON.stringify({
+                        fieldName: _item.valueField ? _item.valueField : "id",
+                        operator: "equals",
+                        value: log[log.length - 1]['record'][_item.name]
+                    }), {headers: SalesConfigs.httpHeaders}).then(function (res) {
+                        res.json().then(
+                            function (response) {
+                                if (res.ok && response.response.data.length > 0) {
+                                    itemToShow = response.response.data[0][_item.displayField]
+                                    if (_item.getIcon("itemValueChanged")) {
+                                        _item.removeIcon("itemValueChanged");
+                                        _item.addIcon({
+                                            name: "itemValueChanged",
+                                            inline: true,
+                                            src: 'pieces/history.svg',
+                                            prompt: itemToShow,
+                                            click: _ => isc.say(itemToShow)
+                                        })
+                                    }
+                                }
+                            }
+                        )
+                    })
+                }
+                _item.addIcon({
+                    name: "itemValueChanged",
+                    inline: true,
+                    src: 'pieces/history.svg',
+                    prompt: itemToShow,
+                    click: _ => isc.say(itemToShow)
+                })
+            }
 
-    // const superMethodSetValuesDynamicForm = isc.DynamicForm.getInstanceProperty('setValues');
-    // isc.DynamicForm.addMethods(
-    //     {
-    //         setValues: function (form,item,value) {
-    //             debugger
-    //             return superMethodSetValuesDynamicForm.apply(this, arguments)
-    //         }
-    //     }
-    // )
+        },
+        clearValues: function () {
+            itemChangedManage.valuemanager[this.getID()] = []
+            this.getItems().forEach(function (_item) {
+                if (_item.getIcon("itemValueChanged")) _item.removeIcon("itemValueChanged");
+            })
+        }
+    }
+    isc.DynamicForm.addMethods({
+        editRecord: function (_record) {
+            itemChangedManage.editRecord.apply(this, arguments)
+            return itemChangedManage.superMethodSetValuesDynamicForm.apply(this, arguments)
+        },
+        setValues: function (_record) {
+            itemChangedManage.editRecord.apply(this, arguments)
+            return itemChangedManage.superMethodSetValuesDynamicForm.apply(this, arguments)
+        },
+        itemChanged: function (_item, _newValue) {
+            itemChangedManage.itemChanged.apply(this, arguments)
+        },
+        clearValues: function () {
+            itemChangedManage.clearValues.apply(this, arguments)
+            return itemChangedManage.superMethodClearValuesDynamicForm.apply(this, arguments)
+
+        }
+    })
+    isc.ValuesManager.addMethods({
+        editRecord: function (_record) {
+            itemChangedManage.editRecord.apply(this, arguments)
+            return itemChangedManage.superMethodSetValuesValuesManager.apply(this, arguments)
+        },
+        setValues: function (_record) {
+            itemChangedManage.editRecord.apply(this, arguments)
+            return itemChangedManage.superMethodSetValuesValuesManager.apply(this, arguments)
+        },
+        itemChanged: function (_item, _newValue) {
+            itemChangedManage.itemChanged.apply(this, arguments)
+        },
+        clearValues: function () {
+            itemChangedManage.clearValues.apply(this, arguments)
+            return itemChangedManage.superMethodClearValuesValuesManager.apply(this, arguments)
+
+        }
+    })
+
 </script>
 </body>
 </html>
