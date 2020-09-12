@@ -1,0 +1,32 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+    <changeSet author="SALES" id="synonym_001" context="Local,Development">
+        <sql>
+            create or replace synonym VIEW_CUSTOMER for dev_mdms.CUSTOMER1TBL;
+            create or replace synonym VIEW_LC for dev_mdms.LC_T;
+            create or replace synonym V_CATODLISTFOREXPORT for dev_mdms.V_CATODLISTFOREXPORT;
+            create or replace synonym V_TOZINE_CONTENT_B for dev_mdms.V_TOZINE_CONTENT_B;
+            create or replace synonym V_TOZINE_CONTENT_M for dev_mdms.V_TOZINE_CONTENT_M;
+            create or replace synonym V_TOZINE_CONTENT_M2 for dev_mdms.V_TOZINE_CONTENT_M2;
+            create or replace synonym V_TOZINE_CONTENT_M3 for dev_mdms.V_TOZINE_CONTENT_M3;
+            create or replace synonym VIEW_INTERNAL_INVOICE for dev_mdms.VIEW_INNERSALESFORSALSE;
+        </sql>
+    </changeSet>
+
+    <changeSet author="SALES" id="synonym_002" context="Production">
+        <sql>
+            create or replace synonym VIEW_CUSTOMER for n_mdms.CUSTOMER1TBL;
+            create or replace synonym VIEW_LC for n_mdms.LC_T;
+            create or replace synonym V_CATODLISTFOREXPORT for n_mdms.V_CATODLISTFOREXPORT;
+            create or replace synonym V_TOZINE_CONTENT_B for n_mdms.V_TOZINE_CONTENT_B;
+            create or replace synonym V_TOZINE_CONTENT_M for n_mdms.V_TOZINE_CONTENT_M;
+            create or replace synonym V_TOZINE_CONTENT_M2 for n_mdms.V_TOZINE_CONTENT_M2;
+            create or replace synonym V_TOZINE_CONTENT_M3 for n_mdms.V_TOZINE_CONTENT_M3;
+            create or replace synonym VIEW_INTERNAL_INVOICE for n_mdms.VIEW_INNERSALESFORSALSE;
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

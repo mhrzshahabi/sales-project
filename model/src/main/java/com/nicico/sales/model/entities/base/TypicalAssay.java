@@ -53,10 +53,11 @@ public class TypicalAssay extends BaseEntity {
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "F_CONTRACT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "TYPICALASSAY2CONTRACT2"))
+    @JoinColumn(name = "F_CONTRACT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "FK_TYPICALASSAY2CONTRACT2BYCONTRACTID"))
     private Contract2 contract;
 
-    @Column(name = "F_CONTRACT_ID")
+    @NotNull
+    @Column(name = "F_CONTRACT_ID", nullable = false)
     private Long contractId;
 }
 

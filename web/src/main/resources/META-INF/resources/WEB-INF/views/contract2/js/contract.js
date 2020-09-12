@@ -130,6 +130,7 @@ function contractTabDynamicFormFields() {
                 ],
                 fetchDataURL: "${contextPath}/api/contract-type/spec-list"
             }),
+            optionCriteria: {fieldName: "id", operator: "notEqual", value: 2},
             autoFetchData: false,
             displayField: "titleEn",
             valueField: "id",
@@ -290,9 +291,12 @@ contractTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
                         contractDetailValues: []
                     };
 
-                    section.items[0].validate();
-                    if (section.items[0].hasErrors())
-                        throw "dynamicForm validation is failed.";
+                    if (data.contractTypeId != 3) {
+                        section.items[0].validate();
+                        if (section.items[0].hasErrors())
+                            throw "dynamicForm validation is failed.";
+
+                    }
 
                     // dynamicForm
                     section.items[0].fields.filter(x => x.isBaseItem == null).forEach(x => {
@@ -641,7 +645,7 @@ contractTab.method.addSectionByContract = function (record) {
             align: "center",
             titleAlign: "right",
             numCols: 8,
-            padding: 10,
+            styleName: 'contract-section',
             canSubmit: true,
             showErrorText: true,
             showErrorStyle: true,
@@ -657,6 +661,7 @@ contractTab.method.addSectionByContract = function (record) {
             let contractDetailListGrid = isc.ListGrid.create({
                 width: "100%",
                 height: 300,
+                styleName: 'contract-section',
                 showRowNumbers: true,
                 canAutoFitFields: false,
                 allowAdvancedCriteria: true,
@@ -806,7 +811,7 @@ contractTab.method.addSectionByContractDetailType = function (record) {
         align: "center",
         titleAlign: "right",
         numCols: 8,
-        margin: 10,
+        styleName: 'contract-section',
         canSubmit: true,
         showErrorText: true,
         showErrorStyle: true,
@@ -822,6 +827,7 @@ contractTab.method.addSectionByContractDetailType = function (record) {
             width: "100%",
             height: 300,
             sortField: 1,
+            styleName: 'contract-section',
             showRowNumbers: true,
             canAutoFitFields: false,
             allowAdvancedCriteria: true,

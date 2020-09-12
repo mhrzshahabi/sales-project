@@ -93,7 +93,8 @@ contractDetailTypeTab.dynamicForm.paramFields.key = {
     width: "15%",
     required: true,
     keyPressFilter: "^[A-Za-z|0-9]",
-    title: "<spring:message code='global.key'/>"
+    title: "<spring:message code='global.key'/>",
+    valueMap: JSON.parse('${Enum_EContractDetailValueKey}')
 };
 contractDetailTypeTab.dynamicForm.paramFields.type = {
     name: "type",

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nicico.copper.core.SecurityUtil;
 import com.nicico.sales.enumeration.EContractDetailTypeCode;
+import com.nicico.sales.enumeration.EContractDetailValueKey;
 import com.nicico.sales.model.enumeration.ContractDetailTypeReference;
 import com.nicico.sales.model.enumeration.DataType;
 import com.nicico.sales.model.enumeration.PriceBaseReference;
@@ -28,9 +29,11 @@ public class ContractDetailTypeFormController {
 
         Map<String, String> contractDetailTypeReferences = new HashMap<>();
         Map<String, String> contractDetailTypeCodes = new HashMap<>();
+        Map<String, String> contractDetailValueKeys = new HashMap<>();
         Map<String, String> dataTypes = new HashMap<>();
         Map<Integer, String> rateReferences = new HashMap<>();
         Map<Integer, String> priceBaseReferences = new HashMap<>();
+
         for (DataType value : DataType.values())
             dataTypes.put(value.name(), value.name());
         for (ContractDetailTypeReference value : ContractDetailTypeReference.values())
@@ -41,11 +44,15 @@ public class ContractDetailTypeFormController {
             priceBaseReferences.put(value.getId(), value.name());
         for (EContractDetailTypeCode value : EContractDetailTypeCode.values())
             contractDetailTypeCodes.put(value.getId(), value.name());
+        for (EContractDetailValueKey value : EContractDetailValueKey.values())
+            contractDetailValueKeys.put(value.getId(), value.name());
+
         request.setAttribute("Enum_DataType", objectMapper.writeValueAsString(dataTypes));
         request.setAttribute("contractDetailTypeReferences", objectMapper.writeValueAsString(contractDetailTypeReferences));
         request.setAttribute("Enum_RateReference", objectMapper.writeValueAsString(rateReferences));
         request.setAttribute("Enum_PriceBaseReference", objectMapper.writeValueAsString(priceBaseReferences));
         request.setAttribute("Enum_EContractDetailTypeCode", objectMapper.writeValueAsString(contractDetailTypeCodes));
+        request.setAttribute("Enum_EContractDetailValueKey", objectMapper.writeValueAsString(contractDetailValueKeys));
 
         request.setAttribute("c_entity", SecurityUtil.hasAuthority("C_CONTRACT_DETAIL_TYPE"));
         request.setAttribute("u_entity", SecurityUtil.hasAuthority("U_CONTRACT_DETAIL_TYPE"));

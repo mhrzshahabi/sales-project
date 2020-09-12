@@ -12,13 +12,14 @@ public enum ContractDetailTypeReference {
     Country(3, "REFERENCE"),
     Port(4, "REFERENCE"),
     Unit(5, "REFERENCE"),
-    Incoterm(5, "REFERENCE"),
+    Incoterm(6, "REFERENCE"),
 
-    TypicalAssay(5, "LIST OF REFERENCE"),
-    ContractShipment(6, "LIST OF REFERENCE"),
+    TypicalAssay(7, "LIST OF REFERENCE"),
+    Discount(8, "LIST OF REFERENCE"),
+    ContractShipment(9, "LIST OF REFERENCE"),
 
-    Enum_RateReference(7, "REFERENCE"),
-    Enum_PriceBaseReference(8, "REFERENCE");
+    Enum_RateReference(10, "REFERENCE"),
+    Enum_PriceBaseReference(11, "REFERENCE");
 
     private final Integer id;
     private final String type;

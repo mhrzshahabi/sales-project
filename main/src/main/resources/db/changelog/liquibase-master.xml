@@ -14,11 +14,12 @@
     <!-- INITIALIZE DATA -->
 
     <!-- SYNONYMS -->
-    <include file="classpath:/db/changelog/synonyms/logistic-data.xml"/>
+    <include file="classpath:/db/changelog/synonyms/oauth.xml"/>
+    <include file="classpath:/db/changelog/synonyms/logistic.xml"/>
     <!-- SYNONYMS -->
 
     <!-- CHANGES -->
-<!--    <include file="classpath:/db/changelog/changes/*.xml"/>-->
+<!--    <include file="classpath:/db/changelog/changes/tb_*.xml"/>-->
     <!-- CHANGES -->
 
     <!-- VIEWS -->
