@@ -12,7 +12,7 @@
             create synonym V_TOZINE_CONTENT_M for dev_mdms.V_TOZINE_CONTENT_M;
             create synonym V_TOZINE_CONTENT_M2 for dev_mdms.V_TOZINE_CONTENT_M2;
             create synonym V_TOZINE_CONTENT_M3 for dev_mdms.V_TOZINE_CONTENT_M3;
-            create synonym VIEW_INTERNALINVOICE for dev_mdms.VIEW_INNERSALESFORSALSE;
+            create synonym VIEW_INTERNAL_INVOICE for dev_mdms.VIEW_INNERSALESFORSALSE;
         </sql>
     </changeSet>
 
@@ -25,7 +25,7 @@
             create synonym V_TOZINE_CONTENT_M for n_mdms.V_TOZINE_CONTENT_M;
             create synonym V_TOZINE_CONTENT_M2 for n_mdms.V_TOZINE_CONTENT_M2;
             create synonym V_TOZINE_CONTENT_M3 for n_mdms.V_TOZINE_CONTENT_M3;
-            create synonym VIEW_INTERNALINVOICE for n_mdms.VIEW_INNERSALESFORSALSE;
+            create synonym VIEW_INTERNAL_INVOICE for n_mdms.VIEW_INNERSALESFORSALSE;
         </sql>
     </changeSet>
 
