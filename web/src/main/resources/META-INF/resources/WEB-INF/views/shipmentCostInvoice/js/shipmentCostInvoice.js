@@ -1371,10 +1371,10 @@ shipmentCostInvoiceTab.method.editForm = function () {
     else {
 
         shipmentCostInvoiceTab.window.shipmentCost.justShowForm();
-
         shipmentCostInvoiceTab.dynamicForm.shipmentPrice.editRecord(record);
 
         shipmentCostInvoiceTab.dynamicForm.shipmentCost.editRecord(record);
+        shipmentCostInvoiceTab.dynamicForm.shipmentCost.setValue("invoiceDate", new Date(record.invoiceDate));
         shipmentCostInvoiceTab.dynamicForm.shipmentCost.getField("invoiceTypeId").changed(
             shipmentCostInvoiceTab.dynamicForm.shipmentCost,
             shipmentCostInvoiceTab.dynamicForm.shipmentCost.getItem("invoiceTypeId"),
