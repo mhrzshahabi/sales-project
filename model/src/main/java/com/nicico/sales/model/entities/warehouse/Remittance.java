@@ -6,6 +6,7 @@ import com.nicico.sales.model.entities.common.BaseEntity;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.Formula;
+import org.hibernate.annotations.JoinFormula;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -58,5 +59,15 @@ public class Remittance extends BaseEntity {
             "inner join TBL_WARH_TOZIN stozin on rd.F_SOURCE_TOZINE_ID = stozin.ID " +
             "where rd.F_REMITTANCE_ID=id and ROWNUM=1 )")
     private String date;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinFormula("(select tt.id " +
+            "from TBL_WARH_REMITTANCE r " +
+            "        left  join TBL_WARH_REMITTANCE_DETAIL rds on r.ID = rds.F_REMITTANCE_ID " +
+            " and rds.F_DESTINATION_TOZINE_ID is not null " +
+            "        left join  TBL_WARH_REMITTANCE_DETAIL rdd on r.id = rdd.F_REMITTANCE_ID " +
+            "         join TBL_WARH_TOZIN tt on nvl(rds.F_DESTINATION_TOZINE_ID,rdd.F_SOURCE_TOZINE_ID) = tt.id " +
+            "where ROWNUM =1 and r.ID=id )")
+    private TozinTable tozinTable;
 
 }

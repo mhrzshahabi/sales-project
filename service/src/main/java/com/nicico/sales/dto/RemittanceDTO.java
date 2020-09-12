@@ -1,6 +1,7 @@
 package com.nicico.sales.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.nicico.sales.model.entities.warehouse.TozinTable;
 import com.nicico.sales.model.enumeration.EStatus;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -33,6 +34,7 @@ public class RemittanceDTO {
         private MaterialItemDTO.Info materialItem;
         private ShipmentDTO.Info shipment;
         private String date;
+        private TozinTableDTO.Info tozinTable;
 
 
         // Auditing
