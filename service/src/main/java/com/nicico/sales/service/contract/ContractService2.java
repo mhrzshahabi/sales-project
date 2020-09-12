@@ -9,10 +9,7 @@ import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.sales.annotation.Action;
 import com.nicico.sales.dto.ContractShipmentDTO;
 import com.nicico.sales.dto.TypicalAssayDTO;
-import com.nicico.sales.dto.contract.ContractContactDTO;
-import com.nicico.sales.dto.contract.ContractDTO2;
-import com.nicico.sales.dto.contract.ContractDetailDTO2;
-import com.nicico.sales.dto.contract.ContractDetailValueDTO;
+import com.nicico.sales.dto.contract.*;
 import com.nicico.sales.enumeration.ActionType;
 import com.nicico.sales.enumeration.EContractDetailTypeCode;
 import com.nicico.sales.enumeration.EContractDetailValueKey;
@@ -22,10 +19,7 @@ import com.nicico.sales.exception.SalesException2;
 import com.nicico.sales.iservice.IContractDetailValueService2;
 import com.nicico.sales.iservice.IContractShipmentService;
 import com.nicico.sales.iservice.ITypicalAssayService;
-import com.nicico.sales.iservice.contract.IContractContactService;
-import com.nicico.sales.iservice.contract.IContractDetailService2;
-import com.nicico.sales.iservice.contract.IContractDetailValueService;
-import com.nicico.sales.iservice.contract.IContractService2;
+import com.nicico.sales.iservice.contract.*;
 import com.nicico.sales.model.entities.base.ContractShipment;
 import com.nicico.sales.model.entities.base.Shipment;
 import com.nicico.sales.model.entities.contract.Contract2;
@@ -60,6 +54,7 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
     private final IContractContactService contractContactService;
     private final IContractShipmentService contractShipmentService;
     private final ITypicalAssayService typicalAssayService;
+    private final IContractDiscountService contractDiscountService;
     private final IContractDetailValueService contractDetailValueService;
     private final IContractDetailValueService2 contractDetailValueService2;
     private final ShipmentDAO shipmentDAO;
@@ -116,8 +111,13 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
                             switch (x.getReference()) {
                                 case "ContractShipment":
                                     x.setValue(createContractShipment(x, savedContract2.getId()).toString());
+                                    break;
                                 case "TypicalAssay":
                                     x.setValue(createTypicalAssay(x, savedContract2.getId()).toString());
+                                    break;
+                                case "Discount":
+                                    x.setValue(createDiscount(x, savedContract2.getId()).toString());
+                                    break;
                             }
                         }
 
@@ -168,14 +168,12 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
     }
 
 
-
-
     private Long createContractShipment(ContractDetailValueDTO.Create x, Long id) {
         ContractShipmentDTO.Create contractShipmentDTO = gson.fromJson(x.getReferenceJsonValue(), ContractShipmentDTO.Create.class);
         contractShipmentDTO.setContractId(id);
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(contractShipmentDTO.getSendDate());
-        calendar.set(Calendar.HOUR_OF_DAY,12);
+        calendar.set(Calendar.HOUR_OF_DAY, 12);
         contractShipmentDTO.setSendDate(calendar.getTime());
         ContractShipmentDTO.Info savedContractShipment = contractShipmentService.create(contractShipmentDTO);
         return savedContractShipment.getId();
@@ -188,6 +186,13 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
         return savedTypicalAssay.getId();
     }
 
+    private Long createDiscount(ContractDetailValueDTO.Create x, Long id) {
+        ContractDiscountDto.Create contractDiscountDto = gson.fromJson(x.getReferenceJsonValue(), ContractDiscountDto.Create.class);
+        contractDiscountDto.setContractId(id);
+        ContractDiscountDto.Info savedContractDiscount = contractDiscountService.create(contractDiscountDto);
+        return savedContractDiscount.getId();
+    }
+
     private void updateContractShipment(ContractDetailValueDTO.Update x) {
         ContractShipmentDTO.Update contractShipmentDTO = gson.fromJson(x.getReferenceJsonValue(), ContractShipmentDTO.Update.class);
         contractShipmentService.update(contractShipmentDTO.getId(), contractShipmentDTO);
@@ -196,6 +201,11 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
     private void updateTypicalAssay(ContractDetailValueDTO.Update x) {
         TypicalAssayDTO.Update typicalAssayDTO = gson.fromJson(x.getReferenceJsonValue(), TypicalAssayDTO.Update.class);
         typicalAssayService.update(typicalAssayDTO.getId(), typicalAssayDTO);
+    }
+
+    private void updateDiscount(ContractDetailValueDTO.Update x) {
+        ContractDiscountDto.Update contractDiscountDto = gson.fromJson(x.getReferenceJsonValue(), ContractDiscountDto.Update.class);
+        contractDiscountService.update(contractDiscountDto.getId(), contractDiscountDto);
     }
 
     private void createContractContacts(Long contractId, Long contactId, CommercialRole commercialRole) {
@@ -297,8 +307,13 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
                             switch (x.getReference()) {
                                 case "ContractShipment":
                                     x.setValue(createContractShipment(x, contract2.getId()).toString());
+                                    break;
                                 case "TypicalAssay":
                                     x.setValue(createTypicalAssay(x, contract2.getId()).toString());
+                                    break;
+                                case "Discount":
+                                    x.setValue(createDiscount(x, contract2.getId()).toString());
+                                    break;
                             }
                         }
 
@@ -340,8 +355,13 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
                             switch (x.getReference()) {
                                 case "ContractShipment":
                                     x.setValue(createContractShipment(x, contract2.getId()).toString());
+                                    break;
                                 case "TypicalAssay":
                                     x.setValue(createTypicalAssay(x, contract2.getId()).toString());
+                                    break;
+                                case "Discount":
+                                    x.setValue(createDiscount(x, contract2.getId()).toString());
+                                    break;
                             }
                         }
                         contractDetailValueService.create(x);
@@ -356,8 +376,13 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
                                 switch (x.getReference()) {
                                     case "ContractShipment":
                                         updateContractShipment(x);
+                                        break;
                                     case "TypicalAssay":
                                         updateTypicalAssay(x);
+                                        break;
+                                    case "Discount":
+                                        updateDiscount(x);
+                                        break;
                                 }
                             }
 
@@ -369,8 +394,17 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
                     request.getContractDetails().get(index).getContractDetailValues().stream()
                             .filter(contractDetailValue -> contractDetailValue4Delete.getIds().contains(contractDetailValue.getId()))
                             .forEach(detail -> {
-                                contractShipmentService.delete(Long.valueOf(detail.getValue()));
-                                typicalAssayService.delete(Long.valueOf(detail.getValue()));
+                                switch (detail.getReference()) {
+                                    case "ContractShipment":
+                                        contractShipmentService.delete(Long.valueOf(detail.getValue()));
+                                        break;
+                                    case "TypicalAssay":
+                                        typicalAssayService.delete(Long.valueOf(detail.getValue()));
+                                        break;
+                                    case "Discount":
+                                        contractDiscountService.delete(Long.valueOf(detail.getValue()));
+                                        break;
+                                }
                             });
 
                     contractDetailValueService.deleteAll(contractDetailValue4Delete);
@@ -386,8 +420,17 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
             contract2.getContractDetails().stream().filter(contractDetail -> contractDetail4Delete.getIds().contains(contractDetail.getId()))
                     .forEach(x -> x.getContractDetailValues().stream().filter(detailValue -> detailValue.getType().name().equals("ListOfReference")).forEach(
                             t -> {
-                                contractShipmentService.delete(Long.valueOf(t.getValue()));
-                                typicalAssayService.delete(Long.valueOf(t.getValue()));
+                                switch (t.getReference()) {
+                                    case "ContractShipment":
+                                        contractShipmentService.delete(Long.valueOf(t.getValue()));
+                                        break;
+                                    case "TypicalAssay":
+                                        typicalAssayService.delete(Long.valueOf(t.getValue()));
+                                        break;
+                                    case "Discount":
+                                        contractDiscountService.delete(Long.valueOf(t.getValue()));
+                                        break;
+                                }
                             }
                     ));
 
@@ -428,6 +471,9 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
                                     break;
                                 case "TypicalAssay":
                                     typicalAssayService.delete(Long.valueOf(x.getValue()));
+                                    break;
+                                case "Discount":
+                                    contractDiscountService.delete(Long.valueOf(x.getValue()));
                                     break;
                             }
                         }

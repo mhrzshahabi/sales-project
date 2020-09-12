@@ -1,0 +1,39 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+    <changeSet id="MShahabi" author="1799887766554-006">
+        <modifyDataType columnName="N_MIN_VALUE" newDataType="NUMBER(10, 5)" tableName="TBL_TYPICAL_ASSAY"/>
+        <modifyDataType columnName="N_MAX_VALUE" newDataType="NUMBER(10, 5)" tableName="TBL_TYPICAL_ASSAY"/>
+    </changeSet>
+
+    <changeSet author="Reza Mazloom" id="mazloom_047">
+        <addColumn tableName="TBL_TYPICAL_ASSAY">
+            <column defaultValueNumeric="1" name="B_EDITABLE" type="number">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="Reza Mazloom" id="mazloom_048">
+        <addColumn tableName="TBL_TYPICAL_ASSAY">
+            <column defaultValueNumeric="1" name="N_E_STATUS" type="number">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="Reza Mazloom" id="mazloom_049">
+        <addColumn tableName="TBL_TYPICAL_ASSAY">
+            <column name="F_CONTRACT_ID" type="number(19, 0)"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="Reza Mazloom" id="mazloom_052">
+        <addForeignKeyConstraint baseColumnNames="F_CONTRACT_ID" baseTableName="TBL_TYPICAL_ASSAY"
+                                 constraintName="TYPICALASSAY2CONTRACT2" deferrable="false" initiallyDeferred="false"
+                                 referencedColumnNames="id" referencedTableName="TBL_CNTR_CONTRACT" validate="true"/>
+    </changeSet>
+
+</databaseChangeLog>

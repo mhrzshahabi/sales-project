@@ -1,0 +1,101 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+    <changeSet author="Abiz" id="AZAARE-011">
+        <sql>
+
+            Insert into TBL_CONTRACT_DISCOUNT
+            (ID,C_CREATED_BY,D_CREATED_DATE,C_LAST_MODIFIED_BY,D_LAST_MODIFIED_DATE,N_VERSION,N_E_STATUS,B_EDITABLE,DISCOUNT,LOWER_BOUND,UPPER_BOUND)
+            values (1,'abiz',to_timestamp('01-AUG-20 03.33.16.984000000 PM','DD-MON-RR HH.MI.SSXFF
+            AM'),null,null,1,1,0,7,0,0.7);
+
+            Insert into TBL_CONTRACT_DISCOUNT
+            (ID,C_CREATED_BY,D_CREATED_DATE,C_LAST_MODIFIED_BY,D_LAST_MODIFIED_DATE,N_VERSION,N_E_STATUS,B_EDITABLE,DISCOUNT,LOWER_BOUND,UPPER_BOUND)
+            values (2,'abiz',to_timestamp('01-AUG-20 03.33.16.984000000 PM','DD-MON-RR HH.MI.SSXFF
+            AM'),null,null,1,1,0,8,0.7,0.8);
+
+            Insert into TBL_CONTRACT_DISCOUNT
+            (ID,C_CREATED_BY,D_CREATED_DATE,C_LAST_MODIFIED_BY,D_LAST_MODIFIED_DATE,N_VERSION,N_E_STATUS,B_EDITABLE,DISCOUNT,LOWER_BOUND,UPPER_BOUND)
+            values (3,'abiz',to_timestamp('01-AUG-20 03.33.16.984000000 PM','DD-MON-RR HH.MI.SSXFF
+            AM'),null,null,1,1,0,9,0.8,0.9);
+
+            Insert into TBL_CONTRACT_DISCOUNT
+            (ID,C_CREATED_BY,D_CREATED_DATE,C_LAST_MODIFIED_BY,D_LAST_MODIFIED_DATE,N_VERSION,N_E_STATUS,B_EDITABLE,DISCOUNT,LOWER_BOUND,UPPER_BOUND)
+            values (4,'abiz',to_timestamp('01-AUG-20 03.33.16.984000000 PM','DD-MON-RR HH.MI.SSXFF
+            AM'),null,null,1,1,0,9.5,0.9,1.0);
+
+            Insert into TBL_CONTRACT_DISCOUNT
+            (ID,C_CREATED_BY,D_CREATED_DATE,C_LAST_MODIFIED_BY,D_LAST_MODIFIED_DATE,N_VERSION,N_E_STATUS,B_EDITABLE,DISCOUNT,LOWER_BOUND,UPPER_BOUND)
+            values (5,'abiz',to_timestamp('01-AUG-20 03.33.16.984000000 PM','DD-MON-RR HH.MI.SSXFF
+            AM'),null,null,1,1,0,10,1.0,1.1);
+
+            Insert into TBL_CONTRACT_DISCOUNT
+            (ID,C_CREATED_BY,D_CREATED_DATE,C_LAST_MODIFIED_BY,D_LAST_MODIFIED_DATE,N_VERSION,N_E_STATUS,B_EDITABLE,DISCOUNT,LOWER_BOUND,UPPER_BOUND)
+            values (6,'abiz',to_timestamp('01-AUG-20 03.33.16.984000000 PM','DD-MON-RR HH.MI.SSXFF
+            AM'),null,null,1,1,0,11.0,1.1,1.2);
+
+            Insert into TBL_CONTRACT_DISCOUNT
+            (ID,C_CREATED_BY,D_CREATED_DATE,C_LAST_MODIFIED_BY,D_LAST_MODIFIED_DATE,N_VERSION,N_E_STATUS,B_EDITABLE,DISCOUNT,LOWER_BOUND,UPPER_BOUND)
+            values (7,'abiz',to_timestamp('01-AUG-20 03.33.16.984000000 PM','DD-MON-RR HH.MI.SSXFF
+            AM'),null,null,1,1,0,11.5,1.2,1.3);
+
+            Insert into TBL_CONTRACT_DISCOUNT
+            (ID,C_CREATED_BY,D_CREATED_DATE,C_LAST_MODIFIED_BY,D_LAST_MODIFIED_DATE,N_VERSION,N_E_STATUS,B_EDITABLE,DISCOUNT,LOWER_BOUND,UPPER_BOUND)
+            values (8,'abiz',to_timestamp('01-AUG-20 03.33.16.984000000 PM','DD-MON-RR HH.MI.SSXFF
+            AM'),null,null,1,1,0,12.0,1.3,1.4);
+
+            Insert into TBL_CONTRACT_DISCOUNT
+            (ID,C_CREATED_BY,D_CREATED_DATE,C_LAST_MODIFIED_BY,D_LAST_MODIFIED_DATE,N_VERSION,N_E_STATUS,B_EDITABLE,DISCOUNT,LOWER_BOUND,UPPER_BOUND)
+            values (9,'abiz',to_timestamp('01-AUG-20 03.33.16.984000000 PM','DD-MON-RR HH.MI.SSXFF
+            AM'),null,null,1,1,0,12.5,1.4,1.5);
+
+            Insert into TBL_CONTRACT_DISCOUNT
+            (ID,C_CREATED_BY,D_CREATED_DATE,C_LAST_MODIFIED_BY,D_LAST_MODIFIED_DATE,N_VERSION,N_E_STATUS,B_EDITABLE,DISCOUNT,LOWER_BOUND,UPPER_BOUND)
+            values (10,'abiz',to_timestamp('01-AUG-20 03.33.16.984000000 PM','DD-MON-RR HH.MI.SSXFF
+            AM'),null,null,1,1,0,13.0,1.5,1.6);
+
+            Insert into TBL_CONTRACT_DISCOUNT
+            (ID,C_CREATED_BY,D_CREATED_DATE,C_LAST_MODIFIED_BY,D_LAST_MODIFIED_DATE,N_VERSION,N_E_STATUS,B_EDITABLE,DISCOUNT,LOWER_BOUND,UPPER_BOUND)
+            values (11,'abiz',to_timestamp('01-AUG-20 03.33.16.984000000 PM','DD-MON-RR HH.MI.SSXFF
+            AM'),null,null,1,1,0,13.5,1.6,1.7);
+
+        </sql>
+    </changeSet>
+
+    <changeSet author="NO1 (generated)" id="1599634790815-266">
+        <addColumn tableName="TBL_CONTRACT_DISCOUNT">
+            <column name="F_MATERIAL_ELEMENT_ID" type="number(19, 0)"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="NO1 (generated)" id="1599634790815-272">
+        <addForeignKeyConstraint baseColumnNames="F_MATERIAL_ELEMENT_ID" baseTableName="TBL_CONTRACT_DISCOUNT"
+                                 constraintName="fk_contractDiscount2materialElementByMaterialElementId"
+                                 deferrable="false" initiallyDeferred="false" referencedColumnNames="id"
+                                 referencedTableName="TBL_WARH_MATERIAL_ELEMENT" validate="true"/>
+    </changeSet>
+    <changeSet author="NO1 (generated)" id="Change-Column-Data-Type-001">
+        <modifyDataType tableName="TBL_CONTRACT_DISCOUNT" columnName="DISCOUNT" newDataType="NUMBER(6,3)"/>
+        <modifyDataType tableName="TBL_CONTRACT_DISCOUNT" columnName="UPPER_BOUND" newDataType="NUMBER(6,3)"/>
+        <modifyDataType tableName="TBL_CONTRACT_DISCOUNT" columnName="LOWER_BOUND" newDataType="NUMBER(6,3)"/>
+    </changeSet>
+
+    <changeSet author="Reza Mazloom" id="mazloom_050">
+        <addColumn tableName="TBL_CONTRACT_DISCOUNT">
+            <column name="F_CONTRACT_ID" type="number(19, 0)"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="Reza Mazloom" id="mazloom_051">
+        <addForeignKeyConstraint baseColumnNames="F_CONTRACT_ID" baseTableName="TBL_CONTRACT_DISCOUNT"
+                                 constraintName="DIDSCOUNT2CONTRACT2" deferrable="false" initiallyDeferred="false"
+                                 referencedColumnNames="id" referencedTableName="TBL_CNTR_CONTRACT" validate="true"/>
+    </changeSet>
+
+    <changeSet author="Reza Mazloom" id="mazloom_053">
+        <createSequence sequenceName="SEQ_TBL_CONTRACT_DISCOUNT"/>
+    </changeSet>
+
+</databaseChangeLog>

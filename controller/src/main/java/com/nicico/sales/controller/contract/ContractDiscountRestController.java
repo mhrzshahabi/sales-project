@@ -30,13 +30,13 @@ public class ContractDiscountRestController {
 
     @Loggable
     @GetMapping(value = "/list")
-    public ResponseEntity<List<ContractDiscountDto>> list() {
+    public ResponseEntity<List<ContractDiscountDto.Info>> list() {
         return new ResponseEntity<>(discountService.list(), HttpStatus.OK);
     }
 
     @Loggable
     @GetMapping(value = "/spec-list")
-    public ResponseEntity<TotalResponse<ContractDiscountDto>> list(@RequestParam MultiValueMap<String, String> criteria) {
+    public ResponseEntity<TotalResponse<ContractDiscountDto.Info>> list(@RequestParam MultiValueMap<String, String> criteria) {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
         return new ResponseEntity<>(discountService.search(nicicoCriteria), HttpStatus.OK);
     }
