@@ -13,13 +13,13 @@ import com.nicico.sales.exception.SalesException2;
 import com.nicico.sales.iservice.invoice.foreign.IForeignInvoiceService;
 import com.nicico.sales.model.entities.invoice.foreign.ForeignInvoice;
 import com.nicico.sales.model.entities.invoice.foreign.ForeignInvoiceBillOfLading;
+import com.nicico.sales.model.entities.invoice.foreign.ForeignInvoiceItem;
 import com.nicico.sales.repository.invoice.foreign.ForeignInvoiceBillOfLadingDAO;
 import com.nicico.sales.repository.invoice.foreign.ForeignInvoiceDAO;
 import com.nicico.sales.service.GenericService;
 import com.nicico.sales.service.InvoiceTypeService;
 import com.nicico.sales.service.contract.ContractService2;
 import com.nicico.sales.utility.InvoiceNoGenerator;
-import com.nicico.sales.utility.UpdateUtil;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.TypeToken;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -111,18 +111,27 @@ public class ForeignInvoiceService extends GenericService<ForeignInvoice, Long, 
 
         ForeignInvoice foreignInvoice = repository.findById(id).orElseThrow(() -> new NotFoundException(ForeignInvoice.class));
 
-        foreignInvoice.getForeignInvoiceItems().forEach(item -> {
-            item.getForeignInvoiceItemDetails().forEach(detail -> foreignInvoiceItemDetailService.delete(detail.getId()));
-            foreignInvoiceItemService.delete(item.getId());
-        });
-        foreignInvoice.getForeignInvoicePayments().forEach(item -> foreignInvoicePaymentService.delete(item.getId()));
-        request.getBillLadingIds().forEach(item -> {
-            List<ForeignInvoiceBillOfLading> allByBillOfLandingId = foreignInvoiceBillOfLadingDAO.findAllByBillOfLandingId(item);
-            foreignInvoiceBillOfLadingService.deleteAll(modelMapper.map(allByBillOfLandingId, new TypeToken<List<ForeignInvoiceBillOfLandingDTO.Delete>>() {
-            }.getType()));
-        });
+        int itemSize = foreignInvoice.getForeignInvoiceItems().size();
+        for (int i = 0; i < itemSize; i++) {
+            ForeignInvoiceItem foreignInvoiceItem = foreignInvoice.getForeignInvoiceItems().get(i);
+            int itemDetailSize = foreignInvoiceItem.getForeignInvoiceItemDetails().size();
+            for (int j=0; j<itemDetailSize; j++) {
+                foreignInvoiceItemDetailService.delete(foreignInvoiceItem.getForeignInvoiceItemDetails().get(j).getId());
+            }
+            foreignInvoiceItemService.delete(foreignInvoice.getForeignInvoiceItems().get(i).getId());
+        }
 
-        ForeignInvoiceDTO.Info foreignInvoiceDTO = super.update(request);
+        foreignInvoice.getForeignInvoicePayments().forEach(item -> foreignInvoicePaymentService.delete(item.getId()));
+
+        int billLadingSize = request.getBillLadingIds().size();
+        for (int i=0; i<billLadingSize; i++) {
+            List<ForeignInvoiceBillOfLading> allByBillOfLandingIdAAndForeignInvoiceId = foreignInvoiceBillOfLadingDAO.findAllByBillOfLandingIdAndForeignInvoiceId(request.getBillLadingIds().get(i), foreignInvoice.getId());
+            for (int j=0; j<allByBillOfLandingIdAAndForeignInvoiceId.size(); j++) {
+                foreignInvoiceBillOfLadingService.delete(allByBillOfLandingIdAAndForeignInvoiceId.get(j).getId());
+            }
+        }
+
+        ForeignInvoiceDTO.Info foreignInvoiceDTO = super.update(id, request);
         foreignInvoice.setBillLadings(null);
 
         request.getForeignInvoiceItems().forEach(item -> {

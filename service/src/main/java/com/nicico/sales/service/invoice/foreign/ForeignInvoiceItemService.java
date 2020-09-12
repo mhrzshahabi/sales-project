@@ -59,15 +59,13 @@ public class ForeignInvoiceItemService extends GenericService<ForeignInvoiceItem
     @Override
     @Transactional
     @Action(value = ActionType.List)
-    public ForeignInvoiceItemDTO.Calc2Data getCalculation2Data(Long contractId, Long shipmentId, Integer assayMilestone, Integer weightMilestone, List<Long> inventoryIds, PriceBaseReference reference, Integer year, Integer month, Long financeUnitId) {
+    public ForeignInvoiceItemDTO.Calc2Data getCalculation2Data(Long contractId, Long shipmentId, InspectionReportMilestone assayMilestone, InspectionReportMilestone weightMilestone, List<Long> inventoryIds, PriceBaseReference reference, Integer year, Integer month, Long financeUnitId) {
 
-        InspectionReportMilestone reportMilestoneEnum = new AllConverters.InspectionReportMilestoneConverter().convertToEntityAttribute(assayMilestone);
-        List<AssayInspectionDTO.InfoWithoutInspectionReport> assayValues = assayInspectionService.getAssayValues(shipmentId, reportMilestoneEnum, inventoryIds);
+        List<AssayInspectionDTO.InfoWithoutInspectionReport> assayValues = assayInspectionService.getAssayValues(shipmentId, assayMilestone, inventoryIds);
         Set<Long> materialIds = assayValues.stream().filter(q -> q.getMaterialElement().getElement().getPayable()).map(q -> q.getMaterialElement().getMaterialId()).collect(Collectors.toSet());
         if (materialIds.size() != 1)
             throw new SalesException2(ErrorType.BadRequest, "material", "There is multiple material.");
-        InspectionReportMilestone weightMilestoneEnum = new AllConverters.InspectionReportMilestoneConverter().convertToEntityAttribute(weightMilestone);
-        List<WeightInspectionDTO.InfoWithoutInspectionReport> weightValues = weightInspectionService.getWeightValues(shipmentId, weightMilestoneEnum, inventoryIds);
+        List<WeightInspectionDTO.InfoWithoutInspectionReport> weightValues = weightInspectionService.getWeightValues(shipmentId, weightMilestone, inventoryIds);
         // ContractDetailDTO2.Info priceDetail = contractDetailService2.getContractDetailByContractDetailTypeCode(contractId, EContractDetailTypeCode);
         String priceArticleText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."; // priceDetail.content;
         List<ContractDiscount> discountArticle = new ArrayList<>(); // contractService2.getOperationalDataOfContractArticle(contractId, EContractDetailTypeCode., EContractDetailValueKey.);

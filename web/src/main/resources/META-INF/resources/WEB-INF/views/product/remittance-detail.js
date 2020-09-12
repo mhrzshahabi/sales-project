@@ -1803,33 +1803,53 @@ rdTab.Fields.RemittanceFull = function () {
             title: "محصول",
         },
         {
-            name: "remittanceDetails.sourceTozin.sourceId",
+            name: "tozinTable.sourceId",
             filterEditorProperties: {
                 editorType: "ComboBoxItem",
+            },
+            type: "number",
+            sortNormalizer(recordObject, fieldName, context) {
+                if (recordObject.tozinTable && recordObject.tozinTable.sourceId)
+                    return recordObject.tozinTable.targetId
             },
             valueMap: SalesBaseParameters.getSavedWarehouseParameter().getValueMap("id", "name"),
             title: "مبدا",
             filterOperator: "equals",
-            canSort: false,
-            formatCellValue(value, record) {
-                if (value) return value;
-                else if (record.remittanceDetails[0])
-                    return SalesBaseParameters.getSavedWarehouseParameter().find(w => {
-                        return w.id == record.remittanceDetails[0].sourceTozin.sourceId;
-                    }).name;
-                return ''
-            }
+            sortByMappedValue: true,
+            // canSort: false,
+            // formatCellValue(value, record) {
+            //     if (value) return value;
+            //     else if (record.remittanceDetails[0])
+            //         return SalesBaseParameters.getSavedWarehouseParameter().find(w => {
+            //             return w.id == record.remittanceDetails[0].sourceTozin.sourceId;
+            //         }).name;
+            //     return ''
+            // }
         },
         {
             ...rdTab.Fields.TozinBase().find(t => t.name === 'date'),
-            filterEditorProperties: {
-                editorType: "ComboBoxItem",
+            // filterEditorProperties: {
+            //     editorType: "ComboBoxItem",
+            // },
+            canSort: true,
+            sortNormalizer(recordObject, fieldName, context) {
+                if (recordObject.tozinTable && recordObject.tozinTable.date) return recordObject.tozinTable.date
             },
+            name: "tozinTable.date",
+            title: "تاریخ ",
+
+        },
+        {
+            ...rdTab.Fields.TozinBase().find(t => t.name === 'date'),
+            // filterEditorProperties: {
+            //     editorType: "ComboBoxItem",
+            // },
             canSort: false,
             name: "remittanceDetails.sourceTozin.date",
             title: "تاریخ توزین مبدا",
 
         },
+
         {
             ...rdTab.Fields.TozinBase().find(t => t.name === 'date'),
             canSort: false,
@@ -1837,11 +1857,19 @@ rdTab.Fields.RemittanceFull = function () {
             title: "تاریخ توزین مقصد",
         },
         {
-            name: "remittanceDetails.destinationTozin.targetId",
-            canSort: false,
+            name: "tozinTable.targetId",
+            filterEditorProperties: {
+                editorType: "ComboBoxItem",
+            },
+            // canSort: false,
             valueMap: SalesBaseParameters.getSavedWarehouseParameter().getValueMap("id", "name"),
+            type: "number",
+            sortNormalizer(recordObject, fieldName, context) {
+                if (recordObject.tozinTable && recordObject.tozinTable.targetId)
+                    return recordObject.tozinTable.targetId
+            },
             title: "مقصد",
-            hidden: true,
+            hidden: false,
         },
         {
             name: "remittanceDetails.depot.name",
@@ -2090,13 +2118,16 @@ rdTab.Layouts.ToolStripButtons.New = isc.ToolStripButtonAdd.create({
                     multipleMaterialItem = true;
                 }
                 const r_tmp = {...r};
-                const rd = [...r_tmp.remittanceDetails];
+                const rd = [...r_tmp.remittanceDetails.filter(_ => _.inventory.weight > 0)];
                 delete r_tmp.remittanceDetails;
                 rd.forEach(_ => {
                     if (!_['destinationTozin']) hasOutRemittance = true
+                    _['weight'] = _['inventory']['weight']
+                    _['amount'] = _['inventory']['amount']
                     _['remittance'] = r_tmp;
 
                 })
+                dbg(false, rd)
                 selectedData.addList(rd)
             });
         if (multipleMaterialItem) return;
@@ -2123,7 +2154,7 @@ rdTab.Layouts.ToolStripButtons.New = isc.ToolStripButtonAdd.create({
                     editorType: "ComboBoxItem",
                     valueMap: rdTab.Fields.Inventory().find(i => i.name === "materialItemId").valueMap,
                 },
-                ...rdTab.Fields.Remittance().filter(_=>_.name.toLowerCase() !== 'date').map(_ => {
+                ...rdTab.Fields.Remittance().filter(_ => _.name.toLowerCase() !== 'date').map(_ => {
                     if (_.name.toLowerCase() === 'shipmentId'.toLowerCase()) {
                         _.hidden = false;
                         _.disabled = true;

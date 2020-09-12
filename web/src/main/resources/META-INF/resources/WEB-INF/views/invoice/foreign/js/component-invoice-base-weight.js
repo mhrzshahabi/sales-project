@@ -117,8 +117,13 @@ isc.defineClass("InvoiceBaseWeight", isc.VLayout).addProperties({
         }));
 
         this.addMembers(members);
-        this.getMembers()[0].setValue("reportMilestone", 1);
-        this.getMembers()[0].getItem(0).changed(this.getMembers()[0], this.getMembers()[0].getItem(0), 1);
+        this.getMembers()[0].setValue("reportMilestone", JSON.parse('${Enum_MileStone}').Source);
+        this.getMembers()[0].getItem(0).changed(this.getMembers()[0], this.getMembers()[0].getItem(0), JSON.parse('${Enum_MileStone}').Source);
+        this.editWeight();
+    },
+    editWeight: function () {
+        if (this.weightMilestone)
+            this.getMembers()[0].setValue("reportMilestone", this.weightMilestone);
     },
     getValues: function () {
 

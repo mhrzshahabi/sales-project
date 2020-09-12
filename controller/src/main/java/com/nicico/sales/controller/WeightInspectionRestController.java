@@ -1,5 +1,6 @@
 package com.nicico.sales.controller;
 
+import com.google.common.base.Enums;
 import com.nicico.copper.common.Loggable;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
@@ -60,9 +61,9 @@ public class WeightInspectionRestController {
 
     @Loggable
     @GetMapping(value = "/get-weight-values")
-    public ResponseEntity<List<WeightInspectionDTO.InfoWithoutInspectionReport>> getWeightValues(@RequestParam Long shipmentId, @RequestParam Integer reportMilestone, @RequestParam List<Long> inventoryIds) {
+    public ResponseEntity<List<WeightInspectionDTO.InfoWithoutInspectionReport>> getWeightValues(@RequestParam Long shipmentId, @RequestParam String reportMilestone, @RequestParam List<Long> inventoryIds) {
 //InfoWithoutInspectionReportAndInventory
-        InspectionReportMilestone reportMilestoneEnum = new AllConverters.InspectionReportMilestoneConverter().convertToEntityAttribute(reportMilestone);
+        InspectionReportMilestone reportMilestoneEnum = Enums.getIfPresent(InspectionReportMilestone.class, reportMilestone).or(InspectionReportMilestone.Source);
         return new ResponseEntity<>(iWeightInspectionService.getWeightValues(shipmentId, reportMilestoneEnum, inventoryIds), HttpStatus.OK);
     }
 
