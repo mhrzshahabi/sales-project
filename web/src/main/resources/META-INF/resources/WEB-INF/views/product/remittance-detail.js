@@ -2090,13 +2090,16 @@ rdTab.Layouts.ToolStripButtons.New = isc.ToolStripButtonAdd.create({
                     multipleMaterialItem = true;
                 }
                 const r_tmp = {...r};
-                const rd = [...r_tmp.remittanceDetails];
+                const rd = [...r_tmp.remittanceDetails.filter(_=>_.inventory.weight>0)];
                 delete r_tmp.remittanceDetails;
                 rd.forEach(_ => {
                     if (!_['destinationTozin']) hasOutRemittance = true
+                    _['weight'] = _['inventory']['weight']
+                    _['amount'] = _['inventory']['amount']
                     _['remittance'] = r_tmp;
 
                 })
+                dbg(false,rd)
                 selectedData.addList(rd)
             });
         if (multipleMaterialItem) return;
