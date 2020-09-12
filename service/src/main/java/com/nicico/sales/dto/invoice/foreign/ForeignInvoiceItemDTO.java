@@ -74,6 +74,7 @@ public class ForeignInvoiceItemDTO {
         @NotNull
         @ApiModelProperty(required = true)
         private Long id;
+        private List<ForeignInvoiceItemDetailDTO.Update> foreignInvoiceItemDetails;
     }
 
     @Getter

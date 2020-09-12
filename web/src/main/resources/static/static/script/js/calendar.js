@@ -367,12 +367,20 @@ function datePickerClosed(dateField) {
 
 
 function updateDateField(dateFieldID, dateString) {
+    try {
+        const windowElement = window[dateFieldID];
+        const windowElementElement = windowElement.getAttribute('$89');
+        window[windowElementElement].setValue(dateString);
+    }
+    catch (e) {
+        console.error(e)
+        var targetDateField = document.getElementById(dateFieldID);
 
-    var targetDateField = document.getElementById(dateFieldID);
+        if (dateString)
+            targetDateField.value = dateString;
 
-    if (dateString)
-        targetDateField.value = dateString;
 
+    }
     var pickerDiv = document.getElementById(datePickerDivID);
     pickerDiv.style.visibility = "hidden";
     pickerDiv.style.display = "none";
@@ -385,6 +393,7 @@ function updateDateField(dateFieldID, dateString) {
     // (note that this will only run if the user actually selected a date from the datepicker)
     if ((dateString) && (typeof (datePickerClosed) == "function"))
         datePickerClosed(targetDateField);
+
 }
 
 

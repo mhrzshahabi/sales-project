@@ -1,10 +1,12 @@
 package com.nicico.sales.model.entities.base;
 
 
-import com.nicico.sales.model.Auditable;
+import com.nicico.sales.model.entities.common.BaseEntity;
+import com.nicico.sales.model.entities.contract.Contract2;
 import com.nicico.sales.model.entities.warehouse.MaterialElement;
 import lombok.*;
 import lombok.experimental.Accessors;
+import org.hibernate.envers.NotAudited;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -19,7 +21,7 @@ import java.math.BigDecimal;
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
 @Table(name = "TBL_TYPICAL_ASSAY")
-public class TypicalAssay extends Auditable {
+public class TypicalAssay extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_TBL_TYPICAL_ASSAY")
@@ -50,5 +52,14 @@ public class TypicalAssay extends Auditable {
     @NotNull
     @Column(name = "F_MATERIAL_ELEMENT_ID", nullable = false)
     private Long materialElementId;
+
+    @NotAudited
+    @Setter(AccessLevel.NONE)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "F_CONTRACT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "TYPICALASSAY2CONTRACT2"))
+    private Contract2 contract;
+
+    @Column(name = "F_CONTRACT_ID")
+    private Long contractId;
 }
 

@@ -315,7 +315,6 @@ namespace nicico {
         }
 
         static showAllToolStripActions(creator: JSPTabVariable): void {
-
             // @ts-ignore
             creator.toolStrip.main.members.forEach(toolStripItem => toolStripItem.setVisibility("visible"));
         }

@@ -449,6 +449,35 @@ inspectionReportTab.method.getAssayElementFields = function (materialId) {
             ));
 
             inspectionReportTab.listGrid.assayElement.setFields(fields);
+
+            var sumFields = [{
+                name: "title",
+                canEdit: false,
+                width: "30%",
+                align: "center",
+            },];
+
+            sumFields.addAll(data.filter(me => me.element.name != "MO").map(
+                me => {
+                    return {
+                        name: me.element.name,
+                        canEdit: true,
+                        width: "30%",
+                        align: "center",
+                        editorExit(editCompletionEvent, record, newVal, ...d) {
+                            if (inspectionReportTab.listGrid.assayElement.getData().length == 0) return true;
+                            let avr = (parseFloat(newVal) / inspectionReportTab.listGrid.assayElement.getData().length);
+                            inspectionReportTab.listGrid.assayElement.getData().map(value => {
+                                value[me.element.name] = avr;
+                                return value;
+                            });
+                            inspectionReportTab.listGrid.assayElement.redraw();
+                            return true;
+                        }
+                    }
+                }
+            ));
+            inspectionReportTab.listGrid.assayElementSum.setFields(sumFields);
         }
     });
 };
@@ -625,6 +654,13 @@ inspectionReportTab.dynamicForm.material = isc.DynamicForm.create({
     ]
 });
 
+inspectionReportTab.variable.unitSum = isc.VLayout.create({
+    height: 100,
+    width: "100%",
+    align: "left",
+    overflow: "scroll",
+    members: []
+});
 inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
     {
         name: "id",
@@ -789,6 +825,29 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
             inspectionReportTab.method.setWeightElementListRows(selectedInventories);
             inspectionReportTab.method.setAssayElementListRows(selectedInventories);
         },
+
+        editorExit(editCompletionEvent, record, newValue, rowNum, colNum, grid) {
+            let selectedRecords = inspectionReportTab.dynamicForm.inspecReport.getField("inventoryId").getSelectedRecords();
+            inspectionReportTab.variable.unitSum.setMembers([]);
+            if (selectedRecords != null && selectedRecords.length > 0) {
+                let dtls = record.getSelectedRecords().filter(a => a.remittanceDetails.length > 0).map(a => a.remittanceDetails).flat();
+                let unitList = dtls.map(a => a.unitId).distinct();
+                unitList.forEach(uId => {
+                        let x = isc.Unit.create({
+                            disabledUnitField: true,
+                            disabledValueField: true,
+                            showUnitFieldTitle: false,
+                            showValueFieldTitle: false,
+                            align: "center",
+                        });
+                        x.setValue(dtls.filter(a => a.unitId === uId).map(a => a.amount).sum())
+                        x.setUnitId(uId)
+                        inspectionReportTab.variable.unitSum.addMember(x);
+                    }
+                );
+            }
+        },
+
         click: function () {
         }
     },
@@ -958,7 +1017,7 @@ inspectionReportTab.dynamicForm.inspecReport = isc.DynamicForm.create({
 
 inspectionReportTab.listGrid.weightElement = isc.ListGrid.create({
     width: "100%",
-    height: "100%",
+    height: "200",
     sortField: 1,
     unitId: null,
     showRowNumbers: true,
@@ -1029,14 +1088,17 @@ inspectionReportTab.listGrid.weightElement = isc.ListGrid.create({
                     validateOnChange: true
                 }]
         }
-    ])
+    ]),
+    dataChanged: function (operationType) {
+        inspectionReportTab.method.setWeightElementSum();
+        this.Super("dataChanged", arguments);
+    }
 });
 
 inspectionReportTab.dynamicForm.assayLab = isc.DynamicForm.create({
-    width: "50%",
     // height: "100%",
     align: "center",
-    numCols: 2,
+    numCols: 4,
     canSubmit: true,
     showErrorText: true,
     showErrorStyle: true,
@@ -1046,6 +1108,7 @@ inspectionReportTab.dynamicForm.assayLab = isc.DynamicForm.create({
     fields: [
         {
             name: "labName",
+            colSpan: 1,
             title: "<spring:message code='assayInspection.LabName'/>",
             required: true,
             wrapTitle: false,
@@ -1057,6 +1120,7 @@ inspectionReportTab.dynamicForm.assayLab = isc.DynamicForm.create({
         },
         {
             name: "labPlace",
+            colSpan: 1,
             title: "<spring:message code='assayInspection.LabPlace'/>",
             required: true,
             wrapTitle: false,
@@ -1084,13 +1148,81 @@ inspectionReportTab.listGrid.assayElement = isc.ListGrid.create({
     saveLocally: true,
     showRecordComponents: true,
     showRecordComponentsByCell: true,
-    canRemoveRecords: false
+    canRemoveRecords: false,
+    rowEditorExit(rowNum, colNum, newValues, oldValues, editCompletionEvent, dsResponse) {
+        console.log("rowEditorExit");
+        this.Super("rowEditorExit", arguments);
+    },
+    dataChanged: function (operationType) {
+        console.log("dataChanged");
+        inspectionReportTab.method.setEssayElementSum();
+        this.Super("dataChanged", arguments);
+    }
 });
+
+inspectionReportTab.listGrid.weightElementSum = isc.ListGrid.create(
+    {
+        width: "100%",
+        height: "100%",
+        showHeader: false,
+        showEmptyMessage: false,
+        fields: [
+            {
+                name: "title",
+                canEdit: false,
+                width: "30%",
+                align: "center",
+            },
+            {
+                canEdit: true,
+                name: "weightGW",
+                width: "10%",
+                align: "center",
+                cellChanged(record, newVal, oldValue, rowNum, colNum, grid) {
+                    if (inspectionReportTab.listGrid.weightElement.getData().length == 0) return true;
+                    let avr = (parseFloat(newVal) / inspectionReportTab.listGrid.weightElement.getData().length);
+                    inspectionReportTab.listGrid.weightElement.getData().map(value => {
+                        value.weightGW = avr;
+                        return value;
+                    });
+                    inspectionReportTab.listGrid.weightElement.redraw();
+                    return true;
+                }
+            },
+            {
+                canEdit: true,
+                name: "weightND",
+                width: "10%",
+                align: "center",
+                layoutMargin: 10,
+                editorExit(editCompletionEvent, record, newVal, ...d) {
+                    if (inspectionReportTab.listGrid.weightElement.getData().length == 0) return true;
+                    let avr = (parseFloat(newVal) / inspectionReportTab.listGrid.weightElement.getData().length);
+                    inspectionReportTab.listGrid.weightElement.getData().map(value => {
+                        value.weightND = avr;
+                        return value;
+                    });
+                    inspectionReportTab.listGrid.weightElement.redraw();
+                    return true;
+                }
+            }]
+    });
+
+inspectionReportTab.listGrid.assayElementSum = isc.ListGrid.create(
+    {
+        width: "100%",
+        showHeader: false,
+        showEmptyMessage: false,
+        fields: [
+            {"title": "<spring:message code='foreign-invoice.form.tab.subtotal'/>"}
+        ]
+    });
 
 inspectionReportTab.vLayout.weightPane = isc.VLayout.create({
     autoDraw: true,
     members: [
-        inspectionReportTab.listGrid.weightElement
+        inspectionReportTab.listGrid.weightElement,
+        inspectionReportTab.listGrid.weightElementSum
     ]
 });
 
@@ -1098,7 +1230,8 @@ inspectionReportTab.vLayout.assayPane = isc.VLayout.create({
     autoDraw: true,
     members: [
         inspectionReportTab.dynamicForm.assayLab,
-        inspectionReportTab.listGrid.assayElement
+        inspectionReportTab.listGrid.assayElement,
+        inspectionReportTab.listGrid.assayElementSum
     ]
 });
 
@@ -1127,8 +1260,12 @@ inspectionReportTab.method.clearForm = function () {
     inspectionReportTab.dynamicForm.inspecReport.clearValues();
     inspectionReportTab.dynamicForm.assayLab.clearValues();
     inspectionReportTab.listGrid.weightElement.setData([]);
+    inspectionReportTab.listGrid.weightElementSum.setData([]);
     inspectionReportTab.listGrid.assayElement.setData([]);
     inspectionReportTab.listGrid.assayElement.setFields([]);
+    inspectionReportTab.listGrid.assayElementSum.setData([]);
+    inspectionReportTab.listGrid.assayElementSum.setFields([]);
+
 };
 
 inspectionReportTab.method.setWeightElementListRows = function (selectedInventories) {
@@ -1198,6 +1335,23 @@ inspectionReportTab.method.groupByAssays = function (array, groupFieldName) {
 
 };
 
+inspectionReportTab.method.setWeightElementSum = function () {
+    inspectionReportTab.listGrid.weightElementSum.setData([{
+        "title": "<spring:message code='foreign-invoice.form.tab.subtotal'/>",
+        "weightND": inspectionReportTab.listGrid.weightElement.getData().map(a => a.weightND).sum(),
+        "weightGW": inspectionReportTab.listGrid.weightElement.getData().map(a => a.weightGW).sum()
+    }]);
+}
+
+inspectionReportTab.method.setEssayElementSum = function () {
+    var sumData = {"title": "<spring:message code='foreign-invoice.form.tab.subtotal'/>"};
+    //inspectionReportTab.listGrid.assayElementSum.setFields();
+
+    inspectionReportTab.listGrid.assayElement.getFields().filter(f => f.title.contains(f.name)).forEach(f => {
+        sumData[f.name] = inspectionReportTab.listGrid.assayElement.getData().map(a => a[f.name]).sum();
+    });
+    inspectionReportTab.listGrid.assayElementSum.setData([sumData]);
+}
 
 inspectionReportTab.window.inspecReport = new nicico.FormUtil();
 inspectionReportTab.window.inspecReport.init(null, '<spring:message code="inspectionReport.title"/>', isc.VLayout.create({
@@ -1207,7 +1361,8 @@ inspectionReportTab.window.inspecReport.init(null, '<spring:message code="inspec
     members: [
         inspectionReportTab.dynamicForm.material,
         inspectionReportTab.dynamicForm.inspecReport,
-        inspectionReportTab.tab.inspecTabs
+        inspectionReportTab.tab.inspecTabs,
+        inspectionReportTab.variable.unitSum
     ]
 }), "800", "60%");
 
@@ -1317,7 +1472,7 @@ inspectionReportTab.window.inspecReport.okCallBack = function (inspectionReportO
             httpMethod: inspectionReportTab.variable.method,
             data: JSON.stringify(inspectionReportObj),
             callback: function (resp) {
-                if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
                     isc.say("<spring:message code='global.form.request.successful'/>");
                     inspectionReportTab.method.refreshData();
                     inspectionReportTab.window.inspecReport.close();
@@ -1393,6 +1548,11 @@ inspectionReportTab.method.editForm = function () {
             inspectionReportTab.tab.inspecTabs.focus();
         }, 500);
 
+        //Set weightElementSum
+        inspectionReportTab.method.setWeightElementSum();
+
+        //Set essayElementSum
+        //inspectionReportTab.method.setEssayElementSum();
 
     }
 };

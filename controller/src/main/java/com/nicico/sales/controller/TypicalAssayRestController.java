@@ -25,7 +25,6 @@ public class TypicalAssayRestController {
 
     private final ITypicalAssayService iTypicalAssayService;
 
-
     @Loggable
     @GetMapping(value = "/{id}")
     public ResponseEntity<TypicalAssayDTO.Info> get(@PathVariable Long id) {

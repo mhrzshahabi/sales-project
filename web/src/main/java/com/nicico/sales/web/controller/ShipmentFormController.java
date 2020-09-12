@@ -3,6 +3,7 @@ package com.nicico.sales.web.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.mfathi91.time.PersianDate;
+import com.nicico.copper.common.util.date.DateUtil;
 import com.nicico.sales.dto.ShipmentDTO;
 import com.nicico.sales.iservice.IRemittanceService;
 import com.nicico.sales.enumeration.EContractDetailTypeCode;
@@ -23,11 +24,13 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
+
+import static io.netty.handler.codec.DateFormatter.format;
 
 @RequiredArgsConstructor
 @Controller
@@ -130,14 +133,11 @@ public class ShipmentFormController {
             replacePOI(doc, "containerType", shipment.getContainerType());
             replacePOI(doc, "blNumbers", String.valueOf(shipment.getNoBLs()));
             replacePOI(doc, "bookingno", "(Booking No." + (shipment.getBookingCat()!= null?shipment.getBookingCat():"") + ")");
-            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
-            String today = PersianDate.now().format(dtf);
-            replacePOI(doc, "dateday", today);
+            replacePOI(doc, "dateday", DateUtil.todayDate());
             replacePOI(doc, "buyer", (shipment.getContact() != null ? shipment.getContact().getNameFA() : ""));
-            replacePOI(doc, "letterDate", String.valueOf(shipment.getLastDeliveryLetterDate() != null ? shipment.getLastDeliveryLetterDate():""));
             replacePOI(doc, "company", (shipment.getContact() != null ? shipment.getContact().getNameFA() : ""));
             replacePOI(doc, "disPort", (shipment.getDischargePort() != null ? shipment.getDischargePort().getPort() : ""));
-            replacePOI(doc, "month", String.valueOf(shipment.getSendDate().getMonth()));
+            replacePOI(doc, "month", String.valueOf(shipment.getSendDate().getMonth()+1));
             replacePOI(doc, "year", (shipment.getContractShipment() != null ? shipment.getContractShipment().getSendDate().toString() : ""));
             replacePOI(doc, "nocont",  String.valueOf(shipment.getNoContainer()!= null?shipment.getNoContainer():""));
 
@@ -145,7 +145,12 @@ public class ShipmentFormController {
             for (String s : lots)
                 replacePOI(doc,"lots",s);
 
-             replacePOI(doc,"ola", String.valueOf(lots.size()));
+            replacePOI(doc,"ola", String.valueOf(lots.size()));
+
+            DateFormat dtf = new SimpleDateFormat("yyyy/MM/dd");
+            replacePOI(doc, "arrivalDateFrom",shipment.getArrivalDateFrom()!=null?  dtf.format(shipment.getArrivalDateFrom()):"");
+            replacePOI(doc, "arrivalDateTo", shipment.getArrivalDateTo()!=null? dtf.format(shipment.getArrivalDateTo()):"");
+            replacePOI(doc, "letterDate", shipment.getLastDeliveryLetterDate() != null ? dtf.format(shipment.getLastDeliveryLetterDate()):"");
 
             response.setHeader("Content-Disposition", "attachment; filename=" + fileNewName);
             response.setContentType("application/vnd.ms-word");

@@ -49,7 +49,6 @@ isc.defineClass("InvoiceBasePrice", isc.VLayout).addProperties({
                             return;
 
                         members.add(isc.Unit.create({
-                            hasExist: "exist",
                             unitHint: "PER " + priceBase.weightUnit.nameEN,
                             unitCategory: priceBase.financeUnit.categoryUnit,
                             fieldValueTitle: priceBase.element.name,
@@ -85,6 +84,9 @@ isc.defineClass("InvoiceBasePrice", isc.VLayout).addProperties({
             }
         }));
     },
+    getDataRowNo: function () {
+        return this.getMembers().slice(1).length;
+    },
     getValues: function () {
 
         let data = [];
@@ -105,6 +107,11 @@ isc.defineClass("InvoiceBasePrice", isc.VLayout).addProperties({
     },
     validate: function () {
 
-        return this.getMembers().filter(q => q.name === "exist").length;
+        let isValid = true;
+        this.getMembers().slice(1).forEach(current => {
+            if (current.getValues().value === null)
+                isValid = false;
+        });
+        return isValid;
     }
 });

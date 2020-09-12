@@ -128,5 +128,18 @@ isc.defineClass("InvoiceBaseWeight", isc.VLayout).addProperties({
             weightDiff: this.getMembers().filter(q => q.name === "weightDiff").first(),
             weightMilestone: this.getMembers()[0].getValue("reportMilestone")
         };
+    },
+    validate: function () {
+
+        let isValid = true;
+        if (this.getMembers().length < 2)
+            isValid = false;
+        else {
+            this.getMembers().slice(1).forEach(current => {
+                if (current.getValues().value === null)
+                    isValid = false;
+            });
+        }
+        return isValid;
     }
 });

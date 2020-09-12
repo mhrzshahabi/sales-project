@@ -1672,6 +1672,22 @@
     {
       "code": "O_SHIPMENT_COST_DUTY",
       "title": "لغو تایید نهایی خدمات"
+    },
+    {
+      "code": "C_TYPICAL_ASSAY",
+      "title": "ایجاد عناصر نمونه"
+    },
+    {
+      "code": "R_TYPICAL_ASSAY",
+      "title": "نمایش عناصر نمونه"
+    },
+    {
+      "code": "U_TYPICAL_ASSAY",
+      "title": "به روز رسانی عناصر نمونه"
+    },
+    {
+      "code": "D_TYPICAL_ASSAY",
+      "title": "حذف عناصر نمونه"
     }
   ]
 }
