@@ -291,9 +291,12 @@ contractTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
                         contractDetailValues: []
                     };
 
-                    section.items[0].validate();
-                    if (section.items[0].hasErrors())
-                        throw "dynamicForm validation is failed.";
+                    if (data.contractTypeId != 3) {
+                        section.items[0].validate();
+                        if (section.items[0].hasErrors())
+                            throw "dynamicForm validation is failed.";
+
+                    }
 
                     // dynamicForm
                     section.items[0].fields.filter(x => x.isBaseItem == null).forEach(x => {

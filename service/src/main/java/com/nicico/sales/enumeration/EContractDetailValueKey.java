@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum EContractDetailValueKey {
     NotImportant("NotImportant"),
+
     QUANTITY("QUANTITY"),
     TOLERANCE("TOLERANCE"),
     OPTION("OPTION"),
