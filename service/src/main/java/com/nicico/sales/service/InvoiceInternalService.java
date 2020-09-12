@@ -51,11 +51,11 @@ public class InvoiceInternalService extends GenericService<ViewInternalInvoice, 
     @Override
     @Action(value = ActionType.Create)
     public InternalInvoiceDTO.Info sendInternalForm2accounting(String id, String data) {
-        InternalInvoiceDocument invoice = new InternalInvoiceDocument();
-        invoice.setInvId(id);
-        invoice.setProcessId(data);
-        return save(invoice);
-    }
+		InternalInvoiceDocument invoice = new InternalInvoiceDocument();
+//        invoice.setInvId(id);
+//        invoice.setProcessId(data);
+		return save(invoice);
+	}
 
     private InternalInvoiceDTO.Info save(InternalInvoiceDocument internalInvoiceDocument) {
         final InternalInvoiceDocument saved = internalInvoiceDocumentDAO.saveAndFlush(internalInvoiceDocument);

@@ -18,58 +18,58 @@ import javax.persistence.Id;
 @Subselect(
         "SELECT " +
                 "INV_ID AS ID, " +
-                "BANKGROUPDESC AS BANKGROUPDESC, " +
-                "BUYERID AS BUYERID, " +
-                "CODEMARKAZHAZINEHCUSTOMER AS CUSTOMERCOSTCENTERCODE, " +
-                "CUSTOMERID AS CUSTOMERID, " +
-                "CUST_NAME AS CUSTOMERNAME, " +
-                "HAVEALAYANDEGI AS HASPOLLUTION, " +
-                "HAVEMALEYATE AS HASTAX, " +
-                "INV_AREAALANDEGI AS INVOICEAREAPOLLUTION, " +
-                "INV_CONTAINER_NAME AS INVOICECONTAINERNAME, " +
-                "INV_CONTAINER_NUMBER AS INVOICECONTAINERNUMBER, " +
-                "INV_CONTAINER_WEIGHT AS INVOICECONTAINERWEIGHT, " +
-                "INV_DATE AS INVOICEDATE, " +
-                "INV_NONPOUR_WEIGHT AS INVOICEGROSSWEIGHT, " +
-                "INV_LATINDESC AS INVOICELATINDESC, " +
-                "INV_OTHER_KOSORAT AS INVOICEOTHERDEDUCTIONS, " +
-                "INV_PERSIANDESC AS INVOICEPERSIANDESC, " +
-                "INV_REAL_WEIGHT AS INVOICEREALWEIGHT, " +
-                "INV_SALETYPE AS INVOICESALESTYPE, " +
-                "INV_SENTED AS INVOICESENT, " +
-                "SHOMAREHSORATHESAB AS INVOICESERIAL, " +
-                "INV_TOTAL_KOSORAT_AVAREZ AS INVOICETOTALTAX, " +
-                "INV_ALLWEIGHT AS INVOICETOTALWEIGHT, " +
-                "INV_UNITCOST AS INVOICEUNITPRICE, " +
-                "INV_AREAAFZODEH AS INVOICEVALUEADDED, " +
-                "CODEMARKAZHAZINEHLC AS LCCOSTCENTERCODE, " +
-                "LC_DATESARRESED AS LCDUEDATE, " +
-                "LCID AS LCID, " +
-                "CODENOSABANK AS NOSABANKCODE, " +
-                "CODENOSACUSTOMER AS NOSACUSTOMERCODE, " +
-                "CODEETEBARENOSACUSTOMER AS NOSACUSTOMERCREDITCODE, " +
-                "CODENOSAALAYANDEGI AS NOSAPOLLUTIONCODE, " +
-                "CODENOSAMAHSOL AS NOSAPRODUCTCODE, " +
-                "GRUPGOODSNOSA AS NOSAPRODUCTGROUPCODE, " +
-                "CODENOSAMALYATE AS NOSATAXCODE, " +
-                "PERSENT AS PERCENTAGE, " +
-                "PAYFORAVAREZALAYANDEGH AS POLLUTIONCHARGEAMOUNT, " +
-                "MARKAZHAZINEHALAYANDEGI AS POLLUTIONCOSTCENTERCODE, " +
-                "CODEMARKAZHAZINEHMAHSOL AS PRODUCTCOSTCENTERCODE, " +
-                "GRUPGOODNAME AS PRODUCTGROUPNAME, " +
-                "GOODSID AS PRODUCTID, " +
-                "GDSNAME AS PRODUCTNAME, " +
-                "WEIGHTREAL AS REALWEIGHT, " +
-                "HAV_MEGHDAR AS REMITTANCEAMOUNT, " +
-                "HAV_FINALDATE AS REMITTANCEFINALDATE, " +
-                "HAVALEHID AS REMITTANCEID, " +
-                "TYPEFROSH AS SALESTYPE, " +
-				"PAYFORAVAREZMALEYATE AS TAXCHARGEAMOUNT, " +
-				"MARKAZHAZINEHMALYATE AS TAXCOSTCENTERCODE, " +
-				"MABLAGHKOL AS TOTALAMOUNT, " +
-				"TOTALKOSORAT AS TOTALDEDUCTIONS, " +
-				"UNITID AS UNITID, " +
-                "GHEMATUNIT AS UNITPRICE " +
+                "BANKGROUPDESC AS C_BANK_GROUP_DESC, " +
+                "BUYERID AS C_BUYER_ID, " +
+                "CODEMARKAZHAZINEHCUSTOMER AS C_CUSTOMER_COST_CENTER_CODE, " +
+                "CUSTOMERID AS C_CUSTOMER_ID, " +
+                "CUST_NAME AS C_CUSTOMER_NAME, " +
+                "HAVEALAYANDEGI AS N_HAS_POLLUTION, " +
+                "HAVEMALEYATE AS N_HAS_TAX, " +
+                "INV_AREAALANDEGI AS C_INVOICE_AREA_POLLUTION, " +
+                "INV_CONTAINER_NAME AS C_INVOICE_CONTAINER_NAME, " +
+                "INV_CONTAINER_NUMBER AS N_INVOICE_CONTAINER_NUMBER, " +
+                "INV_CONTAINER_WEIGHT AS N_INVOICE_CONTAINER_WEIGHT, " +
+                "INV_DATE AS C_INVOICE_DATE, " +
+                "INV_NONPOUR_WEIGHT AS C_INVOICE_GROSS_WEIGHT, " +
+                "INV_LATINDESC AS C_INVOICE_LATIN_DESC, " +
+                "INV_OTHER_KOSORAT AS N_INVOICE_OTHER_DEDUCTIONS, " +
+                "INV_PERSIANDESC AS C_INVOICE_PERSIAN_DESC, " +
+                "INV_REAL_WEIGHT AS N_INVOICE_REAL_WEIGHT, " +
+                "INV_SALETYPE AS C_INVOICE_SALES_TYPE, " +
+                "INV_SENTED AS C_INVOICE_SENT, " +
+                "SHOMAREHSORATHESAB AS C_INVOICE_SERIAL, " +
+                "INV_TOTAL_KOSORAT_AVAREZ AS N_INVOICE_TOTAL_TAX, " +
+                "INV_ALLWEIGHT AS C_INVOICE_TOTAL_WEIGHT, " +
+                "INV_UNITCOST AS N_INVOICE_UNIT_PRICE, " +
+                "INV_AREAAFZODEH AS C_INVOICE_VALUE_ADDED, " +
+                "CODEMARKAZHAZINEHLC AS C_LC_COST_CENTER_CODE, " +
+                "LC_DATESARRESED AS C_LC_DUE_DATE, " +
+                "LCID AS C_LC_ID, " +
+                "CODENOSABANK AS C_NOSA_BANK_CODE, " +
+                "CODENOSACUSTOMER AS C_NOSA_CUSTOMER_CODE, " +
+                "CODEETEBARENOSACUSTOMER AS C_NOSA_CUSTOMER_CREDIT_CODE, " +
+                "CODENOSAALAYANDEGI AS C_NOSA_POLLUTION_CODE, " +
+                "CODENOSAMAHSOL AS C_NOSA_PRODUCT_CODE, " +
+                "GRUPGOODSNOSA AS C_NOSA_PRODUCT_GROUP_CODE, " +
+                "CODENOSAMALYATE AS C_NOSA_TAX_CODE, " +
+                "PERSENT AS C_PERCENTAGE, " +
+                "PAYFORAVAREZALAYANDEGH AS N_POLLUTION_CHARGE_AMOUNT, " +
+                "MARKAZHAZINEHALAYANDEGI AS C_POLLUTION_COST_CENTER_CODE, " +
+                "CODEMARKAZHAZINEHMAHSOL AS C_PRODUCT_COST_CENTER_CODE, " +
+                "GRUPGOODNAME AS C_PRODUCT_GROUP_NAME, " +
+                "GOODSID AS N_PRODUCT_ID, " +
+                "GDSNAME AS C_PRODUCT_NAME, " +
+                "WEIGHTREAL AS N_REAL_WEIGHT, " +
+                "HAV_MEGHDAR AS C_REMITTANCE_AMOUNT, " +
+                "HAV_FINALDATE AS C_REMITTANCE_FINAL_DATE, " +
+                "HAVALEHID AS C_REMITTANCE_ID, " +
+                "TYPEFROSH AS N_SALES_TYPE, " +
+                "PAYFORAVAREZMALEYATE AS N_TAX_CHARGE_AMOUNT, " +
+                "MARKAZHAZINEHMALYATE AS C_TAX_COST_CENTER_CODE, " +
+                "MABLAGHKOL AS N_TOTAL_AMOUNT, " +
+                "TOTALKOSORAT AS N_TOTAL_DEDUCTIONS, " +
+                "UNITID AS C_UNIT_ID, " +
+                "GHEMATUNIT AS N_UNIT_PRICE " +
                 "FROM " +
                 "VIEW_INNERSALESFORSALSE VI " +
                 "WHERE VI.INV_ID NOT IN (SELECT TI.INV_ID FROM TBL_INVOICEINTERNALDOCUMENT TI)"
@@ -79,159 +79,159 @@ public class ViewInternalInvoice {
     @Column(name = "ID")
     private String id;
 
-    @Column(name = "C_BANKGROUPDESC")
+    @Column(name = "C_BANK_GROUP_DESC")
     private String bankGroupDesc;
 
-    @Column(name = "C_BUYERID")
+    @Column(name = "C_BUYER_ID")
     private String buyerId;
 
-    @Column(name = "C_CUSTOMERCOSTCENTERCODE")
+    @Column(name = "C_CUSTOMER_COST_CENTER_CODE")
     private String customerCostCenterCode;
 
-    @Column(name = "C_CUSTOMERID")
+    @Column(name = "C_CUSTOMER_ID")
     private String customerId;
 
-    @Column(name = "C_CUSTOMERNAME")
+    @Column(name = "C_CUSTOMER_NAME")
     private String customerName;
 
-    @Column(name = "N_HASPOLLUTION")
+    @Column(name = "N_HAS_POLLUTION")
     private Integer hasPollution;
 
-    @Column(name = "N_HASTAX")
+    @Column(name = "N_HAS_TAX")
     private Integer hasTax;
 
-    @Column(name = "C_INVOICEAREAPOLLUTION")
+    @Column(name = "C_INVOICE_AREA_POLLUTION")
     private String invoiceAreaPollution;
 
-    @Column(name = "C_INVOICECONTAINERNAME")
+    @Column(name = "C_INVOICE_CONTAINER_NAME")
     private String invoiceContainerName;
 
-    @Column(name = "C_INVOICECONTAINERNUMBER")
+    @Column(name = "N_INVOICE_CONTAINER_NUMBER")
     private Integer invoiceContainerNumber;
 
-    @Column(name = "N_INVOICECONTAINERWEIGHT", precision = 10)
+    @Column(name = "N_INVOICE_CONTAINER_WEIGHT", precision = 10)
     private Double invoiceContainerWeight;
 
-    @Column(name = "C_INVOICEDATE")
+    @Column(name = "C_INVOICE_DATE")
     private String invoiceDate;
 
-    @Column(name = "C_INVOICEGROSSWEIGHT")
+    @Column(name = "C_INVOICE_GROSS_WEIGHT")
     private String invoiceGrossWeight;
 
-    @Column(name = "C_INVOICELATINDESC")
+    @Column(name = "C_INVOICE_LATIN_DESC")
     private String invoiceLatinDesc;
 
-    @Column(name = "N_INVOICEOTHERDEDUCTIONS", precision = 10)
+    @Column(name = "N_INVOICE_OTHER_DEDUCTIONS", precision = 10)
     private Double invoiceOtherDeductions;
 
-    @Column(name = "C_INVOICEPERSIANDESC")
+    @Column(name = "C_INVOICE_PERSIAN_DESC")
     private String invoicePersianDesc;
 
-    @Column(name = "N_INVOICEREALWEIGHT", precision = 10)
+    @Column(name = "N_INVOICE_REAL_WEIGHT", precision = 10)
     private Double invoiceRealWeight;
 
-    @Column(name = "C_INVOICESALESTYPE")
+    @Column(name = "C_INVOICE_SALES_TYPE")
     private String invoiceSalesType;
 
-    @Column(name = "C_INVOICESENT")
+    @Column(name = "C_INVOICE_SENT")
     private String invoiceSent;
 
-    @Column(name = "C_INVOICESERIAL")
+    @Column(name = "C_INVOICE_SERIAL")
     private String invoiceSerial;
 
-    @Column(name = "N_INVOICETOTALTAX", precision = 10)
+    @Column(name = "N_INVOICE_TOTAL_TAX", precision = 10)
     private Double invoiceTotalTax;
 
-    @Column(name = "C_INVOICETOTALWEIGHT")
+    @Column(name = "C_INVOICE_TOTAL_WEIGHT")
     private String invoiceTotalWeight;
 
-    @Column(name = "N_INVOICEUNITPRICE", precision = 10)
+    @Column(name = "N_INVOICE_UNIT_PRICE", precision = 10)
     private Double invoiceUnitPrice;
 
-    @Column(name = "C_INVOICEVALUEADDED")
+    @Column(name = "C_INVOICE_VALUE_ADDED")
     private String invoiceValueAdded;
 
-    @Column(name = "C_LCCOSTCENTERCODE")
+    @Column(name = "C_LC_COST_CENTER_CODE")
     private String lcCostCenterCode;
 
-    @Column(name = "C_LCDUEDATE")
+    @Column(name = "C_LC_DUE_DATE")
     private String lcDueDate;
 
-    @Column(name = "C_LCID")
+    @Column(name = "C_LC_ID")
     private String lcId;
 
-    @Column(name = "NOSABANKCODE")
+    @Column(name = "C_NOSA_BANK_CODE")
     private String nosaBankCode;
 
-    @Column(name = "NOSACUSTOMERCODE")
+    @Column(name = "C_NOSA_CUSTOMER_CODE")
     private String nosaCustomerCode;
 
-    @Column(name = "NOSACUSTOMERCREDITCODE")
+    @Column(name = "C_NOSA_CUSTOMER_CREDIT_CODE")
     private String nosaCustomerCreditCode;
 
-    @Column(name = "NOSAPOLLUTIONCODE")
+    @Column(name = "C_NOSA_POLLUTION_CODE")
     private String nosaPollutionCode;
 
-    @Column(name = "NOSAPRODUCTCODE")
+    @Column(name = "C_NOSA_PRODUCT_CODE")
     private String nosaProductCode;
 
-    @Column(name = "NOSAPRODUCTGROUPCODE")
+    @Column(name = "C_NOSA_PRODUCT_GROUP_CODE")
     private String nosaProductGroupCode;
 
-    @Column(name = "NOSATAXCODE")
+    @Column(name = "C_NOSA_TAX_CODE")
     private String nosaTaxCode;
 
-    @Column(name = "PERCENTAGE")
+    @Column(name = "C_PERCENTAGE")
     private String percentage;
 
-    @Column(name = "POLLUTIONCHARGEAMOUNT", precision = 10)
+    @Column(name = "N_POLLUTION_CHARGE_AMOUNT", precision = 10)
     private Double pollutionChargeAmount;
 
-    @Column(name = "POLLUTIONCOSTCENTERCODE")
+    @Column(name = "C_POLLUTION_COST_CENTER_CODE")
     private String pollutionCostCenterCode;
 
-    @Column(name = "PRODUCTCOSTCENTERCODE")
+    @Column(name = "C_PRODUCT_COST_CENTER_CODE")
     private String productCostCenterCode;
 
-    @Column(name = "PRODUCTGROUPNAME")
+    @Column(name = "C_PRODUCT_GROUP_NAME")
     private String productGroupName;
 
-    @Column(name = "PRODUCTID")
+    @Column(name = "N_PRODUCT_ID")
     private Long productId;
 
-    @Column(name = "PRODUCTNAME")
+    @Column(name = "C_PRODUCT_NAME")
     private String productName;
 
-    @Column(name = "REALWEIGHT", precision = 10)
+    @Column(name = "N_REAL_WEIGHT", precision = 10)
     private Double realWeight;
 
-    @Column(name = "REMITTANCEAMOUNT")
+    @Column(name = "C_REMITTANCE_AMOUNT")
     private String remittanceAmount;
 
-    @Column(name = "REMITTANCEFINALDATE")
+    @Column(name = "C_REMITTANCE_FINAL_DATE")
     private String remittanceFinalDate;
 
-    @Column(name = "REMITTANCEID")
+    @Column(name = "C_REMITTANCE_ID")
     private String remittanceId;
 
-    @Column(name = "SALESTYPE")
+    @Column(name = "N_SALES_TYPE")
     private Integer salesType;
 
-    @Column(name = "TAXCHARGEAMOUNT", precision = 10)
+    @Column(name = "N_TAX_CHARGE_AMOUNT", precision = 10)
     private Double taxChargeAmount;
 
-    @Column(name = "TAXCOSTCENTERCODE")
+    @Column(name = "C_TAX_COST_CENTER_CODE")
     private String taxCostCenterCode;
 
-    @Column(name = "TOTALAMOUNT", precision = 10)
+    @Column(name = "N_TOTAL_AMOUNT", precision = 10)
     private Double totalAmount;
 
-    @Column(name = "TOTALDEDUCTIONS", precision = 10)
+    @Column(name = "N_TOTAL_DEDUCTIONS", precision = 10)
     private Double totalDeductions;
 
-    @Column(name = "UNITID")
+    @Column(name = "C_UNIT_ID")
     private String unitId;
 
-    @Column(name = "UNITPRICE", precision = 10)
+    @Column(name = "N_UNIT_PRICE", precision = 10)
     private Double unitPrice;
 }
