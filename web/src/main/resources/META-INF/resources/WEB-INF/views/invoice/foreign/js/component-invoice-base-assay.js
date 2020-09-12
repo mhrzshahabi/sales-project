@@ -9,6 +9,7 @@ isc.defineClass("InvoiceBaseAssay", isc.VLayout).addProperties({
     membersMargin: 2,
     overflow: "visible",
     shipment: null,
+    assayMilestone: null,
     remittanceDetail: null,
     initWidget: function () {
 
@@ -102,11 +103,16 @@ isc.defineClass("InvoiceBaseAssay", isc.VLayout).addProperties({
             }]
         }));
 
-        this.getMembers()[0].setValue("reportMilestone", 1);
-        this.getMembers()[0].getItem(0).changed(this.getMembers()[0], this.getMembers()[0].getItem(0), 1);
+        this.getMembers()[0].setValue("reportMilestone", JSON.parse('${Enum_MileStone}').Source);
+        this.getMembers()[0].getItem(0).changed(this.getMembers()[0], this.getMembers()[0].getItem(0), JSON.parse('${Enum_MileStone}').Source);
+        this.editAssay();
     },
     getDataRowNo: function () {
         return this.getMembers().slice(1).length;
+    },
+    editAssay: function () {
+    if (this.assayMilestone)
+        this.getMembers()[0].setValue("reportMilestone", this.assayMilestone);
     },
     getValues: function () {
 
