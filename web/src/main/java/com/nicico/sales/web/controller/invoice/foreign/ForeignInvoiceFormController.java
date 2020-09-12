@@ -58,8 +58,8 @@ public class ForeignInvoiceFormController {
         for (CommercialRole value : CommercialRole.values()) commercialRoles.put(value.name(), value.name());
         request.setAttribute("Enum_CommercialRole", objectMapper.writeValueAsString(commercialRoles));
 
-        Map<Integer, String> mileStone = new HashMap<>();
-        for (InspectionReportMilestone value : InspectionReportMilestone.values()) mileStone.put(value.getId(), value.name());
+        Map<String, String> mileStone = new HashMap<>();
+        for (InspectionReportMilestone value : InspectionReportMilestone.values()) mileStone.put(value.name(), value.name());
         request.setAttribute("Enum_MileStone", objectMapper.writeValueAsString(mileStone));
 
         return "invoice/foreign/foreign-invoice";
