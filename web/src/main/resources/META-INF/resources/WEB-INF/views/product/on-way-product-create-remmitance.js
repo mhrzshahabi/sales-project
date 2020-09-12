@@ -902,11 +902,10 @@ function onWayProductCreateRemittance(criteriaBuildForListGrid) {
                 operator: "equals",
                 value: selectedSourceTozins[0]['codeKala']
             },
-            // {
-            //     fieldName: "sourceId",
-            //     operator: "equals",
-            //     value: selectedSourceTozins[0]['sourceId']
-            // },
+            {
+                fieldName: "tozinTable",
+                operator: "isNull",
+            },
             // {
             //     fieldName: "targetId",
             //     operator: "equals",

@@ -340,7 +340,7 @@ function ListGrid_Tozin_IN_ONWAYPRODUCT_refresh() {
 
 async function onWayProductFetch(classUrl, operator = "and", criteria = []) {
     const response = await fetch('/sales/api/'
-        + classUrl + '/spec-list?_startRow=0&_endRow=1000&operator=' + operator + '&' +
+        + classUrl + '/spec-list?operator=' + operator + '&' +
         criteria.map(c => 'criteria=' + encodeURIComponent(JSON.stringify(c))).join('&'),
         {headers: SalesConfigs.httpHeaders});
     // if(response.status>=200 && response.status<300) {
@@ -356,15 +356,16 @@ function mainOnWayProduct() {
         const dateCriteria = filterEditorCriteria.criteria.find(_ => _.fieldName === 'date');
         if (dateCriteria) dateCriteria.value = dateCriteria.value.replaceAll("/", "")
         filterEditorCriteria.criteria.add({"fieldName": "tozinId", "operator": "iNotStartsWith", "value": "3-"})
+        filterEditorCriteria.criteria.add({"fieldName": "tozinTable", "operator": "isNull"})
         const criteriaForSearch = {...filterEditorCriteria};
         // dbg(false, 'filterEditorCriteria', filterEditorCriteria)
-        const value = await fetchAlreadyInsertedTozinList()
-        value.forEach(v => criteriaForSearch.criteria.add({
-                "fieldName": "tozinId",
-                "operator": "notEqual",
-                "value": v
-            })
-        )
+        // const value = await fetchAlreadyInsertedTozinList()
+        // value.forEach(v => criteriaForSearch.criteria.add({
+        //         "fieldName": "tozinId",
+        //         "operator": "notEqual",
+        //         "value": v
+        //     })
+        // )
         // dbg(false, 'criteriaForSearch', criteriaForSearch)
         ListGrid_Tozin_IN_ONWAYPRODUCT.fetchData(criteriaForSearch)
         // ListGrid_Tozin_IN_ONWAYPRODUCT.fetchData(criteriaForSearch, _ => {
