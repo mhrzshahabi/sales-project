@@ -46,4 +46,9 @@
         </addColumn>
     </changeSet>
 
+    <changeSet author="Abiz" id="AZAARE-050">
+        <modifyDataType columnName="N_INSPECTION_RATE_VALUE" newDataType="NUMBER(16, 5)" tableName="TBL_INSPECTION_REPORT"/>
+    </changeSet>
+
+
 </databaseChangeLog>

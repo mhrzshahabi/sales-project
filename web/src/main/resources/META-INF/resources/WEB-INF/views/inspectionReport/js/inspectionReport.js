@@ -402,7 +402,9 @@ inspectionReportTab.method.getAssayElementFields = function (materialId) {
     let elementCriteria = {
         _constructor: "AdvancedCriteria",
         operator: "and",
-        criteria: [{fieldName: "materialId", operator: "equals", value: materialId}]
+        criteria: [{fieldName: "materialId", operator: "equals", value: materialId},
+            {fieldName: "element.payable", operator: "equals", value: true},
+        ]
     };
 
     inspectionReportTab.restDataSource.materialElementRest.fetchData(elementCriteria, function (dsResponse, data, dsRequest) {
@@ -457,7 +459,7 @@ inspectionReportTab.method.getAssayElementFields = function (materialId) {
                 align: "center",
             },];
 
-            sumFields.addAll(data.filter(me => me.element.name != "MO").map(
+            sumFields.addAll(data.map(
                 me => {
                     return {
                         name: me.element.name,
@@ -482,7 +484,7 @@ inspectionReportTab.method.getAssayElementFields = function (materialId) {
     });
 };
 
-inspectionReportTab.method.setInventoryCriteria = function (shipmentId) {
+inspectionReportTab.method.setRemittanceDetailCriteria = function (shipmentId) {
 
     let remittanceDetailCriteria = {
         _constructor: "AdvancedCriteria",
@@ -512,6 +514,18 @@ inspectionReportTab.method.setShipmentCriteria = function (materialId) {
             fieldName: "materialId",
             operator: "equals",
             value: materialId
+        }]
+    });
+};
+
+inspectionReportTab.method.setInventoryCriteria = function (shipmentId) {
+    inspectionReportTab.dynamicForm.inspecReport.getItem("inventoryId").setOptionCriteria({
+        _constructor: "AdvancedCriteria",
+        operator: "and",
+        criteria: [{
+            fieldName: "remittanceDetails.remittance.shipment.id",
+            operator: "equals",
+            value: shipmentId
         }]
     });
 };
@@ -621,14 +635,20 @@ inspectionReportTab.dynamicForm.material = isc.DynamicForm.create({
                     case ImportantIDs.material.COPPER_CATHOD:
                         inspectionReportTab.tab.inspecTabs.tabs.filter(q => q.name === "assay").first().pane.disable();
                         inspectionReportTab.listGrid.weightElement.unitId = 1;
+                        inspectionReportTab.dynamicForm.assayLab.getField("labName").setRequired(false);
+                        inspectionReportTab.dynamicForm.assayLab.getField("labPlace").setRequired(false);
                         break;
                     case ImportantIDs.material.MOLYBDENUM_OXIDE:
 
                         inspectionReportTab.listGrid.weightElement.unitId = 2;
+                        inspectionReportTab.dynamicForm.assayLab.getField("labName").setRequired(true);
+                        inspectionReportTab.dynamicForm.assayLab.getField("labPlace").setRequired(true);
                         break;
                     case ImportantIDs.material.COPPER_CONCENTRATES:
 
                         inspectionReportTab.listGrid.weightElement.unitId = 3;
+                        inspectionReportTab.dynamicForm.assayLab.getField("labName").setRequired(true);
+                        inspectionReportTab.dynamicForm.assayLab.getField("labPlace").setRequired(true)
                         break;
 
                     default:
@@ -709,6 +729,7 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
                 validateOnChange: true
             }],
         changed: function (form, item, value) {
+            inspectionReportTab.method.setRemittanceDetailCriteria(value);
             inspectionReportTab.method.setInventoryCriteria(value);
         }
     },
@@ -1285,7 +1306,8 @@ inspectionReportTab.method.setAssayElementListRows = function (selectedInventori
     inspectionReportTab.listGrid.assayElement.setData([]);
     if (selectedInventories.length === 0)
         return;
-
+    if (inspectionReportTab.variable.materialId === ImportantIDs.material.COPPER_CATHOD)
+        return;
     selectedInventories.forEach((current, index, array) => inspectionReportTab.listGrid.assayElement.startEditingNew({inventoryId: current.id}));
 
     if (inspectionReportTab.variable.method !== "PUT") return;
@@ -1436,10 +1458,11 @@ inspectionReportTab.window.inspecReport.validate = function (data) {
     if (inspectionReportTab.dynamicForm.material.hasErrors())
         return false;
 
-    inspectionReportTab.dynamicForm.inspecReport.validate();
-    if (inspectionReportTab.dynamicForm.inspecReport.hasErrors())
-        return false;
-
+    if (inspectionReportTab.variable.materialId != ImportantIDs.material.COPPER_CATHOD) {
+        inspectionReportTab.dynamicForm.inspecReport.validate();
+        if (inspectionReportTab.dynamicForm.inspecReport.hasErrors())
+            return false;
+    }
     inspectionReportTab.dynamicForm.assayLab.validate();
     if (inspectionReportTab.dynamicForm.assayLab.hasErrors())
         return false;
@@ -1452,9 +1475,11 @@ inspectionReportTab.window.inspecReport.validate = function (data) {
         inspectionReportTab.listGrid.weightElement.validateRow(i);
         if (inspectionReportTab.listGrid.weightElement.hasErrors())
             return false;
-        inspectionReportTab.listGrid.assayElement.validateRow(i);
-        if (inspectionReportTab.listGrid.assayElement.hasErrors())
-            return false;
+        if (inspectionReportTab.variable.materialId != ImportantIDs.material.COPPER_CATHOD) {
+            inspectionReportTab.listGrid.assayElement.validateRow(i);
+            if (inspectionReportTab.listGrid.assayElement.hasErrors())
+                return false;
+        }
     }
 
     return true;
