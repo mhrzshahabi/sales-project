@@ -1461,6 +1461,15 @@ BlTab.Fields.BillOfLandingSwitch = function () {
             name: 'switchDocumentNo',
             required: true,
             title: "<spring:message code='billOfLanding.document.no'/>",
+            keyPressFilter: "[0-9/_a-zA-Z\u0600-\u06FF\uFB8A\u067E\u0686\u06AF\u200C\u200F-]",
+            validateOnChange: true,
+            validators: [
+                {
+                    type: "regexp",
+                    expression: "^[0-9/_a-zA-Z\u0600-\u06FF\uFB8A\u067E\u0686\u06AF\u200C\u200F-]*$",
+                    validateOnChange: true,
+                }
+            ]
         },
         {
             name: 'switchShipperExporter', hidden: true, shouldSaveValue: false
