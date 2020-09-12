@@ -48,6 +48,8 @@ public class TozinDTO {
     private String tznSharh2;
     private String strSharh2;
     private String tznSharh1;
+    private Long tozinTable;
+
 
     @Getter
     @Setter
