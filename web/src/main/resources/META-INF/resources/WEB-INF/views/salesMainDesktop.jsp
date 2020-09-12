@@ -925,19 +925,6 @@
                 },
                 {isSeparator: true},
                 </sec:authorize>
-                <sec:authorize access="hasAuthority('R_FOREIGN_INVOICE')">
-                {
-                    title: "<spring:message code='issuedInvoices.title'/>",
-                    click: function () {
-                        var url_string = window.location.href;
-                        var url = new URL(url_string);
-                        var lang = url.searchParams.get("lang");
-
-                        createTab("<spring:message code='issuedInvoices.title'/>", "<spring:url value="/invoice/showForm" />")
-                    }
-                },
-                {isSeparator: true},
-                </sec:authorize>
                 <sec:authorize access="hasAuthority('R_INVOICE_INTERNAL')">
                 {
                     title: "<spring:message code='issuedInternalInvoices.title'/>",

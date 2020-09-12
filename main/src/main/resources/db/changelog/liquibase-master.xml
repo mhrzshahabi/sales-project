@@ -14,7 +14,7 @@
     <!-- INITIALIZE DATA -->
 
     <!-- SYNONYMS -->
-<!--    <include file="classpath:/db/changelog/synonyms/logistic-data.xml"/>-->
+    <include file="classpath:/db/changelog/synonyms/logistic-data.xml"/>
     <!-- SYNONYMS -->
 
     <!-- CHANGES -->
@@ -22,15 +22,15 @@
     <!-- CHANGES -->
 
     <!-- VIEWS -->
-<!--    <include file="classpath:/db/changelog/views/tbl_tozin_plant.xml"/>-->
-<!--    <include file="classpath:/db/changelog/views/view_frosh.xml"/>-->
-<!--    <include file="classpath:/db/changelog/views/view_kharid.xml"/>-->
-<!--    <include file="classpath:/db/changelog/views/view_tozin.xml"/>-->
-<!--    <include file="classpath:/db/changelog/views/view_tozin_m.xml"/>-->
-<!--    <include file="classpath:/db/changelog/views/view_tozin_s.xml"/>-->
-<!--    <include file="classpath:/db/changelog/views/view_warh_inventory.xml"/>-->
-<!--    <include file="classpath:/db/changelog/views/view_warh_remittance_detail.xml"/>-->
-<!--    <include file="classpath:/db/changelog/views/view_zayeat.xml"/>-->
+    <include file="classpath:/db/changelog/views/tbl_tozin_plant.xml"/>
+    <include file="classpath:/db/changelog/views/view_frosh.xml"/>
+    <include file="classpath:/db/changelog/views/view_kharid.xml"/>
+    <include file="classpath:/db/changelog/views/view_tozin.xml"/>
+    <include file="classpath:/db/changelog/views/view_tozin_m.xml"/>
+    <include file="classpath:/db/changelog/views/view_tozin_s.xml"/>
+    <include file="classpath:/db/changelog/views/view_warh_inventory.xml"/>
+    <include file="classpath:/db/changelog/views/view_warh_remittance_detail.xml"/>
+    <include file="classpath:/db/changelog/views/view_zayeat.xml"/>
     <!-- VIEWS -->
 
 </databaseChangeLog>
