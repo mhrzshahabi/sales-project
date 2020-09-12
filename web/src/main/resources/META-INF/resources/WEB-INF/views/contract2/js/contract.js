@@ -130,6 +130,7 @@ function contractTabDynamicFormFields() {
                 ],
                 fetchDataURL: "${contextPath}/api/contract-type/spec-list"
             }),
+            optionCriteria: {fieldName: "id", operator: "notEqual", value: 2},
             autoFetchData: false,
             displayField: "titleEn",
             valueField: "id",

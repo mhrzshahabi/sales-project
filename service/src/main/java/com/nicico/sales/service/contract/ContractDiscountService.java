@@ -25,11 +25,11 @@ public class ContractDiscountService extends GenericService<ContractDiscount, Lo
         MultiValueMap searchTerm = new LinkedMultiValueMap();
         JsonObject criteria1 = new JsonObject();
         criteria1.addProperty("fieldName", "upperBound");
-        criteria1.addProperty("operator", "greaterOrEqual");
+        criteria1.addProperty("operator", "lessOrEqual");
         criteria1.addProperty("value", percent);
         JsonObject criteria2 = new JsonObject();
         criteria2.addProperty("fieldName", "lowerBound");
-        criteria2.addProperty("operator", "lessThan");
+        criteria2.addProperty("operator", "greaterThan");
         criteria2.addProperty("value", percent == 0 ? (1E-10) : percent);
         searchTerm.add("_constructor", "AdvancedCriteria");
         searchTerm.add("operator", "and");
