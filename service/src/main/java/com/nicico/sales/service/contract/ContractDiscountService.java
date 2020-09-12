@@ -18,10 +18,10 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class ContractDiscountService extends GenericService<ContractDiscount, Long, ContractDiscountDto, ContractDiscountDto, ContractDiscountDto, ContractDiscountDto> implements IContractDiscountService {
+public class ContractDiscountService extends GenericService<ContractDiscount, Long, ContractDiscountDto.Create, ContractDiscountDto.Info, ContractDiscountDto.Update, ContractDiscountDto.Delete> implements IContractDiscountService {
 
     @Override
-    public ContractDiscountDto getByCuPercent(Double percent) {
+    public ContractDiscountDto.Info getByCuPercent(Double percent) {
         MultiValueMap searchTerm = new LinkedMultiValueMap();
         JsonObject criteria1 = new JsonObject();
         criteria1.addProperty("fieldName", "upperBound");
@@ -36,7 +36,7 @@ public class ContractDiscountService extends GenericService<ContractDiscount, Lo
         searchTerm.add("_operationType", "fetch");
         searchTerm.addAll("criteria", Arrays.asList(criteria1, criteria2));
         NICICOCriteria nicicoCriteria = NICICOCriteria.of(searchTerm);
-        List<ContractDiscountDto> list = search(nicicoCriteria).getResponse().getData();
+        List<ContractDiscountDto.Info> list = search(nicicoCriteria).getResponse().getData();
         if (list == null || list.size() == 0)
             throw new NotFoundException(ContractDiscount.class);
         if (list.size() > 1)

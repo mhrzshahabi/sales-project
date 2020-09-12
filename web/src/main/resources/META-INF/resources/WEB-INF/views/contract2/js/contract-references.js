@@ -162,6 +162,51 @@ function getReferenceFields(referenceType) {
                     ]
                 }
             ]
+        case 'Discount':
+            return [
+                {name: "id", hidden: true, width: "10%"},
+                {
+                    name: "lowerBound",
+                    title: "<spring:message code='MaterialFeature.minValue'/>",
+                    width: "100%"
+                },
+                {
+                    name: "upperBound",
+                    title: "<spring:message code='MaterialFeature.maxValue'/>",
+                    width: "100%"
+                },
+                {
+                    name: "discount",
+                    title: "<spring:message code='contract.discount'/>",
+                    width: "100%"
+                },
+                {
+                    name: "materialElementId",
+                    title: "<spring:message code='assayInspection.materialElement'/>",
+                    width: "100%",
+                    type: "long",
+                    required: true,
+                    autoFetchData: false,
+                    editorType: "SelectItem",
+                    valueField: "id",
+                    displayField: "elementName",
+                    pickListHeight: "300",
+                    optionDataSource: isc.MyRestDataSource.create({
+                        fields: BaseFormItems.concat([
+                            {
+                                name: "elementName",
+                                title: '<spring:message code="assayInspection.materialElement.name"/>'
+                            },
+                            {name: "material.descl", title: '<spring:message code="material.descl"/>'}
+                        ]),
+                        fetchDataURL: "${contextPath}/api/materialElement/" + "spec-list"
+                    }),
+                    pickListFields: [
+                        {name: "elementName", title: '<spring:message code="assayInspection.materialElement.name"/>'},
+                        {name: "material.descl", title: '<spring:message code="material.descl"/>'}
+                    ]
+                }
+            ]
         case 'RateReference':
             return '';
         case 'PriceBaseReference':
@@ -204,6 +249,9 @@ function getReferenceDataSource(referenceType) {
             break;
         case 'TypicalAssay':
             url = "${contextPath}" + "/api/typicalAssay/spec-list";
+            break;
+        case 'Discount':
+            url = "${contextPath}" + "/api/contract-discount/spec-list";
             break;
         default:
             return null;

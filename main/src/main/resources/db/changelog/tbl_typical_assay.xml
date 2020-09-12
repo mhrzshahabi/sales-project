@@ -30,4 +30,10 @@
         </addColumn>
     </changeSet>
 
+    <changeSet author="Reza Mazloom" id="mazloom_052">
+        <addForeignKeyConstraint baseColumnNames="F_CONTRACT_ID" baseTableName="TBL_TYPICAL_ASSAY"
+                                 constraintName="TYPICALASSAY2CONTRACT2" deferrable="false" initiallyDeferred="false"
+                                 referencedColumnNames="id" referencedTableName="TBL_CNTR_CONTRACT" validate="true"/>
+    </changeSet>
+
 </databaseChangeLog>
