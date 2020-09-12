@@ -11,5 +11,5 @@ import java.util.List;
 @Repository
 public interface ForeignInvoiceBillOfLadingDAO extends JpaRepository<ForeignInvoiceBillOfLading, Long>, JpaSpecificationExecutor<ForeignInvoiceBillOfLading> {
 
-    List<ForeignInvoiceBillOfLading> findAllByBillOfLandingId(@Param("billOfLandingId") Long billOfLandingId);
+    List<ForeignInvoiceBillOfLading> findAllByBillOfLandingIdAndForeignInvoiceId(@Param("billOfLandingId") Long billOfLandingId, @Param("foreignInvoiceId") Long foreignInvoiceId);
 }

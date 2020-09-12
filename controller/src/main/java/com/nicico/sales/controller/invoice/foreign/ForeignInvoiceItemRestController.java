@@ -1,10 +1,12 @@
 package com.nicico.sales.controller.invoice.foreign;
 
+import com.google.common.base.Enums;
 import com.nicico.copper.common.Loggable;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.sales.dto.invoice.foreign.ForeignInvoiceItemDTO;
 import com.nicico.sales.iservice.invoice.foreign.IForeignInvoiceItemService;
+import com.nicico.sales.model.enumeration.AllConverters;
 import com.nicico.sales.model.enumeration.InspectionReportMilestone;
 import com.nicico.sales.model.enumeration.PriceBaseReference;
 import lombok.RequiredArgsConstructor;
@@ -41,9 +43,11 @@ public class ForeignInvoiceItemRestController {
 
     @Loggable
     @GetMapping(value = "/get-calculation2-data")
-    public ResponseEntity<ForeignInvoiceItemDTO.Calc2Data> getCalculation2Data(@RequestParam Long contractId, @RequestParam Long shipmentId,  @RequestParam Integer assayMilestone,  @RequestParam Integer weightMilestone, @RequestParam List<Long> inventoryIds, @RequestParam PriceBaseReference reference, @RequestParam Integer year, @RequestParam Integer month, @RequestParam Long financeUnitId) {
+    public ResponseEntity<ForeignInvoiceItemDTO.Calc2Data> getCalculation2Data(@RequestParam Long contractId, @RequestParam Long shipmentId, @RequestParam String assayMilestone, @RequestParam String weightMilestone, @RequestParam List<Long> inventoryIds, @RequestParam PriceBaseReference reference, @RequestParam Integer year, @RequestParam Integer month, @RequestParam Long financeUnitId) {
 
-        return new ResponseEntity<>(foreignInvoiceItemService.getCalculation2Data(contractId, shipmentId,assayMilestone, weightMilestone, inventoryIds, reference, year, month, financeUnitId), HttpStatus.OK);
+        InspectionReportMilestone weightMilestoneEnum = Enums.getIfPresent(InspectionReportMilestone.class, weightMilestone).or(InspectionReportMilestone.Source);
+        InspectionReportMilestone reportMilestoneEnum = Enums.getIfPresent(InspectionReportMilestone.class, assayMilestone).or(InspectionReportMilestone.Source);
+        return new ResponseEntity<>(foreignInvoiceItemService.getCalculation2Data(contractId, shipmentId, reportMilestoneEnum, weightMilestoneEnum, inventoryIds, reference, year, month, financeUnitId), HttpStatus.OK);
     }
 
     @Loggable
@@ -67,6 +71,7 @@ public class ForeignInvoiceItemRestController {
         foreignInvoiceItemService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
 
     @Loggable
     @DeleteMapping(value = "/list")

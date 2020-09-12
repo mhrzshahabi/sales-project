@@ -12,6 +12,7 @@ isc.defineClass("InvoiceCalculation2", isc.VLayout).addProperties({ //TestShod
     currency: null,
     remittanceDetails: null,
     contractDetailData: null,
+    weightData: null,
     initWidget: function () {
 
         this.Super("initWidget", arguments);
@@ -33,7 +34,6 @@ isc.defineClass("InvoiceCalculation2", isc.VLayout).addProperties({ //TestShod
             numCols: 6,
             fields: [{
 
-                type: "integer",
                 name: "weightMilestone",
                 editorType: "SelectItem",
                 required: true,
@@ -45,7 +45,6 @@ isc.defineClass("InvoiceCalculation2", isc.VLayout).addProperties({ //TestShod
                 }],
                 valueMap: JSON.parse('${Enum_MileStone}'),
             }, {
-                type: "integer",
                 name: "assayMilestone",
                 editorType: "SelectItem",
                 required: true,
@@ -128,6 +127,7 @@ isc.defineClass("InvoiceCalculation2", isc.VLayout).addProperties({ //TestShod
                                 });
                                 grid.setFields(data.fields);
                                 grid.setData(data.data);
+                                grid.priceBase = data.priceBase;
 
                                 let priceBaseText = 'FINAL PRICE:<br>';
                                 for (let i = 0; i < data.priceBase.length; i++)
@@ -180,16 +180,26 @@ isc.defineClass("InvoiceCalculation2", isc.VLayout).addProperties({ //TestShod
             width: "100%",
             contents: "<span style='width: 100%; display: block; margin: 10px auto; border-bottom: 1px solid rgba(0,0,0,0.3)'></span>"
         }));
+
+        this.editRowCalculation2();
+    },
+    editRowCalculation2: function () {
+        if (this.weightData) {
+            this.getMember(0).getMember(0).getField("weightMilestone").setValue(this.weightData.weightMilestone);
+            this.getMember(0).getMember(0).getField("assayMilestone").setValue(this.weightData.assayMilestone);
+            this.getMember(0).getMember(1).click();
+        }
     },
     validate: function () {
 
         let isValid = this.getMember(0).getMember(0).validate();
+        if (this.getMember(1).getTotalRows() === 0) {
+            isValid = false;
+        }
         for (let i = 0; i < this.getMember(1).getTotalRows(); i++) {
-
             this.getMember(1).validateRow(i);
             isValid &= !this.getMember(1).hasErrors()
         }
-
         return isValid;
     },
     okButtonClick: function () {
@@ -228,7 +238,7 @@ isc.defineClass("InvoiceCalculation2", isc.VLayout).addProperties({ //TestShod
                 itemDetails.add({
                     assay: q.value,
                     materialElementId: q.materialElementId,
-                    basePrice: item.priceBase.filter(bp => bp.elementId === q.elementId).first().price,
+                    basePrice: This.getMember(1).priceBase.filter(bp => bp.elementId === q.materialElement.elementId).first().price,
                     deductionType: JSON.parse('${Enum_DeductionType}').DiscountPercent,
                     deductionValue: item.discount,
                     deductionPrice: item.price * item.discount / 100,
@@ -241,10 +251,8 @@ isc.defineClass("InvoiceCalculation2", isc.VLayout).addProperties({ //TestShod
 
             return itemDetails;
         }
-
         gridData.forEach(current => {
-
-            let remittanceDetails = This.remittanceDetails.filter(q => q.inventoryId === current.inventory.id);
+            let remittanceDetails = This.remittanceDetails.filter(q => q.inventory.id === current.inventory.id);
             if (remittanceDetails.length !== 1)
                 return;
 
