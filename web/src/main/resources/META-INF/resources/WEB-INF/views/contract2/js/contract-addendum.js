@@ -734,12 +734,33 @@ contractTab.Methods.ArticleAddIconInContractDetailsGridClicked = function (v, _r
     contractTab.sectionStack.Addendum.addSection(sectionStackSectionObj);
 
 }
-contractTab.Methods.NewAddendum = function () {
+contractTab.Methods.NewAddendum = async function () {
     let contractRecord = contractTab.listGrid.main.getSelectedRecord();
-    if (!contractRecord) return isc.warn("<spring:message code='global.grid.record.not.selected'/>")
+    if (!contractRecord || !contractRecord.estatus.includes(Enums.eStatus2.Final))
+        return isc.warn("<spring:message code='global.grid.record.not.selected'/>")
     else if (contractRecord.editable === false || contractRecord.parentId)
         contractTab.dialog.notEditable();
+    const resp = await fetch('api/g-contract/spec-list?operator=and&criteria=' + JSON.stringify(
+        {
 
+            fieldName: "parentId",
+            operator: "equals",
+            value: contractRecord.id
+        }
+    ), {headers: SalesConfigs.httpHeaders})
+    if (!resp.ok) {
+        const error = await resp.json();
+        return isc.warn(JSON.stringify(error))
+    }
+    const response = await resp.json();
+    const find = response.response.data.find(_ => !_.estatus.includes(Enums.eStatus2.Final));
+    if (find) {
+        return isc.warn("الحاقیه شماره " +
+            " " + find.no +
+            " تایید نهایی نشده."
+        )
+    }
+    dbg(false, resp)
     isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
         actionURL: 'api/g-contract/' + contractRecord.id,
         httpMethod: "GET",
@@ -1383,6 +1404,16 @@ contractTab.ToolStripButtons = {
             contractTab.listGrid.main.invalidateCache()
         }
     }),
+
+    // finalize: {
+    //     title: "<spring:message code='global.form.filter'/>",
+    //     icon: "pieces/16/icon_view.png",
+    //     click: function () {
+    //      const contract = contractTab.listGrid.main.getSelectedRecord()
+    //         contract.status = 1;
+    //
+    //     }
+    // }
 };
 contractTab.toolStrip.main.addMember(contractTab.ToolStripButtons.Addendum, 3)
 contractTab.toolStrip.main.addMember(contractTab.ToolStripButtons.filterContracts, 3)

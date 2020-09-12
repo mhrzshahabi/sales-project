@@ -747,7 +747,7 @@ crTab.Methods.UpdateInputOutputCharts = function () {
 
         },
     ].map(_ => JSON.stringify(_)).join("&criteria=")
-    fetch('api/remittance-detail/spec-list/?criteria=' + criteriaStr
+    fetch('api/remittance-detail/spec-list/?operator=and&criteria=' + criteriaStr
         , {headers: SalesConfigs.httpHeaders}).then(r => {
         if (r.ok) {
             r.json().then(
@@ -779,7 +779,7 @@ crTab.Methods.UpdateInputOutputCharts = function () {
                                         title: "محصول"  // the user-visible title you want in the chart
                                     }, _facet],
                                     data: dataCame,        // a reference to our data above
-                                    valueProperty: "amount", // the property in our data that is the numerical value to chart
+                                    valueProperty: "weight", // the property in our data that is the numerical value to chart
                                     chartType: "Pie",
                                     title: "آمار ورودی انبار از " +
                                         crTab.DynamicForms.ChartDate.getValue('fromDate') +
@@ -797,7 +797,7 @@ crTab.Methods.UpdateInputOutputCharts = function () {
                                         title: "محصول"  // the user-visible title you want in the chart
                                     }, _facet],
                                     data: dataWent,        // a reference to our data above
-                                    valueProperty: "amount", // the property in our data that is the numerical value to chart
+                                    valueProperty: "weight", // the property in our data that is the numerical value to chart
                                     chartType: "Pie",
                                     title: "آمار خروجی انبار از " +
                                         crTab.DynamicForms.ChartDate.getValue('fromDate') +
@@ -840,6 +840,7 @@ crTab.Methods.makeRemittanceDetailExcel = async function (options = {}) {
         },
         ...options
     }
+    const dialog = isc.Dialog.create({title: "", message: "<spring:message code='global.please.wait'/>"})
     const response = await fetch('remittance-detail/excel?_constructor=AdvancedCriteria&operator='
         + args.criteria.operator + "&" +
         args.criteria.criteria.map(_ => "criteria=" + JSON.stringify(_)).join('&'),
@@ -857,12 +858,17 @@ crTab.Methods.makeRemittanceDetailExcel = async function (options = {}) {
             })
         })
     if (response.ok) {
+        dialog.destroy();
         const b = await response.blob();
         const excelUrl = URL.createObjectURL(b);
         const a = document.createElement('a');
         a.href = excelUrl;
         a.setAttribute('download', args.fileName + ".xlsx")
         a.click()
+    } else {
+        dialog.destroy();
+        const err = await response.json();
+        isc.warn(" \nمشکلی پیش آمد" + JSON.stringify(err))
     }
 }
 ////////////////////////////////////////////////////////FIELDS//////////////////////////////////////////////////////////
@@ -1181,7 +1187,25 @@ crTab.Fields.RemittanceDetailFullFields = function () {
         },
         {
             name: "destinationTozin.sourceId",
+            title: "کد مبدا اعلامی توزین مقصد"
         },
+         {
+            name: "sourceTozin.sourceWarehouse.name",
+            title: " مبدا اعلامی توزین مبدا"
+        },
+        {
+            name: "sourceTozin.targetWarehouse.name",
+            title: " مقصد اعلامی توزین مبدا"
+        },
+ {
+            name: "destinationTozin.sourceWarehouse.name",
+            title: " مبدا اعلامی توزین مقصد"
+        },
+        {
+            name: "destinationTozin.targetWarehouse.name",
+            title: " مقصد اعلامی توزین مقصد"
+        },
+
         {
             name: "destinationTozin.date",
             title: "تاریخ توزین مقصد",
@@ -1190,6 +1214,8 @@ crTab.Fields.RemittanceDetailFullFields = function () {
         },
         {
             name: "destinationTozin.targetId",
+            title: "کد مقصد اعلامی توزین مقصد"
+
 
 
         },

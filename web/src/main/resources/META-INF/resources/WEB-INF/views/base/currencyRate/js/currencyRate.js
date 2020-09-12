@@ -86,7 +86,12 @@ currencyRateTab.dynamicForm.fields = BaseFormItems.concat([
         required: true,
         width: "100%",
         length: "8",
-        keyPressFilter: "[0-9]"
+        type: "float",
+        keyPressFilter: "[0-9.]",
+        formatCellValue: function (value, record, rowNum, colNum) {
+
+            return  value + "";
+        }
     },
 
 ]);
@@ -95,6 +100,7 @@ nicico.BasicFormUtil.getDefaultBasicForm(currencyRateTab, "/api/currencyRate");
 currencyRateTab.dynamicForm.main.windowWidth = 500;
 
 currencyRateTab.dynamicForm.main.validate = function () {
+
     let isValid = this.Super("validate", arguments);
     let data = currencyRateTab.dynamicForm.main.getValues();
     if (data.unitFromId != null && data.unitFromId === data.unitToId) {

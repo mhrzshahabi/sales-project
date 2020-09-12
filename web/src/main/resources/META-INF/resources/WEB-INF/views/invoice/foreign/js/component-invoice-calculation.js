@@ -30,7 +30,7 @@ isc.defineClass("InvoiceCalculation", isc.VLayout).addProperties({
                 price: priceValues[index],
                 elementId: priceValues[index].elementId,
                 materialElementId: assayValue.materialElementId,
-                // calculationRowData: This.calculationData[0].filter(q => q.materialElementId === assayValues.materialElementId).first(),
+                calculationRowData: This.calculationData ? This.calculationData.filter(q => q.materialElementId === assayValue.materialElementId).first() : null,
                 sumPriceChanged: function (sumPrice) {
 
                     let subtotalForm = This.getMembers().filter(q => q.name === "subTotal").first();
@@ -73,16 +73,14 @@ isc.defineClass("InvoiceCalculation", isc.VLayout).addProperties({
                     title: "<spring:message code='global.ok'/>",
                     click: function () {
 
-                        if (!This.validate()) return;
-                        else {
+                        if (!This.validate())
+                            return;
 
-                            This.okButtonClick();
+                        This.okButtonClick();
 
-                            let tab = This.parentElement.parentElement;
-                            tab.getTab(tab.selectedTab).pane.members.forEach(q => q.disable());
-                            tab.selectTab(tab.selectedTab + 1 % tab.tabs.length);
-                        }
-
+                        let tab = This.parentElement.parentElement;
+                        tab.getTab(tab.selectedTab).pane.members.forEach(q => q.disable());
+                        tab.selectTab(tab.selectedTab + 1 % tab.tabs.length);
                     }
                 }),
                 isc.ToolStrip.create({
@@ -112,9 +110,14 @@ isc.defineClass("InvoiceCalculation", isc.VLayout).addProperties({
             width: "100%",
             contents: "<span style='width: 100%; display: block; margin: 10px auto; border-bottom: 1px solid rgba(0,0,0,0.3)'></span>"
         }));
+
+        this.editCalculation();
     },
-    getCalculationSubTotal: function () {
-        return this.getMembers().filter(q => q.name === "subTotal").first().getValues().value;
+    validate: function () {
+
+        let isValid = true;
+        this.getMembers().slice(0, this.invoiceBaseAssayComponent.getValues().length).forEach(q => isValid &= q.validate());
+        return isValid;
     },
     getValues: function () {
 
@@ -139,10 +142,10 @@ isc.defineClass("InvoiceCalculation", isc.VLayout).addProperties({
     okButtonClick: function () {
 
     },
-    validate: function () {
-
-        let isValid = true;
-        this.getMembers().slice(0, this.invoiceBaseAssayComponent.getValues().length).forEach(q => isValid &= q.validate());
-        return isValid;
+    editCalculation: function () {
+        this.getMembers().filter(q => q.role === "calculationRow").forEach(current => current.editRowCalculation());
+    },
+    getCalculationSubTotal: function () {
+        return this.getMembers().filter(q => q.name === "subTotal").first().getValues().value;
     }
 });

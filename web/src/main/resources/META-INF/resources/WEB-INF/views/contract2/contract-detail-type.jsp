@@ -13,4 +13,5 @@
     };
 //</script>
 
+<%@include file="js/contract-references.js" %>
 <%@include file="js/contract-detail-type.js" %>

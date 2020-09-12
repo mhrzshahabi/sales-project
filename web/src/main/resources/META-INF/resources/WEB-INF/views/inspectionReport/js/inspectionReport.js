@@ -426,8 +426,7 @@ inspectionReportTab.method.getAssayElementFields = function (materialId) {
                 }
             }];
 
-
-            fields.addAll(data.filter(me => me.element.name != "MO").map(
+            fields.addAll(data.map(
                 me => {
                     return {
                         name: me.element.name,
@@ -624,11 +623,11 @@ inspectionReportTab.dynamicForm.material = isc.DynamicForm.create({
                         inspectionReportTab.listGrid.weightElement.unitId = 1;
                         break;
                     case ImportantIDs.material.MOLYBDENUM_OXIDE:
-                        inspectionReportTab.tab.inspecTabs.tabs.filter(q => q.name === "assay").first().pane.enable();
+
                         inspectionReportTab.listGrid.weightElement.unitId = 2;
                         break;
                     case ImportantIDs.material.COPPER_CONCENTRATES:
-                        inspectionReportTab.tab.inspecTabs.tabs.filter(q => q.name === "assay").first().pane.enable();
+
                         inspectionReportTab.listGrid.weightElement.unitId = 3;
                         break;
 
@@ -1232,7 +1231,7 @@ inspectionReportTab.vLayout.assayPane = isc.VLayout.create({
 });
 
 inspectionReportTab.tab.inspecTabs = isc.TabSet.create({
-    height: "220",
+    height: "100%",
     width: "100%",
     autoDraw: true,
     tabs: [
@@ -1468,7 +1467,7 @@ inspectionReportTab.window.inspecReport.okCallBack = function (inspectionReportO
             httpMethod: inspectionReportTab.variable.method,
             data: JSON.stringify(inspectionReportObj),
             callback: function (resp) {
-                if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
+                if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
                     isc.say("<spring:message code='global.form.request.successful'/>");
                     inspectionReportTab.method.refreshData();
                     inspectionReportTab.window.inspecReport.close();
