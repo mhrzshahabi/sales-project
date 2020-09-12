@@ -84,14 +84,15 @@ foreignInvoiceTab.listGrid.fields = BaseFormItems.concat([
         width: "100%",
         required: true,
         showHover: true,
-        name: "contract.no",
-        title: "<spring:message code='foreign-invoice.form.contract'/>"
+        name: "shipment.sendDate",
+        title: "<spring:message code='global.sendDate'/>"
     },
     {
         width: "100%",
+        required: true,
         showHover: true,
-        name: "accountingId",
-        title: "<spring:message code='foreign-invoice.form.accountingId'/>"
+        name: "shipment.material.descl",
+        title: "<spring:message code='material.descl'/>"
     },
     {
         width: "100%",
@@ -618,6 +619,7 @@ foreignInvoiceTab.button.save = isc.IButtonSave.create({
                 shipment: foreignInvoiceTab.dynamicForm.valuesManager.getValue("shipment"),
                 invoiceType: foreignInvoiceTab.dynamicForm.valuesManager.getValue("invoiceType"),
                 remittanceDetails: foreignInvoiceTab.dynamicForm.valuesManager.getValue("remittanceDetails"),
+                weightData: foreignInvoiceTab.dynamicForm.valuesManager.getValue("weightData")
             });
             foreignInvoiceTab.method.addTab(invoiceBaseValuesComponent, '<spring:message code="foreign-invoice.form.tab.base-values"/>');
 
@@ -4677,11 +4679,10 @@ foreignInvoiceTab.method.editForm = function () {
                                         itemValues.forEach(q => remittanceDetailIds.add(q.remittanceDetailId));
                                         let itemValue = itemValues[0];
                                         let weightData = {};
-                                        if (itemValues.length > 1) {
-                                            weightData.assayMilestone = itemValue.assayMilestone;
-                                            weightData.weightMilestone = itemValue.weightMilestone;
-                                            foreignInvoiceTab.dynamicForm.valuesManager.setValue("weightData", weightData);
-                                        } else {
+                                        weightData.assayMilestone = itemValue.assayMilestone;
+                                        weightData.weightMilestone = itemValue.weightMilestone;
+                                        foreignInvoiceTab.dynamicForm.valuesManager.setValue("weightData", weightData);
+                                        if (itemValues.length <= 1) {
                                             let rcRowData = [];
                                             let calculationRowData = [];
 

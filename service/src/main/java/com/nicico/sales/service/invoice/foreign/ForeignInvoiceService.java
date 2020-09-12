@@ -131,7 +131,7 @@ public class ForeignInvoiceService extends GenericService<ForeignInvoice, Long, 
             }
         }
 
-        ForeignInvoiceDTO.Info foreignInvoiceDTO = super.update(request);
+        ForeignInvoiceDTO.Info foreignInvoiceDTO = super.update(id, request);
         foreignInvoice.setBillLadings(null);
 
         request.getForeignInvoiceItems().forEach(item -> {
