@@ -465,7 +465,7 @@ inspectionReportTab.method.getAssayElementFields = function (materialId) {
                         canEdit: true,
                         width: "30%",
                         align: "center",
-                        editorExit(editCompletionEvent, record, newVal, ...d) {
+                        cellChanged(record, newVal, oldValue, rowNum, colNum, grid) {
                             if (inspectionReportTab.listGrid.assayElement.getData().length == 0) return true;
                             let avr = (parseFloat(newVal) / inspectionReportTab.listGrid.assayElement.getData().length);
                             inspectionReportTab.listGrid.assayElement.getData().map(value => {
@@ -659,7 +659,7 @@ inspectionReportTab.variable.unitSum = isc.VLayout.create({
     height: 100,
     width: "100%",
     align: "left",
-    overflow: "scroll",
+    overflow: "auto",
     members: []
 });
 inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
@@ -1150,12 +1150,7 @@ inspectionReportTab.listGrid.assayElement = isc.ListGrid.create({
     showRecordComponents: true,
     showRecordComponentsByCell: true,
     canRemoveRecords: false,
-    rowEditorExit(rowNum, colNum, newValues, oldValues, editCompletionEvent, dsResponse) {
-        console.log("rowEditorExit");
-        this.Super("rowEditorExit", arguments);
-    },
     dataChanged: function (operationType) {
-        console.log("dataChanged");
         inspectionReportTab.method.setEssayElementSum();
         this.Super("dataChanged", arguments);
     }
@@ -1196,7 +1191,7 @@ inspectionReportTab.listGrid.weightElementSum = isc.ListGrid.create(
                 width: "10%",
                 align: "center",
                 layoutMargin: 10,
-                editorExit(editCompletionEvent, record, newVal, ...d) {
+                cellChanged(record, newVal, oldValue, rowNum, colNum, grid) {
                     if (inspectionReportTab.listGrid.weightElement.getData().length == 0) return true;
                     let avr = (parseFloat(newVal) / inspectionReportTab.listGrid.weightElement.getData().length);
                     inspectionReportTab.listGrid.weightElement.getData().map(value => {
@@ -1615,3 +1610,6 @@ inspectionReportTab.listGrid.fields = [
 ];
 
 nicico.BasicFormUtil.getDefaultBasicForm(inspectionReportTab, "api/inspectionReport/");
+
+//inspectionReportTab.dynamicForm.material.click();
+//inspectionReportTab.listGrid.weightElement.redraw();
