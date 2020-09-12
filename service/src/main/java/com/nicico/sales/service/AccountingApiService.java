@@ -126,7 +126,7 @@ public class AccountingApiService implements IAccountingApiService {
     }
 
     @Override
-    public Map<String, Object> sendInvoice(Integer department, List<Object> objects) {
+    public Map<String, Object> sendInvoice(AccountingDTO.DocumentCreateRq request, List<Object> objects) {
         final String url = accountingAppUrl + "/rest/document-mapper/docBuilder/" + appName;
         final HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
@@ -134,11 +134,14 @@ public class AccountingApiService implements IAccountingApiService {
 
         final List<Map<String, Object>> requestParamList = new ArrayList<>();
         objects.forEach(object -> {
-            Map<String, Object> requestParamMap = new HashMap<>();
+            final Map<String, Object> requestParamMap = new HashMap<>();
+
+            requestParamMap.put("documentDate", request.getDocumentDate());
+            requestParamMap.put("department", request.getDepartment());
+            requestParamMap.put("documentTitle", request.getDocumentTitle());
+
             switch (object.getClass().getSimpleName()) {
                 case "ViewInvoiceInternal":
-                    requestParamMap.put("department", department);
-
                     Arrays.stream(object.getClass().getDeclaredFields())
                             .forEach(field -> {
                                 field.setAccessible(true);

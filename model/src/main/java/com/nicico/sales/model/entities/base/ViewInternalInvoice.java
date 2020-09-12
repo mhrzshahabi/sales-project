@@ -64,26 +64,26 @@ import javax.persistence.Id;
                 "HAV_FINALDATE AS REMITTANCEFINALDATE, " +
                 "HAVALEHID AS REMITTANCEID, " +
                 "TYPEFROSH AS SALESTYPE, " +
-                "PAYFORAVAREZMALEYATE AS TAXCHARGEAMOUNT, " +
-                "MARKAZHAZINEHMALYATE AS TAXCOSTCENTERCODE, " +
-                "MABLAGHKOL AS TOTALAMOUNT, " +
-                "TOTALKOSORAT AS TOTALDEDUCTIONS, " +
-                "UNITID AS UNITID, " +
-                "GHEMATUNIT AS UNITPRICE " +
-                "FROM " +
-                "VIEW_INNERSALESFORSALSE VI " +
-                "WHERE VI.INV_ID NOT IN (SELECT TI.INV_ID FROM TBL_INVOICEINTERNALDOCUMENT TI)"
+				"PAYFORAVAREZMALEYATE AS TAXCHARGEAMOUNT, " +
+				"MARKAZHAZINEHMALYATE AS TAXCOSTCENTERCODE, " +
+				"MABLAGHKOL AS TOTALAMOUNT, " +
+				"TOTALKOSORAT AS TOTALDEDUCTIONS, " +
+				"UNITID AS UNITID, " +
+				"GHEMATUNIT AS UNITPRICE " +
+				"FROM " +
+				"VIEW_INNERSALESFORSALSE VI " +
+				"WHERE VI.INV_ID NOT IN (SELECT TI.INV_ID FROM TBL_INVOICEINTERNALDOCUMENT TI)"
 )
-public class ViewInvoiceInternal {
-    @Id
-    @Column(name = "ID")
-    private String id;
+public class ViewInternalInvoice {
+	@Id
+	@Column(name = "ID")
+	private String id;
 
-    @Column(name = "BANKGROUPDESC")
-    private String bankGroupDesc;
+	@Column(name = "BANKGROUPDESC")
+	private String bankGroupDesc;
 
-    @Column(name = "BUYERID")
-    private String buyerId;
+	@Column(name = "BUYERID")
+	private String buyerId;
 
     @Column(name = "CUSTOMERCOSTCENTERCODE")
     private String customerCostCenterCode;

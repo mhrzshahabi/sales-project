@@ -2,29 +2,25 @@ package com.nicico.sales.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-
-import javax.validation.constraints.NotNull;
-import java.util.List;
 
 @Getter
 @Setter
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class InvoiceInternalDTO {
+public class InternalInvoiceDTO {
 
-    private String id;
-    private String bankGroupDesc;
-    private String buyerId;
-    private String customerCostCenterCode;
-    private String customerId;
-    private String customerName;
-    private Integer hasPollution;
-    private Integer hasTax;
-    private String invoiceAreaPollution;
+	private String id;
+	private String bankGroupDesc;
+	private String buyerId;
+	private String customerCostCenterCode;
+	private String customerId;
+	private String customerName;
+	private Integer hasPollution;
+	private Integer hasTax;
+	private String invoiceAreaPollution;
     private String invoiceContainerName;
     private Integer invoiceContainerNumber;
     private Double invoiceContainerWeight;
@@ -70,37 +66,31 @@ public class InvoiceInternalDTO {
     private String unitId;
     private Double unitPrice;
 
-    @Getter
-    @Accessors(chain = true)
-    @ApiModel("InvoiceInternalInfo")
-    public static class Info extends InvoiceInternalDTO {
-    }
+	@Getter
+	@Accessors(chain = true)
+	@ApiModel("InvoiceInternalInfo")
+	public static class Info extends InternalInvoiceDTO {
+	}
 
-    @Getter
-    @Setter
-    @Accessors(chain = true)
-    @ApiModel("InvoiceInternalCreateRq")
-    public static class Create extends InvoiceInternalDTO {
-    }
+	@Getter
+	@Setter
+	@Accessors(chain = true)
+	@ApiModel("InvoiceInternalCreateRq")
+	public static class Create extends InternalInvoiceDTO {
+	}
 
-    @Getter
-    @Setter
-    @Accessors(chain = true)
-    @ApiModel("InvoiceInternalUpdateRq")
-    public static class Update extends InvoiceInternalDTO {
-        @NotNull
-        @ApiModelProperty(required = true)
-        private String id;
-    }
+	@Getter
+	@Setter
+	@Accessors(chain = true)
+	@ApiModel("InvoiceInternalUpdateRq")
+	public static class Update extends InternalInvoiceDTO {
+	}
 
     @Getter
     @Setter
     @Accessors(chain = true)
     @ApiModel("InvoiceInternalDeleteRq")
     public static class Delete {
-        @NotNull
-        @ApiModelProperty(required = true)
-        private List<String> ids;
     }
 
 }
