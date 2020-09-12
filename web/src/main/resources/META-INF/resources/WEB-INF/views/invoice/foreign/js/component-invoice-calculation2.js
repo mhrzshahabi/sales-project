@@ -182,7 +182,6 @@ isc.defineClass("InvoiceCalculation2", isc.VLayout).addProperties({ //TestShod
         }));
     },
     validate: function () {
-
         let isValid = this.getMember(0).getMember(0).validate();
         for (let i = 0; i < this.getMember(1).getTotalRows(); i++) {
 
