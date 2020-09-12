@@ -69,95 +69,95 @@ import javax.persistence.Id;
 				"MABLAGHKOL AS TOTALAMOUNT, " +
 				"TOTALKOSORAT AS TOTALDEDUCTIONS, " +
 				"UNITID AS UNITID, " +
-				"GHEMATUNIT AS UNITPRICE " +
-				"FROM " +
-				"VIEW_INNERSALESFORSALSE VI " +
-				"WHERE VI.INV_ID NOT IN (SELECT TI.INV_ID FROM TBL_INVOICEINTERNALDOCUMENT TI)"
+                "GHEMATUNIT AS UNITPRICE " +
+                "FROM " +
+                "VIEW_INNERSALESFORSALSE VI " +
+                "WHERE VI.INV_ID NOT IN (SELECT TI.INV_ID FROM TBL_INVOICEINTERNALDOCUMENT TI)"
 )
 public class ViewInternalInvoice {
-	@Id
-	@Column(name = "ID")
-	private String id;
+    @Id
+    @Column(name = "ID")
+    private String id;
 
-	@Column(name = "BANKGROUPDESC")
-	private String bankGroupDesc;
+    @Column(name = "C_BANKGROUPDESC")
+    private String bankGroupDesc;
 
-	@Column(name = "BUYERID")
-	private String buyerId;
+    @Column(name = "C_BUYERID")
+    private String buyerId;
 
-    @Column(name = "CUSTOMERCOSTCENTERCODE")
+    @Column(name = "C_CUSTOMERCOSTCENTERCODE")
     private String customerCostCenterCode;
 
-    @Column(name = "CUSTOMERID")
+    @Column(name = "C_CUSTOMERID")
     private String customerId;
 
-    @Column(name = "CUSTOMERNAME")
+    @Column(name = "C_CUSTOMERNAME")
     private String customerName;
 
-    @Column(name = "HASPOLLUTION")
+    @Column(name = "N_HASPOLLUTION")
     private Integer hasPollution;
 
-    @Column(name = "HASTAX")
+    @Column(name = "N_HASTAX")
     private Integer hasTax;
 
-    @Column(name = "INVOICEAREAPOLLUTION")
+    @Column(name = "C_INVOICEAREAPOLLUTION")
     private String invoiceAreaPollution;
 
-    @Column(name = "INVOICECONTAINERNAME")
+    @Column(name = "C_INVOICECONTAINERNAME")
     private String invoiceContainerName;
 
-    @Column(name = "INVOICECONTAINERNUMBER")
+    @Column(name = "C_INVOICECONTAINERNUMBER")
     private Integer invoiceContainerNumber;
 
-    @Column(name = "INVOICECONTAINERWEIGHT", precision = 10)
+    @Column(name = "N_INVOICECONTAINERWEIGHT", precision = 10)
     private Double invoiceContainerWeight;
 
-    @Column(name = "INVOICEDATE")
+    @Column(name = "C_INVOICEDATE")
     private String invoiceDate;
 
-    @Column(name = "INVOICEGROSSWEIGHT")
+    @Column(name = "C_INVOICEGROSSWEIGHT")
     private String invoiceGrossWeight;
 
-    @Column(name = "INVOICELATINDESC")
+    @Column(name = "C_INVOICELATINDESC")
     private String invoiceLatinDesc;
 
-    @Column(name = "INVOICEOTHERDEDUCTIONS", precision = 10)
+    @Column(name = "N_INVOICEOTHERDEDUCTIONS", precision = 10)
     private Double invoiceOtherDeductions;
 
-    @Column(name = "INVOICEPERSIANDESC")
+    @Column(name = "C_INVOICEPERSIANDESC")
     private String invoicePersianDesc;
 
-    @Column(name = "INVOICEREALWEIGHT", precision = 10)
+    @Column(name = "N_INVOICEREALWEIGHT", precision = 10)
     private Double invoiceRealWeight;
 
-    @Column(name = "INVOICESALESTYPE")
+    @Column(name = "C_INVOICESALESTYPE")
     private String invoiceSalesType;
 
-    @Column(name = "INVOICESENT")
+    @Column(name = "C_INVOICESENT")
     private String invoiceSent;
 
-    @Column(name = "INVOICESERIAL")
+    @Column(name = "C_INVOICESERIAL")
     private String invoiceSerial;
 
-    @Column(name = "INVOICETOTALTAX", precision = 10)
+    @Column(name = "N_INVOICETOTALTAX", precision = 10)
     private Double invoiceTotalTax;
 
-    @Column(name = "INVOICETOTALWEIGHT")
+    @Column(name = "C_INVOICETOTALWEIGHT")
     private String invoiceTotalWeight;
 
-    @Column(name = "INVOICEUNITPRICE", precision = 10)
+    @Column(name = "N_INVOICEUNITPRICE", precision = 10)
     private Double invoiceUnitPrice;
 
-    @Column(name = "INVOICEVALUEADDED")
+    @Column(name = "C_INVOICEVALUEADDED")
     private String invoiceValueAdded;
 
-    @Column(name = "LCCOSTCENTERCODE")
+    @Column(name = "C_LCCOSTCENTERCODE")
     private String lcCostCenterCode;
 
-    @Column(name = "LCDUEDATE")
+    @Column(name = "C_LCDUEDATE")
     private String lcDueDate;
 
-    @Column(name = "LCID")
+    @Column(name = "C_LCID")
     private String lcId;
 
     @Column(name = "NOSABANKCODE")
