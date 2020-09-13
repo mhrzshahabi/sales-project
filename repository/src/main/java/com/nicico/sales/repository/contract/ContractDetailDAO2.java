@@ -12,6 +12,6 @@ import java.util.Optional;
 @Repository
 public interface ContractDetailDAO2 extends JpaRepository<ContractDetail2, Long>, JpaSpecificationExecutor<ContractDetail2> {
 
-    @Query("select cd from ContractDetail2 cd join cd.contractDetailType cdt where cd.contractId = :contractId and cdt.code =:typeCode and cdt.materialId  =:materialId ")
+    @Query("select cd from ContractDetail2 cd join cd.contractDetailType cdt where cd.contractId = :contractId and cdt.materialId  =:materialId  and cdt.code =:typeCode ")
     Optional<ContractDetail2> findByContractDetailType(@Param("contractId") Long contractId,@Param("materialId") Long materialId , @Param("typeCode") String typeCode);
 }

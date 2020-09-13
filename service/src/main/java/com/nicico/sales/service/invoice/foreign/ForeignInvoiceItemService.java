@@ -72,7 +72,7 @@ public class ForeignInvoiceItemService extends GenericService<ForeignInvoiceItem
 //        Map<String, List<Object>> priceArticle = contractDetailValueService2.get(contractId, EContractDetailTypeCode.PriceDetailCode, EContractDetailValueKey.NotImportant);
         ContractDetailDTO2.Info priceDetail = contractDetailService2.getContractDetailByContractDetailTypeCode(contractId,materialIds.iterator().next(), EContractDetailTypeCode.PriceDetailCode);
         String priceArticleText = priceDetail.getContent();
-     //   List<Object> operationalDataOfDiscountArticle = contractService2.getOperationalDataOfContractArticle(contractId, EContractDetailTypeCode.PriceDetailCode.getId(), EContractDetailValueKey.NotImportant.getId());
+        List<Object> operationalDataOfDiscountArticle = contractService2.getOperationalDataOfContractArticle(contractId, EContractDetailTypeCode.PriceDetailCode.getId(), EContractDetailValueKey.NotImportant.getId());
         List<ContractDiscount> discountArticle =  new ArrayList<>();// operationalDataOfDiscountArticle.;
 
         List<PriceBaseDTO.Info> basePrices = priceBaseService.getAverageOfElementBasePrices(reference, year, month, materialIds.iterator().next(), financeUnitId);
