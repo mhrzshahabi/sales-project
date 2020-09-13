@@ -1,0 +1,179 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+    <changeSet author="MShahabi" id="1799887766554-023">
+        <sql>
+            insert INTO TBL_WARH_ELEMENT (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            C_NAME, B_PAYABLE, B_USE_IN_CONTRACT) VALUES (1, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 'CU', 1, 1);
+
+            insert INTO TBL_WARH_ELEMENT (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            C_NAME, B_PAYABLE, B_USE_IN_CONTRACT) VALUES (2, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 'AG', 1, 1);
+
+            insert INTO TBL_WARH_ELEMENT (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            C_NAME, B_PAYABLE, B_USE_IN_CONTRACT) VALUES (3, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 'AU', 1, 1);
+
+            insert INTO TBL_WARH_ELEMENT (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            C_NAME, B_PAYABLE, B_USE_IN_CONTRACT) VALUES (4, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 'MO', 1, 1);
+        </sql>
+    </changeSet>
+
+    <changeSet author="Reza Mazloom" id="mazloom_045">
+        <sql>
+            insert INTO TBL_WARH_ELEMENT (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            C_NAME, B_PAYABLE, B_USE_IN_CONTRACT) VALUES (5, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 'C', 1, 1);
+
+            insert INTO TBL_WARH_ELEMENT (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            C_NAME, B_PAYABLE, B_USE_IN_CONTRACT) VALUES (6, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 'S', 1, 1);
+
+            insert INTO TBL_WARH_ELEMENT (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            C_NAME, B_PAYABLE, B_USE_IN_CONTRACT) VALUES (7, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 'PB', 1, 1);
+
+            insert INTO TBL_WARH_ELEMENT (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            C_NAME, B_PAYABLE, B_USE_IN_CONTRACT) VALUES (8, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 'P', 1, 1);
+
+            insert INTO TBL_WARH_ELEMENT (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            C_NAME, B_PAYABLE, B_USE_IN_CONTRACT) VALUES (9, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 'SI', 1, 1);
+
+            insert INTO TBL_WARH_ELEMENT (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            C_NAME, B_PAYABLE, B_USE_IN_CONTRACT) VALUES (10, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 'MO', 1, 1);
+
+            insert INTO TBL_WARH_ELEMENT (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            C_NAME, B_PAYABLE, B_USE_IN_CONTRACT) VALUES (11, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 'FE', 1, 1);
+
+            insert INTO TBL_WARH_ELEMENT (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            C_NAME, B_PAYABLE, B_USE_IN_CONTRACT) VALUES (12, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 'SIO2', 1, 1);
+
+            insert INTO TBL_WARH_ELEMENT (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            C_NAME, B_PAYABLE, B_USE_IN_CONTRACT) VALUES (13, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 'S', 1, 1);
+
+            insert INTO TBL_WARH_ELEMENT (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            C_NAME, B_PAYABLE, B_USE_IN_CONTRACT) VALUES (14, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 'AL2O3', 1, 1);
+
+            insert INTO TBL_WARH_ELEMENT (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            C_NAME, B_PAYABLE, B_USE_IN_CONTRACT) VALUES (15, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 'CAO', 1, 1);
+
+            insert INTO TBL_WARH_ELEMENT (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            C_NAME, B_PAYABLE, B_USE_IN_CONTRACT) VALUES (16, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 'K2O', 1, 1);
+
+            insert INTO TBL_WARH_ELEMENT (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            C_NAME, B_PAYABLE, B_USE_IN_CONTRACT) VALUES (17, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 'P2O5', 1, 1);
+
+            insert INTO TBL_WARH_ELEMENT (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            C_NAME, B_PAYABLE, B_USE_IN_CONTRACT) VALUES (18, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 'TIO2', 1, 1);
+
+            insert INTO TBL_WARH_ELEMENT (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            C_NAME, B_PAYABLE, B_USE_IN_CONTRACT) VALUES (19, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 'AS', 1, 1);
+
+            insert INTO TBL_WARH_ELEMENT (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            C_NAME, B_PAYABLE, B_USE_IN_CONTRACT) VALUES (20, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 'F', 1, 1);
+
+            insert INTO TBL_WARH_ELEMENT (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            C_NAME, B_PAYABLE, B_USE_IN_CONTRACT) VALUES (21, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 'HG', 1, 1);
+
+            insert INTO TBL_WARH_ELEMENT (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            C_NAME, B_PAYABLE, B_USE_IN_CONTRACT) VALUES (22, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 'H2O', 1, 1);
+
+            insert INTO TBL_WARH_ELEMENT (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            C_NAME, B_PAYABLE, B_USE_IN_CONTRACT) VALUES (23, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 'ZN', 1, 1);
+
+            insert INTO TBL_WARH_ELEMENT (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            C_NAME, B_PAYABLE, B_USE_IN_CONTRACT) VALUES (24, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 'SB', 1, 1);
+
+            insert INTO TBL_WARH_ELEMENT (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            C_NAME, B_PAYABLE, B_USE_IN_CONTRACT) VALUES (25, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 'MGO', 1, 1);
+
+            insert INTO TBL_WARH_ELEMENT (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            C_NAME, B_PAYABLE, B_USE_IN_CONTRACT) VALUES (26, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 'INSOL', 1, 1);
+
+            insert INTO TBL_WARH_ELEMENT (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            C_NAME, B_PAYABLE, B_USE_IN_CONTRACT) VALUES (27, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 'SE', 1, 1);
+
+            insert INTO TBL_WARH_ELEMENT (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            C_NAME, B_PAYABLE, B_USE_IN_CONTRACT) VALUES (28, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 'TE', 1, 1);
+
+            insert INTO TBL_WARH_ELEMENT (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            C_NAME, B_PAYABLE, B_USE_IN_CONTRACT) VALUES (30, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 'FE3O4', 1, 1);
+
+            insert INTO TBL_WARH_ELEMENT (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            C_NAME, B_PAYABLE, B_USE_IN_CONTRACT) VALUES (31, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 'CL', 1, 1);
+
+            insert INTO TBL_WARH_ELEMENT (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            C_NAME, B_PAYABLE, B_USE_IN_CONTRACT) VALUES (32, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 'BI', 1, 1);
+
+            insert INTO TBL_WARH_ELEMENT (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            C_NAME, B_PAYABLE, B_USE_IN_CONTRACT) VALUES (33, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 'NI', 1, 1);
+
+            insert INTO TBL_WARH_ELEMENT (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            C_NAME, B_PAYABLE, B_USE_IN_CONTRACT) VALUES (29, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 'CD', 1, 1);
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

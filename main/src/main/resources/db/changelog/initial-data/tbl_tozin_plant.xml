@@ -1,0 +1,28 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <changeSet id="saebTBL_TOZIN_PLANT" author="saeb">
+        <createTable tableName="TBL_TOZIN_PLANT">
+            <column name="ID" type="NUMBER(19, 0)">
+                <constraints primaryKey="true" primaryKeyName="TBL_TOZIN_PLANTPK"/>
+            </column>
+            <column name="NAMEEN" type="VARCHAR2(255 CHAR)"/>
+            <column name="NAMEFA" type="VARCHAR2(255 CHAR)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="saeb121j3kjfns88898989mdclsmad" author="saeb">
+        <sql>
+            INSERT INTO TBL_TOZIN_PLANT (ID, NAMEEN, NAMEFA) VALUES (1, 'Sarcheshmeh Copper Complex', 'مجتمع مس
+            سرچشمه');
+            INSERT INTO TBL_TOZIN_PLANT (ID, NAMEEN, NAMEFA) VALUES (2, 'Shahrbabak Copper Complex - KhatoonAbad',
+            'مجتمع مس شهربابک - خاتون آباد');
+            INSERT INTO TBL_TOZIN_PLANT (ID, NAMEEN, NAMEFA) VALUES (3, 'BandarAbbas', 'بندرعباس');
+            INSERT INTO TBL_TOZIN_PLANT (ID, NAMEEN, NAMEFA) VALUES (4, 'Shahrbabak Copper Complex - Miduk', 'مجتمع مس
+            شهربابک - ميدوک');
+            INSERT INTO TBL_TOZIN_PLANT (ID, NAMEEN, NAMEFA) VALUES (5, 'Songun Copper Complex', 'مجتمع مس سونگون');
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

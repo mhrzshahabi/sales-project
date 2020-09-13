@@ -10,7 +10,25 @@
     <!-- INITIALIZE STRUCTURE -->
 
     <!-- INITIALIZE DATA -->
-    <include file="classpath:/db/changelog/initial-data/base-data.xml"/>
+<!--    <include file="classpath:/db/changelog/initial-data/tbl_cntr_incoterm.xml"/>-->
+<!--    <include file="classpath:/db/changelog/initial-data/tbl_contact.xml"/>-->
+<!--    <include file="classpath:/db/changelog/initial-data/tbl_country.xml"/>-->
+<!--    <include file="classpath:/db/changelog/initial-data/tbl_invoice_type.xml"/>-->
+<!--    <include file="classpath:/db/changelog/initial-data/tbl_material.xml"/>-->
+<!--    <include file="classpath:/db/changelog/initial-data/tbl_material_item.xml"/>-->
+<!--    <include file="classpath:/db/changelog/initial-data/tbl_payment_type.xml"/>-->
+<!--    <include file="classpath:/db/changelog/initial-data/tbl_port.xml"/>-->
+<!--    <include file="classpath:/db/changelog/initial-data/tbl_sales_type.xml"/>-->
+<!--    <include file="classpath:/db/changelog/initial-data/tbl_shipment_method.xml"/>-->
+<!--    <include file="classpath:/db/changelog/initial-data/tbl_shipment_type.xml"/>-->
+<!--    <include file="classpath:/db/changelog/initial-data/tbl_tozin_plant.xml"/>-->
+<!--    <include file="classpath:/db/changelog/initial-data/tbl_unit.xml"/>-->
+<!--    <include file="classpath:/db/changelog/initial-data/tbl_vessel.xml"/>-->
+<!--    <include file="classpath:/db/changelog/initial-data/tbl_warh_depot.xml"/>-->
+<!--    <include file="classpath:/db/changelog/initial-data/tbl_warh_element.xml"/>-->
+<!--    <include file="classpath:/db/changelog/initial-data/tbl_warh_material_element.xml"/>-->
+<!--    <include file="classpath:/db/changelog/initial-data/tbl_warh_store.xml"/>-->
+<!--    <include file="classpath:/db/changelog/initial-data/tbl_warh_warehouse.xml"/>-->
     <!-- INITIALIZE DATA -->
 
     <!-- SYNONYMS -->
@@ -31,7 +49,7 @@
     <include file="classpath:/db/changelog/views/view_tozin_m.xml"/>
     <include file="classpath:/db/changelog/views/view_warh_inventory.xml"/>
     <include file="classpath:/db/changelog/views/view_warh_remittance_detail.xml"/>
-    <!--    <include file="classpath:/db/changelog/views/view_zayeat.xml"/>-->
+    <include file="classpath:/db/changelog/views/view_internal_invoice_document.xml"/>
     <!-- VIEWS -->
 
 </databaseChangeLog>
