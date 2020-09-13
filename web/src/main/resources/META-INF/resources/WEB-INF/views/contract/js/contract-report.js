@@ -1726,6 +1726,130 @@ crTab.Layouts.Vlayouts.main = isc.VLayout.create({
                 ]
         }),
         isc.VLayout.create({
+            height: "5%",
+            members: [
+
+                isc.ToolStrip.create({
+                    height: "5%",
+                    width:"100%",
+                    members: [
+                        isc.VLayout.create({
+                            width:"10%",
+                            members:[isc.Label.create({
+                                // width:"5%",
+                                align:"top",
+                                contents: '<h3>گزارش ورودی خروجی </h3>',
+                                // align: "left",
+                                height: "1"
+                            }),]
+                        }),
+                         isc.VLayout.create({
+                            // width:"10%",
+                            members:[
+                                crTab.DynamicForms.ChartDate = isc.DynamicForm.create(
+                                    {
+                                        // width:"20%",
+                                        // align:"right",
+                                        showErrorText: false,
+                                        validateOnChange: true,
+                                        wrapItemTitles: false,
+                                        numCols: 4,
+                                        fields: [
+                                            {
+                                                name: "fromDate",
+                                                validators: [
+                                                    {
+                                                        type: "regexp",
+                                                        expression: crTab.Vars.shamsiDate
+                                                    }
+                                                ],
+                                                title: "<spring:message code='dailyWarehouse.fromDay'/>",
+                                                defaultValue: crTab.Methods.getFirstDayOfSeason(),
+                                                // editorExit:crTab.Methods.UpdateInputOutputCharts,
+                                                keyPressFilter: "[0-9/]",
+                                                icons: [{
+                                                    src: "pieces/pcal.png",
+                                                    click: function (form, item, icon) {
+                                                        // // console.log(form)
+                                                        displayDatePicker(item['ID'], form.getItems()[0], 'ymd', '/');
+                                                    }
+                                                }],
+                                            },
+                                            {
+                                                name: "toDate",
+                                                validators: [
+                                                    {
+                                                        type: "regexp",
+                                                        expression: crTab.Vars.shamsiDate
+                                                    }
+                                                ],
+                                                validateOnChange: true,
+                                                // editorExit:crTab.Methods.UpdateInputOutputCharts,
+                                                keyPressFilter: "[0-9/]",
+                                                title: "<spring:message code='dailyWarehouse.toDay'/>",
+                                                icons: [{
+                                                    src: "pieces/pcal.png",
+                                                    click: function (form, item, icon) {
+                                                        // // console.log(form)
+                                                        displayDatePicker(item['ID'], form.getItems()[0], 'ymd', '/');
+                                                    }
+                                                }],
+                                                defaultValue: new persianDate().subtract('d', 1).format('YYYY/MM/DD')
+                                            },
+                                        ]
+                                    }
+                                ),
+                            ]
+                        }),
+                         isc.VLayout.create({
+                            // width:"10%",
+                            members:[
+                                isc.IButtonSave.create({
+                                    title: " اکسل",
+                                    click: function () {
+                                        crTab.Methods.makeRemittanceDetailExcel({
+                                            criteria: {
+                                                _constructor: "AdvancedCriteria",
+                                                operator: "and", criteria: [
+                                                    {
+                                                        fieldName: 'date',
+                                                        operator: 'lessOrEqual',
+                                                        value: crTab.DynamicForms.ChartDate.getValue('toDate').replaceAll("/", ""), // a title for the chart as a whole
+
+                                                    },
+                                                    {
+                                                        fieldName: 'date',
+                                                        operator: 'greaterOrEqual',
+                                                        value: crTab.DynamicForms.ChartDate.getValue('fromDate').replaceAll("/", ""),
+                                                    },
+
+                                                ]
+                                            },
+                                            topRowTitle: "گزارش ورود خروج",
+                                            fileName: "گزارش ورود خروج" + new persianDate().format('YYYYMMDD')
+                                        })
+                                    }
+                                })
+                            ]
+                        }),
+
+
+
+                        // isc.SpacerItem.create({height: 1}),
+                        // isc.ToolStripButtonRefresh.create({
+                        //     title: " فیلتر",
+                        //     visibility:"hidden",
+                        //     click: _=>{crTab.Layouts.Vlayouts.Chart.show();crTab.Methods.UpdateInputOutputCharts()}
+                        // }),
+
+                    ]
+                }),
+
+                crTab.Layouts.Vlayouts.Chart = isc.VLayout.create({visibility:"hidden"})
+
+            ]
+        }),
+        isc.VLayout.create({
             members: [
                 isc.Label.create({
                     contents: '<h3>موجودی انبار</h3>',
@@ -1751,106 +1875,6 @@ crTab.Layouts.Vlayouts.main = isc.VLayout.create({
                     showGroupTitleColumn: true,
 
                 })
-            ]
-        }),
-        isc.VLayout.create({
-            height: "60%",
-            members: [
-                isc.Label.create({
-                    contents: '<h3>گزارش ورودی خروجی </h3>',
-                    align: "center",
-                    height: "5%"
-                }),
-                isc.HLayout.create({
-                    height: "5%",
-                    members: [
-                        crTab.DynamicForms.ChartDate = isc.DynamicForm.create(
-                            {
-                                showErrorText: false,
-                                validateOnChange: true,
-                                wrapItemTitles: false,
-                                numCols: 4,
-                                fields: [
-                                    {
-                                        name: "fromDate",
-                                        validators: [
-                                            {
-                                                type: "regexp",
-                                                expression: crTab.Vars.shamsiDate
-                                            }
-                                        ],
-                                        title: "<spring:message code='dailyWarehouse.fromDay'/>",
-                                        defaultValue: crTab.Methods.getFirstDayOfSeason(),
-                                        // editorExit:crTab.Methods.UpdateInputOutputCharts,
-                                        keyPressFilter: "[0-9/]",
-                                        icons: [{
-                                            src: "pieces/pcal.png",
-                                            click: function (form, item, icon) {
-                                                // // console.log(form)
-                                                displayDatePicker(item['ID'], form.getItems()[0], 'ymd', '/');
-                                            }
-                                        }],
-                                    },
-                                    {
-                                        name: "toDate",
-                                        validators: [
-                                            {
-                                                type: "regexp",
-                                                expression: crTab.Vars.shamsiDate
-                                            }
-                                        ],
-                                        validateOnChange: true,
-                                        // editorExit:crTab.Methods.UpdateInputOutputCharts,
-                                        keyPressFilter: "[0-9/]",
-                                        title: "<spring:message code='dailyWarehouse.toDay'/>",
-                                        icons: [{
-                                            src: "pieces/pcal.png",
-                                            click: function (form, item, icon) {
-                                                // // console.log(form)
-                                                displayDatePicker(item['ID'], form.getItems()[0], 'ymd', '/');
-                                            }
-                                        }],
-                                        defaultValue: new persianDate().subtract('d', 1).format('YYYY/MM/DD')
-                                    },
-                                ]
-                            }
-                        ),
-                        isc.SpacerItem.create({height: 1}),
-                        isc.ToolStripButtonRefresh.create({
-                            title: " فیلتر",
-                            click: _=>{crTab.Layouts.Vlayouts.Chart.show();crTab.Methods.UpdateInputOutputCharts()}
-                        }),
-                        isc.ToolStripButtonAdd.create({
-                            title: " اکسل",
-                            click: function () {
-                                crTab.Methods.makeRemittanceDetailExcel({
-                                    criteria: {
-                                        _constructor: "AdvancedCriteria",
-                                        operator: "and", criteria: [
-                                            {
-                                                fieldName: 'date',
-                                                operator: 'lessOrEqual',
-                                                value: crTab.DynamicForms.ChartDate.getValue('toDate').replaceAll("/", ""), // a title for the chart as a whole
-
-                                            },
-                                            {
-                                                fieldName: 'date',
-                                                operator: 'greaterOrEqual',
-                                                value: crTab.DynamicForms.ChartDate.getValue('fromDate').replaceAll("/", ""),
-                                            },
-
-                                        ]
-                                    },
-                                    topRowTitle: "گزارش ورود خروج",
-                                    fileName: "گزارش ورود خروج" + new persianDate().format('YYYYMMDD')
-                                })
-                            }
-                        })
-                    ]
-                }),
-
-                crTab.Layouts.Vlayouts.Chart = isc.VLayout.create({visibility:"visible"})
-
             ]
         })
     ]
