@@ -2,8 +2,11 @@ package com.nicico.sales.service.invoice.foreign;
 
 import com.nicico.sales.annotation.Action;
 import com.nicico.sales.dto.*;
+import com.nicico.sales.dto.contract.ContractDetailDTO2;
 import com.nicico.sales.dto.invoice.foreign.ForeignInvoiceItemDTO;
 import com.nicico.sales.enumeration.ActionType;
+import com.nicico.sales.enumeration.EContractDetailTypeCode;
+import com.nicico.sales.enumeration.EContractDetailValueKey;
 import com.nicico.sales.enumeration.ErrorType;
 import com.nicico.sales.exception.NotFoundException;
 import com.nicico.sales.exception.SalesException2;
@@ -20,7 +23,6 @@ import com.nicico.sales.model.entities.base.WeightInspection;
 import com.nicico.sales.model.entities.contract.ContractDiscount;
 import com.nicico.sales.model.entities.invoice.foreign.ForeignInvoiceItem;
 import com.nicico.sales.model.entities.warehouse.MaterialElement;
-import com.nicico.sales.model.enumeration.AllConverters;
 import com.nicico.sales.model.enumeration.InspectionReportMilestone;
 import com.nicico.sales.model.enumeration.PriceBaseReference;
 import com.nicico.sales.service.GenericService;
@@ -41,6 +43,7 @@ public class ForeignInvoiceItemService extends GenericService<ForeignInvoiceItem
     private final IPriceBaseService priceBaseService;
     private final IContractService2 contractService2;
     private final IContractDetailService2 contractDetailService2;
+    //    private final IContractDetailValueService2 contractDetailValueService2;
     private final IAssayInspectionService assayInspectionService;
     private final IWeightInspectionService weightInspectionService;
 
@@ -66,9 +69,11 @@ public class ForeignInvoiceItemService extends GenericService<ForeignInvoiceItem
         if (materialIds.size() != 1)
             throw new SalesException2(ErrorType.BadRequest, "material", "There is multiple material.");
         List<WeightInspectionDTO.InfoWithoutInspectionReport> weightValues = weightInspectionService.getWeightValues(shipmentId, weightMilestone, inventoryIds);
-        // ContractDetailDTO2.Info priceDetail = contractDetailService2.getContractDetailByContractDetailTypeCode(contractId, EContractDetailTypeCode);
-        String priceArticleText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."; // priceDetail.content;
-        List<ContractDiscount> discountArticle = new ArrayList<>(); // contractService2.getOperationalDataOfContractArticle(contractId, EContractDetailTypeCode., EContractDetailValueKey.);
+//        Map<String, List<Object>> priceArticle = contractDetailValueService2.get(contractId, EContractDetailTypeCode.PriceDetailCode, EContractDetailValueKey.NotImportant);
+        ContractDetailDTO2.Info priceDetail = contractDetailService2.getContractDetailByContractDetailTypeCode(contractId,materialIds.iterator().next(), EContractDetailTypeCode.PriceDetailCode);
+        String priceArticleText = priceDetail.getContent();
+     //   List<Object> operationalDataOfDiscountArticle = contractService2.getOperationalDataOfContractArticle(contractId, EContractDetailTypeCode.PriceDetailCode.getId(), EContractDetailValueKey.NotImportant.getId());
+        List<ContractDiscount> discountArticle =  new ArrayList<>();// operationalDataOfDiscountArticle.;
 
         List<PriceBaseDTO.Info> basePrices = priceBaseService.getAverageOfElementBasePrices(reference, year, month, materialIds.iterator().next(), financeUnitId);
 
