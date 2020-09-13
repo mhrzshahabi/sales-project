@@ -3,7 +3,7 @@ package com.nicico.sales.controller;
 import com.nicico.copper.common.Loggable;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.sales.dto.AccDepartmentDTO;
+import com.nicico.sales.dto.AccountingDTO;
 import com.nicico.sales.iservice.IAccDepartmentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,7 +27,7 @@ public class AccDepartmentRestController {
 
     @Loggable
     @GetMapping(value = "/spec-list")
-    public ResponseEntity<TotalResponse<AccDepartmentDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) {
+    public ResponseEntity<TotalResponse<AccountingDTO.DepartmentInfo>> list(@RequestParam MultiValueMap<String, String> criteria) {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
         return new ResponseEntity<>(accDepartmentService.search(nicicoCriteria), HttpStatus.OK);
     }
