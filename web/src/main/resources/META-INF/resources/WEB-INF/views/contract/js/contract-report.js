@@ -722,17 +722,18 @@ crTab.Methods.UpdateInputOutputCharts = function () {
     const fromYear = Number(crTab.DynamicForms.ChartDate.getValue('fromDate').replaceAll("/", "").substr(0, 4));
     const fromMonth = Number(crTab.DynamicForms.ChartDate.getValue('fromDate').replaceAll("/", "").substr(4, 2));
     const toYear = Number(crTab.DynamicForms.ChartDate.getValue('toDate').replaceAll("/", "").substr(0, 4));
-    const toMonth = Number(crTab.DynamicForms.ChartDate.getValue('toDate').replaceAll("/", "").substr(0, 2));
+    const toMonth = Number(crTab.DynamicForms.ChartDate.getValue('toDate').replaceAll("/", "").substr(4, 2));
     const _facet = fromYear - toYear !== 0 ? {
         id: "year",
         title: "ماه"
-    } : (toMonth - fromMonth > 0 ? {
+    } : (toMonth - fromMonth === 0 ? {
         id: "month",
         title: "سال"
     } : {
         id: "day",
         title: "روز"
-    })
+    });
+    dbg(true)
     // dbg(true,_facet)
     const criteriaStr = [
         {
