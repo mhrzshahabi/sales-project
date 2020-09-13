@@ -2,7 +2,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<%@ page  import="com.nicico.copper.core.SecurityUtil" %>
+<%@ page import="com.nicico.copper.core.SecurityUtil" %>
 
 //<script>
 
@@ -205,13 +205,13 @@
             {name: "contractShipmentId", title: "<spring:message code='contact.name'/>", type: 'long', hidden: true},
             {name: "contactId", type: 'long', hidden: true},
             {
-                name: "contract.contact.nameFA",
+                name: "contact.nameFA",
                 title: "<spring:message code='contact.name'/>",
                 type: 'text'
             },
             {name: "contractId", type: 'long', hidden: true},
             {
-                name: "contract.no",
+                name: "contractShipment.contract.no",
                 title: "<spring:message code='contract.contractNo'/>",
                 type: 'text',
                 width: 180
@@ -265,7 +265,7 @@
                 }
             },
             {
-                name: "contractShipment.sendDate",
+                name: "sendDate",
                 title: "<spring:message code='global.sendDate'/>",
                 type: 'text',
                 required: true,
@@ -278,6 +278,8 @@
                         validateOnChange: true
                     }]
             },
+            {name: "createdDate",
+             type: 'text'},
             {
                 name: "automationLetterDate",
                 title: "<spring:message code='shipment.bDate'/>",
@@ -285,7 +287,7 @@
                 width: "10%"
             },
             {
-                name: "contactByAgent.nameFA",
+                name: "contactAgent.nameFA",
                 title: "<spring:message code='shipment.agent'/>",
                 type: 'text',
                 width: "20%",
@@ -349,10 +351,12 @@
                      getPickListFilterCriteria  : function () {
 
                         let record = ListGrid_Shipment.getSelectedRecord();
-                        let fileNewName = "ShipOrder_" +record.materialId+"_" +record.shipmentTypeId;
-                        var criteria={"_constructor":"AdvancedCriteria","operator":"and",
-                                                    "criteria":[{"fieldName":"fileNewName","operator":"startsWith","value":fileNewName}]}
-                            return criteria;
+                        let fileNewName = "ShipOrder_" + record.materialId + "_" + record.shipmentTypeId;
+                        var criteria = {
+                            "_constructor": "AdvancedCriteria", "operator": "and",
+                            "criteria": [{"fieldName": "fileNewName", "operator": "startsWith", "value": fileNewName}]
+                        }
+                        return criteria;
                     },
                 }
     ]
@@ -911,8 +915,11 @@
         top: 260,
         title: "<spring:message code='global.form.save'/>",
         icon: "pieces/16/save.png",
-        click: function () {
+        click: async function () {
             let validate = DynamicForm_Shipment.validate();
+            if (!validate)
+                return false;
+            validate = await checkRepeatedContractShipment(DynamicForm_Shipment.getItem("contractShipmentId").getValue());
             if (!validate)
                 return false;
             let automationLetterDate = toEnglishDigits(DynamicForm_Shipment.getValue("automationLetterDate"));
@@ -1272,7 +1279,7 @@
                 align: "center",
                 showHover: true,
                 sortNormalizer: function (recordObject) {
-                    return recordObject.contract.contact.nameFA
+                    return recordObject.contact.nameFA
                 }
             },
             {name: "contractId", type: 'long', hidden: true},
@@ -1283,17 +1290,17 @@
                 width: "10%",
                 showHover: true,
                 sortNormalizer: function (recordObject) {
-                    return recordObject.contract.contractNo
+                    return recordObject.contractShipment.contract.no
                 }
             },
             {
                 name: "automationLetterDate",
                 title: "<spring:message code='shipment.bDate'/>",
-                type: 'date',
+                type: 'text',
                 width: "10%",
                 showHover: true,
                 formatCellValue: (value) => {
-                    return new persianDate(value).format('YYYY/MM/DD')
+                    return new persianDate(Number.parseInt(value)).format('YYYY/MM/DD')
                 },
             },
             {
@@ -1356,7 +1363,7 @@
                 showHover: true,
             },
             {
-                name: "contractShipment.sendDate",
+                name: "sendDate",
                 title: "<spring:message code='global.sendDate'/>",
                 type: 'text',
                 required: true,
@@ -1368,12 +1375,12 @@
                         type: "required",
                         validateOnChange: true
                     }],
-                sortNormalizer: function (recordObject) {
-                    return recordObject.contractShipment.sendDate
-                }
+                formatCellValue: (value) => {
+                  return new Date(Number.parseInt(value))
+                },
             },
             {
-                name: "createDate.date",
+                name: "createdDate",
                 title: "<spring:message code='global.createDate'/>",
                 type: 'text',
                 required: true,
@@ -1386,7 +1393,7 @@
                         validateOnChange: true
                     }],
                 formatCellValue: (value) => {
-                    return new persianDate(value).format('YYYY/MM/DD')
+                   return new persianDate(Number.parseInt(value)).format('YYYY/MM/DD')
                 },
             },
             {
@@ -1486,6 +1493,35 @@
                 })
             ]
         });
+
+    async function checkRepeatedContractShipment(contractShipmentId) {
+        if (contractShipmentId == null)
+            return false;
+        const resp = await fetch("${contextPath}/api/shipment/spec-list?criteria=" + JSON.stringify({
+            _constructor: "AdvancedCriteria",
+            operator: "and",
+            criteria: [{fieldName: "contractShipmentId", operator: "equals", value: contractShipmentId}]
+        }), {
+            headers: SalesConfigs.httpHeaders,
+        })
+        if (!resp.ok) {
+            return false
+        }
+        const respdata = await resp.json()
+        const resData = respdata.response.data
+        if (resData == null || resData.length == 0)
+            return true;
+        let shipmentId = DynamicForm_Shipment.getItem("id").getValue();
+        let x = resData.find(d => (d != null && (d.id != shipmentId)));
+        if (x != null && x.contractShipmentId != null) {
+            let msg = "<spring:message code='shipment.contractShipment.repeated.warn'/> ";
+            isc.warn(msg, "");
+            return false;
+        } else
+            return true;
+
+        return false
+    }
 
 //</script>
 

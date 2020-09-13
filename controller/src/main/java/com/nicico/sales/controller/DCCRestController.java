@@ -73,7 +73,7 @@ public class DCCRestController {
             fileInfo.setFileSize(file.getSize());
             Gson gson = new GsonBuilder().setLenient().create();
 
-            if (data.contains("id")) {
+            if (data.matches(".*\"\\s*id\\s*\"\\s*:")) {
                 DCCDTO.Update dcc = gson.fromJson(data, DCCDTO.Update.class);
                 dcc.setFileName(file.getOriginalFilename());
                 dcc.setFileNewName(fileNewName);
