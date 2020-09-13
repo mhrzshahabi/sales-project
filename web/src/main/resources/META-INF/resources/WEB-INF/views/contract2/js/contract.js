@@ -528,36 +528,41 @@ contractTab.method.editForm = function () {
         contractTab.dialog.notSelected();
     else if (listGridRecord.editable === false)
         contractTab.dialog.notEditable();
+    else if (listGridRecord.estatus.contains(Enums.eStatus2.DeActive))
+        contractTab.dialog.inactiveRecord();
+    else if (listGridRecord.estatus.contains(Enums.eStatus2.Final))
+        contractTab.dialog.finalRecord();
+    else {
+        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+            actionURL: 'api/g-contract/' + listGridRecord.id,
+            httpMethod: "GET",
+            callback: function (resp) {
+                if (resp.httpResponseCode === 201 || resp.httpResponseCode === 200) {
+                    let record = JSON.parse(resp.data);
+                    record.buyerId = listGridRecord.buyerId;
+                    record.sellerId = listGridRecord.sellerId;
+                    record.agentBuyerId = listGridRecord.agentBuyerId;
+                    record.agentSellerId = listGridRecord.agentSellerId;
 
-    isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-        actionURL: 'api/g-contract/' + listGridRecord.id,
-        httpMethod: "GET",
-        callback: function (resp) {
-            if (resp.httpResponseCode === 201 || resp.httpResponseCode === 200) {
-                let record = JSON.parse(resp.data);
-                record.buyerId = listGridRecord.buyerId;
-                record.sellerId = listGridRecord.sellerId;
-                record.agentBuyerId = listGridRecord.agentBuyerId;
-                record.agentSellerId = listGridRecord.agentSellerId;
-
-                contractTab.variable.method = "PUT";
-                contractTab.dynamicForm.main.editRecord(record);
-                contractTab.listGrid.contractDetailType.setCriteria({
-                    operator: 'and',
-                    criteria: [{
-                        fieldName: 'materialId',
-                        operator: 'equals',
-                        value: contractTab.dynamicForm.main.getValue('materialId')
-                    }]
-                });
-                contractTab.sectionStack.contract.getSectionNames().forEach(q => contractTab.sectionStack.contract.removeSection(q + ""));
-                contractTab.method.addSectionByContract(record);
-                contractTab.window.main.setTitle("<spring:message code='contract.window.title.edit'/>" + "\t" + record.material.descl);
-                contractTab.window.main.show();
-            } else
-                contractTab.dialog.error(resp);
-        }
-    }))
+                    contractTab.variable.method = "PUT";
+                    contractTab.dynamicForm.main.editRecord(record);
+                    contractTab.listGrid.contractDetailType.setCriteria({
+                        operator: 'and',
+                        criteria: [{
+                            fieldName: 'materialId',
+                            operator: 'equals',
+                            value: contractTab.dynamicForm.main.getValue('materialId')
+                        }]
+                    });
+                    contractTab.sectionStack.contract.getSectionNames().forEach(q => contractTab.sectionStack.contract.removeSection(q + ""));
+                    contractTab.method.addSectionByContract(record);
+                    contractTab.window.main.setTitle("<spring:message code='contract.window.title.edit'/>" + "\t" + record.material.descl);
+                    contractTab.window.main.show();
+                } else
+                    contractTab.dialog.error(resp);
+            }
+        }))
+    }
 };
 
 contractTab.method.addSectionByContract = function (record) {
