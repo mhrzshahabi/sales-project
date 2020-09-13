@@ -1,16 +1,14 @@
 package com.nicico.sales.service;
 
 import com.nicico.sales.annotation.Action;
-import com.nicico.sales.dto.InvoiceInternalDTO;
+import com.nicico.sales.dto.InternalInvoiceDTO;
 import com.nicico.sales.enumeration.ActionType;
 import com.nicico.sales.exception.NotFoundException;
 import com.nicico.sales.iservice.IInvoiceInternalService;
-import com.nicico.sales.model.entities.base.InvoiceInternal;
-import com.nicico.sales.model.entities.base.InvoiceInternalDocument;
-import com.nicico.sales.repository.InvoiceInternalDAO;
-import com.nicico.sales.repository.InvoiceInternalDocumentDAO;
+import com.nicico.sales.model.entities.base.InternalInvoiceDocument;
+import com.nicico.sales.model.entities.base.ViewInternalInvoice;
+import com.nicico.sales.repository.InternalInvoiceDocumentDAO;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,9 +18,9 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Service
-public class InvoiceInternalService extends GenericService<InvoiceInternal, String, InvoiceInternalDTO.Create, InvoiceInternalDTO.Info, InvoiceInternalDTO.Update, InvoiceInternalDTO.Delete> implements IInvoiceInternalService {
+public class InvoiceInternalService extends GenericService<ViewInternalInvoice, String, InternalInvoiceDTO.Create, InternalInvoiceDTO.Info, InternalInvoiceDTO.Update, InternalInvoiceDTO.Delete> implements IInvoiceInternalService {
 
-    private final InvoiceInternalDocumentDAO invoiceInternalDocumentDAO;
+    private final InternalInvoiceDocumentDAO internalInvoiceDocumentDAO;
 
     @Value("${nicico.apps.accounting}")
     private String accountingAppUrl;
@@ -31,20 +29,20 @@ public class InvoiceInternalService extends GenericService<InvoiceInternal, Stri
     @Transactional(readOnly = true)
     @Override
     @Action(value = ActionType.Get)
-    public InvoiceInternalDTO.Info get(String id) {
-        final InvoiceInternal invoiceInternal = repository.findById(id)
-                .orElseThrow(() -> new NotFoundException(InvoiceInternal.class));
-        return modelMapper.map(invoiceInternal, InvoiceInternalDTO.Info.class);
+    public InternalInvoiceDTO.Info get(String id) {
+        final ViewInternalInvoice invoiceInternal = repository.findById(id)
+                .orElseThrow(() -> new NotFoundException(ViewInternalInvoice.class));
+        return modelMapper.map(invoiceInternal, InternalInvoiceDTO.Info.class);
     }
 
     @Transactional(readOnly = true)
     @Override
     @Action(value = ActionType.List)
-    public List<InvoiceInternalDTO.Info> getIds(List<String> id) {
-        final List<InvoiceInternal> allByIds = repository.findAllById(id);
-        List<InvoiceInternalDTO.Info> invoiceInternalDTOS = new ArrayList<InvoiceInternalDTO.Info>();
-        for (InvoiceInternal invoiceInternal : allByIds) {
-            invoiceInternalDTOS.add(modelMapper.map(invoiceInternal, InvoiceInternalDTO.Info.class));
+    public List<InternalInvoiceDTO.Info> getIds(List<String> id) {
+        final List<ViewInternalInvoice> allByIds = repository.findAllById(id);
+        List<InternalInvoiceDTO.Info> invoiceInternalDTOS = new ArrayList<InternalInvoiceDTO.Info>();
+        for (ViewInternalInvoice invoiceInternal : allByIds) {
+            invoiceInternalDTOS.add(modelMapper.map(invoiceInternal, InternalInvoiceDTO.Info.class));
         }
         return invoiceInternalDTOS;
     }
@@ -52,15 +50,15 @@ public class InvoiceInternalService extends GenericService<InvoiceInternal, Stri
     @Transactional
     @Override
     @Action(value = ActionType.Create)
-    public InvoiceInternalDTO.Info sendInternalForm2accounting(String id, String data) {
-        InvoiceInternalDocument invoice = new InvoiceInternalDocument();
-        invoice.setInvId(id);
-        invoice.setProcessId(data);
-        return save(invoice);
-    }
+    public InternalInvoiceDTO.Info sendInternalForm2accounting(String id, String data) {
+		InternalInvoiceDocument invoice = new InternalInvoiceDocument();
+//        invoice.setInvId(id);
+//        invoice.setProcessId(data);
+		return save(invoice);
+	}
 
-    private InvoiceInternalDTO.Info save(InvoiceInternalDocument invoiceInternalDocument) {
-        final InvoiceInternalDocument saved = invoiceInternalDocumentDAO.saveAndFlush(invoiceInternalDocument);
-        return modelMapper.map(saved, InvoiceInternalDTO.Info.class);
+    private InternalInvoiceDTO.Info save(InternalInvoiceDocument internalInvoiceDocument) {
+        final InternalInvoiceDocument saved = internalInvoiceDocumentDAO.saveAndFlush(internalInvoiceDocument);
+        return modelMapper.map(saved, InternalInvoiceDTO.Info.class);
     }
 }

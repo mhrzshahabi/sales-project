@@ -70,6 +70,8 @@ nicico:
       dir: /var/nicico/${spring.application.name}/
   security:
     sys-password: password
+  apps:
+    accounting: http://devapp01.icico.net.ir/accounting
 
 ---
 
@@ -98,6 +100,11 @@ spring:
             token-uri: http://apps.icico.net.ir/oauth/token
             user-info-uri: http://apps.icico.net.ir/user/info
             user-name-attribute: username
+nicico:
+  security:
+    sys-password: ENC(MRPf6gcEgm043xXnCbElG2M+NDeLcbAS3wihOjLNuDA=)
+  apps:
+    accounting: http://apps.icico.net.ir/accounting
 
 ---
 
@@ -126,9 +133,6 @@ spring:
             token-uri: http://devapp01.icico.net.ir/oauth/token
             user-info-uri: http://devapp01.icico.net.ir/user/info
             user-name-attribute: username
-nicico:
-  apps:
-    accounting: http://devapp01.icico.net.ir/accounting
 
 ---
 
@@ -162,5 +166,3 @@ spring:
 nicico:
   upload:
     dir: c:/upload
-  apps:
-    accounting: http://devapp01.icico.net.ir/accounting

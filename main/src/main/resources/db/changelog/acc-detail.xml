@@ -1,0 +1,45 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <changeSet author="NICICO" id="1598070820603-251">
+        <addColumn tableName="TBL_CNTR_CONTRACT">
+            <column name="C_ACC_DETAIL" type="varchar2(255 CHAR)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="NICICO" id="1598070820603-252">
+        <addColumn tableName="TBL_CNTR_CONTRACT_AUD">
+            <column name="C_ACC_DETAIL" type="varchar2(255 CHAR)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="NICICO" id="1598070820603-253">
+        <addColumn tableName="TBL_CONTACT">
+            <column name="C_ACC_DETAIL" type="varchar2(255 CHAR)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="NICICO" id="1598070820603-254">
+        <addColumn tableName="TBL_MATERIAL_ITEM">
+            <column name="C_ACC_DETAIL" type="varchar2(255 CHAR)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="NICICO" id="1598070820603-255">
+        <addColumn tableName="TBL_CNTR_CONTRACT">
+            <column name="C_ACC_DETAIL_ID" type="number(19, 0)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="NICICO" id="1598070820603-256">
+        <addColumn tableName="TBL_CNTR_CONTRACT_AUD">
+            <column name="C_ACC_DETAIL_ID" type="number(19, 0)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="NICICO" id="1598070820603-257">
+        <addColumn tableName="TBL_CONTACT">
+            <column name="C_ACC_DETAIL_ID" type="number(19, 0)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="NICICO" id="1598070820603-258">
+        <addColumn tableName="TBL_MATERIAL_ITEM">
+            <column name="C_ACC_DETAIL_ID" type="number(19, 0)"/>
+        </addColumn>
+    </changeSet>
+</databaseChangeLog>

@@ -6,49 +6,49 @@
 
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
-    var RestDataSource_InvoiceInternal = isc.MyRestDataSource.create({
-        fields:
-            [
-                {name: "invId"},
-                {name: "lcId"},
-                {name: "havalehId"},
-                {name: "invDate"},
-                {name: "buyerId"},
-                {name: "customerId"},
-                {type: 'integer', name: "goodId"},
-                {type: 'float', name: "invOtherKosorat"},
-                {name: "havFinalDate"},
-                {type: 'float', name: "weightReal"},
-                {type: 'float', name: "ghematUnit"},
-                {type: 'float', name: "totalKosorat"},
-                {type: 'float', name: "mablaghKol"},
-                {name: "shomarehSoratHesab"},
-                {type: 'float', name: "payForAvarezMalyat"},
-                {type: 'float', name: "payForAvarezAlayandegi"},
-                {name: "invSented"},
-                {type: 'integer', name: "typeForosh"},
-                {type: 'integer', name: "haveAlayandegi"},
-                {name: "codeNosaAlayandegi"},
-                {name: "markazHazineAlayandegi"},
-                {type: 'integer', name: "haveMalyat"},
-                {name: "codeNosaMalyat"},
-                {name: "markazHazineMalyat"},
-                {name: "codeNosaBank"},
-                {name: "codeNosaCustomer"},
-                {name: "codeEtebarNosaCustomer"},
-                {name: "codeMarkazHazineCustomer"},
-                {name: "codeMarkazHazineHlc"},
-                {name: "codeNosaMahsol"},
-                {name: "codeMarkazHazineMahsol"},
-                {name: "bankGroupDesc"},
-                {name: "customerName"},
-                {name: "gdsName"},
-                {name: "groupGoodsNosa"},
-                {name: "groupGoodName"},
-                {name: "lcDateSarReceid"}
-            ],
+var RestDataSource_InvoiceInternal = isc.MyRestDataSource.create({
+fields:
+[
+{name: "id"},
+{name: "lcId"},
+{name: "remittanceId"},
+{name: "invoiceDate"},
+{name: "buyerId"},
+{name: "customerId"},
+{type: 'integer', name: "productId"},
+{type: 'float', name: "invoiceOtherDeductions"},
+{name: "remittanceFinalDate"},
+{type: 'float', name: "realWeight"},
+{type: 'float', name: "unitPrice"},
+{type: 'float', name: "totalDeductions"},
+{type: 'float', name: "totalAmount"},
+{name: "invoiceSerial"},
+{type: 'float', name: "taxChargeAmount"},
+{type: 'float', name: "pollutionChargeAmount"},
+{name: "invoiceSent"},
+{type: 'integer', name: "salesType"},
+{type: 'integer', name: "hasPollution"},
+{name: "nosaPollutionCode"},
+{name: "pollutionCostCenterCode"},
+{type: 'integer', name: "hasTax"},
+{name: "nosaTaxCode"},
+{name: "taxCostCenterCode"},
+{name: "nosaBankCode"},
+{name: "nosaCustomerCode"},
+{name: "nosaCustomerCreditCode"},
+{name: "customerCostCenterCode"},
+{name: "lcCostCenterCode"},
+{name: "nosaProductCode"},
+{name: "productCostCenterCode"},
+{name: "bankGroupDesc"},
+{name: "customerName"},
+{name: "productName"},
+{name: "nosaProductGroupCode"},
+{name: "productGroupName"},
+{name: "lcDueDate"}
+],
 
-        fetchDataURL: "${contextPath}/api/invoiceInternal/list-accounting"
+fetchDataURL: "${contextPath}/api/invoiceInternal/list-accounting"
     });
 
     function ListGrid_InvoiceInternal_refresh() {
@@ -192,40 +192,40 @@
             ]
     });
 
-    var ListGrid_InvoiceInternal = isc.ListGrid.create({
-        showFilterEditor: true,
-        width: "100%",
-        height: "100%",
-        dataSource: RestDataSource_InvoiceInternal,
-        contextMenu: Menu_ListGrid_InvoiceInternal,
-        fields:
-            [
-                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "invDate", title: "<spring:message code='invoice.invDate'/>"},
-                {name: "havalehId", title: "<spring:message code='invoice.havalehId'/>"},
-                {name: "customerName", title: "<spring:message code='invoice.customerName'/>"},
-                {name: "shomarehSoratHesab", title: "<spring:message code='invoice.shomarehSoratHesab'/>"},
-                {name: "gdsName", title: "<spring:message code='invoice.gdsName'/>"},
-                {
-                    type: 'integer',
-                    name: "typeForosh",
-                    valueMap: {"2": "اعتباری", "1": "نقدی"},
-                    title: "<spring:message code='invoice.typeForosh'/>"
-                },
-                {type: 'float', name: "ghematUnit", title: "<spring:message code='invoice.ghematUnit'/>"},
-                {type: 'float', name: "weightReal", title: "<spring:message code='invoice.weightReal'/>"},
-                {type: 'float', name: "mablaghKol", title: "<spring:message code='invoice.mablaghKol'/>"},
-                {type: 'float', name: "totalKosorat", title: "<spring:message code='invoice.totalKosorat'/>"},
-                {name: "bankGroupDesc", title: "<spring:message code='invoice.bankGroupDesc'/>"},
-            ],
-        autoFetchData: true,
-        allowFilterOperators: true
-    });
+var ListGrid_InvoiceInternal = isc.ListGrid.create({
+showFilterEditor: true,
+width: "100%",
+height: "100%",
+dataSource: RestDataSource_InvoiceInternal,
+contextMenu: Menu_ListGrid_InvoiceInternal,
+fields:
+[
+{name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
+{name: "invoiceDate", title: "<spring:message code='invoice.invDate'/>"},
+{name: "remittanceId", title: "<spring:message code='invoice.havalehId'/>"},
+{name: "customerName", title: "<spring:message code='invoice.customerName'/>"},
+{name: "invoiceSerial", title: "<spring:message code='invoice.shomarehSoratHesab'/>"},
+{name: "productName", title: "<spring:message code='invoice.gdsName'/>"},
+{
+type: 'integer',
+name: "salesType",
+valueMap: {"2": "اعتباری", "1": "نقدی"},
+title: "<spring:message code='invoice.typeForosh'/>"
+},
+{type: 'float', name: "unitPrice", title: "<spring:message code='invoice.ghematUnit'/>"},
+{type: 'float', name: "realWeight", title: "<spring:message code='invoice.weightReal'/>"},
+{type: 'float', name: "totalAmount", title: "<spring:message code='invoice.mablaghKol'/>"},
+{type: 'float', name: "totalDeductions", title: "<spring:message code='invoice.totalKosorat'/>"},
+{name: "bankGroupDesc", title: "<spring:message code='invoice.bankGroupDesc'/>"},
+],
+autoFetchData: true,
+allowFilterOperators: true
+});
 
-    var HLayout_InvoiceInternal_Grid = isc.HLayout.create({
-        width: "100%",
-        height: "100%",
-        members: [
+var HLayout_InvoiceInternal_Grid = isc.HLayout.create({
+width: "100%",
+height: "100%",
+members: [
             ListGrid_InvoiceInternal
         ]
     });
