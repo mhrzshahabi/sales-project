@@ -2,9 +2,6 @@
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
 				   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 				   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
-	<changeSet author="SALES" id="1599969332183-268">
-		<createSequence sequenceName="SEQ_INTERNAL_INVOICE_DOCUMENT"/>
-	</changeSet>
 	<changeSet author="SALES" id="1599969332183-269">
 		<createTable tableName="TBL_INTERNAL_INVOICE_DOCUMENT">
 			<column name="C_INVOICE_ID" type="VARCHAR2(255 CHAR)">
