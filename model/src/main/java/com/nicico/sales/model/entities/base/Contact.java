@@ -146,4 +146,9 @@ public class Contact extends BaseEntity {
     @Column(name = "C_REGISTER_NUMBER")
     private String registerNumber;
 
+    @Column(name = "C_ACC_DETAIL")
+    private String accDetail;
+
+    @Column(name = "C_ACC_DETAIL_ID")
+    private Long accDetailId;
 }
