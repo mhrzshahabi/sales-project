@@ -1819,42 +1819,46 @@ BlTab.Fields.BillOfLanding = _ => [
 BlTab.Fields.ContainerToBillOfLanding = _ => [
     {name: 'id', hidden: true,},
     // {name: 'billOfLanding',hidden: true},
-    {name: 'billOfLandingId', hidden: true},
+    {name: 'billOfLandingId',required:true, hidden: true},
     {
-        name: 'containerType',
+        name: 'containerType',required:true,
         title: "<spring:message code='billOfLanding.container.type'/>",
     },
     {
-        name: 'containerNo',
+        name: 'containerNo',required:true,
         title: "<spring:message code='billOfLanding.container.no'/>",
         summaryFunction: "count",
 
     },
     {
-        name: 'sealNo',
+        name: 'sealNo',required:true,
         title: "<spring:message code='billOfLanding.seal.no'/>",
     },
     {
-        name: 'quantity',
+        name: 'quantity',required:true,
+        type: "number",
+        keyPressFilter: "[0-9]",
         title: "<spring:message code='global.quantity'/>",
         summaryFunction: "sum",
     },
-    {
+    {required:true,
         name: 'quantityType',
         title: "<spring:message code='billOfLanding.quiantity.type'/>",
     },
     {
-        name: 'weight',
+        name: 'weight',required:true,
+        type: "number",
+        keyPressFilter: "[0-9]",
         title: "<spring:message code='Tozin.vazn'/>",
         summaryFunction: "sum",
 
     },
     {
-        name: 'unit', hidden: true,
+        name: 'unit', hidden: true,required:true,
         title: "<spring:message code='global.unit'/>",
     },
     {
-        name: 'unitId',
+        name: 'unitId',required:true,
         displayField: 'nameEN',
         valueField: "id",
         title: "<spring:message code='global.unit'/>",
@@ -2090,6 +2094,7 @@ BlTab.Grids.BillOfLanding = {
                             const winId = BlTab.Vars.Prefix + "window_container" + Math.random().toString().substr(2, 4)
                             BlTab.Layouts.Window.ContainerToBillOfLanding = isc.Window.create({
                                 ...BlTab.Vars.DefaultWindowConfig,
+                                width: "25%",
                                 ID: winId,
                                 members: [
                                     isc.VLayout.create({
@@ -2098,7 +2103,7 @@ BlTab.Grids.BillOfLanding = {
                                                 fields: BlTab.Fields.ContainerToBillOfLanding()
                                             }),
                                             BlTab.Methods.HlayoutSaveOrExit(function () {
-
+                                                if (!BlTab.DynamicForms.Forms.ContainerToBillOfLanding.validate()) return;
                                                 BlTab.Methods.Save({
                                                         ...BlTab.DynamicForms.Forms.ContainerToBillOfLanding.getValues(),
                                                         billOfLandingId: record.id
