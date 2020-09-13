@@ -6,7 +6,7 @@ import com.nicico.sales.enumeration.ActionType;
 import com.nicico.sales.exception.NotFoundException;
 import com.nicico.sales.iservice.IInvoiceInternalService;
 import com.nicico.sales.model.entities.base.InternalInvoiceDocument;
-import com.nicico.sales.model.entities.base.ViewInternalInvoice;
+import com.nicico.sales.model.entities.base.ViewInternalInvoiceDocument;
 import com.nicico.sales.repository.InternalInvoiceDocumentDAO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,7 +18,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Service
-public class InvoiceInternalService extends GenericService<ViewInternalInvoice, String, InternalInvoiceDTO.Create, InternalInvoiceDTO.Info, InternalInvoiceDTO.Update, InternalInvoiceDTO.Delete> implements IInvoiceInternalService {
+public class InvoiceInternalService extends GenericService<ViewInternalInvoiceDocument, String, InternalInvoiceDTO.Create, InternalInvoiceDTO.Info, InternalInvoiceDTO.Update, InternalInvoiceDTO.Delete> implements IInvoiceInternalService {
 
     private final InternalInvoiceDocumentDAO internalInvoiceDocumentDAO;
 
@@ -30,8 +30,8 @@ public class InvoiceInternalService extends GenericService<ViewInternalInvoice, 
     @Override
     @Action(value = ActionType.Get)
     public InternalInvoiceDTO.Info get(String id) {
-        final ViewInternalInvoice invoiceInternal = repository.findById(id)
-                .orElseThrow(() -> new NotFoundException(ViewInternalInvoice.class));
+        final ViewInternalInvoiceDocument invoiceInternal = repository.findById(id)
+                .orElseThrow(() -> new NotFoundException(ViewInternalInvoiceDocument.class));
         return modelMapper.map(invoiceInternal, InternalInvoiceDTO.Info.class);
     }
 
@@ -39,9 +39,9 @@ public class InvoiceInternalService extends GenericService<ViewInternalInvoice, 
     @Override
     @Action(value = ActionType.List)
     public List<InternalInvoiceDTO.Info> getIds(List<String> id) {
-        final List<ViewInternalInvoice> allByIds = repository.findAllById(id);
+        final List<ViewInternalInvoiceDocument> allByIds = repository.findAllById(id);
         List<InternalInvoiceDTO.Info> invoiceInternalDTOS = new ArrayList<InternalInvoiceDTO.Info>();
-        for (ViewInternalInvoice invoiceInternal : allByIds) {
+        for (ViewInternalInvoiceDocument invoiceInternal : allByIds) {
             invoiceInternalDTOS.add(modelMapper.map(invoiceInternal, InternalInvoiceDTO.Info.class));
         }
         return invoiceInternalDTOS;

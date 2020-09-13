@@ -4,7 +4,10 @@ import com.nicico.sales.model.entities.common.BaseEntity;
 import lombok.*;
 import lombok.experimental.Accessors;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Getter
 @Setter
@@ -17,8 +20,6 @@ import javax.persistence.*;
 public class InternalInvoiceDocument extends BaseEntity {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_INTERNAL_INVOICE_DOCUMENT")
-	@SequenceGenerator(name = "SEQ_INTERNAL_INVOICE_DOCUMENT", sequenceName = "SEQ_INTERNAL_INVOICE_DOCUMENT", allocationSize = 1)
 	@Column(name = "C_INVOICE_ID")
 	private String invoiceId;
 

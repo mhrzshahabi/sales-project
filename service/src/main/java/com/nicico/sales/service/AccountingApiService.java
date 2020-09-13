@@ -54,7 +54,7 @@ public class AccountingApiService implements IAccountingApiService {
 				return httpResponse.getBody();
 			}
 		} else {
-			log.error("GetDetailCode Error: [" + httpResponse.getStatusCode() + "]: " + httpResponse.getBody());
+			log.error("AccountingApiService.GetDetailCode Error: [" + httpResponse.getStatusCode() + "]: " + httpResponse.getBody());
 		}
 
 		return null;
@@ -75,7 +75,7 @@ public class AccountingApiService implements IAccountingApiService {
 				return httpResponse.getBody();
 			}
 		} else {
-			log.error("getDocumentInfo Error: [" + httpResponse.getStatusCode() + "]: " + httpResponse.getBody());
+			log.error("AccountingApiService.getDocumentInfo Error: [" + httpResponse.getStatusCode() + "]: " + httpResponse.getBody());
 		}
 
 		return null;
@@ -99,11 +99,11 @@ public class AccountingApiService implements IAccountingApiService {
 					return modelMapper.map(result.get("department"), new TypeReference<List<AccountingDTO.DepartmentInfo>>() {
 					}.getType());
 				} catch (IOException e) {
-					log.error("GetDepartments Error: [" + Arrays.toString(e.getStackTrace()) + "]");
+					log.error("AccountingApiService.GetDepartments Error: [" + Arrays.toString(e.getStackTrace()) + "]");
 				}
 			}
 		} else {
-			log.error("GetDepartments Error: [" + httpResponse.getStatusCode() + "]: " + httpResponse.getBody());
+			log.error("AccountingApiService.GetDepartments Error: [" + httpResponse.getStatusCode() + "]: " + httpResponse.getBody());
 		}
 
 		return null;
@@ -119,9 +119,9 @@ public class AccountingApiService implements IAccountingApiService {
 
 		final ResponseEntity<String> httpResponse = restTemplate.exchange(url, HttpMethod.POST, httpEntity, String.class);
 		if (httpResponse.getStatusCode().equals(HttpStatus.CREATED)) {
-			log.info("SendDataParameters Info: [" + httpResponse.getStatusCode() + "]: " + httpResponse.getBody());
+			log.info("AccountingApiService.SendDataParameters Info: [" + httpResponse.getStatusCode() + "]: " + httpResponse.getBody());
 		} else {
-			log.error("SendDataParameters Error: [" + httpResponse.getStatusCode() + "]: " + httpResponse.getBody());
+			log.error("AccountingApiService.SendDataParameters Error: [" + httpResponse.getStatusCode() + "]: " + httpResponse.getBody());
 		}
 	}
 
@@ -141,14 +141,14 @@ public class AccountingApiService implements IAccountingApiService {
 			requestParamMap.put("documentTitle", request.getDocumentTitle());
 
 			switch (object.getClass().getSimpleName()) {
-				case "ViewInternalInvoice":
+				case "ViewInternalInvoiceDocument":
 					Arrays.stream(object.getClass().getDeclaredFields())
 							.forEach(field -> {
 								field.setAccessible(true);
 								try {
 									requestParamMap.put(field.getName(), field.get(object));
 								} catch (IllegalAccessException e) {
-									log.error("SendInvoice Error: [" + Arrays.toString(e.getStackTrace()) + "]");
+									log.error("AccountingApiService.SendInvoice Error: [" + Arrays.toString(e.getStackTrace()) + "]");
 								}
 							});
 					break;
@@ -166,11 +166,11 @@ public class AccountingApiService implements IAccountingApiService {
 					return objectMapper.readValue(httpResponse.getBody(), new TypeReference<Map<String, Object>>() {
 					});
 				} catch (IOException e) {
-					log.error("SendInvoice Error: [" + Arrays.toString(e.getStackTrace()) + "]");
+					log.error("AccountingApiService.SendInvoice Error: [" + Arrays.toString(e.getStackTrace()) + "]");
 				}
 			}
 		} else {
-			log.error("SendInvoice Error: [" + httpResponse.getStatusCode() + "]: " + httpResponse.getBody());
+			log.error("AccountingApiService.SendInvoice Error: [" + httpResponse.getStatusCode() + "]: " + httpResponse.getBody());
 		}
 
 		return null;
