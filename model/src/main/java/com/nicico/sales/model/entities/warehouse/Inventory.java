@@ -4,10 +4,12 @@ import com.nicico.sales.model.entities.base.AssayInspection;
 import com.nicico.sales.model.entities.base.MaterialItem;
 import com.nicico.sales.model.entities.base.WeightInspection;
 import com.nicico.sales.model.entities.common.BaseEntity;
+import com.nicico.sales.model.entities.contract.Contract2;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.Formula;
 import org.hibernate.annotations.JoinFormula;
+import org.hibernate.envers.NotAudited;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -73,5 +75,14 @@ public class Inventory extends BaseEntity {
     private Long weight;
     @Formula("(select VIEW_WARH_INVENTORY.amount from VIEW_WARH_INVENTORY where VIEW_WARH_INVENTORY.id=id)")
     private Long amount;
+
+    @NotAudited
+    @Setter(AccessLevel.NONE)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "F_CONTRACT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "FK_INVENTORY2CONTRACT2"))
+    private Contract2 contract;
+
+    @Column(name = "F_CONTRACT_ID")
+    private Long contractId;
 
 }
