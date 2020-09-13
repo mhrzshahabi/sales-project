@@ -435,7 +435,7 @@ const rdTab = {
                     showEdges: false,
                     edgeImage: "",
                     width: "100%",
-                    height: "100%",
+                    height: "5%",
                     alignLayout: "bottom",
                     padding: 10,
                     membersMargin: 10,
@@ -2194,12 +2194,14 @@ rdTab.Layouts.ToolStripButtons.New = isc.ToolStripButtonAdd.create({
                                     title: "افزودن",
                                     click() {
                                         const records = selectRd.getSelectedRecords();
+                                        if (!records || records.length === 0)
+                                            return isc.warn('<spring:message code="global.grid.record.not.selected"/>')
                                         records.forEach(d => {
                                             if (!rdTab.Grids.RemittanceDetailOutRemittance.getData().find(rd => rd.id === d.id))
                                                 rdTab.Grids.RemittanceDetailOutRemittance.addData(d)
                                         });
                                         selectRd.deselectAllRecords();
-                                        win.hide();
+                                        win.destroy();
                                     }
                                 }),
                                 isc.ToolStripButtonRefresh.create({
@@ -2303,6 +2305,10 @@ rdTab.Layouts.ToolStripButtons.New = isc.ToolStripButtonAdd.create({
                                 operator: "greaterOrEqual",
                                 value: new persianDate().subtract('d', 10).format('YYYYMMDD')
                             },
+                            {
+                                fieldName: "tozinTable",
+                                operator: "isNull",
+                            },
 
 
                         ],
@@ -2314,7 +2320,8 @@ rdTab.Layouts.ToolStripButtons.New = isc.ToolStripButtonAdd.create({
                     allowAdvancedCriteria: true,
                     showFilterEditor: true,
                     recordDoubleClick(viewer, record, recordNum, field, fieldNum, value, rawValue) {
-                        console.log("rdTab.DynamicForms.Forms.TozinTable", rdTab.DynamicForms.Forms.TozinTable);
+                        if (!record) return isc.warn('<spring:message code="global.grid.record.not.selected"/>')
+                        // console.log("rdTab.DynamicForms.Forms.TozinTable", rdTab.DynamicForms.Forms.TozinTable);
                         rdTab.DynamicForms.Forms.TozinTable.setValues({
                             ...record,
                             isInView: true
