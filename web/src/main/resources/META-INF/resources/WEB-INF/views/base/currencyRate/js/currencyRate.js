@@ -86,6 +86,7 @@ currencyRateTab.dynamicForm.fields = BaseFormItems.concat([
         required: true,
         width: "100%",
         length: "8",
+        filterOperator :"equals",
         type: "float",
         keyPressFilter: "[0-9.]",
         formatCellValue: function (value, record, rowNum, colNum) {

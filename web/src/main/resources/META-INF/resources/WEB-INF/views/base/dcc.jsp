@@ -250,10 +250,17 @@ var criteria = {
 
                 var fileBrowserId = document.getElementById(window.fileDcc.uploadItem.getElement().id);
                 var file = fileBrowserId.files[0];
-                let fileExtensionIsValid = RegExp(".+(.doc|.docx|.pdf|.xlsx|.rar|.zip|.jpg|.jpeg|.bmp|.png|.ico|.webp|.tif|.gif)$","i").test(file.name);
-                if(!fileExtensionIsValid) {
-                   isc.warn("<spring:message code='dcc.upload.fileType.error'/>");
-                   return false;
+                let fileExtensionIsValid = false;
+                if (dccDynamicForm.getField("documentType").getValue() === "letter") {
+                    fileExtensionIsValid =
+                        RegExp(".+(.doc|.docx|.pdf|.xlsx|.rar|.zip)$", "i").test(file.name);
+                } else if (dccDynamicForm.getField("documentType").getValue() === "image") {
+                    fileExtensionIsValid =
+                        RegExp(".+(.jpg|.jpeg|.bmp|.png|.ico|.webp|.tif|.gif)$", "i").test(file.name);
+                }
+                if (!fileExtensionIsValid) {
+                    isc.warn("<spring:message code='dcc.upload.fileType.error'/>");
+                    return false;
                 }
                 var folder;
                 dccDynamicForm.setValue("tblName1", dccTableName);
