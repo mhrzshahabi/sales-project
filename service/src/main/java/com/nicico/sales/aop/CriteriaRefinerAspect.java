@@ -19,9 +19,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -171,6 +171,9 @@ public class CriteriaRefinerAspect {
                     for (SearchDTO.CriteriaRq subCriterion : criteriaRq.getCriteria())
                         result |= checkCriteria(subCriterion, entityClass);
                 }
+            } else if (field.getType().equals(BigDecimal.class)) {
+
+                criteriaRq.setValue(criteriaRq.getValue().toString());
             } else {
 
                 if (criteriaRq.getCriteria() == null)
