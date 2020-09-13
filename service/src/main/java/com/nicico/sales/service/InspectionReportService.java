@@ -40,10 +40,7 @@ public class InspectionReportService extends GenericService<InspectionReport, Lo
         InspectionReportDTO.Info inspectionReportDTO = super.create(request);
 
         Locale locale = LocaleContextHolder.getLocale();
-        if (request.getWeightInspections().size() == 0) throw new SalesException2(ErrorType.Unknown, "", messageSource.getMessage("weight-inspection.exception.notFound", null, locale));
-
-        if (request.getAssayInspections().size() == 0) throw new SalesException2(ErrorType.Unknown, "", messageSource.getMessage("assay-inspection.exception.notFound", null, locale));
-
+        if (request.getWeightInspections().size() == 0 && request.getAssayInspections().size() == 0) throw new SalesException2(ErrorType.Unknown, "", messageSource.getMessage("weight-inspection.exception.notFound", null, locale));
 
         request.getWeightInspections().forEach(item -> item.setInspectionReportId(inspectionReportDTO.getId()));
         weightInspectionService.createAll(modelMapper.map(request.getWeightInspections(), new TypeToken<List<WeightInspectionDTO.Create>>() {
