@@ -60,7 +60,7 @@
                     VI.UNITID AS C_UNIT_ID,
                     VI.GHEMATUNIT AS N_UNIT_PRICE,
                     TI.C_DOCUMENT_ID AS C_DOCUMENT_ID
-                FROM VIEW_INNERSALESFORSALSE VI
+                FROM VIEW_INTERNAL_INVOICE VI
                 LEFT JOIN TBL_INTERNAL_INVOICE_DOCUMENT TI
                 ON VI.INV_ID = TI.C_INVOICE_ID
 			]]>

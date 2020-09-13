@@ -26,7 +26,7 @@
         </sql>
     </changeSet>
 
-     <changeSet author="saeb" id="saebqweqweqwe_0ddd0dddddddd5">
+    <changeSet author="saeb" id="saebqweqweqwe_0ddd0dddddddd5">
         <sql>
             UPDATE TBL_WARH_STORE set C_NAME = 'انبار محوطه' where id = -2555;
         </sql>

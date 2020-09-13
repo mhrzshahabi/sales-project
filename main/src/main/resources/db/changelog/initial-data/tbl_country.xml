@@ -8,117 +8,117 @@
             INSERT  INTO TBL_COUNTRY (ID, C_CREATED_BY,
             D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE, C_NAME_EN,
             C_NAME_FA)
-            VALUES (1, 'j.azad', current_timestamp, null, null, 0, 1, 1, 'Iran (Islamic Republic of)', 'ایران');
+            VALUES (1, 'j.azad', current_timestamp, null, null, 0, 1, 0, 'Iran (Islamic Republic of)', 'ایران');
 
             INSERT  INTO TBL_COUNTRY (ID, C_CREATED_BY,
             D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE, C_NAME_EN,
             C_NAME_FA)
-            VALUES (2, 'j.azad', current_timestamp, null, null, 0, 1, 1, 'China', 'چین');
+            VALUES (2, 'j.azad', current_timestamp, null, null, 0, 1, 0, 'China', 'چین');
 
             INSERT  INTO TBL_COUNTRY (ID, C_CREATED_BY,
             D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE, C_NAME_EN,
             C_NAME_FA)
-            VALUES (3, 'j.azad', current_timestamp, null, null, 0, 1, 1, 'Afghanistan', 'افغانستان');
+            VALUES (3, 'j.azad', current_timestamp, null, null, 0, 1, 0, 'Afghanistan', 'افغانستان');
 
             INSERT  INTO TBL_COUNTRY (ID, C_CREATED_BY,
             D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE, C_NAME_EN,
             C_NAME_FA)
-            VALUES (4, 'j.azad',current_timestamp, null, null, 0, 1, 1, 'Australia', 'استرالیا');
+            VALUES (4, 'j.azad',current_timestamp, null, null, 0, 1, 0, 'Australia', 'استرالیا');
 
             INSERT  INTO TBL_COUNTRY (ID, C_CREATED_BY,
             D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE, C_NAME_EN,
             C_NAME_FA)
-            VALUES (5, 'j.azad',current_timestamp, null, null, 0, 1, 1, 'Bahrain', 'بحرین');
+            VALUES (5, 'j.azad',current_timestamp, null, null, 0, 1, 0, 'Bahrain', 'بحرین');
 
             INSERT  INTO TBL_COUNTRY (ID, C_CREATED_BY,
             D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE, C_NAME_EN,
             C_NAME_FA)
-            VALUES (6, 'j.azad', current_timestamp, null, null, 0, 1, 1, 'Belarus', 'بلاروس');
+            VALUES (6, 'j.azad', current_timestamp, null, null, 0, 1, 0, 'Belarus', 'بلاروس');
 
             INSERT  INTO TBL_COUNTRY (ID, C_CREATED_BY,
             D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE, C_NAME_EN,
             C_NAME_FA)
-            VALUES (7, 'j.azad', current_timestamp, null, null, 0, 1, 1, 'Belgium', 'بلژیک');
+            VALUES (7, 'j.azad', current_timestamp, null, null, 0, 1, 0, 'Belgium', 'بلژیک');
 
             INSERT  INTO TBL_COUNTRY (ID, C_CREATED_BY,
             D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE, C_NAME_EN,
             C_NAME_FA)
-            VALUES (8, 'j.azad', current_timestamp, null, null, 0, 1, 1, 'Canada', 'کانادا');
+            VALUES (8, 'j.azad', current_timestamp, null, null, 0, 1, 0, 'Canada', 'کانادا');
 
             INSERT  INTO TBL_COUNTRY (ID, C_CREATED_BY,
             D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE, C_NAME_EN,
             C_NAME_FA)
-            VALUES (9, 'j.azad',current_timestamp, null, null, 0, 1, 1, 'Chile', 'شیلی');
+            VALUES (9, 'j.azad',current_timestamp, null, null, 0, 1, 0, 'Chile', 'شیلی');
 
             INSERT INTO TBL_COUNTRY (ID, C_CREATED_BY,
             D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE, C_NAME_EN,
             C_NAME_FA)
-            VALUES (10, 'j.azad', current_timestamp, null, null, 0, 1, 1, 'Colombia', 'کلمبیا');
+            VALUES (10, 'j.azad', current_timestamp, null, null, 0, 1, 0, 'Colombia', 'کلمبیا');
 
             INSERT INTO TBL_COUNTRY (ID, C_CREATED_BY,
             D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE, C_NAME_EN,
             C_NAME_FA)
-            VALUES (11, 'j.azad',current_timestamp, null, null, 0, 1, 1, 'Denmark', 'دانمارک');
+            VALUES (11, 'j.azad',current_timestamp, null, null, 0, 1, 0, 'Denmark', 'دانمارک');
 
             INSERT INTO TBL_COUNTRY (ID, C_CREATED_BY,
             D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE, C_NAME_EN,
             C_NAME_FA)
-            VALUES (12, 'j.azad',current_timestamp, null, null, 0, 1, 1, 'France', 'فرانسه');
+            VALUES (12, 'j.azad',current_timestamp, null, null, 0, 1, 0, 'France', 'فرانسه');
 
             INSERT  INTO TBL_COUNTRY (ID, C_CREATED_BY,
             D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE, C_NAME_EN,
             C_NAME_FA)
-            VALUES (13, 'j.azad',current_timestamp, null, null, 0, 1, 1, 'India', 'هند');
+            VALUES (13, 'j.azad',current_timestamp, null, null, 0, 1, 0, 'India', 'هند');
 
             INSERT  INTO TBL_COUNTRY (ID, C_CREATED_BY,
             D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE, C_NAME_EN,
             C_NAME_FA)
-            VALUES (14, 'j.azad',current_timestamp, null, null, 0, 1, 1, 'Iraq', 'عراق');
+            VALUES (14, 'j.azad',current_timestamp, null, null, 0, 1, 0, 'Iraq', 'عراق');
 
             INSERT  INTO TBL_COUNTRY (ID, C_CREATED_BY,
             D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE, C_NAME_EN,
             C_NAME_FA)
-            VALUES (15, 'j.azad',current_timestamp, null, null, 0, 1, 1, 'North Korea', 'کره شمالی');
+            VALUES (15, 'j.azad',current_timestamp, null, null, 0, 1, 0, 'North Korea', 'کره شمالی');
 
             INSERT  INTO TBL_COUNTRY (ID, C_CREATED_BY,
             D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE, C_NAME_EN,
             C_NAME_FA)
-            VALUES (16, 'j.azad',current_timestamp, null, null, 0, 1, 1, 'South Korea', 'کره جنوبی');
+            VALUES (16, 'j.azad',current_timestamp, null, null, 0, 1, 0, 'South Korea', 'کره جنوبی');
 
             INSERT  INTO TBL_COUNTRY (ID, C_CREATED_BY,
             D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE, C_NAME_EN,
             C_NAME_FA)
-            VALUES (17, 'j.azad',current_timestamp, null, null, 0, 1, 1, 'Italy', 'ایتالیا');
+            VALUES (17, 'j.azad',current_timestamp, null, null, 0, 1, 0, 'Italy', 'ایتالیا');
 
             INSERT  INTO TBL_COUNTRY (ID, C_CREATED_BY,
             D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE, C_NAME_EN,
             C_NAME_FA)
-            VALUES (18, 'j.azad',current_timestamp, null, null, 0, 1, 1, 'Malaysia', 'مالزی');
+            VALUES (18, 'j.azad',current_timestamp, null, null, 0, 1, 0, 'Malaysia', 'مالزی');
 
             INSERT  INTO TBL_COUNTRY (ID, C_CREATED_BY,
             D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE, C_NAME_EN,
             C_NAME_FA)
-            VALUES (19, 'j.azad',current_timestamp, null, null, 0, 1, 1, 'Myanmar', 'میانمار');
+            VALUES (19, 'j.azad',current_timestamp, null, null, 0, 1, 0, 'Myanmar', 'میانمار');
 
             INSERT  INTO TBL_COUNTRY (ID, C_CREATED_BY,
             D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE, C_NAME_EN,
             C_NAME_FA)
-            VALUES (20, 'j.azad',current_timestamp, null, null, 0, 1, 1, 'Oman', 'عمان');
+            VALUES (20, 'j.azad',current_timestamp, null, null, 0, 1, 0, 'Oman', 'عمان');
 
             INSERT  INTO TBL_COUNTRY (ID, C_CREATED_BY,
             D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE, C_NAME_EN,
             C_NAME_FA)
-            VALUES (21, 'j.azad',current_timestamp, null, null, 0, 1, 1, 'Philippines', 'فیلیپین');
+            VALUES (21, 'j.azad',current_timestamp, null, null, 0, 1, 0, 'Philippines', 'فیلیپین');
 
             INSERT  INTO TBL_COUNTRY (ID, C_CREATED_BY,
             D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE, C_NAME_EN,
             C_NAME_FA)
-            VALUES (22, 'j.azad',current_timestamp, null, null, 0, 1, 1, 'Qatar', 'قطر');
+            VALUES (22, 'j.azad',current_timestamp, null, null, 0, 1, 0, 'Qatar', 'قطر');
 
             INSERT  INTO TBL_COUNTRY (ID, C_CREATED_BY,
             D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE, C_NAME_EN,
             C_NAME_FA)
-            VALUES (23, 'j.azad',current_timestamp, null, null, 0, 1, 1, 'Russian', 'روسیه');
+            VALUES (23, 'j.azad',current_timestamp, null, null, 0, 1, 0, 'Russian', 'روسیه');
 
         </sql>
     </changeSet>

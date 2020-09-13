@@ -3,330 +3,320 @@
                    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
 
-    <changeSet author="j.azad" id="J.AZAD-020">
-        <dropForeignKeyConstraint baseTableName="TBL_PORT" constraintName="port2country"/>
-        <addForeignKeyConstraint baseColumnNames="COUNTRY_ID" baseTableName="TBL_PORT" constraintName="port2country"
-                                 referencedColumnNames="ID" referencedTableName="TBL_COUNTRY"/>
-    </changeSet>
-
-    <changeSet author="j.azad" id="J.AZAD-021">
-        <addNotNullConstraint columnDataType="varchar(4000 CHAR)" columnName="C_PORT" tableName="TBL_PORT"/>
-    </changeSet>
-
     <changeSet author="j.azad" id="J.AZAD-042">
-    <sql>
-        INSERT INTO tbl_port (
-        id,
-        c_created_by,
-        d_created_date,
-        c_last_modified_by,
-        d_last_modified_date,
-        n_version,
-        c_arrival,
-        c_beam,
-        country_id,
-        c_loa,
-        c_port
-        ) VALUES (
-        30,
-        'db_mazloom',
-        to_timestamp('2020-04-26 06:27:09.644000', 'YYYY-MM-DD HH24:MI:SS.FF6'),
-        NULL,
-        NULL,
-        0,
-        NULL,
-        NULL,
-        2,
-        NULL,
-        'ZHOUSHAN'
-        );
+        <sql>
+            INSERT INTO tbl_port (
+            id,
+            c_created_by,
+            d_created_date,
+            c_last_modified_by,
+            d_last_modified_date,
+            n_version,
+            c_arrival,
+            c_beam,
+            country_id,
+            c_loa,
+            c_port
+            ) VALUES (
+            30,
+            'db_mazloom',
+            to_timestamp('2020-04-26 06:27:09.644000', 'YYYY-MM-DD HH24:MI:SS.FF6'),
+            NULL,
+            NULL,
+            0,
+            NULL,
+            NULL,
+            2,
+            NULL,
+            'ZHOUSHAN'
+            );
 
-        INSERT INTO tbl_port (
-        id,
-        c_created_by,
-        d_created_date,
-        c_last_modified_by,
-        d_last_modified_date,
-        n_version,
-        c_arrival,
-        c_beam,
-        country_id,
-        c_loa,
-        c_port
-        ) VALUES (
-        33,
-        'db_mazloom',
-        to_timestamp('2020-04-26 06:30:51.161000', 'YYYY-MM-DD HH24:MI:SS.FF6'),
-        NULL,
-        NULL,
-        0,
-        NULL,
-        NULL,
-        2,
-        NULL,
-        'FANGCHENG'
-        );
+            INSERT INTO tbl_port (
+            id,
+            c_created_by,
+            d_created_date,
+            c_last_modified_by,
+            d_last_modified_date,
+            n_version,
+            c_arrival,
+            c_beam,
+            country_id,
+            c_loa,
+            c_port
+            ) VALUES (
+            33,
+            'db_mazloom',
+            to_timestamp('2020-04-26 06:30:51.161000', 'YYYY-MM-DD HH24:MI:SS.FF6'),
+            NULL,
+            NULL,
+            0,
+            NULL,
+            NULL,
+            2,
+            NULL,
+            'FANGCHENG'
+            );
 
-        INSERT INTO tbl_port (
-        id,
-        c_created_by,
-        d_created_date,
-        c_last_modified_by,
-        d_last_modified_date,
-        n_version,
-        c_arrival,
-        c_beam,
-        country_id,
-        c_loa,
-        c_port
-        ) VALUES (
-        3,
-        'db_mazloom',
-        to_timestamp('2020-04-24 17:25:58.179000', 'YYYY-MM-DD HH24:MI:SS.FF6'),
-        'db_mazloom',
-        to_timestamp('2020-04-26 06:19:21.876000', 'YYYY-MM-DD HH24:MI:SS.FF6'),
-        3,
-        NULL,
-        NULL,
-        2,
-        NULL,
-        'SHANGHAI'
-        );
+            INSERT INTO tbl_port (
+            id,
+            c_created_by,
+            d_created_date,
+            c_last_modified_by,
+            d_last_modified_date,
+            n_version,
+            c_arrival,
+            c_beam,
+            country_id,
+            c_loa,
+            c_port
+            ) VALUES (
+            3,
+            'db_mazloom',
+            to_timestamp('2020-04-24 17:25:58.179000', 'YYYY-MM-DD HH24:MI:SS.FF6'),
+            'db_mazloom',
+            to_timestamp('2020-04-26 06:19:21.876000', 'YYYY-MM-DD HH24:MI:SS.FF6'),
+            3,
+            NULL,
+            NULL,
+            2,
+            NULL,
+            'SHANGHAI'
+            );
 
-        INSERT INTO tbl_port (
-        id,
-        c_created_by,
-        d_created_date,
-        c_last_modified_by,
-        d_last_modified_date,
-        n_version,
-        c_arrival,
-        c_beam,
-        country_id,
-        c_loa,
-        c_port
-        ) VALUES (
-        31,
-        'db_mazloom',
-        to_timestamp('2020-04-26 06:28:37.999000', 'YYYY-MM-DD HH24:MI:SS.FF6'),
-        NULL,
-        NULL,
-        0,
-        NULL,
-        NULL,
-        3,
-        NULL,
-        'ABU DHABI'
-        );
+            INSERT INTO tbl_port (
+            id,
+            c_created_by,
+            d_created_date,
+            c_last_modified_by,
+            d_last_modified_date,
+            n_version,
+            c_arrival,
+            c_beam,
+            country_id,
+            c_loa,
+            c_port
+            ) VALUES (
+            31,
+            'db_mazloom',
+            to_timestamp('2020-04-26 06:28:37.999000', 'YYYY-MM-DD HH24:MI:SS.FF6'),
+            NULL,
+            NULL,
+            0,
+            NULL,
+            NULL,
+            3,
+            NULL,
+            'ABU DHABI'
+            );
 
-        INSERT INTO tbl_port (
-        id,
-        c_created_by,
-        d_created_date,
-        c_last_modified_by,
-        d_last_modified_date,
-        n_version,
-        c_arrival,
-        c_beam,
-        country_id,
-        c_loa,
-        c_port
-        ) VALUES (
-        2,
-        'dorani_sa',
-        to_timestamp('2020-01-05 08:04:12.719000', 'YYYY-MM-DD HH24:MI:SS.FF6'),
-        NULL,
-        NULL,
-        0,
-        NULL,
-        NULL,
-        1,
-        NULL,
-        'BANDAR ABBAS'
-        );
+            INSERT INTO tbl_port (
+            id,
+            c_created_by,
+            d_created_date,
+            c_last_modified_by,
+            d_last_modified_date,
+            n_version,
+            c_arrival,
+            c_beam,
+            country_id,
+            c_loa,
+            c_port
+            ) VALUES (
+            2,
+            'dorani_sa',
+            to_timestamp('2020-01-05 08:04:12.719000', 'YYYY-MM-DD HH24:MI:SS.FF6'),
+            NULL,
+            NULL,
+            0,
+            NULL,
+            NULL,
+            1,
+            NULL,
+            'BANDAR ABBAS'
+            );
 
-        INSERT INTO tbl_port (
-        id,
-        c_created_by,
-        d_created_date,
-        c_last_modified_by,
-        d_last_modified_date,
-        n_version,
-        c_arrival,
-        c_beam,
-        country_id,
-        c_loa,
-        c_port
-        ) VALUES (
-        1,
-        'dorani_sa',
-        to_timestamp('2020-01-05 08:02:14.058000', 'YYYY-MM-DD HH24:MI:SS.FF6'),
-        'db_mazloom',
-        to_timestamp('2020-04-26 06:20:32.220000', 'YYYY-MM-DD HH24:MI:SS.FF6'),
-        2,
-        NULL,
-        NULL,
-        2,
-        NULL,
-        'HUANGPU'
-        );
+            INSERT INTO tbl_port (
+            id,
+            c_created_by,
+            d_created_date,
+            c_last_modified_by,
+            d_last_modified_date,
+            n_version,
+            c_arrival,
+            c_beam,
+            country_id,
+            c_loa,
+            c_port
+            ) VALUES (
+            1,
+            'dorani_sa',
+            to_timestamp('2020-01-05 08:02:14.058000', 'YYYY-MM-DD HH24:MI:SS.FF6'),
+            'db_mazloom',
+            to_timestamp('2020-04-26 06:20:32.220000', 'YYYY-MM-DD HH24:MI:SS.FF6'),
+            2,
+            NULL,
+            NULL,
+            2,
+            NULL,
+            'HUANGPU'
+            );
 
-        INSERT INTO tbl_port (
-        id,
-        c_created_by,
-        d_created_date,
-        c_last_modified_by,
-        d_last_modified_date,
-        n_version,
-        c_arrival,
-        c_beam,
-        country_id,
-        c_loa,
-        c_port
-        ) VALUES (
-        21,
-        'dorani_sa',
-        to_timestamp('2020-01-12 07:15:49.910000', 'YYYY-MM-DD HH24:MI:SS.FF6'),
-        'db_mazloom',
-        to_timestamp('2020-04-26 06:18:03.350000', 'YYYY-MM-DD HH24:MI:SS.FF6'),
-        2,
-        NULL,
-        NULL,
-        3,
-        NULL,
-        'JEBEL ALI'
-        );
+            INSERT INTO tbl_port (
+            id,
+            c_created_by,
+            d_created_date,
+            c_last_modified_by,
+            d_last_modified_date,
+            n_version,
+            c_arrival,
+            c_beam,
+            country_id,
+            c_loa,
+            c_port
+            ) VALUES (
+            21,
+            'dorani_sa',
+            to_timestamp('2020-01-12 07:15:49.910000', 'YYYY-MM-DD HH24:MI:SS.FF6'),
+            'db_mazloom',
+            to_timestamp('2020-04-26 06:18:03.350000', 'YYYY-MM-DD HH24:MI:SS.FF6'),
+            2,
+            NULL,
+            NULL,
+            3,
+            NULL,
+            'JEBEL ALI'
+            );
 
-        INSERT INTO tbl_port (
-        id,
-        c_created_by,
-        d_created_date,
-        c_last_modified_by,
-        d_last_modified_date,
-        n_version,
-        c_arrival,
-        c_beam,
-        country_id,
-        c_loa,
-        c_port
-        ) VALUES (
-        22,
-        'db_mazloom',
-        to_timestamp('2020-04-26 06:22:23.334000', 'YYYY-MM-DD HH24:MI:SS.FF6'),
-        NULL,
-        NULL,
-        0,
-        NULL,
-        NULL,
-        2,
-        NULL,
-        'BAYUQUAN'
-        );
+            INSERT INTO tbl_port (
+            id,
+            c_created_by,
+            d_created_date,
+            c_last_modified_by,
+            d_last_modified_date,
+            n_version,
+            c_arrival,
+            c_beam,
+            country_id,
+            c_loa,
+            c_port
+            ) VALUES (
+            22,
+            'db_mazloom',
+            to_timestamp('2020-04-26 06:22:23.334000', 'YYYY-MM-DD HH24:MI:SS.FF6'),
+            NULL,
+            NULL,
+            0,
+            NULL,
+            NULL,
+            2,
+            NULL,
+            'BAYUQUAN'
+            );
 
-        INSERT INTO tbl_port (
-        id,
-        c_created_by,
-        d_created_date,
-        c_last_modified_by,
-        d_last_modified_date,
-        n_version,
-        c_arrival,
-        c_beam,
-        country_id,
-        c_loa,
-        c_port
-        ) VALUES (
-        23,
-        'db_mazloom',
-        to_timestamp('2020-04-26 06:22:55.505000', 'YYYY-MM-DD HH24:MI:SS.FF6'),
-        NULL,
-        NULL,
-        0,
-        NULL,
-        NULL,
-        2,
-        NULL,
-        'FANGCHENG'
-        );
+            INSERT INTO tbl_port (
+            id,
+            c_created_by,
+            d_created_date,
+            c_last_modified_by,
+            d_last_modified_date,
+            n_version,
+            c_arrival,
+            c_beam,
+            country_id,
+            c_loa,
+            c_port
+            ) VALUES (
+            23,
+            'db_mazloom',
+            to_timestamp('2020-04-26 06:22:55.505000', 'YYYY-MM-DD HH24:MI:SS.FF6'),
+            NULL,
+            NULL,
+            0,
+            NULL,
+            NULL,
+            2,
+            NULL,
+            'FANGCHENG'
+            );
 
-        INSERT INTO tbl_port (
-        id,
-        c_created_by,
-        d_created_date,
-        c_last_modified_by,
-        d_last_modified_date,
-        n_version,
-        c_arrival,
-        c_beam,
-        country_id,
-        c_loa,
-        c_port
-        ) VALUES (
-        24,
-        'db_mazloom',
-        to_timestamp('2020-04-26 06:23:45.633000', 'YYYY-MM-DD HH24:MI:SS.FF6'),
-        NULL,
-        NULL,
-        0,
-        NULL,
-        NULL,
-        2,
-        NULL,
-        'NANJING'
-        );
+            INSERT INTO tbl_port (
+            id,
+            c_created_by,
+            d_created_date,
+            c_last_modified_by,
+            d_last_modified_date,
+            n_version,
+            c_arrival,
+            c_beam,
+            country_id,
+            c_loa,
+            c_port
+            ) VALUES (
+            24,
+            'db_mazloom',
+            to_timestamp('2020-04-26 06:23:45.633000', 'YYYY-MM-DD HH24:MI:SS.FF6'),
+            NULL,
+            NULL,
+            0,
+            NULL,
+            NULL,
+            2,
+            NULL,
+            'NANJING'
+            );
 
-        INSERT INTO tbl_port (
-        id,
-        c_created_by,
-        d_created_date,
-        c_last_modified_by,
-        d_last_modified_date,
-        n_version,
-        c_arrival,
-        c_beam,
-        country_id,
-        c_loa,
-        c_port
-        ) VALUES (
-        29,
-        'db_mazloom',
-        to_timestamp('2020-04-26 06:26:38.689000', 'YYYY-MM-DD HH24:MI:SS.FF6'),
-        'db_mazloom',
-        to_timestamp('2020-04-26 06:27:53.960000', 'YYYY-MM-DD HH24:MI:SS.FF6'),
-        1,
-        NULL,
-        NULL,
-        2,
-        NULL,
-        'XIAMEN'
-        );
+            INSERT INTO tbl_port (
+            id,
+            c_created_by,
+            d_created_date,
+            c_last_modified_by,
+            d_last_modified_date,
+            n_version,
+            c_arrival,
+            c_beam,
+            country_id,
+            c_loa,
+            c_port
+            ) VALUES (
+            29,
+            'db_mazloom',
+            to_timestamp('2020-04-26 06:26:38.689000', 'YYYY-MM-DD HH24:MI:SS.FF6'),
+            'db_mazloom',
+            to_timestamp('2020-04-26 06:27:53.960000', 'YYYY-MM-DD HH24:MI:SS.FF6'),
+            1,
+            NULL,
+            NULL,
+            2,
+            NULL,
+            'XIAMEN'
+            );
 
-        INSERT INTO tbl_port (
-        id,
-        c_created_by,
-        d_created_date,
-        c_last_modified_by,
-        d_last_modified_date,
-        n_version,
-        c_arrival,
-        c_beam,
-        country_id,
-        c_loa,
-        c_port
-        ) VALUES (
-        41,
-        'db_mazloom',
-        to_timestamp('2020-05-14 04:47:05.201000', 'YYYY-MM-DD HH24:MI:SS.FF6'),
-        NULL,
-        NULL,
-        0,
-        NULL,
-        NULL,
-        2,
-        NULL,
-        'Wuhu'
-        );
+            INSERT INTO tbl_port (
+            id,
+            c_created_by,
+            d_created_date,
+            c_last_modified_by,
+            d_last_modified_date,
+            n_version,
+            c_arrival,
+            c_beam,
+            country_id,
+            c_loa,
+            c_port
+            ) VALUES (
+            41,
+            'db_mazloom',
+            to_timestamp('2020-05-14 04:47:05.201000', 'YYYY-MM-DD HH24:MI:SS.FF6'),
+            NULL,
+            NULL,
+            0,
+            NULL,
+            NULL,
+            2,
+            NULL,
+            'Wuhu'
+            );
 
-    </sql>
+        </sql>
     </changeSet>
 </databaseChangeLog>

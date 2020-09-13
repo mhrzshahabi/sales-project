@@ -3,13 +3,6 @@
                    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
 
-
-    <changeSet author="j.azad" id="J.AZAD-011">
-        <addColumn tableName="TBL_MATERIAL_ITEM">
-            <column name="C_GDSNAME_EN" type="varchar2(255 CHAR)"/>
-        </addColumn>
-    </changeSet>
-
     <changeSet author="Saeb" id="saeb_00unissssdfdfssssssst1ssss">
         <sql>
             insert  INTO TBL_MATERIAL_ITEM (ID,
@@ -19,7 +12,7 @@
             insert  INTO TBL_MATERIAL_ITEM (ID,
             C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
             GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (1, 'liquibase', current_timestamp,
-            null, null, 0, 1, 1, 1, 'مفتول مسي 8 ميليمتري', 2, null, null);
+            null, null, 0, 1, 0, 1, 'مفتول مسي 8 ميليمتري', 2, null, null);
             insert  INTO TBL_MATERIAL_ITEM (ID,
             C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
             GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (2, 'liquibase', current_timestamp,
@@ -39,7 +32,7 @@
             insert  INTO TBL_MATERIAL_ITEM (ID,
             C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
             GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (8, 'liquibase', current_timestamp,
-            null, null, 0, 1, 1, 8, 'كنسانتره مس ', 2, null, null);
+            null, null, 0, 1, 0, 8, 'كنسانتره مس ', 2, null, null);
             insert  INTO TBL_MATERIAL_ITEM (ID,
             C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
             GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (9, 'liquibase', current_timestamp,
@@ -47,7 +40,7 @@
             insert  INTO TBL_MATERIAL_ITEM (ID,
             C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
             GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (10, 'liquibase', current_timestamp,
-            null, null, 0, 1, 1, 10, 'مس كاتد ليچينگ', 2, null, null);
+            null, null, 0, 1, 0, 10, 'مس كاتد ليچينگ', 2, null, null);
             insert  INTO TBL_MATERIAL_ITEM (ID,
             C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
             GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (11, 'liquibase', current_timestamp,

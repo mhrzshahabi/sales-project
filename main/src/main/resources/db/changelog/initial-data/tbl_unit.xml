@@ -3,30 +3,6 @@
                    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
 
-    <changeSet author="j.azad" id="J.AZAD-013">
-        <addColumn tableName="TBL_UNIT">
-            <column name="N_CATEGORY_UNIT" type="number(10, 0)"/>
-        </addColumn>
-    </changeSet>
-
-    <changeSet author="j.azad" id="J.AZAD-014">
-        <addColumn tableName="TBL_UNIT">
-            <column name="N_SYMBOL_UNIT" type="number(10, 0)"/>
-        </addColumn>
-    </changeSet>
-
-    <changeSet author="j.azad" id="J.AZAD-022">
-        <addNotNullConstraint columnDataType="number(10,0)" columnName="N_CATEGORY_UNIT" tableName="TBL_UNIT"/>
-    </changeSet>
-
-    <changeSet author="j.azad" id="J.AZAD-023">
-        <addNotNullConstraint columnDataType="number(10,0)" columnName="N_SYMBOL_UNIT" tableName="TBL_UNIT"/>
-    </changeSet>
-
-    <changeSet author="Reza Mazloom" id="mazloom_023">
-        <dropColumn columnName="CATEGORY_VALUE" tableName="TBL_UNIT"/>
-    </changeSet>
-
     <changeSet author="j.azad" id="J.AZAD-039">
         <sql>
             INSERT INTO TBL_UNIT
@@ -39,7 +15,7 @@
             (ID,C_CREATED_BY,D_CREATED_DATE,C_LAST_MODIFIED_BY,D_LAST_MODIFIED_DATE,N_VERSION,N_E_STATUS,B_EDITABLE,C_NAME_EN,C_NAME_FA,N_CATEGORY_UNIT,N_SYMBOL_UNIT)
             values (-1,'j.azad',to_timestamp('02-JUL-20 11.50.07.727477000 PM','DD-MON-RR HH.MI.SSXFF
             AM'),'j.azad',to_timestamp('03-JUL-20 04.34.37.001000000 AM','DD-MON-RR HH.MI.SSXFF
-            AM'),1,1,0,'tonne','تن',1,1);
+            AM'),1,1,0,'MT','تن',1,1);
 
             INSERT INTO TBL_UNIT
             (ID,C_CREATED_BY,D_CREATED_DATE,C_LAST_MODIFIED_BY,D_LAST_MODIFIED_DATE,N_VERSION,N_E_STATUS,B_EDITABLE,C_NAME_EN,C_NAME_FA,N_CATEGORY_UNIT,N_SYMBOL_UNIT)
@@ -83,14 +59,6 @@
             AM'),'j.azad',to_timestamp('07-JUL-20 09.50.31.273000000 AM','DD-MON-RR HH.MI.SSXFF
             AM'),2,1,0,'Liter','لیتر',1,1);
         </sql>
-    </changeSet>
-
-    <changeSet author="j.azad" id="J.AZAD-040">
-        <dropColumn columnName="N_DECIMAL_DIGITS" tableName="TBL_UNIT"/>
-    </changeSet>
-
-    <changeSet author="j.azad" id="J.AZAD-041">
-        <dropColumn columnName="C_SYMBOL" tableName="TBL_UNIT"/>
     </changeSet>
 
     <changeSet author="MShahabi" id="1799887766554-024">
