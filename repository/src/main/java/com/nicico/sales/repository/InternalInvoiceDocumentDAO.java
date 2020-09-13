@@ -7,6 +7,6 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface InternalInvoiceDocumentDAO extends JpaRepository<InternalInvoiceDocument, Long>, JpaSpecificationExecutor<InternalInvoiceDocument> {
+public interface InternalInvoiceDocumentDAO extends JpaRepository<InternalInvoiceDocument, String>, JpaSpecificationExecutor<InternalInvoiceDocument> {
 
 }

@@ -1,8 +1,8 @@
 package com.nicico.sales.iservice;
 
-import com.nicico.sales.dto.InternalInvoiceDTO;
+import com.nicico.sales.dto.AccountingDTO;
 
 public interface IInternalInvoiceService {
 
-    InternalInvoiceDTO.Info get(String id);
+	void sendInvoice(String invoiceId, AccountingDTO.DocumentCreateRq request);
 }

@@ -1,7 +1,6 @@
 package com.nicico.sales.controller;
 
 import com.nicico.sales.dto.AccountingDTO;
-import com.nicico.sales.dto.InternalInvoiceDTO;
 import com.nicico.sales.iservice.IAccountingApiService;
 import com.nicico.sales.iservice.IInternalInvoiceService;
 import lombok.RequiredArgsConstructor;
@@ -10,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
 import java.util.List;
 
 @Slf4j
@@ -22,7 +20,7 @@ public class AccountingApiController {
 	private final IAccountingApiService accountingApiService;
 	private final IInternalInvoiceService internalInvoiceService;
 
-    // ------------------------------
+	// ------------------------------
 
 	@GetMapping(value = "/documents/{invoiceId}")
 	public ResponseEntity<String> getDocumentInfo(@PathVariable String invoiceId) {
@@ -35,9 +33,8 @@ public class AccountingApiController {
 	}
 
 	@PostMapping(value = "/documents/internal/{invoiceId}")
-	public ResponseEntity<Void> sendInternalInvoice(@PathVariable String invoiceId, @RequestBody AccountingDTO.DocumentCreateRq requets) {
-		final InternalInvoiceDTO.Info info = internalInvoiceService.get(invoiceId);
-		accountingApiService.sendInvoice(requets, Collections.singletonList(info));
+	public ResponseEntity<Void> sendInternalInvoice(@PathVariable String invoiceId, @RequestBody AccountingDTO.DocumentCreateRq request) {
+		internalInvoiceService.sendInvoice(invoiceId, request);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 }

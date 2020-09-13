@@ -98,6 +98,8 @@
 
 
     <include file="classpath:/db/changelog/tbl_contract_shipment.xml"/>
+    <include file="classpath:/db/changelog/tbl_internal_invoice_document.xml"/>
+    <include file="classpath:/db/changelog/view_internal_invoice_document.xml"/>
 
 
 </databaseChangeLog>
