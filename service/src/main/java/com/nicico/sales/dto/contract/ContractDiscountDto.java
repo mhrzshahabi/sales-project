@@ -20,7 +20,6 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ContractDiscountDto {
 
-    private Long id;
     private Double discount;
     /*  discount contains upperBound */
     private Double upperBound;
