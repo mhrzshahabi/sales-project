@@ -683,9 +683,10 @@ contractTab.Methods.ArticleAddIconInContractDetailsGridClicked = function (v, _r
             if (found) field.value = found.value
 
         }
-        if (param.reference.toLowerCase() === "ContractShipment".toLowerCase()) {
+        // dbg(true, param, _record)
+        // if (param.reference.toLowerCase() === "ContractShipment".toLowerCase()) {
             fetch('api/g-contract/latest-version-of-data/' + contractRecord.id + '/' +
-                _record.code + "/NotImportant"
+                _record.code + "/" + param['key']
 
                 , {headers: SalesConfigs.httpHeaders}).then(response => {
                 if (response.ok) response.json().then(data => {
@@ -693,11 +694,14 @@ contractTab.Methods.ArticleAddIconInContractDetailsGridClicked = function (v, _r
                     contractDetailListGrid.setData(data);
                     contractTab.Vars.shipments = data;
                 })
+                if(!response.ok){
+                    response.json().then(j=>console.error('fetching data has problem param:',param,"record",_record))
+                }
             })
             // debugger;
 
 
-        }
+        // }
         sectionStackSectionObj.items.push(contractDetailListGrid);
     });
 
@@ -737,7 +741,8 @@ contractTab.Methods.ArticleAddIconInContractDetailsGridClicked = function (v, _r
 contractTab.Methods.NewAddendum = async function () {
     let contractRecord = contractTab.listGrid.main.getSelectedRecord();
     if (!contractRecord || !contractRecord.estatus.includes(Enums.eStatus2.Final))
-        return isc.warn("<spring:message code='global.grid.record.not.selected'/>")
+        return !contractRecord ? isc.warn("<spring:message code='global.grid.record.not.selected'/>") :
+            isc.warn("<spring:message code='global.grid.record.can.not.disapprove'/>")
     else if (contractRecord.editable === false || contractRecord.parentId)
         contractTab.dialog.notEditable();
     const resp = await fetch('api/g-contract/spec-list?operator=and&criteria=' + JSON.stringify(
@@ -814,16 +819,7 @@ contractTab.Methods.NewAddendum = async function () {
                         name: "contractTypeId",
                         // width: "100%",
                         editorType: "SelectItem",
-                        defaultValue: (_ => {
-                            if (!StorageUtil.get('addendumContractTypeId') || typeof (StorageUtil.get('addendumContractTypeId')) !== "number") return null;
-                            try {
-                                return StorageUtil.get('addendumContractTypeId')
-                            } catch (e) {
-                                dbg(false, 'addendumContractTypeId error', e)
-                                return null
-                            }
-
-                        })(),
+                        defaultValue: 2,
                         optionDataSource: isc.MyRestDataSource.create({
                             fields: [
                                 {name: "id", title: "id", primaryKey: true, hidden: true},
@@ -838,9 +834,7 @@ contractTab.Methods.NewAddendum = async function () {
                         displayField: "titleEn",
                         valueField: "id",
                         required: true,
-                        changed(form, item, value) {
-                            StorageUtil.save('addendumContractTypeId', value)
-                        },
+                        disabled: true,
                         title: "<spring:message code='entity.contract-type'/>"
                     },
                     {
