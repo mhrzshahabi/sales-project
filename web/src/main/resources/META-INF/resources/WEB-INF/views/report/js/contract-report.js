@@ -1189,7 +1189,7 @@ crTab.Fields.RemittanceDetailFullFields = function () {
             name: "destinationTozin.sourceId",
             title: "کد مبدا اعلامی توزین مقصد"
         },
-         {
+        {
             name: "sourceTozin.sourceWarehouse.name",
             title: " مبدا اعلامی توزین مبدا"
         },
@@ -1197,7 +1197,7 @@ crTab.Fields.RemittanceDetailFullFields = function () {
             name: "sourceTozin.targetWarehouse.name",
             title: " مقصد اعلامی توزین مبدا"
         },
- {
+        {
             name: "destinationTozin.sourceWarehouse.name",
             title: " مبدا اعلامی توزین مقصد"
         },
@@ -1215,7 +1215,6 @@ crTab.Fields.RemittanceDetailFullFields = function () {
         {
             name: "destinationTozin.targetId",
             title: "کد مقصد اعلامی توزین مقصد"
-
 
 
         },
@@ -1355,11 +1354,17 @@ crTab.Layouts.Vlayouts.main = isc.VLayout.create({
     height: "100%",
     // membersMargin: 20,
     members: [
+        isc.Label.create({
+            contents: '<h3>دریافت گزارشات</h3>',
+            align: 'center',
+            height: "5%"
+        }),
         isc.HLayout.create({
             width: "100%",
             height: 10,
             members:
                 [
+
                     isc.ToolStrip.create({
                         width: "100%",
                         membersMargin: 5,
@@ -1721,6 +1726,11 @@ crTab.Layouts.Vlayouts.main = isc.VLayout.create({
         }),
         isc.VLayout.create({
             members: [
+                isc.Label.create({
+                    contents: '<h3>موجودی انبار</h3>',
+                    align: 'center',
+                    height: "5%"
+                }),
                 crTab.Grids.RemittanceDetail = isc.ListGrid.create({
                     title: "موجودی انبار",
                     fields: crTab.Fields.RemittanceDetailGrid(),
@@ -1746,12 +1756,12 @@ crTab.Layouts.Vlayouts.main = isc.VLayout.create({
             height: "60%",
             members: [
                 isc.Label.create({
-                    contents: '<h2>گزارش ورودی خروجی </h2>',
+                    contents: '<h3>گزارش ورودی خروجی </h3>',
                     align: "center",
                     height: "5%"
                 }),
                 isc.HLayout.create({
-                    height: "10%",
+                    height: "5%",
                     members: [
                         crTab.DynamicForms.ChartDate = isc.DynamicForm.create(
                             {
@@ -1807,7 +1817,7 @@ crTab.Layouts.Vlayouts.main = isc.VLayout.create({
                         isc.SpacerItem.create({height: 1}),
                         isc.ToolStripButtonRefresh.create({
                             title: " فیلتر",
-                            click: crTab.Methods.UpdateInputOutputCharts
+                            click: _=>{crTab.Layouts.Vlayouts.Chart.show();crTab.Methods.UpdateInputOutputCharts()}
                         }),
                         isc.ToolStripButtonAdd.create({
                             title: " اکسل",
@@ -1838,7 +1848,7 @@ crTab.Layouts.Vlayouts.main = isc.VLayout.create({
                     ]
                 }),
 
-                crTab.Layouts.Vlayouts.Chart = isc.VLayout.create()
+                crTab.Layouts.Vlayouts.Chart = isc.VLayout.create({visibility:"visible"})
 
             ]
         })

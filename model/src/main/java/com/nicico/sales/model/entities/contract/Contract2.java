@@ -80,4 +80,10 @@ public class Contract2 extends BaseEntity {
 
     @OneToMany(mappedBy = "contract", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<ContractDetail2> contractDetails;
+
+    @Column(name = "C_ACC_DETAIL")
+    private String accDetail;
+
+    @Column(name = "C_ACC_DETAIL_ID")
+    private Long accDetailId;
 }
