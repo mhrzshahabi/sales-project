@@ -7,6 +7,7 @@
 
     <!-- INITIALIZE STRUCTURE -->
     <include file="classpath:/db/changelog/initial-definition/liquibase-init.xml"/>
+    <include file="classpath:/db/changelog/initial-definition/liquibase-sequence.xml"/>
     <!-- INITIALIZE STRUCTURE -->
 
     <!-- INITIALIZE DATA -->
