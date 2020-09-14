@@ -9,4 +9,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ShipmentCostDutyDAO extends JpaRepository<ShipmentCostDuty, Long>, JpaSpecificationExecutor<ShipmentCostDuty> {
 
+
 }
