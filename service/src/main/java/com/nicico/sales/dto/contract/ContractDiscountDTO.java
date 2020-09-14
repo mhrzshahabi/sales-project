@@ -18,9 +18,8 @@ import java.util.List;
 @Setter
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ContractDiscountDto {
+public class ContractDiscountDTO {
 
-    private Long id;
     private Double discount;
     /*  discount contains upperBound */
     private Double upperBound;
@@ -33,7 +32,7 @@ public class ContractDiscountDto {
     @Setter
     @Accessors(chain = true)
     @ApiModel("DiscountInfo")
-    public static class Info extends ContractDiscountDto {
+    public static class Info extends ContractDiscountDTO {
         private Long id;
         private Date createDate;
         private String createdBy;
@@ -50,7 +49,7 @@ public class ContractDiscountDto {
     @Setter
     @Accessors(chain = true)
     @ApiModel("DiscountCreateRq")
-    public static class Create extends ContractDiscountDto {
+    public static class Create extends ContractDiscountDTO {
 
     }
 
@@ -58,7 +57,7 @@ public class ContractDiscountDto {
     @Setter
     @Accessors(chain = true)
     @ApiModel("DiscountUpdateRq")
-    public static class Update extends ContractDiscountDto {
+    public static class Update extends ContractDiscountDTO {
         @NonNull
         @ApiModelProperty(required = true)
         private Long id;

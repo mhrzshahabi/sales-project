@@ -187,9 +187,9 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
     }
 
     private Long createDiscount(ContractDetailValueDTO.Create x, Long id) {
-        ContractDiscountDto.Create contractDiscountDto = gson.fromJson(x.getReferenceJsonValue(), ContractDiscountDto.Create.class);
+        ContractDiscountDTO.Create contractDiscountDto = gson.fromJson(x.getReferenceJsonValue(), ContractDiscountDTO.Create.class);
         contractDiscountDto.setContractId(id);
-        ContractDiscountDto.Info savedContractDiscount = contractDiscountService.create(contractDiscountDto);
+		ContractDiscountDTO.Info savedContractDiscount = contractDiscountService.create(contractDiscountDto);
         return savedContractDiscount.getId();
     }
 
@@ -204,7 +204,7 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
     }
 
     private void updateDiscount(ContractDetailValueDTO.Update x) {
-        ContractDiscountDto.Update contractDiscountDto = gson.fromJson(x.getReferenceJsonValue(), ContractDiscountDto.Update.class);
+		ContractDiscountDTO.Update contractDiscountDto = gson.fromJson(x.getReferenceJsonValue(), ContractDiscountDTO.Update.class);
         contractDiscountService.update(contractDiscountDto.getId(), contractDiscountDto);
     }
 
@@ -553,10 +553,14 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
     private Set<ContractShipment> getContractShipmentsWithShipment(ContractDTO2.Create request) {
         final Map<String, List<Object>> contractShipmentOriginalMap = contractDetailValueService2.get(request.getParentId(),
                 EContractDetailTypeCode.ShipmentDetailCode, EContractDetailValueKey.NotImportant);
-        final List<ContractShipment> contractShipmentsOriginal = modelMapper.map(contractShipmentOriginalMap.get(EContractDetailValueKey.NotImportant.name()),
-                new TypeToken<List<ContractShipment>>() {
-                }.getType()
-        );
+        final List<ContractShipment> contractShipmentsOriginal = new ArrayList<>();
+        final List<Object> o = contractShipmentOriginalMap.get(EContractDetailValueKey.NotImportant.name());
+        if (o != null) {
+            contractShipmentsOriginal.addAll(modelMapper.map(o,
+                    new TypeToken<List<ContractShipment>>() {
+                    }.getType())
+            );
+        }
         final List<Shipment> allByContractShipmentIdIsIn = shipmentDAO
                 .findAllByContractShipmentIdIsIn(contractShipmentsOriginal.stream()
                         .map(ContractShipment::getId).collect(Collectors.toList()));

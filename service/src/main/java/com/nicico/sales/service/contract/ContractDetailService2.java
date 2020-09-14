@@ -3,9 +3,11 @@ package com.nicico.sales.service.contract;
 import com.nicico.sales.annotation.Action;
 import com.nicico.sales.dto.contract.ContractDetailDTO2;
 import com.nicico.sales.enumeration.ActionType;
+import com.nicico.sales.enumeration.EContractDetailTypeCode;
 import com.nicico.sales.exception.NotFoundException;
 import com.nicico.sales.iservice.contract.IContractDetailService2;
 import com.nicico.sales.model.entities.contract.ContractDetail2;
+import com.nicico.sales.repository.contract.ContractDetailDAO2;
 import com.nicico.sales.service.GenericService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.PropertyMap;
@@ -18,6 +20,22 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class ContractDetailService2 extends GenericService<ContractDetail2, Long, ContractDetailDTO2.Create, ContractDetailDTO2.Info, ContractDetailDTO2.Update, ContractDetailDTO2.Delete> implements IContractDetailService2 {
+
+    @Override
+    @Transactional
+    @Action(ActionType.Get)
+    public ContractDetailDTO2.Info getContractDetailByContractDetailTypeCode(Long contractId,Long materialId, EContractDetailTypeCode typeCode) {
+
+        final Optional<ContractDetail2> entityById = ((ContractDetailDAO2) repository).findByContractDetailType(contractId,materialId,typeCode.getId());
+        final ContractDetail2 entity = entityById.orElseThrow(() -> new NotFoundException(ContractDetail2.class));
+
+        ContractDetailDTO2.Info result = modelMapper.map(entity, ContractDetailDTO2.Info.class);
+        validation(entity, result);
+
+        return result;
+    }
+
+
     @Override
     @Action(value = ActionType.Update)
     @Transactional

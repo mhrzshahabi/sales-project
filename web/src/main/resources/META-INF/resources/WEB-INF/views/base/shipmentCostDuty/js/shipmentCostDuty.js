@@ -6,8 +6,8 @@ costDutyTab.dynamicForm.fields = BaseFormItems.concat([
         title: "<spring:message code='unit.nameFa'/>",
         required: true,
         width: "100%",
-        keyPressFilter: "[\u0600-\u06FF\uFB8A\u067E\u0686\u06AF\u200C\u200F ]",
-        length: 20,
+        keyPressFilter: "[\u0600-\u06FF\uFB8A\u067E\u0686\u06AF\u200C\u200F *\\[\\+\\-\\_\\]\\(\\)\\}\\{/\\\\]",
+        length: 66,
         validators: [
             {
                 type: "required",
@@ -15,7 +15,7 @@ costDutyTab.dynamicForm.fields = BaseFormItems.concat([
             },
             {
                 type: "regexp",
-                expression: "^[\u0600-\u06FF\uFB8A\u067E\u0686\u06AF\u200C\u200F ]*$",
+                expression: "^[\u0600-\u06FF\uFB8A\u067E\u0686\u06AF\u200C\u200F *\\[\\+\\-\\_\\]\\(\\)\\}\\{/\\\\]*$",
                 validateOnChange: true
             }
         ]
@@ -26,8 +26,8 @@ costDutyTab.dynamicForm.fields = BaseFormItems.concat([
         type: 'text',
         required: true,
         width: "100%",
-        length: 20,
-        keyPressFilter: "[A-Za-z ]",
+        length: 66,
+        keyPressFilter: "[A-Za-z *\\[\\+\\-\\_\\]\\(\\)\\}\\{/\\\\]",
         validators: [
             {
                 type: "required",
@@ -35,7 +35,7 @@ costDutyTab.dynamicForm.fields = BaseFormItems.concat([
             },
             {
                 type: "regexp",
-                expression: "^[A-Za-z ]*$",
+                expression: "^[A-Za-z *\\[\\+\\-\\_\\]\\(\\)\\}\\{/\\\\]*$",
                 validateOnChange: true
             }]
     },
@@ -44,7 +44,14 @@ costDutyTab.dynamicForm.fields = BaseFormItems.concat([
         title: "<spring:message code='shipmentCostInvoiceDetail.serviceCode'/>",
         type: 'text',
         required: true,
-        width: "100%"
+        length: 100,
+        width: "100%",
+        keyPressFilter: "[0-9A-Za-z |\u0600-\u06FF\uFB8A\u067E\u0686\u06AF\u200C\u200F|*\\[\\+\\-\\_\\]\\(\\)\\}\\{/\\\\]",
+        validators: [
+            {
+                type: "regexp",
+                expression: "^[0-9A-Za-z |\u0600-\u06FF\uFB8A\u067E\u0686\u06AF\u200C\u200F|*\\[\\+\\-\\_\\]\\(\\)\\}\\{/\\\\]*$",
+            }]
     }
 
 ]);

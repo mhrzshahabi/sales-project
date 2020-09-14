@@ -351,36 +351,6 @@ async function onWayProductFetch(classUrl, operator = "and", criteria = []) {
 }
 
 function mainOnWayProduct() {
-    async function criteriaBuildForListGrid() {
-        const filterEditorCriteria = ListGrid_Tozin_IN_ONWAYPRODUCT.getFilterEditorCriteria();
-        const dateCriteria = filterEditorCriteria.criteria.find(_ => _.fieldName === 'date');
-        if (dateCriteria) dateCriteria.value = dateCriteria.value.replaceAll("/", "")
-        filterEditorCriteria.criteria.add({"fieldName": "tozinId", "operator": "iNotStartsWith", "value": "3-"})
-        filterEditorCriteria.criteria.add({"fieldName": "tozinTable", "operator": "isNull"})
-        const criteriaForSearch = {...filterEditorCriteria};
-        // dbg(false, 'filterEditorCriteria', filterEditorCriteria)
-        // const value = await fetchAlreadyInsertedTozinList()
-        // value.forEach(v => criteriaForSearch.criteria.add({
-        //         "fieldName": "tozinId",
-        //         "operator": "notEqual",
-        //         "value": v
-        //     })
-        // )
-        // dbg(false, 'criteriaForSearch', criteriaForSearch)
-        ListGrid_Tozin_IN_ONWAYPRODUCT.fetchData(criteriaForSearch)
-        // ListGrid_Tozin_IN_ONWAYPRODUCT.fetchData(criteriaForSearch, _ => {
-        //     // const filter = filterEditorCriteria.criteria.filter(__ => {
-        //     //     // console.debug(__);
-        //     //     return true
-        //     //     if (__.fieldName !== 'tozinId') return true;
-        //     //     return false
-        //     // })
-        //     // filterEditorCriteria.criteria=filter;
-        //     // console.log("filterEditorCriteria",filterEditorCriteria)
-        //     // ListGrid_Tozin_IN_ONWAYPRODUCT.setFilterEditorCriteria(filterEditorCriteria);
-        // })
-
-    }
 
     const restDataSource_Tozin_Lite = {
         fields: tozinLiteFields(),
@@ -396,7 +366,7 @@ function mainOnWayProduct() {
                     return isc.warn("لطفا توزین‌های مورد نظر را انتخاب کنید");
 
 
-                onWayProductCreateRemittance(criteriaBuildForListGrid);
+                onWayProductCreateRemittance();
             }
         }]
     });
@@ -575,14 +545,8 @@ function mainOnWayProduct() {
         canHover: true,
         selectionType: "single",
         sortField: 'date',
-        initialCriteria: {
-            _constructor: "AdvancedCriteria",
-            operator: "and",
-            criteria: [
-                {"fieldName": "tozinId", "operator": "iNotStartsWith", "value": "3-"}
-            ]
-        },
-        async filterData(criteria, callback, requestProperties) {
+
+        filterData(criteria, callback, requestProperties) {
             // dbg(false, 'async filterData(criteria', arguments)
             // criteria.criteria.add({"fieldName": "tozinId", "operator": "iNotStartsWith", "value": "3-"})
             const dateCriteria = criteria.criteria.find(_ => _.fieldName === 'date');
@@ -600,7 +564,13 @@ function mainOnWayProduct() {
                 isc.say('لطفا محصول انتخاب نمایید')
                 throw "محصول چی شد"
             }
-            await criteriaBuildForListGrid()
+            if (!criteria.criteria.find(_ => _.fieldName === "tozinId" && _.operator === "iNotStartsWith" && _.value === "3-"))
+                criteria.criteria.add({"fieldName": "tozinId", "operator": "iNotStartsWith", "value": "3-"})
+            if (!criteria.criteria.find(_ => _.fieldName === "tozinTable" && _.operator === "isNull"))
+                criteria.criteria.add({"fieldName": "tozinTable", "operator": "isNull"})
+            dbg(arguments, false)
+            return this.Super('filterData', arguments);
+            // await criteriaBuildForListGrid()
             // arguments[0] = this.getFilterEditorCriteria();
             // return this.Super("filterData", arguments)
         },

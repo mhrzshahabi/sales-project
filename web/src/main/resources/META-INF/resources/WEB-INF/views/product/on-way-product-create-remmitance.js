@@ -12,7 +12,7 @@ function giveMeAName() {
     return (codeKala + '_f' + tozinId + '_rd' + now_date + '_' + random);
 }
 
-function onWayProductCreateRemittance(criteriaBuildForListGrid) {
+function onWayProductCreateRemittance() {
     function updateDestinationPackageTedadWeight() {
         function _styler(numberToSet, formItemStr) {
             const sourceNum = isNaN(DynamicForm_warehouseCAD.getValue("source" + formItemStr)) ? 0 :
@@ -338,7 +338,7 @@ function onWayProductCreateRemittance(criteriaBuildForListGrid) {
                         if (r.status === 201) {
                             isc.say('عملیات با موفقیت انجام شد', () => {
                                 windowRemittance.hide();
-                                criteriaBuildForListGrid();
+                                ListGrid_Tozin_IN_ONWAYPRODUCT.invalidateCache();
                             })
                         } else {
                             r.json().then(

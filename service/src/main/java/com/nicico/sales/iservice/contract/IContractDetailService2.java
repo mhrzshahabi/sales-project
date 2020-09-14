@@ -4,12 +4,15 @@ import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.dto.contract.ContractDetailDTO2;
+import com.nicico.sales.enumeration.EContractDetailTypeCode;
 
 import java.util.List;
 
 public interface IContractDetailService2 {
 
     ContractDetailDTO2.Info get(Long id);
+
+    ContractDetailDTO2.Info getContractDetailByContractDetailTypeCode(Long contractId,Long materialId, EContractDetailTypeCode typeCode);
 
     List<ContractDetailDTO2.Info> getAll(List<Long> ids);
 
