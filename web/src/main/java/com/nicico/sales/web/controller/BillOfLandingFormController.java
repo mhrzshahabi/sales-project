@@ -27,12 +27,9 @@ import java.util.stream.Collectors;
 @RequestMapping("/bill-of-landing")
 public class BillOfLandingFormController {
 
-    private final ObjectMapper objectMapper;
-    private final LocaleResolver localeResolver;
-
     @GetMapping(value = "show-form")
     public String showHomePage(HttpServletRequest request, HttpServletResponse response) throws JsonProcessingException {
 
-    return "contract/bill-of-landing";
+    return "contract2/bill-of-landing";
     }
 }

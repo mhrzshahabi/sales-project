@@ -553,7 +553,11 @@ contractTab.Methods.ArticleAddIconInContractDetailsGridClicked = function (v, _r
         })],
         items: []
     };
-    if (contractDetailIsInContract) sectionStackSectionObj['template'] = contractDetailIsInContract.contractDetailTemplate;
+    dbg(true)
+    if (contractDetailIsInContract) {
+        if(contractDetailIsInContract.position) sectionStackSectionObj['position'] = contractDetailIsInContract.position;
+        sectionStackSectionObj['template'] = contractDetailIsInContract.contractDetailTemplate;
+    }
     let dynamicFormField = [];
     const contractDetailDynamicFormID = contractTab.Vars.Prefix + Math.random().toString().substr(2, 5)
     _record.contractDetailTypeParams.filter(param => param.type !== "ListOfReference").forEach(param => {
@@ -1073,6 +1077,7 @@ contractTab.Methods.SaveAddendum = async function () {
     contractTab.sectionStack.Addendum.sections
         .filter(q => !q.title.toLowerCase().contains("header") && !q.title.toLowerCase().contains("footer")).forEach(section => {
         let contractDetailObj = {
+            position:section.position,
             contractDetailTypeId: section.name,
             contractDetailTemplate: section.template,
             id: section.contractDetailId,
