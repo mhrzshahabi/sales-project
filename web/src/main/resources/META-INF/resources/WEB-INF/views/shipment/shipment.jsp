@@ -177,7 +177,7 @@
 
             dsRequest.params = {
                 code: JSON.parse('${Enum_EContractDetailTypeCode}').ShipmentDetailCode,
-                contractDetailValueKey: JSON.parse('${Enum_EContractDetailValueKey}').NotImportant
+                contractDetailValueKey: JSON.parse('${Enum_EContractDetailValueKey}').CONTRACT_SHIPMENT
             };
 
             let contractId1 = DynamicForm_Shipment.getValue("contractId");
