@@ -1,5 +1,6 @@
 package com.nicico.sales.service;
 
+import com.nicico.copper.common.domain.i18n.CaptionFactory;
 import com.nicico.sales.dto.AccountingDTO;
 import com.nicico.sales.enumeration.ErrorType;
 import com.nicico.sales.exception.SalesException2;
@@ -12,6 +13,8 @@ import com.nicico.sales.repository.InternalInvoiceDocumentDAO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,7 +28,7 @@ import java.util.Optional;
 public class InternalInvoiceService implements IInternalInvoiceService {
 
 	private final ModelMapper modelMapper;
-
+	private final ResourceBundleMessageSource messageSource;
 	private final InternalInvoiceDAO internalInvoiceDAO;
 	private final InternalInvoiceDocumentDAO internalInvoiceDocumentDAO;
 
@@ -35,7 +38,7 @@ public class InternalInvoiceService implements IInternalInvoiceService {
 
 	@Override
 	@Transactional
-	public void sendInvoice(String invoiceId, AccountingDTO.DocumentCreateRq request) {
+	public String sendInvoice(String invoiceId, AccountingDTO.DocumentCreateRq request) {
 		final ViewInternalInvoiceDocument internalInvoice = internalInvoiceDAO.findById(invoiceId)
 				.orElseThrow(() -> new SalesException2(ErrorType.NotFound, "id", "شناسه موجودیت یافت نشد."));
 
@@ -57,8 +60,13 @@ public class InternalInvoiceService implements IInternalInvoiceService {
 
 				internalInvoiceDocumentDAO.saveAndFlush(save);
 			}
+			String message =  messageSource.getMessage("accounting.create.document.number",
+                                new Object[]{String.valueOf(result.get("docId"))}, LocaleContextHolder.getLocale());
+			return message;
 		} else {
 			log.error("InternalInvoiceService.sendInvoice: invoiceId [{}]", invoiceId);
+			new SalesException2(ErrorType.NotFound, "id",CaptionFactory.getLabel("global.error"));
 		}
+		return "";
 	}
 }

@@ -50,6 +50,125 @@ fields:
 
 fetchDataURL: "${contextPath}/api/invoiceInternal/list-accounting"
     });
+    <%-- accounting window --%>
+     var departmentDS = isc.MyRestDataSource.create({
+        fields:[
+            {name:"id", primaryKey:true, type:"integer", title:" ID"},
+            {name:"departmentName" , title:"<spring:message code='department.name'/>"},
+            {name: "departmentCode", title:"<spring:message code='department.code'/>" }
+        ],
+        dataFormat:"json",
+        jsonPrefix:"",
+        jsonSuffix:"",
+        fetchDataURL:"${contextPath}/api/accounting/departments"
+    });
+
+    var documentMainInfoForm = isc.DynamicForm.create({
+        width:"100%",
+        height :"100%",
+        titleWidth: 30,
+        align:"right",
+        autoDraw:false,
+        canEdit:true,
+        autoFetchData:false,
+        // colWidths: [100, "*"],
+        numCols: 4,
+        margin :5,
+        fields: [
+            { name:"documentDate",title:"<spring:message code='document.header.date'/>",width:"150",icons: [ persianDatePicker ],
+            wrapTitle: false,type:"persianDate",length:10,keyPressFilter:"[0-9/]",
+			},
+            { name:"department.id" ,title:"<spring:message code='department.name'/>",required:true,
+				editorType: "select",
+				wrapTitle: false,
+				optionDataSource: departmentDS,
+				valueField: "id",
+				displayField:"departmentName",
+				width:"180",
+				pickListWidth: "200",
+				allowAdvancedCriteria:false,
+				autoFetchData:false,
+				pickListFields: [
+                    { name: "departmentCode" ,width:"20%"},
+                    { name: "departmentName" ,width:"80%"}
+				],
+
+			},
+    			{ name:"documentTitle", title:"<spring:message code='document.header.desc'/>", type:"textArea"  ,colSpan:"4" ,width:"450",wrapTitle:false,
+    			}
+        ]
+});
+    var IButton_Document_Save = isc.IButtonSave.create({
+        top: 260,
+        title:"<spring:message code='global.form.save'/>",
+        click : function () {
+                let record = ListGrid_InvoiceInternal.getSelectedRecord();
+                if (!record||!record.id) {
+                let ERROR = isc.Dialog.create({
+                    message: "<spring:message code='global.grid.record.not.selected'/>",
+                    icon: "[SKIN]ask.png",
+                    title: "<spring:message code='global.message'/>",
+                    buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
+                    buttonClick: function () {
+                        this.hide();
+                    }
+                });
+                setTimeout(function(){ERROR.hide();},3000);
+                return;
+            }
+            let data = isc.clone(documentMainInfoForm.getValues());
+            data.department = data.department.id
+                    isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+                            actionURL: "${contextPath}/api/accounting/documents/internal/"+record.id,
+                            httpMethod: "POST",
+                            useSimpleHttp: true,
+                            contentType: "application/json; charset=utf-8",
+                            data: JSON.stringify(data),
+                            serverOutputAsString: false,
+                            callback: function (RpcResponse_o) {
+                                 let docNumber =  RpcResponse_o.data;
+                                isc.say(docNumber);
+                            }
+                    }));
+
+        }
+    });
+    var IButton_Windows_Close = isc.IButtonCancel.create({
+            top: 260,
+            title:"<spring:message code='global.close'/>",
+            click : function () {
+                newDocumentWindow.close();
+            }
+    });
+    var windows_button_Layout = isc.HLayout.create({
+    width: "100%",
+    height: "100%",
+    align :"center",
+    membersMargin : 10,
+    members: [
+     IButton_Document_Save,
+     IButton_Windows_Close
+    ]
+    });
+    var newDocumentWindow = isc.Window.create({
+		title: "<spring:message code='accounting.document.create'/>",
+		width: 550,
+		height: 200,
+		// autoSize:true,
+		autoCenter: true,
+		isModal: true,
+		showModalMask: true,
+		align: "center",
+		autoDraw: false,
+		dismissOnEscape: true,
+		showMinimizeButton: false,
+		closeClick: function () {
+			this.Super("closeClick", arguments)
+		},
+		items: [
+		    documentMainInfoForm,windows_button_Layout
+		]
+	});
 
     function ListGrid_InvoiceInternal_refresh() {
         ListGrid_InvoiceInternal.invalidateCache();
@@ -66,7 +185,9 @@ fetchDataURL: "${contextPath}/api/invoiceInternal/list-accounting"
         }
     }
 
-
+    function createAccountingDoc(){
+        newDocumentWindow.show();
+    }
     function ToolStripButton_InvoiceInternal_Html_F() {
         var record = ListGrid_InvoiceInternal.getSelectedRecord();
         if (record == null || record == " ") {
@@ -76,6 +197,15 @@ fetchDataURL: "${contextPath}/api/invoiceInternal/list-accounting"
             window.open("invoiceInternal/print/html/" + rowId);
         }
     }
+     <sec:authorize access="hasAuthority('O_INVOICE_INTERNAL')">
+     var ToolStripButton_AccountingDoc = isc.ToolStripButtonPrint.create({
+            title: "<spring:message code='accounting.document.create'/>",
+            icon: "icon/accountingDoc.png",
+            click: function () {
+                createAccountingDoc();
+            }
+        });
+     </sec:authorize>
 
     <sec:authorize access="hasAuthority('O_INVOICE_INTERNAL')">
     var ToolStripButton_InvoiceInternal_html = isc.ToolStripButtonPrint.create({
@@ -154,6 +284,15 @@ fetchDataURL: "${contextPath}/api/invoiceInternal/list-accounting"
                 click: function () {
                     Menu_ListGrid_InvoiceInternal_Html_F();
                 }
+            },
+            </sec:authorize>
+            <sec:authorize access="hasAuthority('O_INVOICE_INTERNAL')">
+            {
+                title: "<spring:message code='accounting.document.create'/>",
+                icon: "icon/accountingDoc.png",
+                click: function () {
+                    Menu_ListGrid_InvoiceInternal_Html_F();
+                }
             }
             </sec:authorize>
         ]
@@ -164,6 +303,7 @@ fetchDataURL: "${contextPath}/api/invoiceInternal/list-accounting"
         membersMargin: 5,
         members:
             [
+
                 <sec:authorize access="hasAuthority('O_INVOICE_INTERNAL')">
                 ToolStripButton_InvoiceInternal_Pdf,
                 </sec:authorize>
@@ -171,7 +311,7 @@ fetchDataURL: "${contextPath}/api/invoiceInternal/list-accounting"
                 <sec:authorize access="hasAuthority('O_INVOICE_INTERNAL')">
                 ToolStripButton_InvoiceInternal_html,
                 </sec:authorize>
-
+                ToolStripButton_AccountingDoc,
                 isc.ToolStrip.create({
                     width: "100%",
                     align: "left",

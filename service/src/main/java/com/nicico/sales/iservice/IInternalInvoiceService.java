@@ -4,5 +4,5 @@ import com.nicico.sales.dto.AccountingDTO;
 
 public interface IInternalInvoiceService {
 
-	void sendInvoice(String invoiceId, AccountingDTO.DocumentCreateRq request);
+	String sendInvoice(String invoiceId, AccountingDTO.DocumentCreateRq request);
 }
