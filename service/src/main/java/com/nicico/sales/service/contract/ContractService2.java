@@ -554,7 +554,7 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
         final Map<String, List<Object>> contractShipmentOriginalMap = contractDetailValueService2.get(request.getParentId(),
                 EContractDetailTypeCode.ShipmentDetailCode, EContractDetailValueKey.NotImportant);
         final List<ContractShipment> contractShipmentsOriginal = new ArrayList<>();
-        final List<Object> o = contractShipmentOriginalMap.get(EContractDetailValueKey.NotImportant.name());
+        final List<Object> o = contractShipmentOriginalMap.get(EContractDetailValueKey.CONTRACT_SHIPMENT.name());
         if (o != null) {
             contractShipmentsOriginal.addAll(modelMapper.map(o,
                     new TypeToken<List<ContractShipment>>() {
@@ -575,7 +575,9 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
         return req.getContractDetails().stream()
                 .map(cd -> cd.getContractDetailValues()
                         .stream().filter(cdv -> cdv.getReference() != null &&
-                                cdv.getReference().toLowerCase().equals("ContractShipment".toLowerCase()))
+                                (cdv.getReference().toLowerCase().equals("ContractShipment".toLowerCase()))||
+                                        (cdv.getReference().toLowerCase().equals("CONTRACT_SHIPMENT".toLowerCase()))
+                                )
                         .collect(Collectors.toList())
                 ).flatMap(Collection::stream).map(contractDetailValue -> {
                     try {

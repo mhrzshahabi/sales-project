@@ -530,6 +530,7 @@ contractTab.Methods.ArticleAddIconInContractDetailsGridClicked = function (v, _r
 
     let sectionStackSectionObj = {
         // template: _record.content,
+        position:1,
         expanded: false,
         name: _record.id,
         title: _record.titleEn,
