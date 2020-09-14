@@ -553,10 +553,14 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
     private Set<ContractShipment> getContractShipmentsWithShipment(ContractDTO2.Create request) {
         final Map<String, List<Object>> contractShipmentOriginalMap = contractDetailValueService2.get(request.getParentId(),
                 EContractDetailTypeCode.ShipmentDetailCode, EContractDetailValueKey.NotImportant);
-        final List<ContractShipment> contractShipmentsOriginal = modelMapper.map(contractShipmentOriginalMap.get(EContractDetailValueKey.NotImportant.name()),
-                new TypeToken<List<ContractShipment>>() {
-                }.getType()
-        );
+        final List<ContractShipment> contractShipmentsOriginal = new ArrayList<>();
+        final List<Object> o = contractShipmentOriginalMap.get(EContractDetailValueKey.NotImportant.name());
+        if (o != null) {
+            contractShipmentsOriginal.addAll(modelMapper.map(o,
+                    new TypeToken<List<ContractShipment>>() {
+                    }.getType())
+            );
+        }
         final List<Shipment> allByContractShipmentIdIsIn = shipmentDAO
                 .findAllByContractShipmentIdIsIn(contractShipmentsOriginal.stream()
                         .map(ContractShipment::getId).collect(Collectors.toList()));
