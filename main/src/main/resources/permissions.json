@@ -1689,5 +1689,10 @@
       "code": "D_TYPICAL_ASSAY",
       "title": "حذف عناصر نمونه"
     }
+/*    },
+    {
+      "code": "C_ACCOUNTING_DOCUMENT",
+      "title": "ایجاد سند حسابداری"
+    }*/
   ]
 }
