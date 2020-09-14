@@ -45,7 +45,8 @@ fields:
 {name: "productName"},
 {name: "nosaProductGroupCode"},
 {name: "productGroupName"},
-{name: "lcDueDate"}
+{name: "lcDueDate"},
+{name: "documentId"}
 ],
 
 fetchDataURL: "${contextPath}/api/invoiceInternal/list-accounting"
@@ -357,6 +358,7 @@ title: "<spring:message code='invoice.typeForosh'/>"
 {type: 'float', name: "totalAmount", title: "<spring:message code='invoice.mablaghKol'/>"},
 {type: 'float', name: "totalDeductions", title: "<spring:message code='invoice.totalKosorat'/>"},
 {name: "bankGroupDesc", title: "<spring:message code='invoice.bankGroupDesc'/>"},
+{name: "documentId", title: "<spring:message code='invoice.documentId'/>"},
 ],
 autoFetchData: true,
 allowFilterOperators: true
@@ -366,7 +368,7 @@ var HLayout_InvoiceInternal_Grid = isc.HLayout.create({
 width: "100%",
 height: "100%",
 members: [
-            ListGrid_InvoiceInternal
+ListGrid_InvoiceInternal
         ]
     });
 

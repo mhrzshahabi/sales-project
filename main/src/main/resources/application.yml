@@ -35,7 +35,7 @@ spring:
       max-file-size: 1000MB
 
 server:
-  port: 8082
+  port: 8080
   servlet:
     context-path: /sales
     session:
