@@ -1267,7 +1267,7 @@
 
     fetch('api/unit/category-unit', {headers: SalesConfigs.httpHeaders}).then(r => r.json().then(j => {
         j.forEach((e, i) => {
-            EnumCategoryUnit.index[e] = i;
+            EnumCategoryUnit.index[e] = i + 1;
             EnumCategoryUnit.string[e] = e
         });
         Object.freeze(EnumCategoryUnit);

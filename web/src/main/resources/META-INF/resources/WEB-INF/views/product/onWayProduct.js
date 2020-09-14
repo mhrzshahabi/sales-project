@@ -9,7 +9,7 @@ const tozinLiteFields = _ => [
         name: "date",
         type: "text",
         filterEditorProperties: {
-            ID: "bagherrr",
+            // ID: "bagherrr",
             // defaultValue: new persianDate().subtract('d', 14).format('YYYYMMDD'),
             keyPressFilter: "[0-9/]",
 
@@ -671,41 +671,5 @@ function mainOnWayProduct() {
 
 mainOnWayProduct()
 
-async function fetchAlreadyInsertedTozinList() {
-    const filterEditorCriteria = ListGrid_Tozin_IN_ONWAYPRODUCT.getFilterEditorCriteria();
-    const dateCriteria = filterEditorCriteria.criteria.find(_ => _.fieldName === 'date');
-    if (dateCriteria) dateCriteria.value = dateCriteria.value.replaceAll("/", "")
-    // debugger
-    const response = await fetch('api/tozin-table/spec-list?operator=and&criteria=' +
-        filterEditorCriteria.criteria.filter(c => [
-            // "tozinId",
-            // "codeKala",
-            // "sourceId",
-            // "targetId",
-            // "cardId",
-            // "haveCode",
-            // "vazn",
-            "date",
-            // "ctrlDescOut",
-            // "plak",
-            // "driverName",
-        ].contains(c.fieldName))
-            .filter(c => c.operator !== "iNotStartsWith")
-            .map(a => {
-                return JSON.stringify({
-                    fieldName: a.fieldName,
-                    operator: a.operator,
-                    value: a.value
-                })
-            }).join('&criteria='),
-        {headers: SalesConfigs.httpHeaders});
-    if (response.status !== 200 && response.status !== 201) {
-        isc.say('مشکل در ارتباط');
-        throw "مشکل در ارتباط getAlreadyInsertedTozinList"
-    }
-    const responseJson = await response.json();
-    createdTozinList.addList(responseJson.response.data);
-    return responseJson.response.data.map(t => t.tozinId);
-}
 
 //</script>
