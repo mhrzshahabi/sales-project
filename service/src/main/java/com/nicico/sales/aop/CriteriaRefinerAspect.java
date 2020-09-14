@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static com.nicico.copper.common.domain.criteria.SearchUtil.createSearchRq;
 import static com.nicico.copper.common.domain.criteria.SearchUtil.mapSearchRs;
@@ -173,7 +174,9 @@ public class CriteriaRefinerAspect {
                 }
             } else if (field.getType().equals(BigDecimal.class)) {
 
-                criteriaRq.setValue(criteriaRq.getValue().toString());
+                result = true;
+                List<Object> value = criteriaRq.getValue();
+                criteriaRq.setValue(value.stream().map(Object::toString).collect(Collectors.toList()));
             } else {
 
                 if (criteriaRq.getCriteria() == null)
