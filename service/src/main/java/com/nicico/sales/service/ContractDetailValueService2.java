@@ -3,6 +3,7 @@ package com.nicico.sales.service;
 import com.nicico.sales.dto.ContractShipmentDTO;
 import com.nicico.sales.dto.PortDTO;
 import com.nicico.sales.dto.UnitDTO;
+import com.nicico.sales.dto.contract.ContractDiscountDto;
 import com.nicico.sales.enumeration.EContractDetailTypeCode;
 import com.nicico.sales.enumeration.EContractDetailValueKey;
 import com.nicico.sales.enumeration.ErrorType;
@@ -13,6 +14,8 @@ import com.nicico.sales.model.entities.base.Port;
 import com.nicico.sales.model.entities.base.Unit;
 import com.nicico.sales.model.entities.contract.Contract2;
 import com.nicico.sales.model.entities.contract.ContractDetailValue;
+import com.nicico.sales.model.entities.contract.ContractDiscount;
+import com.nicico.sales.repository.ContractDiscountDAO;
 import com.nicico.sales.repository.ContractShipmentDAO;
 import com.nicico.sales.repository.PortDAO;
 import com.nicico.sales.repository.UnitDAO;
@@ -37,6 +40,7 @@ public class ContractDetailValueService2 implements IContractDetailValueService2
 	private final ContractShipmentDAO contractShipmentDAO;
 	private final PortDAO portDAO;
 	private final UnitDAO unitDAO;
+	private final ContractDiscountDAO contractDiscountDAO;
 
 	private final ModelMapper modelMapper;
 
@@ -126,6 +130,12 @@ public class ContractDetailValueService2 implements IContractDetailValueService2
 
 				if (unitOpt.isPresent())
 					return modelMapper.map(unitOpt.get(), UnitDTO.Info.class);
+				break;
+			case "Discount":
+				final Optional<ContractDiscount> contractDiscountOpt = contractDiscountDAO.findById(Long.valueOf(contractDetailValue.getValue()));
+
+				if (contractDiscountOpt.isPresent())
+					return modelMapper.map(contractDiscountOpt.get(), ContractDiscountDto.Info.class);
 				break;
 		}
 

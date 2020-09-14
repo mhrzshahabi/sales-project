@@ -12,7 +12,7 @@ function giveMeAName() {
     return (codeKala + '_f' + tozinId + '_rd' + now_date + '_' + random);
 }
 
-function onWayProductCreateRemittance(criteriaBuildForListGrid) {
+function onWayProductCreateRemittance() {
     function updateDestinationPackageTedadWeight() {
         function _styler(numberToSet, formItemStr) {
             const sourceNum = isNaN(DynamicForm_warehouseCAD.getValue("source" + formItemStr)) ? 0 :
@@ -338,7 +338,7 @@ function onWayProductCreateRemittance(criteriaBuildForListGrid) {
                         if (r.status === 201) {
                             isc.say('عملیات با موفقیت انجام شد', () => {
                                 windowRemittance.hide();
-                                criteriaBuildForListGrid();
+                                ListGrid_Tozin_IN_ONWAYPRODUCT.invalidateCache();
                             })
                         } else {
                             r.json().then(
@@ -969,12 +969,10 @@ function onWayProductCreateRemittance(criteriaBuildForListGrid) {
         message: "لطفا صبر کنید",
     });
     Promise.all([
-        onWayProductFetch('tozin', 'or',
-            [
-                {fieldName: 'tozinId', operator: 'inSet', value: ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecords()
-                        .map(_=>_.tozinId)}
-                ]
-        ),
+        onWayProductFetch('tozin', 'or', ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecords()
+            .map(tz => {
+                return {fieldName: 'tozinId', operator: 'equals', value: tz['tozinId']}
+            })),
         onWayProductFetch('cathodList', 'or', criteria_cathode.criteria)
     ]).then(([tozin, tozinPackagesData]) => {
         // //console.log('tozin, tozinPackagesData', tozin, tozinPackagesData)
