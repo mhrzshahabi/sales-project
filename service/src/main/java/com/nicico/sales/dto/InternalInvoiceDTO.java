@@ -65,6 +65,7 @@ public class InternalInvoiceDTO {
     private Double totalDeductions;
     private String unitId;
     private Double unitPrice;
+	private String documentId;
 
 	@Getter
 	@Accessors(chain = true)

@@ -1304,8 +1304,8 @@ shipmentCostInvoiceTab.window.shipmentCost.validate = function (data) {
             return false;
     }
 
-    shipmentCostInvoiceTab.dynamicForm.shipmentPriceFields.validate();
-    if (shipmentCostInvoiceTab.dynamicForm.shipmentPriceFields.hasErrors())
+    shipmentCostInvoiceTab.dynamicForm.shipmentPrice.validate();
+    if (shipmentCostInvoiceTab.dynamicForm.shipmentPrice.hasErrors())
         return false;
 
     return true;
