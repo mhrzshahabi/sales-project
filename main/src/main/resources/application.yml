@@ -72,7 +72,7 @@ nicico:
   security:
     sys-password: password
   apps:
-    accounting: http://devapp01.icico.net.ir:8080/accounting
+    accounting: http://devapp01.icico.net.ir/accounting
 
 ---
 
