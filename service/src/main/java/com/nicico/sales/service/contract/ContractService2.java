@@ -490,6 +490,7 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
         /***شروع الحاقیه***/
         final Calendar cal = Calendar.getInstance();
         final Calendar kal = Calendar.getInstance();
+        Locale locale = LocaleContextHolder.getLocale();
         ContractDTO2.Create req = modelMapper.map(request[0], ContractDTO2.Create.class);
         if ((actionType == ActionType.Create || actionType == ActionType.Update) && req.getParentId() != null) {
 //            if(actionType == ActionType.Create) {ContractDTO2.Create req = modelMapper.map(request[0], ContractDTO2.Create.class);}
@@ -503,7 +504,8 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
                         .stream()
                         .filter(contractShipment -> contractShipment.getId().equals(ocs.getId()))
                         .findAny()
-                        .orElseThrow(() -> new SalesException2(ErrorType.NotFound));
+                        .orElseThrow(() -> new SalesException2(ErrorType.Unknown, "",
+                                messageSource.getMessage("shipment.was.sent", null, locale)));
                 cal.setTime(contractShipmentFromController.getSendDate());
                 kal.setTime(ocs.getSendDate());
                 return !contractShipmentFromController.getLoadPortId().equals(ocs.getLoadPortId()) ||
@@ -514,7 +516,6 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
                         //|| contractShipmentFromController.getParentId() != null
                         ;
             }).collect(Collectors.toList());
-            Locale locale = LocaleContextHolder.getLocale();
             if (modifiedFound.size() > 0) throw new SalesException2(ErrorType.Unknown, "",
                     messageSource.getMessage("shipment.was.sent", null, locale));
 
