@@ -1377,6 +1377,7 @@ inspectionReportTab.method.setWeightElementListRows = function (selectedInventor
         return;
 
     selectedInventories.forEach((current, index, array) => inspectionReportTab.listGrid.weightElement.startEditingNew({inventoryId: current.id}));
+    // inspectionReportTab.listGrid.weightElement.endEditing();
 
     if (inspectionReportTab.variable.method !== "PUT") return;
 
@@ -1394,6 +1395,7 @@ inspectionReportTab.method.setAssayElementListRows = function (selectedInventori
     if (inspectionReportTab.variable.materialId === ImportantIDs.material.COPPER_CATHOD)
         return;
     selectedInventories.forEach((current, index, array) => inspectionReportTab.listGrid.assayElement.startEditingNew({inventoryId: current.id}));
+    // inspectionReportTab.listGrid.assayElement.endEditing();
 
     if (inspectionReportTab.variable.method !== "PUT") return;
 
