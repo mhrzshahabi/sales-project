@@ -17,5 +17,4 @@ public interface ContractDAO2 extends JpaRepository<Contract2, Long>, JpaSpecifi
     Long findNextContractSequence();
 
     List<Contract2> findAllByEStatusAndContractTypeId(@Param("eStatus") List<EStatus> eStatus, @Param("contractTypeId") Long contractTypeId);
-    List<Contract2> findAllByParentId(Long parentId);
 }
