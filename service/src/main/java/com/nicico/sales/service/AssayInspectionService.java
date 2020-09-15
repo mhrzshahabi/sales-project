@@ -1,14 +1,19 @@
 package com.nicico.sales.service;
 
+import com.nicico.sales.annotation.Action;
 import com.nicico.sales.dto.AssayInspectionDTO;
+import com.nicico.sales.dto.ContactDTO;
+import com.nicico.sales.enumeration.ActionType;
 import com.nicico.sales.exception.NotFoundException;
 import com.nicico.sales.iservice.IAssayInspectionService;
 import com.nicico.sales.model.entities.base.AssayInspection;
+import com.nicico.sales.model.entities.base.Contact;
 import com.nicico.sales.model.enumeration.InspectionReportMilestone;
 import com.nicico.sales.repository.AssayInspectionDAO;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.TypeToken;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -16,6 +21,17 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Service
 public class AssayInspectionService extends GenericService<AssayInspection, Long, AssayInspectionDTO.Create, AssayInspectionDTO.Info, AssayInspectionDTO.Update, AssayInspectionDTO.Delete> implements IAssayInspectionService {
+
+    @Override
+    @Transactional
+    @Action(ActionType.Get)
+    public List<ContactDTO.Info> getShipmentInspector(Long shipmentId) {
+
+        List<AssayInspection> byShipmentId = ((AssayInspectionDAO) repository).findAllByShipmentId(shipmentId);
+        List<Contact> inspectors = byShipmentId.stream().map(q -> q.getInspectionReport().getInspector()).distinct().collect(Collectors.toList());
+        return modelMapper.map(inspectors, new TypeToken<List<ContactDTO.Info>>() {
+        }.getType());
+    }
 
     @Override
     public List<AssayInspectionDTO.InfoWithoutInspectionReport> getAssayValues(Long shipmentId, InspectionReportMilestone reportMilestone, List<Long> inventoryIds) {
