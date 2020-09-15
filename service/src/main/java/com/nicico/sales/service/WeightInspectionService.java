@@ -7,6 +7,7 @@ import com.nicico.sales.model.entities.base.WeightInspection;
 import com.nicico.sales.model.enumeration.InspectionReportMilestone;
 import com.nicico.sales.repository.WeightInspectionDAO;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.stereotype.Service;
 
@@ -50,5 +51,17 @@ public class WeightInspectionService extends GenericService<WeightInspection, Lo
             default:
                 throw new NotFoundException(WeightInspection.class);
         }
+    }
+
+    @Override
+    public WeightInspectionDTO.Info getWeightInventoryData(InspectionReportMilestone reportMilestone, Long inventoryId) {
+
+        WeightInspection weightInspection = ((WeightInspectionDAO) repository).findByInventoryIdAndMileStone(reportMilestone, inventoryId);
+
+        if (weightInspection == null)
+            throw new NotFoundException(WeightInspection.class);
+
+        WeightInspectionDTO.Info weightInspectionDTO = modelMapper.map(weightInspection, WeightInspectionDTO.Info.class);
+        return weightInspectionDTO;
     }
 }

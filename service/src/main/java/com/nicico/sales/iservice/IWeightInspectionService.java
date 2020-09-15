@@ -9,4 +9,6 @@ import java.util.List;
 public interface IWeightInspectionService extends IGenericService<WeightInspection, Long, WeightInspectionDTO.Create, WeightInspectionDTO.Info, WeightInspectionDTO.Update, WeightInspectionDTO.Delete> {
 
     List<WeightInspectionDTO.InfoWithoutInspectionReport> getWeightValues(Long shipmentId, InspectionReportMilestone reportMilestone, List<Long> inventoryIds);
+
+    WeightInspectionDTO.Info getWeightInventoryData(InspectionReportMilestone reportMilestone, Long inventoryId);
 }

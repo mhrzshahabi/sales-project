@@ -68,6 +68,13 @@ public class WeightInspectionRestController {
     }
 
     @Loggable
+    @GetMapping(value = "/get-weight-inventory-data")
+    public ResponseEntity<WeightInspectionDTO.Info> getWeightInventoryData(@RequestParam String reportMilestone, @RequestParam Long inventoryId) {
+        InspectionReportMilestone reportMilestoneEnum = Enums.getIfPresent(InspectionReportMilestone.class, reportMilestone).or(InspectionReportMilestone.Source);
+        return new ResponseEntity<>(iWeightInspectionService.getWeightInventoryData(reportMilestoneEnum, inventoryId), HttpStatus.OK);
+    }
+
+    @Loggable
     @GetMapping(value = "/spec-list")
     public ResponseEntity<TotalResponse<WeightInspectionDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) throws IOException {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);

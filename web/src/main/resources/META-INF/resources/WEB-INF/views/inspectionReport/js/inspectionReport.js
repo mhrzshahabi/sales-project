@@ -562,7 +562,7 @@ inspectionReportTab.method.setRemittanceDetailCriteria = function (shipmentId) {
                                 width: "40%"
                             });
                             x.setValue(dtls.filter(a => a.unitId === uId).map(a => a.amount).sum());
-                            x.setUnitId(uId)
+                            x.setUnitId(uId);
                             inspectionReportTab.variable.unitSum.addMember(x);
                         }
                     );
@@ -578,6 +578,13 @@ inspectionReportTab.method.setRemittanceDetailCriteria = function (shipmentId) {
     });
 };
 
+inspectionReportTab.method.selectInventories = function () {
+
+    inspectionReportTab.dynamicForm.inspecReport.getField("inventoryId").setValue(null);
+    inspectionReportTab.listGrid.weightElement.setData([]);
+    inspectionReportTab.listGrid.assayElement.setData([]);
+};
+
 inspectionReportTab.method.setShipmentCriteria = function (materialId) {
     inspectionReportTab.dynamicForm.inspecReport.getItem("shipmentId").setOptionCriteria({
         _constructor: "AdvancedCriteria",
@@ -590,17 +597,17 @@ inspectionReportTab.method.setShipmentCriteria = function (materialId) {
     });
 };
 
-// inspectionReportTab.method.setInventoryCriteria = function (shipmentId) {
-//     inspectionReportTab.dynamicForm.inspecReport.getItem("inventoryId").setOptionCriteria({
-//         _constructor: "AdvancedCriteria",
-//         operator: "and",
-//         criteria: [{
-//             fieldName: "remittanceDetails.remittance.shipment.id",
-//             operator: "equals",
-//             value: shipmentId
-//         }]
-//     });
-// };
+inspectionReportTab.method.setInventoryCriteria = function (materialId) {
+    inspectionReportTab.dynamicForm.inspecReport.getItem("inventoryId").setOptionCriteria({
+        _constructor: "AdvancedCriteria",
+        operator: "and",
+        criteria: [{
+            fieldName: "remittanceDetails.remittance.shipment.materialId",
+            operator: "equals",
+            value: materialId
+        }]
+    });
+};
 
 // inspectionReportTab.method.getAssayId = function (meId, inId) {
 //
@@ -702,6 +709,7 @@ inspectionReportTab.dynamicForm.material = isc.DynamicForm.create({
                 inspectionReportTab.variable.materialId = item.getValue();
                 inspectionReportTab.method.getAssayElementFields(inspectionReportTab.variable.materialId);
                 inspectionReportTab.method.setShipmentCriteria(inspectionReportTab.variable.materialId);
+                inspectionReportTab.method.setInventoryCriteria(inspectionReportTab.variable.materialId);
 
                 switch (inspectionReportTab.variable.materialId) {
 
@@ -752,9 +760,9 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
     {
         name: "shipmentId",
         title: "<spring:message code='Shipment.title'/>",
-        required: true,
+        // required: true,
         autoFetchData: false,
-        editorType: "SelectItem",
+        editorType: "ComboBoxItem",
         valueField: "id",
         displayField: "bookingCat",
         pickListWidth: "500",
@@ -785,14 +793,20 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
                 name: "shipmentMethod.shipmentMethod",
             },
         ],
-        validators: [
-            {
-                type: "required",
-                validateOnChange: true
-            }],
+        // validators: [
+        //     {
+        //         type: "required",
+        //         validateOnChange: true
+        //     }],
         changed: function (form, item, value) {
-            // inspectionReportTab.method.setInventoryCriteria(value);
-            inspectionReportTab.method.setRemittanceDetailCriteria(value);
+
+            if (value) {
+                form.getField("inventoryId").hide();
+                inspectionReportTab.method.setRemittanceDetailCriteria(value);
+            }
+            else
+                form.getField("inventoryId").show();
+            inspectionReportTab.method.selectInventories();
         }
     },
     {
@@ -897,11 +911,17 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
                 type: "required",
                 validateOnChange: true
             }],
-        hidden: true,
+        // hidden: true,
         getSelectedRecords: function () {
 
-            this.showPicker();
+            if (inspectionReportTab.dynamicForm.inspecReport.getItem("shipmentId").getValue())
+                this.showPicker();
             return this.Super("getSelectedRecords", arguments);
+        },
+        changed: function (form, item, value) {
+            let selectedInventories = item.getSelectedRecords();
+            inspectionReportTab.method.setWeightElementListRows(selectedInventories);
+            inspectionReportTab.method.setAssayElementListRows(selectedInventories);
         }
     },
     {
@@ -1376,7 +1396,10 @@ inspectionReportTab.method.setWeightElementListRows = function (selectedInventor
     if (!selectedInventories || !selectedInventories.length)
         return;
 
-    selectedInventories.forEach((current, index, array) => inspectionReportTab.listGrid.weightElement.startEditingNew({inventoryId: current.id}));
+    selectedInventories.forEach((current, index, array) => {
+        inspectionReportTab.listGrid.weightElement.startEditingNew({inventoryId: current.id});
+
+    });
     // inspectionReportTab.listGrid.weightElement.endEditing();
 
     if (inspectionReportTab.variable.method !== "PUT") return;
