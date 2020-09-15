@@ -72,7 +72,7 @@ nicico:
   security:
     sys-password: password
   apps:
-    accounting: http://172.16.6.137:8080/accounting
+    accounting: http://devapp01.icico.net.ir:8080/accounting
 
 ---
 
@@ -113,8 +113,8 @@ spring:
   profiles: Development
   datasource:
     url: jdbc:oracle:thin:@//oragnrt01.icico.net.ir:1521/pdb_dev01
-    username: sales
-    password: sales
+    username: test_sales
+    password: testsales
   redis:
     host: devapp01.icico.net.ir
     password: nicico
