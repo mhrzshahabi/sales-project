@@ -8,5 +8,5 @@ import java.util.Map;
 
 public interface IContractDetailValueService2 {
 
-	Map<String, List<Object>> get(Long contractId, EContractDetailTypeCode contractDetailTypeCode, EContractDetailValueKey contractDetailValueKey,Boolean finalized);
+	Map<String, List<Object>> get(Long contractId, EContractDetailTypeCode contractDetailTypeCode, EContractDetailValueKey contractDetailValueKey);
 }
