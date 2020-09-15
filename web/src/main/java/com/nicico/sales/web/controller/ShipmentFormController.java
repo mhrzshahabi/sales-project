@@ -129,6 +129,7 @@ public class ShipmentFormController {
 //
 //                replacePOI(doc, "inspector", inspector.get(i));
 //            }
+
             replacePOI(doc, "noContainer", String.valueOf(shipment.getNoContainer() != null ? shipment.getNoContainer() : ""));
             replacePOI(doc, "containerType", shipment.getContainerType());
             replacePOI(doc, "blNumbers", String.valueOf(shipment.getNoBLs()));
