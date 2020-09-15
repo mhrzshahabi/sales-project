@@ -14,8 +14,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
@@ -28,8 +31,8 @@ public class ContractDetailTypeFormController {
     public String show(HttpServletRequest request) throws JsonProcessingException {
 
         Map<String, String> contractDetailTypeReferences = new HashMap<>();
-        Map<String, String> contractDetailTypeCodes = new HashMap<>();
-        Map<String, String> contractDetailValueKeys = new HashMap<>();
+        Map<String, String> contractDetailTypeCodes;
+        Map<String, String> contractDetailValueKeys;
         Map<String, String> dataTypes = new HashMap<>();
         Map<Integer, String> rateReferences = new HashMap<>();
         Map<Integer, String> priceBaseReferences = new HashMap<>();
@@ -42,10 +45,14 @@ public class ContractDetailTypeFormController {
             rateReferences.put(value.getId(), value.name());
         for (PriceBaseReference value : PriceBaseReference.values())
             priceBaseReferences.put(value.getId(), value.name());
-        for (EContractDetailTypeCode value : EContractDetailTypeCode.values())
-            contractDetailTypeCodes.put(value.getId(), value.name());
-        for (EContractDetailValueKey value : EContractDetailValueKey.values())
-            contractDetailValueKeys.put(value.getId(), value.name());
+
+        contractDetailTypeCodes = Arrays.stream(EContractDetailTypeCode.values()).collect(Collectors.toMap(EContractDetailTypeCode::name, EContractDetailTypeCode::getId, (e1, e2) -> e2))
+                .entrySet().stream().sorted((Map.Entry.comparingByKey()))
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e2, LinkedHashMap::new));
+
+        contractDetailValueKeys = Arrays.stream(EContractDetailValueKey.values()).collect(Collectors.toMap(EContractDetailValueKey::name, EContractDetailValueKey::getId, (e1, e2) -> e2))
+                .entrySet().stream().sorted((Map.Entry.comparingByKey()))
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e2, LinkedHashMap::new));
 
         request.setAttribute("Enum_DataType", objectMapper.writeValueAsString(dataTypes));
         request.setAttribute("contractDetailTypeReferences", objectMapper.writeValueAsString(contractDetailTypeReferences));

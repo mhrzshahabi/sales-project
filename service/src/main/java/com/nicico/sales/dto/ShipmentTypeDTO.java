@@ -49,6 +49,8 @@ public class ShipmentTypeDTO {
         @NotNull
         @ApiModelProperty(required = true)
         private Long id;
+
+        private Integer version;
     }
 
     @Getter

@@ -182,7 +182,7 @@ public class ContractDetailTypeService extends GenericService<ContractDetailType
     public Boolean validation(ContractDetailType entity, Object... request) {
         Boolean validation = super.validation(entity, request);
         if (actionType == ActionType.Create) {
-            if (entity.getCode().equals(EContractDetailTypeCode.NoteDetailCode.getId()))
+            if (entity.getCode().equals(EContractDetailTypeCode.Note.getId()))
                 return true;
             if (contractDetailTypeDAO.findByMaterialIdAndCode(entity.getMaterialId(), entity.getCode()).size() >= 1) {
                 EContractDetailTypeCode eContractDetailTypeCode = Arrays.stream(EContractDetailTypeCode.values()).filter(q -> q.getId().equals(entity.getCode())).findFirst().get();

@@ -67,10 +67,10 @@ public class ForeignInvoiceItemService extends GenericService<ForeignInvoiceItem
         if (materialIds.size() != 1)
             throw new SalesException2(ErrorType.BadRequest, "material", "There is multiple material.");
 
-        ContractDetailDTO2.Info priceDetail = contractDetailService2.getContractDetailByContractDetailTypeCode(contractId, materialIds.iterator().next(), EContractDetailTypeCode.PriceDetailCode);
+        ContractDetailDTO2.Info priceDetail = contractDetailService2.getContractDetailByContractDetailTypeCode(contractId, materialIds.iterator().next(), EContractDetailTypeCode.Price);
         String priceArticleText = priceDetail.getContent();
 
-        Map<String, List<Object>> operationalDataOfDiscountArticle = contractDetailValueService2.get(contractId, EContractDetailTypeCode.PriceDetailCode, EContractDetailValueKey.DISCOUNT);
+        Map<String, List<Object>> operationalDataOfDiscountArticle = contractDetailValueService2.get(contractId, EContractDetailTypeCode.Price, EContractDetailValueKey.DISCOUNT);
         List<Object> discounts = operationalDataOfDiscountArticle.get(EContractDetailValueKey.DISCOUNT.getId());
         List<ContractDiscount> discountArticle = new ArrayList<>();
         if (discounts != null)

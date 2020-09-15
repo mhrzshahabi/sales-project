@@ -70,6 +70,8 @@ public class ShipmentCostDutyDTO {
         @NotNull
         @ApiModelProperty(required = true)
         private Long id;
+
+        private Integer version;
     }
 
     @Getter
