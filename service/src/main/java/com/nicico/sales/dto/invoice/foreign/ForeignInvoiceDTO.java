@@ -94,6 +94,8 @@ public class ForeignInvoiceDTO {
         private List<Long> billLadingIds;
         private List<ForeignInvoiceItemDTO.Update> foreignInvoiceItems;
         private List<ForeignInvoicePaymentDTO.Update> foreignInvoicePayments;
+
+        private Integer version;
     }
 
     @Getter

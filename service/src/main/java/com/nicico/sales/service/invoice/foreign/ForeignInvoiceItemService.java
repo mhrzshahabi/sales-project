@@ -68,9 +68,9 @@ public class ForeignInvoiceItemService extends GenericService<ForeignInvoiceItem
             throw new SalesException2(ErrorType.BadRequest, "material", "There is multiple material.");
         List<WeightInspectionDTO.InfoWithoutInspectionReport> weightValues = weightInspectionService.getWeightValues(shipmentId, weightMilestone, inventoryIds);
 //        Map<String, List<Object>> priceArticle = contractDetailValueService2.get(contractId, EContractDetailTypeCode.PriceDetailCode, EContractDetailValueKey.NotImportant);
-        ContractDetailDTO2.Info priceDetail = contractDetailService2.getContractDetailByContractDetailTypeCode(contractId, materialIds.iterator().next(), EContractDetailTypeCode.PriceDetailCode);
+        ContractDetailDTO2.Info priceDetail = contractDetailService2.getContractDetailByContractDetailTypeCode(contractId, materialIds.iterator().next(), EContractDetailTypeCode.Price);
         String priceArticleText = priceDetail.getContent();
-        List<Object> operationalDataOfDiscountArticle = contractService2.getOperationalDataOfContractArticle(contractId, EContractDetailTypeCode.PriceDetailCode.getId(), EContractDetailValueKey.DISCOUNT.getId());
+        List<Object> operationalDataOfDiscountArticle = contractService2.getOperationalDataOfContractArticle(contractId, EContractDetailTypeCode.Price.getId(), EContractDetailValueKey.DISCOUNT.getId());
         List<ContractDiscount> discountArticle = new ArrayList<>();// operationalDataOfDiscountArticle.;
         /*Map<String, List<Object>> operationalDataOfDiscountArticle = contractDetailValueService2.get(contractId, EContractDetailTypeCode.PriceDetailCode, EContractDetailValueKey.NotImportant);
         List<ContractDiscount> discountArticle = new ArrayList<>();

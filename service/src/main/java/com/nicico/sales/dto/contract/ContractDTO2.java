@@ -83,6 +83,8 @@ public class ContractDTO2 {
         @NotNull
         @ApiModelProperty(required = true)
         private Long id;
+
+        private Integer version;
     }
 
     @Getter

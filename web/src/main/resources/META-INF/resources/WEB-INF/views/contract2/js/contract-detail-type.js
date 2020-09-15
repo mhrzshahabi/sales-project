@@ -37,13 +37,6 @@ contractDetailTypeTab.dynamicForm.fields.material = {
     required: true,
     title: "<spring:message code='material.title'/>"
 };
-contractDetailTypeTab.dynamicForm.fields.titleFa = {
-    name: "titleFa",
-    width: "100%",
-    required: true,
-    keyPressFilter: "^[\u0600-\u06FF\uFB8A\u067E\u0686\u06AF\u200C\u200F|0-9|-\\s\\/]",
-    title: "<spring:message code='global.title-fa'/>",
-};
 contractDetailTypeTab.dynamicForm.fields.titleEn = {
     name: "titleEn",
     width: "100%",
@@ -176,7 +169,6 @@ contractDetailTypeTab.restDataSource.detailType = isc.MyRestDataSource.create({
     fields: BaseFormItems.concat([
         contractDetailTypeTab.dynamicForm.fields.code,
         contractDetailTypeTab.dynamicForm.fields.material,
-        contractDetailTypeTab.dynamicForm.fields.titleFa,
         contractDetailTypeTab.dynamicForm.fields.titleEn,
     ], false),
     fetchDataURL: contractDetailTypeTab.variable.url + "spec-list"
@@ -700,7 +692,6 @@ contractDetailTypeTab.dynamicForm.detailType = isc.DynamicForm.create({
     fields: BaseFormItems.concat([
         contractDetailTypeTab.dynamicForm.fields.code,
         contractDetailTypeTab.dynamicForm.fields.material,
-        contractDetailTypeTab.dynamicForm.fields.titleFa,
         contractDetailTypeTab.dynamicForm.fields.titleEn,
     ], true)
 });
