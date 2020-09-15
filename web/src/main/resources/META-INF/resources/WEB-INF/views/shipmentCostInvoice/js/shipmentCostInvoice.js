@@ -27,13 +27,10 @@ shipmentCostInvoiceTab.variable.summaryRowData = {};
 shipmentCostInvoiceTab.restDataSource.shipmentRest = isc.MyRestDataSource.create({
     fields: [
         {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-        {
-            name: "contractShipment.contract.no",
-            title: "<spring:message code='contract.contractNo'/>",
-            type: 'text',
-            width: 180
-        },
-        {name: "material.descl", title: "<spring:message code='material.descl'/>", type: 'text'}
+        {name: "sendDate", type: "date", showHover: true, title: "<spring:message code ='global.sendDate'/>"},
+        {name: "bookingCat", title: "<spring:message code ='shipment.bookingCat'/>", showHover: true},
+        {name: "contractShipment.contract.no", type: 'text', showHover: true, title: "<spring:message code='contract.contractNo'/>"},
+        {name: "material.descl", type: 'text', showHover: true, title: "<spring:message code='material.descl'/>"}
     ],
     fetchDataURL: shipmentCostInvoiceTab.variable.shipmentUrl + "spec-list"
 });
@@ -323,6 +320,11 @@ shipmentCostInvoiceTab.variable.financeUnitCriteria = {
     operator: "and",
     criteria: [{fieldName: "categoryUnit", operator: "equals", value: 1}]
 };
+shipmentCostInvoiceTab.variable.notFinanceUnitCriteria = {
+    _constructor: "AdvancedCriteria",
+    operator: "and",
+    criteria: [{fieldName: "categoryUnit", operator: "notEqual", value: 1}]
+};
 shipmentCostInvoiceTab.variable.costTypeCriteria = {
     _constructor: "AdvancedCriteria",
     operator: "and",
@@ -526,17 +528,19 @@ shipmentCostInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
         editorType: "SelectItem",
         colSpan: 4,
         valueField: "id",
-        displayField: "contractShipment.contract.no",
-        pickListWidth: 370,
+        displayField: "bookingCat",
+        pickListWidth: 500,
         pickListHeight: 300,
         optionDataSource: shipmentCostInvoiceTab.restDataSource.shipmentRest,
         pickListProperties: {
             showFilterEditor: true
         },
         pickListFields: [
-            {name: "id", primaryKey: true, hidden: true, title: "<spring:message code='global.id'/>"},
-            {name: "contractShipment.contract.no", title: "<spring:message code='contract.contractNo'/>"},
-            {name: "material.descl", title: "<spring:message code='material.descl'/>"}
+            {name: "id", primaryKey: true, hidden: true},
+            {name: "sendDate", width: 100},
+            {name: "bookingCat"},
+            {name: "contractShipment.contract.no"},
+            {name: "material.descl"}
         ],
         validators: [
             {
@@ -1059,6 +1063,7 @@ shipmentCostInvoiceTab.listGrid.shipmentCostDetail = isc.ListGrid.create({
             pickListWidth: "500",
             pickListHeight: "300",
             optionDataSource: shipmentCostInvoiceTab.restDataSource.unitRest,
+            optionCriteria: shipmentCostInvoiceTab.variable.notFinanceUnitCriteria,
             pickListProperties:
                 {
                     showFilterEditor: true
@@ -1076,14 +1081,6 @@ shipmentCostInvoiceTab.listGrid.shipmentCostDetail = isc.ListGrid.create({
                 }
             ]
         },
-        /*  {
-              name: "financeUnitId",
-              title: "<spring:message code='shipmentCostInvoice.financeUnit'/>",
-              editorType: "staticText",
-              width: "10%",
-              showHover: true
-          },
-          },*/
         {
             name: "unitPrice",
             title: "<spring:message code='shipmentCostInvoiceDetail.unitPrice'/>",

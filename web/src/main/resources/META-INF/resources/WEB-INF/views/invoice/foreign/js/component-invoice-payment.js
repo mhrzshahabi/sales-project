@@ -199,7 +199,7 @@ isc.defineClass("InvoicePayment", isc.VLayout).addProperties({
                             name: "conversionSumPrice",
                             fieldValueTitle: "<spring:message code='foreign-invoice.form.conversion-sum-price'/>",
                         }));
-                        This.getMembers().last().setUnitId(This.currency.id);
+                        This.getMembers().last().setUnitId(This.conversionRef.unitToId);
                         This.getMembers().last().setValue(conversionSumPrice);
 
                         This.addMember(isc.DynamicForm.create({
@@ -227,7 +227,6 @@ isc.defineClass("InvoicePayment", isc.VLayout).addProperties({
                             width: "200",
                             right: "10",
                             position: "absolute",
-                            // icon: "pieces/512/sanad.png",
                             title: "<spring:message code='foreign-invoice.form.tab.payment.shipment.cost'/>",
                             click: function () {
 
