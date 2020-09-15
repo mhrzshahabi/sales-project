@@ -574,7 +574,7 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
 
     private Set<ContractShipment> getContractShipmentsWithShipment(ContractDTO2.Create request) {
         final Map<String, List<Object>> contractShipmentOriginalMap = contractDetailValueService2.get(request.getParentId(),
-                EContractDetailTypeCode.Shipment, EContractDetailValueKey.NotImportant);
+                EContractDetailTypeCode.Shipment, EContractDetailValueKey.NotImportant, true);
         final List<ContractShipment> contractShipmentsOriginal = new ArrayList<>();
         final List<Object> o = contractShipmentOriginalMap.get(EContractDetailValueKey.CONTRACT_SHIPMENT.name());
         if (o != null) {
