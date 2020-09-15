@@ -67,9 +67,9 @@ public class ContractDetailValueService2 implements IContractDetailValueService2
 
 				List<ContractDetailValue> contractDetailValues;
 				if (contractDetailValueKey != null && !contractDetailValueKey.equals(EContractDetailValueKey.NotImportant)) {
-					contractDetailValues = contractDetailValueDAO.findAllByContractIdAndDetailCodeAndValueKey(contract.getId(), contractDetailTypeCode.getId(), contractDetailValueKey.name());
+					contractDetailValues = contractDetailValueDAO.findAllByContractIdAndDetailCodeAndValueKey(appendixContract.getId(), contractDetailTypeCode.getId(), contractDetailValueKey.name());
 				} else {
-					contractDetailValues = contractDetailValueDAO.findAllByContractIdAndDetailCode(contract.getId(), contractDetailTypeCode.getId());
+					contractDetailValues = contractDetailValueDAO.findAllByContractIdAndDetailCode(appendixContract.getId(), contractDetailTypeCode.getId());
 				}
 
 				if (contractDetailValues != null && contractDetailValues.size() > 0) {
