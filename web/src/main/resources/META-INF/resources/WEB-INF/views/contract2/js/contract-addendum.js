@@ -749,7 +749,7 @@ contractTab.Methods.NewAddendum = async function () {
         return !contractRecord ? isc.warn("<spring:message code='global.grid.record.not.selected'/>") :
             isc.warn("<spring:message code='global.grid.record.can.not.disapprove'/>")
     else if (contractRecord.editable === false || contractRecord.parentId)
-        contractTab.dialog.notEditable();
+      return   contractTab.dialog.notEditable();
     const resp = await fetch('api/g-contract/spec-list?operator=and&criteria=' + JSON.stringify(
         {
 
