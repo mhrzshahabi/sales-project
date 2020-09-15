@@ -20,21 +20,49 @@ vesselTab.dynamicForm.fields = [{
     width: "10%",
     name: "imo",
     type: 'text',
+    length: 9,
+    keyPressFilter : "[0-9]",
+    validators:[{
+        type: "regexp",
+        expression: "^[0-9]+$",
+        validateOnChange: true
+    }],
     title: "<spring:message code='vessel.imo'/>"
 }, {
     width: "10%",
     name: "yearOfBuild",
     type: 'text',
+    length: 4,
+    keyPressFilter : "[0-9]",
+    validators:[{
+      type: "regexp",
+      expression: "[0-9]{4}",
+      validateOnChange: true
+    }],
     title: "<spring:message code='vessel.year.of.build'/>"
 }, {
     width: "10%",
     name: "length",
+    length: 4,
     type: "number",
+    keyPressFilter : "[0-9]",
+    validators:[{
+        type: "regexp",
+        expression: "^[0-9]+$",
+        validateOnChange: true
+    }],
     title: "<spring:message code='vessel.length'/>"
 }, {
     width: "10%",
     name: "beam",
     type: "number",
+    length: 4,
+    keyPressFilter : "[0-9]",
+    validators:[{
+        type: "regexp",
+        expression: "^[0-9]+$",
+        validateOnChange: true
+    }],
     title: "<spring:message code='vessel.beam'/>"
 }];
 Object.assign(vesselTab.listGrid.fields, vesselTab.dynamicForm.fields);

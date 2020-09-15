@@ -14,6 +14,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -46,6 +47,7 @@ public class ContractRestController2 {
 
         return new ResponseEntity<>(contractService.create(request), HttpStatus.CREATED);
     }
+
     @Loggable
     @PostMapping("/finalize/{id}")
     public ResponseEntity<ContractDTO2.Info> finalize(@PathVariable Long id) {
@@ -108,8 +110,8 @@ public class ContractRestController2 {
             @RequestParam String contractDetailValueKey,
             @RequestParam(required = false) Long contractId) {
 
-        return new ResponseEntity<>(specListUtil.getCoveredByResponse(
-                contractService.getOperationalDataOfContractArticle(contractId,
-                        code, contractDetailValueKey)), HttpStatus.OK);
+        List<Object> contractArticle = contractService.getOperationalDataOfContractArticle(contractId, code, contractDetailValueKey);
+        if (contractArticle == null) contractArticle = new ArrayList<>();
+        return new ResponseEntity<>(specListUtil.getCoveredByResponse(contractArticle), HttpStatus.OK);
     }
 }

@@ -880,6 +880,15 @@
         menu: isc.Menu.create({
             placement: "none",
             data: [
+                <sec:authorize access="hasAuthority('R_CONTRACT_SHIPMENT')">
+                {
+                    title: "<spring:message code='cargoAssignment.title'/>",
+                    click: function () {
+                        createTab("<spring:message code='cargoAssignment.title'/>", "<spring:url value="/shipment/showForm" />")
+                    }
+                },
+                {isSeparator: true},
+                </sec:authorize>
                 <sec:authorize access="hasAuthority('R_BILL_OF_LANDING')">
                 {
                     title: "&nbsp; <spring:message code='bol.title'/>",

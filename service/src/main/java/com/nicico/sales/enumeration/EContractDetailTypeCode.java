@@ -34,7 +34,8 @@ public enum EContractDetailTypeCode {
     JurisdictionDetailCode("25"),
     EndProvisionsDetailCode("26"),
     FooterDetailCode("27"),
-    NoteDetailCode("28");
+    NoteDetailCode("28"),
+    DeductionDetailCode("29");
 
     private final String id;
 }
