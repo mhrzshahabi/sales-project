@@ -124,11 +124,12 @@ public class ShipmentFormController {
             replacePOI(doc, "country", (shipment.getDischargePort() != null ? shipment.getDischargePort().getCountry().getNameFa() : ""));
             replacePOI(doc, "barname", String.valueOf((shipment.getNoBLs() != null ? shipment.getNoBLs() : "")));
 
-            List<String> inspector = shipmentService.inspector();
-            for (int i = 0; i < inspector.size(); i++) {
+//            List<String> inspector = shipmentService.inspector();
+//            for (int i = 0; i < inspector.size(); i++) {
+//
+//                replacePOI(doc, "inspector", inspector.get(i));
+//            }
 
-                replacePOI(doc, "inspector", inspector.get(i));
-            }
             replacePOI(doc, "noContainer", String.valueOf(shipment.getNoContainer() != null ? shipment.getNoContainer() : ""));
             replacePOI(doc, "containerType", shipment.getContainerType());
             replacePOI(doc, "blNumbers", String.valueOf(shipment.getNoBLs()));
@@ -207,11 +208,11 @@ public class ShipmentFormController {
                 replacePOI(doc, "tolorance", "-/+" + (shipment.getContractShipment() != null ? shipment.getContractShipment().getTolorance().toString() : "") + "%");
                 replacePOI(doc, "contract_no", (shipment.getContractShipment() != null ? shipment.getContractShipment().getContract().getNo() : ""));
 
-                List<String> inspector = shipmentService.inspector();
-                for (int i = 0; i < inspector.size(); i++) {
-
-                    replacePOI(doc, "inspector", inspector.get(i));
-                }
+//                List<String> inspector = shipmentService.inspector();
+//                for (int i = 0; i < inspector.size(); i++) {
+//
+//                    replacePOI(doc, "inspector", inspector.get(i));
+//                }
 
                 replacePOI(doc, "noContainer", String.valueOf(shipment.getNoContainer() != null ? shipment.getNoContainer() : ""));
                 replacePOI(doc, "loa", (shipment.getContractShipment().getLoadPort().getLoa() != null ? shipment.getContractShipment().getLoadPort().getLoa() : ""));
@@ -255,11 +256,11 @@ public class ShipmentFormController {
                 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
                 String today = PersianDate.now().format(dtf);
                 replacePOI(doc, "dateday", today);
-                List<String> inspector = shipmentService.inspector();
-                for (String s : inspector) {
-
-                    replacePOI(doc, "inspector", s);
-                }
+//                List<String> inspector = shipmentService.inspector();
+//                for (String s : inspector) {
+//
+//                    replacePOI(doc, "inspector", s);
+//                }
                 response.setHeader("Content-Disposition", "attachment; filename=\"Copper_Concentrate_bulk.doc\"");
                 response.setContentType("application/vnd.ms-word");
                 doc.write(out);
@@ -292,9 +293,9 @@ public class ShipmentFormController {
                 replacePOI(doc, "disport", (shipment.getDischargePort() != null ? shipment.getDischargePort().getPort() : ""));
                 replacePOI(doc, "country", (shipment.getDischargePort() != null && shipment.getDischargePort().getCountry() != null ? shipment.getDischargePort().getCountry().getNameFa() : ""));
 
-                List<String> inspector = shipmentService.inspector();
-                for (String s : inspector)
-                    replacePOI(doc, "inspector", s);
+//                List<String> inspector = shipmentService.inspector();
+//                for (String s : inspector)
+//                    replacePOI(doc, "inspector", s);
 
                 replacePOI(doc, "nocont", (shipment.getNoContainer() != null ? shipment.getNoContainer().toString() : ""));
 
