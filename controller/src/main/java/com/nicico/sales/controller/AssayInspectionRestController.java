@@ -6,7 +6,6 @@ import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.sales.dto.AssayInspectionDTO;
 import com.nicico.sales.iservice.IAssayInspectionService;
-import com.nicico.sales.model.enumeration.AllConverters;
 import com.nicico.sales.model.enumeration.InspectionReportMilestone;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -73,5 +72,12 @@ public class AssayInspectionRestController {
 //InfoWithoutInspectionReportAndInventory
         InspectionReportMilestone reportMilestoneEnum = Enums.getIfPresent(InspectionReportMilestone.class, reportMilestone).or(InspectionReportMilestone.Source);
         return new ResponseEntity<>(iAssayInspectionService.getAssayValues(shipmentId, reportMilestoneEnum, inventoryIds), HttpStatus.OK);
+    }
+
+    @Loggable
+    @GetMapping(value = "/get-assay-inventory-data")
+    public ResponseEntity<List<AssayInspectionDTO.Info>> getAssayInventoryData(@RequestParam String reportMilestone, @RequestParam List<Long> inventoryIds) {
+        InspectionReportMilestone reportMilestoneEnum = Enums.getIfPresent(InspectionReportMilestone.class, reportMilestone).or(InspectionReportMilestone.Source);
+        return new ResponseEntity<>(iAssayInspectionService.getAssayInventoryData(reportMilestoneEnum, inventoryIds), HttpStatus.OK);
     }
 }

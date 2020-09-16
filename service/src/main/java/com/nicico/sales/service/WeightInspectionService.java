@@ -23,6 +23,8 @@ import java.util.stream.Collectors;
 @Service
 public class WeightInspectionService extends GenericService<WeightInspection, Long, WeightInspectionDTO.Create, WeightInspectionDTO.Info, WeightInspectionDTO.Update, WeightInspectionDTO.Delete> implements IWeightInspectionService {
 
+    private final WeightInspectionDAO weightInspectionDAO;
+
     @Override
     @Transactional
     @Action(ActionType.Get)
@@ -70,14 +72,16 @@ public class WeightInspectionService extends GenericService<WeightInspection, Lo
     }
 
     @Override
-    public WeightInspectionDTO.Info getWeightInventoryData(InspectionReportMilestone reportMilestone, Long inventoryId) {
+    public List<WeightInspectionDTO.Info> getWeightInventoryData(InspectionReportMilestone reportMilestone, List<Long> inventoryIds) {
 
-        WeightInspection weightInspection = ((WeightInspectionDAO) repository).findByInventoryIdAndMileStone(reportMilestone, inventoryId);
+        List<WeightInspection> weightInspections = weightInspectionDAO.findAllByMileStoneAndInventoryIdIn(reportMilestone, inventoryIds);
+        List<WeightInspectionDTO.Info> weightInspectionDTO = modelMapper.map(weightInspections, new TypeToken<List<WeightInspectionDTO.Info>>() {
+        }.getType());
 
-        if (weightInspection == null)
+        if (weightInspectionDTO.size() == 0)
             throw new NotFoundException(WeightInspection.class);
 
-        WeightInspectionDTO.Info weightInspectionDTO = modelMapper.map(weightInspection, WeightInspectionDTO.Info.class);
         return weightInspectionDTO;
     }
+
 }

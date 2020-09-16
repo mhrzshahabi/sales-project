@@ -1,10 +1,12 @@
 //******************************************************* VARIABLES ****************************************************
 
 var inspectionReportTab = new nicico.GeneralTabUtil().getDefaultJSPTabVariable();
+inspectionReportTab.variable.selectedInventories = [];
+inspectionReportTab.variable.invData = [];
 inspectionReportTab.variable.materialId = 0;
-inspectionReportTab.variable.data = [];
-inspectionReportTab.variable.allME = "";
 inspectionReportTab.variable.allCols = 0;
+inspectionReportTab.variable.allME = "";
+inspectionReportTab.variable.data = [];
 
 //***************************************************** RESTDATASOURCE *************************************************
 
@@ -542,6 +544,7 @@ inspectionReportTab.method.setRemittanceDetailCriteria = function (shipmentId) {
                 inspectionReportTab.dynamicForm.inspecReport.getItem("inventoryId").setValue(final);
 
                 if (invData == null) invData = [];
+                inspectionReportTab.variable.invData = invData;
                 inspectionReportTab.method.setWeightElementListRows(invData);
                 inspectionReportTab.method.setAssayElementListRows(invData);
                 inspectionReportTab.method.setWeightElementSum();
@@ -911,7 +914,6 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
                 type: "required",
                 validateOnChange: true
             }],
-        // hidden: true,
         getSelectedRecords: function () {
 
             if (inspectionReportTab.dynamicForm.inspecReport.getItem("shipmentId").getValue())
@@ -919,9 +921,91 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
             return this.Super("getSelectedRecords", arguments);
         },
         changed: function (form, item, value) {
-            let selectedInventories = item.getSelectedRecords();
-            inspectionReportTab.method.setWeightElementListRows(selectedInventories);
-            inspectionReportTab.method.setAssayElementListRows(selectedInventories);
+
+            inspectionReportTab.dynamicForm.inspecReport.setValue("mileStone", null);
+            inspectionReportTab.variable.selectedInventories = item.getSelectedRecords();
+            inspectionReportTab.method.setWeightElementListRows(inspectionReportTab.variable.selectedInventories);
+            inspectionReportTab.method.setAssayElementListRows(inspectionReportTab.variable.selectedInventories);
+        }
+    },
+    {
+        name: "mileStone",
+        title: "<spring:message code='inspectionReport.mileStone'/>",
+        required: true,
+        wrapTitle: false,
+        valueMap: JSON.parse('${Enum_MileStone}'),
+        validators: [
+            {
+                type: "required",
+                validateOnChange: true
+            }],
+        changed: function (form, item, value) {
+
+            let inventories = [];
+            let inventoryIds = [];
+            if (inspectionReportTab.dynamicForm.inspecReport.getItem("shipmentId").getValue())
+                inventories = inspectionReportTab.variable.invData;
+            else
+                inventories = inspectionReportTab.variable.selectedInventories;
+
+            inventories.forEach((current, index, array) => inventoryIds.add(current.id));
+
+            console.log("inventories ", inventories);
+            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+
+                httpMethod: "GET",
+                actionURL: "${contextPath}" + "/api/weightInspection/get-weight-inventory-data",
+                params: {
+                    reportMilestone: value,
+                    inventoryIds: inventoryIds
+                },
+                callback: function (resp) {
+
+                    let weightInventoryData = JSON.parse(resp.httpResponseText);
+                    inspectionReportTab.listGrid.weightElement.setData(weightInventoryData);
+                }
+            }));
+
+            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+
+                httpMethod: "GET",
+                actionURL: "${contextPath}" + "/api/assayInspection/get-assay-inventory-data",
+                params: {
+                    reportMilestone: value,
+                    inventoryIds: inventoryIds
+                },
+                callback: function (resp) {
+
+                    let assayInventoryData = JSON.parse(resp.httpResponseText);
+                    let fields = inspectionReportTab.listGrid.assayElement.fields;
+                    let length = inspectionReportTab.listGrid.assayElement.fields.length;
+                    let assayData = inspectionReportTab.method.groupByAssays(assayInventoryData, "inventoryId");
+
+                    inventories.forEach((current, index, array) => {
+                        let assayRecord = assayData[index];
+                        assayRecord.forEach((c, i, arr) => {
+                            for (let n = 2; n < length; n++) {
+
+                                if (c.materialElementId === fields[n].meId) {
+
+                                    if (inspectionReportTab.listGrid.assayElement.getField(n).ids.length > index)
+                                        inspectionReportTab.listGrid.assayElement.getField(n).ids = [];
+
+                                    if (inspectionReportTab.listGrid.assayElement.getField(n).versions.length > index)
+                                        inspectionReportTab.listGrid.assayElement.getField(n).versions = [];
+
+                                    inspectionReportTab.listGrid.assayElement.setEditValue(index, n, c.value);
+                                    inspectionReportTab.listGrid.assayElement.getField(n).ids.add(c.id);
+                                    inspectionReportTab.listGrid.assayElement.getField(n).versions.add(c.version);
+                                }
+                            }
+                        });
+                    });
+
+                    inspectionReportTab.listGrid.assayElement.saveAllEdits();
+                    inspectionReportTab.listGrid.assayElement.endEditing();
+                }
+            }));
         }
     },
     {
@@ -1047,18 +1131,6 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
                 align: "center"
             },
         ],
-        validators: [
-            {
-                type: "required",
-                validateOnChange: true
-            }]
-    },
-    {
-        name: "mileStone",
-        title: "<spring:message code='inspectionReport.mileStone'/>",
-        required: true,
-        wrapTitle: false,
-        valueMap: JSON.parse('${Enum_MileStone}'),
         validators: [
             {
                 type: "required",
@@ -1398,9 +1470,8 @@ inspectionReportTab.method.setWeightElementListRows = function (selectedInventor
 
     selectedInventories.forEach((current, index, array) => {
         inspectionReportTab.listGrid.weightElement.startEditingNew({inventoryId: current.id});
-
+        // inspectionReportTab.listGrid.weightElement.endEditing();
     });
-    // inspectionReportTab.listGrid.weightElement.endEditing();
 
     if (inspectionReportTab.variable.method !== "PUT") return;
 
@@ -1490,7 +1561,7 @@ inspectionReportTab.window.inspecReport.init(null, '<spring:message code="inspec
             width: "35%",
             members: [
                 inspectionReportTab.dynamicForm.material,
-                inspectionReportTab.dynamicForm.inspecReport
+                inspectionReportTab.dynamicForm.inspecReport,
             ]
         }),
         isc.VLayout.create({

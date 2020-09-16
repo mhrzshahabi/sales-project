@@ -17,5 +17,6 @@ public interface WeightInspectionDAO extends JpaRepository<WeightInspection, Lon
 
     List<WeightInspection> findAllByShipmentIdAndInventoryIdIn(@Param("shipmentId") Long shipmentId, @Param("inventoryIds") List<Long> inventoryIds);
 
-    WeightInspection findByInventoryIdAndMileStone(@Param("reportMilestoneEnum") InspectionReportMilestone reportMilestoneEnum, @Param("inventoryId") Long inventoryId);
+    List<WeightInspection> findAllByMileStoneAndInventoryIdIn(@Param("reportMilestoneEnum") InspectionReportMilestone reportMilestoneEnum, @Param("inventoryIds") List<Long> inventoryIds);
+
 }
