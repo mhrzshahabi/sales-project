@@ -228,6 +228,7 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
             contractContactDTO.setContractId(contract2.getId());
             contractContactDTO.setContactId(newContractContactId);
             contractContactDTO.setCommercialRole(commercialRole);
+            contractContactDTO.setVersion(foundContractContact.getVersion());
             contractContactService.update(contractContactDTO);
         } else
             createContractContacts(contract2.getId(), newContractContactId, commercialRole);
@@ -305,8 +306,6 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
                         x.setContractDetailId(savedContractDetail.getId());
 
                         if (x.getType().name().equals("ListOfReference")) {
-                            HashMap<String, String> valueHashMap = gson.fromJson(x.getReferenceJsonValue(), new TypeToken<HashMap<String, String>>() {
-                            }.getType());
                             switch (x.getReference()) {
                                 case "ContractShipment":
                                     x.setValue(createContractShipment(x, contract2.getId()).toString());
@@ -353,8 +352,6 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
                     contractDetailValue4Insert.forEach(x -> {
                         //based on reference, first we have to update records in reference tables
                         if (x.getType().name().equals("ListOfReference")) {
-                            HashMap<String, String> valueHashMap = gson.fromJson(x.getReferenceJsonValue(), new TypeToken<HashMap<String, String>>() {
-                            }.getType());
                             switch (x.getReference()) {
                                 case "ContractShipment":
                                     x.setValue(createContractShipment(x, contract2.getId()).toString());
@@ -597,9 +594,9 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
         return req.getContractDetails().stream()
                 .map(cd -> cd.getContractDetailValues()
                         .stream().filter(cdv -> cdv.getReference() != null &&
-                                (cdv.getReference().toLowerCase().equals("ContractShipment".toLowerCase()))||
-                                        (cdv.getReference().toLowerCase().equals("CONTRACT_SHIPMENT".toLowerCase()))
-                                )
+                                (cdv.getReference().toLowerCase().equals("ContractShipment".toLowerCase())) ||
+                                (cdv.getReference().toLowerCase().equals("CONTRACT_SHIPMENT".toLowerCase()))
+                        )
                         .collect(Collectors.toList())
                 ).flatMap(Collection::stream).map(contractDetailValue -> {
                     try {
