@@ -29,7 +29,12 @@ shipmentCostInvoiceTab.restDataSource.shipmentRest = isc.MyRestDataSource.create
         {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
         {name: "sendDate", type: "date", showHover: true, title: "<spring:message code ='global.sendDate'/>"},
         {name: "bookingCat", title: "<spring:message code ='shipment.bookingCat'/>", showHover: true},
-        {name: "contractShipment.contract.no", type: 'text', showHover: true, title: "<spring:message code='contract.contractNo'/>"},
+        {
+            name: "contractShipment.contract.no",
+            type: 'text',
+            showHover: true,
+            title: "<spring:message code='contract.contractNo'/>"
+        },
         {name: "material.descl", type: 'text', showHover: true, title: "<spring:message code='material.descl'/>"}
     ],
     fetchDataURL: shipmentCostInvoiceTab.variable.shipmentUrl + "spec-list"
@@ -430,11 +435,13 @@ shipmentCostInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
             }],
         changed: function (form, item, value) {
             form.getItem("referenceId").setValue(null);
+            let referenceIdDisplayField = "";
             let referenceIdFetchDataURL = "";
             let referenceIdPickListFields = [];
             switch (value) {
                 case ImportantIDs.invoiceType.INSPECTION:
                     form.getItem("referenceId").show();
+                    referenceIdDisplayField = "inspectionNO";
                     referenceIdPickListFields = [
                         {name: "id", primaryKey: true, hidden: true, title: "<spring:message code='global.id'/>"},
                         {name: "inspectionNO", title: "<spring:message code='inspectionReport.InspectionNO'/>"},
@@ -442,62 +449,59 @@ shipmentCostInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
                     ];
                     referenceIdFetchDataURL = shipmentCostInvoiceTab.variable.inspectionReportUrl + "spec-list";
                     break;
+
                 case ImportantIDs.invoiceType.INSURANCE:
                     form.getItem("referenceId").setOptionDataSource(null);
                     form.getItem("referenceId").hide();
                     break;
+
                 case ImportantIDs.invoiceType.THC:
                     form.getItem("referenceId").show();
+                    referenceIdDisplayField = "documentNo";
                     referenceIdPickListFields = [
-                        {
-                            name: "documentNo", title: "<spring:message code='billOfLanding.document.no'/>"
-                        },
-                        {
-                            name: "shipperExporter.nameFA",
-                            title: "<spring:message code='billOfLanding.shipper.exporter'/>"
-                        },
-                        {
-                            name: "consignee.nameFA", title: "<spring:message code='billOfLanding.consignee'/>"
-                        }
+                        {name: "documentNo", title: "<spring:message code='billOfLanding.document.no'/>"},
+                        {name: "shipperExporter.nameFA", title: "<spring:message code='billOfLanding.shipper.exporter'/>"},
+                        {name: "consignee.nameFA", title: "<spring:message code='billOfLanding.consignee'/>"}
                     ];
                     referenceIdFetchDataURL = shipmentCostInvoiceTab.variable.billOfLandingUrl + "spec-list";
                     break;
+
                 case ImportantIDs.invoiceType.BLFEE:
                     form.getItem("referenceId").show();
+                    referenceIdDisplayField = "documentNo";
                     referenceIdPickListFields = [
-                        {
-                            name: "documentNo", title: "<spring:message code='billOfLanding.document.no'/>"
-                        },
-                        {
-                            name: "shipperExporter.nameFA",
-                            title: "<spring:message code='billOfLanding.shipper.exporter'/>"
-                        },
-                        {
-                            name: "consignee.nameFA", title: "<spring:message code='billOfLanding.consignee'/>"
-                        }
+                        {name: "documentNo", title: "<spring:message code='billOfLanding.document.no'/>"},
+                        {name: "shipperExporter.nameFA", title: "<spring:message code='billOfLanding.shipper.exporter'/>"},
+                        {name: "consignee.nameFA", title: "<spring:message code='billOfLanding.consignee'/>"}
                     ];
                     referenceIdFetchDataURL = shipmentCostInvoiceTab.variable.billOfLandingUrl + "spec-list";
                     break;
+
                 case ImportantIDs.invoiceType.UMPIRELAB:
                     form.getItem("referenceId").setOptionDataSource(null);
                     form.getItem("referenceId").hide();
                     break;
+
                 case ImportantIDs.invoiceType.DEMAND:
                     form.getItem("referenceId").setOptionDataSource(null);
                     form.getItem("referenceId").hide();
                     break;
+
                 case ImportantIDs.invoiceType.FREIGHT:
                     form.getItem("referenceId").setOptionDataSource(null);
                     form.getItem("referenceId").hide();
                     break;
+
                 case ImportantIDs.invoiceType.DISPATCH:
                     form.getItem("referenceId").setOptionDataSource(null);
                     form.getItem("referenceId").hide();
                     break;
+
                 case ImportantIDs.invoiceType.DEMURRAGE:
                     form.getItem("referenceId").setOptionDataSource(null);
                     form.getItem("referenceId").hide();
                     break;
+
                 default:
                     break;
             }
@@ -508,6 +512,7 @@ shipmentCostInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
                 fetchDataURL: referenceIdFetchDataURL
             }));
             referenceIdField.pickListFields = referenceIdPickListFields;
+            referenceIdField.displayField = referenceIdDisplayField;
         }
     },
     {
@@ -779,48 +784,51 @@ shipmentCostInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
         ],
         changed: function (form, item, value) {
 
-            let toDate = form.getItem("invoiceDate").getValue().duplicate();
-            toDate.setHours(23);
-            toDate.setMinutes(59);
-            toDate.setSeconds(59);
-            let fromDate = form.getItem("invoiceDate").getValue().duplicate();
-            fromDate.setHours(0);
-            fromDate.setMinutes(0);
-            fromDate.setSeconds(0);
-            shipmentCostInvoiceTab.dynamicForm.shipmentPrice.getField("conversionRefId").setOptionCriteria({
-                _constructor: "AdvancedCriteria",
-                operator: "and",
-                criteria:
-                    [
-                        {
-                            fieldName: "currencyDate",
-                            operator: "lessOrEqual",
-                            value: toDate.toString()
-                        },
-                        {
-                            fieldName: "currencyDate",
-                            operator: "greaterOrEqual",
-                            value: fromDate.toString()
-                        },
-                        {
-                            fieldName: "unitFromId",
-                            operator: "equals",
-                            value: form.getItem("financeUnitId").getValue()
-                        },
-                        {
-                            fieldName: "unitToId",
-                            operator: "equals",
-                            value: item.getValue()
-                        }
-                    ]
-            });
-            shipmentCostInvoiceTab.dynamicForm.shipmentPrice.setValue("conversionRefId", null);
-            shipmentCostInvoiceTab.dynamicForm.shipmentPrice.getItem("conversionRefId").canEdit = true;
+            if (shipmentCostInvoiceTab.dynamicForm.shipmentCost.getValue("financeUnitId") === form.getItem("toFinanceUnitId").getValue()) {
 
-            if (shipmentCostInvoiceTab.dynamicForm.shipmentPrice.getValue("financeUnitId") === form.getItem("toFinanceUnitId").getValue()) {
                 shipmentCostInvoiceTab.dynamicForm.shipmentPrice.setValue("conversionRate", 1);
                 shipmentCostInvoiceTab.dynamicForm.shipmentPrice.getItem("conversionRefId").canEdit = false;
                 shipmentCostInvoiceTab.listGrid.shipmentCostDetail.members.get(3).members.get(2).members.get(0).click();
+            }
+            else {
+
+                let toDate = form.getItem("invoiceDate").getValue().duplicate();
+                toDate.setHours(23);
+                toDate.setMinutes(59);
+                toDate.setSeconds(59);
+                let fromDate = form.getItem("invoiceDate").getValue().duplicate();
+                fromDate.setHours(0);
+                fromDate.setMinutes(0);
+                fromDate.setSeconds(0);
+                shipmentCostInvoiceTab.dynamicForm.shipmentPrice.getField("conversionRefId").setOptionCriteria({
+                    _constructor: "AdvancedCriteria",
+                    operator: "and",
+                    criteria:
+                        [
+                            {
+                                fieldName: "currencyDate",
+                                operator: "lessOrEqual",
+                                value: toDate.toString()
+                            },
+                            {
+                                fieldName: "currencyDate",
+                                operator: "greaterOrEqual",
+                                value: fromDate.toString()
+                            },
+                            {
+                                fieldName: "unitFromId",
+                                operator: "equals",
+                                value: form.getItem("financeUnitId").getValue()
+                            },
+                            {
+                                fieldName: "unitToId",
+                                operator: "equals",
+                                value: item.getValue()
+                            }
+                        ]
+                });
+                shipmentCostInvoiceTab.dynamicForm.shipmentPrice.setValue("conversionRefId", null);
+                shipmentCostInvoiceTab.dynamicForm.shipmentPrice.getItem("conversionRefId").canEdit = true;
             }
         }
     },

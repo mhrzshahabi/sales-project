@@ -1,7 +1,6 @@
 //******************************************************* VARIABLES ****************************************************
 
 var inspectionReportTab = new nicico.GeneralTabUtil().getDefaultJSPTabVariable();
-inspectionReportTab.variable.selectedInventories = [];
 inspectionReportTab.variable.invData = [];
 inspectionReportTab.variable.materialId = 0;
 inspectionReportTab.variable.allCols = 0;
@@ -923,9 +922,9 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
         changed: function (form, item, value) {
 
             inspectionReportTab.dynamicForm.inspecReport.setValue("mileStone", null);
-            inspectionReportTab.variable.selectedInventories = item.getSelectedRecords();
-            inspectionReportTab.method.setWeightElementListRows(inspectionReportTab.variable.selectedInventories);
-            inspectionReportTab.method.setAssayElementListRows(inspectionReportTab.variable.selectedInventories);
+            let selectedInventories = item.getSelectedRecords();
+            inspectionReportTab.method.setWeightElementListRows(selectedInventories);
+            inspectionReportTab.method.setAssayElementListRows(selectedInventories);
         }
     },
     {
@@ -946,7 +945,7 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
             if (inspectionReportTab.dynamicForm.inspecReport.getItem("shipmentId").getValue())
                 inventories = inspectionReportTab.variable.invData;
             else
-                inventories = inspectionReportTab.variable.selectedInventories;
+                inventories = inspectionReportTab.dynamicForm.inspecReport.getItem("inventoryId").getSelectedRecord();
 
             inventories.forEach((current, index, array) => inventoryIds.add(current.id));
 
@@ -1740,6 +1739,7 @@ inspectionReportTab.method.editForm = function () {
 
         // Set Inventories
         weightInspectionArray.forEach((current, index, array) => inventories.add(current.inventory.id));
+        console.log("weightInspectionArray ", weightInspectionArray);
         inspectionReportTab.dynamicForm.inspecReport.setValue("inventoryId", inventories);
 
         // Set IssueDate
@@ -1765,8 +1765,8 @@ inspectionReportTab.method.editForm = function () {
         //Set assayElementSum
         //inspectionReportTab.method.setAssayElementSum();
 
-        inspectionReportTab.dynamicForm.inspecReport.getField("shipmentId").changed(inspectionReportTab.dynamicForm.inspecReport, inspectionReportTab.dynamicForm.inspecReport.getItem("shipmentId"),
-            inspectionReportTab.dynamicForm.inspecReport.getValue("shipmentId"));
+        inspectionReportTab.dynamicForm.inspecReport.getField("mileStone").changed(inspectionReportTab.dynamicForm.inspecReport, inspectionReportTab.dynamicForm.inspecReport.getItem("mileStone"),
+            inspectionReportTab.dynamicForm.inspecReport.getValue("mileStone"));
     }
 };
 
