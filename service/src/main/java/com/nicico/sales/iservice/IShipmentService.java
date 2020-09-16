@@ -23,6 +23,4 @@ public interface IShipmentService {
     TotalResponse<ShipmentDTO.Info> search(NICICOCriteria criteria);
 
     List<Object[]> pickListShipment();
-
-    List<String> inspector();
 }

@@ -85,6 +85,7 @@ public class InternalInvoiceDTO {
 	@Accessors(chain = true)
 	@ApiModel("InvoiceInternalUpdateRq")
 	public static class Update extends InternalInvoiceDTO {
+        private Integer version;
 	}
 
     @Getter

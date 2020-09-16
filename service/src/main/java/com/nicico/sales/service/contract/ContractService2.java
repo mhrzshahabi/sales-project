@@ -28,8 +28,10 @@ import com.nicico.sales.model.entities.contract.ContractDetail2;
 import com.nicico.sales.model.entities.contract.ContractDetailValue;
 import com.nicico.sales.model.enumeration.CommercialRole;
 import com.nicico.sales.model.enumeration.DataType;
+import com.nicico.sales.model.enumeration.EStatus;
 import com.nicico.sales.repository.ContractShipmentDAO;
 import com.nicico.sales.repository.ShipmentDAO;
+import com.nicico.sales.repository.contract.ContractDAO2;
 import com.nicico.sales.service.GenericService;
 import com.nicico.sales.utility.UpdateUtil;
 import lombok.RequiredArgsConstructor;
@@ -63,6 +65,7 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
     private final ObjectMapper objectMapper;
     private final Gson gson;
     private final ResourceBundleMessageSource messageSource;
+    private final ContractDAO2 contractDAO2;
 
 
     @Override
@@ -152,7 +155,7 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
                                         kal.get(Calendar.DAY_OF_YEAR) == cal.get(Calendar.DAY_OF_YEAR)
                         ) {
                             found[0] = true;
-                            if (csfa.getParentId() == null) csfa.setParentId(csws.getId());
+                            if (csfa.getParentId() == null || csfa.getParentId().equals(csws.getParentId())) csfa.setParentId(csws.getId());
                             contractShipmentDAO.save(csfa);
                         }
                     }
@@ -490,10 +493,28 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
         /***شروع الحاقیه***/
         final Calendar cal = Calendar.getInstance();
         final Calendar kal = Calendar.getInstance();
+        Locale locale = LocaleContextHolder.getLocale();
         ContractDTO2.Create req = modelMapper.map(request[0], ContractDTO2.Create.class);
         if ((actionType == ActionType.Create || actionType == ActionType.Update) && req.getParentId() != null) {
 //            if(actionType == ActionType.Create) {ContractDTO2.Create req = modelMapper.map(request[0], ContractDTO2.Create.class);}
-
+            final Contract2 contract = repository.getOne(req.getParentId());
+            if(!contract.getEStatus().contains(EStatus.Final)){
+                throw new SalesException2(ErrorType.Unknown,"",
+                        messageSource.getMessage("global.grid.not.finalized.record.found", null, locale));
+            }
+            final List<Contract2> allByParentId = contractDAO2.findAllByParentId(req.getParentId());
+            final List<Contract2> notFinalizedAppendexes = allByParentId.stream()
+                    .filter(contract2 -> !contract2.getEStatus().contains(EStatus.Final)).collect(Collectors.toList());
+            if(actionType == ActionType.Update){
+                ContractDTO2.Update reqUpdate = modelMapper.map(request[0], ContractDTO2.Update.class);
+                final List<Contract2> collect = notFinalizedAppendexes.stream()
+                        .filter(contract2 -> !contract2.getId().equals(reqUpdate.getId())).collect(Collectors.toList());
+                if(collect.size() != 0)  throw new SalesException2(ErrorType.Unknown,"",
+                        messageSource.getMessage("global.grid.not.finalized.record.found", null, locale));
+            }
+            if(actionType == ActionType.Create && notFinalizedAppendexes.size () > 0)
+                throw new SalesException2(ErrorType.Unknown,"",
+                    messageSource.getMessage("global.grid.not.finalized.record.found", null, locale));
             final List<ContractShipment> contractShipments = getContractShipmentsOfRequest(req);
             if (contractShipments.size() == 0) return super.validation(entity, request);
 
@@ -501,9 +522,11 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
             final List<ContractShipment> modifiedFound = contractShipmentsOriginal.stream().filter(ocs -> {
                 final ContractShipment contractShipmentFromController = contractShipments
                         .stream()
-                        .filter(contractShipment -> contractShipment.getId().equals(ocs.getId()))
+                        .filter(contractShipment -> contractShipment.getId().equals(ocs.getId()) ||
+                                contractShipment.getParentId().equals(ocs.getId()))
                         .findAny()
-                        .orElseThrow(() -> new SalesException2(ErrorType.NotFound));
+                        .orElseThrow(() -> new SalesException2(ErrorType.Unknown, "",
+                                messageSource.getMessage("shipment.was.sent", null, locale)));
                 cal.setTime(contractShipmentFromController.getSendDate());
                 kal.setTime(ocs.getSendDate());
                 return !contractShipmentFromController.getLoadPortId().equals(ocs.getLoadPortId()) ||
@@ -514,7 +537,6 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
                         //|| contractShipmentFromController.getParentId() != null
                         ;
             }).collect(Collectors.toList());
-            Locale locale = LocaleContextHolder.getLocale();
             if (modifiedFound.size() > 0) throw new SalesException2(ErrorType.Unknown, "",
                     messageSource.getMessage("shipment.was.sent", null, locale));
 
@@ -544,7 +566,7 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
         if (eContractDetailValueKeyOptional == null) throw new NotFoundException();
         final Map<String, List<Object>> map = contractDetailValueService2.get(contractId,
                 eContractDetailTypeCode,
-                eContractDetailValueKeyOptional
+                eContractDetailValueKeyOptional,true
         );
         if (map.size() == 0) return new ArrayList<>();
         return map.get(eContractDetailValueKeyOptional.name());
@@ -552,7 +574,7 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
 
     private Set<ContractShipment> getContractShipmentsWithShipment(ContractDTO2.Create request) {
         final Map<String, List<Object>> contractShipmentOriginalMap = contractDetailValueService2.get(request.getParentId(),
-                EContractDetailTypeCode.ShipmentDetailCode, EContractDetailValueKey.NotImportant);
+                EContractDetailTypeCode.Shipment, EContractDetailValueKey.NotImportant, true);
         final List<ContractShipment> contractShipmentsOriginal = new ArrayList<>();
         final List<Object> o = contractShipmentOriginalMap.get(EContractDetailValueKey.CONTRACT_SHIPMENT.name());
         if (o != null) {

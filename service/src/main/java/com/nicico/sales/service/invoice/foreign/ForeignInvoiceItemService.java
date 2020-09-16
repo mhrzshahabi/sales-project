@@ -24,6 +24,7 @@ import com.nicico.sales.model.enumeration.InspectionReportMilestone;
 import com.nicico.sales.model.enumeration.PriceBaseReference;
 import com.nicico.sales.service.GenericService;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.TypeToken;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,11 +40,10 @@ public class ForeignInvoiceItemService extends GenericService<ForeignInvoiceItem
     private final IUnitService unitService;
     private final IPriceBaseService priceBaseService;
     private final IContractService2 contractService2;
-    private final IContractDetailValueService2 contractDetailValueService2;
     private final IContractDetailService2 contractDetailService2;
-    //    private final IContractDetailValueService2 contractDetailValueService2;
     private final IAssayInspectionService assayInspectionService;
     private final IWeightInspectionService weightInspectionService;
+    private final IContractDetailValueService2 contractDetailValueService2;
 
     private static final String INVENTORY = "inventory";
     private static final String ASSAY_INSPECTIONS = "assayInspections";
@@ -66,23 +66,21 @@ public class ForeignInvoiceItemService extends GenericService<ForeignInvoiceItem
         Set<Long> materialIds = assayValues.stream().filter(q -> q.getMaterialElement().getElement().getPayable()).map(q -> q.getMaterialElement().getMaterialId()).collect(Collectors.toSet());
         if (materialIds.size() != 1)
             throw new SalesException2(ErrorType.BadRequest, "material", "There is multiple material.");
-        List<WeightInspectionDTO.InfoWithoutInspectionReport> weightValues = weightInspectionService.getWeightValues(shipmentId, weightMilestone, inventoryIds);
-//        Map<String, List<Object>> priceArticle = contractDetailValueService2.get(contractId, EContractDetailTypeCode.PriceDetailCode, EContractDetailValueKey.NotImportant);
-        ContractDetailDTO2.Info priceDetail = contractDetailService2.getContractDetailByContractDetailTypeCode(contractId, materialIds.iterator().next(), EContractDetailTypeCode.PriceDetailCode);
-        String priceArticleText = priceDetail.getContent();
-        List<Object> operationalDataOfDiscountArticle = contractService2.getOperationalDataOfContractArticle(contractId, EContractDetailTypeCode.PriceDetailCode.getId(), EContractDetailValueKey.DISCOUNT.getId());
-        List<ContractDiscount> discountArticle = new ArrayList<>();// operationalDataOfDiscountArticle.;
-        /*Map<String, List<Object>> operationalDataOfDiscountArticle = contractDetailValueService2.get(contractId, EContractDetailTypeCode.PriceDetailCode, EContractDetailValueKey.NotImportant);
-        List<ContractDiscount> discountArticle = new ArrayList<>();
-        operationalDataOfDiscountArticle.get(EContractDetailValueKey.DISCOUNT.getId()).forEach(item -> {
-            discountArticle.add(new ContractDiscount());
-        });*/
 
+        ContractDetailDTO2.Info priceDetail = contractDetailService2.getContractDetailByContractDetailTypeCode(contractId, materialIds.iterator().next(), EContractDetailTypeCode.Price);
+        String priceArticleText = priceDetail.getContent();
+
+        Map<String, List<Object>> operationalDataOfDiscountArticle = contractDetailValueService2.get(contractId, EContractDetailTypeCode.Price, EContractDetailValueKey.DISCOUNT, true);
+        List<Object> discounts = operationalDataOfDiscountArticle.get(EContractDetailValueKey.DISCOUNT.getId());
+        List<ContractDiscount> discountArticle = new ArrayList<>();
+        if (discounts != null)
+            discounts.forEach(discount -> discountArticle.add(modelMapper.map(discount, ContractDiscount.class)));
 
         List<PriceBaseDTO.Info> basePrices = priceBaseService.getAverageOfElementBasePrices(reference, year, month, materialIds.iterator().next(), financeUnitId);
 
         List<Map<String, Object>> data = new ArrayList<>();
         List<ForeignInvoiceItemDTO.FieldData> fields = createFields(assayValues, discountArticle);
+        List<WeightInspectionDTO.InfoWithoutInspectionReport> weightValues = weightInspectionService.getWeightValues(shipmentId, weightMilestone, inventoryIds);
         createData(inventoryIds, assayValues, weightValues, discountArticle, basePrices, data, financeUnitId);
 
         ForeignInvoiceItemDTO.Calc2Data result = new ForeignInvoiceItemDTO.Calc2Data();

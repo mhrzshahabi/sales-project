@@ -69,6 +69,8 @@ public class CurrencyRateDTO {
         @NotNull
         @ApiModelProperty(required = true)
         private Long id;
+
+        private Integer version;
     }
 
     @Getter

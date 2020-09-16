@@ -54,7 +54,9 @@ public enum EContractDetailValueKey {
     TYPICAL_TOLERANCE("TYPICAL_TOLERANCE"),
     TYPICAL_WEIGHT("TYPICAL_WEIGHT"),
     DRUM_WEIGHT("DRUM_WEIGHT"),
-    DISCOUNT("DISCOUNT");
+    DISCOUNT("DISCOUNT"),
+    TC("TC"),
+    RC("RC");
 
     private final String id;
 }

@@ -4,13 +4,14 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.mfathi91.time.PersianDate;
 import com.nicico.copper.common.util.date.DateUtil;
+import com.nicico.sales.dto.ContactDTO;
 import com.nicico.sales.dto.ShipmentDTO;
-import com.nicico.sales.iservice.IRemittanceService;
 import com.nicico.sales.enumeration.EContractDetailTypeCode;
 import com.nicico.sales.enumeration.EContractDetailValueKey;
+import com.nicico.sales.iservice.IAssayInspectionService;
+import com.nicico.sales.iservice.IRemittanceService;
 import com.nicico.sales.iservice.IShipmentService;
-import com.nicico.sales.model.entities.warehouse.Remittance;
-import com.nicico.sales.model.entities.warehouse.RemittanceDetail;
+import com.nicico.sales.iservice.IWeightInspectionService;
 import com.nicico.sales.model.enumeration.CategoryUnit;
 import lombok.RequiredArgsConstructor;
 import org.apache.poi.xwpf.usermodel.*;
@@ -27,19 +28,22 @@ import java.io.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
-
-import static io.netty.handler.codec.DateFormatter.format;
 
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("/shipment")
 public class ShipmentFormController {
+
+    private final Environment environment;
+    private final ObjectMapper objectMapper;
     private final IShipmentService shipmentService;
     private final IRemittanceService remittanceService;
-    private final ObjectMapper objectMapper;
-    private final Environment environment;
+    private final IAssayInspectionService assayInspectionService;
+    private final IWeightInspectionService weightInspectionService;
+
     private void replacePOI(XWPFDocument doc, String placeHolder, String replaceText) {
         // REPLACE ALL HEADERS
         for (XWPFHeader header : doc.getHeaderList())
@@ -98,68 +102,71 @@ public class ShipmentFormController {
     }
 
     @RequestMapping("/print/{shipmentId}/{fileNewName}")
-    public void printDocx( HttpServletResponse response, @PathVariable Long shipmentId, @PathVariable String fileNewName) throws IOException {
+    public void printDocx(HttpServletResponse response, @PathVariable Long shipmentId, @PathVariable String fileNewName) throws IOException {
 
-            ShipmentDTO.Info shipment = shipmentService.get(shipmentId);
+        ShipmentDTO.Info shipment = shipmentService.get(shipmentId);
 
-            String UPLOAD_FILE_DIR = environment.getProperty("nicico.upload.dir");
-            String filePath = UPLOAD_FILE_DIR + File.separator + "shipment" + File.separator + fileNewName;
-            File downloadFile = new File(filePath);
-            FileInputStream inputStream = new FileInputStream(downloadFile);
+        String UPLOAD_FILE_DIR = environment.getProperty("nicico.upload.dir");
+        String filePath = UPLOAD_FILE_DIR + File.separator + "shipment" + File.separator + fileNewName;
+        File downloadFile = new File(filePath);
+        FileInputStream inputStream = new FileInputStream(downloadFile);
 
-            ServletOutputStream out = response.getOutputStream();
-            XWPFDocument doc = new XWPFDocument(inputStream);
-            replacePOI(doc, "vessel_name", (shipment.getVessel() != null ? shipment.getVessel().getName() : ""));
-            replacePOI(doc, "agent", shipment.getContactAgent().getNameFA());
-            replacePOI(doc, "contract_amount", String.valueOf((shipment.getAmount() != null ? shipment.getAmount() : "")));
-            replacePOI(doc, "unitNameFa", (shipment.getUnit() != null ? shipment.getUnit().getNameFA() : ""));
-            replacePOI(doc, "descp", (shipment.getMaterial() != null ? shipment.getMaterial().getDescp() : ""));
-            replacePOI(doc, "tolorance", "-/+" + (shipment.getContractShipment() != null ? shipment.getContractShipment().getTolorance().toString() : "") + "%");
-            replacePOI(doc, "contract_no", (shipment.getContractShipment() != null ? shipment.getContractShipment().getContract().getNo() : ""));
-            replacePOI(doc, "loa", (shipment.getContractShipment() != null && shipment.getContractShipment().getLoadPort() != null ? shipment.getContractShipment().getLoadPort().getLoa() : ""));
+        ServletOutputStream out = response.getOutputStream();
+        XWPFDocument doc = new XWPFDocument(inputStream);
+        replacePOI(doc, "vessel_name", (shipment.getVessel() != null ? shipment.getVessel().getName() : ""));
+        replacePOI(doc, "agent", shipment.getContactAgent().getNameFA());
+        replacePOI(doc, "contract_amount", String.valueOf((shipment.getAmount() != null ? shipment.getAmount() : "")));
+        replacePOI(doc, "unitNameFa", (shipment.getUnit() != null ? shipment.getUnit().getNameFA() : ""));
+        replacePOI(doc, "descp", (shipment.getMaterial() != null ? shipment.getMaterial().getDescp() : ""));
+        replacePOI(doc, "tolorance", "-/+" + (shipment.getContractShipment() != null ? shipment.getContractShipment().getTolorance().toString() : "") + "%");
+        replacePOI(doc, "contract_no", (shipment.getContractShipment() != null ? shipment.getContractShipment().getContract().getNo() : ""));
+        replacePOI(doc, "loa", (shipment.getContractShipment() != null && shipment.getContractShipment().getLoadPort() != null ? shipment.getContractShipment().getLoadPort().getLoa() : ""));
 
-            String[] disPort = shipment.getDischargePort().getPort().split(",");
-            replacePOI(doc, "dis", disPort[0]);
+        String[] disPort = shipment.getDischargePort().getPort().split(",");
+        replacePOI(doc, "dis", disPort[0]);
 
-            replacePOI(doc, "country", (shipment.getDischargePort() != null ? shipment.getDischargePort().getCountry().getNameFa() : ""));
-            replacePOI(doc, "barname", String.valueOf((shipment.getNoBLs() != null ? shipment.getNoBLs() : "")));
+        replacePOI(doc, "country", (shipment.getDischargePort() != null ? shipment.getDischargePort().getCountry().getNameFa() : ""));
+        replacePOI(doc, "barname", String.valueOf((shipment.getNoBLs() != null ? shipment.getNoBLs() : "")));
 
-//            List<String> inspector = shipmentService.inspector();
-//            for (int i = 0; i < inspector.size(); i++) {
-//
-//                replacePOI(doc, "inspector", inspector.get(i));
-//            }
+        List<ContactDTO.Info> inspectorContacts = assayInspectionService.getShipmentInspector(shipmentId);
+        inspectorContacts.addAll(weightInspectionService.getShipmentInspector(shipmentId));
+        List<String> inspectors = inspectorContacts.stream().map(ContactDTO::getNameEN).distinct().collect(Collectors.toList());
+        if (inspectors.size() == 0)
+            replacePOI(doc, "inspector", "نامشخص");
+        else
+            replacePOI(doc, "inspector", String.join(",", inspectors));
 
-            replacePOI(doc, "noContainer", String.valueOf(shipment.getNoContainer() != null ? shipment.getNoContainer() : ""));
-            replacePOI(doc, "containerType", shipment.getContainerType());
-            replacePOI(doc, "blNumbers", String.valueOf(shipment.getNoBLs()));
-            replacePOI(doc, "bookingno", "(Booking No." + (shipment.getBookingCat()!= null?shipment.getBookingCat():"") + ")");
-            replacePOI(doc, "dateday", DateUtil.todayDate());
-            replacePOI(doc, "buyer", (shipment.getContact() != null ? shipment.getContact().getNameFA() : ""));
-            replacePOI(doc, "company", (shipment.getContact() != null ? shipment.getContact().getNameFA() : ""));
-            replacePOI(doc, "disPort", (shipment.getDischargePort() != null ? shipment.getDischargePort().getPort() : ""));
-            replacePOI(doc, "month", String.valueOf(shipment.getSendDate().getMonth()+1));
-            replacePOI(doc, "year", (shipment.getContractShipment() != null ? shipment.getContractShipment().getSendDate().toString() : ""));
-            replacePOI(doc, "nocont",  String.valueOf(shipment.getNoContainer()!= null?shipment.getNoContainer():""));
+        replacePOI(doc, "noContainer", String.valueOf(shipment.getNoContainer() != null ? shipment.getNoContainer() : ""));
+        replacePOI(doc, "containerType", shipment.getContainerType());
+        replacePOI(doc, "blNumbers", String.valueOf(shipment.getNoBLs()));
+        replacePOI(doc, "bookingno", "(Booking No." + (shipment.getBookingCat() != null ? shipment.getBookingCat() : "") + ")");
+        replacePOI(doc, "dateday", DateUtil.todayDate());
+        replacePOI(doc, "buyer", (shipment.getContact() != null ? shipment.getContact().getNameFA() : ""));
+        replacePOI(doc, "company", (shipment.getContact() != null ? shipment.getContact().getNameFA() : ""));
+        replacePOI(doc, "disPort", (shipment.getDischargePort() != null ? shipment.getDischargePort().getPort() : ""));
+        replacePOI(doc, "month", String.valueOf(shipment.getSendDate().getMonth() + 1));
+        replacePOI(doc, "year", (shipment.getContractShipment() != null ? shipment.getContractShipment().getSendDate().toString() : ""));
+        replacePOI(doc, "nocont", String.valueOf(shipment.getNoContainer() != null ? shipment.getNoContainer() : ""));
 
-            List<String> lots = remittanceService.getLotsByShipmentId(shipmentId);
-            for (String s : lots)
-                replacePOI(doc,"lots",s);
+        List<String> lots = remittanceService.getLotsByShipmentId(shipmentId);
+        for (String s : lots)
+            replacePOI(doc, "lots", s);
 
-            replacePOI(doc,"ola", String.valueOf(lots.size()));
+        replacePOI(doc, "ola", String.valueOf(lots.size()));
 
-            DateFormat dtf = new SimpleDateFormat("yyyy/MM/dd");
-            replacePOI(doc, "arrivalDateFrom",shipment.getArrivalDateFrom()!=null?  dtf.format(shipment.getArrivalDateFrom()):"");
-            replacePOI(doc, "arrivalDateTo", shipment.getArrivalDateTo()!=null? dtf.format(shipment.getArrivalDateTo()):"");
-            replacePOI(doc, "letterDate", shipment.getLastDeliveryLetterDate() != null ? dtf.format(shipment.getLastDeliveryLetterDate()):"");
+        DateFormat dtf = new SimpleDateFormat("yyyy/MM/dd");
+        replacePOI(doc, "arrivalDateFrom", shipment.getArrivalDateFrom() != null ? dtf.format(shipment.getArrivalDateFrom()) : "");
+        replacePOI(doc, "arrivalDateTo", shipment.getArrivalDateTo() != null ? dtf.format(shipment.getArrivalDateTo()) : "");
+        replacePOI(doc, "letterDate", shipment.getLastDeliveryLetterDate() != null ? dtf.format(shipment.getLastDeliveryLetterDate()) : "");
 
-            response.setHeader("Content-Disposition", "attachment; filename=" + fileNewName);
-            response.setContentType("application/vnd.ms-word");
-            doc.write(out);
-            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-            outputStream.writeTo(out);
-            out.flush();
+        response.setHeader("Content-Disposition", "attachment; filename=" + fileNewName);
+        response.setContentType("application/vnd.ms-word");
+        doc.write(out);
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        outputStream.writeTo(out);
+        out.flush();
     }
+
     @RequestMapping("/print1/{shipmentId}/{fileNewName}")
     public void printDocx1(HttpServletRequest request, HttpServletResponse response, @PathVariable Long shipmentId, @PathVariable String fileNewName) throws IOException {
 
@@ -301,9 +308,9 @@ public class ShipmentFormController {
 
                 List<String> lots = remittanceService.getLotsByShipmentId(shipmentId);
                 for (String s : lots)
-                    replacePOI(doc,"lots",s);
+                    replacePOI(doc, "lots", s);
 
-                 replacePOI(doc,"ola", String.valueOf(lots.size()));
+                replacePOI(doc, "ola", String.valueOf(lots.size()));
 
                 response.setHeader("Content-Disposition", "attachment; filename=\"Molybdenum Oxide.doc\"");
                 response.setContentType("application/vnd.ms-word");

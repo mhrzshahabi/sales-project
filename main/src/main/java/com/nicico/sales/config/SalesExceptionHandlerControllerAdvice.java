@@ -12,6 +12,7 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -117,6 +118,15 @@ public class SalesExceptionHandlerControllerAdvice extends AbstractExceptionHand
         Locale locale = LocaleContextHolder.getLocale();
         String message = messageSource.getMessage("exception.max-up-size-exceeded", new Object[]{exception.getMaxUploadSize()}, locale);
         return provideStandardError(new SalesException2(ErrorType.PayloadTooLarge, null, message));
+    }
+
+    @ExceptionHandler({ObjectOptimisticLockingFailureException.class})
+    public ResponseEntity<Object> handleObjectOptimisticLockingFailureException(ObjectOptimisticLockingFailureException exception) {
+        this.printLog(exception, true, true, exception.getClass().getName());
+
+        Locale locale = LocaleContextHolder.getLocale();
+        String message = messageSource.getMessage("exception.optimistic-locking-failure", null, locale);
+        return provideStandardError(new SalesException2(ErrorType.BadRequest, null, message));
     }
 
     @ExceptionHandler({DataIntegrityViolationException.class})

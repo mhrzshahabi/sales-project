@@ -24,10 +24,4 @@ public class ShipmentService extends GenericService<Shipment, Long, ShipmentDTO.
     public List<Object[]> pickListShipment() {
         return ((ShipmentDAO) repository).pickListShipment();
     }
-
-    @Override
-    @PreAuthorize("hasAuthority('O_SHIPMENT')")
-    public List<String> inspector() {
-        return ((ShipmentDAO) repository).inspector();
-    }
 }

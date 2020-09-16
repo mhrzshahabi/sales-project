@@ -99,6 +99,8 @@ public class IncotermDTO {
         private Long id;
         private List<StepTuple> incotermSteps;
         private List<RuleTuple> incotermRules;
+
+        private Integer version;
     }
 
     @Getter
