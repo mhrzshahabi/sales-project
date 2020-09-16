@@ -41,7 +41,7 @@ public class Inventory extends BaseEntity {
     @Column(name = "F_MATERIAL_ITEM_ID", nullable = false)
     private Long materialItemId;
 
-    @NotEmpty
+    @NotEmpty(message = "شناسه محصول خالی نباشد")
     @Column(name = "C_LABEL", nullable = false, unique = true)
     private String label;
 

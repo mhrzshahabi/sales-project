@@ -8,12 +8,9 @@
 // SalesBaseParameters.getAllParameters().then(all => loadOnWayProduct(all))
 function loadOnWayProduct() {
     const paramaters = SalesBaseParameters.getAllSavedParameter();
-    console.log('paramaters', paramaters);
-
     function ListGrid_Tozin_IN_ONWAYPRODUCT_refresh() {
         ListGrid_Tozin_IN_ONWAYPRODUCT.invalidateCache();
     }
-
     const tozinFields = [
         {
             name: "tozinDate",
