@@ -1408,6 +1408,11 @@ code='contact.role'/></p>",
                         {
                             type: "required",
                             validateOnChange: true
+                        },
+                        {
+                            type: "regexp",
+                            expression: "^(?:IR)(?=.{24}$)[0-9]*$",
+                            validateOnChange: true
                         }]
                 },
                 {
