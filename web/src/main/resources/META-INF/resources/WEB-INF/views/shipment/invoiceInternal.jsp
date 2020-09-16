@@ -95,7 +95,7 @@
     fetchDataURL: "${contextPath}/api/invoiceInternal/list-accounting"
     });
     <%-- accounting window --%>
-     var departmentDS = isc.MyRestDataSource.create({
+    var departmentDS = isc.MyRestDataSource.create({
         fields:[
             {name:"id", primaryKey:true, type:"integer", title:" ID"},
             {name:"departmentName" , title:"<spring:message code='department.name'/>"},
@@ -118,6 +118,14 @@
         numCols: 4,
         margin :5,
         fields: [
+            { name:"remittanceId",title:"<spring:message code='invoice.havalehId'/>",width:"150" , canEdit:false},
+            { name:"customerName",title:"<spring:message code='invoice.customerName'/>",width:"150" , canEdit:false},
+            { name:"invoiceSerial",title:"<spring:message code='invoice.shomarehSoratHesab'/>",width:"150" , canEdit:false},
+            { name:"productName",title:"<spring:message code='invoice.gdsName'/>",width:"150" , canEdit:false},
+            { name:"unitPrice",title:"<spring:message code='invoice.ghematUnit'/>",width:"150" , canEdit:false},
+            { name:"totalAmount",title:"<spring:message code='invoice.mablaghKol'/>",width:"150" , canEdit:false},
+            { name:"totalDeductions",title:"<spring:message code='invoice.totalKosorat'/>",width:"150" , canEdit:false},
+            {type:"SpacerItem" ,width:"100%" , height: "50",colSpan: 4},
             { name:"documentDate",title:"<spring:message code='document.header.date'/>",width:"150",icons: [ persianDatePicker ],
             wrapTitle: false,type:"persianDate",length:10,keyPressFilter:"[0-9/]",
 			},
@@ -127,8 +135,8 @@
 				optionDataSource: departmentDS,
 				valueField: "id",
 				displayField:"departmentName",
-				width:"180",
-				pickListWidth: "200",
+				width:"150",
+				pickListWidth: "150",
 				allowAdvancedCriteria:false,
 				autoFetchData:false,
 				pickListFields: [
@@ -137,7 +145,7 @@
 				],
 
 			},
-    			{ name:"documentTitle", title:"<spring:message code='document.header.desc'/>", type:"textArea"  ,colSpan:"4" ,width:"450",wrapTitle:false,
+    			{ name:"documentTitle", title:"<spring:message code='document.header.desc'/>", type:"textArea"  ,colSpan:"4" ,width:"485",wrapTitle:false,
     			}
         ]
 });
@@ -160,26 +168,35 @@
                 return;
             }
             let data = isc.clone(documentMainInfoForm.getValues());
-            data.department = data.department.id
-                    isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                            actionURL: "${contextPath}/api/accounting/documents/internal/"+record.id,
-                            httpMethod: "POST",
-                            useSimpleHttp: true,
-                            contentType: "application/json; charset=utf-8",
-                            data: JSON.stringify(data),
-                            serverOutputAsString: false,
-                            callback: function (RpcResponse_o) {
+            data.department = data.department.id;
+            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+                    actionURL: "${contextPath}/api/accounting/documents/internal/"+record.id,
+                    httpMethod: "POST",
+                    useSimpleHttp: true,
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(data),
+                    willHandleError: true,
+                    serverOutputAsString: false,
+                    callback: function (RpcResponse_o) {
 
-                                console.log(RpcResponse_o.data);
-                                let docNumber =  RpcResponse_o.data;
-                                isc.say(docNumber);
-                                windows_button_Layout.hide();
-
-
-
-
+                          if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+                                let data =  JSON.stringify(RpcResponse_o.data).split("@");
+                                record.documentId = data[1].replace("\"","");
+                                isc.say(data[0]);
+                                newDocumentWindow.close();
+                                ListGrid_InvoiceInternal.getCellCSSText(record);
+                                ListGrid_InvoiceInternal.refreshRow(ListGrid_InvoiceInternal.getRowNum(record));
+                          }else
+                            {
+                                newDocumentWindow.close();
+                                record.documentId = -1 ;
+                                ListGrid_InvoiceInternal.getCellCSSText(record);
+                                ListGrid_InvoiceInternal.refreshRow(ListGrid_InvoiceInternal.getRowNum(record));
                             }
-                    }));
+
+                    }
+
+            }));
 
         }
     });
@@ -202,8 +219,8 @@
     });
     var newDocumentWindow = isc.Window.create({
 		title: "<spring:message code='accounting.document.create'/>",
-		width: 550,
-		height: 200,
+		width: 700,
+		height: 400,
 		// autoSize:true,
 		autoCenter: true,
 		isModal: true,
@@ -222,49 +239,52 @@
 
     function ListGrid_InvoiceInternal_refresh() {
         ListGrid_InvoiceInternal.invalidateCache();
+        ListGrid_InvoiceInternal_Sent.invalidateCache();
     }
     function ListGrid_InvoiceInternal_Sent_refresh() {
         ListGrid_InvoiceInternal_Sent.invalidateCache();
     }
     function ToolStripButton_InvoiceInternal_Pdf_F() {
 
-        var record = ListGrid_InvoiceInternal.getSelectedRecord();
+        let grid = invoiceInternalTabs.getTab(invoiceInternalTabs.selectedTab).pane;
+        var record = grid.getSelectedRecord();
         if (record == null || record == " ") {
             isc.say("<spring:message code='global.grid.record.not.selected'/>");
         } else {
-            var rowId = ListGrid_InvoiceInternal.getSelectedRecord().id;
-            window.open("invoiceInternal/print/pdf/" + rowId);
-        }
-    }
-     function ToolStripButton_InvoiceInternal_Sent_Pdf_F() {
-
-        var record = ListGrid_InvoiceInternal_Sent.getSelectedRecord();
-        if (record == null || record == " ") {
-            isc.say("<spring:message code='global.grid.record.not.selected'/>");
-        } else {
-            var rowId = ListGrid_InvoiceInternal_Sent.getSelectedRecord().id;
-            window.open("invoiceInternal/print/pdf/" + rowId);
+            window.open("invoiceInternal/print/pdf/" + record.id);
         }
     }
     function createAccountingDoc(){
-        newDocumentWindow.show();
-    }
-    function ToolStripButton_InvoiceInternal_Html_F() {
-        var record = ListGrid_InvoiceInternal.getSelectedRecord();
-        if (record == null || record == " ") {
+
+        if (invoiceInternalTabs.selectedTab === 1) {
+            isc.say("<spring:message code='global.grid.tab.selected.sentDocument'/>")
+            return;
+        }
+
+        documentMainInfoForm.clearValues();
+         var record = ListGrid_InvoiceInternal.getSelectedRecord();
+        if (record == null) {
             isc.say("<spring:message code='global.grid.record.not.selected'/>");
-        } else {
-            var rowId = ListGrid_InvoiceInternal.getSelectedRecord().id;
-            window.open("invoiceInternal/print/html/" + rowId);
+        } else{
+            documentMainInfoForm.setValue("remittanceId",record.remittanceId);
+            documentMainInfoForm.setValue("customerName",record.customerName);
+            documentMainInfoForm.setValue("customerName",record.customerName);
+            documentMainInfoForm.setValue("invoiceSerial",record.invoiceSerial);
+            documentMainInfoForm.setValue("productName",record.productName);
+            documentMainInfoForm.setValue("unitPrice",record.unitPrice);
+            documentMainInfoForm.setValue("totalAmount",record.totalAmount);
+            documentMainInfoForm.setValue("totalDeductions",record.totalDeductions);
+            newDocumentWindow.show();
         }
     }
-    function ToolStripButton_InvoiceInternal_Sent_Html_F() {
-        var record = ListGrid_InvoiceInternal_Sent.getSelectedRecord();
+    function ToolStripButton_InvoiceInternal_Html_F() {
+
+        let grid = invoiceInternalTabs.getTab(invoiceInternalTabs.selectedTab).pane;
+        var record = grid.getSelectedRecord();
         if (record == null || record == " ") {
             isc.say("<spring:message code='global.grid.record.not.selected'/>");
         } else {
-            var rowId = ListGrid_InvoiceInternal_Sent.getSelectedRecord().id;
-            window.open("invoiceInternal/print/html/" + rowId);
+            window.open("invoiceInternal/print/html/" + record.id);
         }
     }
     <sec:authorize access="hasAuthority('O_INVOICE_INTERNAL')">
@@ -272,6 +292,7 @@
             title: "<spring:message code='accounting.document.create'/>",
             icon: "icon/accountingDoc.png",
             click: function () {
+
                 createAccountingDoc();
             }
         });
@@ -291,7 +312,6 @@
         icon: "icon/pdf.png",
         click: function () {
             ToolStripButton_InvoiceInternal_Pdf_F();
-
         }
     });
     </sec:authorize>
@@ -376,7 +396,7 @@
                 title: "<spring:message code='accounting.document.create'/>",
                 icon: "icon/accountingDoc.png",
                 click: function () {
-                    Menu_ListGrid_InvoiceInternal_Html_F();
+                    createAccountingDoc();
                 }
             }
             </sec:authorize>
@@ -411,15 +431,6 @@
                     Menu_ListGrid_InvoiceInternal_Sent_Html_F();
                 }
             },
-            </sec:authorize>
-            <sec:authorize access="hasAuthority('O_INVOICE_INTERNAL')">
-            {
-                title: "<spring:message code='accounting.document.create'/>",
-                icon: "icon/accountingDoc.png",
-                click: function () {
-                    Menu_ListGrid_InvoiceInternal_Sent_Html_F();
-                }
-            }
             </sec:authorize>
         ]
     });
@@ -471,11 +482,16 @@
         operator: 'isNull'
     }]
     },
-    sortField : "invoiceDate",
-    sortDirection: "descending",
-    recordDoubleClick() {
+    canMultiSort: true,
+    initialSort: [
+        {property: "invoiceDate", direction: "descending"},
+        {property: "remittanceId", direction: "descending"},
+        {property: "salesType", direction: "descending"},
+    ],
+    recordDoubleClick(record) {
         createAccountingDoc();
     },
+    getCellCSSText:{},
     fields:
     [
     {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
@@ -501,6 +517,15 @@
     allowFilterOperators: true
     });
 
+    ListGrid_InvoiceInternal.getCellCSSText = function (record) {
+         if(record.documentId)
+            return "font-weight:bold; color:green;";
+        else  if(record.documentId === -1)
+            return "font-weight:bold; color:red;";
+        else if(record.salesType === 2)
+            return "font-weight:bold; color:#287fd6;";
+    }
+
     var ListGrid_InvoiceInternal_Sent = isc.ListGrid.create({
     showFilterEditor: true,
     width: "100%",
@@ -514,8 +539,16 @@
             operator: 'notNull'
         }]
     },
-    sortField : "invoiceDate",
-    sortDirection: "descending",
+    canMultiSort: true,
+    initialSort: [
+        {property: "invoiceDate", direction: "descending"},
+        {property: "remittanceId", direction: "descending"},
+        {property: "salesType", direction: "descending"},
+    ],
+    getCellCSSText : function (record) {
+        if(record.salesType === 2)
+            return "font-weight:bold; color:#287fd6;";
+    },
     fields:
     [
     {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
@@ -547,12 +580,12 @@
         showTabScroller: true,
         tabs: [
             {
-                title: "<spring:message code='issuedInternalInvoices.sent'/>",
-                pane: ListGrid_InvoiceInternal_Sent
-            },
-            {
                 title: "<spring:message code='issuedInternalInvoices.dontSent'/>",
                 pane: ListGrid_InvoiceInternal
+            },
+            {
+                title: "<spring:message code='issuedInternalInvoices.sent'/>",
+                pane: ListGrid_InvoiceInternal_Sent
             }
         ]
     });

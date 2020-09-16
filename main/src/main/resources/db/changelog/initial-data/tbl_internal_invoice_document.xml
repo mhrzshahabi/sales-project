@@ -1,0 +1,33 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+    <changeSet author="emami" id="update_tbl_internal_invoice_document_001">
+		<sql splitStatements="false" stripComments="false">
+			<![CDATA[
+                MERGE INTO tbl_internal_invoice_document DESTINATIONTABLE
+                USING
+                    ( SELECT
+                        vi.id AS c_invoice_id,
+                        'liquibase' AS c_created_by,
+                        current_timestamp AS d_created_date,
+                        0 AS n_version,
+                        1 AS n_e_status,
+                        1 AS b_editable,
+                        0 AS c_document_id
+                    FROM
+                        view_internal_invoice_document vi
+                    WHERE
+                        vi.c_invoice_date < '1399/06/01'
+                    ) SOURCETABLE
+                    ON (DESTINATIONTABLE.c_invoice_id = SOURCETABLE.c_invoice_id)
+                WHEN NOT MATCHED THEN
+                    INSERT ( c_invoice_id,c_created_by,d_created_date,n_version,n_e_status,b_editable,c_document_id )
+                    VALUES ( SOURCETABLE.c_invoice_id,SOURCETABLE.c_created_by,SOURCETABLE.d_created_date,SOURCETABLE.n_version,SOURCETABLE.n_e_status,SOURCETABLE.b_editable ,SOURCETABLE.c_document_id )
+            ]]>
+		</sql>
+
+    </changeSet>
+
+</databaseChangeLog>
