@@ -311,10 +311,6 @@
                     name: "materialId",
                     hidden: true
                 },
-                {
-                    name: "miDetailCode",
-                    title: "<spring:message code='MaterialItem.detailCode'/> "
-                },
                 ],
             fetchDataURL: "${contextPath}/api/materialItem/spec-list"
         });
@@ -1346,8 +1342,8 @@
                     title: "<spring:message code='invoiceSalesItem.productCode'/>",
                     editorType: "SelectItem",
                     optionDataSource: RestDataSource_MaterialItem_IN_invoiceSales,
-                    displayField: "miDetailCode",
-                    valueField: "miDetailCode",
+                    displayField: "gdsName",
+                    valueField: "id",
                     required: true,
                     validators: [
                     {
@@ -1356,7 +1352,7 @@
                     }],
                     pickListFields: [
                     {
-                        name: "miDetailCode"
+                        name: "gdsCode"
                     },
                     {
                         name: "gdsName"
@@ -1506,8 +1502,8 @@
     };
 
     RestDataSource_percentPerYear.fetchData(criteria1, function (dsResponse, data, dsRequest) {
-        legTotal = data[0].cVat;
-        vatTotal = data[0].tVat;
+        legTotal = data[0].cvat;
+        vatTotal = data[0].tvat;
     });
 
     function updatePrice(){
@@ -1840,9 +1836,6 @@
                 }
             ],
             autoFetchData: false,
-            recordDoubleClick: function (viewer, record, recordNum, field, fieldNum, value, rawValue) {
-                loadWindowFeatureList(record.invoiceSalesId)
-            },
             createRecordComponent: function (record, colNum) {
                 var fieldName = this.getFieldName(colNum);
                 var recordCanvas = isc.HLayout.create(
