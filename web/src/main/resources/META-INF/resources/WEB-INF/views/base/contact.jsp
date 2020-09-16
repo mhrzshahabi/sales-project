@@ -1636,6 +1636,7 @@ code='contact.role'/></p>",
                                     callback: function (RpcResponse_o) {
                                         if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
                                             ListGrid_ContactAccount.invalidateCache();
+                                            ListGrid_ContactAccount.refreshData();
                                             ListGrid_Contact.invalidateCache();
                                             ContactAccount_EditDynamicForm.clearValues();
                                             isc.say("<spring:message code='global.grid.record.remove.success'/>");
