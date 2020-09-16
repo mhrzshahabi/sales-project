@@ -1118,9 +1118,12 @@ crTab.Fields.TozinFull = function () {
 }
 crTab.Fields.RemittanceDetail = function () {
     return [
-        {name: "id", hidden: true, type: "number"},
+        {name: "id", hidden: true, type: "number",
+            title: "<spring:message code='global.id'/>"
+        },
         {
             name: "remittanceId", hidden: true,
+            title: "<spring:message code='bijack'/>"
         },
         {name: "depot.id", hidden: true, title: "دپو",},
         {
