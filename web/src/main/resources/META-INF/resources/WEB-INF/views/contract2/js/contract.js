@@ -7,6 +7,7 @@ contractTab.variable.contractDetailTypeTemplateUrl = "${contextPath}" + "/api/co
 var contractPositionDynamicForm = isc.DynamicForm.nicico.getDefault([{
     width: "100%",
     name: "position",
+    required: true,
     title: "<spring:message code='global.order'/>"
 }])
 
@@ -217,7 +218,7 @@ contractTab.listGrid.contractDetailType = isc.ListGrid.nicico.getDefault(
                             if (contractTab.sectionStack.contract.getSectionNames().includes(record.id))
                                 return;
 
-                            contractPositionDynamicForm.setValue("position", "");
+                            contractPositionDynamicForm.clearValues();
                             contractTab.window.formUtil.showForm(
                                 contractTab.window.main,
                                 "<spring:message code='global.order'/>",
@@ -225,6 +226,11 @@ contractTab.listGrid.contractDetailType = isc.ListGrid.nicico.getDefault(
 
                             contractTab.window.formUtil.populateData = function (body) {
                                 return [body.getValues()];
+                            };
+
+                            contractTab.window.formUtil.validate = function (data) {
+                                contractPositionDynamicForm.validate();
+                                return !contractPositionDynamicForm.hasErrors();
                             };
 
                             contractTab.window.formUtil.okCallBack = function (data) {
@@ -721,9 +727,6 @@ contractTab.method.addSectionByContract = function (record) {
                     contractDetailListGrid.setData(data);
                     q.contractDetailValues.filter(x => x.type == 'ListOfReference').forEach((detailValue, index) => {
                         data[index].contractDetailValueId = detailValue.id;
-                        data[index].estatus = detailValue.estatus;
-                        data[index].editable = detailValue.editable;
-                        data[index].version = detailValue.version;
                     })
                 }
             );
