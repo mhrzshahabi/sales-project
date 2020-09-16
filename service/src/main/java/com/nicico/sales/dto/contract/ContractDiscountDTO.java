@@ -61,8 +61,6 @@ public class ContractDiscountDTO {
         @NonNull
         @ApiModelProperty(required = true)
         private Long id;
-
-        private Integer version;
     }
 
     @Getter
