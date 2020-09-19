@@ -1051,6 +1051,7 @@ rdTab.Fields.TozinLite = function () {
             title: "<spring:message code='Tozin.haveCode'/>",
             align: "center"
         },
+        {name: "isRail",type: "boolean", title:"<spring:message code='warehouseCad.with.rail'/>"}
     ];
 }
 rdTab.Fields.TozinFull = function () {

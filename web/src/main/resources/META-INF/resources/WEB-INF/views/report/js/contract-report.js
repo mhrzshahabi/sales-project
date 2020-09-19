@@ -990,6 +990,7 @@ crTab.Fields.TozinLite = function () {
             name: "havalehCode", hidden: true,
             title: "<spring:message code='Tozin.haveCode'/>",
         },
+        {name: "isRail",type: "boolean", title:"<spring:message code='warehouseCad.with.rail'/>"}
     ];
 }
 crTab.Fields.TozinFull = function () {

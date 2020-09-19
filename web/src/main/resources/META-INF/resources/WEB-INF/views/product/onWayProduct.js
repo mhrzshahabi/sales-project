@@ -84,10 +84,10 @@ const tozinLiteFields = _ => [
         name: "containerNo3",
         title: "<spring:message code='Tozin.containerNo3'/> - نوع حمل",
         align: "center",
-        formatCellValue(value, record, rowNum, colNum, grid) {
-            return (value ? "ریلی  " + value : "جاده‌ای"
-            )
-        },
+        // formatCellValue(value, record, rowNum, colNum, grid) {
+        //     return (value ? "ریلی  " + value : "جاده‌ای"
+        //     )
+        // },
         // validOperators: ["equals", "isNull", "notNull"],
         // filterEditorProperties: {
         //     showPickerIcon: true,
@@ -130,7 +130,8 @@ const tozinLiteFields = _ => [
             editorType: "selectItem",
             multiple: true,
             type: "number",
-            click(){},
+            click() {
+            },
             // defaultValue: StorageUtil.get('on_way_product_defaultTargetId')
         },
         filterOperator: "inSet",
@@ -158,7 +159,8 @@ const tozinLiteFields = _ => [
         type: "number",
         filterEditorProperties: {
             editorType: "selectItem",
-            click(){},
+            click() {
+            },
             multiple: true,
             type: "number",
             // defaultValue: StorageUtil.get('on_way_product_defaultTargetId')
@@ -185,6 +187,7 @@ const tozinLiteFields = _ => [
         title: "<spring:message code='Tozin.haveCode'/>",
         align: "center"
     },
+    {name: "isRail",type: "boolean", title:"<spring:message code='warehouseCad.with.rail'/>"}
 ];
 const tozinFields = _ => [...tozinLiteFields(),
 

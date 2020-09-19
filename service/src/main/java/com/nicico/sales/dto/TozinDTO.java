@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiModel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import org.hibernate.annotations.Formula;
 
 @Getter
 @Setter
@@ -49,7 +50,15 @@ public class TozinDTO {
     private String strSharh2;
     private String tznSharh1;
     private Long tozinTable;
-
+    @Formula(value = "(case " +
+            "when contener_no3 like '*'   " +
+            "then 0  " +
+            "when contener_no3 is not null " +
+            "then 1 " +
+            "when contener_no3 is null " +
+            "     then 0 " +
+            "end)")
+    private Boolean isRail;
 
     @Getter
     @Setter
