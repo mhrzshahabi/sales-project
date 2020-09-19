@@ -51,7 +51,6 @@ isc.defineClass("IncotermParty", isc.HStack).addProperties({
             width: "100%",
             canSubmit: true,
             align: "center",
-            titleAlign: "right",
             fields: [{
                 type: 'long',
                 name: "termId",

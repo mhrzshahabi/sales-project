@@ -225,7 +225,6 @@ isc.defineClass("generatorContractPage", isc.HStack).addProperties({
                                                                     width: "100%",
                                                                     height: "90%",
                                                                     align: "center",
-                                                                    titleAlign: "right",
                                                                     overflow:"auto",
                                                                     numCols: 8,
                                                                     canSubmit: true,
