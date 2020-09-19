@@ -306,7 +306,6 @@
         showErrorText: true,
         showErrorStyle: true,
         errorOrientation: "right",
-        titleAlign: "right",
         requiredMessage: "<spring:message code='validator.field.is.required'/>"
     });
 
@@ -1399,6 +1398,9 @@
 
         }
     })
+    isc.DynamicForm.addProperties({
+		 titleAlign: nicico.CommonUtil.getAlignByLang() ==="right" ? "left":"right"
+	})
 
 </script>
 </body>

@@ -616,7 +616,6 @@ contractTab.Methods.ArticleAddIconInContractDetailsGridClicked = function (v, _r
         visibility: "hidden",
         width: "100%",
         align: "center",
-        titleAlign: "right",
         numCols: 8,
         margin: 10,
         canSubmit: true,
