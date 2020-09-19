@@ -8,6 +8,59 @@ function getReferenceCriteria(idValues) {
     }
 }
 
+var header = ['BUYER_NAME', 'BUYER_ADDRESS', 'BUYER_PHONE', 'BUYER_FAX', 'SELLER_NAME', 'SELLER_ADDRESS', 'SELLER_PHONE', 'SELLER_FAX',
+    'AGENT_BUYER_NAME', 'AGENT_BUYER_ADDRESS', 'AGENT_BUYER_PHONE', 'AGENT_BUYER_FAX',
+    'AGENT_SELLER_NAME', 'AGENT_SELLER_ADDRESS', 'AGENT_SELLER_PHONE', 'AGENT_SELLER_FAX']
+
+var materialElementField = {
+    name: "materialElementId",
+    title: "<spring:message code='assayInspection.materialElement'/>",
+    width: "100%",
+    type: "long",
+    required: true,
+    autoFetchData: false,
+    editorType: "SelectItem",
+    valueField: "id",
+    displayField: "elementName",
+    pickListHeight: "300",
+    optionDataSource: isc.MyRestDataSource.create({
+        fields: BaseFormItems.concat([
+            {
+                name: "elementName",
+                title: '<spring:message code="assayInspection.materialElement.name"/>'
+            },
+            {name: "material.descl", title: '<spring:message code="material.descl"/>'}
+        ]),
+        fetchDataURL: "${contextPath}/api/materialElement/" + "spec-list"
+    }),
+    pickListFields: [
+        {name: "elementName", title: '<spring:message code="assayInspection.materialElement.name"/>'},
+        {name: "material.descl", title: '<spring:message code="material.descl"/>'}
+    ],
+    editorProperties: {
+        optionDataSource: isc.MyRestDataSource.create({
+            fields: BaseFormItems.concat([
+                {
+                    name: "elementName",
+                    title: '<spring:message code="assayInspection.materialElement.name"/>'
+                },
+                {name: "material.descl", title: '<spring:message code="material.descl"/>'}
+            ]),
+            fetchDataURL: "${contextPath}/api/materialElement/" + "spec-list"
+        }),
+        pickListFields: [
+            {name: "elementName", title: '<spring:message code="assayInspection.materialElement.name"/>'},
+            {name: "material.descl", title: '<spring:message code="material.descl"/>'}
+        ],
+        editorType: "SelectItem",
+        pickListProperties: {
+            showFilterEditor: true
+        }
+    },
+    showTemplate: true,
+    templateDataFieldName: "materialElement.element.name"
+}
+
 function getReferenceFields(referenceType) {
 
     switch (referenceType) {
@@ -139,34 +192,7 @@ function getReferenceFields(referenceType) {
                     showTemplate: true,
                     templateDataFieldName: "unit.nameEN"
                 },
-                {
-                    name: "materialElementId",
-                    title: "<spring:message code='assayInspection.materialElement'/>",
-                    width: "100%",
-                    type: "long",
-                    required: true,
-                    autoFetchData: false,
-                    editorType: "SelectItem",
-                    valueField: "id",
-                    displayField: "elementName",
-                    pickListHeight: "300",
-                    optionDataSource: isc.MyRestDataSource.create({
-                        fields: BaseFormItems.concat([
-                            {
-                                name: "elementName",
-                                title: '<spring:message code="assayInspection.materialElement.name"/>'
-                            },
-                            {name: "material.descl", title: '<spring:message code="material.descl"/>'}
-                        ]),
-                        fetchDataURL: "${contextPath}/api/materialElement/" + "spec-list"
-                    }),
-                    pickListFields: [
-                        {name: "elementName", title: '<spring:message code="assayInspection.materialElement.name"/>'},
-                        {name: "material.descl", title: '<spring:message code="material.descl"/>'}
-                    ],
-                    showTemplate: true,
-                    templateDataFieldName: "materialElement.element.name"
-                }
+                materialElementField
             ]
         case 'Discount':
             return [
@@ -189,34 +215,7 @@ function getReferenceFields(referenceType) {
                     width: "100%",
                     showTemplate: true
                 },
-                {
-                    name: "materialElementId",
-                    title: "<spring:message code='assayInspection.materialElement'/>",
-                    width: "100%",
-                    type: "long",
-                    required: true,
-                    autoFetchData: false,
-                    editorType: "SelectItem",
-                    valueField: "id",
-                    displayField: "elementName",
-                    pickListHeight: "300",
-                    optionDataSource: isc.MyRestDataSource.create({
-                        fields: BaseFormItems.concat([
-                            {
-                                name: "elementName",
-                                title: '<spring:message code="assayInspection.materialElement.name"/>'
-                            },
-                            {name: "material.descl", title: '<spring:message code="material.descl"/>'}
-                        ]),
-                        fetchDataURL: "${contextPath}/api/materialElement/" + "spec-list"
-                    }),
-                    pickListFields: [
-                        {name: "elementName", title: '<spring:message code="assayInspection.materialElement.name"/>'},
-                        {name: "material.descl", title: '<spring:message code="material.descl"/>'}
-                    ],
-                    showTemplate: true,
-                    templateDataFieldName: "materialElement.element.name"
-                }
+                materialElementField
             ]
         case 'RateReference':
             return '';

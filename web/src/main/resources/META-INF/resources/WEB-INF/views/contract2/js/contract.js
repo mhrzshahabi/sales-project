@@ -629,6 +629,9 @@ contractTab.method.addSectionByContract = function (record) {
             field.editable = detailValue.editable;
             field.unitId = detailValue.unitId;
 
+            if (header.contains(field.key))
+                field.hidden = true;
+
             if (detailValue.unitId !== undefined) {
                 getReferenceDataSource("Unit").fetchData(
                     {
@@ -776,6 +779,9 @@ contractTab.method.addSectionByContractDetailType = function (record) {
         field.value = param.defaultValue;
         field.required = param.required;
         field.unitId = param.unitId;
+
+        if (header.contains(field.key))
+            field.hidden = true;
 
         if (param.reference == "Incoterm") {
             field.changed = function (form, item, value) {
