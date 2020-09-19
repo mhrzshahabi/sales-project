@@ -1,12 +1,10 @@
 package com.nicico.sales.model.entities.base;
 
 
-import com.nicico.sales.model.Auditable;
 import com.nicico.sales.model.entities.common.BaseEntity;
 import com.nicico.sales.model.enumeration.InspectionRateValueType;
 import lombok.*;
 import lombok.experimental.Accessors;
-import org.hibernate.envers.AuditOverride;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;

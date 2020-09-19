@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
 import com.nicico.copper.common.dto.grid.TotalResponse;
+import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.annotation.Action;
 import com.nicico.sales.dto.ContractShipmentDTO;
 import com.nicico.sales.dto.TypicalAssayDTO;
@@ -235,11 +236,17 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
     }
 
     @Transactional(readOnly = true)
-    @Action(value = ActionType.Search)
+    @Action(value = ActionType.RefinedSearch)
     public TotalResponse<ContractDTO2.ListGridInfo> refinedSearch(NICICOCriteria request) {
+        return null;
+    }
+
+    @Transactional(readOnly = true)
+    @Action(value = ActionType.RefinedSearch)
+    public SearchDTO.SearchRs<ContractDTO2.ListGridInfo> refinedSearch(SearchDTO.SearchRq request) {
 
         List<Contract2> entities = new ArrayList<>();
-        TotalResponse<ContractDTO2.ListGridInfo> result = SearchUtil.search(repositorySpecificationExecutor, request, entity -> {
+        SearchDTO.SearchRs<ContractDTO2.ListGridInfo> result = SearchUtil.search(repositorySpecificationExecutor, request, entity -> {
 
             ContractDTO2.ListGridInfo eResult = modelMapper.map(entity, ContractDTO2.ListGridInfo.class);
             validation(entity, eResult);
