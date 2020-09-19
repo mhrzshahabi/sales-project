@@ -303,7 +303,7 @@ contractTab.Methods = {
                 response.text().then(error => {
                     contractTab.Logs.add(["fetch error:", error]);
                     // MyRPCManager.handleError({httpResponseText: error});
-                    isc.warn("مشکلی پیش آمد. مشکل جهت گزارش:\n" + JSON.stringify(error));
+                    isc.warn("<spring:message code='Tozin.error.message '/>:\n" + JSON.stringify(error));
                 });
                 return;
             }
@@ -386,7 +386,7 @@ contractTab.Methods = {
                     message: '<spring:message code="global.grid.record.not.selected"/> ',
                     icon: "[SKIN]warn.png",
                     title: '<spring:message code="global.message"/> ',
-                    buttons: [isc.IButtonSave.create({title: "تائید"})],
+                    buttons: [isc.IButtonSave.create({title: "<spring:message code='global.ok'/>"})],
                     buttonClick: function (button, post) {
                         this.close();
                     }
@@ -412,9 +412,9 @@ contractTab.Methods = {
             const data = {ids: grid.getSelectedRecords().map(record => record.id)};
             if (params.ids.length > 0) {
                 isc.Dialog.create({
-                    message: '<spring:message code="global.delete.ask"  />' + "<br>" + params.ids.length + " " + 'مورد',
+                    message: '<spring:message code="global.delete.ask"  />' + "<br>" + params.ids.length + " " + '<spring:message code="global.mored"/>',
                     icon: "[SKIN]ask.png",
-                    title: '<spring:message code="global.form.remove"/> ' + " " + params.ids.length + " " + 'مورد',
+                    title: '<spring:message code="global.form.remove"/> ' + " " + params.ids.length + " " + '<spring:message code="global.mored"/>',
                     buttons: [
                         isc.Button.create({title: '<spring:message code="global.yes"/>'}),
                         isc.Button.create({title: '<spring:message code="global.no"/>'})
@@ -765,9 +765,9 @@ contractTab.Methods.NewAddendum = async function () {
     const response = await resp.json();
     const find = response.response.data.find(_ => !_.estatus.includes(Enums.eStatus2.Final));
     if (find) {
-        return isc.warn("الحاقیه شماره " +
+        return isc.warn("<spring:message code='contract.addendum'/> <spring:message code='global.number'/> " +
             " " + find.no +
-            " تایید نهایی نشده."
+            "   <spring:message code='global.grid.record.can.not.disapprove'/>   "
         )
     }
     dbg(false, resp)

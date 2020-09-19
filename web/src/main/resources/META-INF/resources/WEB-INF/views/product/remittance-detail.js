@@ -261,7 +261,7 @@ const rdTab = {
                     response.text().then(error => {
                         rdTab.Logs.add(["fetch error:", error]);
                         // MyRPCManager.handleError({httpResponseText: error});
-                        isc.warn("مشکلی پیش آمد. مشکل جهت گزارش:\n" + JSON.stringify(error));
+                        isc.warn("<spring:message code='Tozin.error.message '/>:\n" + JSON.stringify(error));
                     });
                     return;
                 }
@@ -354,7 +354,7 @@ const rdTab = {
                         message: '<spring:message code="global.grid.record.not.selected"/> ',
                         icon: "[SKIN]warn.png",
                         title: '<spring:message code="global.message"/> ',
-                        buttons: [isc.IButtonSave.create({title: "تائید"})],
+                        buttons: [isc.IButtonSave.create({title: "<spring:message code='global.ok'/>"})],
                         buttonClick: function (button, post) {
                             this.close();
                         }
@@ -380,9 +380,9 @@ const rdTab = {
                 const data = {ids: grid.getSelectedRecords().map(record => record.id)};
                 if (params.ids.length > 0) {
                     isc.Dialog.create({
-                        message: '<spring:message code="global.delete.ask"  />' + "<br>" + params.ids.length + " " + 'مورد',
+                        message: '<spring:message code="global.delete.ask"  />' + "<br>" + params.ids.length + " " + '<spring:message code="global.mored"/>',
                         icon: "[SKIN]ask.png",
-                        title: '<spring:message code="global.form.remove"/> ' + " " + params.ids.length + " " + 'مورد',
+                        title: '<spring:message code="global.form.remove"/> ' + " " + params.ids.length + " " + '<spring:message code="global.mored"/>',
                         buttons: [
                             isc.Button.create({title: '<spring:message code="global.yes"/>'}),
                             isc.Button.create({title: '<spring:message code="global.no"/>'})
@@ -814,8 +814,8 @@ rdTab.Methods.FetchAlreadyInsertedTozinList = async function (criteria) {
             }).join('&criteria='),
         {headers: SalesConfigs.httpHeaders});
     if (response.status !== 200 && response.status !== 201) {
-        isc.say('مشکل در ارتباط');
-        throw "مشکل در ارتباط getAlreadyInsertedTozinList"
+        isc.say('"<spring:message code="global.connection.error"/>"');
+        throw "<spring:message code='global.connection.error'/> getAlreadyInsertedTozinList"
     }
     const responseJson = await response.json();
     return responseJson.response.data.map(t => t.tozinId);
@@ -906,8 +906,8 @@ rdTab.Fields.TozinBase = function () {
             name: "codeKala",
             type: "number",
             // filterEditorProperties: {editorType: "comboBox"},
-            valueMap: {11: 'كاتد صادراتي', 8: 'كنسانتره مس ', 97: 'اكسيد موليبدن'},
-            title: "محصول",
+            valueMap: {11: '<spring:message code="Tozin.export.cathode"/>', 8: '<spring:message code="Tozin.copper.concentrate"/>', 97: '<spring:message code="invoice.molybdenum"/>'},
+            title: "<spring:message code='goods.title'/>",
             parseEditorValue: function (value, record, form, item) {
                 StorageUtil.save('on_way_product_defaultCodeKala', value)
                 return value;
@@ -994,13 +994,13 @@ rdTab.Fields.TozinTable = function () {
         ...rdTab.Fields.TozinBase(),
         {
             name: 'isInView',
-            title: "اطلاعات از لجستیک",
+            title: "<spring:message code='warehouseCad.from.logistic'/>",
             defaultValue: false,
-            valueMap: {true: "بله", false: "خیر"}
+            valueMap: {true: "<spring:message code='global.yes'/>", false: "<spring:message code='global.no'/>"}
         },
         {name: 'haveCode', hidden: true},
         {name: 'cardId', hidden: true},
-        {name: 'ctrlDescOut', title: "شرح"},
+        {name: 'ctrlDescOut', title: "<spring:message code='global.description'/>"},
         {name: 'version', hidden: true},
     ];
 }
@@ -1014,7 +1014,7 @@ rdTab.Fields.TozinLite = function () {
         },
         {
             name: "containerNo3", hidden: true,
-            title: "<spring:message code='Tozin.containerNo3'/> - نوع حمل",
+            title: "<spring:message code='Tozin.containerNo3'/> - <spring:message code='shipment.type'/>",
             align: "center",
             formatCellValue(value, record, rowNum, colNum, grid) {
                 return (value ? "ریلی  " + value : "جاده‌ای"
@@ -1219,7 +1219,7 @@ rdTab.Fields.RemittanceDetail = function () {
             displayField: "code",
             valueField: "id",
         },
-        {name: "depot.id", hidden: true, title: "دپو",},
+        {name: "depot.id", hidden: true, title: "<spring:message code='warehouseCad.depot'/>",},
         {
             name: "unitId",
             editorType: "ComboBoxItem",
@@ -1228,26 +1228,26 @@ rdTab.Fields.RemittanceDetail = function () {
             },
             valueMap: SalesBaseParameters.getSavedUnitParameter().getValueMap('id', 'nameFA'),
             type: "number",
-            title: "واحد",
+            title: "<spring:message code='global.unit'/>",
             recordDoubleClick: rdTab.Methods.RecordDoubleClickRD,
         },
         {
             name: "amount",
-            title: "تعداد محصول",
+            title: "<spring:message code='global.amount'/> <spring:message code='goods.title'/>",
             recordDoubleClick: rdTab.Methods.RecordDoubleClickRD,
 
 
         },
         {
             name: "weight",
-            title: "وزن",
+            title: "<spring:message code='Tozin.vazn'/>",
             recordDoubleClick: rdTab.Methods.RecordDoubleClickRD,
 
 
         },
         {
             name: "sourceTozin.tozinId",
-            title: "توزین مبدا",
+            title: "<spring:message code='warehouseCad.tozinOther'/>",
             recordDoubleClick: rdTab.Methods.RecordDoubleClickRD,
             pickListFields: rdTab.Fields.TozinLite(),
             showHover: true,
@@ -1255,7 +1255,7 @@ rdTab.Fields.RemittanceDetail = function () {
         },
         {
             name: "destinationTozin.tozinId",
-            title: "توزین مقصد",
+            title: "<spring:message code='Tozin.target.tozin'/>",
             recordDoubleClick: rdTab.Methods.RecordDoubleClickRD,
             showHover: true,
             showHoverComponents: true,
@@ -1264,21 +1264,21 @@ rdTab.Fields.RemittanceDetail = function () {
         },
         {
             name: "securityPolompNo",
-            title: "پلمپ حراست",
+            title: "<spring:message code='warehouseCad.herasatPolompNo'/>",
             recordDoubleClick: rdTab.Methods.RecordDoubleClickRD,
 
 
         },
         {
             name: "railPolompNo",
-            title: "پلمپ راه‌آهن",
+            title: "<spring:message code='warehouseCad.rahahanPolompNo'/>",
             recordDoubleClick: rdTab.Methods.RecordDoubleClickRD,
 
 
         },
         {
             name: "description",
-            title: "توضیحات پکیج",
+            title: "<spring:message code='shipment.description'/> <spring:message code='global.package'/>",
             recordDoubleClick: rdTab.Methods.RecordDoubleClickRD,
 
 
@@ -1288,7 +1288,7 @@ rdTab.Fields.RemittanceDetail = function () {
 rdTab.Fields.RemittanceDetailFullFields = function () {
     return [
         // {
-        //     name: "remittance.code", title: "شماره بیجک"
+        //     name: "remittance.code", title: "<spring:message code='remittance.code'/>"
         //     , recordDoubleClick: function (viewer, record, recordNum, field, fieldNum, value, rawValue) {
         //         rdTab.Methods.RecordDoubleClick('api/remittance', rdTab.Fields.Remittance, "remittance",
         //             viewer, record, recordNum, field, fieldNum, value, rawValue)
@@ -1296,7 +1296,7 @@ rdTab.Fields.RemittanceDetailFullFields = function () {
         // },
         // {
         //     name: "remittance.description",
-        //     title: "توضیحات بیجک",
+        //     title: "<spring:message code='shipment.description'/> بیجک",
         //     recordDoubleClick() {
         //         rdTab.Methods.RecordDoubleClick("api/remittance", rdTab.Fields.Remittance, 'remittance', ...arguments)
         //     }
@@ -1304,7 +1304,7 @@ rdTab.Fields.RemittanceDetailFullFields = function () {
         // },
         {
             name: "inventory.label",
-            title: "سریال محصول",
+            title: "<spring:message code='warehouseCadItem.inventory.Serial'/>",
             recordDoubleClick: function (viewer, record, recordNum, field, fieldNum, value, rawValue) {
                 rdTab.Methods.RecordDoubleClick('api/inventory', rdTab.Fields.Inventory(), "inventory",
                     viewer, record, recordNum, field, fieldNum, value, rawValue)
@@ -1317,7 +1317,7 @@ rdTab.Fields.RemittanceDetailFullFields = function () {
             },
             valueMap: SalesBaseParameters.getSavedMaterialItemParameter().getValueMap("id", "gdsName"),
             type: "number",
-            title: "محصول",
+            title: "<spring:message code='goods.title'/>",
             hidden: true,
             recordDoubleClick: function (viewer, record, recordNum, field, fieldNum, value, rawValue) {
                 rdTab.Methods.RecordDoubleClick('api/inventory', rdTab.Fields.Inventory(), "inventory",
@@ -1330,14 +1330,14 @@ rdTab.Fields.RemittanceDetailFullFields = function () {
             filterEditorProperties: {
                 editorType: "ComboBoxItem",
             },
-            title: "مبدا",
+            title: "<spring:message code='Tozin.source'/>",
             recordDoubleClick: rdTab.Methods.RecordDoubleClickRD, hidden: true,
 
 
         },
         {
             name: "destinationTozin.date",
-            title: "تاریخ توزین مقصد",
+            title: "<spring:message code='global.date'/> <spring:message code='Tozin.target.tozin'/>",
             hidden: true,
             recordDoubleClick: rdTab.Methods.RecordDoubleClickRD,
 
@@ -1350,15 +1350,15 @@ rdTab.Fields.RemittanceDetailFullFields = function () {
             filterEditorProperties: {
                 editorType: "ComboBoxItem",
             },
-            title: "مقصد",
+            title: "<spring:message code='shipment.Bol.tblPortByDischarge'/>",
             hidden: true,
             recordDoubleClick: rdTab.Methods.RecordDoubleClickRD,
 
 
         },
         {
-            name: "depot.name", showHover: true, title: "دپو", formatCellValue(value, record) {
-                //  console.log('name: "depot.id", hidden: true, disabled: true,title:"دپو",formatCellValue()', arguments);
+            name: "depot.name", showHover: true, title: "<spring:message code='warehouseCad.depot'/>", formatCellValue(value, record) {
+                //  console.log('name: "depot.id", hidden: true, disabled: true,title:"<spring:message code='warehouseCad.depot'/>",formatCellValue()', arguments);
                 // return this.Super('formatCellValue',arguments);
                 const title = record.depot.store.warehouse.name + " - " + record.depot.store.name + " - " + record.depot.name;
                 return title;
@@ -1375,7 +1375,7 @@ rdTab.Fields.Remittance = function () {
     return [
         {name: 'id', hidden: true},
         {
-            name: 'code', title: "شماره بیجک",
+            name: 'code', title: "<spring:message code='remittance.code'/>",
             recordDoubleClick: function (viewer, record, recordNum, field, fieldNum, value, rawValue) {
                 rdTab.Methods.RecordDoubleClick('api/remittance', rdTab.Fields.Remittance().map(_ => {
                         if (record.remittanceDetails[0] && _.name.toLowerCase() === "shipmentId".toLowerCase() &&
@@ -1397,7 +1397,7 @@ rdTab.Fields.Remittance = function () {
             required: true,
         },
         {
-            name: 'date', title: "تاریخ بیجک",
+            name: 'date', title: "<spring:message code='global.date'/> <spring:message code='bijack'/>",
             recordDoubleClick: function (viewer, record, recordNum, field, fieldNum, value, rawValue) {
                 rdTab.Methods.RecordDoubleClick('api/remittance', rdTab.Fields.Remittance().filter(_ => _.name !== 'date').map(_ => {
 
@@ -1419,7 +1419,7 @@ rdTab.Fields.Remittance = function () {
             },
         },
         {
-            name: 'description', title: "شرح بیجک",
+            name: 'description', title: "<spring:message code='remittance.description'/>",
             recordDoubleClick: function (viewer, record, recordNum, field, fieldNum, value, rawValue) {
                 rdTab.Methods.RecordDoubleClick('api/remittance', rdTab.Fields.Remittance().map(_ => {
                         if (_.name.toLowerCase() === "shipmentId".toLowerCase()) {
@@ -1437,7 +1437,7 @@ rdTab.Fields.Remittance = function () {
                     viewer, record, recordNum, field, fieldNum, value, rawValue)
             },
         },
-        {name: 'id', title: "شناسه", hidden: true},
+        {name: 'id', title: "<spring:message code='global.id'/>", hidden: true},
         {
             name: "shipmentId",
             recordDoubleClick: function (viewer, record, recordNum, field, fieldNum, value, rawValue) {
@@ -1790,7 +1790,7 @@ rdTab.Fields.RemittanceFull = function () {
         ...rdTab.Fields.Remittance(),
         {
             name: "remittanceDetails.sourceTozin.tozinId",
-            title: "توزین مبدا",
+            title: "<spring:message code='warehouseCad.tozinOther'/>",
             canSort: false,
         },
         {
@@ -1801,7 +1801,7 @@ rdTab.Fields.RemittanceFull = function () {
             },
             canSort: false,
             type: "number",
-            title: "محصول",
+            title: "<spring:message code='goods.title'/>",
         },
         {
             name: "tozinTable.sourceId",
@@ -1814,7 +1814,7 @@ rdTab.Fields.RemittanceFull = function () {
                     return recordObject.tozinTable.targetId
             },
             valueMap: SalesBaseParameters.getSavedWarehouseParameter().getValueMap("id", "name"),
-            title: "مبدا",
+            title: "<spring:message code='Tozin.source'/>",
             filterOperator: "equals",
             sortByMappedValue: true,
             // canSort: false,
@@ -1837,7 +1837,7 @@ rdTab.Fields.RemittanceFull = function () {
                 if (recordObject.tozinTable && recordObject.tozinTable.date) return recordObject.tozinTable.date
             },
             name: "tozinTable.date",
-            title: "تاریخ ",
+            title: "<spring:message code='global.date'/> ",
 
         },
         {
@@ -1847,7 +1847,7 @@ rdTab.Fields.RemittanceFull = function () {
             // },
             canSort: false,
             name: "remittanceDetails.sourceTozin.date",
-            title: "تاریخ توزین مبدا",
+            title: "<spring:message code='global.date'/> <spring:message code='warehouseCad.tozinOther'/>",
 
         },
 
@@ -1855,7 +1855,7 @@ rdTab.Fields.RemittanceFull = function () {
             ...rdTab.Fields.TozinBase().find(t => t.name === 'date'),
             canSort: false,
             name: "remittanceDetails.destinationTozin.date",
-            title: "تاریخ توزین مقصد",
+            title: "<spring:message code='global.date'/> <spring:message code='Tozin.target.tozin'/>",
         },
         {
             name: "tozinTable.targetId",
@@ -1869,18 +1869,18 @@ rdTab.Fields.RemittanceFull = function () {
                 if (recordObject.tozinTable && recordObject.tozinTable.targetId)
                     return recordObject.tozinTable.targetId
             },
-            title: "مقصد",
+            title: "<spring:message code='shipment.Bol.tblPortByDischarge'/>",
             hidden: false,
         },
         {
             name: "remittanceDetails.depot.name",
             canSort: false,
             // valueMap: SalesBaseParameters.getSavedWarehouseParameter().getValueMap("id", "name"),
-            title: "دپو",
+            title: "<spring:message code='warehouseCad.depot'/>",
             showHover: true,
             formatCellValue(value, record) {
 
-                // console.log('name: "depot.id", hidden: true, disabled: true,title:"دپو",formatCellValue()', arguments);
+                // console.log('name: "depot.id", hidden: true, disabled: true,title:"<spring:message code='warehouseCad.depot'/>",formatCellValue()', arguments);
                 // return this.Super('formatCellValue',arguments);
                 try {
                     const title = record.remittanceDetails[0].depot.store.warehouse.name +
@@ -1908,19 +1908,19 @@ rdTab.Fields.Inventory = function () {
                 editorType: "ComboBoxItem",
             },
             valueMap: SalesBaseParameters.getSavedMaterialItemParameter().getValueMap("id", "gdsName"),
-            title: 'محصول',
+            title: '<spring:message code="goods.title"/>',
             disabled: true,
 
         },
-        {name: 'label', title: 'سریال محصول'},
-        {name: 'id', title: 'شناسه', hidden: true,},
+        {name: 'label', title: '<spring:message code="warehouseCadItem.inventory.Serial"/>'},
+        {name: 'id', title: '<spring:message code="global.id"/>', hidden: true,},
     ];
 }
 rdTab.Fields.Depot = function () {
     return [
-        {name: "store.warehouse.name", title: "انبار"},
-        {name: "store.name", title: "سوله/محوطه"},
-        {name: "name", title: "یارد"}
+        {name: "store.warehouse.name", title: "<spring:message code='dailyReportTransport.warehouseNo'/>"},
+        {name: "store.name", title: "<spring:message code='warehouseCad.store'/>"},
+        {name: "name", title: "<spring:message code='warehouseCad.yard'/>"}
     ];
 }
 rdTab.Fields.Shipment = function () {
@@ -2085,11 +2085,11 @@ rdTab.Layouts.ToolStripButtons.PDF = {
     }
 };
 rdTab.Layouts.ToolStripButtons.Delete = isc.ToolStripButtonRemove.create({
-    title: "حذف کامل بیجک",
+    title: "<spring:message code='remittance.del.all'/> <spring:message code='bijack'/>",
     click() {
         isc.Dialog.create({
-            title: "هشدار",
-            message: "پاک کردن بیجک باعث پاک شدن تمامی محصولات زیرمجموعه تعریف‌شده به آن هم می‌شود. آیا اطمینان دارید؟",
+            title: "<spring:message code='global.warning'/>",
+            message: "<spring:message code='remittance.del.sure'/>",
             buttons: [isc.Dialog.OK, isc.Dialog.CANCEL],
             okClick() {
                 rdTab.Methods.Delete(rdTab.Grids.Remittance.obj,
@@ -2103,7 +2103,7 @@ rdTab.Layouts.ToolStripButtons.Delete = isc.ToolStripButtonRemove.create({
 rdTab.Layouts.ToolStripButtons.New = isc.ToolStripButtonAdd.create({
     // visibility: "hidden",
     ID: "new_bijak" + Math.random().toString().substr(3, 5),
-    title: 'ایجاد بیجک خروجی',
+    title: '<spring:message code="global.form.new"/> <spring:message code="bijack"/> <spring:message code="dailyReport.output"/>',
     click() {
         const selectedData = [];
         let materialItemId = rdTab.Grids.Remittance.obj
@@ -2115,7 +2115,7 @@ rdTab.Layouts.ToolStripButtons.New = isc.ToolStripButtonAdd.create({
             .getSelectedRecords()
             .forEach(r => {
                 if (r.remittanceDetails[0].inventory.materialItemId !== materialItemId) {
-                    isc.warn('رکوردهای‌انتخاب شده به محصولات متفاوتی تعلق دارند.');
+                    isc.warn('<spring:message code="remittance.selected.records.diff.product"/>');
                     multipleMaterialItem = true;
                 }
                 const r_tmp = {...r};
@@ -2132,7 +2132,7 @@ rdTab.Layouts.ToolStripButtons.New = isc.ToolStripButtonAdd.create({
                 selectedData.addList(rd)
             });
         if (multipleMaterialItem) return;
-        if (hasOutRemittance) return isc.warn('بیجک خروجی انتخاب شده')
+        if (hasOutRemittance) return isc.warn("<spring:message code='remittance.out.selected'/>")
         // console.log('selectedData', selectedData)
         //  let grid;
         //  let _form;
@@ -2142,7 +2142,7 @@ rdTab.Layouts.ToolStripButtons.New = isc.ToolStripButtonAdd.create({
             fields: [
                 {
                     name: "materialItemId",
-                    title: "محصول",
+                    title: "<spring:message code='goods.title'/>",
                     changed(form, item, value) {
                         if (value) {
                             rdTab.Layouts.ToolStripButtons.OutRemittanceAddTozin.enable();
@@ -2182,7 +2182,7 @@ rdTab.Layouts.ToolStripButtons.New = isc.ToolStripButtonAdd.create({
             })
         });
         rdTab.Layouts.ToolStripButtons.OutRemittanceAdd = isc.ToolStripButtonAdd.create({
-            title: "افزودن بیجک ورودی",
+            title: "<spring:message code='global.add'/> <spring:message code='bijak'/> <spring:message code='global.vorodi'/>",
             disabled: true,
             click() {
                 let selectRd;
@@ -2192,7 +2192,7 @@ rdTab.Layouts.ToolStripButtons.New = isc.ToolStripButtonAdd.create({
                         isc.ToolStrip.create({
                             members: [
                                 isc.ToolStripButtonAdd.create({
-                                    title: "افزودن",
+                                    title: "<spring:message code='global.add'/>",
                                     click() {
                                         const records = selectRd.getSelectedRecords();
                                         if (!records || records.length === 0)
@@ -2206,7 +2206,7 @@ rdTab.Layouts.ToolStripButtons.New = isc.ToolStripButtonAdd.create({
                                     }
                                 }),
                                 isc.ToolStripButtonRefresh.create({
-                                    title: "انتخاب‌همه",
+                                    title: "<spring:message code='global.select.all'/>",
                                     click() {
                                         selectRd.selectAllRecords();
                                     }
@@ -2217,8 +2217,8 @@ rdTab.Layouts.ToolStripButtons.New = isc.ToolStripButtonAdd.create({
                         selectRd = isc.ListGrid.create({
                             ...rdTab.Grids.RemittanceDetail,
                             fields: [
-                                {name: "remittance.code", title: "شماره بیچک"},
-                                {name: "remittance.description", title: "شرح بیجک"},
+                                {name: "remittance.code", title: "<spring:message code='global.number'/> <spring:message code='bijack'/>"},
+                                {name: "remittance.description", title: "<spring:message code='remittance.description'/>"},
                                 ...rdTab.Fields.RemittanceDetailFullFields().map(f => {
                                     const showFields = {
                                         "remittance.code": {},
@@ -2276,7 +2276,7 @@ rdTab.Layouts.ToolStripButtons.New = isc.ToolStripButtonAdd.create({
         rdTab.Layouts.ToolStripButtons.OutRemittanceAddTozin = isc.ToolStripButtonAdd.create({
             disabled: true,
             align: "center",
-            title: "انتخاب توزین از لجستیک",
+            title: "<spring:message code='remittance.select.from.logistic'/>",
             click() {
                 rdTab.Grids.TozinLite = isc.ListGrid.create({
                     fields: rdTab.Fields.TozinLite().map(_ => {
@@ -2338,7 +2338,7 @@ rdTab.Layouts.ToolStripButtons.New = isc.ToolStripButtonAdd.create({
                         isc.ToolStrip.create({
                             members: [
                                 isc.ToolStripButtonAdd.create({
-                                    title: "افزودن",
+                                    title: "<spring:message code='global.add'/>",
                                     click: _ => rdTab.Grids.TozinLite.recordDoubleClick(rdTab.Grids.TozinLite, rdTab.Grids.TozinLite.getSelectedRecord())
                                 }),
                             ]
@@ -2349,7 +2349,7 @@ rdTab.Layouts.ToolStripButtons.New = isc.ToolStripButtonAdd.create({
         });
         rdTab.Layouts.ToolStripButtons.AddTozinToRemittanceDetails = isc.ToolStripButtonAdd.create({
             // disabled: true,
-            title: "افزودن توزین به بیجک‌های انتخابی",
+            title: "<spring:message code='remittance.add.tozin'/>",
             click() {
                 if (!rdTab.DynamicForms.Forms.TozinTable.validate()) return;
                 const outTozin = rdTab.DynamicForms.Forms.TozinTable.getValues();
@@ -2369,8 +2369,8 @@ rdTab.Layouts.ToolStripButtons.New = isc.ToolStripButtonAdd.create({
             editEvent: "doubleClick",
             autoSaveEdits: false,
             fields: [
-                {name: "remittance.code", title: "شماره بیجک", canEdit: false},
-                {name: "remittance.description", title: "شرح بیجک", canEdit: false},
+                {name: "remittance.code", title: "<spring:message code='remittance.code'/>", canEdit: false},
+                {name: "remittance.description", title: "<spring:message code='remittance.description'/>", canEdit: false},
                 ...rdTab.Fields.RemittanceDetailFullFields().map(f => {
                     const showFields = {
                         "remittance.code": {},
@@ -2389,10 +2389,10 @@ rdTab.Layouts.ToolStripButtons.New = isc.ToolStripButtonAdd.create({
                     };
                     return f
                 }),
-                {name: "outTozin.tozinId", title: "توزین خروجی", canEdit: false},
+                {name: "outTozin.tozinId", title: "<spring:message code='remittance.dest.tozin'/>", canEdit: false},
                 {
                     name: "outDescription",
-                    title: "شرح محصول",
+                    title: "<spring:message code='global.description'/> <spring:message code='goods.title'/>",
                     canEdit: true,
                     editorExit(editCompletionEvent, record, newValue, rowNum, colNum, grid) {
                         record.outDescription = newValue
@@ -2410,7 +2410,7 @@ rdTab.Layouts.ToolStripButtons.New = isc.ToolStripButtonAdd.create({
                         isc.Label.create({
                             height: .06 * innerHeight,
                             contents: "<h3 style='text-align: center'>"
-                                + "اطلاعات توزین خروجی" +
+                                + "<spring:message code='remittance.dest.info'/>" +
                                 "</h3>"
                         }),
                         isc.HLayout.create({
@@ -2451,7 +2451,7 @@ rdTab.Layouts.ToolStripButtons.New = isc.ToolStripButtonAdd.create({
             if (remittanceDetailsWithoutTozin && remittanceDetailsWithoutTozin.length > 0) {
                 rdTab.Grids.RemittanceDetailOutRemittance.deselectAllRecords();
                 rdTab.Grids.RemittanceDetailOutRemittance.selectRecords(remittanceDetailsWithoutTozin);
-                return isc.warn('رکورد‌های انخابی بدون توزین خروجی می‌باشند.')
+                return isc.warn('<spring:message code="remittance.records.does.not.have.target.tozin"/>.')
             }
             const remittanceDetailForSend = Object.assign([], remittanceDetails)
             remittanceDetailForSend.forEach(rd => {
@@ -2506,6 +2506,7 @@ isc.VLayout.create({
                     border: '0px',
                     members: [
                         isc.ToolStripButtonRefresh.create({
+                            title:"<spring:message code='global.form.refresh'/>",
                             click() {
                                 rdTab.Grids.Remittance.obj.invalidateCache()
                             }

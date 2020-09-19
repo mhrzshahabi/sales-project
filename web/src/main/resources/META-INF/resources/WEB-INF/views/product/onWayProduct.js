@@ -57,8 +57,8 @@ const tozinLiteFields = _ => [
         name: "codeKala",
         type: "number",
         // filterEditorProperties: {editorType: "comboBox"},
-        valueMap: {11: 'كاتد صادراتي', 8: 'كنسانتره مس ', 97: 'اكسيد موليبدن'},
-        title: "محصول",
+        valueMap: {11: '<spring:message code="Tozin.export.cathode"/>', 8: '<spring:message code="Tozin.copper.concentrate"/>', 97: '<spring:message code="invoice.molybdenum"/>'},
+        title: "<spring:message code='goods.title'/>",
         parseEditorValue: function (value, record, form, item) {
             // console.log("        parseEditorValue: function (value, record, form, item) ", value)
             StorageUtil.save('on_way_product_defaultCodeKala', value)
@@ -82,7 +82,7 @@ const tozinLiteFields = _ => [
     },
     {
         name: "containerNo3",
-        title: "<spring:message code='Tozin.containerNo3'/> - نوع حمل",
+        title: "<spring:message code='Tozin.containerNo3'/> - <spring:message code='shipment.type'/>",
         align: "center",
         // formatCellValue(value, record, rowNum, colNum, grid) {
         //     return (value ? "ریلی  " + value : "جاده‌ای"
@@ -365,11 +365,11 @@ function mainOnWayProduct() {
     const Menu_ListGrid_OnWayProduct = isc.Menu.create({
         width: 150,
         data: [{
-            title: " صدور <spring:message code='bijack'/>",
+            title: " <spring:message code='Tozin.new'/> <spring:message code='bijack'/>",
             icon: "product/warehouses.png",
             click() {
                 if (ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecords().length < 1)
-                    return isc.warn("لطفا توزین‌های مورد نظر را انتخاب کنید");
+                    return isc.warn("<spring:message code='please.fill.tozin'/>");
 
 
                 onWayProductCreateRemittance();
@@ -559,16 +559,16 @@ function mainOnWayProduct() {
             if (dateCriteria) dateCriteria.value = dateCriteria.value.replaceAll("/", "")
 
             if (!criteria.criteria.find(t => t.fieldName === "sourceId")) {
-                isc.say('فیلتر مبدا خالی‌ می‌باشد')
-                throw 'فیلتر مبدا خالی‌ می‌باشد'
+                isc.say('<spring:message code="please.fill.source"/>')
+                throw '<spring:message code="please.fill.source"/>'
             }
             if (!criteria.criteria.find(t => t.fieldName === "targetId")) {
-                isc.say('فیلتر مقصد خالی‌ می‌باشد')
-                throw "مقصد چی شد"
+                isc.say('<spring:message code="please.fill.target"/>')
+                throw "<spring:message code='shipment.Bol.tblPortByDischarge'/> چی شد"
             }
             if (!criteria.criteria.find(t => t.fieldName === "codeKala")) {
-                isc.say('لطفا محصول انتخاب نمایید')
-                throw "محصول چی شد"
+                isc.say('<spring:message code="please.fill.product"/>')
+                throw "<spring:message code='goods.title'/> چی شد"
             }
             if (!criteria.criteria.find(_ => _.fieldName === "tozinId" && _.operator === "iNotStartsWith" && _.value === "3-"))
                 criteria.criteria.add({"fieldName": "tozinId", "operator": "iNotStartsWith", "value": "3-"})

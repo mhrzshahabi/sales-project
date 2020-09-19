@@ -309,7 +309,7 @@ const crTab = {
                     response.text().then(error => {
                         crTab.Logs.add(["fetch error:", error]);
                         // MyRPCManager.handleError({httpResponseText: error});
-                        isc.warn("مشکلی پیش آمد. مشکل جهت گزارش:\n" + JSON.stringify(error));
+                        isc.warn("<spring:message code='Tozin.error.message '/>:\n" + JSON.stringify(error));
                     });
                     return;
                 }
@@ -392,7 +392,7 @@ const crTab = {
                         message: '<spring:message code="global.grid.record.not.selected"/> ',
                         icon: "[SKIN]warn.png",
                         title: '<spring:message code="global.message"/> ',
-                        buttons: [isc.IButtonSave.create({title: "تائید"})],
+                        buttons: [isc.IButtonSave.create({title: "<spring:message code='global.ok'/>"})],
                         buttonClick: function (button, post) {
                             this.close();
                         }
@@ -418,9 +418,9 @@ const crTab = {
                 const data = {ids: grid.getSelectedRecords().map(record => record.id)};
                 if (params.ids.length > 0) {
                     isc.Dialog.create({
-                        message: '<spring:message code="global.delete.ask"  />' + "<br>" + params.ids.length + " " + 'مورد',
+                        message: '<spring:message code="global.delete.ask"  />' + "<br>" + params.ids.length + " " + '<spring:message code="global.mored"/>',
                         icon: "[SKIN]ask.png",
-                        title: '<spring:message code="global.form.remove"/> ' + " " + params.ids.length + " " + 'مورد',
+                        title: '<spring:message code="global.form.remove"/> ' + " " + params.ids.length + " " + '<spring:message code="global.mored"/>',
                         buttons: [
                             isc.Button.create({title: '<spring:message code="global.yes"/>'}),
                             isc.Button.create({title: '<spring:message code="global.no"/>'})
@@ -777,7 +777,7 @@ crTab.Methods.UpdateInputOutputCharts = function () {
                                 isc.FacetChart.create({
                                     facets: [{
                                         id: "material",    // the key used for this facet in the data above
-                                        title: "محصول"  // the user-visible title you want in the chart
+                                        title: "<spring:message code='goods.title'/>"  // the user-visible title you want in the chart
                                     }, _facet],
                                     data: dataCame,        // a reference to our data above
                                     valueProperty: "weight", // the property in our data that is the numerical value to chart
@@ -795,7 +795,7 @@ crTab.Methods.UpdateInputOutputCharts = function () {
                                 isc.FacetChart.create({
                                     facets: [{
                                         id: "material",    // the key used for this facet in the data above
-                                        title: "محصول"  // the user-visible title you want in the chart
+                                        title: "<spring:message code='goods.title'/>"  // the user-visible title you want in the chart
                                     }, _facet],
                                     data: dataWent,        // a reference to our data above
                                     valueProperty: "weight", // the property in our data that is the numerical value to chart
@@ -894,30 +894,30 @@ crTab.Fields.RemittanceDetailGrid = _ => [
     },
     {
         name: "remittance.code", type: "text",
-        title: "شماره بیجک"
+        title: "<spring:message code='remittance.code'/>"
 
     },
     {
         name: "inventory.materialItemId",
-        title: "محصول",
+        title: "<spring:message code='goods.title'/>",
         valueMap: SalesBaseParameters.getSavedMaterialItemParameter().getValueMap("id", "gdsName"),
     },
     {
         name: "inventory.weight", type: "number", summaryFunction: "sum",
-        title: "وزن",
+        title: "<spring:message code='Tozin.vazn'/>",
     },
     {
         name: "inventory.label",  summaryFunction: "sum",
-        title: "شناسه محصول",
+        title: "<spring:message code='warehouseCadItem.inventory.Serial'/>",
     },
     {
-        name: "inventory.amount", type: "number", summaryFunction: "sum", title: "تعداد",
+        name: "inventory.amount", type: "number", summaryFunction: "sum", title: "<spring:message code='global.amount'/>",
     },
     {
-        name: "depot.name", type: "text", title: "یارد",
+        name: "depot.name", type: "text", title: "<spring:message code='warehouseCad.yard'/>",
     },
     {
-        name: "depot.store.warehouseId", title: "انبار",
+        name: "depot.store.warehouseId", title: "<spring:message code='dailyReportTransport.warehouseNo'/>",
 
         valueMap: SalesBaseParameters.getSavedWarehouseParameter().getValueMap("id", "name"), hidden: true
     },
@@ -967,11 +967,11 @@ crTab.Fields.TozinTable = function () {
         ...crTab.Fields.TozinBase(),
         {
             name: 'isInView',
-            title: "اطلاعات از لجستیک",
+            title: "<spring:message code='warehouseCad.from.logistic'/>",
         },
         {name: 'haveCode', hidden: true},
         {name: 'cardId', hidden: true},
-        {name: 'ctrlDescOut', title: "شرح"},
+        {name: 'ctrlDescOut', title: "<spring:message code='global.description'/>"},
         {name: 'version', hidden: true},
     ];
 }
@@ -984,7 +984,7 @@ crTab.Fields.TozinLite = function () {
         },
         {
             name: "containerNo3", hidden: true,
-            title: "<spring:message code='Tozin.containerNo3'/> - نوع حمل",
+            title: "<spring:message code='Tozin.containerNo3'/> - <spring:message code='shipment.type'/>",
         },
         {
             name: "havalehCode", hidden: true,
@@ -1126,50 +1126,50 @@ crTab.Fields.RemittanceDetail = function () {
             name: "remittanceId", hidden: true,
             title: "<spring:message code='bijack'/>"
         },
-        {name: "depot.id", hidden: true, title: "دپو",},
+        {name: "depot.id", hidden: true, title: "<spring:message code='warehouseCad.depot'/>",},
         {
             name: "unitId",
             type: "number",
-            title: "واحد",
+            title: "<spring:message code='global.unit'/>",
         },
         {
             name: "amount",
-            title: "تعداد محصول",
+            title: "<spring:message code='global.amount'/> محصول",
 
 
         },
         {
             name: "weight",
-            title: "وزن",
+            title: "<spring:message code='Tozin.vazn'/>",
 
 
         },
         {
             name: "sourceTozin.tozinId",
-            title: "توزین مبدا",
+            title: "<spring:message code='warehouseCad.tozinOther'/>",
 
         },
         {
             name: "destinationTozin.tozinId",
-            title: "توزین مقصد",
+            title: "<spring:message code='Tozin.target.tozin'/>",
 
 
         },
         {
             name: "securityPolompNo",
-            title: "پلمپ حراست",
+            title: "<spring:message code='warehouseCad.herasatPolompNo'/>",
 
 
         },
         {
             name: "railPolompNo",
-            title: "پلمپ راه‌آهن",
+            title: "<spring:message code='warehouseCad.rahahanPolompNo'/>",
 
 
         },
         {
             name: "description",
-            title: "توضیحات پکیج",
+            title: "<spring:message code='shipment.description'/> <spring:message code='global.package'/>",
 
 
         },
@@ -1180,63 +1180,63 @@ crTab.Fields.RemittanceDetailFullFields = function () {
 
         {
             name: "inventory.label",
-            title: "سریال محصول",
+            title: "<spring:message code='warehouseCadItem.inventory.Serial'/>",
         },
         {
             name: "inventory.materialItem.id",
             type: "number",
-            title: "محصول",
+            title: "<spring:message code='goods.title'/>",
             hidden: true,
         },
         {
             name: "inventory.materialItem.gdsName",
             type: "number",
-            title: "محصول",
+            title: "<spring:message code='goods.title'/>",
             hidden: true,
         },
         {
             name: "destinationTozin.sourceId",
-            title: "کد مبدا اعلامی توزین مقصد"
+            title: "کد <spring:message code='Tozin.source'/> اعلامی <spring:message code='Tozin.target.tozin'/>"
         },
         {
             name: "sourceTozin.sourceWarehouse.name",
-            title: " مبدا اعلامی توزین مبدا"
+            title: " <spring:message code='Tozin.source'/> اعلامی <spring:message code='warehouseCad.tozinOther'/>"
         },
         {
             name: "sourceTozin.targetWarehouse.name",
-            title: " مقصد اعلامی توزین مبدا"
+            title: " <spring:message code='shipment.Bol.tblPortByDischarge'/> اعلامی <spring:message code='warehouseCad.tozinOther'/>"
         },
         {
             name: "destinationTozin.sourceWarehouse.name",
-            title: " مبدا اعلامی توزین مقصد"
+            title: " <spring:message code='Tozin.source'/> اعلامی <spring:message code='Tozin.target.tozin'/>"
         },
         {
             name: "destinationTozin.targetWarehouse.name",
-            title: " مقصد اعلامی توزین مقصد"
+            title: " <spring:message code='shipment.Bol.tblPortByDischarge'/> اعلامی <spring:message code='Tozin.target.tozin'/>"
         },
 
         {
             name: "destinationTozin.date",
-            title: "تاریخ توزین مقصد",
+            title: "<spring:message code='global.date'/> <spring:message code='Tozin.target.tozin'/>",
 
 
         },
         {
             name: "destinationTozin.targetId",
-            title: "کد مقصد اعلامی توزین مقصد"
+            title: "کد <spring:message code='shipment.Bol.tblPortByDischarge'/> اعلامی <spring:message code='Tozin.target.tozin'/>"
 
 
         },
         {
-            name: "depot.name", showHover: true, title: "دپو", formatCellValue(value, record) {
+            name: "depot.name", showHover: true, title: "<spring:message code='warehouseCad.depot'/>", formatCellValue(value, record) {
             },
         },
         {
-            name: "depot.store.name", showHover: true, title: "سوله/محوطه", formatCellValue(value, record) {
+            name: "depot.store.name", showHover: true, title: "<spring:message code='warehouseCad.store'/>", formatCellValue(value, record) {
             },
         },
         {
-            name: "depot.store.warehouse.name", showHover: true, title: "انبار", formatCellValue(value, record) {
+            name: "depot.store.warehouse.name", showHover: true, title: "<spring:message code='dailyReportTransport.warehouseNo'/>", formatCellValue(value, record) {
             },
         },
         ...crTab.Fields.RemittanceDetail(),
@@ -1246,12 +1246,12 @@ crTab.Fields.RemittanceDetailFullFields = function () {
 crTab.Fields.Remittance = function () {
     return [
         {
-            name: 'code', title: "شماره بیجک",
+            name: 'code', title: "<spring:message code='remittance.code'/>",
         },
         {
-            name: 'description', title: "شرح بیجک",
+            name: 'description', title: "<spring:message code='remittance.description'/>",
         },
-        {name: 'id', title: "شناسه", hidden: true},
+        {name: 'id', title: "<spring:message code='global.id'/>", hidden: true},
     ];
 }
 crTab.Fields.RemittanceFull = function () {
@@ -1259,40 +1259,40 @@ crTab.Fields.RemittanceFull = function () {
         ...crTab.Fields.Remittance(),
         {
             name: "remittanceDetails.sourceTozin.tozinId",
-            title: "توزین مبدا",
+            title: "<spring:message code='warehouseCad.tozinOther'/>",
         },
         {
             name: "remittanceDetails.inventory.materialItem.id",
             type: "number",
-            title: "محصول",
+            title: "<spring:message code='goods.title'/>",
         },
         {
             name: "remittanceDetails.destinationTozin.sourceId",
-            title: "مبدا",
+            title: "<spring:message code='Tozin.source'/>",
             filterOperator: "equals",
         },
         {
             ...crTab.Fields.TozinBase().find(t => t.name === 'date'),
             name: "remittanceDetails.sourceTozin.date",
-            title: "تاریخ توزین مبدا",
+            title: "<spring:message code='global.date'/> <spring:message code='warehouseCad.tozinOther'/>",
 
         },
         {
             ...crTab.Fields.TozinBase().find(t => t.name === 'date'),
             name: "remittanceDetails.destinationTozin.date",
-            title: "تاریخ توزین مقصد",
+            title: "<spring:message code='global.date'/> <spring:message code='Tozin.target.tozin'/>",
 
 
         },
         {
             name: "remittanceDetails.destinationTozin.targetId",
-            title: "مقصد",
+            title: "<spring:message code='shipment.Bol.tblPortByDischarge'/>",
             hidden: true,
         },
         {
             name: "remittanceDetails.depot.name",
             // valueMap: SalesBaseParameters.getSavedWarehouseParameter().getValueMap("id", "name"),
-            title: "دپو",
+            title: "<spring:message code='warehouseCad.depot'/>",
             showHover: true,
         }
     ];
@@ -1302,19 +1302,19 @@ crTab.Fields.Inventory = function () {
         {
             name: 'materialItemId',
             valueMap: SalesBaseParameters.getSavedMaterialItemParameter().getValueMap("id", "gdsName"),
-            title: 'محصول',
+            title: '<spring:message code="goods.title"/>',
             disabled: true,
 
         },
-        {name: 'label', title: 'سریال محصول'},
-        {name: 'id', title: 'شناسه', hidden: true,},
+        {name: 'label', title: '<spring:message code="warehouseCadItem.inventory.Serial"/>'},
+        {name: 'id', title: '<spring:message code="global.id"/>', hidden: true,},
     ];
 }
 crTab.Fields.Depot = function () {
     return [
-        {name: "store.warehouse.name", title: "انبار"},
-        {name: "store.name", title: "سوله/محوطه"},
-        {name: "name", title: "یارد"}
+        {name: "store.warehouse.name", title: "<spring:message code='dailyReportTransport.warehouseNo'/>"},
+        {name: "store.name", title: "<spring:message code='warehouseCad.store'/>"},
+        {name: "name", title: "<spring:message code='warehouseCad.yard'/>"}
     ];
 }
 crTab.Fields.Shipment = function () {

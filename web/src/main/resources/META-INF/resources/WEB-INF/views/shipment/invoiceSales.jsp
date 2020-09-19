@@ -658,7 +658,7 @@
                         valueMap:
                         {
                             true : "بلی",
-                            false : "خیر",
+                            false : "<spring:message code='global.no'/>",
                         },
                     }
                     ],
