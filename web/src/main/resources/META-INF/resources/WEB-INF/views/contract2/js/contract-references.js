@@ -105,12 +105,14 @@ function getReferenceFields(referenceType) {
                 {
                     name: "minValue",
                     title: "<spring:message code='MaterialFeature.minValue'/>",
-                    width: "100%"
+                    width: "100%",
+                    showTemplate: true
                 },
                 {
                     name: "maxValue",
                     title: "<spring:message code='MaterialFeature.maxValue'/>",
-                    width: "100%"
+                    width: "100%",
+                    showTemplate: true
                 },
                 {
                     name: "unitId",
@@ -133,7 +135,9 @@ function getReferenceFields(referenceType) {
                     pickListFields: [
                         {name: "nameFA", title: '<spring:message code="unit.nameFa"/>'},
                         {name: "nameEN", title: '<spring:message code="unit.nameEN"/>'}
-                    ]
+                    ],
+                    showTemplate: true,
+                    templateDataFieldName: "unit.nameEN"
                 },
                 {
                     name: "materialElementId",
@@ -159,7 +163,9 @@ function getReferenceFields(referenceType) {
                     pickListFields: [
                         {name: "elementName", title: '<spring:message code="assayInspection.materialElement.name"/>'},
                         {name: "material.descl", title: '<spring:message code="material.descl"/>'}
-                    ]
+                    ],
+                    showTemplate: true,
+                    templateDataFieldName: "materialElement.element.name"
                 }
             ]
         case 'Discount':
@@ -168,17 +174,20 @@ function getReferenceFields(referenceType) {
                 {
                     name: "lowerBound",
                     title: "<spring:message code='MaterialFeature.minValue'/>",
-                    width: "100%"
+                    width: "100%",
+                    showTemplate: true
                 },
                 {
                     name: "upperBound",
                     title: "<spring:message code='MaterialFeature.maxValue'/>",
-                    width: "100%"
+                    width: "100%",
+                    showTemplate: true
                 },
                 {
                     name: "discount",
                     title: "<spring:message code='contract.discount'/>",
-                    width: "100%"
+                    width: "100%",
+                    showTemplate: true
                 },
                 {
                     name: "materialElementId",
@@ -204,7 +213,9 @@ function getReferenceFields(referenceType) {
                     pickListFields: [
                         {name: "elementName", title: '<spring:message code="assayInspection.materialElement.name"/>'},
                         {name: "material.descl", title: '<spring:message code="material.descl"/>'}
-                    ]
+                    ],
+                    showTemplate: true,
+                    templateDataFieldName: "materialElement.element.name"
                 }
             ]
         case 'RateReference':

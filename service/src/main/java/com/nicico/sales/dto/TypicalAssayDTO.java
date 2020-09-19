@@ -39,6 +39,9 @@ public class TypicalAssayDTO {
         private String lastModifiedBy;
         private Integer version;
 
+        private MaterialElementDTO.Info materialElement;
+        private UnitDTO.Info unit;
+
         // BaseEntity
         private Boolean editable;
         private List<EStatus> eStatus;
