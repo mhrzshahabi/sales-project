@@ -56,7 +56,9 @@ function displayDatePicker(dateFieldID, displayBelowThisObject, dtFormat, dtSep)
         dateFormat = defaultDateFormat;
 
     var x = getOffset(targetDateField).left;
+    x =  languageForm.getValue("languageName") == 'fa'? x-200 : x + 200;
     var y = getOffset(targetDateField).top;
+
 
     x -= 200;
     y -= 50;

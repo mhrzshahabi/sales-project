@@ -14,6 +14,7 @@ public enum ErrorType {
     NotEditable(404),
     FinalRecord(404),
     DeActiveRecord(404),
+    ConstraintViolation(404),
     PayloadTooLarge(413),
     Unknown(500),
     NotImplemented(50),

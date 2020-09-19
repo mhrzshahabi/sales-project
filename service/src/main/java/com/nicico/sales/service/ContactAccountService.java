@@ -5,6 +5,7 @@ import com.nicico.sales.dto.ContactAccountDTO;
 import com.nicico.sales.enumeration.ActionType;
 import com.nicico.sales.exception.NotFoundException;
 import com.nicico.sales.iservice.IContactAccountService;
+import com.nicico.sales.model.entities.base.Contact;
 import com.nicico.sales.model.entities.base.ContactAccount;
 import com.nicico.sales.repository.ContactAccountDAO;
 import lombok.RequiredArgsConstructor;
@@ -59,6 +60,20 @@ public class ContactAccountService extends GenericService<ContactAccount, Long, 
                 updateDefaultAccounts(updating);
             } else {
                 contactService.removeContactDefaultAccount(updating);
+            }
+        }
+        if (request.getIsDefault()) { // @TODO this was an extremely tofmalization , change (contact) Data Model
+            Contact contact = new Contact();
+            modelMapper.map(contactService.get(contactAccount.getContactId()), contact);
+            boolean contactDefaultAccountChanged = !request.getBankAccount().equals(contact.getBankAccount()) ||
+                    !request.getBankShaba().equals(contact.getBankShaba()) ||
+                    !request.getBankSwift().equals(contact.getBankSwift());
+
+            if (contactDefaultAccountChanged) {
+                contact.setBankAccount(request.getBankAccount());
+                contact.setBankShaba(request.getBankShaba());
+                contact.setBankSwift(request.getBankSwift());
+                contactService.save(contact);
             }
         }
         return save(updating);

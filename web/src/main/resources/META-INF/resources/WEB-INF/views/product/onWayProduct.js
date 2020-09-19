@@ -130,6 +130,7 @@ const tozinLiteFields = _ => [
             editorType: "selectItem",
             multiple: true,
             type: "number",
+            click(){},
             // defaultValue: StorageUtil.get('on_way_product_defaultTargetId')
         },
         filterOperator: "inSet",
@@ -138,6 +139,7 @@ const tozinLiteFields = _ => [
             StorageUtil.save('on_way_product_defaultSourceId', value)
             return value;
         },
+
         valueMap: SalesBaseParameters.getSavedWarehouseParameter().getValueMap("id", "name"),
         valueMap: {
             2421: 'ايستگاه قطار تبريز',
@@ -156,6 +158,7 @@ const tozinLiteFields = _ => [
         type: "number",
         filterEditorProperties: {
             editorType: "selectItem",
+            click(){},
             multiple: true,
             type: "number",
             // defaultValue: StorageUtil.get('on_way_product_defaultTargetId')
