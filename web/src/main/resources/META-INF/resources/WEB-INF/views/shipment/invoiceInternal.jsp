@@ -265,7 +265,7 @@
          var record = ListGrid_InvoiceInternal.getSelectedRecord();
         if (record == null) {
             isc.say("<spring:message code='global.grid.record.not.selected'/>");
-        } else{
+        } else  if (record.documentId == null){
             documentMainInfoForm.setValue("remittanceId",record.remittanceId);
             documentMainInfoForm.setValue("customerName",record.customerName);
             documentMainInfoForm.setValue("customerName",record.customerName);
@@ -276,6 +276,7 @@
             documentMainInfoForm.setValue("totalDeductions",record.totalDeductions);
             newDocumentWindow.show();
         }
+        else  isc.say("<spring:message code='accounting.create.document.sent'/>");
     }
     function ToolStripButton_InvoiceInternal_Html_F() {
 
@@ -494,7 +495,7 @@
     getCellCSSText:{},
     fields:
     [
-    {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
+    {name: "id", title: "<spring:message code='global.id'/>"},
     {name: "invoiceDate", title: "<spring:message code='invoice.invDate'/>"},
     {name: "remittanceId", title: "<spring:message code='invoice.havalehId'/>"},
     {name: "customerName", title: "<spring:message code='invoice.customerName'/>"},
@@ -532,12 +533,18 @@
     height: "100%",
     dataSource: RestDataSource_InvoiceInternal_Sent,
     contextMenu: Menu_ListGrid_InvoiceInternal_Sent,
-    initialCriteria: {
+    implicitCriteria: {
         operator: 'and',
         criteria: [{
             fieldName: 'documentId',
             operator: 'notNull'
-        }]
+        },
+        {
+            fieldName: 'documentId',
+            operator: 'notEqual',
+            value : '0'
+        }
+        ]
     },
     canMultiSort: true,
     initialSort: [
@@ -551,7 +558,7 @@
     },
     fields:
     [
-    {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
+    {name: "id", title: "<spring:message code='global.id'/>"},
     {name: "invoiceDate", title: "<spring:message code='invoice.invDate'/>"},
     {name: "remittanceId", title: "<spring:message code='invoice.havalehId'/>"},
     {name: "customerName", title: "<spring:message code='invoice.customerName'/>"},
