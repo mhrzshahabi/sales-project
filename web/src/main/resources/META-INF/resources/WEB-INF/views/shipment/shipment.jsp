@@ -176,7 +176,7 @@
         transformRequest: function (dsRequest) {
 
             dsRequest.params = {
-                code: JSON.parse('${Enum_EContractDetailTypeCode}').ShipmentDetailCode,
+                code: JSON.parse('${Enum_EContractDetailTypeCode}').Shipment,
                 contractDetailValueKey: JSON.parse('${Enum_EContractDetailValueKey}').CONTRACT_SHIPMENT
             };
 

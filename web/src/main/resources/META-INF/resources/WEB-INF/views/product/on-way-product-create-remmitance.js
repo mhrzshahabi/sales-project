@@ -119,9 +119,9 @@ function onWayProductCreateRemittance() {
                 displayField: "name",
                 valueField: "id",
                 pickListFields: [
-                    {name: "store.warehouse.name", title: "انبار"},
-                    {name: "store.name", title: "سوله/محوطه"},
-                    {name: "name", title: "یارد"}
+                    {name: "store.warehouse.name", title: "<spring:message code='dailyWarehouse.warehouse'/>"},
+                    {name: "store.name", title: "<spring:message code='warehouseCad.store'/>"},
+                    {name: "name", title: "<spring:message code='warehouseCad.yard'/>"}
                 ],
                 pickListProperties: {
                     width: 300,
@@ -138,7 +138,7 @@ function onWayProductCreateRemittance() {
                 name: "unit",
                 type: "number",
                 required: true,
-                title: "واحدشمارش بسته کالا(ورق،بشکه،تن،..)",
+                title: "<spring:message code='unit.count.package'/>",
                 valueMap: SalesBaseParameters.getSavedUnitParameter().filter(u => u.categoryUnit.toLowerCase() === EnumCategoryUnit.string.Weight.toLowerCase()).getValueMap('id', 'nameFA'),
                 defaultValue: StorageUtil.get('DynamicForm_warehouseCAD_owp' + ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord()['codeKala'].toString()),
                 changed(form, item, value) {
@@ -170,28 +170,28 @@ function onWayProductCreateRemittance() {
             },
             {
                 name: "sourceBundleSum",
-                title: "تعداد بسته(باندل، لات، ... ) ",
+                title: "<spring:message code='Tozin.tedad.packages'/>",
                 colSpan: 1,
                 titleColSpan: 1,
                 type: "staticText",
             },
             {
                 name: "destinationBundleSum",
-                title: "تعداد بسته(باندل، لات، ... ) ",
+                title: "<spring:message code='Tozin.tedad.packages'/>",
                 colSpan: 1,
                 titleColSpan: 1,
                 type: "staticText",
             },
             {
                 name: "sourceSheetSum",
-                title: "مجموع تعداد واحد(بشکه، ورق، ... ) ",
+                title: "<spring:message code='Tozin.tedad.all'/>",
                 colSpan: 1,
                 titleColSpan: 1,
                 type: "staticText",
             },
             {
                 name: "destinationSheetSum",
-                title: "مجموع تعداد واحد(بشکه، ورق، ... ) ",
+                title: "<spring:message code='Tozin.tedad.all'/>",
                 colSpan: 1,
                 titleColSpan: 1,
                 type: "staticText",
@@ -217,7 +217,7 @@ function onWayProductCreateRemittance() {
                 width: "100%",
                 height: 80,
                 editorType: "TextAreaItem",
-                title: 'شرح بیجک',
+                title:  "<spring:message code='remittance.description'/>",
                 colSpan: 4
             }
         ]
@@ -229,7 +229,7 @@ function onWayProductCreateRemittance() {
         visibility: "hidden",
         click: function () {
             function dialog(message, okClick = function () {
-            }, title = 'اطلاعات ناقص') {
+            }, title =  "<spring:message code='incoterm.exception.required-info'/>",) {
                 isc.Dialog.create({
                     title: title,
                     message: message,
@@ -258,8 +258,8 @@ function onWayProductCreateRemittance() {
                     })
                     if (recordWithoutDestTozinId) {
                         isc.Dialog.create({
-                            title: 'توزین مقصد ناقص',
-                            message: 'به‌همه توزین‌های ورودی،توزین خروجی تعریف نشده.',
+                            title:  "<spring:message code='Tozin.destination.tozin.problem'/>",
+                            message:  "<spring:message code='Tozin.destination.target.tozin.not.found'/>",
                             buttons: [isc.Dialog.OK, isc.Dialog.CANCEL],
                             okClick() {
                                 this.close();
@@ -274,7 +274,7 @@ function onWayProductCreateRemittance() {
                         if (!tz['packages'] || tz['packages'].length === 0) return true;
                         return false
                     })
-                    if (withoutPkg) return dialog('اطلاعات بسته ورودی به درسی ثبت نشده', function () {
+                    if (withoutPkg) return dialog( "<spring:message code='Tozin.package.not.found'/>", function () {
                         grid.expandRecord(withoutPkg);
                         window[listGridSetDestTozinHarasatPolompForSelectedTozin['w']].show()
                     })
@@ -293,7 +293,8 @@ function onWayProductCreateRemittance() {
                         }
                         return false
                     })
-                    if (withoutTedad) return dialog('نعداد بسته عدد بزرگتر از صفر نیست', function () {
+                    if (withoutTedad) return dialog( "<spring:message code='Tozin.package.bigger.zero'/>",
+                        function () {
                         grid.expandRecord(withoutTedad);
                         window[listGridSetDestTozinHarasatPolompForSelectedTozin['w']].show()
                     })
@@ -336,14 +337,15 @@ function onWayProductCreateRemittance() {
                     }).then(r => {
                         //console.log('saved response', r)
                         if (r.status === 201) {
-                            isc.say('عملیات با موفقیت انجام شد', () => {
-                                windowRemittance.hide();
-                                ListGrid_Tozin_IN_ONWAYPRODUCT.invalidateCache();
-                            })
+                            isc.say("<spring:message code='global.form.request.successful'/>",
+                                () => {
+                                    windowRemittance.hide();
+                                    ListGrid_Tozin_IN_ONWAYPRODUCT.invalidateCache();
+                                })
                         } else {
                             r.json().then(
                                 j =>
-                                    isc.say('مشکل در ذخیره اطلاعات. مشکل جهت گزارش' +
+                                    isc.warn( "<spring:message code='Tozin.error.message'/>", +
                                         '\n' +
                                         JSON.stringify(j)
                                     )
@@ -356,7 +358,7 @@ function onWayProductCreateRemittance() {
 
                     }).catch(
                         reject => {
-                            isc.say('مشکل ارتباط')
+                            isc.say("<spring:message code='global.form.response.error'/>")
                         }
                     ).finally(
                         // () => criteriaBuildForListGrid()
@@ -367,7 +369,7 @@ function onWayProductCreateRemittance() {
         }
     });
     const packages_button = isc.IButtonSave.create({
-        title: "جزئیات آیتم‌ها",
+        title: "<spring:message code='Tozin.package.details'/>",
         // width: 100,
         icon: "pieces/16/packages.png",
         orientation: "vertical",
@@ -444,7 +446,7 @@ function onWayProductCreateRemittance() {
     isc.Dialog.create({
         ID: "pls_wait_2",
         showTitle: false,
-        message: "لطفا صبر کنید",
+        message: "<spring:message code='global.please.wait'/>",
     });
     const selectedSourceTozins = ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecords();
     DynamicForm_warehouseCAD.clearValues();
@@ -576,7 +578,7 @@ function onWayProductCreateRemittance() {
                         // gridComponents: ["header", "body",  ],
                         fields: [{
                             name: "label",
-                            title: "سریال",
+                            title: "<spring:message code='invoice.shomarehSoratHesab'/>",
                             width: "20%",
                             editorExit(editCompletionEvent, recordg, newValue, rowNum, colNum, grid) {
                                 record['packages'].find(p => p.uid === recordg.uid)['label'] = newValue
@@ -590,7 +592,7 @@ function onWayProductCreateRemittance() {
                             },
                             {
                                 name: "tedad",
-                                title: "تعداد (ورق، بشکه، گونی، ...)",
+                                title: "<spring:message code='Tozin.tedad.all'/>",
                                 width: "20%",
                                 validators: [{
                                     type: "regexp",
@@ -852,7 +854,7 @@ function onWayProductCreateRemittance() {
             ]
         });
         const w = isc.Window.create({
-            title: "توزین‌ها",
+            title: "<spring:message code='dailyWarehouse.tozins'/>",
             width: .8 * window.innerWidth,
             height: 580,
             autoSize: true,
@@ -966,7 +968,7 @@ function onWayProductCreateRemittance() {
     )
     const pls_wait_3 = isc.Dialog.create({
         showTitle: false,
-        message: "لطفا صبر کنید",
+        message: "<spring:message code='global.please.wait'/>",
     });
     Promise.all([
         onWayProductFetch('tozin', 'or', ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecords()

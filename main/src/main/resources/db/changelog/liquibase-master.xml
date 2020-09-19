@@ -32,6 +32,7 @@
     <include file="classpath:/db/changelog/initial-data/tbl_warh_material_element.xml"/>
     <include file="classpath:/db/changelog/initial-data/tbl_assay_inspection.xml"/>
     <include file="classpath:/db/changelog/initial-data/tbl_weighing_inspection.xml"/>
+    <include file="classpath:/db/changelog/initial-data/tbl_internal_invoice_document.xml"/>
     <!-- INITIALIZE DATA -->
 
     <!-- SYNONYMS -->
