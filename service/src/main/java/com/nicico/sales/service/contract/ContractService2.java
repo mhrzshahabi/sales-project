@@ -236,13 +236,13 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
     }
 
     @Transactional(readOnly = true)
-    @Action(value = ActionType.RefinedSearch)
+    @Action(value = ActionType.Search)
     public TotalResponse<ContractDTO2.ListGridInfo> refinedSearch(NICICOCriteria request) {
         return null;
     }
 
     @Transactional(readOnly = true)
-    @Action(value = ActionType.RefinedSearch)
+    @Action(value = ActionType.Search)
     public SearchDTO.SearchRs<ContractDTO2.ListGridInfo> refinedSearch(SearchDTO.SearchRq request) {
 
         List<Contract2> entities = new ArrayList<>();
