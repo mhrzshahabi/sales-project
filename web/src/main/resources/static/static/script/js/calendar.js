@@ -60,7 +60,7 @@ function displayDatePicker(dateFieldID, displayBelowThisObject, dtFormat, dtSep)
     var y = getOffset(targetDateField).top;
 
 
-    x -= 200;
+    // x -= 200;
     y -= 50;
     drawDatePicker(targetDateField, x, y);
 }

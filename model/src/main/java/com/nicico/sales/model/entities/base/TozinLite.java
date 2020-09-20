@@ -45,4 +45,14 @@ public class TozinLite {
             "where TBL_WARH_TOZIN.TOZINE_ID = TOZINE_ID  and ROWNUM = 1 )")
     private Long tozinTable;
 
+    @Formula(value = "(case " +
+            "when contener_no3 like '*'   " +
+            "then 0  " +
+            "when contener_no3 is not null " +
+            "then 1 " +
+            "when contener_no3 is null " +
+            "     then 0 " +
+            "end)")
+    private Boolean isRail;
+
 }
