@@ -5,7 +5,6 @@ public enum ActionType {
     Get,
     List,
     Search,
-    RefinedSearch,
     Create,
     CreateAll,
     Update,
