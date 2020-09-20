@@ -156,7 +156,8 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
                                         kal.get(Calendar.DAY_OF_YEAR) == cal.get(Calendar.DAY_OF_YEAR)
                         ) {
                             found[0] = true;
-                            if (csfa.getParentId() == null || csfa.getParentId().equals(csws.getParentId())) csfa.setParentId(csws.getId());
+                            if (csfa.getParentId() == null || csfa.getParentId().equals(csws.getParentId()))
+                                csfa.setParentId(csws.getId());
                             contractShipmentDAO.save(csfa);
                         }
                     }
@@ -193,7 +194,7 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
     private Long createDiscount(ContractDetailValueDTO.Create x, Long id) {
         ContractDiscountDTO.Create contractDiscountDto = gson.fromJson(x.getReferenceJsonValue(), ContractDiscountDTO.Create.class);
         contractDiscountDto.setContractId(id);
-		ContractDiscountDTO.Info savedContractDiscount = contractDiscountService.create(contractDiscountDto);
+        ContractDiscountDTO.Info savedContractDiscount = contractDiscountService.create(contractDiscountDto);
         return savedContractDiscount.getId();
     }
 
@@ -208,7 +209,7 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
     }
 
     private void updateDiscount(ContractDetailValueDTO.Update x) {
-		ContractDiscountDTO.Update contractDiscountDto = gson.fromJson(x.getReferenceJsonValue(), ContractDiscountDTO.Update.class);
+        ContractDiscountDTO.Update contractDiscountDto = gson.fromJson(x.getReferenceJsonValue(), ContractDiscountDTO.Update.class);
         contractDiscountService.update(contractDiscountDto.getId(), contractDiscountDto);
     }
 
@@ -238,7 +239,28 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
     @Transactional(readOnly = true)
     @Action(value = ActionType.Search)
     public TotalResponse<ContractDTO2.ListGridInfo> refinedSearch(NICICOCriteria request) {
-        return null;
+
+        List<Contract2> entities = new ArrayList<>();
+        TotalResponse<ContractDTO2.ListGridInfo> result = SearchUtil.search(repositorySpecificationExecutor, request, entity -> {
+
+            ContractDTO2.ListGridInfo eResult = modelMapper.map(entity, ContractDTO2.ListGridInfo.class);
+            validation(entity, eResult);
+            entities.add(entity);
+            eResult.getContractContacts().forEach(q -> {
+                if (q.getCommercialRole() == CommercialRole.Buyer)
+                    eResult.setBuyerId(q.getContactId());
+                if (q.getCommercialRole() == CommercialRole.Seller)
+                    eResult.setSellerId(q.getContactId());
+                if (q.getCommercialRole() == CommercialRole.AgentBuyer)
+                    eResult.setAgentBuyerId(q.getContactId());
+                if (q.getCommercialRole() == CommercialRole.AgentSeller)
+                    eResult.setAgentSellerId(q.getContactId());
+            });
+            return eResult;
+        });
+
+        validationAll(entities, result);
+        return result;
     }
 
     @Transactional(readOnly = true)
@@ -502,23 +524,23 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
         if ((actionType == ActionType.Create || actionType == ActionType.Update) && req.getParentId() != null) {
 //            if(actionType == ActionType.Create) {ContractDTO2.Create req = modelMapper.map(request[0], ContractDTO2.Create.class);}
             final Contract2 contract = repository.getOne(req.getParentId());
-            if(!contract.getEStatus().contains(EStatus.Final)){
-                throw new SalesException2(ErrorType.Unknown,"",
+            if (!contract.getEStatus().contains(EStatus.Final)) {
+                throw new SalesException2(ErrorType.Unknown, "",
                         messageSource.getMessage("global.grid.not.finalized.record.found", null, locale));
             }
             final List<Contract2> allByParentId = contractDAO2.findAllByParentId(req.getParentId());
             final List<Contract2> notFinalizedAppendexes = allByParentId.stream()
                     .filter(contract2 -> !contract2.getEStatus().contains(EStatus.Final)).collect(Collectors.toList());
-            if(actionType == ActionType.Update){
+            if (actionType == ActionType.Update) {
                 ContractDTO2.Update reqUpdate = modelMapper.map(request[0], ContractDTO2.Update.class);
                 final List<Contract2> collect = notFinalizedAppendexes.stream()
                         .filter(contract2 -> !contract2.getId().equals(reqUpdate.getId())).collect(Collectors.toList());
-                if(collect.size() != 0)  throw new SalesException2(ErrorType.Unknown,"",
+                if (collect.size() != 0) throw new SalesException2(ErrorType.Unknown, "",
                         messageSource.getMessage("global.grid.not.finalized.record.found", null, locale));
             }
-            if(actionType == ActionType.Create && notFinalizedAppendexes.size () > 0)
-                throw new SalesException2(ErrorType.Unknown,"",
-                    messageSource.getMessage("global.grid.not.finalized.record.found", null, locale));
+            if (actionType == ActionType.Create && notFinalizedAppendexes.size() > 0)
+                throw new SalesException2(ErrorType.Unknown, "",
+                        messageSource.getMessage("global.grid.not.finalized.record.found", null, locale));
             final List<ContractShipment> contractShipments = getContractShipmentsOfRequest(req);
             if (contractShipments.size() == 0) return super.validation(entity, request);
 
@@ -570,7 +592,7 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
         if (eContractDetailValueKeyOptional == null) throw new NotFoundException();
         final Map<String, List<Object>> map = contractDetailValueService2.get(contractId,
                 eContractDetailTypeCode,
-                eContractDetailValueKeyOptional,true
+                eContractDetailValueKeyOptional, true
         );
         if (map.size() == 0) return new ArrayList<>();
         return map.get(eContractDetailValueKeyOptional.name());
