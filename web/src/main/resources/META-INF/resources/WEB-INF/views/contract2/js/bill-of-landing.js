@@ -1557,8 +1557,14 @@ BlTab.Fields.BillOfLandingWithoutSwitch = _ => {
                 fields: BlTab.Fields.Shipment(),
                 fetchDataURL: "api/shipment/spec-list"
             }),
-            click: function () {
+            optionCriteria:{
+                operator:"and",
+                criteria:[
+                    {fieldName:"remainedBLs",operator:"greaterThan",value:0}
+                ]
             },
+            // click: function () {
+            // },
             // optionCriteria: currencyInUnitCriteria,
             pickListProperties:
                 {

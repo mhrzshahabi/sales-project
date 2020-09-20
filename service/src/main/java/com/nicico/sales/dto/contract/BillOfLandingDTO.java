@@ -76,11 +76,14 @@ public class BillOfLandingDTO {
     private Long shipmentMethodId;
 
 
+
+
+
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("BillOfLandingInfo")
-    public static class Info extends BillOfLandingDTO {
+    @ApiModel("BillOfLandingInfoWithoutShipment")
+    public static class InfoWithoutShipment extends BillOfLandingDTO{
 
         private Long id;
 
@@ -106,10 +109,11 @@ public class BillOfLandingDTO {
 
         private VesselDTO.Info oceanVessel;
 
+
 //        private List<RemittanceToBillOfLandingDTO.Info> remittances;
 
         private List<ContainerToBillOfLandingDTO.Info> containers;
-        private ShipmentDTO.Info shipment;
+        //        private ShipmentDTO.Info shipment;
         private ShipmentTypeDTO.Info shipmentType;
         private ShipmentMethodDTO.Info shipmentMethod;
 
@@ -124,6 +128,14 @@ public class BillOfLandingDTO {
         // BaseEntity
         private Boolean editable;
         private List<EStatus> eStatus;
+    }
+
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("BillOfLandingInfo")
+    public static class Info extends InfoWithoutShipment {
+        private ShipmentDTO.InfoWithoutBLs shipment;
     }
 
     @Getter
