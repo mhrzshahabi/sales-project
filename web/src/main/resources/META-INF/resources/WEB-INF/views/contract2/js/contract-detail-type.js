@@ -680,7 +680,6 @@ contractDetailTypeTab.dynamicForm.detailType = isc.DynamicForm.create({
     width: "100%",
     height: "100%",
     align: "center",
-    titleAlign: "right",
     numCols: 8,
     margin: 10,
     canSubmit: true,
