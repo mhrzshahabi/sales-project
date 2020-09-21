@@ -39,7 +39,7 @@
     <!-- SYNONYMS -->
 
     <!-- CHANGES -->
-<!--    <include file="classpath:/db/changelog/changes/tb_*.xml"/>-->
+    <include file="classpath:/db/changelog/changes/tbl_deduction.xml"/>
     <!-- CHANGES -->
 
     <!-- VIEWS -->

@@ -1,15 +1,17 @@
-package com.nicico.sales.dto.contract;
+package com.nicico.sales.dto;
+
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.nicico.sales.dto.MaterialDTO;
 import com.nicico.sales.model.enumeration.EStatus;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -17,32 +19,28 @@ import java.util.List;
 @Setter
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ContractDetailTypeDTO {
+public class DeductionDTO {
 
-    private String code;
-    private Long materialId;
-    private String titleFa = "titleFa";
-    private String titleEn;
-
-    private List<ContractDetailTypeParamDTO.Info> contractDetailTypeParams;
-    private List<ContractDetailTypeTemplateDTO.Info> contractDetailTypeTemplates;
+    private BigDecimal treatmentCost;
+    private BigDecimal refineryCost;
+    private Long unitId;
+    private Long materialElementId;
+    private Long contractId;
 
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("ContractDetailTypeInfo")
-    public static class Info extends ContractDetailTypeDTO {
-
+    @ApiModel("DeductionInfo")
+    public static class Info extends DeductionDTO {
         private Long id;
-
-        private MaterialDTO.Info material;
-
-        // Auditing
-        private Date createdDate;
+        private Date createDate;
         private String createdBy;
         private Date lastModifiedDate;
         private String lastModifiedBy;
         private Integer version;
+
+        private MaterialElementDTO.Info materialElement;
+        private UnitDTO.Info unit;
 
         // BaseEntity
         private Boolean editable;
@@ -52,17 +50,17 @@ public class ContractDetailTypeDTO {
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("ContractDetailTypeCreateRq")
-    public static class Create extends ContractDetailTypeDTO {
+    @ApiModel("DeductionCreateRq")
+    public static class Create extends DeductionDTO {
+
     }
 
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("ContractDetailTypeUpdateRq")
-    public static class Update extends ContractDetailTypeDTO {
-
-        @NotNull
+    @ApiModel("DeductionUpdateRq")
+    public static class Update extends DeductionDTO {
+        @NonNull
         @ApiModelProperty(required = true)
         private Long id;
 
@@ -72,9 +70,8 @@ public class ContractDetailTypeDTO {
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("ContractDetailTypeDeleteRq")
+    @ApiModel("DeductionDeleteRq")
     public static class Delete {
-
         @NotNull
         @ApiModelProperty(required = true)
         private List<Long> ids;

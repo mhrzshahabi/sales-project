@@ -194,6 +194,48 @@ function getReferenceFields(referenceType) {
                 },
                 materialElementField
             ]
+        case 'Deduction':
+            return [
+                {name: "id", hidden: true, width: "10%"},
+                {
+                    name: "treatmentCost",
+                    title: "<spring:message code='MaterialFeature.TC'/>",
+                    width: "100%",
+                    showTemplate: true
+                },
+                {
+                    name: "refineryCost",
+                    title: "<spring:message code='MaterialFeature.RC'/>",
+                    width: "100%",
+                    showTemplate: true
+                },
+                {
+                    name: "unitId",
+                    title: "<spring:message code='global.unit'/>",
+                    width: "100%",
+                    type: "long",
+                    required: true,
+                    autoFetchData: false,
+                    editorType: "SelectItem",
+                    valueField: "id",
+                    displayField: "nameEN",
+                    pickListHeight: "300",
+                    optionDataSource: isc.MyRestDataSource.create({
+                        fields: BaseFormItems.concat([
+                            {name: "nameFA"},
+                            {name: "nameEN"}
+                        ]),
+                        fetchDataURL: "${contextPath}/api/unit/" + "spec-list"
+                    }),
+                    pickListFields: [
+                        {name: "nameFA", title: '<spring:message code="unit.nameFa"/>'},
+                        {name: "nameEN", title: '<spring:message code="unit.nameEN"/>'}
+                    ],
+                    showTemplate: true,
+                    templateDataFieldName: "unit.nameEN"
+                },
+                materialElementField
+            ]
         case 'Discount':
             return [
                 {name: "id", hidden: true, width: "10%"},
@@ -259,6 +301,9 @@ function getReferenceDataSource(referenceType) {
             break;
         case 'TypicalAssay':
             url = "${contextPath}" + "/api/typicalAssay/spec-list";
+            break;
+        case 'Deduction':
+            url = "${contextPath}" + "/api/deduction/spec-list";
             break;
         case 'Discount':
             url = "${contextPath}" + "/api/contract-discount/spec-list";
