@@ -159,6 +159,7 @@ var nicico;
                 dynamicFormProperties.cellPadding = 3;
                 dynamicFormProperties.width = "100%";
                 dynamicFormProperties.titleWidth = "*";
+                dynamicFormProperties.titleAlign = "right";
                 dynamicFormProperties.colWidths = ["30%", "70%"];
                 dynamicFormProperties.canSubmit = true;
                 dynamicFormProperties.wrapItemTitles = false;
@@ -200,6 +201,7 @@ var nicico;
                     dismissOnEscape: true,
                     dismissOnOutsideClick: false,
                     title: title,
+                    canDragResize: true,
                     // @ts-ignore
                     closeClick: function () {
                         this.Super("closeClick", arguments);

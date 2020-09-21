@@ -154,7 +154,7 @@ function onWayProductCreateRemittance() {
                 }
             },
             {
-                name: "depotName", type: "staticText", title: 'نام کامل یارد', colSpan: 4, shouldSaveValue: false,
+                name: "depotName", type: "staticText", title: '<spring:message code="person.fullName"/> <spring:message code="warehouseCad.yard"/>', colSpan: 4, shouldSaveValue: false,
             },
             {
                 type: "staticText",
@@ -724,13 +724,13 @@ function onWayProductCreateRemittance() {
                 {
                     name: "pkgNum_source",
                     canFilter: false,
-                    title: 'بسته(لات، باندل، ...) مبدا',
+                    title: '<spring:message code="Tozin.package.tozin.number.target.source"/>',
                     canEdit: false
                 },
                 {
                     name: "tedad_source",
                     canFilter: false,
-                    title: 'تعداد(ورق، بشکه، ...) مبدا',
+                    title: '<spring:message code="Tozin.unit.tozin.number.target.source"/>',
                     canEdit: false
                 },
                 {
@@ -741,7 +741,7 @@ function onWayProductCreateRemittance() {
                         required: 'true',
                         keyPressFilter: "[0-9]",
                     },
-                    title: 'بسته(لات، باندل، ...) مقصد',
+                    title: '<spring:message code="Tozin.package.tozin.number.target"/>',
                     canEdit: false
                 },
                 {
@@ -752,7 +752,7 @@ function onWayProductCreateRemittance() {
                         keyPressFilter: "[0-9]",
                     },
                     canFilter: false,
-                    title: 'تعداد(ورق، بشکه، ...) مقصد',
+                    title: '<spring:message code="Tozin.unit.tozin.number.target"/>',
                     canEdit: false
                 },
                 {
@@ -787,10 +787,10 @@ function onWayProductCreateRemittance() {
                             return tbl;
                         } catch (e) {
                             //console.debug('destination tozin id hover error', e);
-                            return 'شماره توزین مقصد را وارد کنید   ';
+                            return '<spring:message code="Tozin.enter.tozin.number"/>';
                         }
                     },
-                    title: 'توزین مقصد',
+                    title: '<spring:message code="Tozin.target.tozin"/>',
                     canFilter: false,
                     required: true,
                     editorType: "comboBox",
@@ -812,7 +812,7 @@ function onWayProductCreateRemittance() {
                             record['destTozinId'] = newValue;
                             return true
                         } else {
-                            isc.warn('شماره توزین اشتباه است');
+                            isc.warn('<spring:message code="Tozin.id.wrong"/>');
                             // grid.startEditing(rowNum,colNum,true)
                             return false;
                         }
@@ -822,7 +822,7 @@ function onWayProductCreateRemittance() {
                 {
                     name: "securityPolompNo",
                     canFilter: false,
-                    title: 'شماره پلمپ حراست',
+                    title: '<spring:message code="warehouseCad.herasatPolompNo"/>',
                     editorExit(editCompletionEvent, record, newValue, rowNum, colNum, grid) {
                         record['securityPolompNo'] = newValue;
                         return true;
@@ -832,7 +832,7 @@ function onWayProductCreateRemittance() {
                 },
                 {
                     name: "railPolompNo",
-                    title: 'شماره پلمپ راه‌آهن',
+                    title: '<spring:message code="warehouseCad.rahahanPolompNo"/>',
                     canFilter: false,
                     editorExit(editCompletionEvent, record, newValue, rowNum, colNum, grid) {
                         record['railPolompNo'] = newValue;
@@ -842,7 +842,7 @@ function onWayProductCreateRemittance() {
 
                     /* editorExit (editCompletionEvent, record, newValue, rowNum, colNum, grid){
                          if(newValue===undefined || newValue === null || newValue === ''){
-                             isc.warn('شماره پلمپ حراست خالی می‌باشد');
+                             isc.warn('<spring:message code='global.number'/> <spring:message code='warehouseCad.herasatPolompNo'/> خالی می‌باشد');
                              // grid.startEditing(rowNum,colNum,true)
                              return false;
                          }
@@ -935,7 +935,7 @@ function onWayProductCreateRemittance() {
     // ])
     onWayProductFetch('tozin/lite', 'and', destinationTozinCriteria.criteria).then((tozin) => {
             if (tozin && tozin.response && tozin.response.data && tozin.response.data.length === 0) {
-                isc.warn('در مقصد توزین ثبت نشده', _ => {
+                isc.warn('<spring:message code="Tozin.no.tozin"/>', _ => {
                     windowRemittance.destroy();
                 })
 

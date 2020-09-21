@@ -263,6 +263,7 @@ namespace nicico {
                     dismissOnEscape: true,
                     dismissOnOutsideClick: false,
                     title: title,
+                    canDragResize:true,
                     // @ts-ignore
                     closeClick: function () {
 

@@ -40,7 +40,8 @@ import static com.nicico.copper.common.domain.criteria.SearchUtil.mapSearchRs;
 @RequiredArgsConstructor
 public class CriteriaRefinerAspect {
 
-    @Around(value = "execution(* com.nicico.sales.service.GenericService+.search(..)) && args(request) || execution(* com.nicico.sales.service.contract.ContractService2.refinedSearch(..)) && args(request)")
+    @Around(value = "execution(* com.nicico.sales.service.GenericService+.search(..)) && args(request) ||" +
+            "execution(* com.nicico.sales.service.contract.ContractService2.refinedSearch(..)) && args(request)")
     public TotalResponse<? extends Object> refineDateCriteria(ProceedingJoinPoint proceedingJoinPoint, NICICOCriteria request) throws Throwable {
 
         Object target = proceedingJoinPoint.getTarget();
@@ -53,12 +54,8 @@ public class CriteriaRefinerAspect {
         try {
             if (checkCriteria(newRequest.getCriteria(), entityClass)) {
 
-                Method searchMethod;
-                if (ActionType.RefinedSearch.equals(((MethodSignature) proceedingJoinPoint.getSignature()).getMethod().getDeclaredAnnotation(Action.class).value())) {
-                    searchMethod = target.getClass().getMethod("refinedSearch", SearchDTO.SearchRq.class);
-                } else {
-                    searchMethod = target.getClass().getMethod("search", SearchDTO.SearchRq.class);
-                }
+                final String searchMethodName = ((MethodSignature) proceedingJoinPoint.getSignature()).getMethod().getName();
+                final Method searchMethod = target.getClass().getMethod(searchMethodName, SearchDTO.SearchRq.class);
                 return mapSearchRs(request, (SearchDTO.SearchRs<?>) searchMethod.invoke(target, newRequest));
             } else throw new Throwable();
         } catch (Throwable e) {
