@@ -371,6 +371,7 @@
              let fileNewName = shipmentDccDynamicFormPrint.getItem("dccId").getDisplayValue();
              let record = ListGrid_Shipment.getSelectedRecord();
             window.open('${printUrl}' + record.id + "/" + fileNewName);
+            shipmentDccWindow.close();
         }
     });
     var CancelBtn_Shipment_Dcc = isc.IButtonCancel.create({

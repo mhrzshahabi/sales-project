@@ -584,7 +584,12 @@
     var invoiceInternalTabs = isc.TabSet.create({
         width: "100%",
         height: "100%",
+        tabBarPosition: "right",
+        wrap: false,
         showTabScroller: true,
+        border:"1px solid lightblue",
+        edgeMarginSize: 3,
+        tabBarThickness: 80,
         tabs: [
             {
                 title: "<spring:message code='issuedInternalInvoices.dontSent'/>",
@@ -593,7 +598,11 @@
             {
                 title: "<spring:message code='issuedInternalInvoices.sent'/>",
                 pane: ListGrid_InvoiceInternal_Sent
-            }
+            },
+            {
+                title: "<spring:message code='issuedInternalInvoices.deleted'/>",
+                pane: ListGrid_InvoiceInternal_Sent
+            },
         ]
     });
 
