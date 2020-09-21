@@ -17,6 +17,7 @@ public enum ContractDetailTypeReference {
     TypicalAssay(7, "LIST OF REFERENCE"),
     Discount(8, "LIST OF REFERENCE"),
     ContractShipment(9, "LIST OF REFERENCE"),
+    Deduction(12, "LIST OF REFERENCE"),
 
     Enum_RateReference(10, "REFERENCE"),
     Enum_PriceBaseReference(11, "REFERENCE");
