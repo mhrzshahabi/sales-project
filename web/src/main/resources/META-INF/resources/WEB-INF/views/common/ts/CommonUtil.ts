@@ -371,7 +371,7 @@ namespace nicico {
                 return this.filter((value: T, index: number, self: Array<T>) => self.indexOf(value) === index);
             };
             // @ts-ignore
-            Array.prototype.distinct = function <T>(key: string): Array<T> {
+            Array.prototype.uniqueObject = function <T>(key: string): Array<T> {
 
                 return this.filter((value: T, index: number, self: Array<T>) => {
 
@@ -393,7 +393,7 @@ namespace nicico {
                 });
             };
             // @ts-ignore
-            Array.prototype.weakDistinct = function <T>(key: string): Array<T> {
+            Array.prototype.weakUniqueObject = function <T>(key: string): Array<T> {
 
                 return this.filter((value: T, index: number, self: Array<T>) => {
 

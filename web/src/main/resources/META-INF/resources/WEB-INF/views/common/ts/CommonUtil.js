@@ -300,7 +300,7 @@ var nicico;
                 return this.filter(function (value, index, self) { return self.indexOf(value) === index; });
             };
             // @ts-ignore
-            Array.prototype.distinct = function (key) {
+            Array.prototype.uniqueObject = function (key) {
                 return this.filter(function (value, index, self) {
                     for (var i = 0; i < index; i++)
                         if (self[i][key] == value[key])
@@ -318,7 +318,7 @@ var nicico;
                 });
             };
             // @ts-ignore
-            Array.prototype.weakDistinct = function (key) {
+            Array.prototype.weakUniqueObject = function (key) {
                 return this.filter(function (value, index, self) {
                     for (var i = 0; i < index; i++)
                         if (self[i][key] === value[key])
