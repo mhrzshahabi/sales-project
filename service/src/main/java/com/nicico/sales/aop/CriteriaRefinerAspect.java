@@ -6,6 +6,8 @@ import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.copper.common.dto.search.EOperator;
 import com.nicico.copper.common.dto.search.SearchDTO;
+import com.nicico.sales.annotation.Action;
+import com.nicico.sales.enumeration.ActionType;
 import com.nicico.sales.enumeration.ErrorType;
 import com.nicico.sales.exception.SalesException2;
 import com.nicico.sales.model.enumeration.AllConverters;
@@ -14,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -37,7 +40,8 @@ import static com.nicico.copper.common.domain.criteria.SearchUtil.mapSearchRs;
 @RequiredArgsConstructor
 public class CriteriaRefinerAspect {
 
-    @Around(value = "execution(* com.nicico.sales.service.GenericService+.search(..)) && args(request)")
+    @Around(value = "execution(* com.nicico.sales.service.GenericService+.search(..)) && args(request) ||" +
+            "execution(* com.nicico.sales.service.contract.ContractService2.refinedSearch(..)) && args(request)")
     public TotalResponse<? extends Object> refineDateCriteria(ProceedingJoinPoint proceedingJoinPoint, NICICOCriteria request) throws Throwable {
 
         Object target = proceedingJoinPoint.getTarget();
@@ -50,7 +54,8 @@ public class CriteriaRefinerAspect {
         try {
             if (checkCriteria(newRequest.getCriteria(), entityClass)) {
 
-                final Method searchMethod = target.getClass().getMethod("search", SearchDTO.SearchRq.class);
+                final String searchMethodName = ((MethodSignature) proceedingJoinPoint.getSignature()).getMethod().getName();
+                final Method searchMethod = target.getClass().getMethod(searchMethodName, SearchDTO.SearchRq.class);
                 return mapSearchRs(request, (SearchDTO.SearchRs<?>) searchMethod.invoke(target, newRequest));
             } else throw new Throwable();
         } catch (Throwable e) {

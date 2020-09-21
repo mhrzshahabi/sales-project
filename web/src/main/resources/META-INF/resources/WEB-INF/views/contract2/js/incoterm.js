@@ -180,7 +180,6 @@ incotermTab.dynamicForm.fields = BaseFormItems.concat([{
 incotermTab.dynamicForm.incoterm = isc.DynamicForm.create({
     width: "100%",
     align: "center",
-    titleAlign: "right",
     numCols: 6,
     margin: 10,
     canSubmit: true,

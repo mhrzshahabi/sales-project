@@ -367,7 +367,7 @@ function remittance(targetIdValueMap = {}) {
                             message: '<spring:message code="global.grid.record.not.selected"/> ',
                             icon: "[SKIN]warn.png",
                             title: '<spring:message code="global.message"/> ',
-                            buttons: [isc.IButtonSave.create({title: "تائید"})],
+                            buttons: [isc.IButtonSave.create({title: "<spring:message code='global.ok'/>"})],
                             buttonClick: function (button, post) {
                                 this.close();
                             }
@@ -1007,7 +1007,7 @@ function remittance(targetIdValueMap = {}) {
         return {
             ID: remittanceTab.Vars.Prefix + "dynamic_form_source_tpzin",
             name: "tozinId",
-            title: "توزین مبدا",
+            title: "<spring:message code='warehouseCad.tozinOther'/>",
             type: "text",
             layoutStyle: "flow",
             editorType: "MultiComboBoxItem",
@@ -1036,7 +1036,7 @@ function remittance(targetIdValueMap = {}) {
         return {
             ID: remittanceTab.Vars.Prefix + "dynamic_form_destination_tpzin",
             name: "destnitionTozinDetail",
-            title: "توزین مقصد",
+            title: "<spring:message code='Tozin.target.tozin'/>",
             type: "text",
             layoutStyle: "flow",
             editorType: "MultiComboBoxItem",
@@ -1147,7 +1147,7 @@ function remittance(targetIdValueMap = {}) {
             type: "number",
             name: "remittanceType",
             width: "*",
-            title: "نوع بیجک",
+            title: "نوع <spring:message code='bijack'/>",
             optionDataSource: isc.MyRestDataSource.create({
                 ...remittanceTab.RestDataSources.remittanceType
                 , ID: remittanceTab.Vars.Prefix + "restـdataـsource_remittance_type"
@@ -1167,7 +1167,7 @@ function remittance(targetIdValueMap = {}) {
             editorType: "ComboBoxItem",
             type: "number",
             width: "*",
-            title: "به مقصد",
+            title: "به <spring:message code='shipment.Bol.tblPortByDischarge'/>",
             autoFetchData: true,
             optionDataSource: isc.MyRestDataSource.create({
                 ...remittanceTab.RestDataSources.warehouse
@@ -1291,7 +1291,7 @@ function remittance(targetIdValueMap = {}) {
     };
     //*********************************************LAYOUT***************************************************************
     remittanceTab.Layouts.ToolStripButtons.onWayProductGridAddBtn = {
-        title: "توزین مقصد",
+        title: "<spring:message code='Tozin.target.tozin'/>",
         addToTozinList(isSourceTozin = true) {
             const grid = window[remittanceTab.Grids.onWayProduct().ID]
             const tozins = grid.getSelectedRecords().map(r => r['tozinId']);

@@ -1,6 +1,8 @@
 package com.nicico.sales.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.nicico.sales.dto.contract.BillOfLandingDTO;
+import com.nicico.sales.model.entities.contract.BillOfLanding;
 import com.nicico.sales.model.enumeration.EStatus;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -12,6 +14,7 @@ import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -51,8 +54,8 @@ public class ShipmentDTO {
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("ShipmentInfo")
-    public static class Info extends ShipmentDTO {
+    @ApiModel("WithoutBLs")
+    public static class InfoWithoutBLs extends ShipmentDTO {
         private Long id;
 
         // Auditing
@@ -75,6 +78,15 @@ public class ShipmentDTO {
         private ShipmentTypeDTO.Info shipmentType;
         private ShipmentMethodDTO.Info shipmentMethod;
         private ContractShipmentDTO.Info contractShipment;
+    }
+
+
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("ShipmentInfo")
+    public static class Info extends InfoWithoutBLs {
+        private Set<BillOfLandingDTO.InfoWithoutShipment> bLs;
     }
 
     @Getter

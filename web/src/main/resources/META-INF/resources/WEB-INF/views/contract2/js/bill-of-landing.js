@@ -286,14 +286,18 @@ const BlTab = {
             let data = "";
             let callBack = "";
             let defaultResponse = async function (response) {
-                BlTab.Logs.add(["return status:", response]);
                 if (response.status === 400 || response.status == 500) {
-                    response.text().then(error => {
-                        BlTab.Logs.add(["fetch error:", error]);
-                        // MyRPCManager.handleError({httpResponseText: error});
-                        isc.warn("مشکلی پیش آمد. مشکل جهت گزارش:\n" + JSON.stringify(error));
-                    });
-                    return;
+                    const error = await response.json()
+                    BlTab.Logs.add(["fetch error:", error]);
+                    // MyRPCManager.handleError({httpResponseText: error});
+                    if (error.error ) {
+                        const er = error.error;
+                        if (er && er.toString().toLowerCase().includes("Unique".toLowerCase())) {
+                            return isc.warn("<spring:message code='exception.unique' />:\n" + JSON.stringify(error));
+                        }
+                    }
+                    return isc.warn("مشکلی پیش آمد. مشکل جهت گزارش:\n" + JSON.stringify(error));
+
                 }
 
                 if (response.status === 200 || response.status === 201) {
@@ -1272,6 +1276,7 @@ BlTab.Fields.Remittance = function () {
         {
             name: 'code', title: "شماره بیجک",
             recordDoubleClick: function (viewer, record, recordNum, field, fieldNum, value, rawValue) {
+                if (!record) return BlTab.Dialog.NotSelected();
                 BlTab.Methods.RecordDoubleClick('api/remittance', BlTab.Fields.Remittance(), false,
                     viewer, record, recordNum, field, fieldNum, value, rawValue)
             },
@@ -1280,6 +1285,7 @@ BlTab.Fields.Remittance = function () {
         {
             name: 'description', title: "شرح بیجک",
             recordDoubleClick: function (viewer, record, recordNum, field, fieldNum, value, rawValue) {
+                if (!record) return BlTab.Dialog.NotSelected();
                 BlTab.Methods.RecordDoubleClick('api/remittance', BlTab.Fields.Remittance(), false,
                     viewer, record, recordNum, field, fieldNum, value, rawValue)
             },
@@ -1460,7 +1466,7 @@ BlTab.Fields.BillOfLandingSwitch = function () {
         {
             name: 'switchDocumentNo',
             required: true,
-            title: "<spring:message code='billOfLanding.document.no'/>",
+            title: "<spring:message code='billOfLanding.switch'/> - <spring:message code='billOfLanding.document.no'/>  ",
             keyPressFilter: "[0-9/_a-zA-Z\u0600-\u06FF\uFB8A\u067E\u0686\u06AF\u200C\u200F-]",
             validateOnChange: true,
             validators: [
@@ -1472,49 +1478,52 @@ BlTab.Fields.BillOfLandingSwitch = function () {
             ]
         },
         {
-            name: 'switchShipperExporter', hidden: true, shouldSaveValue: false
-            , title: "<spring:message code='billOfLanding.shipper.exporter'/>",
+            name: 'switchShipperExporter',
+            hidden: true,
+            shouldSaveValue: false
+            ,
+            title: "<spring:message code='billOfLanding.switch'/> - <spring:message code='billOfLanding.shipper.exporter'/>",
         },
         {
             name: 'switchShipperExporterId',
             ...contactOptionDataSource(),
-            title: "<spring:message code='billOfLanding.shipper.exporter'/>",
+            title: "<spring:message code='billOfLanding.switch'/> - <spring:message code='billOfLanding.shipper.exporter'/>",
 
         },
         {
             name: 'switchNotifyParty', hidden: true, shouldSaveValue: false,
-            title: "<spring:message code='billOfLanding.notify.party'/>",
+            title: "<spring:message code='billOfLanding.switch'/> - <spring:message code='billOfLanding.notify.party'/>",
         },
         {
             name: 'switchNotifyPartyId',
-            title: "<spring:message code='billOfLanding.notify.party'/>",
+            title: "<spring:message code='billOfLanding.switch'/> - <spring:message code='billOfLanding.notify.party'/>",
             ...contactOptionDataSource(),
         },
         {
             name: 'switchConsignee', hidden: true, shouldSaveValue: false,
-            title: "<spring:message code='billOfLanding.consignee'/>",
+            title: "<spring:message code='billOfLanding.switch'/> - <spring:message code='billOfLanding.consignee'/>",
         },
         {
             name: 'switchConsigneeId',
             ...contactOptionDataSource(),
-            title: "<spring:message code='billOfLanding.consignee'/>",
+            title: "<spring:message code='billOfLanding.switch'/> - <spring:message code='billOfLanding.consignee'/>",
         },
         {
             name: 'switchPortOfLoading', hidden: true, shouldSaveValue: false,
-            title: "<spring:message code='billOfLanding.port.of.landing'/>",
+            title: "<spring:message code='billOfLanding.switch'/> - <spring:message code='billOfLanding.port.of.landing'/>",
 
         },
         {
             name: 'switchPortOfLoadingId', ...portOptionDataSource(),
-            title: "<spring:message code='billOfLanding.port.of.landing'/>",
+            title: "<spring:message code='billOfLanding.switch'/> - <spring:message code='billOfLanding.port.of.landing'/>",
         },
         {
             name: 'switchPortOfDischarge', hidden: true, shouldSaveValue: false,
-            title: "<spring:message code='billOfLanding.port.of.discharge'/>",
+            title: "<spring:message code='billOfLanding.switch'/> - <spring:message code='billOfLanding.port.of.discharge'/>",
         },
         {
             name: 'switchPortOfDischargeId', ...portOptionDataSource(),
-            title: "<spring:message code='billOfLanding.port.of.discharge'/>",
+            title: "<spring:message code='billOfLanding.switch'/> - <spring:message code='billOfLanding.port.of.discharge'/>",
         },
     ]
 }
@@ -1548,8 +1557,14 @@ BlTab.Fields.BillOfLandingWithoutSwitch = _ => {
                 fields: BlTab.Fields.Shipment(),
                 fetchDataURL: "api/shipment/spec-list"
             }),
-            click: function () {
+            optionCriteria:{
+                operator:"and",
+                criteria:[
+                    {fieldName:"remainedBLs",operator:"greaterThan",value:0}
+                ]
             },
+            // click: function () {
+            // },
             // optionCriteria: currencyInUnitCriteria,
             pickListProperties:
                 {
@@ -1687,6 +1702,7 @@ BlTab.Fields.BillOfLandingWithoutSwitch = _ => {
     return [
         {name: 'id', hidden: true,},
         ...BlTab.Fields.BillOfLandingSwitch().map(b => {
+            b.title = b.title.toString().split("-").slice(-1).pop()
             b.name = b.name.toString().substr(6).replace(/^./, function (char) {
                 return char.toLowerCase();
             });
@@ -1697,7 +1713,7 @@ BlTab.Fields.BillOfLandingWithoutSwitch = _ => {
             ...shipmentOptionDataSource(),
             title: "<spring:message code='Shipment.title'/>",
             formatCellValue: function (value, record, rowNum, colNum, grid) {
-                if (record.shipment)
+                if (record.shipment && record.shipment.vessel)
                     return record.shipment.contractShipment.contract.no + " " + record.shipment.vessel.name +
                         " " +
                         moment(record.shipment.sendDate).format('YYYY/MM/DD');
@@ -1819,34 +1835,35 @@ BlTab.Fields.BillOfLanding = _ => [
 BlTab.Fields.ContainerToBillOfLanding = _ => [
     {name: 'id', hidden: true,},
     // {name: 'billOfLanding',hidden: true},
-    {name: 'billOfLandingId',required:true, hidden: true},
+    {name: 'billOfLandingId', required: true, hidden: true},
     {
-        name: 'containerType',required:true,
+        name: 'containerType', required: true,
         title: "<spring:message code='billOfLanding.container.type'/>",
     },
     {
-        name: 'containerNo',required:true,
+        name: 'containerNo', required: true,
         title: "<spring:message code='billOfLanding.container.no'/>",
         summaryFunction: "count",
 
     },
     {
-        name: 'sealNo',required:true,
+        name: 'sealNo', required: true,
         title: "<spring:message code='billOfLanding.seal.no'/>",
     },
     {
-        name: 'quantity',required:true,
+        name: 'quantity', required: true,
         type: "number",
         keyPressFilter: "[0-9]",
         title: "<spring:message code='global.quantity'/>",
         summaryFunction: "sum",
     },
-    {required:true,
+    {
+        required: true,
         name: 'quantityType',
         title: "<spring:message code='billOfLanding.quiantity.type'/>",
     },
     {
-        name: 'weight',required:true,
+        name: 'weight', required: true,
         type: "number",
         keyPressFilter: "[0-9]",
         title: "<spring:message code='Tozin.vazn'/>",
@@ -1854,11 +1871,11 @@ BlTab.Fields.ContainerToBillOfLanding = _ => [
 
     },
     {
-        name: 'unit', hidden: true,required:true,
+        name: 'unit', hidden: true, required: true,
         title: "<spring:message code='global.unit'/>",
     },
     {
-        name: 'unitId',required:true,
+        name: 'unitId', required: true,
         displayField: 'nameEN',
         valueField: "id",
         title: "<spring:message code='global.unit'/>",
@@ -2006,6 +2023,7 @@ BlTab.Grids.Remittance = {
 BlTab.Grids.BillOfLanding = {
     height: "100%",
     recordDoubleClick(viewer, record, recordNum, field, fieldNum, value, rawValue) {
+        if (!record) return BlTab.Dialog.NotSelected();
         BlTab.Layouts.ToolStripButtons.NewBillOfLanding.click();
         BlTab.Vars.BillOfLanding.setValues(record);
         BlTab.Vars.Method = "PUT"
@@ -2121,10 +2139,11 @@ BlTab.Grids.BillOfLanding = {
                     }),
                     isc.ToolStripButtonEdit.create({
                         click() {
-                            dbg(false, 'container edit')
+                            const selectedRecord = BlTab.Grids.ContainerToBillOfLanding.getSelectedRecord();
+                            if (!selectedRecord) return BlTab.Dialog.NotSelected();
                             BlTab.Layouts.ToolStripButtons.NewContainerToBillOfLanding.click();
                             BlTab.Vars.Method = "PUT";
-                            BlTab.DynamicForms.Forms.ContainerToBillOfLanding.setValues(BlTab.Grids.ContainerToBillOfLanding.getSelectedRecord());
+                            BlTab.DynamicForms.Forms.ContainerToBillOfLanding.setValues(selectedRecord);
                         }
                     }),
                     isc.ToolStripButtonRemove.create({
@@ -2212,7 +2231,6 @@ BlTab.Layouts.ToolStripButtons.NewRemittanceBillOfLanding = {...BlTab.Layouts.To
 BlTab.Layouts.ToolStripButtons.EditRemittanceBillOfLanding = {...BlTab.Layouts.ToolStripButtons.edit}
 BlTab.Layouts.ToolStripButtons.EditContainerToBillOfLanding = {...BlTab.Layouts.ToolStripButtons.edit}
 BlTab.Layouts.ToolStripButtons.new.click = _ => {
-    console.debug('BlTab.Layouts.ToolStripButtons.new.click', BlTab.Layouts.ToolStripButtons.new)
     const win = BlTab.Methods.CreateWindowForForm(BlTab.Fields.BillOfLanding(), 'api/bill-of-landing')
     BlTab.Layouts.Window.BillOfLanding = win[0];
     BlTab.DynamicForms.Forms.BillOfLanding = win[1];
@@ -2257,7 +2275,8 @@ BlTab.Layouts.ToolStripButtons.NewBillOfLanding.click = _ => {
         BlTab.Methods.Save(BlTab.Vars.BillOfLanding.getValues(), 'api/bill-of-landing').then(function () {
             dbg(false, `BlTab.Methods.Save(BlTab.Vars.BillOfLanding.getValues(), 
                         'api/bill-of-landing').then(function () {`, arguments)
-            // window[windID].destroy();
+            if(BlTab.Vars.Method.toLowerCase() === "PUT".toLowerCase())
+            window[windID].destroy();
             BlTab.Vars.BillOfLanding.clearValues();
         })
     }, windID)

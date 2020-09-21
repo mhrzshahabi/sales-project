@@ -286,7 +286,6 @@ contractTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
                 contractTab.sectionStack.contract.sections.filter(x => x.title.toLowerCase().contains("header")).forEach(section => {
                     data.content = data.content + changeHeaderAndFooterTemplate(section.template);
                 });
-
                 contractTab.sectionStack.contract.sections.forEach(section => {
                     let contractDetailObj = {
                         contractDetailTypeId: section.name,
@@ -630,6 +629,9 @@ contractTab.method.addSectionByContract = function (record) {
             field.editable = detailValue.editable;
             field.unitId = detailValue.unitId;
 
+            if (header.contains(field.key))
+                field.hidden = true;
+
             if (detailValue.unitId !== undefined) {
                 getReferenceDataSource("Unit").fetchData(
                     {
@@ -653,7 +655,6 @@ contractTab.method.addSectionByContract = function (record) {
             visibility: "hidden",
             width: "100%",
             align: "center",
-            titleAlign: "right",
             numCols: 8,
             styleName: 'contract-section',
             canSubmit: true,
@@ -778,6 +779,9 @@ contractTab.method.addSectionByContractDetailType = function (record) {
         field.required = param.required;
         field.unitId = param.unitId;
 
+        if (header.contains(field.key))
+            field.hidden = true;
+
         if (param.reference == "Incoterm") {
             field.changed = function (form, item, value) {
                 getReferenceDataSource("IncotermRules").fetchData(
@@ -816,7 +820,6 @@ contractTab.method.addSectionByContractDetailType = function (record) {
         visibility: "hidden",
         width: "100%",
         align: "center",
-        titleAlign: "right",
         numCols: 8,
         styleName: 'contract-section',
         canSubmit: true,

@@ -1,9 +1,11 @@
 package com.nicico.sales.model.entities.base;
 
 import com.nicico.sales.model.entities.common.BaseEntity;
+import com.nicico.sales.model.entities.contract.BillOfLanding;
 import com.nicico.sales.model.entities.warehouse.Remittance;
 import lombok.*;
 import lombok.experimental.Accessors;
+import org.hibernate.annotations.Formula;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -148,6 +150,12 @@ public class Shipment extends BaseEntity {
     @Column(name = "N_NO_BLS", nullable = false)
     private Long noBLs;
 
+    @Formula("( select N_NO_BLS - (select count(TBL_CNTR_BILL_OF_LANDING.ID) " +
+            "from TBL_CNTR_BILL_OF_LANDING where TBL_CNTR_BILL_OF_LANDING.F_SHIPMENT_ID = id) from dual)")
+    private Long remainedBLs;
+
+    @OneToMany(mappedBy = "shipmentId",fetch = FetchType.LAZY)
+    private Set<BillOfLanding> bLs;
     @Column(name = "N_NO_CONTAINER")
     private Long noContainer;
 
@@ -189,6 +197,7 @@ public class Shipment extends BaseEntity {
 
     @OneToMany(mappedBy = "shipmentId", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private List<Remittance> remittances;
+
 
     @Column(name = "D_LAST_DELIVERY_LETTER_DATE")
     private Date lastDeliveryLetterDate;

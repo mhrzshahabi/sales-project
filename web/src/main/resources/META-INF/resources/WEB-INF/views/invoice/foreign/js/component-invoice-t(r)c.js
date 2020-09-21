@@ -24,7 +24,6 @@ isc.defineClass("InvoiceDeduction", isc.VLayout).addProperties({
                 name: "TC",
                 top: 5,
                 align: "left",
-                titleAlign: "left",
                 type: "staticText",
                 value: This.contractDetailData.tc,
                 title: "<spring:message code='contract.TC'/>"

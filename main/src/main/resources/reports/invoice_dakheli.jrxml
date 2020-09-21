@@ -4,7 +4,32 @@
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="250"/>
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="743"/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Oracle_SalesLocal"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<subDataset name="Dataset1" uuid="2e35cc09-aa6e-437f-b240-0661c7d28941">
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+		<queryString>
+			<![CDATA[select  ID as id ,
+ C_FULLNAME_FA as fullName,
+C_ECONOMICAL_CODE as economicalCode,
+C_ADDRESS as address,
+C_NATIONAL_CODE as nationalCode,
+C_PHONE as phone,
+C_POSTAL_CODE as postalCode,
+C_FAX as fax,
+C_REGISTER_NUMBER as registerNumber
+  from tbl_contact
+  where ID =2]]>
+		</queryString>
+		<field name="fullName" class="java.lang.String"/>
+		<field name="id" class="java.lang.Long"/>
+		<field name="economicalCode" class="java.lang.String"/>
+		<field name="nationalCode" class="java.lang.String"/>
+		<field name="phone" class="java.lang.String"/>
+		<field name="postalCode" class="java.lang.String"/>
+		<field name="address" class="java.lang.String"/>
+		<field name="fax" class="java.lang.String"/>
+		<field name="registerNumber" class="java.lang.String"/>
+	</subDataset>
 	<parameter name="ID" class="java.lang.String"/>
 	<parameter name="logo_nicico" class="java.lang.Object"/>
 	<parameter name="sum_number_to_string" class="java.lang.String"/>
@@ -34,7 +59,8 @@
     nvl(invoice_internal.PAYFORAVAREZMALEYATE,0) AS payforavarezmaleyate,
     nvl(invoice_internal.BANKGROUPDESC,'') AS bankgroupdesc,
     nvl(invoice_internal.LCID,'') AS lcid,
-    nvl(lct.LC_NUMBER,'') AS lc_number
+    nvl(lct.LC_NUMBER,'') AS lc_number,
+    nvl(invoice_internal.INV_ID,'') AS invid
 FROM
     VIEW_Internal_invoice invoice_internal
     JOIN VIEW_CUSTOMER mc ON mc.cust_id = invoice_internal.customerid
@@ -117,48 +143,58 @@ WHERE
 	<field name="LC_NUMBER" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="LC_NUMBER"/>
 	</field>
+	<field name="INVID" class="java.lang.String"/>
 	<pageHeader>
-		<band height="65" splitType="Stretch">
+		<band height="49" splitType="Stretch">
 			<image>
-				<reportElement x="726" y="1" width="72" height="59" uuid="bb1d1d44-c154-4811-bf70-9dcf38736980"/>
+				<reportElement x="729" y="-12" width="72" height="59" uuid="bb1d1d44-c154-4811-bf70-9dcf38736980"/>
 				<imageExpression><![CDATA[$P{logo_nicico}]]></imageExpression>
 			</image>
 			<staticText>
-				<reportElement stretchType="RelativeToTallestObject" x="90" y="8" width="100" height="20" uuid="abe9ecc0-ca55-4af7-acf0-e569c76546a1"/>
+				<reportElement stretchType="RelativeToTallestObject" x="106" y="-6" width="84" height="20" uuid="abe9ecc0-ca55-4af7-acf0-e569c76546a1"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="Shabnam-FD"/>
+					<font fontName="Karnik" size="12"/>
 				</textElement>
-				<text><![CDATA[* شماره سریال]]></text>
+				<text><![CDATA[* شماره سريال:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement stretchType="RelativeToTallestObject" x="266" y="3" width="224" height="56" uuid="f46f9468-5239-4011-864b-efc9a1b5ec7d"/>
+				<reportElement stretchType="RelativeToTallestObject" x="283" y="-14" width="224" height="56" uuid="f46f9468-5239-4011-864b-efc9a1b5ec7d"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Shabnam-FD" size="11" isBold="true"/>
+					<font fontName="Karnik" size="14" isBold="true"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<text><![CDATA[وزارت صنایع و معادن
-شرکت ملی صنایع مس ایران
+				<text><![CDATA[وزارت صنايع و معادن
+شرکت ملي صنايع مس ايران
 صورتحساب فروش]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="61" y="31" width="100" height="30" uuid="3c44eae7-b088-425b-90a4-42a6090af6f6"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<reportElement x="14" y="14" width="92" height="20" uuid="3c44eae7-b088-425b-90a4-42a6090af6f6"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Karnik" size="12"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{INV_DATE}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement stretchType="RelativeToTallestObject" x="161" y="36" width="26" height="20" uuid="2af62195-2c5e-4dd6-baa3-984f7c0cc81a"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Shabnam-FD"/>
+				<reportElement stretchType="RelativeToTallestObject" x="106" y="14" width="84" height="20" uuid="2af62195-2c5e-4dd6-baa3-984f7c0cc81a"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Karnik" size="12"/>
 				</textElement>
-				<text><![CDATA[تاریخ:]]></text>
+				<text><![CDATA[تاريخ:]]></text>
 			</staticText>
+			<textField>
+				<reportElement x="14" y="-6" width="92" height="20" uuid="5b5091d5-63f5-4baf-8315-9e9afb175879"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Karnik" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{INVID}]]></textFieldExpression>
+			</textField>
 		</band>
 	</pageHeader>
 	<detail>
-		<band height="363" splitType="Stretch">
+		<band height="379" splitType="Stretch">
 			<property name="com.jaspersoft.studio.layout"/>
 			<frame>
-				<reportElement x="0" y="140" width="801" height="91" uuid="768da5fb-7ba2-4cce-b495-e96c77b56956"/>
+				<reportElement x="0" y="139" width="801" height="80" uuid="768da5fb-7ba2-4cce-b495-e96c77b56956"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -166,51 +202,102 @@ WHERE
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textField isBlankWhenNull="true">
-					<reportElement stretchType="RelativeToTallestObject" x="537" y="7" width="260" height="23" uuid="510de2c7-1cc3-423a-a7d9-37438d3dbc3f"/>
+					<reportElement stretchType="RelativeToTallestObject" x="669" y="-1" width="128" height="24" uuid="510de2c7-1cc3-423a-a7d9-37438d3dbc3f"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font fontName="Shabnam-FD"/>
+						<font fontName="Karnik" size="12"/>
 					</textElement>
-					<textFieldExpression><![CDATA["نام شخص حقیقی / حقوقی: "+$F{CUSTOMER_CUST_NAME}]]></textFieldExpression>
+					<textFieldExpression><![CDATA["نام شخص حقيقي / حقوقي: "]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
-					<reportElement stretchType="RelativeToTallestObject" x="220" y="8" width="161" height="22" uuid="ade49a0e-f9bf-49a1-b1f4-c9214dcc4c70"/>
+					<reportElement stretchType="RelativeToTallestObject" x="233" y="-1" width="98" height="24" uuid="ade49a0e-f9bf-49a1-b1f4-c9214dcc4c70"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font fontName="Shabnam-FD"/>
+						<font fontName="Karnik" size="12"/>
 					</textElement>
-					<textFieldExpression><![CDATA["شماره اقتصادی: "+$F{CUSTOMER_CUST_EGHTESADNUMBER}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{CUSTOMER_CUST_EGHTESADNUMBER}]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
-					<reportElement stretchType="RelativeToTallestObject" x="16" y="8" width="194" height="22" uuid="606fad73-91f7-465e-b61a-5ca34b4e2839"/>
+					<reportElement stretchType="RelativeToTallestObject" x="110" y="-1" width="122" height="24" uuid="606fad73-91f7-465e-b61a-5ca34b4e2839"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font fontName="Shabnam-FD"/>
+						<font fontName="Karnik" size="12"/>
 					</textElement>
-					<textFieldExpression><![CDATA["شماره ثبت / شماره ملی: "+$F{CUSTOMER_CUST_SABTNUMBER}]]></textFieldExpression>
+					<textFieldExpression><![CDATA["شماره ثبت / شماره ملي: "]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
-					<reportElement stretchType="RelativeToTallestObject" x="16" y="45" width="164" height="23" uuid="b0f59366-e2b8-4fea-963e-c08574e20c63"/>
+					<reportElement stretchType="RelativeToTallestObject" x="110" y="23" width="122" height="24" uuid="b0f59366-e2b8-4fea-963e-c08574e20c63"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font fontName="Shabnam-FD"/>
+						<font fontName="Karnik" size="12"/>
 					</textElement>
-					<textFieldExpression><![CDATA["کد پستی 10 رقمی: "+($F{CUSTOMER_CUST_POSTCODE}!=null?$F{CUSTOMER_CUST_POSTCODE}:"")]]></textFieldExpression>
+					<textFieldExpression><![CDATA["کد پستي 10 رقمي: "]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
-					<reportElement stretchType="RelativeToTallestObject" x="433" y="38" width="364" height="23" uuid="cc2b014e-1951-4b0d-93cc-21fac17cb541"/>
+					<reportElement stretchType="RelativeToTallestObject" x="669" y="46" width="128" height="24" uuid="cc2b014e-1951-4b0d-93cc-21fac17cb541"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font fontName="Shabnam-FD"/>
+						<font fontName="Karnik" size="12"/>
 					</textElement>
-					<textFieldExpression><![CDATA["نشانی: "+$F{CUSTOMER_CUST_ADDRESS}]]></textFieldExpression>
+					<textFieldExpression><![CDATA["نشاني: "]]></textFieldExpression>
 				</textField>
-				<textField>
-					<reportElement x="376" y="69" width="329" height="16" uuid="3a8c6d62-202f-4ff5-a920-547f1ec82efa"/>
+				<textField isBlankWhenNull="true">
+					<reportElement x="440" y="22" width="230" height="24" uuid="3a8c6d62-202f-4ff5-a920-547f1ec82efa"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font fontName="Shabnam-FD" size="9" isItalic="false"/>
+						<font fontName="Karnik" size="12" isItalic="false"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{CUSTOMER_CUST_TEL}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="191" y="45" width="100" height="24" uuid="15ffb7df-33d3-4539-86e5-7dee5e2e6158"/>
-					<textElement textAlignment="Right" verticalAlignment="Middle"/>
+					<reportElement x="233" y="23" width="98" height="24" uuid="15ffb7df-33d3-4539-86e5-7dee5e2e6158"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Karnik" size="12"/>
+					</textElement>
 					<textFieldExpression><![CDATA[$F{HAVALEHID}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="440" y="-1" width="230" height="24" uuid="ac002173-6284-48dc-9e5a-8e4ff2b60609"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Karnik" size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{CUSTOMER_CUST_NAME}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement x="2" y="46" width="667" height="24" uuid="7b6396b5-aa41-4e2a-8a3d-d1a19bdd15db"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Karnik" size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{CUSTOMER_CUST_ADDRESS}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement stretchType="RelativeToTallestObject" x="669" y="22" width="128" height="24" uuid="ce3a795d-164a-44b2-a5d8-de31be4e3fd3"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Karnik" size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA["شماره تلفن  / نمابر : "]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement stretchType="RelativeToTallestObject" x="332" y="-1" width="107" height="24" uuid="d4773e1c-bd19-449a-aa31-008551f32d38"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Karnik" size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA["شماره اقتصادي: "]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement stretchType="RelativeToTallestObject" x="3" y="-1" width="107" height="24" uuid="7bfb4ba2-3f64-40e3-bec2-f279f19de1ee"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Karnik" size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{CUSTOMER_CUST_SABTNUMBER}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement stretchType="RelativeToTallestObject" x="332" y="23" width="107" height="24" uuid="b3e47c35-6802-42a2-a579-0307cff0cb4d"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Karnik" size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA["شماره حواله تحويل کالا:"]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement stretchType="RelativeToTallestObject" x="3" y="23" width="107" height="24" uuid="0b325655-e82a-418a-b52c-ed3f9095f5a2"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Karnik" size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{CUSTOMER_CUST_POSTCODE}!=null?$F{CUSTOMER_CUST_POSTCODE}:""]]></textFieldExpression>
 				</textField>
 			</frame>
 			<staticText>
@@ -222,117 +309,10 @@ WHERE
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Shabnam-FD"/>
+					<font fontName="Karnik" size="14" isBold="true"/>
 				</textElement>
 				<text><![CDATA[مشخصات فروشنده]]></text>
 			</staticText>
-			<frame>
-				<reportElement x="0" y="26" width="801" height="91" uuid="1be8620c-ea1c-4253-8d99-4db6a16a0be8"/>
-				<box>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<staticText>
-					<reportElement stretchType="RelativeToTallestObject" x="525" y="36" width="272" height="20" uuid="3c80a9b3-14e4-436e-a4de-d00a12ebce18"/>
-					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font fontName="Shabnam-FD"/>
-					</textElement>
-					<text><![CDATA[شماره ثبت / شماره ملی:]]></text>
-				</staticText>
-				<textField isBlankWhenNull="true">
-					<reportElement stretchType="RelativeToTallestObject" x="477" y="3" width="320" height="30" uuid="544aae02-242e-45fd-a13b-7021c5a9606b"/>
-					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font fontName="Shabnam-FD"/>
-					</textElement>
-					<textFieldExpression><![CDATA["نام شخص حقیقی / حقوقی:" + $F{BUYER_CUST_NAME}]]></textFieldExpression>
-				</textField>
-				<textField isBlankWhenNull="true">
-					<reportElement stretchType="RelativeToTallestObject" x="570" y="58" width="226" height="31" uuid="1b095993-91da-4935-ab3c-e8aaf7278635"/>
-					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font fontName="Shabnam-FD"/>
-					</textElement>
-					<textFieldExpression><![CDATA["کد پستی 10 رقمی: "+($F{BUYER_CUST_POSTCODE}!=null?$F{BUYER_CUST_POSTCODE}:"")]]></textFieldExpression>
-				</textField>
-				<textField isBlankWhenNull="true">
-					<reportElement stretchType="RelativeToTallestObject" x="270" y="6" width="186" height="20" uuid="50938fe1-7752-48de-b481-9947b12876a3"/>
-					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font fontName="Shabnam-FD"/>
-					</textElement>
-					<textFieldExpression><![CDATA["شماره اقتصادی: "+$F{BUYER_CUST_EGHTESADNUMBER}]]></textFieldExpression>
-				</textField>
-				<textField isBlankWhenNull="true">
-					<reportElement stretchType="RelativeToTallestObject" x="23" y="29" width="434" height="23" uuid="0be017c9-6818-4bb2-bb39-e5c129a987b7"/>
-					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font fontName="Shabnam-FD"/>
-					</textElement>
-					<textFieldExpression><![CDATA["نشانی: "+$F{BUYER_CUST_ADDRESS}]]></textFieldExpression>
-				</textField>
-				<textField isBlankWhenNull="true">
-					<reportElement stretchType="RelativeToTallestObject" x="30" y="6" width="229" height="17" uuid="dc545964-b029-41de-a403-c15f66fa10ec"/>
-					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font fontName="Shabnam-FD"/>
-					</textElement>
-					<textFieldExpression><![CDATA["شناسه ملی: "+$F{BUYER_CUST_SABTNUMBER}]]></textFieldExpression>
-				</textField>
-				<staticText>
-					<reportElement x="111" y="58" width="49" height="30" uuid="d8481095-7e03-4095-9da1-bf4ce217a999"/>
-					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font fontName="Shabnam-FD"/>
-					</textElement>
-					<text><![CDATA[نمابر : ]]></text>
-				</staticText>
-				<textField isBlankWhenNull="true">
-					<reportElement x="15" y="67" width="105" height="16" uuid="5738e796-d7f2-42a7-94b8-4b4ced40f8e9"/>
-					<textElement textAlignment="Center">
-						<font fontName="Shabnam-FD" size="9" isItalic="false"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$F{BUYER_CUST_FAX}]]></textFieldExpression>
-				</textField>
-				<staticText>
-					<reportElement x="581" y="66" width="39" height="17" uuid="b08356b3-29ba-428d-8d1e-78527178aa5d"/>
-					<textElement textAlignment="Center">
-						<font fontName="Shabnam-FD"/>
-					</textElement>
-					<text><![CDATA[تلفن : ]]></text>
-				</staticText>
-				<textField>
-					<reportElement x="421" y="66" width="146" height="18" uuid="2fef08ce-bb17-4a7b-86d5-1d4332b05493"/>
-					<textElement textAlignment="Center">
-						<font fontName="Shabnam-FD" size="9"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$F{BUYER_CUST_TEL}]]></textFieldExpression>
-				</textField>
-				<staticText>
-					<reportElement x="334" y="58" width="60" height="30" uuid="e1ffb517-252d-4a74-aedc-95f4a4a0a966"/>
-					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font fontName="Shabnam-FD"/>
-					</textElement>
-					<text><![CDATA[تلکس:]]></text>
-				</staticText>
-				<textField isBlankWhenNull="true">
-					<reportElement x="170" y="66" width="164" height="15" uuid="d3ce4dc7-693f-488f-8a71-4182b5f5edd0"/>
-					<textElement textAlignment="Center">
-						<font fontName="Shabnam-FD" size="9"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$F{BUYER_CUST_TELEX}]]></textFieldExpression>
-				</textField>
-				<staticText>
-					<reportElement stretchType="RelativeToTallestObject" x="710" y="182" width="87" height="20" uuid="ddc96818-98da-48e8-9f63-1200fe92ac99"/>
-					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font fontName="Shabnam-FD"/>
-					</textElement>
-					<text><![CDATA[شماره تلفن  / نمابر : ]]></text>
-				</staticText>
-				<staticText>
-					<reportElement x="291" y="159" width="130" height="23" uuid="0e64f26d-68e8-4ba0-b342-a325f8b7afe1"/>
-					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font fontName="Shabnam-FD"/>
-					</textElement>
-					<text><![CDATA[شماره حواله تحویل کالا:]]></text>
-				</staticText>
-			</frame>
 			<staticText>
 				<reportElement stretchType="RelativeToTallestObject" mode="Transparent" x="0" y="118" width="801" height="21" backcolor="#FFFFFF" uuid="4dd88bbe-9a3c-4889-bc5c-5d7f2b1b3cf6"/>
 				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
@@ -342,12 +322,12 @@ WHERE
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Shabnam-FD"/>
+					<font fontName="Karnik" size="14" isBold="true"/>
 				</textElement>
-				<text><![CDATA[مشخصات خریدار]]></text>
+				<text><![CDATA[مشخصات خريدار]]></text>
 			</staticText>
 			<staticText>
-				<reportElement stretchType="RelativeToTallestObject" mode="Transparent" x="0" y="230" width="801" height="21" backcolor="#FFFFFF" uuid="b6536d99-65af-4dda-8af3-e179f9377390"/>
+				<reportElement stretchType="RelativeToTallestObject" mode="Transparent" x="0" y="218" width="801" height="21" backcolor="#FFFFFF" uuid="b6536d99-65af-4dda-8af3-e179f9377390"/>
 				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -355,12 +335,12 @@ WHERE
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Shabnam-FD"/>
+					<font fontName="Karnik" size="14" isBold="true"/>
 				</textElement>
-				<text><![CDATA[مشخصات کالا یا خدمات مورد معامله]]></text>
+				<text><![CDATA[مشخصات کالا يا خدمات مورد معامله]]></text>
 			</staticText>
 			<staticText>
-				<reportElement stretchType="RelativeToTallestObject" x="770" y="252" width="31" height="19" uuid="721507fb-dc2b-4447-84c7-ff0dccacb752"/>
+				<reportElement stretchType="RelativeToTallestObject" x="770" y="239" width="31" height="19" uuid="721507fb-dc2b-4447-84c7-ff0dccacb752"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -368,12 +348,12 @@ WHERE
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Shabnam-FD" size="8" isBold="true"/>
+					<font fontName="Karnik" size="10" isBold="true"/>
 				</textElement>
-				<text><![CDATA[ردیف]]></text>
+				<text><![CDATA[رديف]]></text>
 			</staticText>
 			<staticText>
-				<reportElement stretchType="RelativeToTallestObject" x="600" y="252" width="120" height="19" uuid="efcb8d5a-f5fd-41ac-af65-a231520cc460"/>
+				<reportElement stretchType="RelativeToTallestObject" x="578" y="239" width="142" height="19" uuid="efcb8d5a-f5fd-41ac-af65-a231520cc460"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -381,12 +361,12 @@ WHERE
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Shabnam-FD" size="8" isBold="true"/>
+					<font fontName="Karnik" size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[شرح کالا]]></text>
 			</staticText>
 			<staticText>
-				<reportElement stretchType="RelativeToTallestObject" x="500" y="252" width="100" height="19" uuid="9c10cb4a-a5ae-41e7-8a28-41b6df7599a6"/>
+				<reportElement stretchType="RelativeToTallestObject" x="500" y="239" width="78" height="19" uuid="9c10cb4a-a5ae-41e7-8a28-41b6df7599a6"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -394,12 +374,12 @@ WHERE
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Shabnam-FD" size="8" isBold="true"/>
+					<font fontName="Karnik" size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[تعداد/مقدار]]></text>
 			</staticText>
 			<staticText>
-				<reportElement stretchType="RelativeToTallestObject" x="720" y="252" width="50" height="19" uuid="20127370-5365-47e3-bcca-61e883660505"/>
+				<reportElement stretchType="RelativeToTallestObject" x="720" y="239" width="50" height="19" uuid="20127370-5365-47e3-bcca-61e883660505"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -407,12 +387,12 @@ WHERE
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Shabnam-FD" size="8" isBold="true"/>
+					<font fontName="Karnik" size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[کد کالا]]></text>
 			</staticText>
 			<staticText>
-				<reportElement stretchType="RelativeToTallestObject" x="460" y="252" width="40" height="19" uuid="95c49452-c950-4dd7-bcb0-7aa66eb866cd"/>
+				<reportElement stretchType="RelativeToTallestObject" x="460" y="239" width="40" height="19" uuid="95c49452-c950-4dd7-bcb0-7aa66eb866cd"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -420,12 +400,12 @@ WHERE
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Shabnam-FD" size="8" isBold="true"/>
+					<font fontName="Karnik" size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[واحد]]></text>
 			</staticText>
 			<staticText>
-				<reportElement stretchType="RelativeToTallestObject" x="360" y="252" width="100" height="19" uuid="678b513f-411a-4948-ad8a-a464313975ee"/>
+				<reportElement stretchType="RelativeToTallestObject" x="360" y="239" width="100" height="19" uuid="678b513f-411a-4948-ad8a-a464313975ee"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -433,12 +413,12 @@ WHERE
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Shabnam-FD" size="8" isBold="true"/>
+					<font fontName="Karnik" size="10" isBold="true"/>
 				</textElement>
-				<text><![CDATA[مبلغ واحد(ریال)]]></text>
+				<text><![CDATA[مبلغ واحد(ريال)]]></text>
 			</staticText>
 			<staticText>
-				<reportElement stretchType="RelativeToTallestObject" x="130" y="252" width="130" height="19" uuid="5459b72e-7932-4c4a-ba97-8a68d4f0fe18"/>
+				<reportElement stretchType="RelativeToTallestObject" x="130" y="239" width="130" height="19" uuid="5459b72e-7932-4c4a-ba97-8a68d4f0fe18"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -446,12 +426,12 @@ WHERE
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Shabnam-FD" size="8" isBold="true"/>
+					<font fontName="Karnik" size="10" isBold="true"/>
 				</textElement>
-				<text><![CDATA[جمع مالیات و عوارض(ریال) 9%]]></text>
+				<text><![CDATA[جمع ماليات و عوارض(ريال) 9%]]></text>
 			</staticText>
 			<staticText>
-				<reportElement stretchType="RelativeToTallestObject" x="260" y="252" width="100" height="19" uuid="52579e4f-047b-409d-9a66-2767fc35ba64"/>
+				<reportElement stretchType="RelativeToTallestObject" x="260" y="239" width="100" height="19" uuid="52579e4f-047b-409d-9a66-2767fc35ba64"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -459,12 +439,12 @@ WHERE
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Shabnam-FD" size="8" isBold="true"/>
+					<font fontName="Karnik" size="10" isBold="true"/>
 				</textElement>
-				<text><![CDATA[مبلغ کل(ریال)]]></text>
+				<text><![CDATA[مبلغ کل(ريال)]]></text>
 			</staticText>
 			<staticText>
-				<reportElement stretchType="RelativeToTallestObject" x="0" y="252" width="130" height="19" uuid="7293625d-41da-46d2-8428-3c15029d5e74"/>
+				<reportElement stretchType="RelativeToTallestObject" x="0" y="239" width="130" height="19" uuid="7293625d-41da-46d2-8428-3c15029d5e74"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -472,23 +452,25 @@ WHERE
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Shabnam-FD" size="8" isBold="true"/>
+					<font fontName="Karnik" size="10" isBold="true"/>
 				</textElement>
-				<text><![CDATA[جمع مبلغ کل بعلاوه جمع مالیات و عوارض]]></text>
+				<text><![CDATA[جمع مبلغ کل  ماليات ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="770" y="271" width="31" height="30" uuid="9572cad1-2ec5-4d2b-9069-d969f62db8cb"/>
+				<reportElement x="770" y="258" width="31" height="51" uuid="9572cad1-2ec5-4d2b-9069-d969f62db8cb"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Karnik" size="14"/>
+				</textElement>
 				<text><![CDATA[1]]></text>
 			</staticText>
-			<textField isBlankWhenNull="true">
-				<reportElement x="600" y="271" width="120" height="30" uuid="6bc4e8bc-68b4-4cc1-9fab-4969cb2bb50e"/>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="578" y="258" width="142" height="51" uuid="6bc4e8bc-68b4-4cc1-9fab-4969cb2bb50e"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -496,23 +478,25 @@ WHERE
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Shabnam-FD"/>
+					<font fontName="Karnik" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{GDSNAME}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.###" isBlankWhenNull="true">
-				<reportElement x="500" y="271" width="100" height="30" uuid="1c6ad590-f49a-4695-b5c3-3edf4e61af29"/>
+				<reportElement x="500" y="258" width="78" height="51" uuid="1c6ad590-f49a-4695-b5c3-3edf4e61af29"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Karnik" size="12"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{WEIGHTREAL}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement stretchType="RelativeToTallestObject" x="460" y="271" width="40" height="30" uuid="e7dacbf1-f3f9-4445-be94-fbbba8b6337f"/>
+				<reportElement stretchType="RelativeToTallestObject" x="460" y="258" width="40" height="51" uuid="e7dacbf1-f3f9-4445-be94-fbbba8b6337f"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -520,45 +504,25 @@ WHERE
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Shabnam-FD"/>
+					<font fontName="Karnik" size="12"/>
 				</textElement>
-				<text><![CDATA[کیلوگرم]]></text>
+				<text><![CDATA[کيلوگرم]]></text>
 			</staticText>
 			<textField pattern="#,##0.###" isBlankWhenNull="true">
-				<reportElement x="360" y="271" width="100" height="30" uuid="2e33b3c1-0bc5-434b-88ae-ad265befcbd8"/>
+				<reportElement x="360" y="258" width="100" height="51" uuid="2e33b3c1-0bc5-434b-88ae-ad265befcbd8"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Karnik" size="12"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{GHEMATUNIT}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.###">
-				<reportElement x="260" y="271" width="100" height="30" uuid="76e22f1f-b339-4503-9982-5c2b413bb89e"/>
-				<box>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{MABLAGHKOL}]]></textFieldExpression>
-			</textField>
-			<textField pattern="#,##0.###" isBlankWhenNull="true">
-				<reportElement x="130" y="271" width="130" height="30" uuid="d02ac384-7e2e-42d9-a119-3d83b99fd762"/>
-				<box>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{PAYFORAVAREZMALEYATE}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement stretchType="RelativeToTallestObject" x="460" y="301" width="40" height="30" uuid="45a0cb05-3763-400a-b757-5d9a8aae26e5"/>
+				<reportElement x="260" y="258" width="100" height="51" uuid="76e22f1f-b339-4503-9982-5c2b413bb89e"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -566,12 +530,38 @@ WHERE
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Shabnam-FD"/>
+					<font fontName="Karnik" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MABLAGHKOL}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.###" isBlankWhenNull="true">
+				<reportElement x="130" y="258" width="130" height="51" uuid="d02ac384-7e2e-42d9-a119-3d83b99fd762"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Karnik" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PAYFORAVAREZMALEYATE}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement stretchType="RelativeToTallestObject" x="460" y="310" width="40" height="30" uuid="45a0cb05-3763-400a-b757-5d9a8aae26e5"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Karnik" size="12"/>
 				</textElement>
 				<text><![CDATA[جمع کل]]></text>
 			</staticText>
 			<staticText>
-				<reportElement stretchType="RelativeToTallestObject" x="702" y="301" width="99" height="30" uuid="1391d716-0d11-4110-bb28-7a565bc643d0"/>
+				<reportElement stretchType="RelativeToTallestObject" x="720" y="310" width="81" height="30" uuid="1391d716-0d11-4110-bb28-7a565bc643d0"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -579,12 +569,12 @@ WHERE
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Shabnam-FD"/>
+					<font fontName="Karnik" size="12"/>
 				</textElement>
-				<text><![CDATA[شرایط فروش:]]></text>
+				<text><![CDATA[شرايط فروش:]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement x="500" y="301" width="100" height="30" uuid="6fff63fa-4d52-4cfb-a282-ea5a03328924"/>
+				<reportElement x="500" y="310" width="78" height="30" uuid="6fff63fa-4d52-4cfb-a282-ea5a03328924"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -592,12 +582,12 @@ WHERE
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Shabnam-FD"/>
+					<font fontName="Karnik" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{BANKGROUPDESC}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="600" y="301" width="102" height="30" uuid="5819aff0-460b-41a6-bf84-f8a8794e1950"/>
+				<reportElement x="578" y="310" width="142" height="30" uuid="5819aff0-460b-41a6-bf84-f8a8794e1950"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -605,12 +595,12 @@ WHERE
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Shabnam-FD"/>
+					<font fontName="Karnik" size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{LCID}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{LCID}!=null?$F{LCID}:"نقدي"]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="360" y="301" width="100" height="30" uuid="d29c3ae8-0889-4744-a0fd-54a60336933d"/>
+				<reportElement x="360" y="310" width="100" height="30" uuid="d29c3ae8-0889-4744-a0fd-54a60336933d"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -621,62 +611,72 @@ WHERE
 				<text><![CDATA[]]></text>
 			</staticText>
 			<textField pattern="#,##0.###" isBlankWhenNull="true">
-				<reportElement x="260" y="301" width="100" height="30" uuid="38588631-543f-40af-a798-e19b3b15200d"/>
+				<reportElement x="260" y="310" width="100" height="30" uuid="38588631-543f-40af-a798-e19b3b15200d"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Karnik" size="12"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{MABLAGHKOL}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.###">
-				<reportElement x="130" y="301" width="130" height="30" uuid="1cdb1302-9078-4480-9cef-8442901fbb9e"/>
+				<reportElement x="130" y="310" width="130" height="30" uuid="1cdb1302-9078-4480-9cef-8442901fbb9e"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Karnik" size="12"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{PAYFORAVAREZMALEYATE}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.###" isBlankWhenNull="true">
-				<reportElement x="0" y="271" width="130" height="30" uuid="a16bd59c-7bab-47dd-95fa-1e5107ae011c"/>
+				<reportElement x="0" y="258" width="130" height="51" uuid="a16bd59c-7bab-47dd-95fa-1e5107ae011c"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Karnik" size="12"/>
+				</textElement>
 				<textFieldExpression><![CDATA[SUM($F{MABLAGHKOL},$F{PAYFORAVAREZMALEYATE})]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.###" isBlankWhenNull="true">
-				<reportElement x="0" y="301" width="130" height="30" uuid="b80128e7-86c6-42f3-9bc6-862961a518e2"/>
+				<reportElement x="0" y="310" width="130" height="30" uuid="b80128e7-86c6-42f3-9bc6-862961a518e2"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Karnik" size="12"/>
+				</textElement>
 				<textFieldExpression><![CDATA[SUM($F{MABLAGHKOL},$F{PAYFORAVAREZMALEYATE})]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="720" y="271" width="50" height="30" uuid="c7ef5d57-366e-4934-8cf7-ec2a5bcab151"/>
+				<reportElement x="720" y="258" width="50" height="51" uuid="c7ef5d57-366e-4934-8cf7-ec2a5bcab151"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Karnik" size="12"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{GOODSID}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="0" y="333" width="801" height="22" uuid="28f38928-9817-494e-8856-290e2e74e548"/>
+				<reportElement x="0" y="340" width="720" height="22" uuid="28f38928-9817-494e-8856-290e2e74e548"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -684,25 +684,173 @@ WHERE
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="Shabnam-FD"/>
+					<font fontName="Karnik" size="12"/>
 					<paragraph rightIndent="5"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{sum_number_to_string}  + " ریال"]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{sum_number_to_string}  + " ريال"]]></textFieldExpression>
 			</textField>
-		</band>
-		<band height="119">
 			<staticText>
-				<reportElement x="0" y="-7" width="802" height="24" uuid="8ebe8869-aec9-4211-8e5d-1ed5fd152836"/>
+				<reportElement stretchType="RelativeToTallestObject" x="720" y="340" width="81" height="22" uuid="f3c9de79-8f04-41ff-89d2-0a0f72a514da"/>
 				<box>
-					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="Shabnam-FD"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Karnik" size="12"/>
 				</textElement>
-				<text><![CDATA[  توضیحات:]]></text>
+				<text><![CDATA[مبلغ به حروف :]]></text>
 			</staticText>
 			<frame>
-				<reportElement x="0" y="18" width="802" height="98" uuid="8eafdead-c01f-432a-b08d-d9afd9af60a8"/>
+				<reportElement x="1" y="25" width="800" height="93" uuid="eb6716df-4248-43db-a0d9-42d72c0a4abf"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<componentElement>
+					<reportElement mode="Transparent" x="0" y="1" width="799" height="77" uuid="9c1779e4-a561-432e-8f2c-83d2ad23a2b8"/>
+					<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+						<datasetRun subDataset="Dataset1" uuid="fd16dc1b-41e3-4cb6-8e2f-8d8afe96464c">
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+						<jr:listContents height="77" width="799">
+							<staticText>
+								<reportElement stretchType="RelativeToTallestObject" x="670" y="25" width="126" height="24" uuid="1c4a0b51-e09a-45d8-b694-5b00d0e872f7"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Karnik" size="12"/>
+								</textElement>
+								<text><![CDATA[شماره ثبت / شماره ملي:]]></text>
+							</staticText>
+							<textField isBlankWhenNull="true">
+								<reportElement stretchType="RelativeToTallestObject" x="670" y="2" width="126" height="23" uuid="9ae46926-5df9-4efc-8a32-8413cd09d7d9"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Karnik" size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA["نام شخص حقيقي / حقوقي:"]]></textFieldExpression>
+							</textField>
+							<textField isBlankWhenNull="true">
+								<reportElement stretchType="RelativeToTallestObject" x="348" y="1" width="66" height="24" uuid="6c682427-a425-48cc-b8cc-33918e1e0fce"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Karnik" size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA["شماره اقتصادي: "]]></textFieldExpression>
+							</textField>
+							<textField isBlankWhenNull="true">
+								<reportElement stretchType="RelativeToTallestObject" x="348" y="25" width="66" height="24" uuid="45551081-c11b-44ed-93ac-5369badd19a7"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Karnik" size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA["نشاني: "]]></textFieldExpression>
+							</textField>
+							<textField isBlankWhenNull="true">
+								<reportElement stretchType="RelativeToTallestObject" x="160" y="1" width="56" height="24" uuid="580b4907-21cd-46db-a571-6a160045297e"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Karnik" size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA["شناسه ملي: "]]></textFieldExpression>
+							</textField>
+							<staticText>
+								<reportElement x="213" y="49" width="32" height="24" uuid="7f5db59e-fc26-4ff7-9cf0-b09efc55083b"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Karnik" size="12"/>
+								</textElement>
+								<text><![CDATA[نمابر : ]]></text>
+							</staticText>
+							<textField isBlankWhenNull="true">
+								<reportElement x="5" y="49" width="207" height="24" uuid="71b56b68-5bd2-447b-8de3-6e0d4a129147"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Karnik" size="12" isItalic="false"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{fax}]]></textFieldExpression>
+							</textField>
+							<staticText>
+								<reportElement x="521" y="49" width="36" height="24" uuid="18c664ce-ab6e-4270-bb4c-25144d7eb903"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Karnik" size="12"/>
+								</textElement>
+								<text><![CDATA[تلفن : ]]></text>
+							</staticText>
+							<textField isBlankWhenNull="true">
+								<reportElement x="414" y="49" width="108" height="24" uuid="c492d4f4-3793-4b95-807a-7116388e85ae"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Karnik" size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{phone}]]></textFieldExpression>
+							</textField>
+							<staticText>
+								<reportElement x="350" y="49" width="64" height="24" uuid="bfba2b8c-b0f9-4704-bbff-04a592d98a6f"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Karnik" size="12"/>
+								</textElement>
+								<text><![CDATA[تلکس:]]></text>
+							</staticText>
+							<textField isBlankWhenNull="true">
+								<reportElement x="245" y="49" width="105" height="24" uuid="cc66dcee-a0bc-4770-a09f-02c37cc519c1"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Karnik" size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[""]]></textFieldExpression>
+							</textField>
+							<staticText>
+								<reportElement x="671" y="49" width="125" height="24" uuid="0cc7a29f-e91d-400e-b759-3867caddd92c"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Karnik" size="12"/>
+								</textElement>
+								<text><![CDATA[کد پستي 10 رقمي:]]></text>
+							</staticText>
+							<textField isBlankWhenNull="true">
+								<reportElement x="558" y="49" width="113" height="24" uuid="acea96a3-73d5-4d86-9cd2-19ee1d5f64f0"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Karnik" size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{postalCode}]]></textFieldExpression>
+							</textField>
+							<textField isBlankWhenNull="true">
+								<reportElement x="414" y="1" width="256" height="24" uuid="55f6bf84-2b1a-4d26-a6c5-371119d4ee9f"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Karnik" size="11"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{fullName}]]></textFieldExpression>
+							</textField>
+							<textField isBlankWhenNull="true">
+								<reportElement x="216" y="1" width="132" height="24" uuid="94b06d40-eb30-439e-8de8-a8a83bfe9b19"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Karnik" size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{economicalCode}]]></textFieldExpression>
+							</textField>
+							<textField isBlankWhenNull="true">
+								<reportElement x="6" y="1" width="154" height="24" uuid="c23d0f8e-324d-44de-aeec-3053408e4a16"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Karnik" size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{nationalCode}]]></textFieldExpression>
+							</textField>
+							<textField isBlankWhenNull="true">
+								<reportElement x="6" y="25" width="343" height="24" uuid="189acf97-0e19-4146-832e-4349d712fa7b"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Shabnam-FD" size="11"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{address}]]></textFieldExpression>
+							</textField>
+							<textField isBlankWhenNull="true">
+								<reportElement x="415" y="26" width="256" height="23" uuid="1f60617f-1caf-4239-915f-a9f8d812ec07"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Karnik" size="11"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{registerNumber}]]></textFieldExpression>
+							</textField>
+						</jr:listContents>
+					</jr:list>
+				</componentElement>
+			</frame>
+		</band>
+		<band height="121">
+			<frame>
+				<reportElement x="0" y="18" width="802" height="102" uuid="8eafdead-c01f-432a-b08d-d9afd9af60a8"/>
 				<box>
 					<pen lineWidth="1.25"/>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -711,37 +859,37 @@ WHERE
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<staticText>
-					<reportElement stretchType="RelativeToTallestObject" x="531" y="2" width="270" height="44" uuid="fb318521-db7b-4e8f-9362-27a9f196a85b"/>
+					<reportElement stretchType="RelativeToTallestObject" x="531" y="-7" width="270" height="67" uuid="fb318521-db7b-4e8f-9362-27a9f196a85b"/>
 					<box>
 						<pen lineWidth="0.5"/>
 					</box>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font fontName="Shabnam-FD"/>
+						<font fontName="Karnik" size="14"/>
 					</textElement>
 					<text><![CDATA[مهر و امضاء فروشنده:]]></text>
 				</staticText>
 				<staticText>
-					<reportElement stretchType="RelativeToTallestObject" x="254" y="2" width="266" height="44" uuid="d874f999-ae19-405c-8739-3ea415824e1e"/>
+					<reportElement stretchType="RelativeToTallestObject" x="254" y="-7" width="266" height="67" uuid="d874f999-ae19-405c-8739-3ea415824e1e"/>
 					<box>
 						<pen lineWidth="0.5"/>
 					</box>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font fontName="Shabnam-FD"/>
+						<font fontName="Karnik" size="14"/>
 					</textElement>
-					<text><![CDATA[مهر و امضاء خریدار:]]></text>
+					<text><![CDATA[مهر و امضاء خريدار:]]></text>
 				</staticText>
 				<staticText>
-					<reportElement stretchType="RelativeToTallestObject" x="141" y="2" width="100" height="44" uuid="fbed6a12-2efe-4998-9142-643c93a5e323"/>
+					<reportElement stretchType="RelativeToTallestObject" x="141" y="-7" width="100" height="67" uuid="fbed6a12-2efe-4998-9142-643c93a5e323"/>
 					<box>
 						<pen lineWidth="0.5"/>
 					</box>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font fontName="Shabnam-FD"/>
+						<font fontName="Karnik" size="14"/>
 					</textElement>
-					<text><![CDATA[شماره اعتبار اسنادی:]]></text>
+					<text><![CDATA[شماره اعتبار اسنادي:]]></text>
 				</staticText>
 				<staticText>
-					<reportElement stretchType="RelativeToTallestObject" x="610" y="53" width="100" height="25" uuid="951b8df5-d5ac-4942-850a-f1e8fe926648"/>
+					<reportElement stretchType="RelativeToTallestObject" x="610" y="68" width="100" height="25" uuid="951b8df5-d5ac-4942-850a-f1e8fe926648"/>
 					<box>
 						<pen lineWidth="0.5"/>
 						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -750,12 +898,12 @@ WHERE
 						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					</box>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font fontName="Shabnam-FD"/>
+						<font fontName="Karnik" size="14"/>
 					</textElement>
-					<text><![CDATA[نسخه اول: مشتری]]></text>
+					<text><![CDATA[نسخه اول: مشتري]]></text>
 				</staticText>
 				<staticText>
-					<reportElement stretchType="RelativeToTallestObject" x="400" y="53" width="100" height="24" uuid="2c8523e3-a1cc-4050-b5e0-f5c181324c55"/>
+					<reportElement stretchType="RelativeToTallestObject" x="400" y="69" width="100" height="24" uuid="2c8523e3-a1cc-4050-b5e0-f5c181324c55"/>
 					<box>
 						<pen lineWidth="0.5"/>
 						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -764,12 +912,12 @@ WHERE
 						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					</box>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font fontName="Shabnam-FD"/>
+						<font fontName="Karnik" size="14"/>
 					</textElement>
-					<text><![CDATA[نسخه دوم: امور مالی]]></text>
+					<text><![CDATA[نسخه دوم: امور مالي]]></text>
 				</staticText>
 				<staticText>
-					<reportElement stretchType="RelativeToTallestObject" x="185" y="53" width="100" height="24" uuid="6d40c1df-ba44-43f9-ae7c-f38c96869e6a"/>
+					<reportElement stretchType="RelativeToTallestObject" x="185" y="67" width="100" height="24" uuid="6d40c1df-ba44-43f9-ae7c-f38c96869e6a"/>
 					<box>
 						<pen lineWidth="0.5"/>
 						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -778,16 +926,32 @@ WHERE
 						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					</box>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font fontName="Shabnam-FD"/>
+						<font fontName="Karnik" size="14"/>
 					</textElement>
 					<text><![CDATA[نسخه سوم: امور فروش]]></text>
 				</staticText>
 				<textField isBlankWhenNull="true">
 					<reportElement x="34" y="14" width="100" height="18" uuid="26e05336-a6f3-43ab-a3d0-041064939237"/>
-					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Karnik" size="14"/>
+					</textElement>
 					<textFieldExpression><![CDATA[$F{LC_NUMBER}]]></textFieldExpression>
 				</textField>
 			</frame>
+			<textField>
+				<reportElement x="0" y="-17" width="801" height="22" uuid="c86c726a-dad9-408f-8bce-05eb53e9b5ff"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Karnik" size="12"/>
+					<paragraph rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA["   توضيحات:"]]></textFieldExpression>
+			</textField>
 		</band>
 	</detail>
 </jasperReport>

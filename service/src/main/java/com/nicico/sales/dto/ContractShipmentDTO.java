@@ -78,8 +78,6 @@ public class ContractShipmentDTO {
         @ApiModelProperty(required = true)
         private Long id;
         private Boolean deleted;
-
-        private Integer version;
     }
 
     @Getter

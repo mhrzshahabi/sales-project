@@ -518,7 +518,6 @@ foreignInvoiceTab.dynamicForm.baseData = isc.DynamicForm.create({
     margin: 10,
     width: "100%",
     align: "center",
-    titleAlign: "left",
     canSubmit: true,
     showErrorText: true,
     showErrorStyle: true,

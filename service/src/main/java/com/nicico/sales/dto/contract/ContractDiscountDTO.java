@@ -1,6 +1,7 @@
 package com.nicico.sales.dto.contract;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.nicico.sales.dto.MaterialElementDTO;
 import com.nicico.sales.model.enumeration.EStatus;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -40,6 +41,8 @@ public class ContractDiscountDTO {
         private String lastModifiedBy;
         private Integer version;
 
+        private MaterialElementDTO.Info materialElement;
+
         // BaseEntity
         private Boolean editable;
         private List<EStatus> eStatus;
@@ -61,8 +64,6 @@ public class ContractDiscountDTO {
         @NonNull
         @ApiModelProperty(required = true)
         private Long id;
-
-        private Integer version;
     }
 
     @Getter
