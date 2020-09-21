@@ -13,5 +13,5 @@ public interface IWeightInspectionService extends IGenericService<WeightInspecti
 
     List<WeightInspectionDTO.InfoWithoutInspectionReport> getWeightValues(Long shipmentId, InspectionReportMilestone reportMilestone, List<Long> inventoryIds);
 
-    List<WeightInspectionDTO.Info> getWeightInventoryData(InspectionReportMilestone reportMilestone, List<Long> inventoryIds);
+    List<Long> getWeightInventoryData(InspectionReportMilestone reportMilestone, List<Long> inventoryIds);
 }

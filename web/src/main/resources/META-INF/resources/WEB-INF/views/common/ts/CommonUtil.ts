@@ -121,7 +121,7 @@ namespace nicico {
                 if (transformRequest != null)
                     restDataSourceProperties.transformRequest = transformRequest;
                 else
-                    // @ts-ignore
+                // @ts-ignore
                     restDataSourceProperties.transformRequest = function (dsRequest) {
 
                         // @ts-ignore
@@ -164,10 +164,10 @@ namespace nicico {
                 } else
                     formItemProperties.requiredWhen = <Criteria>required;
                 if (readonly instanceof Boolean)
-                    // @ts-ignore
+                // @ts-ignore
                     formItemProperties.readonly = <boolean>readonly;
                 else
-                    // @ts-ignore
+                // @ts-ignore
                     formItemProperties.readonlyWhen = <Criteria>readonly;
                 formItemProperties.validators = validators;
 
@@ -352,6 +352,7 @@ namespace nicico {
                     showModalMask: true,
                     dismissOnEscape: false,
                     dismissOnOutsideClick: false,
+                    // @ts-ignore
                     tag: ownerWindow,
                     // @ts-ignore
                     closeClick: function () {
@@ -369,12 +370,34 @@ namespace nicico {
                 return this.filter((value: T, index: number, self: Array<T>) => self.indexOf(value) === index);
             };
             // @ts-ignore
+            Array.prototype.distinct = function <T>(key: string): Array<T> {
+
+                return this.filter((value: T, index: number, self: Array<T>) => {
+
+                    for (let i: number = 0; i < index; i++)
+                        if (self[i][key] == value[key])
+                            return false;
+                    return true;
+                });
+            };
+            // @ts-ignore
             Array.prototype.weakDistinct = function <T>(): Array<T> {
 
                 return this.filter((value: T, index: number, self: Array<T>) => {
 
                     for (let i: number = 0; i < index; i++)
                         if (self[i] === value)
+                            return false;
+                    return true;
+                });
+            };
+            // @ts-ignore
+            Array.prototype.weakDistinct = function <T>(key: string): Array<T> {
+
+                return this.filter((value: T, index: number, self: Array<T>) => {
+
+                    for (let i: number = 0; i < index; i++)
+                        if (self[i][key] === value[key])
                             return false;
                     return true;
                 });
@@ -397,8 +420,8 @@ namespace nicico {
                 return this.map(q => q[key]).sum();
             };
             // @ts-ignore
-            Array.prototype.evalPropertyPath = function(obj) {
-                return this.reduce(function(prev, curr) {
+            Array.prototype.evalPropertyPath = function (obj) {
+                return this.reduce(function (prev, curr) {
                     return prev ? prev[curr] : null
                 }, obj || self)
             };

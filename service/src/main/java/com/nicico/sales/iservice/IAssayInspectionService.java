@@ -14,6 +14,6 @@ public interface IAssayInspectionService extends IGenericService<AssayInspection
 
     List<AssayInspectionDTO.InfoWithoutInspectionReport> getAssayValues(Long shipmentId, InspectionReportMilestone reportMilestone, List<Long> inventoryIds);
 
-    List<AssayInspectionDTO.Info> getAssayInventoryData(InspectionReportMilestone reportMilestone, List<Long> inventoryIds);
+    List<Long> getAssayInventoryData(InspectionReportMilestone reportMilestone, List<Long> inventoryIds);
 
 }

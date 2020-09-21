@@ -282,6 +282,7 @@ var nicico;
                     showModalMask: true,
                     dismissOnEscape: false,
                     dismissOnOutsideClick: false,
+                    // @ts-ignore
                     tag: ownerWindow,
                     // @ts-ignore
                     closeClick: function () {
@@ -298,10 +299,28 @@ var nicico;
                 return this.filter(function (value, index, self) { return self.indexOf(value) === index; });
             };
             // @ts-ignore
+            Array.prototype.distinct = function (key) {
+                return this.filter(function (value, index, self) {
+                    for (var i = 0; i < index; i++)
+                        if (self[i][key] == value[key])
+                            return false;
+                    return true;
+                });
+            };
+            // @ts-ignore
             Array.prototype.weakDistinct = function () {
                 return this.filter(function (value, index, self) {
                     for (var i = 0; i < index; i++)
                         if (self[i] === value)
+                            return false;
+                    return true;
+                });
+            };
+            // @ts-ignore
+            Array.prototype.weakDistinct = function (key) {
+                return this.filter(function (value, index, self) {
+                    for (var i = 0; i < index; i++)
+                        if (self[i][key] === value[key])
                             return false;
                     return true;
                 });

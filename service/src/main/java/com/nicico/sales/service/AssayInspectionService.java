@@ -71,15 +71,13 @@ public class AssayInspectionService extends GenericService<AssayInspection, Long
     }
 
     @Override
-    public List<AssayInspectionDTO.Info> getAssayInventoryData(InspectionReportMilestone reportMilestone, List<Long> inventoryIds) {
+    public List<Long> getAssayInventoryData(InspectionReportMilestone reportMilestone, List<Long> inventoryIds) {
 
-        List<AssayInspection> assayInspections = assayInspectionDAO.findAllByMileStoneAndInventoryIdIn(reportMilestone, inventoryIds);
-        List<AssayInspectionDTO.Info> assayInspectionDTO = modelMapper.map(assayInspections, new TypeToken<List<AssayInspectionDTO.Info>>() {
-        }.getType());
+        List<Long> assayInspectionInventoryIds = assayInspectionDAO.
+                findAllByMileStoneAndInventoryIdIn(reportMilestone, inventoryIds).
+                stream().map(AssayInspection::getInventoryId).
+                collect(Collectors.toList());
 
-        if (assayInspectionDTO.size() == 0)
-            throw new NotFoundException(AssayInspection.class);
-
-        return assayInspectionDTO;
+        return inventoryIds.stream().filter(o -> !assayInspectionInventoryIds.contains(o)).collect(Collectors.toList());
     }
 }

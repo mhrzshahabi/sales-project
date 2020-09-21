@@ -69,7 +69,7 @@ public class WeightInspectionRestController {
 
     @Loggable
     @GetMapping(value = "/get-weight-inventory-data")
-    public ResponseEntity<List<WeightInspectionDTO.Info>> getWeightInventoryData(@RequestParam String reportMilestone, @RequestParam List<Long> inventoryIds) {
+    public ResponseEntity<List<Long>> getWeightInventoryData(@RequestParam String reportMilestone, @RequestParam List<Long> inventoryIds) {
         InspectionReportMilestone reportMilestoneEnum = Enums.getIfPresent(InspectionReportMilestone.class, reportMilestone).or(InspectionReportMilestone.Source);
         return new ResponseEntity<>(iWeightInspectionService.getWeightInventoryData(reportMilestoneEnum, inventoryIds), HttpStatus.OK);
     }

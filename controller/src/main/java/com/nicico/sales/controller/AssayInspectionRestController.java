@@ -76,7 +76,7 @@ public class AssayInspectionRestController {
 
     @Loggable
     @GetMapping(value = "/get-assay-inventory-data")
-    public ResponseEntity<List<AssayInspectionDTO.Info>> getAssayInventoryData(@RequestParam String reportMilestone, @RequestParam List<Long> inventoryIds) {
+    public ResponseEntity<List<Long>> getAssayInventoryData(@RequestParam String reportMilestone, @RequestParam List<Long> inventoryIds) {
         InspectionReportMilestone reportMilestoneEnum = Enums.getIfPresent(InspectionReportMilestone.class, reportMilestone).or(InspectionReportMilestone.Source);
         return new ResponseEntity<>(iAssayInspectionService.getAssayInventoryData(reportMilestoneEnum, inventoryIds), HttpStatus.OK);
     }

@@ -11,7 +11,6 @@ import com.nicico.sales.model.entities.base.WeightInspection;
 import com.nicico.sales.model.enumeration.InspectionReportMilestone;
 import com.nicico.sales.repository.WeightInspectionDAO;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,8 +39,7 @@ public class WeightInspectionService extends GenericService<WeightInspection, Lo
     public List<WeightInspectionDTO.InfoWithoutInspectionReport> getWeightValues(Long shipmentId, InspectionReportMilestone reportMilestone, List<Long> inventoryIds) {
 
         List<WeightInspection> weightInspections = ((WeightInspectionDAO) repository).findAllByShipmentIdAndInventoryIdIn(shipmentId, inventoryIds);
-        if (weightInspections.size() == 0)
-            throw new NotFoundException(WeightInspection.class);
+        if (weightInspections.size() == 0) throw new NotFoundException(WeightInspection.class);
 
         if (!weightInspections.stream().map(WeightInspection::getInventoryId).collect(Collectors.toList()).containsAll(inventoryIds))
             throw new NotFoundException(WeightInspection.class);
@@ -50,20 +48,17 @@ public class WeightInspectionService extends GenericService<WeightInspection, Lo
 
             case 1:
                 List<WeightInspection> sourceInspections = weightInspections.stream().filter(q -> q.getMileStone() == InspectionReportMilestone.Source).collect(Collectors.toList());
-                if (sourceInspections.size() == 0)
-                    throw new NotFoundException(WeightInspection.class);
+                if (sourceInspections.size() == 0) throw new NotFoundException(WeightInspection.class);
                 return modelMapper.map(sourceInspections, new TypeToken<List<WeightInspectionDTO.InfoWithoutInspectionReport>>() {
                 }.getType());
             case 2:
                 List<WeightInspection> destinationInspections = weightInspections.stream().filter(q -> q.getMileStone() == InspectionReportMilestone.Destination).collect(Collectors.toList());
-                if (destinationInspections.size() == 0)
-                    throw new NotFoundException(WeightInspection.class);
+                if (destinationInspections.size() == 0) throw new NotFoundException(WeightInspection.class);
                 return modelMapper.map(destinationInspections, new TypeToken<List<WeightInspectionDTO.InfoWithoutInspectionReport>>() {
                 }.getType());
             case 3:
                 List<WeightInspection> umpireInspections = weightInspections.stream().filter(q -> q.getMileStone() == InspectionReportMilestone.Umpire).collect(Collectors.toList());
-                if (umpireInspections.size() == 0)
-                    throw new NotFoundException(WeightInspection.class);
+                if (umpireInspections.size() == 0) throw new NotFoundException(WeightInspection.class);
                 return modelMapper.map(umpireInspections, new TypeToken<List<WeightInspectionDTO.InfoWithoutInspectionReport>>() {
                 }.getType());
             default:
@@ -72,16 +67,14 @@ public class WeightInspectionService extends GenericService<WeightInspection, Lo
     }
 
     @Override
-    public List<WeightInspectionDTO.Info> getWeightInventoryData(InspectionReportMilestone reportMilestone, List<Long> inventoryIds) {
+    public List<Long> getWeightInventoryData(InspectionReportMilestone reportMilestone, List<Long> inventoryIds) {
 
-        List<WeightInspection> weightInspections = weightInspectionDAO.findAllByMileStoneAndInventoryIdIn(reportMilestone, inventoryIds);
-        List<WeightInspectionDTO.Info> weightInspectionDTO = modelMapper.map(weightInspections, new TypeToken<List<WeightInspectionDTO.Info>>() {
-        }.getType());
+        List<Long> weightInspectionInventoryIds = weightInspectionDAO.
+                findAllByMileStoneAndInventoryIdIn(reportMilestone, inventoryIds).
+                stream().map(WeightInspection::getInventoryId).
+                collect(Collectors.toList());
 
-        if (weightInspectionDTO.size() == 0)
-            throw new NotFoundException(WeightInspection.class);
-
-        return weightInspectionDTO;
+        return inventoryIds.stream().filter(o -> !weightInspectionInventoryIds.contains(o)).collect(Collectors.toList());
     }
 
 }

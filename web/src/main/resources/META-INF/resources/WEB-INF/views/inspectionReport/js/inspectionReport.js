@@ -1,7 +1,6 @@
 //******************************************************* VARIABLES ****************************************************
 
 var inspectionReportTab = new nicico.GeneralTabUtil().getDefaultJSPTabVariable();
-inspectionReportTab.variable.invData = [];
 inspectionReportTab.variable.materialId = 0;
 inspectionReportTab.variable.allCols = 0;
 inspectionReportTab.variable.allME = "";
@@ -398,7 +397,32 @@ inspectionReportTab.restDataSource.remittanceDetailRest = isc.MyRestDataSource.c
     fetchDataURL: "${contextPath}/api/remittance-detail/spec-list"
 });
 
-inspectionReportTab.method.getAssayElementFields = function (materialId) {
+//***************************************************** RESTDATASOURCE *************************************************
+
+inspectionReportTab.method.setShipmentAndInventoryCriteria = function (materialId) {
+
+    inspectionReportTab.dynamicForm.inspecReport.getItem("shipmentId").setOptionCriteria({
+        _constructor: "AdvancedCriteria",
+        operator: "and",
+        criteria: [{
+            fieldName: "materialId",
+            operator: "equals",
+            value: materialId
+        }]
+    });
+
+    inspectionReportTab.dynamicForm.inspecReport.getItem("inventoryId").setOptionCriteria({
+        _constructor: "AdvancedCriteria",
+        operator: "and",
+        criteria: [{
+            fieldName: "remittanceDetails.remittance.shipment.materialId",
+            operator: "equals",
+            value: materialId
+        }]
+    });
+};
+
+inspectionReportTab.method.getAssayElementFields = function (materialId, setDateCallback) {
 
     let elementCriteria = {
         _constructor: "AdvancedCriteria",
@@ -502,140 +526,138 @@ inspectionReportTab.method.getAssayElementFields = function (materialId) {
                 }
             ));
             inspectionReportTab.listGrid.assayElementSum.setFields(sumFields);
+
+            if (setDateCallback) setDateCallback();
         }
     });
 };
 
-inspectionReportTab.method.setRemittanceDetailCriteria = function (shipmentId) {
+inspectionReportTab.method.createWeightListGrid = function () {
 
-    inspectionReportTab.dynamicForm.inspecReport.getItem("inventoryId").setValue([]);
+    isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
 
-    let remittanceDetailCriteria = {
-        _constructor: "AdvancedCriteria",
-        operator: "and",
-        criteria: [
-            {
-                fieldName: "remittance.shipmentId",
-                operator: "equals",
-                value: shipmentId
-            },
-            {
-                fieldName: "remittance.shipmentId",
-                operator: "notNull"
-            }]
-    };
-    inspectionReportTab.restDataSource.remittanceDetailRest.fetchData(remittanceDetailCriteria, function (dsResponse, data, dsRequest) {
+        httpMethod: "GET",
+        actionURL: "${contextPath}" + "/api/weightInspection/get-weight-inventory-data",
+        params: {
+            reportMilestone: inspectionReportTab.dynamicForm.inspecReport.getValue("mileStone"),
+            inventoryIds: inspectionReportTab.dynamicForm.inspecReport.getValue("inventoryId")
+        },
+        callback: function (resp) {
 
-        if (data.length !== 0) {
+            inspectionReportTab.listGrid.weightElement.setData([]);
+            inspectionReportTab.hStack.weightUnitSum.setMembers([]);
 
-            let final = data.map(item => item.inventory.id).distinct();
-            let invCriteria = {
-                _constructor: "AdvancedCriteria",
-                operator: "and",
-                criteria: [{
-                    fieldName: "id",
-                    operator: "inSet",
-                    value: final
-                }]
-            };
-            inspectionReportTab.restDataSource.inventoryRest.fetchData(invCriteria, function (invDsResponse, invData, invDsRequest) {
+            let inventoryIds = JSON.parse(resp.httpResponseText);
+            if (!inventoryIds || !inventoryIds.length)
+                return;
 
-                inspectionReportTab.dynamicForm.inspecReport.getItem("inventoryId").setValue(final);
+            let inventories = inspectionReportTab.dynamicForm.inspecReport.getItem("inventoryId").getSelectedRecords().filter(q => inventoryIds.contains(q.id));
+            inspectionReportTab.method.setWeightElementListRows(inventories);
+            inspectionReportTab.method.setWeightElementSum();
 
-                if (invData == null) invData = [];
-                inspectionReportTab.variable.invData = invData;
-                inspectionReportTab.method.setWeightElementListRows(invData);
-                inspectionReportTab.method.setAssayElementListRows(invData);
-                inspectionReportTab.method.setWeightElementSum();
-                inspectionReportTab.method.setAssayElementSum();
-
-                inspectionReportTab.variable.unitSum.setMembers([]);
-                if (invData != null && invData.length > 0) {
-
-                    let dtls = invData.filter(a => a.remittanceDetails.length).map(a => a.remittanceDetails).flat();
-                    let unitList = dtls.map(a => a.unitId).distinct();
-                    unitList.forEach(uId => {
-                            let x = isc.Unit.create({
-                                disabledUnitField: true,
-                                disabledValueField: true,
-                                showUnitFieldTitle: false,
-                                showValueFieldTitle: false,
-                                align: "center",
-                                width: "40%"
-                            });
-                            x.setValue(dtls.filter(a => a.unitId === uId).map(a => a.amount).sum());
-                            x.setUnitId(uId);
-                            inspectionReportTab.variable.unitSum.addMember(x);
-                        }
-                    );
-                }
-
-                // invData.forEach((current, index, array) => {
-                //     inspectionReportTab.listGrid.weightElement.refreshRow(index);
-                //     inspectionReportTab.listGrid.assayElement.refreshRow(index);
-                //
-                // });
+            let dtls = inventories.filter(a => a.remittanceDetails.length).map(a => a.remittanceDetails).flat();
+            let unitList = dtls.map(a => a.unitId).distinct();
+            unitList.forEach(uId => {
+                let x = isc.Unit.create({
+                    disabledUnitField: true,
+                    disabledValueField: true,
+                    showUnitFieldTitle: false,
+                    showValueFieldTitle: false,
+                    align: "center",
+                    width: "40%"
+                });
+                debugger
+                x.setValue(dtls.filter(a => a.unitId === uId).map(a => a.amount).sum());
+                x.setUnitId(uId);
+                inspectionReportTab.hStack.weightUnitSum.addMember(x);
             });
+
+            inspectionReportTab.dynamicForm.inspecReport.getItem("mileStone").disable();
+            inspectionReportTab.dynamicForm.inspecReport.getItem("inventoryId").disable();
         }
-    });
+    }));
 };
 
-inspectionReportTab.method.selectInventories = function () {
+inspectionReportTab.method.createAssayListGrid = function () {
 
-    inspectionReportTab.dynamicForm.inspecReport.getField("inventoryId").setValue(null);
-    inspectionReportTab.listGrid.weightElement.setData([]);
-    inspectionReportTab.listGrid.assayElement.setData([]);
+    isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+
+        httpMethod: "GET",
+        actionURL: "${contextPath}" + "/api/assayInspection/get-assay-inventory-data",
+        params: {
+            reportMilestone: inspectionReportTab.dynamicForm.inspecReport.getValue("mileStone"),
+            inventoryIds: inspectionReportTab.dynamicForm.inspecReport.getValue("inventoryId")
+        },
+        callback: function (resp) {
+
+            inspectionReportTab.listGrid.assayElement.setData([]);
+            inspectionReportTab.hStack.assayUnitSum.setMembers([]);
+
+            let inventoryIds = JSON.parse(resp.httpResponseText);
+            if (!inventoryIds || !inventoryIds.length)
+                return;
+
+            let inventories = inspectionReportTab.dynamicForm.inspecReport.getItem("inventoryId").getSelectedRecords().filter(q => inventoryIds.contains(q.id));
+            inspectionReportTab.method.setAssayElementListRows(inventories);
+            inspectionReportTab.method.setAssayElementSum();
+
+            let dtls = inventories.filter(a => a.remittanceDetails.length).map(a => a.remittanceDetails).flat();
+            let unitList = dtls.map(a => a.unitId).distinct();
+            unitList.forEach(uId => {
+                let x = isc.Unit.create({
+                    disabledUnitField: true,
+                    disabledValueField: true,
+                    showUnitFieldTitle: false,
+                    showValueFieldTitle: false,
+                    align: "center",
+                    width: "40%"
+                });
+                x.setValue(dtls.filter(a => a.unitId === uId).map(a => a.amount).sum());
+                x.setUnitId(uId);
+                inspectionReportTab.hStack.assayUnitSum.addMember(x);
+            });
+
+            inspectionReportTab.dynamicForm.inspecReport.getItem("mileStone").disable();
+            inspectionReportTab.dynamicForm.inspecReport.getItem("inventoryId").disable();
+        }
+    }));
 };
 
-inspectionReportTab.method.setShipmentCriteria = function (materialId) {
-    inspectionReportTab.dynamicForm.inspecReport.getItem("shipmentId").setOptionCriteria({
-        _constructor: "AdvancedCriteria",
-        operator: "and",
-        criteria: [{
-            fieldName: "materialId",
-            operator: "equals",
-            value: materialId
-        }]
-    });
-};
+inspectionReportTab.method.materialChange = function (setDateCallback) {
 
-inspectionReportTab.method.setInventoryCriteria = function (materialId) {
-    inspectionReportTab.dynamicForm.inspecReport.getItem("inventoryId").setOptionCriteria({
-        _constructor: "AdvancedCriteria",
-        operator: "and",
-        criteria: [{
-            fieldName: "remittanceDetails.remittance.shipment.materialId",
-            operator: "equals",
-            value: materialId
-        }]
-    });
-};
+    inspectionReportTab.dynamicForm.assayLab.getField("labName").setRequired(true);
+    inspectionReportTab.dynamicForm.assayLab.getField("labPlace").setRequired(true);
+    inspectionReportTab.tab.inspecTabs.tabs.filter(q => q.name === "assay").first().pane.enable();
+    inspectionReportTab.variable.materialId = inspectionReportTab.dynamicForm.material.getItem("material").getValue();
+    inspectionReportTab.method.getAssayElementFields(inspectionReportTab.variable.materialId, setDateCallback);
+    inspectionReportTab.method.setShipmentAndInventoryCriteria(inspectionReportTab.variable.materialId);
 
-// inspectionReportTab.method.getAssayId = function (meId, inId) {
-//
-//     let assayCriteria = {
-//         _constructor: "AdvancedCriteria",
-//         operator: "and",
-//         criteria: [
-//             {
-//                 fieldName: "materialElementId",
-//                 operator: "equals",
-//                 value: meId
-//             },
-//             {
-//                 fieldName: "inventoryId",
-//                 operator: "equals",
-//                 value: inId
-//             }]
-//     };
-//
-//     let dataZero = inspectionReportTab.restDataSource.assayInspecRest.fetchData(assayCriteria, function (dsResponse, data, dsRequest) {
-//         return data[0];
-//     });
-//
-//     console.log("DATA: " + JSON.stringify(dataZero));
-//
-// };
+    switch (inspectionReportTab.variable.materialId) {
+
+        case ImportantIDs.material.COPPER_CATHOD:
+            inspectionReportTab.dynamicForm.assayLab.getField("labName").setRequired(false);
+            inspectionReportTab.dynamicForm.assayLab.getField("labPlace").setRequired(false);
+            inspectionReportTab.tab.inspecTabs.tabs.filter(q => q.name === "assay").first().pane.disable();
+            inspectionReportTab.listGrid.weightElement.unitId = 1;
+            break;
+        case ImportantIDs.material.MOLYBDENUM_OXIDE:
+            inspectionReportTab.listGrid.weightElement.unitId = 2;
+
+            break;
+        case ImportantIDs.material.COPPER_CONCENTRATES:
+            inspectionReportTab.listGrid.weightElement.unitId = 3;
+            break;
+
+        default:
+            return;
+    }
+
+    let unitName = StorageUtil.get('parameters').unit.filter(q => q.id === inspectionReportTab.listGrid.weightElement.unitId).first().nameFA;
+    let weightWGTitle = inspectionReportTab.listGrid.weightElement.getFieldTitle("weightGW").replace(/ *\([^)]*\) */g, "");
+    inspectionReportTab.listGrid.weightElement.setFieldTitle("weightGW", weightWGTitle + " (" + unitName + ")");
+    let weightNDTitle = inspectionReportTab.listGrid.weightElement.getFieldTitle("weightND").replace(/ *\([^)]*\) */g, "");
+    inspectionReportTab.listGrid.weightElement.setFieldTitle("weightND", weightNDTitle + " (" + unitName + ")");
+};
 
 let inspectorCriteria = {
     _constructor: "AdvancedCriteria",
@@ -661,7 +683,20 @@ let currencyInUnitCriteria = {
     criteria: [{fieldName: "categoryUnit", operator: "equals", value: 1}]
 };
 
-//*************************************************** FORM STRUCTURE ************************************************
+inspectionReportTab.hStack.weightUnitSum = isc.HStack.create({
+    height: "10%",
+    width: "100%",
+    align: "right",
+    overflow: "auto",
+    members: []
+});
+inspectionReportTab.hStack.assayUnitSum = isc.HStack.create({
+    height: "10%",
+    width: "100%",
+    align: "right",
+    overflow: "auto",
+    members: []
+});
 
 inspectionReportTab.dynamicForm.material = isc.DynamicForm.create({
     height: "10%",
@@ -707,49 +742,14 @@ inspectionReportTab.dynamicForm.material = isc.DynamicForm.create({
                 }],
             changed: function (form, item, value) {
 
-                inspectionReportTab.tab.inspecTabs.tabs.filter(q => q.name === "assay").first().pane.enable();
-                inspectionReportTab.variable.materialId = item.getValue();
-                inspectionReportTab.method.getAssayElementFields(inspectionReportTab.variable.materialId);
-                inspectionReportTab.method.setShipmentCriteria(inspectionReportTab.variable.materialId);
-                inspectionReportTab.method.setInventoryCriteria(inspectionReportTab.variable.materialId);
+                inspectionReportTab.method.materialChange();
 
-                switch (inspectionReportTab.variable.materialId) {
-
-                    case ImportantIDs.material.COPPER_CATHOD:
-                        inspectionReportTab.tab.inspecTabs.tabs.filter(q => q.name === "assay").first().pane.disable();
-                        inspectionReportTab.listGrid.weightElement.unitId = 1;
-                        inspectionReportTab.dynamicForm.assayLab.getField("labName").setRequired(false);
-                        inspectionReportTab.dynamicForm.assayLab.getField("labPlace").setRequired(false);
-                        break;
-                    case ImportantIDs.material.MOLYBDENUM_OXIDE:
-
-                        inspectionReportTab.listGrid.weightElement.unitId = 2;
-                        inspectionReportTab.dynamicForm.assayLab.getField("labName").setRequired(true);
-                        inspectionReportTab.dynamicForm.assayLab.getField("labPlace").setRequired(true);
-                        break;
-                    case ImportantIDs.material.COPPER_CONCENTRATES:
-
-                        inspectionReportTab.listGrid.weightElement.unitId = 3;
-                        inspectionReportTab.dynamicForm.assayLab.getField("labName").setRequired(true);
-                        inspectionReportTab.dynamicForm.assayLab.getField("labPlace").setRequired(true)
-                        break;
-
-                    default:
-                        return;
-                }
-
-                let unitName = StorageUtil.get('parameters').unit.filter(q => q.id === inspectionReportTab.listGrid.weightElement.unitId).first().nameFA;
-                let weightWGTitle = inspectionReportTab.listGrid.weightElement.getFieldTitle("weightGW").replace(/ *\([^)]*\) */g, "");
-                inspectionReportTab.listGrid.weightElement.setFieldTitle("weightGW", weightWGTitle + " (" + unitName + ")");
-                let weightNDTitle = inspectionReportTab.listGrid.weightElement.getFieldTitle("weightND").replace(/ *\([^)]*\) */g, "");
-                inspectionReportTab.listGrid.weightElement.setFieldTitle("weightND", weightNDTitle + " (" + unitName + ")");
-
-                inspectionReportTab.dynamicForm.inspecReport.getItem("inventoryId").setValue([]);
                 inspectionReportTab.dynamicForm.inspecReport.getItem("shipmentId").setValue([]);
+                inspectionReportTab.dynamicForm.inspecReport.getItem("inventoryId").setValue([]);
+                inspectionReportTab.dynamicForm.inspecReport.getItem("mileStone").setValue(null);
                 inspectionReportTab.listGrid.weightElement.setData([]);
                 inspectionReportTab.listGrid.assayElement.setData([]);
             }
-
         }
     ]
 });
@@ -802,13 +802,31 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
         //     }],
         changed: function (form, item, value) {
 
-            if (value) {
-                form.getField("inventoryId").hide();
-                inspectionReportTab.method.setRemittanceDetailCriteria(value);
-            }
+            inspectionReportTab.dynamicForm.inspecReport.getItem("inventoryId").setValue([]);
+            inspectionReportTab.dynamicForm.inspecReport.getItem("mileStone").setValue(null);
+            inspectionReportTab.listGrid.weightElement.setData([]);
+            inspectionReportTab.listGrid.assayElement.setData([]);
+
+            if (value)
+                inspectionReportTab.dynamicForm.inspecReport.getItem("inventoryId").setOptionCriteria({
+                    _constructor: "AdvancedCriteria",
+                    operator: "and",
+                    criteria: [{
+                        fieldName: "remittanceDetails.remittance.shipmentId",
+                        operator: "equals",
+                        value: value
+                    }]
+                });
             else
-                form.getField("inventoryId").show();
-            inspectionReportTab.method.selectInventories();
+                inspectionReportTab.dynamicForm.inspecReport.getItem("inventoryId").setOptionCriteria({
+                    _constructor: "AdvancedCriteria",
+                    operator: "and",
+                    criteria: [{
+                        fieldName: "remittanceDetails.remittance.shipment.materialId",
+                        operator: "equals",
+                        value: inspectionReportTab.dynamicForm.material.getValue("material")
+                    }]
+                });
         }
     },
     {
@@ -913,11 +931,30 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
                 type: "required",
                 validateOnChange: true
             }],
-        getSelectedRecords: function () {
+        getSelectedRecords: async function () {
 
-            if (inspectionReportTab.dynamicForm.inspecReport.getItem("shipmentId").getValue())
+            if (inspectionReportTab.variable.method === "PUT")
                 this.showPicker();
             return this.Super("getSelectedRecords", arguments);
+            // let values = this.getValue();
+            // if (!values || !values.length)
+            //     return [];
+            //
+            // const resp = await fetch("${contextPath}/api/inventory/spec-list?criteria=" + JSON.stringify({
+            //     _constructor: "AdvancedCriteria",
+            //     operator: "and",
+            //     criteria: [{fieldName: "id", operator: "inSet", value: values}]
+            // }), {
+            //     headers: SalesConfigs.httpHeaders,
+            // });
+            //
+            // if (!resp.ok) return [];
+            // const respData = await resp.json();
+            // const data = respData.response.data;
+            // if (data == null || data.length === 0)
+            //     return [];
+            //
+            // return data;
         },
         changed: function (form, item, value) {
 
@@ -938,73 +975,44 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
                 type: "required",
                 validateOnChange: true
             }],
-        changed: function (form, item, value) {
+    },
+    {
+        colSpan: 1,
+        name: "select",
+        title: "Select",
+        type: "ButtonItem",
+        icon: "pieces/16/save.png",
+        click: function (form, item) {
 
-            let inventories = [];
-            let inventoryIds = [];
-            if (inspectionReportTab.dynamicForm.inspecReport.getItem("shipmentId").getValue())
-                inventories = inspectionReportTab.variable.invData;
-            else
-                inventories = inspectionReportTab.dynamicForm.inspecReport.getItem("inventoryId").getSelectedRecord();
+            if (!inspectionReportTab.dynamicForm.material.getValue("material") ||
+                !form.getItem("inventoryId").getValue() ||
+                !form.getItem("mileStone").getValue() ||
+                !form.getItem("inventoryId").getValue().length)
+                inspectionReportTab.dialog.say("Message");
+            else {
+                inspectionReportTab.method.createWeightListGrid();
+                inspectionReportTab.method.createAssayListGrid();
+            }
+        }
+    },
+    {
+        colSpan: 1,
+        name: "refresh",
+        title: "Refresh",
+        type: "ButtonItem",
+        icon: "pieces/16/refresh.png",
+        click: function (form, item) {
 
-            inventories.forEach((current, index, array) => inventoryIds.add(current.id));
+            inspectionReportTab.listGrid.weightElement.setData([]);
+            inspectionReportTab.listGrid.weightElementSum.setData([]);
+            inspectionReportTab.hStack.weightUnitSum.setMembers([]);
 
-            console.log("inventories ", inventories);
-            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+            inspectionReportTab.listGrid.assayElement.setData([]);
+            inspectionReportTab.listGrid.assayElementSum.setData([]);
+            inspectionReportTab.hStack.assayUnitSum.setMembers([]);
 
-                httpMethod: "GET",
-                actionURL: "${contextPath}" + "/api/weightInspection/get-weight-inventory-data",
-                params: {
-                    reportMilestone: value,
-                    inventoryIds: inventoryIds
-                },
-                callback: function (resp) {
-
-                    let weightInventoryData = JSON.parse(resp.httpResponseText);
-                    inspectionReportTab.listGrid.weightElement.setData(weightInventoryData);
-                }
-            }));
-
-            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-
-                httpMethod: "GET",
-                actionURL: "${contextPath}" + "/api/assayInspection/get-assay-inventory-data",
-                params: {
-                    reportMilestone: value,
-                    inventoryIds: inventoryIds
-                },
-                callback: function (resp) {
-
-                    let assayInventoryData = JSON.parse(resp.httpResponseText);
-                    let fields = inspectionReportTab.listGrid.assayElement.fields;
-                    let length = inspectionReportTab.listGrid.assayElement.fields.length;
-                    let assayData = inspectionReportTab.method.groupByAssays(assayInventoryData, "inventoryId");
-
-                    inventories.forEach((current, index, array) => {
-                        let assayRecord = assayData[index];
-                        assayRecord.forEach((c, i, arr) => {
-                            for (let n = 2; n < length; n++) {
-
-                                if (c.materialElementId === fields[n].meId) {
-
-                                    if (inspectionReportTab.listGrid.assayElement.getField(n).ids.length > index)
-                                        inspectionReportTab.listGrid.assayElement.getField(n).ids = [];
-
-                                    if (inspectionReportTab.listGrid.assayElement.getField(n).versions.length > index)
-                                        inspectionReportTab.listGrid.assayElement.getField(n).versions = [];
-
-                                    inspectionReportTab.listGrid.assayElement.setEditValue(index, n, c.value);
-                                    inspectionReportTab.listGrid.assayElement.getField(n).ids.add(c.id);
-                                    inspectionReportTab.listGrid.assayElement.getField(n).versions.add(c.version);
-                                }
-                            }
-                        });
-                    });
-
-                    inspectionReportTab.listGrid.assayElement.saveAllEdits();
-                    inspectionReportTab.listGrid.assayElement.endEditing();
-                }
-            }));
+            inspectionReportTab.dynamicForm.inspecReport.getItem("mileStone").enable();
+            inspectionReportTab.dynamicForm.inspecReport.getItem("inventoryId").enable();
         }
     },
     {
@@ -1337,7 +1345,8 @@ inspectionReportTab.vLayout.weightPane = isc.VLayout.create({
     autoDraw: true,
     members: [
         inspectionReportTab.listGrid.weightElement,
-        inspectionReportTab.listGrid.weightElementSum
+        inspectionReportTab.listGrid.weightElementSum,
+        inspectionReportTab.hStack.weightUnitSum
     ]
 });
 
@@ -1416,7 +1425,8 @@ inspectionReportTab.vLayout.assayPane = isc.VLayout.create({
     members: [
         inspectionReportTab.dynamicForm.assayLab,
         inspectionReportTab.listGrid.assayElement,
-        inspectionReportTab.listGrid.assayElementSum
+        inspectionReportTab.listGrid.assayElementSum,
+        inspectionReportTab.hStack.assayUnitSum
     ]
 });
 
@@ -1438,17 +1448,10 @@ inspectionReportTab.tab.inspecTabs = isc.TabSet.create({
     ]
 });
 
-inspectionReportTab.variable.unitSum = isc.HStack.create({
-    height: "10%",
-    width: "100%",
-    align: "right",
-    overflow: "auto",
-    members: []
-});
-
 //***************************************************** FUNCTIONS *************************************************
 
 inspectionReportTab.method.clearForm = function () {
+
     inspectionReportTab.dynamicForm.material.clearValues();
     inspectionReportTab.dynamicForm.inspecReport.clearValues();
     inspectionReportTab.dynamicForm.assayLab.clearValues();
@@ -1458,19 +1461,15 @@ inspectionReportTab.method.clearForm = function () {
     inspectionReportTab.listGrid.assayElement.setFields([]);
     inspectionReportTab.listGrid.assayElementSum.setData([]);
     inspectionReportTab.listGrid.assayElementSum.setFields([]);
-
 };
 
 inspectionReportTab.method.setWeightElementListRows = function (selectedInventories) {
 
-    inspectionReportTab.listGrid.weightElement.setData([]);
     if (!selectedInventories || !selectedInventories.length)
         return;
 
-    selectedInventories.forEach((current, index, array) => {
-        inspectionReportTab.listGrid.weightElement.startEditingNew({inventoryId: current.id});
-        // inspectionReportTab.listGrid.weightElement.endEditing();
-    });
+    inspectionReportTab.listGrid.weightElement.inventoryCount = selectedInventories.length;
+    selectedInventories.forEach((current, index, array) => inspectionReportTab.listGrid.weightElement.startEditingNew({inventoryId: current.id}));
 
     if (inspectionReportTab.variable.method !== "PUT") return;
 
@@ -1482,13 +1481,13 @@ inspectionReportTab.method.setWeightElementListRows = function (selectedInventor
 
 inspectionReportTab.method.setAssayElementListRows = function (selectedInventories) {
 
-    inspectionReportTab.listGrid.assayElement.setData([]);
     if (!selectedInventories || !selectedInventories.length)
         return;
     if (inspectionReportTab.variable.materialId === ImportantIDs.material.COPPER_CATHOD)
         return;
+
+    inspectionReportTab.listGrid.assayElement.inventoryCount = selectedInventories.length;
     selectedInventories.forEach((current, index, array) => inspectionReportTab.listGrid.assayElement.startEditingNew({inventoryId: current.id}));
-    // inspectionReportTab.listGrid.assayElement.endEditing();
 
     if (inspectionReportTab.variable.method !== "PUT") return;
 
@@ -1517,7 +1516,6 @@ inspectionReportTab.method.setAssayElementListRows = function (selectedInventori
             }
         });
     });
-
     inspectionReportTab.listGrid.assayElement.saveAllEdits();
     inspectionReportTab.listGrid.assayElement.endEditing();
 };
@@ -1567,7 +1565,6 @@ inspectionReportTab.window.inspecReport.init(null, '<spring:message code="inspec
             width: "65%",
             members: [
                 inspectionReportTab.tab.inspecTabs,
-                inspectionReportTab.variable.unitSum
             ]
         }),
     ]
@@ -1648,31 +1645,37 @@ inspectionReportTab.window.inspecReport.validate = function (data) {
     if (inspectionReportTab.dynamicForm.material.hasErrors())
         return false;
 
-    if (inspectionReportTab.variable.materialId != ImportantIDs.material.COPPER_CATHOD) {
-        inspectionReportTab.dynamicForm.inspecReport.validate();
-        if (inspectionReportTab.dynamicForm.inspecReport.hasErrors())
-            return false;
-    }
-    inspectionReportTab.dynamicForm.assayLab.validate();
-    if (inspectionReportTab.dynamicForm.assayLab.hasErrors())
+    inspectionReportTab.dynamicForm.inspecReport.validate();
+    if (inspectionReportTab.dynamicForm.inspecReport.hasErrors())
         return false;
 
-    let selectedInventories = inspectionReportTab.dynamicForm.inspecReport.getField("inventoryId").getSelectedRecords();
-    if (selectedInventories == null)
-        return false;
+    if (inspectionReportTab.variable.materialId !== ImportantIDs.material.COPPER_CATHOD) {
 
-    for (let i = 0; i < selectedInventories.length; i++) {
-        inspectionReportTab.listGrid.weightElement.validateRow(i);
-        if (inspectionReportTab.listGrid.weightElement.hasErrors())
+        inspectionReportTab.dynamicForm.assayLab.validate();
+        if (inspectionReportTab.dynamicForm.assayLab.hasErrors()) {
+
+            inspectionReportTab.tab.inspecTabs.selectTab(inspectionReportTab.tab.inspecTabs.tabs.filter(q => q.name === "assay").first());
             return false;
-        if (inspectionReportTab.variable.materialId != ImportantIDs.material.COPPER_CATHOD) {
-            inspectionReportTab.listGrid.assayElement.validateRow(i);
-            if (inspectionReportTab.listGrid.assayElement.hasErrors())
-                return false;
+        }
+
+        if (inspectionReportTab.listGrid.assayElement.getData().length !== inspectionReportTab.listGrid.assayElement.inventoryCount) {
+
+            inspectionReportTab.tab.inspecTabs.selectTab(inspectionReportTab.tab.inspecTabs.tabs.filter(q => q.name === "assay").first());
+            return false;
         }
     }
 
-    return true;
+    if (inspectionReportTab.listGrid.weightElement.getData().length !== inspectionReportTab.listGrid.weightElement.inventoryCount) {
+
+        inspectionReportTab.tab.inspecTabs.selectTab(inspectionReportTab.tab.inspecTabs.tabs.filter(q => q.name === "weight").first());
+        return false;
+    }
+
+    let isValid = inspectionReportTab.listGrid.weightElement.getData().length !== 0 || inspectionReportTab.listGrid.assayElement.getData().length !== 0;
+    if (!isValid)
+        inspectionReportTab.dialog.say("No inspection data exists");
+
+    return isValid;
 };
 
 inspectionReportTab.window.inspecReport.okCallBack = function (inspectionReportObj) {
@@ -1710,8 +1713,8 @@ inspectionReportTab.method.newForm = function () {
 
 inspectionReportTab.method.editForm = function () {
 
+    debugger
     inspectionReportTab.variable.method = "PUT";
-    let inventories = [];
     let record = inspectionReportTab.listGrid.main.getSelectedRecord();
     if (record == null || record.id == null)
         inspectionReportTab.dialog.notSelected();
@@ -1729,44 +1732,58 @@ inspectionReportTab.method.editForm = function () {
         let weightInspectionArray = record.weightInspections;
         let assayInspectionArray = record.assayInspections;
 
+        let inventoryIds = weightInspectionArray.map(q => q.inventory.id);
+        inventoryIds.addAll(assayInspectionArray.map(q => q.inventory.id));
+        inventoryIds = inventoryIds.distinct();
+
+        let materialId;
+        let shipmentId;
+        let mileStone;
+        if (weightInspectionArray && weightInspectionArray.length) {
+
+            // Set Material
+            materialId = weightInspectionArray.get(0).inventory.materialItem.materialId;
+            // Set Shipment
+            shipmentId = weightInspectionArray.get(0).shipmentId;
+            // Set Milestone
+            mileStone = weightInspectionArray.get(0).mileStone;
+        }
+        if (assayInspectionArray && assayInspectionArray.length) {
+
+            // Set Material
+            materialId = assayInspectionArray.get(0).inventory.materialItem.materialId;
+            // Set Shipment
+            shipmentId = assayInspectionArray.get(0).shipmentId;
+            // Set Milestone
+            mileStone = assayInspectionArray.get(0).mileStone;
+        }
+
         // Set Material
-        let materialId = weightInspectionArray.get(0).inventory.materialItem.materialId;
         inspectionReportTab.dynamicForm.material.setValue("material", materialId);
-        inspectionReportTab.dynamicForm.material.getField("material").changed(inspectionReportTab.dynamicForm.material, inspectionReportTab.dynamicForm.material.getItem("material"));
 
         // Set Shipment
-        inspectionReportTab.dynamicForm.inspecReport.setValue("shipmentId", weightInspectionArray.get(0).shipmentId);
+        inspectionReportTab.dynamicForm.inspecReport.setValue("shipmentId", shipmentId);
 
         // Set Inventories
-        weightInspectionArray.forEach((current, index, array) => inventories.add(current.inventory.id));
-        console.log("weightInspectionArray ", weightInspectionArray);
-        inspectionReportTab.dynamicForm.inspecReport.setValue("inventoryId", inventories);
+        inspectionReportTab.dynamicForm.inspecReport.setValue("inventoryId", inventoryIds);
 
         // Set IssueDate
         inspectionReportTab.dynamicForm.inspecReport.setValue("issueDate", new Date(record.issueDate));
 
         // Set Milestone
-        inspectionReportTab.dynamicForm.inspecReport.setValue("mileStone", weightInspectionArray.get(0).mileStone);
+        inspectionReportTab.dynamicForm.inspecReport.setValue("mileStone", mileStone);
 
         // Set LabInfo
         inspectionReportTab.dynamicForm.assayLab.getField("labName").setValue(assayInspectionArray.get(0).labName);
         inspectionReportTab.dynamicForm.assayLab.getField("labPlace").setValue(assayInspectionArray.get(0).labPlace);
 
-        // ListGrid and Data (inventoryId: Changed -> listGrids setData)
-        // inspectionReportTab.dynamicForm.inspecReport.getField("inventoryId").showPicker();
-        // setTimeout(() => {
-        //     inspectionReportTab.dynamicForm.inspecReport.getField("inventoryId").pickList.hide();
-        //     inspectionReportTab.tab.inspecTabs.focus();
-        // }, 500);
+        inspectionReportTab.method.materialChange(() => {
 
-        //Set weightElementSum
-        // inspectionReportTab.method.setWeightElementSum();
-
-        //Set assayElementSum
-        //inspectionReportTab.method.setAssayElementSum();
-
-        inspectionReportTab.dynamicForm.inspecReport.getField("mileStone").changed(inspectionReportTab.dynamicForm.inspecReport, inspectionReportTab.dynamicForm.inspecReport.getItem("mileStone"),
-            inspectionReportTab.dynamicForm.inspecReport.getValue("mileStone"));
+            inspectionReportTab.method.setWeightElementListRows(weightInspectionArray.map(q => q.inventory));
+            inspectionReportTab.method.setWeightElementSum();
+            inspectionReportTab.method.setAssayElementListRows(assayInspectionArray.map(q => q.inventory));
+            inspectionReportTab.method.setAssayElementSum();
+        });
     }
 };
 
@@ -1827,6 +1844,3 @@ inspectionReportTab.listGrid.fields = [
 ];
 
 nicico.BasicFormUtil.getDefaultBasicForm(inspectionReportTab, "api/inspectionReport/");
-
-//inspectionReportTab.dynamicForm.material.click();
-//inspectionReportTab.listGrid.weightElement.redraw();
