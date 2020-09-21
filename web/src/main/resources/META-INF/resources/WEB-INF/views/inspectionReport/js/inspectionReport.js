@@ -566,7 +566,6 @@ inspectionReportTab.method.createWeightListGrid = function () {
                     align: "center",
                     width: "40%"
                 });
-                debugger
                 x.setValue(dtls.filter(a => a.unitId === uId).map(a => a.amount).sum());
                 x.setUnitId(uId);
                 inspectionReportTab.hStack.weightUnitSum.addMember(x);
@@ -659,44 +658,29 @@ inspectionReportTab.method.materialChange = function (setDateCallback) {
     inspectionReportTab.listGrid.weightElement.setFieldTitle("weightND", weightNDTitle + " (" + unitName + ")");
 };
 
-let inspectorCriteria = {
+inspectionReportTab.variable.inspectorCriteria = {
     _constructor: "AdvancedCriteria",
     operator: "and",
     criteria: [{fieldName: "commercialRole", operator: "iContains", value: "Inspector"}]
 };
 
-let sellerCriteria = {
+inspectionReportTab.variable.sellerCriteria = {
     _constructor: "AdvancedCriteria",
     operator: "and",
     criteria: [{fieldName: "commercialRole", operator: "iContains", value: "Seller"}]
 };
 
-let buyerCriteria = {
+inspectionReportTab.variable.buyerCriteria = {
     _constructor: "AdvancedCriteria",
     operator: "and",
     criteria: [{fieldName: "commercialRole", operator: "iContains", value: "Buyer"}]
 };
 
-let currencyInUnitCriteria = {
+inspectionReportTab.variable.currencyInUnitCriteria = {
     _constructor: "AdvancedCriteria",
     operator: "and",
     criteria: [{fieldName: "categoryUnit", operator: "equals", value: 1}]
 };
-
-inspectionReportTab.hStack.weightUnitSum = isc.HStack.create({
-    height: "10%",
-    width: "100%",
-    align: "right",
-    overflow: "auto",
-    members: []
-});
-inspectionReportTab.hStack.assayUnitSum = isc.HStack.create({
-    height: "10%",
-    width: "100%",
-    align: "right",
-    overflow: "auto",
-    members: []
-});
 
 inspectionReportTab.dynamicForm.material = isc.DynamicForm.create({
     height: "10%",
@@ -853,7 +837,7 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
         pickListWidth: "500",
         pickListHeight: "300",
         optionDataSource: isc.MyRestDataSource.create(inspectionReportTab.restDataSource.contactRest),
-        optionCriteria: inspectorCriteria,
+        optionCriteria: inspectionReportTab.variable.inspectorCriteria,
         pickListProperties:
             {
                 showFilterEditor: true
@@ -933,28 +917,28 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
             }],
         getSelectedRecords: async function () {
 
-            if (inspectionReportTab.variable.method === "PUT")
-                this.showPicker();
-            return this.Super("getSelectedRecords", arguments);
-            // let values = this.getValue();
-            // if (!values || !values.length)
-            //     return [];
-            //
-            // const resp = await fetch("${contextPath}/api/inventory/spec-list?criteria=" + JSON.stringify({
-            //     _constructor: "AdvancedCriteria",
-            //     operator: "and",
-            //     criteria: [{fieldName: "id", operator: "inSet", value: values}]
-            // }), {
-            //     headers: SalesConfigs.httpHeaders,
-            // });
-            //
-            // if (!resp.ok) return [];
-            // const respData = await resp.json();
-            // const data = respData.response.data;
-            // if (data == null || data.length === 0)
-            //     return [];
-            //
-            // return data;
+            // if (inspectionReportTab.variable.method === "PUT")
+            //     this.showPicker();
+            // return this.Super("getSelectedRecords", arguments);
+            let values = this.getValue();
+            if (!values || !values.length)
+                return [];
+
+            const resp = await fetch("${contextPath}/api/inventory/spec-list?criteria=" + JSON.stringify({
+                _constructor: "AdvancedCriteria",
+                operator: "and",
+                criteria: [{fieldName: "id", operator: "inSet", value: values}]
+            }), {
+                headers: SalesConfigs.httpHeaders,
+            });
+
+            if (!resp.ok) return [];
+            const respData = await resp.json();
+            const data = respData.response.data;
+            if (data == null || data.length === 0)
+                return [];
+
+            return data;
         },
         changed: function (form, item, value) {
 
@@ -1027,7 +1011,7 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
         pickListWidth: "500",
         pickListHeight: "300",
         optionDataSource: isc.MyRestDataSource.create(inspectionReportTab.restDataSource.contactRest1),
-        optionCriteria: sellerCriteria,
+        optionCriteria: inspectionReportTab.variable.sellerCriteria,
         pickListProperties:
             {
                 showFilterEditor: true
@@ -1060,7 +1044,7 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
         pickListWidth: "500",
         pickListHeight: "300",
         optionDataSource: isc.MyRestDataSource.create(inspectionReportTab.restDataSource.contactRest2),
-        optionCriteria: buyerCriteria,
+        optionCriteria: inspectionReportTab.variable.buyerCriteria,
         pickListProperties:
             {
                 showFilterEditor: true
@@ -1123,7 +1107,7 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
         pickListWidth: "500",
         pickListHeight: "300",
         optionDataSource: inspectionReportTab.restDataSource.unitRest,
-        optionCriteria: currencyInUnitCriteria,
+        optionCriteria: inspectionReportTab.variable.currencyInUnitCriteria,
         pickListProperties:
             {
                 showFilterEditor: true
@@ -1341,6 +1325,14 @@ inspectionReportTab.listGrid.weightElementSum = isc.ListGrid.create({
     }
 });
 
+inspectionReportTab.hStack.weightUnitSum = isc.HStack.create({
+    height: "10%",
+    width: "100%",
+    align: "right",
+    overflow: "auto",
+    members: []
+});
+
 inspectionReportTab.vLayout.weightPane = isc.VLayout.create({
     autoDraw: true,
     members: [
@@ -1418,6 +1410,14 @@ inspectionReportTab.listGrid.assayElementSum = isc.ListGrid.create({
     fields: [
         {"title": "<spring:message code='foreign-invoice.form.tab.subtotal'/>"}
     ]
+});
+
+inspectionReportTab.hStack.assayUnitSum = isc.HStack.create({
+    height: "10%",
+    width: "100%",
+    align: "right",
+    overflow: "auto",
+    members: []
 });
 
 inspectionReportTab.vLayout.assayPane = isc.VLayout.create({
@@ -1706,14 +1706,16 @@ inspectionReportTab.method.refreshData = function () {
 };
 
 inspectionReportTab.method.newForm = function () {
+
     inspectionReportTab.variable.method = "POST";
     inspectionReportTab.method.clearForm();
+    inspectionReportTab.dynamicForm.inspecReport.getItem("select").enable();
+    inspectionReportTab.dynamicForm.inspecReport.getItem("refresh").enable();
     inspectionReportTab.window.inspecReport.justShowForm();
 };
 
 inspectionReportTab.method.editForm = function () {
 
-    debugger
     inspectionReportTab.variable.method = "PUT";
     let record = inspectionReportTab.listGrid.main.getSelectedRecord();
     if (record == null || record.id == null)
@@ -1734,7 +1736,7 @@ inspectionReportTab.method.editForm = function () {
 
         let inventoryIds = weightInspectionArray.map(q => q.inventory.id);
         inventoryIds.addAll(assayInspectionArray.map(q => q.inventory.id));
-        inventoryIds = inventoryIds.distinct();
+        inventoryIds = inventoryIds.unique();
 
         let materialId;
         let shipmentId;
@@ -1777,11 +1779,13 @@ inspectionReportTab.method.editForm = function () {
         inspectionReportTab.dynamicForm.assayLab.getField("labName").setValue(assayInspectionArray.get(0).labName);
         inspectionReportTab.dynamicForm.assayLab.getField("labPlace").setValue(assayInspectionArray.get(0).labPlace);
 
-        inspectionReportTab.method.materialChange(() => {
+        inspectionReportTab.dynamicForm.inspecReport.getItem("select").disable();
+        inspectionReportTab.dynamicForm.inspecReport.getItem("refresh").disable();
 
+        inspectionReportTab.method.materialChange(() => {
             inspectionReportTab.method.setWeightElementListRows(weightInspectionArray.map(q => q.inventory));
             inspectionReportTab.method.setWeightElementSum();
-            inspectionReportTab.method.setAssayElementListRows(assayInspectionArray.map(q => q.inventory));
+            inspectionReportTab.method.setAssayElementListRows(assayInspectionArray.map(q => q.inventory).unique());
             inspectionReportTab.method.setAssayElementSum();
         });
     }
