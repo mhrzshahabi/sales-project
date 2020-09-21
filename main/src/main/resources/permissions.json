@@ -1,1332 +1,68 @@
 {
   "list": [
     {
-      "code": "R_BANK",
-      "title": "نمایش بانک"
-    },
-    {
-      "code": "C_BANK",
-      "title": "ایجاد بانک"
-    },
-    {
-      "code": "U_BANK",
-      "title": "به روز رسانی بانک"
-    },
-    {
-      "code": "D_BANK",
-      "title": "حذف بانک"
-    },
-    {
-      "code": "R_BILL_OF_LANDING",
-      "title": "نمایش بارنامه"
-    },
-    {
-      "code": "C_BILL_OF_LANDING",
-      "title": "ایجاد بارنامه"
-    },
-    {
-      "code": "U_BILL_OF_LANDING",
-      "title": "به روز رسانی بارنامه"
-    },
-    {
-      "code": "D_BILL_OF_LANDING",
-      "title": "حذف بارنامه"
-    },
-    {
-      "code": "R_CATODLIST",
-      "title": "نمایش لیست کاتد"
-    },
-    {
-      "code": "C_CATODLIST",
-      "title": "ایجاد لیست کاتد"
-    },
-    {
-      "code": "U_CATODLIST",
-      "title": "به روز رسانی لیست کاتد"
-    },
-    {
-      "code": "D_CATODLIST",
-      "title": "حذف لیست کاتد"
-    },
-    {
-      "code": "R_CONTACT_ACCOUNT",
-      "title": "نمایش حساب"
-    },
-    {
-      "code": "C_CONTACT_ACCOUNT",
-      "title": "ایجاد حساب"
-    },
-    {
-      "code": "U_CONTACT_ACCOUNT",
-      "title": "به روز رسانی حساب"
-    },
-    {
-      "code": "D_CONTACT_ACCOUNT",
-      "title": "حذف حساب"
-    },
-    {
-      "code": "R_CONTACT",
-      "title": "نمایش طرف حساب تجاری"
-    },
-    {
-      "code": "C_CONTACT",
-      "title": "ایجاد طرف حساب تجاری"
-    },
-    {
-      "code": "U_CONTACT",
-      "title": "به روز رسانی طرف حساب تجاری"
-    },
-    {
-      "code": "D_CONTACT",
-      "title": "حذف طرف حساب تجاری"
-    },
-    {
-      "code": "R_CONTRACT_CURRENCY",
-      "title": "نمایش ارز قرارداد"
-    },
-    {
-      "code": "C_CONTRACT_CURRENCY",
-      "title": "ایجاد ارز قرارداد"
-    },
-    {
-      "code": "U_CONTRACT_CURRENCY",
-      "title": "به روز رسانی ارز قرارداد"
-    },
-    {
-      "code": "D_CONTRACT_CURRENCY",
-      "title": "حذف ارز قرارداد"
-    },
-    {
-      "code": "R_CONTRACT_DETAIL",
-      "title": "نمایش جزئیات قرارداد"
-    },
-    {
-      "code": "C_CONTRACT_DETAIL",
-      "title": "ایجاد جزئیات قرارداد"
-    },
-    {
-      "code": "U_CONTRACT_DETAIL",
-      "title": "به روز رسانی جزئیات قرارداد"
-    },
-    {
-      "code": "D_CONTRACT_DETAIL",
-      "title": "حذف جزئیات قرارداد"
-    },
-    {
-      "code": "R_CONTRACT_PERSON",
-      "title": "نمایش افراد قرارداد"
-    },
-    {
-      "code": "C_CONTRACT_PERSON",
-      "title": "ایجاد افراد قرارداد"
-    },
-    {
-      "code": "U_CONTRACT_PERSON",
-      "title": "به روز رسانی افراد قرارداد"
-    },
-    {
-      "code": "D_CONTRACT_PERSON",
-      "title": "حذف افراد قرارداد"
-    },
-    {
-      "code": "R_CONTRACT_DISCOUNT",
-      "title": "نمایش تخفیف قرارداد"
-    },
-    {
-      "code": "C_CONTRACT_DISCOUNT",
-      "title": "ایجاد تخفیف قرارداد"
-    },
-    {
-      "code": "U_CONTRACT_DISCOUNT",
-      "title": "به روز رسانی تخفیف قرارداد"
-    },
-    {
-      "code": "D_CONTRACT_DISCOUNT",
-      "title": "حذف تخفیف قرارداد"
-    },
-    {
-      "code": "R_CONTRACT",
-      "title": "نمایش قرارداد"
-    },
-    {
-      "code": "C_CONTRACT",
-      "title": "ایجاد قرارداد"
-    },
-    {
-      "code": "U_CONTRACT",
-      "title": "به روز رسانی قرارداد"
-    },
-    {
-      "code": "D_CONTRACT",
-      "title": "حذف قرارداد"
-    },
-    {
-      "code": "O_CONTRACT",
-      "title": "خروجی قرارداد"
-    },
-    {
-      "code": "R_CONTRACT_SHIPMENT",
-      "title": "نمایش حمل قرارداد"
-    },
-    {
-      "code": "C_CONTRACT_SHIPMENT",
-      "title": "ایجاد حمل قرارداد"
-    },
-    {
-      "code": "U_CONTRACT_SHIPMENT",
-      "title": "به روز رسانی حمل قرارداد"
-    },
-    {
-      "code": "D_CONTRACT_SHIPMENT",
-      "title": "حذف حمل قرارداد"
-    },
-    {
-      "code": "R_COST",
-      "title": "نمایش هزینه"
-    },
-    {
-      "code": "C_COST",
-      "title": "ایجاد هزینه"
-    },
-    {
-      "code": "U_COST",
-      "title": "به روز رسانی هزینه"
-    },
-    {
-      "code": "D_COST",
-      "title": "حذف هزینه"
-    },
-    {
-      "code": "R_COUNTRY",
-      "title": "نمایش کشور"
-    },
-    {
-      "code": "C_COUNTRY",
-      "title": "ایجاد کشور"
-    },
-    {
-      "code": "U_COUNTRY",
-      "title": "به روز رسانی کشور"
-    },
-    {
-      "code": "D_COUNTRY",
-      "title": "حذف کشور"
-    },
-    {
-      "code": "R_CURRENCY_RATE",
-      "title": "نمایش نرخ تبدیل ارز"
-    },
-    {
-      "code": "C_CURRENCY_RATE",
-      "title": "ایجاد نرخ تبدیل ارز"
-    },
-    {
-      "code": "U_CURRENCY_RATE",
-      "title": "به روز رسانی نرخ تبدیل ارز"
-    },
-    {
-      "code": "D_CURRENCY_RATE",
-      "title": "حذف نرخ تبدیل ارز"
-    },
-    {
-      "code": "R_CURRENCY",
-      "title": "نمایش ارز"
-    },
-    {
-      "code": "C_CURRENCY",
-      "title": "ایجاد ارز"
-    },
-    {
-      "code": "U_CURRENCY",
-      "title": "به روز رسانی ارز"
-    },
-    {
-      "code": "D_CURRENCY",
-      "title": "حذف ارز"
-    },
-    {
-      "code": "R_DCC",
-      "title": "نمایش پیوست"
-    },
-    {
-      "code": "C_DCC",
-      "title": "ایجاد پیوست"
-    },
-    {
-      "code": "U_DCC",
-      "title": "به روز رسانی پیوست"
-    },
-    {
-      "code": "D_DCC",
-      "title": "حذف پیوست"
-    },
-    {
-      "code": "R_FEATURE",
-      "title": "نمایش محتوا"
-    },
-    {
-      "code": "C_FEATURE",
-      "title": "ایجاد محتوا"
-    },
-    {
-      "code": "U_FEATURE",
-      "title": "به روز رسانی محتوا"
-    },
-    {
-      "code": "D_FEATURE",
-      "title": "حذف محتوا"
-    },
-    {
-      "code": "R_GROUPS_PERSON",
-      "title": "نمایش گروه افراد"
-    },
-    {
-      "code": "C_GROUPS_PERSON",
-      "title": "ایجاد گروه افراد"
-    },
-    {
-      "code": "U_GROUPS_PERSON",
-      "title": "به روز رسانی گروه افراد"
-    },
-    {
-      "code": "D_GROUPS_PERSON",
-      "title": "حذف گروه افراد"
-    },
-    {
-      "code": "R_GROUPS",
-      "title": "نمایش گروه ها"
-    },
-    {
-      "code": "C_GROUPS",
-      "title": "ایجاد گروه ها"
-    },
-    {
-      "code": "U_GROUPS",
-      "title": "به روز رسانی گروه ها"
-    },
-    {
-      "code": "D_GROUPS",
-      "title": "حذف گروه ها"
-    },
-    {
-      "code": "R_INCOTERMS",
-      "title": "نمایش ترم های بازرگانی"
-    },
-    {
-      "code": "C_INCOTERMS",
-      "title": "ایجاد ترم های بازرگانی"
-    },
-    {
-      "code": "U_INCOTERMS",
-      "title": "به روز رسانی ترم های بازرگانی"
-    },
-    {
-      "code": "D_INCOTERMS",
-      "title": "حذف ترم های بازرگانی"
-    },
-    {
-      "code": "R_INSPECTION_CONTRACT",
-      "title": "نمایش قرارداد بازرسی"
-    },
-    {
-      "code": "C_INSPECTION_CONTRACT",
-      "title": "ایجاد قرارداد بازرسی"
-    },
-    {
-      "code": "U_INSPECTION_CONTRACT",
-      "title": "به روز رسانی قرارداد بازرسی"
-    },
-    {
-      "code": "D_INSPECTION_CONTRACT",
-      "title": "حذف قرارداد بازرسی"
-    },
-    {
-      "code": "O_INSPECTION_CONTRACT",
-      "title": "خروجی قرارداد بازرسی"
-    },
-    {
-      "code": "R_INSTRUCTION",
-      "title": "نمایش دستورالعمل"
-    },
-    {
-      "code": "C_INSTRUCTION",
-      "title": "ایجاد دستورالعمل"
-    },
-    {
-      "code": "U_INSTRUCTION",
-      "title": "به روز رسانی دستورالعمل"
-    },
-    {
-      "code": "D_INSTRUCTION",
-      "title": "حذف دستورالعمل"
-    },
-    {
-      "code": "R_INVOICE_ITEM",
-      "title": "نمایش آیتم های صورتحساب"
-    },
-    {
-      "code": "C_INVOICE_ITEM",
-      "title": "ایجاد آیتم های صورتحساب"
-    },
-    {
-      "code": "U_INVOICE_ITEM",
-      "title": "به روز رسانی آیتم های صورتحساب"
-    },
-    {
-      "code": "D_INVOICE_ITEM",
-      "title": "حذف آیتم های صورتحساب"
-    },
-    {
-      "code": "R_INVOICE_SALES",
-      "title": "نمایش فاکتور فروش"
-    },
-    {
-      "code": "C_INVOICE_SALES",
-      "title": "ایجاد فاکتور فروش"
-    },
-    {
-      "code": "U_INVOICE_SALES",
-      "title": "به روز رسانی فاکتور فروش"
-    },
-    {
-      "code": "D_INVOICE_SALES",
-      "title": "حذف فاکتور فروش"
-    },
-    {
-      "code": "R_INVOICE_SALES_ITEM",
-      "title": "نمایش جزئیات فاکتور فروش"
-    },
-    {
-      "code": "C_INVOICE_SALES_ITEM",
-      "title": "ایجاد جزئیات فاکتور فروش"
-    },
-    {
-      "code": "U_INVOICE_SALES_ITEM",
-      "title": "به روز رسانی جزئیات فاکتور فروش"
-    },
-    {
-      "code": "D_INVOICE_SALES_ITEM",
-      "title": "حذف جزئیات فاکتور فروش"
-    },
-    {
-      "code": "R_INVOICE_INTERNAL",
-      "title": "نمایش صورتحساب فروش داخلی"
-    },
-    {
-      "code": "C_INVOICE_INTERNAL",
-      "title": "ایجاد صورتحساب فروش داخلی"
-    },
-    {
-      "code": "U_INVOICE_INTERNAL",
-      "title": "به روز رسانی صورتحساب فروش داخلی"
-    },
-    {
-      "code": "D_INVOICE_INTERNAL",
-      "title": "حذف صورتحساب فروش داخلی"
-    },
-    {
-      "code": "O_INVOICE_INTERNAL",
-      "title": "خروجی صورتحساب فروش داخلی"
-    },
-    {
-      "code": "R_INVOICE_MOLYBDENUM",
-      "title": "نمایش صورتحساب مولیبدن"
-    },
-    {
-      "code": "C_INVOICE_MOLYBDENUM",
-      "title": "ایجاد صورتحساب مولیبدن"
-    },
-    {
-      "code": "U_INVOICE_MOLYBDENUM",
-      "title": "به روز رسانی صورتحساب مولیبدن"
-    },
-    {
-      "code": "D_INVOICE_MOLYBDENUM",
-      "title": "حذف صورتحساب مولیبدن"
-    },
-    {
-      "code": "R_INVOICE",
-      "title": "نمایش صورتحساب"
-    },
-    {
-      "code": "C_INVOICE",
-      "title": "ایجاد صورتحساب"
-    },
-    {
-      "code": "U_INVOICE",
-      "title": "به روز رسانی صورتحساب"
-    },
-    {
-      "code": "D_INVOICE",
-      "title": "حذف صورتحساب"
-    },
-    {
-      "code": "O_INVOICE",
-      "title": "خروجی صورتحساب"
-    },
-    {
-      "code": "R_MATERIAL_FEATURE",
-      "title": "نمایش محتوای محصول"
-    },
-    {
-      "code": "C_MATERIAL_FEATURE",
-      "title": "ایجاد محتوای محصول"
-    },
-    {
-      "code": "U_MATERIAL_FEATURE",
-      "title": "به روز رسانی محتوای محصول"
-    },
-    {
-      "code": "D_MATERIAL_FEATURE",
-      "title": "حذف محتوای محصول"
-    },
-    {
-      "code": "R_MATERIAL_ITEM",
-      "title": "نمایش آیتم های محصول"
-    },
-    {
-      "code": "C_MATERIAL_ITEM",
-      "title": "ایجاد آیتم های محصول"
-    },
-    {
-      "code": "U_MATERIAL_ITEM",
-      "title": "به روز رسانی آیتم های محصول"
-    },
-    {
-      "code": "D_MATERIAL_ITEM",
-      "title": "حذف آیتم های محصول"
-    },
-    {
-      "code": "R_MATERIAL",
-      "title": "نمایش محصول"
-    },
-    {
-      "code": "C_MATERIAL",
-      "title": "ایجاد محصول"
-    },
-    {
-      "code": "U_MATERIAL",
-      "title": "به روز رسانی محصول"
-    },
-    {
-      "code": "D_MATERIAL",
-      "title": "حذف محصول"
-    },
-    {
-      "code": "R_PARAMETERS",
-      "title": "نمایش پارامترها"
-    },
-    {
-      "code": "C_PARAMETERS",
-      "title": "ایجاد پارامترها"
-    },
-    {
-      "code": "U_PARAMETERS",
-      "title": "به روز رسانی پارامترها"
-    },
-    {
-      "code": "D_PARAMETERS",
-      "title": "حذف پارامترها"
-    },
-    {
-      "code": "R_PAYMENT_OPTION",
-      "title": "نمایش نوع پرداخت"
-    },
-    {
-      "code": "C_PAYMENT_OPTION",
-      "title": "ایجاد نوع پرداخت"
-    },
-    {
-      "code": "U_PAYMENT_OPTION",
-      "title": "به روز رسانی نوع پرداخت"
-    },
-    {
-      "code": "D_PAYMENT_OPTION",
-      "title": "حذف نوع پرداخت"
-    },
-    {
-      "code": "R_PERCENT_PER_YEAR",
-      "title": "نمایش درصد عوارض و مالیات"
-    },
-    {
-      "code": "C_PERCENT_PER_YEAR",
-      "title": "ایجاد درصد عوارض و مالیات"
-    },
-    {
-      "code": "U_PERCENT_PER_YEAR",
-      "title": "به روز رسانی درصد عوارض و مالیات"
-    },
-    {
-      "code": "D_PERCENT_PER_YEAR",
-      "title": "حذف درصد عوارض و مالیات"
-    },
-    {
-      "code": "R_PERSON",
-      "title": "نمایش شخص"
-    },
-    {
-      "code": "C_PERSON",
-      "title": "ایجاد شخص"
-    },
-    {
-      "code": "U_PERSON",
-      "title": "به روز رسانی شخص"
-    },
-    {
-      "code": "D_PERSON",
-      "title": "حذف شخص"
-    },
-    {
-      "code": "R_PORT",
-      "title": "نمایش بندر"
-    },
-    {
-      "code": "C_PORT",
-      "title": "ایجاد بندر"
-    },
-    {
-      "code": "U_PORT",
-      "title": "به روز رسانی بندر"
-    },
-    {
-      "code": "D_PORT",
-      "title": "حذف بندر"
-    },
-    {
-      "code": "R_RATE",
-      "title": "نمایش نرخ"
-    },
-    {
-      "code": "C_RATE",
-      "title": "ایجاد نرخ"
-    },
-    {
-      "code": "U_RATE",
-      "title": "به روز رسانی نرخ"
-    },
-    {
-      "code": "D_RATE",
-      "title": "حذف نرخ"
-    },
-    {
-      "code": "R_SALES_TYPE",
-      "title": "نمایش نوع فروش"
-    },
-    {
-      "code": "C_SALES_TYPE",
-      "title": "ایجاد نوع فروش"
-    },
-    {
-      "code": "U_SALES_TYPE",
-      "title": "به روز رسانی نوع فروش"
-    },
-    {
-      "code": "D_SALES_TYPE",
-      "title": "حذف نوع فروش"
-    },
-    {
-      "code": "R_SHIPMENT_ASSAY_HEADER",
-      "title": "نمایش هدر بازرسی حمل"
-    },
-    {
-      "code": "C_SHIPMENT_ASSAY_HEADER",
-      "title": "ایجاد هدر بازرسی حمل"
-    },
-    {
-      "code": "U_SHIPMENT_ASSAY_HEADER",
-      "title": "به روز رسانی هدر بازرسی حمل"
-    },
-    {
-      "code": "D_SHIPMENT_ASSAY_HEADER",
-      "title": "حذف هدر بازرسی حمل"
-    },
-    {
-      "code": "R_SHIPMENT_ASSAY_ITEM",
-      "title": "نمایش آیتم های بازرسی حمل"
-    },
-    {
-      "code": "C_SHIPMENT_ASSAY_ITEM",
-      "title": "ایجاد آیتم های بازرسی حمل"
-    },
-    {
-      "code": "U_SHIPMENT_ASSAY_ITEM",
-      "title": "به روز رسانی آیتم های بازرسی حمل"
-    },
-    {
-      "code": "D_SHIPMENT_ASSAY_ITEM",
-      "title": "حذف آیتم های بازرسی حمل"
-    },
-    {
-      "code": "R_SHIPMENT_CONTRACT",
-      "title": "نمایش قرارداد حمل"
-    },
-    {
-      "code": "C_SHIPMENT_CONTRACT",
-      "title": "ایجاد قرارداد حمل"
-    },
-    {
-      "code": "U_SHIPMENT_CONTRACT",
-      "title": "به روز رسانی قرارداد حمل"
-    },
-    {
-      "code": "D_SHIPMENT_CONTRACT",
-      "title": "حذف قرارداد حمل"
-    },
-    {
-      "code": "R_SHIPMENT_EMAIL",
-      "title": "نمایش ایمیل حمل"
-    },
-    {
-      "code": "C_SHIPMENT_EMAIL",
-      "title": "ایجاد ایمیل حمل"
-    },
-    {
-      "code": "U_SHIPMENT_EMAIL",
-      "title": "به روز رسانی ایمیل حمل"
-    },
-    {
-      "code": "D_SHIPMENT_EMAIL",
-      "title": "حذف ایمیل حمل"
-    },
-    {
-      "code": "R_SHIPMENT_MOISTURE_HEADER",
-      "title": "نمایش هدر رطوبت حمل"
-    },
-    {
-      "code": "C_SHIPMENT_MOISTURE_HEADER",
-      "title": "ایجاد هدر رطوبت حمل"
-    },
-    {
-      "code": "U_SHIPMENT_MOISTURE_HEADER",
-      "title": "به روز رسانی هدر رطوبت حمل"
-    },
-    {
-      "code": "D_SHIPMENT_MOISTURE_HEADER",
-      "title": "حذف هدر رطوبت حمل"
-    },
-    {
-      "code": "R_SHIPMENT_MOISTURE_ITEM",
-      "title": "نمایش آیتم های رطوبت حمل"
-    },
-    {
-      "code": "C_SHIPMENT_MOISTURE_ITEM",
-      "title": "ایجاد آیتم های رطوبت حمل"
-    },
-    {
-      "code": "U_SHIPMENT_MOISTURE_ITEM",
-      "title": "به روز رسانی آیتم های رطوبت حمل"
-    },
-    {
-      "code": "D_SHIPMENT_MOISTURE_ITEM",
-      "title": "حذف آیتم های رطوبت حمل"
-    },
-    {
-      "code": "R_SHIPMENT",
-      "title": "نمایش حمل"
-    },
-    {
-      "code": "C_SHIPMENT",
-      "title": "ایجاد حمل"
-    },
-    {
-      "code": "U_SHIPMENT",
-      "title": "به روز رسانی حمل"
-    },
-    {
-      "code": "D_SHIPMENT",
-      "title": "حذف حمل"
-    },
-    {
-      "code": "O_SHIPMENT",
-      "title": "خروجی حمل"
-    },
-    {
-      "code": "R_TOZIN_SALES",
-      "title": "نمایش توزین فروش"
-    },
-    {
-      "code": "C_TOZIN_SALES",
-      "title": "ایجاد توزین فروش"
-    },
-    {
-      "code": "U_TOZIN_SALES",
-      "title": "به روز رسانی توزین فروش"
-    },
-    {
-      "code": "D_TOZIN_SALES",
-      "title": "حذف توزین فروش"
-    },
-    {
-      "code": "O_TOZIN_SALES",
-      "title": "خروجی توزین فروش"
-    },
-    {
-      "code": "R_TOZIN",
-      "title": "نمایش توزین"
-    },
-    {
-      "code": "C_TOZIN",
-      "title": "ایجاد توزین"
-    },
-    {
-      "code": "U_TOZIN",
-      "title": "به روز رسانی توزین"
-    },
-    {
-      "code": "D_TOZIN",
-      "title": "حذف توزین"
-    },
-    {
-      "code": "O_TOZIN",
-      "title": "خروجی توزین"
-    },
-    {
-      "code": "R_UNIT",
-      "title": "نمایش واحد"
-    },
-    {
-      "code": "C_UNIT",
-      "title": "ایجاد واحد"
-    },
-    {
-      "code": "U_UNIT",
-      "title": "به روز رسانی واحد"
-    },
-    {
-      "code": "D_UNIT",
-      "title": "حذف واحد"
-    },
-    {
-      "code": "R_WAREHOUSE",
-      "title": "نمایش انبار"
-    },
-    {
-      "code": "C_WAREHOUSE",
-      "title": "ایجاد انبار"
-    },
-    {
-      "code": "U_WAREHOUSE",
-      "title": "به روز رسانی انبار"
-    },
-    {
-      "code": "D_WAREHOUSE",
-      "title": "حذف انبار"
-    },
-    {
-      "code": "R_WAREHOUSE_STORE",
-      "title": "نمایش سوله انبار "
-    },
-    {
-      "code": "C_WAREHOUSE_STORE",
-      "title": "ایجاد سوله انبار "
-    },
-    {
-      "code": "U_WAREHOUSE_STORE",
-      "title": "به روز رسانی سوله انبار "
-    },
-    {
-      "code": "D_WAREHOUSE_STORE",
-      "title": "حذف سوله انبار "
-    },
-    {
-      "code": "R_WAREHOUSE_DEPOT",
-      "title": "نمایش دپو انبار"
-    },
-    {
-      "code": "C_WAREHOUSE_DEPOT",
-      "title": "ایجاد دپو انبار"
-    },
-    {
-      "code": "U_WAREHOUSE_DEPOT",
-      "title": "به روز رسانی دپو انبار"
-    },
-    {
-      "code": "D_WAREHOUSE_DEPOT",
-      "title": "حذف دپو انبار"
-    },
-    {
-      "code": "R_WAREHOUSE_TOZIN",
-      "title": "نمایش توزین"
-    },
-    {
-      "code": "C_WAREHOUSE_TOZIN",
-      "title": "ایجاد توزین"
-    },
-    {
-      "code": "U_WAREHOUSE_TOZIN",
-      "title": "به روز رسانی توزین"
-    },
-    {
-      "code": "D_WAREHOUSE_TOZIN",
-      "title": "حذف توزین"
-    },
-    {
-      "code": "R_WAREHOUSE_CAD_ITEM",
-      "title": "نمایش آیتم های انبار کاتد"
-    },
-    {
-      "code": "C_WAREHOUSE_CAD_ITEM",
-      "title": "ایجاد آیتم های انبار کاتد"
-    },
-    {
-      "code": "U_WAREHOUSE_CAD_ITEM",
-      "title": "به روز رسانی آیتم های انبار کاتد"
-    },
-    {
-      "code": "D_WAREHOUSE_CAD_ITEM",
-      "title": "حذف آیتم های انبار کاتد"
-    },
-    {
-      "code": "R_WAREHOUSE_CAD",
-      "title": "نمایش انبار کاتد"
-    },
-    {
-      "code": "C_WAREHOUSE_CAD",
-      "title": "ایجاد انبار کاتد"
-    },
-    {
-      "code": "U_WAREHOUSE_CAD",
-      "title": "به روز رسانی انبار کاتد"
-    },
-    {
-      "code": "D_WAREHOUSE_CAD",
-      "title": "حذف انبار کاتد"
-    },
-    {
-      "code": "R_WAREHOUSE_ISSUE_CATHODE",
-      "title": "نمایش حواله انبار کاتد"
-    },
-    {
-      "code": "C_WAREHOUSE_ISSUE_CATHODE",
-      "title": "ایجاد حواله انبار کاتد"
-    },
-    {
-      "code": "U_WAREHOUSE_ISSUE_CATHODE",
-      "title": "به روز رسانی حواله انبار کاتد"
-    },
-    {
-      "code": "D_WAREHOUSE_ISSUE_CATHODE",
-      "title": "حذف حواله انبار کاتد"
-    },
-    {
-      "code": "R_WAREHOUSE_ISSUE_CONS",
-      "title": "نمایش حواله انبار کنسانتره"
-    },
-    {
-      "code": "C_WAREHOUSE_ISSUE_CONS",
-      "title": "ایجاد حواله انبار کنسانتره"
-    },
-    {
-      "code": "U_WAREHOUSE_ISSUE_CONS",
-      "title": "به روز رسانی حواله انبار کنسانتره"
-    },
-    {
-      "code": "D_WAREHOUSE_ISSUE_CONS",
-      "title": "حذف حواله انبار کنسانتره"
-    },
-    {
-      "code": "R_WAREHOUSE_ISSUE_MO",
-      "title": "نمایش حواله انبار مولیبدن"
-    },
-    {
-      "code": "C_WAREHOUSE_ISSUE_MO",
-      "title": "ایجاد حواله انبار مولیبدن"
-    },
-    {
-      "code": "U_WAREHOUSE_ISSUE_MO",
-      "title": "به روز رسانی حواله انبار مولیبدن"
-    },
-    {
-      "code": "D_WAREHOUSE_ISSUE_MO",
-      "title": "حذف حواله انبار مولیبدن"
-    },
-    {
-      "code": "R_WAREHOUSE_LOT",
-      "title": "نمایش لات انبار"
-    },
-    {
-      "code": "C_WAREHOUSE_LOT",
-      "title": "ایجاد لات انبار"
-    },
-    {
-      "code": "U_WAREHOUSE_LOT",
-      "title": "به روز رسانی لات انبار"
-    },
-    {
-      "code": "D_WAREHOUSE_LOT",
-      "title": "حذف لات انبار"
-    },
-    {
-      "code": "R_WAREHOUSE_STOCK",
-      "title": "نمایش موجودی انبار"
-    },
-    {
-      "code": "C_WAREHOUSE_STOCK",
-      "title": "ایجاد موجودی انبار"
-    },
-    {
-      "code": "U_WAREHOUSE_STOCK",
-      "title": "به روز رسانی موجودی انبار"
-    },
-    {
-      "code": "D_WAREHOUSE_STOCK",
-      "title": "حذف موجودی انبار"
-    },
-    {
-      "code": "O_WAREHOUSE_STOCK",
-      "title": "خروجی موجودی انبار"
-    },
-    {
-      "code": "R_WAREHOUSE_YARD",
-      "title": "نمایش یارد انبار"
-    },
-    {
-      "code": "C_WAREHOUSE_YARD",
-      "title": "ایجاد یارد انبار"
-    },
-    {
-      "code": "U_WAREHOUSE_YARD",
-      "title": "به روز رسانی یارد انبار"
-    },
-    {
-      "code": "D_WAREHOUSE_YARD",
-      "title": "حذف یارد انبار"
-    },
-    {
-      "code": "R_CONTRACT_TYPE",
-      "title": "نمایش نوع قرارداد"
-    },
-    {
-      "code": "C_CONTRACT_TYPE",
-      "title": "ایجاد نوع قرارداد"
-    },
-    {
-      "code": "U_CONTRACT_TYPE",
-      "title": "به روز رسانی نوع قرارداد"
-    },
-    {
-      "code": "D_CONTRACT_TYPE",
-      "title": "حذف نوع قرارداد"
-    },
-    {
-      "code": "R_CONTRACT_2",
-      "title": "نمایش قرارداد"
-    },
-    {
-      "code": "C_CONTRACT_2",
-      "title": "ایجاد قرارداد"
-    },
-    {
-      "code": "U_CONTRACT_2",
-      "title": "به روز رسانی قرارداد"
-    },
-    {
-      "code": "D_CONTRACT_2",
-      "title": "حذف قرارداد"
-    },
-    {
-      "code": "F_CONTRACT_2",
-      "title": "تایید نهایی قرارداد"
-    },
-    {
-      "code": "O_CONTRACT_2",
-      "title": "لغو تایید نهایی قرارداد"
-    },
-    {
-      "code": "A_CONTRACT_2",
-      "title": "فعال کردن قرارداد"
-    },
-    {
-      "code": "I_CONTRACT_2",
-      "title": "غیرفعال کردن  قرارداد"
-    },
-    {
-      "code": "R_CONTRACT_DETAIL_TYPE",
-      "title": "نمایش نوع جزییات قرارداد"
-    },
-    {
-      "code": "C_CONTRACT_DETAIL_TYPE",
-      "title": "ایجاد نوع جزییات قرارداد"
-    },
-    {
-      "code": "U_CONTRACT_DETAIL_TYPE",
-      "title": "به روز رسانی نوع جزییات قرارداد"
-    },
-    {
-      "code": "D_CONTRACT_DETAIL_TYPE",
-      "title": "حذف نوع جزییات قرارداد"
-    },
-    {
-      "code": "R_CONTRACT_DETAIL_TYPE_PARAM",
-      "title": "نمایش پارامتر نوع جزییات قرارداد"
-    },
-    {
-      "code": "C_CONTRACT_DETAIL_TYPE_PARAM",
-      "title": "ایجاد پارامتر نوع جزییات قرارداد"
-    },
-    {
-      "code": "U_CONTRACT_DETAIL_TYPE_PARAM",
-      "title": "به روز رسانی پارامتر نوع جزییات قرارداد"
-    },
-    {
-      "code": "D_CONTRACT_DETAIL_TYPE_PARAM",
-      "title": "حذف پارامتر نوع جزییات قرارداد"
-    },
-    {
-      "code": "R_CONTRACT_DETAIL_TYPE_PARAM_VALUE",
-      "title": "نمایش مقدار پارامتر نوع جزییات قرارداد"
-    },
-    {
-      "code": "C_CONTRACT_DETAIL_TYPE_PARAM_VALUE",
-      "title": "ایجاد مقدار پارامتر نوع جزییات قرارداد"
-    },
-    {
-      "code": "U_CONTRACT_DETAIL_TYPE_PARAM_VALUE",
-      "title": "به روز رسانی مقدار پارامتر نوع جزییات قرارداد"
-    },
-    {
-      "code": "D_CONTRACT_DETAIL_TYPE_PARAM_VALUE",
-      "title": "حذف مقدار پارامتر نوع جزییات قرارداد"
-    },
-    {
-      "code": "R_CONTRACT_DETAIL_TYPE_TEMPLATE",
-      "title": "نمایش الگوی نوع جزییات قرارداد"
-    },
-    {
-      "code": "C_CONTRACT_DETAIL_TYPE_TEMPLATE",
-      "title": "ایجاد الگوی نوع جزییات قرارداد"
-    },
-    {
-      "code": "U_CONTRACT_DETAIL_TYPE_TEMPLATE",
-      "title": "به روز رسانی الگوی نوع جزییات قرارداد"
-    },
-    {
-      "code": "D_CONTRACT_DETAIL_TYPE_TEMPLATE",
-      "title": "حذف الگوی نوع جزییات قرارداد"
-    },
-    {
-      "code": "R_INCOTERM",
-      "title": "نمایش اینکوترم"
-    },
-    {
-      "code": "C_INCOTERM",
-      "title": "ایجاد اینکوترم"
-    },
-    {
-      "code": "U_INCOTERM",
-      "title": "به روز رسانی اینکوترم"
-    },
-    {
-      "code": "D_INCOTERM",
-      "title": "حذف اینکوترم"
-    },
-    {
-      "code": "R_INCOTERM_VERSION",
-      "title": "نمایش نسخه اینکوترم"
-    },
-    {
-      "code": "C_INCOTERM_VERSION",
-      "title": "ایجاد نسخه اینکوترم"
-    },
-    {
-      "code": "U_INCOTERM_VERSION",
-      "title": "به روز رسانی نسخه اینکوترم"
-    },
-    {
-      "code": "D_INCOTERM_VERSION",
-      "title": "حذف نسخه اینکوترم"
-    },
-    {
-      "code": "R_INCOTERM_DETAIL",
-      "title": "نمایش جزییات اینکوترم"
-    },
-    {
-      "code": "C_INCOTERM_DETAIL",
-      "title": "ایجاد جزییات اینکوترم"
-    },
-    {
-      "code": "U_INCOTERM_DETAIL",
-      "title": "به روز رسانی جزییات اینکوترم"
-    },
-    {
-      "code": "D_INCOTERM_DETAIL",
-      "title": "حذف جزییات اینکوترم"
-    },
-    {
-      "code": "R_INCOTERM_ASPECT",
-      "title": "نمایش نوع اینکوترم"
-    },
-    {
-      "code": "C_INCOTERM_ASPECT",
-      "title": "ایجاد نوع اینکوترم"
-    },
-    {
-      "code": "U_INCOTERM_ASPECT",
-      "title": "به روز رسانی نوع اینکوترم"
-    },
-    {
-      "code": "D_INCOTERM_ASPECT",
-      "title": "حذف نوع اینکوترم"
-    },
-    {
-      "code": "R_TERM",
+      "code": "R_CNTR_TERM",
       "title": "نمایش ترم"
     },
     {
-      "code": "C_TERM",
+      "code": "C_CNTR_TERM",
       "title": "ایجاد ترم"
     },
     {
-      "code": "U_TERM",
-      "title": "به روز رسانی ترم"
-    },
-    {
-      "code": "D_TERM",
+      "code": "D_CNTR_TERM",
       "title": "حذف ترم"
     },
     {
-      "code": "R_INCOTERM_FORM",
-      "title": "نمایش فرم فروش اینکوترم"
+      "code": "U_CNTR_TERM",
+      "title": "به روز رسانی ترم"
     },
     {
-      "code": "C_INCOTERM_FORM",
-      "title": "ایجاد فرم فروش اینکوترم"
+      "code": "A_CNTR_TERM",
+      "title": "فعالسازی ترم"
     },
     {
-      "code": "U_INCOTERM_FORM",
-      "title": "به روز رسانی فرم فروش اینکوترم"
+      "code": "I_CNTR_TERM",
+      "title": "غیرفعالسازی ترم"
     },
     {
-      "code": "D_INCOTERM_FORM",
-      "title": "حذف فرم فروش اینکوترم"
+      "code": "F_CNTR_TERM",
+      "title": "تائید نهایی ترم"
     },
     {
-      "code": "R_INCOTERM_FORMS",
-      "title": "نمایش فرم فروش مد جزییات اینکوترم"
+      "code": "O_CNTR_TERM",
+      "title": "لغو تائید نهایی ترم"
     },
     {
-      "code": "C_INCOTERM_FORMS",
-      "title": "ایجاد فرم فروش مد جزییات اینکوترم"
+      "code": "R_WARH_REMITTANCE",
+      "title": "نمایش بیجک"
     },
     {
-      "code": "U_INCOTERM_FORMS",
-      "title": "به روز رسانی فرم فروش مد جزییات اینکوترم"
+      "code": "C_WARH_REMITTANCE",
+      "title": "ایجاد بیجک"
     },
     {
-      "code": "D_INCOTERM_FORMS",
-      "title": "حذف فرم فروش مد جزییات اینکوترم"
+      "code": "D_WARH_REMITTANCE",
+      "title": "حذف بیجک"
     },
     {
-      "code": "R_INCOTERM_PARTY",
-      "title": "نمایش طرف قرارداد در اینکوترم"
+      "code": "U_WARH_REMITTANCE",
+      "title": "به روز رسانی بیجک"
     },
     {
-      "code": "C_INCOTERM_PARTY",
-      "title": "ایجاد طرف قرارداد در اینکوترم"
+      "code": "A_WARH_REMITTANCE",
+      "title": "فعالسازی بیجک"
     },
     {
-      "code": "U_INCOTERM_PARTY",
-      "title": "به روز رسانی طرف قرارداد در اینکوترم"
+      "code": "I_WARH_REMITTANCE",
+      "title": "غیرفعالسازی بیجک"
     },
     {
-      "code": "D_INCOTERM_PARTY",
-      "title": "حذف طرف قرارداد در اینکوترم"
+      "code": "F_WARH_REMITTANCE",
+      "title": "تائید نهایی بیجک"
     },
     {
-      "code": "R_INCOTERM_PARTIES",
-      "title": "نمایش طرف قرارداد در جزییات اینکوترم"
-    },
-    {
-      "code": "C_INCOTERM_PARTIES",
-      "title": "ایجاد طرف قرارداد در جزییات اینکوترم"
-    },
-    {
-      "code": "U_INCOTERM_PARTIES",
-      "title": "به روز رسانی طرف قرارداد در جزییات اینکوترم"
-    },
-    {
-      "code": "D_INCOTERM_PARTIES",
-      "title": "حذف طرف قرارداد در جزییات اینکوترم"
-    },
-    {
-      "code": "R_INCOTERM_STEP",
-      "title": "نمایش گام اینکوترم"
-    },
-    {
-      "code": "C_INCOTERM_STEP",
-      "title": "ایجاد گام اینکوترم"
-    },
-    {
-      "code": "U_INCOTERM_STEP",
-      "title": "به روز رسانی گام اینکوترم"
-    },
-    {
-      "code": "D_INCOTERM_STEP",
-      "title": "حذف گام اینکوترم"
-    },
-    {
-      "code": "R_INCOTERM_STEPS",
-      "title": "نمایش گام جزییات اینکوترم"
-    },
-    {
-      "code": "C_INCOTERM_STEPS",
-      "title": "ایجاد گام جزییات اینکوترم"
-    },
-    {
-      "code": "U_INCOTERM_STEPS",
-      "title": "به روز رسانی گام جزییات اینکوترم"
-    },
-    {
-      "code": "D_INCOTERM_STEPS",
-      "title": "حذف گام جزییات اینکوترم"
-    },
-    {
-      "code": "R_INCOTERM_RULE",
-      "title": "نمایش مد اینکوترم"
-    },
-    {
-      "code": "C_INCOTERM_RULE",
-      "title": "ایجاد مد اینکوترم"
-    },
-    {
-      "code": "U_INCOTERM_RULE",
-      "title": "به روز رسانی مد اینکوترم"
-    },
-    {
-      "code": "D_INCOTERM_RULE",
-      "title": "حذف مد اینکوترم"
-    },
-    {
-      "code": "R_INCOTERM_RULES",
-      "title": "نمایش مد جزییات اینکوترم"
-    },
-    {
-      "code": "C_INCOTERM_RULES",
-      "title": "ایجاد مد جزییات اینکوترم"
-    },
-    {
-      "code": "U_INCOTERM_RULES",
-      "title": "به روز رسانی مد جزییات اینکوترم"
-    },
-    {
-      "code": "D_INCOTERM_RULES",
-      "title": "حذف مد جزییات اینکوترم"
-    },
-    {
-      "code": "R_FOREIGN_INVOICE",
-      "title": "نمایش صورتحساب فروش خارجی"
-    },
-    {
-      "code": "C_FOREIGN_INVOICE",
-      "title": "ایجاد صورتحساب فروش خارجی"
-    },
-    {
-      "code": "U_FOREIGN_INVOICE",
-      "title": "به روز رسانی صورتحساب فروش خارجی"
-    },
-    {
-      "code": "D_FOREIGN_INVOICE",
-      "title": "حذف صورتحساب فروش خارجی"
+      "code": "O_WARH_REMITTANCE",
+      "title": "لغو تائید نهایی بیجک"
     },
     {
       "code": "R_FOREIGN_INVOICE_ITEM",
@@ -1337,60 +73,480 @@
       "title": "ایجاد اقلام صورتحساب فروش خارجی"
     },
     {
-      "code": "U_FOREIGN_INVOICE_ITEM",
-      "title": "به روز رسانی اقلام صورتحساب فروش خارجی"
-    },
-    {
       "code": "D_FOREIGN_INVOICE_ITEM",
       "title": "حذف اقلام صورتحساب فروش خارجی"
     },
     {
-      "code": "R_FOREIGN_INVOICE_ITEM_DETAIL",
-      "title": "نمایش جزییات اقلام صورتحساب فروش خارجی"
+      "code": "U_FOREIGN_INVOICE_ITEM",
+      "title": "به روز رسانی اقلام صورتحساب فروش خارجی"
     },
     {
-      "code": "C_FOREIGN_INVOICE_ITEM_DETAIL",
-      "title": "ایجاد جزییات اقلام صورتحساب فروش خارجی"
+      "code": "A_FOREIGN_INVOICE_ITEM",
+      "title": "فعالسازی اقلام صورتحساب فروش خارجی"
     },
     {
-      "code": "U_FOREIGN_INVOICE_ITEM_DETAIL",
-      "title": "به روز رسانی جزییات اقلام صورتحساب فروش خارجی"
+      "code": "I_FOREIGN_INVOICE_ITEM",
+      "title": "غیرفعالسازی اقلام صورتحساب فروش خارجی"
     },
     {
-      "code": "D_FOREIGN_INVOICE_ITEM_DETAIL",
-      "title": "حذف جزییات اقلام صورتحساب فروش خارجی"
+      "code": "F_FOREIGN_INVOICE_ITEM",
+      "title": "تائید نهایی اقلام صورتحساب فروش خارجی"
     },
     {
-      "code": "R_FOREIGN_INVOICE_PAYMENT",
-      "title": "نمایش پرداخت صورتحساب فروش خارجی"
+      "code": "O_FOREIGN_INVOICE_ITEM",
+      "title": "لغو تائید نهایی اقلام صورتحساب فروش خارجی"
     },
     {
-      "code": "C_FOREIGN_INVOICE_PAYMENT",
-      "title": "ایجاد پرداخت صورتحساب فروش خارجی"
+      "code": "R_INVOICE_SALES_ITEM",
+      "title": "نمایش آیتم فاکتورفروش متفرقه"
     },
     {
-      "code": "U_FOREIGN_INVOICE_PAYMENT",
-      "title": "به روز رسانی پرداخت صورتحساب فروش خارجی"
+      "code": "C_INVOICE_SALES_ITEM",
+      "title": "ایجاد آیتم فاکتورفروش متفرقه"
     },
     {
-      "code": "D_FOREIGN_INVOICE_PAYMENT",
-      "title": "حذف پرداخت صورتحساب فروش خارجی"
+      "code": "D_INVOICE_SALES_ITEM",
+      "title": "حذف آیتم فاکتورفروش متفرقه"
     },
     {
-      "code": "R_VESSEL",
-      "title": "نمایش کشتی"
+      "code": "U_INVOICE_SALES_ITEM",
+      "title": "به روز رسانی آیتم فاکتورفروش متفرقه"
     },
     {
-      "code": "C_VESSEL",
-      "title": "ایجاد کشتی"
+      "code": "A_INVOICE_SALES_ITEM",
+      "title": "فعالسازی آیتم فاکتورفروش متفرقه"
     },
     {
-      "code": "U_VESSEL",
-      "title": "به روز رسانی کشتی"
+      "code": "I_INVOICE_SALES_ITEM",
+      "title": "غیرفعالسازی آیتم فاکتورفروش متفرقه"
     },
     {
-      "code": "D_VESSEL",
-      "title": "حذف کشتی"
+      "code": "F_INVOICE_SALES_ITEM",
+      "title": "تائید نهایی آیتم فاکتورفروش متفرقه"
+    },
+    {
+      "code": "O_INVOICE_SALES_ITEM",
+      "title": "لغو تائید نهایی آیتم فاکتورفروش متفرقه"
+    },
+    {
+      "code": "R_COUNTRY",
+      "title": "نمایش کشور"
+    },
+    {
+      "code": "C_COUNTRY",
+      "title": "ایجاد کشور"
+    },
+    {
+      "code": "D_COUNTRY",
+      "title": "حذف کشور"
+    },
+    {
+      "code": "U_COUNTRY",
+      "title": "به روز رسانی کشور"
+    },
+    {
+      "code": "A_COUNTRY",
+      "title": "فعالسازی کشور"
+    },
+    {
+      "code": "I_COUNTRY",
+      "title": "غیرفعالسازی کشور"
+    },
+    {
+      "code": "F_COUNTRY",
+      "title": "تائید نهایی کشور"
+    },
+    {
+      "code": "O_COUNTRY",
+      "title": "لغو تائید نهایی کشور"
+    },
+    {
+      "code": "R_WARH_TOZIN",
+      "title": "نمایش جدول توزین"
+    },
+    {
+      "code": "C_WARH_TOZIN",
+      "title": "ایجاد جدول توزین"
+    },
+    {
+      "code": "D_WARH_TOZIN",
+      "title": "حذف جدول توزین"
+    },
+    {
+      "code": "U_WARH_TOZIN",
+      "title": "به روز رسانی جدول توزین"
+    },
+    {
+      "code": "A_WARH_TOZIN",
+      "title": "فعالسازی جدول توزین"
+    },
+    {
+      "code": "I_WARH_TOZIN",
+      "title": "غیرفعالسازی جدول توزین"
+    },
+    {
+      "code": "F_WARH_TOZIN",
+      "title": "تائید نهایی جدول توزین"
+    },
+    {
+      "code": "O_WARH_TOZIN",
+      "title": "لغو تائید نهایی جدول توزین"
+    },
+    {
+      "code": "R_SALES_TYPE",
+      "title": "نمایش نوع فروش"
+    },
+    {
+      "code": "C_SALES_TYPE",
+      "title": "ایجاد نوع فروش"
+    },
+    {
+      "code": "D_SALES_TYPE",
+      "title": "حذف نوع فروش"
+    },
+    {
+      "code": "U_SALES_TYPE",
+      "title": "به روز رسانی نوع فروش"
+    },
+    {
+      "code": "A_SALES_TYPE",
+      "title": "فعالسازی نوع فروش"
+    },
+    {
+      "code": "I_SALES_TYPE",
+      "title": "غیرفعالسازی نوع فروش"
+    },
+    {
+      "code": "F_SALES_TYPE",
+      "title": "تائید نهایی نوع فروش"
+    },
+    {
+      "code": "O_SALES_TYPE",
+      "title": "لغو تائید نهایی نوع فروش"
+    },
+    {
+      "code": "R_CNTR_BILL_OF_LANDING",
+      "title": "نمایش بارنامه"
+    },
+    {
+      "code": "C_CNTR_BILL_OF_LANDING",
+      "title": "ایجاد بارنامه"
+    },
+    {
+      "code": "D_CNTR_BILL_OF_LANDING",
+      "title": "حذف بارنامه"
+    },
+    {
+      "code": "U_CNTR_BILL_OF_LANDING",
+      "title": "به روز رسانی بارنامه"
+    },
+    {
+      "code": "A_CNTR_BILL_OF_LANDING",
+      "title": "فعالسازی بارنامه"
+    },
+    {
+      "code": "I_CNTR_BILL_OF_LANDING",
+      "title": "غیرفعالسازی بارنامه"
+    },
+    {
+      "code": "F_CNTR_BILL_OF_LANDING",
+      "title": "تائید نهایی بارنامه"
+    },
+    {
+      "code": "O_CNTR_BILL_OF_LANDING",
+      "title": "لغو تائید نهایی بارنامه"
+    },
+    {
+      "code": "R_ASSAY_INSPECTION",
+      "title": "نمایش گزارش بازرسی محتوی"
+    },
+    {
+      "code": "C_ASSAY_INSPECTION",
+      "title": "ایجاد گزارش بازرسی محتوی"
+    },
+    {
+      "code": "D_ASSAY_INSPECTION",
+      "title": "حذف گزارش بازرسی محتوی"
+    },
+    {
+      "code": "U_ASSAY_INSPECTION",
+      "title": "به روز رسانی گزارش بازرسی محتوی"
+    },
+    {
+      "code": "A_ASSAY_INSPECTION",
+      "title": "فعالسازی گزارش بازرسی محتوی"
+    },
+    {
+      "code": "I_ASSAY_INSPECTION",
+      "title": "غیرفعالسازی گزارش بازرسی محتوی"
+    },
+    {
+      "code": "F_ASSAY_INSPECTION",
+      "title": "تائید نهایی گزارش بازرسی محتوی"
+    },
+    {
+      "code": "O_ASSAY_INSPECTION",
+      "title": "لغو تائید نهایی گزارش بازرسی محتوی"
+    },
+    {
+      "code": "R_CNTR_CONTRACT_DETAIL_TYPE_TEMPLATE",
+      "title": "نمایش الگوی نوع جزییات قرارداد"
+    },
+    {
+      "code": "C_CNTR_CONTRACT_DETAIL_TYPE_TEMPLATE",
+      "title": "ایجاد الگوی نوع جزییات قرارداد"
+    },
+    {
+      "code": "D_CNTR_CONTRACT_DETAIL_TYPE_TEMPLATE",
+      "title": "حذف الگوی نوع جزییات قرارداد"
+    },
+    {
+      "code": "U_CNTR_CONTRACT_DETAIL_TYPE_TEMPLATE",
+      "title": "به روز رسانی الگوی نوع جزییات قرارداد"
+    },
+    {
+      "code": "A_CNTR_CONTRACT_DETAIL_TYPE_TEMPLATE",
+      "title": "فعالسازی الگوی نوع جزییات قرارداد"
+    },
+    {
+      "code": "I_CNTR_CONTRACT_DETAIL_TYPE_TEMPLATE",
+      "title": "غیرفعالسازی الگوی نوع جزییات قرارداد"
+    },
+    {
+      "code": "F_CNTR_CONTRACT_DETAIL_TYPE_TEMPLATE",
+      "title": "تائید نهایی الگوی نوع جزییات قرارداد"
+    },
+    {
+      "code": "O_CNTR_CONTRACT_DETAIL_TYPE_TEMPLATE",
+      "title": "لغو تائید نهایی الگوی نوع جزییات قرارداد"
+    },
+    {
+      "code": "R_CNTR_INCOTERM_FORMS",
+      "title": "نمایش فرم فروش مد جزییات اینکوترم"
+    },
+    {
+      "code": "C_CNTR_INCOTERM_FORMS",
+      "title": "ایجاد فرم فروش مد جزییات اینکوترم"
+    },
+    {
+      "code": "D_CNTR_INCOTERM_FORMS",
+      "title": "حذف فرم فروش مد جزییات اینکوترم"
+    },
+    {
+      "code": "U_CNTR_INCOTERM_FORMS",
+      "title": "به روز رسانی فرم فروش مد جزییات اینکوترم"
+    },
+    {
+      "code": "A_CNTR_INCOTERM_FORMS",
+      "title": "فعالسازی فرم فروش مد جزییات اینکوترم"
+    },
+    {
+      "code": "I_CNTR_INCOTERM_FORMS",
+      "title": "غیرفعالسازی فرم فروش مد جزییات اینکوترم"
+    },
+    {
+      "code": "F_CNTR_INCOTERM_FORMS",
+      "title": "تائید نهایی فرم فروش مد جزییات اینکوترم"
+    },
+    {
+      "code": "O_CNTR_INCOTERM_FORMS",
+      "title": "لغو تائید نهایی فرم فروش مد جزییات اینکوترم"
+    },
+    {
+      "code": "R_SHIPMENT_COST_DUTY",
+      "title": "نمایش خدمت"
+    },
+    {
+      "code": "C_SHIPMENT_COST_DUTY",
+      "title": "ایجاد خدمت"
+    },
+    {
+      "code": "D_SHIPMENT_COST_DUTY",
+      "title": "حذف خدمت"
+    },
+    {
+      "code": "U_SHIPMENT_COST_DUTY",
+      "title": "به روز رسانی خدمت"
+    },
+    {
+      "code": "A_SHIPMENT_COST_DUTY",
+      "title": "فعالسازی خدمت"
+    },
+    {
+      "code": "I_SHIPMENT_COST_DUTY",
+      "title": "غیرفعالسازی خدمت"
+    },
+    {
+      "code": "F_SHIPMENT_COST_DUTY",
+      "title": "تائید نهایی خدمت"
+    },
+    {
+      "code": "O_SHIPMENT_COST_DUTY",
+      "title": "لغو تائید نهایی خدمت"
+    },
+    {
+      "code": "R_CNTR_CONTAINER_TO_BILL_OF_LANDING",
+      "title": "نمایش کانتینر بارنامه"
+    },
+    {
+      "code": "C_CNTR_CONTAINER_TO_BILL_OF_LANDING",
+      "title": "ایجاد کانتینر بارنامه"
+    },
+    {
+      "code": "D_CNTR_CONTAINER_TO_BILL_OF_LANDING",
+      "title": "حذف کانتینر بارنامه"
+    },
+    {
+      "code": "U_CNTR_CONTAINER_TO_BILL_OF_LANDING",
+      "title": "به روز رسانی کانتینر بارنامه"
+    },
+    {
+      "code": "A_CNTR_CONTAINER_TO_BILL_OF_LANDING",
+      "title": "فعالسازی کانتینر بارنامه"
+    },
+    {
+      "code": "I_CNTR_CONTAINER_TO_BILL_OF_LANDING",
+      "title": "غیرفعالسازی کانتینر بارنامه"
+    },
+    {
+      "code": "F_CNTR_CONTAINER_TO_BILL_OF_LANDING",
+      "title": "تائید نهایی کانتینر بارنامه"
+    },
+    {
+      "code": "O_CNTR_CONTAINER_TO_BILL_OF_LANDING",
+      "title": "لغو تائید نهایی کانتینر بارنامه"
+    },
+    {
+      "code": "R_PERSON",
+      "title": "نمایش شخص"
+    },
+    {
+      "code": "C_PERSON",
+      "title": "ایجاد شخص"
+    },
+    {
+      "code": "D_PERSON",
+      "title": "حذف شخص"
+    },
+    {
+      "code": "U_PERSON",
+      "title": "به روز رسانی شخص"
+    },
+    {
+      "code": "A_PERSON",
+      "title": "فعالسازی شخص"
+    },
+    {
+      "code": "I_PERSON",
+      "title": "غیرفعالسازی شخص"
+    },
+    {
+      "code": "F_PERSON",
+      "title": "تائید نهایی شخص"
+    },
+    {
+      "code": "O_PERSON",
+      "title": "لغو تائید نهایی شخص"
+    },
+    {
+      "code": "R_CONTRACT_SHIPMENT",
+      "title": "نمایش حمل های قرارداد"
+    },
+    {
+      "code": "C_CONTRACT_SHIPMENT",
+      "title": "ایجاد حمل های قرارداد"
+    },
+    {
+      "code": "D_CONTRACT_SHIPMENT",
+      "title": "حذف حمل های قرارداد"
+    },
+    {
+      "code": "U_CONTRACT_SHIPMENT",
+      "title": "به روز رسانی حمل های قرارداد"
+    },
+    {
+      "code": "A_CONTRACT_SHIPMENT",
+      "title": "فعالسازی حمل های قرارداد"
+    },
+    {
+      "code": "I_CONTRACT_SHIPMENT",
+      "title": "غیرفعالسازی حمل های قرارداد"
+    },
+    {
+      "code": "F_CONTRACT_SHIPMENT",
+      "title": "تائید نهایی حمل های قرارداد"
+    },
+    {
+      "code": "O_CONTRACT_SHIPMENT",
+      "title": "لغو تائید نهایی حمل های قرارداد"
+    },
+    {
+      "code": "R_TYPICAL_ASSAY",
+      "title": "نمایش عناصر نمونه"
+    },
+    {
+      "code": "C_TYPICAL_ASSAY",
+      "title": "ایجاد عناصر نمونه"
+    },
+    {
+      "code": "D_TYPICAL_ASSAY",
+      "title": "حذف عناصر نمونه"
+    },
+    {
+      "code": "U_TYPICAL_ASSAY",
+      "title": "به روز رسانی عناصر نمونه"
+    },
+    {
+      "code": "A_TYPICAL_ASSAY",
+      "title": "فعالسازی عناصر نمونه"
+    },
+    {
+      "code": "I_TYPICAL_ASSAY",
+      "title": "غیرفعالسازی عناصر نمونه"
+    },
+    {
+      "code": "F_TYPICAL_ASSAY",
+      "title": "تائید نهایی عناصر نمونه"
+    },
+    {
+      "code": "O_TYPICAL_ASSAY",
+      "title": "لغو تائید نهایی عناصر نمونه"
+    },
+    {
+      "code": "R_CNTR_CONTRACT_DETAIL_TYPE_PARAM",
+      "title": "نمایش پارامتر نوع جزییات قرارداد"
+    },
+    {
+      "code": "C_CNTR_CONTRACT_DETAIL_TYPE_PARAM",
+      "title": "ایجاد پارامتر نوع جزییات قرارداد"
+    },
+    {
+      "code": "D_CNTR_CONTRACT_DETAIL_TYPE_PARAM",
+      "title": "حذف پارامتر نوع جزییات قرارداد"
+    },
+    {
+      "code": "U_CNTR_CONTRACT_DETAIL_TYPE_PARAM",
+      "title": "به روز رسانی پارامتر نوع جزییات قرارداد"
+    },
+    {
+      "code": "A_CNTR_CONTRACT_DETAIL_TYPE_PARAM",
+      "title": "فعالسازی پارامتر نوع جزییات قرارداد"
+    },
+    {
+      "code": "I_CNTR_CONTRACT_DETAIL_TYPE_PARAM",
+      "title": "غیرفعالسازی پارامتر نوع جزییات قرارداد"
+    },
+    {
+      "code": "F_CNTR_CONTRACT_DETAIL_TYPE_PARAM",
+      "title": "تائید نهایی پارامتر نوع جزییات قرارداد"
+    },
+    {
+      "code": "O_CNTR_CONTRACT_DETAIL_TYPE_PARAM",
+      "title": "لغو تائید نهایی پارامتر نوع جزییات قرارداد"
+    },
+    {
+      "code": "R_Tozin",
+      "title": "نمایش توزین"
     },
     {
       "code": "R_INSPECTION_REPORT",
@@ -1401,65 +557,488 @@
       "title": "ایجاد گزارش بازرسی"
     },
     {
-      "code": "U_INSPECTION_REPORT",
-      "title": "به روز رسانی گزارش بازرسی"
-    },
-    {
       "code": "D_INSPECTION_REPORT",
       "title": "حذف گزارش بازرسی"
     },
     {
+      "code": "U_INSPECTION_REPORT",
+      "title": "به روز رسانی گزارش بازرسی"
+    },
+    {
+      "code": "A_INSPECTION_REPORT",
+      "title": "فعالسازی گزارش بازرسی"
+    },
+    {
+      "code": "I_INSPECTION_REPORT",
+      "title": "غیرفعالسازی گزارش بازرسی"
+    },
+    {
       "code": "F_INSPECTION_REPORT",
-      "title": "تایید نهایی گزارش بازرسی"
-    },
-
-    {
-      "code": "R_ASSAY_INSPECTION",
-      "title": "نمایش بازرسی محتوا"
+      "title": "تائید نهایی گزارش بازرسی"
     },
     {
-      "code": "C_ASSAY_INSPECTION",
-      "title": "ایجاد بازرسی محتوا"
+      "code": "O_INSPECTION_REPORT",
+      "title": "لغو تائید نهایی گزارش بازرسی"
     },
     {
-      "code": "U_ASSAY_INSPECTION",
-      "title": "به روز رسانی بازرسی محتوا"
+      "code": "R_WARH_STORE",
+      "title": "نمایش سوله-محوطه"
     },
     {
-      "code": "D_ASSAY_INSPECTION",
-      "title": "حذف بازرسی محتوا"
+      "code": "C_WARH_STORE",
+      "title": "ایجاد سوله-محوطه"
     },
     {
-      "code": "R_WEIGHT_INSPECTION",
-      "title": "نمایش بازرسی وزن"
+      "code": "D_WARH_STORE",
+      "title": "حذف سوله-محوطه"
     },
     {
-      "code": "C_WEIGHT_INSPECTION",
-      "title": "ایجاد بازرسی وزن"
+      "code": "U_WARH_STORE",
+      "title": "به روز رسانی سوله-محوطه"
     },
     {
-      "code": "U_WEIGHT_INSPECTION",
-      "title": "به روز رسانی بازرسی وزن"
+      "code": "A_WARH_STORE",
+      "title": "فعالسازی سوله-محوطه"
     },
     {
-      "code": "D_WEIGHT_INSPECTION",
-      "title": "حذف بازرسی وزن"
+      "code": "I_WARH_STORE",
+      "title": "غیرفعالسازی سوله-محوطه"
     },
     {
-      "code": "R_INVOICE_TYPE",
-      "title": "نمایش نوع صورتحساب"
+      "code": "F_WARH_STORE",
+      "title": "تائید نهایی سوله-محوطه"
     },
     {
-      "code": "C_INVOICE_TYPE",
-      "title": "ایجاد نوع صورتحساب"
+      "code": "O_WARH_STORE",
+      "title": "لغو تائید نهایی سوله-محوطه"
     },
     {
-      "code": "U_INVOICE_TYPE",
-      "title": "به روز رسانی نوع صورتحساب"
+      "code": "R_CNTR_INCOTERM_RULES",
+      "title": "نمایش مد جزییات اینکوترم"
     },
     {
-      "code": "D_INVOICE_TYPE",
-      "title": "حذف نوع صورتحساب"
+      "code": "C_CNTR_INCOTERM_RULES",
+      "title": "ایجاد مد جزییات اینکوترم"
+    },
+    {
+      "code": "D_CNTR_INCOTERM_RULES",
+      "title": "حذف مد جزییات اینکوترم"
+    },
+    {
+      "code": "U_CNTR_INCOTERM_RULES",
+      "title": "به روز رسانی مد جزییات اینکوترم"
+    },
+    {
+      "code": "A_CNTR_INCOTERM_RULES",
+      "title": "فعالسازی مد جزییات اینکوترم"
+    },
+    {
+      "code": "I_CNTR_INCOTERM_RULES",
+      "title": "غیرفعالسازی مد جزییات اینکوترم"
+    },
+    {
+      "code": "F_CNTR_INCOTERM_RULES",
+      "title": "تائید نهایی مد جزییات اینکوترم"
+    },
+    {
+      "code": "O_CNTR_INCOTERM_RULES",
+      "title": "لغو تائید نهایی مد جزییات اینکوترم"
+    },
+    {
+      "code": "R_SHIPMENT",
+      "title": "نمایش حمل"
+    },
+    {
+      "code": "C_SHIPMENT",
+      "title": "ایجاد حمل"
+    },
+    {
+      "code": "D_SHIPMENT",
+      "title": "حذف حمل"
+    },
+    {
+      "code": "U_SHIPMENT",
+      "title": "به روز رسانی حمل"
+    },
+    {
+      "code": "A_SHIPMENT",
+      "title": "فعالسازی حمل"
+    },
+    {
+      "code": "I_SHIPMENT",
+      "title": "غیرفعالسازی حمل"
+    },
+    {
+      "code": "F_SHIPMENT",
+      "title": "تائید نهایی حمل"
+    },
+    {
+      "code": "O_SHIPMENT",
+      "title": "لغو تائید نهایی حمل"
+    },
+    {
+      "code": "R_BANK",
+      "title": "نمایش بانک"
+    },
+    {
+      "code": "C_BANK",
+      "title": "ایجاد بانک"
+    },
+    {
+      "code": "D_BANK",
+      "title": "حذف بانک"
+    },
+    {
+      "code": "U_BANK",
+      "title": "به روز رسانی بانک"
+    },
+    {
+      "code": "A_BANK",
+      "title": "فعالسازی بانک"
+    },
+    {
+      "code": "I_BANK",
+      "title": "غیرفعالسازی بانک"
+    },
+    {
+      "code": "F_BANK",
+      "title": "تائید نهایی بانک"
+    },
+    {
+      "code": "O_BANK",
+      "title": "لغو تائید نهایی بانک"
+    },
+    {
+      "code": "R_WARH_MATERIAL_ELEMENT",
+      "title": "نمایش عنصر"
+    },
+    {
+      "code": "C_WARH_MATERIAL_ELEMENT",
+      "title": "ایجاد عنصر"
+    },
+    {
+      "code": "D_WARH_MATERIAL_ELEMENT",
+      "title": "حذف عنصر"
+    },
+    {
+      "code": "U_WARH_MATERIAL_ELEMENT",
+      "title": "به روز رسانی عنصر"
+    },
+    {
+      "code": "A_WARH_MATERIAL_ELEMENT",
+      "title": "فعالسازی عنصر"
+    },
+    {
+      "code": "I_WARH_MATERIAL_ELEMENT",
+      "title": "غیرفعالسازی عنصر"
+    },
+    {
+      "code": "F_WARH_MATERIAL_ELEMENT",
+      "title": "تائید نهایی عنصر"
+    },
+    {
+      "code": "O_WARH_MATERIAL_ELEMENT",
+      "title": "لغو تائید نهایی عنصر"
+    },
+    {
+      "code": "R_ViewCustomer",
+      "title": "نمایش entity.view-customer"
+    },
+    {
+      "code": "R_ViewInternalInvoiceDocument",
+      "title": "نمایش سند فاکتور فروش داخلی"
+    },
+    {
+      "code": "R_CNTR_INCOTERM_DETAIL",
+      "title": "نمایش جزییات اینکوترم"
+    },
+    {
+      "code": "C_CNTR_INCOTERM_DETAIL",
+      "title": "ایجاد جزییات اینکوترم"
+    },
+    {
+      "code": "D_CNTR_INCOTERM_DETAIL",
+      "title": "حذف جزییات اینکوترم"
+    },
+    {
+      "code": "U_CNTR_INCOTERM_DETAIL",
+      "title": "به روز رسانی جزییات اینکوترم"
+    },
+    {
+      "code": "A_CNTR_INCOTERM_DETAIL",
+      "title": "فعالسازی جزییات اینکوترم"
+    },
+    {
+      "code": "I_CNTR_INCOTERM_DETAIL",
+      "title": "غیرفعالسازی جزییات اینکوترم"
+    },
+    {
+      "code": "F_CNTR_INCOTERM_DETAIL",
+      "title": "تائید نهایی جزییات اینکوترم"
+    },
+    {
+      "code": "O_CNTR_INCOTERM_DETAIL",
+      "title": "لغو تائید نهایی جزییات اینکوترم"
+    },
+    {
+      "code": "R_PRICE_BASE",
+      "title": "نمایش قیمت پایه عنصر"
+    },
+    {
+      "code": "C_PRICE_BASE",
+      "title": "ایجاد قیمت پایه عنصر"
+    },
+    {
+      "code": "D_PRICE_BASE",
+      "title": "حذف قیمت پایه عنصر"
+    },
+    {
+      "code": "U_PRICE_BASE",
+      "title": "به روز رسانی قیمت پایه عنصر"
+    },
+    {
+      "code": "A_PRICE_BASE",
+      "title": "فعالسازی قیمت پایه عنصر"
+    },
+    {
+      "code": "I_PRICE_BASE",
+      "title": "غیرفعالسازی قیمت پایه عنصر"
+    },
+    {
+      "code": "F_PRICE_BASE",
+      "title": "تائید نهایی قیمت پایه عنصر"
+    },
+    {
+      "code": "O_PRICE_BASE",
+      "title": "لغو تائید نهایی قیمت پایه عنصر"
+    },
+    {
+      "code": "R_CONTACT_ACCOUNT",
+      "title": "نمایش حساب بانکی طرف تجاری"
+    },
+    {
+      "code": "C_CONTACT_ACCOUNT",
+      "title": "ایجاد حساب بانکی طرف تجاری"
+    },
+    {
+      "code": "D_CONTACT_ACCOUNT",
+      "title": "حذف حساب بانکی طرف تجاری"
+    },
+    {
+      "code": "U_CONTACT_ACCOUNT",
+      "title": "به روز رسانی حساب بانکی طرف تجاری"
+    },
+    {
+      "code": "A_CONTACT_ACCOUNT",
+      "title": "فعالسازی حساب بانکی طرف تجاری"
+    },
+    {
+      "code": "I_CONTACT_ACCOUNT",
+      "title": "غیرفعالسازی حساب بانکی طرف تجاری"
+    },
+    {
+      "code": "F_CONTACT_ACCOUNT",
+      "title": "تائید نهایی حساب بانکی طرف تجاری"
+    },
+    {
+      "code": "O_CONTACT_ACCOUNT",
+      "title": "لغو تائید نهایی حساب بانکی طرف تجاری"
+    },
+    {
+      "code": "R_WEIGHING_INSPECTION",
+      "title": "نمایش گزارش بازرسی وزن"
+    },
+    {
+      "code": "C_WEIGHING_INSPECTION",
+      "title": "ایجاد گزارش بازرسی وزن"
+    },
+    {
+      "code": "D_WEIGHING_INSPECTION",
+      "title": "حذف گزارش بازرسی وزن"
+    },
+    {
+      "code": "U_WEIGHING_INSPECTION",
+      "title": "به روز رسانی گزارش بازرسی وزن"
+    },
+    {
+      "code": "A_WEIGHING_INSPECTION",
+      "title": "فعالسازی گزارش بازرسی وزن"
+    },
+    {
+      "code": "I_WEIGHING_INSPECTION",
+      "title": "غیرفعالسازی گزارش بازرسی وزن"
+    },
+    {
+      "code": "F_WEIGHING_INSPECTION",
+      "title": "تائید نهایی گزارش بازرسی وزن"
+    },
+    {
+      "code": "O_WEIGHING_INSPECTION",
+      "title": "لغو تائید نهایی گزارش بازرسی وزن"
+    },
+    {
+      "code": "R_WARH_ELEMENT",
+      "title": "نمایش عنصر"
+    },
+    {
+      "code": "C_WARH_ELEMENT",
+      "title": "ایجاد عنصر"
+    },
+    {
+      "code": "D_WARH_ELEMENT",
+      "title": "حذف عنصر"
+    },
+    {
+      "code": "U_WARH_ELEMENT",
+      "title": "به روز رسانی عنصر"
+    },
+    {
+      "code": "A_WARH_ELEMENT",
+      "title": "فعالسازی عنصر"
+    },
+    {
+      "code": "I_WARH_ELEMENT",
+      "title": "غیرفعالسازی عنصر"
+    },
+    {
+      "code": "F_WARH_ELEMENT",
+      "title": "تائید نهایی عنصر"
+    },
+    {
+      "code": "O_WARH_ELEMENT",
+      "title": "لغو تائید نهایی عنصر"
+    },
+    {
+      "code": "R_DCC",
+      "title": "نمایش پیوست"
+    },
+    {
+      "code": "C_DCC",
+      "title": "ایجاد پیوست"
+    },
+    {
+      "code": "D_DCC",
+      "title": "حذف پیوست"
+    },
+    {
+      "code": "U_DCC",
+      "title": "به روز رسانی پیوست"
+    },
+    {
+      "code": "A_DCC",
+      "title": "فعالسازی پیوست"
+    },
+    {
+      "code": "I_DCC",
+      "title": "غیرفعالسازی پیوست"
+    },
+    {
+      "code": "F_DCC",
+      "title": "تائید نهایی پیوست"
+    },
+    {
+      "code": "O_DCC",
+      "title": "لغو تائید نهایی پیوست"
+    },
+    {
+      "code": "R_UNIT",
+      "title": "نمایش واحد"
+    },
+    {
+      "code": "C_UNIT",
+      "title": "ایجاد واحد"
+    },
+    {
+      "code": "D_UNIT",
+      "title": "حذف واحد"
+    },
+    {
+      "code": "U_UNIT",
+      "title": "به روز رسانی واحد"
+    },
+    {
+      "code": "A_UNIT",
+      "title": "فعالسازی واحد"
+    },
+    {
+      "code": "I_UNIT",
+      "title": "غیرفعالسازی واحد"
+    },
+    {
+      "code": "F_UNIT",
+      "title": "تائید نهایی واحد"
+    },
+    {
+      "code": "O_UNIT",
+      "title": "لغو تائید نهایی واحد"
+    },
+    {
+      "code": "R_CONTACT",
+      "title": "نمایش طرف حساب تجاری"
+    },
+    {
+      "code": "C_CONTACT",
+      "title": "ایجاد طرف حساب تجاری"
+    },
+    {
+      "code": "D_CONTACT",
+      "title": "حذف طرف حساب تجاری"
+    },
+    {
+      "code": "U_CONTACT",
+      "title": "به روز رسانی طرف حساب تجاری"
+    },
+    {
+      "code": "A_CONTACT",
+      "title": "فعالسازی طرف حساب تجاری"
+    },
+    {
+      "code": "I_CONTACT",
+      "title": "غیرفعالسازی طرف حساب تجاری"
+    },
+    {
+      "code": "F_CONTACT",
+      "title": "تائید نهایی طرف حساب تجاری"
+    },
+    {
+      "code": "O_CONTACT",
+      "title": "لغو تائید نهایی طرف حساب تجاری"
+    },
+    {
+      "code": "R_CNTR_INCOTERM_VERSION",
+      "title": "نمایش ورژن اینکوترم"
+    },
+    {
+      "code": "C_CNTR_INCOTERM_VERSION",
+      "title": "ایجاد ورژن اینکوترم"
+    },
+    {
+      "code": "D_CNTR_INCOTERM_VERSION",
+      "title": "حذف ورژن اینکوترم"
+    },
+    {
+      "code": "U_CNTR_INCOTERM_VERSION",
+      "title": "به روز رسانی ورژن اینکوترم"
+    },
+    {
+      "code": "A_CNTR_INCOTERM_VERSION",
+      "title": "فعالسازی ورژن اینکوترم"
+    },
+    {
+      "code": "I_CNTR_INCOTERM_VERSION",
+      "title": "غیرفعالسازی ورژن اینکوترم"
+    },
+    {
+      "code": "F_CNTR_INCOTERM_VERSION",
+      "title": "تائید نهایی ورژن اینکوترم"
+    },
+    {
+      "code": "O_CNTR_INCOTERM_VERSION",
+      "title": "لغو تائید نهایی ورژن اینکوترم"
+    },
+    {
+      "code": "R_CathodeList",
+      "title": "نمایش لیست کاتد"
     },
     {
       "code": "R_SHIPMENT_TYPE",
@@ -1470,12 +1049,412 @@
       "title": "ایجاد نوع حمل"
     },
     {
+      "code": "D_SHIPMENT_TYPE",
+      "title": "حذف نوع حمل"
+    },
+    {
       "code": "U_SHIPMENT_TYPE",
       "title": "به روز رسانی نوع حمل"
     },
     {
-      "code": "D_SHIPMENT_TYPE",
-      "title": "حذف نوع حمل"
+      "code": "A_SHIPMENT_TYPE",
+      "title": "فعالسازی نوع حمل"
+    },
+    {
+      "code": "I_SHIPMENT_TYPE",
+      "title": "غیرفعالسازی نوع حمل"
+    },
+    {
+      "code": "F_SHIPMENT_TYPE",
+      "title": "تائید نهایی نوع حمل"
+    },
+    {
+      "code": "O_SHIPMENT_TYPE",
+      "title": "لغو تائید نهایی نوع حمل"
+    },
+    {
+      "code": "R_FOREIGN_INVOICE",
+      "title": "نمایش فاکتور فروش خارجی"
+    },
+    {
+      "code": "C_FOREIGN_INVOICE",
+      "title": "ایجاد فاکتور فروش خارجی"
+    },
+    {
+      "code": "D_FOREIGN_INVOICE",
+      "title": "حذف فاکتور فروش خارجی"
+    },
+    {
+      "code": "U_FOREIGN_INVOICE",
+      "title": "به روز رسانی فاکتور فروش خارجی"
+    },
+    {
+      "code": "A_FOREIGN_INVOICE",
+      "title": "فعالسازی فاکتور فروش خارجی"
+    },
+    {
+      "code": "I_FOREIGN_INVOICE",
+      "title": "غیرفعالسازی فاکتور فروش خارجی"
+    },
+    {
+      "code": "F_FOREIGN_INVOICE",
+      "title": "تائید نهایی فاکتور فروش خارجی"
+    },
+    {
+      "code": "O_FOREIGN_INVOICE",
+      "title": "لغو تائید نهایی فاکتور فروش خارجی"
+    },
+    {
+      "code": "R_CNTR_INCOTERM_PARTIES",
+      "title": "نمایش طرف قرارداد در جزییات اینکوترم"
+    },
+    {
+      "code": "C_CNTR_INCOTERM_PARTIES",
+      "title": "ایجاد طرف قرارداد در جزییات اینکوترم"
+    },
+    {
+      "code": "D_CNTR_INCOTERM_PARTIES",
+      "title": "حذف طرف قرارداد در جزییات اینکوترم"
+    },
+    {
+      "code": "U_CNTR_INCOTERM_PARTIES",
+      "title": "به روز رسانی طرف قرارداد در جزییات اینکوترم"
+    },
+    {
+      "code": "A_CNTR_INCOTERM_PARTIES",
+      "title": "فعالسازی طرف قرارداد در جزییات اینکوترم"
+    },
+    {
+      "code": "I_CNTR_INCOTERM_PARTIES",
+      "title": "غیرفعالسازی طرف قرارداد در جزییات اینکوترم"
+    },
+    {
+      "code": "F_CNTR_INCOTERM_PARTIES",
+      "title": "تائید نهایی طرف قرارداد در جزییات اینکوترم"
+    },
+    {
+      "code": "O_CNTR_INCOTERM_PARTIES",
+      "title": "لغو تائید نهایی طرف قرارداد در جزییات اینکوترم"
+    },
+    {
+      "code": "R_CURRENCY_RATE",
+      "title": "نمایش نرخ تبدیل عرض"
+    },
+    {
+      "code": "C_CURRENCY_RATE",
+      "title": "ایجاد نرخ تبدیل عرض"
+    },
+    {
+      "code": "D_CURRENCY_RATE",
+      "title": "حذف نرخ تبدیل عرض"
+    },
+    {
+      "code": "U_CURRENCY_RATE",
+      "title": "به روز رسانی نرخ تبدیل عرض"
+    },
+    {
+      "code": "A_CURRENCY_RATE",
+      "title": "فعالسازی نرخ تبدیل عرض"
+    },
+    {
+      "code": "I_CURRENCY_RATE",
+      "title": "غیرفعالسازی نرخ تبدیل عرض"
+    },
+    {
+      "code": "F_CURRENCY_RATE",
+      "title": "تائید نهایی نرخ تبدیل عرض"
+    },
+    {
+      "code": "O_CURRENCY_RATE",
+      "title": "لغو تائید نهایی نرخ تبدیل عرض"
+    },
+    {
+      "code": "R_SHIPMENT_COST_INVOICE_DETAIL",
+      "title": "نمایش جزئیات هزینه های حمل"
+    },
+    {
+      "code": "C_SHIPMENT_COST_INVOICE_DETAIL",
+      "title": "ایجاد جزئیات هزینه های حمل"
+    },
+    {
+      "code": "D_SHIPMENT_COST_INVOICE_DETAIL",
+      "title": "حذف جزئیات هزینه های حمل"
+    },
+    {
+      "code": "U_SHIPMENT_COST_INVOICE_DETAIL",
+      "title": "به روز رسانی جزئیات هزینه های حمل"
+    },
+    {
+      "code": "A_SHIPMENT_COST_INVOICE_DETAIL",
+      "title": "فعالسازی جزئیات هزینه های حمل"
+    },
+    {
+      "code": "I_SHIPMENT_COST_INVOICE_DETAIL",
+      "title": "غیرفعالسازی جزئیات هزینه های حمل"
+    },
+    {
+      "code": "F_SHIPMENT_COST_INVOICE_DETAIL",
+      "title": "تائید نهایی جزئیات هزینه های حمل"
+    },
+    {
+      "code": "O_SHIPMENT_COST_INVOICE_DETAIL",
+      "title": "لغو تائید نهایی جزئیات هزینه های حمل"
+    },
+    {
+      "code": "R_CNTR_CONTRACT_DETAIL_VALUE",
+      "title": "نمایش مقدار جزییات قرارداد"
+    },
+    {
+      "code": "C_CNTR_CONTRACT_DETAIL_VALUE",
+      "title": "ایجاد مقدار جزییات قرارداد"
+    },
+    {
+      "code": "D_CNTR_CONTRACT_DETAIL_VALUE",
+      "title": "حذف مقدار جزییات قرارداد"
+    },
+    {
+      "code": "U_CNTR_CONTRACT_DETAIL_VALUE",
+      "title": "به روز رسانی مقدار جزییات قرارداد"
+    },
+    {
+      "code": "A_CNTR_CONTRACT_DETAIL_VALUE",
+      "title": "فعالسازی مقدار جزییات قرارداد"
+    },
+    {
+      "code": "I_CNTR_CONTRACT_DETAIL_VALUE",
+      "title": "غیرفعالسازی مقدار جزییات قرارداد"
+    },
+    {
+      "code": "F_CNTR_CONTRACT_DETAIL_VALUE",
+      "title": "تائید نهایی مقدار جزییات قرارداد"
+    },
+    {
+      "code": "O_CNTR_CONTRACT_DETAIL_VALUE",
+      "title": "لغو تائید نهایی مقدار جزییات قرارداد"
+    },
+    {
+      "code": "R_WARH_WAREHOUSE",
+      "title": "نمایش انبار"
+    },
+    {
+      "code": "C_WARH_WAREHOUSE",
+      "title": "ایجاد انبار"
+    },
+    {
+      "code": "D_WARH_WAREHOUSE",
+      "title": "حذف انبار"
+    },
+    {
+      "code": "U_WARH_WAREHOUSE",
+      "title": "به روز رسانی انبار"
+    },
+    {
+      "code": "A_WARH_WAREHOUSE",
+      "title": "فعالسازی انبار"
+    },
+    {
+      "code": "I_WARH_WAREHOUSE",
+      "title": "غیرفعالسازی انبار"
+    },
+    {
+      "code": "F_WARH_WAREHOUSE",
+      "title": "تائید نهایی انبار"
+    },
+    {
+      "code": "O_WARH_WAREHOUSE",
+      "title": "لغو تائید نهایی انبار"
+    },
+    {
+      "code": "R_CNTR_INCOTERM",
+      "title": "نمایش اینکوترم"
+    },
+    {
+      "code": "C_CNTR_INCOTERM",
+      "title": "ایجاد اینکوترم"
+    },
+    {
+      "code": "D_CNTR_INCOTERM",
+      "title": "حذف اینکوترم"
+    },
+    {
+      "code": "U_CNTR_INCOTERM",
+      "title": "به روز رسانی اینکوترم"
+    },
+    {
+      "code": "A_CNTR_INCOTERM",
+      "title": "فعالسازی اینکوترم"
+    },
+    {
+      "code": "I_CNTR_INCOTERM",
+      "title": "غیرفعالسازی اینکوترم"
+    },
+    {
+      "code": "F_CNTR_INCOTERM",
+      "title": "تائید نهایی اینکوترم"
+    },
+    {
+      "code": "O_CNTR_INCOTERM",
+      "title": "لغو تائید نهایی اینکوترم"
+    },
+    {
+      "code": "R_CNTR_INCOTERM_STEPS",
+      "title": "نمایش گام جزییات اینکوترم"
+    },
+    {
+      "code": "C_CNTR_INCOTERM_STEPS",
+      "title": "ایجاد گام جزییات اینکوترم"
+    },
+    {
+      "code": "D_CNTR_INCOTERM_STEPS",
+      "title": "حذف گام جزییات اینکوترم"
+    },
+    {
+      "code": "U_CNTR_INCOTERM_STEPS",
+      "title": "به روز رسانی گام جزییات اینکوترم"
+    },
+    {
+      "code": "A_CNTR_INCOTERM_STEPS",
+      "title": "فعالسازی گام جزییات اینکوترم"
+    },
+    {
+      "code": "I_CNTR_INCOTERM_STEPS",
+      "title": "غیرفعالسازی گام جزییات اینکوترم"
+    },
+    {
+      "code": "F_CNTR_INCOTERM_STEPS",
+      "title": "تائید نهایی گام جزییات اینکوترم"
+    },
+    {
+      "code": "O_CNTR_INCOTERM_STEPS",
+      "title": "لغو تائید نهایی گام جزییات اینکوترم"
+    },
+    {
+      "code": "R_CNTR_INCOTERM_PARTY",
+      "title": "نمایش طرف قرارداد در اینکوترم"
+    },
+    {
+      "code": "C_CNTR_INCOTERM_PARTY",
+      "title": "ایجاد طرف قرارداد در اینکوترم"
+    },
+    {
+      "code": "D_CNTR_INCOTERM_PARTY",
+      "title": "حذف طرف قرارداد در اینکوترم"
+    },
+    {
+      "code": "U_CNTR_INCOTERM_PARTY",
+      "title": "به روز رسانی طرف قرارداد در اینکوترم"
+    },
+    {
+      "code": "A_CNTR_INCOTERM_PARTY",
+      "title": "فعالسازی طرف قرارداد در اینکوترم"
+    },
+    {
+      "code": "I_CNTR_INCOTERM_PARTY",
+      "title": "غیرفعالسازی طرف قرارداد در اینکوترم"
+    },
+    {
+      "code": "F_CNTR_INCOTERM_PARTY",
+      "title": "تائید نهایی طرف قرارداد در اینکوترم"
+    },
+    {
+      "code": "O_CNTR_INCOTERM_PARTY",
+      "title": "لغو تائید نهایی طرف قرارداد در اینکوترم"
+    },
+    {
+      "code": "R_MATERIAL",
+      "title": "نمایش محصول"
+    },
+    {
+      "code": "C_MATERIAL",
+      "title": "ایجاد محصول"
+    },
+    {
+      "code": "D_MATERIAL",
+      "title": "حذف محصول"
+    },
+    {
+      "code": "U_MATERIAL",
+      "title": "به روز رسانی محصول"
+    },
+    {
+      "code": "A_MATERIAL",
+      "title": "فعالسازی محصول"
+    },
+    {
+      "code": "I_MATERIAL",
+      "title": "غیرفعالسازی محصول"
+    },
+    {
+      "code": "F_MATERIAL",
+      "title": "تائید نهایی محصول"
+    },
+    {
+      "code": "O_MATERIAL",
+      "title": "لغو تائید نهایی محصول"
+    },
+    {
+      "code": "R_PERCENT_PER_YEAR",
+      "title": "نمایش عوارض و مالیات سالانه"
+    },
+    {
+      "code": "C_PERCENT_PER_YEAR",
+      "title": "ایجاد عوارض و مالیات سالانه"
+    },
+    {
+      "code": "D_PERCENT_PER_YEAR",
+      "title": "حذف عوارض و مالیات سالانه"
+    },
+    {
+      "code": "U_PERCENT_PER_YEAR",
+      "title": "به روز رسانی عوارض و مالیات سالانه"
+    },
+    {
+      "code": "A_PERCENT_PER_YEAR",
+      "title": "فعالسازی عوارض و مالیات سالانه"
+    },
+    {
+      "code": "I_PERCENT_PER_YEAR",
+      "title": "غیرفعالسازی عوارض و مالیات سالانه"
+    },
+    {
+      "code": "F_PERCENT_PER_YEAR",
+      "title": "تائید نهایی عوارض و مالیات سالانه"
+    },
+    {
+      "code": "O_PERCENT_PER_YEAR",
+      "title": "لغو تائید نهایی عوارض و مالیات سالانه"
+    },
+    {
+      "code": "R_FOREIGN_INVOICE_PAYMENT",
+      "title": "نمایش پرداخت صورتحساب فروش خارجی"
+    },
+    {
+      "code": "C_FOREIGN_INVOICE_PAYMENT",
+      "title": "ایجاد پرداخت صورتحساب فروش خارجی"
+    },
+    {
+      "code": "D_FOREIGN_INVOICE_PAYMENT",
+      "title": "حذف پرداخت صورتحساب فروش خارجی"
+    },
+    {
+      "code": "U_FOREIGN_INVOICE_PAYMENT",
+      "title": "به روز رسانی پرداخت صورتحساب فروش خارجی"
+    },
+    {
+      "code": "A_FOREIGN_INVOICE_PAYMENT",
+      "title": "فعالسازی پرداخت صورتحساب فروش خارجی"
+    },
+    {
+      "code": "I_FOREIGN_INVOICE_PAYMENT",
+      "title": "غیرفعالسازی پرداخت صورتحساب فروش خارجی"
+    },
+    {
+      "code": "F_FOREIGN_INVOICE_PAYMENT",
+      "title": "تائید نهایی پرداخت صورتحساب فروش خارجی"
+    },
+    {
+      "code": "O_FOREIGN_INVOICE_PAYMENT",
+      "title": "لغو تائید نهایی پرداخت صورتحساب فروش خارجی"
     },
     {
       "code": "R_SHIPMENT_METHOD",
@@ -1486,108 +1465,320 @@
       "title": "ایجاد روش حمل"
     },
     {
-      "code": "U_SHIPMENT_METHOD",
-      "title": "به روز رسانی روش حمل"
-    },
-    {
       "code": "D_SHIPMENT_METHOD",
       "title": "حذف روش حمل"
     },
     {
-      "code": "R_INVENTORY",
-      "title": "نمایش موجودیت انبار"
+      "code": "U_SHIPMENT_METHOD",
+      "title": "به روز رسانی روش حمل"
     },
     {
-      "code": "C_INVENTORY",
-      "title": "ایجاد موجودیت انبار"
+      "code": "A_SHIPMENT_METHOD",
+      "title": "فعالسازی روش حمل"
     },
     {
-      "code": "U_INVENTORY",
-      "title": "به روز رسانی موجودیت انبار"
+      "code": "I_SHIPMENT_METHOD",
+      "title": "غیرفعالسازی روش حمل"
     },
     {
-      "code": "D_INVENTORY",
-      "title": "حذف موجودیت انبار"
+      "code": "F_SHIPMENT_METHOD",
+      "title": "تائید نهایی روش حمل"
     },
     {
-      "code": "R_PRICE_BASE",
-      "title": "نمایش قیمت پایه"
+      "code": "O_SHIPMENT_METHOD",
+      "title": "لغو تائید نهایی روش حمل"
     },
     {
-      "code": "C_PRICE_BASE",
-      "title": "ایجاد قیمت پایه"
+      "code": "R_VESSEL",
+      "title": "نمایش کشتی"
     },
     {
-      "code": "U_PRICE_BASE",
-      "title": "به روز رسانی قیمت پایه"
+      "code": "C_VESSEL",
+      "title": "ایجاد کشتی"
     },
     {
-      "code": "D_PRICE_BASE",
-      "title": "حذف قیمت پایه"
+      "code": "D_VESSEL",
+      "title": "حذف کشتی"
     },
     {
-      "code": "R_ELEMENT",
-      "title": "نمایش عنصر"
+      "code": "U_VESSEL",
+      "title": "به روز رسانی کشتی"
     },
     {
-      "code": "C_ELEMENT",
-      "title": "ایجاد عنصر"
+      "code": "A_VESSEL",
+      "title": "فعالسازی کشتی"
     },
     {
-      "code": "U_ELEMENT",
-      "title": "به روز رسانی عنصر"
+      "code": "I_VESSEL",
+      "title": "غیرفعالسازی کشتی"
     },
     {
-      "code": "R_REMITTANCE",
-      "title": "نمایش بیجک"
+      "code": "F_VESSEL",
+      "title": "تائید نهایی کشتی"
     },
     {
-      "code": "C_REMITTANCE",
-      "title": "ایجاد بیجک"
+      "code": "O_VESSEL",
+      "title": "لغو تائید نهایی کشتی"
     },
     {
-      "code": "U_REMITTANCE",
-      "title": "به روز رسانی بیجک"
+      "code": "R_CNTR_CONTRACT_DETAIL_TYPE",
+      "title": "نمایش نوع جزییات قرارداد"
     },
     {
-      "code": "D_REMITTANCE",
-      "title": "حذف بیجک"
+      "code": "C_CNTR_CONTRACT_DETAIL_TYPE",
+      "title": "ایجاد نوع جزییات قرارداد"
     },
     {
-      "code": "R_REMITTANCE_DETAIL",
-      "title": "نمایش جزيیات بیجک"
+      "code": "D_CNTR_CONTRACT_DETAIL_TYPE",
+      "title": "حذف نوع جزییات قرارداد"
     },
     {
-      "code": "C_REMITTANCE_DETAIL",
-      "title": "ایجاد جزيیات بیجک"
+      "code": "U_CNTR_CONTRACT_DETAIL_TYPE",
+      "title": "به روز رسانی نوع جزییات قرارداد"
     },
     {
-      "code": "U_REMITTANCE_DETAIL",
-      "title": "به روز رسانی جزيیات بیجک"
+      "code": "A_CNTR_CONTRACT_DETAIL_TYPE",
+      "title": "فعالسازی نوع جزییات قرارداد"
     },
     {
-      "code": "D_REMITTANCE_DETAIL",
-      "title": "حذف جزيیات بیجک"
+      "code": "I_CNTR_CONTRACT_DETAIL_TYPE",
+      "title": "غیرفعالسازی نوع جزییات قرارداد"
     },
     {
-      "code": "D_ELEMENT",
-      "title": "حذف عنصر"
+      "code": "F_CNTR_CONTRACT_DETAIL_TYPE",
+      "title": "تائید نهایی نوع جزییات قرارداد"
     },
     {
-      "code": "R_MATERIAL_ELEMENT",
-      "title": "نمایش عنصر محصول"
+      "code": "O_CNTR_CONTRACT_DETAIL_TYPE",
+      "title": "لغو تائید نهایی نوع جزییات قرارداد"
     },
     {
-      "code": "C_MATERIAL_ELEMENT",
-      "title": "ایجاد عنصر محصول"
+      "code": "R_FOREIGN_INVOICE_ITEM_DETAIL",
+      "title": "نمایش جزییات اقلام صورتحساب فروش خارجی"
     },
     {
-      "code": "U_MATERIAL_ELEMENT",
-      "title": "به روز رسانی عنصر محصول"
+      "code": "C_FOREIGN_INVOICE_ITEM_DETAIL",
+      "title": "ایجاد جزییات اقلام صورتحساب فروش خارجی"
     },
     {
-      "code": "D_MATERIAL_ELEMENT",
-      "title": "حذف عنصر محصول"
+      "code": "D_FOREIGN_INVOICE_ITEM_DETAIL",
+      "title": "حذف جزییات اقلام صورتحساب فروش خارجی"
+    },
+    {
+      "code": "U_FOREIGN_INVOICE_ITEM_DETAIL",
+      "title": "به روز رسانی جزییات اقلام صورتحساب فروش خارجی"
+    },
+    {
+      "code": "A_FOREIGN_INVOICE_ITEM_DETAIL",
+      "title": "فعالسازی جزییات اقلام صورتحساب فروش خارجی"
+    },
+    {
+      "code": "I_FOREIGN_INVOICE_ITEM_DETAIL",
+      "title": "غیرفعالسازی جزییات اقلام صورتحساب فروش خارجی"
+    },
+    {
+      "code": "F_FOREIGN_INVOICE_ITEM_DETAIL",
+      "title": "تائید نهایی جزییات اقلام صورتحساب فروش خارجی"
+    },
+    {
+      "code": "O_FOREIGN_INVOICE_ITEM_DETAIL",
+      "title": "لغو تائید نهایی جزییات اقلام صورتحساب فروش خارجی"
+    },
+    {
+      "code": "R_TozinLite",
+      "title": "نمایش توزین"
+    },
+    {
+      "code": "R_INVOICE_TYPE",
+      "title": "نمایش نوع صورتحساب"
+    },
+    {
+      "code": "C_INVOICE_TYPE",
+      "title": "ایجاد نوع صورتحساب"
+    },
+    {
+      "code": "D_INVOICE_TYPE",
+      "title": "حذف نوع صورتحساب"
+    },
+    {
+      "code": "U_INVOICE_TYPE",
+      "title": "به روز رسانی نوع صورتحساب"
+    },
+    {
+      "code": "A_INVOICE_TYPE",
+      "title": "فعالسازی نوع صورتحساب"
+    },
+    {
+      "code": "I_INVOICE_TYPE",
+      "title": "غیرفعالسازی نوع صورتحساب"
+    },
+    {
+      "code": "F_INVOICE_TYPE",
+      "title": "تائید نهایی نوع صورتحساب"
+    },
+    {
+      "code": "O_INVOICE_TYPE",
+      "title": "لغو تائید نهایی نوع صورتحساب"
+    },
+    {
+      "code": "R_CNTR_INCOTERM_ASPECT",
+      "title": "نمایش نوع اینکوترم"
+    },
+    {
+      "code": "C_CNTR_INCOTERM_ASPECT",
+      "title": "ایجاد نوع اینکوترم"
+    },
+    {
+      "code": "D_CNTR_INCOTERM_ASPECT",
+      "title": "حذف نوع اینکوترم"
+    },
+    {
+      "code": "U_CNTR_INCOTERM_ASPECT",
+      "title": "به روز رسانی نوع اینکوترم"
+    },
+    {
+      "code": "A_CNTR_INCOTERM_ASPECT",
+      "title": "فعالسازی نوع اینکوترم"
+    },
+    {
+      "code": "I_CNTR_INCOTERM_ASPECT",
+      "title": "غیرفعالسازی نوع اینکوترم"
+    },
+    {
+      "code": "F_CNTR_INCOTERM_ASPECT",
+      "title": "تائید نهایی نوع اینکوترم"
+    },
+    {
+      "code": "O_CNTR_INCOTERM_ASPECT",
+      "title": "لغو تائید نهایی نوع اینکوترم"
+    },
+    {
+      "code": "R_CNTR_CONTRACT_DETAIL",
+      "title": "نمایش جزئیات قرارداد"
+    },
+    {
+      "code": "C_CNTR_CONTRACT_DETAIL",
+      "title": "ایجاد جزئیات قرارداد"
+    },
+    {
+      "code": "D_CNTR_CONTRACT_DETAIL",
+      "title": "حذف جزئیات قرارداد"
+    },
+    {
+      "code": "U_CNTR_CONTRACT_DETAIL",
+      "title": "به روز رسانی جزئیات قرارداد"
+    },
+    {
+      "code": "A_CNTR_CONTRACT_DETAIL",
+      "title": "فعالسازی جزئیات قرارداد"
+    },
+    {
+      "code": "I_CNTR_CONTRACT_DETAIL",
+      "title": "غیرفعالسازی جزئیات قرارداد"
+    },
+    {
+      "code": "F_CNTR_CONTRACT_DETAIL",
+      "title": "تائید نهایی جزئیات قرارداد"
+    },
+    {
+      "code": "O_CNTR_CONTRACT_DETAIL",
+      "title": "لغو تائید نهایی جزئیات قرارداد"
+    },
+    {
+      "code": "R_CNTR_INCOTERM_STEP",
+      "title": "نمایش گام اینکوترم"
+    },
+    {
+      "code": "C_CNTR_INCOTERM_STEP",
+      "title": "ایجاد گام اینکوترم"
+    },
+    {
+      "code": "D_CNTR_INCOTERM_STEP",
+      "title": "حذف گام اینکوترم"
+    },
+    {
+      "code": "U_CNTR_INCOTERM_STEP",
+      "title": "به روز رسانی گام اینکوترم"
+    },
+    {
+      "code": "A_CNTR_INCOTERM_STEP",
+      "title": "فعالسازی گام اینکوترم"
+    },
+    {
+      "code": "I_CNTR_INCOTERM_STEP",
+      "title": "غیرفعالسازی گام اینکوترم"
+    },
+    {
+      "code": "F_CNTR_INCOTERM_STEP",
+      "title": "تائید نهایی گام اینکوترم"
+    },
+    {
+      "code": "O_CNTR_INCOTERM_STEP",
+      "title": "لغو تائید نهایی گام اینکوترم"
+    },
+    {
+      "code": "R_CNTR_CONTRACT",
+      "title": "نمایش قرارداد"
+    },
+    {
+      "code": "C_CNTR_CONTRACT",
+      "title": "ایجاد قرارداد"
+    },
+    {
+      "code": "D_CNTR_CONTRACT",
+      "title": "حذف قرارداد"
+    },
+    {
+      "code": "U_CNTR_CONTRACT",
+      "title": "به روز رسانی قرارداد"
+    },
+    {
+      "code": "A_CNTR_CONTRACT",
+      "title": "فعالسازی قرارداد"
+    },
+    {
+      "code": "I_CNTR_CONTRACT",
+      "title": "غیرفعالسازی قرارداد"
+    },
+    {
+      "code": "F_CNTR_CONTRACT",
+      "title": "تائید نهایی قرارداد"
+    },
+    {
+      "code": "O_CNTR_CONTRACT",
+      "title": "لغو تائید نهایی قرارداد"
+    },
+    {
+      "code": "R_CONTRACT_DISCOUNT",
+      "title": "نمایش تخفیف قرارداد"
+    },
+    {
+      "code": "C_CONTRACT_DISCOUNT",
+      "title": "ایجاد تخفیف قرارداد"
+    },
+    {
+      "code": "D_CONTRACT_DISCOUNT",
+      "title": "حذف تخفیف قرارداد"
+    },
+    {
+      "code": "U_CONTRACT_DISCOUNT",
+      "title": "به روز رسانی تخفیف قرارداد"
+    },
+    {
+      "code": "A_CONTRACT_DISCOUNT",
+      "title": "فعالسازی تخفیف قرارداد"
+    },
+    {
+      "code": "I_CONTRACT_DISCOUNT",
+      "title": "غیرفعالسازی تخفیف قرارداد"
+    },
+    {
+      "code": "F_CONTRACT_DISCOUNT",
+      "title": "تائید نهایی تخفیف قرارداد"
+    },
+    {
+      "code": "O_CONTRACT_DISCOUNT",
+      "title": "لغو تائید نهایی تخفیف قرارداد"
     },
     {
       "code": "R_SHIPMENT_COST_INVOICE",
@@ -1598,101 +1789,384 @@
       "title": "ایجاد صورتحساب هزینه های حمل"
     },
     {
-      "code": "U_SHIPMENT_COST_INVOICE",
-      "title": "به روز رسانی صورتحساب هزینه های حمل"
-    },
-    {
       "code": "D_SHIPMENT_COST_INVOICE",
       "title": "حذف صورتحساب هزینه های حمل"
     },
     {
-      "code": "F_SHIPMENT_COST_INVOICE",
-      "title": "تایید نهایی صورتحساب هزینه های حمل"
+      "code": "U_SHIPMENT_COST_INVOICE",
+      "title": "به روز رسانی صورتحساب هزینه های حمل"
     },
     {
       "code": "A_SHIPMENT_COST_INVOICE",
-      "title": "فعال کردن صورتحساب هزینه های حمل"
+      "title": "فعالسازی صورتحساب هزینه های حمل"
     },
     {
       "code": "I_SHIPMENT_COST_INVOICE",
-      "title": "غیر فعال کردن صورتحساب هزینه های حمل"
+      "title": "غیرفعالسازی صورتحساب هزینه های حمل"
     },
     {
-      "code": "R_SHIPMENT_COST_INVOICE_DETAIL",
-      "title": "نمایش جزئیات صورتحساب هزینه های حمل "
+      "code": "F_SHIPMENT_COST_INVOICE",
+      "title": "تائید نهایی صورتحساب هزینه های حمل"
     },
     {
-      "code": "C_SHIPMENT_COST_INVOICE_DETAIL",
-      "title": "ایجاد جزئیات صورتحساب هزینه های حمل "
+      "code": "O_SHIPMENT_COST_INVOICE",
+      "title": "لغو تائید نهایی صورتحساب هزینه های حمل"
     },
     {
-      "code": "U_SHIPMENT_COST_INVOICE_DETAIL",
-      "title": "به روز رسانی جزئیات صورتحساب هزینه های حمل "
+      "code": "R_WARH_INVENTORY",
+      "title": "نمایش شناسه محصول"
     },
     {
-      "code": "D_SHIPMENT_COST_INVOICE_DETAIL",
-      "title": "حذف جزئیات صورتحساب هزینه های حمل "
+      "code": "C_WARH_INVENTORY",
+      "title": "ایجاد شناسه محصول"
     },
     {
-      "code": "R_TOZIN_LITE",
-      "title": "نمایش محصولات در راه"
+      "code": "D_WARH_INVENTORY",
+      "title": "حذف شناسه محصول"
     },
     {
-      "code": "C_SHIPMENT_DCC",
-      "title": "پیوست الگوی بارگیری"
+      "code": "U_WARH_INVENTORY",
+      "title": "به روز رسانی شناسه محصول"
     },
     {
-      "code": "R_SHIPMENT_COST_DUTY",
-      "title": "نمایش خدمات"
+      "code": "A_WARH_INVENTORY",
+      "title": "فعالسازی شناسه محصول"
     },
     {
-      "code": "C_SHIPMENT_COST_DUTY",
-      "title": "ایجاد خدمات"
+      "code": "I_WARH_INVENTORY",
+      "title": "غیرفعالسازی شناسه محصول"
     },
     {
-      "code": "U_SHIPMENT_COST_DUTY",
-      "title": "به روز رسانی خدمات"
+      "code": "F_WARH_INVENTORY",
+      "title": "تائید نهایی شناسه محصول"
     },
     {
-      "code": "D_SHIPMENT_COST_DUTY",
-      "title": "حذف خدمات"
+      "code": "O_WARH_INVENTORY",
+      "title": "لغو تائید نهایی شناسه محصول"
     },
     {
-      "code": "A_SHIPMENT_COST_DUTY",
-      "title": "فعال کردن خدمات"
+      "code": "R_MATERIAL_ITEM",
+      "title": "نمایش زیرمجموعه محصولات"
     },
     {
-      "code": "I_SHIPMENT_COST_DUTY",
-      "title": "غیرفعال کردن خدمات"
+      "code": "C_MATERIAL_ITEM",
+      "title": "ایجاد زیرمجموعه محصولات"
     },
     {
-      "code": "F_SHIPMENT_COST_DUTY",
-      "title": "تایید نهایی خدمات"
+      "code": "D_MATERIAL_ITEM",
+      "title": "حذف زیرمجموعه محصولات"
     },
     {
-      "code": "O_SHIPMENT_COST_DUTY",
-      "title": "لغو تایید نهایی خدمات"
+      "code": "U_MATERIAL_ITEM",
+      "title": "به روز رسانی زیرمجموعه محصولات"
     },
     {
-      "code": "C_TYPICAL_ASSAY",
-      "title": "ایجاد عناصر نمونه"
+      "code": "A_MATERIAL_ITEM",
+      "title": "فعالسازی زیرمجموعه محصولات"
     },
     {
-      "code": "R_TYPICAL_ASSAY",
-      "title": "نمایش عناصر نمونه"
+      "code": "I_MATERIAL_ITEM",
+      "title": "غیرفعالسازی زیرمجموعه محصولات"
     },
     {
-      "code": "U_TYPICAL_ASSAY",
-      "title": "به روز رسانی عناصر نمونه"
+      "code": "F_MATERIAL_ITEM",
+      "title": "تائید نهایی زیرمجموعه محصولات"
     },
     {
-      "code": "D_TYPICAL_ASSAY",
-      "title": "حذف عناصر نمونه"
+      "code": "O_MATERIAL_ITEM",
+      "title": "لغو تائید نهایی زیرمجموعه محصولات"
+    },
+    {
+      "code": "R_PORT",
+      "title": "نمایش بندر"
+    },
+    {
+      "code": "C_PORT",
+      "title": "ایجاد بندر"
+    },
+    {
+      "code": "D_PORT",
+      "title": "حذف بندر"
+    },
+    {
+      "code": "U_PORT",
+      "title": "به روز رسانی بندر"
+    },
+    {
+      "code": "A_PORT",
+      "title": "فعالسازی بندر"
+    },
+    {
+      "code": "I_PORT",
+      "title": "غیرفعالسازی بندر"
+    },
+    {
+      "code": "F_PORT",
+      "title": "تائید نهایی بندر"
+    },
+    {
+      "code": "O_PORT",
+      "title": "لغو تائید نهایی بندر"
+    },
+    {
+      "code": "R_ViewLC",
+      "title": "نمایش ال سی"
+    },
+    {
+      "code": "R_INVOICE_SALES",
+      "title": "نمایش فاکتورفروش متفرقه"
+    },
+    {
+      "code": "C_INVOICE_SALES",
+      "title": "ایجاد فاکتورفروش متفرقه"
+    },
+    {
+      "code": "D_INVOICE_SALES",
+      "title": "حذف فاکتورفروش متفرقه"
+    },
+    {
+      "code": "U_INVOICE_SALES",
+      "title": "به روز رسانی فاکتورفروش متفرقه"
+    },
+    {
+      "code": "A_INVOICE_SALES",
+      "title": "فعالسازی فاکتورفروش متفرقه"
+    },
+    {
+      "code": "I_INVOICE_SALES",
+      "title": "غیرفعالسازی فاکتورفروش متفرقه"
+    },
+    {
+      "code": "F_INVOICE_SALES",
+      "title": "تائید نهایی فاکتورفروش متفرقه"
+    },
+    {
+      "code": "O_INVOICE_SALES",
+      "title": "لغو تائید نهایی فاکتورفروش متفرقه"
+    },
+    {
+      "code": "R_CNTR_CONTRACT_TYPE",
+      "title": "نمایش نوع قرارداد"
+    },
+    {
+      "code": "C_CNTR_CONTRACT_TYPE",
+      "title": "ایجاد نوع قرارداد"
+    },
+    {
+      "code": "D_CNTR_CONTRACT_TYPE",
+      "title": "حذف نوع قرارداد"
+    },
+    {
+      "code": "U_CNTR_CONTRACT_TYPE",
+      "title": "به روز رسانی نوع قرارداد"
+    },
+    {
+      "code": "A_CNTR_CONTRACT_TYPE",
+      "title": "فعالسازی نوع قرارداد"
+    },
+    {
+      "code": "I_CNTR_CONTRACT_TYPE",
+      "title": "غیرفعالسازی نوع قرارداد"
+    },
+    {
+      "code": "F_CNTR_CONTRACT_TYPE",
+      "title": "تائید نهایی نوع قرارداد"
+    },
+    {
+      "code": "O_CNTR_CONTRACT_TYPE",
+      "title": "لغو تائید نهایی نوع قرارداد"
+    },
+    {
+      "code": "R_CNTR_INCOTERM_RULE",
+      "title": "نمایش مد اینکوترم"
+    },
+    {
+      "code": "C_CNTR_INCOTERM_RULE",
+      "title": "ایجاد مد اینکوترم"
+    },
+    {
+      "code": "D_CNTR_INCOTERM_RULE",
+      "title": "حذف مد اینکوترم"
+    },
+    {
+      "code": "U_CNTR_INCOTERM_RULE",
+      "title": "به روز رسانی مد اینکوترم"
+    },
+    {
+      "code": "A_CNTR_INCOTERM_RULE",
+      "title": "فعالسازی مد اینکوترم"
+    },
+    {
+      "code": "I_CNTR_INCOTERM_RULE",
+      "title": "غیرفعالسازی مد اینکوترم"
+    },
+    {
+      "code": "F_CNTR_INCOTERM_RULE",
+      "title": "تائید نهایی مد اینکوترم"
+    },
+    {
+      "code": "O_CNTR_INCOTERM_RULE",
+      "title": "لغو تائید نهایی مد اینکوترم"
+    },
+    {
+      "code": "R_PAYMENT_TYPE",
+      "title": "نمایش نوع پرداخت"
+    },
+    {
+      "code": "C_PAYMENT_TYPE",
+      "title": "ایجاد نوع پرداخت"
+    },
+    {
+      "code": "D_PAYMENT_TYPE",
+      "title": "حذف نوع پرداخت"
+    },
+    {
+      "code": "U_PAYMENT_TYPE",
+      "title": "به روز رسانی نوع پرداخت"
+    },
+    {
+      "code": "A_PAYMENT_TYPE",
+      "title": "فعالسازی نوع پرداخت"
+    },
+    {
+      "code": "I_PAYMENT_TYPE",
+      "title": "غیرفعالسازی نوع پرداخت"
+    },
+    {
+      "code": "F_PAYMENT_TYPE",
+      "title": "تائید نهایی نوع پرداخت"
+    },
+    {
+      "code": "O_PAYMENT_TYPE",
+      "title": "لغو تائید نهایی نوع پرداخت"
+    },
+    {
+      "code": "R_WARH_DEPOT",
+      "title": "نمایش دپو"
+    },
+    {
+      "code": "C_WARH_DEPOT",
+      "title": "ایجاد دپو"
+    },
+    {
+      "code": "D_WARH_DEPOT",
+      "title": "حذف دپو"
+    },
+    {
+      "code": "U_WARH_DEPOT",
+      "title": "به روز رسانی دپو"
+    },
+    {
+      "code": "A_WARH_DEPOT",
+      "title": "فعالسازی دپو"
+    },
+    {
+      "code": "I_WARH_DEPOT",
+      "title": "غیرفعالسازی دپو"
+    },
+    {
+      "code": "F_WARH_DEPOT",
+      "title": "تائید نهایی دپو"
+    },
+    {
+      "code": "O_WARH_DEPOT",
+      "title": "لغو تائید نهایی دپو"
+    },
+    {
+      "code": "R_CNTR_INCOTERM_FORM",
+      "title": "نمایش فرم فروش اینکوترم"
+    },
+    {
+      "code": "C_CNTR_INCOTERM_FORM",
+      "title": "ایجاد فرم فروش اینکوترم"
+    },
+    {
+      "code": "D_CNTR_INCOTERM_FORM",
+      "title": "حذف فرم فروش اینکوترم"
+    },
+    {
+      "code": "U_CNTR_INCOTERM_FORM",
+      "title": "به روز رسانی فرم فروش اینکوترم"
+    },
+    {
+      "code": "A_CNTR_INCOTERM_FORM",
+      "title": "فعالسازی فرم فروش اینکوترم"
+    },
+    {
+      "code": "I_CNTR_INCOTERM_FORM",
+      "title": "غیرفعالسازی فرم فروش اینکوترم"
+    },
+    {
+      "code": "F_CNTR_INCOTERM_FORM",
+      "title": "تائید نهایی فرم فروش اینکوترم"
+    },
+    {
+      "code": "O_CNTR_INCOTERM_FORM",
+      "title": "لغو تائید نهایی فرم فروش اینکوترم"
+    },
+    {
+      "code": "R_WARH_REMITTANCE_DETAIL",
+      "title": "نمایش جزئیات بیجک"
+    },
+    {
+      "code": "C_WARH_REMITTANCE_DETAIL",
+      "title": "ایجاد جزئیات بیجک"
+    },
+    {
+      "code": "D_WARH_REMITTANCE_DETAIL",
+      "title": "حذف جزئیات بیجک"
+    },
+    {
+      "code": "U_WARH_REMITTANCE_DETAIL",
+      "title": "به روز رسانی جزئیات بیجک"
+    },
+    {
+      "code": "A_WARH_REMITTANCE_DETAIL",
+      "title": "فعالسازی جزئیات بیجک"
+    },
+    {
+      "code": "I_WARH_REMITTANCE_DETAIL",
+      "title": "غیرفعالسازی جزئیات بیجک"
+    },
+    {
+      "code": "F_WARH_REMITTANCE_DETAIL",
+      "title": "تائید نهایی جزئیات بیجک"
+    },
+    {
+      "code": "O_WARH_REMITTANCE_DETAIL",
+      "title": "لغو تائید نهایی جزئیات بیجک"
+    },
+    {
+      "code": "R_CNTR_CONTRACT_CONTACT",
+      "title": "نمایش طرف قرارداد"
+    },
+    {
+      "code": "C_CNTR_CONTRACT_CONTACT",
+      "title": "ایجاد طرف قرارداد"
+    },
+    {
+      "code": "D_CNTR_CONTRACT_CONTACT",
+      "title": "حذف طرف قرارداد"
+    },
+    {
+      "code": "U_CNTR_CONTRACT_CONTACT",
+      "title": "به روز رسانی طرف قرارداد"
+    },
+    {
+      "code": "A_CNTR_CONTRACT_CONTACT",
+      "title": "فعالسازی طرف قرارداد"
+    },
+    {
+      "code": "I_CNTR_CONTRACT_CONTACT",
+      "title": "غیرفعالسازی طرف قرارداد"
+    },
+    {
+      "code": "F_CNTR_CONTRACT_CONTACT",
+      "title": "تائید نهایی طرف قرارداد"
+    },
+    {
+      "code": "O_CNTR_CONTRACT_CONTACT",
+      "title": "لغو تائید نهایی طرف قرارداد"
     }
-/*    },
-    {
-      "code": "C_ACCOUNTING_DOCUMENT",
-      "title": "ایجاد سند حسابداری"
-    }*/
   ]
 }

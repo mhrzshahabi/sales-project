@@ -43,6 +43,9 @@ public class AuthorizationUtil {
                 return "I_" + entityName;
             case Finalize:
                 return "F_" + entityName;
+            case Disapprove:
+                return "O_" + entityName;
+
             default:
                 return null;
         }
