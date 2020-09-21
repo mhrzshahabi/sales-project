@@ -40,7 +40,7 @@ public class ContractDetailType extends BaseEntity {
 
     @NotEmpty
     @Column(name = "C_TITLE_FA", nullable = false)
-    private String titleFa;
+    private String titleFa = "titleFa";
 
     @NotEmpty
     @Column(name = "C_TITLE_EN", nullable = false)
