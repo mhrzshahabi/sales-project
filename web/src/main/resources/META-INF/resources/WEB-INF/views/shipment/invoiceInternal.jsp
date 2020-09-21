@@ -125,6 +125,18 @@
             { name:"unitPrice",title:"<spring:message code='invoice.ghematUnit'/>",width:"150" , canEdit:false},
             { name:"totalAmount",title:"<spring:message code='invoice.mablaghKol'/>",width:"150" , canEdit:false},
             { name:"totalDeductions",title:"<spring:message code='invoice.totalKosorat'/>",width:"150" , canEdit:false},
+            { name:"invoiceDate",title:"<spring:message code='document.header.date'/>",width:"150",icons: [ persianDatePicker ],
+            wrapTitle: false,type:"persianDate",length:10,keyPressFilter:"[0-9/]",
+			},
+            {
+            type: 'integer',
+            name: "salesType",
+            valueMap: {"2": "اعتباری", "1": "نقدی"},
+            title: "<spring:message code='invoice.typeForosh'/>",width:"150"
+            },
+            {type: 'float', name: "realWeight", title: "<spring:message code='invoice.weightReal'/>",width:"150" },
+            {name: "bankGroupDesc", title: "<spring:message code='invoice.bankGroupDesc'/>",width:"150" },
+
             {type:"SpacerItem" ,width:"100%" , height: "50",colSpan: 4},
             { name:"documentDate",title:"<spring:message code='document.header.date'/>",width:"150",icons: [ persianDatePicker ],
             wrapTitle: false,type:"persianDate",length:10,keyPressFilter:"[0-9/]",
@@ -145,8 +157,8 @@
 				],
 
 			},
-    			{ name:"documentTitle", title:"<spring:message code='document.header.desc'/>", type:"textArea"  ,colSpan:"4" ,width:"485",wrapTitle:false,
-    			}
+            { name:"documentTitle", title:"<spring:message code='document.header.desc'/>", type:"textArea"  ,colSpan:"4" ,width:"485",wrapTitle:false,
+            }
         ]
 });
     var IButton_Document_Save = isc.IButtonSave.create({
@@ -220,7 +232,7 @@
     var newDocumentWindow = isc.Window.create({
 		title: "<spring:message code='accounting.document.create'/>",
 		width: 700,
-		height: 400,
+		height: 500,
 		// autoSize:true,
 		autoCenter: true,
 		isModal: true,
@@ -274,6 +286,11 @@
             documentMainInfoForm.setValue("unitPrice",record.unitPrice);
             documentMainInfoForm.setValue("totalAmount",record.totalAmount);
             documentMainInfoForm.setValue("totalDeductions",record.totalDeductions);
+            documentMainInfoForm.setValue("salesType",record.salesType);
+            documentMainInfoForm.setValue("realWeight",record.realWeight);
+            documentMainInfoForm.setValue("bankGroupDesc",record.bankGroupDesc);
+            documentMainInfoForm.setValue("invoiceDate",record.invoiceDate);
+
             newDocumentWindow.show();
         }
         else  isc.say("<spring:message code='accounting.create.document.sent'/>");
@@ -584,7 +601,12 @@
     var invoiceInternalTabs = isc.TabSet.create({
         width: "100%",
         height: "100%",
+        tabBarPosition: "right",
+        wrap: false,
         showTabScroller: true,
+        border:"1px solid lightblue",
+        edgeMarginSize: 3,
+        tabBarThickness: 80,
         tabs: [
             {
                 title: "<spring:message code='issuedInternalInvoices.dontSent'/>",
@@ -593,7 +615,11 @@
             {
                 title: "<spring:message code='issuedInternalInvoices.sent'/>",
                 pane: ListGrid_InvoiceInternal_Sent
-            }
+            },
+            <%--{--%>
+            <%--    title: "<spring:message code='issuedInternalInvoices.deleted'/>",--%>
+            <%--    pane: ListGrid_InvoiceInternal_Sent--%>
+            <%--},--%>
         ]
     });
 

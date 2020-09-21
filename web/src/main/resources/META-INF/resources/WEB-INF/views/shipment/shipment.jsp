@@ -371,6 +371,7 @@
              let fileNewName = shipmentDccDynamicFormPrint.getItem("dccId").getDisplayValue();
              let record = ListGrid_Shipment.getSelectedRecord();
             window.open('${printUrl}' + record.id + "/" + fileNewName);
+            shipmentDccWindow.close();
         }
     });
     var CancelBtn_Shipment_Dcc = isc.IButtonCancel.create({
@@ -531,7 +532,8 @@
                 width: "100%",
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_pickContractItem,
-                optionCriteria: {operator: "and", criteria: [{fieldName: "parentId", operator: "isNull"}]},
+                optionCriteria: {operator: "and", criteria: [{fieldName: "parentId", operator: "isNull"},
+                                {fieldName: "eStatusId","operator":"greaterOrEqual",value: 4}]},
                 displayField: "no",
                 valueField: "id",
                 pickListHeight: "500",
