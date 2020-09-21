@@ -1,51 +1,36 @@
 package com.nicico.sales.service;
 
-import com.nicico.sales.annotation.Action;
+import com.nicico.copper.common.domain.criteria.NICICOCriteria;
+import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.sales.dto.ContactDTO;
-import com.nicico.sales.enumeration.ActionType;
-import com.nicico.sales.exception.NotFoundException;
 import com.nicico.sales.iservice.IContactService;
 import com.nicico.sales.model.entities.base.Contact;
-import com.nicico.sales.model.entities.base.ContactAccount;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @RequiredArgsConstructor
 @Service
 public class ContactService extends GenericService<Contact, Long, ContactDTO.Create, ContactDTO.Info, ContactDTO.Update, ContactDTO.Delete> implements IContactService {
 
-
-    @Action(value = ActionType.Update)
-    @Transactional
     @Override
-    public void updateContactDefaultAccount(ContactAccount contactAccount) {
-        final Optional<Contact> slById = repository.findById(contactAccount.getContactId());
-        final Contact contact = slById.orElseThrow(() -> new NotFoundException(Contact.class));
-        contact.setBankAccount(contactAccount.getBankAccount());
-        contact.setBankShaba(contactAccount.getBankShaba());
-        contact.setBankSwift(contactAccount.getBankSwift());
-        Contact updating = new Contact();
-        modelMapper.map(contact, updating);
-        save(updating);
+    public TotalResponse<ContactDTO.Info> search(NICICOCriteria request) {
+        LinkedList<String> criteriaList = (LinkedList<String>) request.getCriteria();
+        LinkedList newCriteria = new LinkedList();
+        boolean hasDefault = false;
+        if (criteriaList != null && !criteriaList.isEmpty()) {
+            for (String criterion : criteriaList) {
+                if (criterion.contains(":\"defaultAccount.")) {
+                    hasDefault = true;
+                    newCriteria.add(criterion.replace("defaultAccount", "contactAccounts"));
+                } else
+                    newCriteria.add(criterion);
+            }
+            if (hasDefault)
+                newCriteria.add("{\"fieldName\":\"contactAccounts.isDefault\",\"operator\":\"equals\",\"value\":true}");
+            request.setCriteria(newCriteria);
+        }
+        return super.search(request);
     }
-
-    @Action(value = ActionType.Update)
-    @Transactional
-    @Override
-    public void removeContactDefaultAccount(ContactAccount contactAccount) {
-        final Optional<Contact> slById = repository.findById(contactAccount.getContactId());
-        final Contact contact = slById.orElseThrow(() -> new NotFoundException(Contact.class));
-        contact.setBankAccount(null);
-        contact.setBankShaba(null);
-        contact.setBankSwift(null);
-        Contact updating = new Contact();
-        modelMapper.map(contact, updating);
-        save(updating);
-    }
-
-
 }
