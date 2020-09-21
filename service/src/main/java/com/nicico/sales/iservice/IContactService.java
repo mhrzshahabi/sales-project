@@ -23,7 +23,4 @@ public interface IContactService {
 
     TotalResponse<ContactDTO.Info> search(NICICOCriteria criteria);
 
-    void updateContactDefaultAccount(ContactAccount contactAccount);
-
-    void removeContactDefaultAccount(ContactAccount contactAccount);
 }
