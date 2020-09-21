@@ -917,9 +917,6 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
             }],
         getSelectedRecords: async function () {
 
-            // if (inspectionReportTab.variable.method === "PUT")
-            //     this.showPicker();
-            // return this.Super("getSelectedRecords", arguments);
             let values = this.getValue();
             if (!values || !values.length)
                 return [];
