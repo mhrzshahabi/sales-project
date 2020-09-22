@@ -1265,6 +1265,7 @@ shipmentCostInvoiceTab.window.shipmentCost.populateData = function (bodyWidget) 
 
         let shipmentCostDetailObj = {};
         shipmentCostDetailObj.id = current.id;
+        shipmentCostDetailObj.version = current.version;
         shipmentCostDetailObj.shipmentCostDutyId = current.shipmentCostDutyId;
         shipmentCostDetailObj.quantity = current.quantity;
         shipmentCostDetailObj.unitId = current.unitId;
