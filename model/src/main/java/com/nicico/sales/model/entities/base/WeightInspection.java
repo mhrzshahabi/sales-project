@@ -54,7 +54,7 @@ public class WeightInspection extends BaseEntity {
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "F_SHIPMENT_ID", nullable = false, insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_weightInspection2shipmentByShipmentId"))
+    @JoinColumn(name = "F_SHIPMENT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_weightInspection2shipmentByShipmentId"))
     private Shipment shipment;
 
     @Column(name = "F_SHIPMENT_ID")

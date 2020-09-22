@@ -30,7 +30,9 @@
     <include file="classpath:/db/changelog/initial-data/tbl_cntr_incoterm.xml"/>
     <include file="classpath:/db/changelog/initial-data/tbl_warh_element.xml"/>
     <include file="classpath:/db/changelog/initial-data/tbl_warh_material_element.xml"/>
+    <include file="classpath:/db/changelog/initial-data/tbl_inspection_report.xml"/>
     <include file="classpath:/db/changelog/initial-data/tbl_assay_inspection.xml"/>
+    <include file="classpath:/db/changelog/initial-data/tbl_assay_inspection_total_values.xml"/>
     <include file="classpath:/db/changelog/initial-data/tbl_weighing_inspection.xml"/>
     <include file="classpath:/db/changelog/initial-data/tbl_internal_invoice_document.xml"/>
     <!-- INITIALIZE DATA -->
