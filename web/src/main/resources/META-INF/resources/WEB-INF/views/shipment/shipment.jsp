@@ -269,9 +269,6 @@
                 name: "sendDate",
                 title: "<spring:message code='global.sendDate'/>",
                 type: 'text',
-                required: true,
-                width: "10%",
-                align: "center",
                 showHover: true,
                 validators: [
                     {
@@ -613,7 +610,6 @@
                 type: "date",
                 title: "<spring:message code='global.sendDate'/>",
             },
-            {name: "contractDate", hidden: true,},
             {
                 name: "automationLetterDate",
                 title: "<spring:message code='shipment.bDate'/>",
@@ -924,6 +920,9 @@
         icon: "pieces/16/save.png",
         click: async function () {
             let validate = DynamicForm_Shipment.validate();
+            if (!validate)
+                return false;
+            validate = datesValidation();
             if (!validate)
                 return false;
             validate = await checkRepeatedContractShipment(DynamicForm_Shipment.getItem("contractShipmentId").getValue());
@@ -1537,6 +1536,15 @@
         return false
     }
 
+    function datesValidation() {
+        if (DynamicForm_Shipment.getField("arrivalDateTo").getValue() <
+            DynamicForm_Shipment.getField("arrivalDateFrom").getValue()) {
+            let msg = "<spring:message code='shipment.arrivalDate.warn'/> ";
+            isc.warn(msg, "");
+            return false;
+        }
+        return true;
+    }
 //</script>
 
 
