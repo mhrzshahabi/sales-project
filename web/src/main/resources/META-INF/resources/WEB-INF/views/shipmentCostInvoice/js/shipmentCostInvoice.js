@@ -1265,6 +1265,7 @@ shipmentCostInvoiceTab.window.shipmentCost.populateData = function (bodyWidget) 
 
         let shipmentCostDetailObj = {};
         shipmentCostDetailObj.id = current.id;
+        shipmentCostDetailObj.version = current.version;
         shipmentCostDetailObj.shipmentCostDutyId = current.shipmentCostDutyId;
         shipmentCostDetailObj.quantity = current.quantity;
         shipmentCostDetailObj.unitId = current.unitId;
@@ -1368,7 +1369,6 @@ shipmentCostInvoiceTab.method.editForm = function () {
     else {
 
         shipmentCostInvoiceTab.window.shipmentCost.justShowForm();
-        shipmentCostInvoiceTab.dynamicForm.shipmentPrice.editRecord(record);
 
         shipmentCostInvoiceTab.dynamicForm.shipmentCost.editRecord(record);
         shipmentCostInvoiceTab.dynamicForm.shipmentCost.setValue("invoiceDate", new Date(record.invoiceDate));
@@ -1379,9 +1379,12 @@ shipmentCostInvoiceTab.method.editForm = function () {
         shipmentCostInvoiceTab.dynamicForm.shipmentCost.getItem("referenceId").setValue(record.referenceId);
 
         // Set toFinanceUnitId
-        if (record.conversionRef != null)
+        if (record.conversionRef != null) {
             shipmentCostInvoiceTab.dynamicForm.shipmentCost.getItem("toFinanceUnitId").setValue(record.conversionRef.unitToId);
-
+            shipmentCostInvoiceTab.dynamicForm.shipmentPrice.getItem("conversionRefId").setValue(record.conversionRefId);
+        }
+        shipmentCostInvoiceTab.dynamicForm.shipmentPrice.getItem("rialPrice").setValue(record.rialPrice);
+        shipmentCostInvoiceTab.dynamicForm.shipmentPrice.getItem("buyerShare").setValue(record.buyerShare);
         shipmentCostInvoiceTab.listGrid.shipmentCostDetail.setData(record.shipmentCostInvoiceDetails);
 
         // Set Unit for ListGrid

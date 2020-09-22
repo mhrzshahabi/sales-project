@@ -201,16 +201,16 @@
                     title: "<spring:message code='contact.economicalCode'/>"
                 },
                 {
-                    name: "bankAccount",
+                    name: "defaultAccount.bankAccount",
                     title: "<spring:message code='contact.bankAccount'/>"
                 },
                 {
-                    name: "bankShaba",
+                    name: "defaultAccount.bankShaba",
                     title: "<spring:message code='contact.bankShaba'/>"
                 },
                 {
-                    name: "bankSwift",
-                    title: "<spring:message code='contact.bankShaba'/>"
+                    name: "defaultAccount.bankSwift",
+                    title: "<spring:message code='contactAccount.bankSwift'/>"
                 },
                 {
                     name: "ceoPassportNo"
@@ -1945,19 +1945,19 @@ code='contact.role'/></p>",
 
                 },
                 {
-                    name: "bankAccount",
+                    name: "defaultAccount.bankAccount",
                     title: "<spring:message code='contact.bankAccount'/>",
                     align: "center",
                     width: "10%"
                 },
                 {
-                    name: "bankShaba",
+                    name: "defaultAccount.bankShaba",
                     title: "<spring:message code='contact.bankShaba'/>",
                     align: "center",
                     width: "10%"
                 },
                 {
-                    name: "bankSwift",
+                    name: "defaultAccount.bankSwift",
                     title: "<spring:message code='contactAccount.bankSwift'/>",
                     align: "center",
                     width: "10%"

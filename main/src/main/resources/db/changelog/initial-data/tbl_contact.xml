@@ -584,6 +584,17 @@
 
         </sql>
     </changeSet>
-
+    <changeSet id="AZAARE-001" author="abiz">
+        <dropColumn tableName="TBL_CONTACT" columnName="C_DEFAULT_BANK_ACCOUNT"/>
+    </changeSet>
+    <changeSet id="AZAARE-002" author="abiz">
+        <dropColumn tableName="TBL_CONTACT" columnName="C_DEFAULT_BANK_ID"/>
+    </changeSet>
+    <changeSet id="AZAARE-003" author="abiz">
+        <dropColumn tableName="TBL_CONTACT" columnName="C_DEFAULT_BANK_SHABA"/>
+    </changeSet>
+    <changeSet id="AZAARE-004" author="abiz">
+        <dropColumn tableName="TBL_CONTACT" columnName="C_DEFAULT_BANK_SWIFT"/>
+    </changeSet>
 
 </databaseChangeLog>
