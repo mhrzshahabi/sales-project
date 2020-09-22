@@ -1,4 +1,4 @@
-package com.nicico.sales.config;
+package com.nicico.sales.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
