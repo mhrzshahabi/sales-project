@@ -19,7 +19,7 @@ import java.util.List;
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
 @Table(name = "TBL_CNTR_CONTRACT")
-public class Contract2 extends BaseEntity {
+public class Contract extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_CNTR_CONTRACT")
@@ -68,7 +68,7 @@ public class Contract2 extends BaseEntity {
     @Setter(AccessLevel.NONE)
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "F_PARENT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_contract2contractByParentId"))
-    private List<Contract2> appendixContracts;
+    private List<Contract> appendixContracts;
 
     @Column(name = "F_PARENT_ID")
     private Long parentId;
@@ -77,7 +77,7 @@ public class Contract2 extends BaseEntity {
     private List<ContractContact> contractContacts;
 
     @OneToMany(mappedBy = "contract", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private List<ContractDetail2> contractDetails;
+    private List<ContractDetail> contractDetails;
 
     @Column(name = "C_ACC_DETAIL")
     private String accDetail;

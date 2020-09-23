@@ -18,6 +18,6 @@ public class ContractTypeFormController {
         request.setAttribute("c_entity", SecurityUtil.hasAuthority("C_CONTRACT_TYPE"));
         request.setAttribute("u_entity", SecurityUtil.hasAuthority("U_CONTRACT_TYPE"));
         request.setAttribute("d_entity", SecurityUtil.hasAuthority("D_CONTRACT_TYPE"));
-        return "contract2/contract-type";
+        return "contract/contract-type";
     }
 }
