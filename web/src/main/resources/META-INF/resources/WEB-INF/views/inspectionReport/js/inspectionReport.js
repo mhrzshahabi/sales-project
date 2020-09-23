@@ -5,6 +5,10 @@ inspectionReportTab.variable.materialId = 0;
 inspectionReportTab.variable.allCols = 0;
 inspectionReportTab.variable.data = [];
 inspectionReportTab.variable.selectedInventories = [];
+inspectionReportTab.variable.isWeightExist = true;
+inspectionReportTab.variable.isAssayExist = true;
+inspectionReportTab.variable.removeAllWeight = false;
+inspectionReportTab.variable.removeAllAssay = false;
 
 //***************************************************** RESTDATASOURCE *************************************************
 
@@ -147,6 +151,30 @@ inspectionReportTab.restDataSource.assayInspecRest = isc.MyRestDataSource.create
     fetchDataURL: "${contextPath}/api/assayInspection/spec-list"
 });
 
+inspectionReportTab.restDataSource.assayInspecTotalValuesRest = isc.MyRestDataSource.create({
+    fields: [
+        {
+            name: "id",
+            primaryKey: true,
+            canEdit: false,
+            hidden: true
+        },
+        {
+            name: "value",
+            title: "<spring:message code='assayInspection.value'/>"
+        },
+        {
+            name: "materialElementId",
+            title: "<spring:message code='assayInspection.materialElement'/>"
+        },
+        {
+            name: "inspectionReportId",
+            title: "<spring:message code='assayInspection.inspectionReportId'/>"
+        }
+    ],
+    fetchDataURL: "${contextPath}/api/assayInspectionTotalValues/spec-list"
+});
+
 inspectionReportTab.restDataSource.contactRest = {
     fields: [
         {
@@ -241,7 +269,7 @@ inspectionReportTab.restDataSource.inventoryRest = isc.MyRestDataSource.create({
             title: "<spring:message code='MaterialItem.gdsName'/>"
         },
         {
-            name: "materialItem.materialId",
+            name: "materialItem.material.descp",
             title: "<spring:message code='material.title'/>"
         },
         {
@@ -415,7 +443,8 @@ inspectionReportTab.method.setShipmentAndInventoryCriteria = function (materialI
         _constructor: "AdvancedCriteria",
         operator: "and",
         criteria: [{
-            fieldName: "remittanceDetails.remittance.shipment.materialId",
+            // fieldName: "remittanceDetails.remittance.shipment.materialId",
+            fieldName: "materialItem.materialId",
             operator: "equals",
             value: materialId
         }]
@@ -618,6 +647,7 @@ inspectionReportTab.method.setAssayElementSum = function () {
 
 inspectionReportTab.method.createWeightListGrid = function () {
 
+    inspectionReportTab.variable.isWeightExist = true;
     isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
 
         httpMethod: "GET",
@@ -632,8 +662,10 @@ inspectionReportTab.method.createWeightListGrid = function () {
             inspectionReportTab.hStack.weightUnitSum.setMembers([]);
 
             let inventoryIds = JSON.parse(resp.httpResponseText);
-            if (!inventoryIds || !inventoryIds.length)
+            if (!inventoryIds || !inventoryIds.length) {
+                inspectionReportTab.variable.isWeightExist = false;
                 return;
+            }
 
             let inventories = inspectionReportTab.dynamicForm.inspecReport.getItem("inventoryId").getSelectedRecords().filter(q => inventoryIds.contains(q.id));
             inspectionReportTab.method.setWeightElementListRows(inventoryIds);
@@ -660,6 +692,7 @@ inspectionReportTab.method.createWeightListGrid = function () {
 
 inspectionReportTab.method.createAssayListGrid = function () {
 
+    inspectionReportTab.variable.isAssayExist = true;
     isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
 
         httpMethod: "GET",
@@ -674,8 +707,12 @@ inspectionReportTab.method.createAssayListGrid = function () {
             inspectionReportTab.hStack.assayUnitSum.setMembers([]);
 
             let inventoryIds = JSON.parse(resp.httpResponseText);
-            if (!inventoryIds || !inventoryIds.length)
+            if (!inventoryIds || !inventoryIds.length) {
+                inspectionReportTab.variable.isAssayExist = false;
+                if (!inspectionReportTab.variable.isWeightExist && !inspectionReportTab.variable.isAssayExist)
+                    inspectionReportTab.dialog.say("<spring:message code='global.message.selected.inventories.have.inspection'/>");
                 return;
+            }
 
             let inventories = inspectionReportTab.dynamicForm.inspecReport.getItem("inventoryId").getSelectedRecords().filter(q => inventoryIds.contains(q.id));
             inspectionReportTab.method.setAssayElementListRows(inventoryIds);
@@ -966,9 +1003,8 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
             },
         pickListFields: [
             {
-                name: "materialItem.materialId",
+                name: "materialItem.material.descp",
                 align: "center",
-                hidden: true
             },
             {
                 name: "materialItem.gdsName",
@@ -1010,7 +1046,8 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
             }],
     },
     {
-        colSpan: 1,
+        colSpan: 2,
+        width: "150",
         name: "select",
         title: "Select",
         type: "ButtonItem",
@@ -1021,7 +1058,7 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
                 !form.getItem("inventoryId").getValue() ||
                 !form.getItem("mileStone").getValue() ||
                 !form.getItem("inventoryId").getValue().length)
-                inspectionReportTab.dialog.say("Message");
+                inspectionReportTab.dialog.say("<spring:message code='global.message.inspection.required.fields'/>");
             else {
                 inspectionReportTab.method.getAssayElementFields(inspectionReportTab.variable.materialId, () => {
                     inspectionReportTab.method.createWeightListGrid();
@@ -1033,7 +1070,8 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
         }
     },
     {
-        colSpan: 1,
+        colSpan: 2,
+        width: "150",
         name: "refresh",
         title: "Refresh",
         type: "ButtonItem",
@@ -1048,8 +1086,12 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
             inspectionReportTab.listGrid.assayElementSum.setData([]);
             inspectionReportTab.hStack.assayUnitSum.setMembers([]);
 
+            inspectionReportTab.dynamicForm.inspecReport.getItem("select").enable();
             inspectionReportTab.dynamicForm.inspecReport.getItem("mileStone").enable();
-            inspectionReportTab.dynamicForm.inspecReport.getItem("inventoryId").enable();
+            // inspectionReportTab.dynamicForm.inspecReport.getItem("inventoryId").enable();
+
+            inspectionReportTab.variable.removeAllWeight = false;
+            inspectionReportTab.variable.removeAllAssay = false;
         }
     },
     {
@@ -1390,6 +1432,7 @@ inspectionReportTab.toolStrip.weightRemoveAll = isc.ToolStrip.create({
             title: "<spring:message code='global.remove.all'/>",
             click: function () {
 
+                inspectionReportTab.variable.removeAllWeight = true;
                 inspectionReportTab.listGrid.weightElement.setData([]);
             }
         })
@@ -1470,6 +1513,14 @@ inspectionReportTab.listGrid.assayElement = isc.ListGrid.create({
     canRemoveRecords: true,
     dataChanged: function (operationType) {
 
+        // if (inspectionReportTab.listGrid.assayElement.getData().length === 0) {
+        //     inspectionReportTab.dynamicForm.assayLab.getField("labName").setRequired(false);
+        //     inspectionReportTab.dynamicForm.assayLab.getField("labPlace").setRequired(false);
+        // }
+        // else {
+        //     inspectionReportTab.dynamicForm.assayLab.getField("labName").setRequired(true);
+        //     inspectionReportTab.dynamicForm.assayLab.getField("labPlace").setRequired(true);
+        // }
         inspectionReportTab.method.setAssayElementSum();
         this.Super("dataChanged", arguments);
     }
@@ -1479,9 +1530,16 @@ inspectionReportTab.listGrid.assayElementSum = isc.ListGrid.create({
     width: "100%",
     height: "10%",
     showHeader: false,
+    dataSource: inspectionReportTab.restDataSource.assayInspecTotalValuesRest,
     showEmptyMessage: false,
     fields: [
-        {"title": "<spring:message code='foreign-invoice.form.tab.subtotal'/>"}
+        {
+            name: "id",
+            hidden: true
+        },
+        {
+            "title": "<spring:message code='foreign-invoice.form.tab.subtotal'/>"
+        }
     ]
 });
 
@@ -1496,6 +1554,7 @@ inspectionReportTab.toolStrip.assayRemoveAll = isc.ToolStrip.create({
             title: "<spring:message code='global.remove.all'/>",
             click: function () {
 
+                inspectionReportTab.variable.removeAllAssay = true;
                 inspectionReportTab.listGrid.assayElement.setData([]);
             }
         })
@@ -1580,20 +1639,13 @@ inspectionReportTab.window.inspecReport.populateData = function (bodyWidget) {
 
     let weightInspections = [];
     let assayInspectionRecord = [];
+    let assayInspectionTotalValuesList = [];
+    inspectionReportTab.listGrid.assayElement.endEditing();
+    inspectionReportTab.listGrid.weightElement.endEditing();
 
-    // console.log("bodyWidget ", bodyWidget);
     //------------- Save Inspection Data in Object -----------
     let inspectionReportObj = bodyWidget.members.get(0).members.get(1).getValues();
-    bodyWidget.members.get(1).members.get(0).tabs.get(0).pane.members.get(1).members.get(0).selectAllRecords();
-    inspectionReportObj.weightGW = bodyWidget.members.get(1).members.get(0).tabs.get(0).pane.members.get(1).members.get(0).getSelectedRecord(0).weightGW;
-    inspectionReportObj.weightND = bodyWidget.members.get(1).members.get(0).tabs.get(0).pane.members.get(1).members.get(0).getSelectedRecord(0).weightND;
 
-    // bodyWidget.members.get(1).members.get(0).tabs.get(1).pane.members.get(2).members.get(0).selectAllRecords();
-    // bodyWidget.members.get(1).members.get(0).tabs.get(1).pane.members.get(2).members.get(0).getSelectedRecords(0);
-    debugger
-
-    inspectionReportTab.listGrid.weightElement.endEditing();
-    inspectionReportTab.listGrid.assayElement.endEditing();
     //---------------- Save Weight Data in Object ------------
     bodyWidget.members.get(1).members.get(0).tabs.get(0).pane.members.get(0).selectAllRecords();
     bodyWidget.members.get(1).members.get(0).tabs.get(0).pane.members.get(0).getSelectedRecords().forEach(function (weightRecord, element) {
@@ -1609,7 +1661,6 @@ inspectionReportTab.window.inspecReport.populateData = function (bodyWidget) {
             inspectionReportId: "",
             mileStone: ""
         };
-
         weightInspectionObj.id = weightRecord.id;
         weightInspectionObj.version = weightRecord.version;
         weightInspectionObj.weighingType = weightRecord.weighingType;
@@ -1624,32 +1675,59 @@ inspectionReportTab.window.inspecReport.populateData = function (bodyWidget) {
     });
     inspectionReportObj.weightInspections = weightInspections;
 
+    //---------------- Save Weight Sum in Object ------------
+    bodyWidget.members.get(1).members.get(0).tabs.get(0).pane.members.get(1).members.get(0).selectAllRecords();
+    let weightSum = bodyWidget.members.get(1).members.get(0).tabs.get(0).pane.members.get(1).members.get(0).getSelectedRecord(0);
+    inspectionReportObj.weightGW = weightSum ? weightSum.weightGW : null;
+    inspectionReportObj.weightND = weightSum ? weightSum.weightND : null;
+
     //--------------- Save Assay Data in Object --------------
     inspectionReportTab.variable.allCols = bodyWidget.members.get(1).members.get(0).tabs.get(1).pane.members.get(1).fields.length - 1;
 
     bodyWidget.members.get(1).members.get(0).tabs.get(1).pane.members.get(1).selectAllRecords();
     let records = bodyWidget.members.get(1).members.get(0).tabs.get(1).pane.members.get(1).getSelectedRecords();
+
     records.sortByProperty("inventoryId", true);
     records.forEach(function (assayRecord, index) {
 
         for (let i = 2; i < inspectionReportTab.variable.allCols; i++) {
 
             let assayInspectionObj = {};
-
             assayInspectionObj.labName = bodyWidget.members.get(1).members.get(0).tabs.get(1).pane.members.get(0).getItem("labName").getValue();
             assayInspectionObj.labPlace = bodyWidget.members.get(1).members.get(0).tabs.get(1).pane.members.get(0).getItem("labPlace").getValue();
             assayInspectionObj.id = bodyWidget.members.get(1).members.get(0).tabs.get(1).pane.members.get(1).getField(i).ids[index];
             assayInspectionObj.version = bodyWidget.members.get(1).members.get(0).tabs.get(1).pane.members.get(1).getField(i).versions[index];
             assayInspectionObj.value = NumberUtil.parseInt(bodyWidget.members.get(1).members.get(0).tabs.get(1).pane.members.get(1).getCellValue(assayRecord, index, i));
             assayInspectionObj.materialElementId = bodyWidget.members.get(1).members.get(0).tabs.get(1).pane.members.get(1).fields.get(i).meId;
-            assayInspectionObj.materialElementId = bodyWidget.members.get(1).members.get(0).tabs.get(1).pane.members.get(1).fields.get(i).meId;
             assayInspectionObj.shipmentId = inspectionReportObj.shipmentId ? inspectionReportTab.shipmentId : null;
             assayInspectionObj.inventoryId = assayRecord.inventoryId;
             assayInspectionObj.mileStone = inspectionReportObj.mileStone;
+
             assayInspectionRecord.push(assayInspectionObj);
         }
     });
     inspectionReportObj.assayInspections = assayInspectionRecord;
+
+    //--------------- Save Assay Sum in Object --------------
+    bodyWidget.members.get(1).members.get(0).tabs.get(1).pane.members.get(2).members.get(0).selectAllRecords();
+    let assaySum = bodyWidget.members.get(1).members.get(0).tabs.get(1).pane.members.get(2).members.get(0).getSelectedRecords(0);
+
+    if (assaySum[0]) {
+
+        for (let i = 1; i < inspectionReportTab.variable.allCols - 1; i++) {
+
+            let assayInspectionTotalValuesObj = {};
+            assayInspectionTotalValuesObj.id = assaySum[0].id;
+            assayInspectionTotalValuesObj.version = assaySum[0].version;
+            assayInspectionTotalValuesObj.value = NumberUtil.parseInt(bodyWidget.members.get(1).members.get(0).tabs.get(1).pane.members.get(2).members.get(0).getCellValue(assaySum[0], 0, i));
+            assayInspectionTotalValuesObj.materialElementId = bodyWidget.members.get(1).members.get(0).tabs.get(1).pane.members.get(1).fields.get(i + 1).meId;
+
+            assayInspectionTotalValuesList.push(assayInspectionTotalValuesObj);
+        }
+        inspectionReportObj.assayInspectionTotalValuesList = assayInspectionTotalValuesList;
+    }
+
+    console.log("inspectionReportObj ", inspectionReportObj);
     return inspectionReportObj;
 };
 
@@ -1689,9 +1767,20 @@ inspectionReportTab.window.inspecReport.validate = function (data) {
     //     return false;
     // }
 
+    if (inspectionReportTab.variable.removeAllWeight && inspectionReportTab.variable.removeAllAssay) {
+        inspectionReportTab.dialog.say("<spring:message code='global.message.inspection.report.not.exist'/>");
+        return false;
+    }
+
+    if (inspectionReportTab.listGrid.assayElement.getFields().length <= 2) {
+        inspectionReportTab.dialog.say("<spring:message code='global.message.inspection.report.not.exist'/>");
+        return false;
+    }
+
+
     let isValid = inspectionReportTab.listGrid.weightElement.getData().length !== 0 || inspectionReportTab.listGrid.assayElement.getData().length !== 0;
     if (!isValid)
-        inspectionReportTab.dialog.say("No inspection data exists");
+        inspectionReportTab.dialog.say("<spring:message code='global.message.inspection.report.not.exist'/>");
 
     return isValid;
 };
