@@ -1477,18 +1477,20 @@ nicico.BasicFormUtil.createListGrid = function () {
             loadOnExpand: true,
             loaded: false,
             sortField: 2,
-            getFilterEditorCriteria: function (criteria) {
-
-                this.Super("getFilterEditorCriteria", arguments);
-            },
-            setFilterEditorCriteria: function (criteria) {
-
-                this.Super("setFilterEditorCriteria", arguments);
-            },
+            // getFilterEditorCriteria: function () {
+            //     debugger;
+            //     this.Super("getFilterEditorCriteria", arguments);
+            // },
+            // setFilterEditorCriteria: function (criteria) {
+            // debugger;
+            //     this.Super("setFilterEditorCriteria", arguments);
+            // },
             filterData: function () {
 
-                shipmentCostInvoiceTab.listGrid.main.collapseRecords(shipmentCostInvoiceTab.listGrid.main.getExpandedRecords());
-                this.invalidateCache();
+                // let criteria =  this.getFilterEditorCriteria();
+                this.collapseRecords(this.getExpandedRecords());
+                // this.dataSource.fetchData(criteria);
+                this.Super("filterData", arguments);
             },
             getExpansionComponent: function (record) {
 
