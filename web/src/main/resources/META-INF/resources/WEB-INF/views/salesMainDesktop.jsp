@@ -933,7 +933,7 @@
                 },
                 {isSeparator: true},
                 </sec:authorize>
-                <sec:authorize access="hasAuthority('R_INVOICE_INTERNAL')">
+                <sec:authorize access="hasAuthority('R_VIEW_INTERNAL_INVOICE_DOCUMENT')">
                 {
                     title: "<spring:message code='issuedInternalInvoices.title'/>",
                     click: function () {
@@ -1076,7 +1076,7 @@
     access="hasAuthority('R_CONTRACT_SHIPMENT') or hasAuthority('R_BILL_OF_LANDING') or hasAuthority('R_INSPECTION_REPORT') or hasAuthority('R_SHIPMENT_COST_INVOICE')">
     saleToolStrip.addMember(shipmentTab);
     </sec:authorize>
-    <sec:authorize access="hasAuthority('R_FOREIGN_INVOICE') or hasAuthority('R_INVOICE_INTERNAL') or hasAuthority('R_INVOICE_SALES')">
+    <sec:authorize access="hasAuthority('R_FOREIGN_INVOICE') or hasAuthority('R_VIEW_INTERNAL_INVOICE_DOCUMENT') or hasAuthority('R_INVOICE_SALES')">
     saleToolStrip.addMember(financialTab);
     </sec:authorize>
     <sec:authorize access="hasAuthority('R_TOZIN_LITE') or hasAuthority('R_TOZIN') or hasAuthority('R_REMITTANCE')">

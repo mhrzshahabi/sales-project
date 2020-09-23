@@ -2195,6 +2195,10 @@
     {
       "code": "O_INCOTERM_RULE",
       "title": "لغو تائید نهایی مد اینکوترم"
+    },
+    {
+      "code": "R_VIEW_CUSTOMER",
+      "title": "نمایش مشتری"
     }
   ]
 }
