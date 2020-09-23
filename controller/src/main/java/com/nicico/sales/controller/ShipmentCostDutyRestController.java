@@ -5,7 +5,6 @@ import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.sales.dto.ShipmentCostDutyDTO;
 import com.nicico.sales.iservice.IShipmentCostDutyService;
-import com.nicico.sales.model.enumeration.CategoryUnit;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -51,17 +50,15 @@ public class ShipmentCostDutyRestController {
 
     @Loggable
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         iCostDutyService.delete(id);
-        return new ResponseEntity(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
-     @Loggable
-        @GetMapping(value = "/spec-list")
-        public ResponseEntity<TotalResponse<ShipmentCostDutyDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) throws IOException {
-            final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
-            return new ResponseEntity<>(iCostDutyService.search(nicicoCriteria), HttpStatus.OK);
-        }
-
-
+    @Loggable
+    @GetMapping(value = "/spec-list")
+    public ResponseEntity<TotalResponse<ShipmentCostDutyDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) throws IOException {
+        final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
+        return new ResponseEntity<>(iCostDutyService.search(nicicoCriteria), HttpStatus.OK);
+    }
 }

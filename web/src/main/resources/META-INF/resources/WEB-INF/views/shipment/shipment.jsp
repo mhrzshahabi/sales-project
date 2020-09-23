@@ -3,6 +3,7 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ page import="com.nicico.copper.core.SecurityUtil" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 //<script>
 
@@ -84,10 +85,10 @@
                     "image": "<spring:message code='dcc.image'/>"
                 },
                 validators: [
-                {
-                    type:"required",
-                    validateOnChange: true
-                }]
+                    {
+                        type: "required",
+                        validateOnChange: true
+                    }]
             },
             {
                 name: "description",
@@ -102,10 +103,10 @@
                 required: true,
                 width: 400,
                 validators: [
-                {
-                    type:"required",
-                    validateOnChange: true
-                }]
+                    {
+                        type: "required",
+                        validateOnChange: true
+                    }]
             },
             {name: "fileNewName", title: "<spring:message code='global.fileNewName'/>", type: 'text', width: 400}
         ],
@@ -181,7 +182,7 @@
             };
 
             let contractId1 = DynamicForm_Shipment.getValue("contractId");
-            if(contractId1)
+            if (contractId1)
                 dsRequest.params.contractId = contractId1;
 
             this.Super("transformRequest", arguments);
@@ -268,9 +269,6 @@
                 name: "sendDate",
                 title: "<spring:message code='global.sendDate'/>",
                 type: 'text',
-                required: true,
-                width: "10%",
-                align: "center",
                 showHover: true,
                 validators: [
                     {
@@ -278,8 +276,10 @@
                         validateOnChange: true
                     }]
             },
-            {name: "createdDate",
-             type: 'text'},
+            {
+                name: "createdDate",
+                type: 'text'
+            },
             {
                 name: "automationLetterDate",
                 title: "<spring:message code='shipment.bDate'/>",
@@ -301,7 +301,7 @@
             },
             {
                 name: "shipmentTypeId",
-                hidden : true
+                hidden: true
             }
         ],
         fetchDataURL: "${contextPath}/api/shipment/spec-list"
@@ -325,30 +325,30 @@
                     width: 300,
                     pickListWidth: 300,
                     wrapTitle: false,
-                    required: true ,
-                    filterLocally : false,
+                    required: true,
+                    filterLocally: false,
                     showFilterEditor: false,
                     useClientFiltering: false,
                     validators: [
-                    {
-                        type:"required",
-                        validateOnChange: true
-                    }],
+                        {
+                            type: "required",
+                            validateOnChange: true
+                        }],
                     pickListProperties: {
                         width: 300,
                         pickListWidth: 300,
-                        filterLocally : false,
+                        filterLocally: false,
                         showFilterEditor: false,
                         useClientFiltering: false
                     },
                     pickListFields: [
-                    {
-                        name: "fileNewName",
-                        title: "<spring:message code='global.fileNewName'/>",
-                        showHover: true
-                    }
+                        {
+                            name: "fileNewName",
+                            title: "<spring:message code='global.fileNewName'/>",
+                            showHover: true
+                        }
                     ],
-                     getPickListFilterCriteria  : function () {
+                    getPickListFilterCriteria: function () {
 
                         let record = ListGrid_Shipment.getSelectedRecord();
                         let fileNewName = "ShipOrder_" + record.materialId + "_" + record.shipmentTypeId;
@@ -359,7 +359,7 @@
                         return criteria;
                     },
                 }
-    ]
+            ]
     });
 
     var IButton_Shipment_Dcc_Print = isc.IButtonSave.create({
@@ -367,9 +367,9 @@
         title: "<spring:message code='global.form.print'/>",
         icon: "[SKIN]/actions/print.png",
         click: function () {
-             "<spring:url value="/shipment/print/" var="printUrl"/>";
-             let fileNewName = shipmentDccDynamicFormPrint.getItem("dccId").getDisplayValue();
-             let record = ListGrid_Shipment.getSelectedRecord();
+            "<spring:url value="/shipment/print/" var="printUrl"/>";
+            let fileNewName = shipmentDccDynamicFormPrint.getItem("dccId").getDisplayValue();
+            let record = ListGrid_Shipment.getSelectedRecord();
             window.open('${printUrl}' + record.id + "/" + fileNewName);
             shipmentDccWindow.close();
         }
@@ -382,7 +382,7 @@
         }
     });
 
-     var hLayout_shipment_dcc = isc.HLayout.create({
+    var hLayout_shipment_dcc = isc.HLayout.create({
         layoutMargin: 10,
         membersMargin: 5,
         textAlign: "center",
@@ -393,7 +393,7 @@
         ]
     });
 
-     var vLayout_shipment_dcc = isc.VLayout.create({
+    var vLayout_shipment_dcc = isc.VLayout.create({
         width: 300,
         textAlign: "center",
         align: "center",
@@ -493,24 +493,24 @@
     var dash = "\n";
 
     var ShipmentDccViewLoader = isc.ViewLoader.create({
-    autoDraw: false,
-    loadingMessage: ""
+        autoDraw: false,
+        loadingMessage: ""
     });
 
     var Window_Shipment_Dcc = isc.Window.create({
-            title: "<spring:message code='shipment.loading.pattern'/>",
-            width: "40%",
-            height: "60%",
-            autoCenter: true,
-            align: "center",
-            autoDraw: false,
-            dismissOnEscape: true,
-            closeClick: function () {
+        title: "<spring:message code='shipment.loading.pattern'/>",
+        width: "40%",
+        height: "60%",
+        autoCenter: true,
+        align: "center",
+        autoDraw: false,
+        dismissOnEscape: true,
+        closeClick: function () {
             this.Super("closeClick", arguments)
-            },
-            items:
+        },
+        items:
             [
-            ShipmentDccViewLoader
+                ShipmentDccViewLoader
             ]
     });
 
@@ -532,8 +532,10 @@
                 width: "100%",
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_pickContractItem,
-                optionCriteria: {operator: "and", criteria: [{fieldName: "parentId", operator: "isNull"},
-                                {fieldName: "eStatusId","operator":"greaterOrEqual",value: 4}]},
+                optionCriteria: {
+                    operator: "and", criteria: [{fieldName: "parentId", operator: "isNull"},
+                        {fieldName: "eStatusId", "operator": "greaterOrEqual", value: 4}]
+                },
                 displayField: "no",
                 valueField: "id",
                 pickListHeight: "500",
@@ -608,7 +610,6 @@
                 type: "date",
                 title: "<spring:message code='global.sendDate'/>",
             },
-            {name: "contractDate", hidden: true,},
             {
                 name: "automationLetterDate",
                 title: "<spring:message code='shipment.bDate'/>",
@@ -678,9 +679,9 @@
                     }]
             },
             {
-               name: "lastDeliveryLetterDate",
-               type: "date",
-               title: "<spring:message code='shipment.lastDeliveryLetterDate'/>",
+                name: "lastDeliveryLetterDate",
+                type: "date",
+                title: "<spring:message code='shipment.lastDeliveryLetterDate'/>",
             },
             {
                 name: "unitId",
@@ -921,6 +922,9 @@
             let validate = DynamicForm_Shipment.validate();
             if (!validate)
                 return false;
+            validate = datesValidation();
+            if (!validate)
+                return false;
             validate = await checkRepeatedContractShipment(DynamicForm_Shipment.getItem("contractShipmentId").getValue());
             if (!validate)
                 return false;
@@ -962,7 +966,14 @@
                     isc.HTMLPane.create({
                         ID: "myPane",
                         showEdges: true,
+                        <c:if test="${pageContext.response.locale == 'fa'}">
                         contentsURL: "/sales/help/LoadingLetter.html",
+                        </c:if>
+                        <c:if test="${pageContext.response.locale == 'en'}">
+                        contentsURL: "/sales/help/LoadingLetterEn.html",
+                        </c:if>
+
+
                         contentsType: "page"
                     })
                 ]
@@ -1124,10 +1135,10 @@
         } else {
             DynamicForm_Shipment.clearValues();
 //DynamicForm_Shipment.setValue("contractId", record.contractShipment.contractId);
-//          DynamicForm_Shipment.getItem("contractShipmentId").setOptionDataSource(null);
+// DynamicForm_Shipment.getItem("contractShipmentId").setOptionDataSource(null);
             DynamicForm_Shipment.editRecord(record);
             DynamicForm_Shipment.setValue("contractId", record.contractShipment.contractId);
-            //DynamicForm_Shipment.getItem("contractShipmentId").setValue(record.contractShipment.sendDate);
+//DynamicForm_Shipment.getItem("contractShipmentId").setValue(record.contractShipment.sendDate);
             DynamicForm_Shipment.setValue("automationLetterDate", new Date(parseInt(record.automationLetterDate)).toLocaleDateString('fa-IR'));
             DynamicForm_Shipment.setValue("arrivalDateTo", new Date(parseInt(ListGrid_Shipment.getSelectedRecord().arrivalDateTo)));
             DynamicForm_Shipment.setValue("arrivalDateFrom", new Date(parseInt(ListGrid_Shipment.getSelectedRecord().arrivalDateFrom)));
@@ -1140,12 +1151,12 @@
             DynamicForm_Shipment.getItem("contractShipmentId").hide();
             DynamicForm_Shipment.getItem("shipmentSendDate").show();
             DynamicForm_Shipment.getItem("shipmentSendDate").setValue(ListGrid_Shipment.getSelectedRecord().contractShipment.sendDate);
-         }
+        }
     }
 
     function ListGrid_Shipment_dcc() {
-                ShipmentDccViewLoader.setViewURL("shipmentDcc/showForm/" );
-                Window_Shipment_Dcc.animateShow();
+        ShipmentDccViewLoader.setViewURL("shipmentDcc/showForm/");
+        Window_Shipment_Dcc.animateShow();
     }
 
     var ToolStripButton_Shipment_Refresh = isc.ToolStripButtonRefresh.create({
@@ -1212,7 +1223,7 @@
 
             <sec:authorize access="hasAuthority('C_SHIPMENT_DCC')">
             ToolStripButton_Shipment_dcc,
-           </sec:authorize>
+            </sec:authorize>
 
             ShipmentCancelBtn_Help_shipment,
 
@@ -1378,7 +1389,7 @@
                         validateOnChange: true
                     }],
                 formatCellValue: (value) => {
-                  return new Date(Number.parseInt(value))
+                    return new Date(Number.parseInt(value))
                 },
             },
             {
@@ -1395,7 +1406,7 @@
                         validateOnChange: true
                     }],
                 formatCellValue: (value) => {
-                   return new persianDate(Number.parseInt(value)).format('YYYY/MM/DD')
+                    return new persianDate(Number.parseInt(value)).format('YYYY/MM/DD')
                 },
             },
             {
@@ -1445,7 +1456,7 @@
             let dccTableId = record.id;
             let dccTableName = "TBL_SHIPMENT";
             ShipmentAttachmentViewLoader.setViewURL("dcc/showForm/" + dccTableName + "/" + dccTableId + "?d_record="
-+ d_record + "&c_record=" + c_record);
+                + d_record + "&c_record=" + c_record);
             hLayoutViewLoader.show();
             let layoutShipment = isc.VLayout.create({
                 styleName: "expand-layout",
@@ -1525,6 +1536,15 @@
         return false
     }
 
+    function datesValidation() {
+        if (DynamicForm_Shipment.getField("arrivalDateTo").getValue() <
+            DynamicForm_Shipment.getField("arrivalDateFrom").getValue()) {
+            let msg = "<spring:message code='shipment.arrivalDate.warn'/> ";
+            isc.warn(msg, "");
+            return false;
+        }
+        return true;
+    }
 //</script>
 
 
