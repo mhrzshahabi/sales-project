@@ -18,6 +18,6 @@ public class TermFormController {
         request.setAttribute("c_entity", SecurityUtil.hasAuthority("C_TERM"));
         request.setAttribute("u_entity", SecurityUtil.hasAuthority("U_TERM"));
         request.setAttribute("d_entity", SecurityUtil.hasAuthority("D_TERM"));
-        return "contract2/term";
+        return "contract/term";
     }
 }

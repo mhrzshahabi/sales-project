@@ -16,7 +16,7 @@ import java.util.List;
 @Setter
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ContractDetailDTO2 {
+public class ContractDetailDTO {
 
     private String content;
     private Long contractId;
@@ -28,7 +28,7 @@ public class ContractDetailDTO2 {
     @Setter
     @Accessors(chain = true)
     @ApiModel("ContractDetailInfo")
-    public static class Info extends ContractDetailDTO2 {
+    public static class Info extends ContractDetailDTO {
 
         private Long id;
 
@@ -51,7 +51,7 @@ public class ContractDetailDTO2 {
     @Setter
     @Accessors(chain = true)
     @ApiModel("ContractDetailCreateRq")
-    public static class Create extends ContractDetailDTO2 {
+    public static class Create extends ContractDetailDTO {
         private List<ContractDetailValueDTO.Create> contractDetailValues;
     }
 
@@ -59,7 +59,7 @@ public class ContractDetailDTO2 {
     @Setter
     @Accessors(chain = true)
     @ApiModel("ContractDetailUpdateRq")
-    public static class Update extends ContractDetailDTO2 {
+    public static class Update extends ContractDetailDTO {
 
         private ContractDetailTypeDTO.Update contractDetailType;
         private List<ContractDetailValueDTO.Update> contractDetailValues;

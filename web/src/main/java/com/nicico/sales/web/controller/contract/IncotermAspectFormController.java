@@ -18,6 +18,6 @@ public class IncotermAspectFormController {
         request.setAttribute("c_entity", SecurityUtil.hasAuthority("C_INCOTERM_ASPECT"));
         request.setAttribute("u_entity", SecurityUtil.hasAuthority("U_INCOTERM_ASPECT"));
         request.setAttribute("d_entity", SecurityUtil.hasAuthority("D_INCOTERM_ASPECT"));
-        return "contract2/incoterm-aspect";
+        return "contract/incoterm-aspect";
     }
 }

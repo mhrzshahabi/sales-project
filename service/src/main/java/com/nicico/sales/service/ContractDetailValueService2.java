@@ -9,13 +9,13 @@ import com.nicico.sales.enumeration.ErrorType;
 import com.nicico.sales.exception.SalesException2;
 import com.nicico.sales.iservice.IContractDetailValueService2;
 import com.nicico.sales.model.entities.base.*;
-import com.nicico.sales.model.entities.contract.Contract2;
+import com.nicico.sales.model.entities.contract.Contract;
 import com.nicico.sales.model.entities.contract.ContractDetailValue;
 import com.nicico.sales.model.entities.contract.ContractDiscount;
 import com.nicico.sales.model.entities.contract.Incoterm;
 import com.nicico.sales.model.enumeration.EStatus;
 import com.nicico.sales.repository.*;
-import com.nicico.sales.repository.contract.ContractDAO2;
+import com.nicico.sales.repository.contract.ContractDAO;
 import com.nicico.sales.repository.contract.ContractDetailValueDAO;
 import com.nicico.sales.repository.contract.IncotermDAO;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +31,7 @@ import java.util.*;
 @Service
 public class ContractDetailValueService2 implements IContractDetailValueService2 {
 
-    private final ContractDAO2 contractDAO2;
+    private final ContractDAO contractDAO;
     private final ContractDetailValueDAO contractDetailValueDAO;
 
     private final TypicalAssayDAO typicalAssayDAO;
@@ -53,7 +53,7 @@ public class ContractDetailValueService2 implements IContractDetailValueService2
     public Map<String, List<Object>> get(Long contractId, EContractDetailTypeCode contractDetailTypeCode,
                                          EContractDetailValueKey contractDetailValueKey, Boolean finalized) {
         if (finalized == null) finalized = true;
-        final Contract2 contract = contractDAO2.findById(contractId)
+        final Contract contract = contractDAO.findById(contractId)
                 .orElseThrow(() -> new SalesException2(ErrorType.NotFound, "id", "شناسه موجودیت یافت نشد."));
 
         if (contract.getParentId() != null)
@@ -61,10 +61,10 @@ public class ContractDetailValueService2 implements IContractDetailValueService2
 
         final Map<String, List<Object>> result = new HashMap<>();
         if (contract.getAppendixContracts() != null && contract.getAppendixContracts().size() != 0) {
-            contract.getAppendixContracts().sort((Contract2 c1, Contract2 c2) -> c2.getAffectFrom().compareTo(c1.getAffectFrom()));
+            contract.getAppendixContracts().sort((Contract c1, Contract c2) -> c2.getAffectFrom().compareTo(c1.getAffectFrom()));
 
             final Date now = new Date();
-            for (Contract2 appendixContract : contract.getAppendixContracts()) {
+            for (Contract appendixContract : contract.getAppendixContracts()) {
                 if (finalized ? !appendixContract.getEStatus().contains(EStatus.Final) : Boolean.FALSE)
                     continue;
 

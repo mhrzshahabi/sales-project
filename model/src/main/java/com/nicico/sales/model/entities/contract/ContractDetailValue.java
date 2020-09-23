@@ -1,6 +1,5 @@
 package com.nicico.sales.model.entities.contract;
 
-import com.nicico.sales.model.Auditable;
 import com.nicico.sales.model.entities.base.Unit;
 import com.nicico.sales.model.entities.common.BaseEntity;
 import com.nicico.sales.model.enumeration.DataType;
@@ -62,7 +61,7 @@ public class ContractDetailValue extends BaseEntity {
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "F_CONTRACT_DETAIL_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_contractDetailValue2contractDetailByContractDetailId"))
-    private ContractDetail2 contractDetail;
+    private ContractDetail contractDetail;
 
     @NotNull
     @Column(name = "F_CONTRACT_DETAIL_ID", nullable = false)

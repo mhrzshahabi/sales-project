@@ -204,6 +204,7 @@ contractTab.listGrid.contractDetailType = isc.ListGrid.nicico.getDefault(
 
             var fieldName = this.getFieldName(colNum);
             if (fieldName === "addIcon") {
+                // <c:if test = "${SecurityUtil.hasAuthority('C_CONTRACT_DETAIL')}">
                 return isc.ImgButton.create(
                     {
                         width: 16,
@@ -246,6 +247,7 @@ contractTab.listGrid.contractDetailType = isc.ListGrid.nicico.getDefault(
                             };
                         }
                     });
+                // </c:if>
             }
 
             return null;
@@ -721,6 +723,7 @@ contractTab.method.addSectionByContract = function (record) {
                     width: "100%",
                     height: 24,
                     members: [
+                        // <c:if test = "${SecurityUtil.hasAuthority('R_CONTRACT_DETAIL_VALUE')}">
                         isc.ToolStripButton.create({
                             icon: "pieces/16/icon_add.png",
                             title: "<spring:message code='global.add'/>",
@@ -728,6 +731,7 @@ contractTab.method.addSectionByContract = function (record) {
                                 contractDetailListGrid.startEditingNew();
                             }
                         }),
+                        // </c:if>
                         isc.ToolStrip.create({
                             width: "100%",
                             height: 24,

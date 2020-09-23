@@ -14,6 +14,6 @@ public class InvoiceCompFormController {
     @RequestMapping("/show-form")
     public String show(HttpServletRequest request) {
 
-        return "contract2/invoiceComps";
+        return "contract/invoiceComps";
     }
 }
