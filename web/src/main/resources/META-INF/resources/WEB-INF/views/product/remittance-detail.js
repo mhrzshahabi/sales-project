@@ -258,11 +258,24 @@ const rdTab = {
             let defaultResponse = function (response) {
                 rdTab.Logs.add(["return status:", response]);
                 if (response.status === 400 || response.status == 500) {
-                    response.text().then(error => {
-                        rdTab.Logs.add(["fetch error:", error]);
-                        // MyRPCManager.handleError({httpResponseText: error});
-                        isc.warn("<spring:message code='Tozin.error.message '/>:\n" + JSON.stringify(error));
-                    });
+                    response.json().then(error=>{
+                        if (error.error ) {
+                            const er = error.error;
+                            if (er && er.toString().toLowerCase().includes("Unique".toLowerCase())) {
+                                return isc.warn("<spring:message code='exception.unique' />:\n" + JSON.stringify(error));
+                            }
+                            if (er && er.toString().toLowerCase().includes("_FK".toLowerCase())) {
+                                return isc.warn("<spring:message code='exception.DataIntegrityViolation_FK' />:\n" + JSON.stringify(error));
+                            }
+                        }
+                        return isc.warn("مشکلی پیش آمد. مشکل جهت گزارش:\n" + JSON.stringify(error));
+                    })
+
+                    // response.text().then(error => {
+                    //     rdTab.Logs.add(["fetch error:", error]);
+                    //     // MyRPCManager.handleError({httpResponseText: error});
+                    //     isc.warn("<spring:message code='Tozin.error.message '/>:\n" + JSON.stringify(error));
+                    // });
                     return;
                 }
 

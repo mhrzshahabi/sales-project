@@ -295,6 +295,9 @@ const BlTab = {
                         if (er && er.toString().toLowerCase().includes("Unique".toLowerCase())) {
                             return isc.warn("<spring:message code='exception.unique' />:\n" + JSON.stringify(error));
                         }
+                        if (er && er.toString().toLowerCase().includes("_FK".toLowerCase())) {
+                            return isc.warn("<spring:message code='exception.DataIntegrityViolation_FK' />:\n" + JSON.stringify(error));
+                        }
                     }
                     return isc.warn("مشکلی پیش آمد. مشکل جهت گزارش:\n" + JSON.stringify(error));
 
