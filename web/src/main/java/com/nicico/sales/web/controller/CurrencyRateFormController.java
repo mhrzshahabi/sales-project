@@ -2,16 +2,15 @@ package com.nicico.sales.web.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nicico.copper.core.SecurityUtil;
+import com.nicico.sales.model.entities.base.CurrencyRate;
 import com.nicico.sales.model.enumeration.RateReference;
-import com.nicico.sales.model.enumeration.SymbolUnit;
+import com.nicico.sales.utility.SecurityChecker;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
-import java.util.EnumSet;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -30,9 +29,7 @@ public class CurrencyRateFormController {
                         .collect(Collectors.toMap(RateReference::name, RateReference::name)))
         );
 
-        request.setAttribute("c_entity", SecurityUtil.hasAuthority("C_CURRENCY_RATE"));
-        request.setAttribute("u_entity", SecurityUtil.hasAuthority("U_CURRENCY_RATE"));
-        request.setAttribute("d_entity", SecurityUtil.hasAuthority("D_CURRENCY_RATE"));
+        SecurityChecker.addEntityPermissionToRequest(request, CurrencyRate.class);
 
         return "base/currencyRate/currencyRate";
     }

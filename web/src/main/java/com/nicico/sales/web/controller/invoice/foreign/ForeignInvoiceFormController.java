@@ -21,7 +21,7 @@ public class ForeignInvoiceFormController {
 
     @RequestMapping("/show-form")
     public String show(HttpServletRequest request) throws JsonProcessingException {
-
+    // @TODO
         request.setAttribute("c_entity", /*SecurityChecker.check("" +
                 "hasAuthority('C_FOREIGN_INVOICE') AND " +
                 "hasAuthority('C_FOREIGN_INVOICE_ITEM') AND " +
