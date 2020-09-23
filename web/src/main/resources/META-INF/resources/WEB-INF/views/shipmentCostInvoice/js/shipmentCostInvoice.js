@@ -29,7 +29,12 @@ shipmentCostInvoiceTab.restDataSource.shipmentRest = isc.MyRestDataSource.create
         {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
         {name: "sendDate", type: "date", showHover: true, title: "<spring:message code ='global.sendDate'/>"},
         {name: "bookingCat", title: "<spring:message code ='shipment.bookingCat'/>", showHover: true},
-        {name: "contractShipment.contract.no", type: 'text', showHover: true, title: "<spring:message code='contract.contractNo'/>"},
+        {
+            name: "contractShipment.contract.no",
+            type: 'text',
+            showHover: true,
+            title: "<spring:message code='contract.contractNo'/>"
+        },
         {name: "material.descl", type: 'text', showHover: true, title: "<spring:message code='material.descl'/>"}
     ],
     fetchDataURL: shipmentCostInvoiceTab.variable.shipmentUrl + "spec-list"
@@ -435,6 +440,7 @@ shipmentCostInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
             switch (value) {
                 case ImportantIDs.invoiceType.INSPECTION:
                     form.getItem("referenceId").show();
+                    form.getItem("referenceId").displayField = "inspectionNO";
                     referenceIdPickListFields = [
                         {name: "id", primaryKey: true, hidden: true, title: "<spring:message code='global.id'/>"},
                         {name: "inspectionNO", title: "<spring:message code='inspectionReport.InspectionNO'/>"},
@@ -448,6 +454,7 @@ shipmentCostInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
                     break;
                 case ImportantIDs.invoiceType.THC:
                     form.getItem("referenceId").show();
+                    form.getItem("referenceId").displayField = "documentNo";
                     referenceIdPickListFields = [
                         {
                             name: "documentNo", title: "<spring:message code='billOfLanding.document.no'/>"
@@ -464,6 +471,7 @@ shipmentCostInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
                     break;
                 case ImportantIDs.invoiceType.BLFEE:
                     form.getItem("referenceId").show();
+                    form.getItem("referenceId").displayField = "documentNo";
                     referenceIdPickListFields = [
                         {
                             name: "documentNo", title: "<spring:message code='billOfLanding.document.no'/>"
@@ -560,6 +568,7 @@ shipmentCostInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
             shipmentCostInvoiceTab.variable.today = item.getValue();
             shipmentCostInvoiceTab.variable.year = shipmentCostInvoiceTab.variable.today.getFullYear();
             shipmentCostInvoiceTab.method.setVATs(shipmentCostInvoiceTab.variable.year);
+            shipmentCostInvoiceTab.dynamicForm.shipmentPrice.getField("conversionRefId").clearValue();
             shipmentCostInvoiceTab.method.clearListGrid();
         },
     },
@@ -1256,10 +1265,8 @@ shipmentCostInvoiceTab.window.shipmentCost.init(null, '<spring:message code="shi
 shipmentCostInvoiceTab.window.shipmentCost.populateData = function (bodyWidget) {
     //////////////// DynamicForm ///////////////
     var shipmentCostObj = Object.assign(bodyWidget.members.get(0).getValues(), bodyWidget.members.get(2).getValues());
-
     //////////////// ListGrid //////////////////
     let shipmentCostInvoiceDetails = [];
-
     bodyWidget.members.get(1).selectAllRecords();
     bodyWidget.members.get(1).getSelectedRecords().forEach(function (current, index) {
 
@@ -1278,7 +1285,6 @@ shipmentCostInvoiceTab.window.shipmentCost.populateData = function (bodyWidget) 
         shipmentCostDetailObj.sumVatPrice = shipmentCostDetailObj.tvatPrice + shipmentCostDetailObj.cvatPrice;
         shipmentCostDetailObj.sumPriceWithVat = current.sumPriceWithVat;
         shipmentCostDetailObj.shipmentCostInvoiceId = current.shipmentCostInvoiceId;
-
         shipmentCostInvoiceDetails.push(shipmentCostDetailObj);
 
     });
@@ -1296,12 +1302,15 @@ shipmentCostInvoiceTab.window.shipmentCost.validate = function (data) {
     if (shipmentCostInvoiceTab.dynamicForm.shipmentCost.hasErrors())
         return false;
 
+    if (shipmentCostInvoiceTab.listGrid.shipmentCostDetail.getTotalRows() === 0) {
+        isc.say("<spring:message code='shipmentCostInvoiceDetail.service.list'/>");
+        return false;
+    }
     for (let i = 0; i < shipmentCostInvoiceTab.listGrid.shipmentCostDetail.getTotalRows(); i++) {
         shipmentCostInvoiceTab.listGrid.shipmentCostDetail.validateRow(i);
         if (shipmentCostInvoiceTab.listGrid.shipmentCostDetail.hasErrors())
             return false;
     }
-
     shipmentCostInvoiceTab.dynamicForm.shipmentPrice.validate();
     if (shipmentCostInvoiceTab.dynamicForm.shipmentPrice.hasErrors())
         return false;
@@ -1357,7 +1366,6 @@ shipmentCostInvoiceTab.method.editForm = function () {
     shipmentCostInvoiceTab.listGrid.shipmentCostDetail.members.get(3).members.get(2).members.get(0).hide();
 
     let record = shipmentCostInvoiceTab.listGrid.main.getSelectedRecord();
-    console.log("record", record);
     if (record == null || record.id == null)
         shipmentCostInvoiceTab.dialog.notSelected();
     else if (record.editable === false)
@@ -1370,7 +1378,7 @@ shipmentCostInvoiceTab.method.editForm = function () {
 
         shipmentCostInvoiceTab.window.shipmentCost.justShowForm();
 
-        shipmentCostInvoiceTab.dynamicForm.shipmentCost.editRecord(record);
+        shipmentCostInvoiceTab.dynamicForm.shipmentCost.fields.forEach(field => shipmentCostInvoiceTab.dynamicForm.shipmentCost.setValue(field.name, record[field.name]));
         shipmentCostInvoiceTab.dynamicForm.shipmentCost.setValue("invoiceDate", new Date(record.invoiceDate));
         shipmentCostInvoiceTab.dynamicForm.shipmentCost.getField("invoiceTypeId").changed(
             shipmentCostInvoiceTab.dynamicForm.shipmentCost,
@@ -1469,6 +1477,19 @@ nicico.BasicFormUtil.createListGrid = function () {
             loadOnExpand: true,
             loaded: false,
             sortField: 2,
+            getFilterEditorCriteria: function (criteria) {
+
+                this.Super("getFilterEditorCriteria", arguments);
+            },
+            setFilterEditorCriteria: function (criteria) {
+
+                this.Super("setFilterEditorCriteria", arguments);
+            },
+            filterData: function () {
+
+                shipmentCostInvoiceTab.listGrid.main.collapseRecords(shipmentCostInvoiceTab.listGrid.main.getExpandedRecords());
+                this.invalidateCache();
+            },
             getExpansionComponent: function (record) {
 
                 let criteria1 = {
