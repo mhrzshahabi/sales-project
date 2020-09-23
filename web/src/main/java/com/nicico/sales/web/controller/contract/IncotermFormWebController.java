@@ -19,6 +19,6 @@ public class IncotermFormWebController {
         request.setAttribute("u_entity", SecurityUtil.hasAuthority("U_INCOTERM_FORM"));
         request.setAttribute("d_entity", SecurityUtil.hasAuthority("D_INCOTERM_FORM"));
 
-        return "contract2/incoterm-form";
+        return "contract/incoterm-form";
     }
 }

@@ -13,12 +13,12 @@ public class GeneratorDynamicForm {
 
     @RequestMapping("/show-form")
     public String show(HttpServletRequest request) {
-        return "contract2/Component-dynamicForm-generator";
+        return "contract/Component-dynamicForm-generator";
     }
 
     @RequestMapping("/show-header")
     public String showHeader(HttpServletRequest request) {
-        return "contract2/Component-header-contract";
+        return "contract/Component-header-contract";
     }
 
 }

@@ -4,7 +4,7 @@ import com.nicico.sales.model.entities.base.AssayInspection;
 import com.nicico.sales.model.entities.base.MaterialItem;
 import com.nicico.sales.model.entities.base.WeightInspection;
 import com.nicico.sales.model.entities.common.BaseEntity;
-import com.nicico.sales.model.entities.contract.Contract2;
+import com.nicico.sales.model.entities.contract.Contract;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.Formula;
@@ -80,7 +80,7 @@ public class Inventory extends BaseEntity {
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "F_CONTRACT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "FK_INVENTORY2CONTRACT2"))
-    private Contract2 contract;
+    private Contract contract;
 
     @Column(name = "F_CONTRACT_ID")
     private Long contractId;

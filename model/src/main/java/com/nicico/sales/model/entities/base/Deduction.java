@@ -2,7 +2,7 @@ package com.nicico.sales.model.entities.base;
 
 
 import com.nicico.sales.model.entities.common.BaseEntity;
-import com.nicico.sales.model.entities.contract.Contract2;
+import com.nicico.sales.model.entities.contract.Contract;
 import com.nicico.sales.model.entities.warehouse.MaterialElement;
 import lombok.*;
 import lombok.experimental.Accessors;
@@ -54,7 +54,7 @@ public class Deduction extends BaseEntity {
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "F_CONTRACT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "FK_DEDUCTION2CONTRACT2BYCONTRACTID"))
-    private Contract2 contract;
+    private Contract contract;
 
     @NotNull
     @Column(name = "F_CONTRACT_ID", nullable = false)

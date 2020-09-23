@@ -30,6 +30,6 @@ public class BillOfLandingFormController {
     @GetMapping(value = "show-form")
     public String showHomePage(HttpServletRequest request, HttpServletResponse response) throws JsonProcessingException {
 
-    return "contract2/bill-of-landing";
+    return "contract/bill-of-landing";
     }
 }

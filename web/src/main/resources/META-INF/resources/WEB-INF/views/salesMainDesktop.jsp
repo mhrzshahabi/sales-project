@@ -779,12 +779,12 @@
         menu: isc.Menu.create({
             placement: "none",
             data: [
-                <sec:authorize access="hasAuthority('R_CONTRACT2')">
+                <sec:authorize access="hasAuthority('R_CONTRACT')">
                 {isSeparator: true},
                 {
                     title: "<spring:message code='entity.contract'/>",
                     click: function () {
-                        createTab("<spring:message code='entity.contract'/>", "<spring:url value="/contract2/show-form" />")
+                        createTab("<spring:message code='entity.contract'/>", "<spring:url value="/contract/show-form" />")
                     }
                 },
                 </sec:authorize>
@@ -1069,7 +1069,7 @@
     saleToolStrip.addMember(baseTab);
     </sec:authorize>
     <sec:authorize
-    access="hasAuthority('R_CONTRACT2') or hasAuthority('R_CONTRACT_TYPE') or hasAuthority('R_CONTRACT_DETAIL_TYPE') or hasAuthority('R_INCOTERM') or hasAuthority('R_CONTRACT_PERSON')">
+    access="hasAuthority('R_CONTRACT') or hasAuthority('R_CONTRACT_TYPE') or hasAuthority('R_CONTRACT_DETAIL_TYPE') or hasAuthority('R_INCOTERM') or hasAuthority('R_CONTRACT_PERSON')">
     saleToolStrip.addMember(contractsTab);
     </sec:authorize>
     <sec:authorize
@@ -1082,7 +1082,7 @@
     <sec:authorize access="hasAuthority('R_TOZIN_LITE') or hasAuthority('R_TOZIN') or hasAuthority('R_REMITTANCE')">
     saleToolStrip.addMember(productTab);
     </sec:authorize>
-    <sec:authorize access="hasAuthority('R_CONTRACT2')">
+    <sec:authorize access="hasAuthority('R_CONTRACT')">
     saleToolStrip.addMember(reportTab);
     </sec:authorize>
 

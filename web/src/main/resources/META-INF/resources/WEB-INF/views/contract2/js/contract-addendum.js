@@ -1371,10 +1371,12 @@ contractTab.Fields = {
 ////////////////////////////////////////////////////////WINDOWS/////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////MainContractRefactor////////////////////////////////////////////
 contractTab.ToolStripButtons = {
+    // <c:if test = "${u_entity}">
     Addendum: isc.ToolStripButtonRefresh.create({
         title: "<spring:message code='contract.addendum'/>",
         click: contractTab.Methods.NewAddendum
     }),
+    // </c:if>
     filterContracts: isc.ToolStripButtonEdit.create({
         title: "<spring:message code='global.form.filter'/>",
         icon: "pieces/16/icon_view.png",
@@ -1414,7 +1416,9 @@ contractTab.ToolStripButtons = {
     //     }
     // }
 };
+// <c:if test = "${u_entity}">
 contractTab.toolStrip.main.addMember(contractTab.ToolStripButtons.Addendum, 3)
+// </c:if>
 contractTab.toolStrip.main.addMember(contractTab.ToolStripButtons.filterContracts, 3)
 contractTab.listGrid.main.getCellCSSText = function (record, rowNum, colNum) {
     if (record.parentId) {

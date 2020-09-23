@@ -3,8 +3,8 @@ package com.nicico.sales.controller.contract;
 import com.nicico.copper.common.Loggable;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.sales.dto.contract.ContractDTO2;
-import com.nicico.sales.iservice.contract.IContractService2;
+import com.nicico.sales.dto.contract.ContractDTO;
+import com.nicico.sales.iservice.contract.IContractService;
 import com.nicico.sales.utility.SpecListUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,42 +22,42 @@ import java.util.Map;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping(value = "/api/g-contract")
-public class ContractRestController2 {
+public class ContractRestController {
 
     private final SpecListUtil specListUtil;
-    private final IContractService2 contractService;
+    private final IContractService contractService;
 
     @Loggable
     @GetMapping(value = "/{id}")
-    public ResponseEntity<ContractDTO2.Info> get(@PathVariable Long id) {
+    public ResponseEntity<ContractDTO.Info> get(@PathVariable Long id) {
 
         return new ResponseEntity<>(contractService.get(id), HttpStatus.OK);
     }
 
     @Loggable
     @GetMapping(value = "/list")
-    public ResponseEntity<List<ContractDTO2.Info>> list() {
+    public ResponseEntity<List<ContractDTO.Info>> list() {
 
         return new ResponseEntity<>(contractService.list(), HttpStatus.OK);
     }
 
     @Loggable
     @PostMapping
-    public ResponseEntity<ContractDTO2.Info> create(@Validated @RequestBody ContractDTO2.Create request) {
+    public ResponseEntity<ContractDTO.Info> create(@Validated @RequestBody ContractDTO.Create request) {
 
         return new ResponseEntity<>(contractService.create(request), HttpStatus.CREATED);
     }
 
     @Loggable
     @PostMapping("/finalize/{id}")
-    public ResponseEntity<ContractDTO2.Info> finalize(@PathVariable Long id) {
+    public ResponseEntity<ContractDTO.Info> finalize(@PathVariable Long id) {
 
         return new ResponseEntity<>(contractService.finalize(id), HttpStatus.CREATED);
     }
 
     @Loggable
     @PostMapping("/disapprove/{id}")
-    public ResponseEntity<ContractDTO2.Info> disapprove(@PathVariable Long id) {
+    public ResponseEntity<ContractDTO.Info> disapprove(@PathVariable Long id) {
 
         return new ResponseEntity<>(contractService.disapprove(id), HttpStatus.CREATED);
     }
@@ -65,7 +65,7 @@ public class ContractRestController2 {
 
     @Loggable
     @PutMapping
-    public ResponseEntity<ContractDTO2.Info> update(@Validated @RequestBody ContractDTO2.Update request) {
+    public ResponseEntity<ContractDTO.Info> update(@Validated @RequestBody ContractDTO.Update request) {
 
         return new ResponseEntity<>(contractService.update(request.getId(), request), HttpStatus.OK);
     }
@@ -80,7 +80,7 @@ public class ContractRestController2 {
 
     @Loggable
     @DeleteMapping(value = "/list")
-    public ResponseEntity<Void> delete(@Validated @RequestBody ContractDTO2.Delete request) {
+    public ResponseEntity<Void> delete(@Validated @RequestBody ContractDTO.Delete request) {
 
         contractService.deleteAll(request);
         return new ResponseEntity<>(HttpStatus.OK);
@@ -88,7 +88,7 @@ public class ContractRestController2 {
 
     @Loggable
     @GetMapping(value = "/spec-list")
-    public ResponseEntity<TotalResponse<ContractDTO2.ListGridInfo>> list(@RequestParam MultiValueMap<String, String> criteria) {
+    public ResponseEntity<TotalResponse<ContractDTO.ListGridInfo>> list(@RequestParam MultiValueMap<String, String> criteria) {
 
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
         return new ResponseEntity<>(contractService.refinedSearch(nicicoCriteria), HttpStatus.OK);

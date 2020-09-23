@@ -2,7 +2,7 @@ package com.nicico.sales.service.invoice.foreign;
 
 import com.nicico.sales.annotation.Action;
 import com.nicico.sales.dto.*;
-import com.nicico.sales.dto.contract.ContractDetailDTO2;
+import com.nicico.sales.dto.contract.ContractDetailDTO;
 import com.nicico.sales.dto.invoice.foreign.ForeignInvoiceItemDTO;
 import com.nicico.sales.enumeration.ActionType;
 import com.nicico.sales.enumeration.EContractDetailTypeCode;
@@ -11,8 +11,8 @@ import com.nicico.sales.enumeration.ErrorType;
 import com.nicico.sales.exception.NotFoundException;
 import com.nicico.sales.exception.SalesException2;
 import com.nicico.sales.iservice.*;
-import com.nicico.sales.iservice.contract.IContractDetailService2;
-import com.nicico.sales.iservice.contract.IContractService2;
+import com.nicico.sales.iservice.contract.IContractDetailService;
+import com.nicico.sales.iservice.contract.IContractService;
 import com.nicico.sales.iservice.invoice.foreign.IForeignInvoiceItemService;
 import com.nicico.sales.model.entities.base.AssayInspection;
 import com.nicico.sales.model.entities.base.PriceBase;
@@ -24,7 +24,6 @@ import com.nicico.sales.model.enumeration.InspectionReportMilestone;
 import com.nicico.sales.model.enumeration.PriceBaseReference;
 import com.nicico.sales.service.GenericService;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.TypeToken;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,8 +38,8 @@ public class ForeignInvoiceItemService extends GenericService<ForeignInvoiceItem
 
     private final IUnitService unitService;
     private final IPriceBaseService priceBaseService;
-    private final IContractService2 contractService2;
-    private final IContractDetailService2 contractDetailService2;
+    private final IContractService contractService;
+    private final IContractDetailService contractDetailService2;
     private final IAssayInspectionService assayInspectionService;
     private final IWeightInspectionService weightInspectionService;
     private final IContractDetailValueService2 contractDetailValueService2;
@@ -67,7 +66,7 @@ public class ForeignInvoiceItemService extends GenericService<ForeignInvoiceItem
         if (materialIds.size() != 1)
             throw new SalesException2(ErrorType.BadRequest, "material", "There is multiple material.");
 
-        ContractDetailDTO2.Info priceDetail = contractDetailService2.getContractDetailByContractDetailTypeCode(contractId, materialIds.iterator().next(), EContractDetailTypeCode.Price);
+        ContractDetailDTO.Info priceDetail = contractDetailService2.getContractDetailByContractDetailTypeCode(contractId, materialIds.iterator().next(), EContractDetailTypeCode.Price);
         String priceArticleText = priceDetail.getContent();
 
         Map<String, List<Object>> operationalDataOfDiscountArticle = contractDetailValueService2.get(contractId, EContractDetailTypeCode.Price, EContractDetailValueKey.DISCOUNT, true);

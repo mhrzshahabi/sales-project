@@ -64,6 +64,6 @@ public class ContractDetailTypeFormController {
         request.setAttribute("c_entity", SecurityUtil.hasAuthority("C_CONTRACT_DETAIL_TYPE"));
         request.setAttribute("u_entity", SecurityUtil.hasAuthority("U_CONTRACT_DETAIL_TYPE"));
         request.setAttribute("d_entity", SecurityUtil.hasAuthority("D_CONTRACT_DETAIL_TYPE"));
-        return "contract2/contract-detail-type";
+        return "contract/contract-detail-type";
     }
 }
