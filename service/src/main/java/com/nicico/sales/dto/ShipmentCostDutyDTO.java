@@ -1,7 +1,6 @@
 package com.nicico.sales.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.nicico.sales.annotation.i18n;
 import com.nicico.sales.model.enumeration.EStatus;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -20,8 +19,8 @@ import java.util.List;
 public class ShipmentCostDutyDTO {
 
     private String code;
-    @i18n
-    private String name;
+//    @I18n
+//    private String name;
     private String nameFA;
     private String nameEN;
 
