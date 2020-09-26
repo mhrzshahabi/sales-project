@@ -6,14 +6,18 @@ import com.nicico.copper.common.domain.ConstantVARs;
 import com.nicico.copper.common.domain.NumberConvertor;
 import com.nicico.copper.core.util.report.ReportUtil;
 import com.nicico.sales.dto.InvoiceSalesDTO;
+import com.nicico.sales.model.entities.base.InvoiceSales;
 import com.nicico.sales.model.entities.base.InvoiceSalesItem;
+import com.nicico.sales.model.entities.contract.IncotermAspect;
 import com.nicico.sales.service.InvoiceSalesItemService;
 import com.nicico.sales.service.InvoiceSalesService;
+import com.nicico.sales.utility.SecurityChecker;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -33,7 +37,10 @@ public class InvoiceSalesFormController {
     private final NumberConvertor numberConvertor;
 
     @RequestMapping("/showForm")
-    public String showBank() {
+    public String showBank(HttpServletRequest request) {
+
+        SecurityChecker.addEntityPermissionToRequest(request, InvoiceSales.class);
+
         return "shipment/invoiceSales";
     }
 
