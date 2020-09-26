@@ -224,49 +224,97 @@ shipmentCostInvoiceTab.restDataSource.shipmentCostInvoiceDetail = isc.MyRestData
             name: "unitPrice",
             type: "float",
             format: "#.##",
-            title: "<spring:message code='shipmentCostInvoiceDetail.unitPrice'/>"
+            title: "<spring:message code='shipmentCostInvoiceDetail.unitPrice'/>",
+            formatCellValue: function (value, record, rowNum, colNum) {
+                if (!value)
+                    return value;
+
+                return value + "";
+            },
         },
         {
             name: "sumPrice",
             type: "float",
             format: "#.##",
-            title: "<spring:message code='shipmentCostInvoiceDetail.sumPrice'/>"
+            title: "<spring:message code='shipmentCostInvoiceDetail.sumPrice'/>",
+            formatCellValue: function (value, record, rowNum, colNum) {
+                if (!value)
+                    return value;
+
+                return value + "";
+            }
         },
         {
             name: "discountPrice",
             type: "float",
             format: "#.##",
-            title: "<spring:message code='shipmentCostInvoiceDetail.discountPrice'/>"
+            title: "<spring:message code='shipmentCostInvoiceDetail.discountPrice'/>",
+            formatCellValue: function (value, record, rowNum, colNum) {
+                if (!value)
+                    return value;
+
+                return value + "";
+            }
         },
         {
             name: "sumPriceWithDiscount",
             type: "float",
             format: "#.##",
-            title: "<spring:message code='shipmentCostInvoiceDetail.sumPriceWithDiscount'/>"
+            title: "<spring:message code='shipmentCostInvoiceDetail.sumPriceWithDiscount'/>",
+            formatCellValue: function (value, record, rowNum, colNum) {
+                if (!value)
+                    return value;
+
+                return value + "";
+            }
         },
         {
             name: "tVatPrice",
             type: "float",
             format: "#.##",
-            title: "<spring:message code='shipmentCostInvoiceDetail.tVatPrice'/>"
+            title: "<spring:message code='shipmentCostInvoiceDetail.tVatPrice'/>",
+            formatCellValue: function (value, record, rowNum, colNum) {
+                if (!value)
+                    return value;
+
+                return value + "";
+            },
         },
         {
             name: "cVatPrice",
             type: "float",
             format: "#.##",
-            title: "<spring:message code='shipmentCostInvoiceDetail.cVatPrice'/>"
+            title: "<spring:message code='shipmentCostInvoiceDetail.cVatPrice'/>",
+            formatCellValue: function (value, record, rowNum, colNum) {
+                if (!value)
+                    return value;
+
+                return value + "";
+            }
         },
         {
             name: "sumVatPrice",
             type: "float",
             format: "#.##",
-            title: "<spring:message code='shipmentCostInvoiceDetail.sumVatPrice'/>"
+            title: "<spring:message code='shipmentCostInvoiceDetail.sumVatPrice'/>",
+            formatCellValue: function (value, record, rowNum, colNum) {
+                if (!value)
+                    return value;
+
+                return value + "";
+            }
         },
         {
             name: "sumPriceWithVat",
             type: "float",
             format: "#.##",
-            title: "<spring:message code='shipmentCostInvoiceDetail.sumPriceWithVat'/>"
+            title: "<spring:message code='shipmentCostInvoiceDetail.sumPriceWithVat'/>",
+            formatCellValue: function (value, record, rowNum, colNum) {
+                if (!value)
+                    return value;
+
+                return value + "";
+            },
         },
         {
             name: "shipmentCostInvoiceId", title: "<spring:message code='global.id'/>"
@@ -901,6 +949,13 @@ shipmentCostInvoiceTab.dynamicForm.shipmentPriceFields = BaseFormItems.concat([
         type: 'float',
         format: "#.##",
         hidden: true,
+        formatValue: function (value, record, form, item) {
+
+            if (value)
+                return value;
+
+            return "";
+        }
     },
     {
         name: "sumPriceWithDiscount",
@@ -909,6 +964,13 @@ shipmentCostInvoiceTab.dynamicForm.shipmentPriceFields = BaseFormItems.concat([
         type: 'float',
         format: "#.##",
         hidden: true,
+        formatValue: function (value, record, form, item) {
+
+            if (value)
+                return value;
+
+            return "";
+        }
     },
     {
         name: "sumPriceWithVat",
@@ -917,6 +979,13 @@ shipmentCostInvoiceTab.dynamicForm.shipmentPriceFields = BaseFormItems.concat([
         type: 'float',
         format: "#.##",
         hidden: true,
+        formatValue: function (value, record, form, item) {
+
+            if (value)
+                return value;
+
+            return "";
+        }
     },
     {
         name: "rialPrice",
@@ -924,7 +993,14 @@ shipmentCostInvoiceTab.dynamicForm.shipmentPriceFields = BaseFormItems.concat([
         type: 'float',
         format: "#.##",
         wrapTitle: false,
-        colSpan: 4
+        colSpan: 4,
+        formatValue: function (value, record, form, item) {
+
+            if (value)
+                return value;
+
+            return "";
+        }
     },
     {
         name: "conversionSumPrice",
@@ -938,14 +1014,28 @@ shipmentCostInvoiceTab.dynamicForm.shipmentPriceFields = BaseFormItems.concat([
             {
                 type: "isFloat",
                 validateOnChange: true
-            }]
+            }],
+        formatValue: function (value, record, form, item) {
+
+            if (value)
+                return value;
+
+            return "";
+        }
     },
     {
         name: "conversionSumPriceText",
         title: "<spring:message code='shipmentCostInvoice.conversionSumPriceText'/>",
         required: true,
         wrapTitle: false,
-        editorType: "staticText"
+        editorType: "staticText",
+        formatValue: function (value, record, form, item) {
+
+            if (value)
+                return value;
+
+            return "";
+        }
     },
     {
         name: "buyerShare",
@@ -965,6 +1055,13 @@ shipmentCostInvoiceTab.dynamicForm.shipmentPriceFields = BaseFormItems.concat([
                 type: "isFloat",
                 validateOnChange: true
             }],
+        formatValue: function (value, record, form, item) {
+
+            if (value)
+                return value;
+
+            return "";
+        },
         changed: function () {
             shipmentCostInvoiceTab.listGrid.shipmentCostDetail.members.get(3).members.get(2).members.get(0).click();
         }
@@ -981,7 +1078,14 @@ shipmentCostInvoiceTab.dynamicForm.shipmentPriceFields = BaseFormItems.concat([
             {
                 type: "isFloat",
                 validateOnChange: true
-            }]
+            }],
+        formatValue: function (value, record, form, item) {
+
+            if (value)
+                return value;
+
+            return "";
+        }
     },
     {
         name: "conversionSumPriceSellerShare",
@@ -991,11 +1095,17 @@ shipmentCostInvoiceTab.dynamicForm.shipmentPriceFields = BaseFormItems.concat([
         format: "#.##",
         wrapTitle: false,
         editorType: "staticText",
-        validators: [
-            {
-                type: "isFloat",
-                validateOnChange: true
-            }]
+        validators: [{
+            type: "isFloat",
+            validateOnChange: true
+        }],
+        formatValue: function (value, record, form, item) {
+
+            if (value)
+                return value;
+
+            return "";
+        }
     },
     {
         name: "description",
@@ -1059,7 +1169,10 @@ shipmentCostInvoiceTab.listGrid.shipmentCostDetail = isc.ListGrid.create({
             type: "float",
             required: true,
             width: "10%",
-            showHover: true
+            showHover: true,
+             editorProperties: {
+                keyPressFilter: "[0-9]",
+            },
         },
         {
             name: "unitId",
@@ -1088,7 +1201,10 @@ shipmentCostInvoiceTab.listGrid.shipmentCostDetail = isc.ListGrid.create({
                     title: "<spring:message code='unit.nameEN'/>",
                     align: "center"
                 }
-            ]
+            ],
+             editorProperties: {
+                keyPressFilter: "[0-9.]",
+            }
         },
         {
             name: "unitPrice",
@@ -1098,6 +1214,9 @@ shipmentCostInvoiceTab.listGrid.shipmentCostDetail = isc.ListGrid.create({
             required: true,
             width: "10%",
             showHover: true,
+            editorProperties: {
+                keyPressFilter: "[0-9.]",
+            },
             formatCellValue: function (value, record, rowNum, colNum) {
                 if (!value)
                     return value;
@@ -1128,6 +1247,9 @@ shipmentCostInvoiceTab.listGrid.shipmentCostDetail = isc.ListGrid.create({
             format: "#.##",
             required: true,
             showHover: true,
+             editorProperties: {
+                keyPressFilter: "[0-9.]",
+            },
             width: "10%",
             formatCellValue: function (value, record, rowNum, colNum) {
                 if (!value)
@@ -1623,7 +1745,13 @@ shipmentCostInvoiceTab.listGrid.shipmentCostDetailMain = isc.ListGrid.create(
             },
             {
                 name: "quantity",
-                width: "10%"
+                width: "10%",
+                formatCellValue: function (value, record, rowNum, colNum) {
+                    if (!value)
+                        return value;
+
+                    return value + "";
+                }
             },
             {
                 name: "unitPrice",
@@ -1647,7 +1775,13 @@ shipmentCostInvoiceTab.listGrid.shipmentCostDetailMain = isc.ListGrid.create(
             },
             {
                 name: "sumPriceWithVat",
-                width: "10%"
+                width: "10%",
+                formatCellValue: function (value, record, rowNum, colNum) {
+                    if (!value)
+                        return value;
+
+                    return value + "";
+                }
             },
             {
                 name: "shipmentCostInvoiceId",
