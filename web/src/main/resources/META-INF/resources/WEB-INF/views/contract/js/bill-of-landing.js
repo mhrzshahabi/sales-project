@@ -467,6 +467,7 @@ const BlTab = {
                     padding: 10,
                     membersMargin: 10,
                     members: [
+                     // <sec:authorize access="hasAuthority('U_BILL_OF_LANDING') or hasAuthority('C_BILL_OF_LANDING')">
                         isc.IButtonSave.create({
                             top: 260,
                             title: '<spring:message code="global.form.save"/> ',
@@ -475,6 +476,7 @@ const BlTab = {
                                 saveClickFunc();
                             }
                         }),
+                     // </sec:authorize>
                         isc.IButtonCancel.create({
                             title: '<spring:message code="global.close"/> ',
                             prompt: "",
@@ -2026,10 +2028,12 @@ BlTab.Grids.Remittance = {
 BlTab.Grids.BillOfLanding = {
     height: "100%",
     recordDoubleClick(viewer, record, recordNum, field, fieldNum, value, rawValue) {
+        // <sec:authorize access="hasAuthority('U_BILL_OF_LANDING')">
         if (!record) return BlTab.Dialog.NotSelected();
         BlTab.Layouts.ToolStripButtons.NewBillOfLanding.click();
         BlTab.Vars.BillOfLanding.setValues(record);
         BlTab.Vars.Method = "PUT"
+        // </sec:authorize>
     },
     autoFitWidth: true,
     autoFetchData: true,
@@ -2037,6 +2041,7 @@ BlTab.Grids.BillOfLanding = {
     expansionFieldImageShowSelected: true,
     canExpandRecords: true,
     canExpandMultipleRecords: false,
+    // <sec:authorize access="hasAuthority('R_CONTAINER_TO_BILL_OF_LANDING')">
     getExpansionComponent: function (record, rowNum, colNum) {
         // gridComponents
         /***
@@ -2108,6 +2113,7 @@ BlTab.Grids.BillOfLanding = {
             showGridSummary: true,
             gridComponents: [isc.ToolStrip.create({
                 members: [
+                    // <sec:authorize access="hasAuthority('C_CONTAINER_TO_BILL_OF_LANDING')">
                     BlTab.Layouts.ToolStripButtons.NewContainerToBillOfLanding = isc.ToolStripButtonAdd.create({
                         click() {
                             // dbg(false, 'window create container info', arguments);
@@ -2140,6 +2146,8 @@ BlTab.Grids.BillOfLanding = {
                             BlTab.Layouts.Window.ContainerToBillOfLanding.show()
                         }
                     }),
+                    // </sec:authorize>
+                    // <sec:authorize access="hasAuthority('U_CONTAINER_TO_BILL_OF_LANDING')">
                     isc.ToolStripButtonEdit.create({
                         click() {
                             const selectedRecord = BlTab.Grids.ContainerToBillOfLanding.getSelectedRecord();
@@ -2149,12 +2157,15 @@ BlTab.Grids.BillOfLanding = {
                             BlTab.DynamicForms.Forms.ContainerToBillOfLanding.setValues(selectedRecord);
                         }
                     }),
+                    // </sec:authorize>
+                    // <sec:authorize access="hasAuthority('D_CONTAINER_TO_BILL_OF_LANDING')">
                     isc.ToolStripButtonRemove.create({
                         click() {
                             BlTab.Methods.Delete(BlTab.Grids.ContainerToBillOfLanding,
                                 SalesConfigs.Urls.completeUrl + '/api/container-to-bill-of-landing')
                         }
                     }),
+                    // </sec:authorize>
                 ]
             }), "filterEditor", "header",
                 "body", "summaryRow"],
@@ -2208,6 +2219,7 @@ isc.Window.create({
 
          ****/
     },
+      // </sec:authorize>
     showHover: true,
     rotateHeaderTitles: true,
     autoFitHeaderHeights: true,
@@ -2283,6 +2295,7 @@ BlTab.Layouts.ToolStripButtons.NewBillOfLanding.click = _ => {
             BlTab.Vars.BillOfLanding.clearValues();
         })
     }, windID)
+    // <sec:authorize access="hasAuthority('U_BILL_OF_LANDING') or hasAuthority('C_BILL_OF_LANDING')">
     BlTab.Layouts.ToolStrips.BillOfLandingForm.addMember(
         isc.ToolStripButtonEdit.create({
             title: "<spring:message code='billOfLanding.fill.switch.form'/>",
@@ -2309,6 +2322,7 @@ BlTab.Layouts.ToolStripButtons.NewBillOfLanding.click = _ => {
             }
         })
     )
+    //     </sec:authorize>
     isc.Window.create({
         ...BlTab.Vars.DefaultWindowConfig,
         ID: windID,

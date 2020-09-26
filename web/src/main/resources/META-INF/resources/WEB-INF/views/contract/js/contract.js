@@ -422,7 +422,7 @@ contractTab.variable.contractDetailTypeTemplate.init(null, "<spring:message code
         {
             styleName: "contractDetailTypeTemplate",
             cellDoubleClick: function (record, rowNum, colNum) {
-                this.contractDetailTypeRecord.content = record.content;
+this.contractDetailTypeRecord.content = record.content;
                 contractTab.method.addSectionByContractDetailType(this.contractDetailTypeRecord);
                 contractTab.variable.contractDetailTypeTemplate.windowWidget.getObject().close();
             }
@@ -620,14 +620,18 @@ contractTab.method.addSectionByContract = function (record) {
                     contractTab.variable.contractDetailPreview.bodyWidget.getObject().setContents(generateContentFromSection(clickedSection, sectionStackSectionObj.template));
                     contractTab.variable.contractDetailPreview.justShowForm();
                 }
-            }), isc.IButton.create({
+            })
+                // <c:if test = "${SecurityUtil.hasAuthority('D_CONTRACT_DETAIL')}">
+                , isc.IButton.create({
                 width: 150,
                 icon: "[SKIN]/actions/remove.png",
                 size: 32,
                 click: function () {
                     contractTab.sectionStack.contract.removeSection(q.contractDetailTypeId + "");
                 }
-            })],
+            })
+                //</c:if>
+            ],
             items: []
         };
 
@@ -706,7 +710,7 @@ contractTab.method.addSectionByContract = function (record) {
                 selectionType: "single",
                 sortDirection: "ascending",
                 fields: getReferenceFields(reference),
-                canEdit: true,
+                canEdit: "${SecurityUtil.hasAuthority('U_CONTRACT_DETAIL_VALUE')}".toString() === "true",
                 editEvent: "doubleClick",
                 autoSaveEdits: false,
                 virtualScrolling: false,
@@ -714,7 +718,7 @@ contractTab.method.addSectionByContract = function (record) {
                 showRecordComponentsByCell: true,
                 recordComponentPoolingMode: "recycle",
                 listEndEditAction: "next",
-                canRemoveRecords: true,
+                canRemoveRecords: "${SecurityUtil.hasAuthority('D_CONTRACT_DETAIL_VALUE')}".toString() === "true",
                 reference: reference,
                 paramName: contractDetailValueGroup[reference][0].name,
                 paramTitle: contractDetailValueGroup[reference][0].title,
@@ -738,13 +742,16 @@ contractTab.method.addSectionByContract = function (record) {
                             align: 'left',
                             border: 0,
                             members: [
+                                // <c:if test = "${SecurityUtil.hasAuthority('R_CONTRACT_DETAIL_VALUE')}">
                                 isc.ToolStripButton.create({
                                     icon: "pieces/16/save.png",
                                     title: "<spring:message code='global.form.save'/>",
                                     click: function () {
                                         contractDetailListGrid.saveAllEdits();
                                     }
-                                })]
+                                })
+                                // </c:if>
+                            ]
                         })
                     ]
                 })]
