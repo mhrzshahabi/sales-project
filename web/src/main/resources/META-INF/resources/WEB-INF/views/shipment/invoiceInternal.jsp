@@ -126,16 +126,16 @@
             { name:"totalAmount",title:"<spring:message code='invoice.mablaghKol'/>",width:"150" , canEdit:false},
             { name:"totalDeductions",title:"<spring:message code='invoice.totalKosorat'/>",width:"150" , canEdit:false},
             { name:"invoiceDate",title:"<spring:message code='document.header.date'/>",width:"150",icons: [ persianDatePicker ],
-            wrapTitle: false,type:"persianDate",length:10,keyPressFilter:"[0-9/]",
+            wrapTitle: false,type:"persianDate",length:10,keyPressFilter:"[0-9/]", canEdit:false,
 			},
             {
-            type: 'integer',
+            type: 'integer', canEdit:false,
             name: "salesType",
             valueMap: {"2": "اعتباری", "1": "نقدی"},
             title: "<spring:message code='invoice.typeForosh'/>",width:"150"
             },
-            {type: 'float', name: "realWeight", title: "<spring:message code='invoice.weightReal'/>",width:"150" },
-            {name: "bankGroupDesc", title: "<spring:message code='invoice.bankGroupDesc'/>",width:"150" },
+            {type: 'float', name: "realWeight", title: "<spring:message code='invoice.weightReal'/>",width:"150", canEdit:false },
+            {name: "bankGroupDesc", title: "<spring:message code='invoice.bankGroupDesc'/>",width:"150" , canEdit:false},
 
             {type:"SpacerItem" ,width:"100%" , height: "50",colSpan: 4},
             { name:"documentDate",title:"<spring:message code='document.header.date'/>",width:"150",icons: [ persianDatePicker ],
