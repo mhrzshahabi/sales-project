@@ -1,6 +1,7 @@
 package com.nicico.sales.web.controller.contract;
 
-import com.nicico.copper.core.SecurityUtil;
+import com.nicico.sales.model.entities.contract.Term;
+import com.nicico.sales.utility.SecurityChecker;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,9 +16,8 @@ public class TermFormController {
     @RequestMapping("/show-form")
     public String show(HttpServletRequest request) {
 
-        request.setAttribute("c_entity", SecurityUtil.hasAuthority("C_TERM"));
-        request.setAttribute("u_entity", SecurityUtil.hasAuthority("U_TERM"));
-        request.setAttribute("d_entity", SecurityUtil.hasAuthority("D_TERM"));
-        return "contract2/term";
+        SecurityChecker.addEntityPermissionToRequest(request, Term.class);
+
+        return "contract/term";
     }
 }

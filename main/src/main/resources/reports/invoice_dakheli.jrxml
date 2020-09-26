@@ -211,7 +211,7 @@ WHERE
 				<textField isBlankWhenNull="true">
 					<reportElement stretchType="RelativeToTallestObject" x="233" y="-1" width="98" height="24" uuid="ade49a0e-f9bf-49a1-b1f4-c9214dcc4c70"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font fontName="Karnik" size="12"/>
+						<font fontName="Shabnam-FD" size="10"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{CUSTOMER_CUST_EGHTESADNUMBER}]]></textFieldExpression>
 				</textField>
@@ -239,28 +239,28 @@ WHERE
 				<textField isBlankWhenNull="true">
 					<reportElement x="440" y="22" width="230" height="24" uuid="3a8c6d62-202f-4ff5-a920-547f1ec82efa"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font fontName="Karnik" size="12" isItalic="false"/>
+						<font fontName="Shabnam-FD" size="10" isItalic="false"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{CUSTOMER_CUST_TEL}]]></textFieldExpression>
 				</textField>
 				<textField>
 					<reportElement x="233" y="23" width="98" height="24" uuid="15ffb7df-33d3-4539-86e5-7dee5e2e6158"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font fontName="Karnik" size="12"/>
+						<font fontName="Shabnam-FD" size="10"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{HAVALEHID}]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
 					<reportElement x="440" y="-1" width="230" height="24" uuid="ac002173-6284-48dc-9e5a-8e4ff2b60609"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font fontName="Karnik" size="12"/>
+						<font fontName="Shabnam-FD" size="10"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{CUSTOMER_CUST_NAME}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 					<reportElement x="2" y="46" width="667" height="24" uuid="7b6396b5-aa41-4e2a-8a3d-d1a19bdd15db"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font fontName="Karnik" size="12"/>
+						<font fontName="Shabnam-FD" size="10"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{CUSTOMER_CUST_ADDRESS}]]></textFieldExpression>
 				</textField>
@@ -281,7 +281,7 @@ WHERE
 				<textField isBlankWhenNull="true">
 					<reportElement stretchType="RelativeToTallestObject" x="3" y="-1" width="107" height="24" uuid="7bfb4ba2-3f64-40e3-bec2-f279f19de1ee"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font fontName="Karnik" size="12"/>
+						<font fontName="Shabnam-FD" size="10"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{CUSTOMER_CUST_SABTNUMBER}]]></textFieldExpression>
 				</textField>
@@ -295,7 +295,7 @@ WHERE
 				<textField isBlankWhenNull="true">
 					<reportElement stretchType="RelativeToTallestObject" x="3" y="23" width="107" height="24" uuid="0b325655-e82a-418a-b52c-ed3f9095f5a2"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font fontName="Karnik" size="12"/>
+						<font fontName="Shabnam-FD" size="10"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{CUSTOMER_CUST_POSTCODE}!=null?$F{CUSTOMER_CUST_POSTCODE}:""]]></textFieldExpression>
 				</textField>
@@ -465,7 +465,7 @@ WHERE
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Karnik" size="14"/>
+					<font fontName="Shabnam-FD" size="10"/>
 				</textElement>
 				<text><![CDATA[1]]></text>
 			</staticText>
@@ -478,7 +478,7 @@ WHERE
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Karnik" size="12"/>
+					<font fontName="Shabnam-FD" size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{GDSNAME}]]></textFieldExpression>
 			</textField>
@@ -491,7 +491,7 @@ WHERE
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Karnik" size="12"/>
+					<font fontName="Shabnam-FD" size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{WEIGHTREAL}]]></textFieldExpression>
 			</textField>
@@ -517,7 +517,7 @@ WHERE
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Karnik" size="12"/>
+					<font fontName="Shabnam-FD" size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{GHEMATUNIT}]]></textFieldExpression>
 			</textField>
@@ -530,7 +530,7 @@ WHERE
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Karnik" size="12"/>
+					<font fontName="Shabnam-FD" size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{MABLAGHKOL}]]></textFieldExpression>
 			</textField>
@@ -543,7 +543,7 @@ WHERE
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Karnik" size="12"/>
+					<font fontName="Shabnam-FD" size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{PAYFORAVAREZMALEYATE}]]></textFieldExpression>
 			</textField>
@@ -582,7 +582,7 @@ WHERE
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Karnik" size="12"/>
+					<font fontName="Shabnam-FD" size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{BANKGROUPDESC}]]></textFieldExpression>
 			</textField>
@@ -595,7 +595,7 @@ WHERE
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Karnik" size="12"/>
+					<font fontName="Shabnam-FD" size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{LCID}!=null?$F{LCID}:"نقدي"]]></textFieldExpression>
 			</textField>
@@ -619,7 +619,7 @@ WHERE
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Karnik" size="12"/>
+					<font fontName="Shabnam-FD" size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{MABLAGHKOL}]]></textFieldExpression>
 			</textField>
@@ -632,7 +632,7 @@ WHERE
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Karnik" size="12"/>
+					<font fontName="Shabnam-FD" size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{PAYFORAVAREZMALEYATE}]]></textFieldExpression>
 			</textField>
@@ -645,7 +645,7 @@ WHERE
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Karnik" size="12"/>
+					<font fontName="Shabnam-FD" size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[SUM($F{MABLAGHKOL},$F{PAYFORAVAREZMALEYATE})]]></textFieldExpression>
 			</textField>
@@ -658,7 +658,7 @@ WHERE
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Karnik" size="12"/>
+					<font fontName="Shabnam-FD" size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[SUM($F{MABLAGHKOL},$F{PAYFORAVAREZMALEYATE})]]></textFieldExpression>
 			</textField>
@@ -671,7 +671,7 @@ WHERE
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Karnik" size="12"/>
+					<font fontName="Shabnam-FD" size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{GOODSID}]]></textFieldExpression>
 			</textField>
@@ -684,7 +684,7 @@ WHERE
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="Karnik" size="12"/>
+					<font fontName="Shabnam-FD" size="10"/>
 					<paragraph rightIndent="5"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{sum_number_to_string}  + " ريال"]]></textFieldExpression>
@@ -762,7 +762,7 @@ WHERE
 							<textField isBlankWhenNull="true">
 								<reportElement x="5" y="49" width="207" height="24" uuid="71b56b68-5bd2-447b-8de3-6e0d4a129147"/>
 								<textElement textAlignment="Right" verticalAlignment="Middle">
-									<font fontName="Karnik" size="12" isItalic="false"/>
+									<font fontName="Shabnam-FD" size="10" isItalic="false"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{fax}]]></textFieldExpression>
 							</textField>
@@ -776,7 +776,7 @@ WHERE
 							<textField isBlankWhenNull="true">
 								<reportElement x="414" y="49" width="108" height="24" uuid="c492d4f4-3793-4b95-807a-7116388e85ae"/>
 								<textElement textAlignment="Right" verticalAlignment="Middle">
-									<font fontName="Karnik" size="12"/>
+									<font fontName="Shabnam-FD" size="10"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{phone}]]></textFieldExpression>
 							</textField>
@@ -804,42 +804,42 @@ WHERE
 							<textField isBlankWhenNull="true">
 								<reportElement x="558" y="49" width="113" height="24" uuid="acea96a3-73d5-4d86-9cd2-19ee1d5f64f0"/>
 								<textElement textAlignment="Right" verticalAlignment="Middle">
-									<font fontName="Karnik" size="12"/>
+									<font fontName="Shabnam-FD" size="10"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{postalCode}]]></textFieldExpression>
 							</textField>
 							<textField isBlankWhenNull="true">
 								<reportElement x="414" y="1" width="256" height="24" uuid="55f6bf84-2b1a-4d26-a6c5-371119d4ee9f"/>
 								<textElement textAlignment="Right" verticalAlignment="Middle">
-									<font fontName="Karnik" size="11"/>
+									<font fontName="Shabnam-FD" size="10"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{fullName}]]></textFieldExpression>
 							</textField>
 							<textField isBlankWhenNull="true">
 								<reportElement x="216" y="1" width="132" height="24" uuid="94b06d40-eb30-439e-8de8-a8a83bfe9b19"/>
 								<textElement textAlignment="Right" verticalAlignment="Middle">
-									<font fontName="Karnik" size="12"/>
+									<font fontName="Shabnam-FD" size="10"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{economicalCode}]]></textFieldExpression>
 							</textField>
 							<textField isBlankWhenNull="true">
 								<reportElement x="6" y="1" width="154" height="24" uuid="c23d0f8e-324d-44de-aeec-3053408e4a16"/>
 								<textElement textAlignment="Right" verticalAlignment="Middle">
-									<font fontName="Karnik" size="12"/>
+									<font fontName="Shabnam-FD" size="10"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{nationalCode}]]></textFieldExpression>
 							</textField>
 							<textField isBlankWhenNull="true">
 								<reportElement x="6" y="25" width="343" height="24" uuid="189acf97-0e19-4146-832e-4349d712fa7b"/>
 								<textElement textAlignment="Right" verticalAlignment="Middle">
-									<font fontName="Shabnam-FD" size="11"/>
+									<font fontName="Shabnam-FD" size="10"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{address}]]></textFieldExpression>
 							</textField>
 							<textField isBlankWhenNull="true">
 								<reportElement x="415" y="26" width="256" height="23" uuid="1f60617f-1caf-4239-915f-a9f8d812ec07"/>
 								<textElement textAlignment="Right" verticalAlignment="Middle">
-									<font fontName="Karnik" size="11"/>
+									<font fontName="Shabnam-FD" size="10"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{registerNumber}]]></textFieldExpression>
 							</textField>

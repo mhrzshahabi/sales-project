@@ -9,6 +9,7 @@ import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.annotation.Action;
 import com.nicico.sales.dto.ContractShipmentDTO;
+import com.nicico.sales.dto.DeductionDTO;
 import com.nicico.sales.dto.TypicalAssayDTO;
 import com.nicico.sales.dto.contract.*;
 import com.nicico.sales.enumeration.ActionType;
@@ -19,20 +20,21 @@ import com.nicico.sales.exception.NotFoundException;
 import com.nicico.sales.exception.SalesException2;
 import com.nicico.sales.iservice.IContractDetailValueService2;
 import com.nicico.sales.iservice.IContractShipmentService;
+import com.nicico.sales.iservice.IDeductionService;
 import com.nicico.sales.iservice.ITypicalAssayService;
 import com.nicico.sales.iservice.contract.*;
 import com.nicico.sales.model.entities.base.ContractShipment;
 import com.nicico.sales.model.entities.base.Shipment;
-import com.nicico.sales.model.entities.contract.Contract2;
+import com.nicico.sales.model.entities.contract.Contract;
 import com.nicico.sales.model.entities.contract.ContractContact;
-import com.nicico.sales.model.entities.contract.ContractDetail2;
+import com.nicico.sales.model.entities.contract.ContractDetail;
 import com.nicico.sales.model.entities.contract.ContractDetailValue;
 import com.nicico.sales.model.enumeration.CommercialRole;
 import com.nicico.sales.model.enumeration.DataType;
 import com.nicico.sales.model.enumeration.EStatus;
 import com.nicico.sales.repository.ContractShipmentDAO;
 import com.nicico.sales.repository.ShipmentDAO;
-import com.nicico.sales.repository.contract.ContractDAO2;
+import com.nicico.sales.repository.contract.ContractDAO;
 import com.nicico.sales.service.GenericService;
 import com.nicico.sales.utility.UpdateUtil;
 import lombok.RequiredArgsConstructor;
@@ -51,12 +53,13 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class ContractService2 extends GenericService<Contract2, Long, ContractDTO2.Create, ContractDTO2.Info, ContractDTO2.Update, ContractDTO2.Delete> implements IContractService2 {
+public class ContractService extends GenericService<Contract, Long, ContractDTO.Create, ContractDTO.Info, ContractDTO.Update, ContractDTO.Delete> implements IContractService {
 
-    private final IContractDetailService2 contractDetailService;
+    private final IContractDetailService contractDetailService;
     private final IContractContactService contractContactService;
     private final IContractShipmentService contractShipmentService;
     private final ITypicalAssayService typicalAssayService;
+    private final IDeductionService deductionService;
     private final IContractDiscountService contractDiscountService;
     private final IContractDetailValueService contractDetailValueService;
     private final IContractDetailValueService2 contractDetailValueService2;
@@ -66,44 +69,44 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
     private final ObjectMapper objectMapper;
     private final Gson gson;
     private final ResourceBundleMessageSource messageSource;
-    private final ContractDAO2 contractDAO2;
+    private final ContractDAO contractDAO2;
 
 
     @Override
     @Transactional
     @Action(ActionType.Create)
-    public ContractDTO2.Info create(ContractDTO2.Create request) {
+    public ContractDTO.Info create(ContractDTO.Create request) {
 
-        final Contract2 contract2 = modelMapper.map(request, Contract2.class);
-        validation(contract2, request);
+        final Contract contract = modelMapper.map(request, Contract.class);
+        validation(contract, request);
 
         ///الحاقیه
-        final List<ContractDetailDTO2.Info> requestContractDetails = request.getContractDetails();
+        final List<ContractDetailDTO.Info> requestContractDetails = request.getContractDetails();
         Set<ContractShipment> contractShipmentsWithShipments = new HashSet<>();
         if (request.getParentId() != null) {
             contractShipmentsWithShipments = getContractShipmentsWithShipment(request);
         }
-        contract2.setContractDetails(null);
-        contract2.setContractContacts(null);
+        contract.setContractDetails(null);
+        contract.setContractContacts(null);
 //        if (StringUtils.isEmpty(contract2.getNo()))
 //        contract2.setNo(contractNoGenerator.createContractNo());
 
-        ContractDTO2.Info savedContract2 = save(contract2);
+        ContractDTO.Info savedContract = save(contract);
 
-        createContractContacts(savedContract2.getId(), request.getBuyerId(), CommercialRole.Buyer);
-        createContractContacts(savedContract2.getId(), request.getSellerId(), CommercialRole.Seller);
+        createContractContacts(savedContract.getId(), request.getBuyerId(), CommercialRole.Buyer);
+        createContractContacts(savedContract.getId(), request.getSellerId(), CommercialRole.Seller);
         if (request.getAgentBuyerId() != null)
-            createContractContacts(savedContract2.getId(), request.getAgentBuyerId(), CommercialRole.AgentBuyer);
+            createContractContacts(savedContract.getId(), request.getAgentBuyerId(), CommercialRole.AgentBuyer);
         if (request.getAgentSellerId() != null)
-            createContractContacts(savedContract2.getId(), request.getAgentSellerId(), CommercialRole.AgentSeller);
+            createContractContacts(savedContract.getId(), request.getAgentSellerId(), CommercialRole.AgentSeller);
 
         if (requestContractDetails != null && requestContractDetails.size() > 0) {
-            final List<ContractDetailDTO2.Create> contractDetailsRqs = modelMapper.map(requestContractDetails, new TypeToken<List<ContractDetailDTO2.Create>>() {
+            final List<ContractDetailDTO.Create> contractDetailsRqs = modelMapper.map(requestContractDetails, new TypeToken<List<ContractDetailDTO.Create>>() {
             }.getType());
             contractDetailsRqs.forEach(q -> {
                 List<ContractDetailValueDTO.Create> contractDetailValues = q.getContractDetailValues();
-                q.setContractId(savedContract2.getId());
-                ContractDetailDTO2.Info savedContractDetail = contractDetailService.create(q);
+                q.setContractId(savedContract.getId());
+                ContractDetailDTO.Info savedContractDetail = contractDetailService.create(q);
 
                 if (contractDetailValues != null && contractDetailValues.size() > 0) {
                     List<ContractDetailValueDTO.Create> contractDetailValueRqs = modelMapper.map(contractDetailValues, new TypeToken<List<ContractDetailValueDTO.Create>>() {
@@ -114,13 +117,16 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
                         if (x.getType().name().equals("ListOfReference")) {
                             switch (x.getReference()) {
                                 case "ContractShipment":
-                                    x.setValue(createContractShipment(x, savedContract2.getId()).toString());
+                                    x.setValue(createContractShipment(x, savedContract.getId()).toString());
                                     break;
                                 case "TypicalAssay":
-                                    x.setValue(createTypicalAssay(x, savedContract2.getId()).toString());
+                                    x.setValue(createTypicalAssay(x, savedContract.getId()).toString());
+                                    break;
+                                case "Deduction":
+                                    x.setValue(createDeduction(x, savedContract.getId()).toString());
                                     break;
                                 case "Discount":
-                                    x.setValue(createDiscount(x, savedContract2.getId()).toString());
+                                    x.setValue(createDiscount(x, savedContract.getId()).toString());
                                     break;
                             }
                         }
@@ -136,7 +142,7 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
         if (contractShipmentsWithShipments.size() > 0 && requestContractDetails != null) {
             final Calendar cal = Calendar.getInstance();
             final Calendar kal = Calendar.getInstance();
-            Set<ContractShipment> contractShipmentsFromAddendum = new HashSet<>(contractShipmentDAO.findByContractId(contract2.getId()));
+            Set<ContractShipment> contractShipmentsFromAddendum = new HashSet<>(contractShipmentDAO.findByContractId(contract.getId()));
             if (contractShipmentsFromAddendum.size() > 0 && contractShipmentsWithShipments.size() > 0) {
                 for (ContractShipment csws : contractShipmentsWithShipments) {
                     cal.setTime(csws.getSendDate());
@@ -169,7 +175,7 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
 
         /***پایان الحاقیه***/
 
-        return savedContract2;
+        return savedContract;
     }
 
 
@@ -191,6 +197,13 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
         return savedTypicalAssay.getId();
     }
 
+    private Long createDeduction(ContractDetailValueDTO.Create x, Long id) {
+        DeductionDTO.Create deductionDTO = gson.fromJson(x.getReferenceJsonValue(), DeductionDTO.Create.class);
+        deductionDTO.setContractId(id);
+        DeductionDTO.Info savedDeduction = deductionService.create(deductionDTO);
+        return savedDeduction.getId();
+    }
+
     private Long createDiscount(ContractDetailValueDTO.Create x, Long id) {
         ContractDiscountDTO.Create contractDiscountDto = gson.fromJson(x.getReferenceJsonValue(), ContractDiscountDTO.Create.class);
         contractDiscountDto.setContractId(id);
@@ -208,6 +221,11 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
         typicalAssayService.update(typicalAssayDTO.getId(), typicalAssayDTO);
     }
 
+    private void updateDeduction(ContractDetailValueDTO.Update x) {
+        DeductionDTO.Update deductionDTO = gson.fromJson(x.getReferenceJsonValue(), DeductionDTO.Update.class);
+        deductionService.update(deductionDTO.getId(), deductionDTO);
+    }
+
     private void updateDiscount(ContractDetailValueDTO.Update x) {
         ContractDiscountDTO.Update contractDiscountDto = gson.fromJson(x.getReferenceJsonValue(), ContractDiscountDTO.Update.class);
         contractDiscountService.update(contractDiscountDto.getId(), contractDiscountDto);
@@ -221,29 +239,29 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
         contractContactService.create(contractContactDTO);
     }
 
-    private void updateContractContacts(Long newContractContactId, CommercialRole commercialRole, Contract2 contract2) {
+    private void updateContractContacts(Long newContractContactId, CommercialRole commercialRole, Contract contract) {
         ContractContactDTO.Update contractContactDTO = new ContractContactDTO.Update();
-        Optional<ContractContact> oldContractContact = contract2.getContractContacts().stream().filter(item -> item.getCommercialRole() == commercialRole).findFirst();
+        Optional<ContractContact> oldContractContact = contract.getContractContacts().stream().filter(item -> item.getCommercialRole() == commercialRole).findFirst();
         if (oldContractContact.isPresent()) {
-            ContractContactDTO.Info foundContractContact = contractContactService.getByContractIdAndContactIdAndCommercialRole(contract2.getId(), oldContractContact.get().getContact().getId(), commercialRole);
+            ContractContactDTO.Info foundContractContact = contractContactService.getByContractIdAndContactIdAndCommercialRole(contract.getId(), oldContractContact.get().getContact().getId(), commercialRole);
             contractContactDTO.setId(foundContractContact.getId());
-            contractContactDTO.setContractId(contract2.getId());
+            contractContactDTO.setContractId(contract.getId());
             contractContactDTO.setContactId(newContractContactId);
             contractContactDTO.setCommercialRole(commercialRole);
             contractContactDTO.setVersion(foundContractContact.getVersion());
             contractContactService.update(contractContactDTO);
         } else
-            createContractContacts(contract2.getId(), newContractContactId, commercialRole);
+            createContractContacts(contract.getId(), newContractContactId, commercialRole);
     }
 
     @Transactional(readOnly = true)
     @Action(value = ActionType.Search)
-    public TotalResponse<ContractDTO2.ListGridInfo> refinedSearch(NICICOCriteria request) {
+    public TotalResponse<ContractDTO.ListGridInfo> refinedSearch(NICICOCriteria request) {
 
-        List<Contract2> entities = new ArrayList<>();
-        TotalResponse<ContractDTO2.ListGridInfo> result = SearchUtil.search(repositorySpecificationExecutor, request, entity -> {
+        List<Contract> entities = new ArrayList<>();
+        TotalResponse<ContractDTO.ListGridInfo> result = SearchUtil.search(repositorySpecificationExecutor, request, entity -> {
 
-            ContractDTO2.ListGridInfo eResult = modelMapper.map(entity, ContractDTO2.ListGridInfo.class);
+            ContractDTO.ListGridInfo eResult = modelMapper.map(entity, ContractDTO.ListGridInfo.class);
             validation(entity, eResult);
             entities.add(entity);
             eResult.getContractContacts().forEach(q -> {
@@ -265,12 +283,12 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
 
     @Transactional(readOnly = true)
     @Action(value = ActionType.Search)
-    public SearchDTO.SearchRs<ContractDTO2.ListGridInfo> refinedSearch(SearchDTO.SearchRq request) {
+    public SearchDTO.SearchRs<ContractDTO.ListGridInfo> refinedSearch(SearchDTO.SearchRq request) {
 
-        List<Contract2> entities = new ArrayList<>();
-        SearchDTO.SearchRs<ContractDTO2.ListGridInfo> result = SearchUtil.search(repositorySpecificationExecutor, request, entity -> {
+        List<Contract> entities = new ArrayList<>();
+        SearchDTO.SearchRs<ContractDTO.ListGridInfo> result = SearchUtil.search(repositorySpecificationExecutor, request, entity -> {
 
-            ContractDTO2.ListGridInfo eResult = modelMapper.map(entity, ContractDTO2.ListGridInfo.class);
+            ContractDTO.ListGridInfo eResult = modelMapper.map(entity, ContractDTO.ListGridInfo.class);
             validation(entity, eResult);
             entities.add(entity);
             eResult.getContractContacts().forEach(q -> {
@@ -293,29 +311,29 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
     @Override
     @Transactional
     @Action(value = ActionType.Update)
-    public ContractDTO2.Info update(Long id, ContractDTO2.Update request) {
-        final ContractDTO2.Update requestForValidation = new ContractDTO2.Update();
+    public ContractDTO.Info update(Long id, ContractDTO.Update request) {
+        final ContractDTO.Update requestForValidation = new ContractDTO.Update();
         modelMapper.map(request, requestForValidation);
-        Contract2 contract2 = repository.findById(id).orElseThrow(() -> new NotFoundException(Contract2.class));
+        Contract contract = repository.findById(id).orElseThrow(() -> new NotFoundException(Contract.class));
 
         // update ContractContacts
-        updateContractContacts(request.getBuyerId(), CommercialRole.Buyer, contract2);
-        updateContractContacts(request.getSellerId(), CommercialRole.Seller, contract2);
+        updateContractContacts(request.getBuyerId(), CommercialRole.Buyer, contract);
+        updateContractContacts(request.getSellerId(), CommercialRole.Seller, contract);
         if (request.getAgentBuyerId() != null)
-            updateContractContacts(request.getAgentBuyerId(), CommercialRole.AgentBuyer, contract2);
+            updateContractContacts(request.getAgentBuyerId(), CommercialRole.AgentBuyer, contract);
         if (request.getAgentSellerId() != null)
-            updateContractContacts(request.getAgentSellerId(), CommercialRole.AgentSeller, contract2);
+            updateContractContacts(request.getAgentSellerId(), CommercialRole.AgentSeller, contract);
 
         //  update ContractDetails
-        List<ContractDetailDTO2.Create> contractDetail4Insert = new ArrayList<>();
-        List<ContractDetailDTO2.Update> contractDetail4Update = new ArrayList<>();
-        ContractDetailDTO2.Delete contractDetail4Delete = new ContractDetailDTO2.Delete();
+        List<ContractDetailDTO.Create> contractDetail4Insert = new ArrayList<>();
+        List<ContractDetailDTO.Update> contractDetail4Update = new ArrayList<>();
+        ContractDetailDTO.Delete contractDetail4Delete = new ContractDetailDTO.Delete();
 
         try {
-            updateUtil.fill(ContractDetail2.class, contract2.getContractDetails(),
-                    ContractDetailDTO2.Info.class, request.getContractDetails(),
-                    ContractDetailDTO2.Create.class, contractDetail4Insert,
-                    ContractDetailDTO2.Update.class, contractDetail4Update,
+            updateUtil.fill(ContractDetail.class, contract.getContractDetails(),
+                    ContractDetailDTO.Info.class, request.getContractDetails(),
+                    ContractDetailDTO.Create.class, contractDetail4Insert,
+                    ContractDetailDTO.Update.class, contractDetail4Update,
                     contractDetail4Delete);
         } catch (IllegalAccessException | InvocationTargetException | NoSuchFieldException e) {
             Locale locale = LocaleContextHolder.getLocale();
@@ -325,8 +343,8 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
         if (!contractDetail4Insert.isEmpty()) {
             contractDetail4Insert.forEach(q -> {
                 List<ContractDetailValueDTO.Create> contractDetailValues = q.getContractDetailValues();
-                q.setContractId(contract2.getId());
-                ContractDetailDTO2.Info savedContractDetail = contractDetailService.create(q);
+                q.setContractId(contract.getId());
+                ContractDetailDTO.Info savedContractDetail = contractDetailService.create(q);
 
                 if (contractDetailValues != null && contractDetailValues.size() > 0) {
                     List<ContractDetailValueDTO.Create> contractDetailValueRqs = modelMapper.map(contractDetailValues, new TypeToken<List<ContractDetailValueDTO.Create>>() {
@@ -337,13 +355,16 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
                         if (x.getType().name().equals("ListOfReference")) {
                             switch (x.getReference()) {
                                 case "ContractShipment":
-                                    x.setValue(createContractShipment(x, contract2.getId()).toString());
+                                    x.setValue(createContractShipment(x, contract.getId()).toString());
                                     break;
                                 case "TypicalAssay":
-                                    x.setValue(createTypicalAssay(x, contract2.getId()).toString());
+                                    x.setValue(createTypicalAssay(x, contract.getId()).toString());
+                                    break;
+                                case "Deduction":
+                                    x.setValue(createDeduction(x, contract.getId()).toString());
                                     break;
                                 case "Discount":
-                                    x.setValue(createDiscount(x, contract2.getId()).toString());
+                                    x.setValue(createDiscount(x, contract.getId()).toString());
                                     break;
                             }
                         }
@@ -356,10 +377,9 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
         }
 
         if (!contractDetail4Update.isEmpty()) {
-            int index = 0;
-            for (ContractDetailDTO2.Update q : contractDetail4Update) {
-                q.setContractId(contract2.getId());
-                ContractDetailDTO2.Info savedContractDetail = contractDetailService.update(q);
+            for (ContractDetailDTO.Update q : contractDetail4Update) {
+                q.setContractId(contract.getId());
+                ContractDetailDTO.Info savedContractDetail = contractDetailService.update(q);
 
                 List<ContractDetailValueDTO.Create> contractDetailValue4Insert = new ArrayList<>();
                 List<ContractDetailValueDTO.Update> contractDetailValue4Update = new ArrayList<>();
@@ -368,7 +388,7 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
                 try {
                     updateUtil.fill(ContractDetailValue.class, modelMapper.map(savedContractDetail.getContractDetailValues(), new TypeToken<List<ContractDetailValue>>() {
                             }.getType()),
-                            ContractDetailValueDTO.Info.class, request.getContractDetails().get(index).getContractDetailValues(),
+                            ContractDetailValueDTO.Info.class, request.getContractDetails().stream().filter(w -> q.getId().equals(w.getId())).findFirst().get().getContractDetailValues(),
                             ContractDetailValueDTO.Create.class, contractDetailValue4Insert,
                             ContractDetailValueDTO.Update.class, contractDetailValue4Update,
                             contractDetailValue4Delete);
@@ -383,13 +403,16 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
                         if (x.getType().name().equals("ListOfReference")) {
                             switch (x.getReference()) {
                                 case "ContractShipment":
-                                    x.setValue(createContractShipment(x, contract2.getId()).toString());
+                                    x.setValue(createContractShipment(x, contract.getId()).toString());
                                     break;
                                 case "TypicalAssay":
-                                    x.setValue(createTypicalAssay(x, contract2.getId()).toString());
+                                    x.setValue(createTypicalAssay(x, contract.getId()).toString());
+                                    break;
+                                case "Deduction":
+                                    x.setValue(createDeduction(x, contract.getId()).toString());
                                     break;
                                 case "Discount":
-                                    x.setValue(createDiscount(x, contract2.getId()).toString());
+                                    x.setValue(createDiscount(x, contract.getId()).toString());
                                     break;
                             }
                         }
@@ -409,6 +432,9 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
                                     case "TypicalAssay":
                                         updateTypicalAssay(x);
                                         break;
+                                    case "Deduction":
+                                        updateDeduction(x);
+                                        break;
                                     case "Discount":
                                         updateDiscount(x);
                                         break;
@@ -420,7 +446,7 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
                     });
                 }
                 if (!contractDetailValue4Delete.getIds().isEmpty()) {
-                    request.getContractDetails().get(index).getContractDetailValues().stream()
+                    request.getContractDetails().stream().filter(w -> q.getId().equals(w.getId())).findFirst().get().getContractDetailValues().stream()
                             .filter(contractDetailValue -> contractDetailValue4Delete.getIds().contains(contractDetailValue.getId()))
                             .forEach(detail -> {
                                 switch (detail.getReference()) {
@@ -429,6 +455,9 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
                                         break;
                                     case "TypicalAssay":
                                         typicalAssayService.delete(Long.valueOf(detail.getValue()));
+                                        break;
+                                    case "Deduction":
+                                        deductionService.delete(Long.valueOf(detail.getValue()));
                                         break;
                                     case "Discount":
                                         contractDiscountService.delete(Long.valueOf(detail.getValue()));
@@ -439,14 +468,11 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
                     contractDetailValueService.deleteAll(contractDetailValue4Delete);
 
                 }
-
-                index++;
             }
-
         }
 
         if (!contractDetail4Delete.getIds().isEmpty()) {
-            contract2.getContractDetails().stream().filter(contractDetail -> contractDetail4Delete.getIds().contains(contractDetail.getId()))
+            contract.getContractDetails().stream().filter(contractDetail -> contractDetail4Delete.getIds().contains(contractDetail.getId()))
                     .forEach(x -> x.getContractDetailValues().stream().filter(detailValue -> detailValue.getType().name().equals("ListOfReference")).forEach(
                             t -> {
                                 switch (t.getReference()) {
@@ -455,6 +481,9 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
                                         break;
                                     case "TypicalAssay":
                                         typicalAssayService.delete(Long.valueOf(t.getValue()));
+                                        break;
+                                    case "Deduction":
+                                        deductionService.delete(Long.valueOf(t.getValue()));
                                         break;
                                     case "Discount":
                                         contractDiscountService.delete(Long.valueOf(t.getValue()));
@@ -466,13 +495,13 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
             contractDetailService.deleteAll(contractDetail4Delete);
         }
 
-        Contract2 updating = new Contract2();
+        Contract updating = new Contract();
 
-        validation(contract2, request);
-        contract2.setContractDetails(null);
+        validation(contract, request);
+        contract.setContractDetails(null);
         request.setContractDetails(null);
 
-        modelMapper.map(contract2, updating);
+        modelMapper.map(contract, updating);
         modelMapper.map(request, updating);
         updating.setContractContacts(null);
 
@@ -484,8 +513,8 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
     @Action(value = ActionType.Delete)
     public void delete(Long id) {
 
-        final Optional<Contract2> entityById = repository.findById(id);
-        final Contract2 entity = entityById.orElseThrow(() -> new NotFoundException(Contract2.class));
+        final Optional<Contract> entityById = repository.findById(id);
+        final Contract entity = entityById.orElseThrow(() -> new NotFoundException(Contract.class));
 
         validation(entity, id);
 
@@ -501,6 +530,9 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
                                 case "TypicalAssay":
                                     typicalAssayService.delete(Long.valueOf(x.getValue()));
                                     break;
+                                case "Deduction":
+                                    deductionService.delete(Long.valueOf(x.getValue()));
+                                    break;
                                 case "Discount":
                                     contractDiscountService.delete(Long.valueOf(x.getValue()));
                                     break;
@@ -515,25 +547,25 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
     }
 
     @Override
-    public Boolean validation(Contract2 entity, Object... request) {
+    public Boolean validation(Contract entity, Object... request) {
         /***شروع الحاقیه***/
         final Calendar cal = Calendar.getInstance();
         final Calendar kal = Calendar.getInstance();
         Locale locale = LocaleContextHolder.getLocale();
-        ContractDTO2.Create req = modelMapper.map(request[0], ContractDTO2.Create.class);
+        ContractDTO.Create req = modelMapper.map(request[0], ContractDTO.Create.class);
         if ((actionType == ActionType.Create || actionType == ActionType.Update) && req.getParentId() != null) {
-//            if(actionType == ActionType.Create) {ContractDTO2.Create req = modelMapper.map(request[0], ContractDTO2.Create.class);}
-            final Contract2 contract = repository.getOne(req.getParentId());
+//            if(actionType == ActionType.Create) {ContractDTO.Create req = modelMapper.map(request[0], ContractDTO.Create.class);}
+            final Contract contract = repository.getOne(req.getParentId());
             if (!contract.getEStatus().contains(EStatus.Final)) {
                 throw new SalesException2(ErrorType.Unknown, "",
                         messageSource.getMessage("global.grid.not.finalized.record.found", null, locale));
             }
-            final List<Contract2> allByParentId = contractDAO2.findAllByParentId(req.getParentId());
-            final List<Contract2> notFinalizedAppendexes = allByParentId.stream()
+            final List<Contract> allByParentId = contractDAO2.findAllByParentId(req.getParentId());
+            final List<Contract> notFinalizedAppendexes = allByParentId.stream()
                     .filter(contract2 -> !contract2.getEStatus().contains(EStatus.Final)).collect(Collectors.toList());
             if (actionType == ActionType.Update) {
-                ContractDTO2.Update reqUpdate = modelMapper.map(request[0], ContractDTO2.Update.class);
-                final List<Contract2> collect = notFinalizedAppendexes.stream()
+                ContractDTO.Update reqUpdate = modelMapper.map(request[0], ContractDTO.Update.class);
+                final List<Contract> collect = notFinalizedAppendexes.stream()
                         .filter(contract2 -> !contract2.getId().equals(reqUpdate.getId())).collect(Collectors.toList());
                 if (collect.size() != 0) throw new SalesException2(ErrorType.Unknown, "",
                         messageSource.getMessage("global.grid.not.finalized.record.found", null, locale));
@@ -598,7 +630,7 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
         return map.get(eContractDetailValueKeyOptional.name());
     }
 
-    private Set<ContractShipment> getContractShipmentsWithShipment(ContractDTO2.Create request) {
+    private Set<ContractShipment> getContractShipmentsWithShipment(ContractDTO.Create request) {
         final Map<String, List<Object>> contractShipmentOriginalMap = contractDetailValueService2.get(request.getParentId(),
                 EContractDetailTypeCode.Shipment, EContractDetailValueKey.NotImportant, true);
         final List<ContractShipment> contractShipmentsOriginal = new ArrayList<>();
@@ -619,7 +651,7 @@ public class ContractService2 extends GenericService<Contract2, Long, ContractDT
         return contractShipmentsWithParentOrInShipment;
     }
 
-    private List<ContractShipment> getContractShipmentsOfRequest(ContractDTO2.Create req) {
+    private List<ContractShipment> getContractShipmentsOfRequest(ContractDTO.Create req) {
         return req.getContractDetails().stream()
                 .map(cd -> cd.getContractDetailValues()
                         .stream().filter(cdv -> cdv.getReference() != null &&

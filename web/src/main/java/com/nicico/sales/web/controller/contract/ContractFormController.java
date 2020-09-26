@@ -3,8 +3,11 @@ package com.nicico.sales.web.controller.contract;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nicico.copper.core.SecurityUtil;
+import com.nicico.sales.model.entities.contract.Contract;
+import com.nicico.sales.model.entities.contract.IncotermParty;
 import com.nicico.sales.model.enumeration.PriceBaseReference;
 import com.nicico.sales.model.enumeration.RateReference;
+import com.nicico.sales.utility.SecurityChecker;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,8 +18,8 @@ import java.util.Map;
 
 @RequiredArgsConstructor
 @Controller
-@RequestMapping("/contract2")
-public class ContractFormController2 {
+@RequestMapping("/contract")
+public class ContractFormController {
 
     private final ObjectMapper objectMapper;
 
@@ -32,14 +35,8 @@ public class ContractFormController2 {
         request.setAttribute("Enum_RateReference", objectMapper.writeValueAsString(rateReferences));
         request.setAttribute("Enum_PriceBaseReference", objectMapper.writeValueAsString(priceBaseReferences));
 
-        request.setAttribute("c_entity", SecurityUtil.hasAuthority("C_CONTRACT_2"));
-        request.setAttribute("u_entity", SecurityUtil.hasAuthority("U_CONTRACT_2"));
-        request.setAttribute("d_entity", SecurityUtil.hasAuthority("D_CONTRACT_2"));
-        request.setAttribute("f_entity", SecurityUtil.hasAuthority("F_CONTRACT_2"));
-        request.setAttribute("o_entity", SecurityUtil.hasAuthority("O_CONTRACT_2"));
-        request.setAttribute("a_entity", SecurityUtil.hasAuthority("A_CONTRACT_2"));
-        request.setAttribute("i_entity", SecurityUtil.hasAuthority("I_CONTRACT_2"));
+        SecurityChecker.addEntityPermissionToRequest(request, Contract.class);
 
-        return "contract2/contract";
+        return "contract/contract";
     }
 }

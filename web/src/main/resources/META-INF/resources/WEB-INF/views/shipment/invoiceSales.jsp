@@ -676,7 +676,7 @@
                         type:"required",
                         validateOnChange: true
                     }],
-                    autoFetchData: false,
+                    // autoFetchData: false,
                     pickListProperties: {
                         showFilterEditor: true
                     },
@@ -768,7 +768,7 @@
                     optionDataSource: RestDataSource_nosa_IN_invoiceSales,
                     displayField: "code",
                     valueField: "id",
-                    autoFetchData: false,
+                    // autoFetchData: false,
                     pickListProperties: {
                         showFilterEditor: true
                     },

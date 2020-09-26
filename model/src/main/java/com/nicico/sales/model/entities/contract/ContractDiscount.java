@@ -55,7 +55,7 @@ public class ContractDiscount extends BaseEntity {
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "F_CONTRACT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "FK_DIDSCOUNT2CONTRACT2BYCONTRACTID"))
-    private Contract2 contract;
+    private Contract contract;
 
     @NotNull
     @Column(name = "F_CONTRACT_ID", nullable = false)

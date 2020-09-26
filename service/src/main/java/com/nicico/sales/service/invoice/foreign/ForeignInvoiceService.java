@@ -4,7 +4,7 @@ import com.ghasemkiani.util.icu.PersianCalendar;
 import com.ibm.icu.util.Calendar;
 import com.nicico.sales.annotation.Action;
 import com.nicico.sales.dto.InvoiceTypeDTO;
-import com.nicico.sales.dto.contract.ContractDTO2;
+import com.nicico.sales.dto.contract.ContractDTO;
 import com.nicico.sales.dto.invoice.foreign.*;
 import com.nicico.sales.enumeration.ActionType;
 import com.nicico.sales.enumeration.ErrorType;
@@ -18,7 +18,7 @@ import com.nicico.sales.repository.invoice.foreign.ForeignInvoiceBillOfLadingDAO
 import com.nicico.sales.repository.invoice.foreign.ForeignInvoiceDAO;
 import com.nicico.sales.service.GenericService;
 import com.nicico.sales.service.InvoiceTypeService;
-import com.nicico.sales.service.contract.ContractService2;
+import com.nicico.sales.service.contract.ContractService;
 import com.nicico.sales.utility.InvoiceNoGenerator;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.TypeToken;
@@ -35,7 +35,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ForeignInvoiceService extends GenericService<ForeignInvoice, Long, ForeignInvoiceDTO.Create, ForeignInvoiceDTO.Info, ForeignInvoiceDTO.Update, ForeignInvoiceDTO.Delete> implements IForeignInvoiceService {
 
-    private final ContractService2 contractService;
+    private final ContractService contractService;
     private final InvoiceTypeService invoiceTypeService;
     private final InvoiceNoGenerator invoiceNoGenerator;
     private final ResourceBundleMessageSource messageSource;
@@ -71,7 +71,7 @@ public class ForeignInvoiceService extends GenericService<ForeignInvoice, Long, 
     public ForeignInvoiceDTO.Info create(ForeignInvoiceDTO.Create request) {
 
         PersianCalendar calendar = new PersianCalendar(request.getDate());
-        ContractDTO2.Info contract = contractService.get(request.getContractId());
+        ContractDTO.Info contract = contractService.get(request.getContractId());
         InvoiceTypeDTO.Info invoiceType = invoiceTypeService.get(request.getInvoiceTypeId());
         request.setNo(invoiceNoGenerator.createInvoiceNo(invoiceType.getTitle(), calendar.get(Calendar.YEAR) % 100, calendar.get(Calendar.MONTH) + 1, contract.getMaterial().getAbbreviation(), contract.getNo()));
 

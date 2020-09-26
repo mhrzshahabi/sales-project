@@ -1,6 +1,6 @@
 package com.nicico.sales.utility;
 
-import com.nicico.sales.repository.contract.ContractDAO2;
+import com.nicico.sales.repository.contract.ContractDAO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class ContractNoGenerator {
 
-    private final ContractDAO2 contractDAO2;
+    private final ContractDAO contractDAO2;
 
     public String createContractNo() {
 

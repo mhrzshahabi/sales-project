@@ -204,6 +204,7 @@ contractTab.listGrid.contractDetailType = isc.ListGrid.nicico.getDefault(
 
             var fieldName = this.getFieldName(colNum);
             if (fieldName === "addIcon") {
+                // <c:if test = "${SecurityUtil.hasAuthority('C_CONTRACT_DETAIL')}">
                 return isc.ImgButton.create(
                     {
                         width: 16,
@@ -246,6 +247,7 @@ contractTab.listGrid.contractDetailType = isc.ListGrid.nicico.getDefault(
                             };
                         }
                     });
+                // </c:if>
             }
 
             return null;
@@ -460,6 +462,7 @@ contractTab.variable.contractPreview.init(null, "<spring:message code='contract.
             icon: "[SKIN]/actions/print.png",
             title: "<spring:message code='global.form.print.pdf'/>",
             width: "100%",
+            margin: 3,
             click: function () {
                 var printWindow = window.open('', '', 'height=800,width=800');
                 printWindow.document.write('<html><head><title></title>');
@@ -468,6 +471,27 @@ contractTab.variable.contractPreview.init(null, "<spring:message code='contract.
                 printWindow.document.write('</body></html>');
                 printWindow.document.close();
                 printWindow.print();
+            }
+        }),
+        isc.ToolStripButtonAdd.create({
+            icon: "pieces/512/word.png",
+            title: "<spring:message code='global.form.print.contract.word'/>",
+            width: "100%",
+            margin: 3,
+            click: function () {
+                var header = "<html xmlns:o='urn:schemas-microsoft-com:office:office' " +
+                    "xmlns:w='urn:schemas-microsoft-com:office:word' " +
+                    "xmlns='http://www.w3.org/TR/REC-html40'>" +
+                    "<head><meta charset='utf-8'><title>CONTRACT</title></head><body>";
+                var footer = "</body></html>";
+                var sourceHTML = header + contractTab.variable.contractPreview.bodyWidget.getObject().get(0).getContents() + footer;
+                var source = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(sourceHTML);
+                var fileDownload = document.createElement("a");
+                document.body.appendChild(fileDownload);
+                fileDownload.href = source;
+                fileDownload.download = 'contract.doc';
+                fileDownload.click();
+                document.body.removeChild(fileDownload);
             }
         })
     ]
@@ -491,6 +515,7 @@ contractTab.toolStrip.main.addMember(isc.ToolStripButtonAdd.create({
             contractTab.dialog.notSelected();
         else {
             contractTab.variable.contractPreview.bodyWidget.getObject().get(0).setContents(record.content == undefined ? "" : record.content);
+            contractTab.variable.contractPreview.bodyWidget.getObject().get(0).redraw();
             contractTab.variable.contractPreview.justShowForm();
         }
     }
@@ -505,6 +530,7 @@ contractTab.menu.main.data.add({
             contractTab.dialog.notSelected();
         else {
             contractTab.variable.contractPreview.bodyWidget.getObject().get(0).setContents(record.content == undefined ? "" : record.content);
+            contractTab.variable.contractPreview.bodyWidget.getObject().get(0).redraw();
             contractTab.variable.contractPreview.justShowForm();
         }
     }
@@ -697,6 +723,7 @@ contractTab.method.addSectionByContract = function (record) {
                     width: "100%",
                     height: 24,
                     members: [
+                        // <c:if test = "${SecurityUtil.hasAuthority('R_CONTRACT_DETAIL_VALUE')}">
                         isc.ToolStripButton.create({
                             icon: "pieces/16/icon_add.png",
                             title: "<spring:message code='global.add'/>",
@@ -704,6 +731,7 @@ contractTab.method.addSectionByContract = function (record) {
                                 contractDetailListGrid.startEditingNew();
                             }
                         }),
+                        // </c:if>
                         isc.ToolStrip.create({
                             width: "100%",
                             height: 24,

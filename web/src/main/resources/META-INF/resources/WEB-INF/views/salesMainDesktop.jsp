@@ -779,12 +779,12 @@
         menu: isc.Menu.create({
             placement: "none",
             data: [
-                <sec:authorize access="hasAuthority('R_CONTRACT2')">
+                <sec:authorize access="hasAuthority('R_CONTRACT')">
                 {isSeparator: true},
                 {
                     title: "<spring:message code='entity.contract'/>",
                     click: function () {
-                        createTab("<spring:message code='entity.contract'/>", "<spring:url value="/contract2/show-form" />")
+                        createTab("<spring:message code='entity.contract'/>", "<spring:url value="/contract/show-form" />")
                     }
                 },
                 </sec:authorize>
@@ -933,7 +933,7 @@
                 },
                 {isSeparator: true},
                 </sec:authorize>
-                <sec:authorize access="hasAuthority('R_INVOICE_INTERNAL')">
+                <sec:authorize access="hasAuthority('R_VIEW_INTERNAL_INVOICE_DOCUMENT')">
                 {
                     title: "<spring:message code='issuedInternalInvoices.title'/>",
                     click: function () {
@@ -1069,20 +1069,20 @@
     saleToolStrip.addMember(baseTab);
     </sec:authorize>
     <sec:authorize
-    access="hasAuthority('R_CONTRACT2') or hasAuthority('R_CONTRACT_TYPE') or hasAuthority('R_CONTRACT_DETAIL_TYPE') or hasAuthority('R_INCOTERM') or hasAuthority('R_CONTRACT_PERSON')">
+    access="hasAuthority('R_CONTRACT') or hasAuthority('R_CONTRACT_TYPE') or hasAuthority('R_CONTRACT_DETAIL_TYPE') or hasAuthority('R_INCOTERM') or hasAuthority('R_CONTRACT_PERSON')">
     saleToolStrip.addMember(contractsTab);
     </sec:authorize>
     <sec:authorize
     access="hasAuthority('R_CONTRACT_SHIPMENT') or hasAuthority('R_BILL_OF_LANDING') or hasAuthority('R_INSPECTION_REPORT') or hasAuthority('R_SHIPMENT_COST_INVOICE')">
     saleToolStrip.addMember(shipmentTab);
     </sec:authorize>
-    <sec:authorize access="hasAuthority('R_FOREIGN_INVOICE') or hasAuthority('R_INVOICE_INTERNAL') or hasAuthority('R_INVOICE_SALES')">
+    <sec:authorize access="hasAuthority('R_FOREIGN_INVOICE') or hasAuthority('R_VIEW_INTERNAL_INVOICE_DOCUMENT') or hasAuthority('R_INVOICE_SALES')">
     saleToolStrip.addMember(financialTab);
     </sec:authorize>
     <sec:authorize access="hasAuthority('R_TOZIN_LITE') or hasAuthority('R_TOZIN') or hasAuthority('R_REMITTANCE')">
     saleToolStrip.addMember(productTab);
     </sec:authorize>
-    <sec:authorize access="hasAuthority('R_CONTRACT2')">
+    <sec:authorize access="hasAuthority('R_CONTRACT')">
     saleToolStrip.addMember(reportTab);
     </sec:authorize>
 

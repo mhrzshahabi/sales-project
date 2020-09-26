@@ -47,8 +47,7 @@ public enum EContractDetailValueKey {
     TYPICAL_WEIGHT("TYPICAL_WEIGHT"),
     DRUM_WEIGHT("DRUM_WEIGHT"),
     DISCOUNT("DISCOUNT"),
-    TC("TC"),
-    RC("RC"),
+    DEDUCTION("DEDUCTION"),
 
     BUYER_NAME("BUYER_NAME"),
     BUYER_ADDRESS("BUYER_ADDRESS"),

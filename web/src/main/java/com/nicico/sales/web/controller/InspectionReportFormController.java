@@ -3,9 +3,11 @@ package com.nicico.sales.web.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nicico.copper.core.SecurityUtil;
+import com.nicico.sales.model.entities.contract.IncotermAspect;
 import com.nicico.sales.model.enumeration.InspectionRateValueType;
 import com.nicico.sales.model.enumeration.InspectionReportMilestone;
 import com.nicico.sales.model.enumeration.WeighingType;
+import com.nicico.sales.utility.SecurityChecker;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,9 +39,7 @@ public class InspectionReportFormController {
         for (InspectionReportMilestone value : InspectionReportMilestone.values()) mileStone.put(value.name(), value.name());
         request.setAttribute("Enum_MileStone", objectMapper.writeValueAsString(mileStone));
 
-        request.setAttribute("c_entity", SecurityUtil.hasAuthority("C_INSPECTION_REPORT"));
-        request.setAttribute("u_entity", SecurityUtil.hasAuthority("U_INSPECTION_REPORT"));
-        request.setAttribute("d_entity", SecurityUtil.hasAuthority("D_INSPECTION_REPORT"));
+        SecurityChecker.addEntityPermissionToRequest(request, IncotermAspect.class);
 
         return "inspectionReport/inspectionReport";
     }

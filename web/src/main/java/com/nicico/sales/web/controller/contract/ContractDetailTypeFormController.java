@@ -5,10 +5,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nicico.copper.core.SecurityUtil;
 import com.nicico.sales.enumeration.EContractDetailTypeCode;
 import com.nicico.sales.enumeration.EContractDetailValueKey;
+import com.nicico.sales.model.entities.contract.ContractDetailType;
+import com.nicico.sales.model.entities.contract.IncotermParty;
 import com.nicico.sales.model.enumeration.ContractDetailTypeReference;
 import com.nicico.sales.model.enumeration.DataType;
 import com.nicico.sales.model.enumeration.PriceBaseReference;
 import com.nicico.sales.model.enumeration.RateReference;
+import com.nicico.sales.utility.SecurityChecker;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -61,9 +64,8 @@ public class ContractDetailTypeFormController {
         request.setAttribute("Enum_EContractDetailTypeCode", objectMapper.writeValueAsString(contractDetailTypeCodes));
         request.setAttribute("Enum_EContractDetailValueKey", objectMapper.writeValueAsString(contractDetailValueKeys));
 
-        request.setAttribute("c_entity", SecurityUtil.hasAuthority("C_CONTRACT_DETAIL_TYPE"));
-        request.setAttribute("u_entity", SecurityUtil.hasAuthority("U_CONTRACT_DETAIL_TYPE"));
-        request.setAttribute("d_entity", SecurityUtil.hasAuthority("D_CONTRACT_DETAIL_TYPE"));
-        return "contract2/contract-detail-type";
+        SecurityChecker.addEntityPermissionToRequest(request, ContractDetailType.class);
+
+        return "contract/contract-detail-type";
     }
 }

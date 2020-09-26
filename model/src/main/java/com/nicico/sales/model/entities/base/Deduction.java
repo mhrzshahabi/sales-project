@@ -18,24 +18,24 @@ import java.math.BigDecimal;
 @Accessors(chain = true)
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
-@Table(name = "TBL_TYPICAL_ASSAY")
-public class TypicalAssay extends BaseEntity {
+@Table(name = "TBL_DEDUCTION")
+public class Deduction extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_TBL_TYPICAL_ASSAY")
-    @SequenceGenerator(name = "SEQ_TBL_TYPICAL_ASSAY", sequenceName = "SEQ_TBL_TYPICAL_ASSAY", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_TBL_DEDUCTION")
+    @SequenceGenerator(name = "SEQ_TBL_DEDUCTION", sequenceName = "SEQ_TBL_DEDUCTION", allocationSize = 1)
     @Column(name = "ID")
     private Long id;
 
-    @Column(name = "N_MIN_VALUE", precision = 10, scale = 5, nullable = false)
-    private BigDecimal minValue;
+    @Column(name = "N_TREATMENT_COST", precision = 10, scale = 5, nullable = false)
+    private BigDecimal treatmentCost;
 
-    @Column(name = "N_MAX_VALUE", precision = 10, scale = 5, nullable = false)
-    private BigDecimal maxValue;
+    @Column(name = "N_REFINERY_COST", precision = 10, scale = 5, nullable = false)
+    private BigDecimal refineryCost;
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "F_UNIT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_typicalAssay2unitByUnitId"))
+    @JoinColumn(name = "F_UNIT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_deduction2unitByUnitId"))
     private Unit unit;
 
     @NotNull
@@ -44,7 +44,7 @@ public class TypicalAssay extends BaseEntity {
 
     @Setter
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "F_MATERIAL_ELEMENT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_typicalAssay2materialElementByMaterialElementId"))
+    @JoinColumn(name = "F_MATERIAL_ELEMENT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_deduction2materialElementByMaterialElementId"))
     private MaterialElement materialElement;
 
     @NotNull
@@ -53,7 +53,7 @@ public class TypicalAssay extends BaseEntity {
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "F_CONTRACT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "FK_TYPICALASSAY2CONTRACT2BYCONTRACTID"))
+    @JoinColumn(name = "F_CONTRACT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "FK_DEDUCTION2CONTRACT2BYCONTRACTID"))
     private Contract contract;
 
     @NotNull
