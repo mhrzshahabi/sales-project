@@ -543,13 +543,13 @@ const BlTab = {
                             width: "100%",
                             members:
                                 [
-                                    //    <sec:authorize access="hasAuthority('C_PARAMETERS')">
+                                    //    <sec:authorize access="hasAuthority('C_BILL_OF_LANDING')">
                                     isc.ToolStripButtonAdd.create({
                                         // ID: BlTab.Vars.Prefix + "toolـstripـbuttonـadd",
                                         ...BlTab.Layouts.ToolStripButtons.new,
                                     }),
                                     //  </sec:authorize>
-                                    //   <sec:authorize access="hasAuthority('U_PARAMETERS')">
+                                    //   <sec:authorize access="hasAuthority('U_BILL_OF_LANDING')">
                                     isc.ToolStripButtonEdit.create({
                                         // ID: BlTab.Vars.Prefix + "toolـstripـbuttonـadd",
                                         ...BlTab.Layouts.ToolStripButtons.edit,
@@ -557,7 +557,7 @@ const BlTab = {
 
                                     ,
                                     //   </sec:authorize>
-                                    //    <sec:authorize access="hasAuthority('D_PARAMETERS')">
+                                    //    <sec:authorize access="hasAuthority('D_BILL_OF_LANDING')">
                                     isc.ToolStripButtonRemove.create({
                                         ...BlTab.Layouts.ToolStripButtons.remove,
                                         // ID: BlTab.Vars.Prefix + "tool_stripـbuttonـremove",

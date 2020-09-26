@@ -529,13 +529,13 @@ const rdTab = {
                             width: "100%",
                             members:
                                 [
-                                    //    <sec:authorize access="hasAuthority('C_PARAMETERS')">
+                                    //    <sec:authorize access="hasAuthority('C_REMITTANCE_DETAIL')">
                                     isc.ToolStripButtonAdd.create({
                                         ...rdTab.Layouts.ToolStripButtons.new,
                                         ID: rdTab.Vars.Prefix + "toolـstripـbuttonـadd",
                                     }),
                                     //  </sec:authorize>
-                                    //   <sec:authorize access="hasAuthority('U_PARAMETERS')">
+                                    //   <sec:authorize access="hasAuthority('U_REMITTANCE_DETAIL')">
                                     isc.ToolStripButtonEdit.create({
                                         ...rdTab.Layouts.ToolStripButtons.edit,
                                         ID: rdTab.Vars.Prefix + "toolـstripـbuttonـedit",
@@ -543,7 +543,7 @@ const rdTab = {
 
                                     ,
                                     //   </sec:authorize>
-                                    //    <sec:authorize access="hasAuthority('D_PARAMETERS')">
+                                    //    <sec:authorize access="hasAuthority('D_REMITTANCE_DETAIL')">
                                     isc.ToolStripButtonRemove.create({
                                         ...rdTab.Layouts.ToolStripButtons.remove,
                                         ID: rdTab.Vars.Prefix + "tool_stripـbuttonـremove",
