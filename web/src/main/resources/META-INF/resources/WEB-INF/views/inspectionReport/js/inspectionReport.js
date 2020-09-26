@@ -1064,7 +1064,9 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
                     inspectionReportTab.method.createWeightListGrid();
                     inspectionReportTab.method.createAssayListGrid();
                 });
+                inspectionReportTab.dynamicForm.material.getItem("material").disable();
                 inspectionReportTab.dynamicForm.inspecReport.getItem("mileStone").disable();
+                inspectionReportTab.dynamicForm.inspecReport.getItem("shipmentId").disable();
                 inspectionReportTab.dynamicForm.inspecReport.getItem("inventoryId").disable();
             }
         }
@@ -1078,17 +1080,16 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
         icon: "pieces/16/refresh.png",
         click: function (form, item) {
 
-            inspectionReportTab.listGrid.weightElement.setData([]);
-            inspectionReportTab.listGrid.weightElementSum.setData([]);
-            inspectionReportTab.hStack.weightUnitSum.setMembers([]);
+            // inspectionReportTab.listGrid.weightElement.setData([]);
+            // inspectionReportTab.listGrid.weightElementSum.setData([]);
+            // inspectionReportTab.hStack.weightUnitSum.setMembers([]);
+            //
+            // inspectionReportTab.listGrid.assayElement.setData([]);
+            // inspectionReportTab.listGrid.assayElementSum.setData([]);
+            // inspectionReportTab.hStack.assayUnitSum.setMembers([]);
 
-            inspectionReportTab.listGrid.assayElement.setData([]);
-            inspectionReportTab.listGrid.assayElementSum.setData([]);
-            inspectionReportTab.hStack.assayUnitSum.setMembers([]);
-
-            inspectionReportTab.dynamicForm.inspecReport.getItem("select").enable();
             inspectionReportTab.dynamicForm.inspecReport.getItem("mileStone").enable();
-            // inspectionReportTab.dynamicForm.inspecReport.getItem("inventoryId").enable();
+            inspectionReportTab.dynamicForm.inspecReport.getItem("inventoryId").enable();
 
             inspectionReportTab.variable.removeAllWeight = false;
             inspectionReportTab.variable.removeAllAssay = false;
@@ -1434,6 +1435,7 @@ inspectionReportTab.toolStrip.weightRemoveAll = isc.ToolStrip.create({
 
                 inspectionReportTab.variable.removeAllWeight = true;
                 inspectionReportTab.listGrid.weightElement.setData([]);
+                inspectionReportTab.listGrid.weightElementSum.setData([]);
             }
         })
     ]
@@ -1556,6 +1558,7 @@ inspectionReportTab.toolStrip.assayRemoveAll = isc.ToolStrip.create({
 
                 inspectionReportTab.variable.removeAllAssay = true;
                 inspectionReportTab.listGrid.assayElement.setData([]);
+                inspectionReportTab.listGrid.assayElementSum.setData([]);
             }
         })
     ]
@@ -1747,12 +1750,16 @@ inspectionReportTab.window.inspecReport.validate = function (data) {
 
     if (inspectionReportTab.variable.materialId !== ImportantIDs.material.COPPER_CATHOD) {
 
-        inspectionReportTab.dynamicForm.assayLab.validate();
-        if (inspectionReportTab.dynamicForm.assayLab.hasErrors()) {
+        if (inspectionReportTab.listGrid.assayElement.getData().length !== 0) {
 
-            inspectionReportTab.tab.inspecTabs.selectTab(inspectionReportTab.tab.inspecTabs.tabs.filter(q => q.name === "assay").first());
-            return false;
+            inspectionReportTab.dynamicForm.assayLab.validate();
+            if (inspectionReportTab.dynamicForm.assayLab.hasErrors()) {
+
+                inspectionReportTab.tab.inspecTabs.selectTab(inspectionReportTab.tab.inspecTabs.tabs.filter(q => q.name === "assay").first());
+                return false;
+            }
         }
+
 
         // if (inspectionReportTab.listGrid.assayElement.getData().length !== inspectionReportTab.listGrid.assayElement.inventoryCount) {
         //
@@ -1806,9 +1813,11 @@ inspectionReportTab.method.newForm = function () {
 
     inspectionReportTab.variable.method = "POST";
     inspectionReportTab.method.clearForm();
+    inspectionReportTab.dynamicForm.material.getItem("material").enable();
     inspectionReportTab.dynamicForm.inspecReport.getItem("select").enable();
     inspectionReportTab.dynamicForm.inspecReport.getItem("refresh").enable();
     inspectionReportTab.dynamicForm.inspecReport.getItem("mileStone").enable();
+    inspectionReportTab.dynamicForm.inspecReport.getItem("shipmentId").enable();
     inspectionReportTab.dynamicForm.inspecReport.getItem("inventoryId").enable();
     inspectionReportTab.window.inspecReport.justShowForm();
 };
@@ -1886,8 +1895,8 @@ inspectionReportTab.method.editForm = function () {
         inspectionReportTab.dynamicForm.assayLab.getField("labName").setValue(labName);
         inspectionReportTab.dynamicForm.assayLab.getField("labPlace").setValue(labPlace);
 
-        inspectionReportTab.dynamicForm.inspecReport.getItem("select").disable();
-        inspectionReportTab.dynamicForm.inspecReport.getItem("refresh").disable();
+        // inspectionReportTab.dynamicForm.inspecReport.getItem("select").disable();
+        // inspectionReportTab.dynamicForm.inspecReport.getItem("refresh").disable();
 
         inspectionReportTab.method.materialChange();
         inspectionReportTab.method.getAssayElementFields(materialId, () => {
