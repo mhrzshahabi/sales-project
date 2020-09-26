@@ -8,13 +8,17 @@ import java.util.Map;
 
 public interface IAccountingApiService {
 
-    String getDetailCode(String detailCode);
+    String getDetailByCode(String detailCode);
 
-    String getDocumentInfo(String invoiceId);
+    Map<String, MultiValueMap<String, Object>> getDetailByName(MultiValueMap<String, String> requestParams);
+
+//    String getDocumentInfo(String invoiceId);
 
     List<AccountingDTO.DepartmentInfo> getDepartments();
 
     void sendDataParameters(MultiValueMap<String, String> requestParams);
 
     Map<String, Object> sendInvoice(AccountingDTO.DocumentCreateRq request, List<Object> objects);
+
+    Map<String, String> getInvoiceStatus(String systemName, List<String> requestParams);
 }

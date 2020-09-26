@@ -37,7 +37,7 @@ public class AccountingApiService implements IAccountingApiService {
 	// ------------------------------
 
 	@Override
-	public String getDetailCode(String detailCode) {
+	public String getDetailByCode(String detailCode) {
 		final String url = accountingAppUrl + "/rest/detail/getDetailByCode";
 		final HttpHeaders httpHeaders = new HttpHeaders();
 		httpHeaders.setContentType(MediaType.APPLICATION_JSON);
@@ -54,13 +54,39 @@ public class AccountingApiService implements IAccountingApiService {
 				return httpResponse.getBody();
 			}
 		} else {
-			log.error("AccountingApiService.GetDetailCode Error: [" + httpResponse.getStatusCode() + "]: " + httpResponse.getBody());
+			log.error("AccountingApiService.GetDetailByCode Error: [" + httpResponse.getStatusCode() + "]: " + httpResponse.getBody());
 		}
 
 		return null;
 	}
 
 	@Override
+	public Map<String, MultiValueMap<String, Object>> getDetailByName(MultiValueMap<String, String> requestParams) {
+		final String url = accountingAppUrl + "/rest/detail/getDetailGridFetch";
+		final HttpHeaders httpHeaders = new HttpHeaders();
+		httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+		httpHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+
+		final HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(requestParams, httpHeaders);
+
+		final ResponseEntity<String> httpResponse = restTemplate.exchange(url, HttpMethod.GET, httpEntity, String.class);
+		if (httpResponse.getStatusCode().equals(HttpStatus.OK)) {
+			if (!StringUtils.isEmpty(httpResponse.getBody())) {
+				try {
+					return objectMapper.readValue(httpResponse.getBody(), new TypeReference<Map<String, Object>>() {
+					});
+				} catch (IOException e) {
+					log.error("AccountingApiService.GetDetailByName Error: [" + Arrays.toString(e.getStackTrace()) + "]");
+				}
+			}
+		} else {
+			log.error("AccountingApiService.GetDetailByName Error: [" + httpResponse.getStatusCode() + "]: " + httpResponse.getBody());
+		}
+
+		return null;
+	}
+
+	/*@Override
 	public String getDocumentInfo(String invoiceId) {
 		final String url = accountingAppUrl + "/rest/system-document/document-Number/" + appName + "/" + invoiceId;
 		final HttpHeaders httpHeaders = new HttpHeaders();
@@ -79,7 +105,7 @@ public class AccountingApiService implements IAccountingApiService {
 		}
 
 		return null;
-	}
+	}*/
 
 	@Override
 	public List<AccountingDTO.DepartmentInfo> getDepartments() {
@@ -171,6 +197,32 @@ public class AccountingApiService implements IAccountingApiService {
 			}
 		} else {
 			log.error("AccountingApiService.SendInvoice Error: [" + httpResponse.getStatusCode() + "]: " + httpResponse.getBody());
+		}
+
+		return null;
+	}
+
+	@Override
+	public Map<String, String> getInvoiceStatus(String systemName, List<String> requestParams) {
+		final String url = accountingAppUrl + "/rest/system-document/document-Number/" + systemName;
+		final HttpHeaders httpHeaders = new HttpHeaders();
+		httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+		httpHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+
+		final HttpEntity<List<String>> httpEntity = new HttpEntity<>(requestParams, httpHeaders);
+
+		final ResponseEntity<String> httpResponse = restTemplate.exchange(url, HttpMethod.POST, httpEntity, String.class);
+		if (httpResponse.getStatusCode().equals(HttpStatus.OK)) {
+			if (!StringUtils.isEmpty(httpResponse.getBody())) {
+				try {
+					return objectMapper.readValue(httpResponse.getBody(), new TypeReference<Map<String, Object>>() {
+					});
+				} catch (IOException e) {
+					log.error("AccountingApiService.GetInvoiceStatus Error: [" + Arrays.toString(e.getStackTrace()) + "]");
+				}
+			}
+		} else {
+			log.error("AccountingApiService.GetInvoiceStatus Error: [" + httpResponse.getStatusCode() + "]: " + httpResponse.getBody());
 		}
 
 		return null;
