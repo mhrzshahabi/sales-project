@@ -1560,6 +1560,48 @@ inspectionReportTab.toolStrip.assayRemoveAll = isc.ToolStrip.create({
                 inspectionReportTab.listGrid.assayElement.setData([]);
                 inspectionReportTab.listGrid.assayElementSum.setData([]);
             }
+        }),
+        isc.DynamicForm.create({
+            fields: [{
+                name: "excelFile",
+                type: "file",
+                title: "<spring:message code='global.ok'/>"
+            }, {
+                type: "ButtonItem",
+                title: "<spring:message code='global.ok'/>",
+                click: function () {
+
+                    inspectionReportTab.listGrid.assayElement.saveAllEdits();
+                    let recordLimit = inspectionReportTab.listGrid.assayElement.getData().length;
+                    let fileBrowserId = document.getElementById(this.form.getItem("excelFile").uploadItem.getElement().id);
+                    let fieldNames = inspectionReportTab.listGrid.assayElement.getFields().slice(2, inspectionReportTab.listGrid.assayElement.getFields().length - 1).map(q => q.name);
+
+                    let formData = new FormData();
+                    formData.append("file", fileBrowserId.files[0]);
+                    formData.append("recordLimit", recordLimit);
+                    formData.append("fieldNames", fieldNames);
+                    debugger
+                    let request = new XMLHttpRequest();
+                    request.open("POST", "${contextPath}/inspectionReport/import-data");
+                    request.setRequestHeader("contentType", "application/json; charset=utf-8");
+                    request.setRequestHeader("Authorization", BaseRPCRequest.httpHeaders.Authorization);
+                    request.send(formData);
+                    request.onreadystatechange = function () {
+
+                        if (request.readyState === XMLHttpRequest.DONE) {
+
+                            if (request.status === 0)
+                                isc.warn("<spring:message code='dcc.upload.error.capacity'/>");
+                            else if (request.status === 500)
+                                isc.warn("<spring:message code='dcc.upload.error.message'/>");
+                            else if (request.status === 200 || request.status === 201) {
+
+                                isc.say("<spring:message code='dcc.upload.success.message'/>");
+                            }
+                        }
+                    };
+                }
+            }]
         })
     ]
 });

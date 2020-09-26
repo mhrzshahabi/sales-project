@@ -145,8 +145,17 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
         valueField: "id",
         displayField: "no",
         optionCriteria: {
-            fieldName: "parentId",
-            operator: "isNull"
+            operator: "and",
+            criteria: [
+                {
+                    fieldName: "parentId",
+                    operator: "isNull"
+                }, {
+                    fieldName: "eStatusId",
+                    operator: "greaterOrEqual",
+                    value: 4
+                }
+            ]
         },
         optionDataSource: isc.MyRestDataSource.create({
             fields: [
@@ -156,9 +165,15 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
                     title: "<spring:message code='foreign-invoice.form.contract'/>"
                 },
                 {name: "description", title: "<spring:message code='global.description'/>"},
+                {name: "estatus", title: "<spring:message code='global.status'/>"},
             ],
             fetchDataURL: foreignInvoiceTab.variable.contractUrl + "spec-list"
         }),
+        pickListFields: [
+            {name: "id", primaryKey: true, hidden: true, title: "<spring:message code='global.id'/>"},
+            {name: "no"},
+            {name: "estatus"}
+        ],
         title: "<spring:message code='foreign-invoice.form.contract'/>",
         wrapTitle: false,
         validators: [
