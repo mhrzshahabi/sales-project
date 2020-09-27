@@ -55,7 +55,7 @@ public class InspectionReportFormController {
         return "inspectionReport/inspectionReport";
     }
 
-    @PostMapping
+    @PostMapping("/import-data")
     public ResponseEntity<List<Map<String, Object>>> importFromExcel(
             @RequestParam("file") MultipartFile file,
             @RequestParam("recordLimit") Integer recordLimit,

@@ -42,7 +42,7 @@ public class MakeExcelInputUtil {
             Map<String, Object> rowMap = new HashMap<>();
             for (Cell cell : neededCells) {
 
-                switch (cell.getCellType()) {
+                switch (row.getCell(cell.getColumnIndex()).getCellType()) {
                     case Cell.CELL_TYPE_BOOLEAN:
 
                         rowMap.put(cell.getStringCellValue(), row.getCell(cell.getColumnIndex()).getBooleanCellValue());
@@ -71,7 +71,7 @@ public class MakeExcelInputUtil {
                         rowMap.put(cell.getStringCellValue(), row.getCell(cell.getColumnIndex()).getNumericCellValue());
                         break;
                     case Cell.CELL_TYPE_STRING:
-
+//
                         rowMap.put(cell.getStringCellValue(), row.getCell(cell.getColumnIndex()).getStringCellValue());
                         break;
                 }

@@ -578,12 +578,12 @@ inspectionReportTab.method.setWeightElementListRows = function (selectedInventor
     inspectionReportTab.listGrid.weightElement.inventoryCount = selectedInventories.length;
     selectedInventories.forEach((current, index, array) => inspectionReportTab.listGrid.weightElement.startEditingNew({inventoryId: current}));
 
-    if (inspectionReportTab.variable.method !== "PUT") return;
+    // if (inspectionReportTab.variable.method !== "PUT") return;
 
-    let record = inspectionReportTab.listGrid.main.getSelectedRecord();
-    inspectionReportTab.listGrid.weightElement.setData(record.weightInspections);
-    inspectionReportTab.listGrid.weightElement.saveAllEdits();
-    inspectionReportTab.listGrid.weightElement.endEditing();
+    // let record = inspectionReportTab.listGrid.main.getSelectedRecord();
+    // inspectionReportTab.listGrid.weightElement.setData(record.weightInspections);
+    // inspectionReportTab.listGrid.weightElement.saveAllEdits();
+    // inspectionReportTab.listGrid.weightElement.endEditing();
 };
 
 inspectionReportTab.method.setAssayElementListRows = function (selectedInventories) {
@@ -592,18 +592,54 @@ inspectionReportTab.method.setAssayElementListRows = function (selectedInventori
         return;
     if (inspectionReportTab.variable.materialId === ImportantIDs.material.COPPER_CATHOD)
         return;
-
+    debugger
     inspectionReportTab.listGrid.assayElement.inventoryCount = selectedInventories.length;
     selectedInventories.forEach((current, index, array) => inspectionReportTab.listGrid.assayElement.startEditingNew({inventoryId: current}));
 
-    if (inspectionReportTab.variable.method !== "PUT") return;
+    // if (inspectionReportTab.variable.method !== "PUT") return;
 
-    let record = inspectionReportTab.listGrid.main.getSelectedRecord();
+    // let record = inspectionReportTab.listGrid.main.getSelectedRecord();
+    // let fields = inspectionReportTab.listGrid.assayElement.fields;
+    // let length = inspectionReportTab.listGrid.assayElement.fields.length;
+    // let assayData = inspectionReportTab.method.groupByAssays(record.assayInspections, "inventoryId");
+    //
+    // selectedInventories.forEach((current, index, array) => {
+    //     let assayRecord = assayData[index];
+    //     assayRecord.forEach((c, i, arr) => {
+    //         for (let n = 2; n < length; n++) {
+    //
+    //             if (c.materialElementId === fields[n].meId) {
+    //
+    //                 if (inspectionReportTab.listGrid.assayElement.getField(n).ids.length > index)
+    //                     inspectionReportTab.listGrid.assayElement.getField(n).ids = [];
+    //
+    //                 if (inspectionReportTab.listGrid.assayElement.getField(n).versions.length > index)
+    //                     inspectionReportTab.listGrid.assayElement.getField(n).versions = [];
+    //
+    //                 inspectionReportTab.listGrid.assayElement.setEditValue(index, n, c.value);
+    //                 inspectionReportTab.listGrid.assayElement.getField(n).ids.add(c.id);
+    //                 inspectionReportTab.listGrid.assayElement.getField(n).versions.add(c.version);
+    //             }
+    //         }
+    //     });
+    // });
+    // inspectionReportTab.listGrid.assayElement.saveAllEdits();
+    // inspectionReportTab.listGrid.assayElement.endEditing();
+};
+
+inspectionReportTab.method.setSavedWeightData = function (weightInspectionArrayData) {
+
+    inspectionReportTab.listGrid.weightElement.setData(weightInspectionArrayData);
+    inspectionReportTab.listGrid.weightElement.saveAllEdits();
+    inspectionReportTab.listGrid.weightElement.endEditing();
+};
+
+inspectionReportTab.method.setSavedAssayData = function (assayInspectionArrayData, selectedAssayInventoryIds) {
     let fields = inspectionReportTab.listGrid.assayElement.fields;
     let length = inspectionReportTab.listGrid.assayElement.fields.length;
-    let assayData = inspectionReportTab.method.groupByAssays(record.assayInspections, "inventoryId");
+    let assayData = inspectionReportTab.method.groupByAssays(assayInspectionArrayData, "inventoryId");
 
-    selectedInventories.forEach((current, index, array) => {
+    selectedAssayInventoryIds.forEach((current, index, array) => {
         let assayRecord = assayData[index];
         assayRecord.forEach((c, i, arr) => {
             for (let n = 2; n < length; n++) {
@@ -647,6 +683,7 @@ inspectionReportTab.method.setAssayElementSum = function () {
 
 inspectionReportTab.method.createWeightListGrid = function () {
 
+    let selectedInventories = inspectionReportTab.dynamicForm.inspecReport.getValue("inventoryId");
     inspectionReportTab.variable.isWeightExist = true;
     isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
 
@@ -654,7 +691,7 @@ inspectionReportTab.method.createWeightListGrid = function () {
         actionURL: "${contextPath}" + "/api/weightInspection/get-weight-inventory-data",
         params: {
             reportMilestone: inspectionReportTab.dynamicForm.inspecReport.getValue("mileStone"),
-            inventoryIds: inspectionReportTab.dynamicForm.inspecReport.getValue("inventoryId")
+            inventoryIds: selectedInventories
         },
         callback: function (resp) {
 
@@ -668,6 +705,15 @@ inspectionReportTab.method.createWeightListGrid = function () {
             }
 
             let inventories = inspectionReportTab.dynamicForm.inspecReport.getItem("inventoryId").getSelectedRecords().filter(q => inventoryIds.contains(q.id));
+
+            if (inspectionReportTab.variable.method === "PUT") {
+
+                let preInventories = selectedInventories.filter(q => !inventoryIds.includes(q));
+                let weightInspectionArray = inspectionReportTab.listGrid.main.getSelectedRecord().weightInspections;
+                inspectionReportTab.method.setWeightElementListRows(preInventories);
+                inspectionReportTab.method.setSavedWeightData(weightInspectionArray);
+            }
+
             inspectionReportTab.method.setWeightElementListRows(inventoryIds);
             inspectionReportTab.method.setWeightElementSum();
 
@@ -692,6 +738,7 @@ inspectionReportTab.method.createWeightListGrid = function () {
 
 inspectionReportTab.method.createAssayListGrid = function () {
 
+    let selectedInventories = inspectionReportTab.dynamicForm.inspecReport.getValue("inventoryId");
     inspectionReportTab.variable.isAssayExist = true;
     isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
 
@@ -699,10 +746,10 @@ inspectionReportTab.method.createAssayListGrid = function () {
         actionURL: "${contextPath}" + "/api/assayInspection/get-assay-inventory-data",
         params: {
             reportMilestone: inspectionReportTab.dynamicForm.inspecReport.getValue("mileStone"),
-            inventoryIds: inspectionReportTab.dynamicForm.inspecReport.getValue("inventoryId")
+            inventoryIds: selectedInventories
         },
         callback: function (resp) {
-
+            debugger
             inspectionReportTab.listGrid.assayElement.setData([]);
             inspectionReportTab.hStack.assayUnitSum.setMembers([]);
 
@@ -715,6 +762,15 @@ inspectionReportTab.method.createAssayListGrid = function () {
             }
 
             let inventories = inspectionReportTab.dynamicForm.inspecReport.getItem("inventoryId").getSelectedRecords().filter(q => inventoryIds.contains(q.id));
+
+            if (inspectionReportTab.variable.method === "PUT") {
+
+                let preInventories = selectedInventories.filter(q => !inventoryIds.includes(q));
+                let assayInspectionArray = inspectionReportTab.listGrid.main.getSelectedRecord().assayInspections;
+                inspectionReportTab.method.setAssayElementListRows(preInventories);
+                inspectionReportTab.method.setSavedAssayData(assayInspectionArray, preInventories);
+            }
+
             inspectionReportTab.method.setAssayElementListRows(inventoryIds);
             inspectionReportTab.method.setAssayElementSum();
 
@@ -1051,7 +1107,7 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
         name: "select",
         title: "Select",
         type: "ButtonItem",
-        icon: "pieces/16/save.png",
+        icon: "pieces/16/icon_add.png",
         click: function (form, item) {
 
             if (!inspectionReportTab.dynamicForm.material.getValue("material") ||
@@ -1065,9 +1121,11 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
                     inspectionReportTab.method.createAssayListGrid();
                 });
                 inspectionReportTab.dynamicForm.material.getItem("material").disable();
+                inspectionReportTab.dynamicForm.inspecReport.getItem("refresh").enable();
                 inspectionReportTab.dynamicForm.inspecReport.getItem("mileStone").disable();
                 inspectionReportTab.dynamicForm.inspecReport.getItem("shipmentId").disable();
                 inspectionReportTab.dynamicForm.inspecReport.getItem("inventoryId").disable();
+                item.disable();
             }
         }
     },
@@ -1088,8 +1146,10 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
             // inspectionReportTab.listGrid.assayElementSum.setData([]);
             // inspectionReportTab.hStack.assayUnitSum.setMembers([]);
 
+            inspectionReportTab.dynamicForm.inspecReport.getItem("select").enable();
             inspectionReportTab.dynamicForm.inspecReport.getItem("mileStone").enable();
             inspectionReportTab.dynamicForm.inspecReport.getItem("inventoryId").enable();
+            item.disable();
 
             inspectionReportTab.variable.removeAllWeight = false;
             inspectionReportTab.variable.removeAllAssay = false;
@@ -1437,6 +1497,62 @@ inspectionReportTab.toolStrip.weightRemoveAll = isc.ToolStrip.create({
                 inspectionReportTab.listGrid.weightElement.setData([]);
                 inspectionReportTab.listGrid.weightElementSum.setData([]);
             }
+        }),
+        isc.ToolStrip.create({
+            border: '0px',
+            width: "100%",
+            members: [
+                isc.DynamicForm.create({
+                    width: "50%",
+                    fields: [
+                        {
+                            name: "excelFile",
+                            type: "file",
+                            title: "<spring:message code='global.select.file'/>",
+                        }
+                    ]
+                }),
+                isc.ToolStripButton.create({
+                    align: "right",
+                    title: "<spring:message code='global.ok'/>",
+                    click: function () {
+
+                        let recordLimit = inspectionReportTab.listGrid.weightElement.getTotalRows();
+                        let fileBrowserId = document.getElementById(inspectionReportTab.toolStrip.weightRemoveAll.members[1].members[0].getItem("excelFile").uploadItem.getElement().id);
+                        let fieldNames = inspectionReportTab.listGrid.weightElement.getFields().slice(2, 5).map(q => q.name);
+
+                        let formData = new FormData();
+                        formData.append("file", fileBrowserId.files[0]);
+                        formData.append("recordLimit", recordLimit);
+                        formData.append("fieldNames", fieldNames);
+
+                        let request = new XMLHttpRequest();
+                        request.open("POST", "${contextPath}/inspectionReport/import-data");
+                        request.setRequestHeader("contentType", "application/json; charset=utf-8");
+                        request.setRequestHeader("Authorization", BaseRPCRequest.httpHeaders.Authorization);
+                        request.send(formData);
+                        request.onreadystatechange = function () {
+
+                            if (request.readyState === XMLHttpRequest.DONE) {
+                                if (request.status === 0)
+                                    isc.warn("<spring:message code='dcc.upload.error.capacity'/>");
+                                else if (request.status === 500)
+                                    isc.warn("<spring:message code='dcc.upload.error.message'/>");
+                                else if (request.status === 200 || request.status === 201) {
+                                    isc.say("<spring:message code='dcc.upload.success.message'/>");
+                                    let gridData = JSON.parse(request.response);
+                                    for (let i = 0; i < gridData.length; i++) {
+
+                                        inspectionReportTab.listGrid.weightElement.startEditing(i);
+                                        gridData[i].inventoryId = inspectionReportTab.listGrid.weightElement.getEditValue(i, 1);
+                                        inspectionReportTab.listGrid.weightElement.setEditValues(i, gridData[i]);
+                                        inspectionReportTab.listGrid.weightElement.endEditing();
+                                    }
+                                }
+                            }
+                        };
+                    }
+                })]
         })
     ]
 });
@@ -1561,47 +1677,61 @@ inspectionReportTab.toolStrip.assayRemoveAll = isc.ToolStrip.create({
                 inspectionReportTab.listGrid.assayElementSum.setData([]);
             }
         }),
-        isc.DynamicForm.create({
-            fields: [{
-                name: "excelFile",
-                type: "file",
-                title: "<spring:message code='global.ok'/>"
-            }, {
-                type: "ButtonItem",
-                title: "<spring:message code='global.ok'/>",
-                click: function () {
-
-                    inspectionReportTab.listGrid.assayElement.saveAllEdits();
-                    let recordLimit = inspectionReportTab.listGrid.assayElement.getData().length;
-                    let fileBrowserId = document.getElementById(this.form.getItem("excelFile").uploadItem.getElement().id);
-                    let fieldNames = inspectionReportTab.listGrid.assayElement.getFields().slice(2, inspectionReportTab.listGrid.assayElement.getFields().length - 1).map(q => q.name);
-
-                    let formData = new FormData();
-                    formData.append("file", fileBrowserId.files[0]);
-                    formData.append("recordLimit", recordLimit);
-                    formData.append("fieldNames", fieldNames);
-                    debugger
-                    let request = new XMLHttpRequest();
-                    request.open("POST", "${contextPath}/inspectionReport/import-data");
-                    request.setRequestHeader("contentType", "application/json; charset=utf-8");
-                    request.setRequestHeader("Authorization", BaseRPCRequest.httpHeaders.Authorization);
-                    request.send(formData);
-                    request.onreadystatechange = function () {
-
-                        if (request.readyState === XMLHttpRequest.DONE) {
-
-                            if (request.status === 0)
-                                isc.warn("<spring:message code='dcc.upload.error.capacity'/>");
-                            else if (request.status === 500)
-                                isc.warn("<spring:message code='dcc.upload.error.message'/>");
-                            else if (request.status === 200 || request.status === 201) {
-
-                                isc.say("<spring:message code='dcc.upload.success.message'/>");
-                            }
+        isc.ToolStrip.create({
+            border: '0px',
+            width: "100%",
+            members: [
+                isc.DynamicForm.create({
+                    width: "50%",
+                    fields: [
+                        {
+                            name: "excelFile",
+                            type: "file",
+                            title: "<spring:message code='global.select.file'/>",
                         }
-                    };
-                }
-            }]
+                    ]
+                }),
+                isc.ToolStripButton.create({
+                    align: "right",
+                    title: "<spring:message code='global.ok'/>",
+                    click: function () {
+
+                        let recordLimit = inspectionReportTab.listGrid.assayElement.getTotalRows();
+                        let fileBrowserId = document.getElementById(inspectionReportTab.toolStrip.assayRemoveAll.members[1].members[0].getItem("excelFile").uploadItem.getElement().id);
+                        let fieldNames = inspectionReportTab.listGrid.assayElement.getFields().slice(2, inspectionReportTab.listGrid.assayElement.getFields().length - 1).map(q => q.name);
+
+                        let formData = new FormData();
+                        formData.append("file", fileBrowserId.files[0]);
+                        formData.append("recordLimit", recordLimit);
+                        formData.append("fieldNames", fieldNames);
+
+                        let request = new XMLHttpRequest();
+                        request.open("POST", "${contextPath}/inspectionReport/import-data");
+                        request.setRequestHeader("contentType", "application/json; charset=utf-8");
+                        request.setRequestHeader("Authorization", BaseRPCRequest.httpHeaders.Authorization);
+                        request.send(formData);
+                        request.onreadystatechange = function () {
+
+                            if (request.readyState === XMLHttpRequest.DONE) {
+                                if (request.status === 0)
+                                    isc.warn("<spring:message code='dcc.upload.error.capacity'/>");
+                                else if (request.status === 500)
+                                    isc.warn("<spring:message code='dcc.upload.error.message'/>");
+                                else if (request.status === 200 || request.status === 201) {
+                                    isc.say("<spring:message code='dcc.upload.success.message'/>");
+                                    let gridData = JSON.parse(request.response);
+                                    for (let i = 0; i < gridData.length; i++) {
+
+                                        inspectionReportTab.listGrid.assayElement.startEditing(i);
+                                        gridData[i].inventoryId = inspectionReportTab.listGrid.assayElement.getEditValue(i, 1);
+                                        inspectionReportTab.listGrid.assayElement.setEditValues(i, gridData[i]);
+                                        inspectionReportTab.listGrid.assayElement.endEditing();
+                                    }
+                                }
+                            }
+                        };
+                    }
+                })]
         })
     ]
 });
@@ -1920,31 +2050,37 @@ inspectionReportTab.method.editForm = function () {
 
         // Set Material
         inspectionReportTab.dynamicForm.material.setValue("material", materialId);
-
         // Set Shipment
         inspectionReportTab.dynamicForm.inspecReport.setValue("shipmentId", shipmentId);
-
         // Set Inventories
         inspectionReportTab.dynamicForm.inspecReport.setValue("inventoryId", inventoryIds);
-
         // Set IssueDate
         inspectionReportTab.dynamicForm.inspecReport.setValue("issueDate", new Date(record.issueDate));
-
         // Set Milestone
         inspectionReportTab.dynamicForm.inspecReport.setValue("mileStone", mileStone);
-
         // Set LabInfo
         inspectionReportTab.dynamicForm.assayLab.getField("labName").setValue(labName);
         inspectionReportTab.dynamicForm.assayLab.getField("labPlace").setValue(labPlace);
 
-        // inspectionReportTab.dynamicForm.inspecReport.getItem("select").disable();
-        // inspectionReportTab.dynamicForm.inspecReport.getItem("refresh").disable();
+        inspectionReportTab.dynamicForm.material.getItem("material").disable();
+        inspectionReportTab.dynamicForm.inspecReport.getItem("select").enable();
+        inspectionReportTab.dynamicForm.inspecReport.getItem("select").disable();
+        inspectionReportTab.dynamicForm.inspecReport.getItem("refresh").enable();
+        inspectionReportTab.dynamicForm.inspecReport.getItem("mileStone").disable();
+        inspectionReportTab.dynamicForm.inspecReport.getItem("shipmentId").disable();
+        inspectionReportTab.dynamicForm.inspecReport.getItem("inventoryId").disable();
 
         inspectionReportTab.method.materialChange();
         inspectionReportTab.method.getAssayElementFields(materialId, () => {
-            inspectionReportTab.method.setWeightElementListRows(weightInspectionArray.map(q => q.inventoryId));
+
+            let selectedWeightInventories = weightInspectionArray.map(q => q.inventoryId);
+            inspectionReportTab.method.setWeightElementListRows(selectedWeightInventories);
+            inspectionReportTab.method.setSavedWeightData(weightInspectionArray);
             inspectionReportTab.method.setWeightElementSum();
-            inspectionReportTab.method.setAssayElementListRows(assayInspectionArray.map(q => q.inventoryId).distinct());
+
+            let selectedAssayInventories = assayInspectionArray.map(q => q.inventoryId).distinct();
+            inspectionReportTab.method.setAssayElementListRows(selectedAssayInventories);
+            inspectionReportTab.method.setSavedAssayData(assayInspectionArray, selectedAssayInventories);
             inspectionReportTab.method.setAssayElementSum();
         });
     }
