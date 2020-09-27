@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
+import java.util.List;
+
 @Getter
 @Setter
 @Accessors(chain = true)
@@ -31,5 +33,23 @@ public class AccountingDTO {
         private String documentDate;
         private Long department;
         private String documentTitle;
+    }
+
+//    @Getter
+//    @Setter
+//    @Accessors(chain = true)
+//    @ApiModel("DocumentDetailRs")
+//    public static class DocumentDetailRs {
+//        private String documentDate;
+//        private Long department;
+//        private String documentTitle;
+//    }
+
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("DocumentStatusRq")
+    public static class DocumentStatusRq {
+        private List<String> documentIds;
     }
 }

@@ -9,8 +9,10 @@ import com.nicico.sales.dto.TozinDTO;
 import com.nicico.sales.exception.NotFoundException;
 import com.nicico.sales.iservice.ITozinLiteService;
 import com.nicico.sales.iservice.ITozinService;
+import com.nicico.sales.model.entities.base.Tozin;
 import com.nicico.sales.model.entities.base.TozinLite;
 import com.nicico.sales.utility.MakeExcelOutputUtil;
+import com.nicico.sales.utility.SecurityChecker;
 import com.nicico.sales.utility.SpecListUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +22,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
@@ -40,7 +43,10 @@ public class TozinFormController {
     private final ITozinLiteService tozinLiteService;
 
     @RequestMapping("/showOnWayProductForm")
-    public String showOnWayProductForm() {
+    public String showOnWayProductForm(HttpServletRequest request) {
+
+        SecurityChecker.addViewPermissionToRequest(request, Tozin.class);
+
         return "product/onWayProduct";
     }
 

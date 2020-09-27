@@ -574,13 +574,13 @@ function remittance(targetIdValueMap = {}) {
                                 width: "100%",
                                 members:
                                     [
-                                        //    <sec:authorize access="hasAuthority('C_PARAMETERS')">
+                                        //    <sec:authorize access="hasAuthority('C_REMITTANCE')">
                                         isc.ToolStripButtonAdd.create({
                                             ...remittanceTab.Layouts.ToolStripButtons.new,
                                             ID: remittanceTab.Vars.Prefix + "toolـstripـbuttonـadd",
                                         }),
                                         //  </sec:authorize>
-                                        //   <sec:authorize access="hasAuthority('U_PARAMETERS')">
+                                        //   <sec:authorize access="hasAuthority('U_REMITTANCE')">
                                         isc.ToolStripButtonEdit.create({
                                             ...remittanceTab.Layouts.ToolStripButtons.edit,
                                             ID: remittanceTab.Vars.Prefix + "toolـstripـbuttonـedit",
@@ -588,7 +588,7 @@ function remittance(targetIdValueMap = {}) {
 
                                         ,
                                         //   </sec:authorize>
-                                        //    <sec:authorize access="hasAuthority('D_PARAMETERS')">
+                                        //    <sec:authorize access="hasAuthority('D_REMITTANCE')">
                                         isc.ToolStripButtonRemove.create({
                                             ...remittanceTab.Layouts.ToolStripButtons.remove,
                                             ID: remittanceTab.Vars.Prefix + "tool_stripـbuttonـremove",

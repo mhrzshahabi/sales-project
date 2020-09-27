@@ -1,6 +1,7 @@
 package com.nicico.sales.web.controller;
 
-import com.nicico.copper.core.SecurityUtil;
+import com.nicico.sales.model.entities.base.Port;
+import com.nicico.sales.utility.SecurityChecker;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,9 +17,7 @@ public class PortFormController {
     @RequestMapping("/show-form")
     public String showPort(HttpServletRequest request) {
 
-        request.setAttribute("c_entity", SecurityUtil.hasAuthority("C_PORT"));
-        request.setAttribute("u_entity", SecurityUtil.hasAuthority("U_PORT"));
-        request.setAttribute("d_entity", SecurityUtil.hasAuthority("D_PORT"));
+        SecurityChecker.addEntityPermissionToRequest(request, Port.class);
 
         return "base/port/port";
     }

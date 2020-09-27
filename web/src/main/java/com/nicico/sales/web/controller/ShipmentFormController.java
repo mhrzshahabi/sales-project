@@ -12,7 +12,9 @@ import com.nicico.sales.iservice.IAssayInspectionService;
 import com.nicico.sales.iservice.IRemittanceService;
 import com.nicico.sales.iservice.IShipmentService;
 import com.nicico.sales.iservice.IWeightInspectionService;
+import com.nicico.sales.model.entities.base.Shipment;
 import com.nicico.sales.model.enumeration.CategoryUnit;
+import com.nicico.sales.utility.SecurityChecker;
 import lombok.RequiredArgsConstructor;
 import org.apache.poi.xwpf.usermodel.*;
 import org.springframework.core.env.Environment;
@@ -97,6 +99,8 @@ public class ShipmentFormController {
 
         request.getSession().setAttribute("Enum_EContractDetailValueKey", objectMapper.writeValueAsString(
                 Arrays.stream(EContractDetailValueKey.values()).collect(Collectors.toMap(EContractDetailValueKey::name, EContractDetailValueKey::name))));
+
+        SecurityChecker.addEntityPermissionToRequest(request, Shipment.class);
 
         return "shipment/shipment";
     }
