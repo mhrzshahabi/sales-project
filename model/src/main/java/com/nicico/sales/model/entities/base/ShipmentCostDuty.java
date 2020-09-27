@@ -1,8 +1,7 @@
 package com.nicico.sales.model.entities.base;
 
 import com.nicico.sales.model.entities.common.BaseEntity;
-import com.nicico.sales.model.enumeration.CategoryUnit;
-import com.nicico.sales.model.enumeration.SymbolUnit;
+import com.nicico.sales.model.enumeration.I18n;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.GenericGenerator;
@@ -10,6 +9,7 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+@I18n
 @Getter
 @Setter
 @NoArgsConstructor
@@ -38,4 +38,7 @@ public class ShipmentCostDuty extends BaseEntity {
     @Column(name = "C_CODE", nullable = false)
     private String code;
 
+    @I18n
+    @Transient
+    private String name;
 }

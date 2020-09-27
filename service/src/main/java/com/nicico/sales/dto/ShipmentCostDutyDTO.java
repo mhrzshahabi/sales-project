@@ -19,8 +19,7 @@ import java.util.List;
 public class ShipmentCostDutyDTO {
 
     private String code;
-//    @I18n
-//    private String name;
+    private String name;
     private String nameFA;
     private String nameEN;
 
@@ -35,7 +34,6 @@ public class ShipmentCostDutyDTO {
         private Date lastModifiedDate;
         private String lastModifiedBy;
         private Integer version;
-
 
         // BaseEntity
         private Boolean editable;
