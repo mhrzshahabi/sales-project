@@ -2,6 +2,10 @@ package com.nicico.sales.web.controller.invoice.foreign;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nicico.sales.model.entities.invoice.foreign.ForeignInvoice;
+import com.nicico.sales.model.entities.invoice.foreign.ForeignInvoiceItem;
+import com.nicico.sales.model.entities.invoice.foreign.ForeignInvoiceItemDetail;
+import com.nicico.sales.model.entities.invoice.foreign.ForeignInvoicePayment;
 import com.nicico.sales.model.enumeration.*;
 import com.nicico.sales.utility.SecurityChecker;
 import lombok.RequiredArgsConstructor;
@@ -21,26 +25,12 @@ public class ForeignInvoiceFormController {
 
     @RequestMapping("/show-form")
     public String show(HttpServletRequest request) throws JsonProcessingException {
-    // @TODO
-        request.setAttribute("c_entity", /*SecurityChecker.check("" +
-                "hasAuthority('C_FOREIGN_INVOICE') AND " +
-                "hasAuthority('C_FOREIGN_INVOICE_ITEM') AND " +
-                "hasAuthority('C_FOREIGN_INVOICE_ITEM_DETAIL') AND " +
-                "hasAuthority('C_FOREIGN_INVOICE_PAYMENT')")*/true);
-        request.setAttribute("u_entity", /*SecurityChecker.check("" +
-                "hasAuthority('U_FOREIGN_INVOICE') AND " +
-                "hasAuthority('U_FOREIGN_INVOICE_ITEM') AND " +
-                "hasAuthority('U_FOREIGN_INVOICE_ITEM_DETAIL') AND " +
-                "hasAuthority('U_FOREIGN_INVOICE_PAYMENT')")*/true);
-        request.setAttribute("d_entity", /*SecurityChecker.check("" +
-                "hasAuthority('D_FOREIGN_INVOICE') AND " +
-                "hasAuthority('D_FOREIGN_INVOICE_ITEM') AND " +
-                "hasAuthority('D_FOREIGN_INVOICE_ITEM_DETAIL') AND " +
-                "hasAuthority('D_FOREIGN_INVOICE_PAYMENT')")*/true);
-        request.setAttribute("a_entity", true);
-        request.setAttribute("i_entity", true);
-        request.setAttribute("f_entity", true);
-        request.setAttribute("o_entity", true);
+
+        SecurityChecker.addEntityPermissionToRequest(request,
+                ForeignInvoice.class,
+                ForeignInvoicePayment.class,
+                ForeignInvoiceItem.class,
+                ForeignInvoiceItemDetail.class);
 
         Map<String, String> rateReferences = new HashMap<>();
         for (RateReference value : RateReference.values()) rateReferences.put(value.name(), value.name());

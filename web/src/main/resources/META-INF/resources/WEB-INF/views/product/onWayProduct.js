@@ -503,10 +503,12 @@ function mainOnWayProduct() {
         membersMargin: 10,
         align: "center",
         members: [
-            isc.IButton.create({
+ //    <sec:authorize access="hasAuthority('C_REMITTANCE')">
+         isc.IButton.create({
                 title: Menu_ListGrid_OnWayProduct.data[0].title,
                 click: Menu_ListGrid_OnWayProduct.data[0].click
             }),
+ //    </sec:authorize>
             HLayout_onWayProduct_searchBtn,
             isc.ToolStrip.create({
                 width: "100%",
@@ -585,7 +587,9 @@ function mainOnWayProduct() {
         autoFitMaxRecords: 10,
         dataSource: isc.MyRestDataSource.create(restDataSource_Tozin_Lite),
         // initialCriteria: RestDataSource_TozinInitialCriteria,
+        //    <sec:authorize access="hasAuthority('C_REMITTANCE')">
         contextMenu: Menu_ListGrid_OnWayProduct,
+        //     </sec:authorize>
         autoFetchData: false,
         useClientFiltering: false,
         fields: tozinLiteFields()
