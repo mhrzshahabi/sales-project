@@ -4,12 +4,12 @@ import com.nicico.copper.common.Loggable;
 import com.nicico.copper.common.domain.ConstantVARs;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.core.util.report.ReportUtil;
-import com.nicico.sales.dto.RemittanceDTO;
 import com.nicico.sales.dto.RemittanceDetailDTO;
 import com.nicico.sales.model.entities.warehouse.RemittanceDetail;
 import com.nicico.sales.service.RemittanceDetailService;
 import com.nicico.sales.service.RemittanceService;
 import com.nicico.sales.utility.MakeExcelOutputUtil;
+import com.nicico.sales.utility.SecurityChecker;
 import com.nicico.sales.utility.SpecListUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -40,7 +41,10 @@ public class RemittanceDetailFormController {
 
     //
     @RequestMapping("/showForm")
-    public String showWarehouseCad() {
+    public String showWarehouseCad(HttpServletRequest request) {
+
+        SecurityChecker.addEntityPermissionToRequest(request, RemittanceDetail.class);
+
         return "product/remittance-detail";
     }
 

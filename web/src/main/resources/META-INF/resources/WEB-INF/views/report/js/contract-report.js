@@ -554,13 +554,13 @@ const crTab = {
                             width: "100%",
                             members:
                                 [
-                                    //    <sec:authorize access="hasAuthority('C_PARAMETERS')">
+                                    //    <sec:authorize access="hasAuthority('R_CONTRACT')">
                                     isc.ToolStripButtonAdd.create({
                                         // ID: crTab.Vars.Prefix + "toolـstripـbuttonـadd",
                                         ...crTab.Layouts.ToolStripButtons.new,
                                     }),
                                     //  </sec:authorize>
-                                    //   <sec:authorize access="hasAuthority('U_PARAMETERS')">
+                                    //   <sec:authorize access="hasAuthority('R_CONTRACT')">
                                     isc.ToolStripButtonEdit.create({
                                         // ID: crTab.Vars.Prefix + "toolـstripـbuttonـadd",
                                         ...crTab.Layouts.ToolStripButtons.edit,
@@ -568,7 +568,7 @@ const crTab = {
 
                                     ,
                                     //   </sec:authorize>
-                                    //    <sec:authorize access="hasAuthority('D_PARAMETERS')">
+                                    //    <sec:authorize access="hasAuthority('R_CONTRACT')">
                                     isc.ToolStripButtonRemove.create({
                                         ...crTab.Layouts.ToolStripButtons.remove,
                                         // ID: crTab.Vars.Prefix + "tool_stripـbuttonـremove",

@@ -879,7 +879,7 @@
         menu: isc.Menu.create({
             placement: "none",
             data: [
-                <sec:authorize access="hasAuthority('R_CONTRACT_SHIPMENT')">
+                <sec:authorize access="hasAuthority('R_SHIPMENT')">
                 {
                     title: "<spring:message code='cargoAssignment.title'/>",
                     click: function () {
@@ -1073,7 +1073,7 @@
     saleToolStrip.addMember(contractsTab);
     </sec:authorize>
     <sec:authorize
-    access="hasAuthority('R_CONTRACT_SHIPMENT') or hasAuthority('R_BILL_OF_LANDING') or hasAuthority('R_INSPECTION_REPORT') or hasAuthority('R_SHIPMENT_COST_INVOICE')">
+    access="hasAuthority('R_SHIPMENT') or hasAuthority('R_BILL_OF_LANDING') or hasAuthority('R_INSPECTION_REPORT') or hasAuthority('R_SHIPMENT_COST_INVOICE')">
     saleToolStrip.addMember(shipmentTab);
     </sec:authorize>
     <sec:authorize access="hasAuthority('R_FOREIGN_INVOICE') or hasAuthority('R_VIEW_INTERNAL_INVOICE_DOCUMENT') or hasAuthority('R_INVOICE_SALES')">

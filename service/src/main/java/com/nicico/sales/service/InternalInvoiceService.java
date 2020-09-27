@@ -60,13 +60,28 @@ public class InternalInvoiceService implements IInternalInvoiceService {
 
 				internalInvoiceDocumentDAO.saveAndFlush(save);
 			}
-			String message =  messageSource.getMessage("accounting.create.document.number",
-                                new Object[]{String.valueOf(result.get("docId"))}, LocaleContextHolder.getLocale());
-			return message + "@"+ result.get("docId");
+			String message = messageSource.getMessage("accounting.create.document.number",
+					new Object[]{String.valueOf(result.get("docId"))}, LocaleContextHolder.getLocale());
+			return message + "@" + result.get("docId");
 		} else {
 			log.error("InternalInvoiceService.sendInvoice: invoiceId [{}]", invoiceId);
-			new SalesException2(ErrorType.NotFound, "id",CaptionFactory.getLabel("global.error"));
+			new SalesException2(ErrorType.NotFound, "id", CaptionFactory.getLabel("global.error"));
 		}
 		return "";
+	}
+
+	@Override
+	@Transactional
+	public void updateInvoiceIdsStatus(String systemName, AccountingDTO.DocumentStatusRq request) {
+		final Map<String, String> result = accountingApiService.getInvoiceStatus(systemName, request.getDocumentIds());
+
+		request.getDocumentIds().forEach(invoiceId -> {
+			final Optional<InternalInvoiceDocument> internalInvoiceDocumentOpt = internalInvoiceDocumentDAO.findById(invoiceId);
+			if (internalInvoiceDocumentOpt.isPresent()) {
+				internalInvoiceDocumentOpt.get().setDocumentId(result.getOrDefault(invoiceId, null));
+
+				internalInvoiceDocumentDAO.saveAndFlush(internalInvoiceDocumentOpt.get());
+			}
+		});
 	}
 }

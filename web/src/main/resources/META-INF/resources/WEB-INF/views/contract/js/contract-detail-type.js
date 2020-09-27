@@ -223,9 +223,11 @@ contractDetailTypeTab.listGrid.detailType = isc.ListGrid.create({
     showFilterEditor: true,
     contextMenu: contractDetailTypeTab.menu.detailType,
     dataSource: contractDetailTypeTab.restDataSource.detailType,
+    // <sec:authorize access="hasAuthority('U_CONTRACT_DETAIL_TYPE')">
     recordDoubleClick() {
         contractDetailTypeTab.method.editData();
     }
+    // </sec:authorize>
 });
 
 contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
