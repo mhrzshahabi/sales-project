@@ -10,13 +10,13 @@ public interface IAccountingApiService {
 
     String getDetailByCode(String detailCode);
 
-    Map<String, MultiValueMap<String, Object>> getDetailByName(MultiValueMap<String, String> requestParams);
+    List<AccountingDTO.DocumentDetailRs> getDetailByName(MultiValueMap<String, String> requestParams);
 
 //    String getDocumentInfo(String invoiceId);
 
     List<AccountingDTO.DepartmentInfo> getDepartments();
 
-    void sendDataParameters(MultiValueMap<String, String> requestParams);
+    void sendDataParameters(String systemNameFa, String systemNameEn, MultiValueMap<String, String> requestParams);
 
     Map<String, Object> sendInvoice(AccountingDTO.DocumentCreateRq request, List<Object> objects);
 
