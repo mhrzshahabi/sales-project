@@ -9,6 +9,7 @@ public enum EContractDetailValueKey {
     NotImportant("NotImportant"),
 
     QUANTITY("QUANTITY"),
+    QUANTITY_IN_CHARACTER("QUANTITY_IN_CHARACTER"),
     TOLERANCE("TOLERANCE"),
     OPTION("OPTION"),
     SHIPMENT_START_DATE("SHIPMENT_START_DATE"),
@@ -52,6 +53,7 @@ public enum EContractDetailValueKey {
     BUYER_NAME("BUYER_NAME"),
     BUYER_ADDRESS("BUYER_ADDRESS"),
     BUYER_PHONE("BUYER_PHONE"),
+    BUYER_MOBILE("BUYER_MOBILE"),
     BUYER_FAX("BUYER_FAX"),
 
     SELLER_NAME("SELLER_NAME"),
