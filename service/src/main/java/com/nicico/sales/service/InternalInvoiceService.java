@@ -75,10 +75,10 @@ public class InternalInvoiceService implements IInternalInvoiceService {
 	public void updateInvoiceIdsStatus(String systemName, AccountingDTO.DocumentStatusRq request) {
 		final Map<String, String> result = accountingApiService.getInvoiceStatus(systemName, request.getDocumentIds());
 
-		request.getDocumentIds().forEach(invoiceId -> {
-			final Optional<InternalInvoiceDocument> internalInvoiceDocumentOpt = internalInvoiceDocumentDAO.findById(invoiceId);
+		request.getDocumentIds().forEach(documentId -> {
+			final Optional<InternalInvoiceDocument> internalInvoiceDocumentOpt = internalInvoiceDocumentDAO.findById(documentId);
 			if (internalInvoiceDocumentOpt.isPresent()) {
-				internalInvoiceDocumentOpt.get().setDocumentId(result.getOrDefault(invoiceId, null));
+				internalInvoiceDocumentOpt.get().setDocumentId(result.getOrDefault(documentId, "-2"));
 
 				internalInvoiceDocumentDAO.saveAndFlush(internalInvoiceDocumentOpt.get());
 			}

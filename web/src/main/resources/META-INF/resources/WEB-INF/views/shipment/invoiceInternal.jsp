@@ -433,21 +433,33 @@
             },
             value: "weekly",
             changed: function () {
-console.log("1", InvoiceInternal_RadioGroup.getValues())
-console.log("2", InvoiceInternal_RadioGroup.getValues().filterType)
+
                 let now = new persianDate();
                 let data = InvoiceInternal_RadioGroup.getValues();
+                let filterEditorCriteriaList = [];
+                let filterEditorCriteria = ListGrid_InvoiceInternal.getFilterEditorCriteria();
+                if (filterEditorCriteria && filterEditorCriteria.criteria)
+                    filterEditorCriteriaList = filterEditorCriteria.criteria.filter(q => !["documentId", "invoiceDate"].contains(q.fieldName));
                 switch (data.filterType) {
                     case "all": {
-                        let criteria = {fieldName: 'documentId', operator: 'isNull'};
-                        ListGrid_InvoiceInternal.fetchData(criteria);
+                        let criteria = {
+                            operator: 'and',
+                            _constructor: "AdvancedCriteria",
+                            criteria: [{
+                                fieldName: 'invoiceDate',
+                                operator: 'notNull'
+                            }]
+                        };
+                        criteria.criteria.addAll(filterEditorCriteriaList);
+                        ListGrid_InvoiceInternal.defaultCriteria = criteria;
+                        ListGrid_InvoiceInternal.filterData(criteria);
                         break;
                     }
                     case "daily": {
                         let criteria = {
                             operator: 'and',
+                            _constructor: "AdvancedCriteria",
                             criteria: [
-                                {fieldName: 'documentId', operator: 'isNull'},
                                 {
                                     fieldName: 'invoiceDate',
                                     operator: 'equals',
@@ -455,7 +467,9 @@ console.log("2", InvoiceInternal_RadioGroup.getValues().filterType)
                                 }
                             ]
                         };
-                        ListGrid_InvoiceInternal.fetchData(criteria);
+                        criteria.criteria.addAll(filterEditorCriteriaList);
+                        ListGrid_InvoiceInternal.defaultCriteria = criteria;
+                        ListGrid_InvoiceInternal.filterData(criteria);
                         break;
                     }
                     case "weekly": {
@@ -466,20 +480,26 @@ console.log("2", InvoiceInternal_RadioGroup.getValues().filterType)
                         let lastDate = now.format("YYYY/MM/") + lastDay.toString().padStart(2, "0");
                         let criteria = {
                             operator: 'and',
+                            _constructor: "AdvancedCriteria",
                             criteria: [
-                                {fieldName: 'documentId', operator: 'isNull'},
-                                {fieldName: 'invoiceDate', operator: 'lessOrEqual', value: lastDate},
-                                {fieldName: 'invoiceDate', operator: 'greaterOrEqual', value: firstDate}
+                                {
+                                    fieldName: 'invoiceDate',
+                                    operator: 'iBetweenInclusive',
+                                    start: firstDate,
+                                    end: lastDate
+                                }
                             ]
                         };
-                        ListGrid_InvoiceInternal.fetchData(criteria);
+                        criteria.criteria.addAll(filterEditorCriteriaList);
+                        ListGrid_InvoiceInternal.defaultCriteria = criteria;
+                        ListGrid_InvoiceInternal.filterData(criteria);
                         break;
                     }
                     case "monthly": {
                         let criteria = {
                             operator: 'and',
+                            _constructor: "AdvancedCriteria",
                             criteria: [
-                                {fieldName: 'documentId', operator: 'isNull'},
                                 {
                                     fieldName: 'invoiceDate',
                                     operator: 'startsWith',
@@ -487,14 +507,16 @@ console.log("2", InvoiceInternal_RadioGroup.getValues().filterType)
                                 }
                             ]
                         };
-                        ListGrid_InvoiceInternal.fetchData(criteria);
+                        criteria.criteria.addAll(filterEditorCriteriaList);
+                        ListGrid_InvoiceInternal.defaultCriteria = criteria;
+                        ListGrid_InvoiceInternal.filterData(criteria);
                         break;
                     }
                     case "yearly": {
                         let criteria = {
                             operator: 'and',
+                            _constructor: "AdvancedCriteria",
                             criteria: [
-                                {fieldName: 'documentId', operator: 'isNull'},
                                 {
                                     fieldName: 'invoiceDate',
                                     operator: 'startsWith',
@@ -502,7 +524,9 @@ console.log("2", InvoiceInternal_RadioGroup.getValues().filterType)
                                 }
                             ]
                         };
-                        ListGrid_InvoiceInternal.fetchData(criteria);
+                        criteria.criteria.addAll(filterEditorCriteriaList);
+                        ListGrid_InvoiceInternal.defaultCriteria = criteria;
+                        ListGrid_InvoiceInternal.filterData(criteria);
                         break;
                     }
 
@@ -518,13 +542,113 @@ console.log("2", InvoiceInternal_RadioGroup.getValues().filterType)
                 "daily": "<spring:message code='global.daily'/>",
                 "weekly": "<spring:message code='global.weekly'/>",
                 "monthly": "<spring:message code='global.monthly'/>",
-                "yearly": "<spring:message code='global.yearly'/>"
+                "yearly": "<spring:message code='global.yearly'/>",
+                 "all": "<spring:message code='global.all'/>"
             },
             defaultValue: "weekly",
-        }],
-        changed: function (form, item, value) {
+            changed: function (form, item, value) {
 
-        }
+                let now = new persianDate();
+                let data = InvoiceInternal_RadioGroup_Sent.getValues();
+                let filterEditorCriteriaList = [];
+                let filterEditorCriteria = ListGrid_InvoiceInternal_Sent.getFilterEditorCriteria();
+                if (filterEditorCriteria && filterEditorCriteria.criteria)
+                    filterEditorCriteriaList = filterEditorCriteria.criteria.filter(q => !["documentId", "invoiceDate"].contains(q.fieldName));
+                switch (data.filterType) {
+
+                    case "all": {
+                        let criteria = {
+                            operator: 'and',
+                            _constructor: "AdvancedCriteria",
+                            criteria: [
+                                {
+                                    fieldName: 'invoiceDate',
+                                    operator: 'notNull'
+                                }
+                            ]
+                        };
+                        criteria.criteria.addAll(filterEditorCriteriaList);
+                        ListGrid_InvoiceInternal_Sent.defaultCriteria = criteria;
+                        ListGrid_InvoiceInternal_Sent.filterData(criteria);
+                        break;
+                    }
+                    case "daily": {
+                        let criteria = {
+                            operator: 'and',
+                            _constructor: "AdvancedCriteria",
+                            criteria: [
+                                {
+                                    fieldName: 'invoiceDate',
+                                    operator: 'equals',
+                                    value: now.format('YYYY/MM/DD').toString()
+                                }
+                            ]
+                        };
+                        criteria.criteria.addAll(filterEditorCriteriaList);
+                        ListGrid_InvoiceInternal_Sent.defaultCriteria = criteria;
+                        ListGrid_InvoiceInternal_Sent.filterData(criteria);
+                        break;
+                    }
+                    case "weekly": {
+
+                        let firstDay = now.date() - now.day() + 1;
+                        let lastDay = firstDay + 6;
+                        let firstDate = now.format("YYYY/MM/") + firstDay.toString().padStart(2, "0");
+                        let lastDate = now.format("YYYY/MM/") + lastDay.toString().padStart(2, "0");
+                        let criteria = {
+                            operator: 'and',
+                            _constructor: "AdvancedCriteria",
+                            criteria: [
+                                {
+                                    fieldName: 'invoiceDate',
+                                    operator: 'iBetweenInclusive',
+                                    start: firstDate,
+                                    end: lastDate
+                                }
+                            ]
+                        };
+                        criteria.criteria.addAll(filterEditorCriteriaList);
+                        ListGrid_InvoiceInternal_Sent.defaultCriteria = criteria;
+                        ListGrid_InvoiceInternal_Sent.filterData(criteria);
+                        break;
+                    }
+                    case "monthly": {
+                        let criteria = {
+                            operator: 'and',
+                            _constructor: "AdvancedCriteria",
+                            criteria: [
+                                {
+                                    fieldName: 'invoiceDate',
+                                    operator: 'startsWith',
+                                    value: now.format('YYYY/MM/DD').toString().substring(0, 7)
+                                }
+                            ]
+                        };
+                        criteria.criteria.addAll(filterEditorCriteriaList);
+                        ListGrid_InvoiceInternal_Sent.defaultCriteria = criteria;
+                        ListGrid_InvoiceInternal_Sent.filterData(criteria);
+                        break;
+                    }
+                    case "yearly": {
+                        let criteria = {
+                            operator: 'and',
+                            _constructor: "AdvancedCriteria",
+                            criteria: [
+                                {
+                                    fieldName: 'invoiceDate',
+                                    operator: 'startsWith',
+                                    value: now.format('YYYY/MM/DD').toString().substring(0, 4)
+                                }
+                            ]
+                        };
+                        criteria.criteria.addAll(filterEditorCriteriaList);
+                        ListGrid_InvoiceInternal_Sent.defaultCriteria = criteria;
+                        ListGrid_InvoiceInternal_Sent.filterData(criteria);
+                        break;
+                    }
+                }
+            }
+        }]
     });
     var InvoiceInternal_RadioGroup_Deleted = isc.FormLayout.create({
         autoDraw: false,
@@ -540,6 +664,96 @@ console.log("2", InvoiceInternal_RadioGroup.getValues().filterType)
         }],
         changed: function (form, item, value) {
 
+            let now = new persianDate();
+            let data = InvoiceInternal_RadioGroup_Deleted.getValues();
+            let filterEditorCriteriaList = [];
+            let filterEditorCriteria = ListGrid_InvoiceInternal_Deleted.getFilterEditorCriteria();
+            if (filterEditorCriteria && filterEditorCriteria.criteria)
+                filterEditorCriteriaList = filterEditorCriteria.criteria.filter(q => !["documentId", "invoiceDate"].contains(q.fieldName));
+            switch (data.filterType) {
+                case "all": {
+                    let criteria = {
+                        operator: 'and',
+                        criteria: [
+                            {fieldName: 'documentId', operator: 'isNull'}
+                        ]
+                    };
+                    criteria.criteria.addAll(filterEditorCriteriaList);
+                    ListGrid_InvoiceInternal_Deleted.defaultCriteria = criteria;
+                    ListGrid_InvoiceInternal_Deleted.filterData(criteria);
+                    break;
+                }
+                case "daily": {
+                    let criteria = {
+                        operator: 'and',
+                        criteria: [
+                            {fieldName: 'documentId', operator: 'isNull'},
+                            {
+                                fieldName: 'invoiceDate',
+                                operator: 'equals',
+                                value: now.format('YYYY/MM/DD').toString()
+                            }
+                        ]
+                    };
+                    criteria.criteria.addAll(filterEditorCriteriaList);
+                    ListGrid_InvoiceInternal_Deleted.defaultCriteria = criteria;
+                    ListGrid_InvoiceInternal_Deleted.filterData(criteria);
+                    break;
+                }
+                case "weekly": {
+
+                    let firstDay = now.date() - now.day() + 1;
+                    let lastDay = firstDay + 6;
+                    let firstDate = now.format("YYYY/MM/") + firstDay.toString().padStart(2, "0");
+                    let lastDate = now.format("YYYY/MM/") + lastDay.toString().padStart(2, "0");
+                    let criteria = {
+                        operator: 'and',
+                        criteria: [
+                            {fieldName: 'documentId', operator: 'isNull'},
+                            {fieldName: 'invoiceDate', operator: 'lessOrEqual', value: lastDate},
+                            {fieldName: 'invoiceDate', operator: 'greaterOrEqual', value: firstDate}
+                        ]
+                    };
+                    criteria.criteria.addAll(filterEditorCriteriaList);
+                    ListGrid_InvoiceInternal_Deleted.defaultCriteria = criteria;
+                    ListGrid_InvoiceInternal_Deleted.filterData(criteria);
+                    break;
+                }
+                case "monthly": {
+                    let criteria = {
+                        operator: 'and',
+                        criteria: [
+                            {fieldName: 'documentId', operator: 'isNull'},
+                            {
+                                fieldName: 'invoiceDate',
+                                operator: 'startsWith',
+                                value: now.format('YYYY/MM/DD').toString().substring(0, 7)
+                            }
+                        ]
+                    };
+                    criteria.criteria.addAll(filterEditorCriteriaList);
+                    ListGrid_InvoiceInternal_Deleted.defaultCriteria = criteria;
+                    ListGrid_InvoiceInternal_Deleted.filterData(criteria);
+                    break;
+                }
+                case "yearly": {
+                    let criteria = {
+                        operator: 'and',
+                        criteria: [
+                            {fieldName: 'documentId', operator: 'isNull'},
+                            {
+                                fieldName: 'invoiceDate',
+                                operator: 'startsWith',
+                                value: now.format('YYYY/MM/DD').toString().substring(0, 4)
+                            }
+                        ]
+                    };
+                    criteria.criteria.addAll(filterEditorCriteriaList);
+                    ListGrid_InvoiceInternal_Deleted.defaultCriteria = criteria;
+                    ListGrid_InvoiceInternal_Deleted.filterData(criteria);
+                    break;
+                }
+            }
         }
     });
 
@@ -728,22 +942,45 @@ console.log("2", InvoiceInternal_RadioGroup.getValues().filterType)
         height: "100%",
         dataSource: RestDataSource_InvoiceInternal,
         contextMenu: Menu_ListGrid_InvoiceInternal,
-        // initialCriteria: {
-        //     operator: 'and',
-        //     criteria: [
-        //         {fieldName: 'documentId', operator: 'isNull'},
-        //         {fieldName: 'invoiceDate', operator: 'greaterOrEqual', value: firstDate},
-        //         {fieldName: 'invoiceDate', operator: 'lessOrEqual', value: lastDate}
-        //     ]
-        // },
         canMultiSort: true,
         initialSort: [
             {property: "invoiceDate", direction: "descending"},
             {property: "remittanceId", direction: "descending"},
             {property: "salesType", direction: "descending"},
         ],
+        implicitCriteria: {
+            operator: 'and',
+            _constructor: "AdvancedCriteria",
+            criteria: [
+                {fieldName: 'documentId', operator: 'isNull'}
+            ]
+        },
         recordDoubleClick(record) {
             createAccountingDoc();
+        },
+        filterData: function (criteria, callback, requestProperties) {
+            if (!criteria)
+                return false;
+            else if (!criteria.criteria || !criteria.criteria.length)
+                return false;
+            else {
+
+                for (let i = 0; i < this.defaultCriteria.criteria.length; i++) {
+
+                    let currentDefaultCriteria = this.defaultCriteria.criteria[i];
+                    let existCriteria = criteria.criteria.filter(q => q.fieldName === currentDefaultCriteria.fieldName);
+                    if (existCriteria) {
+                        if (["documentId", "invoiceDate"].contains(currentDefaultCriteria.fieldName)) {
+                            criteria.criteria.removeAll(existCriteria);
+                            criteria.criteria.add(currentDefaultCriteria);
+                        }
+                    } else
+                        criteria.criteria.add({...currentDefaultCriteria});
+
+                }
+            }
+
+            return this.Super("filterData", arguments);
         },
         getCellCSSText: {},
         fields:
@@ -765,10 +1002,11 @@ console.log("2", InvoiceInternal_RadioGroup.getValues().filterType)
                 {type: 'float', name: "totalAmount", title: "<spring:message code='invoice.mablaghKol'/>"},
                 {type: 'float', name: "totalDeductions", title: "<spring:message code='invoice.totalKosorat'/>"},
                 {name: "bankGroupDesc", title: "<spring:message code='invoice.bankGroupDesc'/>"},
-                {name: "documentId", title: "<spring:message code='invoice.documentId'/>"},
+                {name: "documentId", title: "<spring:message code='invoice.documentId'/>",canFilter:false},
             ],
         autoFetchData: false,
-        allowFilterOperators: true
+        allowFilterOperators: true,
+        filterOnKeypress: false
     });
 
     ListGrid_InvoiceInternal.getCellCSSText = function (record) {
@@ -787,6 +1025,7 @@ console.log("2", InvoiceInternal_RadioGroup.getValues().filterType)
         dataSource: RestDataSource_InvoiceInternal_Sent,
         contextMenu: Menu_ListGrid_InvoiceInternal,
         implicitCriteria: {
+            _constructor: "AdvancedCriteria",
             operator: 'and',
             criteria: [{
                 fieldName: 'documentId',
@@ -798,6 +1037,29 @@ console.log("2", InvoiceInternal_RadioGroup.getValues().filterType)
                     value: '0'
                 }
             ]
+        },
+        filterData: function (criteria, callback, requestProperties) {
+
+            if (!criteria)
+                return false;
+            else if (!criteria.criteria || !criteria.criteria.length)
+                return false;
+            else {
+
+                for (let i = 0; i < this.defaultCriteria.criteria.length; i++) {
+
+                    let currentDefaultCriteria = this.defaultCriteria.criteria[i];
+                    let existCriteria = criteria.criteria.filter(q => q.fieldName === currentDefaultCriteria.fieldName);
+                    if (existCriteria) {
+                        if (["documentId", "invoiceDate"].contains(currentDefaultCriteria.fieldName)) {
+                            criteria.criteria.removeAll(existCriteria);
+                            criteria.criteria.add(currentDefaultCriteria);
+                        }
+                    } else
+                        criteria.criteria.add({...currentDefaultCriteria});
+                }
+            }
+            return this.Super("filterData", arguments);
         },
         canMultiSort: true,
         initialSort: [
@@ -842,6 +1104,7 @@ console.log("2", InvoiceInternal_RadioGroup.getValues().filterType)
         dataSource: RestDataSource_InvoiceInternal_Deleted,
         contextMenu: Menu_ListGrid_InvoiceInternal,
         implicitCriteria: {
+            _constructor: "AdvancedCriteria",
             operator: 'and',
             criteria: [{
                 fieldName: 'documentId',
@@ -911,6 +1174,7 @@ console.log("2", InvoiceInternal_RadioGroup.getValues().filterType)
     });
 
     InvoiceInternal_RadioGroup.getItem("filterType").changed();
+    InvoiceInternal_RadioGroup_Sent.getItem("filterType").changed();
 
     var invoiceInternalTabs = isc.TabSet.create({
         width: "100%",
