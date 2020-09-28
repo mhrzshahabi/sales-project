@@ -853,6 +853,18 @@ rdTab.Methods.setShipmentCriteria = async function () {
         rdTab.DynamicForms.Forms.OutRemittance.getField('shipmentId').enable();
     }
 }
+rdTab.Methods.setRemittanceCode =  function () {
+    if(rdTab.DynamicForms.Forms.OutRemittance.getValue('code')
+        && rdTab.DynamicForms.Forms.OutRemittance.getValue('code').length>5)return;
+    let code = 'o-'
+    code+=rdTab.DynamicForms.Forms.OutRemittance.getValue('materialItemId');
+    code+='-';
+    code+=rdTab.DynamicForms.Forms.TozinTable.getValue('tozinId')
+    code+='-';
+    code+=rdTab.DynamicForms.Forms.TozinTable.getValue('date')
+    rdTab.DynamicForms.Forms.OutRemittance.setValue('code',code)
+
+}
 ////////////////////////////////////////////////////////FIELDS//////////////////////////////////////////////////////////
 rdTab.Fields.TozinBase = function () {
     return [
@@ -2374,6 +2386,7 @@ rdTab.Layouts.ToolStripButtons.New = isc.ToolStripButtonAdd.create({
                     }
                 });
                 rdTab.Grids.RemittanceDetailOutRemittance.redraw();
+                rdTab.Methods.setRemittanceCode()
 
             }
         });
@@ -2499,7 +2512,7 @@ rdTab.Layouts.ToolStripButtons.New = isc.ToolStripButtonAdd.create({
             rdTab.Methods.HlayoutSaveOrExit(rdTab.Methods.OutRemittanceSave, rdTab.Layouts.Window.OutRemittance.ID)
         )
         rdTab.Grids.RemittanceDetailOutRemittance.setData(selectedData);
-        console.debug('out remittance detail', rdTab.Grids.RemittanceDetailOutRemittance, rdTab.DynamicForms.Forms.OutRemittance);
+        // console.debug('out remittance detail', rdTab.Grids.RemittanceDetailOutRemittance, rdTab.DynamicForms.Forms.OutRemittance);
         if (selectedData.length > 0) {
             rdTab.DynamicForms.Forms.OutRemittance.setValue("materialItemId", materialItemId);
             rdTab.DynamicForms.Forms.TozinTable.setValue('codeKala', materialItemId)
