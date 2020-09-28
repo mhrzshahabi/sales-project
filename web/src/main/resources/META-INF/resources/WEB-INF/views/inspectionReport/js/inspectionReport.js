@@ -1772,12 +1772,13 @@ inspectionReportTab.window.inspecReport.populateData = function (bodyWidget) {
             inspectionReportId: "",
             mileStone: ""
         };
+        debugger
         weightInspectionObj.id = weightRecord.id;
         weightInspectionObj.version = weightRecord.version;
         weightInspectionObj.weighingType = weightRecord.weighingType;
         weightInspectionObj.weightND = weightRecord.weightND;
         weightInspectionObj.weightGW = weightRecord.weightGW;
-        weightInspectionObj.shipmentId = inspectionReportObj.shipmentId ? inspectionReportTab.shipmentId : null;
+        weightInspectionObj.shipmentId = inspectionReportObj.shipmentId ? inspectionReportObj.shipmentId : null;
         weightInspectionObj.inventoryId = weightRecord.inventoryId;
         weightInspectionObj.unitId = bodyWidget.members[1].members[0].tabs[0].pane.members[0].unitId;
         weightInspectionObj.mileStone = inspectionReportObj.mileStone;
@@ -1810,7 +1811,7 @@ inspectionReportTab.window.inspecReport.populateData = function (bodyWidget) {
             assayInspectionObj.version = bodyWidget.members[1].members[0].tabs[1].pane.members[1].getField(i).versions[index];
             assayInspectionObj.value = NumberUtil.parseInt(bodyWidget.members[1].members[0].tabs[1].pane.members[1].getCellValue(assayRecord, index, i));
             assayInspectionObj.materialElementId = bodyWidget.members[1].members[0].tabs[1].pane.members[1].fields.get(i).meId;
-            assayInspectionObj.shipmentId = inspectionReportObj.shipmentId ? inspectionReportTab.shipmentId : null;
+            assayInspectionObj.shipmentId = inspectionReportObj.shipmentId ? inspectionReportObj.shipmentId : null;
             assayInspectionObj.inventoryId = assayRecord.inventoryId;
             assayInspectionObj.mileStone = inspectionReportObj.mileStone;
 
