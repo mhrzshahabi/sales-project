@@ -359,6 +359,27 @@
         } else isc.say("<spring:message code='accounting.create.document.sent'/>");
     }
 
+    function changeStatusAccountingDoc() {
+
+         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+                actionURL: "${contextPath}/api/documents/status/" + "sales internal invoice",
+                httpMethod: "PUT",
+                useSimpleHttp: true,
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(data),
+                willHandleError: true,
+                serverOutputAsString: false,
+                callback: function (RpcResponse_o) {
+
+                    if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
+
+                    }
+
+                }
+
+            }));
+    }
+
     function ToolStripButton_InvoiceInternal_Pdf_F() {
 
         let grid = invoiceInternalTabs.getTab(invoiceInternalTabs.selectedTab).pane.members.get(1);
@@ -800,6 +821,14 @@
         }
     });
     </sec:authorize>
+     var ToolStripButton_Change_Status = isc.ToolStripButtonPrint.create({
+        title: "<spring:message code='accounting.document.change.status'/>",
+        icon: "icon/accountingDoc.png",
+        click: function () {
+            changeStatusAccountingDoc();
+        }
+    });
+
     <sec:authorize access="hasAuthority('P_INVOICE_INTERNAL')">
     var ToolStripButton_InvoiceInternal_Deleted_html = isc.ToolStripButtonPrint.create({
         title: "<spring:message code='global.form.print.html'/>",
@@ -932,6 +961,7 @@
                 <sec:authorize access="hasAuthority('E_SEND_INVOICE_INTERNAL_TO_ACC')">
                 ToolStripButton_AccountingDoc_Deleted,
                 </sec:authorize>
+                ToolStripButton_Change_Status,
                 InvoiceInternal_RadioGroup_Deleted,
                 isc.ToolStrip.create({
                     width: "100%",
@@ -1018,7 +1048,7 @@
     });
 
     ListGrid_InvoiceInternal.getCellCSSText = function (record) {
-        if (record.documentId)
+        if (record.documentId && record.documentId !== -1 && record.documentId !== -2)
             return "font-weight:bold; color:green;";
         else if (record.documentId === -1)
             return "font-weight:bold; color:red;";
