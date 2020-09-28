@@ -7,12 +7,14 @@ import com.nicico.sales.iservice.IAccountingApiService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.MultiValueMap;
 import org.springframework.util.StringUtils;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
 import java.util.*;
@@ -57,24 +59,34 @@ public class AccountingApiService implements IAccountingApiService {
 			log.error("AccountingApiService.GetDetailByCode Error: [" + httpResponse.getStatusCode() + "]: " + httpResponse.getBody());
 		}
 
-		return null;
+		return "";
 	}
 
 	@Override
-	public Map<String, MultiValueMap<String, Object>> getDetailByName(MultiValueMap<String, String> requestParams) {
+	public List<AccountingDTO.DocumentDetailRs> getDetailByName(MultiValueMap<String, String> requestParams) {
 		final String url = accountingAppUrl + "/rest/detail/getDetailGridFetch";
 		final HttpHeaders httpHeaders = new HttpHeaders();
 		httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 		httpHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
 
-		final HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(requestParams, httpHeaders);
+		final UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromHttpUrl(url)
+				.queryParams(requestParams);
 
-		final ResponseEntity<String> httpResponse = restTemplate.exchange(url, HttpMethod.GET, httpEntity, String.class);
+		final HttpEntity<String> httpEntity = new HttpEntity<>(httpHeaders);
+
+		final ResponseEntity<String> httpResponse = restTemplate.exchange(uriComponentsBuilder.build(false).encode().toUri(), HttpMethod.GET, httpEntity, String.class);
 		if (httpResponse.getStatusCode().equals(HttpStatus.OK)) {
 			if (!StringUtils.isEmpty(httpResponse.getBody())) {
 				try {
-					return objectMapper.readValue(httpResponse.getBody(), new TypeReference<Map<String, Object>>() {
+					final Map<String, Object> result = objectMapper.readValue(httpResponse.getBody(), new TypeReference<Map<String, Object>>() {
 					});
+					if (result.containsKey("response")) {
+						final Map<String, Object> response = modelMapper.map(result.get("response"), new TypeToken<Map<String, Object>>() {
+						}.getType());
+						return response.containsKey("data") ? modelMapper.map(response.get("data"), new TypeToken<List<AccountingDTO.DocumentDetailRs>>() {
+						}.getType()) : new ArrayList<>();
+					} else
+						return new ArrayList<>();
 				} catch (IOException e) {
 					log.error("AccountingApiService.GetDetailByName Error: [" + Arrays.toString(e.getStackTrace()) + "]");
 				}
@@ -83,7 +95,7 @@ public class AccountingApiService implements IAccountingApiService {
 			log.error("AccountingApiService.GetDetailByName Error: [" + httpResponse.getStatusCode() + "]: " + httpResponse.getBody());
 		}
 
-		return null;
+		return new ArrayList<>();
 	}
 
 	/*@Override
@@ -104,7 +116,7 @@ public class AccountingApiService implements IAccountingApiService {
 			log.error("AccountingApiService.getDocumentInfo Error: [" + httpResponse.getStatusCode() + "]: " + httpResponse.getBody());
 		}
 
-		return null;
+		return "";
 	}*/
 
 	@Override
@@ -122,8 +134,8 @@ public class AccountingApiService implements IAccountingApiService {
 				try {
 					final Map<String, Object> result = objectMapper.readValue(httpResponse.getBody(), new TypeReference<Map<String, Object>>() {
 					});
-					return modelMapper.map(result.get("department"), new TypeReference<List<AccountingDTO.DepartmentInfo>>() {
-					}.getType());
+					return result.containsKey("department") ? modelMapper.map(result.get("department"), new TypeReference<List<AccountingDTO.DepartmentInfo>>() {
+					}.getType()) : new ArrayList<>();
 				} catch (IOException e) {
 					log.error("AccountingApiService.GetDepartments Error: [" + Arrays.toString(e.getStackTrace()) + "]");
 				}
@@ -132,12 +144,12 @@ public class AccountingApiService implements IAccountingApiService {
 			log.error("AccountingApiService.GetDepartments Error: [" + httpResponse.getStatusCode() + "]: " + httpResponse.getBody());
 		}
 
-		return null;
+		return new ArrayList<>();
 	}
 
 	@Override
-	public void sendDataParameters(MultiValueMap<String, String> requestParams) {
-		final String url = accountingAppUrl + "/rest/system-parameter/addSystemParmeter/" + appName + "/فروش";
+	public void sendDataParameters(String systemNameFa, String systemNameEn, MultiValueMap<String, String> requestParams) {
+		final String url = accountingAppUrl + "/rest/system-parameter/addSystemParmeter/" + systemNameEn + "/" + systemNameFa;
 		final HttpHeaders httpHeaders = new HttpHeaders();
 		httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
@@ -152,8 +164,8 @@ public class AccountingApiService implements IAccountingApiService {
 	}
 
 	@Override
-	public Map<String, Object> sendInvoice(AccountingDTO.DocumentCreateRq request, List<Object> objects) {
-		final String url = accountingAppUrl + "/rest/document-mapper/docBuilder/" + appName;
+	public Map<String, Object> sendInvoice(String systemName, AccountingDTO.DocumentCreateRq request, List<Object> objects) {
+		final String url = accountingAppUrl + "/rest/document-mapper/docBuilder/" + systemName;
 		final HttpHeaders httpHeaders = new HttpHeaders();
 		httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 		httpHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
@@ -199,7 +211,7 @@ public class AccountingApiService implements IAccountingApiService {
 			log.error("AccountingApiService.SendInvoice Error: [" + httpResponse.getStatusCode() + "]: " + httpResponse.getBody());
 		}
 
-		return null;
+		return new HashMap<>();
 	}
 
 	@Override
@@ -225,6 +237,6 @@ public class AccountingApiService implements IAccountingApiService {
 			log.error("AccountingApiService.GetInvoiceStatus Error: [" + httpResponse.getStatusCode() + "]: " + httpResponse.getBody());
 		}
 
-		return null;
+		return new HashMap<>();
 	}
 }

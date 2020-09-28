@@ -1,6 +1,7 @@
 package com.nicico.sales.repository;
 
 
+import com.nicico.sales.model.entities.base.InternalInvoiceDocument;
 import com.nicico.sales.model.entities.base.ViewInternalInvoiceDocument;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -16,4 +17,6 @@ public interface InternalInvoiceDAO extends JpaRepository<ViewInternalInvoiceDoc
 	List<String> findAllInvoiceIdsByInvoiceDateContains();
 
 	List<ViewInternalInvoiceDocument> findAllByInvoiceDateContains(String invoiceDate);
+
+
 }

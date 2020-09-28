@@ -38,11 +38,11 @@ public class InternalInvoiceService implements IInternalInvoiceService {
 
 	@Override
 	@Transactional
-	public String sendInvoice(String invoiceId, AccountingDTO.DocumentCreateRq request) {
+	public String sendInvoice(String systemName, String invoiceId, AccountingDTO.DocumentCreateRq request) {
 		final ViewInternalInvoiceDocument internalInvoice = internalInvoiceDAO.findById(invoiceId)
 				.orElseThrow(() -> new SalesException2(ErrorType.NotFound, "id", "شناسه موجودیت یافت نشد."));
 
-		final Map<String, Object> result = accountingApiService.sendInvoice(request, Collections.singletonList(internalInvoice));
+		final Map<String, Object> result = accountingApiService.sendInvoice(systemName, request, Collections.singletonList(internalInvoice));
 
 		if (result.containsKey("docId")) {
 			final Optional<InternalInvoiceDocument> internalInvoiceDocumentOpt = internalInvoiceDocumentDAO.findById(invoiceId);
