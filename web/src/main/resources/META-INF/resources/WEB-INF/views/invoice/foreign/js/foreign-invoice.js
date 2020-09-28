@@ -145,8 +145,17 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
         valueField: "id",
         displayField: "no",
         optionCriteria: {
-            fieldName: "parentId",
-            operator: "isNull"
+            operator: "and",
+            criteria: [
+                {
+                    fieldName: "parentId",
+                    operator: "isNull"
+                }, {
+                    fieldName: "eStatusId",
+                    operator: "greaterOrEqual",
+                    value: 4
+                }
+            ]
         },
         optionDataSource: isc.MyRestDataSource.create({
             fields: [
@@ -156,9 +165,15 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
                     title: "<spring:message code='foreign-invoice.form.contract'/>"
                 },
                 {name: "description", title: "<spring:message code='global.description'/>"},
+                {name: "estatus", title: "<spring:message code='global.status'/>"},
             ],
             fetchDataURL: foreignInvoiceTab.variable.contractUrl + "spec-list"
         }),
+        pickListFields: [
+            {name: "id", primaryKey: true, hidden: true, title: "<spring:message code='global.id'/>"},
+            {name: "no"},
+            {name: "estatus"}
+        ],
         title: "<spring:message code='foreign-invoice.form.contract'/>",
         wrapTitle: false,
         validators: [
@@ -700,14 +715,14 @@ foreignInvoiceTab.button.selectBillLading = isc.IButtonSave.create({
             foreignInvoiceTab.variable.billLadingUrl + "spec-list",
             [
                 {name: "id", primaryKey: true, hidden: true, title: "<spring:message code='global.id'/>"},
-                {name: "documentNo", title: "<spring:message code='foreign-invoice.form.conversion-ref'/>"},
-                {name: "shipperExporter.nameEN", title: "<spring:message code='global.date'/>"},
-                {name: "notifyParty.nameEN", title: "<spring:message code='global.from'/>"},
-                {name: "consignee.nameEN", title: "<spring:message code='global.to'/>"},
-                {name: "portOfLoading.port", title: "<spring:message code='rate.title'/>"},
-                {name: "portOfDischarge.port", title: "<spring:message code='rate.title'/>"},
-                {name: "placeOfDelivery", title: "<spring:message code='rate.title'/>"},
-                {name: "oceanVessel.name", title: "<spring:message code='rate.title'/>"},
+                {name: "documentNo", title: "<spring:message code='billOfLanding.document.no'/>"},
+                {name: "shipperExporter.nameEN", title: "<spring:message code='billOfLanding.shipper.exporter'/>"},
+                {name: "notifyParty.nameEN", title: "<spring:message code='billOfLanding.notify.party'/>"},
+                {name: "consignee.nameEN", title: "<spring:message code='billOfLanding.consignee'/>"},
+                {name: "portOfLoading.port", title: "<spring:message code='billOfLanding.port.of.landing'/>"},
+                {name: "portOfDischarge.port", title: "<spring:message code='billOfLanding.port.of.discharge'/>"},
+                {name: "placeOfDelivery", title: "<spring:message code='billOfLanding.place.of.delivery'/>"},
+                {name: "oceanVessel.name", title: "<spring:message code='billOfLanding.ocean.vessel'/>"},
             ],
             null, this.criteria, Number.MAX_VALUE);
     }

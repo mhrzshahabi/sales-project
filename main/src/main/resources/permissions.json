@@ -2239,6 +2239,38 @@
     {
       "code": "O_FOREIGN_INVOICE_BILL_OF_LADING",
       "title": "لغو تائید نهایی ارتباط فروش خارجی به بارنامه"
+    },
+    {
+      "code": "R_ASSAY_INSPECTION_TOTAL_VALUES",
+      "title": "نمایش گزارش مجموع مقادیر بازرسی محتوی "
+    },
+    {
+      "code": "C_ASSAY_INSPECTION_TOTAL_VALUES",
+      "title": "ایجاد گزارش مجموع مقادیر بازرسی محتوی"
+    },
+    {
+      "code": "D_ASSAY_INSPECTION_TOTAL_VALUES",
+      "title": "حذف گزارش مجموع مقادیر بازرسی محتوی"
+    },
+    {
+      "code": "U_ASSAY_INSPECTION_TOTAL_VALUES",
+      "title": "به روز رسانی گزارش مجموع مقادیر بازرسی محتوی"
+    },
+    {
+      "code": "A_ASSAY_INSPECTION_TOTAL_VALUES",
+      "title": "فعالسازی گزارش مجموع مقادیر بازرسی محتوی"
+    },
+    {
+      "code": "I_ASSAY_INSPECTION_TOTAL_VALUES",
+      "title": "غیرفعالسازی گزارش مجموع مقادیر بازرسی محتوی"
+    },
+    {
+      "code": "F_ASSAY_INSPECTION_TOTAL_VALUES",
+      "title": "تائید نهایی گزارش مجموع مقادیر بازرسی محتوی"
+    },
+    {
+      "code": "O_ASSAY_INSPECTION_TOTAL_VALUES",
+      "title": "لغو تائید نهایی گزارش مجموع مقادیر بازرسی محتوی"
     }
   ]
 }
