@@ -148,7 +148,7 @@ public class AccountingApiService implements IAccountingApiService {
 	}
 
 	@Override
-	public void sendDataParameters(String systemNameFa, String systemNameEn, MultiValueMap<String, String> requestParams) {
+	public void sendDataParameters(String systemNameEn, String systemNameFa, MultiValueMap<String, String> requestParams) {
 		final String url = accountingAppUrl + "/rest/system-parameter/addSystemParmeter/" + systemNameEn + "/" + systemNameFa;
 		final HttpHeaders httpHeaders = new HttpHeaders();
 		httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
