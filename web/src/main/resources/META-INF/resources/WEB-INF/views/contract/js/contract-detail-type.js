@@ -278,7 +278,7 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
                 }
             }),
             // </sec:authorize>
-            // <sec:authorize access="hasAnyAuthority('C_CONTRACT_DETAIL_TYPE_PARAM_VALUE', 'U_CONTRACT_DETAIL_TYPE_PARAM_VALUE', 'D_CONTRACT_DETAIL_TYPE_PARAM_VALUE')">
+            // <sec:authorize access="hasAnyAuthority('C_CONTRACT_DETAIL_TYPE_PARAM') || hasAnyAuthority('U_CONTRACT_DETAIL_TYPE_PARAM')">
             isc.ToolStripButton.create({
 
                 // icon: "pieces/16/icon_add.png",
@@ -347,7 +347,7 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
                 }
             }),
             // </sec:authorize>
-            // <sec:authorize access="hasAnyAuthority('C_CONTRACT_DETAIL_TYPE_PARAM', 'U_CONTRACT_DETAIL_TYPE_PARAM')">
+            // <sec:authorize access="hasAnyAuthority('C_CONTRACT_DETAIL_TYPE_PARAM') || hasAnyAuthority('U_CONTRACT_DETAIL_TYPE_PARAM')">
             isc.ToolStripButton.create({
 
                 // icon: "pieces/16/icon_add.png",
@@ -442,7 +442,7 @@ contractDetailTypeTab.listGrid.param = isc.ListGrid.create({
                 }
             }),
             // </sec:authorize>
-            // <sec:authorize access="hasAnyAuthority('C_CONTRACT_DETAIL_TYPE_PARAM', 'U_CONTRACT_DETAIL_TYPE_PARAM', 'D_CONTRACT_DETAIL_TYPE_PARAM')">
+            // <sec:authorize access="hasAnyAuthority('C_CONTRACT_DETAIL_TYPE_PARAM') || hasAnyAuthority('U_CONTRACT_DETAIL_TYPE_PARAM') || hasAnyAuthority('D_CONTRACT_DETAIL_TYPE_PARAM')">
             isc.ToolStrip.create({
 
                 width: "100%",
@@ -592,7 +592,7 @@ contractDetailTypeTab.listGrid.template = isc.ListGrid.create({
                 }
             }),
             // </sec:authorize>
-            // <sec:authorize access="hasAnyAuthority('C_CONTRACT_DETAIL_TYPE_TEMPLATE', 'U_CONTRACT_DETAIL_TYPE_TEMPLATE', 'D_CONTRACT_DETAIL_TYPE_TEMPLATE')">
+            // <sec:authorize access="hasAnyAuthority('C_CONTRACT_DETAIL_TYPE_TEMPLATE') || hasAnyAuthority('U_CONTRACT_DETAIL_TYPE_TEMPLATE') || hasAnyAuthority('D_CONTRACT_DETAIL_TYPE_TEMPLATE')">
             isc.ToolStrip.create({
 
                 width: "100%",

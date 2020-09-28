@@ -672,9 +672,7 @@ const rdTab = {
 };
 ////////////////////////////////////////////////////////METHODS/////////////////////////////////////////////////////////
 rdTab.Methods.RecordDoubleClick = function (url, items, recordString, viewer, record, recordNum, field, fieldNum, value, rawValue) {
-    //   <sec:authorize access="!hasAuthority('U_REMITTANCE')">
-    return false;
-    //   </sec:authorize>
+    if (!hasPermission(url)) return;
     let form;
     let vLayout;
     const window1 = isc.Window.create({
@@ -808,7 +806,9 @@ rdTab.Methods.RecordDoubleClickRD = function (viewer, record, recordNum, field, 
                 //     // autoFitFieldWidths: true,
                 // },
                 pickListFields: rdTab.Fields.Depot(),
+                //   <sec:authorize access="hasAuthority('R_DEPOT')">
                 optionDataSource: isc.MyRestDataSource.create(rdTab.RestDataSources.Depot),
+                //   </sec:authorize>
             }
         }
         return t;
@@ -2052,11 +2052,13 @@ rdTab.Grids.RemittanceDetail = {
     getCellHoverComponent: function (record, rowNum, colNum) {
         // console.log('getCellHoverComponent', this, arguments)
         this.rowHoverComponent = isc.DetailViewer.create({
+            //   <sec:authorize access="hasAuthority('U_REMITTANCE') and hasAuthority('U_REMITTANCE_DETAIL') and hasAuthority('U_INVENTORY') and hasAuthority('R_TOZIN')">
             dataSource: isc.MyRestDataSource.create({
                 fields: rdTab.Fields.TozinFull(),
                 fetchDataURL: 'api/tozin/spec-list'
             }),
             width: 250
+           //   </sec:authorize>
         });
 
         this.rowHoverComponent.fetchData({
@@ -2542,3 +2544,18 @@ rdTab.Layouts.ToolStripButtons.Delete.hide();
 // <sec:authorize access="!hasAuthority('C_REMITTANCE')">
 rdTab.Layouts.ToolStripButtons.New.hide();
 // </sec:authorize>
+
+function hasPermission(url) {
+    switch (url) {
+        case "api/remittance":
+            if ("${SecurityUtil.hasAuthority('U_REMITTANCE')}".toString() != "true") return false;
+            break;
+        case "api/remittance-detail":
+            if ("${SecurityUtil.hasAuthority('U_REMITTANCE_DETAIL')}".toString() != "true") return false;
+            break;
+        case "api/inventory":
+            if ("${SecurityUtil.hasAuthority('U_INVENTORY')}".toString() != "true") return false;
+            break;
+    }
+    return true;
+}
