@@ -62,11 +62,10 @@ public class AssayInspection extends BaseEntity {
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "F_SHIPMENT_ID", nullable = false, insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_assayInspection2shipmentByShipmentId"))
+    @JoinColumn(name = "F_SHIPMENT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_assayInspection2shipmentByShipmentId"))
     private Shipment shipment;
 
-    @NotNull
-    @Column(name = "F_SHIPMENT_ID", nullable = false)
+    @Column(name = "F_SHIPMENT_ID")
     private Long shipmentId;
 
     @Setter(AccessLevel.NONE)

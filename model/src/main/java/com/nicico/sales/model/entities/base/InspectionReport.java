@@ -78,6 +78,15 @@ public class InspectionReport extends BaseEntity {
     @Column(name = "F_UNIT_ID", nullable = false)
     private Long unitId;
 
+    @Column(name = "N_WEIGHT_G_W", scale = 5, precision = 10)
+    private BigDecimal weightGW;
+
+    @Column(name = "N_WEIGHT_N_D", scale = 5, precision = 10)
+    private BigDecimal weightND;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "inspectionReport", cascade = CascadeType.REMOVE)
+    private List<AssayInspectionTotalValues> assayInspectionTotalValuesList;
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "inspectionReport", cascade = CascadeType.REMOVE)
     private List<AssayInspection> assayInspections;
 

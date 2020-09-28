@@ -67,6 +67,7 @@ public abstract class WeightInspectionDTO {
     @Accessors(chain = true)
     @ApiModel("WeightInspectionInfoWithoutInspectionReport")
     public static class InfoWithoutInspectionReport extends InfoWithoutInspectionReportAndInventory {
+
         private InventoryDTO.Info inventory;
     }
 
