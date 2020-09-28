@@ -2,8 +2,7 @@ package com.nicico.sales.web.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nicico.copper.core.SecurityUtil;
-import com.nicico.sales.model.entities.contract.IncotermAspect;
+import com.nicico.sales.model.entities.base.InspectionReport;
 import com.nicico.sales.model.enumeration.InspectionRateValueType;
 import com.nicico.sales.model.enumeration.InspectionReportMilestone;
 import com.nicico.sales.model.enumeration.WeighingType;
@@ -39,7 +38,7 @@ public class InspectionReportFormController {
         for (InspectionReportMilestone value : InspectionReportMilestone.values()) mileStone.put(value.name(), value.name());
         request.setAttribute("Enum_MileStone", objectMapper.writeValueAsString(mileStone));
 
-        SecurityChecker.addEntityPermissionToRequest(request, IncotermAspect.class);
+        SecurityChecker.addEntityPermissionToRequest(request, InspectionReport.class);
 
         return "inspectionReport/inspectionReport";
     }

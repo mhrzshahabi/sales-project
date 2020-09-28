@@ -2207,6 +2207,38 @@
     {
       "code": "E_SEND_INVOICE_INTERNAL_TO_ACC",
       "title": "ایجاد سند حسابداری فاکتور فروش داخلی"
+    },
+    {
+      "code": "R_FOREIGN_INVOICE_BILL_OF_LADING",
+      "title": "نمایش ارتباط فروش خارجی به بارنامه"
+    },
+    {
+      "code": "C_FOREIGN_INVOICE_BILL_OF_LADING",
+      "title": "ایجاد ارتباط فروش خارجی به بارنامه"
+    },
+    {
+      "code": "D_FOREIGN_INVOICE_BILL_OF_LADING",
+      "title": "حذف ارتباط فروش خارجی به بارنامه"
+    },
+    {
+      "code": "U_FOREIGN_INVOICE_BILL_OF_LADING",
+      "title": "به روز رسانی ارتباط فروش خارجی به بارنامه"
+    },
+    {
+      "code": "A_FOREIGN_INVOICE_BILL_OF_LADING",
+      "title": "فعالسازی ارتباط فروش خارجی به بارنامه"
+    },
+    {
+      "code": "I_FOREIGN_INVOICE_BILL_OF_LADING",
+      "title": "غیرفعالسازی ارتباط فروش خارجی به بارنامه"
+    },
+    {
+      "code": "F_FOREIGN_INVOICE_BILL_OF_LADING",
+      "title": "تائید نهایی ارتباط فروش خارجی به بارنامه"
+    },
+    {
+      "code": "O_FOREIGN_INVOICE_BILL_OF_LADING",
+      "title": "لغو تائید نهایی ارتباط فروش خارجی به بارنامه"
     }
   ]
 }

@@ -1093,6 +1093,13 @@ function onWayProductCreateRemittance() {
 
 
     DynamicForm_warehouseCAD.getItem('depotId').setOptionDataSource(RestDataSource_WarehouseYard_IN_WAREHOUSECAD_ONWAYPRODUCT)
+    DynamicForm_warehouseCAD.setValue('code','i-'+selectedSourceTozins[0].codeKala
+        + '-'
+        + selectedSourceTozins.length
+        + '-'
+        + selectedSourceTozins[0].tozinId.toString()
+        + '-'
+        + selectedSourceTozins[0].date.toString())
 
 
 }
