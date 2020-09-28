@@ -2201,6 +2201,14 @@
       "title": "نمایش مشتری"
     },
     {
+      "code": "P_INVOICE_INTERNAL",
+      "title": "چاپ فاکتور فروش داخلی"
+    },
+    {
+      "code": "E_SEND_INVOICE_INTERNAL_TO_ACC",
+      "title": "ایجاد سند حسابداری فاکتور فروش داخلی"
+    },
+    {
       "code": "R_FOREIGN_INVOICE_BILL_OF_LADING",
       "title": "نمایش ارتباط فروش خارجی به بارنامه"
     },
