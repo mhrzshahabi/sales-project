@@ -1772,7 +1772,6 @@ inspectionReportTab.window.inspecReport.populateData = function (bodyWidget) {
             inspectionReportId: "",
             mileStone: ""
         };
-        debugger
         weightInspectionObj.id = weightRecord.id;
         weightInspectionObj.version = weightRecord.version;
         weightInspectionObj.weighingType = weightRecord.weighingType;
