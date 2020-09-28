@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nicico.sales.enumeration.ErrorType;
 import com.nicico.sales.exception.SalesException2;
 import com.nicico.sales.model.entities.contract.IncotermAspect;
+import com.nicico.sales.model.entities.base.InspectionReport;
 import com.nicico.sales.model.enumeration.InspectionRateValueType;
 import com.nicico.sales.model.enumeration.InspectionReportMilestone;
 import com.nicico.sales.model.enumeration.WeighingType;
@@ -50,7 +51,7 @@ public class InspectionReportFormController {
             mileStone.put(value.name(), value.name());
         request.setAttribute("Enum_MileStone", objectMapper.writeValueAsString(mileStone));
 
-        SecurityChecker.addEntityPermissionToRequest(request, IncotermAspect.class);
+        SecurityChecker.addEntityPermissionToRequest(request, InspectionReport.class);
 
         return "inspectionReport/inspectionReport";
     }
