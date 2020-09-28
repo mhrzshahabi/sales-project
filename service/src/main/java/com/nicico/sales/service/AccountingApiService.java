@@ -164,8 +164,8 @@ public class AccountingApiService implements IAccountingApiService {
 	}
 
 	@Override
-	public Map<String, Object> sendInvoice(AccountingDTO.DocumentCreateRq request, List<Object> objects) {
-		final String url = accountingAppUrl + "/rest/document-mapper/docBuilder/" + appName;
+	public Map<String, Object> sendInvoice(String systemName, AccountingDTO.DocumentCreateRq request, List<Object> objects) {
+		final String url = accountingAppUrl + "/rest/document-mapper/docBuilder/" + systemName;
 		final HttpHeaders httpHeaders = new HttpHeaders();
 		httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 		httpHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));

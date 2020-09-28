@@ -45,7 +45,7 @@ public class AccountingApiController {
 
 	@PostMapping(value = "/documents/internal/{invoiceId}")
 	public ResponseEntity<String> sendInternalInvoice(@PathVariable String invoiceId, @RequestBody AccountingDTO.DocumentCreateRq request) {
-		return new ResponseEntity<>(internalInvoiceService.sendInvoice(invoiceId, request), HttpStatus.OK);
+		return new ResponseEntity<>(internalInvoiceService.sendInvoice("sales internal invoice", invoiceId, request), HttpStatus.OK);
 	}
 
 	@PutMapping(value = "/documents/status/{systemName}")
