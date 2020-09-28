@@ -575,15 +575,7 @@ inspectionReportTab.method.setWeightElementListRows = function (selectedInventor
     if (!selectedInventories || !selectedInventories.length)
         return;
 
-    inspectionReportTab.listGrid.weightElement.inventoryCount = selectedInventories.length;
     selectedInventories.forEach((current, index, array) => inspectionReportTab.listGrid.weightElement.startEditingNew({inventoryId: current}));
-
-    // if (inspectionReportTab.variable.method !== "PUT") return;
-
-    // let record = inspectionReportTab.listGrid.main.getSelectedRecord();
-    // inspectionReportTab.listGrid.weightElement.setData(record.weightInspections);
-    // inspectionReportTab.listGrid.weightElement.saveAllEdits();
-    // inspectionReportTab.listGrid.weightElement.endEditing();
 };
 
 inspectionReportTab.method.setAssayElementListRows = function (selectedInventories) {
@@ -592,39 +584,8 @@ inspectionReportTab.method.setAssayElementListRows = function (selectedInventori
         return;
     if (inspectionReportTab.variable.materialId === ImportantIDs.material.COPPER_CATHOD)
         return;
-    debugger
-    inspectionReportTab.listGrid.assayElement.inventoryCount = selectedInventories.length;
+
     selectedInventories.forEach((current, index, array) => inspectionReportTab.listGrid.assayElement.startEditingNew({inventoryId: current}));
-
-    // if (inspectionReportTab.variable.method !== "PUT") return;
-
-    // let record = inspectionReportTab.listGrid.main.getSelectedRecord();
-    // let fields = inspectionReportTab.listGrid.assayElement.fields;
-    // let length = inspectionReportTab.listGrid.assayElement.fields.length;
-    // let assayData = inspectionReportTab.method.groupByAssays(record.assayInspections, "inventoryId");
-    //
-    // selectedInventories.forEach((current, index, array) => {
-    //     let assayRecord = assayData[index];
-    //     assayRecord.forEach((c, i, arr) => {
-    //         for (let n = 2; n < length; n++) {
-    //
-    //             if (c.materialElementId === fields[n].meId) {
-    //
-    //                 if (inspectionReportTab.listGrid.assayElement.getField(n).ids.length > index)
-    //                     inspectionReportTab.listGrid.assayElement.getField(n).ids = [];
-    //
-    //                 if (inspectionReportTab.listGrid.assayElement.getField(n).versions.length > index)
-    //                     inspectionReportTab.listGrid.assayElement.getField(n).versions = [];
-    //
-    //                 inspectionReportTab.listGrid.assayElement.setEditValue(index, n, c.value);
-    //                 inspectionReportTab.listGrid.assayElement.getField(n).ids.add(c.id);
-    //                 inspectionReportTab.listGrid.assayElement.getField(n).versions.add(c.version);
-    //             }
-    //         }
-    //     });
-    // });
-    // inspectionReportTab.listGrid.assayElement.saveAllEdits();
-    // inspectionReportTab.listGrid.assayElement.endEditing();
 };
 
 inspectionReportTab.method.setSavedWeightData = function (weightInspectionArrayData) {
@@ -749,7 +710,7 @@ inspectionReportTab.method.createAssayListGrid = function () {
             inventoryIds: selectedInventories
         },
         callback: function (resp) {
-            debugger
+
             inspectionReportTab.listGrid.assayElement.setData([]);
             inspectionReportTab.hStack.assayUnitSum.setMembers([]);
 
@@ -963,16 +924,6 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
                         value: value
                     }]
                 });
-            else
-                inspectionReportTab.dynamicForm.inspecReport.getItem("inventoryId").setOptionCriteria({
-                    _constructor: "AdvancedCriteria",
-                    operator: "and",
-                    criteria: [{
-                        fieldName: "remittanceDetails.remittance.shipment.materialId",
-                        operator: "equals",
-                        value: inspectionReportTab.dynamicForm.material.getValue("material")
-                    }]
-                });
         }
     },
     {
@@ -1137,14 +1088,6 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
         type: "ButtonItem",
         icon: "pieces/16/refresh.png",
         click: function (form, item) {
-
-            // inspectionReportTab.listGrid.weightElement.setData([]);
-            // inspectionReportTab.listGrid.weightElementSum.setData([]);
-            // inspectionReportTab.hStack.weightUnitSum.setMembers([]);
-            //
-            // inspectionReportTab.listGrid.assayElement.setData([]);
-            // inspectionReportTab.listGrid.assayElementSum.setData([]);
-            // inspectionReportTab.hStack.assayUnitSum.setMembers([]);
 
             inspectionReportTab.dynamicForm.inspecReport.getItem("select").enable();
             inspectionReportTab.dynamicForm.inspecReport.getItem("mileStone").enable();
@@ -1631,14 +1574,6 @@ inspectionReportTab.listGrid.assayElement = isc.ListGrid.create({
     canRemoveRecords: true,
     dataChanged: function (operationType) {
 
-        // if (inspectionReportTab.listGrid.assayElement.getData().length === 0) {
-        //     inspectionReportTab.dynamicForm.assayLab.getField("labName").setRequired(false);
-        //     inspectionReportTab.dynamicForm.assayLab.getField("labPlace").setRequired(false);
-        // }
-        // else {
-        //     inspectionReportTab.dynamicForm.assayLab.getField("labName").setRequired(true);
-        //     inspectionReportTab.dynamicForm.assayLab.getField("labPlace").setRequired(true);
-        // }
         inspectionReportTab.method.setAssayElementSum();
         this.Super("dataChanged", arguments);
     }
@@ -1777,15 +1712,16 @@ inspectionReportTab.tab.inspecTabs = isc.TabSet.create({
 
 inspectionReportTab.method.clearForm = function () {
 
+    inspectionReportTab.listGrid.assayElement.setData([]);
     inspectionReportTab.dynamicForm.material.clearValues();
-    inspectionReportTab.dynamicForm.inspecReport.clearValues();
     inspectionReportTab.dynamicForm.assayLab.clearValues();
     inspectionReportTab.listGrid.weightElement.setData([]);
-    inspectionReportTab.listGrid.weightElementSum.setData([]);
-    inspectionReportTab.listGrid.assayElement.setData([]);
     inspectionReportTab.listGrid.assayElement.setFields([]);
     inspectionReportTab.listGrid.assayElementSum.setData([]);
+    inspectionReportTab.listGrid.weightElementSum.setData([]);
+    inspectionReportTab.dynamicForm.inspecReport.clearValues();
     inspectionReportTab.listGrid.assayElementSum.setFields([]);
+    inspectionReportTab.toolStrip.weightRemoveAll.members[1].members[0].getItem("excelFile").clearValue()
 };
 
 inspectionReportTab.window.inspecReport = new nicico.FormUtil();
@@ -1819,11 +1755,11 @@ inspectionReportTab.window.inspecReport.populateData = function (bodyWidget) {
     inspectionReportTab.listGrid.weightElement.endEditing();
 
     //------------- Save Inspection Data in Object -----------
-    let inspectionReportObj = bodyWidget.members.get(0).members.get(1).getValues();
+    let inspectionReportObj = bodyWidget.members[0].members[1].getValues();
 
     //---------------- Save Weight Data in Object ------------
-    bodyWidget.members.get(1).members.get(0).tabs.get(0).pane.members.get(0).selectAllRecords();
-    bodyWidget.members.get(1).members.get(0).tabs.get(0).pane.members.get(0).getSelectedRecords().forEach(function (weightRecord, element) {
+    bodyWidget.members[1].members[0].tabs[0].pane.members[0].selectAllRecords();
+    bodyWidget.members[1].members[0].tabs[0].pane.members[0].getSelectedRecords().forEach(function (weightRecord, element) {
 
         let weightInspectionObj = {
             id: "",
@@ -1843,7 +1779,7 @@ inspectionReportTab.window.inspecReport.populateData = function (bodyWidget) {
         weightInspectionObj.weightGW = weightRecord.weightGW;
         weightInspectionObj.shipmentId = inspectionReportObj.shipmentId ? inspectionReportTab.shipmentId : null;
         weightInspectionObj.inventoryId = weightRecord.inventoryId;
-        weightInspectionObj.unitId = bodyWidget.members.get(1).members.get(0).tabs.get(0).pane.members.get(0).unitId;
+        weightInspectionObj.unitId = bodyWidget.members[1].members[0].tabs[0].pane.members[0].unitId;
         weightInspectionObj.mileStone = inspectionReportObj.mileStone;
         weightInspections.push(weightInspectionObj);
 
@@ -1851,16 +1787,16 @@ inspectionReportTab.window.inspecReport.populateData = function (bodyWidget) {
     inspectionReportObj.weightInspections = weightInspections;
 
     //---------------- Save Weight Sum in Object ------------
-    bodyWidget.members.get(1).members.get(0).tabs.get(0).pane.members.get(1).members.get(0).selectAllRecords();
-    let weightSum = bodyWidget.members.get(1).members.get(0).tabs.get(0).pane.members.get(1).members.get(0).getSelectedRecord(0);
+    bodyWidget.members[1].members[0].tabs[0].pane.members[1].members[0].selectAllRecords();
+    let weightSum = bodyWidget.members[1].members[0].tabs[0].pane.members[1].members[0].getSelectedRecord(0);
     inspectionReportObj.weightGW = weightSum ? weightSum.weightGW : null;
     inspectionReportObj.weightND = weightSum ? weightSum.weightND : null;
 
     //--------------- Save Assay Data in Object --------------
-    inspectionReportTab.variable.allCols = bodyWidget.members.get(1).members.get(0).tabs.get(1).pane.members.get(1).fields.length - 1;
+    inspectionReportTab.variable.allCols = bodyWidget.members[1].members[0].tabs[1].pane.members[1].fields.length - 1;
 
-    bodyWidget.members.get(1).members.get(0).tabs.get(1).pane.members.get(1).selectAllRecords();
-    let records = bodyWidget.members.get(1).members.get(0).tabs.get(1).pane.members.get(1).getSelectedRecords();
+    bodyWidget.members[1].members[0].tabs[1].pane.members[1].selectAllRecords();
+    let records = bodyWidget.members[1].members[0].tabs[1].pane.members[1].getSelectedRecords();
 
     records.sortByProperty("inventoryId", true);
     records.forEach(function (assayRecord, index) {
@@ -1868,12 +1804,12 @@ inspectionReportTab.window.inspecReport.populateData = function (bodyWidget) {
         for (let i = 2; i < inspectionReportTab.variable.allCols; i++) {
 
             let assayInspectionObj = {};
-            assayInspectionObj.labName = bodyWidget.members.get(1).members.get(0).tabs.get(1).pane.members.get(0).getItem("labName").getValue();
-            assayInspectionObj.labPlace = bodyWidget.members.get(1).members.get(0).tabs.get(1).pane.members.get(0).getItem("labPlace").getValue();
-            assayInspectionObj.id = bodyWidget.members.get(1).members.get(0).tabs.get(1).pane.members.get(1).getField(i).ids[index];
-            assayInspectionObj.version = bodyWidget.members.get(1).members.get(0).tabs.get(1).pane.members.get(1).getField(i).versions[index];
-            assayInspectionObj.value = NumberUtil.parseInt(bodyWidget.members.get(1).members.get(0).tabs.get(1).pane.members.get(1).getCellValue(assayRecord, index, i));
-            assayInspectionObj.materialElementId = bodyWidget.members.get(1).members.get(0).tabs.get(1).pane.members.get(1).fields.get(i).meId;
+            assayInspectionObj.labName = bodyWidget.members[1].members[0].tabs[1].pane.members[0].getItem("labName").getValue();
+            assayInspectionObj.labPlace = bodyWidget.members[1].members[0].tabs[1].pane.members[0].getItem("labPlace").getValue();
+            assayInspectionObj.id = bodyWidget.members[1].members[0].tabs[1].pane.members[1].getField(i).ids[index];
+            assayInspectionObj.version = bodyWidget.members[1].members[0].tabs[1].pane.members[1].getField(i).versions[index];
+            assayInspectionObj.value = NumberUtil.parseInt(bodyWidget.members[1].members[0].tabs[1].pane.members[1].getCellValue(assayRecord, index, i));
+            assayInspectionObj.materialElementId = bodyWidget.members[1].members[0].tabs[1].pane.members[1].fields.get(i).meId;
             assayInspectionObj.shipmentId = inspectionReportObj.shipmentId ? inspectionReportTab.shipmentId : null;
             assayInspectionObj.inventoryId = assayRecord.inventoryId;
             assayInspectionObj.mileStone = inspectionReportObj.mileStone;
@@ -1884,8 +1820,8 @@ inspectionReportTab.window.inspecReport.populateData = function (bodyWidget) {
     inspectionReportObj.assayInspections = assayInspectionRecord;
 
     //--------------- Save Assay Sum in Object --------------
-    bodyWidget.members.get(1).members.get(0).tabs.get(1).pane.members.get(2).members.get(0).selectAllRecords();
-    let assaySum = bodyWidget.members.get(1).members.get(0).tabs.get(1).pane.members.get(2).members.get(0).getSelectedRecords(0);
+    bodyWidget.members[1].members[0].tabs[1].pane.members[2].members[0].selectAllRecords();
+    let assaySum = bodyWidget.members[1].members[0].tabs[1].pane.members[2].members[0].getSelectedRecords(0);
 
     if (assaySum[0]) {
 
@@ -1894,8 +1830,8 @@ inspectionReportTab.window.inspecReport.populateData = function (bodyWidget) {
             let assayInspectionTotalValuesObj = {};
             assayInspectionTotalValuesObj.id = assaySum[0].id;
             assayInspectionTotalValuesObj.version = assaySum[0].version;
-            assayInspectionTotalValuesObj.value = NumberUtil.parseInt(bodyWidget.members.get(1).members.get(0).tabs.get(1).pane.members.get(2).members.get(0).getCellValue(assaySum[0], 0, i));
-            assayInspectionTotalValuesObj.materialElementId = bodyWidget.members.get(1).members.get(0).tabs.get(1).pane.members.get(1).fields.get(i + 1).meId;
+            assayInspectionTotalValuesObj.value = NumberUtil.parseInt(bodyWidget.members[1].members[0].tabs[1].pane.members[2].members[0].getCellValue(assaySum[0], 0, i));
+            assayInspectionTotalValuesObj.materialElementId = bodyWidget.members[1].members[0].tabs[1].pane.members[1].fields.get(i + 1).meId;
 
             assayInspectionTotalValuesList.push(assayInspectionTotalValuesObj);
         }
@@ -1931,20 +1867,7 @@ inspectionReportTab.window.inspecReport.validate = function (data) {
                 return false;
             }
         }
-
-
-        // if (inspectionReportTab.listGrid.assayElement.getData().length !== inspectionReportTab.listGrid.assayElement.inventoryCount) {
-        //
-        //     inspectionReportTab.tab.inspecTabs.selectTab(inspectionReportTab.tab.inspecTabs.tabs.filter(q => q.name === "assay").first());
-        //     return false;
-        // }
     }
-
-    // if (inspectionReportTab.listGrid.weightElement.getData().length !== inspectionReportTab.listGrid.weightElement.inventoryCount) {
-    //
-    //     inspectionReportTab.tab.inspecTabs.selectTab(inspectionReportTab.tab.inspecTabs.tabs.filter(q => q.name === "weight").first());
-    //     return false;
-    // }
 
     if (inspectionReportTab.variable.removeAllWeight && inspectionReportTab.variable.removeAllAssay) {
         inspectionReportTab.dialog.say("<spring:message code='global.message.inspection.report.not.exist'/>");
