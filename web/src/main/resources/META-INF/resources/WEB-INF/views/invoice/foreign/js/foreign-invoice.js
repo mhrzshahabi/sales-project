@@ -1,5 +1,6 @@
 var foreignInvoiceTab = new nicico.GeneralTabUtil().getDefaultJSPTabVariable();
 
+foreignInvoiceTab.variable.materialId = null;
 foreignInvoiceTab.variable.contractDetailData = {};
 foreignInvoiceTab.variable.invoiceForm = new nicico.FormUtil();
 foreignInvoiceTab.variable.selectBillLadingForm = new nicico.FindFormUtil();
@@ -166,6 +167,7 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
                     title: "<spring:message code='foreign-invoice.form.contract'/>"
                 },
                 {name: "description", title: "<spring:message code='global.description'/>"},
+                {name: "materialId"},
                 {name: "estatus", title: "<spring:message code='global.status'/>"},
             ],
             fetchDataURL: foreignInvoiceTab.variable.contractUrl + "spec-list"
@@ -173,6 +175,7 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
         pickListFields: [
             {name: "id", primaryKey: true, hidden: true, title: "<spring:message code='global.id'/>"},
             {name: "no"},
+            {name: "materialId", hidden: true},
             {name: "estatus"}
         ],
         title: "<spring:message code='foreign-invoice.form.contract'/>",
@@ -200,6 +203,7 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
                 return;
             }
 
+            foreignInvoiceTab.variable.materialId = selectedRecord.materialId;
             shipmentIdField.setOptionCriteria({
                 operator: "or",
                 criteria: [{
@@ -263,13 +267,16 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
         changed: function (form, item, value) {
 
             form.setValue("weightInspectionId", null);
+            form.setValue("assayInspectionId", null);
             foreignInvoiceTab.dynamicForm.valuesManager.setValue("billLadings", null);
 
             let selectedRecord = item.getSelectedRecord();
             if (!selectedRecord) {
 
                 form.getItem("weightInspectionId").disable();
+                form.getItem("assayInspectionId").disable();
                 form.getItem("weightInspectionId").setOptionCriteria(null);
+                form.getItem("assayInspectionId").setOptionCriteria(null);
 
                 foreignInvoiceTab.button.selectBillLading.disable();
                 foreignInvoiceTab.button.selectBillLading.criteria = null;
@@ -278,6 +285,7 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
             }
 
             form.getItem("weightInspectionId").enable();
+            form.getItem("assayInspectionId").enable();
             form.getItem("weightInspectionId").setOptionCriteria({
                 _constructor: "AdvancedCriteria",
                 operator: "and",
@@ -287,6 +295,20 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
                         operator: "notNull",
                     }, {
                         fieldName: "weightInspections.shipmentId",
+                        operator: "equals",
+                        value: selectedRecord.id
+                    }
+                ]
+            });
+            form.getItem("assayInspectionId").setOptionCriteria({
+                _constructor: "AdvancedCriteria",
+                operator: "and",
+                criteria: [
+                    {
+                        fieldName: 'assayInspections',
+                        operator: "notNull",
+                    }, {
+                        fieldName: "assayInspections.shipmentId",
                         operator: "equals",
                         value: selectedRecord.id
                     }
@@ -488,7 +510,6 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
     {
         required: true,
         disabled: true,
-        // multiple: true,
         width: "100%",
         type: "integer",
         name: "weightInspectionId",
@@ -499,32 +520,73 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
             showFilterEditor: true
         },
         pickListFields: [
-            {name: "id"},
-            {name: "inspectionNO"},
-            {name: "inspector.nameFA"},
-            {name: "issueDate"},
-            {name: "seller.nameFA"},
-            {name: "buyer.nameFA"}
+            {name: "id", hidden: true},
+            {name: "inspectionNO", showHover: true},
+            {name: "inspector.nameFA", showHover: true},
+            {name: "issueDate", showHover: true},
+            {name: "seller.nameFA", showHover: true},
+            {name: "buyer.nameFA", showHover: true},
+            {name: "weightInspections.mileStone", showHover: true}
         ],
         optionDataSource: isc.MyRestDataSource.create({
             fields: [
                 {name: "id", primaryKey: true, hidden: true, title: "<spring:message code='global.id'/>"},
                 {name: "inspectionNO", title: "<spring:message code='inspectionReport.InspectionNO'/>"},
                 {name: "inspector.nameFA", title: "<spring:message code='inspectionReport.inspector.nameFA'/>"},
-                {name: "issueDate", title: "<spring:message code='inspectionReport.IssueDate'/>"},
+                {
+                    name: "issueDate",
+                    title: "<spring:message code='inspectionReport.IssueDate'/>",
+                    type: "date",
+                    width: 100
+                },
                 {name: "seller.nameFA", title: "<spring:message code='inspectionReport.seller.nameFA'/>"},
-                {name: "buyer.nameFA", title: "<spring:message code='inspectionReport.buyer.nameFA'/>"}
+                {name: "buyer.nameFA", title: "<spring:message code='inspectionReport.buyer.nameFA'/>"},
+                {name: "weightInspections.mileStone", title: "<spring:message code='inspectionReport.weight.mileStone'/>"}
             ],
             fetchDataURL: foreignInvoiceTab.variable.inspectionReportUrl + "spec-list"
         }),
-        // optionCriteria: {
-        //     operator: 'and',
-        //     criteria: [{
-        //         fieldName: 'weightInspections',
-        //         operator: "notNull",
-        //     }]
-        // },
         title: "<spring:message code='weightInspection.title'/>",
+        wrapTitle: false,
+    },
+    {
+        required: true,
+        disabled: true,
+        width: "100%",
+        type: "integer",
+        name: "assayInspectionId",
+        editorType: "SelectItem",
+        valueField: "id",
+        displayField: "inspectionNO",
+        pickListProperties: {
+            showFilterEditor: true
+        },
+        pickListFields: [
+            {name: "id", hidden: true},
+            {name: "inspectionNO", showHover: true},
+            {name: "inspector.nameFA", showHover: true},
+            {name: "issueDate", showHover: true},
+            {name: "seller.nameFA", showHover: true},
+            {name: "buyer.nameFA", showHover: true},
+            {name: "assayInspections.mileStone", showHover: true}
+        ],
+        optionDataSource: isc.MyRestDataSource.create({
+            fields: [
+                {name: "id", primaryKey: true, hidden: true, title: "<spring:message code='global.id'/>"},
+                {name: "inspectionNO", title: "<spring:message code='inspectionReport.InspectionNO'/>"},
+                {name: "inspector.nameFA", title: "<spring:message code='inspectionReport.inspector.nameFA'/>"},
+                {
+                    name: "issueDate",
+                    title: "<spring:message code='inspectionReport.IssueDate'/>",
+                    type: "date",
+                    width: 100
+                },
+                {name: "seller.nameFA", title: "<spring:message code='inspectionReport.seller.nameFA'/>"},
+                {name: "buyer.nameFA", title: "<spring:message code='inspectionReport.buyer.nameFA'/>"},
+                {name: "assayInspections.mileStone", title: "<spring:message code='inspectionReport.assay.mileStone'/>"}
+            ],
+            fetchDataURL: foreignInvoiceTab.variable.inspectionReportUrl + "spec-list"
+        }),
+        title: "<spring:message code='assayInspection.title'/>",
         wrapTitle: false,
     },
     {
@@ -595,8 +657,11 @@ foreignInvoiceTab.button.save = isc.IButtonSave.create({
             'shipment',
             foreignInvoiceTab.dynamicForm.baseData.getField('shipmentId').getSelectedRecord());
         foreignInvoiceTab.dynamicForm.valuesManager.setValue(
-            'inspectionReport',
-            foreignInvoiceTab.dynamicForm.baseData.getField('inspectionReportId').getSelectedRecord());
+            'weightInspection',
+            foreignInvoiceTab.dynamicForm.baseData.getField('weightInspectionId').getSelectedRecord());
+        foreignInvoiceTab.dynamicForm.valuesManager.setValue(
+            'assayInspection',
+            foreignInvoiceTab.dynamicForm.baseData.getField('assayInspectionId').getSelectedRecord());
 
         let selectedShipmentRemittanceDetailsCount = foreignInvoiceTab.dynamicForm.valuesManager.getValue('remittanceDetailId').length;
         let allShipmentRemittanceDetailsCount = Object.keys(foreignInvoiceTab.dynamicForm.baseData.getField('remittanceDetailId').getAllValueMappings()).length;
@@ -610,7 +675,7 @@ foreignInvoiceTab.button.save = isc.IButtonSave.create({
                 invoiceType: foreignInvoiceTab.dynamicForm.valuesManager.getValue('invoiceType'),
             }), '<spring:message code="foreign-invoice.form.tab.contract-info"/>');
 
-        if (foreignInvoiceTab.dynamicForm.valuesManager.getValue('remittanceDetailId').length > 1) {
+        if (foreignInvoiceTab.variable.materialId === ImportantIDs.material.MOLYBDENUM_OXIDE) {
             let invoiceCalculation2Component = isc.InvoiceCalculation2.create({
                 contractDetailData: foreignInvoiceTab.variable.contractDetailData,
                 currency: foreignInvoiceTab.dynamicForm.valuesManager.getValue("currency"),
@@ -645,7 +710,8 @@ foreignInvoiceTab.button.save = isc.IButtonSave.create({
                 contractDetailData: foreignInvoiceTab.variable.contractDetailData,
                 shipment: foreignInvoiceTab.dynamicForm.valuesManager.getValue("shipment"),
                 invoiceType: foreignInvoiceTab.dynamicForm.valuesManager.getValue("invoiceType"),
-                remittanceDetails: foreignInvoiceTab.dynamicForm.valuesManager.getValue("remittanceDetails"),
+                weightInspection: foreignInvoiceTab.dynamicForm.valuesManager.getValue("weightInspection"),
+                assayInspection: foreignInvoiceTab.dynamicForm.valuesManager.getValue("assayInspection"),
                 weightData: foreignInvoiceTab.dynamicForm.valuesManager.getValue("weightData")
             });
             foreignInvoiceTab.method.addTab(invoiceBaseValuesComponent, '<spring:message code="foreign-invoice.form.tab.base-values"/>');

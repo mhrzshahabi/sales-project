@@ -9,8 +9,8 @@ isc.defineClass("InvoiceBaseAssay", isc.VLayout).addProperties({
     membersMargin: 2,
     overflow: "visible",
     shipment: null,
-    assayMilestone: null,
-    remittanceDetail: null,
+    // assayMilestone: null,
+    assayInspection: null,
     initWidget: function () {
 
         this.Super("initWidget", arguments);
