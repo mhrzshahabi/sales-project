@@ -3,7 +3,7 @@
                    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
     <changeSet author="SALES" id="1599969442182-1">
-        <createView viewName="VIEW_INTERNAL_INVOICE_DOCUMENT">
+        <createView viewName="VIEW_INTERNAL_INVOICE_DOCUMENT" replaceIfExists="true">
             <![CDATA[
                 SELECT
                     VI.INV_ID AS ID,

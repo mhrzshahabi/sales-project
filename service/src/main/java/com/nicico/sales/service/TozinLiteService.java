@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Set;
 
 @Slf4j
@@ -17,4 +18,10 @@ public class TozinLiteService extends GenericService<TozinLite, Long, TozinLite,
     public Set<TozinLite> findAllByTozinIdIn(Set<String> tozinIdList) {
         return ((TozinLiteDAO) repository).findAllByTozinIdIn(tozinIdList);
     }
+
+    @Override
+    public Set<TozinLite> findAllByTozinIdIn(List<String> tozinIdList) {
+        return ((TozinLiteDAO) repository).findAllByTozinIdIn(tozinIdList);
+    }
+
 }

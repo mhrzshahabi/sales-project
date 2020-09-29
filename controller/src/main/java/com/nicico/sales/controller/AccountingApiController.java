@@ -2,6 +2,7 @@ package com.nicico.sales.controller;
 
 import com.nicico.copper.common.dto.grid.GridResponse;
 import com.nicico.copper.common.dto.grid.TotalResponse;
+import com.nicico.sales.ICostInvoiceService;
 import com.nicico.sales.dto.AccountingDTO;
 import com.nicico.sales.iservice.IAccountingApiService;
 import com.nicico.sales.iservice.IInternalInvoiceService;
@@ -22,6 +23,7 @@ public class AccountingApiController {
 
 	private final IAccountingApiService accountingApiService;
 	private final IInternalInvoiceService internalInvoiceService;
+	private final ICostInvoiceService costInvoiceService;
 
 	// ------------------------------
 
@@ -45,7 +47,7 @@ public class AccountingApiController {
 
 	@PostMapping(value = "/documents/internal/{invoiceId}")
 	public ResponseEntity<String> sendInternalInvoice(@PathVariable String invoiceId, @RequestBody AccountingDTO.DocumentCreateRq request) {
-		return new ResponseEntity<>(internalInvoiceService.sendInvoice("sales internal invoice", invoiceId, request), HttpStatus.OK);
+		return new ResponseEntity<>(internalInvoiceService.sendInvoice(invoiceId, request), HttpStatus.OK);
 	}
 
 	@PutMapping(value = "/documents/status/{systemName}")
@@ -65,5 +67,10 @@ public class AccountingApiController {
 				.setTotalRows(documentDetails.size());
 
 		return new ResponseEntity<>(new TotalResponse<>(gridResponse), HttpStatus.OK);
+	}
+
+	@PostMapping(value = "/documents/cost/{invoiceId}")
+	public ResponseEntity<String> sendCostInvoice(@PathVariable Long invoiceId, @RequestBody AccountingDTO.DocumentCreateRq request) {
+		return new ResponseEntity<>(costInvoiceService.sendInvoice(invoiceId, request), HttpStatus.OK);
 	}
 }
