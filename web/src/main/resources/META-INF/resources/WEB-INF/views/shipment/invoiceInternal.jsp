@@ -184,13 +184,13 @@
                 width: "150",
                 type: "staticText"
             },
-            <%--{--%>
-            <%--    name: "invoiceDate",--%>
-            <%--    title: "<spring:message code='provisionalInvoice.refDate'/>",--%>
-            <%--    width: "150",--%>
-            <%--    wrapTitle: false,--%>
-            <%--    length: 10,type: "staticText"--%>
-            <%--},--%>
+            {
+                name: "invoiceDate",
+                title: "<spring:message code='provisionalInvoice.refDate'/>",
+                width: "150",
+                wrapTitle: false,
+                length: 10,type: "staticText"
+            },
             {
                 name: "salesType",type: "staticText",
                 valueMap: {"2": "اعتباری", "1": "نقدی"},
