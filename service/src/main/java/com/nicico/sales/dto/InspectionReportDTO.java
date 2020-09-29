@@ -1,6 +1,7 @@
 package com.nicico.sales.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.nicico.sales.model.entities.base.AssayInspectionTotalValues;
 import com.nicico.sales.model.enumeration.EStatus;
 import com.nicico.sales.model.enumeration.InspectionRateValueType;
 import io.swagger.annotations.ApiModel;
@@ -30,6 +31,9 @@ public class InspectionReportDTO {
     private InspectionRateValueType inspectionRateValueType;
     private String description;
     private Long unitId;
+    private BigDecimal weightGW;
+    private BigDecimal weightND;
+    private List<AssayInspectionTotalValuesDTO.Info> assayInspectionTotalValuesList;
     private List<AssayInspectionDTO.InfoWithoutInspectionReport> assayInspections;
     private List<WeightInspectionDTO.InfoWithoutInspectionReport> weightInspections;
 

@@ -33,18 +33,21 @@ public class SecurityChecker {
         return ExpressionUtils.evaluateAsBoolean(parser.parseExpression(securityExpression), evaluationContext);
     }
 
+    @SafeVarargs
     public static void addEntityPermissionToRequest(HttpServletRequest request, Class<? extends BaseEntity>... classes) {
+
         List<String> eight = Arrays.asList("R", "C", "U", "D", "F", "O", "A", "I");
         for (String p : eight) {
             Boolean hasPermission = Arrays.stream(classes).map(clazz -> {
                 String entityName = StringFormatUtil.makeMessageKey(clazz.getSimpleName(), "_").toUpperCase();
                 return Optional.of(SecurityUtil.hasAuthority(p + "_" + entityName)).orElse(false);
-            }).reduce((a, b) -> a && b).get();
+            }).reduce((a, b) -> a && b).orElse(false);
             request.setAttribute(p.toLowerCase() + "_entity", hasPermission);
         }
     }
 
     public static void addViewPermissionToRequest(HttpServletRequest request, Class clazz) {
+
         String entityName = StringFormatUtil.makeMessageKey(clazz.getSimpleName(), "_").toUpperCase();
         Boolean hasPermission = Optional.of(SecurityUtil.hasAuthority("R_" + entityName)).orElse(false);
         request.setAttribute("r_entity", hasPermission);

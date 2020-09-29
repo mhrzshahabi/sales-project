@@ -2,6 +2,7 @@ package com.nicico.sales.service;
 
 import com.nicico.sales.annotation.Action;
 import com.nicico.sales.dto.AssayInspectionDTO;
+import com.nicico.sales.dto.AssayInspectionTotalValuesDTO;
 import com.nicico.sales.dto.InspectionReportDTO;
 import com.nicico.sales.dto.WeightInspectionDTO;
 import com.nicico.sales.enumeration.ActionType;
@@ -10,6 +11,7 @@ import com.nicico.sales.exception.NotFoundException;
 import com.nicico.sales.exception.SalesException2;
 import com.nicico.sales.iservice.IInspectionReportService;
 import com.nicico.sales.model.entities.base.AssayInspection;
+import com.nicico.sales.model.entities.base.AssayInspectionTotalValues;
 import com.nicico.sales.model.entities.base.InspectionReport;
 import com.nicico.sales.model.entities.base.WeightInspection;
 import com.nicico.sales.utility.UpdateUtil;
@@ -21,7 +23,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 @RequiredArgsConstructor
 @Service
@@ -31,6 +35,7 @@ public class InspectionReportService extends GenericService<InspectionReport, Lo
     private final ResourceBundleMessageSource messageSource;
     private final AssayInspectionService assayInspectionService;
     private final WeightInspectionService weightInspectionService;
+    private final AssayInspectionTotalValuesService assayInspectionTotalValuesService;
 
     @Override
     @Transactional
@@ -40,7 +45,8 @@ public class InspectionReportService extends GenericService<InspectionReport, Lo
         InspectionReportDTO.Info inspectionReportDTO = super.create(request);
 
         Locale locale = LocaleContextHolder.getLocale();
-        if (request.getWeightInspections().size() == 0 && request.getAssayInspections().size() == 0) throw new SalesException2(ErrorType.Unknown, "", messageSource.getMessage("weight-inspection.exception.notFound", null, locale));
+        if (request.getWeightInspections().size() == 0 && request.getAssayInspections().size() == 0)
+            throw new SalesException2(ErrorType.Unknown, "", messageSource.getMessage("weight-inspection.exception.notFound", null, locale));
 
         request.getWeightInspections().forEach(item -> item.setInspectionReportId(inspectionReportDTO.getId()));
         weightInspectionService.createAll(modelMapper.map(request.getWeightInspections(), new TypeToken<List<WeightInspectionDTO.Create>>() {
@@ -49,6 +55,12 @@ public class InspectionReportService extends GenericService<InspectionReport, Lo
         request.getAssayInspections().forEach(item -> item.setInspectionReportId(inspectionReportDTO.getId()));
         assayInspectionService.createAll(modelMapper.map(request.getAssayInspections(), new TypeToken<List<AssayInspectionDTO.Create>>() {
         }.getType()));
+
+        if (request.getAssayInspectionTotalValuesList() != null) {
+            request.getAssayInspectionTotalValuesList().forEach(item -> item.setInspectionReportId(inspectionReportDTO.getId()));
+            assayInspectionTotalValuesService.createAll(modelMapper.map(request.getAssayInspectionTotalValuesList(), new TypeToken<List<AssayInspectionTotalValuesDTO.Create>>() {
+            }.getType()));
+        }
 
         return inspectionReportDTO;
     }
@@ -60,12 +72,14 @@ public class InspectionReportService extends GenericService<InspectionReport, Lo
 
         request.getWeightInspections().forEach(item -> item.setInspectionReportId(request.getId()));
         request.getAssayInspections().forEach(item -> item.setInspectionReportId(request.getId()));
+        request.getAssayInspectionTotalValuesList().forEach(item -> item.setInspectionReportId(request.getId()));
         InspectionReport inspectionReport = repository.findById(id).orElseThrow(() -> new NotFoundException(InspectionReport.class));
 
         try {
 
             updateWeight(request, inspectionReport);
             updateAssay(request, inspectionReport);
+            updateAssayTotalValues(request, inspectionReport);
         } catch (IllegalAccessException | InvocationTargetException | NoSuchFieldException e) {
 
             Locale locale = LocaleContextHolder.getLocale();
@@ -86,15 +100,7 @@ public class InspectionReportService extends GenericService<InspectionReport, Lo
         List<WeightInspectionDTO.Update> weightInspection4Update = new ArrayList<>();
         WeightInspectionDTO.Delete weightInspection4Delete = new WeightInspectionDTO.Delete();
 
-        updateUtil.fill(WeightInspection.class,
-                inspectionReport.getWeightInspections(),
-                WeightInspectionDTO.InfoWithoutInspectionReport.class,
-                request.getWeightInspections(),
-                WeightInspectionDTO.Create.class,
-                weightInspection4Insert,
-                WeightInspectionDTO.Update.class,
-                weightInspection4Update,
-                weightInspection4Delete);
+        updateUtil.fill(WeightInspection.class, inspectionReport.getWeightInspections(), WeightInspectionDTO.InfoWithoutInspectionReport.class, request.getWeightInspections(), WeightInspectionDTO.Create.class, weightInspection4Insert, WeightInspectionDTO.Update.class, weightInspection4Update, weightInspection4Delete);
 
         if (!weightInspection4Insert.isEmpty()) weightInspectionService.createAll(weightInspection4Insert);
         if (!weightInspection4Update.isEmpty()) weightInspectionService.updateAll(weightInspection4Update);
@@ -107,19 +113,27 @@ public class InspectionReportService extends GenericService<InspectionReport, Lo
         List<AssayInspectionDTO.Update> assayInspection4Update = new ArrayList<>();
         AssayInspectionDTO.Delete assayInspection4Delete = new AssayInspectionDTO.Delete();
 
-        updateUtil.fill(AssayInspection.class,
-                inspectionReport.getAssayInspections(),
-                AssayInspectionDTO.InfoWithoutInspectionReport.class,
-                request.getAssayInspections(),
-                AssayInspectionDTO.Create.class,
-                assayInspection4Insert,
-                AssayInspectionDTO.Update.class,
-                assayInspection4Update,
-                assayInspection4Delete);
+        updateUtil.fill(AssayInspection.class, inspectionReport.getAssayInspections(), AssayInspectionDTO.InfoWithoutInspectionReport.class, request.getAssayInspections(), AssayInspectionDTO.Create.class, assayInspection4Insert, AssayInspectionDTO.Update.class, assayInspection4Update, assayInspection4Delete);
 
         if (!assayInspection4Insert.isEmpty()) assayInspectionService.createAll(assayInspection4Insert);
         if (!assayInspection4Update.isEmpty()) assayInspectionService.updateAll(assayInspection4Update);
         if (!assayInspection4Delete.getIds().isEmpty()) assayInspectionService.deleteAll(assayInspection4Delete);
+    }
+
+    private void updateAssayTotalValues(InspectionReportDTO.Update request, InspectionReport inspectionReport) throws InvocationTargetException, IllegalAccessException, NoSuchFieldException {
+
+        List<AssayInspectionTotalValuesDTO.Create> assayInspectionTotalValues4Insert = new ArrayList<>();
+        List<AssayInspectionTotalValuesDTO.Update> assayInspectionTotalValues4Update = new ArrayList<>();
+        AssayInspectionTotalValuesDTO.Delete assayInspectionTotalValues4Delete = new AssayInspectionTotalValuesDTO.Delete();
+
+        updateUtil.fill(AssayInspectionTotalValues.class, inspectionReport.getAssayInspectionTotalValuesList(), AssayInspectionTotalValuesDTO.Info.class, request.getAssayInspectionTotalValuesList(), AssayInspectionTotalValuesDTO.Create.class, assayInspectionTotalValues4Insert, AssayInspectionTotalValuesDTO.Update.class, assayInspectionTotalValues4Update, assayInspectionTotalValues4Delete);
+
+        if (!assayInspectionTotalValues4Insert.isEmpty())
+            assayInspectionTotalValuesService.createAll(assayInspectionTotalValues4Insert);
+        if (!assayInspectionTotalValues4Update.isEmpty())
+            assayInspectionTotalValuesService.updateAll(assayInspectionTotalValues4Update);
+        if (!assayInspectionTotalValues4Delete.getIds().isEmpty())
+            assayInspectionTotalValuesService.deleteAll(assayInspectionTotalValues4Delete);
     }
 
 }

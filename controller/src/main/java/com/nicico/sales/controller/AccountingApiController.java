@@ -13,7 +13,6 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -46,7 +45,7 @@ public class AccountingApiController {
 
 	@PostMapping(value = "/documents/internal/{invoiceId}")
 	public ResponseEntity<String> sendInternalInvoice(@PathVariable String invoiceId, @RequestBody AccountingDTO.DocumentCreateRq request) {
-		return new ResponseEntity<>(internalInvoiceService.sendInvoice(invoiceId, request), HttpStatus.OK);
+		return new ResponseEntity<>(internalInvoiceService.sendInvoice("sales internal invoice", invoiceId, request), HttpStatus.OK);
 	}
 
 	@PutMapping(value = "/documents/status/{systemName}")
@@ -56,7 +55,15 @@ public class AccountingApiController {
 	}
 
 	@GetMapping(value = "/document-details")
-	public ResponseEntity<Map<String, MultiValueMap<String, Object>>> getDocumentDetails(@RequestParam MultiValueMap<String, String> criteria) {
-		return new ResponseEntity<>(accountingApiService.getDetailByName(criteria), HttpStatus.OK);
+	public ResponseEntity<TotalResponse<AccountingDTO.DocumentDetailRs>> getDocumentDetails(@RequestParam MultiValueMap<String, String> criteria) {
+		final List<AccountingDTO.DocumentDetailRs> documentDetails = accountingApiService.getDetailByName(criteria);
+
+		final GridResponse<AccountingDTO.DocumentDetailRs> gridResponse = new GridResponse<AccountingDTO.DocumentDetailRs>()
+				.setData(documentDetails)
+				.setEndRow(documentDetails.size() - 1)
+				.setStartRow(0)
+				.setTotalRows(documentDetails.size());
+
+		return new ResponseEntity<>(new TotalResponse<>(gridResponse), HttpStatus.OK);
 	}
 }

@@ -22,6 +22,8 @@ import java.util.stream.Collectors;
 @Service
 public class AssayInspectionService extends GenericService<AssayInspection, Long, AssayInspectionDTO.Create, AssayInspectionDTO.Info, AssayInspectionDTO.Update, AssayInspectionDTO.Delete> implements IAssayInspectionService {
 
+    private final AssayInspectionDAO assayInspectionDAO;
+
     @Override
     @Transactional
     @Action(ActionType.Get)
@@ -66,5 +68,16 @@ public class AssayInspectionService extends GenericService<AssayInspection, Long
             default:
                 throw new NotFoundException(AssayInspection.class);
         }
+    }
+
+    @Override
+    public List<Long> getAssayInventoryData(InspectionReportMilestone reportMilestone, List<Long> inventoryIds) {
+
+        List<Long> assayInspectionInventoryIds = assayInspectionDAO.
+                findAllByMileStoneAndInventoryIdIn(reportMilestone, inventoryIds).
+                stream().map(AssayInspection::getInventoryId).
+                collect(Collectors.toList());
+
+        return inventoryIds.stream().filter(o -> !assayInspectionInventoryIds.contains(o)).collect(Collectors.toList());
     }
 }
