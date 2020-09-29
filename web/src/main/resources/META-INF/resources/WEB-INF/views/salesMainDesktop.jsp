@@ -80,7 +80,7 @@
         validators: [{
             type: "custom",
             errorMessage: "<spring:message code='validator.field.date'/>",
-            condition: "moment.from(value, 'fa', 'YYYY/MM/DD').isValid()"
+            condition: "moment().from(value, 'fa', 'YYYY/MM/DD') !== 'Invalid date'"
         }]
     });
     var persianDatePicker = isc.FormItem.getPickerIcon("date", {

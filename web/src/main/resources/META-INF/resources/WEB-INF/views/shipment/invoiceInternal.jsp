@@ -209,6 +209,9 @@
                 type: "persianDate",
                 length: 10,
                 keyPressFilter: "[0-9/]",
+                showErrorText: true,
+                showErrorStyle: true,
+                errorOrientation: "bottom"
             },
             {
                 name: "department.id", title: "<spring:message code='department.name'/>", required: true,
@@ -225,7 +228,14 @@
                     {name: "departmentCode", width: "20%"},
                     {name: "departmentName", width: "80%"}
                 ],
-
+                showErrorText: true,
+                showErrorStyle: true,
+                errorOrientation: "bottom",
+                requiredMessage: '<spring:message code="validator.field.is.required"/>',
+                validators: [{
+                    type: "required",
+                    validateOnChange: true
+                }]
             },
             {
                 name: "documentTitle",
@@ -241,6 +251,10 @@
         top: 260,
         title: "<spring:message code='global.form.save'/>",
         click: function () {
+            documentMainInfoForm.validate();
+             if (documentMainInfoForm.hasErrors()) {
+                return;
+            }
             let grid = invoiceInternalTabs.getTab(invoiceInternalTabs.selectedTab).pane.members.get(1);
             let record = grid.getSelectedRecord();
             if (!record || !record.id) {
