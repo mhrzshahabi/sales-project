@@ -24,6 +24,6 @@ public class IncotermFormController {
                 IncotermDetail.class,
                 IncotermParties.class);
 
-        return "contract2/incoterm";
+        return "contract/incoterm";
     }
 }

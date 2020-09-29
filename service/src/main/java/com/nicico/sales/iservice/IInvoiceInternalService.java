@@ -17,4 +17,6 @@ public interface IInvoiceInternalService {
 	TotalResponse<InternalInvoiceDTO.Info> search(NICICOCriteria criteria);
 
 	InternalInvoiceDTO.Info sendInternalForm2accounting(String id, String data);
+
+	void updateDeletedDocument(List<InternalInvoiceDTO.Info> data);
 }

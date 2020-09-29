@@ -49,15 +49,14 @@ public class InvoiceInternalRestController {
         List<InternalInvoiceDTO.Info> lastIds = invoiceInternalService.getIds(ids);
         return new ResponseEntity<>(lastIds, HttpStatus.OK);
     }
-
     @Loggable
-    @GetMapping(value = "/list-accounting")
-    public ResponseEntity<TotalResponse<InternalInvoiceDTO.Info>> listAccountingLong(@RequestParam MultiValueMap<String, String> criteria) {
+    @GetMapping(value = "/update-deleted-document")
+    public ResponseEntity<Void> updateDeletedDocument(@RequestParam MultiValueMap<String, String> criteria) {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
         TotalResponse<InternalInvoiceDTO.Info> search = invoiceInternalService.search(nicicoCriteria);
-        return new ResponseEntity<>(search, HttpStatus.OK);
+        invoiceInternalService.updateDeletedDocument(search.getResponse().getData());
+        return new ResponseEntity<>( HttpStatus.OK);
     }
-
 
     @Loggable
     @GetMapping(value = "/spec-list")
