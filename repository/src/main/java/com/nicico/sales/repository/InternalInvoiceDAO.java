@@ -13,6 +13,7 @@ import java.util.Optional;
 
 @Repository
 public interface InternalInvoiceDAO extends JpaRepository<ViewInternalInvoiceDocument, String>, JpaSpecificationExecutor<ViewInternalInvoiceDocument> {
+
 	@Query("select viid.id from ViewInternalInvoiceDocument viid where viid.invoiceDate like '%1399%'")
 	List<String> findAllInvoiceIdsByInvoiceDateContains();
 

@@ -1,0 +1,11 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+				   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+				   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+	<changeSet author="ARezaieZR (generated)" id="1601357653209-224">
+		<addColumn tableName="TBL_SHIPMENT_COST_DUTY">
+			<column name="C_ACC_DETAIL" type="varchar2(255 CHAR)"/>
+			<column name="C_ACC_DETAIL_ID" type="number(19, 0)"/>
+		</addColumn>
+	</changeSet>
+</databaseChangeLog>

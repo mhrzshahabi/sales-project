@@ -38,6 +38,12 @@ public class ShipmentCostDuty extends BaseEntity {
     @Column(name = "C_CODE", nullable = false)
     private String code;
 
+    @Column(name = "C_ACC_DETAIL")
+    private String accDetail;
+
+    @Column(name = "C_ACC_DETAIL_ID")
+    private Long accDetailId;
+
     @I18n
     @Transient
     private String name;
