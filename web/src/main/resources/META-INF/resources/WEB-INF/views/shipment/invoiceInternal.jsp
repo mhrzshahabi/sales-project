@@ -186,7 +186,7 @@
             },
             {
                 name: "invoiceDate",
-                title: "<spring:message code='document.header.date'/>",
+                title: "<spring:message code='provisionalInvoice.refDate'/>",
                 width: "150",
                 wrapTitle: false,
                 length: 10,type: "staticText"
@@ -202,7 +202,7 @@
             {type: "SpacerItem", width: "100%", height: "50", colSpan: 4},
             {
                 name: "documentDate",
-                title: "<spring:message code='provisionalInvoice.refDate'/>",
+                title: "<spring:message code='document.header.date'/>",
                 width: "150",
                 icons: [persianDatePicker],
                 wrapTitle: false,
