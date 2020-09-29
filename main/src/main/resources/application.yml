@@ -71,6 +71,7 @@ nicico:
       dir: /var/nicico/${spring.application.name}/
   security:
     sys-password: password
+    resource-id: Copper
   apps:
     accounting: http://devapp01.icico.net.ir/accounting
 

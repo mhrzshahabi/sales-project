@@ -30,7 +30,6 @@
     <script src="<spring:url value='/static/script/js/num2persian-min.js' />"></script>
     <script src="<spring:url value='/static/script/js/convertunit.js' />"></script>
 
-
     <script>var isomorphicDir = "isomorphic/";</script>
     <script src=isomorphic/system/modules/ISC_Core.js></script>
     <script src=isomorphic/system/modules/ISC_Foundation.js></script>
