@@ -38,19 +38,19 @@ isc.defineClass("InvoiceBaseValues", isc.VLayout).addProperties({
                 contents: "<span style='width: 100%; display: block; margin: 10px auto; border-bottom: 1px solid rgba(0,0,0,0.3)'></span>"
             }));
 
-            if (this.contract.materialId !== ImportantIDs.material.COPPER_CATHOD) {
-
-                this.invoiceBaseAssayComponent = isc.InvoiceBaseAssay.create({
-                    shipment: This.shipment,
-                    assayInspection: This.assayInspection,
-                    // assayMilestone: This.weightData ? This.weightData.assayMilestone : null
-                });
-                this.addMember(this.invoiceBaseAssayComponent);
-                this.addMember(isc.HTMLFlow.create({
-                    width: "100%",
-                    contents: "<span style='width: 100%; display: block; margin: 10px auto; border-bottom: 1px solid rgba(0,0,0,0.3)'></span>"
-                }));
-            }
+            // if (this.contract.materialId !== ImportantIDs.material.COPPER_CATHOD) {
+            //
+            //     this.invoiceBaseAssayComponent = isc.InvoiceBaseAssay.create({
+            //         shipment: This.shipment,
+            //         assayInspection: This.assayInspection,
+            //         // assayMilestone: This.weightData ? This.weightData.assayMilestone : null
+            //     });
+            //     this.addMember(this.invoiceBaseAssayComponent);
+            //     this.addMember(isc.HTMLFlow.create({
+            //         width: "100%",
+            //         contents: "<span style='width: 100%; display: block; margin: 10px auto; border-bottom: 1px solid rgba(0,0,0,0.3)'></span>"
+            //     }));
+            // }
 
             this.invoiceBaseWeightComponent = isc.InvoiceBaseWeight.create({
                 shipment: This.shipment,
@@ -100,7 +100,7 @@ isc.defineClass("InvoiceBaseValues", isc.VLayout).addProperties({
     getValues: function () {
 
         return {
-            assay: this.invoiceBaseAssayComponent.getValues(),
+            // assay: this.invoiceBaseAssayComponent.getValues(),
             weight: this.invoiceBaseWeightComponent.getValues(),
             basePrice: this.invoiceBasePriceComponent.getValues()
         }
@@ -111,14 +111,14 @@ isc.defineClass("InvoiceBaseValues", isc.VLayout).addProperties({
         if (!this.invoiceBasePriceComponent.validate())
             isValid = false;
 
-        if (!this.invoiceBaseAssayComponent.validate())
-            isValid = false;
+        // if (!this.invoiceBaseAssayComponent.validate())
+        //     isValid = false;
 
         if (!this.invoiceBaseWeightComponent.validate())
             isValid = false;
 
-        if (!(this.invoiceBasePriceComponent.getDataRowNo() === this.invoiceBaseAssayComponent.getDataRowNo()))
-            isValid = false;
+        // if (!(this.invoiceBasePriceComponent.getDataRowNo() === this.invoiceBaseAssayComponent.getDataRowNo()))
+        //     isValid = false;
 
         if (!isValid)
             isc.warn("<spring:message code='global.message.data.not.complete'/>");
