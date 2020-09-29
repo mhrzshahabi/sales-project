@@ -689,10 +689,9 @@ const BlTab = {
 ////////////////////////////////////////////////////////VARIABLES///////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////METHODS/////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////FIELDS//////////////////////////////////////////////////////////
-BlTab.Fields.Shipment = _ =>
-    [
+BlTab.Fields.Shipment = _ =>  [
         {name: "id", primaryKey: true, canEdit: false, hidden: true},
-        {name: "contractShipment.contract.no", primaryKey: true, canEdit: false, hidden: true},
+        {name: "contractShipment.contract.no", primaryKey: true, canEdit: false, hidden: true , title: "<spring:message code='contract.contractNo'/>"},
         {name: "code", title: "<spring:message code='contact.code'/>"},
         {name: "nameFA", title: "<spring:message code='contact.nameFa'/>"},
         {name: "nameEN", title: "<spring:message code='contact.nameEn'/>"},
@@ -717,25 +716,36 @@ BlTab.Fields.Shipment = _ =>
         {name: "country.nameFa", title: "<spring:message code='country.nameFa'/>"},
         {name: "bookingCat", title: "<spring:message code='shipment.bookingCat'/>", align: "center"}
     ];
-
 BlTab.Fields.Vessel = _ => [
-    {name: 'id',},
-    {name: 'name',},
-    {name: 'type',},
+    {name: 'id'           ,     title: "<spring:message code='global.id'/>",
+    },
+    {name: 'name',
+        title: "<spring:message code='global.name'/>",
+    },
+    {name: 'type',title: "<spring:message code='global.type'/>",},
     {name: 'imo',},
-    {name: 'yearOfBuild',},
-    {name: 'length',},
-    {name: 'beam',},
+    {name: 'yearOfBuild',hidden:true},
+    {name: 'length',hidden:true},
+    {name: 'beam',hidden:true},
 ]
 BlTab.Fields.Port = _ => [
-    {name: 'id',},
-    {name: 'country.nameEn',},
-    {name: 'country.nameFa',},
-    {name: 'countryId',},
-    {name: 'port', width: "15%"},
-    {name: 'loa',},
-    {name: 'beam',},
-    {name: 'arrival',},
+    {name: 'id',
+        title: "<spring:message code='global.id'/>",
+    },
+    {name: 'country.nameEn',
+    title: "<spring:message code='currency.name.en'/>",},
+    {name: 'country.nameFa',
+        title: "<spring:message code='currency.name.fa'/>",},
+    {name: 'countryId',
+        title: "<spring:message code='global.country'/>",},
+    {name: 'port', width: "15%",
+        title: "<spring:message code='port.port'/>",},
+    {name: 'loa',
+        title: "<spring:message code='port.loa'/>",},
+    {name: 'beam',
+        title: "<spring:message code='vessel.beam'/>",},
+    {name: 'arrival',hidden:true,
+        title: "<spring:message code='global.country'/>",},
 ]
 BlTab.Fields.Contact = _ => [
     {name: 'id',},
@@ -1436,10 +1446,12 @@ BlTab.Fields.BillOfLandingSwitch = function () {
             pickListFields: [
                 {
                     name: "nameFA",
+                title: "<spring:message code='currency.name.fa'/>",
                     align: "center"
                 },
                 {
                     name: "nameEN",
+                    title: "<spring:message code='currency.name.en'/>",
                     align: "center"
                 },
             ],
@@ -1579,13 +1591,20 @@ BlTab.Fields.BillOfLandingWithoutSwitch = _ => {
                 {
                     name: "contractShipment.contract.no",
                     align: "center"
+                    , title: "<spring:message code='contact.code'/>"
+
                 },
                 {
                     name: "material.descl",
-                    // align: "center"
+                    title: "<spring:message code='material.descl'/>"
+
+        // align: "center"
                 },
                 {
                     name: "material.descp",
+                    title: "<spring:message code='material.descp'/>"
+
+
                     // align: "center"
                 },
             ],
@@ -1629,7 +1648,7 @@ BlTab.Fields.BillOfLandingWithoutSwitch = _ => {
                                             if (buyer
                                                 // && !_form.getValue("shipperExporterId")
                                             )
-                                                _form.setValue('shipperExporterId', buyer.contactId)
+                                                _form.setValue('shipperExporterId', seller.contactId)
                                             if (agentBuyer
                                                 // && !_form.getValue("consigneeId")
                                             )
@@ -1637,7 +1656,7 @@ BlTab.Fields.BillOfLandingWithoutSwitch = _ => {
                                             if (seller
                                                 // && !_form.getValue("notifyPartyId")
                                             )
-                                                _form.setValue('notifyPartyId', seller.contactId)
+                                                _form.setValue('notifyPartyId', buyer.contactId)
 
 
                                         }
@@ -2144,7 +2163,8 @@ BlTab.Grids.BillOfLanding = {
                                 ]
                             });
                             BlTab.Layouts.Window.ContainerToBillOfLanding.show()
-                        }
+                        },
+                        title:'<spring:message code="global.form.new"/>'
                     }),
                     // </sec:authorize>
                     // <sec:authorize access="hasAuthority('U_CONTAINER_TO_BILL_OF_LANDING')">
@@ -2155,7 +2175,9 @@ BlTab.Grids.BillOfLanding = {
                             BlTab.Layouts.ToolStripButtons.NewContainerToBillOfLanding.click();
                             BlTab.Vars.Method = "PUT";
                             BlTab.DynamicForms.Forms.ContainerToBillOfLanding.setValues(selectedRecord);
-                        }
+                        },
+                        title:'<spring:message code="global.form.edit"/>'
+
                     }),
                     // </sec:authorize>
                     // <sec:authorize access="hasAuthority('D_CONTAINER_TO_BILL_OF_LANDING')">
@@ -2163,7 +2185,8 @@ BlTab.Grids.BillOfLanding = {
                         click() {
                             BlTab.Methods.Delete(BlTab.Grids.ContainerToBillOfLanding,
                                 SalesConfigs.Urls.completeUrl + '/api/container-to-bill-of-landing')
-                        }
+                        },
+                        title:'<spring:message code="global.form.remove"/>'
                     }),
                     // </sec:authorize>
                 ]

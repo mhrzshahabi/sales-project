@@ -688,6 +688,7 @@ contractTab.method.addSectionByContract = function (record) {
             visibility: "hidden",
             width: "100%",
             align: "center",
+            wrapItemTitles:false,
             numCols: 8,
             styleName: 'contract-section',
             canSubmit: true,
@@ -855,6 +856,7 @@ contractTab.method.addSectionByContractDetailType = function (record) {
 
     let contractDetailDynamicForm = isc.DynamicForm.create({
         visibility: "hidden",
+        wrapItemTitles:false,
         width: "100%",
         align: "center",
         numCols: 8,
