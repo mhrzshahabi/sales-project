@@ -1,8 +1,6 @@
 package com.nicico.sales.model.entities.base;
 
 import com.nicico.sales.model.entities.common.BaseEntity;
-import com.nicico.sales.model.enumeration.CategoryUnit;
-import com.nicico.sales.model.enumeration.SymbolUnit;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.GenericGenerator;
@@ -37,5 +35,11 @@ public class ShipmentCostDuty extends BaseEntity {
     @NotNull
     @Column(name = "C_CODE", nullable = false)
     private String code;
+
+    @Column(name = "C_ACC_DETAIL")
+    private String accDetail;
+
+    @Column(name = "C_ACC_DETAIL_ID")
+    private Long accDetailId;
 
 }
