@@ -42,7 +42,7 @@ public class InternalInvoiceService implements IInternalInvoiceService {
 		final ViewInternalInvoiceDocument internalInvoice = internalInvoiceDAO.findById(invoiceId)
 				.orElseThrow(() -> new SalesException2(ErrorType.NotFound, "id", "شناسه موجودیت یافت نشد."));
 
-		final Map<String, Object> result = accountingApiService.sendInvoice(request, Collections.singletonList(internalInvoice));
+		final Map<String, Object> result = accountingApiService.sendInvoice("sales internal invoice", request, Collections.singletonList(internalInvoice));
 
 		if (result.containsKey("docId")) {
 			final Optional<InternalInvoiceDocument> internalInvoiceDocumentOpt = internalInvoiceDocumentDAO.findById(invoiceId);

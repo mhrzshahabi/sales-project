@@ -42,7 +42,7 @@ public class CostInvoiceService implements ICostInvoiceService {
 
 		final List<Object> objects = new ArrayList<>(costInvoiceDocuments);
 
-		final Map<String, Object> result = accountingApiService.sendInvoice(request, objects);
+		final Map<String, Object> result = accountingApiService.sendInvoice("sales cost invoice", request, objects);
 
 		if (result.containsKey("docId")) {
 			final Optional<ShipmentCostInvoice> shipmentCostInvoiceOpt = shipmentCostInvoiceDAO.findById(invoiceId);

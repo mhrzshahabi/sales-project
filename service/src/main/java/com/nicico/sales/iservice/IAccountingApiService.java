@@ -18,7 +18,7 @@ public interface IAccountingApiService {
 
     void sendDataParameters(String systemNameEn, String systemNameFa, MultiValueMap<String, String> requestParams);
 
-    Map<String, Object> sendInvoice(AccountingDTO.DocumentCreateRq request, List<Object> objects);
+    Map<String, Object> sendInvoice(String systemName, AccountingDTO.DocumentCreateRq request, List<Object> objects);
 
     Map<String, String> getInvoiceStatus(String systemName, List<String> requestParams);
 }
