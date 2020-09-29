@@ -148,7 +148,7 @@ public class AccountingApiService implements IAccountingApiService {
 	}
 
 	@Override
-	public void sendDataParameters(String systemNameFa, String systemNameEn, MultiValueMap<String, String> requestParams) {
+	public void sendDataParameters(String systemNameEn, String systemNameFa, MultiValueMap<String, String> requestParams) {
 		final String url = accountingAppUrl + "/rest/system-parameter/addSystemParmeter/" + systemNameEn + "/" + systemNameFa;
 		final HttpHeaders httpHeaders = new HttpHeaders();
 		httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
@@ -178,19 +178,22 @@ public class AccountingApiService implements IAccountingApiService {
 			requestParamMap.put("department", request.getDepartment());
 			requestParamMap.put("documentTitle", request.getDocumentTitle());
 
-			switch (object.getClass().getSimpleName()) {
+			Arrays.stream(object.getClass().getDeclaredFields())
+					.forEach(field -> {
+						field.setAccessible(true);
+						try {
+							requestParamMap.put(field.getName(), field.get(object));
+						} catch (IllegalAccessException e) {
+							log.error("AccountingApiService.SendInvoice Error: [" + Arrays.toString(e.getStackTrace()) + "]");
+						}
+					});
+
+			/*switch (object.getClass().getSimpleName()) {
 				case "ViewInternalInvoiceDocument":
-					Arrays.stream(object.getClass().getDeclaredFields())
-							.forEach(field -> {
-								field.setAccessible(true);
-								try {
-									requestParamMap.put(field.getName(), field.get(object));
-								} catch (IllegalAccessException e) {
-									log.error("AccountingApiService.SendInvoice Error: [" + Arrays.toString(e.getStackTrace()) + "]");
-								}
-							});
 					break;
-			}
+				case "ViewCostInvoiceDocument":
+					break;
+			}*/
 
 			requestParamList.add(requestParamMap);
 		});

@@ -216,7 +216,10 @@ contractTab.listGrid.contractDetailType = isc.ListGrid.nicico.getDefault(
                         src: "pieces/16/icon_add.png",
                         prompt: '<spring:message code="global.add"/>',
                         click: function () {
-                            if (contractTab.sectionStack.contract.getSectionNames().includes(record.id))
+                            // dbg(false,this)
+                            if (contractTab.sectionStack.contract.getSectionNames().includes(record.id)
+                            || !contractTab.dynamicForm.main.validate()
+                            )
                                 return;
 
                             contractPositionDynamicForm.clearValues();
@@ -772,7 +775,6 @@ contractTab.method.addSectionByContract = function (record) {
     });
 };
 contractTab.method.addSectionByContractDetailType = function (record) {
-
     let sectionStackSectionObj = {
         position: record.position,
         template: record.content,
@@ -924,6 +926,62 @@ contractTab.method.addSectionByContractDetailType = function (record) {
         sectionStackSectionObj.items.push(contractDetailListGrid);
     });
     contractTab.sectionStack.contract.addSection(sectionStackSectionObj, parseInt(record.position));
+    if(record.code && record.code === Enums.contract.Enum_EContractDetailTypeCode.Header){
+        const _enum = Enums.contract.Enum_EContractDetailValueKey;
+        const BUYER = contractTab.dynamicForm.main.getField('buyerId').getSelectedRecord();
+        const SELLER = contractTab.dynamicForm.main.getField('sellerId').getSelectedRecord();
+        function setval([_key,formName]) {
+            try {
+                contractDetailDynamicForm.setValue(_key,formName)
+            }
+            catch (e) {
+                dbg(false,e)
+            }
+        }
+        setval([_enum.BUYER_NAME,BUYER.nameEN])
+        setval([_enum.BUYER_ADDRESS,BUYER.address])
+        setval([_enum.BUYER_PHONE,BUYER.phone])
+        setval([_enum.BUYER_FAX,BUYER.fax])
+        setval([_enum.BUYER_MOBILE,BUYER.mobile])
+
+        setval([_enum.SELLER_NAME,SELLER.nameEN])
+        setval([_enum.SELLER_ADDRESS,SELLER.address])
+        setval([_enum.SELLER_PHONE,SELLER.phone])
+        setval([_enum.SELLER_FAX,SELLER.fax])
+        setval([_enum.SELLER_MOBILE,SELLER.mobile])
+
+        try {
+            const AGENT_SELLER = contractTab.dynamicForm.main.getField('agentSellerId').getSelectedRecord();
+
+            setval([_enum.AGENT_SELLER_NAME,AGENT_SELLER.nameEN])
+            setval([_enum.AGENT_SELLER_ADDRESS,AGENT_SELLER.address])
+            setval([_enum.AGENT_SELLER_PHONE,AGENT_SELLER.phone])
+            setval([_enum.AGENT_SELLER_FAX,AGENT_SELLER.fax])
+            setval([_enum.AGENT_SELLER_MOBILE,AGENT_SELLER.mobile])
+        }
+        catch (e) {
+            dbg(false,e);
+        }
+
+        try {
+            const AGENT_BUYER = contractTab.dynamicForm.main.getField('agentBuyerId').getSelectedRecord();
+
+            setval([_enum.AGENT_BUYER_NAME,AGENT_BUYER.nameEN])
+            setval([_enum.AGENT_BUYER_ADDRESS,AGENT_BUYER.address])
+            setval([_enum.AGENT_BUYER_PHONE,AGENT_BUYER.phone])
+            setval([_enum.AGENT_BUYER_FAX,AGENT_BUYER.fax])
+            setval([_enum.AGENT_BUYER_MOBILE,AGENT_BUYER.mobile])
+        }
+        catch (e) {
+            dbg(false,e);
+        }
+
+
+
+
+        dbg(false,'form',contractDetailDynamicForm)
+
+    }
 };
 
 function generateContentFromSection(section, template) {
