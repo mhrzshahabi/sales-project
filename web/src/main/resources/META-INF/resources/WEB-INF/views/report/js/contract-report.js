@@ -725,13 +725,13 @@ crTab.Methods.UpdateInputOutputCharts = function () {
     const toMonth = Number(crTab.DynamicForms.ChartDate.getValue('toDate').replaceAll("/", "").substr(4, 2));
     const _facet = fromYear - toYear !== 0 ? {
         id: "year",
-        title: "ماه"
+        title: "<spring:message code='global.year'/>"
     } : (toMonth - fromMonth === 0 ? {
         id: "month",
-        title: "سال"
+        title: "<spring:message code='global.month'/>"
     } : {
         id: "day",
-        title: "روز"
+        title: "<spring:message code='global.day'/>"
     });
     dbg(true)
     // dbg(true,_facet)
@@ -922,7 +922,7 @@ crTab.Fields.RemittanceDetailGrid = _ => [
         valueMap: SalesBaseParameters.getSavedWarehouseParameter().getValueMap("id", "name"), hidden: true
     },
     {
-        name: "depot.store.name", type: "text", title: "سوله‌/محوطه",
+        name: "depot.store.name", type: "text", title: "<spring:message code='warehouseCad.store'/>",
         hidden: true
     },
 ]
@@ -1134,7 +1134,7 @@ crTab.Fields.RemittanceDetail = function () {
         },
         {
             name: "amount",
-            title: "<spring:message code='global.amount'/> محصول",
+            title: "<spring:message code='global.amount'/> <spring:message code='goods.title'/>",
 
 
         },
@@ -1364,7 +1364,7 @@ crTab.Layouts.Vlayouts.main = isc.VLayout.create({
     // membersMargin: 20,
     members: [
         isc.Label.create({
-            contents: '<h3>دریافت گزارشات</h3>',
+            contents: '<h3><spring:message code="remittance.download.report"/></h3>',
             align: 'center',
             height: "5%"
         }),
@@ -1568,14 +1568,14 @@ crTab.Layouts.Vlayouts.main = isc.VLayout.create({
                                 isc.HLayout.create({align:"left",members:[
                                     isc.MenuButton.create({
                                         autoDraw: false,
-                                        title: "گزارش موجودی",
+                                        title: "<spring:message code='remittance.remain.inventory'/>",
                                         prompt: "گزارش موجودی انبارها",
                                         width: 200,
                                         menu: isc.Menu.create({
                                             width: 200,
                                             data: [
                                                 {
-                                                    title: "کلی",
+                                                    title: "<spring:message code='global.all'/>",
                                                     icon: "icon/excel.png",
                                                     click: function () {
                                                         crTab.Methods.makeRemittanceDetailExcel({
@@ -1601,7 +1601,7 @@ crTab.Layouts.Vlayouts.main = isc.VLayout.create({
                                                     }
                                                 },
                                                 {
-                                                    title: "کنسانتره",
+                                                    title: "<spring:message code='Tozin.copper.concentrate'/>",
                                                     icon: "icon/excel.png",
                                                     click: function () {
                                                         crTab.Methods.makeRemittanceDetailExcel({
@@ -1625,13 +1625,15 @@ crTab.Layouts.Vlayouts.main = isc.VLayout.create({
                                                                     }
                                                                 ]
                                                             },
-                                                            topRowTitle: "موجودی کنسانتره",
-                                                            fileName: 'موجودی کنسانتره' + new persianDate().format('YYYYMMDD')
+                                                            topRowTitle: "<spring:message code='warehouseStock'/> " +
+                                                                "<spring:message code='Tozin.copper.concentrate'/>",
+                                                            fileName: "<spring:message code='warehouseStock'/> " +
+                                                                "<spring:message code='Tozin.copper.concentrate'/>" + new persianDate().format('YYYYMMDD')
                                                         })
                                                     }
                                                 },
                                                 {
-                                                    title: "کاتد",
+                                                    title: "<spring:message code='Tozin.export.cathode'/>",
                                                     icon: "icon/excel.png",
                                                     click: function () {
                                                         crTab.Methods.makeRemittanceDetailExcel({
@@ -1660,7 +1662,7 @@ crTab.Layouts.Vlayouts.main = isc.VLayout.create({
                                                     }
                                                 },
                                                 {
-                                                    title: "مولیبدن",
+                                                    title: "<spring:message code='contract.molybdenum'/>",
                                                     icon: "icon/excel.png",
                                                     click: function () {
                                                         crTab.Methods.makeRemittanceDetailExcel({
@@ -1683,7 +1685,7 @@ crTab.Layouts.Vlayouts.main = isc.VLayout.create({
                                                                     }
                                                                 ]
                                                             },
-                                                            topRowTitle: "موجودی مولیبدن",
+                                                            topRowTitle: "<spring:message code='warehouseStock'/> <spring:message code='contract.molybdenum'/>",
                                                             fileName: 'موجودی مولیبدن' + new persianDate().format('YYYYMMDD')
                                                         })
                                                     }
@@ -1709,7 +1711,7 @@ crTab.Layouts.Vlayouts.main = isc.VLayout.create({
                             members:[isc.Label.create({
                                 // width:"5%",
                                 align:"top",
-                                contents: '<h3>گزارش ورودی خروجی </h3>',
+                                contents: '<h3><spring:message code="remittance.in.out.report"/></h3>',
                                 // align: "left",
                                 height: "1"
                             }),]
@@ -1776,7 +1778,7 @@ crTab.Layouts.Vlayouts.main = isc.VLayout.create({
                             // width:"10%",
                             members:[
                                 isc.IButtonSave.create({
-                                    title: " اکسل",
+                                    title: "<spring:message code='print.excel'/>",
                                     click: function () {
                                         crTab.Methods.makeRemittanceDetailExcel({
                                             criteria: {
@@ -1796,8 +1798,8 @@ crTab.Layouts.Vlayouts.main = isc.VLayout.create({
 
                                                 ]
                                             },
-                                            topRowTitle: "گزارش ورود خروج",
-                                            fileName: "گزارش ورود خروج"
+                                            topRowTitle: "<spring:message code='remittance.in.out.report'/>",
+                                            fileName:"<spring:message code='remittance.in.out.report'/>",
                                         })
                                     }
                                 })
@@ -1823,12 +1825,12 @@ crTab.Layouts.Vlayouts.main = isc.VLayout.create({
         isc.VLayout.create({
             members: [
                 isc.Label.create({
-                    contents: '<h3>موجودی انبار</h3>',
+                    contents: "<h3><spring:message code='remittance.remain.inventory'/></h3>",
                     align: 'center',
                     height: "5%"
                 }),
                 crTab.Grids.RemittanceDetail = isc.ListGrid.create({
-                    title: "موجودی انبار",
+                    title: "<spring:message code='remittance.remain.inventory'/>",
                     fields: crTab.Fields.RemittanceDetailGrid(),
                     dataFetchMode: "basic",
                     showGroupSummary: true,
