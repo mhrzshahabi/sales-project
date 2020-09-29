@@ -83,9 +83,22 @@ public class TozinFormController {
         List<TozinDTO.Info> data = iTozinService.search(provideNICICOCriteria).getResponse().getData();
         if (data == null) throw new NotFoundException();
         final List<TozinDTO.PDF> dataa = Arrays.asList(objectMapper.convertValue(data, TozinDTO.PDF[].class));
-        final Set<TozinLite> drivers = tozinLiteService.findAllByTozinIdIn(dataa.stream().map(TozinDTO::getTozinId).collect(Collectors.toSet()));
+        final List<String> tozinIdList = dataa.stream().map(TozinDTO::getTozinId).collect(Collectors.toList());
+        Integer startRow = 0;
+        final Set<TozinLite> drivers = new HashSet<>();
+        while (startRow < tozinIdList.size()) {
+            if (tozinIdList.size() - startRow < 500) {
+                drivers.addAll(tozinLiteService.findAllByTozinIdIn(tozinIdList.subList(startRow, tozinIdList.size())));
+                startRow = tozinIdList.size();
+            } else {
+                drivers.addAll(tozinLiteService.findAllByTozinIdIn(tozinIdList.subList(startRow, startRow + 500)));
+                startRow += 500;
+            }
+        }
         dataa.stream().forEach(t -> {
-            t.setDriverName(drivers.stream().filter(d -> d.getTozinId().equals(t.getTozinId())).findAny().get().getDriverName());
+
+            final TozinLite tozinLite = drivers.stream().filter(d -> d.getTozinId().equals(t.getTozinId())).findAny().orElse(null);
+            if (tozinLite != null) t.setDriverName(tozinLite.getDriverName());
         });
         Map<String, List<TozinDTO.Info>> content = new HashMap() {{
             put("content", dataa);

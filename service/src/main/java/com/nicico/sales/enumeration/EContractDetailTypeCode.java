@@ -38,6 +38,12 @@ public enum EContractDetailTypeCode {
     EndProvisions("EndProvisions"),
     Footer("Footer"),
     Note("Note"),
+    ExtraArticle("ExtraArticle"),
+    ExtraArticle1("ExtraArticle1"),
+    ExtraArticle2("ExtraArticle2"),
+    ExtraArticle3("ExtraArticle3"),
+    ExtraArticle4("ExtraArticle4"),
+    ExtraArticle5("ExtraArticle5"),
     Sizing("Sizing");
 
     private final String id;
