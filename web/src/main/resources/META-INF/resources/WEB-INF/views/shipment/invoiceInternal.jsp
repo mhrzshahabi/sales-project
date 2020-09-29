@@ -211,12 +211,7 @@
                 keyPressFilter: "[0-9/]",
                 showErrorText: true,
                 showErrorStyle: true,
-                errorOrientation: "bottom",
-                validators: [{
-                    type: "required",
-                    validateOnChange: true,
-                    requiredMessage: '<spring:message code="validator.field.is.required"/>'
-                }]
+                errorOrientation: "bottom"
             },
             {
                 name: "department.id", title: "<spring:message code='department.name'/>", required: true,
