@@ -2212,7 +2212,7 @@ rdTab.Layouts.ToolStripButtons.New = isc.ToolStripButtonAdd.create({
             })
         });
         rdTab.Layouts.ToolStripButtons.OutRemittanceAdd = isc.ToolStripButtonAdd.create({
-            title: "<spring:message code='global.add'/> <spring:message code='bijak'/> <spring:message code='global.vorodi'/>",
+            title: "<spring:message code='global.add'/> <spring:message code='bijack'/> <spring:message code='global.vorodi'/>",
             disabled: true,
             click() {
                 let selectRd;
