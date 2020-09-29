@@ -1844,6 +1844,8 @@ crTab.Layouts.Vlayouts.main = isc.VLayout.create({
                     dataSource: crTab.RestDataSources.RemittanceDetail,
                     autoFetchData: false,
                     showGroupTitleColumn: true,
+                    canSort:false,
+                    canGroupBy:false,
 
                 })
             ]
