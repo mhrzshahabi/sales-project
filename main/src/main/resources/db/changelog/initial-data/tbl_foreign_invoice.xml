@@ -1,0 +1,27 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+    <changeSet author="MShahabi" id="1799887766554-065">
+        <addColumn tableName="TBL_FOREIGN_INVOICE" >
+            <column name="F_INSPECTION_WEIGHT_REPORT_ID" type="NUMBER(19, 0)"/>
+            <column name="F_INSPECTION_ASSAY_REPORT_ID" type="NUMBER(19, 0)"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="MShahabi" id="1799887766554-066">
+        <addForeignKeyConstraint baseColumnNames="F_INSPECTION_WEIGHT_REPORT_ID" baseTableName="TBL_FOREIGN_INVOICE"
+                                 constraintName="fk_foreignInvoice2inspectionReportByInspectionWeightReportId" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_INSPECTION_REPORT"
+                                 validate="true"/>
+    </changeSet>
+
+    <changeSet author="MShahabi" id="1799887766554-067">
+        <addForeignKeyConstraint baseColumnNames="F_INSPECTION_ASSAY_REPORT_ID" baseTableName="TBL_FOREIGN_INVOICE"
+                                 constraintName="fk_foreignInvoice2inspectionReportByInspectionAssayReportId" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_INSPECTION_REPORT"
+                                 validate="true"/>
+    </changeSet>
+
+</databaseChangeLog>

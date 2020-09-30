@@ -1,6 +1,6 @@
 var foreignInvoiceTab = new nicico.GeneralTabUtil().getDefaultJSPTabVariable();
 
-foreignInvoiceTab.variable.materialId = null;
+foreignInvoiceTab.variable.materialId = 3;
 foreignInvoiceTab.variable.contractDetailData = {};
 foreignInvoiceTab.variable.invoiceForm = new nicico.FormUtil();
 foreignInvoiceTab.variable.selectBillLadingForm = new nicico.FindFormUtil();
@@ -266,17 +266,16 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
         },
         changed: function (form, item, value) {
 
-            form.setValue("weightInspectionId", null);
-            form.setValue("assayInspectionId", null);
+            form.setValue("inspectionWeightId", null);
+            form.setValue("inspectionAssayId", null);
+            form.getItem("inspectionWeightId").disable();
+            form.getItem("inspectionAssayId").disable();
+            form.getItem("inspectionWeightId").setOptionCriteria(null);
+            form.getItem("inspectionAssayId").setOptionCriteria(null);
             foreignInvoiceTab.dynamicForm.valuesManager.setValue("billLadings", null);
 
             let selectedRecord = item.getSelectedRecord();
             if (!selectedRecord) {
-
-                form.getItem("weightInspectionId").disable();
-                form.getItem("assayInspectionId").disable();
-                form.getItem("weightInspectionId").setOptionCriteria(null);
-                form.getItem("assayInspectionId").setOptionCriteria(null);
 
                 foreignInvoiceTab.button.selectBillLading.disable();
                 foreignInvoiceTab.button.selectBillLading.criteria = null;
@@ -284,9 +283,9 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
                 return;
             }
 
-            form.getItem("weightInspectionId").enable();
-            form.getItem("assayInspectionId").enable();
-            form.getItem("weightInspectionId").setOptionCriteria({
+            form.getItem("inspectionWeightId").enable();
+            form.getItem("inspectionAssayId").enable();
+            form.getItem("inspectionWeightId").setOptionCriteria({
                 _constructor: "AdvancedCriteria",
                 operator: "and",
                 criteria: [
@@ -300,7 +299,7 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
                     }
                 ]
             });
-            form.getItem("assayInspectionId").setOptionCriteria({
+            form.getItem("inspectionAssayId").setOptionCriteria({
                 _constructor: "AdvancedCriteria",
                 operator: "and",
                 criteria: [
@@ -512,7 +511,7 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
         disabled: true,
         width: "100%",
         type: "integer",
-        name: "weightInspectionId",
+        name: "inspectionWeightId",
         editorType: "SelectItem",
         valueField: "id",
         displayField: "inspectionNO",
@@ -553,7 +552,7 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
         disabled: true,
         width: "100%",
         type: "integer",
-        name: "assayInspectionId",
+        name: "inspectionAssayId",
         editorType: "SelectItem",
         valueField: "id",
         displayField: "inspectionNO",
@@ -657,11 +656,11 @@ foreignInvoiceTab.button.save = isc.IButtonSave.create({
             'shipment',
             foreignInvoiceTab.dynamicForm.baseData.getField('shipmentId').getSelectedRecord());
         foreignInvoiceTab.dynamicForm.valuesManager.setValue(
-            'weightInspection',
-            foreignInvoiceTab.dynamicForm.baseData.getField('weightInspectionId').getSelectedRecord());
+            'inspectionWeightData',
+            foreignInvoiceTab.dynamicForm.baseData.getField('inspectionWeightId').getSelectedRecord());
         foreignInvoiceTab.dynamicForm.valuesManager.setValue(
-            'assayInspection',
-            foreignInvoiceTab.dynamicForm.baseData.getField('assayInspectionId').getSelectedRecord());
+            'inspectionAssayData',
+            foreignInvoiceTab.dynamicForm.baseData.getField('inspectionAssayId').getSelectedRecord());
 
         // let selectedShipmentRemittanceDetailsCount = foreignInvoiceTab.dynamicForm.valuesManager.getValue('remittanceDetailId').length;
         // let allShipmentRemittanceDetailsCount = Object.keys(foreignInvoiceTab.dynamicForm.baseData.getField('remittanceDetailId').getAllValueMappings()).length;
@@ -675,13 +674,17 @@ foreignInvoiceTab.button.save = isc.IButtonSave.create({
                 invoiceType: foreignInvoiceTab.dynamicForm.valuesManager.getValue('invoiceType'),
             }), '<spring:message code="foreign-invoice.form.tab.contract-info"/>');
 
+        ////// MOLYBDENUM_OXIDE //////
         if (foreignInvoiceTab.variable.materialId === ImportantIDs.material.MOLYBDENUM_OXIDE) {
+
             let invoiceCalculation2Component = isc.InvoiceCalculation2.create({
                 contractDetailData: foreignInvoiceTab.variable.contractDetailData,
                 currency: foreignInvoiceTab.dynamicForm.valuesManager.getValue("currency"),
                 contract: foreignInvoiceTab.dynamicForm.valuesManager.getValue('contract'),
                 shipment: foreignInvoiceTab.dynamicForm.valuesManager.getValue("shipment"),
-                remittanceDetails: foreignInvoiceTab.dynamicForm.valuesManager.getValue("remittanceDetails"),
+                // remittanceDetails: foreignInvoiceTab.dynamicForm.valuesManager.getValue("remittanceDetails"),
+                inspectionWeightData: foreignInvoiceTab.dynamicForm.valuesManager.getValue("inspectionWeightData"),
+                inspectionAssayData: foreignInvoiceTab.dynamicForm.valuesManager.getValue("inspectionAssayData"),
                 weightData: foreignInvoiceTab.dynamicForm.valuesManager.getValue("weightData")
             });
             foreignInvoiceTab.method.addTab(invoiceCalculation2Component, '<spring:message code="foreign-invoice.form.tab.calculation"/>');
@@ -703,15 +706,19 @@ foreignInvoiceTab.button.save = isc.IButtonSave.create({
                 });
                 foreignInvoiceTab.method.addTab(invoicePaymentComponent, '<spring:message code="foreign-invoice.form.tab.payment"/>');
             }
+            ////// COPPER_CONCENTRATES //////
         } else {
+
+            console.log("inspectionWeightData ", foreignInvoiceTab.dynamicForm.valuesManager.getValue("inspectionWeightData"));
+            console.log("inspectionAssayData ", foreignInvoiceTab.dynamicForm.valuesManager.getValue("inspectionAssayData"));
             let invoiceBaseValuesComponent = isc.InvoiceBaseValues.create({
                 currency: foreignInvoiceTab.dynamicForm.valuesManager.getValue("currency"),
                 contract: foreignInvoiceTab.dynamicForm.valuesManager.getValue("contract"),
                 contractDetailData: foreignInvoiceTab.variable.contractDetailData,
                 shipment: foreignInvoiceTab.dynamicForm.valuesManager.getValue("shipment"),
                 invoiceType: foreignInvoiceTab.dynamicForm.valuesManager.getValue("invoiceType"),
-                weightInspection: foreignInvoiceTab.dynamicForm.valuesManager.getValue("weightInspection"),
-                assayInspection: foreignInvoiceTab.dynamicForm.valuesManager.getValue("assayInspection"),
+                inspectionWeightData: foreignInvoiceTab.dynamicForm.valuesManager.getValue("inspectionWeightData"),
+                inspectionAssayData: foreignInvoiceTab.dynamicForm.valuesManager.getValue("inspectionAssayData"),
                 weightData: foreignInvoiceTab.dynamicForm.valuesManager.getValue("weightData")
             });
             foreignInvoiceTab.method.addTab(invoiceBaseValuesComponent, '<spring:message code="foreign-invoice.form.tab.base-values"/>');
@@ -862,22 +869,6 @@ foreignInvoiceTab.variable.invoiceForm.okCallBack = function (data) {
         }
     });
 
-    // isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-    //         actionURL: "${contextPath}/api/foreign-invoice",
-    //         httpMethod: foreignInvoiceTab.variable.method,
-    //         data: JSON.stringify(data),
-    //         params: null,
-    //         callback: function (resp) {
-    //             if (resp.httpResponseCode == 200 || resp.httpResponseCode == 201) {
-    //                 foreignInvoiceTab.window.main.close();i
-    //                 foreignInvoiceTab.method.refreshData();
-    //                 isc.say("<spring:message code='global.form.request.successful'/>");
-    //             } else
-    //                 isc.say(resp.data);
-    //         }
-    //     })
-    // );
-
 };
 
 foreignInvoiceTab.variable.invoiceForm.populateData = function (bodyWidget) {
@@ -886,7 +877,11 @@ foreignInvoiceTab.variable.invoiceForm.populateData = function (bodyWidget) {
     if (!invoicePaymentComponent) return null;
 
     let data = foreignInvoiceTab.dynamicForm.valuesManager.getValues();
-    let remittanceDetails = foreignInvoiceTab.dynamicForm.valuesManager.getValue('remittanceDetails');
+    // let remittanceDetails = foreignInvoiceTab.dynamicForm.valuesManager.getValue('remittanceDetails');
+    let inspectionWeightData = foreignInvoiceTab.dynamicForm.valuesManager.getValue('inspectionWeightData');
+    let inspectionAssayData = foreignInvoiceTab.dynamicForm.valuesManager.getValue('inspectionAssayData');
+    let weightMilestone = inspectionWeightData.weightInspections.first().mileStone;
+    let assayMilestone = inspectionAssayData.assayInspections.first().mileStone;
 
     data.billLadingIds = data.billLadings.map(q => q.id);
     data.buyerId = data.contract.contractContacts.filter(q => q.commercialRole === JSON.parse('${Enum_CommercialRole}').Buyer).first().contactId;
@@ -901,9 +896,11 @@ foreignInvoiceTab.variable.invoiceForm.populateData = function (bodyWidget) {
     data.conversionSumPrice = paymentComponentValues.conversionSumPrice.getValues().value;
     data.conversionSumPriceText = paymentComponentValues.conversionSumPriceText;
     data.sumPIPrice = data.sumFIPrice - data.sumPrice;
+    data.inspectionWeightReportId = inspectionWeightData.id;
+    data.inspectionAssayReportId = inspectionAssayData.id;
     data.foreignInvoicePayments = paymentComponentValues.shipmentCostInvoices;
 
-    if (remittanceDetails.length === 1) {
+    if (foreignInvoiceTab.variable.materialId === ImportantIDs.material.COPPER_CONCENTRATES) {
 
         let invoiceBaseValuesComponent = foreignInvoiceTab.tab.invoice.tabs.filter(t => t.pane.Class === isc.InvoiceBaseValues.Class).first().pane;
         let invoiceBasePriceComponent = invoiceBaseValuesComponent.invoiceBasePriceComponent;
@@ -937,23 +934,25 @@ foreignInvoiceTab.variable.invoiceForm.populateData = function (bodyWidget) {
         data.foreignInvoiceItems = function () {
             let items = [];
 
-            remittanceDetails.forEach(current => {
+            inspectionWeightData.weightInspections.forEach(current => {
                 items.add({
-                    remittanceDetailId: current.id,
-                    weightMilestone: invoiceBaseWeightComponent.getValues().weightMilestone,
-                    weightGW: invoiceBaseWeightComponent.getValues().weightGW.getValues().value,
-                    weightND: invoiceBaseWeightComponent.getValues().weightND.getValues().value,
-                    assayMilestone: invoiceBaseAssayComponent.getValues()[0].assayMilestone,
+                    remittanceDetailId: current.inventory.remittanceDetails.filter(q => q.inputRemittance === false).first().id,
+                    weightMilestone: weightMilestone,
+                    weightGW: inspectionWeightData.weightGW,
+                    weightND: inspectionWeightData.weightND,
+                    assayMilestone: assayMilestone,
                     treatCost: invoiceDeductionComponent.pane.getValues().filter(q => q.name === "TC").first().value,
                     foreignInvoiceItemDetails: getForeignInvoiceItemDetails()
                 });
             });
             return items;
         }();
-    } else {
+    } else if (foreignInvoiceTab.variable.materialId === ImportantIDs.material.MOLYBDENUM_OXIDE) {
 
         let invoiceCalculation2Component = foreignInvoiceTab.tab.invoice.tabs.filter(t => t.pane.Class === isc.InvoiceCalculation2.Class).first().pane;
         data.foreignInvoiceItems = invoiceCalculation2Component.getForeignInvoiceItems();
+    } else {
+        ///// COPPER CATHODE /////
     }
 
     delete data.contract;
@@ -1598,8 +1597,8 @@ foreignInvoiceTab.method.newForm = function () {
             "invoiceTypeId": 1,
             "contractId": 1,
             "shipmentId": 1,
-            "weightInspectionId": 190,
-            "assayInspectionId": 191,
+            "inspectionWeightId": 190,
+            "inspectionAssayId": 191,
             "creatorId": 2,
             "currencyId": -32,
             "toCurrencyId": null,
@@ -1613,7 +1612,6 @@ foreignInvoiceTab.method.newForm = function () {
 foreignInvoiceTab.method.editForm = function () {
 
     foreignInvoiceTab.variable.method = "PUT";
-    foreignInvoiceTab.window.main.show();
 
     let record = foreignInvoiceTab.listGrid.main.getSelectedRecord();
     if (record == null || record.id == null)
@@ -1626,6 +1624,7 @@ foreignInvoiceTab.method.editForm = function () {
         foreignInvoiceTab.dialog.finalRecord();
     else {
 
+        foreignInvoiceTab.window.main.show();
         foreignInvoiceTab.method.jsonRPCManagerRequest({
             httpMethod: "GET",
             actionURL: foreignInvoiceTab.variable.foreignInvoiceBillOfLadingUrl + "spec-list",

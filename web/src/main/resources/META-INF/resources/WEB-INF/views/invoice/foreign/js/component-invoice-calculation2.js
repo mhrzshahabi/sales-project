@@ -10,7 +10,9 @@ isc.defineClass("InvoiceCalculation2", isc.VLayout).addProperties({ //TestShod
     contract: null,
     shipment: null,
     currency: null,
-    remittanceDetails: null,
+    // remittanceDetails: null,
+    inspectionWeightData: null,
+    inspectionAssayData: null,
     contractDetailData: null,
     weightData: null,
     initWidget: function () {
@@ -75,7 +77,6 @@ isc.defineClass("InvoiceCalculation2", isc.VLayout).addProperties({ //TestShod
                     if (!validate) return false;
                     isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                         params: {
-                            weightMilestone: dynamicForm.getItem("weightMilestone").getValue(),
                             contractId: This.contract.id,
                             shipmentId: This.shipment.id,
                             year: sendDate.getFullYear(),
@@ -83,7 +84,8 @@ isc.defineClass("InvoiceCalculation2", isc.VLayout).addProperties({ //TestShod
                             financeUnitId: This.currency.id,
                             reference: This.contractDetailData.basePriceReference,
                             inventoryIds: This.remittanceDetails.map(q => q.inventory.id),
-                            assayMilestone: dynamicForm.getItem("assayMilestone").getValue()
+                            assayMilestone: dynamicForm.getItem("assayMilestone").getValue(),
+                            weightMilestone: dynamicForm.getItem("weightMilestone").getValue()
                         },
                         httpMethod: "GET",
                         actionURL: "${contextPath}" + "/api/foreign-invoice-item/get-calculation2-data",
