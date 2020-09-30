@@ -44,6 +44,7 @@ public class RemittanceDetailDTO {
         private DepotDTO.Info depot;
         private String date;
         private Boolean inputRemittance;
+
 //        private Remittance remittance;
 
 
@@ -92,6 +93,7 @@ public class RemittanceDetailDTO {
     @ApiModel("RemittanceDetailInfo")
     public static class Info extends InfoWithoutRemittance {
         private RemittanceDTO.InfoWithoutRemittanceDetail remittance;
+        private TozinTableDTO.InfoWithoutRemittanceDetail tozin;
 
         public String getInventoryLabel() {
 
