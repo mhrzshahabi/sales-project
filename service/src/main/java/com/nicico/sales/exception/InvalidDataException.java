@@ -36,6 +36,6 @@ public class InvalidDataException extends BaseException {
         if (StringUtils.isEmpty(message))
             message = messageSource.getMessage("exception.invalid-data", null, locale);
 
-        this.response = new ErrorResponse(ErrorType.invalidData, null, message);
+        this.response = new ErrorResponse(ErrorType.InvalidData, null, message);
     }
 }
