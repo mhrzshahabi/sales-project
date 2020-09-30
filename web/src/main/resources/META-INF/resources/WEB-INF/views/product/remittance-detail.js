@@ -2202,6 +2202,9 @@ rdTab.Layouts.ToolStripButtons.New = isc.ToolStripButtonAdd.create({
                     const _item = form.getItem('isInView');
                     _item.setValue(false);
                     _item.disable();
+                    if(a.name === "sourceId"){
+                        StorageUtil.save("out_remittance_defaultSourceId",value)
+                    }
                 };
                 if (a.name === 'codeKala') a.hidden = true;
                 if (a.name === 'isInView') a.disabled = true;
@@ -2209,7 +2212,7 @@ rdTab.Layouts.ToolStripButtons.New = isc.ToolStripButtonAdd.create({
             })
         });
         rdTab.Layouts.ToolStripButtons.OutRemittanceAdd = isc.ToolStripButtonAdd.create({
-            title: "<spring:message code='global.add'/> <spring:message code='bijak'/> <spring:message code='global.vorodi'/>",
+            title: "<spring:message code='global.add'/> <spring:message code='bijack'/> <spring:message code='global.vorodi'/>",
             disabled: true,
             click() {
                 let selectRd;
