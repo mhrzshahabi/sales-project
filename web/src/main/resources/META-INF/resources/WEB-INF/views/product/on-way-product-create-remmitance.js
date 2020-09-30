@@ -1,7 +1,7 @@
 // <%@ page contentType="text/html;charset=UTF-8" %>
 // <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 function giveMeAName() {
-    const random = Math.random().toString().substr(-3);
+    const random = Math.random().toString().substr(-4);
     const selectedRecord = ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord();
     if (!selectedRecord || selectedRecord === undefined || selectedRecord === null) {
         return Math.random().toString().substr(-11)
@@ -46,7 +46,7 @@ function onWayProductCreateRemittance() {
         // DynamicForm_warehouseCAD.setValue('destinationSheetSum', sums['tedad']);
         // DynamicForm_warehouseCAD.setValue('destinationBundleSum', sums['totalPkg']);
     }
-
+    let canEditVazTedad = false;
     const RestDataSource_WarehouseYard_IN_WAREHOUSECAD_ONWAYPRODUCT = isc.MyRestDataSource.create({
         fields: [
             {
@@ -592,6 +592,7 @@ function onWayProductCreateRemittance() {
                             },
                             {
                                 name: "tedad",
+                                // canEdit:canEditVazTedad,
                                 title: "<spring:message code='Tozin.tedad.all'/>",
                                 width: "20%",
                                 validators: [{
@@ -602,7 +603,13 @@ function onWayProductCreateRemittance() {
                                 summaryFunction: "sum",
                                 editorExit(editCompletionEvent, recordg, newValue, rowNum, colNum, grid) {
                                     // record['packages'].find(p => p.uid === recordg.uid)['tedad'] = Number(newValue)
-                                    if (newValue) updateRecord('tedad', newValue, recordg);
+                                    if (newValue) {
+                                        updateRecord('tedad', newValue, recordg);
+                                        const _tedadString = 'remitance_inventory_default_tedad_' + record.codeKala.toString()
+                                            + '_' +
+                                            record.sourceId.toString();
+                                        StorageUtil.save(_tedadString,Number(newValue))
+                                    }
                                     return true;
                                 },
                                 editorProperties: {
@@ -611,6 +618,7 @@ function onWayProductCreateRemittance() {
                             },
                             {
                                 name: "wazn",
+                                canEdit:canEditVazTedad,
                                 title: "<spring:message code='warehouseCadItem.weightKg'/>",
                                 width: "20%",
                                 validators: [{
@@ -658,6 +666,7 @@ function onWayProductCreateRemittance() {
                     });
                     const add_bundle_button = isc.IButton.create({
                         title: "<spring:message code='warehouseCad.addBundle'/>",
+                        visibility:"hidden",
                         // width: 150,
                         click: () => {
                             // const grid_source = listGridSetDestTozinHarasatPolompForSelectedTozin['gs'];
@@ -1025,14 +1034,39 @@ function onWayProductCreateRemittance() {
                 tzn['pkgNum_destination'] = 0;
                 tzn['tedad_source'] = !isNaN(tzn['tedad']) ? tzn['tedad'] : 0;
                 tzn['tedad_destination'] = !isNaN(tzn['tedad']) ? tzn['tedad'] : 0;
+                if(tzn.codeKala === 11 && !isNaN(tzn['tedad']) && Number(tzn['tedad']) > 1 ){
+                    canEditVazTedad = true;
+                    const _packages = [];
+                    dbg(true,tzn)
+                    const _tedadString = 'remitance_inventory_default_tedad_'+ tzn.codeKala.toString()
+                        + '_' +
+                        tzn.sourceId.toString();
+                    const _tedad = StorageUtil.get(_tedadString);
+                    const _vazn = Number(tzn['vazn'])/Number(tzn['tedad']);
+
+                    Array.from({length:Number(tzn['tedad'])},(_,i)=>{
+                    _packages.add({
+                        uid: giveMeAName(),
+                        label: giveMeAName(),
+                        productId: null,
+                        wazn: _vazn,
+                        tedad: _tedad,
+                        description: '',
+                    })
+                    })
+                    tzn['packages'] = _packages;
+                }
+
 
                 return tzn;
             })
+            // dbg(true,selectedTozinList)
             // //console.log('selectedTozinList',selectedTozinList)
             grid.setData(selectedTozinList)
             DynamicForm_warehouseCAD.setValue('sourceBundleSum', 0)
 
             if (tozinPackagesData && tozinPackagesData.response && tozinPackagesData.response.data && tozinPackagesData.response.data.length > 0) {
+                canEditVazTedad = false;
                 const pkgs = tozinPackagesData.response.data;
                 DynamicForm_warehouseCAD.setValue('sourceBundleSum', pkgs.length);
                 let sourceSheetSum = 0;
@@ -1100,6 +1134,7 @@ function onWayProductCreateRemittance() {
                 // //console.log('updatedSelectedTozinList', updatedSelectedTozinList, selectedTozinList)
                 grid.setData(updatedSelectedTozinList)
             }
+            if(tozinPackagesData && tozinPackagesData.response){}
 
         }
         packages_button.show();
