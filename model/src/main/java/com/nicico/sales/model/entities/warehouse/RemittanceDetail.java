@@ -5,6 +5,7 @@ import com.nicico.sales.model.entities.common.BaseEntity;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.Formula;
+import org.hibernate.annotations.JoinFormula;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -99,4 +100,9 @@ public class RemittanceDetail extends BaseEntity {
     private String date;
     @Formula("(select VIEW_WARH_REMITTANCE_DETAIL.input_remittance from VIEW_WARH_REMITTANCE_DETAIL where VIEW_WARH_REMITTANCE_DETAIL.id = id)")
     private Boolean inputRemittance;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinFormula("(select nvl(t.F_DESTINATION_TOZINE_ID,t.F_SOURCE_TOZINE_ID) from TBL_WARH_REMITTANCE_DETAIL t where t.ID= id)")
+    private TozinTable tozin;
+
 }
