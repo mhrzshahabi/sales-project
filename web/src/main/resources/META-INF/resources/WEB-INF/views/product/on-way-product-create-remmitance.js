@@ -724,7 +724,7 @@ function onWayProductCreateRemittance() {
                 {
                     name: "pkgNum_source",
                     canFilter: false,
-                    title: '<spring:message code="Tozin.package.tozin.number.target.source"/>',
+                    title: '<spring:message code="Tozin.package.tozin.number.source"/>',
                     canEdit: false
                 },
                 {
@@ -961,7 +961,7 @@ function onWayProductCreateRemittance() {
                 // //console.log(grid, 'all available dest')
                 window[grid].setData(tozinData);
             }
-            updateDestinationPackageTedadWeight()
+            // updateDestinationPackageTedadWeight()
             pls_wait_2.destroy()
 
         }
@@ -1086,7 +1086,7 @@ function onWayProductCreateRemittance() {
         }
         packages_button.show();
         IButton_warehouseCAD_Save.show()
-        updateDestinationPackageTedadWeight()
+        // updateDestinationPackageTedadWeight()
         pls_wait_3.destroy();
 
     })
