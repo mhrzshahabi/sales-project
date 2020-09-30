@@ -27,11 +27,11 @@ public class Country extends BaseEntity {
 
     @NotNull
     @Column(name = "C_NAME_FA", nullable = false)
-    private String nameFa;
+    private String nameFA;
 
     @NotNull
     @Column(name = "C_NAME_EN", nullable = false)
-    private String nameEn;
+    private String nameEN;
 
     @I18n
     @Transient

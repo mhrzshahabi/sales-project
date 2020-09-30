@@ -80,7 +80,7 @@ portTab.dynamicForm.fields = BaseFormItems.concat([
         required: true,
         errorOrientation: "bottom",
         titleColSpan: 1,
-        displayField: "nameFa",
+        displayField: "name",
         wrapTitle: false,
         valueField: "id",
         pickListWidth: 450,
@@ -92,8 +92,8 @@ portTab.dynamicForm.fields = BaseFormItems.concat([
         }),
         pickListFields: [
             { name: "id", title: "<spring:message code='global.id'/>" },
-            { name: "nameFa", title: "<spring:message code='currency.name.fa'/>" },
-            { name: "nameEn", title: "<spring:message code='currency.name.en'/>" },
+            { name: "nameFA", title: "<spring:message code='currency.name.fa'/>" },
+            { name: "nameEN", title: "<spring:message code='currency.name.en'/>" },
         ],
     },
 ]);

@@ -81,7 +81,7 @@ isc.defineClass("InvoiceBaseInfo", isc.VLayout).addProperties({
                     <td class="table-td-value">
                         <div>` + This.checkUndefined(buyer.nameEN) + `</div>
                         <div>` + This.checkUndefined(buyer.address) + `</div>
-                        <div>` + This.checkUndefined(buyer.country.nameEn) + `</div>
+                        <div>` + This.checkUndefined(buyer.country.nameEN) + `</div>
                         <div>` + This.checkUndefined(buyer.phone) + `</div>
                         <div>` + This.checkUndefined(buyer.fax) + `</div>
                     </td>
