@@ -56,7 +56,7 @@ contractDetailTypeTab.restDataSource.unit = isc.MyRestDataSource.create({
         },
         {
             name: "nameFA",
-            title: "<spring:message code='unit.nameFa'/> "
+            title: "<spring:message code='unit.nameFA'/> "
         },
         {
             name: "nameEN",
@@ -109,7 +109,7 @@ contractDetailTypeTab.dynamicForm.paramFields.unitId = {
     width: "20%",
     editorType: "SelectItem",
     valueField: "id",
-    displayField: "nameFA",
+    displayField: "name",
     pickListWidth: "300",
     pickListHeight: "300",
     pickListProperties: {showFilterEditor: true},

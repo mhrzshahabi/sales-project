@@ -144,7 +144,7 @@ function getReferenceFields(referenceType) {
         case 'Unit':
             return [
                 {name: "id", title: "id", primaryKey: true, hidden: true},
-                {name: 'nameFA', title: "<spring:message code='unit.nameFa'/>"}
+                {name: 'name', title: "<spring:message code='unit.nameFa'/>"}
             ]
         case 'Incoterm':
             return [
