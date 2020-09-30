@@ -138,7 +138,8 @@ public class ShipmentCostInvoice extends BaseEntity {
     @Column(name = "F_FINANCE_UNIT_ID", nullable = false)
     private Long financeUnitId;
 
-
+    @Column(name = "C_DOCUMENT_ID")
+    private String documentId;
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)

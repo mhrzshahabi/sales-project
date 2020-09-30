@@ -655,8 +655,8 @@ public class ContractService extends GenericService<Contract, Long, ContractDTO.
         return req.getContractDetails().stream()
                 .map(cd -> cd.getContractDetailValues()
                         .stream().filter(cdv -> cdv.getReference() != null &&
-                                (cdv.getReference().toLowerCase().equals("ContractShipment".toLowerCase())) ||
-                                (cdv.getReference().toLowerCase().equals("CONTRACT_SHIPMENT".toLowerCase()))
+                                ((cdv.getReference().toLowerCase().equals("ContractShipment".toLowerCase())) ||
+                                (cdv.getReference().toLowerCase().equals("CONTRACT_SHIPMENT".toLowerCase())))
                         )
                         .collect(Collectors.toList())
                 ).flatMap(Collection::stream).map(contractDetailValue -> {

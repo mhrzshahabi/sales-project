@@ -924,6 +924,17 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
                         value: value
                     }]
                 });
+            else
+                inspectionReportTab.dynamicForm.inspecReport.getItem("inventoryId").setOptionCriteria({
+                    _constructor: "AdvancedCriteria",
+                    operator: "and",
+                    criteria: [{
+                        fieldName: "materialItem.materialId",
+                        operator: "equals",
+                        value: inspectionReportTab.dynamicForm.material.getValue("material")
+                    }]
+                });
+
         }
     },
     {
@@ -1721,7 +1732,8 @@ inspectionReportTab.method.clearForm = function () {
     inspectionReportTab.listGrid.weightElementSum.setData([]);
     inspectionReportTab.dynamicForm.inspecReport.clearValues();
     inspectionReportTab.listGrid.assayElementSum.setFields([]);
-    inspectionReportTab.toolStrip.weightRemoveAll.members[1].members[0].getItem("excelFile").clearValue()
+    inspectionReportTab.toolStrip.weightRemoveAll.members[1].members[0].getItem("excelFile").clearValue();
+    inspectionReportTab.toolStrip.assayRemoveAll.members[1].members[0].getItem("excelFile").clearValue();
 };
 
 inspectionReportTab.window.inspecReport = new nicico.FormUtil();

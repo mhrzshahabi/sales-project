@@ -6,8 +6,6 @@ import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.copper.common.dto.search.EOperator;
 import com.nicico.copper.common.dto.search.SearchDTO;
-import com.nicico.sales.annotation.Action;
-import com.nicico.sales.enumeration.ActionType;
 import com.nicico.sales.enumeration.ErrorType;
 import com.nicico.sales.exception.SalesException2;
 import com.nicico.sales.model.enumeration.AllConverters;
@@ -180,9 +178,17 @@ public class CriteriaRefinerAspect {
             } else if (field.getType().equals(BigDecimal.class)) {
 
                 result = true;
-                List<Object> value = criteriaRq.getValue();
-                criteriaRq.setValue(value.stream().map(Object::toString).collect(Collectors.toList()));
-            } else {
+                List<Object> values = criteriaRq.getValue();
+                criteriaRq.setValue(values.stream().map(Object::toString).collect(Collectors.toList()));
+            } /*else if (field.getType().equals(String.class)) {
+
+                result = true;
+                List<Object> values = criteriaRq.getValue();
+                criteriaRq.setValue(values.stream().map(q -> q.toString().
+                        replace("\u06A9", "\u0643").
+                        replace("\u06CC", "\u0649")*//*.
+                        replace("/\u06CC/g", "\u064A")*//*).collect(Collectors.toList()));
+            } */else {
 
                 if (criteriaRq.getCriteria() == null)
                     return result;
