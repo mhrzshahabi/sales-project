@@ -690,7 +690,25 @@ function onWayProductCreateRemittance() {
                 if (!tozinId) return false;
                 this.rowHoverComponent = isc.DetailViewer.create({
                     dataSource: isc.MyRestDataSource.create({
-                        fields: [...tozinFields()],
+                        fields: [...tozinFields().filter(_=>[
+                            "source",
+                            "nameKala",
+                            "target",
+                            "carName",
+                            "containerId",
+                            "containerName",
+                            "vazn1",
+                            "vazn2",
+                            "tedad",
+                            "packName",
+                            "haveCode",
+                            "tozinDate",
+                            "havalehName",
+                            "ctrlDescOut",
+                            "tznSharh2",
+                            "strSharh2",
+                            "tznSharh1",
+                        ].includes(_.name))].reverse(),
                         fetchDataURL: 'api/tozin/spec-list'
                     }),
                     width: 250
