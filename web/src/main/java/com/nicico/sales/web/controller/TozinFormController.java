@@ -7,10 +7,12 @@ import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.core.util.report.ReportUtil;
 import com.nicico.sales.dto.TozinDTO;
 import com.nicico.sales.exception.NotFoundException;
+import com.nicico.sales.iservice.ITozinLiteService;
 import com.nicico.sales.iservice.ITozinService;
+import com.nicico.sales.model.entities.base.Tozin;
 import com.nicico.sales.model.entities.base.TozinLite;
-import com.nicico.sales.repository.TozinLiteDAO;
 import com.nicico.sales.utility.MakeExcelOutputUtil;
+import com.nicico.sales.utility.SecurityChecker;
 import com.nicico.sales.utility.SpecListUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +22,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
@@ -37,10 +40,13 @@ public class TozinFormController {
     private final ITozinService iTozinService;
     private final MakeExcelOutputUtil makeExcelOutputUtil;
     private final ReportUtil reportUtil;
-    private final TozinLiteDAO tozinDAO;
+    private final ITozinLiteService tozinLiteService;
 
     @RequestMapping("/showOnWayProductForm")
-    public String showOnWayProductForm() {
+    public String showOnWayProductForm(HttpServletRequest request) {
+
+        SecurityChecker.addViewPermissionToRequest(request, Tozin.class);
+
         return "product/onWayProduct";
     }
 
@@ -54,7 +60,7 @@ public class TozinFormController {
     public void ExportToExcel(@RequestParam MultiValueMap<String, String> criteria, HttpServletResponse response) throws Exception {
         List<Object> resp = new ArrayList<>();
         NICICOCriteria provideNICICOCriteria = specListUtil.provideNICICOCriteria(criteria, TozinDTO.Info.class);
-        List<TozinDTO.Info> data = iTozinService.searchTozin(provideNICICOCriteria).getResponse().getData();
+        List<TozinDTO.Info> data = iTozinService.search(provideNICICOCriteria).getResponse().getData();
         if (data != null) resp.addAll(data);
         String topRowTitle = criteria.getFirst("top");
         String[] fields = criteria.getFirst("fields").split(",");
@@ -74,12 +80,25 @@ public class TozinFormController {
 //        parameters.put("haml", params.get("haml").get(0));
         parameters.put(ConstantVARs.REPORT_TYPE, params.get("type").get(0));
         NICICOCriteria provideNICICOCriteria = specListUtil.provideNICICOCriteria(params, TozinDTO.Info.class);
-        List<TozinDTO.Info> data = iTozinService.searchTozin(provideNICICOCriteria).getResponse().getData();
+        List<TozinDTO.Info> data = iTozinService.search(provideNICICOCriteria).getResponse().getData();
         if (data == null) throw new NotFoundException();
         final List<TozinDTO.PDF> dataa = Arrays.asList(objectMapper.convertValue(data, TozinDTO.PDF[].class));
-        final Set<TozinLite> drivers = tozinDAO.findAllByTozinIdIn(dataa.stream().map(TozinDTO::getTozinId).collect(Collectors.toSet()));
+        final List<String> tozinIdList = dataa.stream().map(TozinDTO::getTozinId).collect(Collectors.toList());
+        Integer startRow = 0;
+        final Set<TozinLite> drivers = new HashSet<>();
+        while (startRow < tozinIdList.size()) {
+            if (tozinIdList.size() - startRow < 500) {
+                drivers.addAll(tozinLiteService.findAllByTozinIdIn(tozinIdList.subList(startRow, tozinIdList.size())));
+                startRow = tozinIdList.size();
+            } else {
+                drivers.addAll(tozinLiteService.findAllByTozinIdIn(tozinIdList.subList(startRow, startRow + 500)));
+                startRow += 500;
+            }
+        }
         dataa.stream().forEach(t -> {
-            t.setDriverName(drivers.stream().filter(d -> d.getTozinId().equals(t.getTozinId())).findAny().get().getDriverName());
+
+            final TozinLite tozinLite = drivers.stream().filter(d -> d.getTozinId().equals(t.getTozinId())).findAny().orElse(null);
+            if (tozinLite != null) t.setDriverName(tozinLite.getDriverName());
         });
         Map<String, List<TozinDTO.Info>> content = new HashMap() {{
             put("content", dataa);

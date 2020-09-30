@@ -75,7 +75,36 @@ var nicico;
             This.variable.contentType = BaseRPCRequest.contentType;
             This.variable.defaultStylePrefix = "";
             This.method = {
+                beforeRefreshActionHook: null,
+                afterRefreshActionHook: null,
+                beforeShowNewActionHook: null,
+                afterShowNewActionHook: null,
+                beforeShowEditActionHook: null,
+                afterShowEditActionHook: null,
+                beforeDeleteActionHook: null,
+                afterDeleteActionHook: null,
+                afterDeleteErrorActionHook: null,
+                beforeActivateActionHook: null,
+                afterActivateActionHook: null,
+                afterActivateErrorActionHook: null,
+                beforeDeactivateActionHook: null,
+                afterDeactivateActionHook: null,
+                afterDeactivateErrorActionHook: null,
+                beforeFinalizeActionHook: null,
+                afterFinalizeActionHook: null,
+                afterFinalizeErrorActionHook: null,
+                beforeDisapproveActionHook: null,
+                afterDisapproveActionHook: null,
+                afterDisapproveErrorActionHook: null,
+                saveValidationActionHook: null,
+                saveGetDataActionHook: null,
+                saveActionHook: null,
+                saveErrorActionHook: null,
                 delete: null,
+                activate: null,
+                deactivate: null,
+                finalize: null,
+                disapprove: null,
                 refresh: null,
                 newForm: null,
                 editForm: null,
@@ -182,7 +211,8 @@ var nicico;
             This.method.jsonRPCManagerRequest = function (rpcRequest, okActionHook, errorActionHook) {
                 if (rpcRequest == null)
                     return;
-                if (rpcRequest.callback == null)
+                if (rpcRequest.callback == null) {
+                    rpcRequest.willHandleError = true;
                     rpcRequest.callback = function (response) {
                         if (response.httpResponseCode === 201 || response.httpResponseCode === 200) {
                             This.dialog.ok();
@@ -195,6 +225,7 @@ var nicico;
                                 errorActionHook(response);
                         }
                     };
+                }
                 if (rpcRequest.actionURL == null)
                     rpcRequest.actionURL = This.variable.url;
                 if (rpcRequest.httpMethod == null)
@@ -213,12 +244,40 @@ var nicico;
                     rpcRequest.willHandleError = false;
                 isc.RPCManager.sendRequest(rpcRequest);
             };
-            This.method.refresh = function (grid, refreshActionHook) {
-                grid.invalidateCache();
-                if (refreshActionHook != null)
-                    refreshActionHook();
+            This.method.beforeRefreshActionHook = function () { };
+            This.method.afterRefreshActionHook = function () { };
+            This.method.beforeShowNewActionHook = function () { };
+            This.method.afterShowNewActionHook = function (window) { };
+            This.method.beforeShowEditActionHook = function (record) { };
+            This.method.afterShowEditActionHook = function (window, record) { };
+            This.method.beforeDeleteActionHook = function (record) { };
+            This.method.afterDeleteActionHook = function (response, record) { };
+            This.method.afterDeleteErrorActionHook = function (response, record) { };
+            This.method.beforeActivateActionHook = function (record) { };
+            This.method.afterActivateActionHook = function (response, record) { };
+            This.method.afterActivateErrorActionHook = function (response, record) { };
+            This.method.beforeDeactivateActionHook = function (record) { };
+            This.method.afterDeactivateActionHook = function (response, record) { };
+            This.method.afterDeactivateErrorActionHook = function (response, record) { };
+            This.method.beforeFinalizeActionHook = function (record) { };
+            This.method.afterFinalizeActionHook = function (response, record) { };
+            This.method.afterFinalizeErrorActionHook = function (response, record) { };
+            This.method.beforeDisapproveActionHook = function (record) { };
+            This.method.afterDisapproveActionHook = function (response, record) { };
+            This.method.afterDisapproveErrorActionHook = function (response, record) { };
+            This.method.saveValidationActionHook = function (form) { };
+            This.method.saveGetDataActionHook = function (form, data) {
+                return data;
             };
-            This.method.newForm = function (title, grid, form, newActionHook) {
+            This.method.saveActionHook = function (response) { };
+            This.method.saveErrorActionHook = function (response) { };
+            This.method.refresh = function (grid) {
+                This.method.beforeRefreshActionHook();
+                grid.invalidateCache();
+                This.method.afterRefreshActionHook();
+            };
+            This.method.newForm = function (title, grid, form) {
+                This.method.beforeShowNewActionHook();
                 This.variable.method = "POST";
                 form.clearValues();
                 var formUtil = new nicico.FormUtil();
@@ -235,17 +294,23 @@ var nicico;
                 var height = form.windowHeight;
                 formUtil.showForm(null, title, form, width, height);
                 form.show();
-                if (newActionHook != null)
-                    newActionHook();
+                This.method.afterShowNewActionHook(formUtil);
             };
-            This.method.editForm = function (title, grid, form, editActionHook) {
+            This.method.editForm = function (title, grid, form) {
                 var record = grid.getSelectedRecord();
                 if (record == null || record["id"] == null)
                     This.dialog.notSelected();
                 // @ts-ignore
                 else if (record.editable == false)
                     This.dialog.notEditable();
+                // @ts-ignore
+                else if (record.estatus.contains(Enums.eStatus2.DeActive))
+                    This.dialog.recordIsInactive();
+                // @ts-ignore
+                else if (record.estatus.contains(Enums.eStatus2.Final))
+                    This.dialog.finalRecord();
                 else {
+                    This.method.beforeShowEditActionHook(record);
                     This.variable.method = "PUT";
                     form.clearValues();
                     form.editRecord(__assign({}, record));
@@ -263,20 +328,26 @@ var nicico;
                     var height = form.windowHeight;
                     formUtil.showForm(null, title, form, width, height);
                     form.show();
-                    if (editActionHook != null)
-                        editActionHook(record);
+                    This.method.afterShowEditActionHook(formUtil, record);
                 }
             };
-            This.method.delete = function (grid, deleteActionHook, errorActionHook) {
+            This.method.delete = function (grid) {
                 var record = grid.getSelectedRecord();
                 if (record == null || record["id"] == null)
                     This.dialog.notSelected();
                 // @ts-ignore
                 else if (record.editable == false)
                     This.dialog.notEditable();
+                // @ts-ignore
+                else if (record.estatus.contains(Enums.eStatus2.DeActive))
+                    This.dialog.recordIsInactive();
+                // @ts-ignore
+                else if (record.estatus.contains(Enums.eStatus2.Final))
+                    This.dialog.finalRecord();
                 else {
                     This.variable.method = "DELETE";
                     This.dialog.question(function () {
+                        This.method.beforeDeleteActionHook(record);
                         var rpcRequest = {};
                         rpcRequest.httpMethod = This.variable.method;
                         rpcRequest.actionURL = This.variable.url + record["id"];
@@ -284,28 +355,158 @@ var nicico;
                             if (response.httpResponseCode === 200 || response.httpResponseCode === 201) {
                                 This.dialog.ok();
                                 This.method.refresh(grid);
-                                if (deleteActionHook != null)
-                                    deleteActionHook(record);
+                                This.method.afterDeleteActionHook(response, record);
                             }
                             else {
                                 This.dialog.error(response);
-                                if (errorActionHook != null)
-                                    errorActionHook(record);
+                                This.method.afterDeleteErrorActionHook(response, record);
                             }
                         };
                         This.method.jsonRPCManagerRequest(rpcRequest);
                     });
                 }
             };
-            This.method.saveForm = function (grid, form, validationActionHook, getDataActionHook, saveActionHook, errorActionHook) {
+            This.method.activate = function (grid) {
+                var record = grid.getSelectedRecord();
+                if (record == null || record["id"] == null)
+                    This.dialog.notSelected();
+                // @ts-ignore
+                else if (record.editable == false)
+                    This.dialog.notEditable();
+                // @ts-ignore
+                else if (record.estatus.contains(Enums.eStatus2.Active))
+                    This.dialog.activeRecord();
+                else {
+                    This.variable.method = "POST";
+                    This.dialog.question(function () {
+                        This.method.beforeActivateActionHook(record);
+                        var rpcRequest = {};
+                        rpcRequest.httpMethod = This.variable.method;
+                        rpcRequest.actionURL = This.variable.url + "activate/" + record["id"];
+                        rpcRequest.callback = function (response) {
+                            if (response.httpResponseCode === 200 || response.httpResponseCode === 201) {
+                                This.dialog.ok();
+                                This.method.refresh(grid);
+                                This.method.afterActivateActionHook(response, record);
+                            }
+                            else {
+                                This.dialog.error(response);
+                                This.method.afterActivateErrorActionHook(response, record);
+                            }
+                        };
+                        This.method.jsonRPCManagerRequest(rpcRequest);
+                    }, "<spring:message code='global.activate.ask'/>");
+                }
+            };
+            This.method.deactivate = function (grid) {
+                var record = grid.getSelectedRecord();
+                if (record == null || record["id"] == null)
+                    This.dialog.notSelected();
+                // @ts-ignore
+                else if (record.editable == false)
+                    This.dialog.notEditable();
+                // @ts-ignore
+                else if (record.estatus.contains(Enums.eStatus2.DeActive))
+                    This.dialog.inactiveRecord();
+                else {
+                    This.variable.method = "POST";
+                    This.dialog.question(function () {
+                        This.method.beforeDeactivateActionHook(record);
+                        var rpcRequest = {};
+                        rpcRequest.httpMethod = This.variable.method;
+                        rpcRequest.actionURL = This.variable.url + "deactivate/" + record["id"];
+                        rpcRequest.callback = function (response) {
+                            if (response.httpResponseCode === 200 || response.httpResponseCode === 201) {
+                                This.dialog.ok();
+                                This.method.refresh(grid);
+                                This.method.afterDeactivateActionHook(response, record);
+                            }
+                            else {
+                                This.dialog.error(response);
+                                This.method.afterDeactivateErrorActionHook(response, record);
+                            }
+                        };
+                        This.method.jsonRPCManagerRequest(rpcRequest);
+                    }, "<spring:message code='global.deactivate.ask'/>");
+                }
+            };
+            This.method.finalize = function (grid) {
+                var record = grid.getSelectedRecord();
+                if (record == null || record["id"] == null)
+                    This.dialog.notSelected();
+                // @ts-ignore
+                else if (record.editable == false)
+                    This.dialog.notEditable();
+                // @ts-ignore
+                else if (record.estatus.contains(Enums.eStatus2.DeActive))
+                    This.dialog.recordIsInactive();
+                // @ts-ignore
+                else if (record.estatus.contains(Enums.eStatus2.Final))
+                    This.dialog.finalRecord();
+                else {
+                    This.variable.method = "POST";
+                    This.dialog.question(function () {
+                        This.method.beforeFinalizeActionHook(record);
+                        var rpcRequest = {};
+                        rpcRequest.httpMethod = This.variable.method;
+                        rpcRequest.actionURL = This.variable.url + "finalize/" + record["id"];
+                        rpcRequest.callback = function (response) {
+                            if (response.httpResponseCode === 200 || response.httpResponseCode === 201) {
+                                This.dialog.ok();
+                                This.method.refresh(grid);
+                                This.method.afterFinalizeActionHook(response, record);
+                            }
+                            else {
+                                This.dialog.error(response);
+                                This.method.afterFinalizeErrorActionHook(response, record);
+                            }
+                        };
+                        This.method.jsonRPCManagerRequest(rpcRequest);
+                    }, "<spring:message code='global.finalize.ask'/>");
+                }
+            };
+            This.method.disapprove = function (grid) {
+                var record = grid.getSelectedRecord();
+                if (record == null || record["id"] == null)
+                    This.dialog.notSelected();
+                // @ts-ignore
+                else if (record.editable == false)
+                    This.dialog.notEditable();
+                // @ts-ignore
+                else if (record.estatus.contains(Enums.eStatus2.DeActive))
+                    This.dialog.recordIsInactive();
+                // @ts-ignore
+                else if (!record.estatus.contains(Enums.eStatus2.Final))
+                    This.dialog.disapproveRecord();
+                else {
+                    This.variable.method = "POST";
+                    This.dialog.question(function () {
+                        This.method.beforeDisapproveActionHook(record);
+                        var rpcRequest = {};
+                        rpcRequest.httpMethod = This.variable.method;
+                        rpcRequest.actionURL = This.variable.url + "disapprove/" + record["id"];
+                        rpcRequest.callback = function (response) {
+                            if (response.httpResponseCode === 200 || response.httpResponseCode === 201) {
+                                This.dialog.ok();
+                                This.method.refresh(grid);
+                                This.method.afterDisapproveActionHook(response, record);
+                            }
+                            else {
+                                This.dialog.error(response);
+                                This.method.afterDisapproveErrorActionHook(response, record);
+                            }
+                        };
+                        This.method.jsonRPCManagerRequest(rpcRequest);
+                    }, "<spring:message code='global.disapprove.ask'/>");
+                }
+            };
+            This.method.saveForm = function (grid, form) {
                 form.validate();
-                if (validationActionHook != null)
-                    validationActionHook(form);
+                This.method.saveValidationActionHook(form);
                 if (form.hasErrors())
                     return;
                 var data = form.getValues();
-                if (getDataActionHook != null)
-                    data = getDataActionHook(form, data);
+                data = This.method.saveGetDataActionHook(form, data);
                 var rpcRequest = {};
                 rpcRequest.actionURL = This.variable.url;
                 rpcRequest.data = JSON.stringify(data);
@@ -313,9 +514,8 @@ var nicico;
                     var win = form.getParentElements().last();
                     This.method.refresh(grid);
                     win.close();
-                    if (saveActionHook != null)
-                        saveActionHook(response);
-                }, errorActionHook);
+                    This.method.saveActionHook(response);
+                }, This.method.saveErrorActionHook);
             };
             This.dialog = {
                 ok: null,
@@ -323,13 +523,78 @@ var nicico;
                 error: null,
                 question: null,
                 notEditable: null,
+                activeRecord: null,
+                inactiveRecord: null,
+                recordIsInactive: null,
+                finalRecord: null,
+                disapproveRecord: null,
                 notSelected: null,
                 moreSelected: null
             };
             This.dialog.notEditable = function () {
                 isc.Dialog.create({
                     message: "<spring:message code='global.grid.record.not.editable'/>",
-                    icon: "[SKIN]ask.png",
+                    icon: "[SKIN]say.png",
+                    title: "<spring:message code='global.message'/>",
+                    buttons: [isc.Button.create({ title: "<spring:message code='global.ok'/>" })],
+                    // @ts-ignore
+                    buttonClick: function (button, index) {
+                        this.close();
+                    }
+                });
+            };
+            This.dialog.activeRecord = function () {
+                isc.Dialog.create({
+                    message: "<spring:message code='global.grid.record.can.not.activate'/>",
+                    icon: "[SKIN]say.png",
+                    title: "<spring:message code='global.message'/>",
+                    buttons: [isc.Button.create({ title: "<spring:message code='global.ok'/>" })],
+                    // @ts-ignore
+                    buttonClick: function (button, index) {
+                        this.close();
+                    }
+                });
+            };
+            This.dialog.inactiveRecord = function () {
+                isc.Dialog.create({
+                    message: "<spring:message code='global.grid.record.can.not.deactivate'/>",
+                    icon: "[SKIN]say.png",
+                    title: "<spring:message code='global.message'/>",
+                    buttons: [isc.Button.create({ title: "<spring:message code='global.ok'/>" })],
+                    // @ts-ignore
+                    buttonClick: function (button, index) {
+                        this.close();
+                    }
+                });
+            };
+            This.dialog.recordIsInactive = function () {
+                isc.Dialog.create({
+                    message: "<spring:message code='exception.inactive.not-editable'/>",
+                    icon: "[SKIN]say.png",
+                    title: "<spring:message code='global.message'/>",
+                    buttons: [isc.Button.create({ title: "<spring:message code='global.ok'/>" })],
+                    // @ts-ignore
+                    buttonClick: function (button, index) {
+                        this.close();
+                    }
+                });
+            };
+            This.dialog.finalRecord = function () {
+                isc.Dialog.create({
+                    message: "<spring:message code='global.grid.final.record.not.editable'/>",
+                    icon: "[SKIN]say.png",
+                    title: "<spring:message code='global.message'/>",
+                    buttons: [isc.Button.create({ title: "<spring:message code='global.ok'/>" })],
+                    // @ts-ignore
+                    buttonClick: function (button, index) {
+                        this.close();
+                    }
+                });
+            };
+            This.dialog.disapproveRecord = function () {
+                isc.Dialog.create({
+                    message: "<spring:message code='global.grid.record.can.not.disapprove'/>",
+                    icon: "[SKIN]say.png",
                     title: "<spring:message code='global.message'/>",
                     buttons: [isc.Button.create({ title: "<spring:message code='global.ok'/>" })],
                     // @ts-ignore
@@ -341,7 +606,7 @@ var nicico;
             This.dialog.notSelected = function () {
                 isc.Dialog.create({
                     message: "<spring:message code='global.grid.record.not.selected'/>",
-                    icon: "[SKIN]ask.png",
+                    icon: "[SKIN]say.png",
                     title: "<spring:message code='global.message'/>",
                     buttons: [isc.Button.create({ title: "<spring:message code='global.ok'/>" })],
                     // @ts-ignore
@@ -353,7 +618,7 @@ var nicico;
             This.dialog.moreSelected = function () {
                 isc.Dialog.create({
                     message: "<spring:message code='global.grid.record.moreSelected'/>",
-                    icon: "[SKIN]ask.png",
+                    icon: "[SKIN]say.png",
                     title: "<spring:message code='global.message'/>",
                     buttons: [isc.Button.create({ title: "<spring:message code='global.ok'/>" })],
                     // @ts-ignore

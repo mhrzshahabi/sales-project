@@ -24,11 +24,40 @@ namespace nicico {
             concatObjectsByKey(isBoolOperatorAnd: boolean, ...objs: any[]): void,
             fetchData(getAllIfExist: boolean, rpcRequest: Partial<isc.RPCRequest>): void,
             jsonRPCManagerRequest(rpcRequest: Partial<isc.RPCRequest>, okActionHook?: any, errorActionHook?: any): void,
-            refresh(grid: isc.ListGrid, refreshActionHook?: any),
-            newForm(title: string, grid: isc.ListGrid, form: isc.DynamicForm, newActionHook?: any): void,
-            editForm(title: string, grid: isc.ListGrid, form: isc.DynamicForm, editActionHook?: any),
-            delete(grid: isc.ListGrid, deleteActionHook?: any, errorActionHook?: any),
-            saveForm(grid: isc.ListGrid, form: isc.DynamicForm, validationActionHook?: any, getDataActionHook?: any, saveActionHook?: any, errorActionHook?: any)
+            beforeRefreshActionHook(): void,
+            afterRefreshActionHook(): void,
+            beforeShowNewActionHook(): void,
+            afterShowNewActionHook(window: FormUtil): void,
+            beforeShowEditActionHook(record: any): void,
+            afterShowEditActionHook(window: FormUtil, record: any): void,
+            beforeDeleteActionHook(record: any): void,
+            afterDeleteActionHook(response: isc.RPCResponse, record: any): void,
+            afterDeleteErrorActionHook(response: isc.RPCResponse, record: any): void,
+            beforeActivateActionHook(record: any): void,
+            afterActivateActionHook(response: isc.RPCResponse, record: any): void,
+            afterActivateErrorActionHook(response: isc.RPCResponse, record: any): void,
+            beforeDeactivateActionHook(record: any): void,
+            afterDeactivateActionHook(response: isc.RPCResponse, record: any): void,
+            afterDeactivateErrorActionHook(response: isc.RPCResponse, record: any): void,
+            beforeFinalizeActionHook(record: any): void,
+            afterFinalizeActionHook(response: isc.RPCResponse, record: any): void,
+            afterFinalizeErrorActionHook(response: isc.RPCResponse, record: any): void,
+            beforeDisapproveActionHook(record: any): void,
+            afterDisapproveActionHook(response: isc.RPCResponse, record: any): void,
+            afterDisapproveErrorActionHook(response: isc.RPCResponse, record: any): void,
+            saveValidationActionHook(form: isc.DynamicForm): void,
+            saveGetDataActionHook(form: isc.DynamicForm, data: any): any,
+            saveActionHook(response: isc.RPCResponse): void,
+            saveErrorActionHook(response: isc.RPCResponse): void,
+            refresh(grid: isc.ListGrid): void,
+            newForm(title: string, grid: isc.ListGrid, form: isc.DynamicForm): void,
+            editForm(title: string, grid: isc.ListGrid, form: isc.DynamicForm): void,
+            delete(grid: isc.ListGrid): void,
+            activate(grid: isc.ListGrid): void,
+            deactivate(grid: isc.ListGrid): void,
+            finalize(grid: isc.ListGrid): void,
+            disapprove(grid: isc.ListGrid): void,
+            saveForm(grid: isc.ListGrid, form: isc.DynamicForm): void
         };
         tab: {};
         chart: {};
@@ -51,6 +80,11 @@ namespace nicico {
         dialog: {
 
             notEditable(): void,
+            activeRecord(): void,
+            inactiveRecord(): void,
+            recordIsInactive(): void,
+            finalRecord(): void,
+            disapproveRecord(): void,
             notSelected(): void,
             moreSelected(): void,
             ok(warn?: string): void,
@@ -98,11 +132,40 @@ namespace nicico {
             concatObjectsByKey(isBoolOperatorAnd: boolean, ...objs: any[]): void,
             fetchData(getAllIfExist: boolean, rpcRequest: isc.RPCRequest): void,
             jsonRPCManagerRequest(rpcRequest: isc.RPCRequest, okActionHook?: any, errorActionHook?: any): void,
-            refresh(grid: isc.ListGrid, refreshActionHook?: any): void,
-            newForm(title: string, grid: isc.ListGrid, form: isc.DynamicForm, newActionHook?: any): void,
-            editForm(title: string, grid: isc.ListGrid, form: isc.DynamicForm, editActionHook?: any): void
-            delete(grid: isc.ListGrid, deleteActionHook?: any, errorActionHook?: any): void,
-            saveForm(grid: isc.ListGrid, form: isc.DynamicForm, validationActionHook?: any, getDataActionHook?: any, saveActionHook?: any, errorActionHook?: any)
+            beforeRefreshActionHook(): void,
+            afterRefreshActionHook(): void,
+            beforeShowNewActionHook(): void,
+            afterShowNewActionHook(window: FormUtil): void,
+            beforeShowEditActionHook(record: any): void,
+            afterShowEditActionHook(window: FormUtil, record: any): void,
+            beforeDeleteActionHook(record: any): void,
+            afterDeleteActionHook(response: isc.RPCResponse, record: any): void,
+            afterDeleteErrorActionHook(response: isc.RPCResponse, record: any): void,
+            beforeActivateActionHook(record: any): void,
+            afterActivateActionHook(response: isc.RPCResponse, record: any): void,
+            afterActivateErrorActionHook(response: isc.RPCResponse, record: any): void,
+            beforeDeactivateActionHook(record: any): void,
+            afterDeactivateActionHook(response: isc.RPCResponse, record: any): void,
+            afterDeactivateErrorActionHook(response: isc.RPCResponse, record: any): void,
+            beforeFinalizeActionHook(record: any): void,
+            afterFinalizeActionHook(response: isc.RPCResponse, record: any): void,
+            afterFinalizeErrorActionHook(response: isc.RPCResponse, record: any): void,
+            beforeDisapproveActionHook(record: any): void,
+            afterDisapproveActionHook(response: isc.RPCResponse, record: any): void,
+            afterDisapproveErrorActionHook(response: isc.RPCResponse, record: any): void,
+            saveValidationActionHook(form: isc.DynamicForm): void,
+            saveGetDataActionHook(form: isc.DynamicForm, data: any): any,
+            saveActionHook(response: isc.RPCResponse): void,
+            saveErrorActionHook(response: isc.RPCResponse): void,
+            refresh(grid: isc.ListGrid): void,
+            newForm(title: string, grid: isc.ListGrid, form: isc.DynamicForm): void,
+            editForm(title: string, grid: isc.ListGrid, form: isc.DynamicForm): void
+            delete(grid: isc.ListGrid): void,
+            activate(grid: isc.ListGrid): void,
+            deactivate(grid: isc.ListGrid): void,
+            finalize(grid: isc.ListGrid): void,
+            disapprove(grid: isc.ListGrid): void,
+            saveForm(grid: isc.ListGrid, form: isc.DynamicForm): void
         };
         tab: {};
         chart: {};
@@ -127,6 +190,11 @@ namespace nicico {
         dialog: {
 
             notEditable(): void,
+            activeRecord(): void,
+            inactiveRecord(): void,
+            recordIsInactive(): void,
+            finalRecord(): void,
+            disapproveRecord(): void,
             notSelected(): void,
             moreSelected(): void,
             ok(warn ?: string): void,
@@ -180,7 +248,37 @@ namespace nicico {
 
             This.method = {
 
+
+                beforeRefreshActionHook: null,
+                afterRefreshActionHook: null,
+                beforeShowNewActionHook: null,
+                afterShowNewActionHook: null,
+                beforeShowEditActionHook: null,
+                afterShowEditActionHook: null,
+                beforeDeleteActionHook: null,
+                afterDeleteActionHook: null,
+                afterDeleteErrorActionHook: null,
+                beforeActivateActionHook: null,
+                afterActivateActionHook: null,
+                afterActivateErrorActionHook: null,
+                beforeDeactivateActionHook: null,
+                afterDeactivateActionHook: null,
+                afterDeactivateErrorActionHook: null,
+                beforeFinalizeActionHook: null,
+                afterFinalizeActionHook: null,
+                afterFinalizeErrorActionHook: null,
+                beforeDisapproveActionHook: null,
+                afterDisapproveActionHook: null,
+                afterDisapproveErrorActionHook: null,
+                saveValidationActionHook: null,
+                saveGetDataActionHook: null,
+                saveActionHook: null,
+                saveErrorActionHook: null,
                 delete: null,
+                activate: null,
+                deactivate: null,
+                finalize: null,
+                disapprove: null,
                 refresh: null,
                 newForm: null,
                 editForm: null,
@@ -300,7 +398,9 @@ namespace nicico {
 
                 if (rpcRequest == null) return;
 
-                if (rpcRequest.callback == null)
+                if (rpcRequest.callback == null) {
+                    
+                    rpcRequest.willHandleError = true;
                     rpcRequest.callback = function (response) {
 
                         if (response.httpResponseCode === 201 || response.httpResponseCode === 200) {
@@ -315,6 +415,7 @@ namespace nicico {
                             if (errorActionHook != null) errorActionHook(response);
                         }
                     };
+                }
 
                 if (rpcRequest.actionURL == null) rpcRequest.actionURL = This.variable.url;
                 if (rpcRequest.httpMethod == null) rpcRequest.httpMethod = This.variable.method;
@@ -327,13 +428,44 @@ namespace nicico {
 
                 isc.RPCManager.sendRequest(rpcRequest);
             };
-            This.method.refresh = function (grid: isc.ListGrid, refreshActionHook?: any) {
 
-                grid.invalidateCache();
-                if (refreshActionHook != null) refreshActionHook();
+            This.method.beforeRefreshActionHook = function () {};
+            This.method.afterRefreshActionHook = function () {};
+            This.method.beforeShowNewActionHook = function () {};
+            This.method.afterShowNewActionHook = function (window: FormUtil) {};
+            This.method.beforeShowEditActionHook = function (record: any) {};
+            This.method.afterShowEditActionHook = function (window: FormUtil, record: any) {};
+            This.method.beforeDeleteActionHook = function (record: any) {};
+            This.method.afterDeleteActionHook = function (response: isc.RPCResponse, record: any) {};
+            This.method.afterDeleteErrorActionHook = function (response: isc.RPCResponse, record: any) {};
+            This.method.beforeActivateActionHook = function (record: any) {};
+            This.method.afterActivateActionHook = function (response: isc.RPCResponse, record: any) {};
+            This.method.afterActivateErrorActionHook = function (response: isc.RPCResponse, record: any) {};
+            This.method.beforeDeactivateActionHook = function (record: any) {};
+            This.method.afterDeactivateActionHook = function (response: isc.RPCResponse, record: any) {};
+            This.method.afterDeactivateErrorActionHook = function (response: isc.RPCResponse, record: any) {};
+            This.method.beforeFinalizeActionHook = function (record: any) {};
+            This.method.afterFinalizeActionHook = function (response: isc.RPCResponse, record: any) {};
+            This.method.afterFinalizeErrorActionHook = function (response: isc.RPCResponse, record: any) {};
+            This.method.beforeDisapproveActionHook = function (record: any) {};
+            This.method.afterDisapproveActionHook = function (response: isc.RPCResponse, record: any) {};
+            This.method.afterDisapproveErrorActionHook = function (response: isc.RPCResponse, record: any) {};
+            This.method.saveValidationActionHook = function (form: isc.DynamicForm) {};
+            This.method.saveGetDataActionHook = function (form: isc.DynamicForm, data: any): any {
+                return data;
             };
-            This.method.newForm = function (title: string, grid: isc.ListGrid, form: isc.DynamicForm, newActionHook?: any): void {
+            This.method.saveActionHook = function (response: isc.RPCResponse) {};
+            This.method.saveErrorActionHook = function (response: isc.RPCResponse) {};
+            This.method.refresh = function (grid: isc.ListGrid) {
 
+                This.method.beforeRefreshActionHook();
+                grid.invalidateCache();
+                This.method.afterRefreshActionHook();
+            };
+            This.method.newForm = function (title: string, grid: isc.ListGrid, form: isc.DynamicForm): void {
+
+                This.method.beforeShowNewActionHook();
+                
                 This.variable.method = "POST";
                 form.clearValues();
 
@@ -352,9 +484,9 @@ namespace nicico {
                 formUtil.showForm(null, title, form, width, height);
                 form.show();
 
-                if (newActionHook != null) newActionHook();
+                This.method.afterShowNewActionHook(formUtil);
             };
-            This.method.editForm = function (title: string, grid: isc.ListGrid, form: isc.DynamicForm, editActionHook?: any): void {
+            This.method.editForm = function (title: string, grid: isc.ListGrid, form: isc.DynamicForm): void {
 
                 let record = grid.getSelectedRecord();
                 if (record == null || record["id"] == null)
@@ -362,7 +494,15 @@ namespace nicico {
                 // @ts-ignore
                 else if (record.editable == false)
                     This.dialog.notEditable();
+                // @ts-ignore
+                else if (record.estatus.contains(Enums.eStatus2.DeActive))
+                    This.dialog.recordIsInactive();
+                // @ts-ignore
+                else if (record.estatus.contains(Enums.eStatus2.Final))
+                    This.dialog.finalRecord();
                 else {
+
+                    This.method.beforeShowEditActionHook(record);
 
                     This.variable.method = "PUT";
 
@@ -384,10 +524,10 @@ namespace nicico {
                     formUtil.showForm(null, title, form, width, height);
                     form.show();
 
-                    if (editActionHook != null) editActionHook(record);
+                    This.method.afterShowEditActionHook(formUtil, record);
                 }
             };
-            This.method.delete = function (grid: isc.ListGrid, deleteActionHook?: any, errorActionHook?: any) {
+            This.method.delete = function (grid: isc.ListGrid) {
 
                 let record = grid.getSelectedRecord();
                 if (record == null || record["id"] == null)
@@ -395,10 +535,18 @@ namespace nicico {
                 // @ts-ignore
                 else if (record.editable == false)
                     This.dialog.notEditable();
+                // @ts-ignore
+                else if (record.estatus.contains(Enums.eStatus2.DeActive))
+                    This.dialog.recordIsInactive();
+                // @ts-ignore
+                else if (record.estatus.contains(Enums.eStatus2.Final))
+                    This.dialog.finalRecord();
                 else {
 
                     This.variable.method = "DELETE";
                     This.dialog.question(() => {
+
+                        This.method.beforeDeleteActionHook(record);
 
                         let rpcRequest = <isc.RPCRequest>{};
                         rpcRequest.httpMethod = This.variable.method;
@@ -409,28 +557,189 @@ namespace nicico {
 
                                 This.dialog.ok();
                                 This.method.refresh(grid);
-                                if (deleteActionHook != null) deleteActionHook(record);
+                                This.method.afterDeleteActionHook(response, record);
                             } else {
 
                                 This.dialog.error(response);
 
-                                if (errorActionHook != null) errorActionHook(record);
+                                This.method.afterDeleteErrorActionHook(response, record);
                             }
                         };
                         This.method.jsonRPCManagerRequest(rpcRequest);
                     });
                 }
             };
-            This.method.saveForm = function (grid: isc.ListGrid, form: isc.DynamicForm, validationActionHook?: any, getDataActionHook?: any, saveActionHook?: any, errorActionHook?: any): void {
+            This.method.activate = function (grid: isc.ListGrid) {
+
+                let record = grid.getSelectedRecord();
+                if (record == null || record["id"] == null)
+                    This.dialog.notSelected();
+                // @ts-ignore
+                else if (record.editable == false)
+                    This.dialog.notEditable();
+                // @ts-ignore
+                else if (record.estatus.contains(Enums.eStatus2.Active))
+                    This.dialog.activeRecord();
+                else {
+
+                    This.variable.method = "POST";
+                    This.dialog.question(() => {
+
+                        This.method.beforeActivateActionHook(record);
+
+                        let rpcRequest = <isc.RPCRequest>{};
+                        rpcRequest.httpMethod = This.variable.method;
+                        rpcRequest.actionURL = This.variable.url + "activate/" + record["id"];
+                        rpcRequest.callback = function (response) {
+
+                            if (response.httpResponseCode === 200 || response.httpResponseCode === 201) {
+
+                                This.dialog.ok();
+                                This.method.refresh(grid);
+                                This.method.afterActivateActionHook(response, record);
+                            } else {
+
+                                This.dialog.error(response);
+
+                                This.method.afterActivateErrorActionHook(response, record);
+                            }
+                        };
+                        This.method.jsonRPCManagerRequest(rpcRequest);
+                    }, "<spring:message code='global.activate.ask'/>");
+                }
+            };
+            This.method.deactivate = function (grid: isc.ListGrid) {
+
+                let record = grid.getSelectedRecord();
+                if (record == null || record["id"] == null)
+                    This.dialog.notSelected();
+                // @ts-ignore
+                else if (record.editable == false)
+                    This.dialog.notEditable();
+                // @ts-ignore
+                else if (record.estatus.contains(Enums.eStatus2.DeActive))
+                    This.dialog.inactiveRecord();
+                else {
+
+                    This.variable.method = "POST";
+                    This.dialog.question(() => {
+
+                        This.method.beforeDeactivateActionHook(record);
+
+                        let rpcRequest = <isc.RPCRequest>{};
+                        rpcRequest.httpMethod = This.variable.method;
+                        rpcRequest.actionURL = This.variable.url + "deactivate/" + record["id"];
+                        rpcRequest.callback = function (response) {
+
+                            if (response.httpResponseCode === 200 || response.httpResponseCode === 201) {
+
+                                This.dialog.ok();
+                                This.method.refresh(grid);
+                                This.method.afterDeactivateActionHook(response, record);
+                            } else {
+
+                                This.dialog.error(response);
+
+                                This.method.afterDeactivateErrorActionHook(response, record);
+                            }
+                        };
+                        This.method.jsonRPCManagerRequest(rpcRequest);
+                    }, "<spring:message code='global.deactivate.ask'/>");
+                }
+            };
+            This.method.finalize = function (grid: isc.ListGrid) {
+
+                let record = grid.getSelectedRecord();
+                if (record == null || record["id"] == null)
+                    This.dialog.notSelected();
+                // @ts-ignore
+                else if (record.editable == false)
+                    This.dialog.notEditable();
+                // @ts-ignore
+                else if (record.estatus.contains(Enums.eStatus2.DeActive))
+                    This.dialog.recordIsInactive();
+                // @ts-ignore
+                else if (record.estatus.contains(Enums.eStatus2.Final))
+                    This.dialog.finalRecord();
+                else {
+
+                    This.variable.method = "POST";
+                    This.dialog.question(() => {
+
+                        This.method.beforeFinalizeActionHook(record);
+
+                        let rpcRequest = <isc.RPCRequest>{};
+                        rpcRequest.httpMethod = This.variable.method;
+                        rpcRequest.actionURL = This.variable.url + "finalize/" + record["id"];
+                        rpcRequest.callback = function (response) {
+
+                            if (response.httpResponseCode === 200 || response.httpResponseCode === 201) {
+
+                                This.dialog.ok();
+                                This.method.refresh(grid);
+                                This.method.afterFinalizeActionHook(response, record);
+                            } else {
+
+                                This.dialog.error(response);
+
+                                This.method.afterFinalizeErrorActionHook(response, record);
+                            }
+                        };
+                        This.method.jsonRPCManagerRequest(rpcRequest);
+                    }, "<spring:message code='global.finalize.ask'/>");
+                }
+            };
+            This.method.disapprove = function (grid: isc.ListGrid) {
+
+                let record = grid.getSelectedRecord();
+                if (record == null || record["id"] == null)
+                    This.dialog.notSelected();
+                // @ts-ignore
+                else if (record.editable == false)
+                    This.dialog.notEditable();
+                // @ts-ignore
+                else if (record.estatus.contains(Enums.eStatus2.DeActive))
+                    This.dialog.recordIsInactive();
+                // @ts-ignore
+                else if (!record.estatus.contains(Enums.eStatus2.Final))
+                    This.dialog.disapproveRecord();
+                else {
+
+                    This.variable.method = "POST";
+                    This.dialog.question(() => {
+
+                        This.method.beforeDisapproveActionHook(record);
+
+                        let rpcRequest = <isc.RPCRequest>{};
+                        rpcRequest.httpMethod = This.variable.method;
+                        rpcRequest.actionURL = This.variable.url + "disapprove/" + record["id"];
+                        rpcRequest.callback = function (response) {
+
+                            if (response.httpResponseCode === 200 || response.httpResponseCode === 201) {
+
+                                This.dialog.ok();
+                                This.method.refresh(grid);
+                                This.method.afterDisapproveActionHook(response, record);
+                            } else {
+
+                                This.dialog.error(response);
+
+                                This.method.afterDisapproveErrorActionHook(response, record);
+                            }
+                        };
+                        This.method.jsonRPCManagerRequest(rpcRequest);
+                    }, "<spring:message code='global.disapprove.ask'/>");
+                }
+            };
+            This.method.saveForm = function (grid: isc.ListGrid, form: isc.DynamicForm): void {
 
                 form.validate();
-                if (validationActionHook != null)
-                    validationActionHook(form);
+                This.method.saveValidationActionHook(form);
                 if (form.hasErrors())
                     return;
 
                 let data = form.getValues();
-                if (getDataActionHook != null) data = getDataActionHook(form, data);
+                data = This.method.saveGetDataActionHook(form, data);
 
                 let rpcRequest = <isc.RPCRequest>{};
                 rpcRequest.actionURL = This.variable.url;
@@ -439,8 +748,8 @@ namespace nicico {
                     let win = form.getParentElements().last();
                     This.method.refresh(grid);
                     win.close();
-                    if (saveActionHook != null) saveActionHook(response);
-                }, errorActionHook);
+                    This.method.saveActionHook(response);
+                }, This.method.saveErrorActionHook);
             };
 
             This.dialog = {
@@ -450,6 +759,11 @@ namespace nicico {
                 error: null,
                 question: null,
                 notEditable: null,
+                activeRecord: null,
+                inactiveRecord: null,
+                recordIsInactive: null,
+                finalRecord: null,
+                disapproveRecord: null,
                 notSelected: null,
                 moreSelected: null
             };
@@ -457,7 +771,72 @@ namespace nicico {
 
                 isc.Dialog.create({
                     message: "<spring:message code='global.grid.record.not.editable'/>",
-                    icon: "[SKIN]ask.png",
+                    icon: "[SKIN]say.png",
+                    title: "<spring:message code='global.message'/>",
+                    buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
+                    // @ts-ignore
+                    buttonClick: function (button, index) {
+                        this.close();
+                    }
+                });
+            };
+            This.dialog.activeRecord = function () {
+
+                isc.Dialog.create({
+                    message: "<spring:message code='global.grid.record.can.not.activate'/>",
+                    icon: "[SKIN]say.png",
+                    title: "<spring:message code='global.message'/>",
+                    buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
+                    // @ts-ignore
+                    buttonClick: function (button, index) {
+                        this.close();
+                    }
+                });
+            };
+            This.dialog.inactiveRecord = function () {
+
+                isc.Dialog.create({
+                    message: "<spring:message code='global.grid.record.can.not.deactivate'/>",
+                    icon: "[SKIN]say.png",
+                    title: "<spring:message code='global.message'/>",
+                    buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
+                    // @ts-ignore
+                    buttonClick: function (button, index) {
+                        this.close();
+                    }
+                });
+            };
+            This.dialog.recordIsInactive = function () {
+
+                isc.Dialog.create({
+                    message: "<spring:message code='exception.inactive.not-editable'/>",
+                    icon: "[SKIN]say.png",
+                    title: "<spring:message code='global.message'/>",
+                    buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
+                    // @ts-ignore
+                    buttonClick: function (button, index) {
+                        this.close();
+                    }
+                });
+            };
+            This.dialog.finalRecord = function () {
+
+                isc.Dialog.create({
+                    message: "<spring:message code='global.grid.final.record.not.editable'/>",
+                    icon: "[SKIN]say.png",
+                    title: "<spring:message code='global.message'/>",
+                    buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
+                    // @ts-ignore
+                    buttonClick: function (button, index) {
+                        this.close();
+                    }
+                });
+            };
+            This.dialog.disapproveRecord = function () {
+
+                isc.Dialog.create({
+                    message: "<spring:message code='global.grid.record.can.not.disapprove'/>",
+                    icon: "[SKIN]say.png",
                     title: "<spring:message code='global.message'/>",
                     buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
                     // @ts-ignore
@@ -470,7 +849,7 @@ namespace nicico {
 
                 isc.Dialog.create({
                     message: "<spring:message code='global.grid.record.not.selected'/>",
-                    icon: "[SKIN]ask.png",
+                    icon: "[SKIN]say.png",
                     title: "<spring:message code='global.message'/>",
                     buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
                     // @ts-ignore
@@ -483,7 +862,7 @@ namespace nicico {
 
                 isc.Dialog.create({
                     message: "<spring:message code='global.grid.record.moreSelected'/>",
-                    icon: "[SKIN]ask.png",
+                    icon: "[SKIN]say.png",
                     title: "<spring:message code='global.message'/>",
                     buttons: [isc.Button.create({title: "<spring:message code='global.ok'/>"})],
                     // @ts-ignore

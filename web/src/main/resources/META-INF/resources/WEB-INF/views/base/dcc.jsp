@@ -1,14 +1,17 @@
 <%@ page import="com.nicico.copper.common.domain.ConstantVARs" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 //<script>
 
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
     var dccTableName = "${dccTableName}";
     var dccTableId = "${dccTableId}";
-    var criteria = {
+    var d_record ="${d_record}";
+    var c_record ="${c_record}";
+
+var criteria = {
         _constructor: "AdvancedCriteria",
         operator: "and",
         criteria: [
@@ -101,7 +104,7 @@
                     this.hide();
                 }
             });
-        } else {
+        } else if(d_record) {
             isc.Dialog.create({
                 message: "<spring:message code='global.grid.record.remove.ask'/>",
                 icon: "[SKIN]ask.png",
@@ -144,6 +147,7 @@
                         ListGrid_Dcc_refresh();
                     }
                 },
+<c:if test="${c_record}">
                 {
                     title: "<spring:message code='global.form.new'/>",
                     icon: "pieces/16/icon_add.png",
@@ -152,7 +156,8 @@
                         dccCreateWindow.show();
                     }
                 },
-
+</c:if>
+<c:if test="${d_record}">
                 {
                     title: "<spring:message code='global.form.remove'/>",
                     icon: "pieces/16/icon_delete.png",
@@ -163,6 +168,8 @@
                 {
                     isSeparator: true
                 },
+</c:if>
+<c:if test="${c_record}">
                 {
                     title: "<spring:message code='global.form.dcc.download'/>",
                     icon: "icon/pdf.png",
@@ -182,6 +189,7 @@
                             window.open("dcc/downloadFile?table=" + "warehouse_cad" + "&file=" + record.fileNewName);
                     }
                 }
+</c:if>
             ]
         });
 
@@ -242,10 +250,17 @@
 
                 var fileBrowserId = document.getElementById(window.fileDcc.uploadItem.getElement().id);
                 var file = fileBrowserId.files[0];
-                let fileExtensionIsValid = RegExp(".+(.doc|.docx|.pdf|.xlsx|.rar|.zip|.jpg|.jpeg|.bmp|.png|.ico|.webp|.tif|.gif)$","i").test(file.name);
-                if(!fileExtensionIsValid) {
-                   isc.warn("<spring:message code='dcc.upload.fileType.error'/>");
-                   return false;
+                let fileExtensionIsValid = false;
+                if (dccDynamicForm.getField("documentType").getValue() === "letter") {
+                    fileExtensionIsValid =
+                        RegExp(".+(.doc|.docx|.pdf|.xlsx|.rar|.zip)$", "i").test(file.name);
+                } else if (dccDynamicForm.getField("documentType").getValue() === "image") {
+                    fileExtensionIsValid =
+                        RegExp(".+(.jpg|.jpeg|.bmp|.png|.ico|.webp|.tif|.gif)$", "i").test(file.name);
+                }
+                if (!fileExtensionIsValid) {
+                    isc.warn("<spring:message code='dcc.upload.fileType.error'/>");
+                    return false;
                 }
                 var folder;
                 dccDynamicForm.setValue("tblName1", dccTableName);
@@ -404,7 +419,7 @@
             ],
         createRecordComponent: function (record, colNum) {
             var fieldName = this.getFieldName(colNum);
-            if (fieldName == "removeIcon") {
+            if (fieldName == "removeIcon" && d_record == "true") {
                 var removeImg = isc.ImgButton.create({
                     showDown: false,
                     showRollOver: false,
@@ -449,3 +464,7 @@
             })
         ]
     });
+if(c_record === "true"){
+} else {
+  ToolStripButton_Dcc_Add.hide();
+}

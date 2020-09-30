@@ -4,6 +4,8 @@ import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.dto.invoice.foreign.ForeignInvoiceItemDTO;
+import com.nicico.sales.model.enumeration.InspectionReportMilestone;
+import com.nicico.sales.model.enumeration.PriceBaseReference;
 
 import java.util.List;
 
@@ -14,6 +16,20 @@ public interface IForeignInvoiceItemService {
     List<ForeignInvoiceItemDTO.Info> getAll(List<Long> ids);
 
     List<ForeignInvoiceItemDTO.Info> list();
+
+    ForeignInvoiceItemDTO.Calc2Data getCalculation2Data(
+            // For Discount
+            Long contractId,
+            // For AssayInspectionService and WeightInspectionService
+            Long shipmentId,
+            InspectionReportMilestone assayMilestone,
+            InspectionReportMilestone weightMilestone,
+            List<Long> inventoryIds,
+            // For PriceBaseService
+            PriceBaseReference reference,
+            Integer year,
+            Integer month,
+            Long financeUnitId);
 
     ForeignInvoiceItemDTO.Info create(ForeignInvoiceItemDTO.Create request);
 

@@ -1,6 +1,8 @@
 package com.nicico.sales.service.contract;
 
+import com.nicico.sales.annotation.Action;
 import com.nicico.sales.dto.contract.ContractDetailTypeTemplateDTO;
+import com.nicico.sales.enumeration.ActionType;
 import com.nicico.sales.iservice.contract.IContractDetailTypeTemplateService;
 import com.nicico.sales.model.entities.contract.ContractDetailTypeTemplate;
 import com.nicico.sales.repository.contract.ContractDetailTypeTemplateDAO;
@@ -9,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -20,6 +23,8 @@ public class ContractDetailTypeTemplateService extends GenericService<ContractDe
     private final ModelMapper modelMapper;
 
     @Override
+    @Action(value = ActionType.Get)
+    @Transactional(readOnly = true)
     public List<ContractDetailTypeTemplateDTO.Info> findByContractDetailType(Long id) {
         final List<ContractDetailTypeTemplate> slById = contractDetailTypeTemplateDAO.findByContractDetailTypeId(id);
         return modelMapper.map(slById, new TypeToken<List<ContractDetailTypeTemplateDTO.Info>>() {

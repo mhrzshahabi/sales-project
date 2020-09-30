@@ -2,6 +2,7 @@ package com.nicico.sales.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.nicico.sales.model.enumeration.EStatus;
+import com.nicico.sales.model.enumeration.InspectionReportMilestone;
 import com.nicico.sales.model.enumeration.WeighingType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -18,36 +19,16 @@ import java.util.List;
 @Setter
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class WeightInspectionDTO {
+public abstract class WeightInspectionDTO {
 
     private WeighingType weighingType;
     private BigDecimal weightGW;
     private BigDecimal weightND;
-    private Long inspectionReportId;
-    private Long inventoryId;
     private Long unitId;
-
-    @Getter
-    @Setter
-    @Accessors(chain = true)
-    @ApiModel("WeightInspectionData")
-    public static class WeightData {
-
-        private BigDecimal weightGW;
-        private BigDecimal weightND;
-        private UnitDTO.Info unit;
-        private InventoryDTO.Info inventory;
-
-        public BigDecimal getWeightDiff() {
-
-            BigDecimal weightGW = getWeightGW();
-            BigDecimal weightND = getWeightND();
-            if(weightGW == null) weightGW = BigDecimal.ZERO;
-            if(weightND == null) weightND = BigDecimal.ZERO;
-
-            return weightGW.subtract(weightND);
-        }
-    }
+    private Long shipmentId;
+    private Long inventoryId;
+    private Long inspectionReportId;
+    private InspectionReportMilestone mileStone;
 
     @Getter
     @Setter
@@ -81,13 +62,14 @@ public class WeightInspectionDTO {
     }
 
 
-     @Getter
+    @Getter
     @Setter
     @Accessors(chain = true)
     @ApiModel("WeightInspectionInfoWithoutInspectionReport")
     public static class InfoWithoutInspectionReport extends InfoWithoutInspectionReportAndInventory {
-         private InventoryDTO.Info inventory;
-     }
+
+        private InventoryDTO.Info inventory;
+    }
 
     @Getter
     @Setter
@@ -96,6 +78,7 @@ public class WeightInspectionDTO {
     public static class Info extends InfoWithoutInspectionReport {
 
         private InspectionReportDTO.Info inspectionReport;
+        private ShipmentDTO.Info shipment;
     }
 
     @Getter
@@ -115,6 +98,8 @@ public class WeightInspectionDTO {
         @NotNull
         @ApiModelProperty(required = true)
         private Long id;
+
+        private Integer version;
     }
 
     @Getter

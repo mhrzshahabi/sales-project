@@ -25,7 +25,7 @@ public class ForeignInvoiceItemDetail extends BaseEntity {
     @SequenceGenerator(name = "SEQ_FOREIGN_INVOICE_ITEM_DETAIL", sequenceName = "SEQ_FOREIGN_INVOICE_ITEM_DETAIL", allocationSize = 1)
     private Long id;
 
-    // Final assay
+    // Final assay - Calculated in UI
     @NotNull
     @Column(name = "N_ASSAY", nullable = false, scale = 5, precision = 12)
     private BigDecimal assay;

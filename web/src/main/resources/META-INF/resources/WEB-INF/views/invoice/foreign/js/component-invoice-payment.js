@@ -6,270 +6,371 @@ isc.defineClass("InvoicePayment", isc.VLayout).addProperties({
     showEdges: false,
     layoutMargin: 2,
     membersMargin: 2,
-    overflow: "scroll",
+    overflow: "auto",
     currency: null,
-    contract: null,
+    shipment: null,
+    conversionRef: null,
+    conversionDate: null,
+    conversionRate: null,
+    shipmentCostInvoiceRate: 1,
     invoiceDeductionComponent: null,
     invoiceBaseWeightComponent: null,
     invoiceCalculationComponent: null,
+    paymentForm: new nicico.FindFormUtil(),
+    shipmentCostInvoices: null,
     initWidget: function () {
 
         this.Super("initWidget", arguments);
 
         let This = this;
+
+        this.paymentForm.createListGrid = function (restDataSource, criteria, currentData, dataArrivedCallback) {
+
+            This.paymentForm.setListGridWidget(isc.ListGrid.nicico.getDefault(null, restDataSource, criteria, {
+
+                showGridSummary: true,
+                selectionType: "none",
+                selectionAppearance: "rowStyle",
+                sortField: 1,
+                autoSaveEdits: false,
+                validateOnChange: true,
+            }));
+        };
+
         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+
             httpMethod: "GET",
-            actionURL: "${contextPath}/api/provisional-invoice/get-by-contract/" + This.contract.id,
+            params: {
+                criteria: {
+                    operator: "and",
+                    criteria: [{
+                        fieldName: "shipmentId",
+                        operator: "equals",
+                        value: This.shipment.id
+                    }]
+                }
+            },
+            actionURL: "${contextPath}/api/shipmentCostInvoice/spec-list",
             callback: function (resp) {
 
-                let fields = [];
-                let unitPrice = This.invoiceCalculationComponent.getSumValue() - This.invoiceDeductionComponent.getSumValue();
-                let sumFIPrice = unitPrice * This.invoiceBaseWeightComponent.getValues().weightND;
-                fields.add(isc.Unit.create({
-                    isResult: false,
-                    unitCategory: This.currency.categoryUnit,
-                    disabledUnitField: true,
-                    disabledValueField: true,
-                    showValueFieldTitle: true,
-                    showUnitFieldTitle: false,
-                    showUnitField: false,
-                    name: "unitPrice",
-                    fieldValueTitle: '<spring:message code="foreign-invoice.form.unit-price"/>',
-                    border: "1px solid rgba(0, 0, 0, 0.3)",
-                }));
-                fields.last().setValue(unitPrice);
-                fields.last().setUnitId(This.currency.id);
+                This.shipmentCostInvoices = JSON.parse(resp.data).response.data;
+                This.shipmentCostInvoices.forEach(item => {
 
-                fields.add(isc.Unit.create({
-                    isResult: true,
-                    unitCategory: This.currency.categoryUnit,
-                    disabledUnitField: true,
-                    disabledValueField: true,
-                    showValueFieldTitle: true,
-                    showUnitFieldTitle: false,
-                    showUnitField: false,
-                    name: "sumFIPrice",
-                    fieldValueTitle: '<spring:message code="foreign-invoice.form.sum-fi-price"/>',
-                    border: "1px solid rgba(0, 0, 0, 0.3)",
-                }));
-                fields.last().setValue(sumFIPrice);
-                fields.last().setUnitId(This.currency.id);
-
-                let piValues = JSON.parse(resp.data);
-                for (let index = 0; index < piValues.length; index++) {
-
-                    fields.add(isc.Unit.create({
-                        isResult: true,
-                        unitCategory: piValues[index].currency.categoryUnit,
-                        disabledUnitField: true,
-                        disabledValueField: true,
-                        showValueFieldTitle: true,
-                        showUnitFieldTitle: false,
-                        showUnitField: false,
-                        piData: piValues[index],
-                        name: "sumPIPrice_" + piValues[index].no,
-                        fieldValueTitle: '<spring:message code="foreign-invoice.form.sum-pi-price"/>',
-                        border: "1px solid rgba(0, 0, 0, 0.3)",
-                        hoverHTML: function (item, form) {
-                            return `<div style="font-weight: bolder;">Provisional invoice NO. ` + item.piData.no + `</div>
-                                    <div>` + item.piData.description + `</div>`;
-                        }
-                    }));
-                    fields.last().setValue(piValues[index].sumPrice * -1);
-                    fields.last().setUnitId(piValues[index].currency.id);
-                }
-
-                let valuesForm = isc.DynamicForm.create({
-                    width: "100%",
-                    fields: fields
+                    item.buyerShare *= This.shipmentCostInvoiceRate;
+                    item.conversionSumPrice *= This.shipmentCostInvoiceRate;
                 });
-                This.addMember(valuesForm);
 
-                let otherValuesGrid = isc.ListGrid.nicico.getDefault(
-                    null,
-                    isc.MyRestDataSource.create({
-                        fields: BaseFormItems.concat([
-                            {
-                                showHover: true,
-                                name: "docNo",
-                                title: "<spring:message code='foreign-invoice.form.no'/>"
-                            },
-                            {
-                                showHover: true,
-                                name: "docDate",
-                                title: "<spring:message code='foreign-invoice.form.date'/>"
-                            },
-                            {
-                                showHover: true,
-                                name: "docSumValue",
-                                title: "<spring:message code='foreign-invoice.form.sum-price'/>"
-                            },
-                            {
-                                showHover: true,
-                                name: "docConversionDate",
-                                title: "<spring:message code='foreign-invoice.form.conversion-date'/>"
-                            },
-                            {
-                                showHover: true,
-                                name: "docConversionRate",
-                                title: "<spring:message code='foreign-invoice.form.conversion-rate'/>"
-                            },
-                            {
-                                showHover: true,
-                                name: "docConversionPrice",
-                                title: "<spring:message code='foreign-invoice.form.conversion-sum-price'/>"
-                            },
-                            {
-                                showHover: true,
-                                name: "portion",
-                                title: "<spring:message code='foreign-invoice.form.payment-buyer-portion'/>"
-                            },
-                            {
-                                showHover: true,
-                                name: "description",
-                                title: "<spring:message code='global.description'/>"
-                            },
-                            {
-                                hidden: true,
-                                showHover: true,
-                                name: "conversionRefId",
-                                title: "<spring:message code='foreign-invoice.form.conversion-ref.id'/>"
-                            }
-                        ]),
-                        fetchDataURL: "${contextPath}/api/foreign-invoice/get-payment-by-contract/" + This.contract.id
-                    }), null, {
-                        showFilterEditor: false,
-                        selectionType: "simple",
-                    }
-                );
-                This.addMember(otherValuesGrid);
+                isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+                    httpMethod: "GET",
+                    params: {
+                        currencyId: This.currency.id,
+                        shipmentId: This.shipment.id,
+                        invoiceTypeId: ImportantIDs.invoiceType.PROVISIONAL
+                    },
+                    actionURL: "${contextPath}/api/foreign-invoice/get-by-shipment",
+                    callback: function (resp) {
 
-                fields = [];
-                let sumOfVOtherValuesGrid = otherValuesGrid.getData().map(q => q.finalValue).sum();
-                let sumOfValuesForm = valuesForm.fields.filter(q => q.isResult).map(q => q.getValue()).sum();
-                fields.add(isc.Unit.create({
-                    unitCategory: This.currency.categoryUnit,
-                    disabledUnitField: true,
-                    disabledValueField: true,
-                    showValueFieldTitle: true,
-                    showUnitFieldTitle: false,
-                    showUnitField: false,
-                    name: "sumPrice",
-                    fieldValueTitle: '<spring:message code="foreign-invoice.form.sum-price"/>',
-                    border: "1px solid rgba(0, 0, 0, 0.3)",
-                }));
-                fields.last().setUnitId(This.currency.id);
-                fields.last().setValue(sumOfValuesForm + sumOfVOtherValuesGrid);
+                        let unitPrice = This.invoiceCalculationComponent.getCalculationSubTotal() - This.invoiceDeductionComponent.getDeductionSubTotal();
+                        let sumFIPrice = unitPrice * This.invoiceBaseWeightComponent.getValues().weightND.getValues().value;
 
-                fields.add({
-                    type: "date",
-                    required: true,
-                    name: "conversionDate",
-                    title: "<spring:message code='foreign-invoice.form.conversion-date'/>",
-                    validators: [{
-                        type: "required",
-                        validateOnChange: true
-                    }],
-                    change: function (form, item, value) {
-                        form.getField("conversionRefId").setValue(null);
-                    }
-                });
-                fields.add({
-                    required: true,
-                    name: "rateReference",
-                    valueMap: JSON.parse('${Enum_RateReference}'),
-                    title: "<spring:message code='foreign-invoice.form.conversion-ref'/>",
-                    change: function (form, item, value) {
-                        form.getField("conversionRefId").setValue(null);
-                    }
-                });
-                fields.add({
-                    type: "button",
-                    title: "<spring:message code='global.form.apply'/>",
-                    click: function (form, item) {
+                        This.addMember(isc.Unit.create({
+                            isResult: false,
+                            unitCategory: This.currency.categoryUnit,
+                            disabledUnitField: true,
+                            disabledValueField: true,
+                            showValueFieldTitle: true,
+                            showUnitFieldTitle: false,
+                            showUnitField: false,
+                            name: "unitPrice",
+                            fieldValueTitle: '<spring:message code="foreign-invoice.form.unit-price"/>',
+                        }));
+                        This.getMembers().last().setValue(unitPrice);
+                        This.getMembers().last().setUnitId(This.currency.id);
 
-                        let rateReference = form.getValue("rateReference");
-                        let conversionDate = form.getValue("conversionDate");
-                        if (rateReference == null || conversionDate == null)
-                            return;
+                        This.addMember(isc.HTMLFlow.create({
+                            width: "100%",
+                            contents: "<span style='width: 100%; display: block; margin: 10px auto; border-bottom: 1px solid rgba(0,0,0,0.3)'></span>"
+                        }));
 
-                        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+                        This.addMember(isc.Unit.create({
+                            isResult: true,
+                            unitCategory: This.currency.categoryUnit,
+                            disabledUnitField: true,
+                            disabledValueField: true,
+                            showValueFieldTitle: true,
+                            showUnitFieldTitle: false,
+                            showUnitField: true,
+                            name: "sumFIPrice",
+                            fieldValueTitle: '<spring:message code="foreign-invoice.form.sum-fi-price"/>',
+                        }));
+                        This.getMembers().last().setValue(sumFIPrice);
+                        This.getMembers().last().setUnitId(This.currency.id);
 
-                            httpMethod: "GET",
-                            actionURL: "${contextPath}/api/currencyRate/get-rate",
-                            params: {rateReference: rateReference, conversionDate: conversionDate},
-                            callback: function (resp) {
+                        let sumPIPrice = 0;
+                        let piValues = JSON.parse(resp.data);
+                        for (let index = 0; index < piValues.length; index++) {
 
-                                if (resp && (resp.httpResponseCode === 200 || resp.httpResponseCode === 201)) {
+                            This.addMember(isc.Unit.create({
+                                isResult: true,
+                                unitCategory: piValues[index].currency.categoryUnit,
+                                disabledUnitField: true,
+                                disabledValueField: true,
+                                showValueFieldTitle: true,
+                                showUnitFieldTitle: false,
+                                showUnitField: true,
+                                piData: piValues[index],
+                                name: "sumPIPrice_" + piValues[index].no,
+                                fieldValueTitle: '<spring:message code="foreign-invoice.form.pi-price"/>',
+                                itemHoverWidth: 400,
+                                itemHoverHTML: function (item) {
 
-                                    let data = JSON.parse(resp);
-                                    if (data == null) {
-
-                                        form.setValue("conversionRate", null);
-                                        form.setValue("conversionRefId", null);
-                                        form.setValue("conversionSumPrice", null);
-                                        form.setValue("conversionSumPriceText", null);
+                                    if (!this.piData)
                                         return;
-                                    }
 
-                                    form.setValue("conversionRefId", data.id);
-                                    form.setValue("conversionRate", data.value);
+                                    return `<div style="font-weight: bolder;">Provisional invoice NO. ` + this.piData.no + `</div>
+                            <div>` + this.piData.description + `</div>`;
+                                }
+                            }));
+                            if (piValues[index].currencyId === This.currency.id) {
 
-                                    let convertedPrice = data.value * form.getValue("sumPrice");
-                                    form.setValue("conversionSumPrice", convertedPrice);
-                                    form.setValue("conversionSumPriceText", convertedPrice.toPersianLetter());
-                                } else
-                                    isc.say(resp.data);
+                                sumPIPrice += piValues[index].sumPrice;
+                                This.getMembers().last().setValue(piValues[index].sumPrice * -1);
+                            } else if (piValues[index].conversionRef.unitTo.id === This.currency.id) {
+
+                                sumPIPrice += piValues[index].conversionSumPrice;
+                                This.getMembers().last().setValue(piValues[index].conversionSumPrice * -1);
+                            }
+                            This.getMembers().last().setUnitId(piValues[index].currencyId);
+                        }
+
+                        This.addMember(isc.HTMLFlow.create({
+                            width: "100%",
+                            contents: "<span style='width: 100%; display: block; margin: 10px auto; border-bottom: 1px solid rgba(0,0,0,0.3)'></span>"
+                        }));
+
+                        This.addMember(isc.Unit.create({
+                            unitCategory: This.currency.categoryUnit,
+                            disabledUnitField: true,
+                            disabledValueField: true,
+                            showValueFieldTitle: true,
+                            showUnitFieldTitle: false,
+                            showUnitField: true,
+                            name: "sumPrice",
+                            fieldValueTitle: '<spring:message code="foreign-invoice.form.sum-price"/>',
+                        }));
+                        let sumPrice = sumFIPrice - sumPIPrice;
+                        This.getMembers().last().setUnitId(This.currency.id);
+                        This.getMembers().last().setValue(sumPrice);
+
+                        // let conversionDate;
+                        let rateReference;
+                        let conversionRefId;
+                        // let conversionRate;
+                        let conversionSumPrice;
+                        if (This.conversionRef) {
+
+                            This.conversionDate = This.conversionRef.currencyDate;
+                            rateReference = This.conversionRef.reference;
+                            conversionRefId = This.conversionRef.id;
+                            This.conversionRate = This.conversionRef.currencyRateValue;
+                            conversionSumPrice = sumPrice * (This.conversionRate);
+
+                            This.addMember(isc.HTMLFlow.create({
+                                width: "100%",
+                                contents: "<span style='width: 100%; display: block; margin: 30px auto; border-bottom: 1px solid rgba(0,0,0,0.3)'></span>" +
+                                    "<span style='width: 100%; text-align: left; margin-bottom: 10px; display: block'>" + "FINAL BALANCE IN " + This.currency.nameEN +
+                                    " BASED ON " + rateReference + " RATE OF " + This.conversionDate + " - " + This.conversionRate + ": " + "</span>"
+                            }));
+                        } else {
+
+                            This.conversionRate = 1;
+                            conversionSumPrice = sumPrice;
+                        }
+
+                        This.addMember(isc.Unit.create({
+                            required: false,
+                            visibility: This.conversionRef ? "visible" : "hidden",
+                            unitCategory: This.currency.categoryUnit,
+                            disabledUnitField: true,
+                            disabledValueField: true,
+                            showValueFieldTitle: true,
+                            showUnitFieldTitle: false,
+                            showUnitField: true,
+                            name: "conversionSumPrice",
+                            fieldValueTitle: "<spring:message code='foreign-invoice.form.conversion-sum-price'/>",
+                        }));
+                        This.getMembers().last().setUnitId(This.conversionRef ? This.conversionRef.unitToId : This.currency.id);
+                        This.getMembers().last().setValue(conversionSumPrice);
+
+                        This.addMember(isc.DynamicForm.create({
+                            width: "100%",
+                            wrapItemTitles: false,
+                            role: "conversionSumPriceText",
+                            fields: [{
+                                wrap: true,
+                                width: "95%",
+                                name: "conversionSumPriceText",
+                                title: (This.conversionRef ?
+                                    "<spring:message code='foreign-invoice.form.conversion-sum-price-text'/>" :
+                                    "<spring:message code='foreign-invoice.form.sum-price-text'/>"),
+                                type: "staticText",
+                                value: numberToEnglish(NumberUtil.format(conversionSumPrice, "#"))
+                            }]
+                        }));
+
+                        This.addMember(isc.HTMLFlow.create({
+                            width: "100%",
+                            contents: "<span style='width: 100%; display: block; margin: 20px auto'></span>"
+                        }));
+
+                        This.addMember(isc.IButton.create({
+                            width: "200",
+                            right: "10",
+                            position: "absolute",
+                            title: "<spring:message code='foreign-invoice.form.tab.payment.shipment.cost'/>",
+                            click: function () {
+
+                                This.paymentForm.showFindFormByData(null, "50%", "500",
+                                    "<spring:message code='foreign-invoice.form.tab.payment.shipment.cost'/>", This.shipmentCostInvoices, null,
+                                    BaseFormItems.concat([
+                                        {
+                                            showHover: true,
+                                            name: "invoiceDate",
+                                            title: "<spring:message code='shipmentCostInvoice.invoiceDate'/>"
+                                        },
+                                        {
+                                            showHover: true,
+                                            name: "invoiceNo",
+                                            title: "<spring:message code='shipmentCostInvoice.invoiceNo'/>"
+                                        },
+                                        {
+                                            showHover: true,
+                                            name: "conversionSumPrice",
+                                            type: "float",
+                                            format: "#.##",
+                                            title: "<spring:message code='shipmentCostInvoice.conversionSumPrice'/>",
+                                            getGridSummary: function (records, field, groupSummaries) {
+                                                let sumFIPrice = This.getMembers().filter(q => q.name === "sumFIPrice").first().getValues().value;
+                                                let sumConversionSumPrice = records.map(q => q[field.name]).sum();
+                                                return sumFIPrice - sumConversionSumPrice;
+                                            }
+                                        },
+                                        {
+                                            showHover: true,
+                                            name: "conversionDate",
+                                            title: "<spring:message code='shipmentCostInvoice.conversionDate'/>"
+                                        },
+                                        {
+                                            showHover: true,
+                                            name: "conversionRate",
+                                            title: "<spring:message code='shipmentCostInvoice.conversionRate'/>"
+                                        },
+                                        {
+                                            showHover: true,
+                                            name: "buyerShare",
+                                            title: "<spring:message code='shipmentCostInvoice.buyerShare'/>"
+                                        },
+                                        {
+                                            showHover: true,
+                                            name: "description",
+                                            title: "<spring:message code='shipmentCostInvoice.description'/>"
+                                        },
+                                        {
+                                            showHover: true,
+                                            name: "conversionRefId",
+                                            title: "<spring:message code='shipmentCostInvoice.conversionRefId'/>"
+                                        },
+                                        {
+                                            showHover: true,
+                                            name: "contractId",
+                                            title: "<spring:message code='shipmentCostInvoice.contract'/>"
+                                        }
+                                    ]), 0);
                             }
                         }));
+
+                        This.addMember(isc.HTMLFlow.create({
+                            width: "100%",
+                            contents: "<span style='width: 100%; display: block; margin: 10px auto; border-bottom: 1px solid rgba(0,0,0,0.3)'></span>"
+                        }));
+
+                        This.addMember(isc.ToolStrip.create({
+                            width: "100%",
+                            align: "right",
+                            border: '0px',
+                            members: [
+                                isc.ToolStripButton.create({
+                                    width: "100",
+                                    height: "25",
+                                    autoFit: false,
+                                    title: "<spring:message code='global.cancel'/>",
+                                    click: function () {
+
+                                        let tab = This.parentElement.parentElement;
+                                        let selectedTab = tab.selectedTab;
+                                        tab.getTab(tab.selectedTab - 1).pane.members.forEach(q => q.enable());
+                                        tab.selectTab(selectedTab - 1);
+                                        tab.removeTab(selectedTab);
+                                    }
+                                })
+                            ]
+                        }));
+
+                        This.addMember(isc.HTMLFlow.create({
+                            width: "100%",
+                            contents: "<span style='width: 100%; display: block; margin: 10px auto; border-bottom: 1px solid rgba(0,0,0,0.3)'></span>"
+                        }));
                     }
-                });
-                fields.add({
-                    hidden: true,
-                    required: true,
-                    type: "StaticText",
-                    name: "conversionRefId",
-                    title: "<spring:message code='foreign-invoice.form.conversion-ref.id'/>",
-                });
-                fields.add({
-                    required: true,
-                    type: "StaticText",
-                    name: "conversionRate",
-                    title: "<spring:message code='foreign-invoice.form.conversion-rate'/>",
-                });
-                fields.add(isc.Unit.create({
-                    required: true,
-                    unitCategory: This.currency.categoryUnit,
-                    disabledUnitField: true,
-                    disabledValueField: true,
-                    showValueFieldTitle: true,
-                    showUnitFieldTitle: false,
-                    showUnitField: false,
-                    name: "conversionSumPrice",
-                    fieldValueTitle: "<spring:message code='foreign-invoice.form.conversion-sum-price'/>",
-                    border: "1px solid rgba(0, 0, 0, 0.3)",
-                }));
-                fields.last().setUnitId(This.currency.id);
-
-                fields.add(isc.Unit.create({
-                    required: true,
-                    unitCategory: This.currency.categoryUnit,
-                    disabledUnitField: true,
-                    disabledValueField: true,
-                    showValueFieldTitle: true,
-                    showUnitFieldTitle: false,
-                    showUnitField: false,
-                    name: "conversionSumPriceText",
-                    fieldValueTitle: "<spring:message code='foreign-invoice.form.conversion-sum-price-text'/>",
-                    border: "1px solid rgba(0, 0, 0, 0.3)",
-                }));
-                fields.last().setUnitId(This.currency.id);
-
-                This.addMember(isc.DynamicForm.create({
-                    width: "100%",
-                    fields: fields
                 }));
             }
         }));
+    },
+    validate: function () {
+
+        let isValid = true;
+        this.getMembers().filter(q => q.validate).forEach(q => isValid &= q.validate());
+        return isValid;
+    },
+    calculate: function () {
+
+        let conversionRateValue = this.getMembers().last().getMembers().first().getValue("conversionRate");
+        let sumFIPriceValue = this.getMembers().first().getMembers().filter(q => q.name === "sumFIPrice").first().getValues().value;
+        this.getMembers().last().getMembers()[1].setValue(conversionRateValue * sumFIPriceValue);
+    },
+    getValues: function () {
+
+        return {
+            shipmentCostInvoices: this.getForeignInvoicePayment(),
+            unitCost: this.invoiceDeductionComponent.getDeductionSubTotal(),
+            unitPrice: this.invoiceCalculationComponent.getCalculationSubTotal(),
+            sumFIPrice: this.getMembers().filter(q => q.name === "sumFIPrice").first(),
+            sumPrice: this.getMembers().filter(q => q.name === "sumPrice").first(),
+            conversionDate: this.conversionDate,
+            conversionRate: this.conversionRate,
+            conversionSumPrice: this.getMembers().filter(q => q.name === "conversionSumPrice").first(),
+            conversionSumPriceText: this.getMembers().filter(q => q.role === "conversionSumPriceText").first().getValue("conversionSumPriceText")
+        };
+    },
+    getForeignInvoicePayment: function () {
+
+        let data = [];
+        if (this.shipmentCostInvoices) {
+
+            this.shipmentCostInvoices.forEach(current => {
+
+                data.add({
+                    docNo: current.invoiceNo,
+                    docDate: current.invoiceDate,
+                    docSumValue: current.sumPrice,
+                    docConversionDate: current.conversionDate,
+                    docConversionRate: current.conversionRate,
+                    docConversionPrice: current.conversionSumPrice,
+                    portion: current.buyerShare,
+                    description: current.description,
+                    conversionRefId: current.conversionRefId
+                });
+            });
+        }
+        return data;
     }
 });

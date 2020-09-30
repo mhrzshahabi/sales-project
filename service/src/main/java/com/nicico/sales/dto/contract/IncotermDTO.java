@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.nicico.sales.model.enumeration.EStatus;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -98,6 +99,8 @@ public class IncotermDTO {
         private Long id;
         private List<StepTuple> incotermSteps;
         private List<RuleTuple> incotermRules;
+
+        private Integer version;
     }
 
     @Getter
@@ -109,5 +112,16 @@ public class IncotermDTO {
         @NotNull
         @ApiModelProperty(required = true)
         private List<Long> ids;
+    }
+
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("IncotermViewForContract")
+    @AllArgsConstructor
+    public static class ViewForContract{
+        private String id;
+        private Integer incotermVersion;
+        private String title;
     }
 }

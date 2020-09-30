@@ -21,6 +21,5 @@ public interface ShipmentDAO extends JpaRepository<Shipment, Long>, JpaSpecifica
             "                         ", nativeQuery = true)
     List<Object[]> pickListShipment();
 
-    @Query(value = "select   cont.c_fullname_en  AS cf   from  TBL_contact cont LEFT JOIN TBL_CONTRACT contr ON cont.ID = contr.CONTACT_ID    where (cont.b_inspector = 1)    AND    ( cont.c_fullname_en LIKE 'SGS' OR  cont.c_fullname_en  LIKE 'AHK' )", nativeQuery = true)
-    List<String> inspector();
+    List<Shipment> findAllByContractShipmentIdIsIn(List<Long> ids);
 }

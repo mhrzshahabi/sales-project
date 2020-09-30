@@ -1,0 +1,1355 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+    <changeSet author="Saeb" id="saeb_00unissssdfdfssssssst1ssss">
+        <sql>
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (-1, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, -1, 'خالي', 2, null, null);
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (1, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 1, 'مفتول مسي 8 ميليمتري', 2, null, null);
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (2, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 2, 'سولفور موليبدن سرچشمه', 2, null, 'Molybdenum Source Sarcheshmeh');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (3, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 3, 'اسلب', 2, null, 'Slab');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (5, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 5, 'آند سربي ', 2, null, 'Andy lead');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (6, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 6, 'قطعات كارخانه', 2, null, 'Factory parts');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (8, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 8, 'كنسانتره مس ', 2, null, null);
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (9, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 9, 'مس كاتد ', 2, null, 'Copper cathode');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (10, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 10, 'مس كاتد ليچينگ', 2, null, null);
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (11, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 11, 'كاتد صادراتي', 3, null, 'Export cathode');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (12, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 12, 'سنگ آهك', 1, null, 'Limestone');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (13, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 13, 'سنگ سيليس', 2, null, 'Silica stone');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (14, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 14, 'اسيد سولفوريك', 1, null, 'Sulfuric acid');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (15, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 15, 'سولفور سديم مايع', 2, null, 'Sodium liquid sulfur');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (16, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 16, 'نفت كوره', 2, null, 'Fuel oil');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (18, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 18, 'بنزين', 1, null, 'Benzin');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (19, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 19, 'نيترات انفجاري', 1, null, 'Explosive nitrate');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (20, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 20, 'آهك صنعتي', 2, null, 'Industrial lime');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (21, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 21, 'لوازم اداري', 2, null, 'Office supplies');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (22, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 22, 'قطعات ولوازم يدكي ', 2, null, 'Spare parts and accessories');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (23, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 23, 'گلوله ', 1, null, 'Bullets');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (24, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 24, 'ضايعات مس ', 2, null, 'Copper waste');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (25, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 25, 'سرباره كنورتور پرعيار خاتون آباد', 1, null, 'High grade khatonabad');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (27, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 27, 'ميل گرد', 2, null, 'Rebar');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (28, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 28, 'مس آند ', 2, null, 'Copper anode');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (29, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 29, 'آند قراضه ', 3, null, 'Scrap iron');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (31, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 31, 'روغن موتور ', 3, null, 'engine oil');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (32, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 32, 'مواد شيميائي ', 2, null, 'Chemicals');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (34, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 34, 'سيمان ', 2, null, 'Cement materials');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (35, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 35, 'سولفور سديم جامد پرك ', 1, null, 'Solid Sodium Solid Perk');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (36, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 36, 'آهن الات ', 1, null, 'Iron iron');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (37, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 37, 'آجر نسوز', 2, null, 'Firebrick');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (38, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 38, 'لوله آهني ', 1, null, 'Iron pipe');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (39, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 39, 'پروفيل', 2, null, 'Profile pipe');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (40, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 40, 'ريسول ', 2, null, 'Risoul');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (42, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 42, 'سرباره ريورب', 2, null, 'Rivor slag');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (43, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 43, 'مس جوري ( داخلي ) ', 2, null, 'Miss Jouri (internal)');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (44, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 44, 'قراضه خريداري مصرفي ', 3, null, 'Consumer shopping scrap');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (46, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 46, 'ورق فلزي ', 2, null, 'Sheet metal');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (47, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 47, 'خاك نسوز ', 3, null, 'Refractory soil');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (52, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 52, 'كنسانتره فلزات گرانبها با سلنيوم', 1, null, 'Precious metal concentrate with
+            selenium');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (57, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 57, 'ته پاتيل داخلي', 1, null, 'Cauldron');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (58, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 58, 'ضايعات آهن ', 2, null, 'Iron waste');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (59, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 59, 'سولفات باريم ', 2, null, 'Barium sulfate');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (60, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 60, 'بارهاي متفرقه -شركتي ', 2, null, 'Miscellaneous Loans - Company');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (61, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 61, 'بارهاي متفرقه -غيرشركتي', 3, null, 'Miscellaneous loads - non-corporate');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (62, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 62, 'پروفيل ', 1, null, 'Profile');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (63, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 63, 'الكل', 1, null, 'alcohol');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (64, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 64, 'پودر باريت كريستال ', 3, null, 'Crystal barite powder');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (65, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 65, 'نفت سفيد ', 2, null, 'White oil');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (67, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 67, 'كلروفريك', 2, null, 'Chloroferric');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (68, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 68, 'آنفو ', 2, null, 'ANFO');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (70, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 70, 'سيانور ', 2, null, 'Cyanide');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (72, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 72, 'سرباره گرانوله', 2, null, null);
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (73, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 73, 'اكسيژن', 1, null, 'Oxygen');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (75, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 75, 'پودر سيليس ', 1, null, 'Silica powder');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (76, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 76, 'داخلي سرباره پرعيار', 3, null, 'داخلي سرباره پرعيار');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (77, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 77, 'داخلي سرباره كم عيار', 1, null, 'داخلي سرباره كم عيار');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (78, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 78, 'سود', 2, null, 'Profit');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (79, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 79, 'ذغال كك', 3, null, 'Coke');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (82, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 82, 'ته پاتيل كنورتور', 1, null, 'ته پاتيل كنورتور');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (83, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 83, 'نرمه زيرسرندي ', 2, null, 'نرمه زيرسرندي');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (84, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 84, 'زيرسرندي درشت ', 2, null, 'زير سرندي درشت');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (85, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 85, 'آند مس داخلي ', 1, null, 'Internal copper anode');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (87, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 87, 'ضايعات مس وارداتي ', 2, null, 'Imported copper waste');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (88, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 88, 'لجن آندي', 1, null, 'لجن آندي');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (89, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 89, 'گريس ', 2, null, 'Grease');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (90, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 90, 'قراضه پالايشگاه مصرفي ', 2, null, 'Consumer refinery scrap');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (91, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 91, 'ضايعات كاتدي پالايشگاه ', 2, null, 'ضايعات كاتدی پالايشگاه ');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (92, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 92, 'روغن اسكارل( انواع )', 3, null, 'Scarlet oil');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (93, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 93, 'سنگ معدن ', 1, null, 'Ore');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (94, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 94, 'گازوييل', 2, null, 'Diesel fuel');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (96, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 96, 'دسته كاتد', 1, null, 'Cathode handle');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (97, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 97, 'اكسيد موليبدن', 3, null, 'Molybdenum dioxide');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (99, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 99, 'ريجكت (Reject)', 1, null, 'Reject');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (100, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 100, 'ماسه سيليس', 3, null, 'ماسه سيليس');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (101, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 101, 'ضايعات نسوز', 3, null, 'ضايعات نسوز');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (102, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 102, 'غبار سياه ', 1, null, 'Black dust');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (103, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 103, 'مس سرقتي', 2, null, 'Stolen copper');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (104, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 104, 'غبار سفيد', 2, null, 'White dust');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (106, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 106, 'غبار دودكش', 1, null, 'Chimney dust');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (110, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 110, 'سرباره مس ', 1, null, 'سرباره مس ');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (112, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 112, 'گلوله داخلي ', 1, null, 'Internal bullet');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (116, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 116, 'غبار A', 2, null, 'Dust A');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (117, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 117, 'خاك رس ', 2, null, 'Clay');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (118, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 118, 'مس آرسنيك ', 3, null, 'Arsenic');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (120, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 120, 'سولفور موليبدن _ داخلي', 2, null, 'Molybdenum Sulfur Internal');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (121, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 121, 'سولفور موليبدن سونگون', 2, null, 'Molybdenum Sulfur Sungun');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (122, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 122, 'مولد ', 2, null, 'generating');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (125, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 125, 'كاتد مس زدا', 3, null, 'كاتد مس زدا');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (129, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 129, 'كاتد داخلي', 2, null, 'Internal cathode');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (132, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 132, 'ضايعات لاينر لاستيكي ', 3, null, 'ضايعات لاينر لاستيكي ');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (133, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 133, 'روغن سوخته ', 1, null, 'Burnt oil');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (134, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 134, 'اموليت', 1, null, 'Emolite');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (135, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 135, 'ضايعات پلاستيكي', 2, null, 'Plastic waste');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (136, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 136, 'سنگ فيروزه', 3, null, 'Turquoise');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (137, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 137, 'اسيد داخلي ', 1, null, 'Internal acid');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (140, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 140, 'كنسانتره سرقتي ', 2, null, 'Theft Concentration');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (141, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 141, 'ميل پانچ مستعمل', 2, null, 'Mill Punch Used');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (142, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 142, 'ته پاتيل سرقتي ', 2, null, 'ته پاتيل سرقتي ');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (144, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 144, 'لجن غبار ليچينگ ', 3, null, 'Leech dusting sludge');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (145, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 145, 'ضايعات برگشتي ', 2, null, 'Return waste');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (146, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 146, 'قراضه پالايشگاه مهندسي ', 1, null, 'Engineering Refinery Scrap');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (148, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 148, 'آند قراضه داخلي ', 1, null, 'Internal scrap anode');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (149, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 149, 'ضايعات گلوله ', 2, null, 'Bullet waste');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (150, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 150, 'ضايعات آندو قراضه پالايشگاه ', 1, null, 'Ando waste scrap refinery');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (154, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 154, 'الكتروليت (بليد)', 1, null, 'Electrolyte Blade');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (155, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 155, 'سولفات سديم', 1, null, 'Sodium sulfate');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (156, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 156, 'جرم نسوز', 3, null, 'Refractory');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (157, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 157, 'مواد سرد', 1, null, 'Cold material');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (158, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 158, 'نمك ', 2, null, 'salt');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (159, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 159, 'بليستر ', 1, null, 'Blister');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (162, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 162, 'غبار داخلي ', 2, null, 'Internal dust');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (165, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 165, 'ضايعات كابل ', 2, null, 'Cable waste');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (166, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 166, 'آب دمين ', 3, null, 'R.O.mixedbed');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (167, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 167, 'ضايعات لاينر فلزي ', 2, null, 'Metal liner waste');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (169, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 169, 'چدن ', 1, null, 'Cast iron');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (170, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 170, 'خمير الكترود ', 1, null, 'Electrode Paste');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (171, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 171, 'لوله مانسمان ', 2, null, 'seamless pipe');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (172, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 172, 'ضايعات پلي اتيلن ', 2, null, 'Polyethylene waste');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (173, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 173, 'كربن اكتيو ', 1, null, 'Activated carbon');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (174, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 174, 'لوله پلي اتيلن ', 2, null, 'Polyethylene pipe');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (175, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 175, 'خاك سولفوري ', 3, null, 'Sulfuric soil');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (178, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 178, 'ضايعات فلزي ', 1, null, 'Metal waste');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (179, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 179, 'كنسانتره فلزات گرانبها بدون سلنيوم', 2, null, 'Concentrate of precious metals
+            without selenium');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (180, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 180, 'برش قيچي ريختگري', 2, null, 'برش قيچي ريختگري');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (181, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 181, 'ضايعات منگنز', 2, null, 'Manganese waste');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (182, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 182, 'ضايعات استيل ', 1, null, 'Steel waste');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (183, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 183, 'آهك هيدراته ', 3, null, 'Hydrate lime');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (184, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 184, 'پسماند غبار هيپ ', 1, null, 'Hip dust residue');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (186, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 186, 'الكترود', 2, null, 'Electrode');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (187, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 187, 'دايلوئنت', 2, null, 'دايلوئنت');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (188, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 188, 'اور سايز 008', 3, null, 'Over Size 008');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (190, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 190, 'ضايعات كيسه جامبو', 2, null, 'Jumbo bag waste');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (193, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 193, 'پرليت', 3, null, 'Pearlite');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (194, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 194, 'آب', 3, null, 'Water');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (195, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 195, 'ضايعات بشكه', 2, null, 'Barrel waste');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (196, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 196, 'غبار فلش', 1, null, 'Flash dust');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (197, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 197, 'نشاسته', 2, null, 'Starch');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (198, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 198, 'غبار داخلي فلش', 1, null, 'Flash internal dust');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (199, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 199, 'ضايعات لاستيك', 2, null, 'Tires wastage');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (200, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 200, 'نيتروژن', 1, null, 'Nitrogen');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (201, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 201, 'سازه فلزي', 2, null, 'Metal structure');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (202, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 202, 'كاتد برگشتي از گمرك', 2, null, 'Cathode Return from Customs');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (203, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 203, 'سرباره پرعيار كنورتور', 2, null, 'سرباره پرعيار كنورتور');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (204, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 204, 'ضايعات سيم مسي', 3, null, 'Copper wire waste');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (205, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 205, 'ضايعات كابل مسي', 2, null, 'Copper cable waste');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (206, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 206, 'ضايعات شمش مس', 1, null, 'Copper ingot waste');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (207, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 207, 'ضايعات لوله مسي', 2, null, 'Copper pipe waste');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (208, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 208, 'پساب اسيد', 2, null, 'Acid effluent');
+            insert  INTO TBL_MATERIAL_ITEM (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            GDSCODE, GDSNAME, MATERIAL_ID, MI_DETAIL_CODE, C_GDSNAME_EN) VALUES (209, 'liquibase', current_timestamp,
+            null, null, 0, 1, 0, 209, 'ضايعات آلومينيوم', 1, null, 'Aluminum waste');
+        </sql>
+    </changeSet>
+    <changeSet author="j.azad" id="J.AZAD-012">
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Molybdenum Source Sarcheshmeh'
+            WHERE ID = 2
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Slab'
+            WHERE ID = 3
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Andy lead'
+            WHERE ID = 5
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Factory parts'
+            WHERE ID = 6
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Copper cathode'
+            WHERE ID = 9
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Export cathode'
+            WHERE ID = 11
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Limestone'
+            WHERE ID = 12
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Silica stone'
+            WHERE ID = 13
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Sulfuric acid'
+            WHERE ID = 14
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Sodium liquid sulfur'
+            WHERE ID = 15
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Fuel oil'
+            WHERE ID = 16
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Benzin'
+            WHERE ID = 18
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Explosive nitrate'
+            WHERE ID = 19
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Industrial lime'
+            WHERE ID = 20
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Office supplies'
+            WHERE ID = 21
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Spare parts and accessories'
+            WHERE ID = 22
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Bullets'
+            WHERE ID = 23
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Copper waste'
+            WHERE ID = 24
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'High grade khatonabad'
+            WHERE ID = 25
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Rebar'
+            WHERE ID =27
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Copper anode'
+            WHERE ID =28
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Scrap iron'
+            WHERE ID =29
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'engine oil'
+            WHERE ID =31
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Chemicals'
+            WHERE ID =32
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Cement materials'
+            WHERE ID =34
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Solid Sodium Solid Perk'
+            WHERE ID =35
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Iron iron'
+            WHERE ID =36
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Firebrick'
+            WHERE ID =37
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Iron pipe'
+            WHERE ID =38
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Profile pipe'
+            WHERE ID =39
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Risoul'
+            WHERE ID =40
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Rivor slag'
+            WHERE ID =42
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Miss Jouri (internal)'
+            WHERE ID =43
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Consumer shopping scrap'
+            WHERE ID =44
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Sheet metal'
+            WHERE ID =46
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Refractory soil'
+            WHERE ID =47
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Precious metal concentrate with selenium'
+            WHERE ID =52
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Cauldron'
+            WHERE ID =57
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Iron waste'
+            WHERE ID =58
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Barium sulfate'
+            WHERE ID =59
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Miscellaneous Loans - Company'
+            WHERE ID =60
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Miscellaneous loads - non-corporate'
+            WHERE ID =61
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Profile'
+            WHERE ID =62
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'alcohol'
+            WHERE ID =63
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Crystal barite powder'
+            WHERE ID =64
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'White oil'
+            WHERE ID =65
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Chloroferric'
+            WHERE ID =67
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'ANFO'
+            WHERE ID =68
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Cyanide'
+            WHERE ID =70
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = ''
+            WHERE ID =72
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Oxygen'
+            WHERE ID =73
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Silica powder'
+            WHERE ID =75
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'داخلي سرباره پرعيار'
+            WHERE ID =76
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'داخلي سرباره كم عيار'
+            WHERE ID =77
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Profit'
+            WHERE ID =78
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Coke'
+            WHERE ID =79
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'ته پاتيل كنورتور'
+            WHERE ID =82
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'نرمه زيرسرندي'
+            WHERE ID =83
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'زير سرندي درشت'
+            WHERE ID =84
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Internal copper anode'
+            WHERE ID =85
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Imported copper waste'
+            WHERE ID =87
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'لجن آندي'
+            WHERE ID =88
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Grease'
+            WHERE ID =89
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Consumer refinery scrap'
+            WHERE ID =90
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'ضايعات كاتدی پالايشگاه '
+            WHERE ID =91
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Scarlet oil'
+            WHERE ID =92
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Ore'
+            WHERE ID =93
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Diesel fuel'
+            WHERE ID =94
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Cathode handle'
+            WHERE ID =96
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Molybdenum dioxide'
+            WHERE ID =97
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Reject'
+            WHERE ID =99
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'ماسه سيليس'
+            WHERE ID =100
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'ضايعات نسوز'
+            WHERE ID =101
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Black dust'
+            WHERE ID =102
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Stolen copper'
+            WHERE ID =103
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'White dust'
+            WHERE ID =104
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Chimney dust'
+            WHERE ID =106
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'سرباره مس '
+            WHERE ID =110
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Internal bullet'
+            WHERE ID =112
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Dust A'
+            WHERE ID =116
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Clay'
+            WHERE ID =117
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Arsenic'
+            WHERE ID =118
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Molybdenum Sulfur Internal'
+            WHERE ID =120
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Molybdenum Sulfur Sungun'
+            WHERE ID =121
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'generating'
+            WHERE ID =122
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'كاتد مس زدا'
+            WHERE ID =125
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Internal cathode'
+            WHERE ID =129
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'ضايعات لاينر لاستيكي '
+            WHERE ID =132
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Burnt oil'
+            WHERE ID =133
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Emolite'
+            WHERE ID =134
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Plastic waste'
+            WHERE ID =135
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Turquoise'
+            WHERE ID = 136
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Internal acid'
+            WHERE ID =137
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Theft Concentration'
+            WHERE ID =140
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Mill Punch Used'
+            WHERE ID =141
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'ته پاتيل سرقتي '
+            WHERE ID =142
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Leech dusting sludge'
+            WHERE ID =144
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Return waste'
+            WHERE ID = 145
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Engineering Refinery Scrap'
+            WHERE ID = 146
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Internal scrap anode'
+            WHERE ID = 148
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Bullet waste'
+            WHERE ID = 149
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Ando waste scrap refinery'
+            WHERE ID = 150
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Electrolyte Blade'
+            WHERE ID = 154
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Sodium sulfate'
+            WHERE ID = 155
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Refractory'
+            WHERE ID = 156
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Cold material'
+            WHERE ID = 157
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'salt'
+            WHERE ID = 158
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Blister'
+            WHERE ID = 159
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Internal dust'
+            WHERE ID =162
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Cable waste'
+            WHERE ID =165
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'R.O.mixedbed'
+            WHERE ID =166
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Metal liner waste'
+            WHERE ID =167
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Cast iron'
+            WHERE ID =169
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Electrode Paste'
+            WHERE ID =170
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'seamless pipe'
+            WHERE ID =171
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Polyethylene waste'
+            WHERE ID =172
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Activated carbon'
+            WHERE ID =173
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Polyethylene pipe'
+            WHERE ID =174
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Sulfuric soil'
+            WHERE ID =175
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Metal waste'
+            WHERE ID =178
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Concentrate of precious metals without selenium'
+            WHERE ID =179
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'برش قيچي ريختگري'
+            WHERE ID =180
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Manganese waste'
+            WHERE ID =181
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Steel waste'
+            WHERE ID =182
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Hydrate lime'
+            WHERE ID =183
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Hip dust residue'
+            WHERE ID =184
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Electrode'
+            WHERE ID =186
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'دايلوئنت'
+            WHERE ID =187
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Over Size 008'
+            WHERE ID =188
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Jumbo bag waste'
+            WHERE ID =190
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Pearlite'
+            WHERE ID =193
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Water'
+            WHERE ID =194
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Barrel waste'
+            WHERE ID =195
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Flash dust'
+            WHERE ID =196
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Starch'
+            WHERE ID =197
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Flash internal dust'
+            WHERE ID =198
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Tires wastage'
+            WHERE ID =199
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Nitrogen'
+            WHERE ID =200
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Metal structure'
+            WHERE ID =201
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Cathode Return from Customs'
+            WHERE ID =202
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'سرباره پرعيار كنورتور'
+            WHERE ID =203
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Copper wire waste'
+            WHERE ID =204
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Copper cable waste'
+            WHERE ID =205
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Copper ingot waste'
+            WHERE ID =206
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Copper pipe waste'
+            WHERE ID =207
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Acid effluent'
+            WHERE ID =208
+        </sql>
+        <sql>
+            UPDATE TBL_MATERIAL_ITEM
+            SET C_GDSNAME_EN = 'Aluminum waste'
+            WHERE ID =209
+        </sql>
+    </changeSet>
+
+
+</databaseChangeLog>

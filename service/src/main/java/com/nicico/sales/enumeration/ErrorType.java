@@ -12,10 +12,14 @@ public enum ErrorType {
     Forbidden(403),
     NotFound(404),
     NotEditable(404),
+    FinalRecord(404),
+    DeActiveRecord(404),
+    ConstraintViolation(404),
     PayloadTooLarge(413),
     Unknown(500),
     NotImplemented(50),
-    invalidData(500);
+    InvalidData(500),
+    InternalServerError(500);
 
     private final Integer id;
 }

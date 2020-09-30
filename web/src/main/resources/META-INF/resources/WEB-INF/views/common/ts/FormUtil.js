@@ -95,6 +95,7 @@ var nicico;
             else
                 items.add(This.bodyWidget.getObject());
             items.add(buttonLayout);
+            This.actionWidget = new nicico.ObjectHider(buttonLayout);
             // @ts-ignore
             This.windowWidget = new nicico.ObjectHider(Object.assign(isc.Window.nicico.getDefault(title, items, width, height), {
                 closeClick: function () {

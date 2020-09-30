@@ -3,7 +3,6 @@ package com.nicico.sales.controller;
 import com.nicico.copper.common.Loggable;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.sales.dto.ContractShipmentAuditDTO;
 import com.nicico.sales.dto.ContractShipmentDTO;
 import com.nicico.sales.iservice.IContractShipmentService;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +19,7 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(value = "/api/contractShipment")
+@RequestMapping(value = {"/api/contractShipment", "/api/ContractShipment"})
 public class ContractShipmentRestController {
 
     private final IContractShipmentService contractShipmentService;
@@ -37,11 +36,11 @@ public class ContractShipmentRestController {
         return new ResponseEntity<>(contractShipmentService.list(), HttpStatus.OK);
     }
 
-    @Loggable
-    @GetMapping(value = "/audit/list")
-    public ResponseEntity<List<ContractShipmentAuditDTO.Info>> listAudit() {
-        return new ResponseEntity<>(contractShipmentService.listAudit(), HttpStatus.OK);
-    }
+//    @Loggable
+//    @GetMapping(value = "/audit/list")
+//    public ResponseEntity<List<ContractShipmentAuditDTO.Info>> listAudit() {
+//        return new ResponseEntity<>(contractShipmentService.listAudit(), HttpStatus.OK);
+//    }
 
     @Loggable
     @PostMapping
@@ -65,7 +64,7 @@ public class ContractShipmentRestController {
     @Loggable
     @DeleteMapping(value = "/list")
     public ResponseEntity<Void> delete(@Validated @RequestBody ContractShipmentDTO.Delete request) {
-        contractShipmentService.delete(request);
+        contractShipmentService.deleteAll(request);
         return new ResponseEntity(HttpStatus.OK);
     }
 
@@ -76,10 +75,10 @@ public class ContractShipmentRestController {
         return new ResponseEntity<>(contractShipmentService.search(nicicoCriteria), HttpStatus.OK);
     }
 
-    @Loggable
-    @GetMapping(value = "/audit/spec-list")
-    public ResponseEntity<TotalResponse<ContractShipmentAuditDTO.Info>> listAuditSpec(@RequestParam MultiValueMap<String, String> criteria) throws IOException {
-        final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
-        return new ResponseEntity<>(contractShipmentService.searchAudit(nicicoCriteria), HttpStatus.OK);
-    }
+//    @Loggable
+//    @GetMapping(value = "/audit/spec-list")
+//    public ResponseEntity<TotalResponse<ContractShipmentAuditDTO.Info>> listAuditSpec(@RequestParam MultiValueMap<String, String> criteria) throws IOException {
+//        final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
+//        return new ResponseEntity<>(contractShipmentService.searchAudit(nicicoCriteria), HttpStatus.OK);
+//    }
 }

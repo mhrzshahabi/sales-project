@@ -1,10 +1,8 @@
 package com.nicico.sales.service;
 
+import com.ghasemkiani.util.icu.PersianCalendar;
 import com.nicico.sales.annotation.Action;
-import com.nicico.sales.dto.ContractDTO;
-import com.nicico.sales.dto.InvoiceTypeDTO;
-import com.nicico.sales.dto.ShipmentCostInvoiceDTO;
-import com.nicico.sales.dto.ShipmentCostInvoiceDetailDTO;
+import com.nicico.sales.dto.*;
 import com.nicico.sales.enumeration.ActionType;
 import com.nicico.sales.enumeration.ErrorType;
 import com.nicico.sales.exception.NotFoundException;
@@ -22,7 +20,10 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.lang.reflect.InvocationTargetException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Locale;
 
 @RequiredArgsConstructor
 @Service
@@ -30,7 +31,7 @@ public class ShipmentCostInvoiceService extends GenericService<ShipmentCostInvoi
 
     private final ShipmentCostInvoiceDetailService shipmentCostInvoiceDetailService;
     private final InvoiceTypeService invoiceTypeService;
-    private final ContractService contractService;
+    private final ShipmentService shipmentService ;
     private final InvoiceNoGenerator invoiceNoGenerator;
     private final ResourceBundleMessageSource messageSource;
     private final UpdateUtil updateUtil;
@@ -40,18 +41,11 @@ public class ShipmentCostInvoiceService extends GenericService<ShipmentCostInvoi
     @Action(ActionType.Create)
     public ShipmentCostInvoiceDTO.Info create(ShipmentCostInvoiceDTO.Create request) {
 
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(request.getInvoiceDate());
+        PersianCalendar calendar = new PersianCalendar(request.getInvoiceDate());
         InvoiceTypeDTO.Info invoiceTypeDTO = invoiceTypeService.get(request.getInvoiceTypeId());
-        ContractDTO.Info contractDTO = contractService.get(request.getContractId());
+        ShipmentDTO.Info shipmentDTO = shipmentService.get(request.getShipmentId());
 
-        request.setInvoiceNo(invoiceNoGenerator.createInvoiceNo(
-                invoiceTypeDTO.getTitle(),
-                calendar.get(Calendar.YEAR),
-                calendar.get(Calendar.MONTH) + 1,
-                contractDTO.getMaterial().getAbbreviation(),
-                contractDTO.getContractNo()));
-
+        request.setInvoiceNo(invoiceNoGenerator.createInvoiceNo(invoiceTypeDTO.getTitle(), calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, shipmentDTO.getMaterial().getAbbreviation(), shipmentDTO.getContractShipment().getContract().getNo()));
         ShipmentCostInvoiceDTO.Info shipmentCostInvoiceDTO = super.create(request);
 
         request.getShipmentCostInvoiceDetails().forEach(item -> item.setShipmentCostInvoiceId(shipmentCostInvoiceDTO.getId()));
@@ -91,8 +85,7 @@ public class ShipmentCostInvoiceService extends GenericService<ShipmentCostInvoi
         List<ShipmentCostInvoiceDetailDTO.Update> shipmentCostInvoiceDetail4Update = new ArrayList<>();
         ShipmentCostInvoiceDetailDTO.Delete shipmentCostInvoiceDetail4Delete = new ShipmentCostInvoiceDetailDTO.Delete();
 
-        updateUtil.fill(
-                ShipmentCostInvoiceDetail.class,
+        updateUtil.fill(ShipmentCostInvoiceDetail.class,
                 shipmentCostInvoice.getShipmentCostInvoiceDetails(),
                 ShipmentCostInvoiceDetailDTO.Info.class,
                 request.getShipmentCostInvoiceDetails(),

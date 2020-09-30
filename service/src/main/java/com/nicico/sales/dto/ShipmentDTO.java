@@ -1,19 +1,20 @@
 package com.nicico.sales.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.nicico.copper.common.dto.date.DateTimeDTO;
+import com.nicico.sales.dto.contract.BillOfLandingDTO;
+import com.nicico.sales.model.entities.contract.BillOfLanding;
+import com.nicico.sales.model.enumeration.EStatus;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -21,80 +22,71 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ShipmentDTO {
 
+
     private Long contractShipmentId;
+    private Long shipmentTypeId;
+    private Long shipmentMethodId;
     private Long contactId;
-    private Long contractId;
     private Long materialId;
-    private Double amount;
-    private Long noContainer;
-    private String containerType;
-    private Long portByLoadingId;
-    private Long portByDischargeId;
-    private String dischargeAddress;
-    private String description;
-    private String status;
-    private String month;
-    private String fileName;
-    private String newFileName;
-    private String shipmentType;
-    private String shipmentMethod;
-    private String laycan;
-    private String switchBl;
-    private String swb;
-    private Long switchPortId;
-    private Integer noBundle;
-    private String loadingLetter;
-    private String blNumbers;
-    private Long numberOfBLs;
-    @Temporal(TemporalType.TIMESTAMP)
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date blDate;
-    @Temporal(TemporalType.TIMESTAMP)
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date swBlDate;
-    private String consignee;
-    private Long contactByAgentId;
-    private Double freight;
-    private Double totalFreight;
-    private String freightCurrency;
-    private Double preFreight;
-    private String preFreightCurrency;
-    private Double postFreight;
-    private String postFreightCurrency;
-    private Long noBarrel;
-    private Long noPalete;
-    private Double demurrage;
-    private Double dispatch;
-    private Double detention;
-    private String bookingCat;
+    private Long contactAgentId;
     private Long vesselId;
-    private Double gross;
-    private Double net;
-    private Double moisture;
+    private Long unitId;
+    private Long dischargePortId;
+    private BigDecimal amount;
+    private String description;
+    private String containerType;
+    private String automationLetterNo;
+    private Date automationLetterDate;
+    private Date sendDate;
+    private Long noBLs;
+    private Long noContainer;
+    private Long noPackages;
+    private String bookingCat;
+    private BigDecimal weightGW;
+    private BigDecimal weightND;
     private Double vgm;
+    private Date arrivalDateFrom;
+    private Date arrivalDateTo;
+    private Long noPallet;
+    private Date lastDeliveryLetterDate;
+
+
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("WithoutBLs")
+    public static class InfoWithoutBLs extends ShipmentDTO {
+        private Long id;
+
+        // Auditing
+        private Date createdDate;
+        private String createdBy;
+        private Date lastModifiedDate;
+        private String lastModifiedBy;
+        private Integer version;
+
+        // BaseEntity
+        private Boolean editable;
+        private List<EStatus> eStatus;
+
+        private UnitDTO.Info unit;
+        private VesselDTO.Info vessel;
+        private ContactDTO.Info contact;
+        private PortDTO.Info dischargePort;
+        private ContactDTO.Info contactAgent;
+        private MaterialDTO.Info material;
+        private ShipmentTypeDTO.Info shipmentType;
+        private ShipmentMethodDTO.Info shipmentMethod;
+        private ContractShipmentDTO.Info contractShipment;
+    }
+
 
     @Getter
     @Setter
     @Accessors(chain = true)
     @ApiModel("ShipmentInfo")
-    public static class Info extends ShipmentDTO {
-        private Long id;
-        private VesselDTO vessel;
-        private ContactDTO.ContactInfoTuple contactByAgent;
-        private ContactDTO.ContactInfoTuple contact;
-        private ContactDTO.ContactInfoTuple container;
-        private PortDTO.PortInfoTuple portByLoading;
-        private PortDTO.Info portByDischarge;
-        private ContractShipmentDTO contractShipment;
-        private PortDTO.PortInfoTuple switchPort;
-        private ContractDTO.ContractInfoTuple contract;
-        private MaterialDTO.MaterialTuple material;
-        private String containerType;
-        private DateTimeDTO.DateTimeStrRs createDate;
-        private String createdBy;
-        private Date lastModifiedDate;
-        private String lastModifiedBy;
-        private Integer version;
+    public static class Info extends InfoWithoutBLs {
+        private Set<BillOfLandingDTO.InfoWithoutShipment> bLs;
     }
 
     @Getter
@@ -102,7 +94,6 @@ public class ShipmentDTO {
     @Accessors(chain = true)
     @ApiModel("ShipmentCreateRq")
     public static class Create extends ShipmentDTO {
-        private DateTimeDTO.DateTimeStrRq createDate;
     }
 
     @Getter
@@ -110,10 +101,12 @@ public class ShipmentDTO {
     @Accessors(chain = true)
     @ApiModel("ShipmentUpdateRq")
     public static class Update extends ShipmentDTO {
+
         @NotNull
         @ApiModelProperty(required = true)
         private Long id;
-        private DateTimeDTO.DateTimeStrRq createDate;
+
+        private Integer version;
     }
 
     @Getter
@@ -121,17 +114,26 @@ public class ShipmentDTO {
     @Accessors(chain = true)
     @ApiModel("ShipmentDeleteRq")
     public static class Delete {
+
         @NotNull
         @ApiModelProperty(required = true)
         private List<Long> ids;
     }
 
-    @Getter
-    @Setter
-    @Accessors(chain = true)
-    @ApiModel("ShipmentInfoWithContract")
-    public static class InfoWithInvoice extends ShipmentDTO {
-        private List<InvoiceDTO.Info> invoices;
-    }
+//    @Getter
+//    @Setter
+//    @Accessors(chain = true)
+//    @ApiModel("ShipmentInfoWithContract")
+//    public static class InfoWithInvoice extends ShipmentDTO {
+//        private List<InvoiceDTO.Info> invoices;
+//    }
 
+    public BigDecimal getMoisture(){
+        BigDecimal weightGW = getWeightGW();
+        BigDecimal weightND = getWeightND();
+        if (weightGW == null) weightGW = BigDecimal.ZERO;
+        if (weightND == null) weightND = BigDecimal.ZERO;
+
+        return weightGW.subtract(weightND);
+    }
 }

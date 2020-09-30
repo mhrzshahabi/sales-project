@@ -4,12 +4,16 @@ import com.nicico.copper.common.domain.ConstantVARs;
 import com.nicico.copper.common.util.date.DateUtil;
 import com.nicico.copper.core.util.report.ReportUtil;
 import com.nicico.sales.iservice.IInvoiceInternalService;
+import com.nicico.sales.model.entities.base.ViewInternalInvoiceDocument;
+import com.nicico.sales.model.entities.contract.IncotermAspect;
+import com.nicico.sales.utility.SecurityChecker;
 import lombok.RequiredArgsConstructor;
 import net.sf.jasperreports.engine.JRException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -26,7 +30,10 @@ public class InvoiceInternalFormController {
     private final DateUtil dateUtil;
 
     @RequestMapping("/showForm")
-    public String showInvoiceInternal() {
+    public String showInvoiceInternal(HttpServletRequest request) {
+
+        SecurityChecker.addViewPermissionToRequest(request, ViewInternalInvoiceDocument.class);
+
         return "shipment/invoiceInternal";
     }
 
@@ -39,8 +46,8 @@ public class InvoiceInternalFormController {
         Map<String, Object> params = new HashMap<>();
         params.put(ConstantVARs.REPORT_TYPE, type);
         params.put("ID", rowId);
-        Double mablaghKol = invoiceInternalService.get(rowId).getMablaghKol();
-        Double payForAvarezMalyat = invoiceInternalService.get(rowId).getPayForAvarezMalyat();
+        Double mablaghKol = invoiceInternalService.get(rowId).getTotalAmount();
+        Double payForAvarezMalyat = invoiceInternalService.get(rowId).getTaxChargeAmount();
         Double sum = mablaghKol + payForAvarezMalyat;
         params.put("sum_number_to_string", dateUtil.numberToString(String.format("%.0f", sum)));
         reportUtil.export("/reports/invoice_dakheli.jasper", params, response);

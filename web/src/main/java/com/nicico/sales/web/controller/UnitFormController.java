@@ -2,18 +2,17 @@ package com.nicico.sales.web.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nicico.copper.core.SecurityUtil;
+import com.nicico.sales.model.entities.base.Unit;
 import com.nicico.sales.model.enumeration.CategoryUnit;
 import com.nicico.sales.model.enumeration.SymbolUnit;
+import com.nicico.sales.utility.SecurityChecker;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Controller
@@ -34,9 +33,7 @@ public class UnitFormController {
         for (CategoryUnit value : CategoryUnit.values()) categoryUnit.put(value.name(), value.name());
         request.setAttribute("Enum_CategoryUnit", objectMapper.writeValueAsString(categoryUnit));
 
-        request.setAttribute("c_entity", SecurityUtil.hasAuthority("C_UNIT"));
-        request.setAttribute("u_entity", SecurityUtil.hasAuthority("U_UNIT"));
-        request.setAttribute("d_entity", SecurityUtil.hasAuthority("D_UNIT"));
+        SecurityChecker.addEntityPermissionToRequest(request, Unit.class);
 
         return "base/unit/unit";
     }

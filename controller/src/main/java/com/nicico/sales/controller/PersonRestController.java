@@ -58,7 +58,7 @@ public class PersonRestController {
     @Loggable
     @DeleteMapping(value = "/list")
     public ResponseEntity<Void> delete(@Validated @RequestBody PersonDTO.Delete request) {
-        personService.delete(request);
+        personService.deleteAll(request);
         return new ResponseEntity(HttpStatus.OK);
     }
 

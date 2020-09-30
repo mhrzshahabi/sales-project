@@ -4,7 +4,6 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
-<%@include file="js/contract-info.js"%>
 <%@include file="js/component-invoice-base-info.js"%>
 <%@include file="../../unit/js/component-unit.js"%>
 <%@include file="js/component-invoice-base-price.js"%>
@@ -12,6 +11,10 @@
 <%@include file="js/component-invoice-base-weight.js"%>
 <%@include file="js/component-invoice-base-values.js"%>
 <%@include file="js/component-invoice-calculation.js"%>
+<%@include file="js/component-invoice-calculation2.js"%>
+<%@include file="js/component-invoice-calculation-row.js"%>
+<%@include file="js/component-invoice-t(r)c.js"%>
+<%@include file="js/component-invoice-t(r)c-row.js"%>
 <%@include file="js/component-invoice-payment.js"%>
 <%@include file="../../common/ts/BasicFormUtil.js"%>
 <%@include file="js/foreign-invoice.js"%>

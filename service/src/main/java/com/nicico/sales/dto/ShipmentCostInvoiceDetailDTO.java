@@ -1,6 +1,7 @@
 package com.nicico.sales.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.nicico.sales.model.entities.base.ShipmentCostDuty;
 import com.nicico.sales.model.enumeration.EStatus;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -31,6 +32,8 @@ public class ShipmentCostInvoiceDetailDTO {
     private BigDecimal sumVatPrice;
     private BigDecimal sumPriceWithVat;
     private Long shipmentCostInvoiceId;
+    private Long shipmentCostDutyId;
+    private Long unitId;
 
 
     @Getter
@@ -47,6 +50,8 @@ public class ShipmentCostInvoiceDetailDTO {
         private Date lastModifiedDate;
         private String lastModifiedBy;
         private Integer version;
+        private ShipmentCostDutyDTO.Info  shipmentCostDuty;
+        private UnitDTO.Info  unit;
 
         // BaseEntity
         private Boolean editable;
@@ -71,6 +76,8 @@ public class ShipmentCostInvoiceDetailDTO {
         @NotNull
         @ApiModelProperty(required = true)
         private Long id;
+
+        private Integer version;
     }
 
     @Getter

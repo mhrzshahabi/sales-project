@@ -11,6 +11,10 @@ var nicico;
     var CommonUtil = /** @class */ (function () {
         function CommonUtil() {
             // @ts-ignore
+            this.getAlignByLang = function () {
+                return "left";
+            };
+            // @ts-ignore
             isc.Canvas.tag = null;
             // @ts-ignore
             isc.Canvas.nicico = {};
@@ -52,11 +56,16 @@ var nicico;
             };
             // @ts-ignore
             isc.ListGrid.nicico.createListGrid = function (listGridProperties, fields, restDataSource) {
-                // @ts-ignore
-                return isc.ListGrid.create(Object.assign(listGridProperties, {
-                    fields: fields,
-                    dataSource: restDataSource
-                }));
+                return fields ?
+                    // @ts-ignore
+                    isc.ListGrid.create(Object.assign(listGridProperties, {
+                        fields: fields,
+                        dataSource: restDataSource
+                    })) :
+                    // @ts-ignore
+                    isc.ListGrid.create(Object.assign(listGridProperties, {
+                        dataSource: restDataSource
+                    }));
             };
             // @ts-ignore
             isc.RestDataSource.nicico = {};
@@ -192,6 +201,7 @@ var nicico;
                     dismissOnEscape: true,
                     dismissOnOutsideClick: false,
                     title: title,
+                    canDragResize: true,
                     // @ts-ignore
                     closeClick: function () {
                         this.Super("closeClick", arguments);
@@ -273,6 +283,7 @@ var nicico;
                     showModalMask: true,
                     dismissOnEscape: false,
                     dismissOnOutsideClick: false,
+                    // @ts-ignore
                     tag: ownerWindow,
                     // @ts-ignore
                     closeClick: function () {
@@ -289,10 +300,28 @@ var nicico;
                 return this.filter(function (value, index, self) { return self.indexOf(value) === index; });
             };
             // @ts-ignore
+            Array.prototype.uniqueObject = function (key) {
+                return this.filter(function (value, index, self) {
+                    for (var i = 0; i < index; i++)
+                        if (self[i][key] == value[key])
+                            return false;
+                    return true;
+                });
+            };
+            // @ts-ignore
             Array.prototype.weakDistinct = function () {
                 return this.filter(function (value, index, self) {
                     for (var i = 0; i < index; i++)
                         if (self[i] === value)
+                            return false;
+                    return true;
+                });
+            };
+            // @ts-ignore
+            Array.prototype.weakUniqueObject = function (key) {
+                return this.filter(function (value, index, self) {
+                    for (var i = 0; i < index; i++)
+                        if (self[i][key] === value[key])
                             return false;
                     return true;
                 });
@@ -312,6 +341,12 @@ var nicico;
                 if (key == null || this == null || this.length === 0)
                     return NaN;
                 return this.map(function (q) { return q[key]; }).sum();
+            };
+            // @ts-ignore
+            Array.prototype.evalPropertyPath = function (obj) {
+                return this.reduce(function (prev, curr) {
+                    return prev ? prev[curr] : null;
+                }, obj || self);
             };
         }
         return CommonUtil;

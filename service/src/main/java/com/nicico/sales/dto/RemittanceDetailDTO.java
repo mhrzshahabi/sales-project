@@ -1,6 +1,7 @@
 package com.nicico.sales.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.sales.model.enumeration.EStatus;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -8,6 +9,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
@@ -40,6 +42,8 @@ public class RemittanceDetailDTO {
         private TozinTableDTO.InfoWithoutRemittanceDetail destinationTozin;
         private InventoryDTO.InfoWithoutRemittanceDetail inventory;
         private DepotDTO.Info depot;
+        private String date;
+        private Boolean inputRemittance;
 //        private Remittance remittance;
 
 
@@ -55,7 +59,7 @@ public class RemittanceDetailDTO {
         private List<EStatus> eStatus;
     }
 
-     @Getter
+    @Getter
     @Setter
     @Accessors(chain = true)
     @ApiModel("RemittanceDetailInfo")
@@ -88,6 +92,13 @@ public class RemittanceDetailDTO {
     @ApiModel("RemittanceDetailInfo")
     public static class Info extends InfoWithoutRemittance {
         private RemittanceDTO.InfoWithoutRemittanceDetail remittance;
+
+        public String getInventoryLabel() {
+
+            InventoryDTO.InfoWithoutRemittanceDetail inventory = getInventory();
+            if (inventory == null) return "";
+            return inventory.getLabel();
+        }
     }
 
 
@@ -108,6 +119,8 @@ public class RemittanceDetailDTO {
         @NotNull
         @ApiModelProperty(required = true)
         private Long id;
+
+        private Integer version;
     }
 
     @Getter
@@ -147,15 +160,27 @@ public class RemittanceDetailDTO {
     }
 
 
-
     @Getter
     @Setter
     @Accessors(chain = true)
     public static class OutRemittance {
         private RemittanceDTO.Create remittance;
+        @NotEmpty
+        @NotNull
         private List<RemittanceDetailDTO.OutCreate> remittanceDetails;
     }
 
 
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    public static class Excel {
+        public List<RemittanceDetailDTO.Info> rows;
+        public String[] header;
+        public String topRowTitle;
+        public String[] fields;
+        public NICICOCriteria nicicoCriteria;
+        public Boolean doesNotNeedFetch = true;
+    }
 
 }

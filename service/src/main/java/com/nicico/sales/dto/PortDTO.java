@@ -56,6 +56,19 @@ public class PortDTO {
     @Getter
     @Setter
     @Accessors(chain = true)
+    @ApiModel("PortTuple")
+    public static class Tuple extends PortDTO {
+        private Long id;
+        private Date createdDate;
+        private String createdBy;
+        private Date lastModifiedDate;
+        private String lastModifiedBy;
+        private Integer version;
+    }
+
+    @Getter
+    @Setter
+    @Accessors(chain = true)
     @ApiModel("PortCreateRq")
     public static class Create extends PortDTO {
     }
@@ -68,6 +81,8 @@ public class PortDTO {
         @NotNull
         @ApiModelProperty(required = true)
         private Long id;
+
+        private Integer version;
     }
 
     @Getter

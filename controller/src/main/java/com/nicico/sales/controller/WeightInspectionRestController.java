@@ -1,10 +1,13 @@
 package com.nicico.sales.controller;
 
+import com.google.common.base.Enums;
 import com.nicico.copper.common.Loggable;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.sales.dto.WeightInspectionDTO;
 import com.nicico.sales.iservice.IWeightInspectionService;
+import com.nicico.sales.model.enumeration.AllConverters;
+import com.nicico.sales.model.enumeration.InspectionReportMilestone;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -57,9 +60,18 @@ public class WeightInspectionRestController {
     }
 
     @Loggable
-    @GetMapping(value = "/get-weight-values") //Error
-    public ResponseEntity<List<WeightInspectionDTO.WeightData>> getWeightValues(@RequestParam List<Long> inventoryIds, @RequestParam Boolean doIntegration) {
-        return new ResponseEntity<>(iWeightInspectionService.getWeightValues(inventoryIds, doIntegration), HttpStatus.OK);
+    @GetMapping(value = "/get-weight-values")
+    public ResponseEntity<List<WeightInspectionDTO.InfoWithoutInspectionReport>> getWeightValues(@RequestParam Long shipmentId, @RequestParam String reportMilestone, @RequestParam List<Long> inventoryIds) {
+//InfoWithoutInspectionReportAndInventory
+        InspectionReportMilestone reportMilestoneEnum = Enums.getIfPresent(InspectionReportMilestone.class, reportMilestone).or(InspectionReportMilestone.Source);
+        return new ResponseEntity<>(iWeightInspectionService.getWeightValues(shipmentId, reportMilestoneEnum, inventoryIds), HttpStatus.OK);
+    }
+
+    @Loggable
+    @GetMapping(value = "/get-weight-inventory-data")
+    public ResponseEntity<List<Long>> getWeightInventoryData(@RequestParam String reportMilestone, @RequestParam List<Long> inventoryIds) {
+        InspectionReportMilestone reportMilestoneEnum = Enums.getIfPresent(InspectionReportMilestone.class, reportMilestone).or(InspectionReportMilestone.Source);
+        return new ResponseEntity<>(iWeightInspectionService.getWeightInventoryData(reportMilestoneEnum, inventoryIds), HttpStatus.OK);
     }
 
     @Loggable

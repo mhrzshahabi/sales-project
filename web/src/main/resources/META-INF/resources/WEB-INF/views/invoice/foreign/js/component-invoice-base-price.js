@@ -4,71 +4,114 @@ isc.defineClass("InvoiceBasePrice", isc.VLayout).addProperties({
     autoFit: false,
     autoDraw: false,
     showEdges: false,
+    canAdaptHeight: true,
     layoutMargin: 2,
     membersMargin: 2,
-    overflow: "scroll",
+    overflow: "visible",
     contract: null,
+    currency: null,
     shipment: null,
+    contractDetailData: null,
     initWidget: function () {
 
         this.Super("initWidget", arguments);
 
         let This = this;
-        let year = __contract.getContractYear(This.contract);
-        let material = __contract.getMaterial(This.contract);
-        let month = __contract.getShipmentMonthNo(This.shipment);
-        let moasValue = __contract.getContractMOASValue(This.contract);
-        let basePriceReference = __contract.getBasePriceReference(This.contract);
+
+        let material = This.contract.material;
+        let sendDate = new Date(This.shipment.sendDate);
+        let year = sendDate.getFullYear();
+        let month = sendDate.getMonth() + 1;
+        let moasValue = This.contractDetailData.moasValue;
+        let basePriceReference = This.contractDetailData.basePriceReference;
 
         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+            willHandleError: true,
             params: {
                 year: year,
                 materialId: material.id,
                 month: month + moasValue,
-                reference: basePriceReference
+                reference: basePriceReference,
+                financeUnitId: This.currency.id
             },
             httpMethod: "GET",
-            actionURL: "${contextPath}/api/price-base/get-base-price",
+            actionURL: "${contextPath}/api/price-base/get-avg-base-price",
 
             callback: function (resp) {
 
-                let fields = [];
-                let elements = JSON.parse(resp.data);
-                for (let index = 0; index < elements.length; index++) {
+                let members = [];
+                if (resp.data && (resp.httpResponseCode === 200 || resp.httpResponseCode === 201)) {
 
-                    if (!elements[index].element.payable)
-                        continue;
+                    let priceBases = JSON.parse(resp.data);
+                    priceBases.forEach(priceBase => {
 
-                    fields.add(isc.Unit.create({
+                        if (!priceBase.element.payable)
+                            return;
 
-                        unitCategory: elements[index].unit.categoryUnit,
-                        disabledUnitField: true,
-                        disabledValueField: true,
-                        showValueFieldTitle: true,
-                        showUnitFieldTitle: false,
-                        name: elements[index].element.name,
-                        fieldValueTitle: elements[index].element.name,
-                        border: "1px solid rgba(0, 0, 0, 0.3)",
-                    }));
-                    fields.last().setValue(elements[index].price);
-                    fields.last().setUnitId(elements[index].unit.id);
+                        members.add(isc.Unit.create({
+                            unitHint: "PER " + priceBase.weightUnit.nameEN,
+                            unitCategory: priceBase.financeUnit.categoryUnit,
+                            fieldValueTitle: priceBase.element.name,
+                            disabledUnitField: true,
+                            disabledValueField: true,
+                            showValueFieldTitle: true,
+                            showUnitFieldTitle: false,
+                            name: priceBase.element.name,
+                            weightUnit: priceBase.weightUnit,
+                            financeUnit: priceBase.financeUnit,
+                            elementId: priceBase.elementId,
+                        }));
+
+                        members.last().setValue(priceBase.price);
+                        members.last().setUnitId(priceBase.financeUnit.id);
+                    });
+                } else {
+
+                    isc.RPCManager.handleError(resp);
                 }
+
+                let fieldsNames = members.map(q => q.name).join(", ");
                 This.addMember(isc.Label.create({
-                    contents: "<b>" + "AVERAGE OF " + (month + moasValue) + "th MONTH OF " + year + " (MOAS" + (moasValue > 0 ? "+" : "-") + moasValue + ")<b>"
-                }));
-                This.addMember(isc.DynamicForm.create({
                     width: "100%",
-                    fields: fields
+                    height: "50",
+                    contents: "<b>" + "AVERAGE OF " + (month + moasValue) +
+                        "th MONTH OF " + year + " (MOAS" + (moasValue === 0 ? "" : (moasValue > 0 ? "+" : "-") + moasValue) +
+                        ") " + " FOR " + fieldsNames + "</b>"
                 }));
 
-
+                if (members.length)
+                    This.addMembers(members);
             }
         }));
     },
-    getValues: function () {
-        return this.members[1].getValues();
+    getDataRowNo: function () {
+        return this.getMembers().slice(1).length;
     },
-    setValues: function (data) {
-        return this.members[1].setValues(data);
+    getValues: function () {
+
+        let data = [];
+        this.getMembers().slice(1).forEach(current => {
+
+            let values = current.getValues();
+            data.add({
+                name: current.name,
+                value: values.value,
+                financeUnitId: values.unitId,
+                elementId: current.elementId,
+                weightUnit: current.weightUnit,
+                financeUnit: current.financeUnit
+            });
+        });
+
+        return data;
+    },
+    validate: function () {
+
+        let isValid = true;
+        this.getMembers().slice(1).forEach(current => {
+            if (current.getValues().value === null)
+                isValid = false;
+        });
+        return isValid;
     }
 });

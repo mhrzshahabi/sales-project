@@ -3,7 +3,9 @@ package com.nicico.sales.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
+import com.nicico.sales.annotation.Action;
 import com.nicico.sales.dto.RemittanceDTO;
+import com.nicico.sales.enumeration.ActionType;
 import com.nicico.sales.exception.NotFoundException;
 import com.nicico.sales.iservice.IRemittanceService;
 import com.nicico.sales.model.entities.warehouse.Remittance;
@@ -11,6 +13,7 @@ import com.nicico.sales.model.entities.warehouse.RemittanceDetail;
 import com.nicico.sales.repository.TozinDAO;
 import com.nicico.sales.repository.TozinTableDAO;
 import com.nicico.sales.repository.warehouse.InventoryDAO;
+import com.nicico.sales.repository.warehouse.RemittanceDAO;
 import com.nicico.sales.repository.warehouse.RemittanceDetailDAO;
 import com.nicico.sales.utility.SpecListUtil;
 import lombok.RequiredArgsConstructor;
@@ -36,6 +39,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class RemittanceService extends GenericService<Remittance, Long, RemittanceDTO.Create, RemittanceDTO.Info, RemittanceDTO.Update, RemittanceDTO.Delete> implements IRemittanceService {
     private final RemittanceDetailDAO remittanceDetailDAO;
+    private final RemittanceDAO remittanceDAO;
     private final InventoryDAO inventoryDAO;
     private final TozinTableDAO tozinTableDAO;
     private final TozinDAO tozinDAO;
@@ -44,6 +48,7 @@ public class RemittanceService extends GenericService<Remittance, Long, Remittan
     private final ModelMapper modelMapper;
 
     @Override
+    @Action(value = ActionType.DeleteAll)
     @Transactional
     public void deleteAll(RemittanceDTO.Delete request) {
         final List<RemittanceDetail> allByRemittanceIdIsIn = remittanceDetailDAO.findAllByRemittanceIdIsIn(request.getIds());
@@ -56,10 +61,13 @@ public class RemittanceService extends GenericService<Remittance, Long, Remittan
         });
         remittanceDetailDAO.deleteAllByIdIn(allByRemittanceIdIsIn.stream().map(rd -> rd.getId()).collect(Collectors.toList()));
         tozinTableDAO.deleteAllByIdIn(tozinIdList);
-        if(allByRemittanceIdIsIn.get(0).getDestinationTozinId() != null) inventoryDAO.deleteAllByIdIn(inventoryIdList);
+        if (allByRemittanceIdIsIn.size() > 0 && allByRemittanceIdIsIn.get(0).getDestinationTozinId() != null)
+            inventoryDAO.deleteAllByIdIn(inventoryIdList);
         super.deleteAll(request);
     }
 
+    @Action(value = ActionType.Get)
+    @Transactional
     @Override
     public JsonDataSource print(MultiValueMap criteria) throws JsonProcessingException, JRException {
         NICICOCriteria provideNICICOCriteria = specListUtil.provideNICICOCriteria(criteria, RemittanceDTO.Info.class);
@@ -108,5 +116,17 @@ public class RemittanceService extends GenericService<Remittance, Long, Remittan
         final String month = date.substring(4, 6);
         final String day = date.substring(6, 8);
         return String.format("%s/%s/%s", year, month, day);
+    }
+
+    @Override
+    @Transactional
+    public List<String> getLotsByShipmentId(Long id) {
+
+        final List<Remittance> remittances = remittanceDAO.findByShipmentId(id);
+        return remittances.stream().
+                map(Remittance::getRemittanceDetails).
+                flatMap(remittanceDetails -> remittanceDetails.stream().
+                        map(remittanceDetail -> remittanceDetail.getInventory().getLabel())).
+                collect(Collectors.toList());
     }
 }

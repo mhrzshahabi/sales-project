@@ -22,6 +22,7 @@ spring:
     database-change-log-lock-table: Z_LIQ_CHANGELOG_LOCK
     change-log: classpath:db/changelog/liquibase-master.xml
     enabled: true
+    contexts: ${spring.profiles.active}
   main:
     allow-bean-definition-overriding: true
   mvc:
@@ -70,6 +71,9 @@ nicico:
       dir: /var/nicico/${spring.application.name}/
   security:
     sys-password: password
+    resource-id: Copper
+  apps:
+    accounting: http://devapp01.icico.net.ir/accounting
 
 ---
 
@@ -110,8 +114,8 @@ spring:
   profiles: Development
   datasource:
     url: jdbc:oracle:thin:@//oragnrt01.icico.net.ir:1521/pdb_dev01
-    username: sales
-    password: sales
+    username: test_sales
+    password: testsales
   redis:
     host: devapp01.icico.net.ir
     password: nicico
@@ -131,9 +135,6 @@ spring:
             token-uri: http://devapp01.icico.net.ir/oauth/token
             user-info-uri: http://devapp01.icico.net.ir/user/info
             user-name-attribute: username
-nicico:
-  apps:
-    accounting: http://devapp01.icico.net.ir/accounting
 
 ---
 
@@ -141,8 +142,8 @@ spring:
   profiles: Local
   datasource:
     url: jdbc:oracle:thin:@//oragnrt01.icico.net.ir:1521/pdb_dev01
-    username: saleslocal
-    password: saleslocal
+    username: dev_sales
+    password: devsales
   redis:
     host: devapp01.icico.net.ir
     password: nicico
@@ -167,5 +168,3 @@ spring:
 nicico:
   upload:
     dir: c:/upload
-  apps:
-    accounting: http://devapp01.icico.net.ir/accounting

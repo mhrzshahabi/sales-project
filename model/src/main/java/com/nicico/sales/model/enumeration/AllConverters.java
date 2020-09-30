@@ -27,12 +27,13 @@ public abstract class AllConverters {
         @Override
         public List<EStatus> convertToEntityAttribute(Integer integer) {
 
-            if (EStatus.values().length == 0)
+            EStatus[] values = EStatus.values();
+            if (values.length == 0)
                 return null;
 
             List<EStatus> result = new ArrayList<>();
-            Arrays.sort(EStatus.values(), Collections.reverseOrder(Comparator.comparingInt(EStatus::getId)));
-            for (EStatus literal : EStatus.values()) {
+            Arrays.sort(values, Collections.reverseOrder(Comparator.comparingInt(EStatus::getId)));
+            for (EStatus literal : values) {
 
                 int id = literal.getId();
                 if (id > integer) continue;
@@ -212,6 +213,111 @@ public abstract class AllConverters {
         @Override
         public CommercialRole convertToEntityAttribute(Integer integer) {
             return Arrays.stream(CommercialRole.values())
+                    .filter(literal -> literal.getId().equals(integer)).findFirst().orElse(null);
+        }
+    }
+
+    // *****************************************************************************************************************
+
+    @Converter(autoApply = true)
+    public static class InspectionReportMilestoneConverter implements AttributeConverter<InspectionReportMilestone, Integer> {
+
+        @Override
+        public Integer convertToDatabaseColumn(InspectionReportMilestone literal) {
+
+            if (literal == null)
+                return null;
+
+            return literal.getId();
+        }
+
+        @Override
+        public InspectionReportMilestone convertToEntityAttribute(Integer integer) {
+            return Arrays.stream(InspectionReportMilestone.values())
+                    .filter(literal -> literal.getId().equals(integer)).findFirst().orElse(null);
+        }
+    }
+
+    // *****************************************************************************************************************
+
+    @Converter(autoApply = true)
+    public static class CategoryUnitConverter implements AttributeConverter<CategoryUnit, Integer> {
+
+        @Override
+        public Integer convertToDatabaseColumn(CategoryUnit literal) {
+
+            if (literal == null)
+                return null;
+
+            return literal.getId();
+        }
+
+        @Override
+        public CategoryUnit convertToEntityAttribute(Integer integer) {
+            return Arrays.stream(CategoryUnit.values())
+                    .filter(literal -> literal.getId().equals(integer)).findFirst().orElse(null);
+        }
+    }
+
+     // *****************************************************************************************************************
+
+    @Converter(autoApply = true)
+    public static class ContractDetailTypeReferenceConverter implements AttributeConverter<ContractDetailTypeReference, Integer> {
+
+        @Override
+        public Integer convertToDatabaseColumn(ContractDetailTypeReference literal) {
+
+            if (literal == null)
+                return null;
+
+            return literal.getId();
+        }
+
+        @Override
+        public ContractDetailTypeReference convertToEntityAttribute(Integer integer) {
+            return Arrays.stream(ContractDetailTypeReference.values())
+                    .filter(literal -> literal.getId().equals(integer)).findFirst().orElse(null);
+        }
+    }
+
+     // *****************************************************************************************************************
+
+    @Converter(autoApply = true)
+    public static class CurrencyTypeConverter implements AttributeConverter<CurrencyType, Integer> {
+
+        @Override
+        public Integer convertToDatabaseColumn(CurrencyType literal) {
+
+            if (literal == null)
+                return null;
+
+            return literal.getId();
+        }
+
+        @Override
+        public CurrencyType convertToEntityAttribute(Integer integer) {
+            return Arrays.stream(CurrencyType.values())
+                    .filter(literal -> literal.getId().equals(integer)).findFirst().orElse(null);
+        }
+    }
+
+       // *****************************************************************************************************************
+
+    @Converter(autoApply = true)
+    public static class SymbolUnitConverter implements AttributeConverter<SymbolUnit, Integer> {
+
+        @Override
+        public Integer convertToDatabaseColumn(SymbolUnit literal) {
+
+            if (literal == null)
+                return null;
+
+            return literal.getId();
+        }
+
+        @Override
+        public SymbolUnit convertToEntityAttribute(Integer integer) {
+            return Arrays.stream(SymbolUnit.values())
                     .filter(literal -> literal.getId().equals(integer)).findFirst().orElse(null);
         }
     }

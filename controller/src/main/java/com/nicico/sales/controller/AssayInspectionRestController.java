@@ -1,10 +1,12 @@
 package com.nicico.sales.controller;
 
+import com.google.common.base.Enums;
 import com.nicico.copper.common.Loggable;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.sales.dto.AssayInspectionDTO;
 import com.nicico.sales.iservice.IAssayInspectionService;
+import com.nicico.sales.model.enumeration.InspectionReportMilestone;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -66,8 +68,16 @@ public class AssayInspectionRestController {
 
     @Loggable
     @GetMapping(value = "/get-assay-values")
-    public ResponseEntity<List<AssayInspectionDTO.AssayData>> getAssayValues(@RequestParam List<Long> inventoryIds, @RequestParam Boolean doIntegration) {
+    public ResponseEntity<List<AssayInspectionDTO.InfoWithoutInspectionReport>> getAssayValues(@RequestParam Long shipmentId, @RequestParam String reportMilestone, @RequestParam List<Long> inventoryIds) {
+//InfoWithoutInspectionReportAndInventory
+        InspectionReportMilestone reportMilestoneEnum = Enums.getIfPresent(InspectionReportMilestone.class, reportMilestone).or(InspectionReportMilestone.Source);
+        return new ResponseEntity<>(iAssayInspectionService.getAssayValues(shipmentId, reportMilestoneEnum, inventoryIds), HttpStatus.OK);
+    }
 
-        return new ResponseEntity<>(iAssayInspectionService.getAssayValues(inventoryIds, doIntegration), HttpStatus.OK);
+    @Loggable
+    @GetMapping(value = "/get-assay-inventory-data")
+    public ResponseEntity<List<Long>> getAssayInventoryData(@RequestParam String reportMilestone, @RequestParam List<Long> inventoryIds) {
+        InspectionReportMilestone reportMilestoneEnum = Enums.getIfPresent(InspectionReportMilestone.class, reportMilestone).or(InspectionReportMilestone.Source);
+        return new ResponseEntity<>(iAssayInspectionService.getAssayInventoryData(reportMilestoneEnum, inventoryIds), HttpStatus.OK);
     }
 }

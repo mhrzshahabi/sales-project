@@ -70,23 +70,6 @@ public class Contact extends BaseEntity {
     @JoinColumn(name = "CNT_ID", insertable = false, updatable = false)
     private Set<ContactAccount> contactAccounts;
 
-    @Column(name = "C_DEFAULT_BANK_ACCOUNT")
-    private String bankAccount;
-
-    @Column(name = "C_DEFAULT_BANK_SHABA")
-    private String bankShaba;
-
-    @Column(name = "C_DEFAULT_BANK_SWIFT")
-    private String bankSwift;
-
-    @Setter(AccessLevel.NONE)
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "C_DEFAULT_BANK_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "contact2bank"))
-    private Bank bank;
-
-    @Column(name = "C_DEFAULT_BANK_ID")
-    private Long bankId;
-
     @Column(name = "b_STATUS")
     private Boolean status;
 
@@ -146,4 +129,17 @@ public class Contact extends BaseEntity {
     @Column(name = "C_REGISTER_NUMBER")
     private String registerNumber;
 
+    @Column(name = "C_ACC_DETAIL")
+    private String accDetail;
+
+    @Column(name = "C_ACC_DETAIL_ID")
+    private Long accDetailId;
+
+    @Transient
+    public ContactAccount getDefaultAccount() {
+        if (contactAccounts != null && !contactAccounts.isEmpty()) {
+            return contactAccounts.stream().filter(ContactAccount::getIsDefault).findAny().orElse(null);
+        }
+        return null;
+    }
 }

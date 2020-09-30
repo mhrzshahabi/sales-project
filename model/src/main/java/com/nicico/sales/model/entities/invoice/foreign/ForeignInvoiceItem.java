@@ -2,12 +2,14 @@ package com.nicico.sales.model.entities.invoice.foreign;
 
 import com.nicico.sales.model.entities.common.BaseEntity;
 import com.nicico.sales.model.entities.warehouse.RemittanceDetail;
+import com.nicico.sales.model.enumeration.InspectionReportMilestone;
 import lombok.*;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
+import java.util.List;
 
 @Getter
 @Setter
@@ -32,25 +34,16 @@ public class ForeignInvoiceItem extends BaseEntity {
     @Column(name = "N_WEIGHT_ND", nullable = false, scale = 5, precision = 12)
     private BigDecimal weightND;
 
-    // For molybdenum oxide, metal base price
-    @NotNull
-    @Column(name = "N_BASE_PRICE", nullable = false, scale = 2, precision = 10)
-    private BigDecimal basePrice;
-
     @Column(name = "N_TC", scale = 2, precision = 10)
     private BigDecimal treatCost;
 
-//    @Column(name = "N_DEDUCTION_TYPE")
-//    private DeductionType deductionType;
-//
-//    @Column(name = "N_DEDUCTION_VALUE", scale = 5, precision = 12)
-//    private BigDecimal deductionValue;
-//
-//    @Column(name = "N_DEDUCTION_UNIT_CONVERSION_RATE", scale = 5, precision = 12)
-//    private BigDecimal deductionUnitConversionRate;
-//
-//    @Column(name = "N_DEDUCTION_PRICE", scale = 2, precision = 10)
-//    private BigDecimal deductionPrice;
+    @Column(name = "N_ASSAY_MILESTONE")
+    private InspectionReportMilestone assayMilestone;
+
+    @Column(name = "N_WEIGHT_MILESTONE")
+    private InspectionReportMilestone weightMilestone;
+
+    // *****************************************************************************************************************
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
@@ -69,4 +62,9 @@ public class ForeignInvoiceItem extends BaseEntity {
     @NotNull
     @Column(name = "F_REMITTANCE_DETAIL_ID", nullable = false)
     private Long remittanceDetailId;
+
+    // *****************************************************************************************************************
+
+    @OneToMany(mappedBy = "foreignInvoiceItem", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<ForeignInvoiceItemDetail> foreignInvoiceItemDetails;
 }

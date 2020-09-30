@@ -1,13 +1,10 @@
 package com.nicico.sales.model.entities.base;
 
 
-import com.nicico.sales.model.Auditable;
 import com.nicico.sales.model.entities.common.BaseEntity;
 import com.nicico.sales.model.enumeration.InspectionRateValueType;
 import lombok.*;
 import lombok.experimental.Accessors;
-import org.hibernate.envers.AuditOverride;
-import org.hibernate.envers.NotAudited;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -20,7 +17,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
-@AuditOverride(forClass = Auditable.class)
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
 @Table(name = "TBL_INSPECTION_REPORT")
@@ -34,7 +30,6 @@ public class InspectionReport extends BaseEntity {
     @Column(name = "C_INSPECTION_NO")
     private String inspectionNO;
 
-    @NotAudited
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "F_INSPECTOR_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_inspectionReport2ContactByInspectorId"))
@@ -51,7 +46,6 @@ public class InspectionReport extends BaseEntity {
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
-    @NotAudited
     @JoinColumn(name = "F_SELLER_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_inspectionReport2contactBySellerId"))
     private Contact seller;
 
@@ -60,7 +54,6 @@ public class InspectionReport extends BaseEntity {
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
-    @NotAudited
     @JoinColumn(name = "F_BUYER_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_inspectionReport2contactByBuyerId"))
     private Contact buyer;
 
@@ -73,6 +66,9 @@ public class InspectionReport extends BaseEntity {
     @Column(name = "N_INSPECTION_RATE_VALUE_TYPE")
     private InspectionRateValueType inspectionRateValueType;
 
+    @Column(name = "C_DESCRIPTION")
+    private String description;
+
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "F_UNIT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_inspectionReport2unitByUnitId"))
@@ -81,6 +77,15 @@ public class InspectionReport extends BaseEntity {
     @NotNull
     @Column(name = "F_UNIT_ID", nullable = false)
     private Long unitId;
+
+    @Column(name = "N_WEIGHT_G_W", scale = 5, precision = 10)
+    private BigDecimal weightGW;
+
+    @Column(name = "N_WEIGHT_N_D", scale = 5, precision = 10)
+    private BigDecimal weightND;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "inspectionReport", cascade = CascadeType.REMOVE)
+    private List<AssayInspectionTotalValues> assayInspectionTotalValuesList;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "inspectionReport", cascade = CascadeType.REMOVE)
     private List<AssayInspection> assayInspections;

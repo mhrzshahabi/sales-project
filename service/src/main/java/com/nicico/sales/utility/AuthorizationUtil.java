@@ -37,6 +37,15 @@ public class AuthorizationUtil {
             case Delete:
             case DeleteAll:
                 return "D_" + entityName;
+            case Activate:
+                return "A_" + entityName;
+            case DeActivate:
+                return "I_" + entityName;
+            case Finalize:
+                return "F_" + entityName;
+            case Disapprove:
+                return "O_" + entityName;
+
             default:
                 return null;
         }

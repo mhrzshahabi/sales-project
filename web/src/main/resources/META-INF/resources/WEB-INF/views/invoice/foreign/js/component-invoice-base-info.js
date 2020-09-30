@@ -6,6 +6,7 @@ isc.defineClass("InvoiceBaseInfo", isc.VLayout).addProperties({
     showEdges: false,
     layoutMargin: 2,
     membersMargin: 2,
+    overflow: "auto",
     contract: null,
     billLadings: null,
     invoiceNo: null,
@@ -17,9 +18,10 @@ isc.defineClass("InvoiceBaseInfo", isc.VLayout).addProperties({
 
         let This = this;
         let result = '';
-        let buyer = __contract.getBuyer(This.contract);
-        let material = __contract.getMaterial(This.contract);
-        let deliveryTerm = __contract.getDeliveryTerm(This.contract);
+
+        let material = This.contract.material;
+        let deliveryTerm = {rule: "FOB", version: "2010"}; // TODO change it
+        let buyer = This.contract.contractContacts.filter(q => q.commercialRole === JSON.parse('${Enum_CommercialRole}').Buyer).first().contact;
 
         this.addMember(isc.Label.create({
             contents: `
@@ -64,7 +66,7 @@ isc.defineClass("InvoiceBaseInfo", isc.VLayout).addProperties({
                   <caption class="i-invoice-type">` + This.invoiceType.title + `</caption>
                   <tr> 
                     <td class="table-td">REF NO:&nbsp;</td>
-                    <td class="table-td-value">` + (!This.invoiceNo ? "" : This.invoiceNo) + `</td>
+                    <td class="table-td-value">` + This.checkUndefined(This.invoiceNo) + `</td>
                   </tr>
                   <tr>
                     <td class="table-td">DATE:&nbsp;</td>
@@ -72,15 +74,16 @@ isc.defineClass("InvoiceBaseInfo", isc.VLayout).addProperties({
                   </tr>
                   <tr>
                     <td class="table-td">CONTRACT NO:&nbsp;</td>
-                    <td class="table-td-value">` + This.contract[__contract.nameOfNumberProperty] + `</td>
+                    <td class="table-td-value">` + This.contract.no + `</td>
                   </tr>
                   <tr class="i-buyer-info">
                     <td class="table-td">BUYER:&nbsp;</td>
                     <td class="table-td-value">
-                        <div>` + buyer.nameEN + `</div>
-                        <div>` + buyer.address + `</div>
-                        <div>` + buyer.phone + `</div>
-                        <div>` + buyer.fax + `</div>
+                        <div>` + This.checkUndefined(buyer.nameEN) + `</div>
+                        <div>` + This.checkUndefined(buyer.address) + `</div>
+                        <div>` + This.checkUndefined(buyer.country.nameEn) + `</div>
+                        <div>` + This.checkUndefined(buyer.phone) + `</div>
+                        <div>` + This.checkUndefined(buyer.fax) + `</div>
                     </td>
                   </tr>
                   <tr>
@@ -92,17 +95,20 @@ isc.defineClass("InvoiceBaseInfo", isc.VLayout).addProperties({
                   <tr>
                     <td class="table-td">SHIPPED:&nbsp;</td>
                     <td class="table-td-value">` +
-                This.billLadings.map(bl => {
-                    result = "<div>" + bl.vesselName + "</div>";
-                    if (bl.switchBillLading)
-                        result += "<div>SWITCH B/L NO: " + bl.switchBillLading.no + " DATED " + DateUtil.format(bl.switchBillLading.date, "dd MM YYYY") + "</div>";
-                    result += "<div>NICICO B/L NO: " + bl.no + " DATED " + DateUtil.format(bl.date, "dd MM YYYY") + "</div>";
-                    result += "<div>FROM: " + bl.from + "</div>";
-                    result += "<div>TO: " + bl.to + "</div>";
-                    result += "<div>G/W WEIGHT: " + bl.weightGW + "</div>";
+                        This.billLadings.map(bl => {
+                            result = "<div>" + bl.oceanVessel.name + "</div>";
+                            result += "<div>B/L NO: " + bl.documentNo;
+                            if (bl.switchDocumentNo)
+                                result += " & SW B/L NO: " + bl.switchDocumentNo + " - DATED " + DateUtil.format(bl.dateOfIssue, "dd MM YYYY");
+                            result += "</div>";
+                            if (bl.containers && bl.containers.length > 0)
+                                result += "<div>" + bl.containers.length + " X " + bl.containers[0].containerType + " CONTAINERS</div>";
+                            result += "<div>FROM: " + bl.portOfLoading.port + "</div>";
+                            result += "<div>TO: " + bl.portOfDischarge.port + "</div>";
+                            result += "<div>NET WET WEIGHT: " + bl.totalGross + "</div>";
 
-                    return result;
-                }).join('<hr>') + `</td>
+                            return result;
+                        }).join('<br/>') + `</td>
                   </tr>
                   <tr>
                     <td class="table-td">DELIVERY TERMS:&nbsp;</td>
@@ -113,5 +119,11 @@ isc.defineClass("InvoiceBaseInfo", isc.VLayout).addProperties({
                   </tr>
                 </table>`
         }));
+    },
+    checkUndefined: function(text) {
+        if (text == null)
+            return "";
+        else
+            return text;
     }
 });

@@ -58,6 +58,8 @@ public class IncotermPartiesDTO {
         @NotNull
         @ApiModelProperty(required = true)
         private Long id;
+
+        private Integer version;
     }
 
     @Getter

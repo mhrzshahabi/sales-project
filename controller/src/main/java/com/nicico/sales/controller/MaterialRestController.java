@@ -58,7 +58,7 @@ public class MaterialRestController {
     @Loggable
     @DeleteMapping(value = "/list")
     public ResponseEntity<Void> delete(@Validated @RequestBody MaterialDTO.Delete request) {
-        materialService.delete(request);
+        materialService.deleteAll(request);
         return new ResponseEntity(HttpStatus.OK);
     }
 

@@ -22,14 +22,12 @@ public class ContractDetailValueDTO {
 
     private String name;
     private String key;
+    private String title;
     private DataType type;
     private String reference;
     private String value;
-    private String column;
+    private String referenceJsonValue;
     private Boolean required;
-
-    @Transient
-    private Integer width = 100;
 
     private Long unitId;
     private Long contractDetailId;

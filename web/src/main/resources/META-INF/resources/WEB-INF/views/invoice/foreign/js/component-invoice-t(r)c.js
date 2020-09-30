@@ -6,45 +6,60 @@ isc.defineClass("InvoiceDeduction", isc.VLayout).addProperties({
     showEdges: false,
     layoutMargin: 2,
     membersMargin: 2,
-    overflow: "scroll",
+    overflow: "auto",
     currency: null,
-    contract: null,
+    rcDeductionData: null,
+    contractDetailData: null,
     invoiceCalculationComponent: null,
     initWidget: function () {
 
         this.Super("initWidget", arguments);
 
         let This = this;
-        let fields = [{
-            name: "TC",
-            type: "staticText",
-            title: "<spring:message code='contract.TC'/>",
-            value: {deductionPrice: __contract.getTC(This.contract)}
-        }];
-        let calculationValues = this.invoiceCalculationComponent.getValues();
-        for (let key in Object.keys(calculationValues)) {
+        this.addMember(isc.DynamicForm.create({
+            width: "50%",
+            fields: [{
+                width: "100%",
+                height: "50",
+                name: "TC",
+                top: 5,
+                align: "left",
+                type: "staticText",
+                value: This.contractDetailData.tc,
+                title: "<spring:message code='contract.TC'/>"
+            }]
+        }));
 
-            fields.add(isc.InvoiceDeductionRow.create({
-                name: 'R/C ' + key,
-                border: "1px solid rgba(0, 0, 0, 0.3)",
-                elementName: key,
+        let calculationValues = this.invoiceCalculationComponent.getValues();
+        for (let index = 0; index < calculationValues.length; index++) {
+
+            this.addMember(isc.InvoiceDeductionRow.create({
+                role: "RC",
+                name: calculationValues[index].name,
+                isInvoiceDeductionRow: true,
                 currency: This.currency,
-                contract: This.contract,
-                calculationData: calculationValues[key]
+                elementId: calculationValues[index].elementId,
+                elementFinalAssay: calculationValues[index].assay,
+                materialElementId: calculationValues[index].materialElementId,
+                rcData: This.contractDetailData.rc.filter(q => q.elementId === calculationValues[index].elementId).first(),
+                rcDeductionRowData: This.rcDeductionData ? This.rcDeductionData.filter(q => q.materialElementId === calculationValues[index].materialElementId).first() : null,
+                sumDeductionChanged: function (sumDeduction) {
+
+                    let subtotalForm = This.getMembers().filter(q => q.name === "subTotal").first();
+                    subtotalForm.data[this.ID] = sumDeduction;
+                    subtotalForm.setValue(Object.values(subtotalForm.data).sum());
+                }
             }));
         }
 
-        this.addMember(isc.DynamicForm.create({
+        this.addMember(isc.HTMLFlow.create({
             width: "100%",
-            fields: fields,
-            itemChanged: function (item, newValue) {
-
-                let sum = Object.keys(this.getValues()).map(q => this.getValues()[q].deductionPrice).sum();
-                this.parentElement.members[1].setValue(sum);
-            }
+            contents: "<span style='width: 100%; display: block; margin: 10px auto; border-bottom: 1px solid rgba(0,0,0,0.3)'></span>"
         }));
+
         this.addMember(isc.Unit.create({
-            border: "1px solid rgba(0, 0, 0, 0.3)",
+            data: {},
+            name: "subTotal",
             disabledUnitField: true,
             disabledValueField: true,
             showValueFieldTitle: true,
@@ -52,12 +67,101 @@ isc.defineClass("InvoiceDeduction", isc.VLayout).addProperties({
             unitCategory: This.currency.categoryUnit,
             fieldValueTitle: "<spring:message code='foreign-invoice.form.tab.deductions.subtotal'/>",
         }));
-        this.members.last().setUnitId(this.currency.id);
+        this.getMembers().last().setUnitId(this.currency.id);
+
+        this.addMember(isc.HTMLFlow.create({
+            width: "100%",
+            contents: "<span style='width: 100%; display: block; margin: 10px auto; border-bottom: 1px solid rgba(0,0,0,0.3)'></span>"
+        }));
+
+        this.getMembers().filter(q => q.isInvoiceDeductionRow).forEach(q => q.calculate());
+
+        this.addMember(isc.ToolStrip.create({
+            width: "100%",
+            border: '0px',
+            members: [
+                isc.ToolStripButton.create({
+                    width: "100",
+                    height: "25",
+                    autoFit: false,
+                    title: "<spring:message code='global.ok'/>",
+                    click: function () {
+
+                        if (!This.validate())
+                            return;
+
+                        This.okButtonClick();
+
+                        let tab = This.parentElement.parentElement;
+                        tab.getTab(tab.selectedTab).pane.members.forEach(q => q.disable());
+                        tab.selectTab(tab.selectedTab + 1 % tab.tabs.length);
+                    }
+                }),
+                isc.ToolStrip.create(
+                    {
+                        width: "100%",
+                        align: "right",
+                        border: '0px',
+                        members: [
+                            // @ts-ignore
+                            isc.ToolStripButton.create({
+                                width: "100",
+                                height: "25",
+                                autoFit: false,
+                                title: "<spring:message code='global.cancel'/>",
+                                click: function () {
+
+                                    let tab = This.parentElement.parentElement;
+                                    let selectedTab = tab.selectedTab;
+                                    tab.getTab(tab.selectedTab - 1).pane.members.forEach(q => q.enable());
+                                    tab.selectTab(selectedTab - 1);
+                                    tab.removeTab(selectedTab);
+                                }
+                            })
+                        ]
+                    })
+            ]
+        }));
+        this.addMember(isc.HTMLFlow.create({
+            width: "100%",
+            contents: "<span style='width: 100%; display: block; margin: 10px auto; border-bottom: 1px solid rgba(0,0,0,0.3)'></span>"
+        }));
+
+        this.editDeduction();
     },
-    getValue: function () {
-        return this.members[0].getValues();
+    validate: function () {
+
+        let isValid = true;
+        this.getMembers().slice(1, this.invoiceCalculationComponent.getValues().length).forEach(q => isValid &= q.validate());
+        return isValid;
     },
-    getSumValue: function () {
-        return this.members[1].getValue();
+    getValues: function () {
+
+        let data = [{
+            name: "TC",
+            value: this.contractDetailData.tc
+        }];
+        this.getMembers().filter(q => q.role === "RC").forEach(current => {
+
+            data.add({
+                name: current.name,
+                elementId: current.elementId,
+                materialElementId: current.materialElementId,
+                assay: current.getFinalAssay(),
+                rcPrice: current.getRCPrice(),
+                rcBasePrice: current.getRCBasePrice(),
+                rcUnitConversionRate: current.getRCUnitConversionRate(),
+            });
+        });
+        return data;
+    },
+    okButtonClick: function () {
+
+    },
+    editDeduction: function () {
+        this.getMembers().filter(q => q.role === "RC").forEach(current => current.editRowDeduction());
+    },
+    getDeductionSubTotal: function () {
+        return this.getMembers().filter(q => q.name === "subTotal").first().getValues().value;
     }
 });

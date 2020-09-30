@@ -1,14 +1,10 @@
 package com.nicico.sales.model.entities.contract;
 
-import com.nicico.sales.model.Auditable;
 import com.nicico.sales.model.entities.base.Unit;
 import com.nicico.sales.model.entities.common.BaseEntity;
 import com.nicico.sales.model.enumeration.DataType;
 import lombok.*;
 import lombok.experimental.Accessors;
-import org.hibernate.envers.AuditOverride;
-import org.hibernate.envers.Audited;
-import org.hibernate.envers.NotAudited;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -19,9 +15,7 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
-@AuditOverride(forClass = Auditable.class)
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
-@Audited
 @Entity
 @Table(name = "TBL_CNTR_CONTRACT_DETAIL_VALUE")
 public class ContractDetailValue extends BaseEntity {
@@ -39,6 +33,10 @@ public class ContractDetailValue extends BaseEntity {
     @Column(name = "C_KEY", nullable = false)
     private String key;
 
+    @NotEmpty
+    @Column(name = "C_TITLE", nullable = false)
+    private String title;
+
     @NotNull
     @Column(name = "N_TYPE", nullable = false)
     private DataType type;
@@ -52,10 +50,6 @@ public class ContractDetailValue extends BaseEntity {
     @Column(name = "C_VALUE")
     private String value;
 
-    @Column(name = "C_COLUMN")
-    private String column;
-
-    @NotAudited
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "F_UNIT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_contractDetailValue2unitByUnitId"))
@@ -64,11 +58,10 @@ public class ContractDetailValue extends BaseEntity {
     @Column(name = "F_UNIT_ID")
     private Long unitId;
 
-    @NotAudited
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "F_CONTRACT_DETAIL_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_contractDetailValue2contractDetailByContractDetailId"))
-    private ContractDetail2 contractDetail;
+    private ContractDetail contractDetail;
 
     @NotNull
     @Column(name = "F_CONTRACT_DETAIL_ID", nullable = false)

@@ -1,6 +1,8 @@
 package com.nicico.sales.dto.invoice.foreign;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.nicico.sales.dto.MaterialElementDTO;
+import com.nicico.sales.model.enumeration.DeductionType;
 import com.nicico.sales.model.enumeration.EStatus;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -9,6 +11,7 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -18,6 +21,18 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ForeignInvoiceItemDetailDTO {
 
+    private BigDecimal assay;//
+    private BigDecimal basePrice;
+    private BigDecimal rcPrice;
+    private BigDecimal rcBasePrice;
+    private BigDecimal rcUnitConversionRate;
+    private DeductionType deductionType;
+    private BigDecimal deductionValue;
+    private BigDecimal deductionUnitConversionRate;
+    private BigDecimal deductionPrice;//
+    private Long foreignInvoiceItemId;
+    private Long materialElementId;
+
     @Getter
     @Setter
     @Accessors(chain = true)
@@ -25,6 +40,8 @@ public class ForeignInvoiceItemDetailDTO {
     public static class Info extends ForeignInvoiceItemDetailDTO {
 
         private Long id;
+        private MaterialElementDTO.Info materialElement;
+        private ForeignInvoiceItemDTO.Info foreignInvoiceItem;
 
         // Auditing
         private Date createdDate;
@@ -54,6 +71,8 @@ public class ForeignInvoiceItemDetailDTO {
         @NotNull
         @ApiModelProperty(required = true)
         private Long id;
+
+        private Integer version;
     }
 
     @Getter

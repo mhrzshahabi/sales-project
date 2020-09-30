@@ -2,10 +2,9 @@ package com.nicico.sales.web.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nicico.copper.core.SecurityUtil;
-import com.nicico.sales.model.enumeration.InspectionRateValueType;
+import com.nicico.sales.model.entities.base.PriceBase;
 import com.nicico.sales.model.enumeration.PriceBaseReference;
-import com.nicico.sales.model.enumeration.WeighingType;
+import com.nicico.sales.utility.SecurityChecker;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,10 +29,7 @@ public class PriceBaseFormController {
         for (PriceBaseReference value : PriceBaseReference.values()) priceBaseReference.put(value.name(), value.name());
         request.setAttribute("Enum_PriceBaseReference", objectMapper.writeValueAsString(priceBaseReference));
 
-
-        request.setAttribute("c_entity", SecurityUtil.hasAuthority("C_PRICE_BASE"));
-        request.setAttribute("u_entity", SecurityUtil.hasAuthority("U_PRICE_BASE"));
-        request.setAttribute("d_entity", SecurityUtil.hasAuthority("D_PRICE_BASE"));
+        SecurityChecker.addEntityPermissionToRequest(request, PriceBase.class);
 
         return "priceBase/priceBase";
     }

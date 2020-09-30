@@ -66,7 +66,7 @@ public class MaterialItemRestController {
     @Loggable
     @DeleteMapping(value = "/list")
     public ResponseEntity delete(@Validated @RequestBody MaterialItemDTO.Delete request) {
-        materialItemService.delete(request);
+        materialItemService.deleteAll(request);
         return new ResponseEntity(HttpStatus.OK);
     }
 
@@ -76,4 +76,11 @@ public class MaterialItemRestController {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
         return new ResponseEntity<>(materialItemService.search(nicicoCriteria), HttpStatus.OK);
     }
+     @Loggable
+    @GetMapping(value = "/spec-list-with-inventories")
+    public ResponseEntity<TotalResponse<MaterialItemDTO.InfoWithInventories>> listWithInventories(@RequestParam MultiValueMap<String, String> criteria) throws IOException {
+        final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
+        return new ResponseEntity<>(materialItemService.searchWithInventories(nicicoCriteria), HttpStatus.OK);
+    }
+
 }

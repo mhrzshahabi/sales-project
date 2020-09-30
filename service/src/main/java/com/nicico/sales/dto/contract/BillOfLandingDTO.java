@@ -1,9 +1,7 @@
 package com.nicico.sales.dto.contract;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.nicico.sales.dto.ContactDTO;
-import com.nicico.sales.dto.PortDTO;
-import com.nicico.sales.dto.VesselDTO;
+import com.nicico.sales.dto.*;
 import com.nicico.sales.model.entities.base.Contact;
 import com.nicico.sales.model.entities.base.Port;
 import com.nicico.sales.model.entities.base.Vessel;
@@ -71,13 +69,21 @@ public class BillOfLandingDTO {
 
     private Integer totalBundles;
 
+    private Long shipmentId;
+
+    private Long shipmentTypeId;
+
+    private Long shipmentMethodId;
+
+
+
 
 
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("BillOfLandingInfo")
-    public static class Info extends BillOfLandingDTO {
+    @ApiModel("BillOfLandingInfoWithoutShipment")
+    public static class InfoWithoutShipment extends BillOfLandingDTO{
 
         private Long id;
 
@@ -103,12 +109,13 @@ public class BillOfLandingDTO {
 
         private VesselDTO.Info oceanVessel;
 
+
 //        private List<RemittanceToBillOfLandingDTO.Info> remittances;
 
         private List<ContainerToBillOfLandingDTO.Info> containers;
-
-
-
+        //        private ShipmentDTO.Info shipment;
+        private ShipmentTypeDTO.Info shipmentType;
+        private ShipmentMethodDTO.Info shipmentMethod;
 
 
         // Auditing
@@ -121,6 +128,14 @@ public class BillOfLandingDTO {
         // BaseEntity
         private Boolean editable;
         private List<EStatus> eStatus;
+    }
+
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("BillOfLandingInfo")
+    public static class Info extends InfoWithoutShipment {
+        private ShipmentDTO.InfoWithoutBLs shipment;
     }
 
     @Getter
@@ -139,6 +154,8 @@ public class BillOfLandingDTO {
         @NotNull
         @ApiModelProperty(required = true)
         private Long id;
+
+        private Integer version;
     }
 
     @Getter

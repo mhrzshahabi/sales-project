@@ -1,12 +1,9 @@
 package com.nicico.sales.model.entities.base;
 
-import com.nicico.sales.model.Auditable;
 import com.nicico.sales.model.entities.common.BaseEntity;
+import com.nicico.sales.model.entities.contract.Contract;
 import lombok.*;
 import lombok.experimental.Accessors;
-import org.hibernate.envers.AuditOverride;
-import org.hibernate.envers.Audited;
-import org.hibernate.envers.NotAudited;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -16,8 +13,6 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
-@Audited
-@AuditOverride(forClass = Auditable.class)
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
 @Table(name = "TBL_CONTRACT_SHIPMENT")
@@ -29,12 +24,16 @@ public class ContractShipment extends BaseEntity {
     @Column(name = "ID")
     private Long id;
 
+    @Setter(AccessLevel.NONE)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "CONTRACT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "CONTRACTSHIPMENT2CONTRACT2"))
+    private Contract contract;
+
     @Column(name = "CONTRACT_ID")
     private Long contractId;
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
-    @NotAudited
     @JoinColumn(name = "LOAD_PORT_ID", nullable = false, insertable = false, updatable = false, foreignKey = @ForeignKey(name = "Contractship2loadport"))
     private Port loadPort;
 
@@ -49,6 +48,9 @@ public class ContractShipment extends BaseEntity {
 
     @Column(name = "TOLORANCE")
     private Long tolorance;
+
+    @Column(name = "N_PARENT_ID")
+        private Long parentId;
 
 
 }

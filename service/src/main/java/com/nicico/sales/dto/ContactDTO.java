@@ -28,9 +28,6 @@ public class ContactDTO {
     private Boolean type;
     private String nationalCode;
     private String economicalCode;
-    private String bankAccount;
-    private String bankShaba;
-    private String bankSwift;
     private Boolean status;
     private String tradeMark;
     private String commercialRegistration;
@@ -47,7 +44,6 @@ public class ContactDTO {
     private String ceo;
     private String ceoPassportNo;
     private Long countryId;
-    private Long bankId;
     private String postalCode;
     private String registerNumber;
 
@@ -73,6 +69,8 @@ public class ContactDTO {
         private Date lastModifiedDate;
         private String lastModifiedBy;
         private Integer version;
+        private ContactAccountDTO.Info defaultAccount;
+
     }
 
     @Getter
@@ -90,6 +88,8 @@ public class ContactDTO {
         @NotNull
         @ApiModelProperty(required = true)
         private Long id;
+
+        private Integer version;
     }
 
     @Getter

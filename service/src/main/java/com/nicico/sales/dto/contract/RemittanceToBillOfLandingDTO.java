@@ -2,6 +2,12 @@ package com.nicico.sales.dto.contract;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.nicico.sales.dto.RemittanceDTO;
+import com.nicico.sales.dto.ShipmentDTO;
+import com.nicico.sales.dto.ShipmentMethodDTO;
+import com.nicico.sales.dto.ShipmentTypeDTO;
+import com.nicico.sales.model.entities.base.Shipment;
+import com.nicico.sales.model.entities.base.ShipmentMethod;
+import com.nicico.sales.model.entities.base.ShipmentType;
 import com.nicico.sales.model.entities.contract.BillOfLanding;
 import com.nicico.sales.model.entities.warehouse.Remittance;
 import com.nicico.sales.model.enumeration.EStatus;
@@ -55,6 +61,9 @@ public class RemittanceToBillOfLandingDTO {
         // BaseEntity
         private Boolean editable;
         private List<EStatus> eStatus;
+
+
+
     }
 
     @Getter
@@ -73,6 +82,8 @@ public class RemittanceToBillOfLandingDTO {
         @NotNull
         @ApiModelProperty(required = true)
         private Long id;
+
+        private Integer version;
     }
 
     @Getter

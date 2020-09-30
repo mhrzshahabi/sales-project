@@ -1,0 +1,203 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+    <changeSet author="MShahabi" id="1799887766554-025">
+        <sql>
+            insert INTO TBL_WARH_MATERIAL_ELEMENT (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            F_ELEMENT_ID, F_MATERIAL_ID, F_UNIT_ID) VALUES (1, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 1, 3, -1);
+
+            insert INTO TBL_WARH_MATERIAL_ELEMENT (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            F_ELEMENT_ID, F_MATERIAL_ID, F_UNIT_ID) VALUES (2, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 2, 3, -1);
+
+            insert INTO TBL_WARH_MATERIAL_ELEMENT (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            F_ELEMENT_ID, F_MATERIAL_ID, F_UNIT_ID) VALUES (3, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 3, 3, -1);
+
+            insert INTO TBL_WARH_MATERIAL_ELEMENT (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            F_ELEMENT_ID, F_MATERIAL_ID, F_UNIT_ID) VALUES (4, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 4, 1, 11);
+
+            insert INTO TBL_WARH_MATERIAL_ELEMENT (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            F_ELEMENT_ID, F_MATERIAL_ID, F_UNIT_ID) VALUES (5, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 1, 1, 11);
+
+            insert INTO TBL_WARH_MATERIAL_ELEMENT (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            F_ELEMENT_ID, F_MATERIAL_ID, F_UNIT_ID) VALUES (6, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 1, 2, -1);
+
+        </sql>
+    </changeSet>
+    <changeSet id="saeb1234hala bia vesat " author="saeb">
+        <sql>
+            update TBL_WARH_MATERIAL_ELEMENT set F_UNIT_ID=-11 where id in (5,4);
+            delete from tbl_unit where id=11
+        </sql>
+    </changeSet>
+
+    <changeSet author="MShahabi" id="mazloom_046">
+        <sql>
+            update TBL_WARH_MATERIAL_ELEMENT set F_ELEMENT_ID=10 where F_MATERIAL_ID=1;
+
+            insert INTO TBL_WARH_MATERIAL_ELEMENT (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            F_ELEMENT_ID, F_MATERIAL_ID, F_UNIT_ID) VALUES (7, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 11, 3, -1);
+
+            insert INTO TBL_WARH_MATERIAL_ELEMENT (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            F_ELEMENT_ID, F_MATERIAL_ID, F_UNIT_ID) VALUES (8, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 12, 3, -1);
+
+            insert INTO TBL_WARH_MATERIAL_ELEMENT (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            F_ELEMENT_ID, F_MATERIAL_ID, F_UNIT_ID) VALUES (9, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 6, 3, -1);
+
+            insert INTO TBL_WARH_MATERIAL_ELEMENT (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            F_ELEMENT_ID, F_MATERIAL_ID, F_UNIT_ID) VALUES (10, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 14, 3, -1);
+
+            insert INTO TBL_WARH_MATERIAL_ELEMENT (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            F_ELEMENT_ID, F_MATERIAL_ID, F_UNIT_ID) VALUES (11, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 15, 3, -1);
+
+            insert INTO TBL_WARH_MATERIAL_ELEMENT (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            F_ELEMENT_ID, F_MATERIAL_ID, F_UNIT_ID) VALUES (12, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 4, 3, -1);
+
+            insert INTO TBL_WARH_MATERIAL_ELEMENT (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            F_ELEMENT_ID, F_MATERIAL_ID, F_UNIT_ID) VALUES (13, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 16, 3, -1);
+
+            insert INTO TBL_WARH_MATERIAL_ELEMENT (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            F_ELEMENT_ID, F_MATERIAL_ID, F_UNIT_ID) VALUES (14, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 17, 3, -1);
+
+            insert INTO TBL_WARH_MATERIAL_ELEMENT (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            F_ELEMENT_ID, F_MATERIAL_ID, F_UNIT_ID) VALUES (15, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 18, 3, -1);
+
+            insert INTO TBL_WARH_MATERIAL_ELEMENT (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            F_ELEMENT_ID, F_MATERIAL_ID, F_UNIT_ID) VALUES (16, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 7, 3, -1);
+
+            insert INTO TBL_WARH_MATERIAL_ELEMENT (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            F_ELEMENT_ID, F_MATERIAL_ID, F_UNIT_ID) VALUES (17, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 19, 3, -1);
+
+            insert INTO TBL_WARH_MATERIAL_ELEMENT (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            F_ELEMENT_ID, F_MATERIAL_ID, F_UNIT_ID) VALUES (18, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 20, 3, -1);
+
+            insert INTO TBL_WARH_MATERIAL_ELEMENT (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            F_ELEMENT_ID, F_MATERIAL_ID, F_UNIT_ID) VALUES (19, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 21, 3, -1);
+
+            insert INTO TBL_WARH_MATERIAL_ELEMENT (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            F_ELEMENT_ID, F_MATERIAL_ID, F_UNIT_ID) VALUES (20, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 22, 3, -1);
+
+            insert INTO TBL_WARH_MATERIAL_ELEMENT (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            F_ELEMENT_ID, F_MATERIAL_ID, F_UNIT_ID) VALUES (21, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 23, 3, -1);
+
+            insert INTO TBL_WARH_MATERIAL_ELEMENT (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            F_ELEMENT_ID, F_MATERIAL_ID, F_UNIT_ID) VALUES (22, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 24, 3, -1);
+
+            insert INTO TBL_WARH_MATERIAL_ELEMENT (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            F_ELEMENT_ID, F_MATERIAL_ID, F_UNIT_ID) VALUES (23, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 25, 3, -1);
+
+            insert INTO TBL_WARH_MATERIAL_ELEMENT (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            F_ELEMENT_ID, F_MATERIAL_ID, F_UNIT_ID) VALUES (24, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 26, 3, -1);
+
+            insert INTO TBL_WARH_MATERIAL_ELEMENT (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            F_ELEMENT_ID, F_MATERIAL_ID, F_UNIT_ID) VALUES (25, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 27, 3, -1);
+
+            insert INTO TBL_WARH_MATERIAL_ELEMENT (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            F_ELEMENT_ID, F_MATERIAL_ID, F_UNIT_ID) VALUES (26, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 28, 3, -1);
+
+            insert INTO TBL_WARH_MATERIAL_ELEMENT (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            F_ELEMENT_ID, F_MATERIAL_ID, F_UNIT_ID) VALUES (27, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 29, 3, -1);
+
+            insert INTO TBL_WARH_MATERIAL_ELEMENT (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            F_ELEMENT_ID, F_MATERIAL_ID, F_UNIT_ID) VALUES (28, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 30, 3, -1);
+
+            insert INTO TBL_WARH_MATERIAL_ELEMENT (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            F_ELEMENT_ID, F_MATERIAL_ID, F_UNIT_ID) VALUES (29, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 31, 3, -1);
+
+            insert INTO TBL_WARH_MATERIAL_ELEMENT (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            F_ELEMENT_ID, F_MATERIAL_ID, F_UNIT_ID) VALUES (30, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 32, 3, -1);
+
+            insert INTO TBL_WARH_MATERIAL_ELEMENT (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            F_ELEMENT_ID, F_MATERIAL_ID, F_UNIT_ID) VALUES (31, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 33, 3, -1);
+
+            insert INTO TBL_WARH_MATERIAL_ELEMENT (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            F_ELEMENT_ID, F_MATERIAL_ID, F_UNIT_ID) VALUES (32, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 5, 1, -1);
+
+            insert INTO TBL_WARH_MATERIAL_ELEMENT (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            F_ELEMENT_ID, F_MATERIAL_ID, F_UNIT_ID) VALUES (33, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 6, 1, -1);
+
+            insert INTO TBL_WARH_MATERIAL_ELEMENT (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            F_ELEMENT_ID, F_MATERIAL_ID, F_UNIT_ID) VALUES (34, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 7, 1, -1);
+
+            insert INTO TBL_WARH_MATERIAL_ELEMENT (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            F_ELEMENT_ID, F_MATERIAL_ID, F_UNIT_ID) VALUES (35, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 8, 1, -1);
+
+            insert INTO TBL_WARH_MATERIAL_ELEMENT (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            F_ELEMENT_ID, F_MATERIAL_ID, F_UNIT_ID) VALUES (36, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 9, 1, -1);
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

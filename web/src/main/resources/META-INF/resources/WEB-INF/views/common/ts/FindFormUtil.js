@@ -103,6 +103,18 @@ var nicico;
                 ownerWindow.close();
             this.windowWidget.getObject().show();
         };
+        FindFormUtil.prototype.setOwner = function (owner) {
+            this.owner = new nicico.ObjectHider(owner);
+        };
+        FindFormUtil.prototype.setWindowWidget = function (window) {
+            this.windowWidget = new nicico.ObjectHider(window);
+        };
+        FindFormUtil.prototype.setListGridWidget = function (listGrid) {
+            this.listGridWidget = new nicico.ObjectHider(listGrid);
+        };
+        FindFormUtil.prototype.setSelectionMultiplicity = function (selectionMultiplicity) {
+            this.selectionMultiplicity = new nicico.ObjectHider(selectionMultiplicity);
+        };
         FindFormUtil.prototype.getButtonLayout = function () {
             var This = this;
             // @ts-ignore

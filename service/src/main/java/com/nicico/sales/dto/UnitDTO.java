@@ -46,6 +46,19 @@ public class UnitDTO {
     @Getter
     @Setter
     @Accessors(chain = true)
+    @ApiModel("UnitTuple")
+    public static class Tuple extends UnitDTO {
+        private Long id;
+        private Date createdDate;
+        private String createdBy;
+        private Date lastModifiedDate;
+        private String lastModifiedBy;
+        private Integer version;
+    }
+
+    @Getter
+    @Setter
+    @Accessors(chain = true)
     @ApiModel("UnitCreateRq")
     public static class Create extends UnitDTO {
     }
@@ -58,6 +71,8 @@ public class UnitDTO {
         @NotNull
         @ApiModelProperty(required = true)
         private Long id;
+
+        private Integer version;
     }
 
     @Getter

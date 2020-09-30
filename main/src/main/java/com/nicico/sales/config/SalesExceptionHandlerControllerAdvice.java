@@ -12,12 +12,15 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @ControllerAdvice
 @RequiredArgsConstructor
@@ -55,6 +58,24 @@ public class SalesExceptionHandlerControllerAdvice extends AbstractExceptionHand
         return result;
     }
 
+    private Throwable findConstraintViolationException(Throwable exception) {
+
+        Throwable result = null;
+        Throwable throwable = exception;
+        while (throwable != null) {
+
+            if (throwable instanceof javax.validation.ConstraintViolationException) {
+
+                result = throwable;
+                break;
+            }
+
+            throwable = throwable.getCause();
+        }
+
+        return result;
+    }
+
     private ErrorResponseDTO createErrorResponseDTO(BaseException exception) {
 
         return (new ErrorResponseDTO(exception)).
@@ -67,27 +88,52 @@ public class SalesExceptionHandlerControllerAdvice extends AbstractExceptionHand
 
     private ResponseEntity<Object> provideStandardError(Exception exception) {
 
-        Throwable baseException = findBaseException(exception);
-        if (baseException instanceof BaseException) {
+        Throwable throwable = findBaseException(exception);
+        if (throwable instanceof BaseException) {
 
-            BaseException originalException = (BaseException) baseException;
+            BaseException originalException = (BaseException) throwable;
             HttpStatus httpStatus = HttpStatus.valueOf(originalException.getResponse().getErrorCode().getId());
             return new ResponseEntity<>(createErrorResponseDTO(originalException), httpStatus);
-        } else {
-
-            final Locale locale = LocaleContextHolder.getLocale();
-            String message = messageSource.getMessage("exception.un-managed", null, locale);
-            ErrorResponseDTO errorResponseDTO = new ErrorResponseDTO(exception).
-                    setError(ErrorType.Unknown.name()).
-                    setErrors(Collections.singleton((new ErrorResponseDTO.ErrorFieldDTO()).
-                            setCode(ErrorType.Unknown.name()).
-                            setMessage(message)));
-
-            return new ResponseEntity<>(errorResponseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
         }
+        throwable = findConstraintViolationException(exception);
+        if (throwable instanceof javax.validation.ConstraintViolationException) {
+/*
+ConstraintViolationImpl{
+    interpolatedMessage='شناسه محصول خالی نباشد',
+     propertyPath=label,
+     rootBeanClass=class com.nicico.sales.model.entities.warehouse.Inventory,
+      messageTemplate='شناسه محصول خالی نباشد'
+      }
+*/
+            String field = null, message = null, msgRegex = "interpolatedMessage='(.*?)'", fieldRegex = "propertyPath=(.*?),";
+            final Pattern msgPattern = Pattern.compile(msgRegex);
+            final Pattern fieldPattern = Pattern.compile(fieldRegex);
+            javax.validation.ConstraintViolationException originalException = (javax.validation.ConstraintViolationException) throwable;
+            Matcher matcher = fieldPattern.matcher(originalException.getLocalizedMessage());
+            if (matcher.find())
+                field = matcher.group(1);
+            matcher = msgPattern.matcher(originalException.getLocalizedMessage());
+            if (matcher.find()) {
+
+                final Locale locale = LocaleContextHolder.getLocale();
+                message = messageSource.getMessage(matcher.group(1), null, locale);
+            }
+
+            return new ResponseEntity<>(createErrorResponseDTO(new SalesException2(ErrorType.ConstraintViolation, field, message)), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        final Locale locale = LocaleContextHolder.getLocale();
+        String message = messageSource.getMessage("exception.un-managed", null, locale);
+        ErrorResponseDTO errorResponseDTO = new ErrorResponseDTO(exception).
+                setError(ErrorType.Unknown.name()).
+                setErrors(Collections.singleton((new ErrorResponseDTO.ErrorFieldDTO()).
+                        setCode(ErrorType.Unknown.name()).
+                        setMessage(message)));
+
+        return new ResponseEntity<>(errorResponseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    @ExceptionHandler({SalesException2.class, NotFoundException.class, NotEditableException.class, UnAuthorizedException.class})
+    @ExceptionHandler({SalesException2.class, NotFoundException.class, DeActiveRecordException.class, FinalRecordException.class, NotEditableException.class, UnAuthorizedException.class})
     public ResponseEntity<Object> handleBaseExceptions(BaseException exception) {
 
         this.printLog(exception, true, true, exception.getResponse().toString());
@@ -117,6 +163,15 @@ public class SalesExceptionHandlerControllerAdvice extends AbstractExceptionHand
         Locale locale = LocaleContextHolder.getLocale();
         String message = messageSource.getMessage("exception.max-up-size-exceeded", new Object[]{exception.getMaxUploadSize()}, locale);
         return provideStandardError(new SalesException2(ErrorType.PayloadTooLarge, null, message));
+    }
+
+    @ExceptionHandler({ObjectOptimisticLockingFailureException.class})
+    public ResponseEntity<Object> handleObjectOptimisticLockingFailureException(ObjectOptimisticLockingFailureException exception) {
+        this.printLog(exception, true, true, exception.getClass().getName());
+
+        Locale locale = LocaleContextHolder.getLocale();
+        String message = messageSource.getMessage("exception.optimistic-locking-failure", null, locale);
+        return provideStandardError(new SalesException2(ErrorType.BadRequest, null, message));
     }
 
     @ExceptionHandler({DataIntegrityViolationException.class})

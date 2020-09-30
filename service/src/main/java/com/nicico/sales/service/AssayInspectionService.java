@@ -1,17 +1,20 @@
 package com.nicico.sales.service;
 
+import com.nicico.sales.annotation.Action;
 import com.nicico.sales.dto.AssayInspectionDTO;
+import com.nicico.sales.dto.ContactDTO;
+import com.nicico.sales.enumeration.ActionType;
+import com.nicico.sales.exception.NotFoundException;
 import com.nicico.sales.iservice.IAssayInspectionService;
 import com.nicico.sales.model.entities.base.AssayInspection;
+import com.nicico.sales.model.entities.base.Contact;
+import com.nicico.sales.model.enumeration.InspectionReportMilestone;
 import com.nicico.sales.repository.AssayInspectionDAO;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.TypeToken;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,27 +22,62 @@ import java.util.stream.Collectors;
 @Service
 public class AssayInspectionService extends GenericService<AssayInspection, Long, AssayInspectionDTO.Create, AssayInspectionDTO.Info, AssayInspectionDTO.Update, AssayInspectionDTO.Delete> implements IAssayInspectionService {
 
+    private final AssayInspectionDAO assayInspectionDAO;
+
     @Override
-    public List<AssayInspectionDTO.AssayData> getAssayValues(List<Long> inventoryIds, Boolean doIntegration) {
+    @Transactional
+    @Action(ActionType.Get)
+    public List<ContactDTO.Info> getShipmentInspector(Long shipmentId) {
 
-        List<AssayInspection> assayInspections = ((AssayInspectionDAO) repository).findAllByInventoryIdIn(inventoryIds);
+        List<AssayInspection> byShipmentId = ((AssayInspectionDAO) repository).findAllByShipmentId(shipmentId);
+        List<Contact> inspectors = byShipmentId.stream().map(q -> q.getInspectionReport().getInspector()).distinct().collect(Collectors.toList());
+        return modelMapper.map(inspectors, new TypeToken<List<ContactDTO.Info>>() {
+        }.getType());
+    }
+
+    @Override
+    public List<AssayInspectionDTO.InfoWithoutInspectionReport> getAssayValues(Long shipmentId, InspectionReportMilestone reportMilestone, List<Long> inventoryIds) {
+
+        List<AssayInspection> assayInspections = ((AssayInspectionDAO) repository).findAllByShipmentIdAndInventoryIdIn(shipmentId, inventoryIds);
         if (assayInspections.size() == 0)
-            return new ArrayList<>();
+            throw new NotFoundException(AssayInspection.class);
 
-        if (!doIntegration)
-            return modelMapper.map(assayInspections, new TypeToken<List<AssayInspectionDTO.AssayData>>() {
-            }.getType());
+        if (!assayInspections.stream().map(AssayInspection::getInventoryId).collect(Collectors.toList()).containsAll(inventoryIds))
+            throw new NotFoundException(AssayInspection.class);
 
-        Collection<AssayInspectionDTO.AssayData> groups = assayInspections.stream().collect(Collectors.groupingBy(AssayInspection::getMaterialElementId, Collectors.collectingAndThen(Collectors.toList(), q -> {
+        switch (reportMilestone.getId()) {
 
-            BigDecimal averageValue = q.stream().map(AssayInspection::getValue).reduce(BigDecimal.ZERO, BigDecimal::add).divide(BigDecimal.valueOf(q.size()), RoundingMode.HALF_EVEN);
-            AssayInspectionDTO.AssayData result = modelMapper.map(q.get(0), AssayInspectionDTO.AssayData.class);
-            result.setValue(averageValue);
-            result.setInventory(null);
+            case 1:
+                List<AssayInspection> sourceInspections = assayInspections.stream().filter(q -> q.getMileStone() == InspectionReportMilestone.Source).collect(Collectors.toList());
+                if (sourceInspections.size() == 0)
+                    throw new NotFoundException(AssayInspection.class);
+                return modelMapper.map(sourceInspections, new TypeToken<List<AssayInspectionDTO.InfoWithoutInspectionReport>>() {
+                }.getType());
+            case 2:
+                List<AssayInspection> destinationInspections = assayInspections.stream().filter(q -> q.getMileStone() == InspectionReportMilestone.Destination).collect(Collectors.toList());
+                if (destinationInspections.size() == 0)
+                    throw new NotFoundException(AssayInspection.class);
+                return modelMapper.map(destinationInspections, new TypeToken<List<AssayInspectionDTO.InfoWithoutInspectionReport>>() {
+                }.getType());
+            case 3:
+                List<AssayInspection> umpireInspections = assayInspections.stream().filter(q -> q.getMileStone() == InspectionReportMilestone.Umpire).collect(Collectors.toList());
+                if (umpireInspections.size() == 0)
+                    throw new NotFoundException(AssayInspection.class);
+                return modelMapper.map(umpireInspections, new TypeToken<List<AssayInspectionDTO.InfoWithoutInspectionReport>>() {
+                }.getType());
+            default:
+                throw new NotFoundException(AssayInspection.class);
+        }
+    }
 
-            return result;
-        }))).values();
+    @Override
+    public List<Long> getAssayInventoryData(InspectionReportMilestone reportMilestone, List<Long> inventoryIds) {
 
-        return new ArrayList<>(groups);
+        List<Long> assayInspectionInventoryIds = assayInspectionDAO.
+                findAllByMileStoneAndInventoryIdIn(reportMilestone, inventoryIds).
+                stream().map(AssayInspection::getInventoryId).
+                collect(Collectors.toList());
+
+        return inventoryIds.stream().filter(o -> !assayInspectionInventoryIds.contains(o)).collect(Collectors.toList());
     }
 }

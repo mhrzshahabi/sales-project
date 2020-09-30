@@ -21,7 +21,7 @@ public class ContractDetailTypeDTO {
 
     private String code;
     private Long materialId;
-    private String titleFa;
+    private String titleFa = "titleFa";
     private String titleEn;
 
     private List<ContractDetailTypeParamDTO.Info> contractDetailTypeParams;
@@ -65,6 +65,8 @@ public class ContractDetailTypeDTO {
         @NotNull
         @ApiModelProperty(required = true)
         private Long id;
+
+        private Integer version;
     }
 
     @Getter

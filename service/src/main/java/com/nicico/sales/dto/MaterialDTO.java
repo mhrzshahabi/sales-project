@@ -70,6 +70,8 @@ public class MaterialDTO {
 
         @ApiModelProperty(required = true)
         private Long unitId;
+
+        private Integer version;
     }
 
     @Getter

@@ -9,7 +9,7 @@ public enum EStatus {
 
     Active(1),
     DeActive(2),
-    NotPrintable(4);
+    Final(4);
 
     private final Integer id;
 }

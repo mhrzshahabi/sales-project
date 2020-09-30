@@ -1,12 +1,11 @@
 package com.nicico.sales.controller;
 
-
 import com.nicico.copper.common.Loggable;
 import com.nicico.copper.common.domain.ConstantVARs;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.copper.core.util.report.ReportUtil;
-import com.nicico.sales.dto.InvoiceInternalDTO;
+import com.nicico.sales.dto.InternalInvoiceDTO;
 import com.nicico.sales.iservice.IInvoiceInternalService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,35 +33,34 @@ public class InvoiceInternalRestController {
 
     @Loggable
     @GetMapping(value = "/{id}")
-    public ResponseEntity<InvoiceInternalDTO.Info> get(@PathVariable String id) {
+    public ResponseEntity<InternalInvoiceDTO.Info> get(@PathVariable String id) {
         return new ResponseEntity<>(invoiceInternalService.get(id), HttpStatus.OK);
     }
 
     @Loggable
     @GetMapping(value = "/list")
-    public ResponseEntity<List<InvoiceInternalDTO.Info>> list() {
+    public ResponseEntity<List<InternalInvoiceDTO.Info>> list() {
         return new ResponseEntity<>(invoiceInternalService.list(), HttpStatus.OK);
     }
 
     @Loggable
     @GetMapping(value = "/list-accounting/{ids}")
-    public ResponseEntity<List<InvoiceInternalDTO.Info>> listAccounting(@PathVariable List<String> ids) {
-        List<InvoiceInternalDTO.Info> lastIds = invoiceInternalService.getIds(ids);
+    public ResponseEntity<List<InternalInvoiceDTO.Info>> listAccounting(@PathVariable List<String> ids) {
+        List<InternalInvoiceDTO.Info> lastIds = invoiceInternalService.getIds(ids);
         return new ResponseEntity<>(lastIds, HttpStatus.OK);
     }
-
     @Loggable
-    @GetMapping(value = "/list-accounting")
-    public ResponseEntity<TotalResponse<InvoiceInternalDTO.Info>> listAccountingLong(@RequestParam MultiValueMap<String, String> criteria) {
+    @GetMapping(value = "/update-deleted-document")
+    public ResponseEntity<Void> updateDeletedDocument(@RequestParam MultiValueMap<String, String> criteria) {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
-        TotalResponse<InvoiceInternalDTO.Info> search = invoiceInternalService.search(nicicoCriteria);
-        return new ResponseEntity<>(search, HttpStatus.OK);
+        TotalResponse<InternalInvoiceDTO.Info> search = invoiceInternalService.search(nicicoCriteria);
+        invoiceInternalService.updateDeletedDocument(search.getResponse().getData());
+        return new ResponseEntity<>( HttpStatus.OK);
     }
-
 
     @Loggable
     @GetMapping(value = "/spec-list")
-    public ResponseEntity<TotalResponse<InvoiceInternalDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) {
+    public ResponseEntity<TotalResponse<InternalInvoiceDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
         return new ResponseEntity<>(invoiceInternalService.search(nicicoCriteria), HttpStatus.OK);
     }
@@ -70,7 +68,7 @@ public class InvoiceInternalRestController {
     @Loggable
     @PutMapping
     @RequestMapping("/sendForm-2accounting/{id}")
-    public ResponseEntity<InvoiceInternalDTO.Info> sendForm2accounting(@PathVariable String id, @RequestBody String data) {
+    public ResponseEntity<InternalInvoiceDTO.Info> sendForm2accounting(@PathVariable String id, @RequestBody String data) {
         return new ResponseEntity<>(invoiceInternalService.sendInternalForm2accounting(id, data), HttpStatus.OK);
     }
 

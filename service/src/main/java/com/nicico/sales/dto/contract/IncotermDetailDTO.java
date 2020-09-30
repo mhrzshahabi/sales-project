@@ -60,6 +60,8 @@ public class IncotermDetailDTO {
         @NotNull
         @ApiModelProperty(required = true)
         private Long id;
+
+        private Integer version;
     }
 
     @Getter

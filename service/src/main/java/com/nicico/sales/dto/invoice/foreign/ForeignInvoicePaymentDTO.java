@@ -1,6 +1,7 @@
 package com.nicico.sales.dto.invoice.foreign;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.nicico.sales.dto.CurrencyRateDTO;
 import com.nicico.sales.model.enumeration.EStatus;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -9,6 +10,7 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -18,6 +20,17 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ForeignInvoicePaymentDTO {
 
+    private String docNo;
+    private Date docDate;
+    private BigDecimal docSumValue;
+    private Date docConversionDate;
+    private BigDecimal docConversionRate;
+    private BigDecimal docConversionPrice;
+    private BigDecimal portion;
+    private String description;
+    private Long conversionRefId;
+    private Long foreignInvoiceId;
+
     @Getter
     @Setter
     @Accessors(chain = true)
@@ -25,6 +38,8 @@ public class ForeignInvoicePaymentDTO {
     public static class Info extends ForeignInvoicePaymentDTO {
 
         private Long id;
+        private CurrencyRateDTO.Info conversionRef;
+        private ForeignInvoiceDTO.Info foreignInvoice;
 
         // Auditing
         private Date createdDate;
@@ -54,6 +69,8 @@ public class ForeignInvoicePaymentDTO {
         @NotNull
         @ApiModelProperty(required = true)
         private Long id;
+
+        private Integer version;
     }
 
     @Getter

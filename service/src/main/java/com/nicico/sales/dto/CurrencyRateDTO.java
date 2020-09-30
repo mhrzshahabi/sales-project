@@ -2,6 +2,7 @@ package com.nicico.sales.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.nicico.sales.model.entities.base.Unit;
 import com.nicico.sales.model.enumeration.CurrencyType;
 import com.nicico.sales.model.enumeration.EStatus;
 import com.nicico.sales.model.enumeration.RateReference;
@@ -41,6 +42,8 @@ public class CurrencyRateDTO {
     public static class Info extends CurrencyRateDTO {
         private Long id;
         private Date createdDate;
+        private UnitDTO unitFrom;
+        private UnitDTO unitTo;
         private String createdBy;
         private Date lastModifiedDate;
         private String lastModifiedBy;
@@ -66,6 +69,8 @@ public class CurrencyRateDTO {
         @NotNull
         @ApiModelProperty(required = true)
         private Long id;
+
+        private Integer version;
     }
 
     @Getter
