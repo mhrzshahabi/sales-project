@@ -20,6 +20,7 @@ public class CountryDTO {
 
     private String nameFa;
     private String nameEn;
+    private String name;
 
     @Getter
     @Setter

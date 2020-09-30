@@ -1,12 +1,14 @@
 package com.nicico.sales.model.entities.base;
 
 import com.nicico.sales.model.entities.common.BaseEntity;
+import com.nicico.sales.model.enumeration.I18n;
 import lombok.*;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+@I18n
 @Getter
 @Setter
 @NoArgsConstructor
@@ -31,4 +33,7 @@ public class Country extends BaseEntity {
     @Column(name = "C_NAME_EN", nullable = false)
     private String nameEn;
 
+    @I18n
+    @Transient
+    private String name;
 }
