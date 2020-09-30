@@ -3,6 +3,7 @@ package com.nicico.sales.service;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nicico.sales.dto.AccountingDTO;
+import com.nicico.sales.dto.ErrorResponseDTO;
 import com.nicico.sales.enumeration.ErrorType;
 import com.nicico.sales.exception.SalesException2;
 import com.nicico.sales.iservice.IAccountingApiService;
@@ -18,6 +19,7 @@ import org.springframework.security.oauth2.provider.authentication.OAuth2Authent
 import org.springframework.stereotype.Service;
 import org.springframework.util.MultiValueMap;
 import org.springframework.util.StringUtils;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -99,12 +101,13 @@ public class AccountingApiService implements IAccountingApiService {
 
 		final HttpEntity<String> httpEntity = new HttpEntity<>(getApplicationJSONHttpHeaders());
 
-		final ResponseEntity<String> httpResponse;
+		ResponseEntity<String> httpResponse = null;
 		try {
 			httpResponse = new RestTemplate().exchange(uriComponentsBuilder.build(false).encode().toUri(), HttpMethod.GET, httpEntity, String.class);
 		} catch (Exception e) {
-			throw new SalesException2(e, ErrorType.BadRequest, null, e.getMessage());
+			throwException(e);
 		}
+
 		if (httpResponse.getStatusCode().equals(HttpStatus.OK)) {
 			if (!StringUtils.isEmpty(httpResponse.getBody())) {
 				try {
@@ -120,7 +123,7 @@ public class AccountingApiService implements IAccountingApiService {
 				} catch (IOException e) {
 					final String message = "AccountingApiService.GetDetailByName Error: [" + Arrays.toString(e.getStackTrace()) + "]";
 					log.error(message);
-					throw new SalesException2(ErrorType.BadRequest, null, message);
+					throw new SalesException2(ErrorType.InternalServerError, null, message);
 				}
 			}
 		} else {
@@ -159,12 +162,13 @@ public class AccountingApiService implements IAccountingApiService {
 
 		final HttpEntity<String> httpEntity = new HttpEntity<>(getApplicationJSONHttpHeaders());
 
-		final ResponseEntity<String> httpResponse;
+		ResponseEntity<String> httpResponse = null;
 		try {
 			httpResponse = new RestTemplate().exchange(url, HttpMethod.GET, httpEntity, String.class);
 		} catch (Exception e) {
-			throw new SalesException2(e, ErrorType.BadRequest, null, e.getMessage());
+			throwException(e);
 		}
+
 		if (httpResponse.getStatusCode().equals(HttpStatus.OK)) {
 			if (!StringUtils.isEmpty(httpResponse.getBody())) {
 				try {
@@ -175,7 +179,7 @@ public class AccountingApiService implements IAccountingApiService {
 				} catch (IOException e) {
 					final String message = "AccountingApiService.GetDepartments Error: [" + Arrays.toString(e.getStackTrace()) + "]";
 					log.error(message);
-					throw new SalesException2(ErrorType.BadRequest, null, message);
+					throw new SalesException2(ErrorType.InternalServerError, null, message);
 				}
 			}
 		} else {
@@ -193,12 +197,13 @@ public class AccountingApiService implements IAccountingApiService {
 
 		final HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(requestParams, getApplicationFormURLEncodedHttpHeaders());
 
-		final ResponseEntity<String> httpResponse;
+		ResponseEntity<String> httpResponse = null;
 		try {
 			httpResponse = new RestTemplate().exchange(url, HttpMethod.POST, httpEntity, String.class);
 		} catch (Exception e) {
-			throw new SalesException2(e, ErrorType.BadRequest, null, e.getMessage());
+			throwException(e);
 		}
+
 		if (httpResponse.getStatusCode().equals(HttpStatus.CREATED)) {
 			log.info("AccountingApiService.SendDataParameters Info: [" + httpResponse.getStatusCode() + "]: " + httpResponse.getBody());
 		} else {
@@ -242,12 +247,13 @@ public class AccountingApiService implements IAccountingApiService {
 
 		final HttpEntity<List<Map<String, Object>>> httpEntity = new HttpEntity<>(requestParamList, getApplicationJSONHttpHeaders());
 
-		final ResponseEntity<String> httpResponse;
+		ResponseEntity<String> httpResponse = null;
 		try {
 			httpResponse = new RestTemplate().exchange(url, HttpMethod.POST, httpEntity, String.class);
 		} catch (Exception e) {
-			throw new SalesException2(e, ErrorType.BadRequest, null, e.getMessage());
+			throwException(e);
 		}
+
 		if (httpResponse.getStatusCode().equals(HttpStatus.OK)) {
 			if (!StringUtils.isEmpty(httpResponse.getBody())) {
 				try {
@@ -256,7 +262,7 @@ public class AccountingApiService implements IAccountingApiService {
 				} catch (IOException e) {
 					final String message = "AccountingApiService.SendInvoice Error: [" + Arrays.toString(e.getStackTrace()) + "]";
 					log.error(message);
-					throw new SalesException2(ErrorType.BadRequest, null, message);
+					throw new SalesException2(ErrorType.InternalServerError, null, message);
 				}
 			}
 		} else {
@@ -274,12 +280,13 @@ public class AccountingApiService implements IAccountingApiService {
 
 		final HttpEntity<List<String>> httpEntity = new HttpEntity<>(requestParams, getApplicationJSONHttpHeaders());
 
-		final ResponseEntity<String> httpResponse;
+		ResponseEntity<String> httpResponse = null;
 		try {
 			httpResponse = new RestTemplate().exchange(url, HttpMethod.POST, httpEntity, String.class);
 		} catch (Exception e) {
-			throw new SalesException2(e, ErrorType.BadRequest, null, e.getMessage());
+			throwException(e);
 		}
+
 		if (httpResponse.getStatusCode().equals(HttpStatus.OK)) {
 			if (!StringUtils.isEmpty(httpResponse.getBody())) {
 				try {
@@ -288,7 +295,7 @@ public class AccountingApiService implements IAccountingApiService {
 				} catch (IOException e) {
 					final String message = "AccountingApiService.GetInvoiceStatus Error: [" + Arrays.toString(e.getStackTrace()) + "]";
 					log.error(message);
-					throw new SalesException2(ErrorType.BadRequest, null, message);
+					throw new SalesException2(ErrorType.InternalServerError, null, message);
 				}
 			}
 		} else {
@@ -298,5 +305,28 @@ public class AccountingApiService implements IAccountingApiService {
 		}
 
 		return new HashMap<>();
+	}
+
+	private void throwException(Exception e) {
+		log.error("AccountingApiService.throwException Error: " + e.getMessage());
+
+		if (e instanceof HttpClientErrorException) {
+			try {
+				final ErrorResponseDTO errorResponseDTO = objectMapper.readValue(((HttpClientErrorException) e).getResponseBodyAsString(), ErrorResponseDTO.class);
+
+				if (!StringUtils.isEmpty(errorResponseDTO.getError())) {
+					throw new SalesException2(e, ErrorType.BadRequest, null, errorResponseDTO.getError());
+				} else if (!errorResponseDTO.getErrors().isEmpty()) {
+					final ErrorResponseDTO.ErrorFieldDTO errorFieldDTO = (ErrorResponseDTO.ErrorFieldDTO) errorResponseDTO.getErrors().toArray()[0];
+					throw new SalesException2(e, ErrorType.BadRequest, errorFieldDTO.getField(), errorFieldDTO.getMessage());
+				} else {
+					throw new SalesException2(ErrorType.BadRequest, null, e.getMessage());
+				}
+			} catch (IOException ioException) {
+				final String message = "AccountingApiService.throwException Error: [" + Arrays.toString(e.getStackTrace()) + "]";
+				log.error(message);
+				throw new SalesException2(ErrorType.InternalServerError, null, message);
+			}
+		}
 	}
 }
