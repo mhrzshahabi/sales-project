@@ -390,7 +390,7 @@ function onWayProductCreateRemittance() {
         isModal: true,
         align: "center",
         autoDraw: false,
-        canDragReposition: false,
+        // canDragReposition: false,
         dismissOnEscape: true,
         closeClick: function () {
             this.Super("closeClick", arguments)
