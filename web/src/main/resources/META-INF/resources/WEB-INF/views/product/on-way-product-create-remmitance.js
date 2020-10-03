@@ -293,11 +293,30 @@ function onWayProductCreateRemittance() {
                         }
                         return false
                     })
+                    const withoutLabel = remittanceDetail.find(tz => {
+
+                        const pkg = tz['packages'].find(p => {
+                            if (!p.label ) {
+                                return true
+                            }
+                            return false;
+                        })
+                     return pkg;
+                    })
+
                     if (withoutTedad) return dialog( "<spring:message code='Tozin.package.bigger.zero'/>",
                         function () {
                         grid.expandRecord(withoutTedad);
                         window[listGridSetDestTozinHarasatPolompForSelectedTozin['w']].show()
                     })
+
+                     if (withoutLabel) return dialog( "<spring:message code='Tozin.inventory.label.not.saved'/>",
+                        function () {
+                        grid.expandRecord(withoutLabel);
+                        window[listGridSetDestTozinHarasatPolompForSelectedTozin['w']].show()
+                    })
+
+
                     const dataForSave = {
                         remittance: DynamicForm_warehouseCAD.getValues(),
                         remittanceDetails: []
@@ -1041,7 +1060,9 @@ function onWayProductCreateRemittance() {
                     const _tedadString = 'remitance_inventory_default_tedad_'+ tzn.codeKala.toString()
                         + '_' +
                         tzn.sourceId.toString();
-                    const _tedad = StorageUtil.get(_tedadString);
+                    let _tedad = StorageUtil.get(_tedadString);
+                    if(!_tedad || Number(_tedad)<3)
+                        _tedad=18
                     const _vazn = Number(tzn['vazn'])/Number(tzn['tedad']);
 
                     Array.from({length:Number(tzn['tedad'])},(_,i)=>{

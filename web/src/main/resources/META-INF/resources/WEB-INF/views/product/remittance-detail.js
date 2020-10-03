@@ -862,7 +862,7 @@ rdTab.Methods.setRemittanceCode =  function () {
     code+=rdTab.DynamicForms.Forms.TozinTable.getValue('tozinId')
     code+='-';
     code+=rdTab.DynamicForms.Forms.TozinTable.getValue('date')
-    rdTab.DynamicForms.Forms.OutRemittance.setValue('code',code)
+    rdTab.DynamicForms.Forms.OutRemittance.setValue('code',code.replaceAll("/",""))
 
 }
 ////////////////////////////////////////////////////////FIELDS//////////////////////////////////////////////////////////
@@ -1398,7 +1398,7 @@ rdTab.Fields.RemittanceDetailFullFields = function () {
 }
 rdTab.Fields.Remittance = function () {
     return [
-        {name: 'id', hidden: true},
+        {name: 'id', hidden: true,title: "<spring:message code='global.id'/>"},
         {
             name: 'code', title: "<spring:message code='remittance.code'/>",
             recordDoubleClick: function (viewer, record, recordNum, field, fieldNum, value, rawValue) {
@@ -2054,6 +2054,7 @@ rdTab.Grids.Remittance = {
     dataSource: rdTab.RestDataSources.Remittance,
     autoFetchData: true,
     sortField: "id",
+    sortDirection: "descending",
     fields: rdTab.Fields.RemittanceFull(),
     getCellCSSText(record, rowNum, colNum) {
         if (!record.remittanceDetails || !record.remittanceDetails[0]) {
