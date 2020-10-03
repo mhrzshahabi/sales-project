@@ -18,7 +18,8 @@ public enum ErrorType {
     PayloadTooLarge(413),
     Unknown(500),
     NotImplemented(50),
-    invalidData(500);
+    InvalidData(500),
+    InternalServerError(500);
 
     private final Integer id;
 }

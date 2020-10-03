@@ -576,7 +576,7 @@ function mainOnWayProduct() {
                 criteria.criteria.add({"fieldName": "tozinId", "operator": "iNotStartsWith", "value": "3-"})
             if (!criteria.criteria.find(_ => _.fieldName === "tozinTable" && _.operator === "isNull"))
                 criteria.criteria.add({"fieldName": "tozinTable", "operator": "isNull"})
-            dbg(arguments, false)
+            // dbg(arguments, false)
             return this.Super('filterData', arguments);
             // await criteriaBuildForListGrid()
             // arguments[0] = this.getFilterEditorCriteria();

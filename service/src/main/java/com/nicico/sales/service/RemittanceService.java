@@ -3,11 +3,15 @@ package com.nicico.sales.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
+import com.nicico.copper.common.domain.criteria.SearchUtil;
+import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.sales.annotation.Action;
+import com.nicico.sales.dto.MaterialItemDTO;
 import com.nicico.sales.dto.RemittanceDTO;
 import com.nicico.sales.enumeration.ActionType;
 import com.nicico.sales.exception.NotFoundException;
 import com.nicico.sales.iservice.IRemittanceService;
+import com.nicico.sales.model.entities.base.MaterialItem;
 import com.nicico.sales.model.entities.warehouse.Remittance;
 import com.nicico.sales.model.entities.warehouse.RemittanceDetail;
 import com.nicico.sales.repository.TozinDAO;
@@ -28,10 +32,7 @@ import org.springframework.util.MultiValueMap;
 
 import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -128,5 +129,19 @@ public class RemittanceService extends GenericService<Remittance, Long, Remittan
                 flatMap(remittanceDetails -> remittanceDetails.stream().
                         map(remittanceDetail -> remittanceDetail.getInventory().getLabel())).
                 collect(Collectors.toList());
+    }
+
+    @Override
+    public TotalResponse<RemittanceDTO.InfoWithoutRemittanceDetail> searchLite(NICICOCriteria request) {
+        List<Remittance> entities = new ArrayList<>();
+        final TotalResponse<RemittanceDTO.InfoWithoutRemittanceDetail> totalResponse = SearchUtil.search(remittanceDAO, request, entity -> {
+
+            RemittanceDTO.InfoWithoutRemittanceDetail eResult = modelMapper.map(entity, RemittanceDTO.InfoWithoutRemittanceDetail.class);
+            validation(entity, eResult);
+            entities.add(entity);
+            return eResult;
+        });
+        validationAll(entities, totalResponse);
+        return totalResponse;
     }
 }
