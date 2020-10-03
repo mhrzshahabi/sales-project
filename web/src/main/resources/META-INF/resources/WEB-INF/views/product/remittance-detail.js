@@ -1405,7 +1405,7 @@ rdTab.Fields.Remittance = function () {
                 rdTab.Methods.RecordDoubleClick('api/remittance', rdTab.Fields.Remittance().map(_ => {
                         if (record.remittanceDetails[0] && _.name.toLowerCase() === "shipmentId".toLowerCase() &&
                             !record.remittanceDetails[0].destinationTozin) {
-                            dbg(true, record)
+                            //dbg(true, record)
                             _.hidden = false;
                             _.disabled = false;
                             _.optionCriteria = {
@@ -1428,7 +1428,7 @@ rdTab.Fields.Remittance = function () {
 
                         if (record.remittanceDetails[0] && _.name.toLowerCase() === "shipmentId".toLowerCase() &&
                             !record.remittanceDetails[0].destinationTozin) {
-                            dbg(true, record)
+                            //dbg(true, record)
                             _.hidden = false;
                             _.disabled = false;
                             _.optionCriteria = {
@@ -2164,7 +2164,7 @@ rdTab.Layouts.ToolStripButtons.New = isc.ToolStripButtonAdd.create({
                     _['remittance'] = r_tmp;
 
                 })
-                dbg(false, rd)
+                //dbg(false, rd)
                 selectedData.addList(rd)
             });
         if (multipleMaterialItem) return;

@@ -733,7 +733,7 @@ crTab.Methods.UpdateInputOutputCharts = function () {
         id: "day",
         title: "<spring:message code='global.day'/>"
     });
-    dbg(true)
+    //dbg(true)
     // dbg(true,_facet)
     const criteriaStr = [
         {
@@ -1855,7 +1855,7 @@ crTab.Layouts.Vlayouts.main = isc.VLayout.create({
     ]
 })
 crTab.Methods.UpdateInputOutputCharts()
-dbg(false, "crtab", crTab)
+//dbg(false, "crtab", crTab)
 
 //}
 //)
