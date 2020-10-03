@@ -1,4 +1,4 @@
-isc.defineClass("InvoiceCalculation2", isc.VLayout).addProperties({ //TestShod
+isc.defineClass("InvoiceCalculation2", isc.VLayout).addProperties({
     align: "top",
     width: "100%",
     autoFit: false,
@@ -31,61 +31,52 @@ isc.defineClass("InvoiceCalculation2", isc.VLayout).addProperties({ //TestShod
         let priceBaseElement = isc.Label.create({
             width: "100%"
         });
-        let dynamicForm = isc.DynamicForm.create({
-            width: "80%",
-            numCols: 6,
-            fields: [{
+        // let dynamicForm = isc.DynamicForm.create({
+        //     width: "80%",
+        //     numCols: 6,
+        //     fields: [{
+        //
+        //         name: "weightMilestone",
+        //         editorType: "SelectItem",
+        //         // required: true,
+        //         wrapTitle: false,
+        //         title: "<spring:message code='inspectionReport.weight.mileStone'/>",
+        //         valueMap: JSON.parse('${Enum_MileStone}'),
+        //     }, {
+        //         name: "assayMilestone",
+        //         editorType: "SelectItem",
+        //         // required: true,
+        //         wrapTitle: false,
+        //         title: "<spring:message code='inspectionReport.assay.mileStone'/>",
+        //         valueMap: JSON.parse('${Enum_MileStone}'),
+        //     }]
+        // });
 
-                name: "weightMilestone",
-                editorType: "SelectItem",
-                required: true,
-                wrapTitle: false,
-                title: "<spring:message code='inspectionReport.weight.mileStone'/>",
-                validators: [{
-                    type: "required",
-                    validateOnChange: true
-                }],
-                valueMap: JSON.parse('${Enum_MileStone}'),
-            }, {
-                name: "assayMilestone",
-                editorType: "SelectItem",
-                required: true,
-                wrapTitle: false,
-                title: "<spring:message code='inspectionReport.assay.mileStone'/>",
-                validators: [{
-                    type: "required",
-                    validateOnChange: true
-                }],
-                valueMap: JSON.parse('${Enum_MileStone}'),
-            }]
-        });
+        // this.addMember(isc.HLayout.create({
+        //     width: "100%",
+        //     showEdges: false,
+        //     alignLayout: "center",
+        //     padding: 10,
+        //     layoutMargin: 10,
+        //     membersMargin: 10,
+        //     members: [dynamicForm, isc.IButton.create({
+        //         autoFit: true,
+        //         icon: "[SKIN]/actions/view.png",
+        //         title: "<spring:message code='global.search'/>",
+        //         click: function () {
 
-        this.addMember(isc.HLayout.create({
-            width: "100%",
-            showEdges: false,
-            alignLayout: "center",
-            padding: 10,
-            layoutMargin: 10,
-            membersMargin: 10,
-            members: [dynamicForm, isc.IButton.create({
-                autoFit: true,
-                icon: "[SKIN]/actions/view.png",
-                title: "<spring:message code='global.search'/>",
-                click: function () {
-
-                    let validate = dynamicForm.validate();
-                    if (!validate) return false;
+                    debugger
+                    // let validate = dynamicForm.validate();
+                    // if (!validate) return false;
                     isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                         params: {
                             contractId: This.contract.id,
-                            shipmentId: This.shipment.id,
+                            reference: This.contractDetailData.basePriceReference,
                             year: sendDate.getFullYear(),
                             month: sendDate.getMonth() + 1,
                             financeUnitId: This.currency.id,
-                            reference: This.contractDetailData.basePriceReference,
-                            inventoryIds: This.remittanceDetails.map(q => q.inventory.id),
-                            assayMilestone: dynamicForm.getItem("assayMilestone").getValue(),
-                            weightMilestone: dynamicForm.getItem("weightMilestone").getValue()
+                            inspectionAssayDataId: This.inspectionAssayData.id,
+                            inspectionWeightDataId: This.inspectionWeightData.id,
                         },
                         httpMethod: "GET",
                         actionURL: "${contextPath}" + "/api/foreign-invoice-item/get-calculation2-data",
@@ -142,9 +133,10 @@ isc.defineClass("InvoiceCalculation2", isc.VLayout).addProperties({ //TestShod
                         }
                     }));
 
-                }
-            })]
-        }));
+            //     }
+            // })]
+        // }));
+
         this.addMember();
 
         this.addMember(grid);

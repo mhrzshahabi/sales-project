@@ -20,7 +20,6 @@ import com.nicico.sales.model.entities.base.WeightInspection;
 import com.nicico.sales.model.entities.contract.ContractDiscount;
 import com.nicico.sales.model.entities.invoice.foreign.ForeignInvoiceItem;
 import com.nicico.sales.model.entities.warehouse.MaterialElement;
-import com.nicico.sales.model.enumeration.InspectionReportMilestone;
 import com.nicico.sales.model.enumeration.PriceBaseReference;
 import com.nicico.sales.service.GenericService;
 import lombok.RequiredArgsConstructor;
@@ -36,14 +35,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ForeignInvoiceItemService extends GenericService<ForeignInvoiceItem, Long, ForeignInvoiceItemDTO.Create, ForeignInvoiceItemDTO.Info, ForeignInvoiceItemDTO.Update, ForeignInvoiceItemDTO.Delete> implements IForeignInvoiceItemService {
 
-    private final IUnitService unitService;
-    private final IPriceBaseService priceBaseService;
-    private final IContractService contractService;
-    private final IContractDetailService contractDetailService2;
-    private final IAssayInspectionService assayInspectionService;
-    private final IWeightInspectionService weightInspectionService;
-    private final IContractDetailValueService2 contractDetailValueService2;
-
     private static final String INVENTORY = "inventory";
     private static final String ASSAY_INSPECTIONS = "assayInspections";
     private static final String WEIGHT_INSPECTION = "weightingInspection";
@@ -55,18 +46,32 @@ public class ForeignInvoiceItemService extends GenericService<ForeignInvoiceItem
     private static final String WEIGHT_GW = "weightGW";
     private static final String WEIGHT_DIFF = "weightDiff";
     private static final String UNIT_CONVERSION_RATE = "unitConversionRate";
+    private final IUnitService unitService;
+    private final IPriceBaseService priceBaseService;
+    private final IContractService contractService;
+    private final IContractDetailService contractDetailService;
+    private final IInspectionReportService inspectionReportService;
+    private final IAssayInspectionService assayInspectionService;
+    private final IWeightInspectionService weightInspectionService;
+    private final IContractDetailValueService2 contractDetailValueService2;
 
     @Override
     @Transactional
     @Action(value = ActionType.List)
-    public ForeignInvoiceItemDTO.Calc2Data getCalculation2Data(Long contractId, Long shipmentId, InspectionReportMilestone assayMilestone, InspectionReportMilestone weightMilestone, List<Long> inventoryIds, PriceBaseReference reference, Integer year, Integer month, Long financeUnitId) {
+    public ForeignInvoiceItemDTO.Calc2Data getCalculation2Data(Long contractId, PriceBaseReference reference, Integer year, Integer month, Long financeUnitId, Long inspectionAssayDataId, Long inspectionWeightDataId) {
 
-        List<AssayInspectionDTO.InfoWithoutInspectionReport> assayValues = assayInspectionService.getAssayValues(shipmentId, assayMilestone, inventoryIds);
+        InspectionReportDTO.Info inspectionAssayReportDTO = inspectionReportService.get(inspectionAssayDataId);
+        List<AssayInspectionDTO.InfoWithoutInspectionReport> assayValues = inspectionAssayReportDTO.getAssayInspections();
+
+        InspectionReportDTO.Info inspectionWeightReportDTO = inspectionReportService.get(inspectionWeightDataId);
+        List<WeightInspectionDTO.InfoWithoutInspectionReport> weightValues = inspectionWeightReportDTO.getWeightInspections();
+
         Set<Long> materialIds = assayValues.stream().filter(q -> q.getMaterialElement().getElement().getPayable()).map(q -> q.getMaterialElement().getMaterialId()).collect(Collectors.toSet());
+        List<Long> inventoryIds = assayValues.stream().map(AssayInspectionDTO::getInventoryId).collect(Collectors.toList());
         if (materialIds.size() != 1)
             throw new SalesException2(ErrorType.BadRequest, "material", "There is multiple material.");
 
-        ContractDetailDTO.Info priceDetail = contractDetailService2.getContractDetailByContractDetailTypeCode(contractId, materialIds.iterator().next(), EContractDetailTypeCode.Price);
+        ContractDetailDTO.Info priceDetail = contractDetailService.getContractDetailByContractDetailTypeCode(contractId, materialIds.iterator().next(), EContractDetailTypeCode.Price);
         String priceArticleText = priceDetail.getContent();
 
         Map<String, List<Object>> operationalDataOfDiscountArticle = contractDetailValueService2.get(contractId, EContractDetailTypeCode.Price, EContractDetailValueKey.DISCOUNT, true);
@@ -79,7 +84,6 @@ public class ForeignInvoiceItemService extends GenericService<ForeignInvoiceItem
 
         List<Map<String, Object>> data = new ArrayList<>();
         List<ForeignInvoiceItemDTO.FieldData> fields = createFields(assayValues, discountArticle);
-        List<WeightInspectionDTO.InfoWithoutInspectionReport> weightValues = weightInspectionService.getWeightValues(shipmentId, weightMilestone, inventoryIds);
         createData(inventoryIds, assayValues, weightValues, discountArticle, basePrices, data, financeUnitId);
 
         ForeignInvoiceItemDTO.Calc2Data result = new ForeignInvoiceItemDTO.Calc2Data();
@@ -105,8 +109,7 @@ public class ForeignInvoiceItemService extends GenericService<ForeignInvoiceItem
 
             MaterialElementDTO.Info materialElement = materialElements.stream().filter(q -> q.getId().longValue() == materialElementId).findFirst().orElseThrow(() -> new NotFoundException(MaterialElement.class));
             ElementDTO.Info element = materialElement.getElement();
-            if (!element.getPayable())
-                return;
+            if (!element.getPayable()) return;
 
             fields.add(new ForeignInvoiceItemDTO.FieldData(element.getName(), "float", element.getName(), "0.###", "false", "false"));
             Optional<ContractDiscount> contractDiscount = discountArticle.stream().filter(q -> q.getMaterialElementId().longValue() == materialElementId).findFirst();
@@ -131,8 +134,7 @@ public class ForeignInvoiceItemService extends GenericService<ForeignInvoiceItem
             HashMap<String, Object> record = new HashMap<>();
 
             List<AssayInspectionDTO.InfoWithoutInspectionReport> assays = assayValues.stream().filter(q -> q.getInventoryId().longValue() == inventoryId.longValue()).collect(Collectors.toList());
-            if (assays.size() == 0)
-                throw new NotFoundException(AssayInspection.class);
+            if (assays.size() == 0) throw new NotFoundException(AssayInspection.class);
 
             InventoryDTO.Info inventory = assays.get(0).getInventory();
             record.put(INVENTORY, inventory);
@@ -154,8 +156,7 @@ public class ForeignInvoiceItemService extends GenericService<ForeignInvoiceItem
             assays.stream().filter(a -> a.getInventoryId().longValue() == inventoryId).forEach(a -> {
 
                 ElementDTO.Info element = a.getMaterialElement().getElement();
-                if (!element.getPayable())
-                    return;
+                if (!element.getPayable()) return;
 
                 record.put(element.getName(), a.getValue());
                 record.put(element.getName() + "_UNIT", a.getMaterialElement().getUnit().getSymbolUnit().name());
@@ -163,13 +164,13 @@ public class ForeignInvoiceItemService extends GenericService<ForeignInvoiceItem
                 PriceBaseDTO.Info priceBaseDTO = basePrices.stream().filter(q -> q.getElementId().longValue() == element.getId()).findFirst().orElseThrow(() -> new NotFoundException(PriceBase.class));
                 if (contractDiscount.isPresent()) {
 
-                    if (a.getValue().compareTo(contractDiscount.get().getLowerBound()) > 0 &&
-                            a.getValue().compareTo(contractDiscount.get().getUpperBound()) <= 0) {
+                    if (a.getValue().compareTo(contractDiscount.get().getLowerBound()) > 0 && a.getValue().compareTo(contractDiscount.get().getUpperBound()) <= 0) {
 
                         discount[0] = discount[0].add(contractDiscount.get().getDiscount());
                         record.put(element.getName() + "Discount", contractDiscount.get().getDiscount());
-                        record.put(element.getName() + "Discount_UNIT", "PERCENT");
-                    }
+                    } else
+                        record.put(element.getName() + "Discount", new BigDecimal(0));
+                    record.put(element.getName() + "Discount_UNIT", "PERCENT");
                 } else {
 
                     BigDecimal content = weight.getWeightND().multiply(a.getValue()).divide(new BigDecimal(100), MathContext.DECIMAL32);

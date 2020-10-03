@@ -200,4 +200,10 @@
         </sql>
     </changeSet>
 
+    <changeSet author="MShahabi" id="1799887766554-068">
+        <sql>
+            delete from TBL_WARH_MATERIAL_ELEMENT where id=5
+        </sql>
+    </changeSet>
+
 </databaseChangeLog>
