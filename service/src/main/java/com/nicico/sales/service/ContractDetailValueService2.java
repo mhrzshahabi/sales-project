@@ -57,7 +57,7 @@ public class ContractDetailValueService2 implements IContractDetailValueService2
                 .orElseThrow(() -> new SalesException2(ErrorType.NotFound, "id", "شناسه موجودیت یافت نشد."));
 
         if (contract.getParentId() != null)
-            throw new SalesException2(ErrorType.invalidData, "id", "شناسه موجودیت صحیح نمی باشد.");
+            throw new SalesException2(ErrorType.InvalidData, "id", "شناسه موجودیت صحیح نمی باشد.");
 
         final Map<String, List<Object>> result = new HashMap<>();
         if (contract.getAppendixContracts() != null && contract.getAppendixContracts().size() != 0) {

@@ -1272,7 +1272,7 @@ rdTab.Fields.RemittanceDetail = function () {
         },
         {
             name: "sourceTozin.tozinId",
-            title: "<spring:message code='warehouseCad.tozinOther'/>",
+            title: "<spring:message code='Tozin.tozinPlantId'/>",
             recordDoubleClick: rdTab.Methods.RecordDoubleClickRD,
             pickListFields: rdTab.Fields.TozinLite(),
             showHover: true,
@@ -1807,7 +1807,9 @@ rdTab.Fields.Remittance = function () {
                 ],
                 fetchDataURL: 'api/shipment/spec-list'
             })
-        }
+        },
+
+
     ];
 }
 rdTab.Fields.RemittanceFull = function () {
@@ -1815,9 +1817,10 @@ rdTab.Fields.RemittanceFull = function () {
         ...rdTab.Fields.Remittance(),
         {
             name: "remittanceDetails.sourceTozin.tozinId",
-            title: "<spring:message code='warehouseCad.tozinOther'/>",
+            title: "<spring:message code='Tozin.tozinPlantId'/>",
             canSort: false,
         },
+        {name: "tozinTable.tozinId",title:"<spring:message code='Tozin.target.tozin.id'/>"},
         {
             name: "remittanceDetails.inventory.materialItem.id",
             valueMap: SalesBaseParameters.getSavedMaterialItemParameter().getValueMap("id", "gdsName"),
@@ -1865,6 +1868,11 @@ rdTab.Fields.RemittanceFull = function () {
             title: "<spring:message code='global.date'/> ",
 
         },
+        // {name: "tozinTable.targetId",},
+        {name: "tozinTable.vazn",title:"<spring:message code='Tozin.vazn'/>"},
+        {name: "tozinTable.ctrlDescOut",title:"<spring:message code='invoiceSales.otherDescription'/>"},
+        {name: "tozinTable.plak",title:"<spring:message code='Tozin.plak'/>"},
+        {name: "tozinTable.driverName",title:"<spring:message code='Tozin.driver'/>"},
         {
             ...rdTab.Fields.TozinBase().find(t => t.name === 'date'),
             // filterEditorProperties: {
@@ -1882,21 +1890,21 @@ rdTab.Fields.RemittanceFull = function () {
             name: "remittanceDetails.destinationTozin.date",
             title: "<spring:message code='global.date'/> <spring:message code='Tozin.target.tozin'/>",
         },
-        {
-            name: "tozinTable.targetId",
-            filterEditorProperties: {
-                editorType: "ComboBoxItem",
-            },
-            // canSort: false,
-            valueMap: SalesBaseParameters.getSavedWarehouseParameter().getValueMap("id", "name"),
-            type: "number",
-            sortNormalizer(recordObject, fieldName, context) {
-                if (recordObject.tozinTable && recordObject.tozinTable.targetId)
-                    return recordObject.tozinTable.targetId
-            },
-            title: "<spring:message code='shipment.Bol.tblPortByDischarge'/>",
-            hidden: false,
-        },
+        // {
+        //     name: "tozinTable.targetId",
+        //     filterEditorProperties: {
+        //         editorType: "ComboBoxItem",
+        //     },
+        //     // canSort: false,
+        //     valueMap: SalesBaseParameters.getSavedWarehouseParameter().getValueMap("id", "name"),
+        //     type: "number",
+        //     sortNormalizer(recordObject, fieldName, context) {
+        //         if (recordObject.tozinTable && recordObject.tozinTable.targetId)
+        //             return recordObject.tozinTable.targetId
+        //     },
+        //     title: "<spring:message code='shipment.Bol.tblPortByDischarge'/>",
+        //     hidden: false,
+        // },
         {
             name: "remittanceDetails.depot.name",
             canSort: false,

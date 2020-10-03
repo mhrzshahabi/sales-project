@@ -462,14 +462,14 @@ const BlTab = {
                     showEdges: false,
                     edgeImage: "",
                     width: "100%",
-                    height: "100%",
+                    height: 1,
                     alignLayout: "bottom",
                     padding: 10,
                     membersMargin: 10,
                     members: [
                      // <sec:authorize access="hasAuthority('U_BILL_OF_LANDING') or hasAuthority('C_BILL_OF_LANDING')">
                         isc.IButtonSave.create({
-                            top: 260,
+                            // top: 260,
                             title: '<spring:message code="global.form.save"/> ',
                             icon: "pieces/16/save.png",
                             click: () => {
@@ -1828,6 +1828,8 @@ BlTab.Fields.BillOfLandingWithoutSwitch = _ => {
             name: 'description', colSpan: 6,
             editorType: "textArea",
             title: "<spring:message code='global.description'/>",
+            // width:"100%",
+            colSpan:6,
 
         },
 
@@ -2145,7 +2147,8 @@ BlTab.Grids.BillOfLanding = {
                                     isc.VLayout.create({
                                         members: [
                                             BlTab.DynamicForms.Forms.ContainerToBillOfLanding = isc.DynamicForm.create({
-                                                fields: BlTab.Fields.ContainerToBillOfLanding()
+                                                fields: BlTab.Fields.ContainerToBillOfLanding(),
+                                                height:"95%",
                                             }),
                                             BlTab.Methods.HlayoutSaveOrExit(function () {
                                                 if (!BlTab.DynamicForms.Forms.ContainerToBillOfLanding.validate()) return;
@@ -2291,7 +2294,11 @@ BlTab.Layouts.ToolStripButtons.NewBillOfLanding.click = _ => {
     BlTab.DynamicForms.Forms.BillOfLandingMain = isc.DynamicForm.create({
         numCols: 6,
         valuesManager: BlTab.Vars.BillOfLanding,
-        fields: BlTab.Fields.BillOfLandingWithoutSwitch(),
+        fields: BlTab.Fields.BillOfLandingWithoutSwitch().map(_=>{
+            if(_.name==='description')
+                _.width="100%";
+            return _;
+        }),
     });
     const windID = BlTab.Vars.Prefix + "window_bill_of_landing" + Math.random().toString().substr(2, 4)
     BlTab.Layouts.ToolStrips.BillOfLandingForm = BlTab.Methods.HlayoutSaveOrExit(function () {
@@ -2362,7 +2369,7 @@ BlTab.Layouts.ToolStripButtons.NewBillOfLanding.click = _ => {
             isc.TabSet.create`, arguments)
                 },
                  */
-                height: .3 * innerHeight,
+                height: .4 * innerHeight,
                 width: "100%",
                 tabs: [
                     {
