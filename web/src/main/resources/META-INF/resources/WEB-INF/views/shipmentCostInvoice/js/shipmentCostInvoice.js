@@ -415,6 +415,10 @@ shipmentCostInvoiceTab.method.setVATs = function (year) {
 
 };
 
+shipmentCostInvoiceTab.method.toLocalLetters = function(nbmr){
+    return (languageForm.getValue("languageName") == 'en') ? numberToEnglish(nbmr) : String(nbmr).toPersianLetter();
+};
+
 // shipmentCostInvoiceTab.method.updateFinanceUnit = function () {
 //
 //     shipmentCostInvoiceTab.dynamicForm.shipmentPrice.getItem("conversionRefId").canEdit = true;
@@ -918,8 +922,8 @@ shipmentCostInvoiceTab.dynamicForm.shipmentPriceFields = BaseFormItems.concat([
             {name: "id", primaryKey: true, hidden: true, title: "<spring:message code='global.id'/>"},
             {name: "reference", title: "<spring:message code='foreign-invoice.form.conversion-ref'/>"},
             {name: "currencyDate", type: "date", title: "<spring:message code='global.date'/>"},
-            {name: "unitFrom.nameFA", title: "<spring:message code='global.from'/>"},
-            {name: "unitTo.nameFA", title: "<spring:message code='global.to'/>"},
+            {name: "unitFrom.name", title: "<spring:message code='global.from'/>"},
+            {name: "unitTo.name", title: "<spring:message code='global.to'/>"},
             {name: "currencyRateValue", title: "<spring:message code='rate.title'/>"}
         ],
         changed: function (form, item, value) {
@@ -1409,10 +1413,10 @@ shipmentCostInvoiceTab.listGrid.shipmentCostDetail = isc.ListGrid.create({
                                 rate = 1;
                             var conversionSumPrice = shipmentCostInvoiceTab.variable.summaryRowData.sumPriceWithVat * rate;
                             shipmentCostInvoiceTab.dynamicForm.shipmentPrice.setValue("conversionSumPrice", conversionSumPrice);
-                            shipmentCostInvoiceTab.dynamicForm.shipmentPrice.setValue("conversionSumPriceText", conversionSumPrice.toPersianLetter());
+                            shipmentCostInvoiceTab.dynamicForm.shipmentPrice.setValue("conversionSumPriceText", shipmentCostInvoiceTab.method.toLocalLetters(conversionSumPrice));
                             shipmentCostInvoiceTab.dynamicForm.shipmentPrice.setValue("conversionSumPriceBuyerShare", conversionSumPrice * share / 100);
                             shipmentCostInvoiceTab.dynamicForm.shipmentPrice.setValue("conversionSumPriceSellerShare", conversionSumPrice * (100 - share) / 100);
-                            shipmentCostInvoiceTab.listGrid.shipmentCostDetail.members.get(3).members.get(1).setContents(shipmentCostInvoiceTab.variable.summaryRowData.sumPriceWithVat.toPersianLetter());
+                            shipmentCostInvoiceTab.listGrid.shipmentCostDetail.members.get(3).members.get(1).setContents(shipmentCostInvoiceTab.method.toLocalLetters(shipmentCostInvoiceTab.variable.summaryRowData.sumPriceWithVat));
                         }
                     })]
             })

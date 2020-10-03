@@ -25,8 +25,8 @@ inspectionReportTab.restDataSource.inspecReportRest = isc.MyRestDataSource.creat
             title: "<spring:message code='inspectionReport.InspectionNO'/>"
         },
         {
-            name: "inspector.nameFA",
-            title: "<spring:message code='inspectionReport.inspector.nameFA'/>"
+            name: "inspector.name",
+            title: "<spring:message code='inspectionReport.inspector.name'/>"
         },
         {
             name: "inspectorId",
@@ -41,16 +41,16 @@ inspectionReportTab.restDataSource.inspecReportRest = isc.MyRestDataSource.creat
             title: "<spring:message code='inspectionReport.IssueDate'/>"
         },
         {
-            name: "seller.nameFA",
-            title: "<spring:message code='inspectionReport.seller.nameFA'/>"
+            name: "seller.name",
+            title: "<spring:message code='inspectionReport.seller.name'/>"
         },
         {
             name: "sellerId",
             title: "<spring:message code='inspectionReport.sellerId'/>"
         },
         {
-            name: "buyer.nameFA",
-            title: "<spring:message code='inspectionReport.buyer.nameFA'/>"
+            name: "buyer.name",
+            title: "<spring:message code='inspectionReport.buyer.name'/>"
         },
         {
             name: "buyerId",
@@ -73,7 +73,7 @@ inspectionReportTab.restDataSource.inspecReportRest = isc.MyRestDataSource.creat
             title: "<spring:message code='global.unit'/>"
         },
         {
-            name: "unit.nameFA",
+            name: "unit.name",
             title: "<spring:message code='global.unit'/>"
         },
     ],
@@ -329,7 +329,7 @@ inspectionReportTab.restDataSource.materialElementRest = isc.MyRestDataSource.cr
             title: "<spring:message code='global.unit'/>"
         },
         {
-            name: "unit.nameFA",
+            name: "unit.name",
             title: "<spring:message code='global.unit'/>"
         }
     ],
@@ -375,7 +375,7 @@ inspectionReportTab.restDataSource.shipmentRest = isc.MyRestDataSource.create({
             showHover: true
         },
         {
-            name: "contact.nameFA",
+            name: "contact.name",
             title: "<spring:message code ='contact.nameFa'/>",
             showHover: true
         },
@@ -782,12 +782,16 @@ inspectionReportTab.method.materialChange = function () {
             return;
     }
 
-    let unitName = StorageUtil.get('parameters').unit.filter(q => q.id === inspectionReportTab.listGrid.weightElement.unitId).first().nameFA;
+    let unitName = StorageUtil.get('parameters').unit.filter(q => q.id === inspectionReportTab.listGrid.weightElement.unitId).first().name;
     let weightWGTitle = inspectionReportTab.listGrid.weightElement.getFieldTitle("weightGW").replace(/ *\([^)]*\) */g, "");
     inspectionReportTab.listGrid.weightElement.setFieldTitle("weightGW", weightWGTitle + " (" + unitName + ")");
     let weightNDTitle = inspectionReportTab.listGrid.weightElement.getFieldTitle("weightND").replace(/ *\([^)]*\) */g, "");
     inspectionReportTab.listGrid.weightElement.setFieldTitle("weightND", weightNDTitle + " (" + unitName + ")");
 };
+
+inspectionReportTab.method.getMaterialFieldName = function () {
+    return (languageForm.getValue("languageName") == 'en') ? "descl" : "descp";
+}
 
 inspectionReportTab.variable.inspectorCriteria = {
     _constructor: "AdvancedCriteria",
@@ -834,7 +838,7 @@ inspectionReportTab.dynamicForm.material = isc.DynamicForm.create({
             autoFetchData: false,
             editorType: "SelectItem",
             valueField: "id",
-            displayField: "descp",
+            displayField: inspectionReportTab.method.getMaterialFieldName(),
             pickListWidth: "500",
             pickListHeight: "300",
             optionDataSource: inspectionReportTab.restDataSource.materialRest,
@@ -844,7 +848,7 @@ inspectionReportTab.dynamicForm.material = isc.DynamicForm.create({
                 },
             pickListFields: [
                 {
-                    name: "descp",
+                    name: inspectionReportTab.method.getMaterialFieldName(),
                 },
                 {
                     name: "code",
@@ -897,7 +901,7 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
                 name: "material.descl",
             },
             {
-                name: "contact.nameFA",
+                name: "contact.name",
             },
             {
                 name: "sendDate",
@@ -951,13 +955,13 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
     },
     {
         name: "inspectorId",
-        title: "<spring:message code='inspectionReport.inspector.nameFA'/>",
+        title: "<spring:message code='inspectionReport.inspector.name'/>",
         required: true,
         wrapTitle: false,
         autoFetchData: true,
         editorType: "SelectItem",
         valueField: "id",
-        displayField: "nameFA",
+        displayField: "name",
         pickListWidth: "500",
         pickListHeight: "300",
         optionDataSource: isc.MyRestDataSource.create(inspectionReportTab.restDataSource.contactRest),
@@ -1117,7 +1121,7 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
         autoFetchData: true,
         editorType: "SelectItem",
         valueField: "id",
-        displayField: "nameFA",
+        displayField: "name",
         pickListWidth: "500",
         pickListHeight: "300",
         optionDataSource: isc.MyRestDataSource.create(inspectionReportTab.restDataSource.contactRest1),
@@ -1150,7 +1154,7 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
         autoFetchData: true,
         editorType: "SelectItem",
         valueField: "id",
-        displayField: "nameFA",
+        displayField: "name",
         pickListWidth: "500",
         pickListHeight: "300",
         optionDataSource: isc.MyRestDataSource.create(inspectionReportTab.restDataSource.contactRest2),
@@ -1213,7 +1217,7 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
         autoFetchData: false,
         editorType: "SelectItem",
         valueField: "id",
-        displayField: "nameFA",
+        displayField: "name",
         pickListWidth: "500",
         pickListHeight: "300",
         optionDataSource: inspectionReportTab.restDataSource.unitRest,
@@ -2033,10 +2037,10 @@ inspectionReportTab.listGrid.fields = [
         title: "<spring:message code='inspectionReport.InspectionNO'/>"
     },
     {
-        name: "inspector.nameFA",
-        title: "<spring:message code='inspectionReport.inspector.nameFA'/>",
+        name: "inspector.name",
+        title: "<spring:message code='inspectionReport.inspector.name'/>",
         sortNormalizer: function (recordObject) {
-            return recordObject.inspector.nameFA;
+            return recordObject.inspector.name;
         }
     },
     {
@@ -2050,17 +2054,17 @@ inspectionReportTab.listGrid.fields = [
         width: "10%"
     },
     {
-        name: "seller.nameFA",
-        title: "<spring:message code='inspectionReport.seller.nameFA'/>",
+        name: "seller.name",
+        title: "<spring:message code='inspectionReport.seller.name'/>",
         sortNormalizer: function (recordObject) {
-            return recordObject.seller.nameFA;
+            return recordObject.seller.name;
         }
     },
     {
-        name: "buyer.nameFA",
-        title: "<spring:message code='inspectionReport.buyer.nameFA'/>",
+        name: "buyer.name",
+        title: "<spring:message code='inspectionReport.buyer.name'/>",
         sortNormalizer: function (recordObject) {
-            return recordObject.buyer.nameFA;
+            return recordObject.buyer.name;
         }
     },
     {
@@ -2072,7 +2076,7 @@ inspectionReportTab.listGrid.fields = [
         title: "<spring:message code='inspectionReport.inspectionRateValueType'/>"
     },
     {
-        name: "unit.nameFA",
+        name: "unit.name",
         title: "<spring:message code='global.unit'/>"
     }
 ];
