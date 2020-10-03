@@ -71,4 +71,14 @@ public class RemittanceRestController {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
         return new ResponseEntity<>(iRemittanceService.search(nicicoCriteria), HttpStatus.OK);
     }
+
+     @Loggable
+    @GetMapping(value = "/spec-list/lite")
+    public ResponseEntity<TotalResponse<RemittanceDTO.InfoWithoutRemittanceDetail>> listLite(@RequestParam MultiValueMap<String, String> criteria) throws IOException {
+        final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
+        return new ResponseEntity<>(iRemittanceService.searchLite(nicicoCriteria), HttpStatus.OK);
+    }
+
+
+
 }
