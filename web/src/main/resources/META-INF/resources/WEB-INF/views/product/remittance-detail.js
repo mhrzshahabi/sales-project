@@ -952,9 +952,9 @@ rdTab.Fields.TozinBase = function () {
             name: "vazn",
             required: true,
             title: "<spring:message code='Tozin.vazn'/>",
-            align: "center",
+            // align: "center",
             showHover: true,
-            width: "10%"
+            // width: "10%"
         },
         {
             name: "sourceId",
@@ -976,7 +976,7 @@ rdTab.Fields.TozinBase = function () {
                 2555: 'اسكله شهيد رجائي ',
             },
             title: "<spring:message code='Tozin.sourceId'/>",
-            align: "center",
+            // align: "center",
             // changed: function (form, item, value) {
             //     StorageUtil.save('out_remittance_defaultSourceId', value);
             //     // return this.Super('changed', arguments)
@@ -2174,7 +2174,21 @@ rdTab.Layouts.ToolStripButtons.New = isc.ToolStripButtonAdd.create({
         //  let _form;
         //let _addBtn;
         rdTab.DynamicForms.Forms.OutRemittance = isc.DynamicForm.create({
+            selectOnFocus : true,
+            shouldSaveValue : true,
+            stopOnError : true,
+            showErrorIcon : true,
+            showErrorText : true,
+            showErrorStyle : true,
+            validateOnExit : true,
+            errorOrientation : "bottom",
+            align : "right",
+            textAlign : "right",
+            titleAlign : "right",
+
+
             numCols: 6,
+            wrapItemTitles:false,
             fields: [
                 {
                     name: "materialItemId",
@@ -2203,6 +2217,19 @@ rdTab.Layouts.ToolStripButtons.New = isc.ToolStripButtonAdd.create({
             ]
         });
         rdTab.DynamicForms.Forms.TozinTable = isc.DynamicForm.create({
+            selectOnFocus : true,
+            shouldSaveValue : true,
+            stopOnError : true,
+            showErrorIcon : true,
+            showErrorText : true,
+            showErrorStyle : true,
+            validateOnExit : true,
+            errorOrientation : "bottom",
+            wrapItemTitles:false,
+            align : "right",
+            textAlign : "right",
+            titleAlign : "right",
+
             numCols: 6,
             fields: rdTab.Fields.TozinTable().map(a => {
                 const oldChanged = a.changed;
@@ -2449,7 +2476,8 @@ rdTab.Layouts.ToolStripButtons.New = isc.ToolStripButtonAdd.create({
                         rdTab.DynamicForms.Forms.OutRemittance,
                         isc.Label.create({
                             height: .06 * innerHeight,
-                            contents: "<h3 style='text-align: center'>"
+                            align:"right",
+                            contents: "<h3 style='text-align: right;padding-right:20px'>"
                                 + "<spring:message code='remittance.dest.info'/>" +
                                 "</h3>"
                         }),
@@ -2472,6 +2500,13 @@ rdTab.Layouts.ToolStripButtons.New = isc.ToolStripButtonAdd.create({
 
                                 // rdTab.Layouts.ToolStripButtons.OutRemittanceAddTozin,
                             ]
+                        }),
+                        isc.Label.create({
+                            height: .06 * innerHeight,
+                            align:"right",
+                            contents: "<h3 style='text-align: right;padding-right:20px'>"
+                                + "پکیج‌ها" +
+                                "</h3>"
                         }),
                         rdTab.Grids.RemittanceDetailOutRemittance,
 
