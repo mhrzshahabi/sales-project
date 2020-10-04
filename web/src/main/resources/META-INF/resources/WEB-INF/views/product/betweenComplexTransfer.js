@@ -100,7 +100,7 @@ function loadOnWayProduct() {
         {
             name: "unitKala",
             type: "number",
-            valueMap: paramaters.unit.getValueMap('id', 'nameFA'),
+            valueMap: paramaters.unit.getValueMap('id', 'name'),
             // filterEditorValueMap: onWayProductValueMaps.unit,
             title: "<spring:message code='Tozin.packName'/>",
             align: "center",
@@ -422,7 +422,7 @@ function loadOnWayProduct() {
             {
                 name: "unitKala",
                 type: "number",
-                valueMap: paramaters.unit.getValueMap('id', 'nameFA'),
+                valueMap: paramaters.unit.getValueMap('id', 'name'),
                 // filterEditorValueMap: onWayProductValueMaps.unit,
                 title: "<spring:message code='Tozin.packName'/>",
                 align: "center",

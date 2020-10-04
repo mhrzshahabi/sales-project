@@ -9,6 +9,7 @@ var RestDataSource_Units = isc.MyRestDataSource.create({
         {name: "id", title: "id", primaryKey: true, hidden: true},
         {name: "nameFA"},
         {name: "nameEN"},
+        {name: "name"}
     ]),
     fetchDataURL: "${contextPath}/api/unit/spec-list"
 })
@@ -40,7 +41,7 @@ currencyRateTab.dynamicForm.fields = BaseFormItems.concat([
         filterOperator: "equals",
         optionDataSource : RestDataSource_Units,
         optionCriteria : RestDataSource_Units_optionCriteria,
-        displayField: "nameFA",
+        displayField: "name",
         valueField: "id",
     },
     {
@@ -59,7 +60,7 @@ currencyRateTab.dynamicForm.fields = BaseFormItems.concat([
         width: "100%",
         filterOperator: "equals",
         optionDataSource : RestDataSource_Units,
-        displayField: "nameFA",
+        displayField: "name",
         optionCriteria : RestDataSource_Units_optionCriteria,
         valueField: "id",
     },

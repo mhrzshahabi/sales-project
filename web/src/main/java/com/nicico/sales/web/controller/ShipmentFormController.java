@@ -129,7 +129,7 @@ public class ShipmentFormController {
         String[] disPort = shipment.getDischargePort().getPort().split(",");
         replacePOI(doc, "dis", disPort[0]);
 
-        replacePOI(doc, "country", (shipment.getDischargePort() != null ? shipment.getDischargePort().getCountry().getNameFa() : ""));
+        replacePOI(doc, "country", (shipment.getDischargePort() != null ? shipment.getDischargePort().getCountry().getNameFA() : ""));
         replacePOI(doc, "barname", String.valueOf((shipment.getNoBLs() != null ? shipment.getNoBLs() : "")));
 
         List<ContactDTO.Info> inspectorContacts = assayInspectionService.getShipmentInspector(shipmentId);

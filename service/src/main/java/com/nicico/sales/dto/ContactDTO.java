@@ -19,6 +19,7 @@ public class ContactDTO {
 
     private String nameFA;
     private String nameEN;
+    private String name;
     private String phone;
     private String mobile;
     private String fax;
@@ -54,6 +55,7 @@ public class ContactDTO {
         private Long id;
         private String nameFA;
         private String nameEN;
+        private String name;
     }
 
     @Getter

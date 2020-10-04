@@ -1090,7 +1090,8 @@
         membersMargin: 20,
         members: []
     });
-    <sec:authorize access="hasAuthority('R_CONTACT') or hasAuthority('R_PERSON') or hasAuthority('R_PORT') or hasAuthority('R_VESSEL') or hasAuthority('R_CURRENCY_RATE')
+    <sec:authorize
+    access="hasAuthority('R_CONTACT') or hasAuthority('R_PERSON') or hasAuthority('R_PORT') or hasAuthority('R_VESSEL') or hasAuthority('R_CURRENCY_RATE') or hasAuthority('R_SHIPMENT_COST_DUTY')
                         or hasAuthority('R_BANK') or hasAuthority('R_PRICE_BASE') or hasAuthority('R_MATERIAL') or hasAuthority('R_UNIT') or hasAuthority('R_COUNTRY') or hasAuthority('R_PARAMETERS')">
     saleToolStrip.addMember(baseTab);
     </sec:authorize>

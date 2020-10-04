@@ -1088,7 +1088,9 @@
             ]
         },
         recordDoubleClick(record) {
-            createAccountingDoc();
+        <sec:authorize access="hasAuthority('E_SEND_INVOICE_INTERNAL_TO_ACC')">
+          createAccountingDoc();
+        </sec:authorize>
         },
         filterData: function (criteria, callback, requestProperties) {
             if (!criteria)
@@ -1247,7 +1249,9 @@
             {property: "salesType", direction: "descending"},
         ],
         recordDoubleClick(record) {
+        <sec:authorize access="hasAuthority('E_SEND_INVOICE_INTERNAL_TO_ACC')">
             createAccountingDoc();
+        </sec:authorize>
         },
         getCellCSSText: {},
         filterData: function (criteria, callback, requestProperties) {

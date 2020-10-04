@@ -1323,7 +1323,6 @@ crTab.Fields.Shipment = function () {
         {name: "code", title: "<spring:message code='contact.code'/>"},
         {name: "nameFA", title: "<spring:message code='contact.nameFa'/>"},
         {name: "nameEN", title: "<spring:message code='contact.nameEn'/>"},
-        {name: "commertialRole"},
         {name: "phone", title: "<spring:message code='contact.phone'/>"},
         {name: "mobile", title: "<spring:message code='contact.mobile'/>"},
         {
