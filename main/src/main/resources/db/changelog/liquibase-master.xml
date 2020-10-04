@@ -10,6 +10,19 @@
     <include file="classpath:/db/changelog/initial-definition/liquibase-sequence.xml"/>
     <!-- INITIALIZE STRUCTURE -->
 
+    <!-- SYNONYMS -->
+    <include file="classpath:/db/changelog/synonyms/oauth.xml"/>
+    <include file="classpath:/db/changelog/synonyms/logistic.xml"/>
+    <!-- SYNONYMS -->
+
+    <!-- CHANGES -->
+    <include file="classpath:/db/changelog/changes/tbl_deduction.xml"/>
+    <include file="classpath:/db/changelog/changes/tbl_shipment_cost_invoice.xml"/>
+    <include file="classpath:/db/changelog/changes/tbl_shipment_cost_duty.xml"/>
+    <include file="classpath:/db/changelog/changes/tbl_warh_element.xml"/>
+    <include file="classpath:/db/changelog/changes/tbl_warh_material_element.xml"/>
+    <!-- CHANGES -->
+
     <!-- INITIALIZE DATA -->
     <include file="classpath:/db/changelog/initial-data/tbl_country.xml"/>
     <include file="classpath:/db/changelog/initial-data/tbl_contact.xml"/>
@@ -34,19 +47,9 @@
     <include file="classpath:/db/changelog/initial-data/tbl_assay_inspection.xml"/>
     <include file="classpath:/db/changelog/initial-data/tbl_assay_inspection_total_values.xml"/>
     <include file="classpath:/db/changelog/initial-data/tbl_weighing_inspection.xml"/>
+    <include file="classpath:/db/changelog/initial-data/tbl_foreign_invoice.xml"/>
     <include file="classpath:/db/changelog/initial-data/tbl_internal_invoice_document.xml"/>
     <!-- INITIALIZE DATA -->
-
-    <!-- SYNONYMS -->
-    <include file="classpath:/db/changelog/synonyms/oauth.xml"/>
-    <include file="classpath:/db/changelog/synonyms/logistic.xml"/>
-    <!-- SYNONYMS -->
-
-    <!-- CHANGES -->
-    <include file="classpath:/db/changelog/changes/tbl_deduction.xml"/>
-    <include file="classpath:/db/changelog/changes/tbl_shipment_cost_invoice.xml"/>
-    <include file="classpath:/db/changelog/changes/tbl_shipment_cost_duty.xml"/>
-    <!-- CHANGES -->
 
     <!-- VIEWS -->
     <include file="classpath:/db/changelog/views/tbl_tozin_plant.xml"/>

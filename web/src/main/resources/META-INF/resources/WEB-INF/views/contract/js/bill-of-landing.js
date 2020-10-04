@@ -1381,7 +1381,7 @@ BlTab.Fields.RemittanceFull = function () {
                     return _record.remittanceDetails.map(rd => rd.inventory.weightInspection.weightND).reduce((i, j) => i + j);
 
                 } catch (e) {
-                    dbg(false, 'recordSummaryFunction error', e)
+                    //dbg(false, 'recordSummaryFunction error', e)
                     return 0;
                 }
             },
@@ -1396,7 +1396,7 @@ BlTab.Fields.RemittanceFull = function () {
                 try {
                     return _record.remittanceDetails.map(rd => rd.inventory.weightInspection.weightGW).reduce((i, j) => i + j);
                 } catch (e) {
-                    dbg(false, 'recordSummaryFunction error', e)
+                    //dbg(false, 'recordSummaryFunction error', e)
                     return 0;
                 }
             },
@@ -2318,7 +2318,7 @@ BlTab.Layouts.ToolStripButtons.NewBillOfLanding.click = _ => {
                                     )
                                     */
         BlTab.Methods.Save(BlTab.Vars.BillOfLanding.getValues(), 'api/bill-of-landing').then(function () {
-            dbg(false, `BlTab.Methods.Save(BlTab.Vars.BillOfLanding.getValues(), 
+            //dbg(false, `BlTab.Methods.Save(BlTab.Vars.BillOfLanding.getValues(),
                         'api/bill-of-landing').then(function () {`, arguments)
             if(BlTab.Vars.Method.toLowerCase() === "PUT".toLowerCase())
             window[windID].destroy();
@@ -2360,7 +2360,7 @@ BlTab.Layouts.ToolStripButtons.NewBillOfLanding.click = _ => {
             BlTab.Layouts.BillOfLandingFormTab = isc.TabSet.create({
                 /*
                 tabSelected(tabSet, tabNum, tabPane, ID, tab, name) {
-                    dbg(false, `BlTab.Layouts.ToolStripButtons.new.click = _ => {
+                    //dbg(false, `BlTab.Layouts.ToolStripButtons.new.click = _ => {
     isc.ValuesManager.create({
         ID: "vm"
     });
