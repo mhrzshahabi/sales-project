@@ -87,7 +87,7 @@ portTab.dynamicForm.fields = BaseFormItems.concat([
         pickListheight: 450,
         pickListProperties: { showFilterEditor: true },
         optionDataSource: isc.MyRestDataSource.create({
-            fields: BaseFormItems.concat([{ name: "id" }, { name: "nameFa" }, { name: "nameEn" }]),
+            fields: BaseFormItems.concat([{ name: "id" }, { name: "nameFA" }, { name: "nameEN" }]),
             fetchDataURL: "${contextPath}" + "/api/country/spec-list",
         }),
         pickListFields: [

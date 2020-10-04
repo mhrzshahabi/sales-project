@@ -24,7 +24,7 @@ countryTab.dynamicForm.fields = [
             }]
     },
     {
-        name: "nameFa",
+        name: "nameFA",
         title: "<spring:message code='country.nameFa'/>",
         width: "100%",
         colSpan: 1,
@@ -38,7 +38,7 @@ countryTab.dynamicForm.fields = [
             }]
     },
     {
-        name: "nameEn",
+        name: "nameEN",
         title: "<spring:message code='country.nameEn'/>",
         width: "100%",
         colSpan: 1,
