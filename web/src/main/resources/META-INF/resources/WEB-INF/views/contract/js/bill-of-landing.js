@@ -695,7 +695,6 @@ BlTab.Fields.Shipment = _ =>  [
         {name: "code", title: "<spring:message code='contact.code'/>"},
         {name: "nameFA", title: "<spring:message code='contact.nameFa'/>"},
         {name: "nameEN", title: "<spring:message code='contact.nameEn'/>"},
-        {name: "commertialRole"},
         {name: "phone", title: "<spring:message code='contact.phone'/>"},
         {name: "mobile", title: "<spring:message code='contact.mobile'/>"},
         {
@@ -713,7 +712,7 @@ BlTab.Fields.Shipment = _ =>  [
             }
         },
         {name: "contactAccounts"},
-        {name: "country.nameFa", title: "<spring:message code='country.nameFa'/>"},
+        {name: "country.nameFA", title: "<spring:message code='country.nameFa'/>"},
         {name: "bookingCat", title: "<spring:message code='shipment.bookingCat'/>", align: "center"}
     ];
 BlTab.Fields.Vessel = _ => [
@@ -734,7 +733,7 @@ BlTab.Fields.Port = _ => [
     },
     {name: 'country.nameEN',
     title: "<spring:message code='currency.name.en'/>",},
-    {name: 'country.nameFa',
+    {name: 'country.nameFA',
         title: "<spring:message code='currency.name.fa'/>",},
     {name: 'countryId',
         title: "<spring:message code='global.country'/>",},

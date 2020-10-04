@@ -29,7 +29,6 @@
                 {name: "code", title: "<spring:message code='contact.code'/>"},
                 {name: "nameFA", title: "<spring:message code='contact.nameFa'/>"},
                 {name: "nameEN", title: "<spring:message code='contact.nameEn'/>"},
-                {name: "commertialRole"},
                 {name: "phone", title: "<spring:message code='contact.phone'/>"},
                 {name: "mobile", title: "<spring:message code='contact.mobile'/>"},
                 {
@@ -47,7 +46,7 @@
                     }
                 },
                 {name: "contactAccounts"},
-                {name: "country.nameFa", title: "<spring:message code='country.nameFa'/>"},
+                {name: "country.name", title: "<spring:message code='country'/>"},
 
                 {name: "bookingCat", title: "<spring:message code='shipment.bookingCat'/>", align: "center"}
 
@@ -64,7 +63,7 @@
                 {name: "beam", title: "<spring:message code='port.port'/>", width: 200},
                 {name: "loa", title: "<spring:message code='port.port'/>", width: 200},
                 {name: "arrival", title: "<spring:message code='port.port'/>", width: 200},
-                {name: "country.nameFa", title: "<spring:message code='country.nameFa'/>", width: 200}
+                {name: "country.name", title: "<spring:message code='country'/>", width: 200}
             ],
 
         fetchDataURL: "${contextPath}/api/port/spec-list"
@@ -206,14 +205,12 @@
             {name: "contractShipmentId", title: "<spring:message code='contact.name'/>", type: 'long', hidden: true},
             {name: "contactId", type: 'long', hidden: true},
             {
-                name: "contact.nameFA",
-                title: "<spring:message code='contact.name'/>",
+                name: "contact.name",
                 type: 'text'
             },
             {name: "contractId", type: 'long', hidden: true},
             {
                 name: "contractShipment.contract.no",
-                title: "<spring:message code='contract.contractNo'/>",
                 type: 'text',
                 width: 180
             },
@@ -287,7 +284,7 @@
                 width: "10%"
             },
             {
-                name: "contactAgent.nameFA",
+                name: "contactAgent.name",
                 title: "<spring:message code='shipment.agent'/>",
                 type: 'text',
                 width: "20%",
@@ -484,7 +481,7 @@
                 actionURL: "${contextPath}/api/contact/" + buyerId,
                 httpMethod: "GET",
                 callback: function (RpcResponse_o) {
-                    DynamicForm_Shipment.setValue("contract.contact.nameFA", JSON.parse(RpcResponse_o.data).nameFA);
+                    DynamicForm_Shipment.setValue("contract.contact.name", JSON.parse(RpcResponse_o.data).name);
                 }
             })
         );
@@ -558,6 +555,7 @@
                     let buyerId = record.contractContacts.filter(c => (c.commercialRole === 'Buyer'))[0].contactId;
                     setBuyerName(buyerId);
                     DynamicForm_Shipment.setValue("material.descp", record.material.descp);
+                    DynamicForm_Shipment.setValue("material.descl", record.material.descl);
                     DynamicForm_Shipment.setValue("contactId", buyerId);
                     DynamicForm_Shipment.setValue("materialId", record.materialId);
                 }
@@ -596,14 +594,21 @@
                 type: "staticText",
             },
             {
-                name: "contract.contact.nameFA",
+                name: "contract.contact.name",
                 title: "<spring:message code='contact.name'/>",
                 type: "staticText"
             },
             {
                 name: "material.descp",
                 title: "<spring:message code='material.title'/>",
-                type: "staticText"
+                type: "staticText",
+                hidden: true
+            },
+            {
+                name: "material.descl",
+                title: "<spring:message code='material.title'/>",
+                type: "staticText",
+                hidden: true
             },
             {
                 name: "sendDate",
@@ -690,7 +695,7 @@
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_UnitInShipment,
                 optionCriteria: RestDataSource_UNIT_optionCriteria,
-                displayField: "nameFA",
+                displayField: "name",
                 valueField: "id",
                 pickListHeight: "500",
                 required: true,
@@ -827,18 +832,15 @@
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_Contact__SHIPMENT,
                 optionCriteria: RestDataSource_Contact_optionCriteria__SHIPMENT,
-                displayField: "nameFA",
+                displayField: "name",
                 valueField: "id",
                 pickListWidth: 400,
                 pickListHeight: "500",
                 pickListProperties: {showFilterEditor: true},
                 pickListFields: [
-                    {name: "nameFA", align: "center"},
-                    {
-                        name: "nameEN",
-                        align: "center"
-                    },
-                    {name: "country.nameFa", align: "center"}],
+                    {name: "name", align: "center"},
+                    {name: "country.name", align: "center"}
+                    ],
                 required: true,
                 validators: [
                     {
@@ -1285,14 +1287,14 @@
             {name: "contractShipmentId", hidden: true, type: 'long'},
             {name: "contactId", type: 'long', hidden: true},
             {
-                name: "contact.nameFA",
+                name: "contact.name",
                 title: "<spring:message code='contact.name'/>",
                 type: 'text',
                 width: "10%",
                 align: "center",
                 showHover: true,
                 sortNormalizer: function (recordObject) {
-                    return recordObject.contact.nameFA
+                    return recordObject.contact.name
                 }
             },
             {name: "contractId", type: 'long', hidden: true},
@@ -1410,14 +1412,14 @@
                 },
             },
             {
-                name: "contactAgent.nameFA",
+                name: "contactAgent.name",
                 title: "<spring:message code='shipment.agent'/>",
                 type: 'text',
                 width: "10%",
                 align: "center",
                 showHover: true,
                 sortNormalizer: function (recordObject) {
-                    return recordObject.contactAgent.nameFA
+                    return recordObject.contactAgent.name
                 }
             },
             {
@@ -1545,7 +1547,14 @@
         }
         return true;
     }
-//</script>
+    if(languageForm.getValue("languageName") == 'en') {
+       DynamicForm_Shipment.getItem("material.descl").show();
+       DynamicForm_Shipment.getItem("material.descp").hide();
+    }else{
+       DynamicForm_Shipment.getItem("material.descp").show();
+       DynamicForm_Shipment.getItem("material.descl").hide();
+    }
+    //</script>
 
 
 
