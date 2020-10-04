@@ -732,7 +732,7 @@ BlTab.Fields.Port = _ => [
     {name: 'id',
         title: "<spring:message code='global.id'/>",
     },
-    {name: 'country.nameEn',
+    {name: 'country.nameEN',
     title: "<spring:message code='currency.name.en'/>",},
     {name: 'country.nameFa',
         title: "<spring:message code='currency.name.fa'/>",},
