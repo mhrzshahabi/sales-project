@@ -45,8 +45,8 @@ isc.defineClass("InvoiceBasePrice", isc.VLayout).addProperties({
                     let priceBases = JSON.parse(resp.data);
                     priceBases.forEach(priceBase => {
 
-                        if (!priceBase.element.payable)
-                            return;
+                        // if (!priceBase.element.payable)
+                        //     return;
 
                         members.add(isc.Unit.create({
                             unitHint: "PER " + priceBase.weightUnit.nameEN,
