@@ -19,7 +19,6 @@ import java.util.List;
 public class ElementDTO {
 
     private String name;
-    private Boolean payable;
     private Boolean useInContract;
 
     @Getter

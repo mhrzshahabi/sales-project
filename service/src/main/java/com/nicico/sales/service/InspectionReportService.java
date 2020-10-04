@@ -94,6 +94,17 @@ public class InspectionReportService extends GenericService<InspectionReport, Lo
         return save(updating);
     }
 
+    @Override
+    public InspectionReportDTO.Info setShipment(Long id, Long shipmentId) {
+
+        InspectionReport inspectionReport = repository.findById(id).orElseThrow(() -> new NotFoundException(InspectionReport.class));
+        inspectionReport.getWeightInspections().forEach(q -> q.setShipmentId(shipmentId));
+        inspectionReport.getAssayInspections().forEach(q -> q.setShipmentId(shipmentId));
+        InspectionReportDTO.Info inspectionReportDTO = modelMapper.map(inspectionReport, InspectionReportDTO.Info.class);
+
+        return inspectionReportDTO;
+    }
+
     private void updateWeight(InspectionReportDTO.Update request, InspectionReport inspectionReport) throws InvocationTargetException, IllegalAccessException, NoSuchFieldException {
 
         List<WeightInspectionDTO.Create> weightInspection4Insert = new ArrayList<>();

@@ -63,4 +63,10 @@ public class InspectionReportRestController {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
         return new ResponseEntity<>(iInspectionReportService.search(nicicoCriteria), HttpStatus.OK);
     }
+
+    @Loggable
+    @PutMapping(value = "/set-shipment")
+    public ResponseEntity<InspectionReportDTO.Info> setShipment(@RequestBody InspectionReportDTO.Update request, @RequestParam Long shipmentId) {
+        return new ResponseEntity<>(iInspectionReportService.setShipment(request.getId(), shipmentId), HttpStatus.OK);
+    }
 }

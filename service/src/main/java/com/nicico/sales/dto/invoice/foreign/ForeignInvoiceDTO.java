@@ -39,6 +39,8 @@ public class ForeignInvoiceDTO {
     private Long invoiceTypeId;
     private Long shipmentId;
     private Long creatorId;
+    private Long inspectionWeightReportId;
+    private Long inspectionAssayReportId;
 
     @Getter
     @Setter

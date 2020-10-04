@@ -26,9 +26,6 @@ public class Element extends BaseEntity {
     @Column(name = "C_NAME", nullable = false)
     private String name;
 
-    @Column(name = "B_PAYABLE")
-    private Boolean payable;
-
     @Column(name = "B_USE_IN_CONTRACT")
     private Boolean useInContract;
 
