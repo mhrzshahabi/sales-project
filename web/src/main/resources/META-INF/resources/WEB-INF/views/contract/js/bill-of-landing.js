@@ -695,7 +695,6 @@ BlTab.Fields.Shipment = _ =>  [
         {name: "code", title: "<spring:message code='contact.code'/>"},
         {name: "nameFA", title: "<spring:message code='contact.nameFa'/>"},
         {name: "nameEN", title: "<spring:message code='contact.nameEn'/>"},
-        {name: "commertialRole"},
         {name: "phone", title: "<spring:message code='contact.phone'/>"},
         {name: "mobile", title: "<spring:message code='contact.mobile'/>"},
         {
@@ -713,7 +712,7 @@ BlTab.Fields.Shipment = _ =>  [
             }
         },
         {name: "contactAccounts"},
-        {name: "country.nameFa", title: "<spring:message code='country.nameFa'/>"},
+        {name: "country.nameFA", title: "<spring:message code='country.nameFa'/>"},
         {name: "bookingCat", title: "<spring:message code='shipment.bookingCat'/>", align: "center"}
     ];
 BlTab.Fields.Vessel = _ => [
@@ -732,9 +731,9 @@ BlTab.Fields.Port = _ => [
     {name: 'id',
         title: "<spring:message code='global.id'/>",
     },
-    {name: 'country.nameEn',
+    {name: 'country.nameEN',
     title: "<spring:message code='currency.name.en'/>",},
-    {name: 'country.nameFa',
+    {name: 'country.nameFA',
         title: "<spring:message code='currency.name.fa'/>",},
     {name: 'countryId',
         title: "<spring:message code='global.country'/>",},
@@ -1381,7 +1380,7 @@ BlTab.Fields.RemittanceFull = function () {
                     return _record.remittanceDetails.map(rd => rd.inventory.weightInspection.weightND).reduce((i, j) => i + j);
 
                 } catch (e) {
-                    dbg(false, 'recordSummaryFunction error', e)
+                    //dbg(false, 'recordSummaryFunction error', e)
                     return 0;
                 }
             },
@@ -1396,7 +1395,7 @@ BlTab.Fields.RemittanceFull = function () {
                 try {
                     return _record.remittanceDetails.map(rd => rd.inventory.weightInspection.weightGW).reduce((i, j) => i + j);
                 } catch (e) {
-                    dbg(false, 'recordSummaryFunction error', e)
+                    //dbg(false, 'recordSummaryFunction error', e)
                     return 0;
                 }
             },
@@ -2318,7 +2317,7 @@ BlTab.Layouts.ToolStripButtons.NewBillOfLanding.click = _ => {
                                     )
                                     */
         BlTab.Methods.Save(BlTab.Vars.BillOfLanding.getValues(), 'api/bill-of-landing').then(function () {
-            dbg(false, `BlTab.Methods.Save(BlTab.Vars.BillOfLanding.getValues(), 
+            //dbg(false, `BlTab.Methods.Save(BlTab.Vars.BillOfLanding.getValues(),
                         'api/bill-of-landing').then(function () {`, arguments)
             if(BlTab.Vars.Method.toLowerCase() === "PUT".toLowerCase())
             window[windID].destroy();
@@ -2360,7 +2359,7 @@ BlTab.Layouts.ToolStripButtons.NewBillOfLanding.click = _ => {
             BlTab.Layouts.BillOfLandingFormTab = isc.TabSet.create({
                 /*
                 tabSelected(tabSet, tabNum, tabPane, ID, tab, name) {
-                    dbg(false, `BlTab.Layouts.ToolStripButtons.new.click = _ => {
+                    //dbg(false, `BlTab.Layouts.ToolStripButtons.new.click = _ => {
     isc.ValuesManager.create({
         ID: "vm"
     });

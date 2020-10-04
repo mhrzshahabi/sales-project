@@ -733,7 +733,7 @@ crTab.Methods.UpdateInputOutputCharts = function () {
         id: "day",
         title: "<spring:message code='global.day'/>"
     });
-    dbg(true)
+    //dbg(true)
     // dbg(true,_facet)
     const criteriaStr = [
         {
@@ -1323,7 +1323,6 @@ crTab.Fields.Shipment = function () {
         {name: "code", title: "<spring:message code='contact.code'/>"},
         {name: "nameFA", title: "<spring:message code='contact.nameFa'/>"},
         {name: "nameEN", title: "<spring:message code='contact.nameEn'/>"},
-        {name: "commertialRole"},
         {name: "phone", title: "<spring:message code='contact.phone'/>"},
         {name: "mobile", title: "<spring:message code='contact.mobile'/>"},
         {
@@ -1855,7 +1854,7 @@ crTab.Layouts.Vlayouts.main = isc.VLayout.create({
     ]
 })
 crTab.Methods.UpdateInputOutputCharts()
-dbg(false, "crtab", crTab)
+//dbg(false, "crtab", crTab)
 
 //}
 //)

@@ -1,0 +1,19 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+				   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+				   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+	<changeSet author="admin (generated)" id="1601731062349-227">
+		<addColumn tableName="TBL_WARH_MATERIAL_ELEMENT">
+			<column name="B_PAYABLE" type="number(1, 0)" defaultValue="0">
+				<constraints nullable="false"/>
+			</column>
+		</addColumn>
+	</changeSet>
+	<changeSet author="admin (generated)" id="1601731062349-228">
+		<addColumn tableName="TBL_WARH_MATERIAL_ELEMENT">
+			<column name="B_PENALTY" type="number(1, 0)" defaultValue="0">
+				<constraints nullable="false"/>
+			</column>
+		</addColumn>
+	</changeSet>
+</databaseChangeLog>

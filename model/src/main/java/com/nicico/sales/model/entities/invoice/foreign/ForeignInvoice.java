@@ -130,6 +130,24 @@ public class ForeignInvoice extends BaseEntity {
     @Column(name = "PERSON_ID")
     private Long creatorId;
 
+    @Setter(AccessLevel.NONE)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "F_INSPECTION_WEIGHT_REPORT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_foreignInvoice2inspectionReportByInspectionWeightReportId"))
+    private InspectionReport inspectionWeightReport;
+
+    @NotNull
+    @Column(name = "F_INSPECTION_WEIGHT_REPORT_ID", nullable = false)
+    private Long inspectionWeightReportId;
+
+    @Setter(AccessLevel.NONE)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "F_INSPECTION_ASSAY_REPORT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_foreignInvoice2inspectionReportByInspectionAssayReportId"))
+    private InspectionReport inspectionAssayReport;
+
+    @NotNull
+    @Column(name = "F_INSPECTION_ASSAY_REPORT_ID", nullable = false)
+    private Long inspectionAssayReportId;
+
     // *****************************************************************************************************************
 
     @OneToMany(mappedBy = "foreignInvoice", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)

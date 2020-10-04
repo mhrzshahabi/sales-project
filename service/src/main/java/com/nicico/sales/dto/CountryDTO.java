@@ -18,8 +18,9 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class CountryDTO {
 
-    private String nameFa;
-    private String nameEn;
+    private String nameFA;
+    private String nameEN;
+    private String name;
 
     @Getter
     @Setter

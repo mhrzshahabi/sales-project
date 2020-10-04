@@ -1,12 +1,14 @@
 package com.nicico.sales.model.entities.base;
 
 import com.nicico.sales.model.entities.common.BaseEntity;
+import com.nicico.sales.model.enumeration.I18n;
 import lombok.*;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 import java.util.Set;
 
+@I18n
 @Getter
 @Setter
 @NoArgsConstructor
@@ -142,4 +144,8 @@ public class Contact extends BaseEntity {
         }
         return null;
     }
+
+    @I18n
+    @Transient
+    private String name;
 }

@@ -1,14 +1,17 @@
 //******************************************************* VARIABLES ****************************************************
 
 var inspectionReportTab = new nicico.GeneralTabUtil().getDefaultJSPTabVariable();
-inspectionReportTab.variable.materialId = 0;
-inspectionReportTab.variable.allCols = 0;
+
 inspectionReportTab.variable.data = [];
-inspectionReportTab.variable.selectedInventories = [];
+inspectionReportTab.variable.allCols = 0;
+inspectionReportTab.variable.materialId = 0;
 inspectionReportTab.variable.isWeightExist = true;
 inspectionReportTab.variable.isAssayExist = true;
-inspectionReportTab.variable.removeAllWeight = false;
 inspectionReportTab.variable.removeAllAssay = false;
+inspectionReportTab.variable.removeAllWeight = false;
+inspectionReportTab.variable.selectedInventories = [];
+
+inspectionReportTab.variable.inspectionReportUrl = "${contextPath}" + "/inspectionReport/";
 
 //***************************************************** RESTDATASOURCE *************************************************
 
@@ -25,8 +28,8 @@ inspectionReportTab.restDataSource.inspecReportRest = isc.MyRestDataSource.creat
             title: "<spring:message code='inspectionReport.InspectionNO'/>"
         },
         {
-            name: "inspector.nameFA",
-            title: "<spring:message code='inspectionReport.inspector.nameFA'/>"
+            name: "inspector.name",
+            title: "<spring:message code='inspectionReport.inspector.name'/>"
         },
         {
             name: "inspectorId",
@@ -41,16 +44,16 @@ inspectionReportTab.restDataSource.inspecReportRest = isc.MyRestDataSource.creat
             title: "<spring:message code='inspectionReport.IssueDate'/>"
         },
         {
-            name: "seller.nameFA",
-            title: "<spring:message code='inspectionReport.seller.nameFA'/>"
+            name: "seller.name",
+            title: "<spring:message code='inspectionReport.seller.name'/>"
         },
         {
             name: "sellerId",
             title: "<spring:message code='inspectionReport.sellerId'/>"
         },
         {
-            name: "buyer.nameFA",
-            title: "<spring:message code='inspectionReport.buyer.nameFA'/>"
+            name: "buyer.name",
+            title: "<spring:message code='inspectionReport.buyer.name'/>"
         },
         {
             name: "buyerId",
@@ -73,7 +76,7 @@ inspectionReportTab.restDataSource.inspecReportRest = isc.MyRestDataSource.creat
             title: "<spring:message code='global.unit'/>"
         },
         {
-            name: "unit.nameFA",
+            name: "unit.name",
             title: "<spring:message code='global.unit'/>"
         },
     ],
@@ -321,7 +324,7 @@ inspectionReportTab.restDataSource.materialElementRest = isc.MyRestDataSource.cr
             title: "<spring:message code='assayInspection.materialElement.name'/>"
         },
         {
-            name: "element.payable",
+            name: "payable",
             title: "<spring:message code='assayInspection.materialElement.payable'/>"
         },
         {
@@ -329,7 +332,7 @@ inspectionReportTab.restDataSource.materialElementRest = isc.MyRestDataSource.cr
             title: "<spring:message code='global.unit'/>"
         },
         {
-            name: "unit.nameFA",
+            name: "unit.name",
             title: "<spring:message code='global.unit'/>"
         }
     ],
@@ -375,7 +378,7 @@ inspectionReportTab.restDataSource.shipmentRest = isc.MyRestDataSource.create({
             showHover: true
         },
         {
-            name: "contact.nameFA",
+            name: "contact.name",
             title: "<spring:message code ='contact.nameFa'/>",
             showHover: true
         },
@@ -456,8 +459,16 @@ inspectionReportTab.method.getAssayElementFields = function (materialId, setData
     let elementCriteria = {
         _constructor: "AdvancedCriteria",
         operator: "and",
-        criteria: [{fieldName: "materialId", operator: "equals", value: materialId},
-            {fieldName: "element.payable", operator: "equals", value: true},
+        criteria: [
+            {fieldName: "materialId", operator: "equals", value: materialId},
+            {
+                _constructor: "AdvancedCriteria",
+                operator: "or",
+                criteria: [
+                    {fieldName: "payable", operator: "equals", value: true},
+                    {fieldName: "penalty", operator: "equals", value: true}
+                ]
+            },
         ]
     };
 
@@ -782,12 +793,16 @@ inspectionReportTab.method.materialChange = function () {
             return;
     }
 
-    let unitName = StorageUtil.get('parameters').unit.filter(q => q.id === inspectionReportTab.listGrid.weightElement.unitId).first().nameFA;
+    let unitName = StorageUtil.get('parameters').unit.filter(q => q.id === inspectionReportTab.listGrid.weightElement.unitId).first().name;
     let weightWGTitle = inspectionReportTab.listGrid.weightElement.getFieldTitle("weightGW").replace(/ *\([^)]*\) */g, "");
     inspectionReportTab.listGrid.weightElement.setFieldTitle("weightGW", weightWGTitle + " (" + unitName + ")");
     let weightNDTitle = inspectionReportTab.listGrid.weightElement.getFieldTitle("weightND").replace(/ *\([^)]*\) */g, "");
     inspectionReportTab.listGrid.weightElement.setFieldTitle("weightND", weightNDTitle + " (" + unitName + ")");
 };
+
+inspectionReportTab.method.getMaterialFieldName = function () {
+    return (languageForm.getValue("languageName") == 'en') ? "descl" : "descp";
+}
 
 inspectionReportTab.variable.inspectorCriteria = {
     _constructor: "AdvancedCriteria",
@@ -834,7 +849,7 @@ inspectionReportTab.dynamicForm.material = isc.DynamicForm.create({
             autoFetchData: false,
             editorType: "SelectItem",
             valueField: "id",
-            displayField: "descp",
+            displayField: inspectionReportTab.method.getMaterialFieldName(),
             pickListWidth: "500",
             pickListHeight: "300",
             optionDataSource: inspectionReportTab.restDataSource.materialRest,
@@ -844,7 +859,7 @@ inspectionReportTab.dynamicForm.material = isc.DynamicForm.create({
                 },
             pickListFields: [
                 {
-                    name: "descp",
+                    name: inspectionReportTab.method.getMaterialFieldName(),
                 },
                 {
                     name: "code",
@@ -897,7 +912,7 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
                 name: "material.descl",
             },
             {
-                name: "contact.nameFA",
+                name: "contact.name",
             },
             {
                 name: "sendDate",
@@ -951,13 +966,13 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
     },
     {
         name: "inspectorId",
-        title: "<spring:message code='inspectionReport.inspector.nameFA'/>",
+        title: "<spring:message code='inspectionReport.inspector.name'/>",
         required: true,
         wrapTitle: false,
         autoFetchData: true,
         editorType: "SelectItem",
         valueField: "id",
-        displayField: "nameFA",
+        displayField: "name",
         pickListWidth: "500",
         pickListHeight: "300",
         optionDataSource: isc.MyRestDataSource.create(inspectionReportTab.restDataSource.contactRest),
@@ -1117,7 +1132,7 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
         autoFetchData: true,
         editorType: "SelectItem",
         valueField: "id",
-        displayField: "nameFA",
+        displayField: "name",
         pickListWidth: "500",
         pickListHeight: "300",
         optionDataSource: isc.MyRestDataSource.create(inspectionReportTab.restDataSource.contactRest1),
@@ -1150,7 +1165,7 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
         autoFetchData: true,
         editorType: "SelectItem",
         valueField: "id",
-        displayField: "nameFA",
+        displayField: "name",
         pickListWidth: "500",
         pickListHeight: "300",
         optionDataSource: isc.MyRestDataSource.create(inspectionReportTab.restDataSource.contactRest2),
@@ -1213,7 +1228,7 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
         autoFetchData: false,
         editorType: "SelectItem",
         valueField: "id",
-        displayField: "nameFA",
+        displayField: "name",
         pickListWidth: "500",
         pickListHeight: "300",
         optionDataSource: inspectionReportTab.restDataSource.unitRest,
@@ -2021,6 +2036,119 @@ inspectionReportTab.method.editForm = function () {
     }
 };
 
+inspectionReportTab.dynamicForm.addShipmentDynamicForm = isc.DynamicForm.nicico.getDefault([{
+    width: "100%",
+    name: "shipmentId",
+    required: true,
+    title: "<spring:message code='Shipment.title'/>",
+    autoFetchData: false,
+    editorType: "SelectItem",
+    valueField: "id",
+    displayField: "bookingCat",
+    pickListWidth: "500",
+    pickListHeight: "300",
+    optionDataSource: inspectionReportTab.restDataSource.shipmentRest,
+    pickListProperties:
+        {
+            showFilterEditor: true
+        },
+    pickListFields: [
+        {
+            name: "bookingCat"
+        },
+        {
+            name: "material.descl",
+        },
+        {
+            name: "contact.nameFA",
+        },
+        {
+            name: "sendDate",
+            type: "date"
+        },
+        {
+            name: "shipmentType.shipmentType",
+        },
+        {
+            name: "shipmentMethod.shipmentMethod",
+        },
+    ],
+}]);
+
+inspectionReportTab.window.formUtil = new nicico.FormUtil();
+inspectionReportTab.window.formUtil.init(null, '<spring:message code="Shipment.title"/>', isc.HLayout.create({
+    width: "100%",
+    height: "100",
+    align: "center",
+    members: [
+
+        inspectionReportTab.dynamicForm.addShipmentDynamicForm
+        // isc.VLayout.create({
+        //     width: "35%",
+        //     members: [
+        //         inspectionReportTab.dynamicForm.addShipmentDynamicForm
+        //     ]
+        // })
+    ]
+}), "500", "20%");
+
+inspectionReportTab.window.formUtil.populateData = function (bodyWidget) {
+
+    inspectionReportTab.variable.addShipmentShipmentId = bodyWidget.members[0].getValue("shipmentId");
+    return inspectionReportTab.listGrid.main.getSelectedRecord();
+};
+
+inspectionReportTab.window.formUtil.validate = function (data) {
+
+    inspectionReportTab.dynamicForm.addShipmentDynamicForm.validate();
+    return !inspectionReportTab.dynamicForm.addShipmentDynamicForm.hasErrors();
+};
+
+inspectionReportTab.window.formUtil.okCallBack = function (data) {
+
+    let inventoryCriteria = {
+        _constructor: "AdvancedCriteria",
+        operator: "and",
+        criteria: [{
+            fieldName: "remittanceDetails.remittance.shipmentId",
+            operator: "equals",
+            value: inspectionReportTab.variable.addShipmentShipmentId
+        }]
+    };
+
+    inspectionReportTab.restDataSource.inventoryRest.fetchData(inventoryCriteria, function (invDsResponse, invData, invDsRequest) {
+
+        if (invData.length) {
+
+            let inventoryIds = [];
+            // console.log("invData ", invData);
+            for (let i = 0; i < invData.length; i++) {
+                inventoryIds.add(invData[i].remittanceDetails.filter(q => q.inputRemittance === false).first().inventory.id);
+            }
+            // console.log("inventoryIds ", inventoryIds);
+            inspectionReportTab.variable.addShipmentInventoryIds.forEach(q => {
+                if (!inventoryIds.contains(q)) {
+                    inspectionReportTab.dialog.say("not Valid");
+                    return false;
+                }
+            });
+
+            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+                httpMethod: "PUT",
+                data: JSON.stringify(data),
+                params: {
+                    shipmentId: inspectionReportTab.variable.addShipmentShipmentId,
+                },
+                actionURL: inspectionReportTab.variable.inspectionReportUrl + "set-shipment",
+                callback: function (resp) {
+
+                    debugger;
+                }
+            }));
+        }
+    });
+};
+
 //***************************************************** MAINLISTGRID *************************************************
 
 inspectionReportTab.listGrid.fields = [
@@ -2033,10 +2161,10 @@ inspectionReportTab.listGrid.fields = [
         title: "<spring:message code='inspectionReport.InspectionNO'/>"
     },
     {
-        name: "inspector.nameFA",
-        title: "<spring:message code='inspectionReport.inspector.nameFA'/>",
+        name: "inspector.name",
+        title: "<spring:message code='inspectionReport.inspector.name'/>",
         sortNormalizer: function (recordObject) {
-            return recordObject.inspector.nameFA;
+            return recordObject.inspector.name;
         }
     },
     {
@@ -2050,17 +2178,17 @@ inspectionReportTab.listGrid.fields = [
         width: "10%"
     },
     {
-        name: "seller.nameFA",
-        title: "<spring:message code='inspectionReport.seller.nameFA'/>",
+        name: "seller.name",
+        title: "<spring:message code='inspectionReport.seller.name'/>",
         sortNormalizer: function (recordObject) {
-            return recordObject.seller.nameFA;
+            return recordObject.seller.name;
         }
     },
     {
-        name: "buyer.nameFA",
-        title: "<spring:message code='inspectionReport.buyer.nameFA'/>",
+        name: "buyer.name",
+        title: "<spring:message code='inspectionReport.buyer.name'/>",
         sortNormalizer: function (recordObject) {
-            return recordObject.buyer.nameFA;
+            return recordObject.buyer.name;
         }
     },
     {
@@ -2072,9 +2200,66 @@ inspectionReportTab.listGrid.fields = [
         title: "<spring:message code='inspectionReport.inspectionRateValueType'/>"
     },
     {
-        name: "unit.nameFA",
+        name: "unit.name",
         title: "<spring:message code='global.unit'/>"
     }
 ];
 
 nicico.BasicFormUtil.getDefaultBasicForm(inspectionReportTab, "api/inspectionReport/");
+
+inspectionReportTab.toolStrip.main.addMember(isc.ToolStripButton.create({
+    // actionType: ActionType.ACTIVATE,
+    visibility: "visible",
+    icon: "[SKIN]/actions/configure.png",
+    title: "<spring:message code='global.add.shipment'/>",
+    click: function () {
+
+        inspectionReportTab.variable.method = "PUT";
+        let record = inspectionReportTab.listGrid.main.getSelectedRecord();
+        if (record == null || record.id == null)
+            inspectionReportTab.dialog.notSelected();
+        else if (record.editable === false)
+            inspectionReportTab.dialog.notEditable();
+        else if (record.estatus.contains(Enums.eStatus2.DeActive))
+            inspectionReportTab.dialog.inactiveRecord();
+        else if (record.estatus.contains(Enums.eStatus2.Final))
+            inspectionReportTab.dialog.finalRecord();
+        else {
+
+            inspectionReportTab.dynamicForm.addShipmentDynamicForm.clearValues();
+            inspectionReportTab.window.formUtil.justShowForm();
+            console.log("add Shipment");
+            // debugger
+            let weightInspectionArray = record.weightInspections;
+            let assayInspectionArray = record.assayInspections;
+
+            let inventories = weightInspectionArray.map(q => q.inventory);
+            inventories.addAll(assayInspectionArray.map(q => q.inventory));
+            inventories = inventories.uniqueObject("id");
+
+            let materialId;
+            inspectionReportTab.variable.addShipmentInventoryIds = inventories.map(q => q.id);
+            if (weightInspectionArray && weightInspectionArray.length) {
+
+                // Set Material
+                materialId = weightInspectionArray.get(0).inventory.materialItem.materialId;
+            }
+            if (assayInspectionArray && assayInspectionArray.length) {
+
+                // Set Material
+                materialId = assayInspectionArray.get(0).inventory.materialItem.materialId;
+            }
+
+            inspectionReportTab.dynamicForm.addShipmentDynamicForm.getItem("shipmentId").setOptionCriteria({
+                _constructor: "AdvancedCriteria",
+                operator: "and",
+                criteria: [{
+                    fieldName: "materialId",
+                    operator: "equals",
+                    value: materialId
+                }]
+            });
+
+        }
+    }
+}), 7);

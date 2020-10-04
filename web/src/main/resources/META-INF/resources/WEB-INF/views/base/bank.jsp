@@ -42,11 +42,11 @@
                     width: 200
                 },
                 {
-                    name: "country.nameFa",
-                    title: "<spring:message code='country.nameFa'/>",
+                    name: "country.name",
+                    title: "<spring:message code='country'/>",
                     width: 200,
                     sortNormalizer: function (recordObject) {
-                        return recordObject.country.nameFa;
+                        return recordObject.country.name;
                     }
                 }],
             fetchDataURL: "${contextPath}/api/bank/spec-list"
@@ -64,12 +64,12 @@
                     hidden: true
                 },
                 {
-                    name: "nameFa",
+                    name: "nameFA",
                     title: "<spring:message code='country.nameFa'/>",
                     width: 200
                 },
                 {
-                    name: "nameEn",
+                    name: "nameEN",
                     title: "<spring:message code='country.nameEn'/>",
                     width: 200
                 },
@@ -277,13 +277,13 @@
                 },
                 {
                     name: "countryId",
-                    title: "<spring:message code='country.nameFa'/>",
+                    title: "<spring:message code='country'/>",
                     type: 'long',
                     width: 500,
                     required: true, errorOrientation: "bottom",
                     editorType: "SelectItem",
                     optionDataSource: RestDataSource_Country_IN_BANK,
-                    displayField: "nameFa",
+                    displayField: "name",
                     colSpan: 1,
                     titleColSpan: 1,
                     valueField: "id",
@@ -303,14 +303,14 @@
                             hidden: true
                         },
                         {
-                            name: "nameFa",
+                            name: "nameFA",
                             width: "10%",
                             align: "center",
                             colSpan: 1,
                             titleColSpan: 1
                         },
                         {
-                            name: "nameEn",
+                            name: "nameEN",
                             width: "10%",
                             align: "center",
                             colSpan: 1,
@@ -518,8 +518,8 @@
                     align: "center"
                 },
                 {
-                    name: "country.nameFa",
-                    title: "<spring:message code='country.nameFa'/>",
+                    name: "country.name",
+                    title: "<spring:message code='country'/>",
                     width: "10%",
                     align: "center"
                 },

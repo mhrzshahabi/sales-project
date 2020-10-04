@@ -50,4 +50,12 @@ public class MaterialElement extends BaseEntity {
 
     @Column(name = "F_UNIT_ID")
     private Long unitId;
+
+    @NotNull
+    @Column(name = "B_PAYABLE", nullable = false)
+    private Boolean payable;
+
+    @NotNull
+    @Column(name = "B_PENALTY", nullable = false)
+    private Boolean penalty;
 }
