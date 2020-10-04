@@ -138,7 +138,8 @@ public class CriteriaRefinerAspect {
                 }
 
                 newValues.add(new Date(date.replace('-', '/')));
-            } else if (value instanceof Map)
+            }
+            else if (value instanceof Map)
                 throw new SalesException2(ErrorType.BadRequest, fieldName, "Criteria options not supported yet.");
             else
                 throw new SalesException2(ErrorType.BadRequest, fieldName, "Criteria for date field is incorrect.");

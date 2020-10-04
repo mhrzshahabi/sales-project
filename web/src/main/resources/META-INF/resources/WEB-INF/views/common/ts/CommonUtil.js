@@ -296,6 +296,22 @@ var nicico;
                 windowWidget.show();
             };
             // @ts-ignore
+            isc.FilterBuilder.nicico = {};
+            // @ts-ignore
+            isc.FilterBuilder.nicico.getDefault = function (restDataSource) {
+                return isc.FilterBuilder.create({
+                    // @ts-ignore
+                    dataSource: restDataSource,
+                    criteria: {
+                        // @ts-ignore
+                        _constructor: "AdvancedCriteria",
+                        operator: "and", criteria: []
+                    },
+                    fieldPickerWidth: "200", valueItemWidth: "400",
+                    width: "100%"
+                });
+            };
+            // @ts-ignore
             Array.prototype.distinct = function () {
                 return this.filter(function (value, index, self) { return self.indexOf(value) === index; });
             };

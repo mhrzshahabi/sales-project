@@ -98,6 +98,7 @@
     <%@include file="common/ts/FindFormUtil.js"%>
     <%@include file="common/ts/GeneralTabUtil.js"%>
     <%@include file="common/ts/StorageUtil.js"%>
+    <%@include file="common/ts/ReportFormUtil.js"%>
 
     var Enums = {
 
@@ -1019,13 +1020,47 @@
     });
 
     /*----------------------reportTab------------------------*/
-    reportTab = isc.ToolStripMenuButton.create({
+    <%--reportTab = isc.ToolStripMenuButton.create({--%>
+    <%--    title: "&nbsp; <spring:message code='main.reportTab'/>",--%>
+    <%--    click: function () {--%>
+    <%--        createTab("<spring:message code='main.reportTab'/>", "<spring:url value="/report/show-report-form" />")--%>
+    <%--    }--%>
+    <%--});--%>
+       reportTab = isc.ToolStripMenuButton.create({
         title: "&nbsp; <spring:message code='main.reportTab'/>",
-        click: function () {
-            createTab("<spring:message code='main.reportTab'/>", "<spring:url value="/report/show-report-form" />")
-        }
+        menu: isc.Menu.create({
+            placement: "none",
+            data: [
+                {
+                    title: "<spring:message code='global.sales'/>",
+                    click: function () {
+                        // createTab("<spring:message code='main.reportTab'/>", "<spring:url value="/report/show-report-form" />")
+                         nicico.ReportFormUtil.showForm("api/shipmentCostInvoice/","<spring:message code='global.sales'/>");
+                    }
+                },
+                {isSeparator: true},
+                {
+                    title: "<spring:message code='global.sales.internal'/>",
+                    click: function () {
+                       // createTab("<spring:message code='main.reportTab'/>", "<spring:url value="/report/show-report-form" />")
+                    }
+                },
+                {isSeparator: true},
+                {
+                    title: "<spring:message code='global.sales.foreign'/>",
+                    click: function () {
+                        //createTab("<spring:message code='invoiceSales.title'/>", "<spring:url value="/invoiceSales/showForm" />")
+                    }
+                },
+                {
+                    title: "<spring:message code='global.sales.warehouse'/>",
+                    click: function () {
+                        createTab("<spring:message code='global.sales.warehouse'/>", "<spring:url value="/report/show-report-form" />")
+                    }
+                }
+            ]
+        })
     });
-
     //---------------------------------------
     var mainTabSet = isc.TabSet.create({
         tabBarPosition: "top",

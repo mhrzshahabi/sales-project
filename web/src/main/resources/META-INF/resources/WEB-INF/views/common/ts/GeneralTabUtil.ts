@@ -77,6 +77,7 @@ namespace nicico {
         restDataSource: {};
         window: {};
         sectionStack: {};
+        filterBuilder: {};
         dialog: {
 
             notEditable(): void,
@@ -187,6 +188,7 @@ namespace nicico {
         restDataSource: {};
         window: {};
         sectionStack: {};
+        filterBuilder: {};
         dialog: {
 
             notEditable(): void,
@@ -227,6 +229,7 @@ namespace nicico {
             This.hLayout = {};
             This.vLayout = {};
             This.restDataSource = {};
+            This.filterBuilder = {};
             This.window = {};
             This.sectionStack = {};
             This.variable = {

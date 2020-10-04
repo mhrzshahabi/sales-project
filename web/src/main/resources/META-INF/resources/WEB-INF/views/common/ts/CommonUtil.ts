@@ -263,7 +263,7 @@ namespace nicico {
                     dismissOnEscape: true,
                     dismissOnOutsideClick: false,
                     title: title,
-                    canDragResize:true,
+                    canDragResize: true,
                     // @ts-ignore
                     closeClick: function () {
 
@@ -363,6 +363,23 @@ namespace nicico {
                 });
                 chart.setHeight(windowWidget.height);
                 windowWidget.show();
+            };
+
+            // @ts-ignore
+            isc.FilterBuilder.nicico = {};
+            // @ts-ignore
+            isc.FilterBuilder.nicico.getDefault = function (restDataSource?: isc.RestDataSource) {
+                return isc.FilterBuilder.create({
+                    // @ts-ignore
+                    dataSource: restDataSource,
+                    criteria: {
+                    // @ts-ignore
+                        _constructor: "AdvancedCriteria",
+                        operator: "and", criteria: []
+                    },
+                    fieldPickerWidth: "200", valueItemWidth: "400",
+                    width:"100%"
+                });
             };
 
             // @ts-ignore
