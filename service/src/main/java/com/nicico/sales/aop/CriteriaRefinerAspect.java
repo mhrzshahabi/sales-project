@@ -10,23 +10,23 @@ import com.nicico.sales.enumeration.ErrorType;
 import com.nicico.sales.exception.SalesException2;
 import com.nicico.sales.model.enumeration.AllConverters;
 import com.nicico.sales.model.enumeration.EStatus;
+import com.nicico.sales.model.enumeration.I18n;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
+import org.springframework.util.ReflectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.nicico.copper.common.domain.criteria.SearchUtil.createSearchRq;
@@ -50,7 +50,9 @@ public class CriteriaRefinerAspect {
         Class<?> entityClass = (Class<?>) superClass.getActualTypeArguments()[0];
         SearchDTO.SearchRq newRequest = createSearchRq(request);
         try {
-            if (checkCriteria(newRequest.getCriteria(), entityClass)) {
+            boolean check = checkSort(newRequest, entityClass);
+            check |= checkCriteria(newRequest.getCriteria(), entityClass);
+            if (check) {
 
                 final String searchMethodName = ((MethodSignature) proceedingJoinPoint.getSignature()).getMethod().getName();
                 final Method searchMethod = target.getClass().getMethod(searchMethodName, SearchDTO.SearchRq.class);
@@ -63,29 +65,46 @@ public class CriteriaRefinerAspect {
 
     private Field getField(String fieldName, Class<?> entityClass) {
 
-        try {
+        String propertyPostfix = "";
+        Field field = ReflectionUtils.findField(entityClass, fieldName);
+        I18n[] i18ns = Objects.requireNonNull(field).getAnnotationsByType(I18n.class);
+        if (i18ns.length > 0) {
 
-            return entityClass.getDeclaredField(fieldName);
-
-        } catch (NoSuchFieldException e) {
-
-            return getField(fieldName, entityClass.getSuperclass());
+            Locale locale = LocaleContextHolder.getLocale();
+            propertyPostfix = locale.getLanguage().equals(Locale.ENGLISH.getLanguage()) ? "EN" : "FA";
+            field = ReflectionUtils.findField(entityClass, fieldName + propertyPostfix);
         }
-    }
-
-    private Field getFieldByNames(String fieldName, Class<?> entityClass) throws NoSuchFieldException {
-
-        final String[] fieldNames = fieldName.split("\\.");
-        Field field = getField(fieldNames[0], entityClass);
-        for (int i = 1; i < fieldNames.length; i++)
-            field = field.getType().getDeclaredField(fieldNames[i]);
 
         return field;
     }
 
+    private Field getFieldByNames(String fieldName, Class<?> entityClass) {
+
+        final String[] fieldNames = fieldName.split("\\.");
+        Field field = getField(fieldNames[0], entityClass);
+        for (int i = 1; i < fieldNames.length; i++)
+            field = getField(fieldNames[i], field.getType());
+
+        return field;
+    }
+
+    private String refineFieldName(String fieldName, Class<?> entityClass) {
+
+        final String[] fieldNames = fieldName.split("\\.");
+        Field field = getField(fieldNames[0], entityClass);
+        StringBuilder result = new StringBuilder(field.getName());
+        for (int i = 1; i < fieldNames.length; i++) {
+
+            field = getField(fieldNames[i], field.getType());
+            result.append(".").append(field.getName());
+        }
+
+        return result.toString();
+    }
+
     private String refineEStatusField(String fieldName, SearchDTO.CriteriaRq criteriaRq) {
 
-        fieldName = fieldName.replace("estatus", "eStatusId");
+        fieldName = fieldName.replaceAll("\\b" + "estatus" + "\\b", "eStatusId");
         criteriaRq.setFieldName(fieldName);
         if (criteriaRq.getValue().size() > 1 && (criteriaRq.getOperator() == EOperator.contains || criteriaRq.getOperator() == EOperator.iContains)) {
 
@@ -147,6 +166,34 @@ public class CriteriaRefinerAspect {
         return result;
     }
 
+    private boolean checkSort(SearchDTO.SearchRq searchRq, Class<?> entityClass) {
+
+        final boolean[] result = {false};
+        List<SearchDTO.SortByRq> sortByRqs = searchRq.getSortBy();
+        if (sortByRqs != null) {
+
+            List<String> sortBys = new ArrayList<>();
+            sortByRqs.forEach(sortByRq -> {
+
+                String fieldName = sortByRq.getFieldName();
+                if (fieldName.contains("estatus")) {
+
+                    result[0] = true;
+                    sortByRq.setFieldName(fieldName.replaceAll("\\bestatus\\b", "eStatusId"));
+                }
+                String newFieldName = refineFieldName(fieldName, entityClass);
+                if (!newFieldName.equals(fieldName))
+                    result[0] = true;
+
+                sortBys.add((sortByRq.getDescendingSafe() ? "-" : "") + newFieldName);
+            });
+
+            searchRq.setSortBy(sortBys);
+        }
+
+        return result[0];
+    }
+
     private Boolean checkCriteria(SearchDTO.CriteriaRq criteriaRq, Class<?> entityClass) throws NoSuchFieldException {
 
         if (criteriaRq == null)
@@ -163,11 +210,17 @@ public class CriteriaRefinerAspect {
             }
 
             Field field = getFieldByNames(fieldName, entityClass);
+            String newFieldName = refineFieldName(fieldName, entityClass);
+            if (!newFieldName.equals(fieldName)) {
+
+                result = true;
+                criteriaRq.setFieldName(newFieldName);
+            }
             if (field.getType().equals(Date.class)) {
 
                 final EOperator operator = criteriaRq.getOperator();
                 if (operator == EOperator.lessOrEqual || operator == EOperator.greaterOrEqual)
-                    result = refineDateField(fieldName, criteriaRq, result);
+                    result = refineDateField(newFieldName, criteriaRq, result);
                 else {
 
                     if (criteriaRq.getCriteria() == null)
@@ -180,7 +233,7 @@ public class CriteriaRefinerAspect {
                 result = true;
                 List<Object> values = criteriaRq.getValue();
                 criteriaRq.setValue(values.stream().map(Object::toString).collect(Collectors.toList()));
-            } /*else if (field.getType().equals(String.class)) {
+            } /* else if (field.getType().equals(String.class)) {
 
                 result = true;
                 List<Object> values = criteriaRq.getValue();
@@ -188,7 +241,7 @@ public class CriteriaRefinerAspect {
                         replace("\u06A9", "\u0643").
                         replace("\u06CC", "\u0649")*//*.
                         replace("/\u06CC/g", "\u064A")*//*).collect(Collectors.toList()));
-            } */else {
+            } */ else {
 
                 if (criteriaRq.getCriteria() == null)
                     return result;
