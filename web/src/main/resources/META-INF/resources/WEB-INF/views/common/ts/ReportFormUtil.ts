@@ -20,12 +20,22 @@ namespace nicico {
 
         static createRestDataSource(creator: JSPTabVariable): void {
             // @ts-ignore
-            creator.restDataSource.main = isc.RestDataSource.nicico.getDefault(creator.variable.url + "spec-list", creator.method.transformRequest);
+            creator.restDataSource.main = isc.RestDataSource.nicico.getDefault(creator.variable.url + "spec-list", [], creator.method.transformRequest);
         }
 
         static createFilterBuilder(creator: JSPTabVariable): void {
             // @ts-ignore
-            creator.filterBuilder.main = isc.FilterBuilder.nicico.getDefault(creator.restDataSource.main);
+            creator.filterBuilder.main = isc.FilterBuilder.create({
+                 // @ts-ignore
+                dataSource: creator.restDataSource.main,
+                criteria: {
+                    // @ts-ignore
+                    _constructor: "AdvancedCriteria",
+                    operator: "and", criteria: []
+                },
+                fieldPickerWidth: "200", valueItemWidth: "400",
+                width: "100%"
+            });
         }
 
         static createVLayout(creator: JSPTabVariable): void {
@@ -34,7 +44,7 @@ namespace nicico {
 
                 width: "100%",
                 height: "100%",
-                overflow:"auto",
+                overflow: "auto",
                 // @ts-ignore
                 members: [
                     isc.LayoutSpacer.create({height: "20"}),
@@ -85,6 +95,8 @@ namespace nicico {
             this.createVLayout(creator);
             this.createWindow(creator, title);
             // @ts-ignore
+            // creator.filterBuilder.main.setDataSource(creator.restDataSource.main);
+             // @ts-ignore
             creator.window.main.show();
 
             // @ts-ignore

@@ -1020,13 +1020,7 @@
     });
 
     /*----------------------reportTab------------------------*/
-    <%--reportTab = isc.ToolStripMenuButton.create({--%>
-    <%--    title: "&nbsp; <spring:message code='main.reportTab'/>",--%>
-    <%--    click: function () {--%>
-    <%--        createTab("<spring:message code='main.reportTab'/>", "<spring:url value="/report/show-report-form" />")--%>
-    <%--    }--%>
-    <%--});--%>
-       reportTab = isc.ToolStripMenuButton.create({
+    reportTab = isc.ToolStripMenuButton.create({
         title: "&nbsp; <spring:message code='main.reportTab'/>",
         menu: isc.Menu.create({
             placement: "none",
@@ -1034,15 +1028,14 @@
                 {
                     title: "<spring:message code='global.sales'/>",
                     click: function () {
-                        // createTab("<spring:message code='main.reportTab'/>", "<spring:url value="/report/show-report-form" />")
-                         nicico.ReportFormUtil.showForm("api/shipmentCostInvoice/","<spring:message code='global.sales'/>");
+                        nicico.ReportFormUtil.showForm("api/shipmentCostInvoice/", "<spring:message code='global.sales'/>");
                     }
                 },
                 {isSeparator: true},
                 {
                     title: "<spring:message code='global.sales.internal'/>",
                     click: function () {
-                       // createTab("<spring:message code='main.reportTab'/>", "<spring:url value="/report/show-report-form" />")
+                        // createTab("<spring:message code='main.reportTab'/>", "<spring:url value="/report/show-report-form" />")
                     }
                 },
                 {isSeparator: true},
@@ -1095,8 +1088,7 @@
     saleToolStrip = isc.ToolStrip.create({
         align: "center",
         membersMargin: 20,
-        members: [
-        ]
+        members: []
     });
     <sec:authorize access="hasAuthority('R_CONTACT') or hasAuthority('R_PERSON') or hasAuthority('R_PORT') or hasAuthority('R_VESSEL') or hasAuthority('R_CURRENCY_RATE')
                         or hasAuthority('R_BANK') or hasAuthority('R_PRICE_BASE') or hasAuthority('R_MATERIAL') or hasAuthority('R_UNIT') or hasAuthority('R_COUNTRY') or hasAuthority('R_PARAMETERS')">
@@ -1251,6 +1243,7 @@
         getValueFieldProperties: function (type, fieldName, operatorId, itemType) {
 
             let superProperties = this.Super("getValueFieldProperties", arguments);
+            if (!superProperties) superProperties = {};
             if (this.dataSource == null)
                 return Object.assign(superProperties, {
                     type: type,
@@ -1434,8 +1427,8 @@
         }
     })
     isc.DynamicForm.addProperties({
-		 titleAlign: nicico.CommonUtil.getAlignByLang() ==="right" ? "left":"right"
-	})
+        titleAlign: nicico.CommonUtil.getAlignByLang() === "right" ? "left" : "right"
+    })
 
 </script>
 </body>

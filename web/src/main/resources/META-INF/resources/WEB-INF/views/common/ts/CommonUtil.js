@@ -302,11 +302,6 @@ var nicico;
                 return isc.FilterBuilder.create({
                     // @ts-ignore
                     dataSource: restDataSource,
-                    criteria: {
-                        // @ts-ignore
-                        _constructor: "AdvancedCriteria",
-                        operator: "and", criteria: []
-                    },
                     fieldPickerWidth: "200", valueItemWidth: "400",
                     width: "100%"
                 });
