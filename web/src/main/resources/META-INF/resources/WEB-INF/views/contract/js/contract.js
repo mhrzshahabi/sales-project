@@ -937,7 +937,7 @@ contractTab.method.addSectionByContractDetailType = function (record) {
                 contractDetailDynamicForm.setValue(_key,formName)
             }
             catch (e) {
-                dbg(false,e)
+                //dbg(false,e)
             }
         }
         setval([_enum.BUYER_NAME,BUYER.nameEN])
@@ -962,7 +962,7 @@ contractTab.method.addSectionByContractDetailType = function (record) {
             setval([_enum.AGENT_SELLER_MOBILE,AGENT_SELLER.mobile])
         }
         catch (e) {
-            dbg(false,e);
+            //dbg(false,e);
         }
 
         try {
@@ -975,13 +975,13 @@ contractTab.method.addSectionByContractDetailType = function (record) {
             setval([_enum.AGENT_BUYER_MOBILE,AGENT_BUYER.mobile])
         }
         catch (e) {
-            dbg(false,e);
+            //dbg(false,e);
         }
 
 
 
 
-        dbg(false,'form',contractDetailDynamicForm)
+        //dbg(false,'form',contractDetailDynamicForm)
 
     }
 };

@@ -46,6 +46,7 @@ function onWayProductCreateRemittance() {
         // DynamicForm_warehouseCAD.setValue('destinationSheetSum', sums['tedad']);
         // DynamicForm_warehouseCAD.setValue('destinationBundleSum', sums['totalPkg']);
     }
+
     let canEditVazTedad = false;
     const RestDataSource_WarehouseYard_IN_WAREHOUSECAD_ONWAYPRODUCT = isc.MyRestDataSource.create({
         fields: [
@@ -1056,7 +1057,7 @@ function onWayProductCreateRemittance() {
                 if(tzn.codeKala === 11 && !isNaN(tzn['tedad']) && Number(tzn['tedad']) > 1 ){
                     canEditVazTedad = true;
                     const _packages = [];
-                    dbg(true,tzn)
+                    //dbg(true,tzn)
                     const _tedadString = 'remitance_inventory_default_tedad_'+ tzn.codeKala.toString()
                         + '_' +
                         tzn.sourceId.toString();

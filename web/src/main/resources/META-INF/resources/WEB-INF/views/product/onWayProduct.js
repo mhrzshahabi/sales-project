@@ -57,7 +57,11 @@ const tozinLiteFields = _ => [
         name: "codeKala",
         type: "number",
         // filterEditorProperties: {editorType: "comboBox"},
-        valueMap: {11: '<spring:message code="Tozin.export.cathode"/>', 8: '<spring:message code="Tozin.copper.concentrate"/>', 97: '<spring:message code="invoice.molybdenum"/>'},
+        valueMap: {
+            11: '<spring:message code="Tozin.export.cathode"/>',
+            8: '<spring:message code="Tozin.copper.concentrate"/>',
+            97: '<spring:message code="invoice.molybdenum"/>'
+        },
         title: "<spring:message code='goods.title'/>",
         parseEditorValue: function (value, record, form, item) {
             // console.log("        parseEditorValue: function (value, record, form, item) ", value)
@@ -187,7 +191,7 @@ const tozinLiteFields = _ => [
         title: "<spring:message code='Tozin.haveCode'/>",
         align: "center"
     },
-    {name: "isRail",type: "boolean", title:"<spring:message code='warehouseCad.with.rail'/>"}
+    {name: "isRail", type: "boolean", title: "<spring:message code='warehouseCad.with.rail'/>"}
 ];
 const tozinFields = _ => [...tozinLiteFields(),
 
@@ -357,7 +361,49 @@ async function onWayProductFetch(classUrl, operator = "and", criteria = []) {
 }
 
 function mainOnWayProduct() {
+    async function getMaxDateInDestionationTozin(codeKala) {
+        // const criteria = ListGrid_Tozin_IN_ONWAYPRODUCT.getFilterEditorCriteria();
+        const criteria = {
+            criteria: [
+                {
+                    fieldName: "tozinId",
+                    operator: "iStartsWith",
+                    value: "3"
+                },
+                {
+                    fieldName: "codeKala",
+                    operator: "equals",
+                    value: Number(codeKala)
+                },
+                {
+                    fieldName: "sourceId",
+                    operator: "notEqual",
+                    value: 2555
+                },
+            ]
+        };
+        const option = await fetch(
+            'api/tozin/lite/spec-list?_startRow=0&_endRow=1&_sortBy=-date&operator=and&criteria='
+            + criteria
+                .criteria
+                .map(_ => {
+                    return JSON.stringify(_)
+                })
+                .join('&criteria=')
+            , {headers: SalesConfigs.httpHeaders})
+        const response = await option.json();
+        dbg(option)
+        if (option.ok && response.response && response.response.data && response.response.data.length > 0) {
+            const date = response.response.data[0].date;
+            const year = date.toString().substr(0,4)
+            const month = date.toString().substr(4,2)
+            const day = date.toString().substr(6,2)
+            stats.setValue(codeKala.toString(),year + '/' + month + '/' + day)
+            //dbg(true,response)
+        }
+    }
 
+    dbg(getMaxDateInDestionationTozin);
     const restDataSource_Tozin_Lite = {
         fields: tozinLiteFields(),
         fetchDataURL: "${contextPath}/api/tozin/lite/spec-list"
@@ -503,12 +549,12 @@ function mainOnWayProduct() {
         membersMargin: 10,
         align: "center",
         members: [
- //    <sec:authorize access="hasAuthority('C_REMITTANCE')">
-         isc.IButton.create({
+            //    <sec:authorize access="hasAuthority('C_REMITTANCE')">
+            isc.IButton.create({
                 title: Menu_ListGrid_OnWayProduct.data[0].title,
                 click: Menu_ListGrid_OnWayProduct.data[0].click
             }),
- //    </sec:authorize>
+            //    </sec:authorize>
             HLayout_onWayProduct_searchBtn,
             isc.ToolStrip.create({
                 width: "100%",
@@ -595,18 +641,28 @@ function mainOnWayProduct() {
         fields: tozinLiteFields()
     });
 
+    let stats;
     const VLayout_Tozin_Grid = isc.VLayout.create({
         width: "100%",
         height: "100%",
         members: [
-            ListGrid_Tozin_IN_ONWAYPRODUCT
+            ListGrid_Tozin_IN_ONWAYPRODUCT,
         ]
     });
     isc.VLayout.create({
         width: "100%",
         height: "100%",
         members: [
-            HLayout_Tozin_Actions, VLayout_Tozin_Grid
+            HLayout_Tozin_Actions,             stats = isc.DynamicForm.create({
+                numCols: 8,
+                fields: [
+                    {name: "info", title: "آخرین ورودی‌ها به انبار بندرعباس", type: "staticText"},
+                    {name: "11", title: "کاتد", type: "staticText"},
+                    {name: "97", title: "مولیبدن", type: "staticText"},
+                    {name: "8", title: "کنسانتره", type: "staticText"}
+                ]
+            }),
+            VLayout_Tozin_Grid
         ]
     })
 
@@ -646,7 +702,9 @@ function mainOnWayProduct() {
 
     ListGrid_Tozin_IN_ONWAYPRODUCT.setFilterEditorCriteria(listGrid_Tozin_IN_ONWAYPRODUCT_fiter_editor_criteria)
 
-
+    getMaxDateInDestionationTozin(11)
+    getMaxDateInDestionationTozin(8)
+    getMaxDateInDestionationTozin(97)
 }
 
 mainOnWayProduct()

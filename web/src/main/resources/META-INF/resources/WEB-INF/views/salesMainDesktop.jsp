@@ -1210,6 +1210,7 @@
         userFullName: '<%= SecurityUtil.getFullName()%>',
         valuemanager: {}
     }
+    SalesConfigs.debugger = SalesConfigs.Urls.completeUrl.toLowerCase().includes('localhost:8080')
     isc.FilterBuilder.addProperties({
 
         getValueFieldProperties: function (type, fieldName, operatorId, itemType) {
@@ -1280,9 +1281,9 @@
         Object.freeze(EnumCategoryUnit);
     }))
 
-    function dbg(breakpoint = true, ...args) {
+    function dbg(...args) {
         console.debug(...args)
-        if (breakpoint && SalesConfigs.Urls.completeUrl.toLowerCase().includes('localhost:8080')) debugger;
+        if (SalesConfigs.debugger && SalesConfigs.Urls.completeUrl.toLowerCase().includes('localhost:8080')) debugger;
     }
 
     const itemChangedManage = {
