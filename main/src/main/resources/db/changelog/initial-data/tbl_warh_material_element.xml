@@ -206,4 +206,19 @@
         </sql>
     </changeSet>
 
+    <changeSet id="1799887766554-071" author="MShahabi">
+        <sql>
+            insert INTO TBL_WARH_MATERIAL_ELEMENT (ID,
+            C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE,
+            F_ELEMENT_ID, F_MATERIAL_ID, F_UNIT_ID, B_PAYABLE, B_PENALTY) VALUES (37, 'liquibase',current_timestamp,
+            null, null, 0, 1, 0, 1, 1, -1, 0, 1);
+        </sql>
+    </changeSet>
+
+    <changeSet id="1799887766554-072" author="MShahabi">
+        <sql>
+            update TBL_WARH_MATERIAL_ELEMENT set B_PAYABLE = 1 where id in (1, 2, 3, 4, 6);
+        </sql>
+    </changeSet>
+
 </databaseChangeLog>

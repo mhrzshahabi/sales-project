@@ -21,6 +21,8 @@ public class MaterialElementDTO {
     private Long materialId;
     private Long elementId;
     private Long unitId;
+    private Boolean payable;
+    private Boolean penalty;
 
     @Getter
     @Setter

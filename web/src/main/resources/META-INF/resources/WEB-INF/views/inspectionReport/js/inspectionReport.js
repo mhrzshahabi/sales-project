@@ -324,7 +324,7 @@ inspectionReportTab.restDataSource.materialElementRest = isc.MyRestDataSource.cr
             title: "<spring:message code='assayInspection.materialElement.name'/>"
         },
         {
-            name: "element.payable",
+            name: "payable",
             title: "<spring:message code='assayInspection.materialElement.payable'/>"
         },
         {
@@ -459,8 +459,16 @@ inspectionReportTab.method.getAssayElementFields = function (materialId, setData
     let elementCriteria = {
         _constructor: "AdvancedCriteria",
         operator: "and",
-        criteria: [{fieldName: "materialId", operator: "equals", value: materialId},
-            {fieldName: "element.payable", operator: "equals", value: true},
+        criteria: [
+            {fieldName: "materialId", operator: "equals", value: materialId},
+            {
+                _constructor: "AdvancedCriteria",
+                operator: "or",
+                criteria: [
+                    {fieldName: "payable", operator: "equals", value: true},
+                    {fieldName: "penalty", operator: "equals", value: true}
+                ]
+            },
         ]
     };
 
