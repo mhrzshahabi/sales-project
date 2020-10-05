@@ -15,3 +15,4 @@
 
 <%@include file="js/contract-references.js" %>
 <%@include file="js/contract-detail-type.js" %>
+<%@include file="js/contract-detail-type-dynamic-table.js" %>
