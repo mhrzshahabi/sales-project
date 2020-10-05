@@ -22,6 +22,7 @@ public class UnitDTO {
 
     private String nameFA;
     private String nameEN;
+    private String name;
     private CategoryUnit categoryUnit;
     private SymbolUnit symbolUnit;
 

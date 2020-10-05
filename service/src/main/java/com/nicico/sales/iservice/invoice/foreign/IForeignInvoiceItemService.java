@@ -3,6 +3,8 @@ package com.nicico.sales.iservice.invoice.foreign;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.copper.common.dto.search.SearchDTO;
+import com.nicico.sales.dto.AssayInspectionDTO;
+import com.nicico.sales.dto.WeightInspectionDTO;
 import com.nicico.sales.dto.invoice.foreign.ForeignInvoiceItemDTO;
 import com.nicico.sales.model.enumeration.InspectionReportMilestone;
 import com.nicico.sales.model.enumeration.PriceBaseReference;
@@ -21,15 +23,17 @@ public interface IForeignInvoiceItemService {
             // For Discount
             Long contractId,
             // For AssayInspectionService and WeightInspectionService
-            Long shipmentId,
-            InspectionReportMilestone assayMilestone,
-            InspectionReportMilestone weightMilestone,
-            List<Long> inventoryIds,
+//            Long shipmentId,
+//            InspectionReportMilestone assayMilestone,
+//            InspectionReportMilestone weightMilestone,
+//            List<Long> inventoryIds,
             // For PriceBaseService
             PriceBaseReference reference,
             Integer year,
             Integer month,
-            Long financeUnitId);
+            Long financeUnitId,
+            Long inspectionAssayDataId,
+            Long inspectionWeightDataId);
 
     ForeignInvoiceItemDTO.Info create(ForeignInvoiceItemDTO.Create request);
 
