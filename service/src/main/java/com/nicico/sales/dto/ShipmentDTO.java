@@ -1,8 +1,8 @@
 package com.nicico.sales.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.nicico.sales.annotation.report.ReportField;
 import com.nicico.sales.dto.contract.BillOfLandingDTO;
-import com.nicico.sales.model.entities.contract.BillOfLanding;
 import com.nicico.sales.model.enumeration.EStatus;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -37,7 +37,9 @@ public class ShipmentDTO {
     private String containerType;
     private String automationLetterNo;
     private Date automationLetterDate;
+    @ReportField(titleMessageKey = "global.sendDate")
     private Date sendDate;
+    @ReportField(titleMessageKey = "shipment.numberOfBLs")
     private Long noBLs;
     private Long noContainer;
     private Long noPackages;
