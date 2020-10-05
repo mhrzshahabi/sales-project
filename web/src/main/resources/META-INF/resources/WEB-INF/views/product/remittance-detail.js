@@ -1251,7 +1251,7 @@ rdTab.Fields.RemittanceDetail = function () {
             filterEditorProperties: {
                 editorType: "ComboBoxItem",
             },
-            valueMap: SalesBaseParameters.getSavedUnitParameter().getValueMap('id', 'nameFA'),
+            valueMap: SalesBaseParameters.getSavedUnitParameter().getValueMap('id', 'name'),
             type: "number",
             title: "<spring:message code='global.unit'/>",
             recordDoubleClick: rdTab.Methods.RecordDoubleClickRD,
@@ -1405,7 +1405,7 @@ rdTab.Fields.Remittance = function () {
                 rdTab.Methods.RecordDoubleClick('api/remittance', rdTab.Fields.Remittance().map(_ => {
                         if (record.remittanceDetails[0] && _.name.toLowerCase() === "shipmentId".toLowerCase() &&
                             !record.remittanceDetails[0].destinationTozin) {
-                            dbg(true, record)
+                            //dbg(true, record)
                             _.hidden = false;
                             _.disabled = false;
                             _.optionCriteria = {
@@ -1428,7 +1428,7 @@ rdTab.Fields.Remittance = function () {
 
                         if (record.remittanceDetails[0] && _.name.toLowerCase() === "shipmentId".toLowerCase() &&
                             !record.remittanceDetails[0].destinationTozin) {
-                            dbg(true, record)
+                            //dbg(true, record)
                             _.hidden = false;
                             _.disabled = false;
                             _.optionCriteria = {
@@ -1493,14 +1493,14 @@ rdTab.Fields.Remittance = function () {
                 {name: "contractShipmentId", hidden: true, type: 'long'},
                 {name: "contactId", type: 'long', hidden: true},
                 {
-                    name: "contact.nameFA",
+                    name: "contact.name",
                     title: "<spring:message code='contact.name'/>",
                     type: 'text',
                     width: "10%",
                     align: "center",
                     showHover: true,
                     sortNormalizer: function (recordObject) {
-                        return recordObject.contract.contact.nameFA
+                        return recordObject.contract.contact.name
                     }
                 },
                 {name: "contractId", type: 'long', hidden: true},
@@ -1618,14 +1618,14 @@ rdTab.Fields.Remittance = function () {
                     },
                 },
                 {
-                    name: "contactAgent.nameFA",
+                    name: "contactAgent.name",
                     title: "<spring:message code='shipment.agent'/>",
                     type: 'text',
                     width: "10%",
                     align: "center",
                     showHover: true,
                     sortNormalizer: function (recordObject) {
-                        return recordObject.contactAgent.nameFA
+                        return recordObject.contactAgent.name
                     }
                 },
                 {
@@ -1652,14 +1652,14 @@ rdTab.Fields.Remittance = function () {
                     {name: "contractShipmentId", hidden: true, type: 'long'},
                     {name: "contactId", type: 'long', hidden: true},
                     {
-                        name: "contact.nameFA",
+                        name: "contact.name",
                         title: "<spring:message code='contact.name'/>",
                         type: 'text',
                         width: "10%",
                         align: "center",
                         showHover: true,
                         sortNormalizer: function (recordObject) {
-                            return recordObject.contract.contact.nameFA
+                            return recordObject.contract.contact.name
                         }
                     },
                     {name: "contractId", type: 'long', hidden: true},
@@ -1777,14 +1777,14 @@ rdTab.Fields.Remittance = function () {
                         },
                     },
                     {
-                        name: "contactAgent.nameFA",
+                        name: "contactAgent.name",
                         title: "<spring:message code='shipment.agent'/>",
                         type: 'text',
                         width: "10%",
                         align: "center",
                         showHover: true,
                         sortNormalizer: function (recordObject) {
-                            return recordObject.contactAgent.nameFA
+                            return recordObject.contactAgent.name
                         }
                     },
                     {
@@ -1962,7 +1962,6 @@ rdTab.Fields.Shipment = function () {
         {name: "code", title: "<spring:message code='contact.code'/>"},
         {name: "nameFA", title: "<spring:message code='contact.nameFa'/>"},
         {name: "nameEN", title: "<spring:message code='contact.nameEn'/>"},
-        {name: "commertialRole"},
         {name: "phone", title: "<spring:message code='contact.phone'/>"},
         {name: "mobile", title: "<spring:message code='contact.mobile'/>"},
         {
@@ -1980,7 +1979,7 @@ rdTab.Fields.Shipment = function () {
             }
         },
         {name: "contactAccounts"},
-        {name: "country.nameFa", title: "<spring:message code='country.nameFa'/>"},
+        {name: "country.name", title: "<spring:message code='country'/>"},
 
         {name: "bookingCat", title: "<spring:message code='shipment.bookingCat'/>", align: "center"}
 
@@ -2164,7 +2163,7 @@ rdTab.Layouts.ToolStripButtons.New = isc.ToolStripButtonAdd.create({
                     _['remittance'] = r_tmp;
 
                 })
-                dbg(false, rd)
+                //dbg(false, rd)
                 selectedData.addList(rd)
             });
         if (multipleMaterialItem) return;

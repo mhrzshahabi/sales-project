@@ -39,13 +39,14 @@ function onWayProductCreateRemittance() {
 
             }
         )
-        _styler(sums['vazn'] + " " + sums['vazn'].toPersianLetter(), "Weight");
+        _styler(sums['vazn'] + " " + (languageForm.getValue("languageName") == 'en') ? numberToEnglish(sums['vazn']) : sums['vazn'].toPersianLetter(), "Weight");
         _styler(sums['tedad'], "SheetSum");
         _styler(sums['totalPkg'], "BundleSum");
         // DynamicForm_warehouseCAD.setValue('destinationWeight', ('<span style="color:red">' + sums['vazn']).toString() + "</span>");
         // DynamicForm_warehouseCAD.setValue('destinationSheetSum', sums['tedad']);
         // DynamicForm_warehouseCAD.setValue('destinationBundleSum', sums['totalPkg']);
     }
+
     let canEditVazTedad = false;
     const RestDataSource_WarehouseYard_IN_WAREHOUSECAD_ONWAYPRODUCT = isc.MyRestDataSource.create({
         fields: [
@@ -139,7 +140,7 @@ function onWayProductCreateRemittance() {
                 type: "number",
                 required: true,
                 title: "<spring:message code='unit.count.package'/>",
-                valueMap: SalesBaseParameters.getSavedUnitParameter().filter(u => u.categoryUnit.toLowerCase() === EnumCategoryUnit.string.Weight.toLowerCase()).getValueMap('id', 'nameFA'),
+                valueMap: SalesBaseParameters.getSavedUnitParameter().filter(u => u.categoryUnit.toLowerCase() === EnumCategoryUnit.string.Weight.toLowerCase()).getValueMap('id', 'name'),
                 defaultValue: StorageUtil.get('DynamicForm_warehouseCAD_owp' + ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord()['codeKala'].toString()),
                 changed(form, item, value) {
                     StorageUtil.save('DynamicForm_warehouseCAD_owp'
@@ -1031,7 +1032,7 @@ function onWayProductCreateRemittance() {
             const tzn_data = tozin.response.data;
             const vazn = (tzn_data.map(t => t.vazn).reduce((i, j) => j + i)).toString();
             DynamicForm_warehouseCAD.setValue('sourceWeight',
-                vazn + " " + vazn.toPersianLetter());
+                vazn + " " + (languageForm.getValue("languageName") == 'en') ? numberToEnglish(vazn) : vazn.toPersianLetter());
             const packageSample = {
                 uid: giveMeAName(),
                 label: giveMeAName(),
@@ -1056,7 +1057,7 @@ function onWayProductCreateRemittance() {
                 if(tzn.codeKala === 11 && !isNaN(tzn['tedad']) && Number(tzn['tedad']) > 1 ){
                     canEditVazTedad = true;
                     const _packages = [];
-                    dbg(true,tzn)
+                    //dbg(true,tzn)
                     const _tedadString = 'remitance_inventory_default_tedad_'+ tzn.codeKala.toString()
                         + '_' +
                         tzn.sourceId.toString();

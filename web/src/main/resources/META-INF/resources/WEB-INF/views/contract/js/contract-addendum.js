@@ -554,7 +554,7 @@ contractTab.Methods.ArticleAddIconInContractDetailsGridClicked = function (v, _r
         })],
         items: []
     };
-    dbg(true)
+    //dbg(true)
     if (contractDetailIsInContract) {
         if(contractDetailIsInContract.position) sectionStackSectionObj['position'] = contractDetailIsInContract.position;
         sectionStackSectionObj['template'] = contractDetailIsInContract.contractDetailTemplate;
@@ -591,7 +591,7 @@ contractTab.Methods.ArticleAddIconInContractDetailsGridClicked = function (v, _r
                         try {
                             window[contractDetailDynamicFormID].getField(field.name).setHint(data[0].symbolUnit);
                         } catch (e) {
-                            dbg(false, e);
+                            //dbg(false, e);
                             tried++;
                             if (tried < 10) setTimeout(setHint, 2000, data)
                         }
@@ -769,7 +769,7 @@ contractTab.Methods.NewAddendum = async function () {
             "   <spring:message code='global.grid.record.can.not.disapprove'/>   "
         )
     }
-    dbg(false, resp)
+    //dbg(false, resp)
     isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
         actionURL: 'api/g-contract/' + contractRecord.id,
         httpMethod: "GET",
@@ -1049,13 +1049,13 @@ contractTab.Methods.Validators = {
                 return modifiedNotFound;
             }
         )
-        dbg(false, 'chagedShipmentContract', chagedShipmentContract)
+        //dbg(false, 'chagedShipmentContract', chagedShipmentContract)
         if (chagedShipmentContract) {
             isc.warn("<spring:message code='shipment.was.sent'/>")
             return false
         }
-        dbg(false, 'shipments sent with this contract', shipmentContractsWithShipment)
-        dbg(false, 'addendum data', data, parentContractShipments, contractShipments, contractShipmentIds)
+        //dbg(false, 'shipments sent with this contract', shipmentContractsWithShipment)
+        //dbg(false, 'addendum data', data, parentContractShipments, contractShipments, contractShipmentIds)
         return true
     }
 }
@@ -1182,7 +1182,7 @@ contractTab.Methods.SaveAddendum = async function () {
      contractTab.sectionStack.Addendum.expandSection(contractTab.sectionStack.Addendum.sections);
 
      data.contractDetails = [];
-     dbg(true)
+     //dbg(true)
      contractTab.sectionStack.Addendum.sections.forEach(section => {
         let contractDetailObj = {
             contractDetailTypeId: section.name,

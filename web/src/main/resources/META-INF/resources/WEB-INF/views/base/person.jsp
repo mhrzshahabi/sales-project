@@ -54,9 +54,6 @@
                     name: "branchName"
                 },
                 {
-                    name: "commertialRole"
-                },
-                {
                     name: "phone",
                     title: "<spring:message code='contact.phone'/>"
                 },
