@@ -21,6 +21,7 @@ import com.nicico.sales.model.entities.contract.ContractDiscount;
 import com.nicico.sales.model.entities.invoice.foreign.ForeignInvoiceItem;
 import com.nicico.sales.model.entities.warehouse.MaterialElement;
 import com.nicico.sales.model.enumeration.PriceBaseReference;
+import com.nicico.sales.repository.WeightInspectionDAO;
 import com.nicico.sales.service.GenericService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -64,7 +65,7 @@ public class ForeignInvoiceItemService extends GenericService<ForeignInvoiceItem
         List<WeightInspectionDTO.InfoWithoutInspectionReport> weightValues = inspectionWeightReportDTO.getWeightInspections();
 
         Set<Long> materialIds = assayValues.stream().filter(q -> q.getMaterialElement().getPayable() || q.getMaterialElement().getPenalty()).map(q -> q.getMaterialElement().getMaterialId()).collect(Collectors.toSet());
-        List<Long> inventoryIds = assayValues.stream().map(AssayInspectionDTO::getInventoryId).collect(Collectors.toList());
+        List<Long> inventoryIds = weightValues.stream().map(WeightInspectionDTO::getInventoryId).collect(Collectors.toList());
         if (materialIds.size() != 1)
             throw new SalesException2(ErrorType.BadRequest, "material", "There is multiple material.");
 

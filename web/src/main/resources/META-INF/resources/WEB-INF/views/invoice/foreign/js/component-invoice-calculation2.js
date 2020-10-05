@@ -10,14 +10,14 @@ isc.defineClass("InvoiceCalculation2", isc.VLayout).addProperties({
     contract: null,
     shipment: null,
     currency: null,
-    // remittanceDetails: null,
-    inspectionWeightData: null,
-    inspectionAssayData: null,
+    molybdenumRowData: null,
     contractDetailData: null,
-    weightData: null,
+    inspectionAssayData: null,
+    inspectionWeightData: null,
     initWidget: function () {
 
         this.Super("initWidget", arguments);
+        console.log("this ", this);
 
         let This = this;
         let sendDate = new Date(This.shipment.sendDate);
@@ -52,7 +52,6 @@ isc.defineClass("InvoiceCalculation2", isc.VLayout).addProperties({
                     grid.editorExit = function (editCompletionEvent, record, newValues, rowNum) {
 
                         if (editCompletionEvent !== "escape") {
-
                             let price = Number(record["price"]);
                             let discount = Number(record["discount"]);
                             let unitConversionRate = Number(newValues ? newValues : record["unitConversionRate"]);
@@ -93,6 +92,17 @@ isc.defineClass("InvoiceCalculation2", isc.VLayout).addProperties({
                             ") " + " FOR " + data.priceBase[i].element.name + ": " + data.priceBase[i].price + "</b><br>";
                     priceBaseElement.setContents(priceBaseText);
                     priceArticleElement.setContents("<b>" + data.priceArticleText + "</b>");
+
+                    if (This.molybdenumRowData) {
+                        let grid = This.getMember(0);
+                        let colNum = grid.fields.indexOf(grid.fields.filter(q => q.name === "unitConversionRate").first());
+                        for (let i = 0; i < grid.getTotalRows(); i++) {
+                            let remittanceDetail = grid.getData()[i].inventory.remittanceDetails.filter(q => q.inputRemittance === false).first();
+                            let molybdenumData = This.molybdenumRowData.filter(q => q.remittanceDetailId === remittanceDetail.id).first();
+                            grid.setEditValue(i, colNum, molybdenumData.deductionUnitConversionRate);
+                            grid.saveAllEdits();
+                        }
+                    }
                 }
             }
         }));
@@ -136,15 +146,8 @@ isc.defineClass("InvoiceCalculation2", isc.VLayout).addProperties({
             contents: "<span style='width: 100%; display: block; margin: 10px auto; border-bottom: 1px solid rgba(0,0,0,0.3)'></span>"
         }));
 
-        // this.editRowCalculation2();
     },
-    // editRowCalculation2: function () {
-    //     if (this.weightData) {
-    //         this.getMember(0).getMember(0).getField("weightMilestone").setValue(this.weightData.weightMilestone);
-    //         this.getMember(0).getMember(0).getField("assayMilestone").setValue(this.weightData.assayMilestone);
-    //         this.getMember(0).getMember(1).click();
-    //     }
-    // },
+
     validate: function () {
 
         let isValid = !(this.getMember(0).getTotalRows() === 0);
@@ -178,23 +181,21 @@ isc.defineClass("InvoiceCalculation2", isc.VLayout).addProperties({
     },
     getForeignInvoiceItems: function () {
 
-        let data = [];
+        let items = [];
         let This = this;
         let gridData = this.getMember(0).getData();
-        let formData = this.getMember(0).getMember(0).getValues();
 
-        function getForeignInvoiceItemDetails(item) {
+        function getForeignInvoiceItemDetails(gridRecord) {
 
             let itemDetails = [];
-            item.assayInspections.forEach(q => {
+            gridRecord.assayInspections.forEach(q => {
                 itemDetails.add({
                     assay: q.value,
                     materialElementId: q.materialElementId,
                     basePrice: This.getMember(0).priceBase.filter(bp => bp.elementId === q.materialElement.elementId).first().price,
                     deductionType: JSON.parse('${Enum_DeductionType}').DiscountPercent,
-                    deductionValue: item.discount,
-                    deductionPrice: item.price * item.discount / 100,
-                    deductionUnitConversionRate: item.unitConversionRate,
+                    deductionValue: gridRecord.discount,
+                    deductionPrice: gridRecord.price * gridRecord.discount / 100,
                     rcPrice: 0,
                     rcBasePrice: 0,
                     rcUnitConversionRate: 1
@@ -205,22 +206,22 @@ isc.defineClass("InvoiceCalculation2", isc.VLayout).addProperties({
         }
 
         gridData.forEach(current => {
-            let remittanceDetails = This.remittanceDetails.filter(q => q.inventory.id === current.inventory.id);
-            if (remittanceDetails.length !== 1)
-                return;
 
-            let remittanceDetail = remittanceDetails.first();
-            data.add({
+            let remittanceDetailId = current.inventory.remittanceDetails.filter(q => q.inputRemittance === false).first().id;
+            let weightData = This.inspectionWeightData.weightInspections.filter(q => q.inventory.remittanceDetails.filter(q => q.inputRemittance === false).first().id === remittanceDetailId)
+                .first();
+
+            items.add({
                 treatCost: 0,
-                weightGW: current.weightGW,
-                weightND: current.weightND,
-                assayMilestone: formData.assayMilestone,
-                weightMilestone: formData.weightMilestone,
-                remittanceDetailId: remittanceDetail.id,
+                weightGW: weightData.weightGW,
+                weightND: weightData.weightND,
+                assayMilestone: This.inspectionAssayData.assayInspections[0].mileStone,
+                weightMilestone: This.inspectionWeightData.weightInspections[0].mileStone,
+                deductionUnitConversionRate: current.unitConversionRate,
+                remittanceDetailId: remittanceDetailId,
                 foreignInvoiceItemDetails: getForeignInvoiceItemDetails(current)
             });
         });
-
-        return data;
+        return items;
     }
 });

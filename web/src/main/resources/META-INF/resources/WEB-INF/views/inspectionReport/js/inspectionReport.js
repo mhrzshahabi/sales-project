@@ -1783,7 +1783,7 @@ inspectionReportTab.window.inspecReport.populateData = function (bodyWidget) {
 
     //------------- Save Inspection Data in Object -----------
     let inspectionReportObj = bodyWidget.members[0].members[1].getValues();
-
+// console.log("inspectionReportObj ", inspectionReportObj);
     //---------------- Save Weight Data in Object ------------
     bodyWidget.members[1].members[0].tabs[0].pane.members[0].selectAllRecords();
     bodyWidget.members[1].members[0].tabs[0].pane.members[0].getSelectedRecords().forEach(function (weightRecord, element) {
@@ -1804,7 +1804,7 @@ inspectionReportTab.window.inspecReport.populateData = function (bodyWidget) {
         weightInspectionObj.weighingType = weightRecord.weighingType;
         weightInspectionObj.weightND = weightRecord.weightND;
         weightInspectionObj.weightGW = weightRecord.weightGW;
-        weightInspectionObj.shipmentId = inspectionReportObj.shipmentId ? inspectionReportObj.shipmentId : null;
+        weightInspectionObj.shipmentId = inspectionReportObj.shipmentId.length ? inspectionReportObj.shipmentId : null;
         weightInspectionObj.inventoryId = weightRecord.inventoryId;
         weightInspectionObj.unitId = bodyWidget.members[1].members[0].tabs[0].pane.members[0].unitId;
         weightInspectionObj.mileStone = inspectionReportObj.mileStone;
@@ -1837,7 +1837,7 @@ inspectionReportTab.window.inspecReport.populateData = function (bodyWidget) {
             assayInspectionObj.version = bodyWidget.members[1].members[0].tabs[1].pane.members[1].getField(i).versions[index];
             assayInspectionObj.value = NumberUtil.parseInt(bodyWidget.members[1].members[0].tabs[1].pane.members[1].getCellValue(assayRecord, index, i));
             assayInspectionObj.materialElementId = bodyWidget.members[1].members[0].tabs[1].pane.members[1].fields.get(i).meId;
-            assayInspectionObj.shipmentId = inspectionReportObj.shipmentId ? inspectionReportObj.shipmentId : null;
+            assayInspectionObj.shipmentId = inspectionReportObj.shipmentId.length ? inspectionReportObj.shipmentId : null;
             assayInspectionObj.inventoryId = assayRecord.inventoryId;
             assayInspectionObj.mileStone = inspectionReportObj.mileStone;
 
@@ -2095,7 +2095,6 @@ inspectionReportTab.window.formUtil.init(null, '<spring:message code="Shipment.t
 inspectionReportTab.window.formUtil.populateData = function (bodyWidget) {
 
     inspectionReportTab.variable.addShipmentShipmentId = bodyWidget.members[0].getValue("shipmentId");
-    return inspectionReportTab.listGrid.main.getSelectedRecord();
 };
 
 inspectionReportTab.window.formUtil.validate = function (data) {
@@ -2121,31 +2120,33 @@ inspectionReportTab.window.formUtil.okCallBack = function (data) {
         if (invData.length) {
 
             let inventoryIds = [];
-            // console.log("invData ", invData);
-            for (let i = 0; i < invData.length; i++) {
-                inventoryIds.add(invData[i].remittanceDetails.filter(q => q.inputRemittance === false).first().inventory.id);
-            }
-            // console.log("inventoryIds ", inventoryIds);
+            let isValid = true;
+            invData.forEach((current, index) => inventoryIds.add(current.remittanceDetails.filter(q => q.inputRemittance === false).first().inventory.id));
+
             inspectionReportTab.variable.addShipmentInventoryIds.forEach(q => {
-                if (!inventoryIds.contains(q)) {
-                    inspectionReportTab.dialog.say("not Valid");
-                    return false;
+                if (!inventoryIds.contains(q) && isValid) {
+                    inspectionReportTab.dialog.say("All this inspection inventories not for this shipment");
+                    isValid = false;
                 }
             });
 
-            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                httpMethod: "PUT",
-                data: JSON.stringify(data),
-                params: {
-                    shipmentId: inspectionReportTab.variable.addShipmentShipmentId,
-                },
-                actionURL: inspectionReportTab.variable.inspectionReportUrl + "set-shipment",
-                callback: function (resp) {
+            if (isValid) {
+                console.log("Valid");
+                isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+                    httpMethod: "PUT",
+                    params: {
+                        inspectionId: inspectionReportTab.variable.addShipmentRecordId,
+                        shipmentId: inspectionReportTab.variable.addShipmentShipmentId
+                    },
+                    actionURL: inspectionReportTab.variable.inspectionReportUrl + "set-shipment",
+                    callback: function (resp) {
+                        debugger;
+                    }
+                }));
+            }
+        } else
+            inspectionReportTab.dialog.say("not Out Inv for this Shipment");
 
-                    debugger;
-                }
-            }));
-        }
     });
 };
 
@@ -2228,8 +2229,7 @@ inspectionReportTab.toolStrip.main.addMember(isc.ToolStripButton.create({
 
             inspectionReportTab.dynamicForm.addShipmentDynamicForm.clearValues();
             inspectionReportTab.window.formUtil.justShowForm();
-            console.log("add Shipment");
-            // debugger
+
             let weightInspectionArray = record.weightInspections;
             let assayInspectionArray = record.assayInspections;
 
@@ -2238,6 +2238,7 @@ inspectionReportTab.toolStrip.main.addMember(isc.ToolStripButton.create({
             inventories = inventories.uniqueObject("id");
 
             let materialId;
+            inspectionReportTab.variable.addShipmentRecordId = record.id;
             inspectionReportTab.variable.addShipmentInventoryIds = inventories.map(q => q.id);
             if (weightInspectionArray && weightInspectionArray.length) {
 

@@ -11,7 +11,6 @@ isc.defineClass("InvoiceBaseValues", isc.VLayout).addProperties({
     contract: null,
     shipment: null,
     invoiceType: null,
-    weightData: null,
     inspectionWeightData: null,
     inspectionAssayData: null,
     contractDetailData: null,

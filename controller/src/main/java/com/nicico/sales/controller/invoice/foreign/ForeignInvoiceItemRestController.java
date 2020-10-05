@@ -51,14 +51,6 @@ public class ForeignInvoiceItemRestController {
         return new ResponseEntity<>(foreignInvoiceItemService.getCalculation2Data(contractId, reference, year, month, financeUnitId, inspectionAssayDataId, inspectionWeightDataId), HttpStatus.OK);
     }
 
-//    @Loggable
-//    @GetMapping(value = "/get-calculation2-data")
-//    public ResponseEntity<ForeignInvoiceItemDTO.Calc2Data> getCalculation2Data(@RequestParam Long contractId, @RequestParam Long shipmentId, @RequestParam String assayMilestone, @RequestParam String weightMilestone, @RequestParam List<Long> inventoryIds, @RequestParam PriceBaseReference reference, @RequestParam Integer year, @RequestParam Integer month, @RequestParam Long financeUnitId) {
-//
-//        InspectionReportMilestone weightMilestoneEnum = Enums.getIfPresent(InspectionReportMilestone.class, weightMilestone).or(InspectionReportMilestone.Source);
-//        InspectionReportMilestone reportMilestoneEnum = Enums.getIfPresent(InspectionReportMilestone.class, assayMilestone).or(InspectionReportMilestone.Source);
-//        return new ResponseEntity<>(foreignInvoiceItemService.getCalculation2Data(contractId, shipmentId, reportMilestoneEnum, weightMilestoneEnum, inventoryIds, reference, year, month, financeUnitId), HttpStatus.OK);
-//    }
 
     @Loggable
     @PostMapping

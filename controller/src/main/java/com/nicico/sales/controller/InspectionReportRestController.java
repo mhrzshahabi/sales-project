@@ -66,7 +66,7 @@ public class InspectionReportRestController {
 
     @Loggable
     @PutMapping(value = "/set-shipment")
-    public ResponseEntity<InspectionReportDTO.Info> setShipment(@RequestBody InspectionReportDTO.Update request, @RequestParam Long shipmentId) {
-        return new ResponseEntity<>(iInspectionReportService.setShipment(request.getId(), shipmentId), HttpStatus.OK);
+    public ResponseEntity<InspectionReportDTO.Info> setShipment(@RequestParam("inspectionId") Long inspectionId, @RequestParam("shipmentId") Long shipmentId) {
+        return new ResponseEntity<>(iInspectionReportService.setShipment(inspectionId, shipmentId), HttpStatus.OK);
     }
 }

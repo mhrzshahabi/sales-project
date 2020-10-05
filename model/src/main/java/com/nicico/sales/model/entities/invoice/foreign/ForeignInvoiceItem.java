@@ -43,6 +43,9 @@ public class ForeignInvoiceItem extends BaseEntity {
     @Column(name = "N_WEIGHT_MILESTONE")
     private InspectionReportMilestone weightMilestone;
 
+    @Column(name = "N_DEDUCTION_UNIT_CONVERSION_RATE", scale = 5, precision = 12)
+    private BigDecimal deductionUnitConversionRate;
+
     // *****************************************************************************************************************
 
     @Setter(AccessLevel.NONE)

@@ -34,7 +34,7 @@ public class PriceBaseService extends GenericService<com.nicico.sales.model.enti
     public List<PriceBaseDTO.Info> getAverageOfElementBasePrices(PriceBaseReference reference, Integer year, Integer month, Long materialId, Long financeUnitId) {
 
         List<MaterialElement> materialElements = materialElementDAO.findAllByMaterialId(materialId);
-        List<Long> elementIds = materialElements.stream().filter(MaterialElement::getPayable).map(MaterialElement::getElementId).collect(Collectors.toList());
+        List<Long> elementIds = materialElements.stream().filter(materialElement -> materialElement.getPayable() || materialElement.getPenalty()).map(MaterialElement::getElementId).collect(Collectors.toList());
 
         List<PriceBase> pricesByElements = ((PriceBaseDAO) repository).getAllPricesByElements(reference, year, month, elementIds);
         Set<Long> pricesByElementIds = pricesByElements.stream().map(PriceBase::getElementId).collect(Collectors.toSet());
