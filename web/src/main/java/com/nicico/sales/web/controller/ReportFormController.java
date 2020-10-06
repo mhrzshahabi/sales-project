@@ -32,6 +32,11 @@ public class ReportFormController {
         return "report/contract-report";
     }
 
+
+    @RequestMapping("/show-report")
+    public String showReport() {
+        return "base/reportGenerator/reportGenerator";
+    }
     //**********************************************************************************************************************
 
     private static XWPFDocument replaceDynamicTable(XWPFDocument doc, List<Object[]> ll) {

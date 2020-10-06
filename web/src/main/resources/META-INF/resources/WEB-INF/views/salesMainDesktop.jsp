@@ -1035,7 +1035,7 @@
                 {
                     title: "<spring:message code='global.sales.internal'/>",
                     click: function () {
-                        // createTab("<spring:message code='main.reportTab'/>", "<spring:url value="/report/show-report-form" />")
+                         createTab("<spring:message code='global.sales.internal'/>", "<spring:url value="/report/show-report" />")
                     }
                 },
                 {isSeparator: true},

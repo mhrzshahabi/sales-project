@@ -3,6 +3,7 @@ package com.nicico.sales.controller;
 import com.nicico.copper.common.Loggable;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
+import com.nicico.sales.annotation.report.Report;
 import com.nicico.sales.dto.ShipmentCostDutyDTO;
 import com.nicico.sales.iservice.IShipmentCostDutyService;
 import lombok.RequiredArgsConstructor;
@@ -56,6 +57,7 @@ public class ShipmentCostDutyRestController {
     }
 
     @Loggable
+    @Report(nameKey = "entity.shipment-cost-duty")
     @GetMapping(value = "/spec-list")
     public ResponseEntity<TotalResponse<ShipmentCostDutyDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) throws IOException {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
