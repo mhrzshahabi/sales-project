@@ -11,7 +11,7 @@ inspectionReportTab.variable.removeAllAssay = false;
 inspectionReportTab.variable.removeAllWeight = false;
 inspectionReportTab.variable.selectedInventories = [];
 
-inspectionReportTab.variable.inspectionReportUrl = "${contextPath}" + "/inspectionReport/";
+inspectionReportTab.variable.inspectionReportUrl = "${contextPath}" + "/api/inspectionReport/";
 
 //***************************************************** RESTDATASOURCE *************************************************
 
@@ -378,7 +378,7 @@ inspectionReportTab.restDataSource.shipmentRest = isc.MyRestDataSource.create({
             showHover: true
         },
         {
-            name: "contact.name",
+            name: "contact.nameFA",
             title: "<spring:message code ='contact.nameFa'/>",
             showHover: true
         },
@@ -401,6 +401,11 @@ inspectionReportTab.restDataSource.shipmentRest = isc.MyRestDataSource.create({
         {
             name: "vessel.name",
             title: "<spring:message code ='shipment.vesselName'/>",
+            showHover: true
+        },
+        {
+            name: "contractShipment",
+            title: "<spring:message code ='shipment.contractShipment'/>",
             showHover: true
         },
     ],
@@ -929,7 +934,10 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
 
             inspectionReportTab.dynamicForm.inspecReport.getItem("inventoryId").setValue([]);
 
-            if (value)
+            if (value) {
+
+                // inspectionReportTab.dynamicForm.inspecReport.getItem("sellerId").setValue([]);
+                // inspectionReportTab.dynamicForm.inspecReport.getItem("buyerId").setValue([]);
                 inspectionReportTab.dynamicForm.inspecReport.getItem("inventoryId").setOptionCriteria({
                     _constructor: "AdvancedCriteria",
                     operator: "and",
@@ -939,7 +947,7 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
                         value: value
                     }]
                 });
-            else
+            } else
                 inspectionReportTab.dynamicForm.inspecReport.getItem("inventoryId").setOptionCriteria({
                     _constructor: "AdvancedCriteria",
                     operator: "and",
@@ -1545,7 +1553,6 @@ inspectionReportTab.vLayout.weightPane = isc.VLayout.create({
 });
 
 inspectionReportTab.dynamicForm.assayLab = isc.DynamicForm.create({
-    // height: "100%",
     align: "center",
     numCols: 4,
     canSubmit: true,
@@ -1783,7 +1790,7 @@ inspectionReportTab.window.inspecReport.populateData = function (bodyWidget) {
 
     //------------- Save Inspection Data in Object -----------
     let inspectionReportObj = bodyWidget.members[0].members[1].getValues();
-// console.log("inspectionReportObj ", inspectionReportObj);
+
     //---------------- Save Weight Data in Object ------------
     bodyWidget.members[1].members[0].tabs[0].pane.members[0].selectAllRecords();
     bodyWidget.members[1].members[0].tabs[0].pane.members[0].getSelectedRecords().forEach(function (weightRecord, element) {
@@ -2078,17 +2085,10 @@ inspectionReportTab.dynamicForm.addShipmentDynamicForm = isc.DynamicForm.nicico.
 inspectionReportTab.window.formUtil = new nicico.FormUtil();
 inspectionReportTab.window.formUtil.init(null, '<spring:message code="Shipment.title"/>', isc.HLayout.create({
     width: "100%",
-    height: "100",
+    height: "110",
     align: "center",
     members: [
-
         inspectionReportTab.dynamicForm.addShipmentDynamicForm
-        // isc.VLayout.create({
-        //     width: "35%",
-        //     members: [
-        //         inspectionReportTab.dynamicForm.addShipmentDynamicForm
-        //     ]
-        // })
     ]
 }), "500", "20%");
 
@@ -2131,16 +2131,19 @@ inspectionReportTab.window.formUtil.okCallBack = function (data) {
             });
 
             if (isValid) {
-                console.log("Valid");
                 isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                    httpMethod: "PUT",
+                    httpMethod: "GET",
+                    willHandleError: true,
+                    actionURL: inspectionReportTab.variable.inspectionReportUrl + "set-shipment",
                     params: {
                         inspectionId: inspectionReportTab.variable.addShipmentRecordId,
                         shipmentId: inspectionReportTab.variable.addShipmentShipmentId
                     },
-                    actionURL: inspectionReportTab.variable.inspectionReportUrl + "set-shipment",
                     callback: function (resp) {
-                        debugger;
+                        if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+                            inspectionReportTab.method.refreshData();
+                            inspectionReportTab.dialog.ok();
+                        }
                     }
                 }));
             }
@@ -2152,7 +2155,7 @@ inspectionReportTab.window.formUtil.okCallBack = function (data) {
 
 //***************************************************** MAINLISTGRID *************************************************
 
-inspectionReportTab.listGrid.fields = [
+inspectionReportTab.listGrid.fields = BaseFormItems.concat([
     {
         name: "id",
         hidden: true
@@ -2204,12 +2207,15 @@ inspectionReportTab.listGrid.fields = [
         name: "unit.name",
         title: "<spring:message code='global.unit'/>"
     }
-];
+]);
+inspectionReportTab.listGrid.fields.filter(q => q.name === "estatus").first().hidden = false;
+
 
 nicico.BasicFormUtil.getDefaultBasicForm(inspectionReportTab, "api/inspectionReport/");
+nicico.BasicFormUtil.showAllToolStripActions(inspectionReportTab);
+// nicico.BasicFormUtil.removeExtraActions(inspectionReportTab, [nicico.ActionType.DELETE]);
 
 inspectionReportTab.toolStrip.main.addMember(isc.ToolStripButton.create({
-    // actionType: ActionType.ACTIVATE,
     visibility: "visible",
     icon: "[SKIN]/actions/configure.png",
     title: "<spring:message code='global.add.shipment'/>",

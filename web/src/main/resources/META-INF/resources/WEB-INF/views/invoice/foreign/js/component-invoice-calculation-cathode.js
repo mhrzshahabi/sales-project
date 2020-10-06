@@ -1,4 +1,4 @@
-isc.defineClass("InvoiceCalculation2", isc.VLayout).addProperties({
+isc.defineClass("InvoiceCalculationCathode", isc.VLayout).addProperties({
     align: "top",
     width: "100%",
     autoFit: false,
@@ -149,80 +149,80 @@ isc.defineClass("InvoiceCalculation2", isc.VLayout).addProperties({
 
     validate: function () {
 
-        let isValid = !(this.getMember(0).getTotalRows() === 0);
-        for (let i = 0; i < this.getMember(0).getTotalRows(); i++) {
-            this.getMember(0).validateRow(i);
-            isValid &= !this.getMember(0).hasErrors()
-        }
-        return isValid;
+        // let isValid = !(this.getMember(0).getTotalRows() === 0);
+        // for (let i = 0; i < this.getMember(0).getTotalRows(); i++) {
+        //     this.getMember(0).validateRow(i);
+        //     isValid &= !this.getMember(0).hasErrors()
+        // }
+        // return isValid;
     },
     okButtonClick: function () {
 
     },
     getBaseWeightValues: function () {
 
-        return {
-            weightND: {
-                getValues: function () {
-
-                    return {
-                        value: 1
-                    };
-                }
-            }
-        };
+        // return {
+        //     weightND: {
+        //         getValues: function () {
+        //
+        //             return {
+        //                 value: 1
+        //             };
+        //         }
+        //     }
+        // };
     },
     getDeductionSubTotal: function () {
-        return 0;
+        // return 0;
     },
     getCalculationSubTotal: function () {
-        return this.getMember(0).getGridSummaryData().map(q => q.amount).sum();
+        // return this.getMember(0).getGridSummaryData().map(q => q.amount).sum();
     },
     getForeignInvoiceItems: function () {
 
-        let items = [];
-        let This = this;
-        let gridData = this.getMember(0).getData();
-
-        function getForeignInvoiceItemDetails(gridRecord) {
-
-            let itemDetails = [];
-            let remittanceDetailId = gridRecord.inventory.remittanceDetails.filter(q => q.inputRemittance === false).first().id;
-            let assayData = This.inspectionAssayData.assayInspections.filter(q => q.inventory.remittanceDetails.filter(q => q.inputRemittance === false).first().id === remittanceDetailId);
-            assayData.forEach(q => {
-                itemDetails.add({
-                    assay: q.value,
-                    materialElementId: q.materialElementId,
-                    basePrice: This.getMember(0).priceBase.filter(bp => bp.elementId === q.materialElement.elementId).first().price,
-                    deductionType: JSON.parse('${Enum_DeductionType}').DiscountPercent,
-                    deductionValue: gridRecord.discount,
-                    deductionPrice: gridRecord.price * gridRecord.discount / 100,
-                    rcPrice: 0,
-                    rcBasePrice: 0,
-                    rcUnitConversionRate: 1
-                })
-            });
-
-            return itemDetails;
-        }
-
-        gridData.forEach(current => {
-
-            let remittanceDetailId = current.inventory.remittanceDetails.filter(q => q.inputRemittance === false).first().id;
-            let weightData = This.inspectionWeightData.weightInspections.filter(q => q.inventory.remittanceDetails.filter(q => q.inputRemittance === false).first().id === remittanceDetailId)
-                .first();
-
-            items.add({
-                treatCost: 0,
-                weightGW: weightData.weightGW,
-                weightND: weightData.weightND,
-                assayMilestone: This.inspectionAssayData.assayInspections[0].mileStone,
-                weightMilestone: This.inspectionWeightData.weightInspections[0].mileStone,
-                deductionUnitConversionRate: current.unitConversionRate,
-                remittanceDetailId: remittanceDetailId,
-                foreignInvoiceItemDetails: getForeignInvoiceItemDetails(current)
-            });
-        });
-        return items;
+        // let items = [];
+        // let This = this;
+        // let gridData = this.getMember(0).getData();
+        //
+        // function getForeignInvoiceItemDetails(gridRecord) {
+        //
+        //     let itemDetails = [];
+        //     let remittanceDetailId = gridRecord.inventory.remittanceDetails.filter(q => q.inputRemittance === false).first().id;
+        //     let assayData = This.inspectionAssayData.assayInspections.filter(q => q.inventory.remittanceDetails.filter(q => q.inputRemittance === false).first().id === remittanceDetailId);
+        //     assayData.forEach(q => {
+        //         itemDetails.add({
+        //             assay: q.value,
+        //             materialElementId: q.materialElementId,
+        //             basePrice: This.getMember(0).priceBase.filter(bp => bp.elementId === q.materialElement.elementId).first().price,
+        //             deductionType: JSON.parse('${Enum_DeductionType}').DiscountPercent,
+        //             deductionValue: gridRecord.discount,
+        //             deductionPrice: gridRecord.price * gridRecord.discount / 100,
+        //             rcPrice: 0,
+        //             rcBasePrice: 0,
+        //             rcUnitConversionRate: 1
+        //         })
+        //     });
+        //
+        //     return itemDetails;
+        // }
+        //
+        // gridData.forEach(current => {
+        //
+        //     let remittanceDetailId = current.inventory.remittanceDetails.filter(q => q.inputRemittance === false).first().id;
+        //     let weightData = This.inspectionWeightData.weightInspections.filter(q => q.inventory.remittanceDetails.filter(q => q.inputRemittance === false).first().id === remittanceDetailId)
+        //         .first();
+        //
+        //     items.add({
+        //         treatCost: 0,
+        //         weightGW: weightData.weightGW,
+        //         weightND: weightData.weightND,
+        //         assayMilestone: This.inspectionAssayData.assayInspections[0].mileStone,
+        //         weightMilestone: This.inspectionWeightData.weightInspections[0].mileStone,
+        //         deductionUnitConversionRate: current.unitConversionRate,
+        //         remittanceDetailId: remittanceDetailId,
+        //         foreignInvoiceItemDetails: getForeignInvoiceItemDetails(current)
+        //     });
+        // });
+        // return items;
     }
 });
