@@ -1082,7 +1082,7 @@
     <sec:authorize access="hasAuthority('R_TOZIN_LITE') or hasAuthority('R_TOZIN') or hasAuthority('R_REMITTANCE')">
     saleToolStrip.addMember(productTab);
     </sec:authorize>
-    <sec:authorize access="hasAuthority('R_CONTRACT')">
+    <sec:authorize access="hasAuthority('R_REMITTANCE')">
     saleToolStrip.addMember(reportTab);
     </sec:authorize>
 

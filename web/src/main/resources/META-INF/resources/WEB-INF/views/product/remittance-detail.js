@@ -1312,21 +1312,23 @@ rdTab.Fields.RemittanceDetail = function () {
 }
 rdTab.Fields.RemittanceDetailFullFields = function () {
     return [
-        // {
-        //     name: "remittance.code", title: "<spring:message code='remittance.code'/>"
-        //     , recordDoubleClick: function (viewer, record, recordNum, field, fieldNum, value, rawValue) {
-        //         rdTab.Methods.RecordDoubleClick('api/remittance', rdTab.Fields.Remittance, "remittance",
-        //             viewer, record, recordNum, field, fieldNum, value, rawValue)
-        //     }
-        // },
-        // {
-        //     name: "remittance.description",
-        //     title: "<spring:message code='shipment.description'/> بیجک",
-        //     recordDoubleClick() {
-        //         rdTab.Methods.RecordDoubleClick("api/remittance", rdTab.Fields.Remittance, 'remittance', ...arguments)
-        //     }
-        //
-        // },
+        {
+            name: "remittance.code", title: "<spring:message code='remittance.code'/>",
+            hidden:true,
+            // , recordDoubleClick: function (viewer, record, recordNum, field, fieldNum, value, rawValue) {
+            //     rdTab.Methods.RecordDoubleClick('api/remittance', rdTab.Fields.Remittance, "remittance",
+            //         viewer, record, recordNum, field, fieldNum, value, rawValue)
+            // }
+        },
+        {
+            name: "remittance.description",
+            hidden:true,
+            title: "<spring:message code='shipment.description'/> <spring:message code='bijack'/>",
+            // recordDoubleClick() {
+            //     rdTab.Methods.RecordDoubleClick("api/remittance", rdTab.Fields.Remittance, 'remittance', ...arguments)
+            // }
+
+        },
         {
             name: "inventory.label",
             title: "<spring:message code='warehouseCadItem.inventory.Serial'/>",
@@ -2285,16 +2287,18 @@ rdTab.Layouts.ToolStripButtons.New = isc.ToolStripButtonAdd.create({
                                 {name: "remittance.code", title: "<spring:message code='global.number'/> <spring:message code='bijack'/>"},
                                 {name: "remittance.description", title: "<spring:message code='remittance.description'/>"},
                                 ...rdTab.Fields.RemittanceDetailFullFields().map(f => {
+                                    Object.keys(f).forEach(k=>{if(!['name','title','hidden'].includes(k))delete f[k]});
                                     const showFields = {
                                         "remittance.code": {},
                                         "remittance.description": {},
                                         "inventory.label": {},
                                         "description": {},
                                         "weight": {},
-                                        "ampunt": {},
+                                        "amount": {},
                                         "unitId": {},
                                         "depotId": {},
                                     };
+                                    if (Object.keys(showFields).includes(f.name)) f.hidden = false;
                                     // f.hidden = true;
                                     // if (Object.keys(showFields).contains(f.name)) f.hidden = false;
                                     f.recordDoubleClick = _ => {
@@ -2435,8 +2439,8 @@ rdTab.Layouts.ToolStripButtons.New = isc.ToolStripButtonAdd.create({
             editEvent: "doubleClick",
             autoSaveEdits: false,
             fields: [
-                {name: "remittance.code", title: "<spring:message code='remittance.code'/>", canEdit: false},
-                {name: "remittance.description", title: "<spring:message code='remittance.description'/>", canEdit: false},
+                // {name: "remittance.code", title: "<spring:message code='remittance.code'/>", canEdit: false},
+                // {name: "remittance.description", title: "<spring:message code='remittance.description'/>", canEdit: false},
                 ...rdTab.Fields.RemittanceDetailFullFields().map(f => {
                     const showFields = {
                         "remittance.code": {},

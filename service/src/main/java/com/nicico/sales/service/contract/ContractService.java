@@ -554,13 +554,35 @@ public class ContractService extends GenericService<Contract, Long, ContractDTO.
         Locale locale = LocaleContextHolder.getLocale();
         ContractDTO.Create req = modelMapper.map(request[0], ContractDTO.Create.class);
         if ((actionType == ActionType.Create || actionType == ActionType.Update) && req.getParentId() != null) {
+            final List<Contract> allAppendix = contractDAO2.findAllByParentId(req.getParentId());
+            //همپوشانی تاریخ الحاقیه‌ها
+            allAppendix.stream().forEach(contract -> {
+                req.getContractDetails().stream().forEach(reqCD->{
+                    contract.getContractDetails().stream().forEach(aCD->{
+                        if (aCD.getContractDetailTypeId().equals(reqCD.getContractDetailTypeId())
+                                && req.getAffectFrom().after(contract.getAffectFrom())
+                                && req.getAffectFrom().before(contract.getAffectUpTo())){
+                            if ((actionType == ActionType.Update &&
+                                    !modelMapper.map(request[0], ContractDTO.Update.class).getId().equals(contract.getId())
+
+                            )
+                            || actionType.equals(ActionType.Create)
+                            ) {
+                                ContractDTO.Update reqUpdate = modelMapper.map(request[0], ContractDTO.Update.class);
+                            throw new SalesException2(ErrorType.Unknown, "",
+                                    messageSource.getMessage("contract.appendix.has.date.cover.issue", new Object[]{contract.getNo()}, locale));
+                        }}
+                    });
+                });
+            });
+            //همپوشانی تاریخ الحاقیه ها
 //            if(actionType == ActionType.Create) {ContractDTO.Create req = modelMapper.map(request[0], ContractDTO.Create.class);}
             final Contract contract = repository.getOne(req.getParentId());
             if (!contract.getEStatus().contains(EStatus.Final)) {
                 throw new SalesException2(ErrorType.Unknown, "",
                         messageSource.getMessage("global.grid.not.finalized.record.found", null, locale));
             }
-            final List<Contract> allByParentId = contractDAO2.findAllByParentId(req.getParentId());
+            final List<Contract> allByParentId = allAppendix;
             final List<Contract> notFinalizedAppendexes = allByParentId.stream()
                     .filter(contract2 -> !contract2.getEStatus().contains(EStatus.Final)).collect(Collectors.toList());
             if (actionType == ActionType.Update) {
