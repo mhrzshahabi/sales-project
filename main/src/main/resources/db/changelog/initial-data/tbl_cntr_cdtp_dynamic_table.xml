@@ -51,7 +51,13 @@
         </createTable>
     </changeSet>
     <changeSet author="saeb (generated)" id="1601887485739-231">
-        <addForeignKeyConstraint baseColumnNames="F_CDTP_ID" baseTableName="TBL_CNTR_CDTP_DYNAMIC_TABLE" constraintName="F_DYNAMIC_TABLE2CONTRACT_DTP" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_CNTR_CONTRACT_DETAIL_TYPE_PARAM" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="F_CDTP_ID" baseTableName="TBL_CNTR_CDTP_DYNAMIC_TABLE"
+                                 constraintName="F_DYNAMIC_TABLE2CONTRACT_DTP" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="id"
+                                 referencedTableName="TBL_CNTR_CONTRACT_DETAIL_TYPE_PARAM" validate="true"/>
     </changeSet>
-
+    <changeSet author="saeb (generated)" id="1601893849829-231">
+        <addUniqueConstraint columnNames="D_COLNUM, F_CDTP_ID" constraintName="UC_C_D_COLNUM_F_CDTP_ID"
+                             tableName="TBL_CNTR_CDTP_DYNAMIC_TABLE"/>
+    </changeSet>
 </databaseChangeLog>

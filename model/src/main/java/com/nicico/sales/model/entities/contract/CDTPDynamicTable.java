@@ -5,6 +5,7 @@ import lombok.*;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 @Getter
@@ -15,7 +16,7 @@ import javax.validation.constraints.NotNull;
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
 @Table(name = "TBL_CNTR_CDTP_DYNAMIC_TABLE"
-//        ,uniqueConstraints = @UniqueConstraint(columnNames = {"C_KEY", "F_CONTRACT_DETAIL_TYPE_ID"}, name = "UC_C_KEY_F_CONTRACT_DETAIL_TYPE_ID"))
+        ,uniqueConstraints = @UniqueConstraint(columnNames = {"D_COLNUM", "F_CDTP_ID"}, name = "UC_C_D_COLNUM_F_CDTP_ID")
 )
 public class CDTPDynamicTable extends BaseEntity {
 
@@ -27,6 +28,7 @@ public class CDTPDynamicTable extends BaseEntity {
 
     @NotNull
     @Column(name = "D_COLNUM", nullable = false)
+    @Min(1)
     private Long colNum;
 
     @Setter(AccessLevel.NONE)
