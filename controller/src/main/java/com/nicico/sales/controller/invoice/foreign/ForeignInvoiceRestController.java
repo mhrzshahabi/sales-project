@@ -103,6 +103,13 @@ public class ForeignInvoiceRestController {
     }
 
     @Loggable
+    @GetMapping(value = "/get-contract-detail-data")
+    public ResponseEntity<ForeignInvoiceDTO.ContractDetailData> getContractDetailData(@RequestParam Long contractId) {
+
+        return new ResponseEntity<>(foreignInvoiceService.getContractDetailData(contractId), HttpStatus.OK);
+    }
+
+    @Loggable
     @GetMapping(value = "/spec-list")
     public ResponseEntity<TotalResponse<ForeignInvoiceDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) {
 

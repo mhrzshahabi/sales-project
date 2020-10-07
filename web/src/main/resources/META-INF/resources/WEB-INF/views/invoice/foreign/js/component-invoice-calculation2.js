@@ -17,9 +17,14 @@ isc.defineClass("InvoiceCalculation2", isc.VLayout).addProperties({
     initWidget: function () {
 
         this.Super("initWidget", arguments);
+        console.log("this ", this);
 
         let This = this;
         let sendDate = new Date(This.shipment.sendDate);
+        let priceBaseLayout = isc.VLayout.create({
+            width: "100%",
+            members: []
+        });
         let grid = isc.ListGrid.nicico.getDefault([], null, null, {
             showGridSummary: true,
             showFilterEditor: false
@@ -27,7 +32,7 @@ isc.defineClass("InvoiceCalculation2", isc.VLayout).addProperties({
         let priceArticleElement = isc.HTMLFlow.create({
             width: "100%"
         });
-        let priceBaseElement = isc.Label.create({
+        let priceBaseArticleElement = isc.HTMLFlow.create({
             width: "100%"
         });
 
@@ -84,15 +89,69 @@ isc.defineClass("InvoiceCalculation2", isc.VLayout).addProperties({
                     grid.setData(data.data);
                     grid.priceBase = data.priceBase;
 
-                    let priceBaseText = 'FINAL PRICE:<br>';
-                    for (let i = 0; i < data.priceBase.length; i++)
-                        priceBaseText += "<b>" + "MONTHLY AVERAGE OF " + This.contractDetailData.basePriceReference + " FOR " + (sendDate.getMonth() + 1 + This.contractDetailData.moasValue) +
-                            "th MONTH OF " + sendDate.getFullYear() + " (MOAS" + (This.contractDetailData.moasValue === 0 ? "" : (This.contractDetailData.moasValue > 0 ? "+" : "-") + This.contractDetailData.moasValue) +
-                            ") " + " FOR " + data.priceBase[i].element.name + ": " + data.priceBase[i].price + "</b><br>";
-                    priceBaseElement.setContents(priceBaseText);
                     priceArticleElement.setContents("<b>" + data.priceArticleText + "</b>");
+                    priceBaseArticleElement.setContents("<b>" + data.priceBaseArticleText + "</b>");
+
+                    for (let i = 0; i < data.priceBase.length; i++) {
+
+                        let priceBase = data.priceBase[i];
+                        priceBaseLayout.addMember(isc.Unit.create({
+                            width: "100%",
+                            disabledUnitField: true,
+                            disabledValueField: false,
+                            showValueFieldTitle: true,
+                            showUnitFieldTitle: false,
+                            fieldValueTitleWidth: "100",
+                            unitHint: "PER " + priceBase.weightUnit.nameEN,
+                            unitCategory: priceBase.financeUnit.categoryUnit,
+                            fieldValueTitle: priceBase.element.name,
+                            name: priceBase.element.name,
+                            weightUnit: priceBase.weightUnit,
+                            financeUnit: priceBase.financeUnit,
+                            elementId: priceBase.elementId,
+                            valueFieldIcons: [{
+
+                                src: "pieces/16/refresh.png",
+                                click: function () {
+
+                                    let savedRecordCount = grid.getData().length;
+                                    let editRecordCount = grid.getAllEditRows().length;
+                                    let recordCount = Math.max(editRecordCount, savedRecordCount);
+                                    if (recordCount === 0) return true;
+
+                                    for (let i = 0; i < recordCount; i++) {
+
+                                        let price = 0;
+                                        let record = grid.getRecord(i);
+                                        grid.priceBase.forEach(q => {
+
+                                            if (q.elementId === priceBaseComponent.elementId)
+                                                q.price = priceBaseComponent.getValues().value;
+
+                                            let content = record[q.element.name + "Content"];
+                                            if (!content) content = 0;
+                                            price += q.price * content;
+                                        });
+                                        let discount = Number(record["discount"]);
+                                        let unitConversionRate = record["unitConversionRate"];
+                                        if (!unitConversionRate) unitConversionRate = 1;
+                                        let newAmount = (price - (price * discount / 100)) * unitConversionRate;
+
+                                        grid.startEditing(i);
+                                        grid.setEditValues(i, {"price": price, "amount": newAmount});
+                                        grid.saveAllEdits();
+                                        grid.endEditing();
+                                    }
+                                }
+                            }]
+                        }));
+                        let priceBaseComponent = priceBaseLayout.getMembers().last();
+                        priceBaseComponent.setValue(priceBase.price);
+                        priceBaseComponent.setUnitId(priceBase.financeUnitId);
+                    }
 
                     if (This.molybdenumRowData) {
+
                         let grid = This.getMember(0);
                         let colNum = grid.fields.indexOf(grid.fields.filter(q => q.name === "unitConversionRate").first());
                         for (let i = 0; i < grid.getTotalRows(); i++) {
@@ -102,16 +161,24 @@ isc.defineClass("InvoiceCalculation2", isc.VLayout).addProperties({
                             grid.saveAllEdits();
                             grid.endEditing();
                         }
+
+                        let priceBaseLayout = This.getMember(1);
+                        let molybdenumData = This.molybdenumRowData[0];
+                        priceBaseLayout.getMembers().forEach(form => {
+                            let newValue = molybdenumData.basePrice.filter(q => q.materialElement.elementId === form.elementId).first().basePrice;
+                            form.setValue(newValue);
+                            priceBaseLayout.getMembers().forEach(priceBaseComponent => priceBaseComponent.valueFieldIcons[0].click());
+                        });
                     }
                 }
             }
         }));
 
 
-        this.addMember();
         this.addMember(grid);
+        this.addMember(priceBaseLayout);
         this.addMember(priceArticleElement);
-        this.addMember(priceBaseElement);
+        this.addMember(priceBaseArticleElement);
 
         this.addMember(isc.HTMLFlow.create({
             width: "100%",
@@ -193,7 +260,8 @@ isc.defineClass("InvoiceCalculation2", isc.VLayout).addProperties({
                 itemDetails.add({
                     assay: q.value,
                     materialElementId: q.materialElementId,
-                    basePrice: This.getMember(0).priceBase.filter(bp => bp.elementId === q.materialElement.elementId).first().price,
+                    // basePrice: This.getMember(0).priceBase.filter(bp => bp.elementId === q.materialElement.elementId).first().price,
+                    basePrice: This.getMember(1).getMembers().filter(pb => pb.elementId === q.materialElement.elementId).first().getValues().value,
                     deductionType: JSON.parse('${Enum_DeductionType}').DiscountPercent,
                     deductionValue: gridRecord.discount,
                     deductionPrice: gridRecord.price * gridRecord.discount / 100,

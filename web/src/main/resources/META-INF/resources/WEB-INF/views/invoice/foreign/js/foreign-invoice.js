@@ -53,6 +53,13 @@ foreignInvoiceTab.listGrid.fields = BaseFormItems.concat([
         width: "100%",
         required: true,
         showHover: true,
+        name: "invoiceType.title",
+        title: "<spring:message code='foreign-invoice.form.invoice-type'/>"
+    },
+    {
+        width: "100%",
+        required: true,
+        showHover: true,
         name: "sumPrice",
         title: "<spring:message code='foreign-invoice.form.sum-price'/>"
     },
@@ -77,13 +84,7 @@ foreignInvoiceTab.listGrid.fields = BaseFormItems.concat([
     },
     {
         width: "100%",
-        required: true,
-        showHover: true,
-        name: "invoiceType.title",
-        title: "<spring:message code='foreign-invoice.form.invoice-type'/>"
-    },
-    {
-        width: "100%",
+        type: "date",
         required: true,
         showHover: true,
         name: "shipment.sendDate",
@@ -168,6 +169,7 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
                 },
                 {name: "description", title: "<spring:message code='global.description'/>"},
                 {name: "materialId"},
+                {name: "material.descp", title: "<spring:message code='material.descp'/>"},
                 {name: "estatus", title: "<spring:message code='global.status'/>"},
             ],
             fetchDataURL: foreignInvoiceTab.variable.contractUrl + "spec-list"
@@ -176,6 +178,7 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
             {name: "id", primaryKey: true, hidden: true, title: "<spring:message code='global.id'/>"},
             {name: "no"},
             {name: "materialId", hidden: true},
+            {name: "material.descp"},
             {name: "estatus"}
         ],
         title: "<spring:message code='foreign-invoice.form.contract'/>",
@@ -645,16 +648,20 @@ foreignInvoiceTab.dynamicForm.baseData.validate = function () {
         foreignInvoiceTab.dialog.say("<spring:message code='foreign-invoice.form.validate.bill-of-lading.not.selected'/>");
         isValid = false;
     }
-    let weightInspections = foreignInvoiceTab.dynamicForm.baseData.getField('inspectionWeightId').getSelectedRecord().weightInspections;
-    let assayInspections = foreignInvoiceTab.dynamicForm.baseData.getField('inspectionAssayId').getSelectedRecord().assayInspections;
-    let weightInventories = [];
-    let assayInventories = [];
-    weightInspections.forEach(q => weightInventories.add(q.inventoryId));
-    assayInspections.forEach(q => assayInventories.add(q.inventoryId));
-    if (!weightInventories.containsAll(assayInventories.distinct())) {
 
-        foreignInvoiceTab.dialog.say("<spring:message code='foreign-invoice.form.validate.inventories.not.equal'/>");
-        isValid = false;
+    if (foreignInvoiceTab.variable.materialId !== ImportantIDs.material.COPPER_CATHOD) {
+
+        let weightInspections = foreignInvoiceTab.dynamicForm.baseData.getField('inspectionWeightId').getSelectedRecord().weightInspections;
+        let assayInspections = foreignInvoiceTab.dynamicForm.baseData.getField('inspectionAssayId').getSelectedRecord().assayInspections;
+        let weightInventories = [];
+        let assayInventories = [];
+        weightInspections.forEach(q => weightInventories.add(q.inventoryId));
+        assayInspections.forEach(q => assayInventories.add(q.inventoryId));
+        if (!weightInventories.containsAll(assayInventories.distinct())) {
+
+            foreignInvoiceTab.dialog.say("<spring:message code='foreign-invoice.form.validate.inventories.not.equal'/>");
+            isValid = false;
+        }
     }
 
     return isValid;
@@ -743,12 +750,13 @@ foreignInvoiceTab.button.save = isc.IButtonSave.create({
             let invoiceBaseValuesComponent = isc.InvoiceBaseValues.create({
                 currency: foreignInvoiceTab.dynamicForm.valuesManager.getValue("currency"),
                 contract: foreignInvoiceTab.dynamicForm.valuesManager.getValue("contract"),
-                contractDetailData: foreignInvoiceTab.variable.contractDetailData,
                 shipment: foreignInvoiceTab.dynamicForm.valuesManager.getValue("shipment"),
+                contractDetailData: foreignInvoiceTab.variable.contractDetailData,
                 invoiceType: foreignInvoiceTab.dynamicForm.valuesManager.getValue("invoiceType"),
+                basePriceData: foreignInvoiceTab.dynamicForm.valuesManager.getValue("basePriceData"),
                 inspectionWeightData: foreignInvoiceTab.dynamicForm.valuesManager.getValue("inspectionWeightData"),
                 inspectionAssayData: foreignInvoiceTab.dynamicForm.valuesManager.getValue("inspectionAssayData"),
-            });
+            })
             foreignInvoiceTab.method.addTab(invoiceBaseValuesComponent, '<spring:message code="foreign-invoice.form.tab.base-values"/>');
 
             invoiceBaseValuesComponent.okButtonClick = function () {
@@ -771,7 +779,6 @@ foreignInvoiceTab.button.save = isc.IButtonSave.create({
                         rcDeductionData: foreignInvoiceTab.dynamicForm.valuesManager.getValue("rcDeductionData")
                     });
                     foreignInvoiceTab.method.addTab(invoiceDeductionComponent, '<spring:message code="foreign-invoice.form.tab.deduction"/>');
-
                     invoiceDeductionComponent.okButtonClick = function addRelatedPaymentTab() {
 
                         let invoicePaymentComponent = isc.InvoicePayment.create({
@@ -807,11 +814,11 @@ foreignInvoiceTab.button.save = isc.IButtonSave.create({
                     conversionRef: foreignInvoiceTab.dynamicForm.valuesManager.getValue('conversionRef'),
                     // invoiceCalculation2Component: invoiceCalculation2Component,
                     invoiceCalculationCathodeComponent: invoiceCalculationCathodeComponent,
-                    invoiceBaseWeightComponent: {getValues: invoiceCalculation2Component.getBaseWeightValues},
-                    invoiceDeductionComponent: {getDeductionSubTotal: invoiceCalculation2Component.getDeductionSubTotal},
+                    invoiceBaseWeightComponent: {getValues: invoiceCalculationCathodeComponent.getBaseWeightValues},
+                    invoiceDeductionComponent: {getDeductionSubTotal: invoiceCalculationCathodeComponent.getDeductionSubTotal},
                     invoiceCalculationComponent: {
                         getCalculationSubTotal: function () {
-                            return invoiceCalculation2Component.getCalculationSubTotal();
+                            return invoiceCalculationCathodeComponent.getCalculationSubTotal();
                         }
                     }
                 });
@@ -1074,604 +1081,1197 @@ foreignInvoiceTab.method.newForm = function () {
         field.changed(foreignInvoiceTab.dynamicForm.baseData, field, field.getValue());
     });
     // Concentrate
-    // foreignInvoiceTab.dynamicForm.valuesManager.setValues({
-    //     "date": "2020-09-29T08:30:00.000Z",
-    //         "billLadings": [
-    //         {
-    //             "documentNo": "123123",
-    //             "switchDocumentNo": "123123",
-    //             "shipperExporterId": 41,
-    //             "switchShipperExporterId": 41,
-    //             "notifyPartyId": 2,
-    //             "switchNotifyPartyId": 2,
-    //             "consigneeId": 1,
-    //             "switchConsigneeId": 1,
-    //             "portOfLoadingId": 2,
-    //             "switchPortOfLoadingId": 2,
-    //             "portOfDischargeId": 31,
-    //             "switchPortOfDischargeId": 31,
-    //             "placeOfDelivery": "ABU DHABI",
-    //             "oceanVesselId": 37,
-    //             "numberOfBlCopies": 2,
-    //             "dateOfIssue": 1600587000000,
-    //             "placeOfIssue": "tehran",
-    //             "description": "asd",
-    //             "totalNet": 123,
-    //             "totalGross": 3,
-    //             "totalBundles": 123,
-    //             "shipmentId": 1,
-    //             "shipmentTypeId": 1,
-    //             "shipmentMethodId": 1,
-    //             "id": 1,
-    //             "shipperExporter": {
-    //                 "nameFA": "سونگ ایک خار",
-    //                 "nameEN": "XSUNGILL RESOURCES LTD",
-    //                 "phone": "8511101111",
-    //                 "fax": "85237020210",
-    //                 "address": "FLAT/RM 8,12 /F,WAYSON COMMERCIAL BUILDING 28 CONNAUGHT, ROAD WEST SHEUNG WAN, HONK KONG",
-    //                 "type": false,
-    //                 "status": true,
-    //                 "commercialRole": "Buyer",
-    //                 "buyer": true,
-    //                 "countryId": 2,
-    //                 "id": 41,
-    //                 "country": {
-    //                     "nameFa": "چین",
-    //                     "nameEn": "China"
-    //                 },
-    //                 "createdDate": 1579683563975,
-    //                 "createdBy": "dorani_sa",
-    //                 "lastModifiedDate": 1601359142895,
-    //                 "lastModifiedBy": "root",
-    //                 "version": 3
-    //             },
-    //             "switchShipperExporter": {
-    //                 "nameFA": "سونگ ایک خار",
-    //                 "nameEN": "XSUNGILL RESOURCES LTD",
-    //                 "phone": "8511101111",
-    //                 "fax": "85237020210",
-    //                 "address": "FLAT/RM 8,12 /F,WAYSON COMMERCIAL BUILDING 28 CONNAUGHT, ROAD WEST SHEUNG WAN, HONK KONG",
-    //                 "type": false,
-    //                 "status": true,
-    //                 "commercialRole": "Buyer",
-    //                 "buyer": true,
-    //                 "countryId": 2,
-    //                 "id": 41,
-    //                 "country": {
-    //                     "nameFa": "چین",
-    //                     "nameEn": "China"
-    //                 },
-    //                 "createdDate": 1579683563975,
-    //                 "createdBy": "dorani_sa",
-    //                 "lastModifiedDate": 1601359142895,
-    //                 "lastModifiedBy": "root",
-    //                 "version": 3
-    //             },
-    //             "notifyParty": {
-    //                 "nameFA": "NATIONAL IRANIAN COPPER INDUSTRIES CO.",
-    //                 "nameEN": "NATIONAL IRANIAN COPPER INDUSTRIES CO.",
-    //                 "phone": "+982182138231",
-    //                 "fax": "+982188102822",
-    //                 "address": "NO. 2161 VALI-E-ASR AVE., NEXT TO SAEI PARK, TEHRAN, IRAN",
-    //                 "type": false,
-    //                 "status": true,
-    //                 "commercialRole": "Seller",
-    //                 "seller": true,
-    //                 "buyer": false,
-    //                 "countryId": 1,
-    //                 "id": 2,
-    //                 "country": {
-    //                     "nameFa": "ایران",
-    //                     "nameEn": "Iran (Islamic Republic of)"
-    //                 },
-    //                 "createdDate": 1578197254109,
-    //                 "createdBy": "dorani_sa",
-    //                 "lastModifiedDate": 1586834700749,
-    //                 "lastModifiedBy": "db_mazloom",
-    //                 "version": 6
-    //             },
-    //             "switchNotifyParty": {
-    //                 "nameFA": "NATIONAL IRANIAN COPPER INDUSTRIES CO.",
-    //                 "nameEN": "NATIONAL IRANIAN COPPER INDUSTRIES CO.",
-    //                 "phone": "+982182138231",
-    //                 "fax": "+982188102822",
-    //                 "address": "NO. 2161 VALI-E-ASR AVE., NEXT TO SAEI PARK, TEHRAN, IRAN",
-    //                 "type": false,
-    //                 "status": true,
-    //                 "commercialRole": "Seller",
-    //                 "seller": true,
-    //                 "buyer": false,
-    //                 "countryId": 1,
-    //                 "id": 2,
-    //                 "country": {
-    //                     "nameFa": "ایران",
-    //                     "nameEn": "Iran (Islamic Republic of)"
-    //                 },
-    //                 "createdDate": 1578197254109,
-    //                 "createdBy": "dorani_sa",
-    //                 "lastModifiedDate": 1586834700749,
-    //                 "lastModifiedBy": "db_mazloom",
-    //                 "version": 6
-    //             },
-    //             "consignee": {
-    //                 "nameFA": "CHINA MINMETALS NON-FERROUS METALS CO., LTD",
-    //                 "nameEN": "CHINA MINMETALS NON-FERROUS METALS CO., LTD",
-    //                 "phone": "+8601068495586",
-    //                 "fax": "+8601068495562",
-    //                 "address": "NO.5 SANLIHE ROAD, HAIDIAN DISTRICT, BEIJING 100044, P.R. CHINA ",
-    //                 "type": false,
-    //                 "nationalCode": "0",
-    //                 "status": true,
-    //                 "commercialRole": "Buyer",
-    //                 "seller": false,
-    //                 "buyer": true,
-    //                 "countryId": 2,
-    //                 "id": 1,
-    //                 "country": {
-    //                     "nameFa": "چین",
-    //                     "nameEn": "China"
-    //                 },
-    //                 "createdDate": 1578197169411,
-    //                 "createdBy": "dorani_sa",
-    //                 "lastModifiedDate": 1600688095376,
-    //                 "lastModifiedBy": "db_zare",
-    //                 "version": 47,
-    //                 "defaultAccount": {
-    //                     "contactId": 1,
-    //                     "bankId": 2,
-    //                     "bankAccount": "90101",
-    //                     "bankShaba": "IR888888800000000008888888",
-    //                     "code": "110019",
-    //                     "bankSwift": "898888800000088",
-    //                     "accountOwner": "88000008",
-    //                     "status": true,
-    //                     "isDefault": true,
-    //                     "id": 10,
-    //                     "bank": {
-    //                         "bankName": "ای سی ای",
-    //                         "countryId": 15,
-    //                         "enBankName": "ECA",
-    //                         "address": "NY",
-    //                         "coreBranch": "core"
-    //                     },
-    //                     "createdDate": 1600245090704,
-    //                     "createdBy": "db_zare",
-    //                     "lastModifiedDate": 1600690356857,
-    //                     "lastModifiedBy": "db_zare",
-    //                     "version": 9
-    //                 }
-    //             },
-    //             "switchConsignee": {
-    //                 "nameFA": "CHINA MINMETALS NON-FERROUS METALS CO., LTD",
-    //                 "nameEN": "CHINA MINMETALS NON-FERROUS METALS CO., LTD",
-    //                 "phone": "+8601068495586",
-    //                 "fax": "+8601068495562",
-    //                 "address": "NO.5 SANLIHE ROAD, HAIDIAN DISTRICT, BEIJING 100044, P.R. CHINA ",
-    //                 "type": false,
-    //                 "nationalCode": "0",
-    //                 "status": true,
-    //                 "commercialRole": "Buyer",
-    //                 "seller": false,
-    //                 "buyer": true,
-    //                 "countryId": 2,
-    //                 "id": 1,
-    //                 "country": {
-    //                     "nameFa": "چین",
-    //                     "nameEn": "China"
-    //                 },
-    //                 "createdDate": 1578197169411,
-    //                 "createdBy": "dorani_sa",
-    //                 "lastModifiedDate": 1600688095376,
-    //                 "lastModifiedBy": "db_zare",
-    //                 "version": 47,
-    //                 "defaultAccount": {
-    //                     "contactId": 1,
-    //                     "bankId": 2,
-    //                     "bankAccount": "90101",
-    //                     "bankShaba": "IR888888800000000008888888",
-    //                     "code": "110019",
-    //                     "bankSwift": "898888800000088",
-    //                     "accountOwner": "88000008",
-    //                     "status": true,
-    //                     "isDefault": true,
-    //                     "id": 10,
-    //                     "bank": {
-    //                         "bankName": "ای سی ای",
-    //                         "countryId": 15,
-    //                         "enBankName": "ECA",
-    //                         "address": "NY",
-    //                         "coreBranch": "core"
-    //                     },
-    //                     "createdDate": 1600245090704,
-    //                     "createdBy": "db_zare",
-    //                     "lastModifiedDate": 1600690356857,
-    //                     "lastModifiedBy": "db_zare",
-    //                     "version": 9
-    //                 }
-    //             },
-    //             "portOfLoading": {
-    //                 "port": "BANDAR ABBAS",
-    //                 "countryId": 1,
-    //                 "id": 2,
-    //                 "country": {
-    //                     "nameFa": "ایران",
-    //                     "nameEn": "Iran (Islamic Republic of)",
-    //                     "id": 1,
-    //                     "createdDate": 1599977039976,
-    //                     "createdBy": "j.azad",
-    //                     "version": 0,
-    //                     "editable": false,
-    //                     "estatus": [
-    //                         "Active"
-    //                     ]
-    //                 },
-    //                 "createdDate": 1578198852719,
-    //                 "createdBy": "dorani_sa",
-    //                 "version": 0,
-    //                 "editable": true,
-    //                 "estatus": [
-    //                     "Active"
-    //                 ]
-    //             },
-    //             "switchPortOfLoading": {
-    //                 "port": "BANDAR ABBAS",
-    //                 "countryId": 1,
-    //                 "id": 2,
-    //                 "country": {
-    //                     "nameFa": "ایران",
-    //                     "nameEn": "Iran (Islamic Republic of)",
-    //                     "id": 1,
-    //                     "createdDate": 1599977039976,
-    //                     "createdBy": "j.azad",
-    //                     "version": 0,
-    //                     "editable": false,
-    //                     "estatus": [
-    //                         "Active"
-    //                     ]
-    //                 },
-    //                 "createdDate": 1578198852719,
-    //                 "createdBy": "dorani_sa",
-    //                 "version": 0,
-    //                 "editable": true,
-    //                 "estatus": [
-    //                     "Active"
-    //                 ]
-    //             },
-    //             "portOfDischarge": {
-    //                 "port": "ABU DHABI",
-    //                 "countryId": 3,
-    //                 "id": 31,
-    //                 "country": {
-    //                     "nameFa": "افغانستان",
-    //                     "nameEn": "Afghanistan",
-    //                     "id": 3,
-    //                     "createdDate": 1599977039990,
-    //                     "createdBy": "j.azad",
-    //                     "version": 0,
-    //                     "editable": false,
-    //                     "estatus": [
-    //                         "Active"
-    //                     ]
-    //                 },
-    //                 "createdDate": 1587866317999,
-    //                 "createdBy": "db_mazloom",
-    //                 "version": 0,
-    //                 "editable": true,
-    //                 "estatus": [
-    //                     "Active"
-    //                 ]
-    //             },
-    //             "switchPortOfDischarge": {
-    //                 "port": "ABU DHABI",
-    //                 "countryId": 3,
-    //                 "id": 31,
-    //                 "country": {
-    //                     "nameFa": "افغانستان",
-    //                     "nameEn": "Afghanistan",
-    //                     "id": 3,
-    //                     "createdDate": 1599977039990,
-    //                     "createdBy": "j.azad",
-    //                     "version": 0,
-    //                     "editable": false,
-    //                     "estatus": [
-    //                         "Active"
-    //                     ]
-    //                 },
-    //                 "createdDate": 1587866317999,
-    //                 "createdBy": "db_mazloom",
-    //                 "version": 0,
-    //                 "editable": true,
-    //                 "estatus": [
-    //                     "Active"
-    //                 ]
-    //             },
-    //             "oceanVessel": {
-    //                 "name": "AGIA ELENI",
-    //                 "type": "Bulk Carrier",
-    //                 "imo": "9370317",
-    //                 "yearOfBuild": 2008,
-    //                 "length": 170.7,
-    //                 "beam": 27,
-    //                 "id": 37,
-    //                 "createdDate": 1588382861641,
-    //                 "createdBy": "db_mazloom",
-    //                 "version": 0,
-    //                 "editable": true,
-    //                 "estatus": [
-    //                     "Active"
-    //                 ]
-    //             },
-    //             "containers": [
-    //                 {
-    //                     "billOfLandingId": 1,
-    //                     "containerType": "20foot",
-    //                     "containerNo": "123",
-    //                     "sealNo": "123",
-    //                     "quantity": 123,
-    //                     "quantityType": "ورق",
-    //                     "weight": 2,
-    //                     "unitId": 5,
-    //                     "id": 1,
-    //                     "unit": {
-    //                         "nameFA": "شاخه",
-    //                         "nameEN": "شاخه",
-    //                         "categoryUnit": "Weight",
-    //                         "symbolUnit": "BULK",
-    //                         "id": 5,
-    //                         "createdDate": 1600057458454,
-    //                         "createdBy": "taghavifar",
-    //                         "version": 0,
-    //                         "editable": false,
-    //                         "estatus": [
-    //                             "Active"
-    //                         ]
-    //                     },
-    //                     "createdDate": 1600070537703,
-    //                     "createdBy": "taghavifar",
-    //                     "lastModifiedDate": 1601355368165,
-    //                     "lastModifiedBy": "db_zare",
-    //                     "version": 1,
-    //                     "editable": true,
-    //                     "estatus": [
-    //                         "Active"
-    //                     ]
-    //                 }
-    //             ],
-    //             "shipmentType": {
-    //                 "shipmentType": "فله",
-    //                 "id": 1,
-    //                 "createdDate": 1587278588350,
-    //                 "createdBy": "j.azad",
-    //                 "lastModifiedDate": 1587278588350,
-    //                 "lastModifiedBy": "j.azad",
-    //                 "version": 0
-    //             },
-    //             "shipmentMethod": {
-    //                 "shipmentMethod": "حمل زمینی",
-    //                 "id": 1,
-    //                 "createdDate": 1587278588350,
-    //                 "createdBy": "j.azad",
-    //                 "lastModifiedDate": 1587278588350,
-    //                 "lastModifiedBy": "j.azad",
-    //                 "version": 0
-    //             },
-    //             "createdDate": 1600070495670,
-    //             "createdBy": "taghavifar",
-    //             "lastModifiedDate": 1600576546950,
-    //             "lastModifiedBy": "taghavifar",
-    //             "version": 1,
-    //             "editable": true,
-    //             "shipment": {
-    //                 "contractShipmentId": 1,
-    //                 "shipmentTypeId": 1,
-    //                 "shipmentMethodId": 2,
-    //                 "contactId": 41,
-    //                 "materialId": 3,
-    //                 "contactAgentId": 136,
-    //                 "vesselId": 37,
-    //                 "unitId": 4,
-    //                 "dischargePortId": 31,
-    //                 "amount": 70000,
-    //                 "automationLetterNo": "1242",
-    //                 "automationLetterDate": 1596396600000,
-    //                 "sendDate": 1473811200000,
-    //                 "noBLs": 2,
-    //                 "bookingCat": "1234",
-    //                 "arrivalDateFrom": 1581669000000,
-    //                 "arrivalDateTo": 1581669000000,
-    //                 "lastDeliveryLetterDate": 1600068600000,
-    //                 "id": 1,
-    //                 "createdDate": 1600068124999,
-    //                 "createdBy": "m.shahabi",
-    //                 "lastModifiedDate": 1600762686847,
-    //                 "lastModifiedBy": "db_zare",
-    //                 "version": 1,
-    //                 "editable": true,
-    //                 "unit": {
-    //                     "nameFA": "بسته",
-    //                     "nameEN": "BUNDLE",
-    //                     "categoryUnit": "Weight",
-    //                     "symbolUnit": "PERCENT",
-    //                     "id": 4,
-    //                     "createdDate": 1593755140054,
-    //                     "createdBy": "j.azad",
-    //                     "lastModifiedDate": 1594100538548,
-    //                     "lastModifiedBy": "j.azad",
-    //                     "version": 2,
-    //                     "editable": false,
-    //                     "estatus": [
-    //                         "Active"
-    //                     ]
-    //                 },
-    //                 "vessel": {
-    //                     "name": "AGIA ELENI",
-    //                     "type": "Bulk Carrier",
-    //                     "imo": "9370317",
-    //                     "yearOfBuild": 2008,
-    //                     "length": 170.7,
-    //                     "beam": 27,
-    //                     "id": 37,
-    //                     "createdDate": 1588382861641,
-    //                     "createdBy": "db_mazloom",
-    //                     "version": 0,
-    //                     "editable": true,
-    //                     "estatus": [
-    //                         "Active"
-    //                     ]
-    //                 },
-    //                 "contact": {
-    //                     "nameFA": "سونگ ایک خار",
-    //                     "nameEN": "XSUNGILL RESOURCES LTD",
-    //                     "phone": "8511101111",
-    //                     "fax": "85237020210",
-    //                     "address": "FLAT/RM 8,12 /F,WAYSON COMMERCIAL BUILDING 28 CONNAUGHT, ROAD WEST SHEUNG WAN, HONK KONG",
-    //                     "type": false,
-    //                     "status": true,
-    //                     "commercialRole": "Buyer",
-    //                     "buyer": true,
-    //                     "countryId": 2,
-    //                     "id": 41,
-    //                     "country": {
-    //                         "nameFa": "چین",
-    //                         "nameEn": "China"
-    //                     },
-    //                     "createdDate": 1579683563975,
-    //                     "createdBy": "dorani_sa",
-    //                     "lastModifiedDate": 1601359142895,
-    //                     "lastModifiedBy": "root",
-    //                     "version": 3
-    //                 },
-    //                 "dischargePort": {
-    //                     "port": "ABU DHABI",
-    //                     "countryId": 3,
-    //                     "id": 31,
-    //                     "country": {
-    //                         "nameFa": "افغانستان",
-    //                         "nameEn": "Afghanistan",
-    //                         "id": 3,
-    //                         "createdDate": 1599977039990,
-    //                         "createdBy": "j.azad",
-    //                         "version": 0,
-    //                         "editable": false,
-    //                         "estatus": [
-    //                             "Active"
-    //                         ]
-    //                     },
-    //                     "createdDate": 1587866317999,
-    //                     "createdBy": "db_mazloom",
-    //                     "version": 0,
-    //                     "editable": true,
-    //                     "estatus": [
-    //                         "Active"
-    //                     ]
-    //                 },
-    //                 "contactAgent": {
-    //                     "nameFA": "GRASH DARYA",
-    //                     "nameEN": "GRASH DARYA",
-    //                     "phone": "21-88727255",
-    //                     "fax": "21-88726762",
-    //                     "type": false,
-    //                     "status": true,
-    //                     "tradeMark": "GRASH DARYA",
-    //                     "commercialRole": "Transporter",
-    //                     "seller": false,
-    //                     "transporter": true,
-    //                     "agentBuyer": false,
-    //                     "countryId": 1,
-    //                     "id": 136,
-    //                     "country": {
-    //                         "nameFa": "ایران",
-    //                         "nameEn": "Iran (Islamic Republic of)"
-    //                     },
-    //                     "createdDate": 1587875271899,
-    //                     "createdBy": "db_mazloom",
-    //                     "lastModifiedDate": 1588475503870,
-    //                     "lastModifiedBy": "db_mazloom",
-    //                     "version": 1
-    //                 },
-    //                 "material": {
-    //                     "descl": "Copper Concentrate",
-    //                     "descp": "مس کنسانتره",
-    //                     "code": "26030090",
-    //                     "unitId": -1,
-    //                     "abbreviation": "CONC",
-    //                     "id": 3,
-    //                     "unit": {
-    //                         "nameFA": "تن",
-    //                         "nameEN": "MT",
-    //                         "categoryUnit": "Weight",
-    //                         "symbolUnit": "PERCENT"
-    //                     },
-    //                     "createdDate": 1599977041712,
-    //                     "createdBy": "liquibase",
-    //                     "version": 6
-    //                 },
-    //                 "shipmentType": {
-    //                     "shipmentType": "فله",
-    //                     "id": 1,
-    //                     "createdDate": 1587278588350,
-    //                     "createdBy": "j.azad",
-    //                     "lastModifiedDate": 1587278588350,
-    //                     "lastModifiedBy": "j.azad",
-    //                     "version": 0
-    //                 },
-    //                 "shipmentMethod": {
-    //                     "shipmentMethod": "حمل هوایی",
-    //                     "id": 2,
-    //                     "createdDate": 1587278588350,
-    //                     "createdBy": "j.azad",
-    //                     "lastModifiedDate": 1587278588350,
-    //                     "lastModifiedBy": "j.azad",
-    //                     "version": 0
-    //                 },
-    //                 "contractShipment": {
-    //                     "loadPortId": 2,
-    //                     "quantity": 200000,
-    //                     "sendDate": "2016-09-14",
-    //                     "tolorance": 5,
-    //                     "contractId": 1,
-    //                     "id": 1,
-    //                     "contract": {
-    //                         "no": "100",
-    //                         "date": 1600677000000,
-    //                         "affectFrom": 1600677000000,
-    //                         "affectUpTo": 1600677000000,
-    //                         "content": "FLAT/RM 8,12 /F,WAYSON COMMERCIAL BUILDING 28 CONNAUGHT, ROAD WEST SHEUNG WAN, HONK KONG<br>NO. 2161 VALI-E-ASR AVE., NEXT TO SAEI PARK, TEHRAN, IRAN<br>+852 2575 7591<br>+982188102822<br>+852 3702 0210<br>+982182138231<br>NATIONAL IRANIAN COPPER INDUSTRIES CO.<br>SUNGILL RESOURCES LTD<br><h2>new deduction</h2><table style='border: 1px solid black;'><tr><th style='border: 1px solid black;'>Treatment Cost</th><th style='border: 1px solid black;'>Refinery Cost</th><th style='border: 1px solid black;'>Unit</th><th style='border: 1px solid black;'>Material Element</th></tr><tr><td style='border: 1px solid black;'>31</td><td style='border: 1px solid black;'>321</td><td style='border: 1px solid black;'>Euro</td><td style='border: 1px solid black;'>S</td></tr><tr><td style='border: 1px solid black;'>3245</td><td style='border: 1px solid black;'>543</td><td style='border: 1px solid black;'>MT</td><td style='border: 1px solid black;'>MO</td></tr><tr><td style='border: 1px solid black;'>435</td><td style='border: 1px solid black;'>534</td><td style='border: 1px solid black;'>null</td><td style='border: 1px solid black;'>null</td></tr></table><br><h2>CLAUSE 1  DEFINITIONS </h2><p class=\"MsoNormal\" style=\"margin-bottom:0in;margin-bottom:.0001pt;text-align:\njustify;text-justify:inter-ideograph;line-height:normal\"><b><span style=\"color:black;mso-themecolor:text1\">1 TON = 1 METRIC TON OF 1'000\nKILOGRAMS OR 2204.62 LBS</span></b><b><u><span style=\"mso-ascii-font-family:\n&quot;Times New Roman&quot;;mso-ascii-theme-font:major-bidi;mso-hansi-font-family:&quot;Times New Roman&quot;;\nmso-hansi-theme-font:major-bidi;mso-bidi-font-family:&quot;Times New Roman&quot;;\nmso-bidi-theme-font:major-bidi;color:black\"><o:p></o:p></span></u></b></p>\n\n<p class=\"DefinitionText\" style=\"margin-top:0in;margin-right:-9.0pt;margin-bottom:\n0in;margin-left:0in;margin-bottom:.0001pt;text-indent:0in;line-height:normal\"><b><span lang=\"EN-GB\" style=\"font-size:10.0pt;font-family:&quot;Times New Roman&quot;,serif;\ncolor:black;mso-themecolor:text1;mso-ansi-language:EN-GB\">LME = LONDON METAL\nEXCHANGE<o:p></o:p></span></b></p>\n\n<p class=\"DefinitionText\" style=\"margin-top:0in;margin-right:-9.0pt;margin-bottom:\n0in;margin-left:0in;margin-bottom:.0001pt;text-indent:0in;line-height:normal;\ntab-stops:0in\"><b><span style=\"font-size:10.0pt;font-family:&quot;Times New Roman&quot;,serif;\ncolor:black;mso-themecolor:text1\">WORKING/BUSINESS DAY FOR BUYER = MONDAY TO\nFRIDAY; SATURDAY, SUNDAY AND LEGAL HOLIDAY EXCLUDED.<o:p></o:p></span></b></p>\n\n<p class=\"DefinitionText\" style=\"margin-top:0in;margin-right:-9.0pt;margin-bottom:\n0in;margin-left:0in;margin-bottom:.0001pt;text-indent:0in;line-height:normal;\ntab-stops:0in\"><b><span style=\"font-size:10.0pt;font-family:&quot;Times New Roman&quot;,serif;\ncolor:black;mso-themecolor:text1\">WORKING/BUSINESS DAY FOR SELLER = SATURDAY TO\nWEDNESDAY; THURSDAY AND FRIDAY AND LEGAL HOLIDAY EXCLUDED.<o:p></o:p></span></b></p>\n\n<p class=\"DefinitionText\" style=\"margin-top:0in;margin-right:-9.0pt;margin-bottom:\n0in;margin-left:0in;margin-bottom:.0001pt;text-indent:0in;line-height:normal\"><b><span lang=\"DE\" style=\"font-size:10.0pt;font-family:&quot;Times New Roman&quot;,serif;color:black;\nmso-themecolor:text1;mso-ansi-language:DE\">AM/PM = ANTE MERIDIEM / POST MERIDIEM<o:p></o:p></span></b></p>\n\n<p class=\"MsoNormal\" style=\"margin-top:0in;margin-right:-9.0pt;margin-bottom:\n0in;margin-left:0in;margin-bottom:.0001pt;text-align:justify;text-justify:inter-ideograph;\nline-height:normal\"><b><span lang=\"EN-GB\" style=\"color:black;mso-themecolor:text1;\nmso-ansi-language:EN-GB\">INCOTERMS = </span></b><b><span style=\"mso-ascii-font-family:\n&quot;Times New Roman&quot;;mso-ascii-theme-font:major-bidi;mso-hansi-font-family:&quot;Times New Roman&quot;;\nmso-hansi-theme-font:major-bidi;mso-bidi-font-family:&quot;Times New Roman&quot;;\nmso-bidi-theme-font:major-bidi;color:black\">SHALL MEAN THE INTERNATIONAL\nCHAMBER OF COMMERCE’S OFFICIAL RULES FOR THE INTERPRETATION OF TRADE TERMS\nKNOWN AS INCOTERMS</span></b><b><span lang=\"EN-GB\" style=\"color:black;mso-themecolor:\ntext1;mso-ansi-language:EN-GB\"><o:p></o:p></span></b></p>\n\n<p class=\"DefinitionText\" style=\"margin-top:0in;margin-right:-9.0pt;margin-bottom:\n0in;margin-left:0in;margin-bottom:.0001pt;text-indent:0in;line-height:normal\"><b><span style=\"font-size:10.0pt;font-family:&quot;Times New Roman&quot;,serif;color:black;\nmso-themecolor:text1\">THE MATERIAL = SHALL MEAN THE MATERIAL AS DEFINED IN\n\"ARTICLE 3 – QUALITY\" <o:p></o:p></span></b></p>\n\n<p class=\"NormalJustified\" style=\"margin-top:0in;margin-right:-9.0pt;margin-bottom:\n0in;margin-left:0in;margin-bottom:.0001pt;text-align:justify;text-justify:inter-ideograph;\nline-height:normal\"><b><span style=\"mso-ascii-font-family:&quot;Times New Roman&quot;;\nmso-ascii-theme-font:major-bidi;mso-hansi-font-family:&quot;Times New Roman&quot;;\nmso-hansi-theme-font:major-bidi;mso-bidi-font-family:&quot;Times New Roman&quot;;\nmso-bidi-theme-font:major-bidi;color:black;mso-themecolor:text1\">CIF = COST,\nINSURANCE AND FREIGHT (ACCORDING TO INCOTERMS 2010).<o:p></o:p></span></b></p>\n\n<p class=\"NormalJustified\" style=\"margin-top:0in;margin-right:-9.0pt;margin-bottom:\n0in;margin-left:0in;margin-bottom:.0001pt;text-align:justify;text-justify:inter-ideograph;\nline-height:normal\"><b><span style=\"mso-ascii-font-family:&quot;Times New Roman&quot;;\nmso-ascii-theme-font:major-bidi;mso-hansi-font-family:&quot;Times New Roman&quot;;\nmso-hansi-theme-font:major-bidi;mso-bidi-font-family:&quot;Times New Roman&quot;;\nmso-bidi-theme-font:major-bidi;color:black;mso-themecolor:text1\">DAP = DELIVERY\nAT PLACE (ACCORDING TO INCOTERMS 2010).<o:p></o:p></span></b></p>\n\n<p class=\"NormalJustified\" style=\"margin-top:0in;margin-right:-9.0pt;margin-bottom:\n0in;margin-left:0in;margin-bottom:.0001pt;text-align:justify;text-justify:inter-ideograph;\nline-height:normal\"><b><span style=\"mso-ascii-font-family:&quot;Times New Roman&quot;;\nmso-ascii-theme-font:major-bidi;mso-hansi-font-family:&quot;Times New Roman&quot;;\nmso-hansi-theme-font:major-bidi;mso-bidi-font-family:&quot;Times New Roman&quot;;\nmso-bidi-theme-font:major-bidi;color:black;mso-themecolor:text1\">FOB = FREE ON\nBOARD (ACCORDING TO INCOTERMS 2010).<o:p></o:p></span></b></p>\n\n<p class=\"NormalJustified\" style=\"margin-top:0in;margin-right:-9.0pt;margin-bottom:\n0in;margin-left:0in;margin-bottom:.0001pt;text-align:justify;text-justify:inter-ideograph;\nline-height:normal\"><b><span style=\"mso-ascii-font-family:&quot;Times New Roman&quot;;\nmso-ascii-theme-font:major-bidi;mso-hansi-font-family:&quot;Times New Roman&quot;;\nmso-hansi-theme-font:major-bidi;mso-bidi-font-family:&quot;Times New Roman&quot;;\nmso-bidi-theme-font:major-bidi;color:black;mso-themecolor:text1\">ST = STOWED\nAND TRIMMED<o:p></o:p></span></b></p>\n\n<p class=\"NormalJustified\" style=\"margin-top:0in;margin-right:-9.0pt;margin-bottom:\n0in;margin-left:0in;margin-bottom:.0001pt;text-align:justify;text-justify:inter-ideograph;\nline-height:normal\"><b><span lang=\"EN-GB\" style=\"mso-ascii-font-family:&quot;Times New Roman&quot;;\nmso-ascii-theme-font:major-bidi;mso-hansi-font-family:&quot;Times New Roman&quot;;\nmso-hansi-theme-font:major-bidi;mso-bidi-font-family:&quot;Times New Roman&quot;;\nmso-bidi-theme-font:major-bidi;color:black;mso-themecolor:text1;mso-ansi-language:\nEN-GB\">USD AND USC = DOLLARS AND CENTS ARE UNITED STATES CURRENCY</span></b><b><span lang=\"EN-GB\" style=\"mso-ascii-font-family:&quot;Times New Roman&quot;;mso-ascii-theme-font:\nmajor-bidi;mso-hansi-font-family:&quot;Times New Roman&quot;;mso-hansi-theme-font:major-bidi;\nmso-bidi-font-family:&quot;Times New Roman&quot;;mso-bidi-theme-font:major-bidi;\ncolor:black;mso-themecolor:text1;mso-ansi-language:EN-GB;mso-fareast-language:\nZH-CN\"><o:p></o:p></span></b></p>\n\n<p class=\"NormalJustified\" style=\"margin-top:0in;margin-right:-9.0pt;margin-bottom:\n0in;margin-left:0in;margin-bottom:.0001pt;text-align:justify;text-justify:inter-ideograph;\nline-height:normal\"><b><span style=\"color:black;mso-themecolor:text1\">EURO =\nEURO IS THE SINGLE CURRENCY OF THE EUROPEAN ECONOMIC AND MONETARY UNION (EMU)\nINTRODUCED IN </span></b><b><span lang=\"EN-GB\" style=\"mso-ascii-font-family:&quot;Times New Roman&quot;;\nmso-ascii-theme-font:major-bidi;mso-hansi-font-family:&quot;Times New Roman&quot;;\nmso-hansi-theme-font:major-bidi;mso-bidi-font-family:&quot;Times New Roman&quot;;\nmso-bidi-theme-font:major-bidi;color:black;mso-themecolor:text1;mso-ansi-language:\nEN-GB\">JANUARY 1999.<o:p></o:p></span></b></p>\n\n<p class=\"NormalJustified\" style=\"margin-top:0in;margin-right:-9.0pt;margin-bottom:\n0in;margin-left:0in;margin-bottom:.0001pt;text-align:justify;text-justify:inter-ideograph;\nline-height:normal\"><b><span style=\"mso-ascii-font-family:&quot;Times New Roman&quot;;\nmso-ascii-theme-font:major-bidi;mso-hansi-font-family:&quot;Times New Roman&quot;;\nmso-hansi-theme-font:major-bidi;mso-bidi-font-family:&quot;Times New Roman&quot;;\nmso-bidi-theme-font:major-bidi\">AED = UNITED ARAB EMIRATES DIRHAM<o:p></o:p></span></b></p>\n\n<p class=\"NormalJustified\" style=\"text-align:justify;text-justify:inter-ideograph\"><b><span lang=\"EN-GB\" style=\"mso-ascii-font-family:&quot;Times New Roman&quot;;mso-ascii-theme-font:\nmajor-bidi;mso-hansi-font-family:&quot;Times New Roman&quot;;mso-hansi-theme-font:major-bidi;\nmso-bidi-font-family:&quot;Times New Roman&quot;;mso-bidi-theme-font:major-bidi;\ncolor:black;mso-themecolor:text1;mso-ansi-language:EN-GB\">MOAS = MONTH OF\nACUTAL SHIPMENT.</span></b><b><span style=\"mso-ascii-font-family:&quot;Times New Roman&quot;;\nmso-ascii-theme-font:major-bidi;mso-hansi-font-family:&quot;Times New Roman&quot;;\nmso-hansi-theme-font:major-bidi;mso-bidi-font-family:&quot;Times New Roman&quot;;\nmso-bidi-theme-font:major-bidi\"><o:p></o:p></span></b></p><h2>CLAUSE 2  QUANTITY </h2>200000&nbsp;&nbsp;&nbsp;PERCENT<br>5<br>SELLER<br>2016<br><h2>CLAUSE 3  QUALITY </h2><table style='border: 1px solid black;'><tr><th style='border: 1px solid black;'>Minimum</th><th style='border: 1px solid black;'>Maximum</th><th style='border: 1px solid black;'>Unit</th><th style='border: 1px solid black;'>Material Element</th></tr><tr><td style='border: 1px solid black;'>22</td><td style='border: 1px solid black;'>28</td><td style='border: 1px solid black;'>MT</td><td style='border: 1px solid black;'>CD</td></tr></table><br><h2>CLAUSE 4  SHIPMENT </h2><table style='border: 1px solid black;'><tr><th style='border: 1px solid black;'>Load Port</th><th style='border: 1px solid black;'>Quantity</th><th style='border: 1px solid black;'>Tolorance</th><th style='border: 1px solid black;'>Send Date</th></tr><tr><td style='border: 1px solid black;'>BANDAR ABBAS</td><td style='border: 1px solid black;'>200000</td><td style='border: 1px solid black;'>5</td><td style='border: 1px solid black;'>Wed Sep 14 2016 12:00:00 GMT+0430 (Iran Daylight Time)</td></tr><tr><td style='border: 1px solid black;'>FANGCHENG</td><td style='border: 1px solid black;'>30000</td><td style='border: 1px solid black;'>5</td><td style='border: 1px solid black;'>Wed Sep 16 2020 12:00:00 GMT+0430 (Iran Daylight Time)</td></tr></table><br><h2>CLAUSE 5  DELIVERY TERMS </h2>Incoterms-2010<br><h2>CLAUSE 10  QUOTATIONAL PERIOD </h2>2<br><h2>CLAUSE 11  PAYMENT</h2>100<br><h2>CLAUSE 12  CURRENCY EXCHANGE  </h2>دلار آمریکا<br><h2>ARTICLE 7 - PRICE</h2><div align=\"right\"><div align=\"left\"><span style=\"font-size:8.0pt;mso-fareast-font-family:\n&quot;Times New Roman&quot;;color:black;mso-bidi-language:HE\">PRICE FOR MOLYBDENUM OXIDE\nWILL BE BASED ON THE PLATT'S METALS WEEK MONTHLY AVERAGE FOR MOLYBDENUM OXIDE,\nAS PUBLISHED IN MONTHLY REPORT OF PLATT'S METALS WEEK UNDER THE HEADING\n\"DEALER OXIDE MIDPOINT/MEAN\" PER POUND OF MOLYBDENUM CONTENT WITH\nDISCOUNTS AS BELOW:</span><br></div><span style=\"font-size:8.0pt;mso-fareast-font-family:\n&quot;Times New Roman&quot;;color:black;mso-bidi-language:HE\"></span><p style=\"text-align:justify\"><span style=\"font-size:8.0pt;mso-fareast-font-family:\n&quot;Times New Roman&quot;;color:black;mso-bidi-language:HE\"><table style='border: 1px solid black;'><tr><th style='border: 1px solid black;'>Minimum</th><th style='border: 1px solid black;'>Maximum</th><th style='border: 1px solid black;'>Discount</th><th style='border: 1px solid black;'>Material Element</th></tr><tr><td style='border: 1px solid black;'>1</td><td style='border: 1px solid black;'>2</td><td style='border: 1px solid black;'>15</td><td style='border: 1px solid black;'>CU</td></tr></table><br></span></p>\n\n<!--[if gte mso 9]><xml>\n <o:OfficeDocumentSettings>\n  <o:TargetScreenSize>800x600</o:TargetScreenSize>\n </o:OfficeDocumentSettings>\n</xml><![endif]--><!--[if gte mso 9]><xml>\n <w:WordDocument>\n  <w:View>Normal</w:View>\n  <w:Zoom>0</w:Zoom>\n  <w:TrackMoves/>\n  <w:TrackFormatting/>\n  <w:PunctuationKerning/>\n  <w:ValidateAgainstSchemas/>\n  <w:SaveIfXMLInvalid>false</w:SaveIfXMLInvalid>\n  <w:IgnoreMixedContent>false</w:IgnoreMixedContent>\n  <w:AlwaysShowPlaceholderText>false</w:AlwaysShowPlaceholderText>\n  <w:DoNotPromoteQF/>\n  <w:LidThemeOther>EN-US</w:LidThemeOther>\n  <w:LidThemeAsian>X-NONE</w:LidThemeAsian>\n  <w:LidThemeComplexScript>AR-SA</w:LidThemeComplexScript>\n  <w:Compatibility>\n   <w:BreakWrappedTables/>\n   <w:SnapToGridInCell/>\n   <w:WrapTextWithPunct/>\n   <w:UseAsianBreakRules/>\n   <w:DontGrowAutofit/>\n   <w:SplitPgBreakAndParaMark/>\n   <w:EnableOpenTypeKerning/>\n   <w:DontFlipMirrorIndents/>\n   <w:OverrideTableStyleHps/>\n  </w:Compatibility>\n  <w:BrowserLevel>MicrosoftInternetExplorer4</w:BrowserLevel>\n  <m:mathPr>\n   <m:mathFont m:val=\"Cambria Math\"/>\n   <m:brkBin m:val=\"before\"/>\n   <m:brkBinSub m:val=\"&#45;-\"/>\n   <m:smallFrac m:val=\"off\"/>\n   <m:dispDef/>\n   <m:lMargin m:val=\"0\"/>\n   <m:rMargin m:val=\"0\"/>\n   <m:defJc m:val=\"centerGroup\"/>\n   <m:wrapIndent m:val=\"1440\"/>\n   <m:intLim m:val=\"subSup\"/>\n   <m:naryLim m:val=\"undOvr\"/>\n  </m:mathPr></w:WordDocument>\n</xml><![endif]--><!--[if gte mso 9]><xml>\n <w:LatentStyles DefLockedState=\"false\" DefUnhideWhenUsed=\"false\"\n  DefSemiHidden=\"false\" DefQFormat=\"false\" DefPriority=\"99\"\n  LatentStyleCount=\"371\">\n  <w:LsdException Locked=\"false\" Priority=\"0\" QFormat=\"true\" Name=\"Normal\"/>\n  <w:LsdException Locked=\"false\" Priority=\"9\" QFormat=\"true\" Name=\"heading 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"9\" SemiHidden=\"true\"\n   UnhideWhenUsed=\"true\" QFormat=\"true\" Name=\"heading 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"9\" SemiHidden=\"true\"\n   UnhideWhenUsed=\"true\" QFormat=\"true\" Name=\"heading 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"9\" SemiHidden=\"true\"\n   UnhideWhenUsed=\"true\" QFormat=\"true\" Name=\"heading 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"9\" SemiHidden=\"true\"\n   UnhideWhenUsed=\"true\" QFormat=\"true\" Name=\"heading 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"9\" SemiHidden=\"true\"\n   UnhideWhenUsed=\"true\" QFormat=\"true\" Name=\"heading 6\"/>\n  <w:LsdException Locked=\"false\" Priority=\"9\" SemiHidden=\"true\"\n   UnhideWhenUsed=\"true\" QFormat=\"true\" Name=\"heading 7\"/>\n  <w:LsdException Locked=\"false\" Priority=\"9\" SemiHidden=\"true\"\n   UnhideWhenUsed=\"true\" QFormat=\"true\" Name=\"heading 8\"/>\n  <w:LsdException Locked=\"false\" Priority=\"9\" SemiHidden=\"true\"\n   UnhideWhenUsed=\"true\" QFormat=\"true\" Name=\"heading 9\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"index 1\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"index 2\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"index 3\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"index 4\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"index 5\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"index 6\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"index 7\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"index 8\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"index 9\"/>\n  <w:LsdException Locked=\"false\" Priority=\"39\" SemiHidden=\"true\"\n   UnhideWhenUsed=\"true\" Name=\"toc 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"39\" SemiHidden=\"true\"\n   UnhideWhenUsed=\"true\" Name=\"toc 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"39\" SemiHidden=\"true\"\n   UnhideWhenUsed=\"true\" Name=\"toc 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"39\" SemiHidden=\"true\"\n   UnhideWhenUsed=\"true\" Name=\"toc 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"39\" SemiHidden=\"true\"\n   UnhideWhenUsed=\"true\" Name=\"toc 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"39\" SemiHidden=\"true\"\n   UnhideWhenUsed=\"true\" Name=\"toc 6\"/>\n  <w:LsdException Locked=\"false\" Priority=\"39\" SemiHidden=\"true\"\n   UnhideWhenUsed=\"true\" Name=\"toc 7\"/>\n  <w:LsdException Locked=\"false\" Priority=\"39\" SemiHidden=\"true\"\n   UnhideWhenUsed=\"true\" Name=\"toc 8\"/>\n  <w:LsdException Locked=\"false\" Priority=\"39\" SemiHidden=\"true\"\n   UnhideWhenUsed=\"true\" Name=\"toc 9\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Normal Indent\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"footnote text\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"annotation text\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"header\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"footer\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"index heading\"/>\n  <w:LsdException Locked=\"false\" Priority=\"35\" SemiHidden=\"true\"\n   UnhideWhenUsed=\"true\" QFormat=\"true\" Name=\"caption\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"table of figures\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"envelope address\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"envelope return\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"footnote reference\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"annotation reference\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"line number\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"page number\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"endnote reference\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"endnote text\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"table of authorities\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"macro\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"toa heading\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"List\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"List Bullet\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"List Number\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"List 2\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"List 3\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"List 4\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"List 5\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"List Bullet 2\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"List Bullet 3\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"List Bullet 4\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"List Bullet 5\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"List Number 2\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"List Number 3\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"List Number 4\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"List Number 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"10\" QFormat=\"true\" Name=\"Title\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Closing\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Signature\"/>\n  <w:LsdException Locked=\"false\" Priority=\"0\" SemiHidden=\"true\"\n   UnhideWhenUsed=\"true\" Name=\"Default Paragraph Font\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Body Text\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Body Text Indent\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"List Continue\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"List Continue 2\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"List Continue 3\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"List Continue 4\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"List Continue 5\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Message Header\"/>\n  <w:LsdException Locked=\"false\" Priority=\"11\" QFormat=\"true\" Name=\"Subtitle\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Salutation\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Date\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Body Text First Indent\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Body Text First Indent 2\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Note Heading\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Body Text 2\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Body Text 3\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Body Text Indent 2\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Body Text Indent 3\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Block Text\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Hyperlink\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"FollowedHyperlink\"/>\n  <w:LsdException Locked=\"false\" Priority=\"22\" QFormat=\"true\" Name=\"Strong\"/>\n  <w:LsdException Locked=\"false\" Priority=\"20\" QFormat=\"true\" Name=\"Emphasis\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Document Map\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Plain Text\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"E-mail Signature\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"HTML Top of Form\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"HTML Bottom of Form\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Normal (Web)\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"HTML Acronym\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"HTML Address\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"HTML Cite\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"HTML Code\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"HTML Definition\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"HTML Keyboard\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"HTML Preformatted\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"HTML Sample\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"HTML Typewriter\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"HTML Variable\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Normal Table\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"annotation subject\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"No List\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Outline List 1\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Outline List 2\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Outline List 3\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Simple 1\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Simple 2\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Simple 3\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Classic 1\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Classic 2\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Classic 3\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Classic 4\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Colorful 1\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Colorful 2\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Colorful 3\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Columns 1\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Columns 2\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Columns 3\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Columns 4\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Columns 5\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Grid 1\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Grid 2\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Grid 3\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Grid 4\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Grid 5\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Grid 6\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Grid 7\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Grid 8\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table List 1\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table List 2\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table List 3\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table List 4\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table List 5\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table List 6\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table List 7\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table List 8\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table 3D effects 1\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table 3D effects 2\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table 3D effects 3\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Contemporary\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Elegant\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Professional\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Subtle 1\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Subtle 2\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Web 1\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Web 2\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Web 3\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Balloon Text\"/>\n  <w:LsdException Locked=\"false\" Priority=\"39\" Name=\"Table Grid\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Theme\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" Name=\"Placeholder Text\"/>\n  <w:LsdException Locked=\"false\" Priority=\"1\" QFormat=\"true\" Name=\"No Spacing\"/>\n  <w:LsdException Locked=\"false\" Priority=\"60\" Name=\"Light Shading\"/>\n  <w:LsdException Locked=\"false\" Priority=\"61\" Name=\"Light List\"/>\n  <w:LsdException Locked=\"false\" Priority=\"62\" Name=\"Light Grid\"/>\n  <w:LsdException Locked=\"false\" Priority=\"63\" Name=\"Medium Shading 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"64\" Name=\"Medium Shading 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"65\" Name=\"Medium List 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"66\" Name=\"Medium List 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"67\" Name=\"Medium Grid 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"68\" Name=\"Medium Grid 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"69\" Name=\"Medium Grid 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"70\" Name=\"Dark List\"/>\n  <w:LsdException Locked=\"false\" Priority=\"71\" Name=\"Colorful Shading\"/>\n  <w:LsdException Locked=\"false\" Priority=\"72\" Name=\"Colorful List\"/>\n  <w:LsdException Locked=\"false\" Priority=\"73\" Name=\"Colorful Grid\"/>\n  <w:LsdException Locked=\"false\" Priority=\"60\" Name=\"Light Shading Accent 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"61\" Name=\"Light List Accent 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"62\" Name=\"Light Grid Accent 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"63\" Name=\"Medium Shading 1 Accent 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"64\" Name=\"Medium Shading 2 Accent 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"65\" Name=\"Medium List 1 Accent 1\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" Name=\"Revision\"/>\n  <w:LsdException Locked=\"false\" Priority=\"34\" QFormat=\"true\"\n   Name=\"List Paragraph\"/>\n  <w:LsdException Locked=\"false\" Priority=\"29\" QFormat=\"true\" Name=\"Quote\"/>\n  <w:LsdException Locked=\"false\" Priority=\"30\" QFormat=\"true\"\n   Name=\"Intense Quote\"/>\n  <w:LsdException Locked=\"false\" Priority=\"66\" Name=\"Medium List 2 Accent 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"67\" Name=\"Medium Grid 1 Accent 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"68\" Name=\"Medium Grid 2 Accent 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"69\" Name=\"Medium Grid 3 Accent 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"70\" Name=\"Dark List Accent 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"71\" Name=\"Colorful Shading Accent 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"72\" Name=\"Colorful List Accent 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"73\" Name=\"Colorful Grid Accent 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"60\" Name=\"Light Shading Accent 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"61\" Name=\"Light List Accent 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"62\" Name=\"Light Grid Accent 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"63\" Name=\"Medium Shading 1 Accent 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"64\" Name=\"Medium Shading 2 Accent 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"65\" Name=\"Medium List 1 Accent 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"66\" Name=\"Medium List 2 Accent 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"67\" Name=\"Medium Grid 1 Accent 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"68\" Name=\"Medium Grid 2 Accent 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"69\" Name=\"Medium Grid 3 Accent 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"70\" Name=\"Dark List Accent 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"71\" Name=\"Colorful Shading Accent 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"72\" Name=\"Colorful List Accent 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"73\" Name=\"Colorful Grid Accent 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"60\" Name=\"Light Shading Accent 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"61\" Name=\"Light List Accent 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"62\" Name=\"Light Grid Accent 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"63\" Name=\"Medium Shading 1 Accent 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"64\" Name=\"Medium Shading 2 Accent 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"65\" Name=\"Medium List 1 Accent 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"66\" Name=\"Medium List 2 Accent 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"67\" Name=\"Medium Grid 1 Accent 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"68\" Name=\"Medium Grid 2 Accent 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"69\" Name=\"Medium Grid 3 Accent 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"70\" Name=\"Dark List Accent 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"71\" Name=\"Colorful Shading Accent 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"72\" Name=\"Colorful List Accent 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"73\" Name=\"Colorful Grid Accent 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"60\" Name=\"Light Shading Accent 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"61\" Name=\"Light List Accent 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"62\" Name=\"Light Grid Accent 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"63\" Name=\"Medium Shading 1 Accent 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"64\" Name=\"Medium Shading 2 Accent 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"65\" Name=\"Medium List 1 Accent 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"66\" Name=\"Medium List 2 Accent 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"67\" Name=\"Medium Grid 1 Accent 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"68\" Name=\"Medium Grid 2 Accent 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"69\" Name=\"Medium Grid 3 Accent 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"70\" Name=\"Dark List Accent 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"71\" Name=\"Colorful Shading Accent 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"72\" Name=\"Colorful List Accent 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"73\" Name=\"Colorful Grid Accent 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"60\" Name=\"Light Shading Accent 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"61\" Name=\"Light List Accent 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"62\" Name=\"Light Grid Accent 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"63\" Name=\"Medium Shading 1 Accent 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"64\" Name=\"Medium Shading 2 Accent 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"65\" Name=\"Medium List 1 Accent 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"66\" Name=\"Medium List 2 Accent 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"67\" Name=\"Medium Grid 1 Accent 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"68\" Name=\"Medium Grid 2 Accent 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"69\" Name=\"Medium Grid 3 Accent 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"70\" Name=\"Dark List Accent 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"71\" Name=\"Colorful Shading Accent 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"72\" Name=\"Colorful List Accent 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"73\" Name=\"Colorful Grid Accent 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"60\" Name=\"Light Shading Accent 6\"/>\n  <w:LsdException Locked=\"false\" Priority=\"61\" Name=\"Light List Accent 6\"/>\n  <w:LsdException Locked=\"false\" Priority=\"62\" Name=\"Light Grid Accent 6\"/>\n  <w:LsdException Locked=\"false\" Priority=\"63\" Name=\"Medium Shading 1 Accent 6\"/>\n  <w:LsdException Locked=\"false\" Priority=\"64\" Name=\"Medium Shading 2 Accent 6\"/>\n  <w:LsdException Locked=\"false\" Priority=\"65\" Name=\"Medium List 1 Accent 6\"/>\n  <w:LsdException Locked=\"false\" Priority=\"66\" Name=\"Medium List 2 Accent 6\"/>\n  <w:LsdException Locked=\"false\" Priority=\"67\" Name=\"Medium Grid 1 Accent 6\"/>\n  <w:LsdException Locked=\"false\" Priority=\"68\" Name=\"Medium Grid 2 Accent 6\"/>\n  <w:LsdException Locked=\"false\" Priority=\"69\" Name=\"Medium Grid 3 Accent 6\"/>\n  <w:LsdException Locked=\"false\" Priority=\"70\" Name=\"Dark List Accent 6\"/>\n  <w:LsdException Locked=\"false\" Priority=\"71\" Name=\"Colorful Shading Accent 6\"/>\n  <w:LsdException Locked=\"false\" Priority=\"72\" Name=\"Colorful List Accent 6\"/>\n  <w:LsdException Locked=\"false\" Priority=\"73\" Name=\"Colorful Grid Accent 6\"/>\n  <w:LsdException Locked=\"false\" Priority=\"19\" QFormat=\"true\"\n   Name=\"Subtle Emphasis\"/>\n  <w:LsdException Locked=\"false\" Priority=\"21\" QFormat=\"true\"\n   Name=\"Intense Emphasis\"/>\n  <w:LsdException Locked=\"false\" Priority=\"31\" QFormat=\"true\"\n   Name=\"Subtle Reference\"/>\n  <w:LsdException Locked=\"false\" Priority=\"32\" QFormat=\"true\"\n   Name=\"Intense Reference\"/>\n  <w:LsdException Locked=\"false\" Priority=\"33\" QFormat=\"true\" Name=\"Book Title\"/>\n  <w:LsdException Locked=\"false\" Priority=\"37\" SemiHidden=\"true\"\n   UnhideWhenUsed=\"true\" Name=\"Bibliography\"/>\n  <w:LsdException Locked=\"false\" Priority=\"39\" SemiHidden=\"true\"\n   UnhideWhenUsed=\"true\" QFormat=\"true\" Name=\"TOC Heading\"/>\n  <w:LsdException Locked=\"false\" Priority=\"41\" Name=\"Plain Table 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"42\" Name=\"Plain Table 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"43\" Name=\"Plain Table 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"44\" Name=\"Plain Table 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"45\" Name=\"Plain Table 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"40\" Name=\"Grid Table Light\"/>\n  <w:LsdException Locked=\"false\" Priority=\"46\" Name=\"Grid Table 1 Light\"/>\n  <w:LsdException Locked=\"false\" Priority=\"47\" Name=\"Grid Table 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"48\" Name=\"Grid Table 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"49\" Name=\"Grid Table 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"50\" Name=\"Grid Table 5 Dark\"/>\n  <w:LsdException Locked=\"false\" Priority=\"51\" Name=\"Grid Table 6 Colorful\"/>\n  <w:LsdException Locked=\"false\" Priority=\"52\" Name=\"Grid Table 7 Colorful\"/>\n  <w:LsdException Locked=\"false\" Priority=\"46\"\n   Name=\"Grid Table 1 Light Accent 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"47\" Name=\"Grid Table 2 Accent 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"48\" Name=\"Grid Table 3 Accent 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"49\" Name=\"Grid Table 4 Accent 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"50\" Name=\"Grid Table 5 Dark Accent 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"51\"\n   Name=\"Grid Table 6 Colorful Accent 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"52\"\n   Name=\"Grid Table 7 Colorful Accent 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"46\"\n   Name=\"Grid Table 1 Light Accent 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"47\" Name=\"Grid Table 2 Accent 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"48\" Name=\"Grid Table 3 Accent 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"49\" Name=\"Grid Table 4 Accent 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"50\" Name=\"Grid Table 5 Dark Accent 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"51\"\n   Name=\"Grid Table 6 Colorful Accent 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"52\"\n   Name=\"Grid Table 7 Colorful Accent 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"46\"\n   Name=\"Grid Table 1 Light Accent 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"47\" Name=\"Grid Table 2 Accent 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"48\" Name=\"Grid Table 3 Accent 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"49\" Name=\"Grid Table 4 Accent 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"50\" Name=\"Grid Table 5 Dark Accent 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"51\"\n   Name=\"Grid Table 6 Colorful Accent 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"52\"\n   Name=\"Grid Table 7 Colorful Accent 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"46\"\n   Name=\"Grid Table 1 Light Accent 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"47\" Name=\"Grid Table 2 Accent 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"48\" Name=\"Grid Table 3 Accent 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"49\" Name=\"Grid Table 4 Accent 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"50\" Name=\"Grid Table 5 Dark Accent 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"51\"\n   Name=\"Grid Table 6 Colorful Accent 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"52\"\n   Name=\"Grid Table 7 Colorful Accent 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"46\"\n   Name=\"Grid Table 1 Light Accent 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"47\" Name=\"Grid Table 2 Accent 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"48\" Name=\"Grid Table 3 Accent 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"49\" Name=\"Grid Table 4 Accent 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"50\" Name=\"Grid Table 5 Dark Accent 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"51\"\n   Name=\"Grid Table 6 Colorful Accent 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"52\"\n   Name=\"Grid Table 7 Colorful Accent 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"46\"\n   Name=\"Grid Table 1 Light Accent 6\"/>\n  <w:LsdException Locked=\"false\" Priority=\"47\" Name=\"Grid Table 2 Accent 6\"/>\n  <w:LsdException Locked=\"false\" Priority=\"48\" Name=\"Grid Table 3 Accent 6\"/>\n  <w:LsdException Locked=\"false\" Priority=\"49\" Name=\"Grid Table 4 Accent 6\"/>\n  <w:LsdException Locked=\"false\" Priority=\"50\" Name=\"Grid Table 5 Dark Accent 6\"/>\n  <w:LsdException Locked=\"false\" Priority=\"51\"\n   Name=\"Grid Table 6 Colorful Accent 6\"/>\n  <w:LsdException Locked=\"false\" Priority=\"52\"\n   Name=\"Grid Table 7 Colorful Accent 6\"/>\n  <w:LsdException Locked=\"false\" Priority=\"46\" Name=\"List Table 1 Light\"/>\n  <w:LsdException Locked=\"false\" Priority=\"47\" Name=\"List Table 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"48\" Name=\"List Table 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"49\" Name=\"List Table 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"50\" Name=\"List Table 5 Dark\"/>\n  <w:LsdException Locked=\"false\" Priority=\"51\" Name=\"List Table 6 Colorful\"/>\n  <w:LsdException Locked=\"false\" Priority=\"52\" Name=\"List Table 7 Colorful\"/>\n  <w:LsdException Locked=\"false\" Priority=\"46\"\n   Name=\"List Table 1 Light Accent 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"47\" Name=\"List Table 2 Accent 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"48\" Name=\"List Table 3 Accent 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"49\" Name=\"List Table 4 Accent 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"50\" Name=\"List Table 5 Dark Accent 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"51\"\n   Name=\"List Table 6 Colorful Accent 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"52\"\n   Name=\"List Table 7 Colorful Accent 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"46\"\n   Name=\"List Table 1 Light Accent 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"47\" Name=\"List Table 2 Accent 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"48\" Name=\"List Table 3 Accent 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"49\" Name=\"List Table 4 Accent 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"50\" Name=\"List Table 5 Dark Accent 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"51\"\n   Name=\"List Table 6 Colorful Accent 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"52\"\n   Name=\"List Table 7 Colorful Accent 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"46\"\n   Name=\"List Table 1 Light Accent 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"47\" Name=\"List Table 2 Accent 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"48\" Name=\"List Table 3 Accent 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"49\" Name=\"List Table 4 Accent 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"50\" Name=\"List Table 5 Dark Accent 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"51\"\n   Name=\"List Table 6 Colorful Accent 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"52\"\n   Name=\"List Table 7 Colorful Accent 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"46\"\n   Name=\"List Table 1 Light Accent 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"47\" Name=\"List Table 2 Accent 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"48\" Name=\"List Table 3 Accent 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"49\" Name=\"List Table 4 Accent 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"50\" Name=\"List Table 5 Dark Accent 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"51\"\n   Name=\"List Table 6 Colorful Accent 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"52\"\n   Name=\"List Table 7 Colorful Accent 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"46\"\n   Name=\"List Table 1 Light Accent 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"47\" Name=\"List Table 2 Accent 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"48\" Name=\"List Table 3 Accent 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"49\" Name=\"List Table 4 Accent 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"50\" Name=\"List Table 5 Dark Accent 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"51\"\n   Name=\"List Table 6 Colorful Accent 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"52\"\n   Name=\"List Table 7 Colorful Accent 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"46\"\n   Name=\"List Table 1 Light Accent 6\"/>\n  <w:LsdException Locked=\"false\" Priority=\"47\" Name=\"List Table 2 Accent 6\"/>\n  <w:LsdException Locked=\"false\" Priority=\"48\" Name=\"List Table 3 Accent 6\"/>\n  <w:LsdException Locked=\"false\" Priority=\"49\" Name=\"List Table 4 Accent 6\"/>\n  <w:LsdException Locked=\"false\" Priority=\"50\" Name=\"List Table 5 Dark Accent 6\"/>\n  <w:LsdException Locked=\"false\" Priority=\"51\"\n   Name=\"List Table 6 Colorful Accent 6\"/>\n  <w:LsdException Locked=\"false\" Priority=\"52\"\n   Name=\"List Table 7 Colorful Accent 6\"/>\n </w:LatentStyles>\n</xml><![endif]--><!--[if gte mso 10]>\n<style>\n /* Style Definitions */\n table.MsoNormalTable\n\t{mso-style-name:\"Table Normal\";\n\tmso-tstyle-rowband-size:0;\n\tmso-tstyle-colband-size:0;\n\tmso-style-noshow:yes;\n\tmso-style-priority:99;\n\tmso-style-parent:\"\";\n\tmso-padding-alt:0in 5.4pt 0in 5.4pt;\n\tmso-para-margin:0in;\n\tmso-para-margin-bottom:.0001pt;\n\tmso-pagination:widow-orphan;\n\tfont-size:10.0pt;\n\tfont-family:\"Times New Roman\",serif;}\n</style>\n<![endif]--></div>",
-    //                         "materialId": 3,
-    //                         "contractTypeId": 1
-    //                     },
-    //                     "loadPort": {
-    //                         "port": "BANDAR ABBAS",
-    //                         "countryId": 1
-    //                     },
-    //                     "createdDate": 1600005922013,
-    //                     "createdBy": "r.mazloom",
-    //                     "lastModifiedDate": 1600674681760,
-    //                     "lastModifiedBy": "r.mazloom",
-    //                     "version": 21
-    //                 },
-    //                 "estatus": [
-    //                     "Active"
-    //                 ],
-    //                 "moisture": 0
-    //             },
-    //             "estatus": [
-    //                 "Active"
-    //             ],
-    //             "_selection_402": true,
-    //             "_embeddedComponents_isc_ListGrid_9": null
-    //         }
-    //     ],
-    //         "invoiceTypeId": 1,
-    //         "contractId": 1,
-    //         "shipmentId": 1,
-    //         "inspectionWeightId": 190,
-    //         "inspectionAssayId": 191,
-    //         "creatorId": 2,
-    //         "currencyId": -32,
-    //         "toCurrencyId": null,
-    //         "conversionRefId": null
-    // });
+    foreignInvoiceTab.dynamicForm.valuesManager.setValues({
+        "date": "2020-10-07T08:30:00.000Z",
+        "invoiceTypeId": 1,
+        "contractId": 1,
+        "billLadings": [
+            {
+                "documentNo": "123123",
+                "switchDocumentNo": "123123",
+                "shipperExporterId": 41,
+                "switchShipperExporterId": 41,
+                "notifyPartyId": 2,
+                "switchNotifyPartyId": 2,
+                "consigneeId": 1,
+                "switchConsigneeId": 1,
+                "portOfLoadingId": 2,
+                "switchPortOfLoadingId": 2,
+                "portOfDischargeId": 31,
+                "switchPortOfDischargeId": 31,
+                "placeOfDelivery": "ABU DHABI",
+                "oceanVesselId": 37,
+                "numberOfBlCopies": 2,
+                "dateOfIssue": 1600587000000,
+                "placeOfIssue": "tehran",
+                "description": "asd",
+                "totalNet": 123,
+                "totalGross": 3,
+                "totalBundles": 123,
+                "shipmentId": 1,
+                "shipmentTypeId": 1,
+                "shipmentMethodId": 1,
+                "id": 1,
+                "shipperExporter": {
+                    "nameFA": "سونگ ایک خار",
+                    "nameEN": "XSUNGILL RESOURCES LTD",
+                    "name": "XSUNGILL RESOURCES LTD",
+                    "phone": "8511101111",
+                    "fax": "85237020210",
+                    "address": "FLAT/RM 8,12 /F,WAYSON COMMERCIAL BUILDING 28 CONNAUGHT, ROAD WEST SHEUNG WAN, HONK KONG",
+                    "type": false,
+                    "status": true,
+                    "commercialRole": "Buyer",
+                    "buyer": true,
+                    "countryId": 2,
+                    "id": 41,
+                    "country": {
+                        "nameFA": "چین",
+                        "nameEN": "China",
+                        "name": "China"
+                    },
+                    "createdDate": 1579683563975,
+                    "createdBy": "dorani_sa",
+                    "lastModifiedDate": 1601359142895,
+                    "lastModifiedBy": "root",
+                    "version": 3
+                },
+                "switchShipperExporter": {
+                    "nameFA": "سونگ ایک خار",
+                    "nameEN": "XSUNGILL RESOURCES LTD",
+                    "name": "XSUNGILL RESOURCES LTD",
+                    "phone": "8511101111",
+                    "fax": "85237020210",
+                    "address": "FLAT/RM 8,12 /F,WAYSON COMMERCIAL BUILDING 28 CONNAUGHT, ROAD WEST SHEUNG WAN, HONK KONG",
+                    "type": false,
+                    "status": true,
+                    "commercialRole": "Buyer",
+                    "buyer": true,
+                    "countryId": 2,
+                    "id": 41,
+                    "country": {
+                        "nameFA": "چین",
+                        "nameEN": "China",
+                        "name": "China"
+                    },
+                    "createdDate": 1579683563975,
+                    "createdBy": "dorani_sa",
+                    "lastModifiedDate": 1601359142895,
+                    "lastModifiedBy": "root",
+                    "version": 3
+                },
+                "notifyParty": {
+                    "nameFA": "شرکت ملی صنایع مس ایران",
+                    "nameEN": "NATIONAL IRANIAN COPPER INDUSTRIES CO.",
+                    "name": "NATIONAL IRANIAN COPPER INDUSTRIES CO.",
+                    "phone": "+982182138231",
+                    "fax": "+982188102822",
+                    "address": "NO. 2161 VALI-E-ASR AVE., NEXT TO SAEI PARK, TEHRAN, IRAN",
+                    "type": false,
+                    "status": true,
+                    "commercialRole": "Seller",
+                    "seller": true,
+                    "buyer": false,
+                    "countryId": 1,
+                    "id": 2,
+                    "country": {
+                        "nameFA": "ایران",
+                        "nameEN": "Iran (Islamic Republic of)",
+                        "name": "Iran (Islamic Republic of)"
+                    },
+                    "createdDate": 1578197254109,
+                    "createdBy": "dorani_sa",
+                    "lastModifiedDate": 1601451512407,
+                    "lastModifiedBy": "emami",
+                    "version": 7
+                },
+                "switchNotifyParty": {
+                    "nameFA": "شرکت ملی صنایع مس ایران",
+                    "nameEN": "NATIONAL IRANIAN COPPER INDUSTRIES CO.",
+                    "name": "NATIONAL IRANIAN COPPER INDUSTRIES CO.",
+                    "phone": "+982182138231",
+                    "fax": "+982188102822",
+                    "address": "NO. 2161 VALI-E-ASR AVE., NEXT TO SAEI PARK, TEHRAN, IRAN",
+                    "type": false,
+                    "status": true,
+                    "commercialRole": "Seller",
+                    "seller": true,
+                    "buyer": false,
+                    "countryId": 1,
+                    "id": 2,
+                    "country": {
+                        "nameFA": "ایران",
+                        "nameEN": "Iran (Islamic Republic of)",
+                        "name": "Iran (Islamic Republic of)"
+                    },
+                    "createdDate": 1578197254109,
+                    "createdBy": "dorani_sa",
+                    "lastModifiedDate": 1601451512407,
+                    "lastModifiedBy": "emami",
+                    "version": 7
+                },
+                "consignee": {
+                    "nameFA": "CHINA MINMETALS NON-FERROUS METALS CO., LTD",
+                    "nameEN": "CHINA MINMETALS NON-FERROUS METALS CO., LTD",
+                    "name": "CHINA MINMETALS NON-FERROUS METALS CO., LTD",
+                    "phone": "+8601068495586",
+                    "fax": "+8601068495562",
+                    "address": "NO.5 SANLIHE ROAD, HAIDIAN DISTRICT, BEIJING 100044, P.R. CHINA ",
+                    "type": false,
+                    "nationalCode": "0",
+                    "status": true,
+                    "commercialRole": "Buyer",
+                    "seller": false,
+                    "buyer": true,
+                    "countryId": 2,
+                    "id": 1,
+                    "country": {
+                        "nameFA": "چین",
+                        "nameEN": "China",
+                        "name": "China"
+                    },
+                    "createdDate": 1578197169411,
+                    "createdBy": "dorani_sa",
+                    "lastModifiedDate": 1600688095376,
+                    "lastModifiedBy": "db_zare",
+                    "version": 47,
+                    "defaultAccount": {
+                        "contactId": 1,
+                        "bankId": 2,
+                        "bankAccount": "90101",
+                        "bankShaba": "IR888888800000000008888888",
+                        "code": "110019",
+                        "bankSwift": "898888800000088",
+                        "accountOwner": "88000008",
+                        "status": true,
+                        "isDefault": true,
+                        "id": 10,
+                        "bank": {
+                            "bankName": "ای سی ای",
+                            "countryId": 15,
+                            "enBankName": "ECA",
+                            "address": "NY",
+                            "coreBranch": "core"
+                        },
+                        "createdDate": 1600245090704,
+                        "createdBy": "db_zare",
+                        "lastModifiedDate": 1600690356857,
+                        "lastModifiedBy": "db_zare",
+                        "version": 9
+                    }
+                },
+                "switchConsignee": {
+                    "nameFA": "CHINA MINMETALS NON-FERROUS METALS CO., LTD",
+                    "nameEN": "CHINA MINMETALS NON-FERROUS METALS CO., LTD",
+                    "name": "CHINA MINMETALS NON-FERROUS METALS CO., LTD",
+                    "phone": "+8601068495586",
+                    "fax": "+8601068495562",
+                    "address": "NO.5 SANLIHE ROAD, HAIDIAN DISTRICT, BEIJING 100044, P.R. CHINA ",
+                    "type": false,
+                    "nationalCode": "0",
+                    "status": true,
+                    "commercialRole": "Buyer",
+                    "seller": false,
+                    "buyer": true,
+                    "countryId": 2,
+                    "id": 1,
+                    "country": {
+                        "nameFA": "چین",
+                        "nameEN": "China",
+                        "name": "China"
+                    },
+                    "createdDate": 1578197169411,
+                    "createdBy": "dorani_sa",
+                    "lastModifiedDate": 1600688095376,
+                    "lastModifiedBy": "db_zare",
+                    "version": 47,
+                    "defaultAccount": {
+                        "contactId": 1,
+                        "bankId": 2,
+                        "bankAccount": "90101",
+                        "bankShaba": "IR888888800000000008888888",
+                        "code": "110019",
+                        "bankSwift": "898888800000088",
+                        "accountOwner": "88000008",
+                        "status": true,
+                        "isDefault": true,
+                        "id": 10,
+                        "bank": {
+                            "bankName": "ای سی ای",
+                            "countryId": 15,
+                            "enBankName": "ECA",
+                            "address": "NY",
+                            "coreBranch": "core"
+                        },
+                        "createdDate": 1600245090704,
+                        "createdBy": "db_zare",
+                        "lastModifiedDate": 1600690356857,
+                        "lastModifiedBy": "db_zare",
+                        "version": 9
+                    }
+                },
+                "portOfLoading": {
+                    "port": "BANDAR ABBAS",
+                    "countryId": 1,
+                    "id": 2,
+                    "country": {
+                        "nameFA": "ایران",
+                        "nameEN": "Iran (Islamic Republic of)",
+                        "name": "Iran (Islamic Republic of)",
+                        "id": 1,
+                        "createdDate": 1599977039976,
+                        "createdBy": "j.azad",
+                        "version": 0,
+                        "editable": false,
+                        "estatus": [
+                            "Active"
+                        ]
+                    },
+                    "createdDate": 1578198852719,
+                    "createdBy": "dorani_sa",
+                    "version": 0,
+                    "editable": true,
+                    "estatus": [
+                        "Active"
+                    ]
+                },
+                "switchPortOfLoading": {
+                    "port": "BANDAR ABBAS",
+                    "countryId": 1,
+                    "id": 2,
+                    "country": {
+                        "nameFA": "ایران",
+                        "nameEN": "Iran (Islamic Republic of)",
+                        "name": "Iran (Islamic Republic of)",
+                        "id": 1,
+                        "createdDate": 1599977039976,
+                        "createdBy": "j.azad",
+                        "version": 0,
+                        "editable": false,
+                        "estatus": [
+                            "Active"
+                        ]
+                    },
+                    "createdDate": 1578198852719,
+                    "createdBy": "dorani_sa",
+                    "version": 0,
+                    "editable": true,
+                    "estatus": [
+                        "Active"
+                    ]
+                },
+                "portOfDischarge": {
+                    "port": "ABU DHABI",
+                    "countryId": 3,
+                    "id": 31,
+                    "country": {
+                        "nameFA": "افغانستان",
+                        "nameEN": "Afghanistan",
+                        "name": "Afghanistan",
+                        "id": 3,
+                        "createdDate": 1599977039990,
+                        "createdBy": "j.azad",
+                        "version": 0,
+                        "editable": false,
+                        "estatus": [
+                            "Active"
+                        ]
+                    },
+                    "createdDate": 1587866317999,
+                    "createdBy": "db_mazloom",
+                    "version": 0,
+                    "editable": true,
+                    "estatus": [
+                        "Active"
+                    ]
+                },
+                "switchPortOfDischarge": {
+                    "port": "ABU DHABI",
+                    "countryId": 3,
+                    "id": 31,
+                    "country": {
+                        "nameFA": "افغانستان",
+                        "nameEN": "Afghanistan",
+                        "name": "Afghanistan",
+                        "id": 3,
+                        "createdDate": 1599977039990,
+                        "createdBy": "j.azad",
+                        "version": 0,
+                        "editable": false,
+                        "estatus": [
+                            "Active"
+                        ]
+                    },
+                    "createdDate": 1587866317999,
+                    "createdBy": "db_mazloom",
+                    "version": 0,
+                    "editable": true,
+                    "estatus": [
+                        "Active"
+                    ]
+                },
+                "oceanVessel": {
+                    "name": "AGIA ELENI",
+                    "type": "Bulk Carrier",
+                    "imo": "9370317",
+                    "yearOfBuild": 2008,
+                    "length": 170.7,
+                    "beam": 27,
+                    "id": 37,
+                    "createdDate": 1588382861641,
+                    "createdBy": "db_mazloom",
+                    "version": 0,
+                    "editable": true,
+                    "estatus": [
+                        "Active"
+                    ]
+                },
+                "containers": [
+                    {
+                        "billOfLandingId": 1,
+                        "containerType": "20foot",
+                        "containerNo": "123",
+                        "sealNo": "123",
+                        "quantity": 123,
+                        "quantityType": "ورق",
+                        "weight": 2,
+                        "unitId": 5,
+                        "id": 1,
+                        "unit": {
+                            "nameFA": "شاخه",
+                            "nameEN": "شاخه",
+                            "name": "شاخه",
+                            "categoryUnit": "Weight",
+                            "symbolUnit": "BULK",
+                            "id": 5,
+                            "createdDate": 1600057458454,
+                            "createdBy": "taghavifar",
+                            "version": 0,
+                            "editable": false,
+                            "estatus": [
+                                "Active"
+                            ]
+                        },
+                        "createdDate": 1600070537703,
+                        "createdBy": "taghavifar",
+                        "lastModifiedDate": 1601355368165,
+                        "lastModifiedBy": "db_zare",
+                        "version": 1,
+                        "editable": true,
+                        "estatus": [
+                            "Active"
+                        ]
+                    }
+                ],
+                "shipmentType": {
+                    "shipmentType": "فله",
+                    "id": 1,
+                    "createdDate": 1587278588350,
+                    "createdBy": "j.azad",
+                    "lastModifiedDate": 1587278588350,
+                    "lastModifiedBy": "j.azad",
+                    "version": 0
+                },
+                "shipmentMethod": {
+                    "shipmentMethod": "حمل زمینی",
+                    "id": 1,
+                    "createdDate": 1587278588350,
+                    "createdBy": "j.azad",
+                    "lastModifiedDate": 1587278588350,
+                    "lastModifiedBy": "j.azad",
+                    "version": 0
+                },
+                "createdDate": 1600070495670,
+                "createdBy": "taghavifar",
+                "lastModifiedDate": 1600576546950,
+                "lastModifiedBy": "taghavifar",
+                "version": 1,
+                "editable": true,
+                "shipment": {
+                    "contractShipmentId": 1,
+                    "shipmentTypeId": 1,
+                    "shipmentMethodId": 2,
+                    "contactId": 41,
+                    "materialId": 3,
+                    "contactAgentId": 136,
+                    "vesselId": 37,
+                    "unitId": 4,
+                    "dischargePortId": 31,
+                    "amount": 70000,
+                    "automationLetterNo": "1242",
+                    "automationLetterDate": 1596396600000,
+                    "sendDate": 1473811200000,
+                    "noBLs": 2,
+                    "bookingCat": "1234",
+                    "arrivalDateFrom": 1581669000000,
+                    "arrivalDateTo": 1581669000000,
+                    "lastDeliveryLetterDate": 1600068600000,
+                    "id": 1,
+                    "createdDate": 1600068124999,
+                    "createdBy": "m.shahabi",
+                    "lastModifiedDate": 1600762686847,
+                    "lastModifiedBy": "db_zare",
+                    "version": 1,
+                    "editable": true,
+                    "unit": {
+                        "nameFA": "بسته",
+                        "nameEN": "BUNDLE",
+                        "name": "BUNDLE",
+                        "categoryUnit": "Weight",
+                        "symbolUnit": "PERCENT",
+                        "id": 4,
+                        "createdDate": 1593755140054,
+                        "createdBy": "j.azad",
+                        "lastModifiedDate": 1594100538548,
+                        "lastModifiedBy": "j.azad",
+                        "version": 2,
+                        "editable": false,
+                        "estatus": [
+                            "Active"
+                        ]
+                    },
+                    "vessel": {
+                        "name": "AGIA ELENI",
+                        "type": "Bulk Carrier",
+                        "imo": "9370317",
+                        "yearOfBuild": 2008,
+                        "length": 170.7,
+                        "beam": 27,
+                        "id": 37,
+                        "createdDate": 1588382861641,
+                        "createdBy": "db_mazloom",
+                        "version": 0,
+                        "editable": true,
+                        "estatus": [
+                            "Active"
+                        ]
+                    },
+                    "contact": {
+                        "nameFA": "سونگ ایک خار",
+                        "nameEN": "XSUNGILL RESOURCES LTD",
+                        "name": "XSUNGILL RESOURCES LTD",
+                        "phone": "8511101111",
+                        "fax": "85237020210",
+                        "address": "FLAT/RM 8,12 /F,WAYSON COMMERCIAL BUILDING 28 CONNAUGHT, ROAD WEST SHEUNG WAN, HONK KONG",
+                        "type": false,
+                        "status": true,
+                        "commercialRole": "Buyer",
+                        "buyer": true,
+                        "countryId": 2,
+                        "id": 41,
+                        "country": {
+                            "nameFA": "چین",
+                            "nameEN": "China",
+                            "name": "China"
+                        },
+                        "createdDate": 1579683563975,
+                        "createdBy": "dorani_sa",
+                        "lastModifiedDate": 1601359142895,
+                        "lastModifiedBy": "root",
+                        "version": 3
+                    },
+                    "dischargePort": {
+                        "port": "ABU DHABI",
+                        "countryId": 3,
+                        "id": 31,
+                        "country": {
+                            "nameFA": "افغانستان",
+                            "nameEN": "Afghanistan",
+                            "name": "Afghanistan",
+                            "id": 3,
+                            "createdDate": 1599977039990,
+                            "createdBy": "j.azad",
+                            "version": 0,
+                            "editable": false,
+                            "estatus": [
+                                "Active"
+                            ]
+                        },
+                        "createdDate": 1587866317999,
+                        "createdBy": "db_mazloom",
+                        "version": 0,
+                        "editable": true,
+                        "estatus": [
+                            "Active"
+                        ]
+                    },
+                    "contactAgent": {
+                        "nameFA": "GRASH DARYA",
+                        "nameEN": "GRASH DARYA",
+                        "name": "GRASH DARYA",
+                        "phone": "21-88727255",
+                        "fax": "21-88726762",
+                        "type": false,
+                        "status": true,
+                        "tradeMark": "GRASH DARYA",
+                        "commercialRole": "Transporter",
+                        "seller": false,
+                        "transporter": true,
+                        "agentBuyer": false,
+                        "countryId": 1,
+                        "id": 136,
+                        "country": {
+                            "nameFA": "ایران",
+                            "nameEN": "Iran (Islamic Republic of)",
+                            "name": "Iran (Islamic Republic of)"
+                        },
+                        "createdDate": 1587875271899,
+                        "createdBy": "db_mazloom",
+                        "lastModifiedDate": 1588475503870,
+                        "lastModifiedBy": "db_mazloom",
+                        "version": 1
+                    },
+                    "material": {
+                        "descl": "Copper Concentrate",
+                        "descp": "مس کنسانتره",
+                        "code": "26030090",
+                        "unitId": -1,
+                        "abbreviation": "CONC",
+                        "id": 3,
+                        "unit": {
+                            "nameFA": "تن",
+                            "nameEN": "MT",
+                            "name": "MT",
+                            "categoryUnit": "Weight",
+                            "symbolUnit": "PERCENT"
+                        },
+                        "createdDate": 1599977041712,
+                        "createdBy": "liquibase",
+                        "version": 6
+                    },
+                    "shipmentType": {
+                        "shipmentType": "فله",
+                        "id": 1,
+                        "createdDate": 1587278588350,
+                        "createdBy": "j.azad",
+                        "lastModifiedDate": 1587278588350,
+                        "lastModifiedBy": "j.azad",
+                        "version": 0
+                    },
+                    "shipmentMethod": {
+                        "shipmentMethod": "حمل هوایی",
+                        "id": 2,
+                        "createdDate": 1587278588350,
+                        "createdBy": "j.azad",
+                        "lastModifiedDate": 1587278588350,
+                        "lastModifiedBy": "j.azad",
+                        "version": 0
+                    },
+                    "contractShipment": {
+                        "loadPortId": 2,
+                        "quantity": 200000,
+                        "sendDate": "2016-09-14",
+                        "tolorance": 5,
+                        "contractId": 1,
+                        "id": 1,
+                        "contract": {
+                            "no": "100",
+                            "date": 1600677000000,
+                            "affectFrom": 1600677000000,
+                            "affectUpTo": 1600677000000,
+                            "content": "FLAT/RM 8,12 /F,WAYSON COMMERCIAL BUILDING 28 CONNAUGHT, ROAD WEST SHEUNG WAN, HONK KONG<br>NO. 2161 VALI-E-ASR AVE., NEXT TO SAEI PARK, TEHRAN, IRAN<br>+852 2575 7591<br>+982188102822<br>+852 3702 0210<br>+982182138231<br>NATIONAL IRANIAN COPPER INDUSTRIES CO.<br>SUNGILL RESOURCES LTD<br><h2>new deduction</h2><table style='border: 1px solid black;'><tr><th style='border: 1px solid black;'>Treatment Cost</th><th style='border: 1px solid black;'>Refinery Cost</th><th style='border: 1px solid black;'>Unit</th><th style='border: 1px solid black;'>Material Element</th></tr><tr><td style='border: 1px solid black;'>31</td><td style='border: 1px solid black;'>321</td><td style='border: 1px solid black;'>Euro</td><td style='border: 1px solid black;'>S</td></tr><tr><td style='border: 1px solid black;'>3245</td><td style='border: 1px solid black;'>543</td><td style='border: 1px solid black;'>MT</td><td style='border: 1px solid black;'>MO</td></tr><tr><td style='border: 1px solid black;'>435</td><td style='border: 1px solid black;'>534</td><td style='border: 1px solid black;'>null</td><td style='border: 1px solid black;'>null</td></tr></table><br><h2>CLAUSE 1  DEFINITIONS </h2><p class=\"MsoNormal\" style=\"margin-bottom:0in;margin-bottom:.0001pt;text-align:\njustify;text-justify:inter-ideograph;line-height:normal\"><b><span style=\"color:black;mso-themecolor:text1\">1 TON = 1 METRIC TON OF 1'000\nKILOGRAMS OR 2204.62 LBS</span></b><b><u><span style=\"mso-ascii-font-family:\n&quot;Times New Roman&quot;;mso-ascii-theme-font:major-bidi;mso-hansi-font-family:&quot;Times New Roman&quot;;\nmso-hansi-theme-font:major-bidi;mso-bidi-font-family:&quot;Times New Roman&quot;;\nmso-bidi-theme-font:major-bidi;color:black\"><o:p></o:p></span></u></b></p>\n\n<p class=\"DefinitionText\" style=\"margin-top:0in;margin-right:-9.0pt;margin-bottom:\n0in;margin-left:0in;margin-bottom:.0001pt;text-indent:0in;line-height:normal\"><b><span lang=\"EN-GB\" style=\"font-size:10.0pt;font-family:&quot;Times New Roman&quot;,serif;\ncolor:black;mso-themecolor:text1;mso-ansi-language:EN-GB\">LME = LONDON METAL\nEXCHANGE<o:p></o:p></span></b></p>\n\n<p class=\"DefinitionText\" style=\"margin-top:0in;margin-right:-9.0pt;margin-bottom:\n0in;margin-left:0in;margin-bottom:.0001pt;text-indent:0in;line-height:normal;\ntab-stops:0in\"><b><span style=\"font-size:10.0pt;font-family:&quot;Times New Roman&quot;,serif;\ncolor:black;mso-themecolor:text1\">WORKING/BUSINESS DAY FOR BUYER = MONDAY TO\nFRIDAY; SATURDAY, SUNDAY AND LEGAL HOLIDAY EXCLUDED.<o:p></o:p></span></b></p>\n\n<p class=\"DefinitionText\" style=\"margin-top:0in;margin-right:-9.0pt;margin-bottom:\n0in;margin-left:0in;margin-bottom:.0001pt;text-indent:0in;line-height:normal;\ntab-stops:0in\"><b><span style=\"font-size:10.0pt;font-family:&quot;Times New Roman&quot;,serif;\ncolor:black;mso-themecolor:text1\">WORKING/BUSINESS DAY FOR SELLER = SATURDAY TO\nWEDNESDAY; THURSDAY AND FRIDAY AND LEGAL HOLIDAY EXCLUDED.<o:p></o:p></span></b></p>\n\n<p class=\"DefinitionText\" style=\"margin-top:0in;margin-right:-9.0pt;margin-bottom:\n0in;margin-left:0in;margin-bottom:.0001pt;text-indent:0in;line-height:normal\"><b><span lang=\"DE\" style=\"font-size:10.0pt;font-family:&quot;Times New Roman&quot;,serif;color:black;\nmso-themecolor:text1;mso-ansi-language:DE\">AM/PM = ANTE MERIDIEM / POST MERIDIEM<o:p></o:p></span></b></p>\n\n<p class=\"MsoNormal\" style=\"margin-top:0in;margin-right:-9.0pt;margin-bottom:\n0in;margin-left:0in;margin-bottom:.0001pt;text-align:justify;text-justify:inter-ideograph;\nline-height:normal\"><b><span lang=\"EN-GB\" style=\"color:black;mso-themecolor:text1;\nmso-ansi-language:EN-GB\">INCOTERMS = </span></b><b><span style=\"mso-ascii-font-family:\n&quot;Times New Roman&quot;;mso-ascii-theme-font:major-bidi;mso-hansi-font-family:&quot;Times New Roman&quot;;\nmso-hansi-theme-font:major-bidi;mso-bidi-font-family:&quot;Times New Roman&quot;;\nmso-bidi-theme-font:major-bidi;color:black\">SHALL MEAN THE INTERNATIONAL\nCHAMBER OF COMMERCE’S OFFICIAL RULES FOR THE INTERPRETATION OF TRADE TERMS\nKNOWN AS INCOTERMS</span></b><b><span lang=\"EN-GB\" style=\"color:black;mso-themecolor:\ntext1;mso-ansi-language:EN-GB\"><o:p></o:p></span></b></p>\n\n<p class=\"DefinitionText\" style=\"margin-top:0in;margin-right:-9.0pt;margin-bottom:\n0in;margin-left:0in;margin-bottom:.0001pt;text-indent:0in;line-height:normal\"><b><span style=\"font-size:10.0pt;font-family:&quot;Times New Roman&quot;,serif;color:black;\nmso-themecolor:text1\">THE MATERIAL = SHALL MEAN THE MATERIAL AS DEFINED IN\n\"ARTICLE 3 – QUALITY\" <o:p></o:p></span></b></p>\n\n<p class=\"NormalJustified\" style=\"margin-top:0in;margin-right:-9.0pt;margin-bottom:\n0in;margin-left:0in;margin-bottom:.0001pt;text-align:justify;text-justify:inter-ideograph;\nline-height:normal\"><b><span style=\"mso-ascii-font-family:&quot;Times New Roman&quot;;\nmso-ascii-theme-font:major-bidi;mso-hansi-font-family:&quot;Times New Roman&quot;;\nmso-hansi-theme-font:major-bidi;mso-bidi-font-family:&quot;Times New Roman&quot;;\nmso-bidi-theme-font:major-bidi;color:black;mso-themecolor:text1\">CIF = COST,\nINSURANCE AND FREIGHT (ACCORDING TO INCOTERMS 2010).<o:p></o:p></span></b></p>\n\n<p class=\"NormalJustified\" style=\"margin-top:0in;margin-right:-9.0pt;margin-bottom:\n0in;margin-left:0in;margin-bottom:.0001pt;text-align:justify;text-justify:inter-ideograph;\nline-height:normal\"><b><span style=\"mso-ascii-font-family:&quot;Times New Roman&quot;;\nmso-ascii-theme-font:major-bidi;mso-hansi-font-family:&quot;Times New Roman&quot;;\nmso-hansi-theme-font:major-bidi;mso-bidi-font-family:&quot;Times New Roman&quot;;\nmso-bidi-theme-font:major-bidi;color:black;mso-themecolor:text1\">DAP = DELIVERY\nAT PLACE (ACCORDING TO INCOTERMS 2010).<o:p></o:p></span></b></p>\n\n<p class=\"NormalJustified\" style=\"margin-top:0in;margin-right:-9.0pt;margin-bottom:\n0in;margin-left:0in;margin-bottom:.0001pt;text-align:justify;text-justify:inter-ideograph;\nline-height:normal\"><b><span style=\"mso-ascii-font-family:&quot;Times New Roman&quot;;\nmso-ascii-theme-font:major-bidi;mso-hansi-font-family:&quot;Times New Roman&quot;;\nmso-hansi-theme-font:major-bidi;mso-bidi-font-family:&quot;Times New Roman&quot;;\nmso-bidi-theme-font:major-bidi;color:black;mso-themecolor:text1\">FOB = FREE ON\nBOARD (ACCORDING TO INCOTERMS 2010).<o:p></o:p></span></b></p>\n\n<p class=\"NormalJustified\" style=\"margin-top:0in;margin-right:-9.0pt;margin-bottom:\n0in;margin-left:0in;margin-bottom:.0001pt;text-align:justify;text-justify:inter-ideograph;\nline-height:normal\"><b><span style=\"mso-ascii-font-family:&quot;Times New Roman&quot;;\nmso-ascii-theme-font:major-bidi;mso-hansi-font-family:&quot;Times New Roman&quot;;\nmso-hansi-theme-font:major-bidi;mso-bidi-font-family:&quot;Times New Roman&quot;;\nmso-bidi-theme-font:major-bidi;color:black;mso-themecolor:text1\">ST = STOWED\nAND TRIMMED<o:p></o:p></span></b></p>\n\n<p class=\"NormalJustified\" style=\"margin-top:0in;margin-right:-9.0pt;margin-bottom:\n0in;margin-left:0in;margin-bottom:.0001pt;text-align:justify;text-justify:inter-ideograph;\nline-height:normal\"><b><span lang=\"EN-GB\" style=\"mso-ascii-font-family:&quot;Times New Roman&quot;;\nmso-ascii-theme-font:major-bidi;mso-hansi-font-family:&quot;Times New Roman&quot;;\nmso-hansi-theme-font:major-bidi;mso-bidi-font-family:&quot;Times New Roman&quot;;\nmso-bidi-theme-font:major-bidi;color:black;mso-themecolor:text1;mso-ansi-language:\nEN-GB\">USD AND USC = DOLLARS AND CENTS ARE UNITED STATES CURRENCY</span></b><b><span lang=\"EN-GB\" style=\"mso-ascii-font-family:&quot;Times New Roman&quot;;mso-ascii-theme-font:\nmajor-bidi;mso-hansi-font-family:&quot;Times New Roman&quot;;mso-hansi-theme-font:major-bidi;\nmso-bidi-font-family:&quot;Times New Roman&quot;;mso-bidi-theme-font:major-bidi;\ncolor:black;mso-themecolor:text1;mso-ansi-language:EN-GB;mso-fareast-language:\nZH-CN\"><o:p></o:p></span></b></p>\n\n<p class=\"NormalJustified\" style=\"margin-top:0in;margin-right:-9.0pt;margin-bottom:\n0in;margin-left:0in;margin-bottom:.0001pt;text-align:justify;text-justify:inter-ideograph;\nline-height:normal\"><b><span style=\"color:black;mso-themecolor:text1\">EURO =\nEURO IS THE SINGLE CURRENCY OF THE EUROPEAN ECONOMIC AND MONETARY UNION (EMU)\nINTRODUCED IN </span></b><b><span lang=\"EN-GB\" style=\"mso-ascii-font-family:&quot;Times New Roman&quot;;\nmso-ascii-theme-font:major-bidi;mso-hansi-font-family:&quot;Times New Roman&quot;;\nmso-hansi-theme-font:major-bidi;mso-bidi-font-family:&quot;Times New Roman&quot;;\nmso-bidi-theme-font:major-bidi;color:black;mso-themecolor:text1;mso-ansi-language:\nEN-GB\">JANUARY 1999.<o:p></o:p></span></b></p>\n\n<p class=\"NormalJustified\" style=\"margin-top:0in;margin-right:-9.0pt;margin-bottom:\n0in;margin-left:0in;margin-bottom:.0001pt;text-align:justify;text-justify:inter-ideograph;\nline-height:normal\"><b><span style=\"mso-ascii-font-family:&quot;Times New Roman&quot;;\nmso-ascii-theme-font:major-bidi;mso-hansi-font-family:&quot;Times New Roman&quot;;\nmso-hansi-theme-font:major-bidi;mso-bidi-font-family:&quot;Times New Roman&quot;;\nmso-bidi-theme-font:major-bidi\">AED = UNITED ARAB EMIRATES DIRHAM<o:p></o:p></span></b></p>\n\n<p class=\"NormalJustified\" style=\"text-align:justify;text-justify:inter-ideograph\"><b><span lang=\"EN-GB\" style=\"mso-ascii-font-family:&quot;Times New Roman&quot;;mso-ascii-theme-font:\nmajor-bidi;mso-hansi-font-family:&quot;Times New Roman&quot;;mso-hansi-theme-font:major-bidi;\nmso-bidi-font-family:&quot;Times New Roman&quot;;mso-bidi-theme-font:major-bidi;\ncolor:black;mso-themecolor:text1;mso-ansi-language:EN-GB\">MOAS = MONTH OF\nACUTAL SHIPMENT.</span></b><b><span style=\"mso-ascii-font-family:&quot;Times New Roman&quot;;\nmso-ascii-theme-font:major-bidi;mso-hansi-font-family:&quot;Times New Roman&quot;;\nmso-hansi-theme-font:major-bidi;mso-bidi-font-family:&quot;Times New Roman&quot;;\nmso-bidi-theme-font:major-bidi\"><o:p></o:p></span></b></p><h2>CLAUSE 2  QUANTITY </h2>200000&nbsp;&nbsp;&nbsp;PERCENT<br>5<br>SELLER<br>2016<br><h2>CLAUSE 3  QUALITY </h2><table style='border: 1px solid black;'><tr><th style='border: 1px solid black;'>Minimum</th><th style='border: 1px solid black;'>Maximum</th><th style='border: 1px solid black;'>Unit</th><th style='border: 1px solid black;'>Material Element</th></tr><tr><td style='border: 1px solid black;'>22</td><td style='border: 1px solid black;'>28</td><td style='border: 1px solid black;'>MT</td><td style='border: 1px solid black;'>CD</td></tr></table><br><h2>CLAUSE 4  SHIPMENT </h2><table style='border: 1px solid black;'><tr><th style='border: 1px solid black;'>Load Port</th><th style='border: 1px solid black;'>Quantity</th><th style='border: 1px solid black;'>Tolorance</th><th style='border: 1px solid black;'>Send Date</th></tr><tr><td style='border: 1px solid black;'>BANDAR ABBAS</td><td style='border: 1px solid black;'>200000</td><td style='border: 1px solid black;'>5</td><td style='border: 1px solid black;'>Wed Sep 14 2016 12:00:00 GMT+0430 (Iran Daylight Time)</td></tr><tr><td style='border: 1px solid black;'>FANGCHENG</td><td style='border: 1px solid black;'>30000</td><td style='border: 1px solid black;'>5</td><td style='border: 1px solid black;'>Wed Sep 16 2020 12:00:00 GMT+0430 (Iran Daylight Time)</td></tr></table><br><h2>CLAUSE 5  DELIVERY TERMS </h2>Incoterms-2010<br><h2>CLAUSE 10  QUOTATIONAL PERIOD </h2>2<br><h2>CLAUSE 11  PAYMENT</h2>100<br><h2>CLAUSE 12  CURRENCY EXCHANGE  </h2>دلار آمریکا<br><h2>ARTICLE 7 - PRICE</h2><div align=\"right\"><div align=\"left\"><span style=\"font-size:8.0pt;mso-fareast-font-family:\n&quot;Times New Roman&quot;;color:black;mso-bidi-language:HE\">PRICE FOR MOLYBDENUM OXIDE\nWILL BE BASED ON THE PLATT'S METALS WEEK MONTHLY AVERAGE FOR MOLYBDENUM OXIDE,\nAS PUBLISHED IN MONTHLY REPORT OF PLATT'S METALS WEEK UNDER THE HEADING\n\"DEALER OXIDE MIDPOINT/MEAN\" PER POUND OF MOLYBDENUM CONTENT WITH\nDISCOUNTS AS BELOW:</span><br></div><span style=\"font-size:8.0pt;mso-fareast-font-family:\n&quot;Times New Roman&quot;;color:black;mso-bidi-language:HE\"></span><p style=\"text-align:justify\"><span style=\"font-size:8.0pt;mso-fareast-font-family:\n&quot;Times New Roman&quot;;color:black;mso-bidi-language:HE\"><table style='border: 1px solid black;'><tr><th style='border: 1px solid black;'>Minimum</th><th style='border: 1px solid black;'>Maximum</th><th style='border: 1px solid black;'>Discount</th><th style='border: 1px solid black;'>Material Element</th></tr><tr><td style='border: 1px solid black;'>1</td><td style='border: 1px solid black;'>2</td><td style='border: 1px solid black;'>15</td><td style='border: 1px solid black;'>CU</td></tr></table><br></span></p>\n\n<!--[if gte mso 9]><xml>\n <o:OfficeDocumentSettings>\n  <o:TargetScreenSize>800x600</o:TargetScreenSize>\n </o:OfficeDocumentSettings>\n</xml><![endif]--><!--[if gte mso 9]><xml>\n <w:WordDocument>\n  <w:View>Normal</w:View>\n  <w:Zoom>0</w:Zoom>\n  <w:TrackMoves/>\n  <w:TrackFormatting/>\n  <w:PunctuationKerning/>\n  <w:ValidateAgainstSchemas/>\n  <w:SaveIfXMLInvalid>false</w:SaveIfXMLInvalid>\n  <w:IgnoreMixedContent>false</w:IgnoreMixedContent>\n  <w:AlwaysShowPlaceholderText>false</w:AlwaysShowPlaceholderText>\n  <w:DoNotPromoteQF/>\n  <w:LidThemeOther>EN-US</w:LidThemeOther>\n  <w:LidThemeAsian>X-NONE</w:LidThemeAsian>\n  <w:LidThemeComplexScript>AR-SA</w:LidThemeComplexScript>\n  <w:Compatibility>\n   <w:BreakWrappedTables/>\n   <w:SnapToGridInCell/>\n   <w:WrapTextWithPunct/>\n   <w:UseAsianBreakRules/>\n   <w:DontGrowAutofit/>\n   <w:SplitPgBreakAndParaMark/>\n   <w:EnableOpenTypeKerning/>\n   <w:DontFlipMirrorIndents/>\n   <w:OverrideTableStyleHps/>\n  </w:Compatibility>\n  <w:BrowserLevel>MicrosoftInternetExplorer4</w:BrowserLevel>\n  <m:mathPr>\n   <m:mathFont m:val=\"Cambria Math\"/>\n   <m:brkBin m:val=\"before\"/>\n   <m:brkBinSub m:val=\"&#45;-\"/>\n   <m:smallFrac m:val=\"off\"/>\n   <m:dispDef/>\n   <m:lMargin m:val=\"0\"/>\n   <m:rMargin m:val=\"0\"/>\n   <m:defJc m:val=\"centerGroup\"/>\n   <m:wrapIndent m:val=\"1440\"/>\n   <m:intLim m:val=\"subSup\"/>\n   <m:naryLim m:val=\"undOvr\"/>\n  </m:mathPr></w:WordDocument>\n</xml><![endif]--><!--[if gte mso 9]><xml>\n <w:LatentStyles DefLockedState=\"false\" DefUnhideWhenUsed=\"false\"\n  DefSemiHidden=\"false\" DefQFormat=\"false\" DefPriority=\"99\"\n  LatentStyleCount=\"371\">\n  <w:LsdException Locked=\"false\" Priority=\"0\" QFormat=\"true\" Name=\"Normal\"/>\n  <w:LsdException Locked=\"false\" Priority=\"9\" QFormat=\"true\" Name=\"heading 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"9\" SemiHidden=\"true\"\n   UnhideWhenUsed=\"true\" QFormat=\"true\" Name=\"heading 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"9\" SemiHidden=\"true\"\n   UnhideWhenUsed=\"true\" QFormat=\"true\" Name=\"heading 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"9\" SemiHidden=\"true\"\n   UnhideWhenUsed=\"true\" QFormat=\"true\" Name=\"heading 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"9\" SemiHidden=\"true\"\n   UnhideWhenUsed=\"true\" QFormat=\"true\" Name=\"heading 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"9\" SemiHidden=\"true\"\n   UnhideWhenUsed=\"true\" QFormat=\"true\" Name=\"heading 6\"/>\n  <w:LsdException Locked=\"false\" Priority=\"9\" SemiHidden=\"true\"\n   UnhideWhenUsed=\"true\" QFormat=\"true\" Name=\"heading 7\"/>\n  <w:LsdException Locked=\"false\" Priority=\"9\" SemiHidden=\"true\"\n   UnhideWhenUsed=\"true\" QFormat=\"true\" Name=\"heading 8\"/>\n  <w:LsdException Locked=\"false\" Priority=\"9\" SemiHidden=\"true\"\n   UnhideWhenUsed=\"true\" QFormat=\"true\" Name=\"heading 9\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"index 1\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"index 2\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"index 3\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"index 4\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"index 5\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"index 6\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"index 7\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"index 8\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"index 9\"/>\n  <w:LsdException Locked=\"false\" Priority=\"39\" SemiHidden=\"true\"\n   UnhideWhenUsed=\"true\" Name=\"toc 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"39\" SemiHidden=\"true\"\n   UnhideWhenUsed=\"true\" Name=\"toc 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"39\" SemiHidden=\"true\"\n   UnhideWhenUsed=\"true\" Name=\"toc 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"39\" SemiHidden=\"true\"\n   UnhideWhenUsed=\"true\" Name=\"toc 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"39\" SemiHidden=\"true\"\n   UnhideWhenUsed=\"true\" Name=\"toc 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"39\" SemiHidden=\"true\"\n   UnhideWhenUsed=\"true\" Name=\"toc 6\"/>\n  <w:LsdException Locked=\"false\" Priority=\"39\" SemiHidden=\"true\"\n   UnhideWhenUsed=\"true\" Name=\"toc 7\"/>\n  <w:LsdException Locked=\"false\" Priority=\"39\" SemiHidden=\"true\"\n   UnhideWhenUsed=\"true\" Name=\"toc 8\"/>\n  <w:LsdException Locked=\"false\" Priority=\"39\" SemiHidden=\"true\"\n   UnhideWhenUsed=\"true\" Name=\"toc 9\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Normal Indent\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"footnote text\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"annotation text\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"header\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"footer\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"index heading\"/>\n  <w:LsdException Locked=\"false\" Priority=\"35\" SemiHidden=\"true\"\n   UnhideWhenUsed=\"true\" QFormat=\"true\" Name=\"caption\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"table of figures\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"envelope address\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"envelope return\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"footnote reference\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"annotation reference\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"line number\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"page number\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"endnote reference\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"endnote text\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"table of authorities\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"macro\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"toa heading\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"List\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"List Bullet\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"List Number\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"List 2\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"List 3\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"List 4\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"List 5\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"List Bullet 2\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"List Bullet 3\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"List Bullet 4\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"List Bullet 5\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"List Number 2\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"List Number 3\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"List Number 4\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"List Number 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"10\" QFormat=\"true\" Name=\"Title\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Closing\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Signature\"/>\n  <w:LsdException Locked=\"false\" Priority=\"0\" SemiHidden=\"true\"\n   UnhideWhenUsed=\"true\" Name=\"Default Paragraph Font\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Body Text\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Body Text Indent\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"List Continue\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"List Continue 2\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"List Continue 3\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"List Continue 4\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"List Continue 5\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Message Header\"/>\n  <w:LsdException Locked=\"false\" Priority=\"11\" QFormat=\"true\" Name=\"Subtitle\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Salutation\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Date\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Body Text First Indent\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Body Text First Indent 2\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Note Heading\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Body Text 2\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Body Text 3\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Body Text Indent 2\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Body Text Indent 3\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Block Text\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Hyperlink\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"FollowedHyperlink\"/>\n  <w:LsdException Locked=\"false\" Priority=\"22\" QFormat=\"true\" Name=\"Strong\"/>\n  <w:LsdException Locked=\"false\" Priority=\"20\" QFormat=\"true\" Name=\"Emphasis\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Document Map\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Plain Text\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"E-mail Signature\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"HTML Top of Form\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"HTML Bottom of Form\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Normal (Web)\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"HTML Acronym\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"HTML Address\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"HTML Cite\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"HTML Code\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"HTML Definition\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"HTML Keyboard\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"HTML Preformatted\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"HTML Sample\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"HTML Typewriter\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"HTML Variable\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Normal Table\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"annotation subject\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"No List\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Outline List 1\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Outline List 2\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Outline List 3\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Simple 1\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Simple 2\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Simple 3\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Classic 1\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Classic 2\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Classic 3\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Classic 4\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Colorful 1\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Colorful 2\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Colorful 3\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Columns 1\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Columns 2\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Columns 3\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Columns 4\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Columns 5\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Grid 1\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Grid 2\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Grid 3\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Grid 4\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Grid 5\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Grid 6\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Grid 7\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Grid 8\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table List 1\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table List 2\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table List 3\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table List 4\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table List 5\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table List 6\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table List 7\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table List 8\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table 3D effects 1\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table 3D effects 2\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table 3D effects 3\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Contemporary\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Elegant\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Professional\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Subtle 1\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Subtle 2\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Web 1\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Web 2\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Web 3\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Balloon Text\"/>\n  <w:LsdException Locked=\"false\" Priority=\"39\" Name=\"Table Grid\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Theme\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" Name=\"Placeholder Text\"/>\n  <w:LsdException Locked=\"false\" Priority=\"1\" QFormat=\"true\" Name=\"No Spacing\"/>\n  <w:LsdException Locked=\"false\" Priority=\"60\" Name=\"Light Shading\"/>\n  <w:LsdException Locked=\"false\" Priority=\"61\" Name=\"Light List\"/>\n  <w:LsdException Locked=\"false\" Priority=\"62\" Name=\"Light Grid\"/>\n  <w:LsdException Locked=\"false\" Priority=\"63\" Name=\"Medium Shading 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"64\" Name=\"Medium Shading 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"65\" Name=\"Medium List 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"66\" Name=\"Medium List 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"67\" Name=\"Medium Grid 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"68\" Name=\"Medium Grid 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"69\" Name=\"Medium Grid 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"70\" Name=\"Dark List\"/>\n  <w:LsdException Locked=\"false\" Priority=\"71\" Name=\"Colorful Shading\"/>\n  <w:LsdException Locked=\"false\" Priority=\"72\" Name=\"Colorful List\"/>\n  <w:LsdException Locked=\"false\" Priority=\"73\" Name=\"Colorful Grid\"/>\n  <w:LsdException Locked=\"false\" Priority=\"60\" Name=\"Light Shading Accent 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"61\" Name=\"Light List Accent 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"62\" Name=\"Light Grid Accent 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"63\" Name=\"Medium Shading 1 Accent 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"64\" Name=\"Medium Shading 2 Accent 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"65\" Name=\"Medium List 1 Accent 1\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" Name=\"Revision\"/>\n  <w:LsdException Locked=\"false\" Priority=\"34\" QFormat=\"true\"\n   Name=\"List Paragraph\"/>\n  <w:LsdException Locked=\"false\" Priority=\"29\" QFormat=\"true\" Name=\"Quote\"/>\n  <w:LsdException Locked=\"false\" Priority=\"30\" QFormat=\"true\"\n   Name=\"Intense Quote\"/>\n  <w:LsdException Locked=\"false\" Priority=\"66\" Name=\"Medium List 2 Accent 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"67\" Name=\"Medium Grid 1 Accent 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"68\" Name=\"Medium Grid 2 Accent 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"69\" Name=\"Medium Grid 3 Accent 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"70\" Name=\"Dark List Accent 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"71\" Name=\"Colorful Shading Accent 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"72\" Name=\"Colorful List Accent 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"73\" Name=\"Colorful Grid Accent 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"60\" Name=\"Light Shading Accent 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"61\" Name=\"Light List Accent 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"62\" Name=\"Light Grid Accent 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"63\" Name=\"Medium Shading 1 Accent 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"64\" Name=\"Medium Shading 2 Accent 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"65\" Name=\"Medium List 1 Accent 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"66\" Name=\"Medium List 2 Accent 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"67\" Name=\"Medium Grid 1 Accent 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"68\" Name=\"Medium Grid 2 Accent 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"69\" Name=\"Medium Grid 3 Accent 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"70\" Name=\"Dark List Accent 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"71\" Name=\"Colorful Shading Accent 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"72\" Name=\"Colorful List Accent 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"73\" Name=\"Colorful Grid Accent 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"60\" Name=\"Light Shading Accent 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"61\" Name=\"Light List Accent 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"62\" Name=\"Light Grid Accent 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"63\" Name=\"Medium Shading 1 Accent 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"64\" Name=\"Medium Shading 2 Accent 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"65\" Name=\"Medium List 1 Accent 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"66\" Name=\"Medium List 2 Accent 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"67\" Name=\"Medium Grid 1 Accent 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"68\" Name=\"Medium Grid 2 Accent 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"69\" Name=\"Medium Grid 3 Accent 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"70\" Name=\"Dark List Accent 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"71\" Name=\"Colorful Shading Accent 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"72\" Name=\"Colorful List Accent 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"73\" Name=\"Colorful Grid Accent 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"60\" Name=\"Light Shading Accent 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"61\" Name=\"Light List Accent 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"62\" Name=\"Light Grid Accent 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"63\" Name=\"Medium Shading 1 Accent 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"64\" Name=\"Medium Shading 2 Accent 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"65\" Name=\"Medium List 1 Accent 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"66\" Name=\"Medium List 2 Accent 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"67\" Name=\"Medium Grid 1 Accent 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"68\" Name=\"Medium Grid 2 Accent 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"69\" Name=\"Medium Grid 3 Accent 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"70\" Name=\"Dark List Accent 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"71\" Name=\"Colorful Shading Accent 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"72\" Name=\"Colorful List Accent 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"73\" Name=\"Colorful Grid Accent 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"60\" Name=\"Light Shading Accent 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"61\" Name=\"Light List Accent 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"62\" Name=\"Light Grid Accent 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"63\" Name=\"Medium Shading 1 Accent 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"64\" Name=\"Medium Shading 2 Accent 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"65\" Name=\"Medium List 1 Accent 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"66\" Name=\"Medium List 2 Accent 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"67\" Name=\"Medium Grid 1 Accent 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"68\" Name=\"Medium Grid 2 Accent 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"69\" Name=\"Medium Grid 3 Accent 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"70\" Name=\"Dark List Accent 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"71\" Name=\"Colorful Shading Accent 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"72\" Name=\"Colorful List Accent 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"73\" Name=\"Colorful Grid Accent 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"60\" Name=\"Light Shading Accent 6\"/>\n  <w:LsdException Locked=\"false\" Priority=\"61\" Name=\"Light List Accent 6\"/>\n  <w:LsdException Locked=\"false\" Priority=\"62\" Name=\"Light Grid Accent 6\"/>\n  <w:LsdException Locked=\"false\" Priority=\"63\" Name=\"Medium Shading 1 Accent 6\"/>\n  <w:LsdException Locked=\"false\" Priority=\"64\" Name=\"Medium Shading 2 Accent 6\"/>\n  <w:LsdException Locked=\"false\" Priority=\"65\" Name=\"Medium List 1 Accent 6\"/>\n  <w:LsdException Locked=\"false\" Priority=\"66\" Name=\"Medium List 2 Accent 6\"/>\n  <w:LsdException Locked=\"false\" Priority=\"67\" Name=\"Medium Grid 1 Accent 6\"/>\n  <w:LsdException Locked=\"false\" Priority=\"68\" Name=\"Medium Grid 2 Accent 6\"/>\n  <w:LsdException Locked=\"false\" Priority=\"69\" Name=\"Medium Grid 3 Accent 6\"/>\n  <w:LsdException Locked=\"false\" Priority=\"70\" Name=\"Dark List Accent 6\"/>\n  <w:LsdException Locked=\"false\" Priority=\"71\" Name=\"Colorful Shading Accent 6\"/>\n  <w:LsdException Locked=\"false\" Priority=\"72\" Name=\"Colorful List Accent 6\"/>\n  <w:LsdException Locked=\"false\" Priority=\"73\" Name=\"Colorful Grid Accent 6\"/>\n  <w:LsdException Locked=\"false\" Priority=\"19\" QFormat=\"true\"\n   Name=\"Subtle Emphasis\"/>\n  <w:LsdException Locked=\"false\" Priority=\"21\" QFormat=\"true\"\n   Name=\"Intense Emphasis\"/>\n  <w:LsdException Locked=\"false\" Priority=\"31\" QFormat=\"true\"\n   Name=\"Subtle Reference\"/>\n  <w:LsdException Locked=\"false\" Priority=\"32\" QFormat=\"true\"\n   Name=\"Intense Reference\"/>\n  <w:LsdException Locked=\"false\" Priority=\"33\" QFormat=\"true\" Name=\"Book Title\"/>\n  <w:LsdException Locked=\"false\" Priority=\"37\" SemiHidden=\"true\"\n   UnhideWhenUsed=\"true\" Name=\"Bibliography\"/>\n  <w:LsdException Locked=\"false\" Priority=\"39\" SemiHidden=\"true\"\n   UnhideWhenUsed=\"true\" QFormat=\"true\" Name=\"TOC Heading\"/>\n  <w:LsdException Locked=\"false\" Priority=\"41\" Name=\"Plain Table 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"42\" Name=\"Plain Table 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"43\" Name=\"Plain Table 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"44\" Name=\"Plain Table 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"45\" Name=\"Plain Table 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"40\" Name=\"Grid Table Light\"/>\n  <w:LsdException Locked=\"false\" Priority=\"46\" Name=\"Grid Table 1 Light\"/>\n  <w:LsdException Locked=\"false\" Priority=\"47\" Name=\"Grid Table 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"48\" Name=\"Grid Table 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"49\" Name=\"Grid Table 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"50\" Name=\"Grid Table 5 Dark\"/>\n  <w:LsdException Locked=\"false\" Priority=\"51\" Name=\"Grid Table 6 Colorful\"/>\n  <w:LsdException Locked=\"false\" Priority=\"52\" Name=\"Grid Table 7 Colorful\"/>\n  <w:LsdException Locked=\"false\" Priority=\"46\"\n   Name=\"Grid Table 1 Light Accent 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"47\" Name=\"Grid Table 2 Accent 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"48\" Name=\"Grid Table 3 Accent 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"49\" Name=\"Grid Table 4 Accent 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"50\" Name=\"Grid Table 5 Dark Accent 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"51\"\n   Name=\"Grid Table 6 Colorful Accent 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"52\"\n   Name=\"Grid Table 7 Colorful Accent 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"46\"\n   Name=\"Grid Table 1 Light Accent 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"47\" Name=\"Grid Table 2 Accent 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"48\" Name=\"Grid Table 3 Accent 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"49\" Name=\"Grid Table 4 Accent 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"50\" Name=\"Grid Table 5 Dark Accent 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"51\"\n   Name=\"Grid Table 6 Colorful Accent 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"52\"\n   Name=\"Grid Table 7 Colorful Accent 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"46\"\n   Name=\"Grid Table 1 Light Accent 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"47\" Name=\"Grid Table 2 Accent 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"48\" Name=\"Grid Table 3 Accent 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"49\" Name=\"Grid Table 4 Accent 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"50\" Name=\"Grid Table 5 Dark Accent 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"51\"\n   Name=\"Grid Table 6 Colorful Accent 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"52\"\n   Name=\"Grid Table 7 Colorful Accent 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"46\"\n   Name=\"Grid Table 1 Light Accent 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"47\" Name=\"Grid Table 2 Accent 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"48\" Name=\"Grid Table 3 Accent 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"49\" Name=\"Grid Table 4 Accent 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"50\" Name=\"Grid Table 5 Dark Accent 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"51\"\n   Name=\"Grid Table 6 Colorful Accent 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"52\"\n   Name=\"Grid Table 7 Colorful Accent 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"46\"\n   Name=\"Grid Table 1 Light Accent 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"47\" Name=\"Grid Table 2 Accent 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"48\" Name=\"Grid Table 3 Accent 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"49\" Name=\"Grid Table 4 Accent 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"50\" Name=\"Grid Table 5 Dark Accent 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"51\"\n   Name=\"Grid Table 6 Colorful Accent 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"52\"\n   Name=\"Grid Table 7 Colorful Accent 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"46\"\n   Name=\"Grid Table 1 Light Accent 6\"/>\n  <w:LsdException Locked=\"false\" Priority=\"47\" Name=\"Grid Table 2 Accent 6\"/>\n  <w:LsdException Locked=\"false\" Priority=\"48\" Name=\"Grid Table 3 Accent 6\"/>\n  <w:LsdException Locked=\"false\" Priority=\"49\" Name=\"Grid Table 4 Accent 6\"/>\n  <w:LsdException Locked=\"false\" Priority=\"50\" Name=\"Grid Table 5 Dark Accent 6\"/>\n  <w:LsdException Locked=\"false\" Priority=\"51\"\n   Name=\"Grid Table 6 Colorful Accent 6\"/>\n  <w:LsdException Locked=\"false\" Priority=\"52\"\n   Name=\"Grid Table 7 Colorful Accent 6\"/>\n  <w:LsdException Locked=\"false\" Priority=\"46\" Name=\"List Table 1 Light\"/>\n  <w:LsdException Locked=\"false\" Priority=\"47\" Name=\"List Table 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"48\" Name=\"List Table 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"49\" Name=\"List Table 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"50\" Name=\"List Table 5 Dark\"/>\n  <w:LsdException Locked=\"false\" Priority=\"51\" Name=\"List Table 6 Colorful\"/>\n  <w:LsdException Locked=\"false\" Priority=\"52\" Name=\"List Table 7 Colorful\"/>\n  <w:LsdException Locked=\"false\" Priority=\"46\"\n   Name=\"List Table 1 Light Accent 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"47\" Name=\"List Table 2 Accent 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"48\" Name=\"List Table 3 Accent 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"49\" Name=\"List Table 4 Accent 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"50\" Name=\"List Table 5 Dark Accent 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"51\"\n   Name=\"List Table 6 Colorful Accent 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"52\"\n   Name=\"List Table 7 Colorful Accent 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"46\"\n   Name=\"List Table 1 Light Accent 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"47\" Name=\"List Table 2 Accent 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"48\" Name=\"List Table 3 Accent 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"49\" Name=\"List Table 4 Accent 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"50\" Name=\"List Table 5 Dark Accent 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"51\"\n   Name=\"List Table 6 Colorful Accent 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"52\"\n   Name=\"List Table 7 Colorful Accent 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"46\"\n   Name=\"List Table 1 Light Accent 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"47\" Name=\"List Table 2 Accent 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"48\" Name=\"List Table 3 Accent 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"49\" Name=\"List Table 4 Accent 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"50\" Name=\"List Table 5 Dark Accent 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"51\"\n   Name=\"List Table 6 Colorful Accent 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"52\"\n   Name=\"List Table 7 Colorful Accent 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"46\"\n   Name=\"List Table 1 Light Accent 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"47\" Name=\"List Table 2 Accent 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"48\" Name=\"List Table 3 Accent 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"49\" Name=\"List Table 4 Accent 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"50\" Name=\"List Table 5 Dark Accent 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"51\"\n   Name=\"List Table 6 Colorful Accent 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"52\"\n   Name=\"List Table 7 Colorful Accent 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"46\"\n   Name=\"List Table 1 Light Accent 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"47\" Name=\"List Table 2 Accent 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"48\" Name=\"List Table 3 Accent 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"49\" Name=\"List Table 4 Accent 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"50\" Name=\"List Table 5 Dark Accent 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"51\"\n   Name=\"List Table 6 Colorful Accent 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"52\"\n   Name=\"List Table 7 Colorful Accent 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"46\"\n   Name=\"List Table 1 Light Accent 6\"/>\n  <w:LsdException Locked=\"false\" Priority=\"47\" Name=\"List Table 2 Accent 6\"/>\n  <w:LsdException Locked=\"false\" Priority=\"48\" Name=\"List Table 3 Accent 6\"/>\n  <w:LsdException Locked=\"false\" Priority=\"49\" Name=\"List Table 4 Accent 6\"/>\n  <w:LsdException Locked=\"false\" Priority=\"50\" Name=\"List Table 5 Dark Accent 6\"/>\n  <w:LsdException Locked=\"false\" Priority=\"51\"\n   Name=\"List Table 6 Colorful Accent 6\"/>\n  <w:LsdException Locked=\"false\" Priority=\"52\"\n   Name=\"List Table 7 Colorful Accent 6\"/>\n </w:LatentStyles>\n</xml><![endif]--><!--[if gte mso 10]>\n<style>\n /* Style Definitions */\n table.MsoNormalTable\n\t{mso-style-name:\"Table Normal\";\n\tmso-tstyle-rowband-size:0;\n\tmso-tstyle-colband-size:0;\n\tmso-style-noshow:yes;\n\tmso-style-priority:99;\n\tmso-style-parent:\"\";\n\tmso-padding-alt:0in 5.4pt 0in 5.4pt;\n\tmso-para-margin:0in;\n\tmso-para-margin-bottom:.0001pt;\n\tmso-pagination:widow-orphan;\n\tfont-size:10.0pt;\n\tfont-family:\"Times New Roman\",serif;}\n</style>\n<![endif]--></div>",
+                            "materialId": 3,
+                            "contractTypeId": 1
+                        },
+                        "loadPort": {
+                            "port": "BANDAR ABBAS",
+                            "countryId": 1
+                        },
+                        "createdDate": 1600005922013,
+                        "createdBy": "r.mazloom",
+                        "lastModifiedDate": 1600674681760,
+                        "lastModifiedBy": "r.mazloom",
+                        "version": 21
+                    },
+                    "estatus": [
+                        "Active"
+                    ],
+                    "moisture": 0
+                },
+                "estatus": [
+                    "Active"
+                ],
+                "_selection_79": true,
+                "_embeddedComponents_isc_ListGrid_1": null
+            },
+            {
+                "documentNo": "4",
+                "switchDocumentNo": "44",
+                "shipperExporterId": 101,
+                "switchShipperExporterId": 6,
+                "notifyPartyId": 221,
+                "switchNotifyPartyId": 5,
+                "consigneeId": 5,
+                "switchConsigneeId": 6,
+                "portOfLoadingId": 3,
+                "switchPortOfLoadingId": 3,
+                "portOfDischargeId": 33,
+                "switchPortOfDischargeId": 268,
+                "placeOfDelivery": "ABU DHABI",
+                "oceanVesselId": 37,
+                "numberOfBlCopies": 44,
+                "dateOfIssue": 1601368200000,
+                "placeOfIssue": "444",
+                "totalNet": 44,
+                "totalGross": 44,
+                "totalBundles": 44,
+                "shipmentId": 1,
+                "shipmentTypeId": 2,
+                "shipmentMethodId": 3,
+                "id": 81,
+                "shipperExporter": {
+                    "nameFA": "HC",
+                    "nameEN": "HC",
+                    "name": "HC",
+                    "phone": "999999999999",
+                    "type": false,
+                    "status": true,
+                    "tradeMark": "HC",
+                    "commercialRole": "Transporter",
+                    "transporter": true,
+                    "inspector": false,
+                    "countryId": 1,
+                    "id": 101,
+                    "country": {
+                        "nameFA": "ایران",
+                        "nameEN": "Iran (Islamic Republic of)",
+                        "name": "Iran (Islamic Republic of)"
+                    },
+                    "createdDate": 1587868072023,
+                    "createdBy": "db_mazloom",
+                    "lastModifiedDate": 1588475574345,
+                    "lastModifiedBy": "db_mazloom",
+                    "version": 1
+                },
+                "switchShipperExporter": {
+                    "nameFA": "ALUMINCO HOLDINGS LIMITED",
+                    "nameEN": "ALUMINCO HOLDINGS LIMITED",
+                    "name": "ALUMINCO HOLDINGS LIMITED",
+                    "phone": "+86 10 68495098",
+                    "address": "OFFSHORE INCORPORATION (CAYMAN) LIMITED FLOOR 4 WILLOW",
+                    "type": true,
+                    "status": true,
+                    "commercialRole": "Buyer",
+                    "buyer": true,
+                    "inspector": false,
+                    "countryId": 2,
+                    "id": 6,
+                    "country": {
+                        "nameFA": "چین",
+                        "nameEN": "China",
+                        "name": "China"
+                    },
+                    "createdDate": 1579059486082,
+                    "createdBy": "dorani_sa",
+                    "lastModifiedDate": 1600688110829,
+                    "lastModifiedBy": "db_zare",
+                    "version": 3
+                },
+                "notifyParty": {
+                    "nameFA": "SHANGHAI HONGTE COAL CHEMICAL INDUSTRY CO.LTD",
+                    "nameEN": "SHANGHAI HONGTE COAL CHEMICAL INDUSTRY CO.LTD",
+                    "name": "SHANGHAI HONGTE COAL CHEMICAL INDUSTRY CO.LTD",
+                    "phone": "+86-21-54981420",
+                    "fax": "+86-358-5489141",
+                    "type": false,
+                    "status": true,
+                    "tradeMark": "SHANGHAI HONGTE ",
+                    "commercialRole": "Buyer",
+                    "seller": false,
+                    "buyer": true,
+                    "countryId": 2,
+                    "id": 221,
+                    "country": {
+                        "nameFA": "چین",
+                        "nameEN": "China",
+                        "name": "China"
+                    },
+                    "createdDate": 1589587421596,
+                    "createdBy": "db_mazloom",
+                    "version": 0
+                },
+                "switchNotifyParty": {
+                    "nameFA": "بیمه ما",
+                    "nameEN": "MA INSURANCE",
+                    "name": "MA INSURANCE",
+                    "phone": "8690",
+                    "address": "تهران میدان ونک ابتدای خیابان ونک پلاک 9",
+                    "webSite": "WWW.BIMEHMA.COM",
+                    "type": true,
+                    "status": true,
+                    "commercialRole": "Insurancer",
+                    "insurancer": true,
+                    "countryId": 1,
+                    "id": 5,
+                    "country": {
+                        "nameFA": "ایران",
+                        "nameEN": "Iran (Islamic Republic of)",
+                        "name": "Iran (Islamic Republic of)"
+                    },
+                    "createdDate": 1579059013188,
+                    "createdBy": "dorani_sa",
+                    "lastModifiedDate": 1600678348354,
+                    "lastModifiedBy": "db_zare",
+                    "version": 9,
+                    "defaultAccount": {
+                        "contactId": 5,
+                        "bankId": 1,
+                        "bankAccount": "34234",
+                        "bankShaba": "IR232000666666666003399999",
+                        "code": "123123",
+                        "bankSwift": "123213",
+                        "accountOwner": "3434",
+                        "status": true,
+                        "isDefault": true,
+                        "id": 9,
+                        "bank": {
+                            "bankName": "بانک گذشته",
+                            "countryId": 1,
+                            "enBankName": "GOZASHTE",
+                            "address": "ونک",
+                            "coreBranch": "branch"
+                        },
+                        "createdDate": 1600242766823,
+                        "createdBy": "db_zare",
+                        "lastModifiedDate": 1600690369365,
+                        "lastModifiedBy": "db_zare",
+                        "version": 8
+                    }
+                },
+                "consignee": {
+                    "nameFA": "بیمه ما",
+                    "nameEN": "MA INSURANCE",
+                    "name": "MA INSURANCE",
+                    "phone": "8690",
+                    "address": "تهران میدان ونک ابتدای خیابان ونک پلاک 9",
+                    "webSite": "WWW.BIMEHMA.COM",
+                    "type": true,
+                    "status": true,
+                    "commercialRole": "Insurancer",
+                    "insurancer": true,
+                    "countryId": 1,
+                    "id": 5,
+                    "country": {
+                        "nameFA": "ایران",
+                        "nameEN": "Iran (Islamic Republic of)",
+                        "name": "Iran (Islamic Republic of)"
+                    },
+                    "createdDate": 1579059013188,
+                    "createdBy": "dorani_sa",
+                    "lastModifiedDate": 1600678348354,
+                    "lastModifiedBy": "db_zare",
+                    "version": 9,
+                    "defaultAccount": {
+                        "contactId": 5,
+                        "bankId": 1,
+                        "bankAccount": "34234",
+                        "bankShaba": "IR232000666666666003399999",
+                        "code": "123123",
+                        "bankSwift": "123213",
+                        "accountOwner": "3434",
+                        "status": true,
+                        "isDefault": true,
+                        "id": 9,
+                        "bank": {
+                            "bankName": "بانک گذشته",
+                            "countryId": 1,
+                            "enBankName": "GOZASHTE",
+                            "address": "ونک",
+                            "coreBranch": "branch"
+                        },
+                        "createdDate": 1600242766823,
+                        "createdBy": "db_zare",
+                        "lastModifiedDate": 1600690369365,
+                        "lastModifiedBy": "db_zare",
+                        "version": 8
+                    }
+                },
+                "switchConsignee": {
+                    "nameFA": "ALUMINCO HOLDINGS LIMITED",
+                    "nameEN": "ALUMINCO HOLDINGS LIMITED",
+                    "name": "ALUMINCO HOLDINGS LIMITED",
+                    "phone": "+86 10 68495098",
+                    "address": "OFFSHORE INCORPORATION (CAYMAN) LIMITED FLOOR 4 WILLOW",
+                    "type": true,
+                    "status": true,
+                    "commercialRole": "Buyer",
+                    "buyer": true,
+                    "inspector": false,
+                    "countryId": 2,
+                    "id": 6,
+                    "country": {
+                        "nameFA": "چین",
+                        "nameEN": "China",
+                        "name": "China"
+                    },
+                    "createdDate": 1579059486082,
+                    "createdBy": "dorani_sa",
+                    "lastModifiedDate": 1600688110829,
+                    "lastModifiedBy": "db_zare",
+                    "version": 3
+                },
+                "portOfLoading": {
+                    "port": "SHANGHAI",
+                    "countryId": 2,
+                    "id": 3,
+                    "country": {
+                        "nameFA": "چین",
+                        "nameEN": "China",
+                        "name": "China",
+                        "id": 2,
+                        "createdDate": 1599977039984,
+                        "createdBy": "j.azad",
+                        "version": 0,
+                        "editable": false,
+                        "estatus": [
+                            "Active"
+                        ]
+                    },
+                    "createdDate": 1587732958179,
+                    "createdBy": "db_mazloom",
+                    "lastModifiedDate": 1587865761876,
+                    "lastModifiedBy": "db_mazloom",
+                    "version": 3,
+                    "editable": true,
+                    "estatus": [
+                        "Active"
+                    ]
+                },
+                "switchPortOfLoading": {
+                    "port": "SHANGHAI",
+                    "countryId": 2,
+                    "id": 3,
+                    "country": {
+                        "nameFA": "چین",
+                        "nameEN": "China",
+                        "name": "China",
+                        "id": 2,
+                        "createdDate": 1599977039984,
+                        "createdBy": "j.azad",
+                        "version": 0,
+                        "editable": false,
+                        "estatus": [
+                            "Active"
+                        ]
+                    },
+                    "createdDate": 1587732958179,
+                    "createdBy": "db_mazloom",
+                    "lastModifiedDate": 1587865761876,
+                    "lastModifiedBy": "db_mazloom",
+                    "version": 3,
+                    "editable": true,
+                    "estatus": [
+                        "Active"
+                    ]
+                },
+                "portOfDischarge": {
+                    "port": "FANGCHENG",
+                    "countryId": 2,
+                    "id": 33,
+                    "country": {
+                        "nameFA": "چین",
+                        "nameEN": "China",
+                        "name": "China",
+                        "id": 2,
+                        "createdDate": 1599977039984,
+                        "createdBy": "j.azad",
+                        "version": 0,
+                        "editable": false,
+                        "estatus": [
+                            "Active"
+                        ]
+                    },
+                    "createdDate": 1587866451161,
+                    "createdBy": "db_mazloom",
+                    "version": 0,
+                    "editable": true,
+                    "estatus": [
+                        "Active"
+                    ]
+                },
+                "switchPortOfDischarge": {
+                    "port": "gffgdf",
+                    "countryId": 2,
+                    "loa": "4",
+                    "beam": "54",
+                    "arrival": "54",
+                    "id": 268,
+                    "country": {
+                        "nameFA": "چین",
+                        "nameEN": "China",
+                        "name": "China",
+                        "id": 2,
+                        "createdDate": 1599977039984,
+                        "createdBy": "j.azad",
+                        "version": 0,
+                        "editable": false,
+                        "estatus": [
+                            "Active"
+                        ]
+                    },
+                    "createdDate": 1600576550177,
+                    "createdBy": "r.mazloom",
+                    "version": 0,
+                    "editable": true,
+                    "estatus": [
+                        "Active"
+                    ]
+                },
+                "oceanVessel": {
+                    "name": "AGIA ELENI",
+                    "type": "Bulk Carrier",
+                    "imo": "9370317",
+                    "yearOfBuild": 2008,
+                    "length": 170.7,
+                    "beam": 27,
+                    "id": 37,
+                    "createdDate": 1588382861641,
+                    "createdBy": "db_mazloom",
+                    "version": 0,
+                    "editable": true,
+                    "estatus": [
+                        "Active"
+                    ]
+                },
+                "containers": [],
+                "shipmentType": {
+                    "shipmentType": "کانتینری",
+                    "id": 2,
+                    "createdDate": 1587278588350,
+                    "createdBy": "j.azad",
+                    "lastModifiedDate": 1587278588350,
+                    "lastModifiedBy": "j.azad",
+                    "version": 0
+                },
+                "shipmentMethod": {
+                    "shipmentMethod": "حمل دریایی",
+                    "id": 3,
+                    "createdDate": 1587278588350,
+                    "createdBy": "j.azad",
+                    "lastModifiedDate": 1587278588350,
+                    "lastModifiedBy": "j.azad",
+                    "version": 0
+                },
+                "createdDate": 1601357341262,
+                "createdBy": "db_zare",
+                "version": 0,
+                "editable": true,
+                "shipment": {
+                    "contractShipmentId": 1,
+                    "shipmentTypeId": 1,
+                    "shipmentMethodId": 2,
+                    "contactId": 41,
+                    "materialId": 3,
+                    "contactAgentId": 136,
+                    "vesselId": 37,
+                    "unitId": 4,
+                    "dischargePortId": 31,
+                    "amount": 70000,
+                    "automationLetterNo": "1242",
+                    "automationLetterDate": 1596396600000,
+                    "sendDate": 1473811200000,
+                    "noBLs": 2,
+                    "bookingCat": "1234",
+                    "arrivalDateFrom": 1581669000000,
+                    "arrivalDateTo": 1581669000000,
+                    "lastDeliveryLetterDate": 1600068600000,
+                    "id": 1,
+                    "createdDate": 1600068124999,
+                    "createdBy": "m.shahabi",
+                    "lastModifiedDate": 1600762686847,
+                    "lastModifiedBy": "db_zare",
+                    "version": 1,
+                    "editable": true,
+                    "unit": {
+                        "nameFA": "بسته",
+                        "nameEN": "BUNDLE",
+                        "name": "BUNDLE",
+                        "categoryUnit": "Weight",
+                        "symbolUnit": "PERCENT",
+                        "id": 4,
+                        "createdDate": 1593755140054,
+                        "createdBy": "j.azad",
+                        "lastModifiedDate": 1594100538548,
+                        "lastModifiedBy": "j.azad",
+                        "version": 2,
+                        "editable": false,
+                        "estatus": [
+                            "Active"
+                        ]
+                    },
+                    "vessel": {
+                        "name": "AGIA ELENI",
+                        "type": "Bulk Carrier",
+                        "imo": "9370317",
+                        "yearOfBuild": 2008,
+                        "length": 170.7,
+                        "beam": 27,
+                        "id": 37,
+                        "createdDate": 1588382861641,
+                        "createdBy": "db_mazloom",
+                        "version": 0,
+                        "editable": true,
+                        "estatus": [
+                            "Active"
+                        ]
+                    },
+                    "contact": {
+                        "nameFA": "سونگ ایک خار",
+                        "nameEN": "XSUNGILL RESOURCES LTD",
+                        "name": "XSUNGILL RESOURCES LTD",
+                        "phone": "8511101111",
+                        "fax": "85237020210",
+                        "address": "FLAT/RM 8,12 /F,WAYSON COMMERCIAL BUILDING 28 CONNAUGHT, ROAD WEST SHEUNG WAN, HONK KONG",
+                        "type": false,
+                        "status": true,
+                        "commercialRole": "Buyer",
+                        "buyer": true,
+                        "countryId": 2,
+                        "id": 41,
+                        "country": {
+                            "nameFA": "چین",
+                            "nameEN": "China",
+                            "name": "China"
+                        },
+                        "createdDate": 1579683563975,
+                        "createdBy": "dorani_sa",
+                        "lastModifiedDate": 1601359142895,
+                        "lastModifiedBy": "root",
+                        "version": 3
+                    },
+                    "dischargePort": {
+                        "port": "ABU DHABI",
+                        "countryId": 3,
+                        "id": 31,
+                        "country": {
+                            "nameFA": "افغانستان",
+                            "nameEN": "Afghanistan",
+                            "name": "Afghanistan",
+                            "id": 3,
+                            "createdDate": 1599977039990,
+                            "createdBy": "j.azad",
+                            "version": 0,
+                            "editable": false,
+                            "estatus": [
+                                "Active"
+                            ]
+                        },
+                        "createdDate": 1587866317999,
+                        "createdBy": "db_mazloom",
+                        "version": 0,
+                        "editable": true,
+                        "estatus": [
+                            "Active"
+                        ]
+                    },
+                    "contactAgent": {
+                        "nameFA": "GRASH DARYA",
+                        "nameEN": "GRASH DARYA",
+                        "name": "GRASH DARYA",
+                        "phone": "21-88727255",
+                        "fax": "21-88726762",
+                        "type": false,
+                        "status": true,
+                        "tradeMark": "GRASH DARYA",
+                        "commercialRole": "Transporter",
+                        "seller": false,
+                        "transporter": true,
+                        "agentBuyer": false,
+                        "countryId": 1,
+                        "id": 136,
+                        "country": {
+                            "nameFA": "ایران",
+                            "nameEN": "Iran (Islamic Republic of)",
+                            "name": "Iran (Islamic Republic of)"
+                        },
+                        "createdDate": 1587875271899,
+                        "createdBy": "db_mazloom",
+                        "lastModifiedDate": 1588475503870,
+                        "lastModifiedBy": "db_mazloom",
+                        "version": 1
+                    },
+                    "material": {
+                        "descl": "Copper Concentrate",
+                        "descp": "مس کنسانتره",
+                        "code": "26030090",
+                        "unitId": -1,
+                        "abbreviation": "CONC",
+                        "id": 3,
+                        "unit": {
+                            "nameFA": "تن",
+                            "nameEN": "MT",
+                            "name": "MT",
+                            "categoryUnit": "Weight",
+                            "symbolUnit": "PERCENT"
+                        },
+                        "createdDate": 1599977041712,
+                        "createdBy": "liquibase",
+                        "version": 6
+                    },
+                    "shipmentType": {
+                        "shipmentType": "فله",
+                        "id": 1,
+                        "createdDate": 1587278588350,
+                        "createdBy": "j.azad",
+                        "lastModifiedDate": 1587278588350,
+                        "lastModifiedBy": "j.azad",
+                        "version": 0
+                    },
+                    "shipmentMethod": {
+                        "shipmentMethod": "حمل هوایی",
+                        "id": 2,
+                        "createdDate": 1587278588350,
+                        "createdBy": "j.azad",
+                        "lastModifiedDate": 1587278588350,
+                        "lastModifiedBy": "j.azad",
+                        "version": 0
+                    },
+                    "contractShipment": {
+                        "loadPortId": 2,
+                        "quantity": 200000,
+                        "sendDate": "2016-09-14",
+                        "tolorance": 5,
+                        "contractId": 1,
+                        "id": 1,
+                        "contract": {
+                            "no": "100",
+                            "date": 1600677000000,
+                            "affectFrom": 1600677000000,
+                            "affectUpTo": 1600677000000,
+                            "content": "FLAT/RM 8,12 /F,WAYSON COMMERCIAL BUILDING 28 CONNAUGHT, ROAD WEST SHEUNG WAN, HONK KONG<br>NO. 2161 VALI-E-ASR AVE., NEXT TO SAEI PARK, TEHRAN, IRAN<br>+852 2575 7591<br>+982188102822<br>+852 3702 0210<br>+982182138231<br>NATIONAL IRANIAN COPPER INDUSTRIES CO.<br>SUNGILL RESOURCES LTD<br><h2>new deduction</h2><table style='border: 1px solid black;'><tr><th style='border: 1px solid black;'>Treatment Cost</th><th style='border: 1px solid black;'>Refinery Cost</th><th style='border: 1px solid black;'>Unit</th><th style='border: 1px solid black;'>Material Element</th></tr><tr><td style='border: 1px solid black;'>31</td><td style='border: 1px solid black;'>321</td><td style='border: 1px solid black;'>Euro</td><td style='border: 1px solid black;'>S</td></tr><tr><td style='border: 1px solid black;'>3245</td><td style='border: 1px solid black;'>543</td><td style='border: 1px solid black;'>MT</td><td style='border: 1px solid black;'>MO</td></tr><tr><td style='border: 1px solid black;'>435</td><td style='border: 1px solid black;'>534</td><td style='border: 1px solid black;'>null</td><td style='border: 1px solid black;'>null</td></tr></table><br><h2>CLAUSE 1  DEFINITIONS </h2><p class=\"MsoNormal\" style=\"margin-bottom:0in;margin-bottom:.0001pt;text-align:\njustify;text-justify:inter-ideograph;line-height:normal\"><b><span style=\"color:black;mso-themecolor:text1\">1 TON = 1 METRIC TON OF 1'000\nKILOGRAMS OR 2204.62 LBS</span></b><b><u><span style=\"mso-ascii-font-family:\n&quot;Times New Roman&quot;;mso-ascii-theme-font:major-bidi;mso-hansi-font-family:&quot;Times New Roman&quot;;\nmso-hansi-theme-font:major-bidi;mso-bidi-font-family:&quot;Times New Roman&quot;;\nmso-bidi-theme-font:major-bidi;color:black\"><o:p></o:p></span></u></b></p>\n\n<p class=\"DefinitionText\" style=\"margin-top:0in;margin-right:-9.0pt;margin-bottom:\n0in;margin-left:0in;margin-bottom:.0001pt;text-indent:0in;line-height:normal\"><b><span lang=\"EN-GB\" style=\"font-size:10.0pt;font-family:&quot;Times New Roman&quot;,serif;\ncolor:black;mso-themecolor:text1;mso-ansi-language:EN-GB\">LME = LONDON METAL\nEXCHANGE<o:p></o:p></span></b></p>\n\n<p class=\"DefinitionText\" style=\"margin-top:0in;margin-right:-9.0pt;margin-bottom:\n0in;margin-left:0in;margin-bottom:.0001pt;text-indent:0in;line-height:normal;\ntab-stops:0in\"><b><span style=\"font-size:10.0pt;font-family:&quot;Times New Roman&quot;,serif;\ncolor:black;mso-themecolor:text1\">WORKING/BUSINESS DAY FOR BUYER = MONDAY TO\nFRIDAY; SATURDAY, SUNDAY AND LEGAL HOLIDAY EXCLUDED.<o:p></o:p></span></b></p>\n\n<p class=\"DefinitionText\" style=\"margin-top:0in;margin-right:-9.0pt;margin-bottom:\n0in;margin-left:0in;margin-bottom:.0001pt;text-indent:0in;line-height:normal;\ntab-stops:0in\"><b><span style=\"font-size:10.0pt;font-family:&quot;Times New Roman&quot;,serif;\ncolor:black;mso-themecolor:text1\">WORKING/BUSINESS DAY FOR SELLER = SATURDAY TO\nWEDNESDAY; THURSDAY AND FRIDAY AND LEGAL HOLIDAY EXCLUDED.<o:p></o:p></span></b></p>\n\n<p class=\"DefinitionText\" style=\"margin-top:0in;margin-right:-9.0pt;margin-bottom:\n0in;margin-left:0in;margin-bottom:.0001pt;text-indent:0in;line-height:normal\"><b><span lang=\"DE\" style=\"font-size:10.0pt;font-family:&quot;Times New Roman&quot;,serif;color:black;\nmso-themecolor:text1;mso-ansi-language:DE\">AM/PM = ANTE MERIDIEM / POST MERIDIEM<o:p></o:p></span></b></p>\n\n<p class=\"MsoNormal\" style=\"margin-top:0in;margin-right:-9.0pt;margin-bottom:\n0in;margin-left:0in;margin-bottom:.0001pt;text-align:justify;text-justify:inter-ideograph;\nline-height:normal\"><b><span lang=\"EN-GB\" style=\"color:black;mso-themecolor:text1;\nmso-ansi-language:EN-GB\">INCOTERMS = </span></b><b><span style=\"mso-ascii-font-family:\n&quot;Times New Roman&quot;;mso-ascii-theme-font:major-bidi;mso-hansi-font-family:&quot;Times New Roman&quot;;\nmso-hansi-theme-font:major-bidi;mso-bidi-font-family:&quot;Times New Roman&quot;;\nmso-bidi-theme-font:major-bidi;color:black\">SHALL MEAN THE INTERNATIONAL\nCHAMBER OF COMMERCE’S OFFICIAL RULES FOR THE INTERPRETATION OF TRADE TERMS\nKNOWN AS INCOTERMS</span></b><b><span lang=\"EN-GB\" style=\"color:black;mso-themecolor:\ntext1;mso-ansi-language:EN-GB\"><o:p></o:p></span></b></p>\n\n<p class=\"DefinitionText\" style=\"margin-top:0in;margin-right:-9.0pt;margin-bottom:\n0in;margin-left:0in;margin-bottom:.0001pt;text-indent:0in;line-height:normal\"><b><span style=\"font-size:10.0pt;font-family:&quot;Times New Roman&quot;,serif;color:black;\nmso-themecolor:text1\">THE MATERIAL = SHALL MEAN THE MATERIAL AS DEFINED IN\n\"ARTICLE 3 – QUALITY\" <o:p></o:p></span></b></p>\n\n<p class=\"NormalJustified\" style=\"margin-top:0in;margin-right:-9.0pt;margin-bottom:\n0in;margin-left:0in;margin-bottom:.0001pt;text-align:justify;text-justify:inter-ideograph;\nline-height:normal\"><b><span style=\"mso-ascii-font-family:&quot;Times New Roman&quot;;\nmso-ascii-theme-font:major-bidi;mso-hansi-font-family:&quot;Times New Roman&quot;;\nmso-hansi-theme-font:major-bidi;mso-bidi-font-family:&quot;Times New Roman&quot;;\nmso-bidi-theme-font:major-bidi;color:black;mso-themecolor:text1\">CIF = COST,\nINSURANCE AND FREIGHT (ACCORDING TO INCOTERMS 2010).<o:p></o:p></span></b></p>\n\n<p class=\"NormalJustified\" style=\"margin-top:0in;margin-right:-9.0pt;margin-bottom:\n0in;margin-left:0in;margin-bottom:.0001pt;text-align:justify;text-justify:inter-ideograph;\nline-height:normal\"><b><span style=\"mso-ascii-font-family:&quot;Times New Roman&quot;;\nmso-ascii-theme-font:major-bidi;mso-hansi-font-family:&quot;Times New Roman&quot;;\nmso-hansi-theme-font:major-bidi;mso-bidi-font-family:&quot;Times New Roman&quot;;\nmso-bidi-theme-font:major-bidi;color:black;mso-themecolor:text1\">DAP = DELIVERY\nAT PLACE (ACCORDING TO INCOTERMS 2010).<o:p></o:p></span></b></p>\n\n<p class=\"NormalJustified\" style=\"margin-top:0in;margin-right:-9.0pt;margin-bottom:\n0in;margin-left:0in;margin-bottom:.0001pt;text-align:justify;text-justify:inter-ideograph;\nline-height:normal\"><b><span style=\"mso-ascii-font-family:&quot;Times New Roman&quot;;\nmso-ascii-theme-font:major-bidi;mso-hansi-font-family:&quot;Times New Roman&quot;;\nmso-hansi-theme-font:major-bidi;mso-bidi-font-family:&quot;Times New Roman&quot;;\nmso-bidi-theme-font:major-bidi;color:black;mso-themecolor:text1\">FOB = FREE ON\nBOARD (ACCORDING TO INCOTERMS 2010).<o:p></o:p></span></b></p>\n\n<p class=\"NormalJustified\" style=\"margin-top:0in;margin-right:-9.0pt;margin-bottom:\n0in;margin-left:0in;margin-bottom:.0001pt;text-align:justify;text-justify:inter-ideograph;\nline-height:normal\"><b><span style=\"mso-ascii-font-family:&quot;Times New Roman&quot;;\nmso-ascii-theme-font:major-bidi;mso-hansi-font-family:&quot;Times New Roman&quot;;\nmso-hansi-theme-font:major-bidi;mso-bidi-font-family:&quot;Times New Roman&quot;;\nmso-bidi-theme-font:major-bidi;color:black;mso-themecolor:text1\">ST = STOWED\nAND TRIMMED<o:p></o:p></span></b></p>\n\n<p class=\"NormalJustified\" style=\"margin-top:0in;margin-right:-9.0pt;margin-bottom:\n0in;margin-left:0in;margin-bottom:.0001pt;text-align:justify;text-justify:inter-ideograph;\nline-height:normal\"><b><span lang=\"EN-GB\" style=\"mso-ascii-font-family:&quot;Times New Roman&quot;;\nmso-ascii-theme-font:major-bidi;mso-hansi-font-family:&quot;Times New Roman&quot;;\nmso-hansi-theme-font:major-bidi;mso-bidi-font-family:&quot;Times New Roman&quot;;\nmso-bidi-theme-font:major-bidi;color:black;mso-themecolor:text1;mso-ansi-language:\nEN-GB\">USD AND USC = DOLLARS AND CENTS ARE UNITED STATES CURRENCY</span></b><b><span lang=\"EN-GB\" style=\"mso-ascii-font-family:&quot;Times New Roman&quot;;mso-ascii-theme-font:\nmajor-bidi;mso-hansi-font-family:&quot;Times New Roman&quot;;mso-hansi-theme-font:major-bidi;\nmso-bidi-font-family:&quot;Times New Roman&quot;;mso-bidi-theme-font:major-bidi;\ncolor:black;mso-themecolor:text1;mso-ansi-language:EN-GB;mso-fareast-language:\nZH-CN\"><o:p></o:p></span></b></p>\n\n<p class=\"NormalJustified\" style=\"margin-top:0in;margin-right:-9.0pt;margin-bottom:\n0in;margin-left:0in;margin-bottom:.0001pt;text-align:justify;text-justify:inter-ideograph;\nline-height:normal\"><b><span style=\"color:black;mso-themecolor:text1\">EURO =\nEURO IS THE SINGLE CURRENCY OF THE EUROPEAN ECONOMIC AND MONETARY UNION (EMU)\nINTRODUCED IN </span></b><b><span lang=\"EN-GB\" style=\"mso-ascii-font-family:&quot;Times New Roman&quot;;\nmso-ascii-theme-font:major-bidi;mso-hansi-font-family:&quot;Times New Roman&quot;;\nmso-hansi-theme-font:major-bidi;mso-bidi-font-family:&quot;Times New Roman&quot;;\nmso-bidi-theme-font:major-bidi;color:black;mso-themecolor:text1;mso-ansi-language:\nEN-GB\">JANUARY 1999.<o:p></o:p></span></b></p>\n\n<p class=\"NormalJustified\" style=\"margin-top:0in;margin-right:-9.0pt;margin-bottom:\n0in;margin-left:0in;margin-bottom:.0001pt;text-align:justify;text-justify:inter-ideograph;\nline-height:normal\"><b><span style=\"mso-ascii-font-family:&quot;Times New Roman&quot;;\nmso-ascii-theme-font:major-bidi;mso-hansi-font-family:&quot;Times New Roman&quot;;\nmso-hansi-theme-font:major-bidi;mso-bidi-font-family:&quot;Times New Roman&quot;;\nmso-bidi-theme-font:major-bidi\">AED = UNITED ARAB EMIRATES DIRHAM<o:p></o:p></span></b></p>\n\n<p class=\"NormalJustified\" style=\"text-align:justify;text-justify:inter-ideograph\"><b><span lang=\"EN-GB\" style=\"mso-ascii-font-family:&quot;Times New Roman&quot;;mso-ascii-theme-font:\nmajor-bidi;mso-hansi-font-family:&quot;Times New Roman&quot;;mso-hansi-theme-font:major-bidi;\nmso-bidi-font-family:&quot;Times New Roman&quot;;mso-bidi-theme-font:major-bidi;\ncolor:black;mso-themecolor:text1;mso-ansi-language:EN-GB\">MOAS = MONTH OF\nACUTAL SHIPMENT.</span></b><b><span style=\"mso-ascii-font-family:&quot;Times New Roman&quot;;\nmso-ascii-theme-font:major-bidi;mso-hansi-font-family:&quot;Times New Roman&quot;;\nmso-hansi-theme-font:major-bidi;mso-bidi-font-family:&quot;Times New Roman&quot;;\nmso-bidi-theme-font:major-bidi\"><o:p></o:p></span></b></p><h2>CLAUSE 2  QUANTITY </h2>200000&nbsp;&nbsp;&nbsp;PERCENT<br>5<br>SELLER<br>2016<br><h2>CLAUSE 3  QUALITY </h2><table style='border: 1px solid black;'><tr><th style='border: 1px solid black;'>Minimum</th><th style='border: 1px solid black;'>Maximum</th><th style='border: 1px solid black;'>Unit</th><th style='border: 1px solid black;'>Material Element</th></tr><tr><td style='border: 1px solid black;'>22</td><td style='border: 1px solid black;'>28</td><td style='border: 1px solid black;'>MT</td><td style='border: 1px solid black;'>CD</td></tr></table><br><h2>CLAUSE 4  SHIPMENT </h2><table style='border: 1px solid black;'><tr><th style='border: 1px solid black;'>Load Port</th><th style='border: 1px solid black;'>Quantity</th><th style='border: 1px solid black;'>Tolorance</th><th style='border: 1px solid black;'>Send Date</th></tr><tr><td style='border: 1px solid black;'>BANDAR ABBAS</td><td style='border: 1px solid black;'>200000</td><td style='border: 1px solid black;'>5</td><td style='border: 1px solid black;'>Wed Sep 14 2016 12:00:00 GMT+0430 (Iran Daylight Time)</td></tr><tr><td style='border: 1px solid black;'>FANGCHENG</td><td style='border: 1px solid black;'>30000</td><td style='border: 1px solid black;'>5</td><td style='border: 1px solid black;'>Wed Sep 16 2020 12:00:00 GMT+0430 (Iran Daylight Time)</td></tr></table><br><h2>CLAUSE 5  DELIVERY TERMS </h2>Incoterms-2010<br><h2>CLAUSE 10  QUOTATIONAL PERIOD </h2>2<br><h2>CLAUSE 11  PAYMENT</h2>100<br><h2>CLAUSE 12  CURRENCY EXCHANGE  </h2>دلار آمریکا<br><h2>ARTICLE 7 - PRICE</h2><div align=\"right\"><div align=\"left\"><span style=\"font-size:8.0pt;mso-fareast-font-family:\n&quot;Times New Roman&quot;;color:black;mso-bidi-language:HE\">PRICE FOR MOLYBDENUM OXIDE\nWILL BE BASED ON THE PLATT'S METALS WEEK MONTHLY AVERAGE FOR MOLYBDENUM OXIDE,\nAS PUBLISHED IN MONTHLY REPORT OF PLATT'S METALS WEEK UNDER THE HEADING\n\"DEALER OXIDE MIDPOINT/MEAN\" PER POUND OF MOLYBDENUM CONTENT WITH\nDISCOUNTS AS BELOW:</span><br></div><span style=\"font-size:8.0pt;mso-fareast-font-family:\n&quot;Times New Roman&quot;;color:black;mso-bidi-language:HE\"></span><p style=\"text-align:justify\"><span style=\"font-size:8.0pt;mso-fareast-font-family:\n&quot;Times New Roman&quot;;color:black;mso-bidi-language:HE\"><table style='border: 1px solid black;'><tr><th style='border: 1px solid black;'>Minimum</th><th style='border: 1px solid black;'>Maximum</th><th style='border: 1px solid black;'>Discount</th><th style='border: 1px solid black;'>Material Element</th></tr><tr><td style='border: 1px solid black;'>1</td><td style='border: 1px solid black;'>2</td><td style='border: 1px solid black;'>15</td><td style='border: 1px solid black;'>CU</td></tr></table><br></span></p>\n\n<!--[if gte mso 9]><xml>\n <o:OfficeDocumentSettings>\n  <o:TargetScreenSize>800x600</o:TargetScreenSize>\n </o:OfficeDocumentSettings>\n</xml><![endif]--><!--[if gte mso 9]><xml>\n <w:WordDocument>\n  <w:View>Normal</w:View>\n  <w:Zoom>0</w:Zoom>\n  <w:TrackMoves/>\n  <w:TrackFormatting/>\n  <w:PunctuationKerning/>\n  <w:ValidateAgainstSchemas/>\n  <w:SaveIfXMLInvalid>false</w:SaveIfXMLInvalid>\n  <w:IgnoreMixedContent>false</w:IgnoreMixedContent>\n  <w:AlwaysShowPlaceholderText>false</w:AlwaysShowPlaceholderText>\n  <w:DoNotPromoteQF/>\n  <w:LidThemeOther>EN-US</w:LidThemeOther>\n  <w:LidThemeAsian>X-NONE</w:LidThemeAsian>\n  <w:LidThemeComplexScript>AR-SA</w:LidThemeComplexScript>\n  <w:Compatibility>\n   <w:BreakWrappedTables/>\n   <w:SnapToGridInCell/>\n   <w:WrapTextWithPunct/>\n   <w:UseAsianBreakRules/>\n   <w:DontGrowAutofit/>\n   <w:SplitPgBreakAndParaMark/>\n   <w:EnableOpenTypeKerning/>\n   <w:DontFlipMirrorIndents/>\n   <w:OverrideTableStyleHps/>\n  </w:Compatibility>\n  <w:BrowserLevel>MicrosoftInternetExplorer4</w:BrowserLevel>\n  <m:mathPr>\n   <m:mathFont m:val=\"Cambria Math\"/>\n   <m:brkBin m:val=\"before\"/>\n   <m:brkBinSub m:val=\"&#45;-\"/>\n   <m:smallFrac m:val=\"off\"/>\n   <m:dispDef/>\n   <m:lMargin m:val=\"0\"/>\n   <m:rMargin m:val=\"0\"/>\n   <m:defJc m:val=\"centerGroup\"/>\n   <m:wrapIndent m:val=\"1440\"/>\n   <m:intLim m:val=\"subSup\"/>\n   <m:naryLim m:val=\"undOvr\"/>\n  </m:mathPr></w:WordDocument>\n</xml><![endif]--><!--[if gte mso 9]><xml>\n <w:LatentStyles DefLockedState=\"false\" DefUnhideWhenUsed=\"false\"\n  DefSemiHidden=\"false\" DefQFormat=\"false\" DefPriority=\"99\"\n  LatentStyleCount=\"371\">\n  <w:LsdException Locked=\"false\" Priority=\"0\" QFormat=\"true\" Name=\"Normal\"/>\n  <w:LsdException Locked=\"false\" Priority=\"9\" QFormat=\"true\" Name=\"heading 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"9\" SemiHidden=\"true\"\n   UnhideWhenUsed=\"true\" QFormat=\"true\" Name=\"heading 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"9\" SemiHidden=\"true\"\n   UnhideWhenUsed=\"true\" QFormat=\"true\" Name=\"heading 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"9\" SemiHidden=\"true\"\n   UnhideWhenUsed=\"true\" QFormat=\"true\" Name=\"heading 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"9\" SemiHidden=\"true\"\n   UnhideWhenUsed=\"true\" QFormat=\"true\" Name=\"heading 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"9\" SemiHidden=\"true\"\n   UnhideWhenUsed=\"true\" QFormat=\"true\" Name=\"heading 6\"/>\n  <w:LsdException Locked=\"false\" Priority=\"9\" SemiHidden=\"true\"\n   UnhideWhenUsed=\"true\" QFormat=\"true\" Name=\"heading 7\"/>\n  <w:LsdException Locked=\"false\" Priority=\"9\" SemiHidden=\"true\"\n   UnhideWhenUsed=\"true\" QFormat=\"true\" Name=\"heading 8\"/>\n  <w:LsdException Locked=\"false\" Priority=\"9\" SemiHidden=\"true\"\n   UnhideWhenUsed=\"true\" QFormat=\"true\" Name=\"heading 9\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"index 1\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"index 2\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"index 3\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"index 4\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"index 5\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"index 6\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"index 7\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"index 8\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"index 9\"/>\n  <w:LsdException Locked=\"false\" Priority=\"39\" SemiHidden=\"true\"\n   UnhideWhenUsed=\"true\" Name=\"toc 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"39\" SemiHidden=\"true\"\n   UnhideWhenUsed=\"true\" Name=\"toc 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"39\" SemiHidden=\"true\"\n   UnhideWhenUsed=\"true\" Name=\"toc 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"39\" SemiHidden=\"true\"\n   UnhideWhenUsed=\"true\" Name=\"toc 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"39\" SemiHidden=\"true\"\n   UnhideWhenUsed=\"true\" Name=\"toc 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"39\" SemiHidden=\"true\"\n   UnhideWhenUsed=\"true\" Name=\"toc 6\"/>\n  <w:LsdException Locked=\"false\" Priority=\"39\" SemiHidden=\"true\"\n   UnhideWhenUsed=\"true\" Name=\"toc 7\"/>\n  <w:LsdException Locked=\"false\" Priority=\"39\" SemiHidden=\"true\"\n   UnhideWhenUsed=\"true\" Name=\"toc 8\"/>\n  <w:LsdException Locked=\"false\" Priority=\"39\" SemiHidden=\"true\"\n   UnhideWhenUsed=\"true\" Name=\"toc 9\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Normal Indent\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"footnote text\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"annotation text\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"header\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"footer\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"index heading\"/>\n  <w:LsdException Locked=\"false\" Priority=\"35\" SemiHidden=\"true\"\n   UnhideWhenUsed=\"true\" QFormat=\"true\" Name=\"caption\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"table of figures\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"envelope address\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"envelope return\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"footnote reference\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"annotation reference\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"line number\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"page number\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"endnote reference\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"endnote text\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"table of authorities\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"macro\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"toa heading\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"List\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"List Bullet\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"List Number\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"List 2\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"List 3\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"List 4\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"List 5\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"List Bullet 2\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"List Bullet 3\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"List Bullet 4\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"List Bullet 5\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"List Number 2\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"List Number 3\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"List Number 4\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"List Number 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"10\" QFormat=\"true\" Name=\"Title\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Closing\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Signature\"/>\n  <w:LsdException Locked=\"false\" Priority=\"0\" SemiHidden=\"true\"\n   UnhideWhenUsed=\"true\" Name=\"Default Paragraph Font\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Body Text\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Body Text Indent\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"List Continue\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"List Continue 2\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"List Continue 3\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"List Continue 4\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"List Continue 5\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Message Header\"/>\n  <w:LsdException Locked=\"false\" Priority=\"11\" QFormat=\"true\" Name=\"Subtitle\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Salutation\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Date\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Body Text First Indent\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Body Text First Indent 2\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Note Heading\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Body Text 2\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Body Text 3\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Body Text Indent 2\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Body Text Indent 3\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Block Text\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Hyperlink\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"FollowedHyperlink\"/>\n  <w:LsdException Locked=\"false\" Priority=\"22\" QFormat=\"true\" Name=\"Strong\"/>\n  <w:LsdException Locked=\"false\" Priority=\"20\" QFormat=\"true\" Name=\"Emphasis\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Document Map\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Plain Text\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"E-mail Signature\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"HTML Top of Form\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"HTML Bottom of Form\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Normal (Web)\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"HTML Acronym\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"HTML Address\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"HTML Cite\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"HTML Code\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"HTML Definition\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"HTML Keyboard\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"HTML Preformatted\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"HTML Sample\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"HTML Typewriter\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"HTML Variable\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Normal Table\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"annotation subject\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"No List\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Outline List 1\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Outline List 2\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Outline List 3\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Simple 1\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Simple 2\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Simple 3\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Classic 1\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Classic 2\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Classic 3\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Classic 4\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Colorful 1\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Colorful 2\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Colorful 3\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Columns 1\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Columns 2\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Columns 3\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Columns 4\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Columns 5\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Grid 1\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Grid 2\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Grid 3\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Grid 4\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Grid 5\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Grid 6\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Grid 7\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Grid 8\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table List 1\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table List 2\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table List 3\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table List 4\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table List 5\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table List 6\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table List 7\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table List 8\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table 3D effects 1\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table 3D effects 2\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table 3D effects 3\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Contemporary\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Elegant\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Professional\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Subtle 1\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Subtle 2\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Web 1\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Web 2\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Web 3\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Balloon Text\"/>\n  <w:LsdException Locked=\"false\" Priority=\"39\" Name=\"Table Grid\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Theme\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" Name=\"Placeholder Text\"/>\n  <w:LsdException Locked=\"false\" Priority=\"1\" QFormat=\"true\" Name=\"No Spacing\"/>\n  <w:LsdException Locked=\"false\" Priority=\"60\" Name=\"Light Shading\"/>\n  <w:LsdException Locked=\"false\" Priority=\"61\" Name=\"Light List\"/>\n  <w:LsdException Locked=\"false\" Priority=\"62\" Name=\"Light Grid\"/>\n  <w:LsdException Locked=\"false\" Priority=\"63\" Name=\"Medium Shading 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"64\" Name=\"Medium Shading 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"65\" Name=\"Medium List 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"66\" Name=\"Medium List 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"67\" Name=\"Medium Grid 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"68\" Name=\"Medium Grid 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"69\" Name=\"Medium Grid 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"70\" Name=\"Dark List\"/>\n  <w:LsdException Locked=\"false\" Priority=\"71\" Name=\"Colorful Shading\"/>\n  <w:LsdException Locked=\"false\" Priority=\"72\" Name=\"Colorful List\"/>\n  <w:LsdException Locked=\"false\" Priority=\"73\" Name=\"Colorful Grid\"/>\n  <w:LsdException Locked=\"false\" Priority=\"60\" Name=\"Light Shading Accent 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"61\" Name=\"Light List Accent 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"62\" Name=\"Light Grid Accent 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"63\" Name=\"Medium Shading 1 Accent 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"64\" Name=\"Medium Shading 2 Accent 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"65\" Name=\"Medium List 1 Accent 1\"/>\n  <w:LsdException Locked=\"false\" SemiHidden=\"true\" Name=\"Revision\"/>\n  <w:LsdException Locked=\"false\" Priority=\"34\" QFormat=\"true\"\n   Name=\"List Paragraph\"/>\n  <w:LsdException Locked=\"false\" Priority=\"29\" QFormat=\"true\" Name=\"Quote\"/>\n  <w:LsdException Locked=\"false\" Priority=\"30\" QFormat=\"true\"\n   Name=\"Intense Quote\"/>\n  <w:LsdException Locked=\"false\" Priority=\"66\" Name=\"Medium List 2 Accent 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"67\" Name=\"Medium Grid 1 Accent 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"68\" Name=\"Medium Grid 2 Accent 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"69\" Name=\"Medium Grid 3 Accent 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"70\" Name=\"Dark List Accent 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"71\" Name=\"Colorful Shading Accent 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"72\" Name=\"Colorful List Accent 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"73\" Name=\"Colorful Grid Accent 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"60\" Name=\"Light Shading Accent 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"61\" Name=\"Light List Accent 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"62\" Name=\"Light Grid Accent 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"63\" Name=\"Medium Shading 1 Accent 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"64\" Name=\"Medium Shading 2 Accent 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"65\" Name=\"Medium List 1 Accent 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"66\" Name=\"Medium List 2 Accent 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"67\" Name=\"Medium Grid 1 Accent 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"68\" Name=\"Medium Grid 2 Accent 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"69\" Name=\"Medium Grid 3 Accent 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"70\" Name=\"Dark List Accent 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"71\" Name=\"Colorful Shading Accent 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"72\" Name=\"Colorful List Accent 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"73\" Name=\"Colorful Grid Accent 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"60\" Name=\"Light Shading Accent 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"61\" Name=\"Light List Accent 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"62\" Name=\"Light Grid Accent 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"63\" Name=\"Medium Shading 1 Accent 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"64\" Name=\"Medium Shading 2 Accent 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"65\" Name=\"Medium List 1 Accent 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"66\" Name=\"Medium List 2 Accent 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"67\" Name=\"Medium Grid 1 Accent 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"68\" Name=\"Medium Grid 2 Accent 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"69\" Name=\"Medium Grid 3 Accent 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"70\" Name=\"Dark List Accent 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"71\" Name=\"Colorful Shading Accent 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"72\" Name=\"Colorful List Accent 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"73\" Name=\"Colorful Grid Accent 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"60\" Name=\"Light Shading Accent 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"61\" Name=\"Light List Accent 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"62\" Name=\"Light Grid Accent 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"63\" Name=\"Medium Shading 1 Accent 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"64\" Name=\"Medium Shading 2 Accent 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"65\" Name=\"Medium List 1 Accent 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"66\" Name=\"Medium List 2 Accent 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"67\" Name=\"Medium Grid 1 Accent 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"68\" Name=\"Medium Grid 2 Accent 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"69\" Name=\"Medium Grid 3 Accent 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"70\" Name=\"Dark List Accent 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"71\" Name=\"Colorful Shading Accent 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"72\" Name=\"Colorful List Accent 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"73\" Name=\"Colorful Grid Accent 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"60\" Name=\"Light Shading Accent 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"61\" Name=\"Light List Accent 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"62\" Name=\"Light Grid Accent 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"63\" Name=\"Medium Shading 1 Accent 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"64\" Name=\"Medium Shading 2 Accent 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"65\" Name=\"Medium List 1 Accent 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"66\" Name=\"Medium List 2 Accent 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"67\" Name=\"Medium Grid 1 Accent 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"68\" Name=\"Medium Grid 2 Accent 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"69\" Name=\"Medium Grid 3 Accent 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"70\" Name=\"Dark List Accent 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"71\" Name=\"Colorful Shading Accent 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"72\" Name=\"Colorful List Accent 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"73\" Name=\"Colorful Grid Accent 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"60\" Name=\"Light Shading Accent 6\"/>\n  <w:LsdException Locked=\"false\" Priority=\"61\" Name=\"Light List Accent 6\"/>\n  <w:LsdException Locked=\"false\" Priority=\"62\" Name=\"Light Grid Accent 6\"/>\n  <w:LsdException Locked=\"false\" Priority=\"63\" Name=\"Medium Shading 1 Accent 6\"/>\n  <w:LsdException Locked=\"false\" Priority=\"64\" Name=\"Medium Shading 2 Accent 6\"/>\n  <w:LsdException Locked=\"false\" Priority=\"65\" Name=\"Medium List 1 Accent 6\"/>\n  <w:LsdException Locked=\"false\" Priority=\"66\" Name=\"Medium List 2 Accent 6\"/>\n  <w:LsdException Locked=\"false\" Priority=\"67\" Name=\"Medium Grid 1 Accent 6\"/>\n  <w:LsdException Locked=\"false\" Priority=\"68\" Name=\"Medium Grid 2 Accent 6\"/>\n  <w:LsdException Locked=\"false\" Priority=\"69\" Name=\"Medium Grid 3 Accent 6\"/>\n  <w:LsdException Locked=\"false\" Priority=\"70\" Name=\"Dark List Accent 6\"/>\n  <w:LsdException Locked=\"false\" Priority=\"71\" Name=\"Colorful Shading Accent 6\"/>\n  <w:LsdException Locked=\"false\" Priority=\"72\" Name=\"Colorful List Accent 6\"/>\n  <w:LsdException Locked=\"false\" Priority=\"73\" Name=\"Colorful Grid Accent 6\"/>\n  <w:LsdException Locked=\"false\" Priority=\"19\" QFormat=\"true\"\n   Name=\"Subtle Emphasis\"/>\n  <w:LsdException Locked=\"false\" Priority=\"21\" QFormat=\"true\"\n   Name=\"Intense Emphasis\"/>\n  <w:LsdException Locked=\"false\" Priority=\"31\" QFormat=\"true\"\n   Name=\"Subtle Reference\"/>\n  <w:LsdException Locked=\"false\" Priority=\"32\" QFormat=\"true\"\n   Name=\"Intense Reference\"/>\n  <w:LsdException Locked=\"false\" Priority=\"33\" QFormat=\"true\" Name=\"Book Title\"/>\n  <w:LsdException Locked=\"false\" Priority=\"37\" SemiHidden=\"true\"\n   UnhideWhenUsed=\"true\" Name=\"Bibliography\"/>\n  <w:LsdException Locked=\"false\" Priority=\"39\" SemiHidden=\"true\"\n   UnhideWhenUsed=\"true\" QFormat=\"true\" Name=\"TOC Heading\"/>\n  <w:LsdException Locked=\"false\" Priority=\"41\" Name=\"Plain Table 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"42\" Name=\"Plain Table 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"43\" Name=\"Plain Table 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"44\" Name=\"Plain Table 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"45\" Name=\"Plain Table 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"40\" Name=\"Grid Table Light\"/>\n  <w:LsdException Locked=\"false\" Priority=\"46\" Name=\"Grid Table 1 Light\"/>\n  <w:LsdException Locked=\"false\" Priority=\"47\" Name=\"Grid Table 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"48\" Name=\"Grid Table 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"49\" Name=\"Grid Table 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"50\" Name=\"Grid Table 5 Dark\"/>\n  <w:LsdException Locked=\"false\" Priority=\"51\" Name=\"Grid Table 6 Colorful\"/>\n  <w:LsdException Locked=\"false\" Priority=\"52\" Name=\"Grid Table 7 Colorful\"/>\n  <w:LsdException Locked=\"false\" Priority=\"46\"\n   Name=\"Grid Table 1 Light Accent 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"47\" Name=\"Grid Table 2 Accent 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"48\" Name=\"Grid Table 3 Accent 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"49\" Name=\"Grid Table 4 Accent 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"50\" Name=\"Grid Table 5 Dark Accent 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"51\"\n   Name=\"Grid Table 6 Colorful Accent 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"52\"\n   Name=\"Grid Table 7 Colorful Accent 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"46\"\n   Name=\"Grid Table 1 Light Accent 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"47\" Name=\"Grid Table 2 Accent 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"48\" Name=\"Grid Table 3 Accent 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"49\" Name=\"Grid Table 4 Accent 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"50\" Name=\"Grid Table 5 Dark Accent 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"51\"\n   Name=\"Grid Table 6 Colorful Accent 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"52\"\n   Name=\"Grid Table 7 Colorful Accent 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"46\"\n   Name=\"Grid Table 1 Light Accent 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"47\" Name=\"Grid Table 2 Accent 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"48\" Name=\"Grid Table 3 Accent 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"49\" Name=\"Grid Table 4 Accent 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"50\" Name=\"Grid Table 5 Dark Accent 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"51\"\n   Name=\"Grid Table 6 Colorful Accent 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"52\"\n   Name=\"Grid Table 7 Colorful Accent 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"46\"\n   Name=\"Grid Table 1 Light Accent 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"47\" Name=\"Grid Table 2 Accent 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"48\" Name=\"Grid Table 3 Accent 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"49\" Name=\"Grid Table 4 Accent 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"50\" Name=\"Grid Table 5 Dark Accent 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"51\"\n   Name=\"Grid Table 6 Colorful Accent 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"52\"\n   Name=\"Grid Table 7 Colorful Accent 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"46\"\n   Name=\"Grid Table 1 Light Accent 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"47\" Name=\"Grid Table 2 Accent 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"48\" Name=\"Grid Table 3 Accent 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"49\" Name=\"Grid Table 4 Accent 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"50\" Name=\"Grid Table 5 Dark Accent 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"51\"\n   Name=\"Grid Table 6 Colorful Accent 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"52\"\n   Name=\"Grid Table 7 Colorful Accent 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"46\"\n   Name=\"Grid Table 1 Light Accent 6\"/>\n  <w:LsdException Locked=\"false\" Priority=\"47\" Name=\"Grid Table 2 Accent 6\"/>\n  <w:LsdException Locked=\"false\" Priority=\"48\" Name=\"Grid Table 3 Accent 6\"/>\n  <w:LsdException Locked=\"false\" Priority=\"49\" Name=\"Grid Table 4 Accent 6\"/>\n  <w:LsdException Locked=\"false\" Priority=\"50\" Name=\"Grid Table 5 Dark Accent 6\"/>\n  <w:LsdException Locked=\"false\" Priority=\"51\"\n   Name=\"Grid Table 6 Colorful Accent 6\"/>\n  <w:LsdException Locked=\"false\" Priority=\"52\"\n   Name=\"Grid Table 7 Colorful Accent 6\"/>\n  <w:LsdException Locked=\"false\" Priority=\"46\" Name=\"List Table 1 Light\"/>\n  <w:LsdException Locked=\"false\" Priority=\"47\" Name=\"List Table 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"48\" Name=\"List Table 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"49\" Name=\"List Table 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"50\" Name=\"List Table 5 Dark\"/>\n  <w:LsdException Locked=\"false\" Priority=\"51\" Name=\"List Table 6 Colorful\"/>\n  <w:LsdException Locked=\"false\" Priority=\"52\" Name=\"List Table 7 Colorful\"/>\n  <w:LsdException Locked=\"false\" Priority=\"46\"\n   Name=\"List Table 1 Light Accent 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"47\" Name=\"List Table 2 Accent 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"48\" Name=\"List Table 3 Accent 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"49\" Name=\"List Table 4 Accent 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"50\" Name=\"List Table 5 Dark Accent 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"51\"\n   Name=\"List Table 6 Colorful Accent 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"52\"\n   Name=\"List Table 7 Colorful Accent 1\"/>\n  <w:LsdException Locked=\"false\" Priority=\"46\"\n   Name=\"List Table 1 Light Accent 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"47\" Name=\"List Table 2 Accent 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"48\" Name=\"List Table 3 Accent 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"49\" Name=\"List Table 4 Accent 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"50\" Name=\"List Table 5 Dark Accent 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"51\"\n   Name=\"List Table 6 Colorful Accent 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"52\"\n   Name=\"List Table 7 Colorful Accent 2\"/>\n  <w:LsdException Locked=\"false\" Priority=\"46\"\n   Name=\"List Table 1 Light Accent 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"47\" Name=\"List Table 2 Accent 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"48\" Name=\"List Table 3 Accent 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"49\" Name=\"List Table 4 Accent 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"50\" Name=\"List Table 5 Dark Accent 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"51\"\n   Name=\"List Table 6 Colorful Accent 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"52\"\n   Name=\"List Table 7 Colorful Accent 3\"/>\n  <w:LsdException Locked=\"false\" Priority=\"46\"\n   Name=\"List Table 1 Light Accent 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"47\" Name=\"List Table 2 Accent 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"48\" Name=\"List Table 3 Accent 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"49\" Name=\"List Table 4 Accent 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"50\" Name=\"List Table 5 Dark Accent 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"51\"\n   Name=\"List Table 6 Colorful Accent 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"52\"\n   Name=\"List Table 7 Colorful Accent 4\"/>\n  <w:LsdException Locked=\"false\" Priority=\"46\"\n   Name=\"List Table 1 Light Accent 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"47\" Name=\"List Table 2 Accent 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"48\" Name=\"List Table 3 Accent 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"49\" Name=\"List Table 4 Accent 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"50\" Name=\"List Table 5 Dark Accent 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"51\"\n   Name=\"List Table 6 Colorful Accent 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"52\"\n   Name=\"List Table 7 Colorful Accent 5\"/>\n  <w:LsdException Locked=\"false\" Priority=\"46\"\n   Name=\"List Table 1 Light Accent 6\"/>\n  <w:LsdException Locked=\"false\" Priority=\"47\" Name=\"List Table 2 Accent 6\"/>\n  <w:LsdException Locked=\"false\" Priority=\"48\" Name=\"List Table 3 Accent 6\"/>\n  <w:LsdException Locked=\"false\" Priority=\"49\" Name=\"List Table 4 Accent 6\"/>\n  <w:LsdException Locked=\"false\" Priority=\"50\" Name=\"List Table 5 Dark Accent 6\"/>\n  <w:LsdException Locked=\"false\" Priority=\"51\"\n   Name=\"List Table 6 Colorful Accent 6\"/>\n  <w:LsdException Locked=\"false\" Priority=\"52\"\n   Name=\"List Table 7 Colorful Accent 6\"/>\n </w:LatentStyles>\n</xml><![endif]--><!--[if gte mso 10]>\n<style>\n /* Style Definitions */\n table.MsoNormalTable\n\t{mso-style-name:\"Table Normal\";\n\tmso-tstyle-rowband-size:0;\n\tmso-tstyle-colband-size:0;\n\tmso-style-noshow:yes;\n\tmso-style-priority:99;\n\tmso-style-parent:\"\";\n\tmso-padding-alt:0in 5.4pt 0in 5.4pt;\n\tmso-para-margin:0in;\n\tmso-para-margin-bottom:.0001pt;\n\tmso-pagination:widow-orphan;\n\tfont-size:10.0pt;\n\tfont-family:\"Times New Roman\",serif;}\n</style>\n<![endif]--></div>",
+                            "materialId": 3,
+                            "contractTypeId": 1
+                        },
+                        "loadPort": {
+                            "port": "BANDAR ABBAS",
+                            "countryId": 1
+                        },
+                        "createdDate": 1600005922013,
+                        "createdBy": "r.mazloom",
+                        "lastModifiedDate": 1600674681760,
+                        "lastModifiedBy": "r.mazloom",
+                        "version": 21
+                    },
+                    "estatus": [
+                        "Active"
+                    ],
+                    "moisture": 0
+                },
+                "estatus": [
+                    "Active"
+                ],
+                "_selection_79": true,
+                "_embeddedComponents_isc_ListGrid_1": null
+            }
+        ],
+        "shipmentId": 1,
+        "inspectionWeightId": 263,
+        "inspectionAssayId": 263,
+        "creatorId": 2,
+        "currencyId": -32,
+        "toCurrencyId": null,
+        "conversionRefId": null
+    });
 
     // Molybdenum
     // foreignInvoiceTab.dynamicForm.valuesManager.setValues({
@@ -2217,7 +2817,6 @@ foreignInvoiceTab.method.newForm = function () {
 foreignInvoiceTab.method.editForm = function () {
 
     foreignInvoiceTab.variable.method = "PUT";
-
     let record = foreignInvoiceTab.listGrid.main.getSelectedRecord();
     if (record == null || record.id == null)
         foreignInvoiceTab.dialog.notSelected();
@@ -2295,9 +2894,19 @@ foreignInvoiceTab.method.editForm = function () {
                                         if (foreignInvoiceTab.variable.materialId === ImportantIDs.material.COPPER_CONCENTRATES) {
 
                                             let rcRowData = [];
+                                            let basePriceData = [];
                                             let calculationRowData = [];
 
                                             itemDetailValues.forEach(detail => {
+                                                rcRowData.add({
+                                                    foreignInvoiceItemId: detail.foreignInvoiceItemId,
+                                                    materialElementId: detail.materialElementId,
+                                                    rcUnitConversionRate: detail.rcUnitConversionRate
+                                                });
+                                                basePriceData.add({
+                                                    materialElement: detail.materialElement,
+                                                    basePrice: detail.basePrice
+                                                });
                                                 calculationRowData.add({
                                                     foreignInvoiceItemId: detail.foreignInvoiceItemId,
                                                     materialElementId: detail.materialElementId,
@@ -2305,22 +2914,30 @@ foreignInvoiceTab.method.editForm = function () {
                                                     deductionType: detail.deductionType,
                                                     deductionUnitConversionRate: detail.deductionUnitConversionRate
                                                 });
-                                                rcRowData.add({
-                                                    foreignInvoiceItemId: detail.foreignInvoiceItemId,
-                                                    materialElementId: detail.materialElementId,
-                                                    rcUnitConversionRate: detail.rcUnitConversionRate
-                                                });
                                             });
                                             foreignInvoiceTab.dynamicForm.valuesManager.setValue("calculationData", calculationRowData);
                                             foreignInvoiceTab.dynamicForm.valuesManager.setValue("rcDeductionData", rcRowData);
+                                            foreignInvoiceTab.dynamicForm.valuesManager.setValue("basePriceData", basePriceData);
                                         } else if (foreignInvoiceTab.variable.materialId === ImportantIDs.material.MOLYBDENUM_OXIDE) {
 
+                                            function getBasePrice() {
+
+                                                let basePrices = [];
+                                                itemDetailValues.forEach(detail => {
+                                                    basePrices.add({
+                                                        materialElement: detail.materialElement,
+                                                        basePrice: detail.basePrice
+                                                    });
+                                                });
+                                                return basePrices;
+                                            }
                                                 let molybdenumRowData = [];
                                                 itemValues.forEach(item => {
                                                     molybdenumRowData.add({
                                                         remittanceDetailId: item.remittanceDetailId,
-                                                        deductionUnitConversionRate: item.deductionUnitConversionRate
-                                                    });
+                                                        deductionUnitConversionRate: item.deductionUnitConversionRate,
+                                                        basePrice: getBasePrice()
+                                                    })
                                                 });
                                                 foreignInvoiceTab.dynamicForm.valuesManager.setValue("molybdenumRowData", molybdenumRowData);
                                         }
@@ -2362,11 +2979,10 @@ foreignInvoiceTab.method.addTab = function (pane, title) {
 // isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
 //
 //     httpMethod: "GET",
-//     actionURL: "${contextPath}/api/g-contract/....",
+//     actionURL: "${contextPath}/api/foreign-invoice/get-contract-detail-data",
 //     callback: function (resp) {
 //
 //         if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
-//
 //             foreignInvoiceTab.variable.contractDetailData = JSON.parse(resp.data)
 //         } else
 //             isc.say(resp.data);
@@ -2374,7 +2990,9 @@ foreignInvoiceTab.method.addTab = function (pane, title) {
 // }));
 
 // MOCK
-foreignInvoiceTab.variable.contractDetailData.moasValue = 0;
+foreignInvoiceTab.variable.contractDetailData.MOASValue = 0;
+foreignInvoiceTab.variable.contractDetailData.workingDayAfterMOAS = 5;
+foreignInvoiceTab.variable.contractDetailData.workingDayBeforeMOAS = -5;
 foreignInvoiceTab.variable.contractDetailData.basePriceReference = "LME";
 foreignInvoiceTab.variable.contractDetailData.tc = 123456;
 foreignInvoiceTab.variable.contractDetailData.rc = [{

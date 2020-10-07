@@ -96,8 +96,9 @@ public class ForeignInvoiceItemDTO {
     @ApiModel("Calc2DataRq")
     public static class Calc2Data {
 
-        private String priceArticleText;
         private List<FieldData> fields;
+        private String priceArticleText;
+        private String priceBaseArticleText;
         private List<Map<String, Object>> data;
         private List<PriceBaseDTO.Info> priceBase;
     }

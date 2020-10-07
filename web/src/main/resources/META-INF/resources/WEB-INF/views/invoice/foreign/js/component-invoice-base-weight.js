@@ -23,7 +23,7 @@ isc.defineClass("InvoiceBaseWeight", isc.VLayout).addProperties({
             showValueFieldTitle: true,
             showUnitFieldTitle: false,
             name: "weightGW",
-            fieldValueTitle: "weightGW",
+            fieldValueTitle: "TOTAL GROSS WEIGHT",
         }));
         this.getMembers().last().setValue(this.inspectionWeightData.weightGW);
         this.getMembers().last().setUnitId(this.inspectionWeightData.weightInspections[0].unitId);
@@ -35,10 +35,22 @@ isc.defineClass("InvoiceBaseWeight", isc.VLayout).addProperties({
             showValueFieldTitle: true,
             showUnitFieldTitle: false,
             name: "weightND",
-            fieldValueTitle: "weightND",
+            fieldValueTitle: "TOTAL NET WEIGHT",
         }));
         this.getMembers().last().setValue(this.inspectionWeightData.weightND);
         this.getMembers().last().setUnitId(this.inspectionWeightData.weightInspections[0].unitId);
+
+        this.addMember(isc.Unit.create({
+
+            disabledUnitField: true,
+            disabledValueField: true,
+            showValueFieldTitle: true,
+            showUnitFieldTitle: false,
+            name: "totalUnits",
+            fieldValueTitle: "TOTAL UNITS",
+        }));
+        // this.getMembers().last().setValue(this.inspectionWeightData.weightND);
+        // this.getMembers().last().setUnitId(this.inspectionWeightData.weightInspections[0].unitId);
 
     },
     getValues: function () {
@@ -46,6 +58,7 @@ isc.defineClass("InvoiceBaseWeight", isc.VLayout).addProperties({
         return {
             weightGW: this.getMembers().filter(q => q.name === "weightGW").first(),
             weightND: this.getMembers().filter(q => q.name === "weightND").first(),
+            totalUnits: this.getMembers().filter(q => q.name === "totalUnits").first(),
             weightMilestone: this.inspectionWeightData.weightInspections[0].mileStone
         };
     },

@@ -5,7 +5,9 @@ import com.nicico.sales.dto.*;
 import com.nicico.sales.model.enumeration.EStatus;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
@@ -13,6 +15,7 @@ import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Getter
 @Setter
@@ -55,9 +58,6 @@ public class ForeignInvoiceDTO {
         private InvoiceTypeDTO.Info invoiceType;
         private ShipmentDTO.Info shipment;
         private PersonDTO.Info creator;
-//        private List<ForeignInvoiceItemDTO.Info> foreignInvoiceItems;
-//        private List<ForeignInvoiceBillOfLandingDTO.Info> billLadings;
-//        private List<ForeignInvoicePaymentDTO.Info> foreignInvoicePayments;
 
         // Auditing
         private Date createdDate;
@@ -110,4 +110,34 @@ public class ForeignInvoiceDTO {
         @ApiModelProperty(required = true)
         private List<Long> ids;
     }
+
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("ContractDetailDataRq")
+    public static class ContractDetailData {
+
+        private BigDecimal tc;
+        private List<RCData> rc;
+        private Integer MOASValue;
+        private String basePriceReference;
+        private Integer workingDayAfterMOAS;
+        private Integer workingDayBeforeMOAS;
+    }
+
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @AllArgsConstructor
+    @RequiredArgsConstructor
+    public static class RCData {
+
+        private Long elementId;
+        private String elementName;
+        private BigDecimal price;
+        private UnitDTO.Info weightUnit;
+        private UnitDTO.Info financeUnit;
+    }
+
+
 }

@@ -10,9 +10,11 @@ import com.nicico.sales.enumeration.EContractDetailValueKey;
 import com.nicico.sales.enumeration.ErrorType;
 import com.nicico.sales.exception.NotFoundException;
 import com.nicico.sales.exception.SalesException2;
-import com.nicico.sales.iservice.*;
+import com.nicico.sales.iservice.IContractDetailValueService2;
+import com.nicico.sales.iservice.IInspectionReportService;
+import com.nicico.sales.iservice.IPriceBaseService;
+import com.nicico.sales.iservice.IUnitService;
 import com.nicico.sales.iservice.contract.IContractDetailService;
-import com.nicico.sales.iservice.contract.IContractService;
 import com.nicico.sales.iservice.invoice.foreign.IForeignInvoiceItemService;
 import com.nicico.sales.model.entities.base.AssayInspection;
 import com.nicico.sales.model.entities.base.PriceBase;
@@ -21,7 +23,6 @@ import com.nicico.sales.model.entities.contract.ContractDiscount;
 import com.nicico.sales.model.entities.invoice.foreign.ForeignInvoiceItem;
 import com.nicico.sales.model.entities.warehouse.MaterialElement;
 import com.nicico.sales.model.enumeration.PriceBaseReference;
-import com.nicico.sales.repository.WeightInspectionDAO;
 import com.nicico.sales.service.GenericService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -71,6 +72,8 @@ public class ForeignInvoiceItemService extends GenericService<ForeignInvoiceItem
 
         ContractDetailDTO.Info priceDetail = contractDetailService.getContractDetailByContractDetailTypeCode(contractId, materialIds.iterator().next(), EContractDetailTypeCode.Price);
         String priceArticleText = priceDetail.getContent();
+        ContractDetailDTO.Info priceBaseDetail = contractDetailService.getContractDetailByContractDetailTypeCode(contractId, materialIds.iterator().next(), EContractDetailTypeCode.QuotationalPeriod);
+        String priceBaseArticleText = priceBaseDetail.getContent();
 
         Map<String, List<Object>> operationalDataOfDiscountArticle = contractDetailValueService2.get(contractId, EContractDetailTypeCode.Price, EContractDetailValueKey.DISCOUNT, true);
         List<Object> discounts = operationalDataOfDiscountArticle.get(EContractDetailValueKey.DISCOUNT.getId());
@@ -89,6 +92,7 @@ public class ForeignInvoiceItemService extends GenericService<ForeignInvoiceItem
         result.setFields(fields);
         result.setPriceBase(basePrices);
         result.setPriceArticleText(priceArticleText);
+        result.setPriceBaseArticleText(priceBaseArticleText);
 
         return result;
     }
@@ -165,8 +169,7 @@ public class ForeignInvoiceItemService extends GenericService<ForeignInvoiceItem
 
                         discount[0] = discount[0].add(contractDiscount.get().getDiscount());
                         record.put(element.getName() + "Discount", contractDiscount.get().getDiscount());
-                    } else
-                        record.put(element.getName() + "Discount", new BigDecimal(0));
+                    } else record.put(element.getName() + "Discount", new BigDecimal(0));
                     record.put(element.getName() + "Discount_UNIT", "PERCENT");
                 }
                 if (a.getMaterialElement().getPayable()) {

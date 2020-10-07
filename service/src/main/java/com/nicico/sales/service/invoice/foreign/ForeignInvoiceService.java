@@ -7,9 +7,12 @@ import com.nicico.sales.dto.InvoiceTypeDTO;
 import com.nicico.sales.dto.contract.ContractDTO;
 import com.nicico.sales.dto.invoice.foreign.*;
 import com.nicico.sales.enumeration.ActionType;
+import com.nicico.sales.enumeration.EContractDetailTypeCode;
+import com.nicico.sales.enumeration.EContractDetailValueKey;
 import com.nicico.sales.enumeration.ErrorType;
 import com.nicico.sales.exception.NotFoundException;
 import com.nicico.sales.exception.SalesException2;
+import com.nicico.sales.iservice.IContractDetailValueService2;
 import com.nicico.sales.iservice.invoice.foreign.IForeignInvoiceService;
 import com.nicico.sales.model.entities.invoice.foreign.ForeignInvoice;
 import com.nicico.sales.model.entities.invoice.foreign.ForeignInvoiceBillOfLading;
@@ -29,6 +32,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -40,10 +44,12 @@ public class ForeignInvoiceService extends GenericService<ForeignInvoice, Long, 
     private final InvoiceNoGenerator invoiceNoGenerator;
     private final ResourceBundleMessageSource messageSource;
     private final ForeignInvoiceItemService foreignInvoiceItemService;
+    private final IContractDetailValueService2 contractDetailValueService2;
     private final ForeignInvoicePaymentService foreignInvoicePaymentService;
-    private final ForeignInvoiceItemDetailService foreignInvoiceItemDetailService;
     private final ForeignInvoiceBillOfLadingDAO foreignInvoiceBillOfLadingDAO;
+    private final ForeignInvoiceItemDetailService foreignInvoiceItemDetailService;
     private final ForeignInvoiceBillOfLadingService foreignInvoiceBillOfLadingService;
+
 
     @Override
     @Transactional
@@ -63,6 +69,18 @@ public class ForeignInvoiceService extends GenericService<ForeignInvoice, Long, 
 
         return modelMapper.map(allByContractIdAndInvoiceTypeId, new TypeToken<List<ForeignInvoiceDTO.Info>>() {
         }.getType());
+    }
+
+    @Override
+    @Transactional
+    @Action(value = ActionType.Get)
+    public ForeignInvoiceDTO.ContractDetailData getContractDetailData(Long contractId) {
+
+        ForeignInvoiceDTO.ContractDetailData contractDetailData = new ForeignInvoiceDTO.ContractDetailData();
+
+        Map<String, List<Object>> operationalDataOfQPArticle = contractDetailValueService2.get(contractId, EContractDetailTypeCode.QuotationalPeriod, EContractDetailValueKey.MOAS, true);
+
+        return null;
     }
 
     @Override

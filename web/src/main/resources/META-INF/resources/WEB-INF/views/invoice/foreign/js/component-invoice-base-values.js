@@ -11,9 +11,10 @@ isc.defineClass("InvoiceBaseValues", isc.VLayout).addProperties({
     contract: null,
     shipment: null,
     invoiceType: null,
-    inspectionWeightData: null,
-    inspectionAssayData: null,
+    basePriceData: null,
     contractDetailData: null,
+    inspectionAssayData: null,
+    inspectionWeightData: null,
     invoiceBasePriceComponent: null,
     invoiceBaseAssayComponent: null,
     invoiceBaseWeightComponent: null,
@@ -29,6 +30,7 @@ isc.defineClass("InvoiceBaseValues", isc.VLayout).addProperties({
                 currency: This.currency,
                 contract: This.contract,
                 shipment: This.shipment,
+                basePriceData: This.basePriceData,
                 contractDetailData: This.contractDetailData
             });
             this.addMember(this.invoiceBasePriceComponent);

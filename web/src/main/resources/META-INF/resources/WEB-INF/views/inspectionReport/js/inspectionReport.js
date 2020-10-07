@@ -936,8 +936,6 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
 
             if (value) {
 
-                // inspectionReportTab.dynamicForm.inspecReport.getItem("sellerId").setValue([]);
-                // inspectionReportTab.dynamicForm.inspecReport.getItem("buyerId").setValue([]);
                 inspectionReportTab.dynamicForm.inspecReport.getItem("inventoryId").setOptionCriteria({
                     _constructor: "AdvancedCriteria",
                     operator: "and",
@@ -947,6 +945,19 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
                         value: value
                     }]
                 });
+                
+                // inspectionReportTab.dynamicForm.inspecReport.getItem("sellerId").setValue([]);
+                // inspectionReportTab.dynamicForm.inspecReport.getItem("buyerId").setValue([]);
+                // inspectionReportTab.variable.contractContactCriteria = {
+                //     _constructor: "AdvancedCriteria",
+                //     operator: "and",
+                //     criteria: [{fieldName: "commercialRole", operator: "iContains", value: "Inspector"}]
+                // };
+                // inspectionReportTab.restDataSource.contractContact.fetchData(inspectionReportTab.variable.contractContactCriteria, function (dsResponse, data, dsRequest) {
+                //     if (data.length) {
+                //     }
+                // });
+
             } else
                 inspectionReportTab.dynamicForm.inspecReport.getItem("inventoryId").setOptionCriteria({
                     _constructor: "AdvancedCriteria",

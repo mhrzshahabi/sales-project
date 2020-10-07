@@ -9,4 +9,6 @@ import java.util.List;
 public interface IForeignInvoiceService extends IGenericService<ForeignInvoice, Long, ForeignInvoiceDTO.Create, ForeignInvoiceDTO.Info, ForeignInvoiceDTO.Update, ForeignInvoiceDTO.Delete> {
 
     List<ForeignInvoiceDTO.Info> getByShipment(Long invoiceTypeId, Long shipmentId, Long currencyId);
+
+    ForeignInvoiceDTO.ContractDetailData getContractDetailData(Long contractId);
 }
