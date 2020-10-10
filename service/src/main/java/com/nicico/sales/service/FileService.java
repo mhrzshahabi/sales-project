@@ -1,23 +1,29 @@
 package com.nicico.sales.service;
 
+import com.nicico.copper.base.IErrorCode;
+import com.nicico.copper.base.NICICOException;
+import com.nicico.copper.core.SecurityUtil;
+import com.nicico.copper.core.service.minio.EFileAccessLevel;
+import com.nicico.copper.core.service.minio.EFileStatus;
 import com.nicico.copper.core.service.minio.MinIODTO;
 import com.nicico.copper.core.service.minio.MinIOService;
 import com.nicico.sales.dto.FileDTO;
 import com.nicico.sales.iservice.IFileService;
 import com.nicico.sales.model.entities.base.File;
 import com.nicico.sales.repository.FileDAO;
-import io.minio.ListObjectsArgs;
+import io.minio.GetObjectTagsArgs;
 import io.minio.MinioClient;
-import io.minio.Result;
-import io.minio.messages.Item;
+import io.minio.SetObjectTagsArgs;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
-import java.util.List;
+import java.util.Date;
 import java.util.Map;
+import java.util.Objects;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -30,6 +36,11 @@ public class FileService implements IFileService {
 	private final MinIOService minIOService;
 
 	private final FileDAO fileDAO;
+
+	// ---------------
+
+	@Value("${spring.application.name}")
+	private String appId;
 
 	@Override
 	public String store(FileDTO.Request request) {
@@ -73,8 +84,21 @@ public class FileService implements IFileService {
 	}
 
 	@Override
-	public List<String> getByTags(Map<String, String> tags) {
-		Iterable<Result<Item>> results = minioClient.listObjects(ListObjectsArgs.builder().bucket("sales").build());
-		return null;
+	public void restore(String key) {
+		try {
+			Map<String, String> tags = this.minioClient.getObjectTags(GetObjectTagsArgs.builder().bucket(appId.toLowerCase()).object(key).build()).get();
+			if (EFileStatus.DELETED.equals(EFileStatus.valueOf(tags.get("Status")))) {
+				throw new NICICOException(IErrorCode.NotFound);
+			} else if (EFileAccessLevel.SELF.equals(EFileAccessLevel.valueOf(tags.get("AccessLevel"))) && !Objects.equals(SecurityUtil.getUserId(), Long.valueOf(tags.get("UserId")))) {
+				throw new NICICOException(IErrorCode.Forbidden);
+			}
+
+			tags.replace("Status", EFileStatus.NORMAL.getValue());
+			tags.put("ModifiedBy", String.valueOf(SecurityUtil.getUserId()));
+			tags.put("ModifiedDate", String.valueOf((new Date()).getTime()));
+			this.minioClient.setObjectTags(SetObjectTagsArgs.builder().bucket(appId.toLowerCase()).object(key).tags(tags).build());
+		} catch (Exception e) {
+			log.error(Arrays.toString(e.getStackTrace()));
+		}
 	}
 }
