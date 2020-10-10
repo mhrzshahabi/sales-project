@@ -42,6 +42,7 @@ contractDetailTypeTab.Fields = {
 
             editorProperties:{
                 editorType: "comboBox",
+                addUnknownValues:false,
                 textMatchStyle:"substring",
                 required: true,
                 validateOnExit: true,
@@ -59,9 +60,12 @@ contractDetailTypeTab.Fields = {
                 if(Object.values(contractDetailTypeTab.Vars.DataType).includes(newValue)){
                     delete headerValueField['editorProperties']
                     delete headerKeyField['editorProperties']
-                    headerKeyField.canEdit=false;
+                    // headerKeyField.canEdit=false;
+                    // headerKeyField.required=false;
                     headerKeyField.required=false;
+                    // headerKeyField.validateOnChange=true;
                     headerValueField.type=newValue
+                    headerValueField.canEdit=false
                 }
                 else {
                     const dialog= isc.Dialog.create({isModal:true,
@@ -79,11 +83,16 @@ contractDetailTypeTab.Fields = {
                                     allFields
                                         .forEach(_=>valueMap[_]=_)
                                     // dbg(valueMap)
+                                    headerKeyField.required=true;
+                                    headerKeyField.validateOnChange=true;
                                     headerKeyField.editorProperties ={
-                                        anEdit:true,
+                                        canEdit:true,
                                         required:true,
                                         valueMap:valueMap,
                                         editorType: "comboBox",
+                                        validateOnExit:true,
+                                        validateOnChange:true,
+                                        addUnknownValues:false,
                                         textMatchStyle:"substring",
                                     };
                                     headerValueField.editorProperties ={
@@ -96,6 +105,10 @@ contractDetailTypeTab.Fields = {
                                         pickListHeight: 800,
                                         pickListFields:fields,
                                         editorType: "SelectItem",
+                                        pickListProperties:{
+                                            showFilterEditor:true,
+                                            allowAdvancedCriteria:true,
+                                        }
 
                                     }
                                 }
