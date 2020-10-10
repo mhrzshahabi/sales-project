@@ -1035,7 +1035,7 @@
                 {
                     title: "<spring:message code='global.sales.internal'/>",
                     click: function () {
-                         createTab("<spring:message code='global.sales.internal'/>", "<spring:url value="/report/show-report" />")
+                         createTab("<spring:message code='global.sales.internal'/>", "<spring:url value="/report/show-form" />")
                     }
                 },
                 {isSeparator: true},
@@ -1048,7 +1048,7 @@
                 {
                     title: "<spring:message code='global.sales.warehouse'/>",
                     click: function () {
-                        createTab("<spring:message code='global.sales.warehouse'/>", "<spring:url value="/report/show-report-form" />")
+                        createTab("<spring:message code='global.sales.warehouse'/>", "<spring:url value="/warehouse-report/show-report-form" />")
                     }
                 }
             ]

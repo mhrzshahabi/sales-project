@@ -1,4 +1,4 @@
-package com.nicico.sales.model.enumeration;
+package com.nicico.sales.model.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

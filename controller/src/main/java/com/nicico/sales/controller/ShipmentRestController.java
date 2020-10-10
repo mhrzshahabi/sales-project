@@ -64,7 +64,7 @@ public class ShipmentRestController {
     }
 
     @Loggable
-    @Report(nameKey = "entity.shipment")
+    @Report(nameKey = "entity.shipment", returnType = ShipmentDTO.Info.class)
     @GetMapping(value = "/spec-list")
     public ResponseEntity<TotalResponse<ShipmentDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);

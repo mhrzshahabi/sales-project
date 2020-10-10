@@ -10,4 +10,5 @@ import java.lang.annotation.Target;
 public @interface Report {
      String nameKey();
      Class<?> returnType();
+     boolean returnTypeIsList() default true;
 }

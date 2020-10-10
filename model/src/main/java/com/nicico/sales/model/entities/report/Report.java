@@ -1,7 +1,8 @@
 package com.nicico.sales.model.entities.report;
 
 import com.nicico.sales.model.entities.common.BaseEntity;
-import com.nicico.sales.model.enumeration.I18n;
+import com.nicico.sales.model.annotation.I18n;
+import com.nicico.sales.model.enumeration.ReportSource;
 import com.nicico.sales.model.enumeration.ReportType;
 import lombok.*;
 import lombok.experimental.Accessors;
@@ -40,38 +41,43 @@ public class Report extends BaseEntity {
     private String title;
 
     @NotNull
-    @Column(name = "C_REST_URL", nullable = false)
-    private String restUrl;
+    @Column(name = "C_SOURCE", nullable = false)
+    private String source;
 
     @NotNull
-    @Column(name = "C_REST_NAME_FA", nullable = false)
-    private String restNameFA;
+    @Column(name = "C_PERMISSION_BASE_KEY", nullable = false)
+    private String permissionBaseKey;
 
-    @NotNull
-    @Column(name = "C_REST_NAME_EN", nullable = false)
-    private String restNameEN;
+    @Column(name = "C_NAME_FA")
+    private String nameFA;
+
+    @Column(name = "C_NAME_EN")
+    private String nameEN;
 
     @I18n
-    @NotNull
     @Transient
-    private String restName;
+    private String name;
 
-    @NotNull
-    @Column(name = "C_REST_METHOD", nullable = false)
+    @Column(name = "C_REST_METHOD")
     private String restMethod;
 
-    @Column(name = "C_REPORT_TYPE")
+    @NotNull
+    @Column(name = "C_REPORT_SOURCE", nullable = false)
+    private ReportSource reportSource;
+
+    @NotNull
+    @Column(name = "C_REPORT_TYPE", nullable = false)
     private ReportType reportType;
 
     @Column(name = "C_FILE")
     private String file;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "REPORT_GROUP_ID", nullable = false, insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_report2ReportGroup"))
+    @JoinColumn(name = "F_REPORT_GROUP_ID", nullable = false, insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_report2ReportGroup"))
     private ReportGroup reportGroup;
 
     @NotNull
-    @Column(name = "REPORT_GROUP_ID", nullable = false)
+    @Column(name = "F_REPORT_GROUP_ID", nullable = false)
     private Long reportGroupId;
 
 }

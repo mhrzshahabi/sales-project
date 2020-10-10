@@ -7,11 +7,11 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ReportField {
+public @interface ReportModel {
 
-    String titleMessageKey();
+    Class<?> type();
 
-    boolean hidden() default false;
+    boolean jumpTo() default false;
 
-    boolean canFilter() default true;
+    boolean typeIsList() default true;
 }

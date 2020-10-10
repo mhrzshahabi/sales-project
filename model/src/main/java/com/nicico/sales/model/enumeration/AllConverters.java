@@ -259,7 +259,7 @@ public abstract class AllConverters {
         }
     }
 
-     // *****************************************************************************************************************
+    // *****************************************************************************************************************
 
     @Converter(autoApply = true)
     public static class ContractDetailTypeReferenceConverter implements AttributeConverter<ContractDetailTypeReference, Integer> {
@@ -280,7 +280,7 @@ public abstract class AllConverters {
         }
     }
 
-     // *****************************************************************************************************************
+    // *****************************************************************************************************************
 
     @Converter(autoApply = true)
     public static class CurrencyTypeConverter implements AttributeConverter<CurrencyType, Integer> {
@@ -301,7 +301,7 @@ public abstract class AllConverters {
         }
     }
 
-       // *****************************************************************************************************************
+    // *****************************************************************************************************************
 
     @Converter(autoApply = true)
     public static class SymbolUnitConverter implements AttributeConverter<SymbolUnit, Integer> {
@@ -318,6 +318,48 @@ public abstract class AllConverters {
         @Override
         public SymbolUnit convertToEntityAttribute(Integer integer) {
             return Arrays.stream(SymbolUnit.values())
+                    .filter(literal -> literal.getId().equals(integer)).findFirst().orElse(null);
+        }
+    }
+
+    // *****************************************************************************************************************
+
+    @Converter(autoApply = true)
+    public static class ReportTypeConverter implements AttributeConverter<ReportType, Integer> {
+
+        @Override
+        public Integer convertToDatabaseColumn(ReportType literal) {
+
+            if (literal == null)
+                return null;
+
+            return literal.getId();
+        }
+
+        @Override
+        public ReportType convertToEntityAttribute(Integer integer) {
+            return Arrays.stream(ReportType.values())
+                    .filter(literal -> literal.getId().equals(integer)).findFirst().orElse(null);
+        }
+    }
+
+    // *****************************************************************************************************************
+
+    @Converter(autoApply = true)
+    public static class ReportSourceConverter implements AttributeConverter<ReportSource, Integer> {
+
+        @Override
+        public Integer convertToDatabaseColumn(ReportSource literal) {
+
+            if (literal == null)
+                return null;
+
+            return literal.getId();
+        }
+
+        @Override
+        public ReportSource convertToEntityAttribute(Integer integer) {
+            return Arrays.stream(ReportSource.values())
                     .filter(literal -> literal.getId().equals(integer)).findFirst().orElse(null);
         }
     }

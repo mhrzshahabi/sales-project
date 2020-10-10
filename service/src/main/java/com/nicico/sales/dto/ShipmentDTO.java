@@ -1,7 +1,9 @@
 package com.nicico.sales.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.nicico.sales.annotation.report.IgnoreReportField;
 import com.nicico.sales.annotation.report.ReportField;
+import com.nicico.sales.annotation.report.ReportModel;
 import com.nicico.sales.dto.contract.BillOfLandingDTO;
 import com.nicico.sales.model.enumeration.EStatus;
 import io.swagger.annotations.ApiModel;
@@ -22,7 +24,6 @@ import java.util.Set;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ShipmentDTO {
 
-
     private Long contractShipmentId;
     private Long shipmentTypeId;
     private Long shipmentMethodId;
@@ -37,7 +38,7 @@ public class ShipmentDTO {
     private String containerType;
     private String automationLetterNo;
     private Date automationLetterDate;
-    @ReportField(titleMessageKey = "global.sendDate")
+    @ReportField(titleMessageKey = "global.sendDate", canFilter = false, hidden = true)
     private Date sendDate;
     @ReportField(titleMessageKey = "shipment.numberOfBLs")
     private Long noBLs;
@@ -51,7 +52,6 @@ public class ShipmentDTO {
     private Date arrivalDateTo;
     private Long noPallet;
     private Date lastDeliveryLetterDate;
-
 
     @Getter
     @Setter
@@ -71,14 +71,24 @@ public class ShipmentDTO {
         private Boolean editable;
         private List<EStatus> eStatus;
 
+        @ReportField(titleMessageKey = "global.unit")
+        @ReportModel(type = UnitDTO.Info.class, jumpTo = true)
         private UnitDTO.Info unit;
+        @IgnoreReportField
         private VesselDTO.Info vessel;
+        @IgnoreReportField
         private ContactDTO.Info contact;
+        @IgnoreReportField
         private PortDTO.Info dischargePort;
+        @IgnoreReportField
         private ContactDTO.Info contactAgent;
+        @IgnoreReportField
         private MaterialDTO.Info material;
+        @IgnoreReportField
         private ShipmentTypeDTO.Info shipmentType;
+        @IgnoreReportField
         private ShipmentMethodDTO.Info shipmentMethod;
+        @IgnoreReportField
         private ContractShipmentDTO.Info contractShipment;
     }
 
@@ -88,6 +98,7 @@ public class ShipmentDTO {
     @Accessors(chain = true)
     @ApiModel("ShipmentInfo")
     public static class Info extends InfoWithoutBLs {
+        @ReportModel(type = BillOfLandingDTO.InfoWithoutShipment.class)
         private Set<BillOfLandingDTO.InfoWithoutShipment> bLs;
     }
 
@@ -130,7 +141,7 @@ public class ShipmentDTO {
 //        private List<InvoiceDTO.Info> invoices;
 //    }
 
-    public BigDecimal getMoisture(){
+    public BigDecimal getMoisture() {
         BigDecimal weightGW = getWeightGW();
         BigDecimal weightND = getWeightND();
         if (weightGW == null) weightGW = BigDecimal.ZERO;

@@ -2275,6 +2275,22 @@
     {
       "code": "O_ASSAY_INSPECTION_TOTAL_VALUES",
       "title": "لغو تائید نهایی گزارش مجموع مقادیر بازرسی محتوی"
+    },
+    {
+      "code": "R_REPORT",
+      "title": "نمایش گزارش"
+    },
+    {
+      "code": "C_REPORT",
+      "title": "ایجاد گزارش"
+    },
+    {
+      "code": "D_REPORT",
+      "title": "حذف گزارش"
+    },
+    {
+      "code": "U_REPORT",
+      "title": "به روز رسانی گزارش"
     }
   ]
 }

@@ -1,7 +1,7 @@
 package com.nicico.sales.model.entities.report;
 
 import com.nicico.sales.model.entities.common.BaseEntity;
-import com.nicico.sales.model.enumeration.I18n;
+import com.nicico.sales.model.annotation.I18n;
 import lombok.*;
 import lombok.experimental.Accessors;
 
@@ -26,11 +26,11 @@ public class ReportField extends BaseEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "REPORT_ID", nullable = false, insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_reportField2Report"))
+    @JoinColumn(name = "F_REPORT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_reportField2Report"))
     private Report report;
 
     @NotNull
-    @Column(name = "REPORT_ID", nullable = false)
+    @Column(name = "F_REPORT_ID", nullable = false)
     private Long reportId;
 
     @NotNull

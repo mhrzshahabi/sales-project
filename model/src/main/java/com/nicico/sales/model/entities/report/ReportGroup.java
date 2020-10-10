@@ -1,7 +1,7 @@
 package com.nicico.sales.model.entities.report;
 
 import com.nicico.sales.model.entities.common.BaseEntity;
-import com.nicico.sales.model.enumeration.I18n;
+import com.nicico.sales.model.annotation.I18n;
 import lombok.*;
 import lombok.experimental.Accessors;
 
@@ -41,4 +41,11 @@ public class ReportGroup extends BaseEntity {
     @NotNull
     @Column(name = "C_ORDER", nullable = false)
     private String order;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "F_PARENT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_reportGroup2ReportGroup"))
+    private ReportGroup parent;
+
+    @Column(name = "F_PARENT_ID")
+    private Long parentId;
 }

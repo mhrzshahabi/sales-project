@@ -20,8 +20,8 @@ import java.util.Map;
 
 @RequiredArgsConstructor
 @Controller
-@RequestMapping("/report")
-public class ReportFormController {
+@RequestMapping("/warehouse-report")
+public class WarehouseReportFormController {
 
     private final ReportUtil reportUtil;
 
@@ -29,14 +29,9 @@ public class ReportFormController {
 
     @RequestMapping("/show-report-form")
     public String showReportContract() {
-        return "report/contract-report";
+        return "warehouse-report/contract-report";
     }
 
-
-    @RequestMapping("/show-report")
-    public String showReport() {
-        return "base/reportGenerator/reportGenerator";
-    }
     //**********************************************************************************************************************
 
     private static XWPFDocument replaceDynamicTable(XWPFDocument doc, List<Object[]> ll) {

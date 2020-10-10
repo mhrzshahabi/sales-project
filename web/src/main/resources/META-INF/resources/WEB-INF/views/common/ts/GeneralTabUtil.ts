@@ -68,6 +68,7 @@ namespace nicico {
             criteria: Criteria,
             fields: Array<isc.ListGridField>
         };
+        treeGrid: {};
         toolStrip: {};
         dynamicForm: { fields: Array<isc.FormItem> };
         hStack: {};
@@ -177,6 +178,7 @@ namespace nicico {
             criteria: Criteria,
             fields: Array<isc.ListGridField>
         };
+        treeGrid: {};
         toolStrip: {};
         dynamicForm: {
             fields: Array<isc.FormItem>
@@ -216,7 +218,7 @@ namespace nicico {
                 fields: [],
                 criteria: null
             };
-
+            This.treeGrid = {};
             This.log = {};
             This.tab = {};
             This.chart = {};

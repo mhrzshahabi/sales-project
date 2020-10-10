@@ -1,9 +1,10 @@
-package com.nicico.sales.dto;
+package com.nicico.sales.dto.report;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.nicico.sales.model.enumeration.CategoryUnit;
+import com.nicico.sales.model.entities.report.Report;
+import com.nicico.sales.model.entities.report.ReportGroup;
 import com.nicico.sales.model.enumeration.EStatus;
-import com.nicico.sales.model.enumeration.SymbolUnit;
+import com.nicico.sales.model.enumeration.ReportType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -18,26 +19,31 @@ import java.util.List;
 @Setter
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class UnitDTO {
+public class ReportFieldDTO {
 
-    private String nameFA;
-    private String nameEN;
+    private Long id;
+    private Long reportId;
     private String name;
-    private CategoryUnit categoryUnit;
-    private SymbolUnit symbolUnit;
+    private String titleFA;
+    private String titleEN;
+    private String title;
+    private String type;
+    private Boolean hidden;
+    private Boolean canFilter;
 
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("UnitInfo")
-    public static class Info extends UnitDTO {
-
+    @ApiModel("ReportFieldInfo")
+    public static class Info extends ReportFieldDTO {
         private Long id;
         private Date createdDate;
         private String createdBy;
         private Date lastModifiedDate;
         private String lastModifiedBy;
         private Integer version;
+
+        private Report report;
 
         // BaseEntity
         private Boolean editable;
@@ -47,28 +53,15 @@ public class UnitDTO {
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("UnitTuple")
-    public static class Tuple extends UnitDTO {
-        private Long id;
-        private Date createdDate;
-        private String createdBy;
-        private Date lastModifiedDate;
-        private String lastModifiedBy;
-        private Integer version;
+    @ApiModel("ReportFieldCreateRq")
+    public static class Create extends ReportFieldDTO {
     }
 
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("UnitCreateRq")
-    public static class Create extends UnitDTO {
-    }
-
-    @Getter
-    @Setter
-    @Accessors(chain = true)
-    @ApiModel("UnitUpdateRq")
-    public static class Update extends UnitDTO {
+    @ApiModel("ReportFieldUpdateRq")
+    public static class Update extends ReportFieldDTO {
         @NotNull
         @ApiModelProperty(required = true)
         private Long id;
@@ -79,7 +72,7 @@ public class UnitDTO {
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("UnitDeleteRq")
+    @ApiModel("ReportFieldDeleteRq")
     public static class Delete {
         @NotNull
         @ApiModelProperty(required = true)

@@ -57,7 +57,7 @@ public class ShipmentCostDutyRestController {
     }
 
     @Loggable
-    @Report(nameKey = "entity.shipment-cost-duty")
+    @Report(nameKey = "entity.shipment-cost-duty", returnType = ShipmentCostDutyDTO.Info.class)
     @GetMapping(value = "/spec-list")
     public ResponseEntity<TotalResponse<ShipmentCostDutyDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) throws IOException {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);

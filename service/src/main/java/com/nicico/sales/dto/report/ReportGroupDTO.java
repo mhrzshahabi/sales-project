@@ -1,9 +1,9 @@
-package com.nicico.sales.dto;
+package com.nicico.sales.dto.report;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.nicico.sales.model.enumeration.CategoryUnit;
+import com.nicico.sales.model.entities.report.Report;
+import com.nicico.sales.model.entities.report.ReportGroup;
 import com.nicico.sales.model.enumeration.EStatus;
-import com.nicico.sales.model.enumeration.SymbolUnit;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -18,26 +18,28 @@ import java.util.List;
 @Setter
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class UnitDTO {
+public class ReportGroupDTO {
 
+    private Long id;
     private String nameFA;
     private String nameEN;
     private String name;
-    private CategoryUnit categoryUnit;
-    private SymbolUnit symbolUnit;
+    private String order;
+    private Long parentId;
 
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("UnitInfo")
-    public static class Info extends UnitDTO {
-
+    @ApiModel("ReportGroupInfo")
+    public static class Info extends ReportGroupDTO {
         private Long id;
         private Date createdDate;
         private String createdBy;
         private Date lastModifiedDate;
         private String lastModifiedBy;
         private Integer version;
+
+        private ReportGroup parent;
 
         // BaseEntity
         private Boolean editable;
@@ -47,28 +49,15 @@ public class UnitDTO {
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("UnitTuple")
-    public static class Tuple extends UnitDTO {
-        private Long id;
-        private Date createdDate;
-        private String createdBy;
-        private Date lastModifiedDate;
-        private String lastModifiedBy;
-        private Integer version;
+    @ApiModel("ReportGroupCreateRq")
+    public static class Create extends ReportGroupDTO {
     }
 
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("UnitCreateRq")
-    public static class Create extends UnitDTO {
-    }
-
-    @Getter
-    @Setter
-    @Accessors(chain = true)
-    @ApiModel("UnitUpdateRq")
-    public static class Update extends UnitDTO {
+    @ApiModel("ReportGroupUpdateRq")
+    public static class Update extends ReportGroupDTO {
         @NotNull
         @ApiModelProperty(required = true)
         private Long id;
@@ -79,7 +68,7 @@ public class UnitDTO {
     @Getter
     @Setter
     @Accessors(chain = true)
-    @ApiModel("UnitDeleteRq")
+    @ApiModel("ReportGroupDeleteRq")
     public static class Delete {
         @NotNull
         @ApiModelProperty(required = true)

@@ -48,6 +48,7 @@ var nicico;
                 fields: [],
                 criteria: null
             };
+            This.treeGrid = {};
             This.log = {};
             This.tab = {};
             This.chart = {};
