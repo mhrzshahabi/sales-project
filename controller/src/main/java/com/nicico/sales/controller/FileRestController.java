@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.*;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,7 +23,7 @@ public class FileRestController {
 	private final FileService fileService;
 
 	@PostMapping
-	public ResponseEntity<String> Store(@ApiParam FileDTO.Request request) {
+	public ResponseEntity<String> Store(@Validated @ApiParam FileDTO.Request request) {
 		return new ResponseEntity<>(fileService.store(request), HttpStatus.OK);
 	}
 

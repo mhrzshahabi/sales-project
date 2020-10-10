@@ -4,6 +4,8 @@ import com.nicico.copper.core.service.minio.MinIODTO;
 import com.nicico.copper.core.service.minio.MinIOService;
 import com.nicico.sales.dto.FileDTO;
 import com.nicico.sales.iservice.IFileService;
+import com.nicico.sales.model.entities.base.File;
+import com.nicico.sales.repository.FileDAO;
 import io.minio.ListObjectsArgs;
 import io.minio.MinioClient;
 import io.minio.Result;
@@ -27,11 +29,22 @@ public class FileService implements IFileService {
 	private final MinioClient minioClient;
 	private final MinIOService minIOService;
 
+	private final FileDAO fileDAO;
+
 	@Override
 	public String store(FileDTO.Request request) {
 		try {
 			final MinIODTO.Request fileRequest = modelMapper.map(request, MinIODTO.Request.class);
-			return minIOService.store(fileRequest);
+			final String fileKey = minIOService.store(fileRequest);
+
+			final File file = new File()
+					.setEntityName(request.getEntityName())
+					.setRecordId(request.getRecordId())
+					.setFileKey(fileKey);
+
+			fileDAO.saveAndFlush(file);
+
+			return fileKey;
 		} catch (Exception e) {
 			log.error(Arrays.toString(e.getStackTrace()));
 		}
