@@ -46,4 +46,9 @@ public class FileRestController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
+	@PutMapping(value = "/{key}")
+	public ResponseEntity<Void> restore(@PathVariable String key) {
+		fileService.restore(key);
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
 }
