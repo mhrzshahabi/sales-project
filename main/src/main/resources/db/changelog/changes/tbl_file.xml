@@ -2,11 +2,11 @@
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
 				   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 				   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
-	<changeSet author="ARezaieZR (generated)" id="1602323794791-229">
+	<changeSet author="ARezaieZR (generated)" id="1602325647181-229">
 		<createSequence sequenceName="SEQ_FILE"/>
 	</changeSet>
 
-	<changeSet author="ARezaieZR (generated)" id="1602323794791-230">
+	<changeSet author="ARezaieZR (generated)" id="1602325647181-230">
 		<createTable tableName="TBL_FILE">
 			<column name="ID" type="NUMBER(19, 0)">
 				<constraints primaryKey="true" primaryKeyName="TBL_FILEPK"/>
@@ -24,6 +24,7 @@
 			</column>
 			<column name="C_ENTITY_NAME" type="VARCHAR2(255 CHAR)"/>
 			<column name="C_FILE_KEY" type="VARCHAR2(255 CHAR)"/>
+			<column name="E_FILE_STATUS" type="VARCHAR2(255 CHAR)"/>
 			<column name="N_RECORD_ID" type="NUMBER(19, 0)"/>
 		</createTable>
 	</changeSet>

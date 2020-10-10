@@ -1,6 +1,7 @@
 package com.nicico.sales.model.entities.base;
 
 import com.nicico.sales.model.Auditable;
+import com.nicico.sales.model.enumeration.FileStatus;
 import lombok.*;
 import lombok.experimental.Accessors;
 
@@ -29,4 +30,7 @@ public class File extends Auditable {
 
 	@Column(name = "C_FILE_KEY")
 	private String fileKey;
+
+	@Column(name = "E_FILE_STATUS")
+	private FileStatus fileStatus;
 }

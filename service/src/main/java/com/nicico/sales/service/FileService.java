@@ -8,8 +8,11 @@ import com.nicico.copper.core.service.minio.EFileStatus;
 import com.nicico.copper.core.service.minio.MinIODTO;
 import com.nicico.copper.core.service.minio.MinIOService;
 import com.nicico.sales.dto.FileDTO;
+import com.nicico.sales.enumeration.ErrorType;
+import com.nicico.sales.exception.SalesException2;
 import com.nicico.sales.iservice.IFileService;
 import com.nicico.sales.model.entities.base.File;
+import com.nicico.sales.model.enumeration.FileStatus;
 import com.nicico.sales.repository.FileDAO;
 import io.minio.GetObjectTagsArgs;
 import io.minio.MinioClient;
@@ -51,7 +54,8 @@ public class FileService implements IFileService {
 			final File file = new File()
 					.setEntityName(request.getEntityName())
 					.setRecordId(request.getRecordId())
-					.setFileKey(fileKey);
+					.setFileKey(fileKey)
+					.setFileStatus(FileStatus.NORMAL);
 
 			fileDAO.saveAndFlush(file);
 
@@ -77,7 +81,13 @@ public class FileService implements IFileService {
 	@Override
 	public void delete(String key) {
 		try {
+			final File file = fileDAO.findByFileKey(key)
+					.orElseThrow(() -> new SalesException2(ErrorType.NotFound, "fileKey", "فایل مورد نظر یافت نشد."));
+
 			minIOService.retrieve(key);
+
+			file.setFileStatus(FileStatus.DELETED);
+			fileDAO.saveAndFlush(file);
 		} catch (Exception e) {
 			log.error(Arrays.toString(e.getStackTrace()));
 		}
@@ -85,6 +95,9 @@ public class FileService implements IFileService {
 
 	@Override
 	public void restore(String key) {
+		final File file = fileDAO.findByFileKey(key)
+				.orElseThrow(() -> new SalesException2(ErrorType.NotFound, "fileKey", "فایل مورد نظر یافت نشد."));
+
 		try {
 			Map<String, String> tags = this.minioClient.getObjectTags(GetObjectTagsArgs.builder().bucket(appId.toLowerCase()).object(key).build()).get();
 			if (EFileStatus.DELETED.equals(EFileStatus.valueOf(tags.get("Status")))) {
@@ -100,5 +113,8 @@ public class FileService implements IFileService {
 		} catch (Exception e) {
 			log.error(Arrays.toString(e.getStackTrace()));
 		}
+
+		file.setFileStatus(FileStatus.NORMAL);
+		fileDAO.saveAndFlush(file);
 	}
 }
