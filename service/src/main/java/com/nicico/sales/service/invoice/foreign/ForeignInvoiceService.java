@@ -5,6 +5,7 @@ import com.ibm.icu.util.Calendar;
 import com.nicico.sales.annotation.Action;
 import com.nicico.sales.dto.InvoiceTypeDTO;
 import com.nicico.sales.dto.contract.ContractDTO;
+import com.nicico.sales.dto.contract.IncotermDTO;
 import com.nicico.sales.dto.invoice.foreign.*;
 import com.nicico.sales.enumeration.ActionType;
 import com.nicico.sales.enumeration.EContractDetailTypeCode;
@@ -17,6 +18,7 @@ import com.nicico.sales.iservice.invoice.foreign.IForeignInvoiceService;
 import com.nicico.sales.model.entities.invoice.foreign.ForeignInvoice;
 import com.nicico.sales.model.entities.invoice.foreign.ForeignInvoiceBillOfLading;
 import com.nicico.sales.model.entities.invoice.foreign.ForeignInvoiceItem;
+import com.nicico.sales.repository.contract.ContractDAO;
 import com.nicico.sales.repository.invoice.foreign.ForeignInvoiceBillOfLadingDAO;
 import com.nicico.sales.repository.invoice.foreign.ForeignInvoiceDAO;
 import com.nicico.sales.service.GenericService;
@@ -30,6 +32,7 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -78,9 +81,28 @@ public class ForeignInvoiceService extends GenericService<ForeignInvoice, Long, 
 
         ForeignInvoiceDTO.ContractDetailData contractDetailData = new ForeignInvoiceDTO.ContractDetailData();
 
-        Map<String, List<Object>> operationalDataOfQPArticle = contractDetailValueService2.get(contractId, EContractDetailTypeCode.QuotationalPeriod, EContractDetailValueKey.MOAS, true);
+//        Contract contract = contractDAO.findById(contractId).orElseThrow(() -> new NotFoundException(Contract.class));
+//        Long materialId = contract.getMaterialId();
+//        if (materialId == ) {}
 
-        return null;
+        Map<String, List<Object>> moases = contractDetailValueService2.get(contractId, EContractDetailTypeCode.QuotationalPeriod, EContractDetailValueKey.MOAS, true);
+        if (moases != null)
+            contractDetailData.setMOASValue(modelMapper.map(moases.get(EContractDetailValueKey.MOAS.name()), new TypeToken<List<ForeignInvoiceDTO.MOASData>>() {
+            }.getType()));
+
+        Map<String, List<Object>> rcs = contractDetailValueService2.get(contractId, EContractDetailTypeCode.Deduction, EContractDetailValueKey.RC, true);
+        Map<String, List<Object>> tcs = contractDetailValueService2.get(contractId, EContractDetailTypeCode.Deduction, EContractDetailValueKey.TC, true);
+        if (tcs != null)
+            contractDetailData.setTc(new BigDecimal(tcs.get(EContractDetailValueKey.TC.name()).get(0).toString()));
+        if (rcs != null)
+            contractDetailData.setRc(modelMapper.map(rcs.get(EContractDetailValueKey.RC.name()), new TypeToken<List<ForeignInvoiceDTO.RCData>>() {
+            }.getType()));
+
+        Map<String, List<Object>> deliveryTerms = contractDetailValueService2.get(contractId, EContractDetailTypeCode.DeliveryTerms, EContractDetailValueKey.INCOTERM, true);
+        if (deliveryTerms != null)
+            contractDetailData.setIncoterm(modelMapper.map(deliveryTerms.get(EContractDetailValueKey.INCOTERM.name()), IncotermDTO.Info.class));
+
+        return contractDetailData;
     }
 
     @Override
@@ -100,12 +122,14 @@ public class ForeignInvoiceService extends GenericService<ForeignInvoice, Long, 
             ForeignInvoiceItemDTO.Create foreignInvoiceItemCreate = modelMapper.map(item, ForeignInvoiceItemDTO.Create.class);
             foreignInvoiceItemCreate.setForeignInvoiceId(foreignInvoice.getId());
             ForeignInvoiceItemDTO.Info foreignInvoiceItem = foreignInvoiceItemService.create(foreignInvoiceItemCreate);
-            item.getForeignInvoiceItemDetails().forEach(detail -> {
+            if (item.getForeignInvoiceItemDetails() != null) {
+                item.getForeignInvoiceItemDetails().forEach(detail -> {
 
-                ForeignInvoiceItemDetailDTO.Create foreignInvoiceItemDetailCreate = modelMapper.map(detail, ForeignInvoiceItemDetailDTO.Create.class);
-                foreignInvoiceItemDetailCreate.setForeignInvoiceItemId(foreignInvoiceItem.getId());
-                foreignInvoiceItemDetailService.create(foreignInvoiceItemDetailCreate);
-            });
+                    ForeignInvoiceItemDetailDTO.Create foreignInvoiceItemDetailCreate = modelMapper.map(detail, ForeignInvoiceItemDetailDTO.Create.class);
+                    foreignInvoiceItemDetailCreate.setForeignInvoiceItemId(foreignInvoiceItem.getId());
+                    foreignInvoiceItemDetailService.create(foreignInvoiceItemDetailCreate);
+                });
+            }
         });
 
         request.getForeignInvoicePayments().forEach(item -> item.setForeignInvoiceId(foreignInvoice.getId()));
@@ -132,9 +156,11 @@ public class ForeignInvoiceService extends GenericService<ForeignInvoice, Long, 
         int itemSize = foreignInvoice.getForeignInvoiceItems().size();
         for (int i = 0; i < itemSize; i++) {
             ForeignInvoiceItem foreignInvoiceItem = foreignInvoice.getForeignInvoiceItems().get(i);
-            int itemDetailSize = foreignInvoiceItem.getForeignInvoiceItemDetails().size();
-            for (int j=0; j<itemDetailSize; j++) {
-                foreignInvoiceItemDetailService.delete(foreignInvoiceItem.getForeignInvoiceItemDetails().get(j).getId());
+            if (foreignInvoiceItem.getForeignInvoiceItemDetails() != null) {
+                int itemDetailSize = foreignInvoiceItem.getForeignInvoiceItemDetails().size();
+                for (int j = 0; j < itemDetailSize; j++) {
+                    foreignInvoiceItemDetailService.delete(foreignInvoiceItem.getForeignInvoiceItemDetails().get(j).getId());
+                }
             }
             foreignInvoiceItemService.delete(foreignInvoice.getForeignInvoiceItems().get(i).getId());
         }
@@ -142,9 +168,9 @@ public class ForeignInvoiceService extends GenericService<ForeignInvoice, Long, 
         foreignInvoice.getForeignInvoicePayments().forEach(item -> foreignInvoicePaymentService.delete(item.getId()));
 
         int billLadingSize = request.getBillLadingIds().size();
-        for (int i=0; i<billLadingSize; i++) {
+        for (int i = 0; i < billLadingSize; i++) {
             List<ForeignInvoiceBillOfLading> allByBillOfLandingIdAAndForeignInvoiceId = foreignInvoiceBillOfLadingDAO.findAllByBillOfLandingIdAndForeignInvoiceId(request.getBillLadingIds().get(i), foreignInvoice.getId());
-            for (int j=0; j<allByBillOfLandingIdAAndForeignInvoiceId.size(); j++) {
+            for (int j = 0; j < allByBillOfLandingIdAAndForeignInvoiceId.size(); j++) {
                 foreignInvoiceBillOfLadingService.delete(allByBillOfLandingIdAAndForeignInvoiceId.get(j).getId());
             }
         }
@@ -156,11 +182,13 @@ public class ForeignInvoiceService extends GenericService<ForeignInvoice, Long, 
             ForeignInvoiceItemDTO.Create foreignInvoiceItemCreate = modelMapper.map(item, ForeignInvoiceItemDTO.Create.class);
             foreignInvoiceItemCreate.setForeignInvoiceId(foreignInvoice.getId());
             ForeignInvoiceItemDTO.Info foreignInvoiceItem = foreignInvoiceItemService.create(foreignInvoiceItemCreate);
-            item.getForeignInvoiceItemDetails().forEach(detail -> {
-                ForeignInvoiceItemDetailDTO.Create foreignInvoiceItemDetailCreate = modelMapper.map(detail, ForeignInvoiceItemDetailDTO.Create.class);
-                foreignInvoiceItemDetailCreate.setForeignInvoiceItemId(foreignInvoiceItem.getId());
-                foreignInvoiceItemDetailService.create(foreignInvoiceItemDetailCreate);
-            });
+            if (item.getForeignInvoiceItemDetails() != null) {
+                item.getForeignInvoiceItemDetails().forEach(detail -> {
+                    ForeignInvoiceItemDetailDTO.Create foreignInvoiceItemDetailCreate = modelMapper.map(detail, ForeignInvoiceItemDetailDTO.Create.class);
+                    foreignInvoiceItemDetailCreate.setForeignInvoiceItemId(foreignInvoiceItem.getId());
+                    foreignInvoiceItemDetailService.create(foreignInvoiceItemDetailCreate);
+                });
+            }
         });
 
         request.getForeignInvoicePayments().forEach(item -> item.setForeignInvoiceId(foreignInvoice.getId()));

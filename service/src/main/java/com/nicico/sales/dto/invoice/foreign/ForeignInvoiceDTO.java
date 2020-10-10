@@ -2,6 +2,7 @@ package com.nicico.sales.dto.invoice.foreign;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.nicico.sales.dto.*;
+import com.nicico.sales.dto.contract.IncotermDTO;
 import com.nicico.sales.model.enumeration.EStatus;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -15,7 +16,6 @@ import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 @Getter
 @Setter
@@ -119,10 +119,11 @@ public class ForeignInvoiceDTO {
 
         private BigDecimal tc;
         private List<RCData> rc;
-        private Integer MOASValue;
-        private String basePriceReference;
-        private Integer workingDayAfterMOAS;
-        private Integer workingDayBeforeMOAS;
+        private IncotermDTO.Info incoterm;
+        private List<MOASData> MOASValue;
+        private List<PriceReferenceData> basePriceReference;
+
+
     }
 
     @Getter
@@ -139,5 +140,23 @@ public class ForeignInvoiceDTO {
         private UnitDTO.Info financeUnit;
     }
 
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @AllArgsConstructor
+    @RequiredArgsConstructor
+    public static class MOASData {
 
+        private Long materialElementId;
+    }
+
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @AllArgsConstructor
+    @RequiredArgsConstructor
+    public static class PriceReferenceData {
+
+        private Long materialElementId;
+    }
 }

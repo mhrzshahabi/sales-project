@@ -144,8 +144,8 @@ public class ForeignInvoice extends BaseEntity {
     @JoinColumn(name = "F_INSPECTION_ASSAY_REPORT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_foreignInvoice2inspectionReportByInspectionAssayReportId"))
     private InspectionReport inspectionAssayReport;
 
-    @NotNull
-    @Column(name = "F_INSPECTION_ASSAY_REPORT_ID", nullable = false)
+//    @NotNull
+    @Column(name = "F_INSPECTION_ASSAY_REPORT_ID")
     private Long inspectionAssayReportId;
 
     // *****************************************************************************************************************
