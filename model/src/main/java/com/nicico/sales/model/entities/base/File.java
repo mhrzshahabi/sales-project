@@ -1,5 +1,6 @@
 package com.nicico.sales.model.entities.base;
 
+import com.nicico.sales.model.Auditable;
 import lombok.*;
 import lombok.experimental.Accessors;
 
@@ -13,7 +14,7 @@ import javax.persistence.*;
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
 @Table(name = "TBL_FILE")
-public class File {
+public class File extends Auditable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_FILE")
 	@SequenceGenerator(name = "SEQ_FILE", sequenceName = "SEQ_FILE", allocationSize = 1)

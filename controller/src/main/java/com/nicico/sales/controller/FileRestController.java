@@ -11,9 +11,6 @@ import org.springframework.http.*;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Map;
-
 @Slf4j
 @RequiredArgsConstructor
 @RestController
@@ -41,11 +38,6 @@ public class FileRestController {
 				.contentLength(response.getContent().length)
 				.contentType(MediaType.valueOf(response.getContentType()))
 				.body(resource);
-	}
-
-	@PostMapping(value = "/tags")
-	public ResponseEntity<List<String>> getByTags(@RequestBody Map<String, String> tags) {
-		return new ResponseEntity<>(fileService.getByTags(tags), HttpStatus.OK);
 	}
 
 	@DeleteMapping(value = "/{key}")
