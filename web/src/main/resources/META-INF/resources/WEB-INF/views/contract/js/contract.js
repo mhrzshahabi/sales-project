@@ -993,6 +993,8 @@ function generateContentFromSection(section, template) {
             template = template.replaceAll('\\${_' + x.unitId + '}', section.items[0].getField(x.name).getHint());
         if (x.paramType == "Reference")
             template = template.replaceAll('\\${' + x.key + '}', section.items[0].getField(x.key).getDisplayValue());
+        if (template.contains('\\${' + x.key + '_IN_CHARACTER}'))
+            template = template.replaceAll('\\${' + x.key + '_IN_CHARACTER}', numberToEnglish(section.items[0].values[x.name]));
         template = template.replaceAll('\\${' + x.key + '}', section.items[0].values[x.name]);
     });
 
@@ -1046,6 +1048,8 @@ function changeHeaderAndFooterTemplate(template) {
         template = template.replaceAll('\\${' + "BUYER_ADDRESS" + '}', buyer.address);
         template = template.replaceAll('\\${' + "BUYER_PHONE" + '}', buyer.phone);
         template = template.replaceAll('\\${' + "BUYER_FAX" + '}', buyer.fax);
+        template = template.replaceAll('\\${' + "BUYER_MOBILE" + '}', buyer.mobile);
+        template = template.replaceAll('\\${' + "BUYER_POSTAL_CODE" + '}', buyer.postalCode);
     }
 
     var seller = contractTab.dynamicForm.main.getField("sellerId").getSelectedRecord();
@@ -1054,6 +1058,8 @@ function changeHeaderAndFooterTemplate(template) {
         template = template.replaceAll('\\${' + "SELLER_ADDRESS" + '}', seller.address);
         template = template.replaceAll('\\${' + "SELLER_PHONE" + '}', seller.phone);
         template = template.replaceAll('\\${' + "SELLER_FAX" + '}', seller.fax);
+        template = template.replaceAll('\\${' + "SELLER_MOBILE" + '}', seller.mobile);
+        template = template.replaceAll('\\${' + "SELLER_POSTAL_CODE" + '}', seller.postalCode);
     }
 
     var agentBuyer = contractTab.dynamicForm.main.getField("agentBuyerId").getSelectedRecord();
@@ -1062,6 +1068,8 @@ function changeHeaderAndFooterTemplate(template) {
         template = template.replaceAll('\\${' + "AGENT_BUYER_ADDRESS" + '}', agentBuyer.address);
         template = template.replaceAll('\\${' + "AGENT_BUYER_PHONE" + '}', agentBuyer.phone);
         template = template.replaceAll('\\${' + "AGENT_BUYER_FAX" + '}', agentBuyer.fax);
+        template = template.replaceAll('\\${' + "AGENT_BUYER_MOBILE" + '}', agentBuyer.mobile);
+        template = template.replaceAll('\\${' + "AGENT_BUYER_POSTAL_CODE" + '}', agentBuyer.postalCode);
     }
 
     var agentSeller = contractTab.dynamicForm.main.getField("agentSellerId").getSelectedRecord();
@@ -1070,6 +1078,8 @@ function changeHeaderAndFooterTemplate(template) {
         template = template.replaceAll('\\${' + "AGENT_SELLER_ADDRESS" + '}', agentSeller.address);
         template = template.replaceAll('\\${' + "AGENT_SELLER_PHONE" + '}', agentSeller.phone);
         template = template.replaceAll('\\${' + "AGENT_SELLER_FAX" + '}', agentSeller.fax);
+        template = template.replaceAll('\\${' + "AGENT_SELLER_MOBILE" + '}', agentSeller.mobile);
+        template = template.replaceAll('\\${' + "AGENT_SELLER_POSTAL_CODE" + '}', agentSeller.postalCode);
     }
 
     return template;
