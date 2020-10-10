@@ -17,8 +17,8 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class MaterialDTO {
 
-    private String descl;
-    private String descp;
+    private String descEN;
+    private String descFA;
     private String code;
     private Long unitId;
     private String abbreviation;
@@ -43,8 +43,8 @@ public class MaterialDTO {
     @ApiModel("MaterialTuple")
     public static class MaterialTuple {
         private Long id;
-        private String descl;
-        private String descp;
+        private String descEN;
+        private String descFA;
         private String code;
         private Long unitId;
         private UnitDTO unit;

@@ -1532,14 +1532,14 @@ rdTab.Fields.Remittance = function () {
                     showHover: true
                 },
                 {
-                    name: "material.descl",
-                    title: "<spring:message code='material.descl'/>",
+                    name: "material.descEN",
+                    title: "<spring:message code='material.descEN'/>",
                     type: 'text',
                     width: "10%",
                     align: "center",
                     showHover: true,
                     sortNormalizer: function (recordObject) {
-                        return recordObject.material.descl
+                        return recordObject.material.descEN
                     }
                 },
                 {
@@ -1691,14 +1691,14 @@ rdTab.Fields.Remittance = function () {
                         showHover: true
                     },
                     {
-                        name: "material.descl",
-                        title: "<spring:message code='material.descl'/>",
+                        name: "material.descEN",
+                        title: "<spring:message code='material.descEN'/>",
                         type: 'text',
                         width: "10%",
                         align: "center",
                         showHover: true,
                         sortNormalizer: function (recordObject) {
-                            return recordObject.material.descl
+                            return recordObject.material.descEN
                         }
                     },
                     {

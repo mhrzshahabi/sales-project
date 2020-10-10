@@ -29,13 +29,13 @@ var materialElementField = {
                 name: "elementName",
                 title: '<spring:message code="assayInspection.materialElement.name"/>'
             },
-            {name: "material.descl", title: '<spring:message code="material.descl"/>'}
+            {name: "material.descEN", title: '<spring:message code="material.descEN"/>'}
         ]),
         fetchDataURL: "${contextPath}/api/materialElement/" + "spec-list"
     }),
     pickListFields: [
         {name: "elementName", title: '<spring:message code="assayInspection.materialElement.name"/>'},
-        {name: "material.descl", title: '<spring:message code="material.descl"/>'}
+        {name: "material.descEN", title: '<spring:message code="material.descEN"/>'}
     ],
     editorProperties: {
         optionDataSource: isc.MyRestDataSource.create({
@@ -44,13 +44,13 @@ var materialElementField = {
                     name: "elementName",
                     title: '<spring:message code="assayInspection.materialElement.name"/>'
                 },
-                {name: "material.descl", title: '<spring:message code="material.descl"/>'}
+                {name: "material.descEN", title: '<spring:message code="material.descEN"/>'}
             ]),
             fetchDataURL: "${contextPath}/api/materialElement/" + "spec-list"
         }),
         pickListFields: [
             {name: "elementName", title: '<spring:message code="assayInspection.materialElement.name"/>'},
-            {name: "material.descl", title: '<spring:message code="material.descl"/>'}
+            {name: "material.descEN", title: '<spring:message code="material.descEN"/>'}
         ],
         editorType: "SelectItem",
         pickListProperties: {
@@ -134,7 +134,7 @@ function getReferenceFields(referenceType) {
         case 'Material':
             return [
                 {name: "id", title: "id", primaryKey: true, hidden: true},
-                {name: 'descp', title: "<spring:message code='material.descp'/>"}
+                {name: 'descFA', title: "<spring:message code='material.descFA'/>"}
             ]
         case 'Port':
             return [

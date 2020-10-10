@@ -17,4 +17,16 @@
             -1);
         </sql>
     </changeSet>
+    <changeSet id="999-4" author="abiz">
+        <addColumn tableName="TBL_MATERIAL">
+            <column name="C_DESC_FA" type="varchar2(255 CHAR)"/>
+        </addColumn>
+        <addColumn tableName="TBL_MATERIAL">
+            <column name="C_DESC_EN" type="varchar2(255 CHAR)"/>
+        </addColumn>
+        <sql>
+            update TBL_MATERIAL set C_DESC_FA = C_DESCP ;
+            update TBL_MATERIAL set C_DESC_EN = C_DESCL;
+        </sql>
+    </changeSet>
 </databaseChangeLog>

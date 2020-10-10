@@ -92,14 +92,14 @@ function contractTabDynamicFormFields() {
                 fields: [
                     {name: "id", title: "id", primaryKey: true, hidden: true},
                     {name: "code", title: "<spring:message code='goods.code'/> "},
-                    {name: "descl"},
+                    {name: "descEN"},
                     {name: "unitId"},
                     {name: "unit.nameEN"}
                 ],
                 fetchDataURL: "${contextPath}/api/material/spec-list"
             }),
             autoFetchData: false,
-            displayField: "descl",
+            displayField: "descEN",
             valueField: "id",
             required: true,
             title: "<spring:message code='material.title'/>",
@@ -594,7 +594,7 @@ contractTab.method.editForm = function () {
                     });
                     contractTab.sectionStack.contract.getSectionNames().forEach(q => contractTab.sectionStack.contract.removeSection(q + ""));
                     contractTab.method.addSectionByContract(record);
-                    contractTab.window.main.setTitle("<spring:message code='contract.window.title.edit'/>" + "\t" + record.material.descl);
+                    contractTab.window.main.setTitle("<spring:message code='contract.window.title.edit'/>" + "\t" + record.material.descEN);
                     contractTab.window.main.show();
                 } else
                     contractTab.dialog.error(resp);

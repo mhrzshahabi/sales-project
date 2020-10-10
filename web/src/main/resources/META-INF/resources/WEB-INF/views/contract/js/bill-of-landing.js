@@ -1595,14 +1595,14 @@ BlTab.Fields.BillOfLandingWithoutSwitch = _ => {
 
                 },
                 {
-                    name: "material.descl",
-                    title: "<spring:message code='material.descl'/>"
+                    name: "material.descEN",
+                    title: "<spring:message code='material.descEN'/>"
 
         // align: "center"
                 },
                 {
-                    name: "material.descp",
-                    title: "<spring:message code='material.descp'/>"
+                    name: "material.descFA",
+                    title: "<spring:message code='material.descFA'/>"
 
 
                     // align: "center"
