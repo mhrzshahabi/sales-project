@@ -9,6 +9,14 @@ if (!contractDetailTypeTab.toolStrip.param) throw 'یا خدا';
 contractDetailTypeTab.Vars={
     DataType:JSON.parse('${Enum_DataType}')
 }
+contractDetailTypeTab.method.getAllFields=function(_object){
+    dbg(_object)
+    if (typeof (_object) !== 'object') return [_object];
+    const fields = Object.keys(_object).filter(_=>!_.toString().startsWith('_')&&!_.toString().startsWith('$')).filter(_=>typeof _object[_] !== 'object');
+    const internalObj = Object.keys(_object).filter(_=>!_.toString().startsWith('_')&&!_.toString().startsWith('$')).filter(_=>typeof _object[_] === 'object');
+    internalObj.forEach(_=>fields.addList(contractDetailTypeTab.method.getAllFields(_object[_]).map(__=>_+'.'+__)))
+    return fields;
+}
 contractDetailTypeTab.Fields = {
     DynamicTable: () =>{
 
@@ -31,18 +39,28 @@ contractDetailTypeTab.Fields = {
         },
         {
             name: 'headerType',
-            required: true,
-            validateOnExit: true,
+
+            editorProperties:{
+                editorType: "comboBox",
+                textMatchStyle:"substring",
+                required: true,
+                validateOnExit: true,
+            },
             type: "string",
             title: "<spring:message code='global.type'/> <spring:message code='global.header'/> ",
             async editorExit (editCompletionEvent, record, newValue, rowNum, colNum){
                 if(!newValue)return true;
                 const grid = contractDetailTypeTab.listGrid.dynamicTable;
                 grid.setEditValue(rowNum, colNum + 1,'')
+                grid.setEditValue(rowNum, colNum + 2,'')
                 const headerValueField = grid.getField("headerValue")
-                dbg(this)
+                const headerKeyField = grid.getField("headerKey")
+                // dbg(this)
                 if(Object.values(contractDetailTypeTab.Vars.DataType).includes(newValue)){
                     delete headerValueField['editorProperties']
+                    delete headerKeyField['editorProperties']
+                    headerKeyField.canEdit=false;
+                    headerKeyField.required=false;
                     headerValueField.type=newValue
                 }
                 else {
@@ -55,6 +73,19 @@ contractDetailTypeTab.Fields = {
                                 if(response && response.response && response.response.data && response.response.data.length>0){
                                     const fields = Object.keys(response.response.data[0])
                                         .filter(_=>typeof (response.response.data[0][_])!== 'object').map(_=>{return {name:_}});
+                                    const allFields = contractDetailTypeTab.method.getAllFields(response.response.data[0]);
+                                    dbg(allFields)
+                                    const valueMap = {};
+                                    allFields
+                                        .forEach(_=>valueMap[_]=_)
+                                    // dbg(valueMap)
+                                    headerKeyField.editorProperties ={
+                                        anEdit:true,
+                                        required:true,
+                                        valueMap:valueMap,
+                                        editorType: "comboBox",
+                                        textMatchStyle:"substring",
+                                    };
                                     headerValueField.editorProperties ={
                                         optionDataSource : isc.MyRestDataSource.create({
                                             fields:fields,
@@ -75,6 +106,10 @@ contractDetailTypeTab.Fields = {
 
             }
         },
+            {name: 'headerKey',
+
+                title: "<spring:message code='global.key'/> <spring:message code='global.header'/> ",
+            },
         {
             name: 'headerValue',
             required: true,

@@ -20,6 +20,7 @@ public class CDTPDynamicTableDTO {
     private Long colNum;
     private String headerType = "string";
     private String headerValue;
+    private String headerKey;
     private Long cdtpId;
 
     private String valueType = "string";

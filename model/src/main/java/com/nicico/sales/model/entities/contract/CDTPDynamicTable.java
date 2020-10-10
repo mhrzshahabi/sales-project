@@ -48,6 +48,9 @@ public class CDTPDynamicTable extends BaseEntity {
     @Column(name = "C_HEADER_VALUE", nullable = false)
     private String headerValue;
 
+    @Column(name = "C_HEADER_Key")
+    private String headerKey;
+
     @NotNull
     @Column(name = "C_VALUE_TYPE", nullable = false)
     private String valueType = "string";
