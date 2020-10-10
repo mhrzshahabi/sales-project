@@ -6,8 +6,13 @@ contractDetailTypeTab.toolStrip.param = contractDetailTypeTab.listGrid.param
     .gridComponents
     .find(_ => _.className && _.className.toLowerCase() === 'toolStrip'.toLowerCase())
 if (!contractDetailTypeTab.toolStrip.param) throw 'یا خدا';
+contractDetailTypeTab.Vars={
+    DataType:JSON.parse('${Enum_DataType}')
+}
 contractDetailTypeTab.Fields = {
-    DynamicTable: () => [
+    DynamicTable: () =>{
+
+        const fields = [
         {
             name: 'id',
             title: "<spring:message code='global.id'/>",
@@ -30,6 +35,45 @@ contractDetailTypeTab.Fields = {
             validateOnExit: true,
             type: "string",
             title: "<spring:message code='global.type'/> <spring:message code='global.header'/> ",
+            async editorExit (editCompletionEvent, record, newValue, rowNum, colNum){
+                if(!newValue)return true;
+                const grid = contractDetailTypeTab.listGrid.dynamicTable;
+                grid.setEditValue(rowNum, colNum + 1,'')
+                const headerValueField = grid.getField("headerValue")
+                dbg(this)
+                if(Object.values(contractDetailTypeTab.Vars.DataType).includes(newValue)){
+                    delete headerValueField['editorProperties']
+                    headerValueField.type=newValue
+                }
+                else {
+                    const dialog= isc.Dialog.create({isModal:true,
+                        message:"<spring:message code='global.please.wait'/>"})
+                    const r = await fetch('${contextPath}'+newValue+'?_startRow=0&_endRow=1',{headers:SalesConfigs.httpHeaders})
+                        const response =await  r.json();
+                            dialog.destroy();
+                            if(r.ok){
+                                if(response && response.response && response.response.data && response.response.data.length>0){
+                                    const fields = Object.keys(response.response.data[0])
+                                        .filter(_=>typeof (response.response.data[0][_])!== 'object').map(_=>{return {name:_}});
+                                    headerValueField.editorProperties ={
+                                        optionDataSource : isc.MyRestDataSource.create({
+                                            fields:fields,
+                                            fetchDataURL:'${contextPath}'+newValue
+                                        }),
+                                        valueField:fields.find(_=>Object.values(_).includes('id'))?"id":"tozinId",
+                                        pickListWidth: .7*innerWidth,
+                                        pickListHeight: 800,
+                                        pickListFields:fields,
+                                        editorType: "SelectItem",
+
+                                    }
+                                }
+                            }
+                }
+                // grid.startEditing(rowNum, colNum+1)
+                return true
+
+            }
         },
         {
             name: 'headerValue',
@@ -71,6 +115,23 @@ contractDetailTypeTab.Fields = {
             title: "<spring:message code='global.description'/>",
         },
     ]
+        fetch('api/g-contract/entities',{headers:SalesConfigs.httpHeaders}).then(
+            res=>{
+                res.json().then(response=>{
+                    const valueMap = [...Object.values(contractDetailTypeTab.Vars.DataType)
+                        .filter(_=>![contractDetailTypeTab.Vars.DataType.DynamicTable,
+                        contractDetailTypeTab.Vars.DataType.Reference,
+                        contractDetailTypeTab.Vars.DataType.ListOfReference].contains(_))].sort()
+                    if(res.ok){
+                        valueMap.addList(response.sort());
+                    }
+                    fields.filter(_=>["headerType","valueType"].contains(_.name)).forEach(_=>_['valueMap']=[...valueMap])
+                })
+            }
+        )
+
+    return fields;
+    }
 }
 contractDetailTypeTab.ToolStripButtons = {DynamicTable:{}};
 contractDetailTypeTab.ToolStripButtons.DynamicTable.Define={
@@ -102,7 +163,7 @@ contractDetailTypeTab.ToolStripButtons.DynamicTable.Define={
                         validateByCell: true,
                         validateOnExit: true,
                         canRemoveRecords:true,
-
+                        editByCell:true,
                         gridComponents: ["filterEditor", "header",
                             "body", "summaryRow",
                             isc.ToolStrip.create({
