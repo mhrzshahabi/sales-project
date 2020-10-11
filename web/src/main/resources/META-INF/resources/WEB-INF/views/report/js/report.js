@@ -28,7 +28,6 @@ reportGeneratorTab.restDataSource.reportSource = isc.MyRestDataSource.create({
     ],
     fetchDataURL: reportGeneratorTab.variable.reportSourceUrl,
     transformRequest: function (dsRequest) {
-
         let reportSource;
         if (reportGeneratorTab.dynamicForm.report)
             reportSource = reportGeneratorTab.dynamicForm.report.getField("reportSource").getValue();
@@ -55,7 +54,6 @@ reportGeneratorTab.restDataSource.reportSourceFields = isc.MyRestDataSource.crea
     ],
     fetchDataURL: reportGeneratorTab.variable.reportSourceFieldsUrl,
     transformRequest: function (dsRequest) {
-
         let sourceData;
         let reportSource;
         if (reportGeneratorTab.dynamicForm.report) {
@@ -65,7 +63,6 @@ reportGeneratorTab.restDataSource.reportSourceFields = isc.MyRestDataSource.crea
         }
         if (!sourceData) sourceData = "";
         if (!reportSource) reportSource = "Rest";
-
         dsRequest.params = {
             reportSource: reportSource,
             source: sourceData,
@@ -111,7 +108,7 @@ reportGeneratorTab.dynamicForm.fields = BaseFormItems.concat([
         required: true,
         wrapTitle: false,
         colSpan: 1,
-        value: JSON.parse('${Enum_ReportSource}').Rest,
+        defaultValue: "Rest",
         valueMap: JSON.parse('${Enum_ReportSource}'),
         validators: [
             {
@@ -149,8 +146,8 @@ reportGeneratorTab.dynamicForm.fields = BaseFormItems.concat([
                 validateOnChange: true
             }],
         changed: function (form, item, value) {
-            let record = this.getSelectedRecord();
-            reportGeneratorTab.treeGrid.report.fetchData();
+            reportGeneratorTab.listGrid.report.setData([]);
+            reportGeneratorTab.listGrid.report.fetchData();
         }
     },
     {
@@ -194,22 +191,35 @@ reportGeneratorTab.dynamicForm.fields = BaseFormItems.concat([
         title: "<spring:message code='report.titleFA'/>",
         wrapTitle: false,
         required: true,
+        keyPressFilter: "[\u0600-\u06FF\uFB8A\u067E\u0686\u06AF\u200C\u200F *\\[\\+\\-\\_\\]\\(\\)\\}\\{/\\\\]",
         colSpan: 1,
         validators: [
             {
                 type: "required",
                 validateOnChange: true
-            }]
+            },
+            {
+                type: "regexp",
+                expression: "^[\u0600-\u06FF\uFB8A\u067E\u0686\u06AF\u200C\u200F *\\[\\+\\-\\_\\]\\(\\)\\}\\{/\\\\]*$",
+                validateOnChange: true
+            }
+        ]
     },
     {
         name: "titleEN",
         title: "<spring:message code='report.titleEN'/>",
+        keyPressFilter: "[A-Za-z *\\[\\+\\-\\_\\]\\(\\)\\}\\{/\\\\]",
         wrapTitle: false,
         required: true,
         colSpan: 1,
         validators: [
             {
                 type: "required",
+                validateOnChange: true
+            },
+            {
+                type: "regexp",
+                expression: "^[A-Za-z *\\[\\+\\-\\_\\]\\(\\)\\}\\{/\\\\]*$",
                 validateOnChange: true
             }]
     },
@@ -234,63 +244,77 @@ reportGeneratorTab.dynamicForm.report = isc.DynamicForm.create({
     requiredMessage: '<spring:message code="validator.field.is.required"/>',
     fields: reportGeneratorTab.dynamicForm.fields
 });
-reportGeneratorTab.dynamicForm.report.getField("sourceData").disable();
-reportGeneratorTab.treeGrid.report = isc.TreeGrid.create({
+reportGeneratorTab.listGrid.report = isc.ListGrid.nicico.getDefault([
+    {name: "name", primaryKey: true, title: '<spring:message code="global.field"/>'},
+    {name: "className", foreignKey: "name", title: '<spring:message code="report.group.parent-name"/>'},
+    {
+        name: "titleFA",
+        canEdit: true,
+        required: true,
+        title: '<spring:message code="global.title-fa"/>',
+        validators: [
+            {
+                type: "required",
+                validateOnChange: true
+            },
+            {
+                type: "regexp",
+                expression: "^[\u0600-\u06FF\uFB8A\u067E\u0686\u06AF\u200C\u200F *\\[\\+\\-\\_\\]\\(\\)\\}\\{/\\\\]*$",
+                validateOnChange: true
+            }
+        ]
+    },
+    {
+        name: "titleEN",
+        canEdit: true,
+        title: '<spring:message code="global.title-en"/>',
+        required: true,
+        validators: [
+            {
+                type: "required",
+                validateOnChange: true
+            },
+            {
+                type: "regexp",
+                expression: "^[A-Za-z *\\[\\+\\-\\_\\]\\(\\)\\}\\{/\\\\]*$",
+                validateOnChange: true
+            }]
+    },
+    {
+        name: "hidden",
+        type: "boolean",
+        canEdit: true,
+        title: '<spring:message code="report.hidden"/>',
+        required: true,
+        validators: [{
+            type: "required",
+            validateOnChange: true
+        }]
+    },
+    {
+        name: "canFilter",
+        type: "boolean",
+        canEdit: true,
+        title: '<spring:message code="report.canFilter"/>',
+        required: true,
+        validators: [{
+            type: "required",
+            validateOnChange: true
+        }]
+    },
+    {name: "type", title: '<spring:message code="global.field.type"/>'},
+    {name: "dataIsList", title: '<spring:message code="report.data-is-list"/>', type: "boolean", hidden: true},
+], reportGeneratorTab.restDataSource.reportSourceFields, null, {
     autoFetchData: false,
-    width: "100%",
-    height: "100%",
-    loadDataOnDemand: false,
-    border: "0px solid green",
-    showConnectors: true,
-    closedIconSuffix: "",
-    openIconSuffix: "",
-    selectedIconSuffix: "",
-    dropIconSuffix: "",
-    showOpenIcons: false,
-    showDropIcons: false,
     selectionAppearance: "checkbox",
-    nodeIcon: "",
-    folderIcon: "",
-    dataSource: reportGeneratorTab.restDataSource.reportSourceFields,
-    fields: [
-        {name: "name", primaryKey: true, title: '<spring:message code="global.field"/>'},
-        {name: "className", foreignKey: "name", title: '<spring:message code="report.group.parent-name"/>'},
-        {
-            name: "titleFA",
-            canEdit: true,
-            title: '<spring:message code="global.title-fa"/>',
-            validators: [
-                {
-                    type: "required",
-                    validateOnChange: true
-                },
-                {
-                    type: "regexp",
-                    expression: "^[\u0600-\u06FF\uFB8A\u067E\u0686\u06AF\u200C\u200F *\\[\\+\\-\\_\\]\\(\\)\\}\\{/\\\\]*$",
-                    validateOnChange: true
-                }
-            ]
-        },
-        {
-            name: "titleEN",
-            canEdit: true,
-            title: '<spring:message code="global.title-en"/>',
-            validators: [
-                {
-                    type: "required",
-                    validateOnChange: true
-                },
-                {
-                    type: "regexp",
-                    expression: "^[A-Za-z *\\[\\+\\-\\_\\]\\(\\)\\}\\{/\\\\]*$",
-                    validateOnChange: true
-                }]
-        },
-        {name: "hidden", type: "boolean", canEdit: true, title: '<spring:message code="report.hidden"/>'},
-        {name: "canFilter", type: "boolean", canEdit: true, title: '<spring:message code="report.canFilter"/>'},
-        {name: "type", title: '<spring:message code="global.field.type"/>'},
-        {name: "dataIsList", type: "boolean", hidden: true},
-    ]
+    showFilterEditor: false,
+    groupByField: "className",
+    groupStartOpen: "none",
+    selectionType: "simple",
+    autoSaveEdits: false,
+    getGroupTitle: function (groupData) {
+        return groupData.groupValue === "-none-" ? "" : groupData.groupValue;
+    }
 });
 reportGeneratorTab.window.report = new nicico.FormUtil();
 reportGeneratorTab.window.report.init(null, '<spring:message code="entity.report"/>', isc.VLayout.create({
@@ -300,18 +324,22 @@ reportGeneratorTab.window.report.init(null, '<spring:message code="entity.report
     align: "center",
     members: [
         reportGeneratorTab.dynamicForm.report,
-        reportGeneratorTab.treeGrid.report
+        reportGeneratorTab.listGrid.report
     ]
 }), "1200", "60%");
 reportGeneratorTab.window.report.populateData = function (bodyWidget) {
 
     let data = reportGeneratorTab.dynamicForm.report.getValues();
-    data.fields = reportGeneratorTab.treeGrid.report.getSelectedRecords();
+    data.fields = reportGeneratorTab.listGrid.report.getSelectedRecords();
+    data.fields.forEach(field => {
+        let invalidKeys = Object.keys(field).filter(p => p.startsWith("_") || p.startsWith("$"));
+        invalidKeys.forEach(invalidKey => delete field[invalidKey]);
+    });
 
     let formData = new FormData();
     let fileBrowserId = document.getElementById(reportGeneratorTab.dynamicForm.report.getItem("reportFile").uploadItem.getElement().id);
     formData.append("file", fileBrowserId.files[0]);
-    formData.append("data", data);
+    formData.append("data", JSON.stringify(data));
 
     return formData;
 };
@@ -321,11 +349,18 @@ reportGeneratorTab.window.report.validate = function (data) {
     if (reportGeneratorTab.dynamicForm.report.hasErrors())
         return false;
 
-    for (let i = 0; i < reportGeneratorTab.treeGrid.report.getTotalRows(); i++) {
-        reportGeneratorTab.treeGrid.report.validateRow(i);
-        if (reportGeneratorTab.treeGrid.report.hasErrors())
-            return false;
+    reportGeneratorTab.listGrid.report.saveAllEdits();
+    let selectedFields = reportGeneratorTab.listGrid.report.getSelectedRecords();
+    if (!selectedFields.length) {
+        reportGeneratorTab.dialog.say('<spring:message code="global.grid.record.not.selected"/>');
+        return false;
     }
+
+    for (let i = 0; i < selectedFields.length; i++)
+        if (!reportGeneratorTab.listGrid.report.validateRecord(selectedFields[i])) {
+            reportGeneratorTab.dialog.say('<spring:message code="report.filed-data-is-invalid"/>');
+            return false;
+        }
 
     return true;
 };
@@ -348,7 +383,6 @@ reportGeneratorTab.window.report.okCallBack = function (formData) {
                 reportGeneratorTab.dialog.ok();
                 reportGeneratorTab.method.refresh(reportGeneratorTab.listGrid.main);
             } else {
-
                 // reportGeneratorTab.dialog.error();
             }
         }
@@ -357,6 +391,7 @@ reportGeneratorTab.window.report.okCallBack = function (formData) {
 reportGeneratorTab.window.report.cancelCallBack = function () {
 
     reportGeneratorTab.dynamicForm.report.clearValues();
+    // reportGeneratorTab.listGrid.report.deselectAllRecords();
 
 };
 reportGeneratorTab.method.refreshData = function () {
@@ -366,6 +401,7 @@ reportGeneratorTab.method.newForm = function () {
 
     reportGeneratorTab.variable.method = "POST";
     reportGeneratorTab.dynamicForm.report.clearValues();
+    // reportGeneratorTab.listGrid.report.deselectAllRecords();
     reportGeneratorTab.window.report.justShowForm();
 };
 reportGeneratorTab.method.editForm = function () {
@@ -382,7 +418,6 @@ reportGeneratorTab.method.editForm = function () {
     else if (record.estatus.contains(Enums.eStatus2.Final))
         reportGeneratorTab.dialog.finalRecord();
     else {
-
         reportGeneratorTab.window.report.justShowForm();
     }
 };

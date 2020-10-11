@@ -1,5 +1,6 @@
 package com.nicico.sales.controller.report;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Enums;
 import com.nicico.copper.common.Loggable;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
@@ -13,7 +14,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -27,6 +27,7 @@ import java.util.Map;
 @RequestMapping(value = "/api/report")
 public class ReportRestController {
 
+    private final ObjectMapper objectMapper;
     private final IReportService reportService;
     private final SpecListUtil specListUtil;
 
@@ -63,9 +64,18 @@ public class ReportRestController {
     @Loggable
     @PostMapping
     public ResponseEntity<ReportDTO.Info> create(
-            @RequestParam("file") MultipartFile file,
-            @RequestParam("data") String request) {
-        return new ResponseEntity<>(null, HttpStatus.CREATED);
+            @RequestParam(value = "file", required = false) MultipartFile file,
+            @RequestParam("data") String request) throws IOException {
+
+        ReportDTO.Create data = objectMapper.readValue(request, ReportDTO.Create.class);
+
+//        minio
+//        data.setFile()
+
+//        generate
+//        data.setPermissionBaseKey()
+
+        return new ResponseEntity<>(reportService.create(data), HttpStatus.CREATED);
     }
 
     @Loggable
