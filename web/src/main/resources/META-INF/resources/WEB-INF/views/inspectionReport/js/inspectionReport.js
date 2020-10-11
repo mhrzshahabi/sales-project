@@ -259,6 +259,30 @@ inspectionReportTab.restDataSource.contactRest2 = {
     fetchDataURL: "${contextPath}/api/contact/spec-list2"
 };
 
+inspectionReportTab.restDataSource.contractContactRest = isc.MyRestDataSource.create({
+    fields: [
+        {
+            name: "id",
+            primaryKey: true,
+            canEdit: false,
+            hidden: true
+        },
+        {
+            name: "contract",
+            // title: "<spring:message code='contact.code'/>"
+        },
+        {
+            name: "contact",
+            // title: "<spring:message code='contact.nameFa'/>"
+        },
+        {
+            name: "commercialRole",
+            // title: "<spring:message code='contact.nameEn'/>"
+        }
+    ],
+    fetchDataURL: "${contextPath}/api/contract-contact/spec-list"
+});
+
 inspectionReportTab.restDataSource.inventoryRest = isc.MyRestDataSource.create({
     fields: [
         {
@@ -410,6 +434,39 @@ inspectionReportTab.restDataSource.shipmentRest = isc.MyRestDataSource.create({
         },
     ],
     fetchDataURL: "${contextPath}/api/shipment/spec-list"
+});
+
+inspectionReportTab.restDataSource.contractRest = isc.MyRestDataSource.create({
+    fields: [
+        {
+            name: "id",
+            primaryKey: true,
+            canEdit: false,
+            hidden: true
+        },
+        {
+            name: "no",
+            title: "<spring:message code ='shipment.bookingCat'/>",
+            showHover: true
+        },
+        {
+            name: "date",
+            title: "<spring:message code ='material.descl'/>",
+            showHover: true
+        },
+        {
+            name: "material",
+            title: "<spring:message code ='contact.nameFa'/>",
+            showHover: true
+        },
+        {
+            name: "contractContacts",
+            title: "<spring:message code ='global.sendDate'/>",
+            showHover: true,
+            type: "date"
+        }
+    ],
+    fetchDataURL: "${contextPath}/api/g-contract/spec-list"
 });
 
 inspectionReportTab.restDataSource.remittanceDetailRest = isc.MyRestDataSource.create({
@@ -694,20 +751,41 @@ inspectionReportTab.method.createWeightListGrid = function () {
             inspectionReportTab.method.setWeightElementListRows(inventoryIds);
             inspectionReportTab.method.setWeightElementSum();
 
-            let dtls = inventories.filter(a => a.remittanceDetails.length).map(a => a.remittanceDetails).flat();
-            let unitList = dtls.map(a => a.unitId).distinct();
-            unitList.forEach(uId => {
-                let x = isc.Unit.create({
-                    disabledUnitField: true,
-                    disabledValueField: true,
-                    showUnitFieldTitle: false,
-                    showValueFieldTitle: false,
-                    align: "center",
-                    width: "40%"
+            let unitArray = [];
+            let amountArray = [];
+            let remittanceDetails = inventories.map(q => q.remittanceDetails);
+            remittanceDetails.forEach(rds => {
+                rds.forEach(r => {
+                    unitArray.push(r.unitId);
                 });
-                x.setValue(dtls.filter(a => a.unitId === uId).map(a => a.amount).sum());
-                x.setUnitId(uId);
-                inspectionReportTab.hStack.weightUnitSum.addMember(x);
+            });
+            unitArray = unitArray.distinct();
+            unitArray.forEach((u, index) => {
+                if (amountArray[index] === undefined) {
+                    amountArray[index] = 0;
+                }
+                remittanceDetails.forEach(rds => {
+                    rds.forEach((r, i) => {
+                        if (r.unitId === u && r.amount !== 0) {
+                            amountArray[index] = amountArray[index] + r.amount;
+                        }
+                    });
+                });
+            });
+            unitArray.forEach((current, index) => {
+                if (amountArray[index] !== 0) {
+                    let unitMember = isc.Unit.create({
+                        disabledUnitField: true,
+                        disabledValueField: true,
+                        showUnitFieldTitle: false,
+                        showValueFieldTitle: false,
+                        align: "left",
+                        width: "25%"
+                    });
+                    unitMember.setValue(amountArray[index]);
+                    unitMember.setUnitId(current);
+                    inspectionReportTab.hStack.weightUnitSum.addMember(unitMember);
+                }
             });
         }
     }));
@@ -751,20 +829,41 @@ inspectionReportTab.method.createAssayListGrid = function () {
             inspectionReportTab.method.setAssayElementListRows(inventoryIds);
             inspectionReportTab.method.setAssayElementSum();
 
-            let dtls = inventories.filter(a => a.remittanceDetails.length).map(a => a.remittanceDetails).flat();
-            let unitList = dtls.map(a => a.unitId).distinct();
-            unitList.forEach(uId => {
-                let x = isc.Unit.create({
-                    disabledUnitField: true,
-                    disabledValueField: true,
-                    showUnitFieldTitle: false,
-                    showValueFieldTitle: false,
-                    align: "center",
-                    width: "40%"
+            let unitArray = [];
+            let amountArray = [];
+            let remittanceDetails = inventories.map(q => q.remittanceDetails);
+            remittanceDetails.forEach(rds => {
+                rds.forEach(r => {
+                    unitArray.push(r.unitId);
                 });
-                x.setValue(dtls.filter(a => a.unitId === uId).map(a => a.amount).sum());
-                x.setUnitId(uId);
-                inspectionReportTab.hStack.assayUnitSum.addMember(x);
+            });
+            unitArray = unitArray.distinct();
+            unitArray.forEach((u, index) => {
+                if (amountArray[index] === undefined) {
+                    amountArray[index] = 0;
+                }
+                remittanceDetails.forEach(rds => {
+                    rds.forEach((r, i) => {
+                        if (r.unitId === u && r.amount !== 0) {
+                            amountArray[index] = amountArray[index] + r.amount;
+                        }
+                    });
+                });
+            });
+            unitArray.forEach((current, index) => {
+                if (amountArray[index] !== 0) {
+                    let unitMember = isc.Unit.create({
+                        disabledUnitField: true,
+                        disabledValueField: true,
+                        showUnitFieldTitle: false,
+                        showValueFieldTitle: false,
+                        align: "left",
+                        width: "25%"
+                    });
+                    unitMember.setValue(amountArray[index]);
+                    unitMember.setUnitId(current);
+                    inspectionReportTab.hStack.assayUnitSum.addMember(unitMember);
+                }
             });
         }
     }));
@@ -775,7 +874,7 @@ inspectionReportTab.method.materialChange = function () {
     inspectionReportTab.dynamicForm.assayLab.getField("labName").setRequired(true);
     inspectionReportTab.dynamicForm.assayLab.getField("labPlace").setRequired(true);
     inspectionReportTab.tab.inspecTabs.tabs.filter(q => q.name === "assay").first().pane.enable();
-    inspectionReportTab.variable.materialId = inspectionReportTab.dynamicForm.material.getItem("material").getValue();
+    inspectionReportTab.variable.materialId = inspectionReportTab.dynamicForm.material.getValue("material");
     inspectionReportTab.method.setShipmentAndInventoryCriteria(inspectionReportTab.variable.materialId);
 
     switch (inspectionReportTab.variable.materialId) {
@@ -945,18 +1044,44 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
                         value: value
                     }]
                 });
-                
-                // inspectionReportTab.dynamicForm.inspecReport.getItem("sellerId").setValue([]);
-                // inspectionReportTab.dynamicForm.inspecReport.getItem("buyerId").setValue([]);
-                // inspectionReportTab.variable.contractContactCriteria = {
-                //     _constructor: "AdvancedCriteria",
-                //     operator: "and",
-                //     criteria: [{fieldName: "commercialRole", operator: "iContains", value: "Inspector"}]
-                // };
-                // inspectionReportTab.restDataSource.contractContact.fetchData(inspectionReportTab.variable.contractContactCriteria, function (dsResponse, data, dsRequest) {
-                //     if (data.length) {
-                //     }
-                // });
+
+                if (inspectionReportTab.variable.method === "POST") {
+
+                    let aCriteria = {
+                        _constructor: "AdvancedCriteria",
+                        operator: "and",
+                        criteria: [{
+                            fieldName: "id",
+                            operator: "equals",
+                            value: value
+                        }]
+                    };
+                    inspectionReportTab.restDataSource.shipmentRest.fetchData(aCriteria, function (dsResponse, data, dsRequest) {
+
+                        if (data.length) {
+                            let contractId = data[0].contractShipment.contractId;
+                            let bCriteria = {
+                                _constructor: "AdvancedCriteria",
+                                operator: "and",
+                                criteria: [{
+                                    fieldName: "id",
+                                    operator: "equals",
+                                    value: contractId
+                                }]
+                            };
+                            inspectionReportTab.restDataSource.contractRest.fetchData(bCriteria, function (conDsResponse, conData, conDsRequest) {
+                                if (conData.length) {
+                                    inspectionReportTab.dynamicForm.inspecReport.getItem("sellerId").setValue([]);
+                                    inspectionReportTab.dynamicForm.inspecReport.getItem("buyerId").setValue([]);
+                                    let buyerId = conData[0].contractContacts.filter(q => q.commercialRole === "Buyer").first().contactId;
+                                    let sellerId = conData[0].contractContacts.filter(q => q.commercialRole === "Seller").first().contactId;
+                                    inspectionReportTab.dynamicForm.inspecReport.setValue("buyerId", buyerId);
+                                    inspectionReportTab.dynamicForm.inspecReport.setValue("sellerId", sellerId);
+                                }
+                            });
+                        }
+                    });
+                }
 
             } else
                 inspectionReportTab.dynamicForm.inspecReport.getItem("inventoryId").setOptionCriteria({
@@ -1546,10 +1671,11 @@ inspectionReportTab.toolStrip.weightRemoveAll = isc.ToolStrip.create({
 });
 
 inspectionReportTab.hStack.weightUnitSum = isc.HStack.create({
-    width: "100%",
     height: "10%",
+    width: "100%",
     align: "right",
-    overflow: "auto",
+    overflow: "visible",
+    canAdaptWidth: true,
     members: []
 });
 
@@ -1719,7 +1845,8 @@ inspectionReportTab.hStack.assayUnitSum = isc.HStack.create({
     height: "10%",
     width: "100%",
     align: "right",
-    overflow: "auto",
+    overflow: "visible",
+    canAdaptWidth: true,
     members: []
 });
 
@@ -1767,6 +1894,8 @@ inspectionReportTab.method.clearForm = function () {
     inspectionReportTab.listGrid.assayElementSum.setFields([]);
     inspectionReportTab.toolStrip.weightRemoveAll.members[1].members[0].getItem("excelFile").clearValue();
     inspectionReportTab.toolStrip.assayRemoveAll.members[1].members[0].getItem("excelFile").clearValue();
+    inspectionReportTab.hStack.weightUnitSum.members.forEach(q => q.clearValues());
+    inspectionReportTab.hStack.assayUnitSum.members.forEach(q => q.clearValues());
 };
 
 inspectionReportTab.window.inspecReport = new nicico.FormUtil();
