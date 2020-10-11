@@ -745,8 +745,6 @@ foreignInvoiceTab.button.save = isc.IButtonSave.create({
             ////// COPPER_CONCENTRATES //////
         } else if (foreignInvoiceTab.variable.materialId === ImportantIDs.material.COPPER_CONCENTRATES) {
 
-            console.log("inspectionWeightData ", foreignInvoiceTab.dynamicForm.valuesManager.getValue("inspectionWeightData"));
-            console.log("inspectionAssayData ", foreignInvoiceTab.dynamicForm.valuesManager.getValue("inspectionAssayData"));
             let invoiceBaseValuesComponent = isc.InvoiceBaseValues.create({
                 currency: foreignInvoiceTab.dynamicForm.valuesManager.getValue("currency"),
                 contract: foreignInvoiceTab.dynamicForm.valuesManager.getValue("contract"),
@@ -756,7 +754,7 @@ foreignInvoiceTab.button.save = isc.IButtonSave.create({
                 basePriceData: foreignInvoiceTab.dynamicForm.valuesManager.getValue("basePriceData"),
                 inspectionWeightData: foreignInvoiceTab.dynamicForm.valuesManager.getValue("inspectionWeightData"),
                 inspectionAssayData: foreignInvoiceTab.dynamicForm.valuesManager.getValue("inspectionAssayData"),
-            })
+            });
             foreignInvoiceTab.method.addTab(invoiceBaseValuesComponent, '<spring:message code="foreign-invoice.form.tab.base-values"/>');
 
             invoiceBaseValuesComponent.okButtonClick = function () {
@@ -802,7 +800,6 @@ foreignInvoiceTab.button.save = isc.IButtonSave.create({
                 contract: foreignInvoiceTab.dynamicForm.valuesManager.getValue('contract'),
                 shipment: foreignInvoiceTab.dynamicForm.valuesManager.getValue("shipment"),
                 contractDetailData: foreignInvoiceTab.variable.contractDetailData,
-                // inspectionAssayData: foreignInvoiceTab.dynamicForm.valuesManager.getValue("inspectionAssayData"),
                 inspectionWeightData: foreignInvoiceTab.dynamicForm.valuesManager.getValue("inspectionWeightData"),
             });
             foreignInvoiceTab.method.addTab(invoiceCalculationCathodeComponent, '<spring:message code="foreign-invoice.form.tab.calculation"/>');
