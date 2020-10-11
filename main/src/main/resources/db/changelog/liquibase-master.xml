@@ -24,6 +24,7 @@
     <include file="classpath:/db/changelog/changes/tbl_report_group.xml"/>
     <include file="classpath:/db/changelog/changes/tbl_report.xml"/>
     <include file="classpath:/db/changelog/changes/tbl_report_field.xml"/>
+     <include file="classpath:/db/changelog/changes/tbl_file.xml"/>
     <!-- CHANGES -->
 
     <!-- INITIALIZE DATA -->
