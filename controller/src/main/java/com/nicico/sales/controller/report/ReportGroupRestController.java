@@ -19,7 +19,7 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(value = "/api/reportGroup")
+@RequestMapping(value = "/api/report-group")
 public class ReportGroupRestController {
 
     private final IReportGroupService reportGroupService;

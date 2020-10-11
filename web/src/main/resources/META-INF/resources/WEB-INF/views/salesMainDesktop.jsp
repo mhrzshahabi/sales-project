@@ -1025,32 +1025,32 @@
         menu: isc.Menu.create({
             placement: "none",
             data: [
-                {
-                    title: "<spring:message code='global.sales'/>",
+               <sec:authorize access="hasAuthority('R_REPORT')">
+               {
+                    title: "<spring:message code='report.menu.generator'/>",
                     click: function () {
-                        nicico.ReportFormUtil.showForm("api/shipmentCostInvoice/", "<spring:message code='global.sales'/>");
+                         createTab("<spring:message code='report.menu.generator'/>", "<spring:url value="/report/show-form" />")
                     }
                 },
                 {isSeparator: true},
+                </sec:authorize>
+               <sec:authorize access="hasAuthority('R_REPORT_GROUP')">
                 {
-                    title: "<spring:message code='global.sales.internal'/>",
+                    title: "<spring:message code='report.menu.report-group'/>",
                     click: function () {
-                         createTab("<spring:message code='global.sales.internal'/>", "<spring:url value="/report/show-form" />")
+                         createTab("<spring:message code='report.menu.report-group'/>", "<spring:url value="/report-group/show-form" />")
                     }
                 },
                 {isSeparator: true},
+                </sec:authorize>
+                <sec:authorize access="hasAuthority('RG_EXECUTE')">
                 {
-                    title: "<spring:message code='global.sales.foreign'/>",
+                    title: "<spring:message code='report.menu.execute'/>",
                     click: function () {
-                        //createTab("<spring:message code='invoiceSales.title'/>", "<spring:url value="/invoiceSales/showForm" />")
-                    }
-                },
-                {
-                    title: "<spring:message code='global.sales.warehouse'/>",
-                    click: function () {
-                        createTab("<spring:message code='global.sales.warehouse'/>", "<spring:url value="/warehouse-report/show-report-form" />")
+                         createTab("<spring:message code='report.menu.execute'/>", "<spring:url value="/report/show-execute-form" />")
                     }
                 }
+                </sec:authorize>
             ]
         })
     });

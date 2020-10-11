@@ -1,0 +1,59 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+    <changeSet author="NO1 (generated)" id="1602318533909-230">
+        <createSequence sequenceName="SEQ_REPORT_FIELD"/>
+    </changeSet>
+    <changeSet author="NO1 (generated)" id="1602318533909-233">
+        <createTable tableName="TBL_REPORT_FIELD">
+            <column name="ID" type="NUMBER(19, 0)">
+                <constraints primaryKey="true" primaryKeyName="TBL_REPORT_FIELDPK"/>
+            </column>
+            <column name="c_created_by" type="VARCHAR2(255 CHAR)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="d_created_date" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
+            <column name="d_last_modified_date" type="TIMESTAMP"/>
+            <column name="n_version" type="NUMBER(10, 0)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueNumeric="1" name="N_E_STATUS" type="NUMBER">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueNumeric="1" name="B_EDITABLE" type="NUMBER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="B_CAN_FILTER" type="NUMBER(1, 0)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="B_HIDDEN" type="NUMBER(1, 0)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="C_NAME" type="VARCHAR2(255 CHAR)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="F_REPORT_ID" type="NUMBER(19, 0)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="C_TITLE_EN" type="VARCHAR2(255 CHAR)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="C_TITLE_FA" type="VARCHAR2(255 CHAR)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="C_TYPE" type="VARCHAR2(255 CHAR)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="NO1 (generated)" id="1602318533909-238">
+        <addForeignKeyConstraint baseColumnNames="F_REPORT_ID" baseTableName="TBL_REPORT_FIELD" constraintName="fk_reportField2Report" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_REPORT" validate="true"/>
+    </changeSet>
+
+</databaseChangeLog>

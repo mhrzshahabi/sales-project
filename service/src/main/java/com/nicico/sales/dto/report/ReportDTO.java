@@ -65,7 +65,6 @@ public class ReportDTO {
         private String nameEN;
         private String restMethod;
         private Boolean dataIsList;
-        private List<FieldData> fields;
     }
 
     @Getter

@@ -8,7 +8,7 @@ spring:
       connection-test-query: SELECT 1 FROM DUAL
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: validate
     properties:
       hibernate:
         enable_lazy_load_no_trans: true
@@ -74,7 +74,9 @@ nicico:
     resource-id: Copper
   apps:
     accounting: http://devapp01.icico.net.ir/accounting
-
+  report:
+      package:
+        controller-name: com.nicico.sales.controller
 ---
 
 spring:

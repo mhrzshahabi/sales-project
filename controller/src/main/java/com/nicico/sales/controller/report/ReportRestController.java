@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
@@ -27,7 +28,8 @@ import java.util.Map;
 public class ReportRestController {
 
     private final IReportService reportService;
- private final SpecListUtil specListUtil;
+    private final SpecListUtil specListUtil;
+
     @Loggable
     @GetMapping("/sources")
     public ResponseEntity<Map<String, Object>> getSourceData(@RequestParam String reportSource) {
@@ -35,6 +37,15 @@ public class ReportRestController {
         ReportSource reportSourceEnum = Enums.getIfPresent(ReportSource.class, reportSource).or(ReportSource.View);
         List<ReportDTO.SourceData> sourceData = reportService.getSourceData(reportSourceEnum);
         return new ResponseEntity<>(specListUtil.getCoveredByResponse(sourceData), HttpStatus.OK);
+    }
+
+    @Loggable
+    @GetMapping("/sources-fields")
+    public ResponseEntity<Map<String, Object>> getSourceFields(@RequestParam String reportSource, @RequestParam String source) {
+
+        ReportSource reportSourceEnum = Enums.getIfPresent(ReportSource.class, reportSource).or(ReportSource.View);
+        List<ReportDTO.FieldData> sourceFields = reportService.getSourceFields(reportSourceEnum, source);
+        return new ResponseEntity<>(specListUtil.getCoveredByResponse(sourceFields), HttpStatus.OK);
     }
 
     @Loggable
@@ -51,8 +62,10 @@ public class ReportRestController {
 
     @Loggable
     @PostMapping
-    public ResponseEntity<ReportDTO.Info> create(@Validated @RequestBody ReportDTO.Create request) {
-        return new ResponseEntity<>(reportService.create(request), HttpStatus.CREATED);
+    public ResponseEntity<ReportDTO.Info> create(
+            @RequestParam("file") MultipartFile file,
+            @RequestParam("data") String request) {
+        return new ResponseEntity<>(null, HttpStatus.CREATED);
     }
 
     @Loggable

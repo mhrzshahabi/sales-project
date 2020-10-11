@@ -21,6 +21,9 @@
     <include file="classpath:/db/changelog/changes/tbl_shipment_cost_duty.xml"/>
     <include file="classpath:/db/changelog/changes/tbl_warh_element.xml"/>
     <include file="classpath:/db/changelog/changes/tbl_warh_material_element.xml"/>
+    <include file="classpath:/db/changelog/changes/tbl_report_group.xml"/>
+    <include file="classpath:/db/changelog/changes/tbl_report.xml"/>
+    <include file="classpath:/db/changelog/changes/tbl_report_field.xml"/>
     <!-- CHANGES -->
 
     <!-- INITIALIZE DATA -->

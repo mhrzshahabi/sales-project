@@ -2291,6 +2291,90 @@
     {
       "code": "U_REPORT",
       "title": "به روز رسانی گزارش"
+    },
+    {
+      "code": "A_REPORT",
+      "title": "فعالسازی گزارش"
+    },
+    {
+      "code": "I_REPORT",
+      "title": "غیرفعالسازی گزارش"
+    },
+    {
+      "code": "F_REPORT",
+      "title": "تائید نهایی گزارش"
+    },
+    {
+      "code": "O_REPORT",
+      "title": "لغو تائید نهایی گزارش"
+    },
+    {
+      "code": "R_REPORT_FIELD",
+      "title": "نمایش ستون گزارش"
+    },
+    {
+      "code": "C_REPORT_FIELD",
+      "title": "ایجاد ستون گزارش"
+    },
+    {
+      "code": "D_REPORT_FIELD",
+      "title": "حذف ستون گزارش"
+    },
+    {
+      "code": "U_REPORT_FIELD",
+      "title": "به روز رسانی ستون گزارش"
+    },
+    {
+      "code": "A_REPORT_FIELD",
+      "title": "فعالسازی ستون گزارش"
+    },
+    {
+      "code": "I_REPORT_FIELD",
+      "title": "غیرفعالسازی ستون گزارش"
+    },
+    {
+      "code": "F_REPORT_FIELD",
+      "title": "تائید نهایی ستون گزارش"
+    },
+    {
+      "code": "O_REPORT_FIELD",
+      "title": "لغو تائید نهایی ستون گزارش"
+    },
+    {
+      "code": "R_REPORT_GROUP",
+      "title": "نمایش گروه بندی گزارش"
+    },
+    {
+      "code": "C_REPORT_GROUP",
+      "title": "ایجاد گروه بندی گزارش"
+    },
+    {
+      "code": "D_REPORT_GROUP",
+      "title": "حذف گروه بندی گزارش"
+    },
+    {
+      "code": "U_REPORT_GROUP",
+      "title": "به روز رسانی گروه بندی گزارش"
+    },
+    {
+      "code": "A_REPORT_GROUP",
+      "title": "فعالسازی گروه بندی گزارش"
+    },
+    {
+      "code": "I_REPORT_GROUP",
+      "title": "غیرفعالسازی گروه بندی گزارش"
+    },
+    {
+      "code": "F_REPORT_GROUP",
+      "title": "تائید نهایی گروه بندی گزارش"
+    },
+    {
+      "code": "O_REPORT_GROUP",
+      "title": "لغو تائید نهایی گروه بندی گزارش"
+    },
+    {
+      "code": "RG_EXECUTE",
+      "title": "اجرای گزارشات"
     }
   ]
 }

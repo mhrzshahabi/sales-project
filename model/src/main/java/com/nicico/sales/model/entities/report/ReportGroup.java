@@ -34,7 +34,6 @@ public class ReportGroup extends BaseEntity {
     private String nameEN;
 
     @I18n
-    @NotNull
     @Transient
     private String name;
 

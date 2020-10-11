@@ -10,5 +10,6 @@ import java.util.List;
 public interface IReportService extends IGenericService<Report, Long, ReportDTO.Create, ReportDTO.Info, ReportDTO.Update, ReportDTO.Delete> {
 
     List<ReportDTO.SourceData> getSourceData(ReportSource reportSource);
+    List<ReportDTO.FieldData> getSourceFields(ReportSource reportSource, String source);
 
 }

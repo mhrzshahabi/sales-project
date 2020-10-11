@@ -17,6 +17,7 @@ import org.reflections.Reflections;
 import org.reflections.scanners.MethodAnnotationsScanner;
 import org.reflections.util.ClasspathHelper;
 import org.reflections.util.ConfigurationBuilder;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -37,6 +38,9 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class ReportService extends GenericService<com.nicico.sales.model.entities.report.Report, Long, ReportDTO.Create, ReportDTO.Info, ReportDTO.Update, ReportDTO.Delete> implements IReportService {
+
+    @Value("${nicico.report.package.controller-name}")
+    private String restControllerPackage;
 
     private final EntityManager entityManager;
     private final ResourceBundleMessageSource messageSource;
@@ -82,38 +86,27 @@ public class ReportService extends GenericService<com.nicico.sales.model.entitie
             "FROM\n" +
             "    user_tab_columns\n" +
             "WHERE\n" +
-            "    table_name IN (\n" +
-            "        SELECT\n" +
-            "            view_name\n" +
-            "        FROM\n" +
-            "            user_views\n" +
-            "    )";
+            "    table_name = ?";
     private final static List<Class> MAPPING_ANNOTATIONS = new ArrayList<>(Arrays.asList(RequestMapping.class, GetMapping.class, PutMapping.class, PostMapping.class, DeleteMapping.class, PatchMapping.class));
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public List<ReportDTO.SourceData> getSourceData(ReportSource reportSource) {
 
         return reportSource == ReportSource.Rest ? getRestData() : getViewData();
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public List<ReportDTO.FieldData> getSourceFields(ReportSource reportSource, String source) {
+
+        return reportSource == ReportSource.Rest ? getRestFields(source) : getViewFields(source);
+    }
+
     private List<ReportDTO.SourceData> getViewData() {
 
         Query viewNameQuery = entityManager.createNativeQuery(VIEW_NAME_QUERY_TEXT);
-        Query viewFieldsQuery = entityManager.createNativeQuery(VIEW_FIELDS_QUERY_TEXT);
         List<String> viewNames = modelMapper.map(viewNameQuery.getResultList(), new TypeToken<List<String>>() {
-        }.getType());
-        List<Map<String, Object>> viewFieldMaps = new ArrayList<>();
-        viewFieldsQuery.getResultList().forEach(result -> {
-
-            Object[] resultArray = ((Object[]) result);
-            Map<String, Object> viewFieldMap = new HashMap<>();
-            for (int i = 0; i < resultArray.length; i++)
-                viewFieldMap.put(VIEW_FIELDS_OBJECT_COLUMNS[i], resultArray[i]);
-
-            viewFieldMaps.add(viewFieldMap);
-        });
-        List<ReportDTO.FieldData> viewFields = modelMapper.map(viewFieldMaps, new TypeToken<List<ReportDTO.FieldData>>() {
         }.getType());
 
         List<ReportDTO.SourceData> viewDataList = new ArrayList<>();
@@ -125,7 +118,6 @@ public class ReportService extends GenericService<com.nicico.sales.model.entitie
             viewData.setNameFA(viewName);
             viewData.setSource(viewName);
             viewData.setDataIsList(true);
-            viewData.setFields(viewFields.stream().filter(viewField -> viewField.getClassName().equals(viewName)).collect(Collectors.toList()));
 
             viewDataList.add(viewData);
         });
@@ -135,10 +127,7 @@ public class ReportService extends GenericService<com.nicico.sales.model.entitie
 
     private List<ReportDTO.SourceData> getRestData() {
 
-        Reflections reflections = new Reflections(new ConfigurationBuilder()
-                .setUrls(ClasspathHelper.forPackage("com.nicico.sales.controller"))
-                .setScanners(new MethodAnnotationsScanner()));
-        Set<Method> methods = reflections.getMethodsAnnotatedWith(Report.class);
+        Set<Method> methods = getSpecListMethods();
 
         List<ReportDTO.SourceData> restDataList = new ArrayList<>();
         methods.forEach(method -> {
@@ -152,28 +141,72 @@ public class ReportService extends GenericService<com.nicico.sales.model.entitie
 
             ReportDTO.SourceData restData = new ReportDTO.SourceData();
 
-            Report reportAnnotation = method.getAnnotation(Report.class);
-            Class<?> returnType = reportAnnotation.returnType();
-            List<ReportDTO.FieldData> fields = new ArrayList<>();
-            getFields("", returnType, fields);
-
             Annotation methodMappingAnnotation = Arrays.stream(method.getAnnotations()).filter(q -> MAPPING_ANNOTATIONS.contains(q.annotationType())).findFirst().orElseThrow(() -> new NotFoundException("انوتیشن مسیریابی روی API مورد نظر درست تنظیم نشده است."));
             Map<String, String> methodData = getMethodName(methodMappingAnnotation);
 
             String methodUrl = getMethodUrl(method) + methodData.values().iterator().next();
 
+            Report reportAnnotation = method.getAnnotation(Report.class);
             String nameKey = reportAnnotation.nameKey();
             restData.setNameEN(messageSource.getMessage(nameKey, null, Locale.ENGLISH));
             restData.setNameFA(messageSource.getMessage(nameKey, null, Locale.forLanguageTag("fa")));
             restData.setDataIsList(reportAnnotation.returnTypeIsList());
             restData.setSource(methodUrl);
             restData.setRestMethod(methodData.keySet().iterator().next());
-            restData.setFields(fields);
 
             restDataList.add(restData);
         });
 
         return restDataList;
+    }
+
+    private List<ReportDTO.FieldData> getViewFields(String source) {
+
+        Query viewFieldsQuery = entityManager.createNativeQuery(VIEW_FIELDS_QUERY_TEXT);
+        viewFieldsQuery.setParameter(1, source);
+        List<Map<String, Object>> viewFieldMaps = new ArrayList<>();
+        viewFieldsQuery.getResultList().forEach(result -> {
+
+            Object[] resultArray = ((Object[]) result);
+            Map<String, Object> viewFieldMap = new HashMap<>();
+            for (int i = 0; i < resultArray.length; i++)
+                viewFieldMap.put(VIEW_FIELDS_OBJECT_COLUMNS[i], resultArray[i]);
+
+            viewFieldMaps.add(viewFieldMap);
+        });
+
+        return modelMapper.map(viewFieldMaps, new TypeToken<List<ReportDTO.FieldData>>() {
+        }.getType());
+    }
+
+    private List<ReportDTO.FieldData> getRestFields(String source) {
+
+        Set<Method> methods = getSpecListMethods();
+        Method sourceMethod = methods.stream().filter(method -> {
+
+            Annotation methodMappingAnnotation = Arrays.stream(method.getAnnotations()).filter(q -> MAPPING_ANNOTATIONS.contains(q.annotationType())).findFirst().orElseThrow(() -> new NotFoundException("انوتیشن مسیریابی روی API مورد نظر درست تنظیم نشده است."));
+            Map<String, String> methodData = getMethodName(methodMappingAnnotation);
+
+            String methodUrl = getMethodUrl(method) + methodData.values().iterator().next();
+
+            return methodUrl.equals(source);
+        }).findFirst().orElseThrow(() -> new NotFoundException("متد مورد نظر یافت نشد."));
+
+        Report reportAnnotation = sourceMethod.getAnnotation(Report.class);
+        Class<?> returnType = reportAnnotation.returnType();
+        List<ReportDTO.FieldData> fields = new ArrayList<>();
+        getFields("", returnType, fields);
+
+        return fields;
+    }
+
+    private Set<Method> getSpecListMethods() {
+
+        Reflections reflections = new Reflections(new ConfigurationBuilder()
+                .setUrls(ClasspathHelper.forPackage(restControllerPackage))
+                .setScanners(new MethodAnnotationsScanner()));
+
+        return reflections.getMethodsAnnotatedWith(Report.class);
     }
 
     private String mapType(Class<?> type) {

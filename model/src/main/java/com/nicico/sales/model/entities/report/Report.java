@@ -36,7 +36,6 @@ public class Report extends BaseEntity {
     private String titleEN;
 
     @I18n
-    @NotNull
     @Transient
     private String title;
 

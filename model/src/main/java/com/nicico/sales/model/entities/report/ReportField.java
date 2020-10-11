@@ -47,7 +47,6 @@ public class ReportField extends BaseEntity {
 
     @I18n
     @Transient
-    @NotNull
     private String title;
 
     @NotNull
