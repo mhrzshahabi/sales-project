@@ -93,8 +93,8 @@ foreignInvoiceTab.listGrid.fields = BaseFormItems.concat([
         width: "100%",
         required: true,
         showHover: true,
-        name: "shipment.material.descl",
-        title: "<spring:message code='material.descl'/>"
+        name: "shipment.material.descEN",
+        title: "<spring:message code='material.descEN'/>"
     },
     {
         width: "100%",
@@ -236,7 +236,7 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
             {name: "id", primaryKey: true, hidden: true, title: "<spring:message code='global.id'/>"},
             {name: "sendDate", title: "<spring:message code='global.sendDate'/>", type: "date", width: "110"},
             {name: "contact.nameEN", title: "<spring:message code='foreign-invoice.form.shipment'/>"},
-            {name: "material.descl", title: "<spring:message code='material.descl'/>"},
+            {name: "material.descEN", title: "<spring:message code='material.descEN'/>"},
             {name: "amount", title: "<spring:message code='global.amount'/>"},
             {name: "loadingLetter", title: "<spring:message code='shipment.loadingLetter'/>"},
         ],
@@ -244,7 +244,7 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
             fields: [
                 {name: "id", primaryKey: true, hidden: true, title: "<spring:message code='global.id'/>"},
                 {name: "contact.nameEN", title: "<spring:message code='foreign-invoice.form.shipment'/>"},
-                {name: "material.descl", title: "<spring:message code='material.descl'/>"},
+                {name: "material.descEN", title: "<spring:message code='material.descEN'/>"},
                 {name: "amount", title: "<spring:message code='global.amount'/>"},
                 {name: "loadingLetter", title: "<spring:message code='shipment.loadingLetter'/>"},
             ],
@@ -2061,8 +2061,8 @@ foreignInvoiceTab.method.newForm = function () {
                         "version": 1
                     },
                     "material": {
-                        "descl": "Molybdenum Oxide",
-                        "descp": "اکسید مولیبدن",
+                        "descEN": "Molybdenum Oxide",
+                        "descFA": "اکسید مولیبدن",
                         "code": "28257000",
                         "unitId": -1,
                         "abbreviation": "MO",

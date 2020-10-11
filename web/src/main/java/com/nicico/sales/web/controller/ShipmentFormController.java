@@ -121,7 +121,7 @@ public class ShipmentFormController {
         replacePOI(doc, "agent", shipment.getContactAgent().getNameFA());
         replacePOI(doc, "contract_amount", String.valueOf((shipment.getAmount() != null ? shipment.getAmount() : "")));
         replacePOI(doc, "unitNameFa", (shipment.getUnit() != null ? shipment.getUnit().getNameFA() : ""));
-        replacePOI(doc, "descp", (shipment.getMaterial() != null ? shipment.getMaterial().getDescp() : ""));
+        replacePOI(doc, "descFA", (shipment.getMaterial() != null ? shipment.getMaterial().getDescFA() : ""));
         replacePOI(doc, "tolorance", "-/+" + (shipment.getContractShipment() != null ? shipment.getContractShipment().getTolorance().toString() : "") + "%");
         replacePOI(doc, "contract_no", (shipment.getContractShipment() != null ? shipment.getContractShipment().getContract().getNo() : ""));
         replacePOI(doc, "loa", (shipment.getContractShipment() != null && shipment.getContractShipment().getLoadPort() != null ? shipment.getContractShipment().getLoadPort().getLoa() : ""));
