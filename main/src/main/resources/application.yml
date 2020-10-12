@@ -49,6 +49,10 @@ management:
       show-details: always
 
 nicico:
+  minio:
+    endpoint-url: http://minio.icico.net.ir
+    access-key: minio
+    secret-key: minio123
   jpa:
     entity:
       package: com.nicico.sales.model

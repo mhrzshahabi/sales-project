@@ -32,7 +32,6 @@ public class ReportDTO {
     private String method;
     private String permissionBaseKey;
     private ReportType reportType;
-    private String file;
     private ReportSource reportSource;
     private Long reportGroupId;
 

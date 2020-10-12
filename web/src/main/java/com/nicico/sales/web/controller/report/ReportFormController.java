@@ -2,6 +2,7 @@ package com.nicico.sales.web.controller.report;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nicico.copper.core.service.minio.EFileAccessLevel;
 import com.nicico.sales.enumeration.ErrorType;
 import com.nicico.sales.exception.SalesException2;
 import com.nicico.sales.model.entities.base.Port;
@@ -33,6 +34,9 @@ public class ReportFormController {
     public String showReport(HttpServletRequest request) throws JsonProcessingException {
 
         SecurityChecker.addEntityPermissionToRequest(request, Report.class);
+
+        Map<String, String> accessLevel = getAccessLevelEnumMap();
+        request.setAttribute("Enum_EFileAccessLevel", objectMapper.writeValueAsString(accessLevel));
 
         Map<String, String> source = getSourceEnumMap();
         request.setAttribute("Enum_ReportSource", objectMapper.writeValueAsString(source));
@@ -81,5 +85,20 @@ public class ReportFormController {
             else throw new SalesException2(ErrorType.InvalidData, null, "روالی برای نوع منبع گزارش تعریف نشده است");
 
         return source;
+    }
+
+    private Map<String, String> getAccessLevelEnumMap() {
+
+        Map<String, String> accessLevel = new HashMap<>();
+        Locale locale = LocaleContextHolder.getLocale();
+        for (EFileAccessLevel value : EFileAccessLevel.values())
+            if (value == EFileAccessLevel.SELF)
+                accessLevel.put(value.name(), messageSource.getMessage("file.access-level.self", null, locale));
+            else if (value == EFileAccessLevel.PUBLIC)
+                accessLevel.put(value.name(), messageSource.getMessage("file.access-level.public", null, locale));
+
+            else throw new SalesException2(ErrorType.NotFound);
+
+        return accessLevel;
     }
 }

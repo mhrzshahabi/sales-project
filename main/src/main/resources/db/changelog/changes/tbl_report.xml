@@ -60,4 +60,8 @@
         <addForeignKeyConstraint baseColumnNames="F_REPORT_GROUP_ID" baseTableName="TBL_REPORT" constraintName="fk_report2ReportGroup" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_REPORT_GROUP" validate="true"/>
     </changeSet>
 
+     <changeSet id="NO1 (generated)" author="1602318533909-237-01">
+        <dropColumn tableName="TBL_REPORT" columnName="C_FILE"/>
+    </changeSet>
+
 </databaseChangeLog>

@@ -68,9 +68,6 @@ public class Report extends BaseEntity {
     @Column(name = "C_REPORT_TYPE", nullable = false)
     private ReportType reportType;
 
-    @Column(name = "C_FILE")
-    private String file;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "F_REPORT_GROUP_ID", nullable = false, insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_report2ReportGroup"))
     private ReportGroup reportGroup;

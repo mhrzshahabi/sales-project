@@ -146,8 +146,10 @@ reportGeneratorTab.dynamicForm.fields = BaseFormItems.concat([
                 validateOnChange: true
             }],
         changed: function (form, item, value) {
-            reportGeneratorTab.listGrid.report.setData([]);
-            reportGeneratorTab.listGrid.report.fetchData();
+
+            reportGeneratorTab.restDataSource.reportSourceFields.fetchData(null, resp => reportGeneratorTab.listGrid.report.setData(resp.data));
+            // reportGeneratorTab.listGrid.report.setData([]);
+            // reportGeneratorTab.listGrid.report.fetchData();
         }
     },
     {
@@ -229,8 +231,21 @@ reportGeneratorTab.dynamicForm.fields = BaseFormItems.concat([
         type: "file",
         wrapTitle: false,
         accept: "jrxml/*",
-        colSpan: 4,
+        colSpan: 1,
         multiple: ""
+    },
+    {
+        name: "accessLevelFile",
+        title: "<spring:message code='file.access-level'/>",
+        required: true,
+        wrapTitle: false,
+        colSpan: 1,
+        valueMap: JSON.parse('${Enum_EFileAccessLevel}'),
+        validators: [
+            {
+                type: "required",
+                validateOnChange: true
+            }]
     },
     {type: "SpacerItem", width: "100%", height: "50", colSpan: 4},
 ]);
@@ -304,7 +319,7 @@ reportGeneratorTab.listGrid.report = isc.ListGrid.nicico.getDefault([
     },
     {name: "type", title: '<spring:message code="global.field.type"/>'},
     {name: "dataIsList", title: '<spring:message code="report.data-is-list"/>', type: "boolean", hidden: true},
-], reportGeneratorTab.restDataSource.reportSourceFields, null, {
+], /*reportGeneratorTab.restDataSource.reportSourceFields*/ null, null, {
     autoFetchData: false,
     selectionAppearance: "checkbox",
     showFilterEditor: false,

@@ -5,6 +5,7 @@ import com.google.common.base.Enums;
 import com.nicico.copper.common.Loggable;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
+import com.nicico.sales.dto.FileDTO;
 import com.nicico.sales.dto.report.ReportDTO;
 import com.nicico.sales.iservice.report.IReportService;
 import com.nicico.sales.model.enumeration.ReportSource;
@@ -69,6 +70,10 @@ public class ReportRestController {
 
         ReportDTO.Create data = objectMapper.readValue(request, ReportDTO.Create.class);
 
+        FileDTO.Request fileDTO  = new FileDTO.Request();
+        ReportDTO.Info reportDTO = reportService.create(data);
+        fileDTO.setRecordId(reportDTO.getId());
+        fileDTO.setEntityName("report");
 //        minio
 //        data.setFile()
 
