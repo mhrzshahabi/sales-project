@@ -65,5 +65,7 @@
             update tbl_shipment_method set C_SHIP_METHOD_EN='RAIL TRANSPORT' where id = 4;
         </sql>
     </changeSet>
-
+    <changeSet id="555-2" author="abiz">
+        <dropColumn tableName="TBL_Shipment_Method" columnName="SHIP_METHOD"/>
+    </changeSet>
 </databaseChangeLog>

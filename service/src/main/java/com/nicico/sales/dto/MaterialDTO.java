@@ -19,6 +19,7 @@ public class MaterialDTO {
 
     private String descEN;
     private String descFA;
+    private String desc;
     private String code;
     private Long unitId;
     private String abbreviation;
