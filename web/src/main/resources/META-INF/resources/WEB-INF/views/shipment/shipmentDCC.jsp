@@ -94,7 +94,7 @@
             [
                 {name: "id", title: "id", primaryKey: true, hidden: true},
                 {name: "code", title: "<spring:message code='goods.code'/> "},
-                {name: "descl"},
+                {name: "descEN"},
                 {name: "unitId"},
                 {name: "unit.nameEN"},
             ],
@@ -236,7 +236,7 @@
                     title: "<spring:message code='material.title'/>",
                     editorType: "SelectItem",
                     optionDataSource: RestDataSource_Material,
-                    displayField: "descl",
+                    displayField: "descEN",
                     valueField: "id",
                     width: 300,
                     required: true ,
@@ -255,8 +255,8 @@
                         showHover: true
                     },
                     {
-                        name: "descl",
-                        title: "<spring:message code='material.descl'/>",
+                        name: "descEN",
+                        title: "<spring:message code='material.descEN'/>",
                         showHover: true
                     }
                     ]
