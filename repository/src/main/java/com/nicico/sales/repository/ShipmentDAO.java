@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public interface ShipmentDAO extends JpaRepository<Shipment, Long>, JpaSpecificationExecutor<Shipment> {
     @Query(value = "            select cs.id cisId,c.c_CONTRACT_NO contractNo,a.C_FULLNAME_EN fullname,cs.quantity quantity,cs.SEND_DATE sendDate, " +
-            "                     a.ID contactID,m.id materialID,m.c_DESCP materialDescp, c.contract_id contractID,cs.LOAD_PORT_ID loadPortID " +
+            "                     a.ID contactID,m.id materialID,m.C_DESC_FA materialDescp, c.contract_id contractID,cs.LOAD_PORT_ID loadPortID " +
             "                     from TBL_CONTRACT_SHIPMENT cs  " +
             "                     join tbl_contract c on c.contract_id=cs.CONTRACT_ID  " +
             "                     join tbl_material m on m.id=c.MATERIAL_ID  " +

@@ -26,13 +26,13 @@ contractDetailTypeTab.dynamicForm.fields.material = {
             [
                 {name: "id", title: "id", primaryKey: true, hidden: true},
                 {name: "code", title: "<spring:message code='goods.code'/> "},
-                {name: "descl"},
+                {name: "descEN"},
                 {name: "unitId"},
                 {name: "unit.nameEN"},
             ],
         fetchDataURL: "${contextPath}/api/material/spec-list"
     }),
-    displayField: "descl",
+    displayField: "descEN",
     valueField: "id",
     required: true,
     title: "<spring:message code='material.title'/>"

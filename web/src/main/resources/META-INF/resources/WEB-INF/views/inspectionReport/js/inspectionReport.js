@@ -272,7 +272,7 @@ inspectionReportTab.restDataSource.inventoryRest = isc.MyRestDataSource.create({
             title: "<spring:message code='MaterialItem.gdsName'/>"
         },
         {
-            name: "materialItem.material.descp",
+            name: "materialItem.material.descFA",
             title: "<spring:message code='material.title'/>"
         },
         {
@@ -292,8 +292,8 @@ inspectionReportTab.restDataSource.materialRest = isc.MyRestDataSource.create({
             hidden: true
         },
         {
-            name: "descp",
-            title: "<spring:message code='material.descp'/>"
+            name: "descFA",
+            title: "<spring:message code='material.descFA'/>"
         },
         {
             name: "code",
@@ -312,12 +312,12 @@ inspectionReportTab.restDataSource.materialElementRest = isc.MyRestDataSource.cr
             hidden: true
         },
         {
-            name: "material.descp",
-            title: "<spring:message code='material.descp'/>"
+            name: "material.descFA",
+            title: "<spring:message code='material.descFA'/>"
         },
         {
             name: "materialId",
-            title: "<spring:message code='material.descp'/>"
+            title: "<spring:message code='material.descFA'/>"
         },
         {
             name: "element.name",
@@ -373,8 +373,8 @@ inspectionReportTab.restDataSource.shipmentRest = isc.MyRestDataSource.create({
             showHover: true
         },
         {
-            name: "material.descl",
-            title: "<spring:message code ='material.descl'/>",
+            name: "material.descEN",
+            title: "<spring:message code ='material.descEN'/>",
             showHover: true
         },
         {
@@ -800,10 +800,6 @@ inspectionReportTab.method.materialChange = function () {
     inspectionReportTab.listGrid.weightElement.setFieldTitle("weightND", weightNDTitle + " (" + unitName + ")");
 };
 
-inspectionReportTab.method.getMaterialFieldName = function () {
-    return (languageForm.getValue("languageName") == 'en') ? "descl" : "descp";
-}
-
 inspectionReportTab.variable.inspectorCriteria = {
     _constructor: "AdvancedCriteria",
     operator: "and",
@@ -849,7 +845,7 @@ inspectionReportTab.dynamicForm.material = isc.DynamicForm.create({
             autoFetchData: false,
             editorType: "SelectItem",
             valueField: "id",
-            displayField: inspectionReportTab.method.getMaterialFieldName(),
+            displayField: "descFA",
             pickListWidth: "500",
             pickListHeight: "300",
             optionDataSource: inspectionReportTab.restDataSource.materialRest,
@@ -859,7 +855,7 @@ inspectionReportTab.dynamicForm.material = isc.DynamicForm.create({
                 },
             pickListFields: [
                 {
-                    name: inspectionReportTab.method.getMaterialFieldName(),
+                    name: "descFA",
                 },
                 {
                     name: "code",
@@ -909,7 +905,7 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
                 name: "bookingCat"
             },
             {
-                name: "material.descl",
+                name: "material.descEN",
             },
             {
                 name: "contact.name",
@@ -1036,7 +1032,7 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
             },
         pickListFields: [
             {
-                name: "materialItem.material.descp",
+                name: "materialItem.material.descFA",
                 align: "center",
             },
             {
@@ -2057,7 +2053,7 @@ inspectionReportTab.dynamicForm.addShipmentDynamicForm = isc.DynamicForm.nicico.
             name: "bookingCat"
         },
         {
-            name: "material.descl",
+            name: "material.descEN",
         },
         {
             name: "contact.nameFA",
