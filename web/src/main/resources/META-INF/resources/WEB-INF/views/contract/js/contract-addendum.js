@@ -805,7 +805,7 @@ contractTab.Methods.NewAddendum = async function () {
                             fields: [
                                 {name: "id", title: "id", primaryKey: true, hidden: true},
                                 {name: "code", title: "<spring:message code='goods.code'/> "},
-                                {name: "descl"},
+                                {name: "descEN"},
                                 {name: "unitId"},
                                 {name: "unit.nameEN"}
                             ],
@@ -813,7 +813,7 @@ contractTab.Methods.NewAddendum = async function () {
                         }),
                         defaultValue: contractRecord["materialId"],
                         autoFetchData: false,
-                        displayField: "descl",
+                        displayField: "descEN",
                         valueField: "id",
                         required: true,
                         disabled: true,
@@ -1306,14 +1306,14 @@ contractTab.Fields = {
                 fields: [
                     {name: "id", title: "id", primaryKey: true, hidden: true},
                     {name: "code", title: "<spring:message code='goods.code'/> "},
-                    {name: "descl"},
+                    {name: "descEN"},
                     {name: "unitId"},
                     {name: "unit.nameEN"}
                 ],
                 fetchDataURL: "${contextPath}/api/material/spec-list"
             }),
             autoFetchData: false,
-            displayField: "descl",
+            displayField: "descEN",
             valueField: "id",
             required: true,
             title: "<spring:message code='material.title'/>",

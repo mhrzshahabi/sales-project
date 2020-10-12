@@ -10,7 +10,9 @@ function getReferenceCriteria(idValues) {
 
 var header = ['BUYER_NAME', 'BUYER_ADDRESS', 'BUYER_PHONE', 'BUYER_FAX', 'SELLER_NAME', 'SELLER_ADDRESS', 'SELLER_PHONE', 'SELLER_FAX',
     'AGENT_BUYER_NAME', 'AGENT_BUYER_ADDRESS', 'AGENT_BUYER_PHONE', 'AGENT_BUYER_FAX',
-    'AGENT_SELLER_NAME', 'AGENT_SELLER_ADDRESS', 'AGENT_SELLER_PHONE', 'AGENT_SELLER_FAX']
+    'AGENT_SELLER_NAME', 'AGENT_SELLER_ADDRESS', 'AGENT_SELLER_PHONE', 'AGENT_SELLER_FAX', 'BUYER_MOBILE', 'BUYER_POSTAL_CODE', 'SELLER_MOBILE',
+    'SELLER_POSTAL_CODE', 'AGENT_BUYER_MOBILE', 'AGENT_BUYER_POSTAL_CODE', 'AGENT_SELLER_MOBILE' , 'AGENT_SELLER_POSTAL_CODE'
+]
 
 var materialElementField = {
     name: "materialElementId",
@@ -29,13 +31,13 @@ var materialElementField = {
                 name: "elementName",
                 title: '<spring:message code="assayInspection.materialElement.name"/>'
             },
-            {name: "material.descl", title: '<spring:message code="material.descl"/>'}
+            {name: "material.descEN", title: '<spring:message code="material.descEN"/>'}
         ]),
         fetchDataURL: "${contextPath}/api/materialElement/" + "spec-list"
     }),
     pickListFields: [
         {name: "elementName", title: '<spring:message code="assayInspection.materialElement.name"/>'},
-        {name: "material.descl", title: '<spring:message code="material.descl"/>'}
+        {name: "material.descEN", title: '<spring:message code="material.descEN"/>'}
     ],
     editorProperties: {
         optionDataSource: isc.MyRestDataSource.create({
@@ -44,13 +46,13 @@ var materialElementField = {
                     name: "elementName",
                     title: '<spring:message code="assayInspection.materialElement.name"/>'
                 },
-                {name: "material.descl", title: '<spring:message code="material.descl"/>'}
+                {name: "material.descEN", title: '<spring:message code="material.descEN"/>'}
             ]),
             fetchDataURL: "${contextPath}/api/materialElement/" + "spec-list"
         }),
         pickListFields: [
             {name: "elementName", title: '<spring:message code="assayInspection.materialElement.name"/>'},
-            {name: "material.descl", title: '<spring:message code="material.descl"/>'}
+            {name: "material.descEN", title: '<spring:message code="material.descEN"/>'}
         ],
         editorType: "SelectItem",
         pickListProperties: {
@@ -134,7 +136,7 @@ function getReferenceFields(referenceType) {
         case 'Material':
             return [
                 {name: "id", title: "id", primaryKey: true, hidden: true},
-                {name: 'descp', title: "<spring:message code='material.descp'/>"}
+                {name: 'descFA', title: "<spring:message code='material.descFA'/>"}
             ]
         case 'Port':
             return [

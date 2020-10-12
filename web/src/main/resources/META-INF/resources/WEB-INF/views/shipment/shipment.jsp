@@ -215,8 +215,8 @@
                 width: 180
             },
             {name: "materialId", title: "<spring:message code='contact.name'/>", type: 'long', hidden: true},
-            {name: "material.descl", title: "<spring:message code='material.descl'/>", type: 'text'},
-            {name: "material.descp", title: "<spring:message code='material.descp'/>", type: 'text'},
+            {name: "material.descEN", title: "<spring:message code='material.descEN'/>", type: 'text'},
+            {name: "material.descFA", title: "<spring:message code='material.descFA'/>", type: 'text'},
             {name: "amount", title: "<spring:message code='global.amount'/>", type: 'float'},
             {name: "unitId", title: "<spring:message code='unit.title'/>"},
             {name: "noContainer", title: "<spring:message code='shipment.noContainer'/>", type: 'integer'},
@@ -554,8 +554,7 @@
                     let record = DynamicForm_Shipment.getItem("contractId").getSelectedRecord();
                     let buyerId = record.contractContacts.filter(c => (c.commercialRole === 'Buyer'))[0].contactId;
                     setBuyerName(buyerId);
-                    DynamicForm_Shipment.setValue("material.descp", record.material.descp);
-                    DynamicForm_Shipment.setValue("material.descl", record.material.descl);
+                    DynamicForm_Shipment.setValue("material.descFA", record.material.descFA);
                     DynamicForm_Shipment.setValue("contactId", buyerId);
                     DynamicForm_Shipment.setValue("materialId", record.materialId);
                 }
@@ -599,16 +598,9 @@
                 type: "staticText"
             },
             {
-                name: "material.descp",
+                name: "material.descFA",
                 title: "<spring:message code='material.title'/>",
-                type: "staticText",
-                hidden: true
-            },
-            {
-                name: "material.descl",
-                title: "<spring:message code='material.title'/>",
-                type: "staticText",
-                hidden: true
+                type: "staticText"
             },
             {
                 name: "sendDate",
@@ -1326,14 +1318,14 @@
                 showHover: true
             },
             {
-                name: "material.descl",
-                title: "<spring:message code='material.descl'/>",
+                name: "material.descEN",
+                title: "<spring:message code='material.descEN'/>",
                 type: 'text',
                 width: "10%",
                 align: "center",
                 showHover: true,
                 sortNormalizer: function (recordObject) {
-                    return recordObject.material.descl
+                    return recordObject.material.descEN
                 }
             },
             {
@@ -1547,14 +1539,7 @@
         }
         return true;
     }
-    if(languageForm.getValue("languageName") == 'en') {
-       DynamicForm_Shipment.getItem("material.descl").show();
-       DynamicForm_Shipment.getItem("material.descp").hide();
-    }else{
-       DynamicForm_Shipment.getItem("material.descp").show();
-       DynamicForm_Shipment.getItem("material.descl").hide();
-    }
-    //</script>
+//</script>
 
 
 

@@ -35,7 +35,7 @@ shipmentCostInvoiceTab.restDataSource.shipmentRest = isc.MyRestDataSource.create
             showHover: true,
             title: "<spring:message code='contract.contractNo'/>"
         },
-        {name: "material.descl", type: 'text', showHover: true, title: "<spring:message code='material.descl'/>"}
+        {name: "material.descEN", type: 'text', showHover: true, title: "<spring:message code='material.descEN'/>"}
     ],
     fetchDataURL: shipmentCostInvoiceTab.variable.shipmentUrl + "spec-list"
 });
@@ -602,7 +602,7 @@ shipmentCostInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
             {name: "sendDate", width: 100},
             {name: "bookingCat"},
             {name: "contractShipment.contract.no"},
-            {name: "material.descl"}
+            {name: "material.descEN"}
         ],
         validators: [
             {
