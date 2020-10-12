@@ -1,106 +1,26 @@
-//******************************************************* VARIABLES ****************************************************
-
 var reportGeneratorTab = new nicico.GeneralTabUtil().getDefaultJSPTabVariable();
+
+//*************************************************** VARIABLES ********************************************************
+
 reportGeneratorTab.variable.reportSourceUrl = "${contextPath}" + "/api/report/sources";
 reportGeneratorTab.variable.reportSourceFieldsUrl = "${contextPath}" + "/api/report/sources-fields";
 reportGeneratorTab.variable.reportUrl = "${contextPath}" + "/api/report";
 reportGeneratorTab.variable.reportGroupUrl = "${contextPath}" + "/api/report-group";
-//***************************************************** RESTDATASOURCE *************************************************
 
-reportGeneratorTab.restDataSource.reportSource = isc.MyRestDataSource.create({
-
-    fields: [
-        {
-            name: "source", title: "<spring:message code='report.source'/>"
-        },
-        {
-            name: "nameFA", title: "<spring:message code='report.nameFA'/>"
-        },
-        {
-            name: "nameEN", title: "<spring:message code='report.nameEN'/>"
-        },
-        {
-            name: "restMethod", title: "<spring:message code='report.method'/>"
-        },
-        {
-            name: "fields"
-        },
-    ],
-    fetchDataURL: reportGeneratorTab.variable.reportSourceUrl,
-    transformRequest: function (dsRequest) {
-        let reportSource;
-        if (reportGeneratorTab.dynamicForm.report)
-            reportSource = reportGeneratorTab.dynamicForm.report.getField("reportSource").getValue();
-        if (!reportSource) reportSource = "Rest";
-
-        dsRequest.params = {
-            reportSource: reportSource
-        };
-
-        this.Super("transformRequest", arguments);
+reportGeneratorTab.listGrid.fields = BaseFormItems.concat([
+    {
+        name: "title",
+        title: "<spring:message code='report.title'/>"
     },
-});
-reportGeneratorTab.restDataSource.reportSourceFields = isc.MyRestDataSource.create({
-
-    fields: [
-        {name: "name", primaryKey: true},
-        {name: "titleFA", canEdit: true},
-        {name: "titleEN", canEdit: true},
-        {name: "className", foreignKey: "name"},
-        {name: "hidden", canEdit: true},
-        {name: "dataIsList"},
-        {name: "type"},
-        {name: "canFilter", canEdit: true},
-    ],
-    fetchDataURL: reportGeneratorTab.variable.reportSourceFieldsUrl,
-    transformRequest: function (dsRequest) {
-        let sourceData;
-        let reportSource;
-        if (reportGeneratorTab.dynamicForm.report) {
-
-            sourceData = reportGeneratorTab.dynamicForm.report.getField("sourceData").getValue();
-            reportSource = reportGeneratorTab.dynamicForm.report.getField("reportSource").getValue();
-        }
-        if (!sourceData) sourceData = "";
-        if (!reportSource) reportSource = "Rest";
-        dsRequest.params = {
-            reportSource: reportSource,
-            source: sourceData,
-        };
-
-        this.Super("transformRequest", arguments);
+    {
+        name: "name",
+        title: "<spring:message code='report.source'/>",
+    },
+    {
+        name: "reportGroup.name",
+        title: "<spring:message code='report.group.name'/>",
     }
-});
-reportGeneratorTab.restDataSource.report = isc.MyRestDataSource.create({
-
-    fields: [
-        {
-            name: "id", primaryKey: true, canEdit: false, hidden: true
-        },
-        {
-            name: "title", title: "<spring:message code='report.title'/>"
-        },
-        {
-            name: "reportType", title: "<spring:message code='report.reportType'/>"
-        }
-    ],
-    fetchDataURL: reportGeneratorTab.variable.reportUrl + "/spec-list"
-});
-reportGeneratorTab.restDataSource.reportGroup = isc.MyRestDataSource.create({
-
-    fields: [
-        {
-            name: "id", primaryKey: true, canEdit: false, hidden: true
-        },
-        {
-            name: "name", title: "<spring:message code='report.group.name'/>"
-        }
-    ],
-    fetchDataURL: reportGeneratorTab.variable.reportGroupUrl + "/spec-list"
-});
-
-//***************************************************** MAINWINDOW *************************************************
-
+]);
 reportGeneratorTab.dynamicForm.fields = BaseFormItems.concat([
     {
         name: "reportSource",
@@ -116,19 +36,19 @@ reportGeneratorTab.dynamicForm.fields = BaseFormItems.concat([
                 validateOnChange: true
             }],
         changed: function (form, item, value) {
-            let sourceDataItem = form.getItem("sourceData");
+            let sourceDataItem = form.getItem("source");
             sourceDataItem.enable();
             sourceDataItem.clearValue();
         }
     },
     {
-        name: "sourceData",
+        name: "source",
         title: "<spring:message code='report.source'/>",
         required: true,
         wrapTitle: false,
         editorType: "SelectItem",
         colSpan: 1,
-        displayField: "nameFA",
+        displayField: "name",
         valueField: "source",
         optionDataSource: reportGeneratorTab.restDataSource.reportSource,
         autoFetchData: true,
@@ -138,7 +58,8 @@ reportGeneratorTab.dynamicForm.fields = BaseFormItems.concat([
             canAdaptHeight: true,
         },
         pickListFields: [
-            {name: "nameFA", title: "<spring:message code='report.name'/>"}
+            {name: "name", title: "<spring:message code='report.name'/>"},
+            {name: "restMethod", title: "<spring:message code='report.method'/>", hidden: true}
         ],
         validators: [
             {
@@ -148,12 +69,10 @@ reportGeneratorTab.dynamicForm.fields = BaseFormItems.concat([
         changed: function (form, item, value) {
 
             reportGeneratorTab.restDataSource.reportSourceFields.fetchData(null, resp => reportGeneratorTab.listGrid.report.setData(resp.data));
-            // reportGeneratorTab.listGrid.report.setData([]);
-            // reportGeneratorTab.listGrid.report.fetchData();
         }
     },
     {
-        name: "reportGroup",
+        name: "reportGroupId",
         title: "<spring:message code='report.report-group'/>",
         required: true,
         wrapTitle: false,
@@ -189,7 +108,7 @@ reportGeneratorTab.dynamicForm.fields = BaseFormItems.concat([
             }]
     },
     {
-        name: "titleFa",
+        name: "titleFA",
         title: "<spring:message code='report.titleFA'/>",
         wrapTitle: false,
         required: true,
@@ -249,6 +168,103 @@ reportGeneratorTab.dynamicForm.fields = BaseFormItems.concat([
     },
     {type: "SpacerItem", width: "100%", height: "50", colSpan: 4},
 ]);
+
+//***************************************************** DATASOURCE *****************************************************
+
+reportGeneratorTab.restDataSource.report = isc.MyRestDataSource.create({
+
+    fields: [
+        {
+            name: "id", primaryKey: true, canEdit: false, hidden: true
+        },
+        {
+            name: "title", title: "<spring:message code='report.title'/>"
+        },
+        {
+            name: "reportType", title: "<spring:message code='report.reportType'/>"
+        }
+    ],
+    fetchDataURL: reportGeneratorTab.variable.reportUrl + "/spec-list"
+});
+reportGeneratorTab.restDataSource.reportGroup = isc.MyRestDataSource.create({
+
+    fields: [
+        {
+            name: "id", primaryKey: true, canEdit: false, hidden: true
+        },
+        {
+            name: "name", title: "<spring:message code='report.group.name'/>"
+        }
+    ],
+    fetchDataURL: reportGeneratorTab.variable.reportGroupUrl + "/spec-list"
+});
+reportGeneratorTab.restDataSource.reportSource = isc.MyRestDataSource.create({
+
+    fields: [
+        {
+            name: "source", title: "<spring:message code='report.source'/>"
+        },
+        {
+            name: "nameFA", title: "<spring:message code='report.nameFA'/>"
+        },
+        {
+            name: "nameEN", title: "<spring:message code='report.nameEN'/>"
+        },
+        {
+            name: "restMethod", title: "<spring:message code='report.method'/>"
+        },
+        {
+            name: "fields"
+        },
+    ],
+    fetchDataURL: reportGeneratorTab.variable.reportSourceUrl,
+    transformRequest: function (dsRequest) {
+        let reportSource;
+        if (reportGeneratorTab.dynamicForm.report)
+            reportSource = reportGeneratorTab.dynamicForm.report.getField("reportSource").getValue();
+        if (!reportSource) reportSource = "Rest";
+
+        dsRequest.params = {
+            reportSource: reportSource
+        };
+
+        this.Super("transformRequest", arguments);
+    },
+});
+reportGeneratorTab.restDataSource.reportSourceFields = isc.MyRestDataSource.create({
+
+    fields: [
+        {name: "name", primaryKey: true},
+        {name: "titleFA", canEdit: true},
+        {name: "titleEN", canEdit: true},
+        {name: "className", foreignKey: "name"},
+        {name: "hidden", canEdit: true},
+        {name: "dataIsList"},
+        {name: "type"},
+        {name: "canFilter", canEdit: true},
+    ],
+    fetchDataURL: reportGeneratorTab.variable.reportSourceFieldsUrl,
+    transformRequest: function (dsRequest) {
+        let sourceData;
+        let reportSource;
+        if (reportGeneratorTab.dynamicForm.report) {
+
+            sourceData = reportGeneratorTab.dynamicForm.report.getField("source").getValue();
+            reportSource = reportGeneratorTab.dynamicForm.report.getField("reportSource").getValue();
+        }
+        if (!sourceData) sourceData = "";
+        if (!reportSource) reportSource = "Rest";
+        dsRequest.params = {
+            reportSource: reportSource,
+            source: sourceData,
+        };
+
+        this.Super("transformRequest", arguments);
+    }
+});
+
+//***************************************************** COMPONENTS *****************************************************
+
 reportGeneratorTab.dynamicForm.report = isc.DynamicForm.create({
     align: "center",
     numCols: 4,
@@ -319,7 +335,7 @@ reportGeneratorTab.listGrid.report = isc.ListGrid.nicico.getDefault([
     },
     {name: "type", title: '<spring:message code="global.field.type"/>'},
     {name: "dataIsList", title: '<spring:message code="report.data-is-list"/>', type: "boolean", hidden: true},
-], /*reportGeneratorTab.restDataSource.reportSourceFields*/ null, null, {
+], null, null, {
     autoFetchData: false,
     selectionAppearance: "checkbox",
     showFilterEditor: false,
@@ -329,8 +345,28 @@ reportGeneratorTab.listGrid.report = isc.ListGrid.nicico.getDefault([
     autoSaveEdits: false,
     getGroupTitle: function (groupData) {
         return groupData.groupValue === "-none-" ? "" : groupData.groupValue;
+    },
+    startEditing: function (rowNum, colNum, suppressFocus) {
+        this.checkedRecords = this.getSelectedRecords();
+        return this.Super("startEditing", arguments);
+    },
+    endEditing: function () {
+        this.selectRecords(this.checkedRecords);
+        return this.Super("endEditing", arguments);
+    },
+    recordDoubleClick: function (viewer, record, recordNum, field, fieldNum, value, rawValue) {
+        this.checkedRecords = this.getSelectedRecords();
+        return this.Super("recordDoubleClick", arguments);
+    },
+    rowEditorExit: function (editCompletionEvent, record, newValues, rowNum) {
+
+        if (editCompletionEvent !== "escape")
+            this.setEditValues(rowNum, newValues);
+
+        this.selectRecords(this.checkedRecords);
     }
 });
+
 reportGeneratorTab.window.report = new nicico.FormUtil();
 reportGeneratorTab.window.report.init(null, '<spring:message code="entity.report"/>', isc.VLayout.create({
     width: "100%",
@@ -339,12 +375,23 @@ reportGeneratorTab.window.report.init(null, '<spring:message code="entity.report
     align: "center",
     members: [
         reportGeneratorTab.dynamicForm.report,
+        isc.FileUploadForm.create({
+            recordId: null,
+            entityName: "Report"
+        }),
         reportGeneratorTab.listGrid.report
     ]
 }), "1200", "60%");
 reportGeneratorTab.window.report.populateData = function (bodyWidget) {
 
     let data = reportGeneratorTab.dynamicForm.report.getValues();
+    let sourceField = reportGeneratorTab.dynamicForm.report.getField("source");
+    data.nameFA = sourceField.nameFA;
+    data.nameEN = sourceField.nameEN;
+    data.restMethod = sourceField.restMethod;
+    data.dataIsList = sourceField.dataIsList;
+
+    reportGeneratorTab.listGrid.report.saveAllEdits();
     data.fields = reportGeneratorTab.listGrid.report.getSelectedRecords();
     data.fields.forEach(field => {
         let invalidKeys = Object.keys(field).filter(p => p.startsWith("_") || p.startsWith("$"));
@@ -367,16 +414,23 @@ reportGeneratorTab.window.report.validate = function (data) {
     reportGeneratorTab.listGrid.report.saveAllEdits();
     let selectedFields = reportGeneratorTab.listGrid.report.getSelectedRecords();
     if (!selectedFields.length) {
+
         reportGeneratorTab.dialog.say('<spring:message code="global.grid.record.not.selected"/>');
         return false;
     }
 
-    for (let i = 0; i < selectedFields.length; i++)
-        if (!reportGeneratorTab.listGrid.report.validateRecord(selectedFields[i])) {
+    for (let i = 0; i < selectedFields.length; i++) {
+
+        let rowNum = reportGeneratorTab.listGrid.report.getRowNum(selectedFields[i]);
+        reportGeneratorTab.listGrid.report.startEditing(rowNum);
+        reportGeneratorTab.listGrid.report.endEditing();
+
+        if (!reportGeneratorTab.listGrid.report.validateRow(rowNum)) {
+
             reportGeneratorTab.dialog.say('<spring:message code="report.filed-data-is-invalid"/>');
             return false;
         }
-
+    }
     return true;
 };
 reportGeneratorTab.window.report.okCallBack = function (formData) {
@@ -406,22 +460,20 @@ reportGeneratorTab.window.report.okCallBack = function (formData) {
 reportGeneratorTab.window.report.cancelCallBack = function () {
 
     reportGeneratorTab.dynamicForm.report.clearValues();
-    // reportGeneratorTab.listGrid.report.deselectAllRecords();
+    reportGeneratorTab.listGrid.report.setData([]);
 
 };
-reportGeneratorTab.method.refreshData = function () {
-    reportGeneratorTab.listGrid.main.invalidateCache();
-};
+
+//******************************************************** FUNCTIONS ***************************************************
+
 reportGeneratorTab.method.newForm = function () {
 
     reportGeneratorTab.variable.method = "POST";
     reportGeneratorTab.dynamicForm.report.clearValues();
-    // reportGeneratorTab.listGrid.report.deselectAllRecords();
+    reportGeneratorTab.listGrid.report.setData([]);
     reportGeneratorTab.window.report.justShowForm();
 };
 reportGeneratorTab.method.editForm = function () {
-
-    reportGeneratorTab.variable.method = "PUT";
 
     let record = reportGeneratorTab.listGrid.main.getSelectedRecord();
     if (record == null || record.id == null)
@@ -433,27 +485,22 @@ reportGeneratorTab.method.editForm = function () {
     else if (record.estatus.contains(Enums.eStatus2.Final))
         reportGeneratorTab.dialog.finalRecord();
     else {
+
+        reportGeneratorTab.variable.method = "PUT";
+
+        reportGeneratorTab.dynamicForm.report.editRecord(record);
+        reportGeneratorTab.restDataSource.reportSourceFields.fetchData(null, resp => {
+
+            reportGeneratorTab.listGrid.report.setData(resp.data);
+            reportGeneratorTab.listGrid.report.selectRecords(record.reportFields);
+        });
+
         reportGeneratorTab.window.report.justShowForm();
     }
 };
-//***************************************************** MAINLISTGRID *************************************************
-reportGeneratorTab.listGrid.fields = BaseFormItems.concat([
-    {
-        name: "title",
-        title: "<spring:message code='report.title'/>",
-        type: 'date',
-        width: "10%"
-    },
-    {
-        name: "source",
-        title: "<spring:message code='report.source'/>",
-        type: 'text'
-    },
-    {
-        name: "reportGroup.name",
-        title: "<spring:message code='report.group.name'/>",
-    }
-]);
+
+//********************************************************* BASIC ******************************************************
+
 nicico.BasicFormUtil.createListGrid = function () {
 
     reportGeneratorTab.listGrid.main = isc.ListGrid.nicico.getDefault(reportGeneratorTab.listGrid.fields,

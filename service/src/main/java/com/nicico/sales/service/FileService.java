@@ -20,101 +20,124 @@ import io.minio.SetObjectTagsArgs;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
-import java.util.Date;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 @Slf4j
 @RequiredArgsConstructor
 @Service
 public class FileService implements IFileService {
 
-	private final ModelMapper modelMapper;
+    private final ModelMapper modelMapper;
 
-	private final MinioClient minioClient;
-	private final MinIOService minIOService;
+    private final MinioClient minioClient;
+    private final MinIOService minIOService;
 
-	private final FileDAO fileDAO;
+    private final FileDAO fileDAO;
 
-	// ---------------
+    // ---------------
 
-	@Value("${spring.application.name}")
-	private String appId;
+    @Value("${spring.application.name}")
+    private String appId;
 
-	@Override
-	public String store(FileDTO.Request request) {
-		try {
-			final MinIODTO.Request fileRequest = modelMapper.map(request, MinIODTO.Request.class);
-			final String fileKey = minIOService.store(fileRequest);
+    @Override
+    @Transactional
+    public String store(FileDTO.Request request) {
+        try {
+            final MinIODTO.Request fileRequest = modelMapper.map(request, MinIODTO.Request.class);
+            final String fileKey = minIOService.store(fileRequest);
 
-			final File file = new File()
-					.setEntityName(request.getEntityName())
-					.setRecordId(request.getRecordId())
-					.setFileKey(fileKey)
-					.setFileStatus(FileStatus.NORMAL);
+            final File file = new File()
+                    .setEntityName(request.getEntityName())
+                    .setRecordId(request.getRecordId())
+                    .setFileKey(fileKey)
+                    .setFileStatus(FileStatus.NORMAL);
 
-			fileDAO.saveAndFlush(file);
+            fileDAO.saveAndFlush(file);
 
-			return fileKey;
-		} catch (Exception e) {
-			log.error(Arrays.toString(e.getStackTrace()));
-		}
+            return fileKey;
+        } catch (Exception e) {
+            log.error(Arrays.toString(e.getStackTrace()));
+        }
 
-		return "";
-	}
+        return "";
+    }
 
-	@Override
-	public FileDTO.Response retrieve(String key) {
-		try {
-			return modelMapper.map(minIOService.retrieve(key), FileDTO.Response.class);
-		} catch (Exception e) {
-			log.error(Arrays.toString(e.getStackTrace()));
-		}
+    @Override
+    public FileDTO.Response retrieve(String key) {
+        try {
+            return modelMapper.map(minIOService.retrieve(key), FileDTO.Response.class);
+        } catch (Exception e) {
+            log.error(Arrays.toString(e.getStackTrace()));
+        }
 
-		return new FileDTO.Response();
-	}
+        return new FileDTO.Response();
+    }
 
-	@Override
-	public void delete(String key) {
-		try {
-			final File file = fileDAO.findByFileKey(key)
-					.orElseThrow(() -> new SalesException2(ErrorType.NotFound, "fileKey", "فایل مورد نظر یافت نشد."));
+    @Override
+    @Transactional(readOnly = true)
+    public List<FileDTO.MetaData> getFiles(Long recordId, String entityName) {
+        return modelMapper.map(fileDAO.findAllByRecordIdAndEntityName(recordId, entityName), new TypeToken<List<FileDTO.MetaData>>() {
+        }.getType());
+    }
 
-			minIOService.retrieve(key);
+    @Override
+    @Transactional
+    public void delete(String key) {
 
-			file.setFileStatus(FileStatus.DELETED);
-			fileDAO.saveAndFlush(file);
-		} catch (Exception e) {
-			log.error(Arrays.toString(e.getStackTrace()));
-		}
-	}
+        final File file = fileDAO.findByFileKey(key)
+                .orElseThrow(() -> new SalesException2(ErrorType.NotFound, "fileKey", "فایل مورد نظر یافت نشد."));
 
-	@Override
-	public void restore(String key) {
-		final File file = fileDAO.findByFileKey(key)
-				.orElseThrow(() -> new SalesException2(ErrorType.NotFound, "fileKey", "فایل مورد نظر یافت نشد."));
+        boolean minIOIsOk = false;
+        try {
 
-		try {
-			Map<String, String> tags = this.minioClient.getObjectTags(GetObjectTagsArgs.builder().bucket(appId.toLowerCase()).object(key).build()).get();
-			if (EFileStatus.DELETED.equals(EFileStatus.valueOf(tags.get("Status")))) {
-				throw new NICICOException(IErrorCode.NotFound);
-			} else if (EFileAccessLevel.SELF.equals(EFileAccessLevel.valueOf(tags.get("AccessLevel"))) && !Objects.equals(SecurityUtil.getUserId(), Long.valueOf(tags.get("UserId")))) {
-				throw new NICICOException(IErrorCode.Forbidden);
-			}
+            minIOService.delete(key);
+            minIOIsOk = true;
 
-			tags.replace("Status", EFileStatus.NORMAL.getValue());
-			tags.put("ModifiedBy", String.valueOf(SecurityUtil.getUserId()));
-			tags.put("ModifiedDate", String.valueOf((new Date()).getTime()));
-			this.minioClient.setObjectTags(SetObjectTagsArgs.builder().bucket(appId.toLowerCase()).object(key).tags(tags).build());
-		} catch (Exception e) {
-			log.error(Arrays.toString(e.getStackTrace()));
-		}
+            file.setFileStatus(FileStatus.DELETED);
+            fileDAO.saveAndFlush(file);
+        } catch (Exception e) {
 
-		file.setFileStatus(FileStatus.NORMAL);
-		fileDAO.saveAndFlush(file);
-	}
+            log.error(Arrays.toString(e.getStackTrace()));
+            if (minIOIsOk)
+                restore(key);
+        }
+    }
+
+    @Override
+    @Transactional
+    public void restore(String key) {
+
+        final File file = fileDAO.findByFileKey(key)
+                .orElseThrow(() -> new SalesException2(ErrorType.NotFound, "fileKey", "فایل مورد نظر یافت نشد."));
+
+        boolean minIOIsOk = false;
+        try {
+
+            Map<String, String> tags = this.minioClient.getObjectTags(GetObjectTagsArgs.builder().bucket(appId.toLowerCase()).object(key).build()).get();
+            if (EFileStatus.DELETED.equals(EFileStatus.valueOf(tags.get("Status")))) {
+                throw new NICICOException(IErrorCode.NotFound);
+            } else if (EFileAccessLevel.SELF.equals(EFileAccessLevel.valueOf(tags.get("AccessLevel"))) && !Objects.equals(SecurityUtil.getUserId(), Long.valueOf(tags.get("UserId")))) {
+                throw new NICICOException(IErrorCode.Forbidden);
+            }
+
+            tags.replace("Status", EFileStatus.NORMAL.getValue());
+            tags.put("ModifiedBy", String.valueOf(SecurityUtil.getUserId()));
+            tags.put("ModifiedDate", String.valueOf((new Date()).getTime()));
+            this.minioClient.setObjectTags(SetObjectTagsArgs.builder().bucket(appId.toLowerCase()).object(key).tags(tags).build());
+            minIOIsOk = true;
+
+            file.setFileStatus(FileStatus.NORMAL);
+            fileDAO.saveAndFlush(file);
+        } catch (Exception e) {
+
+            log.error(Arrays.toString(e.getStackTrace()));
+            if (minIOIsOk)
+                delete(key);
+        }
+    }
 }

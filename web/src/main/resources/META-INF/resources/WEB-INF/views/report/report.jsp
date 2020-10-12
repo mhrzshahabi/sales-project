@@ -7,4 +7,5 @@
 
 <%@include file="../common/ts/BasicFormUtil.js" %>
 <%@include file="../unit/js/component-unit.js"%>
+<%@include file="../common/js/component-file.js"%>
 <%@include file="js/report.js" %>

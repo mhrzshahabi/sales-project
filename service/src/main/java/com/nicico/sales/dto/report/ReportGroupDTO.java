@@ -20,11 +20,9 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ReportGroupDTO {
 
-    private Long id;
     private String nameFA;
     private String nameEN;
     private String name;
-    private String order;
     private Long parentId;
 
     @Getter
@@ -39,7 +37,7 @@ public class ReportGroupDTO {
         private String lastModifiedBy;
         private Integer version;
 
-        private ReportGroup parent;
+        private ReportGroupDTO.Info parent;
 
         // BaseEntity
         private Boolean editable;

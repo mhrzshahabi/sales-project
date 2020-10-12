@@ -5,19 +5,30 @@ import com.google.common.base.Enums;
 import com.nicico.copper.common.Loggable;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
+import com.nicico.sales.annotation.Action;
 import com.nicico.sales.dto.FileDTO;
 import com.nicico.sales.dto.report.ReportDTO;
+import com.nicico.sales.dto.report.ReportFieldDTO;
+import com.nicico.sales.enumeration.ActionType;
+import com.nicico.sales.iservice.report.IReportFieldService;
 import com.nicico.sales.iservice.report.IReportService;
+import com.nicico.sales.model.entities.report.Report;
+import com.nicico.sales.model.enumeration.AllConverters;
 import com.nicico.sales.model.enumeration.ReportSource;
+import com.nicico.sales.service.FileService;
 import com.nicico.sales.utility.SpecListUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -30,7 +41,10 @@ public class ReportRestController {
 
     private final ObjectMapper objectMapper;
     private final IReportService reportService;
+    private final IReportFieldService reportFieldService;
     private final SpecListUtil specListUtil;
+    private final FileService fileService;
+    private final ModelMapper modelMapper;
 
     @Loggable
     @GetMapping("/sources")
@@ -64,23 +78,11 @@ public class ReportRestController {
 
     @Loggable
     @PostMapping
+    @Transactional
     public ResponseEntity<ReportDTO.Info> create(
             @RequestParam(value = "file", required = false) MultipartFile file,
             @RequestParam("data") String request) throws IOException {
-
-        ReportDTO.Create data = objectMapper.readValue(request, ReportDTO.Create.class);
-
-        FileDTO.Request fileDTO  = new FileDTO.Request();
-        ReportDTO.Info reportDTO = reportService.create(data);
-        fileDTO.setRecordId(reportDTO.getId());
-        fileDTO.setEntityName("report");
-//        minio
-//        data.setFile()
-
-//        generate
-//        data.setPermissionBaseKey()
-
-        return new ResponseEntity<>(reportService.create(data), HttpStatus.CREATED);
+        return new ResponseEntity<>(reportService.create(file, request), HttpStatus.CREATED);
     }
 
     @Loggable

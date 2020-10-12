@@ -2,6 +2,7 @@ package com.nicico.sales.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.nicico.copper.core.service.minio.EFileAccessLevel;
+import com.nicico.sales.model.enumeration.FileStatus;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -19,39 +20,52 @@ import java.util.Map;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class FileDTO {
 
-	@Getter
-	@Setter
-	@Accessors(chain = true)
-	@ApiModel("FileRequest")
-	public static class Request {
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("FileRequest")
+    public static class Request {
 
-		@NotNull
-		@ApiModelProperty(required = true)
-		private EFileAccessLevel accessLevel;
+        @NotNull
+        @ApiModelProperty(required = true)
+        private EFileAccessLevel accessLevel;
 
-		@NotNull
-		@ApiModelProperty(required = true)
-		private MultipartFile file;
-		private String tags;
+        @NotNull
+        @ApiModelProperty(required = true)
+        private MultipartFile file;
+        private String tags;
 
-		@NotEmpty
-		@ApiModelProperty(required = true)
-		private String entityName;
+        @NotEmpty
+        @ApiModelProperty(required = true)
+        private String entityName;
 
-		@NotNull
-		@ApiModelProperty(required = true)
-		private Long recordId;
-	}
+        @NotNull
+        @ApiModelProperty(required = true)
+        private Long recordId;
+    }
 
-	@Getter
-	@Setter
-	@Accessors(chain = true)
-	@ApiModel("FileResponse")
-	public static class Response {
-		private byte[] content;
-		private String fileName;
-		private String extension;
-		private String contentType;
-		private Map<String, String> tags;
-	}
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("FileResponse")
+    public static class Response {
+        private byte[] content;
+        private String fileName;
+        private String extension;
+        private String contentType;
+        private Map<String, String> tags;
+    }
+
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("FileMetaData")
+    public static class MetaData {
+
+        private Long id;
+        private Long recordId;
+        private String entityName;
+		private String fileKey;
+		private FileStatus fileStatus;
+    }
 }

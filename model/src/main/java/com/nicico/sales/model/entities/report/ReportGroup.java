@@ -37,10 +37,6 @@ public class ReportGroup extends BaseEntity {
     @Transient
     private String name;
 
-    @NotNull
-    @Column(name = "C_ORDER", nullable = false)
-    private String order;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "F_PARENT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_reportGroup2ReportGroup"))
     private ReportGroup parent;

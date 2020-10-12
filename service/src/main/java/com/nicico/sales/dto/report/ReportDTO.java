@@ -1,6 +1,7 @@
 package com.nicico.sales.dto.report;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.nicico.copper.core.service.minio.EFileAccessLevel;
 import com.nicico.sales.model.entities.report.ReportGroup;
 import com.nicico.sales.model.enumeration.EStatus;
 import com.nicico.sales.model.enumeration.ReportSource;
@@ -21,7 +22,6 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ReportDTO {
 
-    private Long id;
     private String titleFA;
     private String titleEN;
     private String title;
@@ -29,7 +29,7 @@ public class ReportDTO {
     private String nameEN;
     private String name;
     private String source;
-    private String method;
+    private String restMethod;
     private String permissionBaseKey;
     private ReportType reportType;
     private ReportSource reportSource;
@@ -78,7 +78,8 @@ public class ReportDTO {
         private String lastModifiedBy;
         private Integer version;
 
-        private ReportGroup reportGroup;
+        private ReportGroupDTO.Info reportGroup;
+        private List<ReportFieldDTO.Info> reportFields;
 
         // BaseEntity
         private Boolean editable;
@@ -90,6 +91,9 @@ public class ReportDTO {
     @Accessors(chain = true)
     @ApiModel("ReportCreateRq")
     public static class Create extends ReportDTO {
+
+        private EFileAccessLevel accessLevelFile;
+        private List<ReportFieldDTO.Create> fields;
     }
 
     @Getter

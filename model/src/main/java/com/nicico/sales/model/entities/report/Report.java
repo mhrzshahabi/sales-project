@@ -9,6 +9,7 @@ import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @I18n
 @Getter
@@ -19,7 +20,7 @@ import javax.validation.constraints.NotNull;
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
 @Table(name = "TBL_REPORT")
-public class Report extends BaseEntity {
+public class Report extends BaseEntity  {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_REPORT")
@@ -69,11 +70,13 @@ public class Report extends BaseEntity {
     private ReportType reportType;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "F_REPORT_GROUP_ID", nullable = false, insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_report2ReportGroup"))
+    @JoinColumn(name = "F_REPORT_GROUP_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_report2ReportGroup"))
     private ReportGroup reportGroup;
 
     @NotNull
     @Column(name = "F_REPORT_GROUP_ID", nullable = false)
     private Long reportGroupId;
 
+    @OneToMany(mappedBy = "report", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<ReportField> reportFields;
 }

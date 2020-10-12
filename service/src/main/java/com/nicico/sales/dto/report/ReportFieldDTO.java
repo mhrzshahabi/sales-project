@@ -21,8 +21,6 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ReportFieldDTO {
 
-    private Long id;
-    private Long reportId;
     private String name;
     private String titleFA;
     private String titleEN;
@@ -30,6 +28,7 @@ public class ReportFieldDTO {
     private String type;
     private Boolean hidden;
     private Boolean canFilter;
+    private Long reportId;
 
     @Getter
     @Setter
@@ -42,8 +41,6 @@ public class ReportFieldDTO {
         private Date lastModifiedDate;
         private String lastModifiedBy;
         private Integer version;
-
-        private Report report;
 
         // BaseEntity
         private Boolean editable;

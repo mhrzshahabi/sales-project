@@ -1,5 +1,7 @@
 package com.nicico.sales.model.enumeration;
 
+import com.nicico.copper.core.service.minio.EFileAccessLevel;
+
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 import java.util.*;
@@ -377,6 +379,27 @@ public abstract class AllConverters {
 		@Override
 		public FileStatus convertToEntityAttribute(String value) {
 			for (FileStatus entry : FileStatus.values()) {
+				if (entry.getValue().equals(value)) {
+					return entry;
+				}
+			}
+			return null;
+		}
+	}
+
+	// *****************************************************************************************************************
+
+	@Converter(autoApply = true)
+	public static class EFileAccessLevelConverter implements AttributeConverter<EFileAccessLevel, String> {
+
+		@Override
+		public String convertToDatabaseColumn(EFileAccessLevel entry) {
+			return entry != null ? entry.getValue() : null;
+		}
+
+		@Override
+		public EFileAccessLevel convertToEntityAttribute(String value) {
+			for (EFileAccessLevel entry : EFileAccessLevel.values()) {
 				if (entry.getValue().equals(value)) {
 					return entry;
 				}

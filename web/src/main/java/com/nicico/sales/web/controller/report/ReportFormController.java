@@ -7,6 +7,7 @@ import com.nicico.sales.enumeration.ErrorType;
 import com.nicico.sales.exception.SalesException2;
 import com.nicico.sales.model.entities.base.Port;
 import com.nicico.sales.model.entities.report.Report;
+import com.nicico.sales.model.enumeration.FileStatus;
 import com.nicico.sales.model.enumeration.ReportSource;
 import com.nicico.sales.model.enumeration.ReportType;
 import com.nicico.sales.utility.SecurityChecker;
@@ -38,6 +39,9 @@ public class ReportFormController {
         Map<String, String> accessLevel = getAccessLevelEnumMap();
         request.setAttribute("Enum_EFileAccessLevel", objectMapper.writeValueAsString(accessLevel));
 
+        Map<String, String> fileStatus = getFileStatusEnumMap();
+        request.setAttribute("Enum_FileStatus", objectMapper.writeValueAsString(fileStatus));
+
         Map<String, String> source = getSourceEnumMap();
         request.setAttribute("Enum_ReportSource", objectMapper.writeValueAsString(source));
 
@@ -68,7 +72,7 @@ public class ReportFormController {
                 type.put(value.name(), messageSource.getMessage("report.reportType.one", null, locale));
             else if (value == ReportType.SelectedRecords)
                 type.put(value.name(), messageSource.getMessage("report.reportType.selected", null, locale));
-            else throw new SalesException2(ErrorType.InvalidData, null, "روالی برای حالت های چاپ گزارش تعریف نشده است");
+            else throw new SalesException2(ErrorType.InvalidData, null, "روالی برای نگاشت حالت های چاپ گزارش تعریف نشده است");
 
         return type;
     }
@@ -82,9 +86,24 @@ public class ReportFormController {
                 source.put(value.name(), messageSource.getMessage("report.api", null, locale));
             else if (value == ReportSource.View)
                 source.put(value.name(), messageSource.getMessage("report.data-base", null, locale));
-            else throw new SalesException2(ErrorType.InvalidData, null, "روالی برای نوع منبع گزارش تعریف نشده است");
+            else throw new SalesException2(ErrorType.InvalidData, null, "روالی برای نگاشت نوع منبع گزارش تعریف نشده است");
 
         return source;
+    }
+
+    private Map<String, String> getFileStatusEnumMap() {
+
+        Map<String, String> fileStatus = new HashMap<>();
+        Locale locale = LocaleContextHolder.getLocale();
+        for (FileStatus value : FileStatus.values())
+            if (value == FileStatus.NORMAL)
+                fileStatus.put(value.name(), messageSource.getMessage("file.status.normal", null, locale));
+            else if (value == FileStatus.DELETED)
+                fileStatus.put(value.name(), messageSource.getMessage("file.status.deleted", null, locale));
+
+            else throw new SalesException2(ErrorType.InvalidData, null, "روالی برای نگاشت وضعیت فایل تعریف نشده است");
+
+        return fileStatus;
     }
 
     private Map<String, String> getAccessLevelEnumMap() {
@@ -97,7 +116,7 @@ public class ReportFormController {
             else if (value == EFileAccessLevel.PUBLIC)
                 accessLevel.put(value.name(), messageSource.getMessage("file.access-level.public", null, locale));
 
-            else throw new SalesException2(ErrorType.NotFound);
+            else throw new SalesException2(ErrorType.InvalidData, null, "روالی برای نگاشت نوع دسترسی به فایل تعریف نشده است");
 
         return accessLevel;
     }
