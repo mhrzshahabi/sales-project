@@ -28,7 +28,6 @@
             <column defaultValueNumeric="1" name="B_EDITABLE" type="NUMBER">
                 <constraints nullable="false"/>
             </column>
-            <column name="C_FILE" type="VARCHAR2(255 CHAR)"/>
             <column name="C_NAME_EN" type="VARCHAR2(255 CHAR)"/>
             <column name="C_NAME_FA" type="VARCHAR2(255 CHAR)"/>
             <column name="C_PERMISSION_BASE_KEY" type="VARCHAR2(255 CHAR)">
@@ -57,11 +56,19 @@
     </changeSet>
 
     <changeSet author="NO1 (generated)" id="1602318533909-237">
-        <addForeignKeyConstraint baseColumnNames="F_REPORT_GROUP_ID" baseTableName="TBL_REPORT" constraintName="fk_report2ReportGroup" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_REPORT_GROUP" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="F_REPORT_GROUP_ID" baseTableName="TBL_REPORT"
+                                 constraintName="fk_report2ReportGroup" deferrable="false" initiallyDeferred="false"
+                                 referencedColumnNames="ID" referencedTableName="TBL_REPORT_GROUP" validate="true"/>
     </changeSet>
 
-     <changeSet id="NO1 (generated)" author="1602318533909-237-01">
-        <dropColumn tableName="TBL_REPORT" columnName="C_FILE"/>
+    <changeSet author="NO1 (generated)" id="1602581276488-240">
+        <addUniqueConstraint columnNames="C_TITLE_EN" constraintName="UC_TBL_REPORTC_TITLE_EN_COL"
+                             tableName="TBL_REPORT"/>
     </changeSet>
+    <changeSet author="NO1 (generated)" id="1602581276488-241">
+        <addUniqueConstraint columnNames="C_TITLE_FA" constraintName="UC_TBL_REPORTC_TITLE_FA_COL"
+                             tableName="TBL_REPORT"/>
+    </changeSet>
+
 
 </databaseChangeLog>

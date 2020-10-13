@@ -45,6 +45,13 @@ public class FileService implements IFileService {
     private String appId;
 
     @Override
+    @Transactional(readOnly = true)
+    public List<FileDTO.FileMetaData> getAll(List<Long> ids) {
+        return modelMapper.map(fileDAO.findAllById(ids), new TypeToken<List<FileDTO.FileMetaData>>() {
+        }.getType());
+    }
+
+    @Override
     @Transactional
     public String store(FileDTO.Request request) {
         try {
@@ -55,7 +62,8 @@ public class FileService implements IFileService {
                     .setEntityName(request.getEntityName())
                     .setRecordId(request.getRecordId())
                     .setFileKey(fileKey)
-                    .setFileStatus(FileStatus.NORMAL);
+                    .setFileStatus(FileStatus.NORMAL)
+                    .setAccessLevel(request.getAccessLevel());
 
             fileDAO.saveAndFlush(file);
 
@@ -80,8 +88,8 @@ public class FileService implements IFileService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<FileDTO.MetaData> getFiles(Long recordId, String entityName) {
-        return modelMapper.map(fileDAO.findAllByRecordIdAndEntityName(recordId, entityName), new TypeToken<List<FileDTO.MetaData>>() {
+    public List<FileDTO.FileMetaData> getFiles(Long recordId, String entityName) {
+        return modelMapper.map(fileDAO.findAllByRecordIdAndEntityName(recordId, entityName), new TypeToken<List<FileDTO.FileMetaData>>() {
         }.getType());
     }
 

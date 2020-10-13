@@ -1,8 +1,7 @@
 package com.nicico.sales.dto.report;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.nicico.copper.core.service.minio.EFileAccessLevel;
-import com.nicico.sales.model.entities.report.ReportGroup;
+import com.nicico.sales.dto.FileDTO;
 import com.nicico.sales.model.enumeration.EStatus;
 import com.nicico.sales.model.enumeration.ReportSource;
 import com.nicico.sales.model.enumeration.ReportType;
@@ -62,6 +61,7 @@ public class ReportDTO {
         private String source;
         private String nameFA;
         private String nameEN;
+        private String name;
         private String restMethod;
         private Boolean dataIsList;
     }
@@ -92,7 +92,7 @@ public class ReportDTO {
     @ApiModel("ReportCreateRq")
     public static class Create extends ReportDTO {
 
-        private EFileAccessLevel accessLevelFile;
+        private FileDTO.FileMetaData fileMetaData;
         private List<ReportFieldDTO.Create> fields;
     }
 

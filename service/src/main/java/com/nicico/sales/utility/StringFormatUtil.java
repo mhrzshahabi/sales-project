@@ -8,4 +8,8 @@ public class StringFormatUtil {
                 replaceAll("(^[a-z]|[A-Z0-9])([a-z]+)", seperator + "$1$2").
                 toLowerCase().replaceFirst(seperator + "(.*)", "$1");
     }
+    public static String makeMessageKeyByRemoveSpace(String name, String seperator) {
+
+        return makeMessageKey(name.replaceAll("(\\s+)(\\S)", "$2".toUpperCase()),seperator);
+    }
 }

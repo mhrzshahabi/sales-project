@@ -34,13 +34,6 @@ reportGroupTab.dynamicForm.fields = BaseFormItems.concat([{
         }]
 }, {
     width: "100%",
-    name: "order",
-    required: true,
-    type: 'integer',
-    keyPressFilter: "[0-9]",
-    title: "<spring:message code='global.order'/>"
-}, {
-    width: "100%",
     name: "parentId",
     title: "<spring:message code='report.group.parent-name'/>",
     wrapTitle: false,
@@ -71,10 +64,6 @@ reportGroupTab.listGrid.fields = BaseFormItems.concat([{
     name: "name",
     type: 'text',
     title: "<spring:message code='global.name'/>"
-}, {
-    name: "order",
-    type: 'integer',
-    title: "<spring:message code='global.order'/>"
 }, {
     name: "parentId",
     type: 'integer',

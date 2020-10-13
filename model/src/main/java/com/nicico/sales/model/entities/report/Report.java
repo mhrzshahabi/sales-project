@@ -29,11 +29,11 @@ public class Report extends BaseEntity  {
     private Long id;
 
     @NotNull
-    @Column(name = "C_TITLE_FA", nullable = false)
+    @Column(name = "C_TITLE_FA", nullable = false ,unique = true)
     private String titleFA;
 
     @NotNull
-    @Column(name = "C_TITLE_EN", nullable = false)
+    @Column(name = "C_TITLE_EN", nullable = false,unique = true)
     private String titleEN;
 
     @I18n

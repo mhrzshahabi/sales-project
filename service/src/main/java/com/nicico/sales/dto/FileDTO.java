@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 import java.util.Map;
 
 @Getter
@@ -59,13 +60,32 @@ public class FileDTO {
     @Getter
     @Setter
     @Accessors(chain = true)
+    @ApiModel("FileData")
+    public static class FileData extends FileMetaData {
+        private MultipartFile file;
+    }
+
+    @Getter
+    @Setter
+    @Accessors(chain = true)
     @ApiModel("FileMetaData")
-    public static class MetaData {
+    public static class FileMetaData {
 
         private Long id;
         private Long recordId;
         private String entityName;
-		private String fileKey;
-		private FileStatus fileStatus;
+        private String fileKey;
+        private FileStatus fileStatus;
+        private EFileAccessLevel accessLevel;
+    }
+
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("FileMetaDataDeleteRq")
+    public static class Delete {
+        @NotNull
+        @ApiModelProperty(required = true)
+        private List<Long> ids;
     }
 }

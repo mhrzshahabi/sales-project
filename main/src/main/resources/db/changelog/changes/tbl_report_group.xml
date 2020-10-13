@@ -34,15 +34,15 @@
             <column name="C_NAME_FA" type="VARCHAR2(255 CHAR)">
                 <constraints nullable="false"/>
             </column>
-            <column name="C_ORDER" type="VARCHAR2(255 CHAR)">
-                <constraints nullable="false"/>
-            </column>
             <column name="F_PARENT_ID" type="NUMBER(19, 0)"/>
         </createTable>
     </changeSet>
 
     <changeSet author="NO1 (generated)" id="1602318533909-239">
-        <addForeignKeyConstraint baseColumnNames="F_PARENT_ID" baseTableName="TBL_REPORT_GROUP" constraintName="fk_reportGroup2ReportGroup" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_REPORT_GROUP" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="F_PARENT_ID" baseTableName="TBL_REPORT_GROUP"
+                                 constraintName="fk_reportGroup2ReportGroup" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="ID"
+                                 referencedTableName="TBL_REPORT_GROUP" validate="true"/>
     </changeSet>
 
 </databaseChangeLog>

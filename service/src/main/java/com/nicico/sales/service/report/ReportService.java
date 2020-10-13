@@ -1,5 +1,6 @@
 package com.nicico.sales.service.report;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nicico.sales.annotation.Action;
 import com.nicico.sales.annotation.report.IgnoreReportField;
@@ -13,11 +14,13 @@ import com.nicico.sales.enumeration.ActionType;
 import com.nicico.sales.enumeration.ErrorType;
 import com.nicico.sales.exception.NotFoundException;
 import com.nicico.sales.exception.SalesException2;
+import com.nicico.sales.iservice.IFileService;
 import com.nicico.sales.iservice.report.IReportFieldService;
 import com.nicico.sales.iservice.report.IReportService;
 import com.nicico.sales.model.enumeration.ReportSource;
-import com.nicico.sales.service.FileService;
 import com.nicico.sales.service.GenericService;
+import com.nicico.sales.utility.StringFormatUtil;
+import com.nicico.sales.utility.UpdateUtil;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -26,6 +29,7 @@ import org.reflections.scanners.MethodAnnotationsScanner;
 import org.reflections.util.ClasspathHelper;
 import org.reflections.util.ConfigurationBuilder;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -40,19 +44,20 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class ReportService extends GenericService<com.nicico.sales.model.entities.report.Report, Long, ReportDTO.Create, ReportDTO.Info, ReportDTO.Update, ReportDTO.Delete> implements IReportService {
 
+    private final UpdateUtil updateUtil;
     private final ObjectMapper objectMapper;
     private final ModelMapper modelMapper;
     private final IReportFieldService reportFieldService;
-    private final FileService fileService;
+    private final IFileService fileService;
 
     @Value("${nicico.report.package.controller-name}")
     private String restControllerPackage;
@@ -131,6 +136,7 @@ public class ReportService extends GenericService<com.nicico.sales.model.entitie
 
             viewData.setNameEN(viewName);
             viewData.setNameFA(viewName);
+            viewData.setName(viewName);
             viewData.setSource(viewName);
             viewData.setDataIsList(true);
 
@@ -165,6 +171,7 @@ public class ReportService extends GenericService<com.nicico.sales.model.entitie
             String nameKey = reportAnnotation.nameKey();
             restData.setNameEN(messageSource.getMessage(nameKey, null, Locale.ENGLISH));
             restData.setNameFA(messageSource.getMessage(nameKey, null, Locale.forLanguageTag("fa")));
+            restData.setName(messageSource.getMessage(nameKey, null, LocaleContextHolder.getLocale()));
             restData.setDataIsList(reportAnnotation.returnTypeIsList());
             restData.setSource(methodUrl);
             restData.setRestMethod(methodData.keySet().iterator().next());
@@ -321,28 +328,31 @@ public class ReportService extends GenericService<com.nicico.sales.model.entitie
     @Override
     @Transactional
     @Action(ActionType.Create)
-    public ReportDTO.Info create(MultipartFile file, String request) throws IOException {
+    public ReportDTO.Info create(List<MultipartFile> files, String fileMetaData, String request) throws IOException, IllegalAccessException, NoSuchFieldException, InvocationTargetException {
 
         ReportDTO.Create data = objectMapper.readValue(request, ReportDTO.Create.class);
-        //        generate
-        // data.setPermissionBaseKey()
-        data.setPermissionBaseKey("test");
-        ReportDTO.Info reportDTO = this.create(data);
+        data.setPermissionBaseKey(StringFormatUtil.makeMessageKeyByRemoveSpace(data.getTitleEN(), " ").toUpperCase());
+        ReportDTO.Info report = this.create(data);
+
         List<ReportFieldDTO.Create> reportFields = modelMapper.map(data.getFields(), new TypeToken<List<ReportFieldDTO.Create>>() {
         }.getType());
-        reportFields.forEach(q -> q.setReportId(reportDTO.getId()));
+        reportFields.forEach(q -> q.setReportId(report.getId()));
         reportFieldService.createAll(reportFields);
-//
-//        FileDTO.Request fileDTO = new FileDTO.Request();
-//        fileDTO.setRecordId(reportDTO.getId());
-//        fileDTO.setEntityName(com.nicico.sales.model.entities.report.Report.class.getSimpleName());
-//        fileDTO.setAccessLevel(data.getAccessLevelFile());
-//        fileDTO.setFile(file);
 
-//        minio
-//        data.setFile()
-//        fileService.store(fileDTO);
+        List<FileDTO.FileData> fileData = objectMapper.readValue(fileMetaData, new TypeReference<List<FileDTO.FileData>>() {
+        });
+        if (fileData.size() == 0) return report;
 
-        return null;
+        for (int i = 0; i < fileData.size(); i++) {
+
+            fileData.get(i).setFile(files.get(i));
+            fileData.get(i).setRecordId(report.getId());
+        }
+        fileData.forEach(q -> fileService.store(modelMapper.map(q, FileDTO.Request.class)));
+
+//        List<FileDTO.FileMetaData> savedFileData = fileService.getFiles(report.getId(), Report.class.getSimpleName());
+//        savedFileData.stream().filter(q -> fileData.stream().noneMatch(p -> p.getId().longValue() == q.getId())).collect(Collectors.toList()).forEach(q -> fileService.delete(q.getFileKey()));
+
+        return report;
     }
 }

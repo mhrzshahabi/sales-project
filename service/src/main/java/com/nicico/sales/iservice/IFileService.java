@@ -6,11 +6,13 @@ import java.util.List;
 
 public interface IFileService {
 
+    List<FileDTO.FileMetaData> getAll(List<Long> ids);
+
     String store(FileDTO.Request request);
 
     FileDTO.Response retrieve(String key);
 
-    List<FileDTO.MetaData> getFiles(Long recordId, String entityName);
+    List<FileDTO.FileMetaData> getFiles(Long recordId, String entityName);
 
     void delete(String key);
 

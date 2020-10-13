@@ -15,13 +15,15 @@ isc.defineClass("FileUploadForm", isc.VLayout).addProperties({
     accept: null,
     recordId: null,
     entityName: null,
+    fileStatusValueMap: null,
+    accessLevelValueMap: null,
     initWidget: function () {
 
         this.Super("initWidget", arguments);
 
         let This = this;
         this.form = isc.DynamicForm.create({
-            width: "85%",
+            width: "90%",
             align: "center",
             numCols: 4,
             canSubmit: true,
@@ -42,11 +44,12 @@ isc.defineClass("FileUploadForm", isc.VLayout).addProperties({
                     validateOnChange: true
                 }]
             }, {
+                colSpan: 1,
                 required: true,
                 wrapTitle: false,
                 name: "accessLevel",
                 title: "<spring:message code='file.access-level'/>",
-                valueMap: JSON.parse('${Enum_EFileAccessLevel}'),
+                valueMap: This.accessLevelValueMap,
                 validators: [{
                     type: "required",
                     validateOnChange: true
@@ -54,9 +57,11 @@ isc.defineClass("FileUploadForm", isc.VLayout).addProperties({
             }]
         });
         this.button = isc.IButtonSave.create({
-            width: "15%",
-            icon: "pieces/16/save.png",
-            title: '<spring:message code="global.form.save"/> ',
+            title: "",
+            autoFit: true,
+            align: "center",
+            iconAlign: "center",
+            icon: "pieces/16/icon_add.png",
             click: () => {
 
                 if (!This.form.validate()) return;
@@ -89,12 +94,12 @@ isc.defineClass("FileUploadForm", isc.VLayout).addProperties({
                 name: "accessLevel",
                 editorType: "SelectItem",
                 title: "<spring:message code='file.access-level'/>",
-                valueMap: JSON.parse('${Enum_EFileAccessLevel}')
+                valueMap: This.accessLevelValueMap
             },
             {
                 name: "fileStatus",
                 editorType: "SelectItem",
-                valueMap: JSON.parse('${Enum_FileStatus}'),
+                valueMap: This.fileStatusValueMap,
                 title: "<spring:message code='global.status'/>"
             },
             {
@@ -125,9 +130,25 @@ isc.defineClass("FileUploadForm", isc.VLayout).addProperties({
 
             height: 200,
             canRemoveRecords: true,
+            border: "0px",
+            showFilterEditor: false
         });
         this.addMember(this.grid);
+    },
+    getValues: function () {
 
+        this.grid.saveAllEdits();
+        return {...this.grid.getData()};
+    },
+    clearData: function () {
+        this.form.clearValue();
+        this.grid.setData([]);
+    },
+    reloadData: function (recordId, entityName) {
+
+        let This = this;
+        if (entityName) this.entityName = entityName;
+        if (recordId || recordId === 0) this.recordId = recordId;
         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
             httpMethod: "GET",
             actionURL: "${contextPath}/api/files",
@@ -139,10 +160,5 @@ isc.defineClass("FileUploadForm", isc.VLayout).addProperties({
                 This.grid.setData(resp.data);
             }
         }));
-    },
-    getValues: function () {
-
-        this.grid.saveAllEdits();
-        return this.grid.getData();
     }
 });

@@ -27,7 +27,7 @@ public class FileRestController {
     }
 
     @GetMapping
-    public ResponseEntity<List<FileDTO.MetaData>> getFiles(@RequestParam(required = false) Long recordId, @RequestParam(required = false) String entityName) {
+    public ResponseEntity<List<FileDTO.FileMetaData>> getFiles(@RequestParam Long recordId, @RequestParam String entityName) {
         return new ResponseEntity<>(fileService.getFiles(recordId, entityName), HttpStatus.OK);
     }
 

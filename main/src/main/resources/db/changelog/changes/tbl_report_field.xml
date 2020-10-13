@@ -53,7 +53,9 @@
     </changeSet>
 
     <changeSet author="NO1 (generated)" id="1602318533909-238">
-        <addForeignKeyConstraint baseColumnNames="F_REPORT_ID" baseTableName="TBL_REPORT_FIELD" constraintName="fk_reportField2Report" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TBL_REPORT" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="F_REPORT_ID" baseTableName="TBL_REPORT_FIELD"
+                                 constraintName="fk_reportField2Report" deferrable="false" initiallyDeferred="false"
+                                 referencedColumnNames="ID" referencedTableName="TBL_REPORT" validate="true"/>
     </changeSet>
 
 </databaseChangeLog>
