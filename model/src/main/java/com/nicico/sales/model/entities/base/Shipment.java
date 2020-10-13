@@ -6,6 +6,8 @@ import com.nicico.sales.model.entities.warehouse.Remittance;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.Formula;
+import org.hibernate.envers.AuditOverride;
+import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -21,9 +23,11 @@ import java.util.Set;
 @Accessors(chain = true)
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
-@Table(name = "TBL_SHIPMENT" , uniqueConstraints = {
+@Table(name = "TBL_SHIPMENT", uniqueConstraints = {
         @UniqueConstraint(columnNames = {"F_CONTRACT_SHIPMENT_ID"}, name = "UNIQUE_F_CONTRACT_SHIPMENT_ID")
 })
+@Audited
+@AuditOverride(forClass = BaseEntity.class)
 public class Shipment extends BaseEntity {
 
     @Id

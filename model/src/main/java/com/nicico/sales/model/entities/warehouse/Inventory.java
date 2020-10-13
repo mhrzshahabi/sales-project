@@ -9,6 +9,8 @@ import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.Formula;
 import org.hibernate.annotations.JoinFormula;
+import org.hibernate.envers.AuditOverride;
+import org.hibernate.envers.Audited;
 import org.hibernate.envers.NotAudited;
 
 import javax.persistence.*;
@@ -25,6 +27,8 @@ import java.util.List;
 @Entity
 //@SecondaryTable(name = "VIEW_WARH_INVENTORY")
 @Table(name = "TBL_WARH_INVENTORY")
+@Audited
+@AuditOverride(forClass = BaseEntity.class)
 public class Inventory extends BaseEntity {
 
     @Id

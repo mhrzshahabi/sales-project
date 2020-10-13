@@ -5,6 +5,8 @@ import com.nicico.sales.model.entities.warehouse.Element;
 import com.nicico.sales.model.enumeration.PriceBaseReference;
 import lombok.*;
 import lombok.experimental.Accessors;
+import org.hibernate.envers.AuditOverride;
+import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -20,6 +22,8 @@ import java.util.Date;
 @Entity
 @Table(name = "TBL_PRICE_BASE", uniqueConstraints = @UniqueConstraint(name = "element_priceBaseReference_priceDate_UNIQUE",
         columnNames = {"F_ELEMENT_ID", "N_PRICE_BASE_REFERENCE", "D_PRICE_DATE"}))
+@Audited
+@AuditOverride(forClass = BaseEntity.class)
 public class PriceBase extends BaseEntity {
 
     @Id

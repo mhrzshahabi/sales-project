@@ -5,6 +5,8 @@ import com.nicico.sales.model.entities.warehouse.MaterialElement;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.Immutable;
+import org.hibernate.envers.AuditOverride;
+import org.hibernate.envers.Audited;
 import org.hibernate.envers.NotAudited;
 
 import javax.persistence.*;
@@ -20,6 +22,8 @@ import java.math.BigDecimal;
 @Immutable
 @Entity
 @Table(name = "TBL_CONTRACT_DISCOUNT")
+@Audited
+@AuditOverride(forClass = BaseEntity.class)
 public class ContractDiscount extends BaseEntity {
 
     @Id

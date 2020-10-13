@@ -6,6 +6,8 @@ import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.Formula;
 import org.hibernate.annotations.JoinFormula;
+import org.hibernate.envers.AuditOverride;
+import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -18,6 +20,8 @@ import javax.validation.constraints.NotNull;
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
 @Table(name = "TBL_WARH_REMITTANCE_DETAIL")
+@Audited
+@AuditOverride(forClass = BaseEntity.class)
 //@SecondaryTable(name = "VIEW_WARH_REMITTANCE_DETAIL")
 public class RemittanceDetail extends BaseEntity {
     //todo Article 3 molybdenum....

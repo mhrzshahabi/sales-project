@@ -1,18 +1,17 @@
 package com.nicico.sales.model.entities.warehouse;
 
-import com.nicico.sales.model.entities.base.Port;
 import com.nicico.sales.model.entities.base.Shipment;
 import com.nicico.sales.model.entities.common.BaseEntity;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.Formula;
 import org.hibernate.annotations.JoinFormula;
+import org.hibernate.envers.AuditOverride;
+import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -22,6 +21,8 @@ import java.util.stream.Collectors;
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
 @Table(name = "TBL_WARH_REMITTANCE")
+@Audited
+@AuditOverride(forClass = BaseEntity.class)
 public class Remittance extends BaseEntity {
 
     @Id

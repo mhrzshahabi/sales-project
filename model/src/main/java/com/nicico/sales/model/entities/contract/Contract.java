@@ -4,6 +4,8 @@ import com.nicico.sales.model.entities.base.Material;
 import com.nicico.sales.model.entities.common.BaseEntity;
 import lombok.*;
 import lombok.experimental.Accessors;
+import org.hibernate.envers.AuditOverride;
+import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -19,6 +21,8 @@ import java.util.List;
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
 @Table(name = "TBL_CNTR_CONTRACT")
+@Audited
+@AuditOverride(forClass = BaseEntity.class)
 public class Contract extends BaseEntity {
 
     @Id

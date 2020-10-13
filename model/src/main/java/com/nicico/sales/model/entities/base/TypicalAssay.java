@@ -6,6 +6,8 @@ import com.nicico.sales.model.entities.contract.Contract;
 import com.nicico.sales.model.entities.warehouse.MaterialElement;
 import lombok.*;
 import lombok.experimental.Accessors;
+import org.hibernate.envers.AuditOverride;
+import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -19,6 +21,8 @@ import java.math.BigDecimal;
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
 @Table(name = "TBL_TYPICAL_ASSAY")
+@Audited
+@AuditOverride(forClass = BaseEntity.class)
 public class TypicalAssay extends BaseEntity {
 
     @Id
