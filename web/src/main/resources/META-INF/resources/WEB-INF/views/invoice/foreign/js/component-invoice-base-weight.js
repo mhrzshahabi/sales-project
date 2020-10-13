@@ -9,7 +9,9 @@ isc.defineClass("InvoiceBaseWeight", isc.VLayout).addProperties({
     membersMargin: 2,
     overflow: "visible",
     shipment: null,
+    percent: null,
     inspectionWeightData: null,
+    isClicked: true,
     initWidget: function () {
 
         this.Super("initWidget", arguments);
@@ -23,7 +25,7 @@ isc.defineClass("InvoiceBaseWeight", isc.VLayout).addProperties({
             showValueFieldTitle: true,
             showUnitFieldTitle: false,
             name: "weightGW",
-            fieldValueTitle: "TOTAL GROSS WEIGHT",
+            fieldValueTitle: "TOTAL GROSS WEIGHT"
         }));
         this.getMembers().last().setValue(this.inspectionWeightData.weightGW);
         this.getMembers().last().setUnitId(this.inspectionWeightData.weightInspections[0].unitId);
@@ -35,7 +37,7 @@ isc.defineClass("InvoiceBaseWeight", isc.VLayout).addProperties({
             showValueFieldTitle: true,
             showUnitFieldTitle: false,
             name: "weightND",
-            fieldValueTitle: "TOTAL NET WEIGHT",
+            fieldValueTitle: "TOTAL NET WEIGHT"
         }));
         this.getMembers().last().setValue(this.inspectionWeightData.weightND);
         this.getMembers().last().setUnitId(this.inspectionWeightData.weightInspections[0].unitId);
@@ -47,11 +49,57 @@ isc.defineClass("InvoiceBaseWeight", isc.VLayout).addProperties({
             showValueFieldTitle: true,
             showUnitFieldTitle: false,
             name: "totalUnits",
-            fieldValueTitle: "TOTAL UNITS",
+            fieldValueTitle: "TOTAL UNITS"
         }));
         // this.getMembers().last().setValue(this.inspectionWeightData.weightND);
         // this.getMembers().last().setUnitId(this.inspectionWeightData.weightInspections[0].unitId);
 
+        this.addMember(isc.DynamicForm.create({
+            width: "100%",
+            fields: [{
+                name: "percent",
+                title: "Percent",
+                type: "float",
+                defaultValue: 100,
+                required: true,
+                validators: [
+                    {
+                        type: "required",
+                        validateOnChange: true
+                    }],
+                icons: [
+                    {
+                        src: "pieces/16/icon_add.png",
+                        click: function () {
+
+                            This.isClicked = true;
+                            let percent = This.getMembers().last().getValue("percent");
+                            let weightGWMember = This.getMembers().filter(q => q.name === "weightGW").first();
+                            weightGWMember.setValue(weightGWMember.getValues().value * percent / 100);
+                            let weightNDMember = This.getMembers().filter(q => q.name === "weightND").first();
+                            weightNDMember.setValue(weightNDMember.getValues().value * percent / 100);
+                        }
+                    },
+                    {
+                        src: "pieces/16/refresh.png",
+                        click: function () {
+
+                            This.isClicked = true;
+                            This.getMembers().last().setValue("percent", 100);
+                            let weightGWMember = This.getMembers().filter(q => q.name === "weightGW").first();
+                            weightGWMember.setValue(This.inspectionWeightData.weightGW);
+                            let weightNDMember = This.getMembers().filter(q => q.name === "weightND").first();
+                            weightNDMember.setValue(This.inspectionWeightData.weightND);
+                        }
+                    }],
+                changed: function () {
+
+                    This.isClicked = false;
+                }
+            }]
+        }));
+
+        this.setPercentValue();
     },
     getValues: function () {
 
@@ -59,20 +107,26 @@ isc.defineClass("InvoiceBaseWeight", isc.VLayout).addProperties({
             weightGW: this.getMembers().filter(q => q.name === "weightGW").first(),
             weightND: this.getMembers().filter(q => q.name === "weightND").first(),
             totalUnits: this.getMembers().filter(q => q.name === "totalUnits").first(),
-            weightMilestone: this.inspectionWeightData.weightInspections[0].mileStone
+            percent: this.getMembers().last().getValue("percent")
         };
+    },
+    setPercentValue: function () {
+
+        if (this.percent) {
+            this.getMembers().last().setValue("percent", this.percent);
+            this.getMembers().last().getField("percent").icons[0].click();
+        }
     },
     validate: function () {
 
         let isValid = true;
-        if (this.getMembers().length < 1)
+        this.getMembers().last().validate();
+        if (this.getMembers().last().hasErrors())
             isValid = false;
-        else {
-            this.getMembers().forEach(current => {
-                if (current.getValues().value === null)
-                    isValid = false;
-            });
-        }
+
+        if (isValid && !this.isClicked)
+            this.getMembers().last().getField("percent").icons[0].click();
+
         return isValid;
     }
 });

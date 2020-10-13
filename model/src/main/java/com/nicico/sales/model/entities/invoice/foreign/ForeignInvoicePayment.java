@@ -1,6 +1,7 @@
 package com.nicico.sales.model.entities.invoice.foreign;
 
 import com.nicico.sales.model.entities.base.CurrencyRate;
+import com.nicico.sales.model.entities.base.ShipmentCostInvoice;
 import com.nicico.sales.model.entities.common.BaseEntity;
 import lombok.*;
 import lombok.experimental.Accessors;
@@ -71,4 +72,12 @@ public class ForeignInvoicePayment extends BaseEntity {
     @NotNull
     @Column(name = "F_FOREIGN_INVOICE_ID", nullable = false)
     private Long foreignInvoiceId;
+
+    @Setter(AccessLevel.NONE)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "F_SHIPMENT_COST_INVOICE_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_foreignInvoicePayment2shipmentCostInvoiceByShipmentCostInvoiceId"))
+    private ShipmentCostInvoice shipmentCostInvoice;
+
+    @Column(name = "F_SHIPMENT_COST_INVOICE_ID")
+    private Long shipmentCostInvoiceId;
 }

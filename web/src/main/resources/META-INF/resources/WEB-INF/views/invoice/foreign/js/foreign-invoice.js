@@ -71,12 +71,6 @@ foreignInvoiceTab.listGrid.fields = BaseFormItems.concat([
     },
     {
         width: "100%",
-        showHover: true,
-        name: "accountingId",
-        title: "<spring:message code='foreign-invoice.form.accounting-id'/>"
-    },
-    {
-        width: "100%",
         required: true,
         showHover: true,
         name: "buyer.nameEN",
@@ -94,8 +88,8 @@ foreignInvoiceTab.listGrid.fields = BaseFormItems.concat([
         width: "100%",
         required: true,
         showHover: true,
-        name: "shipment.material.descl",
-        title: "<spring:message code='material.descl'/>"
+        name: "shipment.material.descEN",
+        title: "<spring:message code='material.descEN'/>"
     },
     {
         width: "100%",
@@ -104,6 +98,12 @@ foreignInvoiceTab.listGrid.fields = BaseFormItems.concat([
         name: "creator.fullName",
         title: "<spring:message code='foreign-invoice.form.creator'/>"
     },
+    {
+        width: "100%",
+        showHover: true,
+        name: "accountingId",
+        title: "<spring:message code='foreign-invoice.form.accounting-id'/>"
+    }
 ]);
 foreignInvoiceTab.listGrid.fields.filter(q => q.name === "estatus").first().hidden = false;
 foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
@@ -169,7 +169,7 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
                 },
                 {name: "description", title: "<spring:message code='global.description'/>"},
                 {name: "materialId"},
-                {name: "material.descp", title: "<spring:message code='material.descp'/>"},
+                {name: "material.descFA", title: "<spring:message code='material.descFA'/>"},
                 {name: "estatus", title: "<spring:message code='global.status'/>"},
             ],
             fetchDataURL: foreignInvoiceTab.variable.contractUrl + "spec-list"
@@ -178,7 +178,7 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
             {name: "id", primaryKey: true, hidden: true, title: "<spring:message code='global.id'/>"},
             {name: "no"},
             {name: "materialId", hidden: true},
-            {name: "material.descp"},
+            {name: "material.descFA"},
             {name: "estatus"}
         ],
         title: "<spring:message code='foreign-invoice.form.contract'/>",
@@ -249,17 +249,17 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
             {name: "id", primaryKey: true, hidden: true, title: "<spring:message code='global.id'/>"},
             {name: "sendDate", title: "<spring:message code='global.sendDate'/>", type: "date", width: "110"},
             {name: "contact.nameEN", title: "<spring:message code='foreign-invoice.form.shipment'/>"},
-            {name: "material.descl", title: "<spring:message code='material.descl'/>"},
+            {name: "material.descEN", title: "<spring:message code='material.descEN'/>"},
             {name: "amount", title: "<spring:message code='global.amount'/>"},
-            {name: "loadingLetter", title: "<spring:message code='shipment.loadingLetter'/>"},
+            {name: "automationLetterNo", title: "<spring:message code='shipment.loadingLetter'/>"},
         ],
         optionDataSource: isc.MyRestDataSource.create({
             fields: [
                 {name: "id", primaryKey: true, hidden: true, title: "<spring:message code='global.id'/>"},
                 {name: "contact.nameEN", title: "<spring:message code='foreign-invoice.form.shipment'/>"},
-                {name: "material.descl", title: "<spring:message code='material.descl'/>"},
+                {name: "material.descEN", title: "<spring:message code='material.descEN'/>"},
                 {name: "amount", title: "<spring:message code='global.amount'/>"},
-                {name: "loadingLetter", title: "<spring:message code='shipment.loadingLetter'/>"},
+                {name: "automationLetterNo", title: "<spring:message code='shipment.loadingLetter'/>"},
             ],
             fetchDataURL: foreignInvoiceTab.variable.shipmentUrl + "spec-list"
         }),
@@ -349,10 +349,19 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
         width: "100%",
         valueField: "id",
         displayField: "fullName",
+        pickListProperties: {
+            showFilterEditor: true
+        },
+        pickListFields: [
+            {name: "id", hidden: true},
+            {name: "fullName"},
+            {name: "jobTitle"},
+        ],
         optionDataSource: isc.MyRestDataSource.create({
             fields: [
                 {name: "id", primaryKey: true, hidden: true, title: "<spring:message code='global.id'/>"},
-                {name: "fullName", title: "<spring:message code='global.name'/>"},
+                {name: "fullName", title: "<spring:message code='person.fullName'/>"},
+                {name: "jobTitle", title: "<spring:message code='person.jobTitle'/>"},
             ],
             fetchDataURL: foreignInvoiceTab.variable.personUrl + "spec-list"
         }),
@@ -550,15 +559,15 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
             fields: [
                 {name: "id", primaryKey: true, hidden: true, title: "<spring:message code='global.id'/>"},
                 {name: "inspectionNO", title: "<spring:message code='inspectionReport.InspectionNO'/>"},
-                {name: "inspector.nameFA", title: "<spring:message code='inspectionReport.inspector.nameFA'/>"},
+                {name: "inspector.nameFA", title: "<spring:message code='inspectionReport.inspectorId'/>"},
                 {
                     name: "issueDate",
                     title: "<spring:message code='inspectionReport.IssueDate'/>",
                     type: "date",
                     width: 100
                 },
-                {name: "seller.nameFA", title: "<spring:message code='inspectionReport.seller.nameFA'/>"},
-                {name: "buyer.nameFA", title: "<spring:message code='inspectionReport.buyer.nameFA'/>"},
+                {name: "seller.nameFA", title: "<spring:message code='inspectionReport.sellerId'/>"},
+                {name: "buyer.nameFA", title: "<spring:message code='inspectionReport.buyerId'/>"},
                 {
                     name: "weightInspections.mileStone",
                     title: "<spring:message code='inspectionReport.weight.mileStone'/>"
@@ -570,7 +579,6 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
         wrapTitle: false,
     },
     {
-        // required: true,
         disabled: true,
         width: "100%",
         type: "integer",
@@ -594,15 +602,15 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
             fields: [
                 {name: "id", primaryKey: true, hidden: true, title: "<spring:message code='global.id'/>"},
                 {name: "inspectionNO", title: "<spring:message code='inspectionReport.InspectionNO'/>"},
-                {name: "inspector.nameFA", title: "<spring:message code='inspectionReport.inspector.nameFA'/>"},
+                {name: "inspector.nameFA", title: "<spring:message code='inspectionReport.inspectorId'/>"},
                 {
                     name: "issueDate",
                     title: "<spring:message code='inspectionReport.IssueDate'/>",
                     type: "date",
                     width: 100
                 },
-                {name: "seller.nameFA", title: "<spring:message code='inspectionReport.seller.nameFA'/>"},
-                {name: "buyer.nameFA", title: "<spring:message code='inspectionReport.buyer.nameFA'/>"},
+                {name: "seller.nameFA", title: "<spring:message code='inspectionReport.sellerId'/>"},
+                {name: "buyer.nameFA", title: "<spring:message code='inspectionReport.buyerId'/>"},
                 {name: "assayInspections.mileStone", title: "<spring:message code='inspectionReport.assay.mileStone'/>"}
             ],
             fetchDataURL: foreignInvoiceTab.variable.inspectionReportUrl + "spec-list"
@@ -657,7 +665,7 @@ foreignInvoiceTab.dynamicForm.baseData.validate = function () {
         let assayInventories = [];
         weightInspections.forEach(q => weightInventories.add(q.inventoryId));
         assayInspections.forEach(q => assayInventories.add(q.inventoryId));
-        if (!weightInventories.containsAll(assayInventories.distinct())) {
+        if (!weightInventories.containsAll(assayInventories.distinct()) || !assayInventories.distinct().containsAll(weightInventories)) {
 
             foreignInvoiceTab.dialog.say("<spring:message code='foreign-invoice.form.validate.inventories.not.equal'/>");
             isValid = false;
@@ -751,6 +759,7 @@ foreignInvoiceTab.button.save = isc.IButtonSave.create({
                 shipment: foreignInvoiceTab.dynamicForm.valuesManager.getValue("shipment"),
                 contractDetailData: foreignInvoiceTab.variable.contractDetailData,
                 invoiceType: foreignInvoiceTab.dynamicForm.valuesManager.getValue("invoiceType"),
+                percent: foreignInvoiceTab.dynamicForm.valuesManager.getValue("percent"),
                 basePriceData: foreignInvoiceTab.dynamicForm.valuesManager.getValue("basePriceData"),
                 inspectionWeightData: foreignInvoiceTab.dynamicForm.valuesManager.getValue("inspectionWeightData"),
                 inspectionAssayData: foreignInvoiceTab.dynamicForm.valuesManager.getValue("inspectionAssayData"),
@@ -799,6 +808,7 @@ foreignInvoiceTab.button.save = isc.IButtonSave.create({
                 currency: foreignInvoiceTab.dynamicForm.valuesManager.getValue("currency"),
                 contract: foreignInvoiceTab.dynamicForm.valuesManager.getValue('contract'),
                 shipment: foreignInvoiceTab.dynamicForm.valuesManager.getValue("shipment"),
+                percent: foreignInvoiceTab.dynamicForm.valuesManager.getValue("percent"),
                 contractDetailData: foreignInvoiceTab.variable.contractDetailData,
                 inspectionWeightData: foreignInvoiceTab.dynamicForm.valuesManager.getValue("inspectionWeightData"),
             });
@@ -934,7 +944,6 @@ foreignInvoiceTab.variable.invoiceForm.okCallBack = function (data) {
 
 foreignInvoiceTab.variable.invoiceForm.populateData = function (bodyWidget) {
 
-    console.log("material ", foreignInvoiceTab.variable.materialId);
     let invoicePaymentComponent = foreignInvoiceTab.tab.invoice.tabs.filter(t => t.pane.Class === isc.InvoicePayment.Class).first();
     if (!invoicePaymentComponent) return null;
 
@@ -967,6 +976,7 @@ foreignInvoiceTab.variable.invoiceForm.populateData = function (bodyWidget) {
         let invoiceBasePriceComponent = invoiceBaseValuesComponent.invoiceBasePriceComponent;
         let invoiceBaseAssayComponent = invoiceBaseValuesComponent.invoiceBaseAssayComponent;
         let invoiceBaseWeightComponent = invoiceBaseValuesComponent.invoiceBaseWeightComponent;
+        data.percent = invoiceBaseWeightComponent.getValues().percent;
 
         let invoiceCalculationComponent = foreignInvoiceTab.tab.invoice.tabs.filter(t => t.pane.Class === isc.InvoiceCalculation.Class).first();
         if (!invoiceCalculationComponent) return null;
@@ -1023,6 +1033,7 @@ foreignInvoiceTab.variable.invoiceForm.populateData = function (bodyWidget) {
     } else {
         ///// COPPER CATHODE /////
         let invoiceCalculationCathodeComponent = foreignInvoiceTab.tab.invoice.tabs.filter(t => t.pane.Class === isc.InvoiceCalculationCathode.Class).first().pane;
+        data.percent = invoiceCalculationCathodeComponent.invoiceBaseWeightComponent.getValues().percent;
         data.foreignInvoiceItems = invoiceCalculationCathodeComponent.getForeignInvoiceItems();
     }
 
@@ -1041,7 +1052,6 @@ foreignInvoiceTab.variable.invoiceForm.populateData = function (bodyWidget) {
     delete data.inspectionWeightId;
     delete data.inspectionAssayData;
     delete data.inspectionWeightData;
-    // delete data.payments;
 
     console.log("populate data ", data);
     return data;
@@ -2922,6 +2932,7 @@ foreignInvoiceTab.method.editForm = function () {
                                             foreignInvoiceTab.dynamicForm.valuesManager.setValue("calculationData", calculationRowData);
                                             foreignInvoiceTab.dynamicForm.valuesManager.setValue("rcDeductionData", rcRowData);
                                             foreignInvoiceTab.dynamicForm.valuesManager.setValue("basePriceData", basePriceData);
+                                            foreignInvoiceTab.dynamicForm.valuesManager.setValue("percent", record.percent);
                                         } else if (foreignInvoiceTab.variable.materialId === ImportantIDs.material.MOLYBDENUM_OXIDE) {
 
                                             function getBasePrice() {
@@ -2947,6 +2958,7 @@ foreignInvoiceTab.method.editForm = function () {
                                         } else {
 
                                             //// COPPER CATHODE
+                                            foreignInvoiceTab.dynamicForm.valuesManager.setValue("percent", record.percent);
                                             foreignInvoiceTab.dynamicForm.baseData.getField("inspectionAssayId").hide();
                                             foreignInvoiceTab.dynamicForm.baseData.getField("inspectionAssayId").setRequired(false);
                                         }

@@ -374,7 +374,8 @@ isc.defineClass("InvoicePayment", isc.VLayout).addProperties({
                     docConversionPrice: current.conversionSumPrice,
                     portion: current.buyerShare,
                     description: current.description,
-                    conversionRefId: current.conversionRefId
+                    conversionRefId: current.conversionRefId,
+                    shipmentCostInvoiceId : current.id
                 });
             });
         }

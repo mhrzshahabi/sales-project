@@ -205,15 +205,15 @@ public class ForeignInvoiceService extends GenericService<ForeignInvoice, Long, 
         return foreignInvoiceDTO;
     }
 
-    @Override
-    @Transactional
-    @Action(ActionType.Delete)
-    public void delete(Long aLong) {
-    }
-
-    @Override
-    @Transactional
-    @Action(ActionType.DeleteAll)
-    public void deleteAll(ForeignInvoiceDTO.Delete request) {
-    }
+//    @Override
+//    @Transactional
+//    @Action(ActionType.Delete)
+//    public void delete(Long aLong) {
+//    }
+//
+//    @Override
+//    @Transactional
+//    @Action(ActionType.DeleteAll)
+//    public void deleteAll(ForeignInvoiceDTO.Delete request) {
+//    }
 }

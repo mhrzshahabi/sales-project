@@ -451,7 +451,7 @@ inspectionReportTab.restDataSource.contractRest = isc.MyRestDataSource.create({
         },
         {
             name: "date",
-            title: "<spring:message code ='material.descl'/>",
+            title: "<spring:message code ='material.descEN'/>",
             showHover: true
         },
         {
@@ -596,7 +596,7 @@ inspectionReportTab.method.getAssayElementFields = function (materialId, setData
                 me => {
                     return {
                         name: me.element.name,
-                        canEdit: true,
+                        canEdit: false,
                         width: "30%",
                         align: "center",
                         format: "0.###",
@@ -607,23 +607,23 @@ inspectionReportTab.method.getAssayElementFields = function (materialId, setData
 
                             return value + "";
                         },
-                        editorExit(editCompletionEvent, record, newValue, rowNum, colNum) {
-
-                            let savedRecordCount = inspectionReportTab.listGrid.assayElement.getData().length;
-                            let editRecordCount = inspectionReportTab.listGrid.assayElement.getAllEditRows().length;
-                            let recordCount = Math.max(editRecordCount, savedRecordCount);
-                            if (editCompletionEvent === "escape" || recordCount === 0) return true;
-
-                            for (let i = 0; i < recordCount; i++) {
-
-                                let avr = (parseFloat(newValue) / recordCount);
-                                inspectionReportTab.listGrid.assayElement.startEditing(i);
-                                inspectionReportTab.listGrid.assayElement.getAllEditRows().forEach(rn => inspectionReportTab.listGrid.assayElement.setEditValue(rn, colNum + 1, avr));
-                                inspectionReportTab.listGrid.assayElement.endEditing();
-                            }
-
-                            return true;
-                        }
+                        // editorExit(editCompletionEvent, record, newValue, rowNum, colNum) {
+                        //
+                        //     let savedRecordCount = inspectionReportTab.listGrid.assayElement.getData().length;
+                        //     let editRecordCount = inspectionReportTab.listGrid.assayElement.getAllEditRows().length;
+                        //     let recordCount = Math.max(editRecordCount, savedRecordCount);
+                        //     if (editCompletionEvent === "escape" || recordCount === 0) return true;
+                        //
+                        //     for (let i = 0; i < recordCount; i++) {
+                        //
+                        //         let avr = (parseFloat(newValue) / recordCount);
+                        //         inspectionReportTab.listGrid.assayElement.startEditing(i);
+                        //         inspectionReportTab.listGrid.assayElement.getAllEditRows().forEach(rn => inspectionReportTab.listGrid.assayElement.setEditValue(rn, colNum + 1, avr));
+                        //         inspectionReportTab.listGrid.assayElement.endEditing();
+                        //     }
+                        //
+                        //     return true;
+                        // }
                     }
                 }
             ));
@@ -1527,7 +1527,7 @@ inspectionReportTab.listGrid.weightElementSum = isc.ListGrid.create({
         width: "25%",
         align: "center",
     }, {
-        canEdit: true,
+        canEdit: false,
         name: "weighingType",
         width: "25%",
         align: "center",
@@ -1539,7 +1539,7 @@ inspectionReportTab.listGrid.weightElementSum = isc.ListGrid.create({
         }]
 
     }, {
-        canEdit: true,
+        canEdit: false,
         name: "weightGW",
         width: "25%",
         align: "center",
@@ -1552,7 +1552,7 @@ inspectionReportTab.listGrid.weightElementSum = isc.ListGrid.create({
             return value + "";
         }
     }, {
-        canEdit: true,
+        canEdit: false,
         name: "weightND",
         width: "25%",
         align: "center",
@@ -1566,29 +1566,29 @@ inspectionReportTab.listGrid.weightElementSum = isc.ListGrid.create({
             return value + "";
         }
     }],
-    editorExit(editCompletionEvent, record, newValue, rowNum, colNum) {
-
-        let savedRecordCount = inspectionReportTab.listGrid.weightElement.getData().length;
-        let editRecordCount = inspectionReportTab.listGrid.weightElement.getAllEditRows().length;
-        let recordCount = Math.max(editRecordCount, savedRecordCount);
-        if (editCompletionEvent === "escape" || recordCount === 0) return true;
-
-        for (let i = 0; i < recordCount; i++)
-            if (colNum === 1) {
-
-                inspectionReportTab.listGrid.weightElement.startEditing(i);
-                inspectionReportTab.listGrid.weightElement.getAllEditRows().forEach(rn => inspectionReportTab.listGrid.weightElement.setEditValue(rn, colNum + 1, newValue));
-                inspectionReportTab.listGrid.weightElement.endEditing();
-            } else {
-
-                let avr = (parseFloat(newValue) / recordCount);
-                inspectionReportTab.listGrid.weightElement.startEditing(i);
-                inspectionReportTab.listGrid.weightElement.getAllEditRows().forEach(rn => inspectionReportTab.listGrid.weightElement.setEditValue(rn, colNum + 1, avr));
-                inspectionReportTab.listGrid.weightElement.endEditing();
-            }
-
-        return true;
-    }
+    // editorExit(editCompletionEvent, record, newValue, rowNum, colNum) {
+    //
+    //     let savedRecordCount = inspectionReportTab.listGrid.weightElement.getData().length;
+    //     let editRecordCount = inspectionReportTab.listGrid.weightElement.getAllEditRows().length;
+    //     let recordCount = Math.max(editRecordCount, savedRecordCount);
+    //     if (editCompletionEvent === "escape" || recordCount === 0) return true;
+    //
+    //     for (let i = 0; i < recordCount; i++)
+    //         if (colNum === 1) {
+    //
+    //             inspectionReportTab.listGrid.weightElement.startEditing(i);
+    //             inspectionReportTab.listGrid.weightElement.getAllEditRows().forEach(rn => inspectionReportTab.listGrid.weightElement.setEditValue(rn, colNum + 1, newValue));
+    //             inspectionReportTab.listGrid.weightElement.endEditing();
+    //         } else {
+    //
+    //             let avr = (parseFloat(newValue) / recordCount);
+    //             inspectionReportTab.listGrid.weightElement.startEditing(i);
+    //             inspectionReportTab.listGrid.weightElement.getAllEditRows().forEach(rn => inspectionReportTab.listGrid.weightElement.setEditValue(rn, colNum + 1, avr));
+    //             inspectionReportTab.listGrid.weightElement.endEditing();
+    //         }
+    //
+    //     return true;
+    // }
 });
 
 inspectionReportTab.toolStrip.weightRemoveAll = isc.ToolStrip.create({
@@ -1947,7 +1947,7 @@ inspectionReportTab.window.inspecReport.populateData = function (bodyWidget) {
         weightInspectionObj.weighingType = weightRecord.weighingType;
         weightInspectionObj.weightND = weightRecord.weightND;
         weightInspectionObj.weightGW = weightRecord.weightGW;
-        weightInspectionObj.shipmentId = inspectionReportObj.shipmentId.length ? inspectionReportObj.shipmentId : null;
+        weightInspectionObj.shipmentId = (inspectionReportObj.shipmentId !== undefined && inspectionReportObj.shipmentId.length) ? inspectionReportObj.shipmentId : null;
         weightInspectionObj.inventoryId = weightRecord.inventoryId;
         weightInspectionObj.unitId = bodyWidget.members[1].members[0].tabs[0].pane.members[0].unitId;
         weightInspectionObj.mileStone = inspectionReportObj.mileStone;
@@ -1980,7 +1980,7 @@ inspectionReportTab.window.inspecReport.populateData = function (bodyWidget) {
             assayInspectionObj.version = bodyWidget.members[1].members[0].tabs[1].pane.members[1].getField(i).versions[index];
             assayInspectionObj.value = NumberUtil.parseInt(bodyWidget.members[1].members[0].tabs[1].pane.members[1].getCellValue(assayRecord, index, i));
             assayInspectionObj.materialElementId = bodyWidget.members[1].members[0].tabs[1].pane.members[1].fields.get(i).meId;
-            assayInspectionObj.shipmentId = inspectionReportObj.shipmentId.length ? inspectionReportObj.shipmentId : null;
+            assayInspectionObj.shipmentId = (inspectionReportObj.shipmentId !== undefined && inspectionReportObj.shipmentId.length) ? inspectionReportObj.shipmentId : null;
             assayInspectionObj.inventoryId = assayRecord.inventoryId;
             assayInspectionObj.mileStone = inspectionReportObj.mileStone;
 
@@ -2293,10 +2293,6 @@ inspectionReportTab.window.formUtil.okCallBack = function (data) {
 
 inspectionReportTab.listGrid.fields = BaseFormItems.concat([
     {
-        name: "id",
-        hidden: true
-    },
-    {
         name: "inspectionNO",
         title: "<spring:message code='inspectionReport.InspectionNO'/>"
     },
@@ -2349,7 +2345,7 @@ inspectionReportTab.listGrid.fields.filter(q => q.name === "estatus").first().hi
 
 nicico.BasicFormUtil.getDefaultBasicForm(inspectionReportTab, "api/inspectionReport/");
 nicico.BasicFormUtil.showAllToolStripActions(inspectionReportTab);
-// nicico.BasicFormUtil.removeExtraActions(inspectionReportTab, [nicico.ActionType.DELETE]);
+nicico.BasicFormUtil.removeExtraActions(inspectionReportTab, [nicico.ActionType.DELETE]);
 
 inspectionReportTab.toolStrip.main.addMember(isc.ToolStripButton.create({
     visibility: "visible",

@@ -18,6 +18,7 @@
     <!-- CHANGES -->
     <include file="classpath:/db/changelog/changes/tbl_deduction.xml"/>
     <include file="classpath:/db/changelog/changes/tbl_foreign_invoice_item.xml"/>
+    <include file="classpath:/db/changelog/changes/tbl_foreign_invoice_payment.xml"/>
     <include file="classpath:/db/changelog/changes/tbl_shipment_cost_invoice.xml"/>
     <include file="classpath:/db/changelog/changes/tbl_shipment_cost_duty.xml"/>
     <include file="classpath:/db/changelog/changes/tbl_warh_element.xml"/>
