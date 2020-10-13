@@ -89,7 +89,7 @@ isc.defineClass("InvoiceBaseInfo", isc.VLayout).addProperties({
                   <tr>
                     <td class="table-td">MATERIAL:&nbsp;</td>
                     <td class="table-td-value">
-                        <div>` + material.descl + `</div>
+                        <div>` + material.descEN + `</div>
                     </td>
                   </tr>
                   <tr>
