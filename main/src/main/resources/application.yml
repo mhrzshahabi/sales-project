@@ -106,6 +106,7 @@ nicico:
   security:
     sys-password: ENC(MRPf6gcEgm043xXnCbElG2M+NDeLcbAS3wihOjLNuDA=)
   apps:
+    oauth: http://apps.icico.net.ir
     accounting: http://apps.icico.net.ir/accounting
 
 ---
