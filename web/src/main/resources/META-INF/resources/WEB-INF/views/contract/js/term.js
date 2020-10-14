@@ -42,3 +42,4 @@ termTab.listGrid.fields = termTab.dynamicForm.fields.map(q => {
 });
 nicico.BasicFormUtil.getDefaultBasicForm(termTab, "api/term/");
 termTab.dynamicForm.main.windowWidth = 500;
+nicico.BasicFormUtil.removeExtraGridMenuActions(termTab);
