@@ -331,7 +331,8 @@ public class ReportService extends GenericService<com.nicico.sales.model.entitie
 
     private void addReportPermission(String permissionBaseKey) {
 
-        
+
+
     }
 
     @Override
