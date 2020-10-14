@@ -463,7 +463,7 @@ reportGeneratorTab.window.report.okCallBack = function (formData) {
             if (request.status === 0)
                 isc.warn("<spring:message code='dcc.upload.error.capacity'/>");
             else if (request.status === 500)
-                isc.warn("<spring:message code='dcc.upload.error.message'/>");
+                isc.warn(JSON.parse(request.responseText).errors.map(q => q.message).join('<br>'));
             else if (request.status === 200 || request.status === 201) {
 
                 reportGeneratorTab.dialog.ok();

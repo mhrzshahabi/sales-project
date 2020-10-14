@@ -77,11 +77,12 @@ nicico:
     sys-password: password
     resource-id: Copper
   apps:
+    oauth: http://devapp01.icico.net.ir
     accounting: http://devapp01.icico.net.ir/accounting
   report:
-      package:
-        controller:
-          name: com.nicico.sales.controller
+    package:
+      controller:
+        name: com.nicico.sales.controller
 ---
 
 spring:

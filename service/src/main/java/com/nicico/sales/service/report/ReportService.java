@@ -2,6 +2,7 @@ package com.nicico.sales.service.report;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nicico.copper.oauth.common.dto.OAPermissionDTO;
 import com.nicico.sales.annotation.Action;
 import com.nicico.sales.annotation.report.IgnoreReportField;
 import com.nicico.sales.annotation.report.Report;
@@ -15,6 +16,7 @@ import com.nicico.sales.enumeration.ErrorType;
 import com.nicico.sales.exception.NotFoundException;
 import com.nicico.sales.exception.SalesException2;
 import com.nicico.sales.iservice.IFileService;
+import com.nicico.sales.iservice.IOAuthApiService;
 import com.nicico.sales.iservice.report.IReportFieldService;
 import com.nicico.sales.iservice.report.IReportService;
 import com.nicico.sales.model.enumeration.ReportSource;
@@ -51,13 +53,13 @@ import java.math.BigDecimal;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class ReportService extends GenericService<com.nicico.sales.model.entities.report.Report, Long, ReportDTO.Create, ReportDTO.Info, ReportDTO.Update, ReportDTO.Delete> implements IReportService {
 
     private final UpdateUtil updateUtil;
+    private final IOAuthApiService oAuthApiService;
     private final ObjectMapper objectMapper;
     private final ModelMapper modelMapper;
     private final IReportFieldService reportFieldService;
@@ -65,15 +67,19 @@ public class ReportService extends GenericService<com.nicico.sales.model.entitie
 
     @Value("${nicico.report.package.controller.name}")
     private String restControllerPackage;
+    @Value("${spring.application.name}")
+    private String appId;
 
     private final EntityManager entityManager;
     private final ResourceBundleMessageSource messageSource;
 
     private final static String VIEW_NAME_QUERY_TEXT = "" +
-            "SELECT\n" +
-            "   VIEW_NAME\n" +
-            "FROM\n" +
-            "   USER_VIEWS";
+            "SELECT TABLE_NAME\n" +
+            "FROM   USER_TABLES\n" +
+            "WHERE  UPPER(TABLE_NAME) NOT IN ('Z_LIQ_CHANGELOG', 'Z_LIQ_CHANGELOG_LOCK')\n" +
+            "UNION ALL\n" +
+            "SELECT VIEW_NAME\n" +
+            "FROM   USER_VIEWS";
     private final static String[] VIEW_FIELDS_OBJECT_COLUMNS = {"className", "name", "hidden", "canFilter", "dataIsList", "type"};
     private final static String VIEW_FIELDS_QUERY_TEXT = "" +
             "SELECT\n" +
@@ -191,6 +197,7 @@ public class ReportService extends GenericService<com.nicico.sales.model.entitie
         Query viewFieldsQuery = entityManager.createNativeQuery(VIEW_FIELDS_QUERY_TEXT);
         viewFieldsQuery.setParameter(1, source);
         List<Map<String, Object>> viewFieldMaps = new ArrayList<>();
+        //noinspection unchecked
         viewFieldsQuery.getResultList().forEach(result -> {
 
             Object[] resultArray = ((Object[]) result);
@@ -329,10 +336,25 @@ public class ReportService extends GenericService<com.nicico.sales.model.entitie
         }, field -> !field.isAnnotationPresent(IgnoreReportField.class));
     }
 
-    private void addReportPermission(String permissionBaseKey) {
+    private void addReportPermission(String permissionBaseKey, String reportTitle) {
 
+        OAPermissionDTO.Create printPermission = new OAPermissionDTO.Create();
+        printPermission.setAppId(appId);
+        printPermission.setCode("RG_P_" + permissionBaseKey);
+        printPermission.setTitle("چاپ " + reportTitle);
+        oAuthApiService.createPermission(printPermission);
 
+        OAPermissionDTO.Create excelPermission = new OAPermissionDTO.Create();
+        excelPermission.setAppId(appId);
+        excelPermission.setCode("RG_E_" + permissionBaseKey);
+        excelPermission.setTitle("خروجی اکسل " + reportTitle);
+        oAuthApiService.createPermission(excelPermission);
 
+        OAPermissionDTO.Create viewPermission = new OAPermissionDTO.Create();
+        viewPermission.setAppId(appId);
+        viewPermission.setCode("RG_V_" + permissionBaseKey);
+        viewPermission.setTitle("نمایش " + reportTitle);
+        oAuthApiService.createPermission(viewPermission);
     }
 
     @Override
@@ -358,10 +380,8 @@ public class ReportService extends GenericService<com.nicico.sales.model.entitie
     public ReportDTO.Info create(List<MultipartFile> files, String fileMetaData, String request) throws IOException, InvalidResponseException, InvalidKeyException, NoSuchAlgorithmException, ServerException, ErrorResponseException, XmlParserException, InternalException, InvalidBucketNameException, InsufficientDataException, RegionConflictException {
 
         ReportDTO.Create data = objectMapper.readValue(request, ReportDTO.Create.class);
-        data.setPermissionBaseKey(StringFormatUtil.makeMessageKeyByRemoveSpace(data.getTitleEN(), " ").toUpperCase());
-
-        addReportPermission(data.getPermissionBaseKey());
-
+        data.setPermissionBaseKey(StringFormatUtil.makeMessageKeyByRemoveSpace(data.getTitleEN(), "_").toUpperCase());
+        addReportPermission(data.getPermissionBaseKey(), data.getTitleFA());
         ReportDTO.Info report = this.create(data);
 
         List<ReportFieldDTO.Create> reportFields = modelMapper.map(data.getFields(), new TypeToken<List<ReportFieldDTO.Create>>() {
