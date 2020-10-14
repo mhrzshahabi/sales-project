@@ -17,6 +17,7 @@ import com.nicico.sales.repository.FileDAO;
 import io.minio.GetObjectTagsArgs;
 import io.minio.MinioClient;
 import io.minio.SetObjectTagsArgs;
+import io.minio.errors.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -24,8 +25,13 @@ import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -53,37 +59,61 @@ public class FileService implements IFileService {
 
     @Override
     @Transactional
-    public String store(FileDTO.Request request) {
-        try {
-            final MinIODTO.Request fileRequest = modelMapper.map(request, MinIODTO.Request.class);
-            final String fileKey = minIOService.store(fileRequest);
+    public void createFiles(Long recordId, List<MultipartFile> files, List<FileDTO.FileData> fileData) throws IOException, InvalidResponseException, InvalidKeyException, NoSuchAlgorithmException, ServerException, InternalException, XmlParserException, InvalidBucketNameException, InsufficientDataException, ErrorResponseException, RegionConflictException {
 
-            final File file = new File()
-                    .setEntityName(request.getEntityName())
-                    .setRecordId(request.getRecordId())
-                    .setFileKey(fileKey)
-                    .setFileStatus(FileStatus.NORMAL)
-                    .setAccessLevel(request.getAccessLevel());
+        if (fileData.size() == 0) return;
 
-            fileDAO.saveAndFlush(file);
+        for (int i = 0; i < fileData.size(); i++) {
 
-            return fileKey;
-        } catch (Exception e) {
-            log.error(Arrays.toString(e.getStackTrace()));
+            fileData.get(i).setFile(files.get(i));
+            fileData.get(i).setRecordId(recordId);
         }
-
-        return "";
+        for (FileDTO.FileData q : fileData)
+            store(modelMapper.map(q, FileDTO.Request.class));
     }
 
     @Override
-    public FileDTO.Response retrieve(String key) {
-        try {
-            return modelMapper.map(minIOService.retrieve(key), FileDTO.Response.class);
-        } catch (Exception e) {
-            log.error(Arrays.toString(e.getStackTrace()));
-        }
+    @Transactional
+    public void updateFiles(Long recordId, String entityName, List<MultipartFile> files, List<FileDTO.FileData> fileData) throws IOException, InvalidResponseException, InvalidKeyException, NoSuchAlgorithmException, ServerException, InternalException, XmlParserException, InvalidBucketNameException, InsufficientDataException, ErrorResponseException, RegionConflictException {
 
-        return new FileDTO.Response();
+        List<FileDTO.FileMetaData> savedFileData = getFiles(recordId, entityName);
+        if (fileData.size() == 0 && savedFileData.size() == 0) return;
+
+        for (int i = 0; i < fileData.size(); i++) {
+
+            fileData.get(i).setFile(files.get(i));
+            fileData.get(i).setRecordId(recordId);
+        }
+        for (FileDTO.FileData q : fileData.stream().filter(p -> p.getId() == null).collect(Collectors.toList()))
+            store(modelMapper.map(q, FileDTO.Request.class));
+
+        for (FileDTO.FileMetaData metaData : savedFileData.stream().filter(q -> q.getFileStatus() != FileStatus.DELETED && fileData.stream().noneMatch(p -> p.getId() == q.getId().longValue())).collect(Collectors.toList()))
+            delete(metaData.getFileKey());
+    }
+
+    @Override
+    @Transactional
+    public String store(FileDTO.Request request) throws IOException, InvalidResponseException, RegionConflictException, InvalidKeyException, NoSuchAlgorithmException, ServerException, ErrorResponseException, XmlParserException, InvalidBucketNameException, InsufficientDataException, InternalException {
+
+        final MinIODTO.Request fileRequest = modelMapper.map(request, MinIODTO.Request.class);
+        final String fileKey = minIOService.store(fileRequest);
+
+        final File file = new File()
+                .setEntityName(request.getEntityName())
+                .setRecordId(request.getRecordId())
+                .setFileKey(fileKey)
+                .setFileStatus(FileStatus.NORMAL)
+                .setAccessLevel(request.getAccessLevel());
+
+        fileDAO.saveAndFlush(file);
+
+        return fileKey;
+    }
+
+    @Override
+    public FileDTO.Response retrieve(String key) throws IOException, InvalidResponseException, InvalidKeyException, NoSuchAlgorithmException, ServerException, ErrorResponseException, XmlParserException, InvalidBucketNameException, InsufficientDataException, InternalException {
+
+        return modelMapper.map(minIOService.retrieve(key), FileDTO.Response.class);
     }
 
     @Override
@@ -95,7 +125,7 @@ public class FileService implements IFileService {
 
     @Override
     @Transactional
-    public void delete(String key) {
+    public void delete(String key) throws IOException, InvalidResponseException, InvalidKeyException, NoSuchAlgorithmException, ServerException, ErrorResponseException, XmlParserException, InvalidBucketNameException, InsufficientDataException, InternalException {
 
         final File file = fileDAO.findByFileKey(key)
                 .orElseThrow(() -> new SalesException2(ErrorType.NotFound, "fileKey", "فایل مورد نظر یافت نشد."));
@@ -113,12 +143,13 @@ public class FileService implements IFileService {
             log.error(Arrays.toString(e.getStackTrace()));
             if (minIOIsOk)
                 restore(key);
+            throw e;
         }
     }
 
     @Override
     @Transactional
-    public void restore(String key) {
+    public void restore(String key) throws IOException, InvalidResponseException, InvalidKeyException, NoSuchAlgorithmException, ServerException, InternalException, XmlParserException, InvalidBucketNameException, InsufficientDataException, ErrorResponseException {
 
         final File file = fileDAO.findByFileKey(key)
                 .orElseThrow(() -> new SalesException2(ErrorType.NotFound, "fileKey", "فایل مورد نظر یافت نشد."));
@@ -146,6 +177,7 @@ public class FileService implements IFileService {
             log.error(Arrays.toString(e.getStackTrace()));
             if (minIOIsOk)
                 delete(key);
+            throw e;
         }
     }
 }

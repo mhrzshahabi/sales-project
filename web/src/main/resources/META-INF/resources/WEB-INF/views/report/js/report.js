@@ -164,7 +164,7 @@ reportGeneratorTab.dynamicForm.fields = BaseFormItems.concat([
             }],
         changed: function (form, item, value) {
 
-            reportGeneratorTab.restDataSource.reportSourceFields.fetchData(null, resp => reportGeneratorTab.listGrid.report.setData(resp.data));
+            reportGeneratorTab.restDataSource.reportSourceFields.fetchData(null, resp => reportGeneratorTab.listGrid.reportFields.setData(resp.data.filter(q => q.type)));
         }
     },
     {
@@ -208,7 +208,7 @@ reportGeneratorTab.dynamicForm.fields = BaseFormItems.concat([
         title: "<spring:message code='report.titleFA'/>",
         wrapTitle: false,
         required: true,
-        keyPressFilter: "[\u0600-\u06FF\uFB8A\u067E\u0686\u06AF\u200C\u200F *\\[\\+\\-\\_\\]\\(\\)\\}\\{/\\\\]",
+        keyPressFilter: "[\u0600-\u06FF\uFB8A\u067E\u0686\u06AF\u200C\u200F ]",
         colSpan: 1,
         validators: [
             {
@@ -220,7 +220,10 @@ reportGeneratorTab.dynamicForm.fields = BaseFormItems.concat([
                 expression: "^[\u0600-\u06FF\uFB8A\u067E\u0686\u06AF\u200C\u200F *\\[\\+\\-\\_\\]\\(\\)\\}\\{/\\\\]*$",
                 validateOnChange: true
             }
-        ]
+        ],
+        showIf: function (item, value, form, values) {
+            return reportGeneratorTab.variable.method === "POST";
+        }
     },
     {
         name: "titleEN",
@@ -238,7 +241,10 @@ reportGeneratorTab.dynamicForm.fields = BaseFormItems.concat([
                 type: "regexp",
                 expression: "^[A-Za-z *\\[\\+\\-\\_\\]\\(\\)\\}\\{/\\\\]*$",
                 validateOnChange: true
-            }]
+            }],
+        showIf: function (item, value, form, values) {
+            return reportGeneratorTab.variable.method === "POST";
+        }
     },
     {type: "SpacerItem", width: "100%", height: "50", colSpan: 4},
 ]);
@@ -253,9 +259,9 @@ reportGeneratorTab.dynamicForm.report = isc.DynamicForm.create({
     requiredMessage: '<spring:message code="validator.field.is.required"/>',
     fields: reportGeneratorTab.dynamicForm.fields
 });
-reportGeneratorTab.listGrid.report = isc.ListGrid.nicico.getDefault([
-    {name: "name", primaryKey: true, title: '<spring:message code="global.field"/>'},
-    {name: "className", foreignKey: "name", title: '<spring:message code="report.group.parent-name"/>'},
+reportGeneratorTab.listGrid.reportFields = isc.ListGrid.nicico.getDefault(BaseFormItems.concat([
+    {name: "name", title: '<spring:message code="global.field"/>'},
+    {name: "className", hidden: true, title: '<spring:message code="report.group.parent-name"/>'},
     {
         name: "titleFA",
         canEdit: true,
@@ -312,8 +318,8 @@ reportGeneratorTab.listGrid.report = isc.ListGrid.nicico.getDefault([
         }]
     },
     {name: "type", title: '<spring:message code="global.field.type"/>'},
-    {name: "dataIsList", title: '<spring:message code="report.data-is-list"/>', type: "boolean", hidden: true},
-], null, null, {
+    {name: "dataIsList", title: '<spring:message code="report.data-is-list"/>', type: "boolean", hidden: true}
+]), null, null, {
     autoFetchData: false,
     selectionAppearance: "checkbox",
     showFilterEditor: false,
@@ -324,29 +330,41 @@ reportGeneratorTab.listGrid.report = isc.ListGrid.nicico.getDefault([
     getGroupTitle: function (groupData) {
         return groupData.groupValue === "-none-" ? "" : groupData.groupValue;
     },
-    startEditing: function (rowNum, colNum, suppressFocus) {
-        this.checkedRecords = this.getSelectedRecords();
-        return this.Super("startEditing", arguments);
-    },
-    endEditing: function () {
-        this.selectRecords(this.checkedRecords);
-        return this.Super("endEditing", arguments);
-    },
-    recordDoubleClick: function (viewer, record, recordNum, field, fieldNum, value, rawValue) {
-        this.checkedRecords = this.getSelectedRecords();
-        return this.Super("recordDoubleClick", arguments);
-    },
-    rowEditorExit: function (editCompletionEvent, record, newValues, rowNum) {
+    rowEditorEnter: function (record, editValues, rowNum) {
 
-        if (editCompletionEvent !== "escape")
-            this.setEditValues(rowNum, newValues);
-
-        this.selectRecords(this.checkedRecords);
+        this.deselectAllRecords();
+        return this.Super("rowEditorEnter", arguments);
     }
+    // startEditing: function (rowNum, colNum, suppressFocus) {
+    //     this.checkedRecords = this.getSelectedRecords();
+    //     return this.Super("startEditing", arguments);
+    // },
+    // endEditing: function () {
+    //     this.getOriginalData().forEach(q => {
+    //         if (this.checkedRecords.filter(p => p.name === q.name).length !== 0)
+    //             this.selectRecord(q);
+    //     });
+    //     return this.Super("endEditing", arguments);
+    // },
+    // recordDoubleClick: function (viewer, record, recordNum, field, fieldNum, value, rawValue) {
+    //     this.checkedRecords = this.getSelectedRecords();
+    //     return this.Super("recordDoubleClick", arguments);
+    // },
+    // rowEditorExit: function (editCompletionEvent, record, newValues, rowNum) {
+    //
+    //     if (editCompletionEvent !== "escape")
+    //         this.setEditValues(rowNum, newValues);
+    //
+    //     this.getOriginalData().forEach(q => {
+    //         if (this.checkedRecords.filter(p => p.name === q.name).length !== 0)
+    //             this.selectRecord(q);
+    //     });
+    // }
 });
 
 reportGeneratorTab.window.report = new nicico.FormUtil();
 reportGeneratorTab.variable.fileUploadForm = isc.FileUploadForm.create({
+    accept: ".jrxml",
     entityName: "Report",
     fileStatusValueMap: JSON.parse('${Enum_FileStatus}'),
     accessLevelValueMap: JSON.parse('${Enum_EFileAccessLevel}')
@@ -359,21 +377,23 @@ reportGeneratorTab.window.report.init(null, '<spring:message code="entity.report
     members: [
         reportGeneratorTab.dynamicForm.report,
         reportGeneratorTab.variable.fileUploadForm,
-        reportGeneratorTab.listGrid.report
+        reportGeneratorTab.listGrid.reportFields
     ]
 }), "1200", "60%");
 reportGeneratorTab.window.report.populateData = function (bodyWidget) {
 
     let data = reportGeneratorTab.dynamicForm.report.getValues();
-    let sourceField = reportGeneratorTab.dynamicForm.report.getField("source");
+    let sourceField = reportGeneratorTab.dynamicForm.report.getField("source").getSelectedRecord();
     data.nameFA = sourceField.nameFA;
     data.nameEN = sourceField.nameEN;
     data.restMethod = sourceField.restMethod;
     data.dataIsList = sourceField.dataIsList;
 
-    reportGeneratorTab.listGrid.report.saveAllEdits();
-    data.fields = reportGeneratorTab.listGrid.report.getSelectedRecords();
+    reportGeneratorTab.listGrid.reportFields.saveAllEdits();
+    data.fields = reportGeneratorTab.listGrid.reportFields.getSelectedRecords().filter(q => q.type);
     data.fields.forEach(field => {
+
+        field.reportId = data.id;
         let invalidKeys = Object.keys(field).filter(p => p.startsWith("_") || p.startsWith("$"));
         invalidKeys.forEach(invalidKey => delete field[invalidKey]);
     });
@@ -383,37 +403,46 @@ reportGeneratorTab.window.report.populateData = function (bodyWidget) {
     let files = [];
     let fileMetaData = [];
     for (let i = 0; i < fileData.length; i++) {
-        files.add({...fileData[i].fileData});
-        delete fileData[i].fileData;
-        fileMetaData.add(fileData[i]);
+        let metaData = fileData[i];
+        files.add(metaData.fileData);
+        fileMetaData.add({
+            "id": metaData.id,
+            "fileKey": metaData.fileKey,
+            "recordId": metaData.recordId,
+            "entityName": metaData.entityName,
+            "fileStatus": metaData.fileStatus,
+            "accessLevel": metaData.accessLevel
+        });
     }
-    formData.append("files", files);
-    formData.append("fileMetaData", fileMetaData);
+    files.forEach(q => formData.append("files", q));
+    formData.append("fileMetaData", JSON.stringify(fileMetaData));
     formData.append("data", JSON.stringify(data));
 
     return formData;
 };
-reportGeneratorTab.window.report.validate = function (data) {
+reportGeneratorTab.window.report.validate = function (formDaata) {
 
     reportGeneratorTab.dynamicForm.report.validate();
     if (reportGeneratorTab.dynamicForm.report.hasErrors())
         return false;
 
-    reportGeneratorTab.listGrid.report.saveAllEdits();
-    let selectedFields = reportGeneratorTab.listGrid.report.getSelectedRecords();
-    if (!selectedFields.length) {
+    reportGeneratorTab.listGrid.reportFields.saveAllEdits();
+    let selectedFields = reportGeneratorTab.listGrid.reportFields.getSelectedRecords().filter(q => q.type);
+    if (!selectedFields || !selectedFields.length) {
 
-        reportGeneratorTab.dialog.say('<spring:message code="global.grid.record.not.selected"/>');
+        reportGeneratorTab.dialog.notSelected();
         return false;
     }
 
     for (let i = 0; i < selectedFields.length; i++) {
 
-        let rowNum = reportGeneratorTab.listGrid.report.getRowNum(selectedFields[i]);
-        reportGeneratorTab.listGrid.report.startEditing(rowNum);
-        reportGeneratorTab.listGrid.report.endEditing();
+        let rowNum = reportGeneratorTab.listGrid.reportFields.getRowNum(selectedFields[i]);
+        if (!rowNum || rowNum < 0)
+            continue;
 
-        if (!reportGeneratorTab.listGrid.report.validateRow(rowNum)) {
+        reportGeneratorTab.listGrid.reportFields.startEditing(rowNum);
+        reportGeneratorTab.listGrid.reportFields.endEditing();
+        if (!reportGeneratorTab.listGrid.reportFields.validateRow(rowNum)) {
 
             reportGeneratorTab.dialog.say('<spring:message code="report.filed-data-is-invalid"/>');
             return false;
@@ -424,7 +453,7 @@ reportGeneratorTab.window.report.validate = function (data) {
 reportGeneratorTab.window.report.okCallBack = function (formData) {
 
     let request = new XMLHttpRequest();
-    request.open("POST", "${contextPath}/api/report");
+    request.open(reportGeneratorTab.variable.method, reportGeneratorTab.variable.url);
     request.setRequestHeader("contentType", "application/json; charset=utf-8");
     request.setRequestHeader("Authorization", BaseRPCRequest.httpHeaders.Authorization);
     request.send(formData);
@@ -440,7 +469,7 @@ reportGeneratorTab.window.report.okCallBack = function (formData) {
                 reportGeneratorTab.dialog.ok();
                 reportGeneratorTab.method.refresh(reportGeneratorTab.listGrid.main);
             } else {
-                reportGeneratorTab.dialog.say("Error");
+                reportGeneratorTab.dialog.say(request);
             }
         }
     };
@@ -448,7 +477,7 @@ reportGeneratorTab.window.report.okCallBack = function (formData) {
 reportGeneratorTab.window.report.cancelCallBack = function () {
 
     reportGeneratorTab.dynamicForm.report.clearValues();
-    reportGeneratorTab.listGrid.report.setData([]);
+    reportGeneratorTab.listGrid.reportFields.setData([]);
     reportGeneratorTab.variable.fileUploadForm.clearData();
 };
 
@@ -458,7 +487,7 @@ reportGeneratorTab.method.newForm = function () {
 
     reportGeneratorTab.variable.method = "POST";
     reportGeneratorTab.dynamicForm.report.clearValues();
-    reportGeneratorTab.listGrid.report.setData([]);
+    reportGeneratorTab.listGrid.reportFields.setData([]);
     reportGeneratorTab.variable.fileUploadForm.clearData();
     reportGeneratorTab.variable.fileUploadForm.reloadData(0);
     reportGeneratorTab.window.report.justShowForm();
@@ -483,8 +512,25 @@ reportGeneratorTab.method.editForm = function () {
         reportGeneratorTab.variable.fileUploadForm.reloadData(record.id);
         reportGeneratorTab.restDataSource.reportSourceFields.fetchData(null, resp => {
 
-            reportGeneratorTab.listGrid.report.setData(resp.data);
-            reportGeneratorTab.listGrid.report.selectRecords(record.reportFields);
+            let data = resp.data.filter(q => q.type);
+            reportGeneratorTab.listGrid.reportFields.setData(data);
+            reportGeneratorTab.listGrid.reportFields.getOriginalData().forEach(q => {
+
+                let first = record.reportFields.filter(p => p.name === q.name).first();
+                if (first != null) {
+
+                    reportGeneratorTab.listGrid.reportFields.selectRecord(q);
+                    q.id = first.id;
+                    q.version = first.version;
+                    q.editable = first.editable;
+                    q.estatus = first.estatus;
+                    q.titleFA = first.titleFA;
+                    q.titleEN = first.titleEN;
+                    q.hidden = first.hidden;
+                    q.canFilter = first.canFilter;
+                }
+            });
+            reportGeneratorTab.listGrid.reportFields.redraw();
         });
 
         reportGeneratorTab.window.report.justShowForm();

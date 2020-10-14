@@ -106,6 +106,8 @@ public class ReportDTO {
         private Long id;
 
         private Integer version;
+        private FileDTO.FileMetaData fileMetaData;
+        private List<ReportFieldDTO.Update> fields;
     }
 
     @Getter

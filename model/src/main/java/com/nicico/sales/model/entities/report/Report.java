@@ -20,7 +20,7 @@ import java.util.List;
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
 @Table(name = "TBL_REPORT")
-public class Report extends BaseEntity  {
+public class Report extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_REPORT")
@@ -29,11 +29,11 @@ public class Report extends BaseEntity  {
     private Long id;
 
     @NotNull
-    @Column(name = "C_TITLE_FA", nullable = false ,unique = true)
+    @Column(name = "C_TITLE_FA", nullable = false, unique = true)
     private String titleFA;
 
     @NotNull
-    @Column(name = "C_TITLE_EN", nullable = false,unique = true)
+    @Column(name = "C_TITLE_EN", nullable = false, unique = true)
     private String titleEN;
 
     @I18n
@@ -48,10 +48,12 @@ public class Report extends BaseEntity  {
     @Column(name = "C_PERMISSION_BASE_KEY", nullable = false)
     private String permissionBaseKey;
 
-    @Column(name = "C_NAME_FA")
+    @NotNull
+    @Column(name = "C_NAME_FA", nullable = false)
     private String nameFA;
 
-    @Column(name = "C_NAME_EN")
+    @NotNull
+    @Column(name = "C_NAME_EN", nullable = false)
     private String nameEN;
 
     @I18n

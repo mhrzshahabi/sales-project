@@ -17,6 +17,7 @@ isc.defineClass("FileUploadForm", isc.VLayout).addProperties({
     entityName: null,
     fileStatusValueMap: null,
     accessLevelValueMap: null,
+    showDeletedFiles: false,
     initWidget: function () {
 
         this.Super("initWidget", arguments);
@@ -57,7 +58,8 @@ isc.defineClass("FileUploadForm", isc.VLayout).addProperties({
             }]
         });
         this.button = isc.IButtonSave.create({
-            title: "",
+            title: "<spring:message code='global.add'/>",
+            padding: "5",
             autoFit: true,
             align: "center",
             iconAlign: "center",
@@ -73,6 +75,7 @@ isc.defineClass("FileUploadForm", isc.VLayout).addProperties({
                     accessLevel: This.form.getValue("accessLevel"),
                     fileData: fileItem.files[0]
                 });
+                This.form.clearValue("file");
             }
         });
         this.addMember(isc.HLayout.create({
@@ -103,25 +106,14 @@ isc.defineClass("FileUploadForm", isc.VLayout).addProperties({
                 title: "<spring:message code='global.status'/>"
             },
             {
-                hidden: true,
                 name: "fileData",
                 canSort: false,
                 canFilter: false,
                 title: "<spring:message code='global.file'/>",
-                cellClick: function (record, rowNum, colNum) {
-
-                    if (!record || !record.fileKey)
-                        return;
-
-                    isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                        httpMethod: "GET",
-                        actionURL: "${contextPath}/api/files/" + record.fileKey,
-                    }));
-                },
                 formatCellValue: function (value, record, rowNum, colNum, grid) {
 
-                    if (record && record.fileKey)
-                        return '<img alt="download icon" src="static/img/pieces/16/drilldown.png" style="vertical-align:middle;width:20px" />';
+                    if (record && record.fileKey && record.fileStatus && record.fileStatus !== "DELETED")
+                        return '<img alt="download icon" src="static/img/pieces/download.png" style="vertical-align:middle;width:20px" />';
 
                     return "";
                 }
@@ -131,17 +123,46 @@ isc.defineClass("FileUploadForm", isc.VLayout).addProperties({
             height: 200,
             canRemoveRecords: true,
             border: "0px",
-            showFilterEditor: false
+            showFilterEditor: false,
+            removeRecordClick: function (rowNum) {
+
+                let record = this.getRecord(rowNum);
+                if (!record || !record.fileStatus || record.fileStatus === "DELETED")
+                    return false;
+
+                return this.Super("removeRecordClick", arguments);
+            },
+            cellClick: function (record, rowNum, colNum) {
+
+                if (!record || !record.fileKey || colNum !== this.getFieldNum("fileData") || !record.fileStatus || record.fileStatus === "DELETED")
+                    return;
+
+                fetch("${contextPath}/api/files/" + record.fileKey, {headers: SalesConfigs.httpHeaders}).then(
+                    response => response.blob().then(file => {
+
+                        const url = URL.createObjectURL(file);
+                        const linkElement = document.createElement('a');
+                        const filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+                        const fileName = filenameRegex.exec(response.headers.get("content-disposition"))[1].replace(/['"]/g, '');
+
+                        linkElement.setAttribute('download', fileName);
+                        linkElement.href = url;
+                        linkElement.click();
+                    })
+                );
+            },
         });
         this.addMember(this.grid);
     },
     getValues: function () {
 
         this.grid.saveAllEdits();
-        return {...this.grid.getData()};
+        let values = [...this.grid.getData()];
+        values.forEach(q => q.fileData = q.fileData ? q.fileData : new File([], "emptyFile"));
+        return values;
     },
     clearData: function () {
-        this.form.clearValue();
+        this.form.clearValues();
         this.grid.setData([]);
     },
     reloadData: function (recordId, entityName) {
@@ -157,7 +178,11 @@ isc.defineClass("FileUploadForm", isc.VLayout).addProperties({
                 entityName: This.entityName
             },
             callback: function (resp) {
-                This.grid.setData(resp.data);
+
+                let data = JSON.parse(resp.httpResponseText);
+                if (!This.showDeletedFiles)
+                    data = data.filter(q => q.fileStatus !== "DELETED");
+                This.grid.setData(data);
             }
         }));
     }

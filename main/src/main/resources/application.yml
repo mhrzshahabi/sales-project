@@ -80,7 +80,8 @@ nicico:
     accounting: http://devapp01.icico.net.ir/accounting
   report:
       package:
-        controller-name: com.nicico.sales.controller
+        controller:
+          name: com.nicico.sales.controller
 ---
 
 spring:

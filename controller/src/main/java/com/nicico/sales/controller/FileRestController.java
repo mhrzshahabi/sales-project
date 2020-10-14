@@ -2,6 +2,7 @@ package com.nicico.sales.controller;
 
 import com.nicico.sales.dto.FileDTO;
 import com.nicico.sales.service.FileService;
+import io.minio.errors.*;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,6 +12,9 @@ import org.springframework.http.*;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 @Slf4j
@@ -22,7 +26,7 @@ public class FileRestController {
     private final FileService fileService;
 
     @PostMapping
-    public ResponseEntity<String> Store(@Validated @ApiParam FileDTO.Request request) {
+    public ResponseEntity<String> Store(@Validated @ApiParam FileDTO.Request request) throws IOException, InvalidResponseException, InvalidKeyException, NoSuchAlgorithmException, ServerException, ErrorResponseException, XmlParserException, InternalException, InvalidBucketNameException, InsufficientDataException, RegionConflictException {
         return new ResponseEntity<>(fileService.store(request), HttpStatus.OK);
     }
 
@@ -32,7 +36,7 @@ public class FileRestController {
     }
 
     @GetMapping(value = "/{key}")
-    public ResponseEntity<Resource> retrieve(@PathVariable String key) {
+    public ResponseEntity<Resource> retrieve(@PathVariable String key) throws IOException, InvalidResponseException, InvalidKeyException, NoSuchAlgorithmException, ServerException, InternalException, XmlParserException, InvalidBucketNameException, InsufficientDataException, ErrorResponseException {
         final FileDTO.Response response = fileService.retrieve(key);
 
         final HttpHeaders httpHeaders = new HttpHeaders();
@@ -48,13 +52,13 @@ public class FileRestController {
     }
 
     @DeleteMapping(value = "/{key}")
-    public ResponseEntity<Void> delete(@PathVariable String key) {
+    public ResponseEntity<Void> delete(@PathVariable String key) throws IOException, InvalidResponseException, InvalidKeyException, NoSuchAlgorithmException, ServerException, InternalException, XmlParserException, InvalidBucketNameException, InsufficientDataException, ErrorResponseException {
         fileService.delete(key);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PutMapping(value = "/{key}")
-    public ResponseEntity<Void> restore(@PathVariable String key) {
+    public ResponseEntity<Void> restore(@PathVariable String key) throws IOException, InvalidResponseException, InvalidKeyException, NoSuchAlgorithmException, ServerException, ErrorResponseException, XmlParserException, InvalidBucketNameException, InsufficientDataException, InternalException {
         fileService.restore(key);
         return new ResponseEntity<>(HttpStatus.OK);
     }

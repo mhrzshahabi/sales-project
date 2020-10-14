@@ -70,5 +70,11 @@
                              tableName="TBL_REPORT"/>
     </changeSet>
 
+    <changeSet author="NO1 (generated)" id="1602591513644-212">
+        <addNotNullConstraint columnDataType="varchar(255 CHAR)" columnName="C_NAME_EN" tableName="TBL_REPORT"/>
+    </changeSet>
+    <changeSet author="NO1 (generated)" id="1602591513644-213">
+        <addNotNullConstraint columnDataType="varchar(255 CHAR)" columnName="C_NAME_FA" tableName="TBL_REPORT"/>
+    </changeSet>
 
 </databaseChangeLog>

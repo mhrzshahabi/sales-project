@@ -21,6 +21,7 @@ import com.nicico.sales.model.enumeration.ReportSource;
 import com.nicico.sales.service.GenericService;
 import com.nicico.sales.utility.StringFormatUtil;
 import com.nicico.sales.utility.UpdateUtil;
+import io.minio.errors.*;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -47,7 +48,10 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -59,7 +63,7 @@ public class ReportService extends GenericService<com.nicico.sales.model.entitie
     private final IReportFieldService reportFieldService;
     private final IFileService fileService;
 
-    @Value("${nicico.report.package.controller-name}")
+    @Value("${nicico.report.package.controller.name}")
     private String restControllerPackage;
 
     private final EntityManager entityManager;
@@ -325,13 +329,38 @@ public class ReportService extends GenericService<com.nicico.sales.model.entitie
         }, field -> !field.isAnnotationPresent(IgnoreReportField.class));
     }
 
+    private void addReportPermission(String permissionBaseKey) {
+
+        
+    }
+
     @Override
     @Transactional
     @Action(ActionType.Create)
-    public ReportDTO.Info create(List<MultipartFile> files, String fileMetaData, String request) throws IOException, IllegalAccessException, NoSuchFieldException, InvocationTargetException {
+    public void delete(Long id) {
+
+        List<FileDTO.FileMetaData> files = fileService.getFiles(id, Report.class.getSimpleName());
+        files.forEach(q -> {
+            try {
+                fileService.delete(q.getFileKey());
+            } catch (IOException | InvalidResponseException | InvalidKeyException | NoSuchAlgorithmException | ServerException | ErrorResponseException | XmlParserException | InvalidBucketNameException | InsufficientDataException | InternalException e) {
+                throw new SalesException2(e);
+            }
+        });
+
+        super.delete(id);
+    }
+
+    @Override
+    @Transactional
+    @Action(ActionType.Create)
+    public ReportDTO.Info create(List<MultipartFile> files, String fileMetaData, String request) throws IOException, InvalidResponseException, InvalidKeyException, NoSuchAlgorithmException, ServerException, ErrorResponseException, XmlParserException, InternalException, InvalidBucketNameException, InsufficientDataException, RegionConflictException {
 
         ReportDTO.Create data = objectMapper.readValue(request, ReportDTO.Create.class);
         data.setPermissionBaseKey(StringFormatUtil.makeMessageKeyByRemoveSpace(data.getTitleEN(), " ").toUpperCase());
+
+        addReportPermission(data.getPermissionBaseKey());
+
         ReportDTO.Info report = this.create(data);
 
         List<ReportFieldDTO.Create> reportFields = modelMapper.map(data.getFields(), new TypeToken<List<ReportFieldDTO.Create>>() {
@@ -341,17 +370,43 @@ public class ReportService extends GenericService<com.nicico.sales.model.entitie
 
         List<FileDTO.FileData> fileData = objectMapper.readValue(fileMetaData, new TypeReference<List<FileDTO.FileData>>() {
         });
-        if (fileData.size() == 0) return report;
+        fileService.createFiles(report.getId(), files, fileData);
 
-        for (int i = 0; i < fileData.size(); i++) {
+        return report;
+    }
 
-            fileData.get(i).setFile(files.get(i));
-            fileData.get(i).setRecordId(report.getId());
-        }
-        fileData.forEach(q -> fileService.store(modelMapper.map(q, FileDTO.Request.class)));
+    @Override
+    @Transactional
+    @Action(ActionType.Update)
+    public ReportDTO.Info update(List<MultipartFile> files, String fileMetaData, String request) throws IOException, InvalidResponseException, InvalidKeyException, NoSuchAlgorithmException, ServerException, ErrorResponseException, XmlParserException, InternalException, InvalidBucketNameException, InsufficientDataException, RegionConflictException, IllegalAccessException, NoSuchFieldException, InvocationTargetException {
 
-//        List<FileDTO.FileMetaData> savedFileData = fileService.getFiles(report.getId(), Report.class.getSimpleName());
-//        savedFileData.stream().filter(q -> fileData.stream().noneMatch(p -> p.getId().longValue() == q.getId())).collect(Collectors.toList()).forEach(q -> fileService.delete(q.getFileKey()));
+        ReportDTO.Update data = objectMapper.readValue(request, ReportDTO.Update.class);
+        ReportDTO.Info report = this.update(data);
+
+        List<ReportFieldDTO.Create> reportFields4Insert = new ArrayList<>();
+        List<ReportFieldDTO.Update> reportFields4Update = new ArrayList<>();
+        ReportFieldDTO.Delete reportFields4Delete = new ReportFieldDTO.Delete();
+        updateUtil.fill(
+                ReportFieldDTO.Info.class,
+                report.getReportFields(),
+                ReportFieldDTO.Update.class,
+                data.getFields(),
+                ReportFieldDTO.Create.class,
+                reportFields4Insert,
+                ReportFieldDTO.Update.class,
+                reportFields4Update,
+                reportFields4Delete);
+
+        if (!reportFields4Insert.isEmpty())
+            reportFieldService.createAll(reportFields4Insert);
+        if (!reportFields4Update.isEmpty())
+            reportFieldService.updateAll(reportFields4Update);
+        if (!reportFields4Delete.getIds().isEmpty())
+            reportFieldService.deleteAll(reportFields4Delete);
+
+        List<FileDTO.FileData> fileData = objectMapper.readValue(fileMetaData, new TypeReference<List<FileDTO.FileData>>() {
+        });
+        fileService.updateFiles(report.getId(), Report.class.getSimpleName(), files, fileData);
 
         return report;
     }
