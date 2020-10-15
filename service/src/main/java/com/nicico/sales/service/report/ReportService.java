@@ -25,6 +25,7 @@ import com.nicico.sales.utility.StringFormatUtil;
 import com.nicico.sales.utility.UpdateUtil;
 import io.minio.errors.*;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.reflections.Reflections;
@@ -54,24 +55,10 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ReportService extends GenericService<com.nicico.sales.model.entities.report.Report, Long, ReportDTO.Create, ReportDTO.Info, ReportDTO.Update, ReportDTO.Delete> implements IReportService {
-
-    private final UpdateUtil updateUtil;
-    private final IOAuthApiService oAuthApiService;
-    private final ObjectMapper objectMapper;
-    private final ModelMapper modelMapper;
-    private final IReportFieldService reportFieldService;
-    private final IFileService fileService;
-
-    @Value("${nicico.report.package.controller.name}")
-    private String restControllerPackage;
-    @Value("${spring.application.name}")
-    private String appId;
-
-    private final EntityManager entityManager;
-    private final ResourceBundleMessageSource messageSource;
 
     private final static String VIEW_NAME_QUERY_TEXT = "" +
             "SELECT TABLE_NAME\n" +
@@ -119,19 +106,28 @@ public class ReportService extends GenericService<com.nicico.sales.model.entitie
             "    table_name = ?";
     private final static List<Class> MAPPING_ANNOTATIONS = new ArrayList<>(Arrays.asList(RequestMapping.class, GetMapping.class, PutMapping.class, PostMapping.class, DeleteMapping.class, PatchMapping.class));
 
-    @Override
-    @Transactional(readOnly = true)
-    public List<ReportDTO.SourceData> getSourceData(ReportSource reportSource) {
+    // ----------------------------------------------------------------------------------------------------------------
 
-        return reportSource == ReportSource.Rest ? getRestData() : getViewData();
-    }
+    private final UpdateUtil updateUtil;
+    private final IFileService fileService;
+    private final IOAuthApiService oAuthApiService;
+    private final IReportFieldService reportFieldService;
 
-    @Override
-    @Transactional(readOnly = true)
-    public List<ReportDTO.FieldData> getSourceFields(ReportSource reportSource, String source) {
+    // ----------------------------------------------------------------------------------------------------------------
 
-        return reportSource == ReportSource.Rest ? getRestFields(source) : getViewFields(source);
-    }
+    private final ModelMapper modelMapper;
+    private final ObjectMapper objectMapper;
+    private final EntityManager entityManager;
+    private final ResourceBundleMessageSource messageSource;
+
+    // ----------------------------------------------------------------------------------------------------------------
+
+    @Value("${spring.application.name}")
+    private String appId;
+    @Value("${nicico.report.package.controller.name}")
+    private String restControllerPackage;
+
+    // ----------------------------------------------------------------------------------------------------------------
 
     private List<ReportDTO.SourceData> getViewData() {
 
@@ -357,10 +353,24 @@ public class ReportService extends GenericService<com.nicico.sales.model.entitie
         oAuthApiService.createPermission(viewPermission);
     }
 
+    private void deleteReportPermission(String permissionBaseKey) {
+
+        oAuthApiService.deletePermission("RG_P_" + permissionBaseKey);
+        oAuthApiService.deletePermission("RG_E_" + permissionBaseKey);
+        oAuthApiService.deletePermission("RG_V_" + permissionBaseKey);
+    }
+
+    // ----------------------------------------------------------------------------------------------------------------
+
     @Override
     @Transactional
-    @Action(ActionType.Create)
+    @Action(ActionType.Delete)
     public void delete(Long id) {
+
+        com.nicico.sales.model.entities.report.Report report = repository.findById(id).orElseThrow(() -> new NotFoundException(Report.class));
+        super.delete(id);
+
+        deleteReportPermission(report.getPermissionBaseKey());
 
         List<FileDTO.FileMetaData> files = fileService.getFiles(id, Report.class.getSimpleName());
         files.forEach(q -> {
@@ -370,8 +380,20 @@ public class ReportService extends GenericService<com.nicico.sales.model.entitie
                 throw new SalesException2(e);
             }
         });
+    }
 
-        super.delete(id);
+    @Override
+    @Transactional(readOnly = true)
+    public List<ReportDTO.SourceData> getSourceData(ReportSource reportSource) {
+
+        return reportSource == ReportSource.Rest ? getRestData() : getViewData();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<ReportDTO.FieldData> getSourceFields(ReportSource reportSource, String source) {
+
+        return reportSource == ReportSource.Rest ? getRestFields(source) : getViewFields(source);
     }
 
     @Override
@@ -381,13 +403,14 @@ public class ReportService extends GenericService<com.nicico.sales.model.entitie
 
         ReportDTO.Create data = objectMapper.readValue(request, ReportDTO.Create.class);
         data.setPermissionBaseKey(StringFormatUtil.makeMessageKeyByRemoveSpace(data.getTitleEN(), "_").toUpperCase());
-        addReportPermission(data.getPermissionBaseKey(), data.getTitleFA());
         ReportDTO.Info report = this.create(data);
 
         List<ReportFieldDTO.Create> reportFields = modelMapper.map(data.getFields(), new TypeToken<List<ReportFieldDTO.Create>>() {
         }.getType());
         reportFields.forEach(q -> q.setReportId(report.getId()));
         reportFieldService.createAll(reportFields);
+
+        addReportPermission(report.getPermissionBaseKey(), report.getTitleFA());
 
         List<FileDTO.FileData> fileData = objectMapper.readValue(fileMetaData, new TypeReference<List<FileDTO.FileData>>() {
         });

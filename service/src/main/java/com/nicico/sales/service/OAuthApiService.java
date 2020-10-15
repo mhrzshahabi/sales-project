@@ -23,29 +23,23 @@ import java.util.Arrays;
 import java.util.Collections;
 
 @Slf4j
-@RequiredArgsConstructor
 @Service
+@RequiredArgsConstructor
 public class OAuthApiService implements IOAuthApiService {
-
-    @Value("${nicico.apps.oauth}")
-    private String oauthAppUrl;
-
-    @Value("${spring.application.name}")
-    private String appId;
-
-    // ---------------
 
     private final ObjectMapper objectMapper;
     private final ResourceBundleMessageSource messageSource;
 
-    // ------------------------------
+    // ----------------------------------------------------------------------------------------------------------------
 
-    @Override
-    public OAPermissionDTO.Info createPermission(OAPermissionDTO.Create request) {
-        request.setAppId(appId);
+    @Value("${nicico.apps.oauth}")
+    private String oauthAppUrl;
+    @Value("${spring.application.name}")
+    private String appId;
 
-        final String url = oauthAppUrl + "/api/permissions";
+    // ----------------------------------------------------------------------------------------------------------------
 
+    private HttpHeaders getApplicationJSONHttpHeaders() {
         final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         final OAuth2AuthenticationDetails oAuth2AuthenticationDetails = (OAuth2AuthenticationDetails) authentication.getDetails();
 
@@ -54,9 +48,39 @@ public class OAuthApiService implements IOAuthApiService {
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         httpHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
 
-        final HttpEntity<OAPermissionDTO.Create> httpEntity = new HttpEntity<>(request, httpHeaders);
+        return httpHeaders;
+    }
 
-        ResponseEntity<String> httpResponse = null;
+    // ----------------------------------------------------------------------------------------------------------------
+
+    @Override
+    public void deletePermission(String permissionKey) {
+
+        final String url = oauthAppUrl + "/api/permissions/" + appId + "/" + permissionKey;
+        final HttpEntity<String> httpEntity = new HttpEntity<>(getApplicationJSONHttpHeaders());
+        ResponseEntity<String> httpResponse;
+        try {
+            httpResponse = new RestTemplate().exchange(url, HttpMethod.DELETE, httpEntity, String.class);
+        } catch (Exception e) {
+
+            throw new SalesException2(e, ErrorType.Unknown, null, messageSource.getMessage("exception.delete-permission", null, LocaleContextHolder.getLocale()));
+        }
+
+        if (httpResponse.getStatusCode().equals(HttpStatus.OK))
+            return;
+
+        final String message = "OAuthApiService.deletePermission Error: [" + httpResponse.getStatusCode() + "]: " + httpResponse.getBody();
+        log.error(message);
+        throw new SalesException2(ErrorType.BadRequest, null, message);
+    }
+
+    @Override
+    public OAPermissionDTO.Info createPermission(OAPermissionDTO.Create request) {
+
+        request.setAppId(appId);
+        final String url = oauthAppUrl + "/api/permissions";
+        final HttpEntity<OAPermissionDTO.Create> httpEntity = new HttpEntity<>(request, getApplicationJSONHttpHeaders());
+        ResponseEntity<String> httpResponse;
         try {
             httpResponse = new RestTemplate().exchange(url, HttpMethod.POST, httpEntity, String.class);
         } catch (Exception e) {
@@ -64,7 +88,7 @@ public class OAuthApiService implements IOAuthApiService {
             throw new SalesException2(e, ErrorType.Unknown, null, messageSource.getMessage("exception.add-permission", null, LocaleContextHolder.getLocale()));
         }
 
-        if (httpResponse != null && httpResponse.getStatusCode().equals(HttpStatus.OK)) {
+        if (httpResponse.getStatusCode().equals(HttpStatus.OK) || httpResponse.getStatusCode().equals(HttpStatus.CREATED)) {
             if (!StringUtils.isEmpty(httpResponse.getBody())) {
                 try {
                     return objectMapper.readValue(httpResponse.getBody(), OAPermissionDTO.Info.class);
@@ -75,7 +99,6 @@ public class OAuthApiService implements IOAuthApiService {
                 }
             }
         } else {
-            assert httpResponse != null;
             final String message = "OAuthApiService.createPermission Error: [" + httpResponse.getStatusCode() + "]: " + httpResponse.getBody();
             log.error(message);
             throw new SalesException2(ErrorType.BadRequest, null, message);
