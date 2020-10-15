@@ -1,7 +1,7 @@
 package com.nicico.sales.model.entities.report;
 
-import com.nicico.sales.model.entities.common.BaseEntity;
 import com.nicico.sales.model.annotation.I18n;
+import com.nicico.sales.model.entities.common.BaseEntity;
 import com.nicico.sales.model.enumeration.ReportSource;
 import com.nicico.sales.model.enumeration.ReportType;
 import lombok.*;
@@ -45,7 +45,7 @@ public class Report extends BaseEntity {
     private String source;
 
     @NotNull
-    @Column(name = "C_PERMISSION_BASE_KEY", nullable = false)
+    @Column(name = "C_PERMISSION_BASE_KEY", nullable = false, unique = true)
     private String permissionBaseKey;
 
     @NotNull

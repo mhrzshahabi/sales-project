@@ -77,4 +77,9 @@
         <addNotNullConstraint columnDataType="varchar(255 CHAR)" columnName="C_NAME_FA" tableName="TBL_REPORT"/>
     </changeSet>
 
+    <changeSet author="karimi (generated)" id="1602793241547-241">
+        <addUniqueConstraint columnNames="C_PERMISSION_BASE_KEY" constraintName="UC_TBL_REPORTC_PERMISSION_BASE_KEY_COL"
+                             tableName="TBL_REPORT"/>
+    </changeSet>
+
 </databaseChangeLog>
