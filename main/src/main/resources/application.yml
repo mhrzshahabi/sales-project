@@ -74,6 +74,11 @@ nicico:
     resource-id: Copper
   apps:
     accounting: http://devapp01.icico.net.ir/accounting
+    hrm: http://devapp01.icico.net.ir/hrm
+  minio:
+    endpoint-url: http://minio.icico.net.ir/
+    access-key: minio
+    secret-key: minio123
 
 ---
 
