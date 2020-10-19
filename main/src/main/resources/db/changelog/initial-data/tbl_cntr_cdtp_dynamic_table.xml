@@ -68,4 +68,6 @@
             <column name="C_HEADER_Key" type="VARCHAR2(255 CHAR)"/>
         </addColumn>
     </changeSet>
+
+
 </databaseChangeLog>

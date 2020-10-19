@@ -211,8 +211,11 @@ public class ContractDetailTypeService extends GenericService<ContractDetailType
         if (!contractDetailTypeParams4Insert.isEmpty()) {
             final List<ContractDetailTypeParamDTO.Info> cdtpInserted = contractDetailTypeParamService.createAll(contractDetailTypeParams4Insert);
             for (ContractDetailTypeParamDTO.Info cdtp : cdtpInserted) {
-                final List<CDTPDynamicTableDTO.Create> map = modelMapper.map(
-                        cdtp.getDynamicTables()
+                final Set<CDTPDynamicTableDTO.InfoWithoutCDTP> dynamicTables = cdtp.getDynamicTables();
+                List<CDTPDynamicTableDTO.Create> map = new ArrayList<>();
+                if (cdtp.getDynamicTables()!=null && cdtp.getDynamicTables().size()>0)
+                    map= modelMapper.map(
+                        dynamicTables
                         , new TypeToken<List<CDTPDynamicTableDTO.Create>>() {
                         }.getType());
                 if (!map.isEmpty()) {

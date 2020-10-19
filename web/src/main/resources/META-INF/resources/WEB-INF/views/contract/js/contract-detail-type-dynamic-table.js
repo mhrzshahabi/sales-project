@@ -17,6 +17,7 @@ contractDetailTypeTab.method.getAllFields=function(_object){
     internalObj.forEach(_=>fields.addList(contractDetailTypeTab.method.getAllFields(_object[_]).map(__=>_+'.'+__)))
     return fields;
 }
+
 contractDetailTypeTab.Fields = {
     DynamicTable: () =>{
 
@@ -65,7 +66,7 @@ contractDetailTypeTab.Fields = {
                     headerKeyField.required=false;
                     // headerKeyField.validateOnChange=true;
                     headerValueField.type=newValue
-                    headerValueField.canEdit=false
+                    headerValueField.canEdit=true
                 }
                 else {
                     const dialog= isc.Dialog.create({isModal:true,
