@@ -50,5 +50,7 @@
             update TBL_Shipment_Type set C_SHIP_TYPE_EN='PALLETS' where id = 3;
         </sql>
     </changeSet>
-
+    <changeSet id="555-1" author="abiz">
+        <dropColumn tableName="TBL_Shipment_Type" columnName="SHIP_TYPE"/>
+    </changeSet>
 </databaseChangeLog>
