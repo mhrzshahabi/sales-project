@@ -1,0 +1,68 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+    <changeSet author="saeb (generated)" id="1602651986361-232">
+        <createSequence sequenceName="SEQ_CNTR_CDTP_DYNAMIC_TABLE_VALUE"/>
+    </changeSet>
+    <changeSet author="saeb (generated)" id="1602651986361-234">
+        <createTable tableName="TBL_CNTR_CDTP_DYNAMIC_TABLE_VALUE">
+            <column name="id" type="NUMBER(19, 0)">
+                <constraints primaryKey="true" primaryKeyName="TBL_CNTR_CDTP_DYNAMIC_TABLE_VALUEPK"/>
+            </column>
+            <column name="c_created_by" type="VARCHAR2(255 CHAR)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="d_created_date" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
+            <column name="d_last_modified_date" type="TIMESTAMP"/>
+            <column name="n_version" type="NUMBER(10, 0)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueNumeric="1" name="N_E_STATUS" type="NUMBER">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueNumeric="1" name="B_EDITABLE" type="NUMBER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="F_CDTPDYNAMICTABLE_ID" type="NUMBER(19, 0)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="F_CONTRACTDETAILVALUE_ID" type="NUMBER(19, 0)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="C_DESCRIPTION" type="VARCHAR2(2000 CHAR)"/>
+            <column name="D_ROW_NUM" type="NUMBER(10, 0)"/>
+            <column name="C_VALUE" type="VARCHAR2(2000 CHAR)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="saeb (generated)" id="1602651986361-236">
+        <addUniqueConstraint columnNames="D_ROW_NUM, F_CDTPDYNAMICTABLE_ID" constraintName="UC_C_D_ROW_NUM_F_CDTPDYNAMICTABLE_ID" tableName="TBL_CNTR_CDTP_DYNAMIC_TABLE_VALUE"/>
+    </changeSet>
+    <changeSet author="saeb (generated)" id="1602651986361-237">
+        <addForeignKeyConstraint baseColumnNames="F_CONTRACTDETAILVALUE_ID" baseTableName="TBL_CNTR_CDTP_DYNAMIC_TABLE_VALUE" constraintName="FK_DYNAMIC_TABLE_VALUE2CCONTRACTDETAILVALUE" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_CNTR_CONTRACT_DETAIL_VALUE" validate="true"/>
+    </changeSet>
+    <changeSet author="saeb (generated)" id="1602651986361-238">
+        <addForeignKeyConstraint baseColumnNames="F_CDTPDYNAMICTABLE_ID" baseTableName="TBL_CNTR_CDTP_DYNAMIC_TABLE_VALUE" constraintName="FK_DYNAMIC_TABLE_VALUE2CDTPDYNAMICTABLE" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TBL_CNTR_CDTP_DYNAMIC_TABLE" validate="true"/>
+    </changeSet>
+
+
+
+    <changeSet id="sfsfsfsdwrf-4" author="saeb">
+        <addColumn tableName="TBL_CNTR_CDTP_DYNAMIC_TABLE_VALUE">
+            <column name="C_FIELD_NAME" type="varchar2(255 CHAR)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="sfsfsfsddddddwrf-4" author="saeb">
+        <sql>
+            update TBL_CNTR_CDTP_DYNAMIC_TABLE_VALUE set C_FIELD_NAME='bagher' where C_FIELD_NAME is null
+        </sql>
+    </changeSet>
+       <changeSet id="sfsfsfddsdsdsdsdsdwrf-4" author="saeb">
+        <addNotNullConstraint tableName="TBL_CNTR_CDTP_DYNAMIC_TABLE_VALUE" columnName="C_FIELD_NAME"/>
+    </changeSet>
+</databaseChangeLog>

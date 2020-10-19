@@ -1,12 +1,17 @@
 package com.nicico.sales.model.entities.contract;
 
 import com.nicico.sales.model.entities.common.BaseEntity;
+import com.nicico.sales.model.enumeration.DataType;
 import lombok.*;
 import lombok.experimental.Accessors;
+import org.hibernate.annotations.JoinFormula;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.Set;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -55,4 +60,6 @@ public class ContractDetail extends BaseEntity {
     @NotNull
     @Column(name = "N_POSITION", nullable = false)
     private Integer position;
+
+
 }

@@ -1,6 +1,7 @@
 package com.nicico.sales.dto.contract;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.nicico.sales.dto.CDTPDynamicTableDTO;
 import com.nicico.sales.model.enumeration.DataType;
 import com.nicico.sales.model.enumeration.EStatus;
 import io.swagger.annotations.ApiModel;
@@ -13,6 +14,7 @@ import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -26,6 +28,7 @@ public class ContractDetailTypeParamDTO {
     private String reference;
     private String defaultValue;
     private Boolean required;
+    private Set<CDTPDynamicTableDTO.InfoWithoutCDTP> dynamicTables;
 
     @Transient
     private Integer width = 100;
@@ -58,6 +61,8 @@ public class ContractDetailTypeParamDTO {
     @Accessors(chain = true)
     @ApiModel("ContractDetailTypeParamCreateRq")
     public static class Create extends ContractDetailTypeParamDTO {
+//        private Set<CDTPDynamicTableDTO.Create> dynamicTables;
+
     }
 
     @Getter
@@ -65,12 +70,14 @@ public class ContractDetailTypeParamDTO {
     @Accessors(chain = true)
     @ApiModel("ContractDetailTypeParamUpdateRq")
     public static class Update extends ContractDetailTypeParamDTO {
+//        private Set<CDTPDynamicTableDTO.Update> dynamicTables;
 
         @NotNull
         @ApiModelProperty(required = true)
         private Long id;
 
         private Integer version;
+
     }
 
     @Getter

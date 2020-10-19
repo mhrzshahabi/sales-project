@@ -1,6 +1,7 @@
 package com.nicico.sales.dto.contract;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.nicico.sales.dto.CDTPDynamicTableValueDTO;
 import com.nicico.sales.model.enumeration.EStatus;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -9,8 +10,8 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotNull;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -34,6 +35,72 @@ public class ContractDetailDTO {
 
         private ContractDetailTypeDTO.Info contractDetailType;
         private List<ContractDetailValueDTO.Info> contractDetailValues;
+        private List<Map<String, String>> cdtpDynamicTableValue;
+
+        public List<Map<String, String>> getCdtpDynamicTableValue() {
+            List<Map<String, String>> returnList = new ArrayList<>();
+           Map<String,List<CDTPDynamicTableValueDTO.Info>> baseOnKey = new HashMap<>();
+           contractDetailValues
+                    .stream()
+                    .filter(c->c.getCdtpDynamicTableValue()!=null).forEach(c->{
+                        if(!baseOnKey.containsKey(c.getKey())){
+                            baseOnKey.put(c.getKey(),new ArrayList<CDTPDynamicTableValueDTO.Info>(Collections.singletonList(c.getCdtpDynamicTableValue())));
+                        }
+                        else {
+                            baseOnKey.get(c.getKey()).add(c.getCdtpDynamicTableValue());
+                        }
+                    });
+
+           Map<String,List<Map<String,String>>> returnMap = new HashMap<>();
+
+
+            final List<CDTPDynamicTableValueDTO.Info> cdtpDynamicTableValueList = contractDetailValues
+                    .stream()
+                    .filter(c->c.getCdtpDynamicTableValue()!=null)
+                    .map(ContractDetailValueDTO.Info::getCdtpDynamicTableValue)
+                    .collect(Collectors.toList());
+
+          return getCDTPDynamicTableMap(cdtpDynamicTableValueList);
+            }
+
+        private List<Map<String, String>>  getCDTPDynamicTableMap(List<CDTPDynamicTableValueDTO.Info> cdtpDynamicTableValueList){
+            List<Map<String, String>> returnList = new ArrayList<>();
+            if (cdtpDynamicTableValueList.size() == 0) return returnList;
+            cdtpDynamicTableValueList.sort(CDTPDynamicTableValueDTO.Info::compareTo);
+            final Set<Integer> rowNums = cdtpDynamicTableValueList.stream().map(CDTPDynamicTableValueDTO::getRowNum).sorted().collect(Collectors.toSet());
+            for (int i = 0; i < rowNums.size(); i++) {
+                Integer _rowNum =Integer.valueOf(rowNums.toArray()[i].toString());
+                Map<String,String> rowData=new HashMap<String, String>();
+                rowData.put("cdtpDtId____","");
+                rowData.put("cdtpDtValueId____","");
+
+                cdtpDynamicTableValueList
+                        .stream()
+                        .filter(rowNum->rowNum.getRowNum()
+                                .equals(_rowNum)).forEach(c->{
+                    rowData.put(c.getFieldName(),c.getValue());
+                    rowData.put("cdtpId____",c.getCdtpDynamicTable().getCdtpId().toString());
+                    rowData.put("rowNum____",_rowNum.toString());
+                    rowData.put("cdtpDtId____",String.format("%s,\"%s\":%s",
+                            rowData.get("cdtpDtId____"),
+                            c.getFieldName(),c.getCdtpDynamicTableId().toString()
+                    ));
+                    rowData.put("cdtpDtValueId____",String.format("%s,\"%s\":%s",
+                            rowData.get("cdtpDtValueId____"),
+                            c.getFieldName(),c.getId().toString()
+                    ));
+                });
+                rowData.put("cdtpDtId____",String.format("{%s}",
+                        rowData.get("cdtpDtId____").substring(1)));
+                rowData.put("cdtpDtValueId____",String.format("{%s}",
+                        rowData.get("cdtpDtValueId____").substring(1)));
+                returnList.add(rowData);
+
+            }
+            return returnList;
+        }
+
+
 
         // Auditing
         private Date createdDate;
@@ -79,4 +146,5 @@ public class ContractDetailDTO {
         @ApiModelProperty(required = true)
         private List<Long> ids;
     }
+
 }

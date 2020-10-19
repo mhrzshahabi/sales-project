@@ -8,6 +8,7 @@ import com.nicico.copper.common.domain.criteria.SearchUtil;
 import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.annotation.Action;
+import com.nicico.sales.dto.CDTPDynamicTableValueDTO;
 import com.nicico.sales.dto.ContractShipmentDTO;
 import com.nicico.sales.dto.DeductionDTO;
 import com.nicico.sales.dto.TypicalAssayDTO;
@@ -18,10 +19,7 @@ import com.nicico.sales.enumeration.EContractDetailValueKey;
 import com.nicico.sales.enumeration.ErrorType;
 import com.nicico.sales.exception.NotFoundException;
 import com.nicico.sales.exception.SalesException2;
-import com.nicico.sales.iservice.IContractDetailValueService2;
-import com.nicico.sales.iservice.IContractShipmentService;
-import com.nicico.sales.iservice.IDeductionService;
-import com.nicico.sales.iservice.ITypicalAssayService;
+import com.nicico.sales.iservice.*;
 import com.nicico.sales.iservice.contract.*;
 import com.nicico.sales.model.entities.base.ContractShipment;
 import com.nicico.sales.model.entities.base.Shipment;
@@ -35,6 +33,8 @@ import com.nicico.sales.model.enumeration.EStatus;
 import com.nicico.sales.repository.ContractShipmentDAO;
 import com.nicico.sales.repository.ShipmentDAO;
 import com.nicico.sales.repository.contract.ContractDAO;
+import com.nicico.sales.repository.contract.ContractDetailDAO;
+import com.nicico.sales.repository.contract.ContractDetailValueDAO;
 import com.nicico.sales.service.GenericService;
 import com.nicico.sales.utility.UpdateUtil;
 import lombok.RequiredArgsConstructor;
@@ -63,6 +63,7 @@ public class ContractService extends GenericService<Contract, Long, ContractDTO.
     private final IContractDiscountService contractDiscountService;
     private final IContractDetailValueService contractDetailValueService;
     private final IContractDetailValueService2 contractDetailValueService2;
+    private final ICDTPDynamicTableValueService icdtpDynamicTableValueService;
     private final ShipmentDAO shipmentDAO;
     private final ContractShipmentDAO contractShipmentDAO;
     private final UpdateUtil updateUtil;
@@ -70,6 +71,7 @@ public class ContractService extends GenericService<Contract, Long, ContractDTO.
     private final Gson gson;
     private final ResourceBundleMessageSource messageSource;
     private final ContractDAO contractDAO2;
+    private final ContractDetailValueDAO contractDetailValueDao;
 
 
     @Override
@@ -86,6 +88,8 @@ public class ContractService extends GenericService<Contract, Long, ContractDTO.
         if (request.getParentId() != null) {
             contractShipmentsWithShipments = getContractShipmentsWithShipment(request);
         }
+        ///الحاقیه آخرش
+
         contract.setContractDetails(null);
         contract.setContractContacts(null);
 //        if (StringUtils.isEmpty(contract2.getNo()))
@@ -130,8 +134,15 @@ public class ContractService extends GenericService<Contract, Long, ContractDTO.
                                     break;
                             }
                         }
+                        if (DataType.DynamicTable.equals(x.getType())) {
+                            final ContractDetailValue contractDetailValue1 = modelMapper.map(x, ContractDetailValue.class);
+                            contractDetailValue1.setValue(x.getContractDetailId().toString());
+                            final ContractDetailValue contractDetailValue = contractDetailValueDao.save(contractDetailValue1);
+                            contractDetailValue.setValue(createCDTPDynamicTableValue(x,contractDetailValue).toString());
+                            contractDetailValueDao.save(contractDetailValue);
+                        }
 
-                        contractDetailValueService.create(x);
+                        else contractDetailValueService.create(x);
                     });
                 }
 
@@ -188,6 +199,12 @@ public class ContractService extends GenericService<Contract, Long, ContractDTO.
         contractShipmentDTO.setSendDate(calendar.getTime());
         ContractShipmentDTO.Info savedContractShipment = contractShipmentService.create(contractShipmentDTO);
         return savedContractShipment.getId();
+    }
+    private Long createCDTPDynamicTableValue(ContractDetailValueDTO.Create x, ContractDetailValue contractDetailValue) {
+        CDTPDynamicTableValueDTO.Create cdtpDynamicTableValue = gson.fromJson(x.getReferenceJsonValue(), CDTPDynamicTableValueDTO.Create.class);
+        cdtpDynamicTableValue.setContractDetailValueId(contractDetailValue.getId());
+        CDTPDynamicTableValueDTO.Info cdtpDynamicTableValueSaved = icdtpDynamicTableValueService.create(cdtpDynamicTableValue);
+        return cdtpDynamicTableValueSaved.getId();
     }
 
     private Long createTypicalAssay(ContractDetailValueDTO.Create x, Long id) {

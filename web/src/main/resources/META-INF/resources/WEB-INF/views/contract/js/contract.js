@@ -301,7 +301,7 @@ contractTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
                         contractDetailValues: []
                     };
 
-                    if (data.contractTypeId != 3) {
+                    if (data.contractTypeId !== 3) {
                         section.items[0].validate();
                         if (section.items[0].hasErrors())
                             throw "dynamicForm validation is failed.";
@@ -335,7 +335,8 @@ contractTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
                         else { //update
                             listGridData = listGrid.getData().localData
                         }
-                        if (listGridData.length == 0) {
+                        listGridData = contractTab.Methods.GetListGridDataFromDynamicTableGrid(listGrid,listGridData);
+                        if (listGridData.length === 0) {
                             contractTab.dialog.say(
                                 "<spring:message code='contract.window.list-of-reference-empty'/>",
                                 "<spring:message code='global.warning'/>");
@@ -346,13 +347,14 @@ contractTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
                                 if (listGridKey.startsWith("_"))
                                     delete x[listGridKey];
                             });
+                            dbg(listGrid)
                             contractDetailObj.contractDetailValues.push({
                                 id: x.contractDetailValueId,
                                 name: listGrid.paramName,
                                 title: listGrid.paramName,
                                 key: listGrid.paramKey,
                                 reference: listGrid.reference,
-                                type: "ListOfReference",
+                                type: listGrid['cDTPDynamicTableValue'] ? contractTab.Vars.DataType.DynamicTable :"ListOfReference",
                                 value: x.id,
                                 referenceJsonValue: JSON.stringify(x),
                                 unitId: null,
@@ -620,7 +622,9 @@ contractTab.method.addSectionByContract = function (record) {
                 icon: "[SKIN]/actions/view.png",
                 click: function () {
                     let clickedSection = contractTab.sectionStack.contract.sections.filter(q => q.name === sectionStackSectionObj.name).first();
-                    contractTab.variable.contractDetailPreview.bodyWidget.getObject().setContents(generateContentFromSection(clickedSection, sectionStackSectionObj.template));
+                    contractTab.variable.contractDetailPreview.bodyWidget
+                        .getObject()
+                        .setContents(generateContentFromSection(clickedSection, sectionStackSectionObj.template));
                     contractTab.variable.contractDetailPreview.justShowForm();
                 }
             })
@@ -637,10 +641,11 @@ contractTab.method.addSectionByContract = function (record) {
             ],
             items: []
         };
-
+        contractTab.Methods.DynamicTableGridCreatorForContract(record,sectionStackSectionObj,q)
         // DynamicForm
         let dynamicFormFields = [];
-        q.contractDetailValues.filter(x => x.type !== 'ListOfReference').forEach(detailValue => {
+        q.contractDetailValues.filter(x => x.type !== 'ListOfReference'
+            && x.type !== contractTab.Vars.DataType.DynamicTable).forEach(detailValue => {
             let field = {
                 width: "100%",
             };
@@ -765,7 +770,7 @@ contractTab.method.addSectionByContract = function (record) {
                 getReferenceCriteria(contractDetailValueGroup[reference].map(p => p.value)),
                 function (dsResponse, data) {
                     contractDetailListGrid.setData(data);
-                    q.contractDetailValues.filter(x => x.type == 'ListOfReference').forEach((detailValue, index) => {
+                    q.contractDetailValues.filter(x => x.type === 'ListOfReference').forEach((detailValue, index) => {
                         data[index].contractDetailValueId = detailValue.id;
                     })
                 }
@@ -802,9 +807,11 @@ contractTab.method.addSectionByContractDetailType = function (record) {
         })],
         items: []
     };
+    contractTab.Methods.DynamicTableGridCreator(record,sectionStackSectionObj)
 
     let dynamicFormField = [];
-    record.contractDetailTypeParams.filter(param => param.type !== "ListOfReference").forEach(param => {
+    record.contractDetailTypeParams.filter(param => param.type !== "ListOfReference"
+        && param.type !== contractTab.Vars.DataType.DynamicTable).forEach(param => {
         let field = {
             width: "100%",
         };
