@@ -69,7 +69,7 @@ isc.defineClass("InvoiceBaseWeight", isc.VLayout).addProperties({
                     }],
                 icons: [
                     {
-                        src: "pieces/16/icon_add.png",
+                        src: "pieces/16/accept.png",
                         click: function () {
 
                             This.isClicked = true;

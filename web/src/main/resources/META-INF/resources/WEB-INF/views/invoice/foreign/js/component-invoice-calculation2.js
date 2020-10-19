@@ -39,9 +39,7 @@ isc.defineClass("InvoiceCalculation2", isc.VLayout).addProperties({
         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
             params: {
                 contractId: This.contract.id,
-                reference: This.contractDetailData.basePriceReference,
-                year: sendDate.getFullYear(),
-                month: sendDate.getMonth() + 1,
+                sendDate: sendDate.toLocaleDateString(),
                 financeUnitId: This.currency.id,
                 inspectionAssayDataId: This.inspectionAssayData.id,
                 inspectionWeightDataId: This.inspectionWeightData.id,
