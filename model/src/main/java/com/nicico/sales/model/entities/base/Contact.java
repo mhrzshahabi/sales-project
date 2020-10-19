@@ -10,6 +10,8 @@ import org.hibernate.envers.Audited;
 import javax.persistence.*;
 import java.util.Set;
 
+import static org.hibernate.envers.RelationTargetAuditMode.NOT_AUDITED;
+
 @I18n
 @Getter
 @Setter
@@ -121,6 +123,7 @@ public class Contact extends BaseEntity {
     @Column(name = "c_CEO_PASSPORT_NO")
     private String ceoPassportNo;
 
+    @Audited(targetAuditMode = NOT_AUDITED)
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "COUNTRY_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "contact2Country"))

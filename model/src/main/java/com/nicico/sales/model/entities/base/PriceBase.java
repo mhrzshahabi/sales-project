@@ -13,6 +13,8 @@ import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import static org.hibernate.envers.RelationTargetAuditMode.NOT_AUDITED;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -35,6 +37,8 @@ public class PriceBase extends BaseEntity {
     @Column(name = "D_PRICE_DATE")
     private Date priceDate;
 
+    @Audited(targetAuditMode = NOT_AUDITED)
+    @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "F_ELEMENT_ID", nullable = false, insertable = false, updatable = false, foreignKey = @ForeignKey(name = "PriceBase2ElementByElementId"))
     private Element element;

@@ -16,6 +16,11 @@ spring:
         format_sql: true
         hbm2ddl:
           schema_filter_provider: com.nicico.copper.common.hibernate.CustomSchemaFilterProvider
+      org:
+        hibernate:
+          envers:
+            audit_table_prefix: aud_
+            audit_table_suffix:
     open-in-view: false
   liquibase:
     database-change-log-table: Z_LIQ_CHANGELOG

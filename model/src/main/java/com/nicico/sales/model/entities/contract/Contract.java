@@ -13,6 +13,8 @@ import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
 
+import static org.hibernate.envers.RelationTargetAuditMode.NOT_AUDITED;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -51,6 +53,7 @@ public class Contract extends BaseEntity {
     @Column(name = "C_DESCRIPTION", length = 4000)
     private String description;
 
+    @Audited(targetAuditMode = NOT_AUDITED)
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "F_CONTRACT_TYPE_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_contract2contractTypeByContractTypeId"))
@@ -60,6 +63,7 @@ public class Contract extends BaseEntity {
     @Column(name = "F_CONTRACT_TYPE_ID", nullable = false)
     private Long contractTypeId;
 
+    @Audited(targetAuditMode = NOT_AUDITED)
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "F_MATERIAL_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_contract2materialByMaterialId"))

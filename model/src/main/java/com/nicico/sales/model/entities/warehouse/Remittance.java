@@ -8,6 +8,7 @@ import org.hibernate.annotations.Formula;
 import org.hibernate.annotations.JoinFormula;
 import org.hibernate.envers.AuditOverride;
 import org.hibernate.envers.Audited;
+import org.hibernate.envers.NotAudited;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -55,12 +56,14 @@ public class Remittance extends BaseEntity {
     @Column(name = "F_shipment_id")
     private Long shipmentId;
 
+    @NotAudited
     @Formula("(select nvl(dtozin.dat,stozin.DAT) from TBL_WARH_REMITTANCE_DETAIL rd " +
             "left join TBL_WARH_TOZIN dtozin on rd.F_DESTINATION_TOZINE_ID = dtozin.ID " +
             "inner join TBL_WARH_TOZIN stozin on rd.F_SOURCE_TOZINE_ID = stozin.ID " +
             "where rd.F_REMITTANCE_ID=id and ROWNUM=1 )")
     private String date;
 
+    @NotAudited
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinFormula("(select tt.id " +
             "from TBL_WARH_REMITTANCE r " +

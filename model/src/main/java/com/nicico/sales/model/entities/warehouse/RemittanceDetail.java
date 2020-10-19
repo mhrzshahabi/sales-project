@@ -8,6 +8,7 @@ import org.hibernate.annotations.Formula;
 import org.hibernate.annotations.JoinFormula;
 import org.hibernate.envers.AuditOverride;
 import org.hibernate.envers.Audited;
+import org.hibernate.envers.NotAudited;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -100,11 +101,15 @@ public class RemittanceDetail extends BaseEntity {
     @Column(name = "N_WEIGHT")
     private Long weight;
 
+    @NotAudited
     @Formula("(select VIEW_WARH_REMITTANCE_DETAIL.calc_date from VIEW_WARH_REMITTANCE_DETAIL where VIEW_WARH_REMITTANCE_DETAIL.id = id)")
     private String date;
+
+    @NotAudited
     @Formula("(select VIEW_WARH_REMITTANCE_DETAIL.input_remittance from VIEW_WARH_REMITTANCE_DETAIL where VIEW_WARH_REMITTANCE_DETAIL.id = id)")
     private Boolean inputRemittance;
 
+    @NotAudited
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinFormula("(select nvl(t.F_DESTINATION_TOZINE_ID,t.F_SOURCE_TOZINE_ID) from TBL_WARH_REMITTANCE_DETAIL t where t.ID= id)")
     private TozinTable tozin;

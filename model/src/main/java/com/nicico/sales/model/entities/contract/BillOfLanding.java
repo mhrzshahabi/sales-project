@@ -13,6 +13,8 @@ import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
 
+import static org.hibernate.envers.RelationTargetAuditMode.NOT_AUDITED;
+
 //بارنامه
 @Getter
 @Setter
@@ -255,11 +257,12 @@ public class BillOfLanding extends BaseEntity {
     private Shipment shipment;
 
 
-//    @NotNull
+    //    @NotNull
     @Column(name = "F_shipment_id")
     private Long shipmentId;
 
-     @ManyToOne(fetch = FetchType.LAZY)
+    @Audited(targetAuditMode = NOT_AUDITED)
+    @ManyToOne(fetch = FetchType.LAZY)
     @Setter(AccessLevel.NONE)
     @JoinColumn(
             name = "F_shipment_type_id",
@@ -270,11 +273,12 @@ public class BillOfLanding extends BaseEntity {
     private ShipmentType shipmentType;
 
 
-//    @NotNull
+    //    @NotNull
     @Column(name = "F_shipment_type_id")
     private Long shipmentTypeId;
 
-     @ManyToOne(fetch = FetchType.LAZY)
+    @Audited(targetAuditMode = NOT_AUDITED)
+    @ManyToOne(fetch = FetchType.LAZY)
     @Setter(AccessLevel.NONE)
     @JoinColumn(
             name = "F_shipment_method_id",

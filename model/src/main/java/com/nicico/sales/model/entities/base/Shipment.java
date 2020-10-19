@@ -8,6 +8,7 @@ import lombok.experimental.Accessors;
 import org.hibernate.annotations.Formula;
 import org.hibernate.envers.AuditOverride;
 import org.hibernate.envers.Audited;
+import org.hibernate.envers.NotAudited;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -154,6 +155,7 @@ public class Shipment extends BaseEntity {
     @Column(name = "N_NO_BLS", nullable = false)
     private Long noBLs;
 
+    @NotAudited
     @Formula("( select N_NO_BLS - (select count(TBL_CNTR_BILL_OF_LANDING.ID) " +
             "from TBL_CNTR_BILL_OF_LANDING where TBL_CNTR_BILL_OF_LANDING.F_SHIPMENT_ID = id) from dual)")
     private Long remainedBLs;

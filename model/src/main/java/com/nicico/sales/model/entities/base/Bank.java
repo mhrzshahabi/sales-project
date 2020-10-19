@@ -8,6 +8,8 @@ import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 
+import static org.hibernate.envers.RelationTargetAuditMode.NOT_AUDITED;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -38,6 +40,7 @@ public class Bank extends BaseEntity {
     @Column(name = "c_CORE_BRANCH")
     private String coreBranch;
 
+    @Audited(targetAuditMode = NOT_AUDITED)
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "COUNTRY_ID", nullable = false, insertable = false, updatable = false, foreignKey = @ForeignKey(name = "bank2Country"))

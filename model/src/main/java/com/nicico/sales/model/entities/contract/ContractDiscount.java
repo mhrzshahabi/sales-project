@@ -7,11 +7,12 @@ import lombok.experimental.Accessors;
 import org.hibernate.annotations.Immutable;
 import org.hibernate.envers.AuditOverride;
 import org.hibernate.envers.Audited;
-import org.hibernate.envers.NotAudited;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
+
+import static org.hibernate.envers.RelationTargetAuditMode.NOT_AUDITED;
 
 @Getter
 @Setter
@@ -46,6 +47,7 @@ public class ContractDiscount extends BaseEntity {
     @Column(name = "LOWER_BOUND", nullable = false, precision = 6, scale = 3)
     private BigDecimal lowerBound;
 
+    @Audited(targetAuditMode = NOT_AUDITED)
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "F_MATERIAL_ELEMENT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_contractDiscount2materialElementByMaterialElementId"))
@@ -55,7 +57,7 @@ public class ContractDiscount extends BaseEntity {
     @Column(name = "F_MATERIAL_ELEMENT_ID", nullable = false)
     private Long materialElementId;
 
-    @NotAudited
+    @Audited(targetAuditMode = NOT_AUDITED)
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "F_CONTRACT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "FK_DIDSCOUNT2CONTRACT2BYCONTRACTID"))
