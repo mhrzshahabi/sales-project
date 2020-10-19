@@ -100,6 +100,7 @@ currencyRateTab.dynamicForm.fields = BaseFormItems.concat([
 Object.assign(currencyRateTab.listGrid.fields, currencyRateTab.dynamicForm.fields);
 nicico.BasicFormUtil.getDefaultBasicForm(currencyRateTab, "/api/currencyRate");
 currencyRateTab.dynamicForm.main.windowWidth = 500;
+nicico.BasicFormUtil.removeExtraGridMenuActions(currencyRateTab);
 
 currencyRateTab.dynamicForm.main.validate = function () {
 

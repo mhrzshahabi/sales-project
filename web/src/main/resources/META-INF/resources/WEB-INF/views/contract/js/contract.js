@@ -4,18 +4,8 @@ contractTab.variable.contractDetailUrl = "${contextPath}" + "/api/contract-detai
 contractTab.variable.contractDetailTypeUrl = "${contextPath}" + "/api/contract-detail-type/"
 contractTab.variable.contractDetailTypeTemplateUrl = "${contextPath}" + "/api/contract-detail-type-template/"
 
-var contractPositionDynamicForm = isc.DynamicForm.nicico.getDefault([{
-    width: "100%",
-    name: "position",
-    required: true,
-    title: "<spring:message code='global.order'/>"
-}])
-
 contractTab.window.formUtil = new nicico.FormUtil();
 
-contractTab.window.position = isc.Window.nicico.getDefault("<spring:message code='global.order'/>", [
-    contractPositionDynamicForm
-], "400");
 //*************************************************** RESTDATASOURCES **************************************************
 
 contractTab.restDataSource.contractDetail = isc.MyRestDataSource.create({
@@ -222,32 +212,20 @@ contractTab.listGrid.contractDetailType = isc.ListGrid.nicico.getDefault(
                             )
                                 return;
 
-                            contractPositionDynamicForm.clearValues();
-                            contractTab.window.formUtil.showForm(
-                                contractTab.window.main,
-                                "<spring:message code='global.order'/>",
-                                contractPositionDynamicForm, '400');
-
                             contractTab.window.formUtil.populateData = function (body) {
                                 return [body.getValues()];
                             };
 
-                            contractTab.window.formUtil.validate = function (data) {
-                                contractPositionDynamicForm.validate();
-                                return !contractPositionDynamicForm.hasErrors();
-                            };
 
-                            contractTab.window.formUtil.okCallBack = function (data) {
-                                record.position = data[0].position;
-                                if (record.contractDetailTypeTemplates.length == 1) {
-                                    record.content = record.contractDetailTypeTemplates[0].content;
-                                    contractTab.method.addSectionByContractDetailType(record);
-                                } else {
-                                    contractTab.variable.contractDetailTypeTemplate.bodyWidget.getObject().setData(record.contractDetailTypeTemplates);
-                                    contractTab.variable.contractDetailTypeTemplate.bodyWidget.getObject().contractDetailTypeRecord = record;
-                                    contractTab.variable.contractDetailTypeTemplate.justShowForm();
-                                }
-                            };
+                            record.position = contractTab.sectionStack.contract.sections.length;
+                            if (record.contractDetailTypeTemplates.length == 1) {
+                                record.content = record.contractDetailTypeTemplates[0].content;
+                                contractTab.method.addSectionByContractDetailType(record);
+                            } else {
+                                contractTab.variable.contractDetailTypeTemplate.bodyWidget.getObject().setData(record.contractDetailTypeTemplates);
+                                contractTab.variable.contractDetailTypeTemplate.bodyWidget.getObject().contractDetailTypeRecord = record;
+                                contractTab.variable.contractDetailTypeTemplate.justShowForm();
+                            }
                         }
                     });
                 // </c:if>
@@ -258,10 +236,10 @@ contractTab.listGrid.contractDetailType = isc.ListGrid.nicico.getDefault(
     });
 contractTab.sectionStack.contract = isc.SectionStack.create({
     visibilityMode: "multiple",
-    canDrag: true,
     margin: 10,
     width: "100%",
     overflow: "auto",
+    canReorderSections: true,
     sections: []
 });
 contractTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
@@ -294,7 +272,7 @@ contractTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
                 contractTab.sectionStack.contract.sections.forEach(section => {
                     let contractDetailObj = {
                         contractDetailTypeId: section.name,
-                        position: section.position,
+                        position: contractTab.sectionStack.contract.sections.indexOf(section),
                         contractDetailTemplate: section.template,
                         id: section.contractDetailId,
                         content: generateContentFromSection(section, section.template),
@@ -604,7 +582,7 @@ contractTab.method.editForm = function () {
 };
 
 contractTab.method.addSectionByContract = function (record) {
-    record.contractDetails.forEach(q => {
+    record.contractDetails.sortByProperty('position').reverse().forEach(q => {
 
         let sectionStackSectionObj = {
             position: q.position,
