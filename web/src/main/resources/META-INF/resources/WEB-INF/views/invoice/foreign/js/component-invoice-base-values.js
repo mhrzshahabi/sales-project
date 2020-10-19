@@ -98,14 +98,6 @@ isc.defineClass("InvoiceBaseValues", isc.VLayout).addProperties({
     okButtonClick: function () {
 
     },
-    getValues: function () {
-
-        return {
-            assay: this.invoiceBaseAssayComponent.getValues(),
-            weight: this.invoiceBaseWeightComponent.getValues(),
-            basePrice: this.invoiceBasePriceComponent.getValues()
-        }
-    },
     validate: function () {
 
         let isValid = true;

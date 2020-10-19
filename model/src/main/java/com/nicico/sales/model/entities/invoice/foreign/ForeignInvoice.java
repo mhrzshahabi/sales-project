@@ -73,6 +73,9 @@ public class ForeignInvoice extends BaseEntity {
     @Column(name = "N_PERCENT")
     private Double percent;
 
+    @Column(name = "F_PARENT_ID")
+    private Long parentId;
+
     // *****************************************************************************************************************
 
     @Column(name = "N_ACCOUNTING_ID")

@@ -57,7 +57,7 @@ public class ForeignInvoiceItemService extends GenericService<ForeignInvoiceItem
     @Override
     @Transactional
     @Action(value = ActionType.List)
-    public ForeignInvoiceItemDTO.Calc2Data getCalculation2Data(Long contractId, PriceBaseReference reference, Integer year, Integer month, Long financeUnitId, Long inspectionAssayDataId, Long inspectionWeightDataId) {
+    public ForeignInvoiceItemDTO.Calc2Data getCalculation2Data(Long contractId, Date sendDate, Long financeUnitId, Long inspectionAssayDataId, Long inspectionWeightDataId) {
 
         InspectionReportDTO.Info inspectionAssayReportDTO = inspectionReportService.get(inspectionAssayDataId);
         List<AssayInspectionDTO.InfoWithoutInspectionReport> assayValues = inspectionAssayReportDTO.getAssayInspections();
@@ -81,7 +81,7 @@ public class ForeignInvoiceItemService extends GenericService<ForeignInvoiceItem
         if (discounts != null)
             discounts.forEach(discount -> discountArticle.add(modelMapper.map(discount, ContractDiscount.class)));
 
-        List<PriceBaseDTO.Info> basePrices = priceBaseService.getAverageOfElementBasePrices(reference, year, month, materialIds.iterator().next(), financeUnitId);
+        List<PriceBaseDTO.Info> basePrices = priceBaseService.getAverageOfElementBasePrices(contractId, financeUnitId, sendDate);
 
         List<Map<String, Object>> data = new ArrayList<>();
         List<ForeignInvoiceItemDTO.FieldData> fields = createFields(assayValues);

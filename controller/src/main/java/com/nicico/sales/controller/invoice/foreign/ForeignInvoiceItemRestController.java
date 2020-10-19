@@ -1,17 +1,10 @@
 package com.nicico.sales.controller.invoice.foreign;
 
-import com.google.common.base.Enums;
 import com.nicico.copper.common.Loggable;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.sales.dto.AssayInspectionDTO;
-import com.nicico.sales.dto.WeightInspectionDTO;
 import com.nicico.sales.dto.invoice.foreign.ForeignInvoiceItemDTO;
 import com.nicico.sales.iservice.invoice.foreign.IForeignInvoiceItemService;
-import com.nicico.sales.model.entities.base.AssayInspection;
-import com.nicico.sales.model.enumeration.AllConverters;
-import com.nicico.sales.model.enumeration.InspectionReportMilestone;
-import com.nicico.sales.model.enumeration.PriceBaseReference;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -20,6 +13,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @Slf4j
@@ -46,9 +40,9 @@ public class ForeignInvoiceItemRestController {
 
     @Loggable
     @GetMapping(value = "/get-calculation2-data")
-    public ResponseEntity<ForeignInvoiceItemDTO.Calc2Data> getCalculation2Data(@RequestParam Long contractId, @RequestParam PriceBaseReference reference, @RequestParam Integer year, @RequestParam Integer month, @RequestParam Long financeUnitId ,@RequestParam Long inspectionAssayDataId, @RequestParam Long inspectionWeightDataId) {
+    public ResponseEntity<ForeignInvoiceItemDTO.Calc2Data> getCalculation2Data(@RequestParam Long contractId, @RequestParam Date sendDate, @RequestParam Long financeUnitId, @RequestParam Long inspectionAssayDataId, @RequestParam Long inspectionWeightDataId) {
 
-        return new ResponseEntity<>(foreignInvoiceItemService.getCalculation2Data(contractId, reference, year, month, financeUnitId, inspectionAssayDataId, inspectionWeightDataId), HttpStatus.OK);
+        return new ResponseEntity<>(foreignInvoiceItemService.getCalculation2Data(contractId, sendDate, financeUnitId, inspectionAssayDataId, inspectionWeightDataId), HttpStatus.OK);
     }
 
 

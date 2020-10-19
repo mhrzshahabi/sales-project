@@ -30,4 +30,10 @@
         </addColumn>
     </changeSet>
 
+    <changeSet author="admin (generated)" id="1602579251019-231">
+        <addColumn tableName="TBL_FOREIGN_INVOICE">
+            <column name="F_PARENT_ID" type="number(19, 0)"/>
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>

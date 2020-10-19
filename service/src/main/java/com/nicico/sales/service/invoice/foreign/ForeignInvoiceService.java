@@ -18,7 +18,6 @@ import com.nicico.sales.iservice.invoice.foreign.IForeignInvoiceService;
 import com.nicico.sales.model.entities.invoice.foreign.ForeignInvoice;
 import com.nicico.sales.model.entities.invoice.foreign.ForeignInvoiceBillOfLading;
 import com.nicico.sales.model.entities.invoice.foreign.ForeignInvoiceItem;
-import com.nicico.sales.repository.contract.ContractDAO;
 import com.nicico.sales.repository.invoice.foreign.ForeignInvoiceBillOfLadingDAO;
 import com.nicico.sales.repository.invoice.foreign.ForeignInvoiceDAO;
 import com.nicico.sales.service.GenericService;
@@ -77,9 +76,9 @@ public class ForeignInvoiceService extends GenericService<ForeignInvoice, Long, 
     @Override
     @Transactional
     @Action(value = ActionType.Get)
-    public ForeignInvoiceDTO.ContractDetailData getContractDetailData(Long contractId) {
+    public ContractDetailDataDTO.Info getContractDetailData(Long contractId) {
 
-        ForeignInvoiceDTO.ContractDetailData contractDetailData = new ForeignInvoiceDTO.ContractDetailData();
+        ContractDetailDataDTO.Info contractDetailData = new ContractDetailDataDTO.Info();
 
 //        Contract contract = contractDAO.findById(contractId).orElseThrow(() -> new NotFoundException(Contract.class));
 //        Long materialId = contract.getMaterialId();
@@ -87,7 +86,7 @@ public class ForeignInvoiceService extends GenericService<ForeignInvoice, Long, 
 
         Map<String, List<Object>> moases = contractDetailValueService2.get(contractId, EContractDetailTypeCode.QuotationalPeriod, EContractDetailValueKey.MOAS, true);
         if (moases != null)
-            contractDetailData.setMOASValue(modelMapper.map(moases.get(EContractDetailValueKey.MOAS.name()), new TypeToken<List<ForeignInvoiceDTO.MOASData>>() {
+            contractDetailData.setMOAS(modelMapper.map(moases.get(EContractDetailValueKey.MOAS.name()), new TypeToken<List<ContractDetailDataDTO.MOASData>>() {
             }.getType()));
 
         Map<String, List<Object>> rcs = contractDetailValueService2.get(contractId, EContractDetailTypeCode.Deduction, EContractDetailValueKey.RC, true);
@@ -95,7 +94,7 @@ public class ForeignInvoiceService extends GenericService<ForeignInvoice, Long, 
         if (tcs != null)
             contractDetailData.setTc(new BigDecimal(tcs.get(EContractDetailValueKey.TC.name()).get(0).toString()));
         if (rcs != null)
-            contractDetailData.setRc(modelMapper.map(rcs.get(EContractDetailValueKey.RC.name()), new TypeToken<List<ForeignInvoiceDTO.RCData>>() {
+            contractDetailData.setRc(modelMapper.map(rcs.get(EContractDetailValueKey.RC.name()), new TypeToken<List<ContractDetailDataDTO.RCData>>() {
             }.getType()));
 
         Map<String, List<Object>> deliveryTerms = contractDetailValueService2.get(contractId, EContractDetailTypeCode.DeliveryTerms, EContractDetailValueKey.INCOTERM, true);

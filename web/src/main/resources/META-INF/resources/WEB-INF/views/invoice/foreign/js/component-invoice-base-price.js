@@ -19,25 +19,21 @@ isc.defineClass("InvoiceBasePrice", isc.VLayout).addProperties({
 
         let This = this;
 
-        let material = This.contract.material;
         let sendDate = new Date(This.shipment.sendDate);
-        let year = sendDate.getFullYear();
-        let month = sendDate.getMonth() + 1;
-        let MOASValue = This.contractDetailData.MOASValue;
-        let basePriceReference = This.contractDetailData.basePriceReference;
+        // let year = sendDate.getFullYear();
+        // let month = sendDate.getMonth() + 1;
+        // let MOASValue = This.contractDetailData.MOASValue;
+        // let basePriceReference = This.contractDetailData.basePriceReference;
 
         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-            willHandleError: true,
-            params: {
-                year: year,
-                materialId: material.id,
-                month: month + MOASValue,
-                reference: basePriceReference,
-                financeUnitId: This.currency.id
-            },
             httpMethod: "GET",
+            willHandleError: true,
             actionURL: "${contextPath}/api/price-base/get-avg-base-price",
-
+            params: {
+                contractId: This.contract.id,
+                financeUnitId: This.currency.id,
+                sendDate: sendDate.toLocaleDateString()
+            },
             callback: function (resp) {
 
                 let members = [];
@@ -76,14 +72,14 @@ isc.defineClass("InvoiceBasePrice", isc.VLayout).addProperties({
                     isc.RPCManager.handleError(resp);
                 }
 
-                let fieldsNames = members.map(q => q.name).join(", ");
-                This.addMember(isc.Label.create({
-                    width: "100%",
-                    height: "50",
-                    contents: "<b>" + "AVERAGE OF " + (month + MOASValue) +
-                        "th MONTH OF " + year + " (MOAS" + (MOASValue === 0 ? "" : (MOASValue > 0 ? "+" : "-") + MOASValue) +
-                        ") " + " FOR " + fieldsNames + "</b>"
-                }));
+                // let fieldsNames = members.map(q => q.name).join(", ");
+                // This.addMember(isc.Label.create({
+                //     width: "100%",
+                //     height: "50",
+                //     contents: "<b>" + "AVERAGE OF " + (month + MOASValue) +
+                //         "th MONTH OF " + year + " (MOAS" + (MOASValue === 0 ? "" : (MOASValue > 0 ? "+" : "-") + MOASValue) +
+                //         ") " + " FOR " + fieldsNames + "</b>"
+                // }));
 
                 if (members.length)
                     This.addMembers(members);

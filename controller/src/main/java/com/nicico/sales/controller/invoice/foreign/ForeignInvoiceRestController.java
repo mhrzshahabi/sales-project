@@ -3,6 +3,7 @@ package com.nicico.sales.controller.invoice.foreign;
 import com.nicico.copper.common.Loggable;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
+import com.nicico.sales.dto.invoice.foreign.ContractDetailDataDTO;
 import com.nicico.sales.dto.invoice.foreign.ForeignInvoiceDTO;
 import com.nicico.sales.iservice.invoice.foreign.IForeignInvoiceService;
 import lombok.RequiredArgsConstructor;
@@ -104,7 +105,7 @@ public class ForeignInvoiceRestController {
 
     @Loggable
     @GetMapping(value = "/get-contract-detail-data")
-    public ResponseEntity<ForeignInvoiceDTO.ContractDetailData> getContractDetailData(@RequestParam Long contractId) {
+    public ResponseEntity<ContractDetailDataDTO.Info> getContractDetailData(@RequestParam Long contractId) {
 
         return new ResponseEntity<>(foreignInvoiceService.getContractDetailData(contractId), HttpStatus.OK);
     }

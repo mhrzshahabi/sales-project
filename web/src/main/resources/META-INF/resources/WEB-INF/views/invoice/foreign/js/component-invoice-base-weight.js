@@ -58,7 +58,7 @@ isc.defineClass("InvoiceBaseWeight", isc.VLayout).addProperties({
             width: "100%",
             fields: [{
                 name: "percent",
-                title: "Percent",
+                title: "<spring:message code='foreign-invoice.form.percent'/>",
                 type: "float",
                 defaultValue: 100,
                 required: true,
