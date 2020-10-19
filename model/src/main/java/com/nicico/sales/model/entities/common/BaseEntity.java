@@ -26,6 +26,7 @@ public class BaseEntity extends Auditable {
 
     @NotNull
     @Builder.Default
+    @ElementCollection(targetClass = EStatus.class)
     @Column(name = "N_E_STATUS", nullable = false, columnDefinition = "number default 1")
     @SuppressWarnings("JpaAttributeTypeInspection")
     private List<EStatus> eStatus = new ArrayList<EStatus>() {{

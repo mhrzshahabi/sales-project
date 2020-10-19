@@ -13,6 +13,8 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
+import static org.hibernate.envers.RelationTargetAuditMode.NOT_AUDITED;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -64,6 +66,7 @@ public class TozinTable extends BaseEntity {
     @Column(name = "GDSCODE", nullable = false)
     private Long codeKala;
 
+    @Audited(targetAuditMode = NOT_AUDITED)
     @Setter(AccessLevel.NONE)
     @JoinColumn(name = "GDSCODE", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "f_tozinTable2materialItemByGDSCODE"))
     @ManyToOne(fetch = FetchType.LAZY)

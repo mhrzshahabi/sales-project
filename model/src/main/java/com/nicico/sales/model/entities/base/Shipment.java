@@ -17,6 +17,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
+import static org.hibernate.envers.RelationTargetAuditMode.NOT_AUDITED;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -46,6 +48,7 @@ public class Shipment extends BaseEntity {
     @Column(name = "F_CONTRACT_SHIPMENT_ID", nullable = false)
     private Long contractShipmentId;
 
+    @Audited(targetAuditMode = NOT_AUDITED)
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "F_SHIPMENT_TYPE_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_shipment2shipmentTypeByShipmentTypeId"))
@@ -55,6 +58,7 @@ public class Shipment extends BaseEntity {
     @Column(name = "F_SHIPMENT_TYPE_ID", nullable = false)
     private Long shipmentTypeId;
 
+    @Audited(targetAuditMode = NOT_AUDITED)
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "F_SHIPMENT_METHOD_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_shipment2shipmentMethodByShipmentMethodId"))
@@ -82,6 +86,7 @@ public class Shipment extends BaseEntity {
     @Column(name = "F_AGENT_CONTACT_ID", nullable = false)
     private Long contactAgentId;
 
+    @Audited(targetAuditMode = NOT_AUDITED)
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "F_MATERIAL_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_shipment2materialByMaterialId"))

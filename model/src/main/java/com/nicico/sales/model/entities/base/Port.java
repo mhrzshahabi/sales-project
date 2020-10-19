@@ -9,6 +9,8 @@ import org.hibernate.envers.Audited;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+import static org.hibernate.envers.RelationTargetAuditMode.NOT_AUDITED;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -27,6 +29,8 @@ public class Port extends BaseEntity {
     @Column(name = "ID")
     private Long id;
 
+    @Audited(targetAuditMode = NOT_AUDITED)
+    @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "COUNTRY_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "port2country"))
     private Country country;
