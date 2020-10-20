@@ -65,4 +65,15 @@
        <changeSet id="sfsfsfddsdsdsdsdsdwrf-4" author="saeb">
         <addNotNullConstraint tableName="TBL_CNTR_CDTP_DYNAMIC_TABLE_VALUE" columnName="C_FIELD_NAME"/>
     </changeSet>
+    <changeSet id="saeb1-2-3-hala-bikhial-gho3" author="saeb">
+        <dropUniqueConstraint tableName="TBL_CNTR_CDTP_DYNAMIC_TABLE_VALUE"
+                              constraintName="UC_C_D_ROW_NUM_F_CDTPDYNAMICTABLE_ID"/>
+    </changeSet>
+
+
+    <changeSet author="saeb (generated)" id="1603095073792-238">
+        <addUniqueConstraint columnNames="D_ROW_NUM, F_CDTPDYNAMICTABLE_ID, F_CONTRACTDETAILVALUE_ID"
+                             constraintName="UC_TBL_CNTR_CDTP_DYNAMIC_TABLE_VALUE_ROW_NUM_F_CDTPDYNAMICTABLE_ID"
+                             tableName="TBL_CNTR_CDTP_DYNAMIC_TABLE_VALUE"/>
+    </changeSet>
 </databaseChangeLog>

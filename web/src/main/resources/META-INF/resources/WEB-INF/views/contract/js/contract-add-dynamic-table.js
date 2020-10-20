@@ -92,15 +92,18 @@ contractTab.Methods.ConvertDynamicTableListGridDataToModel=function (grid){
     const data = grid.getData();
     const CDTPDynamicTableValueList = [];
     const filedsCount = grid.getFields().length;
+    dbg(grid)
     data.forEach((_row, _rowNum) => {
-        Object.keys(_row).forEach((_valueKey, _index) => {
+        Object.keys(_row).filter(k=>!k.startsWith("_section")&&!k.startsWith("_selection")&&!k.startsWith("_embed")
+            &&!k.endsWith("____")).forEach((_valueKey, _index) => {
             const _value = _row[_valueKey];
-            if(_index - filedsCount >-2)return;
+            if(!_value)return ;
+            // if(_index - filedsCount >-2)return;
             /** @type {CDTPDynamicTableValue} **/
             const row = {}
             const /** @type {CDTPDynamicTable} **/ column = grid.getField(_index)['column']
             row.cdtpDynamicTableId = column.id
-            row.value = _value.toString();
+            row.value = _value;
             row.rowNum = _rowNum;
             row.fieldName = _valueKey;
             CDTPDynamicTableValueList.add(row)
@@ -115,7 +118,10 @@ contractTab.Methods.ConvertDynamicTableListGridDataToModel=function (grid){
  * @param {CDTPDynamicTableValue[]} data - A string param
  */
 contractTab.Methods.GetListGridDataFromDynamicTableGrid=function(grid,data){
-    if(grid && grid['cDTPDynamicTableValue'])  data = grid['cDTPDynamicTableValue']
+    if(grid && grid.reference===contractTab.Vars.DataType.DynamicTable) {
+        contractTab.Methods.ConvertDynamicTableListGridDataToModel(grid)
+        data = grid['cDTPDynamicTableValue']
+    }
     return data;
 }
 contractTab.Methods.DynamicTableGridCreator = async function a(_record, _sectionStackSectionObj) {
@@ -223,7 +229,7 @@ contractTab.Methods.DynamicTableGridCreator = async function a(_record, _section
                 return _field
             }))
             const [dynamicHeaders,dynamicValueFields] = await Promise.all([getDynamicHeaders(columns),getDynamicValueFields(columns)])
-            columns.forEach(column  /*** @type {CDTPDynamicTable}*/=>{
+            columns.forEach(/*** @type {CDTPDynamicTable}*/ column  =>{
                 const _static = fields.find(f=>f.colNum===column.colNum);
                 if(_static)return;
                 const _field = {
@@ -318,7 +324,10 @@ contractTab.Methods.DynamicTableGridCreator = async function a(_record, _section
                 ],
             });
             _sectionStackSectionObj.items.push(listGrid)
-            contractTab.sectionStack.contract.expandSection(contractTab.sectionStack.contract.getSections())
+            contractTab.sectionStack.contract.getSections().forEach(section=>{
+                contractTab.sectionStack.contract.collapseSection(section.toString())
+                contractTab.sectionStack.contract.expandSection(section.toString())
+            })
         }
     }))
 }
@@ -329,9 +338,18 @@ contractTab.Methods.DynamicTableGridCreator = async function a(_record, _section
  * @param {SectionStackSectionObj} _sectionStackSectionObj - A string param
  */
 contractTab.Methods.DynamicTableGridCreatorForContract = async function(_contract, _sectionStackSectionObj,contractDetail){
-    if (!contractDetail.cdtpDynamicTableValue || contractDetail.cdtpDynamicTableValue.length===0)return;
+    const cdtpDynamicTableValue = contractDetail.cdtpDynamicTableValue;
+    if (!cdtpDynamicTableValue || Object.keys(cdtpDynamicTableValue).length === 0)return;
     await contractTab.Methods.DynamicTableGridCreator(contractDetail.contractDetailType, _sectionStackSectionObj)
-    const dynamicForms = _sectionStackSectionObj.items.filter(c=>c.Class === "ListGrid");
+    Object.keys(cdtpDynamicTableValue).forEach(k=>{
+        const grid = _sectionStackSectionObj.items.find(c=>c.Class === "ListGrid"
+            && c.paramKey && c.reference
+            && c.paramKey===k
+            && c.reference === contractTab.Vars.DataType.DynamicTable
+        );
+        grid.setData(cdtpDynamicTableValue[k])
+    })
+
     dbg(_contract, _sectionStackSectionObj,contractDetail)
 }
 

@@ -23,15 +23,13 @@ import com.nicico.sales.iservice.*;
 import com.nicico.sales.iservice.contract.*;
 import com.nicico.sales.model.entities.base.ContractShipment;
 import com.nicico.sales.model.entities.base.Shipment;
-import com.nicico.sales.model.entities.contract.Contract;
-import com.nicico.sales.model.entities.contract.ContractContact;
-import com.nicico.sales.model.entities.contract.ContractDetail;
-import com.nicico.sales.model.entities.contract.ContractDetailValue;
+import com.nicico.sales.model.entities.contract.*;
 import com.nicico.sales.model.enumeration.CommercialRole;
 import com.nicico.sales.model.enumeration.DataType;
 import com.nicico.sales.model.enumeration.EStatus;
 import com.nicico.sales.repository.ContractShipmentDAO;
 import com.nicico.sales.repository.ShipmentDAO;
+import com.nicico.sales.repository.contract.CDTPDynamicTableValueDAO;
 import com.nicico.sales.repository.contract.ContractDAO;
 import com.nicico.sales.repository.contract.ContractDetailDAO;
 import com.nicico.sales.repository.contract.ContractDetailValueDAO;
@@ -72,6 +70,7 @@ public class ContractService extends GenericService<Contract, Long, ContractDTO.
     private final ResourceBundleMessageSource messageSource;
     private final ContractDAO contractDAO2;
     private final ContractDetailValueDAO contractDetailValueDao;
+    private final CDTPDynamicTableValueDAO cdtpDynamicTableValueDAO;
 
 
     @Override
@@ -138,7 +137,7 @@ public class ContractService extends GenericService<Contract, Long, ContractDTO.
                             final ContractDetailValue contractDetailValue1 = modelMapper.map(x, ContractDetailValue.class);
                             contractDetailValue1.setValue(x.getContractDetailId().toString());
                             final ContractDetailValue contractDetailValue = contractDetailValueDao.save(contractDetailValue1);
-                            contractDetailValue.setValue(createCDTPDynamicTableValue(x,contractDetailValue).toString());
+                            contractDetailValue.setValue(createCDTPDynamicTableValue(x.getReferenceJsonValue(),contractDetailValue.getId()).toString());
                             contractDetailValueDao.save(contractDetailValue);
                         }
 
@@ -200,9 +199,9 @@ public class ContractService extends GenericService<Contract, Long, ContractDTO.
         ContractShipmentDTO.Info savedContractShipment = contractShipmentService.create(contractShipmentDTO);
         return savedContractShipment.getId();
     }
-    private Long createCDTPDynamicTableValue(ContractDetailValueDTO.Create x, ContractDetailValue contractDetailValue) {
-        CDTPDynamicTableValueDTO.Create cdtpDynamicTableValue = gson.fromJson(x.getReferenceJsonValue(), CDTPDynamicTableValueDTO.Create.class);
-        cdtpDynamicTableValue.setContractDetailValueId(contractDetailValue.getId());
+    private Long createCDTPDynamicTableValue(String  referenceJsonValue, Long contractDetailValueId) {
+        CDTPDynamicTableValueDTO.Create cdtpDynamicTableValue = gson.fromJson(referenceJsonValue, CDTPDynamicTableValueDTO.Create.class);
+        cdtpDynamicTableValue.setContractDetailValueId(contractDetailValueId);
         CDTPDynamicTableValueDTO.Info cdtpDynamicTableValueSaved = icdtpDynamicTableValueService.create(cdtpDynamicTableValue);
         return cdtpDynamicTableValueSaved.getId();
     }
@@ -332,7 +331,15 @@ public class ContractService extends GenericService<Contract, Long, ContractDTO.
         final ContractDTO.Update requestForValidation = new ContractDTO.Update();
         modelMapper.map(request, requestForValidation);
         Contract contract = repository.findById(id).orElseThrow(() -> new NotFoundException(Contract.class));
+        //Delete DynamicTables and insert Again
+        List<Long> cdtpDynamicTableIdListForDelete=new ArrayList<>();
+        contract.getContractDetails().forEach(contractDetail -> contractDetail.getContractDetailValues().forEach(contractDetailValue -> {
+            final CDTPDynamicTableValue cdtpDynamicTableValue = contractDetailValue.getCdtpDynamicTableValue();
+            if(cdtpDynamicTableValue!=null) cdtpDynamicTableIdListForDelete.add(cdtpDynamicTableValue.getId());
+        }));
+        if (cdtpDynamicTableIdListForDelete.size()>0) cdtpDynamicTableValueDAO.deleteAllByIdIn(cdtpDynamicTableIdListForDelete);
 
+        //
         // update ContractContacts
         updateContractContacts(request.getBuyerId(), CommercialRole.Buyer, contract);
         updateContractContacts(request.getSellerId(), CommercialRole.Seller, contract);
@@ -385,8 +392,15 @@ public class ContractService extends GenericService<Contract, Long, ContractDTO.
                                     break;
                             }
                         }
+                        if (DataType.DynamicTable.equals(x.getType())) {
+                            final ContractDetailValue contractDetailValue1 = modelMapper.map(x, ContractDetailValue.class);
+                            contractDetailValue1.setValue(x.getContractDetailId().toString());
+                            final ContractDetailValue contractDetailValue = contractDetailValueDao.save(contractDetailValue1);
+                            contractDetailValue.setValue(createCDTPDynamicTableValue(x.getReferenceJsonValue(),contractDetailValue.getId()).toString());
+                            contractDetailValueDao.save(contractDetailValue);
+                        }
 
-                        contractDetailValueService.create(x);
+                        else contractDetailValueService.create(x);
                     });
                 }
 
@@ -433,7 +447,15 @@ public class ContractService extends GenericService<Contract, Long, ContractDTO.
                                     break;
                             }
                         }
-                        contractDetailValueService.create(x);
+                        if (DataType.DynamicTable.equals(x.getType())) {
+                            final ContractDetailValue contractDetailValue1 = modelMapper.map(x, ContractDetailValue.class);
+                            contractDetailValue1.setValue(x.getContractDetailId().toString());
+                            final ContractDetailValue contractDetailValue = contractDetailValueDao.save(contractDetailValue1);
+                            contractDetailValue.setValue(createCDTPDynamicTableValue(x.getReferenceJsonValue(),contractDetailValue.getId()).toString());
+                            contractDetailValueDao.save(contractDetailValue);
+                        }
+
+                        else contractDetailValueService.create(x);
                     });
                 }
                 if (!contractDetailValue4Update.isEmpty()) {
@@ -459,6 +481,11 @@ public class ContractService extends GenericService<Contract, Long, ContractDTO.
                             }
 
                         }
+                        if (DataType.DynamicTable.equals(x.getType())) {
+
+                            x.setValue(createCDTPDynamicTableValue(x.getReferenceJsonValue(),x.getId()).toString());
+                        }
+
                         contractDetailValueService.update(x);
                     });
                 }
@@ -534,7 +561,12 @@ public class ContractService extends GenericService<Contract, Long, ContractDTO.
         final Contract entity = entityById.orElseThrow(() -> new NotFoundException(Contract.class));
 
         validation(entity, id);
-
+        List<Long> cdtpDynamicTableIdListForDelete=new ArrayList<>();
+        entity.getContractDetails().forEach(contractDetail -> contractDetail.getContractDetailValues().forEach(contractDetailValue -> {
+            final CDTPDynamicTableValue cdtpDynamicTableValue = contractDetailValue.getCdtpDynamicTableValue();
+            if(cdtpDynamicTableValue!=null) cdtpDynamicTableIdListForDelete.add(cdtpDynamicTableValue.getId());
+        }));
+        if (cdtpDynamicTableIdListForDelete.size()>0) cdtpDynamicTableValueDAO.deleteAllByIdIn(cdtpDynamicTableIdListForDelete);
         if (entity.getContractDetails() != null && entity.getContractDetails().size() > 0) {
             entity.getContractDetails().forEach(q -> {
                 if (q.getContractDetailValues() != null && q.getContractDetailValues().size() > 0) {

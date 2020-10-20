@@ -15,7 +15,7 @@ import javax.validation.constraints.NotNull;
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
 @Table(name = "TBL_CNTR_CDTP_DYNAMIC_TABLE_VALUE"
-        , uniqueConstraints = {@UniqueConstraint(columnNames = {"D_ROW_NUM", "F_CDTPDYNAMICTABLE_ID"}, name = "UC_C_D_ROW_NUM_F_CDTPDYNAMICTABLE_ID"),
+        , uniqueConstraints = {@UniqueConstraint(columnNames = {"D_ROW_NUM", "F_CDTPDYNAMICTABLE_ID","F_CONTRACTDETAILVALUE_ID"}, name = "UC_TBL_CNTR_CDTP_DYNAMIC_TABLE_VALUE_ROW_NUM_F_CDTPDYNAMICTABLE_ID"),
 //        @UniqueConstraint(columnNames = {"C_HEADER_VALUE", "F_CDTP_ID"}, name = "UC_C_D_COLNUM_F_CDTP_ID")
 }
 )
