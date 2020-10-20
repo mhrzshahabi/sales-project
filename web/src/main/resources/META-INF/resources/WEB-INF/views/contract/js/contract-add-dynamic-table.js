@@ -124,6 +124,10 @@ contractTab.Methods.GetListGridDataFromDynamicTableGrid=function(grid,data){
     }
     return data;
 }
+/**
+ * @param {SectionStackSectionObj} _sectionStackSectionObj
+ * @param {ContractDetailType} _record
+ * **/
 contractTab.Methods.DynamicTableGridCreator = async function a(_record, _sectionStackSectionObj) {
     if (!_record || !_record.contractDetailTypeParams) return;
     // //dbg(_record)
@@ -283,7 +287,7 @@ contractTab.Methods.DynamicTableGridCreator = async function a(_record, _section
             })
             const listGrid = isc.ListGrid.create({
                 fields: fields.sort((_1,_2)=> {return Number(_1.colNum)>=Number(_2.colNum)}),
-                height: "100%",
+                height: "300",
                 canEdit: true,
                 showHover:true,
                 validateByCell: true,
@@ -324,10 +328,9 @@ contractTab.Methods.DynamicTableGridCreator = async function a(_record, _section
                 ],
             });
             _sectionStackSectionObj.items.push(listGrid)
-            contractTab.sectionStack.contract.getSections().forEach(section=>{
-                contractTab.sectionStack.contract.collapseSection(section.toString())
-                contractTab.sectionStack.contract.expandSection(section.toString())
-            })
+            contractTab.sectionStack.contract.collapseSection(_sectionStackSectionObj.name.toString())
+            contractTab.sectionStack.contract.expandSection(_sectionStackSectionObj.name.toString())
+
         }
     }))
 }
@@ -337,7 +340,11 @@ contractTab.Methods.DynamicTableGridCreator = async function a(_record, _section
  * @param {ContractDetail} contractDetail - A string param
  * @param {SectionStackSectionObj} _sectionStackSectionObj - A string param
  */
-contractTab.Methods.DynamicTableGridCreatorForContract = async function(_contract, _sectionStackSectionObj,contractDetail){
+contractTab.Methods.DynamicTableGridCreatorForContract = async function(_contract,
+                                                                        _sectionStackSectionObj,
+                                                                        contractDetail){
+    dbg(_contract, _sectionStackSectionObj,contractDetail)
+
     const cdtpDynamicTableValue = contractDetail.cdtpDynamicTableValue;
     if (!cdtpDynamicTableValue || Object.keys(cdtpDynamicTableValue).length === 0)return;
     await contractTab.Methods.DynamicTableGridCreator(contractDetail.contractDetailType, _sectionStackSectionObj)

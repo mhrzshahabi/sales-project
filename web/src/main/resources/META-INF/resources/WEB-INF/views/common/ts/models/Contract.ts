@@ -10,8 +10,32 @@ class Contract {
     public id:number;
 
 }
+
+class Material {
+    public id:number;
+}
+
+class ContractDetailTypeTemplate {
+    public id:number;
+}
+
 class ContractDetailType {
     public id:number;
+
+    public  code: string
+
+    public  material: Material
+
+    public  materialId: number
+
+    public  titleFa: string
+
+    public  titleEn: string
+
+    public  contractDetailTypeParams: ContractDetailTypeParam[]
+
+    public  contractDetailTypeTemplates: ContractDetailTypeTemplate[]
+
 
 }
 class ContractDetailTypeParam {
