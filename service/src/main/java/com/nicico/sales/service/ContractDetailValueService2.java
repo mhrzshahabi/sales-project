@@ -178,7 +178,7 @@ public class ContractDetailValueService2 implements IContractDetailValueService2
 					return modelMapper.map(contactOpt.get(), ContactDTO.Info.class);
 				break;
 			case "DynamicTable":
-				final Map<String, List<Map<String, String>>> dynamicTableValue = modelMapper.map(contractDetailValue.getContractDetail(), ContractDetailDTO.Info.class)
+				final Map<String, List<Map<String, Object>>> dynamicTableValue = modelMapper.map(contractDetailValue.getContractDetail(), ContractDetailDTO.Info.class)
 						.getCdtpDynamicTableValue();
 
 				if (dynamicTableValue.containsKey(contractDetailValue.getKey()))

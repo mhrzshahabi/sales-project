@@ -35,10 +35,10 @@ public class ContractDetailDTO {
 
         private ContractDetailTypeDTO.Info contractDetailType;
         private List<ContractDetailValueDTO.Info> contractDetailValues;
-        private Map<String, List<Map<String, String>>> cdtpDynamicTableValue;
+        private Map<String, List<Map<String, Object>>> cdtpDynamicTableValue;
 
-        public Map<String, List<Map<String, String>>> getCdtpDynamicTableValue() {
-            List<Map<String, String>> returnList = new ArrayList<>();
+        public Map<String, List<Map<String, Object>>> getCdtpDynamicTableValue() {
+            List<Map<String, Object>> returnList = new ArrayList<>();
             Map<String, List<CDTPDynamicTableValueDTO.Info>> baseOnKey = new HashMap<>();
             contractDetailValues
                     .stream()
@@ -50,7 +50,7 @@ public class ContractDetailDTO {
                 }
             });
 
-            Map<String, List<Map<String, String>>> returnMap = new HashMap<>();
+            Map<String, List<Map<String, Object>>> returnMap = new HashMap<>();
 
             baseOnKey.keySet().forEach(k -> returnMap.put(k, getCDTPDynamicTableMap(baseOnKey.get(k))));
 
@@ -58,14 +58,14 @@ public class ContractDetailDTO {
             return returnMap;
         }
 
-        private List<Map<String, String>> getCDTPDynamicTableMap(List<CDTPDynamicTableValueDTO.Info> cdtpDynamicTableValueList) {
-            List<Map<String, String>> returnList = new ArrayList<>();
+        private List<Map<String, Object>> getCDTPDynamicTableMap(List<CDTPDynamicTableValueDTO.Info> cdtpDynamicTableValueList) {
+            List<Map<String, Object>> returnList = new ArrayList<>();
             if (cdtpDynamicTableValueList.size() == 0) return returnList;
             cdtpDynamicTableValueList.sort(CDTPDynamicTableValueDTO.Info::compareTo);
             final Set<Integer> rowNums = cdtpDynamicTableValueList.stream().map(CDTPDynamicTableValueDTO::getRowNum).sorted().collect(Collectors.toSet());
             for (int i = 0; i < rowNums.size(); i++) {
                 Integer _rowNum = Integer.valueOf(rowNums.toArray()[i].toString());
-                Map<String, String> rowData = new HashMap<String, String>();
+                Map<String, Object> rowData = new HashMap<String, Object>();
                 rowData.put("cdtpDtId____", "");
                 rowData.put("cdtpDtValueId____", "");
 
@@ -86,9 +86,9 @@ public class ContractDetailDTO {
                     ));
                 });
                 rowData.put("cdtpDtId____", String.format("{%s}",
-                        rowData.get("cdtpDtId____").substring(1)));
+                        rowData.get("cdtpDtId____").toString().substring(1)));
                 rowData.put("cdtpDtValueId____", String.format("{%s}",
-                        rowData.get("cdtpDtValueId____").substring(1)));
+                        rowData.get("cdtpDtValueId____").toString().substring(1)));
                 returnList.add(rowData);
 
             }

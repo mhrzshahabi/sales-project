@@ -134,6 +134,13 @@ contractDetailTypeTab.Fields = {
         {
             name: 'valueType',
             required: true,
+            editorProperties:{
+                editorType: "comboBox",
+                addUnknownValues:false,
+                textMatchStyle:"substring",
+                required: true,
+                validateOnExit: true,
+            },
             validateOnExit: true,
             type: "string",
             title: "<spring:message code='contractPenalty.value'/> <spring:message code='global.type'/> ",

@@ -92,7 +92,7 @@ contractTab.Methods.ConvertDynamicTableListGridDataToModel=function (grid){
     const data = grid.getData();
     const CDTPDynamicTableValueList = [];
     const filedsCount = grid.getFields().length;
-    dbg(grid)
+    // dbg(grid)
     data.forEach((_row, _rowNum) => {
         Object.keys(_row).filter(k=>!k.startsWith("_section")&&!k.startsWith("_selection")&&!k.startsWith("_embed")
             &&!k.endsWith("____")).forEach((_valueKey, _index) => {
@@ -219,7 +219,10 @@ contractTab.Methods.DynamicTableGridCreator = async function a(_record, _section
         .filter(_ => _ && _.type && _.type === contractTab.Vars.DataType.DynamicTable)
     if (!cdtpdtList || cdtpdtList.length === 0) return;
     const fields = [];
-    const cdtpdtGridConfigList = await Promise.all(cdtpdtList.map(async cdtpdt => {
+    /****
+     * @param {ContractDetailTypeParam} cdtpdt
+     * *****/
+    const cdtpdtGridConfigList = await Promise.all(cdtpdtList.map(/**@param {ContractDetailTypeParam} cdtpdt**/async cdtpdt => {
         const columns = cdtpdt.dynamicTables;
         if (columns && columns.length > 0) {
             const staticHeadersWithStaticValue = columns
@@ -297,6 +300,24 @@ contractTab.Methods.DynamicTableGridCreator = async function a(_record, _section
                             isc.ToolStripButtonAdd.create({
                                 title: "<spring:message code='global.col'/> <spring:message code='global.new'/> ",
                                 click() {
+                                    const maxRows={
+                                        required:false,
+                                        maxRows:0
+                                    }
+                                    columns.forEach(column=>{
+                                        if (column.maxRows>maxRows.maxRows){
+                                            if (column.required && !maxRows.required)
+                                            {maxRows.required=column.required?column.required:false;maxRows.maxRows = column.maxRows}
+                                            if (!column.required && !maxRows.required)
+                                            {maxRows.required=column.required?column.required:false;maxRows.maxRows = column.maxRows}
+                                        }
+                                        if (column.maxRows>0 && column.maxRows <maxRows.maxRows && column.required && !maxRows.required)
+                                        {maxRows.required=column.required?column.required:false;maxRows.maxRows = column.maxRows}
+
+                                    })
+                                    // dbg(maxRows)
+                                    if (maxRows.maxRows>0 && listGrid.getTotalRows()>= maxRows.maxRows)
+                                        return isc.warn("<spring:message code='global.max.rows.exceed'/>")
                                     listGrid.startEditingNew()
                                 }
                             }),
@@ -335,7 +356,7 @@ contractTab.Methods.DynamicTableGridCreator = async function a(_record, _section
 contractTab.Methods.DynamicTableGridCreatorForContract = async function(_contract,
                                                                         _sectionStackSectionObj,
                                                                         contractDetail){
-    dbg(_contract, _sectionStackSectionObj,contractDetail)
+    // dbg(_contract, _sectionStackSectionObj,contractDetail)
 
     const cdtpDynamicTableValue = contractDetail.cdtpDynamicTableValue;
     if (!cdtpDynamicTableValue || Object.keys(cdtpDynamicTableValue).length === 0)return;
@@ -349,7 +370,7 @@ contractTab.Methods.DynamicTableGridCreatorForContract = async function(_contrac
         grid.setData(cdtpDynamicTableValue[k])
     })
 
-    dbg(_contract, _sectionStackSectionObj,contractDetail)
+    // dbg(_contract, _sectionStackSectionObj,contractDetail)
 }
 
 if (SalesConfigs.Urls.completeUrl.contains('8080/sales')) {
