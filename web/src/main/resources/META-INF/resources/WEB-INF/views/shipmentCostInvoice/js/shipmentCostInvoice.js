@@ -35,6 +35,7 @@ shipmentCostInvoiceTab.restDataSource.shipmentRest = isc.MyRestDataSource.create
             showHover: true,
             title: "<spring:message code='contract.contractNo'/>"
         },
+        {name: "contractShipment.contractId"},
         {name: "material.descEN", type: 'text', showHover: true, title: "<spring:message code='material.descEN'/>"}
     ],
     fetchDataURL: shipmentCostInvoiceTab.variable.shipmentUrl + "spec-list"
@@ -608,7 +609,22 @@ shipmentCostInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
             {
                 type: "required",
                 validateOnChange: true
-            }]
+            }],
+        changed: function (form, item, value) {
+            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+                    actionURL: "${contextPath}/api/g-contract/" + item.getSelectedRecord().contractShipment.contractId,
+                    httpMethod: "GET",
+                    callback: function (RpcResponse_o) {
+                        let buyer = JSON.parse(RpcResponse_o.data).contractContacts.filter(c => (c.commercialRole === 'Buyer'))[0].contact;
+                        let seller = JSON.parse(RpcResponse_o.data).contractContacts.filter(c => (c.commercialRole === 'Seller'))[0].contact;
+                        form.getItem("sellerContactId").setValue(seller.id);
+                        form.getItem("sellerContact").setValue(seller.name);
+                        form.getItem("buyerContactId").setValue(buyer.id);
+                        form.getItem("buyerContact").setValue(buyer.name);
+                    }
+                })
+            );
+        }
     },
     {
         name: "invoiceDate",
@@ -653,10 +669,12 @@ shipmentCostInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
                 validateOnChange: true
             }]
     },
+    {name:"sellerContactId",hidden: true},
     {
-        name: "sellerContactId",
+        name: "sellerContact",
         title: "<spring:message code='shipmentCostInvoice.sellerContact'/>",
-        required: true,
+        type: "staticText",
+        /*required: true,
         wrapTitle: false,
         editorType: "SelectItem",
         valueField: "id",
@@ -695,12 +713,14 @@ shipmentCostInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
             {
                 type: "required",
                 validateOnChange: true
-            }]
+            }]*/
     },
+    {name:"buyerContactId",hidden: true},
     {
-        name: "buyerContactId",
+        name: "buyerContact",
         title: "<spring:message code='shipmentCostInvoice.buyerContact'/>",
-        required: true,
+        type: "staticText",
+        /*required: true,
         wrapTitle: false,
         editorType: "SelectItem",
         valueField: "id",
@@ -739,7 +759,7 @@ shipmentCostInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
             {
                 type: "required",
                 validateOnChange: true
-            }]
+            }]*/
     },
     {
         name: "tvat",
@@ -1588,6 +1608,10 @@ shipmentCostInvoiceTab.method.editForm = function () {
                 shipmentCostInvoiceTab.listGrid.shipmentCostDetail.invalidateCache();*/
 
         shipmentCostInvoiceTab.listGrid.shipmentCostDetail.members.get(3).members.get(2).members.get(0).click();
+        shipmentCostInvoiceTab.dynamicForm.shipmentCost.getField("sellerContact").setValue(record.sellerContact.name);
+        shipmentCostInvoiceTab.dynamicForm.shipmentCost.getField("sellerContactId").setValue(record.sellerContact.id);
+        shipmentCostInvoiceTab.dynamicForm.shipmentCost.getField("buyerContact").setValue(record.buyerContact.name);
+        shipmentCostInvoiceTab.dynamicForm.shipmentCost.getField("buyerContactId").setValue(record.buyerContact.id);
     }
 };
 

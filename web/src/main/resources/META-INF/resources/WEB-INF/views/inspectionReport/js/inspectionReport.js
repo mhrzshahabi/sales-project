@@ -946,6 +946,19 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
                     }]
                 });
 
+            isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+                    actionURL: "${contextPath}/api/g-contract/" + item.getSelectedRecord().contractShipment.contractId,
+                    httpMethod: "GET",
+                    callback: function (RpcResponse_o) {
+                        let buyer = JSON.parse(RpcResponse_o.data).contractContacts.filter(c => (c.commercialRole === 'Buyer'))[0].contact;
+                        let seller = JSON.parse(RpcResponse_o.data).contractContacts.filter(c => (c.commercialRole === 'Seller'))[0].contact;
+                        form.getItem("sellerId").setValue(seller.id);
+                        form.getItem("buyerId").setValue(buyer.id);
+                        inspectionReportTab.dynamicForm.inspecReport.getItem("sellerId").disable();
+                        inspectionReportTab.dynamicForm.inspecReport.getItem("buyerId").disable();
+                    }
+                })
+            );
         }
     },
     {
@@ -1745,6 +1758,8 @@ inspectionReportTab.method.clearForm = function () {
     inspectionReportTab.listGrid.assayElementSum.setFields([]);
     inspectionReportTab.toolStrip.weightRemoveAll.members[1].members[0].getItem("excelFile").clearValue();
     inspectionReportTab.toolStrip.assayRemoveAll.members[1].members[0].getItem("excelFile").clearValue();
+    inspectionReportTab.dynamicForm.inspecReport.getItem("sellerId").enable();
+    inspectionReportTab.dynamicForm.inspecReport.getItem("buyerId").enable();
 };
 
 inspectionReportTab.window.inspecReport = new nicico.FormUtil();
@@ -2029,6 +2044,10 @@ inspectionReportTab.method.editForm = function () {
             inspectionReportTab.method.setSavedAssayData(assayInspectionArray, selectedAssayInventories);
             inspectionReportTab.method.setAssayElementSum();
         });
+    }
+    if (inspectionReportTab.dynamicForm.inspecReport.getItem("shipmentId").getValue()) {
+        inspectionReportTab.dynamicForm.inspecReport.getItem("sellerId").disable();
+        inspectionReportTab.dynamicForm.inspecReport.getItem("buyerId").disable();
     }
 };
 
