@@ -522,6 +522,7 @@
             {type: "header"},
             {name: "id", hidden: true},
             {name: "contactId", hidden: true},
+            {name: "loadPortId", hidden: true},
             {name: "materialId", hidden: true,},
             {
                 name: "contractId", ID: "abal", colSpan: 1,
@@ -585,6 +586,7 @@
                 changed: function (form, item, value) {
                     let d = new Date(item.getSelectedRecord().sendDate);
                     DynamicForm_Shipment.setValue("sendDate", d);
+                    DynamicForm_Shipment.setValue("loadPortId", item.getSelectedRecord().loadPortId);
                 }
             },
             {
@@ -920,6 +922,9 @@
             validate = datesValidation();
             if (!validate)
                 return false;
+            validate = portValidation();
+            if (!validate)
+                return false;
             validate = await checkRepeatedContractShipment(DynamicForm_Shipment.getItem("contractShipmentId").getValue());
             if (!validate)
                 return false;
@@ -1139,6 +1144,7 @@
             DynamicForm_Shipment.setValue("arrivalDateFrom", new Date(parseInt(ListGrid_Shipment.getSelectedRecord().arrivalDateFrom)));
             DynamicForm_Shipment.setValue("sendDate", new Date(parseInt(ListGrid_Shipment.getSelectedRecord().sendDate)));
             DynamicForm_Shipment.setValue("lastDeliveryLetterDate", new Date(parseInt(ListGrid_Shipment.getSelectedRecord().lastDeliveryLetterDate)));
+            DynamicForm_Shipment.setValue("loadPortId", record.contractShipment.loadPortId);
             setBuyerName(record.contactId);
             abal.disable();
             shipment.disable();
@@ -1540,6 +1546,16 @@
         }
         return true;
     }
+
+    function portValidation() {
+        if (DynamicForm_Shipment.getField("dischargePortId").getValue() == DynamicForm_Shipment.getField("loadPortId").getValue()) {
+            let msg = "<spring:message code='shipment.loadPort.dischargePort.warn'/> ";
+            isc.warn(msg, "");
+            return false;
+        }
+        return true;
+    }
+
 //</script>
 
 
