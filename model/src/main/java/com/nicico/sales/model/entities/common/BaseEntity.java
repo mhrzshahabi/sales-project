@@ -7,8 +7,12 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import org.hibernate.envers.NotAudited;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.MappedSuperclass;
+import javax.persistence.PostLoad;
+import javax.persistence.PrePersist;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,9 +28,9 @@ public class BaseEntity extends Auditable {
     @Column(name = "B_EDITABLE", nullable = false, columnDefinition = "number default 1")
     private Boolean editable = true;
 
+    @NotAudited
     @NotNull
     @Builder.Default
-    @ElementCollection(targetClass = EStatus.class)
     @Column(name = "N_E_STATUS", nullable = false, columnDefinition = "number default 1")
     @SuppressWarnings("JpaAttributeTypeInspection")
     private List<EStatus> eStatus = new ArrayList<EStatus>() {{

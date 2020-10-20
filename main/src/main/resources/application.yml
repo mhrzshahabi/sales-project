@@ -19,7 +19,7 @@ spring:
       org:
         hibernate:
           envers:
-            audit_table_prefix: aud_
+            audit_table_prefix: AUD_
             audit_table_suffix:
     open-in-view: false
   liquibase:

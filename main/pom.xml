@@ -49,7 +49,7 @@
                     <databaseChangeLogTableName>Z_LIQ_CHANGELOG</databaseChangeLogTableName>
                     <databaseChangeLogLockTableName>Z_LIQ_CHANGELOG_LOCK</databaseChangeLogLockTableName>
                     <systemProperties>
-                        <org.hibernate.envers.audit_table_prefix>aud_</org.hibernate.envers.audit_table_prefix>
+                        <org.hibernate.envers.audit_table_prefix>AUD_</org.hibernate.envers.audit_table_prefix>
                         <org.hibernate.envers.audit_table_suffix/>
                     </systemProperties>
                 </configuration>
