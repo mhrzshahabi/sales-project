@@ -100,3 +100,5 @@ portTab.dynamicForm.fields = BaseFormItems.concat([
 Object.assign(portTab.listGrid.fields, portTab.dynamicForm.fields);
 nicico.BasicFormUtil.getDefaultBasicForm(portTab, "api/port/");
 portTab.dynamicForm.main.windowWidth = 700;
+nicico.BasicFormUtil.removeExtraGridMenuActions(portTab);
+

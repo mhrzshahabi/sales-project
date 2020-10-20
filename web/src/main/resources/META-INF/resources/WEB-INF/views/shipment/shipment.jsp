@@ -217,6 +217,7 @@
             {name: "materialId", title: "<spring:message code='contact.name'/>", type: 'long', hidden: true},
             {name: "material.descEN", title: "<spring:message code='material.descEN'/>", type: 'text'},
             {name: "material.descFA", title: "<spring:message code='material.descFA'/>", type: 'text'},
+            {name: "material.desc", title: "<spring:message code='material.title'/>", type: 'text'},
             {name: "amount", title: "<spring:message code='global.amount'/>", type: 'float'},
             {name: "unitId", title: "<spring:message code='unit.title'/>"},
             {name: "noContainer", title: "<spring:message code='shipment.noContainer'/>", type: 'integer'},
@@ -554,7 +555,7 @@
                     let record = DynamicForm_Shipment.getItem("contractId").getSelectedRecord();
                     let buyerId = record.contractContacts.filter(c => (c.commercialRole === 'Buyer'))[0].contactId;
                     setBuyerName(buyerId);
-                    DynamicForm_Shipment.setValue("material.descFA", record.material.descFA);
+                    DynamicForm_Shipment.setValue("material.desc", record.material.desc);
                     DynamicForm_Shipment.setValue("contactId", buyerId);
                     DynamicForm_Shipment.setValue("materialId", record.materialId);
                 }
@@ -598,7 +599,7 @@
                 type: "staticText"
             },
             {
-                name: "material.descFA",
+                name: "material.desc",
                 title: "<spring:message code='material.title'/>",
                 type: "staticText"
             },

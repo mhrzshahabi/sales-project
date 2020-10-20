@@ -170,3 +170,4 @@ priceBaseTab.dynamicForm.fields = BaseFormItems.concat([
 Object.assign(priceBaseTab.listGrid.fields, priceBaseTab.dynamicForm.fields);
 nicico.BasicFormUtil.getDefaultBasicForm(priceBaseTab, "api/price-base/");
 priceBaseTab.dynamicForm.main.windowWidth = 500;
+nicico.BasicFormUtil.removeExtraGridMenuActions(priceBaseTab);

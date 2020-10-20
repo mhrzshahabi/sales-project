@@ -1196,7 +1196,7 @@ nicico.BasicFormUtil.createListGrid = function () {
 };
 nicico.BasicFormUtil.getDefaultBasicForm(foreignInvoiceTab, "api/foreign-invoice/");
 nicico.BasicFormUtil.showAllToolStripActions(foreignInvoiceTab);
-nicico.BasicFormUtil.removeExtraActions(foreignInvoiceTab, [nicico.ActionType.DELETE]);
+nicico.BasicFormUtil.removeExtraGridMenuActions(foreignInvoiceTab);
 
 foreignInvoiceTab.toolStrip.main.addMember(isc.ToolStripButton.create({
     visibility: "visible",

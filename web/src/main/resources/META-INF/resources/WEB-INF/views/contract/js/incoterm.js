@@ -301,6 +301,7 @@ incotermTab.window.incoterm = isc.Window.nicico.getDefault('<spring:message code
 
 Object.assign(incotermTab.listGrid.fields, incotermTab.dynamicForm.fields);
 nicico.BasicFormUtil.getDefaultBasicForm(incotermTab, "api/g-incoterm/");
+nicico.BasicFormUtil.removeExtraGridMenuActions(incotermTab);
 
 //*************************************************** Functions ********************************************************
 
