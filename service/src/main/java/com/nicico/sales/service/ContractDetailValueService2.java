@@ -80,7 +80,7 @@ public class ContractDetailValueService2 implements IContractDetailValueService2
 				}
 
 				if (contractDetailValues != null && contractDetailValues.size() > 0) {
-					contractDetailValuesProcessor(contractDetailValues, contractDetailValueKey, result);
+					contractDetailValuesProcessor(contractDetailValues, result);
 
 					break;
 				}
@@ -97,20 +97,20 @@ public class ContractDetailValueService2 implements IContractDetailValueService2
 				}
 
 				if (contractDetailValues != null && contractDetailValues.size() > 0)
-					contractDetailValuesProcessor(contractDetailValues, contractDetailValueKey, result);
+					contractDetailValuesProcessor(contractDetailValues, result);
 			}
 		}
 
 		return result;
 	}
 
-	private void contractDetailValuesProcessor(List<ContractDetailValue> contractDetailValues, EContractDetailValueKey contractDetailValueKey, Map<String, List<Object>> result) {
+	private void contractDetailValuesProcessor(List<ContractDetailValue> contractDetailValues, Map<String, List<Object>> result) {
 		contractDetailValues.forEach(contractDetailValue -> {
 			if (contractDetailValue.getReference() != null && !contractDetailValue.getReference().startsWith("Enum_")) {
 				if (!result.containsKey(contractDetailValue.getKey()))
-					result.put(contractDetailValue.getKey(), new ArrayList<>(Arrays.asList((getValue(contractDetailValue, contractDetailValueKey)))));
+					result.put(contractDetailValue.getKey(), new ArrayList<>(Arrays.asList((getValue(contractDetailValue)))));
 				else if (!"DynamicTable".equals(contractDetailValue.getReference().trim()))
-					result.get(contractDetailValue.getKey()).add(getValue(contractDetailValue, contractDetailValueKey));
+					result.get(contractDetailValue.getKey()).add(getValue(contractDetailValue));
 			} else {
 				if (!result.containsKey(contractDetailValue.getKey()))
 					result.put(contractDetailValue.getKey(), new ArrayList<>(Arrays.asList((contractDetailValue.getValue()))));
@@ -121,7 +121,7 @@ public class ContractDetailValueService2 implements IContractDetailValueService2
 		});
 	}
 
-	private Object getValue(ContractDetailValue contractDetailValue, EContractDetailValueKey contractDetailValueKey) {
+	private Object getValue(ContractDetailValue contractDetailValue) {
 		switch (contractDetailValue.getReference().trim()) {
 			case "TypicalAssay":
 				final Optional<TypicalAssay> typicalAssayOpt = typicalAssayDAO.findById(Long.valueOf(contractDetailValue.getValue()));
@@ -178,11 +178,11 @@ public class ContractDetailValueService2 implements IContractDetailValueService2
 					return modelMapper.map(contactOpt.get(), ContactDTO.Info.class);
 				break;
 			case "DynamicTable":
-				final Map<String, List<Map<String, String>>> dynamicTableValue = modelMapper.map(contractDetailValue.getContractDetail(), ContractDetailDTO.Info.class)
+				final Map<String, List<Map<String, Object>>> dynamicTableValue = modelMapper.map(contractDetailValue.getContractDetail(), ContractDetailDTO.Info.class)
 						.getCdtpDynamicTableValue();
 
-				if (dynamicTableValue.containsKey(contractDetailValueKey.name()))
-					return dynamicTableValue.get(contractDetailValueKey.name());
+				if (dynamicTableValue.containsKey(contractDetailValue.getKey()))
+					return dynamicTableValue.get(contractDetailValue.getKey());
 				break;
 		}
 

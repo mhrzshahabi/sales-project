@@ -92,7 +92,7 @@ contractTab.Methods.ConvertDynamicTableListGridDataToModel=function (grid){
     const data = grid.getData();
     const CDTPDynamicTableValueList = [];
     const filedsCount = grid.getFields().length;
-    dbg(grid)
+    // dbg(grid)
     data.forEach((_row, _rowNum) => {
         Object.keys(_row).filter(k=>!k.startsWith("_section")&&!k.startsWith("_selection")&&!k.startsWith("_embed")
             &&!k.endsWith("____")).forEach((_valueKey, _index) => {
@@ -131,6 +131,22 @@ contractTab.Methods.GetListGridDataFromDynamicTableGrid=function(grid,data){
 contractTab.Methods.DynamicTableGridCreator = async function a(_record, _sectionStackSectionObj) {
     if (!_record || !_record.contractDetailTypeParams) return;
     // //dbg(_record)
+    /** @param {CDTPDynamicTable} column **/
+    function getDefaultFieldObject( column) {
+    return     {
+            column:column,
+            colNum: column.colNum,
+            name: column.headerValue,
+            required: column.required,
+            type:getFieldType(column.valueType),
+            editorProperties: {
+            validateOnChange: true,
+                type:getFieldType(column.valueType),
+                validateOnExit: true,
+                required: column.required ? column.required : false,
+                             }
+                 };
+    }
     function getAllFields(_object){
         //dbg(_object)
         if (typeof (_object) !== 'object') return [_object];
@@ -203,7 +219,10 @@ contractTab.Methods.DynamicTableGridCreator = async function a(_record, _section
         .filter(_ => _ && _.type && _.type === contractTab.Vars.DataType.DynamicTable)
     if (!cdtpdtList || cdtpdtList.length === 0) return;
     const fields = [];
-    const cdtpdtGridConfigList = await Promise.all(cdtpdtList.map(async cdtpdt => {
+    /****
+     * @param {ContractDetailTypeParam} cdtpdt
+     * *****/
+    const cdtpdtGridConfigList = await Promise.all(cdtpdtList.map(/**@param {ContractDetailTypeParam} cdtpdt**/async cdtpdt => {
         const columns = cdtpdt.dynamicTables;
         if (columns && columns.length > 0) {
             const staticHeadersWithStaticValue = columns
@@ -211,19 +230,7 @@ contractTab.Methods.DynamicTableGridCreator = async function a(_record, _section
                     && Object.keys(contractTab.Vars.DataType).includes(column.valueType)
                 )
             fields.addList(staticHeadersWithStaticValue.sort((_1, _2) => _1.colNum >= _2.colNum).map(column => {
-                const _field = {
-                    column:column,
-                    colNum: column.colNum,
-                    name: column.headerValue,
-                    required: column.required,
-                    type:getFieldType(column.valueType),
-                    editorProperties: {
-                        validateOnChange: true,
-                        type:getFieldType(column.valueType),
-                        validateOnExit: true,
-                        required: column.required ? column.required : false,
-                    }
-                };
+                const _field =getDefaultFieldObject(column)
                 if (column.regexValidator)
                     _field.editorProperties.validators = [{
                         type: "regexp", expression: column.regexValidator, validateOnChange: true,
@@ -236,20 +243,7 @@ contractTab.Methods.DynamicTableGridCreator = async function a(_record, _section
             columns.forEach(/*** @type {CDTPDynamicTable}*/ column  =>{
                 const _static = fields.find(f=>f.colNum===column.colNum);
                 if(_static)return;
-                const _field = {
-                    column:column,
-                    colNum: column.colNum,
-                    name: column.headerValue,
-                    required: column.required,
-                    type:getFieldType(column.valueType),
-                    editorProperties: {
-                        validateOnChange: true,
-                        type:getFieldType(column.valueType),
-                        validateOnExit: true,
-                        required: column.required ? column.required : false,
-                    }
-                };
-
+                const _field =getDefaultFieldObject(column)
                 if (column.regexValidator)
                     _field.editorProperties.validators = [{
                         type: "regexp", expression: column.regexValidator, validateOnChange: true,
@@ -267,7 +261,7 @@ contractTab.Methods.DynamicTableGridCreator = async function a(_record, _section
                         ..._field.editorProperties,
                         optionDataSource:isc.MyRestDataSource
                             .create({fetchDataURL:'${contextPath}'+column.valueType,fields:dynamicValue.fields}),
-                        pickListFields:dynamicValue.fields,
+                        pickListFields:dynamicValue.fields.map((_field,_index)=>{if(_index>5)_field.hidden=true;return _field}),
                         editorType: "comboBox",
                         addUnknownValues:false,
                         textMatchStyle:"substring",
@@ -306,6 +300,24 @@ contractTab.Methods.DynamicTableGridCreator = async function a(_record, _section
                             isc.ToolStripButtonAdd.create({
                                 title: "<spring:message code='global.col'/> <spring:message code='global.new'/> ",
                                 click() {
+                                    const maxRows={
+                                        required:false,
+                                        maxRows:0
+                                    }
+                                    columns.forEach(column=>{
+                                        if (column.maxRows>maxRows.maxRows){
+                                            if (column.required && !maxRows.required)
+                                            {maxRows.required=column.required?column.required:false;maxRows.maxRows = column.maxRows}
+                                            if (!column.required && !maxRows.required)
+                                            {maxRows.required=column.required?column.required:false;maxRows.maxRows = column.maxRows}
+                                        }
+                                        if (column.maxRows>0 && column.maxRows <maxRows.maxRows && column.required && !maxRows.required)
+                                        {maxRows.required=column.required?column.required:false;maxRows.maxRows = column.maxRows}
+
+                                    })
+                                    // dbg(maxRows)
+                                    if (maxRows.maxRows>0 && listGrid.getTotalRows()>= maxRows.maxRows)
+                                        return isc.warn("<spring:message code='global.max.rows.exceed'/>")
                                     listGrid.startEditingNew()
                                 }
                             }),
@@ -344,7 +356,7 @@ contractTab.Methods.DynamicTableGridCreator = async function a(_record, _section
 contractTab.Methods.DynamicTableGridCreatorForContract = async function(_contract,
                                                                         _sectionStackSectionObj,
                                                                         contractDetail){
-    dbg(_contract, _sectionStackSectionObj,contractDetail)
+    // dbg(_contract, _sectionStackSectionObj,contractDetail)
 
     const cdtpDynamicTableValue = contractDetail.cdtpDynamicTableValue;
     if (!cdtpDynamicTableValue || Object.keys(cdtpDynamicTableValue).length === 0)return;
@@ -358,7 +370,7 @@ contractTab.Methods.DynamicTableGridCreatorForContract = async function(_contrac
         grid.setData(cdtpDynamicTableValue[k])
     })
 
-    dbg(_contract, _sectionStackSectionObj,contractDetail)
+    // dbg(_contract, _sectionStackSectionObj,contractDetail)
 }
 
 if (SalesConfigs.Urls.completeUrl.contains('8080/sales')) {
