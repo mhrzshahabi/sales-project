@@ -287,7 +287,7 @@ contractTab.Methods.DynamicTableGridCreator = async function a(_record, _section
             })
             const listGrid = isc.ListGrid.create({
                 fields: fields.sort((_1,_2)=> {return Number(_1.colNum)>=Number(_2.colNum)}),
-                height: "300",
+                height: 300,
                 canEdit: true,
                 showHover:true,
                 validateByCell: true,
@@ -330,6 +330,7 @@ contractTab.Methods.DynamicTableGridCreator = async function a(_record, _section
             _sectionStackSectionObj.items.push(listGrid)
             contractTab.sectionStack.contract.collapseSection(_sectionStackSectionObj.name.toString())
             contractTab.sectionStack.contract.expandSection(_sectionStackSectionObj.name.toString())
+            contractTab.sectionStack.contract.collapseSection(_sectionStackSectionObj.name.toString())
 
         }
     }))
