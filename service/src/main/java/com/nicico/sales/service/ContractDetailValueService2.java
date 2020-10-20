@@ -109,7 +109,7 @@ public class ContractDetailValueService2 implements IContractDetailValueService2
 			if (contractDetailValue.getReference() != null && !contractDetailValue.getReference().startsWith("Enum_")) {
 				if (!result.containsKey(contractDetailValue.getKey()))
 					result.put(contractDetailValue.getKey(), new ArrayList<>(Arrays.asList((getValue(contractDetailValue, contractDetailValueKey)))));
-				else
+				else if (!"DynamicTable".equals(contractDetailValue.getReference().trim()))
 					result.get(contractDetailValue.getKey()).add(getValue(contractDetailValue, contractDetailValueKey));
 			} else {
 				if (!result.containsKey(contractDetailValue.getKey()))
