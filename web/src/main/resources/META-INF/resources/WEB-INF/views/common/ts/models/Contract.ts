@@ -34,7 +34,7 @@ class ContractDetail {
 
     public  contractDetailValues:ContractDetailValue[];
 
-    public cdtpDynamicTableValue:any[];
+    public cdtpDynamicTableValue: { [key:string]:{cdtpId____:string,rowNum____:string,cdtpDtId____:string,[key:string]:string}[] };
 
     public  position:number;
 
