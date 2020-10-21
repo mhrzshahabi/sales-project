@@ -3,6 +3,7 @@ package com.nicico.sales.iservice.invoice.foreign;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.copper.common.dto.search.SearchDTO;
+import com.nicico.sales.dto.invoice.foreign.ContractDetailDataDTO;
 import com.nicico.sales.dto.invoice.foreign.ForeignInvoiceItemDTO;
 
 import java.util.Date;
@@ -16,7 +17,7 @@ public interface IForeignInvoiceItemService {
 
     List<ForeignInvoiceItemDTO.Info> list();
 
-    ForeignInvoiceItemDTO.Calc2Data getCalculation2Data(Long contractId, Date sendDate, Long financeUnitId, Long inspectionAssayDataId, Long inspectionWeightDataId);
+    ForeignInvoiceItemDTO.Calc2Data getCalculation2Data(Long contractId, Date sendDate, Long financeUnitId, Long inspectionAssayDataId, Long inspectionWeightDataId, ContractDetailDataDTO.Info contractDetailDataInfo);
 
     ForeignInvoiceItemDTO.Info create(ForeignInvoiceItemDTO.Create request);
 

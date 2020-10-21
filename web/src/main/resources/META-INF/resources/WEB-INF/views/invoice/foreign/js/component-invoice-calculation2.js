@@ -37,6 +37,9 @@ isc.defineClass("InvoiceCalculation2", isc.VLayout).addProperties({
         });
 
         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+            httpMethod: "POST",
+            actionURL: "${contextPath}" + "/api/foreign-invoice-item/get-calculation2-data",
+            data: JSON.stringify(This.contractDetailData),
             params: {
                 contractId: This.contract.id,
                 sendDate: sendDate.toLocaleDateString(),
@@ -44,8 +47,6 @@ isc.defineClass("InvoiceCalculation2", isc.VLayout).addProperties({
                 inspectionAssayDataId: This.inspectionAssayData.id,
                 inspectionWeightDataId: This.inspectionWeightData.id,
             },
-            httpMethod: "GET",
-            actionURL: "${contextPath}" + "/api/foreign-invoice-item/get-calculation2-data",
             callback: function (resp) {
 
                 if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {

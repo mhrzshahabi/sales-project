@@ -753,6 +753,7 @@ foreignInvoiceTab.button.save = isc.IButtonSave.create({
                         contract: foreignInvoiceTab.dynamicForm.valuesManager.getValue('contract'),
                         billLadings: foreignInvoiceTab.dynamicForm.valuesManager.getValue('billLadings'),
                         invoiceType: foreignInvoiceTab.dynamicForm.valuesManager.getValue('invoiceType'),
+                        contractDetailDataIncoterm: foreignInvoiceTab.variable.contractDetailData.incoterm,
                     }), '<spring:message code="foreign-invoice.form.tab.contract-info"/>');
 
                 ////// MOLYBDENUM_OXIDE //////

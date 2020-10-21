@@ -3,6 +3,7 @@ package com.nicico.sales.controller.invoice.foreign;
 import com.nicico.copper.common.Loggable;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
+import com.nicico.sales.dto.invoice.foreign.ContractDetailDataDTO;
 import com.nicico.sales.dto.invoice.foreign.ForeignInvoiceItemDTO;
 import com.nicico.sales.iservice.invoice.foreign.IForeignInvoiceItemService;
 import lombok.RequiredArgsConstructor;
@@ -40,10 +41,12 @@ public class ForeignInvoiceItemRestController {
     }
 
     @Loggable
-    @GetMapping(value = "/get-calculation2-data")
-    public ResponseEntity<ForeignInvoiceItemDTO.Calc2Data> getCalculation2Data(@RequestParam Long contractId, @RequestParam @DateTimeFormat(pattern = "MM/dd/yyyy") Date sendDate, @RequestParam Long financeUnitId, @RequestParam Long inspectionAssayDataId, @RequestParam Long inspectionWeightDataId) {
+    @PostMapping(value = "/get-calculation2-data")
+    public ResponseEntity<ForeignInvoiceItemDTO.Calc2Data> getCalculation2Data(@RequestParam Long contractId, @RequestParam @DateTimeFormat(pattern = "MM/dd/yyyy") Date sendDate,
+                                                                               @RequestParam Long financeUnitId, @RequestParam Long inspectionAssayDataId,
+                                                                               @RequestParam Long inspectionWeightDataId, @RequestBody ContractDetailDataDTO.Info contractDetailDataInfo) {
 
-        return new ResponseEntity<>(foreignInvoiceItemService.getCalculation2Data(contractId, sendDate, financeUnitId, inspectionAssayDataId, inspectionWeightDataId), HttpStatus.OK);
+        return new ResponseEntity<>(foreignInvoiceItemService.getCalculation2Data(contractId, sendDate, financeUnitId, inspectionAssayDataId, inspectionWeightDataId, contractDetailDataInfo), HttpStatus.OK);
     }
 
 

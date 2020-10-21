@@ -3,6 +3,7 @@ package com.nicico.sales.service.invoice.foreign;
 import com.nicico.sales.annotation.Action;
 import com.nicico.sales.dto.*;
 import com.nicico.sales.dto.contract.ContractDetailDTO;
+import com.nicico.sales.dto.invoice.foreign.ContractDetailDataDTO;
 import com.nicico.sales.dto.invoice.foreign.ForeignInvoiceItemDTO;
 import com.nicico.sales.enumeration.ActionType;
 import com.nicico.sales.enumeration.EContractDetailTypeCode;
@@ -57,7 +58,8 @@ public class ForeignInvoiceItemService extends GenericService<ForeignInvoiceItem
     @Override
     @Transactional
     @Action(value = ActionType.List)
-    public ForeignInvoiceItemDTO.Calc2Data getCalculation2Data(Long contractId, Date sendDate, Long financeUnitId, Long inspectionAssayDataId, Long inspectionWeightDataId) {
+    public ForeignInvoiceItemDTO.Calc2Data getCalculation2Data(Long contractId, Date sendDate, Long financeUnitId, Long inspectionAssayDataId, Long inspectionWeightDataId,
+                                                               ContractDetailDataDTO.Info contractDetailDataInfo) {
 
         InspectionReportDTO.Info inspectionAssayReportDTO = inspectionReportService.get(inspectionAssayDataId);
         List<AssayInspectionDTO.InfoWithoutInspectionReport> assayValues = inspectionAssayReportDTO.getAssayInspections();
@@ -81,7 +83,8 @@ public class ForeignInvoiceItemService extends GenericService<ForeignInvoiceItem
         if (discounts != null)
             discounts.forEach(discount -> discountArticle.add(modelMapper.map(discount, ContractDiscount.class)));
 
-        List<PriceBaseDTO.Info> basePrices = priceBaseService.getAverageOfElementBasePrices(contractId, financeUnitId, sendDate);
+//        List<PriceBaseDTO.Info> basePrices = priceBaseService.getAverageOfElementBasePrices(contractId, financeUnitId, sendDate);
+        List<PriceBaseDTO.Info> basePrices = priceBaseService.getAverageOfBasePricesByMOAS(contractId, financeUnitId, contractDetailDataInfo.getMOAS());
 
         List<Map<String, Object>> data = new ArrayList<>();
         List<ForeignInvoiceItemDTO.FieldData> fields = createFields(assayValues);

@@ -8,6 +8,7 @@ import com.nicico.sales.dto.InvoiceTypeDTO;
 import com.nicico.sales.dto.MaterialElementDTO;
 import com.nicico.sales.dto.UnitDTO;
 import com.nicico.sales.dto.contract.ContractDTO;
+import com.nicico.sales.dto.contract.ContractDetailDTO;
 import com.nicico.sales.dto.contract.IncotermDTO;
 import com.nicico.sales.dto.invoice.foreign.*;
 import com.nicico.sales.enumeration.ActionType;
@@ -17,13 +18,17 @@ import com.nicico.sales.enumeration.ErrorType;
 import com.nicico.sales.exception.NotFoundException;
 import com.nicico.sales.exception.SalesException2;
 import com.nicico.sales.iservice.IContractDetailValueService2;
+import com.nicico.sales.iservice.contract.IContractDetailService;
 import com.nicico.sales.iservice.invoice.foreign.IForeignInvoiceService;
 import com.nicico.sales.model.entities.base.Unit;
+import com.nicico.sales.model.entities.contract.Contract;
+import com.nicico.sales.model.entities.contract.ContractDiscount;
 import com.nicico.sales.model.entities.invoice.foreign.ForeignInvoice;
 import com.nicico.sales.model.entities.invoice.foreign.ForeignInvoiceBillOfLading;
 import com.nicico.sales.model.entities.invoice.foreign.ForeignInvoiceItem;
 import com.nicico.sales.model.entities.warehouse.MaterialElement;
 import com.nicico.sales.repository.UnitDAO;
+import com.nicico.sales.repository.contract.ContractDAO;
 import com.nicico.sales.repository.invoice.foreign.ForeignInvoiceBillOfLadingDAO;
 import com.nicico.sales.repository.invoice.foreign.ForeignInvoiceDAO;
 import com.nicico.sales.repository.warehouse.MaterialElementDAO;
@@ -52,11 +57,13 @@ public class ForeignInvoiceService extends GenericService<ForeignInvoice, Long, 
     private final UnitDAO unitDAO;
     private final ObjectMapper objectMapper;
     private final ContractService contractService;
+    private final ContractDAO contractDAO;
     private final MaterialElementDAO materialElementDAO;
     private final InvoiceTypeService invoiceTypeService;
     private final InvoiceNoGenerator invoiceNoGenerator;
     private final ResourceBundleMessageSource messageSource;
     private final ForeignInvoiceItemService foreignInvoiceItemService;
+    private final IContractDetailService contractDetailService;
     private final IContractDetailValueService2 contractDetailValueService2;
     private final ForeignInvoicePaymentService foreignInvoicePaymentService;
     private final ForeignInvoiceBillOfLadingDAO foreignInvoiceBillOfLadingDAO;
@@ -91,42 +98,83 @@ public class ForeignInvoiceService extends GenericService<ForeignInvoice, Long, 
 
         ContractDetailDataDTO.Info contractDetailData = new ContractDetailDataDTO.Info();
 
+        Contract contract = contractDAO.findById(contractId).orElseThrow(() -> new NotFoundException(Contract.class));
+        Long materialId = contract.getMaterialId();
+
+        // MOAS
         Map<String, List<Object>> operationalDataOfMOASArticle = contractDetailValueService2.get(contractId, EContractDetailTypeCode.QuotationalPeriod, EContractDetailValueKey.MOAS, true);
-        List<Map<String, Object>> moas = (List<Map<String, Object>>) operationalDataOfMOASArticle.get(EContractDetailValueKey.MOAS.getId()).get(0);
-        List<ContractDetailDataDTO.MOASData> moasData = new ArrayList<>();
-        if (moas != null) moas.stream().forEach(moasItem -> {
-            Long materialElementId = Long.valueOf(moasItem.get("materialElement").toString());
-            MaterialElement materialElement = materialElementDAO.findById(materialElementId).orElseThrow(() -> new NotFoundException(MaterialElement.class));
-            moasItem.put("materialElement", modelMapper.map(materialElement, MaterialElementDTO.Info.class));
-            moasData.add(objectMapper.convertValue(moasItem, ContractDetailDataDTO.MOASData.class));
-        });
-        contractDetailData.setMOAS(moasData);
+        if (operationalDataOfMOASArticle.size() != 0) {
+            List<Map<String, Object>> moas = (List<Map<String, Object>>) operationalDataOfMOASArticle.get(EContractDetailValueKey.MOAS.getId()).get(0);
+            List<ContractDetailDataDTO.MOASData> moasData = new ArrayList<>();
+            if (moas != null) moas.stream().forEach(moasItem -> {
+                Long materialElementId = Long.valueOf(moasItem.get("materialElement").toString());
+                MaterialElement materialElement = materialElementDAO.findById(materialElementId).orElseThrow(() -> new NotFoundException(MaterialElement.class));
+                moasItem.put("materialElement", modelMapper.map(materialElement, MaterialElementDTO.Info.class));
+                moasData.add(objectMapper.convertValue(moasItem, ContractDetailDataDTO.MOASData.class));
+            });
+            contractDetailData.setMOAS(moasData);
+        } else
+            throw new SalesException2(ErrorType.NotFound, "MOAS", "Contract QuotationalPeriod Article Not Found");
 
-
+        // TC
         Map<String, List<Object>> tcs = contractDetailValueService2.get(contractId, EContractDetailTypeCode.Deduction, EContractDetailValueKey.TC, true);
-        if (tcs != null)
+        if (tcs != null && tcs.size() != 0)
             contractDetailData.setTc(new BigDecimal(tcs.get(EContractDetailValueKey.TC.name()).get(0).toString()));
+        else if (materialId == 3)
+            throw new SalesException2(ErrorType.NotFound, "rc", "Contract TC Article Not Found");
+        else
+            contractDetailData.setTc(null);
 
+        // RC
         Map<String, List<Object>> operationalDataOfRCArticle = contractDetailValueService2.get(contractId, EContractDetailTypeCode.Deduction, EContractDetailValueKey.RC, true);
-        List<Map<String, Object>> rcs = (List<Map<String, Object>>) operationalDataOfRCArticle.get(EContractDetailValueKey.RC.getId()).get(0);
-        List<ContractDetailDataDTO.RCData> rcData = new ArrayList<>();
-        if (rcs != null) rcs.stream().forEach(rcItem -> {
-            Long financeUnitId = Long.valueOf(rcItem.get("financeUnit").toString());
-            Long weightUnitId = Long.valueOf(rcItem.get("weightUnit").toString());
-            Long materialElementId = Long.valueOf(rcItem.get("materialElement").toString());
-            Unit financeUnit = unitDAO.findById(financeUnitId).orElseThrow(() -> new NotFoundException(UnitDTO.class));
-            Unit weightUnit = unitDAO.findById(weightUnitId).orElseThrow(() -> new NotFoundException(UnitDTO.class));
-            MaterialElement materialElement = materialElementDAO.findById(materialElementId).orElseThrow(() -> new NotFoundException(MaterialElement.class));
-            rcItem.put("financeUnit", modelMapper.map(financeUnit, UnitDTO.Info.class));
-            rcItem.put("weightUnit", modelMapper.map(weightUnit, UnitDTO.Info.class));
-            rcItem.put("materialElement", modelMapper.map(materialElement, MaterialElementDTO.Info.class));
-            rcData.add(objectMapper.convertValue(rcItem, ContractDetailDataDTO.RCData.class));
-        });
-        contractDetailData.setRc(rcData);
+        if (operationalDataOfRCArticle.size() != 0) {
+            List<Map<String, Object>> rcs = (List<Map<String, Object>>) operationalDataOfRCArticle.get(EContractDetailValueKey.RC.getId()).get(0);
+            List<ContractDetailDataDTO.RCData> rcData = new ArrayList<>();
+            if (rcs != null) rcs.stream().forEach(rcItem -> {
+                Long financeUnitId = Long.valueOf(rcItem.get("financeUnit").toString());
+                Long weightUnitId = Long.valueOf(rcItem.get("weightUnit").toString());
+                Long materialElementId = Long.valueOf(rcItem.get("materialElement").toString());
+                Unit financeUnit = unitDAO.findById(financeUnitId).orElseThrow(() -> new NotFoundException(UnitDTO.class));
+                Unit weightUnit = unitDAO.findById(weightUnitId).orElseThrow(() -> new NotFoundException(UnitDTO.class));
+                MaterialElement materialElement = materialElementDAO.findById(materialElementId).orElseThrow(() -> new NotFoundException(MaterialElement.class));
+                rcItem.put("financeUnit", modelMapper.map(financeUnit, UnitDTO.Info.class));
+                rcItem.put("weightUnit", modelMapper.map(weightUnit, UnitDTO.Info.class));
+                rcItem.put("materialElement", modelMapper.map(materialElement, MaterialElementDTO.Info.class));
+                rcData.add(objectMapper.convertValue(rcItem, ContractDetailDataDTO.RCData.class));
+            });
+            contractDetailData.setRc(rcData);
+        }
+        else if (materialId == 3)
+            throw new SalesException2(ErrorType.NotFound, "rc", "Contract RC Article Not Found");
+        else
+            contractDetailData.setRc(null);
 
+        // INCOTERM
         Map<String, List<Object>> deliveryTerms = contractDetailValueService2.get(contractId, EContractDetailTypeCode.DeliveryTerms, EContractDetailValueKey.INCOTERM, true);
-        if (deliveryTerms != null)
-            contractDetailData.setIncoterm(modelMapper.map(deliveryTerms.get(EContractDetailValueKey.INCOTERM.name()), IncotermDTO.Info.class));
+        if (deliveryTerms != null && deliveryTerms.size() != 0)
+            contractDetailData.setIncoterm(modelMapper.map(deliveryTerms.get(EContractDetailValueKey.INCOTERM.getId()).get(0), IncotermDTO.Info.class));
+        else
+            throw new SalesException2(ErrorType.NotFound, "deliveryTerm", "Contract DeliveryTerms Article Not Found");
+
+        // Discounts
+        Map<String, List<Object>> operationalDataOfDiscountArticle = contractDetailValueService2.get(contractId, EContractDetailTypeCode.Price, EContractDetailValueKey.DISCOUNT, true);
+        List<Object> discounts = operationalDataOfDiscountArticle.get(EContractDetailValueKey.DISCOUNT.getId());
+        List<ContractDiscount> discountData = new ArrayList<>();
+        if (discounts != null)
+            discounts.forEach(discount -> discountData.add(modelMapper.map(discount, ContractDiscount.class)));
+//        contractDetailData.setDiscounts(discounts); **
+
+        // Price Article Content
+        ContractDetailDTO.Info priceDetail = contractDetailService.getContractDetailByContractDetailTypeCode(contractId, materialId, EContractDetailTypeCode.Price);
+        if (priceDetail != null) {
+//            contractDetailData.setPriceDetail(priceDetail.getContent()); **
+        }
+
+        // QuotationalPeriod Article Content
+        ContractDetailDTO.Info priceBaseDetail = contractDetailService.getContractDetailByContractDetailTypeCode(contractId, materialId, EContractDetailTypeCode.QuotationalPeriod);
+        if (priceBaseDetail != null) {
+//            contractDetailData.setPriceBaseDetail(priceBaseDetail.getContent()); **
+        }
 
         return contractDetailData;
     }
