@@ -69,5 +69,11 @@
         </addColumn>
     </changeSet>
 
+     <changeSet author="saeb" id="1799887saeb766dd554-065">
+            <addColumn tableName="TBL_CNTR_CDTP_DYNAMIC_TABLE" >
+                <column name="C_INITIAL_CRITERIA" type="VARCHAR2(2000 CHAR)"/>
+            </addColumn>
+        </changeSet>
+
 
 </databaseChangeLog>

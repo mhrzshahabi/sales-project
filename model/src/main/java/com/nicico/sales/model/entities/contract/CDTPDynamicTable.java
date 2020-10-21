@@ -72,4 +72,7 @@ public class CDTPDynamicTable extends BaseEntity {
     @Column(name = "C_DESCRIPTION", length = 2000)
     private String description;
 
+    @Column(name = "C_INITIAL_CRITERIA", length = 2000)
+    private String initialCriteria;
+
 }

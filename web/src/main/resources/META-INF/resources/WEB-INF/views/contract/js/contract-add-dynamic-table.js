@@ -144,7 +144,7 @@ contractTab.Methods.DynamicTableGridCreator = async function a(_record,
             editorProperties: {
                 showHintInField: !!column.description,
                 hint:column.description?column.description:null,
-            validateOnChange: true,
+                validateOnChange: true,
                 type:getFieldType(column.valueType),
                 validateOnExit: true,
                 required: column.required ? column.required : false,
@@ -226,7 +226,7 @@ contractTab.Methods.DynamicTableGridCreator = async function a(_record,
     /****
      * @param {ContractDetailTypeParam} cdtpdt
      * *****/
-    const cdtpdtGridConfigList = await Promise.all(cdtpdtList.map(/**@param {ContractDetailTypeParam} cdtpdt**/async cdtpdt => {
+    await Promise.all(cdtpdtList.map(/**@param {ContractDetailTypeParam} cdtpdt**/async cdtpdt => {
         const columns = cdtpdt.dynamicTables;
         if (columns && columns.length > 0) {
             const staticHeadersWithStaticValue = columns
@@ -265,6 +265,7 @@ contractTab.Methods.DynamicTableGridCreator = async function a(_record,
                         ..._field.editorProperties,
                         optionDataSource:isc.MyRestDataSource
                             .create({fetchDataURL:'${contextPath}'+column.valueType,fields:dynamicValue.fields}),
+                        optionCriteria:column.initialCriteria?JSON.parse(column.initialCriteria):null,
                         pickListFields:dynamicValue.fields.map((_field,_index)=>{if(_index>5)_field.hidden=true;return _field}),
                         editorType: "comboBox",
                         addUnknownValues:false,
@@ -376,21 +377,4 @@ contractTab.Methods.DynamicTableGridCreatorForContract = async function(_contrac
     })
 
     // dbg(_contract, _sectionStackSectionObj,contractDetail)
-}
-
-if (SalesConfigs.Urls.completeUrl.contains('8080/sales')) {
-    setTimeout(() => {
-        contractTab.method.newForm();
-        contractTab.dynamicForm.main.setValues({
-            "date": "2020-10-10T08:30:00.000Z",
-            "affectFrom": "2020-10-10T08:30:00.000Z",
-            "affectUpTo": "2020-10-10T08:30:00.000Z",
-            "no": "234234234234",
-            "materialId": 2,
-            "contractTypeId": 1,
-            "buyerId": 225,
-            "sellerId": 2,
-            "description": "234234234"
-        })
-    }, 2000);
 }

@@ -29,6 +29,8 @@ public class CDTPDynamicTableDTO {
     private String defaultValue;
     private Integer maxRows = 0;
     private String description;
+    private String initialCriteria;
+
 
     @Getter
     @Setter

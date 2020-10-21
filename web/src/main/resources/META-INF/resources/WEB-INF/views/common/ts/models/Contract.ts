@@ -141,6 +141,7 @@ class CDTPDynamicTable {
     public defaultValue: string;
     public maxRows: number;
     public description: string;
+    public initialCriteria: string;
 }
 
 class CDTPDynamicTableValue {
