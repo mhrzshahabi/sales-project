@@ -3,6 +3,7 @@ package com.nicico.sales.iservice;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.sales.dto.PriceBaseDTO;
+import com.nicico.sales.dto.invoice.foreign.ContractDetailDataDTO;
 import com.nicico.sales.model.enumeration.PriceBaseReference;
 
 import java.util.Date;
@@ -25,6 +26,8 @@ public interface IPriceBaseService {
     TotalResponse<PriceBaseDTO.Info> search(NICICOCriteria criteria);
 
     List<PriceBaseDTO.Info> getAverageOfElementBasePrices(Long contractId, Long financeUnitId, Date sendDate);
+
+    List<PriceBaseDTO.Info> getAverageOfBasePricesByMOAS(Long contractId, Long financeUnitId, List<ContractDetailDataDTO.MOASData> moasData);
 
 //    PriceBaseDTO.Info getAverageOfBasePricesByMOAS(Long materialElementId, Integer moas, PriceBaseReference reference, Date sendDate);
 //

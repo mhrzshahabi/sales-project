@@ -12,27 +12,21 @@ isc.defineClass("InvoiceBasePrice", isc.VLayout).addProperties({
     currency: null,
     shipment: null,
     basePriceData: null,
-    contractDetailData: null,
+    contractDetailDataMOAS: null,
     initWidget: function () {
 
         this.Super("initWidget", arguments);
 
         let This = this;
 
-        let sendDate = new Date(This.shipment.sendDate);
-        // let year = sendDate.getFullYear();
-        // let month = sendDate.getMonth() + 1;
-        // let MOASValue = This.contractDetailData.MOASValue;
-        // let basePriceReference = This.contractDetailData.basePriceReference;
-
         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-            httpMethod: "GET",
+            httpMethod: "POST",
             willHandleError: true,
-            actionURL: "${contextPath}/api/price-base/get-avg-base-price",
+            data: JSON.stringify(This.contractDetailDataMOAS),
+            actionURL: "${contextPath}/api/price-base/get-avg-base-price-by-moas",
             params: {
                 contractId: This.contract.id,
                 financeUnitId: This.currency.id,
-                sendDate: sendDate.toLocaleDateString()
             },
             callback: function (resp) {
 
@@ -44,7 +38,6 @@ isc.defineClass("InvoiceBasePrice", isc.VLayout).addProperties({
 
                         // if (!priceBase.element.payable)
                         //     return;
-
                         members.add(isc.Unit.create({
                             unitHint: "PER " + priceBase.weightUnit.nameEN,
                             unitCategory: priceBase.financeUnit.categoryUnit,
@@ -87,12 +80,12 @@ isc.defineClass("InvoiceBasePrice", isc.VLayout).addProperties({
         }));
     },
     getDataRowNo: function () {
-        return this.getMembers().slice(1).length;
+        return this.getMembers().length;
     },
     getValues: function () {
 
         let data = [];
-        this.getMembers().slice(1).forEach(current => {
+        this.getMembers().forEach(current => {
 
             let values = current.getValues();
             data.add({

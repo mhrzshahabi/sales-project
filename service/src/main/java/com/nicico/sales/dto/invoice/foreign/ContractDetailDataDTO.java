@@ -1,6 +1,7 @@
 package com.nicico.sales.dto.invoice.foreign;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.nicico.sales.dto.MaterialElementDTO;
 import com.nicico.sales.dto.UnitDTO;
 import com.nicico.sales.dto.contract.IncotermDTO;
 import com.nicico.sales.model.enumeration.PriceBaseReference;
@@ -40,11 +41,10 @@ public class ContractDetailDataDTO {
     @ApiModel("RCDataRq")
     public static class RCData {
 
-        private Long elementId;
-        private String elementName;
         private BigDecimal price;
         private UnitDTO.Info weightUnit;
         private UnitDTO.Info financeUnit;
+        private MaterialElementDTO.Info materialElement;
     }
 
     @Getter
@@ -54,10 +54,10 @@ public class ContractDetailDataDTO {
     public static class MOASData {
 
         private Date date;
-        private Integer value;
-        private Long materialElementId;
+        private Integer moasValue;
         private Integer workingDayAfter;
         private Integer workingDayBefore;
         private PriceBaseReference priceReference;
+        private MaterialElementDTO.Info materialElement;
     }
 }

@@ -57,8 +57,11 @@ public class ForeignInvoiceDTO {
         private UnitDTO.Info currency;
         private ContactDTO.Info buyer;
         private InvoiceTypeDTO.Info invoiceType;
-        private ShipmentDTO.Info shipment;
+        private ShipmentDTO.ShipmentFIInfo shipment;
         private PersonDTO.Info creator;
+        private InspectionReportDTO.Info inspectionWeightReport;
+        private InspectionReportDTO.Info inspectionAssayReport;
+
 
         // Auditing
         private Date createdDate;
@@ -112,52 +115,4 @@ public class ForeignInvoiceDTO {
         private List<Long> ids;
     }
 
-    @Getter
-    @Setter
-    @Accessors(chain = true)
-    @ApiModel("ContractDetailDataRq")
-    public static class ContractDetailData {
-
-        private BigDecimal tc;
-        private List<RCData> rc;
-        private IncotermDTO.Info incoterm;
-        private List<MOASData> MOASValue;
-        private List<PriceReferenceData> basePriceReference;
-
-
-    }
-
-    @Getter
-    @Setter
-    @Accessors(chain = true)
-    @AllArgsConstructor
-    @RequiredArgsConstructor
-    public static class RCData {
-
-        private Long elementId;
-        private String elementName;
-        private BigDecimal price;
-        private UnitDTO.Info weightUnit;
-        private UnitDTO.Info financeUnit;
-    }
-
-    @Getter
-    @Setter
-    @Accessors(chain = true)
-    @AllArgsConstructor
-    @RequiredArgsConstructor
-    public static class MOASData {
-
-        private Long materialElementId;
-    }
-
-    @Getter
-    @Setter
-    @Accessors(chain = true)
-    @AllArgsConstructor
-    @RequiredArgsConstructor
-    public static class PriceReferenceData {
-
-        private Long materialElementId;
-    }
 }

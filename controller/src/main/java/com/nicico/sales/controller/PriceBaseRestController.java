@@ -4,6 +4,7 @@ import com.nicico.copper.common.Loggable;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.sales.dto.PriceBaseDTO;
+import com.nicico.sales.dto.invoice.foreign.ContractDetailDataDTO;
 import com.nicico.sales.iservice.IPriceBaseService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -69,5 +70,11 @@ public class PriceBaseRestController {
     @GetMapping(value = "/get-avg-base-price")
     public ResponseEntity<List<PriceBaseDTO.Info>> getBasePrice(@RequestParam("contractId") Long contractId, @RequestParam("financeUnitId") Long financeUnitId, @RequestParam("sendDate") @DateTimeFormat(pattern = "MM/dd/yyyy") Date sendDate) {
         return new ResponseEntity<>(priceBaseService.getAverageOfElementBasePrices(contractId, financeUnitId, sendDate), HttpStatus.OK);
+    }
+
+    @Loggable
+    @PostMapping(value = "/get-avg-base-price-by-moas")
+    public ResponseEntity<List<PriceBaseDTO.Info>> getBasePriceByMOAS(@RequestParam Long contractId, @RequestParam Long financeUnitId, @RequestBody List<ContractDetailDataDTO.MOASData> moasData) {
+        return new ResponseEntity<>(priceBaseService.getAverageOfBasePricesByMOAS(contractId, financeUnitId, moasData), HttpStatus.OK);
     }
 }

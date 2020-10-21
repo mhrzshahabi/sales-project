@@ -1,5 +1,6 @@
 package com.nicico.sales.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nicico.sales.dto.HRMDTO;
 import com.nicico.sales.dto.PriceBaseDTO;
 import com.nicico.sales.dto.invoice.foreign.ContractDetailDataDTO;
@@ -18,7 +19,6 @@ import com.nicico.sales.repository.PriceBaseDAO;
 import com.nicico.sales.repository.contract.ContractDAO;
 import com.nicico.sales.repository.warehouse.MaterialElementDAO;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.TypeToken;
 import org.springframework.stereotype.Service;
 
 import javax.validation.constraints.NotNull;
@@ -32,37 +32,40 @@ import java.util.stream.Collectors;
 public class PriceBaseService extends GenericService<com.nicico.sales.model.entities.base.PriceBase, Long, com.nicico.sales.dto.PriceBaseDTO.Create, com.nicico.sales.dto.PriceBaseDTO.Info, com.nicico.sales.dto.PriceBaseDTO.Update, com.nicico.sales.dto.PriceBaseDTO.Delete> implements IPriceBaseService {
 
     private final ContractDAO contractDAO;
-    private final MaterialElementDAO materialElementDAO;
+    private final ObjectMapper objectMapper;
     private final IHRMApiService hrmApiService;
+    private final MaterialElementDAO materialElementDAO;
     private final IContractDetailValueService2 contractDetailValueService2;
 
     @Override
     public List<PriceBaseDTO.Info> getAverageOfElementBasePrices(Long contractId, Long financeUnitId, Date sendDate) {
 
         Map<String, List<Object>> operationalDataOfMOASArticle = contractDetailValueService2.get(contractId, EContractDetailTypeCode.QuotationalPeriod, EContractDetailValueKey.MOAS, true);
-        List<Object> moas = operationalDataOfMOASArticle.get(EContractDetailValueKey.MOAS.getId());
+        List<Map<String, Object>> moas = (List<Map<String, Object>>) operationalDataOfMOASArticle.get(EContractDetailValueKey.MOAS.getId()).get(0);
+        List<ContractDetailDataDTO.MOASData> moasData = new ArrayList<>();
         if (moas == null) return new ArrayList<>();
         else {
 
-            List<ContractDetailDataDTO.MOASData> moasData = modelMapper.map(moas, new TypeToken<List<ContractDetailDataDTO.MOASData>>() {
-            }.getType());
+            moas.stream().forEach(moasItem -> moasData.add(objectMapper.convertValue(moasItem, ContractDetailDataDTO.MOASData.class)));
             return getAverageOfBasePricesByMOAS(contractId, financeUnitId, moasData);
         }
     }
 
-    private List<PriceBaseDTO.Info> getAverageOfBasePricesByMOAS(Long contractId, Long financeUnitId, List<ContractDetailDataDTO.MOASData> moasData) {
+    public List<PriceBaseDTO.Info> getAverageOfBasePricesByMOAS(Long contractId, Long financeUnitId, List<ContractDetailDataDTO.MOASData> moasData) {
 
         Contract contract = contractDAO.findById(contractId).orElseThrow(() -> new NotFoundException(Contract.class));
         List<MaterialElement> materialElements = materialElementDAO.findAllByMaterialId(contract.getMaterialId());
         List<MaterialElement> validMaterialElements = materialElements.stream().filter(materialElement -> materialElement.getPayable() || materialElement.getPenalty()).collect(Collectors.toList());
-        List<ContractDetailDataDTO.MOASData> validMOASData = moasData.stream().filter(moas -> validMaterialElements.stream().anyMatch(q -> q.getId().longValue() == moas.getMaterialElementId())).collect(Collectors.toList());
+        List<ContractDetailDataDTO.MOASData> validMOASData = moasData.stream().filter(moas -> validMaterialElements.stream().anyMatch(q -> q.getId().longValue() == moas.getMaterialElement().getId())).collect(Collectors.toList());
 
         List<PriceBase> pricesByElements = new ArrayList<>();
         validMOASData.forEach(item -> {
 
-            MaterialElement materialElement = validMaterialElements.stream().filter(q -> q.getId().longValue() == item.getMaterialElementId()).findFirst().get();
-            if (item.getValue() != null)
-                pricesByElements.addAll(((PriceBaseDAO) repository).getAllPricesByElements(item.getPriceReference(), item.getDate().getYear(), item.getDate().getMonth() + 1 + item.getValue(), materialElement.getElementId()));
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(item.getDate());
+            MaterialElement materialElement = validMaterialElements.stream().filter(q -> q.getId().longValue() == item.getMaterialElement().getId()).findFirst().get();
+            if (item.getMoasValue() != null)
+                pricesByElements.addAll(((PriceBaseDAO) repository).getAllPricesByElements(item.getPriceReference(), calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1 + item.getMoasValue(), materialElement.getElementId()));
             else if (item.getWorkingDayAfter() != null && item.getWorkingDayBefore() != null) {
 
 //                List<Date> workingDays = new ArrayList<>();
@@ -73,12 +76,11 @@ public class PriceBaseService extends GenericService<com.nicico.sales.model.enti
                 businessDaysRq.setBefore(item.getWorkingDayBefore());
                 HRMDTO.BusinessDaysInfo businessDays = hrmApiService.getBusinessDays(businessDaysRq);
 
-                List<HRMDTO.DayInfo> dayInfos = new ArrayList<>();
-                dayInfos.addAll(businessDays.getAfter());
+                List<HRMDTO.DayInfo> dayInfos = new ArrayList<>(businessDays.getAfter());
                 dayInfos.add(businessDays.getToday());
                 dayInfos.addAll(businessDays.getBefore());
 
-                List<Date> workingDays = dayInfos.stream().map(q -> q.getTimestamp()).collect(Collectors.toList());
+                List<Date> workingDays = dayInfos.stream().map(HRMDTO.DayInfo::getTimestamp).collect(Collectors.toList());
                 pricesByElements.addAll(((PriceBaseDAO) repository).getAllPricesByElements(item.getPriceReference(), workingDays, materialElement.getElementId()));
             } else throw new SalesException2();
         });

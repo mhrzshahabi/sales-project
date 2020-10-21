@@ -80,6 +80,36 @@ public class ShipmentDTO {
         private ContractShipmentDTO.Info contractShipment;
     }
 
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("WithoutBLs")
+    public static class ShipmentFIInfo extends ShipmentDTO {
+
+        private Long id;
+
+        // Auditing
+        private Date createdDate;
+        private String createdBy;
+        private Date lastModifiedDate;
+        private String lastModifiedBy;
+        private Integer version;
+
+        // BaseEntity
+        private Boolean editable;
+        private List<EStatus> eStatus;
+
+        private UnitDTO.Info unit;
+        private VesselDTO.Info vessel;
+        private ContactDTO.Info contact;
+        private PortDTO.Info dischargePort;
+        private ContactDTO.Info contactAgent;
+        private MaterialDTO.Info material;
+        private ShipmentTypeDTO.Info shipmentType;
+        private ShipmentMethodDTO.Info shipmentMethod;
+        private ContractShipmentDTO.ContractShipmentFIInfo contractShipment;
+    }
+
 
     @Getter
     @Setter

@@ -5,6 +5,7 @@ foreignInvoiceTab.variable.completionInvoice = false;
 foreignInvoiceTab.variable.contractDetailData = {};
 foreignInvoiceTab.variable.invoiceForm = new nicico.FormUtil();
 foreignInvoiceTab.variable.selectBillLadingForm = new nicico.FindFormUtil();
+foreignInvoiceTab.variable.selectBillLadingCompletionForm = new nicico.FindFormUtil();
 
 foreignInvoiceTab.variable.contractUrl = "${contextPath}" + "/api/g-contract/";
 foreignInvoiceTab.variable.remittanceDetailUrl = "${contextPath}" + "/api/remittance-detail/";
@@ -683,189 +684,196 @@ foreignInvoiceTab.button.save = isc.IButtonSave.create({
     title: "<spring:message code='global.form.save'/>",
     click: function () {
 
-        if (!foreignInvoiceTab.variable.completionInvoice) {
+        let contractId;
+        if (!foreignInvoiceTab.variable.completionInvoice)
+            contractId = foreignInvoiceTab.dynamicForm.baseData.getValue("contractId");
+        else
+            contractId = foreignInvoiceTab.listGrid.main.getSelectedRecord().shipment.contractShipment.contract.id;
 
-            if (!foreignInvoiceTab.dynamicForm.baseData.validate()) return;
+        foreignInvoiceTab.method.jsonRPCManagerRequest({
+            httpMethod: "GET",
+            actionURL: "${contextPath}/api/foreign-invoice/get-contract-detail-data",
+            params: {
+                contractId: contractId
+            },
+        }, (resp) => {
+            if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
 
-            foreignInvoiceTab.tab.invoice.removeTabs(foreignInvoiceTab.tab.invoice.tabs);
-            foreignInvoiceTab.dynamicForm.valuesManager.setValue(
-                'currency',
-                foreignInvoiceTab.dynamicForm.baseData.getField('currencyId').getSelectedRecord());
-            foreignInvoiceTab.dynamicForm.valuesManager.setValue(
-                'conversionRef',
-                foreignInvoiceTab.dynamicForm.baseData.getField('conversionRefId').getSelectedRecord());
-            foreignInvoiceTab.dynamicForm.valuesManager.setValue(
-                'invoiceType',
-                foreignInvoiceTab.dynamicForm.baseData.getField('invoiceTypeId').getSelectedRecord());
-            foreignInvoiceTab.dynamicForm.valuesManager.setValue(
-                'contract',
-                foreignInvoiceTab.dynamicForm.baseData.getField('contractId').getSelectedRecord());
-            foreignInvoiceTab.dynamicForm.valuesManager.setValue(
-                'shipment',
-                foreignInvoiceTab.dynamicForm.baseData.getField('shipmentId').getSelectedRecord());
-            foreignInvoiceTab.dynamicForm.valuesManager.setValue(
-                'inspectionWeightData',
-                foreignInvoiceTab.dynamicForm.baseData.getField('inspectionWeightId').getSelectedRecord());
-            foreignInvoiceTab.dynamicForm.valuesManager.setValue(
-                'inspectionAssayData',
-                foreignInvoiceTab.dynamicForm.baseData.getField('inspectionAssayId').getSelectedRecord());
+                foreignInvoiceTab.variable.contractDetailData = JSON.parse(resp.data);
+                if (!foreignInvoiceTab.variable.completionInvoice) {
 
-            // let selectedShipmentRemittanceDetailsCount = foreignInvoiceTab.dynamicForm.valuesManager.getValue('remittanceDetailId').length;
-            // let allShipmentRemittanceDetailsCount = Object.keys(foreignInvoiceTab.dynamicForm.baseData.getField('remittanceDetailId').getAllValueMappings()).length;
-        } else {
+                    if (!foreignInvoiceTab.dynamicForm.baseData.validate()) return;
 
-            let record = foreignInvoiceTab.listGrid.main.getSelectedRecord();
-            console.log("record ", record);
-            foreignInvoiceTab.method.jsonRPCManagerRequest({
-                httpMethod: "GET",
-                actionURL: foreignInvoiceTab.variable.foreignInvoiceBillOfLadingUrl + "spec-list",
-                params: {
-                    criteria: {
-                        operator: "and",
-                        criteria: [{fieldName: "foreignInvoiceId", operator: "equals", value: record.id}]
-                    }
-                },
-                callback: function (billOfLadingResp) {
+                    foreignInvoiceTab.tab.invoice.removeTabs(foreignInvoiceTab.tab.invoice.tabs);
+                    foreignInvoiceTab.dynamicForm.valuesManager.setValue(
+                        'currency',
+                        foreignInvoiceTab.dynamicForm.baseData.getField('currencyId').getSelectedRecord());
+                    foreignInvoiceTab.dynamicForm.valuesManager.setValue(
+                        'conversionRef',
+                        foreignInvoiceTab.dynamicForm.baseData.getField('conversionRefId').getSelectedRecord());
+                    foreignInvoiceTab.dynamicForm.valuesManager.setValue(
+                        'invoiceType',
+                        foreignInvoiceTab.dynamicForm.baseData.getField('invoiceTypeId').getSelectedRecord());
+                    foreignInvoiceTab.dynamicForm.valuesManager.setValue(
+                        'contract',
+                        foreignInvoiceTab.dynamicForm.baseData.getField('contractId').getSelectedRecord());
+                    foreignInvoiceTab.dynamicForm.valuesManager.setValue(
+                        'shipment',
+                        foreignInvoiceTab.dynamicForm.baseData.getField('shipmentId').getSelectedRecord());
+                    foreignInvoiceTab.dynamicForm.valuesManager.setValue(
+                        'inspectionWeightData',
+                        foreignInvoiceTab.dynamicForm.baseData.getField('inspectionWeightId').getSelectedRecord());
+                    foreignInvoiceTab.dynamicForm.valuesManager.setValue(
+                        'inspectionAssayData',
+                        foreignInvoiceTab.dynamicForm.baseData.getField('inspectionAssayId').getSelectedRecord());
 
+                    // let selectedShipmentRemittanceDetailsCount = foreignInvoiceTab.dynamicForm.valuesManager.getValue('remittanceDetailId').length;
+                    // let allShipmentRemittanceDetailsCount = Object.keys(foreignInvoiceTab.dynamicForm.baseData.getField('remittanceDetailId').getAllValueMappings()).length;
+                } else {
+
+                    let record = foreignInvoiceTab.listGrid.main.getSelectedRecord();
+                    console.log("record ", record);
+                    foreignInvoiceTab.tab.invoice.removeTabs(foreignInvoiceTab.tab.invoice.tabs);
                     foreignInvoiceTab.dynamicForm.valuesManager.setValue('currency', record.currency);
                     foreignInvoiceTab.dynamicForm.valuesManager.setValue('conversionRef', record.conversionRef);
                     foreignInvoiceTab.dynamicForm.valuesManager.setValue('invoiceType', record.invoiceType);
                     foreignInvoiceTab.dynamicForm.valuesManager.setValue('contract', record.shipment.contractShipment.contract);
                     foreignInvoiceTab.dynamicForm.valuesManager.setValue('shipment', record.shipment);
-                    foreignInvoiceTab.dynamicForm.valuesManager.setValue('inspectionWeightData', record.inspectionWeightData);
-                    foreignInvoiceTab.dynamicForm.valuesManager.setValue('inspectionAssayData', record.inspectionAssayData);
+                    foreignInvoiceTab.dynamicForm.valuesManager.setValue('inspectionWeightData', record.inspectionWeightReport);
+                    foreignInvoiceTab.dynamicForm.valuesManager.setValue('inspectionAssayData', record.inspectionAssayReport);
                     foreignInvoiceTab.dynamicForm.valuesManager.setValue('date', foreignInvoiceTab.dynamicForm.invoiceCompletionDynamicForm.getValue("date"));
                     foreignInvoiceTab.dynamicForm.valuesManager.setValue('creator', foreignInvoiceTab.dynamicForm.invoiceCompletionDynamicForm.getField("creatorId").getSelectedRecord());
+                    foreignInvoiceTab.dynamicForm.valuesManager.setValue('billLadings', foreignInvoiceTab.dynamicForm.invoiceCompletionValuesManager.getValue('billLadings'));
                 }
-            });
 
-            debugger
-        }
+                foreignInvoiceTab.method.addTab(
+                    isc.InvoiceBaseInfo.create({
+                        invoiceNo: foreignInvoiceTab.dynamicForm.valuesManager.getValue('no'),
+                        invoiceDate: foreignInvoiceTab.dynamicForm.valuesManager.getValue('date'),
+                        contract: foreignInvoiceTab.dynamicForm.valuesManager.getValue('contract'),
+                        billLadings: foreignInvoiceTab.dynamicForm.valuesManager.getValue('billLadings'),
+                        invoiceType: foreignInvoiceTab.dynamicForm.valuesManager.getValue('invoiceType'),
+                    }), '<spring:message code="foreign-invoice.form.tab.contract-info"/>');
 
-        foreignInvoiceTab.method.addTab(
-            isc.InvoiceBaseInfo.create({
-                invoiceNo: foreignInvoiceTab.dynamicForm.valuesManager.getValue('no'),
-                invoiceDate: foreignInvoiceTab.dynamicForm.valuesManager.getValue('date'),
-                contract: foreignInvoiceTab.dynamicForm.valuesManager.getValue('contract'),
-                billLadings: foreignInvoiceTab.dynamicForm.valuesManager.getValue('billLadings'),
-                invoiceType: foreignInvoiceTab.dynamicForm.valuesManager.getValue('invoiceType'),
-            }), '<spring:message code="foreign-invoice.form.tab.contract-info"/>');
+                ////// MOLYBDENUM_OXIDE //////
+                if (foreignInvoiceTab.variable.materialId === ImportantIDs.material.MOLYBDENUM_OXIDE) {
 
-        ////// MOLYBDENUM_OXIDE //////
-        if (foreignInvoiceTab.variable.materialId === ImportantIDs.material.MOLYBDENUM_OXIDE) {
-
-            let invoiceCalculation2Component = isc.InvoiceCalculation2.create({
-                currency: foreignInvoiceTab.dynamicForm.valuesManager.getValue("currency"),
-                contract: foreignInvoiceTab.dynamicForm.valuesManager.getValue('contract'),
-                shipment: foreignInvoiceTab.dynamicForm.valuesManager.getValue("shipment"),
-                molybdenumRowData: foreignInvoiceTab.dynamicForm.valuesManager.getValue("molybdenumRowData"),
-                contractDetailData: foreignInvoiceTab.variable.contractDetailData,
-                inspectionAssayData: foreignInvoiceTab.dynamicForm.valuesManager.getValue("inspectionAssayData"),
-                inspectionWeightData: foreignInvoiceTab.dynamicForm.valuesManager.getValue("inspectionWeightData"),
-            });
-            foreignInvoiceTab.method.addTab(invoiceCalculation2Component, '<spring:message code="foreign-invoice.form.tab.calculation"/>');
-            invoiceCalculation2Component.okButtonClick = function addRelatedPaymentTab2() {
-
-                let invoicePaymentComponent = isc.InvoicePayment.create({
-                    currency: foreignInvoiceTab.dynamicForm.valuesManager.getValue("currency"),
-                    shipment: foreignInvoiceTab.dynamicForm.valuesManager.getValue("shipment"),
-                    conversionRef: foreignInvoiceTab.dynamicForm.valuesManager.getValue('conversionRef'),
-                    // shipmentCostInvoiceRate: selectedShipmentRemittanceDetailsCount / allShipmentRemittanceDetailsCount,
-                    invoiceCalculation2Component: invoiceCalculation2Component,
-                    invoiceBaseWeightComponent: {getValues: invoiceCalculation2Component.getBaseWeightValues},
-                    invoiceDeductionComponent: {getDeductionSubTotal: invoiceCalculation2Component.getDeductionSubTotal},
-                    invoiceCalculationComponent: {
-                        getCalculationSubTotal: function () {
-                            return invoiceCalculation2Component.getCalculationSubTotal();
-                        }
-                    }
-                });
-                foreignInvoiceTab.method.addTab(invoicePaymentComponent, '<spring:message code="foreign-invoice.form.tab.payment"/>');
-            }
-            ////// COPPER_CONCENTRATES //////
-        } else if (foreignInvoiceTab.variable.materialId === ImportantIDs.material.COPPER_CONCENTRATES) {
-
-            let invoiceBaseValuesComponent = isc.InvoiceBaseValues.create({
-                currency: foreignInvoiceTab.dynamicForm.valuesManager.getValue("currency"),
-                contract: foreignInvoiceTab.dynamicForm.valuesManager.getValue("contract"),
-                shipment: foreignInvoiceTab.dynamicForm.valuesManager.getValue("shipment"),
-                contractDetailData: foreignInvoiceTab.variable.contractDetailData,
-                invoiceType: foreignInvoiceTab.dynamicForm.valuesManager.getValue("invoiceType"),
-                percent: foreignInvoiceTab.dynamicForm.valuesManager.getValue("percent"),
-                basePriceData: foreignInvoiceTab.dynamicForm.valuesManager.getValue("basePriceData"),
-                inspectionWeightData: foreignInvoiceTab.dynamicForm.valuesManager.getValue("inspectionWeightData"),
-                inspectionAssayData: foreignInvoiceTab.dynamicForm.valuesManager.getValue("inspectionAssayData"),
-            });
-            foreignInvoiceTab.method.addTab(invoiceBaseValuesComponent, '<spring:message code="foreign-invoice.form.tab.base-values"/>');
-
-            invoiceBaseValuesComponent.okButtonClick = function () {
-
-                let invoiceCalculationComponent = isc.InvoiceCalculation.create({
-
-                    currency: foreignInvoiceTab.dynamicForm.valuesManager.getValue("currency"),
-                    invoiceBaseAssayComponent: invoiceBaseValuesComponent.invoiceBaseAssayComponent,
-                    invoiceBasePriceComponent: invoiceBaseValuesComponent.invoiceBasePriceComponent,
-                    calculationData: foreignInvoiceTab.dynamicForm.valuesManager.getValue("calculationData")
-                });
-                foreignInvoiceTab.method.addTab(invoiceCalculationComponent, '<spring:message code="foreign-invoice.form.tab.calculation"/>');
-
-                invoiceCalculationComponent.okButtonClick = function addRelatedDeductionTab() {
-
-                    let invoiceDeductionComponent = isc.InvoiceDeduction.create({
-                        invoiceCalculationComponent: invoiceCalculationComponent,
+                    let invoiceCalculation2Component = isc.InvoiceCalculation2.create({
+                        currency: foreignInvoiceTab.dynamicForm.valuesManager.getValue("currency"),
+                        contract: foreignInvoiceTab.dynamicForm.valuesManager.getValue('contract'),
+                        shipment: foreignInvoiceTab.dynamicForm.valuesManager.getValue("shipment"),
+                        molybdenumRowData: foreignInvoiceTab.dynamicForm.valuesManager.getValue("molybdenumRowData"),
                         contractDetailData: foreignInvoiceTab.variable.contractDetailData,
-                        currency: foreignInvoiceTab.dynamicForm.valuesManager.getValue('currency'),
-                        rcDeductionData: foreignInvoiceTab.dynamicForm.valuesManager.getValue("rcDeductionData")
+                        inspectionAssayData: foreignInvoiceTab.dynamicForm.valuesManager.getValue("inspectionAssayData"),
+                        inspectionWeightData: foreignInvoiceTab.dynamicForm.valuesManager.getValue("inspectionWeightData"),
                     });
-                    foreignInvoiceTab.method.addTab(invoiceDeductionComponent, '<spring:message code="foreign-invoice.form.tab.deduction"/>');
-                    invoiceDeductionComponent.okButtonClick = function addRelatedPaymentTab() {
+                    foreignInvoiceTab.method.addTab(invoiceCalculation2Component, '<spring:message code="foreign-invoice.form.tab.calculation"/>');
+                    invoiceCalculation2Component.okButtonClick = function addRelatedPaymentTab2() {
 
                         let invoicePaymentComponent = isc.InvoicePayment.create({
-                            // shipmentCostInvoiceRate: selectedShipmentRemittanceDetailsCount / allShipmentRemittanceDetailsCount,
                             currency: foreignInvoiceTab.dynamicForm.valuesManager.getValue("currency"),
                             shipment: foreignInvoiceTab.dynamicForm.valuesManager.getValue("shipment"),
                             conversionRef: foreignInvoiceTab.dynamicForm.valuesManager.getValue('conversionRef'),
-                            invoiceDeductionComponent: invoiceDeductionComponent,
-                            invoiceCalculationComponent: invoiceCalculationComponent,
-                            invoiceBaseWeightComponent: invoiceBaseValuesComponent.invoiceBaseWeightComponent
+                            // shipmentCostInvoiceRate: selectedShipmentRemittanceDetailsCount / allShipmentRemittanceDetailsCount,
+                            invoiceCalculation2Component: invoiceCalculation2Component,
+                            invoiceBaseWeightComponent: {getValues: invoiceCalculation2Component.getBaseWeightValues},
+                            invoiceDeductionComponent: {getDeductionSubTotal: invoiceCalculation2Component.getDeductionSubTotal},
+                            invoiceCalculationComponent: {
+                                getCalculationSubTotal: function () {
+                                    return invoiceCalculation2Component.getCalculationSubTotal();
+                                }
+                            }
+                        });
+                        foreignInvoiceTab.method.addTab(invoicePaymentComponent, '<spring:message code="foreign-invoice.form.tab.payment"/>');
+                    }
+                    ////// COPPER_CONCENTRATES //////
+                } else if (foreignInvoiceTab.variable.materialId === ImportantIDs.material.COPPER_CONCENTRATES) {
+
+                    let invoiceBaseValuesComponent = isc.InvoiceBaseValues.create({
+                        currency: foreignInvoiceTab.dynamicForm.valuesManager.getValue("currency"),
+                        contract: foreignInvoiceTab.dynamicForm.valuesManager.getValue("contract"),
+                        shipment: foreignInvoiceTab.dynamicForm.valuesManager.getValue("shipment"),
+                        contractDetailDataMOAS: foreignInvoiceTab.variable.contractDetailData.moas,
+                        invoiceType: foreignInvoiceTab.dynamicForm.valuesManager.getValue("invoiceType"),
+                        percent: foreignInvoiceTab.dynamicForm.valuesManager.getValue("percent"),
+                        basePriceData: foreignInvoiceTab.dynamicForm.valuesManager.getValue("basePriceData"),
+                        inspectionWeightData: foreignInvoiceTab.dynamicForm.valuesManager.getValue("inspectionWeightData"),
+                        inspectionAssayData: foreignInvoiceTab.dynamicForm.valuesManager.getValue("inspectionAssayData"),
+                    });
+                    foreignInvoiceTab.method.addTab(invoiceBaseValuesComponent, '<spring:message code="foreign-invoice.form.tab.base-values"/>');
+
+                    invoiceBaseValuesComponent.okButtonClick = function () {
+
+                        let invoiceCalculationComponent = isc.InvoiceCalculation.create({
+
+                            currency: foreignInvoiceTab.dynamicForm.valuesManager.getValue("currency"),
+                            invoiceBaseAssayComponent: invoiceBaseValuesComponent.invoiceBaseAssayComponent,
+                            invoiceBasePriceComponent: invoiceBaseValuesComponent.invoiceBasePriceComponent,
+                            calculationData: foreignInvoiceTab.dynamicForm.valuesManager.getValue("calculationData")
+                        });
+                        foreignInvoiceTab.method.addTab(invoiceCalculationComponent, '<spring:message code="foreign-invoice.form.tab.calculation"/>');
+
+                        invoiceCalculationComponent.okButtonClick = function addRelatedDeductionTab() {
+
+                            let invoiceDeductionComponent = isc.InvoiceDeduction.create({
+                                invoiceCalculationComponent: invoiceCalculationComponent,
+                                contractDetailDataTC: foreignInvoiceTab.variable.contractDetailData.tc,
+                                contractDetailDataRC: foreignInvoiceTab.variable.contractDetailData.rc,
+                                currency: foreignInvoiceTab.dynamicForm.valuesManager.getValue('currency'),
+                                rcDeductionData: foreignInvoiceTab.dynamicForm.valuesManager.getValue("rcDeductionData")
+                            });
+                            foreignInvoiceTab.method.addTab(invoiceDeductionComponent, '<spring:message code="foreign-invoice.form.tab.deduction"/>');
+                            invoiceDeductionComponent.okButtonClick = function addRelatedPaymentTab() {
+
+                                let invoicePaymentComponent = isc.InvoicePayment.create({
+                                    // shipmentCostInvoiceRate: selectedShipmentRemittanceDetailsCount / allShipmentRemittanceDetailsCount,
+                                    currency: foreignInvoiceTab.dynamicForm.valuesManager.getValue("currency"),
+                                    shipment: foreignInvoiceTab.dynamicForm.valuesManager.getValue("shipment"),
+                                    conversionRef: foreignInvoiceTab.dynamicForm.valuesManager.getValue('conversionRef'),
+                                    invoiceDeductionComponent: invoiceDeductionComponent,
+                                    invoiceCalculationComponent: invoiceCalculationComponent,
+                                    invoiceBaseWeightComponent: invoiceBaseValuesComponent.invoiceBaseWeightComponent
+                                });
+                                foreignInvoiceTab.method.addTab(invoicePaymentComponent, '<spring:message code="foreign-invoice.form.tab.payment"/>');
+                            }
+                        }
+                    }
+                    ////// COPPER_CATHODE //////
+                } else {
+
+                    let invoiceCalculationCathodeComponent = isc.InvoiceCalculationCathode.create({
+                        currency: foreignInvoiceTab.dynamicForm.valuesManager.getValue("currency"),
+                        contract: foreignInvoiceTab.dynamicForm.valuesManager.getValue('contract'),
+                        shipment: foreignInvoiceTab.dynamicForm.valuesManager.getValue("shipment"),
+                        percent: foreignInvoiceTab.dynamicForm.valuesManager.getValue("percent"),
+                        contractDetailData: foreignInvoiceTab.variable.contractDetailData,
+                        inspectionWeightData: foreignInvoiceTab.dynamicForm.valuesManager.getValue("inspectionWeightData"),
+                    });
+                    foreignInvoiceTab.method.addTab(invoiceCalculationCathodeComponent, '<spring:message code="foreign-invoice.form.tab.calculation"/>');
+                    invoiceCalculationCathodeComponent.okButtonClick = function addRelatedPaymentTab2() {
+
+                        let invoicePaymentComponent = isc.InvoicePayment.create({
+                            currency: foreignInvoiceTab.dynamicForm.valuesManager.getValue("currency"),
+                            shipment: foreignInvoiceTab.dynamicForm.valuesManager.getValue("shipment"),
+                            conversionRef: foreignInvoiceTab.dynamicForm.valuesManager.getValue('conversionRef'),
+                            invoiceCalculationCathodeComponent: invoiceCalculationCathodeComponent,
+                            invoiceBaseWeightComponent: invoiceCalculationCathodeComponent.invoiceBaseWeightComponent,
+                            invoiceDeductionComponent: {getDeductionSubTotal: invoiceCalculationCathodeComponent.getDeductionSubTotal},
+                            invoiceCalculationComponent: {
+                                getCalculationSubTotal: function () {
+                                    return invoiceCalculationCathodeComponent.getCalculationSubTotal();
+                                }
+                            }
                         });
                         foreignInvoiceTab.method.addTab(invoicePaymentComponent, '<spring:message code="foreign-invoice.form.tab.payment"/>');
                     }
                 }
+
+                foreignInvoiceTab.window.main.close();
+                foreignInvoiceTab.variable.invoiceForm.justShowForm();
             }
-            ////// COPPER_CATHODE //////
-        } else {
+        });
 
-            let invoiceCalculationCathodeComponent = isc.InvoiceCalculationCathode.create({
-                currency: foreignInvoiceTab.dynamicForm.valuesManager.getValue("currency"),
-                contract: foreignInvoiceTab.dynamicForm.valuesManager.getValue('contract'),
-                shipment: foreignInvoiceTab.dynamicForm.valuesManager.getValue("shipment"),
-                percent: foreignInvoiceTab.dynamicForm.valuesManager.getValue("percent"),
-                contractDetailData: foreignInvoiceTab.variable.contractDetailData,
-                inspectionWeightData: foreignInvoiceTab.dynamicForm.valuesManager.getValue("inspectionWeightData"),
-            });
-            foreignInvoiceTab.method.addTab(invoiceCalculationCathodeComponent, '<spring:message code="foreign-invoice.form.tab.calculation"/>');
-            invoiceCalculationCathodeComponent.okButtonClick = function addRelatedPaymentTab2() {
-
-                let invoicePaymentComponent = isc.InvoicePayment.create({
-                    currency: foreignInvoiceTab.dynamicForm.valuesManager.getValue("currency"),
-                    shipment: foreignInvoiceTab.dynamicForm.valuesManager.getValue("shipment"),
-                    conversionRef: foreignInvoiceTab.dynamicForm.valuesManager.getValue('conversionRef'),
-                    invoiceCalculationCathodeComponent: invoiceCalculationCathodeComponent,
-                    invoiceBaseWeightComponent: invoiceCalculationCathodeComponent.invoiceBaseWeightComponent,
-                    invoiceDeductionComponent: {getDeductionSubTotal: invoiceCalculationCathodeComponent.getDeductionSubTotal},
-                    invoiceCalculationComponent: {
-                        getCalculationSubTotal: function () {
-                            return invoiceCalculationCathodeComponent.getCalculationSubTotal();
-                        }
-                    }
-                });
-                foreignInvoiceTab.method.addTab(invoicePaymentComponent, '<spring:message code="foreign-invoice.form.tab.payment"/>');
-            }
-        }
-
-        foreignInvoiceTab.window.main.close();
-        foreignInvoiceTab.variable.invoiceForm.justShowForm();
     }
 });
 
@@ -1091,6 +1099,8 @@ foreignInvoiceTab.variable.invoiceForm.populateData = function (bodyWidget) {
 
 foreignInvoiceTab.variable.invoiceForm.init(null, '<spring:message code="entity.foreign-invoice"/>', foreignInvoiceTab.tab.invoice, "70%");
 
+foreignInvoiceTab.dynamicForm.invoiceCompletionValuesManager = isc.ValuesManager.create({});
+
 foreignInvoiceTab.dynamicForm.invoiceCompletionDynamicForm = isc.DynamicForm.create({
     margin: 10,
     numCols: 4,
@@ -1101,7 +1111,7 @@ foreignInvoiceTab.dynamicForm.invoiceCompletionDynamicForm = isc.DynamicForm.cre
     showErrorStyle: true,
     showInlineErrors: true,
     errorOrientation: "bottom",
-    valuesManager: foreignInvoiceTab.dynamicForm.valuesManager,
+    valuesManager: foreignInvoiceTab.dynamicForm.invoiceCompletionValuesManager,
     fields: [
         {
             name: "date",
@@ -1143,13 +1153,13 @@ foreignInvoiceTab.dynamicForm.invoiceCompletionDynamicForm = isc.DynamicForm.cre
                     type: "required",
                     validateOnChange: true
                 }]
-        }, {
+        }, /*{
             name: "weightInspectionReport",
             title: "<spring:message code='entity.weight-inspection'/>",
             type: "staticText",
             titleColSpan: 2,
             colSpan: 2
-        }, {
+        },*/ {
             name: "remainingPercent",
             title: "<spring:message code='foreign-invoice.form.remaining.percent'/>",
             type: "staticText",
@@ -1158,13 +1168,67 @@ foreignInvoiceTab.dynamicForm.invoiceCompletionDynamicForm = isc.DynamicForm.cre
         }]
 });
 
+foreignInvoiceTab.variable.selectBillLadingCompletionForm.validate = function (selectedRecords) {
+    return selectedRecords;
+};
+
+foreignInvoiceTab.variable.selectBillLadingCompletionForm.okCallBack = function (selectedRecords) {
+    foreignInvoiceTab.dynamicForm.invoiceCompletionValuesManager.setValue("billLadings", selectedRecords);
+};
+
 foreignInvoiceTab.window.invoiceCompletionForm = new nicico.FormUtil();
+foreignInvoiceTab.button.selectBillLadingCompletion = isc.IButtonSave.create({
+    width: 200,
+    margin: 10,
+    height: 50,
+    criteria: null,
+    disabled: true,
+    icon: "pieces/16/icon_add.png",
+    title: "<spring:message code='foreign-invoice.form.button.select.bill-lading'/>",
+    click: function () {
+
+        foreignInvoiceTab.variable.selectBillLadingCompletionForm.showFindFormByRestApiUrl(
+            foreignInvoiceTab.window.invoiceCompletionForm.windowWidget.getObject(),
+            "70%", null, "<spring:message code='foreign-invoice.form.button.select.bill-lading'/>",
+            foreignInvoiceTab.dynamicForm.invoiceCompletionValuesManager.getValue("billLadings"),
+            foreignInvoiceTab.variable.billLadingUrl + "spec-list",
+            [
+                {name: "id", primaryKey: true, hidden: true, title: "<spring:message code='global.id'/>"},
+                {name: "documentNo", title: "<spring:message code='foreign-invoice.form.conversion-ref'/>"},
+                {name: "shipperExporter.nameEN", title: "<spring:message code='global.date'/>"},
+                {name: "notifyParty.nameEN", title: "<spring:message code='global.from'/>"},
+                {name: "consignee.nameEN", title: "<spring:message code='global.to'/>"},
+                {name: "portOfLoading.port", title: "<spring:message code='rate.title'/>"},
+                {name: "portOfDischarge.port", title: "<spring:message code='rate.title'/>"},
+                {name: "placeOfDelivery", title: "<spring:message code='rate.title'/>"},
+                {name: "oceanVessel.name", title: "<spring:message code='rate.title'/>"},
+            ],
+            null, this.criteria, Number.MAX_VALUE);
+    }
+});
+
 foreignInvoiceTab.window.invoiceCompletionForm.init(null, '<spring:message code="global.completion.foreign.invoice"/>', isc.HLayout.create({
     width: "100%",
     height: "100",
     align: "center",
     members: [
-        foreignInvoiceTab.dynamicForm.invoiceCompletionDynamicForm
+        isc.VLayout.create({
+            width: "100%",
+            members: [
+                // foreignInvoiceTab.button.save,
+                // foreignInvoiceTab.button.cancel,
+                foreignInvoiceTab.dynamicForm.invoiceCompletionDynamicForm,
+                isc.ToolStrip.create({
+                    width: "100%",
+                    align: "left",
+                    border: '0px',
+                    margin: 0,
+                    padding: 0,
+                    members: [
+                        foreignInvoiceTab.button.selectBillLadingCompletion]
+                })
+            ]
+        })
     ]
 }), "500", "10%");
 
@@ -1172,9 +1236,18 @@ foreignInvoiceTab.window.invoiceCompletionForm.init(null, '<spring:message code=
 //
 foreignInvoiceTab.window.invoiceCompletionForm.validate = function (data) {
 
-    foreignInvoiceTab.dynamicForm.invoiceCompletionDynamicForm.validate();
-    return !foreignInvoiceTab.dynamicForm.invoiceCompletionDynamicForm.hasErrors();
+    let isValid = true;
+    let billLadings = foreignInvoiceTab.dynamicForm.invoiceCompletionValuesManager.getValue('billLadings');
+    if (billLadings == null || billLadings.length === 0) {
 
+        foreignInvoiceTab.dialog.say("<spring:message code='foreign-invoice.form.validate.bill-of-lading.not.selected'/>");
+        isValid = false;
+    }
+    foreignInvoiceTab.dynamicForm.invoiceCompletionDynamicForm.validate();
+    if (foreignInvoiceTab.dynamicForm.invoiceCompletionDynamicForm.hasErrors())
+        isValid = false;
+
+    return isValid;
 };
 
 foreignInvoiceTab.window.invoiceCompletionForm.okCallBack = function (data) {
@@ -1206,6 +1279,7 @@ foreignInvoiceTab.toolStrip.main.addMember(isc.ToolStripButton.create({
 
         foreignInvoiceTab.variable.method = "POST";
         foreignInvoiceTab.variable.completionInvoice = true;
+        foreignInvoiceTab.button.selectBillLadingCompletion.enable();
         let record = foreignInvoiceTab.listGrid.main.getSelectedRecord();
         if (record == null || record.id == null)
             foreignInvoiceTab.dialog.notSelected();
@@ -1217,7 +1291,10 @@ foreignInvoiceTab.toolStrip.main.addMember(isc.ToolStripButton.create({
             foreignInvoiceTab.dialog.finalRecord();
         else {
 
+            foreignInvoiceTab.variable.materialId = record.shipment.materialId;
             foreignInvoiceTab.dynamicForm.invoiceCompletionDynamicForm.clearValues();
+            foreignInvoiceTab.dynamicForm.invoiceCompletionValuesManager.clearValues();
+            foreignInvoiceTab.dynamicForm.invoiceCompletionValuesManager.clearErrors();
             console.log("record ", record);
             foreignInvoiceTab.method.jsonRPCManagerRequest({
                 httpMethod: "GET",
@@ -1226,16 +1303,16 @@ foreignInvoiceTab.toolStrip.main.addMember(isc.ToolStripButton.create({
                     criteria: {
                         operator: "and",
                         criteria: [{
-                            fieldName: "parentId",
+                            fieldName: "inspectionWeightReportId",
                             operator: "equals",
-                            value: record.id
+                            value: record.inspectionWeightReportId
                         }]
                     }
                 },
                 callback: function (resp) {
 
                     let data = JSON.parse(resp.httpResponseText).response.data;
-                    let remainingPercent = 100 - (data.map(q => q.percent).sum() + record.percent);
+                    let remainingPercent = 100 - (data.map(q => q.percent).sum());
                     foreignInvoiceTab.dynamicForm.invoiceCompletionDynamicForm.setValue("remainingPercent", remainingPercent);
                     foreignInvoiceTab.window.invoiceCompletionForm.justShowForm();
                 }
@@ -3001,6 +3078,7 @@ foreignInvoiceTab.method.newForm = function () {
 foreignInvoiceTab.method.editForm = function () {
 
     foreignInvoiceTab.variable.method = "PUT";
+    foreignInvoiceTab.variable.completionInvoice = false;
     foreignInvoiceTab.dynamicForm.baseData.getField("inspectionAssayId").show();
     foreignInvoiceTab.dynamicForm.baseData.getField("inspectionAssayId").setRequired(true);
     let record = foreignInvoiceTab.listGrid.main.getSelectedRecord();

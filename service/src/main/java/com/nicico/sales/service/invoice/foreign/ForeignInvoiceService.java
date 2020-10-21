@@ -1,9 +1,12 @@
 package com.nicico.sales.service.invoice.foreign;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ghasemkiani.util.icu.PersianCalendar;
 import com.ibm.icu.util.Calendar;
 import com.nicico.sales.annotation.Action;
 import com.nicico.sales.dto.InvoiceTypeDTO;
+import com.nicico.sales.dto.MaterialElementDTO;
+import com.nicico.sales.dto.UnitDTO;
 import com.nicico.sales.dto.contract.ContractDTO;
 import com.nicico.sales.dto.contract.IncotermDTO;
 import com.nicico.sales.dto.invoice.foreign.*;
@@ -15,11 +18,15 @@ import com.nicico.sales.exception.NotFoundException;
 import com.nicico.sales.exception.SalesException2;
 import com.nicico.sales.iservice.IContractDetailValueService2;
 import com.nicico.sales.iservice.invoice.foreign.IForeignInvoiceService;
+import com.nicico.sales.model.entities.base.Unit;
 import com.nicico.sales.model.entities.invoice.foreign.ForeignInvoice;
 import com.nicico.sales.model.entities.invoice.foreign.ForeignInvoiceBillOfLading;
 import com.nicico.sales.model.entities.invoice.foreign.ForeignInvoiceItem;
+import com.nicico.sales.model.entities.warehouse.MaterialElement;
+import com.nicico.sales.repository.UnitDAO;
 import com.nicico.sales.repository.invoice.foreign.ForeignInvoiceBillOfLadingDAO;
 import com.nicico.sales.repository.invoice.foreign.ForeignInvoiceDAO;
+import com.nicico.sales.repository.warehouse.MaterialElementDAO;
 import com.nicico.sales.service.GenericService;
 import com.nicico.sales.service.InvoiceTypeService;
 import com.nicico.sales.service.contract.ContractService;
@@ -32,6 +39,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -41,7 +49,10 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ForeignInvoiceService extends GenericService<ForeignInvoice, Long, ForeignInvoiceDTO.Create, ForeignInvoiceDTO.Info, ForeignInvoiceDTO.Update, ForeignInvoiceDTO.Delete> implements IForeignInvoiceService {
 
+    private final UnitDAO unitDAO;
+    private final ObjectMapper objectMapper;
     private final ContractService contractService;
+    private final MaterialElementDAO materialElementDAO;
     private final InvoiceTypeService invoiceTypeService;
     private final InvoiceNoGenerator invoiceNoGenerator;
     private final ResourceBundleMessageSource messageSource;
@@ -80,22 +91,38 @@ public class ForeignInvoiceService extends GenericService<ForeignInvoice, Long, 
 
         ContractDetailDataDTO.Info contractDetailData = new ContractDetailDataDTO.Info();
 
-//        Contract contract = contractDAO.findById(contractId).orElseThrow(() -> new NotFoundException(Contract.class));
-//        Long materialId = contract.getMaterialId();
-//        if (materialId == ) {}
+        Map<String, List<Object>> operationalDataOfMOASArticle = contractDetailValueService2.get(contractId, EContractDetailTypeCode.QuotationalPeriod, EContractDetailValueKey.MOAS, true);
+        List<Map<String, Object>> moas = (List<Map<String, Object>>) operationalDataOfMOASArticle.get(EContractDetailValueKey.MOAS.getId()).get(0);
+        List<ContractDetailDataDTO.MOASData> moasData = new ArrayList<>();
+        if (moas != null) moas.stream().forEach(moasItem -> {
+            Long materialElementId = Long.valueOf(moasItem.get("materialElement").toString());
+            MaterialElement materialElement = materialElementDAO.findById(materialElementId).orElseThrow(() -> new NotFoundException(MaterialElement.class));
+            moasItem.put("materialElement", modelMapper.map(materialElement, MaterialElementDTO.Info.class));
+            moasData.add(objectMapper.convertValue(moasItem, ContractDetailDataDTO.MOASData.class));
+        });
+        contractDetailData.setMOAS(moasData);
 
-        Map<String, List<Object>> moases = contractDetailValueService2.get(contractId, EContractDetailTypeCode.QuotationalPeriod, EContractDetailValueKey.MOAS, true);
-        if (moases != null)
-            contractDetailData.setMOAS(modelMapper.map(moases.get(EContractDetailValueKey.MOAS.name()), new TypeToken<List<ContractDetailDataDTO.MOASData>>() {
-            }.getType()));
 
-        Map<String, List<Object>> rcs = contractDetailValueService2.get(contractId, EContractDetailTypeCode.Deduction, EContractDetailValueKey.RC, true);
         Map<String, List<Object>> tcs = contractDetailValueService2.get(contractId, EContractDetailTypeCode.Deduction, EContractDetailValueKey.TC, true);
         if (tcs != null)
             contractDetailData.setTc(new BigDecimal(tcs.get(EContractDetailValueKey.TC.name()).get(0).toString()));
-        if (rcs != null)
-            contractDetailData.setRc(modelMapper.map(rcs.get(EContractDetailValueKey.RC.name()), new TypeToken<List<ContractDetailDataDTO.RCData>>() {
-            }.getType()));
+
+        Map<String, List<Object>> operationalDataOfRCArticle = contractDetailValueService2.get(contractId, EContractDetailTypeCode.Deduction, EContractDetailValueKey.RC, true);
+        List<Map<String, Object>> rcs = (List<Map<String, Object>>) operationalDataOfRCArticle.get(EContractDetailValueKey.RC.getId()).get(0);
+        List<ContractDetailDataDTO.RCData> rcData = new ArrayList<>();
+        if (rcs != null) rcs.stream().forEach(rcItem -> {
+            Long financeUnitId = Long.valueOf(rcItem.get("financeUnit").toString());
+            Long weightUnitId = Long.valueOf(rcItem.get("weightUnit").toString());
+            Long materialElementId = Long.valueOf(rcItem.get("materialElement").toString());
+            Unit financeUnit = unitDAO.findById(financeUnitId).orElseThrow(() -> new NotFoundException(UnitDTO.class));
+            Unit weightUnit = unitDAO.findById(weightUnitId).orElseThrow(() -> new NotFoundException(UnitDTO.class));
+            MaterialElement materialElement = materialElementDAO.findById(materialElementId).orElseThrow(() -> new NotFoundException(MaterialElement.class));
+            rcItem.put("financeUnit", modelMapper.map(financeUnit, UnitDTO.Info.class));
+            rcItem.put("weightUnit", modelMapper.map(weightUnit, UnitDTO.Info.class));
+            rcItem.put("materialElement", modelMapper.map(materialElement, MaterialElementDTO.Info.class));
+            rcData.add(objectMapper.convertValue(rcItem, ContractDetailDataDTO.RCData.class));
+        });
+        contractDetailData.setRc(rcData);
 
         Map<String, List<Object>> deliveryTerms = contractDetailValueService2.get(contractId, EContractDetailTypeCode.DeliveryTerms, EContractDetailValueKey.INCOTERM, true);
         if (deliveryTerms != null)
@@ -204,15 +231,4 @@ public class ForeignInvoiceService extends GenericService<ForeignInvoice, Long, 
         return foreignInvoiceDTO;
     }
 
-//    @Override
-//    @Transactional
-//    @Action(ActionType.Delete)
-//    public void delete(Long aLong) {
-//    }
-//
-//    @Override
-//    @Transactional
-//    @Action(ActionType.DeleteAll)
-//    public void deleteAll(ForeignInvoiceDTO.Delete request) {
-//    }
 }
