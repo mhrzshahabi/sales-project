@@ -57,3 +57,4 @@ costDutyTab.listGrid.fields = BaseFormItems.concat([{
 }]);
 nicico.BasicFormUtil.getDefaultBasicForm(costDutyTab, "api/costDuty/");
 costDutyTab.dynamicForm.main.windowWidth = 500;
+nicico.BasicFormUtil.removeExtraGridMenuActions(costDutyTab);

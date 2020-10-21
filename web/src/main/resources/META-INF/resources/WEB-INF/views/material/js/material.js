@@ -54,8 +54,8 @@ var RestDataSource_MaterialItem_IN_MATERIAL = isc.MyRestDataSource.create({
             title: "<spring:message code='MaterialItem.gdsCode'/> ",
         },
         {
-            name: "gdsName",
-            title: "<spring:message code='MaterialItem.gdsName'/> ",
+            name: "gdsNameFA",
+            title: "<spring:message code='MaterialItem.gdsNameFA'/> ",
         },
         {
             name: "materialId",
@@ -66,8 +66,8 @@ var RestDataSource_MaterialItem_IN_MATERIAL = isc.MyRestDataSource.create({
             title: "<spring:message code='MaterialItem.detailCode'/> ",
         },
         {
-            name: "gdsNameEn",
-            title: "<spring:message code='material.descEN'/> ",
+            name: "gdsNameEN",
+            title: "<spring:message code='MaterialItem.gdsNameEN'/> ",
         },
     ],
     fetchDataURL: "${contextPath}" + "/api/materialItem/spec-list",
@@ -285,9 +285,9 @@ var ListGrid_MaterialItem = isc.ListGrid.create({
             showIf: "false",
         },
         {
-            name: "gdsName",
+            name: "gdsNameFA",
             width: "24%",
-            title: "<spring:message code='MaterialItem.gdsName'/> ",
+            title: "<spring:message code='MaterialItem.gdsNameFA'/> ",
         },
         {
             name: "miDetailCode",
@@ -295,9 +295,9 @@ var ListGrid_MaterialItem = isc.ListGrid.create({
             title: "<spring:message code='MaterialItem.detailCode'/> ",
         },
         {
-            name: "gdsNameEn",
+            name: "gdsNameEN",
             width: "24%",
-            title: "<spring:message code='material.descEN'/> ",
+            title: "<spring:message code='MaterialItem.gdsNameEN'/> ",
         },
 
     ],

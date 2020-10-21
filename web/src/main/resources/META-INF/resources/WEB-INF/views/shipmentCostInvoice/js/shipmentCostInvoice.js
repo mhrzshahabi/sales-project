@@ -1811,6 +1811,7 @@ shipmentCostInvoiceTab.listGrid.shipmentCostDetailMain = isc.ListGrid.create(
 
 nicico.BasicFormUtil.getDefaultBasicForm(shipmentCostInvoiceTab, "api/shipmentCostInvoice/");
 nicico.BasicFormUtil.showAllToolStripActions(shipmentCostInvoiceTab);
+nicico.BasicFormUtil.removeExtraGridMenuActions(shipmentCostInvoiceTab);
 
 shipmentCostInvoiceTab.sectionStack.mainSection = isc.SectionStack.create(
     {

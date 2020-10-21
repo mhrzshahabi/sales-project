@@ -2202,6 +2202,7 @@ inspectionReportTab.listGrid.fields = [
 ];
 
 nicico.BasicFormUtil.getDefaultBasicForm(inspectionReportTab, "api/inspectionReport/");
+nicico.BasicFormUtil.removeExtraGridMenuActions(inspectionReportTab);
 
 inspectionReportTab.toolStrip.main.addMember(isc.ToolStripButton.create({
     // actionType: ActionType.ACTIVATE,

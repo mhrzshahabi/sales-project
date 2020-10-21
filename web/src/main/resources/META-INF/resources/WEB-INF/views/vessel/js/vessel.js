@@ -69,3 +69,5 @@ Object.assign(vesselTab.listGrid.fields, vesselTab.dynamicForm.fields);
 nicico.BasicFormUtil.getDefaultBasicForm(vesselTab, "api/vessel/");
 vesselTab.listGrid.main.contextMenu = null;
 vesselTab.dynamicForm.main.windowWidth = 500;
+nicico.BasicFormUtil.removeExtraGridMenuActions(vesselTab);
+

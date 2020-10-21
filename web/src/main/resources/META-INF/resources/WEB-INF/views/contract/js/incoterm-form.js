@@ -27,3 +27,4 @@ incotermFormTab.listGrid.fields = incotermFormTab.dynamicForm.fields.map(q => {
 });
 nicico.BasicFormUtil.getDefaultBasicForm(incotermFormTab, "api/incoterm-form/");
 incotermFormTab.dynamicForm.main.windowWidth = 500;
+nicico.BasicFormUtil.removeExtraGridMenuActions(incotermFormTab);
