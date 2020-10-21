@@ -37,7 +37,7 @@ namespace nicico {
                     operator: "and", criteria: []
                 },
                 fieldPickerWidth: "200",
-                valueItemWidth: "400",
+                valueItemWidth: "200",
                 width: "95%",
                 height: "100%",
                 margin: 5

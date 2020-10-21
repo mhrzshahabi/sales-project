@@ -27,7 +27,14 @@ namespace nicico {
             // @ts-ignore
             creator.variable.url += "api/report-execute/";
             creator.listGrid.fields = report.reportFields.map(p => {
-                return {name: p.name, title: p.title, type: p.type, hidden: p.hidden, canFilter: p.canFilter};
+                return {
+                    width: "100%",
+                    name: p.name,
+                    title: p.title,
+                    type: p.type,
+                    hidden: p.hidden,
+                    canFilter: p.canFilter
+                };
             });
             // @ts-ignore
             creator.method.exportExcel = function () {
@@ -145,7 +152,15 @@ namespace nicico {
                 let fetchDataUrl = creator.variable.contextPath + report.source.replaceAll(new RegExp("^/|/$"), '') + '/';
                 // @ts-ignore
                 let dataSource = isc.RestDataSource.nicico.getDefault(fetchDataUrl, report.reportFields.filter(q => q.canFilter).map(p => {
-                    return {name: p.name, title: p.title, type: p.type, hidden: p.hidden};
+
+                    let field = {name: p.name, title: p.title, type: p.type, hidden: p.hidden};
+                    // @ts-ignore
+                    if (p.type === "date") field.filterOperator = ["greaterThan", "lessThan",
+                    //"greaterOrEqual", "lessOrEqual", "iBetween", "iBetweenInclusive", "isNull", "notNull","greaterThanField", "lessThanField", "greaterOrEqualField", "lessOrEqualField", "between", "betweenInclusive"
+                    ];
+                    // @ts-ignore
+                    if (p.type === "boolean") field.filterOperator = ["isNull", "notNull", "equals", "notEqual", "iEquals", "iNotEqual", "equalsField", "notEqualField", "iEqualsField", "iNotEqualField"];
+                    return field;
                 }));
 
                 FilterFormUtil.okCallBack = function (criteria) {
@@ -267,7 +282,7 @@ namespace nicico {
                 });
             };
 
-            let layout = BasicFormUtil.getDefaultBasicForm(creator,  'report-data/' + report.id);
+            let layout = BasicFormUtil.getDefaultBasicForm(creator, 'report-data/' + report.id);
 
             if (report.reportType === "OneRecord")
             // @ts-ignore

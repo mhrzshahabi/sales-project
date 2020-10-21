@@ -37,6 +37,6 @@ public class ReportExecuteRestController {
     public ResponseEntity<TotalResponse<Map<String, Object>>> getReportData(HttpServletRequest request, @PathVariable Long reportId, @RequestParam MultiValueMap<String, String> criteria) throws IOException {
 
         String baseUrl = request.getRequestURL().substring(0, request.getRequestURL().indexOf("/api/report-execute"));
-        return new ResponseEntity<>(reportService.getReportData(reportId, baseUrl, NICICOCriteria.of(criteria)), HttpStatus.OK);
+        return new ResponseEntity<>(reportService.getReportData(reportId, baseUrl, criteria), HttpStatus.OK);
     }
 }

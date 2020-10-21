@@ -7,6 +7,7 @@ import com.nicico.sales.iservice.IGenericService;
 import com.nicico.sales.model.entities.report.Report;
 import com.nicico.sales.model.enumeration.ReportSource;
 import io.minio.errors.*;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -22,7 +23,7 @@ public interface IReportService extends IGenericService<Report, Long, ReportDTO.
 
     List<ReportDTO.FieldData> getSourceFields(ReportSource reportSource, String source);
 
-    TotalResponse<Map<String, Object>> getReportData(Long reportId, String baseUrl, NICICOCriteria request) throws IOException;
+    TotalResponse<Map<String, Object>> getReportData(Long reportId, String baseUrl, MultiValueMap<String, String> criteria) throws IOException;
 
     TotalResponse<ReportDTO.InfoWithAccess> searchWithAccess(NICICOCriteria nicicoCriteria);
 

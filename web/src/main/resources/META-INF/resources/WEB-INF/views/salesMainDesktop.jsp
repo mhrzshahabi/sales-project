@@ -1052,8 +1052,15 @@
 
                         nicico.ReportExecutorFormUtil.show(null, '<spring:message code="report.menu.execute"/>', null, createTab);
                     }
-                }
+                },
                 </sec:authorize>
+                {
+                    title: "<spring:message code='main.reportTab'/>",
+                    click: function () {
+
+                         createTab("<spring:message code='main.reportTab'/>", "<spring:url value="/warehouse-report/show-report-form" />")
+                    }
+                },
             ]
         })
     });
@@ -1245,14 +1252,13 @@
     isc.FilterBuilder.addProperties({
 
         getValueFieldProperties: function (type, fieldName, operatorId, itemType) {
-
+            debugger
             let superProperties = this.Super("getValueFieldProperties", arguments);
             if (!superProperties) superProperties = {};
             if (this.dataSource == null)
                 return Object.assign(superProperties, {
                     type: type,
                     name: fieldName,
-                    editorType: itemType,
                     filterOperator: operatorId
                 });
 
@@ -1261,15 +1267,14 @@
                 return Object.assign(superProperties, {
                     type: type,
                     name: fieldName,
-                    editorType: itemType,
+                    editorType: field.editorType,
                     filterOperator: operatorId
                 });
-            debugger;
             return Object.assign(superProperties, {
                 required: true,
                 autoFetchData: false,
                 showFilterEditor: true,
-                editorType: itemType,
+                editorType: field.editorType,
                 multiple: field.multiple,
                 valueField: field.valueField,
                 displayField: field.displayField,

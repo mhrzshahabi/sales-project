@@ -402,7 +402,7 @@ public class ReportService extends GenericService<com.nicico.sales.model.entitie
         return httpHeaders;
     }
 
-    private TotalResponse<Map<String, Object>> getRestReportData(String baseUrl, NICICOCriteria nicicoCriteria, ReportDTO.Info report) throws IOException {
+    private TotalResponse<Map<String, Object>> getRestReportData(String baseUrl, MultiValueMap<String, String> criteria, ReportDTO.Info report) throws IOException {
 
         TotalResponse<Map<String, Object>> response;
         String restUrl = report.getSource();
@@ -411,7 +411,7 @@ public class ReportService extends GenericService<com.nicico.sales.model.entitie
         if (httpMethodEnum == null)
             httpMethodEnum = HttpMethod.GET;
 
-        HttpEntity<Object> httpEntity = new HttpEntity<>(nicicoCriteria, getApplicationJSONHttpHeaders());
+        HttpEntity<Object> httpEntity = new HttpEntity<>(criteria, getApplicationJSONHttpHeaders());
         ResponseEntity<String> exchange;
         try {
             exchange = restTemplate.exchange(baseUrl + restUrl, httpMethodEnum, httpEntity, String.class);
@@ -497,8 +497,9 @@ public class ReportService extends GenericService<com.nicico.sales.model.entitie
         return new TotalResponse<>(gridResponse);
     }
 
-    private TotalResponse<Map<String, Object>> getViewReportData(NICICOCriteria nicicoCriteria, ReportDTO.Info report) {
+    private TotalResponse<Map<String, Object>> getViewReportData(MultiValueMap<String, String> criteria, ReportDTO.Info report) {
 
+        NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
         String viewName = report.getSource();
         String whereClause = getSqlWhereClause(nicicoCriteria);
         String query = String.format(VIEW_DATA_QUERY_TEXT, viewName);
@@ -526,7 +527,7 @@ public class ReportService extends GenericService<com.nicico.sales.model.entitie
 
     @Override
     @Transactional(readOnly = true)
-    public TotalResponse<Map<String, Object>> getReportData(Long reportId, String baseUrl, NICICOCriteria nicicoCriteria) throws IOException {
+    public TotalResponse<Map<String, Object>> getReportData(Long reportId, String baseUrl, MultiValueMap<String, String> criteria) throws IOException {
 
         ReportDTO.Info report = get(reportId);
         String permissionKey = "RG_V_" + report.getPermissionBaseKey();
@@ -535,8 +536,8 @@ public class ReportService extends GenericService<com.nicico.sales.model.entitie
 
         TotalResponse<Map<String, Object>> response = null;
         if (report.getReportSource() == ReportSource.Rest)
-            response = getRestReportData(baseUrl, nicicoCriteria, report);
-        if (report.getReportSource() == ReportSource.View) response = getViewReportData(nicicoCriteria, report);
+            response = getRestReportData(baseUrl, criteria, report);
+        if (report.getReportSource() == ReportSource.View) response = getViewReportData(criteria, report);
 
         if (response != null &&
                 response.getResponse() != null &&

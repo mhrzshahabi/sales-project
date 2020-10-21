@@ -65,9 +65,8 @@ public class ReportExecuteFormController {
         String permissionKeyPrefix = "RG_P_";
         ReportDTO.Info report = checkAccess(permissionKeyPrefix, criteria.getFirst("reportId"));
 
-        NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
         String baseUrl = request.getRequestURL().substring(0, request.getRequestURL().indexOf("/report-execute"));
-        TotalResponse<Map<String, Object>> data = reportService.getReportData(report.getId(), baseUrl, nicicoCriteria);
+        TotalResponse<Map<String, Object>> data = reportService.getReportData(report.getId(), baseUrl, criteria);
 
         Map<String, Object> parametersMap = new HashMap<>();
         parametersMap.put(ConstantVARs.REPORT_TYPE, criteria.getFirst("type"));
@@ -85,15 +84,14 @@ public class ReportExecuteFormController {
         String permissionKeyPrefix = "RG_E_";
         ReportDTO.Info report = checkAccess(permissionKeyPrefix, criteria.getFirst("reportId"));
 
-        NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
         String baseUrl = request.getRequestURL().substring(0, request.getRequestURL().indexOf("/report-execute"));
-        TotalResponse<Map<String, Object>> data = reportService.getReportData(report.getId(), baseUrl, nicicoCriteria);
+        TotalResponse<Map<String, Object>> data = reportService.getReportData(report.getId(), baseUrl, criteria);
 
         List<Object> resp = new ArrayList<>();
         if (data != null) resp.addAll(data.getResponse().getData());
         String[] fields = criteria.getFirst("fields").split(",");
         String[] headers = criteria.getFirst("headers").split(",");
-        byte[] bytes = makeExcelOutputUtil.makeOutput(resp, Map.class, fields, headers, true, null);
+        byte[] bytes = makeExcelOutputUtil.makeOutput(resp, Map.class, fields, headers, true, "");
         makeExcelOutputUtil.makeExcelResponse(bytes, response);
     }
 

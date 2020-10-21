@@ -21,7 +21,14 @@ var nicico;
             // @ts-ignore
             creator.variable.url += "api/report-execute/";
             creator.listGrid.fields = report.reportFields.map(function (p) {
-                return { name: p.name, title: p.title, type: p.type, hidden: p.hidden, canFilter: p.canFilter };
+                return {
+                    width: "100%",
+                    name: p.name,
+                    title: p.title,
+                    type: p.type,
+                    hidden: p.hidden,
+                    canFilter: p.canFilter
+                };
             });
             // @ts-ignore
             creator.method.exportExcel = function () {
@@ -127,7 +134,15 @@ var nicico;
                 var fetchDataUrl = creator.variable.contextPath + report.source.replaceAll(new RegExp("^/|/$"), '') + '/';
                 // @ts-ignore
                 var dataSource = isc.RestDataSource.nicico.getDefault(fetchDataUrl, report.reportFields.filter(function (q) { return q.canFilter; }).map(function (p) {
-                    return { name: p.name, title: p.title, type: p.type, hidden: p.hidden };
+                    var field = { name: p.name, title: p.title, type: p.type, hidden: p.hidden };
+                    // @ts-ignore
+                    if (p.type === "date")
+                        field.filterOperator = ["greaterThan", "lessThan",
+                        ];
+                    // @ts-ignore
+                    if (p.type === "boolean")
+                        field.filterOperator = ["isNull", "notNull", "equals", "notEqual", "iEquals", "iNotEqual", "equalsField", "notEqualField", "iEqualsField", "iNotEqualField"];
+                    return field;
                 }));
                 nicico.FilterFormUtil.okCallBack = function (criteria) {
                     // @ts-ignore
