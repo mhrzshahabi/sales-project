@@ -6,6 +6,7 @@ import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.envers.AuditOverride;
 import org.hibernate.envers.Audited;
+import org.hibernate.envers.NotAudited;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -73,6 +74,7 @@ public class Contact extends BaseEntity {
     @Column(name = "C_ECONOMICAL_CODE")
     private String economicalCode;
 
+    @NotAudited
     @Setter(AccessLevel.NONE)
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "CNT_ID", insertable = false, updatable = false)

@@ -6,6 +6,7 @@ import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.envers.AuditOverride;
 import org.hibernate.envers.Audited;
+import org.hibernate.envers.NotAudited;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -73,6 +74,7 @@ public class Contract extends BaseEntity {
     @Column(name = "F_MATERIAL_ID", nullable = false)
     private Long materialId;
 
+    @NotAudited
     @Setter(AccessLevel.NONE)
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "F_PARENT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_contract2contractByParentId"))
