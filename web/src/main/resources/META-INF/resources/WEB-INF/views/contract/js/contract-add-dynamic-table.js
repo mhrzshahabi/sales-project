@@ -128,18 +128,22 @@ contractTab.Methods.GetListGridDataFromDynamicTableGrid=function(grid,data){
  * @param {SectionStackSectionObj} _sectionStackSectionObj
  * @param {ContractDetailType} _record
  * **/
-contractTab.Methods.DynamicTableGridCreator = async function a(_record, _sectionStackSectionObj) {
+contractTab.Methods.DynamicTableGridCreator = async function a(_record,
+                                                               _sectionStackSectionObj) {
     if (!_record || !_record.contractDetailTypeParams) return;
     // //dbg(_record)
     /** @param {CDTPDynamicTable} column **/
     function getDefaultFieldObject( column) {
     return     {
+            showHover:true,
             column:column,
             colNum: column.colNum,
             name: column.headerValue,
             required: column.required,
             type:getFieldType(column.valueType),
             editorProperties: {
+                showHintInField: !!column.description,
+                hint:column.description?column.description:null,
             validateOnChange: true,
                 type:getFieldType(column.valueType),
                 validateOnExit: true,
@@ -155,7 +159,7 @@ contractTab.Methods.DynamicTableGridCreator = async function a(_record, _section
         internalObj.forEach(_=>fields.addList(getAllFields(_object[_]).map(__=>_+'.'+__)))
         return fields;
     }
-   async function getDynamicHeaders(columns) {
+    async function getDynamicHeaders(columns) {
         const dynamicHeaders = columns.filter(column => !Object.keys(contractTab.Vars.DataType)
             .includes(column.headerType))
        if (dynamicHeaders && dynamicHeaders.length > 0) {
@@ -287,7 +291,7 @@ contractTab.Methods.DynamicTableGridCreator = async function a(_record, _section
                 validateByCell: true,
                 validateOnExit: true,
                 canRemoveRecords: true,
-                editByCell: true,
+                // editByCell: true,
                 reference: contractTab.Vars.DataType.DynamicTable,
                 paramName: cdtpdt.name,
                 paramTitle: cdtpdt.title,
@@ -342,6 +346,7 @@ contractTab.Methods.DynamicTableGridCreator = async function a(_record, _section
             _sectionStackSectionObj.items.push(listGrid)
             contractTab.sectionStack.contract.collapseSection(_sectionStackSectionObj.name.toString())
             contractTab.sectionStack.contract.expandSection(_sectionStackSectionObj.name.toString())
+            if(contractTab.variable.method.toUpperCase()==="PUT")
             contractTab.sectionStack.contract.collapseSection(_sectionStackSectionObj.name.toString())
 
         }
