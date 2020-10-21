@@ -9,6 +9,7 @@ import com.nicico.sales.dto.MaterialElementDTO;
 import com.nicico.sales.dto.UnitDTO;
 import com.nicico.sales.dto.contract.ContractDTO;
 import com.nicico.sales.dto.contract.ContractDetailDTO;
+import com.nicico.sales.dto.contract.ContractDiscountDTO;
 import com.nicico.sales.dto.contract.IncotermDTO;
 import com.nicico.sales.dto.invoice.foreign.*;
 import com.nicico.sales.enumeration.ActionType;
@@ -55,15 +56,15 @@ import java.util.stream.Collectors;
 public class ForeignInvoiceService extends GenericService<ForeignInvoice, Long, ForeignInvoiceDTO.Create, ForeignInvoiceDTO.Info, ForeignInvoiceDTO.Update, ForeignInvoiceDTO.Delete> implements IForeignInvoiceService {
 
     private final UnitDAO unitDAO;
+    private final ContractDAO contractDAO;
     private final ObjectMapper objectMapper;
     private final ContractService contractService;
-    private final ContractDAO contractDAO;
-    private final MaterialElementDAO materialElementDAO;
     private final InvoiceTypeService invoiceTypeService;
     private final InvoiceNoGenerator invoiceNoGenerator;
+    private final MaterialElementDAO materialElementDAO;
     private final ResourceBundleMessageSource messageSource;
-    private final ForeignInvoiceItemService foreignInvoiceItemService;
     private final IContractDetailService contractDetailService;
+    private final ForeignInvoiceItemService foreignInvoiceItemService;
     private final IContractDetailValueService2 contractDetailValueService2;
     private final ForeignInvoicePaymentService foreignInvoicePaymentService;
     private final ForeignInvoiceBillOfLadingDAO foreignInvoiceBillOfLadingDAO;
@@ -157,23 +158,20 @@ public class ForeignInvoiceService extends GenericService<ForeignInvoice, Long, 
             throw new SalesException2(ErrorType.NotFound, "deliveryTerm", "Contract DeliveryTerms Article Not Found");
 
         // Discounts
-        Map<String, List<Object>> operationalDataOfDiscountArticle = contractDetailValueService2.get(contractId, EContractDetailTypeCode.Price, EContractDetailValueKey.DISCOUNT, true);
-        List<Object> discounts = operationalDataOfDiscountArticle.get(EContractDetailValueKey.DISCOUNT.getId());
-        List<ContractDiscount> discountData = new ArrayList<>();
-        if (discounts != null)
-            discounts.forEach(discount -> discountData.add(modelMapper.map(discount, ContractDiscount.class)));
-//        contractDetailData.setDiscounts(discounts); **
+        Map<String, List<Object>> discounts = contractDetailValueService2.get(contractId, EContractDetailTypeCode.Price, EContractDetailValueKey.DISCOUNT, true);
+        if (discounts != null && discounts.size() != 0)
+            contractDetailData.setDiscount(modelMapper.map(discounts.get(EContractDetailValueKey.DISCOUNT.getId()).get(0), ContractDiscountDTO.Info.class));
 
         // Price Article Content
         ContractDetailDTO.Info priceDetail = contractDetailService.getContractDetailByContractDetailTypeCode(contractId, materialId, EContractDetailTypeCode.Price);
         if (priceDetail != null) {
-//            contractDetailData.setPriceDetail(priceDetail.getContent()); **
+            contractDetailData.setPriceContent(priceDetail.getContent());
         }
 
         // QuotationalPeriod Article Content
-        ContractDetailDTO.Info priceBaseDetail = contractDetailService.getContractDetailByContractDetailTypeCode(contractId, materialId, EContractDetailTypeCode.QuotationalPeriod);
-        if (priceBaseDetail != null) {
-//            contractDetailData.setPriceBaseDetail(priceBaseDetail.getContent()); **
+        ContractDetailDTO.Info quotationalPeriodDetail = contractDetailService.getContractDetailByContractDetailTypeCode(contractId, materialId, EContractDetailTypeCode.QuotationalPeriod);
+        if (quotationalPeriodDetail != null) {
+            contractDetailData.setQuotationalPeriodContent(quotationalPeriodDetail.getContent());
         }
 
         return contractDetailData;

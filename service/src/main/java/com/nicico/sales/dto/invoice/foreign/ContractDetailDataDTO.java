@@ -3,7 +3,9 @@ package com.nicico.sales.dto.invoice.foreign;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.nicico.sales.dto.MaterialElementDTO;
 import com.nicico.sales.dto.UnitDTO;
+import com.nicico.sales.dto.contract.ContractDiscountDTO;
 import com.nicico.sales.dto.contract.IncotermDTO;
+import com.nicico.sales.model.entities.contract.ContractDiscount;
 import com.nicico.sales.model.enumeration.PriceBaseReference;
 import io.swagger.annotations.ApiModel;
 import lombok.Getter;
@@ -30,9 +32,14 @@ public class ContractDetailDataDTO {
         private BigDecimal tc;
         private List<RCData> rc;
 
+        private String priceContent;
+        private String quotationalPeriodContent;
+
         private List<MOASData> MOAS;
 
         private IncotermDTO.Info incoterm;
+
+        private ContractDiscountDTO.Info discount;
     }
 
     @Getter
