@@ -18,6 +18,8 @@ isc.defineClass("FileUploadForm", isc.VLayout).addProperties({
     fileStatusValueMap: null,
     accessLevelValueMap: null,
     showDeletedFiles: false,
+    canAddFile: true,
+    canRemoveFile: true,
     initWidget: function () {
 
         this.Super("initWidget", arguments);
@@ -57,6 +59,8 @@ isc.defineClass("FileUploadForm", isc.VLayout).addProperties({
                 }]
             }]
         });
+        if (!this.canAddFile)
+            this.form.hide();
         this.button = isc.IButtonSave.create({
             title: "<spring:message code='global.add'/>",
             padding: "5",
@@ -78,9 +82,12 @@ isc.defineClass("FileUploadForm", isc.VLayout).addProperties({
                 This.form.clearValue("file");
             }
         });
+        if (!this.canAddFile)
+            this.button.hide();
         this.addMember(isc.HLayout.create({
             width: "100%",
             align: "center",
+            visibility:!this.canAddFile?"hidden":"visible",
             members: [
                 This.form,
                 This.button
@@ -120,8 +127,7 @@ isc.defineClass("FileUploadForm", isc.VLayout).addProperties({
             }
         ], null, null, {
 
-            height: 200,
-            canRemoveRecords: true,
+            canRemoveRecords: This.canRemoveFile,
             border: "0px",
             showFilterEditor: false,
             removeRecordClick: function (rowNum) {
@@ -138,17 +144,22 @@ isc.defineClass("FileUploadForm", isc.VLayout).addProperties({
                     return;
 
                 fetch("${contextPath}/api/files/" + record.fileKey, {headers: SalesConfigs.httpHeaders}).then(
-                    response => response.blob().then(file => {
+                    response => {
 
-                        const url = URL.createObjectURL(file);
-                        const linkElement = document.createElement('a');
-                        const filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
-                        const fileName = filenameRegex.exec(response.headers.get("content-disposition"))[1].replace(/['"]/g, '');
+                        if (response.ok)
+                            response.blob().then(file => {
 
-                        linkElement.setAttribute('download', fileName);
-                        linkElement.href = url;
-                        linkElement.click();
-                    })
+                                const url = URL.createObjectURL(file);
+                                const linkElement = document.createElement('a');
+                                const filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+                                const fileName = filenameRegex.exec(response.headers.get("content-disposition"))[1].replace(/['"]/g, '');
+
+                                linkElement.setAttribute('download', fileName);
+                                linkElement.href = url;
+                                linkElement.click();
+                            });
+                        else response.json().then(r => isc.warn(r.errors.map(q => q.message).join('<br>'), {title: "<spring:message code='dialog_WarnTitle'/>"}));
+                    }
                 );
             },
         });
@@ -158,6 +169,23 @@ isc.defineClass("FileUploadForm", isc.VLayout).addProperties({
 
         this.grid.saveAllEdits();
         let values = [...this.grid.getData()];
+        values.forEach(q => q.fileData = q.fileData ? q.fileData : new File([], "emptyFile"));
+        return values;
+    },
+    getSelectedValue: function () {
+
+        this.grid.saveAllEdits();
+        let selected = this.grid.getSelectedRecord();
+        if (!selected) return null;
+
+        let value = {...selected};
+        value.fileData = value.fileData ? value.fileData : new File([], "emptyFile");
+        return value;
+    },
+    getSelectedValues: function () {
+
+        this.grid.saveAllEdits();
+        let values = [...this.grid.getSelectedRecords()];
         values.forEach(q => q.fileData = q.fileData ? q.fileData : new File([], "emptyFile"));
         return values;
     },

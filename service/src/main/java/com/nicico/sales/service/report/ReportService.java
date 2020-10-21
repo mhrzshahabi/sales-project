@@ -2,6 +2,13 @@ package com.nicico.sales.service.report;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nicico.copper.common.domain.criteria.NICICOCriteria;
+import com.nicico.copper.common.domain.criteria.NICICOSqlClause;
+import com.nicico.copper.common.domain.criteria.SearchUtil;
+import com.nicico.copper.common.dto.grid.GridResponse;
+import com.nicico.copper.common.dto.grid.TotalResponse;
+import com.nicico.copper.common.dto.search.SearchDTO;
+import com.nicico.copper.core.SecurityUtil;
 import com.nicico.copper.oauth.common.dto.OAPermissionDTO;
 import com.nicico.sales.annotation.Action;
 import com.nicico.sales.annotation.report.IgnoreReportField;
@@ -15,11 +22,13 @@ import com.nicico.sales.enumeration.ActionType;
 import com.nicico.sales.enumeration.ErrorType;
 import com.nicico.sales.exception.NotFoundException;
 import com.nicico.sales.exception.SalesException2;
+import com.nicico.sales.exception.UnAuthorizedException;
 import com.nicico.sales.iservice.IFileService;
 import com.nicico.sales.iservice.IOAuthApiService;
 import com.nicico.sales.iservice.report.IReportFieldService;
 import com.nicico.sales.iservice.report.IReportService;
 import com.nicico.sales.model.enumeration.ReportSource;
+import com.nicico.sales.model.enumeration.ReportType;
 import com.nicico.sales.service.GenericService;
 import com.nicico.sales.utility.StringFormatUtil;
 import com.nicico.sales.utility.UpdateUtil;
@@ -35,13 +44,17 @@ import org.reflections.util.ConfigurationBuilder;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.context.support.ResourceBundleMessageSource;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.MultiValueMap;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityManager;
@@ -60,6 +73,17 @@ import java.util.*;
 @RequiredArgsConstructor
 public class ReportService extends GenericService<com.nicico.sales.model.entities.report.Report, Long, ReportDTO.Create, ReportDTO.Info, ReportDTO.Update, ReportDTO.Delete> implements IReportService {
 
+    private final static String VIEW_DATA_QUERY_TEXT = "" +
+            "SELECT *\n" +
+            "FROM   %s\n";
+    private final static String VIEW_FIELDS_NAME_QUERY_TEXT = "" +
+            "SELECT\n" +
+            "    COLUMN_NAME\n" +
+            "FROM\n" +
+            "    user_tab_columns\n" +
+            "WHERE\n" +
+            "    table_name = ?\n" +
+            "ORDER BY COLUMN_ID";
     private final static String VIEW_NAME_QUERY_TEXT = "" +
             "SELECT TABLE_NAME\n" +
             "FROM   USER_TABLES\n" +
@@ -106,28 +130,29 @@ public class ReportService extends GenericService<com.nicico.sales.model.entitie
             "    table_name = ?";
     private final static List<Class> MAPPING_ANNOTATIONS = new ArrayList<>(Arrays.asList(RequestMapping.class, GetMapping.class, PutMapping.class, PostMapping.class, DeleteMapping.class, PatchMapping.class));
 
-    // ----------------------------------------------------------------------------------------------------------------
+    // -----------------------------------------------------------------------------------------------------------------
 
     private final UpdateUtil updateUtil;
     private final IFileService fileService;
     private final IOAuthApiService oAuthApiService;
     private final IReportFieldService reportFieldService;
 
-    // ----------------------------------------------------------------------------------------------------------------
+    // -----------------------------------------------------------------------------------------------------------------
 
     private final ModelMapper modelMapper;
     private final ObjectMapper objectMapper;
+    private final RestTemplate restTemplate;
     private final EntityManager entityManager;
     private final ResourceBundleMessageSource messageSource;
 
-    // ----------------------------------------------------------------------------------------------------------------
+    // -----------------------------------------------------------------------------------------------------------------
 
     @Value("${spring.application.name}")
     private String appId;
     @Value("${nicico.report.package.controller.name}")
     private String restControllerPackage;
 
-    // ----------------------------------------------------------------------------------------------------------------
+    // -----------------------------------------------------------------------------------------------------------------
 
     private List<ReportDTO.SourceData> getViewData() {
 
@@ -332,6 +357,8 @@ public class ReportService extends GenericService<com.nicico.sales.model.entitie
         }, field -> !field.isAnnotationPresent(IgnoreReportField.class));
     }
 
+    // -----------------------------------------------------------------------------------------------------------------
+
     private void addReportPermission(String permissionBaseKey, String reportTitle) {
 
         OAPermissionDTO.Create printPermission = new OAPermissionDTO.Create();
@@ -360,7 +387,168 @@ public class ReportService extends GenericService<com.nicico.sales.model.entitie
         oAuthApiService.deletePermission("RG_V_" + permissionBaseKey);
     }
 
-    // ----------------------------------------------------------------------------------------------------------------
+    // -----------------------------------------------------------------------------------------------------------------
+
+    private HttpHeaders getApplicationJSONHttpHeaders() {
+
+        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        final OAuth2AuthenticationDetails oAuth2AuthenticationDetails = (OAuth2AuthenticationDetails) authentication.getDetails();
+
+        final HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setBearerAuth(oAuth2AuthenticationDetails.getTokenValue());
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        httpHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+
+        return httpHeaders;
+    }
+
+    private TotalResponse<Map<String, Object>> getRestReportData(String baseUrl, NICICOCriteria nicicoCriteria, ReportDTO.Info report) throws IOException {
+
+        TotalResponse<Map<String, Object>> response;
+        String restUrl = report.getSource();
+        String restMethod = report.getRestMethod();
+        HttpMethod httpMethodEnum = HttpMethod.resolve(restMethod);
+        if (httpMethodEnum == null)
+            httpMethodEnum = HttpMethod.GET;
+
+        HttpEntity<Object> httpEntity = new HttpEntity<>(nicicoCriteria, getApplicationJSONHttpHeaders());
+        ResponseEntity<String> exchange;
+        try {
+            exchange = restTemplate.exchange(baseUrl + restUrl, httpMethodEnum, httpEntity, String.class);
+        } catch (Exception e) {
+            throw new SalesException2(e, ErrorType.BadRequest, null, e.getMessage());
+        }
+        if (exchange.getStatusCode().equals(HttpStatus.OK)) {
+
+            Map body = objectMapper.readValue(exchange.getBody(), Map.class);
+            Map responseMap = modelMapper.map(body.get("response"), Map.class);
+
+            GridResponse gridResponse = new GridResponse();
+            gridResponse.setData((List) responseMap.get("data"));
+            gridResponse.setStatus((Integer) responseMap.get("status"));
+            gridResponse.setEndRow((Integer) responseMap.get("endRow"));
+            gridResponse.setStartRow((Integer) responseMap.get("startRow"));
+            gridResponse.setTotalRows((Integer) responseMap.get("totalRows"));
+            gridResponse.setInvalidateCache((Boolean) responseMap.get("invalidateCache"));
+
+            response = new TotalResponse(gridResponse);
+        } else {
+
+            final String message = "ReportService.getReportData Error: [" + exchange.getStatusCode() + "]: " + exchange.getBody();
+            log.error(message);
+            throw new SalesException2(ErrorType.BadRequest, null, message);
+        }
+
+        return response;
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
+
+    private String getSqlWhereClause(NICICOCriteria nicicoCriteria) {
+
+        SearchDTO.SearchRq searchRq = SearchUtil.createSearchRq(nicicoCriteria);
+        NICICOSqlClause nicicoSqlClause = NICICOSqlClause.of(searchRq);
+
+        String whereClause = nicicoSqlClause.getWhereClause();
+        return StringUtils.isEmpty(whereClause) ? "" : " WHERE " + whereClause;
+    }
+
+    private List<Map<String, Object>> convertNativeQueryResultListToMap(String viewName, List queryResultList) {
+
+        Query viewFieldsNameQuery = entityManager.createNativeQuery(VIEW_FIELDS_NAME_QUERY_TEXT);
+        viewFieldsNameQuery.setParameter(1, viewName);
+        List<String> viewFieldsName = modelMapper.map(viewFieldsNameQuery.getResultList(), new TypeToken<List<String>>() {
+        }.getType());
+        if (viewFieldsName == null || viewFieldsName.size() == 0)
+            return new ArrayList<>();
+
+        List<Map<String, Object>> viewFieldMaps = new ArrayList<>();
+        //noinspection unchecked
+        queryResultList.forEach(result -> {
+
+            Object[] resultArray = ((Object[]) result);
+            Map<String, Object> viewFieldMap = new HashMap<>();
+            for (int i = 0; i < resultArray.length; i++)
+                viewFieldMap.put(viewFieldsName.get(i), resultArray[i]);
+
+            viewFieldMaps.add(viewFieldMap);
+        });
+
+        return viewFieldMaps;
+    }
+
+    private TotalResponse<Map<String, Object>> createTotalResponse(String viewName, NICICOCriteria nicicoCriteria, List queryResultList) {
+
+        int totalRowsCount;
+        if (nicicoCriteria.get_startRow() != null && nicicoCriteria.get_endRow() != null)
+            totalRowsCount = nicicoCriteria.get_endRow() - nicicoCriteria.get_startRow();
+        else {
+            nicicoCriteria.set_startRow(0);
+            totalRowsCount = queryResultList.size();
+            nicicoCriteria.set_endRow(totalRowsCount);
+        }
+
+        GridResponse<Map<String, Object>> gridResponse = new GridResponse<>();
+        gridResponse.setTotalRows(totalRowsCount);
+        gridResponse.setStartRow(nicicoCriteria.get_startRow());
+        gridResponse.setEndRow(nicicoCriteria.get_startRow() + totalRowsCount);
+        gridResponse.setData(convertNativeQueryResultListToMap(viewName, queryResultList));
+
+        return new TotalResponse<>(gridResponse);
+    }
+
+    private TotalResponse<Map<String, Object>> getViewReportData(NICICOCriteria nicicoCriteria, ReportDTO.Info report) {
+
+        String viewName = report.getSource();
+        String whereClause = getSqlWhereClause(nicicoCriteria);
+        String query = String.format(VIEW_DATA_QUERY_TEXT, viewName);
+        String offset = " OFFSET " + nicicoCriteria.get_startRow() + " ROWS FETCH NEXT " + (nicicoCriteria.get_endRow() - nicicoCriteria.get_startRow()) + " ROWS ONLY ";
+        Query viewDataQuery = entityManager.createNativeQuery(query + whereClause + offset);
+
+        return createTotalResponse(viewName, nicicoCriteria, viewDataQuery.getResultList());
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<ReportDTO.SourceData> getSourceData(ReportSource reportSource) {
+
+        return reportSource == ReportSource.Rest ? getRestData() : getViewData();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<ReportDTO.FieldData> getSourceFields(ReportSource reportSource, String source) {
+
+        return reportSource == ReportSource.Rest ? getRestFields(source) : getViewFields(source);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public TotalResponse<Map<String, Object>> getReportData(Long reportId, String baseUrl, NICICOCriteria nicicoCriteria) throws IOException {
+
+        ReportDTO.Info report = get(reportId);
+        String permissionKey = "RG_V_" + report.getPermissionBaseKey();
+        if (!SecurityUtil.hasAuthority(permissionKey))
+            throw new UnAuthorizedException(permissionKey);
+
+        TotalResponse<Map<String, Object>> response = null;
+        if (report.getReportSource() == ReportSource.Rest)
+            response = getRestReportData(baseUrl, nicicoCriteria, report);
+        if (report.getReportSource() == ReportSource.View) response = getViewReportData(nicicoCriteria, report);
+
+        if (response != null &&
+                response.getResponse() != null &&
+                response.getResponse().getData() != null &&
+                response.getResponse().getData().size() > 1 &&
+                report.getReportType() == ReportType.OneRecord)
+            response.getResponse().setData(response.getResponse().getData().subList(0, 1));
+
+        return response;
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
 
     @Override
     @Transactional
@@ -384,16 +572,23 @@ public class ReportService extends GenericService<com.nicico.sales.model.entitie
 
     @Override
     @Transactional(readOnly = true)
-    public List<ReportDTO.SourceData> getSourceData(ReportSource reportSource) {
+    @Action(value = ActionType.Search)
+    public TotalResponse<ReportDTO.InfoWithAccess> searchWithAccess(NICICOCriteria request) {
 
-        return reportSource == ReportSource.Rest ? getRestData() : getViewData();
-    }
+        List<com.nicico.sales.model.entities.report.Report> entities = new ArrayList<>();
+        TotalResponse<ReportDTO.InfoWithAccess> result = SearchUtil.search(repositorySpecificationExecutor, request, entity -> {
 
-    @Override
-    @Transactional(readOnly = true)
-    public List<ReportDTO.FieldData> getSourceFields(ReportSource reportSource, String source) {
+            ReportDTO.InfoWithAccess eResult = modelMapper.map(entity, ReportDTO.InfoWithAccess.class);
+            eResult.setExcelAccess(SecurityUtil.hasAuthority("RG_E_" + eResult.getPermissionBaseKey()));
+            eResult.setPrintAccess(SecurityUtil.hasAuthority("RG_P_" + eResult.getPermissionBaseKey()));
+            eResult.setViewAccess(SecurityUtil.hasAuthority("RG_V_" + eResult.getPermissionBaseKey()));
+            validation(entity, eResult);
+            entities.add(entity);
+            return eResult;
+        });
 
-        return reportSource == ReportSource.Rest ? getRestFields(source) : getViewFields(source);
+        validationAll(entities, result);
+        return result;
     }
 
     @Override

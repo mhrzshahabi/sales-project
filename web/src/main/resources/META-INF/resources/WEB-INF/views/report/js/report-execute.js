@@ -1,4 +1,3 @@
-/*
 var reportExecuteTab = new nicico.GeneralTabUtil().getDefaultJSPTabVariable();
 reportExecuteTab.dynamicForm.fields = BaseFormItems.concat([{
     width: "10%",
@@ -47,5 +46,4 @@ reportExecuteTab.dynamicForm.fields = BaseFormItems.concat([{
 Object.assign(reportExecuteTab.listGrid.fields, reportExecuteTab.dynamicForm.fields);
 nicico.BasicFormUtil.getDefaultBasicForm(reportExecuteTab, "");
 reportExecuteTab.listGrid.main.contextMenu = null;
-reportExecuteTab.dynamicForm.main.windowWidth = 500;/!**!/
-*/
+reportExecuteTab.dynamicForm.main.windowWidth = 500;/**/

@@ -364,6 +364,7 @@ reportGeneratorTab.listGrid.reportFields = isc.ListGrid.nicico.getDefault(BaseFo
 
 reportGeneratorTab.window.report = new nicico.FormUtil();
 reportGeneratorTab.variable.fileUploadForm = isc.FileUploadForm.create({
+    height:"200",
     accept: ".jrxml",
     entityName: "Report",
     fileStatusValueMap: JSON.parse('${Enum_FileStatus}'),
@@ -463,7 +464,7 @@ reportGeneratorTab.window.report.okCallBack = function (formData) {
             if (request.status === 0)
                 isc.warn("<spring:message code='dcc.upload.error.capacity'/>");
             else if (request.status === 500)
-                isc.warn(JSON.parse(request.responseText).errors.map(q => q.message).join('<br>'));
+                isc.warn(JSON.parse(request.responseText).errors.map(q => q.message).join('<br>'), {title: "<spring:message code='dialog_WarnTitle'/>"});
             else if (request.status === 200 || request.status === 201) {
 
                 reportGeneratorTab.dialog.ok();

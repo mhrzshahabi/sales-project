@@ -109,6 +109,16 @@ public class ReportDTO {
         private FileDTO.FileMetaData fileMetaData;
         private List<ReportFieldDTO.Update> fields;
     }
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("ReportUpdateRq")
+    public static class InfoWithAccess extends Info {
+
+        private  Boolean excelAccess;
+        private  Boolean printAccess;
+        private  Boolean viewAccess;
+    }
 
     @Getter
     @Setter

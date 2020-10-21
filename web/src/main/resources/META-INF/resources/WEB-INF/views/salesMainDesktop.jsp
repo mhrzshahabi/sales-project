@@ -98,7 +98,9 @@
     <%@include file="common/ts/FindFormUtil.js"%>
     <%@include file="common/ts/GeneralTabUtil.js"%>
     <%@include file="common/ts/StorageUtil.js"%>
-    <%@include file="common/ts/ReportFormUtil.js"%>
+    <%@include file="common/ts/FilterFormUtil.js"%>
+    <%@include file="common/ts/ReportExecutorFormUtil.js"%>
+    <%@include file="common/js/component-file.js"%>
 
     var Enums = {
 
@@ -1025,20 +1027,20 @@
         menu: isc.Menu.create({
             placement: "none",
             data: [
-               <sec:authorize access="hasAuthority('R_REPORT')">
-               {
+                <sec:authorize access="hasAuthority('R_REPORT')">
+                {
                     title: "<spring:message code='report.menu.generator'/>",
                     click: function () {
-                         createTab("<spring:message code='report.menu.generator'/>", "<spring:url value="/report/show-form" />")
+                        createTab("<spring:message code='report.menu.generator'/>", "<spring:url value="/report/show-form" />")
                     }
                 },
                 {isSeparator: true},
                 </sec:authorize>
-               <sec:authorize access="hasAuthority('R_REPORT_GROUP')">
+                <sec:authorize access="hasAuthority('R_REPORT_GROUP')">
                 {
                     title: "<spring:message code='report.menu.report-group'/>",
                     click: function () {
-                         createTab("<spring:message code='report.menu.report-group'/>", "<spring:url value="/report-group/show-form" />")
+                        createTab("<spring:message code='report.menu.report-group'/>", "<spring:url value="/report-group/show-form" />")
                     }
                 },
                 {isSeparator: true},
@@ -1047,7 +1049,8 @@
                 {
                     title: "<spring:message code='report.menu.execute'/>",
                     click: function () {
-                         createTab("<spring:message code='report.menu.execute'/>", "<spring:url value="/report/show-execute-form" />")
+
+                        nicico.ReportExecutorFormUtil.show(null, '<spring:message code="report.menu.execute"/>', null, createTab);
                     }
                 }
                 </sec:authorize>
