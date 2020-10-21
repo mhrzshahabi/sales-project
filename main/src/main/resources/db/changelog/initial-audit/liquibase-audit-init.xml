@@ -2,10 +2,10 @@
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
 				   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 				   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
-	<changeSet author="ARezaieZR (generated)" id="1603102344007-231">
+	<changeSet author="ARezaieZR (generated)" id="1603269610475-231">
 		<createSequence sequenceName="hibernate_sequence"/>
 	</changeSet>
-	<changeSet author="ARezaieZR (generated)" id="1603102344007-234">
+	<changeSet author="ARezaieZR (generated)" id="1603269610475-232">
 		<createTable tableName="AUD_TBL_ASSAY_INSPECTION">
 			<column name="id" type="NUMBER(19, 0)">
 				<constraints primaryKey="true" primaryKeyName="AUD_TBL_ASSAY_INSPECTIONPK"/>
@@ -14,6 +14,10 @@
 				<constraints primaryKey="true" primaryKeyName="AUD_TBL_ASSAY_INSPECTIONPK"/>
 			</column>
 			<column name="REVTYPE" type="NUMBER(3, 0)"/>
+			<column name="c_created_by" type="VARCHAR2(255 CHAR)"/>
+			<column name="d_created_date" type="TIMESTAMP"/>
+			<column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
+			<column name="d_last_modified_date" type="TIMESTAMP"/>
 			<column name="N_E_STATUS" type="NUMBER(10, 0)"/>
 			<column defaultValueNumeric="1" name="B_EDITABLE" type="NUMBER"/>
 			<column name="F_INSPECTION_REPORT_ID" type="NUMBER(19, 0)"/>
@@ -26,7 +30,7 @@
 			<column name="N_VALUE" type="NUMBER(10, 5)"/>
 		</createTable>
 	</changeSet>
-	<changeSet author="ARezaieZR (generated)" id="1603102344007-235">
+	<changeSet author="ARezaieZR (generated)" id="1603269610475-233">
 		<createTable tableName="AUD_TBL_ASSAY_INSPECTION_TOTAL_VALUES">
 			<column name="id" type="NUMBER(19, 0)">
 				<constraints primaryKey="true" primaryKeyName="AUD_TBL_ASSAY_INSPECTION_TOTAL_VALUESPK"/>
@@ -35,6 +39,10 @@
 				<constraints primaryKey="true" primaryKeyName="AUD_TBL_ASSAY_INSPECTION_TOTAL_VALUESPK"/>
 			</column>
 			<column name="REVTYPE" type="NUMBER(3, 0)"/>
+			<column name="c_created_by" type="VARCHAR2(255 CHAR)"/>
+			<column name="d_created_date" type="TIMESTAMP"/>
+			<column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
+			<column name="d_last_modified_date" type="TIMESTAMP"/>
 			<column name="N_E_STATUS" type="NUMBER(10, 0)"/>
 			<column defaultValueNumeric="1" name="B_EDITABLE" type="NUMBER"/>
 			<column name="F_INSPECTION_REPORT_ID" type="NUMBER(19, 0)"/>
@@ -42,7 +50,7 @@
 			<column name="N_VALUE" type="NUMBER(10, 5)"/>
 		</createTable>
 	</changeSet>
-	<changeSet author="ARezaieZR (generated)" id="1603102344007-236">
+	<changeSet author="ARezaieZR (generated)" id="1603269610475-234">
 		<createTable tableName="AUD_TBL_BANK">
 			<column name="ID" type="NUMBER(19, 0)">
 				<constraints primaryKey="true" primaryKeyName="AUD_TBL_BANKPK"/>
@@ -51,6 +59,10 @@
 				<constraints primaryKey="true" primaryKeyName="AUD_TBL_BANKPK"/>
 			</column>
 			<column name="REVTYPE" type="NUMBER(3, 0)"/>
+			<column name="c_created_by" type="VARCHAR2(255 CHAR)"/>
+			<column name="d_created_date" type="TIMESTAMP"/>
+			<column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
+			<column name="d_last_modified_date" type="TIMESTAMP"/>
 			<column name="N_E_STATUS" type="NUMBER(10, 0)"/>
 			<column defaultValueNumeric="1" name="B_EDITABLE" type="NUMBER"/>
 			<column name="c_ADDRESS" type="VARCHAR2(1000 CHAR)"/>
@@ -60,7 +72,7 @@
 			<column name="c_NAME_EN" type="VARCHAR2(1000 CHAR)"/>
 		</createTable>
 	</changeSet>
-	<changeSet author="ARezaieZR (generated)" id="1603102344007-237">
+	<changeSet author="ARezaieZR (generated)" id="1603269610475-235">
 		<createTable tableName="AUD_TBL_CNTR_BILL_OF_LANDING">
 			<column name="id" type="NUMBER(19, 0)">
 				<constraints primaryKey="true" primaryKeyName="AUD_TBL_CNTR_BILL_OF_LANDINGPK"/>
@@ -69,6 +81,10 @@
 				<constraints primaryKey="true" primaryKeyName="AUD_TBL_CNTR_BILL_OF_LANDINGPK"/>
 			</column>
 			<column name="REVTYPE" type="NUMBER(3, 0)"/>
+			<column name="c_created_by" type="VARCHAR2(255 CHAR)"/>
+			<column name="d_created_date" type="TIMESTAMP"/>
+			<column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
+			<column name="d_last_modified_date" type="TIMESTAMP"/>
 			<column name="N_E_STATUS" type="NUMBER(10, 0)"/>
 			<column defaultValueNumeric="1" name="B_EDITABLE" type="NUMBER"/>
 			<column name="F_CONTACT_CONSIGNEE_EXPORTER" type="NUMBER(19, 0)"/>
@@ -100,7 +116,7 @@
 			<column name="N_TOTAL_NET" type="NUMBER(10, 0)"/>
 		</createTable>
 	</changeSet>
-	<changeSet author="ARezaieZR (generated)" id="1603102344007-238">
+	<changeSet author="ARezaieZR (generated)" id="1603269610475-236">
 		<createTable tableName="AUD_TBL_CNTR_CONTAINER_TO_BILL_OF_LANDING">
 			<column name="id" type="NUMBER(19, 0)">
 				<constraints primaryKey="true" primaryKeyName="AUD_TBL_CNTR_CONTAINER_TO_BILL_OF_LANDINGPK"/>
@@ -109,6 +125,10 @@
 				<constraints primaryKey="true" primaryKeyName="AUD_TBL_CNTR_CONTAINER_TO_BILL_OF_LANDINGPK"/>
 			</column>
 			<column name="REVTYPE" type="NUMBER(3, 0)"/>
+			<column name="c_created_by" type="VARCHAR2(255 CHAR)"/>
+			<column name="d_created_date" type="TIMESTAMP"/>
+			<column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
+			<column name="d_last_modified_date" type="TIMESTAMP"/>
 			<column name="N_E_STATUS" type="NUMBER(10, 0)"/>
 			<column defaultValueNumeric="1" name="B_EDITABLE" type="NUMBER"/>
 			<column name="F_CONTAINER_TO_BILL_OF_LANDING_TO_BL" type="NUMBER(19, 0)"/>
@@ -121,7 +141,7 @@
 			<column name="D_WEIGHT" type="NUMBER(19, 0)"/>
 		</createTable>
 	</changeSet>
-	<changeSet author="ARezaieZR (generated)" id="1603102344007-239">
+	<changeSet author="ARezaieZR (generated)" id="1603269610475-237">
 		<createTable tableName="AUD_TBL_CNTR_CONTRACT">
 			<column name="id" type="NUMBER(19, 0)">
 				<constraints primaryKey="true" primaryKeyName="AUD_TBL_CNTR_CONTRACTPK"/>
@@ -130,6 +150,10 @@
 				<constraints primaryKey="true" primaryKeyName="AUD_TBL_CNTR_CONTRACTPK"/>
 			</column>
 			<column name="REVTYPE" type="NUMBER(3, 0)"/>
+			<column name="c_created_by" type="VARCHAR2(255 CHAR)"/>
+			<column name="d_created_date" type="TIMESTAMP"/>
+			<column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
+			<column name="d_last_modified_date" type="TIMESTAMP"/>
 			<column name="N_E_STATUS" type="NUMBER(10, 0)"/>
 			<column defaultValueNumeric="1" name="B_EDITABLE" type="NUMBER"/>
 			<column name="C_ACC_DETAIL" type="VARCHAR2(255 CHAR)"/>
@@ -145,7 +169,7 @@
 			<column name="F_PARENT_ID" type="NUMBER(19, 0)"/>
 		</createTable>
 	</changeSet>
-	<changeSet author="ARezaieZR (generated)" id="1603102344007-240">
+	<changeSet author="ARezaieZR (generated)" id="1603269610475-238">
 		<createTable tableName="AUD_TBL_CNTR_CONTRACT_CONTACT">
 			<column name="id" type="NUMBER(19, 0)">
 				<constraints primaryKey="true" primaryKeyName="AUD_TBL_CNTR_CONTRACT_CONTACTPK"/>
@@ -154,10 +178,14 @@
 				<constraints primaryKey="true" primaryKeyName="AUD_TBL_CNTR_CONTRACT_CONTACTPK"/>
 			</column>
 			<column name="REVTYPE" type="NUMBER(3, 0)"/>
+			<column name="c_created_by" type="VARCHAR2(255 CHAR)"/>
+			<column name="d_created_date" type="TIMESTAMP"/>
+			<column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
+			<column name="d_last_modified_date" type="TIMESTAMP"/>
 			<column name="F_CONTRACT_ID" type="NUMBER(19, 0)"/>
 		</createTable>
 	</changeSet>
-	<changeSet author="ARezaieZR (generated)" id="1603102344007-241">
+	<changeSet author="ARezaieZR (generated)" id="1603269610475-239">
 		<createTable tableName="AUD_TBL_CNTR_CONTRACT_DETAIL">
 			<column name="id" type="NUMBER(19, 0)">
 				<constraints primaryKey="true" primaryKeyName="AUD_TBL_CNTR_CONTRACT_DETAILPK"/>
@@ -166,6 +194,10 @@
 				<constraints primaryKey="true" primaryKeyName="AUD_TBL_CNTR_CONTRACT_DETAILPK"/>
 			</column>
 			<column name="REVTYPE" type="NUMBER(3, 0)"/>
+			<column name="c_created_by" type="VARCHAR2(255 CHAR)"/>
+			<column name="d_created_date" type="TIMESTAMP"/>
+			<column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
+			<column name="d_last_modified_date" type="TIMESTAMP"/>
 			<column name="N_E_STATUS" type="NUMBER(10, 0)"/>
 			<column defaultValueNumeric="1" name="B_EDITABLE" type="NUMBER"/>
 			<column name="C_CONTENT" type="CLOB"/>
@@ -175,7 +207,7 @@
 			<column name="N_POSITION" type="NUMBER(10, 0)"/>
 		</createTable>
 	</changeSet>
-	<changeSet author="ARezaieZR (generated)" id="1603102344007-242">
+	<changeSet author="ARezaieZR (generated)" id="1603269610475-240">
 		<createTable tableName="AUD_TBL_CNTR_CONTRACT_DETAIL_VALUE">
 			<column name="id" type="NUMBER(19, 0)">
 				<constraints primaryKey="true" primaryKeyName="AUD_TBL_CNTR_CONTRACT_DETAIL_VALUEPK"/>
@@ -184,6 +216,10 @@
 				<constraints primaryKey="true" primaryKeyName="AUD_TBL_CNTR_CONTRACT_DETAIL_VALUEPK"/>
 			</column>
 			<column name="REVTYPE" type="NUMBER(3, 0)"/>
+			<column name="c_created_by" type="VARCHAR2(255 CHAR)"/>
+			<column name="d_created_date" type="TIMESTAMP"/>
+			<column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
+			<column name="d_last_modified_date" type="TIMESTAMP"/>
 			<column name="N_E_STATUS" type="NUMBER(10, 0)"/>
 			<column defaultValueNumeric="1" name="B_EDITABLE" type="NUMBER"/>
 			<column name="F_CONTRACT_DETAIL_ID" type="NUMBER(19, 0)"/>
@@ -197,7 +233,7 @@
 			<column name="C_VALUE" type="VARCHAR2(255 CHAR)"/>
 		</createTable>
 	</changeSet>
-	<changeSet author="ARezaieZR (generated)" id="1603102344007-243">
+	<changeSet author="ARezaieZR (generated)" id="1603269610475-241">
 		<createTable tableName="AUD_TBL_CNTR_REMITTANCE_TO_BILL_OF_LANDING">
 			<column name="id" type="NUMBER(19, 0)">
 				<constraints primaryKey="true" primaryKeyName="AUD_TBL_CNTR_REMITTANCE_TO_BILL_OF_LANDINGPK"/>
@@ -206,6 +242,10 @@
 				<constraints primaryKey="true" primaryKeyName="AUD_TBL_CNTR_REMITTANCE_TO_BILL_OF_LANDINGPK"/>
 			</column>
 			<column name="REVTYPE" type="NUMBER(3, 0)"/>
+			<column name="c_created_by" type="VARCHAR2(255 CHAR)"/>
+			<column name="d_created_date" type="TIMESTAMP"/>
+			<column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
+			<column name="d_last_modified_date" type="TIMESTAMP"/>
 			<column name="N_E_STATUS" type="NUMBER(10, 0)"/>
 			<column defaultValueNumeric="1" name="B_EDITABLE" type="NUMBER"/>
 			<column name="F_REMITTANCETOBL_TO_BL" type="NUMBER(19, 0)"/>
@@ -216,7 +256,7 @@
 			<column name="F_REMITTANCETOBL_TO_REMITTANCE" type="NUMBER(19, 0)"/>
 		</createTable>
 	</changeSet>
-	<changeSet author="ARezaieZR (generated)" id="1603102344007-244">
+	<changeSet author="ARezaieZR (generated)" id="1603269610475-242">
 		<createTable tableName="AUD_TBL_CONTACT">
 			<column name="ID" type="NUMBER(19, 0)">
 				<constraints primaryKey="true" primaryKeyName="AUD_TBL_CONTACTPK"/>
@@ -225,6 +265,10 @@
 				<constraints primaryKey="true" primaryKeyName="AUD_TBL_CONTACTPK"/>
 			</column>
 			<column name="REVTYPE" type="NUMBER(3, 0)"/>
+			<column name="c_created_by" type="VARCHAR2(255 CHAR)"/>
+			<column name="d_created_date" type="TIMESTAMP"/>
+			<column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
+			<column name="d_last_modified_date" type="TIMESTAMP"/>
 			<column name="N_E_STATUS" type="NUMBER(10, 0)"/>
 			<column defaultValueNumeric="1" name="B_EDITABLE" type="NUMBER"/>
 			<column name="C_ACC_DETAIL" type="VARCHAR2(255 CHAR)"/>
@@ -260,7 +304,7 @@
 			<column name="C_WEBSITE" type="VARCHAR2(255 CHAR)"/>
 		</createTable>
 	</changeSet>
-	<changeSet author="ARezaieZR (generated)" id="1603102344007-245">
+	<changeSet author="ARezaieZR (generated)" id="1603269610475-243">
 		<createTable tableName="AUD_TBL_CONTACT_ACCOUNT">
 			<column name="ID" type="NUMBER(19, 0)">
 				<constraints primaryKey="true" primaryKeyName="AUD_TBL_CONTACT_ACCOUNTPK"/>
@@ -269,10 +313,14 @@
 				<constraints primaryKey="true" primaryKeyName="AUD_TBL_CONTACT_ACCOUNTPK"/>
 			</column>
 			<column name="REVTYPE" type="NUMBER(3, 0)"/>
+			<column name="c_created_by" type="VARCHAR2(255 CHAR)"/>
+			<column name="d_created_date" type="TIMESTAMP"/>
+			<column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
+			<column name="d_last_modified_date" type="TIMESTAMP"/>
 			<column name="CNT_ID" type="NUMBER(19, 0)"/>
 		</createTable>
 	</changeSet>
-	<changeSet author="ARezaieZR (generated)" id="1603102344007-246">
+	<changeSet author="ARezaieZR (generated)" id="1603269610475-244">
 		<createTable tableName="AUD_TBL_CONTRACT_DISCOUNT">
 			<column name="ID" type="NUMBER(19, 0)">
 				<constraints primaryKey="true" primaryKeyName="AUD_TBL_CONTRACT_DISCOUNTPK"/>
@@ -281,6 +329,10 @@
 				<constraints primaryKey="true" primaryKeyName="AUD_TBL_CONTRACT_DISCOUNTPK"/>
 			</column>
 			<column name="REVTYPE" type="NUMBER(3, 0)"/>
+			<column name="c_created_by" type="VARCHAR2(255 CHAR)"/>
+			<column name="d_created_date" type="TIMESTAMP"/>
+			<column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
+			<column name="d_last_modified_date" type="TIMESTAMP"/>
 			<column name="N_E_STATUS" type="NUMBER(10, 0)"/>
 			<column defaultValueNumeric="1" name="B_EDITABLE" type="NUMBER"/>
 			<column name="F_CONTRACT_ID" type="NUMBER(19, 0)"/>
@@ -290,7 +342,7 @@
 			<column name="UPPER_BOUND" type="NUMBER(6, 3)"/>
 		</createTable>
 	</changeSet>
-	<changeSet author="ARezaieZR (generated)" id="1603102344007-247">
+	<changeSet author="ARezaieZR (generated)" id="1603269610475-245">
 		<createTable tableName="AUD_TBL_CONTRACT_SHIPMENT">
 			<column name="ID" type="NUMBER(19, 0)">
 				<constraints primaryKey="true" primaryKeyName="AUD_TBL_CONTRACT_SHIPMENTPK"/>
@@ -299,6 +351,10 @@
 				<constraints primaryKey="true" primaryKeyName="AUD_TBL_CONTRACT_SHIPMENTPK"/>
 			</column>
 			<column name="REVTYPE" type="NUMBER(3, 0)"/>
+			<column name="c_created_by" type="VARCHAR2(255 CHAR)"/>
+			<column name="d_created_date" type="TIMESTAMP"/>
+			<column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
+			<column name="d_last_modified_date" type="TIMESTAMP"/>
 			<column name="N_E_STATUS" type="NUMBER(10, 0)"/>
 			<column defaultValueNumeric="1" name="B_EDITABLE" type="NUMBER"/>
 			<column name="CONTRACT_ID" type="NUMBER(19, 0)"/>
@@ -309,7 +365,7 @@
 			<column name="TOLORANCE" type="NUMBER(19, 0)"/>
 		</createTable>
 	</changeSet>
-	<changeSet author="ARezaieZR (generated)" id="1603102344007-248">
+	<changeSet author="ARezaieZR (generated)" id="1603269610475-246">
 		<createTable tableName="AUD_TBL_CURRENCY_RATE">
 			<column name="ID" type="NUMBER(19, 0)">
 				<constraints primaryKey="true" primaryKeyName="AUD_TBL_CURRENCY_RATEPK"/>
@@ -318,6 +374,10 @@
 				<constraints primaryKey="true" primaryKeyName="AUD_TBL_CURRENCY_RATEPK"/>
 			</column>
 			<column name="REVTYPE" type="NUMBER(3, 0)"/>
+			<column name="c_created_by" type="VARCHAR2(255 CHAR)"/>
+			<column name="d_created_date" type="TIMESTAMP"/>
+			<column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
+			<column name="d_last_modified_date" type="TIMESTAMP"/>
 			<column name="N_E_STATUS" type="NUMBER(10, 0)"/>
 			<column defaultValueNumeric="1" name="B_EDITABLE" type="NUMBER"/>
 			<column name="D_CURRENCY_DATE" type="TIMESTAMP"/>
@@ -329,7 +389,7 @@
 			<column name="F_UNIT_TO" type="NUMBER(19, 0)"/>
 		</createTable>
 	</changeSet>
-	<changeSet author="ARezaieZR (generated)" id="1603102344007-249">
+	<changeSet author="ARezaieZR (generated)" id="1603269610475-247">
 		<createTable tableName="AUD_TBL_DEDUCTION">
 			<column name="ID" type="NUMBER(19, 0)">
 				<constraints primaryKey="true" primaryKeyName="AUD_TBL_DEDUCTIONPK"/>
@@ -338,6 +398,10 @@
 				<constraints primaryKey="true" primaryKeyName="AUD_TBL_DEDUCTIONPK"/>
 			</column>
 			<column name="REVTYPE" type="NUMBER(3, 0)"/>
+			<column name="c_created_by" type="VARCHAR2(255 CHAR)"/>
+			<column name="d_created_date" type="TIMESTAMP"/>
+			<column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
+			<column name="d_last_modified_date" type="TIMESTAMP"/>
 			<column name="N_E_STATUS" type="NUMBER(10, 0)"/>
 			<column defaultValueNumeric="1" name="B_EDITABLE" type="NUMBER"/>
 			<column name="F_CONTRACT_ID" type="NUMBER(19, 0)"/>
@@ -347,7 +411,7 @@
 			<column name="F_UNIT_ID" type="NUMBER(19, 0)"/>
 		</createTable>
 	</changeSet>
-	<changeSet author="ARezaieZR (generated)" id="1603102344007-250">
+	<changeSet author="ARezaieZR (generated)" id="1603269610475-248">
 		<createTable tableName="AUD_TBL_FOREIGN_INVOICE">
 			<column name="id" type="NUMBER(19, 0)">
 				<constraints primaryKey="true" primaryKeyName="AUD_TBL_FOREIGN_INVOICEPK"/>
@@ -356,6 +420,10 @@
 				<constraints primaryKey="true" primaryKeyName="AUD_TBL_FOREIGN_INVOICEPK"/>
 			</column>
 			<column name="REVTYPE" type="NUMBER(3, 0)"/>
+			<column name="c_created_by" type="VARCHAR2(255 CHAR)"/>
+			<column name="d_created_date" type="TIMESTAMP"/>
+			<column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
+			<column name="d_last_modified_date" type="TIMESTAMP"/>
 			<column name="N_E_STATUS" type="NUMBER(10, 0)"/>
 			<column defaultValueNumeric="1" name="B_EDITABLE" type="NUMBER"/>
 			<column name="N_ACCOUNTING_ID" type="NUMBER(19, 0)"/>
@@ -381,7 +449,7 @@
 			<column name="N_UNIT_PRICE" type="NUMBER(10, 2)"/>
 		</createTable>
 	</changeSet>
-	<changeSet author="ARezaieZR (generated)" id="1603102344007-251">
+	<changeSet author="ARezaieZR (generated)" id="1603269610475-249">
 		<createTable tableName="AUD_TBL_FOREIGN_INVOICE_BILL_OF_LANDING">
 			<column name="id" type="NUMBER(19, 0)">
 				<constraints primaryKey="true" primaryKeyName="AUD_TBL_FOREIGN_INVOICE_BILL_OF_LANDINGPK"/>
@@ -390,13 +458,17 @@
 				<constraints primaryKey="true" primaryKeyName="AUD_TBL_FOREIGN_INVOICE_BILL_OF_LANDINGPK"/>
 			</column>
 			<column name="REVTYPE" type="NUMBER(3, 0)"/>
+			<column name="c_created_by" type="VARCHAR2(255 CHAR)"/>
+			<column name="d_created_date" type="TIMESTAMP"/>
+			<column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
+			<column name="d_last_modified_date" type="TIMESTAMP"/>
 			<column name="N_E_STATUS" type="NUMBER(10, 0)"/>
 			<column defaultValueNumeric="1" name="B_EDITABLE" type="NUMBER"/>
 			<column name="F_BILL_OF_LANDING_ID" type="NUMBER(19, 0)"/>
 			<column name="F_FOREIGN_INVOICE_ID" type="NUMBER(19, 0)"/>
 		</createTable>
 	</changeSet>
-	<changeSet author="ARezaieZR (generated)" id="1603102344007-252">
+	<changeSet author="ARezaieZR (generated)" id="1603269610475-250">
 		<createTable tableName="AUD_TBL_FOREIGN_INVOICE_ITEM">
 			<column name="id" type="NUMBER(19, 0)">
 				<constraints primaryKey="true" primaryKeyName="AUD_TBL_FOREIGN_INVOICE_ITEMPK"/>
@@ -405,6 +477,10 @@
 				<constraints primaryKey="true" primaryKeyName="AUD_TBL_FOREIGN_INVOICE_ITEMPK"/>
 			</column>
 			<column name="REVTYPE" type="NUMBER(3, 0)"/>
+			<column name="c_created_by" type="VARCHAR2(255 CHAR)"/>
+			<column name="d_created_date" type="TIMESTAMP"/>
+			<column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
+			<column name="d_last_modified_date" type="TIMESTAMP"/>
 			<column name="N_E_STATUS" type="NUMBER(10, 0)"/>
 			<column defaultValueNumeric="1" name="B_EDITABLE" type="NUMBER"/>
 			<column name="N_ASSAY_MILESTONE" type="NUMBER(10, 0)"/>
@@ -416,7 +492,7 @@
 			<column name="N_WEIGHT_ND" type="NUMBER(12, 5)"/>
 		</createTable>
 	</changeSet>
-	<changeSet author="ARezaieZR (generated)" id="1603102344007-253">
+	<changeSet author="ARezaieZR (generated)" id="1603269610475-251">
 		<createTable tableName="AUD_TBL_FOREIGN_INVOICE_ITEM_DETAIL">
 			<column name="id" type="NUMBER(19, 0)">
 				<constraints primaryKey="true" primaryKeyName="AUD_TBL_FOREIGN_INVOICE_ITEM_DETAILPK"/>
@@ -425,6 +501,10 @@
 				<constraints primaryKey="true" primaryKeyName="AUD_TBL_FOREIGN_INVOICE_ITEM_DETAILPK"/>
 			</column>
 			<column name="REVTYPE" type="NUMBER(3, 0)"/>
+			<column name="c_created_by" type="VARCHAR2(255 CHAR)"/>
+			<column name="d_created_date" type="TIMESTAMP"/>
+			<column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
+			<column name="d_last_modified_date" type="TIMESTAMP"/>
 			<column name="N_E_STATUS" type="NUMBER(10, 0)"/>
 			<column defaultValueNumeric="1" name="B_EDITABLE" type="NUMBER"/>
 			<column name="N_ASSAY" type="NUMBER(12, 5)"/>
@@ -440,7 +520,7 @@
 			<column name="N_RC_UNIT_CONVERSION_RATE" type="NUMBER(12, 5)"/>
 		</createTable>
 	</changeSet>
-	<changeSet author="ARezaieZR (generated)" id="1603102344007-254">
+	<changeSet author="ARezaieZR (generated)" id="1603269610475-252">
 		<createTable tableName="AUD_TBL_FOREIGN_INVOICE_PAYMENT">
 			<column name="id" type="NUMBER(19, 0)">
 				<constraints primaryKey="true" primaryKeyName="AUD_TBL_FOREIGN_INVOICE_PAYMENTPK"/>
@@ -449,6 +529,10 @@
 				<constraints primaryKey="true" primaryKeyName="AUD_TBL_FOREIGN_INVOICE_PAYMENTPK"/>
 			</column>
 			<column name="REVTYPE" type="NUMBER(3, 0)"/>
+			<column name="c_created_by" type="VARCHAR2(255 CHAR)"/>
+			<column name="d_created_date" type="TIMESTAMP"/>
+			<column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
+			<column name="d_last_modified_date" type="TIMESTAMP"/>
 			<column name="N_E_STATUS" type="NUMBER(10, 0)"/>
 			<column defaultValueNumeric="1" name="B_EDITABLE" type="NUMBER"/>
 			<column name="F_CONVERSION_REF_ID" type="NUMBER(19, 0)"/>
@@ -463,7 +547,7 @@
 			<column name="N_PORTION" type="NUMBER(5, 2)"/>
 		</createTable>
 	</changeSet>
-	<changeSet author="ARezaieZR (generated)" id="1603102344007-255">
+	<changeSet author="ARezaieZR (generated)" id="1603269610475-253">
 		<createTable tableName="AUD_TBL_INSPECTION_REPORT">
 			<column name="id" type="NUMBER(19, 0)">
 				<constraints primaryKey="true" primaryKeyName="AUD_TBL_INSPECTION_REPORTPK"/>
@@ -472,6 +556,10 @@
 				<constraints primaryKey="true" primaryKeyName="AUD_TBL_INSPECTION_REPORTPK"/>
 			</column>
 			<column name="REVTYPE" type="NUMBER(3, 0)"/>
+			<column name="c_created_by" type="VARCHAR2(255 CHAR)"/>
+			<column name="d_created_date" type="TIMESTAMP"/>
+			<column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
+			<column name="d_last_modified_date" type="TIMESTAMP"/>
 			<column name="N_E_STATUS" type="NUMBER(10, 0)"/>
 			<column defaultValueNumeric="1" name="B_EDITABLE" type="NUMBER"/>
 			<column name="F_BUYER_ID" type="NUMBER(19, 0)"/>
@@ -488,7 +576,7 @@
 			<column name="N_WEIGHT_N_D" type="NUMBER(10, 5)"/>
 		</createTable>
 	</changeSet>
-	<changeSet author="ARezaieZR (generated)" id="1603102344007-256">
+	<changeSet author="ARezaieZR (generated)" id="1603269610475-254">
 		<createTable tableName="AUD_TBL_INVOICE_SALES">
 			<column name="ID" type="NUMBER(19, 0)">
 				<constraints primaryKey="true" primaryKeyName="AUD_TBL_INVOICE_SALESPK"/>
@@ -497,6 +585,10 @@
 				<constraints primaryKey="true" primaryKeyName="AUD_TBL_INVOICE_SALESPK"/>
 			</column>
 			<column name="REVTYPE" type="NUMBER(3, 0)"/>
+			<column name="c_created_by" type="VARCHAR2(255 CHAR)"/>
+			<column name="d_created_date" type="TIMESTAMP"/>
+			<column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
+			<column name="d_last_modified_date" type="TIMESTAMP"/>
 			<column name="N_E_STATUS" type="NUMBER(10, 0)"/>
 			<column defaultValueNumeric="1" name="B_EDITABLE" type="NUMBER"/>
 			<column name="POSTAL_CODE" type="VARCHAR2(255 CHAR)"/>
@@ -525,7 +617,7 @@
 			<column name="TELEPHONE" type="VARCHAR2(255 CHAR)"/>
 		</createTable>
 	</changeSet>
-	<changeSet author="ARezaieZR (generated)" id="1603102344007-257">
+	<changeSet author="ARezaieZR (generated)" id="1603269610475-255">
 		<createTable tableName="AUD_TBL_INVOICE_SALES_ITEM">
 			<column name="ID" type="NUMBER(19, 0)">
 				<constraints primaryKey="true" primaryKeyName="AUD_TBL_INVOICE_SALES_ITEMPK"/>
@@ -534,6 +626,10 @@
 				<constraints primaryKey="true" primaryKeyName="AUD_TBL_INVOICE_SALES_ITEMPK"/>
 			</column>
 			<column name="REVTYPE" type="NUMBER(3, 0)"/>
+			<column name="c_created_by" type="VARCHAR2(255 CHAR)"/>
+			<column name="d_created_date" type="TIMESTAMP"/>
+			<column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
+			<column name="d_last_modified_date" type="TIMESTAMP"/>
 			<column name="N_E_STATUS" type="NUMBER(10, 0)"/>
 			<column defaultValueNumeric="1" name="B_EDITABLE" type="NUMBER"/>
 			<column name="DISCOUNT" type="NUMBER(19, 0)"/>
@@ -553,7 +649,7 @@
 			<column name="VAT" type="NUMBER(19, 0)"/>
 		</createTable>
 	</changeSet>
-	<changeSet author="ARezaieZR (generated)" id="1603102344007-258">
+	<changeSet author="ARezaieZR (generated)" id="1603269610475-256">
 		<createTable tableName="AUD_TBL_PORT">
 			<column name="ID" type="NUMBER(19, 0)">
 				<constraints primaryKey="true" primaryKeyName="AUD_TBL_PORTPK"/>
@@ -562,6 +658,10 @@
 				<constraints primaryKey="true" primaryKeyName="AUD_TBL_PORTPK"/>
 			</column>
 			<column name="REVTYPE" type="NUMBER(3, 0)"/>
+			<column name="c_created_by" type="VARCHAR2(255 CHAR)"/>
+			<column name="d_created_date" type="TIMESTAMP"/>
+			<column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
+			<column name="d_last_modified_date" type="TIMESTAMP"/>
 			<column name="N_E_STATUS" type="NUMBER(10, 0)"/>
 			<column defaultValueNumeric="1" name="B_EDITABLE" type="NUMBER"/>
 			<column name="C_ARRIVAL" type="VARCHAR2(255 CHAR)"/>
@@ -571,7 +671,7 @@
 			<column name="C_PORT" type="VARCHAR2(4000 CHAR)"/>
 		</createTable>
 	</changeSet>
-	<changeSet author="ARezaieZR (generated)" id="1603102344007-259">
+	<changeSet author="ARezaieZR (generated)" id="1603269610475-257">
 		<createTable tableName="AUD_TBL_PRICE_BASE">
 			<column name="ID" type="NUMBER(19, 0)">
 				<constraints primaryKey="true" primaryKeyName="AUD_TBL_PRICE_BASEPK"/>
@@ -580,6 +680,10 @@
 				<constraints primaryKey="true" primaryKeyName="AUD_TBL_PRICE_BASEPK"/>
 			</column>
 			<column name="REVTYPE" type="NUMBER(3, 0)"/>
+			<column name="c_created_by" type="VARCHAR2(255 CHAR)"/>
+			<column name="d_created_date" type="TIMESTAMP"/>
+			<column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
+			<column name="d_last_modified_date" type="TIMESTAMP"/>
 			<column name="N_E_STATUS" type="NUMBER(10, 0)"/>
 			<column defaultValueNumeric="1" name="B_EDITABLE" type="NUMBER"/>
 			<column name="F_ELEMENT_ID" type="NUMBER(19, 0)"/>
@@ -590,7 +694,7 @@
 			<column name="F_WEIGHT_UNIT_ID" type="NUMBER(19, 0)"/>
 		</createTable>
 	</changeSet>
-	<changeSet author="ARezaieZR (generated)" id="1603102344007-260">
+	<changeSet author="ARezaieZR (generated)" id="1603269610475-258">
 		<createTable tableName="AUD_TBL_SHIPMENT">
 			<column name="ID" type="NUMBER(19, 0)">
 				<constraints primaryKey="true" primaryKeyName="AUD_TBL_SHIPMENTPK"/>
@@ -599,6 +703,10 @@
 				<constraints primaryKey="true" primaryKeyName="AUD_TBL_SHIPMENTPK"/>
 			</column>
 			<column name="REVTYPE" type="NUMBER(3, 0)"/>
+			<column name="c_created_by" type="VARCHAR2(255 CHAR)"/>
+			<column name="d_created_date" type="TIMESTAMP"/>
+			<column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
+			<column name="d_last_modified_date" type="TIMESTAMP"/>
 			<column name="N_E_STATUS" type="NUMBER(10, 0)"/>
 			<column defaultValueNumeric="1" name="B_EDITABLE" type="NUMBER"/>
 			<column name="N_AMOUNT" type="NUMBER(12, 3)"/>
@@ -629,7 +737,7 @@
 			<column name="N_WEIGHT_N_D" type="NUMBER(10, 5)"/>
 		</createTable>
 	</changeSet>
-	<changeSet author="ARezaieZR (generated)" id="1603102344007-261">
+	<changeSet author="ARezaieZR (generated)" id="1603269610475-259">
 		<createTable tableName="AUD_TBL_SHIPMENT_COST_DUTY">
 			<column name="ID" type="NUMBER(19, 0)">
 				<constraints primaryKey="true" primaryKeyName="AUD_TBL_SHIPMENT_COST_DUTYPK"/>
@@ -638,6 +746,10 @@
 				<constraints primaryKey="true" primaryKeyName="AUD_TBL_SHIPMENT_COST_DUTYPK"/>
 			</column>
 			<column name="REVTYPE" type="NUMBER(3, 0)"/>
+			<column name="c_created_by" type="VARCHAR2(255 CHAR)"/>
+			<column name="d_created_date" type="TIMESTAMP"/>
+			<column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
+			<column name="d_last_modified_date" type="TIMESTAMP"/>
 			<column name="N_E_STATUS" type="NUMBER(10, 0)"/>
 			<column defaultValueNumeric="1" name="B_EDITABLE" type="NUMBER"/>
 			<column name="C_ACC_DETAIL" type="VARCHAR2(255 CHAR)"/>
@@ -647,7 +759,7 @@
 			<column name="C_NAME_FA" type="VARCHAR2(255 CHAR)"/>
 		</createTable>
 	</changeSet>
-	<changeSet author="ARezaieZR (generated)" id="1603102344007-262">
+	<changeSet author="ARezaieZR (generated)" id="1603269610475-260">
 		<createTable tableName="AUD_TBL_SHIPMENT_COST_INVOICE">
 			<column name="id" type="NUMBER(19, 0)">
 				<constraints primaryKey="true" primaryKeyName="AUD_TBL_SHIPMENT_COST_INVOICEPK"/>
@@ -656,6 +768,10 @@
 				<constraints primaryKey="true" primaryKeyName="AUD_TBL_SHIPMENT_COST_INVOICEPK"/>
 			</column>
 			<column name="REVTYPE" type="NUMBER(3, 0)"/>
+			<column name="c_created_by" type="VARCHAR2(255 CHAR)"/>
+			<column name="d_created_date" type="TIMESTAMP"/>
+			<column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
+			<column name="d_last_modified_date" type="TIMESTAMP"/>
 			<column name="N_E_STATUS" type="NUMBER(10, 0)"/>
 			<column defaultValueNumeric="1" name="B_EDITABLE" type="NUMBER"/>
 			<column name="F_BUYER_CONTACT_ID" type="NUMBER(19, 0)"/>
@@ -685,7 +801,7 @@
 			<column name="N_T_VAT" type="NUMBER(10, 5)"/>
 		</createTable>
 	</changeSet>
-	<changeSet author="ARezaieZR (generated)" id="1603102344007-263">
+	<changeSet author="ARezaieZR (generated)" id="1603269610475-261">
 		<createTable tableName="AUD_TBL_SHIPMENT_COST_INVOICE_DETAIL">
 			<column name="id" type="NUMBER(19, 0)">
 				<constraints primaryKey="true" primaryKeyName="AUD_TBL_SHIPMENT_COST_INVOICE_DETAILPK"/>
@@ -694,6 +810,10 @@
 				<constraints primaryKey="true" primaryKeyName="AUD_TBL_SHIPMENT_COST_INVOICE_DETAILPK"/>
 			</column>
 			<column name="REVTYPE" type="NUMBER(3, 0)"/>
+			<column name="c_created_by" type="VARCHAR2(255 CHAR)"/>
+			<column name="d_created_date" type="TIMESTAMP"/>
+			<column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
+			<column name="d_last_modified_date" type="TIMESTAMP"/>
 			<column name="N_E_STATUS" type="NUMBER(10, 0)"/>
 			<column defaultValueNumeric="1" name="B_EDITABLE" type="NUMBER"/>
 			<column name="N_C_VAT_PRICE" type="NUMBER(18, 6)"/>
@@ -710,7 +830,7 @@
 			<column name="N_UNIT_PRICE" type="NUMBER(18, 6)"/>
 		</createTable>
 	</changeSet>
-	<changeSet author="ARezaieZR (generated)" id="1603102344007-264">
+	<changeSet author="ARezaieZR (generated)" id="1603269610475-262">
 		<createTable tableName="AUD_TBL_TYPICAL_ASSAY">
 			<column name="ID" type="NUMBER(19, 0)">
 				<constraints primaryKey="true" primaryKeyName="AUD_TBL_TYPICAL_ASSAYPK"/>
@@ -719,6 +839,10 @@
 				<constraints primaryKey="true" primaryKeyName="AUD_TBL_TYPICAL_ASSAYPK"/>
 			</column>
 			<column name="REVTYPE" type="NUMBER(3, 0)"/>
+			<column name="c_created_by" type="VARCHAR2(255 CHAR)"/>
+			<column name="d_created_date" type="TIMESTAMP"/>
+			<column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
+			<column name="d_last_modified_date" type="TIMESTAMP"/>
 			<column name="N_E_STATUS" type="NUMBER(10, 0)"/>
 			<column defaultValueNumeric="1" name="B_EDITABLE" type="NUMBER"/>
 			<column name="F_CONTRACT_ID" type="NUMBER(19, 0)"/>
@@ -728,7 +852,7 @@
 			<column name="F_UNIT_ID" type="NUMBER(19, 0)"/>
 		</createTable>
 	</changeSet>
-	<changeSet author="ARezaieZR (generated)" id="1603102344007-265">
+	<changeSet author="ARezaieZR (generated)" id="1603269610475-263">
 		<createTable tableName="AUD_TBL_UNIT">
 			<column name="ID" type="NUMBER(19, 0)">
 				<constraints primaryKey="true" primaryKeyName="AUD_TBL_UNITPK"/>
@@ -737,6 +861,10 @@
 				<constraints primaryKey="true" primaryKeyName="AUD_TBL_UNITPK"/>
 			</column>
 			<column name="REVTYPE" type="NUMBER(3, 0)"/>
+			<column name="c_created_by" type="VARCHAR2(255 CHAR)"/>
+			<column name="d_created_date" type="TIMESTAMP"/>
+			<column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
+			<column name="d_last_modified_date" type="TIMESTAMP"/>
 			<column name="N_E_STATUS" type="NUMBER(10, 0)"/>
 			<column defaultValueNumeric="1" name="B_EDITABLE" type="NUMBER"/>
 			<column name="N_CATEGORY_UNIT" type="NUMBER(10, 0)"/>
@@ -745,7 +873,7 @@
 			<column name="N_SYMBOL_UNIT" type="NUMBER(10, 0)"/>
 		</createTable>
 	</changeSet>
-	<changeSet author="ARezaieZR (generated)" id="1603102344007-266">
+	<changeSet author="ARezaieZR (generated)" id="1603269610475-264">
 		<createTable tableName="AUD_TBL_VESSEL">
 			<column name="ID" type="NUMBER(19, 0)">
 				<constraints primaryKey="true" primaryKeyName="AUD_TBL_VESSELPK"/>
@@ -754,6 +882,10 @@
 				<constraints primaryKey="true" primaryKeyName="AUD_TBL_VESSELPK"/>
 			</column>
 			<column name="REVTYPE" type="NUMBER(3, 0)"/>
+			<column name="c_created_by" type="VARCHAR2(255 CHAR)"/>
+			<column name="d_created_date" type="TIMESTAMP"/>
+			<column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
+			<column name="d_last_modified_date" type="TIMESTAMP"/>
 			<column name="N_E_STATUS" type="NUMBER(10, 0)"/>
 			<column defaultValueNumeric="1" name="B_EDITABLE" type="NUMBER"/>
 			<column name="BEAM" type="FLOAT(24)"/>
@@ -764,7 +896,7 @@
 			<column name="YEAR_OF_BUILd" type="NUMBER(10, 0)"/>
 		</createTable>
 	</changeSet>
-	<changeSet author="ARezaieZR (generated)" id="1603102344007-267">
+	<changeSet author="ARezaieZR (generated)" id="1603269610475-265">
 		<createTable tableName="AUD_TBL_WARH_DEPOT">
 			<column name="id" type="NUMBER(19, 0)">
 				<constraints primaryKey="true" primaryKeyName="AUD_TBL_WARH_DEPOTPK"/>
@@ -773,6 +905,10 @@
 				<constraints primaryKey="true" primaryKeyName="AUD_TBL_WARH_DEPOTPK"/>
 			</column>
 			<column name="REVTYPE" type="NUMBER(3, 0)"/>
+			<column name="c_created_by" type="VARCHAR2(255 CHAR)"/>
+			<column name="d_created_date" type="TIMESTAMP"/>
+			<column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
+			<column name="d_last_modified_date" type="TIMESTAMP"/>
 			<column name="N_E_STATUS" type="NUMBER(10, 0)"/>
 			<column defaultValueNumeric="1" name="B_EDITABLE" type="NUMBER"/>
 			<column name="C_DESCRIPTION" type="VARCHAR2(255 CHAR)"/>
@@ -780,7 +916,7 @@
 			<column name="F_STORE_ID" type="NUMBER(19, 0)"/>
 		</createTable>
 	</changeSet>
-	<changeSet author="ARezaieZR (generated)" id="1603102344007-268">
+	<changeSet author="ARezaieZR (generated)" id="1603269610475-266">
 		<createTable tableName="AUD_TBL_WARH_INVENTORY">
 			<column name="id" type="NUMBER(19, 0)">
 				<constraints primaryKey="true" primaryKeyName="AUD_TBL_WARH_INVENTORYPK"/>
@@ -789,6 +925,10 @@
 				<constraints primaryKey="true" primaryKeyName="AUD_TBL_WARH_INVENTORYPK"/>
 			</column>
 			<column name="REVTYPE" type="NUMBER(3, 0)"/>
+			<column name="c_created_by" type="VARCHAR2(255 CHAR)"/>
+			<column name="d_created_date" type="TIMESTAMP"/>
+			<column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
+			<column name="d_last_modified_date" type="TIMESTAMP"/>
 			<column name="N_E_STATUS" type="NUMBER(10, 0)"/>
 			<column defaultValueNumeric="1" name="B_EDITABLE" type="NUMBER"/>
 			<column name="F_CONTRACT_ID" type="NUMBER(19, 0)"/>
@@ -796,7 +936,7 @@
 			<column name="F_MATERIAL_ITEM_ID" type="NUMBER(19, 0)"/>
 		</createTable>
 	</changeSet>
-	<changeSet author="ARezaieZR (generated)" id="1603102344007-269">
+	<changeSet author="ARezaieZR (generated)" id="1603269610475-267">
 		<createTable tableName="AUD_TBL_WARH_REMITTANCE">
 			<column name="id" type="NUMBER(19, 0)">
 				<constraints primaryKey="true" primaryKeyName="AUD_TBL_WARH_REMITTANCEPK"/>
@@ -805,6 +945,10 @@
 				<constraints primaryKey="true" primaryKeyName="AUD_TBL_WARH_REMITTANCEPK"/>
 			</column>
 			<column name="REVTYPE" type="NUMBER(3, 0)"/>
+			<column name="c_created_by" type="VARCHAR2(255 CHAR)"/>
+			<column name="d_created_date" type="TIMESTAMP"/>
+			<column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
+			<column name="d_last_modified_date" type="TIMESTAMP"/>
 			<column name="N_E_STATUS" type="NUMBER(10, 0)"/>
 			<column defaultValueNumeric="1" name="B_EDITABLE" type="NUMBER"/>
 			<column name="C_CODE" type="VARCHAR2(255 CHAR)"/>
@@ -812,7 +956,7 @@
 			<column name="F_shipment_id" type="NUMBER(19, 0)"/>
 		</createTable>
 	</changeSet>
-	<changeSet author="ARezaieZR (generated)" id="1603102344007-270">
+	<changeSet author="ARezaieZR (generated)" id="1603269610475-268">
 		<createTable tableName="AUD_TBL_WARH_REMITTANCE_DETAIL">
 			<column name="id" type="NUMBER(19, 0)">
 				<constraints primaryKey="true" primaryKeyName="AUD_TBL_WARH_REMITTANCE_DETAILPK"/>
@@ -821,6 +965,10 @@
 				<constraints primaryKey="true" primaryKeyName="AUD_TBL_WARH_REMITTANCE_DETAILPK"/>
 			</column>
 			<column name="REVTYPE" type="NUMBER(3, 0)"/>
+			<column name="c_created_by" type="VARCHAR2(255 CHAR)"/>
+			<column name="d_created_date" type="TIMESTAMP"/>
+			<column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
+			<column name="d_last_modified_date" type="TIMESTAMP"/>
 			<column name="N_E_STATUS" type="NUMBER(10, 0)"/>
 			<column defaultValueNumeric="1" name="B_EDITABLE" type="NUMBER"/>
 			<column name="N_AMOUNT" type="NUMBER(19, 0)"/>
@@ -836,7 +984,7 @@
 			<column name="N_WEIGHT" type="NUMBER(19, 0)"/>
 		</createTable>
 	</changeSet>
-	<changeSet author="ARezaieZR (generated)" id="1603102344007-271">
+	<changeSet author="ARezaieZR (generated)" id="1603269610475-269">
 		<createTable tableName="AUD_TBL_WARH_STORE">
 			<column name="id" type="NUMBER(19, 0)">
 				<constraints primaryKey="true" primaryKeyName="AUD_TBL_WARH_STOREPK"/>
@@ -845,6 +993,10 @@
 				<constraints primaryKey="true" primaryKeyName="AUD_TBL_WARH_STOREPK"/>
 			</column>
 			<column name="REVTYPE" type="NUMBER(3, 0)"/>
+			<column name="c_created_by" type="VARCHAR2(255 CHAR)"/>
+			<column name="d_created_date" type="TIMESTAMP"/>
+			<column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
+			<column name="d_last_modified_date" type="TIMESTAMP"/>
 			<column name="N_E_STATUS" type="NUMBER(10, 0)"/>
 			<column defaultValueNumeric="1" name="B_EDITABLE" type="NUMBER"/>
 			<column name="C_DESCRIPTION" type="VARCHAR2(1500 CHAR)"/>
@@ -852,7 +1004,7 @@
 			<column name="F_WAREHOUSE_ID" type="NUMBER(19, 0)"/>
 		</createTable>
 	</changeSet>
-	<changeSet author="ARezaieZR (generated)" id="1603102344007-272">
+	<changeSet author="ARezaieZR (generated)" id="1603269610475-270">
 		<createTable tableName="AUD_TBL_WARH_TOZIN">
 			<column name="id" type="NUMBER(19, 0)">
 				<constraints primaryKey="true" primaryKeyName="AUD_TBL_WARH_TOZINPK"/>
@@ -861,6 +1013,10 @@
 				<constraints primaryKey="true" primaryKeyName="AUD_TBL_WARH_TOZINPK"/>
 			</column>
 			<column name="REVTYPE" type="NUMBER(3, 0)"/>
+			<column name="c_created_by" type="VARCHAR2(255 CHAR)"/>
+			<column name="d_created_date" type="TIMESTAMP"/>
+			<column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
+			<column name="d_last_modified_date" type="TIMESTAMP"/>
 			<column name="N_E_STATUS" type="NUMBER(10, 0)"/>
 			<column defaultValueNumeric="1" name="B_EDITABLE" type="NUMBER"/>
 			<column name="CARD_ID" type="VARCHAR2(255 CHAR)"/>
@@ -878,7 +1034,7 @@
 			<column name="WAZN" type="NUMBER(19, 0)"/>
 		</createTable>
 	</changeSet>
-	<changeSet author="ARezaieZR (generated)" id="1603102344007-273">
+	<changeSet author="ARezaieZR (generated)" id="1603269610475-271">
 		<createTable tableName="AUD_TBL_WARH_WAREHOUSE">
 			<column name="id" type="NUMBER(19, 0)">
 				<constraints primaryKey="true" primaryKeyName="AUD_TBL_WARH_WAREHOUSEPK"/>
@@ -887,6 +1043,10 @@
 				<constraints primaryKey="true" primaryKeyName="AUD_TBL_WARH_WAREHOUSEPK"/>
 			</column>
 			<column name="REVTYPE" type="NUMBER(3, 0)"/>
+			<column name="c_created_by" type="VARCHAR2(255 CHAR)"/>
+			<column name="d_created_date" type="TIMESTAMP"/>
+			<column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
+			<column name="d_last_modified_date" type="TIMESTAMP"/>
 			<column name="N_E_STATUS" type="NUMBER(10, 0)"/>
 			<column defaultValueNumeric="1" name="B_EDITABLE" type="NUMBER"/>
 			<column name="C_ADDRESS" type="VARCHAR2(1500 CHAR)"/>
@@ -902,7 +1062,7 @@
 			<column name="C_STATE" type="VARCHAR2(255 CHAR)"/>
 		</createTable>
 	</changeSet>
-	<changeSet author="ARezaieZR (generated)" id="1603102344007-274">
+	<changeSet author="ARezaieZR (generated)" id="1603269610475-272">
 		<createTable tableName="AUD_TBL_WEIGHING_INSPECTION">
 			<column name="id" type="NUMBER(19, 0)">
 				<constraints primaryKey="true" primaryKeyName="AUD_TBL_WEIGHING_INSPECTIONPK"/>
@@ -911,6 +1071,10 @@
 				<constraints primaryKey="true" primaryKeyName="AUD_TBL_WEIGHING_INSPECTIONPK"/>
 			</column>
 			<column name="REVTYPE" type="NUMBER(3, 0)"/>
+			<column name="c_created_by" type="VARCHAR2(255 CHAR)"/>
+			<column name="d_created_date" type="TIMESTAMP"/>
+			<column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
+			<column name="d_last_modified_date" type="TIMESTAMP"/>
 			<column name="N_E_STATUS" type="NUMBER(10, 0)"/>
 			<column defaultValueNumeric="1" name="B_EDITABLE" type="NUMBER"/>
 			<column name="F_INSPECTION_REPORT_ID" type="NUMBER(19, 0)"/>
@@ -923,7 +1087,7 @@
 			<column name="N_WEIGHT_N_D" type="NUMBER(10, 5)"/>
 		</createTable>
 	</changeSet>
-	<changeSet author="ARezaieZR (generated)" id="1603102344007-275">
+	<changeSet author="ARezaieZR (generated)" id="1603269610475-273">
 		<createTable tableName="REVINFO">
 			<column autoIncrement="true" name="REV" type="NUMBER(10, 0)">
 				<constraints primaryKey="true" primaryKeyName="REVINFOPK"/>
@@ -931,247 +1095,247 @@
 			<column name="REVTSTMP" type="NUMBER(19, 0)"/>
 		</createTable>
 	</changeSet>
-	<changeSet author="ARezaieZR (generated)" id="1603102344007-276">
+	<changeSet author="ARezaieZR (generated)" id="1603269610475-274">
 		<addForeignKeyConstraint baseColumnNames="REV" baseTableName="AUD_TBL_CONTACT_ACCOUNT"
 								 constraintName="FK121bsw0h8rc52w0ajdw8lcs81" deferrable="false"
 								 initiallyDeferred="false" referencedColumnNames="REV" referencedTableName="REVINFO"
 								 validate="true"/>
 	</changeSet>
-	<changeSet author="ARezaieZR (generated)" id="1603102344007-277">
+	<changeSet author="ARezaieZR (generated)" id="1603269610475-275">
 		<addForeignKeyConstraint baseColumnNames="REV" baseTableName="AUD_TBL_CONTRACT_SHIPMENT"
 								 constraintName="FK1r1ev2bbi0jai0kamwy9oidkp" deferrable="false"
 								 initiallyDeferred="false" referencedColumnNames="REV" referencedTableName="REVINFO"
 								 validate="true"/>
 	</changeSet>
-	<changeSet author="ARezaieZR (generated)" id="1603102344007-279">
+	<changeSet author="ARezaieZR (generated)" id="1603269610475-276">
 		<addForeignKeyConstraint baseColumnNames="REV" baseTableName="AUD_TBL_CNTR_CONTRACT_DETAIL_VALUE"
 								 constraintName="FK4bqng30dpswnaeb73ta6mqik1" deferrable="false"
 								 initiallyDeferred="false" referencedColumnNames="REV" referencedTableName="REVINFO"
 								 validate="true"/>
 	</changeSet>
-	<changeSet author="ARezaieZR (generated)" id="1603102344007-280">
+	<changeSet author="ARezaieZR (generated)" id="1603269610475-277">
 		<addForeignKeyConstraint baseColumnNames="REV" baseTableName="AUD_TBL_CNTR_REMITTANCE_TO_BILL_OF_LANDING"
 								 constraintName="FK58ii8qlms3vrw9onelrpiov1t" deferrable="false"
 								 initiallyDeferred="false" referencedColumnNames="REV" referencedTableName="REVINFO"
 								 validate="true"/>
 	</changeSet>
-	<changeSet author="ARezaieZR (generated)" id="1603102344007-281">
+	<changeSet author="ARezaieZR (generated)" id="1603269610475-278">
 		<addForeignKeyConstraint baseColumnNames="REV" baseTableName="AUD_TBL_SHIPMENT_COST_INVOICE"
 								 constraintName="FK5ho8krrh854rp5ve8y6vf7huf" deferrable="false"
 								 initiallyDeferred="false" referencedColumnNames="REV" referencedTableName="REVINFO"
 								 validate="true"/>
 	</changeSet>
-	<changeSet author="ARezaieZR (generated)" id="1603102344007-282">
+	<changeSet author="ARezaieZR (generated)" id="1603269610475-279">
 		<addForeignKeyConstraint baseColumnNames="REV" baseTableName="AUD_TBL_FOREIGN_INVOICE_ITEM_DETAIL"
 								 constraintName="FK5l5f07dmwfsgflvy3dguyp6rq" deferrable="false"
 								 initiallyDeferred="false" referencedColumnNames="REV" referencedTableName="REVINFO"
 								 validate="true"/>
 	</changeSet>
-	<changeSet author="ARezaieZR (generated)" id="1603102344007-283">
+	<changeSet author="ARezaieZR (generated)" id="1603269610475-280">
 		<addForeignKeyConstraint baseColumnNames="REV" baseTableName="AUD_TBL_ASSAY_INSPECTION_TOTAL_VALUES"
 								 constraintName="FK75jcabhxwukb6dxmy3kxavuq6" deferrable="false"
 								 initiallyDeferred="false" referencedColumnNames="REV" referencedTableName="REVINFO"
 								 validate="true"/>
 	</changeSet>
-	<changeSet author="ARezaieZR (generated)" id="1603102344007-284">
+	<changeSet author="ARezaieZR (generated)" id="1603269610475-281">
 		<addForeignKeyConstraint baseColumnNames="REV" baseTableName="AUD_TBL_INVOICE_SALES_ITEM"
 								 constraintName="FK7thtbbuw17y1ser1p4mo5ye3s" deferrable="false"
 								 initiallyDeferred="false" referencedColumnNames="REV" referencedTableName="REVINFO"
 								 validate="true"/>
 	</changeSet>
-	<changeSet author="ARezaieZR (generated)" id="1603102344007-285">
+	<changeSet author="ARezaieZR (generated)" id="1603269610475-282">
 		<addForeignKeyConstraint baseColumnNames="REV" baseTableName="AUD_TBL_CNTR_CONTRACT_DETAIL"
 								 constraintName="FK88cooaywtusjt8x13iq6hc2d3" deferrable="false"
 								 initiallyDeferred="false" referencedColumnNames="REV" referencedTableName="REVINFO"
 								 validate="true"/>
 	</changeSet>
-	<changeSet author="ARezaieZR (generated)" id="1603102344007-286">
+	<changeSet author="ARezaieZR (generated)" id="1603269610475-283">
 		<addForeignKeyConstraint baseColumnNames="REV" baseTableName="AUD_TBL_FOREIGN_INVOICE"
 								 constraintName="FK8g2m8pbaro32vmroa03okqukt" deferrable="false"
 								 initiallyDeferred="false" referencedColumnNames="REV" referencedTableName="REVINFO"
 								 validate="true"/>
 	</changeSet>
-	<changeSet author="ARezaieZR (generated)" id="1603102344007-287">
+	<changeSet author="ARezaieZR (generated)" id="1603269610475-284">
 		<addForeignKeyConstraint baseColumnNames="REV" baseTableName="AUD_TBL_WARH_INVENTORY"
 								 constraintName="FK8hlbi1cgh2dyag2f6l98ad9r0" deferrable="false"
 								 initiallyDeferred="false" referencedColumnNames="REV" referencedTableName="REVINFO"
 								 validate="true"/>
 	</changeSet>
-	<changeSet author="ARezaieZR (generated)" id="1603102344007-288">
+	<changeSet author="ARezaieZR (generated)" id="1603269610475-285">
 		<addForeignKeyConstraint baseColumnNames="REV" baseTableName="AUD_TBL_UNIT"
 								 constraintName="FK8tp6n24sveaftkm5uayk79uv6" deferrable="false"
 								 initiallyDeferred="false" referencedColumnNames="REV" referencedTableName="REVINFO"
 								 validate="true"/>
 	</changeSet>
-	<changeSet author="ARezaieZR (generated)" id="1603102344007-289">
+	<changeSet author="ARezaieZR (generated)" id="1603269610475-286">
 		<addForeignKeyConstraint baseColumnNames="REV" baseTableName="AUD_TBL_INSPECTION_REPORT"
 								 constraintName="FK8yarhgr6mdrci9aku5flm7po2" deferrable="false"
 								 initiallyDeferred="false" referencedColumnNames="REV" referencedTableName="REVINFO"
 								 validate="true"/>
 	</changeSet>
-	<changeSet author="ARezaieZR (generated)" id="1603102344007-290">
+	<changeSet author="ARezaieZR (generated)" id="1603269610475-287">
 		<addForeignKeyConstraint baseColumnNames="REV" baseTableName="AUD_TBL_SHIPMENT_COST_DUTY"
 								 constraintName="FK969q249i4yump5a2d9p843u63" deferrable="false"
 								 initiallyDeferred="false" referencedColumnNames="REV" referencedTableName="REVINFO"
 								 validate="true"/>
 	</changeSet>
-	<changeSet author="ARezaieZR (generated)" id="1603102344007-291">
+	<changeSet author="ARezaieZR (generated)" id="1603269610475-288">
 		<addForeignKeyConstraint baseColumnNames="REV" baseTableName="AUD_TBL_TYPICAL_ASSAY"
 								 constraintName="FK9k2mgi4htvykm23sm4tdg21t3" deferrable="false"
 								 initiallyDeferred="false" referencedColumnNames="REV" referencedTableName="REVINFO"
 								 validate="true"/>
 	</changeSet>
-	<changeSet author="ARezaieZR (generated)" id="1603102344007-292">
+	<changeSet author="ARezaieZR (generated)" id="1603269610475-289">
 		<addForeignKeyConstraint baseColumnNames="REV" baseTableName="AUD_TBL_INVOICE_SALES"
 								 constraintName="FKbe316hxedfwrc4qbcgyttt59v" deferrable="false"
 								 initiallyDeferred="false" referencedColumnNames="REV" referencedTableName="REVINFO"
 								 validate="true"/>
 	</changeSet>
-	<changeSet author="ARezaieZR (generated)" id="1603102344007-293">
+	<changeSet author="ARezaieZR (generated)" id="1603269610475-290">
 		<addForeignKeyConstraint baseColumnNames="REV" baseTableName="AUD_TBL_CONTRACT_DISCOUNT"
 								 constraintName="FKbpse1vpqttudoulgfhs89t9dp" deferrable="false"
 								 initiallyDeferred="false" referencedColumnNames="REV" referencedTableName="REVINFO"
 								 validate="true"/>
 	</changeSet>
-	<changeSet author="ARezaieZR (generated)" id="1603102344007-294">
+	<changeSet author="ARezaieZR (generated)" id="1603269610475-291">
 		<addForeignKeyConstraint baseColumnNames="REV" baseTableName="AUD_TBL_WARH_TOZIN"
 								 constraintName="FKdxoh55dsi9bpqwcchlxy854eb" deferrable="false"
 								 initiallyDeferred="false" referencedColumnNames="REV" referencedTableName="REVINFO"
 								 validate="true"/>
 	</changeSet>
-	<changeSet author="ARezaieZR (generated)" id="1603102344007-295">
+	<changeSet author="ARezaieZR (generated)" id="1603269610475-292">
 		<addForeignKeyConstraint baseColumnNames="REV" baseTableName="AUD_TBL_WARH_REMITTANCE_DETAIL"
 								 constraintName="FKe6xgl24xbx6emithplv4os8a6" deferrable="false"
 								 initiallyDeferred="false" referencedColumnNames="REV" referencedTableName="REVINFO"
 								 validate="true"/>
 	</changeSet>
-	<changeSet author="ARezaieZR (generated)" id="1603102344007-296">
+	<changeSet author="ARezaieZR (generated)" id="1603269610475-293">
 		<addForeignKeyConstraint baseColumnNames="REV" baseTableName="AUD_TBL_DEDUCTION"
 								 constraintName="FKel7l9v690tpjtk7981xyud5ae" deferrable="false"
 								 initiallyDeferred="false" referencedColumnNames="REV" referencedTableName="REVINFO"
 								 validate="true"/>
 	</changeSet>
-	<changeSet author="ARezaieZR (generated)" id="1603102344007-297">
+	<changeSet author="ARezaieZR (generated)" id="1603269610475-294">
 		<addForeignKeyConstraint baseColumnNames="REV" baseTableName="AUD_TBL_FOREIGN_INVOICE_ITEM"
 								 constraintName="FKfa7ui6jrb3vofs7d5yp14knge" deferrable="false"
 								 initiallyDeferred="false" referencedColumnNames="REV" referencedTableName="REVINFO"
 								 validate="true"/>
 	</changeSet>
-	<changeSet author="ARezaieZR (generated)" id="1603102344007-298">
+	<changeSet author="ARezaieZR (generated)" id="1603269610475-295">
 		<addForeignKeyConstraint baseColumnNames="REV" baseTableName="AUD_TBL_WEIGHING_INSPECTION"
 								 constraintName="FKfx4h2nxwusbgt52o4xkym3mg2" deferrable="false"
 								 initiallyDeferred="false" referencedColumnNames="REV" referencedTableName="REVINFO"
 								 validate="true"/>
 	</changeSet>
-	<changeSet author="ARezaieZR (generated)" id="1603102344007-299">
+	<changeSet author="ARezaieZR (generated)" id="1603269610475-296">
 		<addForeignKeyConstraint baseColumnNames="REV" baseTableName="AUD_TBL_WARH_REMITTANCE"
 								 constraintName="FKgth398mpqftibl1vk4qhawvw8" deferrable="false"
 								 initiallyDeferred="false" referencedColumnNames="REV" referencedTableName="REVINFO"
 								 validate="true"/>
 	</changeSet>
-	<changeSet author="ARezaieZR (generated)" id="1603102344007-300">
+	<changeSet author="ARezaieZR (generated)" id="1603269610475-297">
 		<addForeignKeyConstraint baseColumnNames="REV" baseTableName="AUD_TBL_VESSEL"
 								 constraintName="FKhr97g4g03r9r98s9y1njyybq5" deferrable="false"
 								 initiallyDeferred="false" referencedColumnNames="REV" referencedTableName="REVINFO"
 								 validate="true"/>
 	</changeSet>
-	<changeSet author="ARezaieZR (generated)" id="1603102344007-301">
+	<changeSet author="ARezaieZR (generated)" id="1603269610475-298">
 		<addForeignKeyConstraint baseColumnNames="REV" baseTableName="AUD_TBL_WARH_STORE"
 								 constraintName="FKhsee23l5691sgrwf6wikg03g4" deferrable="false"
 								 initiallyDeferred="false" referencedColumnNames="REV" referencedTableName="REVINFO"
 								 validate="true"/>
 	</changeSet>
-	<changeSet author="ARezaieZR (generated)" id="1603102344007-302">
+	<changeSet author="ARezaieZR (generated)" id="1603269610475-299">
 		<addForeignKeyConstraint baseColumnNames="REV" baseTableName="AUD_TBL_PRICE_BASE"
 								 constraintName="FKhu3x7g0k0d8ckr0ca1ec40m0d" deferrable="false"
 								 initiallyDeferred="false" referencedColumnNames="REV" referencedTableName="REVINFO"
 								 validate="true"/>
 	</changeSet>
-	<changeSet author="ARezaieZR (generated)" id="1603102344007-303">
+	<changeSet author="ARezaieZR (generated)" id="1603269610475-300">
 		<addForeignKeyConstraint baseColumnNames="REV" baseTableName="AUD_TBL_CNTR_CONTAINER_TO_BILL_OF_LANDING"
 								 constraintName="FKjpdfqssib0hii5fxgb8jrsj7r" deferrable="false"
 								 initiallyDeferred="false" referencedColumnNames="REV" referencedTableName="REVINFO"
 								 validate="true"/>
 	</changeSet>
-	<changeSet author="ARezaieZR (generated)" id="1603102344007-304">
+	<changeSet author="ARezaieZR (generated)" id="1603269610475-301">
 		<addForeignKeyConstraint baseColumnNames="REV" baseTableName="AUD_TBL_CNTR_BILL_OF_LANDING"
 								 constraintName="FKk7xm13c6yt452r0x2w20lain8" deferrable="false"
 								 initiallyDeferred="false" referencedColumnNames="REV" referencedTableName="REVINFO"
 								 validate="true"/>
 	</changeSet>
-	<changeSet author="ARezaieZR (generated)" id="1603102344007-305">
+	<changeSet author="ARezaieZR (generated)" id="1603269610475-302">
 		<addForeignKeyConstraint baseColumnNames="REV" baseTableName="AUD_TBL_CNTR_CONTRACT"
 								 constraintName="FKkfxf7pvd4ju3y9x9lnqqoen2k" deferrable="false"
 								 initiallyDeferred="false" referencedColumnNames="REV" referencedTableName="REVINFO"
 								 validate="true"/>
 	</changeSet>
-	<changeSet author="ARezaieZR (generated)" id="1603102344007-307">
+	<changeSet author="ARezaieZR (generated)" id="1603269610475-303">
 		<addForeignKeyConstraint baseColumnNames="REV" baseTableName="AUD_TBL_CURRENCY_RATE"
 								 constraintName="FKl1p4cfsjug090h794p3pnne0d" deferrable="false"
 								 initiallyDeferred="false" referencedColumnNames="REV" referencedTableName="REVINFO"
 								 validate="true"/>
 	</changeSet>
-	<changeSet author="ARezaieZR (generated)" id="1603102344007-308">
+	<changeSet author="ARezaieZR (generated)" id="1603269610475-304">
 		<addForeignKeyConstraint baseColumnNames="REV" baseTableName="AUD_TBL_FOREIGN_INVOICE_BILL_OF_LANDING"
 								 constraintName="FKlbrl4rr48yjjd3uemid7nkuds" deferrable="false"
 								 initiallyDeferred="false" referencedColumnNames="REV" referencedTableName="REVINFO"
 								 validate="true"/>
 	</changeSet>
-	<changeSet author="ARezaieZR (generated)" id="1603102344007-309">
+	<changeSet author="ARezaieZR (generated)" id="1603269610475-305">
 		<addForeignKeyConstraint baseColumnNames="REV" baseTableName="AUD_TBL_ASSAY_INSPECTION"
 								 constraintName="FKna8awjhlxh26ibuon8ea976p0" deferrable="false"
 								 initiallyDeferred="false" referencedColumnNames="REV" referencedTableName="REVINFO"
 								 validate="true"/>
 	</changeSet>
-	<changeSet author="ARezaieZR (generated)" id="1603102344007-310">
+	<changeSet author="ARezaieZR (generated)" id="1603269610475-306">
 		<addForeignKeyConstraint baseColumnNames="REV" baseTableName="AUD_TBL_CONTACT"
 								 constraintName="FKnxqywyycsd5c9938fbn8jgfdg" deferrable="false"
 								 initiallyDeferred="false" referencedColumnNames="REV" referencedTableName="REVINFO"
 								 validate="true"/>
 	</changeSet>
-	<changeSet author="ARezaieZR (generated)" id="1603102344007-311">
+	<changeSet author="ARezaieZR (generated)" id="1603269610475-307">
 		<addForeignKeyConstraint baseColumnNames="REV" baseTableName="AUD_TBL_CNTR_CONTRACT_CONTACT"
 								 constraintName="FKotslqj4ctqlsp3vfkpv73wy79" deferrable="false"
 								 initiallyDeferred="false" referencedColumnNames="REV" referencedTableName="REVINFO"
 								 validate="true"/>
 	</changeSet>
-	<changeSet author="ARezaieZR (generated)" id="1603102344007-312">
+	<changeSet author="ARezaieZR (generated)" id="1603269610475-308">
 		<addForeignKeyConstraint baseColumnNames="REV" baseTableName="AUD_TBL_SHIPMENT_COST_INVOICE_DETAIL"
 								 constraintName="FKpb9114dovuog8r3gcx9waaou1" deferrable="false"
 								 initiallyDeferred="false" referencedColumnNames="REV" referencedTableName="REVINFO"
 								 validate="true"/>
 	</changeSet>
-	<changeSet author="ARezaieZR (generated)" id="1603102344007-313">
+	<changeSet author="ARezaieZR (generated)" id="1603269610475-309">
 		<addForeignKeyConstraint baseColumnNames="REV" baseTableName="AUD_TBL_WARH_DEPOT"
 								 constraintName="FKpber58p3qs1ixsfbos5e0j2n3" deferrable="false"
 								 initiallyDeferred="false" referencedColumnNames="REV" referencedTableName="REVINFO"
 								 validate="true"/>
 	</changeSet>
-	<changeSet author="ARezaieZR (generated)" id="1603102344007-314">
+	<changeSet author="ARezaieZR (generated)" id="1603269610475-310">
 		<addForeignKeyConstraint baseColumnNames="REV" baseTableName="AUD_TBL_BANK"
 								 constraintName="FKpov327sq24huaghfy7r2wel07" deferrable="false"
 								 initiallyDeferred="false" referencedColumnNames="REV" referencedTableName="REVINFO"
 								 validate="true"/>
 	</changeSet>
-	<changeSet author="ARezaieZR (generated)" id="1603102344007-315">
+	<changeSet author="ARezaieZR (generated)" id="1603269610475-311">
 		<addForeignKeyConstraint baseColumnNames="REV" baseTableName="AUD_TBL_FOREIGN_INVOICE_PAYMENT"
 								 constraintName="FKpy31mkniwvu4wku3c9x6iw9ok" deferrable="false"
 								 initiallyDeferred="false" referencedColumnNames="REV" referencedTableName="REVINFO"
 								 validate="true"/>
 	</changeSet>
-	<changeSet author="ARezaieZR (generated)" id="1603102344007-316">
+	<changeSet author="ARezaieZR (generated)" id="1603269610475-312">
 		<addForeignKeyConstraint baseColumnNames="REV" baseTableName="AUD_TBL_SHIPMENT"
 								 constraintName="FKrsii6kyncmt88dedukdggyhal" deferrable="false"
 								 initiallyDeferred="false" referencedColumnNames="REV" referencedTableName="REVINFO"
 								 validate="true"/>
 	</changeSet>
-	<changeSet author="ARezaieZR (generated)" id="1603102344007-317">
+	<changeSet author="ARezaieZR (generated)" id="1603269610475-313">
 		<addForeignKeyConstraint baseColumnNames="REV" baseTableName="AUD_TBL_WARH_WAREHOUSE"
 								 constraintName="FKt6g0al5ca1s1lp4r14t1wig9f" deferrable="false"
 								 initiallyDeferred="false" referencedColumnNames="REV" referencedTableName="REVINFO"
 								 validate="true"/>
 	</changeSet>
-	<changeSet author="ARezaieZR (generated)" id="1603102344007-318">
+	<changeSet author="ARezaieZR (generated)" id="1603269610475-314">
 		<addForeignKeyConstraint baseColumnNames="REV" baseTableName="AUD_TBL_PORT"
 								 constraintName="FKtdvyea4aaad5d9wybm7clkxid" deferrable="false"
 								 initiallyDeferred="false" referencedColumnNames="REV" referencedTableName="REVINFO"
