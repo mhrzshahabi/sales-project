@@ -1,19 +1,14 @@
 package com.nicico.sales.model.entities.contract;
 
 import com.nicico.sales.model.entities.common.BaseEntity;
-import com.nicico.sales.model.enumeration.DataType;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.envers.AuditOverride;
 import org.hibernate.envers.Audited;
-import org.hibernate.annotations.JoinFormula;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
-import java.util.Set;
-import java.util.concurrent.atomic.AtomicReference;
-import java.util.stream.Collectors;
 
 import static org.hibernate.envers.RelationTargetAuditMode.NOT_AUDITED;
 
