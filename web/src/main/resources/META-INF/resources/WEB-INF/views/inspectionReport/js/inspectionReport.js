@@ -412,6 +412,39 @@ inspectionReportTab.restDataSource.shipmentRest = isc.MyRestDataSource.create({
     fetchDataURL: "${contextPath}/api/shipment/spec-list"
 });
 
+inspectionReportTab.restDataSource.contractRest = isc.MyRestDataSource.create({
+    fields: [
+        {
+            name: "id",
+            primaryKey: true,
+            canEdit: false,
+            hidden: true
+        },
+        {
+            name: "no",
+            title: "<spring:message code ='shipment.bookingCat'/>",
+            showHover: true
+        },
+        {
+            name: "date",
+            title: "<spring:message code ='material.descEN'/>",
+            showHover: true
+        },
+        {
+            name: "material",
+            title: "<spring:message code ='contact.nameFa'/>",
+            showHover: true
+        },
+        {
+            name: "contractContacts",
+            title: "<spring:message code ='global.sendDate'/>",
+            showHover: true,
+            type: "date"
+        }
+    ],
+    fetchDataURL: "${contextPath}/api/g-contract/spec-list"
+});
+
 inspectionReportTab.restDataSource.remittanceDetailRest = isc.MyRestDataSource.create({
     fields: [
         {
@@ -972,7 +1005,8 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
 
             inspectionReportTab.dynamicForm.inspecReport.getItem("inventoryId").setValue([]);
 
-            if (value)
+            if (value) {
+
                 inspectionReportTab.dynamicForm.inspecReport.getItem("inventoryId").setOptionCriteria({
                     _constructor: "AdvancedCriteria",
                     operator: "and",
@@ -982,7 +1016,52 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
                         value: value
                     }]
                 });
-            else
+
+                if (inspectionReportTab.variable.method === "POST") {
+
+                    let aCriteria = {
+                        _constructor: "AdvancedCriteria",
+                        operator: "and",
+                        criteria: [{
+                            fieldName: "id",
+                            operator: "equals",
+                            value: value
+                        }]
+                    };
+                    inspectionReportTab.restDataSource.shipmentRest.fetchData(aCriteria, function (dsResponse, data, dsRequest) {
+
+                        if (data.length) {
+                            let contractId = data[0].contractShipment.contractId;
+                            let bCriteria = {
+                                _constructor: "AdvancedCriteria",
+                                operator: "and",
+                                criteria: [{
+                                    fieldName: "id",
+                                    operator: "equals",
+                                    value: contractId
+                                }]
+                            };
+                            inspectionReportTab.restDataSource.contractRest.fetchData(bCriteria, function (conDsResponse, conData, conDsRequest) {
+                                if (conData.length) {
+                                    inspectionReportTab.dynamicForm.inspecReport.getItem("sellerId").setValue([]);
+                                    inspectionReportTab.dynamicForm.inspecReport.getItem("buyerId").setValue([]);
+                                    let buyerId = conData[0].contractContacts.filter(q => q.commercialRole === "Buyer").first().contactId;
+                                    let sellerId = conData[0].contractContacts.filter(q => q.commercialRole === "Seller").first().contactId;
+                                    inspectionReportTab.dynamicForm.inspecReport.setValue("buyerId", buyerId);
+                                    inspectionReportTab.dynamicForm.inspecReport.setValue("sellerId", sellerId);
+                                    inspectionReportTab.dynamicForm.inspecReport.getItem("buyerId").disable();
+                                    inspectionReportTab.dynamicForm.inspecReport.getItem("sellerId").disable();
+                                }
+                            });
+                        }
+                    });
+                }
+            } else {
+
+                inspectionReportTab.dynamicForm.inspecReport.setValue("buyerId", null);
+                inspectionReportTab.dynamicForm.inspecReport.setValue("sellerId", null);
+                inspectionReportTab.dynamicForm.inspecReport.getItem("buyerId").enable();
+                inspectionReportTab.dynamicForm.inspecReport.getItem("sellerId").enable();
                 inspectionReportTab.dynamicForm.inspecReport.getItem("inventoryId").setOptionCriteria({
                     _constructor: "AdvancedCriteria",
                     operator: "and",
@@ -992,7 +1071,7 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
                         value: inspectionReportTab.dynamicForm.material.getValue("material")
                     }]
                 });
-
+            }
         }
     },
     {
@@ -1793,6 +1872,8 @@ inspectionReportTab.method.clearForm = function () {
     inspectionReportTab.toolStrip.assayRemoveAll.members[1].members[0].getItem("excelFile").clearValue();
     inspectionReportTab.hStack.weightUnitSum.members.forEach(q => q.clearValues());
     inspectionReportTab.hStack.assayUnitSum.members.forEach(q => q.clearValues());
+    inspectionReportTab.dynamicForm.inspecReport.getItem("sellerId").enable();
+    inspectionReportTab.dynamicForm.inspecReport.getItem("buyerId").enable();
 };
 
 inspectionReportTab.window.inspecReport = new nicico.FormUtil();
@@ -2057,7 +2138,6 @@ inspectionReportTab.method.editForm = function () {
         inspectionReportTab.dynamicForm.assayLab.getField("labPlace").setValue(labPlace);
 
         inspectionReportTab.dynamicForm.material.getItem("material").disable();
-        inspectionReportTab.dynamicForm.inspecReport.getItem("select").enable();
         inspectionReportTab.dynamicForm.inspecReport.getItem("select").disable();
         inspectionReportTab.dynamicForm.inspecReport.getItem("refresh").enable();
         inspectionReportTab.dynamicForm.inspecReport.getItem("mileStone").disable();
@@ -2077,6 +2157,10 @@ inspectionReportTab.method.editForm = function () {
             inspectionReportTab.method.setSavedAssayData(assayInspectionArray, selectedAssayInventories);
             inspectionReportTab.method.setAssayElementSum();
         });
+        if (shipmentId) {
+            inspectionReportTab.dynamicForm.inspecReport.getItem("sellerId").disable();
+            inspectionReportTab.dynamicForm.inspecReport.getItem("buyerId").disable();
+        }
     }
 };
 
