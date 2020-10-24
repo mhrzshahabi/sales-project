@@ -158,15 +158,24 @@ public class ForeignInvoiceService extends GenericService<ForeignInvoice, Long, 
             throw new SalesException2(ErrorType.NotFound, "deliveryTerm", "Contract DeliveryTerms Article Not Found");
 
         // Discounts
-        Map<String, List<Object>> discounts = contractDetailValueService2.get(contractId, EContractDetailTypeCode.Price, EContractDetailValueKey.DISCOUNT, true);
-        if (discounts != null && discounts.size() != 0)
-            contractDetailData.setDiscount(modelMapper.map(discounts.get(EContractDetailValueKey.DISCOUNT.getId()).get(0), ContractDiscountDTO.Info.class));
+        Map<String, List<Object>> operationalDataOfDiscountArticle = contractDetailValueService2.get(contractId, EContractDetailTypeCode.Price, EContractDetailValueKey.DISCOUNT, true);
+        List<Object> discounts = operationalDataOfDiscountArticle.get(EContractDetailValueKey.DISCOUNT.getId());
+        List<ContractDiscount> discountData = new ArrayList<>();
+        if (discounts != null && discounts.size() != 0) {
+            discounts.forEach(discount -> discountData.add(modelMapper.map(discount, ContractDiscount.class)));
+            contractDetailData.setDiscount(discountData);
+        } else
+            contractDetailData.setDiscount(null);
+
 
         // Price Article Content
-        ContractDetailDTO.Info priceDetail = contractDetailService.getContractDetailByContractDetailTypeCode(contractId, materialId, EContractDetailTypeCode.Price);
-        if (priceDetail != null) {
-            contractDetailData.setPriceContent(priceDetail.getContent());
-        }
+        if (materialId != 2) {
+            ContractDetailDTO.Info priceDetail = contractDetailService.getContractDetailByContractDetailTypeCode(contractId, materialId, EContractDetailTypeCode.Price);
+            if (priceDetail != null) {
+                contractDetailData.setPriceContent(priceDetail.getContent());
+            }
+        } else
+            contractDetailData.setPriceContent(null);
 
         // QuotationalPeriod Article Content
         ContractDetailDTO.Info quotationalPeriodDetail = contractDetailService.getContractDetailByContractDetailTypeCode(contractId, materialId, EContractDetailTypeCode.QuotationalPeriod);
