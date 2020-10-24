@@ -1418,6 +1418,10 @@ contractTab.ToolStripButtons = {
 };
 // <c:if test = "${u_entity}">
 contractTab.toolStrip.main.addMember(contractTab.ToolStripButtons.Addendum, 3)
+contractTab.menu.main.data.add({
+    title: "<spring:message code='contract.addendum'/>",
+    click: contractTab.Methods.NewAddendum
+});
 // </c:if>
 contractTab.toolStrip.main.addMember(contractTab.ToolStripButtons.filterContracts, 3)
 contractTab.listGrid.main.getCellCSSText = function (record, rowNum, colNum) {
