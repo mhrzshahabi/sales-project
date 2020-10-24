@@ -2,7 +2,7 @@ spring:
   application:
     name: Sales
   profiles:
-    active: Local
+    active: Staging
   datasource:
     hikari:
       connection-test-query: SELECT 1 FROM DUAL
@@ -98,6 +98,37 @@ spring:
             token-uri: http://apps.icico.net.ir/oauth/token
             user-info-uri: http://apps.icico.net.ir/user/info
             user-name-attribute: username
+
+---
+
+spring:
+  profiles: Staging
+  datasource:
+    url: jdbc:oracle:thin:@//oragnrt01.icico.net.ir:1521/pdb_dev01
+    username: sales
+    password: sales
+  redis:
+    host: redis
+    password: nicico
+  security:
+    oauth2:
+      client:
+        registration:
+          oserver:
+            client-id: ${spring.application.name}
+            client-secret: password
+            authorization-grant-type: authorization_code
+            redirect-uri: '{baseUrl}/login/oauth2/code/{registrationId}'
+            scope: user_info
+        provider:
+          oserver:
+            authorization-uri: http://staging.icico.net.ir/oauth/authorize
+            token-uri: http://staging.icico.net.ir/oauth/token
+            user-info-uri: http://staging.icico.net.ir/user/info
+            user-name-attribute: username
+nicico:
+  apps:
+    accounting: http://staging.icico.net.ir/accounting
 
 ---
 

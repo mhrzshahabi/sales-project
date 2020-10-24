@@ -22,7 +22,7 @@
 
     </springProfile>
 
-    <springProfile name="Development,Production">
+    <springProfile name="Development,Staging,Production">
         <property name="LOG_FILE" value="/var/log/nicico/${AppName}.log"/>
 
         <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
