@@ -34,17 +34,10 @@ isc.defineClass("InvoiceBaseAssay", isc.VLayout).addProperties({
             this.getMembers().last().setUnitId(assay.materialElement.unit.id);
         });
 
-        // this.getMembers()[0].setValue("reportMilestone", JSON.parse('${Enum_MileStone}').Source);
-        // this.getMembers()[0].getItem(0).changed(this.getMembers()[0], this.getMembers()[0].getItem(0), JSON.parse('${Enum_MileStone}').Source);
-        // this.editAssay();
     },
     getDataRowNo: function () {
         return this.getMembers().length;
     },
-    // editAssay: function () {
-    // if (this.assayMilestone)
-    //     this.getMembers()[0].setValue("reportMilestone", this.assayMilestone);
-    // },
     getValues: function () {
 
         let data = [];

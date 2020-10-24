@@ -3,6 +3,7 @@ package com.nicico.sales.service.invoice.foreign;
 import com.nicico.sales.annotation.Action;
 import com.nicico.sales.dto.*;
 import com.nicico.sales.dto.contract.ContractDetailDTO;
+import com.nicico.sales.dto.invoice.foreign.ContractDetailDataDTO;
 import com.nicico.sales.dto.invoice.foreign.ForeignInvoiceItemDTO;
 import com.nicico.sales.enumeration.ActionType;
 import com.nicico.sales.enumeration.EContractDetailTypeCode;
@@ -10,9 +11,11 @@ import com.nicico.sales.enumeration.EContractDetailValueKey;
 import com.nicico.sales.enumeration.ErrorType;
 import com.nicico.sales.exception.NotFoundException;
 import com.nicico.sales.exception.SalesException2;
-import com.nicico.sales.iservice.*;
+import com.nicico.sales.iservice.IContractDetailValueService2;
+import com.nicico.sales.iservice.IInspectionReportService;
+import com.nicico.sales.iservice.IPriceBaseService;
+import com.nicico.sales.iservice.IUnitService;
 import com.nicico.sales.iservice.contract.IContractDetailService;
-import com.nicico.sales.iservice.contract.IContractService;
 import com.nicico.sales.iservice.invoice.foreign.IForeignInvoiceItemService;
 import com.nicico.sales.model.entities.base.AssayInspection;
 import com.nicico.sales.model.entities.base.PriceBase;
@@ -55,7 +58,8 @@ public class ForeignInvoiceItemService extends GenericService<ForeignInvoiceItem
     @Override
     @Transactional
     @Action(value = ActionType.List)
-    public ForeignInvoiceItemDTO.Calc2Data getCalculation2Data(Long contractId, PriceBaseReference reference, Integer year, Integer month, Long financeUnitId, Long inspectionAssayDataId, Long inspectionWeightDataId) {
+    public ForeignInvoiceItemDTO.Calc2Data getCalculation2Data(Long contractId, Date sendDate, Long financeUnitId, Long inspectionAssayDataId, Long inspectionWeightDataId,
+                                                               ContractDetailDataDTO.Info contractDetailDataInfo) {
 
         InspectionReportDTO.Info inspectionAssayReportDTO = inspectionReportService.get(inspectionAssayDataId);
         List<AssayInspectionDTO.InfoWithoutInspectionReport> assayValues = inspectionAssayReportDTO.getAssayInspections();
@@ -64,12 +68,14 @@ public class ForeignInvoiceItemService extends GenericService<ForeignInvoiceItem
         List<WeightInspectionDTO.InfoWithoutInspectionReport> weightValues = inspectionWeightReportDTO.getWeightInspections();
 
         Set<Long> materialIds = assayValues.stream().filter(q -> q.getMaterialElement().getPayable() || q.getMaterialElement().getPenalty()).map(q -> q.getMaterialElement().getMaterialId()).collect(Collectors.toSet());
-        List<Long> inventoryIds = assayValues.stream().map(AssayInspectionDTO::getInventoryId).collect(Collectors.toList());
+        List<Long> inventoryIds = weightValues.stream().map(WeightInspectionDTO::getInventoryId).collect(Collectors.toList());
         if (materialIds.size() != 1)
             throw new SalesException2(ErrorType.BadRequest, "material", "There is multiple material.");
 
         ContractDetailDTO.Info priceDetail = contractDetailService.getContractDetailByContractDetailTypeCode(contractId, materialIds.iterator().next(), EContractDetailTypeCode.Price);
         String priceArticleText = priceDetail.getContent();
+        ContractDetailDTO.Info priceBaseDetail = contractDetailService.getContractDetailByContractDetailTypeCode(contractId, materialIds.iterator().next(), EContractDetailTypeCode.QuotationalPeriod);
+        String priceBaseArticleText = priceBaseDetail.getContent();
 
         Map<String, List<Object>> operationalDataOfDiscountArticle = contractDetailValueService2.get(contractId, EContractDetailTypeCode.Price, EContractDetailValueKey.DISCOUNT, true);
         List<Object> discounts = operationalDataOfDiscountArticle.get(EContractDetailValueKey.DISCOUNT.getId());
@@ -77,7 +83,8 @@ public class ForeignInvoiceItemService extends GenericService<ForeignInvoiceItem
         if (discounts != null)
             discounts.forEach(discount -> discountArticle.add(modelMapper.map(discount, ContractDiscount.class)));
 
-        List<PriceBaseDTO.Info> basePrices = priceBaseService.getAverageOfElementBasePrices(reference, year, month, materialIds.iterator().next(), financeUnitId);
+//        List<PriceBaseDTO.Info> basePrices = priceBaseService.getAverageOfElementBasePrices(contractId, financeUnitId, sendDate);
+        List<PriceBaseDTO.Info> basePrices = priceBaseService.getAverageOfBasePricesByMOAS(contractId, financeUnitId, contractDetailDataInfo.getMOAS());
 
         List<Map<String, Object>> data = new ArrayList<>();
         List<ForeignInvoiceItemDTO.FieldData> fields = createFields(assayValues);
@@ -88,6 +95,7 @@ public class ForeignInvoiceItemService extends GenericService<ForeignInvoiceItem
         result.setFields(fields);
         result.setPriceBase(basePrices);
         result.setPriceArticleText(priceArticleText);
+        result.setPriceBaseArticleText(priceBaseArticleText);
 
         return result;
     }
@@ -164,8 +172,7 @@ public class ForeignInvoiceItemService extends GenericService<ForeignInvoiceItem
 
                         discount[0] = discount[0].add(contractDiscount.get().getDiscount());
                         record.put(element.getName() + "Discount", contractDiscount.get().getDiscount());
-                    } else
-                        record.put(element.getName() + "Discount", new BigDecimal(0));
+                    } else record.put(element.getName() + "Discount", new BigDecimal(0));
                     record.put(element.getName() + "Discount_UNIT", "PERCENT");
                 }
                 if (a.getMaterialElement().getPayable()) {

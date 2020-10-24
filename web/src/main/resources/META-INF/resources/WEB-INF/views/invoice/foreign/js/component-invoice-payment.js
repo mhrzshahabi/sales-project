@@ -47,6 +47,10 @@ isc.defineClass("InvoicePayment", isc.VLayout).addProperties({
                         fieldName: "shipmentId",
                         operator: "equals",
                         value: This.shipment.id
+                    }, {
+                        fieldName: "eStatusId",
+                        operator: "greaterOrEqual",
+                        value: 4
                     }]
                 }
             },
@@ -174,8 +178,8 @@ isc.defineClass("InvoicePayment", isc.VLayout).addProperties({
                             This.addMember(isc.HTMLFlow.create({
                                 width: "100%",
                                 contents: "<span style='width: 100%; display: block; margin: 30px auto; border-bottom: 1px solid rgba(0,0,0,0.3)'></span>" +
-                                    "<span style='width: 100%; text-align: left; margin-bottom: 10px; display: block'>" + "FINAL BALANCE IN " + This.currency.nameEN +
-                                    " BASED ON " + rateReference + " RATE OF " + This.conversionDate + " - " + This.conversionRate + ": " + "</span>"
+                                "<span style='width: 100%; text-align: left; margin-bottom: 10px; display: block'>" + "FINAL BALANCE IN " + This.currency.nameEN +
+                                " BASED ON " + rateReference + " RATE OF " + This.conversionDate + " - " + This.conversionRate + ": " + "</span>"
                             }));
                         } else {
 
@@ -283,6 +287,10 @@ isc.defineClass("InvoicePayment", isc.VLayout).addProperties({
                                             showHover: true,
                                             name: "contractId",
                                             title: "<spring:message code='shipmentCostInvoice.contract'/>"
+                                        },
+                                        {
+                                            name: "estatus",
+                                            hidden: false
                                         }
                                     ]), 0);
                             }
@@ -366,7 +374,8 @@ isc.defineClass("InvoicePayment", isc.VLayout).addProperties({
                     docConversionPrice: current.conversionSumPrice,
                     portion: current.buyerShare,
                     description: current.description,
-                    conversionRefId: current.conversionRefId
+                    conversionRefId: current.conversionRefId,
+                    shipmentCostInvoiceId : current.id
                 });
             });
         }

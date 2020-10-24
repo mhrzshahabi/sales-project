@@ -70,6 +70,12 @@ public class ForeignInvoice extends BaseEntity {
     @Column(name = "C_DESCRIPTION")
     private String description;
 
+    @Column(name = "N_PERCENT")
+    private Double percent;
+
+    @Column(name = "F_PARENT_ID")
+    private Long parentId;
+
     // *****************************************************************************************************************
 
     @Column(name = "N_ACCOUNTING_ID")
@@ -144,8 +150,7 @@ public class ForeignInvoice extends BaseEntity {
     @JoinColumn(name = "F_INSPECTION_ASSAY_REPORT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_foreignInvoice2inspectionReportByInspectionAssayReportId"))
     private InspectionReport inspectionAssayReport;
 
-    @NotNull
-    @Column(name = "F_INSPECTION_ASSAY_REPORT_ID", nullable = false)
+    @Column(name = "F_INSPECTION_ASSAY_REPORT_ID")
     private Long inspectionAssayReportId;
 
     // *****************************************************************************************************************
