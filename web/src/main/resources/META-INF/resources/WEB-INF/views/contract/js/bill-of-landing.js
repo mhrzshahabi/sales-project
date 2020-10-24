@@ -2317,8 +2317,10 @@ BlTab.Layouts.ToolStripButtons.NewBillOfLanding.click = _ => {
                                     )
                                     */
         BlTab.Methods.Save(BlTab.Vars.BillOfLanding.getValues(), 'api/bill-of-landing').then(function () {
-            //dbg(false, `BlTab.Methods.Save(BlTab.Vars.BillOfLanding.getValues(),
+
+            /*dbg(false, `BlTab.Methods.Save(BlTab.Vars.BillOfLanding.getValues(),
                         'api/bill-of-landing').then(function () {`, arguments)
+            */
             if(BlTab.Vars.Method.toLowerCase() === "PUT".toLowerCase())
             window[windID].destroy();
             BlTab.Vars.BillOfLanding.clearValues();
