@@ -49,6 +49,8 @@
     <include file="classpath:/db/changelog/initial-data/tbl_weighing_inspection.xml"/>
     <include file="classpath:/db/changelog/initial-data/tbl_foreign_invoice.xml"/>
     <include file="classpath:/db/changelog/initial-data/tbl_internal_invoice_document.xml"/>
+    <include file="classpath:/db/changelog/initial-data/tbl_cntr_cdtp_dynamic_table.xml"/>
+    <include file="classpath:/db/changelog/initial-data/tbl_cntr_cdtp_dynamic_table_value.xml"/>
     <!-- INITIALIZE DATA -->
 
     <!-- VIEWS -->
