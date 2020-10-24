@@ -5,6 +5,8 @@ import com.nicico.sales.model.entities.base.ShipmentCostInvoice;
 import com.nicico.sales.model.entities.common.BaseEntity;
 import lombok.*;
 import lombok.experimental.Accessors;
+import org.hibernate.envers.AuditOverride;
+import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -20,6 +22,8 @@ import java.util.Date;
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
 @Table(name = "TBL_FOREIGN_INVOICE_PAYMENT")
+@Audited
+@AuditOverride(forClass = BaseEntity.class)
 public class ForeignInvoicePayment extends BaseEntity {
 
     @Id

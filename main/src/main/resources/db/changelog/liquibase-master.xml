@@ -68,4 +68,8 @@
     <include file="classpath:/db/changelog/views/view_cost_invoice_document.xml"/>
     <!-- VIEWS -->
 
+    <!-- INITIALIZE AUDIT -->
+    <include file="classpath:/db/changelog/initial-audit/liquibase-audit-init.xml"/>
+    <!-- INITIALIZE AUDIT -->
+
 </databaseChangeLog>

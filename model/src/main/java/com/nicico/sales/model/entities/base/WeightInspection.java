@@ -1,7 +1,6 @@
 package com.nicico.sales.model.entities.base;
 
 
-import com.nicico.sales.model.Auditable;
 import com.nicico.sales.model.entities.common.BaseEntity;
 import com.nicico.sales.model.entities.warehouse.Inventory;
 import com.nicico.sales.model.enumeration.InspectionReportMilestone;
@@ -9,6 +8,8 @@ import com.nicico.sales.model.enumeration.WeighingType;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.envers.AuditOverride;
+import org.hibernate.envers.Audited;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
@@ -23,6 +24,8 @@ import java.math.BigDecimal;
 @Entity
 @Table(name = "TBL_WEIGHING_INSPECTION", uniqueConstraints = @UniqueConstraint(name = "milestone_inventory_UNIQUE",
         columnNames = {"N_MILESTONE", "F_INVENTORY_ID"}))
+@Audited
+@AuditOverride(forClass = BaseEntity.class)
 public class WeightInspection extends BaseEntity {
 
     @Id

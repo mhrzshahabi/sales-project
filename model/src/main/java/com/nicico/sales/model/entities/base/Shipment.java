@@ -6,6 +6,9 @@ import com.nicico.sales.model.entities.warehouse.Remittance;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.Formula;
+import org.hibernate.envers.AuditOverride;
+import org.hibernate.envers.Audited;
+import org.hibernate.envers.NotAudited;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -14,6 +17,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
+import static org.hibernate.envers.RelationTargetAuditMode.NOT_AUDITED;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -21,9 +26,11 @@ import java.util.Set;
 @Accessors(chain = true)
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
-@Table(name = "TBL_SHIPMENT" , uniqueConstraints = {
+@Table(name = "TBL_SHIPMENT", uniqueConstraints = {
         @UniqueConstraint(columnNames = {"F_CONTRACT_SHIPMENT_ID"}, name = "UNIQUE_F_CONTRACT_SHIPMENT_ID")
 })
+@Audited
+@AuditOverride(forClass = BaseEntity.class)
 public class Shipment extends BaseEntity {
 
     @Id
@@ -41,6 +48,7 @@ public class Shipment extends BaseEntity {
     @Column(name = "F_CONTRACT_SHIPMENT_ID", nullable = false)
     private Long contractShipmentId;
 
+    @Audited(targetAuditMode = NOT_AUDITED)
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "F_SHIPMENT_TYPE_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_shipment2shipmentTypeByShipmentTypeId"))
@@ -50,6 +58,7 @@ public class Shipment extends BaseEntity {
     @Column(name = "F_SHIPMENT_TYPE_ID", nullable = false)
     private Long shipmentTypeId;
 
+    @Audited(targetAuditMode = NOT_AUDITED)
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "F_SHIPMENT_METHOD_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_shipment2shipmentMethodByShipmentMethodId"))
@@ -77,6 +86,7 @@ public class Shipment extends BaseEntity {
     @Column(name = "F_AGENT_CONTACT_ID", nullable = false)
     private Long contactAgentId;
 
+    @Audited(targetAuditMode = NOT_AUDITED)
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "F_MATERIAL_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_shipment2materialByMaterialId"))
@@ -150,6 +160,7 @@ public class Shipment extends BaseEntity {
     @Column(name = "N_NO_BLS", nullable = false)
     private Long noBLs;
 
+    @NotAudited
     @Formula("( select N_NO_BLS - (select count(TBL_CNTR_BILL_OF_LANDING.ID) " +
             "from TBL_CNTR_BILL_OF_LANDING where TBL_CNTR_BILL_OF_LANDING.F_SHIPMENT_ID = id) from dual)")
     private Long remainedBLs;

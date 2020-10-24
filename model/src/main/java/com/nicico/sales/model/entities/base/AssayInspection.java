@@ -1,6 +1,5 @@
 package com.nicico.sales.model.entities.base;
 
-import com.nicico.sales.model.Auditable;
 import com.nicico.sales.model.entities.common.BaseEntity;
 import com.nicico.sales.model.entities.warehouse.Inventory;
 import com.nicico.sales.model.entities.warehouse.MaterialElement;
@@ -8,10 +7,13 @@ import com.nicico.sales.model.enumeration.InspectionReportMilestone;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.envers.AuditOverride;
+import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
+
+import static org.hibernate.envers.RelationTargetAuditMode.NOT_AUDITED;
 
 @Getter
 @Setter
@@ -22,6 +24,8 @@ import java.math.BigDecimal;
 @Entity
 @Table(name = "TBL_ASSAY_INSPECTION", uniqueConstraints = @UniqueConstraint(name = "milestone_materialElement_inventory_UNIQUE",
         columnNames = {"N_MILESTONE", "F_MATERIAL_ELEMENT_ID", "F_INVENTORY_ID"}))
+@Audited
+@AuditOverride(forClass = BaseEntity.class)
 public class AssayInspection extends BaseEntity {
 
     @Id
@@ -45,6 +49,7 @@ public class AssayInspection extends BaseEntity {
     @Column(name = "F_INSPECTION_REPORT_ID", nullable = false)
     private Long inspectionReportId;
 
+    @Audited(targetAuditMode = NOT_AUDITED)
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "F_MATERIAL_ELEMENT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_AssayInspection2materialElementByMaterialElementId"))
