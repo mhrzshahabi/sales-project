@@ -37,23 +37,48 @@ namespace nicico {
                 };
             });
             // @ts-ignore
+            creator.dynamicForm.excel = isc.DynamicForm.create({
+
+                method: "POST",
+                action: "",
+                target: "_Blank",
+                autoDraw: true,
+                visibility: "hidden",
+                fields: [
+
+                    // @ts-ignore
+                    {name: "fields", type: "hidden"},
+                    // @ts-ignore
+                    {name: "headers", type: "hidden"},
+                    // @ts-ignore
+                    {name: "criteria", type: "hidden"},
+                    // @ts-ignore
+                    {name: "reportId", type: "hidden"}]
+            });
+            // @ts-ignore
+            creator.dynamicForm.excel.hide();
+
+            // @ts-ignore
             creator.method.exportExcel = function () {
 
                 // @ts-ignore
                 let criteria = creator.listGrid.main.getCriteria();
-                creator.method.jsonRPCManagerRequest({
-                        // @ts-ignore
-                        actionURL: creator.variable.contextPath + "report-execute/excel",
-                        httpMethod: "GET",
-                        params: {
-                            reportId: report.id,
-                            fields: report.reportFields.filter(q => !q.hidden).map(q => q.name),
-                            headers: report.reportFields.filter(q => !q.hidden).map(q => q.title),
-                            criteria: criteria
-                        }
-                    },
-                    // @ts-ignore
-                    (response) => creator.window.main.close());
+                // @ts-ignore
+                var fields = report.reportFields.filter(q => !q.hidden);
+                // @ts-ignore
+                creator.dynamicForm.excel.setValue("reportId", report.id);
+                // @ts-ignore
+                creator.dynamicForm.excel.setValue("fields", fields.map(q => q.name));
+                // @ts-ignore
+                creator.dynamicForm.excel.setValue("headers", fields.map(q => q.title));
+                // @ts-ignore
+                creator.dynamicForm.excel.setValue("criteria", JSON.stringify(criteria));
+                // @ts-ignore
+                creator.dynamicForm.excel.method = "GET";
+                // @ts-ignore
+                creator.dynamicForm.excel.action = creator.variable.contextPath + "report-execute/excel";
+                // @ts-ignore
+                creator.dynamicForm.excel.submitForm();
             };
             // @ts-ignore
             creator.method.print = function () {
@@ -156,7 +181,7 @@ namespace nicico {
                     let field = {name: p.name, title: p.title, type: p.type, hidden: p.hidden};
                     // @ts-ignore
                     if (p.type === "date") field.filterOperator = ["greaterThan", "lessThan",
-                    //"greaterOrEqual", "lessOrEqual", "iBetween", "iBetweenInclusive", "isNull", "notNull","greaterThanField", "lessThanField", "greaterOrEqualField", "lessOrEqualField", "between", "betweenInclusive"
+                        //"greaterOrEqual", "lessOrEqual", "iBetween", "iBetweenInclusive", "isNull", "notNull","greaterThanField", "lessThanField", "greaterOrEqualField", "lessOrEqualField", "between", "betweenInclusive"
                     ];
                     // @ts-ignore
                     if (p.type === "boolean") field.filterOperator = ["isNull", "notNull", "equals", "notEqual", "iEquals", "iNotEqual", "equalsField", "notEqualField", "iEqualsField", "iNotEqualField"];

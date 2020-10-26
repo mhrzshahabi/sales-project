@@ -31,22 +31,45 @@ var nicico;
                 };
             });
             // @ts-ignore
+            creator.dynamicForm.excel = isc.DynamicForm.create({
+                method: "POST",
+                action: "",
+                target: "_Blank",
+                autoDraw: true,
+                visibility: "hidden",
+                fields: [
+                    // @ts-ignore
+                    { name: "fields", type: "hidden" },
+                    // @ts-ignore
+                    { name: "headers", type: "hidden" },
+                    // @ts-ignore
+                    { name: "criteria", type: "hidden" },
+                    // @ts-ignore
+                    { name: "reportId", type: "hidden" }
+                ]
+            });
+            // @ts-ignore
+            creator.dynamicForm.excel.hide();
+            // @ts-ignore
             creator.method.exportExcel = function () {
                 // @ts-ignore
                 var criteria = creator.listGrid.main.getCriteria();
-                creator.method.jsonRPCManagerRequest({
-                    // @ts-ignore
-                    actionURL: creator.variable.contextPath + "report-execute/excel",
-                    httpMethod: "GET",
-                    params: {
-                        reportId: report.id,
-                        fields: report.reportFields.filter(function (q) { return !q.hidden; }).map(function (q) { return q.name; }),
-                        headers: report.reportFields.filter(function (q) { return !q.hidden; }).map(function (q) { return q.title; }),
-                        criteria: criteria
-                    }
-                }, 
                 // @ts-ignore
-                function (response) { return creator.window.main.close(); });
+                var fields = report.reportFields.filter(function (q) { return !q.hidden; });
+                // @ts-ignore
+                creator.dynamicForm.excel.setValue("reportId", report.id);
+                // @ts-ignore
+                creator.dynamicForm.excel.setValue("fields", fields.map(function (q) { return q.name; }));
+                // @ts-ignore
+                creator.dynamicForm.excel.setValue("headers", fields.map(function (q) { return q.title; }));
+                // @ts-ignore
+                creator.dynamicForm.excel.setValue("criteria", JSON.stringify(criteria));
+                // @ts-ignore
+                creator.dynamicForm.excel.method = "GET";
+                // @ts-ignore
+                creator.dynamicForm.excel.action = creator.variable.contextPath + "report-execute/excel";
+                // @ts-ignore
+                creator.dynamicForm.excel.submitForm();
             };
             // @ts-ignore
             creator.method.print = function () {

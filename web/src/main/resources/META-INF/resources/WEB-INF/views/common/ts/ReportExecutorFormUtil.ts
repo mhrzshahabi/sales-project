@@ -109,7 +109,7 @@ namespace nicico {
                                         // @ts-ignore
                                         creator.dynamicForm.excel.method = "GET";
                                         // @ts-ignore
-                                        creator.dynamicForm.excel.action`` = creator.variable.contextPath + "report-execute/excel";
+                                        creator.dynamicForm.excel.action = creator.variable.contextPath + "report-execute/excel";
                                         // @ts-ignore
                                         creator.dynamicForm.excel.submitForm();
                                     });
@@ -322,6 +322,31 @@ namespace nicico {
             ], "60%");
         }
 
+        static createExcelSubmitForm(creator: nicico.JSPTabVariable) {
+
+            // @ts-ignore
+            creator.dynamicForm.excel = isc.DynamicForm.create({
+
+                method: "POST",
+                action: "",
+                target: "_Blank",
+                autoDraw: true,
+                visibility: "hidden",
+                fields: [
+
+                    // @ts-ignore
+                    {name: "fields", type: "hidden"},
+                    // @ts-ignore
+                    {name: "headers", type: "hidden"},
+                    // @ts-ignore
+                    {name: "criteria", type: "hidden"},
+                    // @ts-ignore
+                    {name: "reportId", type: "hidden"}]
+            });
+            // @ts-ignore
+            creator.dynamicForm.excel.hide();
+        }
+
         static show(owner: isc.Window, title: string, criteria: string, createTab: any) {
 
             let creator = new GeneralTabUtil().getDefaultJSPTabVariable();
@@ -348,31 +373,6 @@ namespace nicico {
 
             // @ts-ignore
             return creator.window.main;
-        }
-
-        private static createExcelSubmitForm(creator: nicico.JSPTabVariable) {
-
-            // @ts-ignore
-            creator.dynamicForm.excel = isc.DynamicForm.create({
-
-                method: "POST",
-                action: "",
-                target: "_Blank",
-                autoDraw: true,
-                visibility: "hidden",
-                fields: [
-
-                    // @ts-ignore
-                    {name: "fields", type: "hidden"},
-                    // @ts-ignore
-                    {name: "headers", type: "hidden"},
-                    // @ts-ignore
-                    {name: "criteria", type: "hidden"},
-                    // @ts-ignore
-                    {name: "reportId", type: "hidden"}]
-            });
-            // @ts-ignore
-            creator.dynamicForm.excel.hide();
         }
     }
 

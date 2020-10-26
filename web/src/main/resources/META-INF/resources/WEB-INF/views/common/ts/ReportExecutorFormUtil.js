@@ -1,8 +1,4 @@
 //------------------------------------------ TS References -----------------------------------------
-var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cooked, raw) {
-    if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
-    return cooked;
-};
 ///<reference path="CommonUtil.ts"/>
 ///<reference path="FormUtil.ts"/>
 ///<reference path="GeneralTabUtil.ts"/>
@@ -90,7 +86,7 @@ var nicico;
                                         // @ts-ignore
                                         creator.dynamicForm.excel.method = "GET";
                                         // @ts-ignore
-                                        creator.dynamicForm.excel.action(__makeTemplateObject([""], [""])) = creator.variable.contextPath + "report-execute/excel";
+                                        creator.dynamicForm.excel.action = creator.variable.contextPath + "report-execute/excel";
                                         // @ts-ignore
                                         creator.dynamicForm.excel.submitForm();
                                     });
@@ -272,6 +268,28 @@ var nicico;
                 creator.listGrid.main
             ], "60%");
         };
+        ReportExecutorFormUtil.createExcelSubmitForm = function (creator) {
+            // @ts-ignore
+            creator.dynamicForm.excel = isc.DynamicForm.create({
+                method: "POST",
+                action: "",
+                target: "_Blank",
+                autoDraw: true,
+                visibility: "hidden",
+                fields: [
+                    // @ts-ignore
+                    { name: "fields", type: "hidden" },
+                    // @ts-ignore
+                    { name: "headers", type: "hidden" },
+                    // @ts-ignore
+                    { name: "criteria", type: "hidden" },
+                    // @ts-ignore
+                    { name: "reportId", type: "hidden" }
+                ]
+            });
+            // @ts-ignore
+            creator.dynamicForm.excel.hide();
+        };
         ReportExecutorFormUtil.show = function (owner, title, criteria, createTab) {
             var creator = new nicico.GeneralTabUtil().getDefaultJSPTabVariable();
             // @ts-ignore
@@ -294,28 +312,6 @@ var nicico;
             creator.window.main.show();
             // @ts-ignore
             return creator.window.main;
-        };
-        ReportExecutorFormUtil.createExcelSubmitForm = function (creator) {
-            // @ts-ignore
-            creator.dynamicForm.excel = isc.DynamicForm.create({
-                method: "POST",
-                action: "",
-                target: "_Blank",
-                autoDraw: true,
-                visibility: "hidden",
-                fields: [
-                    // @ts-ignore
-                    { name: "fields", type: "hidden" },
-                    // @ts-ignore
-                    { name: "headers", type: "hidden" },
-                    // @ts-ignore
-                    { name: "criteria", type: "hidden" },
-                    // @ts-ignore
-                    { name: "reportId", type: "hidden" }
-                ]
-            });
-            // @ts-ignore
-            creator.dynamicForm.excel.hide();
         };
         ReportExecutorFormUtil.cancelCallBack = function () {
             return;
