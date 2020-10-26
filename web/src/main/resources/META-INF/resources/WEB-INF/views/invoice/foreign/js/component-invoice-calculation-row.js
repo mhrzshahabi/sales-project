@@ -9,6 +9,7 @@ isc.defineClass("InvoiceCalculationRow", isc.VLayout).addProperties({
     membersMargin: 2,
     assay: null,
     price: null,
+    invoiceCompletion: false,
     calculationRowData: null,
     initWidget: function () {
 
@@ -210,7 +211,7 @@ isc.defineClass("InvoiceCalculationRow", isc.VLayout).addProperties({
     },
     editRowCalculation: function () {
 
-        if (this.calculationRowData) {
+        if (this.calculationRowData && !this.invoiceCompletion) {
             this.getMembers().filter(q => q.role === "deduction").first().setValue("deductionValue", this.calculationRowData.deductionValue);
             this.getMembers().filter(q => q.role === "deduction").first().setValue("deductionType", this.calculationRowData.deductionType);
             this.getMembers().filter(q => q.role === "deduction").first().getItem("deductionType").changed(this.getMembers().filter(q => q.role === "deduction").first(),

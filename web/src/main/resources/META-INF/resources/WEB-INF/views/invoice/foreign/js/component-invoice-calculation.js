@@ -9,6 +9,7 @@ isc.defineClass("InvoiceCalculation", isc.VLayout).addProperties({
     overflow: "auto",
     currency: null,
     calculationData: null,
+    invoiceCompletion: false,
     invoiceBaseAssayComponent: null,
     invoiceBasePriceComponent: null,
     initWidget: function () {
@@ -30,6 +31,7 @@ isc.defineClass("InvoiceCalculation", isc.VLayout).addProperties({
                 price: priceValues[index],
                 elementId: priceValues[index].elementId,
                 materialElementId: assayValue.materialElementId,
+                invoiceCompletion: This.invoiceCompletion,
                 calculationRowData: This.calculationData ? This.calculationData.filter(q => q.materialElementId === assayValue.materialElementId).first() : null,
                 sumPriceChanged: function (sumPrice) {
 

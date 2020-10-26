@@ -8,6 +8,7 @@ isc.defineClass("InvoiceDeduction", isc.VLayout).addProperties({
     membersMargin: 2,
     overflow: "auto",
     currency: null,
+    invoiceCompletion: false,
     rcDeductionData: null,
     contractDetailDataTC: null,
     contractDetailDataRC: null,
@@ -42,6 +43,7 @@ isc.defineClass("InvoiceDeduction", isc.VLayout).addProperties({
                 elementId: calculationValues[index].elementId,
                 elementFinalAssay: calculationValues[index].assay,
                 materialElementId: calculationValues[index].materialElementId,
+                invoiceCompletion: This.invoiceCompletion,
                 rcData: This.contractDetailDataRC.filter(q => q.materialElement.elementId === calculationValues[index].elementId).first(),
                 rcDeductionRowData: This.rcDeductionData ? This.rcDeductionData.filter(q => q.materialElementId === calculationValues[index].materialElementId).first() : null,
                 sumDeductionChanged: function (sumDeduction) {

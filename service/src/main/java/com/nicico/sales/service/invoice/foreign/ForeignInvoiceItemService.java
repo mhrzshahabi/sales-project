@@ -8,11 +8,9 @@ import com.nicico.sales.enumeration.ActionType;
 import com.nicico.sales.enumeration.ErrorType;
 import com.nicico.sales.exception.NotFoundException;
 import com.nicico.sales.exception.SalesException2;
-import com.nicico.sales.iservice.IContractDetailValueService2;
 import com.nicico.sales.iservice.IInspectionReportService;
 import com.nicico.sales.iservice.IPriceBaseService;
 import com.nicico.sales.iservice.IUnitService;
-import com.nicico.sales.iservice.contract.IContractDetailService;
 import com.nicico.sales.iservice.invoice.foreign.IForeignInvoiceItemService;
 import com.nicico.sales.model.entities.base.AssayInspection;
 import com.nicico.sales.model.entities.base.PriceBase;
@@ -47,9 +45,7 @@ public class ForeignInvoiceItemService extends GenericService<ForeignInvoiceItem
     private static final String UNIT_CONVERSION_RATE = "unitConversionRate";
     private final IUnitService unitService;
     private final IPriceBaseService priceBaseService;
-    private final IContractDetailService contractDetailService;
     private final IInspectionReportService inspectionReportService;
-    private final IContractDetailValueService2 contractDetailValueService2;
 
     @Override
     @Transactional
@@ -67,21 +63,10 @@ public class ForeignInvoiceItemService extends GenericService<ForeignInvoiceItem
         if (materialIds.size() != 1)
             throw new SalesException2(ErrorType.BadRequest, "material", "There is multiple material.");
 
-//        ContractDetailDTO.Info priceDetail = contractDetailService.getContractDetailByContractDetailTypeCode(contractId, materialIds.iterator().next(), EContractDetailTypeCode.Price);
-//        String priceArticleText = priceDetail.getContent();
         String priceArticleText = contractDetailDataInfo.getPriceContent();
-//        ContractDetailDTO.Info priceBaseDetail = contractDetailService.getContractDetailByContractDetailTypeCode(contractId, materialIds.iterator().next(), EContractDetailTypeCode.QuotationalPeriod);
-//        String priceBaseArticleText = priceBaseDetail.getContent();
         String priceBaseArticleText = contractDetailDataInfo.getQuotationalPeriodContent();
-
-//        Map<String, List<Object>> operationalDataOfDiscountArticle = contractDetailValueService2.get(contractId, EContractDetailTypeCode.Price, EContractDetailValueKey.DISCOUNT, true);
-//        List<Object> discounts = operationalDataOfDiscountArticle.get(EContractDetailValueKey.DISCOUNT.getId());
-//        List<ContractDiscount> discountArticle = new ArrayList<>();
-//        if (discounts != null)
-//            discounts.forEach(discount -> discountArticle.add(modelMapper.map(discount, ContractDiscount.class)));
         List<ContractDiscount> discountArticle = contractDetailDataInfo.getDiscount();
 
-//        List<PriceBaseDTO.Info> basePrices = priceBaseService.getAverageOfElementBasePrices(contractId, financeUnitId, sendDate);
         List<PriceBaseDTO.Info> basePrices = priceBaseService.getAverageOfBasePricesByMOAS(contractId, financeUnitId, contractDetailDataInfo.getMOAS());
 
         List<Map<String, Object>> data = new ArrayList<>();

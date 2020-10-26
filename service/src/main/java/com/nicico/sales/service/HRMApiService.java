@@ -58,7 +58,7 @@ public class HRMApiService implements IHRMApiService {
 		final UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromHttpUrl(url)
 				.queryParam("type", request.getType())
 				.queryParam("day", calendar.get(Calendar.DAY_OF_MONTH))
-				.queryParam("month", calendar.get(Calendar.MONTH))
+				.queryParam("month", calendar.get(Calendar.MONTH) + 1)
 				.queryParam("year", calendar.get(Calendar.YEAR));
 		if (request.getBefore() != null)
 			uriComponentsBuilder.queryParam("before", request.getBefore());

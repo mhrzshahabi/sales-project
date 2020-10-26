@@ -791,6 +791,7 @@ foreignInvoiceTab.button.save = isc.IButtonSave.create({
                 } else if (foreignInvoiceTab.variable.materialId === ImportantIDs.material.COPPER_CONCENTRATES) {
 
                     let invoiceBaseValuesComponent = isc.InvoiceBaseValues.create({
+                        invoiceCompletion: foreignInvoiceTab.variable.completionInvoice,
                         currency: foreignInvoiceTab.dynamicForm.valuesManager.getValue("currency"),
                         contract: foreignInvoiceTab.dynamicForm.valuesManager.getValue("contract"),
                         shipment: foreignInvoiceTab.dynamicForm.valuesManager.getValue("shipment"),
@@ -806,7 +807,7 @@ foreignInvoiceTab.button.save = isc.IButtonSave.create({
                     invoiceBaseValuesComponent.okButtonClick = function () {
 
                         let invoiceCalculationComponent = isc.InvoiceCalculation.create({
-
+                            invoiceCompletion: foreignInvoiceTab.variable.completionInvoice,
                             currency: foreignInvoiceTab.dynamicForm.valuesManager.getValue("currency"),
                             invoiceBaseAssayComponent: invoiceBaseValuesComponent.invoiceBaseAssayComponent,
                             invoiceBasePriceComponent: invoiceBaseValuesComponent.invoiceBasePriceComponent,
@@ -817,6 +818,7 @@ foreignInvoiceTab.button.save = isc.IButtonSave.create({
                         invoiceCalculationComponent.okButtonClick = function addRelatedDeductionTab() {
 
                             let invoiceDeductionComponent = isc.InvoiceDeduction.create({
+                                invoiceCompletion: foreignInvoiceTab.variable.completionInvoice,
                                 invoiceCalculationComponent: invoiceCalculationComponent,
                                 contractDetailDataTC: foreignInvoiceTab.variable.contractDetailData.tc,
                                 contractDetailDataRC: foreignInvoiceTab.variable.contractDetailData.rc,
@@ -843,6 +845,7 @@ foreignInvoiceTab.button.save = isc.IButtonSave.create({
                 } else {
 
                     let invoiceCalculationCathodeComponent = isc.InvoiceCalculationCathode.create({
+                        invoiceCompletion: foreignInvoiceTab.variable.completionInvoice,
                         currency: foreignInvoiceTab.dynamicForm.valuesManager.getValue("currency"),
                         contract: foreignInvoiceTab.dynamicForm.valuesManager.getValue('contract'),
                         shipment: foreignInvoiceTab.dynamicForm.valuesManager.getValue("shipment"),
@@ -1247,6 +1250,11 @@ foreignInvoiceTab.window.invoiceCompletionForm.validate = function (data) {
     foreignInvoiceTab.dynamicForm.invoiceCompletionDynamicForm.validate();
     if (foreignInvoiceTab.dynamicForm.invoiceCompletionDynamicForm.hasErrors())
         isValid = false;
+
+    if (foreignInvoiceTab.dynamicForm.invoiceCompletionDynamicForm.getValue("remainingPercent") <= 0) {
+        isValid = false;
+        foreignInvoiceTab.dialog.say("<spring:message code='foreign-invoice.form.validate.no-remaining-percent'/>");
+    }
 
     return isValid;
 };
@@ -3249,51 +3257,38 @@ foreignInvoiceTab.method.addTab = function (pane, title) {
 
 //*************************************************** REST *************************************************************
 
-// foreignInvoiceTab.method.jsonRPCManagerRequest({
-//     httpMethod: "GET",
-//     actionURL: "${contextPath}/api/foreign-invoice/get-contract-detail-data",
-//     params: {
-//         contractId: 1
-//     },
-// }, (resp) => {
-//     if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
-//         debugger;
-//         foreignInvoiceTab.variable.contractDetailData = JSON.parse(resp.data)
-//     }
-// });
-
 // MOCK
-foreignInvoiceTab.variable.contractDetailData.MOASValue = 0;
-foreignInvoiceTab.variable.contractDetailData.workingDayAfterMOAS = 5;
-foreignInvoiceTab.variable.contractDetailData.workingDayBeforeMOAS = -5;
-foreignInvoiceTab.variable.contractDetailData.basePriceReference = "LME";
-foreignInvoiceTab.variable.contractDetailData.tc = 123456;
-foreignInvoiceTab.variable.contractDetailData.rc = [{
-    elementId: 1,
-    elementName: "CU",
-    price: 12.3,
-    weightUnit: {id: -1, nameEN: "Pound", categoryUnit: "Weight"},
-    financeUnit: {id: -32, nameEN: "Dollar", categoryUnit: "Finance"}
-}, {
-    elementId: 2,
-    elementName: "AG",
-    price: 11.3,
-    weightUnit: {id: -1, nameEN: "Pound", categoryUnit: "Weight"},
-    financeUnit: {id: -32, nameEN: "Dollar", categoryUnit: "Finance"}
-}, {
-    elementId: 3,
-    elementName: "AU",
-    price: 12.4,
-    weightUnit: {id: -1, nameEN: "Pound", categoryUnit: "Weight"},
-    financeUnit: {id: -32, nameEN: "Dollar", categoryUnit: "Finance"}
-}, {
-    elementId: 4,
-    elementName: "MO",
-    price: 14.4,
-    weightUnit: {id: -1, nameEN: "Pound", categoryUnit: "Weight"},
-    financeUnit: {id: -32, nameEN: "Dollar", categoryUnit: "Finance"}
-}];
-foreignInvoiceTab.variable.contractDetailData.QPAtricleText = "QUOTATIONAL PERIOD FOR MOLYBDENUM OXIDE SHALL BE THE AVERAGE OF THE MONTH FOLLOWING MONTH OF ACTUAL SHIPMENT (MOAS+(\n" +
-    "${MOAS})) FROM THE PORT OF LOADING AS EVIDENCED BY THE B/L DATE.";
-foreignInvoiceTab.variable.contractDetailData.unitPriceAtricleText = "USD 6.24 PER NET METRIC TON PLUS A PREMIUM OF USD 0.05 PER METRIC TON";
-foreignInvoiceTab.variable.contractDetailData.unitPrice = 6.29;
+// foreignInvoiceTab.variable.contractDetailData.MOASValue = 0;
+// foreignInvoiceTab.variable.contractDetailData.workingDayAfterMOAS = 5;
+// foreignInvoiceTab.variable.contractDetailData.workingDayBeforeMOAS = -5;
+// foreignInvoiceTab.variable.contractDetailData.basePriceReference = "LME";
+// foreignInvoiceTab.variable.contractDetailData.tc = 123456;
+// foreignInvoiceTab.variable.contractDetailData.rc = [{
+//     elementId: 1,
+//     elementName: "CU",
+//     price: 12.3,
+//     weightUnit: {id: -1, nameEN: "Pound", categoryUnit: "Weight"},
+//     financeUnit: {id: -32, nameEN: "Dollar", categoryUnit: "Finance"}
+// }, {
+//     elementId: 2,
+//     elementName: "AG",
+//     price: 11.3,
+//     weightUnit: {id: -1, nameEN: "Pound", categoryUnit: "Weight"},
+//     financeUnit: {id: -32, nameEN: "Dollar", categoryUnit: "Finance"}
+// }, {
+//     elementId: 3,
+//     elementName: "AU",
+//     price: 12.4,
+//     weightUnit: {id: -1, nameEN: "Pound", categoryUnit: "Weight"},
+//     financeUnit: {id: -32, nameEN: "Dollar", categoryUnit: "Finance"}
+// }, {
+//     elementId: 4,
+//     elementName: "MO",
+//     price: 14.4,
+//     weightUnit: {id: -1, nameEN: "Pound", categoryUnit: "Weight"},
+//     financeUnit: {id: -32, nameEN: "Dollar", categoryUnit: "Finance"}
+// }];
+// foreignInvoiceTab.variable.contractDetailData.QPAtricleText = "QUOTATIONAL PERIOD FOR MOLYBDENUM OXIDE SHALL BE THE AVERAGE OF THE MONTH FOLLOWING MONTH OF ACTUAL SHIPMENT (MOAS+(\n" +
+//     "${MOAS})) FROM THE PORT OF LOADING AS EVIDENCED BY THE B/L DATE.";
+// foreignInvoiceTab.variable.contractDetailData.unitPriceAtricleText = "USD 6.24 PER NET METRIC TON PLUS A PREMIUM OF USD 0.05 PER METRIC TON";
+// foreignInvoiceTab.variable.contractDetailData.unitPrice = 6.29;

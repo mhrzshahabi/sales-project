@@ -11,6 +11,7 @@ isc.defineClass("InvoiceCalculationCathode", isc.VLayout).addProperties({
     shipment: null,
     currency: null,
     percent: null,
+    invoiceCompletion: false,
     contractDetailData: null,
     inspectionWeightData: null,
     invoiceBaseWeightComponent: null,
@@ -30,6 +31,7 @@ isc.defineClass("InvoiceCalculationCathode", isc.VLayout).addProperties({
         this.invoiceBaseWeightComponent = isc.InvoiceBaseWeight.create({
             shipment: This.shipment,
             percent: This.percent,
+            invoiceCompletion: This.invoiceCompletion,
             inspectionWeightData: This.inspectionWeightData,
         });
         this.addMember(this.invoiceBaseWeightComponent);
@@ -51,7 +53,6 @@ isc.defineClass("InvoiceCalculationCathode", isc.VLayout).addProperties({
             callback: function (resp) {
 
                 if (resp.data && (resp.httpResponseCode === 200 || resp.httpResponseCode === 201)) {
-                    debugger
 
                     let priceBases = JSON.parse(resp.data);
                     priceBases.forEach(priceBase => {
@@ -78,14 +79,6 @@ isc.defineClass("InvoiceCalculationCathode", isc.VLayout).addProperties({
                             This.getMembers().last().setValue(This.basePriceData.filter(q => q.materialElement.elementId === elementId).first().basePrice);
                         }
                     });
-
-                    // QPArticleElement.setContents("<span style='display: block; text-align: left'>" + This.contractDetailData.QPAtricleText + "</span>");
-                    // this.addMember(QPArticleElement);
-                    //
-                    // this.addMember(isc.HTMLFlow.create({
-                    //     width: "100%",
-                    //     contents: "<span style='width: 100%; display: block; margin: 10px auto; border-bottom: 1px solid rgba(0,0,0,0.3)'></span>"
-                    // }));
 
                     unitPriceArticleElement.setContents("<span style='display: block; text-align: left'>" + This.contractDetailData.quotationalPeriodContent + "</span>");
                     This.addMember(unitPriceArticleElement);
@@ -134,6 +127,10 @@ isc.defineClass("InvoiceCalculationCathode", isc.VLayout).addProperties({
         if (!this.invoiceBaseWeightComponent.validate())
             isValid = false;
 
+        this.getMembers()[2].validate();
+        if (this.getMembers()[2].hasErrors())
+            isValid = false;
+
         return isValid;
     },
     okButtonClick: function () {
@@ -143,7 +140,8 @@ isc.defineClass("InvoiceCalculationCathode", isc.VLayout).addProperties({
         return 0;
     },
     getCalculationSubTotal: function () {
-        return this.contractDetailData.unitPrice;
+
+        return this.getMembers()[2].getValues().value;
     },
     getForeignInvoiceItems: function () {
 
