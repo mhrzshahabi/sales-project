@@ -2,7 +2,7 @@ spring:
   application:
     name: Sales
   profiles:
-    active: Local
+    active: Staging
   datasource:
     hikari:
       connection-test-query: SELECT 1 FROM DUAL
