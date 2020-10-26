@@ -52,6 +52,22 @@ public class ContractShipmentDTO {
     @Getter
     @Setter
     @Accessors(chain = true)
+    @ApiModel("ContractShipmentInfo")
+    public static class ContractShipmentFIInfo extends ContractShipmentDTO {
+
+        private Long id;
+        private ContractDTO.ListGridInfo contract;
+        private PortDTO loadPort;
+        private Date createdDate;
+        private String createdBy;
+        private Date lastModifiedDate;
+        private String lastModifiedBy;
+        private Integer version;
+    }
+
+    @Getter
+    @Setter
+    @Accessors(chain = true)
     @ApiModel("ContractShipmentTuple")
     public static class Tuple extends ContractShipmentDTO {
         private Long id;

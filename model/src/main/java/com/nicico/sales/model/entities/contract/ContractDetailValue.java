@@ -5,6 +5,8 @@ import com.nicico.sales.model.entities.common.BaseEntity;
 import com.nicico.sales.model.enumeration.DataType;
 import lombok.*;
 import lombok.experimental.Accessors;
+import org.hibernate.envers.AuditOverride;
+import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -18,6 +20,8 @@ import javax.validation.constraints.NotNull;
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
 @Table(name = "TBL_CNTR_CONTRACT_DETAIL_VALUE")
+@Audited
+@AuditOverride(forClass = BaseEntity.class)
 public class ContractDetailValue extends BaseEntity {
 
     @Id
@@ -66,4 +70,7 @@ public class ContractDetailValue extends BaseEntity {
     @NotNull
     @Column(name = "F_CONTRACT_DETAIL_ID", nullable = false)
     private Long contractDetailId;
+
+    @OneToOne(mappedBy = "contractDetailValue",fetch = FetchType.LAZY)
+    private CDTPDynamicTableValue cdtpDynamicTableValue;
 }

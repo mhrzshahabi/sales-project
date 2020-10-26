@@ -9,7 +9,8 @@ isc.defineClass("InvoiceDeduction", isc.VLayout).addProperties({
     overflow: "auto",
     currency: null,
     rcDeductionData: null,
-    contractDetailData: null,
+    contractDetailDataTC: null,
+    contractDetailDataRC: null,
     invoiceCalculationComponent: null,
     initWidget: function () {
 
@@ -25,7 +26,7 @@ isc.defineClass("InvoiceDeduction", isc.VLayout).addProperties({
                 top: 5,
                 align: "left",
                 type: "staticText",
-                value: This.contractDetailData.tc,
+                value: This.contractDetailDataTC,
                 title: "<spring:message code='contract.TC'/>"
             }]
         }));
@@ -41,7 +42,7 @@ isc.defineClass("InvoiceDeduction", isc.VLayout).addProperties({
                 elementId: calculationValues[index].elementId,
                 elementFinalAssay: calculationValues[index].assay,
                 materialElementId: calculationValues[index].materialElementId,
-                rcData: This.contractDetailData.rc.filter(q => q.elementId === calculationValues[index].elementId).first(),
+                rcData: This.contractDetailDataRC.filter(q => q.materialElement.elementId === calculationValues[index].elementId).first(),
                 rcDeductionRowData: This.rcDeductionData ? This.rcDeductionData.filter(q => q.materialElementId === calculationValues[index].materialElementId).first() : null,
                 sumDeductionChanged: function (sumDeduction) {
 
@@ -139,7 +140,7 @@ isc.defineClass("InvoiceDeduction", isc.VLayout).addProperties({
 
         let data = [{
             name: "TC",
-            value: this.contractDetailData.tc
+            value: this.contractDetailDataTC
         }];
         this.getMembers().filter(q => q.role === "RC").forEach(current => {
 

@@ -11,32 +11,23 @@ isc.defineClass("InvoiceBasePrice", isc.VLayout).addProperties({
     contract: null,
     currency: null,
     shipment: null,
-    contractDetailData: null,
+    basePriceData: null,
+    contractDetailDataMOAS: null,
     initWidget: function () {
 
         this.Super("initWidget", arguments);
 
         let This = this;
 
-        let material = This.contract.material;
-        let sendDate = new Date(This.shipment.sendDate);
-        let year = sendDate.getFullYear();
-        let month = sendDate.getMonth() + 1;
-        let moasValue = This.contractDetailData.moasValue;
-        let basePriceReference = This.contractDetailData.basePriceReference;
-
         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+            httpMethod: "POST",
             willHandleError: true,
+            data: JSON.stringify(This.contractDetailDataMOAS),
+            actionURL: "${contextPath}/api/price-base/get-avg-base-price-by-moas",
             params: {
-                year: year,
-                materialId: material.id,
-                month: month + moasValue,
-                reference: basePriceReference,
-                financeUnitId: This.currency.id
+                contractId: This.contract.id,
+                financeUnitId: This.currency.id,
             },
-            httpMethod: "GET",
-            actionURL: "${contextPath}/api/price-base/get-avg-base-price",
-
             callback: function (resp) {
 
                 let members = [];
@@ -47,13 +38,12 @@ isc.defineClass("InvoiceBasePrice", isc.VLayout).addProperties({
 
                         // if (!priceBase.element.payable)
                         //     return;
-
                         members.add(isc.Unit.create({
                             unitHint: "PER " + priceBase.weightUnit.nameEN,
                             unitCategory: priceBase.financeUnit.categoryUnit,
                             fieldValueTitle: priceBase.element.name,
                             disabledUnitField: true,
-                            disabledValueField: true,
+                            disabledValueField: false,
                             showValueFieldTitle: true,
                             showUnitFieldTitle: false,
                             name: priceBase.element.name,
@@ -64,20 +54,25 @@ isc.defineClass("InvoiceBasePrice", isc.VLayout).addProperties({
 
                         members.last().setValue(priceBase.price);
                         members.last().setUnitId(priceBase.financeUnit.id);
+
+                        if (This.basePriceData) {
+                            let elementId = members.last().elementId;
+                            members.last().setValue(This.basePriceData.filter(q => q.materialElement.elementId === elementId).first().basePrice);
+                        }
                     });
                 } else {
 
                     isc.RPCManager.handleError(resp);
                 }
 
-                let fieldsNames = members.map(q => q.name).join(", ");
-                This.addMember(isc.Label.create({
-                    width: "100%",
-                    height: "50",
-                    contents: "<b>" + "AVERAGE OF " + (month + moasValue) +
-                        "th MONTH OF " + year + " (MOAS" + (moasValue === 0 ? "" : (moasValue > 0 ? "+" : "-") + moasValue) +
-                        ") " + " FOR " + fieldsNames + "</b>"
-                }));
+                // let fieldsNames = members.map(q => q.name).join(", ");
+                // This.addMember(isc.Label.create({
+                //     width: "100%",
+                //     height: "50",
+                //     contents: "<b>" + "AVERAGE OF " + (month + MOASValue) +
+                //         "th MONTH OF " + year + " (MOAS" + (MOASValue === 0 ? "" : (MOASValue > 0 ? "+" : "-") + MOASValue) +
+                //         ") " + " FOR " + fieldsNames + "</b>"
+                // }));
 
                 if (members.length)
                     This.addMembers(members);
@@ -85,12 +80,12 @@ isc.defineClass("InvoiceBasePrice", isc.VLayout).addProperties({
         }));
     },
     getDataRowNo: function () {
-        return this.getMembers().slice(1).length;
+        return this.getMembers().length;
     },
     getValues: function () {
 
         let data = [];
-        this.getMembers().slice(1).forEach(current => {
+        this.getMembers().forEach(current => {
 
             let values = current.getValues();
             data.add({

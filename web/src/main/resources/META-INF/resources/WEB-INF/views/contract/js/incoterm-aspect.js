@@ -48,3 +48,4 @@ incotermAspectTab.listGrid.fields = incotermAspectTab.dynamicForm.fields.map(q =
 });
 nicico.BasicFormUtil.getDefaultBasicForm(incotermAspectTab, "api/incoterm-aspect/");
 incotermAspectTab.dynamicForm.main.windowWidth = 500;
+nicico.BasicFormUtil.removeExtraGridMenuActions(incotermAspectTab);

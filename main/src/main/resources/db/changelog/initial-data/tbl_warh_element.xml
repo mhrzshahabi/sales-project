@@ -188,10 +188,10 @@
         </sql>
     </changeSet>
 
-    <changeSet id="1799887766554-070" author="MShahabi">
-        <sql>
-            update TBL_WARH_ELEMENT set B_PAYABLE = 1 where id = 4;
-        </sql>
-    </changeSet>
+    <!--    <changeSet id="1799887766554-070" author="MShahabi">-->
+    <!--        <sql>-->
+    <!--            update TBL_WARH_ELEMENT set B_PAYABLE = 1 where id = 4;-->
+    <!--        </sql>-->
+    <!--    </changeSet>-->
 
 </databaseChangeLog>

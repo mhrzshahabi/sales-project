@@ -98,6 +98,9 @@
     <%@include file="common/ts/FindFormUtil.js"%>
     <%@include file="common/ts/GeneralTabUtil.js"%>
     <%@include file="common/ts/StorageUtil.js"%>
+    <%@include file="common/ts/FilterFormUtil.js"%>
+    <%@include file="common/ts/ReportExecutorFormUtil.js"%>
+    <%@include file="common/js/component-file.js"%>
 
     var Enums = {
 
@@ -412,7 +415,13 @@
         }
         // console.debug("formatCellValueNumber(value) arguments",arguments);
         if (value === undefined || isNaN(value)) return value;
-        return isc.NumberUtil.format(value, ',0');
+        try {
+            return isc.NumberUtil.format(value, ',0');
+        }
+        catch (e) {
+            console.warn('function formatCellValueNumber(value, record, rowNum, colNum)',e)
+            return value;
+        }
     }
 
     isc.ListGrid.addProperties({
@@ -1021,11 +1030,46 @@
     /*----------------------reportTab------------------------*/
     reportTab = isc.ToolStripMenuButton.create({
         title: "&nbsp; <spring:message code='main.reportTab'/>",
-        click: function () {
-            createTab("<spring:message code='main.reportTab'/>", "<spring:url value="/report/show-report-form" />")
-        }
-    });
+        menu: isc.Menu.create({
+            placement: "none",
+            data: [
+                <sec:authorize access="hasAuthority('R_REPORT')">
+                {
+                    title: "<spring:message code='report.menu.generator'/>",
+                    click: function () {
+                        createTab("<spring:message code='report.menu.generator'/>", "<spring:url value="/report/show-form" />")
+                    }
+                },
+                {isSeparator: true},
+                </sec:authorize>
+                <sec:authorize access="hasAuthority('R_REPORT_GROUP')">
+                {
+                    title: "<spring:message code='report.menu.report-group'/>",
+                    click: function () {
+                        createTab("<spring:message code='report.menu.report-group'/>", "<spring:url value="/report-group/show-form" />")
+                    }
+                },
+                {isSeparator: true},
+                </sec:authorize>
+                <sec:authorize access="hasAuthority('RG_EXECUTE')">
+                {
+                    title: "<spring:message code='report.menu.execute'/>",
+                    click: function () {
 
+                        nicico.ReportExecutorFormUtil.show(null, '<spring:message code="report.menu.execute"/>', null, createTab);
+                    }
+                },
+                </sec:authorize>
+                {
+                    title: "<spring:message code='main.reportTab'/>",
+                    click: function () {
+
+                         createTab("<spring:message code='main.reportTab'/>", "<spring:url value="/warehouse-report/show-report-form" />")
+                    }
+                },
+            ]
+        })
+    });
     //---------------------------------------
     var mainTabSet = isc.TabSet.create({
         tabBarPosition: "top",
@@ -1060,8 +1104,7 @@
     saleToolStrip = isc.ToolStrip.create({
         align: "center",
         membersMargin: 20,
-        members: [
-        ]
+        members: []
     });
     <sec:authorize
     access="hasAuthority('R_CONTACT') or hasAuthority('R_PERSON') or hasAuthority('R_PORT') or hasAuthority('R_VESSEL') or hasAuthority('R_CURRENCY_RATE') or hasAuthority('R_SHIPMENT_COST_DUTY')
@@ -1217,11 +1260,11 @@
         getValueFieldProperties: function (type, fieldName, operatorId, itemType) {
 
             let superProperties = this.Super("getValueFieldProperties", arguments);
+            if (!superProperties) superProperties = {};
             if (this.dataSource == null)
                 return Object.assign(superProperties, {
                     type: type,
                     name: fieldName,
-                    editorType: itemType,
                     filterOperator: operatorId
                 });
 
@@ -1230,15 +1273,14 @@
                 return Object.assign(superProperties, {
                     type: type,
                     name: fieldName,
-                    editorType: itemType,
-                    filterOperator: operatorId
+                    editorType: field.editorType,
+                    filterOperator: field.filterOperator
                 });
-            debugger;
             return Object.assign(superProperties, {
                 required: true,
                 autoFetchData: false,
                 showFilterEditor: true,
-                editorType: itemType,
+                editorType: field.editorType,
                 multiple: field.multiple,
                 valueField: field.valueField,
                 displayField: field.displayField,
@@ -1400,8 +1442,8 @@
         }
     })
     isc.DynamicForm.addProperties({
-		 titleAlign: nicico.CommonUtil.getAlignByLang() ==="right" ? "left":"right"
-	})
+        titleAlign: nicico.CommonUtil.getAlignByLang() === "right" ? "left" : "right"
+    })
 
 </script>
 </body>

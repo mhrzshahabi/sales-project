@@ -12,6 +12,8 @@ isc.defineClass("Unit", isc.DynamicForm).addProperties({
     showValueFieldTitle: true,
     showUnitFieldTitle: false,
     showUnitField: true,
+    unitFieldIcons: [],
+    valueFieldIcons: [],
     required: true,
     initWidget: function () {
 
@@ -26,6 +28,7 @@ isc.defineClass("Unit", isc.DynamicForm).addProperties({
             format: "#.##",
             titleAlign: "left",
             keyPressFilter: "[0-9.]",
+            icons: This.valueFieldIcons,
             title: This.fieldValueTitle,
             titleWidth: This.fieldValueTitleWidth,
             editorType: This.disabledValueField ? "StaticText" : "TextItem",
@@ -47,6 +50,7 @@ isc.defineClass("Unit", isc.DynamicForm).addProperties({
             valueField: "id",
             displayField: "nameEN",
             wrapHintText: false,
+            icons: This.unitFieldIcons,
             hint: This.unitHint,
             visible: This.showUnitField,
             editorType: This.disabledUnitField ? "StaticText" : "SelectItem",

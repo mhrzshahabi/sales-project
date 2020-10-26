@@ -5,11 +5,15 @@ import com.nicico.sales.model.entities.base.MaterialItem;
 import com.nicico.sales.model.entities.common.BaseEntity;
 import lombok.*;
 import lombok.experimental.Accessors;
+import org.hibernate.envers.AuditOverride;
+import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
+
+import static org.hibernate.envers.RelationTargetAuditMode.NOT_AUDITED;
 
 @Getter
 @Setter
@@ -19,6 +23,8 @@ import java.util.List;
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
 @Table(name = "TBL_WARH_TOZIN")
+@Audited
+@AuditOverride(forClass = BaseEntity.class)
 public class TozinTable extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_WARH_TOZIN")
@@ -60,6 +66,7 @@ public class TozinTable extends BaseEntity {
     @Column(name = "GDSCODE", nullable = false)
     private Long codeKala;
 
+    @Audited(targetAuditMode = NOT_AUDITED)
     @Setter(AccessLevel.NONE)
     @JoinColumn(name = "GDSCODE", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "f_tozinTable2materialItemByGDSCODE"))
     @ManyToOne(fetch = FetchType.LAZY)

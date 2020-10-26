@@ -217,6 +217,7 @@
             {name: "materialId", title: "<spring:message code='contact.name'/>", type: 'long', hidden: true},
             {name: "material.descEN", title: "<spring:message code='material.descEN'/>", type: 'text'},
             {name: "material.descFA", title: "<spring:message code='material.descFA'/>", type: 'text'},
+            {name: "material.desc", title: "<spring:message code='material.title'/>", type: 'text'},
             {name: "amount", title: "<spring:message code='global.amount'/>", type: 'float'},
             {name: "unitId", title: "<spring:message code='unit.title'/>"},
             {name: "noContainer", title: "<spring:message code='shipment.noContainer'/>", type: 'integer'},
@@ -521,6 +522,7 @@
             {type: "header"},
             {name: "id", hidden: true},
             {name: "contactId", hidden: true},
+            {name: "loadPortId", hidden: true},
             {name: "materialId", hidden: true,},
             {
                 name: "contractId", ID: "abal", colSpan: 1,
@@ -554,7 +556,7 @@
                     let record = DynamicForm_Shipment.getItem("contractId").getSelectedRecord();
                     let buyerId = record.contractContacts.filter(c => (c.commercialRole === 'Buyer'))[0].contactId;
                     setBuyerName(buyerId);
-                    DynamicForm_Shipment.setValue("material.descFA", record.material.descFA);
+                    DynamicForm_Shipment.setValue("material.desc", record.material.desc);
                     DynamicForm_Shipment.setValue("contactId", buyerId);
                     DynamicForm_Shipment.setValue("materialId", record.materialId);
                 }
@@ -584,6 +586,7 @@
                 changed: function (form, item, value) {
                     let d = new Date(item.getSelectedRecord().sendDate);
                     DynamicForm_Shipment.setValue("sendDate", d);
+                    DynamicForm_Shipment.setValue("loadPortId", item.getSelectedRecord().loadPortId);
                 }
             },
             {
@@ -598,7 +601,7 @@
                 type: "staticText"
             },
             {
-                name: "material.descFA",
+                name: "material.desc",
                 title: "<spring:message code='material.title'/>",
                 type: "staticText"
             },
@@ -919,6 +922,9 @@
             validate = datesValidation();
             if (!validate)
                 return false;
+            validate = portValidation();
+            if (!validate)
+                return false;
             validate = await checkRepeatedContractShipment(DynamicForm_Shipment.getItem("contractShipmentId").getValue());
             if (!validate)
                 return false;
@@ -1138,6 +1144,7 @@
             DynamicForm_Shipment.setValue("arrivalDateFrom", new Date(parseInt(ListGrid_Shipment.getSelectedRecord().arrivalDateFrom)));
             DynamicForm_Shipment.setValue("sendDate", new Date(parseInt(ListGrid_Shipment.getSelectedRecord().sendDate)));
             DynamicForm_Shipment.setValue("lastDeliveryLetterDate", new Date(parseInt(ListGrid_Shipment.getSelectedRecord().lastDeliveryLetterDate)));
+            DynamicForm_Shipment.setValue("loadPortId", record.contractShipment.loadPortId);
             setBuyerName(record.contactId);
             abal.disable();
             shipment.disable();
@@ -1539,6 +1546,16 @@
         }
         return true;
     }
+
+    function portValidation() {
+        if (DynamicForm_Shipment.getField("dischargePortId").getValue() == DynamicForm_Shipment.getField("loadPortId").getValue()) {
+            let msg = "<spring:message code='shipment.loadPort.dischargePort.warn'/> ";
+            isc.warn(msg, "");
+            return false;
+        }
+        return true;
+    }
+
 //</script>
 
 

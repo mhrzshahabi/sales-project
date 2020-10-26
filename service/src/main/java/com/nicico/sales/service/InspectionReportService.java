@@ -95,9 +95,9 @@ public class InspectionReportService extends GenericService<InspectionReport, Lo
     }
 
     @Override
-    public InspectionReportDTO.Info setShipment(Long id, Long shipmentId) {
+    public InspectionReportDTO.Info setShipment(Long inspectionId, Long shipmentId) {
 
-        InspectionReport inspectionReport = repository.findById(id).orElseThrow(() -> new NotFoundException(InspectionReport.class));
+        InspectionReport inspectionReport = repository.findById(inspectionId).orElseThrow(() -> new NotFoundException(InspectionReport.class));
         inspectionReport.getWeightInspections().forEach(q -> q.setShipmentId(shipmentId));
         inspectionReport.getAssayInspections().forEach(q -> q.setShipmentId(shipmentId));
         InspectionReportDTO.Info inspectionReportDTO = modelMapper.map(inspectionReport, InspectionReportDTO.Info.class);

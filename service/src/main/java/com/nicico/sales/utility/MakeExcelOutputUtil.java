@@ -18,6 +18,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 @Component
@@ -33,8 +34,6 @@ public class MakeExcelOutputUtil {
     private XSSFCellStyle xssftopRowTitleCellStyle;
     private XSSFCellStyle xssfNumberCommaCellStyle;
     private XSSFCellStyle xssfNumberCommaCellStyleSum;
-
-    private boolean isThereSumField;
 
     public HttpServletResponse makeExcelResponse(byte[] excelData, HttpServletResponse response) throws IOException {
 
@@ -65,8 +64,6 @@ public class MakeExcelOutputUtil {
         // Freeze Pane
         if (!topRowTitle.trim().equals("")) sheet.createFreezePane(0, 2);
         else sheet.createFreezePane(1, 1);
-
-        createSumField(list, entityClass, fieldsName, insertRowNum, topRowTitle, rowNum);
 
         // AutoSize Columns
         makeColumnsAutoSize(fieldsName, insertRowNum);
@@ -216,23 +213,6 @@ public class MakeExcelOutputUtil {
     }
 
     @SuppressWarnings("unchecked")
-    private String getFieldType(List fieldNames, Object item, Class<?> entityClass) throws Exception {
-
-        Object obj = getObject(fieldNames, item, entityClass);
-
-        if (obj == null)
-            return null;
-        if (fieldNames.size() == 1)
-            return obj.getClass().getTypeName();
-        else {
-
-            Class c = obj.getClass();
-            fieldNames.remove(0);
-            return getFieldType(fieldNames, obj, c);
-        }
-    }
-
-    @SuppressWarnings("unchecked")
     private Object getFieldValue(List fieldNames, Object item, Class<?> entityClass) throws Exception {
 
         Object obj = getObject(fieldNames, item, entityClass);
@@ -259,18 +239,21 @@ public class MakeExcelOutputUtil {
     private Object getObject(List fieldNames, Object item, Class<?> entityClass) throws IllegalAccessException, InvocationTargetException {
 
         Object obj;
-        try {
+        if (entityClass.equals(Map.class))
+            obj = ((Map) item).get(fieldNames.get(0));
+        else
+            try {
 
-            Field field = getField(fieldNames.get(0).toString(), entityClass);
-            field.setAccessible(true);
-            obj = field.get(item);
+                Field field = getField(fieldNames.get(0).toString(), entityClass);
+                field.setAccessible(true);
+                obj = field.get(item);
 
-        } catch (Exception e2) {
+            } catch (Exception e2) {
 
-            Method method = getMethod(fieldNames.get(0).toString(), entityClass);
-            method.setAccessible(true);
-            obj = method.invoke(item);
-        }
+                Method method = getMethod(fieldNames.get(0).toString(), entityClass);
+                method.setAccessible(true);
+                obj = method.invoke(item);
+            }
 
         return obj;
     }
@@ -360,7 +343,6 @@ public class MakeExcelOutputUtil {
                         cell.setCellType(CellType.NUMERIC);
                         cell.setCellValue(((Double) obj));
                         cell.setCellStyle(xssfNumberCommaCellStyle);
-                        isThereSumField = true;
                     } else if (objType.equalsIgnoreCase(Boolean.class.getName())) {
 
                         cell.setCellType(CellType.BOOLEAN);
@@ -377,44 +359,6 @@ public class MakeExcelOutputUtil {
                     cell.setCellType(CellType.STRING);
                     cell.setCellStyle(xssfStringCellStyle);
                 }
-            }
-        }
-
-        return rowNum;
-    }
-
-    private int createSumField(List<Object> list, Class<?> entityClass, String[] fieldsName, Boolean insertRowNum, String topRowTitle, int rowNum) throws Exception {
-
-        if (isThereSumField) {
-
-            Row sumRow = sheet.createRow(rowNum);
-            if (insertRowNum) {
-
-                Cell cell = sumRow.createCell(0);
-                cell.setCellStyle(xssfBlankCellStyle);
-            }
-
-            int j = 0;
-            for (String fieldName : fieldsName) {
-
-                List<String> fieldNames = new ArrayList<>(Arrays.asList(fieldName.split(Pattern.quote("."))));
-                String objType = getFieldType(fieldNames, list.get(0), entityClass);
-                Cell cell = sumRow.createCell(j + (insertRowNum ? 1 : 0));
-                if (objType != null && objType.equalsIgnoreCase(Double.class.getName())) {
-
-                    String colName = CellReference.convertNumToColString(j + (insertRowNum ? 1 : 0));
-                    String formula = "SUM(" + colName + (2 + (topRowTitle.trim().equals("") ? 0 : 1)) + ":" + colName + rowNum + ")";
-
-                    cell.setCellType(CellType.FORMULA);
-                    cell.setCellFormula(formula);
-                    cell.setCellStyle(xssfNumberCommaCellStyleSum);
-                } else {
-
-                    cell.setCellType(CellType.STRING);
-                    cell.setCellStyle(xssfBlankCellStyle);
-                }
-
-                j++;
             }
         }
 

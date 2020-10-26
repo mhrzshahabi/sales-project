@@ -1,6 +1,6 @@
 package com.nicico.sales.event;
 
-import com.nicico.sales.model.enumeration.I18n;
+import com.nicico.sales.model.annotation.I18n;
 import com.nicico.sales.enumeration.ErrorType;
 import com.nicico.sales.exception.SalesException2;
 import lombok.extern.slf4j.Slf4j;

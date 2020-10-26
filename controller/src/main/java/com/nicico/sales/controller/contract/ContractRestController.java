@@ -5,6 +5,7 @@ import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.sales.dto.contract.ContractDTO;
 import com.nicico.sales.iservice.contract.IContractService;
+import com.nicico.sales.service.contract.ApiService;
 import com.nicico.sales.utility.SpecListUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +25,7 @@ import java.util.Map;
 @RequestMapping(value = "/api/g-contract")
 public class ContractRestController {
 
+    private final ApiService apiService;
     private final SpecListUtil specListUtil;
     private final IContractService contractService;
 
@@ -113,5 +115,15 @@ public class ContractRestController {
         List<Object> contractArticle = contractService.getOperationalDataOfContractArticle(contractId, code, contractDetailValueKey);
         if (contractArticle == null) contractArticle = new ArrayList<>();
         return new ResponseEntity<>(specListUtil.getCoveredByResponse(contractArticle), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/entities")
+    public ResponseEntity<List<String>> entityList() {
+
+//        Map<String, Object> beans = context.getBeansWithAnnotation(RestController.class);
+//        beans.values().stream().filter(bean->bean.getClass().getAnnotation(RequestMapping.class)!=null).map(bean->bean.getClass().getAnnotation(RequestMapping.class)).collect(Collectors.toList());
+//        return new ResponseEntity<>(apiService.getRestApis(), HttpStatus.OK);
+
+        return new ResponseEntity<>(apiService.getRestApis(), HttpStatus.OK);
     }
 }

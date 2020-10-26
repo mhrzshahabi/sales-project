@@ -50,4 +50,7 @@
             update TBL_SALES_TYPE set C_SALES_TYPE_EN='SONGON OTHER SALE' where id = 5;
         </sql>
     </changeSet>
+    <changeSet id="555-3" author="abiz">
+        <dropColumn tableName="TBL_SALES_TYPE" columnName="SALES_TYPE"/>
+    </changeSet>
 </databaseChangeLog>

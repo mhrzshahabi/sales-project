@@ -3,12 +3,16 @@ package com.nicico.sales.model.entities.base;
 import com.nicico.sales.model.entities.common.BaseEntity;
 import lombok.*;
 import lombok.experimental.Accessors;
+import org.hibernate.envers.AuditOverride;
+import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+
+import static org.hibernate.envers.RelationTargetAuditMode.NOT_AUDITED;
 
 @Getter
 @Setter
@@ -18,6 +22,8 @@ import java.util.List;
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
 @Table(name = "TBL_SHIPMENT_COST_INVOICE")
+@Audited
+@AuditOverride(forClass = BaseEntity.class)
 public class ShipmentCostInvoice extends BaseEntity {
 
     @Id
@@ -94,6 +100,7 @@ public class ShipmentCostInvoice extends BaseEntity {
 
     ////// References //////
 
+    @Audited(targetAuditMode = NOT_AUDITED)
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "F_INVOICE_TYPE_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_shipmentCostInvoice2invoiceTypeByInvoiceTypeId"))

@@ -1658,6 +1658,7 @@ shipmentCostInvoiceTab.listGrid.fields = BaseFormItems.concat([
         // type: 'float'
     }
 ]);
+shipmentCostInvoiceTab.listGrid.fields.filter(q => q.name === "estatus").first().hidden = false;
 
 // ShipmentCost Section
 nicico.BasicFormUtil.createListGrid = function () {
@@ -1811,6 +1812,7 @@ shipmentCostInvoiceTab.listGrid.shipmentCostDetailMain = isc.ListGrid.create(
 
 nicico.BasicFormUtil.getDefaultBasicForm(shipmentCostInvoiceTab, "api/shipmentCostInvoice/");
 nicico.BasicFormUtil.showAllToolStripActions(shipmentCostInvoiceTab);
+nicico.BasicFormUtil.removeExtraGridMenuActions(shipmentCostInvoiceTab);
 
 shipmentCostInvoiceTab.sectionStack.mainSection = isc.SectionStack.create(
     {

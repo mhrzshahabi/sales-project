@@ -30,6 +30,7 @@ public class ForeignInvoicePaymentDTO {
     private String description;
     private Long conversionRefId;
     private Long foreignInvoiceId;
+    private Long shipmentCostInvoiceId;
 
     @Getter
     @Setter

@@ -3,8 +3,12 @@ package com.nicico.sales.model.entities.base;
 import com.nicico.sales.model.entities.common.BaseEntity;
 import lombok.*;
 import lombok.experimental.Accessors;
+import org.hibernate.envers.AuditOverride;
+import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
+
+import static org.hibernate.envers.RelationTargetAuditMode.NOT_AUDITED;
 
 @Getter
 @Setter
@@ -14,6 +18,8 @@ import javax.persistence.*;
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
 @Table(name = "TBL_BANK")
+@Audited
+@AuditOverride(forClass = BaseEntity.class)
 public class Bank extends BaseEntity {
 
     @Id
@@ -34,6 +40,7 @@ public class Bank extends BaseEntity {
     @Column(name = "c_CORE_BRANCH")
     private String coreBranch;
 
+    @Audited(targetAuditMode = NOT_AUDITED)
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "COUNTRY_ID", nullable = false, insertable = false, updatable = false, foreignKey = @ForeignKey(name = "bank2Country"))
