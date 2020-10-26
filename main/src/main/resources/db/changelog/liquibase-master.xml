@@ -76,4 +76,12 @@
     <include file="classpath:/db/changelog/initial-audit/liquibase-audit-init.xml"/>
     <!-- INITIALIZE AUDIT -->
 
+    <!-- CHANGES - AUDIT -->
+    <include file="classpath:/db/changelog/changes/audit/audit-diff-13990805.xml"/>
+    <!-- CHANGES - AUDIT -->
+
+    <!-- CHANGES -->
+    <include file="classpath:/db/changelog/changes/liq-diff-13990805.xml"/>
+    <!-- CHANGES -->
+
 </databaseChangeLog>
