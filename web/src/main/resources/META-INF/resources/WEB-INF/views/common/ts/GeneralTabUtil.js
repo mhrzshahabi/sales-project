@@ -45,6 +45,7 @@ var nicico;
                 fields: [],
                 criteria: null
             };
+            This.treeGrid = {};
             This.log = {};
             This.tab = {};
             This.chart = {};
@@ -57,6 +58,7 @@ var nicico;
             This.hLayout = {};
             This.vLayout = {};
             This.restDataSource = {};
+            This.filterBuilder = {};
             This.window = {};
             This.sectionStack = {};
             This.variable = {

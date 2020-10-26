@@ -32,6 +32,7 @@ var nicico;
                     isc.ToolStripButtonAdd.create({
                         // @ts-ignore
                         actionType: ActionType.NEW,
+                        icon: "[SKIN]/actions/add.png",
                         title: "<spring:message code='global.form.new'/>",
                         click: function () {
                             // @ts-ignore
@@ -311,6 +312,7 @@ var nicico;
             toolStripItems.forEach(function (toolStripItem) { return toolStripItem.setVisibility("hidden"); });
         };
         BasicFormUtil.getDefaultBasicForm = function (creator, restControllerUrl, createWindowHook) {
+            if (createWindowHook === void 0) { createWindowHook = null; }
             // @ts-ignore
             creator.variable.url += restControllerUrl.replaceAll(new RegExp("^/|/$"), '') + '/';
             this.createDynamicForm(creator);

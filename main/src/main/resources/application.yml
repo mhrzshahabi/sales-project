@@ -78,13 +78,17 @@ nicico:
     sys-password: password
     resource-id: Copper
   apps:
+    oauth: http://devapp01.icico.net.ir
     accounting: http://devapp01.icico.net.ir/accounting
     hrm: http://devapp01.icico.net.ir/hrm
   minio:
     endpoint-url: http://minio.icico.net.ir/
     access-key: minio
     secret-key: minio123
-
+  report:
+    package:
+      controller:
+        name: com.nicico.sales.controller
 ---
 
 spring:
@@ -116,6 +120,8 @@ nicico:
   security:
     sys-password: ENC(MRPf6gcEgm043xXnCbElG2M+NDeLcbAS3wihOjLNuDA=)
   apps:
+    oauth: http://apps.icico.net.ir
+    hrm: http://apps.icico.net.ir/hrm
     accounting: http://apps.icico.net.ir/accounting
 
 ---

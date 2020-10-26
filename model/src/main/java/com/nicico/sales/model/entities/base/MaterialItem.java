@@ -2,8 +2,7 @@ package com.nicico.sales.model.entities.base;
 
 import com.nicico.sales.model.entities.common.BaseEntity;
 import com.nicico.sales.model.entities.warehouse.Inventory;
-import com.nicico.sales.model.entities.warehouse.RemittanceDetail;
-import com.nicico.sales.model.enumeration.I18n;
+import com.nicico.sales.model.annotation.I18n;
 import lombok.*;
 import lombok.experimental.Accessors;
 
