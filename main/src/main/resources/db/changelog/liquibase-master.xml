@@ -77,8 +77,11 @@
     <!-- INITIALIZE AUDIT -->
 
     <!-- CHANGES - AUDIT -->
-    <include file="classpath:/db/changelog/changes/audit/audit-001.xml"/>
+    <include file="classpath:/db/changelog/changes/audit/audit-diff-13990805.xml"/>
     <!-- CHANGES - AUDIT -->
 
+    <!-- CHANGES -->
+    <include file="classpath:/db/changelog/changes/liq-diff-13990805.xml"/>
+    <!-- CHANGES -->
 
 </databaseChangeLog>

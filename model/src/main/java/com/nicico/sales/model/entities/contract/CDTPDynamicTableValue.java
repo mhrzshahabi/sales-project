@@ -45,7 +45,7 @@ public class CDTPDynamicTableValue extends BaseEntity {
     private String value;
 
     @NotNull
-    @Column(name = "C_FIELD_NAME")
+    @Column(name = "C_FIELD_NAME", nullable = false)
     private String fieldName;
 
     @Setter(AccessLevel.NONE)
