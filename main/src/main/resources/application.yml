@@ -16,12 +16,18 @@ spring:
         format_sql: true
         hbm2ddl:
           schema_filter_provider: com.nicico.copper.common.hibernate.CustomSchemaFilterProvider
+      org:
+        hibernate:
+          envers:
+            audit_table_prefix: AUD_
+            audit_table_suffix:
     open-in-view: false
   liquibase:
     database-change-log-table: Z_LIQ_CHANGELOG
     database-change-log-lock-table: Z_LIQ_CHANGELOG_LOCK
     change-log: classpath:db/changelog/liquibase-master.xml
     enabled: true
+    contexts: ${spring.profiles.active}
   main:
     allow-bean-definition-overriding: true
   mvc:
@@ -70,7 +76,19 @@ nicico:
       dir: /var/nicico/${spring.application.name}/
   security:
     sys-password: password
-
+    resource-id: Copper
+  apps:
+    oauth: http://staging.icico.net.ir
+    accounting: http://staging.icico.net.ir/accounting
+    hrm: http://staging.icico.net.ir/hrm
+  minio:
+    endpoint-url: http://minio.icico.net.ir/
+    access-key: minio
+    secret-key: minio123
+  report:
+    package:
+      controller:
+        name: com.nicico.sales.controller
 ---
 
 spring:
@@ -98,6 +116,13 @@ spring:
             token-uri: http://apps.icico.net.ir/oauth/token
             user-info-uri: http://apps.icico.net.ir/user/info
             user-name-attribute: username
+nicico:
+  security:
+    sys-password: ENC(MRPf6gcEgm043xXnCbElG2M+NDeLcbAS3wihOjLNuDA=)
+  apps:
+    oauth: http://apps.icico.net.ir
+    hrm: http://apps.icico.net.ir/hrm
+    accounting: http://apps.icico.net.ir/accounting
 
 ---
 
@@ -105,8 +130,8 @@ spring:
   profiles: Staging
   datasource:
     url: jdbc:oracle:thin:@//oragnrt01.icico.net.ir:1521/pdb_dev01
-    username: sales
-    password: sales
+    username: test_sales
+    password: testsales
   redis:
     host: redis
     password: nicico
@@ -126,9 +151,6 @@ spring:
             token-uri: http://staging.icico.net.ir/oauth/token
             user-info-uri: http://staging.icico.net.ir/user/info
             user-name-attribute: username
-nicico:
-  apps:
-    accounting: http://staging.icico.net.ir/accounting
 
 ---
 
@@ -136,10 +158,10 @@ spring:
   profiles: Development
   datasource:
     url: jdbc:oracle:thin:@//oragnrt01.icico.net.ir:1521/pdb_dev01
-    username: sales
-    password: sales
+    username: demo_sales
+    password: demosales
   redis:
-    host: devapp01.icico.net.ir
+    host: staging.icico.net.ir
     password: nicico
   security:
     oauth2:
@@ -153,13 +175,10 @@ spring:
             scope: user_info
         provider:
           oserver:
-            authorization-uri: http://devapp01.icico.net.ir/oauth/authorize
-            token-uri: http://devapp01.icico.net.ir/oauth/token
-            user-info-uri: http://devapp01.icico.net.ir/user/info
+            authorization-uri: http://staging.icico.net.ir/oauth/authorize
+            token-uri: http://staging.icico.net.ir/oauth/token
+            user-info-uri: http://staging.icico.net.ir/user/info
             user-name-attribute: username
-nicico:
-  apps:
-    accounting: http://devapp01.icico.net.ir/accounting
 
 ---
 
@@ -167,10 +186,10 @@ spring:
   profiles: Local
   datasource:
     url: jdbc:oracle:thin:@//oragnrt01.icico.net.ir:1521/pdb_dev01
-    username: saleslocal
-    password: saleslocal
+    username: dev_sales
+    password: devsales
   redis:
-    host: devapp01.icico.net.ir
+    host: staging.icico.net.ir
     password: nicico
   jpa:
     show-sql: true
@@ -186,12 +205,10 @@ spring:
             scope: user_info
         provider:
           oserver:
-            authorization-uri: http://devapp01.icico.net.ir/oauth/authorize
-            token-uri: http://devapp01.icico.net.ir/oauth/token
-            user-info-uri: http://devapp01.icico.net.ir/user/info
+            authorization-uri: http://staging.icico.net.ir/oauth/authorize
+            token-uri: http://staging.icico.net.ir/oauth/token
+            user-info-uri: http://staging.icico.net.ir/user/info
             user-name-attribute: username
 nicico:
   upload:
     dir: c:/upload
-  apps:
-    accounting: http://devapp01.icico.net.ir/accounting
