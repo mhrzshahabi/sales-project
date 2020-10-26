@@ -10,12 +10,12 @@
     <parameter name="logo_nicico" class="java.lang.Object"/>
     <parameter name="dateReport" class="java.lang.String"/>
     <queryString>
-        <![CDATA[select s.WAREHOUSE_NO,s.PLANT,m.id,m.c_descp,s.MATERIAL_ITEM_ID,mi.gdsname,s.YARD_ID,y.c_name_fa,s.AMOUNT, s.LOT,s.BUNDLE,s.BARREL,s.SHEET
+        <![CDATA[select s.WAREHOUSE_NO,s.PLANT,m.id,m.C_DESC_FA,s.MATERIAL_ITEM_ID,mi.gdsname,s.YARD_ID,y.c_name_fa,s.AMOUNT, s.LOT,s.BUNDLE,s.BARREL,s.SHEET
 from TBL_WAREHOUSE_STOCK s
 join tbl_warehouse_yard y on y.id=YARD_ID
 join tbl_material_item mi on mi.id=s.material_item_id
 join tbl_material m on m.id=mi.material_id
-order by s.WAREHOUSE_NO,m.c_descp,mi.gdsname,s.YARD_ID,y.c_name_fa,s.PLANT]]>
+order by s.WAREHOUSE_NO,m.C_DESC_FA,mi.gdsname,s.YARD_ID,y.c_name_fa,s.PLANT]]>
     </queryString>
     <field name="WAREHOUSE_NO" class="java.lang.String">
         <property name="com.jaspersoft.studio.field.label" value="WAREHOUSE_NO"/>
@@ -26,8 +26,8 @@ order by s.WAREHOUSE_NO,m.c_descp,mi.gdsname,s.YARD_ID,y.c_name_fa,s.PLANT]]>
     <field name="ID" class="java.math.BigDecimal">
         <property name="com.jaspersoft.studio.field.label" value="ID"/>
     </field>
-    <field name="C_DESCP" class="java.lang.String">
-        <property name="com.jaspersoft.studio.field.label" value="C_DESCP"/>
+    <field name="C_DESC_FA" class="java.lang.String">
+        <property name="com.jaspersoft.studio.field.label" value="C_DESC_FA"/>
     </field>
     <field name="MATERIAL_ITEM_ID" class="java.math.BigDecimal">
         <property name="com.jaspersoft.studio.field.label" value="MATERIAL_ITEM_ID"/>
@@ -392,7 +392,7 @@ order by s.WAREHOUSE_NO,m.c_descp,mi.gdsname,s.YARD_ID,y.c_name_fa,s.PLANT]]>
                 <textElement textAlignment="Center" verticalAlignment="Middle">
                     <font fontName="Shabnam-FD" size="6"/>
                 </textElement>
-                <textFieldExpression><![CDATA[$F{C_DESCP}]]></textFieldExpression>
+                <textFieldExpression><![CDATA[$F{C_DESC_FA}]]></textFieldExpression>
             </textField>
             <textField isStretchWithOverflow="true">
                 <reportElement stretchType="ContainerBottom" x="298" y="-5" width="62" height="20"

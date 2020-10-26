@@ -4,6 +4,8 @@ import com.nicico.sales.model.entities.base.*;
 import com.nicico.sales.model.entities.common.BaseEntity;
 import lombok.*;
 import lombok.experimental.Accessors;
+import org.hibernate.envers.AuditOverride;
+import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -11,6 +13,8 @@ import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+
+import static org.hibernate.envers.RelationTargetAuditMode.NOT_AUDITED;
 
 @Getter
 @Setter
@@ -20,6 +24,8 @@ import java.util.List;
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
 @Table(name = "TBL_FOREIGN_INVOICE")
+@Audited
+@AuditOverride(forClass = BaseEntity.class)
 public class ForeignInvoice extends BaseEntity {
 
     @Id
@@ -70,6 +76,12 @@ public class ForeignInvoice extends BaseEntity {
     @Column(name = "C_DESCRIPTION")
     private String description;
 
+    @Column(name = "N_PERCENT")
+    private Double percent;
+
+    @Column(name = "F_PARENT_ID")
+    private Long parentId;
+
     // *****************************************************************************************************************
 
     @Column(name = "N_ACCOUNTING_ID")
@@ -103,6 +115,7 @@ public class ForeignInvoice extends BaseEntity {
     @Column(name = "F_BUYER_ID", nullable = false)
     private Long buyerId;
 
+    @Audited(targetAuditMode = NOT_AUDITED)
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "F_INVOICE_TYPE_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_foreignInvoice2invoiceTypeByInvoiceTypeId"))
@@ -121,6 +134,7 @@ public class ForeignInvoice extends BaseEntity {
     @Column(name = "F_SHIPMENT_ID", nullable = false)
     private Long shipmentId;
 
+    @Audited(targetAuditMode = NOT_AUDITED)
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "PERSON_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_foreignInvoice2employeeByCreatorId"))
@@ -144,8 +158,7 @@ public class ForeignInvoice extends BaseEntity {
     @JoinColumn(name = "F_INSPECTION_ASSAY_REPORT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_foreignInvoice2inspectionReportByInspectionAssayReportId"))
     private InspectionReport inspectionAssayReport;
 
-    @NotNull
-    @Column(name = "F_INSPECTION_ASSAY_REPORT_ID", nullable = false)
+    @Column(name = "F_INSPECTION_ASSAY_REPORT_ID")
     private Long inspectionAssayReportId;
 
     // *****************************************************************************************************************

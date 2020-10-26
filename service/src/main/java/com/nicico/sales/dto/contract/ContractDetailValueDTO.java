@@ -1,6 +1,7 @@
 package com.nicico.sales.dto.contract;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.nicico.sales.dto.CDTPDynamicTableValueDTO;
 import com.nicico.sales.model.enumeration.DataType;
 import com.nicico.sales.model.enumeration.EStatus;
 import io.swagger.annotations.ApiModel;
@@ -32,6 +33,8 @@ public class ContractDetailValueDTO {
     private Long unitId;
     private Long contractDetailId;
 
+
+
     @Getter
     @Setter
     @Accessors(chain = true)
@@ -46,6 +49,7 @@ public class ContractDetailValueDTO {
         private Date lastModifiedDate;
         private String lastModifiedBy;
         private Integer version;
+        private CDTPDynamicTableValueDTO.Info cdtpDynamicTableValue;
 
         // BaseEntity
         private Boolean editable;

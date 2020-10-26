@@ -16,6 +16,11 @@ spring:
         format_sql: true
         hbm2ddl:
           schema_filter_provider: com.nicico.copper.common.hibernate.CustomSchemaFilterProvider
+      org:
+        hibernate:
+          envers:
+            audit_table_prefix: AUD_
+            audit_table_suffix:
     open-in-view: false
   liquibase:
     database-change-log-table: Z_LIQ_CHANGELOG
@@ -49,10 +54,6 @@ management:
       show-details: always
 
 nicico:
-  minio:
-    endpoint-url: http://minio.icico.net.ir
-    access-key: minio
-    secret-key: minio123
   jpa:
     entity:
       package: com.nicico.sales.model
@@ -79,6 +80,11 @@ nicico:
   apps:
     oauth: http://devapp01.icico.net.ir
     accounting: http://devapp01.icico.net.ir/accounting
+    hrm: http://devapp01.icico.net.ir/hrm
+  minio:
+    endpoint-url: http://minio.icico.net.ir/
+    access-key: minio
+    secret-key: minio123
   report:
     package:
       controller:
@@ -115,6 +121,7 @@ nicico:
     sys-password: ENC(MRPf6gcEgm043xXnCbElG2M+NDeLcbAS3wihOjLNuDA=)
   apps:
     oauth: http://apps.icico.net.ir
+    hrm: http://apps.icico.net.ir/hrm
     accounting: http://apps.icico.net.ir/accounting
 
 ---

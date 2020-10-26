@@ -15,7 +15,7 @@ isc.defineClass("InvoiceDeductionRow", isc.HLayout).addProperties({
     initWidget: function () {
 
         this.Super("initWidget", arguments);
-
+debugger
         let This = this;
         this.addMember(isc.Unit.create({
             width: "250",
@@ -25,7 +25,7 @@ isc.defineClass("InvoiceDeductionRow", isc.HLayout).addProperties({
             disabledValueField: true,
             showValueFieldTitle: true,
             showUnitFieldTitle: false,
-            fieldValueTitle: "R/C-" + This.rcData.elementName,
+            fieldValueTitle: "R/C-" + This.rcData.materialElement.element.name,
             unitHint: "PER " + This.rcData.weightUnit.nameEN,
             unitCategory: This.rcData.financeUnit.categoryUnit,
         }));

@@ -3,12 +3,12 @@ package com.nicico.sales.model.entities.base;
 import com.nicico.sales.model.entities.common.BaseEntity;
 import lombok.*;
 import lombok.experimental.Accessors;
-import net.jcip.annotations.NotThreadSafe;
+import org.hibernate.envers.AuditOverride;
+import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
-import java.util.Date;
 
 @Getter
 @Setter
@@ -18,6 +18,8 @@ import java.util.Date;
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
 @Table(name = "TBL_SHIPMENT_COST_INVOICE_DETAIL")
+@Audited
+@AuditOverride(forClass = BaseEntity.class)
 public class ShipmentCostInvoiceDetail extends BaseEntity {
 
     @Id

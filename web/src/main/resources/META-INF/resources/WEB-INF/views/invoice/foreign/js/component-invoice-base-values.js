@@ -11,10 +11,11 @@ isc.defineClass("InvoiceBaseValues", isc.VLayout).addProperties({
     contract: null,
     shipment: null,
     invoiceType: null,
-    weightData: null,
-    inspectionWeightData: null,
+    percent: null,
+    basePriceData: null,
+    contractDetailDataMOAS: null,
     inspectionAssayData: null,
-    contractDetailData: null,
+    inspectionWeightData: null,
     invoiceBasePriceComponent: null,
     invoiceBaseAssayComponent: null,
     invoiceBaseWeightComponent: null,
@@ -30,7 +31,8 @@ isc.defineClass("InvoiceBaseValues", isc.VLayout).addProperties({
                 currency: This.currency,
                 contract: This.contract,
                 shipment: This.shipment,
-                contractDetailData: This.contractDetailData
+                basePriceData: This.basePriceData,
+                contractDetailDataMOAS: This.contractDetailDataMOAS
             });
             this.addMember(this.invoiceBasePriceComponent);
             this.addMember(isc.HTMLFlow.create({
@@ -53,6 +55,7 @@ isc.defineClass("InvoiceBaseValues", isc.VLayout).addProperties({
 
             this.invoiceBaseWeightComponent = isc.InvoiceBaseWeight.create({
                 shipment: This.shipment,
+                percent: This.percent,
                 inspectionWeightData: This.inspectionWeightData,
             });
             this.addMember(this.invoiceBaseWeightComponent);
@@ -94,14 +97,6 @@ isc.defineClass("InvoiceBaseValues", isc.VLayout).addProperties({
     },
     okButtonClick: function () {
 
-    },
-    getValues: function () {
-
-        return {
-            assay: this.invoiceBaseAssayComponent.getValues(),
-            weight: this.invoiceBaseWeightComponent.getValues(),
-            basePrice: this.invoiceBasePriceComponent.getValues()
-        }
     },
     validate: function () {
 

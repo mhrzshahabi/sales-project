@@ -4,9 +4,14 @@ import com.nicico.sales.model.entities.common.BaseEntity;
 import com.nicico.sales.model.annotation.I18n;
 import lombok.*;
 import lombok.experimental.Accessors;
+import org.hibernate.envers.AuditOverride;
+import org.hibernate.envers.Audited;
+import org.hibernate.envers.NotAudited;
 
 import javax.persistence.*;
 import java.util.Set;
+
+import static org.hibernate.envers.RelationTargetAuditMode.NOT_AUDITED;
 
 @I18n
 @Getter
@@ -17,11 +22,13 @@ import java.util.Set;
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
 @Table(name = "TBL_CONTACT",
-        uniqueConstraints = {
-                @UniqueConstraint(columnNames = {"C_PHONE ", "b_SELLER", "b_BUYER", "b_TRANSPORTER", "b_SHIPPER", "b_INSPECTOR", "b_INSURANCER", "b_AGENT_BUYER", "b_AGENT_SELLER", "COUNTRY_ID"}, name = Contact.UNIQUE_List_Person),
-                @UniqueConstraint(columnNames = {"C_ECONOMICAL_CODE"}, name = Contact.UNIQUE_C_ECONOMICAL_CODE),
+		uniqueConstraints = {
+				@UniqueConstraint(columnNames = {"C_PHONE ", "b_SELLER", "b_BUYER", "b_TRANSPORTER", "b_SHIPPER", "b_INSPECTOR", "b_INSURANCER", "b_AGENT_BUYER", "b_AGENT_SELLER", "COUNTRY_ID"}, name = Contact.UNIQUE_List_Person),
+				@UniqueConstraint(columnNames = {"C_ECONOMICAL_CODE"}, name = Contact.UNIQUE_C_ECONOMICAL_CODE),
 
-        })
+		})
+@Audited
+@AuditOverride(forClass = BaseEntity.class)
 public class Contact extends BaseEntity {
 
     public static final String UNIQUE_List_Person = "UNIQUE_List_Person";
@@ -67,6 +74,7 @@ public class Contact extends BaseEntity {
     @Column(name = "C_ECONOMICAL_CODE")
     private String economicalCode;
 
+    @NotAudited
     @Setter(AccessLevel.NONE)
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "CNT_ID", insertable = false, updatable = false)
@@ -117,6 +125,7 @@ public class Contact extends BaseEntity {
     @Column(name = "c_CEO_PASSPORT_NO")
     private String ceoPassportNo;
 
+    @Audited(targetAuditMode = NOT_AUDITED)
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "COUNTRY_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "contact2Country"))

@@ -415,7 +415,13 @@
         }
         // console.debug("formatCellValueNumber(value) arguments",arguments);
         if (value === undefined || isNaN(value)) return value;
-        return isc.NumberUtil.format(value, ',0');
+        try {
+            return isc.NumberUtil.format(value, ',0');
+        }
+        catch (e) {
+            console.warn('function formatCellValueNumber(value, record, rowNum, colNum)',e)
+            return value;
+        }
     }
 
     isc.ListGrid.addProperties({
