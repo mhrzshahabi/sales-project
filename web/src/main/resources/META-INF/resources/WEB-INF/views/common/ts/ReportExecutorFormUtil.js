@@ -1,4 +1,8 @@
 //------------------------------------------ TS References -----------------------------------------
+var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cooked, raw) {
+    if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
+    return cooked;
+};
 ///<reference path="CommonUtil.ts"/>
 ///<reference path="FormUtil.ts"/>
 ///<reference path="GeneralTabUtil.ts"/>
@@ -74,19 +78,21 @@ var nicico;
                                     }
                                     // @ts-ignore
                                     ReportExecutorFormUtil.showFilterBuilder(creator.window.main, creator, record, function (criteria) {
-                                        creator.method.jsonRPCManagerRequest({
-                                            // @ts-ignore
-                                            actionURL: creator.variable.contextPath + "report-execute/excel",
-                                            httpMethod: "GET",
-                                            params: {
-                                                reportId: record.id,
-                                                fields: record.reportFields.filter(function (q) { return !q.hidden; }).map(function (q) { return q.name; }),
-                                                headers: record.reportFields.filter(function (q) { return !q.hidden; }).map(function (q) { return q.title; }),
-                                                criteria: criteria
-                                            }
-                                        }, 
+                                        var fields = record.reportFields.filter(function (q) { return !q.hidden; });
                                         // @ts-ignore
-                                        function (response) { return creator.window.main.close(); });
+                                        creator.dynamicForm.excel.setValue("reportId", record.id);
+                                        // @ts-ignore
+                                        creator.dynamicForm.excel.setValue("fields", fields.map(function (q) { return q.name; }));
+                                        // @ts-ignore
+                                        creator.dynamicForm.excel.setValue("headers", fields.map(function (q) { return q.title; }));
+                                        // @ts-ignore
+                                        creator.dynamicForm.excel.setValue("criteria", JSON.stringify(criteria));
+                                        // @ts-ignore
+                                        creator.dynamicForm.excel.method = "GET";
+                                        // @ts-ignore
+                                        creator.dynamicForm.excel.action(__makeTemplateObject([""], [""])) = creator.variable.contextPath + "report-execute/excel";
+                                        // @ts-ignore
+                                        creator.dynamicForm.excel.submitForm();
                                     });
                                 }
                             }),
@@ -172,15 +178,18 @@ var nicico;
                                     selectReportForm.populateData = function (bodyWidget) {
                                         // @ts-ignore
                                         var data = bodyWidget.getSelectedValue();
-                                        return {
+                                        return data ? {
                                             fileId: data.id,
                                             fileKey: data.fileKey,
                                             // @ts-ignore
                                             criteria: bodyWidget.criteria,
-                                        };
+                                        } : null;
                                     };
                                     selectReportForm.validate = function (data) {
-                                        return data && data.fileKey;
+                                        var isValid = data && data.fileKey;
+                                        if (!isValid)
+                                            creator.dialog.notSelected();
+                                        return isValid;
                                     };
                                     selectReportForm.okCallBack = function (data) {
                                         creator.method.jsonRPCManagerRequest({
@@ -275,6 +284,7 @@ var nicico;
             creator.variable.url += "api/report-execute/";
             // @ts-ignore
             creator.variable.criteria = criteria;
+            this.createExcelSubmitForm(creator);
             this.createRestDataSource(creator);
             this.createListGrid(creator);
             this.createWindow(creator, title);
@@ -284,6 +294,28 @@ var nicico;
             creator.window.main.show();
             // @ts-ignore
             return creator.window.main;
+        };
+        ReportExecutorFormUtil.createExcelSubmitForm = function (creator) {
+            // @ts-ignore
+            creator.dynamicForm.excel = isc.DynamicForm.create({
+                method: "POST",
+                action: "",
+                target: "_Blank",
+                autoDraw: true,
+                visibility: "hidden",
+                fields: [
+                    // @ts-ignore
+                    { name: "fields", type: "hidden" },
+                    // @ts-ignore
+                    { name: "headers", type: "hidden" },
+                    // @ts-ignore
+                    { name: "criteria", type: "hidden" },
+                    // @ts-ignore
+                    { name: "reportId", type: "hidden" }
+                ]
+            });
+            // @ts-ignore
+            creator.dynamicForm.excel.hide();
         };
         ReportExecutorFormUtil.cancelCallBack = function () {
             return;

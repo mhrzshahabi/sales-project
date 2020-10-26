@@ -69,7 +69,7 @@ public class ShipmentDTO {
 
         // BaseEntity
         private Boolean editable;
-        private List<EStatus> eStatus;
+//        private List<EStatus> eStatus;
 
         @ReportField(titleMessageKey = "global.unit")
         @ReportModel(type = UnitDTO.Info.class, jumpTo = true)
@@ -98,8 +98,8 @@ public class ShipmentDTO {
     @Accessors(chain = true)
     @ApiModel("ShipmentInfo")
     public static class Info extends InfoWithoutBLs {
-        @ReportModel(type = BillOfLandingDTO.InfoWithoutShipment.class)
-        private Set<BillOfLandingDTO.InfoWithoutShipment> bLs;
+        @ReportModel(type = BillOfLandingDTO.InfoWithoutShipment.class , jumpTo = true)
+        private Set<BillOfLandingDTO.InfoWithoutShipment> bls;
     }
 
     @Getter

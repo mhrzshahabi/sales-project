@@ -97,19 +97,21 @@ namespace nicico {
                                     // @ts-ignore
                                     ReportExecutorFormUtil.showFilterBuilder(creator.window.main, creator, record, (criteria) => {
 
-                                        creator.method.jsonRPCManagerRequest({
-                                                // @ts-ignore
-                                                actionURL: creator.variable.contextPath + "report-execute/excel",
-                                                httpMethod: "GET",
-                                                params: {
-                                                    reportId: record.id,
-                                                    fields: record.reportFields.filter(q => !q.hidden).map(q => q.name),
-                                                    headers: record.reportFields.filter(q => !q.hidden).map(q => q.title),
-                                                    criteria: criteria
-                                                }
-                                            },
-                                            // @ts-ignore
-                                            (response) => creator.window.main.close());
+                                        var fields = record.reportFields.filter(q => !q.hidden);
+                                        // @ts-ignore
+                                        creator.dynamicForm.excel.setValue("reportId", record.id);
+                                        // @ts-ignore
+                                        creator.dynamicForm.excel.setValue("fields", fields.map(q => q.name));
+                                        // @ts-ignore
+                                        creator.dynamicForm.excel.setValue("headers", fields.map(q => q.title));
+                                        // @ts-ignore
+                                        creator.dynamicForm.excel.setValue("criteria", JSON.stringify(criteria));
+                                        // @ts-ignore
+                                        creator.dynamicForm.excel.method = "GET";
+                                        // @ts-ignore
+                                        creator.dynamicForm.excel.action`` = creator.variable.contextPath + "report-execute/excel";
+                                        // @ts-ignore
+                                        creator.dynamicForm.excel.submitForm();
                                     });
                                 }
                             }),
@@ -211,16 +213,19 @@ namespace nicico {
 
                                         // @ts-ignore
                                         let data = bodyWidget.getSelectedValue();
-                                        return {
+                                        return data ? {
                                             fileId: data.id,
                                             fileKey: data.fileKey,
                                             // @ts-ignore
                                             criteria: bodyWidget.criteria,
-                                        };
+                                        } : null;
                                     };
                                     selectReportForm.validate = function (data) {
 
-                                        return data && data.fileKey;
+                                        let isValid = data && data.fileKey;
+                                        if (!isValid)
+                                            creator.dialog.notSelected();
+                                        return isValid;
                                     };
                                     selectReportForm.okCallBack = function (data) {
 
@@ -331,6 +336,7 @@ namespace nicico {
             // @ts-ignore
             creator.variable.criteria = criteria;
 
+            this.createExcelSubmitForm(creator);
             this.createRestDataSource(creator);
             this.createListGrid(creator);
             this.createWindow(creator, title);
@@ -342,6 +348,31 @@ namespace nicico {
 
             // @ts-ignore
             return creator.window.main;
+        }
+
+        private static createExcelSubmitForm(creator: nicico.JSPTabVariable) {
+
+            // @ts-ignore
+            creator.dynamicForm.excel = isc.DynamicForm.create({
+
+                method: "POST",
+                action: "",
+                target: "_Blank",
+                autoDraw: true,
+                visibility: "hidden",
+                fields: [
+
+                    // @ts-ignore
+                    {name: "fields", type: "hidden"},
+                    // @ts-ignore
+                    {name: "headers", type: "hidden"},
+                    // @ts-ignore
+                    {name: "criteria", type: "hidden"},
+                    // @ts-ignore
+                    {name: "reportId", type: "hidden"}]
+            });
+            // @ts-ignore
+            creator.dynamicForm.excel.hide();
         }
     }
 

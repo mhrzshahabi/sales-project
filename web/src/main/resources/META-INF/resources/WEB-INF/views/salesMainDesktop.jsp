@@ -1252,7 +1252,7 @@
     isc.FilterBuilder.addProperties({
 
         getValueFieldProperties: function (type, fieldName, operatorId, itemType) {
-            debugger
+
             let superProperties = this.Super("getValueFieldProperties", arguments);
             if (!superProperties) superProperties = {};
             if (this.dataSource == null)
@@ -1268,7 +1268,7 @@
                     type: type,
                     name: fieldName,
                     editorType: field.editorType,
-                    filterOperator: operatorId
+                    filterOperator: field.filterOperator
                 });
             return Object.assign(superProperties, {
                 required: true,

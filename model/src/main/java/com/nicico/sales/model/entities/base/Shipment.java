@@ -155,7 +155,7 @@ public class Shipment extends BaseEntity {
     private Long remainedBLs;
 
     @OneToMany(mappedBy = "shipmentId",fetch = FetchType.LAZY)
-    private Set<BillOfLanding> bLs;
+    private Set<BillOfLanding> bls;
     @Column(name = "N_NO_CONTAINER")
     private Long noContainer;
 

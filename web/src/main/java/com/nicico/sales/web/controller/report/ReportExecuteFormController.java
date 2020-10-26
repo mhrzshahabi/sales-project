@@ -3,7 +3,6 @@ package com.nicico.sales.web.controller.report;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nicico.copper.common.domain.ConstantVARs;
-import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.copper.core.SecurityUtil;
 import com.nicico.copper.core.util.report.ReportUtil;
@@ -12,11 +11,13 @@ import com.nicico.sales.dto.report.ReportDTO;
 import com.nicico.sales.exception.UnAuthorizedException;
 import com.nicico.sales.iservice.IFileService;
 import com.nicico.sales.iservice.report.IReportService;
+import com.nicico.sales.service.report.MappingUtil;
 import com.nicico.sales.utility.MakeExcelOutputUtil;
 import io.minio.errors.*;
 import lombok.RequiredArgsConstructor;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.data.JsonDataSource;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.MultiValueMap;
 import org.springframework.util.StringUtils;
@@ -36,12 +37,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("/report-execute")
 public class ReportExecuteFormController {
 
+    private final MappingUtil mappingUtil;
     private final ObjectMapper objectMapper;
     private final IFileService fileService;
     private final IReportService reportService;
@@ -91,7 +94,10 @@ public class ReportExecuteFormController {
         if (data != null) resp.addAll(data.getResponse().getData());
         String[] fields = criteria.getFirst("fields").split(",");
         String[] headers = criteria.getFirst("headers").split(",");
-        byte[] bytes = makeExcelOutputUtil.makeOutput(resp, Map.class, fields, headers, true, "");
+        Class<?> returnType = reportService.getReturnType(report);
+        ModelMapper modelMapper = mappingUtil.getModelMapper(returnType);
+        List mappedData = resp.stream().map(item -> modelMapper.map(item, returnType)).collect(Collectors.toList());
+        byte[] bytes = makeExcelOutputUtil.makeOutput(mappedData, returnType, fields, headers, true, "");
         makeExcelOutputUtil.makeExcelResponse(bytes, response);
     }
 

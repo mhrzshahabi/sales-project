@@ -513,6 +513,28 @@ public class ReportService extends GenericService<com.nicico.sales.model.entitie
 
     @Override
     @Transactional(readOnly = true)
+    public Class<?> getReturnType(ReportDTO.Info report) {
+
+        if (report.getReportSource() == ReportSource.View)
+            return Map.class;
+
+        for (Method method : getSpecListMethods()) {
+
+            Annotation methodMappingAnnotation = Arrays.stream(method.getAnnotations()).filter(q -> MAPPING_ANNOTATIONS.contains(q.annotationType())).findFirst().orElseThrow(() -> new NotFoundException("انوتیشن مسیریابی روی API مورد نظر درست تنظیم نشده است."));
+            Map<String, String> methodData = getMethodName(methodMappingAnnotation);
+            String methodUrl = getMethodUrl(method) + methodData.values().iterator().next();
+            if (!report.getSource().equals(methodUrl))
+                continue;
+
+            Report reportAnnotation = method.getAnnotation(Report.class);
+            return reportAnnotation.returnType();
+        }
+
+        throw new NotFoundException("انوتیشن مسیریابی روی API مورد نظر یافت نشد.");
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public List<ReportDTO.SourceData> getSourceData(ReportSource reportSource) {
 
         return reportSource == ReportSource.Rest ? getRestData() : getViewData();
