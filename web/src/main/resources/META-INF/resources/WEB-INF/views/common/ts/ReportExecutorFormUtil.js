@@ -211,6 +211,7 @@ var nicico;
                                         recordId: record.id,
                                         canAddFile: false,
                                         canRemoveFile: false,
+                                        canDownloadFile: false,
                                         height: "300",
                                         margin: 5
                                     }), null, "300");

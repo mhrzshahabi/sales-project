@@ -40,7 +40,32 @@ namespace nicico {
                 valueItemWidth: "200",
                 width: "95%",
                 height: "100%",
-                margin: 5
+                margin: 5,
+                getFieldOperators: function (fieldName) {
+
+                    let dataSource = this.dataSource;
+                    if (dataSource == null)
+                        return this.Super("getFieldOperators", arguments);
+
+                    let field = dataSource.getField(fieldName);
+                    if (field == null)
+                        return this.Super("getFieldOperators", arguments);
+
+                    if (field.filterOperator)
+                        return field.filterOperator;
+
+                    // @ts-ignore
+                    if (field.type === "date") return ["greaterThan", "lessThan", "greaterOrEqual", "lessOrEqual", "iBetween", "iBetweenInclusive", "isNull",
+                        "notNull", "greaterThanField", "lessThanField", "greaterOrEqualField", "lessOrEqualField", "between", "betweenInclusive"];
+                    // @ts-ignore
+                    if (field.type === "boolean") return ["isNull", "notNull", "equals", "notEqual", "iEquals", "iNotEqual", "equalsField", "notEqualField", "iEqualsField", "iNotEqualField"];
+                    // @ts-ignore
+                    if (field.type === "integer" || field.type === "float") return ["equals", "notEqual", "iEquals", "iNotEqual", "greaterThan", "lessThan", "greaterOrEqual", "lessOrEqual",
+                        "iEqualsField", "iNotEqualField", "isBlank", "notBlank", "isNull", "notNull", "inSet", "notInSet", "equalsField",
+                        "notEqualField", "greaterThanField", "lessThanField", "greaterOrEqualField", "lessOrEqualField"];
+
+                    return this.Super("getFieldOperators", arguments);
+                }
             });
             // @ts-ignore
             creator.filterBuilder.main.topOperatorForm.setHeight("95%");

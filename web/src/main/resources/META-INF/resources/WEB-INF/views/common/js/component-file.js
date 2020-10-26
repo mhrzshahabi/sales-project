@@ -20,6 +20,7 @@ isc.defineClass("FileUploadForm", isc.VLayout).addProperties({
     showDeletedFiles: false,
     canAddFile: true,
     canRemoveFile: true,
+    canDownloadFile: true,
     initWidget: function () {
 
         this.Super("initWidget", arguments);
@@ -38,25 +39,15 @@ isc.defineClass("FileUploadForm", isc.VLayout).addProperties({
                 name: "file",
                 type: "file",
                 multiple: "",
-                required: true,
                 wrapTitle: false,
                 accept: This.accept,
-                title: "<spring:message code='global.file'/> ",
-                validators: [{
-                    type: "required",
-                    validateOnChange: true
-                }]
+                title: "<spring:message code='global.file'/> "
             }, {
                 colSpan: 1,
-                required: true,
                 wrapTitle: false,
                 name: "accessLevel",
                 title: "<spring:message code='file.access-level'/>",
-                valueMap: This.accessLevelValueMap,
-                validators: [{
-                    type: "required",
-                    validateOnChange: true
-                }]
+                valueMap: This.accessLevelValueMap
             }]
         });
         if (!this.canAddFile)
@@ -71,7 +62,16 @@ isc.defineClass("FileUploadForm", isc.VLayout).addProperties({
             click: () => {
 
                 if (!This.form.validate()) return;
+                if (!This.form.getValue("file")) {
 
+                    This.form.errors["file"] = '<spring:message code="validator.field.is.required"/>';
+                    This.form.redraw();
+                }
+                if (!This.form.getValue("accessLevel")) {
+
+                    This.form.errors["accessLevel"] = '<spring:message code="validator.field.is.required"/>';
+                    This.form.redraw();
+                }
                 let fileItem = document.getElementById(This.form.getItem("file").uploadItem.getElement().id);
                 This.grid.addData({
                     recordId: This.recordId,
@@ -87,15 +87,14 @@ isc.defineClass("FileUploadForm", isc.VLayout).addProperties({
         this.addMember(isc.HLayout.create({
             width: "100%",
             align: "center",
-            visibility:!this.canAddFile?"hidden":"visible",
+            visibility: !this.canAddFile ? "hidden" : "visible",
             members: [
                 This.form,
                 This.button
             ]
         }));
 
-        this.grid = isc.ListGrid.nicico.getDefault([
-
+        let fields = [
             {name: "id", type: "integer", primaryKey: true, hidden: true, title: "<spring:message code='global.id'/>"},
             {name: "fileKey", title: "<spring:message code='global.key'/>"},
             {name: "recordId", type: "integer", title: "<spring:message code='dcc.dccViewer.Id'/>"},
@@ -111,8 +110,10 @@ isc.defineClass("FileUploadForm", isc.VLayout).addProperties({
                 editorType: "SelectItem",
                 valueMap: This.fileStatusValueMap,
                 title: "<spring:message code='global.status'/>"
-            },
-            {
+            }
+        ];
+        if (this.canDownloadFile)
+            fields.add({
                 name: "fileData",
                 canSort: false,
                 canFilter: false,
@@ -124,8 +125,8 @@ isc.defineClass("FileUploadForm", isc.VLayout).addProperties({
 
                     return "";
                 }
-            }
-        ], null, null, {
+            });
+        this.grid = isc.ListGrid.nicico.getDefault(fields, null, null, {
 
             canRemoveRecords: This.canRemoveFile,
             border: "0px",
