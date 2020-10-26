@@ -56,6 +56,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -64,6 +65,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
+import java.net.URI;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
@@ -411,10 +413,16 @@ public class ReportService extends GenericService<com.nicico.sales.model.entitie
         if (httpMethodEnum == null)
             httpMethodEnum = HttpMethod.GET;
 
-        HttpEntity<Object> httpEntity = new HttpEntity<>(criteria, getApplicationJSONHttpHeaders());
         ResponseEntity<String> exchange;
+        final URI uri = UriComponentsBuilder.
+                fromHttpUrl(baseUrl + restUrl)
+                .queryParams(criteria)
+                .build(false)
+                .encode()
+                .toUri();
+        HttpEntity<Object> httpEntity = new HttpEntity<>(null, getApplicationJSONHttpHeaders());
         try {
-            exchange = restTemplate.exchange(baseUrl + restUrl, httpMethodEnum, httpEntity, String.class);
+            exchange = restTemplate.exchange(uri, httpMethodEnum, httpEntity, String.class);
         } catch (Exception e) {
             throw new SalesException2(e, ErrorType.BadRequest, null, e.getMessage());
         }

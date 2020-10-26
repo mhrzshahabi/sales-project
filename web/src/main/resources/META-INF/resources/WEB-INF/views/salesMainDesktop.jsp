@@ -1061,10 +1061,10 @@
                 },
                 </sec:authorize>
                 {
-                    title: "<spring:message code='main.reportTab'/>",
+                    title: "<spring:message code='report.menu.ware-house'/>",
                     click: function () {
 
-                         createTab("<spring:message code='main.reportTab'/>", "<spring:url value="/warehouse-report/show-report-form" />")
+                        createTab("<spring:message code='report.menu.ware-house'/>", "<spring:url value="/warehouse-report/show-report-form" />")
                     }
                 },
             ]

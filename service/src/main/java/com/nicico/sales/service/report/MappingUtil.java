@@ -29,14 +29,13 @@ public class MappingUtil {
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
 
-        TypeMap<LinkedHashMap<String, Object>, Object> reportDataMapTypeMap = modelMapper.createTypeMap(new TypeToken<LinkedHashMap<String, Object>>() {
+        TypeMap<LinkedHashMap<String, Object>, Object> reportDataTypeMap = modelMapper.createTypeMap(new TypeToken<LinkedHashMap<String, Object>>() {
         }.getRawType(), destinationType);
-        reportDataMapTypeMap.setConverter(new ReportDataMapConverter(modelMapper));
+        reportDataTypeMap.setConverter(new ReportDataConverter(modelMapper));
 
-        TypeMap<Object, Object> reportDataObjectTypeMap = modelMapper.createTypeMap(Object.class, Object.class, "ReportDataObjectTypeMap");
-        reportDataObjectTypeMap.setConverter(new ReportDataObjectConverter(modelMapper));
-
-        modelMapper.getConfiguration().setPropertyCondition(Conditions.isNotNull());
+        modelMapper.getConfiguration().
+                setPropertyCondition(Conditions.isNotNull()).
+                setPropertyCondition(context -> context.getMapping().getLastDestinationProperty().getAnnotation(IgnoreReportField.class) == null);
 
         return modelMapper;
     }
@@ -84,7 +83,7 @@ public class MappingUtil {
 
                 HashSet<Object> objects = new HashSet<>();
                 for (Object obj : (Iterable) value)
-                    objects.add(modelMapper.map(obj, reportModelAnnotation.type(), "ReportDataObjectTypeMap"));
+                    objects.add(modelMapper.map(obj, reportModelAnnotation.type()));
 
                 field.set(destination, objects);
                 return;
@@ -94,56 +93,21 @@ public class MappingUtil {
 
                 List<Object> objects = new ArrayList<>();
                 for (Object obj : (Iterable) value)
-                    modelMapper.map(obj, reportModelAnnotation.type(), "ReportDataObjectTypeMap");
+                    modelMapper.map(obj, reportModelAnnotation.type());
 
                 field.set(destination, objects);
                 return;
             }
 
-            field.set(destination, modelMapper.map(value, reportModelAnnotation.type(), "ReportDataObjectTypeMap"));
+            field.set(destination, modelMapper.map(value, reportModelAnnotation.type()));
         } else field.set(destination, cast(field.getName(), value, fieldType));
     }
 
-    private class ReportDataObjectConverter implements org.modelmapper.Converter<Object, Object> {
+    private class ReportDataConverter implements org.modelmapper.Converter<LinkedHashMap<String, Object>, Object> {
 
         private ModelMapper modelMapper;
 
-        ReportDataObjectConverter(ModelMapper modelMapper) {
-
-            this.modelMapper = modelMapper;
-        }
-
-        @Override
-        public Object convert(MappingContext<Object, Object> context) {
-
-            Object source = context.getSource();
-            if (source == null) return null;
-
-            Object destination = null;
-            try {
-                destination = context.getDestinationType().newInstance();
-            } catch (InstantiationException | IllegalAccessException e) {
-                log.error(e.getMessage());
-            }
-            if (destination == null) return null;
-
-            Object finalDestination = destination;
-            ReflectionUtils.doWithFields(context.getDestinationType(),
-                    field -> {
-                        field.setAccessible(true);
-                        setDestinationFieldValue(this.modelMapper, finalDestination, field, field.get(source));
-                    },
-                    field -> !field.isAnnotationPresent(IgnoreReportField.class));
-
-            return finalDestination;
-        }
-    }
-
-    private class ReportDataMapConverter implements org.modelmapper.Converter<LinkedHashMap<String, Object>, Object> {
-
-        private ModelMapper modelMapper;
-
-        ReportDataMapConverter(ModelMapper modelMapper) {
+        ReportDataConverter(ModelMapper modelMapper) {
 
             this.modelMapper = modelMapper;
         }
@@ -170,5 +134,4 @@ public class MappingUtil {
             return finalDestination;
         }
     }
-
 }
