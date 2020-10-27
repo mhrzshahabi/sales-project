@@ -25,6 +25,7 @@ isc.defineClass("FileUploadForm", isc.VLayout).addProperties({
 
         this.Super("initWidget", arguments);
 
+
         let This = this;
         this.form = isc.DynamicForm.create({
             width: "90%",
