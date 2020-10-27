@@ -259,30 +259,6 @@ inspectionReportTab.restDataSource.contactRest2 = {
     fetchDataURL: "${contextPath}/api/contact/spec-list2"
 };
 
-inspectionReportTab.restDataSource.contractContactRest = isc.MyRestDataSource.create({
-    fields: [
-        {
-            name: "id",
-            primaryKey: true,
-            canEdit: false,
-            hidden: true
-        },
-        {
-            name: "contract",
-            // title: "<spring:message code='contact.code'/>"
-        },
-        {
-            name: "contact",
-            // title: "<spring:message code='contact.nameFa'/>"
-        },
-        {
-            name: "commercialRole",
-            // title: "<spring:message code='contact.nameEn'/>"
-        }
-    ],
-    fetchDataURL: "${contextPath}/api/contract-contact/spec-list"
-});
-
 inspectionReportTab.restDataSource.inventoryRest = isc.MyRestDataSource.create({
     fields: [
         {
@@ -402,7 +378,7 @@ inspectionReportTab.restDataSource.shipmentRest = isc.MyRestDataSource.create({
             showHover: true
         },
         {
-            name: "contact.nameFA",
+            name: "contact.name",
             title: "<spring:message code ='contact.nameFa'/>",
             showHover: true
         },
@@ -1073,13 +1049,19 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
                                     let sellerId = conData[0].contractContacts.filter(q => q.commercialRole === "Seller").first().contactId;
                                     inspectionReportTab.dynamicForm.inspecReport.setValue("buyerId", buyerId);
                                     inspectionReportTab.dynamicForm.inspecReport.setValue("sellerId", sellerId);
+                                    inspectionReportTab.dynamicForm.inspecReport.getItem("buyerId").disable();
+                                    inspectionReportTab.dynamicForm.inspecReport.getItem("sellerId").disable();
                                 }
                             });
                         }
                     });
                 }
+            } else {
 
-            } else
+                inspectionReportTab.dynamicForm.inspecReport.setValue("buyerId", null);
+                inspectionReportTab.dynamicForm.inspecReport.setValue("sellerId", null);
+                inspectionReportTab.dynamicForm.inspecReport.getItem("buyerId").enable();
+                inspectionReportTab.dynamicForm.inspecReport.getItem("sellerId").enable();
                 inspectionReportTab.dynamicForm.inspecReport.getItem("inventoryId").setOptionCriteria({
                     _constructor: "AdvancedCriteria",
                     operator: "and",
@@ -1089,7 +1071,7 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
                         value: inspectionReportTab.dynamicForm.material.getValue("material")
                     }]
                 });
-
+            }
         }
     },
     {
@@ -1670,8 +1652,7 @@ inspectionReportTab.hStack.weightUnitSum = isc.HStack.create({
     height: "10%",
     width: "100%",
     align: "right",
-    overflow: "visible",
-    canAdaptWidth: true,
+    overflow: "auto",
     members: []
 });
 
@@ -1841,8 +1822,7 @@ inspectionReportTab.hStack.assayUnitSum = isc.HStack.create({
     height: "10%",
     width: "100%",
     align: "right",
-    overflow: "visible",
-    canAdaptWidth: true,
+    overflow: "auto",
     members: []
 });
 
@@ -1892,6 +1872,8 @@ inspectionReportTab.method.clearForm = function () {
     inspectionReportTab.toolStrip.assayRemoveAll.members[1].members[0].getItem("excelFile").clearValue();
     inspectionReportTab.hStack.weightUnitSum.members.forEach(q => q.clearValues());
     inspectionReportTab.hStack.assayUnitSum.members.forEach(q => q.clearValues());
+    inspectionReportTab.dynamicForm.inspecReport.getItem("sellerId").enable();
+    inspectionReportTab.dynamicForm.inspecReport.getItem("buyerId").enable();
 };
 
 inspectionReportTab.window.inspecReport = new nicico.FormUtil();
@@ -2156,7 +2138,6 @@ inspectionReportTab.method.editForm = function () {
         inspectionReportTab.dynamicForm.assayLab.getField("labPlace").setValue(labPlace);
 
         inspectionReportTab.dynamicForm.material.getItem("material").disable();
-        inspectionReportTab.dynamicForm.inspecReport.getItem("select").enable();
         inspectionReportTab.dynamicForm.inspecReport.getItem("select").disable();
         inspectionReportTab.dynamicForm.inspecReport.getItem("refresh").enable();
         inspectionReportTab.dynamicForm.inspecReport.getItem("mileStone").disable();
@@ -2176,6 +2157,10 @@ inspectionReportTab.method.editForm = function () {
             inspectionReportTab.method.setSavedAssayData(assayInspectionArray, selectedAssayInventories);
             inspectionReportTab.method.setAssayElementSum();
         });
+        if (shipmentId) {
+            inspectionReportTab.dynamicForm.inspecReport.getItem("sellerId").disable();
+            inspectionReportTab.dynamicForm.inspecReport.getItem("buyerId").disable();
+        }
     }
 };
 
@@ -2221,7 +2206,7 @@ inspectionReportTab.dynamicForm.addShipmentDynamicForm = isc.DynamicForm.nicico.
 inspectionReportTab.window.formUtil = new nicico.FormUtil();
 inspectionReportTab.window.formUtil.init(null, '<spring:message code="Shipment.title"/>', isc.HLayout.create({
     width: "100%",
-    height: "110",
+    height: "100",
     align: "center",
     members: [
         inspectionReportTab.dynamicForm.addShipmentDynamicForm

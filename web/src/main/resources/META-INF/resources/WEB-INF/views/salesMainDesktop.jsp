@@ -98,6 +98,9 @@
     <%@include file="common/ts/FindFormUtil.js"%>
     <%@include file="common/ts/GeneralTabUtil.js"%>
     <%@include file="common/ts/StorageUtil.js"%>
+    <%@include file="common/ts/FilterFormUtil.js"%>
+    <%@include file="common/ts/ReportExecutorFormUtil.js"%>
+    <%@include file="common/js/component-file.js"%>
 
     var Enums = {
 
@@ -414,9 +417,8 @@
         if (value === undefined || isNaN(value)) return value;
         try {
             return isc.NumberUtil.format(value, ',0');
-        }
-        catch (e) {
-            console.warn('function formatCellValueNumber(value, record, rowNum, colNum)',e)
+        } catch (e) {
+            console.warn('function formatCellValueNumber(value, record, rowNum, colNum)', e)
             return value;
         }
     }
@@ -1027,11 +1029,47 @@
     /*----------------------reportTab------------------------*/
     reportTab = isc.ToolStripMenuButton.create({
         title: "&nbsp; <spring:message code='main.reportTab'/>",
-        click: function () {
-            createTab("<spring:message code='main.reportTab'/>", "<spring:url value="/report/show-report-form" />")
-        }
-    });
+        menu: isc.Menu.create({
+            placement: "none",
+            data: [
+                <sec:authorize access="hasAuthority('R_REPORT_GROUP')">
+                {
+                    title: "<spring:message code='report.menu.report-group'/>",
+                    click: function () {
+                        createTab("<spring:message code='report.menu.report-group'/>", "<spring:url value="/report-group/show-form" />")
+                    }
+                },
+                {isSeparator: true},
+                </sec:authorize>
+                <sec:authorize access="hasAuthority('R_REPORT')">
+                {
+                    title: "<spring:message code='report.menu.generator'/>",
+                    click: function () {
+                        createTab("<spring:message code='report.menu.generator'/>", "<spring:url value="/report/show-form" />")
+                    }
+                },
+                {isSeparator: true},
+                </sec:authorize>
+                <sec:authorize access="hasAuthority('RG_EXECUTE')">
+                {
+                    title: "<spring:message code='report.menu.execute'/>",
+                    click: function () {
 
+                        nicico.ReportExecutorFormUtil.show(null, '<spring:message code="report.menu.execute"/>', null, createTab);
+                    }
+                },
+                {isSeparator: true},
+                </sec:authorize>
+                {
+                    title: "<spring:message code='report.menu.warehouse'/>",
+                    click: function () {
+
+                        createTab("<spring:message code='report.menu.warehouse'/>", "<spring:url value="/warehouse-report/show-report-form" />")
+                    }
+                },
+            ]
+        })
+    });
     //---------------------------------------
     var mainTabSet = isc.TabSet.create({
         tabBarPosition: "top",
@@ -1066,8 +1104,7 @@
     saleToolStrip = isc.ToolStrip.create({
         align: "center",
         membersMargin: 20,
-        members: [
-        ]
+        members: []
     });
     <sec:authorize
     access="hasAuthority('R_CONTACT') or hasAuthority('R_PERSON') or hasAuthority('R_PORT') or hasAuthority('R_VESSEL') or hasAuthority('R_CURRENCY_RATE') or hasAuthority('R_SHIPMENT_COST_DUTY')
@@ -1218,64 +1255,6 @@
         valuemanager: {}
     }
     SalesConfigs.debugger = SalesConfigs.Urls.completeUrl.toLowerCase().includes('localhost:8080')
-    isc.FilterBuilder.addProperties({
-
-        getValueFieldProperties: function (type, fieldName, operatorId, itemType) {
-
-            let superProperties = this.Super("getValueFieldProperties", arguments);
-            if (this.dataSource == null)
-                return Object.assign(superProperties, {
-                    type: type,
-                    name: fieldName,
-                    editorType: itemType,
-                    filterOperator: operatorId
-                });
-
-            const field = this.dataSource.getField(fieldName);
-            if (field == null || (field.editorType !== "SelectItem" && field.editorType !== "ComboBoxItem"))
-                return Object.assign(superProperties, {
-                    type: type,
-                    name: fieldName,
-                    editorType: itemType,
-                    filterOperator: operatorId
-                });
-            debugger;
-            return Object.assign(superProperties, {
-                required: true,
-                autoFetchData: false,
-                showFilterEditor: true,
-                editorType: itemType,
-                multiple: field.multiple,
-                valueField: field.valueField,
-                displayField: field.displayField,
-                valueMap: field.dataSource,
-                optionDataSource: field.dataSource,
-                filterOperator: field.filterOperator,
-                pickListFields: [
-                    {
-                        title: '<spring:message code="global.id"/>',
-                        hidden: true,
-                        type: "number",
-                        name: field.valueField
-                    }, {
-                        title: '<spring:message code="global.title"/>',
-                        align: "left",
-                        type: "string",
-                        showHover: true,
-                        hoverWidth: "30%",
-                        name: field.displayField,
-                        hoverHTML: record => record[field.displayField],
-                    }
-                ],
-                pickListProperties: {
-
-                    sortField: 1,
-                    showFilterEditor: true,
-                    sortDirection: "descending"
-                }
-            });
-        }
-    });
 
     SalesBaseParameters.deleteAllSavedParametersAndFetchAgain();
     const EnumCategoryUnit = {string: {}, index: {}}
@@ -1406,8 +1385,8 @@
         }
     })
     isc.DynamicForm.addProperties({
-		 titleAlign: nicico.CommonUtil.getAlignByLang() ==="right" ? "left":"right"
-	})
+        titleAlign: nicico.CommonUtil.getAlignByLang() === "right" ? "left" : "right"
+    })
 
 </script>
 </body>

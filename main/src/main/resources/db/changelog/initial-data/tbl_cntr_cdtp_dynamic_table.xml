@@ -69,5 +69,15 @@
         </addColumn>
     </changeSet>
 
+    <changeSet author="saeb" id="1799887saeb766dd554-065">
+        <addColumn tableName="TBL_CNTR_CDTP_DYNAMIC_TABLE">
+            <column name="C_INITIAL_CRITERIA" type="VARCHAR2(2000 CHAR)"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="saeb (generated)" id="1601893849829-232">
+        <addUniqueConstraint columnNames="C_HEADER_VALUE, F_CDTP_ID" constraintName="UC_C_HEADER_VALUE_F_CDTP_ID"
+                             tableName="TBL_CNTR_CDTP_DYNAMIC_TABLE"/>
+    </changeSet>
 
 </databaseChangeLog>

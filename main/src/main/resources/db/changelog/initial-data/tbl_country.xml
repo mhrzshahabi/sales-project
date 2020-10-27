@@ -122,5 +122,11 @@
 
         </sql>
     </changeSet>
-
+    <changeSet author="Abiz" id="AZAARE-102">
+        <sql>
+            ALTER SEQUENCE SEQ_COUNTRY INCREMENT BY 10000;
+            SELECT SEQ_COUNTRY.NEXTVAL FROM DUAL;
+            ALTER SEQUENCE SEQ_COUNTRY INCREMENT BY 1;
+        </sql>
+    </changeSet>
 </databaseChangeLog>

@@ -1,17 +1,16 @@
 package com.nicico.sales.model.entities.contract;
 
 import com.nicico.sales.model.entities.common.BaseEntity;
-import com.nicico.sales.model.enumeration.DataType;
 import lombok.*;
 import lombok.experimental.Accessors;
-import org.hibernate.annotations.JoinFormula;
+import org.hibernate.envers.AuditOverride;
+import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
-import java.util.Set;
-import java.util.concurrent.atomic.AtomicReference;
-import java.util.stream.Collectors;
+
+import static org.hibernate.envers.RelationTargetAuditMode.NOT_AUDITED;
 
 @Getter
 @Setter
@@ -21,6 +20,8 @@ import java.util.stream.Collectors;
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
 @Table(name = "TBL_CNTR_CONTRACT_DETAIL")
+@Audited
+@AuditOverride(forClass = BaseEntity.class)
 public class ContractDetail extends BaseEntity {
 
     @Id
@@ -41,6 +42,7 @@ public class ContractDetail extends BaseEntity {
     @Column(name = "F_CONTRACT_ID", nullable = false)
     private Long contractId;
 
+    @Audited(targetAuditMode = NOT_AUDITED)
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "F_CONTRACT_DETAIL_TYPE_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_contractDetail2contractDetailTypeByContractDetailTypeId"))
@@ -60,6 +62,4 @@ public class ContractDetail extends BaseEntity {
     @NotNull
     @Column(name = "N_POSITION", nullable = false)
     private Integer position;
-
-
 }

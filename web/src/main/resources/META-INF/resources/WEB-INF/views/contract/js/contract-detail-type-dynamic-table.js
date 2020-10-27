@@ -30,6 +30,7 @@ contractDetailTypeTab.Fields = {
         {
             name: 'colNum',
             type: "number",
+            width: "5%",
             required: true,
             validateOnExit: true,
             title: "<spring:message code='global.col.num'/>",
@@ -120,7 +121,7 @@ contractDetailTypeTab.Fields = {
 
             }
         },
-            {name: 'headerKey',
+        {name: 'headerKey',
 
                 title: "<spring:message code='global.key'/> <spring:message code='global.header'/> ",
             },
@@ -168,7 +169,19 @@ contractDetailTypeTab.Fields = {
         {
             name: 'description',
             type: "string",
+            editorProperties: {
+                type:"textArea"
+            },
             title: "<spring:message code='global.description'/>",
+        },
+        {
+            name: 'initialCriteria',
+            type: "string",
+            editorProperties: {
+                type:"textArea"
+            },
+            width:"20%",
+            title: "<spring:message code='global.form.filter'/>",
         },
     ]
         fetch('api/g-contract/entities',{headers:SalesConfigs.httpHeaders}).then(
@@ -244,7 +257,17 @@ contractDetailTypeTab.ToolStripButtons.DynamicTable.NewColumn={
             click() {
                 contractDetailTypeTab.listGrid.dynamicTable.startEditingNew(
                     {colNum:contractDetailTypeTab.listGrid.dynamicTable.getTotalRows() + 1,
-                        maxRows:0})
+                        maxRows:0,
+                        initialCriteria:JSON.stringify({
+                            _constructor: "AdvancedCriteria",
+                            operator:"and",
+                            criteria:[
+                                {fieldName:"id",operator: "greaterThan",value:0}
+                            ]
+                        }),
+                    headerType:contractDetailTypeTab.Vars.DataType.String,
+                    valueType:contractDetailTypeTab.Vars.DataType.String,
+                    })
             }
         };
 contractDetailTypeTab.ToolStripButtons.DynamicTable.Save={

@@ -1,0 +1,29 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+				   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+				   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+	<changeSet author="ARezaieZR (generated)" id="1603691530581-297">
+		<addForeignKeyConstraint baseColumnNames="F_INSPECTION_REPORT_ID"
+								 baseTableName="TBL_ASSAY_INSPECTION_TOTAL_VALUES"
+								 constraintName="fk_AssayInspectionTotalValues2inspectionReportByInspectionReportId"
+								 deferrable="false" initiallyDeferred="false" referencedColumnNames="id"
+								 referencedTableName="TBL_INSPECTION_REPORT" validate="true"/>
+	</changeSet>
+	<changeSet author="ARezaieZR (generated)" id="1603691530581-298">
+		<addForeignKeyConstraint baseColumnNames="F_MATERIAL_ELEMENT_ID"
+								 baseTableName="TBL_ASSAY_INSPECTION_TOTAL_VALUES"
+								 constraintName="fk_AssayInspectionTotalValues2materialElementByMaterialElementId"
+								 deferrable="false" initiallyDeferred="false" referencedColumnNames="id"
+								 referencedTableName="TBL_WARH_MATERIAL_ELEMENT" validate="true"/>
+	</changeSet>
+	<changeSet author="ARezaieZR (generated)" id="1603691530581-258">
+		<addNotNullConstraint columnDataType="varchar(1000 CHAR)" columnName="C_DESC_EN" tableName="TBL_MATERIAL"/>
+	</changeSet>
+	<changeSet author="ARezaieZR (generated)" id="1603691530581-259">
+		<addNotNullConstraint columnDataType="varchar(1000 CHAR)" columnName="C_DESC_FA" tableName="TBL_MATERIAL"/>
+	</changeSet>
+	<changeSet author="ARezaieZR (generated)" id="1603691530581-261">
+		<addNotNullConstraint columnDataType="number(19,0)" columnName="F_INSPECTION_WEIGHT_REPORT_ID"
+							  tableName="TBL_FOREIGN_INVOICE"/>
+	</changeSet>
+</databaseChangeLog>

@@ -128,19 +128,23 @@ contractTab.Methods.GetListGridDataFromDynamicTableGrid=function(grid,data){
  * @param {SectionStackSectionObj} _sectionStackSectionObj
  * @param {ContractDetailType} _record
  * **/
-contractTab.Methods.DynamicTableGridCreator = async function a(_record, _sectionStackSectionObj) {
+contractTab.Methods.DynamicTableGridCreator = async function a(_record,
+                                                               _sectionStackSectionObj) {
     if (!_record || !_record.contractDetailTypeParams) return;
     // //dbg(_record)
     /** @param {CDTPDynamicTable} column **/
     function getDefaultFieldObject( column) {
     return     {
+            showHover:true,
             column:column,
             colNum: column.colNum,
             name: column.headerValue,
             required: column.required,
             type:getFieldType(column.valueType),
             editorProperties: {
-            validateOnChange: true,
+                showHintInField: !!column.description,
+                hint:column.description?column.description:null,
+                validateOnChange: true,
                 type:getFieldType(column.valueType),
                 validateOnExit: true,
                 required: column.required ? column.required : false,
@@ -155,7 +159,7 @@ contractTab.Methods.DynamicTableGridCreator = async function a(_record, _section
         internalObj.forEach(_=>fields.addList(getAllFields(_object[_]).map(__=>_+'.'+__)))
         return fields;
     }
-   async function getDynamicHeaders(columns) {
+    async function getDynamicHeaders(columns) {
         const dynamicHeaders = columns.filter(column => !Object.keys(contractTab.Vars.DataType)
             .includes(column.headerType))
        if (dynamicHeaders && dynamicHeaders.length > 0) {
@@ -222,7 +226,7 @@ contractTab.Methods.DynamicTableGridCreator = async function a(_record, _section
     /****
      * @param {ContractDetailTypeParam} cdtpdt
      * *****/
-    const cdtpdtGridConfigList = await Promise.all(cdtpdtList.map(/**@param {ContractDetailTypeParam} cdtpdt**/async cdtpdt => {
+    await Promise.all(cdtpdtList.map(/**@param {ContractDetailTypeParam} cdtpdt**/async cdtpdt => {
         const columns = cdtpdt.dynamicTables;
         if (columns && columns.length > 0) {
             const staticHeadersWithStaticValue = columns
@@ -261,6 +265,7 @@ contractTab.Methods.DynamicTableGridCreator = async function a(_record, _section
                         ..._field.editorProperties,
                         optionDataSource:isc.MyRestDataSource
                             .create({fetchDataURL:'${contextPath}'+column.valueType,fields:dynamicValue.fields}),
+                        optionCriteria:column.initialCriteria?JSON.parse(column.initialCriteria):null,
                         pickListFields:dynamicValue.fields.map((_field,_index)=>{if(_index>5)_field.hidden=true;return _field}),
                         editorType: "comboBox",
                         addUnknownValues:false,
@@ -287,7 +292,7 @@ contractTab.Methods.DynamicTableGridCreator = async function a(_record, _section
                 validateByCell: true,
                 validateOnExit: true,
                 canRemoveRecords: true,
-                editByCell: true,
+                // editByCell: true,
                 reference: contractTab.Vars.DataType.DynamicTable,
                 paramName: cdtpdt.name,
                 paramTitle: cdtpdt.title,
@@ -342,6 +347,7 @@ contractTab.Methods.DynamicTableGridCreator = async function a(_record, _section
             _sectionStackSectionObj.items.push(listGrid)
             contractTab.sectionStack.contract.collapseSection(_sectionStackSectionObj.name.toString())
             contractTab.sectionStack.contract.expandSection(_sectionStackSectionObj.name.toString())
+            if(contractTab.variable.method.toUpperCase()==="PUT")
             contractTab.sectionStack.contract.collapseSection(_sectionStackSectionObj.name.toString())
 
         }
@@ -371,21 +377,4 @@ contractTab.Methods.DynamicTableGridCreatorForContract = async function(_contrac
     })
 
     // dbg(_contract, _sectionStackSectionObj,contractDetail)
-}
-
-if (SalesConfigs.Urls.completeUrl.contains('8080/sales')) {
-    setTimeout(() => {
-        contractTab.method.newForm();
-        contractTab.dynamicForm.main.setValues({
-            "date": "2020-10-10T08:30:00.000Z",
-            "affectFrom": "2020-10-10T08:30:00.000Z",
-            "affectUpTo": "2020-10-10T08:30:00.000Z",
-            "no": "234234234234",
-            "materialId": 2,
-            "contractTypeId": 1,
-            "buyerId": 225,
-            "sellerId": 2,
-            "description": "234234234"
-        })
-    }, 2000);
 }

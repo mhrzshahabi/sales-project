@@ -10,7 +10,7 @@ import com.nicico.sales.enumeration.ErrorType;
 import com.nicico.sales.exception.SalesException2;
 import com.nicico.sales.model.enumeration.AllConverters;
 import com.nicico.sales.model.enumeration.EStatus;
-import com.nicico.sales.model.enumeration.I18n;
+import com.nicico.sales.model.annotation.I18n;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -157,7 +157,8 @@ public class CriteriaRefinerAspect {
                 }
 
                 newValues.add(new Date(date.replace('-', '/')));
-            } else if (value instanceof Map)
+            }
+            else if (value instanceof Map)
                 throw new SalesException2(ErrorType.BadRequest, fieldName, "Criteria options not supported yet.");
             else
                 throw new SalesException2(ErrorType.BadRequest, fieldName, "Criteria for date field is incorrect.");

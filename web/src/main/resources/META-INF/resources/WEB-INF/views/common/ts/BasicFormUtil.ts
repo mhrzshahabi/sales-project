@@ -38,6 +38,7 @@ namespace nicico {
                     isc.ToolStripButtonAdd.create({
                         // @ts-ignore
                         actionType: ActionType.NEW,
+                        icon: "[SKIN]/actions/add.png",
                         title: "<spring:message code='global.form.new'/>",
                         click: function () {
                             // @ts-ignore
@@ -339,7 +340,7 @@ namespace nicico {
             toolStripItems.forEach(toolStripItem => toolStripItem.setVisibility("hidden"));
         }
 
-        static getDefaultBasicForm(creator: JSPTabVariable, restControllerUrl: string, createWindowHook: any): isc.VLayout {
+        static getDefaultBasicForm(creator: JSPTabVariable, restControllerUrl: string, createWindowHook: any = null): isc.VLayout {
 
             // @ts-ignore
             creator.variable.url += restControllerUrl.replaceAll(new RegExp("^/|/$"), '') + '/';
