@@ -11,6 +11,7 @@ import org.hibernate.envers.Audited;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.util.List;
 
 import static org.hibernate.envers.RelationTargetAuditMode.NOT_AUDITED;
@@ -53,6 +54,8 @@ public class TozinTable extends BaseEntity {
     private String haveCode;
     @Column(name = "WAZN", nullable = false)
     private Long vazn;
+    @NotNull
+    @Pattern(regexp = "^[0-9]{8}$",message = "{global.emailTo}")
     @Column(name = "DAT", nullable = false)
     private String date;
     @Column(name = "CTRL_DESC_OUT", length = 1000)

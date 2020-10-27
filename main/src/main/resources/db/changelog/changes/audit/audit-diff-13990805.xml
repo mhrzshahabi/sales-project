@@ -1,0 +1,25 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+				   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+				   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+	<changeSet author="ARezaieZR (generated)" id="1603691530580-292">
+		<addColumn tableName="AUD_TBL_FOREIGN_INVOICE">
+			<column name="F_PARENT_ID" type="number(19, 0)"/>
+		</addColumn>
+	</changeSet>
+	<changeSet author="ARezaieZR (generated)" id="1603691530580-293">
+		<addColumn tableName="AUD_TBL_FOREIGN_INVOICE_PAYMENT">
+			<column name="F_SHIPMENT_COST_INVOICE_ID" type="number(19, 0)"/>
+		</addColumn>
+	</changeSet>
+	<changeSet author="ARezaieZR (generated)" id="1603691530580-294">
+		<addColumn tableName="AUD_TBL_FOREIGN_INVOICE_ITEM">
+			<column name="N_DEDUCTION_UNIT_CONVERSION_RATE" type="number(12, 5)"/>
+		</addColumn>
+	</changeSet>
+	<changeSet author="ARezaieZR (generated)" id="1603691530580-295">
+		<addColumn tableName="AUD_TBL_FOREIGN_INVOICE">
+			<column name="N_PERCENT" type="double precision"/>
+		</addColumn>
+	</changeSet>
+</databaseChangeLog>
