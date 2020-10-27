@@ -14,6 +14,7 @@ import com.nicico.sales.iservice.IFileService;
 import com.nicico.sales.model.entities.base.File;
 import com.nicico.sales.model.enumeration.FileStatus;
 import com.nicico.sales.repository.FileDAO;
+import com.nicico.sales.utility.SecurityChecker;
 import io.minio.GetObjectTagsArgs;
 import io.minio.MinioClient;
 import io.minio.SetObjectTagsArgs;
@@ -115,6 +116,11 @@ public class FileService implements IFileService {
 
 	@Override
 	public FileDTO.Response retrieve(String key) throws Exception {
+		final Map<String, String> tags = this.minioClient.getObjectTags(GetObjectTagsArgs.builder().bucket(appId.toLowerCase()).object(key).build()).get();
+		if (tags.containsKey("Permission") && !SecurityChecker.check(tags.get("Permission"))) {
+			throw new SalesException2(ErrorType.Forbidden, "fileKey", "شما دسترسی های لازم برای دریافت فیل مورد نظر را ندارید.");
+		}
+
 		return modelMapper.map(minIOService.retrieve(key), FileDTO.Response.class);
 	}
 
@@ -148,7 +154,7 @@ public class FileService implements IFileService {
 		final File file = fileDAO.findByFileKey(key)
 				.orElseThrow(() -> new SalesException2(ErrorType.NotFound, "fileKey", "فایل مورد نظر یافت نشد."));
 
-		Map<String, String> tags = new HashMap(this.minioClient.getObjectTags(GetObjectTagsArgs.builder().bucket(appId.toLowerCase()).object(key).build()).get());
+		final Map<String, String> tags = new HashMap(this.minioClient.getObjectTags(GetObjectTagsArgs.builder().bucket(appId.toLowerCase()).object(key).build()).get());
 		if (EFileStatus.DELETED.equals(EFileStatus.valueOf(tags.get("Status")))) {
 			throw new NICICOException(IErrorCode.NotFound);
 		} else if (EFileAccessLevel.SELF.equals(EFileAccessLevel.valueOf(tags.get("AccessLevel"))) && !Objects.equals(SecurityUtil.getUserId(), Long.valueOf(tags.get("CreatedBy")))) {
@@ -164,7 +170,6 @@ public class FileService implements IFileService {
 			file.setFileStatus(FileStatus.NORMAL);
 			fileDAO.saveAndFlush(file);
 		} catch (Exception e) {
-
 			log.error(Arrays.toString(e.getStackTrace()));
 			delete(key);
 		}
