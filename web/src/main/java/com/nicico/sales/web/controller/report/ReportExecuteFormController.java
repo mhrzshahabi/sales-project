@@ -33,10 +33,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -92,20 +89,20 @@ public class ReportExecuteFormController {
 
         List<Object> resp = new ArrayList<>();
         if (data != null) resp.addAll(data.getResponse().getData());
-        String[] fields = criteria.getFirst("fields").split(",");
-        String[] headers = criteria.getFirst("headers").split(",");
+        String[] fields = Objects.requireNonNull(criteria.getFirst("fields")).split(",");
+        String[] headers = Objects.requireNonNull(criteria.getFirst("headers")).split(",");
         Class<?> returnType = reportService.getReturnType(report);
         ModelMapper modelMapper = mappingUtil.getModelMapper(returnType);
-        List mappedData = resp.stream().map(item -> modelMapper.map(item, returnType)).collect(Collectors.toList());
+        List mappedData = resp.stream().map(item -> (Object) modelMapper.map(item, returnType)).collect(Collectors.toList());
         byte[] bytes = makeExcelOutputUtil.makeOutput(mappedData, returnType, fields, headers, true, "");
         makeExcelOutputUtil.makeExcelResponse(bytes, response);
     }
 
     private ReportDTO.Info checkAccess(String permissionKeyPrefix, String reportIdStr) {
 
-        Long reportId = 0L;
+        long reportId = 0L;
         if (!StringUtils.isEmpty(reportIdStr))
-            reportId = Long.valueOf(reportIdStr);
+            reportId = Long.parseLong(reportIdStr);
 
         ReportDTO.Info report = reportService.get(reportId);
         String authority = permissionKeyPrefix + report.getPermissionBaseKey();

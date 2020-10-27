@@ -56,7 +56,7 @@ public class OAuthApiService implements IOAuthApiService {
     @Override
     public void deletePermission(String permissionKey) {
 
-        final String url = oauthAppUrl + "/api/permissions/" + appId + "/" + permissionKey;
+        final String url = oauthAppUrl + "/api/permissions/code/" + appId + "/" + permissionKey;
         final HttpEntity<String> httpEntity = new HttpEntity<>(getApplicationJSONHttpHeaders());
         ResponseEntity<String> httpResponse;
         try {

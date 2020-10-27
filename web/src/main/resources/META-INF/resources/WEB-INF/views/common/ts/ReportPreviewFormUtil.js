@@ -145,6 +145,7 @@ var nicico;
                     recordId: report.id,
                     canAddFile: false,
                     canRemoveFile: false,
+                    canDownloadFile: false,
                     height: "300",
                     margin: 5
                 }), null, "300");
@@ -157,15 +158,7 @@ var nicico;
                 var fetchDataUrl = creator.variable.contextPath + report.source.replaceAll(new RegExp("^/|/$"), '') + '/';
                 // @ts-ignore
                 var dataSource = isc.RestDataSource.nicico.getDefault(fetchDataUrl, report.reportFields.filter(function (q) { return q.canFilter; }).map(function (p) {
-                    var field = { name: p.name, title: p.title, type: p.type, hidden: p.hidden };
-                    // @ts-ignore
-                    if (p.type === "date")
-                        field.filterOperator = ["greaterThan", "lessThan",
-                        ];
-                    // @ts-ignore
-                    if (p.type === "boolean")
-                        field.filterOperator = ["isNull", "notNull", "equals", "notEqual", "iEquals", "iNotEqual", "equalsField", "notEqualField", "iEqualsField", "iNotEqualField"];
-                    return field;
+                    return { name: p.name, title: p.title, type: p.type, hidden: p.hidden };
                 }));
                 nicico.FilterFormUtil.okCallBack = function (criteria) {
                     // @ts-ignore

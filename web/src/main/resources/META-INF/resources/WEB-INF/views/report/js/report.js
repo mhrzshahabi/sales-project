@@ -123,6 +123,7 @@ reportGeneratorTab.dynamicForm.fields = BaseFormItems.concat([
         title: "<spring:message code='report.source.type'/>",
         required: true,
         wrapTitle: false,
+        width: "400",
         colSpan: 1,
         defaultValue: "Rest",
         valueMap: JSON.parse('${Enum_ReportSource}'),
@@ -141,17 +142,18 @@ reportGeneratorTab.dynamicForm.fields = BaseFormItems.concat([
         name: "source",
         title: "<spring:message code='report.source'/>",
         required: true,
+        width: "400",
         wrapTitle: false,
         editorType: "SelectItem",
-        colSpan: 1,
+        colSpan: 2,
         displayField: "name",
         valueField: "source",
         optionDataSource: reportGeneratorTab.restDataSource.reportSource,
         autoFetchData: true,
         canAdaptHeight: true,
         pickListProperties: {
-            showFilterEditor: true,
-            canAdaptHeight: true,
+            showFilterEditor: false,
+            canAdaptHeight: true
         },
         pickListFields: [
             {name: "name", title: "<spring:message code='report.name'/>"},
@@ -174,6 +176,7 @@ reportGeneratorTab.dynamicForm.fields = BaseFormItems.concat([
         wrapTitle: false,
         editorType: "SelectItem",
         colSpan: 1,
+        width: "400",
         displayField: "name",
         valueField: "id",
         optionDataSource: reportGeneratorTab.restDataSource.reportGroup,
@@ -194,7 +197,8 @@ reportGeneratorTab.dynamicForm.fields = BaseFormItems.concat([
         name: "reportType",
         title: "<spring:message code='report.reportType'/>",
         required: true,
-        colSpan: 1,
+        colSpan: 2,
+        width: "400",
         wrapTitle: false,
         valueMap: JSON.parse('${Enum_ReportType}'),
         validators: [
@@ -210,6 +214,7 @@ reportGeneratorTab.dynamicForm.fields = BaseFormItems.concat([
         required: true,
         keyPressFilter: "[\u0600-\u06FF\uFB8A\u067E\u0686\u06AF\u200C\u200F ]",
         colSpan: 1,
+        width: "400",
         validators: [
             {
                 type: "required",
@@ -231,7 +236,8 @@ reportGeneratorTab.dynamicForm.fields = BaseFormItems.concat([
         keyPressFilter: "[A-Za-z ]", //dont change it
         wrapTitle: false,
         required: true,
-        colSpan: 1,
+        colSpan: 2,
+        width: "400",
         validators: [
             {
                 type: "required",
@@ -251,7 +257,7 @@ reportGeneratorTab.dynamicForm.fields = BaseFormItems.concat([
 
 reportGeneratorTab.dynamicForm.report = isc.DynamicForm.create({
     align: "center",
-    numCols: 4,
+    numCols: 6,
     canSubmit: true,
     showErrorText: true,
     showErrorStyle: true,
@@ -364,7 +370,7 @@ reportGeneratorTab.listGrid.reportFields = isc.ListGrid.nicico.getDefault(BaseFo
 
 reportGeneratorTab.window.report = new nicico.FormUtil();
 reportGeneratorTab.variable.fileUploadForm = isc.FileUploadForm.create({
-    height:"200",
+    height: "200",
     accept: ".jrxml",
     entityName: "Report",
     fileStatusValueMap: JSON.parse('${Enum_FileStatus}'),
