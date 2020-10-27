@@ -93,7 +93,7 @@ public class ReportExecuteFormController {
         String[] headers = Objects.requireNonNull(criteria.getFirst("headers")).split(",");
         Class<?> returnType = reportService.getReturnType(report);
         ModelMapper modelMapper = mappingUtil.getModelMapper(returnType);
-        List mappedData = resp.stream().map(item -> modelMapper.map(item, returnType)).collect(Collectors.toList());
+        List mappedData = resp.stream().map(item -> (Object) modelMapper.map(item, returnType)).collect(Collectors.toList());
         byte[] bytes = makeExcelOutputUtil.makeOutput(mappedData, returnType, fields, headers, true, "");
         makeExcelOutputUtil.makeExcelResponse(bytes, response);
     }
