@@ -286,4 +286,59 @@ public class ForeignInvoiceService extends GenericService<ForeignInvoice, Long, 
         return foreignInvoiceDTO;
     }
 
+    @Override
+    @Transactional
+    @Action(value = ActionType.Finalize)
+    public ForeignInvoiceDTO.Info finalize(Long id) {
+
+        ForeignInvoiceDTO.Info finalize = super.finalize(id);
+
+        List<ForeignInvoice> foreignInvoices = ((ForeignInvoiceDAO) repository).findAllByParentId(id);
+        List<Long> foreignInvoiceIds = foreignInvoices.stream().map(ForeignInvoice::getId).collect(Collectors.toList());
+        foreignInvoiceIds.forEach(item -> super.finalize(item));
+
+        return finalize;
+    }
+
+    @Override
+    @Transactional
+    @Action(value = ActionType.Disapprove)
+    public ForeignInvoiceDTO.Info disapprove(Long id) {
+
+        ForeignInvoiceDTO.Info disapprove = super.disapprove(id);
+
+        List<ForeignInvoice> foreignInvoices = ((ForeignInvoiceDAO) repository).findAllByParentId(id);
+        List<Long> foreignInvoiceIds = foreignInvoices.stream().map(ForeignInvoice::getId).collect(Collectors.toList());
+        foreignInvoiceIds.forEach(item -> super.disapprove(item));
+
+        return disapprove;
+    }
+
+    @Override
+    @Transactional
+    @Action(value = ActionType.Activate)
+    public ForeignInvoiceDTO.Info activate(Long id) {
+
+        ForeignInvoiceDTO.Info activate = super.activate(id);
+
+        List<ForeignInvoice> foreignInvoices = ((ForeignInvoiceDAO) repository).findAllByParentId(id);
+        List<Long> foreignInvoiceIds = foreignInvoices.stream().map(ForeignInvoice::getId).collect(Collectors.toList());
+        foreignInvoiceIds.forEach(item -> super.activate(item));
+
+        return activate;
+    }
+
+    @Override
+    @Transactional
+    @Action(value = ActionType.DeActivate)
+    public ForeignInvoiceDTO.Info deactivate(Long id) {
+
+        ForeignInvoiceDTO.Info deactivate = super.deactivate(id);
+
+        List<ForeignInvoice> foreignInvoices = ((ForeignInvoiceDAO) repository).findAllByParentId(id);
+        List<Long> foreignInvoiceIds = foreignInvoices.stream().map(ForeignInvoice::getId).collect(Collectors.toList());
+        foreignInvoiceIds.forEach(item -> super.deactivate(item));
+
+        return deactivate;
+    }
 }
