@@ -5,7 +5,7 @@
 
     <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
 
-    <springProfile name="Local,Development">
+    <springProfile name="Local">
         <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
             <encoder>
                 <pattern>${CONSOLE_LOG_PATTERN}</pattern>
