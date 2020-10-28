@@ -105,6 +105,19 @@ foreignInvoiceTab.listGrid.fields = BaseFormItems.concat([
         showHover: true,
         name: "accountingId",
         title: "<spring:message code='foreign-invoice.form.accounting-id'/>"
+    },
+    {
+        width: "100%",
+        showHover: true,
+        name: "percent",
+        title: "<spring:message code='foreign-invoice.form.percent'/>"
+    },
+    {
+        hidden: true,
+        width: "100%",
+        showHover: true,
+        name: "parentId",
+        title: "<spring:message code='foreign-invoice.form.parent-id'/>"
     }
 ]);
 foreignInvoiceTab.listGrid.fields.filter(q => q.name === "estatus").first().hidden = false;
@@ -726,7 +739,7 @@ foreignInvoiceTab.button.save = isc.IButtonSave.create({
                     foreignInvoiceTab.dynamicForm.valuesManager.setValue(
                         'inspectionAssayData',
                         foreignInvoiceTab.dynamicForm.baseData.getField('inspectionAssayId').getSelectedRecord());
-
+                    foreignInvoiceTab.dynamicForm.valuesManager.setValue('parentId', null);
                     // let selectedShipmentRemittanceDetailsCount = foreignInvoiceTab.dynamicForm.valuesManager.getValue('remittanceDetailId').length;
                     // let allShipmentRemittanceDetailsCount = Object.keys(foreignInvoiceTab.dynamicForm.baseData.getField('remittanceDetailId').getAllValueMappings()).length;
                 } else {
@@ -734,6 +747,7 @@ foreignInvoiceTab.button.save = isc.IButtonSave.create({
                     let record = foreignInvoiceTab.listGrid.main.getSelectedRecord();
                     console.log("record ", record);
                     foreignInvoiceTab.tab.invoice.removeTabs(foreignInvoiceTab.tab.invoice.tabs);
+                    foreignInvoiceTab.dynamicForm.valuesManager.setValue('parentId', record.id);
                     foreignInvoiceTab.dynamicForm.valuesManager.setValue('currency', record.currency);
                     foreignInvoiceTab.dynamicForm.valuesManager.setValue('conversionRef', record.conversionRef);
                     foreignInvoiceTab.dynamicForm.valuesManager.setValue('invoiceType', record.invoiceType);
@@ -744,6 +758,7 @@ foreignInvoiceTab.button.save = isc.IButtonSave.create({
                     foreignInvoiceTab.dynamicForm.valuesManager.setValue('date', foreignInvoiceTab.dynamicForm.invoiceCompletionDynamicForm.getValue("date"));
                     foreignInvoiceTab.dynamicForm.valuesManager.setValue('creator', foreignInvoiceTab.dynamicForm.invoiceCompletionDynamicForm.getField("creatorId").getSelectedRecord());
                     foreignInvoiceTab.dynamicForm.valuesManager.setValue('billLadings', foreignInvoiceTab.dynamicForm.invoiceCompletionValuesManager.getValue('billLadings'));
+                    foreignInvoiceTab.dynamicForm.valuesManager.setValue('remainingPercent', foreignInvoiceTab.dynamicForm.invoiceCompletionValuesManager.getValue('remainingPercent'));
                 }
 
                 foreignInvoiceTab.method.addTab(
@@ -772,6 +787,7 @@ foreignInvoiceTab.button.save = isc.IButtonSave.create({
                     invoiceCalculation2Component.okButtonClick = function addRelatedPaymentTab2() {
 
                         let invoicePaymentComponent = isc.InvoicePayment.create({
+                            parentId: foreignInvoiceTab.dynamicForm.valuesManager.getValue("parentId"),
                             currency: foreignInvoiceTab.dynamicForm.valuesManager.getValue("currency"),
                             shipment: foreignInvoiceTab.dynamicForm.valuesManager.getValue("shipment"),
                             conversionRef: foreignInvoiceTab.dynamicForm.valuesManager.getValue('conversionRef'),
@@ -792,6 +808,7 @@ foreignInvoiceTab.button.save = isc.IButtonSave.create({
 
                     let invoiceBaseValuesComponent = isc.InvoiceBaseValues.create({
                         invoiceCompletion: foreignInvoiceTab.variable.completionInvoice,
+                        remainingPercent: foreignInvoiceTab.dynamicForm.valuesManager.getValue("remainingPercent"),
                         currency: foreignInvoiceTab.dynamicForm.valuesManager.getValue("currency"),
                         contract: foreignInvoiceTab.dynamicForm.valuesManager.getValue("contract"),
                         shipment: foreignInvoiceTab.dynamicForm.valuesManager.getValue("shipment"),
@@ -830,6 +847,7 @@ foreignInvoiceTab.button.save = isc.IButtonSave.create({
 
                                 let invoicePaymentComponent = isc.InvoicePayment.create({
                                     // shipmentCostInvoiceRate: selectedShipmentRemittanceDetailsCount / allShipmentRemittanceDetailsCount,
+                                    parentId: foreignInvoiceTab.dynamicForm.valuesManager.getValue("parentId"),
                                     currency: foreignInvoiceTab.dynamicForm.valuesManager.getValue("currency"),
                                     shipment: foreignInvoiceTab.dynamicForm.valuesManager.getValue("shipment"),
                                     conversionRef: foreignInvoiceTab.dynamicForm.valuesManager.getValue('conversionRef'),
@@ -846,10 +864,12 @@ foreignInvoiceTab.button.save = isc.IButtonSave.create({
 
                     let invoiceCalculationCathodeComponent = isc.InvoiceCalculationCathode.create({
                         invoiceCompletion: foreignInvoiceTab.variable.completionInvoice,
+                        remainingPercent: foreignInvoiceTab.dynamicForm.valuesManager.getValue("remainingPercent"),
                         currency: foreignInvoiceTab.dynamicForm.valuesManager.getValue("currency"),
                         contract: foreignInvoiceTab.dynamicForm.valuesManager.getValue('contract'),
                         shipment: foreignInvoiceTab.dynamicForm.valuesManager.getValue("shipment"),
                         percent: foreignInvoiceTab.dynamicForm.valuesManager.getValue("percent"),
+                        basePriceData: foreignInvoiceTab.dynamicForm.valuesManager.getValue("cathodeBasePriceData"),
                         contractDetailData: foreignInvoiceTab.variable.contractDetailData,
                         inspectionWeightData: foreignInvoiceTab.dynamicForm.valuesManager.getValue("inspectionWeightData"),
                     });
@@ -857,6 +877,7 @@ foreignInvoiceTab.button.save = isc.IButtonSave.create({
                     invoiceCalculationCathodeComponent.okButtonClick = function addRelatedPaymentTab2() {
 
                         let invoicePaymentComponent = isc.InvoicePayment.create({
+                            parentId: foreignInvoiceTab.dynamicForm.valuesManager.getValue("parentId"),
                             currency: foreignInvoiceTab.dynamicForm.valuesManager.getValue("currency"),
                             shipment: foreignInvoiceTab.dynamicForm.valuesManager.getValue("shipment"),
                             conversionRef: foreignInvoiceTab.dynamicForm.valuesManager.getValue('conversionRef'),
@@ -990,7 +1011,6 @@ foreignInvoiceTab.variable.invoiceForm.populateData = function (bodyWidget) {
 
     let invoicePaymentComponent = foreignInvoiceTab.tab.invoice.tabs.filter(t => t.pane.Class === isc.InvoicePayment.Class).first();
     if (!invoicePaymentComponent) return null;
-
     let data = foreignInvoiceTab.dynamicForm.valuesManager.getValues();
     let inspectionWeightData = foreignInvoiceTab.dynamicForm.valuesManager.getValue('inspectionWeightData');
     let inspectionAssayData = foreignInvoiceTab.dynamicForm.valuesManager.getValue('inspectionAssayData');
@@ -1013,6 +1033,16 @@ foreignInvoiceTab.variable.invoiceForm.populateData = function (bodyWidget) {
     data.inspectionWeightReportId = inspectionWeightData.id;
     data.inspectionAssayReportId = inspectionAssayData ? inspectionAssayData.id : null;
     data.foreignInvoicePayments = paymentComponentValues.shipmentCostInvoices;
+    data.parentId = paymentComponentValues.parentId;
+
+    if (paymentComponentValues.parentId) {
+
+        data.creatorId = data.creator.id;
+        data.contractId = data.contract.id;
+        data.shipmentId = data.shipment.id;
+        data.currencyId = data.currency.id;
+        data.invoiceTypeId = data.invoiceType.id;
+    }
 
     if (foreignInvoiceTab.variable.materialId === ImportantIDs.material.COPPER_CONCENTRATES) {
 
@@ -1157,13 +1187,7 @@ foreignInvoiceTab.dynamicForm.invoiceCompletionDynamicForm = isc.DynamicForm.cre
                     type: "required",
                     validateOnChange: true
                 }]
-        }, /*{
-            name: "weightInspectionReport",
-            title: "<spring:message code='entity.weight-inspection'/>",
-            type: "staticText",
-            titleColSpan: 2,
-            colSpan: 2
-        },*/ {
+        }, {
             name: "remainingPercent",
             title: "<spring:message code='foreign-invoice.form.remaining.percent'/>",
             type: "staticText",
@@ -1237,7 +1261,7 @@ foreignInvoiceTab.window.invoiceCompletionForm.init(null, '<spring:message code=
 }), "500", "10%");
 
 // foreignInvoiceTab.window.invoiceCompletionForm.populateData = function (bodyWidget) {};
-//
+
 foreignInvoiceTab.window.invoiceCompletionForm.validate = function (data) {
 
     let isValid = true;
@@ -1288,8 +1312,13 @@ foreignInvoiceTab.toolStrip.main.addMember(isc.ToolStripButton.create({
 
         foreignInvoiceTab.variable.method = "POST";
         foreignInvoiceTab.variable.completionInvoice = true;
-        foreignInvoiceTab.button.selectBillLadingCompletion.enable();
         let record = foreignInvoiceTab.listGrid.main.getSelectedRecord();
+        foreignInvoiceTab.button.selectBillLadingCompletion.criteria = {
+            operator: "equals",
+            fieldName: "shipmentId",
+            value: record.shipmentId
+        };
+        foreignInvoiceTab.button.selectBillLadingCompletion.enable();
         if (record == null || record.id == null)
             foreignInvoiceTab.dialog.notSelected();
         else if (record.editable === false)
@@ -1298,6 +1327,8 @@ foreignInvoiceTab.toolStrip.main.addMember(isc.ToolStripButton.create({
             foreignInvoiceTab.dialog.inactiveRecord();
         else if (record.estatus.contains(Enums.eStatus2.Final))
             foreignInvoiceTab.dialog.finalRecord();
+        else if (record.parentId)
+            foreignInvoiceTab.dialog.say('<spring:message code="foreign-invoice.form.invoice.completion.on.parent"/>');
         else {
 
             foreignInvoiceTab.variable.materialId = record.shipment.materialId;
@@ -1329,6 +1360,39 @@ foreignInvoiceTab.toolStrip.main.addMember(isc.ToolStripButton.create({
         }
     }
 }), 7);
+
+foreignInvoiceTab.toolStrip.main.addMember(isc.ToolStripButton.create({
+    visibility: "visible",
+    icon: "pieces/16/icon_view.png",
+    title: "<spring:message code='global.form.filter'/>",
+    click: function () {
+
+        let record = foreignInvoiceTab.listGrid.main.getSelectedRecord();
+        if (record == null)
+            foreignInvoiceTab.dialog.notSelected();
+        else {
+            let referenceId = record.parentId ? record.parentId : record.id;
+            foreignInvoiceTab.listGrid.main.setCriteria({
+                _constructor: "AdvancedCriteria",
+                operator: "or",
+                criteria:
+                    [
+                        {
+                            fieldName: "id",
+                            operator: "equals",
+                            value: referenceId
+                        },
+                        {
+                            fieldName: "parentId",
+                            operator: "equals",
+                            value: referenceId
+                        },
+
+                    ]
+            });
+        }
+    }
+}), 8);
 
 foreignInvoiceTab.dynamicForm.main = null;
 
@@ -3099,6 +3163,8 @@ foreignInvoiceTab.method.editForm = function () {
         foreignInvoiceTab.dialog.inactiveRecord();
     else if (record.estatus.contains(Enums.eStatus2.Final))
         foreignInvoiceTab.dialog.finalRecord();
+    else if (record.parentId)
+        foreignInvoiceTab.dialog.say('<spring:message code="foreign-invoice.form.completion.invoice.not.editable"/>');
     else {
 
         foreignInvoiceTab.variable.materialId = record.shipment.materialId;
@@ -3159,7 +3225,6 @@ foreignInvoiceTab.method.editForm = function () {
                                         foreignInvoiceTab.dynamicForm.valuesManager.clearValues();
                                         foreignInvoiceTab.dynamicForm.valuesManager.setValues(record);
                                         foreignInvoiceTab.dynamicForm.valuesManager.setValue("date", new Date(record.date));
-                                        // foreignInvoiceTab.dynamicForm.valuesManager.setValue("payments", paymentValues);
                                         foreignInvoiceTab.dynamicForm.valuesManager.setValue("billLadings", billOfLadingValues.map(q => q.billOfLanding));
                                         foreignInvoiceTab.dynamicForm.valuesManager.setValue("toCurrencyId", record.conversionRef ? record.conversionRef.unitToId : null);
                                         foreignInvoiceTab.dynamicForm.valuesManager.setValue("contractId", record.shipment.contractShipment.contractId);
@@ -3219,6 +3284,7 @@ foreignInvoiceTab.method.editForm = function () {
 
                                             //// COPPER CATHODE
                                             foreignInvoiceTab.dynamicForm.valuesManager.setValue("percent", record.percent);
+                                            foreignInvoiceTab.dynamicForm.valuesManager.setValue("cathodeBasePriceData", record.unitPrice);
                                             foreignInvoiceTab.dynamicForm.baseData.getField("inspectionAssayId").hide();
                                             foreignInvoiceTab.dynamicForm.baseData.getField("inspectionAssayId").setRequired(false);
                                         }
@@ -3245,6 +3311,44 @@ foreignInvoiceTab.method.editForm = function () {
             }
         });
     }
+};
+
+foreignInvoiceTab.method.validateDeleteActionHook = function (record) {
+
+    if (!record.parentId)
+        foreignInvoiceTab.dialog.say('<spring:message code="global.grid.record.not.removable"/>');
+    return record.parentId;
+};
+
+foreignInvoiceTab.listGrid.main.rowClick = function (record, recordNum, fieldNum) {
+
+    foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.title === "Edit").first().show();
+    foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.title === "Remove").first().show();
+    foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.title === "Active").first().show();
+    foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.title === "Inactive").first().show();
+    foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.title === "Finalize").first().show();
+    foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.title === "Disapprove").first().show();
+    foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.title === "Invoice Completion").first().show();
+
+    if (record.parentId) {
+        foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.title === "Edit").first().hide();
+        foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.title === "Active").first().hide();
+        foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.title === "Inactive").first().hide();
+        foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.title === "Finalize").first().hide();
+        foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.title === "Disapprove").first().hide();
+        foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.title === "Invoice Completion").first().hide();
+    } else
+        foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.title === "Remove").first().hide();
+
+    this.Super("rowClick", arguments);
+};
+
+foreignInvoiceTab.listGrid.main.getCellCSSText = function (record, rowNum, colNum) {
+
+    if (record.parentId) {
+        return "font-weight:bold; color:#488509;";
+    }
+    return this.Super('getCellCSSText', arguments)
 };
 
 foreignInvoiceTab.method.addTab = function (pane, title) {

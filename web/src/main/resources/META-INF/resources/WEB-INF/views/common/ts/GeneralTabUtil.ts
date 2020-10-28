@@ -30,6 +30,7 @@ namespace nicico {
             afterShowNewActionHook(window: FormUtil): void,
             beforeShowEditActionHook(record: any): void,
             afterShowEditActionHook(window: FormUtil, record: any): void,
+            validateDeleteActionHook(record: any): boolean,
             beforeDeleteActionHook(record: any): void,
             afterDeleteActionHook(response: isc.RPCResponse, record: any): void,
             afterDeleteErrorActionHook(response: isc.RPCResponse, record: any): void,
@@ -140,6 +141,7 @@ namespace nicico {
             afterShowNewActionHook(window: FormUtil): void,
             beforeShowEditActionHook(record: any): void,
             afterShowEditActionHook(window: FormUtil, record: any): void,
+            validateDeleteActionHook(record: any): boolean,
             beforeDeleteActionHook(record: any): void,
             afterDeleteActionHook(response: isc.RPCResponse, record: any): void,
             afterDeleteErrorActionHook(response: isc.RPCResponse, record: any): void,
@@ -260,7 +262,7 @@ namespace nicico {
                 afterShowNewActionHook: null,
                 beforeShowEditActionHook: null,
                 afterShowEditActionHook: null,
-                beforeDeleteActionHook: null,
+                validateDeleteActionHook: null,
                 afterDeleteActionHook: null,
                 afterDeleteErrorActionHook: null,
                 beforeActivateActionHook: null,
@@ -440,6 +442,7 @@ namespace nicico {
             This.method.afterShowNewActionHook = function (window: FormUtil) {};
             This.method.beforeShowEditActionHook = function (record: any) {};
             This.method.afterShowEditActionHook = function (window: FormUtil, record: any) {};
+            This.method.validateDeleteActionHook = function (record: any) { return record; };
             This.method.beforeDeleteActionHook = function (record: any) {};
             This.method.afterDeleteActionHook = function (response: isc.RPCResponse, record: any) {};
             This.method.afterDeleteErrorActionHook = function (response: isc.RPCResponse, record: any) {};
@@ -550,6 +553,9 @@ namespace nicico {
 
                     This.variable.method = "DELETE";
                     This.dialog.question(() => {
+
+                        if (!This.method.validateDeleteActionHook(record))
+                            return;
 
                         This.method.beforeDeleteActionHook(record);
 

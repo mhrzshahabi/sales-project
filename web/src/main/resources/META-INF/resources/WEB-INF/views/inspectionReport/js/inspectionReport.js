@@ -2246,7 +2246,7 @@ inspectionReportTab.window.formUtil.okCallBack = function (data) {
 
             inspectionReportTab.variable.addShipmentInventoryIds.forEach(q => {
                 if (!inventoryIds.contains(q) && isValid) {
-                    inspectionReportTab.dialog.say("All this inspection inventories not for this shipment");
+                    inspectionReportTab.dialog.say('<spring:message code="inspectionReport.not-same-shipment"/>');
                     isValid = false;
                 }
             });
@@ -2269,7 +2269,7 @@ inspectionReportTab.window.formUtil.okCallBack = function (data) {
                 }));
             }
         } else
-            inspectionReportTab.dialog.say("not Out Inv for this Shipment");
+            inspectionReportTab.dialog.say('<spring:message code="inspectionReport.shipment-does-not-have-inventory"/>');
 
     });
 };

@@ -11,6 +11,8 @@ isc.defineClass("InvoiceCalculationCathode", isc.VLayout).addProperties({
     shipment: null,
     currency: null,
     percent: null,
+    basePriceData: false,
+    remainingPercent: false,
     invoiceCompletion: false,
     contractDetailData: null,
     inspectionWeightData: null,
@@ -31,6 +33,7 @@ isc.defineClass("InvoiceCalculationCathode", isc.VLayout).addProperties({
         this.invoiceBaseWeightComponent = isc.InvoiceBaseWeight.create({
             shipment: This.shipment,
             percent: This.percent,
+            remainingPercent: This.remainingPercent,
             invoiceCompletion: This.invoiceCompletion,
             inspectionWeightData: This.inspectionWeightData,
         });
@@ -75,8 +78,7 @@ isc.defineClass("InvoiceCalculationCathode", isc.VLayout).addProperties({
                         This.getMembers().last().setUnitId(priceBase.financeUnit.id);
 
                         if (This.basePriceData) {
-                            let elementId = This.getMembers().last().elementId;
-                            This.getMembers().last().setValue(This.basePriceData.filter(q => q.materialElement.elementId === elementId).first().basePrice);
+                            This.getMembers().last().setValue(This.basePriceData);
                         }
                     });
 

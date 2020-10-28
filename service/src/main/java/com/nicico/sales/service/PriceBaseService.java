@@ -24,7 +24,7 @@ import org.springframework.stereotype.Service;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.math.MathContext;
-import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -83,7 +83,7 @@ public class PriceBaseService extends GenericService<com.nicico.sales.model.enti
                     dayInfos.add(businessDays.getToday());
                     dayInfos.addAll(businessDays.getBefore());
 
-                    List<Date> workingDays = dayInfos.stream().map(HRMDTO.DayInfo::getTimestamp).collect(Collectors.toList());
+                    List<String> workingDays = dayInfos.stream().map(dayInfo -> new SimpleDateFormat("YYYY-MM-dd").format(dayInfo.getTimestamp())).collect(Collectors.toList());
                     pricesByElements.addAll(((PriceBaseDAO) repository).getAllPricesByElements(item.getPriceReference(), workingDays, materialElement.getElementId()));
                 } else throw new SalesException2(ErrorType.InvalidData, "MOASValue", "Data is not Complete");
             });
@@ -119,9 +119,7 @@ public class PriceBaseService extends GenericService<com.nicico.sales.model.enti
             if (priceBases.size() == 0) throw new NotFoundException(PriceBase.class);
 
             return priceBases;
-        }
-        else
-            throw new SalesException2(ErrorType.NotFound, "QUOTATIONAL PERIOD", "Atricle is not Complete");
+        } else throw new SalesException2(ErrorType.NotFound, "QUOTATIONAL PERIOD", "Atricle is not Complete");
 
     }
 }
