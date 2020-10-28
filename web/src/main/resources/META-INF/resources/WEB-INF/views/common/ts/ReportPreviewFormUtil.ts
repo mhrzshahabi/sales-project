@@ -57,7 +57,6 @@ namespace nicico {
             });
             // @ts-ignore
             creator.dynamicForm.excel.hide();
-
             // @ts-ignore
             creator.method.exportExcel = function () {
 

@@ -333,14 +333,15 @@ reportGeneratorTab.listGrid.reportFields = isc.ListGrid.nicico.getDefault(BaseFo
     groupStartOpen: "none",
     selectionType: "simple",
     autoSaveEdits: false,
+    selectOnEdit: false,
     getGroupTitle: function (groupData) {
         return groupData.groupValue === "-none-" ? "" : groupData.groupValue;
     },
-    rowEditorEnter: function (record, editValues, rowNum) {
-
-        this.deselectAllRecords();
-        return this.Super("rowEditorEnter", arguments);
-    }
+    // rowEditorEnter: function (record, editValues, rowNum) {
+    //
+    //     this.deselectAllRecords();
+    //     return this.Super("rowEditorEnter", arguments);
+    // },
     // startEditing: function (rowNum, colNum, suppressFocus) {
     //     this.checkedRecords = this.getSelectedRecords();
     //     return this.Super("startEditing", arguments);
@@ -391,11 +392,13 @@ reportGeneratorTab.window.report.populateData = function (bodyWidget) {
 
     let data = reportGeneratorTab.dynamicForm.report.getValues();
     let sourceField = reportGeneratorTab.dynamicForm.report.getField("source").getSelectedRecord();
-    data.nameFA = sourceField.nameFA;
-    data.nameEN = sourceField.nameEN;
-    data.restMethod = sourceField.restMethod;
-    data.dataIsList = sourceField.dataIsList;
+    if(sourceField != null) {
 
+        data.nameFA = sourceField.nameFA;
+        data.nameEN = sourceField.nameEN;
+        data.restMethod = sourceField.restMethod;
+        data.dataIsList = sourceField.dataIsList;
+    }
     reportGeneratorTab.listGrid.reportFields.saveAllEdits();
     data.fields = reportGeneratorTab.listGrid.reportFields.getSelectedRecords().filter(q => q.type);
     data.fields.forEach(field => {
@@ -521,7 +524,7 @@ reportGeneratorTab.method.editForm = function () {
 
             let data = resp.data.filter(q => q.type);
             reportGeneratorTab.listGrid.reportFields.setData(data);
-            reportGeneratorTab.listGrid.reportFields.getOriginalData().forEach(q => {
+            setTimeout(() => reportGeneratorTab.listGrid.reportFields.getOriginalData().forEach(q => {
 
                 let first = record.reportFields.filter(p => p.name === q.name).first();
                 if (first != null) {
@@ -536,8 +539,7 @@ reportGeneratorTab.method.editForm = function () {
                     q.hidden = first.hidden;
                     q.canFilter = first.canFilter;
                 }
-            });
-            reportGeneratorTab.listGrid.reportFields.redraw();
+            }), 500);
         });
 
         reportGeneratorTab.window.report.justShowForm();
