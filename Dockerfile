@@ -4,7 +4,7 @@ COPY main/target/*.jar /app.jar
 
 EXPOSE 8080
 
-ENV PROFILE=Staging JVM_ARGS=""
+ENV PROFILE=Development JVM_ARGS=""
 
 VOLUME /tmp /var/log/nicico /var/nicico
 

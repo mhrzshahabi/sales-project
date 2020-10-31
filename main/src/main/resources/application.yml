@@ -161,7 +161,7 @@ spring:
     username: demo_sales
     password: demosales
   redis:
-    host: redis
+    host: devapp01.icico.net.ir
     password: nicico
   security:
     oauth2:
@@ -175,9 +175,9 @@ spring:
             scope: user_info
         provider:
           oserver:
-            authorization-uri: http://staging.icico.net.ir/oauth/authorize
-            token-uri: http://staging.icico.net.ir/oauth/token
-            user-info-uri: http://staging.icico.net.ir/user/info
+            authorization-uri: http://devapp01.icico.net.ir/oauth/authorize
+            token-uri: http://devapp01.icico.net.ir/oauth/token
+            user-info-uri: http://devapp01.icico.net.ir/user/info
             user-name-attribute: username
 
 ---
@@ -189,7 +189,7 @@ spring:
     username: dev_sales
     password: devsales
   redis:
-    host: staging.icico.net.ir
+    host: devapp01.icico.net.ir
     password: nicico
   jpa:
     show-sql: true
@@ -205,9 +205,9 @@ spring:
             scope: user_info
         provider:
           oserver:
-            authorization-uri: http://staging.icico.net.ir/oauth/authorize
-            token-uri: http://staging.icico.net.ir/oauth/token
-            user-info-uri: http://staging.icico.net.ir/user/info
+            authorization-uri: http://devapp01.icico.net.ir/oauth/authorize
+            token-uri: http://devapp01.icico.net.ir/oauth/token
+            user-info-uri: http://devapp01.icico.net.ir/user/info
             user-name-attribute: username
 nicico:
   upload:
