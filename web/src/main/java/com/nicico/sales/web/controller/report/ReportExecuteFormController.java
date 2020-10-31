@@ -11,6 +11,7 @@ import com.nicico.sales.dto.report.ReportDTO;
 import com.nicico.sales.exception.UnAuthorizedException;
 import com.nicico.sales.iservice.IFileService;
 import com.nicico.sales.iservice.report.IReportService;
+import com.nicico.sales.model.enumeration.ReportType;
 import com.nicico.sales.service.report.MappingUtil;
 import com.nicico.sales.utility.MakeExcelOutputUtil;
 import io.minio.errors.*;
@@ -70,9 +71,20 @@ public class ReportExecuteFormController {
 
         Map<String, Object> parametersMap = new HashMap<>();
         parametersMap.put(ConstantVARs.REPORT_TYPE, criteria.getFirst("type"));
-        String resp = objectMapper.writeValueAsString(new HashMap() {{
-            put("content", data.getResponse().getData());
-        }});
+        HashMap value = new HashMap();
+        if (data != null &&
+                data.getResponse() != null &&
+                data.getResponse().getData() != null &&
+                data.getResponse().getData().size() > 1 &&
+                report.getReportType() == ReportType.OneRecord){
+
+            data.getResponse().setData(data.getResponse().getData().subList(0, 1));
+            data.getResponse().setEndRow(1);
+            data.getResponse().setStartRow(0);
+            data.getResponse().setTotalRows(1);
+        }
+        value.put("content", data.getResponse().getData());
+        String resp = objectMapper.writeValueAsString(value);
         FileDTO.Response file = fileService.retrieve(criteria.getFirst("fileKey"));
         JsonDataSource jsonDataSource = new JsonDataSource(new ByteArrayInputStream(resp.getBytes(StandardCharsets.UTF_8)));
         reportUtil.export(new ByteArrayInputStream(file.getContent()), parametersMap, jsonDataSource, response);

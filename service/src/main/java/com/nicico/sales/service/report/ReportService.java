@@ -573,12 +573,8 @@ public class ReportService extends GenericService<com.nicico.sales.model.entitie
                 response.getResponse() != null &&
                 response.getResponse().getData() != null &&
                 response.getResponse().getData().size() > 1 &&
-                report.getReportType() == ReportType.OneRecord){
-
+                report.getReportType() == ReportType.OneRecord)
             response.getResponse().setData(response.getResponse().getData().subList(0, 1));
-            response.getResponse().setEndRow(1);
-            response.getResponse().setTotalRows(1);
-        }
 
         return response;
     }
