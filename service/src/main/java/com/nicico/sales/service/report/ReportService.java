@@ -599,8 +599,8 @@ public class ReportService extends GenericService<com.nicico.sales.model.entitie
         files.forEach(q -> {
             try {
                 fileService.delete(q.getFileKey());
-            } catch (IOException | InvalidResponseException | InvalidKeyException | NoSuchAlgorithmException | ServerException | ErrorResponseException | XmlParserException | InvalidBucketNameException | InsufficientDataException | InternalException e) {
-                throw new SalesException2(e);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         });
     }
@@ -629,7 +629,7 @@ public class ReportService extends GenericService<com.nicico.sales.model.entitie
     @Override
     @Transactional
     @Action(ActionType.Create)
-    public ReportDTO.Info create(List<MultipartFile> files, String fileMetaData, String request) throws IOException, InvalidResponseException, InvalidKeyException, NoSuchAlgorithmException, ServerException, ErrorResponseException, XmlParserException, InternalException, InvalidBucketNameException, InsufficientDataException, RegionConflictException {
+    public ReportDTO.Info create(List<MultipartFile> files, String fileMetaData, String request) throws IOException {
 
         ReportDTO.Create data = objectMapper.readValue(request, ReportDTO.Create.class);
         data.setPermissionBaseKey(StringFormatUtil.makeMessageKeyByRemoveSpace(data.getTitleEN(), "_").toUpperCase());
@@ -652,7 +652,7 @@ public class ReportService extends GenericService<com.nicico.sales.model.entitie
     @Override
     @Transactional
     @Action(ActionType.Update)
-    public ReportDTO.Info update(List<MultipartFile> files, String fileMetaData, String request) throws IOException, InvalidResponseException, InvalidKeyException, NoSuchAlgorithmException, ServerException, ErrorResponseException, XmlParserException, InternalException, InvalidBucketNameException, InsufficientDataException, RegionConflictException, IllegalAccessException, NoSuchFieldException, InvocationTargetException {
+    public ReportDTO.Info update(List<MultipartFile> files, String fileMetaData, String request) throws IOException, IllegalAccessException, NoSuchFieldException, InvocationTargetException {
 
         ReportDTO.Update data = objectMapper.readValue(request, ReportDTO.Update.class);
         ReportDTO.Info report = this.update(data);
@@ -680,7 +680,11 @@ public class ReportService extends GenericService<com.nicico.sales.model.entitie
 
         List<FileDTO.FileData> fileData = objectMapper.readValue(fileMetaData, new TypeReference<List<FileDTO.FileData>>() {
         });
-        fileService.updateFiles(report.getId(), Report.class.getSimpleName(), files, fileData);
+        try {
+            fileService.updateFiles(report.getId(), Report.class.getSimpleName(), files, fileData);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         return report;
     }

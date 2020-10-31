@@ -13,9 +13,7 @@ import com.nicico.sales.iservice.IFileService;
 import com.nicico.sales.iservice.report.IReportService;
 import com.nicico.sales.service.report.MappingUtil;
 import com.nicico.sales.utility.MakeExcelOutputUtil;
-import io.minio.errors.*;
 import lombok.RequiredArgsConstructor;
-import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.data.JsonDataSource;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
@@ -28,11 +26,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.sql.SQLException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -60,7 +54,7 @@ public class ReportExecuteFormController {
     }
 
     @RequestMapping("/print")
-    public void print(HttpServletRequest request, HttpServletResponse response, @RequestParam MultiValueMap<String, String> criteria) throws JRException, IOException, SQLException, InvalidResponseException, InvalidKeyException, NoSuchAlgorithmException, ServerException, InternalException, XmlParserException, InvalidBucketNameException, InsufficientDataException, ErrorResponseException {
+    public void print(HttpServletRequest request, HttpServletResponse response, @RequestParam MultiValueMap<String, String> criteria) throws Exception {
 
         String permissionKeyPrefix = "RG_P_";
         ReportDTO.Info report = checkAccess(permissionKeyPrefix, criteria.getFirst("reportId"));
@@ -101,13 +95,11 @@ public class ReportExecuteFormController {
     private ReportDTO.Info checkAccess(String permissionKeyPrefix, String reportIdStr) {
 
         long reportId = 0L;
-        if (!StringUtils.isEmpty(reportIdStr))
-            reportId = Long.parseLong(reportIdStr);
+        if (!StringUtils.isEmpty(reportIdStr)) reportId = Long.parseLong(reportIdStr);
 
         ReportDTO.Info report = reportService.get(reportId);
         String authority = permissionKeyPrefix + report.getPermissionBaseKey();
-        if (!SecurityUtil.hasAuthority(authority))
-            throw new UnAuthorizedException(authority);
+        if (!SecurityUtil.hasAuthority(authority)) throw new UnAuthorizedException(authority);
 
         return report;
     }
