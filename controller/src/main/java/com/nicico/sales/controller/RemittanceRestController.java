@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.util.List;
 
-
 @Slf4j
 @RequiredArgsConstructor
 @RestController
@@ -80,7 +79,4 @@ public class RemittanceRestController {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
         return new ResponseEntity<>(iRemittanceService.searchLite(nicicoCriteria), HttpStatus.OK);
     }
-
-
-
 }
