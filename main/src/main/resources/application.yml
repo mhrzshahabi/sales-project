@@ -161,7 +161,7 @@ spring:
     username: demo_sales
     password: demosales
   redis:
-    host: redis
+    host: staging.icico.net.ir
     password: nicico
   security:
     oauth2:
