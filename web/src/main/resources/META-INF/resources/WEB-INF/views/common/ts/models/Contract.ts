@@ -1,6 +1,6 @@
 ///<reference path="../../../../../../../static/isomorphic/system/development/smartclient.d.ts"/>
-class Unit {
-    public id: number;
+interface Unit {
+    id: number;
 }
 
 enum DataType {
@@ -17,155 +17,155 @@ enum DataType {
     DynamicTable,//(11);
 }
 
-class Contract {
-    public id: number;
+interface Contract1 {
+    id: number;
 
 }
 
-class Material {
-    public id: number;
+interface Material {
+    id: number;
 }
 
-class ContractDetailTypeTemplate {
-    public id: number;
+interface ContractDetailTypeTemplate {
+    id: number;
 }
 
-class ContractDetailType {
-    public id: number;
+interface ContractDetailType {
+    id: number;
 
-    public code: string
+    code: string
 
-    public material: Material
+    material: Material
 
-    public materialId: number
+    materialId: number
 
-    public titleFa: string
+    titleFa: string
 
-    public titleEn: string
+    titleEn: string
 
-    public contractDetailTypeParams: ContractDetailTypeParam[]
+    contractDetailTypeParams: ContractDetailTypeParam[]
 
-    public contractDetailTypeTemplates: ContractDetailTypeTemplate[]
-
-
-}
-
-class ContractDetailTypeParam {
-    public id: number;
-    public name: string;
-
-    public key: string;
-
-    public type: DataType;
-
-    public reference: string;
-
-    public defaultValue: string;
-
-    public required: boolean;
-
-    public unit: Unit;
-
-    public unitId: number;
-
-    public contractDetailType: ContractDetailType;
-
-    public contractDetailTypeId: number;
-
-    public dynamicTables: CDTPDynamicTable[];
-
-}
-
-class ContractDetail {
-    public id: number;
-
-    public content: string;
-
-    public contract: Contract;
-
-    public contractId: number;
-
-    public contractDetailType: ContractDetailType;
-
-    public contractDetailTypeId: number;
-
-    public contractDetailTemplate: string;
-
-    public contractDetailValues: ContractDetailValue[];
-
-    public cdtpDynamicTableValue: { [key: string]: { cdtpId____: string, rowNum____: string, cdtpDtId____: string, [key: string]: string }[] };
-
-    public position: number;
-
-}
-
-class ContractDetailValue {
-    public id: number;
-
-    public name: string;
-
-    public key: string;
-
-    public title: string;
-
-    public type: DataType;
-
-    public reference: string;
-
-    public required: boolean;
-
-    public value: string;
-
-    public unit: Unit;
-
-    public unitId: number;
-
-    public contractDetail: ContractDetail;
-
-    public contractDetailId: number;
+    contractDetailTypeTemplates: ContractDetailTypeTemplate[]
 
 
 }
 
-class CDTPDynamicTable {
-    public id: number;
-    public colNum: number;
-    public cdtp: ContractDetailTypeParam;
-    public cdtpId: number;
-    public headerType: string;
-    public headerValue: string;
-    public headerKey: string;
-    public valueType: string;
-    public required: boolean;
-    public regexValidator: string;
-    public defaultValue: string;
-    public maxRows: number;
-    public description: string;
-    public initialCriteria: string;
-}
+interface ContractDetailTypeParam {
+    id: number;
+    name: string;
 
-class CDTPDynamicTableValue {
-    public id: number;
+    key: string;
 
-    public cdtpDynamicTable: CDTPDynamicTable;
+    type: DataType;
 
-    public cdtpDynamicTableId: number;
+    reference: string;
 
-    public rowNum: number;
+    defaultValue: string;
 
-    public value: string;
+    required: boolean;
 
-    public fieldName: string;
+    unit: Unit;
 
-    public contractDetailValue: ContractDetailValue;
+    unitId: number;
 
-    public contractDetailValueId: number;
+    contractDetailType: ContractDetailType;
 
-    public description: string;
+    contractDetailTypeId: number;
+
+    dynamicTables: CDTPDynamicTable[];
 
 }
 
-class SectionStackSectionObj {
+interface ContractDetail {
+    id: number;
+
+    content: string;
+
+    contract: Contract1;
+
+    contractId: number;
+
+    contractDetailType: ContractDetailType;
+
+    contractDetailTypeId: number;
+
+    contractDetailTemplate: string;
+
+    contractDetailValues: ContractDetailValue[];
+
+    cdtpDynamicTableValue: { [key: string]: { cdtpId____: string, rowNum____: string, cdtpDtId____: string, [key: string]: string }[] };
+
+    position: number;
+
+}
+
+interface ContractDetailValue {
+    id: number;
+
+    name: string;
+
+    key: string;
+
+    title: string;
+
+    type: DataType;
+
+    reference: string;
+
+    required: boolean;
+
+    value: string;
+
+    unit: Unit;
+
+    unitId: number;
+
+    contractDetail: ContractDetail;
+
+    contractDetailId: number;
+
+
+}
+
+interface CDTPDynamicTable {
+    id: number;
+    colNum: number;
+    cdtp: ContractDetailTypeParam;
+    cdtpId: number;
+    headerType: string;
+    headerValue: string;
+    headerKey: string;
+    valueType: string;
+    required: boolean;
+    regexValidator: string;
+    defaultValue: string;
+    maxRows: number;
+    description: string;
+    initialCriteria: string;
+}
+
+interface CDTPDynamicTableValue {
+    id: number;
+
+    cdtpDynamicTable: CDTPDynamicTable;
+
+    cdtpDynamicTableId: number;
+
+    rowNum: number;
+
+    value: string;
+
+    fieldName: string;
+
+    contractDetailValue: ContractDetailValue;
+
+    contractDetailValueId: number;
+
+    description: string;
+
+}
+
+interface SectionStackSectionObj {
     position: number;
     template: string;
     expanded: boolean;

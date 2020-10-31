@@ -257,9 +257,9 @@ const rdTab = {
             let callBack = "";
             let defaultResponse = function (response) {
                 rdTab.Logs.add(["return status:", response]);
-                if (response.status === 400 || response.status == 500) {
-                    response.json().then(error=>{
-                        if (error.error ) {
+                if (response.status === 400 || response.status === 500) {
+                    response.json().then(error => {
+                        if (error.error) {
                             const er = error.error;
                             if (er && er.toString().toLowerCase().includes("Unique".toLowerCase())) {
                                 return isc.warn("<spring:message code='exception.unique' />:\n" + JSON.stringify(error));
@@ -853,16 +853,16 @@ rdTab.Methods.setShipmentCriteria = async function () {
         rdTab.DynamicForms.Forms.OutRemittance.getField('shipmentId').enable();
     }
 }
-rdTab.Methods.setRemittanceCode =  function () {
-    if(rdTab.DynamicForms.Forms.OutRemittance.getValue('code')
-        && rdTab.DynamicForms.Forms.OutRemittance.getValue('code').length>5)return;
+rdTab.Methods.setRemittanceCode = function () {
+    if (rdTab.DynamicForms.Forms.OutRemittance.getValue('code')
+        && rdTab.DynamicForms.Forms.OutRemittance.getValue('code').length > 5) return;
     let code = 'o-'
-    code+=rdTab.DynamicForms.Forms.OutRemittance.getValue('materialItemId');
-    code+='-';
-    code+=rdTab.DynamicForms.Forms.TozinTable.getValue('tozinId')
-    code+='-';
-    code+=rdTab.DynamicForms.Forms.TozinTable.getValue('date')
-    rdTab.DynamicForms.Forms.OutRemittance.setValue('code',code.replaceAll("/",""))
+    code += rdTab.DynamicForms.Forms.OutRemittance.getValue('materialItemId');
+    code += '-';
+    code += rdTab.DynamicForms.Forms.TozinTable.getValue('tozinId')
+    code += '-';
+    code += rdTab.DynamicForms.Forms.TozinTable.getValue('date')
+    rdTab.DynamicForms.Forms.OutRemittance.setValue('code', code.replaceAll("/", ""))
 
 }
 ////////////////////////////////////////////////////////FIELDS//////////////////////////////////////////////////////////
@@ -931,7 +931,11 @@ rdTab.Fields.TozinBase = function () {
             name: "codeKala",
             type: "number",
             // filterEditorProperties: {editorType: "comboBox"},
-            valueMap: {11: '<spring:message code="Tozin.export.cathode"/>', 8: '<spring:message code="Tozin.copper.concentrate"/>', 97: '<spring:message code="invoice.molybdenum"/>'},
+            valueMap: {
+                11: '<spring:message code="Tozin.export.cathode"/>',
+                8: '<spring:message code="Tozin.copper.concentrate"/>',
+                97: '<spring:message code="invoice.molybdenum"/>'
+            },
             title: "<spring:message code='goods.title'/>",
             parseEditorValue: function (value, record, form, item) {
                 StorageUtil.save('on_way_product_defaultCodeKala', value)
@@ -1076,7 +1080,7 @@ rdTab.Fields.TozinLite = function () {
             title: "<spring:message code='Tozin.haveCode'/>",
             align: "center"
         },
-        {name: "isRail",type: "boolean", title:"<spring:message code='warehouseCad.with.rail'/>"}
+        {name: "isRail", type: "boolean", title: "<spring:message code='warehouseCad.with.rail'/>"}
     ];
 }
 rdTab.Fields.TozinFull = function () {
@@ -1314,7 +1318,7 @@ rdTab.Fields.RemittanceDetailFullFields = function () {
     return [
         {
             name: "remittance.code", title: "<spring:message code='remittance.code'/>",
-            hidden:true,
+            hidden: true,
             // , recordDoubleClick: function (viewer, record, recordNum, field, fieldNum, value, rawValue) {
             //     rdTab.Methods.RecordDoubleClick('api/remittance', rdTab.Fields.Remittance, "remittance",
             //         viewer, record, recordNum, field, fieldNum, value, rawValue)
@@ -1322,7 +1326,7 @@ rdTab.Fields.RemittanceDetailFullFields = function () {
         },
         {
             name: "remittance.description",
-            hidden:true,
+            hidden: true,
             title: "<spring:message code='shipment.description'/> <spring:message code='bijack'/>",
             // recordDoubleClick() {
             //     rdTab.Methods.RecordDoubleClick("api/remittance", rdTab.Fields.Remittance, 'remittance', ...arguments)
@@ -1384,7 +1388,10 @@ rdTab.Fields.RemittanceDetailFullFields = function () {
 
         },
         {
-            name: "depot.name", showHover: true, title: "<spring:message code='warehouseCad.depot'/>", formatCellValue(value, record) {
+            name: "depot.name",
+            showHover: true,
+            title: "<spring:message code='warehouseCad.depot'/>",
+            formatCellValue(value, record) {
                 //  console.log('name: "depot.id", hidden: true, disabled: true,title:"<spring:message code='warehouseCad.depot'/>",formatCellValue()', arguments);
                 // return this.Super('formatCellValue',arguments);
                 const title = record.depot.store.warehouse.name + " - " + record.depot.store.name + " - " + record.depot.name;
@@ -1400,7 +1407,7 @@ rdTab.Fields.RemittanceDetailFullFields = function () {
 }
 rdTab.Fields.Remittance = function () {
     return [
-        {name: 'id', hidden: true,title: "<spring:message code='global.id'/>"},
+        {name: 'id', hidden: true, title: "<spring:message code='global.id'/>"},
         {
             name: 'code', title: "<spring:message code='remittance.code'/>",
             recordDoubleClick: function (viewer, record, recordNum, field, fieldNum, value, rawValue) {
@@ -1814,15 +1821,36 @@ rdTab.Fields.Remittance = function () {
 
     ];
 }
+/***
+ * @returns {ListGridField[]}
+ * ****/
 rdTab.Fields.RemittanceFull = function () {
     return [
+        {
+            name: "createdDate",
+            title:"<spring:message code='global.createDate'/>",
+            formatCellValue(value, record) {
+                return new persianDate(value).format("YYYY/MM/DD");
+            },
+            filterEditorProperties:{
+
+                    icons: [{
+        src: "pieces/pcal.png",
+        click: function (form, item, icon) {
+            // console.log(form)
+            displayDatePicker(item['ID'], form.getItems()[0], 'ymd', '/');
+                             }
+                  }],
+            },
+            operator:"greaterOrEqual"
+        },
         ...rdTab.Fields.Remittance(),
         {
             name: "remittanceDetails.sourceTozin.tozinId",
             title: "<spring:message code='Tozin.tozinPlantId'/>",
             canSort: false,
         },
-        {name: "tozinTable.tozinId",title:"<spring:message code='Tozin.target.tozin.id'/>"},
+        {name: "tozinTable.tozinId", title: "<spring:message code='Tozin.target.tozin.id'/>"},
         {
             name: "remittanceDetails.inventory.materialItem.id",
             valueMap: SalesBaseParameters.getSavedMaterialItemParameter().getValueMap("id", "gdsName"),
@@ -1871,10 +1899,10 @@ rdTab.Fields.RemittanceFull = function () {
 
         },
         // {name: "tozinTable.targetId",},
-        {name: "tozinTable.vazn",title:"<spring:message code='Tozin.vazn'/>"},
-        {name: "tozinTable.ctrlDescOut",title:"<spring:message code='invoiceSales.otherDescription'/>"},
-        {name: "tozinTable.plak",title:"<spring:message code='Tozin.plak'/>"},
-        {name: "tozinTable.driverName",title:"<spring:message code='Tozin.driver'/>"},
+        {name: "tozinTable.vazn", title: "<spring:message code='Tozin.vazn'/>"},
+        {name: "tozinTable.ctrlDescOut", title: "<spring:message code='invoiceSales.otherDescription'/>"},
+        {name: "tozinTable.plak", title: "<spring:message code='Tozin.plak'/>"},
+        {name: "tozinTable.driverName", title: "<spring:message code='Tozin.driver'/>"},
         {
             ...rdTab.Fields.TozinBase().find(t => t.name === 'date'),
             // filterEditorProperties: {
@@ -1927,7 +1955,7 @@ rdTab.Fields.RemittanceFull = function () {
                             record.shipment.dischargePort.port + " - " + title;
                     return title;
                 } catch (e) {
-                    console.error("depot name in remittance listgrid\n", e);
+                    console.warn("depot name in remittance listgrid\n", e);
                     return value;
                 }
 
@@ -2013,10 +2041,58 @@ rdTab.RestDataSources.Depot = {
     fields: rdTab.Fields.Depot()
 };
 ////////////////////////////////////////////////////////LISTGRIDS///////////////////////////////////////////////////////
+/***
+ * @type {Partial<ListGrid>} rdTab.Grids.Remittance
+ * ***/
 rdTab.Grids.Remittance = {
-    // ID: rdTab.Vars.Prefix + "remittance_detail_tab_list_grid",
     showFilterEditor: true,
     canSort: true,
+    filterOnKeypress: false,
+    /*** @param {AdvancedCriteria} criteria
+     *  @param {DSCallback} callback
+     *  @param {DSRequest} requestProperties ****/
+    filterData(criteria, callback, requestProperties) {
+        if (!criteria || !criteria.criteria || criteria.criteria.length === 0)
+            return this.Super("filterData", arguments)
+        /**@type {Partial<Criterion>} createdDate***/
+        const createdDate = criteria.criteria.find(/**@param {Partial<Criterion>} c***/c => c.fieldName.toString().toLowerCase() === "createdDate".toLowerCase())
+        const lastModifiedDate = criteria.criteria.find(/**@param {Partial<Criterion>} c***/c => c.fieldName.toString().toLowerCase() === "lastModifiedDate".toLowerCase())
+        if(!createdDate && !lastModifiedDate)
+            return this.Super("filterData", arguments)
+        function shamsiToTimeStamp(shamsi) {
+            const _persianDate = shamsi.toString().replaceAll("/", "");
+            const _persianDateList = [
+                Number(_persianDate.substr(0, 4)),
+                Number(_persianDate.substr(4, 2)),
+                Number(_persianDate.substr(6, 2))
+            ]
+            return Number(new persianDate(_persianDateList).format("X")) * 1000
+        }
+        let shamsiCreatedDate;
+        let shamsiLastModifiedDate;
+        if (createdDate)
+            {
+                shamsiCreatedDate = createdDate.value;
+                createdDate.value = Number(new persianDate(shamsiToTimeStamp(shamsiCreatedDate)).format("X")) * 1000
+            }
+
+        if (lastModifiedDate)
+            {
+                shamsiLastModifiedDate = lastModifiedDate.value;
+                lastModifiedDate.value = Number(new persianDate(shamsiToTimeStamp(shamsiLastModifiedDate)).format("X")) * 1000
+            }
+
+        this.Super("filterData", arguments)
+        if(lastModifiedDate)
+            lastModifiedDate.value = shamsiLastModifiedDate;
+        if(createdDate)
+            createdDate.value = shamsiCreatedDate;
+        this.setFilterEditorCriteria(criteria);
+
+
+
+
+    },
     expansionFieldImageShowSelected: true,
     canExpandRecords: true,
     canExpandMultipleRecords: false,
@@ -2068,6 +2144,9 @@ rdTab.Grids.Remittance = {
     }
 
 }
+/***
+ * @type {Partial<ListGrid>} rdTab.Grids.RemittanceDetail
+ * ***/
 rdTab.Grids.RemittanceDetail = {
     fields: rdTab.Fields.RemittanceDetailFullFields(),
     showHoverComponents: true,
@@ -2080,7 +2159,7 @@ rdTab.Grids.RemittanceDetail = {
                 fetchDataURL: 'api/tozin/spec-list'
             }),
             width: 250
-           //   </sec:authorize>
+            //   </sec:authorize>
         });
 
         this.rowHoverComponent.fetchData({
@@ -2175,21 +2254,21 @@ rdTab.Layouts.ToolStripButtons.New = isc.ToolStripButtonAdd.create({
         //  let _form;
         //let _addBtn;
         rdTab.DynamicForms.Forms.OutRemittance = isc.DynamicForm.create({
-            selectOnFocus : true,
-            shouldSaveValue : true,
-            stopOnError : true,
-            showErrorIcon : true,
-            showErrorText : true,
-            showErrorStyle : true,
-            validateOnExit : true,
-            errorOrientation : "bottom",
-            align : "right",
-            textAlign : "right",
-            titleAlign : "right",
+            selectOnFocus: true,
+            shouldSaveValue: true,
+            stopOnError: true,
+            showErrorIcon: true,
+            showErrorText: true,
+            showErrorStyle: true,
+            validateOnExit: true,
+            errorOrientation: "bottom",
+            align: "right",
+            textAlign: "right",
+            titleAlign: "right",
 
 
             numCols: 6,
-            wrapItemTitles:false,
+            wrapItemTitles: false,
             fields: [
                 {
                     name: "materialItemId",
@@ -2218,18 +2297,18 @@ rdTab.Layouts.ToolStripButtons.New = isc.ToolStripButtonAdd.create({
             ]
         });
         rdTab.DynamicForms.Forms.TozinTable = isc.DynamicForm.create({
-            selectOnFocus : true,
-            shouldSaveValue : true,
-            stopOnError : true,
-            showErrorIcon : true,
-            showErrorText : true,
-            showErrorStyle : true,
-            validateOnExit : true,
-            errorOrientation : "bottom",
-            wrapItemTitles:false,
-            align : "right",
-            textAlign : "right",
-            titleAlign : "right",
+            selectOnFocus: true,
+            shouldSaveValue: true,
+            stopOnError: true,
+            showErrorIcon: true,
+            showErrorText: true,
+            showErrorStyle: true,
+            validateOnExit: true,
+            errorOrientation: "bottom",
+            wrapItemTitles: false,
+            align: "right",
+            textAlign: "right",
+            titleAlign: "right",
 
             numCols: 6,
             fields: rdTab.Fields.TozinTable().map(a => {
@@ -2239,8 +2318,8 @@ rdTab.Layouts.ToolStripButtons.New = isc.ToolStripButtonAdd.create({
                     const _item = form.getItem('isInView');
                     _item.setValue(false);
                     _item.disable();
-                    if(a.name === "sourceId"){
-                        StorageUtil.save("out_remittance_defaultSourceId",value)
+                    if (a.name === "sourceId") {
+                        StorageUtil.save("out_remittance_defaultSourceId", value)
                     }
                 };
                 if (a.name === 'codeKala') a.hidden = true;
@@ -2284,10 +2363,18 @@ rdTab.Layouts.ToolStripButtons.New = isc.ToolStripButtonAdd.create({
                         selectRd = isc.ListGrid.create({
                             ...rdTab.Grids.RemittanceDetail,
                             fields: [
-                                {name: "remittance.code", title: "<spring:message code='global.number'/> <spring:message code='bijack'/>"},
-                                {name: "remittance.description", title: "<spring:message code='remittance.description'/>"},
+                                {
+                                    name: "remittance.code",
+                                    title: "<spring:message code='global.number'/> <spring:message code='bijack'/>"
+                                },
+                                {
+                                    name: "remittance.description",
+                                    title: "<spring:message code='remittance.description'/>"
+                                },
                                 ...rdTab.Fields.RemittanceDetailFullFields().map(f => {
-                                    Object.keys(f).forEach(k=>{if(!['name','title','hidden'].includes(k))delete f[k]});
+                                    Object.keys(f).forEach(k => {
+                                        if (!['name', 'title', 'hidden'].includes(k)) delete f[k]
+                                    });
                                     const showFields = {
                                         "remittance.code": {},
                                         "remittance.description": {},
@@ -2421,7 +2508,9 @@ rdTab.Layouts.ToolStripButtons.New = isc.ToolStripButtonAdd.create({
             title: "<spring:message code='remittance.add.tozin'/>",
             click() {
                 if (!rdTab.DynamicForms.Forms.TozinTable.validate()) return;
+                /**@type{TozinTable} outTozin**/
                 const outTozin = rdTab.DynamicForms.Forms.TozinTable.getValues();
+                outTozin.date = outTozin.date.replaceAll("/", "")
                 rdTab.Grids.RemittanceDetailOutRemittance.getSelectedRecords().forEach(rd => {
                     if (!rd.outTozin) {
                         rd.outTozin = outTozin;
@@ -2479,7 +2568,7 @@ rdTab.Layouts.ToolStripButtons.New = isc.ToolStripButtonAdd.create({
                         rdTab.DynamicForms.Forms.OutRemittance,
                         isc.Label.create({
                             height: .06 * innerHeight,
-                            align:"right",
+                            align: "right",
                             contents: "<h3 style='text-align: right;padding-right:20px'>"
                                 + "<spring:message code='remittance.dest.info'/>" +
                                 "</h3>"
@@ -2506,7 +2595,7 @@ rdTab.Layouts.ToolStripButtons.New = isc.ToolStripButtonAdd.create({
                         }),
                         isc.Label.create({
                             height: .06 * innerHeight,
-                            align:"right",
+                            align: "right",
                             contents: "<h3 style='text-align: right;padding-right:20px'>"
                                 + "پکیج‌ها" +
                                 "</h3>"
@@ -2517,10 +2606,12 @@ rdTab.Layouts.ToolStripButtons.New = isc.ToolStripButtonAdd.create({
                 })]
         });
         rdTab.Methods.OutRemittanceSave = function () {
-            console.log("save out remittance btn ", rdTab.Grids.RemittanceDetailOutRemittance, rdTab.DynamicForms.Forms.OutRemittance)
+            // console.log("save out remittance btn ", rdTab.Grids.RemittanceDetailOutRemittance, rdTab.DynamicForms.Forms.OutRemittance)
             if (!rdTab.DynamicForms.Forms.OutRemittance.validate()) return;
             const remittanceDetails = rdTab.Grids.RemittanceDetailOutRemittance.getData();
+            /**@type {Remittance} remittance**/
             const remittance = rdTab.DynamicForms.Forms.OutRemittance.getValues();
+            // remittance.date = remittance.date.replaceAll("/")
             const remittanceDetailsWithoutTozin = remittanceDetails.filter(rd => {
                     if (rd.outTozin) return false;
                     return true;
@@ -2584,7 +2675,7 @@ isc.VLayout.create({
                     border: '0px',
                     members: [
                         isc.ToolStripButtonRefresh.create({
-                            title:"<spring:message code='global.form.refresh'/>",
+                            title: "<spring:message code='global.form.refresh'/>",
                             click() {
                                 rdTab.Grids.Remittance.obj.invalidateCache()
                             }
@@ -2606,6 +2697,7 @@ rdTab.Layouts.ToolStripButtons.Delete.hide();
 // </sec:authorize>
 // <sec:authorize access="!hasAuthority('C_REMITTANCE')">
 rdTab.Layouts.ToolStripButtons.New.hide();
+
 // </sec:authorize>
 
 function hasPermission(url) {

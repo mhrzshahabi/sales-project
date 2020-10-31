@@ -78,9 +78,9 @@ nicico:
     sys-password: password
     resource-id: Copper
   apps:
-    oauth: http://devapp01.icico.net.ir
-    accounting: http://devapp01.icico.net.ir/accounting
-    hrm: http://devapp01.icico.net.ir/hrm
+    oauth: http://staging.icico.net.ir
+    accounting: http://staging.icico.net.ir/accounting
+    hrm: http://staging.icico.net.ir/hrm
   minio:
     endpoint-url: http://minio.icico.net.ir/
     access-key: minio
@@ -98,7 +98,7 @@ spring:
     username: sales
     password: sales
   redis:
-    host: apps.icico.net.ir
+    host: redis
     password: nicico
   security:
     oauth2:
@@ -127,13 +127,13 @@ nicico:
 ---
 
 spring:
-  profiles: Development
+  profiles: Staging
   datasource:
     url: jdbc:oracle:thin:@//oragnrt01.icico.net.ir:1521/pdb_dev01
     username: test_sales
     password: testsales
   redis:
-    host: devapp01.icico.net.ir
+    host: redis
     password: nicico
   security:
     oauth2:
@@ -147,9 +147,37 @@ spring:
             scope: user_info
         provider:
           oserver:
-            authorization-uri: http://devapp01.icico.net.ir/oauth/authorize
-            token-uri: http://devapp01.icico.net.ir/oauth/token
-            user-info-uri: http://devapp01.icico.net.ir/user/info
+            authorization-uri: http://staging.icico.net.ir/oauth/authorize
+            token-uri: http://staging.icico.net.ir/oauth/token
+            user-info-uri: http://staging.icico.net.ir/user/info
+            user-name-attribute: username
+
+---
+
+spring:
+  profiles: Development
+  datasource:
+    url: jdbc:oracle:thin:@//oragnrt01.icico.net.ir:1521/pdb_dev01
+    username: demo_sales
+    password: demosales
+  redis:
+    host: staging.icico.net.ir
+    password: nicico
+  security:
+    oauth2:
+      client:
+        registration:
+          oserver:
+            client-id: ${spring.application.name}
+            client-secret: password
+            authorization-grant-type: authorization_code
+            redirect-uri: '{baseUrl}/login/oauth2/code/{registrationId}'
+            scope: user_info
+        provider:
+          oserver:
+            authorization-uri: http://staging.icico.net.ir/oauth/authorize
+            token-uri: http://staging.icico.net.ir/oauth/token
+            user-info-uri: http://staging.icico.net.ir/user/info
             user-name-attribute: username
 
 ---
@@ -161,7 +189,7 @@ spring:
     username: dev_sales
     password: devsales
   redis:
-    host: devapp01.icico.net.ir
+    host: staging.icico.net.ir
     password: nicico
   jpa:
     show-sql: true
@@ -177,9 +205,9 @@ spring:
             scope: user_info
         provider:
           oserver:
-            authorization-uri: http://devapp01.icico.net.ir/oauth/authorize
-            token-uri: http://devapp01.icico.net.ir/oauth/token
-            user-info-uri: http://devapp01.icico.net.ir/user/info
+            authorization-uri: http://staging.icico.net.ir/oauth/authorize
+            token-uri: http://staging.icico.net.ir/oauth/token
+            user-info-uri: http://staging.icico.net.ir/user/info
             user-name-attribute: username
 nicico:
   upload:
