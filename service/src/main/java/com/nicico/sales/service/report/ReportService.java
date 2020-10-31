@@ -543,6 +543,25 @@ public class ReportService extends GenericService<com.nicico.sales.model.entitie
 
     @Override
     @Transactional(readOnly = true)
+    public ReportDTO.Info checkAccess(String permissionKeyPrefix, String reportIdStr) {
+
+        long reportId = 0L;
+        if (!StringUtils.isEmpty(reportIdStr))
+            reportId = Long.parseLong(reportIdStr);
+
+        ReportDTO.Info report = get(reportId);
+        String authority = permissionKeyPrefix + report.getPermissionBaseKey();
+        if (!SecurityUtil.hasAuthority(authority))
+            throw new UnAuthorizedException(authority);
+
+        return report;
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
+
+    @Override
+    @Transactional(readOnly = true)
+    @Action(value = ActionType.List, authority = "hasAuthority('R_REPORT_SOURCE')")
     public List<ReportDTO.SourceData> getSourceData(ReportSource reportSource) {
 
         return reportSource == ReportSource.Rest ? getRestData() : getViewData();
@@ -550,6 +569,7 @@ public class ReportService extends GenericService<com.nicico.sales.model.entitie
 
     @Override
     @Transactional(readOnly = true)
+    @Action(value = ActionType.List, authority = "hasAuthority('R_REPORT_FIELD')")
     public List<ReportDTO.FieldData> getSourceFields(ReportSource reportSource, String source) {
 
         return reportSource == ReportSource.Rest ? getRestFields(source) : getViewFields(source);
@@ -559,10 +579,7 @@ public class ReportService extends GenericService<com.nicico.sales.model.entitie
     @Transactional(readOnly = true)
     public TotalResponse<Map<String, Object>> getReportData(Long reportId, String baseUrl, MultiValueMap<String, String> criteria) throws IOException {
 
-        ReportDTO.Info report = get(reportId);
-        String permissionKey = "RG_V_" + report.getPermissionBaseKey();
-        if (!SecurityUtil.hasAuthority(permissionKey))
-            throw new UnAuthorizedException(permissionKey);
+        ReportDTO.Info report = checkAccess("RG_V_", reportId.toString());
 
         TotalResponse<Map<String, Object>> response = null;
         if (report.getReportSource() == ReportSource.Rest)
@@ -595,7 +612,7 @@ public class ReportService extends GenericService<com.nicico.sales.model.entitie
         files.forEach(q -> {
             try {
                 fileService.delete(q.getFileKey());
-            } catch (IOException | InvalidResponseException | InvalidKeyException | NoSuchAlgorithmException | ServerException | ErrorResponseException | XmlParserException | InvalidBucketNameException | InsufficientDataException | InternalException e) {
+            } catch (Exception e) {
                 throw new SalesException2(e);
             }
         });
@@ -625,7 +642,7 @@ public class ReportService extends GenericService<com.nicico.sales.model.entitie
     @Override
     @Transactional
     @Action(ActionType.Create)
-    public ReportDTO.Info create(List<MultipartFile> files, String fileMetaData, String request) throws IOException, InvalidResponseException, InvalidKeyException, NoSuchAlgorithmException, ServerException, ErrorResponseException, XmlParserException, InternalException, InvalidBucketNameException, InsufficientDataException, RegionConflictException {
+    public ReportDTO.Info create(List<MultipartFile> files, String fileMetaData, String request) throws IOException {
 
         ReportDTO.Create data = objectMapper.readValue(request, ReportDTO.Create.class);
         data.setPermissionBaseKey(StringFormatUtil.makeMessageKeyByRemoveSpace(data.getTitleEN(), "_").toUpperCase());
@@ -648,7 +665,7 @@ public class ReportService extends GenericService<com.nicico.sales.model.entitie
     @Override
     @Transactional
     @Action(ActionType.Update)
-    public ReportDTO.Info update(List<MultipartFile> files, String fileMetaData, String request) throws IOException, InvalidResponseException, InvalidKeyException, NoSuchAlgorithmException, ServerException, ErrorResponseException, XmlParserException, InternalException, InvalidBucketNameException, InsufficientDataException, RegionConflictException, IllegalAccessException, NoSuchFieldException, InvocationTargetException {
+    public ReportDTO.Info update(List<MultipartFile> files, String fileMetaData, String request) throws IOException, IllegalAccessException, NoSuchFieldException, InvocationTargetException {
 
         ReportDTO.Update data = objectMapper.readValue(request, ReportDTO.Update.class);
         ReportDTO.Info report = this.update(data);
@@ -676,7 +693,11 @@ public class ReportService extends GenericService<com.nicico.sales.model.entitie
 
         List<FileDTO.FileData> fileData = objectMapper.readValue(fileMetaData, new TypeReference<List<FileDTO.FileData>>() {
         });
-        fileService.updateFiles(report.getId(), Report.class.getSimpleName(), files, fileData);
+        try {
+            fileService.updateFiles(report.getId(), Report.class.getSimpleName(), files, fileData);
+        } catch (Exception e) {
+            throw new SalesException2(e);
+        }
 
         return report;
     }

@@ -61,10 +61,10 @@ public class ReportExecuteFormController {
     }
 
     @RequestMapping("/print")
-    public void print(HttpServletRequest request, HttpServletResponse response, @RequestParam MultiValueMap<String, String> criteria) throws JRException, IOException, SQLException, InvalidResponseException, InvalidKeyException, NoSuchAlgorithmException, ServerException, InternalException, XmlParserException, InvalidBucketNameException, InsufficientDataException, ErrorResponseException {
+    public void print(HttpServletRequest request, HttpServletResponse response, @RequestParam MultiValueMap<String, String> criteria) throws Exception {
 
         String permissionKeyPrefix = "RG_P_";
-        ReportDTO.Info report = checkAccess(permissionKeyPrefix, criteria.getFirst("reportId"));
+        ReportDTO.Info report = reportService.checkAccess(permissionKeyPrefix, criteria.getFirst("reportId"));
 
         String baseUrl = request.getRequestURL().substring(0, request.getRequestURL().indexOf("/report-execute"));
         TotalResponse<Map<String, Object>> data = reportService.getReportData(report.getId(), baseUrl, criteria);
@@ -94,7 +94,7 @@ public class ReportExecuteFormController {
     public void excel(HttpServletRequest request, HttpServletResponse response, @RequestParam MultiValueMap<String, String> criteria) throws Exception {
 
         String permissionKeyPrefix = "RG_E_";
-        ReportDTO.Info report = checkAccess(permissionKeyPrefix, criteria.getFirst("reportId"));
+        ReportDTO.Info report = reportService.checkAccess(permissionKeyPrefix, criteria.getFirst("reportId"));
 
         String baseUrl = request.getRequestURL().substring(0, request.getRequestURL().indexOf("/report-execute"));
         TotalResponse<Map<String, Object>> data = reportService.getReportData(report.getId(), baseUrl, criteria);
@@ -108,19 +108,5 @@ public class ReportExecuteFormController {
         List mappedData = resp.stream().map(item -> (Object) modelMapper.map(item, returnType)).collect(Collectors.toList());
         byte[] bytes = makeExcelOutputUtil.makeOutput(mappedData, returnType, fields, headers, true, "");
         makeExcelOutputUtil.makeExcelResponse(bytes, response);
-    }
-
-    private ReportDTO.Info checkAccess(String permissionKeyPrefix, String reportIdStr) {
-
-        long reportId = 0L;
-        if (!StringUtils.isEmpty(reportIdStr))
-            reportId = Long.parseLong(reportIdStr);
-
-        ReportDTO.Info report = reportService.get(reportId);
-        String authority = permissionKeyPrefix + report.getPermissionBaseKey();
-        if (!SecurityUtil.hasAuthority(authority))
-            throw new UnAuthorizedException(authority);
-
-        return report;
     }
 }
