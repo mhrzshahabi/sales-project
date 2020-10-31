@@ -2,6 +2,7 @@ package com.nicico.sales.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
+import com.nicico.sales.annotation.report.ReportField;
 import com.nicico.sales.model.enumeration.EStatus;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -20,6 +21,7 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class RemittanceDetailDTO {
 
+    @ReportField(titleMessageKey = "global.amount")
     private Long amount;
     private Long unitId;
     private Long remittanceId;

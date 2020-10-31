@@ -57,12 +57,13 @@ namespace nicico {
             });
             // @ts-ignore
             creator.dynamicForm.excel.hide();
-
             // @ts-ignore
             creator.method.exportExcel = function () {
 
                 // @ts-ignore
                 let criteria = creator.listGrid.main.getCriteria();
+                if (!Object.keys(criteria).length)
+                    criteria = null;
                 // @ts-ignore
                 var fields = report.reportFields.filter(q => !q.hidden);
                 // @ts-ignore
@@ -81,10 +82,33 @@ namespace nicico {
                 creator.dynamicForm.excel.submitForm();
             };
             // @ts-ignore
+            creator.dynamicForm.print = isc.DynamicForm.create({
+
+                method: "POST",
+                action: "",
+                target: "_Blank",
+                autoDraw: true,
+                visibility: "hidden",
+                fields: [
+
+                    // @ts-ignore
+                    {name: "fileKey", type: "hidden"},
+                    // @ts-ignore
+                    {name: "type", type: "hidden"},
+                    // @ts-ignore
+                    {name: "criteria", type: "hidden"},
+                    // @ts-ignore
+                    {name: "reportId", type: "hidden"}]
+            });
+            // @ts-ignore
+            creator.dynamicForm.print.hide();
+            // @ts-ignore
             creator.method.print = function () {
 
                 // @ts-ignore
                 let criteria = creator.listGrid.main.getCriteria();
+                if (!Object.keys(criteria).length)
+                    criteria = null;
                 let selectedIds = [];
                 if (report.reportType === "OneRecord") {
                     // @ts-ignore
@@ -114,12 +138,14 @@ namespace nicico {
                     operator: "and",
                     criteria: []
                 };
-                cr.criteria.add(criteria);
-                cr.criteria.add({
-                    fieldName: "id",
-                    operator: "equals",
-                    value: selectedIds
-                });
+                if (criteria)
+                    cr.criteria.add(criteria);
+                if (selectedIds && selectedIds.length)
+                    cr.criteria.add({
+                        fieldName: "id",
+                        operator: "equals",
+                        value: selectedIds
+                    });
 
                 let selectReportForm = new FormUtil();
                 selectReportForm.populateData = function (bodyWidget: isc.Canvas | Array<isc.Canvas>) {
@@ -139,25 +165,28 @@ namespace nicico {
                 };
                 selectReportForm.okCallBack = function (data) {
 
-                    creator.method.jsonRPCManagerRequest({
-                            // @ts-ignore
-                            actionURL: creator.variable.contextPath + "report-execute/print",
-                            httpMethod: "GET",
-                            params: {
-                                type: "PDF",
-                                reportId: report.id,
-                                fileKey: data.fileKey,
-                                criteria: data.criteria
-                            }
-                        },
-                        // @ts-ignore
-                        (response) => creator.window.main.close());
+                    // @ts-ignore
+                    creator.dynamicForm.print.setValue("reportId", report.id);
+                    // @ts-ignore
+                    creator.dynamicForm.print.setValue("fileKey", data.fileKey);
+                    // @ts-ignore
+                    creator.dynamicForm.print.setValue("type", "PDF");
+                    // @ts-ignore
+                    creator.dynamicForm.print.setValue("criteria", JSON.stringify(data.criteria));
+                    // @ts-ignore
+                    creator.dynamicForm.print.method = "GET";
+                    // @ts-ignore
+                    creator.dynamicForm.print.action = creator.variable.contextPath + "report-execute/print";
+                    // @ts-ignore
+                    creator.dynamicForm.print.submitForm();
+                    // @ts-ignore
+                    creator.window.main.close();
                 };
                 // @ts-ignore
                 selectReportForm.showForm(creator.window.main, "<spring:message code='global.form.print'/>" + " - " + report.title,
                     // @ts-ignore
                     isc.FileUploadForm.create({
-                        accept: ".jrxml",
+                        accept: ".jasper",
                         entityName: "Report",
                         recordId: report.id,
                         canAddFile: false,

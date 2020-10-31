@@ -188,25 +188,32 @@ var nicico;
                                         return isValid;
                                     };
                                     selectReportForm.okCallBack = function (data) {
-                                        creator.method.jsonRPCManagerRequest({
-                                            // @ts-ignore
-                                            actionURL: creator.variable.contextPath + "report-execute/print",
-                                            httpMethod: "GET",
-                                            params: {
-                                                type: "PDF",
-                                                reportId: record.id,
-                                                fileKey: data.fileKey,
-                                                criteria: data.criteria
-                                            }
-                                        }, 
                                         // @ts-ignore
-                                        function (response) { return creator.window.main.close(); });
+                                        creator.dynamicForm.print.setValue("reportId", record.id);
+                                        // @ts-ignore
+                                        creator.dynamicForm.print.setValue("fileKey", data.fileKey);
+                                        // @ts-ignore
+                                        creator.dynamicForm.print.setValue("type", "PDF");
+                                        if (data.criteria && Object.keys(data.criteria).length)
+                                            // @ts-ignore
+                                            creator.dynamicForm.print.setValue("criteria", JSON.stringify(data.criteria));
+                                        else
+                                            // @ts-ignore
+                                            creator.dynamicForm.print.setValue("criteria", JSON.stringify(null));
+                                        // @ts-ignore
+                                        creator.dynamicForm.print.method = "GET";
+                                        // @ts-ignore
+                                        creator.dynamicForm.print.action = creator.variable.contextPath + "report-execute/print";
+                                        // @ts-ignore
+                                        creator.dynamicForm.print.submitForm();
+                                        // @ts-ignore
+                                        creator.window.main.close();
                                     };
                                     // @ts-ignore
                                     selectReportForm.showForm(creator.window.main, "<spring:message code='global.form.print'/>" + " - " + record.title, 
                                     // @ts-ignore
                                     isc.FileUploadForm.create({
-                                        accept: ".jrxml",
+                                        accept: ".jasper",
                                         entityName: "Report",
                                         recordId: record.id,
                                         canAddFile: false,
@@ -291,6 +298,28 @@ var nicico;
             // @ts-ignore
             creator.dynamicForm.excel.hide();
         };
+        ReportExecutorFormUtil.createPrintSubmitForm = function (creator) {
+            // @ts-ignore
+            creator.dynamicForm.print = isc.DynamicForm.create({
+                method: "POST",
+                action: "",
+                target: "_Blank",
+                autoDraw: true,
+                visibility: "hidden",
+                fields: [
+                    // @ts-ignore
+                    { name: "fileKey", type: "hidden" },
+                    // @ts-ignore
+                    { name: "type", type: "hidden" },
+                    // @ts-ignore
+                    { name: "criteria", type: "hidden" },
+                    // @ts-ignore
+                    { name: "reportId", type: "hidden" }
+                ]
+            });
+            // @ts-ignore
+            creator.dynamicForm.print.hide();
+        };
         ReportExecutorFormUtil.show = function (owner, title, criteria, createTab) {
             var creator = new nicico.GeneralTabUtil().getDefaultJSPTabVariable();
             // @ts-ignore
@@ -304,6 +333,7 @@ var nicico;
             // @ts-ignore
             creator.variable.criteria = criteria;
             this.createExcelSubmitForm(creator);
+            this.createPrintSubmitForm(creator);
             this.createRestDataSource(creator);
             this.createListGrid(creator);
             this.createWindow(creator, title);

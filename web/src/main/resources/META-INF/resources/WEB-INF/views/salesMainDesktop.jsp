@@ -1043,9 +1043,9 @@
                 </sec:authorize>
                 <sec:authorize access="hasAuthority('R_REPORT')">
                 {
-                    title: "<spring:message code='report.menu.generator'/>",
+                    title: "<spring:message code='report.menu.pattern'/>",
                     click: function () {
-                        createTab("<spring:message code='report.menu.generator'/>", "<spring:url value="/report/show-form" />")
+                        createTab("<spring:message code='report.menu.pattern'/>", "<spring:url value="/report/show-form" />")
                     }
                 },
                 {isSeparator: true},

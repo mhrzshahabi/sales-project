@@ -66,11 +66,13 @@ isc.defineClass("FileUploadForm", isc.VLayout).addProperties({
 
                     This.form.errors["file"] = '<spring:message code="validator.field.is.required"/>';
                     This.form.redraw();
+                    return;
                 }
                 if (!This.form.getValue("accessLevel")) {
 
                     This.form.errors["accessLevel"] = '<spring:message code="validator.field.is.required"/>';
                     This.form.redraw();
+                    return;
                 }
                 let fileItem = document.getElementById(This.form.getItem("file").uploadItem.getElement().id);
                 This.grid.addData({
@@ -134,7 +136,7 @@ isc.defineClass("FileUploadForm", isc.VLayout).addProperties({
             removeRecordClick: function (rowNum) {
 
                 let record = this.getRecord(rowNum);
-                if (!record || !record.fileStatus || record.fileStatus === "DELETED")
+                if (!record || record.fileStatus === "DELETED")
                     return false;
 
                 return this.Super("removeRecordClick", arguments);

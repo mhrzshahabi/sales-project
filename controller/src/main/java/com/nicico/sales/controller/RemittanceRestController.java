@@ -3,6 +3,7 @@ package com.nicico.sales.controller;
 import com.nicico.copper.common.Loggable;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
+import com.nicico.sales.annotation.report.Report;
 import com.nicico.sales.dto.RemittanceDTO;
 import com.nicico.sales.iservice.IRemittanceService;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
-
 
 @Slf4j
 @RequiredArgsConstructor
@@ -67,6 +67,7 @@ public class RemittanceRestController {
 
     @Loggable
     @GetMapping(value = "/spec-list")
+    @Report(nameKey = "entity.remittance", returnType = RemittanceDTO.Info.class)
     public ResponseEntity<TotalResponse<RemittanceDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) throws IOException {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
         return new ResponseEntity<>(iRemittanceService.search(nicicoCriteria), HttpStatus.OK);
@@ -78,7 +79,4 @@ public class RemittanceRestController {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
         return new ResponseEntity<>(iRemittanceService.searchLite(nicicoCriteria), HttpStatus.OK);
     }
-
-
-
 }

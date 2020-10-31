@@ -11,8 +11,8 @@ public class StringFormatUtil {
 
     public static String makeMessageKeyByRemoveSpace(String name, String separator) {
 
-        return name.replaceAll("(\\s+)(\\S)", separator + "$2").
+        return makeMessageKey(name.replaceAll("(\\s+)(\\S)", separator + "$2").
                 replaceFirst("^(" + separator + "*)(.*)", "$2").
-                trim();
+                trim(), separator);
     }
 }
