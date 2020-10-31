@@ -229,25 +229,32 @@ namespace nicico {
                                     };
                                     selectReportForm.okCallBack = function (data) {
 
-                                        creator.method.jsonRPCManagerRequest({
-                                                // @ts-ignore
-                                                actionURL: creator.variable.contextPath + "report-execute/print",
-                                                httpMethod: "GET",
-                                                params: {
-                                                    type: "PDF",
-                                                    reportId: record.id,
-                                                    fileKey: data.fileKey,
-                                                    criteria: data.criteria
-                                                }
-                                            },
-                                            // @ts-ignore
-                                            (response) => creator.window.main.close());
+                                        // @ts-ignore
+                                        creator.dynamicForm.print.setValue("reportId", record.id);
+                                        // @ts-ignore
+                                        creator.dynamicForm.print.setValue("fileKey", data.fileKey);
+                                        // @ts-ignore
+                                        creator.dynamicForm.print.setValue("type", "PDF");
+                                        if (data.criteria && Object.keys(data.criteria).length)
+                                        // @ts-ignore
+                                            creator.dynamicForm.print.setValue("criteria", JSON.stringify(data.criteria));
+                                        else
+                                        // @ts-ignore
+                                            creator.dynamicForm.print.setValue("criteria", JSON.stringify(null));
+                                        // @ts-ignore
+                                        creator.dynamicForm.print.method = "GET";
+                                        // @ts-ignore
+                                        creator.dynamicForm.print.action = creator.variable.contextPath + "report-execute/print";
+                                        // @ts-ignore
+                                        creator.dynamicForm.print.submitForm();
+                                        // @ts-ignore
+                                        creator.window.main.close();
                                     };
                                     // @ts-ignore
                                     selectReportForm.showForm(creator.window.main, "<spring:message code='global.form.print'/>" + " - " + record.title,
                                         // @ts-ignore
                                         isc.FileUploadForm.create({
-                                            accept: ".jrxml",
+                                            accept: ".jasper",
                                             entityName: "Report",
                                             recordId: record.id,
                                             canAddFile: false,
@@ -348,6 +355,31 @@ namespace nicico {
             creator.dynamicForm.excel.hide();
         }
 
+        static createPrintSubmitForm(creator: nicico.JSPTabVariable) {
+
+            // @ts-ignore
+            creator.dynamicForm.print = isc.DynamicForm.create({
+
+                method: "POST",
+                action: "",
+                target: "_Blank",
+                autoDraw: true,
+                visibility: "hidden",
+                fields: [
+
+                    // @ts-ignore
+                    {name: "fileKey", type: "hidden"},
+                    // @ts-ignore
+                    {name: "type", type: "hidden"},
+                    // @ts-ignore
+                    {name: "criteria", type: "hidden"},
+                    // @ts-ignore
+                    {name: "reportId", type: "hidden"}]
+            });
+            // @ts-ignore
+            creator.dynamicForm.print.hide();
+        }
+
         static show(owner: isc.Window, title: string, criteria: string, createTab: any) {
 
             let creator = new GeneralTabUtil().getDefaultJSPTabVariable();
@@ -363,6 +395,7 @@ namespace nicico {
             creator.variable.criteria = criteria;
 
             this.createExcelSubmitForm(creator);
+            this.createPrintSubmitForm(creator);
             this.createRestDataSource(creator);
             this.createListGrid(creator);
             this.createWindow(creator, title);
