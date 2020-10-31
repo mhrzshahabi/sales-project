@@ -194,8 +194,12 @@ var nicico;
                                         creator.dynamicForm.print.setValue("fileKey", data.fileKey);
                                         // @ts-ignore
                                         creator.dynamicForm.print.setValue("type", "PDF");
-                                        // @ts-ignore
-                                        creator.dynamicForm.print.setValue("criteria", JSON.stringify(data.criteria));
+                                        if (data.criteria && Object.keys(data.criteria).length)
+                                            // @ts-ignore
+                                            creator.dynamicForm.print.setValue("criteria", JSON.stringify(data.criteria));
+                                        else
+                                            // @ts-ignore
+                                            creator.dynamicForm.print.setValue("criteria", JSON.stringify(null));
                                         // @ts-ignore
                                         creator.dynamicForm.print.method = "GET";
                                         // @ts-ignore
