@@ -372,7 +372,7 @@ reportGeneratorTab.listGrid.reportFields = isc.ListGrid.nicico.getDefault(BaseFo
 reportGeneratorTab.window.report = new nicico.FormUtil();
 reportGeneratorTab.variable.fileUploadForm = isc.FileUploadForm.create({
     height: "200",
-    accept: ".jrxml",
+    accept: ".jasper",
     entityName: "Report",
     fileStatusValueMap: JSON.parse('${Enum_FileStatus}'),
     accessLevelValueMap: JSON.parse('${Enum_EFileAccessLevel}')
@@ -392,7 +392,7 @@ reportGeneratorTab.window.report.populateData = function (bodyWidget) {
 
     let data = reportGeneratorTab.dynamicForm.report.getValues();
     let sourceField = reportGeneratorTab.dynamicForm.report.getField("source").getSelectedRecord();
-    if(sourceField != null) {
+    if (sourceField != null) {
 
         data.nameFA = sourceField.nameFA;
         data.nameEN = sourceField.nameEN;
@@ -481,7 +481,7 @@ reportGeneratorTab.window.report.okCallBack = function (formData) {
             } else {
                 reportGeneratorTab.dialog.say(request);
             }
-        }
+        } else isc.warn(JSON.parse("<spring:message code='report.form.data-integrity-violation'/>", {title: "<spring:message code='dialog_WarnTitle'/>"}));
     };
 };
 reportGeneratorTab.window.report.cancelCallBack = function () {

@@ -30,6 +30,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -86,8 +87,10 @@ public class ReportExecuteFormController {
         value.put("content", data.getResponse().getData());
         String resp = objectMapper.writeValueAsString(value);
         FileDTO.Response file = fileService.retrieve(criteria.getFirst("fileKey"));
-        JsonDataSource jsonDataSource = new JsonDataSource(new ByteArrayInputStream(resp.getBytes(StandardCharsets.UTF_8)));
-        reportUtil.export(new ByteArrayInputStream(file.getContent()), parametersMap, jsonDataSource, response);
+        InputStream fileStream = new ByteArrayInputStream(file.getContent());
+        InputStream dataStream = new ByteArrayInputStream(resp.getBytes(StandardCharsets.UTF_8));
+        JsonDataSource jsonDataSource = new JsonDataSource(dataStream);
+        reportUtil.export(fileStream, parametersMap, jsonDataSource, response);
     }
 
     @RequestMapping("/excel")

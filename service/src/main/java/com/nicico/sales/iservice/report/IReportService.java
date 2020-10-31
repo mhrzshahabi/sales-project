@@ -29,9 +29,9 @@ public interface IReportService extends IGenericService<Report, Long, ReportDTO.
 
     TotalResponse<ReportDTO.InfoWithAccess> searchWithAccess(NICICOCriteria nicicoCriteria);
 
-    ReportDTO.Info create(List<MultipartFile> files, String fileMetaData, String request) throws IOException;
+    ReportDTO.Info create(List<MultipartFile> files, String fileMetaData, String request) throws Exception;
 
-    ReportDTO.Info update(List<MultipartFile> files, String fileMetaData, String request) throws IOException, IllegalAccessException, NoSuchFieldException, InvocationTargetException;
+    ReportDTO.Info update(List<MultipartFile> files, String fileMetaData, String request) throws Exception;
 
     Class<?> getReturnType(ReportDTO.Info report);
 }

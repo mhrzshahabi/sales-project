@@ -36,9 +36,12 @@ public class RemittanceDTO {
     public static class InfoWithoutRemittanceDetail extends RemittanceDTO {
 
         private Long id;
+        @ReportModel(type = MaterialItemDTO.Info.class)
         private MaterialItemDTO.Info materialItem;
-        private ShipmentDTO.Info shipment;
+        @ReportModel(type = MaterialItemDTO.Info.class)
+        private MaterialItemDTO.Info shipment;
         private String date;
+        @ReportModel(type = TozinTableDTO.Info.class)
         private TozinTableDTO.Info tozinTable;
 
 

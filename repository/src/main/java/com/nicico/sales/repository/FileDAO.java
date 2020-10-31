@@ -13,5 +13,5 @@ public interface FileDAO extends JpaRepository<File, Long> {
 
     Optional<File> findByFileKey(String fileKey);
 
-    List<File> findAllByRecordIdAndEntityNameAndFileStatusNot(Long recordId, String entityName, FileStatus fileStatus);
+    List<File> findAllByRecordIdAndEntityName(Long recordId, String entityName);
 }
