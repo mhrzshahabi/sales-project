@@ -2,6 +2,7 @@ package com.nicico.sales.service.invoice.foreign;
 
 import com.nicico.sales.annotation.Action;
 import com.nicico.sales.dto.*;
+import com.nicico.sales.dto.contract.ContractDiscountDTO;
 import com.nicico.sales.dto.invoice.foreign.ContractDetailDataDTO;
 import com.nicico.sales.dto.invoice.foreign.ForeignInvoiceItemDTO;
 import com.nicico.sales.enumeration.ActionType;
@@ -66,7 +67,7 @@ public class ForeignInvoiceItemService extends GenericService<ForeignInvoiceItem
 
         String priceContent = contractDetailDataInfo.getPriceContent();
         String quotationalPeriodContent = contractDetailDataInfo.getQuotationalPeriodContent();
-        List<ContractDiscount> discountArticle = contractDetailDataInfo.getDiscount();
+        List<ContractDiscountDTO.Info> discountArticle = contractDetailDataInfo.getDiscount();
 
         List<PriceBaseDTO.Info> basePrices = priceBaseService.getAverageOfBasePricesByMOAS(contractId, financeUnitId, contractDetailDataInfo.getMOAS());
 
@@ -96,7 +97,7 @@ public class ForeignInvoiceItemService extends GenericService<ForeignInvoiceItem
 
         String priceContent = contractDetailDataInfo.getPriceContent();
         String quotationalPeriodContent = contractDetailDataInfo.getQuotationalPeriodContent();
-        List<ContractDiscount> discountArticle = contractDetailDataInfo.getDiscount();
+        List<ContractDiscountDTO.Info> discountArticle = contractDetailDataInfo.getDiscount();
 
         List<PriceBaseDTO.Info> basePrices = priceBaseService.getAverageOfBasePricesByMOAS(contractId, financeUnitId, contractDetailDataInfo.getMOAS());
 
@@ -168,7 +169,7 @@ public class ForeignInvoiceItemService extends GenericService<ForeignInvoiceItem
 //    }
 
     // Mine
-    private List<Map<String, Object>> createData(List<Long> inventoryIds, List<AssayInspectionDTO.InfoWithoutInspectionReport> assayValues, List<WeightInspectionDTO.InfoWithoutInspectionReport> weightValues, List<ContractDiscount> discountArticle, List<PriceBaseDTO.Info> basePrices, Long financeUnitId) {
+    private List<Map<String, Object>> createData(List<Long> inventoryIds, List<AssayInspectionDTO.InfoWithoutInspectionReport> assayValues, List<WeightInspectionDTO.InfoWithoutInspectionReport> weightValues, List<ContractDiscountDTO.Info> discountArticle, List<PriceBaseDTO.Info> basePrices, Long financeUnitId) {
 
         List<Map<String, Object>> data = new ArrayList<>();
         inventoryIds.forEach(inventoryId -> {
@@ -196,13 +197,13 @@ public class ForeignInvoiceItemService extends GenericService<ForeignInvoiceItem
                 if (!a.getMaterialElement().getPayable() && !a.getMaterialElement().getPenalty()) return;
 
                 record.put(element.getName(), a.getValue());
-                Optional<ContractDiscount> contractDiscount = discountArticle.stream().filter(q -> q.getMaterialElementId().longValue() == a.getMaterialElementId()).findFirst();
+                Optional<ContractDiscountDTO.Info> contractDiscount = discountArticle.stream().filter(q -> q.getMaterialElementId().longValue() == a.getMaterialElementId()).findFirst();
                 PriceBaseDTO.Info priceBaseDTO = basePrices.stream().filter(q -> q.getElementId().longValue() == element.getId()).findFirst().orElseThrow(() -> new NotFoundException(PriceBase.class));
                 if (a.getMaterialElement().getPenalty()) {
 
-                    if (contractDiscount.isPresent() && a.getValue().compareTo(contractDiscount.get().getLowerBound()) > 0 && a.getValue().compareTo(contractDiscount.get().getUpperBound()) <= 0) {
+                    if (contractDiscount.isPresent() && a.getValue().compareTo(BigDecimal.valueOf(contractDiscount.get().getLowerBound())) > 0 && a.getValue().compareTo(BigDecimal.valueOf(contractDiscount.get().getUpperBound())) <= 0) {
 
-                        discount[0] = discount[0].add(contractDiscount.get().getDiscount());
+                        discount[0] = discount[0].add(BigDecimal.valueOf(contractDiscount.get().getDiscount()));
                         record.put(element.getName() + "Discount", contractDiscount.get().getDiscount());
                     } else record.put(element.getName() + "Discount", new BigDecimal(0));
                 }
