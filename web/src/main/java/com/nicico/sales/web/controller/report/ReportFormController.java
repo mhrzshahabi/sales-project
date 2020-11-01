@@ -51,14 +51,6 @@ public class ReportFormController {
         return "report/report";
     }
 
-    @RequestMapping("/show-execute-form")
-    public String showExecuteReport(HttpServletRequest request) {
-
-      //  SecurityChecker.addEntityPermissionToRequest(request, Report.class);
-
-        return "report/report-execute";
-    }
-
     private Map<String, String> getReportTypeEnumMap() {
 
         Map<String, String> type = new HashMap<>();

@@ -19,6 +19,8 @@ import java.util.Map;
 
 public interface IReportService extends IGenericService<Report, Long, ReportDTO.Create, ReportDTO.Info, ReportDTO.Update, ReportDTO.Delete> {
 
+    ReportDTO.Info checkAccess(String permissionKeyPrefix, String reportIdStr);
+
     List<ReportDTO.SourceData> getSourceData(ReportSource reportSource);
 
     List<ReportDTO.FieldData> getSourceFields(ReportSource reportSource, String source);
@@ -27,9 +29,9 @@ public interface IReportService extends IGenericService<Report, Long, ReportDTO.
 
     TotalResponse<ReportDTO.InfoWithAccess> searchWithAccess(NICICOCriteria nicicoCriteria);
 
-    ReportDTO.Info create(List<MultipartFile> files, String fileMetaData, String request) throws IOException, InvalidResponseException, InvalidKeyException, NoSuchAlgorithmException, ServerException, ErrorResponseException, XmlParserException, InternalException, InvalidBucketNameException, InsufficientDataException, RegionConflictException;
+    ReportDTO.Info create(List<MultipartFile> files, String fileMetaData, String request) throws Exception;
 
-    ReportDTO.Info update(List<MultipartFile> files, String fileMetaData, String request) throws IOException, InvalidResponseException, InvalidKeyException, NoSuchAlgorithmException, ServerException, ErrorResponseException, XmlParserException, InternalException, InvalidBucketNameException, InsufficientDataException, RegionConflictException, IllegalAccessException, NoSuchFieldException, InvocationTargetException;
+    ReportDTO.Info update(List<MultipartFile> files, String fileMetaData, String request) throws Exception;
 
     Class<?> getReturnType(ReportDTO.Info report);
 }

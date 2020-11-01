@@ -32,7 +32,6 @@ import com.nicico.sales.model.enumeration.ReportType;
 import com.nicico.sales.service.GenericService;
 import com.nicico.sales.utility.StringFormatUtil;
 import com.nicico.sales.utility.UpdateUtil;
-import io.minio.errors.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -62,12 +61,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.net.URI;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
 @Slf4j
@@ -413,7 +409,6 @@ public class ReportService extends GenericService<com.nicico.sales.model.entitie
         if (httpMethodEnum == null)
             httpMethodEnum = HttpMethod.GET;
 
-        ResponseEntity<String> exchange;
         final URI uri = UriComponentsBuilder.
                 fromHttpUrl(baseUrl + restUrl)
                 .queryParams(criteria)
@@ -421,11 +416,7 @@ public class ReportService extends GenericService<com.nicico.sales.model.entitie
                 .encode()
                 .toUri();
         HttpEntity<Object> httpEntity = new HttpEntity<>(null, getApplicationJSONHttpHeaders());
-        try {
-            exchange = restTemplate.exchange(uri, httpMethodEnum, httpEntity, String.class);
-        } catch (Exception e) {
-            throw new SalesException2(e, ErrorType.BadRequest, null, e.getMessage());
-        }
+        ResponseEntity<String> exchange = restTemplate.exchange(uri, httpMethodEnum, httpEntity, String.class);
         if (exchange.getStatusCode().equals(HttpStatus.OK)) {
 
             Map body = objectMapper.readValue(exchange.getBody(), Map.class);
@@ -543,6 +534,25 @@ public class ReportService extends GenericService<com.nicico.sales.model.entitie
 
     @Override
     @Transactional(readOnly = true)
+    public ReportDTO.Info checkAccess(String permissionKeyPrefix, String reportIdStr) {
+
+        long reportId = 0L;
+        if (!StringUtils.isEmpty(reportIdStr))
+            reportId = Long.parseLong(reportIdStr);
+
+        ReportDTO.Info report = get(reportId);
+        String authority = permissionKeyPrefix + report.getPermissionBaseKey();
+        if (!SecurityUtil.hasAuthority(authority))
+            throw new UnAuthorizedException(authority);
+
+        return report;
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
+
+    @Override
+    @Transactional(readOnly = true)
+    @Action(value = ActionType.List, authority = "hasAuthority('R_REPORT_SOURCE')")
     public List<ReportDTO.SourceData> getSourceData(ReportSource reportSource) {
 
         return reportSource == ReportSource.Rest ? getRestData() : getViewData();
@@ -550,6 +560,7 @@ public class ReportService extends GenericService<com.nicico.sales.model.entitie
 
     @Override
     @Transactional(readOnly = true)
+    @Action(value = ActionType.List, authority = "hasAuthority('R_REPORT_FIELD')")
     public List<ReportDTO.FieldData> getSourceFields(ReportSource reportSource, String source) {
 
         return reportSource == ReportSource.Rest ? getRestFields(source) : getViewFields(source);
@@ -559,10 +570,7 @@ public class ReportService extends GenericService<com.nicico.sales.model.entitie
     @Transactional(readOnly = true)
     public TotalResponse<Map<String, Object>> getReportData(Long reportId, String baseUrl, MultiValueMap<String, String> criteria) throws IOException {
 
-        ReportDTO.Info report = get(reportId);
-        String permissionKey = "RG_V_" + report.getPermissionBaseKey();
-        if (!SecurityUtil.hasAuthority(permissionKey))
-            throw new UnAuthorizedException(permissionKey);
+        ReportDTO.Info report = checkAccess("RG_V_", reportId.toString());
 
         TotalResponse<Map<String, Object>> response = null;
         if (report.getReportSource() == ReportSource.Rest)
@@ -573,12 +581,8 @@ public class ReportService extends GenericService<com.nicico.sales.model.entitie
                 response.getResponse() != null &&
                 response.getResponse().getData() != null &&
                 response.getResponse().getData().size() > 1 &&
-                report.getReportType() == ReportType.OneRecord){
-
+                report.getReportType() == ReportType.OneRecord)
             response.getResponse().setData(response.getResponse().getData().subList(0, 1));
-            response.getResponse().setEndRow(1);
-            response.getResponse().setTotalRows(1);
-        }
 
         return response;
     }
@@ -595,14 +599,21 @@ public class ReportService extends GenericService<com.nicico.sales.model.entitie
 
         deleteReportPermission(report.getPermissionBaseKey());
 
-        List<FileDTO.FileMetaData> files = fileService.getFiles(id, Report.class.getSimpleName());
-        files.forEach(q -> {
-            try {
-                fileService.delete(q.getFileKey());
-            } catch (Exception e) {
-                e.printStackTrace();
+        try {
+
+            List<FileDTO.FileMetaData> files = fileService.getFiles(id, Report.class.getSimpleName());
+            for (FileDTO.FileMetaData q : files) {
+                try {
+                    fileService.delete(q.getFileKey());
+                } catch (Exception e) {
+                    throw new SalesException2(e);
+                }
             }
-        });
+        } catch (Exception e) {
+
+            addReportPermission(report.getPermissionBaseKey(), report.getTitleFA());
+            throw new SalesException2(e);
+        }
     }
 
     @Override
@@ -629,7 +640,7 @@ public class ReportService extends GenericService<com.nicico.sales.model.entitie
     @Override
     @Transactional
     @Action(ActionType.Create)
-    public ReportDTO.Info create(List<MultipartFile> files, String fileMetaData, String request) throws IOException {
+    public ReportDTO.Info create(List<MultipartFile> files, String fileMetaData, String request) throws Exception {
 
         ReportDTO.Create data = objectMapper.readValue(request, ReportDTO.Create.class);
         data.setPermissionBaseKey(StringFormatUtil.makeMessageKeyByRemoveSpace(data.getTitleEN(), "_").toUpperCase());
@@ -642,9 +653,14 @@ public class ReportService extends GenericService<com.nicico.sales.model.entitie
 
         addReportPermission(report.getPermissionBaseKey(), report.getTitleFA());
 
-        List<FileDTO.FileData> fileData = objectMapper.readValue(fileMetaData, new TypeReference<List<FileDTO.FileData>>() {
-        });
-        fileService.createFiles(report.getId(), files, fileData);
+        try {
+
+            List<FileDTO.FileData> fileData = objectMapper.readValue(fileMetaData, new TypeReference<List<FileDTO.FileData>>() {
+            });
+            fileService.createFiles(report.getId(), files, fileData);
+        } catch (Exception e) {
+            deleteReportPermission(report.getPermissionBaseKey());
+        }
 
         return report;
     }
@@ -652,7 +668,7 @@ public class ReportService extends GenericService<com.nicico.sales.model.entitie
     @Override
     @Transactional
     @Action(ActionType.Update)
-    public ReportDTO.Info update(List<MultipartFile> files, String fileMetaData, String request) throws IOException, IllegalAccessException, NoSuchFieldException, InvocationTargetException {
+    public ReportDTO.Info update(List<MultipartFile> files, String fileMetaData, String request) throws Exception {
 
         ReportDTO.Update data = objectMapper.readValue(request, ReportDTO.Update.class);
         ReportDTO.Info report = this.update(data);
@@ -680,11 +696,7 @@ public class ReportService extends GenericService<com.nicico.sales.model.entitie
 
         List<FileDTO.FileData> fileData = objectMapper.readValue(fileMetaData, new TypeReference<List<FileDTO.FileData>>() {
         });
-        try {
-            fileService.updateFiles(report.getId(), Report.class.getSimpleName(), files, fileData);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        fileService.updateFiles(report.getId(), Report.class.getSimpleName(), files, fileData);
 
         return report;
     }

@@ -68,7 +68,7 @@ public class ReportRestController {
     public ResponseEntity<ReportDTO.Info> create(
             @RequestParam(value = "files", required = false) List<MultipartFile> files,
             @RequestParam("fileMetaData") String fileMetaData,
-            @RequestParam("data") String data) throws IOException, InvalidResponseException, RegionConflictException, InvalidKeyException, NoSuchAlgorithmException, ServerException, InternalException, XmlParserException, InvalidBucketNameException, InsufficientDataException, ErrorResponseException {
+            @RequestParam("data") String data) throws Exception {
         return new ResponseEntity<>(reportService.create(files, fileMetaData, data), HttpStatus.CREATED);
     }
 
@@ -77,7 +77,7 @@ public class ReportRestController {
     public ResponseEntity<ReportDTO.Info> update(
             @RequestParam(value = "files", required = false) List<MultipartFile> files,
             @RequestParam("fileMetaData") String fileMetaData,
-            @RequestParam("data") String data) throws IOException, InvalidResponseException, RegionConflictException, InvalidKeyException, NoSuchAlgorithmException, ServerException, InternalException, XmlParserException, InvalidBucketNameException, InsufficientDataException, ErrorResponseException, IllegalAccessException, NoSuchFieldException, InvocationTargetException {
+            @RequestParam("data") String data) throws Exception {
         return new ResponseEntity<>(reportService.update(files, fileMetaData, data), HttpStatus.OK);
     }
 

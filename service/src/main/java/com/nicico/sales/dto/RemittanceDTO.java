@@ -1,6 +1,9 @@
 package com.nicico.sales.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.nicico.sales.annotation.report.IgnoreReportField;
+import com.nicico.sales.annotation.report.ReportField;
+import com.nicico.sales.annotation.report.ReportModel;
 import com.nicico.sales.model.entities.warehouse.TozinTable;
 import com.nicico.sales.model.enumeration.EStatus;
 import io.swagger.annotations.ApiModel;
@@ -21,7 +24,9 @@ import java.util.List;
 public class RemittanceDTO {
 
     private String code;
+    @ReportField(titleMessageKey = "global.description", canFilter = false, hidden = true)
     private String description;
+    @IgnoreReportField
     private Long shipmentId;
 
     @Getter
@@ -31,9 +36,12 @@ public class RemittanceDTO {
     public static class InfoWithoutRemittanceDetail extends RemittanceDTO {
 
         private Long id;
+        @ReportModel(type = MaterialItemDTO.Info.class)
         private MaterialItemDTO.Info materialItem;
-        private ShipmentDTO.Info shipment;
+        @ReportModel(type = MaterialItemDTO.Info.class)
+        private MaterialItemDTO.Info shipment;
         private String date;
+        @ReportModel(type = TozinTableDTO.Info.class)
         private TozinTableDTO.Info tozinTable;
 
 
@@ -54,6 +62,9 @@ public class RemittanceDTO {
     @Accessors(chain = true)
     @ApiModel("RemittanceInfo")
     public static class Info extends RemittanceDTO.InfoWithoutRemittanceDetail {
+
+        @ReportField(titleMessageKey = "entity.remittance-detail")
+        @ReportModel(type = RemittanceDetailDTO.InfoWithoutRemittance.class, jumpTo = true)
         private List<RemittanceDetailDTO.InfoWithoutRemittance> remittanceDetails;
     }
 

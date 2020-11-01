@@ -11,9 +11,12 @@ import com.nicico.sales.dto.report.ReportDTO;
 import com.nicico.sales.exception.UnAuthorizedException;
 import com.nicico.sales.iservice.IFileService;
 import com.nicico.sales.iservice.report.IReportService;
+import com.nicico.sales.model.enumeration.ReportType;
 import com.nicico.sales.service.report.MappingUtil;
 import com.nicico.sales.utility.MakeExcelOutputUtil;
+import io.minio.errors.*;
 import lombok.RequiredArgsConstructor;
+import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.data.JsonDataSource;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
@@ -26,7 +29,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.sql.SQLException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -57,26 +65,39 @@ public class ReportExecuteFormController {
     public void print(HttpServletRequest request, HttpServletResponse response, @RequestParam MultiValueMap<String, String> criteria) throws Exception {
 
         String permissionKeyPrefix = "RG_P_";
-        ReportDTO.Info report = checkAccess(permissionKeyPrefix, criteria.getFirst("reportId"));
+        ReportDTO.Info report = reportService.checkAccess(permissionKeyPrefix, criteria.getFirst("reportId"));
 
         String baseUrl = request.getRequestURL().substring(0, request.getRequestURL().indexOf("/report-execute"));
         TotalResponse<Map<String, Object>> data = reportService.getReportData(report.getId(), baseUrl, criteria);
 
         Map<String, Object> parametersMap = new HashMap<>();
         parametersMap.put(ConstantVARs.REPORT_TYPE, criteria.getFirst("type"));
-        String resp = objectMapper.writeValueAsString(new HashMap() {{
-            put("content", data.getResponse().getData());
-        }});
+        HashMap value = new HashMap();
+        if (data != null &&
+                data.getResponse() != null &&
+                data.getResponse().getData() != null &&
+                data.getResponse().getData().size() > 1 &&
+                report.getReportType() == ReportType.OneRecord){
+
+            data.getResponse().setData(data.getResponse().getData().subList(0, 1));
+            data.getResponse().setEndRow(1);
+            data.getResponse().setStartRow(0);
+            data.getResponse().setTotalRows(1);
+        }
+        value.put("content", data.getResponse().getData());
+        String resp = objectMapper.writeValueAsString(value);
         FileDTO.Response file = fileService.retrieve(criteria.getFirst("fileKey"));
-        JsonDataSource jsonDataSource = new JsonDataSource(new ByteArrayInputStream(resp.getBytes(StandardCharsets.UTF_8)));
-        reportUtil.export(new ByteArrayInputStream(file.getContent()), parametersMap, jsonDataSource, response);
+        InputStream fileStream = new ByteArrayInputStream(file.getContent());
+        InputStream dataStream = new ByteArrayInputStream(resp.getBytes(StandardCharsets.UTF_8));
+        JsonDataSource jsonDataSource = new JsonDataSource(dataStream);
+        reportUtil.export(fileStream, parametersMap, jsonDataSource, response);
     }
 
     @RequestMapping("/excel")
     public void excel(HttpServletRequest request, HttpServletResponse response, @RequestParam MultiValueMap<String, String> criteria) throws Exception {
 
         String permissionKeyPrefix = "RG_E_";
-        ReportDTO.Info report = checkAccess(permissionKeyPrefix, criteria.getFirst("reportId"));
+        ReportDTO.Info report = reportService.checkAccess(permissionKeyPrefix, criteria.getFirst("reportId"));
 
         String baseUrl = request.getRequestURL().substring(0, request.getRequestURL().indexOf("/report-execute"));
         TotalResponse<Map<String, Object>> data = reportService.getReportData(report.getId(), baseUrl, criteria);
@@ -90,17 +111,5 @@ public class ReportExecuteFormController {
         List mappedData = resp.stream().map(item -> (Object) modelMapper.map(item, returnType)).collect(Collectors.toList());
         byte[] bytes = makeExcelOutputUtil.makeOutput(mappedData, returnType, fields, headers, true, "");
         makeExcelOutputUtil.makeExcelResponse(bytes, response);
-    }
-
-    private ReportDTO.Info checkAccess(String permissionKeyPrefix, String reportIdStr) {
-
-        long reportId = 0L;
-        if (!StringUtils.isEmpty(reportIdStr)) reportId = Long.parseLong(reportIdStr);
-
-        ReportDTO.Info report = reportService.get(reportId);
-        String authority = permissionKeyPrefix + report.getPermissionBaseKey();
-        if (!SecurityUtil.hasAuthority(authority)) throw new UnAuthorizedException(authority);
-
-        return report;
     }
 }
