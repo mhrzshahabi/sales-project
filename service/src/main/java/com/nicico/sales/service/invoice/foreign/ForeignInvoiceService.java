@@ -160,9 +160,9 @@ public class ForeignInvoiceService extends GenericService<ForeignInvoice, Long, 
         // Discounts
         Map<String, List<Object>> operationalDataOfDiscountArticle = contractDetailValueService2.get(contractId, EContractDetailTypeCode.Price, EContractDetailValueKey.DISCOUNT, true);
         List<Object> discounts = operationalDataOfDiscountArticle.get(EContractDetailValueKey.DISCOUNT.getId());
-        List<ContractDiscount> discountData = new ArrayList<>();
+        List<ContractDiscountDTO.Info> discountData = new ArrayList<>();
         if (discounts != null && discounts.size() != 0) {
-            discounts.forEach(discount -> discountData.add(modelMapper.map(discount, ContractDiscount.class)));
+            discounts.forEach(discount -> discountData.add(modelMapper.map(discount, ContractDiscountDTO.Info.class)));
             contractDetailData.setDiscount(discountData);
         } else
             contractDetailData.setDiscount(null);
