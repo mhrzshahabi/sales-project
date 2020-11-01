@@ -83,6 +83,7 @@ var nicico;
                 afterShowNewActionHook: null,
                 beforeShowEditActionHook: null,
                 afterShowEditActionHook: null,
+                beforeDeleteActionHook: null,
                 validateDeleteActionHook: null,
                 afterDeleteActionHook: null,
                 afterDeleteErrorActionHook: null,
