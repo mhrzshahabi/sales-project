@@ -15,7 +15,7 @@ isc.defineClass("InvoiceDeductionRow", isc.HLayout).addProperties({
     initWidget: function () {
 
         this.Super("initWidget", arguments);
-debugger
+
         let This = this;
         this.addMember(isc.Unit.create({
             width: "250",

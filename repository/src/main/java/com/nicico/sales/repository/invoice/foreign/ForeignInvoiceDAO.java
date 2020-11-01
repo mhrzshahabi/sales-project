@@ -13,4 +13,6 @@ public interface ForeignInvoiceDAO extends JpaRepository<ForeignInvoice, Long>, 
 
     List<ForeignInvoice> findAllByShipmentIdAndInvoiceTypeId(@Param("shipmentId") Long shipmentId, @Param("invoiceTypeId") Long invoiceTypeId);
 
+    List<ForeignInvoice> findAllByParentId(@Param("parentId") Long parentId);
+
 }

@@ -105,6 +105,19 @@ foreignInvoiceTab.listGrid.fields = BaseFormItems.concat([
         showHover: true,
         name: "accountingId",
         title: "<spring:message code='foreign-invoice.form.accounting-id'/>"
+    },
+    {
+        width: "100%",
+        showHover: true,
+        name: "percent",
+        title: "<spring:message code='foreign-invoice.form.percent'/>"
+    },
+    {
+        hidden: true,
+        width: "100%",
+        showHover: true,
+        name: "parentId",
+        title: "<spring:message code='foreign-invoice.form.parent-id'/>"
     }
 ]);
 foreignInvoiceTab.listGrid.fields.filter(q => q.name === "estatus").first().hidden = false;
@@ -726,7 +739,7 @@ foreignInvoiceTab.button.save = isc.IButtonSave.create({
                     foreignInvoiceTab.dynamicForm.valuesManager.setValue(
                         'inspectionAssayData',
                         foreignInvoiceTab.dynamicForm.baseData.getField('inspectionAssayId').getSelectedRecord());
-
+                    foreignInvoiceTab.dynamicForm.valuesManager.setValue('parentId', null);
                     // let selectedShipmentRemittanceDetailsCount = foreignInvoiceTab.dynamicForm.valuesManager.getValue('remittanceDetailId').length;
                     // let allShipmentRemittanceDetailsCount = Object.keys(foreignInvoiceTab.dynamicForm.baseData.getField('remittanceDetailId').getAllValueMappings()).length;
                 } else {
@@ -734,6 +747,7 @@ foreignInvoiceTab.button.save = isc.IButtonSave.create({
                     let record = foreignInvoiceTab.listGrid.main.getSelectedRecord();
                     console.log("record ", record);
                     foreignInvoiceTab.tab.invoice.removeTabs(foreignInvoiceTab.tab.invoice.tabs);
+                    foreignInvoiceTab.dynamicForm.valuesManager.setValue('parentId', record.id);
                     foreignInvoiceTab.dynamicForm.valuesManager.setValue('currency', record.currency);
                     foreignInvoiceTab.dynamicForm.valuesManager.setValue('conversionRef', record.conversionRef);
                     foreignInvoiceTab.dynamicForm.valuesManager.setValue('invoiceType', record.invoiceType);
@@ -744,6 +758,7 @@ foreignInvoiceTab.button.save = isc.IButtonSave.create({
                     foreignInvoiceTab.dynamicForm.valuesManager.setValue('date', foreignInvoiceTab.dynamicForm.invoiceCompletionDynamicForm.getValue("date"));
                     foreignInvoiceTab.dynamicForm.valuesManager.setValue('creator', foreignInvoiceTab.dynamicForm.invoiceCompletionDynamicForm.getField("creatorId").getSelectedRecord());
                     foreignInvoiceTab.dynamicForm.valuesManager.setValue('billLadings', foreignInvoiceTab.dynamicForm.invoiceCompletionValuesManager.getValue('billLadings'));
+                    foreignInvoiceTab.dynamicForm.valuesManager.setValue('remainingPercent', foreignInvoiceTab.dynamicForm.invoiceCompletionValuesManager.getValue('remainingPercent'));
                 }
 
                 foreignInvoiceTab.method.addTab(
@@ -760,6 +775,8 @@ foreignInvoiceTab.button.save = isc.IButtonSave.create({
                 if (foreignInvoiceTab.variable.materialId === ImportantIDs.material.MOLYBDENUM_OXIDE) {
 
                     let invoiceCalculation2Component = isc.InvoiceCalculation2.create({
+                        percent: foreignInvoiceTab.dynamicForm.valuesManager.getValue("percent"),
+                        remainingPercent: foreignInvoiceTab.dynamicForm.valuesManager.getValue("remainingPercent"),
                         currency: foreignInvoiceTab.dynamicForm.valuesManager.getValue("currency"),
                         contract: foreignInvoiceTab.dynamicForm.valuesManager.getValue('contract'),
                         shipment: foreignInvoiceTab.dynamicForm.valuesManager.getValue("shipment"),
@@ -772,6 +789,7 @@ foreignInvoiceTab.button.save = isc.IButtonSave.create({
                     invoiceCalculation2Component.okButtonClick = function addRelatedPaymentTab2() {
 
                         let invoicePaymentComponent = isc.InvoicePayment.create({
+                            parentId: foreignInvoiceTab.dynamicForm.valuesManager.getValue("parentId"),
                             currency: foreignInvoiceTab.dynamicForm.valuesManager.getValue("currency"),
                             shipment: foreignInvoiceTab.dynamicForm.valuesManager.getValue("shipment"),
                             conversionRef: foreignInvoiceTab.dynamicForm.valuesManager.getValue('conversionRef'),
@@ -791,6 +809,7 @@ foreignInvoiceTab.button.save = isc.IButtonSave.create({
                 } else if (foreignInvoiceTab.variable.materialId === ImportantIDs.material.COPPER_CONCENTRATES) {
 
                     let invoiceBaseValuesComponent = isc.InvoiceBaseValues.create({
+                        remainingPercent: foreignInvoiceTab.dynamicForm.valuesManager.getValue("remainingPercent"),
                         currency: foreignInvoiceTab.dynamicForm.valuesManager.getValue("currency"),
                         contract: foreignInvoiceTab.dynamicForm.valuesManager.getValue("contract"),
                         shipment: foreignInvoiceTab.dynamicForm.valuesManager.getValue("shipment"),
@@ -806,7 +825,6 @@ foreignInvoiceTab.button.save = isc.IButtonSave.create({
                     invoiceBaseValuesComponent.okButtonClick = function () {
 
                         let invoiceCalculationComponent = isc.InvoiceCalculation.create({
-
                             currency: foreignInvoiceTab.dynamicForm.valuesManager.getValue("currency"),
                             invoiceBaseAssayComponent: invoiceBaseValuesComponent.invoiceBaseAssayComponent,
                             invoiceBasePriceComponent: invoiceBaseValuesComponent.invoiceBasePriceComponent,
@@ -828,6 +846,7 @@ foreignInvoiceTab.button.save = isc.IButtonSave.create({
 
                                 let invoicePaymentComponent = isc.InvoicePayment.create({
                                     // shipmentCostInvoiceRate: selectedShipmentRemittanceDetailsCount / allShipmentRemittanceDetailsCount,
+                                    parentId: foreignInvoiceTab.dynamicForm.valuesManager.getValue("parentId"),
                                     currency: foreignInvoiceTab.dynamicForm.valuesManager.getValue("currency"),
                                     shipment: foreignInvoiceTab.dynamicForm.valuesManager.getValue("shipment"),
                                     conversionRef: foreignInvoiceTab.dynamicForm.valuesManager.getValue('conversionRef'),
@@ -843,10 +862,12 @@ foreignInvoiceTab.button.save = isc.IButtonSave.create({
                 } else {
 
                     let invoiceCalculationCathodeComponent = isc.InvoiceCalculationCathode.create({
+                        percent: foreignInvoiceTab.dynamicForm.valuesManager.getValue("percent"),
+                        remainingPercent: foreignInvoiceTab.dynamicForm.valuesManager.getValue("remainingPercent"),
                         currency: foreignInvoiceTab.dynamicForm.valuesManager.getValue("currency"),
                         contract: foreignInvoiceTab.dynamicForm.valuesManager.getValue('contract'),
                         shipment: foreignInvoiceTab.dynamicForm.valuesManager.getValue("shipment"),
-                        percent: foreignInvoiceTab.dynamicForm.valuesManager.getValue("percent"),
+                        basePriceData: foreignInvoiceTab.dynamicForm.valuesManager.getValue("cathodeBasePriceData"),
                         contractDetailData: foreignInvoiceTab.variable.contractDetailData,
                         inspectionWeightData: foreignInvoiceTab.dynamicForm.valuesManager.getValue("inspectionWeightData"),
                     });
@@ -854,6 +875,7 @@ foreignInvoiceTab.button.save = isc.IButtonSave.create({
                     invoiceCalculationCathodeComponent.okButtonClick = function addRelatedPaymentTab2() {
 
                         let invoicePaymentComponent = isc.InvoicePayment.create({
+                            parentId: foreignInvoiceTab.dynamicForm.valuesManager.getValue("parentId"),
                             currency: foreignInvoiceTab.dynamicForm.valuesManager.getValue("currency"),
                             shipment: foreignInvoiceTab.dynamicForm.valuesManager.getValue("shipment"),
                             conversionRef: foreignInvoiceTab.dynamicForm.valuesManager.getValue('conversionRef'),
@@ -987,7 +1009,6 @@ foreignInvoiceTab.variable.invoiceForm.populateData = function (bodyWidget) {
 
     let invoicePaymentComponent = foreignInvoiceTab.tab.invoice.tabs.filter(t => t.pane.Class === isc.InvoicePayment.Class).first();
     if (!invoicePaymentComponent) return null;
-
     let data = foreignInvoiceTab.dynamicForm.valuesManager.getValues();
     let inspectionWeightData = foreignInvoiceTab.dynamicForm.valuesManager.getValue('inspectionWeightData');
     let inspectionAssayData = foreignInvoiceTab.dynamicForm.valuesManager.getValue('inspectionAssayData');
@@ -1010,6 +1031,16 @@ foreignInvoiceTab.variable.invoiceForm.populateData = function (bodyWidget) {
     data.inspectionWeightReportId = inspectionWeightData.id;
     data.inspectionAssayReportId = inspectionAssayData ? inspectionAssayData.id : null;
     data.foreignInvoicePayments = paymentComponentValues.shipmentCostInvoices;
+    data.parentId = paymentComponentValues.parentId;
+
+    if (paymentComponentValues.parentId) {
+
+        data.creatorId = data.creator.id;
+        data.contractId = data.contract.id;
+        data.shipmentId = data.shipment.id;
+        data.currencyId = data.currency.id;
+        data.invoiceTypeId = data.invoiceType.id;
+    }
 
     if (foreignInvoiceTab.variable.materialId === ImportantIDs.material.COPPER_CONCENTRATES) {
 
@@ -1069,6 +1100,7 @@ foreignInvoiceTab.variable.invoiceForm.populateData = function (bodyWidget) {
     } else if (foreignInvoiceTab.variable.materialId === ImportantIDs.material.MOLYBDENUM_OXIDE) {
 
         let invoiceCalculation2Component = foreignInvoiceTab.tab.invoice.tabs.filter(t => t.pane.Class === isc.InvoiceCalculation2.Class).first().pane;
+        data.percent = invoiceCalculation2Component.getPercent();
         data.foreignInvoiceItems = invoiceCalculation2Component.getForeignInvoiceItems();
 
     } else {
@@ -1107,7 +1139,6 @@ foreignInvoiceTab.dynamicForm.invoiceCompletionDynamicForm = isc.DynamicForm.cre
     numCols: 4,
     width: "100%",
     align: "center",
-    // canSubmit: true,
     showErrorText: true,
     showErrorStyle: true,
     showInlineErrors: true,
@@ -1154,13 +1185,7 @@ foreignInvoiceTab.dynamicForm.invoiceCompletionDynamicForm = isc.DynamicForm.cre
                     type: "required",
                     validateOnChange: true
                 }]
-        }, /*{
-            name: "weightInspectionReport",
-            title: "<spring:message code='entity.weight-inspection'/>",
-            type: "staticText",
-            titleColSpan: 2,
-            colSpan: 2
-        },*/ {
+        }, {
             name: "remainingPercent",
             title: "<spring:message code='foreign-invoice.form.remaining.percent'/>",
             type: "staticText",
@@ -1216,8 +1241,7 @@ foreignInvoiceTab.window.invoiceCompletionForm.init(null, '<spring:message code=
         isc.VLayout.create({
             width: "100%",
             members: [
-                // foreignInvoiceTab.button.save,
-                // foreignInvoiceTab.button.cancel,
+
                 foreignInvoiceTab.dynamicForm.invoiceCompletionDynamicForm,
                 isc.ToolStrip.create({
                     width: "100%",
@@ -1233,8 +1257,6 @@ foreignInvoiceTab.window.invoiceCompletionForm.init(null, '<spring:message code=
     ]
 }), "500", "10%");
 
-// foreignInvoiceTab.window.invoiceCompletionForm.populateData = function (bodyWidget) {};
-//
 foreignInvoiceTab.window.invoiceCompletionForm.validate = function (data) {
 
     let isValid = true;
@@ -1247,6 +1269,11 @@ foreignInvoiceTab.window.invoiceCompletionForm.validate = function (data) {
     foreignInvoiceTab.dynamicForm.invoiceCompletionDynamicForm.validate();
     if (foreignInvoiceTab.dynamicForm.invoiceCompletionDynamicForm.hasErrors())
         isValid = false;
+
+    if (foreignInvoiceTab.dynamicForm.invoiceCompletionDynamicForm.getValue("remainingPercent") <= 0) {
+        isValid = false;
+        foreignInvoiceTab.dialog.say("<spring:message code='foreign-invoice.form.validate.no-remaining-percent'/>");
+    }
 
     return isValid;
 };
@@ -1268,6 +1295,7 @@ nicico.BasicFormUtil.createListGrid = function () {
             sortDirection: "descending"
         });
 };
+
 nicico.BasicFormUtil.getDefaultBasicForm(foreignInvoiceTab, "api/foreign-invoice/");
 nicico.BasicFormUtil.showAllToolStripActions(foreignInvoiceTab);
 nicico.BasicFormUtil.removeExtraGridMenuActions(foreignInvoiceTab);
@@ -1280,8 +1308,13 @@ foreignInvoiceTab.toolStrip.main.addMember(isc.ToolStripButton.create({
 
         foreignInvoiceTab.variable.method = "POST";
         foreignInvoiceTab.variable.completionInvoice = true;
-        foreignInvoiceTab.button.selectBillLadingCompletion.enable();
         let record = foreignInvoiceTab.listGrid.main.getSelectedRecord();
+        foreignInvoiceTab.button.selectBillLadingCompletion.criteria = {
+            operator: "equals",
+            fieldName: "shipmentId",
+            value: record.shipmentId
+        };
+        foreignInvoiceTab.button.selectBillLadingCompletion.enable();
         if (record == null || record.id == null)
             foreignInvoiceTab.dialog.notSelected();
         else if (record.editable === false)
@@ -1290,6 +1323,8 @@ foreignInvoiceTab.toolStrip.main.addMember(isc.ToolStripButton.create({
             foreignInvoiceTab.dialog.inactiveRecord();
         else if (record.estatus.contains(Enums.eStatus2.Final))
             foreignInvoiceTab.dialog.finalRecord();
+        else if (record.parentId)
+            foreignInvoiceTab.dialog.say('<spring:message code="foreign-invoice.form.invoice.completion.on.parent"/>');
         else {
 
             foreignInvoiceTab.variable.materialId = record.shipment.materialId;
@@ -1321,6 +1356,39 @@ foreignInvoiceTab.toolStrip.main.addMember(isc.ToolStripButton.create({
         }
     }
 }), 7);
+
+foreignInvoiceTab.toolStrip.main.addMember(isc.ToolStripButton.create({
+    visibility: "visible",
+    icon: "pieces/16/icon_view.png",
+    title: "<spring:message code='global.form.filter'/>",
+    click: function () {
+
+        let record = foreignInvoiceTab.listGrid.main.getSelectedRecord();
+        if (record == null)
+            foreignInvoiceTab.dialog.notSelected();
+        else {
+            let referenceId = record.parentId ? record.parentId : record.id;
+            foreignInvoiceTab.listGrid.main.setCriteria({
+                _constructor: "AdvancedCriteria",
+                operator: "or",
+                criteria:
+                    [
+                        {
+                            fieldName: "id",
+                            operator: "equals",
+                            value: referenceId
+                        },
+                        {
+                            fieldName: "parentId",
+                            operator: "equals",
+                            value: referenceId
+                        },
+
+                    ]
+            });
+        }
+    }
+}), 8);
 
 foreignInvoiceTab.dynamicForm.main = null;
 
@@ -2537,7 +2605,7 @@ foreignInvoiceTab.method.newForm = function () {
 
     // Molybdenum
     // foreignInvoiceTab.dynamicForm.valuesManager.setValues({
-    //     "date": "2020-10-03T08:30:00.000Z",
+    //     "date": "2020-11-01T08:30:00.000Z",
     //     "billLadings": [
     //         {
     //             "documentNo": "662",
@@ -2564,6 +2632,7 @@ foreignInvoiceTab.method.newForm = function () {
     //             "shipperExporter": {
     //                 "nameFA": "شرکت ملی صنایع مس ایران",
     //                 "nameEN": "NATIONAL IRANIAN COPPER INDUSTRIES CO.",
+    //                 "name": "NATIONAL IRANIAN COPPER INDUSTRIES CO.",
     //                 "phone": "+982182138231",
     //                 "fax": "+982188102822",
     //                 "address": "NO. 2161 VALI-E-ASR AVE., NEXT TO SAEI PARK, TEHRAN, IRAN",
@@ -2575,8 +2644,9 @@ foreignInvoiceTab.method.newForm = function () {
     //                 "countryId": 1,
     //                 "id": 2,
     //                 "country": {
-    //                     "nameFa": "ایران",
-    //                     "nameEn": "Iran (Islamic Republic of)"
+    //                     "nameFA": "ایران",
+    //                     "nameEN": "Iran (Islamic Republic of)",
+    //                     "name": "Iran (Islamic Republic of)"
     //                 },
     //                 "createdDate": 1578197254109,
     //                 "createdBy": "dorani_sa",
@@ -2587,6 +2657,7 @@ foreignInvoiceTab.method.newForm = function () {
     //             "switchShipperExporter": {
     //                 "nameFA": "شرکت ملی صنایع مس ایران",
     //                 "nameEN": "NATIONAL IRANIAN COPPER INDUSTRIES CO.",
+    //                 "name": "NATIONAL IRANIAN COPPER INDUSTRIES CO.",
     //                 "phone": "+982182138231",
     //                 "fax": "+982188102822",
     //                 "address": "NO. 2161 VALI-E-ASR AVE., NEXT TO SAEI PARK, TEHRAN, IRAN",
@@ -2598,8 +2669,9 @@ foreignInvoiceTab.method.newForm = function () {
     //                 "countryId": 1,
     //                 "id": 2,
     //                 "country": {
-    //                     "nameFa": "ایران",
-    //                     "nameEn": "Iran (Islamic Republic of)"
+    //                     "nameFA": "ایران",
+    //                     "nameEN": "Iran (Islamic Republic of)",
+    //                     "name": "Iran (Islamic Republic of)"
     //                 },
     //                 "createdDate": 1578197254109,
     //                 "createdBy": "dorani_sa",
@@ -2610,6 +2682,7 @@ foreignInvoiceTab.method.newForm = function () {
     //             "notifyParty": {
     //                 "nameFA": "HUARUO(SHANGHAI) INDUSTRIAL CO.,LTD.",
     //                 "nameEN": "HUARUO(SHANGHAI) INDUSTRIAL CO.,LTD.",
+    //                 "name": "HUARUO(SHANGHAI) INDUSTRIAL CO.,LTD.",
     //                 "phone": "+86 021-68818789",
     //                 "fax": "+86 021-68828789",
     //                 "type": true,
@@ -2619,8 +2692,9 @@ foreignInvoiceTab.method.newForm = function () {
     //                 "countryId": 2,
     //                 "id": 225,
     //                 "country": {
-    //                     "nameFa": "چین",
-    //                     "nameEn": "China"
+    //                     "nameFA": "چین",
+    //                     "nameEN": "China",
+    //                     "name": "China"
     //                 },
     //                 "createdDate": 1589591572259,
     //                 "createdBy": "db_mazloom",
@@ -2629,6 +2703,7 @@ foreignInvoiceTab.method.newForm = function () {
     //             "switchNotifyParty": {
     //                 "nameFA": "HUARUO(SHANGHAI) INDUSTRIAL CO.,LTD.",
     //                 "nameEN": "HUARUO(SHANGHAI) INDUSTRIAL CO.,LTD.",
+    //                 "name": "HUARUO(SHANGHAI) INDUSTRIAL CO.,LTD.",
     //                 "phone": "+86 021-68818789",
     //                 "fax": "+86 021-68828789",
     //                 "type": true,
@@ -2638,8 +2713,9 @@ foreignInvoiceTab.method.newForm = function () {
     //                 "countryId": 2,
     //                 "id": 225,
     //                 "country": {
-    //                     "nameFa": "چین",
-    //                     "nameEn": "China"
+    //                     "nameFA": "چین",
+    //                     "nameEN": "China",
+    //                     "name": "China"
     //                 },
     //                 "createdDate": 1589591572259,
     //                 "createdBy": "db_mazloom",
@@ -2648,6 +2724,7 @@ foreignInvoiceTab.method.newForm = function () {
     //             "consignee": {
     //                 "nameFA": "CHINA MINMETALS NON-FERROUS METALS CO., LTD",
     //                 "nameEN": "CHINA MINMETALS NON-FERROUS METALS CO., LTD",
+    //                 "name": "CHINA MINMETALS NON-FERROUS METALS CO., LTD",
     //                 "phone": "+8601068495586",
     //                 "fax": "+8601068495562",
     //                 "address": "NO.5 SANLIHE ROAD, HAIDIAN DISTRICT, BEIJING 100044, P.R. CHINA ",
@@ -2660,8 +2737,9 @@ foreignInvoiceTab.method.newForm = function () {
     //                 "countryId": 2,
     //                 "id": 1,
     //                 "country": {
-    //                     "nameFa": "چین",
-    //                     "nameEn": "China"
+    //                     "nameFA": "چین",
+    //                     "nameEN": "China",
+    //                     "name": "China"
     //                 },
     //                 "createdDate": 1578197169411,
     //                 "createdBy": "dorani_sa",
@@ -2696,6 +2774,7 @@ foreignInvoiceTab.method.newForm = function () {
     //             "switchConsignee": {
     //                 "nameFA": "CHINA MINMETALS NON-FERROUS METALS CO., LTD",
     //                 "nameEN": "CHINA MINMETALS NON-FERROUS METALS CO., LTD",
+    //                 "name": "CHINA MINMETALS NON-FERROUS METALS CO., LTD",
     //                 "phone": "+8601068495586",
     //                 "fax": "+8601068495562",
     //                 "address": "NO.5 SANLIHE ROAD, HAIDIAN DISTRICT, BEIJING 100044, P.R. CHINA ",
@@ -2708,8 +2787,9 @@ foreignInvoiceTab.method.newForm = function () {
     //                 "countryId": 2,
     //                 "id": 1,
     //                 "country": {
-    //                     "nameFa": "چین",
-    //                     "nameEn": "China"
+    //                     "nameFA": "چین",
+    //                     "nameEN": "China",
+    //                     "name": "China"
     //                 },
     //                 "createdDate": 1578197169411,
     //                 "createdBy": "dorani_sa",
@@ -2746,8 +2826,9 @@ foreignInvoiceTab.method.newForm = function () {
     //                 "countryId": 2,
     //                 "id": 33,
     //                 "country": {
-    //                     "nameFa": "چین",
-    //                     "nameEn": "China",
+    //                     "nameFA": "چین",
+    //                     "nameEN": "China",
+    //                     "name": "China",
     //                     "id": 2,
     //                     "createdDate": 1599977039984,
     //                     "createdBy": "j.azad",
@@ -2770,8 +2851,9 @@ foreignInvoiceTab.method.newForm = function () {
     //                 "countryId": 2,
     //                 "id": 33,
     //                 "country": {
-    //                     "nameFa": "چین",
-    //                     "nameEn": "China",
+    //                     "nameFA": "چین",
+    //                     "nameEN": "China",
+    //                     "name": "China",
     //                     "id": 2,
     //                     "createdDate": 1599977039984,
     //                     "createdBy": "j.azad",
@@ -2794,8 +2876,9 @@ foreignInvoiceTab.method.newForm = function () {
     //                 "countryId": 2,
     //                 "id": 29,
     //                 "country": {
-    //                     "nameFa": "چین",
-    //                     "nameEn": "China",
+    //                     "nameFA": "چین",
+    //                     "nameEN": "China",
+    //                     "name": "China",
     //                     "id": 2,
     //                     "createdDate": 1599977039984,
     //                     "createdBy": "j.azad",
@@ -2820,8 +2903,9 @@ foreignInvoiceTab.method.newForm = function () {
     //                 "countryId": 2,
     //                 "id": 29,
     //                 "country": {
-    //                     "nameFa": "چین",
-    //                     "nameEn": "China",
+    //                     "nameFA": "چین",
+    //                     "nameEN": "China",
+    //                     "name": "China",
     //                     "id": 2,
     //                     "createdDate": 1599977039984,
     //                     "createdBy": "j.azad",
@@ -2861,7 +2945,7 @@ foreignInvoiceTab.method.newForm = function () {
     //             },
     //             "containers": [],
     //             "shipmentType": {
-    //                 "shipmentType": "کانتینری",
+    //                 "shipmentType": "CONTAINER",
     //                 "id": 2,
     //                 "createdDate": 1587278588350,
     //                 "createdBy": "j.azad",
@@ -2870,7 +2954,7 @@ foreignInvoiceTab.method.newForm = function () {
     //                 "version": 0
     //             },
     //             "shipmentMethod": {
-    //                 "shipmentMethod": "حمل هوایی",
+    //                 "shipmentMethod": "AIR TRANSPORT",
     //                 "id": 2,
     //                 "createdDate": 1587278588350,
     //                 "createdBy": "j.azad",
@@ -2890,7 +2974,7 @@ foreignInvoiceTab.method.newForm = function () {
     //                 "materialId": 1,
     //                 "contactAgentId": 136,
     //                 "unitId": -32,
-    //                 "dischargePortId": 29,
+    //                 "dischargePortId": 30,
     //                 "amount": 678000,
     //                 "automationLetterNo": "35435",
     //                 "automationLetterDate": 1569702600000,
@@ -2903,11 +2987,14 @@ foreignInvoiceTab.method.newForm = function () {
     //                 "id": 41,
     //                 "createdDate": 1601719169394,
     //                 "createdBy": "m.shahabi",
-    //                 "version": 0,
+    //                 "lastModifiedDate": 1603091149068,
+    //                 "lastModifiedBy": "db_zare",
+    //                 "version": 1,
     //                 "editable": true,
     //                 "unit": {
     //                     "nameFA": "دلار آمریکا",
     //                     "nameEN": "US Dollar",
+    //                     "name": "US Dollar",
     //                     "categoryUnit": "Finance",
     //                     "symbolUnit": "$",
     //                     "id": -32,
@@ -2924,6 +3011,7 @@ foreignInvoiceTab.method.newForm = function () {
     //                 "contact": {
     //                     "nameFA": "HUARUO(SHANGHAI) INDUSTRIAL CO.,LTD.",
     //                     "nameEN": "HUARUO(SHANGHAI) INDUSTRIAL CO.,LTD.",
+    //                     "name": "HUARUO(SHANGHAI) INDUSTRIAL CO.,LTD.",
     //                     "phone": "+86 021-68818789",
     //                     "fax": "+86 021-68828789",
     //                     "type": true,
@@ -2933,20 +3021,22 @@ foreignInvoiceTab.method.newForm = function () {
     //                     "countryId": 2,
     //                     "id": 225,
     //                     "country": {
-    //                         "nameFa": "چین",
-    //                         "nameEn": "China"
+    //                         "nameFA": "چین",
+    //                         "nameEN": "China",
+    //                         "name": "China"
     //                     },
     //                     "createdDate": 1589591572259,
     //                     "createdBy": "db_mazloom",
     //                     "version": 0
     //                 },
     //                 "dischargePort": {
-    //                     "port": "XIAMEN",
+    //                     "port": "ZHOUSHAN",
     //                     "countryId": 2,
-    //                     "id": 29,
+    //                     "id": 30,
     //                     "country": {
-    //                         "nameFa": "چین",
-    //                         "nameEn": "China",
+    //                         "nameFA": "چین",
+    //                         "nameEN": "China",
+    //                         "name": "China",
     //                         "id": 2,
     //                         "createdDate": 1599977039984,
     //                         "createdBy": "j.azad",
@@ -2956,11 +3046,9 @@ foreignInvoiceTab.method.newForm = function () {
     //                             "Active"
     //                         ]
     //                     },
-    //                     "createdDate": 1587866198689,
+    //                     "createdDate": 1587866229644,
     //                     "createdBy": "db_mazloom",
-    //                     "lastModifiedDate": 1587866273960,
-    //                     "lastModifiedBy": "db_mazloom",
-    //                     "version": 1,
+    //                     "version": 0,
     //                     "editable": true,
     //                     "estatus": [
     //                         "Active"
@@ -2969,6 +3057,7 @@ foreignInvoiceTab.method.newForm = function () {
     //                 "contactAgent": {
     //                     "nameFA": "GRASH DARYA",
     //                     "nameEN": "GRASH DARYA",
+    //                     "name": "GRASH DARYA",
     //                     "phone": "21-88727255",
     //                     "fax": "21-88726762",
     //                     "type": false,
@@ -2981,8 +3070,9 @@ foreignInvoiceTab.method.newForm = function () {
     //                     "countryId": 1,
     //                     "id": 136,
     //                     "country": {
-    //                         "nameFa": "ایران",
-    //                         "nameEn": "Iran (Islamic Republic of)"
+    //                         "nameFA": "ایران",
+    //                         "nameEN": "Iran (Islamic Republic of)",
+    //                         "name": "Iran (Islamic Republic of)"
     //                     },
     //                     "createdDate": 1587875271899,
     //                     "createdBy": "db_mazloom",
@@ -2991,8 +3081,8 @@ foreignInvoiceTab.method.newForm = function () {
     //                     "version": 1
     //                 },
     //                 "material": {
-    //                     "descl": "Molybdenum Oxide",
-    //                     "descp": "اکسید مولیبدن",
+    //                     "descEN": "Molybdenum Oxide",
+    //                     "descFA": "اکسید مولیبدن",
     //                     "code": "28257000",
     //                     "unitId": -1,
     //                     "abbreviation": "MO",
@@ -3000,6 +3090,7 @@ foreignInvoiceTab.method.newForm = function () {
     //                     "unit": {
     //                         "nameFA": "تن",
     //                         "nameEN": "MT",
+    //                         "name": "MT",
     //                         "categoryUnit": "Weight",
     //                         "symbolUnit": "PERCENT"
     //                     },
@@ -3008,7 +3099,7 @@ foreignInvoiceTab.method.newForm = function () {
     //                     "version": 3
     //                 },
     //                 "shipmentType": {
-    //                     "shipmentType": "کانتینری",
+    //                     "shipmentType": "CONTAINER",
     //                     "id": 2,
     //                     "createdDate": 1587278588350,
     //                     "createdBy": "j.azad",
@@ -3017,7 +3108,7 @@ foreignInvoiceTab.method.newForm = function () {
     //                     "version": 0
     //                 },
     //                 "shipmentMethod": {
-    //                     "shipmentMethod": "حمل هوایی",
+    //                     "shipmentMethod": "AIR TRANSPORT",
     //                     "id": 2,
     //                     "createdDate": 1587278588350,
     //                     "createdBy": "j.azad",
@@ -3034,10 +3125,10 @@ foreignInvoiceTab.method.newForm = function () {
     //                     "id": 161,
     //                     "contract": {
     //                         "no": "567",
-    //                         "date": 1601713800000,
-    //                         "affectFrom": 1601713800000,
-    //                         "affectUpTo": 1601713800000,
-    //                         "content": "<br><div align=\"center\"><b>IN THE NAME OF ALLAH</b><br></div><br>THIS CONTRACT IS SIGNED &amp; STAMPED BETWEEN FOLLOWING COMPANIES AND PARTIES ARE OBLIGATED AND BOUND TO FULFILL:<br><br><b>HUARUO(SHANGHAI) INDUSTRIAL CO.,LTD.</b><br>,<br>MOBILE NUMBER: ${BUYER_MOBILE}<br>TEL: +86 021-68818789, FAX: +86 021-68828789<br><br>HEREINAFTER CALLED “BUYER”,<br><br><b>AND</b><br><br><b>NATIONAL IRANIAN COPPER INDUSTRIES CO.</b><br>NO. 2161 VALI-E-ASR AVE., NEXT TO SAEI PARK, TEHRAN, IRAN<br><br>TEL: +982182138231, FAX:&nbsp; +982188102822<br>HEREINAFTER CALLED “SELLER”,<br><br><br>THEREFORE, “SELLER” AGREES HEREBY TO SELL AND DELIVER AND “BUYER” AGREES TO PURCHASE, RECEIVE AND PAY FOR THE MOLYBDENUM OXIDE SPECIFIED BELOW AS PER THE FOLLOWING TERMS AND CONDITIONS:<br><b><br>ARTICLE 1 – DEFINITIONS:</b><br>1 TON = 1 METRIC TON OF 1'000 KILOGRAMS OR 2204.62 LBS<br>WORKING/BUSINESS DAY FOR BUYER = MONDAY TO THURSDAY, FRIDAY; SATURDAY AND LEGAL HOLIDAY EXCLUDED<br>WORKING/BUSINESS DAY FOR SELLER = SATURDAY TO WEDNESDAY; THURSDAY AND FRIDAY AND LEGAL HOLIDAY EXCLUDED.<br>AM/PM = ANTE MERIDIEM / POST MERIDIEM<br>THE MATERIAL = SHALL MEAN THE MATERIAL AS DEFINED IN \"ARTICLE 3 – QUALITY\"<br>FOB = FREE ON BOARD (ACCORDING TO INCOTERMS 2010).<br>USD = USD AND USC = DOLLARS AND CENTS ARE UNITED STATES CURRENCY<br>AED = UNITED ARAB EMIRATES DIRHAM<br>EURO = EURO IS THE SINGLE CURRENCY OF THE EUROPEAN ECONOMIC AND MONETARY UNION (EMU) INTRODUCED IN JANUARY 1999.<br><br><br><br><h2>MoArticle3Quantity</h2>\n\n\n\t\n\t\n\t\n\t\n\n<p dir=\"ltr\">\n\n\n\n\t\n\t\n\t\n\t\n\n</p><h1 dir=\"ltr\" class=\"ctl\">\n<font face=\"Palatino, Book Antiqua\"><font style=\"font-size: 12pt\" size=\"3\"><span lang=\"en-US\"><span style=\"font-variant: normal\"><font color=\"#000000\"><font face=\"Times New Roman, serif\"><font style=\"font-size: 8pt\" size=\"1\"><u>ARTICLE\n3 – QUALITY:</u></font></font></font></span></span></font></font></h1>\n<p dir=\"ltr\"><font face=\"Palatino, Book Antiqua\"><font style=\"font-size: 12pt\" size=\"3\"><span lang=\"en-US\"><font color=\"#000000\"><font face=\"Times New Roman, serif\"><font style=\"font-size: 8pt\" size=\"1\">MOLYBDENUM\nOXIDE ASSAYS ARE AS FOLLOWS:</font></font></font></span></font></font></p>\n<p dir=\"ltr\"><br>\n\n</p>\n<ul><li><p dir=\"ltr\" style=\"background: #ffffff\" align=\"justify\"><font style=\"font-size: 12pt\" size=\"3\"><span lang=\"en-US\"><font color=\"#000000\"><font style=\"font-size: 8pt\" size=\"1\">90\n\tMT</font></font><font color=\"#000000\"><font style=\"font-size: 8pt\" size=\"1\">\n\t</font></font><font color=\"#000000\"><font style=\"font-size: 8pt\" size=\"1\">±10%</font></font><font color=\"#000000\"><font style=\"font-size: 8pt\" size=\"1\">\n\tAS A WHOLE AFTER CONTRACT SETTLEMENT WITH BELOW ANALYSIS AND SIZE\n\tDETERMINATION:</font></font></span></font></p>\n</li></ul><br>\n<table dir=\"ltr\" width=\"408\" cellspacing=\"0\" cellpadding=\"7\">\n\t<colgroup><col width=\"43\">\n\n\t<col width=\"52\">\n\n\t<col width=\"33\">\n\n\t<col width=\"33\">\n\n\t<col width=\"33\">\n\n\t<col width=\"33\">\n\n\t<col width=\"33\">\n\n\t<col width=\"33\">\n\n\t</colgroup><tbody><tr>\n\t\t<td style=\"background: #ffffff\" width=\"43\" height=\"17\" bgcolor=\"#ffffff\"><p class=\"ctl\" align=\"left\">\n\t\t\t<font face=\"Times New Roman, serif\"><font style=\"font-size: 8pt\" size=\"1\"><span lang=\"en-US\"><b>Lot\n\t\t\tName</b></span></font></font></p>\n\t\t</td>\n\t\t<td style=\"background: #ffffff\" width=\"52\" bgcolor=\"#ffffff\"><p class=\"ctl\" align=\"center\">\n\t\t\t<font face=\"Times New Roman, serif\"><font style=\"font-size: 8pt\" size=\"1\"><span lang=\"en-US\"><b>Mo<br>\n%</b></span></font></font></p>\n\t\t</td>\n\t\t<td style=\"background: #ffffff\" width=\"33\" bgcolor=\"#ffffff\"><p class=\"ctl\" align=\"center\">\n\t\t\t<font face=\"Times New Roman, serif\"><font style=\"font-size: 8pt\" size=\"1\"><span lang=\"en-US\"><b>Cu<br>\n%</b></span></font></font></p>\n\t\t</td>\n\t\t<td style=\"background: #ffffff\" width=\"33\" bgcolor=\"#ffffff\"><p class=\"ctl\" align=\"center\">\n\t\t\t<font face=\"Times New Roman, serif\"><font style=\"font-size: 8pt\" size=\"1\"><span lang=\"en-US\"><b>Si<br>\n%</b></span></font></font></p>\n\t\t</td>\n\t\t<td style=\"background: #ffffff\" width=\"33\" bgcolor=\"#ffffff\"><p class=\"ctl\" align=\"center\">\n\t\t\t<font face=\"Times New Roman, serif\"><font style=\"font-size: 8pt\" size=\"1\"><span lang=\"en-US\"><b>Pb<br>\n%</b></span></font></font></p>\n\t\t</td>\n\t\t<td style=\"background: #ffffff\" width=\"33\" bgcolor=\"#ffffff\"><p class=\"ctl\" align=\"center\">\n\t\t\t<font face=\"Times New Roman, serif\"><font style=\"font-size: 8pt\" size=\"1\"><span lang=\"en-US\"><b>S<br>\n%\n\t\t\t</b></span></font></font>\n\t\t\t</p>\n\t\t</td>\n\t\t<td style=\"background: #ffffff\" width=\"33\" bgcolor=\"#ffffff\"><p class=\"ctl\" align=\"center\">\n\t\t\t<font face=\"Times New Roman, serif\"><font style=\"font-size: 8pt\" size=\"1\"><span lang=\"en-US\"><b>C<br>\n%\n\t\t\t</b></span></font></font>\n\t\t\t</p>\n\t\t</td>\n\t\t<td style=\"background: #ffffff\" width=\"33\" bgcolor=\"#ffffff\"><p class=\"ctl\" align=\"center\">\n\t\t\t<font face=\"Times New Roman, serif\"><font style=\"font-size: 8pt\" size=\"1\"><span lang=\"en-US\"><b>P<br>\n%\n\t\t\t</b></span></font></font>\n\t\t\t</p>\n\t\t</td>\n\t</tr>\n\t<tr>\n\t\t<td style=\"background: #ffffff\" width=\"43\" height=\"4\" bgcolor=\"#ffffff\"><p class=\"ctl\" align=\"center\">\n\t\t\t<font face=\"Times New Roman, serif\"><font style=\"font-size: 8pt\" size=\"1\"><span lang=\"en-US\"><b>E-18\n\t\t\t</b></span></font></font>\n\t\t\t</p>\n\t\t</td>\n\t\t<td style=\"background: #ffffff\" width=\"52\" bgcolor=\"#ffffff\"><p class=\"ctl\" align=\"center\">\n\t\t\t<font face=\"Times New Roman, serif\"><font style=\"font-size: 8pt\" size=\"1\"><span lang=\"en-US\">62.15</span></font></font></p>\n\t\t</td>\n\t\t<td style=\"background: #ffffff\" width=\"33\" bgcolor=\"#ffffff\"><p class=\"ctl\" align=\"center\">\n\t\t\t<font face=\"Times New Roman, serif\"><font style=\"font-size: 8pt\" size=\"1\"><span lang=\"en-US\">1.29</span></font></font></p>\n\t\t</td>\n\t\t<td style=\"background: #ffffff\" width=\"33\" bgcolor=\"#ffffff\"><p class=\"ctl\" align=\"center\">\n\t\t\t<font face=\"Times New Roman, serif\"><font style=\"font-size: 8pt\" size=\"1\"><span lang=\"en-US\">0.92</span></font></font></p>\n\t\t</td>\n\t\t<td style=\"background: #ffffff\" width=\"33\" bgcolor=\"#ffffff\"><p class=\"ctl\" align=\"center\">\n\t\t\t<font face=\"Times New Roman, serif\"><font style=\"font-size: 8pt\" size=\"1\"><span lang=\"en-US\">0.07</span></font></font></p>\n\t\t</td>\n\t\t<td style=\"background: #ffffff\" width=\"33\" bgcolor=\"#ffffff\"><p class=\"ctl\" align=\"center\">\n\t\t\t<font face=\"Times New Roman, serif\"><font style=\"font-size: 8pt\" size=\"1\"><span lang=\"en-US\">0.05</span></font></font></p>\n\t\t</td>\n\t\t<td style=\"background: #ffffff\" width=\"33\" bgcolor=\"#ffffff\"><p class=\"ctl\" align=\"center\">\n\t\t\t<font face=\"Times New Roman, serif\"><font style=\"font-size: 8pt\" size=\"1\"><span lang=\"en-US\">0.02</span></font></font></p>\n\t\t</td>\n\t\t<td style=\"background: #ffffff\" width=\"33\" bgcolor=\"#ffffff\"><p class=\"ctl\" align=\"center\">\n\t\t\t<font face=\"Times New Roman, serif\"><font style=\"font-size: 8pt\" size=\"1\"><span lang=\"en-US\">&lt;\n\t\t\t0.03 </span></font></font>\n\t\t\t</p>\n\t\t</td>\n\t</tr>\n\t<tr>\n\t\t<td style=\"background: #ffffff\" width=\"43\" bgcolor=\"#ffffff\"><p class=\"ctl\" align=\"center\">\n\t\t\t<font face=\"Times New Roman, serif\"><font style=\"font-size: 8pt\" size=\"1\"><span lang=\"en-US\"><b>E-19\n\t\t\t</b></span></font></font>\n\t\t\t</p>\n\t\t</td>\n\t\t<td style=\"background: #ffffff\" width=\"52\" bgcolor=\"#ffffff\"><p class=\"ctl\" align=\"center\">\n\t\t\t<font face=\"Times New Roman, serif\"><font style=\"font-size: 8pt\" size=\"1\"><span lang=\"en-US\">62.02</span></font></font></p>\n\t\t</td>\n\t\t<td style=\"background: #ffffff\" width=\"33\" bgcolor=\"#ffffff\"><p class=\"ctl\" align=\"center\">\n\t\t\t<font face=\"Times New Roman, serif\"><font style=\"font-size: 8pt\" size=\"1\"><span lang=\"en-US\">1.16</span></font></font></p>\n\t\t</td>\n\t\t<td style=\"background: #ffffff\" width=\"33\" bgcolor=\"#ffffff\"><p class=\"ctl\" align=\"center\">\n\t\t\t<font face=\"Times New Roman, serif\"><font style=\"font-size: 8pt\" size=\"1\"><span lang=\"en-US\">0.85</span></font></font></p>\n\t\t</td>\n\t\t<td style=\"background: #ffffff\" width=\"33\" bgcolor=\"#ffffff\"><p class=\"ctl\" align=\"center\">\n\t\t\t<font face=\"Times New Roman, serif\"><font style=\"font-size: 8pt\" size=\"1\"><span lang=\"en-US\">0.06</span></font></font></p>\n\t\t</td>\n\t\t<td style=\"background: #ffffff\" width=\"33\" bgcolor=\"#ffffff\"><p class=\"ctl\" align=\"center\">\n\t\t\t<font face=\"Times New Roman, serif\"><font style=\"font-size: 8pt\" size=\"1\"><span lang=\"en-US\">0.06</span></font></font></p>\n\t\t</td>\n\t\t<td style=\"background: #ffffff\" width=\"33\" bgcolor=\"#ffffff\"><p class=\"ctl\" align=\"center\">\n\t\t\t<font face=\"Times New Roman, serif\"><font style=\"font-size: 8pt\" size=\"1\"><span lang=\"en-US\">0.01</span></font></font></p>\n\t\t</td>\n\t\t<td style=\"background: #ffffff\" width=\"33\" bgcolor=\"#ffffff\"><p class=\"ctl\" align=\"center\">\n\t\t\t<font face=\"Times New Roman, serif\"><font style=\"font-size: 8pt\" size=\"1\"><span lang=\"en-US\">&lt;\n\t\t\t0.03 </span></font></font>\n\t\t\t</p>\n\t\t</td>\n\t</tr>\n\t<tr>\n\t\t<td style=\"background: #ffffff\" width=\"43\" bgcolor=\"#ffffff\"><p class=\"ctl\" align=\"center\">\n\t\t\t<font face=\"Times New Roman, serif\"><font style=\"font-size: 8pt\" size=\"1\"><span lang=\"en-US\"><b>E-21\n\t\t\t</b></span></font></font>\n\t\t\t</p>\n\t\t</td>\n\t\t<td style=\"background: #ffffff\" width=\"52\" bgcolor=\"#ffffff\"><p class=\"ctl\" align=\"center\">\n\t\t\t<font face=\"Times New Roman, serif\"><font style=\"font-size: 8pt\" size=\"1\"><span lang=\"en-US\">61.90</span></font></font></p>\n\t\t</td>\n\t\t<td style=\"background: #ffffff\" width=\"33\" bgcolor=\"#ffffff\"><p class=\"ctl\" align=\"center\">\n\t\t\t<font face=\"Times New Roman, serif\"><font style=\"font-size: 8pt\" size=\"1\"><span lang=\"en-US\">1.24</span></font></font></p>\n\t\t</td>\n\t\t<td style=\"background: #ffffff\" width=\"33\" bgcolor=\"#ffffff\"><p class=\"ctl\" align=\"center\">\n\t\t\t<font face=\"Times New Roman, serif\"><font style=\"font-size: 8pt\" size=\"1\"><span lang=\"en-US\">0.83</span></font></font></p>\n\t\t</td>\n\t\t<td style=\"background: #ffffff\" width=\"33\" bgcolor=\"#ffffff\"><p class=\"ctl\" align=\"center\">\n\t\t\t<font face=\"Times New Roman, serif\"><font style=\"font-size: 8pt\" size=\"1\"><span lang=\"en-US\">0.07</span></font></font></p>\n\t\t</td>\n\t\t<td style=\"background: #ffffff\" width=\"33\" bgcolor=\"#ffffff\"><p class=\"ctl\" align=\"center\">\n\t\t\t<font face=\"Times New Roman, serif\"><font style=\"font-size: 8pt\" size=\"1\"><span lang=\"en-US\">0.07</span></font></font></p>\n\t\t</td>\n\t\t<td style=\"background: #ffffff\" width=\"33\" bgcolor=\"#ffffff\"><p class=\"ctl\" align=\"center\">\n\t\t\t<font face=\"Times New Roman, serif\"><font style=\"font-size: 8pt\" size=\"1\"><span lang=\"en-US\">0.01</span></font></font></p>\n\t\t</td>\n\t\t<td style=\"background: #ffffff\" width=\"33\" bgcolor=\"#ffffff\"><p class=\"ctl\" align=\"center\">\n\t\t\t<font face=\"Times New Roman, serif\"><font style=\"font-size: 8pt\" size=\"1\"><span lang=\"en-US\">&lt;\n\t\t\t0.03 </span></font></font>\n\t\t\t</p>\n\t\t</td>\n\t</tr>\n\t<tr>\n\t\t<td style=\"background: #ffffff\" width=\"43\" bgcolor=\"#ffffff\"><p class=\"ctl\" align=\"center\">\n\t\t\t<font face=\"Times New Roman, serif\"><font style=\"font-size: 8pt\" size=\"1\"><span lang=\"en-US\"><b>E-22\n\t\t\t</b></span></font></font>\n\t\t\t</p>\n\t\t</td>\n\t\t<td style=\"background: #ffffff\" width=\"52\" bgcolor=\"#ffffff\"><p class=\"ctl\" align=\"center\">\n\t\t\t<font face=\"Times New Roman, serif\"><font style=\"font-size: 8pt\" size=\"1\"><span lang=\"en-US\">61.84</span></font></font></p>\n\t\t</td>\n\t\t<td style=\"background: #ffffff\" width=\"33\" bgcolor=\"#ffffff\"><p class=\"ctl\" align=\"center\">\n\t\t\t<font face=\"Times New Roman, serif\"><font style=\"font-size: 8pt\" size=\"1\"><span lang=\"en-US\">1.32</span></font></font></p>\n\t\t</td>\n\t\t<td style=\"background: #ffffff\" width=\"33\" bgcolor=\"#ffffff\"><p class=\"ctl\" align=\"center\">\n\t\t\t<font face=\"Times New Roman, serif\"><font style=\"font-size: 8pt\" size=\"1\"><span lang=\"en-US\">0.83</span></font></font></p>\n\t\t</td>\n\t\t<td style=\"background: #ffffff\" width=\"33\" bgcolor=\"#ffffff\"><p class=\"ctl\" align=\"center\">\n\t\t\t<font face=\"Times New Roman, serif\"><font style=\"font-size: 8pt\" size=\"1\"><span lang=\"en-US\">0.07</span></font></font></p>\n\t\t</td>\n\t\t<td style=\"background: #ffffff\" width=\"33\" bgcolor=\"#ffffff\"><p class=\"ctl\" align=\"center\">\n\t\t\t<font face=\"Times New Roman, serif\"><font style=\"font-size: 8pt\" size=\"1\"><span lang=\"en-US\">0.07</span></font></font></p>\n\t\t</td>\n\t\t<td style=\"background: #ffffff\" width=\"33\" bgcolor=\"#ffffff\"><p class=\"ctl\" align=\"center\">\n\t\t\t<font face=\"Times New Roman, serif\"><font style=\"font-size: 8pt\" size=\"1\"><span lang=\"en-US\">0.01</span></font></font></p>\n\t\t</td>\n\t\t<td style=\"background: #ffffff\" width=\"33\" bgcolor=\"#ffffff\"><p class=\"ctl\" align=\"center\">\n\t\t\t<font face=\"Times New Roman, serif\"><font style=\"font-size: 8pt\" size=\"1\"><span lang=\"en-US\">&lt;\n\t\t\t0.03 </span></font></font>\n\t\t\t</p>\n\t\t</td>\n\t</tr>\n</tbody></table>\n<p dir=\"ltr\" style=\"background: #ffffff\" align=\"left\"><br>\n\n</p>\n\n<style type=\"text/css\">\n\t\tp { direction: ltr; color: #000000; text-align: justify; orphans: 2; widows: 2; background: transparent }\n\t\tp.western { font-family: \"Times New Roman\", serif; font-size: 10pt; so-language: en-US }\n\t\tp.cjk { font-family: \"Times New Roman\", serif; font-size: 10pt }\n\t\tp.ctl { font-family: \"Times New Roman\", serif; font-size: 10pt; so-language: ar-SA }\n\t\ta:link { color: #0000ff; text-decoration: underline }</style><h2>MoShipment</h2><table style='border: 1px solid black;'><tr><th style='border: 1px solid black;'>بندر مبدا</th><th style='border: 1px solid black;'>مقدار</th><th style='border: 1px solid black;'>تلرانس</th><th style='border: 1px solid black;'>تاریخ ارسال</th></tr><tr><td style='border: 1px solid black;'>null</td><td style='border: 1px solid black;'>152</td><td style='border: 1px solid black;'>6</td><td style='border: 1px solid black;'>Tue Jul 07 2020 12:00:00 GMT+0430 (Iran Daylight Time)</td></tr></table><br>",
+    //                         "date": 1603528200000,
+    //                         "affectFrom": 1603528200000,
+    //                         "affectUpTo": 1603528200000,
+    //                         "content": "<br><div align=\"center\"><b>IN THE NAME OF ALLAH</b><br></div><br>THIS CONTRACT IS SIGNED &amp; STAMPED BETWEEN FOLLOWING COMPANIES AND PARTIES ARE OBLIGATED AND BOUND TO FULFILL:<br><br><b>HUARUO(SHANGHAI) INDUSTRIAL CO.,LTD.</b><br>,<br>MOBILE NUMBER: ,<br>TEL: +86 021-68818789, FAX: +86 021-68828789<br><br>HEREINAFTER CALLED “BUYER”,<br><br><b>AND</b><br><br><b>NATIONAL IRANIAN COPPER INDUSTRIES CO.</b><br>NO. 2161 VALI-E-ASR AVE., NEXT TO SAEI PARK, TEHRAN, IRAN<br><br>TEL: +982182138231, FAX:&nbsp; +982188102822<br>HEREINAFTER CALLED “SELLER”,<br><br><br>THEREFORE, “SELLER” AGREES HEREBY TO SELL AND DELIVER AND “BUYER” AGREES TO PURCHASE, RECEIVE AND PAY FOR THE MOLYBDENUM OXIDE SPECIFIED BELOW AS PER THE FOLLOWING TERMS AND CONDITIONS:<br><b><br>ARTICLE 1 – DEFINITIONS:</b><br>1 TON = 1 METRIC TON OF 1'000 KILOGRAMS OR 2204.62 LBS<br>WORKING/BUSINESS DAY FOR BUYER = MONDAY TO THURSDAY, FRIDAY; SATURDAY AND LEGAL HOLIDAY EXCLUDED<br>WORKING/BUSINESS DAY FOR SELLER = SATURDAY TO WEDNESDAY; THURSDAY AND FRIDAY AND LEGAL HOLIDAY EXCLUDED.<br>AM/PM = ANTE MERIDIEM / POST MERIDIEM<br>THE MATERIAL = SHALL MEAN THE MATERIAL AS DEFINED IN \"ARTICLE 3 – QUALITY\"<br>FOB = FREE ON BOARD (ACCORDING TO INCOTERMS 2010).<br>USD = USD AND USC = DOLLARS AND CENTS ARE UNITED STATES CURRENCY<br>AED = UNITED ARAB EMIRATES DIRHAM<br>EURO = EURO IS THE SINGLE CURRENCY OF THE EUROPEAN ECONOMIC AND MONETARY UNION (EMU) INTRODUCED IN JANUARY 1999.<br><br><br><br><h2>MoArticle3Quantity</h2>\n\n\n\t\n\t\n\t\n\t\n\n<p dir=\"ltr\">\n\n\n\n\t\n\t\n\t\n\t\n\n</p><h1 dir=\"ltr\" class=\"ctl\">\n<font face=\"Palatino, Book Antiqua\"><font style=\"font-size: 12pt\" size=\"3\"><span lang=\"en-US\"><span style=\"font-variant: normal\"><font color=\"#000000\"><font face=\"Times New Roman, serif\"><font style=\"font-size: 8pt\" size=\"1\"><u>ARTICLE\n3 – QUALITY:</u></font></font></font></span></span></font></font></h1>\n<p dir=\"ltr\"><font face=\"Palatino, Book Antiqua\"><font style=\"font-size: 12pt\" size=\"3\"><span lang=\"en-US\"><font color=\"#000000\"><font face=\"Times New Roman, serif\"><font style=\"font-size: 8pt\" size=\"1\">MOLYBDENUM\nOXIDE ASSAYS ARE AS FOLLOWS:</font></font></font></span></font></font></p>\n<p dir=\"ltr\"><br>\n\n</p>\n<ul><li><p dir=\"ltr\" style=\"background: #ffffff\" align=\"justify\"><font style=\"font-size: 12pt\" size=\"3\"><span lang=\"en-US\"><font color=\"#000000\"><font style=\"font-size: 8pt\" size=\"1\">90\n\tMT</font></font><font color=\"#000000\"><font style=\"font-size: 8pt\" size=\"1\">\n\t</font></font><font color=\"#000000\"><font style=\"font-size: 8pt\" size=\"1\">±10%</font></font><font color=\"#000000\"><font style=\"font-size: 8pt\" size=\"1\">\n\tAS A WHOLE AFTER CONTRACT SETTLEMENT WITH BELOW ANALYSIS AND SIZE\n\tDETERMINATION:</font></font></span></font></p>\n</li></ul><br>\n<table dir=\"ltr\" width=\"408\" cellspacing=\"0\" cellpadding=\"7\">\n\t<colgroup><col width=\"43\">\n\n\t<col width=\"52\">\n\n\t<col width=\"33\">\n\n\t<col width=\"33\">\n\n\t<col width=\"33\">\n\n\t<col width=\"33\">\n\n\t<col width=\"33\">\n\n\t<col width=\"33\">\n\n\t</colgroup><tbody><tr>\n\t\t<td style=\"background: #ffffff\" width=\"43\" height=\"17\" bgcolor=\"#ffffff\"><p class=\"ctl\" align=\"left\">\n\t\t\t<font face=\"Times New Roman, serif\"><font style=\"font-size: 8pt\" size=\"1\"><span lang=\"en-US\"><b>Lot\n\t\t\tName</b></span></font></font></p>\n\t\t</td>\n\t\t<td style=\"background: #ffffff\" width=\"52\" bgcolor=\"#ffffff\"><p class=\"ctl\" align=\"center\">\n\t\t\t<font face=\"Times New Roman, serif\"><font style=\"font-size: 8pt\" size=\"1\"><span lang=\"en-US\"><b>Mo<br>\n%</b></span></font></font></p>\n\t\t</td>\n\t\t<td style=\"background: #ffffff\" width=\"33\" bgcolor=\"#ffffff\"><p class=\"ctl\" align=\"center\">\n\t\t\t<font face=\"Times New Roman, serif\"><font style=\"font-size: 8pt\" size=\"1\"><span lang=\"en-US\"><b>Cu<br>\n%</b></span></font></font></p>\n\t\t</td>\n\t\t<td style=\"background: #ffffff\" width=\"33\" bgcolor=\"#ffffff\"><p class=\"ctl\" align=\"center\">\n\t\t\t<font face=\"Times New Roman, serif\"><font style=\"font-size: 8pt\" size=\"1\"><span lang=\"en-US\"><b>Si<br>\n%</b></span></font></font></p>\n\t\t</td>\n\t\t<td style=\"background: #ffffff\" width=\"33\" bgcolor=\"#ffffff\"><p class=\"ctl\" align=\"center\">\n\t\t\t<font face=\"Times New Roman, serif\"><font style=\"font-size: 8pt\" size=\"1\"><span lang=\"en-US\"><b>Pb<br>\n%</b></span></font></font></p>\n\t\t</td>\n\t\t<td style=\"background: #ffffff\" width=\"33\" bgcolor=\"#ffffff\"><p class=\"ctl\" align=\"center\">\n\t\t\t<font face=\"Times New Roman, serif\"><font style=\"font-size: 8pt\" size=\"1\"><span lang=\"en-US\"><b>S<br>\n%\n\t\t\t</b></span></font></font>\n\t\t\t</p>\n\t\t</td>\n\t\t<td style=\"background: #ffffff\" width=\"33\" bgcolor=\"#ffffff\"><p class=\"ctl\" align=\"center\">\n\t\t\t<font face=\"Times New Roman, serif\"><font style=\"font-size: 8pt\" size=\"1\"><span lang=\"en-US\"><b>C<br>\n%\n\t\t\t</b></span></font></font>\n\t\t\t</p>\n\t\t</td>\n\t\t<td style=\"background: #ffffff\" width=\"33\" bgcolor=\"#ffffff\"><p class=\"ctl\" align=\"center\">\n\t\t\t<font face=\"Times New Roman, serif\"><font style=\"font-size: 8pt\" size=\"1\"><span lang=\"en-US\"><b>P<br>\n%\n\t\t\t</b></span></font></font>\n\t\t\t</p>\n\t\t</td>\n\t</tr>\n\t<tr>\n\t\t<td style=\"background: #ffffff\" width=\"43\" height=\"4\" bgcolor=\"#ffffff\"><p class=\"ctl\" align=\"center\">\n\t\t\t<font face=\"Times New Roman, serif\"><font style=\"font-size: 8pt\" size=\"1\"><span lang=\"en-US\"><b>E-18\n\t\t\t</b></span></font></font>\n\t\t\t</p>\n\t\t</td>\n\t\t<td style=\"background: #ffffff\" width=\"52\" bgcolor=\"#ffffff\"><p class=\"ctl\" align=\"center\">\n\t\t\t<font face=\"Times New Roman, serif\"><font style=\"font-size: 8pt\" size=\"1\"><span lang=\"en-US\">62.15</span></font></font></p>\n\t\t</td>\n\t\t<td style=\"background: #ffffff\" width=\"33\" bgcolor=\"#ffffff\"><p class=\"ctl\" align=\"center\">\n\t\t\t<font face=\"Times New Roman, serif\"><font style=\"font-size: 8pt\" size=\"1\"><span lang=\"en-US\">1.29</span></font></font></p>\n\t\t</td>\n\t\t<td style=\"background: #ffffff\" width=\"33\" bgcolor=\"#ffffff\"><p class=\"ctl\" align=\"center\">\n\t\t\t<font face=\"Times New Roman, serif\"><font style=\"font-size: 8pt\" size=\"1\"><span lang=\"en-US\">0.92</span></font></font></p>\n\t\t</td>\n\t\t<td style=\"background: #ffffff\" width=\"33\" bgcolor=\"#ffffff\"><p class=\"ctl\" align=\"center\">\n\t\t\t<font face=\"Times New Roman, serif\"><font style=\"font-size: 8pt\" size=\"1\"><span lang=\"en-US\">0.07</span></font></font></p>\n\t\t</td>\n\t\t<td style=\"background: #ffffff\" width=\"33\" bgcolor=\"#ffffff\"><p class=\"ctl\" align=\"center\">\n\t\t\t<font face=\"Times New Roman, serif\"><font style=\"font-size: 8pt\" size=\"1\"><span lang=\"en-US\">0.05</span></font></font></p>\n\t\t</td>\n\t\t<td style=\"background: #ffffff\" width=\"33\" bgcolor=\"#ffffff\"><p class=\"ctl\" align=\"center\">\n\t\t\t<font face=\"Times New Roman, serif\"><font style=\"font-size: 8pt\" size=\"1\"><span lang=\"en-US\">0.02</span></font></font></p>\n\t\t</td>\n\t\t<td style=\"background: #ffffff\" width=\"33\" bgcolor=\"#ffffff\"><p class=\"ctl\" align=\"center\">\n\t\t\t<font face=\"Times New Roman, serif\"><font style=\"font-size: 8pt\" size=\"1\"><span lang=\"en-US\">&lt;\n\t\t\t0.03 </span></font></font>\n\t\t\t</p>\n\t\t</td>\n\t</tr>\n\t<tr>\n\t\t<td style=\"background: #ffffff\" width=\"43\" bgcolor=\"#ffffff\"><p class=\"ctl\" align=\"center\">\n\t\t\t<font face=\"Times New Roman, serif\"><font style=\"font-size: 8pt\" size=\"1\"><span lang=\"en-US\"><b>E-19\n\t\t\t</b></span></font></font>\n\t\t\t</p>\n\t\t</td>\n\t\t<td style=\"background: #ffffff\" width=\"52\" bgcolor=\"#ffffff\"><p class=\"ctl\" align=\"center\">\n\t\t\t<font face=\"Times New Roman, serif\"><font style=\"font-size: 8pt\" size=\"1\"><span lang=\"en-US\">62.02</span></font></font></p>\n\t\t</td>\n\t\t<td style=\"background: #ffffff\" width=\"33\" bgcolor=\"#ffffff\"><p class=\"ctl\" align=\"center\">\n\t\t\t<font face=\"Times New Roman, serif\"><font style=\"font-size: 8pt\" size=\"1\"><span lang=\"en-US\">1.16</span></font></font></p>\n\t\t</td>\n\t\t<td style=\"background: #ffffff\" width=\"33\" bgcolor=\"#ffffff\"><p class=\"ctl\" align=\"center\">\n\t\t\t<font face=\"Times New Roman, serif\"><font style=\"font-size: 8pt\" size=\"1\"><span lang=\"en-US\">0.85</span></font></font></p>\n\t\t</td>\n\t\t<td style=\"background: #ffffff\" width=\"33\" bgcolor=\"#ffffff\"><p class=\"ctl\" align=\"center\">\n\t\t\t<font face=\"Times New Roman, serif\"><font style=\"font-size: 8pt\" size=\"1\"><span lang=\"en-US\">0.06</span></font></font></p>\n\t\t</td>\n\t\t<td style=\"background: #ffffff\" width=\"33\" bgcolor=\"#ffffff\"><p class=\"ctl\" align=\"center\">\n\t\t\t<font face=\"Times New Roman, serif\"><font style=\"font-size: 8pt\" size=\"1\"><span lang=\"en-US\">0.06</span></font></font></p>\n\t\t</td>\n\t\t<td style=\"background: #ffffff\" width=\"33\" bgcolor=\"#ffffff\"><p class=\"ctl\" align=\"center\">\n\t\t\t<font face=\"Times New Roman, serif\"><font style=\"font-size: 8pt\" size=\"1\"><span lang=\"en-US\">0.01</span></font></font></p>\n\t\t</td>\n\t\t<td style=\"background: #ffffff\" width=\"33\" bgcolor=\"#ffffff\"><p class=\"ctl\" align=\"center\">\n\t\t\t<font face=\"Times New Roman, serif\"><font style=\"font-size: 8pt\" size=\"1\"><span lang=\"en-US\">&lt;\n\t\t\t0.03 </span></font></font>\n\t\t\t</p>\n\t\t</td>\n\t</tr>\n\t<tr>\n\t\t<td style=\"background: #ffffff\" width=\"43\" bgcolor=\"#ffffff\"><p class=\"ctl\" align=\"center\">\n\t\t\t<font face=\"Times New Roman, serif\"><font style=\"font-size: 8pt\" size=\"1\"><span lang=\"en-US\"><b>E-21\n\t\t\t</b></span></font></font>\n\t\t\t</p>\n\t\t</td>\n\t\t<td style=\"background: #ffffff\" width=\"52\" bgcolor=\"#ffffff\"><p class=\"ctl\" align=\"center\">\n\t\t\t<font face=\"Times New Roman, serif\"><font style=\"font-size: 8pt\" size=\"1\"><span lang=\"en-US\">61.90</span></font></font></p>\n\t\t</td>\n\t\t<td style=\"background: #ffffff\" width=\"33\" bgcolor=\"#ffffff\"><p class=\"ctl\" align=\"center\">\n\t\t\t<font face=\"Times New Roman, serif\"><font style=\"font-size: 8pt\" size=\"1\"><span lang=\"en-US\">1.24</span></font></font></p>\n\t\t</td>\n\t\t<td style=\"background: #ffffff\" width=\"33\" bgcolor=\"#ffffff\"><p class=\"ctl\" align=\"center\">\n\t\t\t<font face=\"Times New Roman, serif\"><font style=\"font-size: 8pt\" size=\"1\"><span lang=\"en-US\">0.83</span></font></font></p>\n\t\t</td>\n\t\t<td style=\"background: #ffffff\" width=\"33\" bgcolor=\"#ffffff\"><p class=\"ctl\" align=\"center\">\n\t\t\t<font face=\"Times New Roman, serif\"><font style=\"font-size: 8pt\" size=\"1\"><span lang=\"en-US\">0.07</span></font></font></p>\n\t\t</td>\n\t\t<td style=\"background: #ffffff\" width=\"33\" bgcolor=\"#ffffff\"><p class=\"ctl\" align=\"center\">\n\t\t\t<font face=\"Times New Roman, serif\"><font style=\"font-size: 8pt\" size=\"1\"><span lang=\"en-US\">0.07</span></font></font></p>\n\t\t</td>\n\t\t<td style=\"background: #ffffff\" width=\"33\" bgcolor=\"#ffffff\"><p class=\"ctl\" align=\"center\">\n\t\t\t<font face=\"Times New Roman, serif\"><font style=\"font-size: 8pt\" size=\"1\"><span lang=\"en-US\">0.01</span></font></font></p>\n\t\t</td>\n\t\t<td style=\"background: #ffffff\" width=\"33\" bgcolor=\"#ffffff\"><p class=\"ctl\" align=\"center\">\n\t\t\t<font face=\"Times New Roman, serif\"><font style=\"font-size: 8pt\" size=\"1\"><span lang=\"en-US\">&lt;\n\t\t\t0.03 </span></font></font>\n\t\t\t</p>\n\t\t</td>\n\t</tr>\n\t<tr>\n\t\t<td style=\"background: #ffffff\" width=\"43\" bgcolor=\"#ffffff\"><p class=\"ctl\" align=\"center\">\n\t\t\t<font face=\"Times New Roman, serif\"><font style=\"font-size: 8pt\" size=\"1\"><span lang=\"en-US\"><b>E-22\n\t\t\t</b></span></font></font>\n\t\t\t</p>\n\t\t</td>\n\t\t<td style=\"background: #ffffff\" width=\"52\" bgcolor=\"#ffffff\"><p class=\"ctl\" align=\"center\">\n\t\t\t<font face=\"Times New Roman, serif\"><font style=\"font-size: 8pt\" size=\"1\"><span lang=\"en-US\">61.84</span></font></font></p>\n\t\t</td>\n\t\t<td style=\"background: #ffffff\" width=\"33\" bgcolor=\"#ffffff\"><p class=\"ctl\" align=\"center\">\n\t\t\t<font face=\"Times New Roman, serif\"><font style=\"font-size: 8pt\" size=\"1\"><span lang=\"en-US\">1.32</span></font></font></p>\n\t\t</td>\n\t\t<td style=\"background: #ffffff\" width=\"33\" bgcolor=\"#ffffff\"><p class=\"ctl\" align=\"center\">\n\t\t\t<font face=\"Times New Roman, serif\"><font style=\"font-size: 8pt\" size=\"1\"><span lang=\"en-US\">0.83</span></font></font></p>\n\t\t</td>\n\t\t<td style=\"background: #ffffff\" width=\"33\" bgcolor=\"#ffffff\"><p class=\"ctl\" align=\"center\">\n\t\t\t<font face=\"Times New Roman, serif\"><font style=\"font-size: 8pt\" size=\"1\"><span lang=\"en-US\">0.07</span></font></font></p>\n\t\t</td>\n\t\t<td style=\"background: #ffffff\" width=\"33\" bgcolor=\"#ffffff\"><p class=\"ctl\" align=\"center\">\n\t\t\t<font face=\"Times New Roman, serif\"><font style=\"font-size: 8pt\" size=\"1\"><span lang=\"en-US\">0.07</span></font></font></p>\n\t\t</td>\n\t\t<td style=\"background: #ffffff\" width=\"33\" bgcolor=\"#ffffff\"><p class=\"ctl\" align=\"center\">\n\t\t\t<font face=\"Times New Roman, serif\"><font style=\"font-size: 8pt\" size=\"1\"><span lang=\"en-US\">0.01</span></font></font></p>\n\t\t</td>\n\t\t<td style=\"background: #ffffff\" width=\"33\" bgcolor=\"#ffffff\"><p class=\"ctl\" align=\"center\">\n\t\t\t<font face=\"Times New Roman, serif\"><font style=\"font-size: 8pt\" size=\"1\"><span lang=\"en-US\">&lt;\n\t\t\t0.03 </span></font></font>\n\t\t\t</p>\n\t\t</td>\n\t</tr>\n</tbody></table>\n<p dir=\"ltr\" style=\"background: #ffffff\" align=\"left\"><br>\n\n</p>\n\n<style type=\"text/css\">\n\t\tp { direction: ltr; color: #000000; text-align: justify; orphans: 2; widows: 2; background: transparent }\n\t\tp.western { font-family: \"Times New Roman\", serif; font-size: 10pt; so-language: en-US }\n\t\tp.cjk { font-family: \"Times New Roman\", serif; font-size: 10pt }\n\t\tp.ctl { font-family: \"Times New Roman\", serif; font-size: 10pt; so-language: ar-SA }\n\t\ta:link { color: #0000ff; text-decoration: underline }</style><h2>MoShipment</h2><table style='border: 1px solid black;'><tr><th style='border: 1px solid black;'>Load Port</th><th style='border: 1px solid black;'>Quantity</th><th style='border: 1px solid black;'>Tolorance</th><th style='border: 1px solid black;'>Send Date</th></tr><tr><td style='border: 1px solid black;'>FANGCHENG</td><td style='border: 1px solid black;'>152</td><td style='border: 1px solid black;'>6</td><td style='border: 1px solid black;'>Tue Jul 07 2020 12:00:00 GMT+0430 (Iran Daylight Time)</td></tr></table><br><h2>ARTICLE - PRICE</h2><table style='border: 1px solid black;'><tr><th style='border: 1px solid black;'>Minimum</th><th style='border: 1px solid black;'>Maximum</th><th style='border: 1px solid black;'>Discount</th><th style='border: 1px solid black;'>Material Element</th></tr><tr><td style='border: 1px solid black;'>1</td><td style='border: 1px solid black;'>67</td><td style='border: 1px solid black;'>6</td><td style='border: 1px solid black;'>MO</td></tr></table><br><h2>QoutationalPriod</h2><table style='border: 1px solid black;'><tr></tr><tr></tr><tr></tr></table><br><h2>DELIEVERY TERMS</h2>Incoterms-2020<br>",
     //                         "materialId": 1,
     //                         "contractTypeId": 1
     //                     },
@@ -3047,17 +3138,16 @@ foreignInvoiceTab.method.newForm = function () {
     //                     },
     //                     "createdDate": 1601719102261,
     //                     "createdBy": "m.shahabi",
-    //                     "version": 0
+    //                     "lastModifiedDate": 1603522607266,
+    //                     "lastModifiedBy": "m.shahabi",
+    //                     "version": 17
     //                 },
-    //                 "estatus": [
-    //                     "Active"
-    //                 ],
     //                 "moisture": 0
     //             },
     //             "estatus": [
     //                 "Active"
     //             ],
-    //             "_selection_76": true,
+    //             "_selection_87": true,
     //             "_embeddedComponents_isc_ListGrid_1": null
     //         }
     //     ],
@@ -3091,6 +3181,8 @@ foreignInvoiceTab.method.editForm = function () {
         foreignInvoiceTab.dialog.inactiveRecord();
     else if (record.estatus.contains(Enums.eStatus2.Final))
         foreignInvoiceTab.dialog.finalRecord();
+    else if (record.parentId)
+        foreignInvoiceTab.dialog.say('<spring:message code="foreign-invoice.form.completion.invoice.not.editable"/>');
     else {
 
         foreignInvoiceTab.variable.materialId = record.shipment.materialId;
@@ -3151,7 +3243,6 @@ foreignInvoiceTab.method.editForm = function () {
                                         foreignInvoiceTab.dynamicForm.valuesManager.clearValues();
                                         foreignInvoiceTab.dynamicForm.valuesManager.setValues(record);
                                         foreignInvoiceTab.dynamicForm.valuesManager.setValue("date", new Date(record.date));
-                                        // foreignInvoiceTab.dynamicForm.valuesManager.setValue("payments", paymentValues);
                                         foreignInvoiceTab.dynamicForm.valuesManager.setValue("billLadings", billOfLadingValues.map(q => q.billOfLanding));
                                         foreignInvoiceTab.dynamicForm.valuesManager.setValue("toCurrencyId", record.conversionRef ? record.conversionRef.unitToId : null);
                                         foreignInvoiceTab.dynamicForm.valuesManager.setValue("contractId", record.shipment.contractShipment.contractId);
@@ -3183,7 +3274,6 @@ foreignInvoiceTab.method.editForm = function () {
                                             foreignInvoiceTab.dynamicForm.valuesManager.setValue("calculationData", calculationRowData);
                                             foreignInvoiceTab.dynamicForm.valuesManager.setValue("rcDeductionData", rcRowData);
                                             foreignInvoiceTab.dynamicForm.valuesManager.setValue("basePriceData", basePriceData);
-                                            foreignInvoiceTab.dynamicForm.valuesManager.setValue("percent", record.percent);
                                         } else if (foreignInvoiceTab.variable.materialId === ImportantIDs.material.MOLYBDENUM_OXIDE) {
 
                                             function getBasePrice() {
@@ -3210,11 +3300,12 @@ foreignInvoiceTab.method.editForm = function () {
                                         } else {
 
                                             //// COPPER CATHODE
-                                            foreignInvoiceTab.dynamicForm.valuesManager.setValue("percent", record.percent);
+                                            foreignInvoiceTab.dynamicForm.valuesManager.setValue("cathodeBasePriceData", record.unitPrice);
                                             foreignInvoiceTab.dynamicForm.baseData.getField("inspectionAssayId").hide();
                                             foreignInvoiceTab.dynamicForm.baseData.getField("inspectionAssayId").setRequired(false);
                                         }
 
+                                        foreignInvoiceTab.dynamicForm.valuesManager.setValue("percent", record.percent);
                                         foreignInvoiceTab.dynamicForm.baseData.setValue('inspectionWeightId', record.inspectionWeightReportId);
                                         foreignInvoiceTab.dynamicForm.baseData.setValue('inspectionAssayId', record.inspectionAssayReportId);
 
@@ -3239,6 +3330,44 @@ foreignInvoiceTab.method.editForm = function () {
     }
 };
 
+foreignInvoiceTab.method.validateDeleteActionHook = function (record) {
+
+    if (!record.parentId)
+        foreignInvoiceTab.dialog.say('<spring:message code="global.grid.record.not.removable"/>');
+    return record.parentId;
+};
+
+foreignInvoiceTab.listGrid.main.rowClick = function (record, recordNum, fieldNum) {
+
+    foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.title === "Edit").first().show();
+    foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.title === "Remove").first().show();
+    foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.title === "Active").first().show();
+    foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.title === "Inactive").first().show();
+    foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.title === "Finalize").first().show();
+    foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.title === "Disapprove").first().show();
+    foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.title === "Invoice Completion").first().show();
+
+    if (record.parentId) {
+        foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.title === "Edit").first().hide();
+        foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.title === "Active").first().hide();
+        foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.title === "Inactive").first().hide();
+        foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.title === "Finalize").first().hide();
+        foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.title === "Disapprove").first().hide();
+        foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.title === "Invoice Completion").first().hide();
+    } else
+        foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.title === "Remove").first().hide();
+
+    this.Super("rowClick", arguments);
+};
+
+foreignInvoiceTab.listGrid.main.getCellCSSText = function (record, rowNum, colNum) {
+
+    if (record.parentId) {
+        return "font-weight:bold; color:#488509;";
+    }
+    return this.Super('getCellCSSText', arguments)
+};
+
 foreignInvoiceTab.method.addTab = function (pane, title) {
     foreignInvoiceTab.tab.invoice.addTab({
         pane: pane,
@@ -3249,51 +3378,38 @@ foreignInvoiceTab.method.addTab = function (pane, title) {
 
 //*************************************************** REST *************************************************************
 
-// foreignInvoiceTab.method.jsonRPCManagerRequest({
-//     httpMethod: "GET",
-//     actionURL: "${contextPath}/api/foreign-invoice/get-contract-detail-data",
-//     params: {
-//         contractId: 1
-//     },
-// }, (resp) => {
-//     if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
-//         debugger;
-//         foreignInvoiceTab.variable.contractDetailData = JSON.parse(resp.data)
-//     }
-// });
-
 // MOCK
-foreignInvoiceTab.variable.contractDetailData.MOASValue = 0;
-foreignInvoiceTab.variable.contractDetailData.workingDayAfterMOAS = 5;
-foreignInvoiceTab.variable.contractDetailData.workingDayBeforeMOAS = -5;
-foreignInvoiceTab.variable.contractDetailData.basePriceReference = "LME";
-foreignInvoiceTab.variable.contractDetailData.tc = 123456;
-foreignInvoiceTab.variable.contractDetailData.rc = [{
-    elementId: 1,
-    elementName: "CU",
-    price: 12.3,
-    weightUnit: {id: -1, nameEN: "Pound", categoryUnit: "Weight"},
-    financeUnit: {id: -32, nameEN: "Dollar", categoryUnit: "Finance"}
-}, {
-    elementId: 2,
-    elementName: "AG",
-    price: 11.3,
-    weightUnit: {id: -1, nameEN: "Pound", categoryUnit: "Weight"},
-    financeUnit: {id: -32, nameEN: "Dollar", categoryUnit: "Finance"}
-}, {
-    elementId: 3,
-    elementName: "AU",
-    price: 12.4,
-    weightUnit: {id: -1, nameEN: "Pound", categoryUnit: "Weight"},
-    financeUnit: {id: -32, nameEN: "Dollar", categoryUnit: "Finance"}
-}, {
-    elementId: 4,
-    elementName: "MO",
-    price: 14.4,
-    weightUnit: {id: -1, nameEN: "Pound", categoryUnit: "Weight"},
-    financeUnit: {id: -32, nameEN: "Dollar", categoryUnit: "Finance"}
-}];
-foreignInvoiceTab.variable.contractDetailData.QPAtricleText = "QUOTATIONAL PERIOD FOR MOLYBDENUM OXIDE SHALL BE THE AVERAGE OF THE MONTH FOLLOWING MONTH OF ACTUAL SHIPMENT (MOAS+(\n" +
-    "${MOAS})) FROM THE PORT OF LOADING AS EVIDENCED BY THE B/L DATE.";
-foreignInvoiceTab.variable.contractDetailData.unitPriceAtricleText = "USD 6.24 PER NET METRIC TON PLUS A PREMIUM OF USD 0.05 PER METRIC TON";
-foreignInvoiceTab.variable.contractDetailData.unitPrice = 6.29;
+// foreignInvoiceTab.variable.contractDetailData.MOASValue = 0;
+// foreignInvoiceTab.variable.contractDetailData.workingDayAfterMOAS = 5;
+// foreignInvoiceTab.variable.contractDetailData.workingDayBeforeMOAS = -5;
+// foreignInvoiceTab.variable.contractDetailData.basePriceReference = "LME";
+// foreignInvoiceTab.variable.contractDetailData.tc = 123456;
+// foreignInvoiceTab.variable.contractDetailData.rc = [{
+//     elementId: 1,
+//     elementName: "CU",
+//     price: 12.3,
+//     weightUnit: {id: -1, nameEN: "Pound", categoryUnit: "Weight"},
+//     financeUnit: {id: -32, nameEN: "Dollar", categoryUnit: "Finance"}
+// }, {
+//     elementId: 2,
+//     elementName: "AG",
+//     price: 11.3,
+//     weightUnit: {id: -1, nameEN: "Pound", categoryUnit: "Weight"},
+//     financeUnit: {id: -32, nameEN: "Dollar", categoryUnit: "Finance"}
+// }, {
+//     elementId: 3,
+//     elementName: "AU",
+//     price: 12.4,
+//     weightUnit: {id: -1, nameEN: "Pound", categoryUnit: "Weight"},
+//     financeUnit: {id: -32, nameEN: "Dollar", categoryUnit: "Finance"}
+// }, {
+//     elementId: 4,
+//     elementName: "MO",
+//     price: 14.4,
+//     weightUnit: {id: -1, nameEN: "Pound", categoryUnit: "Weight"},
+//     financeUnit: {id: -32, nameEN: "Dollar", categoryUnit: "Finance"}
+// }];
+// foreignInvoiceTab.variable.contractDetailData.QPAtricleText = "QUOTATIONAL PERIOD FOR MOLYBDENUM OXIDE SHALL BE THE AVERAGE OF THE MONTH FOLLOWING MONTH OF ACTUAL SHIPMENT (MOAS+(\n" +
+//     "${MOAS})) FROM THE PORT OF LOADING AS EVIDENCED BY THE B/L DATE.";
+// foreignInvoiceTab.variable.contractDetailData.unitPriceAtricleText = "USD 6.24 PER NET METRIC TON PLUS A PREMIUM OF USD 0.05 PER METRIC TON";
+// foreignInvoiceTab.variable.contractDetailData.unitPrice = 6.29;
