@@ -158,15 +158,24 @@ public class ForeignInvoiceService extends GenericService<ForeignInvoice, Long, 
             throw new SalesException2(ErrorType.NotFound, "deliveryTerm", "Contract DeliveryTerms Article Not Found");
 
         // Discounts
-        Map<String, List<Object>> discounts = contractDetailValueService2.get(contractId, EContractDetailTypeCode.Price, EContractDetailValueKey.DISCOUNT, true);
-        if (discounts != null && discounts.size() != 0)
-            contractDetailData.setDiscount(modelMapper.map(discounts.get(EContractDetailValueKey.DISCOUNT.getId()).get(0), ContractDiscountDTO.Info.class));
+        Map<String, List<Object>> operationalDataOfDiscountArticle = contractDetailValueService2.get(contractId, EContractDetailTypeCode.Price, EContractDetailValueKey.DISCOUNT, true);
+        List<Object> discounts = operationalDataOfDiscountArticle.get(EContractDetailValueKey.DISCOUNT.getId());
+        List<ContractDiscountDTO.Info> discountData = new ArrayList<>();
+        if (discounts != null && discounts.size() != 0) {
+            discounts.forEach(discount -> discountData.add(modelMapper.map(discount, ContractDiscountDTO.Info.class)));
+            contractDetailData.setDiscount(discountData);
+        } else
+            contractDetailData.setDiscount(null);
+
 
         // Price Article Content
-        ContractDetailDTO.Info priceDetail = contractDetailService.getContractDetailByContractDetailTypeCode(contractId, materialId, EContractDetailTypeCode.Price);
-        if (priceDetail != null) {
-            contractDetailData.setPriceContent(priceDetail.getContent());
-        }
+        if (materialId != 2) {
+            ContractDetailDTO.Info priceDetail = contractDetailService.getContractDetailByContractDetailTypeCode(contractId, materialId, EContractDetailTypeCode.Price);
+            if (priceDetail != null) {
+                contractDetailData.setPriceContent(priceDetail.getContent());
+            }
+        } else
+            contractDetailData.setPriceContent(null);
 
         // QuotationalPeriod Article Content
         ContractDetailDTO.Info quotationalPeriodDetail = contractDetailService.getContractDetailByContractDetailTypeCode(contractId, materialId, EContractDetailTypeCode.QuotationalPeriod);
@@ -277,4 +286,59 @@ public class ForeignInvoiceService extends GenericService<ForeignInvoice, Long, 
         return foreignInvoiceDTO;
     }
 
+    @Override
+    @Transactional
+    @Action(value = ActionType.Finalize)
+    public ForeignInvoiceDTO.Info finalize(Long id) {
+
+        ForeignInvoiceDTO.Info finalize = super.finalize(id);
+
+        List<ForeignInvoice> foreignInvoices = ((ForeignInvoiceDAO) repository).findAllByParentId(id);
+        List<Long> foreignInvoiceIds = foreignInvoices.stream().map(ForeignInvoice::getId).collect(Collectors.toList());
+        foreignInvoiceIds.forEach(item -> super.finalize(item));
+
+        return finalize;
+    }
+
+    @Override
+    @Transactional
+    @Action(value = ActionType.Disapprove)
+    public ForeignInvoiceDTO.Info disapprove(Long id) {
+
+        ForeignInvoiceDTO.Info disapprove = super.disapprove(id);
+
+        List<ForeignInvoice> foreignInvoices = ((ForeignInvoiceDAO) repository).findAllByParentId(id);
+        List<Long> foreignInvoiceIds = foreignInvoices.stream().map(ForeignInvoice::getId).collect(Collectors.toList());
+        foreignInvoiceIds.forEach(item -> super.disapprove(item));
+
+        return disapprove;
+    }
+
+    @Override
+    @Transactional
+    @Action(value = ActionType.Activate)
+    public ForeignInvoiceDTO.Info activate(Long id) {
+
+        ForeignInvoiceDTO.Info activate = super.activate(id);
+
+        List<ForeignInvoice> foreignInvoices = ((ForeignInvoiceDAO) repository).findAllByParentId(id);
+        List<Long> foreignInvoiceIds = foreignInvoices.stream().map(ForeignInvoice::getId).collect(Collectors.toList());
+        foreignInvoiceIds.forEach(item -> super.activate(item));
+
+        return activate;
+    }
+
+    @Override
+    @Transactional
+    @Action(value = ActionType.DeActivate)
+    public ForeignInvoiceDTO.Info deactivate(Long id) {
+
+        ForeignInvoiceDTO.Info deactivate = super.deactivate(id);
+
+        List<ForeignInvoice> foreignInvoices = ((ForeignInvoiceDAO) repository).findAllByParentId(id);
+        List<Long> foreignInvoiceIds = foreignInvoices.stream().map(ForeignInvoice::getId).collect(Collectors.toList());
+        foreignInvoiceIds.forEach(item -> super.deactivate(item));
+
+        return deactivate;
+    }
 }

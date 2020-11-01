@@ -11,6 +11,8 @@ isc.defineClass("InvoiceCalculationCathode", isc.VLayout).addProperties({
     shipment: null,
     currency: null,
     percent: null,
+    basePriceData: false,
+    remainingPercent: false,
     contractDetailData: null,
     inspectionWeightData: null,
     invoiceBaseWeightComponent: null,
@@ -30,6 +32,7 @@ isc.defineClass("InvoiceCalculationCathode", isc.VLayout).addProperties({
         this.invoiceBaseWeightComponent = isc.InvoiceBaseWeight.create({
             shipment: This.shipment,
             percent: This.percent,
+            remainingPercent: This.remainingPercent,
             inspectionWeightData: This.inspectionWeightData,
         });
         this.addMember(this.invoiceBaseWeightComponent);
@@ -39,47 +42,81 @@ isc.defineClass("InvoiceCalculationCathode", isc.VLayout).addProperties({
             contents: "<span style='width: 100%; display: block; margin: 10px auto; border-bottom: 1px solid rgba(0,0,0,0.3)'></span>"
         }));
 
-        QPArticleElement.setContents("<span style='display: block; text-align: left'>" + This.contractDetailData.QPAtricleText + "</span>");
-        this.addMember(QPArticleElement);
+        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+            httpMethod: "POST",
+            willHandleError: true,
+            data: JSON.stringify(This.contractDetailData.moas),
+            actionURL: "${contextPath}/api/price-base/get-avg-base-price-by-moas",
+            params: {
+                contractId: This.contract.id,
+                financeUnitId: This.currency.id,
+            },
+            callback: function (resp) {
 
-        this.addMember(isc.HTMLFlow.create({
-            width: "100%",
-            contents: "<span style='width: 100%; display: block; margin: 10px auto; border-bottom: 1px solid rgba(0,0,0,0.3)'></span>"
-        }));
+                if (resp.data && (resp.httpResponseCode === 200 || resp.httpResponseCode === 201)) {
 
-        unitPriceArticleElement.setContents("<span style='display: block; text-align: left'>" + This.contractDetailData.unitPriceAtricleText + "</span>");
-        this.addMember(unitPriceArticleElement);
+                    let priceBases = JSON.parse(resp.data);
+                    priceBases.forEach(priceBase => {
 
-        this.addMember(isc.HTMLFlow.create({
-            width: "100%",
-            contents: "<span style='width: 100%; display: block; margin: 10px auto; border-bottom: 1px solid rgba(0,0,0,0.3)'></span>"
-        }));
-        this.addMember(isc.ToolStrip.create({
-            width: "100%",
-            border: '0px',
-            members: [
-                isc.ToolStripButton.create({
-                    width: "100",
-                    height: "25",
-                    autoFit: false,
-                    title: "<spring:message code='global.ok'/>",
-                    click: function () {
+                        This.addMember(isc.Unit.create({
+                            unitHint: "PER " + priceBase.weightUnit.nameEN,
+                            unitCategory: priceBase.financeUnit.categoryUnit,
+                            fieldValueTitle: priceBase.element.name,
+                            disabledUnitField: true,
+                            disabledValueField: false,
+                            showValueFieldTitle: true,
+                            showUnitFieldTitle: false,
+                            name: priceBase.element.name,
+                            weightUnit: priceBase.weightUnit,
+                            financeUnit: priceBase.financeUnit,
+                            elementId: priceBase.elementId,
+                        }));
 
-                        if (!This.validate())
-                            return;
+                        This.getMembers().last().setValue(priceBase.price);
+                        This.getMembers().last().setUnitId(priceBase.financeUnit.id);
 
-                        This.okButtonClick();
+                        if (This.basePriceData) {
+                            This.getMembers().last().setValue(This.basePriceData);
+                        }
+                    });
 
-                        let tab = This.parentElement.parentElement;
-                        tab.getTab(tab.selectedTab).pane.members.forEach(q => q.disable());
-                        tab.selectTab(tab.selectedTab + 1 % tab.tabs.length);
-                    }
-                })
-            ]
-        }));
-        this.addMember(isc.HTMLFlow.create({
-            width: "100%",
-            contents: "<span style='width: 100%; display: block; margin: 10px auto; border-bottom: 1px solid rgba(0,0,0,0.3)'></span>"
+                    unitPriceArticleElement.setContents("<span style='display: block; text-align: left'>" + This.contractDetailData.quotationalPeriodContent + "</span>");
+                    This.addMember(unitPriceArticleElement);
+
+                    This.addMember(isc.HTMLFlow.create({
+                        width: "100%",
+                        contents: "<span style='width: 100%; display: block; margin: 10px auto; border-bottom: 1px solid rgba(0,0,0,0.3)'></span>"
+                    }));
+
+                    This.addMember(isc.ToolStrip.create({
+                        width: "100%",
+                        border: '0px',
+                        members: [
+                            isc.ToolStripButton.create({
+                                width: "100",
+                                height: "25",
+                                autoFit: false,
+                                title: "<spring:message code='global.ok'/>",
+                                click: function () {
+
+                                    if (!This.validate())
+                                        return;
+
+                                    This.okButtonClick();
+
+                                    let tab = This.parentElement.parentElement;
+                                    tab.getTab(tab.selectedTab).pane.members.forEach(q => q.disable());
+                                    tab.selectTab(tab.selectedTab + 1 % tab.tabs.length);
+                                }
+                            })
+                        ]
+                    }));
+                    This.addMember(isc.HTMLFlow.create({
+                        width: "100%",
+                        contents: "<span style='width: 100%; display: block; margin: 10px auto; border-bottom: 1px solid rgba(0,0,0,0.3)'></span>"
+                    }));
+                }
+            }
         }));
 
     },
@@ -88,6 +125,10 @@ isc.defineClass("InvoiceCalculationCathode", isc.VLayout).addProperties({
 
         let isValid = true;
         if (!this.invoiceBaseWeightComponent.validate())
+            isValid = false;
+
+        this.getMembers()[2].validate();
+        if (this.getMembers()[2].hasErrors())
             isValid = false;
 
         return isValid;
@@ -99,7 +140,8 @@ isc.defineClass("InvoiceCalculationCathode", isc.VLayout).addProperties({
         return 0;
     },
     getCalculationSubTotal: function () {
-        return this.contractDetailData.unitPrice;
+
+        return this.getMembers()[2].getValues().value;
     },
     getForeignInvoiceItems: function () {
 

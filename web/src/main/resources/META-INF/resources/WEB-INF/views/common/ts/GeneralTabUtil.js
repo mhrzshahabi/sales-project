@@ -1,14 +1,11 @@
 //------------------------------------------ TS References -----------------------------------------
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
+var __assign = (this && this.__assign) || Object.assign || function(t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+        s = arguments[i];
+        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+            t[p] = s[p];
+    }
+    return t;
 };
 ///<reference path="CommonUtil.ts"/>
 ///<reference path="FormUtil.ts"/>
@@ -87,6 +84,7 @@ var nicico;
                 beforeShowEditActionHook: null,
                 afterShowEditActionHook: null,
                 beforeDeleteActionHook: null,
+                validateDeleteActionHook: null,
                 afterDeleteActionHook: null,
                 afterDeleteErrorActionHook: null,
                 beforeActivateActionHook: null,
@@ -255,6 +253,7 @@ var nicico;
             This.method.afterShowNewActionHook = function (window) { };
             This.method.beforeShowEditActionHook = function (record) { };
             This.method.afterShowEditActionHook = function (window, record) { };
+            This.method.validateDeleteActionHook = function (record) { return record; };
             This.method.beforeDeleteActionHook = function (record) { };
             This.method.afterDeleteActionHook = function (response, record) { };
             This.method.afterDeleteErrorActionHook = function (response, record) { };
@@ -352,6 +351,8 @@ var nicico;
                 else {
                     This.variable.method = "DELETE";
                     This.dialog.question(function () {
+                        if (!This.method.validateDeleteActionHook(record))
+                            return;
                         This.method.beforeDeleteActionHook(record);
                         var rpcRequest = {};
                         rpcRequest.httpMethod = This.variable.method;
