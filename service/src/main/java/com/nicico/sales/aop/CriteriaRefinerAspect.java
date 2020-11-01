@@ -8,9 +8,9 @@ import com.nicico.copper.common.dto.search.EOperator;
 import com.nicico.copper.common.dto.search.SearchDTO;
 import com.nicico.sales.enumeration.ErrorType;
 import com.nicico.sales.exception.SalesException2;
+import com.nicico.sales.model.annotation.I18n;
 import com.nicico.sales.model.enumeration.AllConverters;
 import com.nicico.sales.model.enumeration.EStatus;
-import com.nicico.sales.model.annotation.I18n;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -49,18 +49,14 @@ public class CriteriaRefinerAspect {
         ParameterizedType superClass = (ParameterizedType) target.getClass().getGenericSuperclass();
         Class<?> entityClass = (Class<?>) superClass.getActualTypeArguments()[0];
         SearchDTO.SearchRq newRequest = createSearchRq(request);
-        try {
-            boolean check = checkSort(newRequest, entityClass);
-            check |= checkCriteria(newRequest.getCriteria(), entityClass);
-            if (check) {
+        boolean check = checkSort(newRequest, entityClass);
+        check |= checkCriteria(newRequest.getCriteria(), entityClass);
+        if (check) {
 
-                final String searchMethodName = ((MethodSignature) proceedingJoinPoint.getSignature()).getMethod().getName();
-                final Method searchMethod = target.getClass().getMethod(searchMethodName, SearchDTO.SearchRq.class);
-                return mapSearchRs(request, (SearchDTO.SearchRs<?>) searchMethod.invoke(target, newRequest));
-            } else throw new Throwable();
-        } catch (Throwable e) {
-            return (TotalResponse<?>) proceedingJoinPoint.proceed();
-        }
+            final String searchMethodName = ((MethodSignature) proceedingJoinPoint.getSignature()).getMethod().getName();
+            final Method searchMethod = target.getClass().getMethod(searchMethodName, SearchDTO.SearchRq.class);
+            return mapSearchRs(request, (SearchDTO.SearchRs<?>) searchMethod.invoke(target, newRequest));
+        } else return (TotalResponse<?>) proceedingJoinPoint.proceed();
     }
 
     private Field getField(String fieldName, Class<?> entityClass) {
@@ -157,11 +153,10 @@ public class CriteriaRefinerAspect {
                 }
 
                 newValues.add(new Date(date.replace('-', '/')));
-            }
-            else if (value instanceof Map)
-                throw new SalesException2(ErrorType.BadRequest, fieldName, "Criteria options not supported yet.");
+            } else if (value instanceof Map)
+                throw new SalesException2(ErrorType.BadRequest, fieldName, "فیلتر مورد نظر پشتیبانی نمی شود.");
             else
-                throw new SalesException2(ErrorType.BadRequest, fieldName, "Criteria for date field is incorrect.");
+                throw new SalesException2(ErrorType.BadRequest, fieldName, "فیلتر مورد نظر اشتباه میباشد.");
 
         criteriaRq.setValue(newValues);
         return result;
