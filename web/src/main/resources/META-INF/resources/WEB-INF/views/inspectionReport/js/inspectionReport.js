@@ -706,7 +706,6 @@ inspectionReportTab.method.createWeightListGrid = function () {
         callback: function (resp) {
 
             inspectionReportTab.listGrid.weightElement.setData([]);
-            inspectionReportTab.hStack.weightUnitSum.setMembers([]);
 
             let inventoryIds = JSON.parse(resp.httpResponseText);
             if (!inventoryIds || !inventoryIds.length) {
@@ -726,43 +725,7 @@ inspectionReportTab.method.createWeightListGrid = function () {
 
             inspectionReportTab.method.setWeightElementListRows(inventoryIds);
             inspectionReportTab.method.setWeightElementSum();
-
-            let unitArray = [];
-            let amountArray = [];
-            let remittanceDetails = inventories.map(q => q.remittanceDetails);
-            remittanceDetails.forEach(rds => {
-                rds.forEach(r => {
-                    unitArray.push(r.unitId);
-                });
-            });
-            unitArray = unitArray.distinct();
-            unitArray.forEach((u, index) => {
-                if (amountArray[index] === undefined) {
-                    amountArray[index] = 0;
-                }
-                remittanceDetails.forEach(rds => {
-                    rds.forEach((r, i) => {
-                        if (r.unitId === u && r.amount !== 0) {
-                            amountArray[index] = amountArray[index] + r.amount;
-                        }
-                    });
-                });
-            });
-            unitArray.forEach((current, index) => {
-                if (amountArray[index] !== 0) {
-                    let unitMember = isc.Unit.create({
-                        disabledUnitField: true,
-                        disabledValueField: true,
-                        showUnitFieldTitle: false,
-                        showValueFieldTitle: false,
-                        align: "left",
-                        width: "25%"
-                    });
-                    unitMember.setValue(amountArray[index]);
-                    unitMember.setUnitId(current);
-                    inspectionReportTab.hStack.weightUnitSum.addMember(unitMember);
-                }
-            });
+            inspectionReportTab.method.createUnitSum(inspectionReportTab.hStack.weightUnitSum, inventories);
         }
     }));
 };
@@ -782,7 +745,6 @@ inspectionReportTab.method.createAssayListGrid = function () {
         callback: function (resp) {
 
             inspectionReportTab.listGrid.assayElement.setData([]);
-            inspectionReportTab.hStack.assayUnitSum.setMembers([]);
 
             let inventoryIds = JSON.parse(resp.httpResponseText);
             if (!inventoryIds || !inventoryIds.length) {
@@ -804,43 +766,7 @@ inspectionReportTab.method.createAssayListGrid = function () {
 
             inspectionReportTab.method.setAssayElementListRows(inventoryIds);
             inspectionReportTab.method.setAssayElementSum();
-
-            let unitArray = [];
-            let amountArray = [];
-            let remittanceDetails = inventories.map(q => q.remittanceDetails);
-            remittanceDetails.forEach(rds => {
-                rds.forEach(r => {
-                    unitArray.push(r.unitId);
-                });
-            });
-            unitArray = unitArray.distinct();
-            unitArray.forEach((u, index) => {
-                if (amountArray[index] === undefined) {
-                    amountArray[index] = 0;
-                }
-                remittanceDetails.forEach(rds => {
-                    rds.forEach((r, i) => {
-                        if (r.unitId === u && r.amount !== 0) {
-                            amountArray[index] = amountArray[index] + r.amount;
-                        }
-                    });
-                });
-            });
-            unitArray.forEach((current, index) => {
-                if (amountArray[index] !== 0) {
-                    let unitMember = isc.Unit.create({
-                        disabledUnitField: true,
-                        disabledValueField: true,
-                        showUnitFieldTitle: false,
-                        showValueFieldTitle: false,
-                        align: "left",
-                        width: "25%"
-                    });
-                    unitMember.setValue(amountArray[index]);
-                    unitMember.setUnitId(current);
-                    inspectionReportTab.hStack.assayUnitSum.addMember(unitMember);
-                }
-            });
+            inspectionReportTab.method.createUnitSum(inspectionReportTab.hStack.assayUnitSum, inventories);
         }
     }));
 };
@@ -853,26 +779,12 @@ inspectionReportTab.method.materialChange = function () {
     inspectionReportTab.variable.materialId = inspectionReportTab.dynamicForm.material.getValue("material");
     inspectionReportTab.method.setShipmentAndInventoryCriteria(inspectionReportTab.variable.materialId);
 
-    switch (inspectionReportTab.variable.materialId) {
-
-        case ImportantIDs.material.COPPER_CATHOD:
+    if (inspectionReportTab.variable.materialId === ImportantIDs.material.COPPER_CATHOD) {
             inspectionReportTab.dynamicForm.assayLab.getField("labName").setRequired(false);
             inspectionReportTab.dynamicForm.assayLab.getField("labPlace").setRequired(false);
             inspectionReportTab.tab.inspecTabs.tabs.filter(q => q.name === "assay").first().pane.disable();
-            inspectionReportTab.listGrid.weightElement.unitId = 1;
-            break;
-        case ImportantIDs.material.MOLYBDENUM_OXIDE:
-            inspectionReportTab.listGrid.weightElement.unitId = 2;
-
-            break;
-        case ImportantIDs.material.COPPER_CONCENTRATES:
-            inspectionReportTab.listGrid.weightElement.unitId = 3;
-            break;
-
-        default:
-            return;
     }
-
+    inspectionReportTab.listGrid.weightElement.unitId = -11;
     let unitName = StorageUtil.get('parameters').unit.filter(q => q.id === inspectionReportTab.listGrid.weightElement.unitId).first().name;
     let weightWGTitle = inspectionReportTab.listGrid.weightElement.getFieldTitle("weightGW").replace(/ *\([^)]*\) */g, "");
     inspectionReportTab.listGrid.weightElement.setFieldTitle("weightGW", weightWGTitle + " (" + unitName + ")");
@@ -1494,6 +1406,10 @@ inspectionReportTab.listGrid.weightElement = isc.ListGrid.create({
     dataChanged: function (operationType) {
 
         inspectionReportTab.method.setWeightElementSum();
+        let inventoryIds = inspectionReportTab.listGrid.weightElement.data.map(q=>q.inventoryId);
+        let inventories = inspectionReportTab.dynamicForm.inspecReport.getItem("inventoryId").getSelectedRecords().filter(q => inventoryIds.contains(q.id));
+        debugger
+        inspectionReportTab.method.createUnitSum(inspectionReportTab.hStack.weightUnitSum, inventories);
         this.Super("dataChanged", arguments);
     }
 });
@@ -1722,6 +1638,10 @@ inspectionReportTab.listGrid.assayElement = isc.ListGrid.create({
     dataChanged: function (operationType) {
 
         inspectionReportTab.method.setAssayElementSum();
+        debugger
+        let inventoryIds = inspectionReportTab.listGrid.assayElement.data.map(q=>q.inventoryId);
+        let inventories = inspectionReportTab.dynamicForm.inspecReport.getItem("inventoryId").getSelectedRecords().filter(q => inventoryIds.contains(q.id));
+        inspectionReportTab.method.createUnitSum(inspectionReportTab.hStack.assayUnitSum, inventories);
         this.Super("dataChanged", arguments);
     }
 });
@@ -2161,6 +2081,11 @@ inspectionReportTab.method.editForm = function () {
             inspectionReportTab.dynamicForm.inspecReport.getItem("sellerId").disable();
             inspectionReportTab.dynamicForm.inspecReport.getItem("buyerId").disable();
         }
+        inspectionReportTab.method.getAssayElementFields(inspectionReportTab.variable.materialId, () => {
+            inspectionReportTab.method.createUnitSum(inspectionReportTab.hStack.assayUnitSum, inventories);
+            inspectionReportTab.method.createUnitSum(inspectionReportTab.hStack.weightUnitSum, inventories);
+        });
+
     }
 };
 
@@ -2273,6 +2198,48 @@ inspectionReportTab.window.formUtil.okCallBack = function (data) {
 
     });
 };
+
+inspectionReportTab.method.createUnitSum = function (tab_, inventories) {
+    let unitArray = [];
+    let amountArray = [];
+    tab_.setMembers([]);
+    if(!inventories)
+        return;
+    let remittanceDetails = inventories.map(q => q.remittanceDetails);
+    remittanceDetails.forEach(rds => {
+        rds.forEach(r => {
+            unitArray.push(r.unitId);
+        });
+    });
+    unitArray = unitArray.distinct();
+    unitArray.forEach((u, index) => {
+        if (amountArray[index] === undefined) {
+            amountArray[index] = 0;
+        }
+        remittanceDetails.forEach(rds => {
+            rds.forEach((r, i) => {
+                if (r.unitId === u && r.amount !== 0) {
+                    amountArray[index] = amountArray[index] + r.amount;
+                }
+            });
+        });
+    });
+    unitArray.forEach((current, index) => {
+        if (amountArray[index] !== 0) {
+            let unitMember = isc.Unit.create({
+                disabledUnitField: true,
+                disabledValueField: true,
+                showUnitFieldTitle: false,
+                showValueFieldTitle: false,
+                align: "left",
+                width: "25%"
+            });
+            unitMember.setValue(amountArray[index]);
+            unitMember.setUnitId(current);
+            tab_.addMember(unitMember);
+        }
+    });
+}
 
 //***************************************************** MAINLISTGRID *************************************************
 
