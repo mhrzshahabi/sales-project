@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum ErrorType {
 
-    BadRequest(400),
+    BadRequest(404),
     UnAuthorized(401),
     Forbidden(403),
     NotFound(404),
