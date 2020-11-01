@@ -93,7 +93,7 @@ public class MappingUtil {
 
                 List<Object> objects = new ArrayList<>();
                 for (Object obj : (Iterable) value)
-                    modelMapper.map(obj, reportModelAnnotation.type());
+                    objects.add(modelMapper.map(obj, reportModelAnnotation.type()));
 
                 field.set(destination, objects);
                 return;
