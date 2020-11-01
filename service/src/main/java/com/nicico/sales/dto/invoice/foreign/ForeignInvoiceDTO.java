@@ -42,6 +42,7 @@ public class ForeignInvoiceDTO {
     private Long invoiceTypeId;
     private Long shipmentId;
     private Long creatorId;
+    private Long parentId;
     private Double percent;
     private Long inspectionWeightReportId;
     private Long inspectionAssayReportId;

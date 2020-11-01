@@ -63,8 +63,7 @@ public class RemittanceDTO {
     @ApiModel("RemittanceInfo")
     public static class Info extends RemittanceDTO.InfoWithoutRemittanceDetail {
 
-        @ReportField(titleMessageKey = "entity.remittance-detail")
-        @ReportModel(type = RemittanceDetailDTO.InfoWithoutRemittance.class, jumpTo = true)
+        @IgnoreReportField
         private List<RemittanceDetailDTO.InfoWithoutRemittance> remittanceDetails;
     }
 

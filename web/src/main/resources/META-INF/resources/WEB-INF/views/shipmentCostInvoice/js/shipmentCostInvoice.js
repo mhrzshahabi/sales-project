@@ -1143,7 +1143,6 @@ shipmentCostInvoiceTab.listGrid.shipmentCostDetail = isc.ListGrid.create({
     selectionType: "single",
     canEdit: true,
     editEvent: "doubleClick",
-    autoSaveEdits: false,
     showRecordComponents: true,
     showRecordComponentsByCell: true,
     canRemoveRecords: true,

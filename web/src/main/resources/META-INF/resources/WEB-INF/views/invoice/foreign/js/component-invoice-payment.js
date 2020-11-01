@@ -9,6 +9,7 @@ isc.defineClass("InvoicePayment", isc.VLayout).addProperties({
     overflow: "auto",
     currency: null,
     shipment: null,
+    parentId: false,
     conversionRef: null,
     conversionDate: null,
     conversionRate: null,
@@ -355,7 +356,8 @@ isc.defineClass("InvoicePayment", isc.VLayout).addProperties({
             conversionDate: this.conversionDate,
             conversionRate: this.conversionRate,
             conversionSumPrice: this.getMembers().filter(q => q.name === "conversionSumPrice").first(),
-            conversionSumPriceText: this.getMembers().filter(q => q.role === "conversionSumPriceText").first().getValue("conversionSumPriceText")
+            conversionSumPriceText: this.getMembers().filter(q => q.role === "conversionSumPriceText").first().getValue("conversionSumPriceText"),
+            parentId: this.parentId
         };
     },
     getForeignInvoicePayment: function () {
