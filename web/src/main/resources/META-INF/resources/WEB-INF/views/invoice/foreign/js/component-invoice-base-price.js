@@ -12,7 +12,6 @@ isc.defineClass("InvoiceBasePrice", isc.VLayout).addProperties({
     currency: null,
     shipment: null,
     basePriceData: null,
-    invoiceCompletion: false,
     contractDetailDataMOAS: null,
     initWidget: function () {
 
@@ -56,7 +55,7 @@ isc.defineClass("InvoiceBasePrice", isc.VLayout).addProperties({
                         members.last().setValue(priceBase.price);
                         members.last().setUnitId(priceBase.financeUnit.id);
 
-                        if (This.basePriceData && !This.invoiceCompletion) {
+                        if (This.basePriceData) {
                             let elementId = members.last().elementId;
                             members.last().setValue(This.basePriceData.filter(q => q.materialElement.elementId === elementId).first().basePrice);
                         }

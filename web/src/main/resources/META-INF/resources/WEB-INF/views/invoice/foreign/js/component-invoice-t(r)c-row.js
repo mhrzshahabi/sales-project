@@ -11,7 +11,6 @@ isc.defineClass("InvoiceDeductionRow", isc.HLayout).addProperties({
     rcData: null,
     currency: null,
     elementFinalAssay: null,
-    invoiceCompletion: false,
     rcDeductionRowData: null,
     initWidget: function () {
 
@@ -126,7 +125,7 @@ isc.defineClass("InvoiceDeductionRow", isc.HLayout).addProperties({
     },
     editRowDeduction: function () {
 
-        if (this.rcDeductionRowData && !this.invoiceCompletion) {
+        if (this.rcDeductionRowData) {
 
             this.getMembers().filter(q => q.isConversionForm).first().setValue("rcUnitConversionRate", this.rcDeductionRowData.rcUnitConversionRate);
             this.getMembers().filter(q => q.isConversionForm).first().getItem("rcUnitConversionRate").changed();

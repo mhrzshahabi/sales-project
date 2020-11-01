@@ -12,7 +12,6 @@ isc.defineClass("InvoiceBaseWeight", isc.VLayout).addProperties({
     shipment: null,
     isClicked: true,
     remainingPercent: false,
-    invoiceCompletion: false,
     inspectionWeightData: null,
     initWidget: function () {
 
@@ -152,7 +151,7 @@ isc.defineClass("InvoiceBaseWeight", isc.VLayout).addProperties({
     },
     setPercentValue: function () {
 
-        if (this.percent && !this.invoiceCompletion) {
+        if (this.percent) {
             this.getMembers().last().setValue("percent", this.percent);
             this.getMembers().last().getField("percent").icons[0].click();
         }
@@ -164,7 +163,7 @@ isc.defineClass("InvoiceBaseWeight", isc.VLayout).addProperties({
         if (this.getMembers().last().hasErrors())
             isValid = false;
 
-        if (this.invoiceCompletion && this.getMembers().last().getField("percent").getValue() > this.remainingPercent) {
+        if (this.getMembers().last().getField("percent").getValue() > this.remainingPercent) {
             isc.warn("<spring:message code='foreign-invoice.form.percent.not.valid'/>");
             isValid = false;
         }
