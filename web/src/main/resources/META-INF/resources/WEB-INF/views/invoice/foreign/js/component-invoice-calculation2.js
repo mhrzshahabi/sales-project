@@ -10,6 +10,9 @@ isc.defineClass("InvoiceCalculation2", isc.VLayout).addProperties({
     contract: null,
     shipment: null,
     currency: null,
+    weightND: [],
+    percent: null,
+    remainingPercent: false,
     molybdenumRowData: null,
     contractDetailData: null,
     inspectionAssayData: null,
@@ -17,18 +20,54 @@ isc.defineClass("InvoiceCalculation2", isc.VLayout).addProperties({
     initWidget: function () {
 
         this.Super("initWidget", arguments);
-        console.log("this ", this);
 
         let This = this;
         let sendDate = new Date(This.shipment.sendDate);
+
         let priceBaseLayout = isc.VLayout.create({
             width: "100%",
+            canAdaptHeight: true,
             members: []
         });
-        let grid = isc.ListGrid.nicico.getDefault([], null, null, {
-            showGridSummary: true,
-            showFilterEditor: false
+
+        let percentElement = isc.DynamicForm.create({
+            width: "100%",
+            fields: [{
+                name: "percent",
+                title: "<spring:message code='foreign-invoice.form.percent'/>",
+                type: "float",
+                defaultValue: 100,
+                required: true,
+                validators: [
+                    {
+                        type: "required",
+                        validateOnChange: true
+                    },
+                    {
+                        type: "floatLimit",
+                        max: 100,
+                        min: 0,
+                        validateOnChange: true
+                    }],
+                icons: [
+                    {
+                        src: "pieces/16/accept.png",
+                        click: function () {
+
+                            // debugger
+                            let percent = This.getMember(2).getValue("percent");
+                            let grid = This.getMember(0);
+                            for (let i = 0; i < grid.getTotalRows(); i++) {
+                                grid.setEditValue(i, 1, percent);
+                            }
+                            grid.saveAllEdits();
+                            grid.endEditing();
+                        }
+                    }
+                ],
+            }]
         });
+
         let priceArticleElement = isc.HTMLFlow.create({
             width: "100%"
         });
@@ -36,9 +75,102 @@ isc.defineClass("InvoiceCalculation2", isc.VLayout).addProperties({
             width: "100%"
         });
 
+        let gridFirstFields = [{
+            name: "lotNo",
+            type: "text",
+            title: "Label"
+        }, {
+            name: "inventory",
+            title: "inventory",
+            hidden: true
+        }, {
+            name: "percent",
+            title: "Percent",
+            type: "float",
+            canEdit: "false",
+            required: "false",
+            validators: [
+                {
+                    type: "required",
+                    validateOnChange: true
+                },
+                {
+                    type: "floatLimit",
+                    max: 100,
+                    min: 0,
+                    validateOnChange: true
+                }],
+            cellChanged: function (record, newValue, oldValue, rowNum, colNum, grid) {
+
+                // debugger;
+                if (newValue === 100) {
+                    let weightND = This.weightND.filter(q => q.lotNo === record.lotNo).first().weightND;
+                    grid.setEditValue(rowNum, 2, weightND);
+                }
+                else
+                    grid.setEditValue(rowNum, 2, (newValue * record.weightND) / 100);
+
+                grid.saveAllEdits();
+                grid.endEditing();
+            }
+        }, {
+            name: "weightND",
+            type: "float",
+            title: "Net Weight",
+            format: "0.###",
+            canEdit: "false",
+            required: "false",
+            cellChanged: function (record, newValue, oldValue, rowNum, colNum, grid) {
+
+                This.updateGridData(record, newValue, oldValue, rowNum, colNum, grid);
+            }
+        }, {
+            name: "weightGW",
+            type: "float",
+            title: "Gross Weight",
+            format: "0.###",
+            canEdit: "false",
+            required: "false"
+        }];
+
+        let gridLastFields = [{
+            name: "price",
+            type: "float",
+            title: "Price",
+            format: "0.##",
+            canEdit: "false",
+            required: "false"
+        }, {
+            name: "discount",
+            type: "float",
+            title: "Discount",
+            format: "0.##",
+            canEdit: "false",
+            required: "false"
+        }, {
+            name: "unitConversionRate",
+            type: "float",
+            title: "Conversion Rate",
+            format: "0.###",
+            canEdit: "true",
+            required: "true",
+            cellChanged: function (record, newValue, oldValue, rowNum, colNum, grid) {
+
+                This.updateGridData(record, newValue, oldValue, rowNum, colNum, grid);
+            }
+        }, {
+            name: "amount",
+            type: "float",
+            title: "Value Amount",
+            format: "0.###",
+            canEdit: "false",
+            required: "false"
+        }];
+
+
         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
             httpMethod: "POST",
-            actionURL: "${contextPath}" + "/api/foreign-invoice-item/get-calculation2-data",
+            actionURL: "${contextPath}" + "/api/foreign-invoice-item/get-calculation-molybdenum-data",
             data: JSON.stringify(This.contractDetailData),
             params: {
                 contractId: This.contract.id,
@@ -52,44 +184,28 @@ isc.defineClass("InvoiceCalculation2", isc.VLayout).addProperties({
                 if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
 
                     let data = JSON.parse(resp.data);
-                    grid.editorExit = function (editCompletionEvent, record, newValues, rowNum) {
 
-                        if (editCompletionEvent !== "escape") {
-                            let price = Number(record["price"]);
-                            let discount = Number(record["discount"]);
-                            let unitConversionRate = Number(newValues ? newValues : record["unitConversionRate"]);
-                            let colNum = grid.fields.indexOf(grid.fields.filter(q => q.name === "amount").first());
-                            if (!unitConversionRate) unitConversionRate = 1;
-                            grid.setEditValue(rowNum, colNum, (price - (price * discount / 100)) * unitConversionRate);
-                        }
-                    };
-                    data.fields.forEach(field => {
-
-                        if (field.type !== "float")
-                            return;
-
-                        field.showHover = true;
-                        field.hoverHTML = function (record, value, rowNum, colNum, grid) {
-
-                            if (!record)
-                                return;
-
-                            let gridField = grid.getField(colNum);
-                            if (!gridField)
-                                return;
-
-                            return record[gridField.name + "_UNIT"];
-                        };
-                        field.formatCellValue = function (value, record, rowNum, colNum) {
-                            return record[field.name];
-                        };
+                    let gridFields = data.fields;
+                    let gridData = data.data;
+                    gridData.forEach(record => {
+                        This.weightND.add({
+                            weightND: record.weightND,
+                            lotNo: record.lotNo
+                        });
                     });
-                    grid.setFields(data.fields);
-                    grid.setData(data.data);
-                    grid.priceBase = data.priceBase;
 
-                    priceArticleElement.setContents("<b>" + data.priceArticleText + "</b>");
-                    priceBaseArticleElement.setContents("<b>" + data.priceBaseArticleText + "</b>");
+                    gridFields.forEach(field => gridFirstFields.add(field));
+                    gridLastFields.forEach(field => gridFirstFields.add(field));
+                    let grid = isc.ListGrid.create({
+                        showGridSummary: true,
+                        showFilterEditor: false,
+                        fields: []
+                    });
+                    grid.setFields(gridFirstFields);
+                    grid.setData(gridData);
+
+                    priceArticleElement.setContents("<b>" + data.priceContent + "</b>");
+                    priceBaseArticleElement.setContents("<b>" + data.quotationalPeriodContent + "</b>");
 
                     for (let i = 0; i < data.priceBase.length; i++) {
 
@@ -110,7 +226,7 @@ isc.defineClass("InvoiceCalculation2", isc.VLayout).addProperties({
                             elementId: priceBase.elementId,
                             valueFieldIcons: [{
 
-                                src: "pieces/16/refresh.png",
+                                src: "pieces/16/accept.png",
                                 click: function () {
 
                                     let savedRecordCount = grid.getData().length;
@@ -122,7 +238,7 @@ isc.defineClass("InvoiceCalculation2", isc.VLayout).addProperties({
 
                                         let price = 0;
                                         let record = grid.getRecord(i);
-                                        grid.priceBase.forEach(q => {
+                                        data.priceBase.forEach(q => {
 
                                             if (q.elementId === priceBaseComponent.elementId)
                                                 q.price = priceBaseComponent.getValues().value;
@@ -149,70 +265,97 @@ isc.defineClass("InvoiceCalculation2", isc.VLayout).addProperties({
                         priceBaseComponent.setUnitId(priceBase.financeUnitId);
                     }
 
-                    if (This.molybdenumRowData) {
+                    This.addMember(grid);
+                    This.addMember(priceBaseLayout);
+                    This.addMember(percentElement);
+                    This.addMember(priceArticleElement);
+                    This.addMember(priceBaseArticleElement);
+                    This.getMember(1).getMembers().forEach(member => member.valueFieldIcons[0].click());
 
-                        let grid = This.getMember(0);
-                        let colNum = grid.fields.indexOf(grid.fields.filter(q => q.name === "unitConversionRate").first());
-                        for (let i = 0; i < grid.getTotalRows(); i++) {
-                            let remittanceDetail = grid.getData()[i].inventory.remittanceDetails.filter(q => q.inputRemittance === false).first();
-                            let molybdenumData = This.molybdenumRowData.filter(q => q.remittanceDetailId === remittanceDetail.id).first();
-                            grid.setEditValue(i, colNum, molybdenumData.deductionUnitConversionRate);
-                            grid.saveAllEdits();
-                            grid.endEditing();
-                        }
+                    This.addMember(isc.HTMLFlow.create({
+                        width: "100%",
+                        contents: "<span style='width: 100%; display: block; margin: 10px auto; border-bottom: 1px solid rgba(0,0,0,0.3)'></span>"
+                    }));
+                    This.addMember(isc.ToolStrip.create({
+                        width: "100%",
+                        border: '0px',
+                        members: [
+                            isc.ToolStripButton.create({
+                                width: "100",
+                                height: "25",
+                                autoFit: false,
+                                title: "<spring:message code='global.ok'/>",
+                                click: function () {
 
-                        let priceBaseLayout = This.getMember(1);
-                        let molybdenumData = This.molybdenumRowData[0];
-                        priceBaseLayout.getMembers().forEach(form => {
-                            let newValue = molybdenumData.basePrice.filter(q => q.materialElement.elementId === form.elementId).first().basePrice;
-                            form.setValue(newValue);
-                            priceBaseLayout.getMembers().forEach(priceBaseComponent => priceBaseComponent.valueFieldIcons[0].click());
-                        });
-                    }
+                                    if (!This.validate())
+                                        return;
+
+                                    This.okButtonClick();
+                                    let tab = This.parentElement.parentElement;
+                                    tab.getTab(tab.selectedTab).pane.members.forEach(q => q.disable());
+                                    tab.selectTab(tab.selectedTab + 1 % tab.tabs.length);
+                                }
+                            })
+                        ]
+                    }));
+                    This.addMember(isc.HTMLFlow.create({
+                        width: "100%",
+                        contents: "<span style='width: 100%; display: block; margin: 10px auto; border-bottom: 1px solid rgba(0,0,0,0.3)'></span>"
+                    }));
+
+                    This.setEditData();
                 }
             }
         }));
 
-
-        this.addMember(grid);
-        this.addMember(priceBaseLayout);
-        this.addMember(priceArticleElement);
-        this.addMember(priceBaseArticleElement);
-
-        this.addMember(isc.HTMLFlow.create({
-            width: "100%",
-            contents: "<span style='width: 100%; display: block; margin: 10px auto; border-bottom: 1px solid rgba(0,0,0,0.3)'></span>"
-        }));
-        This.addMember(isc.ToolStrip.create({
-            width: "100%",
-            border: '0px',
-            members: [
-                isc.ToolStripButton.create({
-                    width: "100",
-                    height: "25",
-                    autoFit: false,
-                    title: "<spring:message code='global.ok'/>",
-                    click: function () {
-
-                        if (!This.validate())
-                            return;
-
-                        This.okButtonClick();
-
-                        let tab = This.parentElement.parentElement;
-                        tab.getTab(tab.selectedTab).pane.members.forEach(q => q.disable());
-                        tab.selectTab(tab.selectedTab + 1 % tab.tabs.length);
-                    }
-                })
-            ]
-        }));
-        this.addMember(isc.HTMLFlow.create({
-            width: "100%",
-            contents: "<span style='width: 100%; display: block; margin: 10px auto; border-bottom: 1px solid rgba(0,0,0,0.3)'></span>"
-        }));
-
     },
+    updateGridData: function (record, newValue, oldValue, rowNum, colNum, grid) {
 
+        let weightND = Number(record["weightND"]);
+        grid.getFields().forEach(field => {
+            if (field.title.contains("Content")) {
+
+                let fieldName = field.name;
+                let fieldColNum = grid.fields.indexOf(grid.fields.filter(q => q.name === fieldName).first());
+                let exFieldVal = grid.getCellValue(record, rowNum, fieldColNum - 1);
+                grid.setEditValue(rowNum, fieldColNum, weightND * (exFieldVal) / 100);
+                grid.saveAllEdits();
+                grid.endEditing();
+            }
+        });
+
+        this.getMembers()[1].getMembers().forEach(member => member.valueFieldIcons[0].click());
+    },
+    setEditData: function () {
+
+        if (this.molybdenumRowData) {
+
+            let grid = this.getMember(0);
+            let bPElement = this.getMember(1);
+            let pElement = this.getMember(2);
+
+            let rate = this.molybdenumRowData[0].deductionUnitConversionRate;
+            let rateColNum = grid.fields.indexOf(grid.fields.filter(q => q.name === "unitConversionRate").first());
+            for (let i = 0; i < grid.getTotalRows(); i++) {
+                grid.setEditValue(i, rateColNum, rate);
+            }
+            grid.saveAllEdits();
+            grid.endEditing();
+
+            pElement.setValue("percent", this.percent);
+            pElement.getItem("percent").icons[0].click();
+
+            this.molybdenumRowData[0].basePrice.forEach(basePrice => {
+
+                bPElement.getMembers().forEach(element => {
+                    if (basePrice.materialElement.elementId === element.elementId) {
+                        element.setValue(basePrice.basePrice);
+                        element.valueFieldIcons[0].click();
+                    }
+                });
+            });
+        }
+    },
     validate: function () {
 
         let isValid = !(this.getMember(0).getTotalRows() === 0);
@@ -220,6 +363,27 @@ isc.defineClass("InvoiceCalculation2", isc.VLayout).addProperties({
             this.getMember(0).validateRow(i);
             isValid &= !this.getMember(0).hasErrors()
         }
+
+        this.getMember(1).getMembers().forEach(unitComp => {
+            unitComp.validate();
+            if (unitComp.hasErrors())
+                isValid = false;
+        });
+
+        this.getMember(2).validate();
+        if (this.getMember(2).hasErrors())
+            isValid = false;
+
+        if (this.getMember(2).getValue("percent") > this.remainingPercent) {
+            isc.warn("<spring:message code='foreign-invoice.form.percent.not.valid'/>");
+            isValid = false;
+        }
+
+        if (isValid) {
+            this.getMember(1).getMembers().forEach(member => member.valueFieldIcons[0].click());
+            this.getMember(2).getItem("percent").icons[0].click();
+        }
+
         return isValid;
     },
     okButtonClick: function () {
@@ -244,6 +408,9 @@ isc.defineClass("InvoiceCalculation2", isc.VLayout).addProperties({
     getCalculationSubTotal: function () {
         return this.getMember(0).getGridSummaryData().map(q => q.amount).sum();
     },
+    getPercent: function () {
+        return this.getMember(2).getValue("percent");
+    },
     getForeignInvoiceItems: function () {
 
         let items = [];
@@ -259,7 +426,6 @@ isc.defineClass("InvoiceCalculation2", isc.VLayout).addProperties({
                 itemDetails.add({
                     assay: q.value,
                     materialElementId: q.materialElementId,
-                    // basePrice: This.getMember(0).priceBase.filter(bp => bp.elementId === q.materialElement.elementId).first().price,
                     basePrice: This.getMember(1).getMembers().filter(pb => pb.elementId === q.materialElement.elementId).first().getValues().value,
                     deductionType: JSON.parse('${Enum_DeductionType}').DiscountPercent,
                     deductionValue: gridRecord.discount,
@@ -282,7 +448,7 @@ isc.defineClass("InvoiceCalculation2", isc.VLayout).addProperties({
             items.add({
                 treatCost: 0,
                 weightGW: weightData.weightGW,
-                weightND: weightData.weightND,
+                weightND: current.weightND,
                 assayMilestone: This.inspectionAssayData.assayInspections[0].mileStone,
                 weightMilestone: This.inspectionWeightData.weightInspections[0].mileStone,
                 deductionUnitConversionRate: current.unitConversionRate,

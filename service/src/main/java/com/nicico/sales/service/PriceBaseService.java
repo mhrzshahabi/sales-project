@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.math.MathContext;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -59,62 +60,66 @@ public class PriceBaseService extends GenericService<com.nicico.sales.model.enti
         List<ContractDetailDataDTO.MOASData> validMOASData = moasData.stream().filter(moas -> validMaterialElements.stream().anyMatch(q -> q.getId().longValue() == moas.getMaterialElement().getId())).collect(Collectors.toList());
 
         List<PriceBase> pricesByElements = new ArrayList<>();
-        validMOASData.forEach(item -> {
 
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(item.getDate());
-            MaterialElement materialElement = validMaterialElements.stream().filter(q -> q.getId().longValue() == item.getMaterialElement().getId()).findFirst().get();
-            if (item.getMoasValue() != null)
-                pricesByElements.addAll(((PriceBaseDAO) repository).getAllPricesByElements(item.getPriceReference(), calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1 + item.getMoasValue(), materialElement.getElementId()));
-            else if (item.getWorkingDayAfter() != null && item.getWorkingDayBefore() != null) {
+        if (validMOASData.size() == validMaterialElements.size()) {
+            validMOASData.forEach(item -> {
+
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(item.getDate());
+                MaterialElement materialElement = validMaterialElements.stream().filter(q -> q.getId().longValue() == item.getMaterialElement().getId()).findFirst().get();
+                if (item.getMoasValue() != null)
+                    pricesByElements.addAll(((PriceBaseDAO) repository).getAllPricesByElements(item.getPriceReference(), calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1 + item.getMoasValue(), materialElement.getElementId()));
+                else if (item.getWorkingDayAfter() != null && item.getWorkingDayBefore() != null) {
 
 //                List<Date> workingDays = new ArrayList<>();
-                HRMDTO.BusinessDaysRq businessDaysRq = new HRMDTO.BusinessDaysRq();
-                businessDaysRq.setType(2);
-                businessDaysRq.setDate(item.getDate());
-                businessDaysRq.setAfter(item.getWorkingDayAfter());
-                businessDaysRq.setBefore(item.getWorkingDayBefore());
-                HRMDTO.BusinessDaysInfo businessDays = hrmApiService.getBusinessDays(businessDaysRq);
+                    HRMDTO.BusinessDaysRq businessDaysRq = new HRMDTO.BusinessDaysRq();
+                    businessDaysRq.setType(2);
+                    businessDaysRq.setDate(item.getDate());
+                    businessDaysRq.setAfter(item.getWorkingDayAfter());
+                    businessDaysRq.setBefore(item.getWorkingDayBefore());
+                    HRMDTO.BusinessDaysInfo businessDays = hrmApiService.getBusinessDays(businessDaysRq);
 
-                List<HRMDTO.DayInfo> dayInfos = new ArrayList<>(businessDays.getAfter());
-                dayInfos.add(businessDays.getToday());
-                dayInfos.addAll(businessDays.getBefore());
+                    List<HRMDTO.DayInfo> dayInfos = new ArrayList<>(businessDays.getAfter());
+                    dayInfos.add(businessDays.getToday());
+                    dayInfos.addAll(businessDays.getBefore());
 
-                List<Date> workingDays = dayInfos.stream().map(HRMDTO.DayInfo::getTimestamp).collect(Collectors.toList());
-                pricesByElements.addAll(((PriceBaseDAO) repository).getAllPricesByElements(item.getPriceReference(), workingDays, materialElement.getElementId()));
-            } else throw new SalesException2();
-        });
-        Set<Long> pricesByElementIds = pricesByElements.stream().map(PriceBase::getElementId).collect(Collectors.toSet());
+                    List<String> workingDays = dayInfos.stream().map(dayInfo -> new SimpleDateFormat("YYYY-MM-dd").format(dayInfo.getTimestamp())).collect(Collectors.toList());
+                    pricesByElements.addAll(((PriceBaseDAO) repository).getAllPricesByElements(item.getPriceReference(), workingDays, materialElement.getElementId()));
+                } else throw new SalesException2(ErrorType.InvalidData, "MOASValue", "Data is not Complete");
+            });
+            Set<Long> pricesByElementIds = pricesByElements.stream().map(PriceBase::getElementId).collect(Collectors.toSet());
 
-        if (!pricesByElementIds.containsAll(validMaterialElements.stream().map(MaterialElement::getElementId).collect(Collectors.toList())))
-            throw new NotFoundException(PriceBase.class);
+            if (!pricesByElementIds.containsAll(validMaterialElements.stream().map(MaterialElement::getElementId).collect(Collectors.toList())))
+                throw new NotFoundException(PriceBase.class);
 
-        Map<Long, List<PriceBase>> pricesByElementGroup = pricesByElements.stream().collect(Collectors.groupingBy(PriceBase::getElementId));
-        List<PriceBaseDTO.Info> priceBases = new ArrayList<>();
-        pricesByElementGroup.keySet().forEach(elementId -> {
+            Map<Long, List<PriceBase>> pricesByElementGroup = pricesByElements.stream().collect(Collectors.groupingBy(PriceBase::getElementId));
+            List<PriceBaseDTO.Info> priceBases = new ArrayList<>();
+            pricesByElementGroup.keySet().forEach(elementId -> {
 
-            List<PriceBase> groupPriceBases = pricesByElementGroup.get(elementId);
-            Set<@NotNull Long> weightUnitIdSet = groupPriceBases.stream().map(PriceBase::getWeightUnitId).collect(Collectors.toSet());
-            if (weightUnitIdSet.size() > 1)
-                throw new SalesException2(ErrorType.BadRequest, "WeightUnit", "Weight unit is multiple.");
-            Set<@NotNull Long> financeUnitIdSet = groupPriceBases.stream().map(PriceBase::getFinanceUnitId).collect(Collectors.toSet());
-            if (financeUnitIdSet.size() > 1)
-                throw new SalesException2(ErrorType.BadRequest, "FinanceUnit", "Finance unit is multiple.");
+                List<PriceBase> groupPriceBases = pricesByElementGroup.get(elementId);
+                Set<@NotNull Long> weightUnitIdSet = groupPriceBases.stream().map(PriceBase::getWeightUnitId).collect(Collectors.toSet());
+                if (weightUnitIdSet.size() > 1)
+                    throw new SalesException2(ErrorType.BadRequest, "WeightUnit", "Weight unit is multiple.");
+                Set<@NotNull Long> financeUnitIdSet = groupPriceBases.stream().map(PriceBase::getFinanceUnitId).collect(Collectors.toSet());
+                if (financeUnitIdSet.size() > 1)
+                    throw new SalesException2(ErrorType.BadRequest, "FinanceUnit", "Finance unit is multiple.");
 
-            if (financeUnitId != groupPriceBases.get(0).getFinanceUnitId().longValue())
-                throw new SalesException2(ErrorType.BadRequest, "FinanceUnit", "Finance unit is not match.");
+                if (financeUnitId != groupPriceBases.get(0).getFinanceUnitId().longValue())
+                    throw new SalesException2(ErrorType.BadRequest, "FinanceUnit", "Finance unit is not match.");
 
-            PriceBaseDTO.Info priceBase = modelMapper.map(groupPriceBases.get(0), PriceBaseDTO.Info.class);
-            BigDecimal groupAveragePrice = groupPriceBases.stream().map(PriceBase::getPrice).reduce(BigDecimal.ZERO, BigDecimal::add).divide(BigDecimal.valueOf(groupPriceBases.size()), MathContext.DECIMAL32);
-            priceBase.setPrice(groupAveragePrice);
-            priceBase.setId(null);
+                PriceBaseDTO.Info priceBase = modelMapper.map(groupPriceBases.get(0), PriceBaseDTO.Info.class);
+                BigDecimal groupAveragePrice = groupPriceBases.stream().map(PriceBase::getPrice).reduce(BigDecimal.ZERO, BigDecimal::add).divide(BigDecimal.valueOf(groupPriceBases.size()), MathContext.DECIMAL32);
+                priceBase.setPrice(groupAveragePrice);
+                priceBase.setId(null);
 
-            priceBases.add(priceBase);
-        });
+                priceBases.add(priceBase);
+            });
 
 
-        if (priceBases.size() == 0) throw new NotFoundException(PriceBase.class);
+            if (priceBases.size() == 0) throw new NotFoundException(PriceBase.class);
 
-        return priceBases;
+            return priceBases;
+        } else throw new SalesException2(ErrorType.NotFound, "QUOTATIONAL PERIOD", "Atricle is not Complete");
+
     }
 }

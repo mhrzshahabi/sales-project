@@ -90,7 +90,7 @@ public class FileService implements IFileService {
             }
         }
 
-        for (FileDTO.FileMetaData metaData : savedFileData.stream().filter(q -> q.getFileStatus() != FileStatus.DELETED && fileData.stream().noneMatch(p -> p.getId() == q.getId().longValue())).collect(Collectors.toList()))
+        for (FileDTO.FileMetaData metaData : savedFileData.stream().filter(q -> q.getFileStatus() != FileStatus.DELETED && fileData.stream().noneMatch(p -> q.getId().equals(p.getId()))).collect(Collectors.toList()))
             try {
                 delete(metaData.getFileKey());
             } catch (Exception e) {

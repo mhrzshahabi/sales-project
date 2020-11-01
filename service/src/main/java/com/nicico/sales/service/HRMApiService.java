@@ -15,9 +15,12 @@ import org.springframework.security.oauth2.provider.authentication.OAuth2Authent
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Collections;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -52,21 +55,21 @@ public class HRMApiService implements IHRMApiService {
 		final Calendar calendar = Calendar.getInstance();
 		calendar.setTime(request.getDate());
 
-		final Map<String, String> requestParam = new HashMap<>();
-		requestParam.put("type", String.valueOf(request.getType()));
-		requestParam.put("day", String.valueOf(calendar.get(Calendar.DAY_OF_MONTH)));
-		requestParam.put("month", String.valueOf(calendar.get(Calendar.MONTH)));
-		requestParam.put("year", String.valueOf(calendar.get(Calendar.YEAR)));
+		final UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromHttpUrl(url)
+				.queryParam("type", request.getType())
+				.queryParam("day", calendar.get(Calendar.DAY_OF_MONTH))
+				.queryParam("month", calendar.get(Calendar.MONTH) + 1)
+				.queryParam("year", calendar.get(Calendar.YEAR));
 		if (request.getBefore() != null)
-			requestParam.put("before", String.valueOf(request.getBefore()));
+			uriComponentsBuilder.queryParam("before", request.getBefore());
 		if (request.getAfter() != null)
-			requestParam.put("after", String.valueOf(request.getAfter()));
+			uriComponentsBuilder.queryParam("after", request.getAfter());
 
-		final HttpEntity<String> httpEntity = new HttpEntity<>(getApplicationJSONHttpHeaders());
+		final HttpEntity<?> httpEntity = new HttpEntity<>(getApplicationJSONHttpHeaders());
 
 		ResponseEntity<String> httpResponse = null;
 		try {
-			httpResponse = new RestTemplate().exchange(url, HttpMethod.GET, httpEntity, String.class, requestParam);
+			httpResponse = new RestTemplate().exchange(uriComponentsBuilder.build(false).encode().toUri(), HttpMethod.GET, httpEntity, String.class);
 		} catch (Exception e) {
 			throw new SalesException2(e, ErrorType.BadRequest, null, e.getMessage());
 		}

@@ -12,6 +12,7 @@ isc.defineClass("InvoiceBaseValues", isc.VLayout).addProperties({
     shipment: null,
     invoiceType: null,
     percent: null,
+    remainingPercent: false,
     basePriceData: null,
     contractDetailDataMOAS: null,
     inspectionAssayData: null,
@@ -22,7 +23,6 @@ isc.defineClass("InvoiceBaseValues", isc.VLayout).addProperties({
     initWidget: function () {
 
         this.Super("initWidget", arguments);
-
         let This = this;
 
         if (this.invoiceType.id === ImportantIDs.invoiceType.FINAL) {
@@ -40,22 +40,20 @@ isc.defineClass("InvoiceBaseValues", isc.VLayout).addProperties({
                 contents: "<span style='width: 100%; display: block; margin: 10px auto; border-bottom: 1px solid rgba(0,0,0,0.3)'></span>"
             }));
 
-            if (this.contract.materialId !== ImportantIDs.material.COPPER_CATHOD) {
-
-                this.invoiceBaseAssayComponent = isc.InvoiceBaseAssay.create({
-                    shipment: This.shipment,
-                    inspectionAssayData: This.inspectionAssayData,
-                });
-                this.addMember(this.invoiceBaseAssayComponent);
-                this.addMember(isc.HTMLFlow.create({
-                    width: "100%",
-                    contents: "<span style='width: 100%; display: block; margin: 10px auto; border-bottom: 1px solid rgba(0,0,0,0.3)'></span>"
-                }));
-            }
+            this.invoiceBaseAssayComponent = isc.InvoiceBaseAssay.create({
+                shipment: This.shipment,
+                inspectionAssayData: This.inspectionAssayData,
+            });
+            this.addMember(this.invoiceBaseAssayComponent);
+            this.addMember(isc.HTMLFlow.create({
+                width: "100%",
+                contents: "<span style='width: 100%; display: block; margin: 10px auto; border-bottom: 1px solid rgba(0,0,0,0.3)'></span>"
+            }));
 
             this.invoiceBaseWeightComponent = isc.InvoiceBaseWeight.create({
                 shipment: This.shipment,
                 percent: This.percent,
+                remainingPercent: This.remainingPercent,
                 inspectionWeightData: This.inspectionWeightData,
             });
             this.addMember(this.invoiceBaseWeightComponent);
@@ -63,6 +61,7 @@ isc.defineClass("InvoiceBaseValues", isc.VLayout).addProperties({
                 width: "100%",
                 contents: "<span style='width: 100%; display: block; margin: 10px auto; border-bottom: 1px solid rgba(0,0,0,0.3)'></span>"
             }));
+
         } else {
 
         }
@@ -90,10 +89,12 @@ isc.defineClass("InvoiceBaseValues", isc.VLayout).addProperties({
                 })
             ]
         }));
+
         this.addMember(isc.HTMLFlow.create({
             width: "100%",
             contents: "<span style='width: 100%; display: block; margin: 10px auto; border-bottom: 1px solid rgba(0,0,0,0.3)'></span>"
         }));
+
     },
     okButtonClick: function () {
 

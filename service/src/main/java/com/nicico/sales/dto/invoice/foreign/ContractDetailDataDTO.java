@@ -39,7 +39,7 @@ public class ContractDetailDataDTO {
 
         private IncotermDTO.Info incoterm;
 
-        private ContractDiscountDTO.Info discount;
+        private List<ContractDiscountDTO.Info> discount;
     }
 
     @Getter

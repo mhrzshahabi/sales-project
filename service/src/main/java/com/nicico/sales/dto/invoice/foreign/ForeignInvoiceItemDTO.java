@@ -97,8 +97,8 @@ public class ForeignInvoiceItemDTO {
     public static class Calc2Data {
 
         private List<FieldData> fields;
-        private String priceArticleText;
-        private String priceBaseArticleText;
+        private String priceContent;
+        private String quotationalPeriodContent;
         private List<Map<String, Object>> data;
         private List<PriceBaseDTO.Info> priceBase;
     }
