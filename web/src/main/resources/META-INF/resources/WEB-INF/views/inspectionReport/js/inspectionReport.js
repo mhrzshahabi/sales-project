@@ -1408,7 +1408,6 @@ inspectionReportTab.listGrid.weightElement = isc.ListGrid.create({
         inspectionReportTab.method.setWeightElementSum();
         let inventoryIds = inspectionReportTab.listGrid.weightElement.data.map(q=>q.inventoryId);
         let inventories = inspectionReportTab.dynamicForm.inspecReport.getItem("inventoryId").getSelectedRecords().filter(q => inventoryIds.contains(q.id));
-        debugger
         inspectionReportTab.method.createUnitSum(inspectionReportTab.hStack.weightUnitSum, inventories);
         this.Super("dataChanged", arguments);
     }
@@ -1638,7 +1637,6 @@ inspectionReportTab.listGrid.assayElement = isc.ListGrid.create({
     dataChanged: function (operationType) {
 
         inspectionReportTab.method.setAssayElementSum();
-        debugger
         let inventoryIds = inspectionReportTab.listGrid.assayElement.data.map(q=>q.inventoryId);
         let inventories = inspectionReportTab.dynamicForm.inspecReport.getItem("inventoryId").getSelectedRecords().filter(q => inventoryIds.contains(q.id));
         inspectionReportTab.method.createUnitSum(inspectionReportTab.hStack.assayUnitSum, inventories);
