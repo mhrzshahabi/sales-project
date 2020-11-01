@@ -57,7 +57,7 @@ var nicico;
                 if (!Object.keys(criteria).length)
                     criteria = null;
                 // @ts-ignore
-                var fields = report.reportFields.filter(function (q) { return !q.hidden; });
+                var fields = creator.listGrid.main.getFields().filter(function (q) { return q.name !== "groupTitle"; });
                 // @ts-ignore
                 creator.dynamicForm.excel.setValue("reportId", report.id);
                 // @ts-ignore
