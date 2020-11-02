@@ -605,7 +605,6 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
             {name: "assayInspections.mileStone", showHover: true}
         ],
         getPickListFilterCriteria: function () {
-            debugger;
             let criteria = {
                 _constructor: 'AdvancedCriteria', operator: "and", criteria: [
                     {
@@ -636,7 +635,14 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
                 },
                 {name: "seller.nameFA", title: "<spring:message code='inspectionReport.sellerId'/>"},
                 {name: "buyer.nameFA", title: "<spring:message code='inspectionReport.buyerId'/>"},
-                {name: "assayInspections.mileStone", title: "<spring:message code='inspectionReport.assay.mileStone'/>"}
+                {name: "assayInspections.mileStone", title: "<spring:message code='inspectionReport.assay.mileStone'/>"},
+                {
+                    name: "assayInspections",
+                    title: "<spring:message code='inspectionReport.weight.mileStone'/>"
+                }, {
+                    name: "assayInspections.shipmentId",
+                    title: "<spring:message code='inspectionReport.weight.mileStone'/>"
+                }
             ],
             fetchDataURL: foreignInvoiceTab.variable.inspectionReportUrl + "spec-list"
         }),
