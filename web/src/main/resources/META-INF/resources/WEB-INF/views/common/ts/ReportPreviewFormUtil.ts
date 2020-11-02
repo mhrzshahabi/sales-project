@@ -65,7 +65,12 @@ namespace nicico {
                 if (!Object.keys(criteria).length)
                     criteria = null;
                 // @ts-ignore
-                var fields = report.reportFields.filter(q => !q.hidden);
+                var fields = creator.listGrid.main.getFields().filter(q =>
+                    q.name !== "groupTitle" &&
+                    // @ts-ignore
+                    q.name !== creator.listGrid.main.getRowNumberField().name &&
+                    // @ts-ignore
+                    q.name !== creator.listGrid.main.getCheckboxField().name);
                 // @ts-ignore
                 creator.dynamicForm.excel.setValue("reportId", report.id);
                 // @ts-ignore
