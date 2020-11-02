@@ -577,13 +577,6 @@ public class ReportService extends GenericService<com.nicico.sales.model.entitie
             response = getRestReportData(baseUrl, criteria, report);
         if (report.getReportSource() == ReportSource.View) response = getViewReportData(criteria, report);
 
-        if (response != null &&
-                response.getResponse() != null &&
-                response.getResponse().getData() != null &&
-                response.getResponse().getData().size() > 1 &&
-                report.getReportType() == ReportType.OneRecord)
-            response.getResponse().setData(response.getResponse().getData().subList(0, 1));
-
         return response;
     }
 

@@ -8,20 +8,16 @@ import com.nicico.copper.core.SecurityUtil;
 import com.nicico.copper.core.util.report.ReportUtil;
 import com.nicico.sales.dto.FileDTO;
 import com.nicico.sales.dto.report.ReportDTO;
-import com.nicico.sales.exception.UnAuthorizedException;
 import com.nicico.sales.iservice.IFileService;
 import com.nicico.sales.iservice.report.IReportService;
 import com.nicico.sales.model.enumeration.ReportType;
 import com.nicico.sales.service.report.MappingUtil;
 import com.nicico.sales.utility.MakeExcelOutputUtil;
-import io.minio.errors.*;
 import lombok.RequiredArgsConstructor;
-import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.data.JsonDataSource;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.MultiValueMap;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -29,12 +25,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.sql.SQLException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -77,7 +69,7 @@ public class ReportExecuteFormController {
                 data.getResponse() != null &&
                 data.getResponse().getData() != null &&
                 data.getResponse().getData().size() > 1 &&
-                report.getReportType() == ReportType.OneRecord){
+                report.getReportType() == ReportType.OneRecord) {
 
             data.getResponse().setData(data.getResponse().getData().subList(0, 1));
             data.getResponse().setEndRow(1);
