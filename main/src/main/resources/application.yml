@@ -130,8 +130,8 @@ spring:
   profiles: Staging
   datasource:
     url: jdbc:oracle:thin:@//oragnrt01.icico.net.ir:1521/pdb_dev01
-    username: test_sales
-    password: testsales
+    username: demo_sales
+    password: demosales
   redis:
     host: redis
     password: nicico
