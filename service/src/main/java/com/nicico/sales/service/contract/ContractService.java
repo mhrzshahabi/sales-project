@@ -671,7 +671,9 @@ public class ContractService extends GenericService<Contract, Long, ContractDTO.
 
         }
 
-
+        if (actionType == ActionType.Disapprove && entity.getParentId() == null) {
+            throw new SalesException2(ErrorType.NotEditable, "", messageSource.getMessage("contract.has.appendix.cant.disapprove", null, locale));
+        }
         /*** الحاقیه***/
 
         return super.validation(entity, request);
