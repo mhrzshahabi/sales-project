@@ -624,10 +624,10 @@ function onWayProductCreateRemittance() {
                                     // record['packages'].find(p => p.uid === recordg.uid)['tedad'] = Number(newValue)
                                     if (newValue) {
                                         updateRecord('tedad', newValue, recordg);
-                                        const _tedadString = 'remitance_inventory_default_tedad_' + record.codeKala.toString()
-                                            + '_' +
-                                            record.sourceId.toString();
-                                        StorageUtil.save(_tedadString,Number(newValue))
+                                        // const _tedadString = 'remitance_inventory_default_tedad_' + record.codeKala.toString()
+                                        //     + '_' +
+                                        //     record.sourceId.toString();
+                                        // StorageUtil.save(_tedadString,Number(newValue))
                                     }
                                     return true;
                                 },
@@ -725,8 +725,9 @@ function onWayProductCreateRemittance() {
                             "carName",
                             "containerId",
                             "containerName",
-                            "vazn1",
-                            "vazn2",
+                            "vazn",
+                            // "vazn1",
+                            // "vazn2",
                             "tedad",
                             "packName",
                             "haveCode",
@@ -1060,10 +1061,10 @@ function onWayProductCreateRemittance() {
                     const _tedadString = 'remitance_inventory_default_tedad_'+ tzn.codeKala.toString()
                         + '_' +
                         tzn.sourceId.toString();
-                    let _tedad = StorageUtil.get(_tedadString);
+                    let _tedad = 34;//StorageUtil.get(_tedadString);
                     if(!_tedad || Number(_tedad)<3)
                         _tedad=18
-                    const _vazn = Number(tzn['vazn'])/Number(tzn['tedad']);
+                    const _vazn = 1;//Number(tzn['vazn'])/Number(tzn['tedad']);
 
                     Array.from({length:Number(tzn['tedad'])},(_,i)=>{
                     _packages.add({
@@ -1134,7 +1135,7 @@ function onWayProductCreateRemittance() {
                                     productId: p['productId'],
                                     uid: p['productId'],
                                     wazn: p['wazn'],
-                                    tedad: p['sheetNumber']
+                                    tedad: p['sheetNumber']*2
                                 }
                             })
                             tz['packages'] = updated_packages;

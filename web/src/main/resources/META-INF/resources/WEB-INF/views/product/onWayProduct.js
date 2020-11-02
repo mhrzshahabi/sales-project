@@ -29,6 +29,7 @@ const tozinLiteFields = _ => [
         filterOperator: "greaterOrEqual",
         title: "<spring:message code='Tozin.date'/>",
         align: "center",
+        canFilter:false,
         formatCellValue(value, record, rowNum, colNum, grid) {
             try {
                 const valStr = value.toString();
@@ -357,7 +358,9 @@ async function onWayProductFetch(classUrl, operator = "and", criteria = []) {
 }
 
 function mainOnWayProduct() {
-
+    const owpTab={
+        DynamicForm:{Form:{},Field:{}}
+    };
     const restDataSource_Tozin_Lite = {
         fields: tozinLiteFields(),
         fetchDataURL: "${contextPath}/api/tozin/lite/spec-list"
@@ -459,13 +462,13 @@ function mainOnWayProduct() {
 
 
             const criteria = JSON.stringify(ListGrid_Tozin_IN_ONWAYPRODUCT.getCriteria());
+            dbg(true,criteria)
             pdf.setValue("criteria", criteria);
             pdf.setValue("type", "pdf");
 
-            const dateaval = ListGrid_Tozin_IN_ONWAYPRODUCT.getFilterEditorCriteria().criteria.find(c => c.fieldName === 'date').value
-            pdf.setValue("dateaval", (dateaval.substr(0, 4)
-                + "/" + dateaval.substr(4, 2) + "/" + dateaval.substr(-2)));
-            pdf.setValue("datedovom", new persianDate().format('YYYY/MM/DD'));
+            // const dateaval = ListGrid_Tozin_IN_ONWAYPRODUCT.getFilterEditorCriteria().criteria.find(c => c.fieldName === 'date').value
+            pdf.setValue("dateaval", owpTab.DynamicForm.Form.ToDate.getValue("fromDate"));
+            pdf.setValue("datedovom", owpTab.DynamicForm.Form.ToDate.getValue("fromDate"));
             pdf.setValue("kala", SalesBaseParameters.getSavedMaterialItemParameter().find(
                 sp => sp.id === ListGrid_Tozin_IN_ONWAYPRODUCT.getFilterEditorCriteria()
                     .criteria.find(c => c.fieldName === 'codeKala').value
@@ -509,6 +512,39 @@ function mainOnWayProduct() {
                 click: Menu_ListGrid_OnWayProduct.data[0].click
             }),
  //    </sec:authorize>
+           owpTab.DynamicForm.Form.ToDate= isc.DynamicForm.create({
+               numCols:4,
+                fields:[
+                    owpTab.DynamicForm.Field.FromDate=isc.FormItem.create({
+                    title:"<spring:message code='dailyWarehouse.fromDay'/>",
+                        name:'fromDate',
+                        defaultValue:new persianDate().subtract('days',7       ).format('YYYY/MM/DD'),
+                        wrapTitle:false,
+                        icons: [{
+                            src: "pieces/pcal.png",
+                            click: function (form, item, icon) {
+                                // console.log(form)
+                                displayDatePicker(item['ID'], form.getItems()[0], 'ymd', '/');
+                            }
+                        }],
+                        width:150,
+                    }),
+                    owpTab.DynamicForm.Field.ToDate=isc.FormItem.create({
+                    title:"<spring:message code='dailyWarehouse.toDay'/>",
+                        name:'toDate',
+                        defaultValue:new persianDate().format('YYYY/MM/DD'),
+                        wrapTitle:false,
+                        icons: [{
+                            src: "pieces/pcal.png",
+                            click: function (form, item, icon) {
+                                // console.log(form)
+                                displayDatePicker(item['ID'], form.getItems()[0], 'ymd', '/');
+                            }
+                        }],
+                        width:150,
+                    }),
+                ],
+            }),
             HLayout_onWayProduct_searchBtn,
             isc.ToolStrip.create({
                 width: "100%",
@@ -557,9 +593,8 @@ function mainOnWayProduct() {
         filterData(criteria, callback, requestProperties) {
             // dbg(false, 'async filterData(criteria', arguments)
             // criteria.criteria.add({"fieldName": "tozinId", "operator": "iNotStartsWith", "value": "3-"})
-            const dateCriteria = criteria.criteria.find(_ => _.fieldName === 'date');
-            if (dateCriteria) dateCriteria.value = dateCriteria.value.replaceAll("/", "")
-
+            if(criteria && criteria.criteria && criteria.criteria.length>0)
+                criteria.criteria=criteria.criteria.filter(_=>_.fieldName!=='date');
             if (!criteria.criteria.find(t => t.fieldName === "sourceId")) {
                 isc.say('<spring:message code="please.fill.source"/>')
                 throw '<spring:message code="please.fill.source"/>'
@@ -576,7 +611,12 @@ function mainOnWayProduct() {
                 criteria.criteria.add({"fieldName": "tozinId", "operator": "iNotStartsWith", "value": "3-"})
             if (!criteria.criteria.find(_ => _.fieldName === "tozinTable" && _.operator === "isNull"))
                 criteria.criteria.add({"fieldName": "tozinTable", "operator": "isNull"})
-            // dbg(arguments, false)
+            criteria.criteria.add({"fieldName": "dateStr", "operator": "iBetweenInclusive",
+                "start":owpTab.DynamicForm.Form.ToDate.getValue('fromDate').toString().replaceAll("/",""),
+                "end":owpTab.DynamicForm.Form.ToDate.getValue('toDate').toString().replaceAll("/","")
+            })
+
+            dbg(true,arguments)
             return this.Super('filterData', arguments);
             // await criteriaBuildForListGrid()
             // arguments[0] = this.getFilterEditorCriteria();

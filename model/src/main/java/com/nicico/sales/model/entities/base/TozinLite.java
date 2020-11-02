@@ -33,6 +33,8 @@ public class TozinLite {
     private String havalehCode;
     @Column(name = "DAT")
     private Long date;
+    @Column(name = "DAT",insertable = false,updatable = false)
+    private String dateStr;
     @Column(name = "GDSCODE")
     private Long codeKala;
     @Column(name = "SOURCEID")
