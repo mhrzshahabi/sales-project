@@ -261,7 +261,7 @@ var nicico;
                                 return;
                             }
                             // @ts-ignore
-                            creator.variable.createTab(record.title, creator.variable.contextPath + 'report-execute/show-form/' + record.id);
+                            creator.variable.createTab("<spring:message code='global.form.export'/> " + record.title, creator.variable.contextPath + 'report-execute/show-form/' + record.id);
                             // @ts-ignore
                             creator.window.main.close();
                         }
