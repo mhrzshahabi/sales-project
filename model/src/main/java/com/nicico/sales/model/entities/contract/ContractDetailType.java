@@ -1,5 +1,6 @@
 package com.nicico.sales.model.entities.contract;
 
+import com.nicico.sales.model.annotation.I18n;
 import com.nicico.sales.model.entities.base.Material;
 import com.nicico.sales.model.entities.common.BaseEntity;
 import lombok.*;
@@ -10,6 +11,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
+@I18n
 @Getter
 @Setter
 @NoArgsConstructor
@@ -40,11 +42,15 @@ public class ContractDetailType extends BaseEntity {
 
     @NotEmpty
     @Column(name = "C_TITLE_FA", nullable = false)
-    private String titleFa = "titleFa";
+    private String titleFA;
 
     @NotEmpty
     @Column(name = "C_TITLE_EN", nullable = false)
-    private String titleEn;
+    private String titleEN;
+
+    @I18n
+    @Transient
+    private String title;
 
     @OneToMany(mappedBy = "contractDetailType", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<ContractDetailTypeParam> contractDetailTypeParams;
