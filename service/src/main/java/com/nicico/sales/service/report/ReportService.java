@@ -3,7 +3,6 @@ package com.nicico.sales.service.report;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
-import com.nicico.copper.common.domain.criteria.NICICOSqlClause;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
 import com.nicico.copper.common.dto.grid.GridResponse;
 import com.nicico.copper.common.dto.grid.TotalResponse;
@@ -31,6 +30,7 @@ import com.nicico.sales.model.enumeration.ReportSource;
 import com.nicico.sales.service.GenericService;
 import com.nicico.sales.utility.StringFormatUtil;
 import com.nicico.sales.utility.UpdateUtil;
+import com.nicico.sales.utility.WhereClauseUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -72,6 +72,9 @@ public class ReportService extends GenericService<com.nicico.sales.model.entitie
 
     private final static String VIEW_DATA_QUERY_TEXT = "" +
             "SELECT *\n" +
+            "FROM   %s\n";
+    private final static String VIEW_DATA_COUNT_QUERY_TEXT = "" +
+            "SELECT COUNT(*)\n" +
             "FROM   %s\n";
     private final static String VIEW_FIELDS_NAME_QUERY_TEXT = "" +
             "SELECT\n" +
@@ -442,15 +445,6 @@ public class ReportService extends GenericService<com.nicico.sales.model.entitie
 
     // -----------------------------------------------------------------------------------------------------------------
 
-    private String getSqlWhereClause(NICICOCriteria nicicoCriteria) {
-
-        SearchDTO.SearchRq searchRq = SearchUtil.createSearchRq(nicicoCriteria);
-        NICICOSqlClause nicicoSqlClause = NICICOSqlClause.of(searchRq);
-
-        String whereClause = nicicoSqlClause.getWhereClause();
-        return StringUtils.isEmpty(whereClause == null ? "" : whereClause.trim()) ? "" : " WHERE " + whereClause;
-    }
-
     private List<Map<String, Object>> convertNativeQueryResultListToMap(String viewName, List queryResultList) {
 
         Query viewFieldsNameQuery = entityManager.createNativeQuery(VIEW_FIELDS_NAME_QUERY_TEXT);
@@ -475,21 +469,15 @@ public class ReportService extends GenericService<com.nicico.sales.model.entitie
         return viewFieldMaps;
     }
 
-    private TotalResponse<Map<String, Object>> createTotalResponse(String viewName, NICICOCriteria nicicoCriteria, List queryResultList) {
+    private TotalResponse<Map<String, Object>> createTotalResponse(String viewName, NICICOCriteria nicicoCriteria, List queryResultList, Integer totalRowsCount) {
 
-        int totalRowsCount;
-        if (nicicoCriteria.get_startRow() != null && nicicoCriteria.get_endRow() != null)
-            totalRowsCount = nicicoCriteria.get_endRow() - nicicoCriteria.get_startRow();
-        else {
-            nicicoCriteria.set_startRow(0);
-            totalRowsCount = queryResultList.size();
+        if (totalRowsCount < nicicoCriteria.get_endRow())
             nicicoCriteria.set_endRow(totalRowsCount);
-        }
 
         GridResponse<Map<String, Object>> gridResponse = new GridResponse<>();
         gridResponse.setTotalRows(totalRowsCount);
         gridResponse.setStartRow(nicicoCriteria.get_startRow());
-        gridResponse.setEndRow(nicicoCriteria.get_startRow() + totalRowsCount);
+        gridResponse.setEndRow(nicicoCriteria.get_endRow());
         gridResponse.setData(convertNativeQueryResultListToMap(viewName, queryResultList));
 
         return new TotalResponse<>(gridResponse);
@@ -499,12 +487,21 @@ public class ReportService extends GenericService<com.nicico.sales.model.entitie
 
         NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
         String viewName = report.getSource();
-        String whereClause = getSqlWhereClause(nicicoCriteria);
-        String query = String.format(VIEW_DATA_QUERY_TEXT, viewName);
-        String offset = " OFFSET " + nicicoCriteria.get_startRow() + " ROWS FETCH NEXT " + (nicicoCriteria.get_endRow() - nicicoCriteria.get_startRow()) + " ROWS ONLY ";
-        Query viewDataQuery = entityManager.createNativeQuery(query + whereClause + offset);
 
-        return createTotalResponse(viewName, nicicoCriteria, viewDataQuery.getResultList());
+        SearchDTO.SearchRq searchRq = SearchUtil.createSearchRq(nicicoCriteria);
+        WhereClauseUtil of = WhereClauseUtil.of(searchRq);
+
+        String sortBy = of.getSortBy();
+        String whereClause = of.getWhereClause();
+        String query = String.format(VIEW_DATA_QUERY_TEXT, viewName);
+        if (nicicoCriteria.get_startRow() == null) nicicoCriteria.set_startRow(0);
+        if (nicicoCriteria.get_endRow() == null) nicicoCriteria.set_endRow(75);
+        String offset = " OFFSET " + nicicoCriteria.get_startRow() + " ROWS FETCH NEXT " + (nicicoCriteria.get_endRow() - nicicoCriteria.get_startRow()) + " ROWS ONLY ";
+        Query viewDataQuery = entityManager.createNativeQuery(String.format("%s %s %s %s", query, whereClause, sortBy, offset));
+
+        String totalCountQueryText = String.format(VIEW_DATA_COUNT_QUERY_TEXT, viewName);
+        Query totalCountQuery = entityManager.createNativeQuery(String.format("%s %s", totalCountQueryText, whereClause));
+        return createTotalResponse(viewName, nicicoCriteria, viewDataQuery.getResultList(), Integer.valueOf(totalCountQuery.getSingleResult().toString()));
     }
 
     // -----------------------------------------------------------------------------------------------------------------
