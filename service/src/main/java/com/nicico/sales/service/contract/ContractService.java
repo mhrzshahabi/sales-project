@@ -31,7 +31,6 @@ import com.nicico.sales.repository.ContractShipmentDAO;
 import com.nicico.sales.repository.ShipmentDAO;
 import com.nicico.sales.repository.contract.CDTPDynamicTableValueDAO;
 import com.nicico.sales.repository.contract.ContractDAO;
-import com.nicico.sales.repository.contract.ContractDetailDAO;
 import com.nicico.sales.repository.contract.ContractDetailValueDAO;
 import com.nicico.sales.service.GenericService;
 import com.nicico.sales.utility.UpdateUtil;
@@ -137,11 +136,9 @@ public class ContractService extends GenericService<Contract, Long, ContractDTO.
                             final ContractDetailValue contractDetailValue1 = modelMapper.map(x, ContractDetailValue.class);
                             contractDetailValue1.setValue(x.getContractDetailId().toString());
                             final ContractDetailValue contractDetailValue = contractDetailValueDao.save(contractDetailValue1);
-                            contractDetailValue.setValue(createCDTPDynamicTableValue(x.getReferenceJsonValue(),contractDetailValue.getId()).toString());
+                            contractDetailValue.setValue(createCDTPDynamicTableValue(x.getReferenceJsonValue(), contractDetailValue.getId()).toString());
                             contractDetailValueDao.save(contractDetailValue);
-                        }
-
-                        else contractDetailValueService.create(x);
+                        } else contractDetailValueService.create(x);
                     });
                 }
 
@@ -163,14 +160,7 @@ public class ContractService extends GenericService<Contract, Long, ContractDTO.
                         kal.setTime(csfa.getSendDate());
                         if (found[0]) continue;
                         final Long addendumId = csfa.getContractId();
-                        if (
-                                !addendumId.equals(contractIdMain) &&
-                                        csfa.getLoadPortId().equals(csws.getLoadPortId()) &&
-                                        csfa.getTolorance().equals(csws.getTolorance()) &&
-                                        csfa.getQuantity().equals(csws.getQuantity()) &&
-                                        kal.get(Calendar.YEAR) == cal.get(Calendar.YEAR) &&
-                                        kal.get(Calendar.DAY_OF_YEAR) == cal.get(Calendar.DAY_OF_YEAR)
-                        ) {
+                        if (!addendumId.equals(contractIdMain) && csfa.getLoadPortId().equals(csws.getLoadPortId()) && csfa.getTolorance().equals(csws.getTolorance()) && csfa.getQuantity().equals(csws.getQuantity()) && kal.get(Calendar.YEAR) == cal.get(Calendar.YEAR) && kal.get(Calendar.DAY_OF_YEAR) == cal.get(Calendar.DAY_OF_YEAR)) {
                             found[0] = true;
                             if (csfa.getParentId() == null || csfa.getParentId().equals(csws.getParentId()))
                                 csfa.setParentId(csws.getId());
@@ -199,7 +189,8 @@ public class ContractService extends GenericService<Contract, Long, ContractDTO.
         ContractShipmentDTO.Info savedContractShipment = contractShipmentService.create(contractShipmentDTO);
         return savedContractShipment.getId();
     }
-    private Long createCDTPDynamicTableValue(String  referenceJsonValue, Long contractDetailValueId) {
+
+    private Long createCDTPDynamicTableValue(String referenceJsonValue, Long contractDetailValueId) {
         CDTPDynamicTableValueDTO.Create cdtpDynamicTableValue = gson.fromJson(referenceJsonValue, CDTPDynamicTableValueDTO.Create.class);
         cdtpDynamicTableValue.setContractDetailValueId(contractDetailValueId);
         CDTPDynamicTableValueDTO.Info cdtpDynamicTableValueSaved = icdtpDynamicTableValueService.create(cdtpDynamicTableValue);
@@ -266,8 +257,7 @@ public class ContractService extends GenericService<Contract, Long, ContractDTO.
             contractContactDTO.setCommercialRole(commercialRole);
             contractContactDTO.setVersion(foundContractContact.getVersion());
             contractContactService.update(contractContactDTO);
-        } else
-            createContractContacts(contract.getId(), newContractContactId, commercialRole);
+        } else createContractContacts(contract.getId(), newContractContactId, commercialRole);
     }
 
     @Transactional(readOnly = true)
@@ -281,14 +271,10 @@ public class ContractService extends GenericService<Contract, Long, ContractDTO.
             validation(entity, eResult);
             entities.add(entity);
             eResult.getContractContacts().forEach(q -> {
-                if (q.getCommercialRole() == CommercialRole.Buyer)
-                    eResult.setBuyerId(q.getContactId());
-                if (q.getCommercialRole() == CommercialRole.Seller)
-                    eResult.setSellerId(q.getContactId());
-                if (q.getCommercialRole() == CommercialRole.AgentBuyer)
-                    eResult.setAgentBuyerId(q.getContactId());
-                if (q.getCommercialRole() == CommercialRole.AgentSeller)
-                    eResult.setAgentSellerId(q.getContactId());
+                if (q.getCommercialRole() == CommercialRole.Buyer) eResult.setBuyerId(q.getContactId());
+                if (q.getCommercialRole() == CommercialRole.Seller) eResult.setSellerId(q.getContactId());
+                if (q.getCommercialRole() == CommercialRole.AgentBuyer) eResult.setAgentBuyerId(q.getContactId());
+                if (q.getCommercialRole() == CommercialRole.AgentSeller) eResult.setAgentSellerId(q.getContactId());
             });
             return eResult;
         });
@@ -308,14 +294,10 @@ public class ContractService extends GenericService<Contract, Long, ContractDTO.
             validation(entity, eResult);
             entities.add(entity);
             eResult.getContractContacts().forEach(q -> {
-                if (q.getCommercialRole() == CommercialRole.Buyer)
-                    eResult.setBuyerId(q.getContactId());
-                if (q.getCommercialRole() == CommercialRole.Seller)
-                    eResult.setSellerId(q.getContactId());
-                if (q.getCommercialRole() == CommercialRole.AgentBuyer)
-                    eResult.setAgentBuyerId(q.getContactId());
-                if (q.getCommercialRole() == CommercialRole.AgentSeller)
-                    eResult.setAgentSellerId(q.getContactId());
+                if (q.getCommercialRole() == CommercialRole.Buyer) eResult.setBuyerId(q.getContactId());
+                if (q.getCommercialRole() == CommercialRole.Seller) eResult.setSellerId(q.getContactId());
+                if (q.getCommercialRole() == CommercialRole.AgentBuyer) eResult.setAgentBuyerId(q.getContactId());
+                if (q.getCommercialRole() == CommercialRole.AgentSeller) eResult.setAgentSellerId(q.getContactId());
             });
             return eResult;
         });
@@ -332,12 +314,13 @@ public class ContractService extends GenericService<Contract, Long, ContractDTO.
         modelMapper.map(request, requestForValidation);
         Contract contract = repository.findById(id).orElseThrow(() -> new NotFoundException(Contract.class));
         //Delete DynamicTables and insert Again
-        List<Long> cdtpDynamicTableIdListForDelete=new ArrayList<>();
+        List<Long> cdtpDynamicTableIdListForDelete = new ArrayList<>();
         contract.getContractDetails().forEach(contractDetail -> contractDetail.getContractDetailValues().forEach(contractDetailValue -> {
             final CDTPDynamicTableValue cdtpDynamicTableValue = contractDetailValue.getCdtpDynamicTableValue();
-            if(cdtpDynamicTableValue!=null) cdtpDynamicTableIdListForDelete.add(cdtpDynamicTableValue.getId());
+            if (cdtpDynamicTableValue != null) cdtpDynamicTableIdListForDelete.add(cdtpDynamicTableValue.getId());
         }));
-        if (cdtpDynamicTableIdListForDelete.size()>0) cdtpDynamicTableValueDAO.deleteAllByIdIn(cdtpDynamicTableIdListForDelete);
+        if (cdtpDynamicTableIdListForDelete.size() > 0)
+            cdtpDynamicTableValueDAO.deleteAllByIdIn(cdtpDynamicTableIdListForDelete);
 
         //
         // update ContractContacts
@@ -354,11 +337,7 @@ public class ContractService extends GenericService<Contract, Long, ContractDTO.
         ContractDetailDTO.Delete contractDetail4Delete = new ContractDetailDTO.Delete();
 
         try {
-            updateUtil.fill(ContractDetail.class, contract.getContractDetails(),
-                    ContractDetailDTO.Info.class, request.getContractDetails(),
-                    ContractDetailDTO.Create.class, contractDetail4Insert,
-                    ContractDetailDTO.Update.class, contractDetail4Update,
-                    contractDetail4Delete);
+            updateUtil.fill(ContractDetail.class, contract.getContractDetails(), ContractDetailDTO.Info.class, request.getContractDetails(), ContractDetailDTO.Create.class, contractDetail4Insert, ContractDetailDTO.Update.class, contractDetail4Update, contractDetail4Delete);
         } catch (IllegalAccessException | InvocationTargetException | NoSuchFieldException e) {
             Locale locale = LocaleContextHolder.getLocale();
             throw new SalesException2(ErrorType.Unknown, "", messageSource.getMessage("contract-detail.exception.update", null, locale));
@@ -396,11 +375,9 @@ public class ContractService extends GenericService<Contract, Long, ContractDTO.
                             final ContractDetailValue contractDetailValue1 = modelMapper.map(x, ContractDetailValue.class);
                             contractDetailValue1.setValue(x.getContractDetailId().toString());
                             final ContractDetailValue contractDetailValue = contractDetailValueDao.save(contractDetailValue1);
-                            contractDetailValue.setValue(createCDTPDynamicTableValue(x.getReferenceJsonValue(),contractDetailValue.getId()).toString());
+                            contractDetailValue.setValue(createCDTPDynamicTableValue(x.getReferenceJsonValue(), contractDetailValue.getId()).toString());
                             contractDetailValueDao.save(contractDetailValue);
-                        }
-
-                        else contractDetailValueService.create(x);
+                        } else contractDetailValueService.create(x);
                     });
                 }
 
@@ -418,11 +395,7 @@ public class ContractService extends GenericService<Contract, Long, ContractDTO.
 
                 try {
                     updateUtil.fill(ContractDetailValue.class, modelMapper.map(savedContractDetail.getContractDetailValues(), new TypeToken<List<ContractDetailValue>>() {
-                            }.getType()),
-                            ContractDetailValueDTO.Info.class, request.getContractDetails().stream().filter(w -> q.getId().equals(w.getId())).findFirst().get().getContractDetailValues(),
-                            ContractDetailValueDTO.Create.class, contractDetailValue4Insert,
-                            ContractDetailValueDTO.Update.class, contractDetailValue4Update,
-                            contractDetailValue4Delete);
+                    }.getType()), ContractDetailValueDTO.Info.class, request.getContractDetails().stream().filter(w -> q.getId().equals(w.getId())).findFirst().get().getContractDetailValues(), ContractDetailValueDTO.Create.class, contractDetailValue4Insert, ContractDetailValueDTO.Update.class, contractDetailValue4Update, contractDetailValue4Delete);
                 } catch (IllegalAccessException | InvocationTargetException | NoSuchFieldException e) {
                     Locale locale = LocaleContextHolder.getLocale();
                     throw new SalesException2(ErrorType.Unknown, "", messageSource.getMessage("contract-detail.exception.update", null, locale));
@@ -451,11 +424,9 @@ public class ContractService extends GenericService<Contract, Long, ContractDTO.
                             final ContractDetailValue contractDetailValue1 = modelMapper.map(x, ContractDetailValue.class);
                             contractDetailValue1.setValue(x.getContractDetailId().toString());
                             final ContractDetailValue contractDetailValue = contractDetailValueDao.save(contractDetailValue1);
-                            contractDetailValue.setValue(createCDTPDynamicTableValue(x.getReferenceJsonValue(),contractDetailValue.getId()).toString());
+                            contractDetailValue.setValue(createCDTPDynamicTableValue(x.getReferenceJsonValue(), contractDetailValue.getId()).toString());
                             contractDetailValueDao.save(contractDetailValue);
-                        }
-
-                        else contractDetailValueService.create(x);
+                        } else contractDetailValueService.create(x);
                     });
                 }
                 if (!contractDetailValue4Update.isEmpty()) {
@@ -483,31 +454,29 @@ public class ContractService extends GenericService<Contract, Long, ContractDTO.
                         }
                         if (DataType.DynamicTable.equals(x.getType())) {
 
-                            x.setValue(createCDTPDynamicTableValue(x.getReferenceJsonValue(),x.getId()).toString());
+                            x.setValue(createCDTPDynamicTableValue(x.getReferenceJsonValue(), x.getId()).toString());
                         }
 
                         contractDetailValueService.update(x);
                     });
                 }
                 if (!contractDetailValue4Delete.getIds().isEmpty()) {
-                    request.getContractDetails().stream().filter(w -> q.getId().equals(w.getId())).findFirst().get().getContractDetailValues().stream()
-                            .filter(contractDetailValue -> contractDetailValue4Delete.getIds().contains(contractDetailValue.getId()))
-                            .forEach(detail -> {
-                                switch (detail.getReference()) {
-                                    case "ContractShipment":
-                                        contractShipmentService.delete(Long.valueOf(detail.getValue()));
-                                        break;
-                                    case "TypicalAssay":
-                                        typicalAssayService.delete(Long.valueOf(detail.getValue()));
-                                        break;
-                                    case "Deduction":
-                                        deductionService.delete(Long.valueOf(detail.getValue()));
-                                        break;
-                                    case "Discount":
-                                        contractDiscountService.delete(Long.valueOf(detail.getValue()));
-                                        break;
-                                }
-                            });
+                    request.getContractDetails().stream().filter(w -> q.getId().equals(w.getId())).findFirst().get().getContractDetailValues().stream().filter(contractDetailValue -> contractDetailValue4Delete.getIds().contains(contractDetailValue.getId())).forEach(detail -> {
+                        switch (detail.getReference()) {
+                            case "ContractShipment":
+                                contractShipmentService.delete(Long.valueOf(detail.getValue()));
+                                break;
+                            case "TypicalAssay":
+                                typicalAssayService.delete(Long.valueOf(detail.getValue()));
+                                break;
+                            case "Deduction":
+                                deductionService.delete(Long.valueOf(detail.getValue()));
+                                break;
+                            case "Discount":
+                                contractDiscountService.delete(Long.valueOf(detail.getValue()));
+                                break;
+                        }
+                    });
 
                     contractDetailValueService.deleteAll(contractDetailValue4Delete);
 
@@ -516,25 +485,22 @@ public class ContractService extends GenericService<Contract, Long, ContractDTO.
         }
 
         if (!contractDetail4Delete.getIds().isEmpty()) {
-            contract.getContractDetails().stream().filter(contractDetail -> contractDetail4Delete.getIds().contains(contractDetail.getId()))
-                    .forEach(x -> x.getContractDetailValues().stream().filter(detailValue -> detailValue.getType().name().equals("ListOfReference")).forEach(
-                            t -> {
-                                switch (t.getReference()) {
-                                    case "ContractShipment":
-                                        contractShipmentService.delete(Long.valueOf(t.getValue()));
-                                        break;
-                                    case "TypicalAssay":
-                                        typicalAssayService.delete(Long.valueOf(t.getValue()));
-                                        break;
-                                    case "Deduction":
-                                        deductionService.delete(Long.valueOf(t.getValue()));
-                                        break;
-                                    case "Discount":
-                                        contractDiscountService.delete(Long.valueOf(t.getValue()));
-                                        break;
-                                }
-                            }
-                    ));
+            contract.getContractDetails().stream().filter(contractDetail -> contractDetail4Delete.getIds().contains(contractDetail.getId())).forEach(x -> x.getContractDetailValues().stream().filter(detailValue -> detailValue.getType().name().equals("ListOfReference")).forEach(t -> {
+                switch (t.getReference()) {
+                    case "ContractShipment":
+                        contractShipmentService.delete(Long.valueOf(t.getValue()));
+                        break;
+                    case "TypicalAssay":
+                        typicalAssayService.delete(Long.valueOf(t.getValue()));
+                        break;
+                    case "Deduction":
+                        deductionService.delete(Long.valueOf(t.getValue()));
+                        break;
+                    case "Discount":
+                        contractDiscountService.delete(Long.valueOf(t.getValue()));
+                        break;
+                }
+            }));
 
             contractDetailService.deleteAll(contractDetail4Delete);
         }
@@ -561,12 +527,13 @@ public class ContractService extends GenericService<Contract, Long, ContractDTO.
         final Contract entity = entityById.orElseThrow(() -> new NotFoundException(Contract.class));
 
         validation(entity, id);
-        List<Long> cdtpDynamicTableIdListForDelete=new ArrayList<>();
+        List<Long> cdtpDynamicTableIdListForDelete = new ArrayList<>();
         entity.getContractDetails().forEach(contractDetail -> contractDetail.getContractDetailValues().forEach(contractDetailValue -> {
             final CDTPDynamicTableValue cdtpDynamicTableValue = contractDetailValue.getCdtpDynamicTableValue();
-            if(cdtpDynamicTableValue!=null) cdtpDynamicTableIdListForDelete.add(cdtpDynamicTableValue.getId());
+            if (cdtpDynamicTableValue != null) cdtpDynamicTableIdListForDelete.add(cdtpDynamicTableValue.getId());
         }));
-        if (cdtpDynamicTableIdListForDelete.size()>0) cdtpDynamicTableValueDAO.deleteAllByIdIn(cdtpDynamicTableIdListForDelete);
+        if (cdtpDynamicTableIdListForDelete.size() > 0)
+            cdtpDynamicTableValueDAO.deleteAllByIdIn(cdtpDynamicTableIdListForDelete);
         if (entity.getContractDetails() != null && entity.getContractDetails().size() > 0) {
             entity.getContractDetails().forEach(q -> {
                 if (q.getContractDetailValues() != null && q.getContractDetailValues().size() > 0) {
@@ -606,21 +573,16 @@ public class ContractService extends GenericService<Contract, Long, ContractDTO.
             final List<Contract> allAppendix = contractDAO2.findAllByParentId(req.getParentId());
             //همپوشانی تاریخ الحاقیه‌ها
             allAppendix.stream().forEach(contract -> {
-                req.getContractDetails().stream().forEach(reqCD->{
-                    contract.getContractDetails().stream().forEach(aCD->{
-                        if (aCD.getContractDetailTypeId().equals(reqCD.getContractDetailTypeId())
-                                && req.getAffectFrom().after(contract.getAffectFrom())
-                                && req.getAffectFrom().before(contract.getAffectUpTo())){
-                            if ((actionType == ActionType.Update &&
-                                    !modelMapper.map(request[0], ContractDTO.Update.class).getId().equals(contract.getId())
+                req.getContractDetails().stream().forEach(reqCD -> {
+                    contract.getContractDetails().stream().forEach(aCD -> {
+                        if (aCD.getContractDetailTypeId().equals(reqCD.getContractDetailTypeId()) && req.getAffectFrom().after(contract.getAffectFrom()) && req.getAffectFrom().before(contract.getAffectUpTo())) {
+                            if ((actionType == ActionType.Update && !modelMapper.map(request[0], ContractDTO.Update.class).getId().equals(contract.getId())
 
-                            )
-                            || actionType.equals(ActionType.Create)
-                            ) {
+                            ) || actionType.equals(ActionType.Create)) {
                                 ContractDTO.Update reqUpdate = modelMapper.map(request[0], ContractDTO.Update.class);
-                            throw new SalesException2(ErrorType.Unknown, "",
-                                    messageSource.getMessage("contract.appendix.has.date.cover.issue", new Object[]{contract.getNo()}, locale));
-                        }}
+                                throw new SalesException2(ErrorType.Unknown, "", messageSource.getMessage("contract.appendix.has.date.cover.issue", new Object[]{contract.getNo()}, locale));
+                            }
+                        }
                     });
                 });
             });
@@ -628,51 +590,39 @@ public class ContractService extends GenericService<Contract, Long, ContractDTO.
 //            if(actionType == ActionType.Create) {ContractDTO.Create req = modelMapper.map(request[0], ContractDTO.Create.class);}
             final Contract contract = repository.getOne(req.getParentId());
             if (!contract.getEStatus().contains(EStatus.Final)) {
-                throw new SalesException2(ErrorType.Unknown, "",
-                        messageSource.getMessage("global.grid.not.finalized.record.found", null, locale));
+                throw new SalesException2(ErrorType.Unknown, "", messageSource.getMessage("global.grid.not.finalized.record.found", null, locale));
             }
             final List<Contract> allByParentId = allAppendix;
-            final List<Contract> notFinalizedAppendexes = allByParentId.stream()
-                    .filter(contract2 -> !contract2.getEStatus().contains(EStatus.Final)).collect(Collectors.toList());
+            final List<Contract> notFinalizedAppendexes = allByParentId.stream().filter(contract2 -> !contract2.getEStatus().contains(EStatus.Final)).collect(Collectors.toList());
             if (actionType == ActionType.Update) {
                 ContractDTO.Update reqUpdate = modelMapper.map(request[0], ContractDTO.Update.class);
-                final List<Contract> collect = notFinalizedAppendexes.stream()
-                        .filter(contract2 -> !contract2.getId().equals(reqUpdate.getId())).collect(Collectors.toList());
-                if (collect.size() != 0) throw new SalesException2(ErrorType.Unknown, "",
-                        messageSource.getMessage("global.grid.not.finalized.record.found", null, locale));
+                final List<Contract> collect = notFinalizedAppendexes.stream().filter(contract2 -> !contract2.getId().equals(reqUpdate.getId())).collect(Collectors.toList());
+                if (collect.size() != 0)
+                    throw new SalesException2(ErrorType.Unknown, "", messageSource.getMessage("global.grid.not.finalized.record.found", null, locale));
             }
             if (actionType == ActionType.Create && notFinalizedAppendexes.size() > 0)
-                throw new SalesException2(ErrorType.Unknown, "",
-                        messageSource.getMessage("global.grid.not.finalized.record.found", null, locale));
+                throw new SalesException2(ErrorType.Unknown, "", messageSource.getMessage("global.grid.not.finalized.record.found", null, locale));
             final List<ContractShipment> contractShipments = getContractShipmentsOfRequest(req);
             if (contractShipments.size() == 0) return super.validation(entity, request);
 
             final Set<ContractShipment> contractShipmentsOriginal = getContractShipmentsWithShipment(req);
             final List<ContractShipment> modifiedFound = contractShipmentsOriginal.stream().filter(ocs -> {
-                final ContractShipment contractShipmentFromController = contractShipments
-                        .stream()
-                        .filter(contractShipment -> contractShipment.getId().equals(ocs.getId()) ||
-                                contractShipment.getParentId().equals(ocs.getId()))
-                        .findAny()
-                        .orElseThrow(() -> new SalesException2(ErrorType.Unknown, "",
-                                messageSource.getMessage("shipment.was.sent", null, locale)));
+                final ContractShipment contractShipmentFromController = contractShipments.stream().filter(contractShipment -> contractShipment.getId().equals(ocs.getId()) || contractShipment.getParentId().equals(ocs.getId())).findAny().orElseThrow(() -> new SalesException2(ErrorType.Unknown, "", messageSource.getMessage("shipment.was.sent", null, locale)));
                 cal.setTime(contractShipmentFromController.getSendDate());
                 kal.setTime(ocs.getSendDate());
-                return !contractShipmentFromController.getLoadPortId().equals(ocs.getLoadPortId()) ||
-                        !contractShipmentFromController.getQuantity().equals(ocs.getQuantity()) ||
-                        !contractShipmentFromController.getTolorance().equals(ocs.getTolorance()) ||
-                        cal.get(Calendar.YEAR) != kal.get(Calendar.YEAR) ||
-                        cal.get(Calendar.DAY_OF_YEAR) != kal.get(Calendar.DAY_OF_YEAR)
+                return !contractShipmentFromController.getLoadPortId().equals(ocs.getLoadPortId()) || !contractShipmentFromController.getQuantity().equals(ocs.getQuantity()) || !contractShipmentFromController.getTolorance().equals(ocs.getTolorance()) || cal.get(Calendar.YEAR) != kal.get(Calendar.YEAR) || cal.get(Calendar.DAY_OF_YEAR) != kal.get(Calendar.DAY_OF_YEAR)
                         //|| contractShipmentFromController.getParentId() != null
                         ;
             }).collect(Collectors.toList());
-            if (modifiedFound.size() > 0) throw new SalesException2(ErrorType.Unknown, "",
-                    messageSource.getMessage("shipment.was.sent", null, locale));
+            if (modifiedFound.size() > 0)
+                throw new SalesException2(ErrorType.Unknown, "", messageSource.getMessage("shipment.was.sent", null, locale));
 
         }
 
         if (actionType == ActionType.Disapprove && entity.getParentId() == null) {
-            throw new SalesException2(ErrorType.NotEditable, "", messageSource.getMessage("contract.has.appendix.cant.disapprove", null, locale));
+            List<Contract> allByParentId = ((ContractDAO) repository).findAllByParentId(entity.getId());
+            if (allByParentId.size() != 0)
+                throw new SalesException2(ErrorType.NotEditable, "", messageSource.getMessage("contract.has.appendix.cant.disapprove", null, locale));
         }
         /*** الحاقیه***/
 
@@ -685,62 +635,39 @@ public class ContractService extends GenericService<Contract, Long, ContractDTO.
     @Override
     public List<Object> getOperationalDataOfContractArticle(Long contractId, String articleCode, String articleKey) {
 
-        if (contractId == null)
-            return new ArrayList<>();
+        if (contractId == null) return new ArrayList<>();
 
-        final EContractDetailTypeCode eContractDetailTypeCode = Arrays.stream(EContractDetailTypeCode.values())
-                .filter(e -> e
-                        .getId().equals(articleCode)).findAny()
-                .orElseThrow(NotFoundException::new);
-        final EContractDetailValueKey eContractDetailValueKeyOptional = Enums.getIfPresent(EContractDetailValueKey.class,
-                articleKey).orNull();
+        final EContractDetailTypeCode eContractDetailTypeCode = Arrays.stream(EContractDetailTypeCode.values()).filter(e -> e.getId().equals(articleCode)).findAny().orElseThrow(NotFoundException::new);
+        final EContractDetailValueKey eContractDetailValueKeyOptional = Enums.getIfPresent(EContractDetailValueKey.class, articleKey).orNull();
         if (eContractDetailValueKeyOptional == null) throw new NotFoundException();
-        final Map<String, List<Object>> map = contractDetailValueService2.get(contractId,
-                eContractDetailTypeCode,
-                eContractDetailValueKeyOptional, true
-        );
+        final Map<String, List<Object>> map = contractDetailValueService2.get(contractId, eContractDetailTypeCode, eContractDetailValueKeyOptional, true);
         if (map.size() == 0) return new ArrayList<>();
         return map.get(eContractDetailValueKeyOptional.name());
     }
 
     private Set<ContractShipment> getContractShipmentsWithShipment(ContractDTO.Create request) {
-        final Map<String, List<Object>> contractShipmentOriginalMap = contractDetailValueService2.get(request.getParentId(),
-                EContractDetailTypeCode.Shipment, EContractDetailValueKey.NotImportant, true);
+        final Map<String, List<Object>> contractShipmentOriginalMap = contractDetailValueService2.get(request.getParentId(), EContractDetailTypeCode.Shipment, EContractDetailValueKey.NotImportant, true);
         final List<ContractShipment> contractShipmentsOriginal = new ArrayList<>();
         final List<Object> o = contractShipmentOriginalMap.get(EContractDetailValueKey.CONTRACT_SHIPMENT.name());
         if (o != null) {
-            contractShipmentsOriginal.addAll(modelMapper.map(o,
-                    new TypeToken<List<ContractShipment>>() {
-                    }.getType())
-            );
+            contractShipmentsOriginal.addAll(modelMapper.map(o, new TypeToken<List<ContractShipment>>() {
+            }.getType()));
         }
-        final List<Shipment> allByContractShipmentIdIsIn = shipmentDAO
-                .findAllByContractShipmentIdIsIn(contractShipmentsOriginal.stream()
-                        .map(ContractShipment::getId).collect(Collectors.toList()));
-        final Set<ContractShipment> contractShipmentsWithParentOrInShipment = contractShipmentsOriginal.stream()
-                .filter(contractShipment -> contractShipment.getParentId() != null).collect(Collectors.toSet());
-        contractShipmentsWithParentOrInShipment
-                .addAll(allByContractShipmentIdIsIn.stream().map(Shipment::getContractShipment).collect(Collectors.toSet()));
+        final List<Shipment> allByContractShipmentIdIsIn = shipmentDAO.findAllByContractShipmentIdIsIn(contractShipmentsOriginal.stream().map(ContractShipment::getId).collect(Collectors.toList()));
+        final Set<ContractShipment> contractShipmentsWithParentOrInShipment = contractShipmentsOriginal.stream().filter(contractShipment -> contractShipment.getParentId() != null).collect(Collectors.toSet());
+        contractShipmentsWithParentOrInShipment.addAll(allByContractShipmentIdIsIn.stream().map(Shipment::getContractShipment).collect(Collectors.toSet()));
         return contractShipmentsWithParentOrInShipment;
     }
 
     private List<ContractShipment> getContractShipmentsOfRequest(ContractDTO.Create req) {
-        return req.getContractDetails().stream()
-                .map(cd -> cd.getContractDetailValues()
-                        .stream().filter(cdv -> cdv.getReference() != null &&
-                                ((cdv.getReference().toLowerCase().equals("ContractShipment".toLowerCase())) ||
-                                (cdv.getReference().toLowerCase().equals("CONTRACT_SHIPMENT".toLowerCase())))
-                        )
-                        .collect(Collectors.toList())
-                ).flatMap(Collection::stream).map(contractDetailValue -> {
-                    try {
-                        return objectMapper.readValue(contractDetailValue.getReferenceJsonValue(), ContractShipment.class);
-                    } catch (IOException e) {
-                        log.warn("jackson objectMapper error ", e);
-                    }
-                    return null;
-                })
-                .collect(Collectors.toList());
+        return req.getContractDetails().stream().map(cd -> cd.getContractDetailValues().stream().filter(cdv -> cdv.getReference() != null && ((cdv.getReference().toLowerCase().equals("ContractShipment".toLowerCase())) || (cdv.getReference().toLowerCase().equals("CONTRACT_SHIPMENT".toLowerCase())))).collect(Collectors.toList())).flatMap(Collection::stream).map(contractDetailValue -> {
+            try {
+                return objectMapper.readValue(contractDetailValue.getReferenceJsonValue(), ContractShipment.class);
+            } catch (IOException e) {
+                log.warn("jackson objectMapper error ", e);
+            }
+            return null;
+        }).collect(Collectors.toList());
     }
 }
 
