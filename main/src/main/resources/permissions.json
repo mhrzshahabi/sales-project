@@ -2069,6 +2069,70 @@
       "title": "لغو تائید نهایی پارامتر نوع جزییات قرارداد"
     },
     {
+      "code": "R_CDTP_DYNAMIC_TABLE",
+      "title": "نمایش جزییات پویای قرارداد"
+    },
+    {
+      "code": "C_CDTP_DYNAMIC_TABLE",
+      "title": "ایجاد جزییات پویای قرارداد"
+    },
+    {
+      "code": "D_CDTP_DYNAMIC_TABLE",
+      "title": "حذف جزییات پویای قرارداد"
+    },
+    {
+      "code": "U_CDTP_DYNAMIC_TABLE",
+      "title": "به روز رسانی جزییات پویای قرارداد"
+    },
+    {
+      "code": "A_CDTP_DYNAMIC_TABLE",
+      "title": "فعالسازی جزییات پویای قرارداد"
+    },
+    {
+      "code": "I_CDTP_DYNAMIC_TABLE",
+      "title": "غیرفعالسازی جزییات پویای قرارداد"
+    },
+    {
+      "code": "F_CDTP_DYNAMIC_TABLE",
+      "title": "تائید نهایی جزییات پویای قرارداد"
+    },
+    {
+      "code": "O_CDTP_DYNAMIC_TABLE",
+      "title": "لغو تائید نهایی جزییات پویای قرارداد"
+    },
+    {
+      "code": "R_CDTP_DYNAMIC_TABLE_VALUE",
+      "title": "نمایش مقدار جزییات پویای قرارداد"
+    },
+    {
+      "code": "C_CDTP_DYNAMIC_TABLE_VALUE",
+      "title": "ایجاد مقدار جزییات پویای قرارداد"
+    },
+    {
+      "code": "D_CDTP_DYNAMIC_TABLE_VALUE",
+      "title": "حذف مقدار جزییات پویای قرارداد"
+    },
+    {
+      "code": "U_CDTP_DYNAMIC_TABLE_VALUE",
+      "title": "به روز رسانی مقدار جزییات پویای قرارداد"
+    },
+    {
+      "code": "A_CDTP_DYNAMIC_TABLE_VALUE",
+      "title": "فعالسازی مقدار جزییات پویای قرارداد"
+    },
+    {
+      "code": "I_CDTP_DYNAMIC_TABLE_VALUE",
+      "title": "غیرفعالسازی مقدار جزییات پویای قرارداد"
+    },
+    {
+      "code": "F_CDTP_DYNAMIC_TABLE_VALUE",
+      "title": "تائید نهایی مقدار جزییات پویای قرارداد"
+    },
+    {
+      "code": "O_CDTP_DYNAMIC_TABLE_VALUE",
+      "title": "لغو تائید نهایی مقدار جزییات پویای قرارداد"
+    },
+    {
       "code": "R_TOZIN_TABLE",
       "title": "نمایش جدول توزین"
     },
