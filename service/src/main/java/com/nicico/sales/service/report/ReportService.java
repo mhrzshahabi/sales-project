@@ -28,7 +28,6 @@ import com.nicico.sales.iservice.IOAuthApiService;
 import com.nicico.sales.iservice.report.IReportFieldService;
 import com.nicico.sales.iservice.report.IReportService;
 import com.nicico.sales.model.enumeration.ReportSource;
-import com.nicico.sales.model.enumeration.ReportType;
 import com.nicico.sales.service.GenericService;
 import com.nicico.sales.utility.StringFormatUtil;
 import com.nicico.sales.utility.UpdateUtil;
@@ -449,7 +448,7 @@ public class ReportService extends GenericService<com.nicico.sales.model.entitie
         NICICOSqlClause nicicoSqlClause = NICICOSqlClause.of(searchRq);
 
         String whereClause = nicicoSqlClause.getWhereClause();
-        return StringUtils.isEmpty(whereClause) ? "" : " WHERE " + whereClause;
+        return StringUtils.isEmpty(whereClause == null ? "" : whereClause.trim()) ? "" : " WHERE " + whereClause;
     }
 
     private List<Map<String, Object>> convertNativeQueryResultListToMap(String viewName, List queryResultList) {
