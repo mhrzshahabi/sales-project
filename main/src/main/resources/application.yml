@@ -179,6 +179,11 @@ spring:
             token-uri: http://devapp01.icico.net.ir/oauth/token
             user-info-uri: http://devapp01.icico.net.ir/user/info
             user-name-attribute: username
+nicico:
+  apps:
+    oauth: http://devapp01.icico.net.ir
+    accounting: http://devapp01.icico.net.ir/accounting
+    hrm: http://devapp01.icico.net.ir/hrm
 
 ---
 
@@ -212,3 +217,7 @@ spring:
 nicico:
   upload:
     dir: c:/upload
+  apps:
+    oauth: http://devapp01.icico.net.ir
+    accounting: http://devapp01.icico.net.ir/accounting
+    hrm: http://devapp01.icico.net.ir/hrm
