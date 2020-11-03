@@ -313,40 +313,6 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
 
             form.getItem("inspectionWeightId").enable();
             form.getItem("inspectionAssayId").enable();
-            form.getItem("inspectionWeightId").setOptionCriteria({
-                _constructor: "AdvancedCriteria",
-                operator: "and",
-                criteria: [
-                    {
-                        fieldName: 'weightInspections',
-                        operator: "notNull",
-                    }, {
-                        fieldName: "weightInspections.shipmentId",
-                        operator: "notNull",
-                    }, {
-                        fieldName: "weightInspections.shipmentId",
-                        operator: "equals",
-                        value: selectedRecord.id
-                    }
-                ]
-            });
-            form.getItem("inspectionAssayId").setOptionCriteria({
-                _constructor: "AdvancedCriteria",
-                operator: "and",
-                criteria: [
-                    {
-                        fieldName: 'assayInspections',
-                        operator: "notNull",
-                    }, {
-                        fieldName: "assayInspections.shipmentId",
-                        operator: "notNull",
-                    }, {
-                        fieldName: "assayInspections.shipmentId",
-                        operator: "equals",
-                        value: selectedRecord.id
-                    }
-                ]
-            });
 
             foreignInvoiceTab.button.selectBillLading.enable();
             foreignInvoiceTab.button.selectBillLading.criteria = {
@@ -558,6 +524,7 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
         editorType: "SelectItem",
         valueField: "id",
         displayField: "inspectionNO",
+        autoFetchData: false,
         pickListProperties: {
             showFilterEditor: true
         },
@@ -570,6 +537,23 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
             {name: "buyer.nameFA", showHover: true},
             {name: "weightInspections.mileStone", showHover: true}
         ],
+        getPickListFilterCriteria: function () {
+            let criteria = {
+                _constructor: 'AdvancedCriteria', operator: "and", criteria: [
+                    {
+                        fieldName: 'weightInspections',
+                        operator: "notNull",
+                    }, {
+                        fieldName: "weightInspections.shipmentId",
+                        operator: "notNull",
+                    }, {
+                        fieldName: "weightInspections.shipmentId",
+                        operator: "equals",
+                        value: foreignInvoiceTab.dynamicForm.baseData.getValue("shipmentId")
+                    }]
+            };
+            return criteria;
+        },
         optionDataSource: isc.MyRestDataSource.create({
             fields: [
                 {name: "id", primaryKey: true, hidden: true, title: "<spring:message code='global.id'/>"},
@@ -586,6 +570,12 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
                 {
                     name: "weightInspections.mileStone",
                     title: "<spring:message code='inspectionReport.weight.mileStone'/>"
+                }, {
+                    name: "weightInspections",
+                    title: "<spring:message code='inspectionReport.weight.mileStone'/>"
+                }, {
+                    name: "weightInspections.shipmentId",
+                    title: "<spring:message code='inspectionReport.weight.mileStone'/>"
                 }
             ],
             fetchDataURL: foreignInvoiceTab.variable.inspectionReportUrl + "spec-list"
@@ -601,6 +591,7 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
         editorType: "SelectItem",
         valueField: "id",
         displayField: "inspectionNO",
+        autoFetchData: false,
         pickListProperties: {
             showFilterEditor: true
         },
@@ -613,6 +604,24 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
             {name: "buyer.nameFA", showHover: true},
             {name: "assayInspections.mileStone", showHover: true}
         ],
+        getPickListFilterCriteria: function () {
+            let criteria = {
+                _constructor: 'AdvancedCriteria', operator: "and", criteria: [
+                    {
+                        fieldName: 'assayInspections',
+                        operator: "notNull",
+                    }, {
+                        fieldName: "assayInspections.shipmentId",
+                        operator: "notNull",
+                    }, {
+                        fieldName: "assayInspections.shipmentId",
+                        operator: "equals",
+                        value: foreignInvoiceTab.dynamicForm.baseData.getValue("shipmentId")
+                    }
+                ]
+            };
+            return criteria;
+        },
         optionDataSource: isc.MyRestDataSource.create({
             fields: [
                 {name: "id", primaryKey: true, hidden: true, title: "<spring:message code='global.id'/>"},
@@ -626,7 +635,14 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
                 },
                 {name: "seller.nameFA", title: "<spring:message code='inspectionReport.sellerId'/>"},
                 {name: "buyer.nameFA", title: "<spring:message code='inspectionReport.buyerId'/>"},
-                {name: "assayInspections.mileStone", title: "<spring:message code='inspectionReport.assay.mileStone'/>"}
+                {name: "assayInspections.mileStone", title: "<spring:message code='inspectionReport.assay.mileStone'/>"},
+                {
+                    name: "assayInspections",
+                    title: "<spring:message code='inspectionReport.weight.mileStone'/>"
+                }, {
+                    name: "assayInspections.shipmentId",
+                    title: "<spring:message code='inspectionReport.weight.mileStone'/>"
+                }
             ],
             fetchDataURL: foreignInvoiceTab.variable.inspectionReportUrl + "spec-list"
         }),
