@@ -1065,3 +1065,6 @@ function changeHeaderAndFooterTemplate(template) {
 
     return template;
 }
+contractTab.listGrid.main.addProperties({
+    sortField:'no',
+})
