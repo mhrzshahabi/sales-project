@@ -147,13 +147,13 @@ const tozinLiteFields = _ => [
 
         valueMap: SalesBaseParameters.getSavedWarehouseParameter().getValueMap("id", "name"),
         valueMap: {
-            2421: 'ايستگاه قطار تبريز',
-            1540: 'مجتمع مس شهربابك -ميدوك ',
-            1541: 'مجتمع مس سونگون ',
-            1000: 'مجتمع مس سرچشمه',
-            1021: 'مجتمع مس شهربابك - خاتون آباد ',
-            2509: 'شركت هاي خصوصي وتابع ',
-            2555: 'اسكله شهيد رجائي ',
+            2421: "<spring:message code='tabriz.train.station'/>",
+            1540: "<spring:message code='shahrbabak-miduk.copper.complex'/>",
+            1541: "<spring:message code='sungun.copper.complex'/>",
+            1000: "<spring:message code='sarcheshme.copper.complex'/>",
+            1021: "<spring:message code='khaton.abad-shahrbabak.copper.complex'/>",
+            2509: "<spring:message code='non-governmental.companies.and.subsidiaries'/>",
+            2555: "<spring:message code='shahid.rejaee.wharf'/>",
         },
         title: "<spring:message code='Tozin.sourceId'/>",
         align: "center"
@@ -177,10 +177,10 @@ const tozinLiteFields = _ => [
         filterOperator: "inSet",
         valueMap: SalesBaseParameters.getSavedWarehouseParameter().getValueMap("id", "name"),
         valueMap: {
-            2320: 'بندر شهيد رجايي، روبروي اسكله شانزده ،محوطه فلزات آلياژي شركت تايد واتر',
-            1000: 'مجتمع مس سرچشمه',
-            2340: 'بندر شهيد رجايي ، انبار كالا شماره 20',
-            2555: 'اسكله شهيد رجائي ',
+            2320:"<spring:message code='shahid.rejaee.wharf.tidewater'/>",
+            1000:"<spring:message code='sarcheshme.copper.complex'/>",
+            2340:"<spring:message code='shahid.rejaee.no20.warehouse'/>",
+            2555:"<spring:message code='shahid.rejaee.wharf'/>",
         },
         showHover: true,
         title: "<spring:message code='Tozin.targetId'/>",
@@ -562,7 +562,7 @@ function mainOnWayProduct() {
                 border: '0px',
                 members: [
                     isc.ToolStripButtonRefresh.create({
-                        title: "<spring:message code='global.form.refresh'/> پارامترها",
+                        title: "<spring:message code='global.form.refresh.parameters'/>",
                         visibility: "hidden",
                         click: function () {
                             SalesBaseParameters.getAllParameters(true).then(
@@ -656,10 +656,10 @@ function mainOnWayProduct() {
             HLayout_Tozin_Actions,             stats = isc.DynamicForm.create({
                 numCols: 8,
                 fields: [
-                    {name: "info", title: "آخرین ورودی‌ها به انبار بندرعباس", type: "staticText"},
-                    {name: "11", title: "کاتد", type: "staticText"},
-                    {name: "97", title: "مولیبدن", type: "staticText"},
-                    {name: "8", title: "کنسانتره", type: "staticText"}
+                    {name: "info", title: "<spring:message code='lastArrival.to.BandarAbbas.warehouse'/>", type: "staticText"},
+                    {name: "11", title: "<spring:message code='cathode.title'/>", type: "staticText"},
+                    {name: "97", title: "<spring:message code='molybdenum.title'/>", type: "staticText"},
+                    {name: "8", title: "<spring:message code='Tozin.copper.concentrate'/>", type: "staticText"}
                 ]
             }),
             VLayout_Tozin_Grid

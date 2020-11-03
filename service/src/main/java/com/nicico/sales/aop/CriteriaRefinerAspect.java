@@ -38,13 +38,11 @@ import static com.nicico.copper.common.domain.criteria.SearchUtil.mapSearchRs;
 @RequiredArgsConstructor
 public class CriteriaRefinerAspect {
 
-    @Around(value = "execution(* com.nicico.sales.service.GenericService+.search(..)) && args(request) ||" +
-            "execution(* com.nicico.sales.service.contract.ContractService.refinedSearch(..)) && args(request)")
+    @Around(value = "execution(* com.nicico.sales.service.GenericService+.search(..)) && args(request) ||" + "execution(* com.nicico.sales.service.contract.ContractService.refinedSearch(..)) && args(request)")
     public TotalResponse<? extends Object> refineDateCriteria(ProceedingJoinPoint proceedingJoinPoint, NICICOCriteria request) throws Throwable {
 
         Object target = proceedingJoinPoint.getTarget();
-        if (target == null)
-            return (TotalResponse<?>) proceedingJoinPoint.proceed();
+        if (target == null) return (TotalResponse<?>) proceedingJoinPoint.proceed();
 
         ParameterizedType superClass = (ParameterizedType) target.getClass().getGenericSuperclass();
         Class<?> entityClass = (Class<?>) superClass.getActualTypeArguments()[0];
@@ -74,12 +72,20 @@ public class CriteriaRefinerAspect {
         return field;
     }
 
+    private Class<?> getFieldType(Field field) {
+
+        if (field.getType().isAssignableFrom(List.class) || field.getType().isAssignableFrom(Set.class))
+            return (Class)((ParameterizedType)field.getGenericType()).getActualTypeArguments()[0];
+
+        return field.getType();
+    }
+
     private Field getFieldByNames(String fieldName, Class<?> entityClass) {
 
         final String[] fieldNames = fieldName.split("\\.");
         Field field = getField(fieldNames[0], entityClass);
         for (int i = 1; i < fieldNames.length; i++)
-            field = getField(fieldNames[i], field.getType());
+            field = getField(fieldNames[i], getFieldType(field));
 
         return field;
     }
@@ -91,7 +97,7 @@ public class CriteriaRefinerAspect {
         StringBuilder result = new StringBuilder(field.getName());
         for (int i = 1; i < fieldNames.length; i++) {
 
-            field = getField(fieldNames[i], field.getType());
+            field = getField(fieldNames[i], getFieldType(field));
             result.append(".").append(field.getName());
         }
 
@@ -123,8 +129,7 @@ public class CriteriaRefinerAspect {
             for (Object value : criteriaRq.getValue()) {
 
                 Optional<EStatus> statusOptional = Enums.getIfPresent(EStatus.class, value + "");
-                if (statusOptional.isPresent())
-                    statuses.add(statusOptional.get());
+                if (statusOptional.isPresent()) statuses.add(statusOptional.get());
             }
             criteriaRq.setValue(new AllConverters.EStatusSetConverter().convertToDatabaseColumn(statuses));
         }
@@ -137,8 +142,7 @@ public class CriteriaRefinerAspect {
         List<Date> newValues = new ArrayList<>();
         final List<Object> values = criteriaRq.getValue();
         for (Object value : values)
-            if (value instanceof Date)
-                newValues.add((Date) value);
+            if (value instanceof Date) newValues.add((Date) value);
             else if (value instanceof String) {
 
                 result = true;
@@ -146,17 +150,14 @@ public class CriteriaRefinerAspect {
                 String date = String.valueOf(value);
                 if (date.length() <= 10) {
 
-                    if (criteriaRq.getOperator() == EOperator.lessOrEqual)
-                        date += " 23:59:59";
-                    else
-                        date += " 00:00:00";
+                    if (criteriaRq.getOperator() == EOperator.lessOrEqual) date += " 23:59:59";
+                    else date += " 00:00:00";
                 }
 
                 newValues.add(new Date(date.replace('-', '/')));
             } else if (value instanceof Map)
                 throw new SalesException2(ErrorType.BadRequest, fieldName, "فیلتر مورد نظر پشتیبانی نمی شود.");
-            else
-                throw new SalesException2(ErrorType.BadRequest, fieldName, "فیلتر مورد نظر اشتباه میباشد.");
+            else throw new SalesException2(ErrorType.BadRequest, fieldName, "فیلتر مورد نظر اشتباه میباشد.");
 
         criteriaRq.setValue(newValues);
         return result;
@@ -178,8 +179,7 @@ public class CriteriaRefinerAspect {
                     sortByRq.setFieldName(fieldName.replaceAll("\\bestatus\\b", "eStatusId"));
                 }
                 String newFieldName = refineFieldName(fieldName, entityClass);
-                if (!newFieldName.equals(fieldName))
-                    result[0] = true;
+                if (!newFieldName.equals(fieldName)) result[0] = true;
 
                 sortBys.add((sortByRq.getDescendingSafe() ? "-" : "") + newFieldName);
             });
@@ -192,8 +192,7 @@ public class CriteriaRefinerAspect {
 
     private Boolean checkCriteria(SearchDTO.CriteriaRq criteriaRq, Class<?> entityClass) throws NoSuchFieldException {
 
-        if (criteriaRq == null)
-            return false;
+        if (criteriaRq == null) return false;
 
         boolean result = false;
         String fieldName = criteriaRq.getFieldName();
@@ -219,8 +218,7 @@ public class CriteriaRefinerAspect {
                     result = refineDateField(newFieldName, criteriaRq, result);
                 else {
 
-                    if (criteriaRq.getCriteria() == null)
-                        return result;
+                    if (criteriaRq.getCriteria() == null) return result;
                     for (SearchDTO.CriteriaRq subCriterion : criteriaRq.getCriteria())
                         result |= checkCriteria(subCriterion, entityClass);
                 }
@@ -239,15 +237,13 @@ public class CriteriaRefinerAspect {
                         replace("/\u06CC/g", "\u064A")*//*).collect(Collectors.toList()));
             } */ else {
 
-                if (criteriaRq.getCriteria() == null)
-                    return result;
+                if (criteriaRq.getCriteria() == null) return result;
                 for (SearchDTO.CriteriaRq subCriterion : criteriaRq.getCriteria())
                     result |= checkCriteria(subCriterion, entityClass);
             }
         } else {
 
-            if (criteriaRq.getCriteria() == null)
-                return result;
+            if (criteriaRq.getCriteria() == null) return result;
             for (SearchDTO.CriteriaRq subCriterion : criteriaRq.getCriteria())
                 result |= checkCriteria(subCriterion, entityClass);
         }
