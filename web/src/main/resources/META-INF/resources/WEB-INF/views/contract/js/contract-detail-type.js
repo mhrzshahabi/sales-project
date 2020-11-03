@@ -38,7 +38,7 @@ contractDetailTypeTab.dynamicForm.fields.material = {
     title: "<spring:message code='material.title'/>"
 };
 contractDetailTypeTab.dynamicForm.fields.titleEn = {
-    name: "titleEn",
+    name: "titleEN",
     width: "100%",
     required: true,
     keyPressFilter: "^[A-Za-z0-9-\\s\\/]",
@@ -748,6 +748,7 @@ contractDetailTypeTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
                     return;
                 }
 
+                data.titleFA = data.titleEN;
                 isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                     actionURL: contractDetailTypeTab.variable.url,
                     httpMethod: contractDetailTypeTab.variable.method,
