@@ -95,7 +95,7 @@ public class OAuthApiService implements IOAuthApiService {
                 } catch (IOException e) {
                     final String message = "OAuthApiService.createPermission Error: [" + Arrays.toString(e.getStackTrace()) + "]";
                     log.error(message);
-                    throw new SalesException2(ErrorType.InternalServerError, null, message);
+                    throw new SalesException2(ErrorType.InternalServerError, null, e.getMessage());
                 }
             }
         } else {
