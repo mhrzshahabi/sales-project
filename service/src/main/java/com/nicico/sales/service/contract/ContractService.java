@@ -23,6 +23,7 @@ import com.nicico.sales.iservice.*;
 import com.nicico.sales.iservice.contract.*;
 import com.nicico.sales.model.entities.base.ContractShipment;
 import com.nicico.sales.model.entities.base.Shipment;
+import com.nicico.sales.model.entities.common.BaseEntity;
 import com.nicico.sales.model.entities.contract.*;
 import com.nicico.sales.model.enumeration.CommercialRole;
 import com.nicico.sales.model.enumeration.DataType;
@@ -33,6 +34,8 @@ import com.nicico.sales.repository.contract.CDTPDynamicTableValueDAO;
 import com.nicico.sales.repository.contract.ContractDAO;
 import com.nicico.sales.repository.contract.ContractDetailValueDAO;
 import com.nicico.sales.service.GenericService;
+import com.nicico.sales.utility.EntityRelationChecker;
+import com.nicico.sales.utility.StringFormatUtil;
 import com.nicico.sales.utility.UpdateUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -70,6 +73,7 @@ public class ContractService extends GenericService<Contract, Long, ContractDTO.
     private final ContractDAO contractDAO2;
     private final ContractDetailValueDAO contractDetailValueDao;
     private final CDTPDynamicTableValueDAO cdtpDynamicTableValueDAO;
+    private final EntityRelationChecker relationChecker;
 
 
     @Override
@@ -619,10 +623,25 @@ public class ContractService extends GenericService<Contract, Long, ContractDTO.
 
         }
 
-        if (actionType == ActionType.Disapprove && entity.getParentId() == null) {
-            List<Contract> allByParentId = ((ContractDAO) repository).findAllByParentId(entity.getId());
-            if (allByParentId.size() != 0)
-                throw new SalesException2(ErrorType.NotEditable, "", messageSource.getMessage("contract.has.appendix.cant.disapprove", null, locale));
+        if (actionType == ActionType.Disapprove) {
+            Contract contract = repository.findById(entity.getId()).orElseThrow(() -> new NotFoundException(entity.getClass()));
+            Map<Class<? extends BaseEntity>, List<BaseEntity>> relations = relationChecker.getRecordRelations(Contract.class, contract.getId());
+            long relationCount = relations.keySet().stream()
+                    .filter(clazz -> clazz != ContractDetail.class)
+                    .filter(clazz -> clazz != ContractContact.class)
+                    .count();
+            if (relationCount > 0) {
+                String message;
+                List<String> collect = relations.keySet().stream()
+                        .filter(clazz -> clazz != ContractDetail.class)
+                        .filter(clazz -> clazz != ContractContact.class)
+                        .map(Class::getSimpleName)
+                        .map(s -> messageSource.getMessage("entity." + StringFormatUtil.makeMessageKey(s, "-"), null, locale))
+                        .collect(Collectors.toList());
+                message = messageSource.getMessage("global.grid.record.is.used.warn", new Object[]{collect}, locale);
+                throw new SalesException2(ErrorType.Unknown, "", messageSource.getMessage(message, null, locale));
+            }
+
         }
         /*** الحاقیه***/
 
@@ -665,8 +684,8 @@ public class ContractService extends GenericService<Contract, Long, ContractDTO.
                 return objectMapper.readValue(contractDetailValue.getReferenceJsonValue(), ContractShipment.class);
             } catch (IOException e) {
                 log.warn("jackson objectMapper error ", e);
+                throw new SalesException2(e);
             }
-            return null;
         }).collect(Collectors.toList());
     }
 }
