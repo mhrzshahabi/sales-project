@@ -1,6 +1,8 @@
 package com.nicico.sales.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.nicico.sales.annotation.report.IgnoreReportField;
+import com.nicico.sales.annotation.report.ReportField;
 import com.nicico.sales.model.entities.warehouse.Inventory;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -17,7 +19,9 @@ import java.util.List;
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class MaterialItemDTO {
+    @ReportField(titleMessageKey = "MaterialItem.gdsCode")
     private Long gdsCode;
+    @ReportField(titleMessageKey = "MaterialItem.gdsName")
     private String gdsName;
     private Long materialId;
     private String miDetailCode;
@@ -30,6 +34,7 @@ public class MaterialItemDTO {
     @ApiModel("MaterialItemInfo")
     public static class Info extends MaterialItemDTO {
         private Long id;
+        @IgnoreReportField
         private MaterialDTO material;
         private Date createdDate;
         private String createdBy;
@@ -37,6 +42,7 @@ public class MaterialItemDTO {
         private String lastModifiedBy;
         private Integer version;
     }
+
     @Getter
     @Setter
     @Accessors(chain = true)
@@ -44,6 +50,7 @@ public class MaterialItemDTO {
     public static class InfoWithInventories extends Info {
         private List<InventoryDTO.Info> materialItem;
     }
+
     @Getter
     @Setter
     @Accessors(chain = true)
