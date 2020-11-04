@@ -81,7 +81,7 @@ public class HRMApiService implements IHRMApiService {
 				} catch (IOException e) {
 					final String message = "HRMApiService.getBusinessDays Error: [" + Arrays.toString(e.getStackTrace()) + "]";
 					log.error(message);
-					throw new SalesException2(ErrorType.InternalServerError, null, message);
+					throw new SalesException2(ErrorType.InternalServerError, null, e.getMessage());
 				}
 			}
 		} else {

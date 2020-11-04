@@ -578,6 +578,13 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
                     title: "<spring:message code='inspectionReport.weight.mileStone'/>"
                 }
             ],
+            transformRequest: function (dsRequest) {
+
+                let request = this.Super("transformRequest", arguments);
+                request.distinct = true;
+
+                return request;
+            },
             fetchDataURL: foreignInvoiceTab.variable.inspectionReportUrl + "spec-list"
         }),
         title: "<spring:message code='weightInspection.title'/>",
@@ -635,7 +642,10 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
                 },
                 {name: "seller.nameFA", title: "<spring:message code='inspectionReport.sellerId'/>"},
                 {name: "buyer.nameFA", title: "<spring:message code='inspectionReport.buyerId'/>"},
-                {name: "assayInspections.mileStone", title: "<spring:message code='inspectionReport.assay.mileStone'/>"},
+                {
+                    name: "assayInspections.mileStone",
+                    title: "<spring:message code='inspectionReport.assay.mileStone'/>"
+                },
                 {
                     name: "assayInspections",
                     title: "<spring:message code='inspectionReport.weight.mileStone'/>"
@@ -644,6 +654,13 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
                     title: "<spring:message code='inspectionReport.weight.mileStone'/>"
                 }
             ],
+            transformRequest: function (dsRequest) {
+
+                let request = this.Super("transformRequest", arguments);
+                request.distinct = true;
+
+                return request;
+            },
             fetchDataURL: foreignInvoiceTab.variable.inspectionReportUrl + "spec-list"
         }),
         title: "<spring:message code='assayInspection.title'/>",

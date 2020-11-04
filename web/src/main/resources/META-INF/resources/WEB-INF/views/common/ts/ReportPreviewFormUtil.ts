@@ -220,7 +220,7 @@ namespace nicico {
                     creator.listGrid.main.setCriteria(criteria);
                 };
                 // @ts-ignore
-                FilterFormUtil.show(null, '<spring:message code="global.form.filter"/>' + " - " + report.title, dataSource);
+                FilterFormUtil.show(null, '<spring:message code="global.form.filter"/>' + " - " + report.title, dataSource, creator.listGrid.main.getCriteria());
             };
             BasicFormUtil.createDynamicForm = function (c) {
                 // @ts-ignore

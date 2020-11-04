@@ -123,7 +123,7 @@ public class AccountingApiService implements IAccountingApiService {
 				} catch (IOException e) {
 					final String message = "AccountingApiService.GetDetailByName Error: [" + Arrays.toString(e.getStackTrace()) + "]";
 					log.error(message);
-					throw new SalesException2(ErrorType.InternalServerError, null, message);
+					throw new SalesException2(ErrorType.InternalServerError, null, e.getMessage());
 				}
 			}
 		} else {
@@ -179,7 +179,7 @@ public class AccountingApiService implements IAccountingApiService {
 				} catch (IOException e) {
 					final String message = "AccountingApiService.GetDepartments Error: [" + Arrays.toString(e.getStackTrace()) + "]";
 					log.error(message);
-					throw new SalesException2(ErrorType.InternalServerError, null, message);
+					throw new SalesException2(ErrorType.InternalServerError, null, e.getMessage());
 				}
 			}
 		} else {
@@ -262,7 +262,7 @@ public class AccountingApiService implements IAccountingApiService {
 				} catch (IOException e) {
 					final String message = "AccountingApiService.SendInvoice Error: [" + Arrays.toString(e.getStackTrace()) + "]";
 					log.error(message);
-					throw new SalesException2(ErrorType.InternalServerError, null, message);
+					throw new SalesException2(ErrorType.InternalServerError, null, e.getMessage());
 				}
 			}
 		} else {
@@ -295,7 +295,7 @@ public class AccountingApiService implements IAccountingApiService {
 				} catch (IOException e) {
 					final String message = "AccountingApiService.GetInvoiceStatus Error: [" + Arrays.toString(e.getStackTrace()) + "]";
 					log.error(message);
-					throw new SalesException2(ErrorType.InternalServerError, null, message);
+					throw new SalesException2(ErrorType.InternalServerError, null, e.getMessage());
 				}
 			}
 		} else {
@@ -325,7 +325,7 @@ public class AccountingApiService implements IAccountingApiService {
 			} catch (IOException ioException) {
 				final String message = "AccountingApiService.throwException Error: [" + Arrays.toString(e.getStackTrace()) + "]";
 				log.error(message);
-				throw new SalesException2(ErrorType.InternalServerError, null, message);
+				throw new SalesException2(ErrorType.InternalServerError, null, e.getMessage());
 			}
 		}
 	}
