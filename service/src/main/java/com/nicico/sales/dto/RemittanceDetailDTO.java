@@ -28,7 +28,9 @@ public class RemittanceDetailDTO {
     private Long depotId;
     private String railPolompNo;
     private String securityPolompNo;
+    @ReportField(titleMessageKey = "global.weight")
     private Long weight;
+    @ReportField(titleMessageKey = "global.description")
     private String description;
 
 
