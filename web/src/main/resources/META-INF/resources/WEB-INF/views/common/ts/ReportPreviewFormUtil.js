@@ -200,7 +200,7 @@ var nicico;
                     creator.listGrid.main.setCriteria(criteria);
                 };
                 // @ts-ignore
-                nicico.FilterFormUtil.show(null, '<spring:message code="global.form.filter"/>' + " - " + report.title, dataSource);
+                nicico.FilterFormUtil.show(null, '<spring:message code="global.form.filter"/>' + " - " + report.title, dataSource, creator.listGrid.main.getCriteria());
             };
             nicico.BasicFormUtil.createDynamicForm = function (c) {
                 // @ts-ignore
