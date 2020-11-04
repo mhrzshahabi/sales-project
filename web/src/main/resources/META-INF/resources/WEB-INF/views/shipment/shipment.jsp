@@ -1200,7 +1200,7 @@
     <sec:authorize access="hasAuthority('C_SHIPMENT_DCC')">
     let ToolStripButton_Shipment_dcc = isc.ToolStripButtonAdd.create({
         icon: "[SKIN]/actions/add.png",
-        title: "<spring:message code='shipment.loading.pattern.Attachment'/>",
+        title: "<spring:message code='shipment.loading.pattern.attachment'/>",
         click: function () {
             ListGrid_Shipment_dcc();
         }
