@@ -21,6 +21,8 @@ public enum SymbolUnit {
     LB          (256),
     TR_OZ       (512),
     GRAMS       (1024),
+    L           (1056),
+    PPM         (1536),
 
     // Class
     PACKAGE     (2048),
@@ -30,7 +32,7 @@ public enum SymbolUnit {
     GUNNY       (32768),
     SKID        (65536),
     BULK        (131072),
-
+    BAR         (196608),
     // Finance
     £           (262144),
     ¢           (524288),
