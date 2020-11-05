@@ -22,6 +22,8 @@ public class MaterialItemDTO {
     private Long materialId;
     private String miDetailCode;
     private String gdsNameEn;
+    private Boolean shouldShowInFilter;
+
 
     @Getter
     @Setter

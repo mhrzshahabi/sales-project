@@ -57,8 +57,9 @@ const tozinLiteFields = _ => [
     {
         name: "codeKala",
         type: "number",
-        // filterEditorProperties: {editorType: "comboBox"},
-        valueMap: {11: '<spring:message code="Tozin.export.cathode"/>', 8: '<spring:message code="Tozin.copper.concentrate"/>', 97: '<spring:message code="invoice.molybdenum"/>'},
+        filterEditorProperties: {editorType: "comboBox",textMatchStyle:"substring"},
+        // valueMap: {11: '<spring:message code="Tozin.export.cathode"/>', 8: '<spring:message code="Tozin.copper.concentrate"/>', 97: '<spring:message code="invoice.molybdenum"/>'},
+        valueMap: SalesBaseParameters.getSavedMaterialItemParameter().filter(m=>m.shouldShowInFilter).getValueMap('id','gdsName'),
         title: "<spring:message code='goods.title'/>",
         parseEditorValue: function (value, record, form, item) {
             // console.log("        parseEditorValue: function (value, record, form, item) ", value)
@@ -461,8 +462,11 @@ function mainOnWayProduct() {
         click: function () {
 
 
-            const criteria = JSON.stringify(ListGrid_Tozin_IN_ONWAYPRODUCT.getCriteria());
-            dbg(true,criteria)
+            const criteria1 = ListGrid_Tozin_IN_ONWAYPRODUCT.getCriteria();
+            criteria1.criteria.forEach(c=>{
+                if(c.fieldName==="dateStr")c.fieldName="date"
+            })
+            const criteria = JSON.stringify(criteria1);
             pdf.setValue("criteria", criteria);
             pdf.setValue("type", "pdf");
 
@@ -490,7 +494,9 @@ function mainOnWayProduct() {
         width: 120,
         title: "<spring:message code='global.search'/>",
         icon: "icon/search.png",
-        click: _ => ListGrid_Tozin_IN_ONWAYPRODUCT.filterData(ListGrid_Tozin_IN_ONWAYPRODUCT.getFilterEditorCriteria())
+        click: _ => {
+            const filterEditorCriteria = ListGrid_Tozin_IN_ONWAYPRODUCT.getFilterEditorCriteria();
+            ListGrid_Tozin_IN_ONWAYPRODUCT.filterData(filterEditorCriteria)}
     });
 
     const HLayout_onWayProduct_searchBtn = isc.HLayout.create({
@@ -611,10 +617,19 @@ function mainOnWayProduct() {
                 criteria.criteria.add({"fieldName": "tozinId", "operator": "iNotStartsWith", "value": "3-"})
             if (!criteria.criteria.find(_ => _.fieldName === "tozinTable" && _.operator === "isNull"))
                 criteria.criteria.add({"fieldName": "tozinTable", "operator": "isNull"})
-            criteria.criteria.add({"fieldName": "dateStr", "operator": "iBetweenInclusive",
-                "start":owpTab.DynamicForm.Form.ToDate.getValue('fromDate').toString().replaceAll("/",""),
-                "end":owpTab.DynamicForm.Form.ToDate.getValue('toDate').toString().replaceAll("/","")
-            })
+            const foundDateStr = criteria.criteria.find(_ => _.fieldName === "dateStr" && _["operator"] === "iBetweenInclusive");
+            if (!foundDateStr){
+                criteria.criteria.add({"fieldName": "dateStr", "operator": "iBetweenInclusive",
+                    "start":owpTab.DynamicForm.Form.ToDate.getValue('fromDate').toString().replaceAll("/",""),
+                    "end":owpTab.DynamicForm.Form.ToDate.getValue('toDate').toString().replaceAll("/","")
+                })
+            }
+
+            if (foundDateStr)
+            {   foundDateStr[ "start"]=owpTab.DynamicForm.Form.ToDate.getValue('fromDate').toString().replaceAll("/","");
+            foundDateStr["end"]=owpTab.DynamicForm.Form.ToDate.getValue('toDate').toString().replaceAll("/","");
+            }
+
 
             dbg(true,arguments)
             return this.Super('filterData', arguments);

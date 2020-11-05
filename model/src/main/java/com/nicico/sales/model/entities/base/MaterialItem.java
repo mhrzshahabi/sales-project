@@ -29,6 +29,9 @@ public class MaterialItem extends BaseEntity {
     @Column(name = "GDSCODE")
     private Long gdsCode;
 
+    @Column(name = "B_SHOULD_SHOW_IN_FILTER")
+    private Boolean shouldShowInFilter;
+
     @NotBlank
     @Column(name = "GDSNAME")
     private String gdsName;

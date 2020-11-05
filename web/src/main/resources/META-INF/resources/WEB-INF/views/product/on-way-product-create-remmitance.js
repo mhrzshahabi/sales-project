@@ -132,6 +132,17 @@ function onWayProductCreateRemittance() {
                         return this.Super("recordClick", arguments);
                     }
                 },
+                defaultValue:(_=>{
+                    const selectedRecord = ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord();
+                    const defaultValue = StorageUtil.get("defaultDepotForCodeKala"+selectedRecord['codeKala'].toString()
+                        +"AndSource"+selectedRecord['sourceId'].toString());
+                    return defaultValue?defaultValue:null})(),
+                editorExit(form, item, value) {
+                    const selectedRecord = ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord();
+                    StorageUtil.save("defaultDepotForCodeKala"+selectedRecord['codeKala'].toString()
+                                            +"AndSource"+selectedRecord['sourceId'].toString(),value)
+                    return true;
+                }
 
             },
             {
@@ -638,7 +649,7 @@ function onWayProductCreateRemittance() {
                             {
                                 name: "wazn",
                                 canEdit:canEditVazTedad,
-                                title: "<spring:message code='warehouseCadItem.weightKg'/>",
+                                headerTitle: "<spring:message code='warehouseCadItem.weightKg'/>",
                                 width: "20%",
                                 validators: [{
                                     type: "regexp",
@@ -651,7 +662,12 @@ function onWayProductCreateRemittance() {
                                 editorProperties: {
                                     keyPressFilter: "[0-9]",
                                 },
-                                summaryFunction: "sum"
+                                summaryFunction: function (records,field) {
+                                    const prefix = "<spring:message code='billOfLanding.total.net.weight' /> " +
+                                        "<spring:message code='invoice.shomarehSoratHesab' />: ";
+                                    if(!records || records.length ===0 )return prefix + "0";
+                                    try{return prefix +records.map(record=>Number(record[field.name])).reduce((_1,_2)=>_1+_2)}catch(e){return 0}
+                                }
                             },
                             {
                                 name: "description",
@@ -841,7 +857,15 @@ function onWayProductCreateRemittance() {
                     canFilter: false,
                     required: true,
                     editorType: "comboBox",
+                    // formatCellValue(value, record, rowNum, colNum, grid) {
+                    //     if (!record['destTozin']) return grid.Super("formatCellValue",arguments)
+                    //     dbg(true,record)
+                    //     return record['destTozin']['wazn'];
+                    // },
                     editorProperties: {
+                        addUnknownValues:false,
+                        // allowEmptyValue:false,
+                        textMatchStyle:"substring",
                         icons: [{
                             src: "pieces/16/icon_add.png",
                             click() {
@@ -850,6 +874,8 @@ function onWayProductCreateRemittance() {
                         }]
                     },
                     editorExit(editCompletionEvent, record, newValue, rowNum, colNum, grid) {
+                        if(!newValue)return true;
+                        dbg(arguments);
                         const grid_available_tozins_string = windowDestinationTozinList['g'];
                         const grid_available_tozins = window[grid_available_tozins_string];
                         const destTozin = grid_available_tozins.getData().find(g => g['tozinId'] === newValue);
@@ -866,6 +892,7 @@ function onWayProductCreateRemittance() {
                     }
                     // valueMap: window[windowDestinationTozinList['g']].getData().getValueMap('tozinId', 'tozinId')
                 },
+                {name:'destTozin.vazn',canEdit:false,headerTitle:"<spring:message code='warehouseCad.destinationWeight'/>"},
                 {
                     name: "securityPolompNo",
                     canFilter: false,
@@ -1041,6 +1068,7 @@ function onWayProductCreateRemittance() {
                 tedad: 1,
                 description: '',
             }
+
             const selectedTozinList = tzn_data.map(tzn => {
                 tzn['driverName'] = selected_records.find(r => r['tozinId'] === tzn['tozinId'])['driverName'];
                 const pkg_tmp = {...packageSample};
@@ -1055,6 +1083,7 @@ function onWayProductCreateRemittance() {
                 tzn['tedad_source'] = !isNaN(tzn['tedad']) ? tzn['tedad'] : 0;
                 tzn['tedad_destination'] = !isNaN(tzn['tedad']) ? tzn['tedad'] : 0;
                 if(tzn.codeKala === 11 && !isNaN(tzn['tedad']) && Number(tzn['tedad']) > 1 ){
+                    DynamicForm_warehouseCAD.setValue("sourceBundleSum",tzn["tedad"])
                     canEditVazTedad = true;
                     const _packages = [];
                     dbg(true,tzn)
@@ -1086,6 +1115,20 @@ function onWayProductCreateRemittance() {
             // //console.log('selectedTozinList',selectedTozinList)
             grid.setData(selectedTozinList)
             DynamicForm_warehouseCAD.setValue('sourceBundleSum', 0)
+            dbg(true,selectedTozinList)
+            const tedadList = selectedTozinList.filter(tzn=>tzn['tedad']&&!isNaN(tzn['tedad'])&&tzn['codeKala']===11)
+                .map(tzn=>Number(tzn['tedad']));
+            const boshkehList = selectedTozinList.filter(tzn=>tzn['tedad']&&!isNaN(tzn['tedad'])&&tzn['codeKala']===97)
+                .map(tzn=>Number(tzn['tedad']));
+
+            const __sourceBundleSum = tedadList.length>0? tedadList.reduce((_1, _2)=>_1+_2):0;
+            const __sourceBoshkehSum = boshkehList.length>0? boshkehList.reduce((_1, _2)=>_1+_2):0;
+            if(__sourceBundleSum && !isNaN(__sourceBundleSum) && __sourceBundleSum>0)
+                DynamicForm_warehouseCAD.setValue("sourceBundleSum",__sourceBundleSum)
+            if(__sourceBoshkehSum && !isNaN(__sourceBoshkehSum) && __sourceBoshkehSum>0)
+                        DynamicForm_warehouseCAD.setValue("sourceSheetSum",__sourceBoshkehSum)
+
+
 
             if (tozinPackagesData && tozinPackagesData.response && tozinPackagesData.response.data && tozinPackagesData.response.data.length > 0) {
                 canEditVazTedad = false;
