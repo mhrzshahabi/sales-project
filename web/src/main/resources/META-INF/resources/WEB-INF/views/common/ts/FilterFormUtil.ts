@@ -26,12 +26,12 @@ namespace nicico {
             return criteria;
         };
 
-        static createFilterBuilder(creator: JSPTabVariable): void {
+        static createFilterBuilder(creator: JSPTabVariable, criteria: isc.AdvancedCriteria): void {
             // @ts-ignore
             creator.filterBuilder.main = isc.FilterBuilder.create({
                 // @ts-ignore
                 dataSource: creator.restDataSource.main,
-                criteria: {
+                criteria: criteria ? criteria : {
                     // @ts-ignore
                     _constructor: "AdvancedCriteria",
                     operator: "and", criteria: []
@@ -138,7 +138,7 @@ namespace nicico {
             ], width, height);
         }
 
-        static show(owner: isc.Window, title: string, restDataSource: isc.RestDataSource, width: string = null, height: string = null) {
+        static show(owner: isc.Window, title: string, restDataSource: isc.RestDataSource, criteria: isc.AdvancedCriteria, width: string = null, height: string = null) {
 
             let creator = new GeneralTabUtil().getDefaultJSPTabVariable();
             // @ts-ignore
@@ -152,7 +152,7 @@ namespace nicico {
             if (owner != null)
                 owner.close();
 
-            this.createFilterBuilder(creator);
+            this.createFilterBuilder(creator, criteria);
             this.createButtonLayout(creator);
             this.createWindow(creator, title);
 

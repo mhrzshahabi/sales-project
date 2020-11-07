@@ -23,8 +23,9 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class RemittanceDTO {
 
+    @ReportField(titleMessageKey = "remittance.code")
     private String code;
-    @ReportField(titleMessageKey = "global.description", canFilter = false, hidden = true)
+    @ReportField(titleMessageKey = "remittance.description")
     private String description;
     @IgnoreReportField
     private Long shipmentId;
@@ -36,12 +37,12 @@ public class RemittanceDTO {
     public static class InfoWithoutRemittanceDetail extends RemittanceDTO {
 
         private Long id;
-        @ReportModel(type = MaterialItemDTO.Info.class)
+        @ReportModel(type = MaterialItemDTO.Info.class, jumpTo = true)
         private MaterialItemDTO.Info materialItem;
-        @ReportModel(type = MaterialItemDTO.Info.class)
-        private MaterialItemDTO.Info shipment;
+        @ReportModel(type = ShipmentDTO.Info.class, jumpTo = true)
+        private ShipmentDTO.Info shipment;
         private String date;
-        @ReportModel(type = TozinTableDTO.Info.class)
+        @ReportModel(type = TozinTableDTO.Info.class, jumpTo = true)
         private TozinTableDTO.Info tozinTable;
 
 

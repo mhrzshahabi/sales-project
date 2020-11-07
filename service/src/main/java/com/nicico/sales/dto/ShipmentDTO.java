@@ -40,7 +40,6 @@ public class ShipmentDTO {
     private Date automationLetterDate;
     @ReportField(titleMessageKey = "global.sendDate", canFilter = false, hidden = true)
     private Date sendDate;
-    @ReportField(titleMessageKey = "shipment.numberOfBLs")
     private Long noBLs;
     private Long noContainer;
     private Long noPackages;

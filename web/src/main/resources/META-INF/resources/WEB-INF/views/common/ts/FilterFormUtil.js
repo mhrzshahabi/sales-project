@@ -11,12 +11,12 @@ var nicico;
     var FilterFormUtil = /** @class */ (function () {
         function FilterFormUtil() {
         }
-        FilterFormUtil.createFilterBuilder = function (creator) {
+        FilterFormUtil.createFilterBuilder = function (creator, criteria) {
             // @ts-ignore
             creator.filterBuilder.main = isc.FilterBuilder.create({
                 // @ts-ignore
                 dataSource: creator.restDataSource.main,
-                criteria: {
+                criteria: criteria ? criteria : {
                     // @ts-ignore
                     _constructor: "AdvancedCriteria",
                     operator: "and", criteria: []
@@ -108,7 +108,7 @@ var nicico;
                 creator.filterBuilder.main, creator.hLayout.main
             ], width, height);
         };
-        FilterFormUtil.show = function (owner, title, restDataSource, width, height) {
+        FilterFormUtil.show = function (owner, title, restDataSource, criteria, width, height) {
             if (width === void 0) { width = null; }
             if (height === void 0) { height = null; }
             var creator = new nicico.GeneralTabUtil().getDefaultJSPTabVariable();
@@ -122,7 +122,7 @@ var nicico;
             creator.variable.owner = owner;
             if (owner != null)
                 owner.close();
-            this.createFilterBuilder(creator);
+            this.createFilterBuilder(creator, criteria);
             this.createButtonLayout(creator);
             this.createWindow(creator, title);
             // @ts-ignore
