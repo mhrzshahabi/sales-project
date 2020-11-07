@@ -24,7 +24,7 @@ namespace nicico {
             let fetchDataUrl = creator.variable.contextPath + record.source.replaceAll(new RegExp("^/|/$"), '') + '/';
             // @ts-ignore
             let dataSource = isc.RestDataSource.nicico.getDefault(fetchDataUrl, record.reportFields.filter(q => q.canFilter).map(p => {
-                return {name: p.name, title: p.title, type: p.type, hidden: p.hidden};
+                return {name: p.name, title: p.title, type: p.type, hidden: false};
             }));
 
             FilterFormUtil.okCallBack = okCallBack;

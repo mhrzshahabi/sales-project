@@ -143,12 +143,12 @@ var nicico;
                 selectReportForm.populateData = function (bodyWidget) {
                     // @ts-ignore
                     var data = bodyWidget.getSelectedValue();
-                    return {
+                    return data ? {
                         fileId: data.id,
                         fileKey: data.fileKey,
                         // @ts-ignore
                         criteria: cr,
-                    };
+                    } : null;
                 };
                 selectReportForm.validate = function (data) {
                     return data && data.fileKey;
@@ -193,7 +193,7 @@ var nicico;
                 var fetchDataUrl = creator.variable.contextPath + report.source.replaceAll(new RegExp("^/|/$"), '') + '/';
                 // @ts-ignore
                 var dataSource = isc.RestDataSource.nicico.getDefault(fetchDataUrl, report.reportFields.filter(function (q) { return q.canFilter; }).map(function (p) {
-                    return { name: p.name, title: p.title, type: p.type, hidden: p.hidden };
+                    return { name: p.name, title: p.title, type: p.type, hidden: false };
                 }));
                 nicico.FilterFormUtil.okCallBack = function (criteria) {
                     // @ts-ignore

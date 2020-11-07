@@ -34,7 +34,7 @@ public class TozinTableDTO {
     private Long targetId;
     @ReportField(titleMessageKey = "Tozin.vazn")
     private Long vazn;
-    @ReportField(titleMessageKey = "global.date")
+    //  @ReportField(titleMessageKey = "global.date")
     private String date;
     @ReportField(titleMessageKey = "invoiceSales.otherDescription")
     private String ctrlDescOut;
@@ -62,7 +62,7 @@ public class TozinTableDTO {
         // BaseEntity
         private Boolean editable;
         private List<EStatus> eStatus;
-        @IgnoreReportField
+        @ReportModel(type = WarehouseDTO.Info.class, jumpTo = true)
         private WarehouseDTO.Info sourceWarehouse;
         @IgnoreReportField
         private WarehouseDTO.Info targetWarehouse;
@@ -75,7 +75,9 @@ public class TozinTableDTO {
     @Accessors(chain = true)
     @ApiModel("TozinTableInfo")
     public static class Info extends TozinTableDTO.InfoWithoutRemittanceDetail {
+        @IgnoreReportField
         private List<RemittanceDetailDTO.InfoWithoutRemittance> remittanceDetailsAsSource;
+        @IgnoreReportField
         private List<RemittanceDetailDTO.InfoWithoutRemittance> remittanceDetailsAsDestination;
 
     }

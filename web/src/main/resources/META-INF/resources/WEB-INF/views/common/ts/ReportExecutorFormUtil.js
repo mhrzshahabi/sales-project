@@ -18,7 +18,7 @@ var nicico;
             var fetchDataUrl = creator.variable.contextPath + record.source.replaceAll(new RegExp("^/|/$"), '') + '/';
             // @ts-ignore
             var dataSource = isc.RestDataSource.nicico.getDefault(fetchDataUrl, record.reportFields.filter(function (q) { return q.canFilter; }).map(function (p) {
-                return { name: p.name, title: p.title, type: p.type, hidden: p.hidden };
+                return { name: p.name, title: p.title, type: p.type, hidden: false };
             }));
             nicico.FilterFormUtil.okCallBack = okCallBack;
             // @ts-ignore
