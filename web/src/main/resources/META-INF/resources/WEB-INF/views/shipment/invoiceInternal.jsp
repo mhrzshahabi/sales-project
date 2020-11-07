@@ -150,7 +150,10 @@
         jsonSuffix: "",
         fetchDataURL: "${contextPath}/api/accounting/departments"
     });
-    var documentMainInfoForm = isc.DynamicForm.create({
+
+    var mainValuesManager = isc.ValuesManager.create({});
+
+    var mainInvoiceInfoForm = isc.DynamicForm.create({
         width: "100%",
         height: "100%",
         titleWidth: 30,
@@ -160,13 +163,8 @@
         autoFetchData: false,
         numCols: 4,
         margin: 5,
+        valuesManager: mainValuesManager,
         fields: [
-            <%--{--%>
-                <%--name: "invoiceInfo",--%>
-                <%--type: "staticText",--%>
-                <%--colSpan: 2,--%>
-                <%--title: "<spring:message code='invoice.invoiceInfo'/>"--%>
-            <%--},--%>
             {
                 name: "remittanceId",
                 type: "staticText",
@@ -223,14 +221,24 @@
                 type: "staticText",
                 width: "150"
             },
+            {
+                type: "RowSpacerItem"
+            }
+        ]
+    });
 
-            {type: "SpacerItem", width: "100%", height: "50", colSpan: 4},
-            <%--{--%>
-                <%--name: "documentInfo",--%>
-                <%--type: "staticText",--%>
-                <%--colSpan: 2,--%>
-                <%--title: "<spring:message code='invoice.documentInfo'/>"--%>
-            <%--},--%>
+    var mainDocumentInfoForm = isc.DynamicForm.create({
+        width: "100%",
+        height: "100%",
+        titleWidth: 30,
+        align: "right",
+        autoDraw: false,
+        canEdit: true,
+        autoFetchData: false,
+        numCols: 4,
+        margin: 5,
+        valuesManager: mainValuesManager,
+        fields: [
             {
                 name: "department.id", title: "<spring:message code='department.name'/>",
                 required: true,
@@ -239,13 +247,13 @@
                 optionDataSource: departmentDS,
                 valueField: "id",
                 displayField: "departmentName",
-                width: "150",
-                pickListWidth: "150",
+                width: "250",
+                pickListWidth: "250",
                 allowAdvancedCriteria: false,
                 autoFetchData: false,
                 pickListFields: [
-                    {name: "departmentCode", width: "20%"},
-                    {name: "departmentName", width: "80%"}
+                    {name: "departmentCode", width: "30%"},
+                    {name: "departmentName", width: "70%"}
                 ],
                 showErrorText: true,
                 showErrorStyle: true,
@@ -263,6 +271,7 @@
                 icons: [persianDatePicker],
                 wrapTitle: false,
                 type: "persianDate",
+                width: "150",
                 length: 10,
                 keyPressFilter: "[0-9/]",
                 showErrorText: true,
@@ -274,8 +283,11 @@
                 title: "<spring:message code='document.header.desc'/>",
                 type: "textArea",
                 colSpan: "4",
-                width: "485",
+                width: "520",
                 wrapTitle: false,
+            },
+             {
+                type: "RowSpacerItem"
             }
         ]
     });
@@ -284,8 +296,9 @@
         top: 260,
         title: "<spring:message code='global.form.save'/>",
         click: function () {
-            documentMainInfoForm.validate();
-            if (documentMainInfoForm.hasErrors()) {
+
+            mainValuesManager.validate();
+            if (mainValuesManager.hasErrors()) {
                 return;
             }
             let grid = invoiceInternalTabs.getTab(invoiceInternalTabs.selectedTab).pane.members.get(1);
@@ -305,7 +318,7 @@
                 }, 3000);
                 return;
             }
-            let data = isc.clone(documentMainInfoForm.getValues());
+            let data = isc.clone(mainValuesManager.getValues());
             data.department = data.department.id;
             isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                 actionURL: "${contextPath}/api/accounting/documents/internal/" + record.id,
@@ -357,8 +370,8 @@
     });
     var newDocumentWindow = isc.Window.create({
         title: "<spring:message code='accounting.document.create'/>",
-        width: 700,
-        height: 500,
+        width: 800,
+        height: 600,
         // autoSize:true,
         autoCenter: true,
         isModal: true,
@@ -371,29 +384,57 @@
             this.Super("closeClick", arguments)
         },
         items: [
-            documentMainInfoForm, windows_button_Layout
+            isc.Label.create({
+                            margin: 10,
+                            height: 10,
+                            align: "right",
+                            contents: "<h3 style='text-align: right;padding-right:20px'>"
+                                + "<spring:message code='invoice.invoiceInfo'/>" +
+                                "</h3>"
+                        }),
+            isc.HTMLFlow.create({
+            width: "100%",
+            contents: "<span style='width: 100%; display: block; border-bottom: 1px solid rgba(0,0,0,0.3)'></span>"
+            }),
+            mainInvoiceInfoForm,
+            isc.Label.create({
+                            margin: 10,
+                            height: 10,
+                            align: "right",
+                            contents: "<h3 style='text-align: right;padding-right:20px'>"
+                                + "<spring:message code='invoice.documentInfo'/>" +
+                                "</h3>"
+                        }),
+            isc.HTMLFlow.create({
+            width: "100%",
+            contents: "<span style='width: 100%; display: block; border-bottom: 1px solid rgba(0,0,0,0.3)'></span>"
+            }),
+            mainDocumentInfoForm,
+            windows_button_Layout
         ]
     });
 
     function createAccountingDoc() {
 
-        documentMainInfoForm.clearValues();
+        mainInvoiceInfoForm.clearValues();
+        mainDocumentInfoForm.clearValues();
+        mainValuesManager.clearValues();
         let grid = invoiceInternalTabs.getTab(invoiceInternalTabs.selectedTab).pane.members.get(1);
         var record = grid.getSelectedRecord();
         if (record == null) {
             isc.say("<spring:message code='global.grid.record.not.selected'/>");
         } else if (record.documentId == null || record.documentId === -1 || record.documentId === -2) {
-            documentMainInfoForm.setValue("remittanceId", record.remittanceId);
-            documentMainInfoForm.setValue("customerName", record.customerName);
-            documentMainInfoForm.setValue("invoiceSerial", record.invoiceSerial);
-            documentMainInfoForm.setValue("productName", record.productName);
-            documentMainInfoForm.setValue("unitPrice", record.unitPrice);
-            documentMainInfoForm.setValue("totalAmount", record.totalAmount);
-            documentMainInfoForm.setValue("totalDeductions", record.totalDeductions);
-            documentMainInfoForm.setValue("salesType", record.salesType);
-            documentMainInfoForm.setValue("realWeight", record.realWeight);
-            documentMainInfoForm.setValue("bankGroupDesc", record.bankGroupDesc);
-            documentMainInfoForm.setValue("invoiceDate", record.invoiceDate);
+            mainValuesManager.setValue("remittanceId", record.remittanceId);
+            mainValuesManager.setValue("customerName", record.customerName);
+            mainValuesManager.setValue("invoiceSerial", record.invoiceSerial);
+            mainValuesManager.setValue("productName", record.productName);
+            mainValuesManager.setValue("unitPrice", record.unitPrice);
+            mainValuesManager.setValue("totalAmount", record.totalAmount);
+            mainValuesManager.setValue("totalDeductions", record.totalDeductions);
+            mainValuesManager.setValue("salesType", record.salesType);
+            mainValuesManager.setValue("realWeight", record.realWeight);
+            mainValuesManager.setValue("bankGroupDesc", record.bankGroupDesc);
+            mainValuesManager.setValue("invoiceDate", record.invoiceDate);
 
             newDocumentWindow.show();
         } else isc.say("<spring:message code='accounting.create.document.sent'/>");
@@ -1103,6 +1144,7 @@
 
     var ListGrid_InvoiceInternal = isc.ListGrid.create({
         showFilterEditor: true,
+        showRowNumbers: true,
         width: "100%",
         height: "100%",
         dataSource: RestDataSource_InvoiceInternal,
@@ -1175,6 +1217,7 @@
         allowFilterOperators: true,
         filterOnKeypress: false
     });
+
     ListGrid_InvoiceInternal.getCellCSSText = function (record) {
         if (record.documentId > 0)
             return "font-weight:bold; color:green;";
@@ -1185,6 +1228,7 @@
     }
     var ListGrid_InvoiceInternal_Sent = isc.ListGrid.create({
         showFilterEditor: true,
+        showRowNumbers: true,
         width: "100%",
         height: "100%",
         dataSource: RestDataSource_InvoiceInternal_Sent,
@@ -1259,6 +1303,7 @@
     });
     var ListGrid_InvoiceInternal_Deleted = isc.ListGrid.create({
         showFilterEditor: true,
+        showRowNumbers: true,
         width: "100%",
         height: "100%",
         autoFetchData: false,
