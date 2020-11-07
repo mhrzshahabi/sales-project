@@ -332,6 +332,8 @@ function onWayProductCreateRemittance() {
                         remittance: DynamicForm_warehouseCAD.getValues(),
                         remittanceDetails: []
                     };
+                     if(!dataForSave.remittance.description)
+                         dataForSave.remittance.description=' ';
                      if (modifiedPackages.add>0)
                          dataForSave.remittance.description+=" تعداد" +
                              modifiedPackages.add.toString() +
