@@ -624,23 +624,23 @@ public class ContractService extends GenericService<Contract, Long, ContractDTO.
         }
 
         if (actionType == ActionType.Disapprove) {
-            Contract contract = repository.findById(entity.getId()).orElseThrow(() -> new NotFoundException(entity.getClass()));
-            Map<Class<? extends BaseEntity>, List<BaseEntity>> relations = relationChecker.getRecordRelations(Contract.class, contract.getId());
-            long relationCount = relations.keySet().stream()
-                    .filter(clazz -> clazz != ContractDetail.class)
-                    .filter(clazz -> clazz != ContractContact.class)
-                    .count();
-            if (relationCount > 0) {
-                String message;
-                List<String> collect = relations.keySet().stream()
-                        .filter(clazz -> clazz != ContractDetail.class)
-                        .filter(clazz -> clazz != ContractContact.class)
-                        .map(Class::getSimpleName)
-                        .map(s -> messageSource.getMessage("entity." + StringFormatUtil.makeMessageKey(s, "-"), null, locale))
-                        .collect(Collectors.toList());
-                message = messageSource.getMessage("global.grid.record.is.used.warn", new Object[]{collect}, locale);
-                throw new SalesException2(ErrorType.Unknown, "", messageSource.getMessage(message, null, locale));
-            }
+//            Contract contract = repository.findById(entity.getId()).orElseThrow(() -> new NotFoundException(entity.getClass()));
+//            Map<Class<? extends BaseEntity>, List<BaseEntity>> relations = relationChecker.getRecordRelations(Contract.class, contract.getId());
+//            long relationCount = relations.keySet().stream()
+//                    .filter(clazz -> clazz != ContractDetail.class)
+//                    .filter(clazz -> clazz != ContractContact.class)
+//                    .count();
+//            if (relationCount > 0) {
+//                String message;
+//                List<String> collect = relations.keySet().stream()
+//                        .filter(clazz -> clazz != ContractDetail.class)
+//                        .filter(clazz -> clazz != ContractContact.class)
+//                        .map(Class::getSimpleName)
+//                        .map(s -> messageSource.getMessage("entity." + StringFormatUtil.makeMessageKey(s, "-"), null, locale))
+//                        .collect(Collectors.toList());
+//                message = messageSource.getMessage("global.grid.record.is.used.warn", new Object[]{collect}, locale);
+//                throw new SalesException2(ErrorType.Unknown, "", messageSource.getMessage(message, null, locale));
+//            }
 
         }
         /*** الحاقیه***/

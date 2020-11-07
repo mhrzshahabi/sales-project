@@ -191,8 +191,10 @@
 
     var RestDataSource_pickContractItem = isc.MyRestDataSource.create({
         fields:
-            [{name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
-                {name: "no", title: "<spring:message code='contract.contractNo'/> "},
+            [
+                {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
+                {name: "no", title: "<spring:message code='contract.contractNo'/>"},
+                {name: "date", title: "<spring:message code='contract.contractDate'/>", type: "date"},
 
             ],
         fetchDataURL: "${contextPath}/api/g-contract/spec-list"
@@ -548,9 +550,13 @@
                     {
                         name: "no",
                         width: "10%",
-                        align: "center",
-                        title: "<spring:message code='contract.contractNo'/>"
+                        align: "center"
                     },
+                    {
+                        name: "date",
+                        width: "10%",
+                        align: "center"
+                    }
                 ],
                 changed: function (form, item, value) {
                     let record = DynamicForm_Shipment.getItem("contractId").getSelectedRecord();
