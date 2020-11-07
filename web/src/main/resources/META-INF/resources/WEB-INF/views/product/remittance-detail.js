@@ -1001,6 +1001,8 @@ rdTab.Fields.TozinBase = function () {
             },
             filterOperator: "equals",
             editorType: "ComboBoxItem",
+                textMatchStyle:"substring",
+                addUnknownValues:false,
             valueMap: SalesBaseParameters.getSavedWarehouseParameter().getValueMap("id", "name"),
             // valueMap: {
             //     2320: 'بندر شهيد رجايي، روبروي اسكله شانزده ،محوطه فلزات آلياژي شركت تايد واتر',
@@ -1248,18 +1250,24 @@ rdTab.Fields.RemittanceDetail = function () {
         {
             name: "unitId",
             editorType: "ComboBoxItem",
+                textMatchStyle:"substring",
+                addUnknownValues:false,
             filterEditorProperties: {
                 editorType: "ComboBoxItem",
+                textMatchStyle:"substring",
+                addUnknownValues:false,
             },
             valueMap: SalesBaseParameters.getSavedUnitParameter().getValueMap('id', 'nameFA'),
             type: "number",
             title: "<spring:message code='global.unit'/>",
             recordDoubleClick: rdTab.Methods.RecordDoubleClickRD,
+            hidden:true,
         },
         {
             name: "amount",
             title: "<spring:message code='global.amount'/> <spring:message code='goods.title'/>",
             recordDoubleClick: rdTab.Methods.RecordDoubleClickRD,
+            hidden: true,
 
 
         },
@@ -1267,8 +1275,6 @@ rdTab.Fields.RemittanceDetail = function () {
             name: "weight",
             title: "<spring:message code='Tozin.vazn'/>",
             recordDoubleClick: rdTab.Methods.RecordDoubleClickRD,
-
-
         },
         {
             name: "sourceTozin.tozinId",
@@ -1276,26 +1282,28 @@ rdTab.Fields.RemittanceDetail = function () {
             recordDoubleClick: rdTab.Methods.RecordDoubleClickRD,
             pickListFields: rdTab.Fields.TozinLite(),
             showHover: true,
-            showHoverComponents: true,
+            hidden:true,
+            showHoverComponents: false,
         },
         {
             name: "destinationTozin.tozinId",
             title: "<spring:message code='Tozin.target.tozin'/>",
             recordDoubleClick: rdTab.Methods.RecordDoubleClickRD,
             showHover: true,
-            showHoverComponents: true,
+            hidden:true,
+            showHoverComponents: false,
             pickListFields: rdTab.Fields.TozinLite()
 
         },
         {
-            name: "securityPolompNo",
+            name: "securityPolompNo",hidden:true,
             title: "<spring:message code='warehouseCad.herasatPolompNo'/>",
             recordDoubleClick: rdTab.Methods.RecordDoubleClickRD,
 
 
         },
         {
-            name: "railPolompNo",
+            name: "railPolompNo",hidden:true,
             title: "<spring:message code='warehouseCad.rahahanPolompNo'/>",
             recordDoubleClick: rdTab.Methods.RecordDoubleClickRD,
 
@@ -1305,6 +1313,7 @@ rdTab.Fields.RemittanceDetail = function () {
             name: "description",
             title: "<spring:message code='shipment.description'/> <spring:message code='global.package'/>",
             recordDoubleClick: rdTab.Methods.RecordDoubleClickRD,
+            hidden:true,
 
 
         },
@@ -1312,21 +1321,7 @@ rdTab.Fields.RemittanceDetail = function () {
 }
 rdTab.Fields.RemittanceDetailFullFields = function () {
     return [
-        // {
-        //     name: "remittance.code", title: "<spring:message code='remittance.code'/>"
-        //     , recordDoubleClick: function (viewer, record, recordNum, field, fieldNum, value, rawValue) {
-        //         rdTab.Methods.RecordDoubleClick('api/remittance', rdTab.Fields.Remittance, "remittance",
-        //             viewer, record, recordNum, field, fieldNum, value, rawValue)
-        //     }
-        // },
-        // {
-        //     name: "remittance.description",
-        //     title: "<spring:message code='shipment.description'/> بیجک",
-        //     recordDoubleClick() {
-        //         rdTab.Methods.RecordDoubleClick("api/remittance", rdTab.Fields.Remittance, 'remittance', ...arguments)
-        //     }
-        //
-        // },
+        {name:"sourceTozin.driverName",title:"<spring:message code='Tozin.driver'/>"},
         {
             name: "inventory.label",
             title: "<spring:message code='warehouseCadItem.inventory.Serial'/>",
@@ -1336,51 +1331,80 @@ rdTab.Fields.RemittanceDetailFullFields = function () {
             }
         },
         {
+            name: "tozin.date",
+            title: "<spring:message code='global.date'/> <spring:message code='tozin.title'/>",
+            // hidden: true,
+            recordDoubleClick: rdTab.Methods.RecordDoubleClickRD,
+
+
+        },
+        {
+            name: "remittance.code", title: "<spring:message code='remittance.code'/>"
+            , recordDoubleClick: function (viewer, record, recordNum, field, fieldNum, value, rawValue) {
+                rdTab.Methods.RecordDoubleClick('api/remittance', rdTab.Fields.Remittance, "remittance",
+                    viewer, record, recordNum, field, fieldNum, value, rawValue)
+            }
+        },
+        {
+            name: "remittance.description",
+            title: "<spring:message code='shipment.description'/> بیجک",
+            recordDoubleClick() {
+                rdTab.Methods.RecordDoubleClick("api/remittance", rdTab.Fields.Remittance, 'remittance', ...arguments)
+            }
+
+        },
+        {
             name: "inventory.materialItem.id",
             filterEditorProperties: {
                 editorType: "ComboBoxItem",
+                textMatchStyle:"substring",
+                addUnknownValues:false,
+                textMatchStyle:"substring",
+                addUnknownValues:false,
             },
             valueMap: SalesBaseParameters.getSavedMaterialItemParameter().getValueMap("id", "gdsName"),
             type: "number",
             title: "<spring:message code='goods.title'/>",
-            hidden: true,
+            hidden: false,
             recordDoubleClick: function (viewer, record, recordNum, field, fieldNum, value, rawValue) {
                 rdTab.Methods.RecordDoubleClick('api/inventory', rdTab.Fields.Inventory(), "inventory",
                     viewer, record, recordNum, field, fieldNum, value, rawValue)
             }
         },
         {
-            name: "destinationTozin.sourceId",
+            name: "tozin.sourceId",
+            type:"number",
             valueMap: SalesBaseParameters.getSavedWarehouseParameter().getValueMap("id", "name"),
             filterEditorProperties: {
                 editorType: "ComboBoxItem",
+                textMatchStyle:"substring",
+                addUnknownValues:false,
             },
             title: "<spring:message code='Tozin.source'/>",
-            recordDoubleClick: rdTab.Methods.RecordDoubleClickRD, hidden: true,
-
-
-        },
-        {
-            name: "destinationTozin.date",
-            title: "<spring:message code='global.date'/> <spring:message code='Tozin.target.tozin'/>",
-            hidden: true,
             recordDoubleClick: rdTab.Methods.RecordDoubleClickRD,
+            // hidden: true,
 
 
         },
         {
-            name: "destinationTozin.targetId",
+            name: "tozin.targetId",
+            type:"number",
             editorType: "ComboBoxItem",
+                textMatchStyle:"substring",
+                addUnknownValues:false,
             valueMap: SalesBaseParameters.getSavedWarehouseParameter().getValueMap("id", "name"),
             filterEditorProperties: {
                 editorType: "ComboBoxItem",
+                textMatchStyle:"substring",
+                addUnknownValues:false,
             },
             title: "<spring:message code='shipment.Bol.tblPortByDischarge'/>",
-            hidden: true,
+            // hidden: true,
             recordDoubleClick: rdTab.Methods.RecordDoubleClickRD,
 
 
         },
+        {name:"tozin.plak",title:"<spring:message code='Tozin.plak.container'/>"},
         {
             name: "depot.name", showHover: true, title: "<spring:message code='warehouseCad.depot'/>", formatCellValue(value, record) {
                 //  console.log('name: "depot.id", hidden: true, disabled: true,title:"<spring:message code='warehouseCad.depot'/>",formatCellValue()', arguments);
@@ -1388,9 +1412,33 @@ rdTab.Fields.RemittanceDetailFullFields = function () {
                 const title = record.depot.store.warehouse.name + " - " + record.depot.store.name + " - " + record.depot.name;
                 return title;
             },
-            showHoverComponents: false,
-            hidden: true,
+            showHoverComponents: false,hidden:true,
             recordDoubleClick: rdTab.Methods.RecordDoubleClickRD
+        },
+        {
+            name: "sourceTozin.vazn",
+            showHover: true,
+            title: "<spring:message code='Tozin.vazn'/> <spring:message code='warehouseCad.tozinOther'/>",
+            recordDoubleClick: rdTab.Methods.RecordDoubleClickRD,
+        },
+        {
+            name: "destinationTozin.vazn",
+            showHover: true,
+
+            title: "<spring:message code='Tozin.vazn'/> <spring:message code='Tozin.dest.tozin'/>",
+            recordDoubleClick: rdTab.Methods.RecordDoubleClickRD,
+        },
+        {name:"tozinWeightDiff",type:"summary",title:"<spring:message code='Tozin.wazn.diff'/>",
+
+            recordSummaryFunction(_record, _grid, _value,) {
+                if(_record.destinationTozin)
+                    return _record.destinationTozin.vazn - _record.sourceTozin.vazn
+                return 0
+            },
+            // formatCellValue(value, record, rowNum, colNum, grid){
+            //     if (!value || isNaN(value) || Number(value)>0)return value;
+            //     return '<div style="color: red;  unicode-bidi: bidi-override;direction: ltr">'+value+'</div>'
+            // },
         },
         ...rdTab.Fields.RemittanceDetail(),
 
@@ -1826,6 +1874,8 @@ rdTab.Fields.RemittanceFull = function () {
             valueMap: SalesBaseParameters.getSavedMaterialItemParameter().getValueMap("id", "gdsName"),
             filterEditorProperties: {
                 editorType: "ComboBoxItem",
+                textMatchStyle:"substring",
+                addUnknownValues:false,
             },
             canSort: false,
             type: "number",
@@ -1835,6 +1885,8 @@ rdTab.Fields.RemittanceFull = function () {
             name: "tozinTable.sourceId",
             filterEditorProperties: {
                 editorType: "ComboBoxItem",
+                textMatchStyle:"substring",
+                addUnknownValues:false,
             },
             type: "number",
             sortNormalizer(recordObject, fieldName, context) {
@@ -1859,6 +1911,8 @@ rdTab.Fields.RemittanceFull = function () {
             ...rdTab.Fields.TozinBase().find(t => t.name === 'date'),
             // filterEditorProperties: {
             //     editorType: "ComboBoxItem",
+                textMatchStyle:"substring",
+                addUnknownValues:false,
             // },
             canSort: true,
             sortNormalizer(recordObject, fieldName, context) {
@@ -1877,6 +1931,8 @@ rdTab.Fields.RemittanceFull = function () {
             ...rdTab.Fields.TozinBase().find(t => t.name === 'date'),
             // filterEditorProperties: {
             //     editorType: "ComboBoxItem",
+                textMatchStyle:"substring",
+                addUnknownValues:false,
             // },
             canSort: false,
             name: "remittanceDetails.sourceTozin.date",
@@ -1894,6 +1950,8 @@ rdTab.Fields.RemittanceFull = function () {
         //     name: "tozinTable.targetId",
         //     filterEditorProperties: {
         //         editorType: "ComboBoxItem",
+        //         textMatchStyle:"substring",
+        //         addUnknownValues:false,
         //     },
         //     // canSort: false,
         //     valueMap: SalesBaseParameters.getSavedWarehouseParameter().getValueMap("id", "name"),
@@ -1939,6 +1997,8 @@ rdTab.Fields.Inventory = function () {
             name: 'materialItemId',
             filterEditorProperties: {
                 editorType: "ComboBoxItem",
+                textMatchStyle:"substring",
+                addUnknownValues:false,
             },
             valueMap: SalesBaseParameters.getSavedMaterialItemParameter().getValueMap("id", "gdsName"),
             title: '<spring:message code="goods.title"/>',
@@ -1988,11 +2048,11 @@ rdTab.Fields.Shipment = function () {
     ];
 }
 ////////////////////////////////////////////////////////DS//////////////////////////////////////////////////////////////
-rdTab.RestDataSources.RemittanceDetail = {
+rdTab.RestDataSources.RemittanceDetail = _=>{return {
     fetchDataURL: "api/remittance-detail/spec-list",
     updateDataURL: "api/remittance-detail/update",
     fields: rdTab.Fields.RemittanceDetailFullFields()
-};
+}};
 rdTab.RestDataSources.Remittance = {
     fetchDataURL: "api/remittance/spec-list?distinct=true&",
     fetchDataURL: "api/remittance/spec-list",
@@ -2032,7 +2092,7 @@ rdTab.Grids.Remittance = {
                 //             members: [
                 //                 isc.ToolStripButtonRefresh.create({
                 //                     click() {
-                //                         rdTab.Grids.RemittanceDetail.obj.invalidateCache()
+                //                         rdTab.Grids.RemittanceDetailObj.invalidateCache()
                 //                     }
                 //                 })
                 //             ]
@@ -2040,7 +2100,7 @@ rdTab.Grids.Remittance = {
                 //     ]
                 // }),
                 isc.ListGrid.create({
-                    ...rdTab.Grids.RemittanceDetail,
+                    ...Object.assign({},rdTab.Grids.RemittanceDetail()),
                     data: record['remittanceDetails']
                 })
             ]
@@ -2067,11 +2127,14 @@ rdTab.Grids.Remittance = {
     }
 
 }
-rdTab.Grids.RemittanceDetail = {
+rdTab.Grids.RemittanceDetail = _=>{return{
     fields: rdTab.Fields.RemittanceDetailFullFields(),
     showHoverComponents: true,
     getCellHoverComponent: function (record, rowNum, colNum) {
         // console.log('getCellHoverComponent', this, arguments)
+        const field = this.getField(colNum);
+        dbg(true,field)
+        if(!field.name.toString().startsWith("sourceTozin.vazn")&&!field.name.toString().startsWith("destinationTozin.vazn")) return;
         this.rowHoverComponent = isc.DetailViewer.create({
             //   <sec:authorize access="hasAuthority('U_REMITTANCE') and hasAuthority('U_REMITTANCE_DETAIL') and hasAuthority('U_INVENTORY') and hasAuthority('R_TOZIN')">
             dataSource: isc.MyRestDataSource.create({
@@ -2086,7 +2149,7 @@ rdTab.Grids.RemittanceDetail = {
             criteria: {
                 fieldName: "tozinId",
                 operator: "equals",
-                value: eval('record.' + this.getField(colNum).name)
+                value: eval('record.' + field.name.split(".").reverse().pop()+'.tozinId')
             }
         }, null, {showPrompt: false});
 
@@ -2094,10 +2157,12 @@ rdTab.Grids.RemittanceDetail = {
     },
     showFilterEditor: true,
     autoSaveEdits: false,
+    sortField:'id',
+    sortDirection: "descending",
     allowAdvancedCriteria: true,
     // groupByField: "remittance.code",
     autoFetchData: false,
-}
+}}
 ////////////////////////////////////////////////////////COMPONENT HOLDERS///////////////////////////////////////////////
 rdTab.DynamicForms.Forms.PDF = isc.DynamicForm.create({
     method: "POST",
@@ -2115,7 +2180,11 @@ rdTab.Layouts.ToolStripButtons.PDF = {
     icon: "[SKIN]/actions/pdf.png",
     title: "<spring:message code='global.form.export.pdf'/>",
     click: function () {
-        const criteria = JSON.stringify(rdTab.Grids.Remittance.obj.getCriteria());
+        const criteria1 =JSON.parse(JSON.stringify({...rdTab.Grids.RemittanceDetailObj.getCriteria()})) ;
+        if(criteria1 &&  criteria1.criteria &&criteria1.criteria.length>0) {
+            criteria1.criteria.forEach(c => c.fieldName = 'remittanceDetails.' + c.fieldName)
+        }
+        const criteria = JSON.stringify(criteria1);
         rdTab.DynamicForms.Forms.PDF.setValue("criteria", criteria);
         rdTab.DynamicForms.Forms.PDF.submitForm();
     }
@@ -2127,9 +2196,27 @@ rdTab.Layouts.ToolStripButtons.Delete = isc.ToolStripButtonRemove.create({
             title: "<spring:message code='global.warning'/>",
             message: "<spring:message code='remittance.del.sure'/>",
             buttons: [isc.Dialog.OK, isc.Dialog.CANCEL],
-            okClick() {
-                rdTab.Methods.Delete(rdTab.Grids.Remittance.obj,
-                    SalesConfigs.Urls.completeUrl + '/api/remittance/prune')
+            async    okClick() {
+                // rdTab.Methods.Delete(rdTab.Grids.Remittance.obj,
+                //     SalesConfigs.Urls.completeUrl + '/api/remittance/prune')
+                const toDelete = {};
+                toDelete['ids']=rdTab.Grids.RemittanceDetailObj.getSelectedRecords().map(_=>_.remittanceId)
+                const res = await fetch('api/remittance/prune',
+                    {headers:SalesConfigs.httpHeaders,
+                        body:JSON.stringify(toDelete),
+                    method:'delete'
+                    })
+                if(res.ok){
+                    rdTab.Grids.RemittanceDetailObj.invalidateCache()
+                    isc.say('<spring:message code="delete.successful"/>')
+                }
+                else {
+                    const json = await res.json();
+                    isc.warn(
+                        "<spring:message code='global.grid.record.remove.failed'/> \n " +
+                        "<spring:message code='exception.DataIntegrityViolation_FK'/>"
+                    )
+                }
                 this.close();
             }
         })
@@ -2140,15 +2227,23 @@ rdTab.Layouts.ToolStripButtons.New = isc.ToolStripButtonAdd.create({
     // visibility: "hidden",
     ID: "new_bijak" + Math.random().toString().substr(3, 5),
     title: '<spring:message code="global.form.new"/> <spring:message code="bijack"/> <spring:message code="dailyReport.output"/>',
-    click() {
+    async click() {
+        const remittanceDetailList = rdTab.Grids.RemittanceDetailObj.getSelectedRecords();
+        const remittanceIdList = remittanceDetailList.map(_=>_.remittanceId);
+        const remittanceList = [];
+        if (remittanceIdList && remittanceIdList.length>0) {
+            const remittanceListRes = await fetch('api/remittance/spec-list?operator=and&criteria=' + JSON.stringify(
+                {fieldName: "id", operator: 'inSet', value: remittanceIdList}
+            ), {headers: SalesConfigs.httpHeaders});
+            const remittanceListResponse = await remittanceListRes.json();
+            remittanceList.addList(remittanceListResponse.response.data)
+        }
+        dbg(true,remittanceList)
         const selectedData = [];
-        let materialItemId = rdTab.Grids.Remittance.obj
-            .getSelectedRecord() ? rdTab.Grids.Remittance.obj
-            .getSelectedRecord().remittanceDetails[0].inventory.materialItemId : null
+        let materialItemId = remittanceDetailList.length>0?remittanceDetailList[0].inventory.materialItemId : null
         let multipleMaterialItem = false;
         let hasOutRemittance = false;
-        rdTab.Grids.Remittance.obj
-            .getSelectedRecords()
+        remittanceList
             .forEach(r => {
                 if (r.remittanceDetails[0].inventory.materialItemId !== materialItemId) {
                     isc.warn('<spring:message code="remittance.selected.records.diff.product"/>');
@@ -2203,6 +2298,8 @@ rdTab.Layouts.ToolStripButtons.New = isc.ToolStripButtonAdd.create({
                         }
                     },
                     editorType: "ComboBoxItem",
+                textMatchStyle:"substring",
+                addUnknownValues:false,
                     valueMap: rdTab.Fields.Inventory().find(i => i.name === "materialItemId").valueMap,
                 },
                 ...rdTab.Fields.Remittance().filter(_ => _.name.toLowerCase() !== 'date').map(_ => {
@@ -2281,28 +2378,29 @@ rdTab.Layouts.ToolStripButtons.New = isc.ToolStripButtonAdd.create({
                             ]
                         }),
                         selectRd = isc.ListGrid.create({
-                            ...rdTab.Grids.RemittanceDetail,
-                            fields: [
-                                {name: "remittance.code", title: "<spring:message code='global.number'/> <spring:message code='bijack'/>"},
-                                {name: "remittance.description", title: "<spring:message code='remittance.description'/>"},
-                                {name:"destinationTozin.driverName",headerTitle:"<spring:message code='Tozin.driver'/>"},
-                                ...rdTab.Fields.RemittanceDetailFullFields().map(f => {
-                                    const showFields = {
-                                        "remittance.code": {},
-                                        "remittance.description": {},
-                                        "inventory.label": {},
-                                        "description": {},
-                                        "weight": {},
-                                        "ampunt": {},
-                                        "unitId": {},
-                                        "depotId": {},
-                                    };
-                                    // f.hidden = true;
-                                    // if (Object.keys(showFields).contains(f.name)) f.hidden = false;
-                                    f.recordDoubleClick = _ => {
-                                    };
-                                    return f
-                                }),],
+                            ...Object.assign({},rdTab.Grids.RemittanceDetail()),
+                            fields:rdTab.Grids.RemittanceDetail().fields.map(field=>{delete field.recordDoubleClick;return field}),
+                            // fields: [
+                            //     {name: "remittance.code", title: "<spring:message code='global.number'/> <spring:message code='bijack'/>"},
+                            //     {name: "remittance.description", title: "<spring:message code='remittance.description'/>"},
+                            //     {name:"destinationTozin.driverName",headerTitle:"<spring:message code='Tozin.driver'/>"},
+                            //     ...rdTab.Fields.RemittanceDetailFullFields().map(f => {
+                            //         const showFields = {
+                            //             "remittance.code": {},
+                            //             "remittance.description": {},
+                            //             "inventory.label": {},
+                            //             "description": {},
+                            //             "weight": {},
+                            //             "ampunt": {},
+                            //             "unitId": {},
+                            //             "depotId": {},
+                            //         };
+                            //         // f.hidden = true;
+                            //         // if (Object.keys(showFields).contains(f.name)) f.hidden = false;
+                            //         f.recordDoubleClick = _ => {
+                            //         };
+                            //         return f
+                            //     }),],
                             initialCriteria: {
                                 operator: "and",
                                 criteria: [
@@ -2333,7 +2431,7 @@ rdTab.Layouts.ToolStripButtons.New = isc.ToolStripButtonAdd.create({
                             autoFetchData: true,
                             allowAdvancedCriteria: true,
                             showFilterEditor: true,
-                            dataSource: isc.MyRestDataSource.create(Object.assign({}, rdTab.RestDataSources.RemittanceDetail)),
+                            dataSource:isc.MyRestDataSource.create(Object.assign({},rdTab.RestDataSources.RemittanceDetail())) ,
 
                         }),],
                 })
@@ -2584,7 +2682,7 @@ isc.VLayout.create({
                         isc.ToolStripButtonRefresh.create({
                             title:"<spring:message code='global.form.refresh'/>",
                             click() {
-                                rdTab.Grids.Remittance.obj.invalidateCache()
+                                rdTab.Grids.RemittanceDetailObj.invalidateCache()
                             }
                         }),
                         isc.ToolStripButtonRefresh.create(rdTab.Layouts.ToolStripButtons.PDF)
@@ -2592,10 +2690,10 @@ isc.VLayout.create({
                 })
             ]
         }),
-        rdTab.Grids.Remittance.obj = isc.ListGrid.create({
-            ...rdTab.Grids.RemittanceDetail,
+        rdTab.Grids.RemittanceDetailObj = isc.ListGrid.create({
+            ...Object.assign({},rdTab.Grids.RemittanceDetail()),
             autoFetchData:true,
-            dataSource: isc.MyRestDataSource.create(rdTab.RestDataSources.RemittanceDetail),
+            dataSource: isc.MyRestDataSource.create(rdTab.RestDataSources.RemittanceDetail()),
         })
     ]
 })
