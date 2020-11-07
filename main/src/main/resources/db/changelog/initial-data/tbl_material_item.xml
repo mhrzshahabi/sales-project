@@ -1362,4 +1362,17 @@
             </sql>
     </changeSet>
 
+    <changeSet author="saeb (generated)" id="1604739800728-231">
+        <addColumn tableName="TBL_MATERIAL_ITEM">
+            <column name="c_short_name" type="varchar2(255 CHAR)"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="saeb3-2-1-saeb-bikhialghose8ss7s68" author="saeb">
+        <sql>
+            update TBL_MATERIAL_ITEM set c_short_name='CNC0' where id = 8;
+            update TBL_MATERIAL_ITEM set c_short_name='CTD0' where id = 11;
+            update TBL_MATERIAL_ITEM set c_short_name='MOL0' where id = 97;
+        </sql>
+    </changeSet>
 </databaseChangeLog>

@@ -14,6 +14,8 @@ import java.util.Date;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class WarehouseDTO {
     private String name;
+    private String shortName;
+
 
     @Getter
     @Setter

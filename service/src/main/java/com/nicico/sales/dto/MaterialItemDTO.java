@@ -23,6 +23,8 @@ public class MaterialItemDTO {
     private String miDetailCode;
     private String gdsNameEn;
     private Boolean shouldShowInFilter;
+    private String shortName;
+
 
 
     @Getter

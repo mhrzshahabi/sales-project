@@ -1232,6 +1232,24 @@ function onWayProductCreateRemittance() {
 
 
     DynamicForm_warehouseCAD.getItem('depotId').setOptionDataSource(RestDataSource_WarehouseYard_IN_WAREHOUSECAD_ONWAYPRODUCT)
+    const __material = SalesBaseParameters.getSavedMaterialItemParameter().find(materialItem=>materialItem.id === selectedSourceTozins[0].codeKala);
+    const __source = SalesBaseParameters.getSavedWarehouseParameter().find(warehouse=>warehouse.id===selectedSourceTozins[0].sourceId);
+    let remittanceCode = "i-" + __material.shortName?__material.shortName:__material.id.toString();
+    remittanceCode+=__source.shortName?__source.shortName:__source.id.toString();
+    remittanceCode+=selectedSourceTozins[0].isRail?"RAIL":"ROAD";
+    remittanceCode+=  new Date().toLocaleString('fa',{numberingSystem:'latn',month:"2-digit",day:'2-digit',year:'numeric'})
+            .replaceAll("/","");
+    fetch('api/remittance/spec-list?_startRow=0&_endRow=1&_sortBy=-id',{headers:SalesConfigs.httpHeaders})
+        .then(res=>{
+            res.json().then(
+                _json=>{
+                    remittanceCode+=(++_json.response.data.pop().id).toString();
+                    DynamicForm_warehouseCAD.setValue('code',remittanceCode
+                    )
+                }
+            )
+        })
+
     DynamicForm_warehouseCAD.setValue('code','i-'+selectedSourceTozins[0].codeKala
         + '-'
         + selectedSourceTozins.length

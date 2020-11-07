@@ -31,9 +31,11 @@ public class TozinLite {
     private Long vazn;
     @Column(name = "HAVCODE")
     private String havalehCode;
-    @Column(name = "DAT")
+    //    @Column(name = "DAT")
+    @Formula(value = "REPLACE(nvl(sal_date2,dat),'/','') ")
     private Long date;
-    @Column(name = "DAT",insertable = false,updatable = false)
+    //    @Column(name = "DAT")
+    @Formula(value = "REPLACE(nvl(sal_date2,dat),'/','') ")
     private String dateStr;
     @Column(name = "GDSCODE")
     private Long codeKala;

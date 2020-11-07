@@ -30,6 +30,8 @@ public class Warehouse extends BaseEntity {
     @NotNull
     @Column(name = "C_NAME", nullable = false)
     private String name;
+    @Column(name = "c_short_name")
+    private String shortName;
 
     @Column(name = "C_DESCRIPTION", length = 1500)
     private String description;

@@ -36,6 +36,10 @@ public class MaterialItem extends BaseEntity {
     @Column(name = "GDSNAME")
     private String gdsName;
 
+
+     @Column(name = "c_short_name")
+    private String shortName;
+
     @Column(name = "C_GDSNAME_EN")
     private String gdsNameEn;
 

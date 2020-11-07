@@ -1012,6 +1012,13 @@
                         createTab("<spring:message code='bijack'/>", "<spring:url value="/remittance-detail/showForm" />")
                     }
                 },
+                {
+                    title: "<spring:message code='entity.remittance-detail'/>",
+                    click: function () {
+                        createTab("<spring:message code='entity.remittance-detail'/>", "<spring:url value="/remittance-detail/show-pkg-form" />")
+                    }
+                },
+
                 {isSeparator: true},
                 </sec:authorize>
             ]
