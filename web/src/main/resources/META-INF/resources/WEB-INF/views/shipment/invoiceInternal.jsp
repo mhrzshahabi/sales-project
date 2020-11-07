@@ -158,11 +158,21 @@
         autoDraw: false,
         canEdit: true,
         autoFetchData: false,
-        // colWidths: [100, "*"],
         numCols: 4,
         margin: 5,
         fields: [
-            {name: "remittanceId",type: "staticText", title: "<spring:message code='invoice.havalehId'/>", width: "150"},
+            <%--{--%>
+                <%--name: "invoiceInfo",--%>
+                <%--type: "staticText",--%>
+                <%--colSpan: 2,--%>
+                <%--title: "<spring:message code='invoice.invoiceInfo'/>"--%>
+            <%--},--%>
+            {
+                name: "remittanceId",
+                type: "staticText",
+                title: "<spring:message code='invoice.havalehId'/>",
+                width: "150"
+            },
             {
                 name: "customerName",
                 title: "<spring:message code='invoice.customerName'/>",
@@ -170,14 +180,19 @@
                 type: "staticText"
             },
             {
-                name: "invoiceSerial",type: "staticText",
+                name: "invoiceSerial", type: "staticText",
                 title: "<spring:message code='invoice.shomarehSoratHesab'/>",
                 width: "150",
                 canEdit: false
             },
             {name: "productName", title: "<spring:message code='invoice.gdsName'/>", width: "150", type: "staticText"},
-            {name: "unitPrice", title: "<spring:message code='invoice.ghematUnit'/>", width: "150",type: "staticText"},
-            {name: "totalAmount", title: "<spring:message code='invoice.mablaghKol'/>", width: "150",type: "staticText"},
+            {name: "unitPrice", title: "<spring:message code='invoice.ghematUnit'/>", width: "150", type: "staticText"},
+            {
+                name: "totalAmount",
+                title: "<spring:message code='invoice.mablaghKol'/>",
+                width: "150",
+                type: "staticText"
+            },
             {
                 name: "totalDeductions",
                 title: "<spring:message code='invoice.totalKosorat'/>",
@@ -189,32 +204,36 @@
                 title: "<spring:message code='provisionalInvoice.refDate'/>",
                 width: "150",
                 wrapTitle: false,
-                length: 10,type: "staticText"
+                length: 10, type: "staticText"
             },
             {
-                name: "salesType",type: "staticText",
+                name: "salesType", type: "staticText",
                 valueMap: {"2": "اعتباری", "1": "نقدی"},
                 title: "<spring:message code='invoice.typeForosh'/>", width: "150"
             },
-            { name: "realWeight", title: "<spring:message code='invoice.weightReal'/>", type: "staticText",width: "150"},
-            {name: "bankGroupDesc", title: "<spring:message code='invoice.bankGroupDesc'/>",type: "staticText", width: "150"},
-
-            {type: "SpacerItem", width: "100%", height: "50", colSpan: 4},
             {
-                name: "documentDate",
-                title: "<spring:message code='document.header.date'/>",
-                width: "150",
-                icons: [persianDatePicker],
-                wrapTitle: false,
-                type: "persianDate",
-                length: 10,
-                keyPressFilter: "[0-9/]",
-                showErrorText: true,
-                showErrorStyle: true,
-                errorOrientation: "bottom"
+                name: "realWeight",
+                title: "<spring:message code='invoice.weightReal'/>",
+                type: "staticText",
+                width: "150"
             },
             {
-                name: "department.id", title: "<spring:message code='department.name'/>", required: true,
+                name: "bankGroupDesc",
+                title: "<spring:message code='invoice.bankGroupDesc'/>",
+                type: "staticText",
+                width: "150"
+            },
+
+            {type: "SpacerItem", width: "100%", height: "50", colSpan: 4},
+            <%--{--%>
+                <%--name: "documentInfo",--%>
+                <%--type: "staticText",--%>
+                <%--colSpan: 2,--%>
+                <%--title: "<spring:message code='invoice.documentInfo'/>"--%>
+            <%--},--%>
+            {
+                name: "department.id", title: "<spring:message code='department.name'/>",
+                required: true,
                 editorType: "select",
                 wrapTitle: false,
                 optionDataSource: departmentDS,
@@ -238,6 +257,19 @@
                 }]
             },
             {
+                name: "documentDate",
+                title: "<spring:message code='document.header.date'/>",
+                width: "150",
+                icons: [persianDatePicker],
+                wrapTitle: false,
+                type: "persianDate",
+                length: 10,
+                keyPressFilter: "[0-9/]",
+                showErrorText: true,
+                showErrorStyle: true,
+                errorOrientation: "bottom"
+            },
+            {
                 name: "documentTitle",
                 title: "<spring:message code='document.header.desc'/>",
                 type: "textArea",
@@ -247,12 +279,13 @@
             }
         ]
     });
+
     var IButton_Document_Save = isc.IButtonSave.create({
         top: 260,
         title: "<spring:message code='global.form.save'/>",
         click: function () {
             documentMainInfoForm.validate();
-             if (documentMainInfoForm.hasErrors()) {
+            if (documentMainInfoForm.hasErrors()) {
                 return;
             }
             let grid = invoiceInternalTabs.getTab(invoiceInternalTabs.selectedTab).pane.members.get(1);
@@ -287,27 +320,27 @@
                     if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
                         let data = JSON.stringify(RpcResponse_o.data).split("@");
                         record.documentId = data[1].replace("\"", "");
-isc.say(data[0]);
-newDocumentWindow.close();
-grid.getCellCSSText(record);
-grid.refreshRow(grid.getRowNum(record));
-} else {
+                        isc.say(data[0]);
+                        newDocumentWindow.close();
+                        grid.getCellCSSText(record);
+                        grid.refreshRow(grid.getRowNum(record));
+                    } else {
 
-newDocumentWindow.close();
-record.documentId = -1;
-grid.getCellCSSText(record);
-grid.refreshRow(grid.getRowNum(record));
-isc.RPCManager.handleError(RpcResponse_o, null);
-}
+                        newDocumentWindow.close();
+                        record.documentId = -1;
+                        grid.getCellCSSText(record);
+                        grid.refreshRow(grid.getRowNum(record));
+                        isc.RPCManager.handleError(RpcResponse_o, null);
+                    }
 
-}
+                }
 
-}));
-}
-});
-var IButton_Windows_Close = isc.IButtonCancel.create({
-top: 260,
-title: "<spring:message code='global.close'/>",
+            }));
+        }
+    });
+    var IButton_Windows_Close = isc.IButtonCancel.create({
+        top: 260,
+        title: "<spring:message code='global.close'/>",
         click: function () {
             newDocumentWindow.close();
         }
@@ -349,17 +382,17 @@ title: "<spring:message code='global.close'/>",
         var record = grid.getSelectedRecord();
         if (record == null) {
             isc.say("<spring:message code='global.grid.record.not.selected'/>");
-} else if (record.documentId == null || record.documentId === -1 || record.documentId === -2) {
-documentMainInfoForm.setValue("remittanceId", record.remittanceId);
-documentMainInfoForm.setValue("customerName", record.customerName);
-documentMainInfoForm.setValue("invoiceSerial", record.invoiceSerial);
-documentMainInfoForm.setValue("productName", record.productName);
-documentMainInfoForm.setValue("unitPrice", record.unitPrice);
-documentMainInfoForm.setValue("totalAmount", record.totalAmount);
-documentMainInfoForm.setValue("totalDeductions", record.totalDeductions);
-documentMainInfoForm.setValue("salesType", record.salesType);
-documentMainInfoForm.setValue("realWeight", record.realWeight);
-documentMainInfoForm.setValue("bankGroupDesc", record.bankGroupDesc);
+        } else if (record.documentId == null || record.documentId === -1 || record.documentId === -2) {
+            documentMainInfoForm.setValue("remittanceId", record.remittanceId);
+            documentMainInfoForm.setValue("customerName", record.customerName);
+            documentMainInfoForm.setValue("invoiceSerial", record.invoiceSerial);
+            documentMainInfoForm.setValue("productName", record.productName);
+            documentMainInfoForm.setValue("unitPrice", record.unitPrice);
+            documentMainInfoForm.setValue("totalAmount", record.totalAmount);
+            documentMainInfoForm.setValue("totalDeductions", record.totalDeductions);
+            documentMainInfoForm.setValue("salesType", record.salesType);
+            documentMainInfoForm.setValue("realWeight", record.realWeight);
+            documentMainInfoForm.setValue("bankGroupDesc", record.bankGroupDesc);
             documentMainInfoForm.setValue("invoiceDate", record.invoiceDate);
 
             newDocumentWindow.show();
@@ -367,15 +400,15 @@ documentMainInfoForm.setValue("bankGroupDesc", record.bankGroupDesc);
     }
 
     function changeStatusAccountingDoc() {
-         let criteria ={};
-         Object.assign(criteria,ListGrid_InvoiceInternal_Deleted.defaultCriteria);
-         criteria.criteria = criteria.criteria.concat(ListGrid_InvoiceInternal_Sent.implicitCriteria.criteria);
+        let criteria = {};
+        Object.assign(criteria, ListGrid_InvoiceInternal_Deleted.defaultCriteria);
+        criteria.criteria = criteria.criteria.concat(ListGrid_InvoiceInternal_Sent.implicitCriteria.criteria);
 
         isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
             actionURL: "${contextPath}/api/invoiceInternal/update-deleted-document",
             httpMethod: "GET",
-            params:{
-                criteria:criteria
+            params: {
+                criteria: criteria
             },
             useSimpleHttp: true,
             contentType: "application/json; charset=utf-8",
@@ -426,18 +459,18 @@ documentMainInfoForm.setValue("bankGroupDesc", record.bankGroupDesc);
         }
     });
     </sec:authorize>
-    <sec:authorize access="hasAuthority('P_INVOICE_INTERNAL')">
-    var ToolStripButton_InvoiceInternal_html = isc.ToolStripButtonPrint.create({
-        title: "<spring:message code='global.form.print.html'/>",
-        icon: "icon/html.jpg",
-        click: function () {
-            ToolStripButton_InvoiceInternal_Html_F();
-        }
-    });
-    </sec:authorize>
+    <%--<sec:authorize access="hasAuthority('P_INVOICE_INTERNAL')">--%>
+    <%--var ToolStripButton_InvoiceInternal_html = isc.ToolStripButtonPrint.create({--%>
+        <%--title: "<spring:message code='global.form.print.html'/>",--%>
+        <%--icon: "icon/html.jpg",--%>
+        <%--click: function () {--%>
+            <%--ToolStripButton_InvoiceInternal_Html_F();--%>
+        <%--}--%>
+    <%--});--%>
+    <%--</sec:authorize>--%>
     <sec:authorize access="hasAuthority('P_INVOICE_INTERNAL')">
     var ToolStripButton_InvoiceInternal_Pdf = isc.ToolStripButtonPrint.create({
-        title: "<spring:message code='global.form.print.pdf'/>",
+        title: "<spring:message code='InternalInvoices.invoice-print'/>",
         icon: "icon/pdf.png",
         click: function () {
             ToolStripButton_InvoiceInternal_Pdf_F();
@@ -796,18 +829,18 @@ documentMainInfoForm.setValue("bankGroupDesc", record.bankGroupDesc);
             }
         }]
     });
-    <sec:authorize access="hasAuthority('P_INVOICE_INTERNAL')">
-    var ToolStripButton_InvoiceInternal_Sent_html = isc.ToolStripButtonPrint.create({
-        title: "<spring:message code='global.form.print.html'/>",
-        icon: "icon/html.jpg",
-        click: function () {
-            ToolStripButton_InvoiceInternal_Html_F();
-        }
-    });
-    </sec:authorize>
+    <%--<sec:authorize access="hasAuthority('P_INVOICE_INTERNAL')">--%>
+    <%--var ToolStripButton_InvoiceInternal_Sent_html = isc.ToolStripButtonPrint.create({--%>
+        <%--title: "<spring:message code='global.form.print.html'/>",--%>
+        <%--icon: "icon/html.jpg",--%>
+        <%--click: function () {--%>
+            <%--ToolStripButton_InvoiceInternal_Html_F();--%>
+        <%--}--%>
+    <%--});--%>
+    <%--</sec:authorize>--%>
     <sec:authorize access="hasAuthority('P_INVOICE_INTERNAL')">
     var ToolStripButton_InvoiceInternal_Sent_Pdf = isc.ToolStripButtonPrint.create({
-        title: "<spring:message code='global.form.print.pdf'/>",
+        title: "<spring:message code='InternalInvoices.invoice-print'/>",
         icon: "icon/pdf.png",
         click: function () {
             ToolStripButton_InvoiceInternal_Pdf_F();
@@ -840,18 +873,18 @@ documentMainInfoForm.setValue("bankGroupDesc", record.bankGroupDesc);
         }
     });
     </sec:authorize>
-    <sec:authorize access="hasAuthority('P_INVOICE_INTERNAL')">
-    var ToolStripButton_InvoiceInternal_Deleted_html = isc.ToolStripButtonPrint.create({
-        title: "<spring:message code='global.form.print.html'/>",
-        icon: "icon/html.jpg",
-        click: function () {
-            ToolStripButton_InvoiceInternal_Html_F();
-        }
-    });
-    </sec:authorize>
+    <%--<sec:authorize access="hasAuthority('P_INVOICE_INTERNAL')">--%>
+    <%--var ToolStripButton_InvoiceInternal_Deleted_html = isc.ToolStripButtonPrint.create({--%>
+        <%--title: "<spring:message code='global.form.print.html'/>",--%>
+        <%--icon: "icon/html.jpg",--%>
+        <%--click: function () {--%>
+            <%--ToolStripButton_InvoiceInternal_Html_F();--%>
+        <%--}--%>
+    <%--});--%>
+    <%--</sec:authorize>--%>
     <sec:authorize access="hasAuthority('P_INVOICE_INTERNAL')">
     var ToolStripButton_InvoiceInternal_Deleted_Pdf = isc.ToolStripButtonPrint.create({
-        title: "<spring:message code='global.form.print.pdf'/>",
+        title: "<spring:message code='InternalInvoices.invoice-print'/>",
         icon: "icon/pdf.png",
         click: function () {
             ToolStripButton_InvoiceInternal_Pdf_F();
@@ -877,7 +910,7 @@ documentMainInfoForm.setValue("bankGroupDesc", record.bankGroupDesc);
             },
             <sec:authorize access="hasAuthority('P_INVOICE_INTERNAL')">
             {
-                title: "<spring:message code='global.form.print.pdf'/>",
+                title: "<spring:message code='InternalInvoices.invoice-print'/>",
                 icon: "icon/pdf.png",
                 click: function () {
                     ToolStripButton_InvoiceInternal_Pdf_F();
@@ -885,15 +918,15 @@ documentMainInfoForm.setValue("bankGroupDesc", record.bankGroupDesc);
 
             },
             </sec:authorize>
-            <sec:authorize access="hasAuthority('P_INVOICE_INTERNAL')">
-            {
-                title: "<spring:message code='global.form.print.html'/>",
-                icon: "icon/html.jpg",
-                click: function () {
-                    ToolStripButton_InvoiceInternal_Html_F();
-                }
-            },
-            </sec:authorize>
+            <%--<sec:authorize access="hasAuthority('P_INVOICE_INTERNAL')">--%>
+            <%--{--%>
+                <%--title: "<spring:message code='global.form.print.html'/>",--%>
+                <%--icon: "icon/html.jpg",--%>
+                <%--click: function () {--%>
+                    <%--ToolStripButton_InvoiceInternal_Html_F();--%>
+                <%--}--%>
+            <%--},--%>
+            <%--</sec:authorize>--%>
             <sec:authorize access="hasAuthority('E_SEND_INVOICE_INTERNAL_TO_ACC')">
             {
                 title: "<spring:message code='accounting.document.create'/>",
@@ -917,7 +950,7 @@ documentMainInfoForm.setValue("bankGroupDesc", record.bankGroupDesc);
             },
             <sec:authorize access="hasAuthority('P_INVOICE_INTERNAL')">
             {
-                title: "<spring:message code='global.form.print.pdf'/>",
+                title: "<spring:message code='InternalInvoices.invoice-print'/>",
                 icon: "icon/pdf.png",
                 click: function () {
                     ToolStripButton_InvoiceInternal_Pdf_F();
@@ -925,15 +958,15 @@ documentMainInfoForm.setValue("bankGroupDesc", record.bankGroupDesc);
 
             },
             </sec:authorize>
-            <sec:authorize access="hasAuthority('P_INVOICE_INTERNAL')">
-            {
-                title: "<spring:message code='global.form.print.html'/>",
-                icon: "icon/html.jpg",
-                click: function () {
-                    ToolStripButton_InvoiceInternal_Html_F();
-                }
-            },
-            </sec:authorize>
+            <%--<sec:authorize access="hasAuthority('P_INVOICE_INTERNAL')">--%>
+            <%--{--%>
+                <%--title: "<spring:message code='global.form.print.html'/>",--%>
+                <%--icon: "icon/html.jpg",--%>
+                <%--click: function () {--%>
+                    <%--ToolStripButton_InvoiceInternal_Html_F();--%>
+                <%--}--%>
+            <%--},--%>
+            <%--</sec:authorize>--%>
         ]
     });
     var Menu_ListGrid_InvoiceInternal_Deleted = isc.Menu.create({
@@ -948,7 +981,7 @@ documentMainInfoForm.setValue("bankGroupDesc", record.bankGroupDesc);
             },
             <sec:authorize access="hasAuthority('P_INVOICE_INTERNAL')">
             {
-                title: "<spring:message code='global.form.print.pdf'/>",
+                title: "<spring:message code='InternalInvoices.invoice-print'/>",
                 icon: "icon/pdf.png",
                 click: function () {
                     ToolStripButton_InvoiceInternal_Pdf_F();
@@ -956,15 +989,15 @@ documentMainInfoForm.setValue("bankGroupDesc", record.bankGroupDesc);
 
             },
             </sec:authorize>
-            <sec:authorize access="hasAuthority('P_INVOICE_INTERNAL')">
-            {
-                title: "<spring:message code='global.form.print.html'/>",
-                icon: "icon/html.jpg",
-                click: function () {
-                    ToolStripButton_InvoiceInternal_Html_F();
-                }
-            },
-            </sec:authorize>
+            <%--<sec:authorize access="hasAuthority('P_INVOICE_INTERNAL')">--%>
+            <%--{--%>
+                <%--title: "<spring:message code='global.form.print.html'/>",--%>
+                <%--icon: "icon/html.jpg",--%>
+                <%--click: function () {--%>
+                    <%--ToolStripButton_InvoiceInternal_Html_F();--%>
+                <%--}--%>
+            <%--},--%>
+            <%--</sec:authorize>--%>
             <sec:authorize access="hasAuthority('E_SEND_INVOICE_INTERNAL_TO_ACC')">
             {
                 title: "<spring:message code='accounting.document.create'/>",
@@ -974,7 +1007,7 @@ documentMainInfoForm.setValue("bankGroupDesc", record.bankGroupDesc);
                 }
             },
             </sec:authorize>
-             <sec:authorize access="hasAuthority('E_UPDATE_INVOICE_INTERNAL_DOC_ID')">
+            <sec:authorize access="hasAuthority('E_UPDATE_INVOICE_INTERNAL_DOC_ID')">
             {
                 title: "<spring:message code='accounting.document.change.status'/>",
                 icon: "icon/accountingDoc.png",
@@ -992,15 +1025,15 @@ documentMainInfoForm.setValue("bankGroupDesc", record.bankGroupDesc);
         members:
             [
 
-                <sec:authorize access="hasAuthority('P_INVOICE_INTERNAL')">
-                ToolStripButton_InvoiceInternal_Pdf,
-                </sec:authorize>
-                <sec:authorize access="hasAuthority('P_INVOICE_INTERNAL')">
-                ToolStripButton_InvoiceInternal_html,
-                </sec:authorize>
                 <sec:authorize access="hasAuthority('E_SEND_INVOICE_INTERNAL_TO_ACC')">
                 ToolStripButton_AccountingDoc,
                 </sec:authorize>
+                <sec:authorize access="hasAuthority('P_INVOICE_INTERNAL')">
+                ToolStripButton_InvoiceInternal_Pdf,
+                </sec:authorize>
+                <%--<sec:authorize access="hasAuthority('P_INVOICE_INTERNAL')">--%>
+                <%--ToolStripButton_InvoiceInternal_html,--%>
+                <%--</sec:authorize>--%>
                 InvoiceInternal_RadioGroup,
                 isc.ToolStrip.create({
                     width: "100%",
@@ -1022,9 +1055,9 @@ documentMainInfoForm.setValue("bankGroupDesc", record.bankGroupDesc);
                 <sec:authorize access="hasAuthority('P_INVOICE_INTERNAL')">
                 ToolStripButton_InvoiceInternal_Sent_Pdf,
                 </sec:authorize>
-                <sec:authorize access="hasAuthority('P_INVOICE_INTERNAL')">
-                ToolStripButton_InvoiceInternal_Sent_html,
-                </sec:authorize>
+                <%--<sec:authorize access="hasAuthority('P_INVOICE_INTERNAL')">--%>
+                <%--ToolStripButton_InvoiceInternal_Sent_html,--%>
+                <%--</sec:authorize>--%>
                 InvoiceInternal_RadioGroup_Sent,
                 isc.ToolStrip.create({
                     width: "100%",
@@ -1043,15 +1076,15 @@ documentMainInfoForm.setValue("bankGroupDesc", record.bankGroupDesc);
         members:
             [
 
-                <sec:authorize access="hasAuthority('P_INVOICE_INTERNAL')">
-                ToolStripButton_InvoiceInternal_Deleted_Pdf,
-                </sec:authorize>
-                <sec:authorize access="hasAuthority('P_INVOICE_INTERNAL')">
-                ToolStripButton_InvoiceInternal_Deleted_html,
-                </sec:authorize>
                 <sec:authorize access="hasAuthority('E_SEND_INVOICE_INTERNAL_TO_ACC')">
                 ToolStripButton_AccountingDoc_Deleted,
                 </sec:authorize>
+                <sec:authorize access="hasAuthority('P_INVOICE_INTERNAL')">
+                ToolStripButton_InvoiceInternal_Deleted_Pdf,
+                </sec:authorize>
+                <%--<sec:authorize access="hasAuthority('P_INVOICE_INTERNAL')">--%>
+                <%--ToolStripButton_InvoiceInternal_Deleted_html,--%>
+                <%--</sec:authorize>--%>
                 <sec:authorize access="hasAuthority('E_UPDATE_INVOICE_INTERNAL_DOC_ID')">
                 ToolStripButton_Change_Status,
                 </sec:authorize>
@@ -1088,9 +1121,9 @@ documentMainInfoForm.setValue("bankGroupDesc", record.bankGroupDesc);
             ]
         },
         recordDoubleClick(record) {
-        <sec:authorize access="hasAuthority('E_SEND_INVOICE_INTERNAL_TO_ACC')">
-          createAccountingDoc();
-        </sec:authorize>
+            <sec:authorize access="hasAuthority('E_SEND_INVOICE_INTERNAL_TO_ACC')">
+            createAccountingDoc();
+            </sec:authorize>
         },
         filterData: function (criteria, callback, requestProperties) {
             if (!criteria)
@@ -1137,30 +1170,30 @@ documentMainInfoForm.setValue("bankGroupDesc", record.bankGroupDesc);
                 {type: 'float', name: "totalDeductions", title: "<spring:message code='invoice.totalKosorat'/>"},
                 {name: "bankGroupDesc", title: "<spring:message code='invoice.bankGroupDesc'/>"},
                 {name: "documentId", title: "<spring:message code='invoice.documentId'/>", canFilter: false},
-],
-autoFetchData: false,
-allowFilterOperators: true,
-filterOnKeypress: false
-});
-ListGrid_InvoiceInternal.getCellCSSText = function (record) {
-if ( record.documentId > 0)
-return "font-weight:bold; color:green;";
-else if (record.documentId === -1)
-return "font-weight:bold; color:red;";
-else if (record.salesType === 2)
-return "font-weight:bold; color:#287fd6;";
-}
-var ListGrid_InvoiceInternal_Sent = isc.ListGrid.create({
-showFilterEditor: true,
-width: "100%",
-height: "100%",
-dataSource: RestDataSource_InvoiceInternal_Sent,
-contextMenu: Menu_ListGrid_InvoiceInternal_Sent,
+            ],
+        autoFetchData: false,
+        allowFilterOperators: true,
+        filterOnKeypress: false
+    });
+    ListGrid_InvoiceInternal.getCellCSSText = function (record) {
+        if (record.documentId > 0)
+            return "font-weight:bold; color:green;";
+        else if (record.documentId === -1)
+            return "font-weight:bold; color:red;";
+        else if (record.salesType === 2)
+            return "font-weight:bold; color:#287fd6;";
+    }
+    var ListGrid_InvoiceInternal_Sent = isc.ListGrid.create({
+        showFilterEditor: true,
+        width: "100%",
+        height: "100%",
+        dataSource: RestDataSource_InvoiceInternal_Sent,
+        contextMenu: Menu_ListGrid_InvoiceInternal_Sent,
         implicitCriteria: {
             _constructor: "AdvancedCriteria",
             operator: 'and',
             criteria: [
-             {
+                {
                     fieldName: 'documentId',
                     operator: 'greaterThan',
                     value: '0'
@@ -1249,9 +1282,9 @@ contextMenu: Menu_ListGrid_InvoiceInternal_Sent,
             {property: "salesType", direction: "descending"},
         ],
         recordDoubleClick(record) {
-        <sec:authorize access="hasAuthority('E_SEND_INVOICE_INTERNAL_TO_ACC')">
+            <sec:authorize access="hasAuthority('E_SEND_INVOICE_INTERNAL_TO_ACC')">
             createAccountingDoc();
-        </sec:authorize>
+            </sec:authorize>
         },
         getCellCSSText: {},
         filterData: function (criteria, callback, requestProperties) {
@@ -1297,23 +1330,23 @@ contextMenu: Menu_ListGrid_InvoiceInternal_Sent,
                 {type: 'float', name: "totalDeductions", title: "<spring:message code='invoice.totalKosorat'/>"},
                 {name: "bankGroupDesc", title: "<spring:message code='invoice.bankGroupDesc'/>"},
                 {name: "documentId", title: "<spring:message code='invoice.documentId'/>", canFilter: false},
-],
-allowFilterOperators: true
-});
-ListGrid_InvoiceInternal_Deleted.getCellCSSText = function (record) {
-if (record.documentId >0)
-return "font-weight:bold; color:green;";
-else if (record.documentId === -1)
-return "font-weight:bold; color:red;";
-else if (record.salesType === 2)
-return "font-weight:bold; color:#287fd6;";
-}
-var VLayout_ListGrid_InvoiceInternal = isc.VLayout.create({
-width: "100%",
-height: "100%",
-members: [
-ToolStrip_Actions_InvoiceInternal, ListGrid_InvoiceInternal
-]
+            ],
+        allowFilterOperators: true
+    });
+    ListGrid_InvoiceInternal_Deleted.getCellCSSText = function (record) {
+        if (record.documentId > 0)
+            return "font-weight:bold; color:green;";
+        else if (record.documentId === -1)
+            return "font-weight:bold; color:red;";
+        else if (record.salesType === 2)
+            return "font-weight:bold; color:#287fd6;";
+    }
+    var VLayout_ListGrid_InvoiceInternal = isc.VLayout.create({
+        width: "100%",
+        height: "100%",
+        members: [
+            ToolStrip_Actions_InvoiceInternal, ListGrid_InvoiceInternal
+        ]
     });
     var VLayout_ListGrid_InvoiceInternal_Sent = isc.VLayout.create({
         width: "100%",
