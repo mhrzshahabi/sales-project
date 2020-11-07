@@ -30,6 +30,7 @@ const tozinLiteFields = _ => [
         title: "<spring:message code='Tozin.date'/>",
         align: "center",
         canFilter:false,
+        summaryFunction:"count",
         formatCellValue(value, record, rowNum, colNum, grid) {
             try {
                 const valStr = value.toString();
@@ -55,7 +56,7 @@ const tozinLiteFields = _ => [
         title: "<spring:message code='Tozin.driver'/>"
     },
     {
-        name: "codeKala",
+        name: "codeKala",showGridSummary:false,
         type: "number",
         filterEditorProperties: {editorType: "comboBox",textMatchStyle:"substring"},
         // valueMap: {11: '<spring:message code="Tozin.export.cathode"/>', 8: '<spring:message code="Tozin.copper.concentrate"/>', 97: '<spring:message code="invoice.molybdenum"/>'},
@@ -78,12 +79,12 @@ const tozinLiteFields = _ => [
         width: "10%"
     },
     {
-        name: "containerNo1",
+        name: "containerNo1",hidden:true,
         title: "<spring:message code='Tozin.containerNo1'/>",
         align: "center"
     },
     {
-        name: "containerNo3",
+        name: "containerNo3",hidden:true,
         title: "<spring:message code='Tozin.containerNo3'/> - <spring:message code='shipment.type'/>",
         align: "center",
         // formatCellValue(value, record, rowNum, colNum, grid) {
@@ -122,10 +123,11 @@ const tozinLiteFields = _ => [
         align: "center",
         type: "number",
         showHover: true,
-        width: "10%"
+        width: "10%",
+        summaryFunction: "sum",
     },
     {
-        name: "sourceId",
+        name: "sourceId",showGridSummary:false,
         type: "number",
         // filterEditorProperties: {editorType: "comboBox"},
         filterEditorProperties: {
@@ -157,7 +159,7 @@ const tozinLiteFields = _ => [
         align: "center"
     },
     {
-        name: "targetId",
+        name: "targetId",showGridSummary:false,
         type: "number",
         filterEditorProperties: {
             editorType: "selectItem",
@@ -185,7 +187,7 @@ const tozinLiteFields = _ => [
         align: "center",
     },
     {
-        name: "havalehCode",
+        name: "havalehCode",hidden:true,
         title: "<spring:message code='Tozin.haveCode'/>",
         align: "center"
     },
@@ -647,7 +649,8 @@ function mainOnWayProduct() {
         //     </sec:authorize>
         autoFetchData: false,
         useClientFiltering: false,
-        fields: tozinLiteFields()
+        fields: tozinLiteFields(),
+        showGridSummary:true,
     });
 
     const VLayout_Tozin_Grid = isc.VLayout.create({

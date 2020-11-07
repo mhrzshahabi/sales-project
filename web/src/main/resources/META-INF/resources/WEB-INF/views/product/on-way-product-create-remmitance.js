@@ -332,6 +332,14 @@ function onWayProductCreateRemittance() {
                         remittance: DynamicForm_warehouseCAD.getValues(),
                         remittanceDetails: []
                     };
+                     if (modifiedPackages.add>0)
+                         dataForSave.remittance.description+=" تعداد" +
+                             modifiedPackages.add.toString() +
+                             " بسته نسبت به بسته‌های لجستیک اضافه شد "
+                    if (modifiedPackages.remove>0)
+                         dataForSave.remittance.description+=" تعداد" +
+                             modifiedPackages.remove.toString() +
+                             " بسته نسبت به بسته‌های لجستیک حذف  شد "
 
 
                     remittanceDetail.forEach(a => {
@@ -497,7 +505,9 @@ function onWayProductCreateRemittance() {
     DynamicForm_warehouseCAD.setValue("sourceTozinPlantId", ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().tozinId);
 
     DynamicForm_warehouseCAD.setValue("containerNo", ListGrid_Tozin_IN_ONWAYPRODUCT.getSelectedRecord().containerId);
-
+    const modifiedPackages = {
+        add:0,remove:0
+    }
     const windowDestinationTozinList = (function () {
         const datasource = isc.DataSource.create({
             fields: [...tozinLiteFields()]
@@ -566,6 +576,7 @@ function onWayProductCreateRemittance() {
         return returnVar;
     })()
     const listGridSetDestTozinHarasatPolompForSelectedTozin = (function () {
+
         const fieldsToHide = ["havalehCode", "targetId", "sourceId", "codeKala", "containerNo3", "containerNo1",];
         const grid_source = isc.ListGrid.create({
             ...windowDestinationTozinList['gc'],
@@ -599,8 +610,32 @@ function onWayProductCreateRemittance() {
                         canEdit: true,
                         editEvent: "click",
                         editByCell: true,
+                        // <sec:authorize access="hasAuthority('D_E_REMITTANCE_DETAIL')">
                         canRemoveRecords: true,
                         deferRemoval: false,
+                        removeData: function (record) {
+
+                            isc.Dialog.create({
+                                message: "<spring:message code='global.grid.record.remove.ask'/>",
+                                icon: "[SKIN]ask.png",
+                                title: "<spring:message code='global.grid.record.remove.ask.title'/>",
+                                buttons: [
+                                    isc.Button.create({title: "<spring:message code='global.yes'/>"}),
+                                    isc.Button.create({title: "<spring:message code='global.no'/>"})
+                                ],
+                                buttonClick: function (button, index) {
+                                    this.hide();
+
+                                    if (index == 0) {
+                                        modifiedPackages.remove = modifiedPackages.remove +1;
+                                        ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT.data.remove(record);
+                                    }
+
+                                }
+                            });
+
+                        },
+                        // </sec:authorize>
                         autoSaveEdits: false,
                         saveLocally: true,
                         showGridSummary: true,
@@ -677,31 +712,14 @@ function onWayProductCreateRemittance() {
                                     record['packages'].find(p => p.uid === recordg.uid)['description'] = newValue
                                 },
                             }],
-                        removeData: function (record) {
-
-                            isc.Dialog.create({
-                                message: "<spring:message code='global.grid.record.remove.ask'/>",
-                                icon: "[SKIN]ask.png",
-                                title: "<spring:message code='global.grid.record.remove.ask.title'/>",
-                                buttons: [
-                                    isc.Button.create({title: "<spring:message code='global.yes'/>"}),
-                                    isc.Button.create({title: "<spring:message code='global.no'/>"})
-                                ],
-                                buttonClick: function (button, index) {
-                                    this.hide();
-
-                                    if (index == 0) {
-                                        ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT.data.remove(record);
-                                    }
-
-                                }
-                            });
-
-                        }
                     });
                     const add_bundle_button = isc.IButton.create({
                         title: "<spring:message code='warehouseCad.addBundle'/>",
                         visibility:"hidden",
+                        // <sec:authorize access="hasAuthority('C_E_REMITTANCE_DETAIL')">
+                        visibility:"visible",
+                        // </sec:authorize>
+
                         // width: 150,
                         click: () => {
                             // const grid_source = listGridSetDestTozinHarasatPolompForSelectedTozin['gs'];
@@ -711,10 +729,13 @@ function onWayProductCreateRemittance() {
                             gridData.add({
                                 label: uid,
                                 productId: null,
-                                tedad: 0,
+                                tedad: 34,
                                 uid: uid,
-                                wazn: 0
-                            })
+                                wazn: 1
+                            });
+                            modifiedPackages.add = modifiedPackages.add +1;
+                            ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT.getField('wazn').canEdit=true;
+
                         }
                     });
                     ListGrid_WarehouseCadItem_IN_WAREHOUSECAD_ONWAYPRODUCT.setData(record['packages']);
