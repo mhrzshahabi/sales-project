@@ -2,7 +2,9 @@ package com.nicico.sales.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
+import com.nicico.sales.annotation.report.IgnoreReportField;
 import com.nicico.sales.annotation.report.ReportField;
+import com.nicico.sales.annotation.report.ReportModel;
 import com.nicico.sales.model.enumeration.EStatus;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -28,7 +30,7 @@ public class RemittanceDetailDTO {
     private Long depotId;
     private String railPolompNo;
     private String securityPolompNo;
-    @ReportField(titleMessageKey = "global.weight")
+    @ReportField(titleMessageKey = "remittance.detail.weight")
     private Long weight;
     @ReportField(titleMessageKey = "global.description")
     private String description;
@@ -41,11 +43,17 @@ public class RemittanceDetailDTO {
     public static class InfoWithoutRemittance extends RemittanceDetailDTO {
 
         private Long id;
+        @IgnoreReportField
         private UnitDTO.Info unit;
+        @IgnoreReportField
         private TozinTableDTO.InfoWithoutRemittanceDetail sourceTozin;
+        @IgnoreReportField
         private TozinTableDTO.InfoWithoutRemittanceDetail destinationTozin;
+        @IgnoreReportField
         private InventoryDTO.InfoWithoutRemittanceDetail inventory;
+        @IgnoreReportField
         private DepotDTO.Info depot;
+        @ReportField(titleMessageKey = "remittance.detail.date")
         private String date;
         private Boolean inputRemittance;
 
@@ -105,6 +113,16 @@ public class RemittanceDetailDTO {
             if (inventory == null) return "";
             return inventory.getLabel();
         }
+    }
+
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("RemittanceDetailReportInfo")
+    public static class ReportInfo extends InfoWithoutRemittance {
+
+        @ReportModel(type = RemittanceDTO.ReportInfo.class, jumpTo = true)
+        private RemittanceDTO.ReportInfo remittance;
     }
 
 

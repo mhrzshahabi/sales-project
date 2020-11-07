@@ -37,12 +37,9 @@ public class RemittanceDTO {
     public static class InfoWithoutRemittanceDetail extends RemittanceDTO {
 
         private Long id;
-        @ReportModel(type = MaterialItemDTO.Info.class, jumpTo = true)
         private MaterialItemDTO.Info materialItem;
-        @ReportModel(type = ShipmentDTO.Info.class, jumpTo = true)
         private ShipmentDTO.Info shipment;
         private String date;
-        @ReportModel(type = TozinTableDTO.Info.class, jumpTo = true)
         private TozinTableDTO.Info tozinTable;
 
 
@@ -56,6 +53,21 @@ public class RemittanceDTO {
         // BaseEntity
         private Boolean editable;
         private List<EStatus> eStatus;
+    }
+
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("RemittanceReportInfo")
+    public static class ReportInfo extends RemittanceDTO {
+
+        @ReportModel(type = MaterialItemDTO.Info.class, jumpTo = true)
+        private MaterialItemDTO.Info materialItem;
+        @ReportModel(type = ShipmentDTO.ReportInfo.class, jumpTo = true)
+        private ShipmentDTO.ReportInfo shipment;
+        private String date;
+        @ReportModel(type = TozinTableDTO.Info.class, jumpTo = true)
+        private TozinTableDTO.Info tozinTable;
     }
 
     @Getter

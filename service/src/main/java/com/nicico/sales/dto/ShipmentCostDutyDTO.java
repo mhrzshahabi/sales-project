@@ -22,11 +22,9 @@ import java.util.List;
 public class ShipmentCostDutyDTO {
 
     @ReportField(titleMessageKey = "shipmentCostInvoiceDetail.serviceCode")
-    @ReportModel(type = String.class)
     private String code;
     private String name;
     @ReportField(titleMessageKey = "shipmentCostInvoiceDetail.serviceName")
-    @ReportModel(type = String.class)
     private String nameFA;
     @IgnoreReportField
     private String nameEN;
