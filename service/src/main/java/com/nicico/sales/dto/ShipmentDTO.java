@@ -36,11 +36,14 @@ public class ShipmentDTO {
     private BigDecimal amount;
     private String description;
     private String containerType;
+    @ReportField(titleMessageKey = "shipment.loadingLetter")
     private String automationLetterNo;
+    @ReportField(titleMessageKey = "shipment.bDate")
     private Date automationLetterDate;
     @ReportField(titleMessageKey = "global.sendDate", canFilter = false, hidden = true)
     private Date sendDate;
     private Long noBLs;
+    @ReportField(titleMessageKey = "shipment.noContainer")
     private Long noContainer;
     private Long noPackages;
     private String bookingCat;
@@ -70,24 +73,14 @@ public class ShipmentDTO {
         private Boolean editable;
 //        private List<EStatus> eStatus;
 
-        @ReportField(titleMessageKey = "global.unit")
-        @ReportModel(type = UnitDTO.Info.class, jumpTo = true)
         private UnitDTO.Info unit;
-        @IgnoreReportField
         private VesselDTO.Info vessel;
-        @IgnoreReportField
         private ContactDTO.Info contact;
-        @IgnoreReportField
         private PortDTO.Info dischargePort;
-        @IgnoreReportField
         private ContactDTO.Info contactAgent;
-        @IgnoreReportField
         private MaterialDTO.Info material;
-        @IgnoreReportField
         private ShipmentTypeDTO.Info shipmentType;
-        @IgnoreReportField
         private ShipmentMethodDTO.Info shipmentMethod;
-        @IgnoreReportField
         private ContractShipmentDTO.Info contractShipment;
     }
 
@@ -121,14 +114,31 @@ public class ShipmentDTO {
         private ContractShipmentDTO.ContractShipmentFIInfo contractShipment;
     }
 
-
     @Getter
     @Setter
     @Accessors(chain = true)
     @ApiModel("ShipmentInfo")
     public static class Info extends InfoWithoutBLs {
-        @ReportModel(type = BillOfLandingDTO.InfoWithoutShipment.class , jumpTo = true)
         private Set<BillOfLandingDTO.InfoWithoutShipment> bls;
+    }
+
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("ShipmentReportInfo")
+    public static class ReportInfo extends ShipmentDTO {
+
+        @ReportModel(type = PortDTO.Info.class, jumpTo = true)
+        private PortDTO.Info dischargePort;
+
+        @ReportModel(type = UnitDTO.Info.class, jumpTo = true)
+        private UnitDTO.Info unit;
+
+        @ReportModel(type = VesselDTO.Info.class, jumpTo = true)
+        private VesselDTO.Info vessel;
+
+        @ReportModel(type = MaterialDTO.Info.class, jumpTo = true)
+        private MaterialDTO.Info material;
     }
 
     @Getter

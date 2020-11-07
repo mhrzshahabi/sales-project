@@ -1,6 +1,7 @@
 package com.nicico.sales.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.nicico.sales.annotation.report.ReportField;
 import com.nicico.sales.model.enumeration.EStatus;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -20,6 +21,7 @@ public class CountryDTO {
 
     private String nameFA;
     private String nameEN;
+    @ReportField(titleMessageKey = "billOfLanding.country.name")
     private String name;
 
     @Getter

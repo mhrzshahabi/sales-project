@@ -1,6 +1,7 @@
 package com.nicico.sales.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.nicico.sales.annotation.report.ReportField;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -18,8 +19,9 @@ import java.util.List;
 public class MaterialDTO {
 
     private String descEN;
-    private String descFA;
+    @ReportField(titleMessageKey = "material.title")
     private String desc;
+    private String descFA;
     private String code;
     private Long unitId;
     private String abbreviation;
