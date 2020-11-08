@@ -236,6 +236,7 @@
 
     var mainDocumentInfoForm = isc.DynamicForm.create({
         width: "90%",
+        height: "100%",
         autoDraw: false,
         canEdit: true,
         autoFetchData: false,
