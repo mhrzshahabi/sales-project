@@ -31,6 +31,8 @@ import com.nicico.sales.service.GenericService;
 import com.nicico.sales.utility.StringFormatUtil;
 import com.nicico.sales.utility.UpdateUtil;
 import com.nicico.sales.utility.WhereClauseUtil;
+import io.minio.ErrorCode;
+import io.minio.errors.ErrorResponseException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -594,6 +596,12 @@ public class ReportService extends GenericService<com.nicico.sales.model.entitie
             for (FileDTO.FileMetaData q : files) {
                 try {
                     fileService.delete(q.getFileKey());
+                } catch (ErrorResponseException e) {
+
+                    if (e.errorResponse().errorCode() != ErrorCode.NO_SUCH_KEY &&
+                            e.errorResponse().errorCode() != ErrorCode.NO_SUCH_OBJECT &&
+                            e.errorResponse().errorCode() != ErrorCode.NO_SUCH_BUCKET)
+                        throw new SalesException2(e, ErrorType.InternalServerError, null, e.errorResponse().message());
                 } catch (Exception e) {
                     throw new SalesException2(e);
                 }
@@ -647,8 +655,14 @@ public class ReportService extends GenericService<com.nicico.sales.model.entitie
             List<FileDTO.FileData> fileData = objectMapper.readValue(fileMetaData, new TypeReference<List<FileDTO.FileData>>() {
             });
             fileService.createFiles(report.getId(), files, fileData);
-        } catch (Exception e) {
+        } catch (ErrorResponseException e) {
+
             deleteReportPermission(report.getPermissionBaseKey());
+            throw new SalesException2(e, ErrorType.InternalServerError, null, e.errorResponse().message());
+        } catch (Exception e) {
+
+            deleteReportPermission(report.getPermissionBaseKey());
+            throw new SalesException2(e);
         }
 
         return report;
