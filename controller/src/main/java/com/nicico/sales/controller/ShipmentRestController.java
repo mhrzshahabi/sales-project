@@ -64,11 +64,18 @@ public class ShipmentRestController {
     }
 
     @Loggable
-    @Report(nameKey = "entity.shipment", returnType = ShipmentDTO.Info.class)
     @GetMapping(value = "/spec-list")
     public ResponseEntity<TotalResponse<ShipmentDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
         return new ResponseEntity<>(shipmentService.search(nicicoCriteria), HttpStatus.OK);
+    }
+
+    @Loggable
+    @Report(nameKey = "entity.shipment", returnType = ShipmentDTO.ReportInfo.class)
+    @GetMapping(value = "/spec-list-report")
+    public ResponseEntity<TotalResponse<ShipmentDTO.ReportInfo>> report(@RequestParam MultiValueMap<String, String> criteria) {
+        final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
+        return new ResponseEntity<>(shipmentService.reportSearch(nicicoCriteria), HttpStatus.OK);
     }
 
     @Loggable

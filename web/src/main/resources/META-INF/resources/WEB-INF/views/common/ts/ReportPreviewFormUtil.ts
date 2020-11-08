@@ -157,12 +157,12 @@ namespace nicico {
 
                     // @ts-ignore
                     let data = bodyWidget.getSelectedValue();
-                    return {
+                    return data ? {
                         fileId: data.id,
                         fileKey: data.fileKey,
                         // @ts-ignore
                         criteria: cr,
-                    };
+                    } : null;
                 };
                 selectReportForm.validate = function (data) {
 
@@ -212,7 +212,7 @@ namespace nicico {
                 let fetchDataUrl = creator.variable.contextPath + report.source.replaceAll(new RegExp("^/|/$"), '') + '/';
                 // @ts-ignore
                 let dataSource = isc.RestDataSource.nicico.getDefault(fetchDataUrl, report.reportFields.filter(q => q.canFilter).map(p => {
-                    return {name: p.name, title: p.title, type: p.type, hidden: p.hidden};
+                    return {name: p.name, title: p.title, type: p.type, hidden: false};
                 }));
 
                 FilterFormUtil.okCallBack = function (criteria) {
