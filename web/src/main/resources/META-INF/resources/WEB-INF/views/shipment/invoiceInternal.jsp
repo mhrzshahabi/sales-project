@@ -154,89 +154,93 @@
     var mainValuesManager = isc.ValuesManager.create({});
 
     var mainInvoiceInfoForm = isc.DynamicForm.create({
-        width: "100%",
-        height: "100%",
-        titleWidth: 30,
-        align: "right",
+        width: "90%",
         autoDraw: false,
         canEdit: true,
         autoFetchData: false,
         numCols: 4,
-        margin: 5,
+        margin: 15,
+        wrapItemTitles: false,
         valuesManager: mainValuesManager,
         fields: [
             {
+
                 name: "remittanceId",
-                type: "staticText",
+                canEdit: false,
                 title: "<spring:message code='invoice.havalehId'/>",
-                width: "150"
+                width: "100%"
             },
             {
                 name: "customerName",
                 title: "<spring:message code='invoice.customerName'/>",
-                width: "150",
-                type: "staticText"
+                width: "100%",
+                canEdit: false,
             },
             {
-                name: "invoiceSerial", type: "staticText",
+                name: "invoiceSerial",
+                canEdit: false,
                 title: "<spring:message code='invoice.shomarehSoratHesab'/>",
-                width: "150",
-                canEdit: false
+                width: "100%"
             },
-            {name: "productName", title: "<spring:message code='invoice.gdsName'/>", width: "150", type: "staticText"},
-            {name: "unitPrice", title: "<spring:message code='invoice.ghematUnit'/>", width: "150", type: "staticText"},
+            {
+                name: "productName", title: "<spring:message code='invoice.gdsName'/>",
+                width: "100%",
+                canEdit: false,
+            },
+            {
+                name: "unitPrice", title: "<spring:message code='invoice.ghematUnit'/>",
+                width: "100%",
+                canEdit: false,
+            },
             {
                 name: "totalAmount",
                 title: "<spring:message code='invoice.mablaghKol'/>",
-                width: "150",
-                type: "staticText"
+                width: "100%",
+                canEdit: false,
             },
             {
                 name: "totalDeductions",
                 title: "<spring:message code='invoice.totalKosorat'/>",
-                width: "150",
-                type: "staticText"
+                width: "100%",
+                canEdit: false,
             },
             {
                 name: "invoiceDate",
                 title: "<spring:message code='provisionalInvoice.refDate'/>",
-                width: "150",
+                width: "100%",
                 wrapTitle: false,
-                length: 10, type: "staticText"
+                length: 10,
+                canEdit: false,
             },
             {
-                name: "salesType", type: "staticText",
+                name: "salesType",
+                canEdit: false,
                 valueMap: {"2": "اعتباری", "1": "نقدی"},
-                title: "<spring:message code='invoice.typeForosh'/>", width: "150"
+                title: "<spring:message code='invoice.typeForosh'/>",
+                width: "100%",
             },
             {
                 name: "realWeight",
                 title: "<spring:message code='invoice.weightReal'/>",
-                type: "staticText",
-                width: "150"
+                canEdit: false,
+                width: "100%",
             },
             {
                 name: "bankGroupDesc",
                 title: "<spring:message code='invoice.bankGroupDesc'/>",
-                type: "staticText",
-                width: "150"
-            },
-            {
-                type: "RowSpacerItem"
+                canEdit: false,
+                width: "100%",
             }
         ]
     });
 
     var mainDocumentInfoForm = isc.DynamicForm.create({
-        width: "100%",
-        height: "100%",
-        titleWidth: 30,
-        align: "right",
+        width: "90%",
         autoDraw: false,
         canEdit: true,
         autoFetchData: false,
         numCols: 4,
-        margin: 5,
+        margin: 15,
         valuesManager: mainValuesManager,
         fields: [
             {
@@ -247,7 +251,7 @@
                 optionDataSource: departmentDS,
                 valueField: "id",
                 displayField: "departmentName",
-                width: "250",
+                width: "100%",
                 pickListWidth: "250",
                 allowAdvancedCriteria: false,
                 autoFetchData: false,
@@ -267,11 +271,10 @@
             {
                 name: "documentDate",
                 title: "<spring:message code='document.header.date'/>",
-                width: "150",
                 icons: [persianDatePicker],
                 wrapTitle: false,
                 type: "persianDate",
-                width: "150",
+                width: "100%",
                 length: 10,
                 keyPressFilter: "[0-9/]",
                 showErrorText: true,
@@ -283,12 +286,9 @@
                 title: "<spring:message code='document.header.desc'/>",
                 type: "textArea",
                 colSpan: "4",
-                width: "520",
-                wrapTitle: false,
+                width: "100%",
+                wrapTitle: false
             },
-            {
-                type: "RowSpacerItem"
-            }
         ]
     });
 
@@ -360,8 +360,8 @@
     });
     var windows_button_Layout = isc.HLayout.create({
         width: "100%",
-        height: "100%",
-        align: "center",
+        height: "10",
+        margin: 10,
         membersMargin: 10,
         members: [
             IButton_Document_Save,
@@ -372,7 +372,6 @@
         title: "<spring:message code='accounting.document.create'/>",
         width: 800,
         height: 600,
-        // autoSize:true,
         autoCenter: true,
         isModal: true,
         showModalMask: true,
@@ -386,7 +385,7 @@
         items: [
             isc.Label.create({
                 margin: 10,
-                height: 10,
+                height: 5,
                 align: "right",
                 contents: "<h3 style='text-align: right;padding-right:20px'>"
                 + "<spring:message code='invoice.invoiceInfo'/>" +
@@ -399,7 +398,7 @@
             mainInvoiceInfoForm,
             isc.Label.create({
                 margin: 10,
-                height: 10,
+                height: 5,
                 align: "right",
                 contents: "<h3 style='text-align: right;padding-right:20px'>"
                 + "<spring:message code='invoice.documentInfo'/>" +
@@ -659,7 +658,7 @@
                 title: "<spring:message code='InternalInvoices.from-date'/>",
                 titleWidth: "30",
                 width: "120",
-                showIf: function(item, value, form, values) {
+                showIf: function (item, value, form, values) {
 
                     if (!values || !values.filterType)
                         return false;
@@ -675,7 +674,7 @@
                 title: "<spring:message code='InternalInvoices.to-date'/>",
                 titleWidth: "30",
                 width: "120",
-                showIf: function(item, value, form, values) {
+                showIf: function (item, value, form, values) {
 
                     if (!values || !values.filterType)
                         return false;
@@ -688,7 +687,7 @@
                 type: "button",
                 endRow: false, startRow: false,
                 title: "<spring:message code='global.apply.filter'/>",
-                showIf: function(item, value, form, values) {
+                showIf: function (item, value, form, values) {
 
                     if (!values || !values.filterType)
                         return false;
@@ -868,7 +867,7 @@
                 title: "<spring:message code='InternalInvoices.from-date'/>",
                 titleWidth: "30",
                 width: "120",
-                showIf: function(item, value, form, values) {
+                showIf: function (item, value, form, values) {
 
                     if (!values || !values.filterType)
                         return false;
@@ -884,7 +883,7 @@
                 title: "<spring:message code='InternalInvoices.to-date'/>",
                 titleWidth: "30",
                 width: "120",
-                showIf: function(item, value, form, values) {
+                showIf: function (item, value, form, values) {
 
                     if (!values || !values.filterType)
                         return false;
@@ -897,7 +896,7 @@
                 type: "button",
                 endRow: false, startRow: false,
                 title: "<spring:message code='global.apply.filter'/>",
-                showIf: function(item, value, form, values) {
+                showIf: function (item, value, form, values) {
 
                     if (!values || !values.filterType)
                         return false;
@@ -1077,7 +1076,7 @@
                 title: "<spring:message code='InternalInvoices.from-date'/>",
                 titleWidth: "30",
                 width: "120",
-                showIf: function(item, value, form, values) {
+                showIf: function (item, value, form, values) {
 
                     if (!values || !values.filterType)
                         return false;
@@ -1093,7 +1092,7 @@
                 title: "<spring:message code='InternalInvoices.to-date'/>",
                 titleWidth: "30",
                 width: "120",
-                showIf: function(item, value, form, values) {
+                showIf: function (item, value, form, values) {
 
                     if (!values || !values.filterType)
                         return false;
@@ -1106,7 +1105,7 @@
                 type: "button",
                 endRow: false, startRow: false,
                 title: "<spring:message code='global.apply.filter'/>",
-                showIf: function(item, value, form, values) {
+                showIf: function (item, value, form, values) {
 
                     if (!values || !values.filterType)
                         return false;
