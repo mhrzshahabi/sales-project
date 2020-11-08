@@ -1,12 +1,13 @@
 package com.nicico.sales.model.entities.base;
 
+import com.nicico.sales.model.annotation.I18n;
 import com.nicico.sales.model.entities.common.BaseEntity;
 import lombok.*;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 
-
+@I18n
 @Getter
 @Setter
 @NoArgsConstructor
@@ -29,6 +30,7 @@ public class Material extends BaseEntity {
     @Column(name = "C_DESC_FA", nullable = false, length = 1000)
     private String descFA;
 
+    @I18n
     @Transient
     private String desc;
 
