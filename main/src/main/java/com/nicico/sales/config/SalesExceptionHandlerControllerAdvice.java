@@ -4,6 +4,7 @@ import com.nicico.copper.common.AbstractExceptionHandlerControllerAdvice;
 import com.nicico.copper.common.dto.ErrorResponseDTO;
 import com.nicico.sales.enumeration.ErrorType;
 import com.nicico.sales.exception.*;
+import io.minio.errors.ErrorResponseException;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.exception.ConstraintViolationException;
 import org.hibernate.exception.DataException;
@@ -138,6 +139,13 @@ ConstraintViolationImpl{
 
         this.printLog(exception, true, true, exception.getResponse().toString());
         return provideStandardError(exception);
+    }
+
+    @ExceptionHandler(ErrorResponseException.class)
+    public ResponseEntity<Object> handleErrorResponseException(ErrorResponseException exception) {
+
+        this.printLog(exception, true, true, exception.errorResponse().toString());
+        return new ResponseEntity<>(exception.errorResponse(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(Exception.class)
