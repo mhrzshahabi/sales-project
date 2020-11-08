@@ -515,11 +515,12 @@
     });
 
     var DynamicForm_Shipment = isc.DynamicForm.create({
+        numCols: 4,
         width: "100%",
         height: "100%",
+        wrapItemTitles: false,
+        cellPadding: "10",
         dataSource: RestDataSource_Shipment__SHIPMENT,
-        titleWidth: "170",
-        numCols: 4,
         fields: [
             {type: "header"},
             {name: "id", hidden: true},
@@ -841,7 +842,7 @@
                 pickListFields: [
                     {name: "name", align: "center"},
                     {name: "country.name", align: "center"}
-                    ],
+                ],
                 required: true,
                 validators: [
                     {
@@ -1008,32 +1009,18 @@
     });
 
     var hLayout_saveButton = isc.HLayout.create({
-        width: 900,
         height: "100%",
         layoutMargin: 10,
         membersMargin: 5,
-        textAlign: "center",
-        align: "center",
         members: [
             IButton_Shipment_Save,
             ShipmentCancelBtn
         ]
     });
 
-    var VLayout_saveButton = isc.VLayout.create({
-        width: 900,
-        height: "100%",
-        textAlign: "center",
-        align: "center",
-        members: [
-            hLayout_saveButton
-
-        ]
-    });
-
     var Window_Shipment = isc.Window.create({
-        title: "<spring:message code='Shipment.title'/>",
-        width: 900,
+        title: "<spring:message code='Shipment.extraInfo'/>",
+        width: 1000,
         autoSize: true,
         autoCenter: true,
         isModal: true,
@@ -1047,23 +1034,7 @@
         },
         items: [
             DynamicForm_Shipment,
-            isc.HLayout.create({
-                width: "100%",
-                height: "10",
-                autoCenter: true,
-                layoutMargin: 3,
-                membersMargin: 3,
-                align: "center",
-                members: [
-                    isc.HStack.create({
-                        autoCenter: true,
-                        layoutAlign: "center",
-                        members: [
-                            VLayout_saveButton
-                        ]
-                    }),
-                ]
-            })
+            hLayout_saveButton
         ]
     });
 
@@ -1231,7 +1202,15 @@
             <sec:authorize access="hasAuthority('C_SHIPMENT_DCC')">
             ToolStripButton_Shipment_dcc,
             </sec:authorize>
-
+            <sec:authorize access="hasAuthority('R_SHIPMENT')">
+            isc.ToolStripButtonAdd.create({
+                icon: "[SKIN]/actions/print.png",
+                title: "<spring:message code='global.form.print'/>",
+                click: function () {
+                    check_Shipment_Print();
+                }
+            }),
+            </sec:authorize>
             ShipmentCancelBtn_Help_shipment,
 
             isc.ToolStrip.create({
@@ -1385,7 +1364,8 @@
             {
                 name: "sendDate",
                 title: "<spring:message code='global.sendDate'/>",
-                type: 'text',
+                type: 'date',
+                inputFormat: "YMD",
                 required: true,
                 width: "10%",
                 align: "center",
@@ -1472,6 +1452,11 @@
                 members: [hLayoutViewLoader]
             });
             return layoutShipment;
+        },
+        doubleClick(viewer, record, recordNum, field, fieldNum, value, rawValue) {
+            <sec:authorize access="hasAuthority('U_SHIPMENT')">
+            ListGrid_Shipment_edit();
+            </sec:authorize>
         }
     });
 
