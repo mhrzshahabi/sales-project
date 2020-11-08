@@ -449,6 +449,8 @@ reportGeneratorTab.window.report.validate = function (formDaata) {
 
         reportGeneratorTab.listGrid.reportFields.startEditing(rowNum);
         reportGeneratorTab.listGrid.reportFields.endEditing();
+        reportGeneratorTab.listGrid.reportFields.selectRecord(rowNum);
+
         if (!reportGeneratorTab.listGrid.reportFields.validateRow(rowNum)) {
 
             reportGeneratorTab.dialog.say('<spring:message code="report.filed-data-is-invalid"/>');
