@@ -5,6 +5,7 @@ import com.nicico.copper.common.dto.ErrorResponseDTO;
 import com.nicico.sales.enumeration.ErrorType;
 import com.nicico.sales.exception.*;
 import io.minio.errors.ErrorResponseException;
+import io.minio.messages.ErrorResponse;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.exception.ConstraintViolationException;
 import org.hibernate.exception.DataException;
@@ -122,7 +123,12 @@ ConstraintViolationImpl{
 
             return new ResponseEntity<>(createErrorResponseDTO(new SalesException2(ErrorType.ConstraintViolation, field, message)), HttpStatus.INTERNAL_SERVER_ERROR);
         }
+        if (throwable instanceof ErrorResponseException) {
 
+            ErrorResponse errorResponse = ((ErrorResponseException) throwable).errorResponse();
+            final String message = errorResponse.message();
+            return new ResponseEntity<>(createErrorResponseDTO(new SalesException2(ErrorType.InternalServerError, null, message)), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
         final Locale locale = LocaleContextHolder.getLocale();
         String message = messageSource.getMessage("exception.un-managed", null, locale);
         ErrorResponseDTO errorResponseDTO = new ErrorResponseDTO(exception).
@@ -145,7 +151,7 @@ ConstraintViolationImpl{
     public ResponseEntity<Object> handleErrorResponseException(ErrorResponseException exception) {
 
         this.printLog(exception, true, true, exception.errorResponse().toString());
-        return new ResponseEntity<>(exception.errorResponse(), HttpStatus.INTERNAL_SERVER_ERROR);
+        return provideStandardError(exception);
     }
 
     @ExceptionHandler(Exception.class)
