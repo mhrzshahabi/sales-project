@@ -2223,7 +2223,6 @@ inspectionReportTab.method.createUnitSum = function (tab_, inventories) {
         });
     });
     unitArray.forEach((current, index) => {
-        if (amountArray[index] !== 0) {
             let unitMember = isc.Unit.create({
                 disabledUnitField: true,
                 disabledValueField: true,
@@ -2235,7 +2234,6 @@ inspectionReportTab.method.createUnitSum = function (tab_, inventories) {
             unitMember.setValue(amountArray[index]);
             unitMember.setUnitId(current);
             tab_.addMember(unitMember);
-        }
     });
 }
 
