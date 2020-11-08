@@ -240,7 +240,7 @@ contractTab.sectionStack.contract = isc.SectionStack.create({
     visibilityMode: "multiple",
     margin: 10,
     width: "100%",
-    overflow: "auto",
+    //overflow: "auto",
     canReorderSections: true,
     sections: []
 });
@@ -671,10 +671,10 @@ contractTab.method.addSectionByContract = function (record) {
         });
         let contractDetailDynamicForm = isc.DynamicForm.create({
             visibility: "hidden",
-            width: "100%",
+            width: "90%",
             align: "center",
             wrapItemTitles: false,
-            numCols: 8,
+            numCols: 4,
             styleName: 'contract-section',
             canSubmit: true,
             showErrorText: true,
@@ -842,11 +842,12 @@ contractTab.method.addSectionByContractDetailType = function (record) {
     });
 
     let contractDetailDynamicForm = isc.DynamicForm.create({
+
         visibility: "hidden",
         wrapItemTitles: false,
-        width: "100%",
+        width: "90%",
         align: "center",
-        numCols: 8,
+        numCols: 4,
         styleName: 'contract-section',
         canSubmit: true,
         showErrorText: true,

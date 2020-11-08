@@ -67,13 +67,20 @@ public class RemittanceRestController {
 
     @Loggable
     @GetMapping(value = "/spec-list")
-    @Report(nameKey = "entity.remittance", returnType = RemittanceDTO.Info.class)
     public ResponseEntity<TotalResponse<RemittanceDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) throws IOException {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
         return new ResponseEntity<>(iRemittanceService.search(nicicoCriteria), HttpStatus.OK);
     }
 
-     @Loggable
+    @Loggable
+    @GetMapping(value = "/spec-list-report")
+    @Report(nameKey = "entity.remittance", returnType = RemittanceDTO.ReportInfo.class)
+    public ResponseEntity<TotalResponse<RemittanceDTO.ReportInfo>> reportList(@RequestParam MultiValueMap<String, String> criteria) throws IOException {
+        final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
+        return new ResponseEntity<>(iRemittanceService.reportSearch(nicicoCriteria), HttpStatus.OK);
+    }
+
+    @Loggable
     @GetMapping(value = "/spec-list/lite")
     public ResponseEntity<TotalResponse<RemittanceDTO.InfoWithoutRemittanceDetail>> listLite(@RequestParam MultiValueMap<String, String> criteria) throws IOException {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
