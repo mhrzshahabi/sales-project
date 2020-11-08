@@ -15,10 +15,8 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.regex.Pattern;
 
 @Component
@@ -223,7 +221,8 @@ public class MakeExcelOutputUtil {
 
             Class c = obj.getClass();
             fieldNames.remove(0);
-            if (Arrays.asList(c.getInterfaces()).contains(List.class)) {
+            List<Class> classes = Arrays.asList(c.getInterfaces());
+            if (classes.contains(List.class) || classes.contains(Set.class)) {
 
                 List<String> listValue = new ArrayList();
                 for (Object itemValue : (List) obj)
@@ -332,13 +331,17 @@ public class MakeExcelOutputUtil {
                 if (obj != null) {
 
                     String objType = obj.getClass().getTypeName();
-                    if (objType.equalsIgnoreCase(Long.class.getName())) {
+                    if (objType.equalsIgnoreCase(Date.class.getName())) {
+
+                        cell.setCellType(CellType.STRING);
+                        cell.setCellValue(new SimpleDateFormat("YYYY/MM/dd").format(obj));
+                        cell.setCellStyle(xssfStringCellStyle);
+                    } else if (objType.equalsIgnoreCase(Long.class.getName())) {
 
                         cell.setCellType(CellType.NUMERIC);
                         cell.setCellValue(Long.parseLong(obj.toString()));
                         cell.setCellStyle(xssfNumberCellStyle);
-                    }
-                    if (objType.equalsIgnoreCase(Double.class.getName())) {
+                    } else if (objType.equalsIgnoreCase(Double.class.getName())) {
 
                         cell.setCellType(CellType.NUMERIC);
                         cell.setCellValue(((Double) obj));
