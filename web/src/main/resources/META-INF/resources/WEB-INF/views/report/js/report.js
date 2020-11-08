@@ -478,9 +478,11 @@ reportGeneratorTab.window.report.okCallBack = function (formData) {
                 reportGeneratorTab.dialog.ok();
                 reportGeneratorTab.method.refresh(reportGeneratorTab.listGrid.main);
             } else {
-                reportGeneratorTab.dialog.say(request);
+                request.httpResponseCode = request.status;
+                request.httpResponseText = request.responseText;
+                isc.RPCManager.handleError(request);
             }
-        } else isc.warn(JSON.parse("<spring:message code='report.form.data-integrity-violation'/>", {title: "<spring:message code='dialog_WarnTitle'/>"}));
+        }
     };
 };
 reportGeneratorTab.window.report.cancelCallBack = function () {
