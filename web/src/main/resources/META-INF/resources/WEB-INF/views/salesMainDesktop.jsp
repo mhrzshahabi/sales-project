@@ -301,7 +301,7 @@
                 <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
                 isc.DynamicForm.addProperties({
-                    requiredTitlePrefix: "<span style='color:#ff0842;font-size:15px; padding-left: 5px;'>*</span>",
+                    requiredTitleSuffix: "<span style='color:#ff0842;font-size:15px; padding-left: 5px;'>*</span>"+":",
                     setMethod: 'POST',
                     canSubmit: true,
                     showInlineErrors: true,
@@ -359,7 +359,7 @@
                 }
 
                 isc.RPCManager.addClassProperties({
-                    defaultPrompt: "<spring:message code='global.server.contacting'/>&nbsp;" + "<span>" + isc.Canvas.imgHTML("[skin]/images/loadingSmall.gif", 20, 20) + "</span>",
+                    prompt: "<spring:message code='global.server.contacting'/>&nbsp;" + "<span>" + isc.Canvas.imgHTML("[skin]/images/loadingSmall.gif", 20, 20) + "</span>",
                     fetchDataPrompt: "<spring:message code='global.server.data.fetch'/>&nbsp;" + "<span>" + isc.Canvas.imgHTML("[skin]/images/loadingSmall.gif", 20, 20) + "</span>",
                     removeDataPrompt: "<spring:message code='global.server.data.remove'/>&nbsp;" + "<span>" + isc.Canvas.imgHTML("[skin]/images/loadingSmall.gif", 20, 20) + "</span>",
                     saveDataPrompt: "<spring:message code='global.server.data.save'/>&nbsp;" + "<span>" + isc.Canvas.imgHTML("[skin]/images/loadingSmall.gif", 20, 20) + "</span>",
