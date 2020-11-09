@@ -29,7 +29,8 @@ isc.defineClass("InvoiceBaseWeight", isc.VLayout).addProperties({
             fieldValueTitle: "<spring:message code='foreign-invoice.form.total-gross-weight'/>"
         }));
         this.getMembers().last().setValue(this.inspectionWeightData.weightGW);
-        this.getMembers().last().setUnitId(this.inspectionWeightData.weightInspections[0].unitId);
+        // this.getMembers().last().setUnitId(this.inspectionWeightData.weightInspections[0].unitId);
+        this.getMembers().last().setUnitId(20);
 
         this.addMember(isc.Unit.create({
 
@@ -41,7 +42,8 @@ isc.defineClass("InvoiceBaseWeight", isc.VLayout).addProperties({
             fieldValueTitle: "<spring:message code='foreign-invoice.form.total-net-weight'/>"
         }));
         this.getMembers().last().setValue(this.inspectionWeightData.weightND);
-        this.getMembers().last().setUnitId(this.inspectionWeightData.weightInspections[0].unitId);
+        // this.getMembers().last().setUnitId(this.inspectionWeightData.weightInspections[0].unitId);
+        this.getMembers().last().setUnitId(21);
 
         let unitArray = [];
         let amountArray = [];
