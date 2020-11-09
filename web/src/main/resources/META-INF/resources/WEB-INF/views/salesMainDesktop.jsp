@@ -430,6 +430,9 @@
                     }
                 }
 
+                isc.FormItem.addProperties({
+                    dateFormatter: "toJapanShortDate",
+                });
                 isc.ListGrid.addProperties({
                     dataPageSize: 500,
                     showPrompt: true,

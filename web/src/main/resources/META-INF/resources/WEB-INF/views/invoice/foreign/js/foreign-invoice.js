@@ -1392,7 +1392,7 @@ foreignInvoiceTab.toolStrip.main.addMember(isc.ToolStripButton.create({
 
 foreignInvoiceTab.toolStrip.main.addMember(isc.ToolStripButton.create({
     visibility: "visible",
-    icon: "pieces/16/icon_view.png",
+    icon: "[SKIN]/actions/filter.png",
     title: "<spring:message code='global.form.filter'/>",
     click: function () {
 
