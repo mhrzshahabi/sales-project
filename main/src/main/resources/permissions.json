@@ -1081,8 +1081,12 @@
       "title": "ایجاد جزئیات بیجک"
     },
     {
-      "code": "D_REMITTANCE_DETAIL",
-      "title": "حذف جزئیات بیجک"
+      "code": "C_E_REMITTANCE_DETAIL",
+      "title": "ایجاد جزئیات بیجک بیشتر از لجستیک"
+    },
+    {
+      "code": "D_E_REMITTANCE_DETAIL",
+      "title": "حذف جزئیات بیجک ثبت شده در لجستیک"
     },
     {
       "code": "U_REMITTANCE_DETAIL",
