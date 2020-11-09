@@ -586,7 +586,7 @@ shipmentCostInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
         required: true,
         wrapTitle: false,
         editorType: "SelectItem",
-       // colSpan: 4,
+        // colSpan: 4,
         valueField: "id",
         displayField: "sendDate",
         pickListWidth: 500,
@@ -1413,12 +1413,16 @@ shipmentCostInvoiceTab.listGrid.shipmentCostDetail = isc.ListGrid.create({
                             shipmentCostInvoiceTab.dynamicForm.shipmentPrice.setValue("conversionSumPriceText", shipmentCostInvoiceTab.method.toLocalLetters(conversionSumPrice));
                             shipmentCostInvoiceTab.dynamicForm.shipmentPrice.setValue("conversionSumPriceBuyerShare", conversionSumPrice * share / 100);
                             shipmentCostInvoiceTab.dynamicForm.shipmentPrice.setValue("conversionSumPriceSellerShare", conversionSumPrice * (100 - share) / 100);
-                            shipmentCostInvoiceTab.listGrid.shipmentCostDetail.members.get(0).members.get(1).setContents(shipmentCostInvoiceTab.method.toLocalLetters(shipmentCostInvoiceTab.variable.summaryRowData.sumPriceWithVat));
+                            shipmentCostInvoiceTab.listGrid.shipmentCostDetail.members.get(0).members.get(1).setContents(
+                                "<span style=\"text-align: right;margin:5%;font-weight:bolder;font-size:larger\">"
+                                + "<spring:message code='invoice.totalAmount'/> " +
+                                ":</span>"
+                                + shipmentCostInvoiceTab.method.toLocalLetters(shipmentCostInvoiceTab.variable.summaryRowData.sumPriceWithVat));
                         }
                     })]
             })
         ]
-    }),"header", "body", "summaryRow"],
+    }), "header", "body", "summaryRow"],
 });
 
 shipmentCostInvoiceTab.window.shipmentCost = new nicico.FormUtil();
@@ -1447,7 +1451,7 @@ shipmentCostInvoiceTab.window.shipmentCost.init(null, '<spring:message code="shi
             height: 2,
             align: "right",
             contents: "<h3 style='text-align: right;padding-right:20px'>"
-                + "<spring:message code='invoice.items.invoiceInfo'/>" + // آیتمهای فاکتور
+                + "<spring:message code='invoice.items.invoiceInfo'/>" +
                 "</h3>"
         }),
         isc.HTMLFlow.create({
