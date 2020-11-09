@@ -312,6 +312,7 @@
         height: "100%",
         titleWidth: "100",
         numCols: 2,
+        margin: 10,
         fields:
             [
                 {
@@ -367,6 +368,7 @@
         title: "<spring:message code='global.form.print'/>",
         icon: "[SKIN]/actions/print.png",
         click: function () {
+
             "<spring:url value="/shipment/print/" var="printUrl"/>";
             let fileNewName = shipmentDccDynamicFormPrint.getItem("dccId").getDisplayValue();
             let record = ListGrid_Shipment.getSelectedRecord();
@@ -404,7 +406,7 @@
     });
 
     var shipmentDccWindow = isc.Window.create({
-        title: "<spring:message code='shipment.loading.pattern'/> ",
+        title: "<spring:message code='global.form.print'/> ",
         width: 500,
         autoSize: true,
         autoCenter: true,
@@ -469,7 +471,7 @@
             </sec:authorize>
             {isSeparator: true},
             {
-                title: "<spring:message code='global.form.print.word'/>",
+                title: "<spring:message code='global.form.print'/>",
                 click: function () {
 
                     check_Shipment_Print();
@@ -498,7 +500,7 @@
     });
 
     var Window_Shipment_Dcc = isc.Window.create({
-        title: "<spring:message code='shipment.loading.pattern'/>",
+        title: "<spring:message code='shipment.loading.pattern.attachment'/>",
         width: "40%",
         height: "60%",
         autoCenter: true,
