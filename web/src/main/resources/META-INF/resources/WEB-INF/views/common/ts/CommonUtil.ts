@@ -36,11 +36,18 @@ namespace nicico {
 
         static getAlignByLang: any;
 
+        static getLang: any;
+
         constructor() {
 
             // @ts-ignore
             this.getAlignByLang = function () {
                 return "left";
+            };
+
+            // @ts-ignore
+            this.getLang = function () {
+                return "fa";
             };
 
             // @ts-ignore
