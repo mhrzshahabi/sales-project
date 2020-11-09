@@ -22,8 +22,8 @@ const BlTab = {
         },
         DefaultWindowConfig: {
             width: .8 * window.innerWidth,
-            // height: .8 * window.innerHeight,
-            autoSize: true,
+            height: 0.51 * window.innerHeight,
+            //autoSize: true,
             autoCenter: true,
             showMinimizeButton: false,
             isModal: true,
@@ -2191,7 +2191,7 @@ BlTab.Grids.BillOfLanding = {
             gridComponents: [isc.ToolStrip.create({
                 members: [
                     // <sec:authorize access="hasAuthority('C_CONTAINER_TO_BILL_OF_LANDING')">
-                    BlTab.Layouts.ToolStripButtons.NewContainerToBillOfLanding = isc.ToolStripButtonAdd.create({
+                    BlTab.Layouts.ToolStripButtons.NewContainerToBillOfLanding = isc.ToolStripButton.create({
                         click() {
                             // dbg(false, 'window create container info', arguments);
                             BlTab.Vars.Method = "POST";
@@ -2199,7 +2199,8 @@ BlTab.Grids.BillOfLanding = {
                             BlTab.Layouts.Window.ContainerToBillOfLanding = isc.Window.create({
                                 ...BlTab.Vars.DefaultWindowConfig,
                                 title: "<spring:message code='shipment.inquiry.container'/>",
-                                width: "25%",
+                                width: "20%",
+                                height:"35%",
                                 ID: winId,
                                 members: [
                                     isc.VLayout.create({
@@ -2207,7 +2208,7 @@ BlTab.Grids.BillOfLanding = {
                                             BlTab.DynamicForms.Forms.ContainerToBillOfLanding = isc.DynamicForm.create({
                                                 cellPadding: "7",
                                                 fields: BlTab.Fields.ContainerToBillOfLanding(),
-                                                height:"95%",
+                                              //  height:"40%",
                                             }),
                                             BlTab.Methods.HlayoutSaveOrExit(function () {
                                                 if (!BlTab.DynamicForms.Forms.ContainerToBillOfLanding.validate()) return;
@@ -2230,7 +2231,7 @@ BlTab.Grids.BillOfLanding = {
                     }),
                     // </sec:authorize>
                     // <sec:authorize access="hasAuthority('U_CONTAINER_TO_BILL_OF_LANDING')">
-                    isc.ToolStripButtonEdit.create({
+                    isc.ToolStripButton.create({
                         click() {
                             const selectedRecord = BlTab.Grids.ContainerToBillOfLanding.getSelectedRecord();
                             if (!selectedRecord) return BlTab.Dialog.NotSelected();
@@ -2243,7 +2244,7 @@ BlTab.Grids.BillOfLanding = {
                     }),
                     // </sec:authorize>
                     // <sec:authorize access="hasAuthority('D_CONTAINER_TO_BILL_OF_LANDING')">
-                    isc.ToolStripButtonRemove.create({
+                    isc.ToolStripButton.create({
                         click() {
                             BlTab.Methods.Delete(BlTab.Grids.ContainerToBillOfLanding,
                                 SalesConfigs.Urls.completeUrl + '/api/container-to-bill-of-landing')
