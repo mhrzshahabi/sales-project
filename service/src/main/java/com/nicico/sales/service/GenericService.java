@@ -484,8 +484,6 @@ public abstract class GenericService<T, ID extends Serializable, C, R, U, D> imp
         }
     }
 
-
-
     private <K> @NotNull Method getMethod(Class<K> clazz, String[] names) {
 
         for (String name : names) {
