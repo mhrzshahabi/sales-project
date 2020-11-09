@@ -50,7 +50,7 @@ public class InvoiceInternalFormController {
         LOGO = ImageIO.read(ReportUtil.class.getResourceAsStream("/reports/report-logo/nicico-logo1.png"));
         params.put(ConstantVARs.REPORT_TYPE, type);
         params.put("ID", rowId);
-        params.put("logo_nicico", LOGO);
+        params.put("logo_nicico_black", LOGO);
         Double mablaghKol = invoiceInternalService.get(rowId).getTotalAmount();
         Double payForAvarezMalyat = invoiceInternalService.get(rowId).getTaxChargeAmount();
         Double sum = mablaghKol + payForAvarezMalyat;

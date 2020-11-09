@@ -15,6 +15,10 @@ var nicico;
                 return "left";
             };
             // @ts-ignore
+            this.getLang = function () {
+                return "fa";
+            };
+            // @ts-ignore
             isc.Canvas.tag = null;
             // @ts-ignore
             isc.Canvas.nicico = {};

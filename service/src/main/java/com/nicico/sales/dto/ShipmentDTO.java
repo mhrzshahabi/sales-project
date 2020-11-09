@@ -128,6 +128,8 @@ public class ShipmentDTO {
     @ApiModel("ShipmentReportInfo")
     public static class ReportInfo extends ShipmentDTO {
 
+        private Long id;
+
         @ReportModel(type = PortDTO.Info.class, jumpTo = true)
         private PortDTO.Info dischargePort;
 

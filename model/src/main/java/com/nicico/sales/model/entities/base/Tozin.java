@@ -71,7 +71,8 @@ public class Tozin {
     private String packName;
     @Column(name = "HAVCODE")
     private String haveCode;
-    @Column(name = "DAT")
+//    @Column(name = "DAT")
+    @Formula(value = "REPLACE(nvl(sal_date2,dat),'/','') ")
     private String date;
     @Column(name = "TZN_DATE")
     private String tozinDate;

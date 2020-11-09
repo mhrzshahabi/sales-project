@@ -5,6 +5,7 @@ import com.nicico.copper.oauth.common.dto.OAPermissionDTO;
 import com.nicico.sales.enumeration.ErrorType;
 import com.nicico.sales.exception.SalesException2;
 import com.nicico.sales.iservice.IOAuthApiService;
+import com.nicico.sales.utility.AuthenticationUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,6 +28,7 @@ import java.util.Collections;
 @RequiredArgsConstructor
 public class OAuthApiService implements IOAuthApiService {
 
+    private final AuthenticationUtil authenticationUtil;
     private final ObjectMapper objectMapper;
     private final ResourceBundleMessageSource messageSource;
 
@@ -39,25 +41,11 @@ public class OAuthApiService implements IOAuthApiService {
 
     // ----------------------------------------------------------------------------------------------------------------
 
-    private HttpHeaders getApplicationJSONHttpHeaders() {
-        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        final OAuth2AuthenticationDetails oAuth2AuthenticationDetails = (OAuth2AuthenticationDetails) authentication.getDetails();
-
-        final HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setBearerAuth(oAuth2AuthenticationDetails.getTokenValue());
-        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        httpHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-
-        return httpHeaders;
-    }
-
-    // ----------------------------------------------------------------------------------------------------------------
-
     @Override
     public void deletePermission(String permissionKey) {
 
         final String url = oauthAppUrl + "/api/permissions/code/" + appId + "/" + permissionKey;
-        final HttpEntity<String> httpEntity = new HttpEntity<>(getApplicationJSONHttpHeaders());
+        final HttpEntity<String> httpEntity = new HttpEntity<>(authenticationUtil.getApplicationJSONHttpHeaders());
         ResponseEntity<String> httpResponse;
         try {
             httpResponse = new RestTemplate().exchange(url, HttpMethod.DELETE, httpEntity, String.class);
@@ -79,7 +67,7 @@ public class OAuthApiService implements IOAuthApiService {
 
         request.setAppId(appId);
         final String url = oauthAppUrl + "/api/permissions";
-        final HttpEntity<OAPermissionDTO.Create> httpEntity = new HttpEntity<>(request, getApplicationJSONHttpHeaders());
+        final HttpEntity<OAPermissionDTO.Create> httpEntity = new HttpEntity<>(request, authenticationUtil.getApplicationJSONHttpHeaders());
         ResponseEntity<String> httpResponse;
         try {
             httpResponse = new RestTemplate().exchange(url, HttpMethod.POST, httpEntity, String.class);

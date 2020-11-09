@@ -61,6 +61,7 @@ public class RemittanceDTO {
     @ApiModel("RemittanceReportInfo")
     public static class ReportInfo extends RemittanceDTO {
 
+        private Long id;
         @ReportModel(type = MaterialItemDTO.Info.class, jumpTo = true)
         private MaterialItemDTO.Info materialItem;
         @ReportModel(type = ShipmentDTO.ReportInfo.class, jumpTo = true)
