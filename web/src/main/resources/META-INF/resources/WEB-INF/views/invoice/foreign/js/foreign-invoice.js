@@ -226,8 +226,7 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
 
                 form.getField("inspectionAssayId").hide();
                 form.getField("inspectionAssayId").setRequired(false);
-            }
-            else {
+            } else {
                 form.getField("inspectionAssayId").show();
                 form.getField("inspectionAssayId").setRequired(true);
             }
@@ -1422,6 +1421,22 @@ foreignInvoiceTab.toolStrip.main.addMember(isc.ToolStripButton.create({
         }
     }
 }), 8);
+
+foreignInvoiceTab.toolStrip.main.addMember(isc.ToolStripButton.create({
+    icon: "[SKIN]/actions/print.png",
+    title: "<spring:message code='global.form.print'/>",
+    click: function () {
+
+        let record = foreignInvoiceTab.listGrid.main.getSelectedRecord();
+        if (!record || !record.id)
+            foreignInvoiceTab.dialog.notSelected();
+        else if (record.shipment.materialId === ImportantIDs.material.COPPER_CONCENTRATES) {
+
+            let record = foreignInvoiceTab.listGrid.main.getSelectedRecord();
+            window.open('${printUrl}' + record.id);
+        }
+    }
+}), 9);
 
 foreignInvoiceTab.dynamicForm.main = null;
 
