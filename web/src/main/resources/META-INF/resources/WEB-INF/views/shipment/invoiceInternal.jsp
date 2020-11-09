@@ -4,7 +4,7 @@
 
 //<script>
 
-    <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
+    <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
 
     var RestDataSource_InvoiceInternal = isc.MyRestDataSource.create({
         fields:
@@ -329,6 +329,7 @@
                 data: JSON.stringify(data),
                 willHandleError: true,
                 serverOutputAsString: false,
+                prompt: "<spring:message code='global.server.sending-to-accounting'/>",
                 callback: function (RpcResponse_o) {
 
                     if (RpcResponse_o.httpResponseCode === 200 || RpcResponse_o.httpResponseCode === 201) {
@@ -389,8 +390,8 @@
                 height: 5,
                 align: "right",
                 contents: "<h3 style='text-align: right;padding-right:20px'>"
-                + "<spring:message code='invoice.invoiceInfo'/>" +
-                "</h3>"
+                    + "<spring:message code='invoice.invoiceInfo'/>" +
+                    "</h3>"
             }),
             isc.HTMLFlow.create({
                 width: "100%",
@@ -402,8 +403,8 @@
                 height: 5,
                 align: "right",
                 contents: "<h3 style='text-align: right;padding-right:20px'>"
-                + "<spring:message code='invoice.documentInfo'/>" +
-                "</h3>"
+                    + "<spring:message code='invoice.documentInfo'/>" +
+                    "</h3>"
             }),
             isc.HTMLFlow.create({
                 width: "100%",
@@ -530,6 +531,7 @@
         numCols: 8,
         height: "100%",
         canSubmit: true,
+        wrapItemTitles: false,
         fields: [
             {
                 name: "filterType",
@@ -739,6 +741,7 @@
         numCols: 8,
         height: "100%",
         canSubmit: true,
+        wrapItemTitles: false,
         fields: [
             {
                 name: "filterType",
@@ -948,6 +951,7 @@
         numCols: 8,
         height: "100%",
         canSubmit: true,
+        wrapItemTitles: false,
         fields: [
             {
                 name: "filterType",
