@@ -1350,6 +1350,29 @@
             WHERE ID =209
         </sql>
     </changeSet>
+    <changeSet author="saeb (generated)" id="1604460712598-228">
+        <addColumn tableName="TBL_MATERIAL_ITEM">
+            <column name="B_SHOULD_SHOW_IN_FILTER" type="number(1, 0)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="saeb-yek-do-se-bikhial-ghose333333" author="saeb">
+        <sql>update TBL_MATERIAL_ITEM set B_SHOULD_SHOW_IN_FILTER=0 where id>0</sql>
+            <sql>
+                update TBL_MATERIAL_ITEM set B_SHOULD_SHOW_IN_FILTER=1 where  id in (1,8,9,11,14,52,82,83,97,179)
+            </sql>
+    </changeSet>
 
+    <changeSet author="saeb (generated)" id="1604739800728-231">
+        <addColumn tableName="TBL_MATERIAL_ITEM">
+            <column name="c_short_name" type="varchar2(255 CHAR)"/>
+        </addColumn>
+    </changeSet>
 
+    <changeSet id="saeb3-2-1-saeb-bikhialghose8ss7s68" author="saeb">
+        <sql>
+            update TBL_MATERIAL_ITEM set c_short_name='CNC0' where id = 8;
+            update TBL_MATERIAL_ITEM set c_short_name='CTD0' where id = 11;
+            update TBL_MATERIAL_ITEM set c_short_name='MOL0' where id = 97;
+        </sql>
+    </changeSet>
 </databaseChangeLog>

@@ -58,4 +58,6 @@ public interface WarehouseDAO extends JpaRepository<Warehouse, Long>, JpaSpecifi
             "        select id from TBL_WARH_WAREHOUSE " +
             "    )", nativeQuery = true)
     List<Object[]> getAllWarehousesFromViewForInsert();
+
+    List<Warehouse> getAllByPlantIdIsNullAndIdIn(List<Long> ids);
 }

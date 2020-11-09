@@ -89,6 +89,11 @@ nicico:
     package:
       controller:
         name: com.nicico.sales.controller
+
+storage:
+  url: storage.icico.net.ir/client/api
+  key: sales
+  token: nicsales123
 ---
 
 spring:

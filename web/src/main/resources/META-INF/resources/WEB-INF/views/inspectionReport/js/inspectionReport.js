@@ -349,11 +349,11 @@ inspectionReportTab.restDataSource.unitRest = isc.MyRestDataSource.create({
         },
         {
             name: "nameFA",
-            title: "nameFA"
+            title: "<spring:message code='unit.nameFa'/>"
         },
         {
             name: "nameEN",
-            title: "nameEN"
+            title: "<spring:message code='unit.nameEN'/>"
         },
     ],
     fetchDataURL: "${contextPath}/api/unit/spec-list"
@@ -1105,7 +1105,7 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
         title: "<spring:message code='inspectionReport.mileStone'/>",
         required: true,
         wrapTitle: false,
-        valueMap: JSON.parse('${Enum_MileStone}'),
+        valueMap: nicico.CommonUtil.getLang() === "fa" ? JSON.parse('${Enum_MileStone}').nameFa : JSON.parse('${Enum_MileStone}').nameEn,
         validators: [
             {
                 type: "required",
@@ -1116,7 +1116,7 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
         colSpan: 2,
         width: "150",
         name: "select",
-        title: "Select",
+        title: "<spring:message code='inspectionReport.select'/>",
         type: "ButtonItem",
         icon: "pieces/16/icon_add.png",
         click: function (form, item) {
@@ -1144,7 +1144,7 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
         colSpan: 2,
         width: "150",
         name: "refresh",
-        title: "Refresh",
+        title: "<spring:message code='inspectionReport.refresh'/>",
         type: "ButtonItem",
         icon: "pieces/16/refresh.png",
         click: function (form, item) {
@@ -1248,7 +1248,7 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
         title: "<spring:message code='inspectionReport.inspectionRateValueType'/>",
         required: true,
         wrapTitle: false,
-        valueMap: JSON.parse('${Enum_InspectionRateValueType}'),
+        valueMap: nicico.CommonUtil.getLang() === "fa" ? JSON.parse('${Enum_InspectionRateValueType}').nameFa : JSON.parse('${Enum_InspectionRateValueType}').nameEn,
         validators: [
             {
                 type: "required",
@@ -1354,7 +1354,7 @@ inspectionReportTab.listGrid.weightElement = isc.ListGrid.create({
         {
             name: "weighingType",
             required: true,
-            valueMap: JSON.parse('${Enum_WeighingType}'),
+            valueMap: nicico.CommonUtil.getLang() === "fa" ? JSON.parse('${Enum_WeighingType}').nameFa : JSON.parse('${Enum_WeighingType}').nameEn,
             validators: [{
                 type: "required",
                 validateOnChange: true
@@ -1429,7 +1429,7 @@ inspectionReportTab.listGrid.weightElementSum = isc.ListGrid.create({
         width: "25%",
         align: "center",
         required: true,
-        valueMap: JSON.parse('${Enum_WeighingType}'),
+        valueMap: nicico.CommonUtil.getLang() === "fa" ? JSON.parse('${Enum_WeighingType}').nameFa : JSON.parse('${Enum_WeighingType}').nameEn,
         validators: [{
             type: "required",
             validateOnChange: true
