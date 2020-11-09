@@ -9,12 +9,16 @@ import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.Formula;
 import org.hibernate.annotations.JoinFormula;
+import org.hibernate.envers.AuditOverride;
+import org.hibernate.envers.Audited;
 import org.hibernate.envers.NotAudited;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
+
+import static org.hibernate.envers.RelationTargetAuditMode.NOT_AUDITED;
 
 @Getter
 @Setter
@@ -25,6 +29,8 @@ import java.util.List;
 @Entity
 //@SecondaryTable(name = "VIEW_WARH_INVENTORY")
 @Table(name = "TBL_WARH_INVENTORY")
+@Audited
+@AuditOverride(forClass = BaseEntity.class)
 public class Inventory extends BaseEntity {
 
     @Id
@@ -32,6 +38,7 @@ public class Inventory extends BaseEntity {
     @SequenceGenerator(name = "SEQ_WARH_INVENTORY", sequenceName = "SEQ_WARH_INVENTORY", allocationSize = 1)
     private Long id;
 
+    @Audited(targetAuditMode = NOT_AUDITED)
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "F_MATERIAL_ITEM_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_inventory2itemByItemId"))
@@ -52,7 +59,7 @@ public class Inventory extends BaseEntity {
     @OneToMany(mappedBy = "inventory", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private List<AssayInspection> assayInspections;
 
-
+    @NotAudited
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinFormula(
       "(select weight.id\n" +
@@ -68,15 +75,18 @@ public class Inventory extends BaseEntity {
     )
     private WeightInspection weightInspection;
 
-     @OneToMany(mappedBy = "inventory", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-        private List<WeightInspection> weightInspections;
+    @OneToMany(mappedBy = "inventory", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    private List<WeightInspection> weightInspections;
 
+    @NotAudited
     @Formula("(select VIEW_WARH_INVENTORY.weight from VIEW_WARH_INVENTORY where VIEW_WARH_INVENTORY.id=id)")
     private Long weight;
+
+    @NotAudited
     @Formula("(select VIEW_WARH_INVENTORY.amount from VIEW_WARH_INVENTORY where VIEW_WARH_INVENTORY.id=id)")
     private Long amount;
 
-    @NotAudited
+    @Audited(targetAuditMode = NOT_AUDITED)
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "F_CONTRACT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "FK_INVENTORY2CONTRACT2"))

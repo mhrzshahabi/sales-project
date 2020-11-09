@@ -3,6 +3,7 @@ package com.nicico.sales.controller;
 import com.nicico.copper.common.Loggable;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
+import com.nicico.sales.annotation.report.Report;
 import com.nicico.sales.dto.ShipmentDTO;
 import com.nicico.sales.iservice.IShipmentService;
 import lombok.RequiredArgsConstructor;
@@ -67,6 +68,14 @@ public class ShipmentRestController {
     public ResponseEntity<TotalResponse<ShipmentDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
         return new ResponseEntity<>(shipmentService.search(nicicoCriteria), HttpStatus.OK);
+    }
+
+    @Loggable
+    @Report(nameKey = "entity.shipment", returnType = ShipmentDTO.ReportInfo.class)
+    @GetMapping(value = "/spec-list-report")
+    public ResponseEntity<TotalResponse<ShipmentDTO.ReportInfo>> report(@RequestParam MultiValueMap<String, String> criteria) {
+        final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
+        return new ResponseEntity<>(shipmentService.reportSearch(nicicoCriteria), HttpStatus.OK);
     }
 
     @Loggable

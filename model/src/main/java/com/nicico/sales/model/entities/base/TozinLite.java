@@ -1,15 +1,16 @@
 package com.nicico.sales.model.entities.base;
 
-import com.nicico.sales.model.entities.warehouse.TozinTable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Formula;
 import org.hibernate.annotations.Immutable;
-import org.hibernate.annotations.JoinFormula;
 import org.hibernate.annotations.Subselect;
+import org.hibernate.envers.NotAudited;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
 @Getter
 @NoArgsConstructor
@@ -45,10 +46,13 @@ public class TozinLite {
     private Long targetId;
     @Column(name = "DRVNAME")
     private String driverName;
+
+    @NotAudited
     @Formula(value = "(select TBL_WARH_TOZIN.id from TBL_WARH_TOZIN " +
             "where TBL_WARH_TOZIN.TOZINE_ID = TOZINE_ID  and ROWNUM = 1 )")
     private Long tozinTable;
 
+    @NotAudited
     @Formula(value = "(case " +
             "when contener_no3 like '*'   " +
             "then 0  " +

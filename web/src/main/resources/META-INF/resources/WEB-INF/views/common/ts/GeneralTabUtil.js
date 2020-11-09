@@ -48,6 +48,7 @@ var nicico;
                 fields: [],
                 criteria: null
             };
+            This.treeGrid = {};
             This.log = {};
             This.tab = {};
             This.chart = {};
@@ -60,6 +61,7 @@ var nicico;
             This.hLayout = {};
             This.vLayout = {};
             This.restDataSource = {};
+            This.filterBuilder = {};
             This.window = {};
             This.sectionStack = {};
             This.variable = {
@@ -85,6 +87,7 @@ var nicico;
                 beforeShowEditActionHook: null,
                 afterShowEditActionHook: null,
                 beforeDeleteActionHook: null,
+                validateDeleteActionHook: null,
                 afterDeleteActionHook: null,
                 afterDeleteErrorActionHook: null,
                 beforeActivateActionHook: null,
@@ -252,8 +255,13 @@ var nicico;
             This.method.beforeShowNewActionHook = function () { };
             This.method.afterShowNewActionHook = function (window) { };
             This.method.beforeShowEditActionHook = function (record) { };
-            This.method.afterShowEditActionHook = function (window, record) { };
-            This.method.beforeDeleteActionHook = function (record) { };
+            This.method.afterShowEditActionHook = function (window, record) {
+            };
+            This.method.validateDeleteActionHook = function (record) {
+                return record;
+            };
+            This.method.beforeDeleteActionHook = function (record) {
+            };
             This.method.afterDeleteActionHook = function (response, record) { };
             This.method.afterDeleteErrorActionHook = function (response, record) { };
             This.method.beforeActivateActionHook = function (record) { };
@@ -350,6 +358,8 @@ var nicico;
                 else {
                     This.variable.method = "DELETE";
                     This.dialog.question(function () {
+                        if (!This.method.validateDeleteActionHook(record))
+                            return;
                         This.method.beforeDeleteActionHook(record);
                         var rpcRequest = {};
                         rpcRequest.httpMethod = This.variable.method;

@@ -50,4 +50,22 @@
 
     </changeSet>
 
+    <changeSet id="999-2" author="abiz">
+        <addColumn tableName="TBL_Shipment_Method">
+            <column name="C_SHIP_METHOD_FA" type="varchar2(255 CHAR)"/>
+        </addColumn>
+        <addColumn tableName="TBL_Shipment_Method">
+            <column name="C_SHIP_METHOD_EN" type="varchar2(255 CHAR)"/>
+        </addColumn>
+        <sql>
+            update TBL_Shipment_Method set C_SHIP_METHOD_FA = SHIP_METHOD ;
+            update tbl_shipment_method set C_SHIP_METHOD_EN='LAND TRANSPORT' where id = 1;
+            update tbl_shipment_method set C_SHIP_METHOD_EN='AIR TRANSPORT' where id = 2;
+            update tbl_shipment_method set C_SHIP_METHOD_EN='SHIP TRANSPORT' where id = 3;
+            update tbl_shipment_method set C_SHIP_METHOD_EN='RAIL TRANSPORT' where id = 4;
+        </sql>
+    </changeSet>
+    <changeSet id="555-2" author="abiz">
+        <dropColumn tableName="TBL_Shipment_Method" columnName="SHIP_METHOD"/>
+    </changeSet>
 </databaseChangeLog>

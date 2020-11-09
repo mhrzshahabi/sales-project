@@ -7,8 +7,12 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import org.hibernate.envers.AuditOverride;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.MappedSuperclass;
+import javax.persistence.PostLoad;
+import javax.persistence.PrePersist;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +21,7 @@ import java.util.List;
 @Setter
 @Accessors(chain = true)
 @MappedSuperclass
+@AuditOverride(forClass = Auditable.class)
 public class BaseEntity extends Auditable {
 
     @NotNull
@@ -24,6 +29,7 @@ public class BaseEntity extends Auditable {
     @Column(name = "B_EDITABLE", nullable = false, columnDefinition = "number default 1")
     private Boolean editable = true;
 
+    //    @NotAudited
     @NotNull
     @Builder.Default
     @Column(name = "N_E_STATUS", nullable = false, columnDefinition = "number default 1")

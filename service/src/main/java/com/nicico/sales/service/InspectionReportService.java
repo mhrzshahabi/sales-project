@@ -26,6 +26,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -94,6 +95,17 @@ public class InspectionReportService extends GenericService<InspectionReport, Lo
         return save(updating);
     }
 
+    @Override
+    public InspectionReportDTO.Info setShipment(Long inspectionId, Long shipmentId) {
+
+        InspectionReport inspectionReport = repository.findById(inspectionId).orElseThrow(() -> new NotFoundException(InspectionReport.class));
+        inspectionReport.getWeightInspections().forEach(q -> q.setShipmentId(shipmentId));
+        inspectionReport.getAssayInspections().forEach(q -> q.setShipmentId(shipmentId));
+        InspectionReportDTO.Info inspectionReportDTO = modelMapper.map(inspectionReport, InspectionReportDTO.Info.class);
+
+        return inspectionReportDTO;
+    }
+
     private void updateWeight(InspectionReportDTO.Update request, InspectionReport inspectionReport) throws InvocationTargetException, IllegalAccessException, NoSuchFieldException {
 
         List<WeightInspectionDTO.Create> weightInspection4Insert = new ArrayList<>();
@@ -101,10 +113,14 @@ public class InspectionReportService extends GenericService<InspectionReport, Lo
         WeightInspectionDTO.Delete weightInspection4Delete = new WeightInspectionDTO.Delete();
 
         updateUtil.fill(WeightInspection.class, inspectionReport.getWeightInspections(), WeightInspectionDTO.InfoWithoutInspectionReport.class, request.getWeightInspections(), WeightInspectionDTO.Create.class, weightInspection4Insert, WeightInspectionDTO.Update.class, weightInspection4Update, weightInspection4Delete);
-
+        if (!weightInspection4Delete.getIds().isEmpty()) {
+            List<WeightInspection> deleted = inspectionReport.getWeightInspections().stream().filter(assayInspection -> weightInspection4Delete.getIds().contains(assayInspection.getId())).collect(Collectors.toList());
+            inspectionReport.getWeightInspections().removeAll(deleted);
+            weightInspectionService.deleteAll(weightInspection4Delete);
+            repository.flush();
+        }
         if (!weightInspection4Insert.isEmpty()) weightInspectionService.createAll(weightInspection4Insert);
         if (!weightInspection4Update.isEmpty()) weightInspectionService.updateAll(weightInspection4Update);
-        if (!weightInspection4Delete.getIds().isEmpty()) weightInspectionService.deleteAll(weightInspection4Delete);
     }
 
     private void updateAssay(InspectionReportDTO.Update request, InspectionReport inspectionReport) throws InvocationTargetException, IllegalAccessException, NoSuchFieldException {
@@ -114,10 +130,14 @@ public class InspectionReportService extends GenericService<InspectionReport, Lo
         AssayInspectionDTO.Delete assayInspection4Delete = new AssayInspectionDTO.Delete();
 
         updateUtil.fill(AssayInspection.class, inspectionReport.getAssayInspections(), AssayInspectionDTO.InfoWithoutInspectionReport.class, request.getAssayInspections(), AssayInspectionDTO.Create.class, assayInspection4Insert, AssayInspectionDTO.Update.class, assayInspection4Update, assayInspection4Delete);
-
+        if (!assayInspection4Delete.getIds().isEmpty()) {
+            List<AssayInspection> deleted = inspectionReport.getAssayInspections().stream().filter(assayInspection -> assayInspection4Delete.getIds().contains(assayInspection.getId())).collect(Collectors.toList());
+            inspectionReport.getAssayInspections().removeAll(deleted);
+            assayInspectionService.deleteAll(assayInspection4Delete);
+            repository.flush();
+        }
         if (!assayInspection4Insert.isEmpty()) assayInspectionService.createAll(assayInspection4Insert);
         if (!assayInspection4Update.isEmpty()) assayInspectionService.updateAll(assayInspection4Update);
-        if (!assayInspection4Delete.getIds().isEmpty()) assayInspectionService.deleteAll(assayInspection4Delete);
     }
 
     private void updateAssayTotalValues(InspectionReportDTO.Update request, InspectionReport inspectionReport) throws InvocationTargetException, IllegalAccessException, NoSuchFieldException {

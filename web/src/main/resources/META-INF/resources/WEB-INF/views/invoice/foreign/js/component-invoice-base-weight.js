@@ -8,143 +8,169 @@ isc.defineClass("InvoiceBaseWeight", isc.VLayout).addProperties({
     layoutMargin: 2,
     membersMargin: 2,
     overflow: "visible",
+    percent: null,
     shipment: null,
-    weightMilestone: null,
-    remittanceDetail: null,
+    isClicked: true,
+    remainingPercent: false,
+    inspectionWeightData: null,
     initWidget: function () {
 
         this.Super("initWidget", arguments);
 
         let This = this;
 
-        let members = [];
-        members.add(isc.DynamicForm.create({
-            fields: [{
-
-                type: "integer",
-                name: "reportMilestone",
-                editorType: "SelectItem",
-                required: true,
-                wrapTitle: false,
-                title: "<spring:message code='inspectionReport.mileStone'/>",
-                validators: [{
-                    type: "required",
-                    validateOnChange: true
-                }],
-                valueMap: JSON.parse('${Enum_MileStone}'),
-                changed: function (form, item, value) {
-
-                    isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-
-                        httpMethod: "GET",
-                        willHandleError: true,
-                        params: {
-                            reportMilestone: value,
-                            shipmentId: This.shipment.id,
-                            inventoryIds: [This.remittanceDetail.inventory.id]
-                        },
-                        actionURL: "${contextPath}" + "/api/weightInspection/get-weight-values",
-                        callback: function (resp) {
-
-                            if (resp.data && (resp.httpResponseCode === 200 || resp.httpResponseCode === 201)) {
-
-                                let weightValues = JSON.parse(resp.data);
-                                let weightValue = weightValues && weightValues.length ? weightValues[0] : null;
-                                if (weightValue == null)
-                                    return;
-
-                                This.getMembers().filter(q => q.name === "weightGW").first().setValue(weightValue.weightGW);
-                                This.getMembers().filter(q => q.name === "weightGW").first().setUnitId(weightValue.unit.id);
-                                This.getMembers().filter(q => q.name === "weightGW").first().unitCategory = weightValue.unit.categoryUnit;
-
-                                This.getMembers().filter(q => q.name === "weightND").first().setValue(weightValue.weightND);
-                                This.getMembers().filter(q => q.name === "weightND").first().setUnitId(weightValue.unit.id);
-                                This.getMembers().filter(q => q.name === "weightND").first().unitCategory = weightValue.unit.categoryUnit;
-
-                                This.getMembers().filter(q => q.name === "weightDiff").first().setValue(weightValue.weightDiff);
-                                This.getMembers().filter(q => q.name === "weightDiff").first().setUnitId(weightValue.unit.id);
-                                This.getMembers().filter(q => q.name === "weightDiff").first().unitCategory = weightValue.unit.categoryUnit;
-                            } else {
-
-                                isc.RPCManager.handleError(resp, null);
-
-                                This.getMembers().filter(q => q.name === "weightGW").first().setValue(null);
-                                This.getMembers().filter(q => q.name === "weightGW").first().setUnitId(null);
-                                This.getMembers().filter(q => q.name === "weightGW").first().unitCategory = null;
-
-                                This.getMembers().filter(q => q.name === "weightND").first().setValue(null);
-                                This.getMembers().filter(q => q.name === "weightND").first().setUnitId(null);
-                                This.getMembers().filter(q => q.name === "weightND").first().unitCategory = null;
-
-                                This.getMembers().filter(q => q.name === "weightDiff").first().setValue(null);
-                                This.getMembers().filter(q => q.name === "weightDiff").first().setUnitId(null);
-                                This.getMembers().filter(q => q.name === "weightDiff").first().unitCategory = null;
-                            }
-                        }
-                    }));
-                }
-            }]
-        }));
-
-        members.add(isc.Unit.create({
+        this.addMember(isc.Unit.create({
 
             disabledUnitField: true,
             disabledValueField: true,
             showValueFieldTitle: true,
             showUnitFieldTitle: false,
             name: "weightGW",
-            fieldValueTitle: "weightGW",
+            fieldValueTitle: "TOTAL GROSS WEIGHT"
         }));
+        this.getMembers().last().setValue(this.inspectionWeightData.weightGW);
+        this.getMembers().last().setUnitId(this.inspectionWeightData.weightInspections[0].unitId);
 
-        members.add(isc.Unit.create({
+        this.addMember(isc.Unit.create({
 
             disabledUnitField: true,
             disabledValueField: true,
             showValueFieldTitle: true,
             showUnitFieldTitle: false,
             name: "weightND",
-            fieldValueTitle: "weightND",
+            fieldValueTitle: "TOTAL NET WEIGHT"
+        }));
+        this.getMembers().last().setValue(this.inspectionWeightData.weightND);
+        this.getMembers().last().setUnitId(this.inspectionWeightData.weightInspections[0].unitId);
+
+        let unitArray = [];
+        let amountArray = [];
+        let inventories = [];
+        this.inspectionWeightData.weightInspections.forEach(q => inventories.add(q.inventory));
+        let remittanceDetails = inventories.map(q => q.remittanceDetails);
+        remittanceDetails.forEach(rds => {
+            rds.forEach(r => {
+                unitArray.push(r.unitId);
+            });
+        });
+        unitArray = unitArray.distinct();
+        unitArray.forEach((u, index) => {
+            if (amountArray[index] === undefined) {
+                amountArray[index] = 0;
+            }
+            remittanceDetails.forEach(rds => {
+                rds.forEach((r, i) => {
+                    if (r.unitId === u && r.amount !== 0) {
+                        amountArray[index] = amountArray[index] + r.amount;
+                    }
+                });
+            });
+        });
+        unitArray.forEach((current, index) => {
+            if (amountArray[index] !== 0) {
+                let unitMember = isc.Unit.create({
+                    disabledUnitField: true,
+                    disabledValueField: true,
+                    showUnitFieldTitle: false,
+                    showValueFieldTitle: true,
+                    fieldValueTitle: "TOTAL UNITS",
+                });
+                unitMember.setValue(amountArray[index]);
+                unitMember.setUnitId(current);
+                This.addMember(unitMember)
+            }
+        });
+
+        this.addMember(isc.DynamicForm.create({
+            width: "100%",
+            fields: [{
+                name: "percent",
+                title: "<spring:message code='foreign-invoice.form.percent'/>",
+                type: "float",
+                defaultValue: 100,
+                required: true,
+                validators: [
+                    {
+                        type: "required",
+                        validateOnChange: true
+                    },
+                    {
+                        type: "floatLimit",
+                        max: 100,
+                        min: 0,
+                        validateOnChange: true
+                    }],
+                icons: [
+                    {
+                        src: "pieces/16/accept.png",
+                        click: function () {
+
+                            This.isClicked = true;
+                            let percent = This.getMembers().last().getValue("percent");
+                            let weightGWMember = This.getMembers().filter(q => q.name === "weightGW").first();
+                            weightGWMember.setValue(weightGWMember.getValues().value * percent / 100);
+                            let weightNDMember = This.getMembers().filter(q => q.name === "weightND").first();
+                            weightNDMember.setValue(weightNDMember.getValues().value * percent / 100);
+
+                            if (percent === 100) {
+                                This.getMembers().filter(q => q.fieldValueTitle === "TOTAL UNITS").forEach(member => member.show());
+                            } else
+                                This.getMembers().filter(q => q.fieldValueTitle === "TOTAL UNITS").forEach(member => member.hide());
+                        }
+                    },
+                    {
+                        src: "pieces/16/refresh.png",
+                        click: function () {
+
+                            This.isClicked = true;
+                            This.getMembers().last().setValue("percent", 100);
+                            let weightGWMember = This.getMembers().filter(q => q.name === "weightGW").first();
+                            weightGWMember.setValue(This.inspectionWeightData.weightGW);
+                            let weightNDMember = This.getMembers().filter(q => q.name === "weightND").first();
+                            weightNDMember.setValue(This.inspectionWeightData.weightND);
+
+                            This.getMembers().filter(q => q.fieldValueTitle === "TOTAL UNITS").forEach(member => member.show());
+                        }
+                    }],
+                changed: function () {
+
+                    This.isClicked = false;
+                }
+            }]
         }));
 
-        members.add(isc.Unit.create({
-
-            disabledUnitField: true,
-            disabledValueField: true,
-            showValueFieldTitle: true,
-            showUnitFieldTitle: false,
-            name: "weightDiff",
-            fieldValueTitle: "weightDiff",
-        }));
-
-        this.addMembers(members);
-        this.getMembers()[0].setValue("reportMilestone", JSON.parse('${Enum_MileStone}').Source);
-        this.getMembers()[0].getItem(0).changed(this.getMembers()[0], this.getMembers()[0].getItem(0), JSON.parse('${Enum_MileStone}').Source);
-        this.editWeight();
-    },
-    editWeight: function () {
-        if (this.weightMilestone)
-            this.getMembers()[0].setValue("reportMilestone", this.weightMilestone);
+        this.setPercentValue();
     },
     getValues: function () {
 
         return {
             weightGW: this.getMembers().filter(q => q.name === "weightGW").first(),
             weightND: this.getMembers().filter(q => q.name === "weightND").first(),
-            weightDiff: this.getMembers().filter(q => q.name === "weightDiff").first(),
-            weightMilestone: this.getMembers()[0].getValue("reportMilestone")
+            percent: this.getMembers().last().getValue("percent")
         };
+    },
+    setPercentValue: function () {
+
+        if (this.percent) {
+            this.getMembers().last().setValue("percent", this.percent);
+            this.getMembers().last().getField("percent").icons[0].click();
+        }
     },
     validate: function () {
 
         let isValid = true;
-        if (this.getMembers().length < 2)
+        this.getMembers().last().validate();
+        if (this.getMembers().last().hasErrors())
             isValid = false;
-        else {
-            this.getMembers().slice(1).forEach(current => {
-                if (current.getValues().value === null)
-                    isValid = false;
-            });
+
+        if (this.getMembers().last().getField("percent").getValue() > this.remainingPercent) {
+            isc.warn("<spring:message code='foreign-invoice.form.percent.not.valid'/>");
+            isValid = false;
         }
+
+        if (isValid && !this.isClicked)
+            this.getMembers().last().getField("percent").icons[0].click();
+
         return isValid;
     }
 });

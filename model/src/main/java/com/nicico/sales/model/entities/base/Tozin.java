@@ -1,16 +1,18 @@
 package com.nicico.sales.model.entities.base;
 
-import com.nicico.sales.model.entities.warehouse.TozinTable;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Formula;
 import org.hibernate.annotations.Immutable;
-import org.hibernate.annotations.JoinFormula;
 import org.hibernate.annotations.Subselect;
+import org.hibernate.envers.NotAudited;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
 import java.io.Serializable;
 
 @Getter
@@ -102,9 +104,13 @@ public class Tozin {
     private String strSharh2;
     @Column(name = "TZN_SHARH1")
     private String tznSharh1;
+
+    @NotAudited
     @Formula(value = "(select TBL_WARH_TOZIN.id from TBL_WARH_TOZIN where " +
             "TBL_WARH_TOZIN.TOZINE_ID = TOZINE_ID and ROWNUM = 1 )")
     private Long tozinTable;
+
+    @NotAudited
     @Formula(value = "(case " +
             "when contener_no3 like '*'   " +
             "then 0  " +
@@ -114,6 +120,7 @@ public class Tozin {
             "     then 0 " +
             "end)")
     private Boolean isRail;
+
     @EqualsAndHashCode(callSuper = false)
     public static class TozinId implements Serializable {
         private String source;

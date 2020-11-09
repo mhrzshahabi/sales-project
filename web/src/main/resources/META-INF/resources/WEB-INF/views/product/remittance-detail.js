@@ -1,7 +1,6 @@
 //<%@ page contentType="text/html;charset=UTF-8" %>
 //  <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 // <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-
 const rdTab = {
     Logs: [],
     Vars: {
@@ -1429,17 +1428,18 @@ rdTab.Fields.RemittanceDetailFullFields = function () {
             title: "<spring:message code='Tozin.vazn'/> <spring:message code='Tozin.dest.tozin'/>",
             recordDoubleClick: rdTab.Methods.RecordDoubleClickRD,
         },
-        {name:"tozinWeightDiff",type:"summary",title:"<spring:message code='Tozin.wazn.diff'/>",
-
+        {
+            name: "tozinWeightDiff", type: "summary", title: "<spring:message code='Tozin.wazn.diff'/>",
+            baseStyle: "cell",
             recordSummaryFunction(_record, _grid, _value,) {
-                if(_record.destinationTozin)
+                if (_record.destinationTozin)
                     return _record.destinationTozin.vazn - _record.sourceTozin.vazn
                 return 0
             },
-            // formatCellValue(value, record, rowNum, colNum, grid){
-            //     if (!value || isNaN(value) || Number(value)>0)return value;
-            //     return '<div style="color: red;  unicode-bidi: bidi-override;direction: ltr">'+value+'</div>'
-            // },
+            formatCellValue(value, record, rowNum, colNum, grid) {
+                if (!value || isNaN(value) || Number(value) > 0) return value;
+                return '<div style="color: red;  unicode-bidi: bidi-override;direction: ltr">' + value + '</div>'
+            },
         },
         ...rdTab.Fields.RemittanceDetail(),
 

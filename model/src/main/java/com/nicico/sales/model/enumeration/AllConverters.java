@@ -1,5 +1,7 @@
 package com.nicico.sales.model.enumeration;
 
+import com.nicico.copper.core.service.minio.EFileAccessLevel;
+
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 import java.util.*;
@@ -259,7 +261,7 @@ public abstract class AllConverters {
         }
     }
 
-     // *****************************************************************************************************************
+    // *****************************************************************************************************************
 
     @Converter(autoApply = true)
     public static class ContractDetailTypeReferenceConverter implements AttributeConverter<ContractDetailTypeReference, Integer> {
@@ -280,7 +282,7 @@ public abstract class AllConverters {
         }
     }
 
-     // *****************************************************************************************************************
+    // *****************************************************************************************************************
 
     @Converter(autoApply = true)
     public static class CurrencyTypeConverter implements AttributeConverter<CurrencyType, Integer> {
@@ -301,7 +303,7 @@ public abstract class AllConverters {
         }
     }
 
-       // *****************************************************************************************************************
+    // *****************************************************************************************************************
 
     @Converter(autoApply = true)
     public static class SymbolUnitConverter implements AttributeConverter<SymbolUnit, Integer> {
@@ -319,6 +321,90 @@ public abstract class AllConverters {
         public SymbolUnit convertToEntityAttribute(Integer integer) {
             return Arrays.stream(SymbolUnit.values())
                     .filter(literal -> literal.getId().equals(integer)).findFirst().orElse(null);
+        }
+    }
+
+    // *****************************************************************************************************************
+
+    @Converter(autoApply = true)
+    public static class ReportTypeConverter implements AttributeConverter<ReportType, Integer> {
+
+        @Override
+        public Integer convertToDatabaseColumn(ReportType literal) {
+
+            if (literal == null)
+                return null;
+
+            return literal.getId();
+        }
+
+        @Override
+        public ReportType convertToEntityAttribute(Integer integer) {
+            return Arrays.stream(ReportType.values())
+                    .filter(literal -> literal.getId().equals(integer)).findFirst().orElse(null);
+        }
+    }
+
+    // *****************************************************************************************************************
+
+    @Converter(autoApply = true)
+    public static class ReportSourceConverter implements AttributeConverter<ReportSource, Integer> {
+
+        @Override
+        public Integer convertToDatabaseColumn(ReportSource literal) {
+
+            if (literal == null)
+                return null;
+
+            return literal.getId();
+        }
+
+        @Override
+        public ReportSource convertToEntityAttribute(Integer integer) {
+            return Arrays.stream(ReportSource.values())
+                    .filter(literal -> literal.getId().equals(integer)).findFirst().orElse(null);
+        }
+    }
+
+    // *****************************************************************************************************************
+
+    @Converter(autoApply = true)
+    public static class FileStatusConverter implements AttributeConverter<FileStatus, String> {
+
+        @Override
+        public String convertToDatabaseColumn(FileStatus entry) {
+            return entry != null ? entry.getValue() : null;
+        }
+
+        @Override
+        public FileStatus convertToEntityAttribute(String value) {
+            for (FileStatus entry : FileStatus.values()) {
+                if (entry.getValue().equals(value)) {
+                    return entry;
+                }
+            }
+            return null;
+        }
+    }
+
+    // *****************************************************************************************************************
+
+    @Converter(autoApply = true)
+    public static class EFileAccessLevelConverter implements AttributeConverter<EFileAccessLevel, String> {
+
+        @Override
+        public String convertToDatabaseColumn(EFileAccessLevel entry) {
+            return entry != null ? entry.getValue() : null;
+        }
+
+        @Override
+        public EFileAccessLevel convertToEntityAttribute(String value) {
+            for (EFileAccessLevel entry : EFileAccessLevel.values()) {
+                if (entry.getValue().equals(value)) {
+                    return entry;
+                }
+            }
+            return null;
         }
     }
 }

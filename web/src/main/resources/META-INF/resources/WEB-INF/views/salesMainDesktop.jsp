@@ -98,6 +98,9 @@
     <%@include file="common/ts/FindFormUtil.js"%>
     <%@include file="common/ts/GeneralTabUtil.js"%>
     <%@include file="common/ts/StorageUtil.js"%>
+    <%@include file="common/ts/FilterFormUtil.js"%>
+    <%@include file="common/ts/ReportExecutorFormUtil.js"%>
+    <%@include file="common/js/component-file.js"%>
 
     var Enums = {
 
@@ -293,12 +296,19 @@
         let locale = languageForm.getValue("languageName");
         return locale === "fa" ? "left" : "right";
     };
+
+    nicico.CommonUtil.getLang = function () {
+
+        let locale = languageForm.getValue("languageName");
+        return locale === "fa" ? "fa" : "en";
+    };
+
     var salesPersianDateUtil = new nicico.PersianDateUtil();
 
     <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
     isc.DynamicForm.addProperties({
-        requiredTitlePrefix: "<span style='color:#ff0842;font-size:15px; padding-left: 5px;'>*</span>",
+        requiredTitleSuffix: "<span style='color:#ff0842;font-size:15px; padding-left: 5px;'>*</span>" + ":",
         setMethod: 'POST',
         canSubmit: true,
         showInlineErrors: true,
@@ -356,7 +366,7 @@
     }
 
     isc.RPCManager.addClassProperties({
-        defaultPrompt: "<spring:message code='global.server.contacting'/>&nbsp;" + "<span>" + isc.Canvas.imgHTML("[skin]/images/loadingSmall.gif", 20, 20) + "</span>",
+        prompt: "<spring:message code='global.server.contacting'/>&nbsp;" + "<span>" + isc.Canvas.imgHTML("[skin]/images/loadingSmall.gif", 20, 20) + "</span>",
         fetchDataPrompt: "<spring:message code='global.server.data.fetch'/>&nbsp;" + "<span>" + isc.Canvas.imgHTML("[skin]/images/loadingSmall.gif", 20, 20) + "</span>",
         removeDataPrompt: "<spring:message code='global.server.data.remove'/>&nbsp;" + "<span>" + isc.Canvas.imgHTML("[skin]/images/loadingSmall.gif", 20, 20) + "</span>",
         saveDataPrompt: "<spring:message code='global.server.data.save'/>&nbsp;" + "<span>" + isc.Canvas.imgHTML("[skin]/images/loadingSmall.gif", 20, 20) + "</span>",
@@ -412,7 +422,12 @@
         }
         // console.debug("formatCellValueNumber(value) arguments",arguments);
         if (value === undefined || isNaN(value)) return value;
-        return isc.NumberUtil.format(value, ',0');
+        try {
+            return isc.NumberUtil.format(value, ',0');
+        } catch (e) {
+            console.warn('function formatCellValueNumber(value, record, rowNum, colNum)', e)
+            return value;
+        }
     }
 
     isc.ListGrid.addProperties({
@@ -422,6 +437,7 @@
         allowFilterExpressions: true,
         allowAdvancedCriteria: true,
         filterOnKeypress: true,
+        dateFormatter: "toJapanShortDate",
         formatCellValue: formatCellValueNumber,
         sortFieldAscendingText: '<spring:message code="global.grid.sortFieldAscendingText" />',
         sortFieldDescendingText: '<spring:message code="global.grid.sortFieldDescendingText" />',
@@ -622,7 +638,7 @@
 
     /*----------------------baseTab------------------------*/
     baseTab = isc.ToolStripMenuButton.create({
-        title: "&nbsp; <spring:message code='main.baseTab'/>",
+        title: "&nbsp; <spring:message code='main.baseInfo'/>",
         menu: isc.Menu.create({
             placement: "none",
             data: [
@@ -663,6 +679,7 @@
                                 createTab("<spring:message code='port.port'/>", "<spring:url value="/base-port/show-form" />")
                             }
                         },
+                        {isSeparator: true},
                         </sec:authorize>
                         <sec:authorize access="hasAuthority('R_VESSEL')">
                         {
@@ -772,47 +789,109 @@
     <%--    ]--%>
     <%--});--%>
 
-    /*----------------------contractsTab------------------------*/
-    contractsTab = isc.ToolStripMenuButton.create({
-        title: "&nbsp; <spring:message code='main.contractsTab'/>",
+    /*----------------------foreignSalesTab------------------------*/
+    foreignSalesTab = isc.ToolStripMenuButton.create({
+        title: "&nbsp; <spring:message code='main.foreign.sales'/>",
         menu: isc.Menu.create({
             placement: "none",
             data: [
-                <sec:authorize access="hasAuthority('R_CONTRACT')">
-                {isSeparator: true},
+                <sec:authorize access="hasAuthority('R_CONTRACT') or hasAuthority('R_CONTRACT_TYPE')
+                                    or hasAuthority('R_CONTRACT_DETAIL_TYPE') or hasAuthority('R_INCOTERM')">
                 {
-                    title: "<spring:message code='entity.contract'/>",
-                    click: function () {
-                        createTab("<spring:message code='entity.contract'/>", "<spring:url value="/contract/show-form" />")
-                    }
+                    title: "&nbsp; <spring:message code='main.tab.contracts'/>",
+                    submenu: [
+                        <sec:authorize access="hasAuthority('R_CONTRACT')">
+                        {isSeparator: true},
+                        {
+                            title: "<spring:message code='entity.contract'/>",
+                            click: function () {
+                                createTab("<spring:message code='entity.contract'/>", "<spring:url value="/contract/show-form" />")
+                            }
+                        },
+                        </sec:authorize>
+                        <sec:authorize access="hasAuthority('R_CONTRACT_TYPE')">
+                        {isSeparator: true},
+                        {
+                            title: "<spring:message code='entity.contract-type'/>",
+                            click: function () {
+                                createTab("<spring:message code='entity.contract-type'/>", "<spring:url value="/contract-type/show-form" />")
+                            }
+                        },
+                        </sec:authorize>
+                        <sec:authorize access="hasAuthority('R_CONTRACT_DETAIL_TYPE')">
+                        {isSeparator: true},
+                        {
+                            title: "<spring:message code='entity.contract-detail-type'/>",
+                            click: function () {
+                                createTab("<spring:message code='entity.contract-detail-type'/>", "<spring:url value="/contract-detail-type/show-form" />")
+                            }
+                        },
+                        </sec:authorize>
+                        <sec:authorize access="hasAuthority('R_INCOTERM')">
+                        {isSeparator: true},
+                        {
+                            title: "<spring:message code='entity.incoterm'/>",
+                            click: function () {
+                                createTab("<spring:message code='entity.incoterm'/>", "<spring:url value="/incoterm/show-form" />")
+                            }
+                        },
+                        </sec:authorize>
+                    ]
                 },
+                {isSeparator: true},
                 </sec:authorize>
-                <sec:authorize access="hasAuthority('R_CONTRACT_TYPE')">
-                {isSeparator: true},
+                <sec:authorize access="hasAuthority('R_SHIPMENT') or hasAuthority('R_BILL_OF_LANDING')
+                                    or hasAuthority('R_INSPECTION_REPORT') or hasAuthority('R_SHIPMENT_COST_INVOICE')">
                 {
-                    title: "<spring:message code='entity.contract-type'/>",
-                    click: function () {
-                        createTab("<spring:message code='entity.contract-type'/>", "<spring:url value="/contract-type/show-form" />")
-                    }
+                    title: "&nbsp; <spring:message code='main.shipment'/>",
+                    submenu: [
+                        <sec:authorize access="hasAuthority('R_SHIPMENT')">
+                        {
+                            title: "<spring:message code='cargoAssignment.title'/>",
+                            click: function () {
+                                createTab("<spring:message code='cargoAssignment.title'/>", "<spring:url value="/shipment/showForm" />")
+                            }
+                        },
+                        {isSeparator: true},
+                        </sec:authorize>
+                        <sec:authorize access="hasAuthority('R_BILL_OF_LANDING')">
+                        {
+                            title: "&nbsp; <spring:message code='bol.title'/>",
+                            click: function () {
+                                createTab("<spring:message code='bol.title'/>", "<spring:url value="/bill-of-landing/show-form" />")
+                            }
+                        },
+                        {isSeparator: true},
+                        </sec:authorize>
+                        <sec:authorize access="hasAuthority('R_INSPECTION_REPORT')">
+                        {
+                            title: "<spring:message code='inspectionReport.title'/>",
+                            click: function () {
+                                createTab("<spring:message code='inspectionReport.title'/>", "<spring:url value="/inspectionReport/show-form" />")
+                            }
+                        },
+                        {isSeparator: true},
+                        </sec:authorize>
+                        <sec:authorize access="hasAuthority('R_SHIPMENT_COST_INVOICE')">
+                        {
+                            title: "<spring:message code='shipmentCostInvoice.title'/>",
+                            click: function () {
+                                createTab("<spring:message code='shipmentCostInvoice.title'/>", "<spring:url value="/shipmentCostInvoice/show-form" />")
+                            }
+                        }
+                        </sec:authorize>
+                    ]
                 },
+                {isSeparator: true},
                 </sec:authorize>
-                <sec:authorize access="hasAuthority('R_CONTRACT_DETAIL_TYPE')">
-                {isSeparator: true},
+                <sec:authorize access="hasAuthority('R_FOREIGN_INVOICE')">
                 {
-                    title: "<spring:message code='entity.contract-detail-type'/>",
+                    title: "<spring:message code='entity.foreign-invoice'/>",
                     click: function () {
-                        createTab("<spring:message code='entity.contract-detail-type'/>", "<spring:url value="/contract-detail-type/show-form" />")
+                        createTab("<spring:message code='entity.foreign-invoice'/>", "<spring:url value="/foreign-invoice/show-form" />")
                     }
                 },
-                </sec:authorize>
-                <sec:authorize access="hasAuthority('R_INCOTERM')">
                 {isSeparator: true},
-                {
-                    title: "<spring:message code='entity.incoterm'/>",
-                    click: function () {
-                        createTab("<spring:message code='entity.incoterm'/>", "<spring:url value="/incoterm/show-form" />")
-                    }
-                },
                 </sec:authorize>
                 <%--<sec:authorize access="hasAuthority('R_INCOTERM_ASPECT')">
                 {isSeparator: true},
@@ -842,96 +921,41 @@
                 },
                 </sec:authorize>--%>
                 <%--<sec:authorize access="hasAuthority('R_INCOTERM_FORM')">
-                {isSeparator: true},
-                {
-                    title: "<spring:message code='entity.incoterm-form'/>",
-                    click: function () {
-                        createTab("<spring:message code='entity.incoterm-form'/>", "<spring:url value="/incoterm-form/show-form" />")
-                    }
-                },
-                </sec:authorize>--%>
+                    {isSeparator: true},
+                    {
+                        title: "<spring:message code='entity.incoterm-form'/>",
+                        click: function () {
+                            createTab("<spring:message code='entity.incoterm-form'/>", "<spring:url value="/incoterm-form/show-form" />")
+                        }
+                    },
+                    </sec:authorize>--%>
                 <%--<sec:authorize access="hasAuthority('R_INCOTERM_PARTY')">
-                {isSeparator: true},
-                {
-                    title: "<spring:message code='entity.incoterm-party'/>",
-                    click: function () {
-                        createTab("<spring:message code='entity.incoterm-party'/>", "<spring:url value="/incoterm-party/show-form" />")
-                    }
-                },
-                </sec:authorize>
-                <sec:authorize access="hasAuthority('R_TERM')">
-                {isSeparator: true},
-                {
-                    title: "<spring:message code='entity.term'/>",
-                    click: function () {
-                        createTab("<spring:message code='entity.term'/>", "<spring:url value="/term/show-form" />")
-                    }
-                },
-                </sec:authorize>--%>
+                    {isSeparator: true},
+                    {
+                        title: "<spring:message code='entity.incoterm-party'/>",
+                        click: function () {
+                            createTab("<spring:message code='entity.incoterm-party'/>", "<spring:url value="/incoterm-party/show-form" />")
+                        }
+                    },
+                    </sec:authorize>
+                    <sec:authorize access="hasAuthority('R_TERM')">
+                    {isSeparator: true},
+                    {
+                        title: "<spring:message code='entity.term'/>",
+                        click: function () {
+                            createTab("<spring:message code='entity.term'/>", "<spring:url value="/term/show-form" />")
+                        }
+                    },
+                    </sec:authorize>--%>
             ]
         })
     });
 
-    /*----------------------shipmentTab------------------------*/
-    shipmentTab = isc.ToolStripMenuButton.create({
-        title: "&nbsp; <spring:message code='main.shipmentTab'/>",
+    internalSalesTab = isc.ToolStripMenuButton.create({
+        title: "&nbsp; <spring:message code='main.internal.sales'/>",
         menu: isc.Menu.create({
             placement: "none",
             data: [
-                <sec:authorize access="hasAuthority('R_SHIPMENT')">
-                {
-                    title: "<spring:message code='cargoAssignment.title'/>",
-                    click: function () {
-                        createTab("<spring:message code='cargoAssignment.title'/>", "<spring:url value="/shipment/showForm" />")
-                    }
-                },
-                {isSeparator: true},
-                </sec:authorize>
-                <sec:authorize access="hasAuthority('R_BILL_OF_LANDING')">
-                {
-                    title: "&nbsp; <spring:message code='bol.title'/>",
-                    click: function () {
-                        createTab("<spring:message code='bol.title'/>", "<spring:url value="/bill-of-landing/show-form" />")
-                    }
-                },
-                {isSeparator: true},
-                </sec:authorize>
-                <sec:authorize access="hasAuthority('R_INSPECTION_REPORT')">
-                {
-                    title: "<spring:message code='inspectionReport.title'/>",
-                    click: function () {
-                        createTab("<spring:message code='inspectionReport.title'/>", "<spring:url value="/inspectionReport/show-form" />")
-                    }
-                },
-                {isSeparator: true},
-                </sec:authorize>
-                <sec:authorize access="hasAuthority('R_SHIPMENT_COST_INVOICE')">
-                {
-                    title: "<spring:message code='shipmentCostInvoice.title'/>",
-                    click: function () {
-                        createTab("<spring:message code='shipmentCostInvoice.title'/>", "<spring:url value="/shipmentCostInvoice/show-form" />")
-                    }
-                }
-                </sec:authorize>
-            ]
-        })
-    });
-
-    /*----------------------financialTab------------------------*/
-    financialTab = isc.ToolStripMenuButton.create({
-        title: "&nbsp; <spring:message code='main.financialTab'/>",
-        menu: isc.Menu.create({
-            placement: "none",
-            data: [
-                <sec:authorize access="hasAuthority('R_FOREIGN_INVOICE')">
-                {
-                    title: "<spring:message code='entity.foreign-invoice'/>",
-                    click: function () {
-                        createTab("<spring:message code='entity.foreign-invoice'/>", "<spring:url value="/foreign-invoice/show-form" />")
-                    }
-                },
-                {isSeparator: true},
-                </sec:authorize>
                 <sec:authorize access="hasAuthority('R_VIEW_INTERNAL_INVOICE_DOCUMENT')">
                 {
                     title: "<spring:message code='issuedInternalInvoices.title'/>",
@@ -947,79 +971,86 @@
                     click: function () {
                         createTab("<spring:message code='invoiceSales.title'/>", "<spring:url value="/invoiceSales/showForm" />")
                     }
-                }/*,
-                {
-                    title: "<spring:message code='invoiceSales.title'/>",
-                    click: function () {
-                        createTab("<spring:message code='invoiceSales.title'/>", "<spring:url value="/invoice-export/showForm" />")
-                    }
-                }*/
+                }
                 </sec:authorize>
             ]
         })
     });
 
-    /*----------------------productTab------------------------*/
-    productTab = isc.ToolStripMenuButton.create({
-        title: "&nbsp; <spring:message code='main.productTab'/>",
+    /*----------------------warehousesTab------------------------*/
+    warehousesTab = isc.ToolStripMenuButton.create({
+        title: "&nbsp; <spring:message code='main.warehouses'/>",
         menu: isc.Menu.create({
             placement: "none",
             data: [
-                <sec:authorize access="hasAuthority('R_TOZIN_LITE')">
+                <sec:authorize access="hasAuthority('R_TOZIN_LITE') or hasAuthority('R_TOZIN') or hasAuthority('R_REMITTANCE')">
                 {
-                    title: "<spring:message code='tozin.onWay'/>",
-                    click: function () {
+                    title: "<spring:message code='main.bandar-abbas.warehouse'/>",
+                    submenu: [
+                        <sec:authorize access="hasAuthority('R_TOZIN_LITE')">
+                        {
+                            title: "<spring:message code='tozin.onWay'/>",
+                            click: function () {
 
-                        try {
-                            createTab("<spring:message code='tozin.onWay'/>", "<spring:url value="/tozin/showOnWayProductForm" />")
-                        } catch (e) {
-                            console.error('open /tozin/showOnWayProductFormerror accured ', e);
-                            SalesBaseParameters.deleteAllSavedParametersAndFetchAgain().then(r => {
+                                try {
                                     createTab("<spring:message code='tozin.onWay'/>", "<spring:url value="/tozin/showOnWayProductForm" />")
+                                } catch (e) {
+                                    console.error('open /tozin/showOnWayProductFormerror accured ', e);
+                                    SalesBaseParameters.deleteAllSavedParametersAndFetchAgain().then(r => {
+                                            createTab("<spring:message code='tozin.onWay'/>", "<spring:url value="/tozin/showOnWayProductForm" />")
+                                        }
+                                    )
                                 }
-                            )
-                        }
-                    }
+                            }
 
-                },
-                {isSeparator: true},
-                </sec:authorize>
-                <sec:authorize access="hasAuthority('R_TOZIN')">
-                {
-                    title: "<spring:message code='tozin.between.complex'/>",
-                    click: function () {
-                        try {
-                            createTab("<spring:message code='tozin.between.complex'/>",
-                                "<spring:url value="/tozin/between-complex-transfer" />")
-                        } catch (e) {
-                            console.error('open /tozin/between-complex-transfer error accured ', e);
-                            SalesBaseParameters.deleteAllSavedParametersAndFetchAgain().then(r => {
+                        },
+                        {isSeparator: true},
+                        </sec:authorize>
+                        <sec:authorize access="hasAuthority('R_TOZIN')">
+                        {
+                            title: "<spring:message code='tozin.between.complex'/>",
+                            click: function () {
+                                try {
                                     createTab("<spring:message code='tozin.between.complex'/>",
                                         "<spring:url value="/tozin/between-complex-transfer" />")
+                                } catch (e) {
+                                    console.error('open /tozin/between-complex-transfer error accured ', e);
+                                    SalesBaseParameters.deleteAllSavedParametersAndFetchAgain().then(r => {
+                                            createTab("<spring:message code='tozin.between.complex'/>",
+                                                "<spring:url value="/tozin/between-complex-transfer" />")
+                                        }
+                                    )
                                 }
-                            )
-                        }
 
-                    }
+                            }
 
+                        },
+                        {isSeparator: true},
+                        </sec:authorize>
+                        <sec:authorize access="hasAuthority('R_REMITTANCE')">
+                        {
+                            title: "<spring:message code='bijack'/>",
+                            click: function () {
+                                createTab("<spring:message code='bijack'/>", "<spring:url value="/remittance-detail/showForm" />")
+                            }
+                        },
+                        {
+                            title: "<spring:message code='entity.remittance-detail'/>",
+                            click: function () {
+                                createTab("<spring:message code='entity.remittance-detail'/>", "<spring:url value="/remittance-detail/show-pkg-form" />")
+                            }
+                        },
+                        {isSeparator: true},
+                        </sec:authorize>
+                    ]
                 },
                 {isSeparator: true},
                 </sec:authorize>
-                <sec:authorize access="hasAuthority('R_REMITTANCE')">
+                <sec:authorize access="true">
                 {
-                    title: "<spring:message code='bijack'/>",
-                    click: function () {
-                        createTab("<spring:message code='bijack'/>", "<spring:url value="/remittance-detail/showForm" />")
-                    }
+                    title: "<spring:message code='main.shanghai.warehouse'/>",
+                    //submenu:[f** chinese]
                 },
-                {
-                    title: "<spring:message code='entity.remittance-detail'/>",
-                    click: function () {
-                        createTab("<spring:message code='entity.remittance-detail'/>", "<spring:url value="/remittance-detail/show-pkg-form" />")
-                    }
-                },
-
-                {isSeparator: true},
                 </sec:authorize>
             ]
         })
@@ -1028,11 +1059,47 @@
     /*----------------------reportTab------------------------*/
     reportTab = isc.ToolStripMenuButton.create({
         title: "&nbsp; <spring:message code='main.reportTab'/>",
-        click: function () {
-            createTab("<spring:message code='main.reportTab'/>", "<spring:url value="/report/show-report-form" />")
-        }
-    });
+        menu: isc.Menu.create({
+            placement: "none",
+            data: [
+                <sec:authorize access="hasAuthority('R_REPORT_GROUP')">
+                {
+                    title: "<spring:message code='report.menu.report-group'/>",
+                    click: function () {
+                        createTab("<spring:message code='report.menu.report-group'/>", "<spring:url value="/report-group/show-form" />")
+                    }
+                },
+                {isSeparator: true},
+                </sec:authorize>
+                <sec:authorize access="hasAuthority('R_REPORT')">
+                {
+                    title: "<spring:message code='report.menu.pattern'/>",
+                    click: function () {
+                        createTab("<spring:message code='report.menu.pattern'/>", "<spring:url value="/report/show-form" />")
+                    }
+                },
+                {isSeparator: true},
+                </sec:authorize>
+                <sec:authorize access="hasAuthority('RG_EXECUTE')">
+                {
+                    title: "<spring:message code='report.menu.execute'/>",
+                    click: function () {
 
+                        nicico.ReportExecutorFormUtil.show(null, '<spring:message code="report.menu.execute"/>', null, createTab);
+                    }
+                },
+                {isSeparator: true},
+                </sec:authorize>
+                {
+                    title: "<spring:message code='report.menu.warehouse'/>",
+                    click: function () {
+
+                        createTab("<spring:message code='report.menu.warehouse'/>", "<spring:url value="/warehouse-report/show-report-form" />")
+                    }
+                },
+            ]
+        })
+    });
     //---------------------------------------
     var mainTabSet = isc.TabSet.create({
         tabBarPosition: "top",
@@ -1065,30 +1132,27 @@
     });
 
     saleToolStrip = isc.ToolStrip.create({
-        align: "center",
+        align: nicico.CommonUtil.getAlignByLang() === "right" ? "left" : "right",
         membersMargin: 20,
-        members: [
-        ]
+        members: []
     });
-    <sec:authorize access="hasAuthority('R_CONTACT') or hasAuthority('R_PERSON') or hasAuthority('R_PORT') or hasAuthority('R_VESSEL') or hasAuthority('R_CURRENCY_RATE')
+    <sec:authorize
+    access="hasAuthority('R_CONTACT') or hasAuthority('R_PERSON') or hasAuthority('R_PORT') or hasAuthority('R_VESSEL') or hasAuthority('R_CURRENCY_RATE') or hasAuthority('R_SHIPMENT_COST_DUTY')
                         or hasAuthority('R_BANK') or hasAuthority('R_PRICE_BASE') or hasAuthority('R_MATERIAL') or hasAuthority('R_UNIT') or hasAuthority('R_COUNTRY') or hasAuthority('R_PARAMETERS')">
     saleToolStrip.addMember(baseTab);
     </sec:authorize>
     <sec:authorize
-    access="hasAuthority('R_CONTRACT') or hasAuthority('R_CONTRACT_TYPE') or hasAuthority('R_CONTRACT_DETAIL_TYPE') or hasAuthority('R_INCOTERM') or hasAuthority('R_CONTRACT_PERSON')">
-    saleToolStrip.addMember(contractsTab);
+    access="hasAuthority('R_CONTRACT') or hasAuthority('R_CONTRACT_TYPE') or hasAuthority('R_CONTRACT_DETAIL_TYPE') or hasAuthority('R_INCOTERM')
+         or hasAuthority('R_SHIPMENT') or hasAuthority('R_BILL_OF_LANDING') or hasAuthority('R_INSPECTION_REPORT') or hasAuthority('R_SHIPMENT_COST_INVOICE')">
+    saleToolStrip.addMember(foreignSalesTab);
     </sec:authorize>
-    <sec:authorize
-    access="hasAuthority('R_SHIPMENT') or hasAuthority('R_BILL_OF_LANDING') or hasAuthority('R_INSPECTION_REPORT') or hasAuthority('R_SHIPMENT_COST_INVOICE')">
-    saleToolStrip.addMember(shipmentTab);
-    </sec:authorize>
-    <sec:authorize access="hasAuthority('R_FOREIGN_INVOICE') or hasAuthority('R_VIEW_INTERNAL_INVOICE_DOCUMENT') or hasAuthority('R_INVOICE_SALES')">
-    saleToolStrip.addMember(financialTab);
+    <sec:authorize access="hasAuthority('R_VIEW_INTERNAL_INVOICE_DOCUMENT') or hasAuthority('R_INVOICE_SALES')">
+    saleToolStrip.addMember(internalSalesTab);
     </sec:authorize>
     <sec:authorize access="hasAuthority('R_TOZIN_LITE') or hasAuthority('R_TOZIN') or hasAuthority('R_REMITTANCE')">
-    saleToolStrip.addMember(productTab);
+    saleToolStrip.addMember(warehousesTab);
     </sec:authorize>
-    <sec:authorize access="hasAuthority('R_CONTRACT')">
+    <sec:authorize access="hasAuthority('R_REMITTANCE')">
     saleToolStrip.addMember(reportTab);
     </sec:authorize>
 
@@ -1217,64 +1281,7 @@
         userFullName: '<%= SecurityUtil.getFullName()%>',
         valuemanager: {}
     }
-    isc.FilterBuilder.addProperties({
-
-        getValueFieldProperties: function (type, fieldName, operatorId, itemType) {
-
-            let superProperties = this.Super("getValueFieldProperties", arguments);
-            if (this.dataSource == null)
-                return Object.assign(superProperties, {
-                    type: type,
-                    name: fieldName,
-                    editorType: itemType,
-                    filterOperator: operatorId
-                });
-
-            const field = this.dataSource.getField(fieldName);
-            if (field == null || (field.editorType !== "SelectItem" && field.editorType !== "ComboBoxItem"))
-                return Object.assign(superProperties, {
-                    type: type,
-                    name: fieldName,
-                    editorType: itemType,
-                    filterOperator: operatorId
-                });
-            debugger;
-            return Object.assign(superProperties, {
-                required: true,
-                autoFetchData: false,
-                showFilterEditor: true,
-                editorType: itemType,
-                multiple: field.multiple,
-                valueField: field.valueField,
-                displayField: field.displayField,
-                valueMap: field.dataSource,
-                optionDataSource: field.dataSource,
-                filterOperator: field.filterOperator,
-                pickListFields: [
-                    {
-                        title: '<spring:message code="global.id"/>',
-                        hidden: true,
-                        type: "number",
-                        name: field.valueField
-                    }, {
-                        title: '<spring:message code="global.title"/>',
-                        align: "left",
-                        type: "string",
-                        showHover: true,
-                        hoverWidth: "30%",
-                        name: field.displayField,
-                        hoverHTML: record => record[field.displayField],
-                    }
-                ],
-                pickListProperties: {
-
-                    sortField: 1,
-                    showFilterEditor: true,
-                    sortDirection: "descending"
-                }
-            });
-        }
-    });
+    SalesConfigs.debugger = SalesConfigs.Urls.completeUrl.toLowerCase().includes('localhost:8080')
 
     SalesBaseParameters.deleteAllSavedParametersAndFetchAgain();
     const EnumCategoryUnit = {string: {}, index: {}}
@@ -1287,9 +1294,9 @@
         Object.freeze(EnumCategoryUnit);
     }))
 
-    function dbg(breakpoint = true, ...args) {
+    function dbg(...args) {
         console.debug(...args)
-        if (breakpoint && SalesConfigs.Urls.completeUrl.toLowerCase().includes('localhost:8080')) debugger;
+        if (SalesConfigs.debugger && SalesConfigs.Urls.completeUrl.toLowerCase().includes('localhost:8080')) debugger;
     }
 
     const itemChangedManage = {
@@ -1405,8 +1412,8 @@
         }
     })
     isc.DynamicForm.addProperties({
-		 titleAlign: nicico.CommonUtil.getAlignByLang() ==="right" ? "left":"right"
-	})
+        titleAlign: nicico.CommonUtil.getAlignByLang() === "right" ? "left" : "right"
+    })
 
 </script>
 </body>

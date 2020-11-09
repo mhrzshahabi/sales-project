@@ -3,29 +3,28 @@ package com.nicico.sales.service;
 import com.google.gson.Gson;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
-import com.nicico.sales.annotation.Action;
 import com.nicico.sales.dto.InvoiceNosaDTO;
-import com.nicico.sales.enumeration.ActionType;
 import com.nicico.sales.iservice.IInvoiceNosaService;
+import com.nicico.sales.utility.AuthenticationUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.Map;
+import java.util.Collection;
 
 @RequiredArgsConstructor
 @Service
 public class InvoiceNosaService implements IInvoiceNosaService {
 
+    private final AuthenticationUtil authenticationUtil;
     private final Gson gson;
-    private final OAuth2RestTemplate restTemplate;
 
     @Value("${nicico.apps.accounting}")
     private String accountingAppUrl;
@@ -35,26 +34,23 @@ public class InvoiceNosaService implements IInvoiceNosaService {
     @PreAuthorize("hasAuthority('R_INVOICE_SALES')")
     public TotalResponse<InvoiceNosaDTO.Info> search(NICICOCriteria criteria) {
 
-        String queryCriteria = null;
-        Map<String, String> uriVariables = new HashMap<>();
+        final UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromHttpUrl(accountingAppUrl + "/rest/detail/getDetailGridFetch");
         if (criteria.getCriteria() != null) {
-            queryCriteria = "operator=" + criteria.getOperator() + "&_constructor=AdvancedCriteria";
-            queryCriteria = queryCriteria + "&criteria={0}";
-            uriVariables.put("0", "{\"fieldName\":\"childrenDigitCount\",\"operator\":\"equals\",\"value\":\"0\",\"_constructor\":\"AdvancedCriteria\"}");
-            Iterator criteriaIterator = ((LinkedList) criteria.getCriteria()).iterator();
-            int key = 1;
-            while (criteriaIterator.hasNext()) {
-                uriVariables.put(String.valueOf(key), criteriaIterator.next().toString());
-                queryCriteria = queryCriteria + "&criteria={" + key + "}";
-                key++;
-            }
+            uriComponentsBuilder.queryParam("operator", criteria.getOperator())
+                    .queryParam("_constructor", "AdvancedCriteria")
+                    .queryParam("criteria", "{\"fieldName\":\"childrenDigitCount\",\"operator\":\"equals\",\"value\":\"0\",\"_constructor\":\"AdvancedCriteria\"}");
+
+            ((Collection<?>) criteria.getCriteria()).forEach(c -> uriComponentsBuilder.queryParam("criteria", c.toString()));
         }
-        ResponseEntity<String> response = restTemplate.getForEntity(accountingAppUrl + "/rest/detail/getDetailGridFetch?" +
-                (queryCriteria != null ? queryCriteria + "&" : "") +
-                "_operationType=fetch" +
-                "&_startRow=" + criteria.get_startRow() +
-                "&_endRow=" + criteria.get_endRow() +
-                "&_sortBy=" + (criteria.get_sortBy() != null ? criteria.get_sortBy() : "code"), String.class, uriVariables);
+
+        uriComponentsBuilder.queryParam("_operationType", "fetch")
+                .queryParam("_startRow", criteria.get_startRow())
+                .queryParam("_endRow", criteria.get_endRow())
+                .queryParam("_sortBy", (criteria.get_sortBy() != null ? criteria.get_sortBy() : "code"));
+
+        final HttpEntity<?> httpEntity = new HttpEntity<>(authenticationUtil.getApplicationJSONHttpHeaders());
+
+        final ResponseEntity<String> response = new RestTemplate().exchange(uriComponentsBuilder.build(false).encode().toUri(), HttpMethod.GET, httpEntity, String.class);
 
         return gson.fromJson(response.getBody(), TotalResponse.class);
     }

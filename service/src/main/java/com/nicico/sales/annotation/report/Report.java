@@ -1,11 +1,16 @@
-package com.nicico.sales.model.enumeration;
+package com.nicico.sales.annotation.report;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+@Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.FIELD, ElementType.TYPE})
-public @interface I18n {
+public @interface Report {
+    String nameKey();
+
+    Class<?> returnType();
+
+    boolean returnTypeIsList() default true;
 }

@@ -5,11 +5,15 @@ import com.nicico.sales.model.entities.warehouse.Element;
 import com.nicico.sales.model.enumeration.PriceBaseReference;
 import lombok.*;
 import lombok.experimental.Accessors;
+import org.hibernate.envers.AuditOverride;
+import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Date;
+
+import static org.hibernate.envers.RelationTargetAuditMode.NOT_AUDITED;
 
 @Getter
 @Setter
@@ -20,6 +24,8 @@ import java.util.Date;
 @Entity
 @Table(name = "TBL_PRICE_BASE", uniqueConstraints = @UniqueConstraint(name = "element_priceBaseReference_priceDate_UNIQUE",
         columnNames = {"F_ELEMENT_ID", "N_PRICE_BASE_REFERENCE", "D_PRICE_DATE"}))
+@Audited
+@AuditOverride(forClass = BaseEntity.class)
 public class PriceBase extends BaseEntity {
 
     @Id
@@ -31,6 +37,8 @@ public class PriceBase extends BaseEntity {
     @Column(name = "D_PRICE_DATE")
     private Date priceDate;
 
+    @Audited(targetAuditMode = NOT_AUDITED)
+    @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "F_ELEMENT_ID", nullable = false, insertable = false, updatable = false, foreignKey = @ForeignKey(name = "PriceBase2ElementByElementId"))
     private Element element;

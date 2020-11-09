@@ -15,7 +15,9 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 
@@ -45,7 +47,7 @@ public class CurrencyRateService extends GenericService<CurrencyRate, Long, Curr
                         .map(Class::getSimpleName)
                         .map(s -> messageSource.getMessage("entity." + StringFormatUtil.makeMessageKey(s, "-"), null, locale))
                         .collect(Collectors.toList());
-                message = messageSource.getMessage("global.grid.record.is.used.warn", collect.toArray(), locale);
+                message = messageSource.getMessage("global.grid.record.is.used.warn", new Object[]{collect}, locale);
                 throw new SalesException2(ErrorType.Unknown, "", messageSource.getMessage(message, null, locale));
             }
         }

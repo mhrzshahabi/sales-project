@@ -1,5 +1,6 @@
 package com.nicico.sales.model.entities.base;
 
+import com.nicico.sales.model.annotation.I18n;
 import com.nicico.sales.model.entities.common.BaseEntity;
 import lombok.*;
 import lombok.experimental.Accessors;
@@ -7,6 +8,7 @@ import lombok.experimental.Accessors;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+@I18n
 @Getter
 @Setter
 @NoArgsConstructor
@@ -25,10 +27,13 @@ public class Country extends BaseEntity {
 
     @NotNull
     @Column(name = "C_NAME_FA", nullable = false)
-    private String nameFa;
+    private String nameFA;
 
     @NotNull
     @Column(name = "C_NAME_EN", nullable = false)
-    private String nameEn;
+    private String nameEN;
 
+    @I18n
+    @Transient
+    private String name;
 }

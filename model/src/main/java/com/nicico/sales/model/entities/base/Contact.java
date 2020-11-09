@@ -1,12 +1,19 @@
 package com.nicico.sales.model.entities.base;
 
+import com.nicico.sales.model.annotation.I18n;
 import com.nicico.sales.model.entities.common.BaseEntity;
 import lombok.*;
 import lombok.experimental.Accessors;
+import org.hibernate.envers.AuditOverride;
+import org.hibernate.envers.Audited;
+import org.hibernate.envers.NotAudited;
 
 import javax.persistence.*;
 import java.util.Set;
 
+import static org.hibernate.envers.RelationTargetAuditMode.NOT_AUDITED;
+
+@I18n
 @Getter
 @Setter
 @NoArgsConstructor
@@ -20,6 +27,8 @@ import java.util.Set;
                 @UniqueConstraint(columnNames = {"C_ECONOMICAL_CODE"}, name = Contact.UNIQUE_C_ECONOMICAL_CODE),
 
         })
+@Audited
+@AuditOverride(forClass = BaseEntity.class)
 public class Contact extends BaseEntity {
 
     public static final String UNIQUE_List_Person = "UNIQUE_List_Person";
@@ -65,6 +74,7 @@ public class Contact extends BaseEntity {
     @Column(name = "C_ECONOMICAL_CODE")
     private String economicalCode;
 
+    @NotAudited
     @Setter(AccessLevel.NONE)
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "CNT_ID", insertable = false, updatable = false)
@@ -115,6 +125,7 @@ public class Contact extends BaseEntity {
     @Column(name = "c_CEO_PASSPORT_NO")
     private String ceoPassportNo;
 
+    @Audited(targetAuditMode = NOT_AUDITED)
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "COUNTRY_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "contact2Country"))
@@ -142,4 +153,8 @@ public class Contact extends BaseEntity {
         }
         return null;
     }
+
+    @I18n
+    @Transient
+    private String name;
 }

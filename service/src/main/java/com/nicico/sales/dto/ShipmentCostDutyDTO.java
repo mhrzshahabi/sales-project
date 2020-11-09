@@ -1,6 +1,8 @@
 package com.nicico.sales.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.nicico.sales.annotation.report.IgnoreReportField;
+import com.nicico.sales.annotation.report.ReportField;
 import com.nicico.sales.model.enumeration.EStatus;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -18,9 +20,12 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ShipmentCostDutyDTO {
 
+    @ReportField(titleMessageKey = "shipmentCostInvoiceDetail.serviceCode")
     private String code;
     private String name;
+    @ReportField(titleMessageKey = "shipmentCostInvoiceDetail.serviceName")
     private String nameFA;
+    @IgnoreReportField
     private String nameEN;
 
     @Getter

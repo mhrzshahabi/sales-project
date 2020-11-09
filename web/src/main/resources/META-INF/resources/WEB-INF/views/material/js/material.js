@@ -12,12 +12,12 @@ var RestDataSource_Material = isc.MyRestDataSource.create({
             title: "<spring:message code='material.code'/> ",
         },
         {
-            name: "descl",
-            title: "<spring:message code='material.descl'/> ",
+            name: "descEN",
+            title: "<spring:message code='material.descEN'/> ",
         },
         {
-            name: "descp",
-            title: "<spring:message code='material.descp'/> ",
+            name: "descFA",
+            title: "<spring:message code='material.descFA'/> ",
         },
         {
             name: "unitId",
@@ -54,8 +54,8 @@ var RestDataSource_MaterialItem_IN_MATERIAL = isc.MyRestDataSource.create({
             title: "<spring:message code='MaterialItem.gdsCode'/> ",
         },
         {
-            name: "gdsName",
-            title: "<spring:message code='MaterialItem.gdsName'/> ",
+            name: "gdsNameFA",
+            title: "<spring:message code='MaterialItem.gdsNameFA'/> ",
         },
         {
             name: "materialId",
@@ -66,8 +66,8 @@ var RestDataSource_MaterialItem_IN_MATERIAL = isc.MyRestDataSource.create({
             title: "<spring:message code='MaterialItem.detailCode'/> ",
         },
         {
-            name: "gdsNameEn",
-            title: "<spring:message code='material.descl'/> ",
+            name: "gdsNameEN",
+            title: "<spring:message code='MaterialItem.gdsNameEN'/> ",
         },
     ],
     fetchDataURL: "${contextPath}" + "/api/materialItem/spec-list",
@@ -134,11 +134,11 @@ var ListGrid_Material = isc.ListGrid.create({
     loaded: false,
     sortField: 2,
     fields: [
-        { name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true },
-        { name: "code", title: "<spring:message code='material.code'/>", align: "center", showIf: "false" },
-        { name: "descl", title: "<spring:message code='material.descl'/>", align: "center" },
-        { name: "descp", title: "<spring:message code='material.descp'/>", align: "center" },
-        { name: "abbreviation", title: "<spring:message code='material.abbreviation'/>", align: "center" },
+        {name: "id", title: "id", primaryKey: true, canEdit: false, hidden: true},
+        {name: "code", title: "<spring:message code='material.code'/>", align: "center", showIf: "false"},
+        {name: "descEN", title: "<spring:message code='material.descEN'/>", align: "center"},
+        {name: "descFA", title: "<spring:message code='material.descFA'/>", align: "center"},
+        {name: "abbreviation", title: "<spring:message code='material.abbreviation'/>", align: "center"},
         {
             name: "unit.nameFA",
             title: "<spring:message code='MaterialFeature.unit.FA'/>",
@@ -285,9 +285,9 @@ var ListGrid_MaterialItem = isc.ListGrid.create({
             showIf: "false",
         },
         {
-            name: "gdsName",
+            name: "gdsNameFA",
             width: "24%",
-            title: "<spring:message code='MaterialItem.gdsName'/> ",
+            title: "<spring:message code='MaterialItem.gdsNameFA'/> ",
         },
         {
             name: "miDetailCode",
@@ -295,9 +295,9 @@ var ListGrid_MaterialItem = isc.ListGrid.create({
             title: "<spring:message code='MaterialItem.detailCode'/> ",
         },
         {
-            name: "gdsNameEn",
+            name: "gdsNameEN",
             width: "24%",
-            title: "<spring:message code='material.descl'/> ",
+            title: "<spring:message code='MaterialItem.gdsNameEN'/> ",
         },
 
     ],

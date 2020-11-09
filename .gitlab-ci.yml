@@ -9,7 +9,7 @@ build-dev:
   stage: build
   image: devops01.icico.net.ir/maven-3.6.1-jdk8:01
   only:
-    - test_sales
+    - dev
   script:
     - mvn -s .m2/settings.xml -P NICICO clean package
   artifacts:
@@ -19,7 +19,7 @@ build-dev:
 package-dev:
   stage: package
   only:
-    - test_sales
+    - dev
   script:
     - docker login -u $G_REG_USER -p $G_REG_PASSWD $G_REG_PUSH_URL
     - docker pull $G_REG_PULL_URL/$CI_PROJECT_NAME:dev || true
@@ -29,7 +29,7 @@ package-dev:
 deploy-dev:
   stage: deploy
   only:
-    - test_sales
+    - dev
   script:
     - >
       sshpass -p "$G_DEV_SRV_PASSWD" ssh -o StrictHostKeyChecking=no $G_DEV_SRV_USER@$G_DEV_SRV_URL "
@@ -47,8 +47,6 @@ deploy-dev:
         --name $CI_PROJECT_NAME \
         $G_REG_PULL_URL/$CI_PROJECT_NAME:dev
       "
-
-
 
 build-prd:
   stage: build

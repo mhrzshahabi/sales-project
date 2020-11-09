@@ -36,5 +36,21 @@
         </insert>
 
     </changeSet>
-
+    <changeSet id="999-1" author="abiz">
+        <addColumn tableName="TBL_Shipment_Type">
+            <column name="C_SHIP_TYPE_FA" type="varchar2(255 CHAR)"/>
+        </addColumn>
+        <addColumn tableName="TBL_Shipment_Type">
+            <column name="C_SHIP_TYPE_EN" type="varchar2(255 CHAR)"/>
+        </addColumn>
+        <sql>
+            update TBL_Shipment_Type set C_SHIP_TYPE_FA = ship_type ;
+            update TBL_Shipment_Type set C_SHIP_TYPE_EN='BULK' where id = 1;
+            update TBL_Shipment_Type set C_SHIP_TYPE_EN='CONTAINER' where id = 2;
+            update TBL_Shipment_Type set C_SHIP_TYPE_EN='PALLETS' where id = 3;
+        </sql>
+    </changeSet>
+    <changeSet id="555-1" author="abiz">
+        <dropColumn tableName="TBL_Shipment_Type" columnName="SHIP_TYPE"/>
+    </changeSet>
 </databaseChangeLog>

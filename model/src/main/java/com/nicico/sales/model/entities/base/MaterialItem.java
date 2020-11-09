@@ -1,8 +1,8 @@
 package com.nicico.sales.model.entities.base;
 
+import com.nicico.sales.model.annotation.I18n;
 import com.nicico.sales.model.entities.common.BaseEntity;
 import com.nicico.sales.model.entities.warehouse.Inventory;
-import com.nicico.sales.model.entities.warehouse.RemittanceDetail;
 import lombok.*;
 import lombok.experimental.Accessors;
 
@@ -10,6 +10,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.List;
 
+@I18n
 @Getter
 @Setter
 @NoArgsConstructor
@@ -34,14 +35,18 @@ public class MaterialItem extends BaseEntity {
 
     @NotBlank
     @Column(name = "GDSNAME")
+    private String gdsNameFA;
+
+    @I18n
+    @Transient
     private String gdsName;
 
 
-     @Column(name = "c_short_name")
+    @Column(name = "c_short_name")
     private String shortName;
 
     @Column(name = "C_GDSNAME_EN")
-    private String gdsNameEn;
+    private String gdsNameEN;
 
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)

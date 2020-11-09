@@ -128,5 +128,22 @@
             values (-33,'liquibase',current_timestamp,2,1,0,'PPM','PPM',1,1);
         </sql>
     </changeSet>
+    <changeSet id="444-1" author="abiz">
+        <sql>
+
+            UPDATE TBL_UNIT set N_CATEGORY_UNIT = 3 , N_SYMBOL_UNIT = 1536 , C_NAME_EN = 'parts per million' , C_NAME_FA
+            = 'بخش در میلیون' WHERE id = -33;
+            UPDATE TBL_UNIT set N_CATEGORY_UNIT = 3 , N_SYMBOL_UNIT = 2 WHERE id = -1;
+            UPDATE TBL_UNIT set N_CATEGORY_UNIT = 3 , N_SYMBOL_UNIT = 4 WHERE id = 1;
+            UPDATE TBL_UNIT set N_CATEGORY_UNIT = 6 , N_SYMBOL_UNIT = 4096 WHERE id = 2;
+            UPDATE TBL_UNIT set N_CATEGORY_UNIT = 6 , N_SYMBOL_UNIT = 32768 WHERE id = 3;
+            UPDATE TBL_UNIT set N_CATEGORY_UNIT = 6 , N_SYMBOL_UNIT = 16384 WHERE id = 4;
+            UPDATE TBL_UNIT set N_CATEGORY_UNIT = 6 , N_SYMBOL_UNIT = 196608 WHERE id = 5;
+            UPDATE TBL_UNIT set N_CATEGORY_UNIT = 6 , N_SYMBOL_UNIT = 131072 WHERE id = 6;
+            UPDATE TBL_UNIT set N_CATEGORY_UNIT = 6 , N_SYMBOL_UNIT = 8192 WHERE id = 7;
+            UPDATE TBL_UNIT set N_CATEGORY_UNIT = 3 , N_SYMBOL_UNIT = 1056 WHERE id = 9;
+        </sql>
+    </changeSet>
+
 
 </databaseChangeLog>

@@ -16,4 +16,6 @@ public interface IRemittanceService extends IGenericService<Remittance, Long, Re
      List<String> getLotsByShipmentId(Long id);
     TotalResponse<RemittanceDTO.InfoWithoutRemittanceDetail> searchLite(NICICOCriteria nicicoCriteria);
 
+    TotalResponse<RemittanceDTO.ReportInfo> reportSearch(NICICOCriteria nicicoCriteria);
+
 }

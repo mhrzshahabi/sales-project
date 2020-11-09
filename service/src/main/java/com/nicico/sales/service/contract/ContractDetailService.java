@@ -60,6 +60,6 @@ public class ContractDetailService extends GenericService<ContractDetail, Long, 
         modelMapper.map(request, updating);
 
         validation(updating, request);
-        return modelMapper.map(repository.save(entity), ContractDetailDTO.Info.class);
+        return modelMapper.map(repository.save(updating), ContractDetailDTO.Info.class);
     }
 }

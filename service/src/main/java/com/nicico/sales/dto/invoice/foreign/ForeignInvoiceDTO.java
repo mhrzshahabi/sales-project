@@ -39,6 +39,10 @@ public class ForeignInvoiceDTO {
     private Long invoiceTypeId;
     private Long shipmentId;
     private Long creatorId;
+    private Long parentId;
+    private Double percent;
+    private Long inspectionWeightReportId;
+    private Long inspectionAssayReportId;
 
     @Getter
     @Setter
@@ -51,11 +55,11 @@ public class ForeignInvoiceDTO {
         private UnitDTO.Info currency;
         private ContactDTO.Info buyer;
         private InvoiceTypeDTO.Info invoiceType;
-        private ShipmentDTO.Info shipment;
+        private ShipmentDTO.ShipmentFIInfo shipment;
         private PersonDTO.Info creator;
-//        private List<ForeignInvoiceItemDTO.Info> foreignInvoiceItems;
-//        private List<ForeignInvoiceBillOfLandingDTO.Info> billLadings;
-//        private List<ForeignInvoicePaymentDTO.Info> foreignInvoicePayments;
+        private InspectionReportDTO.Info inspectionWeightReport;
+        private InspectionReportDTO.Info inspectionAssayReport;
+
 
         // Auditing
         private Date createdDate;
@@ -108,4 +112,5 @@ public class ForeignInvoiceDTO {
         @ApiModelProperty(required = true)
         private List<Long> ids;
     }
+
 }

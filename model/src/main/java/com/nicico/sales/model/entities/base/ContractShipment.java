@@ -4,6 +4,8 @@ import com.nicico.sales.model.entities.common.BaseEntity;
 import com.nicico.sales.model.entities.contract.Contract;
 import lombok.*;
 import lombok.experimental.Accessors;
+import org.hibernate.envers.AuditOverride;
+import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -16,6 +18,8 @@ import java.util.Date;
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
 @Table(name = "TBL_CONTRACT_SHIPMENT")
+@Audited
+@AuditOverride(forClass = BaseEntity.class)
 public class ContractShipment extends BaseEntity {
 
     @Id
@@ -50,7 +54,6 @@ public class ContractShipment extends BaseEntity {
     private Long tolorance;
 
     @Column(name = "N_PARENT_ID")
-        private Long parentId;
-
+    private Long parentId;
 
 }

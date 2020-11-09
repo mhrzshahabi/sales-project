@@ -22,6 +22,7 @@ public class UnitDTO {
 
     private String nameFA;
     private String nameEN;
+    private String name;
     private CategoryUnit categoryUnit;
     private SymbolUnit symbolUnit;
 
@@ -30,13 +31,13 @@ public class UnitDTO {
     @Accessors(chain = true)
     @ApiModel("UnitInfo")
     public static class Info extends UnitDTO {
+
         private Long id;
         private Date createdDate;
         private String createdBy;
         private Date lastModifiedDate;
         private String lastModifiedBy;
         private Integer version;
-
 
         // BaseEntity
         private Boolean editable;

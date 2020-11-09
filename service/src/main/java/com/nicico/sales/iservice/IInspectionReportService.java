@@ -7,4 +7,7 @@ public interface IInspectionReportService extends IGenericService<InspectionRepo
 
     InspectionReportDTO.Info update(Long id, InspectionReportDTO.Update request);
 
+    InspectionReportDTO.Info setShipment(Long inspectionId, Long shipmentId);
+
+
 }

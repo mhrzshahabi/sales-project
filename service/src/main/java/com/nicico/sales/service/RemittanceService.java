@@ -6,12 +6,10 @@ import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.domain.criteria.SearchUtil;
 import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.sales.annotation.Action;
-import com.nicico.sales.dto.MaterialItemDTO;
 import com.nicico.sales.dto.RemittanceDTO;
 import com.nicico.sales.enumeration.ActionType;
 import com.nicico.sales.exception.NotFoundException;
 import com.nicico.sales.iservice.IRemittanceService;
-import com.nicico.sales.model.entities.base.MaterialItem;
 import com.nicico.sales.model.entities.warehouse.Remittance;
 import com.nicico.sales.model.entities.warehouse.RemittanceDetail;
 import com.nicico.sales.repository.TozinDAO;
@@ -143,5 +141,23 @@ public class RemittanceService extends GenericService<Remittance, Long, Remittan
         });
         validationAll(entities, totalResponse);
         return totalResponse;
+    }
+
+    @Override
+    @Action(value = ActionType.Search)
+    @Transactional(readOnly = true)
+    public TotalResponse<RemittanceDTO.ReportInfo> reportSearch(NICICOCriteria request) {
+
+        List<Remittance> entities = new ArrayList<>();
+        TotalResponse<RemittanceDTO.ReportInfo> result = SearchUtil.search(repositorySpecificationExecutor, request, entity -> {
+
+            RemittanceDTO.ReportInfo eResult = modelMapper.map(entity, RemittanceDTO.ReportInfo.class);
+            validation(entity, eResult);
+            entities.add(entity);
+            return eResult;
+        });
+
+        validationAll(entities, result);
+        return result;
     }
 }

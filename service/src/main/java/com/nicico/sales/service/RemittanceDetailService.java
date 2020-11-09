@@ -1,5 +1,8 @@
 package com.nicico.sales.service;
 
+import com.nicico.copper.common.domain.criteria.NICICOCriteria;
+import com.nicico.copper.common.domain.criteria.SearchUtil;
+import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.sales.annotation.Action;
 import com.nicico.sales.dto.InventoryDTO;
 import com.nicico.sales.dto.RemittanceDetailDTO;
@@ -19,7 +22,10 @@ import org.modelmapper.TypeToken;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @Service
@@ -95,5 +101,23 @@ public class RemittanceDetailService extends GenericService<RemittanceDetail, Lo
                 tozinKeyValue.put(tozinTable.getTozinId(), tozinTableDAO.save(tozinToSave).getId());
             } else tozinKeyValue.put(tozinTable.getTozinId(), tozinTableDAO.save(tozinTable).getId());
         }
+    }
+
+    @Override
+    @Action(value = ActionType.Search)
+    @Transactional(readOnly = true)
+    public TotalResponse<RemittanceDetailDTO.ReportInfo> reportSearch(NICICOCriteria request) {
+
+        List<RemittanceDetail> entities = new ArrayList<>();
+        TotalResponse<RemittanceDetailDTO.ReportInfo> result = SearchUtil.search(repositorySpecificationExecutor, request, entity -> {
+
+            RemittanceDetailDTO.ReportInfo eResult = modelMapper.map(entity, RemittanceDetailDTO.ReportInfo.class);
+            validation(entity, eResult);
+            entities.add(entity);
+            return eResult;
+        });
+
+        validationAll(entities, result);
+        return result;
     }
 }

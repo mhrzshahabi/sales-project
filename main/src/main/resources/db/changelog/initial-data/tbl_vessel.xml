@@ -242,12 +242,21 @@
         1, 27, 9593684, 161, 'KOTA BAKAT', 'Bulk Carrier', 2012);
         Insert into TBL_VESSEL (ID, C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION,
         N_E_STATUS, B_EDITABLE, BEAM, IMO, LENGTH, VESSEL_NAME, TYPE, YEAR_OF_BUILD)
-        values (84, 'db_mazloom', to_timestamp('02-MAY-20 07.46.38.970000000 AM', 'DD-MON-RR HH.MI.SSXFF AM'), null, null, 0, 1,
+        values (84, 'db_mazloom', to_timestamp('02-MAY-20 07.46.38.970000000 AM', 'DD-MON-RR HH.MI.SSXFF AM'), null,
+        null, 0, 1,
         1, 40, 9290945, 276, 'EMIRATES HANA', 'Container Ship', 2004);
         Insert into TBL_VESSEL (ID, C_CREATED_BY, D_CREATED_DATE, C_LAST_MODIFIED_BY, D_LAST_MODIFIED_DATE, N_VERSION,
         N_E_STATUS, B_EDITABLE, BEAM, IMO, LENGTH, VESSEL_NAME, TYPE, YEAR_OF_BUILD)
-        values (85, 'db_mazloom', to_timestamp('02-MAY-20 07.47.35.529000000 AM', 'DD-MON-RR HH.MI.SSXFF AM'), null, null, 0, 1,
+        values (85, 'db_mazloom', to_timestamp('02-MAY-20 07.47.35.529000000 AM', 'DD-MON-RR HH.MI.SSXFF AM'), null,
+        null, 0, 1,
         1, 20, 9240031, 131, 'LUCKY OCHO', 'Bulk Carrier', 2011);
     </sql>
 </changeSet>
+    <changeSet author="Abiz" id="AZAARE-100">
+        <sql>
+            ALTER SEQUENCE SEQ_VESSEL INCREMENT BY 10000;
+            SELECT SEQ_VESSEL.NEXTVAL FROM DUAL;
+            ALTER SEQUENCE SEQ_VESSEL INCREMENT BY 1;
+        </sql>
+    </changeSet>
 </databaseChangeLog>

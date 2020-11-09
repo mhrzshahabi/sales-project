@@ -1,6 +1,7 @@
 package com.nicico.sales.service;
 
 import com.nicico.sales.dto.*;
+import com.nicico.sales.dto.contract.ContractDetailDTO;
 import com.nicico.sales.dto.contract.ContractDiscountDTO;
 import com.nicico.sales.dto.contract.IncotermDTO;
 import com.nicico.sales.enumeration.EContractDetailTypeCode;
@@ -108,7 +109,7 @@ public class ContractDetailValueService2 implements IContractDetailValueService2
             if (contractDetailValue.getReference() != null && !contractDetailValue.getReference().startsWith("Enum_")) {
                 if (!result.containsKey(contractDetailValue.getKey()))
                     result.put(contractDetailValue.getKey(), new ArrayList<>(Arrays.asList((getValue(contractDetailValue)))));
-                else
+                else if (!"DynamicTable".equals(contractDetailValue.getReference().trim()))
                     result.get(contractDetailValue.getKey()).add(getValue(contractDetailValue));
             } else {
                 if (!result.containsKey(contractDetailValue.getKey()))
@@ -175,6 +176,13 @@ public class ContractDetailValueService2 implements IContractDetailValueService2
 
                 if (contactOpt.isPresent())
                     return modelMapper.map(contactOpt.get(), ContactDTO.Info.class);
+                break;
+            case "DynamicTable":
+                final Map<String, List<Map<String, Object>>> dynamicTableValue = modelMapper.map(contractDetailValue.getContractDetail(), ContractDetailDTO.Info.class)
+                        .getCdtpDynamicTableValue();
+
+                if (dynamicTableValue.containsKey(contractDetailValue.getKey()))
+                    return dynamicTableValue.get(contractDetailValue.getKey());
                 break;
         }
 

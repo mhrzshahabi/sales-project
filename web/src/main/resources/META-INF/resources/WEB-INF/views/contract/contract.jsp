@@ -2,7 +2,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<%@ page import="com.nicico.copper.core.SecurityUtil" %>
 //<script>
 Enums.contract = {
 "Enum_DataType": JSON.parse('${Enum_DataType}'),
@@ -19,3 +18,4 @@ Enums.contract = {
 <%@include file="js/contract-references.js" %>
 <%@include file="js/contract.js" %>
 <%@include file="js/contract-addendum.js" %>
+<%@include file="js/contract-add-dynamic-table.js" %>

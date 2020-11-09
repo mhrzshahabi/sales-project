@@ -7,15 +7,16 @@ import com.nicico.sales.dto.ErrorResponseDTO;
 import com.nicico.sales.enumeration.ErrorType;
 import com.nicico.sales.exception.SalesException2;
 import com.nicico.sales.iservice.IAccountingApiService;
+import com.nicico.sales.utility.AuthenticationUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.*;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.MultiValueMap;
 import org.springframework.util.StringUtils;
@@ -36,33 +37,11 @@ public class AccountingApiService implements IAccountingApiService {
 
 	// ---------------
 
+	private final AuthenticationUtil authenticationUtil;
 	private final ObjectMapper objectMapper;
 	private final ModelMapper modelMapper;
 
 	// ------------------------------
-
-	public HttpHeaders getApplicationJSONHttpHeaders() {
-		final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		final OAuth2AuthenticationDetails oAuth2AuthenticationDetails = (OAuth2AuthenticationDetails) authentication.getDetails();
-
-		final HttpHeaders httpHeaders = new HttpHeaders();
-		httpHeaders.setBearerAuth(oAuth2AuthenticationDetails.getTokenValue());
-		httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-		httpHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-
-		return httpHeaders;
-	}
-
-	public HttpHeaders getApplicationFormURLEncodedHttpHeaders() {
-		final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		final OAuth2AuthenticationDetails oAuth2AuthenticationDetails = (OAuth2AuthenticationDetails) authentication.getDetails();
-
-		final HttpHeaders httpHeaders = new HttpHeaders();
-		httpHeaders.setBearerAuth(oAuth2AuthenticationDetails.getTokenValue());
-		httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-
-		return httpHeaders;
-	}
 
 	@Override
 	public String getDetailByCode(String detailCode) {
@@ -71,7 +50,7 @@ public class AccountingApiService implements IAccountingApiService {
 		final Map<String, String> requestParam = new HashMap<>();
 		requestParam.put("detailCode", detailCode);
 
-		final HttpEntity<Map<String, String>> httpEntity = new HttpEntity<>(requestParam, getApplicationJSONHttpHeaders());
+		final HttpEntity<Map<String, String>> httpEntity = new HttpEntity<>(requestParam, authenticationUtil.getApplicationJSONHttpHeaders());
 
 		final ResponseEntity<String> httpResponse;
 		try {
@@ -99,7 +78,7 @@ public class AccountingApiService implements IAccountingApiService {
 		final UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromHttpUrl(url)
 				.queryParams(requestParams);
 
-		final HttpEntity<String> httpEntity = new HttpEntity<>(getApplicationJSONHttpHeaders());
+		final HttpEntity<String> httpEntity = new HttpEntity<>(authenticationUtil.getApplicationJSONHttpHeaders());
 
 		ResponseEntity<String> httpResponse = null;
 		try {
@@ -123,7 +102,7 @@ public class AccountingApiService implements IAccountingApiService {
 				} catch (IOException e) {
 					final String message = "AccountingApiService.GetDetailByName Error: [" + Arrays.toString(e.getStackTrace()) + "]";
 					log.error(message);
-					throw new SalesException2(ErrorType.InternalServerError, null, message);
+					throw new SalesException2(ErrorType.InternalServerError, null, e.getMessage());
 				}
 			}
 		} else {
@@ -160,7 +139,7 @@ public class AccountingApiService implements IAccountingApiService {
 	public List<AccountingDTO.DepartmentInfo> getDepartments() {
 		final String url = accountingAppUrl + "/rest/document-mapper/baseDocValues";
 
-		final HttpEntity<String> httpEntity = new HttpEntity<>(getApplicationJSONHttpHeaders());
+		final HttpEntity<String> httpEntity = new HttpEntity<>(authenticationUtil.getApplicationJSONHttpHeaders());
 
 		ResponseEntity<String> httpResponse = null;
 		try {
@@ -179,7 +158,7 @@ public class AccountingApiService implements IAccountingApiService {
 				} catch (IOException e) {
 					final String message = "AccountingApiService.GetDepartments Error: [" + Arrays.toString(e.getStackTrace()) + "]";
 					log.error(message);
-					throw new SalesException2(ErrorType.InternalServerError, null, message);
+					throw new SalesException2(ErrorType.InternalServerError, null, e.getMessage());
 				}
 			}
 		} else {
@@ -195,7 +174,7 @@ public class AccountingApiService implements IAccountingApiService {
 	public void sendDataParameters(String systemNameEn, String systemNameFa, MultiValueMap<String, String> requestParams) {
 		final String url = accountingAppUrl + "/rest/system-parameter/addSystemParmeter/" + systemNameEn + "/" + systemNameFa;
 
-		final HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(requestParams, getApplicationFormURLEncodedHttpHeaders());
+		final HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(requestParams, authenticationUtil.getApplicationFormURLEncodedHttpHeaders());
 
 		ResponseEntity<String> httpResponse = null;
 		try {
@@ -245,7 +224,7 @@ public class AccountingApiService implements IAccountingApiService {
 			requestParamList.add(requestParamMap);
 		});
 
-		final HttpEntity<List<Map<String, Object>>> httpEntity = new HttpEntity<>(requestParamList, getApplicationJSONHttpHeaders());
+		final HttpEntity<List<Map<String, Object>>> httpEntity = new HttpEntity<>(requestParamList, authenticationUtil.getApplicationJSONHttpHeaders());
 
 		ResponseEntity<String> httpResponse = null;
 		try {
@@ -262,7 +241,7 @@ public class AccountingApiService implements IAccountingApiService {
 				} catch (IOException e) {
 					final String message = "AccountingApiService.SendInvoice Error: [" + Arrays.toString(e.getStackTrace()) + "]";
 					log.error(message);
-					throw new SalesException2(ErrorType.InternalServerError, null, message);
+					throw new SalesException2(ErrorType.InternalServerError, null, e.getMessage());
 				}
 			}
 		} else {
@@ -278,7 +257,7 @@ public class AccountingApiService implements IAccountingApiService {
 	public Map<String, String> getInvoiceStatus(String systemName, List<String> requestParams) {
 		final String url = accountingAppUrl + "/rest/system-document/document-Number/" + systemName;
 
-		final HttpEntity<List<String>> httpEntity = new HttpEntity<>(requestParams, getApplicationJSONHttpHeaders());
+		final HttpEntity<List<String>> httpEntity = new HttpEntity<>(requestParams, authenticationUtil.getApplicationJSONHttpHeaders());
 
 		ResponseEntity<String> httpResponse = null;
 		try {
@@ -295,7 +274,7 @@ public class AccountingApiService implements IAccountingApiService {
 				} catch (IOException e) {
 					final String message = "AccountingApiService.GetInvoiceStatus Error: [" + Arrays.toString(e.getStackTrace()) + "]";
 					log.error(message);
-					throw new SalesException2(ErrorType.InternalServerError, null, message);
+					throw new SalesException2(ErrorType.InternalServerError, null, e.getMessage());
 				}
 			}
 		} else {
@@ -325,7 +304,7 @@ public class AccountingApiService implements IAccountingApiService {
 			} catch (IOException ioException) {
 				final String message = "AccountingApiService.throwException Error: [" + Arrays.toString(e.getStackTrace()) + "]";
 				log.error(message);
-				throw new SalesException2(ErrorType.InternalServerError, null, message);
+				throw new SalesException2(ErrorType.InternalServerError, null, e.getMessage());
 			}
 		}
 	}

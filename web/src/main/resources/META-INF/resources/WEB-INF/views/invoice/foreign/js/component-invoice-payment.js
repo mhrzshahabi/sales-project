@@ -9,6 +9,7 @@ isc.defineClass("InvoicePayment", isc.VLayout).addProperties({
     overflow: "auto",
     currency: null,
     shipment: null,
+    parentId: false,
     conversionRef: null,
     conversionDate: null,
     conversionRate: null,
@@ -47,6 +48,10 @@ isc.defineClass("InvoicePayment", isc.VLayout).addProperties({
                         fieldName: "shipmentId",
                         operator: "equals",
                         value: This.shipment.id
+                    }, {
+                        fieldName: "eStatusId",
+                        operator: "greaterOrEqual",
+                        value: 4
                     }]
                 }
             },
@@ -162,16 +167,12 @@ isc.defineClass("InvoicePayment", isc.VLayout).addProperties({
                         This.getMembers().last().setUnitId(This.currency.id);
                         This.getMembers().last().setValue(sumPrice);
 
-                        // let conversionDate;
                         let rateReference;
-                        let conversionRefId;
-                        // let conversionRate;
                         let conversionSumPrice;
                         if (This.conversionRef) {
 
                             This.conversionDate = This.conversionRef.currencyDate;
                             rateReference = This.conversionRef.reference;
-                            conversionRefId = This.conversionRef.id;
                             This.conversionRate = This.conversionRef.currencyRateValue;
                             conversionSumPrice = sumPrice * (This.conversionRate);
 
@@ -271,19 +272,26 @@ isc.defineClass("InvoicePayment", isc.VLayout).addProperties({
                                             title: "<spring:message code='shipmentCostInvoice.buyerShare'/>"
                                         },
                                         {
+                                            hidden: true,
                                             showHover: true,
                                             name: "description",
                                             title: "<spring:message code='shipmentCostInvoice.description'/>"
                                         },
                                         {
+                                            hidden: true,
                                             showHover: true,
                                             name: "conversionRefId",
                                             title: "<spring:message code='shipmentCostInvoice.conversionRefId'/>"
                                         },
                                         {
+                                            hidden: true,
                                             showHover: true,
                                             name: "contractId",
                                             title: "<spring:message code='shipmentCostInvoice.contract'/>"
+                                        },
+                                        {
+                                            name: "estatus",
+                                            hidden: false
                                         }
                                     ]), 0);
                             }
@@ -348,7 +356,8 @@ isc.defineClass("InvoicePayment", isc.VLayout).addProperties({
             conversionDate: this.conversionDate,
             conversionRate: this.conversionRate,
             conversionSumPrice: this.getMembers().filter(q => q.name === "conversionSumPrice").first(),
-            conversionSumPriceText: this.getMembers().filter(q => q.role === "conversionSumPriceText").first().getValue("conversionSumPriceText")
+            conversionSumPriceText: this.getMembers().filter(q => q.role === "conversionSumPriceText").first().getValue("conversionSumPriceText"),
+            parentId: this.parentId
         };
     },
     getForeignInvoicePayment: function () {
@@ -367,7 +376,8 @@ isc.defineClass("InvoicePayment", isc.VLayout).addProperties({
                     docConversionPrice: current.conversionSumPrice,
                     portion: current.buyerShare,
                     description: current.description,
-                    conversionRefId: current.conversionRefId
+                    conversionRefId: current.conversionRefId,
+                    shipmentCostInvoiceId: current.id
                 });
             });
         }

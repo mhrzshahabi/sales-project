@@ -5,7 +5,7 @@
 
     <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
 
-    <springProfile name="Local">
+    <springProfile name="Local,Development">
         <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
             <encoder>
                 <pattern>${CONSOLE_LOG_PATTERN}</pattern>
@@ -22,7 +22,7 @@
 
     </springProfile>
 
-    <springProfile name="Development,Production">
+    <springProfile name="Development,Staging,Production">
         <property name="LOG_FILE" value="/var/log/nicico/${AppName}.log"/>
 
         <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">

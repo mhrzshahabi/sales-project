@@ -1,11 +1,13 @@
 package com.nicico.sales.model.entities.base;
 
+import com.nicico.sales.model.annotation.I18n;
 import com.nicico.sales.model.entities.common.BaseEntity;
 import lombok.*;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 
+@I18n
 @Getter
 @Setter
 @NoArgsConstructor
@@ -22,8 +24,14 @@ public class ShipmentMethod extends BaseEntity {
     @Column(name = "ID")
     private Long id;
 
-    @Column(name = "Ship_Method", nullable = false)
+    @I18n
+    @Transient
     private String shipmentMethod;
 
+    @Column(name = "C_SHIP_METHOD_FA")
+    private String shipmentMethodFA;
+
+    @Column(name = "C_SHIP_METHOD_EN")
+    private String shipmentMethodEN;
 
 }

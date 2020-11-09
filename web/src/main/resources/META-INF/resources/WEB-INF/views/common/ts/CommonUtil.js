@@ -15,6 +15,10 @@ var nicico;
                 return "left";
             };
             // @ts-ignore
+            this.getLang = function () {
+                return "fa";
+            };
+            // @ts-ignore
             isc.Canvas.tag = null;
             // @ts-ignore
             isc.Canvas.nicico = {};
@@ -159,7 +163,6 @@ var nicico;
                 dynamicFormProperties.cellPadding = 3;
                 dynamicFormProperties.width = "100%";
                 dynamicFormProperties.titleWidth = "*";
-                dynamicFormProperties.titleAlign = "right";
                 dynamicFormProperties.colWidths = ["30%", "70%"];
                 dynamicFormProperties.canSubmit = true;
                 dynamicFormProperties.wrapItemTitles = false;
@@ -294,6 +297,17 @@ var nicico;
                 });
                 chart.setHeight(windowWidget.height);
                 windowWidget.show();
+            };
+            // @ts-ignore
+            isc.FilterBuilder.nicico = {};
+            // @ts-ignore
+            isc.FilterBuilder.nicico.getDefault = function (restDataSource) {
+                return isc.FilterBuilder.create({
+                    // @ts-ignore
+                    dataSource: restDataSource,
+                    fieldPickerWidth: "200", valueItemWidth: "400",
+                    width: "100%"
+                });
             };
             // @ts-ignore
             Array.prototype.distinct = function () {
