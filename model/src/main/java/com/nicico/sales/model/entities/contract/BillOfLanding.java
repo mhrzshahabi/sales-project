@@ -155,8 +155,8 @@ public class BillOfLanding extends BaseEntity {
     private Port switchPortOfLoading;
 
 
-    @NotNull
-    @Column(name = "F_SWITCH_PORT_AS_LOADING", nullable = false)
+    //@NotNull
+    @Column(name = "F_SWITCH_PORT_AS_LOADING", nullable = true)
     private Long switchPortOfLoadingId;
 
 
@@ -187,8 +187,8 @@ public class BillOfLanding extends BaseEntity {
     private Port switchPortOfDischarge;
 
 
-    @NotNull
-    @Column(name = "F_SWITCH_PORT_AS_DISCHARGE", nullable = false)
+    //@NotNull
+    @Column(name = "F_SWITCH_PORT_AS_DISCHARGE", nullable = true)
     private Long switchPortOfDischargeId;
 
 
