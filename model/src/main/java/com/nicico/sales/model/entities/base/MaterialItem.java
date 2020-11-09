@@ -30,6 +30,9 @@ public class MaterialItem extends BaseEntity {
     @Column(name = "GDSCODE")
     private Long gdsCode;
 
+    @Column(name = "B_SHOULD_SHOW_IN_FILTER")
+    private Boolean shouldShowInFilter;
+
     @NotBlank
     @Column(name = "GDSNAME")
     private String gdsNameFA;
@@ -37,6 +40,10 @@ public class MaterialItem extends BaseEntity {
     @I18n
     @Transient
     private String gdsName;
+
+
+     @Column(name = "c_short_name")
+    private String shortName;
 
     @Column(name = "C_GDSNAME_EN")
     private String gdsNameEN;

@@ -45,8 +45,16 @@ public class RemittanceDetailFormController {
 
         SecurityChecker.addEntityPermissionToRequest(request, RemittanceDetail.class);
 
+        return "product/remittance";
+    }
+    @RequestMapping("/show-pkg-form")
+    public String showPackagedWarehouseCad(HttpServletRequest request) {
+
+        SecurityChecker.addEntityPermissionToRequest(request, RemittanceDetail.class);
+
         return "product/remittance-detail";
     }
+
 
     //
 //    @RequestMapping("/showWarehouseCadForm")

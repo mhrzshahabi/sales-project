@@ -28,6 +28,7 @@ import com.nicico.sales.iservice.report.IReportFieldService;
 import com.nicico.sales.iservice.report.IReportService;
 import com.nicico.sales.model.enumeration.ReportSource;
 import com.nicico.sales.service.GenericService;
+import com.nicico.sales.utility.AuthenticationUtil;
 import com.nicico.sales.utility.StringFormatUtil;
 import com.nicico.sales.utility.UpdateUtil;
 import com.nicico.sales.utility.WhereClauseUtil;
@@ -134,6 +135,7 @@ public class ReportService extends GenericService<com.nicico.sales.model.entitie
 
     // -----------------------------------------------------------------------------------------------------------------
 
+    private final AuthenticationUtil authenticationUtil;
     private final UpdateUtil updateUtil;
     private final IFileService fileService;
     private final IOAuthApiService oAuthApiService;
@@ -391,19 +393,6 @@ public class ReportService extends GenericService<com.nicico.sales.model.entitie
 
     // -----------------------------------------------------------------------------------------------------------------
 
-    private HttpHeaders getApplicationJSONHttpHeaders() {
-
-        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        final OAuth2AuthenticationDetails oAuth2AuthenticationDetails = (OAuth2AuthenticationDetails) authentication.getDetails();
-
-        final HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setBearerAuth(oAuth2AuthenticationDetails.getTokenValue());
-        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        httpHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-
-        return httpHeaders;
-    }
-
     private TotalResponse<Map<String, Object>> getRestReportData(String baseUrl, MultiValueMap<String, String> criteria, ReportDTO.Info report) throws IOException {
 
         TotalResponse<Map<String, Object>> response;
@@ -419,7 +408,7 @@ public class ReportService extends GenericService<com.nicico.sales.model.entitie
                 .build(false)
                 .encode()
                 .toUri();
-        HttpEntity<Object> httpEntity = new HttpEntity<>(null, getApplicationJSONHttpHeaders());
+        HttpEntity<Object> httpEntity = new HttpEntity<>(null, authenticationUtil.getApplicationJSONHttpHeaders());
         ResponseEntity<String> exchange = restTemplate.exchange(uri, httpMethodEnum, httpEntity, String.class);
         if (exchange.getStatusCode().equals(HttpStatus.OK)) {
 

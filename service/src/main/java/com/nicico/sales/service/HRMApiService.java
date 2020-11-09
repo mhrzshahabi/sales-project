@@ -5,6 +5,7 @@ import com.nicico.sales.dto.HRMDTO;
 import com.nicico.sales.enumeration.ErrorType;
 import com.nicico.sales.exception.SalesException2;
 import com.nicico.sales.iservice.IHRMApiService;
+import com.nicico.sales.utility.AuthenticationUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -32,21 +33,10 @@ public class HRMApiService implements IHRMApiService {
 
 	// ---------------
 
+	private final AuthenticationUtil authenticationUtil;
 	private final ObjectMapper objectMapper;
 
 	// ------------------------------
-
-	public HttpHeaders getApplicationJSONHttpHeaders() {
-		final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		final OAuth2AuthenticationDetails oAuth2AuthenticationDetails = (OAuth2AuthenticationDetails) authentication.getDetails();
-
-		final HttpHeaders httpHeaders = new HttpHeaders();
-		httpHeaders.setBearerAuth(oAuth2AuthenticationDetails.getTokenValue());
-		httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-		httpHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-
-		return httpHeaders;
-	}
 
 	@Override
 	public HRMDTO.BusinessDaysInfo getBusinessDays(HRMDTO.BusinessDaysRq request) {
@@ -65,7 +55,7 @@ public class HRMApiService implements IHRMApiService {
 		if (request.getAfter() != null)
 			uriComponentsBuilder.queryParam("after", request.getAfter());
 
-		final HttpEntity<?> httpEntity = new HttpEntity<>(getApplicationJSONHttpHeaders());
+		final HttpEntity<?> httpEntity = new HttpEntity<>(authenticationUtil.getApplicationJSONHttpHeaders());
 
 		ResponseEntity<String> httpResponse = null;
 		try {
