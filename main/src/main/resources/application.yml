@@ -179,6 +179,10 @@ spring:
             token-uri: http://devapp01.icico.net.ir/oauth/token
             user-info-uri: http://devapp01.icico.net.ir/user/info
             user-name-attribute: username
+storage:
+  url: storage.icico.net.ir/client/api
+  key: sales
+  token: nicsales123
 nicico:
   apps:
     oauth: http://devapp01.icico.net.ir
