@@ -25,6 +25,10 @@ public class MaterialItemDTO {
     private String gdsName;
     private Long materialId;
     private String miDetailCode;
+    private Boolean shouldShowInFilter;
+    private String shortName;
+
+
     private String gdsNameEN;
     private String gdsNameFA;
 
