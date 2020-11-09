@@ -301,7 +301,7 @@
                 <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
 
                 isc.DynamicForm.addProperties({
-                    requiredTitlePrefix: "<span style='color:#ff0842;font-size:15px; padding-left: 5px;'>*</span>",
+                    requiredTitleSuffix: "<span style='color:#ff0842;font-size:15px; padding-left: 5px;'>*</span>"+":",
                     setMethod: 'POST',
                     canSubmit: true,
                     showInlineErrors: true,
