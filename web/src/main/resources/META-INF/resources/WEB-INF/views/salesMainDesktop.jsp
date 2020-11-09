@@ -296,6 +296,13 @@
                     let locale = languageForm.getValue("languageName");
                     return locale === "fa" ? "left" : "right";
                 };
+
+                nicico.CommonUtil.getLang = function () {
+
+                    let locale = languageForm.getValue("languageName");
+                    return locale === "fa" ? "fa" : "en";
+                };
+
                 var salesPersianDateUtil = new nicico.PersianDateUtil();
 
                 <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath" />
@@ -1119,7 +1126,7 @@
                 });
 
                 saleToolStrip = isc.ToolStrip.create({
-                    align: "center",
+                    align: nicico.CommonUtil.getAlignByLang() === "right" ? "left" : "right",
                     membersMargin: 20,
                     members: []
                 });
