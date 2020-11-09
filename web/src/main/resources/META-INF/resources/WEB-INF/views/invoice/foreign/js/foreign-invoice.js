@@ -947,9 +947,16 @@ foreignInvoiceTab.variable.selectBillLadingForm.validate = function (selectedRec
 };
 
 foreignInvoiceTab.variable.selectBillLadingForm.okCallBack = function (selectedRecords) {
+
     foreignInvoiceTab.dynamicForm.valuesManager.setValue("billLadings", selectedRecords);
+    foreignInvoiceTab.label.selectedBillLading.setContents(selectedRecords.map(q => q.documentNo).join(', '));
 };
 
+foreignInvoiceTab.label.selectedBillLading = isc.Label.create({
+    contents: '',
+    width: "100%",
+    align: nicico.CommonUtil.getAlignByLang()
+});
 foreignInvoiceTab.button.selectBillLading = isc.IButtonSave.create({
     width: 200,
     margin: 10,
@@ -994,7 +1001,7 @@ foreignInvoiceTab.window.main = isc.Window.nicico.getDefault('<spring:message co
                 border: '0px',
                 margin: 0,
                 padding: 0,
-                members: [foreignInvoiceTab.button.selectBillLading]
+                members: [foreignInvoiceTab.label.selectedBillLading, foreignInvoiceTab.button.selectBillLading]
             })
         ]
     })
@@ -1163,6 +1170,7 @@ foreignInvoiceTab.variable.invoiceForm.populateData = function (bodyWidget) {
 };
 
 foreignInvoiceTab.variable.invoiceForm.init(null, '<spring:message code="entity.foreign-invoice"/>', foreignInvoiceTab.tab.invoice, "70%");
+foreignInvoiceTab.variable.invoiceForm.actionWidget.getObject().getMember(0).setTitle("<spring:message code='global.form.final-save'/>");
 
 foreignInvoiceTab.dynamicForm.invoiceCompletionValuesManager = isc.ValuesManager.create({});
 
@@ -1231,10 +1239,17 @@ foreignInvoiceTab.variable.selectBillLadingCompletionForm.validate = function (s
 };
 
 foreignInvoiceTab.variable.selectBillLadingCompletionForm.okCallBack = function (selectedRecords) {
+
     foreignInvoiceTab.dynamicForm.invoiceCompletionValuesManager.setValue("billLadings", selectedRecords);
+    foreignInvoiceTab.label.selectBillLadingCompletion.setContents(selectedRecords.map(q => q.documentNo).join(', '));
 };
 
 foreignInvoiceTab.window.invoiceCompletionForm = new nicico.FormUtil();
+foreignInvoiceTab.label.selectBillLadingCompletion = isc.Label.create({
+    contents: '',
+    width: "100%",
+    align: nicico.CommonUtil.getAlignByLang()
+});
 foreignInvoiceTab.button.selectBillLadingCompletion = isc.IButtonSave.create({
     width: 200,
     margin: 10,
@@ -1281,8 +1296,7 @@ foreignInvoiceTab.window.invoiceCompletionForm.init(null, '<spring:message code=
                     border: '0px',
                     margin: 0,
                     padding: 0,
-                    members: [
-                        foreignInvoiceTab.button.selectBillLadingCompletion]
+                    members: [foreignInvoiceTab.label.selectBillLadingCompletion, foreignInvoiceTab.button.selectBillLadingCompletion]
                 })
             ]
         })
@@ -3292,6 +3306,7 @@ foreignInvoiceTab.method.editForm = function () {
                                         foreignInvoiceTab.dynamicForm.valuesManager.setValues(record);
                                         foreignInvoiceTab.dynamicForm.valuesManager.setValue("date", new Date(record.date));
                                         foreignInvoiceTab.dynamicForm.valuesManager.setValue("billLadings", billOfLadingValues.map(q => q.billOfLanding));
+                                        foreignInvoiceTab.label.selectedBillLading.setContents(billOfLadingValues.map(q => q.billOfLanding.documentNo).join(', '));
                                         foreignInvoiceTab.dynamicForm.valuesManager.setValue("toCurrencyId", record.conversionRef ? record.conversionRef.unitToId : null);
                                         foreignInvoiceTab.dynamicForm.valuesManager.setValue("contractId", record.shipment.contractShipment.contractId);
 
