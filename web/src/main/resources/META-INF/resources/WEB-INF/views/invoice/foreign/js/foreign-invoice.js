@@ -261,7 +261,7 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
         },
         pickListFields: [
             {name: "id", primaryKey: true, hidden: true, title: "<spring:message code='global.id'/>"},
-            {name: "sendDate", title: "<spring:message code='global.sendDate'/>", type: "date", width: "110"},
+            {name: "sendDate", title: "<spring:message code='global.sendDate'/>", type: "date", width: "110", dateFormatter: "toJapanShortDate"},
             {name: "contact.nameEN", title: "<spring:message code='foreign-invoice.form.shipment'/>"},
             {name: "material.descEN", title: "<spring:message code='material.descEN'/>"},
             {name: "amount", title: "<spring:message code='global.amount'/>"},
@@ -499,7 +499,7 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
         pickListFields: [
             {name: "id", primaryKey: true, hidden: true, title: "<spring:message code='global.id'/>"},
             {name: "reference", title: "<spring:message code='foreign-invoice.form.conversion-ref'/>"},
-            {name: "currencyDate", type: "date", title: "<spring:message code='global.date'/>"},
+            {name: "currencyDate", type: "date", title: "<spring:message code='global.date'/>", dateFormatter: "toJapanShortDate"},
             {name: "unitFrom.nameEN", title: "<spring:message code='global.from'/>"},
             {name: "unitTo.nameEN", title: "<spring:message code='global.to'/>"},
             {name: "currencyRateValue", title: "<spring:message code='rate.title'/>"}
@@ -537,7 +537,7 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
             {name: "id", hidden: true},
             {name: "inspectionNO", showHover: true},
             {name: "inspector.nameFA", showHover: true},
-            {name: "issueDate", showHover: true},
+            {name: "issueDate", showHover: true, dateFormatter: "toJapanShortDate"},
             {name: "seller.nameFA", showHover: true},
             {name: "buyer.nameFA", showHover: true},
             {name: "weightInspections.mileStone", showHover: true}
@@ -611,7 +611,7 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
             {name: "id", hidden: true},
             {name: "inspectionNO", showHover: true},
             {name: "inspector.nameFA", showHover: true},
-            {name: "issueDate", showHover: true},
+            {name: "issueDate", showHover: true,dateFormatter: "toJapanShortDate"},
             {name: "seller.nameFA", showHover: true},
             {name: "buyer.nameFA", showHover: true},
             {name: "assayInspections.mileStone", showHover: true}
