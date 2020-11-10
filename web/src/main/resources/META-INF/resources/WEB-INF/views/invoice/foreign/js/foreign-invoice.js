@@ -1022,8 +1022,8 @@ foreignInvoiceTab.tab.invoice = isc.TabSet.create({
     showEdges: false,
     edgeMarginSize: 3,
     tabBarThickness: 300,
-    tabBarPosition: "left",
-    // tabBarControls: [],
+   tabBarPosition: nicico.CommonUtil.getAlignByLangReverse(),
+// tabBarControls: [],
     // tabs: []
 });
 

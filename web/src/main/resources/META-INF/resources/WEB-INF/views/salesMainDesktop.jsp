@@ -296,6 +296,11 @@
                     let locale = languageForm.getValue("languageName");
                     return locale === "fa" ? "left" : "right";
                 };
+                nicico.CommonUtil.getAlignByLangReverse = function () {
+
+                    let locale = languageForm.getValue("languageName");
+                    return locale === "fa" ? "right" : "left";
+                };
 
                 nicico.CommonUtil.getLang = function () {
 
