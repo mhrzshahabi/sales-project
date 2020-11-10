@@ -255,13 +255,9 @@ var nicico;
             This.method.beforeShowNewActionHook = function () { };
             This.method.afterShowNewActionHook = function (window) { };
             This.method.beforeShowEditActionHook = function (record) { };
-            This.method.afterShowEditActionHook = function (window, record) {
-            };
-            This.method.validateDeleteActionHook = function (record) {
-                return record;
-            };
-            This.method.beforeDeleteActionHook = function (record) {
-            };
+            This.method.afterShowEditActionHook = function (window, record) { };
+            This.method.validateDeleteActionHook = function (record) { return record; };
+            This.method.beforeDeleteActionHook = function (record) { };
             This.method.afterDeleteActionHook = function (response, record) { };
             This.method.afterDeleteErrorActionHook = function (response, record) { };
             This.method.beforeActivateActionHook = function (record) { };
