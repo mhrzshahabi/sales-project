@@ -51,6 +51,27 @@ public class ForeignInvoiceBillOfLandingDTO {
         private List<EStatus> eStatus;
 
     }
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("ForeignInvoiceBillOfLandingInfo")
+    public static class InfoWithoutForeignInvoice extends ForeignInvoiceBillOfLandingDTO {
+
+        private Long id;
+        private BillOfLandingDTO.Info billOfLanding;
+
+        // Auditing
+        private Date createdDate;
+        private String createdBy;
+        private Date lastModifiedDate;
+        private String lastModifiedBy;
+        private Integer version;
+
+        // BaseEntity
+        private Boolean editable;
+        private List<EStatus> eStatus;
+
+    }
 
     @Getter
     @Setter

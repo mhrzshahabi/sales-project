@@ -3,6 +3,7 @@ package com.nicico.sales.dto.invoice.foreign;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.nicico.sales.dto.PriceBaseDTO;
 import com.nicico.sales.dto.RemittanceDetailDTO;
+import com.nicico.sales.model.entities.invoice.foreign.ForeignInvoiceItemDetail;
 import com.nicico.sales.model.enumeration.EStatus;
 import com.nicico.sales.model.enumeration.InspectionReportMilestone;
 import io.swagger.annotations.ApiModel;
@@ -43,6 +44,27 @@ public class ForeignInvoiceItemDTO {
         private Long id;
         private ForeignInvoiceDTO.Info foreignInvoice;
         private RemittanceDetailDTO.Info remittanceDetail;
+
+        // Auditing
+        private Date createdDate;
+        private String createdBy;
+        private Date lastModifiedDate;
+        private String lastModifiedBy;
+        private Integer version;
+
+        // BaseEntity
+        private Boolean editable;
+        private List<EStatus> eStatus;
+    }
+     @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("ForeignInvoiceItemInfo")
+    public static class InfoWithoutForeignInvoice extends ForeignInvoiceItemDTO {
+
+        private Long id;
+        private RemittanceDetailDTO.Info remittanceDetail;
+        private List<ForeignInvoiceItemDetailDTO.InfoWithoutForeignInvoiceItem> foreignInvoiceItemDetails;
 
         // Auditing
         private Date createdDate;
