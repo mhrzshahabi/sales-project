@@ -8,6 +8,8 @@
     <!-- INITIALIZE STRUCTURE -->
     <include file="classpath:/db/changelog/initial-definition/liquibase-init.xml"/>
     <include file="classpath:/db/changelog/initial-definition/liquibase-sequence.xml"/>
+    <include file="classpath:/db/changelog/initial-definition/tbl_packing_list.xml"/>
+    <include file="classpath:/db/changelog/initial-definition/tbl_packing_container.xml"/>
     <!-- INITIALIZE STRUCTURE -->
 
     <!-- SYNONYMS -->
@@ -83,6 +85,7 @@
 
     <!-- CHANGES -->
     <include file="classpath:/db/changelog/changes/liq-diff-13990805.xml"/>
+    <include file="classpath:/db/changelog/changes/tbl_warh_warehouse.xml"/>
     <!-- CHANGES -->
 
 </databaseChangeLog>

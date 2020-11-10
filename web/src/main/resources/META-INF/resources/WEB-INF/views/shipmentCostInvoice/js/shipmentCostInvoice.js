@@ -597,7 +597,7 @@ shipmentCostInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
         },
         pickListFields: [
             {name: "id", primaryKey: true, hidden: true},
-            {name: "sendDate", width: 100, type: "date"},
+            {name: "sendDate", width: 100, type: "date", dateFormatter: "toJapanShortDate"},
             {name: "bookingCat"},
             {name: "contractShipment.contract.no"},
             {name: "material.descEN"}
@@ -919,7 +919,7 @@ shipmentCostInvoiceTab.dynamicForm.shipmentPriceFields = BaseFormItems.concat([
         pickListFields: [
             {name: "id", primaryKey: true, hidden: true, title: "<spring:message code='global.id'/>"},
             {name: "reference", title: "<spring:message code='foreign-invoice.form.conversion-ref'/>"},
-            {name: "currencyDate", type: "date", title: "<spring:message code='global.date'/>"},
+            {name: "currencyDate", type: "date", title: "<spring:message code='global.date'/>", dateFormatter: "toJapanShortDate"},
             {name: "unitFrom.name", title: "<spring:message code='global.from'/>"},
             {name: "unitTo.name", title: "<spring:message code='global.to'/>"},
             {name: "currencyRateValue", title: "<spring:message code='rate.title'/>"}

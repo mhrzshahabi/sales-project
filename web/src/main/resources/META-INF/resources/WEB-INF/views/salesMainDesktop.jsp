@@ -1038,11 +1038,19 @@
                                     </sec:authorize>
                                     <sec:authorize access="hasAuthority('R_REMITTANCE')">
                                     {
+                                        title: "<spring:message code='warehouseCadItem.packing.list'/>",
+                                        click: function () {
+                                            createTab("<spring:message code='warehouseCadItem.packing.list'/>",
+													"<spring:url value="/packing-list/show-form" />")
+                                        }
+                                    },
+										{
                                         title: "<spring:message code='bijack'/>",
                                         click: function () {
                                             createTab("<spring:message code='bijack'/>", "<spring:url value="/remittance-detail/showForm" />")
                                         }
                                     },
+
 									{
                                         title: "<spring:message code='entity.remittance-detail'/>",
                                         click: function () {
