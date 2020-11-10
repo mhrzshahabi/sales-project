@@ -132,9 +132,9 @@ public class ForeignInvoiceFormController {
         ForeignInvoiceItemDetailDTO.InfoWithoutForeignInvoiceItem au_detial = foreignInvoiceItemDetails.stream().filter(q -> q.getMaterialElementId() == 3).findFirst().orElse(new ForeignInvoiceItemDetailDTO.InfoWithoutForeignInvoiceItem());
         ForeignInvoiceItemDetailDTO.InfoWithoutForeignInvoiceItem ag_detial = foreignInvoiceItemDetails.stream().filter(q -> q.getMaterialElementId() == 2).findFirst().orElse(new ForeignInvoiceItemDetailDTO.InfoWithoutForeignInvoiceItem());
 
-        wordUtil.replacePOI(doc, "CU_PRICE_BASE", String.valueOf(cu_detial.getBasePrice()));
-        wordUtil.replacePOI(doc, "AG_PRICE_BASE", String.valueOf(ag_detial.getBasePrice()));
-        wordUtil.replacePOI(doc, "AU_PRICE_BASE", String.valueOf(au_detial.getBasePrice()));
+        wordUtil.replacePOI(doc, "PRICE_CU_BASE", String.valueOf(cu_detial.getBasePrice()));
+        wordUtil.replacePOI(doc, "PRICE_AG_BASE", String.valueOf(ag_detial.getBasePrice()));
+        wordUtil.replacePOI(doc, "PRICE_AU_BASE", String.valueOf(au_detial.getBasePrice()));
 
         List<AssayInspectionTotalValuesDTO.Info> assayInspectionTotalValuesList = inspectionAssayReport.getAssayInspectionTotalValuesList();
         AssayInspectionTotalValuesDTO.Info cu_assay = assayInspectionTotalValuesList.stream().filter(q -> q.getMaterialElementId() == 1).findFirst().orElse(new AssayInspectionTotalValuesDTO.Info());
@@ -145,9 +145,9 @@ public class ForeignInvoiceFormController {
         BigDecimal f_ag_assay = ag_assay.getValue().subtract(ag_detial.getDeductionValue());
         BigDecimal f_au_assay = au_assay.getValue().subtract(au_detial.getDeductionValue());
 
-        wordUtil.replacePOI(doc, "F_CU_ASSAY", f_cu_assay.toString());
-        wordUtil.replacePOI(doc, "F_AG_ASSAY", f_ag_assay.toString());
-        wordUtil.replacePOI(doc, "F_AU_ASSAY", f_au_assay.toString());
+        wordUtil.replacePOI(doc, "CU_F_ASSAY", f_cu_assay.toString());
+        wordUtil.replacePOI(doc, "AG_F_ASSAY", f_ag_assay.toString());
+        wordUtil.replacePOI(doc, "AU_F_ASSAY", f_au_assay.toString());
 
         wordUtil.replacePOI(doc, "CU_ASSAY", String.valueOf(cu_assay.getValue()));
         wordUtil.replacePOI(doc, "AG_ASSAY", String.valueOf(au_assay.getValue()));
@@ -158,9 +158,9 @@ public class ForeignInvoiceFormController {
         wordUtil.replacePOI(doc, "AG_DEDUCTION_TYPE", ag_detial.getDeductionType().toString());
         wordUtil.replacePOI(doc, "AU_DEDUCTION_TYPE", au_detial.getDeductionType().toString());
 
-        wordUtil.replacePOI(doc, "CU_DEDUCTION_VALUE", cu_detial.getDeductionValue().toString());
-        wordUtil.replacePOI(doc, "AG_DEDUCTION_VALUE", ag_detial.getDeductionValue().toString());
-        wordUtil.replacePOI(doc, "AU_DEDUCTION_VALUE", au_detial.getDeductionValue().toString());
+        wordUtil.replacePOI(doc, "CU_DED_VALUE", cu_detial.getDeductionValue().toString());
+        wordUtil.replacePOI(doc, "AG_DED_VALUE", ag_detial.getDeductionValue().toString());
+        wordUtil.replacePOI(doc, "AU_DED_VALUE", au_detial.getDeductionValue().toString());
 
 
         wordUtil.replacePOI(doc, "CU_CALCULATION", f_cu_assay.multiply(cu_detial.getBasePrice()).toString());
