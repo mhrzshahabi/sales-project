@@ -19,16 +19,11 @@ import java.util.List;
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class PackingListDTO {
+
     private Long id;
-
-
     private Long billOfLandingId;
-
-
     private Long shipmentId;
-
     private String bookingNo;
-
     private String description;
 
 
