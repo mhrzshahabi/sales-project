@@ -558,7 +558,8 @@
                     {
                         name: "date",
                         width: "10%",
-                        align: "center"
+                        align: "center",
+                        dateFormatter: "toJapanShortDate",
                     }
                 ],
                 changed: function (form, item, value) {
