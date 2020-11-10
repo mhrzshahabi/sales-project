@@ -1,7 +1,5 @@
-package com.nicico.sales.model.entities.contract;
+package com.nicico.sales.model.entities.warehouse;
 
-import com.nicico.sales.model.entities.base.ContactAccount;
-import com.nicico.sales.model.entities.base.Shipment;
 import com.nicico.sales.model.entities.common.BaseEntity;
 import lombok.*;
 import lombok.experimental.Accessors;
@@ -42,7 +40,6 @@ public class PackingContainer extends BaseEntity {
     private Long packingListId;
 
 
-
    @Column(name="C_CONTAINER_No",nullable = false)
     private String containerNo;
 
@@ -58,8 +55,6 @@ public class PackingContainer extends BaseEntity {
     @Column(name="N_sub_PACKAGE_COUNT")// تعداد ورق بشکه
     private Long subpackageCount;
 
-     @Column(name="N_sub_PACKAGE_COUNT")// تعداد ورق بشکه
-    private Long subpackageCount;
 
      @Column(name="N_STRAP_WEIGHT")// وزن تسمه
     private Long strapWeight;
@@ -81,17 +76,15 @@ public class PackingContainer extends BaseEntity {
     private Long containerWeight;
 
 
+@Column(name="N_CONTENT_WEIGHT",nullable = false)// vazn mohteva, hamoon vaznie ke baskool mige. mishe vazne kolli bar bedoon container
+    private Long contentWeight;
+
+    @Column(name="N_vgm_WEIGHT")// content + container
+    private Long vgmWeight;
 
 
-
-
-
-
-
-
-
-
-
+@Column(name="N_NET_WEIGHT",nullable = false)// vazn mohteva, hamoon vaznie ke baskool mige. mishe vazne kolli bar bedoon container
+    private Long netWeight;
 
 @Column(name="C_DESCRIPTION",length = 2000)
     private String description;

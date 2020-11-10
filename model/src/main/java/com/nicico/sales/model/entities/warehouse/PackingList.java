@@ -1,8 +1,9 @@
-package com.nicico.sales.model.entities.contract;
+package com.nicico.sales.model.entities.warehouse;
 
 import com.nicico.sales.model.entities.base.Shipment;
 import com.nicico.sales.model.entities.base.Unit;
 import com.nicico.sales.model.entities.common.BaseEntity;
+import com.nicico.sales.model.entities.contract.BillOfLanding;
 import lombok.*;
 import lombok.experimental.Accessors;
 
