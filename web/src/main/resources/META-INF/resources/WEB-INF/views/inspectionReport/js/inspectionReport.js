@@ -884,10 +884,15 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
         editorType: "ComboBoxItem",
         addUnknownValues: false,
         valueField: "id",
-        displayField: "bookingCat",
+        displayField: "sendDate",
         pickListWidth: "500",
         pickListHeight: "300",
         optionDataSource: inspectionReportTab.restDataSource.shipmentRest,
+        mapValueToDisplay: function (value) {
+            let selectedRecord = this.getSelectedRecord();
+            if (!selectedRecord) return '';
+            return DateUtil.format(new Date(selectedRecord.sendDate), "YYYY/MM/dd");
+        },
         pickListProperties:
             {
                 showFilterEditor: true
@@ -904,7 +909,9 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
             },
             {
                 name: "sendDate",
-                type: "date"
+                type: "date",
+                dateFormatter: "toJapanShortDate",
+
             },
             {
                 name: "shipmentType.shipmentType",
@@ -2095,7 +2102,7 @@ inspectionReportTab.dynamicForm.addShipmentDynamicForm = isc.DynamicForm.nicico.
     autoFetchData: false,
     editorType: "SelectItem",
     valueField: "id",
-    displayField: "bookingCat",
+    displayField: "sendDate",
     pickListWidth: "500",
     pickListHeight: "300",
     optionDataSource: inspectionReportTab.restDataSource.shipmentRest,
@@ -2115,7 +2122,8 @@ inspectionReportTab.dynamicForm.addShipmentDynamicForm = isc.DynamicForm.nicico.
         },
         {
             name: "sendDate",
-            type: "date"
+            type: "date",
+            dateFormatter: "toJapanShortDate",
         },
         {
             name: "shipmentType.shipmentType",
@@ -2124,6 +2132,12 @@ inspectionReportTab.dynamicForm.addShipmentDynamicForm = isc.DynamicForm.nicico.
             name: "shipmentMethod.shipmentMethod",
         },
     ],
+    mapValueToDisplay: function (value) {
+        let selectedRecord = this.getSelectedRecord();
+        if (!selectedRecord) return '';
+        return DateUtil.format(new Date(selectedRecord.sendDate), "YYYY/MM/dd");
+    }
+
 }]);
 
 inspectionReportTab.window.formUtil = new nicico.FormUtil();
