@@ -296,6 +296,11 @@
                     let locale = languageForm.getValue("languageName");
                     return locale === "fa" ? "left" : "right";
                 };
+                nicico.CommonUtil.getAlignByLangReverse = function () {
+
+                    let locale = languageForm.getValue("languageName");
+                    return locale === "fa" ? "right" : "left";
+                };
 
                 nicico.CommonUtil.getLang = function () {
 
@@ -430,9 +435,10 @@
                     }
                 }
 
-                isc.FormItem.addProperties({
-                    dateFormatter: "toJapanShortDate",
+                /*isc.FormItem.addProperties({
+                   dateFormatter: this.type && this.type.toLowerCase() === "date" ? "toJapanShortDate" : this.dateFormatter,
                 });
+                */
                 isc.ListGrid.addProperties({
                     dataPageSize: 500,
                     showPrompt: true,

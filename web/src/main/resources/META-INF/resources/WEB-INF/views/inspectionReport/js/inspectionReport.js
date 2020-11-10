@@ -784,7 +784,7 @@ inspectionReportTab.method.materialChange = function () {
             inspectionReportTab.dynamicForm.assayLab.getField("labPlace").setRequired(false);
             inspectionReportTab.tab.inspecTabs.tabs.filter(q => q.name === "assay").first().pane.disable();
     }
-    inspectionReportTab.listGrid.weightElement.unitId = -11;
+    inspectionReportTab.listGrid.weightElement.unitId = -1;
     let unitName = StorageUtil.get('parameters').unit.filter(q => q.id === inspectionReportTab.listGrid.weightElement.unitId).first().name;
     let weightWGTitle = inspectionReportTab.listGrid.weightElement.getFieldTitle("weightGW").replace(/ *\([^)]*\) */g, "");
     inspectionReportTab.listGrid.weightElement.setFieldTitle("weightGW", weightWGTitle + " (" + unitName + ")");
@@ -884,10 +884,15 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
         editorType: "ComboBoxItem",
         addUnknownValues: false,
         valueField: "id",
-        displayField: "bookingCat",
+        displayField: "sendDate",
         pickListWidth: "500",
         pickListHeight: "300",
         optionDataSource: inspectionReportTab.restDataSource.shipmentRest,
+        mapValueToDisplay: function (value) {
+            let selectedRecord = this.getSelectedRecord();
+            if (!selectedRecord) return '';
+            return DateUtil.format(new Date(selectedRecord.sendDate), "YYYY/MM/dd");
+        },
         pickListProperties:
             {
                 showFilterEditor: true
@@ -904,7 +909,9 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
             },
             {
                 name: "sendDate",
-                type: "date"
+                type: "date",
+                dateFormatter: "toJapanShortDate",
+
             },
             {
                 name: "shipmentType.shipmentType",
@@ -1105,7 +1112,7 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
         title: "<spring:message code='inspectionReport.mileStone'/>",
         required: true,
         wrapTitle: false,
-        valueMap: nicico.CommonUtil.getLang() === "fa" ? JSON.parse('${Enum_MileStone}').nameFa : JSON.parse('${Enum_MileStone}').nameEn,
+        valueMap: JSON.parse('${Enum_MileStone}'),
         validators: [
             {
                 type: "required",
@@ -1248,7 +1255,7 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
         title: "<spring:message code='inspectionReport.inspectionRateValueType'/>",
         required: true,
         wrapTitle: false,
-        valueMap: nicico.CommonUtil.getLang() === "fa" ? JSON.parse('${Enum_InspectionRateValueType}').nameFa : JSON.parse('${Enum_InspectionRateValueType}').nameEn,
+        valueMap: JSON.parse('${Enum_InspectionRateValueType}'),
         validators: [
             {
                 type: "required",
@@ -1354,7 +1361,7 @@ inspectionReportTab.listGrid.weightElement = isc.ListGrid.create({
         {
             name: "weighingType",
             required: true,
-            valueMap: nicico.CommonUtil.getLang() === "fa" ? JSON.parse('${Enum_WeighingType}').nameFa : JSON.parse('${Enum_WeighingType}').nameEn,
+            valueMap: JSON.parse('${Enum_WeighingType}'),
             validators: [{
                 type: "required",
                 validateOnChange: true
@@ -1429,7 +1436,7 @@ inspectionReportTab.listGrid.weightElementSum = isc.ListGrid.create({
         width: "25%",
         align: "center",
         required: true,
-        valueMap: nicico.CommonUtil.getLang() === "fa" ? JSON.parse('${Enum_WeighingType}').nameFa : JSON.parse('${Enum_WeighingType}').nameEn,
+        valueMap: JSON.parse('${Enum_WeighingType}'),
         validators: [{
             type: "required",
             validateOnChange: true
@@ -2095,7 +2102,7 @@ inspectionReportTab.dynamicForm.addShipmentDynamicForm = isc.DynamicForm.nicico.
     autoFetchData: false,
     editorType: "SelectItem",
     valueField: "id",
-    displayField: "bookingCat",
+    displayField: "sendDate",
     pickListWidth: "500",
     pickListHeight: "300",
     optionDataSource: inspectionReportTab.restDataSource.shipmentRest,
@@ -2115,7 +2122,8 @@ inspectionReportTab.dynamicForm.addShipmentDynamicForm = isc.DynamicForm.nicico.
         },
         {
             name: "sendDate",
-            type: "date"
+            type: "date",
+            dateFormatter: "toJapanShortDate",
         },
         {
             name: "shipmentType.shipmentType",
@@ -2124,6 +2132,12 @@ inspectionReportTab.dynamicForm.addShipmentDynamicForm = isc.DynamicForm.nicico.
             name: "shipmentMethod.shipmentMethod",
         },
     ],
+    mapValueToDisplay: function (value) {
+        let selectedRecord = this.getSelectedRecord();
+        if (!selectedRecord) return '';
+        return DateUtil.format(new Date(selectedRecord.sendDate), "YYYY/MM/dd");
+    }
+
 }]);
 
 inspectionReportTab.window.formUtil = new nicico.FormUtil();

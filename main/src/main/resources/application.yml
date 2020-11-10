@@ -89,6 +89,11 @@ nicico:
     package:
       controller:
         name: com.nicico.sales.controller
+
+storage:
+  url: storage.icico.net.ir/client/api
+  key: sales
+  token: nicsales123
 ---
 
 spring:
@@ -112,9 +117,9 @@ spring:
             scope: user_info
         provider:
           oserver:
-            authorization-uri: http://apps.icico.net.ir/oauth/authorize
-            token-uri: http://apps.icico.net.ir/oauth/token
-            user-info-uri: http://apps.icico.net.ir/user/info
+            authorization-uri: http://apps.nicico.com/oauth/authorize
+            token-uri: http://apps.nicico.com/oauth/token
+            user-info-uri: http://apps.nicico.com/user/info
             user-name-attribute: username
 nicico:
   security:
