@@ -177,10 +177,10 @@ const tozinLiteFields = _ => [
         filterOperator: "inSet",
         valueMap: SalesBaseParameters.getSavedWarehouseParameter().getValueMap("id", "name"),
         valueMap: {
-            2320: "<spring:message code='shahid.rejaee.wharf.tidewater'/>",
-            1000: "<spring:message code='sarcheshme.copper.complex'/>",
-            2340: "<spring:message code='shahid.rejaee.no20.warehouse'/>",
-            2555: "<spring:message code='shahid.rejaee.wharf'/>",
+            2320:"<spring:message code='shahid.rejaee.wharf.tidewater'/>",
+            1000:"<spring:message code='sarcheshme.copper.complex'/>",
+            2340:"<spring:message code='shahid.rejaee.no20.warehouse'/>",
+            2555:"<spring:message code='shahid.rejaee.wharf'/>",
         },
         showHover: true,
         title: "<spring:message code='Tozin.targetId'/>",
@@ -361,10 +361,9 @@ async function onWayProductFetch(classUrl, operator = "and", criteria = []) {
 }
 
 function mainOnWayProduct() {
-    const owpTab = {
-        DynamicForm: {Form: {}, Field: {}}
+    const owpTab={
+        DynamicForm:{Form:{},Field:{}}
     };
-
     async function getMaxDateInDestionationTozin(codeKala) {
         // const criteria = ListGrid_Tozin_IN_ONWAYPRODUCT.getFilterEditorCriteria();
         const criteria = {
@@ -399,10 +398,10 @@ function mainOnWayProduct() {
         dbg(option)
         if (option.ok && response.response && response.response.data && response.response.data.length > 0) {
             const date = response.response.data[0].date;
-            const year = date.toString().substr(0, 4)
-            const month = date.toString().substr(4, 2)
-            const day = date.toString().substr(6, 2)
-            stats.setValue(codeKala.toString(), year + '/' + month + '/' + day)
+            const year = date.toString().substr(0,4)
+            const month = date.toString().substr(4,2)
+            const day = date.toString().substr(6,2)
+            stats.setValue(codeKala.toString(),year + '/' + month + '/' + day)
             //dbg(true,response)
         }
     }
@@ -564,12 +563,12 @@ function mainOnWayProduct() {
                 click: Menu_ListGrid_OnWayProduct.data[0].click
             }),
             //    </sec:authorize>
-            owpTab.DynamicForm.Form.ToDate = isc.DynamicForm.create({
-                numCols: 4,
-                fields: [
-                    owpTab.DynamicForm.Field.FromDate = isc.FormItem.create({
-                        title: "<spring:message code='dailyWarehouse.fromDay'/>",
-                        name: 'fromDate',
+           owpTab.DynamicForm.Form.ToDate= isc.DynamicForm.create({
+               numCols:4,
+                fields:[
+                    owpTab.DynamicForm.Field.FromDate=isc.FormItem.create({
+                    title:"<spring:message code='dailyWarehouse.fromDay'/>",
+                        name:'fromDate',
                         defaultValue:new persianDate().subtract('days',7       ).format('YYYY/MM/DD'),
                         wrapTitle:false,
                         icons: [{
@@ -709,14 +708,10 @@ function mainOnWayProduct() {
         width: "100%",
         height: "100%",
         members: [
-            HLayout_Tozin_Actions, stats = isc.DynamicForm.create({
+            HLayout_Tozin_Actions,             stats = isc.DynamicForm.create({
                 numCols: 8,
                 fields: [
-                    {
-                        name: "info",
-                        title: "<spring:message code='lastArrival.to.BandarAbbas.warehouse'/>",
-                        type: "staticText"
-                    },
+                    {name: "info", title: "<spring:message code='lastArrival.to.BandarAbbas.warehouse'/>", type: "staticText"},
                     {name: "11", title: "<spring:message code='cathode.title'/>", type: "staticText"},
                     {name: "97", title: "<spring:message code='molybdenum.title'/>", type: "staticText"},
                     {name: "8", title: "<spring:message code='Tozin.copper.concentrate'/>", type: "staticText"}

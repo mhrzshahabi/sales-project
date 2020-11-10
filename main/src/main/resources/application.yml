@@ -99,9 +99,9 @@ storage:
 spring:
   profiles: Production
   datasource:
-    url: jdbc:oracle:thin:@//srv-oraprd1.nicico.com:1521/pdb_prd01
-    username: n_sales
-    password: ENC(TasFAclypDuePmZeiaK91hp3Id8J3Oo5)
+    url: jdbc:oracle:thin:@//172.16.180.20:1521/pdb1.icico.net.ir
+    username: sales
+    password: sales
   redis:
     host: redis
     password: nicico
@@ -111,7 +111,7 @@ spring:
         registration:
           oserver:
             client-id: ${spring.application.name}
-            client-secret: ENC(Ua2npLNRL4zF9AA1rFOCnr5mMyNnckjgM6m/fP6IHao=)
+            client-secret: password
             authorization-grant-type: authorization_code
             redirect-uri: '{baseUrl}/login/oauth2/code/{registrationId}'
             scope: user_info
