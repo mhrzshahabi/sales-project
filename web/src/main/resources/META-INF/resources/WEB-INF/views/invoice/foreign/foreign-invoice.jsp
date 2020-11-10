@@ -3,6 +3,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
+<spring:url value="/foreign-invoice/print/" var="printUrl"/>
 <spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
 <%@include file="js/component-invoice-base-info.js"%>
 <%@include file="../../unit/js/component-unit.js"%>

@@ -35,6 +35,7 @@ namespace nicico {
     export class CommonUtil {
 
         static getAlignByLang: any;
+        static getAlignByLangReverse: any;
 
         static getLang: any;
 
@@ -43,6 +44,11 @@ namespace nicico {
             // @ts-ignore
             this.getAlignByLang = function () {
                 return "left";
+            };
+
+            // @ts-ignore
+            this.getAlignByLangReverse = function () {
+                return "right";
             };
 
             // @ts-ignore

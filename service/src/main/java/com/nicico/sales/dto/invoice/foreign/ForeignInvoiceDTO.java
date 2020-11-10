@@ -59,6 +59,8 @@ public class ForeignInvoiceDTO {
         private PersonDTO.Info creator;
         private InspectionReportDTO.Info inspectionWeightReport;
         private InspectionReportDTO.Info inspectionAssayReport;
+        private List<ForeignInvoiceItemDTO.InfoWithoutForeignInvoice> foreignInvoiceItems;
+        private List<ForeignInvoiceBillOfLandingDTO.InfoWithoutForeignInvoice> billLadings;
 
 
         // Auditing

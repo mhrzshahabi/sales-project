@@ -1372,14 +1372,15 @@ contractTab.Fields = {
 ////////////////////////////////////////////////////////MainContractRefactor////////////////////////////////////////////
 contractTab.ToolStripButtons = {
     // <c:if test = "${u_entity}">
-    Addendum: isc.ToolStripButtonRefresh.create({
-        title: "<spring:message code='contract.addendum'/>",
-        click: contractTab.Methods.NewAddendum
+    Addendum: isc.ToolStripButton.create({
+        title: "<spring:message code='contract.addendum.title'/>",
+        click: contractTab.Methods.NewAddendum,
+        icon: "pieces/16/paperclip.png"
     }),
     // </c:if>
-    filterContracts: isc.ToolStripButtonEdit.create({
+    filterContracts: isc.ToolStripButton.create({
         title: "<spring:message code='global.form.filter'/>",
-        icon: "pieces/16/icon_view.png",
+        icon: "[SKIN]/actions/filter.png",
         click: function () {
             const contract = contractTab.listGrid.main.getSelectedRecord();
             if (!contract) return contractTab.dialog.notSelected();

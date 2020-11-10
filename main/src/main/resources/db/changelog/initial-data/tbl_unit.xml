@@ -145,5 +145,22 @@
         </sql>
     </changeSet>
 
+    <changeSet id="1799887766554-075" author="MShahabi">
+        <sql>
+            INSERT INTO TBL_UNIT
+            (ID, C_CREATED_BY, D_CREATED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE, C_NAME_EN, N_CATEGORY_UNIT, N_SYMBOL_UNIT, C_NAME_FA)
+            values (20,'liquibase',current_timestamp, 2, 1, 1, 'WMT', 3, 16, 'تن خیس');
+
+            INSERT INTO TBL_UNIT
+            (ID, C_CREATED_BY, D_CREATED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE, C_NAME_EN, N_CATEGORY_UNIT, N_SYMBOL_UNIT, C_NAME_FA)
+            values (21,'liquibase',current_timestamp, 2, 1, 1, 'DMT', 3, 64, 'تن خشک');
+
+            INSERT INTO TBL_UNIT
+            (ID, C_CREATED_BY, D_CREATED_DATE, N_VERSION, N_E_STATUS, B_EDITABLE, C_NAME_EN, N_CATEGORY_UNIT, N_SYMBOL_UNIT, C_NAME_FA)
+            values (22,'liquibase',current_timestamp, 2, 1, 1, 'GRAMS/DMT', 3, 1088, 'گرم در تن خشک');
+
+        </sql>
+    </changeSet>
+
 
 </databaseChangeLog>

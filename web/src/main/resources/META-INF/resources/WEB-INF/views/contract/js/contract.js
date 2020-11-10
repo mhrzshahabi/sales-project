@@ -491,7 +491,7 @@ nicico.BasicFormUtil.getDefaultBasicForm(contractTab, "api/g-contract/", (creato
 });
 // <c:if test = "${c_entity}">
 // @ts-ignore
-contractTab.toolStrip.main.addMember(isc.ToolStripButtonAdd.create({
+contractTab.toolStrip.main.addMember(isc.ToolStripButton.create({
     icon: "[SKIN]/actions/print.png",
     title: "<spring:message code='global.form.print'/>",
     click: function () {
