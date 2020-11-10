@@ -284,7 +284,7 @@ isc.defineClass("InvoiceCalculation2", isc.VLayout).addProperties({
                                 width: "100",
                                 height: "25",
                                 autoFit: false,
-                                title: "<spring:message code='global.ok'/>",
+                                title: "<spring:message code='global.form.save'/>",
                                 click: function () {
 
                                     if (!This.validate())

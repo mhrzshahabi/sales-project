@@ -360,7 +360,7 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
         name: "currencyId",
         editorType: "SelectItem",
         valueField: "id",
-        displayField: "nameEN",
+        displayField: "name",
         optionCriteria: {
             operator: 'and',
             criteria: [{
@@ -372,10 +372,13 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
         optionDataSource: isc.MyRestDataSource.create({
             fields: [
                 {name: "id", primaryKey: true, hidden: true, title: "<spring:message code='global.id'/>"},
-                {name: "nameEN", title: "<spring:message code='global.title'/>"},
+                {name: "name", title: "<spring:message code='global.title'/>"},
             ],
             fetchDataURL: foreignInvoiceTab.variable.unitUrl + "spec-list"
         }),
+        pickListFields: [
+            {name: "name", align: "center"},
+        ],
         title: "<spring:message code='foreign-invoice.form.currency'/>",
         wrapTitle: false,
         validators: [
@@ -405,7 +408,7 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
         editorType: "SelectItem",
         width: "100%",
         valueField: "id",
-        displayField: "nameEN",
+        displayField: "name",
         optionCriteria: {
             operator: 'and',
             criteria: [{
@@ -417,10 +420,13 @@ foreignInvoiceTab.dynamicForm.fields = BaseFormItems.concat([
         optionDataSource: isc.MyRestDataSource.create({
             fields: [
                 {name: "id", primaryKey: true, hidden: true, title: "<spring:message code='global.id'/>"},
-                {name: "nameEN", title: "<spring:message code='global.title'/>"},
+                {name: "name", title: "<spring:message code='global.title'/>"},
             ],
             fetchDataURL: foreignInvoiceTab.variable.unitUrl + "spec-list"
         }),
+        pickListFields: [
+            {name: "name", align: "center"}
+        ],
         title: "<spring:message code='foreign-invoice.form.to.currency'/>",
         wrapTitle: false,
         changed: function (form, item, value) {
@@ -725,8 +731,9 @@ foreignInvoiceTab.dynamicForm.baseData.validate = function () {
 foreignInvoiceTab.button.save = isc.IButtonSave.create({
     margin: 10,
     height: 50,
+    width: 150,
     icon: "pieces/16/save.png",
-    title: "<spring:message code='global.form.save'/>",
+    title: "<spring:message code='global.form.add.detail'/>",
     click: function () {
 
         let contractId;
@@ -975,13 +982,13 @@ foreignInvoiceTab.button.selectBillLading = isc.IButtonSave.create({
             [
                 {name: "id", primaryKey: true, hidden: true, title: "<spring:message code='global.id'/>"},
                 {name: "documentNo", title: "<spring:message code='foreign-invoice.form.conversion-ref'/>"},
-                {name: "shipperExporter.nameEN", title: "<spring:message code='global.date'/>"},
-                {name: "notifyParty.nameEN", title: "<spring:message code='global.from'/>"},
-                {name: "consignee.nameEN", title: "<spring:message code='global.to'/>"},
-                {name: "portOfLoading.port", title: "<spring:message code='rate.title'/>"},
-                {name: "portOfDischarge.port", title: "<spring:message code='rate.title'/>"},
-                {name: "placeOfDelivery", title: "<spring:message code='rate.title'/>"},
-                {name: "oceanVessel.name", title: "<spring:message code='rate.title'/>"},
+                {name: "shipperExporter.nameEN", title: "<spring:message code='billOfLanding.shipper.exporter'/>"},
+                {name: "notifyParty.nameEN", title: "<spring:message code='billOfLanding.notify.party'/>"},
+                {name: "consignee.nameEN", title: "<spring:message code='billOfLanding.consignee'/>"},
+                {name: "portOfLoading.port", title: "<spring:message code='billOfLanding.port.of.landing'/>"},
+                {name: "portOfDischarge.port", title: "<spring:message code='billOfLanding.port.of.discharge'/>"},
+                {name: "placeOfDelivery", title: "<spring:message code='billOfLanding.place.of.delivery'/>"},
+                {name: "oceanVessel.name", title: "<spring:message code='billOfLanding.ocean.vessel'/>"},
             ],
             null, this.criteria, Number.MAX_VALUE);
     }
@@ -1405,8 +1412,9 @@ foreignInvoiceTab.toolStrip.main.addMember(isc.ToolStripButton.create({
 
 foreignInvoiceTab.toolStrip.main.addMember(isc.ToolStripButton.create({
     visibility: "visible",
-    icon: "[SKIN]/actions/filter.png",
-    title: "<spring:message code='global.form.filter'/>",
+    icon: "pieces/16/icon_view.png",
+    name: "Invoice Completion",
+    title: "<spring:message code='global.form.related.invoice'/>",
     click: function () {
 
         let record = foreignInvoiceTab.listGrid.main.getSelectedRecord();
@@ -3402,23 +3410,23 @@ foreignInvoiceTab.method.validateDeleteActionHook = function (record) {
 
 foreignInvoiceTab.listGrid.main.rowClick = function (record, recordNum, fieldNum) {
 
-    foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.title === "Edit").first().show();
-    foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.title === "Remove").first().show();
-    foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.title === "Active").first().show();
-    foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.title === "Inactive").first().show();
-    foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.title === "Finalize").first().show();
-    foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.title === "Disapprove").first().show();
-    foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.title === "Invoice Completion").first().show();
+    foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.actionType === nicico.ActionType.EDIT).first().show();
+    foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.actionType === nicico.ActionType.DELETE).first().show();
+    foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.actionType === nicico.ActionType.ACTIVATE).first().show();
+    foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.actionType === nicico.ActionType.DEACTIVATE).first().show();
+    foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.actionType === nicico.ActionType.FINALIZE).first().show();
+    foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.actionType === nicico.ActionType.DISAPPROVE).first().show();
+    foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.name === "Invoice Completion").first().show();
 
     if (record.parentId) {
-        foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.title === "Edit").first().hide();
-        foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.title === "Active").first().hide();
-        foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.title === "Inactive").first().hide();
-        foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.title === "Finalize").first().hide();
-        foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.title === "Disapprove").first().hide();
-        foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.title === "Invoice Completion").first().hide();
+        foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.actionType === nicico.ActionType.EDIT).first().hide();
+        foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.actionType === nicico.ActionType.ACTIVATE).first().hide();
+        foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.actionType === nicico.ActionType.DEACTIVATE).first().hide();
+        foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.actionType === nicico.ActionType.FINALIZE).first().hide();
+        foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.actionType === nicico.ActionType.DISAPPROVE).first().hide();
+        foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.name === "Invoice Completion").first().hide();
     } else
-        foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.title === "Remove").first().hide();
+        foreignInvoiceTab.toolStrip.main.getMembers().filter(q => q.actionType === nicico.ActionType.DELETE).first().hide();
 
     this.Super("rowClick", arguments);
 };
@@ -3426,7 +3434,7 @@ foreignInvoiceTab.listGrid.main.rowClick = function (record, recordNum, fieldNum
 foreignInvoiceTab.listGrid.main.getCellCSSText = function (record, rowNum, colNum) {
 
     if (record.parentId) {
-        return "font-weight:bold; color:#488509;";
+        return "font-weight:bold; color:#2f8be0;";
     }
     return this.Super('getCellCSSText', arguments)
 };
