@@ -58,6 +58,27 @@ public class ForeignInvoiceItemDetailDTO {
     @Getter
     @Setter
     @Accessors(chain = true)
+    @ApiModel("ForeignInvoiceItemDetailInfo")
+    public static class InfoWithoutForeignInvoiceItem extends ForeignInvoiceItemDetailDTO {
+
+        private Long id;
+        private MaterialElementDTO.Info materialElement;
+
+        // Auditing
+        private Date createdDate;
+        private String createdBy;
+        private Date lastModifiedDate;
+        private String lastModifiedBy;
+        private Integer version;
+
+        // BaseEntity
+        private Boolean editable;
+        private List<EStatus> eStatus;
+    }
+
+    @Getter
+    @Setter
+    @Accessors(chain = true)
     @ApiModel("ForeignInvoiceItemDetailCreateRq")
     public static class Create extends ForeignInvoiceItemDetailDTO {
     }

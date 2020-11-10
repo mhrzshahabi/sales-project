@@ -2,14 +2,10 @@ package com.nicico.sales.dto.invoice.foreign;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.nicico.sales.dto.*;
-import com.nicico.sales.dto.contract.IncotermDTO;
-import com.nicico.sales.model.entities.invoice.foreign.ForeignInvoiceItem;
 import com.nicico.sales.model.enumeration.EStatus;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
@@ -63,8 +59,8 @@ public class ForeignInvoiceDTO {
         private PersonDTO.Info creator;
         private InspectionReportDTO.Info inspectionWeightReport;
         private InspectionReportDTO.Info inspectionAssayReport;
-        private List<ForeignInvoiceBillOfLandingDTO.Info> billLadings;
-        private List<ForeignInvoiceItemDTO.Info> foreignInvoiceItems;
+        private List<ForeignInvoiceItemDTO.InfoWithoutForeignInvoice> foreignInvoiceItems;
+        private List<ForeignInvoiceBillOfLandingDTO.InfoWithoutForeignInvoice> billLadings;
 
 
         // Auditing
