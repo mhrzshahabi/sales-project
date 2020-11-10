@@ -16,6 +16,11 @@ spring:
         format_sql: true
         hbm2ddl:
           schema_filter_provider: com.nicico.copper.common.hibernate.CustomSchemaFilterProvider
+      org:
+        hibernate:
+          envers:
+            audit_table_prefix: AUD_
+            audit_table_suffix:
     open-in-view: false
   liquibase:
     database-change-log-table: Z_LIQ_CHANGELOG
@@ -73,18 +78,32 @@ nicico:
     sys-password: password
     resource-id: Copper
   apps:
-    accounting: http://devapp01.icico.net.ir/accounting
+    oauth: http://staging.icico.net.ir
+    accounting: http://staging.icico.net.ir/accounting
+    hrm: http://staging.icico.net.ir/hrm
+  minio:
+    endpoint-url: http://minio.icico.net.ir/
+    access-key: minio
+    secret-key: minio123
+  report:
+    package:
+      controller:
+        name: com.nicico.sales.controller
 
+storage:
+  url: storage.icico.net.ir/client/api
+  key: sales
+  token: nicsales123
 ---
 
 spring:
   profiles: Production
   datasource:
-    url: jdbc:oracle:thin:@//srv-oraprd1.nicico.com:1521/pdb_prd01
-    username: n_sales
-    password: ENC(TasFAclypDuePmZeiaK91hp3Id8J3Oo5)
+    url: jdbc:oracle:thin:@//172.16.180.20:1521/pdb1.icico.net.ir
+    username: sales
+    password: sales
   redis:
-    host: apps.nicico.com
+    host: redis
     password: nicico
   security:
     oauth2:
@@ -92,7 +111,7 @@ spring:
         registration:
           oserver:
             client-id: ${spring.application.name}
-            client-secret: ENC(Ua2npLNRL4zF9AA1rFOCnr5mMyNnckjgM6m/fP6IHao=)
+            client-secret: password
             authorization-grant-type: authorization_code
             redirect-uri: '{baseUrl}/login/oauth2/code/{registrationId}'
             scope: user_info
@@ -103,10 +122,40 @@ spring:
             user-info-uri: http://apps.nicico.com/user/info
             user-name-attribute: username
 nicico:
-  apps:
-    accounting: http://apps.nicico.com/accounting
   security:
     sys-password: ENC(MRPf6gcEgm043xXnCbElG2M+NDeLcbAS3wihOjLNuDA=)
+  apps:
+    oauth: http://apps.icico.net.ir
+    hrm: http://apps.icico.net.ir/hrm
+    accounting: http://apps.icico.net.ir/accounting
+
+---
+
+spring:
+  profiles: Staging
+  datasource:
+    url: jdbc:oracle:thin:@//oragnrt01.icico.net.ir:1521/pdb_dev01
+    username: demo_sales
+    password: demosales
+  redis:
+    host: redis
+    password: nicico
+  security:
+    oauth2:
+      client:
+        registration:
+          oserver:
+            client-id: ${spring.application.name}
+            client-secret: password
+            authorization-grant-type: authorization_code
+            redirect-uri: '{baseUrl}/login/oauth2/code/{registrationId}'
+            scope: user_info
+        provider:
+          oserver:
+            authorization-uri: http://staging.icico.net.ir/oauth/authorize
+            token-uri: http://staging.icico.net.ir/oauth/token
+            user-info-uri: http://staging.icico.net.ir/user/info
+            user-name-attribute: username
 
 ---
 
@@ -135,6 +184,11 @@ spring:
             token-uri: http://devapp01.icico.net.ir/oauth/token
             user-info-uri: http://devapp01.icico.net.ir/user/info
             user-name-attribute: username
+nicico:
+  apps:
+    oauth: http://devapp01.icico.net.ir
+    accounting: http://devapp01.icico.net.ir/accounting
+    hrm: http://devapp01.icico.net.ir/hrm
 
 ---
 
@@ -168,3 +222,7 @@ spring:
 nicico:
   upload:
     dir: c:/upload
+  apps:
+    oauth: http://devapp01.icico.net.ir
+    accounting: http://devapp01.icico.net.ir/accounting
+    hrm: http://devapp01.icico.net.ir/hrm
