@@ -167,3 +167,24 @@ interface Remittance {
       tozinTable: TozinTable;
 
 }
+
+interface BillOfLanding {
+    id:number;
+}
+
+interface PackingList {
+      id:number;
+
+      billOfLanding:BillOfLanding;
+
+      billOfLandingId:number;
+
+      shipment:Shipment;
+
+      shipmentId:number;
+
+      bookingNo:string;
+
+      description:string;
+
+}

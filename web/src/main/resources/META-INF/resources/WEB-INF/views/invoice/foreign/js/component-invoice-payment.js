@@ -179,7 +179,7 @@ isc.defineClass("InvoicePayment", isc.VLayout).addProperties({
                             This.addMember(isc.HTMLFlow.create({
                                 width: "100%",
                                 contents: "<span style='width: 100%; display: block; margin: 30px auto; border-bottom: 1px solid rgba(0,0,0,0.3)'></span>" +
-                                "<span style='width: 100%; text-align: left; margin-bottom: 10px; display: block'>" + "FINAL BALANCE IN " + This.currency.nameEN +
+                                "<span style='width: 100%; text-align: " + nicico.CommonUtil.getAlignByLang() + "; margin-bottom: 10px; display: block'>" + "FINAL BALANCE IN " + This.currency.nameEN +
                                 " BASED ON " + rateReference + " RATE OF " + This.conversionDate + " - " + This.conversionRate + ": " + "</span>"
                             }));
                         } else {
@@ -224,7 +224,7 @@ isc.defineClass("InvoicePayment", isc.VLayout).addProperties({
                             contents: "<span style='width: 100%; display: block; margin: 20px auto'></span>"
                         }));
 
-                        This.addMember(isc.IButton.create({
+                        let shipmentCostButton = isc.IButton.create({
                             width: "200",
                             right: "10",
                             position: "absolute",
@@ -295,7 +295,9 @@ isc.defineClass("InvoicePayment", isc.VLayout).addProperties({
                                         }
                                     ]), 0);
                             }
-                        }));
+                        });
+                        shipmentCostButton.hide();
+                        This.addMember(shipmentCostButton);
 
                         This.addMember(isc.HTMLFlow.create({
                             width: "100%",

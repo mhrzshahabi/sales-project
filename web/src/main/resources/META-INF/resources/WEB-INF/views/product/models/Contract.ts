@@ -1,4 +1,4 @@
-///<reference path="../../../../../../../static/isomorphic/system/development/smartclient.d.ts"/>
+///<reference path="../../../../../../static/isomorphic/system/development/smartclient.d.ts"/>
 interface Unit {
     id: number;
 }

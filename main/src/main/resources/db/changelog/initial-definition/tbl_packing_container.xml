@@ -1,0 +1,60 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+
+<changeSet author="saeb (generated)" id="1604978411920-229">
+        <createSequence sequenceName="SEQ_PACKING_CONTAINER"/>
+    </changeSet>
+    <changeSet author="saeb (generated)" id="1604978411920-231">
+        <createTable tableName="TBL_PACKING_CONTAINER">
+            <column name="id" type="NUMBER(19, 0)">
+                <constraints primaryKey="true" primaryKeyName="TBL_PACKING_CONTAINERPK"/>
+            </column>
+            <column name="c_created_by" type="VARCHAR2(255 CHAR)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="d_created_date" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="c_last_modified_by" type="VARCHAR2(255 CHAR)"/>
+            <column name="d_last_modified_date" type="TIMESTAMP"/>
+            <column name="n_version" type="NUMBER(10, 0)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueNumeric="1" name="N_E_STATUS" type="NUMBER">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueNumeric="1" name="B_EDITABLE" type="NUMBER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="N_BARREL_WEIGHT" type="NUMBER(19, 0)"/>
+            <column name="C_CONTAINER_No" type="VARCHAR2(255 CHAR)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="N_CONTAINER_WEIGHT" type="NUMBER(19, 0)"/>
+            <column name="N_CONTENT_WEIGHT" type="NUMBER(19, 0)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="C_DESCRIPTION" type="VARCHAR2(2000 CHAR)"/>
+            <column name="N_LADING_DATE" type="NUMBER(19, 0)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="N_NET_WEIGHT" type="NUMBER(19, 0)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="N_PACKAGE_COUNT" type="NUMBER(19, 0)"/>
+            <column name="F_PACKAGING_LIST" type="NUMBER(19, 0)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="N_PALLET_Count" type="NUMBER(19, 0)"/>
+            <column name="N_PALLET_WEIGHT" type="NUMBER(19, 0)"/>
+            <column name="C_SEAL_No" type="VARCHAR2(255 CHAR)"/>
+            <column name="N_STRAP_WEIGHT" type="NUMBER(19, 0)"/>
+            <column name="N_sub_PACKAGE_COUNT" type="NUMBER(19, 0)"/>
+            <column name="N_vgm_WEIGHT" type="NUMBER(19, 0)"/>
+            <column name="N_wood_WEIGHT" type="NUMBER(19, 0)"/>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

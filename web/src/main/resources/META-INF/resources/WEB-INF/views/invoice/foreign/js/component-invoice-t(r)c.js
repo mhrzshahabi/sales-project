@@ -17,6 +17,14 @@ isc.defineClass("InvoiceDeduction", isc.VLayout).addProperties({
         this.Super("initWidget", arguments);
 
         let This = this;
+
+        this.addMember(isc.Label.create({
+            margin: 10,
+            height: 5,
+            align: nicico.CommonUtil.getAlignByLang(),
+            contents: "<spring:message code='foreign-invoice.form.deduction.label'/>"
+        }));
+
         this.addMember(isc.DynamicForm.create({
             width: "50%",
             fields: [{
@@ -85,7 +93,7 @@ isc.defineClass("InvoiceDeduction", isc.VLayout).addProperties({
                     width: "100",
                     height: "25",
                     autoFit: false,
-                    title: "<spring:message code='global.ok'/>",
+                    title: "<spring:message code='global.form.save'/>",
                     click: function () {
 
                         if (!This.validate())
@@ -133,7 +141,7 @@ isc.defineClass("InvoiceDeduction", isc.VLayout).addProperties({
     validate: function () {
 
         let isValid = true;
-        this.getMembers().slice(1, this.invoiceCalculationComponent.getValues().length).forEach(q => isValid &= q.validate());
+        this.getMembers().filter(q => q.role === "RC").forEach(q => isValid &= q.validate());
         return isValid;
     },
     getValues: function () {
