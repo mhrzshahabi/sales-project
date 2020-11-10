@@ -271,6 +271,7 @@
             },
             {
                 name: "documentDate",
+                required: true,
                 title: "<spring:message code='document.header.date'/>",
                 icons: [persianDatePicker],
                 wrapTitle: false,

@@ -27,6 +27,12 @@ isc.defineClass("InvoiceBaseValues", isc.VLayout).addProperties({
 
         if (this.invoiceType.id === ImportantIDs.invoiceType.FINAL) {
 
+            this.addMember(isc.Label.create({
+                margin: 10,
+                height: 5,
+                align: nicico.CommonUtil.getAlignByLang(),
+                contents: "<spring:message code='foreign-invoice.form.base.price'/>"
+            }));
             this.invoiceBasePriceComponent = isc.InvoiceBasePrice.create({
                 currency: This.currency,
                 contract: This.contract,
@@ -40,6 +46,12 @@ isc.defineClass("InvoiceBaseValues", isc.VLayout).addProperties({
                 contents: "<span style='width: 100%; display: block; margin: 10px auto; border-bottom: 1px solid rgba(0,0,0,0.3)'></span>"
             }));
 
+            this.addMember(isc.Label.create({
+                margin: 10,
+                height: 5,
+                align: nicico.CommonUtil.getAlignByLang(),
+                contents: "<spring:message code='foreign-invoice.form.base.assay'/>"
+            }));
             this.invoiceBaseAssayComponent = isc.InvoiceBaseAssay.create({
                 shipment: This.shipment,
                 inspectionAssayData: This.inspectionAssayData,
@@ -50,6 +62,12 @@ isc.defineClass("InvoiceBaseValues", isc.VLayout).addProperties({
                 contents: "<span style='width: 100%; display: block; margin: 10px auto; border-bottom: 1px solid rgba(0,0,0,0.3)'></span>"
             }));
 
+            this.addMember(isc.Label.create({
+                margin: 10,
+                height: 5,
+                align: nicico.CommonUtil.getAlignByLang(),
+                contents: "<spring:message code='foreign-invoice.form.base.weight'/>"
+            }));
             this.invoiceBaseWeightComponent = isc.InvoiceBaseWeight.create({
                 shipment: This.shipment,
                 percent: This.percent,
@@ -74,7 +92,7 @@ isc.defineClass("InvoiceBaseValues", isc.VLayout).addProperties({
                     width: "100",
                     height: "25",
                     autoFit: false,
-                    title: "<spring:message code='global.ok'/>",
+                    title: "<spring:message code='global.form.save'/>",
                     click: function () {
 
                         if (!This.validate())

@@ -784,7 +784,7 @@ inspectionReportTab.method.materialChange = function () {
             inspectionReportTab.dynamicForm.assayLab.getField("labPlace").setRequired(false);
             inspectionReportTab.tab.inspecTabs.tabs.filter(q => q.name === "assay").first().pane.disable();
     }
-    inspectionReportTab.listGrid.weightElement.unitId = -11;
+    inspectionReportTab.listGrid.weightElement.unitId = -1;
     let unitName = StorageUtil.get('parameters').unit.filter(q => q.id === inspectionReportTab.listGrid.weightElement.unitId).first().name;
     let weightWGTitle = inspectionReportTab.listGrid.weightElement.getFieldTitle("weightGW").replace(/ *\([^)]*\) */g, "");
     inspectionReportTab.listGrid.weightElement.setFieldTitle("weightGW", weightWGTitle + " (" + unitName + ")");
@@ -1105,7 +1105,7 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
         title: "<spring:message code='inspectionReport.mileStone'/>",
         required: true,
         wrapTitle: false,
-        valueMap: nicico.CommonUtil.getLang() === "fa" ? JSON.parse('${Enum_MileStone}').nameFa : JSON.parse('${Enum_MileStone}').nameEn,
+        valueMap: JSON.parse('${Enum_MileStone}'),
         validators: [
             {
                 type: "required",
@@ -1248,7 +1248,7 @@ inspectionReportTab.dynamicForm.fields = BaseFormItems.concat([
         title: "<spring:message code='inspectionReport.inspectionRateValueType'/>",
         required: true,
         wrapTitle: false,
-        valueMap: nicico.CommonUtil.getLang() === "fa" ? JSON.parse('${Enum_InspectionRateValueType}').nameFa : JSON.parse('${Enum_InspectionRateValueType}').nameEn,
+        valueMap: JSON.parse('${Enum_InspectionRateValueType}'),
         validators: [
             {
                 type: "required",
@@ -1354,7 +1354,7 @@ inspectionReportTab.listGrid.weightElement = isc.ListGrid.create({
         {
             name: "weighingType",
             required: true,
-            valueMap: nicico.CommonUtil.getLang() === "fa" ? JSON.parse('${Enum_WeighingType}').nameFa : JSON.parse('${Enum_WeighingType}').nameEn,
+            valueMap: JSON.parse('${Enum_WeighingType}'),
             validators: [{
                 type: "required",
                 validateOnChange: true
@@ -1429,7 +1429,7 @@ inspectionReportTab.listGrid.weightElementSum = isc.ListGrid.create({
         width: "25%",
         align: "center",
         required: true,
-        valueMap: nicico.CommonUtil.getLang() === "fa" ? JSON.parse('${Enum_WeighingType}').nameFa : JSON.parse('${Enum_WeighingType}').nameEn,
+        valueMap: JSON.parse('${Enum_WeighingType}'),
         validators: [{
             type: "required",
             validateOnChange: true

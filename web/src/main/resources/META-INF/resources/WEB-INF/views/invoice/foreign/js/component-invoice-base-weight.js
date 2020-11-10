@@ -26,10 +26,11 @@ isc.defineClass("InvoiceBaseWeight", isc.VLayout).addProperties({
             showValueFieldTitle: true,
             showUnitFieldTitle: false,
             name: "weightGW",
-            fieldValueTitle: "TOTAL GROSS WEIGHT"
+            fieldValueTitle: "<spring:message code='foreign-invoice.form.total-gross-weight'/>"
         }));
         this.getMembers().last().setValue(this.inspectionWeightData.weightGW);
-        this.getMembers().last().setUnitId(this.inspectionWeightData.weightInspections[0].unitId);
+        // this.getMembers().last().setUnitId(this.inspectionWeightData.weightInspections[0].unitId);
+        this.getMembers().last().setUnitId(20);
 
         this.addMember(isc.Unit.create({
 
@@ -38,10 +39,11 @@ isc.defineClass("InvoiceBaseWeight", isc.VLayout).addProperties({
             showValueFieldTitle: true,
             showUnitFieldTitle: false,
             name: "weightND",
-            fieldValueTitle: "TOTAL NET WEIGHT"
+            fieldValueTitle: "<spring:message code='foreign-invoice.form.total-net-weight'/>"
         }));
         this.getMembers().last().setValue(this.inspectionWeightData.weightND);
-        this.getMembers().last().setUnitId(this.inspectionWeightData.weightInspections[0].unitId);
+        // this.getMembers().last().setUnitId(this.inspectionWeightData.weightInspections[0].unitId);
+        this.getMembers().last().setUnitId(21);
 
         let unitArray = [];
         let amountArray = [];
@@ -73,7 +75,8 @@ isc.defineClass("InvoiceBaseWeight", isc.VLayout).addProperties({
                     disabledValueField: true,
                     showUnitFieldTitle: false,
                     showValueFieldTitle: true,
-                    fieldValueTitle: "TOTAL UNITS",
+                    name: "totalUnits",
+                    fieldValueTitle: "<spring:message code='foreign-invoice.form.total-units'/>",
                 });
                 unitMember.setValue(amountArray[index]);
                 unitMember.setUnitId(current);
@@ -113,9 +116,9 @@ isc.defineClass("InvoiceBaseWeight", isc.VLayout).addProperties({
                             weightNDMember.setValue(weightNDMember.getValues().value * percent / 100);
 
                             if (percent === 100) {
-                                This.getMembers().filter(q => q.fieldValueTitle === "TOTAL UNITS").forEach(member => member.show());
+                                This.getMembers().filter(q => q.name === "totalUnits").forEach(member => member.show());
                             } else
-                                This.getMembers().filter(q => q.fieldValueTitle === "TOTAL UNITS").forEach(member => member.hide());
+                                This.getMembers().filter(q => q.name === "totalUnits").forEach(member => member.hide());
                         }
                     },
                     {
@@ -129,7 +132,7 @@ isc.defineClass("InvoiceBaseWeight", isc.VLayout).addProperties({
                             let weightNDMember = This.getMembers().filter(q => q.name === "weightND").first();
                             weightNDMember.setValue(This.inspectionWeightData.weightND);
 
-                            This.getMembers().filter(q => q.fieldValueTitle === "TOTAL UNITS").forEach(member => member.show());
+                            This.getMembers().filter(q => q.name === "totalUnits").forEach(member => member.show());
                         }
                     }],
                 changed: function () {
