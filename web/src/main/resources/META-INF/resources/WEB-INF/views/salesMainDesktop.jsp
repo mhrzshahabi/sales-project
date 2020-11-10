@@ -435,9 +435,10 @@
                     }
                 }
 
-                isc.FormItem.addProperties({
-                    dateFormatter: "toJapanShortDate",
+                /*isc.FormItem.addProperties({
+                   dateFormatter: this.type && this.type.toLowerCase() === "date" ? "toJapanShortDate" : this.dateFormatter,
                 });
+                */
                 isc.ListGrid.addProperties({
                     dataPageSize: 500,
                     showPrompt: true,
