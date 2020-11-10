@@ -1,6 +1,9 @@
 package com.nicico.sales.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.nicico.sales.annotation.report.IgnoreReportField;
+import com.nicico.sales.annotation.report.ReportField;
+import com.nicico.sales.annotation.report.ReportModel;
 import com.nicico.sales.model.enumeration.EStatus;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -19,17 +22,25 @@ import java.util.List;
 public class TozinTableDTO {
 
     private final Boolean isInView = true;
+    @ReportField(titleMessageKey = "Tozin.target.tozin.id")
     private String tozinId;
     private String cardId;
     private String haveCode;
     private String tozinDate;
+    @ReportField(titleMessageKey = "Tozin.codeKala")
+    private String codeKala;
+    @ReportField(titleMessageKey = "Tozin.source")
     private Long sourceId;
     private Long targetId;
-    private String codeKala;
+    @ReportField(titleMessageKey = "Tozin.vazn")
     private Long vazn;
+    //  @ReportField(titleMessageKey = "global.date")
     private String date;
+    @ReportField(titleMessageKey = "invoiceSales.otherDescription")
     private String ctrlDescOut;
+    @ReportField(titleMessageKey = "Tozin.plak")
     private String plak;
+    @ReportField(titleMessageKey = "Tozin.driver")
     private String driverName;
 
 
@@ -51,9 +62,11 @@ public class TozinTableDTO {
         // BaseEntity
         private Boolean editable;
         private List<EStatus> eStatus;
-
+        @ReportModel(type = WarehouseDTO.Info.class, jumpTo = true)
         private WarehouseDTO.Info sourceWarehouse;
+        @IgnoreReportField
         private WarehouseDTO.Info targetWarehouse;
+        @ReportModel(type = MaterialItemDTO.Info.class, jumpTo = true)
         private MaterialItemDTO.Info materialItem;
     }
 
@@ -62,7 +75,9 @@ public class TozinTableDTO {
     @Accessors(chain = true)
     @ApiModel("TozinTableInfo")
     public static class Info extends TozinTableDTO.InfoWithoutRemittanceDetail {
+        @IgnoreReportField
         private List<RemittanceDetailDTO.InfoWithoutRemittance> remittanceDetailsAsSource;
+        @IgnoreReportField
         private List<RemittanceDetailDTO.InfoWithoutRemittance> remittanceDetailsAsDestination;
 
     }

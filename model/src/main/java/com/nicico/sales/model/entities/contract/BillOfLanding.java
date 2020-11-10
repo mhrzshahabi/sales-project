@@ -2,15 +2,18 @@ package com.nicico.sales.model.entities.contract;
 
 import com.nicico.sales.model.entities.base.*;
 import com.nicico.sales.model.entities.common.BaseEntity;
-import com.nicico.sales.model.entities.warehouse.RemittanceDetail;
 import lombok.*;
 import lombok.experimental.Accessors;
+import org.hibernate.envers.AuditOverride;
+import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
+
+import static org.hibernate.envers.RelationTargetAuditMode.NOT_AUDITED;
 
 //بارنامه
 @Getter
@@ -21,6 +24,8 @@ import java.util.List;
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
 @Table(name = "TBL_CNTR_BILL_OF_LANDING")
+@Audited
+@AuditOverride(forClass = BaseEntity.class)
 public class BillOfLanding extends BaseEntity {
 
     @Id
@@ -150,8 +155,8 @@ public class BillOfLanding extends BaseEntity {
     private Port switchPortOfLoading;
 
 
-    @NotNull
-    @Column(name = "F_SWITCH_PORT_AS_LOADING", nullable = false)
+    //@NotNull
+    @Column(name = "F_SWITCH_PORT_AS_LOADING", nullable = true)
     private Long switchPortOfLoadingId;
 
 
@@ -182,8 +187,8 @@ public class BillOfLanding extends BaseEntity {
     private Port switchPortOfDischarge;
 
 
-    @NotNull
-    @Column(name = "F_SWITCH_PORT_AS_DISCHARGE", nullable = false)
+    //@NotNull
+    @Column(name = "F_SWITCH_PORT_AS_DISCHARGE", nullable = true)
     private Long switchPortOfDischargeId;
 
 
@@ -252,11 +257,12 @@ public class BillOfLanding extends BaseEntity {
     private Shipment shipment;
 
 
-//    @NotNull
+    //    @NotNull
     @Column(name = "F_shipment_id")
     private Long shipmentId;
 
-     @ManyToOne(fetch = FetchType.LAZY)
+    @Audited(targetAuditMode = NOT_AUDITED)
+    @ManyToOne(fetch = FetchType.LAZY)
     @Setter(AccessLevel.NONE)
     @JoinColumn(
             name = "F_shipment_type_id",
@@ -267,11 +273,12 @@ public class BillOfLanding extends BaseEntity {
     private ShipmentType shipmentType;
 
 
-//    @NotNull
+    //    @NotNull
     @Column(name = "F_shipment_type_id")
     private Long shipmentTypeId;
 
-     @ManyToOne(fetch = FetchType.LAZY)
+    @Audited(targetAuditMode = NOT_AUDITED)
+    @ManyToOne(fetch = FetchType.LAZY)
     @Setter(AccessLevel.NONE)
     @JoinColumn(
             name = "F_shipment_method_id",

@@ -319,4 +319,11 @@
 
         </sql>
     </changeSet>
+    <changeSet author="Abiz" id="AZAARE-101">
+        <sql>
+            ALTER SEQUENCE SEQ_PORT INCREMENT BY 10000;
+            SELECT SEQ_PORT.NEXTVAL FROM DUAL;
+            ALTER SEQUENCE SEQ_PORT INCREMENT BY 1;
+        </sql>
+    </changeSet>
 </databaseChangeLog>

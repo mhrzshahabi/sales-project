@@ -2,9 +2,10 @@ package com.nicico.sales.model.entities.contract;
 
 import com.nicico.sales.model.entities.base.Unit;
 import com.nicico.sales.model.entities.common.BaseEntity;
-import com.nicico.sales.model.entities.warehouse.Remittance;
 import lombok.*;
 import lombok.experimental.Accessors;
+import org.hibernate.envers.AuditOverride;
+import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -18,6 +19,8 @@ import javax.validation.constraints.NotNull;
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
 @Table(name = "TBL_CNTR_CONTAINER_TO_BILL_OF_LANDING")
+@Audited
+@AuditOverride(forClass = BaseEntity.class)
 public class ContainerToBillOfLanding extends BaseEntity {
 
     @Id

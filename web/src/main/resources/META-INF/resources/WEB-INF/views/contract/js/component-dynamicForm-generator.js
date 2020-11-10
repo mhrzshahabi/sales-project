@@ -3,7 +3,7 @@ var RestDataSource_Material= isc.MyRestDataSource.create({
         [
             {name: "id", title: "id", primaryKey: true, hidden: true},
             {name: "code", title: "<spring:message code='goods.code'/> "},
-            {name: "descl"},
+            {name: "descEN"},
             {name: "unitId"},
             {name: "unit.nameEN"},
         ],

@@ -176,4 +176,22 @@
         </sql>
     </changeSet>
 
+    <changeSet id="1799887766554-069" author="MShahabi">
+        <sql>
+            update tbl_price_base set f_element_id = 4 where f_element_id = 10;
+            update tbl_price_base set f_element_id = 6 where f_element_id = 13;
+
+            update tbl_warh_material_element set f_element_id = 4 where f_element_id = 10;
+            update tbl_warh_material_element set f_element_id = 6 where f_element_id = 13;
+
+            delete from TBL_WARH_ELEMENT where id in (10, 13);
+        </sql>
+    </changeSet>
+
+    <!--    <changeSet id="1799887766554-070" author="MShahabi">-->
+    <!--        <sql>-->
+    <!--            update TBL_WARH_ELEMENT set B_PAYABLE = 1 where id = 4;-->
+    <!--        </sql>-->
+    <!--    </changeSet>-->
+
 </databaseChangeLog>

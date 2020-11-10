@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 public enum EContractDetailValueKey {
     NotImportant("NotImportant"),
 
+    RC("RC"),
+    TC("TC"),
     QUANTITY("QUANTITY"),
     QUANTITY_IN_CHARACTER("QUANTITY_IN_CHARACTER"),
     TOLERANCE("TOLERANCE"),

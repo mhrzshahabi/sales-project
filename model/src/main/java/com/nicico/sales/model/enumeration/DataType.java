@@ -15,7 +15,8 @@ public enum DataType {
     Long(7),
     String(8),
     Reference(9),
-    ListOfReference(10);
+    ListOfReference(10),
+    DynamicTable(11);
 
     private final Integer id;
 }

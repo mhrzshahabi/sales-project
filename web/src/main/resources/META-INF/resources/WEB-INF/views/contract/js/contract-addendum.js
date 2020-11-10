@@ -554,7 +554,7 @@ contractTab.Methods.ArticleAddIconInContractDetailsGridClicked = function (v, _r
         })],
         items: []
     };
-    dbg(true)
+    //dbg(true)
     if (contractDetailIsInContract) {
         if(contractDetailIsInContract.position) sectionStackSectionObj['position'] = contractDetailIsInContract.position;
         sectionStackSectionObj['template'] = contractDetailIsInContract.contractDetailTemplate;
@@ -591,7 +591,7 @@ contractTab.Methods.ArticleAddIconInContractDetailsGridClicked = function (v, _r
                         try {
                             window[contractDetailDynamicFormID].getField(field.name).setHint(data[0].symbolUnit);
                         } catch (e) {
-                            dbg(false, e);
+                            //dbg(false, e);
                             tried++;
                             if (tried < 10) setTimeout(setHint, 2000, data)
                         }
@@ -769,7 +769,7 @@ contractTab.Methods.NewAddendum = async function () {
             "   <spring:message code='global.grid.record.can.not.disapprove'/>   "
         )
     }
-    dbg(false, resp)
+    //dbg(false, resp)
     isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
         actionURL: 'api/g-contract/' + contractRecord.id,
         httpMethod: "GET",
@@ -805,7 +805,7 @@ contractTab.Methods.NewAddendum = async function () {
                             fields: [
                                 {name: "id", title: "id", primaryKey: true, hidden: true},
                                 {name: "code", title: "<spring:message code='goods.code'/> "},
-                                {name: "descl"},
+                                {name: "descEN"},
                                 {name: "unitId"},
                                 {name: "unit.nameEN"}
                             ],
@@ -813,7 +813,7 @@ contractTab.Methods.NewAddendum = async function () {
                         }),
                         defaultValue: contractRecord["materialId"],
                         autoFetchData: false,
-                        displayField: "descl",
+                        displayField: "descEN",
                         valueField: "id",
                         required: true,
                         disabled: true,
@@ -1049,13 +1049,13 @@ contractTab.Methods.Validators = {
                 return modifiedNotFound;
             }
         )
-        dbg(false, 'chagedShipmentContract', chagedShipmentContract)
+        //dbg(false, 'chagedShipmentContract', chagedShipmentContract)
         if (chagedShipmentContract) {
             isc.warn("<spring:message code='shipment.was.sent'/>")
             return false
         }
-        dbg(false, 'shipments sent with this contract', shipmentContractsWithShipment)
-        dbg(false, 'addendum data', data, parentContractShipments, contractShipments, contractShipmentIds)
+        //dbg(false, 'shipments sent with this contract', shipmentContractsWithShipment)
+        //dbg(false, 'addendum data', data, parentContractShipments, contractShipments, contractShipmentIds)
         return true
     }
 }
@@ -1182,7 +1182,7 @@ contractTab.Methods.SaveAddendum = async function () {
      contractTab.sectionStack.Addendum.expandSection(contractTab.sectionStack.Addendum.sections);
 
      data.contractDetails = [];
-     dbg(true)
+     //dbg(true)
      contractTab.sectionStack.Addendum.sections.forEach(section => {
         let contractDetailObj = {
             contractDetailTypeId: section.name,
@@ -1306,14 +1306,14 @@ contractTab.Fields = {
                 fields: [
                     {name: "id", title: "id", primaryKey: true, hidden: true},
                     {name: "code", title: "<spring:message code='goods.code'/> "},
-                    {name: "descl"},
+                    {name: "descEN"},
                     {name: "unitId"},
                     {name: "unit.nameEN"}
                 ],
                 fetchDataURL: "${contextPath}/api/material/spec-list"
             }),
             autoFetchData: false,
-            displayField: "descl",
+            displayField: "descEN",
             valueField: "id",
             required: true,
             title: "<spring:message code='material.title'/>",
@@ -1372,14 +1372,15 @@ contractTab.Fields = {
 ////////////////////////////////////////////////////////MainContractRefactor////////////////////////////////////////////
 contractTab.ToolStripButtons = {
     // <c:if test = "${u_entity}">
-    Addendum: isc.ToolStripButtonRefresh.create({
-        title: "<spring:message code='contract.addendum'/>",
-        click: contractTab.Methods.NewAddendum
+    Addendum: isc.ToolStripButton.create({
+        title: "<spring:message code='contract.addendum.title'/>",
+        click: contractTab.Methods.NewAddendum,
+        icon: "pieces/16/paperclip.png"
     }),
     // </c:if>
-    filterContracts: isc.ToolStripButtonEdit.create({
+    filterContracts: isc.ToolStripButton.create({
         title: "<spring:message code='global.form.filter'/>",
-        icon: "pieces/16/icon_view.png",
+        icon: "[SKIN]/actions/filter.png",
         click: function () {
             const contract = contractTab.listGrid.main.getSelectedRecord();
             if (!contract) return contractTab.dialog.notSelected();
@@ -1418,6 +1419,10 @@ contractTab.ToolStripButtons = {
 };
 // <c:if test = "${u_entity}">
 contractTab.toolStrip.main.addMember(contractTab.ToolStripButtons.Addendum, 3)
+contractTab.menu.main.data.add({
+    title: "<spring:message code='contract.addendum'/>",
+    click: contractTab.Methods.NewAddendum
+});
 // </c:if>
 contractTab.toolStrip.main.addMember(contractTab.ToolStripButtons.filterContracts, 3)
 contractTab.listGrid.main.getCellCSSText = function (record, rowNum, colNum) {

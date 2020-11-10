@@ -45,6 +45,34 @@ public class InspectionReportRestController {
     }
 
     @Loggable
+    @PostMapping(value = "/activate/{id}")
+    public ResponseEntity<InspectionReportDTO.Info> activate(@PathVariable Long id) {
+
+        return new ResponseEntity<>(iInspectionReportService.activate(id), HttpStatus.OK);
+    }
+
+    @Loggable
+    @PostMapping(value = "/deactivate/{id}")
+    public ResponseEntity<InspectionReportDTO.Info> deactivate(@PathVariable Long id) {
+
+        return new ResponseEntity<>(iInspectionReportService.deactivate(id), HttpStatus.OK);
+    }
+
+    @Loggable
+    @PostMapping(value = "/finalize/{id}")
+    public ResponseEntity<InspectionReportDTO.Info> finalize(@PathVariable Long id) {
+
+        return new ResponseEntity<>(iInspectionReportService.finalize(id), HttpStatus.OK);
+    }
+
+    @Loggable
+    @PostMapping(value = "/disapprove/{id}")
+    public ResponseEntity<InspectionReportDTO.Info> disapprove(@PathVariable Long id) {
+
+        return new ResponseEntity<>(iInspectionReportService.disapprove(id), HttpStatus.OK);
+    }
+
+    @Loggable
     @PutMapping
     public ResponseEntity<InspectionReportDTO.Info> update(@RequestBody InspectionReportDTO.Update request) {
         return new ResponseEntity<>(iInspectionReportService.update(request.getId(), request), HttpStatus.OK);
@@ -62,5 +90,11 @@ public class InspectionReportRestController {
     public ResponseEntity<TotalResponse<InspectionReportDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) throws IOException {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
         return new ResponseEntity<>(iInspectionReportService.search(nicicoCriteria), HttpStatus.OK);
+    }
+
+    @Loggable
+    @GetMapping(value = "/set-shipment")
+    public ResponseEntity<InspectionReportDTO.Info> setShipment(@RequestParam("inspectionId") Long inspectionId, @RequestParam("shipmentId") Long shipmentId) {
+        return new ResponseEntity<>(iInspectionReportService.setShipment(inspectionId, shipmentId), HttpStatus.OK);
     }
 }

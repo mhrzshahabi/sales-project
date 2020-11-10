@@ -12,6 +12,7 @@ isc.defineClass("InvoiceBaseInfo", isc.VLayout).addProperties({
     invoiceNo: null,
     invoiceDate: null,
     invoiceType: null,
+    contractDetailDataIncoterm: null,
     initWidget: function () {
 
         this.Super("initWidget", arguments);
@@ -20,7 +21,7 @@ isc.defineClass("InvoiceBaseInfo", isc.VLayout).addProperties({
         let result = '';
 
         let material = This.contract.material;
-        let deliveryTerm = {rule: "FOB", version: "2010"}; // TODO change it
+        let deliveryTerm = This.contractDetailDataIncoterm;
         let buyer = This.contract.contractContacts.filter(q => q.commercialRole === JSON.parse('${Enum_CommercialRole}').Buyer).first().contact;
 
         this.addMember(isc.Label.create({
@@ -81,7 +82,7 @@ isc.defineClass("InvoiceBaseInfo", isc.VLayout).addProperties({
                     <td class="table-td-value">
                         <div>` + This.checkUndefined(buyer.nameEN) + `</div>
                         <div>` + This.checkUndefined(buyer.address) + `</div>
-                        <div>` + This.checkUndefined(buyer.country.nameEn) + `</div>
+                        <div>` + This.checkUndefined(buyer.country.nameEN) + `</div>
                         <div>` + This.checkUndefined(buyer.phone) + `</div>
                         <div>` + This.checkUndefined(buyer.fax) + `</div>
                     </td>
@@ -89,7 +90,7 @@ isc.defineClass("InvoiceBaseInfo", isc.VLayout).addProperties({
                   <tr>
                     <td class="table-td">MATERIAL:&nbsp;</td>
                     <td class="table-td-value">
-                        <div>` + material.descl + `</div>
+                        <div>` + material.descEN + `</div>
                     </td>
                   </tr>
                   <tr>
@@ -113,8 +114,8 @@ isc.defineClass("InvoiceBaseInfo", isc.VLayout).addProperties({
                   <tr>
                     <td class="table-td">DELIVERY TERMS:&nbsp;</td>
                     <td class="table-td-value">
-                        <div>` + deliveryTerm.rule + `</div>
-                        <div>` + deliveryTerm.version + `</div>
+                        <div>` + deliveryTerm.incotermRules[0].incotermRule.titleEn + `</div>
+                        <div>` + deliveryTerm.incotermVersion.incotermVersion + `</div>
                     </td>
                   </tr>
                 </table>`

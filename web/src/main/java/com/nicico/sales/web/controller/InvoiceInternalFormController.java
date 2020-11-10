@@ -13,8 +13,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -28,6 +30,7 @@ public class InvoiceInternalFormController {
     private final ReportUtil reportUtil;
     private final IInvoiceInternalService invoiceInternalService;
     private final DateUtil dateUtil;
+    private static BufferedImage LOGO;
 
     @RequestMapping("/showForm")
     public String showInvoiceInternal(HttpServletRequest request) {
@@ -44,8 +47,10 @@ public class InvoiceInternalFormController {
     @RequestMapping("/print/{type}/{rowId}")
     public void printInvoice(HttpServletResponse response, @PathVariable String type, @PathVariable String rowId) throws SQLException, IOException, JRException {
         Map<String, Object> params = new HashMap<>();
+        LOGO = ImageIO.read(ReportUtil.class.getResourceAsStream("/reports/report-logo/nicico-logo1.png"));
         params.put(ConstantVARs.REPORT_TYPE, type);
         params.put("ID", rowId);
+        params.put("logo_nicico_black", LOGO);
         Double mablaghKol = invoiceInternalService.get(rowId).getTotalAmount();
         Double payForAvarezMalyat = invoiceInternalService.get(rowId).getTaxChargeAmount();
         Double sum = mablaghKol + payForAvarezMalyat;

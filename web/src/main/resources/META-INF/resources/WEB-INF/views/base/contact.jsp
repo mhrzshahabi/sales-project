@@ -23,7 +23,7 @@
                     title: "<spring:message code='goods.code'/> "
                 },
                 {
-                    name: "nameEn",
+                    name: "nameEN",
                     title: "<spring:message code='global.country'/> "
                 }],
             fetchDataURL: "${contextPath}/api/country/spec-list"
@@ -679,14 +679,14 @@ code='contact.role'/></p>",
                 width: 500,
                 editorType: "SelectItem",
                 optionDataSource: RestDataSource_Country_IN_CONTACT,
-                displayField: "nameEn",
+                displayField: "name",
                 valueField: "id",
                 pickListWidth: 500,
                 pickListHeight: "500",
                 pickListProperties: {showFilterEditor: true},
                 pickListFields: [
                     {name: "id", width: 480, align: "center", hidden: true},
-                    {name: "nameEn", width: 480, align: "center"},
+                    {name: "nameEN", width: 480, align: "center"},
                 ],
                 validators: [
                     {

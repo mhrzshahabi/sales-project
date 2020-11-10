@@ -2,19 +2,18 @@ package com.nicico.sales.model.entities.base;
 
 import com.nicico.sales.model.entities.common.BaseEntity;
 import com.nicico.sales.model.enumeration.CategoryUnit;
+import com.nicico.sales.model.annotation.I18n;
 import com.nicico.sales.model.enumeration.SymbolUnit;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.envers.AuditOverride;
+import org.hibernate.envers.Audited;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.Entity;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Column;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+@I18n
 @Getter
 @Setter
 @NoArgsConstructor
@@ -23,6 +22,8 @@ import javax.validation.constraints.NotNull;
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
 @Table(name = "TBL_UNIT")
+@Audited
+@AuditOverride(forClass = BaseEntity.class)
 public class Unit extends BaseEntity {
 
     @Id
@@ -44,4 +45,8 @@ public class Unit extends BaseEntity {
 
     @Column(name = "N_SYMBOL_UNIT")
     private SymbolUnit symbolUnit;
+
+    @I18n
+    @Transient
+    private String name;
 }

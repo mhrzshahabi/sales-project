@@ -42,7 +42,11 @@
     </changeSet>
 
 
-
+    <changeSet author="saeb (generated)" id="1604904780972-291">
+        <addColumn tableName="AUD_TBL_WARH_WAREHOUSE">
+            <column name="c_short_name" type="varchar2(255 CHAR)"/>
+        </addColumn>
+    </changeSet>
 
 
 </databaseChangeLog>

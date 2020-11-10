@@ -1,22 +1,21 @@
 package com.nicico.sales.controller.invoice.foreign;
 
-import com.google.common.base.Enums;
 import com.nicico.copper.common.Loggable;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
+import com.nicico.sales.dto.invoice.foreign.ContractDetailDataDTO;
 import com.nicico.sales.dto.invoice.foreign.ForeignInvoiceItemDTO;
 import com.nicico.sales.iservice.invoice.foreign.IForeignInvoiceItemService;
-import com.nicico.sales.model.enumeration.AllConverters;
-import com.nicico.sales.model.enumeration.InspectionReportMilestone;
-import com.nicico.sales.model.enumeration.PriceBaseReference;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @Slf4j
@@ -42,13 +41,23 @@ public class ForeignInvoiceItemRestController {
     }
 
     @Loggable
-    @GetMapping(value = "/get-calculation2-data")
-    public ResponseEntity<ForeignInvoiceItemDTO.Calc2Data> getCalculation2Data(@RequestParam Long contractId, @RequestParam Long shipmentId, @RequestParam String assayMilestone, @RequestParam String weightMilestone, @RequestParam List<Long> inventoryIds, @RequestParam PriceBaseReference reference, @RequestParam Integer year, @RequestParam Integer month, @RequestParam Long financeUnitId) {
+    @PostMapping(value = "/get-calculation2-data")
+    public ResponseEntity<ForeignInvoiceItemDTO.Calc2Data> getCalculation2Data(@RequestParam Long contractId, @RequestParam @DateTimeFormat(pattern = "MM/dd/yyyy") Date sendDate,
+                                                                               @RequestParam Long financeUnitId, @RequestParam Long inspectionAssayDataId,
+                                                                               @RequestParam Long inspectionWeightDataId, @RequestBody ContractDetailDataDTO.Info contractDetailDataInfo) {
 
-        InspectionReportMilestone weightMilestoneEnum = Enums.getIfPresent(InspectionReportMilestone.class, weightMilestone).or(InspectionReportMilestone.Source);
-        InspectionReportMilestone reportMilestoneEnum = Enums.getIfPresent(InspectionReportMilestone.class, assayMilestone).or(InspectionReportMilestone.Source);
-        return new ResponseEntity<>(foreignInvoiceItemService.getCalculation2Data(contractId, shipmentId, reportMilestoneEnum, weightMilestoneEnum, inventoryIds, reference, year, month, financeUnitId), HttpStatus.OK);
+        return new ResponseEntity<>(foreignInvoiceItemService.getCalculation2Data(contractId, sendDate, financeUnitId, inspectionAssayDataId, inspectionWeightDataId, contractDetailDataInfo), HttpStatus.OK);
     }
+
+    @Loggable
+    @PostMapping(value = "/get-calculation-molybdenum-data")
+    public ResponseEntity<ForeignInvoiceItemDTO.Calc2Data> getCalculationMolybdenumData(@RequestParam Long contractId, @RequestParam @DateTimeFormat(pattern = "MM/dd/yyyy") Date sendDate,
+                                                                               @RequestParam Long financeUnitId, @RequestParam Long inspectionAssayDataId,
+                                                                               @RequestParam Long inspectionWeightDataId, @RequestBody ContractDetailDataDTO.Info contractDetailDataInfo) {
+
+        return new ResponseEntity<>(foreignInvoiceItemService.getCalculationMolybdenumData(contractId, sendDate, financeUnitId, inspectionAssayDataId, inspectionWeightDataId, contractDetailDataInfo), HttpStatus.OK);
+    }
+
 
     @Loggable
     @PostMapping

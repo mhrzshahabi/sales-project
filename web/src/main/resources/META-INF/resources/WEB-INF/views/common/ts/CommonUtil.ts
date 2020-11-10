@@ -36,11 +36,18 @@ namespace nicico {
 
         static getAlignByLang: any;
 
+        static getLang: any;
+
         constructor() {
 
             // @ts-ignore
             this.getAlignByLang = function () {
                 return "left";
+            };
+
+            // @ts-ignore
+            this.getLang = function () {
+                return "fa";
             };
 
             // @ts-ignore
@@ -216,7 +223,6 @@ namespace nicico {
                 dynamicFormProperties.cellPadding = 3;
                 dynamicFormProperties.width = "100%";
                 dynamicFormProperties.titleWidth = "*";
-                dynamicFormProperties.titleAlign = "right";
                 dynamicFormProperties.colWidths = ["30%", "70%"];
 
                 dynamicFormProperties.canSubmit = true;
@@ -263,7 +269,7 @@ namespace nicico {
                     dismissOnEscape: true,
                     dismissOnOutsideClick: false,
                     title: title,
-                    canDragResize:true,
+                    canDragResize: true,
                     // @ts-ignore
                     closeClick: function () {
 
@@ -363,6 +369,18 @@ namespace nicico {
                 });
                 chart.setHeight(windowWidget.height);
                 windowWidget.show();
+            };
+
+            // @ts-ignore
+            isc.FilterBuilder.nicico = {};
+            // @ts-ignore
+            isc.FilterBuilder.nicico.getDefault = function (restDataSource?: isc.RestDataSource) {
+                return isc.FilterBuilder.create({
+                    // @ts-ignore
+                    dataSource: restDataSource,
+                    fieldPickerWidth: "200", valueItemWidth: "400",
+                    width: "100%"
+                });
             };
 
             // @ts-ignore

@@ -9,7 +9,7 @@ build-dev:
   stage: build
   image: devops01.icico.net.ir/maven-3.6.1-jdk8:01
   only:
-    - test_sales
+    - dev
   script:
     - mvn -s .m2/settings.xml -P NICICO clean package
   artifacts:
@@ -19,7 +19,7 @@ build-dev:
 package-dev:
   stage: package
   only:
-    - test_sales
+    - dev
   script:
     - docker login -u $G_REG_USER -p $G_REG_PASSWD $G_REG_PUSH_URL
     - docker pull $G_REG_PULL_URL/$CI_PROJECT_NAME:dev || true
@@ -29,7 +29,7 @@ package-dev:
 deploy-dev:
   stage: deploy
   only:
-    - test_sales
+    - dev
   script:
     - >
       sshpass -p "$G_DEV_SRV_PASSWD" ssh -o StrictHostKeyChecking=no $G_DEV_SRV_USER@$G_DEV_SRV_URL "
@@ -48,62 +48,47 @@ deploy-dev:
         $G_REG_PULL_URL/$CI_PROJECT_NAME:dev
       "
 
-
-
-build-prd:
+build-staging:
   stage: build
   image: devops01.icico.net.ir/maven-3.6.1-jdk8:01
   only:
-    - tags
+    - staging
   script:
-    - mvn -ntp -P NICICO -s .m2/settings.xml versions:set -DnewVersion=$CI_COMMIT_TAG -DgenerateBackupPoms=false
-    - mvn -ntp -P NICICO -s .m2/settings.xml clean deploy
+    - mvn -ntp -P NICICO -s .m2/settings.xml clean package
   artifacts:
     paths:
       - main/target/*.jar
 
-package-prd:
+package-staging:
   stage: package
   only:
-    - tags
+    - staging
   script:
-    - docker login -u $G_REG_USER -p $G_REG_PASSWD $G_REG_PRD_PUSH_URL
-    - docker build -t $G_REG_PRD_PUSH_URL/$CI_PROJECT_NAME:$CI_COMMIT_TAG .
-    - docker push     $G_REG_PRD_PUSH_URL/$CI_PROJECT_NAME:$CI_COMMIT_TAG
+    - docker login -u $G_REG_USER -p $G_REG_PASSWD $G_REG_DEV_PUSH_URL
+    - docker build -t $G_REG_DEV_PUSH_URL/$CI_PROJECT_NAME:staging .
+    - docker push     $G_REG_DEV_PUSH_URL/$CI_PROJECT_NAME:staging
 
-deploy-prd:
+deploy-staging:
   stage: deploy
   only:
-    - tags
+    - staging
   script:
     - |
-      sshpass -p "$G_PRD_SRV_PASSWD" ssh -o StrictHostKeyChecking=no $G_PRD_SRV_USER@$G_PRD_SRV_URL "
-
-      echo Project = $CI_PROJECT_NAME - $CI_COMMIT_TAG
+      sshpass -p "$G_STG_SRV_PASSWD" ssh -o StrictHostKeyChecking=no $G_STG_SRV_USER@$G_STG_SRV_URL "
       echo ServiceID = \$(docker service ls --filter name=$CI_PROJECT_NAME -q)
-      echo PRD - $G_PRD_SRV_PASSWD
 
-      if [[ \$(docker service ls --filter name=$CI_PROJECT_NAME -q | wc -l) -eq 0 ]]; then
+        docker service rm $CI_PROJECT_NAME || true
         echo '*** Create ***'
         docker service create \
           --network back-net \
-          --network web-net \
-          --mount 'type=volume,volume-driver=local,destination=/var/log/nicico/,volume-opt=type=nfs,volume-opt=device=:/var/log/nicico/,volume-opt=o=addr=apps-m01' \
-          --mount 'type=volume,volume-driver=local,destination=/var/nicico/,volume-opt=type=nfs,volume-opt=device=:/var/nicico/,volume-opt=o=addr=apps-m01' \
+          --network front-net \
+          --mount 'type=volume,volume-driver=local,destination=/var/log/nicico/,volume-opt=type=nfs,volume-opt=device=:/var/log/nicico/,volume-opt=o=addr=staging.icico.net.ir' \
+          --mount 'type=volume,volume-driver=local,destination=/var/nicico/,volume-opt=type=nfs,volume-opt=device=:/var/nicico/,volume-opt=o=addr=staging.icico.net.ir' \
           -l traefik.port=8080 \
-          -l traefik.docker.network=web-net \
+          -l traefik.docker.network=front-net \
           -l traefik.backend=$CI_PROJECT_NAME \
           -l traefik.frontend.rule=PathPrefix:/sales \
-          -e PROFILE=Production \
-          -e JVM_ARGS=-Djasypt.encryptor.password=$G_JASYPT_PASSWORD \
+          -e PROFILE=Staging \
           --name $CI_PROJECT_NAME \
-          $G_REG_PULL_URL/$CI_PROJECT_NAME:$CI_COMMIT_TAG
-      else
-        echo '*** Update ***'
-        docker service update \
-          --update-order start-first \
-          --update-failure-action rollback \
-          --image $G_REG_PULL_URL/$CI_PROJECT_NAME:$CI_COMMIT_TAG \
-          $CI_PROJECT_NAME
-      fi
+          $G_REG_PULL_URL/$CI_PROJECT_NAME:staging
       "

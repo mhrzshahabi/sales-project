@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nicico.copper.common.Loggable;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
+import com.nicico.sales.annotation.report.Report;
 import com.nicico.sales.dto.RemittanceDetailDTO;
 import com.nicico.sales.iservice.IRemittanceDetailService;
 import lombok.RequiredArgsConstructor;
@@ -52,10 +53,11 @@ public class RemittanceDetailRestController {
     public ResponseEntity<List<RemittanceDetailDTO.Info>> batchCreate(@Validated @RequestBody RemittanceDetailDTO.WithRemittanceAndInventory request) {
         return new ResponseEntity<>(iRemittanceDetailService.batchUpdate(request), HttpStatus.CREATED);
     }
+
     @Loggable
     @PostMapping("/out")
     public ResponseEntity<List<RemittanceDetailDTO.Info>> outRemittance(@Validated @RequestBody RemittanceDetailDTO.OutRemittance request) {
-        return  new ResponseEntity<>(iRemittanceDetailService.out(request),HttpStatus.CREATED);
+        return new ResponseEntity<>(iRemittanceDetailService.out(request), HttpStatus.CREATED);
     }
 
     @Loggable
@@ -76,5 +78,13 @@ public class RemittanceDetailRestController {
     public ResponseEntity<TotalResponse<RemittanceDetailDTO.Info>> list(@RequestParam MultiValueMap<String, String> criteria) throws IOException {
         final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
         return new ResponseEntity<>(iRemittanceDetailService.search(nicicoCriteria), HttpStatus.OK);
+    }
+
+    @Loggable
+    @Report(nameKey = "entity.remittance-detail", returnType = RemittanceDetailDTO.ReportInfo.class)
+    @GetMapping(value = "/spec-list-report")
+    public ResponseEntity<TotalResponse<RemittanceDetailDTO.ReportInfo>> reportList(@RequestParam MultiValueMap<String, String> criteria) throws IOException {
+        final NICICOCriteria nicicoCriteria = NICICOCriteria.of(criteria);
+        return new ResponseEntity<>(iRemittanceDetailService.reportSearch(nicicoCriteria), HttpStatus.OK);
     }
 }

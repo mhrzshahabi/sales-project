@@ -5,9 +5,12 @@ import com.nicico.sales.model.entities.common.BaseEntity;
 import com.nicico.sales.model.enumeration.CommercialRole;
 import lombok.*;
 import lombok.experimental.Accessors;
+import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+
+import static org.hibernate.envers.RelationTargetAuditMode.NOT_AUDITED;
 
 @Getter
 @Setter
@@ -24,6 +27,7 @@ public class ContractContact extends BaseEntity {
     @SequenceGenerator(name = "SEQ_CNTR_CONTRACT_CONTACT", sequenceName = "SEQ_CNTR_CONTRACT_CONTACT", allocationSize = 1)
     private Long id;
 
+    @Audited(targetAuditMode = NOT_AUDITED)
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "F_CONTRACT_ID", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_contractContact2contractByContractId"))

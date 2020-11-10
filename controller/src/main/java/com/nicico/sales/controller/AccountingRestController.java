@@ -19,7 +19,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping(value = "/api/accounting")
-public class AccountingApiController {
+public class AccountingRestController {
 
 	private final IAccountingApiService accountingApiService;
 	private final IInternalInvoiceService internalInvoiceService;

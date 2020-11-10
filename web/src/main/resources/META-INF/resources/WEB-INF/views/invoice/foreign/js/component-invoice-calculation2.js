@@ -1,4 +1,4 @@
-isc.defineClass("InvoiceCalculation2", isc.VLayout).addProperties({ //TestShod
+isc.defineClass("InvoiceCalculation2", isc.VLayout).addProperties({
     align: "top",
     width: "100%",
     autoFit: false,
@@ -10,196 +10,380 @@ isc.defineClass("InvoiceCalculation2", isc.VLayout).addProperties({ //TestShod
     contract: null,
     shipment: null,
     currency: null,
-    remittanceDetails: null,
+    weightND: [],
+    percent: null,
+    remainingPercent: false,
+    molybdenumRowData: null,
     contractDetailData: null,
-    weightData: null,
+    inspectionAssayData: null,
+    inspectionWeightData: null,
     initWidget: function () {
 
         this.Super("initWidget", arguments);
 
         let This = this;
         let sendDate = new Date(This.shipment.sendDate);
-        let grid = isc.ListGrid.nicico.getDefault([], null, null, {
-            showGridSummary: true,
-            showFilterEditor: false
-        });
-        let priceArticleElement = isc.HTMLFlow.create({
-            width: "100%"
-        });
-        let priceBaseElement = isc.Label.create({
-            width: "100%"
-        });
-        let dynamicForm = isc.DynamicForm.create({
-            width: "80%",
-            numCols: 6,
-            fields: [{
 
-                name: "weightMilestone",
-                editorType: "SelectItem",
+        let priceBaseLayout = isc.VLayout.create({
+            width: "100%",
+            canAdaptHeight: true,
+            members: []
+        });
+
+        let percentElement = isc.DynamicForm.create({
+            width: "100%",
+            fields: [{
+                name: "percent",
+                title: "<spring:message code='foreign-invoice.form.percent'/>",
+                type: "float",
+                defaultValue: 100,
                 required: true,
-                wrapTitle: false,
-                title: "<spring:message code='inspectionReport.weight.mileStone'/>",
-                validators: [{
-                    type: "required",
-                    validateOnChange: true
-                }],
-                valueMap: JSON.parse('${Enum_MileStone}'),
-            }, {
-                name: "assayMilestone",
-                editorType: "SelectItem",
-                required: true,
-                wrapTitle: false,
-                title: "<spring:message code='inspectionReport.assay.mileStone'/>",
-                validators: [{
-                    type: "required",
-                    validateOnChange: true
-                }],
-                valueMap: JSON.parse('${Enum_MileStone}'),
+                validators: [
+                    {
+                        type: "required",
+                        validateOnChange: true
+                    },
+                    {
+                        type: "floatLimit",
+                        max: 100,
+                        min: 0,
+                        validateOnChange: true
+                    }],
+                icons: [
+                    {
+                        src: "pieces/16/accept.png",
+                        click: function () {
+
+                            // debugger
+                            let percent = This.getMember(2).getValue("percent");
+                            let grid = This.getMember(0);
+                            for (let i = 0; i < grid.getTotalRows(); i++) {
+                                grid.setEditValue(i, 1, percent);
+                            }
+                            grid.saveAllEdits();
+                            grid.endEditing();
+                        }
+                    }
+                ],
             }]
         });
 
-        this.addMember(isc.HLayout.create({
-            width: "100%",
-            showEdges: false,
-            alignLayout: "center",
-            padding: 10,
-            layoutMargin: 10,
-            membersMargin: 10,
-            members: [dynamicForm, isc.IButton.create({
-                autoFit: true,
-                icon: "[SKIN]/actions/view.png",
-                title: "<spring:message code='global.search'/>",
-                click: function () {
+        let priceArticleElement = isc.HTMLFlow.create({
+            width: "100%"
+        });
+        let priceBaseArticleElement = isc.HTMLFlow.create({
+            width: "100%"
+        });
 
-                    let validate = dynamicForm.validate();
-                    if (!validate) return false;
-                    isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
-                        params: {
-                            weightMilestone: dynamicForm.getItem("weightMilestone").getValue(),
-                            contractId: This.contract.id,
-                            shipmentId: This.shipment.id,
-                            year: sendDate.getFullYear(),
-                            month: sendDate.getMonth() + 1,
-                            financeUnitId: This.currency.id,
-                            reference: This.contractDetailData.basePriceReference,
-                            inventoryIds: This.remittanceDetails.map(q => q.inventory.id),
-                            assayMilestone: dynamicForm.getItem("assayMilestone").getValue()
-                        },
-                        httpMethod: "GET",
-                        actionURL: "${contextPath}" + "/api/foreign-invoice-item/get-calculation2-data",
-                        callback: function (resp) {
+        let gridFirstFields = [{
+            name: "lotNo",
+            type: "text",
+            title: "Label"
+        }, {
+            name: "inventory",
+            title: "inventory",
+            hidden: true
+        }, {
+            name: "percent",
+            title: "Percent",
+            type: "float",
+            canEdit: "false",
+            required: "false",
+            validators: [
+                {
+                    type: "required",
+                    validateOnChange: true
+                },
+                {
+                    type: "floatLimit",
+                    max: 100,
+                    min: 0,
+                    validateOnChange: true
+                }],
+            cellChanged: function (record, newValue, oldValue, rowNum, colNum, grid) {
 
-                            if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+                // debugger;
+                if (newValue === 100) {
+                    let weightND = This.weightND.filter(q => q.lotNo === record.lotNo).first().weightND;
+                    grid.setEditValue(rowNum, 2, weightND);
+                }
+                else
+                    grid.setEditValue(rowNum, 2, (newValue * record.weightND) / 100);
 
-                                let data = JSON.parse(resp.data);
-                                grid.editorExit = function (editCompletionEvent, record, newValues, rowNum) {
+                grid.saveAllEdits();
+                grid.endEditing();
+            }
+        }, {
+            name: "weightND",
+            type: "float",
+            title: "Net Weight",
+            format: "0.###",
+            canEdit: "false",
+            required: "false",
+            cellChanged: function (record, newValue, oldValue, rowNum, colNum, grid) {
 
-                                    if (editCompletionEvent !== "escape") {
+                This.updateGridData(record, newValue, oldValue, rowNum, colNum, grid);
+            }
+        }, {
+            name: "weightGW",
+            type: "float",
+            title: "Gross Weight",
+            format: "0.###",
+            canEdit: "false",
+            required: "false"
+        }];
 
-                                        let price = Number(record["price"]);
+        let gridLastFields = [{
+            name: "price",
+            type: "float",
+            title: "Price",
+            format: "0.##",
+            canEdit: "false",
+            required: "false"
+        }, {
+            name: "discount",
+            type: "float",
+            title: "Discount",
+            format: "0.##",
+            canEdit: "false",
+            required: "false"
+        }, {
+            name: "unitConversionRate",
+            type: "float",
+            title: "Conversion Rate",
+            format: "0.###",
+            canEdit: "true",
+            required: "true",
+            cellChanged: function (record, newValue, oldValue, rowNum, colNum, grid) {
+
+                This.updateGridData(record, newValue, oldValue, rowNum, colNum, grid);
+            }
+        }, {
+            name: "amount",
+            type: "float",
+            title: "Value Amount",
+            format: "0.###",
+            canEdit: "false",
+            required: "false"
+        }];
+
+
+        isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
+            httpMethod: "POST",
+            actionURL: "${contextPath}" + "/api/foreign-invoice-item/get-calculation-molybdenum-data",
+            data: JSON.stringify(This.contractDetailData),
+            params: {
+                contractId: This.contract.id,
+                sendDate: sendDate.toLocaleDateString(),
+                financeUnitId: This.currency.id,
+                inspectionAssayDataId: This.inspectionAssayData.id,
+                inspectionWeightDataId: This.inspectionWeightData.id,
+            },
+            callback: function (resp) {
+
+                if (resp.httpResponseCode === 200 || resp.httpResponseCode === 201) {
+
+                    let data = JSON.parse(resp.data);
+
+                    let gridFields = data.fields;
+                    let gridData = data.data;
+                    gridData.forEach(record => {
+                        This.weightND.add({
+                            weightND: record.weightND,
+                            lotNo: record.lotNo
+                        });
+                    });
+
+                    gridFields.forEach(field => gridFirstFields.add(field));
+                    gridLastFields.forEach(field => gridFirstFields.add(field));
+                    let grid = isc.ListGrid.create({
+                        showGridSummary: true,
+                        showFilterEditor: false,
+                        fields: []
+                    });
+                    grid.setFields(gridFirstFields);
+                    grid.setData(gridData);
+
+                    priceArticleElement.setContents("<b>" + data.priceContent + "</b>");
+                    priceBaseArticleElement.setContents("<b>" + data.quotationalPeriodContent + "</b>");
+
+                    for (let i = 0; i < data.priceBase.length; i++) {
+
+                        let priceBase = data.priceBase[i];
+                        priceBaseLayout.addMember(isc.Unit.create({
+                            width: "100%",
+                            disabledUnitField: true,
+                            disabledValueField: false,
+                            showValueFieldTitle: true,
+                            showUnitFieldTitle: false,
+                            fieldValueTitleWidth: "100",
+                            unitHint: "PER " + priceBase.weightUnit.nameEN,
+                            unitCategory: priceBase.financeUnit.categoryUnit,
+                            fieldValueTitle: priceBase.element.name,
+                            name: priceBase.element.name,
+                            weightUnit: priceBase.weightUnit,
+                            financeUnit: priceBase.financeUnit,
+                            elementId: priceBase.elementId,
+                            valueFieldIcons: [{
+
+                                src: "pieces/16/accept.png",
+                                click: function () {
+
+                                    let savedRecordCount = grid.getData().length;
+                                    let editRecordCount = grid.getAllEditRows().length;
+                                    let recordCount = Math.max(editRecordCount, savedRecordCount);
+                                    if (recordCount === 0) return true;
+
+                                    for (let i = 0; i < recordCount; i++) {
+
+                                        let price = 0;
+                                        let record = grid.getRecord(i);
+                                        data.priceBase.forEach(q => {
+
+                                            if (q.elementId === priceBaseComponent.elementId)
+                                                q.price = priceBaseComponent.getValues().value;
+
+                                            let content = record[q.element.name + "Content"];
+                                            if (!content) content = 0;
+                                            price += q.price * content;
+                                        });
                                         let discount = Number(record["discount"]);
-                                        let unitConversionRate = Number(newValues ? newValues : record["unitConversionRate"]);
-                                        let colNum = grid.fields.indexOf(grid.fields.filter(q => q.name === "amount").first());
+                                        let unitConversionRate = record["unitConversionRate"];
                                         if (!unitConversionRate) unitConversionRate = 1;
-                                        grid.setEditValue(rowNum, colNum, (price - (price * discount / 100)) * unitConversionRate);
-                                    }
-                                };
-                                data.fields.forEach(field => {
+                                        let newAmount = (price - (price * discount / 100)) * unitConversionRate;
 
-                                    if (field.type !== "float")
+                                        grid.startEditing(i);
+                                        grid.setEditValues(i, {"price": price, "amount": newAmount});
+                                        grid.saveAllEdits();
+                                        grid.endEditing();
+                                    }
+                                }
+                            }]
+                        }));
+                        let priceBaseComponent = priceBaseLayout.getMembers().last();
+                        priceBaseComponent.setValue(priceBase.price);
+                        priceBaseComponent.setUnitId(priceBase.financeUnitId);
+                    }
+
+                    This.addMember(grid);
+                    This.addMember(priceBaseLayout);
+                    This.addMember(percentElement);
+                    This.addMember(priceArticleElement);
+                    This.addMember(priceBaseArticleElement);
+                    This.getMember(1).getMembers().forEach(member => member.valueFieldIcons[0].click());
+
+                    This.addMember(isc.HTMLFlow.create({
+                        width: "100%",
+                        contents: "<span style='width: 100%; display: block; margin: 10px auto; border-bottom: 1px solid rgba(0,0,0,0.3)'></span>"
+                    }));
+                    This.addMember(isc.ToolStrip.create({
+                        width: "100%",
+                        border: '0px',
+                        members: [
+                            isc.ToolStripButton.create({
+                                width: "100",
+                                height: "25",
+                                autoFit: false,
+                                title: "<spring:message code='global.ok'/>",
+                                click: function () {
+
+                                    if (!This.validate())
                                         return;
 
-                                    field.showHover = true;
-                                    field.hoverHTML = function (record, value, rowNum, colNum, grid) {
-
-                                        if (!record)
-                                            return;
-
-                                        let gridField = grid.getField(colNum);
-                                        if (!gridField)
-                                            return;
-
-                                        return record[gridField.name + "_UNIT"];
-                                    };
-                                    field.formatCellValue = function (value, record, rowNum, colNum) {
-                                        return record[field.name];
-                                    };
-                                });
-                                grid.setFields(data.fields);
-                                grid.setData(data.data);
-                                grid.priceBase = data.priceBase;
-
-                                let priceBaseText = 'FINAL PRICE:<br>';
-                                for (let i = 0; i < data.priceBase.length; i++)
-                                    priceBaseText += "<b>" + "MONTHLY AVERAGE OF " + This.contractDetailData.basePriceReference + " FOR " + (sendDate.getMonth() + 1 + This.contractDetailData.moasValue) +
-                                        "th MONTH OF " + sendDate.getFullYear() + " (MOAS" + (This.contractDetailData.moasValue === 0 ? "" : (This.contractDetailData.moasValue > 0 ? "+" : "-") + This.contractDetailData.moasValue) +
-                                        ") " + " FOR " + data.priceBase[i].element.name + ": " + data.priceBase[i].price + "</b><br>";
-                                priceBaseElement.setContents(priceBaseText);
-                                priceArticleElement.setContents("<b>" + data.priceArticleText + "</b>");
-                            }
-                        }
+                                    This.okButtonClick();
+                                    let tab = This.parentElement.parentElement;
+                                    tab.getTab(tab.selectedTab).pane.members.forEach(q => q.disable());
+                                    tab.selectTab(tab.selectedTab + 1 % tab.tabs.length);
+                                }
+                            })
+                        ]
+                    }));
+                    This.addMember(isc.HTMLFlow.create({
+                        width: "100%",
+                        contents: "<span style='width: 100%; display: block; margin: 10px auto; border-bottom: 1px solid rgba(0,0,0,0.3)'></span>"
                     }));
 
+                    This.setEditData();
                 }
-            })]
-        }));
-        this.addMember();
-
-        this.addMember(grid);
-        this.addMember(priceArticleElement);
-        this.addMember(priceBaseElement);
-
-        this.addMember(isc.HTMLFlow.create({
-            width: "100%",
-            contents: "<span style='width: 100%; display: block; margin: 10px auto; border-bottom: 1px solid rgba(0,0,0,0.3)'></span>"
-        }));
-        This.addMember(isc.ToolStrip.create({
-            width: "100%",
-            border: '0px',
-            members: [
-                isc.ToolStripButton.create({
-                    width: "100",
-                    height: "25",
-                    autoFit: false,
-                    title: "<spring:message code='global.ok'/>",
-                    click: function () {
-
-                        if (!This.validate())
-                            return;
-
-                        This.okButtonClick();
-
-                        let tab = This.parentElement.parentElement;
-                        tab.getTab(tab.selectedTab).pane.members.forEach(q => q.disable());
-                        tab.selectTab(tab.selectedTab + 1 % tab.tabs.length);
-                    }
-                })
-            ]
-        }));
-        this.addMember(isc.HTMLFlow.create({
-            width: "100%",
-            contents: "<span style='width: 100%; display: block; margin: 10px auto; border-bottom: 1px solid rgba(0,0,0,0.3)'></span>"
+            }
         }));
 
-        this.editRowCalculation2();
     },
-    editRowCalculation2: function () {
-        if (this.weightData) {
-            this.getMember(0).getMember(0).getField("weightMilestone").setValue(this.weightData.weightMilestone);
-            this.getMember(0).getMember(0).getField("assayMilestone").setValue(this.weightData.assayMilestone);
-            this.getMember(0).getMember(1).click();
+    updateGridData: function (record, newValue, oldValue, rowNum, colNum, grid) {
+
+        let weightND = Number(record["weightND"]);
+        grid.getFields().forEach(field => {
+            if (field.title.contains("Content")) {
+
+                let fieldName = field.name;
+                let fieldColNum = grid.fields.indexOf(grid.fields.filter(q => q.name === fieldName).first());
+                let exFieldVal = grid.getCellValue(record, rowNum, fieldColNum - 1);
+                grid.setEditValue(rowNum, fieldColNum, weightND * (exFieldVal) / 100);
+                grid.saveAllEdits();
+                grid.endEditing();
+            }
+        });
+
+        this.getMembers()[1].getMembers().forEach(member => member.valueFieldIcons[0].click());
+    },
+    setEditData: function () {
+
+        if (this.molybdenumRowData) {
+
+            let grid = this.getMember(0);
+            let bPElement = this.getMember(1);
+            let pElement = this.getMember(2);
+
+            let rate = this.molybdenumRowData[0].deductionUnitConversionRate;
+            let rateColNum = grid.fields.indexOf(grid.fields.filter(q => q.name === "unitConversionRate").first());
+            for (let i = 0; i < grid.getTotalRows(); i++) {
+                grid.setEditValue(i, rateColNum, rate);
+            }
+            grid.saveAllEdits();
+            grid.endEditing();
+
+            pElement.setValue("percent", this.percent);
+            pElement.getItem("percent").icons[0].click();
+
+            this.molybdenumRowData[0].basePrice.forEach(basePrice => {
+
+                bPElement.getMembers().forEach(element => {
+                    if (basePrice.materialElement.elementId === element.elementId) {
+                        element.setValue(basePrice.basePrice);
+                        element.valueFieldIcons[0].click();
+                    }
+                });
+            });
         }
     },
     validate: function () {
 
-        let isValid = this.getMember(0).getMember(0).validate();
-        if (this.getMember(1).getTotalRows() === 0) {
+        let isValid = !(this.getMember(0).getTotalRows() === 0);
+        for (let i = 0; i < this.getMember(0).getTotalRows(); i++) {
+            this.getMember(0).validateRow(i);
+            isValid &= !this.getMember(0).hasErrors()
+        }
+
+        this.getMember(1).getMembers().forEach(unitComp => {
+            unitComp.validate();
+            if (unitComp.hasErrors())
+                isValid = false;
+        });
+
+        this.getMember(2).validate();
+        if (this.getMember(2).hasErrors())
+            isValid = false;
+
+        if (this.getMember(2).getValue("percent") > this.remainingPercent) {
+            isc.warn("<spring:message code='foreign-invoice.form.percent.not.valid'/>");
             isValid = false;
         }
-        for (let i = 0; i < this.getMember(1).getTotalRows(); i++) {
-            this.getMember(1).validateRow(i);
-            isValid &= !this.getMember(1).hasErrors()
+
+        if (isValid) {
+            this.getMember(1).getMembers().forEach(member => member.valueFieldIcons[0].click());
+            this.getMember(2).getItem("percent").icons[0].click();
         }
+
         return isValid;
     },
     okButtonClick: function () {
@@ -222,27 +406,30 @@ isc.defineClass("InvoiceCalculation2", isc.VLayout).addProperties({ //TestShod
         return 0;
     },
     getCalculationSubTotal: function () {
-        return this.getMember(1).getGridSummaryData().map(q => q.amount).sum();
+        return this.getMember(0).getGridSummaryData().map(q => q.amount).sum();
+    },
+    getPercent: function () {
+        return this.getMember(2).getValue("percent");
     },
     getForeignInvoiceItems: function () {
 
-        let data = [];
+        let items = [];
         let This = this;
-        let gridData = this.getMember(1).getData();
-        let formData = this.getMember(0).getMember(0).getValues();
+        let gridData = this.getMember(0).getData();
 
-        function getForeignInvoiceItemDetails(item) {
+        function getForeignInvoiceItemDetails(gridRecord) {
 
             let itemDetails = [];
-            item.assayInspections.forEach(q => {
+            let remittanceDetailId = gridRecord.inventory.remittanceDetails.filter(q => q.inputRemittance === false).first().id;
+            let assayData = This.inspectionAssayData.assayInspections.filter(q => q.inventory.remittanceDetails.filter(q => q.inputRemittance === false).first().id === remittanceDetailId);
+            assayData.forEach(q => {
                 itemDetails.add({
                     assay: q.value,
                     materialElementId: q.materialElementId,
-                    basePrice: This.getMember(1).priceBase.filter(bp => bp.elementId === q.materialElement.elementId).first().price,
+                    basePrice: This.getMember(1).getMembers().filter(pb => pb.elementId === q.materialElement.elementId).first().getValues().value,
                     deductionType: JSON.parse('${Enum_DeductionType}').DiscountPercent,
-                    deductionValue: item.discount,
-                    deductionPrice: item.price * item.discount / 100,
-                    deductionUnitConversionRate: item.unitConversionRate,
+                    deductionValue: gridRecord.discount,
+                    deductionPrice: gridRecord.price * gridRecord.discount / 100,
                     rcPrice: 0,
                     rcBasePrice: 0,
                     rcUnitConversionRate: 1
@@ -251,23 +438,24 @@ isc.defineClass("InvoiceCalculation2", isc.VLayout).addProperties({ //TestShod
 
             return itemDetails;
         }
-        gridData.forEach(current => {
-            let remittanceDetails = This.remittanceDetails.filter(q => q.inventory.id === current.inventory.id);
-            if (remittanceDetails.length !== 1)
-                return;
 
-            let remittanceDetail = remittanceDetails.first();
-            data.add({
+        gridData.forEach(current => {
+
+            let remittanceDetailId = current.inventory.remittanceDetails.filter(q => q.inputRemittance === false).first().id;
+            let weightData = This.inspectionWeightData.weightInspections.filter(q => q.inventory.remittanceDetails.filter(q => q.inputRemittance === false).first().id === remittanceDetailId)
+                .first();
+
+            items.add({
                 treatCost: 0,
-                weightGW: current.weightGW,
+                weightGW: weightData.weightGW,
                 weightND: current.weightND,
-                assayMilestone: formData.assayMilestone,
-                weightMilestone: formData.weightMilestone,
-                remittanceDetailId: remittanceDetail.id,
+                assayMilestone: This.inspectionAssayData.assayInspections[0].mileStone,
+                weightMilestone: This.inspectionWeightData.weightInspections[0].mileStone,
+                deductionUnitConversionRate: current.unitConversionRate,
+                remittanceDetailId: remittanceDetailId,
                 foreignInvoiceItemDetails: getForeignInvoiceItemDetails(current)
             });
         });
-
-        return data;
+        return items;
     }
 });

@@ -1,8 +1,10 @@
 package com.nicico.sales.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.nicico.sales.annotation.report.IgnoreReportField;
+import com.nicico.sales.annotation.report.ReportField;
+import com.nicico.sales.annotation.report.ReportModel;
 import com.nicico.sales.dto.contract.BillOfLandingDTO;
-import com.nicico.sales.model.entities.contract.BillOfLanding;
 import com.nicico.sales.model.enumeration.EStatus;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -22,7 +24,6 @@ import java.util.Set;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ShipmentDTO {
 
-
     private Long contractShipmentId;
     private Long shipmentTypeId;
     private Long shipmentMethodId;
@@ -35,10 +36,14 @@ public class ShipmentDTO {
     private BigDecimal amount;
     private String description;
     private String containerType;
+    @ReportField(titleMessageKey = "shipment.loadingLetter")
     private String automationLetterNo;
+    @ReportField(titleMessageKey = "shipment.bDate")
     private Date automationLetterDate;
+    @ReportField(titleMessageKey = "global.sendDate", canFilter = false, hidden = true)
     private Date sendDate;
     private Long noBLs;
+    @ReportField(titleMessageKey = "shipment.noContainer")
     private Long noContainer;
     private Long noPackages;
     private String bookingCat;
@@ -50,12 +55,41 @@ public class ShipmentDTO {
     private Long noPallet;
     private Date lastDeliveryLetterDate;
 
-
     @Getter
     @Setter
     @Accessors(chain = true)
     @ApiModel("WithoutBLs")
     public static class InfoWithoutBLs extends ShipmentDTO {
+        private Long id;
+
+        // Auditing
+        private Date createdDate;
+        private String createdBy;
+        private Date lastModifiedDate;
+        private String lastModifiedBy;
+        private Integer version;
+
+        // BaseEntity
+        private Boolean editable;
+//        private List<EStatus> eStatus;
+
+        private UnitDTO.Info unit;
+        private VesselDTO.Info vessel;
+        private ContactDTO.Info contact;
+        private PortDTO.Info dischargePort;
+        private ContactDTO.Info contactAgent;
+        private MaterialDTO.Info material;
+        private ShipmentTypeDTO.Info shipmentType;
+        private ShipmentMethodDTO.Info shipmentMethod;
+        private ContractShipmentDTO.Info contractShipment;
+    }
+
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("WithoutBLs")
+    public static class ShipmentFIInfo extends ShipmentDTO {
+
         private Long id;
 
         // Auditing
@@ -77,16 +111,36 @@ public class ShipmentDTO {
         private MaterialDTO.Info material;
         private ShipmentTypeDTO.Info shipmentType;
         private ShipmentMethodDTO.Info shipmentMethod;
-        private ContractShipmentDTO.Info contractShipment;
+        private ContractShipmentDTO.ContractShipmentFIInfo contractShipment;
     }
-
 
     @Getter
     @Setter
     @Accessors(chain = true)
     @ApiModel("ShipmentInfo")
     public static class Info extends InfoWithoutBLs {
-        private Set<BillOfLandingDTO.InfoWithoutShipment> bLs;
+        private Set<BillOfLandingDTO.InfoWithoutShipment> bls;
+    }
+
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    @ApiModel("ShipmentReportInfo")
+    public static class ReportInfo extends ShipmentDTO {
+
+        private Long id;
+
+        @ReportModel(type = PortDTO.Info.class, jumpTo = true)
+        private PortDTO.Info dischargePort;
+
+        @ReportModel(type = UnitDTO.Info.class, jumpTo = true)
+        private UnitDTO.Info unit;
+
+        @ReportModel(type = VesselDTO.Info.class, jumpTo = true)
+        private VesselDTO.Info vessel;
+
+        @ReportModel(type = MaterialDTO.Info.class, jumpTo = true)
+        private MaterialDTO.Info material;
     }
 
     @Getter
@@ -128,7 +182,7 @@ public class ShipmentDTO {
 //        private List<InvoiceDTO.Info> invoices;
 //    }
 
-    public BigDecimal getMoisture(){
+    public BigDecimal getMoisture() {
         BigDecimal weightGW = getWeightGW();
         BigDecimal weightND = getWeightND();
         if (weightGW == null) weightGW = BigDecimal.ZERO;

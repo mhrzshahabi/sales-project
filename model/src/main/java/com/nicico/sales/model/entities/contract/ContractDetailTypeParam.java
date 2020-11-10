@@ -10,6 +10,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -64,4 +65,8 @@ public class ContractDetailTypeParam extends BaseEntity {
     @NotNull
     @Column(name = "F_CONTRACT_DETAIL_TYPE_ID", nullable = false)
     private Long contractDetailTypeId;
+
+    @Setter(AccessLevel.NONE)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL,mappedBy = "cdtp")
+    private Set<CDTPDynamicTable> dynamicTables;
 }

@@ -3,8 +3,11 @@ package com.nicico.sales.model.entities.base;
 import com.nicico.sales.model.entities.common.BaseEntity;
 import lombok.*;
 import lombok.experimental.Accessors;
+import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
+
+import static org.hibernate.envers.RelationTargetAuditMode.NOT_AUDITED;
 
 @Getter
 @Setter
@@ -26,6 +29,11 @@ public class ContactAccount extends BaseEntity {
     @SequenceGenerator(name = "SEQ_CONTACT_ACCOUNT", sequenceName = "SEQ_CONTACT_ACCOUNT", allocationSize = 1)
     @Column(name = "ID")
     private Long id;
+
+    @Audited(targetAuditMode = NOT_AUDITED)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "CNT_ID", nullable = false, insertable = false, updatable = false, foreignKey = @ForeignKey(name = "ContactAccount2Contact"))
+    private Contact contact;
 
     @Column(name = "CNT_ID", nullable = false)
     private Long contactId;

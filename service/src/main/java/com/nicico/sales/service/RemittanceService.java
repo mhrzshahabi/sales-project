@@ -144,4 +144,22 @@ public class RemittanceService extends GenericService<Remittance, Long, Remittan
         validationAll(entities, totalResponse);
         return totalResponse;
     }
+
+    @Override
+    @Action(value = ActionType.Search)
+    @Transactional(readOnly = true)
+    public TotalResponse<RemittanceDTO.ReportInfo> reportSearch(NICICOCriteria request) {
+
+        List<Remittance> entities = new ArrayList<>();
+        TotalResponse<RemittanceDTO.ReportInfo> result = SearchUtil.search(repositorySpecificationExecutor, request, entity -> {
+
+            RemittanceDTO.ReportInfo eResult = modelMapper.map(entity, RemittanceDTO.ReportInfo.class);
+            validation(entity, eResult);
+            entities.add(entity);
+            return eResult;
+        });
+
+        validationAll(entities, result);
+        return result;
+    }
 }

@@ -3,24 +3,14 @@ package com.nicico.sales.iservice;
 import com.nicico.copper.common.domain.criteria.NICICOCriteria;
 import com.nicico.copper.common.dto.grid.TotalResponse;
 import com.nicico.sales.dto.ShipmentDTO;
+import com.nicico.sales.model.entities.base.Shipment;
 
 import java.util.List;
 
-public interface IShipmentService {
-
-    ShipmentDTO.Info get(Long id);
-
-    List<ShipmentDTO.Info> list();
-
-    ShipmentDTO.Info create(ShipmentDTO.Create request);
-
-    ShipmentDTO.Info update(Long id, ShipmentDTO.Update request);
-
-    void delete(Long id);
-
-    void deleteAll(ShipmentDTO.Delete request);
-
-    TotalResponse<ShipmentDTO.Info> search(NICICOCriteria criteria);
+public interface IShipmentService extends IGenericService<Shipment, Long, ShipmentDTO.Create, ShipmentDTO.Info, ShipmentDTO.Update, ShipmentDTO.Delete> {
 
     List<Object[]> pickListShipment();
+
+    TotalResponse<ShipmentDTO.ReportInfo> reportSearch(NICICOCriteria nicicoCriteria);
+
 }

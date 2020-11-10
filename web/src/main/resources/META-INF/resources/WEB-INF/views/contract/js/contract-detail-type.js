@@ -26,19 +26,19 @@ contractDetailTypeTab.dynamicForm.fields.material = {
             [
                 {name: "id", title: "id", primaryKey: true, hidden: true},
                 {name: "code", title: "<spring:message code='goods.code'/> "},
-                {name: "descl"},
+                {name: "descEN"},
                 {name: "unitId"},
                 {name: "unit.nameEN"},
             ],
         fetchDataURL: "${contextPath}/api/material/spec-list"
     }),
-    displayField: "descl",
+    displayField: "descEN",
     valueField: "id",
     required: true,
     title: "<spring:message code='material.title'/>"
 };
 contractDetailTypeTab.dynamicForm.fields.titleEn = {
-    name: "titleEn",
+    name: "titleEN",
     width: "100%",
     required: true,
     keyPressFilter: "^[A-Za-z0-9-\\s\\/]",
@@ -56,7 +56,7 @@ contractDetailTypeTab.restDataSource.unit = isc.MyRestDataSource.create({
         },
         {
             name: "nameFA",
-            title: "<spring:message code='unit.nameFa'/> "
+            title: "<spring:message code='unit.nameFA'/> "
         },
         {
             name: "nameEN",
@@ -109,7 +109,7 @@ contractDetailTypeTab.dynamicForm.paramFields.unitId = {
     width: "20%",
     editorType: "SelectItem",
     valueField: "id",
-    displayField: "nameFA",
+    displayField: "name",
     pickListWidth: "300",
     pickListHeight: "300",
     pickListProperties: {showFilterEditor: true},
@@ -748,6 +748,7 @@ contractDetailTypeTab.hLayout.saveOrExitHlayout = isc.HLayout.create({
                     return;
                 }
 
+                data.titleFA = data.titleEN;
                 isc.RPCManager.sendRequest(Object.assign(BaseRPCRequest, {
                     actionURL: contractDetailTypeTab.variable.url,
                     httpMethod: contractDetailTypeTab.variable.method,

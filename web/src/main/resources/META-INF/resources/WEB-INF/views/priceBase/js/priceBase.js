@@ -82,7 +82,7 @@ priceBaseTab.dynamicForm.fields = BaseFormItems.concat([
         type: "long",
         required: true,
         autoFetchData: false,
-        canEdit: false,
+        canEdit: "${SecurityUtil.hasAuthority('U_PRICE_BASE')}".toString() === 'true',
         editorType: "SelectItem",
         valueField: "id",
         displayField: "nameEN",
@@ -113,7 +113,7 @@ priceBaseTab.dynamicForm.fields = BaseFormItems.concat([
         type: "long",
         required: true,
         autoFetchData: false,
-        canEdit: false,
+        canEdit: "${SecurityUtil.hasAuthority('U_PRICE_BASE')}".toString() === 'true',
         editorType: "SelectItem",
         valueField: "id",
         displayField: "nameEN",
@@ -170,3 +170,4 @@ priceBaseTab.dynamicForm.fields = BaseFormItems.concat([
 Object.assign(priceBaseTab.listGrid.fields, priceBaseTab.dynamicForm.fields);
 nicico.BasicFormUtil.getDefaultBasicForm(priceBaseTab, "api/price-base/");
 priceBaseTab.dynamicForm.main.windowWidth = 500;
+nicico.BasicFormUtil.removeExtraGridMenuActions(priceBaseTab);

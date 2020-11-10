@@ -21,8 +21,9 @@ public class ContractDetailTypeDTO {
 
     private String code;
     private Long materialId;
-    private String titleFa = "titleFa";
-    private String titleEn;
+    private String titleFA;
+    private String titleEN;
+    private String title;
 
     private List<ContractDetailTypeParamDTO.Info> contractDetailTypeParams;
     private List<ContractDetailTypeTemplateDTO.Info> contractDetailTypeTemplates;

@@ -34,4 +34,23 @@
         </sql>
     </changeSet>
 
+    <changeSet id="999-3" author="abiz">
+        <addColumn tableName="TBL_SALES_TYPE">
+            <column name="C_SALES_TYPE_FA" type="varchar2(255 CHAR)"/>
+        </addColumn>
+        <addColumn tableName="TBL_SALES_TYPE">
+            <column name="C_SALES_TYPE_EN" type="varchar2(255 CHAR)"/>
+        </addColumn>
+        <sql>
+            update TBL_SALES_TYPE set C_SALES_TYPE_FA = SALES_TYPE ;
+            update TBL_SALES_TYPE set C_SALES_TYPE_EN='INTERNAL SALE' where id = 1;
+            update TBL_SALES_TYPE set C_SALES_TYPE_EN='FOREIGN SALE' where id = 2;
+            update TBL_SALES_TYPE set C_SALES_TYPE_EN='RAFSANJAN OTHER SALE' where id = 3;
+            update TBL_SALES_TYPE set C_SALES_TYPE_EN='SHAHR_BABAK OTHER SALE' where id = 4;
+            update TBL_SALES_TYPE set C_SALES_TYPE_EN='SONGON OTHER SALE' where id = 5;
+        </sql>
+    </changeSet>
+    <changeSet id="555-3" author="abiz">
+        <dropColumn tableName="TBL_SALES_TYPE" columnName="SALES_TYPE"/>
+    </changeSet>
 </databaseChangeLog>

@@ -147,13 +147,13 @@ const tozinLiteFields = _ => [
 
         valueMap: SalesBaseParameters.getSavedWarehouseParameter().getValueMap("id", "name"),
         valueMap: {
-            2421: 'ايستگاه قطار تبريز',
-            1540: 'مجتمع مس شهربابك -ميدوك ',
-            1541: 'مجتمع مس سونگون ',
-            1000: 'مجتمع مس سرچشمه',
-            1021: 'مجتمع مس شهربابك - خاتون آباد ',
-            2509: 'شركت هاي خصوصي وتابع ',
-            2555: 'اسكله شهيد رجائي ',
+            2421: "<spring:message code='tabriz.train.station'/>",
+            1540: "<spring:message code='shahrbabak-miduk.copper.complex'/>",
+            1541: "<spring:message code='sungun.copper.complex'/>",
+            1000: "<spring:message code='sarcheshme.copper.complex'/>",
+            1021: "<spring:message code='khaton.abad-shahrbabak.copper.complex'/>",
+            2509: "<spring:message code='non-governmental.companies.and.subsidiaries'/>",
+            2555: "<spring:message code='shahid.rejaee.wharf'/>",
         },
         title: "<spring:message code='Tozin.sourceId'/>",
         align: "center"
@@ -177,10 +177,10 @@ const tozinLiteFields = _ => [
         filterOperator: "inSet",
         valueMap: SalesBaseParameters.getSavedWarehouseParameter().getValueMap("id", "name"),
         valueMap: {
-            2320: 'بندر شهيد رجايي، روبروي اسكله شانزده ،محوطه فلزات آلياژي شركت تايد واتر',
-            1000: 'مجتمع مس سرچشمه',
-            2340: 'بندر شهيد رجايي ، انبار كالا شماره 20',
-            2555: 'اسكله شهيد رجائي ',
+            2320:"<spring:message code='shahid.rejaee.wharf.tidewater'/>",
+            1000:"<spring:message code='sarcheshme.copper.complex'/>",
+            2340:"<spring:message code='shahid.rejaee.no20.warehouse'/>",
+            2555:"<spring:message code='shahid.rejaee.wharf'/>",
         },
         showHover: true,
         title: "<spring:message code='Tozin.targetId'/>",
@@ -191,7 +191,7 @@ const tozinLiteFields = _ => [
         title: "<spring:message code='Tozin.haveCode'/>",
         align: "center"
     },
-    {name: "isRail",type: "boolean", title:"<spring:message code='warehouseCad.with.rail'/>"}
+    {name: "isRail", type: "boolean", title: "<spring:message code='warehouseCad.with.rail'/>"}
 ];
 const tozinFields = _ => [...tozinLiteFields(),
 
@@ -364,6 +364,49 @@ function mainOnWayProduct() {
     const owpTab={
         DynamicForm:{Form:{},Field:{}}
     };
+    async function getMaxDateInDestionationTozin(codeKala) {
+        // const criteria = ListGrid_Tozin_IN_ONWAYPRODUCT.getFilterEditorCriteria();
+        const criteria = {
+            criteria: [
+                {
+                    fieldName: "tozinId",
+                    operator: "iStartsWith",
+                    value: "3"
+                },
+                {
+                    fieldName: "codeKala",
+                    operator: "equals",
+                    value: Number(codeKala)
+                },
+                {
+                    fieldName: "sourceId",
+                    operator: "notEqual",
+                    value: 2555
+                },
+            ]
+        };
+        const option = await fetch(
+            'api/tozin/lite/spec-list?_startRow=0&_endRow=1&_sortBy=-date&operator=and&criteria='
+            + criteria
+                .criteria
+                .map(_ => {
+                    return JSON.stringify(_)
+                })
+                .join('&criteria=')
+            , {headers: SalesConfigs.httpHeaders})
+        const response = await option.json();
+        dbg(option)
+        if (option.ok && response.response && response.response.data && response.response.data.length > 0) {
+            const date = response.response.data[0].date;
+            const year = date.toString().substr(0,4)
+            const month = date.toString().substr(4,2)
+            const day = date.toString().substr(6,2)
+            stats.setValue(codeKala.toString(),year + '/' + month + '/' + day)
+            //dbg(true,response)
+        }
+    }
+
+    dbg(getMaxDateInDestionationTozin);
     const restDataSource_Tozin_Lite = {
         fields: tozinLiteFields(),
         fetchDataURL: "${contextPath}/api/tozin/lite/spec-list"
@@ -514,12 +557,12 @@ function mainOnWayProduct() {
         membersMargin: 10,
         align: "center",
         members: [
- //    <sec:authorize access="hasAuthority('C_REMITTANCE')">
-         isc.IButton.create({
+            //    <sec:authorize access="hasAuthority('C_REMITTANCE')">
+            isc.IButton.create({
                 title: Menu_ListGrid_OnWayProduct.data[0].title,
                 click: Menu_ListGrid_OnWayProduct.data[0].click
             }),
- //    </sec:authorize>
+            //    </sec:authorize>
            owpTab.DynamicForm.Form.ToDate= isc.DynamicForm.create({
                numCols:4,
                 fields:[
@@ -560,7 +603,7 @@ function mainOnWayProduct() {
                 border: '0px',
                 members: [
                     isc.ToolStripButtonRefresh.create({
-                        title: "<spring:message code='global.form.refresh'/> پارامترها",
+                        title: "<spring:message code='global.form.refresh.parameters'/>",
                         visibility: "hidden",
                         click: function () {
                             SalesBaseParameters.getAllParameters(true).then(
@@ -653,18 +696,28 @@ function mainOnWayProduct() {
         showGridSummary:true,
     });
 
+    let stats;
     const VLayout_Tozin_Grid = isc.VLayout.create({
         width: "100%",
         height: "100%",
         members: [
-            ListGrid_Tozin_IN_ONWAYPRODUCT
+            ListGrid_Tozin_IN_ONWAYPRODUCT,
         ]
     });
     isc.VLayout.create({
         width: "100%",
         height: "100%",
         members: [
-            HLayout_Tozin_Actions, VLayout_Tozin_Grid
+            HLayout_Tozin_Actions,             stats = isc.DynamicForm.create({
+                numCols: 8,
+                fields: [
+                    {name: "info", title: "<spring:message code='lastArrival.to.BandarAbbas.warehouse'/>", type: "staticText"},
+                    {name: "11", title: "<spring:message code='cathode.title'/>", type: "staticText"},
+                    {name: "97", title: "<spring:message code='molybdenum.title'/>", type: "staticText"},
+                    {name: "8", title: "<spring:message code='Tozin.copper.concentrate'/>", type: "staticText"}
+                ]
+            }),
+            VLayout_Tozin_Grid
         ]
     })
 
@@ -704,7 +757,9 @@ function mainOnWayProduct() {
 
     ListGrid_Tozin_IN_ONWAYPRODUCT.setFilterEditorCriteria(listGrid_Tozin_IN_ONWAYPRODUCT_fiter_editor_criteria)
 
-
+    getMaxDateInDestionationTozin(11)
+    getMaxDateInDestionationTozin(8)
+    getMaxDateInDestionationTozin(97)
 }
 
 mainOnWayProduct()
