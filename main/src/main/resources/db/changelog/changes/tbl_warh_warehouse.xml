@@ -1,0 +1,27 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <changeSet author="saeb (generated)" id="1604739800728-232">
+        <addColumn tableName="TBL_WARH_WAREHOUSE">
+            <column name="c_short_name" type="varchar2(255 CHAR)"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="saeb3-2-1-saeb-bikhiassslghose87s68" author="saeb">
+        <sql>
+            update TBL_WARH_WAREHOUSE set c_short_name='BND1' where id = 2555;
+            update TBL_WARH_WAREHOUSE set c_short_name='SCH0' where id = 1000;
+            update TBL_WARH_WAREHOUSE set c_short_name='KHT0' where id = 1021;
+            update TBL_WARH_WAREHOUSE set c_short_name='MDK0' where id = 1540;
+            update TBL_WARH_WAREHOUSE set c_short_name='SNG0' where id = 1541;
+            update TBL_WARH_WAREHOUSE set c_short_name='SNG1' where id = 2421;
+        </sql>
+    </changeSet>
+
+    <changeSet author="saeb (generated)" id="1604904780972-291">
+        <addColumn tableName="AUD_TBL_WARH_WAREHOUSE">
+            <column name="c_short_name" type="varchar2(255 CHAR)"/>
+        </addColumn>
+    </changeSet>
+</databaseChangeLog>
