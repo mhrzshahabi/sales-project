@@ -85,6 +85,7 @@
 
     <!-- CHANGES -->
     <include file="classpath:/db/changelog/changes/liq-diff-13990805.xml"/>
+    <include file="classpath:/db/changelog/changes/tbl_warh_warehouse.xml"/>
     <!-- CHANGES -->
 
 </databaseChangeLog>
