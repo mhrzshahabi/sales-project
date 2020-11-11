@@ -117,7 +117,7 @@ public class ForeignInvoiceFormController {
         List<Object> list = moasDatas.get(EContractDetailValueKey.MOAS.name());
         if (list != null && list.size() > 0) {
 
-            String moasValue = ((Map) list.get(0)).get("moasValue").toString();
+            String moasValue = ((Map) ((List) list.get(0)).get(0)).get("moasValue").toString();
             wordUtil.replacePOI(doc, "QP_CONTENT", "AVERAGE " + sendDate + "(MOAS" + moasValue + ")");
         }
 
@@ -150,6 +150,14 @@ public class ForeignInvoiceFormController {
         ForeignInvoiceItemDetailDTO.InfoWithoutForeignInvoiceItem ag_detial = foreignInvoiceItemDetails.stream().filter(q -> q.getMaterialElementId() == 2).findFirst().orElse(new ForeignInvoiceItemDetailDTO.InfoWithoutForeignInvoiceItem());
         ForeignInvoiceItemDetailDTO.InfoWithoutForeignInvoiceItem au_detial = foreignInvoiceItemDetails.stream().filter(q -> q.getMaterialElementId() == 3).findFirst().orElse(new ForeignInvoiceItemDetailDTO.InfoWithoutForeignInvoiceItem());
 
+        BigDecimal cuDedRate = cu_detial.getDeductionUnitConversionRate();
+        BigDecimal agDedRate = ag_detial.getDeductionUnitConversionRate();
+        BigDecimal auDedRate = au_detial.getDeductionUnitConversionRate();
+
+        wordUtil.replacePOI(doc, "CU_PRICE_RATE", (cuDedRate != null && !cuDedRate.equals(0) && !cuDedRate.equals(1) ? "x   " + cuDedRate.toString() : ""));
+        wordUtil.replacePOI(doc, "AG_PRICE_RATE", (agDedRate != null && !agDedRate.equals(0) && !agDedRate.equals(1) ? "x   " + agDedRate.toString() : ""));
+        wordUtil.replacePOI(doc, "AU_PRICE_RATE", (auDedRate != null && !auDedRate.equals(0) && !auDedRate.equals(1) ? "x   " + auDedRate.toString() : ""));
+
         wordUtil.replacePOI(doc, "CU_PRICE_BASE", String.valueOf(cu_detial.getBasePrice()));
         wordUtil.replacePOI(doc, "AG_PRICE_BASE", String.valueOf(ag_detial.getBasePrice()));
         wordUtil.replacePOI(doc, "AU_PRICE_BASE", String.valueOf(au_detial.getBasePrice()));
@@ -181,9 +189,9 @@ public class ForeignInvoiceFormController {
         wordUtil.replacePOI(doc, "DED_AU_VALUE", au_detial.getDeductionValue().toString());
 
 
-        wordUtil.replacePOI(doc, "CU_CALCULATION", f_cu_assay.multiply(cu_detial.getBasePrice()).toString());
-        wordUtil.replacePOI(doc, "AG_CALCULATION", f_ag_assay.multiply(ag_detial.getBasePrice()).toString());
-        wordUtil.replacePOI(doc, "AU_CALCULATION", f_au_assay.multiply(au_detial.getBasePrice()).toString());
+        wordUtil.replacePOI(doc, "CU_CALCULATION", f_cu_assay.multiply(cu_detial.getBasePrice().multiply(cuDedRate)).toString());
+        wordUtil.replacePOI(doc, "AG_CALCULATION", f_ag_assay.multiply(ag_detial.getBasePrice().multiply(agDedRate)).toString());
+        wordUtil.replacePOI(doc, "AU_CALCULATION", f_au_assay.multiply(au_detial.getBasePrice().multiply(auDedRate)).toString());
 
         wordUtil.replacePOI(doc, "UNIT_PRICE", foreignInvoice.getUnitPrice().toString());
         wordUtil.replacePOI(doc, "UNIT_COST", foreignInvoice.getUnitCost().toString());
@@ -193,6 +201,14 @@ public class ForeignInvoiceFormController {
         wordUtil.replacePOI(doc, "RCCU", cu_detial.getRcPrice().toString());
         wordUtil.replacePOI(doc, "RCAG", ag_detial.getRcPrice().toString());
         wordUtil.replacePOI(doc, "RCAU", au_detial.getRcPrice().toString());
+
+        BigDecimal cuRcUnitRate = cu_detial.getRcUnitConversionRate();
+        BigDecimal agRcUnitRate = ag_detial.getRcUnitConversionRate();
+        BigDecimal auRcUnitRate = au_detial.getRcUnitConversionRate();
+
+        wordUtil.replacePOI(doc, "CU_RC_RATE", (cuRcUnitRate != null && !cuRcUnitRate.equals(0) && !cuRcUnitRate.equals(1) ? "x   " + cuRcUnitRate.toString() : ""));
+        wordUtil.replacePOI(doc, "AG_RC_RATE", (agRcUnitRate != null && !agRcUnitRate.equals(0) && !agRcUnitRate.equals(1) ? "x   " + agRcUnitRate.toString() : ""));
+        wordUtil.replacePOI(doc, "AU_RC_RATE", (auRcUnitRate != null && !auRcUnitRate.equals(0) && !auRcUnitRate.equals(1) ? "x   " + auRcUnitRate.toString() : ""));
 
         wordUtil.replacePOI(doc, "CU_RC_PRICE", cu_detial.getRcBasePrice().toString());
         wordUtil.replacePOI(doc, "AG_RC_PRICE", ag_detial.getRcBasePrice().toString());
