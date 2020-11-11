@@ -270,25 +270,16 @@ public class ContractDetailTypeService extends GenericService<ContractDetailType
                                 new Object[]{eContractDetailTypeCode.name()}, LocaleContextHolder.getLocale()));
             }
         }
-        return validation;
-    }
 
-    @Override
-    @Transactional
-    @Action(value = ActionType.DeActivate)
-    public ContractDetailTypeDTO.Info deactivate(Long id) {
-        List<ContractDetailDTO.Info> details = contractDetailService.findByContractDetailTypeId(id);
-        Set<String> contractNoList = new HashSet<>();
-        if (!details.isEmpty()) {
-            for (ContractDetailDTO.Info detailDTO : details) {
-                ContractDTO.Info info = contractService.get(detailDTO.getContractId());
-                if (info != null)
-                    contractNoList.add(info.getNo());
+        if (actionType == ActionType.DeActivate) {
+            List<ContractDTO.Info> contracts = contractService.findAllByContractDetailTypeId(entity.getId());
+            if (!contracts.isEmpty()) {
+                Locale locale = LocaleContextHolder.getLocale();
+                Set<String> contractNoList = contracts.stream().map(ContractDTO.Info::getNo).collect(Collectors.toSet());
+                throw new SalesException2(ErrorType.NotEditable, "", messageSource.getMessage("contract-detail-type.exception.cant.deactivate.has.contract", new Object[]{contractNoList}, locale));
             }
-            Locale locale = LocaleContextHolder.getLocale();
-            throw new SalesException2(ErrorType.NotEditable, "", messageSource.getMessage("contract-detail-type.exception.cant.deactivate.has.contract", new Object[]{contractNoList}, locale));
         }
-        return super.deactivate(id);
+        return validation;
     }
 
 }

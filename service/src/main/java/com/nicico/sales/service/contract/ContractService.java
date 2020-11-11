@@ -664,6 +664,11 @@ public class ContractService extends GenericService<Contract, Long, ContractDTO.
         return map.get(eContractDetailValueKeyOptional.name());
     }
 
+    @Override
+    public List<ContractDTO.Info> findAllByContractDetailTypeId(Long typeId) {
+        return contractDAO2.findAllByContractDetailTypeId(typeId).stream().map(contract -> modelMapper.map(contract,ContractDTO.Info.class)).collect(Collectors.toList());
+    }
+
     private Set<ContractShipment> getContractShipmentsWithShipment(ContractDTO.Create request) {
         final Map<String, List<Object>> contractShipmentOriginalMap = contractDetailValueService2.get(request.getParentId(), EContractDetailTypeCode.Shipment, EContractDetailValueKey.NotImportant, true);
         final List<ContractShipment> contractShipmentsOriginal = new ArrayList<>();

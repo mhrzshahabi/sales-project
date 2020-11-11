@@ -65,8 +65,4 @@ public class ContractDetailService extends GenericService<ContractDetail, Long, 
         return modelMapper.map(repository.save(updating), ContractDetailDTO.Info.class);
     }
 
-    @Override
-    public List<ContractDetailDTO.Info> findByContractDetailTypeId(Long typeId) {
-        return ((ContractDetailDAO) repository).findByContractDetailTypeId(typeId).stream().map(contractDetail -> modelMapper.map(contractDetail,ContractDetailDTO.Info.class)).collect(Collectors.toList());
-    }
 }
