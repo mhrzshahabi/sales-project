@@ -112,12 +112,10 @@ public class ForeignInvoiceFormController {
         wordUtil.replacePOI(doc, "MATERIAL_DESC_EN", foreignInvoice.getShipment().getMaterial().getDescEN());
         wordUtil.replacePOI(doc, "VESSEL_NAME", foreignInvoice.getShipment().getVessel().getName());
 
-        //  ContractDetailDTO.Info moasDetail = contractDetailService.getContractDetailByContractDetailTypeCode(contractId, foreignInvoice.getShipment().getMaterialId(), EContractDetailTypeCode.QuotationalPeriod);
-        //  wordUtil.replacePOI(doc, "QP_CONTENT", moasDetail.getContent());
         String sendDate = month_date.format(foreignInvoice.getShipment().getSendDate());
         Map<String, List<Object>> moasDatas = contractDetailValueService2.get(contractId, EContractDetailTypeCode.QuotationalPeriod, EContractDetailValueKey.MOAS, true);
         List<Object> list = moasDatas.get(EContractDetailValueKey.MOAS.name());
-        if (list.size() > 0) {
+        if (list != null && list.size() > 0) {
 
             String moasValue = ((Map) list.get(0)).get("moasValue").toString();
             wordUtil.replacePOI(doc, "QP_CONTENT", "AVERAGE " + sendDate + "(MOAS" + moasValue + ")");
@@ -141,14 +139,16 @@ public class ForeignInvoiceFormController {
         wordUtil.replacePOI(doc, "MOISTURE_WEIGHT", String.valueOf(weightGW.subtract(weightND)));
         wordUtil.replacePOI(doc, "TOTAL_GROSS", weightGW.toString());
 
-        IncotermDTO.Info map = modelMapper.map(deliveryTerms.get(EContractDetailValueKey.INCOTERM.getId()).get(0), IncotermDTO.Info.class);
-        wordUtil.replacePOI(doc, "INCOTERM_TITLE_EN", map.getIncotermRules().get(0).getIncotermRule().getTitleEn());
-        wordUtil.replacePOI(doc, "INCOTERM_VERSION", map.getIncotermVersion().getIncotermVersion().toString());
-
+        List<Object> deliverTerms = deliveryTerms.get(EContractDetailValueKey.INCOTERM.getId());
+        if (deliverTerms != null) {
+            IncotermDTO.Info map = modelMapper.map(deliverTerms.get(0), IncotermDTO.Info.class);
+            wordUtil.replacePOI(doc, "INCOTERM_TITLE_EN", map.getIncotermRules().get(0).getIncotermRule().getTitleEn());
+            wordUtil.replacePOI(doc, "INCOTERM_VERSION", map.getIncotermVersion().getIncotermVersion().toString());
+        }
         List<ForeignInvoiceItemDetailDTO.InfoWithoutForeignInvoiceItem> foreignInvoiceItemDetails = foreignInvoiceItem.getForeignInvoiceItemDetails();
         ForeignInvoiceItemDetailDTO.InfoWithoutForeignInvoiceItem cu_detial = foreignInvoiceItemDetails.stream().filter(q -> q.getMaterialElementId() == 1).findFirst().orElse(new ForeignInvoiceItemDetailDTO.InfoWithoutForeignInvoiceItem());
-        ForeignInvoiceItemDetailDTO.InfoWithoutForeignInvoiceItem au_detial = foreignInvoiceItemDetails.stream().filter(q -> q.getMaterialElementId() == 3).findFirst().orElse(new ForeignInvoiceItemDetailDTO.InfoWithoutForeignInvoiceItem());
         ForeignInvoiceItemDetailDTO.InfoWithoutForeignInvoiceItem ag_detial = foreignInvoiceItemDetails.stream().filter(q -> q.getMaterialElementId() == 2).findFirst().orElse(new ForeignInvoiceItemDetailDTO.InfoWithoutForeignInvoiceItem());
+        ForeignInvoiceItemDetailDTO.InfoWithoutForeignInvoiceItem au_detial = foreignInvoiceItemDetails.stream().filter(q -> q.getMaterialElementId() == 3).findFirst().orElse(new ForeignInvoiceItemDetailDTO.InfoWithoutForeignInvoiceItem());
 
         wordUtil.replacePOI(doc, "CU_PRICE_BASE", String.valueOf(cu_detial.getBasePrice()));
         wordUtil.replacePOI(doc, "AG_PRICE_BASE", String.valueOf(ag_detial.getBasePrice()));
@@ -156,8 +156,8 @@ public class ForeignInvoiceFormController {
 
         List<AssayInspectionTotalValuesDTO.Info> assayInspectionTotalValuesList = inspectionAssayReport.getAssayInspectionTotalValuesList();
         AssayInspectionTotalValuesDTO.Info cu_assay = assayInspectionTotalValuesList.stream().filter(q -> q.getMaterialElementId() == 1).findFirst().orElse(new AssayInspectionTotalValuesDTO.Info());
-        AssayInspectionTotalValuesDTO.Info au_assay = assayInspectionTotalValuesList.stream().filter(q -> q.getMaterialElementId() == 3).findFirst().orElse(new AssayInspectionTotalValuesDTO.Info());
         AssayInspectionTotalValuesDTO.Info ag_assay = assayInspectionTotalValuesList.stream().filter(q -> q.getMaterialElementId() == 2).findFirst().orElse(new AssayInspectionTotalValuesDTO.Info());
+        AssayInspectionTotalValuesDTO.Info au_assay = assayInspectionTotalValuesList.stream().filter(q -> q.getMaterialElementId() == 3).findFirst().orElse(new AssayInspectionTotalValuesDTO.Info());
 
         BigDecimal f_cu_assay = cu_assay.getValue().subtract(cu_detial.getDeductionValue());
         BigDecimal f_ag_assay = ag_assay.getValue().subtract(ag_detial.getDeductionValue());
