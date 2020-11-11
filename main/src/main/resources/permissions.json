@@ -2451,6 +2451,70 @@
     {
       "code": "RG_EXECUTE",
       "title": "اجرای گزارشات"
+    },
+    {
+      "code": "R_PACKING_LIST",
+      "title": "نمایش لیست پکینگ"
+    },
+    {
+      "code": "C_PACKING_LIST",
+      "title": "ایجاد لیست پکینگ"
+    },
+    {
+      "code": "D_PACKING_LIST",
+      "title": "حذف لیست پکینگ"
+    },
+    {
+      "code": "U_PACKING_LIST",
+      "title": "به روز رسانی لیست پکینگ"
+    },
+    {
+      "code": "A_PACKING_LIST",
+      "title": "فعالسازی لیست پکینگ"
+    },
+    {
+      "code": "I_PACKING_LIST",
+      "title": "غیرفعالسازی لیست پکینگ"
+    },
+    {
+      "code": "F_PACKING_LIST",
+      "title": "تائید نهایی لیست پکینگ"
+    },
+    {
+      "code": "O_PACKING_LIST",
+      "title": "لغو تائید نهایی لیست پکینگ"
+    },
+    {
+      "code": "R_PACKING_CONTAINER",
+      "title": "نمایش پکینگ کانتینر"
+    },
+    {
+      "code": "C_PACKING_CONTAINER",
+      "title": "ایجاد پکینگ کانتینر"
+    },
+    {
+      "code": "D_PACKING_CONTAINER",
+      "title": "حذف پکینگ کانتینر"
+    },
+    {
+      "code": "U_PACKING_CONTAINER",
+      "title": "به روز رسانی پکینگ کانتینر"
+    },
+    {
+      "code": "A_PACKING_CONTAINER",
+      "title": "فعالسازی پکینگ کانتینر"
+    },
+    {
+      "code": "I_PACKING_CONTAINER",
+      "title": "غیرفعالسازی پکینگ کانتینر"
+    },
+    {
+      "code": "F_PACKING_CONTAINER",
+      "title": "تائید نهایی پکینگ کانتینر"
+    },
+    {
+      "code": "O_PACKING_CONTAINER",
+      "title": "لغو تائید نهایی پکینگ کانتینر"
     }
   ]
 }
