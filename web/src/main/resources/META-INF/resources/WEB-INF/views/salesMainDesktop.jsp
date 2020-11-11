@@ -9,14 +9,14 @@
 
 <html>
 	<head>
-		
+
 		<title><spring:message code='main.Tab.Name'/></title>
-		
+
 		<link rel="sales icon" href="<spring:url value='/static/img/icon/nicico.png' />"/>
 		<link rel="stylesheet" href="<spring:url value='/static/css/smartStyle.css' />"/>
 		<link rel="stylesheet" href="<spring:url value='/static/css/calendar.css' />"/>
 		<link rel="stylesheet" href='<spring:url value="/static/css/commonStyle.css"/>'/>
-		
+
 		<script src="<spring:url value='/static/script/js/calendar.js'/>"></script>
 		<script src="<spring:url value='/static/script/js/jalali-moment.browser.js'/>"></script>
 		<script src="<spring:url value='/static/script/js/all.js'/>"></script>
@@ -29,7 +29,7 @@
 		<script src="<spring:url value='/static/script/js/persian-rex.js' />"></script>
 		<script src="<spring:url value='/static/script/js/num2persian-min.js' />"></script>
 		<script src="<spring:url value='/static/script/js/convertunit.js' />"></script>
-		
+
 		<script>var isomorphicDir = "isomorphic/";</script>
 		<script src=isomorphic/system/modules/ISC_Core.js></script>
 		<script src=isomorphic/system/modules/ISC_Foundation.js></script>
@@ -44,9 +44,9 @@
 		<script SRC=isomorphic/system/modules/ISC_RichTextEditor.js></script>
 		<script SRC=isomorphic/skins/Nicico/load_skin.js></script>
 		<script src="<spring:url value='/static/script/js/changeSkin.js'/>"></script>
-	
+
 	</head>
-	
+
 	<c:choose>
 	<c:when test="${pageContext.response.locale == 'fa'}">
 	<body class="rtl" dir="rtl">
@@ -55,12 +55,12 @@
 		<body class="ltr" dir="ltr">
 			</c:otherwise>
 			</c:choose>
-			
+
 			<form action="logout" method="get" id="logoutForm">
 			</form>
-			
+
 			<spring:eval var="contextPath" expression="pageContext.servletContext.contextPath"/>
-			
+
 			<script type="application/javascript">
                 const mylocale = '${pageContext.response.locale}';
                 align = function () {
@@ -113,14 +113,14 @@
                     unit: {
 
                         /*getStandardSymbol: function (symbolUnit) {
-			
+
 							switch (symbolUnit) {
-			
+
 								case "":
 									break;
 							}
-			
-			
+
+
 							// test
 							return "t";
 						}*/
@@ -361,7 +361,7 @@
 					},
 					keyUp(item, form, keyName) {
 						if (item.getValue() === undefined || isNaN(item.getValue())) return;
-			
+
 						item.setHint(NumberUtil.format(item.getValue(), ",0"));
 					}
 				});*/
@@ -423,6 +423,7 @@
                     // dbg('field', field)
                     if (field.type && field.type.toLowerCase() === 'date') {
                         // dbg('date field', field, this.Super('formatCellValue', arguments))
+                        if (value === undefined || isNaN(value)) return value;
                         return new Date(value)
                     }
                     // console.debug("formatCellValueNumber(value) arguments",arguments);
@@ -1431,7 +1432,7 @@
                 isc.DynamicForm.addProperties({
                     titleAlign: nicico.CommonUtil.getAlignByLang() === "right" ? "left" : "right"
                 })
-			
+
 			</script>
 		</body>
 </html>
